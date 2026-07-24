@@ -14,7 +14,9 @@ language, a narrower personal rule) never live here — they load from an option
 this file never creates or edits that overlay. Missing or malformed overlay falls back to
 universal-only, silently.
 
-Reads the last assistant turn from the transcript and scans it for the hedge markers. A line
+Reads every assistant message shown since the last human turn (hooks/turn_reader.py) and scans it for
+the hedge markers, so an offence in an early inter-tool narration line reds like one in the final
+reply. A line
 demonstrated inside «guillemets», "double quotes", or `backticks`, and any line inside a fenced
 ``` code block, is stripped before matching — quoting the banned frame to talk ABOUT it is not
 itself a live instance of it. A surviving match BLOCKS the stop with a rewrite instruction.
@@ -35,6 +37,9 @@ import json
 import os
 import re
 import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import turn_reader  # noqa: E402
 
 # UNIVERSAL tier — the English offering-hedge frame (SPEC INV-238's pack law). A FIRST cheap filter
 # on high-confidence frames, never the whole class [INV-173, INV-203]. The `(?!['’]t)` after "i can"
@@ -92,41 +97,6 @@ def _strip_quoted_demos(line):
     return s
 
 
-def last_assistant_text(transcript_path):
-    text = ""
-    last_id = None
-    try:
-        with open(transcript_path, encoding="utf-8") as f:
-            for line in f:
-                try:
-                    ev = json.loads(line)
-                except ValueError:
-                    continue
-                if ev.get("type") != "assistant":
-                    continue
-                msg = ev.get("message", {})
-                parts = msg.get("content", [])
-                if isinstance(parts, str):
-                    text = parts
-                    continue
-                chunk = "".join(
-                    p.get("text", "") for p in parts if isinstance(p, dict) and p.get("type") == "text"
-                )
-                if not chunk.strip():
-                    continue
-                # one reply can arrive as several transcript events; join every chunk of the LAST
-                # message (matched by id) so a hedge in an early chunk cannot escape.
-                mid = msg.get("id")
-                if mid and mid == last_id:
-                    text += chunk
-                else:
-                    text = chunk
-                    last_id = mid
-    except OSError:
-        return ""
-    return text
-
-
 def find_hits(text, patterns):
     hits = []
     in_fence = False
@@ -152,7 +122,7 @@ def main():
     # never loop: if a prior stop-hook already fired this turn, stand down.
     if payload.get("stop_hook_active"):
         sys.exit(0)
-    text = last_assistant_text(payload.get("transcript_path", ""))
+    text = turn_reader.turn_text(payload.get("transcript_path", ""))
     if not text:
         sys.exit(0)
     hits = find_hits(text, _compiled_patterns())

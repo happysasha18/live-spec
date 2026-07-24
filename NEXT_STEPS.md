@@ -25,8 +25,6 @@ stand until then.**
   five-year plan); threshold [default: 30 days queued, 7 days in-work quiet]; owns the two deferred rows
   still trigger-less (143, 144) and the stale in-work claims 386/412 (quiet since 07-18, sweep-eligible
   07-25).
-- Row 482: mid-turn chat lines reach the human ungated (his catch 2026-07-23 ~21:20) — the register nets
-  must read narration lines, not only the turn's final message; the fix is a machine.
 - Rows 471-475 (row 470's children; 475 the class answer — the enforcement-coverage registry).
 - Rows 465-467 · row 437 pulled near (axis forcing step first, the recursive sweep its dear half) · row
   460 re-scoped (his 2026-07-23 word: public tier only; working tier possibly-never with two named
@@ -73,7 +71,7 @@ channel + listener (wait on the harness listener, INV-231) · far tier 381, 411,
 field-gated (contract/listener) + far tier.
 
 ## Next free codes
-Next free INV-281, E-36, T-25, M-457; next ROADMAP row 484 (A-12, B-4, C-2, D-8, S-1, ACT-4 also free).
+Next free INV-282, E-36, T-25, M-458; next ROADMAP row 484 (A-12, B-4, C-2, D-8, S-1, ACT-4 also free).
 
 ## Research in hand
 Direct-protocol research (scratchpad research-agent-transport.md + research-direct-channel.md): A2A

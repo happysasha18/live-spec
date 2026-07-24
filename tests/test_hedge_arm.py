@@ -168,13 +168,26 @@ def test_stop_hook_active_stands_down(tmp_path):
     assert r.stdout.strip() == ""
 
 
-def test_reads_the_last_message_not_the_narration(tmp_path):
-    """The arm judges the FINAL reply the human reads, not an earlier narration line."""
+def test_reads_the_whole_turn_not_only_the_last_message(tmp_path):
+    """The arm reads EVERY assistant message shown since the last human turn (row 482), not the last
+    one alone — a hedge sitting in an earlier narration line reds even when the final reply is clean."""
     hedge = _read(os.path.join(FIXTURES, "hedge_just_say_word.txt"))
     tp = _transcript(tmp_path, [("user", "go"), ("assistant", hedge),
                                 ("assistant", "Done — the gate is wired and the suite is green.")])
     r = _run({"transcript_path": tp, "hook_event_name": "Stop", "stop_hook_active": False})
-    assert r.stdout.strip() == "", "only the final reply is judged; a clean final reply passes"
+    assert r.returncode == 0
+    decision = json.loads(r.stdout)
+    assert decision["decision"] == "block", "a hedge in an earlier narration line must still fire"
+
+
+def test_prior_turn_hedge_is_out_of_scope(tmp_path):
+    """A hedge sitting in an assistant message BEFORE the last human record (a prior turn) is out of
+    scope — only text since the last human turn is read."""
+    hedge = _read(os.path.join(FIXTURES, "hedge_just_say_word.txt"))
+    tp = _transcript(tmp_path, [("assistant", hedge), ("user", "go"),
+                                ("assistant", "Done — the gate is wired and the suite is green.")])
+    r = _run({"transcript_path": tp, "hook_event_name": "Stop", "stop_hook_active": False})
+    assert r.stdout.strip() == "", "a hedge from a prior turn must not fire on this turn's stop"
 
 
 # ---- The personal overlay --------------------------------------------------------------------------

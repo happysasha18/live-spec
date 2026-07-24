@@ -607,6 +607,7 @@ by `test_artifact_inventory` — the test parses this table, so adding an entry 
 | M-454 | The architecture reads in the format-family member `docs/architecture-format.md` defines — a preamble, then per-node `### [node: <name>]` sections each carrying responsibility, owns, and pins with an optional notes field, then the generated tables — a `[target]` node marking the tag in its heading; every spec anchor owned by exactly one node and the bond held both ways; never a node outside a section, never an anchor owned by two nodes or by none [INV-278] | string | `tests/test_architecture_format.py` (red proven against the pre-conversion table `ARCHITECTURE.md` at git HEAD: `archformat.parse_nodes` raises on the retired 4-column table, so every check reds) | *built* |
 | M-455 | An owns entry cites its rule's spec home by anchor and restates no law, a sentence the spec lacked having moved into the spec clause in the same delivery, and the dated prover-record table having relocated to `docs/prover/architecture-prover-record.md`; never an owns cell restating the rule its anchor names, never a pin carrying a date or provenance, never a dated history table left in the architecture [INV-279] | string | `tests/test_architecture_format.py` (red proven against the pre-conversion doc: restated laws filled the owns cells, pins carried landing dates, the Prover-record table sat in ARCHITECTURE.md) | *built* |
 | M-456 | One node reader `guardrails/archformat.py` reads the node shape — names, owned anchors, pins — for every consumer, and the node-growth counter's node list re-derives from it; never a consumer parsing the raw node shape on its own, never a hardcoded node-name list drifting [INV-280] | string | `tests/test_architecture_format.py` (red proven against the pre-conversion tree: consumers parsed the `## Nodes` table by hand and `crosscut_counter.PACK_NODES` was a hardcoded literal) | *built* |
+| M-457 | The contrast-frame scan and the hedge scan each read every assistant message shown since the last human turn through the shared reader `hooks/turn_reader.py`, so a banned frame in an inter-tool narration line is caught the same as one in the final reply, while the answer-first arm reads only the final reply; never a mid-turn narration line going out unread by the contrast-frame or hedge scan, never the answer-first arm judging a narration line [INV-281] | string | `tests/test_scissors_scan.py` + `tests/test_hedge_arm.py` (red proven: a contrast frame planted in a mid-turn narration line was missed while the scan read only the final message) | *built* |
 
 ### [node: text-audit]
 
@@ -1045,6 +1046,7 @@ The anchor-to-row table below is generated output, built from the body rows by `
 | INV-278 | M-454 |
 | INV-279 | M-455 |
 | INV-280 | M-456 |
+| INV-281 | M-457 |
 | M-1 | M-029, M-128 |
 | M-2 | M-011 |
 | M-3 | M-053 |

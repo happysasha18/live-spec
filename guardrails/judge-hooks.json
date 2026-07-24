@@ -9,5 +9,5 @@
     "hedge-scan": "Stop",
     "register-judge-collect": "Stop"
   },
-  "library": ["register-judge", "register_judge_core", "conduct-judge", "conduct-judge-collect", "conduct-judge-report", "conduct-law", "lean-orchestrator-scan"]
+  "library": ["register-judge", "register_judge_core", "turn_reader", "conduct-judge", "conduct-judge-collect", "conduct-judge-report", "conduct-law", "lean-orchestrator-scan"]
 }

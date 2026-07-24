@@ -5206,10 +5206,12 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 4. *when* the seat finishes a turn on the chat surface, a Stop arm *shall* dispatch every message shown since the last human turn, and a prompt-submit arm *shall* report the verdict at the person's next message. [INV-203]
 5. *when* a styled file is about to be shown, the same judge *shall* stand as the ceiling of the pre-show register gate pointed at that file. [INV-83, INV-203]
+6. The contrast-frame scan and the hedge scan *shall* each read every message shown since the last human turn, the reach the register judge's Stop arm carries. [INV-281, INV-203]
+7. The answer-first arm *shall* read only the final reply, the one net that stands clear of the inter-tool narration lines. [INV-281, INV-220]
 
 **Case: the judge stands down on its own breakage**
 
-6. *if* the judge's own machinery breaks — a missing binary, a timeout, a non-zero exit, or a shape it cannot read — *then* the system *shall* leave the literal-list verdict standing rather than red, so a guard cannot train the guarded to route around it. [INV-203]
+8. *if* the judge's own machinery breaks — a missing binary, a timeout, a non-zero exit, or a shape it cannot read — *then* the system *shall* leave the literal-list verdict standing rather than red, so a guard cannot train the guarded to route around it. [INV-203]
 
 ---
 
@@ -5248,7 +5250,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: the hedge gate**
 
-1. *when* the seat's last reply carries an offering-hedge frame from the pattern list, after a quoted, backticked, or fenced span is stripped, the system *shall* block the stop with a rewrite instruction reaching the seat one message later, modelled on the scissors scan — the literal gate that blocks a sentence naming a thing by denying its neighbour — matching against an inline universal pattern list and an optional personal-overlay file a host tunes, as the scissors scan carries one, and installed by the setup walk. [INV-238, INV-173]
+1. *when* any message the seat showed since the last human turn carries an offering-hedge frame from the pattern list, after a quoted, backticked, or fenced span is stripped, the system *shall* block the stop with a rewrite instruction reaching the seat one message later, modelled on the scissors scan — the literal gate that blocks a sentence naming a thing by denying its neighbour — matching against an inline universal pattern list and an optional personal-overlay file a host tunes, as the scissors scan carries one, and installed by the setup walk. [INV-238, INV-173]
 2. The system *shall* leave clear of a genuine taste, policy, or irreversible question that names its human-only fact, since that question is an honest admission the human owns. [INV-238, INV-152]
 3. The system *shall* catch only the frames it lists, so a paraphrase it does not carry stays with the conduct judge that reads the class in meaning. [INV-238, INV-241]
 
@@ -6953,7 +6955,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-200 | R87.1, R87.2, R87.3 |
 | INV-201 | R83.2, R88.1, R88.2, R88.3, R88.4, R88.5, R88.6 |
 | INV-202 | R229.1, R229.2, R229.3, R229.4, R231.6, R232.7, R233.5 |
-| INV-203 | R18.4, R18.5, R19.3, R134.2, R135.3, R230.1, R230.2, R230.3, R230.4, R230.5, R230.6, R232.7, R233.2, R233.6 |
+| INV-203 | R18.4, R18.5, R19.3, R134.2, R135.3, R230.1, R230.2, R230.3, R230.4, R230.5, R230.6, R230.8, R232.7, R233.2, R233.6 |
 | INV-204 | R117.6, R234.1, R234.2, R234.3, R234.4, R235.4, R236.4 |
 | INV-205 | R236.1, R236.2, R236.3, R236.4, R238.4, R239.3, R240.3 |
 | INV-206 | R94.3, R237.1, R237.2, R237.3, R237.4, R237.5, R241.3 |
@@ -6970,7 +6972,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-217 | R191.5, R215.2, R274.1, R274.2, R274.3, R274.4, R274.5, R274.6, R274.7 |
 | INV-218 | R113.1, R113.2 |
 | INV-219 | R193.13 |
-| INV-220 | R135.3, R231.1, R231.3, R231.4, R231.5 |
+| INV-220 | R135.3, R230.7, R231.1, R231.3, R231.4, R231.5 |
 | INV-221 | R135.1, R135.2, R135.3, R230.3 |
 | INV-222 | R5.3, R5.4, R5.5, R94.1, R94.2, R94.3, R94.4, R95.3, R196.11, R239.1, R257.4 |
 | INV-223 | R5.5, R94.3, R239.1, R239.2, R239.3, R239.4 |
@@ -7031,6 +7033,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-278 | R289.1, R289.2, R289.3, R289.4, R289.5, R289.6 |
 | INV-279 | R290.1, R290.2, R290.3, R290.4, R290.5 |
 | INV-280 | R291.1, R291.2, R291.3 |
+| INV-281 | R230.6, R230.7 |
 | M-1 | R49.2, R80.7, R80.8, R92.2, R130.1, R130.2, R130.3, R130.4, R130.5, R130.6, R130.7, R130.8, R130.9, R164.4, R166.3, R166.8, R198.6, R249.2 |
 | M-2 | R14.3, R125.1, R125.2, R125.3, R177.12, R204.3 |
 | M-3 | R136.1 |
