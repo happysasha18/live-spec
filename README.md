@@ -8,7 +8,7 @@ You tell your agent *"the report page needs a date filter"* and four minutes lat
 
 That is the gap. The spec became the thing your agent builds from, and nothing checks the spec itself.
 
-live-spec closes it. You say the sentence in passing, with no ticket and no form. It gets classified, written into a living spec, reviewed by a formal-verification pass, covered by tests derived from that spec, coded until green, and committed with its documents in one change. A script on the pre-push hook compares the spec to the code that shipped and refuses the push when the two disagree. There is no CLI. You talk to it.
+live-spec closes it. You say the sentence in passing, with nothing to file and no form. It gets classified, written into a living spec, reviewed by a formal-verification pass, covered by tests derived from that spec, coded until green, and committed with its documents in one change. A script on the pre-push hook compares the spec to the code that shipped and refuses the push when the two disagree. There is no CLI. You talk to it.
 
 ---
 
@@ -32,7 +32,7 @@ A project under the pack keeps one document, `PRODUCT_SPEC.md`, stating what the
 - The criteria are grouped into **named cases**. A case names a situation and lists two to six numbered steps. Each step carries one trigger and one response, written with the plain keywords *when*, *while*, *if*, *then*, and *shall*.
 - A short code anchor trails at the end of a line and points to the rule's home in the spec. A reader can ignore the anchors. A maintainer follows them.
 
-The test matrix is the same family's second member, defined in [`docs/test-matrix-format.md`](docs/test-matrix-format.md): each row is one criterion stating what a fact does and what it must never do, grouped by architecture node, and the coverage table at the document's end is generated from the rows and gated against hand edits. The roadmap is the third member and the architecture document is the fourth, defined in [`docs/architecture-format.md`](docs/architecture-format.md): each part of the system stands as one node section naming its responsibility, the spec facts it owns, and where it lives in the code, with one shared reader every check reads the node shape through.
+The test matrix follows the same format, defined in [`docs/test-matrix-format.md`](docs/test-matrix-format.md): each row is one criterion stating what a fact does and what it must never do, grouped by architecture node, and the coverage table at the document's end is generated from the rows and gated against hand edits. The roadmap and the architecture document follow it too, the architecture defined in [`docs/architecture-format.md`](docs/architecture-format.md): each part of the system stands as one node section naming its responsibility, the spec facts it owns, and where it lives in the code. One shared parser reads every node section, and every check reads a node through it.
 
 Work enters the spec before code. A new behaviour arrives as a spec change, gets reviewed, and only then gets built. A guardrail check goes red when a shipped behaviour has no spec sentence behind it. A removed feature leaves a dated tombstone, and its history moves to `JOURNAL.md`.
 
@@ -42,7 +42,7 @@ Work enters the spec before code. A new behaviour arrives as a spec change, gets
 
 **The gates are scripts.** Two checks decide whether a push is allowed: every fact in the spec has an owning test, and the documents match what shipped. Both are Python on the pre-push hook, mirrored in [CI](.github/workflows/gates.yml). A change that has drifted from its specification is refused. Some other frameworks enforce their specs by asking a model to check. A model having a bad day reports that it checked.
 
-**It can decline a gate it cannot build honestly, and records the reasoning.** A queue row once asked for a gate that would fail a session that worked one step at a time. The [prover's record](docs/prover/) for that landing declined it, with three reasons: independence is a judgment, and a script sees only a diff; the evidence a correct run would leave is destroyed by design; and the one mechanical signal available would fire on every lawful sequential run. It shipped as a written discipline. The rule behind this decision is that a requirement no script can enforce stays a note, and a judgment call is never wired as an automated gate. There are more than three hundred such records in [`docs/prover/`](docs/prover/), including the ones where the reviewer missed something and said so.
+**It can decline a gate it cannot build honestly, and records the reasoning.** A planned gate would have failed a session that worked one step at a time. The [prover's record](docs/prover/) for that landing declined it, with three reasons: independence is a judgment, and a script sees only a diff; the evidence a correct run would leave is destroyed by design; and the one mechanical signal available would fire on every lawful sequential run. It shipped as a written discipline. The rule behind this decision is that a requirement no script can enforce stays a note, and a judgment call is never wired as an automated gate. There are more than three hundred such records in [`docs/prover/`](docs/prover/), including the ones where the reviewer missed something and said so.
 
 **The rules are built for a model's failure modes.** Every claim shown for review is tagged with its source: read from the artifact, your own recorded word, or the agent's inference, with inferences flagged most visibly. The line between what a document says and what a model filled in is invisible to a reader, and that is where the errors live. A background worker from a dead session is treated as a concurrent writer until three signals agree it stopped. A decision you withdraw twice keeps its recommendation and is never raised again, because a tireless agent will go on asking on its own.
 
@@ -62,7 +62,7 @@ The pack is opinionated. The opinions belong to one engineer, and they are not n
 
 You keep control, in a strong sense. Access to the diff was never the problem. Knowing where to look is.
 
-- **Nothing is decided silently.** Every default is printed in the landing report, in the product's own words, marked as tweakable: *"on a phone this gallery stacks into one column."*
+- **Nothing is decided silently.** Every default is printed in the delivery report, in the product's own words, marked as tweakable: *"on a phone this gallery stacks into one column."*
 - **Routine choices are made and reported; the lane keeps moving.** Only what the documents genuinely leave open reaches you as a question.
 - **Undo is one commit.** The change lands with its spec, matrix, and architecture together.
 - **It cannot run away.** The gates go red and stop the push.

@@ -6,9 +6,11 @@ file. Normative rules live in `PRODUCT_SPEC.md` and the skill files; this page e
 ## The living spec is the product's source of truth
 
 A project running under the pack keeps one document, `PRODUCT_SPEC.md`, stating what the product
-promises today. Scenarios lead: each section describes what a person does and sees. Short codes
-trail at line ends as anchors for the machine, and a Formal index closes the document. The pack's
-own spec is the reference shape; its header carries the document revision (0.16.x at this writing).
+promises today. It opens with a glossary that defines every domain noun, then a body of
+requirements: each carries a short context (when the situation arises, who is involved, what the
+reader sees), one user story, and acceptance criteria grouped into named cases. Short codes trail at
+line ends as anchors for the machine; a reader can ignore them. A generated code-to-location table
+closes the document. The pack's own spec is the reference shape; its version lives in `VERSION`.
 
 The spec is living in a precise sense. Work enters it before code: a new behaviour arrives as a spec
 delta, gets reviewed, and only then gets built. Shipped behaviour traces back to it: a guardrail
