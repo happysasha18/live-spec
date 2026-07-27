@@ -21,7 +21,7 @@ translation, and the Stop-side scan that catches that exact sentence could not f
 through the code-anchor scan itself, reads the loan translations from `hooks/chat-calques.json` with a
 plain replacement per entry, reports a fragment once per session, and stands down on any failure of its
 own — requirement 295, INV-285, M-461, 26 tests, installed and wired here, and it caught the seat's own
-line minutes after wiring. Row 495 carries it; rows 494 and 496 are the day's other intake.
+line minutes after wiring. Row 495 carries it; rows 494, 496 and 497 are the day's other intake.
 The second record `docs/prover/2026-07-27-push-gate-fold.md` held the push on three must-fix and nine
 should-fix findings; all twelve are folded and the record carries its own fold section. Full suite 1938
 green.
@@ -49,7 +49,7 @@ projects stand until then.**
 - Row 481: the live-queue staleness sweep at the milestone gate; threshold [default: 30 days queued, 7
   days in-work quiet]; owns the two trigger-less deferred rows (143, 144). Rows 386/412 are NOT stale:
   the branch-and-worktree road is built and owes only its proof by deed, a live three-lane run.
-- Rows 471-475 (row 470's children; 475 the class answer — the enforcement-coverage registry).
+- Rows 471-475 (row 470's children; 475 the enforcement-coverage registry).
 - Rows 465-467 · row 437 pulled near (axis forcing step first, the recursive sweep its dear half) · row
   460 re-scoped (his 2026-07-23 word: public tier only; working tier possibly-never with two named
   triggers) · row 469 · row 479 (worker tree-restore guard).

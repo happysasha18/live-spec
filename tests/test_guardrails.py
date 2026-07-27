@@ -1195,10 +1195,10 @@ class TestGateShippedLanguage(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertIn('"offences":0', result.stdout.replace(" ", ""))
 
-    def test_gate_reads_a_file_that_is_written_and_not_yet_committed(self):
-        """A delivery writes a new shipped file and the gate must read it in that same delivery: the
-        push it exists to hold happens before the file is ever committed. Red-first: with the tracked
-        set alone the offence in an uncommitted file is invisible, and the gate reports green."""
+    def test_gate_reads_a_staged_file_and_leaves_the_rest_of_the_tree_alone(self):
+        """The shipped set is the index. A file staged for this delivery is read before it is ever
+        committed, and a file the person merely keeps in the tree — a local note, a vendored library —
+        belongs to no delivery, so a blocking gate leaves it alone."""
         import subprocess as sp
         import tempfile
         with tempfile.TemporaryDirectory() as tmp:
@@ -1207,11 +1207,17 @@ class TestGateShippedLanguage(unittest.TestCase):
             sp.run(["git", "-C", tmp, "add", "shipped.py"], check=True)
             sp.run(["git", "-C", tmp, "-c", "user.email=t@t", "-c", "user.name=t",
                     "commit", "-qm", "seed"], check=True)
-            # the new file exists in the tree and in no commit
-            self._write(tmp, "fresh.py", '# a deliberate stray: \u0441\u0442\u0440\u043e\u043a\u0430 482\n')
+            # a local file nobody staged: outside every delivery
+            self._write(tmp, "local_note.py", '# \u0441\u0442\u0440\u043e\u043a\u0430 482\n')
+            result = run(["python3", self.ENGINE, "--root", tmp])
+            self.assertEqual(result.returncode, 0,
+                             "an unstaged local file must stay outside the scan:\n" + result.stdout)
+            # the same content, staged for this delivery: read now, one commit before it lands
+            self._write(tmp, "fresh.py", '# \u0441\u0442\u0440\u043e\u043a\u0430 482\n')
+            sp.run(["git", "-C", tmp, "add", "fresh.py"], check=True)
             result = run(["python3", self.ENGINE, "--root", tmp])
             self.assertNotEqual(result.returncode, 0,
-                                "an uncommitted shipped file's offence must red:\n" + result.stdout)
+                                "a staged shipped file's offence must red:\n" + result.stdout)
             self.assertIn("fresh.py", result.stdout)
 
     # --- ROADMAP 417: the owner-name arm inverts to a DECLARED ALPHABET read from data, so the

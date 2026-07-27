@@ -3201,7 +3201,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: what the shipped set holds**
 
-3. The system *shall* read every shipped text file the delivery carries, a file written and not yet committed included, since the push it holds happens before that file is committed. [INV-120]
+3. The system *shall* read the shipped text files the delivery holds in its index, a staged file not yet committed included, a file belonging to no delivery staying outside the scan. [INV-120]
 
 **Case: the arms stand down by declaration**
 

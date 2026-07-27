@@ -142,12 +142,12 @@ def is_excluded(rel):
 
 
 def shipped_set(root):
-    """Every shipped text file, tracked or newly written. `--others --exclude-standard` carries the
-    files a delivery has just created and not yet committed: without them the gate reads a new file's
-    offences one commit late, which is one commit after the push it was meant to hold."""
+    """Every shipped text file the delivery holds: the index, which carries a file staged for this
+    delivery and not yet committed as well as the already-tracked ones. The index is the boundary on
+    purpose — a local working note or a vendored directory a person keeps in the tree belongs to no
+    delivery, and a blocking gate has no business reading it."""
     try:
-        out = subprocess.run(["git", "-C", root, "ls-files", "--cached", "--others",
-                              "--exclude-standard"],
+        out = subprocess.run(["git", "-C", root, "ls-files"],
                              capture_output=True, text=True, check=True).stdout
         rels = sorted(set(out.splitlines()))
     except Exception:
