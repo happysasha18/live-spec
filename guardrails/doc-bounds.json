@@ -10,8 +10,8 @@
       "reason": "the queue rotates by the closing-commit law (SPEC INV-276, ROADMAP row 480), not the milestone batch: a row reaching a terminal exit moves to that month's archive docs/queue-archive/rotated-ROADMAP-YYYY-MM.md in the same commit that closes it, so the live body stays the live queue and the byte ceiling is only a backstop. The number is held this stage above the ~603 KB current with rotation headroom; it ratchets down in the conversion stage, once the body actually shrinks to its live rows."
     },
     "TEST_MATRIX.md": {
-      "max_bytes": 430000,
-      "reason": "seed 2026-07-18 above ~345 KB current with rotation headroom; closed-row matrix entries rotate before this ceiling."
+      "max_bytes": 530000,
+      "reason": "seed 2026-07-18 above ~345 KB current with rotation headroom; closed-row matrix entries rotate before this ceiling. Raised 2026-07-28 on a measurement over the live document: TEST_MATRIX.md carries 472 body rows — 431 read *built*, 41 read *todo*, 0 read *retired*. Zero rows carry an anchor that has left PRODUCT_SPEC.md and ARCHITECTURE.md, so a rotation moving every archivable row would move zero rows and free no meaningful bytes. The document grew because the product's covered surface grew, not because stale rows sit waiting to rotate, so rotation is the wrong remedy and the ceiling is the number that was stale. The ceiling rises to 530000, keeping the file's own convention of roughly a hundred kilobytes of headroom above the current size; rotation stays the remedy once closed rows exist to move."
     },
     "JOURNAL.md": {
       "max_bytes": 640000,

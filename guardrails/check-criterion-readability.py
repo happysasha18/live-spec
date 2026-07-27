@@ -19,31 +19,54 @@ any document line by line for register tells and cannot see a criterion, a requi
 anchor — so none of these four arms fits there.
 
 REACH (INV-269). This gate opens two files: the document named on the command line, and its config
-`guardrails/criterion-readability.json`. Inside the document it reads the ACCEPTANCE CRITERIA of
-the body alone — the numbered criterion lines under each requirement's cases, with their trailing
-anchors stripped for the prose arms. It also reads the glossary terms, used only to name the
-already-defined term an inline gloss repeats. It does NOT read the preamble, the Context blocks,
-the User Story lines, the case headings, or any other document.
+`guardrails/criterion-readability.json`. Inside the document it reads the ACCEPTANCE CRITERIA of the
+body alone — each numbered criterion line under a requirement's cases TOGETHER WITH the indented
+bullet lines of the sub-list directly under it, with the criterion's trailing anchor stripped for
+the prose arms. A criterion's sub-list ends at the next criterion, the next case heading, the next
+requirement, or a blank line followed by unindented text. It also reads the glossary terms, used
+only to name the already-defined term an inline gloss repeats. It does NOT read the preamble, the
+Context blocks, the User Story lines, the case headings, or any other document.
 
-THE FOUR ARMS, one per defect class the 2026-07-27 body survey measured:
+WHY THE BULLETS ARE IN REACH. A criterion's sub-list holds the rest of that criterion's rule, and a
+person reads it as part of the criterion. A measure that stopped at the numbered line paid a writer
+for moving words one line down: on 2026-07-27, 93 criteria moved their overflow into bullets, the
+three prose counts fell by 93, 56 and 26, and the same 93 criteria ran 5247 words before and 5541
+after. So each piece — the criterion's own body, then each bullet — is one sentence for the
+measures below.
 
-  A. long-criterion — the criterion welds the whole rule into one sentence. A criterion body over
-     `max_words` words reds. The stranger's failure is not vocabulary: by the closing clause the
+THE FIVE ARMS, one per defect class the 2026-07-27 and 2026-07-28 body surveys measured:
+
+  A. long-criterion — the criterion welds a whole rule into one sentence. The criterion reds when
+     its own body or any one of its bullets runs past `max_words` words, and the report names the
+     piece and its length. The stranger's failure is not vocabulary: by the closing clause the
      subject has been out of view too long to hold the duty and its scope together.
 
   B. inline-gloss — the criterion defines its own term in place, in a dash-pair aside or a
-     parenthetical, while the glossary already owns that kind of fact. An aside longer than
-     `max_aside_chars` that opens like a definition (an article, a determiner, `being`, `meaning`)
-     reds, naming the glossary entry when the glossed term already holds one.
+     parenthetical, while the glossary already owns that kind of fact. This arm runs over the
+     criterion's body and over each bullet, since a definition-shaped aside is the same defect
+     inside a bullet. An aside longer than `max_aside_chars` that opens like a definition (an
+     article, a determiner, `being`, `meaning`) reds, naming the glossary entry when the glossed
+     term already holds one.
 
-  C. absolute-tail — the criterion closes on an absolute construction: a comma, a noun phrase, and
-     a participle, with no finite verb and no stated relation to what precedes it ("…, the rest
-     becoming queue rows"). A closing clause of at least `min_tail_words` words that opens on a
-     determiner, carries no finite-verb marker, and rests on a participle reds.
+  C. absolute-tail — the piece closes on an absolute construction: a comma, a noun phrase, and a
+     participle, with no finite verb and no stated relation to what precedes it ("…, the rest
+     becoming queue rows"). This arm runs over the criterion's body and over each bullet, since a
+     bullet closing on a participle with no finite verb is the defect this arm names. A closing
+     clause of at least `min_tail_words` words that opens on a determiner, carries no finite-verb
+     marker, and rests on a participle reds.
 
   D. anchor-noise — the anchor competes with the prose: more than `max_anchor_codes` codes in one
      trailing anchor, a code anchor sitting inside the sentence instead of at the line's end, or
-     more than `max_code_spans` backticked spans running through the reading line.
+     more than `max_code_spans` backticked spans running through the reading line. This arm stays
+     on the criterion line for those three, because a bullet carries no anchor of its own; a bullet
+     that DOES carry a bracket code is a finding of this arm and is reported by bullet number.
+
+  E. criterion-load — the criterion's pieces, summed, carry more than one rule. Arm A catches a
+     single piece that runs long; a criterion can pass arm A on every piece and still hold several
+     rules, each written short, each pushed into its own bullet. This arm sums the words of the
+     criterion's own body and every one of its bullets and reds when that total runs past
+     `max_total_words`. The report names the total. The repair is not a shorter sentence; it is
+     splitting the criterion into criteria of its own.
 
 NOT MECHANICALLY CHECKED, by design (reported, never silently skipped). Arm C sees the participial
 absolute; it does not see the BARE appositive that drops the participle too ("…, the far-tier check
@@ -82,7 +105,7 @@ from nonempty_input import require_nonempty, VacuousInputError  # noqa: E402
 CHECK = "check-criterion-readability"
 CONFIG_PATH = os.environ.get("CRITERION_READABILITY_CONFIG",
                              os.path.join(SCRIPT_DIR, "criterion-readability.json"))
-ARMS = ("long-criterion", "inline-gloss", "absolute-tail", "anchor-noise")
+ARMS = ("long-criterion", "inline-gloss", "absolute-tail", "anchor-noise", "criterion-load")
 
 WORD_RE = re.compile(r"[0-9A-Za-z][0-9A-Za-z'’./-]*")
 CODE_BRACKET_RE = re.compile(r"\[[^\]]*[A-Z]+-[0-9]+[^\]]*\]")
@@ -120,12 +143,17 @@ def _asides(text):
 
 
 def arm_long_criterion(crit, th):
-    """A criterion body over the word cap."""
-    body = _plain(crit.body)
-    n = len(_words(body))
-    if n > th["max_words"]:
-        return "%d words in one criterion (cap %d)" % (n, th["max_words"])
-    return None
+    """Any piece of the criterion — its own body, or one of its bullets — over the word cap."""
+    hits = []
+    for label, text, _line in crit.pieces:
+        n = len(_words(_plain(text)))
+        if n <= th["max_words"]:
+            continue
+        if label == sf.CRITERION_LINE:
+            hits.append("%d words in one criterion (cap %d)" % (n, th["max_words"]))
+        else:
+            hits.append("%d words in %s of this criterion (cap %d)" % (n, label, th["max_words"]))
+    return "; ".join(hits) if hits else None
 
 
 def _is_enumeration(aside, connectors):
@@ -140,23 +168,25 @@ def _is_enumeration(aside, connectors):
 
 
 def arm_inline_gloss(crit, th, glossary_terms):
-    """A definition-shaped aside inside the criterion."""
-    body = _plain(crit.body)
+    """A definition-shaped aside inside the criterion's own body or inside one of its bullets."""
     hits = []
     connectors = th.get("enumeration_connectors", ["or", "and"])
-    for aside in _asides(body):
-        if len(aside) <= th["max_aside_chars"]:
-            continue
-        if _first_word(aside) not in th["gloss_openers"]:
-            continue
-        if _is_enumeration(aside, connectors):
-            continue
-        if any(re.search(r"\b%s\b" % re.escape(w), aside.lower())
-               for w in th.get("clause_markers", [])):
-            continue        # a dash-led continuation of the rule, not an aside that glosses a term
-        known = _glossed_term(body, aside, glossary_terms)
-        note = (" — the glossary already defines `%s`" % known) if known else ""
-        hits.append("%s…%s" % (aside[:60], note))
+    for label, text, _line in crit.pieces:
+        body = _plain(text)
+        for aside in _asides(body):
+            if len(aside) <= th["max_aside_chars"]:
+                continue
+            if _first_word(aside) not in th["gloss_openers"]:
+                continue
+            if _is_enumeration(aside, connectors):
+                continue
+            if any(re.search(r"\b%s\b" % re.escape(w), aside.lower())
+                   for w in th.get("clause_markers", [])):
+                continue    # a dash-led continuation of the rule, not an aside that glosses a term
+            known = _glossed_term(body, aside, glossary_terms)
+            note = (" — the glossary already defines `%s`" % known) if known else ""
+            where = "" if label == sf.CRITERION_LINE else "in %s, " % label
+            hits.append("%s%s…%s" % (where, aside[:60], note))
     if hits:
         return "; ".join(hits[:2])
     return None
@@ -182,34 +212,50 @@ def _glossed_term(body, aside, glossary_terms):
 
 
 def _tail(body):
-    """The criterion's closing clause: the text after its last comma."""
-    stripped = body.rstrip().rstrip(".")
+    """A piece's closing clause: the text after its last comma. A bullet ends on `;` as often as on
+    `.`, so both close a piece."""
+    stripped = body.rstrip().rstrip(".;")
     idx = stripped.rfind(",")
     if idx < 0:
         return ""
     return stripped[idx + 1:].strip()
 
 
-def arm_absolute_tail(crit, th):
-    """A closing clause that is a noun phrase with no finite verb."""
-    body = _plain(crit.body)
-    tail = _tail(body)
+def _tail_is_absolute(text, th):
+    """True when this piece closes on a noun phrase with no finite verb."""
+    tail = _tail(text)
     if not tail:
-        return None
+        return ""
     words = [w.lower() for w in _words(tail)]
     if len(words) < th["min_tail_words"]:
-        return None
+        return ""
     if words[0] not in th["np_openers"]:
-        return None
+        return ""
     if any(w in th["finite_markers"] for w in words):
-        return None
+        return ""
     if not PARTICIPLE_RE.search(tail):
-        return None
-    return "closes on `, %s`" % tail[:70]
+        return ""
+    return tail
+
+
+def arm_absolute_tail(crit, th):
+    """A closing clause with no finite verb, in the criterion's own body or in one of its bullets."""
+    hits = []
+    for label, text, _line in crit.pieces:
+        tail = _tail_is_absolute(_plain(text), th)
+        if not tail:
+            continue
+        if label == sf.CRITERION_LINE:
+            hits.append("closes on `, %s`" % tail[:70])
+        else:
+            hits.append("%s closes on `, %s`" % (label, tail[:70]))
+    return "; ".join(hits) if hits else None
 
 
 def arm_anchor_noise(crit, th):
-    """Too many codes in the anchor, a code anchor mid-sentence, or code spans through the prose."""
+    """Too many codes in the anchor, a code anchor mid-sentence, code spans through the prose, or a
+    bullet carrying a bracket code of its own. The first three read the criterion line, which is
+    where an anchor belongs; the fourth reads the bullets, where an anchor belongs nowhere."""
     reasons = []
     codes = crit.codes
     if len(codes) > th["max_anchor_codes"]:
@@ -223,7 +269,22 @@ def arm_anchor_noise(crit, th):
     if len(spans) > th["max_code_spans"]:
         reasons.append("%d backticked spans run through the reading line (cap %d)"
                        % (len(spans), th["max_code_spans"]))
+    for b in crit.bullets:
+        found = CODE_BRACKET_RE.findall(b.text)
+        if found:
+            reasons.append("%s carries the code anchor %s" % (b.label, found[0]))
     return "; ".join(reasons) if reasons else None
+
+
+def arm_criterion_load(crit, th):
+    """The words of every piece of the criterion — its own body plus every bullet — summed. A
+    criterion can pass arm A on each piece alone and still carry more than one rule once its
+    pieces are added together."""
+    total = sum(len(_words(_plain(text))) for _label, text, _line in crit.pieces)
+    if total <= th["max_total_words"]:
+        return None
+    return "%d words in this criterion's line and bullets together (cap %d)" \
+           % (total, th["max_total_words"])
 
 
 def measure(doc, cfg):
@@ -244,14 +305,18 @@ def measure(doc, cfg):
         detail = arm_anchor_noise(crit, arms["anchor-noise"]["threshold"])
         if detail:
             found["anchor-noise"].append((crit, detail))
+        detail = arm_criterion_load(crit, arms["criterion-load"]["threshold"])
+        if detail:
+            found["criterion-load"].append((crit, detail))
     return found
 
 
-def _reach_line(path, scanned, terms):
-    return ("reach: files=[%s, %s]; read the %d acceptance criteria of the body (anchors stripped "
-            "for the prose arms) and the %d glossary terms; the preamble, Context blocks, and User "
-            "Story lines are outside this gate's reach"
-            % (os.path.basename(path), os.path.basename(CONFIG_PATH), scanned, terms))
+def _reach_line(path, scanned, bullets, terms):
+    return ("reach: files=[%s, %s]; read the %d acceptance criteria of the body — each numbered "
+            "criterion line together with the %d indented bullet lines of the sub-lists under them, "
+            "anchors stripped for the prose arms — and the %d glossary terms; the preamble, Context "
+            "blocks, and User Story lines are outside this gate's reach"
+            % (os.path.basename(path), os.path.basename(CONFIG_PATH), scanned, bullets, terms))
 
 
 def _report(path, arm, findings, limit, show_all):
@@ -303,7 +368,8 @@ def main(argv):
     limit = int(cfg.get("report_limit", 12))
     show_all = "--all" in flags
     scanned = len(crits)
-    reach = _reach_line(path, scanned, len(doc.glossary_terms))
+    bullets = sum(len(c.bullets) for c in crits)
+    reach = _reach_line(path, scanned, bullets, len(doc.glossary_terms))
 
     unseeded = [name for name in ARMS if cfg["arms"][name].get("baseline") is None]
     if unseeded and "--rebaseline" not in flags:

@@ -7,6 +7,12 @@ next word walks through and a human ends up working as the regular expression. T
 that holds the class, in ONE place. It hands the outgoing text plus the law to the cheapest sufficient
 tier [SPEC INV-69] and takes back the sentences that carry no information or leak register.
 
+The law TEXT is no longer written here. It is stated once in guardrails/language-rules.json and rendered
+into hooks/language-laws.json by scripts/gen-language-consumers.py, keyed by the checker that runs each
+law and the surface it runs on; this module reads the body it holds from the artifact installed beside
+it. A rule edited in that one home reaches both readers below at once, and the gate
+guardrails/check-language-rules.py reds an artifact that has drifted from it.
+
 Two surfaces share this mechanism, each handing it its OWN law:
   - the chat hook (register-judge.py) — the three chat laws, universal + personal (SPEC INV-173);
   - the shown-document lint (scripts/preshow-register-lint.py) — the machine-dialect / register law.
@@ -55,53 +61,39 @@ rather than asserting.
 TEXT:
 """
 
+# ---- Where the law text comes from -----------------------------------------------------------------
+# The laws live in guardrails/language-rules.json and are rendered into hooks/language-laws.json by
+# scripts/gen-language-consumers.py. That artifact is installed beside this module (~/.claude/hooks/), so
+# the same read works from the repo and from the installed copy. Each body is keyed by the checker that
+# runs the law and the surface it runs on, so this module takes the laws it holds and no others; a law
+# whose home is the reader's personal layer is filtered out here and supplied at run time by
+# load_personal_law().
+LAWS_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "language-laws.json")
+CHAT_CHECKER = "hooks/register-judge.py"
+DOCUMENT_CHECKER = "scripts/preshow-register-lint.py"
+NO_LAW_TEXT = ("no law text: hooks/language-laws.json is missing or unreadable beside the judge "
+               "(rebuild it with scripts/gen-language-consumers.py)")
+
+
+def load_law_body(checker, surface, path=None):
+    """The law body one checker holds on one surface, read from the generated artifact.
+
+    A missing, unreadable, or unexpectedly shaped artifact returns "" and the judge stands down on it
+    with NO_LAW_TEXT, the same way load_personal_law() degrades to universal-only: a guard that raises
+    on its own machinery breaking is a guard the guarded route around."""
+    try:
+        with open(path or LAWS_PATH, encoding="utf-8") as fh:
+            laws = json.load(fh)["bodies"][checker][surface]["laws"]
+        return "\n\n".join(law["text"] for law in laws if not law.get("personal_home"))
+    except (OSError, ValueError, KeyError, TypeError):
+        return ""
+
+
 # ---- The UNIVERSAL chat law (SPEC INV-173: a pack law every host inherits; ships here) --------------
-UNIVERSAL_CHAT_LAW = """LAW 1 — no naming a thing by denying its neighbour. The banned frame is "X, not Y"
-/ "X — not Y", and in Russian «X, а не Y». It is banned when the denied half adds nothing the reader did
-not already have. A contrast between two things that BOTH genuinely exist and are both live for the
-reader is legitimate and passes.
-
-LAW 2 — no bare internal code opening a sentence to the human. A sentence shown to the person must not
-LEAD with an internal handle as its first token — an invariant code (INV-237), a roadmap or matrix row
-(row 422, M-419), a milestone or entity code (M-6, E-13, T-22), or a bare section number. The handle may
-TRAIL the plain sentence in parentheses as a quiet anchor once the words have carried the meaning; only a
-code standing as the opening token offends. Leading with the code is the agent talking to itself in its
-own filing system rather than to the reader. A sentence that opens in plain words and closes with a
-parenthetical anchor passes.
-
-LAW 3 — no grading importance or quality without a concrete fact. Praising or grading the WORTH of a
-thing — a thought, a result, a phrase, a rhyme, a design, a change — with an evaluative word and no fact
-behind it is banned. Grading how important, how good, or how strong something is, up or down, is the
-reader's own act; the text states what the thing IS or DOES and lets the reader weigh it. Banned as a
-class in any language: «сильная мысль», «сильный результат», «красивая рифма», «в разы лучше», "a strong
-point", "a beautiful solution", "far better", used as a verdict on worth rather than a statement of fact.
-A word that carries a FACT stays: "cuts the query from 900ms to 40ms" is a fact and passes; "much faster"
-with no number is a grade and offends. The class covers both poles — inflating up and dramatizing down
-are one bias — and it grades ANY object, not a result alone.
-
-LAW 4 — no coined or jargon term shown to the reader without a plain gloss. A word the reader may not
-know — a name this project coined for its own machinery, or a piece of domain jargon — dropped into a
-sentence with no plain-language gloss on first use is banned (e.g. «развилки» shown in chat where the
-reader was never taught the term). Name the thing in the reader's own plain words, or gloss the term the
-first time it appears. A widely understood industry-standard word needs no gloss and passes."""
+UNIVERSAL_CHAT_LAW = load_law_body(CHAT_CHECKER, "chat")
 
 # ---- The DOCUMENT register law (ships with preshow-register-lint.py; universal to every host) -------
-DOCUMENT_REGISTER_LAW = """LAW 1 — no machine dialect in a surface a human reads. A shown surface speaks
-the reader's own plain, industry-standard words. Banned as a class: a coined internal mechanism-name or
-metaphor shown raw (a name a project invented for its own machinery, shown to a reader who never learned
-it); an English internal term loan-translated word-for-word into the reader's own language (a calque);
-a transliterated internal term (an English coinage respelled in the reader's alphabet); and any coined or
-jargon term shown with no plain gloss on first use — a word the reader may not know, machinery or domain
-jargon, given without naming it in the reader's own plain words. A plain industry-standard word, or an
-ordinary word that merely happens to appear inside such a coinage, passes — only the coined collocation
-itself, or an unglossed unfamiliar term, leaks. Judge by whether an outside reader, never taught this
-project's private vocabulary, would meet a word as machinery rather than as meaning.
-
-LAW 2 — no grading importance or quality without a concrete fact. Grading the WORTH of a thing — how
-important, how good, how strong, up or down — is the reader's act; the surface states what the thing IS
-or DOES and lets the reader weigh it. An evaluative verdict with no fact behind it offends ("a strong
-result", "far better", "a beautiful solution"); a fact or a number stays ("cuts the query from 900ms to
-40ms"). Both poles are one bias — inflating up and dramatizing down — and it grades any object."""
+DOCUMENT_REGISTER_LAW = load_law_body(DOCUMENT_CHECKER, "human-prose")
 
 
 def renumber_laws(text):
@@ -145,6 +137,8 @@ def judge(text, law_body, surface="one person's working chat", model=None, timeo
     """
     model = model or DEFAULT_MODEL
     timeout = DEFAULT_TIMEOUT_S if timeout is None else timeout
+    if not (law_body or "").strip():
+        return [], NO_LAW_TEXT
     prompt = build_prompt(text, law_body, surface)
     try:
         proc = subprocess.run(

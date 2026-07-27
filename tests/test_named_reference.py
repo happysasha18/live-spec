@@ -11,7 +11,7 @@ own wording is present. No behavioural test is invented for what a script cannot
 """
 import unittest
 
-from conftest import read, read_flat
+from conftest import criterion_with_bullets, read, read_flat
 
 
 def index_of(spec):
@@ -66,16 +66,21 @@ class TestEarnedAutoDeposit(unittest.TestCase):
     def test_spec_states_the_earned_auto_deposit_law(self):
         # the rewrite consistently renamed "earned birth" -> "earned ground" across the whole
         # earned-message law (also visible in the "three grounds" case of Requirement 195).
-        spec = read_flat("PRODUCT_SPEC.md")
+        # the whole-class trigger moved into a bullet under the auto-deposit criterion, so the
+        # criterion is read with its bullets and all three facts are asserted in one home
+        clause = criterion_with_bullets(
+            read("PRODUCT_SPEC.md"), "*when* the agent's work earns a message under a ground")
+        self.assertIsNotNone(clause, "SPEC lost the earned auto-deposit criterion (T-24)")
         self.assertIn(
             "the agent *shall* write the file to the neighbour's inbox in the course of its "
-            "own work", spec,
+            "own work", clause,
             "SPEC lost the earned auto-deposit law headline (T-24)")
         self.assertIn(
-            "the trigger being any earned ground the work meets, so any occasion that earns "
-            "a ground qualifies", spec,
+            "the trigger is any earned ground the work meets, so every occasion that earns "
+            "a ground qualifies", clause,
             "SPEC lost the whole-class trigger (T-24, INV-153)")
-        self.assertIn("T-24, INV-189, INV-153, INV-163]", spec, "SPEC prose lost the T-24 anchor")
+        self.assertIn("T-24, INV-189, INV-153, INV-163]", clause,
+                      "SPEC prose lost the T-24 anchor")
 
     def test_both_tells_home_in_the_status_report(self):
         # CANDIDATE REAL DEFECT (see repin log): "their home is the status report" (and its

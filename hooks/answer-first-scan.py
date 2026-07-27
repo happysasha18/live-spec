@@ -31,21 +31,31 @@ import os
 import re
 import sys
 
-# A reply shorter than this owes no engineered lead — it is already brief enough to read at a glance. Over
-# it, a distinct short lead is owed. A tunable proxy threshold, not a law (SPEC INV-70).
-LENGTH_THRESHOLD = 550
+# The length floor and the three lead signals are NOT written here. They live in
+# answer-first-scan.json beside this file, which docs/language-rules.md also reads at build time, so
+# the rule a writer reads and the shape this hook measures are one list and cannot drift apart. The
+# installed copy sits at ~/.claude/hooks/ (declared under `data` for this hook in
+# guardrails/judge-hooks.json). A missing or unreadable home stands the hook down silently, the way
+# every other breakage of its own machinery does — this arm never blocks on itself.
+SIGNALS_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "answer-first-scan.json")
 
-# A lead is PRESENT when any one of three cheap signals holds, and the reply fires only when ALL three
-# fail — a conservative OR that keeps the false-positive rate at zero on genuine lead-first replies:
-#   1. the opening SENTENCE (up to the first '.', '!', '?', ':', or newline) is short — the answer stated
-#      up front, the strongest signal, and the one that separates a lead from a wall of method that runs
-#      one long sentence before its first stop;
-FIRST_SENTENCE_MAX = 220
-#   2. the opening BLOCK (first paragraph, up to the first blank line) is short — a lead set off by a
-#      blank line, whatever its sentence shape;
-LEAD_MAX = 450
-#   3. the opening block is scannable STRUCTURE (a heading, a list, a quote, a table) — an answer the
-#      reader meets as members rather than prose.
+
+def load_signals(path=None):
+    """The floor and the three signals, or (None, None) when the home cannot be read."""
+    try:
+        with open(path or SIGNALS_PATH, encoding="utf-8") as fh:
+            cfg = json.load(fh)
+        floor = int(cfg["reply_chars_above_which_a_lead_is_required"])
+        signals = {s["id"]: s for s in cfg["lead_signals"]}
+        return floor, (int(signals["opening_sentence"]["max_chars"]),
+                       int(signals["opening_block"]["max_chars"]),
+                       re.compile(signals["structure"]["pattern"]))
+    except (OSError, ValueError, KeyError, TypeError, re.error):
+        return None, None
+
+
+LENGTH_THRESHOLD, _SIGNALS = load_signals()
+FIRST_SENTENCE_MAX, LEAD_MAX, _STRUCTURAL = _SIGNALS if _SIGNALS else (None, None, None)
 
 # The first sentence ends at the first '.', '!', '?', or ':' followed by whitespace or end-of-text (so a
 # decimal like "2.1" or "18%." mid-number does not end it), or at the first newline, whichever comes first.
@@ -54,10 +64,6 @@ _SENTENCE_END = re.compile(r"[.!?:](?=\s|$)|\n")
 # A leading [HH:MM] timestamp (the profile's chat.timestamp habit) is part of the lead line and never
 # counts against it.
 _TIMESTAMP = re.compile(r"^\s*\[\d{1,2}:\d{2}\]\s*")
-
-# A line opening with one of these markers is scannable structure (a heading, a list item, a quote, a
-# table row) — an answer delivered as a stoppable list rather than a wall.
-_STRUCTURAL = re.compile(r"^\s*(#{1,6}\s|[-*+]\s|\d+[.)]\s|>\s|\|)")
 
 
 def last_assistant_text(transcript_path):
@@ -135,6 +141,8 @@ def has_lead(text):
     Fires only when a reply over the length floor fails ALL THREE lead signals — a long opening sentence,
     a long opening paragraph, and no scannable structure. Any one signal passing means a lead is present.
     """
+    if LENGTH_THRESHOLD is None:
+        return True  # the signal home is unreadable; the arm stands down rather than firing blind
     body = _strip_timestamp(text).strip()
     if len(body) < LENGTH_THRESHOLD:
         return True

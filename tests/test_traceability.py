@@ -12,7 +12,7 @@ import re
 import sys
 import unittest
 
-from conftest import ROOT, read, read_all, read_all_flat
+from conftest import ROOT, criterion_with_bullets, read, read_all, read_all_flat
 
 sys.path.insert(0, os.path.join(ROOT, "guardrails"))
 from specformat import green_reach  # the family's green-reach line (SPEC INV-269)
@@ -810,7 +810,9 @@ class TestDoorLawAndPrototype(unittest.TestCase):
 
     def test_spec_states_registry_and_pins(self):
         body = re.sub(r"\s+", " ", read("PRODUCT_SPEC.md"))
-        self.assertIn("pin every node to its owning place by the named thing", body, "SPEC lost symbol-first pins (E-14)")
+        self.assertIn("pin every node to its owning place by a named thing", body, "SPEC lost symbol-first pins (E-14)")
+        self.assertIn("the named thing is a function, a marker comment, a selector, or a heading",
+                      body, "SPEC lost what counts as a named thing (E-14)")
         self.assertIn("preferred form is executable", body, "SPEC lost the executable-registry form (E-10)")
         adopt = re.sub(r"\s+", " ", read("adopt/ADOPT.md"))
         self.assertIn("lift the surface inventory into an executable completeness gate", adopt)
@@ -1365,11 +1367,18 @@ class TestLoaderStaysThin(unittest.TestCase):
 
     def test_m1_names_loader_thin_item(self):
         spec = re.sub(r"\s+", " ", read("PRODUCT_SPEC.md"))
-        for phrase in ("the loader stays thin",
-                       "must hold before any pack file loads",
-                       "states the line count",  # CANDIDATE REAL DEFECT — genuinely dropped, left red
-                       "migrating any other to its real home"):
-            self.assertIn(phrase, spec, "SPEC M-1 lost the loader-stays-thin item: %s" % phrase)
+        # the requirement that owns the thin loader
+        self.assertIn("the loader stays thin", spec,
+                      "SPEC lost the loader-stays-thin requirement")
+        # what the milestone gate owes about the loader — the keep-rule, the migration, and the
+        # reported count all sit in bullets under M-1's own criterion, read together with it
+        clause = criterion_with_bullets(
+            read("PRODUCT_SPEC.md"), "*shall* re-read the thin loader line by line")
+        self.assertIsNotNone(clause, "SPEC M-1 lost the loader-stays-thin item")
+        for phrase in ("must hold before any pack file loads",
+                       "states the line count",
+                       "migrating any other line to its real home"):
+            self.assertIn(phrase, clause, "SPEC M-1 lost the loader-stays-thin item: %s" % phrase)
 
     def test_m1_names_skill_creator_rewalk(self):
         """Row 130 (M-128): the milestone gate re-walks the pack's skills through

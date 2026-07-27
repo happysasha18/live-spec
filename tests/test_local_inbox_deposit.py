@@ -5,7 +5,7 @@ commit races whatever the assigned session holds staged mid-landing. The local d
 at writing the one new file; the assigned session's sweep commits the harvest itself. The
 remote arm's commit-and-push road stays (INV-112).
 """
-from conftest import read
+from conftest import criterion_with_bullets, read
 
 
 def test_spec_states_the_local_arm():
@@ -15,8 +15,12 @@ def test_spec_states_the_local_arm():
 
 
 def test_local_deposit_never_stages():
-    spec = read("PRODUCT_SPEC.md")
-    assert "no staging, no commit, no push" in spec
+    # read the co-located criterion in its own home, so the three refusals are asserted where
+    # the law states them rather than anywhere in the document
+    clause = criterion_with_bullets(
+        read("PRODUCT_SPEC.md"), "*when* a session shares the assigned session's working tree")
+    assert clause is not None, "SPEC lost the co-located deposit criterion (INV-174)"
+    assert "no staging, no commit, and no push" in clause
 
 
 def test_inbox_readme_carries_the_split():

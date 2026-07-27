@@ -47,12 +47,39 @@ caps-shout/second-person warnings, reassurance/future-narration not checked.
 Usage: spec-style-lint.py [--gate | --tier universal|full] FILE   (or: cat text | spec-style-lint.py ... -)
 Exit 0 = no ERROR (WARN may still print) · exit 1 = at least one ERROR.
 """
+import json
 import os
 import re
 import sys
 
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+REPO_ROOT = os.path.dirname(SCRIPT_DIR)
+sys.path.insert(0, SCRIPT_DIR)
 import gate_common  # noqa: E402  (sibling module in scripts/)
+
+# --- the word sets this lint reads, each from its ONE home ---------------------------------------
+# No word set is written in this file. Each lives in a JSON file that docs/language-rules.md also
+# reads at build time, so the rule a writer reads and the words this script matches are the same
+# list and cannot drift apart. A missing or unreadable home raises here rather than quietly
+# shrinking the lint to nothing: a checker that passes because its list vanished is worse than a
+# checker that refuses to start.
+COINAGES_PATH = os.path.join(REPO_ROOT, "guardrails", "spec-coinages.json")
+LISTS_PATH = os.path.join(SCRIPT_DIR, "spec-style-lint.json")
+
+
+def _config(path, key, shown):
+    """One list or map out of its home file, or a hard failure naming the home."""
+    try:
+        with open(path, encoding="utf-8") as f:
+            value = json.load(f)[key]
+    except (OSError, ValueError, KeyError) as e:
+        raise SystemExit("spec-style-lint: cannot read `%s` from %s (%s) — that file is the one home "
+                         "of this list and the lint will not run without it." % (key, shown, e))
+    if not value:
+        raise SystemExit("spec-style-lint: `%s` in %s is empty — a lint over an empty list passes on "
+                         "everything." % (key, shown))
+    return value
+
 
 # --- negation-opener -------------------------------------------------------------------------
 # A block (a paragraph line, a bullet, or a bold-titled rule) should open with what happens, not
@@ -228,9 +255,11 @@ def _rather_instead_scissors(scrub):
     return False
 
 
-# --- machine jargon (curated, extensible — add a word only when it is unambiguously wrong here) --
-JARGON = {"serialized", "questionnaire", "instantiate", "instantiated", "functionality",
-          "leverage", "leveraging", "utilize", "utilizes", "utilization", "performant"}
+# --- machine jargon (read from its one home, never kept here) ------------------------------------
+# The word set lives in guardrails/spec-coinages.json, which guardrails/check-vocabulary.py also
+# reads. Until 2026-07-28 this file kept a set of its own, so a word added to either list was
+# invisible to the other reader; the merged list is the one home and this arm reads it.
+JARGON = set(_config(COINAGES_PATH, "coinages", "guardrails/spec-coinages.json"))
 JARGON_RE = re.compile(r"(?<!\w)(%s)(?!\w)" % "|".join(sorted(JARGON)), re.IGNORECASE)
 
 # --- caps-shout ------------------------------------------------------------------------------
@@ -297,8 +326,9 @@ REASSURANCE_RE = re.compile(r"(?<!\w)simply(?!\w)", re.IGNORECASE)  # bare 'simp
 # carry" is future narration; rephrase to present. Scoped to will/shall + a spec verb to avoid
 # catching every "will".
 FUTURE_NARRATION = re.compile(
-    r"(?<!\w)(?:will|shall)\s+(?:be|show|shows|display|appear|open|contain|"
-    r"return|carry|report|hold|become|run|fire|land|ship)\b", re.IGNORECASE)
+    r"(?<!\w)(?:will|shall)\s+(?:%s)\b"
+    % "|".join(_config(LISTS_PATH, "future_narration_verbs", "scripts/spec-style-lint.json")),
+    re.IGNORECASE)
 
 # --- provenance-narrative (global, R15) ------------------------------------------------------
 # A normative body states the mechanism in plain present tense; the provenance — the date and the

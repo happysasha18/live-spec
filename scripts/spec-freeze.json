@@ -1,0 +1,38 @@
+{
+  "_comment": "The classes scripts/spec-freeze.py freezes, held here rather than as regular expressions inside the script, so one edit reaches both the freeze check and the rule a writer reads. docs/language-rules.md prints the descriptions inside r55, read out of this file at build time. `pattern` is the expression the script compiles; `description` is the same class in plain words. Changing a pattern changes what is frozen, so a change here re-freezes .spec-freeze/ in the same commit.",
+  "literal_classes": [
+    {
+      "id": "anchors",
+      "pattern": "\\[((?:INV|EX|E|T|M|A|C|D|S|B|CR|ACT)-\\d+(?:\\.\\.[A-Z]+-?\\d+)?(?:\\s+kin)?)\\]",
+      "description": "an anchor citation in square brackets, such as `[INV-141]`, `[E-26]` or `[INV-28 kin]`"
+    },
+    {
+      "id": "ranges",
+      "pattern": "\\b([A-Z]{1,4}-\\d+\\.\\.[A-Z]{0,4}-?\\d+)\\b",
+      "description": "a bare range token, such as `T-1..T-7`"
+    },
+    {
+      "id": "numbers",
+      "pattern": "\\b\\d+(?:\\.\\d+)?\\s?(?:px|GB|MB|s|days?|day|:\\d+(?:\\.\\d+)?|%)\\b|\\b\\d+(?:\\.\\d+)?:\\d+(?:\\.\\d+)?\\b",
+      "description": "a number carrying a unit: px, GB, MB, s, a day count, a percentage, or a ratio such as `4:3`"
+    },
+    {
+      "id": "paths",
+      "pattern": "`([^`\\s]*(?:/|\\.py|\\.sh|\\.json|\\.md|\\.js|\\.ts|\\.mjs|\\.cjs)[^`\\s]*)`",
+      "description": "a backticked path or script token — any backticked span with no whitespace that carries a slash or one of the extensions .py, .sh, .json, .md, .js, .ts, .mjs, .cjs"
+    }
+  ],
+  "marker_lines": [
+    {
+      "id": "marker_token",
+      "pattern": "\\[(target|default)\\]",
+      "description": "any line outside a table carrying a bare `[target]` or `[default]` token"
+    },
+    {
+      "id": "tagged_heading",
+      "pattern": "^###\\s",
+      "description": "any H3 heading (`### `) carrying a square bracket"
+    }
+  ],
+  "_marker_lines_comment": "A structural marker line lives in scenario prose and in headings. A Formal-index table row (a line opening with `|`) only DESCRIBES a rule and may mention `[target]` or `[default]` in passing, so it is excluded; it is compacted, and its numbers and anchors are still frozen by the literal classes above."
+}

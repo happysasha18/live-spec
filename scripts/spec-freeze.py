@@ -32,19 +32,49 @@ import sys
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FREEZE_DIR = os.path.join(ROOT, ".spec-freeze")
 
-# an anchor citation: [INV-141], [E-26], [T-15], [INV-28 kin], [M-6], [base rule 4] left out (prose).
-# capture the whole bracket body so "INV-28 kin" stays distinct from "INV-28".
-ANCHOR_RE = re.compile(r"\[((?:INV|EX|E|T|M|A|C|D|S|B|CR|ACT)-\d+(?:\.\.[A-Z]+-?\d+)?(?:\s+kin)?)\]")
-# a range token like T-1..T-7 used bare (the traceability expand() depends on the exact syntax)
-RANGE_RE = re.compile(r"\b([A-Z]{1,4}-\d+\.\.[A-Z]{0,4}-?\d+)\b")
-# marker lines: a bare [target] / [default] token, or an H3 heading with its tag/marker
-MARKER_TOKEN_RE = re.compile(r"\[(target|default)\]")
-H3_RE = re.compile(r"^###\s")
-# literals a fluent rewrite drifts
-NUM_UNIT_RE = re.compile(r"\b\d+(?:\.\d+)?\s?(?:px|GB|MB|s|days?|day|:\d+(?:\.\d+)?|%)\b|\b\d+(?:\.\d+)?:\d+(?:\.\d+)?\b")
-# a backticked path/script token: no whitespace inside (a real path has none), so a giant
-# prose span between two backticks that merely contains a slash is never captured as a "path".
-BACKTICK_PATH_RE = re.compile(r"`([^`\s]*(?:/|\.py|\.sh|\.json|\.md|\.js|\.ts|\.mjs|\.cjs)[^`\s]*)`")
+# The classes this script freezes are NOT written here. They live in spec-freeze.json beside this
+# file, which docs/language-rules.md also reads at build time, so the rule a writer reads and the
+# expressions this script compiles are one list and cannot drift apart. Each entry carries the
+# pattern the script compiles and the same class in plain words for the page. A missing or
+# unreadable home raises rather than freezing nothing: a freeze over zero classes passes on every
+# drift it exists to catch.
+#
+# The classes, in plain words:
+#   anchors         an anchor citation: [INV-141], [E-26], [T-15], [INV-28 kin]; the whole bracket
+#                   body is captured, so "INV-28 kin" stays distinct from "INV-28".
+#   ranges          a bare range token like T-1..T-7 (the traceability expand() depends on the syntax)
+#   numbers         a literal with a unit, which a fluent rewrite drifts
+#   paths           a backticked path/script token: no whitespace inside, so a giant prose span
+#                   between two backticks that merely contains a slash is never captured as a "path"
+#   marker_token    a bare [target] / [default] token
+#   tagged_heading  an H3 heading carrying its tag or marker
+LISTS_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "spec-freeze.json")
+
+
+def _classes(key):
+    """The {id: compiled pattern} map for one class group, or a hard failure naming the home."""
+    try:
+        with open(LISTS_PATH, encoding="utf-8") as f:
+            entries = json.load(f)[key]
+        compiled = {e["id"]: re.compile(e["pattern"]) for e in entries}
+    except (OSError, ValueError, KeyError, TypeError, re.error) as e:
+        raise SystemExit("spec-freeze: cannot read `%s` from scripts/spec-freeze.json (%s) — that file "
+                         "is the one home of these classes and the freeze will not run without it." % (key, e))
+    if not compiled:
+        raise SystemExit("spec-freeze: `%s` in scripts/spec-freeze.json is empty — a freeze over no "
+                         "classes catches no drift." % key)
+    return compiled
+
+
+_LITERALS = _classes("literal_classes")
+_MARKERS = _classes("marker_lines")
+
+ANCHOR_RE = _LITERALS["anchors"]
+RANGE_RE = _LITERALS["ranges"]
+NUM_UNIT_RE = _LITERALS["numbers"]
+BACKTICK_PATH_RE = _LITERALS["paths"]
+MARKER_TOKEN_RE = _MARKERS["marker_token"]
+H3_RE = _MARKERS["tagged_heading"]
 
 
 def _read(rel_or_abs):

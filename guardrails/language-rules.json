@@ -1,0 +1,1442 @@
+{
+  "_comment": "The one home for the rules this project states about how its own texts are written. Every language checker is generated from this file or reads it directly, so a rule's wording, its thresholds, its carve-outs, and its word lists are edited here and nowhere else; a checker that keeps its own copy of a list is drift to fold back. A path written as `~/...` resolves under the agent's own `.claude` directory, and every other path is relative to the repository root. `status` says whether a catcher runs the rule today: `held` means a catcher runs at a named harness event, in a gate, or at a named manual step; `stated-only` means no catcher runs it, which includes a script that exists and is armed nowhere; `claimed-but-absent` means a home names a catcher that does not carry the rule. Inside `catchers`, `partial` means the catcher reads part of the class or part of the surface. Inside `catchers.model`, `where` is a comma-separated list of homes, each one opening with the path of the checker that RUNS the law and naming the mechanism it runs through after `via`; `scripts/gen-language-consumers.py` keys each generated law body by that checker together with a surface, so a checker is handed the laws it actually holds and no others, and a home path under `~/` marks a law the reader's own personal layer owns and the package never ships. `armed` names the event or gate a catcher runs at; a catcher that runs at the PreToolUse event is recorded in `notes`, because the field's vocabulary holds no word for that event. Beside `rules` this file carries three sets the generator prints for a reader: `legend` defines the status words and the arming events, `surfaces` defines each surface with an example and states the block rule, and `question_index` maps a writer's question to the rules that answer it. A rule's `lists` field gives every set the rule names: an entry carrying `source` and `key` is READ out of that JSON file at build time, so the list can never drift; an entry carrying `home` and `members` was copied from a script that holds it in code, and the home is named so a reader knows a change there does not reach the page. To add a rule: append an entry with the next free id, a plain one-sentence `rule`, a `reader_test` a reader can apply to one sentence, the surfaces it binds, its `sources`, and `status` of `stated-only`; then wire or generate the catcher and record it under `catchers`. This file carries Russian pattern text as data, so `scripts/shipped-language-allowlist.json` owes it a `user_language_globs` entry before the shipped-language gate can pass.",
+  "legend": {
+    "rule_status": {
+      "held": "a catcher runs this rule today: at a named harness event, inside a gate, or at a named manual step",
+      "stated-only": "no catcher runs this rule, which includes a script that exists and is armed nowhere",
+      "claimed-but-absent": "some file names a catcher for this rule, and that catcher does not carry it"
+    },
+    "catcher_status": {
+      "held": "this catcher runs the class it names over the surface it names",
+      "partial": "this catcher reads part of the class, or part of the surface",
+      "absent": "no catcher of this kind runs the rule"
+    },
+    "armed": {
+      "pre-commit": "a gate refuses the commit until the text changes",
+      "pre-push": "a gate refuses the push until the text changes",
+      "session-stop-hook": "the session's reply is held at the end of the turn, and a correction is asked for before the text reaches the reader",
+      "session-prompt-hook": "the verdict on the previous reply is put in front of the session when the person sends their next message",
+      "PreToolUse": "the next tool call is denied, so the correction reaches the reader inside the same turn; a rule armed here records it in its notes, since the `armed` field's vocabulary holds no word for the event",
+      "manual": "a person runs the catcher over a file by hand, and nothing runs it on its own",
+      "nowhere": "no catcher runs the rule at any event"
+    }
+  },
+  "surfaces": {
+    "note": "A surface is a KIND of text, not a file, and one file carries several. The numbered requirements and acceptance criteria of a spec are spec-body; the Context paragraphs and User Story lines in that same file are human-prose. Two rules that would give opposite verdicts on one word therefore never meet on one sentence: they govern different blocks of the file. A text declares one primary surface, and a text published to someone outside the project carries `artifact` as well, with every rule binding either surface in force. Where two rules would still give opposite verdicts on one sentence, that is a defect in these rules: it is recorded and settled here, and a writer is never handed the choice.",
+    "list": [
+      {
+        "name": "spec-body",
+        "definition": "the numbered requirements and acceptance criteria of `PRODUCT_SPEC.md`, and the same numbered shape in `ARCHITECTURE.md` and `TEST_MATRIX.md`. A machine reads this text beside the person. The prose paragraphs in those same files are human-prose.",
+        "example": "Requirement 297 of `PRODUCT_SPEC.md`, and each acceptance criterion under it."
+      },
+      {
+        "name": "human-prose",
+        "definition": "text a person reads to understand something or to decide something: `README.md`, `OVERVIEW.md`, a decision page, a report, a skill's own body, a documentation page, and the prose paragraphs inside a spec. A documentation page is human-prose, and it carries `artifact` as well once it is published outside the project.",
+        "example": "`README.md`, and this page."
+      },
+      {
+        "name": "chat",
+        "definition": "a message the agent sends the person in conversation, including the narration between tool calls — the checkers read every assistant message since the person's last turn, not the final reply alone.",
+        "example": "a reply in a working session."
+      },
+      {
+        "name": "artifact",
+        "definition": "a page or file published to someone outside the project: a rendered page, product copy, a public README, a marketing text.",
+        "example": "the project's public README as it stands on its repository page."
+      },
+      {
+        "name": "commit",
+        "definition": "a commit message: its subject line and its body.",
+        "example": "the message on one commit."
+      },
+      {
+        "name": "worker-brief",
+        "definition": "the text one agent hands another as its instructions.",
+        "example": "the brief a session writes when it starts a background worker."
+      }
+    ]
+  },
+  "question_index": [
+    {"question": "How long may a sentence be, and how much may it carry?", "rules": ["r08", "r44", "r45", "r46"]},
+    {"question": "Which person do I write in, and may I say `you`?", "rules": ["r24", "r25", "r26"]},
+    {"question": "May I define a term, and where does the definition go?", "rules": ["r01", "r02", "r21", "r35", "r43"]},
+    {"question": "A set my sentence points at — must I give its members?", "rules": ["r07", "r08", "r45"]},
+    {"question": "Which tense, and may I say how the rule came about?", "rules": ["r30", "r31"]},
+    {"question": "How many examples may I give, and what kind?", "rules": ["r41", "r43", "r61"]},
+    {"question": "Structure: when does prose become a list, a paragraph break, or a heading?", "rules": ["r08", "r44", "r45", "r55"]},
+    {"question": "Names: what may I call a thing, and what may I not?", "rules": ["r02", "r03", "r04", "r07", "r11", "r23"]},
+    {"question": "Numbers and comparisons: when must one be grounded?", "rules": ["r06", "r32", "r33"]}
+  ],
+  "rules": [
+    {
+      "id": "r01",
+      "name": "an ordinary word carrying a private project meaning",
+      "rule": "A word keeps its everyday meaning, and a term this project needs is defined in plain words at its first use — picture first, term second — then reused unchanged, holding one glossary entry that the body then uses with no definition attached.",
+      "reader_test": "Would a person outside this project recognize this word, or does the text gloss it in plain words where it first appears?",
+      "surfaces": ["spec-body", "human-prose", "chat", "artifact"],
+      "exceptions": ["a term the text glosses in plain words at its first use", "a term holding a glossary entry the reader meets before the term's first working use"],
+      "catchers": {
+        "pattern": {"status": "partial", "where": "guardrails/check-vocabulary.py, scripts/preshow-register-lint.py", "reach": "check-vocabulary.py reads the glossary and body of one document named on the command line; preshow-register-lint.py reads any file handed to it line by line against its 23 patterns"},
+        "model": {"status": "held", "where": "hooks/register-judge.py via hooks/register_judge_core.py, scripts/preshow-register-lint.py via hooks/register_judge_core.py", "law_text": "no coined or jargon term shown to the reader without a plain gloss. A word the reader may not know — a name this project coined for its own machinery, or a piece of domain jargon — dropped into a sentence with no plain-language gloss on first use is banned (e.g. «развилки» shown in chat where the reader was never taught the term). Name the thing in the reader's own plain words, or gloss the term the first time it appears. A widely understood industry-standard word needs no gloss and passes."},
+        "person": {"status": "partial", "note": "whether the gloss actually lands for this reader, whether one sentence carries more than one such term, and whether a clarifying question from the reader means a term went ungrounded"}
+      },
+      "armed": ["session-stop-hook", "manual"],
+      "sources": [
+        "~/.claude/skills/communicator/references/writing-register.md:43",
+        "~/.claude/skills/communicator/references/writing-register.md:22",
+        "~/.claude/skills/communicator/references/writing-register.md:25",
+        "~/.claude/skills/text-audit/SKILL.md:196",
+        "~/.claude/skills/text-audit/SKILL.md:198",
+        "~/.claude/skills/text-audit/SKILL.md:113",
+        "~/.claude/playbook/personal/profile.md:73",
+        "~/.claude/playbook/personal/profile.md:75",
+        "~/.claude/playbook/personal/profile.md:77",
+        "docs/spec-format.md:23"
+      ],
+      "status": "held",
+      "notes": "r22, `a term standing bare on its first appearance`, folded into this entry on 2026-07-28 and its id is retired: the two carried one model law word for word, and this entry owns the fact from both sides — the private meaning a word is given, and the gloss the reader is owed at its first appearance. The law text this entry states is the text the register judge is handed; hooks/register_judge_core.py loads it from hooks/language-laws.json and no longer states it. The pre-show lint's pattern list grows by nobody's duty, retracted 2026-07-17 at scripts/preshow-register-lint.py:31; it stands as a free first pass over what it already covers. scripts/register-lint-floor.json:2, ~/.claude/skills/communicator/SKILL.md:466, and ~/.claude/skills/communicator/SKILL.md:216 still state the old growth duty. The writing register lives at ~/.claude/skills/communicator/references/writing-register.md and is named by what it holds; ~/.claude/playbook/personal/profile.md:73 still states the old form, naming a rule count and a path the register left. check-vocabulary.py is armed nowhere."
+    },
+    {
+      "id": "r02",
+      "name": "a coined, loan-translated, or respelled word standing where a plain standard word exists",
+      "rule": "Where the industry has a word, the text writes the industry's word. A word this project coined is replaced by the standard term or defined on the page, it is never loan-translated word for word into the reader's own language, and it is never respelled in the reader's alphabet.",
+      "reader_test": "Does a standard word already name this thing, and is the word here that standard word — a real word of the reader's own language, carrying the meaning this project gives it?",
+      "surfaces": ["spec-body", "human-prose", "chat", "artifact"],
+      "exceptions": ["a minted name for a thing nothing else names, carrying a glossary entry at its first appearance"],
+      "examples": [
+        {"written": "нога (leg)", "repair": "критерий приёмки, открытый пункт (an acceptance criterion, an open item)"},
+        {"written": "краснеет (goes red)", "repair": "проваливает проверку (fails the check)"},
+        {"written": "станция (station)", "repair": "шаг (step)"},
+        {"written": "дверь (door)", "repair": "вход (entry point)"},
+        {"written": "шов (seam)", "repair": "стык (join)"},
+        {"written": "сеть (net)", "repair": "проверка, механизм (a check, a mechanism)"},
+        {"written": "доска (board)", "repair": "список ожидания (waiting list)"},
+        {"written": "дерево (tree)", "repair": "рабочая папка проекта (the project's working folder)"},
+        {"written": "живость (liveness)", "repair": "работает ли ещё, закончил ли (whether it is still running, whether it finished)"},
+        {"written": "полоса (lane)", "repair": "параллельная ветка работы (a parallel line of work)"},
+        {"written": "якорь (anchor)", "repair": "код в конце строки (the code at the line's end)"},
+        {"written": "рука (arm)", "repair": "часть проверки (one arm of a check)"},
+        {"written": "тело требования (the requirement's body)", "repair": "текст требования (the requirement's text)"},
+        {"written": "храповик (ratchet)", "repair": "предел, который не растёт (a limit that does not grow)"},
+        {"written": "засеяна (seeded)", "repair": "начальные числа записаны (the starting numbers are recorded)"}
+      ],
+      "lists": [
+        {
+          "name": "the words replaced by a plain standard term, with the term to use",
+          "source": "guardrails/spec-coinages.json",
+          "key": "coinages",
+          "shape": "map",
+          "note": "guardrails/check-vocabulary.py and scripts/spec-style-lint.py both match on this one map; until 2026-07-28 they kept a list each, and a word added to either was invisible to the other"
+        }
+      ],
+      "catchers": {
+        "pattern": {"status": "partial", "where": "guardrails/check-vocabulary.py and scripts/spec-style-lint.py, both reading guardrails/spec-coinages.json; hooks/midturn-chat-scan.py reading hooks/chat-calques.json; scripts/preshow-register-lint.py", "reach": "check-vocabulary.py reads the whole text of one document named on the command line, case-folded and word-boundary matched; spec-style-lint.py reads one file line by line; midturn-chat-scan.py reads every assistant message since the last human turn with fences, inline code, and quoted spans removed, leaving bracketed spans standing because a loan translation inside them still reaches the reader, and it denies each fragment once per session; preshow-register-lint.py adds eight Russian loan-translation patterns and three respelling patterns over any file handed to it"},
+        "model": {"status": "held", "where": "scripts/preshow-register-lint.py via hooks/register_judge_core.py", "law_text": "no machine dialect in a surface a human reads: a word this project coined where the industry already has one, an English internal term loan-translated word for word into the reader's own language (a calque), or an English coinage respelled in the reader's alphabet. Judge by whether an outside reader, never taught this project's private vocabulary, would meet a word as machinery where meaning belongs. A plain industry-standard word passes, and so does an ordinary word that merely happens to appear inside such a coinage."},
+        "person": {"status": "partial", "note": "whether a standard word exists for a thing the text minted a name for, and a loan translation or a respelling nobody has recorded yet, including a coinage born in the writer's own report"}
+      },
+      "armed": ["session-prompt-hook", "manual"],
+      "sources": [
+        "docs/spec-format.md:21",
+        "docs/spec-style.md:27",
+        "docs/prose-quality-gate-design.md:19",
+        "guardrails/spec-coinages.json:2",
+        "scripts/spec-style-lint.py:262",
+        "~/.claude/skills/spec-author/SKILL.md:109",
+        "~/.claude/skills/text-audit/SKILL.md:198",
+        "~/.claude/skills/communicator/references/writing-register.md:46",
+        "~/.claude/playbook/personal/profile.md:13",
+        "~/.claude/playbook/personal/profile.md:17",
+        "~/.claude/skills/live-spec-base/SKILL.md:57",
+        "~/.claude/skills/communicator/SKILL.md:264",
+        "hooks/chat-law-hook.sh:9",
+        "docs/language-defects.md:158",
+        "hooks/chat-calques.json",
+        "scripts/preshow-register-lint.py:74",
+        "~/.claude/playbook/personal/profile.md:18",
+        "scripts/preshow-register-lint.py:96",
+        "~/.claude/skills/communicator/SKILL.md:459"
+      ],
+      "status": "held",
+      "notes": "r16, `an internal English term loan-translated into the reader's language`, and r17, `an internal term respelled in the reader's alphabet`, folded into this entry on 2026-07-28 and their ids are retired: one class — a project word reaching the reader where a standard word exists — was split three ways by the form the word happened to take. The word list this entry names was two lists until 2026-07-28: guardrails/spec-coinages.json held six pairs for check-vocabulary.py and scripts/spec-style-lint.py:232 held nine words of its own with no repairs, so a word added to either was invisible to the other reader. They are merged into the one home this entry prints, both readers read it, and the repairs beside the nine were written for this file. midturn-chat-scan.py runs at the PreToolUse event and denies the tool call, so the correction reaches the human inside the turn. The model arm at the pre-show step turns on through PRESHOW_REGISTER_JUDGE and stands off by default (scripts/preshow-register-lint.py:138). hooks/chat-calques.json holds the scanner's patterns for the same fifteen loan translations the examples give, so a word added there needs its pair added here. The profile names three more loan translations — its words for tripwires, for the same incident family, and for a landing — with no repair recorded for any of them, and its list shares no member with hooks/chat-calques.json. A translation after the fact does not repair the sentence; it must be plain the first time. check-vocabulary.py is armed nowhere."
+    },
+    {
+      "id": "r03",
+      "name": "a name stacking two nouns with no relation between them",
+      "rule": "A name holds one noun, and where two nouns must appear together a verb or a preposition between them carries the relation.",
+      "reader_test": "Does this name run two nouns together, and can a reader say how the second relates to the first?",
+      "surfaces": ["spec-body", "human-prose", "chat", "artifact"],
+      "exceptions": ["a stacked name holding a glossary entry"],
+      "examples": [
+        {"written": "chat-law reminder", "repair": "the reminder that carries the chat laws"}
+      ],
+      "catchers": {
+        "pattern": {"status": "absent", "where": "", "reach": "the shape a build would read, held here as its seed: a stacked name with no glossary entry, either a hyphenated compound or two nouns in a row used as a name. No such script exists under guardrails/, scripts/, or hooks/."},
+        "model": {"status": "absent", "where": "", "law_text": ""},
+        "person": {"status": "absent", "note": "whether the relation between the two nouns is carried is a short human read, or a model read for volume"}
+      },
+      "armed": ["nowhere"],
+      "sources": [],
+      "status": "stated-only",
+      "notes": "The claim that a machine finds every stacked name left the tree on 2026-07-28, when docs/language-defects.md was rewritten as the record of where the rules came from; nothing states the machine in the present tense now, so this entry reads stated-only. The owner's example, asked of a stacked name in a hook's own text (2026-07-27 17:27): «\"chat-law reminder\" это что за ассоциативный ряд?»"
+    },
+    {
+      "id": "r04",
+      "name": "one thing answering to a second name",
+      "rule": "One thing carries one name in every sentence, from its first use onward.",
+      "reader_test": "Does any thing named here appear under a different word somewhere else in this document or its neighbours?",
+      "surfaces": ["spec-body", "human-prose", "chat", "artifact"],
+      "catchers": {
+        "pattern": {"status": "partial", "where": "guardrails/check-one-name.py reading guardrails/one-name-aliases.json", "reach": "the whole text of one document named on the command line, matched against the recorded alias list: five artifacts and fourteen aliases today"},
+        "model": {"status": "absent", "where": "", "law_text": ""},
+        "person": {"status": "partial", "note": "a second name nobody has recorded as an alias yet"}
+      },
+      "armed": ["nowhere"],
+      "sources": [
+        "docs/spec-format.md:22",
+        "docs/spec-style.md:25",
+        "docs/roadmap-format.md:9",
+        "docs/architecture-format.md:13",
+        "docs/test-matrix-format.md:9",
+        "guardrails/one-name-aliases.json:2",
+        "~/.claude/skills/live-spec-base/SKILL.md:61",
+        "~/.claude/skills/communicator/references/writing-register.md:28",
+        "~/.claude/skills/spec-author/SKILL.md:232",
+        "~/.claude/skills/spec-author/SKILL.md:548"
+      ],
+      "status": "stated-only",
+      "notes": "check-one-name.py exists and is armed nowhere; its docstring reads UNARMED until the spec-format conversion delivery. The homes name the thing being named four ways: term, concept, surface, artifact."
+    },
+    {
+      "id": "r05",
+      "name": "a predicate applied to a subject that cannot carry it",
+      "rule": "A verb or an adjective attaches only to a subject that can carry it, and where a thing cannot carry it the sentence names the actor that can: a person, a script, a hook, a model. Judging this is a reading of meaning, and a list of banned verbs covers only the cases someone already met.",
+      "reader_test": "Can the thing this sentence names as its subject perform this verb, or hold this quality?",
+      "surfaces": ["spec-body", "human-prose", "chat", "artifact"],
+      "examples": [
+        {"written": "Числа не показывают красное (numbers do not show red)", "repair": "name the actor that shows a colour, or state what the numbers do"},
+        {"written": "проверки не краснеют (checks do not go red)", "repair": "the check fails"},
+        {"written": "спеки не входят (specs do not enter)", "repair": "name what the spec does"},
+        {"written": "чашки не флуоренцируют (cups do not fluoresce)", "repair": "name a quality a cup can hold"}
+      ],
+      "lists": [
+        {
+          "name": "the verbs of intention this class was first met through",
+          "home": "this file, and no script reads them",
+          "members": [
+            "decides",
+            "wants",
+            "remembers",
+            "reminds",
+            "argues",
+            "judges",
+            "speaks",
+            "retreats",
+            "shows"
+          ]
+        }
+      ],
+      "catchers": {
+        "pattern": {"status": "absent", "where": "", "reach": "no script reads the verb list this entry carries; a hit would be a sentence whose subject is a document, a rule, a number, or another thing that cannot act"},
+        "model": {"status": "absent", "where": "", "law_text": ""},
+        "person": {"status": "partial", "note": "whether a subject can carry the quality an adjective gives it, which no word list decides, and the shapes the verb list misses where a thing is handed an intention in other words"}
+      },
+      "armed": ["nowhere"],
+      "sources": [],
+      "status": "stated-only",
+      "notes": "r59, `a predicate applied to a thing that cannot carry it`, folded into this entry on 2026-07-28 and its id is retired: r59 widened this rule from verbs to any predicate, and this entry now states the wide form. The verb list stays here as the seed a build would read and as a free first pass over the cases it happens to cover; the claim that a machine reads it left the tree on 2026-07-28. His words (2026-07-27 16:52): «есть вообще такая штука что нужно проверять сам текст на консистентность по common sense что думаешь? Типа применимы ли глаголы/прилагательные к существительным?». His words (2026-07-27 16:57): «Числа не показывают красное! Лови себя сам для начала с этого момента». His words (2026-07-27 17:27): «мне нужно чтобы ты понимал применимость одних слов к другим, не словариком». His earlier example set (2026-07-27 morning): «чашки не флуоренцируют, спеки не входят, проверки не краснеют»."
+    },
+    {
+      "id": "r06",
+      "name": "a number standing with no ground",
+      "rule": "Every number carries what it counts, what it is compared against, and which direction is better, and a number that was simply chosen says so.",
+      "reader_test": "Can a reader say what this number is measured against and which way is better?",
+      "surfaces": ["spec-body", "human-prose", "chat", "artifact"],
+      "catchers": {
+        "pattern": {"status": "absent", "where": "", "reach": "guardrails/check-weak-words.py reads the acceptance criteria of one document named on the command line, and no arm of it reads a number for its ground"},
+        "model": {"status": "absent", "where": "", "law_text": ""},
+        "person": {"status": "absent", "note": "whether the ground a sentence gives is real ground"}
+      },
+      "armed": ["nowhere"],
+      "sources": [
+        "docs/lenses.md:22",
+        "~/.claude/skills/communicator/SKILL.md:209",
+        "~/.claude/skills/text-audit/SKILL.md:144"
+      ],
+      "status": "stated-only",
+      "notes": "The claim that guardrails/check-weak-words.py finds every bare number and checks its sentence for a reference cue left the tree on 2026-07-28, when docs/language-defects.md was rewritten as the record of where the rules came from. That script runs the opposite test: at guardrails/check-weak-words.py:41 a digit anywhere in the criterion excuses a weak word."
+    },
+    {
+      "id": "r07",
+      "name": "a set named by a count, a pointer, or a position instead of given",
+      "rule": "A sentence that depends on a set gives the set, or points by name to the one place that holds it, and it names a part of a set by what that part's members are rather than by a count, a pointer, or a position.",
+      "reader_test": "Can a person who reads this sentence alone name the members of the set it points at?",
+      "surfaces": ["spec-body", "human-prose", "chat", "artifact"],
+      "exceptions": ["a count standing beside a name the same sentence already gave", "a count reporting a measurement"],
+      "examples": [
+        {"written": "**Case: the three legs**", "repair": "**Case: the prototype-reference leg, the completeness scan, and the behaviour-traces-to-spec check**"},
+        {"written": "## Nine skills, one division of labour", "repair": "## Eleven skills, one division of labour"}
+      ],
+      "catchers": {
+        "pattern": {"status": "absent", "where": "", "reach": "a shape match over `the ... list/set/laws/verbs/threshold` was proposed and called cheap and noisy; it is not built, and the count-shaped and position-shaped halves have no proposal at all"},
+        "model": {"status": "absent", "where": "", "law_text": ""},
+        "person": {"status": "partial", "note": "a reference can be phrased any way, so a reading decides whether the set was given; a reading also decides whether a count is a measurement or a pointer, and whether the members a sentence names are the members it means"}
+      },
+      "armed": ["nowhere"],
+      "sources": [
+        "ROADMAP.md:171"
+      ],
+      "status": "stated-only",
+      "notes": "r58, `a part of a set named by what its members are`, folded into this entry on 2026-07-28 and its id is retired: each entry called itself half of one class, and a reader had to hold the two side by side to see where one ended. The defect has four shapes — pointing at a set without giving it, naming by count (`the three legs`), naming by pointer (the rest, the others, several), and naming by position (the first three, the latter, item four). r58's title named the state a good sentence is in rather than the defect, so this entry's title names the defect."
+    },
+    {
+      "id": "r08",
+      "name": "a sentence carrying more than one rule, running past its word cap, or piling up clauses",
+      "rule": "One sentence carries one rule and no definitions, it stays under the word cap for its surface, and it carries one clause of subordination at most with no participial pile-up. A sequence of steps or a set of parallel parts is written as a bulleted or numbered list under a one-line lead, one part per line.",
+      "reader_test": "Does this sentence state one rule a reader could cite on its own, stay under the cap for its surface, and hold its subject in view from its first word to its last?",
+      "surfaces": ["spec-body", "human-prose", "artifact"],
+      "thresholds": {"spec_body_criterion_max_words": 35, "human_prose_flag_above_words": 25, "human_prose_target_band": [15, 25], "max_subordinate_clauses": 1, "spec_body_criterion_baseline_over_cap": 469},
+      "exceptions": ["a spec-body criterion counted in the recorded baseline of 469, which passes while the count stays at or under it — a sentence written today carries no such exception", "a rhetorical triad, which carries no list"],
+      "examples": [
+        {"written": "the orchestration law that the session keeps pulling unblocked queue work while any remains.", "repair": "state the law in one short sentence, and put its parts in a list"}
+      ],
+      "catchers": {
+        "pattern": {"status": "partial", "where": "guardrails/check-criterion-readability.py arm A, reading guardrails/criterion-readability.json:9", "reach": "the acceptance-criterion lines of PRODUCT_SPEC.md alone with trailing anchors stripped, counted against a recorded baseline of 469 criteria over the cap; it reads no preamble, no Context block, no User Story, and no case heading"},
+        "model": {"status": "absent", "where": "", "law_text": ""},
+        "person": {"status": "held", "note": "a reader hears the pile-up and the bundled second rule, and the cold-read step is where both are caught; the same reading decides whether prose outside the spec's criteria holds the prose numbers, and tells a genuine enumeration from a rhetorical triad"}
+      },
+      "armed": ["manual"],
+      "sources": [
+        "docs/spec-style.md:22",
+        "docs/spec-format.md:17",
+        "guardrails/criterion-readability.json:9",
+        "~/.claude/skills/communicator/references/writing-register.md:13",
+        "~/.claude/skills/text-audit/SKILL.md:99",
+        "~/.claude/skills/text-audit/SKILL.md:194",
+        "docs/spec-style.md:36",
+        "~/.claude/skills/spec-author/SKILL.md:97"
+      ],
+      "status": "held",
+      "notes": "r38, `an enumeration flattened into a running paragraph`, and r60, `a sentence piling up subordinate and participial clauses`, folded into this entry on 2026-07-28 and their ids are retired: the three stated the same list instruction three times and governed one class, how much one sentence makes a reader hold at once. The caps are per surface: a spec-body criterion is capped at 35 words, and a human-prose or artifact sentence is flagged above 25 with 15 to 25 the band to aim at. The 35-word cap is enforced against a recorded baseline; the prose numbers flag a sentence for a look and no checker holds them. The 25-word prose flag was set with no measurement behind it. A regex over three-comma sentences was declared out of reach at ~/.claude/skills/spec-author/SKILL.md:102, since it trips on ordinary triads. check-criterion-readability.py is armed nowhere. His words (2026-07-27 17:27): «например вот это разве легко прочитать: \"the orchestration law that the session keeps pulling unblocked queue work while any remains.\"? может можно меньше причастных/деепричастных оборотов и сложноподчиненных предложений? может можно просто буллетами большинство из этого сформулировать?»"
+    },
+    {
+      "id": "r09",
+      "name": "a text breaking a rule it states",
+      "rule": "A text does not ship while it contradicts a rule it states, since the sentence carrying a rule is the first test of that rule.",
+      "reader_test": "Does the sentence stating this rule obey the rule it states?",
+      "surfaces": ["spec-body", "human-prose", "artifact"],
+      "catchers": {
+        "pattern": {"status": "absent", "where": "", "reach": "a literal pattern finds none of it"},
+        "model": {"status": "absent", "where": "", "law_text": ""},
+        "person": {"status": "partial", "note": "a person finds it; a model asked to hold a document against its own stated rules finds some of it"}
+      },
+      "armed": ["nowhere"],
+      "sources": [],
+      "status": "stated-only",
+      "notes": ""
+    },
+    {
+      "id": "r10",
+      "name": "a thing named by denying its neighbour",
+      "rule": "A sentence says what a thing is in its own words, and never names it by denying a neighbour; a boundary worth naming gets its own plain sentence.",
+      "reader_test": "Does the denied half give the reader anything the reader did not already have?",
+      "surfaces": ["spec-body", "human-prose", "chat", "artifact", "commit", "worker-brief"],
+      "exceptions": ["a contrast between two things that both genuinely exist and are both live for the reader"],
+      "examples": [
+        {"written": "X, not Y", "repair": "Say what the thing IS in its own sentence"},
+        {"written": "X — not Y", "repair": "Say what the thing IS in its own sentence"},
+        {"written": "«X, а не Y»", "repair": "Say what the thing IS in its own sentence"},
+        {"written": "X rather than Y, used definitionally", "repair": "Say what the thing IS in its own sentence"},
+        {"written": "X instead of Y, used definitionally", "repair": "Say what the thing IS in its own sentence"}
+      ],
+      "personal_override": {"exceptions": []},
+      "catchers": {
+        "pattern": {"status": "held", "where": "hooks/scissors-scan.py, ~/.claude/hooks/scissors-personal.json, scripts/spec-style-lint.py", "reach": "scissors-scan.py reads every assistant message since the last human turn with fenced blocks, backticked spans, and quoted spans stripped, over two universal patterns and twenty-two personal Russian patterns; spec-style-lint.py reads any file handed to it line by line over a four-shape regex plus a definitional-lead heuristic"},
+        "model": {"status": "held", "where": "hooks/register-judge.py via hooks/register_judge_core.py", "law_text": "no naming a thing by denying its neighbour. The banned frame is 'X, not Y' / 'X — not Y', and in Russian «X, а не Y». It is banned when the denied half adds nothing the reader did not already have. A contrast between two things that BOTH genuinely exist and are both live for the reader is legitimate and passes."},
+        "person": {"status": "partial", "note": "whether the denied half is genuinely live for this reader, which is the call the exception turns on"}
+      },
+      "armed": ["session-stop-hook", "session-prompt-hook", "manual"],
+      "sources": [
+        "~/.claude/playbook/personal/profile.md:20",
+        "hooks/chat-law-hook.sh:10",
+        "hooks/scissors-scan.py:27",
+        "~/.claude/hooks/scissors-personal.json:1",
+        "docs/spec-style.md:52",
+        "docs/spec-style.md:67",
+        "scripts/spec-style-lint.py:122",
+        "scripts/spec-style-lint.py:206",
+        "docs/spec-format.md:36",
+        "docs/prose-quality-gate-design.md:19",
+        "docs/spec-compaction-protocol.md:75",
+        "~/.claude/skills/communicator/references/writing-register.md:93",
+        "~/.claude/skills/communicator/SKILL.md:434",
+        "~/.claude/skills/text-audit/SKILL.md:200",
+        "~/.claude/skills/spec-author/SKILL.md:136"
+      ],
+      "status": "held",
+      "notes": "The package default carries the exception the model judge states. The owner's profile calls the ban permanent with no exception, which is what personal_override records; ~/.claude/playbook/personal/profile.md:20 and ~/.claude/skills/communicator/SKILL.md:434 hold that form. scripts/spec-style-lint.py:126 hard-codes its own exemptions for `X, not only Y` and for an imperative `use A instead of B`; those exemptions must come from this file instead. The modal words never, no, only, and exactly-one are load-bearing and survive, per docs/spec-compaction-protocol.md:75."
+    },
+    {
+      "id": "r11",
+      "name": "an internal code leading a sentence to the reader",
+      "rule": "Plain words carry the meaning and an internal code trails: in chat it sits in parentheses at the sentence's end, and in a document it sits in square brackets at the line's end.",
+      "reader_test": "Does the sentence still carry its meaning with the code removed, and does the code stand anywhere other than at the end?",
+      "surfaces": ["spec-body", "human-prose", "chat", "artifact"],
+      "thresholds": {"max_anchor_codes": 3, "max_code_spans": 3, "criterion_baseline_over_cap": 61},
+      "catchers": {
+        "pattern": {"status": "held", "where": "hooks/code-anchor-scan.py, hooks/midturn-chat-scan.py, scripts/preshow-lint.py, guardrails/check-criterion-readability.py arm D", "reach": "code-anchor-scan.py reads every assistant message since the last human turn over six regexes, with parentheses, square brackets, table rows, fences, backticks, and quoted spans stripped as lawful; midturn-chat-scan.py reads the same text at the tool boundary and reports each fragment once per session; preshow-lint.py reads a file or stdin over one lead regex; the criterion arm reads PRODUCT_SPEC.md criteria only"},
+        "model": {"status": "held", "where": "hooks/register-judge.py via hooks/register_judge_core.py", "law_text": "no bare internal code opening a sentence to the human. A sentence shown to the person must not LEAD with an internal handle as its first token — an invariant code (INV-237), a roadmap or matrix row (row 422, M-419), a milestone or entity code (M-6, E-13, T-22), or a bare section number. The handle may TRAIL the plain sentence in parentheses as a quiet anchor once the words have carried the meaning; only a code standing as the opening token offends. Leading with the code is the agent talking to itself in its own filing system rather than to the reader. A sentence that opens in plain words and closes with a parenthetical anchor passes."},
+        "person": {"status": "partial", "note": "whether the plain sentence really carries the meaning the code was standing in for"}
+      },
+      "armed": ["session-stop-hook", "session-prompt-hook", "manual"],
+      "sources": [
+        "hooks/chat-law-hook.sh:8",
+        "hooks/code-anchor-scan.py:69",
+        "scripts/preshow-lint.py:26",
+        "guardrails/criterion-readability.json:110",
+        "docs/lenses.md:17",
+        "docs/spec-format.md:17",
+        "docs/roadmap-format.md:12",
+        "docs/architecture-format.md:16",
+        "docs/test-matrix-format.md:10",
+        "~/.claude/skills/live-spec-base/SKILL.md:52",
+        "~/.claude/playbook/personal/profile.md:11",
+        "~/.claude/skills/communicator/references/writing-register.md:66",
+        "~/.claude/skills/communicator/SKILL.md:254",
+        "~/.claude/skills/spec-author/SKILL.md:76"
+      ],
+      "status": "held",
+      "notes": "midturn-chat-scan.py runs at the PreToolUse event and denies the tool call so the correction reaches the human inside the turn. The anchor counts come from guardrails/criterion-readability.json and no prose home states them. code-anchor-scan.py:73 also catches a document name run against a number and code-anchor-scan.py:76 a spoken-space or hash variant, neither of which any prose home states. The criterion arm is armed nowhere."
+    },
+    {
+      "id": "r12",
+      "name": "a word grading how important or how good a thing is",
+      "rule": "A text states what a thing is or does and lets the reader weigh it, with no word grading importance or quality in either direction unless a concrete fact stands beside it.",
+      "reader_test": "Does this sentence tell the reader how much to care, rather than what happened?",
+      "surfaces": ["spec-body", "human-prose", "chat", "artifact", "commit", "worker-brief"],
+      "catchers": {
+        "pattern": {"status": "partial", "where": "~/.claude/hooks/scissors-personal.json", "reach": "the inflation patterns among the twenty-two personal Russian patterns, read over every assistant message since the last human turn"},
+        "model": {"status": "held", "where": "hooks/register-judge.py via hooks/register_judge_core.py, scripts/preshow-register-lint.py via hooks/register_judge_core.py", "law_text": "no grading importance or quality without a concrete fact. Praising or grading the WORTH of a thing — a thought, a result, a phrase, a rhyme, a design, a change — with an evaluative word and no fact behind it is banned. Grading how important, how good, or how strong something is, up or down, is the reader's own act; the text states what the thing IS or DOES and lets the reader weigh it. Banned as a class in any language: «сильная мысль», «сильный результат», «красивая рифма», «в разы лучше», \"a strong point\", \"a beautiful solution\", \"far better\", used as a verdict on worth rather than a statement of fact. A word that carries a FACT stays: \"cuts the query from 900ms to 40ms\" is a fact and passes; \"much faster\" with no number is a grade and offends. The class covers both poles — inflating up and dramatizing down are one bias — and it grades ANY object, a result included."},
+        "person": {"status": "partial", "note": "a grading phrase in a language neither pattern list covers"}
+      },
+      "armed": ["session-stop-hook"],
+      "sources": [
+        "~/.claude/playbook/personal/profile.md:25",
+        "~/.claude/playbook/personal/profile.md:30",
+        "~/.claude/playbook/personal/profile.md:36",
+        "~/.claude/hooks/scissors-personal.json:1",
+        "docs/spec-format.md:36",
+        "~/.claude/skills/text-audit/SKILL.md:204",
+        "~/.claude/skills/communicator/SKILL.md:281"
+      ],
+      "status": "held",
+      "notes": "The judge used to hold this class twice in one file, once for chat and once for documents, worded differently and numbered independently; both readers now take the one law text stated here, the chat judge through hooks/register-judge.py and the document lint through scripts/preshow-register-lint.py. The law binds chat, docs, worker reports, and agent-to-agent messages alike."
+    },
+    {
+      "id": "r13",
+      "name": "a sentence grading the person, or grading the writer's own act",
+      "rule": "A remark from the person is answered rather than graded, and the text never certifies its own honesty, directness, or rigour.",
+      "reader_test": "Does this sentence carry a fact, or a verdict on the person's remark or on the writer's own work?",
+      "surfaces": ["chat", "human-prose", "artifact", "worker-brief"],
+      "catchers": {
+        "pattern": {"status": "partial", "where": "hooks/affirmation-scan.py, ~/.claude/hooks/affirmation-personal.json, scripts/preshow-register-lint.py:105", "reach": "affirmation-scan.py reads every assistant message since the last human turn over ten English patterns with fences, backticks, and quoted spans stripped; the personal overlay adds twenty Russian patterns; the pre-show lint adds six self-certification patterns over any file handed to it"},
+        "model": {"status": "held", "where": "hooks/register-judge.py via ~/.claude/hooks/register-judge-personal.md:15", "law_text": "no validation of the person, and no self-praise. Two poles of one class, judged by meaning in any language."},
+        "person": {"status": "partial", "note": "a validation opener neither pattern list covers"}
+      },
+      "armed": ["session-stop-hook", "manual"],
+      "sources": [
+        "~/.claude/playbook/personal/profile.md:46",
+        "~/.claude/playbook/personal/profile.md:51",
+        "~/.claude/playbook/personal/profile.md:182",
+        "~/.claude/hooks/register-judge-personal.md:15",
+        "hooks/affirmation-scan.py:32",
+        "~/.claude/hooks/affirmation-personal.json:1",
+        "~/.claude/skills/communicator/SKILL.md:213",
+        "docs/lenses.md:275",
+        "scripts/preshow-register-lint.py:105"
+      ],
+      "status": "held",
+      "notes": "The class is split across two checkers by pole: affirmation-scan.py holds the person pole, preshow-register-lint.py holds the self-certification pole. The ten English phrasings live only in the script."
+    },
+    {
+      "id": "r14",
+      "name": "a sentence carrying no information",
+      "rule": "Every sentence shown to the person advances the finding, the decision, or the action, and a sentence that only performs a stance, prefaces, restates, softens, or ceremonially opens or closes is cut before sending. The ban is on a sentence carrying no fact of its own; a sentence that carries a fact the reader would otherwise lose stays, however short.",
+      "reader_test": "Would the reader lose a fact if this sentence were deleted?",
+      "surfaces": ["chat", "human-prose", "artifact", "worker-brief"],
+      "thresholds": {"min_reply_chars_judged": 120, "min_quote_chars": 12},
+      "exceptions": ["the closing recap r51 requires, which carries an answer the reader would otherwise lose inside a long reply"],
+      "catchers": {
+        "pattern": {"status": "absent", "where": "", "reach": ""},
+        "model": {"status": "held", "where": "hooks/register-judge.py via ~/.claude/hooks/register-judge-personal.md:1", "law_text": "no sentence that carries no information. This is compaction turned on what he reads: every sentence shown to him advances the finding, the decision, or the action. A sentence that only performs a stance, prefaces or frames without content, restates what he already has, softens, or ceremonially opens or closes is cut before sending."},
+        "person": {"status": "partial", "note": "whether a sentence the judge passed still restates what the reader already holds"}
+      },
+      "armed": ["session-stop-hook"],
+      "sources": [
+        "~/.claude/hooks/register-judge-personal.md:1",
+        "hooks/register-judge.py:30",
+        "hooks/register_judge_core.py:35"
+      ],
+      "status": "held",
+      "notes": "This law governs the classes r12, r13, and r15. The two thresholds bind every law the register judge holds: a reply under 120 characters is never judged, and an offence quote under twelve characters is dropped as a hallucination. No prose home states either number, nor that the judge ignores file paths, code, command output, and quoted text. The boundary against r51: a recap of a buried answer repeats words the message already carries, and it carries a fact the reader would otherwise lose, so it informs and this rule does not cut it. What this rule cuts is a sentence carrying no fact at all."
+    },
+    {
+      "id": "r15",
+      "name": "a word inflating a statement while adding nothing",
+      "rule": "A word or phrase that inflates a statement while adding no information is cut, and a phrase whose deletion changes nothing is deleted.",
+      "reader_test": "Does removing this word change what the sentence says?",
+      "surfaces": ["spec-body", "human-prose", "chat", "artifact", "worker-brief"],
+      "examples": [
+        {"written": "really", "repair": "delete"},
+        {"written": "actually", "repair": "delete"},
+        {"written": "truly", "repair": "delete"},
+        {"written": "in fact", "repair": "delete"},
+        {"written": "genuinely", "repair": "delete"},
+        {"written": "по-настоящему", "repair": "delete"},
+        {"written": "реально", "repair": "delete"},
+        {"written": "на самом деле", "repair": "delete"},
+        {"written": "действительно", "repair": "delete"},
+        {"written": "this changes everything", "repair": "delete"},
+        {"written": "at its core", "repair": "delete"},
+        {"written": "It is important to note that", "repair": "delete"},
+        {"written": "In practice", "repair": "delete"},
+        {"written": "Essentially", "repair": "delete"},
+        {"written": "very", "repair": "delete"},
+        {"written": "of course", "repair": "delete"},
+        {"written": "simply", "repair": "delete"}
+      ],
+      "catchers": {
+        "pattern": {"status": "partial", "where": "scripts/spec-style-lint.py:290", "reach": "one file line by line, over an eleven-phrase list plus a bare `simply` regex, blocking only under --gate or --tier full"},
+        "model": {"status": "held", "where": "hooks/register-judge.py via ~/.claude/hooks/register-judge-personal.md:9", "law_text": "no empty intensifier. A word or phrase that inflates a statement while adding no information is banned. Examples of the class, in any language: 'really', 'actually', 'truly', 'in fact', 'genuinely', «по-настоящему», «реально», «на самом деле», «действительно», 'this changes everything', 'at its core'."},
+        "person": {"status": "partial", "note": "an intensifier outside both lists"}
+      },
+      "armed": ["session-stop-hook", "manual"],
+      "sources": [
+        "~/.claude/hooks/register-judge-personal.md:9",
+        "~/.claude/skills/communicator/references/writing-register.md:63",
+        "scripts/spec-style-lint.py:290"
+      ],
+      "status": "held",
+      "notes": "The lint arm blocks only in gate mode and is armed nowhere."
+    },
+    {
+      "id": "r18",
+      "name": "the language each surface is written in",
+      "rule": "Documents, commits, code, and artifacts are written in English, and conversation runs in the human's pinned language.",
+      "reader_test": "Is this text in the language its surface is pinned to?",
+      "surfaces": ["spec-body", "human-prose", "chat", "artifact", "commit", "worker-brief"],
+      "exceptions": ["a file listed under user_language_globs in scripts/shipped-language-allowlist.json", "a deliberate program string recorded under cyrillic_waivers in the same file"],
+      "catchers": {
+        "pattern": {"status": "held", "where": "guardrails/check-shipped-language.sh driving scripts/check-shipped-language.py", "reach": "the whole tracked shipped set of the repository, reported as file and line"},
+        "model": {"status": "absent", "where": "", "law_text": ""},
+        "person": {"status": "absent", "note": "whether a pinned chat language still fits the reader"}
+      },
+      "armed": ["pre-push"],
+      "sources": [
+        "~/.claude/playbook/personal/profile.md:10",
+        "~/.claude/playbook/personal/profile.md:11",
+        "~/.claude/skills/live-spec-base/SKILL.md:528",
+        "scripts/shipped-language-allowlist.json:15",
+        "guardrails/pre-push:104"
+      ],
+      "status": "held",
+      "notes": "The package default mirrors the human's language for chat; this host pins Russian. The exemption list lives only as data."
+    },
+    {
+      "id": "r19",
+      "name": "an owner or personal name inside a shipped artifact",
+      "rule": "A shipped artifact carries no owner or personal name in a requirement.",
+      "reader_test": "Does this line name a person where it should name a role or an actor?",
+      "surfaces": ["spec-body", "artifact", "commit"],
+      "exceptions": ["an authorship byline recorded under name_waivers in scripts/shipped-language-allowlist.json", "a detector's own vocabulary naming the token it refuses, recorded in the same file"],
+      "catchers": {
+        "pattern": {"status": "held", "where": "scripts/check-shipped-language.py reading scripts/shipped-language-allowlist.json:4", "reach": "the whole tracked shipped set, over two name regexes covering both alphabets"},
+        "model": {"status": "absent", "where": "", "law_text": ""},
+        "person": {"status": "absent", "note": "a collaborator's name nobody has declared yet"}
+      },
+      "armed": ["pre-push"],
+      "sources": [
+        "docs/lenses.md:168",
+        "guardrails/README.md:43",
+        "guardrails/check-shipped-language.sh:3",
+        "scripts/shipped-language-allowlist.json:4"
+      ],
+      "status": "held",
+      "notes": "The names are declared as data, so covering another person is one line in the allowlist."
+    },
+    {
+      "id": "r20",
+      "name": "English that reads as compressed or poetic",
+      "rule": "English in a document or an artifact reads like a native technical writer: short subject-verb-object sentences, common words, and no poetic compression.",
+      "reader_test": "Could a native technical writer have written this sentence for an open-source project?",
+      "surfaces": ["spec-body", "human-prose", "artifact"],
+      "examples": [
+        {"written": "the sketch itself carries the look", "repair": "name the actor and say plainly what it does"}
+      ],
+      "catchers": {
+        "pattern": {"status": "absent", "where": "", "reach": ""},
+        "model": {"status": "absent", "where": "", "law_text": ""},
+        "person": {"status": "partial", "note": "a reader hears the register; the owner read the named anti-example as a second-language English"}
+      },
+      "armed": ["nowhere"],
+      "sources": [
+        "~/.claude/playbook/personal/profile.md:70",
+        "~/.claude/skills/text-audit/SKILL.md:207",
+        "~/.claude/skills/communicator/references/writing-register.md:3",
+        "docs/spec-format-by-project-type.md:66"
+      ],
+      "status": "stated-only",
+      "notes": "The repair beside the anti-example was written for this file; the home records the anti-example alone."
+    },
+    {
+      "id": "r21",
+      "name": "a domain noun with no glossary entry, or an entry no line uses",
+      "rule": "Every domain noun the document uses holds one one-sentence glossary entry, defined once under one name, and every entry is used by the body.",
+      "reader_test": "Does the glossary define this noun once, and does the body use every entry the glossary holds?",
+      "surfaces": ["spec-body"],
+      "exceptions": ["a word of ordinary English, which needs no entry"],
+      "catchers": {
+        "pattern": {"status": "partial", "where": "guardrails/check-vocabulary.py", "reach": "the glossary lines and requirements body of one document named on the command line; a term defined twice reds and a term no body line uses reds, while the converse is declared undecidable at guardrails/check-vocabulary.py:17"},
+        "model": {"status": "absent", "where": "", "law_text": ""},
+        "person": {"status": "partial", "note": "whether a domain noun the body uses is missing an entry"}
+      },
+      "armed": ["nowhere"],
+      "sources": [
+        "docs/spec-format.md:21",
+        "docs/roadmap-format.md:9",
+        "docs/architecture-format.md:13",
+        "docs/test-matrix-format.md:9",
+        "~/.claude/skills/spec-author/SKILL.md:109",
+        "~/.claude/skills/spec-author/SKILL.md:174",
+        "~/.claude/skills/text-audit/SKILL.md:82"
+      ],
+      "status": "stated-only",
+      "notes": "The architecture adds no second glossary; the glossary lives at the spec. text-audit widens the rule with an ordering duty the other homes do not carry: the definition comes before the noun's first working use. check-vocabulary.py is armed nowhere."
+    },
+    {
+      "id": "r23",
+      "name": "a word standing in all capitals",
+      "rule": "No word is written in all capitals, and force comes from the declarative statement itself.",
+      "reader_test": "Is this word in capitals because it is a name the project has defined, or to make the sentence louder?",
+      "surfaces": ["spec-body", "human-prose", "artifact"],
+      "exceptions": ["a code anchor", "a filename", "JSON", "CI", "HTML", "CSS", "RFC", "API", "URL", "UI", "MVP", "TTL", "MECE", "LLD", "HLD", "PRD", "README", "LICENSE", "OK", "MD", "CLI", "ID", "IDE", "NLP", "SPEC", "LIVE", "STATE", "NEXT", "NOW", "MUST", "SHALL", "NOTE", "QA", "TODO", "HEAD", "KPI", "UX", "FIXME", "VCS", "DOM", "PID", "OS", "CDN", "CDP", "ASCII", "ARCHITECTURE", "ROADMAP", "JOURNAL", "VERSION", "LIVE-STATE", "MIGRATION", "CHANGELOG", "MET", "OWED", "FLAG", "WATCHED", "OWNED", "AGREED", "NON-PROBLEM", "SOLVED", "ARCHIVED", "PROTOTYPE", "DECIDE", "CROSS-LINK", "FEATURE-FIT", "RE-ENTRY", "IDENTITY", "DIGEST", "HEARTBEAT", "CONVERGES", "WAITS", "STANDS", "DOWN", "EXPLICIT", "CONSERVATIVE", "SELF-TESTED", "MAJOR", "MINOR", "PATCH", "GB", "BMAD"],
+      "examples": [
+        {"written": "CHANGES", "repair": "changes"}
+      ],
+      "catchers": {
+        "pattern": {"status": "held", "where": "scripts/spec-style-lint.py:238, guardrails/check-requirement-shape.py", "reach": "one file line by line, with backticked and bracketed tokens excluded; advisory by default and blocking under --gate or --tier full"},
+        "model": {"status": "absent", "where": "", "law_text": ""},
+        "person": {"status": "partial", "note": "whether a capitalized token is a defined term earning a carve-out or a shout"}
+      },
+      "armed": ["manual"],
+      "sources": [
+        "docs/spec-format.md:17",
+        "docs/spec-style.md:34",
+        "docs/roadmap-format.md:11",
+        "docs/architecture-format.md:16",
+        "docs/test-matrix-format.md:10",
+        "docs/prose-quality-gate-design.md:19",
+        "scripts/spec-style-lint.py:238",
+        "~/.claude/skills/spec-author/SKILL.md:65",
+        "~/.claude/skills/text-audit/SKILL.md:99"
+      ],
+      "status": "held",
+      "notes": "The carve-out list lives here, and scripts/spec-style-lint.py:238 must read it from this file rather than keep its own copy. docs/spec-format.md:17 still states the old form, with no carve-out at all. A carve-out entry is a defined term, an acronym, a document name, or a closed-vocabulary value, and docs/spec-style.md:62 says the list is meant to grow. check-requirement-shape.py is armed nowhere."
+    },
+    {
+      "id": "r24",
+      "name": "the person a normative sentence speaks in",
+      "rule": "A normative sentence writes in the third person and binds a named actor.",
+      "reader_test": "Does this requirement name the actor it binds, rather than addressing the reader?",
+      "surfaces": ["spec-body"],
+      "exceptions": ["a double-quoted span citing the product's own voice", "a region marked informative"],
+      "catchers": {
+        "pattern": {"status": "held", "where": "scripts/spec-style-lint.py:272", "reach": "one file line by line, outside double-quoted spans; advisory by default and blocking under --gate or --tier full"},
+        "model": {"status": "absent", "where": "", "law_text": ""},
+        "person": {"status": "partial", "note": "whether a vague `it` or `the system` stands where a finer actor exists"}
+      },
+      "armed": ["manual"],
+      "sources": [
+        "docs/spec-style.md:23",
+        "docs/prose-quality-gate-design.md:20",
+        "scripts/spec-style-lint.py:272",
+        "~/.claude/skills/spec-author/SKILL.md:136"
+      ],
+      "status": "held",
+      "notes": "r24 and r25 are one rule read on two surfaces, and the block rule dissolves the clash between them: a numbered criterion is spec-body and a Context paragraph in the same file is human-prose, so the two never judge one sentence. The remaining defect is in the checker — scripts/spec-style-lint.py reds r25's surface today because its reach is the whole file rather than the numbered blocks."
+    },
+    {
+      "id": "r25",
+      "name": "the person an explanatory sentence speaks in",
+      "rule": "Explanatory text addresses the reader as `you` for what a person does, and names the component for what software does.",
+      "reader_test": "Does this sentence tell the reader what they do, in words spoken to them?",
+      "surfaces": ["human-prose", "artifact", "chat"],
+      "examples": [
+        {"written": "one", "repair": "you"},
+        {"written": "the user is expected to", "repair": "you"}
+      ],
+      "catchers": {
+        "pattern": {"status": "absent", "where": "", "reach": ""},
+        "model": {"status": "absent", "where": "", "law_text": ""},
+        "person": {"status": "partial", "note": "whether the actor in a sentence is a person or the software"}
+      },
+      "armed": ["nowhere"],
+      "sources": [
+        "~/.claude/skills/communicator/references/writing-register.md:41"
+      ],
+      "status": "stated-only",
+      "notes": "r25 and r24 are one rule read on two surfaces, and the block rule dissolves the clash between them: explanatory prose addresses the reader as `you` wherever it stands, including the prose paragraphs inside a spec file, while the numbered criteria in that same file take r24's third person. The remaining defect is in the checker — scripts/spec-style-lint.py reds this surface today because its reach is the whole file rather than the numbered blocks."
+    },
+    {
+      "id": "r26",
+      "name": "a sentence with no actor, or its action buried in a noun",
+      "rule": "A rule sentence says who does what and when, in the active voice with a named actor, and it carries its action in a verb rather than in a noun.",
+      "reader_test": "Does this sentence answer who does this, to what, and when, and is its action a verb rather than a noun?",
+      "surfaces": ["spec-body", "human-prose", "chat", "artifact"],
+      "exceptions": ["a passive sentence whose actor is genuinely irrelevant"],
+      "examples": [
+        {"written": "the verification of the claim occurs", "repair": "the suite verifies the claim"},
+        {"written": "Perform the reconciliation of", "repair": "reconcile"}
+      ],
+      "catchers": {
+        "pattern": {"status": "absent", "where": "", "reach": ""},
+        "model": {"status": "absent", "where": "", "law_text": ""},
+        "person": {"status": "partial", "note": "the actor check is item 5 of the text-audit checklist, a human or model read"}
+      },
+      "armed": ["nowhere"],
+      "sources": [
+        "~/.claude/skills/communicator/references/writing-register.md:39",
+        "docs/spec-style.md:23",
+        "docs/spec-format.md:24",
+        "~/.claude/skills/text-audit/SKILL.md:122",
+        "~/.claude/skills/communicator/references/writing-register.md:61"
+      ],
+      "status": "stated-only",
+      "notes": "r42, `a verb turned into a noun`, folded into this entry on 2026-07-28 and its id is retired: the two carried the identical example, `the verification of the claim occurs` → `the suite verifies the claim`, and one repair serves both — put the actor back and turn the noun into its verb."
+    },
+    {
+      "id": "r27",
+      "name": "an opener saying what a thing is not",
+      "rule": "A sentence opens with what a thing is, and never defines it by exclusion.",
+      "reader_test": "Does the opening clause say what the thing is before it says what it is not?",
+      "surfaces": ["spec-body", "human-prose", "artifact"],
+      "exceptions": ["a genuine prohibition stated as a plain imperative", "an opener led by a subordinator"],
+      "catchers": {
+        "pattern": {"status": "held", "where": "scripts/spec-style-lint.py:79", "reach": "one file block by block, over a twelve-word opening window of copulas, contracted copulas, and becoming verbs, after markdown markers and a leading bold title are stripped"},
+        "model": {"status": "absent", "where": "", "law_text": ""},
+        "person": {"status": "partial", "note": "an exclusion opener phrased outside the word set"}
+      },
+      "armed": ["manual"],
+      "sources": [
+        "docs/spec-style.md:35",
+        "docs/prose-quality-gate-design.md:20",
+        "scripts/spec-style-lint.py:79",
+        "~/.claude/skills/communicator/references/writing-register.md:90",
+        "~/.claude/skills/text-audit/SKILL.md:200"
+      ],
+      "status": "held",
+      "notes": ""
+    },
+    {
+      "id": "r29",
+      "name": "a sentence reassuring or inviting the reader",
+      "rule": "A normative sentence neither reassures nor invites the reader.",
+      "reader_test": "Does this sentence tell the reader how to feel about the rule, rather than state the rule?",
+      "surfaces": ["spec-body", "artifact"],
+      "exceptions": ["a region marked informative"],
+      "examples": [
+        {"written": "don't worry", "repair": "delete"},
+        {"written": "no need to", "repair": "delete"},
+        {"written": "feel free", "repair": "delete"},
+        {"written": "of course", "repair": "delete"},
+        {"written": "rest assured", "repair": "delete"},
+        {"written": "you can ignore", "repair": "delete"},
+        {"written": "you don't have to", "repair": "delete"},
+        {"written": "as we saw", "repair": "delete"},
+        {"written": "as noted above", "repair": "delete"},
+        {"written": "needless to say", "repair": "delete"},
+        {"written": "simply put", "repair": "delete"},
+        {"written": "let's", "repair": "name the actor and state the act"}
+      ],
+      "catchers": {
+        "pattern": {"status": "partial", "where": "scripts/spec-style-lint.py:290", "reach": "one file line by line, skipping marked informative regions, in gate mode alone"},
+        "model": {"status": "absent", "where": "", "law_text": ""},
+        "person": {"status": "partial", "note": "reassurance phrased outside the list"}
+      },
+      "armed": ["manual"],
+      "sources": [
+        "docs/spec-style.md:24",
+        "docs/prose-quality-gate-design.md:20",
+        "scripts/spec-style-lint.py:290"
+      ],
+      "status": "held",
+      "notes": "The arm is silent in default mode and runs only under --gate or --tier full. docs/prose-quality-gate-design.md:20 names five of the phrases and ends with an ellipsis; the list lives here now."
+    },
+    {
+      "id": "r30",
+      "name": "a rule narrated in the future tense",
+      "rule": "A rule is stated in the declarative present tense, with facts as facts.",
+      "reader_test": "Does this sentence say what is true, rather than what will happen?",
+      "surfaces": ["spec-body", "artifact"],
+      "exceptions": ["a region marked informative"],
+      "examples": [
+        {"written": "the card will show", "repair": "the card shows"}
+      ],
+      "lists": [
+        {
+          "name": "the verbs the future-tense scan reads after `will` or `shall`",
+          "source": "scripts/spec-style-lint.json",
+          "key": "future_narration_verbs"
+        }
+      ],
+      "catchers": {
+        "pattern": {"status": "partial", "where": "scripts/spec-style-lint.py:328", "reach": "one file line by line, over `will` or `shall` followed by one of the sixteen verbs in scripts/spec-style-lint.json, skipping marked informative regions, in gate mode alone"},
+        "model": {"status": "absent", "where": "", "law_text": ""},
+        "person": {"status": "partial", "note": "future narration carried by a verb outside the set"}
+      },
+      "armed": ["manual"],
+      "sources": [
+        "docs/spec-style.md:24",
+        "docs/prose-quality-gate-design.md:20",
+        "scripts/spec-style-lint.py:328"
+      ],
+      "status": "held",
+      "notes": "The verb set moved out of the script into scripts/spec-style-lint.json on 2026-07-28, so one edit reaches the scan and this rule's own list."
+    },
+    {
+      "id": "r31",
+      "name": "a birth-story standing inside a normative sentence",
+      "rule": "A normative body states the mechanism in the present tense, and the date and the case behind a rule live in the journal, the lens record, or a dated prover record.",
+      "reader_test": "Does this sentence carry a date, a version, or the story of how the rule came to be?",
+      "surfaces": ["spec-body", "artifact"],
+      "catchers": {
+        "pattern": {"status": "held", "where": "scripts/spec-style-lint.py, guardrails/check-no-history.py", "reach": "the lint reads one file line by line over three birth-story shapes; check-no-history.py reads the requirements body of one document from the first requirement on, exempting the preamble and the glossary, over ISO dates, month-and-year, bare years, recorded-word phrases, and history phrases"},
+        "model": {"status": "absent", "where": "", "law_text": ""},
+        "person": {"status": "partial", "note": "a birth-story told with no date in it"}
+      },
+      "armed": ["manual"],
+      "sources": [
+        "docs/spec-style.md:37",
+        "docs/spec-format.md:26",
+        "docs/lenses.md:3",
+        "docs/roadmap-format.md:13",
+        "docs/architecture-format.md:18",
+        "docs/test-matrix-format.md:11",
+        "guardrails/check-no-history.py:7",
+        "~/.claude/skills/live-spec-base/SKILL.md:112",
+        "~/.claude/skills/spec-author/SKILL.md:117"
+      ],
+      "status": "held",
+      "notes": "The homes scope the rule four ways: the normative body, the whole spec, the spec with the queue and the next-steps prose, and the requirements body alone. A dated line in a spec preamble passes the script and breaks docs/spec-format.md:26. check-no-history.py is armed nowhere."
+    },
+    {
+      "id": "r32",
+      "name": "a judgment with no judge and no measure",
+      "rule": "Every judgment names its judge and its inputs.",
+      "reader_test": "Who decides whether this is true, and by what measure?",
+      "surfaces": ["spec-body", "human-prose", "artifact"],
+      "examples": [
+        {"written": "broken", "repair": "name the judge and the measure"},
+        {"written": "worth", "repair": "name the judge and the measure"},
+        {"written": "better", "repair": "name the judge and the measure"},
+        {"written": "enough", "repair": "name the judge and the measure"},
+        {"written": "larger-than", "repair": "name the judge and the measure"}
+      ],
+      "catchers": {
+        "pattern": {"status": "absent", "where": "", "reach": "declared out of machine reach at guardrails/check-requirement-shape.py:29"},
+        "model": {"status": "absent", "where": "", "law_text": ""},
+        "person": {"status": "partial", "note": "whether the judge a sentence names can actually decide the question"}
+      },
+      "armed": ["nowhere"],
+      "sources": [
+        "docs/spec-format.md:24",
+        "~/.claude/skills/text-audit/SKILL.md:144",
+        "~/.claude/skills/text-audit/SKILL.md:175"
+      ],
+      "status": "stated-only",
+      "notes": ""
+    },
+    {
+      "id": "r33",
+      "name": "a relational word leaving its slot empty",
+      "rule": "A relational word fills every slot it opens, right where the word stands.",
+      "reader_test": "Relative to what, by what measure, or else what alternative?",
+      "surfaces": ["spec-body", "human-prose", "artifact"],
+      "exceptions": ["a slot filled by one of the recorded reference cues", "a line recorded as a `[GAP: ...]`"],
+      "examples": [
+        {"written": "a few", "repair": "state the exact quantity"},
+        {"written": "small", "repair": "state the measure"},
+        {"written": "recently", "repair": "state the date or the interval"},
+        {"written": "where sensible", "repair": "state the criterion, or delete"},
+        {"written": "if it helps", "repair": "state the criterion, or delete"},
+        {"written": "generally", "repair": "state the criterion, or delete"}
+      ],
+      "lists": [
+        {
+          "name": "the weak words the checker reads",
+          "source": "guardrails/weak-words.json",
+          "key": "weak_words"
+        },
+        {
+          "name": "the reference cues that count a slot as filled",
+          "source": "guardrails/weak-words.json",
+          "key": "reference_cues"
+        }
+      ],
+      "catchers": {
+        "pattern": {"status": "partial", "where": "guardrails/check-weak-words.py reading guardrails/weak-words.json", "reach": "the acceptance criteria of one document named on the command line, over 28 weak words, excused by 19 reference cues, by any digit in the criterion, or by a `[GAP]` line"},
+        "model": {"status": "absent", "where": "", "law_text": ""},
+        "person": {"status": "partial", "note": "whether the filled slot answers the question the word opened"}
+      },
+      "armed": ["nowhere"],
+      "sources": [
+        "docs/spec-format.md:25",
+        "docs/spec-format.md:38",
+        "docs/spec-style.md:30",
+        "docs/spec-style.md:32",
+        "guardrails/weak-words.json:3",
+        "guardrails/weak-words.json:10",
+        "~/.claude/skills/text-audit/SKILL.md:86",
+        "~/.claude/skills/text-audit/SKILL.md:158"
+      ],
+      "status": "stated-only",
+      "notes": "docs/spec-format.md:25 calls an unfilled slot a blocking finding while the script excuses it on any digit, so the excusing rule is looser than the stated rule. The word list in docs/spec-format.md:38 and the list in guardrails/weak-words.json are not the same list, and the cue list is stated only as data. check-weak-words.py is armed nowhere."
+    },
+    {
+      "id": "r34",
+      "name": "a hole in the source closed by an invention",
+      "rule": "A hole in the source is recorded as a visible `[GAP: what is missing]` line, and behaviour is never invented to close it.",
+      "reader_test": "Does the text state something no source backs?",
+      "surfaces": ["spec-body", "artifact"],
+      "catchers": {
+        "pattern": {"status": "partial", "where": "guardrails/check-requirement-shape.py", "reach": "one document named on the command line, over the form of the gap line alone; whether a gap carries an invented answer is declared out of reach at guardrails/check-requirement-shape.py:29"},
+        "model": {"status": "absent", "where": "", "law_text": ""},
+        "person": {"status": "partial", "note": "an invented definition reads clean to the next reader, so only a source check finds it"}
+      },
+      "armed": ["nowhere"],
+      "sources": [
+        "docs/spec-format.md:24",
+        "guardrails/check-requirement-shape.py:20",
+        "~/.claude/skills/text-audit/SKILL.md:181",
+        "~/.claude/skills/text-audit/SKILL.md:185"
+      ],
+      "status": "stated-only",
+      "notes": "check-requirement-shape.py is armed nowhere."
+    },
+    {
+      "id": "r35",
+      "name": "a term defined in place inside a criterion",
+      "rule": "A criterion uses a term the glossary already defines, and defines no term in place in a dash-pair aside or a parenthetical.",
+      "reader_test": "Does this aside explain a word, and does the glossary already hold that word?",
+      "surfaces": ["spec-body"],
+      "thresholds": {"max_aside_chars": 25, "baseline_hits": 120},
+      "lists": [
+        {
+          "name": "the words an in-place gloss opens on",
+          "source": "guardrails/criterion-readability.json",
+          "key": "arms.inline-gloss.threshold.gloss_openers"
+        }
+      ],
+      "catchers": {
+        "pattern": {"status": "partial", "where": "guardrails/check-criterion-readability.py arm B, reading guardrails/criterion-readability.json:15", "reach": "PRODUCT_SPEC.md acceptance criteria alone, plus the glossary terms used to name the already-defined term, over an aside past 25 characters opening on one of 22 gloss-opening words, counted against a baseline of 120"},
+        "model": {"status": "absent", "where": "", "law_text": ""},
+        "person": {"status": "partial", "note": "whether the term deserves a glossary entry at all"}
+      },
+      "armed": ["nowhere"],
+      "sources": [
+        "docs/spec-format.md:37",
+        "docs/spec-style.md:26",
+        "guardrails/criterion-readability.json:15"
+      ],
+      "status": "stated-only",
+      "notes": "A term not worth a glossary entry is not worth a gloss. check-criterion-readability.py is armed nowhere."
+    },
+    {
+      "id": "r36",
+      "name": "a criterion closing on a phrase with no finite verb",
+      "rule": "A criterion's closing clause is a finite sentence with its own subject and verb, or it is cut.",
+      "reader_test": "Does the clause this criterion ends on have a subject and a verb of its own?",
+      "surfaces": ["spec-body"],
+      "thresholds": {"min_tail_words": 4, "baseline_hits": 147},
+      "lists": [
+        {
+          "name": "the determiners a closing noun phrase opens on",
+          "source": "guardrails/criterion-readability.json",
+          "key": "arms.absolute-tail.threshold.np_openers"
+        },
+        {
+          "name": "the finite markers whose absence makes the closing clause a fragment",
+          "source": "guardrails/criterion-readability.json",
+          "key": "arms.absolute-tail.threshold.finite_markers"
+        }
+      ],
+      "catchers": {
+        "pattern": {"status": "partial", "where": "guardrails/check-criterion-readability.py arm C, reading guardrails/criterion-readability.json:54", "reach": "PRODUCT_SPEC.md acceptance criteria alone, over a closing clause of four or more words opening on one of 22 determiners, carrying none of 22 finite markers, and resting on a participle, counted against a baseline of 147"},
+        "model": {"status": "absent", "where": "", "law_text": ""},
+        "person": {"status": "absent", "note": "whether the closing clause carries a fact worth keeping once it is made finite"}
+      },
+      "armed": ["nowhere"],
+      "sources": [
+        "guardrails/criterion-readability.json:54",
+        "docs/spec-format.md:37",
+        "docs/language-defects.md:175"
+      ],
+      "status": "stated-only",
+      "notes": "The name this rule once carried was itself a minted metaphor; the owner's recorded verdict is that the thing it named does not exist. check-criterion-readability.py is armed nowhere."
+    },
+    {
+      "id": "r37",
+      "name": "a criterion carrying more than one trigger or response",
+      "rule": "One criterion carries one trigger and one response, and the keywords `when`, `while`, `if`, `then`, and `shall` are set in lowercase italics.",
+      "reader_test": "Can a reader name the single condition and the single consequence this criterion states?",
+      "surfaces": ["spec-body"],
+      "catchers": {
+        "pattern": {"status": "partial", "where": "guardrails/check-requirement-shape.py", "reach": "one document named on the command line, over the italic lowercase `shall` and the anchor's position; counting the keyword occurrences is declared out of reach at guardrails/check-requirement-shape.py:24"},
+        "model": {"status": "absent", "where": "", "law_text": ""},
+        "person": {"status": "partial", "note": "the atomicity of a criterion is a cold-reader judgment"}
+      },
+      "armed": ["nowhere"],
+      "sources": [
+        "docs/spec-format.md:17",
+        "docs/roadmap-format.md:10",
+        "docs/test-matrix-format.md:10",
+        "guardrails/check-requirement-shape.py:18",
+        "~/.claude/skills/spec-author/SKILL.md:60"
+      ],
+      "status": "stated-only",
+      "notes": "check-requirement-shape.py is armed nowhere."
+    },
+    {
+      "id": "r39",
+      "name": "a pronoun with no antecedent in its own sentence",
+      "rule": "`it`, `this`, and `they` stand only with an unambiguous same-sentence antecedent; otherwise the noun is repeated.",
+      "reader_test": "Can a reader say which thing this pronoun points at without looking back a sentence?",
+      "surfaces": ["spec-body", "human-prose", "artifact"],
+      "catchers": {
+        "pattern": {"status": "absent", "where": "", "reach": ""},
+        "model": {"status": "absent", "where": "", "law_text": ""},
+        "person": {"status": "absent", "note": "whether the antecedent is unambiguous for a reader who has not read the section"}
+      },
+      "armed": ["nowhere"],
+      "sources": [
+        "docs/spec-style.md:33"
+      ],
+      "status": "stated-only",
+      "notes": ""
+    },
+    {
+      "id": "r40",
+      "name": "a conditional leaving a case unaccounted for",
+      "rule": "A conditional takes the form `If X, the Y does Z`, with an explicit `otherwise` that accounts for every case.",
+      "reader_test": "Does this rule say what happens when the condition does not hold?",
+      "surfaces": ["spec-body", "artifact"],
+      "catchers": {
+        "pattern": {"status": "absent", "where": "", "reach": "docs/prose-quality-gate-design.md:22 names an optional `open-conditional` rule; a search over scripts/ and guardrails/ finds nothing built"},
+        "model": {"status": "absent", "where": "", "law_text": ""},
+        "person": {"status": "absent", "note": "whether the stated cases cover the space"}
+      },
+      "armed": ["nowhere"],
+      "sources": [
+        "docs/spec-style.md:31",
+        "docs/prose-quality-gate-design.md:22"
+      ],
+      "status": "stated-only",
+      "notes": ""
+    },
+    {
+      "id": "r41",
+      "name": "an example restating a rule that was already clear",
+      "rule": "An example inside prose a person reads earns its place by resolving an ambiguity, uses realistic values, and one worked case per rule is enough.",
+      "reader_test": "Could a reader have read this rule two ways without this example, and is this prose rather than a rule entry in the rule home?",
+      "surfaces": ["spec-body", "human-prose", "artifact"],
+      "catchers": {
+        "pattern": {"status": "absent", "where": "", "reach": ""},
+        "model": {"status": "absent", "where": "", "law_text": ""},
+        "person": {"status": "partial", "note": "the example audit is item 6 of the text-audit checklist, a human or model read"}
+      },
+      "armed": ["nowhere"],
+      "sources": [
+        "~/.claude/skills/communicator/references/writing-register.md:59",
+        "~/.claude/skills/text-audit/SKILL.md:124"
+      ],
+      "status": "stated-only",
+      "notes": "This rule governs an example standing INSIDE prose, where one worked case resolves the ambiguity and a second costs the reader time. It does not govern a rule entry in guardrails/language-rules.json, where r61 governs instead and the examples are the recorded evidence. The two read as one rule until each named its own subject, which is why r02 carries thirty pairs with no conflict: they are the word list its checkers match on."
+    },
+    {
+      "id": "r43",
+      "name": "an abstraction standing where a concrete noun would do",
+      "rule": "The text prefers the concrete noun, and grounds a genuinely required abstraction with a two- or three-item example at its first use.",
+      "reader_test": "Can the reader picture the thing this noun names?",
+      "surfaces": ["spec-body", "human-prose", "chat", "artifact"],
+      "examples": [
+        {"written": "an entity", "repair": "A screen, a panel, a saved file"}
+      ],
+      "catchers": {
+        "pattern": {"status": "absent", "where": "", "reach": ""},
+        "model": {"status": "absent", "where": "", "law_text": ""},
+        "person": {"status": "absent", "note": ""}
+      },
+      "armed": ["nowhere"],
+      "sources": [
+        "~/.claude/skills/communicator/references/writing-register.md:31"
+      ],
+      "status": "stated-only",
+      "notes": ""
+    },
+    {
+      "id": "r44",
+      "name": "a paragraph carrying more than one point",
+      "rule": "One paragraph carries one point, stated in its first sentence, with the rest supporting it.",
+      "reader_test": "Does a reader who reads only the first sentences of this section still follow it?",
+      "surfaces": ["spec-body", "human-prose", "artifact"],
+      "catchers": {
+        "pattern": {"status": "absent", "where": "", "reach": ""},
+        "model": {"status": "absent", "where": "", "law_text": ""},
+        "person": {"status": "absent", "note": ""}
+      },
+      "armed": ["nowhere"],
+      "sources": [
+        "~/.claude/skills/communicator/references/writing-register.md:15",
+        "docs/spec-format-by-project-type.md:66"
+      ],
+      "status": "stated-only",
+      "notes": ""
+    },
+    {
+      "id": "r45",
+      "name": "a long flat run of peer items at one level",
+      "rule": "A document is a tree of grouped topics, its levels nest without skipping, and a long flat run of peer items is gathered under headed parents.",
+      "reader_test": "Does this level hold a run of peer items with no grouping over them?",
+      "surfaces": ["spec-body", "human-prose", "artifact"],
+      "catchers": {
+        "pattern": {"status": "absent", "where": "", "reach": ""},
+        "model": {"status": "absent", "where": "", "law_text": ""},
+        "person": {"status": "partial", "note": "the structure check is item 10 of the text-audit checklist, a human or model read"}
+      },
+      "armed": ["nowhere"],
+      "sources": [
+        "~/.claude/skills/communicator/references/writing-register.md:69",
+        "~/.claude/skills/text-audit/SKILL.md:134"
+      ],
+      "status": "stated-only",
+      "notes": ""
+    },
+    {
+      "id": "r46",
+      "name": "a reply that buries its answer",
+      "rule": "A reply opens with the answer — the outcome, the decision, or the finding — in a few lines the reader may stop at, and puts reasoning, evidence, and options underneath.",
+      "reader_test": "Can the reader stop after the opening block and still hold the answer?",
+      "surfaces": ["chat", "human-prose", "artifact"],
+      "thresholds": {"reply_chars_above_which_a_lead_is_required": 550},
+      "lists": [
+        {
+          "name": "the lead signals, any one of which counts a lead as present",
+          "source": "hooks/answer-first-scan.json",
+          "key": "lead_signals",
+          "shape": "field",
+          "field": "description",
+          "note": "the reply fires only when every one of them fails"
+        }
+      ],
+      "catchers": {
+        "pattern": {"status": "partial", "where": "hooks/answer-first-scan.py", "reach": "the final assistant message of the turn alone; a reply past 550 characters whose opening block carries none of the three lead signals in hooks/answer-first-scan.json reds, and inter-tool narration stands out of scope by design"},
+        "model": {"status": "absent", "where": "", "law_text": ""},
+        "person": {"status": "partial", "note": "the scan measures whether a lead is present, never whether the lead is the right answer"}
+      },
+      "armed": ["session-stop-hook", "session-prompt-hook"],
+      "sources": [
+        "~/.claude/playbook/personal/profile.md:60",
+        "hooks/chat-law-hook.sh:7",
+        "hooks/answer-first-scan.py:37",
+        "~/.claude/skills/text-audit/SKILL.md:209",
+        "~/.claude/skills/communicator/SKILL.md:231"
+      ],
+      "status": "held",
+      "notes": "The threshold and the three lead signals moved out of the hook into hooks/answer-first-scan.json on 2026-07-28, so one edit reaches the scan and this rule's own list; the profile says a few lines."
+    },
+    {
+      "id": "r47",
+      "name": "a clock time in a reply read from anywhere but the clock",
+      "rule": "Every reply leads with a bracketed clock time, and every moment spoken to the human is read off the clock at write time.",
+      "reader_test": "Was this time read from the clock now, or continued from an earlier one?",
+      "surfaces": ["chat"],
+      "catchers": {
+        "pattern": {"status": "absent", "where": "", "reach": "~/.claude/hooks/clock-hook.sh supplies the current time on every prompt; no checker reads the reply for the stamp"},
+        "model": {"status": "absent", "where": "", "law_text": ""},
+        "person": {"status": "absent", "note": ""}
+      },
+      "armed": ["session-prompt-hook"],
+      "sources": [
+        "~/.claude/playbook/personal/profile.md:181",
+        "~/.claude/skills/communicator/SKILL.md:285",
+        "~/.claude/hooks/clock-hook.sh:1"
+      ],
+      "status": "stated-only",
+      "notes": "The hook arms the supply half; nothing reads the outgoing text."
+    },
+    {
+      "id": "r48",
+      "name": "an offer to do work the writer could already derive",
+      "rule": "A derivable act is done and reported done, and a work item is parked for the human only after a fresh test of whether it can be derived now.",
+      "reader_test": "Does this sentence offer to do something the writer already has everything to do?",
+      "surfaces": ["chat", "human-prose", "worker-brief"],
+      "examples": [
+        {"written": "just say the word", "repair": "do the act and report it done"},
+        {"written": "let me know if you want me to", "repair": "do the act and report it done"}
+      ],
+      "catchers": {
+        "pattern": {"status": "partial", "where": "hooks/hedge-scan.py, ~/.claude/hooks/hedge-personal.json, guardrails/check-deferral-marker.py", "reach": "hedge-scan.py reads every assistant message since the last human turn over eleven English patterns with quoted and fenced spans stripped, plus fourteen Russian patterns; check-deferral-marker.py reads NEXT_STEPS.md and docs/decisions/*.md"},
+        "model": {"status": "absent", "where": "", "law_text": ""},
+        "person": {"status": "partial", "note": "the scan names itself a first cheap filter on common hedge frames rather than the whole class"}
+      },
+      "armed": ["session-stop-hook", "session-prompt-hook", "pre-commit"],
+      "sources": [
+        "hooks/hedge-scan.py:7",
+        "hooks/hedge-scan.py:48",
+        "hooks/chat-law-hook.sh:12",
+        "~/.claude/hooks/hedge-personal.json:1",
+        "guardrails/pre-commit:25"
+      ],
+      "status": "held",
+      "notes": "A marker or a question that cannot name its fact is itself the finding. The eleven English phrasings live only in the script."
+    },
+    {
+      "id": "r49",
+      "name": "a mistake expanded into a self-audit paragraph",
+      "rule": "A mistake is owned in one line and fixed.",
+      "reader_test": "Does this passage explain the writer's own failure at more length than the fix takes?",
+      "surfaces": ["chat", "human-prose"],
+      "catchers": {
+        "pattern": {"status": "absent", "where": "", "reach": ""},
+        "model": {"status": "absent", "where": "", "law_text": ""},
+        "person": {"status": "partial", "note": "the register judge's zero-information law reaches the class; no law names this shape"}
+      },
+      "armed": ["nowhere"],
+      "sources": [
+        "~/.claude/playbook/personal/profile.md:184"
+      ],
+      "status": "stated-only",
+      "notes": ""
+    },
+    {
+      "id": "r50",
+      "name": "a working note handed to the reader unmarked, or a choice with no open answer",
+      "rule": "Dense working notes are marked so the reader can skip them, carry one idea per line, and every choice offered leaves room for a free-form answer.",
+      "reader_test": "Can the reader tell at a glance which lines are notes, and can they answer outside the options given?",
+      "surfaces": ["chat", "human-prose", "artifact"],
+      "catchers": {
+        "pattern": {"status": "absent", "where": "", "reach": ""},
+        "model": {"status": "absent", "where": "", "law_text": ""},
+        "person": {"status": "absent", "note": ""}
+      },
+      "armed": ["nowhere"],
+      "sources": [
+        "~/.claude/playbook/personal/profile.md:187"
+      ],
+      "status": "stated-only",
+      "notes": "The host's mark for a working note is «(себе)»."
+    },
+    {
+      "id": "r51",
+      "name": "a question of the reader's left unanswered or buried",
+      "rule": "A question that went unanswered during the work, or an answer buried inside a long reply, is recapped in one short line at the message's end.",
+      "reader_test": "Did the reader ask anything this message answers only in passing, or not at all?",
+      "surfaces": ["chat"],
+      "catchers": {
+        "pattern": {"status": "absent", "where": "", "reach": ""},
+        "model": {"status": "absent", "where": "", "law_text": ""},
+        "person": {"status": "absent", "note": ""}
+      },
+      "armed": ["nowhere"],
+      "sources": [
+        "~/.claude/playbook/personal/profile.md:189"
+      ],
+      "status": "stated-only",
+      "notes": "The recap this rule requires is the one restatement r14 does not cut, since it carries an answer the reader would otherwise lose in a long reply. r14 states the same boundary from its own side."
+    },
+    {
+      "id": "r52",
+      "name": "a task-list subject written in machine words",
+      "rule": "The session's task list on the human's screen speaks plain product words in the documents' language, understandable at a glance, and never a bare code chain.",
+      "reader_test": "Does a person glancing at this task subject know what is being done?",
+      "surfaces": ["human-prose", "chat"],
+      "catchers": {
+        "pattern": {"status": "absent", "where": "", "reach": ""},
+        "model": {"status": "absent", "where": "", "law_text": ""},
+        "person": {"status": "absent", "note": ""}
+      },
+      "armed": ["nowhere"],
+      "sources": [
+        "~/.claude/skills/communicator/SKILL.md:274"
+      ],
+      "status": "stated-only",
+      "notes": ""
+    },
+    {
+      "id": "r53",
+      "name": "human-facing prose drafted by a writer holding the project's own vocabulary",
+      "rule": "The first draft of prose a human will read is written by a fresh writer with no package rules loaded, working from a plain brief that states the facts, names the intended reader, and lists the rules binding the surface being drafted. A person who has read the rulebook reviews, revises, and holds that draft to the rules; what they hand over is the brief, not the prose.",
+      "reader_test": "Was this sentence first written by someone who had never read this project's skills, working from a brief?",
+      "surfaces": ["human-prose", "spec-body", "artifact"],
+      "exceptions": ["a revision of an existing draft, which the rulebook's own reader makes and is expected to make", "a text no human reads: a worker brief, a checkpoint, an internal working note"],
+      "catchers": {
+        "pattern": {"status": "absent", "where": "", "reach": ""},
+        "model": {"status": "held", "where": "scripts/spec-judge.py with scripts/judge-rubric.md", "law_text": "a fresh agent with the pack not loaded, judging the whole document in one context against a hash-pinned rubric, giving verbatim-quote evidence, with a seeded self-test canary"},
+        "person": {"status": "partial", "note": "whether the writer really held no package vocabulary"}
+      },
+      "armed": ["manual"],
+      "sources": [
+        "~/.claude/skills/live-spec-base/SKILL.md:232",
+        "docs/lenses.md:50",
+        "docs/spec-style.md:86",
+        "~/.claude/skills/spec-author/SKILL.md:132",
+        "docs/prose-quality-gate-design.md:40"
+      ],
+      "status": "held",
+      "notes": "The rule binds the DRAFTING step alone, because a writer marinated in this project's own vocabulary writes in that vocabulary; it disqualifies nobody from reviewing or revising. A cold reader of the 2026-07-28 reading took the earlier wording to bar anyone who had read the rulebook from writing at all, which would have barred that reader from the page they were assigned. `The rules binding the surface being drafted` is what a brief lists, and docs/language-rules.md gives that roster per surface. The homes split between who writes and who judges, and they scope the unit differently: the section an edit touches, or the whole document. The drafting half has no checker."
+    },
+    {
+      "id": "r54",
+      "name": "a changed section shipped without a cold reader",
+      "rule": "A changed section is read by fresh readers who carry no project context, until two consecutive reads return zero blocking findings. A finding blocks when the reader could not go on with the text, or would have applied it wrongly; every other finding is one the reader noticed and read past.",
+      "reader_test": "Did a reader with no project context read this section and stop nowhere?",
+      "surfaces": ["spec-body", "human-prose", "artifact"],
+      "thresholds": {"consecutive_clean_reads": 2},
+      "exceptions": ["the cold reader running a read is handed the section while the bar is still unmet, since a read is how the bar gets measured"],
+      "catchers": {
+        "pattern": {"status": "absent", "where": "", "reach": ""},
+        "model": {"status": "absent", "where": "", "law_text": ""},
+        "person": {"status": "partial", "note": "the text-audit loop is run by a person or a model; no script decides whether it ran"}
+      },
+      "armed": ["nowhere"],
+      "sources": [
+        "docs/spec-format.md:40",
+        "docs/roadmap-format.md:15",
+        "docs/architecture-format.md:22",
+        "docs/test-matrix-format.md:13",
+        "~/.claude/skills/spec-author/SKILL.md:565",
+        "~/.claude/skills/text-audit/SKILL.md:64"
+      ],
+      "status": "stated-only",
+      "notes": "Four format documents carry the same sentence verbatim."
+    },
+    {
+      "id": "r55",
+      "name": "an anchor, marker, heading, or literal changed by a rewrite",
+      "rule": "A rewrite leaves anchors, structural marker lines, headings, and the literal classes standing verbatim, and every delta is named and verified.",
+      "reader_test": "Does every anchor, heading, number with a unit, backticked path, and quoted sentinel appear exactly as it did before?",
+      "surfaces": ["spec-body", "artifact"],
+      "lists": [
+        {
+          "name": "the literal classes a rewrite leaves standing",
+          "source": "scripts/spec-freeze.json",
+          "key": "literal_classes",
+          "shape": "field",
+          "field": "description"
+        },
+        {
+          "name": "the structural marker lines a rewrite leaves standing",
+          "source": "scripts/spec-freeze.json",
+          "key": "marker_lines",
+          "shape": "field",
+          "field": "description",
+          "note": "a Formal-index table row is excluded, since that row only describes a rule and may mention `[target]` in passing"
+        }
+      ],
+      "catchers": {
+        "pattern": {"status": "held", "where": "guardrails/check-freeze.sh with scripts/spec-freeze.py", "reach": "the guarded documents recorded in .spec-freeze/, over the anchor occurrence map, the per-section anchor sets, and the marker lines and literal classes declared in scripts/spec-freeze.json"},
+        "model": {"status": "absent", "where": "", "law_text": ""},
+        "person": {"status": "partial", "note": "whether a named delta is a change someone intended"}
+      },
+      "armed": ["pre-push"],
+      "sources": [
+        "docs/spec-compaction-protocol.md:11",
+        "docs/spec-compaction-protocol.md:20",
+        "docs/spec-compaction-protocol.md:24",
+        "docs/spec-style.md:39",
+        "docs/architecture-format.md:114",
+        "docs/lenses.md:120",
+        "docs/prose-quality-gate-design.md:61",
+        "guardrails/pre-push:164"
+      ],
+      "status": "held",
+      "notes": "A word-token count alone is not proof; the punctuation multiset is checked beside it. The frozen classes moved out of the script into scripts/spec-freeze.json on 2026-07-28, so one edit reaches the freeze and this rule's own list."
+    },
+    {
+      "id": "r56",
+      "name": "one fact stated a second time in another place",
+      "rule": "One fact lives in one home, and every other place points at that home rather than restating it.",
+      "reader_test": "Does another place in this project already state this fact?",
+      "surfaces": ["spec-body", "human-prose", "artifact"],
+      "thresholds": {"jaccard_min": 0.6, "containment_min": 0.85, "min_unit_tokens": 6},
+      "catchers": {
+        "pattern": {"status": "held", "where": "scripts/spec-redundancy-precheck.py", "reach": "the document handed to it, over segmented sentence and bullet units above the similarity thresholds; the gate closes when no candidate pair stands open or waived"},
+        "model": {"status": "held", "where": "scripts/spec-judge.py", "law_text": "a paraphrase of a fact another place already states is redundant, and compaction never cuts anything whose removal would change meaning"},
+        "person": {"status": "partial", "note": "which of two homes should own the fact"}
+      },
+      "armed": ["manual"],
+      "sources": [
+        "docs/prose-quality-gate-design.md:33",
+        "~/.claude/skills/live-spec-base/SKILL.md:64",
+        "~/.claude/skills/live-spec-base/SKILL.md:13",
+        "docs/lenses.md:143",
+        "docs/test-matrix-format.md:47",
+        "docs/roadmap-format.md:56"
+      ],
+      "status": "held",
+      "notes": "A second full statement of a shared rule inside a working skill is drift to fold at the next milestone."
+    },
+    {
+      "id": "r57",
+      "name": "a phrase the human cut returning in a later draft",
+      "rule": "A phrasing the human killed in a review round stays out of every later draft of that artifact, and an approved text takes exactly the correction the human named.",
+      "reader_test": "Has the human already cut this wording from this artifact?",
+      "surfaces": ["human-prose", "artifact"],
+      "catchers": {
+        "pattern": {"status": "absent", "where": "templates/KILL_LIST.template.md", "reach": "a host-side kill-list scanner reads the human's cuts as dated literals; this repository ships the template alone, with no kill list and no scanner"},
+        "model": {"status": "absent", "where": "", "law_text": ""},
+        "person": {"status": "partial", "note": "a cut word resurfacing two rounds later looks like a fresh idea, so only a recorded list catches it"}
+      },
+      "armed": ["nowhere"],
+      "sources": [
+        "~/.claude/skills/communicator/SKILL.md:393",
+        "~/.claude/skills/communicator/SKILL.md:405",
+        "guardrails/README.md:188",
+        "docs/lenses.md:287"
+      ],
+      "status": "stated-only",
+      "notes": "A ban written down and not scanned for did not hold; the scanner ended it."
+    },
+    {
+      "id": "r61",
+      "name": "a defect recorded as examples with no class behind them",
+      "rule": "When a text stops a reader, the writer names the class of mistake and defines it, and the class is what enters the rule home. Inside a rule entry there, the examples are the recorded evidence that produced the class and the material a pattern list is built from, so an entry carries as many as the class earned.",
+      "reader_test": "Does the entry state what the mistake IS, so a writer can find an instance nobody has met yet?",
+      "surfaces": ["spec-body", "human-prose", "chat", "artifact", "commit", "worker-brief"],
+      "catchers": {
+        "pattern": {"status": "absent", "where": "", "reach": ""},
+        "model": {"status": "absent", "where": "", "law_text": ""},
+        "person": {"status": "held", "note": "the writer names the class when the entry is added; nothing else decides whether a class was named"}
+      },
+      "armed": ["manual"],
+      "sources": [],
+      "status": "held",
+      "notes": "This rule governs how an entry is added to guardrails/language-rules.json, so an entry carrying examples with no class statement breaks it. It governs the rule entry; r41 governs an example inside prose a person reads, where one worked case is enough. His words (2026-07-27 17:27): «найди такие штуки как класс и определи их, можешь?» and «не словариком. тогда всех примеров не было бы этих наверху»."
+    },
+    {
+      "id": "r62",
+      "name": "a sentence open to two readings, or hiding its cause or what it leaves out",
+      "rule": "A reader reaches one interpretation of a sentence, sees what causes what, and can tell what the text leaves out.",
+      "reader_test": "Can a reader read this sentence one way only, name what it makes happen, and say which alternatives it passed over?",
+      "surfaces": ["spec-body", "human-prose", "chat", "artifact"],
+      "catchers": {
+        "pattern": {"status": "absent", "where": "", "reach": ""},
+        "model": {"status": "absent", "where": "", "law_text": ""},
+        "person": {"status": "absent", "note": ""}
+      },
+      "armed": ["nowhere"],
+      "sources": [],
+      "status": "stated-only",
+      "notes": "He asks whether these three can be turned into numbers; the question stands open. His words (2026-07-27 16:55): «хотелось бы както квантифицировать легкочитаемость. Это можно? Однозначность интерпретации? Понятная причинно-следственная связь. Понимание альтернатив которые не упомянуты но ясны из контекста?»"
+    }
+  ]
+}

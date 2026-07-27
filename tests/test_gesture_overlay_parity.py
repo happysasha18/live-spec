@@ -11,7 +11,7 @@ import os
 import sys
 import unittest
 
-from conftest import ROOT, read_flat
+from conftest import ROOT, criteria_citing, read, read_flat
 
 sys.path.insert(0, os.path.join(ROOT, "guardrails"))
 import archformat  # the one node reader every consumer reads through (SPEC INV-280)
@@ -23,16 +23,24 @@ def _read(rel):
 
 class TestGestureOverlayParityLens(unittest.TestCase):
     def test_spec_clause_names_the_three_groups(self):
-        spec = read_flat("PRODUCT_SPEC.md")
-        self.assertIn("a standing lens the design review runs by construction", spec)
+        # the lens's own framing lives in the requirement's Context block
+        self.assertIn("a standing lens the design review runs by construction",
+                      read_flat("PRODUCT_SPEC.md"))
+        # the three groups and how each behaves are read from INV-165's own criteria, each
+        # criterion taken with the bullets under it — what the second and third groups owe
+        # now sits in those bullets.
+        clause = criteria_citing(read("PRODUCT_SPEC.md"), "INV-165")
+        self.assertTrue(clause, "INV-165 has no declaring criterion in PRODUCT_SPEC.md")
         # entry mirrors exit
-        self.assertIn("entry-mirrors-exit as the first group", spec)
-        self.assertIn("a layer closes by the reverse of the motion that opened it", spec)
+        self.assertIn("entry-mirrors-exit as the first group", clause)
+        self.assertIn("a layer closes by the reverse of the motion that opened it", clause)
         # every object type behaves alike, each to its own rectangle
-        self.assertIn("every object type the gesture acts on as the second group", spec)
-        self.assertIn("landing back on its own on-screen rectangle", spec)
+        self.assertIn("every object type the gesture acts on as the second group", clause)
+        self.assertIn("lands back on its own on-screen rectangle", clause)
         # every position behaves alike
-        self.assertIn("every position as the third group", spec)
+        self.assertIn("every position as the third group", clause)
+        self.assertIn("the same gesture on the same type in a different slot behaves the same",
+                      clause)
 
     def test_spec_anchor_and_index_row(self):
         # INDEX-ROW pattern (RECIPE): the Reference table now carries locations only,

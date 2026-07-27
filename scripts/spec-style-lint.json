@@ -1,0 +1,8 @@
+{
+  "_comment": "The word sets scripts/spec-style-lint.py matches on, held here rather than inside the script's regular expressions, so one edit reaches both the lint and the rule a writer reads. docs/language-rules.md prints these lists inside the rules that name them, read out of this file at build time. The lint's OTHER list, the machine-jargon word set, lives in guardrails/spec-coinages.json because guardrails/check-vocabulary.py reads it too.",
+  "future_narration_verbs": [
+    "be", "show", "shows", "display", "appear", "open", "contain",
+    "return", "carry", "report", "hold", "become", "run", "fire", "land", "ship"
+  ],
+  "_future_narration_comment": "A reference spec states what is true in the present. The scan fires on `will` or `shall` followed by one of these verbs — scoped to a verb set rather than every `will`, so an ordinary sentence about a person's intention is left alone. Order is the order the regular expression alternates in; it does not change what matches."
+}

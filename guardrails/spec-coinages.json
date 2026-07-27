@@ -1,11 +1,20 @@
 {
-  "_comment": "Banned coinages for the spec-format vocabulary gate (SPEC INV-254). Each key is a coined or metaphorical word the method has retired; its value is the plain standard term to use instead. The list grows as the cold-reader panel (Area 5) and the no-coined-names rule catch more. It must never contain a word the clean corpus legitimately uses.",
+  "_comment": "The ONE home for the words this project replaces with a plain standard term, read by both of its readers: guardrails/check-vocabulary.py (over a whole document named on the command line) and scripts/spec-style-lint.py (line by line, as its machine-jargon arm). The two kept separate lists until 2026-07-28, so a word added to one was invisible to the other; they are merged here. Each key is a coined, minted, or machine word the method has retired; its value is the plain standard term to use instead. It must never contain a word the clean corpus legitimately uses. docs/language-rules.md prints this map inside r02, read out of this file at build time, so the page and both checkers can never disagree.",
   "coinages": {
     "needle": "check-phrase",
     "thingamajig": "component",
     "widgetize": "render",
     "synergize": "combine",
     "leverage": "use",
-    "utilize": "use"
+    "leveraging": "using",
+    "utilize": "use",
+    "utilizes": "uses",
+    "utilization": "use",
+    "serialized": "written out",
+    "questionnaire": "question set",
+    "instantiate": "create",
+    "instantiated": "created",
+    "functionality": "what it does",
+    "performant": "fast"
   }
 }

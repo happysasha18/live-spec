@@ -28,7 +28,7 @@ import sys
 import tempfile
 import unittest
 
-from conftest import ROOT, read, read_flat
+from conftest import ROOT, criteria_citing, read, read_flat
 
 sys.path.insert(0, os.path.join(ROOT, "guardrails"))
 import archformat  # the one node reader every consumer reads through (SPEC INV-280)
@@ -52,17 +52,13 @@ def _declaration(anchor):
     bracket — not sole occupancy of it — is what makes a line the anchor's declaration. Scoping a
     needle to the declaration keeps a check from passing off the index row or a neighbouring
     clause that merely cites the code (ROADMAP row 384, the vacuous-pass class).
+
+    A criterion is read together with the indented bullets under it: the format carries an
+    in-place definition in those bullets, so half a criterion's content sits there while the
+    code bracket stays on the criterion line. Reading the two apart would leave a declared fact
+    invisible to its own anchor's check.
     """
-    tail_re = re.compile(r"\[([^\[\]]*)\]\s*$")
-    found = []
-    for l in read(SPEC).splitlines():
-        s = l.rstrip()
-        if s.lstrip().startswith("|"):
-            continue
-        m = tail_re.search(s)
-        if m and anchor in [c.strip() for c in m.group(1).split(",")]:
-            found.append(l)
-    return " ".join(" ".join(found).split()) if found else ""
+    return criteria_citing(read(SPEC), anchor)
 
 
 def _architecture_owners(anchor):
@@ -1072,12 +1068,15 @@ class TestDeclarationLaw(unittest.TestCase, _AnchorHomeMixin):
         # rest rationale). The behavioural half stays asserted above from its own criterion.
 
     def test_cardless_tree_is_flagged_beside_its_siblings(self):
-        spec = read_flat(SPEC)
-        self.assertIn(
-            "the rank a project kind recorded with no declared layers carries", spec)
+        clause = self.assert_declared("INV-184")
         self.assertIn(
             "an inventoried live-spec host tree carries no `.live-spec/agent.md`, the system "
-            "*shall* flag it as an incomplete record", spec)
+            "*shall* flag it as an incomplete record", clause)
+        # the rank the flag carries now sits in a bullet under its own criterion, so the
+        # declaration is read with its bullets rather than the whole file
+        self.assertIn(
+            "an incomplete record ranks the same as a project kind recorded with no declared "
+            "layers", clause)
 
     def test_inv184_index_and_ownership(self):
         self.assert_index_and_ownership("INV-184")
@@ -1092,12 +1091,13 @@ class TestMessageLifecycle(unittest.TestCase, _AnchorHomeMixin):
     terminal state every message reaches."""
 
     def test_message_carries_a_stable_identifier(self):
-        spec = read_flat(SPEC)
+        clause = self.assert_declared("INV-192")
         self.assertIn("the system *shall* mint a stable identifier per message from the "
-                      "sender's session identity", spec)
-        self.assertIn("an exchange *shall* be keyed to its first message's identifier, which "
-                      "every reply names", spec)
-        self.assertIn("INV-192, INV-117]", spec)  # code always co-brackets in the new format
+                      "sender's session identity", clause)
+        # the keying rides a bullet under the minting criterion, stated as a standing fact
+        self.assertIn("an exchange is keyed to its first message's identifier, which "
+                      "every reply names", clause)
+        self.assertIn("INV-192, INV-117]", clause)  # code always co-brackets in the new format
 
     def test_reply_travels_the_senders_own_inbox(self):
         spec = read_flat(SPEC)
@@ -1281,7 +1281,7 @@ class TestWrongReferralNamed(unittest.TestCase, _AnchorHomeMixin):
         clause = self.assert_declared("INV-225")
         self.assertIn("the system *shall* name the wrong referral in the sender's status "
                       "report", clause)
-        self.assertIn("a referral that pointed at a zone which, by its own referring-back, "
+        self.assertIn("a wrong referral pointed at a zone which, by its own referring-back, "
                       "does not own the target", clause)
         self.assertIn("name the wrong referral in the sender's status report", clause)
 

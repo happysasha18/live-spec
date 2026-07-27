@@ -1,81 +1,108 @@
 {
- "_comment": "Which hooks under hooks/ are wired live into ~/.claude/settings.json, and to which event surface. check-judge-listed.py (SPEC INV-211, gate v) reds when a wired judge is absent from its surface's hook array — the no-verdict failure of a judge whose file is present but whose settings.json entry is gone. A library hook is one the pack does not wire into its default settings.json — a hook invoked by another hook (register_judge_core), a data file a hook reads (chat-calques.json, the calque list midturn-chat-scan.py judges by), or an OPT-IN hook a host turns on by adding it to their own settings.json (the conduct-judge arms, the lean-orchestrator-scan net); gate v never demands a library hook be live, so an opt-in net keeps the suite green until a host enables it. Every file under hooks/ must appear in exactly one of the two lists, or the gate reds asking that it be classified — the self-widening honesty config-health (gate m) already uses.",
- "_installer_fields_comment": "ROADMAP row 506: 'file'/'command'/'matcher'/'data'/'personal_overlay' let the setup walk GENERATE its coverage from this declaration instead of hand-keeping a second list that drifts. 'file' is the repo hooks/ basename (the wired key carries no extension). 'command' is the plain invocation form this host's ~/.claude/settings.json actually carries today (read 2026-07-27) — for a hook this host also wraps in the personal, unshipped counter ~/.claude/hooks/hook-meter.py, 'command' still states the PLAIN form, since hook-meter.py is the personal layer's own instrument (its docstring says so) and is never installed or assumed by the pack; an installer detects a hook already wired in ANY form (plain or meter-wrapped) by the hook's filename appearing in the existing command string, so a host's own meter-wrapped entry is left exactly as it stands, never re-written to the plain form. 'matcher' names the PreToolUse/Stop matcher the entry carries in settings.json today, null where none (every one of the ten today). 'data' lists the shipped hooks/ files a hook reads at runtime beside its own file (turn_reader.py, chat-calques.json, register_judge_core.py, register-judge.py), installed alongside it. 'personal_overlay' names the optional per-hook file pattern that lives ONLY on a host's machine (never shipped, never created or overwritten by an installer, reported by name when present) — this is distinct from hook-meter.py, which is a cross-cutting personal wrapper rather than one hook's own overlay.",
- "wired": {
-  "clock-hook": "UserPromptSubmit",
-  "chat-law-hook": "UserPromptSubmit",
-  "register-judge-report": "UserPromptSubmit",
-  "scissors-scan": "Stop",
-  "answer-first-scan": "Stop",
-  "hedge-scan": "Stop",
-  "register-judge-collect": "Stop",
-  "affirmation-scan": "Stop",
-  "code-anchor-scan": "Stop",
-  "midturn-chat-scan": "PreToolUse"
- },
- "library": [
-  "chat-calques",
-  "register-judge",
-  "register_judge_core",
-  "turn_reader",
-  "conduct-judge",
-  "conduct-judge-collect",
-  "conduct-judge-report",
-  "conduct-law",
-  "lean-orchestrator-scan"
- ],
- "file": {
-  "clock-hook": "clock-hook.sh",
-  "chat-law-hook": "chat-law-hook.sh",
-  "register-judge-report": "register-judge-report.sh",
-  "scissors-scan": "scissors-scan.py",
-  "answer-first-scan": "answer-first-scan.py",
-  "hedge-scan": "hedge-scan.py",
-  "register-judge-collect": "register-judge-collect.sh",
-  "affirmation-scan": "affirmation-scan.py",
-  "code-anchor-scan": "code-anchor-scan.py",
-  "midturn-chat-scan": "midturn-chat-scan.py"
- },
- "command": {
-  "clock-hook": "sh ~/.claude/hooks/clock-hook.sh",
-  "chat-law-hook": "sh ~/.claude/hooks/chat-law-hook.sh",
-  "register-judge-report": "sh ~/.claude/hooks/register-judge-report.sh",
-  "scissors-scan": "python3 ~/.claude/hooks/scissors-scan.py",
-  "answer-first-scan": "python3 ~/.claude/hooks/answer-first-scan.py",
-  "hedge-scan": "python3 ~/.claude/hooks/hedge-scan.py",
-  "register-judge-collect": "sh ~/.claude/hooks/register-judge-collect.sh",
-  "affirmation-scan": "python3 ~/.claude/hooks/affirmation-scan.py",
-  "code-anchor-scan": "python3 ~/.claude/hooks/code-anchor-scan.py",
-  "midturn-chat-scan": "python3 ~/.claude/hooks/midturn-chat-scan.py"
- },
- "matcher": {
-  "clock-hook": null,
-  "chat-law-hook": null,
-  "register-judge-report": null,
-  "scissors-scan": null,
-  "answer-first-scan": null,
-  "hedge-scan": null,
-  "register-judge-collect": null,
-  "affirmation-scan": null,
-  "code-anchor-scan": null,
-  "midturn-chat-scan": null
- },
- "data": {
-  "clock-hook": [],
-  "chat-law-hook": [],
-  "register-judge-report": [],
-  "scissors-scan": ["turn_reader.py"],
-  "answer-first-scan": [],
-  "hedge-scan": ["turn_reader.py"],
-  "register-judge-collect": ["register-judge.py", "register_judge_core.py", "turn_reader.py"],
-  "affirmation-scan": ["turn_reader.py"],
-  "code-anchor-scan": ["turn_reader.py"],
-  "midturn-chat-scan": ["turn_reader.py", "chat-calques.json"]
- },
- "personal_overlay": {
-  "register-judge-collect": ["register-judge-personal.md"],
-  "scissors-scan": ["scissors-personal.json"],
-  "hedge-scan": ["hedge-personal.json"],
-  "affirmation-scan": ["affirmation-personal.json"]
- }
+  "_comment": "Which hooks under hooks/ are wired live into ~/.claude/settings.json, and to which event surface. check-judge-listed.py (SPEC INV-211, gate v) reds when a wired judge is absent from its surface's hook array — the no-verdict failure of a judge whose file is present but whose settings.json entry is gone. A library hook is one the pack does not wire into its default settings.json — a hook invoked by another hook (register_judge_core), a data file a hook reads (chat-calques.json, the calque list midturn-chat-scan.py judges by), or an OPT-IN hook a host turns on by adding it to their own settings.json (the conduct-judge arms, the lean-orchestrator-scan net); gate v never demands a library hook be live, so an opt-in net keeps the suite green until a host enables it. Every file under hooks/ must appear in exactly one of the two lists, or the gate reds asking that it be classified — the self-widening honesty config-health (gate m) already uses.",
+  "_installer_fields_comment": "ROADMAP row 506: 'file'/'command'/'matcher'/'data'/'personal_overlay' let the setup walk GENERATE its coverage from this declaration instead of hand-keeping a second list that drifts. 'file' is the repo hooks/ basename (the wired key carries no extension). 'command' is the plain invocation form this host's ~/.claude/settings.json actually carries today (read 2026-07-27) — for a hook this host also wraps in the personal, unshipped counter ~/.claude/hooks/hook-meter.py, 'command' still states the PLAIN form, since hook-meter.py is the personal layer's own instrument (its docstring says so) and is never installed or assumed by the pack; an installer detects a hook already wired in ANY form (plain or meter-wrapped) by the hook's filename appearing in the existing command string, so a host's own meter-wrapped entry is left exactly as it stands, never re-written to the plain form. 'matcher' names the PreToolUse/Stop matcher the entry carries in settings.json today, null where none (every one of the ten today). 'data' lists the shipped hooks/ files a hook reads at runtime beside its own file (turn_reader.py, chat-calques.json, register_judge_core.py, register-judge.py), installed alongside it. 'personal_overlay' names the optional per-hook file pattern that lives ONLY on a host's machine (never shipped, never created or overwritten by an installer, reported by name when present) — this is distinct from hook-meter.py, which is a cross-cutting personal wrapper rather than one hook's own overlay.",
+  "wired": {
+    "clock-hook": "UserPromptSubmit",
+    "chat-law-hook": "UserPromptSubmit",
+    "register-judge-report": "UserPromptSubmit",
+    "scissors-scan": "Stop",
+    "answer-first-scan": "Stop",
+    "hedge-scan": "Stop",
+    "register-judge-collect": "Stop",
+    "affirmation-scan": "Stop",
+    "code-anchor-scan": "Stop",
+    "midturn-chat-scan": "PreToolUse"
+  },
+  "library": [
+    "chat-calques",
+    "language-laws",
+    "register-judge",
+    "register_judge_core",
+    "turn_reader",
+    "conduct-judge",
+    "conduct-judge-collect",
+    "conduct-judge-report",
+    "conduct-law",
+    "lean-orchestrator-scan"
+  ],
+  "file": {
+    "clock-hook": "clock-hook.sh",
+    "chat-law-hook": "chat-law-hook.sh",
+    "register-judge-report": "register-judge-report.sh",
+    "scissors-scan": "scissors-scan.py",
+    "answer-first-scan": "answer-first-scan.py",
+    "hedge-scan": "hedge-scan.py",
+    "register-judge-collect": "register-judge-collect.sh",
+    "affirmation-scan": "affirmation-scan.py",
+    "code-anchor-scan": "code-anchor-scan.py",
+    "midturn-chat-scan": "midturn-chat-scan.py"
+  },
+  "command": {
+    "clock-hook": "sh ~/.claude/hooks/clock-hook.sh",
+    "chat-law-hook": "sh ~/.claude/hooks/chat-law-hook.sh",
+    "register-judge-report": "sh ~/.claude/hooks/register-judge-report.sh",
+    "scissors-scan": "python3 ~/.claude/hooks/scissors-scan.py",
+    "answer-first-scan": "python3 ~/.claude/hooks/answer-first-scan.py",
+    "hedge-scan": "python3 ~/.claude/hooks/hedge-scan.py",
+    "register-judge-collect": "sh ~/.claude/hooks/register-judge-collect.sh",
+    "affirmation-scan": "python3 ~/.claude/hooks/affirmation-scan.py",
+    "code-anchor-scan": "python3 ~/.claude/hooks/code-anchor-scan.py",
+    "midturn-chat-scan": "python3 ~/.claude/hooks/midturn-chat-scan.py"
+  },
+  "matcher": {
+    "clock-hook": null,
+    "chat-law-hook": null,
+    "register-judge-report": null,
+    "scissors-scan": null,
+    "answer-first-scan": null,
+    "hedge-scan": null,
+    "register-judge-collect": null,
+    "affirmation-scan": null,
+    "code-anchor-scan": null,
+    "midturn-chat-scan": null
+  },
+  "data": {
+    "clock-hook": [],
+    "chat-law-hook": [],
+    "register-judge-report": [],
+    "scissors-scan": [
+      "turn_reader.py"
+    ],
+    "answer-first-scan": [
+      "answer-first-scan.json"
+    ],
+    "hedge-scan": [
+      "turn_reader.py"
+    ],
+    "register-judge-collect": [
+      "register-judge.py",
+      "register_judge_core.py",
+      "turn_reader.py",
+      "language-laws.json"
+    ],
+    "affirmation-scan": [
+      "turn_reader.py"
+    ],
+    "code-anchor-scan": [
+      "turn_reader.py"
+    ],
+    "midturn-chat-scan": [
+      "turn_reader.py",
+      "chat-calques.json"
+    ]
+  },
+  "personal_overlay": {
+    "register-judge-collect": [
+      "register-judge-personal.md"
+    ],
+    "scissors-scan": [
+      "scissors-personal.json"
+    ],
+    "hedge-scan": [
+      "hedge-personal.json"
+    ],
+    "affirmation-scan": [
+      "affirmation-personal.json"
+    ]
+  }
 }

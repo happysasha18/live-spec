@@ -1,0 +1,23 @@
+{
+  "_comment": "The measurements hooks/answer-first-scan.py reads, held here rather than as constants inside the script, so one edit reaches both the hook and the rule a writer reads. docs/language-rules.md prints the signals inside r46, read out of this file at build time. Installed beside the hook at ~/.claude/hooks/ and declared under `data` for answer-first-scan in guardrails/judge-hooks.json.",
+  "reply_chars_above_which_a_lead_is_required": 550,
+  "_floor_comment": "A reply shorter than this owes no engineered lead — it is already brief enough to read at a glance. A tunable proxy threshold, not a law (SPEC INV-70).",
+  "lead_signals": [
+    {
+      "id": "opening_sentence",
+      "max_chars": 220,
+      "description": "the opening sentence runs to 220 characters or fewer, ending at the first `.`, `!`, `?`, `:` or newline"
+    },
+    {
+      "id": "opening_block",
+      "max_chars": 450,
+      "description": "the opening block — everything up to the first blank line — runs to 450 characters or fewer"
+    },
+    {
+      "id": "structure",
+      "pattern": "^\\s*(#{1,6}\\s|[-*+]\\s|\\d+[.)]\\s|>\\s|\\|)",
+      "description": "the opening block is scannable structure: a heading, a bulleted or numbered list item, a blockquote, or a table row"
+    }
+  ],
+  "_signals_comment": "A lead is PRESENT when any ONE of these three holds, and the hook fires only when all three fail — a conservative OR that keeps the false-positive rate at zero on genuine lead-first replies. The first is the strongest: it separates a lead from a wall of method that runs one long sentence before its first stop."
+}

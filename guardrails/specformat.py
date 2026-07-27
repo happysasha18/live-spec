@@ -18,6 +18,13 @@ THE FORMAT, in the shapes this parser returns:
 - A CASE is `**Case: name**`, followed by numbered CRITERIA.
 - A CRITERION is a line `N. text ... [CODE]`, numbered continuously through its requirement, sitting
   in exactly one case, trailing a code anchor at the line's end. A `[GAP: ...]` line may sit under it.
+- A criterion may carry a SUB-LIST: indented `- ` bullet lines directly under its numbered line, each
+  holding one more piece of that criterion's rule. The bullets belong to the criterion, so a gate
+  that reads a criterion's prose reads them too: `crit.bullets` holds them in order, and
+  `crit.pieces` returns the criterion's own body first and then each bullet. The sub-list ends at the
+  next criterion, the next case heading, the next requirement, or a blank line followed by
+  unindented text. Without this, moving words from a criterion line into bullets under it drops them
+  out of every prose gate's reach while the text a person reads stays the same length.
 
 The code anchor is one or more `[...]` groups at the line's end; a group holds codes like `INV-250`,
 `T-9`, `E-35`, `A-5`, `ACT-3`, or a range `T-1..T-7`, comma-separated, and may be preceded by a
@@ -45,6 +52,26 @@ AC_RE = re.compile(r"^###\s+Acceptance Criteria")
 CRITERION_RE = re.compile(r"^(\s*)(\d+)\.\s+(.*\S)\s*$")
 GAP_RE = re.compile(r"\[GAP:")
 GLOSSARY_TERM_RE = re.compile(r"^\s*-\s+\*\*(.+?)\*\*\s+—\s+(.*\S)\s*$")
+# A bullet of a criterion's sub-list: an indented `- ` line. The glossary's own `- **term**` lines
+# sit at column zero, so the indent is what separates the two.
+BULLET_RE = re.compile(r"^[ \t]+[-*+]\s+(.*\S)\s*$")
+
+# The label `pieces` gives a criterion's own body, so a gate can tell it from a bullet's label.
+CRITERION_LINE = "the criterion line"
+
+
+class Bullet(object):
+    """One indented bullet under a criterion line, carrying a piece of that criterion's rule."""
+
+    def __init__(self, text, line_no, index):
+        self.text = text                # the bullet's text after its `- ` marker
+        self.line_no = line_no          # 1-based source line
+        self.index = index              # 1-based position under its criterion
+
+    @property
+    def label(self):
+        """How a gate names this bullet to a writer."""
+        return "bullet %d" % self.index
 
 
 class Criterion(object):
@@ -55,6 +82,7 @@ class Criterion(object):
         self.line_no = line_no          # 1-based source line
         self.case = None                # the case name it sits under (or None)
         self.gap_lines = []             # any [GAP: ...] lines recorded beneath it
+        self.bullets = []               # Bullet objects of its sub-list, in order
 
     @property
     def codes(self):
@@ -83,6 +111,16 @@ class Criterion(object):
         """The criterion text with its trailing anchor stripped."""
         a = self.anchor
         return self.text[: self.text.rfind(a)].rstrip() if a else self.text
+
+    @property
+    def pieces(self):
+        """The criterion's sentences in reading order: its own body first, then each bullet of its
+        sub-list. Each piece is `(label, text, line_no)`. A gate that measures a criterion's prose
+        measures every piece, so words moved from the line into a bullet stay in reach."""
+        out = [(CRITERION_LINE, self.body, self.line_no)]
+        for b in self.bullets:
+            out.append((b.label, b.text, b.line_no))
+        return out
 
 
 class Requirement(object):
@@ -158,8 +196,17 @@ def parse(text):
     cur_case = None
     in_ac = False
     last_crit = None
+    bullet_owner = None                 # the criterion whose sub-list is open here
+    prev_blank = True
     for i, raw in enumerate(lines):
         s = raw.strip()
+        if not s:
+            prev_blank = True
+            continue
+        if prev_blank and raw[:1] not in (" ", "\t"):
+            # A blank line and then unindented text close the open sub-list.
+            bullet_owner = None
+        prev_blank = False
         mreq = REQUIREMENT_RE.match(s)
         if mreq:
             cur_req = Requirement(int(mreq.group(1)), mreq.group(2).strip(), i + 1)
@@ -167,6 +214,7 @@ def parse(text):
             cur_case = None
             in_ac = False
             last_crit = None
+            bullet_owner = None
             continue
         if cur_req is None:
             continue
@@ -185,6 +233,7 @@ def parse(text):
             cur_case = mcase.group(1).strip()
             cur_req.cases.append(cur_case)
             last_crit = None
+            bullet_owner = None
             continue
         # A [GAP: ...] line attaches to the criterion above it.
         if GAP_RE.search(s) and CRITERION_RE.match(raw) is None:
@@ -197,6 +246,13 @@ def parse(text):
             crit.case = cur_case
             cur_req.criteria.append(crit)
             last_crit = crit
+            bullet_owner = crit
+            continue
+        # An indented bullet under an open criterion is a piece of that criterion.
+        mbul = BULLET_RE.match(raw)
+        if mbul and bullet_owner is not None:
+            bullet_owner.bullets.append(
+                Bullet(mbul.group(1).strip(), i + 1, len(bullet_owner.bullets) + 1))
             continue
     return doc
 

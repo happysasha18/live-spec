@@ -1,357 +1,293 @@
-# The language defects
+# Where the language rules came from
 
-This document holds the ways live-spec's own texts stop a reader, paired with the rule that closes each
-one. It covers every text a person reads: the product spec, the architecture document, the README, a
-decision page, a report, a message in chat.
+This document is the record behind the rules this project states about its own writing. The record
+covers four things:
 
-A *defect class* is a mistake that shows up across many sentences. Repairing the sentence in front of a
-reader leaves the rest of them standing. Each class below carries one name for the mistake. A writer then
-finds every instance, and a reader says which class a stop belongs to.
+- where the rules came from, and who read what and stopped where;
+- the one thing every text owes its reader;
+- how a class of mistake becomes a rule;
+- what no script and no model will ever find.
 
-## Where these came from
+live-spec is this project: a set of skills, scripts, and gates that a person and an agent use together
+to write, prove, and ship software. A gate is a script that refuses a commit or a push when the thing
+it guards is wrong. The texts described below are this project's own documents.
 
-Two readers were given text with no context on 2026-07-27 and asked one question: where they stopped.
+Three words carry the weight on this page, and each names its own thing. A **class** is the shape of a
+mistake: the form it takes wherever it turns up. A **rule** is what an entry states about one class —
+the sentence that removes it, a question to ask of a sentence, and what finds a break. A **catcher** is
+whatever finds that break: a literal pattern in a script, a model reading for meaning, or a person
+reading the text.
 
-The English reader was given six requirements from `PRODUCT_SPEC.md`, with its Glossary section held
-back. Any host project that adopts live-spec keeps its own glossary the same way, at the head of its own
-spec. The grammar held and the structure read as professional. The text ran on ordinary English nouns
-carrying jobs only this project knows: seat, net, door, home, walk, lens, handle, frame, law, tier.
-It also used "red" as a verb, meaning to report something as a failure. Of the six requirements, the
-reader could implement two from the text alone and one after asking the author questions. Three were left
-undone, since the lists and default values those rules depend on were never given. Two of the missing
-lists are named in class 7 below: the inline pattern list and the six file-dump verbs. This document does
-not name the rest. The longest sentence ran 107 words, counting
-whitespace-separated tokens including its trailing anchors. That is more than four times the 25-word
-length above which a sentence is flagged for a look (class 8, below). It carried four term definitions
-inside one instruction.
+The rules themselves live elsewhere, on two pages with one reader each. `docs/language-rules.md` is
+the writer's page: it gives each rule in a sentence, a question to ask of a sentence, the surfaces the
+rule binds, examples, exceptions, thresholds, and every list the rule names.
+`docs/language-rule-coverage.md` is the maintainer's page: it gives each rule's catchers with how far
+each one reaches, where each is armed, and where the rule was stated before the source became its one
+home. Read the writer's page to write, and read this page to know why those rules say what they say.
 
-The Russian reader was given six paragraphs of working chat: twenty stops in about 250 words. The words
-guessed wrong or not at all were ноги, руки, полоса, якоря, работники, засеяна, храповик, перебазируется,
-живость, ссылки, отступили, остаток. Each is Russian grammar carrying an English dictionary. That reader also
-named two habits without being asked: things act like people, and one thing carries two names in
-neighbouring sentences.
+## The people on this page
 
-The owner then read a first rewrite drafted in chat, applying these rules, and stopped six more times.
-Two of the six are shown below, under the rule against publishing a text that contradicts a rule it
-states.
-This document does not carry the other four; the writer records a stop here only once its source keeps
-producing it.
+Four roles appear on this page: the writer, the reader, a cold reader, and the owner.
+
+- **The writer** drafts a text here. The writer is a person, or the agent working for one.
+- **The reader** reads that text afterwards, carrying whatever context they happen to have.
+- **A cold reader** is given the text alone: no repository, no history of earlier drafts, and no chance
+  to ask the writer a question.
+- **The owner** is the person whose project this is. He reads drafts and stops on sentences.
+
+One person often holds more than one of those roles in a day.
+
+A rule enters this project from a read that stopped. Some rules came from a cold reader stopping, and
+some from the owner stopping; the readings recorded below name which produced what.
 
 ## The one demand
 
-A reader owes the text nothing. The writer must give the reader every word, number, or list the writing
-depends on.
+A reader owes the text nothing. The writer gives the reader every word, number, and list the writing
+depends on. Each of them appears where it is used, or in one named place the sentence points to.
 
-Every word, number, or list a sentence depends on is given where used, or in one place the sentence
-points to by name. The eight classes below hold the named ways writing falls short of that demand.
+Every rule in `docs/language-rules.md` names one way a text falls short of that demand.
 
-The first four are about names. The fifth is about who acts. The sixth and seventh are about ground the
-text never gave. The eighth is about the shape of a sentence.
+## Where the rules live, and how to run their catchers
 
----
+`docs/language-rule-coverage.md` names each rule's catchers and says how far each one reaches. Each
+rule also carries a short identifier such as `r02`, and this page names a rule by that identifier.
 
-## 1. An ordinary word carrying a private job
+Five files carry the rules: the file every rule is edited in, the writer's page, the maintainer's page,
+the generator behind all three, and the gate over the set. Run every command below from the repository
+root, the directory that holds `PRODUCT_SPEC.md`, `guardrails/`, and `scripts/`.
 
-An everyday word is handed a meaning only this project knows. The reader recognises the word, builds the
-everyday picture, and reads on. The mistake surfaces three sentences later, or never. The reader does
-not know they have stopped, so the writer never learns of it.
+- `guardrails/language-rules.json` — the source. Every rule is edited here and nowhere else.
+- `docs/language-rules.md` — the writer's page. A hand edit here is thrown away by the next run of the
+  generator.
+- `docs/language-rule-coverage.md` — the maintainer's page, generated from the same source and thrown
+  away the same way.
+- `scripts/gen-language-consumers.py` — the generator. It reads the source and writes both pages, plus
+  `hooks/language-laws.json`, the file carrying the rules in the form the judging model reads.
+- `guardrails/check-language-rules.py` — the gate. It refuses a page that has drifted from the source,
+  and a rule pointing at a file or a line that is gone.
 
-| Written | Repair |
-| --- | --- |
-| `the seat` | the session doing the orchestrating |
-| `red a violation after the fact` | report the violation as a failure once the turn ends |
-| `the net-liveness meter` | the count of how often each check ran and how often it fired |
-| `door` | the entry point a queued request is classified into before any code is written: feature, bug, refactor, docs-only, or skip |
-| `walk` | the pipeline's own path for one queued request, from capture to landing |
-| `lens` | one named check a document is read against, testing one concern |
-| `tier` | the model level a piece of work runs at: a one-shot worker, a multi-step worker, or the session doing the orchestrating |
-| `handle` | an internal identifier that trails a human-facing line instead of opening it: a spec code, a row or session number, or a coined name |
-| `law` | a standing rule the pack holds conduct to, judged after the fact rather than issued as a one-time instruction |
-| `frame` | no single meaning across the project. It appears inside three compound terms: `offering-hedge frame`, `touchpoint-kind frame`, `contrast-frame`. Only `offering-hedge frame` is defined again in this document, below; the other two live only in other project files |
-| `храповик записал порог` | the script wrote the threshold down |
-| `живость проверок` | how often the checks actually run |
-| `ноги` | the acceptance criteria and open items under a requirement |
-| `руки` | the parts of a check |
-| `якоря` | the bracketed codes trailing a line; the plain Russian is «коды в конце строки» |
-| `работники` | the helper processes the session dispatches |
-| `засеяна` | the starting numbers were recorded |
-| `перебазируется` | the recorded limit is lowered to the new measurement |
-| `ссылки` | the branch and tag references kept in git |
-| `остаток` | what is still undone on an item |
+```
+python3 scripts/gen-language-consumers.py
+python3 guardrails/check-language-rules.py
+```
 
-The Russian list above carries the same defect into another language. Each word there is an
-English term translated straight into Russian, one word at a time. The result is a real Russian word
-that a Russian reader cannot connect to any meaning this project gives it.
+### Running a script catcher
 
-**The rule.** A word keeps its everyday meaning. A term this project needs holds one glossary entry, and
-the body then uses it with no definition attached. A sentence carries at most one such term. In another
-language, name the thing the way a working engineer in that language names it. Where that language has no
-such word, describe the thing in a short phrase. A term is never carried across word for word.
+Each rule's entry names the file that carries its own script catcher. Those files are Python scripts,
+and each takes the text to read as its argument:
 
-**Caught by.** The known-words list in `guardrails/spec-coinages.json` catches a known word in a second. A model reading can flag a
-common noun used as a term of art, with noise. A word nobody has caught yet is found by a person reading
-with no context, and by nothing else.
+```
+python3 guardrails/check-vocabulary.py PRODUCT_SPEC.md
+python3 scripts/preshow-register-lint.py docs/language-rules.md
+```
 
----
+Every one of them prints one line naming what it read and how far it looked. A passing run therefore
+says how much of the text it covered.
 
-## 2. An invented name standing where a working name exists
+### Running the model catcher
 
-The project mints a word for a thing the industry already named. The reader who knows the industry word
-is now guessing whether this is the same thing or a different one.
+The model catcher is one model call, made by `hooks/register_judge_core.py`. That module is handed the
+text together with the rules binding the text's surface, which it reads from `hooks/language-laws.json`,
+and it answers with the sentences that break one. Two scripts make the call, one on each surface it
+runs on today.
 
-| Written | Repair |
-| --- | --- |
-| `lane` | branch |
-| `home` (of a fact) | the file that holds the fact |
-| `leg` (of work) | an open item |
-| `полоса` | branch |
-| `хвост без глагола` | none |
+On chat, `hooks/register-judge.py` makes the call. `hooks/register-judge-collect.sh` runs at the
+session's Stop event, starts that script in the background and returns at once;
+`hooks/register-judge-report.sh` runs when the person sends their next message and prints whatever
+verdict landed in the meantime. The reply that broke a rule has been read by then, so the correction
+reaches the person one turn later. To make the call by hand, give the script a Stop-hook payload naming
+a session transcript on its standard input:
 
-The last one has no repair, because it points to nothing. The owner's answer: there is no such thing as a
-tail without a verb; that phrase is invented. A minted name can point at an object that does not exist,
-and the writer may never notice.
+```
+printf '{"transcript_path": "%s"}' ~/.claude/projects/PROJECT/SESSION.jsonl \
+  | python3 hooks/register-judge.py
+```
 
-**The rule.** Where the industry has a word, write the industry's word. Where nothing exists, describe the
-thing in plain words. Mint a name only when the description would repeat often enough that the name saves
-the reader work. A minted name gets a glossary entry the first time it appears.
+When the turn breaks a rule, the script prints one JSON line. It names what broke and tells the session
+to hold its reply until a correction goes out. A clean turn gets no output.
 
-**Caught by.** A list of pairs catches a pair already known (`lane` → `branch`). A person decides whether
-to keep a minted name and whether it points at a real thing. A model that knows the industry vocabulary
-can propose candidates and is wrong often enough to need a reader.
+On a document, `scripts/preshow-register-lint.py` makes the call, at the moment a document is about to
+be shown to a person. One call took about 33 seconds when it was measured on 2026-07-17, almost all of
+it the harness starting up, so the call stays off unless the environment variable
+`PRESHOW_REGISTER_JUDGE` is set to `1`:
 
----
+```
+PRESHOW_REGISTER_JUDGE=1 python3 scripts/preshow-register-lint.py docs/language-defects.md
+```
 
-## 3. Nouns stacked as a name, with the relation unstated
+Either script stands down on its own breakage: no `claude` binary on the path, a timeout, or an answer
+the script cannot parse leaves the text unjudged, says so on standard error, and blocks nothing.
 
-Two or three nouns are pushed together into a name, and the relation between them is left for the reader
-to guess. `chat-law reminder` — a reminder about the chat laws, a reminder the chat laws produce, or a
-reminder stored beside them? All three readings are grammatical.
+### Running the person catcher
 
-| Written | Repair |
-| --- | --- |
-| `chat-law reminder` | the text that repeats the chat laws in every prompt |
-| `reminder-history` | how many times this law has been broken before |
-| `break-record law` | the rule for where a broken law is written down |
-| `offering-hedge frame` | a phrase that offers to do something the session could already do |
-| `worker-dispatch count` | how many workers the session has dispatched |
+A person reads the text and says where the reading stopped. The section below on the readings that
+produced the rules says how one of those readings is run and what it returns.
 
-**The rule.** A name holds one noun. Where two nouns must appear together, a verb or a preposition
-between them carries the relation.
+## What a break costs you
 
-**Caught by.** A machine finds every stacked name that has no glossary entry. That candidate is a
-hyphenated compound, or two nouns in a row used as a name. Whether the relation is carried is then a
-short human read, or a model read for volume.
+Each entry in `docs/language-rule-coverage.md` carries a status — whether a catcher runs the rule
+today — and the event it runs at. That page defines both sets of words at its top, and what a break
+costs is read there: a gate refuses a commit or a push, a session hook holds the reply and asks for a
+correction, a manual step waits for a person, and many rules are armed nowhere and bind the writer and
+the cold reader alone.
 
----
+The rules are grouped by the kind of text they bind, which the source calls a surface. A surface is a
+kind of text and not a file, so one file carries several: the numbered criteria of a spec are one
+surface and that same file's paragraphs are another. `docs/language-rules.md` defines the six surfaces
+with an example each, and gives the roster of rules binding each one.
 
-## 4. Two names for one thing
+## The readings that produced the rules
 
-A writer gives one object a second name a sentence later. The reader then spends effort deciding whether
-two things are in play.
+### Two cold readers, 2026-07-27
 
-Requirement 232 of the product spec uses four words for its objects within three sentences:
+The English reader was given six requirements from the spec (`PRODUCT_SPEC.md`) with its glossary held
+back, and was asked to name every place the reading stopped. That reader found no fault with the
+grammar and called the structure professional work. The text used ordinary English nouns for jobs only
+this project knows: seat, net, door, home, walk, lens, handle, frame, law, tier. It also used "red" as
+a verb, meaning to report something as a failure.
 
-- **signal** — the title's category word for both checks, in "Two Stop-hook soft signals"
-- **gate** — the title's name for the first check, in "the hedge gate"
-- **arm** — the title's name for the second check, in "the lean-orchestrator arm"
-- **net** — the glossary's own word for any hook or guard, reused in the user story's "each law backed
-  by a cheap literal net"
+Of the six requirements, that reader could build two from the text alone. For a third, the reader wrote
+down the questions whose answers the requirement was missing; a cold reading has no channel to ask
+them, so that requirement stood unbuilt with its questions beside it. The remaining three the reader
+did not attempt. The lists and the default values those three rules depend on were never given anywhere
+in the text.
 
-Three of the four are Requirement 232's own words for two checks: one category and two instances. The
-fourth is the whole spec's word for any hook or guard, defined in the glossary and reused here. A reader
-who has not read the glossary cannot sort the four into two groups.
+The Russian reader was given six paragraphs of working chat, about 250 words, and stopped twenty times.
+That is a stop every thirteen words, in a text meant to be read straight through. Every word that
+stopped him was made by translating an English term of this project's own into Russian, one word at a
+time. The result each time was a real Russian word that carries none of the meaning this project gives
+it. `docs/language-rules.md` records those words with their plain replacements, under the rule about a
+word standing where a plain standard word exists (`r02`).
 
-The writer repeated the same mistake in the Russian chat, in two neighbouring sentences: «пуш-удаление»
-("a deletion push") and «удаляющий пуш» ("the push that deletes").
+That reader also named two habits without being asked: actions handed to things that cannot perform
+them, and one thing carrying two names in neighbouring sentences.
 
-Repair: keep `net` for the glossary's own term, and use one shared word for the category and its two
-instances. `Two Stop-hook checks: the hedge check and the lean-orchestrator check.`
+### The owner's read of a rewrite
 
-**The rule.** One thing, one name, in every sentence, from the first use onward. A reader takes a
-different word as naming a different thing.
+The owner then read a first rewrite, drafted in chat and applying these rules, and stopped six more
+times. Two of those six were the rewrite breaking a rule it stated in the same passage.
 
-**Caught by.** A machine, once the pair of names is known — `guardrails/check-one-name.py` reads the pairs
-from `guardrails/one-name-aliases.json` and blocks. A pair nobody has recorded yet is found by a person
-reading, or by a model asked to group the nouns in a section.
+- One sentence stated the rule that a criterion carries one trigger and one response. It stated that
+  rule in two words carried over from English rather than said in Russian: «триггер», the English word
+  trigger respelled in Russian letters, and «обязанность», the Russian word for an obligation, standing
+  where the response belonged.
+- Another sentence banned coined names while coining one: «хвост без глагола», a tail with no verb. The
+  thing that phrase points at is real, and it already had a plain name — a clause with no finite verb.
+  `docs/language-rules.md` carries it under that plain name (`r36`). The coined phrase went, and the
+  class it pointed at stayed.
 
----
+### A cold reader given the rules page and a real job
 
-## 5. An action its performer cannot perform
+On 2026-07-28 a cold reader was handed `docs/language-rules.md` as it then stood, one page carrying
+every rule and every catcher together, with a job to judge it against: write one page of documentation
+tomorrow and hold it to this rulebook. That reading is recorded at
+`docs/language-reads/2026-07-28-read1-language-rules-reference.md`. The reader could apply 30 of the 60
+rules, and about 8 of them without an answer to which surface a documentation page is — the surfaces
+were the axis the whole page was organized on, and none of them was defined.
 
-The subject of the sentence cannot do the verb. A document does not remind. A law is not judged. An
-anchor does not stand. A number does not show. Every one of these came from the owner reading a sentence
-and stopping on it.
+Three findings changed the shape of the rules rather than the wording of one entry.
 
-| Written | The owner's answer | Repair |
-| --- | --- | --- |
-| `The system shall judge an orchestration law` | a law is kept, established, or enforced | The conduct judge — the model call reading the turn's action trace against the orchestration laws — reports any law the turn broke |
-| `The reminder shall name four laws` | a reminder does not name laws and does not remind them | The prompt carries the four chat laws that `hooks/register_judge_core.py` names in `UNIVERSAL_CHAT_LAW`, written out |
-| `The system shall inject a reminder of the chat laws` | how can a reminder be injected, and what for | The hook adds the four chat laws that `hooks/register_judge_core.py` names in `UNIVERSAL_CHAT_LAW` to the start of every prompt |
-| `Якорь стоит в конце строки` | an anchor cannot stand | The anchor is written at the end of the line |
-| `сегодняшние числа показывают красное` | a number does not show | The measured count stands above its recorded limit |
-| «проверки отступили» | no answer recorded | we stopped running the checks |
+- The reader skimmed four fields in every entry and reported that none of them changes a word a writer
+  writes: the file-and-line references, the catcher reach descriptions, the text the judging model is
+  handed, and the historical half of the notes. Those four now stand on
+  `docs/language-rule-coverage.md`, and the writer's page carries what a writer applies.
+- Six rules named a list and gave it nowhere. Every one of those lists now stands inside the rule that
+  names it, read out of the checker's own config file at the moment the page is built. Three of the six
+  had no such file: their words sat inside a script's regular expressions, where one edit reached the
+  checker and no edit reached the page. Those three moved to a config file beside their script, and the
+  script now reads its own list from that file, so one edit reaches both.
+- Twelve entries were five classes split apart. They are folded into five, and each survivor's notes
+  name the ids that were retired.
 
-Here the writer hands a human action to a thing that cannot perform it. The true actor (a hook, a script,
-a person) goes unnamed. The repair gives that actor a name.
+### The readings of this page
 
-**The rule.** The subject of a sentence performs the verb. Where a thing cannot perform the verb, name the
-actor that can: a person, a script, a hook, a model.
+This page has been given to a cold reader six times and has failed every time. The fifth reading is
+recorded at `docs/language-reads/2026-07-27-read5-language-defects.md`: 45 stops, 11 of which stopped
+the reader from going on. The sixth reading stopped 34 times, 7 of them blocking, and this draft is the
+repair of those 7. Readings one through four left no file of their own, and `JOURNAL.md` counts them.
 
-**Caught by.** A model reading each sentence. A machine holds a list of verbs of intention: decides,
-wants, remembers, reminds, argues, judges, speaks, retreats, shows. It flags each one whose subject is a
-document, a rule, a number, or another thing. That pass finds the common cases and misses the rest, so
-the machine stands as a first look and the model does the reading.
+This page is shown to nobody until two cold readings in a row return nothing blocking. That bar is
+itself one of the rules (`r54`). A cold reader is the one exception to it: a reading is how the bar
+gets measured, so the reader running the read is handed the page while the bar is still unmet.
 
----
+## One sentence, before and after
 
-## 6. A number with no ground
-
-A number arrives with no reference point and no direction. The reader cannot say what it was measured
-against, which way is better, or whether anything measured it at all.
-
-- `a reminder-history of two or more` — the owner asked why twice. Repair: *a law broken twice or more.
-  One break can be an accident; a second is a pattern. This threshold was chosen, and no measurement
-  fixed it.*
-- `defaulting to 50 kibibytes` — the reader cannot tell whether that is a lot. Repair: *50 kibibytes of
-  file content held in the session. A host changes this value in its config. No measurement chose it.*
-- `469 cases` — the Russian reader's stop: the number gives no sense of whether more is better. Repair:
-  *469 test cases pass, up from 431 last week; higher is better.*
-
-The same demand covers a rule stated with no reason. The owner asked why a law stays a reminder until it
-recurs. That is the same reader asking the same question about a number that was never grounded.
-
-**The rule.** Every number carries what it counts, what it is compared against, and which direction is
-better. Where a number was simply chosen, the writer says so.
-
-**Caught by.** A machine finds every bare number and checks its sentence for a reference cue. The
-mechanism already runs in `guardrails/check-weak-words.py`, which reads its cue list from
-`guardrails/weak-words.json`. Whether the ground given is real ground is a person's or a model's read.
-
----
-
-## 7. A rule that points at a list it never gives
-
-The sentence refers to a set with a definite article: the pattern list, the six verbs, the threshold, the
-standing laws. The members of that set never appear. The reader can follow the grammar and cannot follow
-the rule. This is why the English reader could implement two of six requirements and left three undone.
-
-- `matching against an inline universal pattern list` — the patterns are never shown. Repair: give the
-  patterns as a list under the criterion.
-- `one of six literal file-dump verbs` — the six verbs are never named. Repair: name them.
-- `the standing orchestration laws` — repair: list them where the rule stands, or point to the section
-  that lists them, by its heading.
-
-**The rule.** A rule that depends on a list gives the list, or points by name to the one place that holds
-it. The word "the" in front of a set is a promise to the reader that the set has been given.
-
-**Caught by.** A model reading, since the reference can be phrased any way. A machine can find the shape
-"the … list/set/laws/verbs/threshold" and hand every hit to a reader. That is cheap and noisy.
-
----
-
-## 8. A sentence carrying a rule and its definitions at once
-
-One sentence carries an instruction together with the definitions of the terms it uses, in dashes and
-parentheses. Length is the symptom. The cause is that each borrowed word carries its own definition into
-the sentence.
-
-The longest such sentence in the whole product spec is criterion 4 of Requirement 233 in
-`PRODUCT_SPEC.md`, at 107 words by the count above. It carries four term definitions inside one rule,
-quoted here whole so the count and the four terms can both be checked. Each bracketed code such as
-`[INV-241]` names one invariant; `PRODUCT_SPEC.md` lists every one in its closing code-to-location table.
+Criterion 4 of Requirement 233 in the spec once read as follows, at 107 words counting the bracketed
+codes that trail it:
 
 > The system *shall* judge the orchestration members carrying a reminder-history of two or more —
-> worker-routing (each unit of work routed to the cheapest tier its step and kind allow), lean-orchestrator
-> (heavy reading dispatched to a worker rather than held inline), pull-unblocked-work (the session keeps
-> pulling unblocked queue work rather than idling), and classify-the-subtask (a subtask is the person's or
-> the seat's by what the subtask itself needs, never by the heading it sits under) — their breaks recorded
-> in the one home the break-record law names, the problem ledger (`PROBLEMS.md`), and *shall* leave the
-> single-occurrence members as reminders until they recur. [INV-241, INV-108, INV-69, INV-137, INV-143]
+> worker-routing (each unit of work routed to the cheapest tier its step and kind allow),
+> lean-orchestrator (heavy reading dispatched to a worker rather than held inline), pull-unblocked-work
+> (the session keeps pulling unblocked queue work rather than idling), and classify-the-subtask (a
+> subtask is the person's or the seat's by what the subtask itself needs, never by the heading it sits
+> under) — their breaks recorded in the one home the break-record law names, the problem ledger
+> (`PROBLEMS.md`), and *shall* leave the single-occurrence members as reminders until they recur.
+> [INV-241, INV-108, INV-69, INV-137, INV-143]
 
-The owner's own reading of it: could most of this be bullets. It can:
+The bracketed codes at the end are this project's internal identifiers for requirements stated elsewhere
+in the spec, and they count toward the 107 words. The sentence carries one instruction together with the
+definitions of the four terms it borrowed. The length is what a reader notices first, and those four
+definitions are what made it long.
 
-> The judge watches four rules. Each rule is added once it has been broken twice.
+That criterion now reads as follows. The sentence runs to 35 words with the same codes, and its four
+members sit in a list below it.
+
+> The system *shall* judge the orchestration laws carrying a reminder history of two or more, and
+> *shall* leave a law with a single occurrence as a reminder until it recurs. [INV-241, INV-108,
+> INV-69, INV-137, INV-143]
 >
-> - **worker-routing** — each unit of work goes to the cheapest model that can do it.
-> - **lean-orchestrator** — a long read goes to a worker.
-> - **pull-unblocked-work** — the session takes the next unblocked item while any remains.
-> - **classify-the-subtask** — a subtask belongs to whoever the work needs, whatever heading it sits under.
->
-> A break is written to `PROBLEMS.md`. A rule broken once stays a reminder.
+> - worker-routing: each unit of work is routed to the cheapest tier its step and kind allow;
+> - lean-orchestrator: heavy reading is dispatched to a worker, and none of it is held inline;
+> - pull-unblocked-work: the session keeps pulling unblocked queue work instead of idling;
+> - classify-the-subtask: a subtask is the person's or the seat's by what the subtask itself needs,
+>   never by the heading it sits under;
+> - each break is recorded in the problem ledger (`PROBLEMS.md`), the home the break-record law names.
 
-**The rule.** One sentence carries one rule and no definitions. A sentence over 25 words is flagged for a
-look; that number was chosen with no measurement behind it. Definitions live in the glossary. A set of
-parts is written as a list, one part per line.
+Two names inside that quotation carry the word law, and both are the spec's own names for requirements
+it states: the orchestration laws are the four members listed under the sentence, and the break-record
+law is the requirement naming where a break is written down. On this page, and in
+`docs/language-rules.md`, a statement about how a text is written is a rule.
 
-**Caught by.** A machine checks each sentence end to end: word count, dash-bounded spans, and comma-joined
-items, against the 25-word mark given above. The document the readers stopped on had its longest sentence
-at 107 words.
+The instruction stayed in the sentence. The four members moved into a list, one to a line, and the
+words that defined them moved with them.
 
----
+## How a class becomes a rule
 
-## The writer holds a text to the rule it states
+A class is the shape of a mistake, and one class shows up across many sentences. Repairing the one
+sentence in front of a reader leaves every other instance in place. The writer therefore records the
+class, and the steps below are how a class becomes a rule.
 
-That chat draft contradicted its own rules twice, and the owner caught both.
+1. A cold reader stops on a sentence. The writer writes the stop down in that reader's own words,
+   including the wrong guess the reader made.
+2. The writer traces the wording back to where it was learned: a skill file, a template, a section of
+   the spec, or a habit picked up in chat. A class opens once the writer finds the same stop coming out
+   of that place again.
+3. The writer writes the class into `guardrails/language-rules.json`. The entry carries a name, the
+   rule in one sentence, and a question a reader can ask of one sentence. The entry also names the
+   surfaces the rule binds, the files that stated the rule in prose before that one home existed, and a
+   status saying that nothing catches it yet. Someone then wires or generates a catcher for it, and
+   records the catcher under the rule.
 
-- One sentence carried the rule "one trigger and one duty per sentence," in private vocabulary of its
-  own: «триггер», «обязанность». That sentence belongs to class 1.
-- Another sentence carried the rule «Внутри критерия определений нет» ("Inside a criterion there are no
-  definitions"). That rule points at an absence, in words the owner could not read. That same passage
-  carries a rule against minted names, and a minted name of its own: «хвост без глагола» ("a tail with no
-  verb"). The phrase points to a thing that already has an ordinary name: a closing clause with no finite
-  verb. The owner's own words: there is no such thing as a tail without a verb. This belongs to class 2.
+A repair applied to one sentence and nowhere else means step 3 was skipped, since only an entry in the
+source carries a repair past the sentence that prompted it. A list of examples with no class named
+above it breaks the rule that governs how the source grows (`r61`).
 
-**The rule.** Do not publish a text that contradicts a rule it states. The sentence carrying a rule is the
-first test of that rule.
+## What no script and no model finds
 
-**Caught by.** A person. A model asked to hold a document against its own stated rules finds some of it. A
-literal pattern finds none of it.
+No script and no model finds a class nobody has met yet. Both re-catch what a person already caught
+once. Every rule in `docs/language-rules.md` exists because a person stopped on a sentence and said so.
+Cold reading is a standing cost, and a project plans and funds it every round.
 
-## What catches what
+A literal pattern holds only the instances someone already met. On 2026-07-17
+`scripts/preshow-register-lint.py` was handed a Russian text carrying the same loan-translations its own
+list names, and it passed that text clean.
 
-| Class | Machine | Model | Person |
-| --- | --- | --- | --- |
-| 1 — private job for an ordinary word | known words only | candidates, noisy | every new one |
-| 2 — invented name for a named thing | known pairs only | candidates | whether to keep it |
-| 3 — nouns stacked as a name | finds every candidate | judges the relation | settles a hard case |
-| 4 — two names for one thing | recorded pairs, blocking | proposes new pairs | confirms |
-| 5 — an action its performer cannot perform | common verbs only | yes, this is its class | confirms |
-| 6 — a number with no ground | finds the number and the missing cue | judges the ground | judges the ground |
-| 7 — a rule pointing at a list it never gives | noisy shape match | yes, this is its class | confirms |
-| 8 — a rule and its definitions in one sentence | yes, end to end | — | confirms the split |
-| the rule about a rule | — | partly | yes |
+A model reads for the class itself, so it catches an instance no list holds. It also reports sentences
+that turn out to be no defect at all. A person settles what neither of them can.
 
-A dash marks a checker that plays no part for that class; every other cell holds an active role.
+## Using this tomorrow
 
-The honest boundary: no machine and no model finds a *new* class. Both re-catch what a person already
-caught once. Every class in this document exists because a human being stopped on a sentence and said so.
-That is the only source, so a project must plan and fund human cold-reading time as a standing cost, not
-a one-time setup step.
-
-## How a class gets into this document
-
-1. A person reads a text with no context and stops on a sentence. The stop is recorded in their words,
-   including the wrong guess they made.
-2. The wording is traced back to the artifact that taught it. That source may be a skill file, a
-   template, a spec section, or a chat habit the writer picked up. The writer records a class here once
-   its source keeps producing the same stop.
-3. The class is written here: a name, a definition, and the rule. It also carries the stops that produced
-   it, each with its repair beside it, and how the class is caught.
-
-A repair applied to one sentence and nowhere else means step 2 was skipped.
-
-## The word list
-
-`guardrails/spec-coinages.json` holds the caught examples so a known offender is stopped in a second. This
-document holds the rule, and the reason it counts as an offender.
-
-## Eight questions for a sentence
-
-1. Does any everyday word here carry a job only this project knows?
-2. Does any minted name replace a working name that already exists?
-3. Does any name stack two nouns without carrying the relation between them?
-4. Does this thing have a different name a few sentences away?
-5. Can the subject of each verb perform that verb?
-6. Does each number carry what it counts, what against, and which way is better?
-7. Does every list this sentence depends on appear, or point somewhere by name?
-8. Does this sentence carry one rule and no definitions?
+Open `docs/language-rules.md`, find the surface you are writing on, and read the rules its roster
+names. Each rule there carries one question to ask of one sentence. Ask those questions of the
+sentences you are least sure of, and of every sentence that states a rule. The sentence carrying a rule
+is the first test of that rule.

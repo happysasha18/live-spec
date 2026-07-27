@@ -9,7 +9,7 @@ per-item judgment, kin to the removal-accounting duty (INV-109).
 import os
 import unittest
 
-from conftest import ROOT, read_flat
+from conftest import ROOT, criterion_with_bullets, read, read_flat
 
 
 class TestCompactionDiscipline(unittest.TestCase):
@@ -21,11 +21,17 @@ class TestCompactionDiscipline(unittest.TestCase):
         # CANDIDATE REAL DEFECT (see repin log): the new clause keeps "would change the
         # meaning" but has dropped the "or a reader's understanding" branch entirely — no
         # surviving text in PRODUCT_SPEC.md carries that half of the concept. Left red.
-        spec = read_flat("PRODUCT_SPEC.md")
         # journal-bound rationale/framing retired at row-445 pass 2: the owning unit's mapping Part 3 maps "every behavioural claim" (rationale outside the contract, the format's no-history law INV-253 sending it to the journal); the behavioural half stays asserted from its own criterion. (build-loop-c mapping; the operative keep-rule survives at R130.5 and is asserted
         # here from its own criterion; the dropped "or a reader's understanding" emphasis branch is
         # flagged in REPIN-LOG for the spec author's eye.)
-        self.assertIn("keeping anything whose removal would change the meaning", spec)
+        # the keep-rule moved into a bullet under R130.5, so the criterion is read with its
+        # bullets and the fact is asserted in its own home rather than anywhere in the file.
+        clause = criterion_with_bullets(
+            read("PRODUCT_SPEC.md"),
+            "audit every living document")
+        self.assertIsNotNone(clause, "SPEC lost the full-pass compaction criterion (R130.5)")
+        self.assertIn("[M-1, INV-115, E-24, INV-109]", clause)
+        self.assertIn("keeps anything whose removal would change the meaning", clause)
 
     def test_per_item_judgment_phrase(self):
         # CANDIDATE REAL DEFECT (see repin log): "per-item judgment" has no surviving

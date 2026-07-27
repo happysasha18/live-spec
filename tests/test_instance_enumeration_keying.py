@@ -20,6 +20,8 @@ import unittest
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+from conftest import criterion_with_bullets
+
 sys.path.insert(0, os.path.join(REPO, "guardrails"))
 import archformat  # the one node reader every consumer reads through (SPEC INV-280)
 
@@ -30,11 +32,14 @@ def read(rel):
 
 
 def line_with(text, phrase):
-    """The single line carrying a distinctive phrase (the invariants are one line per paragraph)."""
-    for line in text.splitlines():
-        if phrase in line:
-            return line
-    return None
+    """The single criterion carrying a distinctive phrase, read with the bullets under it.
+
+    A law's citation bracket rides its criterion line while the member set it enumerates sits in
+    the bullets beneath, so a check that reads one physical line sees half the law. The shared
+    reader in conftest joins the two, and a table row (the matrix's own lines) still comes back
+    as itself, since a row heads its own unit.
+    """
+    return criterion_with_bullets(text, phrase)
 
 
 def requirement_block(spec, heading_phrase):
@@ -102,7 +107,8 @@ class TestThreeLawsCiteTheClass(unittest.TestCase):
     # side is asserted textually, not only the citation's presence)
     LAWS = [
         ("range law INV-138", "range-and-lifecycle member of the composition-lens family", "open-ended"),
-        ("budget law INV-41", "the kinds being a closed set each named in the clause", "closed"),
+        ("budget law INV-41", "these kinds form a closed set, and each is named in this criterion",
+         "closed"),
         ("facet law INV-18",
          "one closed enumerable set that grows a member only with a named real incident", "closed"),
     ]

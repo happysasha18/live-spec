@@ -59,10 +59,13 @@ fi
 # --- step b: vendor the pack's gate files into the host ------------------------------------------
 VENDOR_FILES=(
   "scripts/spec-style-lint.py"
+  "scripts/spec-style-lint.json"
   "scripts/spec-redundancy-precheck.py"
   "scripts/spec-freeze.py"
+  "scripts/spec-freeze.json"
   "scripts/gate_common.py"
   "guardrails/check-freeze.sh"
+  "guardrails/spec-coinages.json"
 )
 
 for rel in "${VENDOR_FILES[@]}"; do
@@ -103,12 +106,19 @@ host_root, pack_root, tier = sys.argv[1], sys.argv[2], sys.argv[3]
 style_errors, redundancy_open = int(sys.argv[4]), int(sys.argv[5])
 docs = sys.argv[6:]
 
+# Kept in step with the VENDOR_FILES shell array above by hand: this list is what the update
+# watcher pins, so a file vendored there and missing here changes in the pack without the host
+# hearing of it. A data file counts as much as its script — a lint whose word list moved is a
+# different lint.
 VENDOR_FILES = [
     "scripts/spec-style-lint.py",
+    "scripts/spec-style-lint.json",
     "scripts/spec-redundancy-precheck.py",
     "scripts/spec-freeze.py",
+    "scripts/spec-freeze.json",
     "scripts/gate_common.py",
     "guardrails/check-freeze.sh",
+    "guardrails/spec-coinages.json",
 ]
 
 

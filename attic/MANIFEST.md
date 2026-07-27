@@ -13,3 +13,4 @@ base rule 10). Nothing here was deleted; a file that turns out to be needed is m
 - `prototype/2026-07-22-spec-format/COMPARE.html` -> `attic/prototype-2026-07-22-spec-format-COMPARE.html` * a rendered page whose reading is over * 2026-07-27
 - `prototype/2026-07-22-spec-format/genre2/COMPARE2.html` -> `attic/prototype-2026-07-22-spec-format-genre2-COMPARE2.html` * a rendered page whose reading is over * 2026-07-27
 - `prototype/2026-07-22-spec-format/genre3/COMPARE3.html` -> `attic/prototype-2026-07-22-spec-format-genre3-COMPARE3.html` * a rendered page whose reading is over * 2026-07-27
+- `docs/reports/2026-07-28-morning.html` -> `attic/docs-reports-2026-07-28-morning.html` * a rendered page whose reading is over: carried the `live-spec render-doc` generator mark * 2026-07-28

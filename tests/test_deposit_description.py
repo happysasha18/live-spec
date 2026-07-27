@@ -111,16 +111,24 @@ class TestDepositDescriptionGate(unittest.TestCase):
                          "the lint has its own CI step — it must ride the suite pytest step")
 
     def test_spec_states_the_law(self):
-        from conftest import read_flat
-        spec = read_flat("PRODUCT_SPEC.md")
-        self.assertIn("deposit-time lint", spec, "SPEC lost the deposit-time lint statement")
+        from conftest import criterion_with_bullets, read
         # R191.8: the literal script path "guardrails/check-earned-message.py" is gone from the
         # compact rewrite; the same "homed beside the earned-message gate" relationship is now
-        # carried by the shared [INV-189] citation on the criterion that states the lint.
+        # carried by the shared [INV-189] citation on the criterion that states the lint. The
+        # mechanism itself moved into a bullet under that criterion, so the criterion is read
+        # with its bullets and both halves are asserted against the one home.
+        clause = criterion_with_bullets(
+            read("PRODUCT_SPEC.md"), "the reviewer's review *shall* stand as the net")
+        self.assertIsNotNone(clause, "SPEC lost the reviewer-is-the-net criterion (R191.8)")
         self.assertIn(
-            "the deposit-time lint over each `from-<agent>` inbox file being the mechanism the "
-            "law declares. [INV-239, INV-189, INV-150]",
-            spec,
+            "the law declares the mechanism as the deposit-time lint over each "
+            "`from-<agent>` inbox file",
+            clause,
+            "SPEC lost the deposit-time lint as the mechanism the law declares",
+        )
+        self.assertIn(
+            "[INV-239, INV-189, INV-150]",
+            clause,
             "SPEC lost the homed-beside-the-earned-message-gate anchor (INV-189 co-citation)",
         )
 

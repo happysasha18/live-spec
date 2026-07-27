@@ -33,7 +33,7 @@ SETTINGS="$HOME/.claude/settings.json"
 
 # The universal files this script ships: the scissors scan, the answer-first arm, the hedge scan, and
 # the register-judge mechanism + arms.
-JUDGE_FILES="scissors-scan.py answer-first-scan.py hedge-scan.py affirmation-scan.py code-anchor-scan.py midturn-chat-scan.py chat-calques.json turn_reader.py register_judge_core.py register-judge.py register-judge-collect.sh register-judge-report.sh"
+JUDGE_FILES="scissors-scan.py answer-first-scan.py hedge-scan.py affirmation-scan.py code-anchor-scan.py midturn-chat-scan.py chat-calques.json answer-first-scan.json language-laws.json turn_reader.py register_judge_core.py register-judge.py register-judge-collect.sh register-judge-report.sh"
 
 if [ "$DRY_RUN" = "1" ]; then
   for f in $JUDGE_FILES; do

@@ -211,6 +211,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 - **settings card** — the rendered page that lists every setting the pack knows, its current value where one is recorded, and one plain-speech line saying how to change it.
 - **settings ladder** — the four nested scopes that resolve any setting: the session's live word, then the host profile, then the personal profile, then the pack default. A nearer scope overrides a farther one.
 - **shopfront** — the public README as the reader-facing front of a repository, whose claims match the truth just pushed.
+- **show rule** — how a rendered artifact is opened for the person: a new browser window on a local seat, its own channel on a remote seat.
 - **signature** — one entry in the problem ledger: a short greppable plain phrase that names a recurring operational problem, carrying its dated occurrences and one status.
 - **size** — the wish's extent, named by one word from a four-word vocabulary: bug, small, surface, or large. A surface-sized wish is a new surface or a multi-file behaviour change. A bug-sized wish is the bug door itself, one call stated once for both axes. The size word is what the row's class column carries, the priority mark standing on the row beside it. The word surface elsewhere stays the common noun for a screen a person sees, and the word bug elsewhere stays the common noun for a defect.
 - **size ratchet** — the recorded bytes-per-criterion bound of the spec document, which a delivery may lower and never raises on its own.
@@ -307,7 +308,10 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: a project adopts and becomes the host**
 
-1. The system *shall* let a project adopt live-spec at the start or partway through work already under way, bringing the document templates, a procedure for joining midstream, and the guardrails already built for it: the repo's own pre-push checks and the opt-in commit fence (the check that blocks a commit when the repository moved under the session since its last read). The host-facing guardrail checks stay a separate, planned family. [E-1]
+1. The system *shall* let a project adopt live-spec at the start or partway through work already under way, bringing the document templates, a procedure for joining midstream, and the guardrails already built for it. [E-1]
+   - the guardrails are the repo's own pre-push checks and the opt-in commit fence;
+   - the opt-in commit fence blocks a commit when the repository moved under the session since its last read;
+   - the host-facing guardrail checks stay a separate, planned family.
 2. The system *shall* name the project that adopts live-spec the host. [E-1]
 
 **Case: the host owns its own state**
@@ -446,7 +450,8 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 **Case: an unclear attribute is asked, never guessed**
 
 5. *when* the classifier cannot call a size, a priority, or a work-kind, the system *shall* ask the person at intake and *shall* not guess. [INV-12, T-16]
-6. *while* an unclear attribute stays open, the system *shall* carry the wish at normal priority with the host's default work-kind or none, scale nothing down for a work-kind not yet named — a named work-kind scales how much machinery each pipeline step spends — and keep the open question in the row *while* the lane keeps moving. [INV-22, INV-12, INV-4, T-16]
+6. *while* an unclear attribute stays open, the system *shall* carry the wish at normal priority with the host's default work-kind or none, and *shall* scale nothing down for a work-kind not yet named. [INV-22, INV-12, INV-4, T-16]
+   - the open question stays in the row while the lane keeps moving.
 
 ---
 
@@ -543,7 +548,8 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: compaction preserves an open leg**
 
-3. The system *shall* keep the resume file's live-state supersession (the newest live-state block replacing the older one whole) from compressing an unfinished leg out of existence, restating in full a leg still open at compaction (the announced pass where a session prunes its own working context, carrying live lines forward). [INV-26, M-2]
+3. The system *shall* keep the resume file's live-state supersession from compressing an unfinished leg out of existence, restating in full a leg still open at announced self-compaction. [INV-26, M-2]
+   - live-state supersession is the newest live-state block replacing the older one whole.
 
 ---
 
@@ -579,8 +585,12 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: the three placement verdicts**
 
-1. *when* a wish is captured, the system *shall* place it on the feature map — the spec's scenario sections and the architecture's nodes together — as one of three verdicts: it changes an existing feature and names that scenario, it is a new feature with its own scenario section and architecture node, or it is a restructure. [INV-37, E-14]
-2. *when* the verdict is restructure, the system *shall* open its own row — the refactor door where only structure moves, the feature door where behaviour moves with it — and *shall* carry the re-division through the architecture stage and its re-proof rather than re-dividing on the spot. [INV-37, E-14]
+1. *when* a wish is captured, the system *shall* place it on the feature map as one of three verdicts. [INV-37, E-14]
+   - it changes an existing feature and names that scenario;
+   - it is a new feature with its own scenario section and architecture node;
+   - it is a restructure.
+2. *when* the verdict is restructure, the system *shall* open its own row, and *shall* carry the re-division through the architecture stage and its re-proof rather than re-dividing on the spot. [INV-37, E-14]
+   - the row opens at the refactor door when only structure moves, or at the feature door when behaviour moves with it.
 
 **Case: placement reports, records, and defers the structure change**
 
@@ -615,7 +625,11 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: the laws have a mechanical voice**
 
-7. The system *shall* inject through the prompt hook `hooks/chat-law-hook.sh` a reminder of the chat laws into every prompt — plain words with codes trailing, the narration beats, the say-what-it-is line (naming a thing by its own positive sentence), the banned contrast frame (naming a thing by denying its neighbour, the `"X, not Y"` shape), and the routing line by which the orchestrator seat routes work to the cheapest tier the routing rule names while a worker finds for itself the files and lines its task needs, so the orchestrator's context stays lean — the skills and the profile staying the laws' homes. [INV-28, INV-69, INV-137]
+7. The system *shall* inject through the prompt hook `hooks/chat-law-hook.sh` a reminder of the chat laws into every prompt. [INV-28, INV-69, INV-137]
+   - the reminder states the laws in plain words with codes trailing, the narration beats, the say-what-it-is line, and the banned contrast frame;
+   - the say-what-it-is line names a thing by its own positive sentence;
+   - the reminder also states the routing line: the orchestrator seat routes work to the cheapest tier the routing rule names, while a worker finds for itself the files and lines its task needs, keeping the orchestrator's context lean;
+   - the skills and the profile stay the laws' homes.
 8. Before a human-facing artifact is shown, the system *shall* have `scripts/preshow-lint.py` flag any line opening with an internal handle so the agent rewrites it to lead with the outcome, a warning to clear that reads only the shown surface. [INV-28]
 
 ---
@@ -1045,7 +1059,14 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: the ordered procedure**
 
-3. *when* the door step runs, the system *shall* call a wish a feature *if* any tripwire holds — a new user-visible surface appears, new persistent state appears, a new interaction lands on an existing surface, the touched surface is marked a later surface in the spec — it carries the `[target]` planned-feature mark on its own line, its building row still open, or the change adds behaviour no spec clause backs. [T-12, INV-16]
+3. *when* the door step runs, the system *shall* call a wish a feature *if* any tripwire holds. [T-12, INV-16]
+   - a new user-visible surface appears;
+   - new persistent state appears;
+   - a new interaction lands on an existing surface;
+   - the touched surface is marked a later surface in the spec;
+   - the wish carries the `[target]` planned-feature mark on its own line;
+   - the wish's building row still stands open;
+   - the change adds behaviour no spec clause backs.
 4. *if* no tripwire fired but shipped behaviour is wrong against what the spec or product already promises, *then* the system *shall* call the wish a bug. [T-12]
 5. *if* behaviour stays identical while structure moves, *then* the system *shall* call the wish a refactor, and *if* only prose outside the normative spec changes, *then* the system *shall* call it docs-only, routing a reworded spec rule as feature or bug instead. [T-12]
 6. *if* a single file changes with no new state, element, or visible behaviour and an existing test level already covers the touched fact, *then* the system *shall* call the wish a skip. [T-12]
@@ -1108,7 +1129,10 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: disagreement is routed to its owning home**
 
-5. *when* the three sources disagree, the system *shall* name the disagreement and route it to the home that owns it — a bug row for code past spec, a spec fix for a moved pin, a restructure row for a missing node — rather than pick a winner in silence. [INV-128, INV-37]
+5. *when* the three sources disagree, the system *shall* name the disagreement, *shall* route it to the home that owns it, and *shall* pick no winner in silence. [INV-128, INV-37]
+   - code past spec routes to a bug row;
+   - a moved pin routes to a spec fix;
+   - a missing node routes to a restructure row.
 6. The system *shall* let the three-source read tell whether a proven artifact already settles a question, so the only fork the human hears is what the three sources leave open. [INV-128, INV-121]
 
 **Case: the footprint re-classifies mid-work**
@@ -1152,7 +1176,15 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: the closed set of entry points**
 
-3. The system *shall* route each request-kind to its own entry — a product-behaviour request to the spec, a defect to the test matrix with a red-on-bug test, a docs-only change to its light path, a tiny reversible edit to the skip shortcut still owing the spec-backed-literal tripwire, a settings value to the settings ladder, an outside request through the inbox as one wish, an ask to see or try a thing through the labelled-sketch door, and a thing handed back through feedback-intake. [INV-151, INV-104, INV-17, T-20]
+3. The system *shall* route each request-kind to its own entry. [INV-151, INV-104, INV-17, T-20]
+   - a product-behaviour request goes to the spec;
+   - a defect goes to the test matrix with a red-on-bug test;
+   - a docs-only change goes to its light path;
+   - a tiny reversible edit goes to the skip shortcut, still owing the spec-backed-literal tripwire;
+   - a settings value goes to the settings ladder;
+   - an outside request goes through the inbox as one wish;
+   - an ask to see or try a thing goes through the labelled-sketch door;
+   - a thing handed back goes through feedback-intake.
 4. *if* a request matches no kind in the closed set, *then* the system *shall* make it one plain question to the human, its route settled by the answer, and *shall* treat a held backlog item that cannot say why it belongs to the human as the same shape of finding. [INV-151, INV-4, INV-152]
 
 ---
@@ -1364,8 +1396,16 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: each thing routes to its governing home**
 
-1. The system *shall* route a request to the highest document whose sentences it changes, a property to the net that can pin its violation to a stated sentence, a backlog item to the seat unless it names a fact only the human holds, and a question to the sender's own blocked work. [INV-153, INV-151, INV-150, INV-152, INV-189]
-2. *when* a thing pins to no home, the system *shall* make the thing itself the finding — an unmatched request a plain question, a netless declared law a broken invariant, a held backlog item defaulting to the seat, and a groundless question dropped with the holding named. [INV-153, INV-4, INV-101, INV-143, INV-191]
+1. The system *shall* route each thing to its own governing home. [INV-153, INV-151, INV-150, INV-152, INV-189]
+   - a request, to the highest document whose sentences it changes;
+   - a property, to the net that can pin its violation to a stated sentence;
+   - a backlog item, to the seat, unless it names a fact only the human holds;
+   - a question, to the sender's own blocked work.
+2. *when* a thing pins to no home, the system *shall* make the thing itself the finding. [INV-153, INV-4, INV-101, INV-143, INV-191]
+   - an unmatched request becomes a plain question;
+   - a netless declared law becomes a broken invariant;
+   - a held backlog item defaults to the seat;
+   - a groundless question is dropped, with the holding named.
 
 **Case: declaration is the lever, verified adjacent to each thing**
 
@@ -1468,7 +1508,9 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: the review runs in the kind's own form**
 
-5. *when* a kind has no element a person acts on, the system *shall* stand the design review down by name in the record rather than run it vacuously, running it in the project kind's own form the way the verify walk and the design principles do and keeping the spec's own declared-class check governing where a class is already declared. [INV-141, INV-22, INV-125, INV-30, INV-136, INV-139]
+5. *when* a kind has no element a person acts on, the system *shall* stand the design review down by name in the record rather than run it vacuously. [INV-141, INV-22, INV-125, INV-30, INV-136, INV-139]
+6. The design review *shall* run in the project kind's own form, the way the verify walk and the design principles do. [INV-141, INV-136]
+7. The spec's own declared-class check *shall* keep governing *where* a class is already declared. [INV-125]
 
 ---
 
@@ -1483,7 +1525,9 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 **Case: the three same-kind groups**
 
 1. *when* a spec ships a gesture, a motion, or a layer that opens and closes over another, the system *shall* run the motion-parity lens by construction, naming entry-mirrors-exit as the first group so a layer closes by the reverse of the motion that opened it. [INV-165, INV-141]
-2. The system *shall* name every object type the gesture acts on as the second group, each kind opening and closing the same way and landing back on its own on-screen rectangle, and every position as the third group, the same gesture on the same type in a different slot behaving the same. [INV-165]
+2. The system *shall* name every object type the gesture acts on as the second group, and every position as the third group. [INV-165]
+   - in the second group, each kind opens and closes the same way and lands back on its own on-screen rectangle;
+   - in the third group, the same gesture on the same type in a different slot behaves the same.
 
 **Case: each finding recommends or asks**
 
@@ -1558,8 +1602,10 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: the quantifier re-verify**
 
-1. *when* a surface is added, the system *shall* have the cross-link mode sweep the document for enumerations and universal quantifiers — every, only, all, exactly, an explicit member list — and re-verify each such sentence against the surface set including the newcomer. [INV-170, INV-125, INV-127]
-2. The system *shall* fire the step on every member add, not only a surface add — a new invariant joining a family, a new skill joining the pack, a second sibling the intake question catches — re-verifying the same way in the full pass's own sweep. [INV-170, INV-169, INV-171]
+1. *when* a surface is added, the system *shall* have the cross-link mode sweep the document for enumerations and universal quantifiers, and re-verify each such sentence against the surface set that now includes the newcomer. [INV-170, INV-125, INV-127]
+   - the quantifiers it sweeps for are every, only, all, and exactly, and the enumerations are the explicit member lists.
+2. The system *shall* fire the step on every member add, and *shall* re-verify the same way in the full pass's own sweep. A surface add is one kind of member add. [INV-170, INV-169, INV-171]
+   - a member add covers a new invariant joining a family, a new skill joining the pack, and a second sibling the intake question catches.
 
 ---
 
@@ -1589,7 +1635,10 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: the shared record shape**
 
-1. The system *shall* have the prover, the design review, and the periodic audit each write a dated file of one shared shape under its own home, naming the skill and version that ran the pass, carrying a per-finding disposition column, and taking a same-day suffix so two passes never overwrite. [INV-156, INV-140, INV-141, INV-145]
+1. The system *shall* have the prover, the design review, and the periodic audit each write a dated file of one shared shape under its own home. [INV-156, INV-140, INV-141, INV-145]
+   - the file names the skill and version that ran the pass;
+   - it carries a per-finding disposition column;
+   - it takes a same-day suffix so two passes never overwrite.
 2. The system *shall* land a feature-fit record in the prover's own home in this shape, and give the design review alone a held-ask home since it alone carries a question across passes. [INV-156, INV-29, INV-169, INV-142]
 
 **Case: the verify audit's difference, and forward binding**
@@ -1858,7 +1907,8 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: the milestone gate is one pen-stage**
 
-1. *when* a bug arrives mid-gate, the system *shall* have it wait for the milestone gate to finish and take the pen the moment the milestone lands ahead of the held lanes' resume, the one exception to a bug cutting the line at the end of the current pen-stage. [T-18, T-9]
+1. *when* a bug arrives mid-gate, the system *shall* have it wait for the milestone gate to finish, then take the pen the moment the milestone lands, ahead of the held lanes' resume. [T-18, T-9]
+   - this is the one exception to a bug cutting the line at the end of the current pen-stage.
 
 **Case: the pure landing**
 
@@ -2057,7 +2107,13 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: what the road fences and leaves out**
 
-5. The system *shall* leave the pen's document list unchanged, keep the one-row landing commit and its clean-tree gate, keep the claim ordering and its tie-break, keep the isolation condition's one home, keep write-ownership untouched, and open no cross-session cap, no cross-session board, no automatic conflict resolution, no long-lived or pushed branch, and no merge commit on main. [T-23, INV-39, INV-2, INV-117, INV-105, INV-101, INV-11, INV-10]
+5. The system *shall* leave the pen's document list unchanged. [T-23, INV-39, INV-2, INV-117, INV-105, INV-101, INV-11, INV-10]
+   - keeps the one-row landing commit and its clean-tree gate;
+   - keeps the claim ordering and its tie-break;
+   - keeps the isolation condition's one home;
+   - keeps write-ownership untouched;
+   - opens no cross-session cap, no cross-session board, no automatic conflict resolution;
+   - opens no long-lived or pushed branch, no merge commit on main.
 
 ---
 
@@ -2071,8 +2127,14 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: the performed lane-open act**
 
-1. *when* the independence graph shows two or more independent runnable rows and lanes stand free under the cap, the system *shall* read that graph verdict as the seat's own independence judgment and *shall* perform the lane-open act — commit the row-to-in-work flip on main under the pen, cut the branch into its own worktree, and delegate the lane to a worker whose brief names the branch. [INV-214, INV-49, INV-198, T-23, E-34, T-18]
-2. The system *shall* offer the act as `scripts/open-lane.sh`, which reads the settings-ladder-resolved cap — raised for the session only by the human's asked word — and refuses to open a lane past that value, runs the fence before it commits, and carries the claim commit alone so the landing keeps its one-row delta. [INV-214, E-13, INV-11, INV-39]
+1. *when* the independence graph shows two or more independent runnable rows and lanes stand free under the cap, the system *shall* perform the lane-open act. [INV-214, INV-49, INV-198, T-23, E-34, T-18]
+   - the system reads that graph verdict as the seat's own independence judgment;
+   - the lane-open act commits the row-to-in-work flip on main under the pen;
+   - the lane-open act cuts the branch into its own worktree;
+   - the lane-open act delegates the lane to a worker whose brief names the branch.
+2. The system *shall* offer the act as `scripts/open-lane.sh`, which reads the settings-ladder-resolved cap and refuses to open a lane past that value. [INV-214, E-13, INV-11, INV-39]
+   - the script runs the fence before it commits;
+   - it carries the claim commit alone, so the landing keeps its one-row delta.
 
 **Case: single-file is a recorded, ungated choice**
 
@@ -2130,7 +2192,8 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: the runnable report stands the tier down**
 
-3. *when* the what's-left report or the feature-map answer reads the runnable queue, the system *shall* stand the far tier down by name — one line that a far backlog exists, its count, and that the whole tier prints on request — rather than name its rows among runnable work. [INV-222, INV-223, INV-206, E-3]
+3. *when* the what's-left report or the feature-map answer reads the runnable queue, the system *shall* stand the far tier down by name, rather than name its rows among runnable work. [INV-222, INV-223, INV-206, E-3]
+   - that one line states that a far backlog exists, its count, and that the whole tier prints on request.
 4. *when* a report names a far-tier row among the runnable what's-left, the system *shall* red the report-shape check, which rides the suite and not the push chain since the status report is a chat surface with no committed file to gate. [INV-222, INV-83]
 
 ---
@@ -2150,7 +2213,9 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: it rides the queue-take scan**
 
-3. *when* the check fires, the system *shall* return the row to the runnable head, and *shall* ride the queue-take scan and the suite with no push-gate letter, the way the far-tier check takes none, since a queue-cadence read is no committed file for a push gate to scan. [INV-231, INV-129, INV-222, INV-83]
+3. *when* the check fires, the system *shall* return the row to the runnable head, and *shall* ride the queue-take scan and the suite with no push-gate letter. [INV-231, INV-129, INV-222, INV-83]
+   - the far-tier check likewise takes no push-gate letter;
+   - a queue-cadence read is no committed file for a push gate to scan.
 
 ---
 
@@ -2320,7 +2385,9 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: the mockup-first entry condition**
 
-4. *when* a story declares the human must see a mockup before the build starts, the system *shall* write the condition in the wish's queue row as `entry: mockup-first` and *shall* hold it at the door step until the human cancels it by name, a general instruction to build moving priority without cancelling it. [INV-43]
+4. *when* a story declares a mockup-first requirement, the system *shall* write `entry: mockup-first` on the queue row and *shall* hold it at the door step until the human cancels it by name. [INV-43]
+   - a mockup-first requirement is the human needing to see a mockup before the build starts;
+   - a general instruction to build moves priority without cancelling this entry.
 
 **Case: the pointer binds forward only**
 
@@ -2462,7 +2529,8 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 **Case: the enforcing nets**
 
 4. The system *shall* grep the test configuration for a retry or rerun-until-green plugin and red the run when one appears, leaving the rest to the verify walk's discipline, kin of the fresh-eyes audit. [INV-155, INV-46]
-5. *when* a flake's root is understood but not removable in one landing, the system *shall* quarantine it by name in the pinned skip-set with a dated reason and an owning queue row, an open quarantine holding no landing and standing as a debt the milestone audit reads. [INV-155]
+5. *when* a flake's root is understood but not removable in one landing, the system *shall* quarantine it by name in the pinned skip-set with a dated reason and an owning queue row. [INV-155]
+   - an open quarantine holds no landing and stands as a debt the milestone audit reads.
 
 ---
 
@@ -2502,7 +2570,8 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 **Case: the right binary and the launch probe**
 
 4. The system *shall* prefer `chrome-headless-shell` as the binary, newest install first, falling back to Chrome for Testing then a system Chrome, and *shall* drop the extra headless flag when the shell is the pick. [INV-157]
-5. *when* a suite is about to be trusted, the system *shall* run a launch probe — one page served from the loopback address, loaded and then awaited for a single compositor frame, each leg under its own bounded window — and *shall* fail a stalling or frame-dead browser loudly under the probe's own name. [INV-157]
+5. *when* a suite is about to be trusted, the system *shall* run a launch probe, and *shall* fail a stalling or frame-dead browser loudly under the probe's own name. [INV-157]
+   - the launch probe is one page served from the loopback address, loaded and then awaited for a single compositor frame, each leg under its own bounded window.
 
 **Case: the nets and the owned-fault boundary**
 
@@ -2560,7 +2629,9 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: the test is current use and provable ownership**
 
-1. *when* a cleanup would touch a shared resource — a process, a temp directory, a port, a file, a lock, the display — the system *shall* act only on what this run provably owns or a prior run whose recorded owner is provably dead, and *shall* leave a resource in current use untouched. [INV-162, INV-157]
+1. *when* a cleanup would touch a shared resource, the system *shall* act only on what this run provably owns, and *shall* leave a resource in current use untouched. [INV-162, INV-157]
+   - a shared resource is a process, temp directory, port, file, lock, or the display;
+   - this run's provable ownership reaches a prior run's resource whose recorded owner is provably dead.
 2. The system *shall* target a kill by a recorded process identifier, a process group the run holds, or an install path under the run's own tree, and *shall* read the recorded process group as the sole safe target on a machine shared with other sessions. [INV-162]
 
 **Case: the guard refuses a name**
@@ -2586,7 +2657,9 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 **Case: named nodes, one fact one owner**
 
 1. The system *shall* have each architecture node carry one responsibility and one name, and *shall* have every spec fact belong to exactly one node. [E-14]
-2. The system *shall* pin every node to its owning place by the named thing — a function, a marker comment, a selector, a heading — resolving the name and re-grepping it fresh in a drift check, catching a moved line, and *shall* draw every pin from a command that was actually run. [E-14]
+2. The system *shall* pin every node to its owning place by a named thing, and *shall* draw every pin from a command that was actually run. [E-14]
+   - the named thing is a function, a marker comment, a selector, or a heading;
+   - a drift check resolves the name and re-greps it fresh, catching a moved line.
 
 **Case: the architecture lens proves it**
 
@@ -2649,7 +2722,13 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: what is measurable follows the kind**
 
-3. *when* the architecture writes a budget, the system *shall* read the measurable dimensions from the project's kind — paint and interaction times for a user-facing product, latency and throughput and error rate for a backend service, run time and per-unit cost for a pipeline, eval pass rate and suite wall-time for a skill pack, and an honest number for prose — the kinds being a closed set each named in the clause. [INV-41, INV-36, INV-226]
+3. *when* the architecture writes a budget, the system *shall* read the measurable dimensions from the project's kind. [INV-41, INV-36, INV-226]
+   - a user-facing product is measured by paint and interaction times;
+   - a backend service is measured by latency, throughput, and error rate;
+   - a pipeline is measured by run time and per-unit cost;
+   - a skill pack is measured by eval pass rate and suite wall-time;
+   - prose is measured by an honest number;
+   - these kinds form a closed set, and each is named in this criterion.
 4. *where* a quality has no honest number, the system *shall* say so by name rather than invent a vanity metric, and *shall* count a budget only once a matrix row at the right level can see it. [INV-41]
 
 **Case: the numbers are the host's taste**
@@ -2668,7 +2747,9 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: one walk per flow**
 
-1. *when* the spec promises a flow, the system *shall* walk the running product for it — which node serves each step, what data crosses at each hop, and where the flow can fail — in one short walk per flow, a table row or numbered line per hop. [INV-74, E-29]
+1. *when* the spec promises a flow, the system *shall* walk the running product for it, in one short walk per flow. [INV-74, E-29]
+   - the walk names which node serves each step, what data crosses at each hop, and where the flow can fail;
+   - the walk is written as a table row or a numbered line per hop.
 2. The system *shall* have every named failure point carry its fallback — a degrade, a retry, a guard — so that a failure point with no fallback sentence reads as an unfinished walk. [INV-74]
 
 **Case: a flow that cannot be walked is a finding**
@@ -2693,7 +2774,9 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 **Case: tiers-first reading, scaled by kind**
 
 3. The system *shall* open the document with the tiers named in a few lines, then the nodes, then the flows walking those tiers, then budgets, so a reader lands oriented before any table detail. [INV-75]
-4. The system *shall* scale both views by the project's kind — a book satisfying each with one sentence, a fullstack or data project owing both in full — the duty binding forward from the first landing that touches the architecture. [INV-75, INV-36, INV-159]
+4. The system *shall* scale both views by the project's kind, and the duty *shall* bind forward from the first landing that touches the architecture. [INV-75, INV-36, INV-159]
+   - a book project satisfies each view with one sentence;
+   - a fullstack or data project owes both views in full.
 
 ---
 
@@ -2708,12 +2791,18 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 **Case: the matrix is derived by node and fact**
 
 1. The system *shall* organize the matrix by architecture node paired with spec fact, giving every fact at least one row and pinning each row to a test level. [E-5, E-14]
-2. The system *shall* close the derivation with the coverage validation, confirming every spec anchor owns at least one row, every artifact-inventory entry owns at least one row at a rendered tier of the level ladder (browser-computed or pixel), every visibility or layout or colour or interaction fact sits at browser-computed level or above, and every node carries its negative-side rows; *when* the test-matrix conversion delivery lands, the matrix row lint and the matrix-reference gate *shall* stand as the derivation's mechanical close, the hand-walked checklist retiring with its section. [E-15, INV-6]
+2. The system *shall* close the derivation with the coverage validation. [E-15, INV-6]
+   - it confirms every spec anchor owns at least one row;
+   - it confirms every artifact-inventory entry owns at least one row at a rendered tier of the level ladder, browser-computed or pixel;
+   - it confirms every visibility, layout, colour, or interaction fact sits at browser-computed level or above;
+   - it confirms every node carries its negative-side rows;
+   - when the test-matrix conversion delivery lands, the matrix row lint and the matrix-reference gate stand as the derivation's mechanical close, and the hand-walked checklist retires with its section.
 3. The system *shall* retire a stale row that cites an anchor or node no longer present rather than let it vanish, and *shall* read a fact with no row, or a row at too weak a level, as a derivation defect the prover catches before any user hits it. [E-15]
 
 **Case: no wish jumps the bridge**
 
-4. The system *shall* land no wish whose facts lack an owning architecture node and a matrix row at the right level, and *shall* have a project predating these layers bring them up as an owned landing, the invariant binding from the landing that creates the architecture document and matrix. [E-14, INV-159]
+4. The system *shall* land no wish whose facts lack an owning architecture node and a matrix row at the right level. A project predating these layers *shall* bring them up as an owned landing. [E-14, INV-159]
+   - the invariant binds from the landing that creates the architecture document and matrix.
 
 ---
 
@@ -2803,7 +2892,8 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: what rides the ordinary hand**
 
-3. The system *shall* let a report typed live in chat stay the session's own words under the register laws, and *shall* let a mechanical correction — a typo, a broken link, a version number — ride the ordinary hand as no drafting. [INV-84]
+3. The system *shall* let a report typed live in chat stay the session's own words under the register laws, and *shall* let a mechanical correction ride the ordinary hand as no drafting. [INV-84]
+   - a mechanical correction is a typo, a broken link, or a version number.
 4. The system *shall* refuse a blanket rewrite of settled text, since meaning can shift during a bulk restructure. [INV-84]
 
 ---
@@ -2819,7 +2909,11 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 **Case: the two re-proves and the design review**
 
 1. *when* a milestone is reached, the system *shall* re-prove the spec in full and re-prove the architecture beside it, the prover reading the architecture the way it reads the spec and recording the architecture pass in `docs/prover/` beside the spec's. [M-1, INV-116]
-2. The system *shall* run the design review on the re-proven spec in full — the whole element inventory, every proposed same-kind grouping, behaviour parity within each, and its likely divergences echoed as three asks or fewer — folding its outcome into a dated design-review record, a confirmed grouping re-entering the prove step under the round cap and typically resting at the gate by waiting for the human's answer. [M-1, INV-141, INV-154]
+2. The system *shall* run the design review on the re-proven spec in full: the whole element inventory, every proposed same-kind grouping, and behaviour parity within each. [M-1, INV-141, INV-154]
+   - the review also covers the likely divergences, echoed as three asks or fewer;
+   - the outcome is folded into a dated design-review record;
+   - a confirmed grouping re-enters the prove step under the round cap;
+   - a confirmed grouping typically rests at the gate, waiting for the human's answer.
 
 **Case: the audits and the eval runs**
 
@@ -2828,14 +2922,26 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: the compaction stations**
 
-5. The system *shall* audit every living document — spec, matrix, queue, skills, ledger, and the test suite — for redundant information and compact it, a fact living once in one home with a pointer from everywhere else, removing only the redundancy and keeping anything whose removal would change the meaning, and accounting for each removal that takes substance. [M-1, INV-115, E-24, INV-109]
-6. The system *shall* widen the station to code — merging duplicate logic, removing dead weight with its listing, and extracting a ripened abstraction only through the three-question fitness gate — the second occurrence of one problem opening its own compaction row that lands through the ordinary pipeline at one row's delta per commit without blocking its lane. [M-1, INV-123, INV-122, INV-39, INV-56]
-7. The system *shall* restructure a document only for a faster reading shape and only through the content-preserving layout vehicle — the restructure road that moves text without changing it — with its multiset proof, the check that the before and after texts hold the same words and punctuation marks in the same counts, and *shall* verify the queue's body holds no terminally-closed row, the archiving of each closed row having happened in its own closing commit. [M-1, INV-111, INV-1, INV-276]
+5. The system *shall* audit every living document — spec, matrix, queue, skills, ledger, and the test suite — for redundant information and compact it. [M-1, INV-115, E-24, INV-109]
+   - compaction removes only the redundancy, leaving a fact living once in one home with a pointer from everywhere else;
+   - it keeps anything whose removal would change the meaning;
+   - it accounts for each removal that takes substance.
+6. The system *shall* widen the compaction station to code, merging duplicate logic and removing dead weight with its listing. It *shall* extract a ripened abstraction only through the three-question fitness gate. [M-1, INV-123, INV-122, INV-39, INV-56]
+   - the second occurrence of one problem opens its own compaction row;
+   - it lands through the ordinary pipeline at one row's delta per commit, without blocking its lane.
+7. The system *shall* restructure a document only to make it read faster, and only by moving text without changing a word. It *shall* also verify that the queue's body carries no closed row. [M-1, INV-111, INV-1, INV-276]
+   - the restructure is proven by comparing the document before and after: both texts carry the same words and the same punctuation marks in the same counts;
+   - each closed row was archived in its own closing commit.
 
 **Case: the closing sweep**
 
-8. The system *shall* re-list every open human gate and every unharvested inbox file one line each, sweep the deferred rows' revisit triggers once more and send any fired row back to runnable, and re-check the formal index (the spec's closing reference table pairing each code with its rule's one-sentence statement) against the prose as a derived map. [M-1, INV-1]
-9. The system *shall* re-pin the derived docs' headers to the spec version and prove them, and *shall* re-read the thin loader line by line, keeping only a line that must hold before any pack file loads and migrating any other to its real home (the audit report states the line count). [M-1, E-16]
+8. The system *shall* re-list every open human gate and every unharvested inbox file, one line each. [M-1, INV-1]
+   - sweeps the deferred rows' revisit triggers once more, sending any fired row back to runnable;
+   - re-checks the formal index against the prose as a derived map;
+   - the formal index is the spec's closing reference table, pairing each code with its rule's one-sentence statement.
+9. The system *shall* re-pin the derived docs' headers to the spec version and prove them, and *shall* re-read the thin loader line by line. [M-1, E-16]
+   - it keeps only what must hold before any pack file loads, migrating any other line to its real home;
+   - the audit report states the line count.
 
 ---
 
@@ -2887,7 +2993,11 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: the two tiers**
 
-1. The system *shall* bind the universal tier — the contrast-frame ban (it bars naming a thing by denying its neighbour, the `"X, not Y"` frame), the negation-opener rule (it bars opening a rule by saying what it is not before saying what it is), the machine-jargon rule (it bars insider pack jargon and coined terms from spec prose), and the provenance-narrative rule (it bars a birth-story — the date and case that motivated a rule — inside the normative body) — to every host's gate whatever its register, running the provenance-narrative rule as a hard error in every tier. [INV-166]
+1. The system *shall* bind the universal tier to every host's gate whatever its register: the contrast-frame ban, the negation-opener rule, the machine-jargon rule, and the provenance-narrative rule. [INV-166]
+   - the contrast-frame ban bars naming a thing by denying its neighbour, the `"X, not Y"` frame;
+   - the negation-opener rule bars opening a rule by saying what it is not before saying what it is;
+   - the machine-jargon rule bars insider pack jargon and coined terms from spec prose;
+   - the provenance-narrative rule bars a birth-story — the date and case that motivated a rule — inside the normative body, and runs as a hard error in every tier.
 2. The system *shall* keep the pack-register tier — the caps-shout, second-person, reassurance, and future-narration rules — as the pack's own taste, right for the pack's docs and available to a host on its word. [INV-166]
 
 **Case: the tiers named in one flag**
@@ -2926,7 +3036,9 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: the nets it rests on**
 
-3. The system *shall* have the register judge read this class on the chat and document surfaces, running the regex pattern files — the universal list plus any host's own overlay — as the cheap first pass ahead of the model judge, and *shall* carry the law in the worker brief for the surface the judge does not read, since chat and inter-agent text are emitted before any gate reads them. [INV-221, INV-203, INV-173, INV-220]
+3. The system *shall* have the register judge read this class on the chat and document surfaces, and *shall* carry the law in the worker brief for the surface the judge does not read. [INV-221, INV-203, INV-173, INV-220]
+   - the register judge runs the regex pattern files as the cheap first pass ahead of the model judge, and those files are the universal list plus any host's own overlay;
+   - the worker brief carries the law because chat and agent-to-agent text are emitted before any gate reads them.
 
 ---
 
@@ -3029,7 +3141,8 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: the two preceding steps**
 
-1. *when* a push runs on the flagship repository, the system *shall* run the concurrent-edit fence and a fresh prover pass over the spec and the architecture, landing the record in `docs/prover/` before the push, a record predating the last architecture change being as stale as one predating the last spec change. [M-6, INV-11, INV-116]
+1. *when* a push runs on the flagship repository, the system *shall* run the concurrent-edit fence and a fresh prover pass over the spec and the architecture, landing the record in `docs/prover/` before the push. [M-6, INV-11, INV-116]
+   - a record predating the last architecture change is as stale as one predating the last spec change.
 2. The system *shall* fold defect findings before pushing, a fold produced by the gate's own pass shipping with the same record and a fold that edits beyond the sections its own finding named re-triggering the gate, the rest becoming queue rows. [M-6]
 
 **Case: the inbox-only carve-out**
@@ -3209,7 +3322,8 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: the arms stand down by declaration**
 
-4. *if* a package declares no alphabet, *then* the system *shall* leave the name arm inert while the Cyrillic arm still stands, and *shall* spare deliberate program data and authorship bylines through the same dated allowlist, a new offence redding and a listed one counted as debt. [INV-120]
+4. *if* a package declares no alphabet, *then* the system *shall* leave the name arm inert while the Cyrillic arm still stands, and *shall* spare deliberate program data and authorship bylines through the same dated allowlist. [INV-120]
+   - a new offence still reds, and a listed one counts as debt.
 
 ---
 
@@ -3224,7 +3338,9 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 **Case: the project-name arm**
 
 1. The system *shall* red a bare project name in the product spec or the architecture, and *shall* red a project name standing beside a calendar date in any of the three core specs. [INV-245]
-2. The system *shall* have the test matrix red a dated incident while permitting a bare fixture-ledger kind name and a project-name substring of a test-function name, a fixture name that ever falls beside a date redding and a genuine one waived as counted debt through the dated allowlist. [INV-245]
+2. The system *shall* have the test matrix red a dated incident, while permitting a bare fixture-ledger kind name and a project-name substring of a test-function name. [INV-245]
+   - a fixture name that ever falls beside a date still reds;
+   - a legitimate fixture name caught that way is waived as counted debt through the dated allowlist.
 
 **Case: the data-held names and the moved history**
 
@@ -3241,7 +3357,11 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: every item lands in its route's home**
 
-1. *when* a session receives a handed-in item, the system *shall* land it the same session in the home its route owns — a wish in its queue row, an answer in its decision archive and harvested row, a fix in its commit and journal line, workshop noise in the problem ledger. [INV-68]
+1. *when* a session receives a handed-in item, the system *shall* land it the same session in the home its route owns. [INV-68]
+   - a wish lands in its queue row;
+   - an answer lands in its decision archive and harvested row;
+   - a fix lands in its commit and journal line;
+   - workshop noise lands in the problem ledger.
 2. *when* an item's route had no prior home — field evidence, a plain reaction, or a wordless drop — the system *shall* record it as one dated line in the feedback ledger. [INV-68, E-28]
 
 **Case: the ledger line and its echo**
@@ -3332,7 +3452,9 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: the rare offer**
 
-1. *when* the conversation shows a genuinely strong reaction — a real delight, a real hurt, a comparably notable moment — the system *shall*, on a host that has switched the upstream-note arm on, offer in one line to send the pack's authors a short note about what happened, and *shall* stay silent on a mild or routine reaction. [E-30]
+1. *when* the conversation shows a genuinely strong reaction, the system *shall* offer to send an upstream note. It *shall* stay silent on a mild or routine reaction. [E-30]
+   - the offer is one line, made only where the host has switched the upstream-note arm on;
+   - such a reaction reads as a real delight, a real hurt, or a comparably notable moment.
    [GAP: the source defers the reading of a strong reaction to a conservative floor and a later design pass, so the measure that separates a strong reaction from a routine one is unstated.]
 
 **Case: the two arms do disjoint work**
@@ -3432,7 +3554,8 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 1. *when* a bug report arrives mid-feature, the system *shall* move the feature to parked with a checkpoint written first — the failing test names when any are red, the current hypothesis, and the touched files — and *shall* commit no work while a test is red. [T-9]
 2. *when* the bug holds the lane, the system *shall* run it to completion, and *shall* have an arriving bug join the waiting line and interrupt nothing. [T-9]
-3. The system *shall* order waiting bugs critical-first — a bug is critical *when* the shipped product is broken for its user, the same three conditions the priority mark carries [INV-12] — and bugs of equal priority by arrival. [T-9, INV-12]
+3. The system *shall* order waiting bugs critical-first, by the same three conditions the priority mark carries [INV-12], and *shall* order bugs of equal priority by arrival. [T-9, INV-12]
+   - a bug is critical when the shipped product is broken for its user.
 
 **Case: resume order and the parking bound**
 
@@ -3456,7 +3579,8 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: name the class and hunt its siblings**
 
-1. *when* a bug is confirmed, the system *shall* name the defect abstractly — the kind of mistake, a scope too narrow, a missing guard, an assumption that holds in one place and fails in its neighbour — then search every surface where that kind could live and fix every sibling found in the same change. [INV-124, INV-56]
+1. *when* a bug is confirmed, the system *shall* name the defect abstractly, then search every surface where that kind could live and fix every sibling found in the same change. [INV-124, INV-56]
+   - naming it abstractly means naming the kind of mistake: a scope too narrow, a missing guard, or an assumption that holds in one place and fails in its neighbour.
 
 **Case: check the architecture and the spec**
 
@@ -3512,7 +3636,8 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: a third unowned recurrence is a method defect**
 
-5. *when* a signature recurs a third time with no queue row open on it and no human word closing it — the state a pending no-problem recommendation still riding the batched report leaves it in — the system *shall* file the recurrence as a defect of the method that reaches past a single day. [INV-23, INV-10]
+5. *when* a signature's third recurrence carries no open queue row and no human word closing it, the system *shall* file the recurrence as a defect of the method that reaches past a single day. [INV-23, INV-10]
+   - that is the state a pending no-problem recommendation still riding the batched report leaves the signature in.
 6. *when* the recurrence is filed as a method defect, the system *shall* leave the host as one inbox file to the pack's own queue, citing the signature and its dates. [INV-23, E-11]
 
 ---
@@ -3555,7 +3680,8 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 **Case: two rules keep it parked**
 
 2. The system *shall* cap hand-fixing loops at the two-strikes law, the second occurrence buying an owner rather than another hand-pass. [INV-56]
-3. *when* a defect has a named mechanical owner, the system *shall* service its instances in batch — the fence fixing them silently wherever it catches them, then appending one ledger line at the session's end — with no per-instance ceremony interrupting the work or the human reading it. [INV-56]
+3. *when* a defect has a named mechanical owner, the system *shall* service its instances in batch, with no per-instance ceremony interrupting the work or the human reading it. [INV-56]
+   - the fence fixes them silently wherever it catches them, then appends one ledger line at the session's end.
 
 **Case: a real bug still preempts**
 
@@ -3759,7 +3885,10 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: three intake verdicts stay separate**
 
-4. The system *shall* keep three verdicts separate and *shall* let none collapse into another: the project kind, which says what the product is and seeds project-wide defaults; the request's work type, which says what this request builds; and the placement, which says where the request lands on the feature map. [T-16, T-13, INV-30, INV-37]
+4. The system *shall* keep three verdicts separate and *shall* let none collapse into another. [T-16, T-13, INV-30, INV-37]
+   - the project kind says what the product is and seeds project-wide defaults;
+   - the request's work type says what this request builds;
+   - the placement says where the request lands on the feature map.
 5. *if* the host profile already records a `work-kind.host-default` line, *then* the system *shall* keep it, and the project kind *shall* not silently override that explicit line. [T-16, E-13]
 
 **Case: the kind vocabulary and its growth**
@@ -4087,7 +4216,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 1. *when* founding ends, or adoption's orient ends and the project kind and the economy setting have settled, the system *shall* render the settings card. [INV-87, INV-36]
 2. The card *shall* list every setting the pack knows, each row giving the setting's plain-words name, its current value for this host where one is recorded, and one line saying how to change it in plain speech. A recorded default *shall* be shown as told, and the card *shall* ask nothing. [INV-87, INV-31]
 3. The system *shall* read each value from the settings ladder — the reader's own profiles and this host's recorded lines. [E-13, INV-87]
-4. *when* the card opens, the system *shall* open it by the show rule — a new browser window on a local seat, its own channel on a remote seat — and *shall* pass the pre-show register lint on the fixed copy and the rendered values before it opens. [INV-67, INV-83]
+4. *when* the card opens, the system *shall* open it by the show rule, and *shall* pass the pre-show register lint on the fixed copy and the rendered values before it opens. [INV-67, INV-83]
 
 **Case: the same card answers the standing question**
 
@@ -4113,7 +4242,10 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 13. *when* the viewport is a phone, or a window too narrow to hold multiple columns, the card *shall* read as one column top to bottom; on a window wide enough to hold them it *shall* keep its multi-column arrangement. [default] [INV-87]
 14. The card *shall* be a static rendered page, plain structured HTML with headings and keyboard scrolling, and *shall* depend on no hover. [default] [INV-87]
-15. The card's empty state *shall* be a missing personal profile — pack defaults shown, the absence said plainly, the founding offer named; its error state *shall* be a malformed catalog row — the render fails loudly; its blocked state *shall* be flagged text at the register lint — the showing stops until the text is fixed and the block names what it flagged. [INV-87, INV-83]
+15. The card's empty state *shall* be a missing personal profile, its error state a malformed catalog row, and its blocked state flagged text at the register lint. [INV-87, INV-83]
+   - empty shows pack defaults, says the absence plainly, and names the founding offer;
+   - error's render fails loudly;
+   - blocked stops the showing until the text is fixed, and names what it flagged.
 16. Rendering the card *shall* be read-only, so two sessions can render it at the same time; an open card *shall* show the truth of its render moment, and a later change *shall* not update the open page. [default] [INV-87]
 
 ---
@@ -4142,7 +4274,10 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: the load-bearing crossing**
 
-7. *when* the human throws a request at the instance window and intake finds a generic part and this instance's own part, the system *shall* file the engine-shaped part as one engine inbox request and park its own half as a dated blocked-on-engine debt line, so the lane keeps moving. [INV-37, T-17, E-11, INV-10, INV-56]
+7. *when* the human throws a request at the instance window and intake finds a generic part and the instance's own part, the system *shall* route each part to its own home. [INV-37, T-17, E-11, INV-10, INV-56]
+   - the generic part is filed as one engine inbox request;
+   - the instance's own part is parked as a dated blocked-on-engine debt line;
+   - this keeps the lane moving.
 8. The dated debt line *shall* appear in the instance's every status report until the engine ships the request. [INV-27]
 9. *when* the engine's session sweeps its inbox, the system *shall* land the request through the full pipeline on the engine's generic fixtures, make each new plug-in point a named content-contract entry with a works-without-it test, and ship and version on the engine's own rhythm. [T-10, INV-79, E-3]
 10. *when* the engine ships, the system *shall* update the instance to that engine version, plug the real content into the new entry, verify on the real product, un-park the parked row, and close it whole. [INV-56, T-17]
@@ -4226,7 +4361,10 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: the traffic's kind picks the transport**
 
-4. *when* a message needs no answer within a deadline — a durable record read on the neighbour's own clock, or a notification — the system *shall* send it by the store, the sender depositing one new file and the receiver sweeping it later, reachable while the receiver is not running and committed and pushed *when* the sender is remote. [INV-236, E-11, T-10, INV-112]
+4. *when* a message needs no answer within a deadline, the system *shall* send it by the store. [INV-236, E-11, T-10, INV-112]
+   - such a message is a durable record read on the neighbour's own clock, or a notification;
+   - the file is reachable while the receiver is not running;
+   - *when* the sender is remote, the file is committed and pushed.
 5. *when* a message is a back-and-forth needing a live peer that answers in turn, the router (`guardrails/route_agent_transport.py`) *shall* route it to the direct channel. [INV-236]
 6. *while* the harness has shipped no listener, the direct channel *shall* stand unavailable, and the router *shall* name the listener it waits on. [INV-236, INV-231]
 
@@ -4263,8 +4401,11 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 **Case: the description's presence is checked, its quality sampled**
 
 7. *when* the migration to the requirements format lands, the dedicated description-field gate *shall* retire with the criteria and the glossary as its stated successor, the requirement-shape gate thereafter holding that every code trails a criterion carrying its rule. [INV-239, INV-271]
-8. for a code deposited on the agent channel with no description beside it, the reviewer's review *shall* stand as the net — the reviewer role's review is the enforcement until the named gate ships — the deposit-time lint over each `from-<agent>` inbox file being the mechanism the law declares. [INV-239, INV-189, INV-150]
-9. a human *shall* sample descriptions against the quality bar at the migration's authoring and again on the periodic audit's own count — every ten deliveries by default, the host setting its own count in its profile — and *shall* accept each that reads as clear, and a description that reads below the bar *shall* become a queue row. [INV-239, INV-41, INV-145]
+8. for a code deposited on the agent channel with no description beside it, the reviewer's review *shall* stand as the net. [INV-239, INV-189, INV-150]
+   - the reviewer role's review is the enforcement until the named gate ships;
+   - the law declares the mechanism as the deposit-time lint over each `from-<agent>` inbox file.
+9. a human *shall* sample descriptions against the quality bar at the migration's authoring and each periodic audit, and *shall* accept each that reads as clear. A description below the bar *shall* become a queue row. [INV-239, INV-41, INV-145]
+   - the periodic audit's own count defaults to every ten deliveries, the host setting its own count in its profile.
 
 **Case: the quality bar a description is written to**
 
@@ -4334,7 +4475,9 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: a tree with no card is flagged**
 
-12. *when* an inventoried live-spec host tree carries no `.live-spec/agent.md`, the system *shall* flag it as an incomplete record, the rank a project kind recorded with no declared layers carries, and *shall* have the host write its card at its catch-up walk, the duty binding forward. [INV-184, A-10, A-11, INV-159, INV-36, INV-135]
+12. *when* an inventoried live-spec host tree carries no `.live-spec/agent.md`, the system *shall* flag it as an incomplete record and *shall* have the host write its card at its catch-up walk. [INV-184, A-10, A-11, INV-159, INV-36, INV-135]
+   - an incomplete record ranks the same as a project kind recorded with no declared layers;
+   - the duty binds forward.
 13. the gate `guardrails/check-agent-card.py` *shall* read a host tree's root and fail by name *when* the root carries no `.live-spec/agent.md`, and the pack carries its own card so the gate reads the pack's tree and passes. [INV-219, INV-97]
 
 ---
@@ -4396,7 +4539,10 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: the transport**
 
-1. a message *shall* be one new file in the receiver's inbox, named and shaped as every inbox item, naming its source with the `from-<agent>` form the inbox uses, two source words being reserved and owing no ground — `from-owner`, the owner's own message, and `stranger-`, a stranger's bridged item, the inbox file the monitor commits from a stranger's issue. [INV-189, E-11, INV-193, INV-146]
+1. a message *shall* be one new file in the receiver's inbox, named and shaped as every inbox item, naming its source with the `from-<agent>` form the inbox uses. [INV-189, E-11, INV-193, INV-146]
+   - two source words are reserved and own no ground;
+   - `from-owner` names the owner's own message;
+   - `stranger-` names a stranger's bridged item, the inbox file the monitor commits from a stranger's issue.
 2. the system *shall* deposit that one file by the standing arms — a co-located sender writes it and stops, a remote sender commits and pushes it under its per-repo grant, and the receiver's sweep carries it into the receiver's queue. [E-11, INV-10, INV-174, INV-112, T-10]
 
 **Case: a message names the work that earned it**
@@ -4407,7 +4553,10 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: three grounds, and the set is closed**
 
-6. the system *shall* recognize exactly three grounds for a message — the sender blocked by the receiver's zone as it stands; the sender having lived a fault in that zone and carrying the evidence; or the sender holding a concern no agent's zone owns, carried to the pack as its default owner. [INV-189, INV-197]
+6. the system *shall* recognize exactly three grounds for a message. [INV-189, INV-197]
+   - the sender is blocked by the receiver's zone as it stands;
+   - the sender has lived a fault in that zone and carries the evidence;
+   - the sender holds a concern no agent's zone owns, carried to the pack as its default owner.
 7. a candidate message matching no ground *shall* stay unsent, and the third ground *shall* carry only to the pack and only *while* no zone owns the thing. [INV-189, INV-197]
 
 **Case: the owner's zone is presumed informed**
@@ -4417,7 +4566,9 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 **Case: the agent recognizes the zone and deposits on its own**
 
 9. *when* an agent's own work meets a fault or a lack in something another agent's zone owns, the system *shall* scan for cards, find the owning agent, and take the channel that fits, on its own recognition. [INV-195, E-32, INV-183]
-10. *when* the agent's work earns a message under a ground, the agent *shall* write the file to the neighbour's inbox in the course of its own work, the trigger being any earned ground the work meets, so any occasion that earns a ground qualifies, the pack stating the form of a message and the host's work stating its content. [T-24, INV-189, INV-153, INV-163]
+10. *when* the agent's work earns a message under a ground, the agent *shall* write the file to the neighbour's inbox in the course of its own work. [T-24, INV-189, INV-153, INV-163]
+   - the trigger is any earned ground the work meets, so every occasion that earns a ground qualifies;
+   - the pack states the form of a message, and the host's work states its content.
 11. the deposited message *shall* name its references by the pair, so the neighbour reads a self-explaining file. [T-24, E-35]
 
 **Case: the user is told**
@@ -4456,23 +4607,29 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: a concern no zone owns**
 
-5. *when* a concern is real work whose owning zone does not exist yet, the system *shall* carry it to the pack's inbox, and the pack repo's own assigned session, sweeping that inbox, *shall* answer who owns it — an existing agent, a new agent the owner ratifies, or a skill. [INV-197, T-22, INV-182, INV-97, T-10]
+5. *when* a concern is real work whose owning zone does not exist yet, the system *shall* carry it to the pack's inbox. Sweeping that inbox, the pack repo's assigned session *shall* answer who owns it. [INV-197, T-22, INV-182, INV-97, T-10]
+   - the answer names an existing agent, a new agent the owner ratifies, or a skill.
 6. *while* ownership is being settled, the agent *shall* do the work it can do now in whatever tree can hold it and mark that work provisional, the re-home landing later as ordinary pipeline work. [INV-197]
 
 **Case: the crossing bound**
 
-7. the system *shall* let one question cross between the same two agents at most twice, counted by the message identifier, and *shall* send the third crossing to the owner, named in the sender's status report as a zone question the two could not settle, the shape the human-decision withdrawal loop already takes. [INV-196, INV-192, INV-27, INV-130]
+7. the system *shall* let one question cross between the same two agents at most twice, counted by the message identifier, and *shall* send the third crossing to the owner. [INV-196, INV-192, INV-27, INV-130]
+   - the sender's status report names the third crossing as a zone question the two could not settle;
+   - this is the shape the human-decision withdrawal loop already takes.
 8. neither agent *shall* reopen the count by rewording the question. [INV-196]
 
 **Case: a wrong referral is named**
 
-9. *when* an exchange reaches the crossing bound through a referral met by a counter-referral between the same two agents, the system *shall* name the wrong referral in the sender's status report — a referral that pointed at a zone which, by its own referring-back, does not own the target. [INV-225, INV-196, INV-27]
+9. *when* an exchange reaches the crossing bound through a referral met by a counter-referral between the same two agents, the system *shall* name the wrong referral in the sender's status report. [INV-225, INV-196, INV-27]
+   - a wrong referral pointed at a zone which, by its own referring-back, does not own the target.
 10. *when* a referral is answered by an acceptance, or an onward referral to a third zone answers it, the system *shall* reach no bound and name nothing. [INV-225]
 11. the checker `guardrails/check-wrong-referral.py` *shall* read the shape of the exchange and ride the suite, staying clear of the push chain — the sequence of checks a push runs — *while* whether the target falls inside a zone's claim stays the receiving sweep's and the reviewer's judgment. [INV-225, INV-150, INV-222]
 
 **Case: the message identifier**
 
-12. the system *shall* mint a stable identifier per message from the sender's session identity — the harness session id where the context carries one, else the session's start time joined with its worktree path and a nonce, recorded in the session checkpoint — plus a discriminator the sender mints for that message, so one session's two messages carry two identifiers, and an exchange *shall* be keyed to its first message's identifier, which every reply names, so the crossing bound counts questions rather than sessions and outlives the sender's own session. [INV-192, INV-117]
+12. the system *shall* mint a stable identifier per message from the sender's session identity plus a discriminator the sender mints for that message, so one session's two messages carry two identifiers. [INV-192, INV-117]
+   - the sender's session identity is the harness session id where the context carries one, or else the session's start time joined with its worktree path and a nonce, recorded in the session checkpoint;
+   - an exchange is keyed to its first message's identifier, which every reply names, so the crossing bound counts questions rather than sessions and outlives the sender's own session.
 13. a reply *shall* name the message by that identifier after the file has left the inbox and become a row in the receiver's queue. [INV-192, E-11]
 
 **Case: the reply and the terminal state**
@@ -4689,7 +4846,10 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: a rule file forks by scope, losing nothing**
 
-3. *when* an existing rule file is migrated, the system *shall* fork each rule to the scope it describes — a method rule staying the pack's, a personal line moving to the profile, a project line becoming a migration note for that project's own session to land. [E-16, INV-10]
+3. *when* an existing rule file is migrated, the system *shall* fork each rule to the scope it describes. [E-16, INV-10]
+   - a method rule stays the pack's;
+   - a personal line moves to the profile;
+   - a project line becomes a migration note for that project's own session to land.
 4. The system *shall* prove the move lossless rule by rule and *shall* keep the old file in the attic, so one move rolls the change back. [E-16, INV-7]
 5. *while* the promotion sits outside any repository fence, the system *shall* re-read the file immediately before appending, its git home standing as the recovery net. [INV-11, E-16]
 
@@ -4764,6 +4924,15 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 5. The seat *shall* be free to overrule the proposal per wish, and the system *shall* ride one logged line — proposed tier, chosen tier, and why — on the checkpoint and the delivery report. [D-2, INV-69]
 6. The system *shall* keep this assignment-time override distinct from the failed-acceptance escalation, both logged on their own lines, so a silent tier change cannot stand. [ACT-3, INV-69]
+
+**Case: an expensive dispatch proves its own need**
+
+7. *when* a unit of work is dispatched to the expensive tier, the system *shall* open its brief with the refusal instruction, which assumes a cheaper tier and asks the run to answer first. [INV-300, INV-69]
+   - the instruction and the tier ladder live in `guardrails/tier-refusal.json`;
+   - a refusing run replies with one line naming the tier that fits and the reason.
+8. *when* a run refuses, the system *shall* record the refusal with its task text, the named tier, the reason, and the date, and *shall* re-run the same brief at the named tier. [INV-300]
+9. The system *shall* turn a task away before any model call once three recorded refusals name one tier and share a phrase from their task texts. [INV-300]
+   - the promoted phrases sit in `guardrails/tier-refusal.json`, where a person reads them.
 
 ---
 
@@ -4863,7 +5032,9 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: it fires mandatory on a high-stakes author-only delivery**
 
-3. The system *shall* fire the audit mandatory *when* a delivery is high-stakes — a surface-sized delta (surface being intake's size class meaning one whole user-facing surface changes) or a change to the method itself, a rule whose meaning changed — and its only review is the author's own. [INV-46]
+3. The system *shall* fire the audit mandatory *when* a delivery is high-stakes and its only review is the author's own. [INV-46]
+   - a delivery is high-stakes when it is a surface-sized delta or a change to the method itself;
+   - a change to the method itself means a rule whose meaning changed.
 4. The system *shall* count a review independent only *when* a differently-contexted head is briefed from the primary sources on the goal-missed hypothesis, a same-context prover pass never counting and delegation alone never making it independent. [INV-46]
 5. One fresh checker *shall* cover every law in a delivery batch, the checker being a worker under its own contract whose verdict rides the delivery report. [INV-61, ACT-3]
 
@@ -4879,7 +5050,8 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: the class is closed and enumerated**
 
-1. The system *shall* treat the expensive-decision set as closed and enumerable — an agent's birth, a node carved or merged, a contract's shape once a consumer pinned it, a project's kind, an engine-and-instance split, and a repository going public — naming every member as either enumerated on its own row or riding inside another row's work. [INV-235, T-22, INV-113, INV-122, INV-187, INV-36, INV-85, INV-44, INV-226]
+1. The system *shall* treat the expensive-decision set as closed and enumerable, naming every member as either enumerated on its own row or riding inside another row's work. [INV-235, T-22, INV-113, INV-122, INV-187, INV-36, INV-85, INV-44, INV-226]
+   - the set holds: an agent's birth, a node carved or merged, a contract's shape once a consumer pinned it, a project's kind, an engine-and-instance split, and a repository going public.
 2. The system *shall* state the duty for the whole class and have each member carry it at its own decision point, a traceability test holding that this clause names the read and that agent birth carries it; that test *shall* ride the suite and take no push-gate letter, since no gate reads a reversal cost, the far-tier and node-growth checks the precedent. [INV-235]
 
 **Case: the read is adversarial and closes with the human**
@@ -5113,7 +5285,9 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 **Case: the reach map decides the set**
 
 1. *when* a push runs, the system *shall* derive its check-set from the declared reach map against the diff's file list, and *shall* run the full suite *if* any changed file is unmapped or new. [INV-45, INV-40]
-2. *when* a diff is confined to the declared infra classes, the system *shall* run the test files that read its changed files plus the traceability net — the suite's own traceability tests, carrying the anchor-ownership assertion and riding every scoped run, a mechanism distinct from the feature-coverage check — log the picked set with its reason, and *shall* curate the infra-class list by incident and re-justify it at milestones. [INV-45, INV-212, INV-18]
+2. *when* a diff is confined to the declared infra classes, the system *shall* run the test files that read its changed files plus the traceability net, and *shall* log the picked set with its reason. [INV-45, INV-212, INV-18]
+   - the traceability net is the suite's own traceability tests, carrying the anchor-ownership assertion and riding every scoped run, a mechanism distinct from the feature-coverage check;
+   - the system *shall* curate the infra-class list by incident and re-justify it at milestones.
 3. *when* a full run completes, the system *shall* read its own wall-time against the architecture's stated number and red on an overrun naming both figures. [INV-41, INV-164]
 
 **Case: the classes are the host's to declare**
@@ -5252,7 +5426,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 **Case: a Stop-hook notice**
 
 5. *when* the arm fires, the system *shall* flag the previous reply and deliver the correction one message later, since a chat reply is already emitted and cannot be blocked. [INV-220]
-6. The system *shall* ship the arm as a universal pack hook covered by the config-health parity net — the check that reds an installed hook copy that is missing or differs from its source in the pack — and *shall* have its runs and fires read by the net-liveness meter rather than trusted. [INV-175, INV-180, INV-202]
+6. The system *shall* ship the arm as a universal pack hook covered by the config-health check, and *shall* have its runs and fires read by the net-liveness meter rather than trusted. [INV-175, INV-180, INV-202]
 
 ---
 
@@ -5266,7 +5440,10 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: the hedge gate**
 
-1. *when* any message the seat showed since the last human turn carries an offering-hedge frame from the pattern list, after a quoted, backticked, or fenced span is stripped, the system *shall* block the stop with a rewrite instruction reaching the seat one message later, modelled on the scissors scan — the literal gate that blocks a sentence naming a thing by denying its neighbour — matching against an inline universal pattern list and an optional personal-overlay file a host tunes, as the scissors scan carries one, and installed by the setup walk. [INV-238, INV-173]
+1. *when* any message the seat showed since the last human turn carries an offering-hedge frame from the pattern list, the system *shall* block the stop with a rewrite instruction reaching the seat one message later. [INV-238, INV-173]
+   - a quoted, backticked, or fenced span is stripped from the message before the pattern list is matched;
+   - the scissors scan is the literal gate that blocks a sentence naming a thing by denying its neighbour; this arm is modelled on it, matching against an inline universal pattern list and an optional personal-overlay file a host tunes, as the scissors scan carries one;
+   - the gate is installed by the setup walk.
 2. The system *shall* leave clear of a genuine taste, policy, or irreversible question that names its human-only fact, since that question is an honest admission the human owns. [INV-238, INV-152]
 3. The system *shall* catch only the frames it lists, so a paraphrase it does not carry stays with the conduct judge that reads the class in meaning. [INV-238, INV-241]
 
@@ -5298,7 +5475,12 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: the law body and its evidence**
 
-4. The system *shall* judge the orchestration members carrying a reminder-history of two or more — worker-routing (each unit of work routed to the cheapest tier its step and kind allow), lean-orchestrator (heavy reading dispatched to a worker rather than held inline), pull-unblocked-work (the session keeps pulling unblocked queue work rather than idling), and classify-the-subtask (a subtask is the person's or the seat's by what the subtask itself needs, never by the heading it sits under) — their breaks recorded in the one home the break-record law names, the problem ledger (`PROBLEMS.md`), and *shall* leave the single-occurrence members as reminders until they recur. [INV-241, INV-108, INV-69, INV-137, INV-143]
+4. The system *shall* judge the orchestration laws carrying a reminder history of two or more, and *shall* leave a law with a single occurrence as a reminder until it recurs. [INV-241, INV-108, INV-69, INV-137, INV-143]
+   - worker-routing: each unit of work is routed to the cheapest tier its step and kind allow;
+   - lean-orchestrator: heavy reading is dispatched to a worker, and none of it is held inline;
+   - pull-unblocked-work: the session keeps pulling unblocked queue work instead of idling;
+   - classify-the-subtask: a subtask is the person's or the seat's by what the subtask itself needs, never by the heading it sits under;
+   - each break is recorded in the problem ledger (`PROBLEMS.md`), the home the break-record law names.
 5. *when* the evidence is partial — an idle or a parked step the trace cannot fully show — the system *shall* red only on a clear case and *shall* lean on the net-liveness meter and the human review window. [INV-241, INV-202]
 
 **Case: async, and off the deterministic gate**
@@ -5326,7 +5508,8 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 **Case: the notice ships ahead of the strict form**
 
 3. The system *shall* ship this notice ahead of the stricter owned-identity check, so what the strict form would refuse is shown before the strict form starts refusing. [INV-204, INV-162]
-4. *when* a cleanup is built through an indirection the patterns cannot read, the system *shall* leave the announcement to the forker, the same bound the muted-launch net keeps — the check holding that every browser a test launches starts muted, an unmuted launch redding. [INV-204, INV-157]
+4. *when* a cleanup is built through an indirection the patterns cannot read, the system *shall* leave the announcement to the forker. The muted-launch check keeps the same bound. [INV-204, INV-157]
+   - the muted-launch check holds that every browser a test launches starts muted, and it reds an unmuted launch.
 
 ---
 
@@ -5510,7 +5693,8 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: rotate the closed portion**
 
-1. *when* a growable document holds enough fully-closed material, the system *shall* move the closed rows into a dated archive under `docs/queue-archive/` and leave a manifest line naming which rows moved and where; for the queue the closing commit is that moment, the live-body law moving each closed row as it closes. [INV-209, INV-276]
+1. *when* a growable document holds enough fully-closed material, the system *shall* move the closed rows into a dated archive under `docs/queue-archive/` and leave a manifest line naming which rows moved and where. [INV-209, INV-276]
+   - for the queue, the closing commit is that moment: the live-body law moves each closed row as it closes.
 2. The system *shall* read a row as rotatable only when it carries a closed status and no open signal, reusing the existing signal rather than minting a marker. [INV-209, INV-164]
 
 **Case: the gate holds nothing-lost**
@@ -5532,7 +5716,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 **Case: co-residence is the counted signal**
 
 1. The system *shall* count nodes-per-file from the architecture's own pin column as the number of distinct nodes whose pins name a file, and *shall* reject raw size as the signal. [INV-233, INV-41]
-2. *when* an architecture is re-proven, the system *shall* have each node re-answer the three fitness questions on its pins — can the node be tested alone, does a real second place need it, and can it be worked in parallel with its neighbour without queuing on shared files — two nodes sharing one file answering the parallel-work question no. [INV-233, INV-122]
+2. *when* an architecture is re-proven, the system *shall* have each node re-answer the three fitness questions on its pins, and two nodes whose pins name one file *shall* answer the parallel-work question no. [INV-233, INV-122]
 
 **Case: the ratchet and the proposal**
 
@@ -5737,7 +5921,8 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: the local co-located arm**
 
-4. *when* a session shares the assigned session's working tree, the system *shall* deposit by writing its one new inbox file and stopping there — no staging, no commit, no push — the assigned session's sweep committing the harvest. [INV-174]
+4. *when* a session shares the assigned session's working tree, the system *shall* deposit by writing its one new inbox file and stopping there, with no staging, no commit, and no push. [INV-174]
+   - the assigned session's sweep commits the harvest.
 5. The system *shall* read a fresh untracked inbox file as the fence's expected benign case, and a co-located neighbour's stage or commit as a fence stop. [INV-174, INV-11]
 
 **Case: the remote read arm**
@@ -5844,7 +6029,8 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: a delivery commit refreshes the map**
 
-1. *when* a commit's diff moves a roadmap row from the body to the archive with its status naming *landed*, the system *shall* require the same commit to touch `NEXT_STEPS.md`, reading the pushed commit range through the same base ladder the other range checks read — the declared base, then `origin/main`, then the previous commit. [INV-242, INV-276]
+1. *when* a commit's diff moves a roadmap row from the body to the archive with its status naming *landed*, the system *shall* require the same commit to touch `NEXT_STEPS.md`. [INV-242, INV-276]
+   - the commit range is read through the same base ladder the other range checks use: the declared base, then `origin/main`, then the previous commit.
 2. *if* such a delivery commit does not touch the forward map, *then* the system *shall* red and name the one fix. [INV-242]
 
 **Case: what is not a delivery owes nothing**
@@ -5886,7 +6072,10 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: derive the reachable situations**
 
-1. *when* the prover reads a stateful surface, the system *shall* walk every axis — the views, modes, and tiers; the viewport shapes and reopens it passes through while already shown; and every other surface that can be present at the same time, siblings on its screen and the surfaces one step before and after it in the flow. [INV-72, C-1]
+1. *when* the prover reads a stateful surface, the system *shall* walk every axis. [INV-72, C-1]
+   - the axes are the views, modes, and tiers;
+   - the viewport shapes and reopens it passes through while already shown;
+   - every other surface that can be present at the same time, siblings on its screen and the surfaces one step before and after it in the flow.
 2. *when* the prover reaches one situation, the system *shall* ask whether this surface's behaviour is stated there, and *shall* report a reachable situation with a blank answer as a finding of the same class as a fact no node owns. [INV-72, E-14]
 
 **Case: the hunt rides both passes and leaves the sentence to the author**
@@ -5943,7 +6132,10 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: the magnitude of a reversible quantity**
 
-7. *when* the paired open and close ride a continuous, reversible quantity — a pinch span, a drag distance, a wheel accumulation — the system *shall* state whether the inverse asks the same magnitude as the forward move, symmetric or a named deliberate asymmetry, decided or marked a default, and *shall* report a stated pair whose magnitude sentence is missing as the same blank-answer finding. [INV-126, INV-31, INV-72]
+7. *when* the paired open and close ride a continuous, reversible quantity, the system *shall* state whether the inverse asks the same magnitude as the forward move, symmetric or a named deliberate asymmetry. [INV-126, INV-31, INV-72]
+   - the continuous, reversible quantity may be a pinch span, a drag distance, or a wheel accumulation;
+   - the answer is decided or marked a default;
+   - the system *shall* report a stated pair whose magnitude sentence is missing as the same blank-answer finding.
 
 ---
 
@@ -5981,17 +6173,19 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: both ends of a gated range**
 
-1. *when* a transition is gated on a quantity that runs on a line, the system *shall* state its behaviour below the low end and above the high end, and *shall* read a phrase that names one point and leaves an unbounded interval silent as incomplete until that interval is bounded on both sides. [INV-138]
+1. *when* a transition is gated on a quantity that runs on a line, the system *shall* state its behaviour below the low end and above the high end, each end standing as its own decided or default sentence, and *shall* read a phrase that names one point and leaves an unbounded interval silent as incomplete until that interval is bounded on both sides. [INV-138]
 
 **Case: the three faces of an async slot**
 
 2. *when* a slot on screen is filled by asynchronously produced content, the system *shall* name the pending, arrived, and failed faces of the wait and stand a visible pending face wherever the slot holds a reserved place. [INV-138]
 3. The system *shall* read the pending face as that slot's loading state, sharpening the standard facets' empty, error, and loading states for a reserved slot. [INV-138, INV-18]
-4. *when* the prover reads a gated range or an async slot with an out-of-range or in-between state left unspecified, the system *shall* report it as the same class as an unwritten situation, and the author *shall* write each edge as a spec sentence, decided or marked a default, surfacing the timing to the human where only he can judge it. [INV-138, INV-72, INV-31, INV-30]
+4. *when* the prover reads a gated range or an async slot with an out-of-range or in-between state left unspecified, the system *shall* report it as the same class as an unwritten situation. [INV-138, INV-72, INV-31, INV-30]
+   - the timing is surfaced to the human, since only he can judge it.
 
 **Case: a scoped guarantee owes its whole domain**
 
-5. *when* a guarantee holds over one named part of its domain — a band of a ranged quantity, a user state, a network condition, a locale — the system *shall* draw the standing question about the remainder and give each remaining part its own decided or default sentence until the domain is covered. [INV-138]
+5. *when* a guarantee holds over one named domain part, the system *shall* draw the standing question about the remainder and give each remaining part its own decided or default sentence until the domain is covered. [INV-138]
+   - a named domain part is a band of a ranged quantity, a user state, a network condition, or a locale.
 6. The system *shall* read a guarantee that speaks for one part while the remainder stays silent as the same unwritten-situation class. [INV-138, INV-72]
 
 **Case: the viewport is the worked instance**
@@ -6034,7 +6228,8 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 **Case: the axis set is read from the kind**
 
 1. The system *shall* have the author read a surface's axes from the project's kind before composing, the kind carrying its axis set the way it carries a node-structure scaffold and a set of design principles. [INV-244, INV-36, INV-135, INV-136]
-2. *when* a project's kind is visual — one that renders a visitor-facing surface and declares a design-principles set, the `static site` and `fullstack` kinds among them — the system *shall* owe every visitor-facing surface an open axis set whose first named member is the input-capability axis, beyond the viewport axis the floor already carries. [INV-244, INV-36, INV-136, C-1]
+2. *when* a project's kind is visual, the system *shall* owe every visitor-facing surface an open axis set whose first named member is the input-capability axis, beyond the viewport axis the floor already carries. [INV-244, INV-36, INV-136, C-1]
+   - a visual kind renders a visitor-facing surface and declares a design-principles set; the `static site` and `fullstack` kinds are visual kinds.
 3. The system *shall* have the sibling axes on that surface — browser engine, locale and text direction, connection reach, first-versus-returning visit, accessibility, and measurement reach — ride the per-kind duty and enter as their own increments, so the visual kind's owed set stays open. [INV-244, INV-226]
 
 **Case: the axis set is a founding declaration**
@@ -6046,7 +6241,9 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: the gap between owed and covered is the finding**
 
-8. The system *shall* read the two layers at each surface — the axes the kind owes and the values the shipped code covers — and *shall* report an owed axis whose value the code leaves uncovered as a finding of the same blank-answer class as a reachable situation the spec never wrote. [INV-244, INV-72]
+8. The system *shall* read the two layers at each surface, and *shall* report an owed axis whose value the code leaves uncovered as a finding of the same blank-answer class. [INV-244, INV-72]
+   - the two layers are the axes the kind owes and the values the shipped code covers;
+   - that blank-answer class also covers a reachable situation the spec never wrote.
 9. *when* the gap is found, the system *shall* have the author state it as a spec sentence, decided or marked a default. [INV-244, INV-18, INV-31]
 10. The system *shall* read an owed axis as covered only once the author composes and tests the surface against each elementary value of the axis, the write-the-sentence half and the cover-the-values half splitting one dimension by time. [INV-244, C-1, INV-18]
 
@@ -6083,17 +6280,25 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: the two settled answers and the finding**
 
-3. The system *shall* accept a monolith named for a stated architectural reason — one bundle behind one page that is never torn down, a delivery that runs on no server, or a payload the design judges too small to make a split worth its cost — as a settled answer, the design the judge of whether the named reason holds. [INV-248]
+3. The system *shall* accept a monolith named for a stated architectural reason as a settled answer. [INV-248]
+   - the reason may be one bundle behind one page that is never torn down;
+   - a delivery that runs on no server;
+   - a payload the design judges too small to make a split worth its cost;
+   - the design judges whether the named reason holds.
    [GAP: the source names the design as the judge of a "too small to make a split worth its cost" payload but states no measure — the payload size below which a split costs more than it saves — so a maintainer cannot pin the boundary between a settled small-payload monolith and an unexamined one; the source leaves it to the design as a senior read, not a gate.]
 4. The system *shall* accept an axis that names the delivery road it owes — a platform split, a lazy load, a per-value chunk — carried by its own later row. [INV-248, INV-159]
 5. The system *shall* read the finding as the third case: an axis that adds runtime code and carries neither sentence, shipping as one artifact because the choice went unexamined, its byte weight the downstream symptom of the unasked separability question. [INV-248]
 
 **Case: the lens's reach and its standing**
 
-6. The system *shall* reach this lens past the input-capability axis to any declared axis a kind owes — an assistant capability present or absent, a rendering engine, the viewport — each reached only where covering it ships runtime code, so a viewport answered by a media query or a locale answered by a logical property draws no delivery question. [INV-248]
+6. The system *shall* reach this lens past the input-capability axis to any declared axis a kind owes. [INV-248]
+   - reached only where covering it ships runtime code;
+   - it may be an assistant capability present or absent, a rendering engine, or the viewport;
+   - a viewport answered by a media query, or a locale answered by a logical property, draws no delivery question.
 7. The system *shall* keep this a senior read the prover carries and not a gate, since a monolith is lawful whenever its reason is named and only the design can say whether that reason holds. [INV-248, INV-244, INV-214]
 8. The system *shall* carry a prover discovery habit stated in its skill: for a lens the prover applies, it may ask whether that lens's dual applies to the document here. The system *shall* read this as a prompt that surfaces a missing lens, and not as a rule that every lens ship paired, since one dual folds into a lens already run while another is nameable yet seldom applies. [INV-248]
-9. The system *shall* read this as the delivery-separability member of the composition-lens family, binding forward: a surface authored after this rule states its runtime-code axes' delivery from the first draft, and a surface that predates it carries the read at the first landing that touches it. [INV-248, INV-125, INV-126, INV-136, INV-138, INV-226, INV-159]
+9. The system *shall* read this as the delivery-separability member of the composition-lens family, binding forward. [INV-248, INV-125, INV-126, INV-136, INV-138, INV-226, INV-159]
+   - the forward terms match the axis-set rule's: from the first draft for a new surface, at the first touching landing for an older one.
 
 ---
 
@@ -6113,7 +6318,10 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 2. *when* the pack can ship one identical body, the system *shall* centralize the body to a single pack home adopted by a package update, so a fix lands once and reaches every host and no divergent copy can form, the browser test harness the centralize pole. [INV-163, INV-158]
 3. *when* the body is host-specific — it names a host's own surfaces, holds a host's own data, or reads a host's own artifacts — the system *shall* ship the shape, a template and the guidance around it, and have each host own the instance it fills. [INV-163]
-4. The system *shall* ship the shape for the cross-surface uniformity rule as its rule and prover lens, for a project kind's design principles as the law and starter set with the pixel projection left to the adopting project, and for the removal-list scanner as host-held greps under a pack-shipped template. [INV-163, INV-125, INV-136, INV-139, E-26]
+4. The system *shall* ship the shape for three capabilities. [INV-163, INV-125, INV-136, INV-139, E-26]
+   - the cross-surface uniformity rule ships as its rule and prover lens;
+   - a project kind's design principles ship as the law and starter set, with the pixel projection left to the adopting project;
+   - the removal-list scanner ships as host-held greps under a pack-shipped template.
 
 **Case: the boundary moves toward centralization, binding forward**
 
@@ -6132,7 +6340,9 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: vendor the kit with source pins**
 
-1. *when* adoption runs, the system *shall* vendor the style lint, the redundancy precheck, the freeze tool, and their shared library into the host's tree, each vendored copy carrying a source pin — the pack version and content hash it came from — that a later update check reads. [INV-172, A-7]
+1. *when* adoption runs, the system *shall* vendor the style lint, the redundancy precheck, the freeze tool, and their shared library into the host's tree. [INV-172, A-7]
+   - each vendored copy carries a source pin: the pack version and the content hash it came from;
+   - a later update check reads that source pin.
 2. The system *shall* merge the ratchet manifest across installer runs, so a prior install's keys survive a later run of the other kit. [INV-172]
 
 **Case: seed the caps and pin them**
@@ -6142,7 +6352,9 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: wire the push gate red-first**
 
-5. *when* the installer wires the gates into the host's push gate, the system *shall* insert the block at a safe anchor ahead of the host's terminating exit, verify the block is reachable before it reports the gate wired, follow the four project-side checks' shipping contract — config-driven, standard-library only, one JSON line per red — and prove itself red-first on a planted defect. [INV-172, INV-97]
+5. *when* the installer wires the gates into the host's push gate, the system *shall* insert the block at a safe anchor ahead of the host's terminating exit. [INV-172, INV-97]
+   - verifies the block is reachable before reporting the gate wired;
+   - follows the four project-side checks' shipping contract — config-driven, standard-library only, one JSON line per red — and their red-first attachment proof.
 6. *when* a re-run finds a block stranded past a terminating exit, the system *shall* repair it by moving it to the safe anchor. [INV-172]
 
 ---
@@ -6262,7 +6474,8 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 1. The system *shall* have a release's number answer one question for a host that vendored the previous version: what taking it costs the host in the host's own action. [INV-217]
 2. *when* a release fixes a machine to hold a law already stated, with no new capability and no changed contract, the system *shall* number it a patch, which the host takes by doing nothing. [INV-217]
 3. *when* a release grows what a host may adopt — a new capability, a new law, a new gate — in a backward-compatible way, the system *shall* number it a minor, which the host takes by re-running its catch-up walk with nothing it already carries rewritten. [INV-217, INV-91]
-4. *when* a release cannot be taken without the host changing what it already carries — a reworded vendored rule, a renamed or removed surface a host depends on, a changed adoption or catch-up step, a moved law that forces host action — the system *shall* number it a major and ship its dated migration chapter. [INV-217, INV-91]
+4. *when* a release cannot be taken without the host changing what it already carries, the system *shall* number it a major and ship its dated migration chapter. [INV-217, INV-91]
+   - such a change is a reworded vendored rule, a renamed or removed surface a host depends on, a changed adoption or catch-up step, or a moved law that forces host action.
 
 **Case: the tier call is a stated judgment**
 
@@ -6327,44 +6540,49 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: the criterion form**
 
-4. Each criterion *shall* state one rule — a single situation with its response, the response's *shall* clauses joined in one sentence where the duty has parts — its code anchor trailing at the line's end; whether a line packs two rules is the cold reader's judgment, never a keyword count. [INV-251]
+4. Each criterion *shall* state one rule, and its code anchor *shall* trail at the line's end. [INV-251]
+   - a rule is a single situation with its response, the response's *shall* clauses joined in one sentence where the duty has parts;
+   - whether a line packs two rules is the cold reader's judgment, never a keyword count.
 5. The keywords *when*, *while*, *if*, *then*, and *shall* *shall* be set in lowercase italics, and no word in the document *shall* be written in all capitals outside a code anchor, a `[GAP: ...]` marker, or a filename. [INV-251]
 6. *if* a line breaks the criterion form or the capitals rule, *then* the style lint *shall* red. [INV-251]
+7. A criterion *shall* hold the pieces of its rule its own line leaves as an indented bullet sub-list under that line. [INV-251]
+   - such a piece is an enumeration of members, a scope note, or a permitted exception.
+8. Each bullet *shall* carry one complete clause with its own subject and finite verb, and *shall* carry no code anchor. [INV-251]
 
 **Case: a source hole is recorded, never filled by invention**
 
-7. *when* a criterion names a behaviour whose judge, measure, or scope the source does not state, the system *shall* name the plainest honest actor and *shall* write a `[GAP: ...]` line under the criterion. [INV-252]
-8. *if* the source does not answer a behaviour, *then* the system *shall* write the gap line and *shall* invent no answer. [INV-252]
+9. *when* a criterion names a behaviour whose judge, measure, or scope the source does not state, the system *shall* name the plainest honest actor and *shall* write a `[GAP: ...]` line under the criterion. [INV-252]
+10. *if* the source does not answer a behaviour, *then* the system *shall* write the gap line and *shall* invent no answer. [INV-252]
 
 **Case: history lives in the journal**
 
-9. The spec *shall* state today's behaviour only; dates, provenance, and the reasons behind past choices *shall* live in `JOURNAL.md`. [INV-253]
-10. *if* a dated note or a provenance sentence appears in the spec body, *then* the system *shall* count it a defect and move it to `JOURNAL.md`. [INV-253]
+11. The spec *shall* state today's behaviour only; dates, provenance, and the reasons behind past choices *shall* live in `JOURNAL.md`. [INV-253]
+12. *if* a dated note or a provenance sentence appears in the spec body, *then* the system *shall* count it a defect and move it to `JOURNAL.md`. [INV-253]
 
 **Case: closed vocabulary**
 
-11. Every domain noun used anywhere in the document *shall* hold exactly one glossary entry; a word of ordinary English *shall* hold none. [INV-254]
-12. *if* a domain noun appears in the body with no glossary entry, *then* the vocabulary check *shall* red. [INV-254]
+13. Every domain noun used anywhere in the document *shall* hold exactly one glossary entry; a word of ordinary English *shall* hold none. [INV-254]
+14. *if* a domain noun appears in the body with no glossary entry, *then* the vocabulary check *shall* red. [INV-254]
 
 **Case: one name per thing**
 
-13. One thing *shall* carry one name everywhere in the document. [INV-255]
-14. *if* one thing is referenced under two names, *then* the one-name check *shall* red. [INV-255]
+15. One thing *shall* carry one name everywhere in the document. [INV-255]
+16. *if* one thing is referenced under two names, *then* the one-name check *shall* red. [INV-255]
 
 **Case: every relational word fills its slots**
 
-15. *when* a criterion uses a weak word — proportional, larger, sufficient, fast, and their kind — the sentence *shall* fill every slot the word opens: the reference point, the measure, or the reason, stated where the word stands. [INV-256]
-16. *if* a weak word stands with an unfilled slot and no gap line, *then* the weak-word check *shall* red. [INV-256]
+17. *when* a criterion uses a weak word — proportional, larger, sufficient, fast, and their kind — the sentence *shall* fill every slot the word opens: the reference point, the measure, or the reason, stated where the word stands. [INV-256]
+18. *if* a weak word stands with an unfilled slot and no gap line, *then* the weak-word check *shall* red. [INV-256]
 
 **Case: every judgment names its judge and inputs**
 
-17. *when* a criterion carries an evaluative phrase — broken, larger than, worth — the criterion *shall* name the actor that judges it and the inputs the actor judges by. [INV-257]
-18. *if* an evaluative phrase names no judge and no inputs and carries no gap line, *then* the comprehension gate *shall* treat it as a blocking finding. [INV-257]
+19. *when* a criterion carries an evaluative phrase — broken, larger than, worth — the criterion *shall* name the actor that judges it and the inputs the actor judges by. [INV-257]
+20. *if* an evaluative phrase names no judge and no inputs and carries no gap line, *then* the comprehension gate *shall* treat it as a blocking finding. [INV-257]
 
 **Case: when the gates arm**
 
-19. *when* the migration converts the spec to this format, the system *shall* convert the whole document in one delivery. [INV-270]
-20. Every gate this section names *shall* arm in that same conversion delivery, and no gate *shall* arm before it. [INV-270]
+21. *when* the migration converts the spec to this format, the system *shall* convert the whole document in one delivery. [INV-270]
+22. Every gate this section names *shall* arm in that same conversion delivery, and no gate *shall* arm before it. [INV-270]
 
 ---
 
@@ -6658,7 +6876,11 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 **Case: a node is a section with four fields**
 
 3. Each node *shall* stand as one section headed `### [node: <name>]`, and a node promised under an open queue row with its machinery still ahead *shall* carry the target tag in that heading, the matrix's block heading for the node reading the same. [INV-278]
-4. A node section *shall* carry four fields — the responsibility, one sentence naming what the node is for; the owns list of spec anchors; the pins list of file-and-line places its responsibility is carried on disk; and a notes line, present only *when* the other three cannot hold something. [INV-278]
+4. A node section *shall* carry four fields. [INV-278]
+   - the responsibility is one sentence naming what the node is for;
+   - the owns list names the spec anchors the node owns;
+   - the pins list names the file-and-line places where its responsibility is carried on disk;
+   - the notes line appears only *when* the other three fields cannot hold something.
 
 **Case: every anchor lives under exactly one node**
 
@@ -6670,7 +6892,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 ## Requirement 290: An owns anchor cites its rule and carries no history
 
-**Context:** A node's owns list points at the spec anchors the node implements, and the rule each anchor names lives once at the spec. So an owns entry cites that home and adds at most one parenthetical sentence saying where the anchor sits or why the node keeps it; a law copied back into the owns cell is a second home and a defect. *when* the spec turns out to lack a sentence the owns cell was carrying, that sentence moves into the spec clause in the same delivery, so the words survive at their one home. The architecture states today's structure alone: the dated prover-record table leaves for its own dated home under the prover records, and a pin carries no date and no provenance, the journal already telling when and why the node landed.
+**Context:** The rule an owns anchor names lives once at the spec. So an owns entry cites that home and adds at most one parenthetical sentence saying where the anchor sits or why the node keeps it; a law copied back into the owns cell is a second home and a defect. *when* the spec turns out to lack a sentence the owns cell was carrying, that sentence moves into the spec clause in the same delivery, so the words survive at their one home. The architecture states today's structure alone: the dated prover-record table leaves for its own dated home under the prover records, and a pin carries no date and no provenance, the journal already telling when and why the node landed.
 
 **User Story:** As a maintainer following an owns anchor, I want it to cite one home and carry no history, so that the rule lives once and the architecture reads as today's map.
 
@@ -6764,7 +6986,8 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 **Case: the code forms the scan reads**
 
 6. The system *shall* read a document's own name run against a number as a code standing outside its anchor, a form handing the reader a location he can resolve only by opening the document. [INV-283]
-7. The system *shall* read a multi-letter code spoken with a space as the equal of its dash form, and *shall* hold the two code forms — the multi-letter form and the single-letter dash form — to the capital shape the documents write them in, so an ordinary word carrying a letter and a number in lower case passes. [INV-283]
+7. The system *shall* read a multi-letter code spoken with a space as the equal of its dash form, and *shall* hold the multi-letter form and the single-letter dash form to the capital shape the documents write them in. [INV-283]
+   - an ordinary word carrying a letter and a number in lower case passes.
 8. The system *shall* pass a naming word and its number *where* the same line carries a file name or a file word, the shape a reference to a line inside a source file takes. [INV-283]
 
 ---
@@ -6779,7 +7002,8 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: the validation gate**
 
-1. *when* any message the seat showed since the last human turn carries an empty-validation phrase from the pattern list, after a quoted, backticked, or fenced span is stripped, the system *shall* block the stop with a rewrite instruction reaching the seat one message later, the shape the scissors scan and the hedge gate take. [INV-284, INV-238]
+1. *when* any message the seat showed since the last human turn carries an empty-validation phrase, the system *shall* block the stop in the after-the-fact shape the scissors scan and the hedge gate take. [INV-284, INV-238]
+   - the scan strips a quoted, backticked, or fenced span from the message before it matches the pattern list.
 2. The system *shall* match against an inline universal pattern list plus an optional personal-overlay file a host tunes, as the scissors scan carries one, and *shall* stand on the universal list alone *where* the overlay is absent or unreadable. [INV-284, INV-203]
 3. The system *shall* catch only the phrases it lists, so a paraphrase it does not carry stays with the register judge that reads the class in meaning. [INV-284, INV-203]
 
@@ -6859,36 +7083,38 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 ## Requirement 297: A criterion is written so a stranger reads it once
 
-**Context:** The spec's readability lives in its acceptance criteria. A survey of every requirement body found four habits that lose a first-time reader. The whole rule arrives welded into one sentence, a term is defined inside the criterion that uses it, a closing clause carries no verb, and the anchor competes with the prose. A gate holds each habit at the count measured the day it landed, so the document may improve and may not slide.
+**Context:** The spec's readability lives in its acceptance criteria. A survey of every requirement body found five habits that lose a first-time reader. The whole rule arrives welded into one sentence, a term is defined inside the criterion that uses it, a closing clause carries no verb, the anchor competes with the prose, and the criterion's line and its bullets together carry several rules while each piece reads short. A gate holds each habit at the count measured the day it landed, so the document may improve and may not slide.
 
 **User Story:** As a person meeting the spec for the first time, I want each criterion to carry one rule in one plain sentence, so that I read the document without an author beside me.
 
 ### Acceptance Criteria
 
-**Case: the four reading defects**
+**Case: the five reading defects**
 
 1. A criterion *shall* state one trigger and one duty within the recorded word cap. [INV-287]
 2. A criterion *shall* use a term the glossary already defines. [INV-287]
 3. A criterion *shall* carry no definition of a term inside itself. [INV-287]
 4. A criterion *shall* close on a clause carrying its own subject and finite verb. [INV-287]
 5. A criterion's code anchor *shall* sit at the line's end and *shall* carry no more codes than the recorded cap. [INV-287]
+6. A criterion's line and its bullets together *shall* state one rule within the recorded total cap. [INV-287]
 
 **Case: the gate that holds them**
 
-6. The check `guardrails/check-criterion-readability.py` *shall* read the acceptance criteria of the document named on its command line through one readability arm per defect. [INV-287]
-7. Each readability arm *shall* take its threshold from the one config file `guardrails/criterion-readability.json`. [INV-287]
-8. *when* a readability arm reports a criterion, the check *shall* name the file, the requirement code, the line, the offending text, and what to write instead. [INV-287]
-9. Each run *shall* state its reach: the two files it opens, and the parts of the document the readability arms read. [INV-269]
-10. The readability arms *shall* leave to the cold-reader panel the closing appositive that drops its participle, the aside that enumerates members, and the judgment of which code span a sentence says better in words. [INV-287]
+7. The check `guardrails/check-criterion-readability.py` *shall* read the acceptance criteria of the document named on its command line through one readability arm per defect. [INV-287]
+8. The readability arms *shall* read a criterion as its line together with the bullets under it, and *shall* read each bullet as a sentence of its own. [INV-287]
+9. Each readability arm *shall* take its threshold from the one config file `guardrails/criterion-readability.json`. [INV-287]
+10. *when* a readability arm reports a criterion, the check *shall* name the file, the requirement code, the line, the offending text, and what to write instead. [INV-287]
+11. Each run *shall* state its reach: the two files it opens, and the parts of the document the readability arms read. [INV-269]
+12. The readability arms *shall* leave to the cold-reader panel the closing appositive that drops its participle, the aside that enumerates members, and the judgment of which code span a sentence says better in words. [INV-287]
 
 **Case: the counts move only down**
 
-11. The config *shall* hold one recorded count per readability arm. [INV-288]
-12. *if* a readability arm's measured count stands above its recorded count, *then* the check *shall* red and *shall* name that arm. [INV-288]
-13. *when* a readability arm's measured count falls below its recorded count, the check *shall* report the fall. [INV-288]
-14. *when* the check runs with `--rebaseline` and no readability arm stands above its recorded count, the check *shall* write each measured count back to the config. [INV-288]
-15. No run *shall* raise a recorded count. [INV-288]
-16. A raised recorded count *shall* be a hand edit to the config stating its reason, run through this same pipeline. [INV-288]
+13. The config *shall* hold one recorded count per readability arm. [INV-288]
+14. *if* a readability arm's measured count stands above its recorded count, *then* the check *shall* red and *shall* name that arm. [INV-288]
+15. *when* a readability arm's measured count falls below its recorded count, the check *shall* report the fall. [INV-288]
+16. *when* the check runs with `--rebaseline` and no readability arm stands above its recorded count, the check *shall* write each measured count back to the config. [INV-288]
+17. No run *shall* raise a recorded count. [INV-288]
+18. A raised recorded count *shall* be a hand edit to the config stating its reason, run through this same pipeline. [INV-288]
 
 ---
 
@@ -6953,6 +7179,102 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 14. The architecture document *shall* carry this principle in the per-kind design-principles table for every deployed kind, with both sides of the seam named. [INV-291, INV-136]
 15. A kind whose product runs in no place its readers reach *shall* carry no such principle. [INV-291, INV-136]
 
+---
+
+## Requirement 300: The rules about this project's own texts hold one home and move as one family
+
+**Context:** This project states rules about how its own texts are written. They govern the spec body, the prose a person reads, the chat surface, and the published artifact. Each rule carries the sentence it states, the test a reader applies, the surfaces it binds, its status, its catcher, where that catcher is armed, the files that state it today, and its thresholds, exceptions and examples where it has any. A catcher is a pattern list, a model reading meaning, or a person. These rules are relatives of each other. A word held back on one surface, a gloss owed on another, and a register judged on a third all decide the same question about the same sentence. A rule spread over several files ends up with a different verdict in each, and a rule changed alone leaves its relatives disagreeing with it. This requirement gives them one home, generates every consumer from that home, and works them in one pass.
+
+**User Story:** As a person reading anything this project writes, I want every rule about its language to hold one home and change together with its relatives, so that no two places state one rule with two verdicts.
+
+### Acceptance Criteria
+
+**Case: one home for the rules about text**
+
+1. Every rule governing this project's own human-facing text *shall* live in `guardrails/language-rules.json`. [INV-292]
+2. Each rule *shall* carry its own sentence, the test a reader applies, the surfaces it binds, and its status, and *shall* carry its thresholds, its exceptions, and its examples *where* it has any. [INV-292]
+3. A rule *shall* be edited in its one home, and *shall* record in its `sources` field every other place that states it today. [INV-292]
+   - a `sources` entry stands as a place the rule still appears;
+   - a statement of a rule that no `sources` entry records is the defect `guardrails/check-language-rules.py` reports.
+
+**Case: the consumers are generated from the home**
+
+4. `scripts/gen-language-consumers.py` *shall* build every consumer of these rules from that home. [INV-293]
+5. The generated consumers *shall* be the law text the model judge is handed and the human-readable rendering of the rules. [INV-293, INV-203]
+6. *if* a generated consumer differs from the home, *then* the check *shall* red and *shall* name that consumer. [INV-293]
+7. *if* a rule points at a file or a line that does not exist, *then* the check *shall* red. [INV-293]
+
+**Case: every rule names what catches it**
+
+8. A rule *shall* record its catcher. [INV-294]
+9. A rule *shall* record where its catcher is armed. [INV-294]
+10. A rule that no catcher runs *shall* record the reason none runs it. [INV-294]
+11. *if* a rule names no catcher and states no such reason, *then* the check *shall* red and *shall* name that rule. [INV-294]
+
+**Case: the surfaces a rule binds**
+
+12. A rule *shall* name the surfaces it governs. [INV-295]
+13. *where* a rule's verdict differs by surface, that rule *shall* hold one entry per surface. [INV-295]
+14. The system *shall* let a person's own layer override a rule's exceptions. [INV-295, E-13]
+15. *when* a person's layer overrides a rule's exceptions, the home *shall* keep the shipped default stated beside that override. [INV-295, E-13]
+
+**Case: the family is worked in one pass**
+
+16. The system *shall* treat the rules about this project's own texts as one family. [INV-296]
+17. *when* one of these rules changes, the system *shall* read it against its relatives in the same pass. [INV-296]
+
+**Case: a reader's finding enters as a class**
+
+18. *when* a reader finds a defect in this project's text, the system *shall* enter that defect in this home as a class carrying its definition. [INV-297, INV-124]
+19. The examples that produced a class *shall* sit beneath that class as its evidence. [INV-297]
+20. The home *shall* hold no entry that gathers examples with no class stated over them. [INV-297]
+
+---
+
+## Requirement 301: A worker restores a file it mutated by writing its own saved bytes
+
+**Context:** A worker writes the files its brief names, and the pack's own red-first method has it mutate a shipped artifact to prove a row red. A git command that discards uncommitted work is a different act: its blast radius is a path, so it lands on files the worker never wrote and its brief never named, and the `git status` a careful worker pastes afterwards reads clean in the safe case and the destructive one alike. So a worker holds the bytes it is about to overwrite and puts them back itself, and a worker holding none halts for the orchestrator. The orchestrator owns recovery, and the last committed stage is what a repair reads from.
+
+**User Story:** As a person whose session holds uncommitted work, I want a worker to put back only what it wrote, so that my unsaved edits survive another lane's repair.
+
+### Acceptance Criteria
+
+**Case: the worker holds its own bytes**
+
+1. *when* a worker intends to mutate a file it will put back, the worker *shall* read and hold that file's bytes before the mutation. [INV-298]
+2. *when* a worker puts a file back, the worker *shall* write its own saved bytes. [INV-298]
+3. A worker *shall* run no command that discards uncommitted work, in any tree. [INV-298]
+   - the discarding commands are `git checkout` on a path, `git restore` outside `--staged`, `git stash` in its saving forms, `git reset` with `--hard`, `--merge`, or `--keep`, and `git clean` with `-f` or `-x`.
+4. A worker inside its own isolated worktree *shall* hold this same rule, since that worktree shares one repository with the lanes beside it. [INV-298]
+
+**Case: a worker with no saved bytes halts**
+
+5. *when* a worker holds no saved bytes for a file it mutated, the worker *shall* halt and *shall* report the file and the mutation it made. [INV-298]
+6. *when* a worker believes a file needs a git-level restore, the worker *shall* halt and *shall* report what it read. [INV-298]
+7. A halting worker *shall* write no further file and *shall* run no further command. [INV-298]
+
+**Case: the orchestrator owns recovery**
+
+8. *when* a worker halts under this rule, the orchestrator *shall* restore the named file from the last committed stage and *shall* hand the worker a fresh brief carrying that file's current bytes. [INV-298]
+9. The orchestrator *shall* record the halt in the row's delivery report, and the halted work *shall* resume under that new brief. [INV-298, INV-103]
+10. The orchestrator *shall* commit a finished build stage before the next worker touches its files. [INV-298, INV-39]
+11. A session holding the pen *shall* hold this same rule *while* another session or another worker carries uncommitted work in the same tree. [INV-298, INV-11]
+
+**Case: the clause rides every brief**
+
+12. Every brief a session composes for a worker *shall* carry this rule in the pack's own words. [INV-299, INV-173]
+13. The pack *shall* state this rule in its shared rulebook, in the pipeline skill, in the delegation protocol, in the agent-card template, and in the lane-opening script, with one wording across all five. [INV-299]
+14. *if* two of those homes state the rule with different words or a different command list, *then* the suite *shall* red and *shall* name both homes. [INV-299]
+
+**Case: the mechanical arm**
+
+15. `guardrails/check-worker-restore.py` *shall* read the worker runs' transcripts and *shall* red a run that handed a shell any of the discarding commands. [INV-299]
+16. The check *shall* read a command a worker handed to a shell, and *shall* leave alone a report, a brief, or a plan that names such a command. [INV-299]
+17. The check *shall* run at the verify step, and its verdict *shall* stand between a worker's result and the orchestrator's acceptance of it. [INV-299, INV-46]
+18. *when* the transcript root does not exist, the check *shall* stand down by name and *shall* say what it read nothing of. [INV-299, INV-218]
+19. *if* the transcript root exists and holds no worker-run transcript, *then* the check *shall* red by name. [INV-299, INV-218]
+20. Each run *shall* state its reach: the transcript root, the file pattern it matched, the window it read, and the count of command lines it took. [INV-269]
+
 
 ## Reference
 
@@ -6994,7 +7316,7 @@ The code-to-location table below is generated output, built from the body criter
 | E-10 | R61.1, R102.2, R177.3, R228.6, R250.1, R250.2, R250.3, R260.3 |
 | E-11 | R153.3, R163.6, R187.4, R187.5, R187.7, R190.1, R190.4, R195.1, R195.2, R196.13, R196.14, R252.1, R252.2, R252.3 |
 | E-12 | R2.1, R2.2, R2.3, R50.2, R51.1, R59.3, R198.1, R198.4, R198.5, R202.1 |
-| E-13 | R47.3, R80.1, R80.2, R89.1, R91.2, R170.4, R171.1, R171.2, R173.1, R173.5, R186.3, R198.1, R200.2, R200.4, R202.1, R202.2, R202.4, R207.4, R219.1, R220.4, R239.2 |
+| E-13 | R47.3, R80.1, R80.2, R89.1, R91.2, R170.4, R171.1, R171.2, R173.1, R173.5, R186.3, R198.1, R200.2, R200.4, R202.1, R202.2, R202.4, R207.4, R219.1, R220.4, R239.2, R300.14, R300.15 |
 | E-14 | R16.1, R16.2, R118.1, R118.2, R118.3, R118.4, R118.5, R118.6, R124.1, R124.4, R159.2, R159.7, R177.6, R187.1, R194.3, R223.2, R259.2 |
 | E-15 | R53.1, R87.3, R124.2, R124.3, R130.3, R177.6, R223.2 |
 | E-16 | R130.9, R181.5, R181.6, R188.14, R193.5, R205.1, R205.3, R205.4, R205.5 |
@@ -7027,7 +7349,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-8 | R168.1, R168.3, R168.4, R168.5 |
 | INV-9 | R7.4, R7.5, R46.4, R72.4, R139.1, R163.3, R164.2, R171.4, R171.5, R200.1, R200.3, R219.1, R220.1 |
 | INV-10 | R90.5, R100.1, R100.2, R158.1, R163.5, R166.7, R187.5, R187.6, R187.7, R192.2, R193.7, R193.8, R193.10, R195.2, R197.3, R205.3, R207.1, R251.1, R251.2 |
-| INV-11 | R77.2, R81.3, R89.4, R90.5, R91.2, R128.4, R139.3, R141.1, R158.1, R166.2, R187.6, R193.7, R205.5, R207.3, R253.5, R256.1, R256.2, R256.7, R270.5 |
+| INV-11 | R77.2, R81.3, R89.4, R90.5, R91.2, R128.4, R139.3, R141.1, R158.1, R166.2, R187.6, R193.7, R205.5, R207.3, R253.5, R256.1, R256.2, R256.7, R270.5, R301.11 |
 | INV-12 | R9.1, R9.4, R9.5, R9.6, R10.2, R13.4, R16.4, R47.2, R50.3, R160.3, R170.3 |
 | INV-13 | R7.8, R198.2, R198.6, R205.1, R205.2 |
 | INV-14 | R157.2, R203.1, R203.2, R203.3, R204.1, R204.2, R204.3, R204.4, R248.1, R273.1 |
@@ -7055,14 +7377,14 @@ The code-to-location table below is generated output, built from the body criter
 | INV-36 | R121.3, R122.3, R123.4, R173.1, R173.2, R173.3, R173.7, R174.1, R186.1, R193.12, R214.1, R219.2, R265.1, R265.2, R299.1 |
 | INV-37 | R15.6, R16.1, R16.2, R16.3, R16.4, R16.5, R43.5, R43.8, R46.1, R118.6, R120.2, R159.7, R159.8, R173.4, R187.3, R187.4, R187.7, R244.5 |
 | INV-38 | R159.1, R159.2, R159.3, R159.4, R159.5, R159.6, R159.8 |
-| INV-39 | R81.2, R81.3, R82.3, R85.4, R86.1, R90.5, R91.2, R130.6, R160.6, R160.7, R183.4, R184.1, R192.5, R207.2, R219.5, R219.7, R220.2, R256.6 |
+| INV-39 | R81.2, R81.3, R82.3, R85.4, R86.1, R90.5, R91.2, R130.6, R160.6, R160.7, R183.4, R184.1, R192.5, R207.2, R219.5, R219.7, R220.2, R256.6, R301.10 |
 | INV-40 | R220.1, R220.2, R220.3, R220.4, R220.5, R226.1, R226.6 |
 | INV-41 | R48.3, R118.4, R121.1, R121.2, R121.3, R121.4, R121.5, R191.9, R192.7, R194.9, R225.1, R226.3, R244.1, R245.1, R264.2 |
 | INV-42 | R32.1, R32.2, R32.3, R32.4, R33.3, R36.2 |
 | INV-43 | R43.2, R73.2, R103.1, R103.2, R103.3, R104.1, R104.2, R104.3, R104.4, R104.5, R104.6 |
 | INV-44 | R139.4, R146.1, R146.2, R146.3, R146.4, R214.1, R296.8 |
 | INV-45 | R142.1, R219.6, R220.3, R226.1, R226.2 |
-| INV-46 | R68.3, R112.4, R131.3, R213.1, R213.2, R213.3, R213.4, R214.3, R215.2 |
+| INV-46 | R68.3, R112.4, R131.3, R213.1, R213.2, R213.3, R213.4, R214.3, R215.2, R301.17 |
 | INV-47 | R227.1, R227.2, R227.3, R228.2 |
 | INV-48 | R127.1, R127.2, R127.3, R157.6, R211.2 |
 | INV-49 | R80.1, R82.1, R82.2, R82.3, R82.4, R91.1, R91.3, R92.1 |
@@ -7085,7 +7407,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-66 | R199.1, R199.2 |
 | INV-67 | R28.1, R28.2, R28.3, R29.1, R29.4, R186.4, R194.11, R253.3, R254.7, R255.6 |
 | INV-68 | R152.1, R152.2, R152.3, R152.5, R152.6, R157.7, R158.3, R158.5 |
-| INV-69 | R17.7, R18.4, R206.2, R206.3, R206.4, R208.1, R208.2, R208.3, R208.4, R208.5, R208.6, R210.1, R210.2, R219.3, R219.4, R230.1, R233.4 |
+| INV-69 | R17.7, R18.4, R206.2, R206.3, R206.4, R208.1, R208.2, R208.3, R208.4, R208.5, R208.6, R208.7, R210.1, R210.2, R219.3, R219.4, R230.1, R233.4 |
 | INV-70 | R72.1, R72.2, R72.3, R72.4, R131.1, R139.1, R211.1, R231.2, R232.5 |
 | INV-71 | R29.1, R29.2, R29.3, R29.4 |
 | INV-72 | R65.1, R67.1, R175.7, R258.3, R259.1, R259.2, R259.3, R259.4, R260.3, R261.4, R261.6, R261.7, R262.3, R263.4, R263.6, R265.8 |
@@ -7119,7 +7441,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-100 | R106.1, R106.2, R106.3, R106.4, R114.1, R114.2 |
 | INV-101 | R54.1, R54.2, R54.3, R54.4, R55.2, R56.2, R56.4, R67.1, R85.3, R88.1, R90.4, R90.5, R194.2 |
 | INV-102 | R107.1, R107.2, R107.3 |
-| INV-103 | R44.2, R209.1, R209.2, R210.5 |
+| INV-103 | R44.2, R209.1, R209.2, R210.5, R301.9 |
 | INV-104 | R42.1, R42.2, R45.3 |
 | INV-105 | R83.3, R88.1, R90.5, R207.3, R256.5, R256.6 |
 | INV-106 | R140.1, R140.2 |
@@ -7140,8 +7462,8 @@ The code-to-location table below is generated output, built from the body criter
 | INV-121 | R11.1, R11.2, R43.6, R211.1, R211.3, R212.1 |
 | INV-122 | R119.1, R119.2, R119.3, R130.6, R214.1, R244.2 |
 | INV-123 | R130.6 |
-| INV-124 | R46.2, R161.1, R161.2, R161.3, R161.4, R161.5, R161.6, R260.2 |
-| INV-125 | R55.1, R61.4, R61.5, R62.3, R63.3, R64.3, R66.1, R67.1, R70.1, R116.2, R175.7, R260.1, R260.2, R260.3, R260.4, R260.5, R260.6, R263.9, R264.5, R266.9, R267.4 |
+| INV-124 | R46.2, R161.1, R161.2, R161.3, R161.4, R161.5, R161.6, R260.2, R300.18 |
+| INV-125 | R55.1, R61.4, R61.5, R61.7, R62.3, R63.3, R64.3, R66.1, R67.1, R70.1, R116.2, R175.7, R260.1, R260.2, R260.3, R260.4, R260.5, R260.6, R263.9, R264.5, R266.9, R267.4 |
 | INV-126 | R67.1, R175.7, R261.1, R261.2, R261.3, R261.4, R261.5, R261.6, R261.7, R263.9, R264.5, R266.9 |
 | INV-127 | R65.1, R66.1, R67.1, R262.1, R262.2, R262.3, R262.4, R262.5 |
 | INV-128 | R43.1, R43.2, R43.3, R43.4, R43.5, R43.6, R43.7, R43.8, R44.1, R174.2 |
@@ -7152,12 +7474,12 @@ The code-to-location table below is generated output, built from the body criter
 | INV-133 | R38.1, R38.2, R38.3 |
 | INV-134 | R44.1, R44.2, R44.3, R174.4 |
 | INV-135 | R67.2, R174.1, R174.2, R174.3, R174.4, R174.5, R175.2, R193.12, R226.4, R244.6, R265.1, R265.4, R265.6, R265.7, R299.8, R299.10 |
-| INV-136 | R61.5, R175.1, R175.2, R175.3, R175.4, R175.5, R175.6, R175.7, R175.8, R263.9, R264.5, R265.1, R265.2, R265.5, R266.9, R267.4, R299.14, R299.15 |
+| INV-136 | R61.5, R61.6, R175.1, R175.2, R175.3, R175.4, R175.5, R175.6, R175.7, R175.8, R263.9, R264.5, R265.1, R265.2, R265.5, R266.9, R267.4, R299.14, R299.15 |
 | INV-137 | R17.7, R210.1, R210.2, R210.3, R210.4, R210.5, R216.3, R233.4 |
 | INV-138 | R52.1, R52.2, R67.1, R263.1, R263.2, R263.3, R263.4, R263.5, R263.6, R263.7, R263.8, R263.9, R264.3, R264.5, R265.11, R266.9 |
 | INV-139 | R61.5, R176.1, R176.2, R176.3, R176.4, R176.5, R267.4 |
 | INV-140 | R60.1, R60.2, R60.3, R60.4, R61.3, R68.1, R69.1 |
-| INV-141 | R55.4, R61.1, R61.2, R61.3, R61.4, R61.5, R62.1, R63.1, R68.1, R69.2, R69.4, R70.3, R70.5, R130.2, R131.1, R214.4, R263.8, R274.6 |
+| INV-141 | R55.4, R61.1, R61.2, R61.3, R61.4, R61.5, R61.6, R62.1, R63.1, R68.1, R69.2, R69.4, R70.3, R70.5, R130.2, R131.1, R214.4, R263.8, R274.6 |
 | INV-142 | R68.2, R69.1, R69.2, R69.3, R69.4, R69.5, R70.2, R70.3, R214.4, R244.4 |
 | INV-143 | R56.2, R197.4, R211.1, R211.2, R211.3, R211.4, R212.1, R214.5, R233.4 |
 | INV-144 | R46.1, R46.2, R46.3, R46.4 |
@@ -7189,7 +7511,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-170 | R66.1, R66.2 |
 | INV-171 | R66.2, R67.1, R67.2, R67.3 |
 | INV-172 | R188.10, R268.1, R268.2, R268.3, R268.4, R268.5, R268.6, R272.2, R275.2 |
-| INV-173 | R133.3, R135.3, R232.1, R269.1, R269.2, R269.3, R269.4, R269.5, R275.3, R294.4 |
+| INV-173 | R133.3, R135.3, R232.1, R269.1, R269.2, R269.3, R269.4, R269.5, R275.3, R294.4, R301.12 |
 | INV-174 | R195.2, R253.4, R253.5, R270.5 |
 | INV-175 | R231.6, R246.4, R270.1, R270.2, R270.3, R270.4, R270.5, R271.1, R271.2, R271.4, R275.3, R292.3, R292.7, R294.4 |
 | INV-176 | R246.7, R272.1, R272.2, R272.3 |
@@ -7219,7 +7541,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-200 | R87.1, R87.2, R87.3 |
 | INV-201 | R83.2, R88.1, R88.2, R88.3, R88.4, R88.5, R88.6 |
 | INV-202 | R229.1, R229.2, R229.3, R229.4, R231.6, R232.7, R233.5, R294.4 |
-| INV-203 | R18.4, R18.5, R19.3, R134.2, R135.3, R230.1, R230.2, R230.3, R230.4, R230.5, R230.6, R230.8, R232.7, R233.2, R233.6, R294.2, R294.3 |
+| INV-203 | R18.4, R18.5, R19.3, R134.2, R135.3, R230.1, R230.2, R230.3, R230.4, R230.5, R230.6, R230.8, R232.7, R233.2, R233.6, R294.2, R294.3, R300.5 |
 | INV-204 | R117.6, R234.1, R234.2, R234.3, R234.4, R235.4, R236.4 |
 | INV-205 | R236.1, R236.2, R236.3, R236.4, R238.4, R239.3, R240.3 |
 | INV-206 | R94.3, R237.1, R237.2, R237.3, R237.4, R237.5, R241.3 |
@@ -7234,7 +7556,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-215 | R134.1, R134.2 |
 | INV-216 | R246.7, R246.8 |
 | INV-217 | R191.5, R215.2, R274.1, R274.2, R274.3, R274.4, R274.5, R274.6, R274.7 |
-| INV-218 | R113.1, R113.2 |
+| INV-218 | R113.1, R113.2, R301.18, R301.19 |
 | INV-219 | R193.13 |
 | INV-220 | R135.3, R230.7, R231.1, R231.3, R231.4, R231.5 |
 | INV-221 | R135.1, R135.2, R135.3, R230.3 |
@@ -7267,13 +7589,13 @@ The code-to-location table below is generated output, built from the body criter
 | INV-248 | R266.1, R266.2, R266.3, R266.4, R266.5, R266.6, R266.7, R266.8, R266.9 |
 | INV-249 | R195.15, R195.16 |
 | INV-250 | R277.1, R277.2, R277.3 |
-| INV-251 | R277.4, R277.5, R277.6 |
-| INV-252 | R277.7, R277.8 |
-| INV-253 | R277.9, R277.10 |
-| INV-254 | R277.11, R277.12 |
-| INV-255 | R277.13, R277.14 |
-| INV-256 | R277.15, R277.16 |
-| INV-257 | R277.17, R277.18 |
+| INV-251 | R277.4, R277.5, R277.6, R277.7, R277.8 |
+| INV-252 | R277.9, R277.10 |
+| INV-253 | R277.11, R277.12 |
+| INV-254 | R277.13, R277.14 |
+| INV-255 | R277.15, R277.16 |
+| INV-256 | R277.17, R277.18 |
+| INV-257 | R277.19, R277.20 |
 | INV-258 | R278.1, R278.2 |
 | INV-259 | R278.3, R278.4 |
 | INV-260 | R279.1 |
@@ -7285,8 +7607,8 @@ The code-to-location table below is generated output, built from the body criter
 | INV-266 | R281.1, R281.2 |
 | INV-267 | R281.3, R281.4, R281.5, R281.6 |
 | INV-268 | R281.7 |
-| INV-269 | R282.1, R282.2, R284.4, R285.3, R288.5, R296.10, R297.9, R299.12 |
-| INV-270 | R277.19, R277.20, R283.7, R286.3, R289.6 |
+| INV-269 | R282.1, R282.2, R284.4, R285.3, R288.5, R296.10, R297.11, R299.12, R301.20 |
+| INV-270 | R277.21, R277.22, R283.7, R286.3, R289.6 |
 | INV-271 | R191.4, R191.7, R278.5, R278.6, R278.7 |
 | INV-272 | R283.1, R283.2, R283.3, R283.4, R283.5, R283.6, R283.7 |
 | INV-273 | R284.1, R284.2, R284.3, R284.4 |
@@ -7303,11 +7625,20 @@ The code-to-location table below is generated output, built from the body criter
 | INV-284 | R294.1, R294.2, R294.3, R294.4 |
 | INV-285 | R295.1, R295.2, R295.3, R295.4, R295.5, R295.6, R295.7 |
 | INV-286 | R296.1, R296.2, R296.3, R296.4, R296.5, R296.6, R296.7, R296.8, R296.9, R296.10, R296.11, R296.12, R296.13 |
-| INV-287 | R297.1, R297.2, R297.3, R297.4, R297.5, R297.6, R297.7, R297.8, R297.10 |
-| INV-288 | R297.11, R297.12, R297.13, R297.14, R297.15, R297.16 |
+| INV-287 | R297.1, R297.2, R297.3, R297.4, R297.5, R297.6, R297.7, R297.8, R297.9, R297.10, R297.12 |
+| INV-288 | R297.13, R297.14, R297.15, R297.16, R297.17, R297.18 |
 | INV-289 | R298.1, R298.2, R298.3, R298.4, R298.5, R298.6 |
 | INV-290 | R226.7, R226.8, R226.9, R226.10 |
 | INV-291 | R299.1, R299.2, R299.3, R299.4, R299.5, R299.6, R299.7, R299.8, R299.9, R299.10, R299.11, R299.13, R299.14, R299.15 |
+| INV-292 | R300.1, R300.2, R300.3 |
+| INV-293 | R300.4, R300.5, R300.6, R300.7 |
+| INV-294 | R300.8, R300.9, R300.10, R300.11 |
+| INV-295 | R300.12, R300.13, R300.14, R300.15 |
+| INV-296 | R300.16, R300.17 |
+| INV-297 | R300.18, R300.19, R300.20 |
+| INV-298 | R301.1, R301.2, R301.3, R301.4, R301.5, R301.6, R301.7, R301.8, R301.9, R301.10, R301.11 |
+| INV-299 | R301.12, R301.13, R301.14, R301.15, R301.16, R301.17, R301.18, R301.19 |
+| INV-300 | R208.7, R208.8, R208.9 |
 | M-1 | R49.2, R80.7, R80.8, R92.2, R130.1, R130.2, R130.3, R130.4, R130.5, R130.6, R130.7, R130.8, R130.9, R164.4, R166.3, R166.8, R198.6, R249.2 |
 | M-2 | R14.3, R125.1, R125.2, R125.3, R177.12, R204.3 |
 | M-3 | R136.1 |

@@ -17,7 +17,7 @@ from conftest import ROOT, read_flat
 class TestCodeCompactionStation(unittest.TestCase):
     def test_spec_clause_and_index(self):
         spec = read_flat("PRODUCT_SPEC.md")
-        self.assertIn("widen the station to code", spec)
+        self.assertIn("widen the compaction station to code", spec)
         self.assertIn("INV-123", spec)
 
     def test_spec_names_second_trigger_and_gate(self):

@@ -46,6 +46,28 @@ written, ahead of the new worker's first write. The session's live setting lines
 into the brief verbatim — a worker never resolves the settings ladder itself, it cannot hear the human's
 spoken word.
 
+**A worker never restores a working tree with a git command (ROADMAP row 479).** Before a worker
+mutates a file it means to put back, it reads that file and holds its bytes. A worker puts a file
+back by WRITING ITS OWN SAVED BYTES. A worker runs no command that discards uncommitted work, in any
+tree: `git checkout -- <path>`, `git checkout .`, `git restore` outside `--staged`, `git stash` and
+its `push`, `save`, `create` and `store` forms, `git reset` with `--hard`, `--merge` or `--keep`, and
+`git clean` with `-f` or `-x`. Such a command's blast radius is a PATH, so its damage lands on files
+the worker never wrote and its brief never named. This rule binds a worker in every tree, including
+its own isolated worktree, since a worktree shares one repository with the lanes beside it and a
+worker cannot read off its brief what else that repository holds. A worker that holds no saved bytes
+for a file it mutated, or that believes a file needs a git-level restore, HALTS and reports the file
+and the mutation it made, and it writes no further file and runs no further command. The
+orchestrator owns recovery: it restores the named file from the last committed stage, hands the
+worker a fresh brief carrying that file's current bytes, and records the halt in the row's delivery
+report, and the halted work resumes under that new brief. The orchestrator's own half: a finished
+build stage is committed before the next worker touches its files, so a worker that hits a broken
+file has a commit to be recovered from. `guardrails/check-worker-restore.py` reads the worker runs'
+transcripts for the command and runs at the verify step. The write-set disjointness above fences
+EDITS and gives no cover here, which is why the clause stands on its own: the two destructions of
+uncommitted work on 2026-07-23 and the near miss of 2026-07-27 all came from a worker running
+correct-looking work, and the `git status` it pasted afterwards read "clean" in the safe case and the
+destructive one alike. The clause rides every brief this protocol composes.
+
 **The brief carries the register laws, so the worker's own text obeys them (SPEC INV-221, INV-173).** The
 brief states the register laws the worker's report and any agent-to-agent message must hold — the
 no-scissors law (no naming a thing by denying its neighbour, SPEC INV-173) and the no-dramatization law

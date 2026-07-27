@@ -5663,3 +5663,54 @@ one rule and the code read another; all six are folded and the record is
 `docs/prover/2026-07-27-evening-movement.md`. Two code collisions happened between concurrent deliveries,
 both caught and renumbered by hand, which is what row 505 exists to prevent.
 
+
+## 2026-07-28 night — the rules about the project's own writing move into one home
+
+Why now: Alexander asked for the queue worked through overnight and sharpened the ask at the start —
+the rules about how this project writes are relatives of each other, they are worked in one pass, and
+the kinship belongs in the spec. His words: «родственные все (запиши в спек!) надо делать одним проходом».
+
+An inventory found 61 such rules spread over 57 files, with nine places where two files stated one rule
+with different verdicts and 24 rules that no checker held. They now live in
+`guardrails/language-rules.json`, 53 rules after five folds retired seven duplicate ids. Two pages are
+generated from that home: `docs/language-rules.md` for a person writing a text, and
+`docs/language-rule-coverage.md` for a person maintaining the checkers. The model judge reads its rule
+text out of `hooks/language-laws.json`, generated from the same home; its chat body carries the same
+four rules its Python constants carried, and the judge's own tests proved the swap.
+
+Requirement 300 states the law: one home, consumers generated from it, each rule naming what catches a
+break of it and where that catcher is armed, and a reader's finding entering as a class with its
+examples beneath it. Requirement 301 states that a worker restores a file by writing back bytes it read
+before it mutated that file. Requirement 208 gained a case: a dispatch to the expensive tier opens with
+an instruction that assumes a cheaper tier and asks the run to answer first.
+
+93 acceptance criteria were rewritten worst-first. Sentence length fell from 469 criteria past the cap
+to 378, in-place definitions from 120 to 65, closes with no finite verb from 147 to 123. Seven rewrites
+lost meaning: the suite caught three by the phrases it pins, and the prover found four more. The measure
+itself was repaired mid-pass — it read a criterion's own line and never the bullets under it, so text
+moved into a bullet left the count while staying unread. It now reads each piece, and a fifth measure
+sums a criterion's pieces against one total cap. Under that fifth measure the rewrite had raised the
+document from 31 criteria past 60 words to 42, and a trimming pass brought it back to 31. Thirteen new
+redundancy pairs appeared where a bullet restated its own criterion line; collapsing them took the open
+count from 132 to 119, below the floor that stood before the night.
+
+Three readers met text with no context. The record behind the rules stopped a reader 45 times in its
+fifth reading and 34 times in its sixth. The generated reference met its first reader with a real task —
+write a documentation page and hold it to this rulebook — and that reader could apply 30 of 60 rules,
+and about 8 without an answer to which surface a documentation page is. Every surface now carries a
+definition, a surface belongs to a block rather than to a whole file, and the writer's page opens with a
+per-surface roster and closes with an index by question.
+
+Two gates were built. `guardrails/check-worker-restore.py` reads worker transcripts for a command that
+discards uncommitted work. It found 80 findings across every run on disk and 7 inside one day, and it
+counts from 2026-07-28 so history is named rather than red. That fault happened a fourth time during
+this movement, inside this tree, because the brief the seat wrote carried no clause against it; the
+clause now rides the shared rulebook, the build skill, the delegation protocol, the agent card template,
+and the lane-opening script, worded the same in all five. `guardrails/check-tier-refusal.py` holds the
+routing experiment's refusal record and its learned patterns; this session's own dispatches are its
+second baseline point, 25 worker runs from the seat with 15 on the expensive tier.
+
+Five rows opened: a part of a set named by what its members are (510); a cross-project finding that
+travels on its own, with nothing noticing when it stays home (511); the rotation road that reaches one
+document (512); a checker whose reach is a whole file holding one surface's rule over another's (513);
+and a rule pinned to a line number that an edit moves (514).

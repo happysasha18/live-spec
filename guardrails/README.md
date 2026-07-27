@@ -121,6 +121,48 @@ LIVE_SPEC_RUNAWAY_PROCS_JSON='[{"pid":1,"ppid":0,"pgid":1,"pcpu":0.0,"command":"
 groups and owned temp tree; unset, the check owns its own process group and the repo's `.live-spec/`
 tree. The check always exits zero, so the notice never blocks a stop.
 
+## The worker-restore gate — a worker never restores a working tree with a git command (row 479)
+
+`guardrails/check-worker-restore.py` reds when a worker run handed a shell one of the commands the
+clause names. A worker runs no command that discards uncommitted work, in any tree: `git checkout --
+<path>`, `git checkout .`, `git restore` outside `--staged`, `git stash` and its `push`, `save`,
+`create` and `store` forms, `git reset` with `--hard`, `--merge` or `--keep`, and `git clean` with
+`-f` or `-x`. Such a command's blast radius is a PATH, so its damage lands on files the worker never
+wrote and its brief never named, and the write-set disjointness that fences concurrent edits gives
+no cover against it. This rule binds a worker in every tree, including its own isolated worktree,
+since a worktree shares one repository with the lanes beside it and a worker cannot read off its
+brief what else that repository holds.
+
+That list is stated in this section, in the gate's own header, and in `skills/live-spec-base/SKILL.md`,
+`skills/build-pipeline/SKILL.md`, `skills/build-pipeline/references/delegation-protocol.md`,
+`templates/agent.template.md` and `scripts/open-lane.sh`, in one wording, and
+`tests/test_worker_restore.py` reds when two of them differ.
+
+It opens the worker-run transcripts under the harness transcript root (`~/.claude/projects` by
+default, `--root` or `LIVE_SPEC_TRANSCRIPT_ROOT` to move it): the files matching
+`<project-dir>/<session-id>/subagents/agent-*.jsonl`, one per worker run. In each it reads the
+records whose `type` is `assistant` and takes the `input.command` string of every `tool_use` block
+named `Bash`. It reads no prose — a report that merely names a restore is left alone, and only a
+segment whose first word is `git` counts, so the same text quoted inside a `grep` pattern stays
+silent. The default window is the runs touched in the last 24 hours (`--since-hours`, `--all` for
+every run on disk).
+
+It is BLOCKING and rides the verify step rather than the push chain: a push gate runs long after the
+bytes are gone, while verify is where the orchestrator accepts a worker's result. It is armed in two
+places. `skills/build-pipeline/SKILL.md` step 8 names the command a session runs before it accepts a
+worker's result, and `tests/test_worker_restore.py` runs it against the machine's real transcript
+root so a red reaches a person on the next suite run. When the transcript root does not exist the
+gate stands down by name and exits zero; when the root exists but holds no worker-run transcript, the
+layout it reads has moved and it reds by name through `guardrails/nonempty_input.py` rather than
+reporting clean over nothing (SPEC INV-218).
+
+The gate carries a counting start, `COUNTING_FROM` in its own header (`--counting-from`,
+`LIVE_SPEC_WORKER_RESTORE_FROM`), because this machine's transcripts hold 80 worker runs from before
+the clause existed that carry a discarding command. A finding stamped before that date is carried as
+history: every verdict line counts it and it reds nothing. A finding stamped on or after that date
+reds, and so does a finding whose record carries no timestamp, since the gate cannot place it. Read
+the history with `--counting-from 2000-01-01 --all`.
+
 ## How a host project adapts the pattern
 
 **The ratchet gates (style lint · redundancy · freeze) install themselves in one pass:** run

@@ -1,0 +1,24 @@
+{
+  "_comment": "The tier-refusal data (ROADMAP row 507, the routing experiment opened 2026-07-28). A dispatch to the expensive tier proves its own need in three steps, and money is spent only on the middle one. Step one: `instruction` is the line a brief-writing session pastes verbatim into an expensive-tier brief, so the wording stays one text across every brief. Step two: a run that stops names a cheaper tier, and the orchestrator writes that refusal into `record` and re-runs the same brief a tier down. Step three: `patterns` holds the phrases learned from the record, and a phrase turns a task away before any model call. The list starts empty and grows from the record alone. guardrails/check-tier-refusal.py reads this file and the record together.",
+
+  "record": "docs/measure/tier-refusals.md",
+
+  "record_columns": ["Id", "Date", "Task", "Named tier", "Reason"],
+  "_record_shape_comment": "One table row per refusal, appended, never edited afterwards. `Id` is a short label a pattern cites (TR-001, TR-002, …), unique within the record. `Date` is the day the refusal happened, written YYYY-MM-DD. `Task` is the brief's own words, trimmed to the sentence that says what the work is, so a phrase can be read out of it later. `Named tier` is the tier the run named, drawn from `tiers`. `Reason` is one sentence saying what makes the work fit that tier. A row missing its tier or its reason reds the gate, since a refusal that names neither teaches nothing.",
+
+  "tiers": ["haiku", "sonnet", "opus"],
+  "_tiers_comment": "This host's tier ladder, cheapest first; the last member is the expensive tier the instruction is pasted into. A host with other names for its tiers edits this list, and the gate reads the names from here.",
+
+  "instruction": "Assume a cheaper tier does this task. Read the brief first: when a cheaper tier does it as briefed, stop before any other work and reply with one line — REFUSE <tier>: <one sentence of reason> — naming the tier that fits. Do the work when the brief needs the tier it was sent to.",
+  "_instruction_comment": "The line opens the brief. It states the cheap tier as the default assumption, since a run judging its own need leans toward yes (the weakness row 507 states). The refusal costs the brief plus one short line. `REFUSE <tier>: <reason>` is the form the orchestrator reads a record row out of.",
+
+  "promotion": {
+    "refusals_required": 3,
+    "phrase_min_words": 2,
+    "phrase_max_words": 8
+  },
+  "_promotion_comment": "How a phrase becomes a pattern. A phrase is a run of consecutive words copied out of a refused task's text, lowercased with punctuation dropped, between `phrase_min_words` and `phrase_max_words` long. It is promoted when `refusals_required` refusals in the record agree: each of them names the same tier, and each of their task texts carries the phrase word for word. The gate re-reads those refusals every run, so a pattern with fewer agreeing refusals behind it reds and a person reading a pattern here sees the three rows that put it there.",
+
+  "patterns": [],
+  "_patterns_comment": "Each entry: {\"phrase\": the promoted words, \"tier\": the tier those refusals named, \"refusals\": the record Ids behind it, \"promoted\": the date it was added, \"note\": what the phrase describes in plain words}. The list is empty at the experiment's start, and the record is its only source."
+}

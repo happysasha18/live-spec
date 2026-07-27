@@ -1,0 +1,345 @@
+"""A worker never restores a working tree with a git command (ROADMAP row 479).
+
+Two destructions of uncommitted work landed on 2026-07-23 — an applier's `-o` clobber, and a
+caps-sweep worker's `git checkout -- TEST_MATRIX.md` that discarded an uncommitted format
+conversion. A third came within three minutes of costing a night on 2026-07-27, when a worker in the
+tlvphotos tree mutated a shipped client bundle to prove a test row red, restored it with
+`git checkout -- engine/assets/exhibition.js`, and a sibling lane began writing the sources that
+assemble into that same file.
+
+The law: a worker holds a file's bytes before it mutates it and writes those bytes back, and runs no
+command that discards uncommitted work, in any tree. A restore is a different act from a write — its
+blast radius is a path, so it lands on files the worker never wrote and its brief never named, and
+the brief-time write-set disjointness that fences concurrent edits gives no cover. A worker holding
+no saved bytes halts and reports; the orchestrator restores the file from the last committed stage,
+re-briefs the worker with that file's current bytes, and commits a finished build stage before the
+next worker touches its files.
+
+Two machines hold it. The clause stands in every home a worker learns its contract from, sentence by
+sentence, so a home that drifts to its own wording or its own command list reds below.
+`guardrails/check-worker-restore.py` reads the worker runs' own transcripts for the command, since
+the `git status` a careful worker pastes afterwards reads "clean" in the safe case and the
+destructive one alike — prose cannot separate them, the command can. The gate is armed at the verify
+step of the pipeline skill and once more here, against this machine's own transcript root.
+"""
+import json
+import os
+import subprocess
+
+import pytest
+
+from conftest import ROOT, read_flat
+
+GATE = os.path.join(ROOT, "guardrails", "check-worker-restore.py")
+
+# Every home a worker learns its contract from. A drop in any one of them reds.
+CLAUSE_HOMES = [
+    "skills/live-spec-base/SKILL.md",
+    "skills/build-pipeline/SKILL.md",
+    "skills/build-pipeline/references/delegation-protocol.md",
+    "templates/agent.template.md",
+    "scripts/open-lane.sh",
+]
+
+# The clause, sentence by sentence, in the one wording every home carries. The saving step opens it,
+# because a worker with no saved bytes has no way back. The command list is the list the gate reds
+# on. The scope sentence answers the worktree question a lane worker would otherwise answer for
+# itself. The halt names what the worker does and the recovery names what the orchestrator does, so
+# the failure branch has an exit.
+CLAUSE_SENTENCES = [
+    "Before a worker mutates a file it means to put back, it reads that file and holds its bytes.",
+    "A worker puts a file back by WRITING ITS OWN SAVED BYTES.",
+    "A worker runs no command that discards uncommitted work, in any tree: `git checkout -- "
+    "<path>`, `git checkout .`, `git restore` outside `--staged`, `git stash` and its `push`, "
+    "`save`, `create` and `store` forms, `git reset` with `--hard`, `--merge` or `--keep`, and "
+    "`git clean` with `-f` or `-x`.",
+    "Such a command's blast radius is a PATH, so its damage lands on files the worker never wrote "
+    "and its brief never named.",
+    "This rule binds a worker in every tree, including its own isolated worktree, since a worktree "
+    "shares one repository with the lanes beside it and a worker cannot read off its brief what "
+    "else that repository holds.",
+    "A worker that holds no saved bytes for a file it mutated, or that believes a file needs a "
+    "git-level restore, HALTS and reports the file and the mutation it made, and it writes no "
+    "further file and runs no further command.",
+    "The orchestrator owns recovery: it restores the named file from the last committed stage, "
+    "hands the worker a fresh brief carrying that file's current bytes, and records the halt in the "
+    "row's delivery report, and the halted work resumes under that new brief.",
+    "`guardrails/check-worker-restore.py` reads the worker runs' transcripts for the command and "
+    "runs at the verify step.",
+]
+
+# The orchestrator's own half, stated where row 479 states it.
+ORCHESTRATOR_HALF = "a finished build stage is committed before the next worker touches its files"
+
+# Every command form the rule names, each in a form a worker would plausibly type.
+DISCARDING = {
+    "git checkout --": "git checkout -- engine/assets/exhibition.js",
+    "git restore": "git restore engine/assets/exhibition.js",
+    "git stash": "git stash push -- engine/assets/exhibition.js",
+    "git reset --hard": "git reset --hard HEAD",
+    "git clean": "git clean -fd engine/assets",
+}
+
+# The forms the prose names beside those, each read by the same gate arm.
+ALSO_DISCARDING = [
+    "git checkout .",
+    "git reset --merge HEAD",
+    "git reset --keep HEAD",
+    "git clean -xdf",
+    "git stash save wip",
+]
+
+
+# The fixture runs below carry the lived incident's own stamp, 2026-07-27, which falls before the
+# gate's shipped counting start. Every fixture case therefore hands the gate a start date early
+# enough to read the whole fixture; the cases that judge the counting start pass their own.
+FIXTURE_COUNTING_FROM = "2026-07-01"
+
+
+def _gate(*args, counting_from=FIXTURE_COUNTING_FROM):
+    argv = list(args)
+    if counting_from and "--counting-from" not in argv:
+        argv += ["--counting-from", counting_from]
+    return subprocess.run(["python3", GATE, *argv], capture_output=True, text=True)
+
+
+def _run_record(command, agent="a1234567890abcdef", session="s-0001",
+                cwd="/Users/someone/exhibition-engine"):
+    """One assistant record carrying a Bash tool_use, the shape a real worker transcript carries."""
+    return {
+        "type": "assistant",
+        "isSidechain": True,
+        "agentId": agent,
+        "sessionId": session,
+        "cwd": cwd,
+        "timestamp": "2026-07-27T20:26:28.001Z",
+        "message": {"role": "assistant", "content": [
+            {"type": "text", "text": "putting the bundle back"},
+            {"type": "tool_use", "name": "Bash", "input": {"command": command}},
+        ]},
+    }
+
+
+def _transcript_root(tmp_path, commands, project="-Users-someone-exhibition-engine",
+                     session="s-0001", agent="a1234567890abcdef"):
+    """A transcript root holding one worker run, at the layout the harness writes:
+    <root>/<project-dir>/<session-id>/subagents/agent-<id>.jsonl"""
+    runs = tmp_path / "projects" / project / session / "subagents"
+    runs.mkdir(parents=True)
+    path = runs / ("agent-%s.jsonl" % agent)
+    with open(path, "w", encoding="utf-8") as f:
+        for c in commands:
+            f.write(json.dumps(_run_record(c, agent=agent, session=session)) + "\n")
+    return str(tmp_path / "projects"), str(path)
+
+
+class TestGateRedsOnADiscardingCommand:
+
+    def test_the_lived_case_reds_and_names_its_path(self, tmp_path):
+        """The tlvphotos restore, read back out of a worker run."""
+        root, run = _transcript_root(tmp_path, ["git checkout -- engine/assets/exhibition.js"])
+        res = _gate("--root", root)
+        assert res.returncode == 1, res.stdout + res.stderr
+        assert "engine/assets/exhibition.js" in res.stdout
+        assert "git checkout --" in res.stdout
+        assert run in res.stdout, "the red names the worker run it read the command from"
+
+    @pytest.mark.parametrize("which,command", sorted(DISCARDING.items()))
+    def test_each_named_command_reds(self, tmp_path, which, command):
+        root, _ = _transcript_root(tmp_path, [command])
+        res = _gate("--root", root)
+        assert res.returncode == 1, "%s passed the gate: %s" % (which, res.stdout)
+        assert which in res.stdout
+
+    @pytest.mark.parametrize("command", ALSO_DISCARDING)
+    def test_the_other_forms_the_prose_names_red_too(self, tmp_path, command):
+        """The prose and the gate carry one list, so every form the clause names reds here."""
+        root, _ = _transcript_root(tmp_path, [command])
+        res = _gate("--root", root)
+        assert res.returncode == 1, "%s passed the gate: %s" % (command, res.stdout)
+
+    def test_a_command_buried_after_a_cd_still_reds(self, tmp_path):
+        root, _ = _transcript_root(tmp_path, ["cd /tmp/tree && git restore src/app.js"])
+        res = _gate("--root", root)
+        assert res.returncode == 1, res.stdout
+        assert "src/app.js" in res.stdout
+
+    def test_the_red_carries_one_typed_line(self, tmp_path):
+        """The gate contract's first convention: one parseable JSON object beside the human lines."""
+        root, _ = _transcript_root(tmp_path, ["git checkout -- engine/assets/exhibition.js"])
+        res = _gate("--root", root)
+        objects = [json.loads(line) for line in res.stdout.splitlines()
+                   if line.startswith("{") and line.rstrip().endswith("}")]
+        assert len(objects) == 1, "a blocking red emits exactly one JSON object"
+        record = objects[0]
+        assert record["severity"] == "error"
+        assert record["code"] == "worker-restore"
+        assert "engine/assets/exhibition.js" in record["message"]
+        assert record["fix"]
+
+    def test_the_header_declares_the_gate_blocking(self):
+        """The gate contract's second convention: a header comment names blocking or advisory."""
+        with open(GATE, encoding="utf-8") as f:
+            head = f.read(4000)
+        assert "BLOCKING" in head
+
+
+class TestGateStaysSilentOnOrdinaryWork:
+
+    def test_a_reading_command_passes(self, tmp_path):
+        root, _ = _transcript_root(tmp_path, ["git status", "git diff --stat engine/build.py"])
+        res = _gate("--root", root)
+        assert res.returncode == 0, res.stdout + res.stderr
+        assert "OK (check-worker-restore)" in res.stdout
+
+    def test_the_green_line_declares_its_reach(self, tmp_path):
+        root, _ = _transcript_root(tmp_path, ["git status"])
+        res = _gate("--root", root)
+        assert "subagents/agent-*.jsonl" in res.stdout, "the green line names the files it opened"
+        assert "Bash tool_use command field" in res.stdout, "and what inside them it read"
+
+    def test_prose_naming_a_restore_is_left_alone(self, tmp_path):
+        """Only a command handed to a shell counts. A grep pattern quoting the same text is silent,
+        which is what keeps the gate's own tests and this pack's own prose out of its findings."""
+        root, _ = _transcript_root(tmp_path, ["grep -rn 'git checkout -- ' skills/"])
+        res = _gate("--root", root)
+        assert res.returncode == 0, res.stdout
+
+    def test_unstaging_is_not_a_restore(self, tmp_path):
+        """`git restore --staged` unstages and leaves the working tree untouched."""
+        root, _ = _transcript_root(tmp_path, ["git restore --staged PRODUCT_SPEC.md"])
+        res = _gate("--root", root)
+        assert res.returncode == 0, res.stdout
+
+    def test_reading_the_stash_is_not_taking_one(self, tmp_path):
+        root, _ = _transcript_root(tmp_path, ["git stash list", "git stash show -p"])
+        res = _gate("--root", root)
+        assert res.returncode == 0, res.stdout
+
+
+class TestAbsentAndEmptyInputs:
+
+    def test_an_absent_transcript_root_stands_down_with_a_reason(self, tmp_path):
+        missing = str(tmp_path / "no-such-projects-home")
+        res = _gate("--root", missing)
+        assert res.returncode == 0, res.stdout + res.stderr
+        assert "STAND-DOWN" in res.stdout
+        assert missing in res.stdout, "the stand-down names the root it looked for"
+        assert "does not exist" in res.stdout
+        assert "claims nothing" in res.stdout
+
+    def test_a_root_holding_no_worker_run_reds_by_name(self, tmp_path):
+        """An empty input set is a defect here, not a happy void (SPEC INV-218): a root that exists
+        but holds no worker-run transcript means the layout the gate reads has moved, and a clean
+        verdict over zero runs would protect nothing."""
+        root = tmp_path / "projects"
+        (root / "-Users-someone-tree").mkdir(parents=True)
+        res = _gate("--root", str(root))
+        assert res.returncode == 1, res.stdout
+        assert "EMPTY" in res.stdout
+        assert "worker-run transcripts" in res.stdout
+
+    def test_a_window_holding_no_worker_run_is_permitted(self, tmp_path):
+        """A session may spawn no worker, so an empty WINDOW reports OK and names the window."""
+        root, _ = _transcript_root(tmp_path, ["git status"])
+        res = _gate("--root", root, "--since-hours", "0.0001")
+        assert res.returncode == 0, res.stdout
+        assert "0.0001 hours" in res.stdout
+
+
+class TestTheClauseStandsInEveryHome:
+
+    @pytest.mark.parametrize("home", CLAUSE_HOMES)
+    @pytest.mark.parametrize("sentence", CLAUSE_SENTENCES)
+    def test_the_clause_is_present(self, home, sentence):
+        assert " ".join(sentence.split()) in read_flat(home), (
+            "%s no longer carries the worker-restore clause in the pack's own words (%r missing, "
+            "ROADMAP row 479)" % (home, sentence))
+
+    def test_the_five_homes_state_one_command_list(self):
+        """One list across the homes and the gate. A brief that named fewer commands than the gate
+        reds on is what turned a worker's obedient `git clean -fd` into a sibling lane's loss."""
+        homes = CLAUSE_HOMES + ["guardrails/check-worker-restore.py", "guardrails/README.md"]
+        listed = CLAUSE_SENTENCES[2]
+        for home in homes:
+            assert " ".join(listed.split()) in read_flat(home), (
+                "%s states a command list of its own — the gate and every home carry one list"
+                % home)
+
+    def test_the_gate_reds_every_command_the_list_names(self, tmp_path):
+        """The list in the prose against the list the gate holds: each form the sentence names is
+        handed to the gate, and each one reds."""
+        for command in list(DISCARDING.values()) + ALSO_DISCARDING:
+            root, _ = _transcript_root(tmp_path / command.replace(" ", "_").replace("/", "_"),
+                                       [command])
+            res = _gate("--root", root)
+            assert res.returncode == 1, (
+                "the clause names %r and the gate passed it: %s" % (command, res.stdout))
+
+    @pytest.mark.parametrize("home", CLAUSE_HOMES)
+    def test_the_orchestrator_half_is_present(self, home):
+        assert ORCHESTRATOR_HALF in read_flat(home), (
+            "%s no longer carries the orchestrator's half of row 479" % home)
+
+    def test_the_brief_stub_hands_the_clause_to_the_worker(self):
+        """`scripts/open-lane.sh` is the one place the pack composes anything brief-shaped by
+        machine, so the clause rides its printed stub verbatim."""
+        stub = read_flat("scripts/open-lane.sh")
+        assert "Copy this clause into the brief verbatim" in stub
+
+    def test_the_gate_is_named_where_the_rule_is_stated(self):
+        for home in CLAUSE_HOMES + ["guardrails/README.md"]:
+            assert "check-worker-restore.py" in read_flat(home), (
+                "%s states the rule and never names its mechanical arm, so a worker briefed from "
+                "it cannot tell the rule is read by machine" % home)
+
+
+class TestTheGateIsArmedWhereItSaysItIs:
+    """The gate declares itself blocking at the verify step, and this is where that is proven.
+
+    Two arms. The pipeline skill's verify step names the command a session runs before it accepts a
+    worker's result. This suite runs the same gate against the machine's own transcript root, so a
+    red reaches a person on the next suite run rather than sitting on disk.
+    """
+
+    def test_the_verify_step_names_the_command(self):
+        skill = read_flat("skills/build-pipeline/SKILL.md")
+        assert "python3 guardrails/check-worker-restore.py" in skill, (
+            "the verify step never names the gate's command, so nothing runs it")
+        assert "reads its verdict before it accepts the worker's result" in skill
+
+    def test_the_gate_runs_against_this_machines_own_transcripts(self):
+        """The real root, the session's own window. A host that keeps no transcripts where the gate
+        looks stands down by name; a host that keeps them gets a verdict over real worker runs."""
+        res = _gate("--since-hours", "24", counting_from=None)
+        assert res.returncode == 0, (
+            "a worker run since the counting start discarded working-tree changes:\n%s" % res.stdout)
+        assert "STAND-DOWN" in res.stdout or "OK (check-worker-restore)" in res.stdout
+        if "OK (check-worker-restore)" in res.stdout:
+            assert "counting start" in res.stdout, (
+                "the verdict never says how much history it read past")
+
+    def test_the_counting_start_carries_history_and_reds_what_came_after(self, tmp_path):
+        root, _ = _transcript_root(tmp_path, ["git checkout -- engine/assets/exhibition.js"])
+        before = _gate("--root", root, "--counting-from", "2026-07-28")
+        assert before.returncode == 0, "a run stamped 2026-07-27 red past a 2026-07-28 start"
+        assert "1 finding stamped before the counting start" in before.stdout
+        after = _gate("--root", root, "--counting-from", "2026-07-27")
+        assert after.returncode == 1, "a run stamped on the counting start passed"
+
+    def test_a_run_with_no_stamp_reds(self, tmp_path):
+        """The gate cannot place an unstamped record in time, so it reads it as a new one."""
+        runs = tmp_path / "projects" / "-Users-someone-tree" / "s-0002" / "subagents"
+        runs.mkdir(parents=True)
+        record = _run_record("git reset --hard HEAD")
+        record.pop("timestamp")
+        with open(runs / "agent-b00000000000000.jsonl", "w", encoding="utf-8") as f:
+            f.write(json.dumps(record) + "\n")
+        res = _gate("--root", str(tmp_path / "projects"))
+        assert res.returncode == 1, res.stdout
+
+    def test_a_date_the_gate_cannot_read_reds_by_name(self, tmp_path):
+        root, _ = _transcript_root(tmp_path, ["git status"])
+        res = _gate("--root", root, "--counting-from", "last tuesday")
+        assert res.returncode == 1
+        assert "YYYY-MM-DD" in res.stdout

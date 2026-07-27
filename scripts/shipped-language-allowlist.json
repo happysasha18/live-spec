@@ -13,6 +13,7 @@
   ],
   "project_name_waivers": [],
   "user_language_globs": [
+    "guardrails/language-rules.json",
     "scripts/spec-style-lint.py",
     "scripts/preshow-register-lint.py",
     "scripts/register-lint-floor.json",
