@@ -189,7 +189,13 @@ class TestCheckerLogic(unittest.TestCase):
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
 
     def test_reads_real_stdin_when_env_var_unset(self):
-        r = run(["bash", CHECKER], input=DELETION_STDIN)
+        # The env var has to be cleared for this case, and clearing it matters most when the suite
+        # runs INSIDE the pre-push chain: the chain exports PUSH_REF_LINES with the real push's ref
+        # lines, so a test that only passes stdin would read the live push instead of its own input.
+        env = dict(os.environ)
+        env.pop("PUSH_REF_LINES", None)
+        r = subprocess.run(["bash", CHECKER], cwd=ROOT, capture_output=True, text=True,
+                           env=env, input=DELETION_STDIN)
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
 
 
