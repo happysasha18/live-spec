@@ -5127,9 +5127,10 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: a deletion-only push carries no content**
 
-7. *when* every ref-update line git feeds the pre-push hook carries the all-zero local object id, the system *shall* read the push as deletion-only and *shall* stand the whole gate chain down, printing one line naming the stand-down and its reason, deriving no reach and running no suite. [INV-290]
-8. *when* at least one fed line carries a real object id, the system *shall* run the push gate exactly as on any other push, never reading a mixed push as deletion-only. [INV-290]
-9. *if* the hook reads no ref-update lines, *then* the system *shall* run the whole gate chain as an ordinary push, since an unreadable input names no deletion to stand down for. [INV-290]
+7. *when* every ref-update line git feeds the pre-push hook carries the all-zero local object id, the system *shall* read the push as deletion-only and *shall* stand the whole gate chain down. [INV-290]
+8. *when* the chain stands down for a deletion-only push, the system *shall* print one line naming the stand-down and its reason, deriving no reach and running no suite. [INV-290]
+9. *when* at least one fed line carries a real object id, the system *shall* run the push gate exactly as on any other push, never reading a mixed push as deletion-only. [INV-290]
+10. *if* the hook reads no ref-update lines, *then* the system *shall* run the whole gate chain as an ordinary push, since an unreadable input names no deletion to stand down for. [INV-290]
 
 ---
 
@@ -7267,7 +7268,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-287 | R297.1, R297.2, R297.3, R297.4, R297.5, R297.6, R297.7, R297.8, R297.10 |
 | INV-288 | R297.11, R297.12, R297.13, R297.14, R297.15, R297.16 |
 | INV-289 | R298.1, R298.2, R298.3, R298.4, R298.5, R298.6 |
-| INV-290 | R226.7, R226.8, R226.9 |
+| INV-290 | R226.7, R226.8, R226.9, R226.10 |
 | M-1 | R49.2, R80.7, R80.8, R92.2, R130.1, R130.2, R130.3, R130.4, R130.5, R130.6, R130.7, R130.8, R130.9, R164.4, R166.3, R166.8, R198.6, R249.2 |
 | M-2 | R14.3, R125.1, R125.2, R125.3, R177.12, R204.3 |
 | M-3 | R136.1 |
