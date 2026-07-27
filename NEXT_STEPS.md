@@ -1,34 +1,34 @@
 # live-spec — NEXT_STEPS (resume file: LIVE STATE + queue only; history → JOURNAL.md; ≤100 lines, INV-48)
 
-## LIVE STATE (2026-07-27 ~20:20 — evening movement: five rows landed, the readability measure built)
-Both records are folded: `docs/prover/2026-07-27-push-gate-addendum.md` (A1-A9 + N1) and its successor
-`docs/prover/2026-07-27-push-gate-fold.md` (3 must-fix, 9 should-fix, each disposition written into that
-record's own fold section). The hook census now reads the wired declaration as its population with the
-library list carved out (10/10 classified, the two prompt-submit hooks it found unproven carry fixtures
-and fire); requirements 292-295 state what their code does — the whole-turn reach, the document-name and
-spaced code forms, the source-line pass, the capital-shape rule, the registry's missing-file red; the
-shared reader's reach and stand-downs live in one home beside its own law (R230.6/R230.9) with a net over
-the pin's consumer list; the code forms are case-sensitive with lower-case English pinned silent.
-Gate t gained an arm reding any archive row with no terminal word: it found seven stale rows (three
-corrected, four legacy decision rows legalised) and exposed a split vocabulary, so the terminal words now
-have one home in `docs/roadmap-format.md` (landed, decided, declined, superseded), read by the gate and by
-`scripts/rotate-doc.py`. Row 482 closed whole; row 148 widened by the 2026-07-24 self-read of our own
-requirement bodies.
-SHIPPED in the same movement (his 2026-07-27 ~14:40 word, no discussion owed): the chat laws now judge at
-the tool boundary. A mid-turn narration line had reached him carrying two bare row numbers and a loan
-translation, and the Stop-side scan that catches that exact sentence could not fire until the turn ended.
-`hooks/midturn-chat-scan.py` (PreToolUse) reads the turn through the shared reader, judges the code half
-through the code-anchor scan itself, reads the loan translations from `hooks/chat-calques.json` with a
-plain replacement per entry, reports a fragment once per session, and stands down on any failure of its
-own — requirement 295, INV-285, M-461, 26 tests, installed and wired here, and it caught the seat's own
-line minutes after wiring. Row 495 carries it; rows 494 and 496-500 are the day's other intake, five of them from the inbox sweep.
-The second record `docs/prover/2026-07-27-push-gate-fold.md` held the push on three must-fix and nine
-should-fix findings; all twelve are folded and the record carries its own fold section. Full suite 1938
-green.
-TO RESUME, in order: (1) `git push`, then
-`git push origin --delete v1.0.0 v2.7.0 v2.8.0 spec-format-before-2026-07-22`. (2) row 494 (a rendered page
-is cleared away after its moment) and row 496 (what a running product's owner changes without a rebuild).
-(3) row 148's readability movement, worst-first from R88.
+## LIVE STATE (2026-07-27 ~20:55 — the evening movement: seven deliveries, the language diagnosis, suite 2044 green on 4 known reds)
+Seven deliveries landed on main and wait for one push. A rendered page is cleared to `attic/` with a dated
+manifest line once its reading is over, and ten accumulated pages were cleared in the landing (row 494).
+One command now installs all ten declared session hooks with their data files, generated from
+`guardrails/judge-hooks.json`; it installed two before, and the other eight had reached this machine by
+hand (row 506, closing row 495's last leg). A push that only deletes a reference stands the content gates
+down and finishes in about six seconds (row 502, built on its own branch, rebased and merged). The
+criterion-readability ratchet holds four arms over the spec's acceptance criteria at the counts measured
+today: 469 criteria past the word cap, 120 carrying a definition inside themselves, 147 closing on a clause
+with no finite verb, 61 with a crowded anchor (Requirement 297). A deployed kind now declares what its
+owner changes without a build, with a founding question and a three-arm check (Requirement 299, row 496);
+the proof by deed belongs to the tlvphotos window and its brief is `docs/briefs/2026-07-27-tlvphotos-configuration-surface.md`.
+The mid-turn chat check reads a cheap key before its pattern, runs in 0.03s against its 0.1s bound, and
+carries eight more words Alexander stopped on.
+
+THE EVENING'S FINDING, and it governs the next movement: two blind readers were given text with no context.
+The English reader, reading six requirements with the glossary withheld, could implement two of them from
+the text alone and three not at all. The Russian reader stopped twenty times in 250 words of working chat.
+Both named one root without prompting: ordinary words carrying private jobs, and sentences that give
+actions to things that cannot perform them. `docs/language-defects.md` states eight classes with their
+rules and what catches each; it has failed two blind reads of its own and is in its third repair round, so
+it stays unshown until two consecutive reads return nothing.
+
+TO RESUME, in order: (1) fold the prover record `docs/prover/2026-07-27-evening-movement.md`, then push.
+(2) The routing experiment (row 507) — it is cheap and starts counting at once; its baseline is written in
+the row. (3) The meaning check on the cheap model before a text is shown; the fifth law lands in
+`hooks/register_judge_core.py` tonight. (4) The requirement rewrite, worst first, judged by four numbers
+from two blind readers: do two independent readings agree, is the trigger and its consequence answerable,
+is a violation describable, could a reader build it without asking the author.
 
 ## PRIOR STATE (2026-07-23 night — row 456 LANDED at v4.3.0; the format family is complete)
 With the spec (4.0.0), matrix (4.1.0), roadmap (4.2.0), and architecture (4.3.0) all converted, the
