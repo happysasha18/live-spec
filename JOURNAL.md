@@ -2,6 +2,22 @@
 
 Edit history lives here — the WHY behind every change. The spec and README state current truth; this file explains how we got there.
 
+## 2026-07-27 — the prototype fence stops re-reading the tree once per fenced file
+
+The push gate held on the suite's own wall-time budget: 471 seconds measured against 420 stated. The
+reading found one gate carrying almost half the suite's time. `guardrails/check-prototype-fence.sh` proved
+that nothing outside the fenced home references a file inside it by running one `grep` per pair — 161
+fenced files against several hundred scanned files, tens of thousands of process launches, 215 seconds.
+
+The same proof reads each scanned file once: the fenced paths go into a pattern file and a single
+fixed-string pass over the scan set returns every hit with its own file name. The gate's verdicts are
+unchanged and its own red fixtures still red it. The gate now takes 6 seconds and the whole suite fell
+from 572 to 285, under half its budget.
+
+The lesson is worth more than the seconds: a gate whose cost grows as the product of two lists will be
+the suite one day, and nothing in the method asks about that shape when a gate is written. The standing
+row for reusable suite-speed guidance carries it as its first real case.
+
 ## 2026-07-27 — the day's push waited on nine findings, and the nets that found them grew reach
 
 A second review of the day's work — a delta-focused pass by a seat that authored none of it — held the

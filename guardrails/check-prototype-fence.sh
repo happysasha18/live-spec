@@ -57,17 +57,23 @@ scan_files="$(git ls-files | grep -Ev \
   -e "^guardrails/.*README\.md\$" \
   || true)"
 
+# One pass rather than a grep per (fenced path, scanned file) pair: the fixed-string patterns go
+# into one file and every scanned file is read once. The pair-wise walk cost minutes on a tree with
+# a few hundred fenced files, which is a quarter of the suite's whole wall time for one gate.
 hits=()
 if [ -n "$scan_files" ]; then
-  while IFS= read -r rel; do
-    [ -z "$rel" ] && continue
-    while IFS= read -r f; do
-      [ -z "$f" ] && continue
-      if grep -qF -- "$rel" "$f" 2>/dev/null; then
-        hits+=("$f references $rel")
-      fi
-    done <<< "$scan_files"
-  done <<< "$(printf '%s\n' "${fenced_files[@]}")"
+  pattern_file="$(mktemp)"
+  printf '%s\n' "${fenced_files[@]}" > "$pattern_file"
+  while IFS= read -r line; do
+    [ -z "$line" ] && continue
+    f="${line%%:*}"
+    rel="${line#*:}"
+    hits+=("$f references $rel")
+  done < <(printf '%s\n' "$scan_files" \
+    | tr '\n' '\0' \
+    | xargs -0 grep -oHF -f "$pattern_file" -- 2>/dev/null \
+    | sort -u || true)
+  rm -f "$pattern_file"
 fi
 
 if [ ${#hits[@]} -gt 0 ]; then
