@@ -79,8 +79,16 @@ def _load_code_anchor():
     return _CODE_ANCHOR[0]
 
 
+_CALQUES_CACHE = {}  # path -> compiled list; loaded once per process, not once per call
+
+
 def load_calques(path=CALQUES_PATH):
-    """The calque list as data: each entry's pattern compiled, with the plain word it asks for."""
+    """The calque list as data: each entry's pattern compiled, with the plain word it asks for and its
+    cheap pre-filter keys. Compiled once per process and cached by path, since every call before this
+    change re-parsed the JSON and re-compiled all fifteen patterns even though the list never changes
+    within a single hook invocation."""
+    if path in _CALQUES_CACHE:
+        return _CALQUES_CACHE[path]
     try:
         with open(path, encoding="utf-8") as fh:
             data = json.load(fh)
@@ -92,7 +100,12 @@ def load_calques(path=CALQUES_PATH):
             rx = re.compile(entry["pattern"], re.IGNORECASE)
         except (re.error, KeyError):
             continue
-        out.append((entry.get("word", ""), rx, entry.get("say", "")))
+        keys = entry.get("keys") or []
+        if isinstance(keys, str):
+            keys = [keys]
+        keys = tuple(k.lower() for k in keys if k)
+        out.append((entry.get("word", ""), rx, entry.get("say", ""), keys))
+    _CALQUES_CACHE[path] = out
     return out
 
 
@@ -145,7 +158,14 @@ def judge(text, calques=None):
     if calques is None:
         calques = load_calques()
     live = _quoted_spans_removed(text, anchor)
-    for word, rx, say in calques:
+    # The pre-filter: a plain substring test costs far less than a regex pass, so an entry with keys
+    # only pays for its expensive pattern when at least one of its keys is present. An entry with no
+    # keys (a missing or empty `keys` field) runs its pattern unconditionally, since a keyless entry has
+    # given the scan no cheap signal to filter on — silently skipping it would let a live law go dark.
+    low = live.lower()
+    for word, rx, say, keys in calques:
+        if keys and not any(k in low for k in keys):
+            continue
         for m in rx.finditer(live):
             findings.append({
                 "kind": "calque",

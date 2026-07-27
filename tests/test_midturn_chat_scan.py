@@ -277,6 +277,80 @@ def test_calque_file_says_how_the_list_grows():
     assert "one line every time" in data["_comment"], data["_comment"]
 
 
+# ---- the pre-filter keys ----------------------------------------------------------------------------
+
+def test_every_entry_carries_a_key_that_fires_on_its_own_example():
+    """Each entry's `keys` gate the expensive pattern behind a cheap substring test. A key that does
+    not actually appear in the entry's own recorded example would silence a live law: the pre-filter
+    would skip the pattern on the very sentence the entry exists to catch."""
+    with open(CALQUES, encoding="utf-8") as f:
+        data = json.load(f)
+    for entry in data["calques"]:
+        keys = entry.get("keys") or []
+        example = entry.get("example", "")
+        assert keys, entry
+        assert example, entry
+        low = example.lower()
+        assert any(k.lower() in low for k in keys), (
+            "no key of %r matches its own example %r" % (entry["word"], example)
+        )
+
+
+def test_a_missing_or_empty_keys_field_runs_the_pattern_unconditionally():
+    """A `keys` field that is absent or empty must not silently skip the entry's pattern — it must run
+    unconditionally, same as before the pre-filter existed."""
+    mod = _load_module()
+    calques = [("word", mod.re.compile("сигнал"), "say", ())]
+    hits = mod.judge("не имеющее отношения к ключам предложение с словом сигнал внутри", calques)
+    assert hits, hits
+
+
+def test_all_fifteen_calques_catch_their_own_example_through_judge():
+    """The pre-filter must never turn into a silent skip: every entry's own recorded example still
+    reds through the real judge(), not just through the raw pattern."""
+    mod = _load_module()
+    with open(CALQUES, encoding="utf-8") as f:
+        data = json.load(f)
+    for entry in data["calques"]:
+        findings = mod.judge(entry["example"])
+        caught = any(f["kind"] == "calque" and f["word"] == entry["word"] for f in findings)
+        assert caught, (entry["word"], entry["example"], findings)
+
+
+def test_eight_recorded_failures_are_caught():
+    """The eight sentences that earned the newer entries, judged directly (not through the tool-call
+    harness), so the pre-filter's keys are proven against the exact wording that made each law."""
+    mod = _load_module()
+    cases = [
+        "уборка страниц уже в дереве",
+        "жив ли работник",
+        "проверка с четырьмя руками",
+        "храповик записал числа",
+        "полоса с пушем закрыта",
+        "тело требования читается тяжело",
+        "сетка засеяна",
+        "перегруженная строка якорей",
+    ]
+    for text in cases:
+        findings = mod.judge(text)
+        assert any(f["kind"] == "calque" for f in findings), (text, findings)
+
+
+def test_ordinary_sentences_near_the_new_words_stay_silent():
+    """The everyday sense of each new word, close enough to trip a careless pre-filter key, must still
+    pass — the key only gates whether the pattern runs; the pattern itself still decides."""
+    mod = _load_module()
+    cases = [
+        "дерево в саду выросло",
+        "он поднял руку",
+        "белая полоса в жизни",
+        "рыбак чинит сеть",
+    ]
+    for text in cases:
+        findings = mod.judge(text)
+        assert not any(f["kind"] == "calque" for f in findings), (text, findings)
+
+
 # ---- cost ------------------------------------------------------------------------------------------
 
 def _load_module():
