@@ -54,9 +54,6 @@ All four core documents are converted; the account lives in JOURNAL.md and in
   460 re-scoped (his 2026-07-23 word: public tier only; working tier possibly-never with two named
   triggers) · row 469 · row 479 (worker tree-restore guard).
 
-## RECOMMENDATION carried from the row-456 prover (not blocking)
-R290.1's "at most one parenthetical sentence" has no length gate and a few owns cells carry multi-clause parentheticals; fold into row 483's doc-cleanup.
-
 ## FIRST at intake — classify one-time vs standing (Alexander 2026-07-21, ROADMAP 440)
 Name every request's persistence class before actioning it, and say it yourself.
 
