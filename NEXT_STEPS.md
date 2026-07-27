@@ -21,12 +21,14 @@ the text alone and three not at all. The Russian reader stopped twenty times in 
 Both named one root without prompting: ordinary words carrying private jobs, and sentences that give
 actions to things that cannot perform them. `docs/language-defects.md` states eight classes with their
 rules and what catches each; it has failed two blind reads of its own and is in its third repair round, so
-it stays unshown until two consecutive reads return nothing.
+it stays unshown until two consecutive reads return no blocking finding. Read five is owed; the fifth repair round landed after read four.
+(4) One home for every language rule, with each consumer generated from it (his word 2026-07-27 ~21:00: five homes is too many); the enforcement-coverage registry row 475 carries it.
 
-TO RESUME, in order: (1) fold the prover record `docs/prover/2026-07-27-evening-movement.md`, then push.
-(2) The routing experiment (row 507) — it is cheap and starts counting at once; its baseline is written in
-the row. (3) The meaning check on the cheap model before a text is shown; the fifth law lands in
-`hooks/register_judge_core.py` tonight. (4) The requirement rewrite, worst first, judged by four numbers
+PUSHED 2026-07-27 21:45 (f98a7fd..c1bb33a), all gates green, the prover record folded first.
+TO RESUME, in order:
+(1) The routing experiment (row 507) — it is cheap and starts counting at once; its baseline is written in
+the row. (2) The meaning check on the cheap model before a text is shown; the fifth law lands in
+`hooks/register_judge_core.py` tonight. (3) The requirement rewrite, worst first, judged by four numbers
 from two blind readers: do two independent readings agree, is the trigger and its consequence answerable,
 is a violation describable, could a reader build it without asking the author.
 
