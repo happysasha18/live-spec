@@ -61,9 +61,8 @@ R290.1's "at most one parenthetical sentence" has no length gate and a few owns 
 Name every request's persistence class before actioning it, and say it yourself.
 
 ## Standing word / OWNER-HELD
-- Onboarding runs later this week, closer to the weekend (his word 2026-07-27 ~23:14). The 26 parked
-  questions were re-tested that evening: 23 are the seat's, 1 is his (the defaults a stranger gets), 2 wait
-  on a first outside host.
+- Onboarding runs closer to the weekend (his word 2026-07-27). Of its 26 parked questions, 23 are the
+  seat's, 1 is his (the defaults a stranger gets), 2 wait on a first outside host.
 - Whole movement solo, push on green; plain English in docs, plain Russian in chat; gates mandatory.
 - Max agentic, conserve orchestrator context (delegate reads and drafts; hold briefs and decisions).
 - lean-orchestrator: the seat authors nothing long and reads nothing past a glance inline.
@@ -100,4 +99,4 @@ field-gated (contract/listener) + far tier.
 Next free INV-290 (286-289 taken 2026-07-27), E-36, T-25, M-466 (463-465 taken 2026-07-27), requirement 299; next ROADMAP row 510 (A-12, B-4, C-2, D-8, S-1, ACT-4 free too).
 
 ## Research in hand
-Direct-protocol research (scratchpad research-agent-transport.md, research-direct-channel.md; prior art docs/research/2026-07-17-agent-routing-prior-art.md): A2A re-invents our card.
+Direct-protocol research: docs/research/2026-07-17-agent-routing-prior-art.md.
