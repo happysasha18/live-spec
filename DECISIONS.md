@@ -37,6 +37,11 @@ the defect this surface exists to catch. [[wait]]
   members rather than the exhaustive list; you accepted the form off the 15-code sample and asked to
   keep the class-member lists representative rather than complete [E-35, INV-239].
 
+- The pack's own repository counts as a host of the pack, so three projects run under it: the music
+  producer's coach, the photo site, and live-spec itself. Asked 2026-07-27 ~18:09, because the public page
+  said two while the architecture and the test matrix named three real hosts; your word at ~18:11 was that
+  live-spec is the third, unambiguously. The page now says three.
+
 ## Open — carried, awaiting your word
 <!-- record:open -->
 These are open questions the pack carries with a recommendation, moved here from the old spec body when

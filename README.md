@@ -73,7 +73,7 @@ Many tools offer control by asking a long list of questions up front. That is mo
 
 ## What it missed
 
-Two projects run under this pack in production, and both caught the method out. A dead-end check ran on the right surface and still missed a one-way door, because it read states within a single surface while nothing walked the round trip between two surfaces. That was the method's own fault, and it became a new rule. A test guarded that near-silent audio stems are dropped from a view, and it stayed green for a month while the spec's actual requirement, that those stems stay visible and named, went unrendered. And a scroll that satisfies its motion contract exactly can still feel cheap, which no rubric will catch honestly.
+Three projects run under this pack in production, the pack's own repository among them, and they keep catching the method out. A dead-end check ran on the right surface and still missed a one-way door, because it read states within a single surface while nothing walked the round trip between two surfaces. That was the method's own fault, and it became a new rule. A test guarded that near-silent audio stems are dropped from a view, and it stayed green for a month while the spec's actual requirement, that those stems stay visible and named, went unrendered. And a scroll that satisfies its motion contract exactly can still feel cheap, which no rubric will catch honestly.
 
 > **A spec owns what a project can write down and test. Feel belongs to the owner's eye.**
 
@@ -93,7 +93,7 @@ Map of everything: [`OVERVIEW.md`](OVERVIEW.md) · [pipeline](docs/pipeline.md) 
 
 This pack is for people who can already build software, know what discipline costs, and now build with agents that are fast and untrustworthy. It is the wrong tool for a first project. It hands you a spec, an architecture document, a test matrix, and a pre-push hook. That is the right shape for the problem and too much for someone who has never shipped.
 
-Two projects, one author, no outside adopters yet. The judgment loop is one model reviewing its own work. Only the mechanical gates are genuinely independent, which is why they are scripts. The version moves fast and the rules will sharpen under you. The gates stabilize first, because those carry red-first proofs.
+Three projects, one author, no outside adopters yet. The judgment loop is one model reviewing its own work. Only the mechanical gates are genuinely independent, which is why they are scripts. The version moves fast and the rules will sharpen under you. The gates stabilize first, because those carry red-first proofs.
 
 Prior art is credited in full, including what was borrowed and from whom: [survey](docs/prior-art-frameworks.md) · [originality audit](docs/research/2026-07-10-originality-audit.md) · [comparative reviews](docs/research/2026-07-06-bmad-kiro-livespec-comparison.md), briefed to criticize all three subjects. This pack sits alongside BMAD, Kiro, and the wider spec-driven-development family. What it adds is the mechanical push gate and the recorded prover discipline. [Superpowers](https://github.com/obra/superpowers) is ahead of anything here on execution discipline, and its stars are earned. If you know prior art we missed, open an issue.
 
