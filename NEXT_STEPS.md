@@ -1,6 +1,6 @@
 # live-spec — NEXT_STEPS (resume file: LIVE STATE + queue only; history → JOURNAL.md; ≤100 lines, INV-48)
 
-## LIVE STATE (2026-07-27 ~15:30 — two review records folded whole, suite 1938 green, pushing)
+## LIVE STATE (2026-07-27 ~20:20 — evening movement: five rows landed, the readability measure built)
 Both records are folded: `docs/prover/2026-07-27-push-gate-addendum.md` (A1-A9 + N1) and its successor
 `docs/prover/2026-07-27-push-gate-fold.md` (3 must-fix, 9 should-fix, each disposition written into that
 record's own fold section). The hook census now reads the wired declaration as its population with the
