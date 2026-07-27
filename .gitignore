@@ -5,13 +5,19 @@ outbox/
 .live-spec-fence
 .claude/worktrees/
 
-# rendered doc pages (render-doc.py output) are not committed
+# A page the document renderer produced is built for one reading and is cleared to the attic, so
+# it is never committed; the attic keeps it on disk, recoverable, and its manifest line is
+# tracked (SPEC INV-286).
 *.html
 
-# frozen norms are SOURCE artifacts, never regenerable junk — always tracked
+# A page nothing regenerates is the artifact itself and is tracked: a frozen norm card, a
+# hand-built decision page, a test fixture. The sweep clears every render before a commit, so
+# these lines only ever admit an artifact. A page inside the fenced prototype home is named by
+# no line here — the fence gate reads a prod file for a fenced path (SPEC INV-17), and the ones
+# already tracked stay tracked.
 !docs/norms/*.html
-# test fixtures are SOURCE too — the suite reads them, they must be tracked
-!tests/fixtures/*.html
+!docs/decisions/*.html
+!tests/fixtures/**/*.html
 .claude/
 
 # spec-freeze working baselines (regenerable from the pre-rewrite commit)

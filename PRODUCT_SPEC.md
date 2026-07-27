@@ -195,6 +195,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 - **remote gate** — the check set a host may mirror in its continuous-integration runner, whose verdict the pushing session reads after a push.
 - **remote seat** — a session that shares no filesystem with the assigned session and reaches the repository only through git — a cloud session, a scheduled routine, or another machine.
 - **removal list** — the dated record of the literal phrasings a person cut from a taste-reviewed artifact, appended when a cut happens and never removed.
+- **rendered page** — the readable page `scripts/render-doc.py` builds from a markdown document for a person to open in a browser; it carries the renderer's generator mark.
 - **requirement** — one unit of the body, made of a Context block, a User Story line, and acceptance criteria grouped into named cases.
 - **requirements format** — the genre a spec document is written in: a preamble, a glossary, then a body of requirements.
 - **response** — the duty a criterion states: its *shall* clauses, read together as one duty.
@@ -234,6 +235,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 - **thin loader** — the personal layer's global instruction file, holding only what must be true before any pack file loads.
 - **tier** — the model level a unit of work runs at: a no-decision one-shot worker, a multi-step mechanical worker, or the seat for judgment.
 - **touchpoint** — one point of contact with the person, carrying a kind: synchronous when the person is present and the work waits on the person, asynchronous when the person reads on the person's own clock while the work keeps running.
+- **transient page** — a page carrying the document renderer's generator mark, built for one reading and cleared to the attic once that reading is over.
 - **transport** — the road a message between two agents travels: the store, where the sender deposits one file the receiver sweeps later, or the direct channel, a live back-and-forth between two running sessions.
 - **trigger** — the situation or condition a criterion opens with — a *when*, a *while*, or an *if* clause; an unconditional criterion carries none.
 - **tripwire** — one fixed mechanical rule in the door step that lifts a wish to a door whatever its casual label.
@@ -6806,6 +6808,44 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 7. The system *shall* stand down on any failure of its own, leaving the session's tool calls running. [INV-285]
 
+---
+
+## Requirement 296: A rendered page built for one reading is cleared once its moment passes
+
+**Context:** A rendered page is built for one reading, and it stays in the tree until someone notices it, so a working directory carries several at any moment and the count only grows. The renderer says which kind of page it is: a page the document renderer produced is transient, and every other page in the tree is the artifact itself — a hand-built decision page, a frozen norm card, a test fixture, a prototype sketch, a project's built site. The renderer decides because it is the one thing that knows: it stamps its mark into every page it writes, so the mark cannot drift from the truth, and nothing else carries it. A naming convention is a habit a writer forgets on a single file, and a directory list has to be kept honest by hand and reads a project's own build output as pages built for one reading. A transient page is cleared once its reading is over, and the clearing moves it to the attic with a manifest line, the road base rule 10 already gives a superseded file.
+
+**User Story:** As a person who opens the pages the agent renders for me, I want each one cleared once I have read it and kept somewhere I can reach, so that my working directory holds only pages someone will open again while anything I might still need stays recoverable.
+
+### Acceptance Criteria
+
+**Case: the renderer tells the two kinds apart**
+
+1. The document renderer *shall* stamp a generator mark into every page it writes, and the system *shall* read a page carrying that mark as transient. [INV-286]
+2. *where* a page was rendered before the mark existed, the system *shall* read its source document standing beside it under the same name as the same evidence. [INV-286]
+3. The system *shall* read every other page inside the reach as the artifact itself and *shall* leave it standing. [INV-286, A-9]
+
+**Case: a transient page is cleared once its reading is over**
+
+4. The system *shall* clear a transient page *when* the exchange it was built for closes — the person has read it, or its decision is answered and harvested. [INV-286, E-22]
+5. The system *shall* move a cleared page into the attic under the one collision law, *shall* delete nothing, and *shall* keep the page recoverable from there. [INV-286, INV-7, A-4, E-9]
+6. The system *shall* write each page's manifest line as that page moves, so a run that halts partway leaves every page it already moved accounted for. [INV-286, A-4]
+7. The system *shall* name every page it cleared, why it read that page as a render, and where it comes back from, both in the manifest line and to the person. [INV-286, INV-28, A-4]
+
+**Case: a release sweeps what accumulated**
+
+8. *when* a release leaves the machine, the system *shall* sweep every transient page still standing and *shall* report the outcome in one line. [INV-286, INV-44]
+
+**Case: a page left standing reds**
+
+9. *while* a transient rendered page stands in the tree, the system *shall* red the sweep check, and the clearing *shall* clear that red. [INV-286]
+10. The check *shall* state its reach on its passing line: the count of pages read, the mark they were read for, and what stands outside the reach. [INV-286, INV-269]
+
+**Case: the reach stops before committed history**
+
+11. The system *shall* leave every page version control tracks outside the sweep, *because* removing tracked history is a commit with its own gate. [INV-286, INV-7]
+12. The system *shall* leave the version-control directory, the harness's worktree home, the host state directory, and the attic outside the sweep. [INV-286]
+13. The system *shall* let a host declare its own homes outside the reach as host configuration, holding the pack's own four as the default. [INV-286, INV-224]
+
 
 ## Reference
 
@@ -6817,12 +6857,12 @@ The code-to-location table below is generated output, built from the body criter
 | A-1 | R170.7, R172.8, R173.2, R177.1 |
 | A-2 | R177.2 |
 | A-3 | R48.4, R53.4, R75.3, R76.4, R177.5, R177.7, R276.1, R276.3 |
-| A-4 | R178.4, R179.1, R179.2 |
+| A-4 | R178.4, R179.1, R179.2, R296.5, R296.6, R296.7 |
 | A-5 | R168.1, R168.2, R177.8, R180.8, R182.5 |
 | A-6 | R1.4, R177.9, R247.5 |
 | A-7 | R125.3, R136.3, R177.10, R177.11, R177.12, R188.4, R202.3, R251.3, R268.1, R275.5 |
 | A-8 | R177.4, R180.7, R200.5 |
-| A-9 | R179.4, R179.5 |
+| A-9 | R179.4, R179.5, R296.3 |
 | A-10 | R53.4, R174.3, R178.1, R193.12, R265.6 |
 | A-11 | R88.2, R180.4, R180.5, R180.7, R180.8, R180.9, R180.10, R193.12, R272.3 |
 | ACT-1 | R144.2, R188.6, R200.1, R248.2 |
@@ -6843,7 +6883,7 @@ The code-to-location table below is generated output, built from the body criter
 | E-6 | R1.4, R102.1, R102.2, R169.2, R225.1, R225.3, R247.2 |
 | E-7 | R1.4, R177.9, R247.1, R247.2, R247.3, R247.4 |
 | E-8 | R47.3, R162.1, R200.5, R200.6, R202.1, R247.5 |
-| E-9 | R179.3 |
+| E-9 | R179.3, R296.5 |
 | E-10 | R61.1, R102.2, R177.3, R228.6, R250.1, R250.2, R250.3, R260.3 |
 | E-11 | R153.3, R163.6, R187.4, R187.5, R187.7, R190.1, R190.4, R195.1, R195.2, R196.13, R196.14, R252.1, R252.2, R252.3 |
 | E-12 | R2.1, R2.2, R2.3, R50.2, R51.1, R59.3, R198.1, R198.4, R198.5, R202.1 |
@@ -6856,7 +6896,7 @@ The code-to-location table below is generated output, built from the body criter
 | E-19 | R130.3, R249.1, R249.2, R249.3 |
 | E-20 | R144.1, R144.2, R144.3, R146.3, R187.13 |
 | E-21 | R188.1, R188.2, R188.3, R188.4 |
-| E-22 | R7.1, R7.2, R7.3, R69.3, R163.4 |
+| E-22 | R7.1, R7.2, R7.3, R69.3, R163.4, R296.4 |
 | E-23 | R188.5, R251.3, R251.4, R275.5 |
 | E-24 | R130.5, R162.1, R162.3, R162.4, R164.1, R164.3, R166.5, R166.6, R166.7 |
 | E-25 | R177.12, R188.5, R188.6, R188.7, R188.8, R194.8, R275.5 |
@@ -6876,7 +6916,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-4 | R7.1, R9.6, R10.3, R11.1, R11.3, R21.2, R22.7, R22.10, R32.3, R35.2, R45.4, R46.4, R56.2, R57.3, R69.3, R69.4, R72.3, R76.2, R78.1, R80.5, R88.3, R89.2, R153.2, R161.4, R163.4, R170.3, R193.3, R211.4, R212.5, R241.1 |
 | INV-5 | R10.4, R21.2, R40.7, R75.3, R76.2, R78.2, R170.6, R203.1, R220.2 |
 | INV-6 | R75.2, R124.2, R223.3 |
-| INV-7 | R179.1, R205.4, R256.5 |
+| INV-7 | R179.1, R205.4, R256.5, R296.5, R296.11 |
 | INV-8 | R168.1, R168.3, R168.4, R168.5 |
 | INV-9 | R7.4, R7.5, R46.4, R72.4, R139.1, R163.3, R164.2, R171.4, R171.5, R200.1, R200.3, R219.1, R220.1 |
 | INV-10 | R90.5, R100.1, R100.2, R158.1, R163.5, R166.7, R187.5, R187.6, R187.7, R192.2, R193.7, R193.8, R193.10, R195.2, R197.3, R205.3, R207.1, R251.1, R251.2 |
@@ -6897,7 +6937,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-25 | R17.6, R201.1, R201.2, R201.3, R201.4, R201.5 |
 | INV-26 | R14.1, R14.2, R14.3, R127.2, R127.3, R161.5, R287.5 |
 | INV-27 | R15.1, R15.2, R15.4, R15.5, R15.6, R22.8, R23.1, R80.5, R86.3, R152.4, R154.1, R159.5, R159.7, R187.8, R195.12, R196.7, R196.9, R196.16, R254.5 |
-| INV-28 | R8.2, R17.1, R17.2, R17.3, R17.4, R17.5, R17.6, R17.7, R17.8, R22.8, R22.9, R29.3, R54.3, R159.4, R188.9, R191.3, R195.12, R212.5, R293.1, R293.2, R295.1, R295.3 |
+| INV-28 | R8.2, R17.1, R17.2, R17.3, R17.4, R17.5, R17.6, R17.7, R17.8, R22.8, R22.9, R29.3, R54.3, R159.4, R188.9, R191.3, R195.12, R212.5, R293.1, R293.2, R295.1, R295.3, R296.7 |
 | INV-29 | R57.1, R57.2, R57.3, R57.4, R58.2, R63.2, R68.2 |
 | INV-30 | R51.3, R59.1, R59.2, R59.3, R61.5, R65.2, R104.2, R108.1, R173.4, R175.3, R175.4, R175.5, R176.2, R261.3, R261.5, R263.4, R265.13 |
 | INV-31 | R7.6, R32.4, R46.3, R53.2, R71.1, R71.2, R72.1, R157.1, R186.2, R191.3, R195.12, R220.2, R259.4, R261.2, R261.7, R263.4, R265.9, R265.13 |
@@ -6913,7 +6953,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-41 | R48.3, R118.4, R121.1, R121.2, R121.3, R121.4, R121.5, R191.9, R192.7, R194.9, R225.1, R226.3, R244.1, R245.1, R264.2 |
 | INV-42 | R32.1, R32.2, R32.3, R32.4, R33.3, R36.2 |
 | INV-43 | R43.2, R73.2, R103.1, R103.2, R103.3, R104.1, R104.2, R104.3, R104.4, R104.5, R104.6 |
-| INV-44 | R139.4, R146.1, R146.2, R146.3, R146.4, R214.1 |
+| INV-44 | R139.4, R146.1, R146.2, R146.3, R146.4, R214.1, R296.8 |
 | INV-45 | R142.1, R219.6, R220.3, R226.1, R226.2 |
 | INV-46 | R68.3, R112.4, R131.3, R213.1, R213.2, R213.3, R213.4, R214.3, R215.2 |
 | INV-47 | R227.1, R227.2, R227.3, R228.2 |
@@ -7093,7 +7133,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-221 | R135.1, R135.2, R135.3, R230.3 |
 | INV-222 | R5.3, R5.4, R5.5, R94.1, R94.2, R94.3, R94.4, R95.3, R196.11, R239.1, R257.4 |
 | INV-223 | R5.5, R94.3, R239.1, R239.2, R239.3, R239.4 |
-| INV-224 | R226.4, R226.5 |
+| INV-224 | R226.4, R226.5, R296.13 |
 | INV-225 | R196.9, R196.10, R196.11, R196.19, R196.20 |
 | INV-226 | R52.5, R121.3, R214.1, R258.4, R263.9, R264.1, R264.2, R264.3, R264.4, R264.5, R265.3, R265.11, R266.9 |
 | INV-227 | R180.6, R188.12, R188.13, R188.14 |
@@ -7138,7 +7178,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-266 | R281.1, R281.2 |
 | INV-267 | R281.3, R281.4, R281.5, R281.6 |
 | INV-268 | R281.7 |
-| INV-269 | R282.1, R282.2, R284.4, R285.3, R288.5 |
+| INV-269 | R282.1, R282.2, R284.4, R285.3, R288.5, R296.10 |
 | INV-270 | R277.19, R277.20, R283.7, R286.3, R289.6 |
 | INV-271 | R191.4, R191.7, R278.5, R278.6, R278.7 |
 | INV-272 | R283.1, R283.2, R283.3, R283.4, R283.5, R283.6, R283.7 |
@@ -7155,6 +7195,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-283 | R293.1, R293.2, R293.3, R293.4, R293.5, R293.6, R293.7, R293.8, R295.2 |
 | INV-284 | R294.1, R294.2, R294.3, R294.4 |
 | INV-285 | R295.1, R295.2, R295.3, R295.4, R295.5, R295.6, R295.7 |
+| INV-286 | R296.1, R296.2, R296.3, R296.4, R296.5, R296.6, R296.7, R296.8, R296.9, R296.10, R296.11, R296.12, R296.13 |
 | M-1 | R49.2, R80.7, R80.8, R92.2, R130.1, R130.2, R130.3, R130.4, R130.5, R130.6, R130.7, R130.8, R130.9, R164.4, R166.3, R166.8, R198.6, R249.2 |
 | M-2 | R14.3, R125.1, R125.2, R125.3, R177.12, R204.3 |
 | M-3 | R136.1 |

@@ -132,6 +132,11 @@ def render(md):
     return "\n".join(out)
 
 
+# The mark every page this renderer produces carries, and the one home of its wording. The clearing
+# (`scripts/sweep-rendered.py`, SPEC INV-286) reads this exact string to tell a render from a page a
+# person built by hand.
+GENERATOR = "live-spec render-doc"
+
 STYLE = """
 :root { color-scheme: light dark; }
 body { font-family: -apple-system, "Segoe UI", Georgia, serif; max-width: 46rem;
@@ -158,10 +163,14 @@ def main():
     dst = Path(sys.argv[2]) if len(sys.argv) > 2 else src.with_suffix(".html")
     md = src.read_text(encoding="utf-8")
     title = html.escape(next((l.lstrip("# ") for l in md.split("\n") if l.startswith("# ")), src.name))
+    # The generator mark. A page this renderer produced was built for one reading, and the mark is
+    # how the clearing recognises it later — after its source document has been renamed or deleted,
+    # and without ever mistaking a hand-built page or a host's built site for a render (SPEC INV-286).
     page = ("<!DOCTYPE html><html><head><meta charset='utf-8'>"
             "<meta name='viewport' content='width=device-width, initial-scale=1'>"
+            "<meta name='generator' content='%s'>"
             "<title>%s</title><style>%s</style></head><body>%s</body></html>"
-            % (title, STYLE, render(md)))
+            % (GENERATOR, title, STYLE, render(md)))
     dst.write_text(page, encoding="utf-8")
     print(dst)
 

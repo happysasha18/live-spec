@@ -95,3 +95,11 @@ A second offer inside the same window is the defect the fixture check
 `guardrails/check-far-tier.py --window` reds; a first offer once the window has passed passes. This
 rides the status report the agent pushes at him, an asynchronous touchpoint [SPEC INV-205], and
 interrupts nothing.
+
+## Three anti-patterns, gathered for a quick self-check
+
+The rules already forbid each of these; they are collected here so a self-check reads them in one place.
+
+- Opening an unchanged artifact "just to look" — move only on a real was → became (rule 4).
+- Ending a fork with no recommendation (rule 2).
+- Escalating a decision you could have made yourself (rule 7).

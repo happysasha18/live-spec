@@ -37,6 +37,13 @@ diagrams and flow pictures, a visual product re-shoots what changed on screen, a
 example. The delivery report carries the outcome in one line — "shopfront checked — current" when
 nothing was touched; a stale claim found is fixed BEFORE the push, the same law as a stale screenshot.
 
+**The same walk sweeps the rendered pages that accumulated (SPEC INV-286).** A page rendered for one
+reading is cleared as its exchange closes (communicator rule 5), and a release is where whatever
+escaped that moment gets swept: run `python3 scripts/sweep-rendered.py`, which moves each transient
+page into the attic with its dated manifest line and prints what it moved. The delivery report carries
+that line, so the release says which pages were cleared and where they come back from. A page inside a
+record home is a source artifact and the sweep leaves it standing.
+
 ## The kind checklist — what every publication owes (one home: this table)
 
 First, the floor every kind shares.

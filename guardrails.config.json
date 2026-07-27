@@ -18,12 +18,47 @@
   ],
   "surface_discovery_pattern": "<section id=\"([^\"]+)\"",
   "waivers": {},
+  "rendered_pages": {
+    "outside_reach": [
+      ".git",
+      ".claude",
+      ".live-spec"
+    ]
+  },
   "reach_classes": {
-    "prose_files": ["README.md", "OVERVIEW.md", "MIGRATION.md", "LICENSE"],
-    "prose_dirs": ["docs/research", "docs/reports", "docs/audit", "docs/decisions"],
-    "infra_dirs": ["guardrails", "scaffold/guardrails", "templates", "scripts", "hooks", "adopt"],
-    "infra_files": ["guardrails.config.json"],
-    "infra_globs": ["tests/test_*.py"],
-    "referrer_dirs": ["guardrails", "scaffold/guardrails", "scripts", "templates", "hooks", "adopt"]
+    "prose_files": [
+      "README.md",
+      "OVERVIEW.md",
+      "MIGRATION.md",
+      "LICENSE"
+    ],
+    "prose_dirs": [
+      "docs/research",
+      "docs/reports",
+      "docs/audit",
+      "docs/decisions"
+    ],
+    "infra_dirs": [
+      "guardrails",
+      "scaffold/guardrails",
+      "templates",
+      "scripts",
+      "hooks",
+      "adopt"
+    ],
+    "infra_files": [
+      "guardrails.config.json"
+    ],
+    "infra_globs": [
+      "tests/test_*.py"
+    ],
+    "referrer_dirs": [
+      "guardrails",
+      "scaffold/guardrails",
+      "scripts",
+      "templates",
+      "hooks",
+      "adopt"
+    ]
   }
 }

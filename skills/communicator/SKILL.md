@@ -190,6 +190,9 @@ The form of the showing: one window, real data, retold as a small story, opened 
      project as rendered cards — only after the human's gate (a sync publishes), and the in-session render
      stays the authority for the landing itself. The design project is the team-review channel, never a
      substitute for showing the real thing here.
+   - **And the page is CLEARED once its reading is over (SPEC INV-286).** A page the doc renderer produced is
+     transient and the clearing takes it to the attic (base rule 10); a page nothing regenerates is the artifact and
+     stays; a release sweeps whatever escaped. Read the walk in [`references/page-lifecycle.md`](references/page-lifecycle.md) before clearing a page.
 
 - **Retell, don't reference.** *(rule 8)*
    - When reporting an event or a result, tell it as a small story — who did what, what would have
@@ -485,13 +488,9 @@ jargon he could not parse — a sync the agent could simply have done (2026-07-0
 existed; the scan is their enforcement in live chat, where no suite runs.
 
 ## Worked examples, forks, and anti-patterns
-The rules' worked examples — a fork template (one decision → a tiny HTML), and the field cases (a
-typography decision shown side by side, a "which name?" conflict, a day that looked like nothing, the
-departures board bounced by its reader, one event told twice) — live in
-[`references/field-examples.md`](references/field-examples.md). Three anti-patterns the rules already
-forbid, gathered for a quick self-check: opening an unchanged artifact "just to look" (move only on a
-real was → became, rule 4); ending a fork with no recommendation (rule 2); escalating a decision you
-could have made yourself (rule 7).
+The rules' worked examples — a fork template, the field cases, and the three anti-patterns the rules
+already forbid, gathered for a quick self-check — live in
+[`references/field-examples.md`](references/field-examples.md).
 
 > The pack, whole: **live-spec-base** holds the shared rules and defaults · **spec-author** writes the spec ·
 > **product-prover** reviews it · **design-reviewer** judges the design behind it · **build-pipeline** ships the change · **test-author** derives the matrix
