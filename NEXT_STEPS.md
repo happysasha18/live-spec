@@ -5,9 +5,9 @@ Today: rows 484-492 taken in from his morning's asks, rows 471 and 166 widened i
 row 55 closed to the archive (all its legs read met), git tags retired as a practice. Two mechanisms
 shipped and stand *in-work* with named remainders: the hook proof runner (row 489 — every session hook
 must fire against its own red fixture; all seven do) and the legibility fix (row 490 — colours pair with
-the surface they sit on; the bare-selector hole stays open). A new Stop hook, `hooks/code-anchor-scan.py`,
-reds a queue row number left standing in prose with no plain-word naming, on his word that a bare number
-tells him nothing. `docs/measure/movements.md` opened as the record a forward estimate reads from.
+the surface they sit on; the bare-selector hole stays open). A new Stop hook (`hooks/code-anchor-scan.py`) reds a queue row
+number left standing in prose with no plain-word naming, on his word that a bare number tells him
+nothing; `docs/measure/movements.md` opened as the record a forward estimate reads from.
 The review record `docs/prover/2026-07-27-push-gate.md` returned four must-fix findings; three are fixed,
 the fourth (the four new mechanism files owned by no node, stated by no requirement, covered by no matrix
 row) is in hand. THE PUSH WAITS ON IT.
