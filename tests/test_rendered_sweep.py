@@ -245,14 +245,18 @@ def test_an_upper_case_extension_is_read_too(tmp_path):
 
 
 def test_a_host_declares_its_own_homes_outside_the_reach(tmp_path):
-    # R296.12: the reach is host configuration on INV-224's road.
+    # R296.13: a declared home ADDS to the pack's own four; it never replaces them. A host that
+    # spares one directory of its own (M3) must not thereby lose `.git/` and `.live-spec/`.
     root = _tree(tmp_path, "declared")
     with open(os.path.join(root, "guardrails.config.json"), "w", encoding="utf-8") as f:
         json.dump({"rendered_pages": {"outside_reach": ["vendor/"]}}, f)
     _page(os.path.join(root, "vendor", "REPORT.html"))
+    _page(os.path.join(root, ".git", "hooks-page.html"))
+    _page(os.path.join(root, ".live-spec", "checkpoints", "draft.html"))
     r = _gate("--root", root)
-    assert r.returncode == 0, "a declared home outside the reach was still swept:\n%s" % (
-        r.stdout + r.stderr)
+    assert r.returncode == 0, (
+        "a declared home was spared at the cost of the pack's own four:\n%s"
+        % (r.stdout + r.stderr))
 
 
 def test_a_malformed_config_falls_back_to_the_pack_defaults(tmp_path):
@@ -480,12 +484,49 @@ def test_publish_sweeps_the_accumulation_at_a_release():
 
 
 def test_the_reach_is_declared_as_host_config():
+    # M2: read the four names from sweep-rendered.OUTSIDE_REACH itself, so the config and the
+    # code cannot part again the way they did when the config declared three and the code four.
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("sweep_rendered", SWEEP)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+
     with open(os.path.join(ROOT, "guardrails.config.json"), encoding="utf-8") as f:
         cfg = json.load(f)
     reach = cfg.get("rendered_pages", {}).get("outside_reach")
     assert reach, "guardrails.config.json declares no reach for the sweep"
-    for home in (".git", ".claude", ".live-spec"):
-        assert home in reach, "the declared reach omits %r" % home
+    for home in module.OUTSIDE_REACH:
+        assert home in reach, "the declared reach omits %r, one of the code's own four" % home
+
+
+def test_a_cleared_page_is_never_swept_again(tmp_path):
+    # RED-FIRST (M2): this repo's own config declared three homes and left "attic" out, which
+    # replaced the code's four-home default with three and put the attic inside its own sweep's
+    # reach. A page cleared once was then found transient again on the very next run, cleared a
+    # second time under a doubled name, and the check reds for good. Reproduce the same config
+    # shape here and prove a second run moves nothing.
+    root = _tree(tmp_path, "circle")
+    with open(os.path.join(root, "guardrails.config.json"), "w", encoding="utf-8") as f:
+        json.dump({"rendered_pages": {"outside_reach": [".git", ".claude", ".live-spec"]}}, f)
+    _page(os.path.join(root, "REPORT.html"))
+
+    first = _sweep("--root", root)
+    assert first.returncode == 0, first.stdout + first.stderr
+    moved = os.path.join(root, "attic", "REPORT.html")
+    assert os.path.isfile(moved), "the page did not land in the attic"
+
+    second = _sweep("--root", root)
+    out = second.stdout + second.stderr
+    assert second.returncode == 0, out
+    assert "No rendered page is waiting to be cleared" in out, (
+        "the second run swept the attic's own contents:\n%s" % out)
+    assert os.path.isfile(moved), "the attic copy no longer stands where the first run left it"
+    assert not os.path.exists(os.path.join(root, "attic", "attic-REPORT.html")), (
+        "the sweep moved its own archive in a circle")
+
+    r = _gate("--root", root)
+    assert r.returncode == 0, "the check reds over a page already cleared once:\n%s" % (
+        r.stdout + r.stderr)
 
 
 # --- the law's four document homes ---

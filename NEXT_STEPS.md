@@ -15,9 +15,6 @@ the proof by deed belongs to the tlvphotos window and its brief is `docs/briefs/
 The mid-turn chat check reads a cheap key before its pattern, runs in 0.03s against its 0.1s bound, and
 carries eight more words Alexander stopped on.
 
-Row 502 closed in this commit, its second attempt: the first close carried no resume-file refresh and the
-landing law reported it, so the close was reverted and redone with this file beside it.
-
 THE EVENING'S FINDING, and it governs the next movement: two blind readers were given text with no context.
 The English reader, reading six requirements with the glossary withheld, could implement two of them from
 the text alone and three not at all. The Russian reader stopped twenty times in 250 words of working chat.
@@ -33,11 +30,9 @@ the row. (3) The meaning check on the cheap model before a text is shown; the fi
 from two blind readers: do two independent readings agree, is the trigger and its consequence answerable,
 is a violation describable, could a reader build it without asking the author.
 
-## PRIOR STATE (2026-07-23 night — row 456 LANDED at v4.3.0; the format family is complete)
-With the spec (4.0.0), matrix (4.1.0), roadmap (4.2.0), and architecture (4.3.0) all converted, the
-format family is complete; the conversion's own account lives in JOURNAL.md and its record in
-`docs/prover/2026-07-23-row456.md`. **tlvphotos migrates next on his word from its own window; other
-projects stand until then.**
+## PRIOR STATE (2026-07-23 night — row 456 landed at v4.3.0; the format family is complete)
+All four core documents are converted; the account lives in JOURNAL.md and in
+`docs/prover/2026-07-23-row456.md`. tlvphotos migrates on his word from its own window.
 
 ## Near queue
 - Rows 484-493 (2026-07-27): 484 the seat declares what it did on its own · 485 a handed-in text is edited

@@ -16,12 +16,13 @@ the chain down, a content push runs it exactly as before.
 
 import glob
 import os
+import re
 import signal
 import subprocess
 import tempfile
 import unittest
 
-from conftest import ROOT
+from conftest import ROOT, read
 
 GUARDRAILS = os.path.join(ROOT, "guardrails")
 CHECKER = os.path.join(GUARDRAILS, "check-deletion-only-push.sh")
@@ -95,6 +96,67 @@ class TestCheckerScriptShips(unittest.TestCase):
     def test_script_ships_and_is_executable(self):
         self.assertTrue(os.path.isfile(CHECKER), "guardrails/check-deletion-only-push.sh missing")
         self.assertTrue(os.access(CHECKER, os.X_OK), "check-deletion-only-push.sh not executable")
+
+
+class TestR226DoesNotContradictItself(unittest.TestCase):
+    """M6: R226.6 once read "at every push, never scoped", stated as a universal over every push;
+    R226.7 names a push where none of those five checks runs at all — the deletion-only stand-down
+    this file proves. The two sat eight lines apart under adjacent case headings and could not both
+    hold; the code holds 7 (the stand-down block sits above `fail=0` in `guardrails/pre-push`, so a
+    deletion-only push never reaches the five checks criterion 6 names). Criterion 6 must carry its
+    one exception by name rather than read as an unscoped universal a reader of INV-40 could
+    believe."""
+
+    def _requirement_226_body(self):
+        spec = read("PRODUCT_SPEC.md")
+        m = re.search(r"\n## Requirement 226:.*?(?=\n## )", spec, re.S)
+        self.assertTrue(m, "PRODUCT_SPEC.md carries no Requirement 226")
+        return m.group(0)
+
+    def test_criterion_6_no_longer_reads_as_an_unscoped_universal(self):
+        body = self._requirement_226_body()
+        self.assertNotIn("at every push, never scoped", body,
+                          "criterion 6 still reads as a universal R226.7 falsifies")
+
+    def test_criterion_6_names_its_one_exception(self):
+        body = self._requirement_226_body()
+        m6 = re.search(r"\n6\. .*", body)
+        self.assertTrue(m6, "Requirement 226 carries no criterion 6")
+        self.assertIn("carries content", m6.group(0),
+                       "criterion 6 does not scope itself to a push that carries content")
+        self.assertTrue(
+            "criterion 7" in m6.group(0) or "deletion-only" in m6.group(0),
+            "criterion 6 points at no named exception for the deletion-only case")
+
+
+class TestPrePushAnchorsOnTheRightInvariant(unittest.TestCase):
+    """M5: `guardrails/pre-push` names this law's own invariant, INV-290, and no other. The
+    stand-down block once carried INV-286 — the rendered-page clearing law, which landed the same
+    evening on a different row — in both its comment and the line a person reads at the moment the
+    whole gate chain stands down; a reader following that anchor would land on Requirement 296 and
+    find a law about HTML pages where the reason for their push passing unguarded should be."""
+
+    def _standdown_block(self):
+        with open(PREPUSH, encoding="utf-8") as f:
+            text = f.read()
+        start = text.index("deletion-only stand-down")
+        end = text.index("fail=0", start)
+        return text[start:end]
+
+    def test_standdown_block_names_inv_290_and_no_other_invariant(self):
+        block = self._standdown_block()
+        self.assertIn("INV-290", block, "the stand-down block does not anchor on its own law")
+        self.assertNotIn("INV-286", block,
+                          "the stand-down block still names INV-286, the rendered-page law")
+
+    def test_the_printed_standdown_line_names_inv_290(self):
+        block = self._standdown_block()
+        printed = [l for l in block.splitlines() if "PUSH ALLOWED" in l]
+        self.assertTrue(printed, "no printed stand-down line found")
+        self.assertIn("INV-290", printed[0],
+                      "the line the person reads at stand-down does not name INV-290")
+        self.assertNotIn("INV-286", printed[0],
+                          "the line the person reads at stand-down still names INV-286")
 
 
 class TestCheckerLogic(unittest.TestCase):

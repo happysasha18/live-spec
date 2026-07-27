@@ -19,10 +19,12 @@
   "surface_discovery_pattern": "<section id=\"([^\"]+)\"",
   "waivers": {},
   "rendered_pages": {
+    "_comment": "outside_reach ADDS to the pack's own four (.git, .claude, .live-spec, attic); it never replaces them (SPEC R296.12, R296.13).",
     "outside_reach": [
       ".git",
       ".claude",
-      ".live-spec"
+      ".live-spec",
+      "attic"
     ]
   },
   "reach_classes": {

@@ -13,7 +13,7 @@ REPO_ROOT="$(git rev-parse --show-toplevel)"
 cd "$REPO_ROOT"
 GUARDRAILS="$REPO_ROOT/guardrails"
 
-# -- deletion-only stand-down (SPEC INV-286, ROADMAP row 502) --
+# -- deletion-only stand-down (SPEC INV-290, ROADMAP row 502) --
 # git feeds this hook one ref-update line per pushed ref on stdin (githooks(5)); read it ONCE, here,
 # before any gate below can touch stdin — a manual invocation for testing leaves stdin as a tty and
 # must never block on a read. A push whose every fed line deletes its remote counterpart (the
@@ -35,7 +35,7 @@ if [ -n "$PUSH_REF_LINES" ]; then
   set -e
   if [ "$del_code" -eq 0 ]; then
     echo "$del_out"
-    echo "PUSH ALLOWED — deletion-only push: standing the full gate chain down (reason: a deletion carries no content for any gate to judge, SPEC INV-286); whatever would guard the deletion itself is unaffected, since no such gate exists in this chain today."
+    echo "PUSH ALLOWED — deletion-only push: standing the full gate chain down (reason: a deletion carries no content for any gate to judge, SPEC INV-290); whatever would guard the deletion itself is unaffected, since no such gate exists in this chain today."
     exit 0
   fi
 fi

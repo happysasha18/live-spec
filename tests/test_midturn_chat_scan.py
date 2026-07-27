@@ -281,19 +281,31 @@ def test_calque_file_says_how_the_list_grows():
 
 def test_every_entry_carries_a_key_that_fires_on_its_own_example():
     """Each entry's `keys` gate the expensive pattern behind a cheap substring test. A key that does
-    not actually appear in the entry's own recorded example would silence a live law: the pre-filter
-    would skip the pattern on the very sentence the entry exists to catch."""
+    not actually appear in one of the entry's own recorded examples would silence a live law: the
+    pre-filter would skip the pattern on the very sentence the entry exists to catch.
+
+    M4: a single recorded example per entry can only ever prove the key that example was chosen to
+    match — every key was picked to match its own example, so a one-example test can only pass. Two
+    of the fifteen entries (`шов`, `засеяна`) shipped with a key narrower than their own pattern, and
+    this test still passed, because the example it read never exercised the inflected form the
+    pattern was written to catch. Two things close that gap: every entry must carry more than one
+    recorded example, and every one of them — not just the first — must fire a key."""
     with open(CALQUES, encoding="utf-8") as f:
         data = json.load(f)
     for entry in data["calques"]:
         keys = entry.get("keys") or []
-        example = entry.get("example", "")
+        examples = entry.get("examples") or []
         assert keys, entry
-        assert example, entry
-        low = example.lower()
-        assert any(k.lower() in low for k in keys), (
-            "no key of %r matches its own example %r" % (entry["word"], example)
+        assert len(examples) > 1, (
+            "%r carries %d recorded example(s); more than one is owed, including an inflected "
+            "form, or a narrow key can hide behind the one example it was chosen to match"
+            % (entry["word"], len(examples))
         )
+        for example in examples:
+            low = example.lower()
+            assert any(k.lower() in low for k in keys), (
+                "no key of %r matches its own recorded example %r" % (entry["word"], example)
+            )
 
 
 def test_a_missing_or_empty_keys_field_runs_the_pattern_unconditionally():
@@ -306,15 +318,52 @@ def test_a_missing_or_empty_keys_field_runs_the_pattern_unconditionally():
 
 
 def test_all_fifteen_calques_catch_their_own_example_through_judge():
-    """The pre-filter must never turn into a silent skip: every entry's own recorded example still
-    reds through the real judge(), not just through the raw pattern."""
+    """The pre-filter must never turn into a silent skip: every one of an entry's own recorded
+    examples still reds through the real judge(), not just through the raw pattern, and not just
+    the first example — a narrow key can pass a first example and still miss a later one."""
     mod = _load_module()
     with open(CALQUES, encoding="utf-8") as f:
         data = json.load(f)
     for entry in data["calques"]:
-        findings = mod.judge(entry["example"])
-        caught = any(f["kind"] == "calque" and f["word"] == entry["word"] for f in findings)
-        assert caught, (entry["word"], entry["example"], findings)
+        for example in entry["examples"]:
+            findings = mod.judge(example)
+            caught = any(f["kind"] == "calque" and f["word"] == entry["word"] for f in findings)
+            assert caught, (entry["word"], example, findings)
+
+
+def test_the_prefilter_never_narrows_the_pattern_it_gates():
+    """M4's exact hazard, proven the way the review's own fix suggests: an entry's `keys` is only
+    ever allowed to skip work the pattern would not have found anyway. Judging each recorded
+    example on its own — one call per example, since a key is a substring test over the one turn
+    of text the pack actually hands `judge()` — with the pre-filter's keys in place must return the
+    same calque findings as judging it with the keys stripped (every entry keyless, so every
+    pattern always runs unconditionally, the pre-filter's own behaviour for a keyless entry). A key
+    narrower than its own pattern — the shape that silenced `шов` and `засеяна`, each caught on an
+    inflected form its own key did not cover — shows up here as a finding the keys-stripped run
+    reports and the keyed run does not.
+
+    Read one example at a time rather than one joined corpus: joining every example into one blob
+    would let one entry's OTHER example carry a key that is not in the line actually being tested,
+    since the pre-filter's substring test reads the whole text handed to it, not the one sentence a
+    person wrote."""
+    mod = _load_module()
+    with open(CALQUES, encoding="utf-8") as f:
+        data = json.load(f)
+
+    keyed = mod.load_calques()
+    keyless = [(word, rx, say, ()) for word, rx, say, _ in keyed]
+
+    for entry in data["calques"]:
+        for example in entry["examples"]:
+            with_keys = {(f["word"], f["fragment"])
+                         for f in mod.judge(example, keyed) if f["kind"] == "calque"}
+            without_keys = {(f["word"], f["fragment"])
+                            for f in mod.judge(example, keyless) if f["kind"] == "calque"}
+            missing = without_keys - with_keys
+            assert not missing, (
+                "the pre-filter's keys silenced a finding the pattern itself would have caught on "
+                "%r: %r" % (example, missing)
+            )
 
 
 def test_eight_recorded_failures_are_caught():

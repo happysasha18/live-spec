@@ -5123,7 +5123,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: the cheap gates never scope**
 
-6. The system *shall* run the prover-record, ownership, coverage, loadability, and prototype-fence checks at every push, never scoped, so nothing the diff touches is skipped. [INV-40]
+6. The system *shall* run the prover-record, ownership, coverage, loadability, and prototype-fence checks at every push that carries content, never scoped, except where criterion 7's deletion-only stand-down applies. [INV-40]
 
 **Case: a deletion-only push carries no content**
 
@@ -6853,7 +6853,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 11. The system *shall* leave every page version control tracks outside the sweep, *because* removing tracked history is a commit with its own gate. [INV-286, INV-7]
 12. The system *shall* leave the version-control directory, the harness's worktree home, the host state directory, and the attic outside the sweep. [INV-286]
-13. The system *shall* let a host declare its own homes outside the reach as host configuration, holding the pack's own four as the default. [INV-286, INV-224]
+13. The system *shall* let a host add its own homes outside the reach as host configuration, on top of the pack's own four, which no declaration lowers. [INV-286, INV-224]
 
 ---
 

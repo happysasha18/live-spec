@@ -34,6 +34,13 @@ destination). A host declares its own homes in `guardrails.config.json` under `r
 same road the reach map's directory classes take (SPEC INV-224), so a host adopts without editing
 this script.
 
+DECISION: a declared home is ADDED to the pack's own four, never in their place. The four are a
+floor, not a default a declaration can lower — a host that genuinely wants `.git/` or the attic
+itself swept has no case worth serving, and a declaration meant to spare one extra directory must
+never be read as the whole reach (R296.12, R296.13). `_config` below returns the four followed by
+whatever the host adds, so the attic can never end up inside its own sweep's reach and a host that
+declares one home of its own never loses `.git/` or `.live-spec` by saying nothing about them.
+
 WHERE A CLEARED PAGE GOES — the attic, base rule 10's own home, never a second one. The attic copy
 is the recovery: a page that turns out to be needed is moved back. The bytes stay out of git (a
 rendered page rebuilds from its source, and `.gitignore` keeps `*.html` out of history), and
@@ -96,16 +103,26 @@ base rule 10). Nothing here was deleted; a file that turns out to be needed is m
 
 
 def _config(root):
-    """The host's declared reach, read from guardrails.config.json where it carries one."""
+    """The pack's own four homes, plus whatever the host adds under guardrails.config.json.
+
+    The four are a floor, never a default a declaration replaces (R296.12, R296.13): a host that
+    declares one home of its own still keeps `.git/`, `.claude/`, `.live-spec/` and `attic/`
+    outside the reach with no word said. Declaring the same name twice is harmless; it is kept
+    once, in the order the four are always read first.
+    """
     path = os.path.join(root, "guardrails.config.json")
     try:
         with open(path, encoding="utf-8") as f:
             block = json.load(f).get("rendered_pages") or {}
     except (OSError, ValueError):
         block = {}
-    declared = block.get("outside_reach")
-    names = OUTSIDE_REACH if declared is None else declared
-    return tuple(n.strip().strip("/").replace(os.sep, "/") for n in names if n.strip().strip("/"))
+    declared = block.get("outside_reach") or ()
+    normalized = (n.strip().strip("/").replace(os.sep, "/") for n in tuple(OUTSIDE_REACH) + tuple(declared))
+    seen = []
+    for n in normalized:
+        if n and n not in seen:
+            seen.append(n)
+    return tuple(seen)
 
 
 def _under(rel, home):

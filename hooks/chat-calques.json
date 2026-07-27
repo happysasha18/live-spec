@@ -8,8 +8,11 @@
       "keys": [
         "ног"
       ],
-      "example": "У этого требования одна нога приёмки ещё открыта.",
-      "note": "the pack's word for one acceptance criterion under a requirement. The live failure: «строка 55 честно показывает открытую ногу» (2026-07-27 ~14:47). A table's leg, a chair's leg and a journey's leg stay silent, since the pattern wants the acceptance sense standing beside it."
+      "note": "the pack's word for one acceptance criterion under a requirement. The live failure: «строка 55 честно показывает открытую ногу» (2026-07-27 ~14:47). A table's leg, a chair's leg and a journey's leg stay silent, since the pattern wants the acceptance sense standing beside it.",
+      "examples": [
+        "У этого требования одна нога приёмки ещё открыта.",
+        "Обе ноги требования готовы к сдаче."
+      ]
     },
     {
       "word": "краснеет",
@@ -18,8 +21,11 @@
       "keys": [
         "красне"
       ],
-      "example": "Проверка краснеет на каждом прогоне.",
-      "note": "the pack reads a failing check as going red, which in the working language is a colour word about ripening fruit and blushing people. A tomato ripening in the sun stays silent, since the pattern wants a check word beside the colour."
+      "note": "the pack reads a failing check as going red, which in the working language is a colour word about ripening fruit and blushing people. A tomato ripening in the sun stays silent, since the pattern wants a check word beside the colour.",
+      "examples": [
+        "Проверка краснеет на каждом прогоне.",
+        "Покраснел хук после мержа."
+      ]
     },
     {
       "word": "станция",
@@ -28,8 +34,11 @@
       "keys": [
         "станц"
       ],
-      "example": "Эта станция конвейера ещё не готова.",
-      "note": "one step of the build pipeline. A railway station stays silent, since the pattern wants the pipeline word beside it."
+      "note": "one step of the build pipeline. A railway station stays silent, since the pattern wants the pipeline word beside it.",
+      "examples": [
+        "Эта станция конвейера ещё не готова.",
+        "На предыдущей станции конвейера всё зависло."
+      ]
     },
     {
       "word": "дверь",
@@ -38,18 +47,25 @@
       "keys": [
         "двер"
       ],
-      "example": "Дверь в пакет — это файл навыка.",
-      "note": "the entry point into a package or a skill. Opening the front door of a flat stays silent, since the pattern wants the software object named right after."
+      "note": "the entry point into a package or a skill. Opening the front door of a flat stays silent, since the pattern wants the software object named right after.",
+      "examples": [
+        "Дверь в пакет — это файл навыка.",
+        "Двери в проект больше нет."
+      ]
     },
     {
       "word": "шов",
       "pattern": "шв?[оае]?\\w*\\s+между\\s+\\w+(?:ом|ой|ем|ами)?\\s+и\\s+|(?:архитектурн\\w+|компонентн\\w+|модульн\\w+)\\s+шв?\\w*",
       "say": "стык",
       "keys": [
+        "шв",
         "шов"
       ],
-      "example": "Шов между движком и сайтом держит.",
-      "note": "the boundary where two components meet. A seam on a jacket stays silent, since the pattern wants the two named components or the architecture word."
+      "note": "the boundary where two components meet. A seam on a jacket stays silent, since the pattern wants the two named components or the architecture word.",
+      "examples": [
+        "Шов между движком и сайтом держит.",
+        "Шва между модулем и хранилищем не видно."
+      ]
     },
     {
       "word": "сеть",
@@ -58,8 +74,11 @@
       "keys": [
         "сет"
       ],
-      "example": "Сеть молчит, потому что её никто не включил.",
-      "note": "the pack calls a check a net. A fisherman mending a net, or a network of shops, stays silent: the pattern wants a verb the pack only ever uses about a check. Judgment call — «сеть ловит» alone is the plainest possible fishing sentence, so the catching form additionally demands a violation word as its object."
+      "note": "the pack calls a check a net. A fisherman mending a net, or a network of shops, stays silent: the pattern wants a verb the pack only ever uses about a check. Judgment call — «сеть ловит» alone is the plainest possible fishing sentence, so the catching form additionally demands a violation word as its object.",
+      "examples": [
+        "Сеть молчит, потому что её никто не включил.",
+        "Новая сети поймала случай."
+      ]
     },
     {
       "word": "доска",
@@ -68,8 +87,11 @@
       "keys": [
         "доск"
       ],
-      "example": "Доска ожидания разрослась до тридцати строк.",
-      "note": "the waiting list of items parked for the human's word. A whiteboard in a corridor and a plank of wood stay silent, since the pattern wants the waiting word attached."
+      "note": "the waiting list of items parked for the human's word. A whiteboard in a corridor and a plank of wood stay silent, since the pattern wants the waiting word attached.",
+      "examples": [
+        "Доска ожидания разрослась до тридцати строк.",
+        "Ещё один пункт лёг на доску ожидания."
+      ]
     },
     {
       "word": "дерево",
@@ -78,8 +100,11 @@
       "keys": [
         "дерев"
       ],
-      "example": "уборка страниц уже в дереве",
-      "note": "git's working tree, carried into the working language as a plant. The live failure: «уборка страниц уже в дереве» (2026-07-27 ~19:52), which he could not read at all. A tree in a garden stays silent, since the pattern wants a repository word beside it."
+      "note": "git's working tree, carried into the working language as a plant. The live failure: «уборка страниц уже в дереве» (2026-07-27 ~19:52), which he could not read at all. A tree in a garden stays silent, since the pattern wants a repository word beside it.",
+      "examples": [
+        "уборка страниц уже в дереве",
+        "Дерево проекта переключилось на другую ветку."
+      ]
     },
     {
       "word": "живость",
@@ -88,8 +113,11 @@
       "keys": [
         "жив"
       ],
-      "example": "жив ли работник",
-      "note": "liveness, said of a helper process. The live failure: «жив ли работник» (2026-07-27 ~19:58) — he answered with the question itself. A living person stays silent, since the pattern wants a process word beside it."
+      "note": "liveness, said of a helper process. The live failure: «жив ли работник» (2026-07-27 ~19:58) — he answered with the question itself. A living person stays silent, since the pattern wants a process word beside it.",
+      "examples": [
+        "жив ли работник",
+        "Работники живы и отвечают."
+      ]
     },
     {
       "word": "полоса",
@@ -98,8 +126,11 @@
       "keys": [
         "полос"
       ],
-      "example": "полоса с пушем закрыта",
-      "note": "the pack's lane, a parallel branch with its own working copy. The live failure: «полоса с пушем-удалением закрыта» — the blind reader could not guess the word at all."
+      "note": "the pack's lane, a parallel branch with its own working copy. The live failure: «полоса с пушем-удалением закрыта» — the blind reader could not guess the word at all.",
+      "examples": [
+        "полоса с пушем закрыта",
+        "Полосы задачи скопились за неделю."
+      ]
     },
     {
       "word": "якорь",
@@ -108,8 +139,11 @@
       "keys": [
         "якор"
       ],
-      "example": "перегруженная строка якорей",
-      "note": "the bracketed code trailing a criterion. The blind reader listed it among the words guessing failed on."
+      "note": "the bracketed code trailing a criterion. The blind reader listed it among the words guessing failed on.",
+      "examples": [
+        "перегруженная строка якорей",
+        "Якорь в конце строки мешает читать."
+      ]
     },
     {
       "word": "рука",
@@ -118,8 +152,11 @@
       "keys": [
         "рук"
       ],
-      "example": "проверка с четырьмя руками",
-      "note": "the pack's arm, one sub-check inside a gate. The live failure: «проверка с четырьмя руками» — the blind reader stopped hard."
+      "note": "the pack's arm, one sub-check inside a gate. The live failure: «проверка с четырьмя руками» — the blind reader stopped hard.",
+      "examples": [
+        "проверка с четырьмя руками",
+        "Руки проверки мешают автоматике."
+      ]
     },
     {
       "word": "тело требования",
@@ -128,8 +165,11 @@
       "keys": [
         "тел"
       ],
-      "example": "тело требования читается тяжело",
-      "note": "the pack's requirement body. He named it himself as unreadable (2026-07-27 ~19:40)."
+      "note": "the pack's requirement body. He named it himself as unreadable (2026-07-27 ~19:40).",
+      "examples": [
+        "тело требования читается тяжело",
+        "С телом требования читателю не разобраться."
+      ]
     },
     {
       "word": "храповик",
@@ -138,18 +178,24 @@
       "keys": [
         "храповик"
       ],
-      "example": "храповик записал числа",
-      "note": "a ratchet, a machine part, used for a recorded limit that only falls. The blind reader stopped fully and recovered the sense only from the next clause."
+      "note": "a ratchet, a machine part, used for a recorded limit that only falls. The blind reader stopped fully and recovered the sense only from the next clause.",
+      "examples": [
+        "храповик записал числа",
+        "Значение храповика не изменилось."
+      ]
     },
     {
       "word": "засеяна",
       "pattern": "(?:засеян\\w+|засе\\w+)\\s+(?:проверк\\w+|сетк\\w+|баз\\w+|предел\\w+)|(?:проверк\\w+|сетк\\w+|баз\\w+)\\s+засеян\\w+",
       "say": "начальные числа записаны",
       "keys": [
-        "засеян"
+        "засе"
       ],
-      "example": "сетка засеяна",
-      "note": "seeded, said of a baseline. The blind reader guessed twice and stayed unsure."
+      "note": "seeded, said of a baseline. The blind reader guessed twice and stayed unsure.",
+      "examples": [
+        "сетка засеяна",
+        "засеяли проверку вчера"
+      ]
     }
   ]
 }
