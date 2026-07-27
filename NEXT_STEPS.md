@@ -1,6 +1,18 @@
 # live-spec — NEXT_STEPS (resume file: LIVE STATE + queue only; history → JOURNAL.md; ≤100 lines, INV-48)
 
-## LIVE STATE (2026-07-23 night — row 456 LANDED at v4.3.0; the format family is complete)
+## LIVE STATE (2026-07-27 midday — a working day of intake and two mechanisms, push pending)
+Today: rows 484-492 taken in from his morning's asks, rows 471 and 166 widened instead of duplicated,
+row 55 closed to the archive (all its legs read met), git tags retired as a practice. Two mechanisms
+shipped and stand *in-work* with named remainders: the hook proof runner (row 489 — every session hook
+must fire against its own red fixture; all seven do) and the legibility fix (row 490 — colours pair with
+the surface they sit on; the bare-selector hole stays open). A new Stop hook, `hooks/code-anchor-scan.py`,
+reds a queue row number left standing in prose with no plain-word naming, on his word that a bare number
+tells him nothing. `docs/measure/movements.md` opened as the record a forward estimate reads from.
+The review record `docs/prover/2026-07-27-push-gate.md` returned four must-fix findings; three are fixed,
+the fourth (the four new mechanism files owned by no node, stated by no requirement, covered by no matrix
+row) is in hand. THE PUSH WAITS ON IT.
+
+## PRIOR STATE (2026-07-23 night — row 456 LANDED at v4.3.0; the format family is complete)
 The architecture became the format family's fourth member (row 456, v4.3.0). ARCHITECTURE.md is now
 per-node `### [node: <name>]` sections under `docs/architecture-format.md`, read through the one node
 reader `guardrails/archformat.py`; the dated prover-record table relocated to

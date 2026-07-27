@@ -1,4 +1,5 @@
 {
- "transcript_path": "/Users/sashaabramovich/live-spec/guardrails/hook-red-fixtures/code-anchor-scan/transcript.jsonl",
- "stop_hook_active": false
+  "transcript_path": "transcript.jsonl",
+  "session_id": "fixture-code-anchor-scan",
+  "stop_hook_active": false
 }
