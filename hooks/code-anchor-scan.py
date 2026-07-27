@@ -13,17 +13,40 @@ WHAT IT READS. Every assistant message shown since the last human turn (hooks/tu
 naked code in an early narration line reds like one in the final reply.
 
 WHAT PASSES, by construction:
-  - a code inside parentheses or square brackets — the lawful trailing anchor;
+  - a code inside parentheses or square brackets — the lawful trailing anchor; the span is now allowed
+    to carry one embedded line break, so an anchor broken across a line by wrapping still clears;
   - a table row (a line starting with `|`), where the neighbouring cell carries the plain words;
   - a fenced code block, an inline `backtick` span, and a «quoted» or "quoted" span — text ABOUT a code
     rather than a code addressed to the reader;
-  - a bare number with no code word in front of it, since this net reads the naming, not arithmetic.
+  - a bare number with no code word in front of it, since this net reads the naming, not arithmetic;
+  - the Russian naming word plus a number when the same line goes on to name a file — either the word
+    for "file" in any inflection, or a filename-shaped token (word.ext) — since that is a line inside a
+    source file, which owes no anchor.
+
+WHAT NOW ALSO REDS, this repository's own citation idioms that the first cut of the net missed:
+  - a document name run directly against its number — "ROADMAP 480", "ARCHITECTURE 122",
+    "PRODUCT_SPEC 352", "TEST_MATRIX 6" — the same naked-code shape as "row 480" one word earlier;
+  - the multi-letter codes (INV, ROW, ACT) read aloud with a space instead of the inline dash —
+    "INV 281" reds exactly as "INV-281" does; the single-letter codes (M, E, T, S, D, A, B, C, F, R)
+    keep the dash-only requirement, since "M 402" is safe but "a 2" or "b 12" are ordinary English and
+    a space-tolerant single-letter net would fire on them constantly;
+  - "row #386" — a hash between the word and the number.
 
 HONEST BOUNDARY. This arm sees whether a code was left standing outside an anchor. It cannot see whether
 the plain words that replace it are the RIGHT words: "the thing from yesterday (row 386)" passes the
 machine and still fails the reader. It is a Stop-hook notice, so the reply is already sent when it fires;
 it asks for the naming to be repeated in plain words in the next message, which is the most a chat
 surface allows.
+
+THE FILE-LINE SIGNAL, AND WHAT IT STILL CANNOT TELL APART. In the working language one word carries
+both meanings, a queue row and a line inside a source file, so a bare naming word plus a number is read
+as a queue row by default. The signal this net acts on is textual and local: the word for "file" in any
+of its inflections, or a filename-shaped token (letters, digits or underscore, a dot, an extension),
+appearing on the same line shortly after the number. Either one flips the reading to a source line. What
+it still cannot tell apart: the genuinely ambiguous case with no file word and no filename anywhere on
+the line, which still reads as a naked queue row and reds even where a source line was meant. English
+carries no matching ambiguity in this repository's usage, a source line always being written "line N",
+so the English pattern needs no equivalent carve-out.
 
 Repo home: hooks/code-anchor-scan.py; installed copy: ~/.claude/hooks/ (beside scissors-scan.py).
 """
@@ -40,15 +63,22 @@ import turn_reader  # noqa: E402
 PATTERNS = [
     r"(?<![\w-])строк[аиуеойы]?\s+\d+",  # user-language: the naming word when chat runs in Russian
     r"(?<![\w-])строки\s+\d+",  # user-language: its plural, same naming word
-    r"(?<![\w-])rows?\s+\d+",
-    r"(?<![\w-])(?:INV|ROW|M|E|T|S|D|A|B|C|F|R|ACT)-\d+",
+    r"(?<![\w-])rows?\s+#?\d+",  # 'row 386' and the hash form 'row #386'
+    r"(?<![\w-])(?:ROADMAP|ARCHITECTURE|PRODUCT_SPEC|TEST_MATRIX)\s+\d+",  # 'ROADMAP 480'
+    r"(?<![\w-])(?:INV|ROW|ACT)[-\s]+\d+",  # multi-letter code, dash or the spoken space: 'INV 281'
+    r"(?<![\w-])(?:M|E|T|S|D|A|B|C|F|R)-\d+",  # single-letter codes: dash only, never a bare space
 ]
 COMPILED = [re.compile(p, re.IGNORECASE) for p in PATTERNS]
+
+# The working language's naming word is ambiguous between a queue row and a line inside a source file;
+# a nearby file word or filename-shaped token on the same line flips the reading to the source line.
+RU_LINE_WORD = re.compile(r"строк[аиуеойы]?\s+\d+", re.IGNORECASE)  # user-language: the naming word
+FILE_SIGNAL = re.compile(r"файл\w*|\b[\w-]+\.\w{1,5}\b", re.IGNORECASE)  # user-language: the file word
 
 FENCE = re.compile(r"```.*?```", re.DOTALL)
 INLINE_CODE = re.compile(r"`[^`\n]*`")
 QUOTED = re.compile(r"«[^»\n]*»|\"[^\"\n]*\"|“[^”\n]*”")
-BRACKETED = re.compile(r"\([^()\n]*\)|\[[^\[\]\n]*\]")
+BRACKETED = re.compile(r"\([^()]*\)|\[[^\[\]]*\]", re.DOTALL)
 
 
 def _strippable(text):
@@ -66,11 +96,24 @@ def _strippable(text):
     return text
 
 
+def _is_file_line_reference(live, match):
+    """The naming word plus a number, followed on the same line by the word for a file or by a
+    filename-shaped token, names a line inside a source file, which owes no anchor."""
+    if not RU_LINE_WORD.fullmatch(match.group()):
+        return False
+    line_end = live.find("\n", match.end())
+    if line_end == -1:
+        line_end = len(live)
+    return bool(FILE_SIGNAL.search(live, match.end(), line_end))
+
+
 def find_hits(text):
     live = _strippable(text)
     hits = []
     for rx in COMPILED:
         for m in rx.finditer(live):
+            if _is_file_line_reference(live, m):
+                continue
             start = max(0, m.start() - 60)
             end = min(len(live), m.end() + 60)
             hits.append(live[start:end].replace("\n", " ").strip())

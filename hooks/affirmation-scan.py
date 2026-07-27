@@ -4,8 +4,8 @@
 A reply carries no line telling the human he is right, praising his question or his intuition, or
 framing the agent's own work as superior ("measured, not guessed"; "honest, not on the eye"). Empty
 validation costs the reader attention and returns nothing; the reply owes the finding or the action,
-and nothing else leads. The exchange that set this standing is dated in JOURNAL.md. This is the machine behind the personal profile's no-affirmation rule, a sibling of
-the scissors scan.
+and nothing else leads. The exchange that set this standing is dated in JOURNAL.md. This is the machine
+behind the personal profile's no-affirmation rule, a sibling of the scissors scan.
 
 Two tiers. The UNIVERSAL tier holds the language-neutral English validation phrases. A host's own extra
 patterns — another language, a narrower personal phrase — load from an optional overlay file
@@ -13,7 +13,9 @@ patterns — another language, a narrower personal phrase — load from an optio
 this file never creates or edits that overlay. Missing or malformed overlay falls back to universal-only,
 silently.
 
-Reads the last assistant turn from the transcript. A phrase demonstrated inside «guillemets», "double
+Reads every assistant message shown since the last human turn (hooks/turn_reader.py), so an affirmation
+in an early narration line reds like one in the final reply — the reach its siblings took at the row-482
+fix and this arm had missed until 2026-07-27. A phrase demonstrated inside «guillemets», "double
 quotes", or `backticks`, and any line inside a fenced ``` code block, is stripped before matching — so
 quoting a banned phrase to talk ABOUT it is not itself a live instance. A surviving match BLOCKS the stop
 with a rewrite instruction.
@@ -22,6 +24,9 @@ import json
 import os
 import re
 import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import turn_reader  # noqa: E402
 
 # UNIVERSAL tier — English validation aimed at the user or the exchange.
 PATTERNS = [
@@ -72,39 +77,6 @@ def _strip_quoted_demos(line):
     return s
 
 
-def last_assistant_text(transcript_path):
-    text = ""
-    last_id = None
-    try:
-        with open(transcript_path, encoding="utf-8") as f:
-            for line in f:
-                try:
-                    ev = json.loads(line)
-                except ValueError:
-                    continue
-                if ev.get("type") != "assistant":
-                    continue
-                msg = ev.get("message", {})
-                parts = msg.get("content", [])
-                if isinstance(parts, str):
-                    text = parts
-                    continue
-                chunk = "".join(
-                    p.get("text", "") for p in parts if isinstance(p, dict) and p.get("type") == "text"
-                )
-                if not chunk.strip():
-                    continue
-                mid = msg.get("id")
-                if mid and mid == last_id:
-                    text += chunk
-                else:
-                    text = chunk
-                    last_id = mid
-    except OSError:
-        return ""
-    return text
-
-
 def find_hits(text, patterns):
     hits = []
     in_fence = False
@@ -129,7 +101,7 @@ def main():
         sys.exit(0)
     if payload.get("stop_hook_active"):
         sys.exit(0)
-    text = last_assistant_text(payload.get("transcript_path", ""))
+    text = turn_reader.turn_text(payload.get("transcript_path", ""))
     if not text:
         sys.exit(0)
     hits = find_hits(text, _compiled_patterns())

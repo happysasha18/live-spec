@@ -87,3 +87,42 @@ def test_code_block_passes(tmp_path):
 def test_clean_reply_passes(tmp_path):
     res = _run(tmp_path, "Готово: проверка читаемости теперь берёт фон той поверхности, где лежит цвет.")
     assert not _blocked(res), res.stdout
+
+
+# ---- F6 (2026-07-27 prover record): this repository's own citation idioms, missed --------------------
+
+def test_document_name_citation_reds(tmp_path):
+    """'ROADMAP 480' — the document-name-plus-number idiom this repo's own architecture, matrix and
+    prover records use daily — is a naked code exactly like 'row 480' and must red the same way."""
+    res = _run(tmp_path, "ROADMAP 480 landed last night and the queue is clean.")
+    assert _blocked(res), res.stdout
+
+
+def test_spaced_inv_code_reds(tmp_path):
+    """'INV 281' — the code word and its number read aloud, with a space rather than the dash the
+    inline pattern required — must red the same as the hyphenated form."""
+    res = _run(tmp_path, "INV 281 now reaches the whole turn.")
+    assert _blocked(res), res.stdout
+
+
+def test_hash_row_reference_reds(tmp_path):
+    """'row #386' — a hash between the word and the number — must red like the plain 'row 386'."""
+    res = _run(tmp_path, "row #386 is still open.")
+    assert _blocked(res), res.stdout
+
+
+# ---- F6: two lawful shapes the scan wrongly reds --------------------------------------------------
+
+def test_russian_file_line_reference_passes(tmp_path):
+    """'строке 484 файла PRODUCT_SPEC.md' names a LINE IN A FILE, not a queue row — a plain,
+    resolvable fact with no anchor owed. The word 'файла' right after the number is the signal."""
+    res = _run(tmp_path, "Ошибка в строке 484 файла PRODUCT_SPEC.md.")
+    assert not _blocked(res), res.stdout
+
+
+def test_parenthetical_anchor_wrapped_across_a_line_passes(tmp_path):
+    """A parenthetical anchor broken across a line by wrapping is still the lawful trailing-anchor
+    shape — the bracket span must tolerate an embedded newline, not just a single physical line."""
+    text = "Both are still open (row 386,\nand row 412 too)."
+    res = _run(tmp_path, text)
+    assert not _blocked(res), res.stdout
