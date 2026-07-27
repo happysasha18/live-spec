@@ -61,6 +61,9 @@ R290.1's "at most one parenthetical sentence" has no length gate and a few owns 
 Name every request's persistence class before actioning it, and say it yourself.
 
 ## Standing word / OWNER-HELD
+- Onboarding runs later this week, closer to the weekend (his word 2026-07-27 ~23:14). The 26 parked
+  questions were re-tested that evening: 23 are the seat's, 1 is his (the defaults a stranger gets), 2 wait
+  on a first outside host.
 - Whole movement solo, push on green; plain English in docs, plain Russian in chat; gates mandatory.
 - Max agentic, conserve orchestrator context (delegate reads and drafts; hold briefs and decisions).
 - lean-orchestrator: the seat authors nothing long and reads nothing past a glance inline.
