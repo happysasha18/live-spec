@@ -15,6 +15,9 @@ the proof by deed belongs to the tlvphotos window and its brief is `docs/briefs/
 The mid-turn chat check reads a cheap key before its pattern, runs in 0.03s against its 0.1s bound, and
 carries eight more words Alexander stopped on.
 
+Row 502 closed in this commit, its second attempt: the first close carried no resume-file refresh and the
+landing law reported it, so the close was reverted and redone with this file beside it.
+
 THE EVENING'S FINDING, and it governs the next movement: two blind readers were given text with no context.
 The English reader, reading six requirements with the glossary withheld, could implement two of them from
 the text alone and three not at all. The Russian reader stopped twenty times in 250 words of working chat.
