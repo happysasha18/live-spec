@@ -1,12 +1,13 @@
 {
   "_comment": "The versioned founding-question set (SPEC INV-227, ROADMAP row 394). Each question a founding asks a host, with the set version it entered and the host-profile key it writes. set_version is the current set version; a host records the version it answered on a founding.set-version profile line, and the daily update check (scripts/check-pack-update.sh, E-25) names each question added past a host's recorded version. Bump set_version and append a question here whenever founding grows what a host owes.",
-  "set_version": 5,
+  "set_version": 6,
   "questions": [
     {"since": 1, "anchor": "B-2/INV-85", "key": "reuse.split-declined (personal-versus-reusable)", "question": "personal tool, or reusable product?"},
     {"since": 1, "anchor": "INV-36", "key": "project.kind", "question": "what kind of project is this (book, backend, static site, fullstack, CLI, skill pack)?"},
     {"since": 2, "anchor": "INV-135", "key": "project.layers + project.proofs", "question": "what are this project's concrete layers and its concrete proof kinds?"},
     {"since": 3, "anchor": "INV-136", "key": "project.design-principles", "question": "for a visual kind, what checkable design principles must its surfaces hold?"},
     {"since": 4, "anchor": "E-32/INV-184", "key": ".live-spec/agent.md", "question": "the agent card — does this tree carry its self-declaring card at .live-spec/agent.md?"},
-    {"since": 5, "anchor": "INV-244", "key": "project.axes", "question": "beyond the kind-independent C-1 floor, what composition axes does this project's kind owe every surface (or none beyond the floor)?"}
+    {"since": 5, "anchor": "INV-244", "key": "project.axes", "question": "beyond the kind-independent C-1 floor, what composition axes does this project's kind owe every surface (or none beyond the floor)?"},
+    {"since": 6, "anchor": "INV-291", "key": "project.config-surface", "question": "what can this project's owner change without a build — an experiment switch, a piece of copy, a threshold or budget, a feature toggle — where do those values live, and how does a change reach production (or none, because nothing of this project is deployed)?"}
   ]
 }

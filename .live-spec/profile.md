@@ -13,11 +13,13 @@ SPEC E-13). Every line here is a recorded override, never a silent divergence (S
   instance` — recorded 2026-07-06 at the INV-36 landing, the law's own founding-ask applied to its
   birthplace; updated on Alexander's word if the pack outgrows it (SPEC INV-36).
 
-- `founding.set-version: 5` — the version of the founding-question set this tree answered; the pack is
+- `founding.set-version: 6` — the version of the founding-question set this tree answered; the pack is
   its own first host and is current on the set, carrying every question that applies to it:
   personal-versus-reusable and the kind (INV-36), the layers and proofs (INV-135), the agent card
   at `.live-spec/agent.md` (E-32), and the composition-axes question (INV-244, answered "none beyond
-  the C-1 floor" on the `project.axes` line below); the design-principles question (INV-136) enters the
+  the C-1 floor" on the `project.axes` line below), and the configuration-surface question (INV-291,
+  answered "none — nothing of this project is deployed" on the `project.config-surface` line below);
+  the design-principles question (INV-136) enters the
   set but binds a visual kind, which a skill pack is not, so it applies to no answer here. The set's
   machine home is `scripts/founding-questions.json`, and the update check's founding arm names any
   question added past this version (SPEC INV-227, recorded 2026-07-18 at the INV-227 landing).
@@ -48,6 +50,15 @@ SPEC E-13). Every line here is a recorded override, never a silent divergence (S
   INV-244, recorded at the INV-244 landing). The founding check reds a kind recorded with no such
   line at all and passes on this explicit "none"; the per-kind axis-set table in ARCHITECTURE.md is
   the scaffold each founding fills.
+
+- `project.config-surface: none — nothing of this project is deployed` — the seam a deployed kind
+  declares between what ships inside a build and what its owner turns from outside one (SPEC INV-291,
+  recorded at the INV-291 landing 2026-07-27). This product is the text a session reads: it runs in
+  no place the pack's authors deploy to, so no value of it reaches a reader except through a release
+  the reader takes. The explicit "none" is the stated decision the check passes on, the same shape as
+  the `project.axes` answer above; a kind recorded with no such line at all reds, and a "none" written
+  beside a `project.layers` line that names a deployment layer reds as two declarations that disagree.
+  The per-kind design-principles table in ARCHITECTURE.md is the scaffold a founding fills from.
 
 - `other-projects: audit-only — when Alexander speaks about another project in this window, it is a
   case study for improving the pack, never a task in that project; this window never intervenes

@@ -1,0 +1,10 @@
+{
+  "_comment": "The configuration-surface founding check (SPEC INV-291, ROADMAP row 496). A project kind whose product is deployed declares the seam between what ships inside a build and what its owner turns from outside one: an experiment switch, a piece of copy, a threshold or budget, and a feature toggle reach production by a deploy of configuration alone, while behaviour and structure stay in the code the build ships. The founding records that seam on a `project.config-surface` line in the host profile, beside the kind, the layers, the proofs, the design principles, and the composition axes. This file parametrizes guardrails/check-config-surface.py; the check code is never edited to move a word.",
+  "profile_default": ".live-spec/profile.md",
+  "kind_key": "project.kind",
+  "layers_key": "project.layers",
+  "declaration_key": "project.config-surface",
+  "none_answers": ["none", "nothing", "no"],
+  "deploy_words": ["deploy", "deploys", "deployed", "deployment", "hosting", "production", "edge", "CDN"],
+  "reason": "The none-answer words are the openers a founding writes when nothing of its project is deployed; the deploy words are the ones a host's own `project.layers` line uses when it names a deployment layer. The second list holds the contradiction arm alone: a profile that answers `none` while its own layers name a deployment layer states two things that disagree, and the check reds naming both lines. Both lists grow here, in the config, never in the check."
+}

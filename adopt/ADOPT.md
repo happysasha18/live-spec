@@ -113,7 +113,15 @@ the kind-independent C-1 floor, the founding records the further axis set this p
 every surface — a visual kind's input-capability, say — as a `project.axes` line in the host profile,
 filled from the per-kind axis table in ARCHITECTURE.md; a kind may declare **none beyond the floor** as
 an explicit stated decision, and a `project.kind` recorded with no axis-set line at all is flagged the
-way a kind with no layers or proofs is. **The founding records which version of the question set it answered (SPEC INV-227):** the
+way a kind with no layers or proofs is. **A deployed kind declares what its owner changes without a
+build (SPEC INV-291):** a founding whose product runs somewhere its readers reach it records a
+`project.config-surface` line naming the values the owner turns from outside a build — an experiment
+switch, a piece of copy, a threshold or budget, a feature toggle — where those values live, and how a
+change reaches production; behaviour and structure stay in the code the build ships. A project that
+deploys nothing writes an explicit "none", and a `project.kind` recorded with no such line at all is
+flagged the way a kind with no layers or proofs is. `guardrails/check-config-surface.py` reads the
+host profile and reports both the silence and a "none" written beside a `project.layers` line that
+names a deployment layer. **The founding records which version of the question set it answered (SPEC INV-227):** the
 founding questions above are a set that grows as the pack learns what a founding host owes, its newest
 member the agent card at `.live-spec/agent.md` (SPEC E-32). The host profile gains a `founding.set-version`
 line carrying the current set version from `scripts/founding-questions.json`, so a later update check can

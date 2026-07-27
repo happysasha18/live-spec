@@ -6916,6 +6916,44 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 6. The system *shall* never create, edit, or overwrite a personal overlay file, and *shall* name each one it finds already present. [INV-289]
 
 
+---
+
+## Requirement 299: A deployed kind declares what its owner changes without a build
+
+**Context:** A project whose product is deployed carries a seam. On one side sits the build, holding the behaviour and the structure, everything that reaches production only by building the product again. On the other side sits the configuration: the values the shipped product already reads, which reach production by a deploy of configuration alone. The per-kind design principles named the visitor walk, the reachable flows, the register and the trigger, and said nothing about this seam, so a host could ship an experiment switch that costs a full build to turn off. The founding now names the seam once, and a check reads the host's own declaration.
+
+**User Story:** As the owner of a deployed product, I want the switches, the copy and the thresholds I turn to live outside the build, so that a change of mine reaches production by a deploy of configuration alone.
+
+### Acceptance Criteria
+
+**Case: the seam is declared at founding**
+
+1. *when* a project's product is deployed, the system *shall* record a `project.config-surface` line in the host profile naming what its owner changes without a build. [INV-291, INV-36]
+2. The declaration *shall* name where those values live and how a change of them reaches production. [INV-291]
+3. The system *shall* keep behaviour and structure in the code a build ships. [INV-291]
+4. *when* nothing of a project is deployed, the system *shall* accept an explicit "none" as the founding's stated answer. [INV-291, INV-244]
+
+**Case: which side of the seam a thing sits on**
+
+5. The system *shall* place a value the shipped product already reads on the configuration side. [INV-291]
+6. The system *shall* place a change that needs the code to do something it does not do today on the build side. [INV-291]
+7. A value the product reads at build time *shall* sit on the build side until that reading moves to run time. [INV-291]
+
+**Case: the check over the founding**
+
+8. *when* a profile records `project.kind` and carries no `project.config-surface` record, a founding check *shall* red and *shall* name the missing line. [INV-291, INV-135, A-10]
+9. *if* the declaration carries no words after its key, *then* the check *shall* red. [INV-291]
+10. *if* a declaration answers "none" while the project's own `project.layers` line names a deployment layer, *then* the check *shall* red and *shall* quote both lines. [INV-291, INV-135]
+11. The check *shall* read its keys and its word lists from `guardrails/config-surface.json`. [INV-291]
+12. Each run *shall* state its reach: the two files it opens, and the three profile records it reads. [INV-269]
+13. The check *shall* leave to the founding conversation and to the proof by deed whether a declared value truly reaches production with no build. [INV-291]
+
+**Case: the per-kind table carries the principle**
+
+14. The architecture document *shall* carry this principle in the per-kind design-principles table for every deployed kind, with both sides of the seam named. [INV-291, INV-136]
+15. A kind whose product runs in no place its readers reach *shall* carry no such principle. [INV-291, INV-136]
+
+
 ## Reference
 
 The code-to-location table below is generated output, built from the body criteria by `scripts/build-index.py`; no one edits it by hand. Feature codes (`F-...`) live on their scenario headings and carry no table row.
@@ -6932,7 +6970,7 @@ The code-to-location table below is generated output, built from the body criter
 | A-7 | R125.3, R136.3, R177.10, R177.11, R177.12, R188.4, R202.3, R251.3, R268.1, R275.5 |
 | A-8 | R177.4, R180.7, R200.5 |
 | A-9 | R179.4, R179.5, R296.3 |
-| A-10 | R53.4, R174.3, R178.1, R193.12, R265.6 |
+| A-10 | R53.4, R174.3, R178.1, R193.12, R265.6, R299.8 |
 | A-11 | R88.2, R180.4, R180.5, R180.7, R180.8, R180.9, R180.10, R193.12, R272.3 |
 | ACT-1 | R144.2, R188.6, R200.1, R248.2 |
 | ACT-2 | R100.1, R206.1, R208.1 |
@@ -7014,7 +7052,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-33 | R51.1, R51.2, R51.3 |
 | INV-34 | R18.2, R20.1, R20.2, R20.3, R21.1, R54.3 |
 | INV-35 | R17.3, R22.1, R22.2, R22.3, R22.4, R22.5, R22.6, R22.7, R22.8, R22.9, R22.10, R23.1, R23.2, R25.5, R27.1, R29.2, R140.1, R157.6, R220.2 |
-| INV-36 | R121.3, R122.3, R123.4, R173.1, R173.2, R173.3, R173.7, R174.1, R186.1, R193.12, R214.1, R219.2, R265.1, R265.2 |
+| INV-36 | R121.3, R122.3, R123.4, R173.1, R173.2, R173.3, R173.7, R174.1, R186.1, R193.12, R214.1, R219.2, R265.1, R265.2, R299.1 |
 | INV-37 | R15.6, R16.1, R16.2, R16.3, R16.4, R16.5, R43.5, R43.8, R46.1, R118.6, R120.2, R159.7, R159.8, R173.4, R187.3, R187.4, R187.7, R244.5 |
 | INV-38 | R159.1, R159.2, R159.3, R159.4, R159.5, R159.6, R159.8 |
 | INV-39 | R81.2, R81.3, R82.3, R85.4, R86.1, R90.5, R91.2, R130.6, R160.6, R160.7, R183.4, R184.1, R192.5, R207.2, R219.5, R219.7, R220.2, R256.6 |
@@ -7113,8 +7151,8 @@ The code-to-location table below is generated output, built from the body criter
 | INV-132 | R224.3, R224.4 |
 | INV-133 | R38.1, R38.2, R38.3 |
 | INV-134 | R44.1, R44.2, R44.3, R174.4 |
-| INV-135 | R67.2, R174.1, R174.2, R174.3, R174.4, R174.5, R175.2, R193.12, R226.4, R244.6, R265.1, R265.4, R265.6, R265.7 |
-| INV-136 | R61.5, R175.1, R175.2, R175.3, R175.4, R175.5, R175.6, R175.7, R175.8, R263.9, R264.5, R265.1, R265.2, R265.5, R266.9, R267.4 |
+| INV-135 | R67.2, R174.1, R174.2, R174.3, R174.4, R174.5, R175.2, R193.12, R226.4, R244.6, R265.1, R265.4, R265.6, R265.7, R299.8, R299.10 |
+| INV-136 | R61.5, R175.1, R175.2, R175.3, R175.4, R175.5, R175.6, R175.7, R175.8, R263.9, R264.5, R265.1, R265.2, R265.5, R266.9, R267.4, R299.14, R299.15 |
 | INV-137 | R17.7, R210.1, R210.2, R210.3, R210.4, R210.5, R216.3, R233.4 |
 | INV-138 | R52.1, R52.2, R67.1, R263.1, R263.2, R263.3, R263.4, R263.5, R263.6, R263.7, R263.8, R263.9, R264.3, R264.5, R265.11, R266.9 |
 | INV-139 | R61.5, R176.1, R176.2, R176.3, R176.4, R176.5, R267.4 |
@@ -7222,7 +7260,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-241 | R232.3, R233.1, R233.2, R233.3, R233.4, R233.5, R233.6, R233.7, R233.8 |
 | INV-242 | R257.1, R257.2, R257.3, R257.4 |
 | INV-243 | R271.1, R271.2, R271.3, R271.4, R275.5 |
-| INV-244 | R258.5, R265.1, R265.2, R265.3, R265.4, R265.5, R265.6, R265.7, R265.8, R265.9, R265.10, R265.11, R265.12, R265.13, R265.14, R265.15, R266.1, R266.7 |
+| INV-244 | R258.5, R265.1, R265.2, R265.3, R265.4, R265.5, R265.6, R265.7, R265.8, R265.9, R265.10, R265.11, R265.12, R265.13, R265.14, R265.15, R266.1, R266.7, R299.4 |
 | INV-245 | R151.1, R151.2, R151.3, R151.4 |
 | INV-246 | R232.4, R232.5, R232.6 |
 | INV-247 | R93.1, R93.2, R93.3, R195.16 |
@@ -7247,7 +7285,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-266 | R281.1, R281.2 |
 | INV-267 | R281.3, R281.4, R281.5, R281.6 |
 | INV-268 | R281.7 |
-| INV-269 | R282.1, R282.2, R284.4, R285.3, R288.5, R296.10, R297.9 |
+| INV-269 | R282.1, R282.2, R284.4, R285.3, R288.5, R296.10, R297.9, R299.12 |
 | INV-270 | R277.19, R277.20, R283.7, R286.3, R289.6 |
 | INV-271 | R191.4, R191.7, R278.5, R278.6, R278.7 |
 | INV-272 | R283.1, R283.2, R283.3, R283.4, R283.5, R283.6, R283.7 |
@@ -7269,6 +7307,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-288 | R297.11, R297.12, R297.13, R297.14, R297.15, R297.16 |
 | INV-289 | R298.1, R298.2, R298.3, R298.4, R298.5, R298.6 |
 | INV-290 | R226.7, R226.8, R226.9, R226.10 |
+| INV-291 | R299.1, R299.2, R299.3, R299.4, R299.5, R299.6, R299.7, R299.8, R299.9, R299.10, R299.11, R299.13, R299.14, R299.15 |
 | M-1 | R49.2, R80.7, R80.8, R92.2, R130.1, R130.2, R130.3, R130.4, R130.5, R130.6, R130.7, R130.8, R130.9, R164.4, R166.3, R166.8, R198.6, R249.2 |
 | M-2 | R14.3, R125.1, R125.2, R125.3, R177.12, R204.3 |
 | M-3 | R136.1 |
