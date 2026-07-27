@@ -16,21 +16,32 @@ The floors (stated defaults — a host may set its own on its word, INV-70):
 What it CAN do (honestly, so no one over-trusts it):
   It reads DECLARED CSS — `<style>` blocks, inline `style="..."` attributes, and any `.css` file passed
   directly. It resolves one level of CSS custom properties (`var(--name)`), pairs a rule block's own
-  `color` with the same block's `background-color` when both are set, otherwise measures against the page
-  background it can find (a `background` on `body`/`:root`/`html`, else the most common declared background,
-  else white with the assumption NOTED). It computes the WCAG relative-luminance contrast ratio exactly as
-  the spec defines it, and it converts px / pt / rem / em sizes to pixels.
+  `color` with the same block's `background-color` when both are set. Otherwise it walks the SAME
+  selector's own compound chain for the nearest ancestor that declares a background — `.gg .cap` is
+  paired with `.gg`'s background when `.gg { background: ... }` is in the same stylesheet — falling
+  back to the page background (`body`/`:root`/`html`, else the most common declared background, else
+  white with the assumption NOTED) only for a bare selector with no chain, or a chain that genuinely
+  reaches a body/:root/html marker. A chain that dead-ends without reaching one — the true background
+  sits on a sibling class or in markup this static reader cannot see — is reported UNRESOLVED rather
+  than silently guessed (fix for the 2026-07-27 wrong-background bug: it used to pair every colour
+  with the page background regardless, blocking cards that painted their own light background and
+  missing genuine failures elsewhere that only looked fine against the far-away page colour). It
+  computes the WCAG relative-luminance contrast ratio exactly as the spec defines it, and it converts
+  px / pt / rem / em sizes to pixels.
 
 What it CANNOT do:
   It is a PRAGMATIC STATIC FLOOR, not a browser. It does NOT run the full CSS cascade, specificity, inheritance
   across the DOM tree, media queries, opacity stacking, gradient/image backgrounds, or JS-applied styles. It
   skips named colors, unresolved variables, and unparseable or relative sizes (%/unitless/calc) rather than
-  GUESS — a skipped declaration is never a hit. The authoritative check for a real product surface is the
-  BROWSER-COMPUTED assertion in the adopting project's own suite (the verify feel pass, INV-30/INV-136 split);
-  this script is the floor at the pre-show gate for a styled file about to be opened for a human.
+  GUESS — a skipped declaration is never a hit. It cannot see DOM nesting that isn't expressed as a compound
+  CSS selector (a sibling class that happens to paint the true ancestor in markup) — those pairs are reported
+  UNRESOLVED, not scored. The authoritative check for a real product surface is the BROWSER-COMPUTED assertion
+  in the adopting project's own suite (the verify feel pass, INV-30/INV-136 split); this script is the floor
+  at the pre-show gate for a styled file about to be opened for a human.
 
 Usage: preshow-legibility-lint.py FILE [FILE ...]      (or: cat file.html | preshow-legibility-lint.py -)
 Exit 0 = clean · exit 1 = at least one hit (low-contrast and/or small-text) · exit 2 = usage error.
+Unresolved pairs are reported separately and never affect the exit code.
 """
 import bisect
 import json
@@ -241,6 +252,68 @@ def _hex(rgb):
     return "#%02x%02x%02x" % rgb
 
 
+# ---- Ancestor background resolution (fix for the wrong-background bug, 2026-07-27 inbox) ---------
+# The lint used to pair every foreground colour with the PAGE background, never a nearer ancestor
+# that actually paints one — wrong in both directions on a page whose cards paint their own
+# backgrounds (false low-contrast hits on light cards; genuine failures elsewhere waved through
+# because they read fine against the far-away page colour). The fix stays text-only (no browser, no
+# DOM): it walks the SAME selector's own compound chain (`.gg .cap` under `.gg { background:#fff }`)
+# for an ancestor that declares a background, nearest first. A bare selector with no chain at all
+# keeps the old page-background default (there is no contrary information to act on). A selector
+# that DOES carry a chain but dead-ends — no ancestor in it paints, and the chain never reaches a
+# body/:root/html marker — is UNRESOLVED: the true background sits on a sibling class or in markup
+# this static reader cannot see, and it must never be guessed as the page background.
+_ROOT_MARKERS = {"body", ":root", "html"}
+
+
+def _selector_run(selector):
+    """Tokens connected to the LAST simple selector via descendant/child combinators only.
+    A sibling combinator (+/~) breaks the run since it does not express an ancestor relation.
+    Only the first comma-separated alternative of a grouped selector is walked."""
+    first_part = selector.split(",")[0].strip()
+    run = []
+    for part in re.split(r"(>|\+|~)", first_part):
+        part = part.strip()
+        if part == ">":
+            continue
+        if part in ("+", "~"):
+            run = []
+            continue
+        if not part:
+            continue
+        run.extend(part.split())
+    return run
+
+
+def _selector_own_bg(token, blocks, varmap):
+    """First block whose own selector (any comma-alternative) equals `token` exactly and paints."""
+    for block in blocks:
+        for part in block["selector"].split(","):
+            if part.strip() == token:
+                rgb = _block_bg(block, varmap)
+                if rgb is not None:
+                    return rgb
+    return None
+
+
+def _resolve_bg(block, blocks, varmap, page_bg):
+    """Return (rgb, kind) — kind in 'own' / 'ancestor' / 'root' / 'unresolved'."""
+    own = _block_bg(block, varmap)
+    if own is not None:
+        return own, "own"
+    run = _selector_run(block["selector"])
+    if len(run) <= 1:
+        return page_bg, "root"  # bare selector: no chain to act on, keep the page-background default
+    ancestors = run[:-1]
+    for token in reversed(ancestors):  # nearest ancestor first
+        rgb = _selector_own_bg(token, blocks, varmap)
+        if rgb is not None:
+            return rgb, "ancestor"
+    if ancestors[0] in _ROOT_MARKERS:
+        return page_bg, "root"
+    return None, "unresolved"
+
+
 def _is_bold(block):
     if "font-weight" in block["decls"]:
         w = block["decls"]["font-weight"][0].strip().lower()
@@ -254,11 +327,15 @@ def _is_bold(block):
 
 # ---- The scan -----------------------------------------------------------------------------------
 def scan(text, is_css_file=False):
-    """Return a list of (line_no, code, snippet, detail) for every legibility-floor hit."""
+    """Return (hits, unresolved).
+    hits: (line_no, code, snippet, detail) for every legibility-floor hit (blocks the pre-show gate).
+    unresolved: (line_no, snippet, detail) for pairs whose effective background couldn't be resolved
+    from the stylesheet text — reported for a human to check by eye, never silently paired."""
     starts = _line_starts(text)
     blocks, varmap = _collect_blocks(text, is_css_file)
     page_bg, assumed = _page_background(blocks, varmap)
     hits = []
+    unresolved = []
     for block in blocks:
         sel = block["selector"]
         decls = block["decls"]
@@ -267,22 +344,29 @@ def scan(text, is_css_file=False):
             resolved = resolve_var(decls["color"][0], varmap)
             fg = _first_color_token(resolved)
             if fg is not None:
-                local_bg = _block_bg(block, varmap)
-                bg = local_bg if local_bg is not None else page_bg
-                ratio = contrast(fg, bg)
-                fs_px = None
-                if "font-size" in decls:
-                    fs_px = parse_px(resolve_var(decls["font-size"][0], varmap))
-                large = fs_px is not None and (
-                    fs_px >= LARGE_PX or (fs_px >= LARGE_PX_BOLD and _is_bold(block))
-                )
-                floor = CONTRAST_LARGE if large else CONTRAST_NORMAL
-                if ratio < floor:
-                    note = " [background assumed #ffffff]" if (local_bg is None and assumed) else ""
-                    detail = "ratio %.1f:1 < %.1f:1 (color %s on %s)%s" % (
-                        ratio, floor, _hex(fg), _hex(bg), note,
+                bg, bg_kind = _resolve_bg(block, blocks, varmap, page_bg)
+                if bg_kind == "unresolved":
+                    detail = (
+                        "background could not be resolved from the stylesheet text (no ancestor in "
+                        "the selector chain paints, and the chain never reaches body/:root/html) — "
+                        "check the real rendered pair by eye"
                     )
-                    hits.append((_line_of(starts, decls["color"][1]), "low-contrast", sel, detail))
+                    unresolved.append((_line_of(starts, decls["color"][1]), sel, detail))
+                else:
+                    ratio = contrast(fg, bg)
+                    fs_px = None
+                    if "font-size" in decls:
+                        fs_px = parse_px(resolve_var(decls["font-size"][0], varmap))
+                    large = fs_px is not None and (
+                        fs_px >= LARGE_PX or (fs_px >= LARGE_PX_BOLD and _is_bold(block))
+                    )
+                    floor = CONTRAST_LARGE if large else CONTRAST_NORMAL
+                    if ratio < floor:
+                        note = " [background assumed #ffffff]" if (bg_kind == "root" and assumed) else ""
+                        detail = "ratio %.1f:1 < %.1f:1 (color %s on %s)%s" % (
+                            ratio, floor, _hex(fg), _hex(bg), note,
+                        )
+                        hits.append((_line_of(starts, decls["color"][1]), "low-contrast", sel, detail))
         # --- size ---
         if "font-size" in decls and not sel.startswith(":root") and "html" not in _selector_tokens(sel):
             fs_px = parse_px(resolve_var(decls["font-size"][0], varmap))
@@ -290,7 +374,8 @@ def scan(text, is_css_file=False):
                 detail = "%gpx < %gpx floor" % (fs_px, SIZE_FLOOR_PX)
                 hits.append((_line_of(starts, decls["font-size"][1]), "small-text", sel, detail))
     hits.sort(key=lambda h: h[0])
-    return hits
+    unresolved.sort(key=lambda u: u[0])
+    return hits, unresolved
 
 
 def main(argv):
@@ -307,19 +392,28 @@ def main(argv):
             text = open(src, encoding="utf-8").read()
             is_css = src.lower().endswith(".css")
             label = src
-        hits = scan(text, is_css_file=is_css)
+        hits, unresolved = scan(text, is_css_file=is_css)
         if not hits:
             print("OK (preshow-legibility): %s — text meets the contrast and size floor" % label)
-            continue
-        any_hit = True
-        print("PRE-SHOW LEGIBILITY LINT (SPEC INV-139): a styled surface a human is about to see carries")
-        print("text under the legibility floor (contrast >= 4.5:1 normal / 3:1 large, size >= 12px). File: %s" % label)
-        json_hits = []
-        for line_no, code, snippet, detail in hits:
-            print("  line %d  [%s]  %s" % (line_no, code, snippet))
-            print("          ↳ %s" % detail)
-            json_hits.append({"line": line_no, "code": code, "selector": snippet, "detail": detail})
-        print(json.dumps({"severity": "error", "code": "legibility-floor", "hits": json_hits}))
+        else:
+            any_hit = True
+            print("PRE-SHOW LEGIBILITY LINT (SPEC INV-139): a styled surface a human is about to see carries")
+            print("text under the legibility floor (contrast >= 4.5:1 normal / 3:1 large, size >= 12px). File: %s" % label)
+            json_hits = []
+            for line_no, code, snippet, detail in hits:
+                print("  line %d  [%s]  %s" % (line_no, code, snippet))
+                print("          ↳ %s" % detail)
+                json_hits.append({"line": line_no, "code": code, "selector": snippet, "detail": detail})
+            print(json.dumps({"severity": "error", "code": "legibility-floor", "hits": json_hits}))
+        if unresolved:
+            print("UNRESOLVED (preshow-legibility): %s — background could not be resolved from the" % label)
+            print("stylesheet text; these pairs do NOT block, but check the real rendered pair by eye:")
+            json_unresolved = []
+            for line_no, snippet, detail in unresolved:
+                print("  line %d  [unresolved]  %s" % (line_no, snippet))
+                print("          ↳ %s" % detail)
+                json_unresolved.append({"line": line_no, "selector": snippet, "detail": detail})
+            print(json.dumps({"severity": "info", "code": "legibility-unresolved", "hits": json_unresolved}))
     return 1 if any_hit else 0
 
 
