@@ -13,6 +13,33 @@ REPO_ROOT="$(git rev-parse --show-toplevel)"
 cd "$REPO_ROOT"
 GUARDRAILS="$REPO_ROOT/guardrails"
 
+# -- deletion-only stand-down (SPEC INV-286, ROADMAP row 502) --
+# git feeds this hook one ref-update line per pushed ref on stdin (githooks(5)); read it ONCE, here,
+# before any gate below can touch stdin — a manual invocation for testing leaves stdin as a tty and
+# must never block on a read. A push whose every fed line deletes its remote counterpart (the
+# all-zero local object id) carries no content for any gate to judge, so the whole chain stands down
+# by name instead of falling to the reach map's conservative FULL — the fix for the 2026-07-27 hang
+# (four tag deletions read as an empty diff, fell to the full suite, died on the two-minute limit).
+# This check carries no gate letter: it is a triage read ahead of the chain, the placement
+# check-push-reach.sh already holds inside gate b, not a net that blocks on red.
+if [ -t 0 ]; then
+  PUSH_REF_LINES=""
+else
+  PUSH_REF_LINES="$(cat)"
+fi
+export PUSH_REF_LINES
+if [ -n "$PUSH_REF_LINES" ]; then
+  set +e
+  del_out="$("$GUARDRAILS/check-deletion-only-push.sh")"
+  del_code=$?
+  set -e
+  if [ "$del_code" -eq 0 ]; then
+    echo "$del_out"
+    echo "PUSH ALLOWED — deletion-only push: standing the full gate chain down (reason: a deletion carries no content for any gate to judge, SPEC INV-286); whatever would guard the deletion itself is unaffected, since no such gate exists in this chain today."
+    exit 0
+  fi
+fi
+
 fail=0
 
 echo "== live-spec push gate =="

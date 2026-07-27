@@ -1,0 +1,46 @@
+Red proof — ROADMAP row 502 (SPEC INV-290)
+"A push that only deletes a reference stops running the whole suite"
+
+Captured 2026-07-27, against guardrails/pre-push BEFORE this row's fix (the pre-edit script had
+no deletion-only stand-down: it never reads the hook's stdin at all, so a push whose every fed ref
+line deletes its remote counterpart falls through to the ordinary gate chain exactly like a content
+push). Command: `python3 -m pytest -q tests/test_deletion_only_push.py`.
+
+Result: 1 failed, 9 passed, 1 error (the error is a teardown side-effect of the same red failure —
+see below).
+
+    ........F.E                                                              [100%]
+    ==================================== ERRORS ====================================
+    _ ERROR at teardown of TestPrePushStandsDownOnDeletion.test_manual_invocation_with_no_stdin_is_unaffected _
+        ...
+    E       AssertionError: the suite leaked temp artifacts (SPEC INV-100): ['livespec-test-suite-log.nsZbXS']
+
+    =================================== FAILURES ===================================
+    _ TestPrePushStandsDownOnDeletion.test_deletion_only_push_finishes_in_seconds_with_a_named_standdown _
+
+        def test_deletion_only_push_finishes_in_seconds_with_a_named_standdown(self):
+    >       r = run(["bash", PREPUSH], input=DELETION_STDIN, timeout=15)
+
+    self = <Popen: returncode: -9 args: ['bash', '.../guardrails/pre-push...>
+    endtime = 18.211870041, orig_timeout = 15
+    stdout_seq = [b'== live-spec push gate ==\n\n-- gate a: fresh prover record for today --\n',
+                  b'OK (prover record): committed record...
+                   reach: 'ROADMAP.md' is outside the prose/infra classes \xe2\x80\x94 FULL suite.\n', ...]
+    E       subprocess.TimeoutExpired: Command '['bash', '.../guardrails/pre-push']' timed out
+            after 15 seconds
+
+    1 failed, 9 passed, 1 error in 21.19s
+
+Reading the proof: fed a deletion-only stdin payload (two ref lines, each local sha the all-zero
+object id — the same shape `git push --delete` produced against a real scratch repo the same day),
+the pre-edit hook printed its ordinary banner and gate a, then proceeded toward the full suite
+instead of recognizing the push as content-free — the exact class of defect Alexander's real
+2026-07-27 ~18:05 tag-deletion push hit (his hung on the two-minute limit; this harness's bounded
+15s timeout catches the same falling-through before it would time out for real). The teardown error
+is the same failure's side effect: the killed chain had already reached check-tests.sh, which
+mktemps its log file before pytest itself runs.
+
+After the fix (guardrails/pre-push reads stdin once at the top, calls the new
+guardrails/check-deletion-only-push.sh, and stands the whole chain down on an all-deletion read):
+`python3 -m pytest -q tests/test_deletion_only_push.py` → 10 passed in ~6s, no leaked temp files,
+no orphaned descendant processes (run_bounded kills the whole process group on timeout).
