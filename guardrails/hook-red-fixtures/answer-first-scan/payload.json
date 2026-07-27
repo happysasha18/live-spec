@@ -1,0 +1,5 @@
+{
+  "transcript_path": "transcript.jsonl",
+  "session_id": "fixture-answer-first-scan",
+  "stop_hook_active": false
+}

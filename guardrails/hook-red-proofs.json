@@ -1,0 +1,45 @@
+{
+ "_comment": "The known-red proof for every session hook (Stop / UserPromptSubmit), the hook-side sibling of guardrails/gate-red-proofs.json (which covers pre-push gates only and reaches zero hooks). A hook nobody can make fire is a check that watches nothing, the same disease gate-red-proofs.json exists to catch on the push side. guardrails/check-hooks-can-fire.py reads this file: each `proofs` entry names a fixture directory under guardrails/hook-red-fixtures/ that MUST make the hook print a live decision when the hook is run against it for real (no test mocks the hook's own logic — the runner executes the actual script). A `cannot_red` entry names a hook whose own stdout can never carry a verdict by design, with the one-sentence reason, the same shape gate-red-proofs.json's cannot_red carries for a gate that can never fail. A hook classified nowhere, or found under hooks/ or ~/.claude/hooks/ but absent from both maps, is the finding.",
+ "proofs": {
+  "scissors-scan.py": {
+   "fixture": "hook-red-fixtures/scissors-scan",
+   "detect": "json-block",
+   "note": "fires on the English contrast frame 'X, not Y' in the assistant reply"
+  },
+  "hedge-scan.py": {
+   "fixture": "hook-red-fixtures/hedge-scan",
+   "detect": "json-block",
+   "note": "fires on the offering-hedge frame 'just say the word'"
+  },
+  "answer-first-scan.py": {
+   "fixture": "hook-red-fixtures/answer-first-scan",
+   "detect": "json-block",
+   "note": "fires on a reply over the length threshold whose opening paragraph carries no short lead"
+  },
+  "affirmation-scan.py": {
+   "fixture": "hook-red-fixtures/affirmation-scan",
+   "detect": "json-block",
+   "note": "fires on validating the user ('you're absolutely right', 'great catch')",
+   "source_fallback": "no repo copy exists under hooks/ as of this writing; proven against the installed copy at ~/.claude/hooks/affirmation-scan.py — see the census in the movement report"
+  },
+  "lean-orchestrator-scan.py": {
+   "fixture": "hook-red-fixtures/lean-orchestrator-scan",
+   "detect": "json-block",
+   "note": "fires on cumulative inline Read/dump content over the threshold with zero Agent/Task dispatches; OFF by default (opt-in net, guardrails/judge-hooks.json library entry) but still owed a red proof of its own logic"
+  },
+  "register-judge-report.sh": {
+   "fixture": "hook-red-fixtures/register-judge-report",
+   "detect": "nonempty-contains",
+   "contains": "REGISTER JUDGE",
+   "note": "reads a pre-seeded verdict file under $HOME/.claude/hooks/.judge/<session>.json and prints its reason; the runner isolates $HOME to a temp dir per run so no real verdict state is touched"
+  },
+  "code-anchor-scan.py": {
+   "fixture": "hook-red-fixtures/code-anchor-scan",
+   "detect": "json-block",
+   "note": "fires on a queue row number left standing in prose with no plain-word naming of the wish (the 2026-07-27 live failure, verbatim)"
+  }
+ },
+ "cannot_red": {
+  "register-judge-collect.sh": "Hands the turn's text to a background model call (register-judge.py, backgrounded with nohup) and returns immediately with exit 0 and empty stdout by design — the verdict lands asynchronously in a file for register-judge-report.sh to read and print on the human's next turn, so this half's own stdout can never carry a block decision for a fixture to catch; its sibling register-judge-report.sh is proven above instead."
+ }
+}

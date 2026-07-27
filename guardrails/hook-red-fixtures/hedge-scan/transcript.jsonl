@@ -1,0 +1,2 @@
+{"type":"user","message":{"role":"user","content":[{"type":"text","text":"Should we roll this back?"}]}}
+{"type":"assistant","message":{"role":"assistant","content":[{"type":"text","text":"I could revert the change now. Just say the word and I will do it."}]}}

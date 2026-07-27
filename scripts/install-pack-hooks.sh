@@ -4,6 +4,8 @@
 #   - the scissors-scan Stop hook (the literal contrast-frame scan);
 #   - the answer-first arm (a lead-less wall notice, SPEC INV-220);
 #   - the hedge-scan Stop hook (the literal offering-hedge scan, SPEC INV-238);
+#   - the affirmation-scan Stop hook (validation and praise of the human);
+#   - the code-anchor Stop hook (a queue row number left standing where plain words belong);
 #   - the register judge (register_judge_core.py + register-judge.py + the async collect/report arms),
 #     the class-reading model judge that holds what a literal list cannot (SPEC INV-203). Its universal
 #     law ships in the mechanism; its personal laws ride ~/.claude/hooks/register-judge-personal.md.
@@ -28,7 +30,7 @@ SETTINGS="$HOME/.claude/settings.json"
 
 # The universal files this script ships: the scissors scan, the answer-first arm, the hedge scan, and
 # the register-judge mechanism + arms.
-JUDGE_FILES="scissors-scan.py answer-first-scan.py hedge-scan.py turn_reader.py register_judge_core.py register-judge.py register-judge-collect.sh register-judge-report.sh"
+JUDGE_FILES="scissors-scan.py answer-first-scan.py hedge-scan.py affirmation-scan.py code-anchor-scan.py turn_reader.py register_judge_core.py register-judge.py register-judge-collect.sh register-judge-report.sh"
 
 if [ "$DRY_RUN" = "1" ]; then
   for f in $JUDGE_FILES; do
@@ -74,6 +76,8 @@ def wire(event, needle, cmd):
 wire("Stop", "scissors-scan.py", "python3 ~/.claude/hooks/scissors-scan.py")
 wire("Stop", "answer-first-scan.py", "python3 ~/.claude/hooks/answer-first-scan.py")
 wire("Stop", "hedge-scan.py", "python3 ~/.claude/hooks/hedge-scan.py")
+wire("Stop", "affirmation-scan.py", "python3 ~/.claude/hooks/affirmation-scan.py")
+wire("Stop", "code-anchor-scan.py", "python3 ~/.claude/hooks/code-anchor-scan.py")
 wire("Stop", "register-judge-collect.sh", "sh ~/.claude/hooks/register-judge-collect.sh")
 wire("UserPromptSubmit", "register-judge-report.sh", "sh ~/.claude/hooks/register-judge-report.sh")
 

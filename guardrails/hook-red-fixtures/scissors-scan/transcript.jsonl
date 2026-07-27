@@ -1,0 +1,2 @@
+{"type":"user","message":{"role":"user","content":[{"type":"text","text":"Ship the fix."}]}}
+{"type":"assistant","message":{"role":"assistant","content":[{"type":"text","text":"Done. The fix is fast, not slow."}]}}
