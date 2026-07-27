@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
-"""check-index-prose.py — a Formal-index code is carried in its home prose (SPEC INV-218, gate x).
+"""check-index-prose.py — a Formal-index code is carried in its home prose (SPEC INV-218). Retired
+from gate x at the row-445 conversion, superseded by check-index-generated.py; this script still
+ships for its fixture red-proofs.
 
 The first named instance of the vacuous-pass law (SPEC INV-218, ROADMAP 384). The Formal index
 promises code → home: every anchor in the index is defined somewhere in the spec's prose. Today

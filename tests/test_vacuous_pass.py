@@ -118,15 +118,17 @@ class TestSharedShape(unittest.TestCase):
 
 
 class TestIndexProseGate(unittest.TestCase):
-    """Gate x — `guardrails/check-index-prose.py`: every Formal-index anchor is carried in the
-    spec prose (its home), and the index-anchor input set is expected non-empty."""
+    """The retired index-prose gate — `guardrails/check-index-prose.py`: every Formal-index anchor
+    is carried in the spec prose (its home), and the index-anchor input set is expected non-empty.
+    check-index-generated.py took over gate x at the row-445 conversion (see below); this class
+    exercises the retired script's still-shipped fixture red-proofs."""
 
     def test_gate_ships(self):
         self.assertTrue(os.path.isfile(CHECK), "the gate is absent: guardrails/check-index-prose.py")
 
     def test_gate_reds_on_empty_input(self):
         # The vacuous case: an index that parses to zero anchors reds BY NAME, in place of
-        # reporting clean while looking at nothing (the red proof of gate x).
+        # reporting clean while looking at nothing (the shape's red proof, gate x since retired).
         with tempfile.TemporaryDirectory() as tmp:
             path = write_spec(tmp, EMPTY_INDEX_SPEC)
             r = run_check({"INDEX_PROSE_SPEC": path})

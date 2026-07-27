@@ -38,8 +38,8 @@ import turn_reader  # noqa: E402
 # The naming patterns: a code word followed by its number, in either working language, plus the bare
 # letter-dash-number handles the documents use.
 PATTERNS = [
-    r"(?<![\w-])строк[аиуеойы]?\s+\d+",
-    r"(?<![\w-])строки\s+\d+",
+    r"(?<![\w-])строк[аиуеойы]?\s+\d+",  # user-language: the naming word when chat runs in Russian
+    r"(?<![\w-])строки\s+\d+",  # user-language: its plural, same naming word
     r"(?<![\w-])rows?\s+\d+",
     r"(?<![\w-])(?:INV|ROW|M|E|T|S|D|A|B|C|F|R|ACT)-\d+",
 ]

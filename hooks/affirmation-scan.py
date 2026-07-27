@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """Stop-hook: catch empty affirmation / validation aimed at the user in outgoing chat.
 
-Alexander's standing word, 2026-07-22: never open with — or carry anywhere — a line that tells him he
-is right, praises his question or intuition, or frames the agent's own work as superior ("measured, not
-guessed"; "honest, not on the eye"). Validation is slop; the reply owes the finding or the action, and
-nothing else leads. This is the machine behind the personal profile's no-affirmation rule, a sibling of
+A reply carries no line telling the human he is right, praising his question or his intuition, or
+framing the agent's own work as superior ("measured, not guessed"; "honest, not on the eye"). Empty
+validation costs the reader attention and returns nothing; the reply owes the finding or the action,
+and nothing else leads. The exchange that set this standing is dated in JOURNAL.md. This is the machine behind the personal profile's no-affirmation rule, a sibling of
 the scissors scan.
 
 Two tiers. The UNIVERSAL tier holds the language-neutral English validation phrases. A host's own extra

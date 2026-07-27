@@ -47,7 +47,8 @@ def settings_with(stop_hooks, ups_hooks):
     }
 
 
-COMPLETE_STOP = ["scissors-scan.py", "answer-first-scan.py", "hedge-scan.py", "register-judge-collect.sh"]
+COMPLETE_STOP = ["scissors-scan.py", "answer-first-scan.py", "hedge-scan.py", "affirmation-scan.py",
+                 "code-anchor-scan.py", "register-judge-collect.sh"]
 COMPLETE_UPS = ["clock-hook.sh", "chat-law-hook.sh", "register-judge-report.sh"]
 
 

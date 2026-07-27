@@ -1,13 +1,24 @@
 {
-  "_comment": "Which hooks under hooks/ are wired live into ~/.claude/settings.json, and to which event surface. check-judge-listed.py (SPEC INV-211, gate v) reds when a wired judge is absent from its surface's hook array — the no-verdict failure of a judge whose file is present but whose settings.json entry is gone. A library hook is one the pack does not wire into its default settings.json — either a hook invoked by another hook (register_judge_core), or an OPT-IN hook a host turns on by adding it to their own settings.json (the conduct-judge arms, the lean-orchestrator-scan net); gate v never demands a library hook be live, so an opt-in net keeps the suite green until a host enables it. Every file under hooks/ must appear in exactly one of the two lists, or the gate reds asking that it be classified — the self-widening honesty config-health (gate m) already uses.",
-  "wired": {
-    "clock-hook": "UserPromptSubmit",
-    "chat-law-hook": "UserPromptSubmit",
-    "register-judge-report": "UserPromptSubmit",
-    "scissors-scan": "Stop",
-    "answer-first-scan": "Stop",
-    "hedge-scan": "Stop",
-    "register-judge-collect": "Stop"
-  },
-  "library": ["register-judge", "register_judge_core", "turn_reader", "conduct-judge", "conduct-judge-collect", "conduct-judge-report", "conduct-law", "lean-orchestrator-scan"]
+ "_comment": "Which hooks under hooks/ are wired live into ~/.claude/settings.json, and to which event surface. check-judge-listed.py (SPEC INV-211, gate v) reds when a wired judge is absent from its surface's hook array — the no-verdict failure of a judge whose file is present but whose settings.json entry is gone. A library hook is one the pack does not wire into its default settings.json — either a hook invoked by another hook (register_judge_core), or an OPT-IN hook a host turns on by adding it to their own settings.json (the conduct-judge arms, the lean-orchestrator-scan net); gate v never demands a library hook be live, so an opt-in net keeps the suite green until a host enables it. Every file under hooks/ must appear in exactly one of the two lists, or the gate reds asking that it be classified — the self-widening honesty config-health (gate m) already uses.",
+ "wired": {
+  "clock-hook": "UserPromptSubmit",
+  "chat-law-hook": "UserPromptSubmit",
+  "register-judge-report": "UserPromptSubmit",
+  "scissors-scan": "Stop",
+  "answer-first-scan": "Stop",
+  "hedge-scan": "Stop",
+  "register-judge-collect": "Stop",
+  "affirmation-scan": "Stop",
+  "code-anchor-scan": "Stop"
+ },
+ "library": [
+  "register-judge",
+  "register_judge_core",
+  "turn_reader",
+  "conduct-judge",
+  "conduct-judge-collect",
+  "conduct-judge-report",
+  "conduct-law",
+  "lean-orchestrator-scan"
+ ]
 }
