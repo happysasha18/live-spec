@@ -1,47 +1,95 @@
 {
- "_comment": "The pack's internal English vocabulary, loan-translated into the working language and handed to the human as if it were his language. Each entry carries the pattern that recognises the calque in the sense the pack uses it, and `say` — the plain industry word the reply owed the reader instead, which hooks/midturn-chat-scan.py quotes in its deny so the correction arrives with the replacement already in hand. This list grows by one line every time the human catches a new calque: add a pattern, a replacement, and the sentence that earned it. Every pattern is anchored on the SURROUNDING SENSE rather than the bare word, since each of these words is ordinary Russian on its own — a table has a leg, a fisherman mends a net, a train stops at a station — and a bare-word list would fire on plain speech all day. The seed comes from the 2026-07-27 ~14:47 failure («открытую ногу») plus the pack's own working vocabulary.",
- "calques": [
-  {
-   "word": "нога",
-   "pattern": "(?:открыт|закрыт|висящ|незакрыт)\\w*\\s+ног\\w+|ног\\w+\\s+(?:приёмки|приемки|требовани\\w+|сценари\\w+)|(?:перв|втор|треть|последн|остальн|обе|две|три)\\w*\\s+ног\\w+\\s+(?:закрыт|открыт|готов|висит|висят)",
-   "say": "критерий приёмки, открытый пункт",
-   "note": "the pack's word for one acceptance criterion under a requirement. The live failure: «строка 55 честно показывает открытую ногу» (2026-07-27 ~14:47). A table's leg, a chair's leg and a journey's leg stay silent, since the pattern wants the acceptance sense standing beside it."
-  },
-  {
-   "word": "краснеет",
-   "pattern": "(?:проверк\\w+|тест\\w*|гейт\\w*|хук\\w*|сканер\\w*|сюит\\w*|прогон\\w*|набор\\s+тестов)\\s+(?:красне\\w+|покраснел\\w*)|(?:красне\\w+|покраснел\\w*)\\s+(?:проверк\\w+|тест\\w*|гейт\\w*|хук\\w*|сканер\\w*)",
-   "say": "проваливает проверку",
-   "note": "the pack reads a failing check as going red, which in the working language is a colour word about ripening fruit and blushing people. A tomato ripening in the sun stays silent, since the pattern wants a check word beside the colour."
-  },
-  {
-   "word": "станция",
-   "pattern": "станци\\w+\\s+(?:конвейер\\w*|пайплайн\\w*|сборк\\w+|процесс\\w+)|(?:конвейер\\w*|пайплайн\\w*)\\w*\\s+станци\\w+|(?:эт\\w+|следующ\\w+|предыдущ\\w+|перв\\w+|последн\\w+)\\s+станци\\w+\\s+конвейер\\w*",
-   "say": "шаг",
-   "note": "one step of the build pipeline. A railway station stays silent, since the pattern wants the pipeline word beside it."
-  },
-  {
-   "word": "дверь",
-   "pattern": "двер\\w+\\s+(?:в\\s+)?(?:проект\\w*|пакет\\w*|скилл\\w*|навык\\w*|конвейер\\w*|систем\\w+|репозитор\\w+)|(?:главн\\w+|единственн\\w+|одн\\w+)\\s+двер\\w+\\s+(?:в|для)\\s+",
-   "say": "вход",
-   "note": "the entry point into a package or a skill. Opening the front door of a flat stays silent, since the pattern wants the software object named right after."
-  },
-  {
-   "word": "шов",
-   "pattern": "шв?[оае]?\\w*\\s+между\\s+\\w+(?:ом|ой|ем|ами)?\\s+и\\s+|(?:архитектурн\\w+|компонентн\\w+|модульн\\w+)\\s+шв?\\w*",
-   "say": "стык",
-   "note": "the boundary where two components meet. A seam on a jacket stays silent, since the pattern wants the two named components or the architecture word."
-  },
-  {
-   "word": "сеть",
-   "pattern": "сет[ьи]\\w*\\s+(?:краснеет|молчит|молчал\\w*|не\\s+сработал\\w*|сработал\\w*|не\\s+поймал\\w*|проверя\\w+)|(?:эт\\w+|нов\\w+|стар\\w+)\\s+сет[ьи]\\s+(?:ловит|поймал\\w*)\\s+(?:наруш\\w+|ошибк\\w+|случа\\w+|offence)",
-   "say": "проверка, механизм",
-   "note": "the pack calls a check a net. A fisherman mending a net, or a network of shops, stays silent: the pattern wants a verb the pack only ever uses about a check. Judgment call — «сеть ловит» alone is the plainest possible fishing sentence, so the catching form additionally demands a violation word as its object."
-  },
-  {
-   "word": "доска",
-   "pattern": "доск[аиеу]\\w*\\s+ожидани\\w+|на\\s+доск[еу]\\s+ожидани\\w+|(?:положит|класт|повесит|отправит)\\w*\\s+на\\s+доску\\s+ожидани\\w+",
-   "say": "список ожидания",
-   "note": "the waiting list of items parked for the human's word. A whiteboard in a corridor and a plank of wood stay silent, since the pattern wants the waiting word attached."
-  }
- ]
+  "_comment": "The pack's internal English vocabulary, loan-translated into the working language and handed to the human as if it were his language. Each entry carries the pattern that recognises the calque in the sense the pack uses it, and `say` — the plain industry word the reply owed the reader instead, which hooks/midturn-chat-scan.py quotes in its deny so the correction arrives with the replacement already in hand. This list grows by one line every time the human catches a new calque: add a pattern, a replacement, and the sentence that earned it. Every pattern is anchored on the SURROUNDING SENSE rather than the bare word, since each of these words is ordinary Russian on its own — a table has a leg, a fisherman mends a net, a train stops at a station — and a bare-word list would fire on plain speech all day. The seed comes from the 2026-07-27 ~14:47 failure («открытую ногу») plus the pack's own working vocabulary.",
+  "calques": [
+    {
+      "word": "нога",
+      "pattern": "(?:открыт|закрыт|висящ|незакрыт)\\w*\\s+ног\\w+|ног\\w+\\s+(?:приёмки|приемки|требовани\\w+|сценари\\w+)|(?:перв|втор|треть|последн|остальн|обе|две|три)\\w*\\s+ног\\w+\\s+(?:закрыт|открыт|готов|висит|висят)",
+      "say": "критерий приёмки, открытый пункт",
+      "note": "the pack's word for one acceptance criterion under a requirement. The live failure: «строка 55 честно показывает открытую ногу» (2026-07-27 ~14:47). A table's leg, a chair's leg and a journey's leg stay silent, since the pattern wants the acceptance sense standing beside it."
+    },
+    {
+      "word": "краснеет",
+      "pattern": "(?:проверк\\w+|тест\\w*|гейт\\w*|хук\\w*|сканер\\w*|сюит\\w*|прогон\\w*|набор\\s+тестов)\\s+(?:красне\\w+|покраснел\\w*)|(?:красне\\w+|покраснел\\w*)\\s+(?:проверк\\w+|тест\\w*|гейт\\w*|хук\\w*|сканер\\w*)",
+      "say": "проваливает проверку",
+      "note": "the pack reads a failing check as going red, which in the working language is a colour word about ripening fruit and blushing people. A tomato ripening in the sun stays silent, since the pattern wants a check word beside the colour."
+    },
+    {
+      "word": "станция",
+      "pattern": "станци\\w+\\s+(?:конвейер\\w*|пайплайн\\w*|сборк\\w+|процесс\\w+)|(?:конвейер\\w*|пайплайн\\w*)\\w*\\s+станци\\w+|(?:эт\\w+|следующ\\w+|предыдущ\\w+|перв\\w+|последн\\w+)\\s+станци\\w+\\s+конвейер\\w*",
+      "say": "шаг",
+      "note": "one step of the build pipeline. A railway station stays silent, since the pattern wants the pipeline word beside it."
+    },
+    {
+      "word": "дверь",
+      "pattern": "двер\\w+\\s+(?:в\\s+)?(?:проект\\w*|пакет\\w*|скилл\\w*|навык\\w*|конвейер\\w*|систем\\w+|репозитор\\w+)|(?:главн\\w+|единственн\\w+|одн\\w+)\\s+двер\\w+\\s+(?:в|для)\\s+",
+      "say": "вход",
+      "note": "the entry point into a package or a skill. Opening the front door of a flat stays silent, since the pattern wants the software object named right after."
+    },
+    {
+      "word": "шов",
+      "pattern": "шв?[оае]?\\w*\\s+между\\s+\\w+(?:ом|ой|ем|ами)?\\s+и\\s+|(?:архитектурн\\w+|компонентн\\w+|модульн\\w+)\\s+шв?\\w*",
+      "say": "стык",
+      "note": "the boundary where two components meet. A seam on a jacket stays silent, since the pattern wants the two named components or the architecture word."
+    },
+    {
+      "word": "сеть",
+      "pattern": "сет[ьи]\\w*\\s+(?:краснеет|молчит|молчал\\w*|не\\s+сработал\\w*|сработал\\w*|не\\s+поймал\\w*|проверя\\w+)|(?:эт\\w+|нов\\w+|стар\\w+)\\s+сет[ьи]\\s+(?:ловит|поймал\\w*)\\s+(?:наруш\\w+|ошибк\\w+|случа\\w+|offence)",
+      "say": "проверка, механизм",
+      "note": "the pack calls a check a net. A fisherman mending a net, or a network of shops, stays silent: the pattern wants a verb the pack only ever uses about a check. Judgment call — «сеть ловит» alone is the plainest possible fishing sentence, so the catching form additionally demands a violation word as its object."
+    },
+    {
+      "word": "доска",
+      "pattern": "доск[аиеу]\\w*\\s+ожидани\\w+|на\\s+доск[еу]\\s+ожидани\\w+|(?:положит|класт|повесит|отправит)\\w*\\s+на\\s+доску\\s+ожидани\\w+",
+      "say": "список ожидания",
+      "note": "the waiting list of items parked for the human's word. A whiteboard in a corridor and a plank of wood stay silent, since the pattern wants the waiting word attached."
+    },
+    {
+      "word": "дерево",
+      "pattern": "\\bв\\s+дерев\\w+\\b|\\bдерев\\w+\\s+(?:проект\\w*|репозитори\\w*)|(?:основн\\w+|рабоч\\w+)\\s+дерев\\w+|дерев\\w+\\s+(?:свободн\\w+|занят\\w+)",
+      "say": "рабочая папка проекта",
+      "note": "git's working tree, carried into the working language as a plant. The live failure: «уборка страниц уже в дереве» (2026-07-27 ~19:52), which he could not read at all. A tree in a garden stays silent, since the pattern wants a repository word beside it."
+    },
+    {
+      "word": "живость",
+      "pattern": "жив\\w*\\s+(?:ли\\s+)?(?:работник\\w*|процесс\\w*|воркер\\w*|агент\\w*)|(?:работник\\w*|процесс\\w*|воркер\\w*|агент\\w*)\\s+жив\\w*|живост\\w+",
+      "say": "работает ли ещё, закончил ли",
+      "note": "liveness, said of a helper process. The live failure: «жив ли работник» (2026-07-27 ~19:58) — he answered with the question itself. A living person stays silent, since the pattern wants a process word beside it."
+    },
+    {
+      "word": "полоса",
+      "pattern": "полос\\w+\\s+(?:с\\s+\\w+\\s+)?(?:закрыт|открыт|влит|ждёт|ждет|рид)\\w*|(?:открыт|закрыт|влит|вести|веду)\\w*\\s+полос\\w+|параллельн\\w+\\s+полос\\w+|полос\\w+\\s+(?:работ|задач|ветк)\\w+",
+      "say": "параллельная ветка работы",
+      "note": "the pack's lane, a parallel branch with its own working copy. The live failure: «полоса с пушем-удалением закрыта» — the blind reader could not guess the word at all."
+    },
+    {
+      "word": "якорь",
+      "pattern": "(?:строк\\w+|перегружен\\w+|тесн\\w+)\\s+якор\\w+|якор\\w+\\s+(?:в\\s+конце|в\\s+строке|требовани\\w+|критери\\w+)",
+      "say": "код в конце строки",
+      "note": "the bracketed code trailing a criterion. The blind reader listed it among the words guessing failed on."
+    },
+    {
+      "word": "рука",
+      "pattern": "(?:четырьмя|тремя|двумя|четыре|три|две)\\s+рук\\w+|рук\\w+\\s+(?:проверк\\w+|гейт\\w*|контрол\\w+)|(?:кажд|перв|втор)\\w+\\s+рук\\w+\\s+(?:держ|лов|чита|мер)\\w+",
+      "say": "часть проверки",
+      "note": "the pack's arm, one sub-check inside a gate. The live failure: «проверка с четырьмя руками» — the blind reader stopped hard."
+    },
+    {
+      "word": "тело требования",
+      "pattern": "тел\\w+\\s+(?:требовани\\w+|критери\\w+)|(?:требовани\\w+|критери\\w+)\\s+тел\\w+",
+      "say": "текст требования",
+      "note": "the pack's requirement body. He named it himself as unreadable (2026-07-27 ~19:40)."
+    },
+    {
+      "word": "храповик",
+      "pattern": "храповик\\w*",
+      "say": "предел, который не растёт",
+      "note": "a ratchet, a machine part, used for a recorded limit that only falls. The blind reader stopped fully and recovered the sense only from the next clause."
+    },
+    {
+      "word": "засеяна",
+      "pattern": "(?:засеян\\w+|засе\\w+)\\s+(?:проверк\\w+|сетк\\w+|баз\\w+|предел\\w+)|(?:проверк\\w+|сетк\\w+|баз\\w+)\\s+засеян\\w+",
+      "say": "начальные числа записаны",
+      "note": "seeded, said of a baseline. The blind reader guessed twice and stayed unsure."
+    }
+  ]
 }
