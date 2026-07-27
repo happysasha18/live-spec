@@ -213,9 +213,21 @@ def main():
         return 0
     commits = [c for c in r.stdout.splitlines() if c.strip()]
 
-    fail = False
+    # First pass: which rows land ANYWHERE in the range beside a NEXT_STEPS.md refresh. A row landed
+    # twice in one range — a first close reverted, then redone with the resume file beside it — is
+    # discharged by the close that carried the refresh, since the law asks that a landing leave the
+    # resume file current, and the redone close does exactly that (SPEC INV-242).
+    per_commit = {}
+    discharged = set()
     for sha in commits:
         flipped = sorted(set(landed_rows_for_commit(sha, cwd)) | set(landed_moves_for_commit(sha, cwd)))
+        per_commit[sha] = flipped
+        if flipped and "NEXT_STEPS.md" in commit_files(sha, cwd):
+            discharged.update(flipped)
+
+    fail = False
+    for sha in commits:
+        flipped = [n for n in per_commit[sha] if n not in discharged]
         if not flipped:
             continue
         if "NEXT_STEPS.md" in commit_files(sha, cwd):
