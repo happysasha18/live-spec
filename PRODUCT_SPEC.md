@@ -5206,12 +5206,13 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 4. *when* the seat finishes a turn on the chat surface, a Stop arm *shall* dispatch every message shown since the last human turn, and a prompt-submit arm *shall* report the verdict at the person's next message. [INV-203]
 5. *when* a styled file is about to be shown, the same judge *shall* stand as the ceiling of the pre-show register gate pointed at that file. [INV-83, INV-203]
-6. The contrast-frame scan and the hedge scan *shall* each read every message shown since the last human turn, the reach the register judge's Stop arm carries. [INV-281, INV-203]
+6. The contrast-frame scan, the hedge scan, the code-anchor scan, the empty-validation scan, and the tool-boundary scan *shall* each read every message shown since the last human turn through the shared full-turn reader, the reach the register judge's Stop arm carries. [INV-281, INV-203]
 7. The answer-first arm *shall* read only the final reply, the one net that stands clear of the inter-tool narration lines. [INV-281, INV-220]
 
 **Case: the judge stands down on its own breakage**
 
 8. *if* the judge's own machinery breaks — a missing binary, a timeout, a non-zero exit, or a shape it cannot read — *then* the system *shall* leave the literal-list verdict standing rather than red, so a guard cannot train the guarded to route around it. [INV-203]
+9. A scan reading through the shared full-turn reader *shall* stand down *where* the stop hook is already active, or the event payload or the turn's record cannot be read. [INV-281]
 
 ---
 
@@ -5501,6 +5502,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 3. *if* a row the manifest declares rotated is found in neither the live file nor its archive, *then* the system *shall* red as a nothing-lost violation. [INV-209]
 4. *if* an archive file is pointed at by no live manifest line, or a row declared rotated still stands as a live table row, *then* the system *shall* red as ambiguous. [INV-209]
+5. *if* a row inside an archive carries no terminal word in its status — landed, decided, declined, or superseded — *then* the system *shall* red it by name, since a row still open there is reachable from no answer about what is left. [INV-209, INV-276]
 
 ---
 
@@ -6702,7 +6704,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: a fixture per hook, run for real**
 
-1. The system *shall* classify every session hook in a red-proof registry, each proof naming a fixture that makes the hook print a live decision, and *shall* execute the hook script itself against it, mocking none of its logic. [INV-282, INV-212]
+1. The system *shall* classify every session hook the wired-hook declaration lists in a red-proof registry, each proof naming a fixture that makes the hook print a live decision, and *shall* execute the hook script itself against it, mocking none of its logic. [INV-282, INV-212, INV-211]
 2. *when* a hook stays silent against the fixture built to trigger it, the system *shall* name it and fail the whole run. [INV-282]
 3. The system *shall* resolve the pack's own copy of a hook before the installed copy, and *shall* report the fall back to the installed copy rather than taking it silently. [INV-282, INV-175]
 4. *where* a hook reads a verdict file the person's live state owns, the system *shall* seed it under a temporary home directory, so no live state is touched. [INV-282]
@@ -6710,11 +6712,15 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 **Case: a hook whose output can carry no verdict is declared**
 
 5. The system *shall* let a hook whose output can never carry a verdict be declared with its recorded reason, *shall* report that entry on every run, and *shall* never count it as a failure. [INV-282, INV-212]
-6. *if* a hook shipped under the pack's hooks directory is classified in neither map, *then* the system *shall* red it by name. [INV-282, INV-211]
+6. *if* a hook the wired-hook declaration lists is classified in neither map, *then* the system *shall* red it by name, holding that declaration's library files — a reader another hook invokes, an opt-in net a host turns on — outside the population. [INV-282, INV-211]
 
 **Case: what the proof reaches, and what it does not**
 
 7. The system *shall* prove the firing direction of the pack's own copy only, the installed copy's agreement with its source staying with the config-health check and its presence in the installed settings with the judge-listed check. [INV-282, INV-175, INV-211]
+
+**Case: the registry names files that exist**
+
+8. *if* an entry in either map, or a name in the wired declaration, resolves to a file found under neither the pack's own directory nor the installed one, *then* the system *shall* red it by name. [INV-282, INV-211]
 
 ---
 
@@ -6730,16 +6736,21 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 1. *when* any message the seat showed since the last human turn carries an internal code — a queue row named by its number in either working language, or a bracket code the documents use — standing outside a trailing anchor, the system *shall* block the stop and ask for the naming in plain words one message later. [INV-283, INV-28]
 2. The system *shall* pass a code sitting inside parentheses or square brackets, the lawful trailing anchor the plain-language law names. [INV-283, INV-28]
-3. The scan *shall* read every message shown since the last human turn through the shared full-turn reader, so a naked code in an inter-tool narration line reds the same as one in the final reply. [INV-283, INV-281]
 
-**Case: text about a code is not a code addressed to the reader**
+**Case: a code the sentence talks about**
 
-4. The system *shall* pass a code inside a fenced block, an inline backtick span, or a quoted span, and *shall* pass a table row, whose neighbouring cell carries the plain words. [INV-283]
-5. The system *shall* read a naming word and the number it carries, so a bare number with no naming word before it passes. [INV-283]
+3. The system *shall* pass a code inside a fenced block, an inline backtick span, or a quoted span, and *shall* pass a table row, whose neighbouring cell carries the plain words. [INV-283]
+4. The system *shall* read a naming word and the number it carries, so a bare number with no naming word before it passes. [INV-283]
 
 **Case: honest about its reach**
 
-6. The system *shall* judge only whether a code was left standing outside an anchor, and *shall* leave whether the plain words that replace it are the right words to the person. [INV-283]
+5. The system *shall* judge only whether a code was left standing outside an anchor, and *shall* leave whether the plain words that replace it are the right words to the person. [INV-283]
+
+**Case: the code forms the scan reads**
+
+6. The system *shall* read a document's own name run against a number as a code standing outside its anchor, a form handing the reader a location he can resolve only by opening the document. [INV-283]
+7. The system *shall* read a multi-letter code spoken with a space as the equal of its dash form, and *shall* hold the two code forms — the multi-letter form and the single-letter dash form — to the capital shape the documents write them in, so an ordinary word carrying a letter and a number in lower case passes. [INV-283]
+8. The system *shall* pass a naming word and its number *where* the same line carries a file name or a file word, the shape a reference to a line inside a source file takes. [INV-283]
 
 ---
 
@@ -6753,13 +6764,44 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: the validation gate**
 
-1. *when* the reply the person reads carries an empty-validation phrase from the pattern list, after a quoted, backticked, or fenced span is stripped, the system *shall* block the stop with a rewrite instruction reaching the seat one message later, the shape the scissors scan and the hedge gate take. [INV-284, INV-238]
+1. *when* any message the seat showed since the last human turn carries an empty-validation phrase from the pattern list, after a quoted, backticked, or fenced span is stripped, the system *shall* block the stop with a rewrite instruction reaching the seat one message later, the shape the scissors scan and the hedge gate take. [INV-284, INV-238]
 2. The system *shall* match against an inline universal pattern list plus an optional personal-overlay file a host tunes, as the scissors scan carries one, and *shall* stand on the universal list alone *where* the overlay is absent or unreadable. [INV-284, INV-203]
 3. The system *shall* catch only the phrases it lists, so a paraphrase it does not carry stays with the register judge that reads the class in meaning. [INV-284, INV-203]
 
 **Case: shipped as a pack hook**
 
 4. The system *shall* install the scan by the setup walk beside the scissors scan, *shall* have it covered by the config-health check and classified in the wired-hook declaration, and *shall* have its runs and fires read by the net-liveness meter. [INV-284, INV-173, INV-175, INV-211, INV-202]
+
+
+---
+
+## Requirement 295: A chat law is judged while the turn still runs
+
+**Context:** The chat laws are judged when the turn stops, and a narration line written between tool calls reaches the person long before that moment. The check meant for such a line then speaks into a turn already read, which is how bare row numbers and a loan-translated word reach the person under a scan that catches that exact sentence. The earliest boundary after a narration line is the moment before the next tool call, so the same laws are read there and the correction lands inside the turn that broke them.
+
+**User Story:** As a person reading the seat's lines while it works, I want a broken chat law caught at the next tool call, so that the correction reaches me inside the same turn.
+
+### Acceptance Criteria
+
+**Case: judged at the tool boundary**
+
+1. *when* a message shown since the last human turn carries an internal code standing outside its anchor or a listed loan translation, the system *shall* deny the next tool call and name each fragment with the plain words it owes. [INV-285, INV-28]
+2. The system *shall* judge the code half through the code-anchor scan itself, so one law is read at both boundaries. [INV-285, INV-283]
+
+**Case: the loan-translation list**
+
+3. The system *shall* read the loan translations from a list holding a plain replacement for each, and *shall* name that replacement in what it reports. [INV-285, INV-28]
+4. *where* a listed word is ordinary language on its own, the list *shall* carry the surrounding sense that makes it a loan translation. [INV-285]
+5. The system *shall* pass a loan translation inside a fenced, backticked, or quoted span, which is a sentence about the word. [INV-285]
+
+**Case: a fragment is reported once**
+
+6. The system *shall* record what it reported for the session and *shall* stay silent on a fragment already reported. [INV-285]
+
+**Case: the check never stops the work**
+
+7. The system *shall* stand down on any failure of its own, leaving the session's tool calls running. [INV-285]
+
 
 ## Reference
 
@@ -6851,7 +6893,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-25 | R17.6, R201.1, R201.2, R201.3, R201.4, R201.5 |
 | INV-26 | R14.1, R14.2, R14.3, R127.2, R127.3, R161.5, R287.5 |
 | INV-27 | R15.1, R15.2, R15.4, R15.5, R15.6, R22.8, R23.1, R80.5, R86.3, R152.4, R154.1, R159.5, R159.7, R187.8, R195.12, R196.7, R196.9, R196.16, R254.5 |
-| INV-28 | R8.2, R17.1, R17.2, R17.3, R17.4, R17.5, R17.6, R17.7, R17.8, R22.8, R22.9, R29.3, R54.3, R159.4, R188.9, R191.3, R195.12, R212.5, R293.1, R293.2 |
+| INV-28 | R8.2, R17.1, R17.2, R17.3, R17.4, R17.5, R17.6, R17.7, R17.8, R22.8, R22.9, R29.3, R54.3, R159.4, R188.9, R191.3, R195.12, R212.5, R293.1, R293.2, R295.1, R295.3 |
 | INV-29 | R57.1, R57.2, R57.3, R57.4, R58.2, R63.2, R68.2 |
 | INV-30 | R51.3, R59.1, R59.2, R59.3, R61.5, R65.2, R104.2, R108.1, R173.4, R175.3, R175.4, R175.5, R176.2, R261.3, R261.5, R263.4, R265.13 |
 | INV-31 | R7.6, R32.4, R46.3, R53.2, R71.1, R71.2, R72.1, R157.1, R186.2, R191.3, R195.12, R220.2, R259.4, R261.2, R261.7, R263.4, R265.9, R265.13 |
@@ -7032,9 +7074,9 @@ The code-to-location table below is generated output, built from the body criter
 | INV-206 | R94.3, R237.1, R237.2, R237.3, R237.4, R237.5, R241.3 |
 | INV-207 | R238.1, R238.2, R238.3, R238.4, R238.5 |
 | INV-208 | R242.1, R242.2, R242.3, R242.4 |
-| INV-209 | R243.1, R243.2, R243.3, R243.4, R245.3, R287.3 |
+| INV-209 | R243.1, R243.2, R243.3, R243.4, R243.5, R245.3, R287.3 |
 | INV-210 | R246.1, R246.2 |
-| INV-211 | R246.3, R246.4, R292.6, R292.7, R294.4 |
+| INV-211 | R246.3, R246.4, R292.1, R292.6, R292.7, R292.8, R294.4 |
 | INV-212 | R226.2, R246.5, R246.6, R292.1, R292.5 |
 | INV-213 | R235.1, R235.2 |
 | INV-214 | R82.4, R91.1, R91.2, R91.3, R91.4, R266.7 |
@@ -7099,15 +7141,16 @@ The code-to-location table below is generated output, built from the body criter
 | INV-273 | R284.1, R284.2, R284.3, R284.4 |
 | INV-274 | R285.1, R285.2, R285.3, R285.4 |
 | INV-275 | R286.1, R286.2, R286.3, R286.4 |
-| INV-276 | R5.1, R96.4, R130.7, R209.1, R243.1, R245.5, R257.1, R286.4, R287.1, R287.2, R287.3, R287.4, R287.5 |
+| INV-276 | R5.1, R96.4, R130.7, R209.1, R243.1, R243.5, R245.5, R257.1, R286.4, R287.1, R287.2, R287.3, R287.4, R287.5 |
 | INV-277 | R288.1, R288.2, R288.3, R288.4, R288.5 |
 | INV-278 | R289.1, R289.2, R289.3, R289.4, R289.5, R289.6 |
 | INV-279 | R290.1, R290.2, R290.3, R290.4, R290.5 |
 | INV-280 | R291.1, R291.2, R291.3 |
-| INV-281 | R230.6, R230.7, R293.3 |
-| INV-282 | R292.1, R292.2, R292.3, R292.4, R292.5, R292.6, R292.7 |
-| INV-283 | R293.1, R293.2, R293.3, R293.4, R293.5, R293.6 |
+| INV-281 | R230.6, R230.7, R230.9 |
+| INV-282 | R292.1, R292.2, R292.3, R292.4, R292.5, R292.6, R292.7, R292.8 |
+| INV-283 | R293.1, R293.2, R293.3, R293.4, R293.5, R293.6, R293.7, R293.8, R295.2 |
 | INV-284 | R294.1, R294.2, R294.3, R294.4 |
+| INV-285 | R295.1, R295.2, R295.3, R295.4, R295.5, R295.6, R295.7 |
 | M-1 | R49.2, R80.7, R80.8, R92.2, R130.1, R130.2, R130.3, R130.4, R130.5, R130.6, R130.7, R130.8, R130.9, R164.4, R166.3, R166.8, R198.6, R249.2 |
 | M-2 | R14.3, R125.1, R125.2, R125.3, R177.12, R204.3 |
 | M-3 | R136.1 |

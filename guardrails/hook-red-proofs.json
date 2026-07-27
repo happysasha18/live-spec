@@ -19,8 +19,7 @@
   "affirmation-scan.py": {
    "fixture": "hook-red-fixtures/affirmation-scan",
    "detect": "json-block",
-   "note": "fires on validating the user ('you're absolutely right', 'great catch')",
-   "source_fallback": "no repo copy exists under hooks/ as of this writing; proven against the installed copy at ~/.claude/hooks/affirmation-scan.py — see the census in the movement report"
+   "note": "fires on validating the user ('you're absolutely right', 'great catch')"
   },
   "lean-orchestrator-scan.py": {
    "fixture": "hook-red-fixtures/lean-orchestrator-scan",
@@ -37,6 +36,23 @@
    "fixture": "hook-red-fixtures/code-anchor-scan",
    "detect": "json-block",
    "note": "fires on a queue row number left standing in prose with no plain-word naming of the wish (the 2026-07-27 live failure, verbatim)"
+  },
+  "midturn-chat-scan.py": {
+   "fixture": "hook-red-fixtures/midturn-chat-scan",
+   "detect": "json-deny",
+   "note": "the PreToolUse arm of the same two laws, judging the seat's narration at the first tool call after it is written rather than at the turn's end. Fires on the recorded live-failure sentence verbatim, which carries both counts at once: two queue rows named by bare number, and one loan-translated internal word standing where the plain industry word belonged. Its verdict is the PreToolUse deny shape, so it is proven under \"json-deny\" rather than the Stop family's \"json-block\"; the runner isolates $HOME per run so the hook's per-session state file never touches the real state home, and a repeated census therefore reds nothing through the hook's own report-once rule"
+  },
+  "clock-hook.sh": {
+   "fixture": "hook-red-fixtures/clock-hook",
+   "detect": "nonempty-contains",
+   "contains": "Wall clock at this prompt",
+   "note": "prints the wall clock line unconditionally on every UserPromptSubmit; a stub payload is enough to fire it"
+  },
+  "chat-law-hook.sh": {
+   "fixture": "hook-red-fixtures/chat-law-hook",
+   "detect": "nonempty-contains",
+   "contains": "Answer first (live-spec)",
+   "note": "prints the chat-law reminder lines unconditionally on every UserPromptSubmit; a stub payload is enough to fire it"
   }
  },
  "cannot_red": {

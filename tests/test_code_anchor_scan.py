@@ -126,3 +126,82 @@ def test_parenthetical_anchor_wrapped_across_a_line_passes(tmp_path):
     text = "Both are still open (row 386,\nand row 412 too)."
     res = _run(tmp_path, text)
     assert not _blocked(res), res.stdout
+
+
+# ---- A6 (2026-07-27 prover addendum): the internal-code patterns match uppercase only --------------
+# re.IGNORECASE on the multi-letter (INV|ROW|ACT) and single-letter dash patterns made ordinary
+# lowercase English red as an internal code. These four are the false-positive direction the
+# addendum named: a step or a play's "act 3", and the letter-dash-digit codes "b-2", "f-16", "c-4".
+
+def test_lowercase_act_as_ordinary_word_passes(tmp_path):
+    res = _run(tmp_path, "We open act 3 of the play tonight.")
+    assert not _blocked(res), res.stdout
+
+
+def test_lowercase_b_dash_sample_passes(tmp_path):
+    res = _run(tmp_path, "Take the b-2 sample from the second run.")
+    assert not _blocked(res), res.stdout
+
+
+def test_lowercase_f_16_passes(tmp_path):
+    res = _run(tmp_path, "An f-16 flew over the base today.")
+    assert not _blocked(res), res.stdout
+
+
+def test_lowercase_c_4_wiring_passes(tmp_path):
+    res = _run(tmp_path, "The c-4 wiring is done.")
+    assert not _blocked(res), res.stdout
+
+
+def test_uppercase_row_spaced_reds(tmp_path):
+    """The uppercase forms must still fire once the patterns narrow to case-sensitive."""
+    res = _run(tmp_path, "ROW 386 is still open.")
+    assert _blocked(res), res.stdout
+
+
+def test_uppercase_act_spaced_reds(tmp_path):
+    res = _run(tmp_path, "ACT 3 of the pipeline is where this stands.")
+    assert _blocked(res), res.stdout
+
+
+def test_uppercase_m_dash_code_reds(tmp_path):
+    res = _run(tmp_path, "M-458 covers this fact.")
+    assert _blocked(res), res.stdout
+
+
+# ---- S2 (2026-07-27 fold review): three stand-down criteria, pinned by their own tests --------------
+# R293.10 and R293.11 shipped in main()'s guards with no test naming them. Each test here pins a
+# criterion the fold added but never proved: the stop hook already active, stdin that will not parse,
+# and a transcript_path pointing nowhere. Each must stay silent (exit 0, no block) even against text
+# that would otherwise red.
+
+def test_stop_hook_already_active_stands_down(tmp_path):
+    """R293.10: a naked row reference that would otherwise red must stay silent when the payload
+    carries stop_hook_active: true — the scan never runs a second time on the same stop."""
+    transcript_path = _transcript(tmp_path, "Row 490 is the next thing I take. Row 483 follows it.")
+    payload = {"transcript_path": transcript_path, "stop_hook_active": True}
+    res = subprocess.run(["python3", SCRIPT], input=json.dumps(payload),
+                          capture_output=True, text=True)
+    assert res.returncode == 0, res.stdout + res.stderr
+    assert not res.stdout.strip(), res.stdout
+
+
+def test_malformed_stdin_stands_down(tmp_path):
+    """R293.11: stdin that does not parse as JSON leaves the hook silent with exit 0, never a crash."""
+    res = subprocess.run(["python3", SCRIPT], input="not valid json {{{",
+                          capture_output=True, text=True)
+    assert res.returncode == 0, res.stdout + res.stderr
+    assert not res.stdout.strip(), res.stdout
+
+
+def test_unreadable_transcript_path_stands_down(tmp_path):
+    """R293.11: a transcript_path pointing nowhere leaves the hook silent with exit 0 — the turn's
+    record cannot be read, so the scan reads no text and blocks nothing."""
+    payload = {
+        "transcript_path": str(tmp_path / "does-not-exist.jsonl"),
+        "stop_hook_active": False,
+    }
+    res = subprocess.run(["python3", SCRIPT], input=json.dumps(payload),
+                          capture_output=True, text=True)
+    assert res.returncode == 0, res.stdout + res.stderr
+    assert not res.stdout.strip(), res.stdout

@@ -1,0 +1,2 @@
+{"type": "user", "message": {"role": "user", "content": "статус"}}
+{"type": "assistant", "message": {"role": "assistant", "id": "a1", "content": [{"type": "text", "text": "строка 482 закрыта целиком в архиве, строка 55 честно показывает открытую ногу."}]}}

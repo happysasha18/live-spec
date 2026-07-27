@@ -19,7 +19,7 @@ The manifest is a marker-keyed block in the live doc (its wording is free betwee
   <!-- /rotated-manifest -->
 
 Each manifest line names a row list (`14, 27, 33` or a range `14-16`) and the archive it moved to,
-joined by `→` (or `->`). This gate reds two violations and passes a clean rotation:
+joined by `→` (or `->`). This gate reds four violations and passes a clean rotation:
 
   (a) CONTENT DROPPED — a row the manifest declares rotated is found in neither the live file nor its
       named archive (the archive is missing, or the archive holds no `| n |` line for it): the
@@ -28,11 +28,20 @@ joined by `→` (or `->`). This gate reds two violations and passes a clean rota
       line in any live doc points to it: the base-rule-10 violation (a superseded portion moved with no
       manifest line).
 
-It also reds an AMBIGUOUS rotation — a row declared rotated yet still present as a live `| n |` table
-row, so the row is findable twice and the canonical copy is unclear.
+  (c) AMBIGUOUS ROTATION — a row declared rotated yet still present as a live `| n |` table row, so the
+      row is findable twice and the canonical copy is unclear.
+  (d) A NON-TERMINAL ROW IN AN ARCHIVE — a row inside a `rotated-*.md` archive file whose Status cell
+      carries none of the terminal words the queue format states in one home (docs/roadmap-format.md):
+      landed, decided, declined, superseded,
+      matched case-insensitively and satisfied by a bolded or dated form like `**LANDED 2026-07-07
+      ~11:47**`. A row's Status cell can open on a stale narration word (a `queued` or `in-work` opener
+      on a row that later landed), with the terminal word standing anywhere in the cell, so this reads
+      the whole cell rather than its leading word. It names the file and the row number and states that
+      a non-terminal row belongs in the live queue body.
 
 A clean rotation passes: every manifested row is grepable in its archive, no rotated row is still live,
-and every rotation archive is referenced by a manifest line. Honest boundary: this reads the manifest's
+every rotation archive is referenced by a manifest line, and every row inside an archive carries a
+terminal status. Honest boundary: this reads the manifest's
 promises against the archives — a structural scan, kin of check-board.py and check-cleanup-notice.sh. The
 judgment of WHICH closed rows are ripe to rotate stays the author's own (scripts/rotate-doc.py performs
 the move; this gate guards that it lost nothing).
@@ -54,6 +63,13 @@ MANIFEST_OPEN = "<!-- rotated-manifest -->"
 MANIFEST_CLOSE = "<!-- /rotated-manifest -->"
 # a manifest line: "rows 14, 27, 33-35 → <path>"  (arrow may be → or ->)
 MANIFEST_LINE_RE = re.compile(r"rows\s+([0-9,\s–—-]+?)\s*(?:→|->)\s*(\S+)")
+# an archive table row: "| 482 | ... | Status | ... |"
+ARCHIVE_ROW_RE = re.compile(r"^\|\s*(\d+)\s*\|")
+# The terminal words a row's exit carries, in any case, standing anywhere in the cell: a wish that
+# shipped reads landed, a wish refused reads declined, a wish another row took over reads superseded,
+# and a decision row's exit reads decided (the vocabulary the queue format states in one home,
+# docs/roadmap-format.md, and scripts/rotate-doc.py reads the same list as its closed signals).
+TERMINAL_WORD_RE = re.compile(r"\b(landed|decided|declined|superseded)\b", re.IGNORECASE)
 
 
 def repo_root():
@@ -107,6 +123,45 @@ def _has_table_row(text, n):
     return re.search(r"(?m)^\|\s*%d\s*\|" % n, text) is not None
 
 
+def _status_index(archive_text):
+    """The Status column's position, read from the archive table's own header row rather than assumed.
+    A legacy archive writes its header as `| # | Wish | Class | Status | Decision |` and the current
+    format writes `| # | Wish (plain words) | Class | Status | Decision / acceptance |`; both are read
+    the same way. A file whose header names no Status column falls back to the fourth field, the
+    position every archive shipped so far uses."""
+    for line in archive_text.splitlines():
+        if not line.startswith("|"):
+            continue
+        cells = [c.strip().lower() for c in line.split("|")[1:-1]]
+        if not cells:
+            continue
+        for i, c in enumerate(cells):
+            if c == "status":
+                return i
+        if cells[0].startswith("#"):
+            break
+    return 3
+
+
+def _non_terminal_rows(archive_text):
+    """[(rownum, status_snippet)] for archive rows whose Status cell carries none of the terminal
+    words. The Status column's index comes from the table's own header. A row's free-form prose
+    occasionally holds a stray literal `|` of its own, ahead of or inside the Status text; the field at
+    that index opens on the Status cell's own text either way, which is where its stated word stands."""
+    idx = _status_index(archive_text)
+    bad = []
+    for line in archive_text.splitlines():
+        m = ARCHIVE_ROW_RE.match(line)
+        if not m:
+            continue
+        n = int(m.group(1))
+        fields = line.split("|")[1:-1]  # drop the row's bounding empty strings
+        status = fields[idx].strip() if len(fields) > idx else ""
+        if not TERMINAL_WORD_RE.search(status):
+            bad.append((n, status))
+    return bad
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--base", default=None)
@@ -143,13 +198,19 @@ def main():
                     "ambiguous rotation: %s declares row %d rotated yet still carries it as a live "
                     "`| %d |` table row — findable twice, canonical copy unclear" % (doc, n, n))
 
-    # orphan-archive scan: every rotation archive must be pointed to by a manifest line.
+    # orphan-archive scan: every rotation archive must be pointed to by a manifest line, and every row
+    # inside an archive must carry a terminal status.
     for arch_path in sorted(glob.glob(os.path.join(base, args.archive_glob))):
         rel = os.path.normpath(os.path.relpath(arch_path, base))
         if rel not in referenced and os.path.basename(arch_path) not in {os.path.basename(r) for r in referenced}:
             violations.append(
                 "no manifest: %s exists but no live manifest line points to it (base rule 10 — a "
                 "superseded portion moved with no manifest line)" % rel)
+        for n, status in _non_terminal_rows(_read(arch_path)):
+            violations.append(
+                "non-terminal row in archive: %s row %d carries Status %r, holding none of landed / "
+                "decided / declined / superseded — a non-terminal row belongs in the live queue body" %
+                (rel, n, status[:80]))
 
     if violations:
         print("FAIL (doc-rotation): a rotation lost content or left no manifest line (SPEC INV-209):")

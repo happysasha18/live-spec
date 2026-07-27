@@ -12,7 +12,7 @@ the manifest maps every rotated number to its archive. The gate guardrails/check
 that the move lost nothing.
 
 DONE convention (no redundant marker minted, SPEC INV-209): a ROADMAP row is ROTATABLE when its status
-cell already carries a closed signal — `landed`, `decided`, or `MET` — and carries NO open signal —
+cell already carries a terminal word — `landed`, `decided`, `declined`, or `superseded` — and carries NO open signal —
 `queued`, `in-work`, `deferred`, `open`, `field leg`, `field-gated`, `intended`, `[target]` (an unbuilt
 leg), `waiting`, or `half landed`. A row that shows both (a build leg landed with a field or machine leg
 still open) is half-done and is never rotated. The tool HALTS rather than
@@ -56,7 +56,9 @@ import sys
 
 MANIFEST_OPEN = "<!-- rotated-manifest -->"
 MANIFEST_CLOSE = "<!-- /rotated-manifest -->"
-CLOSED_SIGNALS = ("landed", "decided", "met")
+# The terminal vocabulary the queue format states in one home (docs/roadmap-format.md): a row may
+# rotate only when its status carries one of these four words, the same list the rotation gate reads.
+CLOSED_SIGNALS = ("landed", "decided", "declined", "superseded")
 OPEN_SIGNALS = ("queued", "in-work", "in work", "deferred", "field leg", "field-gated",
                 "intended", "open", "[target]", "waiting", "half landed")
 

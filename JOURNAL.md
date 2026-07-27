@@ -2,6 +2,48 @@
 
 Edit history lives here — the WHY behind every change. The spec and README state current truth; this file explains how we got there.
 
+## 2026-07-27 — the day's push waited on nine findings, and the nets that found them grew reach
+
+A second review of the day's work — a delta-focused pass by a seat that authored none of it — held the
+push on four must-fix defects and five should-fix ones. The whole of it folds here, and three of the
+folds turned out to be worth more than the finding that asked for them.
+
+The largest was the hook census. Requirement 292 said every session hook carries a proof that it can
+still fire, and the runner behind it walked only the hooks already listed in its own registry, so a hook
+listed nowhere was invisible by construction. Two were: the clock hook and the chat-law hook, both wired
+live into every adopting host, both running on every prompt, neither proven. The runner now reads the
+wired-hook declaration as its population and that declaration's library list as its carve-out, and it
+reds a wired hook classified in neither map. Running it printed the two names at once, which is how a
+census earns its keep. Both now carry fixtures and fire. A registry line naming a file that exists
+nowhere reds too, and the stale note claiming the pack held no copy of the empty-validation scan is gone,
+since the copy exists and the runner resolves it.
+
+The second was reach. Three documents said the empty-validation scan reads the reply the person receives,
+and the code had been widened hours earlier to read every message shown since the last human turn — the
+whole point of the bug that opened it, where two banned frames reached the owner through a mid-turn
+narration line. The requirement now states the reach it has, the architecture's shared-reader pin names
+the five checks reading through it where it named three, and the matrix row opens on the same sentence.
+
+The third was the queue's own honesty. A bug row had reached the dated archive still reading *queued*,
+which put it beyond every answer about what is left. It closes here whole, and the class gained a net:
+gate t now reds any row inside an archive whose status carries no terminal word. Run against the real
+tree it found seven more — three rows in the current archive whose status cells never followed their own
+delivery reports, and four decision rows from the pre-conversion archives. That last group exposed a
+vocabulary split: the queue format named three terminal words while the rotation mechanism read a
+different list of three. The terminal vocabulary now has one home in `docs/roadmap-format.md` — landed,
+decided, declined, superseded — and both machines read it.
+
+The rest: the code-anchor scan's patterns were case-insensitive, so ordinary lower-case English such as
+"act 3" and "f-16" blocked a reply; the code forms are now held to the capital shape the documents write
+them in, with the lower-case cases pinned as silent. Three shipped behaviours of that scan and the
+stand-downs both new hooks ship gained the criteria they lacked. A reopened row that read every
+acceptance leg as met while its own note said otherwise now shows its open leg.
+
+Two wishes came in during the movement and stand queued: a rendered page shown to a person is cleared
+away after its moment into a recoverable home, and the spec's requirement bodies get the readability pass
+the 2026-07-24 self-read asked for, which widened the standing readability row rather than opening a new
+one.
+
 ## 2026-07-27 — the repository stops carrying git tags
 
 Four tags existed: `v1.0.0`, `v2.7.0`, `v2.8.0`, and one pre-migration marker. The last one was made on

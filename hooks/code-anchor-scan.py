@@ -32,6 +32,9 @@ WHAT NOW ALSO REDS, this repository's own citation idioms that the first cut of 
     a space-tolerant single-letter net would fire on them constantly;
   - "row #386" — a hash between the word and the number.
 
+CASE. The multi-letter (INV/ROW/ACT) and single-letter dash codes match uppercase letters only; the
+working-language naming word and the document-name pattern match either case.
+
 HONEST BOUNDARY. This arm sees whether a code was left standing outside an anchor. It cannot see whether
 the plain words that replace it are the RIGHT words: "the thing from yesterday (row 386)" passes the
 machine and still fails the reader. It is a Stop-hook notice, so the reply is already sent when it fires;
@@ -59,16 +62,24 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import turn_reader  # noqa: E402
 
 # The naming patterns: a code word followed by its number, in either working language, plus the bare
-# letter-dash-number handles the documents use.
-PATTERNS = [
+# letter-dash-number handles the documents use. The working-language naming word and the document-name
+# form match either case; the two internal-code forms match uppercase only, since a lowercase reading
+# of either is ordinary English (a step or a play's "act 3", the letter-dash-digit pairs "b-2", "f-16",
+# "c-4") rather than a code.
+CASE_INSENSITIVE_PATTERNS = [
     r"(?<![\w-])строк[аиуеойы]?\s+\d+",  # user-language: the naming word when chat runs in Russian
     r"(?<![\w-])строки\s+\d+",  # user-language: its plural, same naming word
     r"(?<![\w-])rows?\s+#?\d+",  # 'row 386' and the hash form 'row #386'
     r"(?<![\w-])(?:ROADMAP|ARCHITECTURE|PRODUCT_SPEC|TEST_MATRIX)\s+\d+",  # 'ROADMAP 480'
+]
+CASE_SENSITIVE_PATTERNS = [
     r"(?<![\w-])(?:INV|ROW|ACT)[-\s]+\d+",  # multi-letter code, dash or the spoken space: 'INV 281'
     r"(?<![\w-])(?:M|E|T|S|D|A|B|C|F|R)-\d+",  # single-letter codes: dash only, never a bare space
 ]
-COMPILED = [re.compile(p, re.IGNORECASE) for p in PATTERNS]
+COMPILED = (
+    [re.compile(p, re.IGNORECASE) for p in CASE_INSENSITIVE_PATTERNS]
+    + [re.compile(p) for p in CASE_SENSITIVE_PATTERNS]
+)
 
 # The working language's naming word is ambiguous between a queue row and a line inside a source file;
 # a nearby file word or filename-shaped token on the same line flips the reading to the source line.
@@ -107,17 +118,29 @@ def _is_file_line_reference(live, match):
     return bool(FILE_SIGNAL.search(live, match.end(), line_end))
 
 
-def find_hits(text):
+def find_matches(text):
+    """Every naked code in `text`, as (fragment, context) pairs.
+
+    The fragment is the matched code itself — a row named by its number in either working language, or a bracket code such as "INV 281" — and the context is the
+    surrounding sixty characters on either side, which is what a reader needs to find the sentence
+    again. The two are separated because a caller that remembers which offences it has already
+    reported needs an identity that survives the turn growing around it; a context window shifts as
+    later text arrives, and the fragment does not. hooks/midturn-chat-scan.py is that caller.
+    """
     live = _strippable(text)
-    hits = []
+    matches = []
     for rx in COMPILED:
         for m in rx.finditer(live):
             if _is_file_line_reference(live, m):
                 continue
             start = max(0, m.start() - 60)
             end = min(len(live), m.end() + 60)
-            hits.append(live[start:end].replace("\n", " ").strip())
-    return hits
+            matches.append((m.group().strip(), live[start:end].replace("\n", " ").strip()))
+    return matches
+
+
+def find_hits(text):
+    return [context for _, context in find_matches(text)]
 
 
 def main():

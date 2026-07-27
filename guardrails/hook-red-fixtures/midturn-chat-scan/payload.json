@@ -1,0 +1,10 @@
+{
+  "session_id": "fixture-midturn-chat-scan",
+  "transcript_path": "transcript.jsonl",
+  "cwd": "/",
+  "hook_event_name": "PreToolUse",
+  "tool_name": "Bash",
+  "tool_input": {
+    "command": "ls"
+  }
+}

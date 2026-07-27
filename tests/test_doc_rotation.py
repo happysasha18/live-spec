@@ -198,7 +198,7 @@ class TestMechanism(unittest.TestCase):
             "| # | Wish (plain words) | Class | Status | Decision / acceptance |\n"
             "|---|---|---|---|---|\n"
             "| 14 | closed wish | small | **landed 2026-07-05** | Done when: met |\n"
-            "| 27 | closed wish two | small | **decided 2026-07-05** | picked X |\n"
+            "| 27 | closed wish two | small | **landed 2026-07-05** | picked X |\n"
             "| 42 | open wish | surface | queued 2026-07-18 | Done when: x |\n"
         )
         _write(self.tmp, "ROADMAP.md", live)
@@ -282,6 +282,89 @@ class TestMonthlyClosingCommitGate(unittest.TestCase):
         code, out = self._run()
         self.assertNotEqual(code, 0, "an orphan month archive must red")
         self.assertIn("rotated-ROADMAP-2026-07.md", out)
+
+
+class TestNonTerminalArchiveRow(unittest.TestCase):
+    """Arm (d) (docs/prover/2026-07-27-push-gate-addendum.md finding A4): a row inside an archive
+    whose Status cell carries none of the terminal words (landed / decided / declined / superseded) reds — a
+    row like this is reachable from no live answer, no cap count and no gate. Red-first proof: HEAD's
+    docs/queue-archive/rotated-ROADMAP-2026-07.md row 482 carried `*queued* 2026-07-23` with no
+    terminal word; this fixture is the permanent, minimal shape of that same red."""
+
+    def setUp(self):
+        import tempfile
+        self.tmp = tempfile.mkdtemp(prefix="rotation-nonterminal-")
+        os.makedirs(os.path.join(self.tmp, "docs", "queue-archive"))
+
+    def tearDown(self):
+        import shutil
+        shutil.rmtree(self.tmp, ignore_errors=True)
+
+    def _run(self):
+        return run_gate(self.tmp, ["ROADMAP.md"],
+                        extra=["--archive-glob", "docs/queue-archive/rotated-*.md"])
+
+    def test_a_queued_row_in_the_archive_reds(self):
+        # RED-PROOF: the row-482 shape — a bug row moved to the archive still reading *queued*, no
+        # terminal word standing anywhere in its Status cell.
+        _write(self.tmp, "ROADMAP.md", _live_doc(MONTH_MANIFEST))
+        archive = (
+            "# Rotated ROADMAP rows — 2026-07\n\n"
+            "> ARCHIVED 2026-07 — a row's terminal exit is certified by the landed, declined, or "
+            "superseded word standing somewhere in the cell.\n\n"
+            "| # | Wish (plain words) | Class | Status | Decision / acceptance |\n|---|---|---|---|---|\n"
+            "| 480 | mid-turn chat lines reach the human ungated | bug | *queued* 2026-07-23 | Done "
+            "when: x |\n"
+        )
+        _write(self.tmp, "docs/queue-archive/rotated-ROADMAP-2026-07.md", archive)
+        code, out = self._run()
+        self.assertNotEqual(code, 0, "a non-terminal row sitting in the archive must red:\n" + out)
+        self.assertIn("480", out)
+        self.assertIn("live queue body", out)
+
+    def test_terminal_word_bolded_and_dated_passes(self):
+        _write(self.tmp, "ROADMAP.md", _live_doc(MONTH_MANIFEST))
+        archive = _month_archive([480]).replace(
+            "*landed 2026-07-23*", "**LANDED 2026-07-07 ~11:47**")
+        _write(self.tmp, "docs/queue-archive/rotated-ROADMAP-2026-07.md", archive)
+        code, out = self._run()
+        self.assertEqual(code, 0, "a bolded, dated terminal word must pass:\n" + out)
+
+    def test_terminal_word_declined_passes(self):
+        _write(self.tmp, "ROADMAP.md", _live_doc(MONTH_MANIFEST))
+        archive = _month_archive([480]).replace("*landed 2026-07-23*", "declined 2026-07-23")
+        _write(self.tmp, "docs/queue-archive/rotated-ROADMAP-2026-07.md", archive)
+        code, out = self._run()
+        self.assertEqual(code, 0, "a declined row must pass:\n" + out)
+
+    def test_terminal_word_decided_passes(self):
+        # A row that exists to settle a question exits as decided, the fourth word of the vocabulary
+        # docs/roadmap-format.md states in one home; the pre-format archives carry it on their
+        # decision rows.
+        _write(self.tmp, "ROADMAP.md", _live_doc(MONTH_MANIFEST))
+        archive = _month_archive([480]).replace("*landed 2026-07-23*", "**decided 2026-07-05**")
+        _write(self.tmp, "docs/queue-archive/rotated-ROADMAP-2026-07.md", archive)
+        code, out = self._run()
+        self.assertEqual(code, 0, "a decided row must pass:\n" + out)
+
+    def test_terminal_word_superseded_passes(self):
+        _write(self.tmp, "ROADMAP.md", _live_doc(MONTH_MANIFEST))
+        archive = _month_archive([480]).replace("*landed 2026-07-23*", "superseded 2026-07-23")
+        _write(self.tmp, "docs/queue-archive/rotated-ROADMAP-2026-07.md", archive)
+        code, out = self._run()
+        self.assertEqual(code, 0, "a superseded row must pass:\n" + out)
+
+    def test_stale_leading_narration_word_still_passes_when_terminal_word_stands_later(self):
+        # the archive preamble's own caveat: the leading word can be a stale narration opener (queued
+        # or in-work) on a row that later landed, so the check reads the whole cell, never the leading
+        # word alone.
+        _write(self.tmp, "ROADMAP.md", _live_doc(MONTH_MANIFEST))
+        archive = _month_archive([480]).replace(
+            "*landed 2026-07-23*",
+            "*queued* 2026-07-20, then **landed 2026-07-23**")
+        _write(self.tmp, "docs/queue-archive/rotated-ROADMAP-2026-07.md", archive)
+        code, out = self._run()
+        self.assertEqual(code, 0, "a terminal word standing anywhere in the cell must pass:\n" + out)
 
 
 class TestClosingCommitMechanism(unittest.TestCase):
@@ -389,3 +472,43 @@ def test_matrix_row_covers_the_law():
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class TestStatusColumnReadFromHeader(unittest.TestCase):
+    """The Status cell is located by the archive table's own header (the record's S8), so an archive
+    whose columns sit in another order is still read at the right cell."""
+
+    def setUp(self):
+        import tempfile
+        self.tmp = tempfile.mkdtemp(prefix="rotation-header-")
+        os.makedirs(os.path.join(self.tmp, "docs", "queue-archive"))
+
+    def tearDown(self):
+        import shutil
+        shutil.rmtree(self.tmp, ignore_errors=True)
+
+    def _run(self):
+        return run_gate(self.tmp, ["ROADMAP.md"],
+                        extra=["--archive-glob", "docs/queue-archive/rotated-*.md"])
+
+    ARCHIVE_HEAD = ("# Rotated ROADMAP rows — 2026-07\n\n> ARCHIVED 2026-07 — terminal words: landed, "
+                    "decided, declined, superseded.\n\n")
+
+    def test_a_reordered_header_still_finds_the_status_cell(self):
+        _write(self.tmp, "ROADMAP.md", _live_doc(MONTH_MANIFEST))
+        archive = (self.ARCHIVE_HEAD +
+                   "| # | Status | Wish | Class | Decision |\n|---|---|---|---|---|\n"
+                   "| 480 | *queued* 2026-07-23 | a wish | bug | Done when: x |\n")
+        _write(self.tmp, "docs/queue-archive/rotated-ROADMAP-2026-07.md", archive)
+        code, out = self._run()
+        self.assertNotEqual(code, 0, "the non-terminal row must red at its real column:\n" + out)
+        self.assertIn("480", out)
+
+    def test_a_reordered_header_passes_a_terminal_row(self):
+        _write(self.tmp, "ROADMAP.md", _live_doc(MONTH_MANIFEST))
+        archive = (self.ARCHIVE_HEAD +
+                   "| # | Status | Wish | Class | Decision |\n|---|---|---|---|---|\n"
+                   "| 480 | **landed 2026-07-23** | a wish | bug | Done when: x |\n")
+        _write(self.tmp, "docs/queue-archive/rotated-ROADMAP-2026-07.md", archive)
+        code, out = self._run()
+        self.assertEqual(code, 0, "a terminal row at a moved column must pass:\n" + out)

@@ -1,35 +1,40 @@
 # live-spec — NEXT_STEPS (resume file: LIVE STATE + queue only; history → JOURNAL.md; ≤100 lines, INV-48)
 
-## LIVE STATE (2026-07-27 ~13:14 — a day of intake and two mechanisms; NOTHING PUSHED)
-Rows 484-493 taken in from his asks and the promoter's deposit; rows 471 and 166 widened instead of
-duplicated; git tags retired as a practice (four deleted locally, the remote deletion rides the next push).
-Shipped: the hook proof runner (every session hook fires against its own red fixture; all seven do), the
-code-anchor Stop hook (a queue row number standing in prose with no plain-word naming reds), the
-affirmation hook brought into the repo and given the whole-turn reach plus ten tests, the legibility fix,
-and the architecture cleanup. `docs/measure/movements.md` opened. Full suite 1884 green.
-TO RESUME, in order: (1) fold the four must-fix findings of `docs/prover/2026-07-27-push-gate-addendum.md`
-— R292.1/R292.6 claim a hook sweep the runner never performs and miss the library carve-out; R294.1 and
-M-460 describe the last-message reach the affirmation hook no longer has; the turn_reader pin names three
-readers where five import it; row 482 sits archived at *queued* while this delta ships its other half.
-(2) `python3 -m pytest -q`. (3) A fresh record dated after the last PRODUCT_SPEC.md change, since that is
-what the gate reds on. (4) `git push`, then
-`git push origin --delete v1.0.0 v2.7.0 v2.8.0 spec-format-before-2026-07-22`.
+## LIVE STATE (2026-07-27 ~15:30 — two review records folded whole, suite 1938 green, pushing)
+Both records are folded: `docs/prover/2026-07-27-push-gate-addendum.md` (A1-A9 + N1) and its successor
+`docs/prover/2026-07-27-push-gate-fold.md` (3 must-fix, 9 should-fix, each disposition written into that
+record's own fold section). The hook census now reads the wired declaration as its population with the
+library list carved out (10/10 classified, the two prompt-submit hooks it found unproven carry fixtures
+and fire); requirements 292-295 state what their code does — the whole-turn reach, the document-name and
+spaced code forms, the source-line pass, the capital-shape rule, the registry's missing-file red; the
+shared reader's reach and stand-downs live in one home beside its own law (R230.6/R230.9) with a net over
+the pin's consumer list; the code forms are case-sensitive with lower-case English pinned silent.
+Gate t gained an arm reding any archive row with no terminal word: it found seven stale rows (three
+corrected, four legacy decision rows legalised) and exposed a split vocabulary, so the terminal words now
+have one home in `docs/roadmap-format.md` (landed, decided, declined, superseded), read by the gate and by
+`scripts/rotate-doc.py`. Row 482 closed whole; row 148 widened by the 2026-07-24 self-read of our own
+requirement bodies.
+SHIPPED in the same movement (his 2026-07-27 ~14:40 word, no discussion owed): the chat laws now judge at
+the tool boundary. A mid-turn narration line had reached him carrying two bare row numbers and a loan
+translation, and the Stop-side scan that catches that exact sentence could not fire until the turn ended.
+`hooks/midturn-chat-scan.py` (PreToolUse) reads the turn through the shared reader, judges the code half
+through the code-anchor scan itself, reads the loan translations from `hooks/chat-calques.json` with a
+plain replacement per entry, reports a fragment once per session, and stands down on any failure of its
+own — requirement 295, INV-285, M-461, 26 tests, installed and wired here, and it caught the seat's own
+line minutes after wiring. Row 495 carries it; rows 494 and 496 are the day's other intake.
+The second record `docs/prover/2026-07-27-push-gate-fold.md` held the push on three must-fix and nine
+should-fix findings; all twelve are folded and the record carries its own fold section. Full suite 1938
+green.
+TO RESUME, in order: (1) `git push`, then
+`git push origin --delete v1.0.0 v2.7.0 v2.8.0 spec-format-before-2026-07-22`. (2) row 494 (a rendered page
+is cleared away after its moment) and row 496 (what a running product's owner changes without a rebuild).
+(3) row 148's readability movement, worst-first from R88.
 
 ## PRIOR STATE (2026-07-23 night — row 456 LANDED at v4.3.0; the format family is complete)
-The architecture became the format family's fourth member (row 456, v4.3.0). ARCHITECTURE.md is now
-per-node `### [node: <name>]` sections under `docs/architecture-format.md`, read through the one node
-reader `guardrails/archformat.py`; the dated prover-record table relocated to
-`docs/prover/architecture-prover-record.md`; six behavioral rules moved from owns cells into their spec
-clauses; requirements 289-291 (INV-278/279/280) added; 17 consumers repointed to the reader; the doc shed
-31 KB (107 to 76 KB). The two-stage content-preservation proof passed (nothing substantive lost or
-invented). The fresh-context MINOR gate ran a prover + adversarial audit + design-review parity: two
-blocking findings (the pin-drift check still slicing the raw shape in shell behind a Python-only test; the
-Decisions section's dangling "prover record below" pointers) and two should-fix findings folded before the
-landing. Suite green. Record: `docs/prover/2026-07-23-row456.md`.
-
 With the spec (4.0.0), matrix (4.1.0), roadmap (4.2.0), and architecture (4.3.0) all converted, the
-format family is complete. **tlvphotos migrates next on his word from its own window; other projects
-stand until then.**
+format family is complete; the conversion's own account lives in JOURNAL.md and its record in
+`docs/prover/2026-07-23-row456.md`. **tlvphotos migrates next on his word from its own window; other
+projects stand until then.**
 
 ## Near queue
 - Rows 484-493 (2026-07-27): 484 the seat declares what it did on its own · 485 a handed-in text is edited
@@ -41,11 +46,9 @@ stand until then.**
   (feature-coverage prose vs table on guardrails; two gates both lettered "gate x"; "Formal index"
   retired-vs-live terminology; the spec-author self-seam) — each resolved or recorded as an agreed
   non-problem. Small doc-cleanup.
-- Row 481: the live-queue staleness sweep at the milestone gate (his 2026-07-23 word: the roadmap is no
-  five-year plan); threshold [default: 30 days queued, 7 days in-work quiet]; owns the two deferred rows
-  still trigger-less (143, 144). Rows 386/412 are NOT stale by re-derivation: the branch-and-worktree
-  road is built (scripts/open-lane.sh, base rule 7, 37 green tests) and owes only its proof by deed —
-  a live run of three lanes on three independent rows in one window, which his 07-27 word granted.
+- Row 481: the live-queue staleness sweep at the milestone gate; threshold [default: 30 days queued, 7
+  days in-work quiet]; owns the two trigger-less deferred rows (143, 144). Rows 386/412 are NOT stale:
+  the branch-and-worktree road is built and owes only its proof by deed, a live three-lane run.
 - Rows 471-475 (row 470's children; 475 the class answer — the enforcement-coverage registry).
 - Rows 465-467 · row 437 pulled near (axis forcing step first, the recursive sweep its dear half) · row
   460 re-scoped (his 2026-07-23 word: public tier only; working tier possibly-never with two named
@@ -91,7 +94,7 @@ channel + listener (wait on the harness listener, INV-231) · far tier 381, 411,
 field-gated (contract/listener) + far tier.
 
 ## Next free codes
-Next free INV-282, E-36, T-25, M-458; next ROADMAP row 493 (A-12, B-4, C-2, D-8, S-1, ACT-4 free too).
+Next free INV-286, E-36, T-25, M-462; next ROADMAP row 497 (A-12, B-4, C-2, D-8, S-1, ACT-4 free too).
 
 ## Research in hand
 Direct-protocol research (scratchpad research-agent-transport.md, research-direct-channel.md; prior art docs/research/2026-07-17-agent-routing-prior-art.md): A2A re-invents our card.

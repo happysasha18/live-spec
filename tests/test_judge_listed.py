@@ -36,13 +36,19 @@ def wrapped(hook_file):
     return "python3 ~/.claude/hooks/hook-meter.py ~/.claude/hooks/%s" % hook_file
 
 
-def settings_with(stop_hooks, ups_hooks):
+# The mid-turn chat scan sits on a third surface, PreToolUse: it judges the seat's narration at the
+# first tool call after it is written, so a correction reaches the human inside the same turn.
+COMPLETE_PRE = ["midturn-chat-scan.py"]
+
+
+def settings_with(stop_hooks, ups_hooks, pre_hooks=COMPLETE_PRE):
     def arm(cmds):
         return [{"hooks": [{"type": "command", "command": c}]} for c in cmds]
     return {
         "hooks": {
             "Stop": arm([wrapped(h) for h in stop_hooks]),
             "UserPromptSubmit": arm([wrapped(h) for h in ups_hooks]),
+            "PreToolUse": arm([wrapped(h) for h in pre_hooks]),
         }
     }
 
@@ -52,10 +58,10 @@ COMPLETE_STOP = ["scissors-scan.py", "answer-first-scan.py", "hedge-scan.py", "a
 COMPLETE_UPS = ["clock-hook.sh", "chat-law-hook.sh", "register-judge-report.sh"]
 
 
-def write_settings(tmpdir, stop, ups):
+def write_settings(tmpdir, stop, ups, pre=COMPLETE_PRE):
     path = os.path.join(tmpdir, "settings.json")
     with open(path, "w") as f:
-        json.dump(settings_with(stop, ups), f)
+        json.dump(settings_with(stop, ups, pre), f)
     return path
 
 
