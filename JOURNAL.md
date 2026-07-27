@@ -5631,3 +5631,35 @@ file identical under that normalization stands outside its subject (the stamped-
 holds those copies). Red-proven both ways on the fixture host: the stamp-only case failed the old code
 and passes the new, the stamp-plus-real-edit case reds on both. A whole-check waiver was rejected aloud:
 it would blind the gate to real skill edits.
+
+## 2026-07-27 evening — seven deliveries, and a diagnosis of the pack's own language
+
+Why now: Alexander asked for the queue to be worked through while he had guests, with the standing
+grant to run whole movements and push on green. Seven deliveries landed and pushed in one movement.
+A rendered page is now cleared to `attic/` with a dated manifest line once its reading is over, and the
+clearing spares anything version control tracks (row 494). One command installs all ten declared session
+hooks with their data files; it installed two before, and the other eight had reached this machine by
+hand over several weeks (row 506, closing row 495). A push that only deletes a reference stands the
+content gates down and finishes in about six seconds (row 502, built on its own branch). The
+criterion-readability ratchet holds four arms over the spec's acceptance criteria at the counts measured
+today (Requirement 297). A deployed kind declares what its owner changes without a build, with a founding
+question and a check (Requirement 299, row 496). The mid-turn chat check reads a cheap key before its
+pattern and runs three times faster than its bound.
+
+What the evening actually taught: two blind readers were given text with no context. The English reader,
+given six requirements with the glossary withheld, could implement two from the text alone and three not
+at all. The Russian reader stopped twenty times in 250 words of working chat. Both named one root without
+prompting — ordinary words carrying private jobs, and sentences that hand actions to things that cannot
+perform them. `docs/language-defects.md` states the classes with their rules and what catches each. It
+failed four blind reads of its own and took five repair rounds; the bar it must clear is two consecutive
+reads with no blocking finding, and it has not cleared it yet.
+
+Six rows opened from defects found while working: the feedback ledger unwritten since 2026-07-17 (503),
+landed parallel branches never torn down while the cap counted them (504), a claim commit checked for one
+file and required to carry one row (505), the routing experiment with its baseline and decision rule
+(507), and a check that reads text for a person firing inside a helper run where nobody reads (508).
+The prover re-check held the push on six must-fix findings, four of them places where a document stated
+one rule and the code read another; all six are folded and the record is
+`docs/prover/2026-07-27-evening-movement.md`. Two code collisions happened between concurrent deliveries,
+both caught and renumbered by hand, which is what row 505 exists to prevent.
+
