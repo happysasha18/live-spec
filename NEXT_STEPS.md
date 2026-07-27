@@ -17,6 +17,17 @@ format family is complete. **tlvphotos migrates next on his word from its own wi
 stand until then.**
 
 ## Near queue
+- Rows 484-490 (taken in 2026-07-27 from his morning's asks): 484 the seat declares what it did on its
+  own (the class row folding outbound sends, work picked up in passing, defaults, retirements) · 485 a
+  handed-in text is edited only where he pointed (rides row 204's preservation check) · 486 a wish taken
+  in says what it resembles · 487 a sentence he could not parse is repaired at its source · 488 an engine
+  carries no personal trace · 489 every hook proves it still works (the red-proof registry
+  `guardrails/gate-red-proofs.json` covers pre-push gates and ZERO hooks — that gap is the build) · 490
+  the legibility check pairs each colour with the surface it sits on (bug, tlvphotos deposit).
+  Rows 471 and 166 widened rather than duplicated: the duration ledger feeds 471's estimate, the live
+  task list is 166's cheap first leg.
+- Git tags: the practice ended 2026-07-27 on his word. Four local tags deleted, their commits recorded in
+  the journal; the same deletion on the remote is OWED (the push kept timing out on a bad connection).
 - Row 483: the four pre-existing architecture-doc reader stumbles the row-456 cold read surfaced
   (feature-coverage prose vs table on guardrails; two gates both lettered "gate x"; "Formal index"
   retired-vs-live terminology; the spec-author self-seam) — each resolved or recorded as an agreed

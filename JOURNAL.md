@@ -2,6 +2,25 @@
 
 Edit history lives here — the WHY behind every change. The spec and README state current truth; this file explains how we got there.
 
+## 2026-07-27 — the repository stops carrying git tags
+
+Four tags existed: `v1.0.0`, `v2.7.0`, `v2.8.0`, and one pre-migration marker. The last one was made on
+18 July at version 2.8.0, and eight releases shipped after it untagged, so a reader of the tag list saw a
+practice that started and stopped for no stated reason. Nothing depended on them: no script, gate, or
+rule in the pack references a tag, and the plugin marketplace entry installs from the repository root
+with the version read from `VERSION`. The owner never asked for tags and named his bar plainly — the
+repository must never look like a machine misfiring at random. So the practice ends by deletion rather
+than by resumption, and the release history keeps its home in this journal.
+
+The deleted tags and their commits, recorded so any of them can be restored exactly:
+
+| tag | commit | date |
+|---|---|---|
+| `v1.0.0` | `2dbec56b4f304dffa8b806e2fa7cd3b81a85cf3a` | 2026-07-10 |
+| `v2.7.0` | `c74b8f28c375c4b84d441729cc60ffe219f905e4` | 2026-07-18 |
+| `v2.8.0` | `06662fb60da5fcb36705484386ecb2c27ebbb594` | 2026-07-18 |
+| `spec-format-before-2026-07-22` | `dc10afb4fc52d404ab938f5078c685b87016e2e3` | 2026-07-22 |
+
 ## 2026-07-23 — v4.3.0 MINOR: the architecture becomes the format family's fourth member (row 456)
 
 The architecture document was the last core document still in its old shape: one 4-column `## Nodes`

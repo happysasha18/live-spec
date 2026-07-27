@@ -15,6 +15,10 @@ the defect this surface exists to catch. [[wait]]
 
 ## On record
 <!-- record:on -->
+- 2026-07-27 ~11:35 — the repository carries no git tags: you never asked for them, and the four that
+  existed had stopped being made eight releases ago, which reads as a machine misfiring. The version
+  lives in `VERSION`, the release history in `JOURNAL.md`. The four deleted tags and the commits they
+  pointed at are recorded in the journal, so any of them can be restored exactly.
 - 2026-07-05 — CLAUDE.md became a thin loader, the working contract moving into the personal profile
   and the method into the live-spec pack (flipped on your OK that day).
 - 2026-07-06 — the build-lane cap is three parallel lanes; a fourth opens only on your asked word
