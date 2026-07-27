@@ -1,16 +1,19 @@
 # live-spec — NEXT_STEPS (resume file: LIVE STATE + queue only; history → JOURNAL.md; ≤100 lines, INV-48)
 
-## LIVE STATE (2026-07-27 midday — a working day of intake and two mechanisms, push pending)
-Today: rows 484-492 taken in from his morning's asks, rows 471 and 166 widened instead of duplicated,
-row 55 closed to the archive (all its legs read met), git tags retired as a practice. Two mechanisms
-shipped and stand *in-work* with named remainders: the hook proof runner (row 489 — every session hook
-must fire against its own red fixture; all seven do) and the legibility fix (row 490 — colours pair with
-the surface they sit on; the bare-selector hole stays open). A new Stop hook (`hooks/code-anchor-scan.py`) reds a queue row
-number left standing in prose with no plain-word naming, on his word that a bare number tells him
-nothing; `docs/measure/movements.md` opened as the record a forward estimate reads from.
-The review record `docs/prover/2026-07-27-push-gate.md` returned four must-fix findings; three are fixed,
-the fourth (the four new mechanism files owned by no node, stated by no requirement, covered by no matrix
-row) is in hand. THE PUSH WAITS ON IT.
+## LIVE STATE (2026-07-27 ~13:14 — a day of intake and two mechanisms; NOTHING PUSHED)
+Rows 484-493 taken in from his asks and the promoter's deposit; rows 471 and 166 widened instead of
+duplicated; git tags retired as a practice (four deleted locally, the remote deletion rides the next push).
+Shipped: the hook proof runner (every session hook fires against its own red fixture; all seven do), the
+code-anchor Stop hook (a queue row number standing in prose with no plain-word naming reds), the
+affirmation hook brought into the repo and given the whole-turn reach plus ten tests, the legibility fix,
+and the architecture cleanup. `docs/measure/movements.md` opened. Full suite 1884 green.
+TO RESUME, in order: (1) fold the four must-fix findings of `docs/prover/2026-07-27-push-gate-addendum.md`
+— R292.1/R292.6 claim a hook sweep the runner never performs and miss the library carve-out; R294.1 and
+M-460 describe the last-message reach the affirmation hook no longer has; the turn_reader pin names three
+readers where five import it; row 482 sits archived at *queued* while this delta ships its other half.
+(2) `python3 -m pytest -q`. (3) A fresh record dated after the last PRODUCT_SPEC.md change, since that is
+what the gate reds on. (4) `git push`, then
+`git push origin --delete v1.0.0 v2.7.0 v2.8.0 spec-format-before-2026-07-22`.
 
 ## PRIOR STATE (2026-07-23 night — row 456 LANDED at v4.3.0; the format family is complete)
 The architecture became the format family's fourth member (row 456, v4.3.0). ARCHITECTURE.md is now
@@ -29,17 +32,11 @@ format family is complete. **tlvphotos migrates next on his word from its own wi
 stand until then.**
 
 ## Near queue
-- Rows 484-490 (taken in 2026-07-27 from his morning's asks): 484 the seat declares what it did on its
-  own (the class row folding outbound sends, work picked up in passing, defaults, retirements) · 485 a
-  handed-in text is edited only where he pointed (rides row 204's preservation check) · 486 a wish taken
-  in says what it resembles · 487 a sentence he could not parse is repaired at its source · 488 an engine
-  carries no personal trace · 489 every hook proves it still works (the red-proof registry
-  `guardrails/gate-red-proofs.json` covers pre-push gates and ZERO hooks — that gap is the build) · 490
-  the legibility check pairs each colour with the surface it sits on (bug, tlvphotos deposit).
-  Rows 471 and 166 widened rather than duplicated: the duration ledger feeds 471's estimate, the live
-  task list is 166's cheap first leg.
-- Git tags: the practice ended 2026-07-27 on his word. Four local tags deleted, their commits recorded in
-  the journal; the remote deletion rides the next push, since a tag push runs the whole gate chain.
+- Rows 484-493 (2026-07-27): 484 the seat declares what it did on its own · 485 a handed-in text is edited
+  only where he pointed · 486 a wish taken in says what it resembles · 487 a sentence he could not parse is
+  repaired at its source · 488 an engine carries no personal trace · 489 hook proofs (in-work) · 490 the
+  legibility pairing (in-work) · 491 reusable suite-speed guidance · 492 the pack's own measures on a clock
+  · 493 no person's verb for a thing that cannot act (promoter deposit).
 - Row 483: the four pre-existing architecture-doc reader stumbles the row-456 cold read surfaced
   (feature-coverage prose vs table on guardrails; two gates both lettered "gate x"; "Formal index"
   retired-vs-live terminology; the spec-author self-seam) — each resolved or recorded as an agreed
