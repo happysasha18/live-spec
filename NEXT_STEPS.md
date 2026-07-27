@@ -21,7 +21,7 @@ translation, and the Stop-side scan that catches that exact sentence could not f
 through the code-anchor scan itself, reads the loan translations from `hooks/chat-calques.json` with a
 plain replacement per entry, reports a fragment once per session, and stands down on any failure of its
 own — requirement 295, INV-285, M-461, 26 tests, installed and wired here, and it caught the seat's own
-line minutes after wiring. Row 495 carries it; rows 494, 496 and 497 are the day's other intake.
+line minutes after wiring. Row 495 carries it; rows 494 and 496-500 are the day's other intake, five of them from the inbox sweep.
 The second record `docs/prover/2026-07-27-push-gate-fold.md` held the push on three must-fix and nine
 should-fix findings; all twelve are folded and the record carries its own fold section. Full suite 1938
 green.

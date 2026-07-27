@@ -2,6 +2,22 @@
 
 Edit history lives here — the WHY behind every change. The spec and README state current truth; this file explains how we got there.
 
+## 2026-07-27 — the inbox is swept, ten deposits down to none
+
+The push gate held again, this time on the deposit door: four messages sitting in `inbox/` carried no
+statement of what stood still for their sender, which the message format requires and the gate reds. The
+real finding underneath is that the folder had ten files in it at all. The law makes the sweep a session's
+first act — each deposit harvested into the home its route owns and the file removed in the harvest commit,
+git history keeping it — and no session had run it since 2026-07-20.
+
+The sweep ran here. Six deposits were already carried by rows and the rows had simply never been closed
+behind them; two more carried asks no row held, so they opened their own (the cold reader's craft lens for
+persuasive text, and the front door's overstated claim about what its shipped checks catch). Two of the
+harvested files carried a second finding beside the one that landed: the release text still says a
+touch-parity gap stands open on a host that closed it on 14 July, which the axes row now carries, and the
+size-gate report's two smaller holes — a warning channel nobody counts, a debt cap that only loosens — got
+their own row. The folder holds its README alone.
+
 ## 2026-07-27 — the prototype fence stops re-reading the tree once per fenced file
 
 The push gate held on the suite's own wall-time budget: 471 seconds measured against 420 stated. The
