@@ -184,8 +184,10 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 - **queue-take** — the moment a session reads the queue's runnable head to plan the next work, building its dependency graph before opening any lane.
 - **ratchet manifest** — the host record that pins the pack version each vendored gate script came from.
 - **reach** — what a gate read to reach its verdict: the files it opened and the rows it matched of the rows it scanned.
+- **readability arm** — one of the four checks the criterion-readability gate runs, each holding one reading defect of the criterion form.
 - **real-device walk row** — a matrix row for a behaviour living past a desktop headless browser, one the suite can never turn green, owed to the human's own hands before ship.
 - **recommendation** — a prover finding where nothing stated is broken and nothing required is missing; it queues for a taste call and does not block.
+- **recorded count** — the number of criteria that break one readability arm, written into the gate's config on the day it was measured; a delivery may lower it, and no delivery raises it on its own.
 - **referral** — the answer that a question belongs to another agent's zone, returned to whoever asked it.
 - **register judge** — the model call that reads a stretch of outgoing text against the plain-language register law and returns the sentences that carry no information or leak register.
 - **register lint** — the pre-show check `scripts/preshow-register-lint.py` that reads a surface's text for machine dialect and blocks the showing on a red result.
@@ -6846,6 +6848,66 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 12. The system *shall* leave the version-control directory, the harness's worktree home, the host state directory, and the attic outside the sweep. [INV-286]
 13. The system *shall* let a host declare its own homes outside the reach as host configuration, holding the pack's own four as the default. [INV-286, INV-224]
 
+---
+
+## Requirement 297: A criterion is written so a stranger reads it once
+
+**Context:** The spec's readability lives in its acceptance criteria. A survey of every requirement body found four habits that lose a first-time reader. The whole rule arrives welded into one sentence, a term is defined inside the criterion that uses it, a closing clause carries no verb, and the anchor competes with the prose. A gate holds each habit at the count measured the day it landed, so the document may improve and may not slide.
+
+**User Story:** As a person meeting the spec for the first time, I want each criterion to carry one rule in one plain sentence, so that I read the document without an author beside me.
+
+### Acceptance Criteria
+
+**Case: the four reading defects**
+
+1. A criterion *shall* state one trigger and one duty within the recorded word cap. [INV-287]
+2. A criterion *shall* use a term the glossary already defines. [INV-287]
+3. A criterion *shall* carry no definition of a term inside itself. [INV-287]
+4. A criterion *shall* close on a clause carrying its own subject and finite verb. [INV-287]
+5. A criterion's code anchor *shall* sit at the line's end and *shall* carry no more codes than the recorded cap. [INV-287]
+
+**Case: the gate that holds them**
+
+6. The check `guardrails/check-criterion-readability.py` *shall* read the acceptance criteria of the document named on its command line through one readability arm per defect. [INV-287]
+7. Each readability arm *shall* take its threshold from the one config file `guardrails/criterion-readability.json`. [INV-287]
+8. *when* a readability arm reports a criterion, the check *shall* name the file, the requirement code, the line, the offending text, and what to write instead. [INV-287]
+9. Each run *shall* state its reach: the two files it opens, and the parts of the document the readability arms read. [INV-269]
+10. The readability arms *shall* leave to the cold-reader panel the closing appositive that drops its participle, the aside that enumerates members, and the judgment of which code span a sentence says better in words. [INV-287]
+
+**Case: the counts move only down**
+
+11. The config *shall* hold one recorded count per readability arm. [INV-288]
+12. *if* a readability arm's measured count stands above its recorded count, *then* the check *shall* red and *shall* name that arm. [INV-288]
+13. *when* a readability arm's measured count falls below its recorded count, the check *shall* report the fall. [INV-288]
+14. *when* the check runs with `--rebaseline` and no readability arm stands above its recorded count, the check *shall* write each measured count back to the config. [INV-288]
+15. No run *shall* raise a recorded count. [INV-288]
+16. A raised recorded count *shall* be a hand edit to the config stating its reason, run through this same pipeline. [INV-288]
+
+---
+
+## Requirement 298: The setup walk installs every session hook the pack declares
+
+**Context:** `guardrails/judge-hooks.json` declares ten wired session hooks, each with the event it rides. `scripts/install-session-hooks.sh` is the one command a human runs, since the harness classifier blocks an agent's own hand in its configuration. Before this requirement it installed two of the ten; the other eight reached a real machine only by hand, so a fresh machine, and any host adopting the pack, got a fifth of the conduct machinery with no sign the rest was missing. The fix generates the installer's own coverage from the declaration and chains to the existing installer that already covered the other eight, so the one command reaches all ten with their data files.
+
+**User Story:** As a person adopting the pack on a fresh machine, I want the one installer command to wire every session hook the declaration names, so that I get the whole conduct machinery.
+
+### Acceptance Criteria
+
+**Case: generated coverage**
+
+1. *when* the human runs the installer, the system *shall* install and wire every hook named in `guardrails/judge-hooks.json`'s wired declaration, and each hook stands under its declared event with its declared command form. [INV-289]
+2. The system *shall* install every data file a wired hook's declaration names, beside that hook. [INV-289]
+
+**Case: both directions proven mechanically**
+
+3. *if* a declared wired hook is missing after a fresh install, *then* a check *shall* fail naming it. [INV-289]
+4. *if* the installer places a file the declaration names nowhere, *then* the same check *shall* fail naming it. [INV-289]
+
+**Case: idempotence and personal overlays**
+
+5. *when* the installer runs a second time, the system *shall* change nothing already wired or already installed, recognizing a hook already wired under any command form. [INV-289]
+6. The system *shall* never create, edit, or overwrite a personal overlay file, and *shall* name each one it finds already present. [INV-289]
+
 
 ## Reference
 
@@ -7178,7 +7240,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-266 | R281.1, R281.2 |
 | INV-267 | R281.3, R281.4, R281.5, R281.6 |
 | INV-268 | R281.7 |
-| INV-269 | R282.1, R282.2, R284.4, R285.3, R288.5, R296.10 |
+| INV-269 | R282.1, R282.2, R284.4, R285.3, R288.5, R296.10, R297.9 |
 | INV-270 | R277.19, R277.20, R283.7, R286.3, R289.6 |
 | INV-271 | R191.4, R191.7, R278.5, R278.6, R278.7 |
 | INV-272 | R283.1, R283.2, R283.3, R283.4, R283.5, R283.6, R283.7 |
@@ -7196,6 +7258,9 @@ The code-to-location table below is generated output, built from the body criter
 | INV-284 | R294.1, R294.2, R294.3, R294.4 |
 | INV-285 | R295.1, R295.2, R295.3, R295.4, R295.5, R295.6, R295.7 |
 | INV-286 | R296.1, R296.2, R296.3, R296.4, R296.5, R296.6, R296.7, R296.8, R296.9, R296.10, R296.11, R296.12, R296.13 |
+| INV-287 | R297.1, R297.2, R297.3, R297.4, R297.5, R297.6, R297.7, R297.8, R297.10 |
+| INV-288 | R297.11, R297.12, R297.13, R297.14, R297.15, R297.16 |
+| INV-289 | R298.1, R298.2, R298.3, R298.4, R298.5, R298.6 |
 | M-1 | R49.2, R80.7, R80.8, R92.2, R130.1, R130.2, R130.3, R130.4, R130.5, R130.6, R130.7, R130.8, R130.9, R164.4, R166.3, R166.8, R198.6, R249.2 |
 | M-2 | R14.3, R125.1, R125.2, R125.3, R177.12, R204.3 |
 | M-3 | R136.1 |

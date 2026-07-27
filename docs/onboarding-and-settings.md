@@ -85,17 +85,24 @@ trace. This makes new lines safe to add under an older pack. [E-13]
 
 ## Session hooks
 
-Two habits are enforced mechanically, per machine, by prompt hooks. The installer is
-`scripts/install-session-hooks.sh`: it copies both hook scripts to `~/.claude/hooks/` and wires
-them as UserPromptSubmit entries in `~/.claude/settings.json`. The human runs it by hand, because
-the harness deliberately blocks the agent from editing its own configuration. Re-running it
-changes nothing.
+`guardrails/judge-hooks.json` declares every session hook the pack wires live — ten today, each with
+the event it rides, its command form, and the shipped files it reads. The one installer a human runs is
+`scripts/install-session-hooks.sh`: it generates its own two hooks (the wall clock, the chat laws) from
+that declaration, then chains to `scripts/install-pack-hooks.sh` for the other eight (the register
+judge's two arms, the four literal Stop scans, and the mid-turn PreToolUse scan), so the one command
+reaches full coverage. The human runs it by hand, because the harness deliberately blocks the agent from
+editing its own configuration. Re-running it changes nothing — a hook already wired, in any form, is
+left exactly as it stands, and a personal overlay file (`*-personal.json`/`*-personal.md`, or a host's
+own `hook-meter.py` counter) already on the machine is only ever reported, never touched.
 
-- `scripts/clock-hook.sh` injects the machine's wall clock into every prompt's context, so the
+- `hooks/clock-hook.sh` injects the machine's wall clock into every prompt's context, so the
   reply's leading time stamp reads off the clock, no longer continued by hand. [INV-24]
-- `scripts/chat-law-hook.sh` reminds every window of the chat laws: plain product words do the
+- `hooks/chat-law-hook.sh` reminds every window of the chat laws: plain product words do the
   talking, internal codes only trail in parentheses, and long silence owes a narration line. The
   skills stay the laws' normative homes; the hook only reminds. [INV-28, INV-35]
+- The other eight — the register judge (its async collect/report arms and their shared mechanism),
+  the scissors/hedge/affirmation/code-anchor Stop scans, and the mid-turn chat scan — are documented in
+  full at `scripts/install-pack-hooks.sh`'s own header.
 
 ## Planned
 

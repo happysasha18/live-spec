@@ -77,11 +77,37 @@ class TestChatLawHookScript(unittest.TestCase):
             self.assertIn(needle, out, "deferral line missing: %r" % needle)
 
     def test_installer_covers_both_hooks(self):
+        """ROADMAP row 506: the installer now GENERATES its clock-hook/chat-law-hook coverage from
+        guardrails/judge-hooks.json rather than naming the event as a literal string in its own
+        source, so this proves the BEHAVIOUR — run against an isolated fake $HOME, both end up wired
+        as UserPromptSubmit entries — instead of grepping the script's text for a word the declarative
+        rewrite no longer needs to spell out in the shell file itself. Full both-directions coverage
+        of all ten declared hooks (not just these two) is proven in tests/test_install_session_hooks.py."""
+        import json
+        import tempfile
+
         self.assertTrue(os.path.isfile(INSTALLER), "missing installer: %s" % INSTALLER)
         self.assertTrue(os.access(INSTALLER, os.X_OK), "%s is not executable" % INSTALLER)
-        body = open(INSTALLER).read()
-        for needle in ("clock-hook.sh", "chat-law-hook.sh", "UserPromptSubmit"):
-            self.assertIn(needle, body, "installer missing: %r" % needle)
+
+        with tempfile.TemporaryDirectory() as home:
+            env = dict(os.environ)
+            env["HOME"] = home
+            proc = subprocess.run(["sh", INSTALLER], capture_output=True, text=True, env=env)
+            self.assertEqual(proc.returncode, 0, proc.stdout + proc.stderr)
+
+            settings_path = os.path.join(home, ".claude", "settings.json")
+            with open(settings_path, encoding="utf-8") as f:
+                settings = json.load(f)
+            cmds = [
+                hk.get("command", "")
+                for group in settings.get("hooks", {}).get("UserPromptSubmit", [])
+                for hk in group.get("hooks", [])
+            ]
+            for needle in ("clock-hook.sh", "chat-law-hook.sh"):
+                self.assertTrue(
+                    any(needle in c for c in cmds),
+                    "installer did not wire %r as UserPromptSubmit: %r" % (needle, cmds),
+                )
 
 
 if __name__ == "__main__":

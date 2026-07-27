@@ -1,0 +1,120 @@
+{
+  "_comment": "The criterion-readability ratchet for PRODUCT_SPEC.md (SPEC INV-287, INV-288). Four arms, one per reading defect the 2026-07-27 body survey measured: a criterion that welds the whole rule into one sentence, a criterion that defines its own term in place while the glossary already owns that fact, a criterion whose closing clause has no finite verb, and a criterion whose anchor competes with its prose. Each arm carries its own threshold and its own recorded baseline: the count of criteria that break it today. A count above the baseline reds. A count below it is a fall, and `--rebaseline` writes the lower numbers back; no run raises a baseline, and a raise is a deliberate edit here with its reason stated, run through the pipeline (INV-288).",
+  "governs": "PRODUCT_SPEC.md",
+  "report_limit": 12,
+  "arms": {
+    "long-criterion": {
+      "reds": "a criterion whose sentence runs past the word cap",
+      "threshold": {
+        "max_words": 35
+      },
+      "baseline": 469,
+      "fix": "state the trigger and the duty and stop; move an enumeration into a sub-list, and a `since` or `so that` clause into its own short sentence or a note."
+    },
+    "inline-gloss": {
+      "reds": "a criterion that defines a term in place, in a dash-pair aside or a parenthetical",
+      "threshold": {
+        "max_aside_chars": 25,
+        "gloss_openers": [
+          "a",
+          "an",
+          "the",
+          "one",
+          "each",
+          "every",
+          "either",
+          "both",
+          "being",
+          "meaning",
+          "namely",
+          "that",
+          "this",
+          "these",
+          "those",
+          "its",
+          "their",
+          "two",
+          "three",
+          "four",
+          "five",
+          "six"
+        ],
+        "enumeration_connectors": [
+          "or",
+          "and"
+        ],
+        "clause_markers": [
+          "shall"
+        ]
+      },
+      "baseline": 120,
+      "fix": "give the term one glossary entry and let the criterion use it; a term not worth a glossary entry is not worth a gloss."
+    },
+    "absolute-tail": {
+      "reds": "a criterion closing on a noun phrase with no finite verb",
+      "threshold": {
+        "min_tail_words": 4,
+        "np_openers": [
+          "the",
+          "a",
+          "an",
+          "this",
+          "that",
+          "these",
+          "those",
+          "its",
+          "their",
+          "his",
+          "her",
+          "each",
+          "every",
+          "one",
+          "no",
+          "any",
+          "all",
+          "both",
+          "another",
+          "such",
+          "it",
+          "they"
+        ],
+        "finite_markers": [
+          "is",
+          "are",
+          "was",
+          "were",
+          "be",
+          "been",
+          "am",
+          "shall",
+          "will",
+          "would",
+          "may",
+          "might",
+          "must",
+          "can",
+          "could",
+          "does",
+          "do",
+          "did",
+          "has",
+          "have",
+          "had",
+          "then"
+        ]
+      },
+      "baseline": 147,
+      "fix": "make the closing clause a finite sentence with its own subject and verb, or cut it."
+    },
+    "anchor-noise": {
+      "reds": "a criterion whose anchor carries too many codes, or that runs a code anchor or code spans through its prose",
+      "threshold": {
+        "max_anchor_codes": 3,
+        "max_code_spans": 3
+      },
+      "baseline": 61,
+      "fix": "an anchor needing four codes marks a criterion carrying four rules — split it; keep every code anchor at the line's end and cut the code spans the sentence can name in words."
+    }
+  },
+  "reason": "Baselines seeded at the row-148 readability landing, measured over the live PRODUCT_SPEC.md as the working tree stood on 2026-07-27 (1461 criteria): long-criterion 469, inline-gloss 120, absolute-tail 147, anchor-noise 61. The committed HEAD of that day measured 60 on anchor-noise over 1452 criteria, so the seed carries one unit from a delivery still in flight; the first run after the tree settles reports the fall and `--rebaseline` records it. Every later delivery lowers these or leaves them (INV-288)."
+}
