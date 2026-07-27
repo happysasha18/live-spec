@@ -6690,6 +6690,77 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 3. The node-growth counter's node-name list *shall* re-derive from the node reader, so a renamed node *shall* stay in step across every consumer. [INV-280]
 
+---
+
+## Requirement 292: Every session hook carries a known-red proof
+
+**Context:** A hook reports nothing two ways: because the turn was clean, or because it no longer fires at all. Each pushed gate letter carries a red-first proof; the session hooks carried none, so a hook whose pattern list, stand-down clause, or exit path broke would go on reporting nothing and read as a clean turn. A registry gives each hook a fixture built to trigger it, and a runner executes the hook script itself against that fixture, the hook-side sibling of the known-red proof the push gates carry.
+
+**User Story:** As a person relying on the session hooks to catch an offence in the seat's own words, I want every hook run against a fixture built to make it fire, so that a hook that has gone silent is named by a run of its own and the whole run fails.
+
+### Acceptance Criteria
+
+**Case: a fixture per hook, run for real**
+
+1. The system *shall* classify every session hook in a red-proof registry, each proof naming a fixture that makes the hook print a live decision, and *shall* execute the hook script itself against it, mocking none of its logic. [INV-282, INV-212]
+2. *when* a hook stays silent against the fixture built to trigger it, the system *shall* name it and fail the whole run. [INV-282]
+3. The system *shall* resolve the pack's own copy of a hook before the installed copy, and *shall* report the fall back to the installed copy rather than taking it silently. [INV-282, INV-175]
+4. *where* a hook reads a verdict file the person's live state owns, the system *shall* seed it under a temporary home directory, so no live state is touched. [INV-282]
+
+**Case: a hook whose output can carry no verdict is declared**
+
+5. The system *shall* let a hook whose output can never carry a verdict be declared with its recorded reason, *shall* report that entry on every run, and *shall* never count it as a failure. [INV-282, INV-212]
+6. *if* a hook shipped under the pack's hooks directory is classified in neither map, *then* the system *shall* red it by name. [INV-282, INV-211]
+
+**Case: what the proof reaches, and what it does not**
+
+7. The system *shall* prove the firing direction of the pack's own copy only, the installed copy's agreement with its source staying with the config-health check and its presence in the installed settings with the judge-listed check. [INV-282, INV-175, INV-211]
+
+---
+
+## Requirement 293: A naked internal code in live prose reds
+
+**Context:** The plain-language law asks a human-facing sentence to stand in the product's own words, with an internal handle — a queue row number, a spec code — trailing in parentheses for a reader who wants to follow it. A sentence that leads with a bare handle gives the reader a number he has no way to resolve. The law had no machine and decayed for want of one, so a Stop-hook scan now reads the turn against it and asks for the naming in plain words one message later.
+
+**User Story:** As a person reading the seat's replies, I want an internal code left standing outside its anchor flagged, so that the sentence comes back in plain words I can resolve on sight.
+
+### Acceptance Criteria
+
+**Case: a code outside its anchor reds**
+
+1. *when* any message the seat showed since the last human turn carries an internal code — a queue row named by its number in either working language, or a bracket code the documents use — standing outside a trailing anchor, the system *shall* block the stop and ask for the naming in plain words one message later. [INV-283, INV-28]
+2. The system *shall* pass a code sitting inside parentheses or square brackets, the lawful trailing anchor the plain-language law names. [INV-283, INV-28]
+3. The scan *shall* read every message shown since the last human turn through the shared full-turn reader, so a naked code in an inter-tool narration line reds the same as one in the final reply. [INV-283, INV-281]
+
+**Case: text about a code is not a code addressed to the reader**
+
+4. The system *shall* pass a code inside a fenced block, an inline backtick span, or a quoted span, and *shall* pass a table row, whose neighbouring cell carries the plain words. [INV-283]
+5. The system *shall* read a naming word and the number it carries, so a bare number with no naming word before it passes. [INV-283]
+
+**Case: honest about its reach**
+
+6. The system *shall* judge only whether a code was left standing outside an anchor, and *shall* leave whether the plain words that replace it are the right words to the person. [INV-283]
+
+---
+
+## Requirement 294: Empty validation aimed at the person reds
+
+**Context:** A line telling the person he is right, praising his question or his intuition, or framing the seat's own work as superior costs the reader attention and returns nothing: the reply owes the finding or the act, and nothing else leads before them. The rule stood as a personal setting with a machine behind it on one host alone. The pack ships that machine as a Stop-hook scan in the two-tier shape the scissors scan carries, a universal list plus a host's own overlay.
+
+**User Story:** As a person reading the seat's replies, I want an empty validation line caught, so that a reply opens with the finding and never with praise for the person who asked.
+
+### Acceptance Criteria
+
+**Case: the validation gate**
+
+1. *when* the reply the person reads carries an empty-validation phrase from the pattern list, after a quoted, backticked, or fenced span is stripped, the system *shall* block the stop with a rewrite instruction reaching the seat one message later, the shape the scissors scan and the hedge gate take. [INV-284, INV-238]
+2. The system *shall* match against an inline universal pattern list plus an optional personal-overlay file a host tunes, as the scissors scan carries one, and *shall* stand on the universal list alone *where* the overlay is absent or unreadable. [INV-284, INV-203]
+3. The system *shall* catch only the phrases it lists, so a paraphrase it does not carry stays with the register judge that reads the class in meaning. [INV-284, INV-203]
+
+**Case: shipped as a pack hook**
+
+4. The system *shall* install the scan by the setup walk beside the scissors scan, *shall* have it covered by the config-health check and classified in the wired-hook declaration, and *shall* have its runs and fires read by the net-liveness meter. [INV-284, INV-173, INV-175, INV-211, INV-202]
+
 ## Reference
 
 The code-to-location table below is generated output, built from the body criteria by `scripts/build-index.py`; no one edits it by hand. Feature codes (`F-...`) live on their scenario headings and carry no table row.
@@ -6780,7 +6851,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-25 | R17.6, R201.1, R201.2, R201.3, R201.4, R201.5 |
 | INV-26 | R14.1, R14.2, R14.3, R127.2, R127.3, R161.5, R287.5 |
 | INV-27 | R15.1, R15.2, R15.4, R15.5, R15.6, R22.8, R23.1, R80.5, R86.3, R152.4, R154.1, R159.5, R159.7, R187.8, R195.12, R196.7, R196.9, R196.16, R254.5 |
-| INV-28 | R8.2, R17.1, R17.2, R17.3, R17.4, R17.5, R17.6, R17.7, R17.8, R22.8, R22.9, R29.3, R54.3, R159.4, R188.9, R191.3, R195.12, R212.5 |
+| INV-28 | R8.2, R17.1, R17.2, R17.3, R17.4, R17.5, R17.6, R17.7, R17.8, R22.8, R22.9, R29.3, R54.3, R159.4, R188.9, R191.3, R195.12, R212.5, R293.1, R293.2 |
 | INV-29 | R57.1, R57.2, R57.3, R57.4, R58.2, R63.2, R68.2 |
 | INV-30 | R51.3, R59.1, R59.2, R59.3, R61.5, R65.2, R104.2, R108.1, R173.4, R175.3, R175.4, R175.5, R176.2, R261.3, R261.5, R263.4, R265.13 |
 | INV-31 | R7.6, R32.4, R46.3, R53.2, R71.1, R71.2, R72.1, R157.1, R186.2, R191.3, R195.12, R220.2, R259.4, R261.2, R261.7, R263.4, R265.9, R265.13 |
@@ -6925,9 +6996,9 @@ The code-to-location table below is generated output, built from the body criter
 | INV-170 | R66.1, R66.2 |
 | INV-171 | R66.2, R67.1, R67.2, R67.3 |
 | INV-172 | R188.10, R268.1, R268.2, R268.3, R268.4, R268.5, R268.6, R272.2, R275.2 |
-| INV-173 | R133.3, R135.3, R232.1, R269.1, R269.2, R269.3, R269.4, R269.5, R275.3 |
+| INV-173 | R133.3, R135.3, R232.1, R269.1, R269.2, R269.3, R269.4, R269.5, R275.3, R294.4 |
 | INV-174 | R195.2, R253.4, R253.5, R270.5 |
-| INV-175 | R231.6, R246.4, R270.1, R270.2, R270.3, R270.4, R270.5, R271.1, R271.2, R271.4, R275.3 |
+| INV-175 | R231.6, R246.4, R270.1, R270.2, R270.3, R270.4, R270.5, R271.1, R271.2, R271.4, R275.3, R292.3, R292.7, R294.4 |
 | INV-176 | R246.7, R272.1, R272.2, R272.3 |
 | INV-177 | R188.10, R188.11, R228.5, R275.2 |
 | INV-178 | R242.3, R273.1, R273.2, R274.7, R275.4 |
@@ -6954,8 +7025,8 @@ The code-to-location table below is generated output, built from the body criter
 | INV-199 | R86.1, R86.2, R86.3, R86.4, R86.5 |
 | INV-200 | R87.1, R87.2, R87.3 |
 | INV-201 | R83.2, R88.1, R88.2, R88.3, R88.4, R88.5, R88.6 |
-| INV-202 | R229.1, R229.2, R229.3, R229.4, R231.6, R232.7, R233.5 |
-| INV-203 | R18.4, R18.5, R19.3, R134.2, R135.3, R230.1, R230.2, R230.3, R230.4, R230.5, R230.6, R230.8, R232.7, R233.2, R233.6 |
+| INV-202 | R229.1, R229.2, R229.3, R229.4, R231.6, R232.7, R233.5, R294.4 |
+| INV-203 | R18.4, R18.5, R19.3, R134.2, R135.3, R230.1, R230.2, R230.3, R230.4, R230.5, R230.6, R230.8, R232.7, R233.2, R233.6, R294.2, R294.3 |
 | INV-204 | R117.6, R234.1, R234.2, R234.3, R234.4, R235.4, R236.4 |
 | INV-205 | R236.1, R236.2, R236.3, R236.4, R238.4, R239.3, R240.3 |
 | INV-206 | R94.3, R237.1, R237.2, R237.3, R237.4, R237.5, R241.3 |
@@ -6963,8 +7034,8 @@ The code-to-location table below is generated output, built from the body criter
 | INV-208 | R242.1, R242.2, R242.3, R242.4 |
 | INV-209 | R243.1, R243.2, R243.3, R243.4, R245.3, R287.3 |
 | INV-210 | R246.1, R246.2 |
-| INV-211 | R246.3, R246.4 |
-| INV-212 | R226.2, R246.5, R246.6 |
+| INV-211 | R246.3, R246.4, R292.6, R292.7, R294.4 |
+| INV-212 | R226.2, R246.5, R246.6, R292.1, R292.5 |
 | INV-213 | R235.1, R235.2 |
 | INV-214 | R82.4, R91.1, R91.2, R91.3, R91.4, R266.7 |
 | INV-215 | R134.1, R134.2 |
@@ -6990,7 +7061,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-235 | R197.2, R197.4, R214.1, R214.2, R214.3, R214.4, R214.5 |
 | INV-236 | R190.4, R190.5, R190.6, R190.7, R190.8 |
 | INV-237 | R215.1, R215.2, R215.3, R215.4 |
-| INV-238 | R232.1, R232.2, R232.3 |
+| INV-238 | R232.1, R232.2, R232.3, R294.1 |
 | INV-239 | R191.1, R191.2, R191.3, R191.4, R191.5, R191.6, R191.7, R191.8, R191.9, R191.10 |
 | INV-240 | R192.1, R192.2, R192.3, R192.4, R192.5, R192.6, R192.7 |
 | INV-241 | R232.3, R233.1, R233.2, R233.3, R233.4, R233.5, R233.6, R233.7, R233.8 |
@@ -7033,7 +7104,10 @@ The code-to-location table below is generated output, built from the body criter
 | INV-278 | R289.1, R289.2, R289.3, R289.4, R289.5, R289.6 |
 | INV-279 | R290.1, R290.2, R290.3, R290.4, R290.5 |
 | INV-280 | R291.1, R291.2, R291.3 |
-| INV-281 | R230.6, R230.7 |
+| INV-281 | R230.6, R230.7, R293.3 |
+| INV-282 | R292.1, R292.2, R292.3, R292.4, R292.5, R292.6, R292.7 |
+| INV-283 | R293.1, R293.2, R293.3, R293.4, R293.5, R293.6 |
+| INV-284 | R294.1, R294.2, R294.3, R294.4 |
 | M-1 | R49.2, R80.7, R80.8, R92.2, R130.1, R130.2, R130.3, R130.4, R130.5, R130.6, R130.7, R130.8, R130.9, R164.4, R166.3, R166.8, R198.6, R249.2 |
 | M-2 | R14.3, R125.1, R125.2, R125.3, R177.12, R204.3 |
 | M-3 | R136.1 |
