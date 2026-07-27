@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 """PreToolUse hook: the seat's own narration is judged at the first boundary after it is written.
 
-WHY THIS EVENT. On 2026-07-27 ~14:47 the seat wrote a line to the human between two tool calls:
-«строка 482 закрыта целиком в архиве, строка 55 честно показывает открытую ногу.» Two queue rows are
-named there by bare number with no plain-word naming of the wish, which the plain-language anchor law
-forbids, and «ногу» is a loan-translation of the pack's internal word for an acceptance criterion,
-which the no-calques law forbids.
+WHY THIS EVENT. A line written to the human between two tool calls named two queue rows by bare
+number, with no plain-word naming of the wish, which the plain-language anchor law forbids, and
+loan-translated the pack's internal word for an acceptance criterion, which the no-calques law forbids.
+The sentence itself stands in this hook's red fixture and in the record of the day it happened.
 
 The Stop-side scan (code-anchor-scan.py) does fire on that exact sentence, and it is installed and
 wired. It stayed quiet because Stop arrives when the whole turn ends, and the human had read the line

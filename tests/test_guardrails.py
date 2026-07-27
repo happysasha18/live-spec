@@ -1195,6 +1195,25 @@ class TestGateShippedLanguage(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertIn('"offences":0', result.stdout.replace(" ", ""))
 
+    def test_gate_reads_a_file_that_is_written_and_not_yet_committed(self):
+        """A delivery writes a new shipped file and the gate must read it in that same delivery: the
+        push it exists to hold happens before the file is ever committed. Red-first: with the tracked
+        set alone the offence in an uncommitted file is invisible, and the gate reports green."""
+        import subprocess as sp
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            sp.run(["git", "init", "-q", tmp], check=True)
+            self._write(tmp, "shipped.py", "# clean english only\n")
+            sp.run(["git", "-C", tmp, "add", "shipped.py"], check=True)
+            sp.run(["git", "-C", tmp, "-c", "user.email=t@t", "-c", "user.name=t",
+                    "commit", "-qm", "seed"], check=True)
+            # the new file exists in the tree and in no commit
+            self._write(tmp, "fresh.py", '# a deliberate stray: \u0441\u0442\u0440\u043e\u043a\u0430 482\n')
+            result = run(["python3", self.ENGINE, "--root", tmp])
+            self.assertNotEqual(result.returncode, 0,
+                                "an uncommitted shipped file's offence must red:\n" + result.stdout)
+            self.assertIn("fresh.py", result.stdout)
+
     # --- ROADMAP 417: the owner-name arm inverts to a DECLARED ALPHABET read from data, so the
     # detector's own code names no person and covering a collaborator is one data line, not a code
     # edit. Every string it reds today still reds; the alphabet form is not four hardcoded spellings. ---

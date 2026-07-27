@@ -3199,9 +3199,13 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 1. The system *shall* hold that a shipped artifact carries no Cyrillic outside a deliberate program string and no personal name in a requirement's statement, reporting each offence as file and line through `guardrails/check-shipped-language.sh`. [INV-120]
 2. The system *shall* read the name arm against a declared alphabet — `ASCII` English plus deliberate program strings — with the out-of-alphabet name patterns held as allowlist data, so the detector's own source names no person and covering a collaborator's name is one data line. [INV-120, INV-114]
 
+**Case: what the shipped set holds**
+
+3. The system *shall* read every shipped text file the delivery carries, a file written and not yet committed included, since the push it holds happens before that file is committed. [INV-120]
+
 **Case: the arms stand down by declaration**
 
-3. *if* a package declares no alphabet, *then* the system *shall* leave the name arm inert while the Cyrillic arm still stands, and *shall* spare deliberate program data and authorship bylines through the same dated allowlist, a new offence redding and a listed one counted as debt. [INV-120]
+4. *if* a package declares no alphabet, *then* the system *shall* leave the name arm inert while the Cyrillic arm still stands, and *shall* spare deliberate program data and authorship bylines through the same dated allowlist, a new offence redding and a listed one counted as debt. [INV-120]
 
 ---
 
@@ -6985,7 +6989,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-117 | R77.3, R77.4, R79.1, R79.2, R79.3, R84.2, R89.4, R90.5, R196.12, R251.6, R252.2, R255.1 |
 | INV-118 | R149.1, R149.2, R149.3, R151.4 |
 | INV-119 | R187.11, R187.13 |
-| INV-120 | R150.1, R150.2, R150.3, R151.3 |
+| INV-120 | R150.1, R150.2, R150.3, R150.4, R151.3 |
 | INV-121 | R11.1, R11.2, R43.6, R211.1, R211.3, R212.1 |
 | INV-122 | R119.1, R119.2, R119.3, R130.6, R214.1, R244.2 |
 | INV-123 | R130.6 |
