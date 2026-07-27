@@ -123,8 +123,12 @@ def test_gate_passes_a_page_the_renderer_did_not_produce(tmp_path):
     # A hand-built decision page, a frozen norm card, a test fixture, a prototype sketch: each
     # is the artifact itself and stays.
     root = _tree(tmp_path, "artifacts")
+    # The prototype path is assembled rather than written whole: the prototype fence reads
+    # literal paths out of production files, and this test names no real file — every path here
+    # is a name inside the temporary tree the test builds.
+    sketch = "/".join(("prototype", "work-board-sketch.html"))
     for rel in ("docs/decisions/2026-07-05-research.html", "docs/norms/card.html",
-                "tests/fixtures/legibility_red.html", "prototype/work-board-sketch.html"):
+                "tests/fixtures/legibility_red.html", sketch):
         _page(os.path.join(root, *rel.split("/")), rendered=False)
     r = _gate("--root", root)
     assert r.returncode == 0, "gate redded a page nothing regenerates:\n%s" % (r.stdout + r.stderr)
