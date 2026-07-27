@@ -39,15 +39,16 @@ stand until then.**
   Rows 471 and 166 widened rather than duplicated: the duration ledger feeds 471's estimate, the live
   task list is 166's cheap first leg.
 - Git tags: the practice ended 2026-07-27 on his word. Four local tags deleted, their commits recorded in
-  the journal; the same deletion on the remote is OWED (the push kept timing out on a bad connection).
+  the journal; the remote deletion rides the next push, since a tag push runs the whole gate chain.
 - Row 483: the four pre-existing architecture-doc reader stumbles the row-456 cold read surfaced
   (feature-coverage prose vs table on guardrails; two gates both lettered "gate x"; "Formal index"
   retired-vs-live terminology; the spec-author self-seam) — each resolved or recorded as an agreed
   non-problem. Small doc-cleanup.
 - Row 481: the live-queue staleness sweep at the milestone gate (his 2026-07-23 word: the roadmap is no
   five-year plan); threshold [default: 30 days queued, 7 days in-work quiet]; owns the two deferred rows
-  still trigger-less (143, 144) and the stale in-work claims 386/412 (quiet since 07-18, sweep-eligible
-  07-25).
+  still trigger-less (143, 144). Rows 386/412 are NOT stale by re-derivation: the branch-and-worktree
+  road is built (scripts/open-lane.sh, base rule 7, 37 green tests) and owes only its proof by deed —
+  a live run of three lanes on three independent rows in one window, which his 07-27 word granted.
 - Rows 471-475 (row 470's children; 475 the class answer — the enforcement-coverage registry).
 - Rows 465-467 · row 437 pulled near (axis forcing step first, the recursive sweep its dear half) · row
   460 re-scoped (his 2026-07-23 word: public tier only; working tier possibly-never with two named
@@ -94,8 +95,7 @@ channel + listener (wait on the harness listener, INV-231) · far tier 381, 411,
 field-gated (contract/listener) + far tier.
 
 ## Next free codes
-Next free INV-282, E-36, T-25, M-458; next ROADMAP row 484 (A-12, B-4, C-2, D-8, S-1, ACT-4 also free).
+Next free INV-282, E-36, T-25, M-458; next ROADMAP row 493 (A-12, B-4, C-2, D-8, S-1, ACT-4 free too).
 
 ## Research in hand
-Direct-protocol research (scratchpad research-agent-transport.md + research-direct-channel.md): A2A
-re-invents our card; prior art docs/research/2026-07-17-agent-routing-prior-art.md.
+Direct-protocol research (scratchpad research-agent-transport.md, research-direct-channel.md; prior art docs/research/2026-07-17-agent-routing-prior-art.md): A2A re-invents our card.
