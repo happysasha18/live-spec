@@ -94,7 +94,7 @@ channel + listener (wait on the harness listener, INV-231) · far tier 381, 411,
 field-gated (contract/listener) + far tier.
 
 ## Next free codes
-Next free INV-286, E-36, T-25, M-462; next ROADMAP row 506 (A-12, B-4, C-2, D-8, S-1, ACT-4 free too).
+Next free INV-286, E-36, T-25, M-462; next ROADMAP row 507 (A-12, B-4, C-2, D-8, S-1, ACT-4 free too).
 
 ## Research in hand
 Direct-protocol research (scratchpad research-agent-transport.md, research-direct-channel.md; prior art docs/research/2026-07-17-agent-routing-prior-art.md): A2A re-invents our card.
