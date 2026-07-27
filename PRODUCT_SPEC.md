@@ -6694,7 +6694,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 ## Requirement 292: Every session hook carries a known-red proof
 
-**Context:** A hook reports nothing two ways: because the turn was clean, or because it no longer fires at all. Each pushed gate letter carries a red-first proof; the session hooks carried none, so a hook whose pattern list, stand-down clause, or exit path broke would go on reporting nothing and read as a clean turn. A registry gives each hook a fixture built to trigger it, and a runner executes the hook script itself against that fixture, the hook-side sibling of the known-red proof the push gates carry.
+**Context:** A hook reports nothing two ways: because the turn was clean, or because it no longer fires at all. The push side settled this long ago [INV-212]; the session hooks had nothing of the kind, so a hook whose pattern list, stand-down clause, or exit path broke would go on reporting nothing and read as a clean turn. A registry gives each hook a fixture built to trigger it, and a runner executes the hook script itself against that fixture.
 
 **User Story:** As a person relying on the session hooks to catch an offence in the seat's own words, I want every hook run against a fixture built to make it fire, so that a hook that has gone silent is named by a run of its own and the whole run fails.
 
