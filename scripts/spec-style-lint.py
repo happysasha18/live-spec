@@ -268,6 +268,7 @@ CAPS_ALLOW = {"JSON", "CI", "HTML", "CSS", "RFC", "API", "URL", "UI", "MVP", "TT
               "LLD", "HLD", "PRD", "README", "LICENSE", "OK", "MD", "CLI", "ID", "IDE", "NLP", "SPEC",
               "LIVE", "STATE", "NEXT", "NOW", "MUST", "SHALL", "NOTE", "QA", "TODO", "HEAD",
               "KPI", "UX", "FIXME", "VCS", "DOM", "PID", "OS", "CDN", "CDP", "ASCII",
+              "TBD", "ER", "CRUD",
               # doc / file names used as bare tokens
               "ARCHITECTURE", "ROADMAP", "JOURNAL", "VERSION", "LIVE-STATE", "MIGRATION", "CHANGELOG",
               # the audit record's milestone-read disposition values (INV-156), a closed vocabulary
@@ -276,7 +277,7 @@ CAPS_ALLOW = {"JSON", "CI", "HTML", "CSS", "RFC", "API", "URL", "UI", "MVP", "TT
               # defined problem-ledger status values (E-24) and the prototype label
               "WATCHED", "OWNED", "AGREED", "NON-PROBLEM", "SOLVED", "ARCHIVED", "PROTOTYPE", "DECIDE",
               # defined prover/verify mode names — literal terms, not shout
-              "CROSS-LINK", "FEATURE-FIT", "RE-ENTRY",
+              "CROSS-LINK", "FEATURE-FIT", "FULL", "RE-ENTRY",
               # defined bold law-part labels of the narration law (INV-35)
               "IDENTITY", "DIGEST", "HEARTBEAT",
               # the design-review loop's three named rest-states (INV-154), a closed vocabulary

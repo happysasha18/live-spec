@@ -475,7 +475,7 @@ repair the text from those stops rather than from the one sentence in front of y
 
 **Stated before this page, at.** docs/spec-format.md:17, docs/spec-style.md:34, docs/roadmap-format.md:11, docs/architecture-format.md:16, docs/test-matrix-format.md:10, docs/prose-quality-gate-design.md:19, scripts/spec-style-lint.py:238, ~/.claude/skills/spec-author/SKILL.md:65, ~/.claude/skills/text-audit/SKILL.md:99
 
-**Notes.** The carve-out list lives here, and scripts/spec-style-lint.py:238 must read it from this file rather than keep its own copy. docs/spec-format.md:17 still states the old form, with no carve-out at all. A carve-out entry is a defined term, an acronym, a document name, or a closed-vocabulary value, and docs/spec-style.md:62 says the list is meant to grow. check-requirement-shape.py is armed nowhere.
+**Notes.** The carve-out list lives here, and scripts/spec-style-lint.py:238 must read it from this file rather than keep its own copy. docs/spec-format.md:17 still states the old form, with no carve-out at all. A carve-out entry is a defined term, an acronym, a document name, or a closed-vocabulary value, and docs/spec-style.md:62 says the list is meant to grow. check-requirement-shape.py is armed nowhere. Four entries were added 2026-07-28. FULL is the third value of the review-mode vocabulary, beside CROSS-LINK and FEATURE-FIT. TBD, ER and CRUD are industry acronyms.
 
 ### r24 — the person a normative sentence speaks in
 
