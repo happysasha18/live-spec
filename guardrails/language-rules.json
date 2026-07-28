@@ -339,6 +339,10 @@
         {
           "written": "засеяна (seeded)",
           "repair": "начальные числа записаны (the starting numbers are recorded)"
+        },
+        {
+          "written": "workers read document bodies",
+          "repair": "workers read the documents"
         }
       ],
       "lists": [
@@ -1018,7 +1022,7 @@
       "id": "r14",
       "name": "a sentence carrying no information",
       "rule": "Every sentence shown to the person advances the finding, the decision, or the action. A sentence carrying a fact the reader would otherwise lose stays, however short.",
-      "reader_test": "Would the reader lose a fact if this sentence were deleted?",
+      "reader_test": "Does the reader do anything differently because this sentence is here?",
       "surfaces": [
         "chat",
         "human-prose",
@@ -1029,6 +1033,14 @@
         {
           "written": "Its whole job is to mark where it stopped, what it guessed, and why.",
           "repair": "deleted, since the two sentences above it already say this"
+        },
+        {
+          "written": "каждый из шести законов сохраняет свою обязанность. Закон, который после переписывания стал связывать меньше случаев, считается провалом прогона.",
+          "repair": "Закон, который после переписывания стал связывать меньше случаев, считается провалом прогона."
+        },
+        {
+          "written": "Записал в двух местах, и первое было неправильным.",
+          "repair": "delete the sentence and name the two places"
         }
       ],
       "thresholds": {
@@ -1063,7 +1075,7 @@
         "hooks/register_judge_core.py:35"
       ],
       "status": "held",
-      "notes": "This law governs the classes r12, r13, and r15. The two thresholds bind every law the register judge holds: a reply under 120 characters is never judged, and an offence quote under twelve characters is dropped as a hallucination. No prose home states either number, nor that the judge ignores file paths, code, command output, and quoted text. The boundary against r51: a recap of a buried answer repeats words the message already carries, and it carries a fact the reader would otherwise lose, so it informs and this rule does not cut it. What this rule cuts is a sentence carrying no fact at all. The sentences this cuts: one that only performs a stance, a preface, a restatement, a softener, and a ceremonial opening or closing. The test is whether the sentence carries a fact of its own. The list moved here from the rule sentence on 2026-07-28."
+      "notes": "This law governs the classes r12, r13, and r15. The two thresholds bind every law the register judge holds: a reply under 120 characters is never judged, and an offence quote under twelve characters is dropped as a hallucination. No prose home states either number, nor that the judge ignores file paths, code, command output, and quoted text. The boundary against r51: a recap of a buried answer repeats words the message already carries, and it carries a fact the reader would otherwise lose, so it informs and this rule does not cut it. What this rule cuts is a sentence carrying no fact at all. The sentences this cuts: one that only performs a stance, a preface, a restatement, a softener, and a ceremonial opening or closing. The test is whether the sentence carries a fact of its own. The list moved here from the rule sentence on 2026-07-28. The session-stop-hook holds this rule and missed one instance on 2026-07-28: an abstract sentence announcing what the next sentence states. The owner caught it. The announcing sentence is the shape the catcher's reach is short on. The owner sharpened the reader test on 2026-07-28: a sentence earns its place by changing what the reader does. A sentence that leaves every action the same is cut or replaced."
     },
     {
       "id": "r15",
@@ -3167,6 +3179,191 @@
       ],
       "status": "stated-only",
       "notes": "Split out of r08 on 2026-07-28. r08 stated the word cap, the one-rule limit, the subordination limit, and the list form in one sentence. The rule against carrying several rules in one sentence carried four."
+    },
+    {
+      "id": "r65",
+      "name": "a rare word standing where an everyday word says the same thing",
+      "rule": "A sentence takes the everyday word wherever an everyday word carries the meaning. A rare or bookish word stands only where no everyday word says the same thing. A term of the profession stays as it is, and the words around it come down.",
+      "reader_test": "Would a professional reader whose first language is other than English reach for a dictionary on this word?",
+      "surfaces": [
+        "spec-body",
+        "human-prose",
+        "chat",
+        "artifact"
+      ],
+      "examples": [
+        {
+          "written": "a writer marinated in this project's own vocabulary",
+          "repair": "a writer who has already read this project's rules"
+        },
+        {
+          "written": "the loop is armed at a named harness event",
+          "repair": "a hook runs the check when the session ends"
+        }
+      ],
+      "catchers": {
+        "pattern": {
+          "status": "absent",
+          "where": "",
+          "reach": ""
+        },
+        "model": {
+          "status": "absent",
+          "where": "",
+          "law_text": ""
+        },
+        "person": {
+          "status": "partial",
+          "note": "whether an everyday word carries the same meaning as the word on the page"
+        }
+      },
+      "armed": [
+        "nowhere"
+      ],
+      "sources": [
+        "docs/language-reads/2026-07-28-read14-text-audit-skill.md"
+      ],
+      "status": "stated-only",
+      "notes": "The owner set the mechanism's bound on 2026-07-28: no word list is kept by hand in this project. A published frequency list of English is acceptable, because nobody here updates it. The rule's lower bound is the profession's own terms, which stay whatever their frequency: requirement, invariant, gate, criterion."
+    },
+    {
+      "id": "r66",
+      "name": "a document written in the register of the message that asked for it",
+      "rule": "The register of a request settles nothing about the register of the document. A person writes a request however is fastest for them. Every document is written to the rules of its surface, whatever the request looked like.",
+      "reader_test": "Did this sentence take its tone from the message that asked for the work?",
+      "surfaces": [
+        "spec-body",
+        "human-prose",
+        "chat",
+        "artifact",
+        "commit",
+        "worker-brief"
+      ],
+      "examples": [
+        {
+          "written": "ok so the gate basically checks the counts and yells when something is off",
+          "repair": "The gate measures every live document and refuses a push where a count stands above its record."
+        }
+      ],
+      "catchers": {
+        "pattern": {
+          "status": "absent",
+          "where": "",
+          "reach": ""
+        },
+        "model": {
+          "status": "absent",
+          "where": "",
+          "law_text": ""
+        },
+        "person": {
+          "status": "partial",
+          "note": "whether a sentence took its tone from the request"
+        }
+      },
+      "armed": [
+        "nowhere"
+      ],
+      "sources": [
+        "docs/language-reads/2026-07-28-read14-text-audit-skill.md"
+      ],
+      "status": "stated-only",
+      "notes": "The owner stated it on 2026-07-28. He writes in chat however is fastest, mixing languages and dropping letters, and every document is written by the book. Matching the register of a request is a default writing habit, so the rule names it."
+    },
+    {
+      "id": "r67",
+      "name": "a defined term standing in a file that is read apart from its definition",
+      "rule": "A term defined in one home stands in another file only where that file gives its reader a path to the definition. A file read on its own carries the terms it uses, or it names where each one is defined.",
+      "reader_test": "Reading this file alone, could I reach the definition of this term?",
+      "surfaces": [
+        "spec-body",
+        "human-prose",
+        "artifact",
+        "worker-brief"
+      ],
+      "examples": [
+        {
+          "written": "together with the settings ladder",
+          "repair": "together with the four scopes that settle a setting: the session's live word, the host profile, the personal profile, and the package default"
+        }
+      ],
+      "catchers": {
+        "pattern": {
+          "status": "absent",
+          "where": "",
+          "reach": ""
+        },
+        "model": {
+          "status": "absent",
+          "where": "",
+          "law_text": ""
+        },
+        "person": {
+          "status": "partial",
+          "note": "whether the file being read carries a path to the term's definition"
+        }
+      },
+      "armed": [
+        "nowhere"
+      ],
+      "sources": [
+        "docs/language-reads/2026-07-28-read14-text-audit-skill.md",
+        "PRODUCT_SPEC.md:212"
+      ],
+      "status": "stated-only",
+      "notes": "This project keeps its glossary inside PRODUCT_SPEC.md. A skill file is loaded on its own, and its reader never opens that spec. The rule covers a term that already has a definition, which sets it apart from r21, where the entry is missing."
+    },
+    {
+      "id": "r68",
+      "name": "a placeholder word standing where the thing's own name fits",
+      "rule": "A sentence carries the name of the thing it is about. A pronoun or a general word stands only where the name would clutter the sentence. A status word stands only where the sentence has already stated the condition behind it.",
+      "reader_test": "Does this word name the thing, or does the reader have to carry the name in from an earlier sentence?",
+      "surfaces": [
+        "spec-body",
+        "human-prose",
+        "chat",
+        "artifact",
+        "commit",
+        "worker-brief"
+      ],
+      "examples": [
+        {
+          "written": "This keeps the leading context clear enough to hold the campaign.",
+          "repair": "The leading session then holds enough room to carry the campaign."
+        },
+        {
+          "written": "The second goal needs its own measure",
+          "repair": "The growing specification has no measure today"
+        },
+        {
+          "written": "A report says which documents are done",
+          "repair": "A report says which documents are measured clean and read clean"
+        }
+      ],
+      "catchers": {
+        "pattern": {
+          "status": "absent",
+          "where": "",
+          "reach": ""
+        },
+        "model": {
+          "status": "absent",
+          "where": "",
+          "law_text": ""
+        },
+        "person": {
+          "status": "partial",
+          "note": "whether the name would clutter the sentence it replaces"
+        }
+      },
+      "armed": [
+        "nowhere"
+      ],
+      "sources": [
+        "docs/language-reads/2026-07-28-read15-campaign-plan.md"
+      ],
+      "status": "stated-only",
+      "notes": "The owner stated it on 2026-07-28 while reading the campaign plan. r39 covers a pronoun whose referent is missing from its sentence, and r63 covers a thing named by its number. This rule covers the word whose referent a reader can find, and which still sends the reader back to find it."
     }
   ]
 }

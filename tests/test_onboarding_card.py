@@ -12,7 +12,7 @@ import tempfile
 import time
 import unittest
 
-from conftest import ROOT, read
+from conftest import ROOT, read, read_flat
 RENDERER = os.path.join(ROOT, "scripts", "onboarding-card.py")
 BASE = os.path.join(ROOT, "skills", "live-spec-base", "SKILL.md")
 HOST_PROFILE = os.path.join(ROOT, ".live-spec", "profile.md")
@@ -279,10 +279,10 @@ class TestOnboardingCard(unittest.TestCase):
     def test_onboarding_card_wiring(self):
         """M-210 (INV-87): the trigger sentences stand in their homes and the
         norm pointer resolves."""
-        adopt = read(os.path.join("adopt", "ADOPT.md"))
+        adopt = read_flat(os.path.join("adopt", "ADOPT.md"))
         self.assertIn("settings card", adopt,
                       "adoption lost the setup-end settings-card line")
-        comm = read(os.path.join("skills", "communicator", "SKILL.md"))
+        comm = read_flat(os.path.join("skills", "communicator", "SKILL.md"))
         self.assertIn("what can I customize", comm,
                       "communicator lost the standing-question line")
         # The dated frozen-norm pointer is a dated provenance reference; the requirements-format spec

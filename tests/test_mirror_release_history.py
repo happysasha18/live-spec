@@ -13,7 +13,7 @@ import re
 import subprocess
 import unittest
 
-from conftest import ROOT
+from conftest import ROOT, read_flat
 
 
 def read(rel):
@@ -122,7 +122,7 @@ class TestMirrorReleaseHistory(unittest.TestCase):
         self.assertIn("banner_for", script)
         self.assertIn("Read-only mirror", script)
 
-        spec = read("PRODUCT_SPEC.md")
+        spec = read_flat("PRODUCT_SPEC.md")
         self.assertIn("read-only banner", spec)
         self.assertIn("three members", spec)
 

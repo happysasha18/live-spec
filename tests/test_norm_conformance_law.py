@@ -6,35 +6,27 @@ checking the render against the frozen norm. The law lands in test-author's deri
 (the matrix half); build-pipeline's code step already carries the norm-open + diff-line half.
 """
 
-import os
-import re
 import unittest
 
-from conftest import ROOT
-
-
-def read(rel):
-    """Whitespace-normalized read: prose wraps must not hide a needle."""
-    with open(os.path.join(ROOT, rel), encoding="utf-8") as f:
-        return re.sub(r"\s+", " ", f.read())
+from conftest import read_flat
 
 
 class TestNormConformanceLaw(unittest.TestCase):
     def test_derivation_owes_the_conformance_row(self):
-        body = read("skills/test-author/SKILL.md")
+        body = read_flat("skills/test-author/SKILL.md")
         self.assertIn("norm-conformance row", body)
         self.assertIn("every norm section and row name present in the render", body)
 
     def test_never_side_names_the_bounce(self):
-        body = read("skills/test-author/SKILL.md")
+        body = read_flat("skills/test-author/SKILL.md")
         self.assertIn("a render that invents its own structure never ships green", body)
 
     def test_both_halves_cited_together(self):
-        body = read("skills/test-author/SKILL.md")
+        body = read_flat("skills/test-author/SKILL.md")
         self.assertIn("plan-vs-prototype diff line", body)
 
     def test_look_stays_the_humans_eye(self):
-        body = read("skills/test-author/SKILL.md")
+        body = read_flat("skills/test-author/SKILL.md")
         self.assertIn("the look itself stays the human's eye", body)
 
 

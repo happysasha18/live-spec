@@ -21,6 +21,8 @@ import subprocess
 import tempfile
 import unittest
 
+from conftest import read_flat
+
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CHECK = os.path.join(REPO, "guardrails", "check-every-gate-can-fail.py")
 REGISTRY = os.path.join(REPO, "guardrails", "gate-red-proofs.json")
@@ -186,7 +188,7 @@ class TestEveryGateCanFail(unittest.TestCase):
         self.assertIn("check-every-gate-can-fail.py", read(".github/workflows/gates.yml"))
 
     def test_spec_states_the_law(self):
-        spec = read("PRODUCT_SPEC.md")
+        spec = read_flat("PRODUCT_SPEC.md")
         self.assertIn("[INV-212]", spec)
         # The requirements-format spec states the law, not the implementing script/data filenames.
         self.assertIn("each pushed gate letter to be classified with a red-first proof", spec)

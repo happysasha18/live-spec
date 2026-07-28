@@ -7,10 +7,9 @@ resumes where. String rows on the three homes: the spec clause, the communicator
 rules, and the base checkpoint rule.
 """
 
-import os
 import unittest
 
-from conftest import ROOT, read
+from conftest import read_flat
 
 
 class TestLeaveCommandLaw(unittest.TestCase):
@@ -18,7 +17,7 @@ class TestLeaveCommandLaw(unittest.TestCase):
 
     def test_leave_word_reaches_a_safe_stop(self):
         for home in self.HOMES:
-            body = read(home)
+            body = read_flat(home)
             self.assertIn("leave-word", body, home)
             self.assertIn("shutdown-safe", body, home)
 
@@ -31,15 +30,15 @@ class TestLeaveCommandLaw(unittest.TestCase):
             "skills/communicator/SKILL.md": "halted or run to their landing",
         }
         for home, needle in needles.items():
-            body = read(home)
+            body = read_flat(home)
             self.assertIn(needle, body, home)
         # the base checkpoint rule carries the same duty at the lane level
-        base = read("skills/live-spec-base/SKILL.md")
+        base = read_flat("skills/live-spec-base/SKILL.md")
         self.assertIn("leave-word", base)
 
     def test_closing_line_says_safe_and_what_resumes(self):
         for home in self.HOMES:
-            body = read(home)
+            body = read_flat(home)
             self.assertIn("safe to power off", body, home)
             self.assertIn("what resumes where", body, home)
 
@@ -52,11 +51,11 @@ class TestLeaveCommandLaw(unittest.TestCase):
             "skills/communicator/SKILL.md": "only when every point above holds",
         }
         for home, needle in needles.items():
-            body = read(home)
+            body = read_flat(home)
             self.assertIn(needle, body, home)
 
     def test_spec_anchor_and_index(self):
-        spec = read("PRODUCT_SPEC.md")
+        spec = read_flat("PRODUCT_SPEC.md")
         self.assertIn("[INV-95]", spec)
         self.assertIn("| INV-95 |", spec)
 

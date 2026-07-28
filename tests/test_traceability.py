@@ -12,7 +12,7 @@ import re
 import sys
 import unittest
 
-from conftest import ROOT, criterion_with_bullets, read, read_all, read_all_flat
+from conftest import ROOT, criterion_with_bullets, read, read_all, read_all_flat, read_flat
 
 sys.path.insert(0, os.path.join(ROOT, "guardrails"))
 from specformat import green_reach  # the family's green-reach line (SPEC INV-269)
@@ -144,7 +144,7 @@ class TestSpecIndex(unittest.TestCase):
         [GAP: ...] line or a criterion anchor. Both directions still hold: every open entry carries a
         D-code the spec body cites, and every D-code the spec body cites resolves to an open entry or
         a decided-rule criterion (never a dangling decision code)."""
-        spec = read("PRODUCT_SPEC.md")
+        spec = read_flat("PRODUCT_SPEC.md")
         body = spec.split("## Reference", 1)[0]
         decisions = read("DECISIONS.md")
         open_section = decisions.split("<!-- record:open -->", 1)[1].split("## Struck", 1)[0]
@@ -586,7 +586,7 @@ class TestVersionsAndPins(unittest.TestCase):
         for s in self.SKILLS:
             if s == "live-spec-base":
                 continue
-            body = read("skills/%s/SKILL.md" % s)
+            body = read_flat("skills/%s/SKILL.md" % s)
             self.assertIn("live-spec-base", body, "%s carries no base-skill inherit pin" % s)
             self.assertIn("`live-spec-base` (v%s)" % base_version, body,
                           "%s pins a stale (or missing) base version" % s)
@@ -616,7 +616,7 @@ class TestDoors(unittest.TestCase):
         self.assertRegex(body, r"## LIVE STATE \(\d{4}-\d{2}-\d{2}", "LIVE STATE carries no date")
 
     def test_adopt_phases_cite_spec(self):
-        body = read("adopt/ADOPT.md")
+        body = read_flat("adopt/ADOPT.md")
         for code in ("A-0", "A-1", "A-2", "A-3", "A-4", "A-5", "A-6", "A-7", "A-8", "A-9",
                      "A-10", "INV-7", "INV-8", "E-14", "E-15"):
             self.assertIn(code, body, "ADOPT.md no longer cites %s" % code)
@@ -624,13 +624,13 @@ class TestDoors(unittest.TestCase):
             self.assertIn(verdict, body, "ADOPT.md unbacked-surface verdict lost: %s" % verdict)
 
     def test_inbox_states_write_rule(self):
-        body = read("inbox/README.md")
+        body = read_flat("inbox/README.md")
         self.assertIn("INV-10", body)
         self.assertIn("NEW file", body)
         self.assertIn("YYYY-MM-DD-<source>-<slug>.md", body)
 
     def test_host_profile_recorded_override(self):
-        body = read(".live-spec/profile.md")
+        body = read_flat(".live-spec/profile.md")
         for code in ("INV-14", "E-13", "M-6"):
             self.assertIn(code, body, "host profile no longer cites %s" % code)
 
@@ -666,18 +666,18 @@ class TestDoorLawAndPrototype(unittest.TestCase):
             self.assertIn(phrase, body, "base rules 15-16 lost: %s" % phrase)
 
     def test_working_skills_carry_the_door(self):
-        bp = read_all("skills/build-pipeline/SKILL.md")
+        bp = read_all_flat("skills/build-pipeline/SKILL.md")
         self.assertIn("Step zero, before ANY tool call: name the door aloud", bp,
                       "build-pipeline lost the door step")
         self.assertIn("feature · bug · refactor · docs-only · skip", bp)
-        pp = read("skills/product-prover/SKILL.md")
+        pp = read_flat("skills/product-prover/SKILL.md")
         self.assertIn("Unbacked surfaces and unlabelled sketches", pp,
                       "product-prover lost the unbacked-surfaces lens")
         self.assertIn("families of questions", pp, "prover lost its stress-lens families line")
-        cm = read("skills/communicator/SKILL.md")
+        cm = read_flat("skills/communicator/SKILL.md")
         self.assertIn("shown ONLY under its `PROTOTYPE` label", cm,
                       "communicator lost the prototype-showing rule")
-        sa = read("skills/spec-author/SKILL.md")
+        sa = read_flat("skills/spec-author/SKILL.md")
         self.assertIn("Name the future with the [target] tag", sa,
                       "spec-author lost the [target] tripwire rule")
         # the four working skills' base pin points at the CURRENT base version (read from its
@@ -962,7 +962,7 @@ class TestSkillEvals(unittest.TestCase):
                              "%s carries no dated bare-run record — red must be PROVEN" % path)
 
     def test_eval_readme_states_honest_boundary(self):
-        body = read("evals/README.md")
+        body = read_flat("evals/README.md")
         self.assertIn("bare-of-the-SKILL", body,
                       "evals/README lost the loader-contamination boundary")
         self.assertIn("the scenario speaks like the human", body,
@@ -1153,7 +1153,7 @@ class TestPackListParity(unittest.TestCase):
     def footer_bodies(self):
         out = {}
         for s in self.all_skills():
-            body = read(os.path.join("skills", s, "SKILL.md"))
+            body = read_flat(os.path.join("skills", s, "SKILL.md"))
             if "The pack, whole:" in body:
                 out[s] = re.sub(r"\s+", " ", body.split("The pack, whole:", 1)[1])
         return out
@@ -1741,7 +1741,7 @@ class TestProblemLedger(unittest.TestCase):
     STATUSES = ["WATCHED", "OWNED", "AGREED NON-PROBLEM", "SOLVED"]
 
     def test_problems_template_shape(self):
-        t = read("templates/PROBLEMS.template.md")
+        t = read_flat("templates/PROBLEMS.template.md")
         for s in self.STATUSES:
             self.assertIn(s, t, "ledger template lost status %s" % s)
         low = t.lower()
@@ -1762,12 +1762,12 @@ class TestProblemLedger(unittest.TestCase):
     def test_done_claim_evidence_walk(self):
         """Row 101 (M-107, INV-25): a done-claim is answered as an evidence walk,
         wearing its method version; an absent installed set is said, never invented."""
-        spec = read("PRODUCT_SPEC.md")
+        spec = read_flat("PRODUCT_SPEC.md")
         self.assertIn("INV-25", spec)
         # re-pinned (rules-and-who-applies mapping.md row 16, R4.1): "walk it fresh" replaces
         # the old "walking the evidence" phrasing with the same claim→artifact→version meaning
         self.assertIn("walk it fresh from the claim to a checkable artifact to the method version", spec)
-        skill = read(os.path.join("skills", "communicator", "SKILL.md"))
+        skill = read_flat(os.path.join("skills", "communicator", "SKILL.md"))
         for needle in (
             "claim → artifact → version",
             "walking the evidence",
@@ -1781,10 +1781,10 @@ class TestProblemLedger(unittest.TestCase):
     def test_one_story_close_whole(self):
         """Row 102 (M-108/M-109, T-17/INV-26): one wish = one story at intake;
         a multi-leg row closes only whole; LIVE-STATE never compresses an open leg."""
-        spec = read("PRODUCT_SPEC.md")
+        spec = read_flat("PRODUCT_SPEC.md")
         for needle in ("T-17", "INV-26", "closes only whole"):
             self.assertIn(needle, spec)
-        pipeline = read_all(os.path.join("skills", "build-pipeline", "SKILL.md"))
+        pipeline = read_all_flat(os.path.join("skills", "build-pipeline", "SKILL.md"))
         for needle in (
             "One wish = one user story",
             "SPEC T-17",
@@ -1794,16 +1794,16 @@ class TestProblemLedger(unittest.TestCase):
         ):
             self.assertIn(needle, pipeline,
                           "build-pipeline missing: %s" % needle)
-        self.assertIn("INV-26", read(os.path.join("templates", "NEXT_STEPS.template.md")))
-        self.assertIn("INV-26", read(os.path.join("templates", "ROADMAP.template.md")))
+        self.assertIn("INV-26", read_flat(os.path.join("templates", "NEXT_STEPS.template.md")))
+        self.assertIn("INV-26", read_flat(os.path.join("templates", "ROADMAP.template.md")))
 
     def test_capture_echo_and_board(self):
         """Row 105 (M-111/M-112, INV-27): every intake is echoed back in one sentence;
         every status report names each in-flight feature's pipeline station."""
-        spec = read("PRODUCT_SPEC.md")
+        spec = read_flat("PRODUCT_SPEC.md")
         for needle in ("INV-27", "echo", "status report"):  # register-invariant terms + anchor
             self.assertIn(needle, spec)
-        comm = read(os.path.join("skills", "communicator", "SKILL.md"))
+        comm = read_flat(os.path.join("skills", "communicator", "SKILL.md"))
         for needle in (
             "The capture echo",
             "row number",
@@ -1812,7 +1812,7 @@ class TestProblemLedger(unittest.TestCase):
             "INV-27",
         ):
             self.assertIn(needle, comm, "communicator missing: %s" % needle)
-        pipeline = read_all(os.path.join("skills", "build-pipeline", "SKILL.md"))
+        pipeline = read_all_flat(os.path.join("skills", "build-pipeline", "SKILL.md"))
         self.assertIn("capture echo", pipeline,
                       "build-pipeline step zero must cite the capture echo")
         # Row 125 (M-112): the board names ALL NINE pipeline steps — prove
@@ -1826,7 +1826,7 @@ class TestProblemLedger(unittest.TestCase):
                           "matrix → test → code → verify → commit & show")
         stations_prose = ("spec, prove, architecture, prove architecture, matrix, test, code, "
                           "verify, and commit-and-show")
-        matrix = read("TEST_MATRIX.md")
+        matrix = read_flat("TEST_MATRIX.md")
         for home, text, stations in (("PRODUCT_SPEC.md", spec, stations_prose),
                                      ("communicator SKILL.md", comm, stations_arrow),
                                      ("TEST_MATRIX.md", matrix, stations_arrow)):
@@ -1839,7 +1839,7 @@ class TestProblemLedger(unittest.TestCase):
     def test_outcome_leads_law(self):
         """Row 116 (M-113, INV-28): the outcome does the talking — echo-names are plain
         descriptive phrases; handles and coined names only trail; one fact per sentence."""
-        spec = read("PRODUCT_SPEC.md")
+        spec = read_flat("PRODUCT_SPEC.md")
         # re-pinned (build-loop-a-intake mapping.md rows 65-66, R14.3-R14.4): the requirement-format
         # spec drops the "never chose to learn" flavour clause but keeps the operative rule (a coined
         # name is an internal handle, trailing in parentheses) and states "one fact one standalone
@@ -1848,59 +1848,59 @@ class TestProblemLedger(unittest.TestCase):
                        "or a coined name, trailing in parentheses",
                        "give one fact one standalone sentence"):
             self.assertIn(needle, spec, "SPEC missing: %s" % needle)
-        comm = read(os.path.join("skills", "communicator", "SKILL.md"))
+        comm = read_flat(os.path.join("skills", "communicator", "SKILL.md"))
         for needle in ("coined feature name", "INV-28", "One fact = one standalone sentence"):
             self.assertIn(needle, comm, "communicator missing: %s" % needle)
-        base = read(os.path.join("skills", "live-spec-base", "SKILL.md"))
+        base = read_flat(os.path.join("skills", "live-spec-base", "SKILL.md"))
         self.assertIn("coined feature name", base,
                       "base rule 2 must name coined feature names as handles")
 
     def test_fit_walk_law(self):
         """Row 108 (M-114, INV-29): a feature is interrogated for product fit at intake."""
-        spec = read("PRODUCT_SPEC.md")
+        spec = read_flat("PRODUCT_SPEC.md")
         # re-pinned (build-loop-b-doors-spec-lanes mapping.md row 34, R21.1-R21.4): "small prover on
         # the wish itself" was the old metaphor for the fit walk, now stated plainly as the walk
         # scaled to the wish's kind; the mode name is also no longer shout-cased ("feature-fit"
         # instead of "FEATURE-FIT"), a plain-register change carrying the same mode/meaning.
         for needle in ("INV-29", "the fit walk, scaled to the wish's kind", "feature-fit"):
             self.assertIn(needle, spec, "SPEC missing: %s" % needle)
-        author = read(os.path.join("skills", "spec-author", "SKILL.md"))
+        author = read_flat(os.path.join("skills", "spec-author", "SKILL.md"))
         for needle in ("The fit walk", "journey", "INV-29"):
             self.assertIn(needle, author, "spec-author missing: %s" % needle)
-        prover = read(os.path.join("skills", "product-prover", "SKILL.md"))
+        prover = read_flat(os.path.join("skills", "product-prover", "SKILL.md"))
         self.assertIn("FEATURE-FIT", prover, "prover missing its FEATURE-FIT mode")
-        pipeline = read_all(os.path.join("skills", "build-pipeline", "SKILL.md"))
+        pipeline = read_all_flat(os.path.join("skills", "build-pipeline", "SKILL.md"))
         self.assertIn("fit walk", pipeline, "pipeline step 1 must cite the fit walk")
 
     def test_visitor_walk_feel_pass(self):
         """Row 117 (M-115, INV-30): product-kind verify walks the visit and watches the feel."""
-        spec = read("PRODUCT_SPEC.md")
+        spec = read_flat("PRODUCT_SPEC.md")
         for needle in ("INV-30", "visitor walk", "feel pass"):
             self.assertIn(needle, spec, "SPEC missing: %s" % needle)
-        pipeline = read_all(os.path.join("skills", "build-pipeline", "SKILL.md"))
+        pipeline = read_all_flat(os.path.join("skills", "build-pipeline", "SKILL.md"))
         for needle in ("VISITOR WALK", "FEEL pass"):
             self.assertIn(needle, pipeline, "pipeline step-8 missing: %s" % needle)
 
     def test_default_expiry_law(self):
         """Rows 118+120 (M-116, INV-31): a taste default is TOLD at landing, never confirmed."""
-        spec = read("PRODUCT_SPEC.md")
+        spec = read_flat("PRODUCT_SPEC.md")
         for needle in ("INV-31", "told, never confirmed"):
             self.assertIn(needle, spec, "SPEC missing: %s" % needle)
-        comm = read(os.path.join("skills", "communicator", "SKILL.md"))
+        comm = read_flat(os.path.join("skills", "communicator", "SKILL.md"))
         self.assertIn("unclaimed decision files", comm,
                       "communicator rule 10 missing the resume-sweep of decision answers")
-        pipeline = read_all(os.path.join("skills", "build-pipeline", "SKILL.md"))
+        pipeline = read_all_flat(os.path.join("skills", "build-pipeline", "SKILL.md"))
         self.assertIn("open `[default]`s", pipeline, "pipeline step 9 missing the defaults list")
 
     def test_decision_card_consequences(self):
         """Row 119 (M-117, INV-32): a decision card asks in consequences, not mechanisms."""
-        spec = read("PRODUCT_SPEC.md")
+        spec = read_flat("PRODUCT_SPEC.md")
         # re-pinned (build-loop-a-intake mapping.md row 25, R5.1): "the mechanism trails" is now
         # "the mechanism follows only where it aids the choice" — same consequences-first rule
         for needle in ("INV-32", "A decision card asks in consequences",
                        "The mechanism follows only where it aids the choice"):
             self.assertIn(needle, spec, "SPEC missing: %s" % needle)
-        comm = read(os.path.join("skills", "communicator", "SKILL.md"))
+        comm = read_flat(os.path.join("skills", "communicator", "SKILL.md"))
         self.assertIn("what the choice CHANGES for the person", comm,
                       "communicator rule 10 missing the consequence-first card law")
 
@@ -2335,10 +2335,10 @@ class TestProblemLedger(unittest.TestCase):
         for needle in ("E-26",
                        "turning the suite red *when* a removed literal reappears. [E-26, INV-42]"):
             self.assertIn(needle, spec, "SPEC missing: %s" % needle)
-        t = read(os.path.join("templates", "KILL_LIST.template.md"))
+        t = read_flat(os.path.join("templates", "KILL_LIST.template.md"))
         for needle in ("NEVER removed", "Killed literal (exact)", "turns the suite RED"):
             self.assertIn(needle, t, "template missing: %s" % needle)
-        g = read(os.path.join("guardrails", "README.md"))
+        g = read_flat(os.path.join("guardrails", "README.md"))
         for needle in ("kill-list scanner", "KILL_LIST.template.md"):
             self.assertIn(needle, g, "guardrails README missing: %s" % needle)
 
@@ -2357,7 +2357,7 @@ class TestProblemLedger(unittest.TestCase):
         adopt = re.sub(r"\s+", " ", read(os.path.join("adopt", "ADOPT.md")))
         for needle in ("Who am I working with", "profile.template.md"):
             self.assertIn(needle, adopt, "ADOPT.md missing: %s" % needle)
-        t = read(os.path.join("templates", "profile.template.md"))
+        t = read_flat(os.path.join("templates", "profile.template.md"))
         for needle in ("on the human's word", "placeholder", "SPEC INV-9", "settings ladder"):
             self.assertIn(needle, t, "template missing: %s" % needle)
 
@@ -2988,7 +2988,7 @@ class TestWorkerLiveness(unittest.TestCase):
         # only "a short window", the numeric default having moved to docs/worker-liveness.md,
         # the plain-words elaboration doc that "explains [the normative rules] in plain words
         # and points at their homes; it adds no rule of its own" — checked below.
-        worker_doc = read("docs/worker-liveness.md")
+        worker_doc = read_flat("docs/worker-liveness.md")
         self.assertIn("~30 s [default]", worker_doc,
                       "docs/worker-liveness.md lost the write-set watch window's numeric default")
         # neither list is proof of death
@@ -3130,7 +3130,7 @@ class TestLLDReadingOrder(unittest.TestCase):
         spec = re.sub(r"\s+", " ", read("PRODUCT_SPEC.md"))
         self.assertIn("what happens then", spec)
         self.assertIn("reads tiers-first", spec)
-        tpl = read("templates/ARCHITECTURE.template.md")
+        tpl = read_flat("templates/ARCHITECTURE.template.md")
         self.assertIn("## The shape at a glance", tpl)
         self.assertIn("| If it fails |", tpl)
         self.assertIn("tiers-and-technology", tpl)
@@ -3151,12 +3151,12 @@ class TestLLDReadingOrder(unittest.TestCase):
 
     def test_field_norm_pieces(self):
         # row 189: the three adopted field-norm pieces (decisions pointer · schema homes · secrets place)
-        tpl = read("templates/ARCHITECTURE.template.md")
+        tpl = read_flat("templates/ARCHITECTURE.template.md")
         self.assertIn("## Decisions — where they live", tpl)
         self.assertIn("never a second home", tpl)
         self.assertIn("where that schema lives", tpl)
         self.assertIn("where SECRETS live", tpl)
-        arch = read("ARCHITECTURE.md")
+        arch = read_flat("ARCHITECTURE.md")
         self.assertIn("## Decisions — where they live", arch)
         self.assertIn("No secret lives in this pack", arch)
         spec = re.sub(r"\s+", " ", read("PRODUCT_SPEC.md"))

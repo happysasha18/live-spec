@@ -10,16 +10,16 @@ import json
 import os
 import unittest
 
-from conftest import ROOT, read
+from conftest import ROOT, read, read_flat
 
 
 class TestNoSelfCertification(unittest.TestCase):
     def test_law_in_both_homes(self):
-        spec = read("PRODUCT_SPEC.md")
+        spec = read_flat("PRODUCT_SPEC.md")
         self.assertIn("[INV-94]", spec)
         self.assertIn("| INV-94 |", spec)
         self.assertIn("certifies its own sincerity", spec)
-        comm = read("skills/communicator/SKILL.md")
+        comm = read_flat("skills/communicator/SKILL.md")
         self.assertIn("Self-certification", comm)
         self.assertIn("INV-94", comm)
 
@@ -38,7 +38,7 @@ class TestNoSelfCertification(unittest.TestCase):
         self.assertGreaterEqual(floor, 23, "pattern floor not raised with the family")
 
     def test_readme_swept_of_the_class(self):
-        readme = read("README.md")
+        readme = read_flat("README.md")
         for phrase in ("we say so plainly", "honest treatment", "unsoftened",
                        "keep this list honest"):
             self.assertNotIn(phrase, readme, f"self-certification survives: {phrase}")

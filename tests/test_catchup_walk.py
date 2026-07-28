@@ -9,7 +9,7 @@ non-idempotent `git mv` step and no walk at all).
 import os
 import unittest
 
-from conftest import ROOT, read
+from conftest import read_flat
 
 
 class TestCatchupWalk(unittest.TestCase):
@@ -21,17 +21,17 @@ class TestCatchupWalk(unittest.TestCase):
         # "[feature: F-...]" heading tag instead of citing it inline in the User Story — the
         # convention is applied consistently across all five, not just this one. F-catchup now
         # sits on Requirement 180's H2 heading; A-11 stays inline in the User Story/criteria.
-        spec = read("PRODUCT_SPEC.md")
+        spec = read_flat("PRODUCT_SPEC.md")
         # the spec side: the scenario and its anchors exist
         self.assertIn(
             "## Requirement 180: The catch-up sequence brings an adopted host onto the current pack"
-            "  [feature: F-catchup]",
+            " [feature: F-catchup]",
             spec,
         )
         for anchor in ("[A-11]", "[INV-89]", "[INV-90]", "[INV-91]"):
             self.assertIn(anchor, spec, f"spec anchor {anchor} missing")
 
-        mig = read("MIGRATION.md")
+        mig = read_flat("MIGRATION.md")
         # routing opens the guide
         self.assertIn("## When to run this", mig)
         self.assertIn("A host that never adopted the pack goes to adoption", mig)
@@ -58,12 +58,12 @@ class TestCatchupWalk(unittest.TestCase):
 
     def test_catchup_pair_and_machine_level(self):
         """M-217 (pair + once-per-machine legs)."""
-        mig = read("MIGRATION.md")
+        mig = read_flat("MIGRATION.md")
         self.assertIn("one inbox wish naming the other half's catch-up debt", mig)
         self.assertIn("runs the full adoption for that repo", mig)
         self.assertIn("once per machine", mig)
         self.assertIn("already-done check", mig)
-        pair = read("docs/pair-adoption.md")
+        pair = read_flat("docs/pair-adoption.md")
         self.assertIn("one inbox wish naming the other half's catch-up debt", pair)
 
 
@@ -71,7 +71,7 @@ class TestCatchupHalfDoneSafety(unittest.TestCase):
     """M-218 — every step safe on a half-done state (INV-89)."""
 
     def test_precondition_and_merge_law(self):
-        mig = read("MIGRATION.md")
+        mig = read_flat("MIGRATION.md")
         self.assertIn("reads its precondition from the tree", mig)
         self.assertIn("already holds is reported done and skipped", mig)
         self.assertIn("merge file by file", mig)
@@ -86,7 +86,7 @@ class TestCatchupHalfDoneSafety(unittest.TestCase):
 
     def test_never_a_bare_git_mv(self):
         """The old non-idempotent step 1 is gone: no unconditional rename instruction."""
-        mig = read("MIGRATION.md")
+        mig = read_flat("MIGRATION.md")
         self.assertNotIn(
             "`git mv .livespec .live-spec` — the host's pack folder",
             mig,
@@ -98,7 +98,7 @@ class TestCatchupPreserveAndRehome(unittest.TestCase):
     """M-219 — preserve facts, re-home them, one canonical list (INV-90)."""
 
     def test_no_blanket_rewrite_and_naming(self):
-        mig = read("MIGRATION.md")
+        mig = read_flat("MIGRATION.md")
         self.assertIn(
             "Settled prose is rewritten only where the owner rejected it "
             "or where the new shape cannot hold it as written",
@@ -109,25 +109,25 @@ class TestCatchupPreserveAndRehome(unittest.TestCase):
 
     def test_canonical_set_has_one_home(self):
         heading = "## The canonical document set"
-        self.assertIn(heading, read("adopt/ADOPT.md"))
+        self.assertIn(heading, read_flat("adopt/ADOPT.md"))
         for other in ("docs/adoption.md", "docs/pair-adoption.md", "MIGRATION.md"):
             self.assertNotIn(
-                heading, read(other),
+                heading, read_flat(other),
                 f"second canonical-set list in {other} — the one home is ADOPT.md",
             )
-        self.assertIn("The canonical document set lives in `adopt/ADOPT.md`", read("docs/adoption.md"))
+        self.assertIn("The canonical document set lives in `adopt/ADOPT.md`", read_flat("docs/adoption.md"))
 
     def test_spec_file_row_in_defaults_table(self):
-        self.assertIn("spec.file", read("skills/live-spec-base/SKILL.md"))
+        self.assertIn("spec.file", read_flat("skills/live-spec-base/SKILL.md"))
 
 
 class TestCatchupSelfTest(unittest.TestCase):
     """M-221 — the walk's before-and-after self-test and the named restore point (INV-92)."""
 
     def test_before_after_inventory_and_restore(self):
-        spec = read("PRODUCT_SPEC.md")
+        spec = read_flat("PRODUCT_SPEC.md")
         self.assertIn("[INV-92]", spec)
-        mig = read("MIGRATION.md")
+        mig = read_flat("MIGRATION.md")
         self.assertIn("pre-walk inventory", mig)
         self.assertIn("fingerprint", mig)
         self.assertIn("anchor multiset", mig)
@@ -140,11 +140,11 @@ class TestCatchupVersionChain(unittest.TestCase):
     """M-220 — per-version migration chapters, the chain walked oldest first (INV-91)."""
 
     def test_chapters_and_chain(self):
-        mig = read("MIGRATION.md")
+        mig = read_flat("MIGRATION.md")
         self.assertIn("## Migration chapters", mig)
         self.assertIn("### 1.0.0", mig)
         self.assertIn("oldest first", mig)
-        spec = read("PRODUCT_SPEC.md")
+        spec = read_flat("PRODUCT_SPEC.md")
         self.assertIn("dated migration chapter", spec)
 
     def test_versionless_record_starts_at_earliest_chapter(self):
@@ -159,7 +159,7 @@ class TestCatchupVersionChain(unittest.TestCase):
         """
         for rel in ("MIGRATION.md", "PRODUCT_SPEC.md"):
             self.assertIn(
-                "the chain at the earliest chapter", read(rel),
+                "the chain at the earliest chapter", read_flat(rel),
                 f"no-readable-version fallback missing in {rel}",
             )
 

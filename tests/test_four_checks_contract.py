@@ -13,12 +13,12 @@ import re
 import subprocess
 import unittest
 
-from conftest import ROOT, read
+from conftest import ROOT, read, read_flat
 
 
 class TestFourChecksContract(unittest.TestCase):
     def test_contract_in_the_spec(self):
-        spec = read("PRODUCT_SPEC.md")
+        spec = read_flat("PRODUCT_SPEC.md")
         self.assertIn(
             "the four project-side checks configured rather than re-implemented", spec
         )
@@ -28,15 +28,15 @@ class TestFourChecksContract(unittest.TestCase):
         )
 
     def test_waivers_are_declared(self):
-        spec = read("PRODUCT_SPEC.md")
+        spec = read_flat("PRODUCT_SPEC.md")
         self.assertIn("an undeclared gap never passes quietly", spec)
 
     def test_acceptance_is_measured(self):
-        spec = read("PRODUCT_SPEC.md")
+        spec = read_flat("PRODUCT_SPEC.md")
         self.assertIn("each check proves itself red-first on one planted defect", spec)
 
     def test_spec_anchor_and_index(self):
-        spec = read("PRODUCT_SPEC.md")
+        spec = read_flat("PRODUCT_SPEC.md")
         self.assertIn("[INV-97]", spec)
         self.assertIn("| INV-97 |", spec)
 

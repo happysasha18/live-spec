@@ -13,6 +13,8 @@ import subprocess
 import tempfile
 import unittest
 
+from conftest import read_flat
+
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CHECK = os.path.join(REPO, "guardrails", "check-ci-mirror.sh")
 GATES_YML = os.path.join(REPO, ".github", "workflows", "gates.yml")
@@ -105,7 +107,7 @@ class TestCiMirror(unittest.TestCase):
     # --- traceability across the four documents ---
 
     def test_spec_states_the_law(self):
-        spec = read("PRODUCT_SPEC.md")
+        spec = read_flat("PRODUCT_SPEC.md")
         self.assertIn("[INV-210]", spec)
         # The requirements-format spec states the law, not the implementing script filename.
         self.assertIn("a gate letter locally that the remote mirror does not run", spec)

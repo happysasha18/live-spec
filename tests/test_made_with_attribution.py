@@ -9,7 +9,7 @@ the two homes: the spec clause and the publish skill's floor.
 import os
 import unittest
 
-from conftest import ROOT, read
+from conftest import ROOT, read, read_flat
 
 
 class TestMadeWithAttributionLaw(unittest.TestCase):
@@ -23,20 +23,20 @@ class TestMadeWithAttributionLaw(unittest.TestCase):
         # pack repo). The spec-side check moves to that behavioural statement; the literal
         # check stays pinned on its one surviving home.
         for home in self.HOMES:
-            body = read(home)
+            body = read_flat(home)
             self.assertIn("made with live-spec", body, home)
-        self.assertIn("linking to the pack repo", read("PRODUCT_SPEC.md"), "PRODUCT_SPEC.md")
-        self.assertIn("github.com/happysasha18/live-spec", read("skills/publish/SKILL.md"),
+        self.assertIn("linking to the pack repo", read_flat("PRODUCT_SPEC.md"), "PRODUCT_SPEC.md")
+        self.assertIn("github.com/happysasha18/live-spec", read_flat("skills/publish/SKILL.md"),
                       "skills/publish/SKILL.md")
 
     def test_line_carries_the_pack_version(self):
         # his 2026-07-10 word: the line names the version — adoption becomes trackable
         for home in self.HOMES:
-            body = read(home)
+            body = read_flat(home)
             self.assertIn("the pack version the project runs", body, home)
 
     def test_publish_walk_offers_the_line(self):
-        skill = read("skills/publish/SKILL.md")
+        skill = read_flat("skills/publish/SKILL.md")
         self.assertIn("built with the pack", skill)
         self.assertIn("an offer, never a gate", skill)
 
@@ -45,15 +45,15 @@ class TestMadeWithAttributionLaw(unittest.TestCase):
         # PRODUCT_SPEC.md's rewritten Requirement 147 paraphrases "never re-asked" as "staying
         # closed" (same meaning: a declined offer is settled, not revisited); the publish skill
         # keeps the original wording unchanged.
-        spec = read("PRODUCT_SPEC.md")
+        spec = read_flat("PRODUCT_SPEC.md")
         self.assertIn("an offer, never a gate", spec, "PRODUCT_SPEC.md")
         self.assertIn("a declined offer staying closed", spec, "PRODUCT_SPEC.md")
-        skill = read("skills/publish/SKILL.md")
+        skill = read_flat("skills/publish/SKILL.md")
         self.assertIn("an offer, never a gate", skill, "skills/publish/SKILL.md")
         self.assertIn("never re-asked", skill, "skills/publish/SKILL.md")
 
     def test_spec_anchor_and_index(self):
-        spec = read("PRODUCT_SPEC.md")
+        spec = read_flat("PRODUCT_SPEC.md")
         self.assertIn("[INV-96]", spec)
         self.assertIn("| INV-96 |", spec)
 

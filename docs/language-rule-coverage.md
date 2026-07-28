@@ -379,7 +379,7 @@ repair the text from those stops rather than from the one sentence in front of y
 
 **Stated before this page, at.** ~/.claude/hooks/register-judge-personal.md:1, hooks/register-judge.py:30, hooks/register_judge_core.py:35
 
-**Notes.** This law governs the classes r12, r13, and r15. The two thresholds bind every law the register judge holds: a reply under 120 characters is never judged, and an offence quote under twelve characters is dropped as a hallucination. No prose home states either number, nor that the judge ignores file paths, code, command output, and quoted text. The boundary against r51: a recap of a buried answer repeats words the message already carries, and it carries a fact the reader would otherwise lose, so it informs and this rule does not cut it. What this rule cuts is a sentence carrying no fact at all. The sentences this cuts: one that only performs a stance, a preface, a restatement, a softener, and a ceremonial opening or closing. The test is whether the sentence carries a fact of its own. The list moved here from the rule sentence on 2026-07-28.
+**Notes.** This law governs the classes r12, r13, and r15. The two thresholds bind every law the register judge holds: a reply under 120 characters is never judged, and an offence quote under twelve characters is dropped as a hallucination. No prose home states either number, nor that the judge ignores file paths, code, command output, and quoted text. The boundary against r51: a recap of a buried answer repeats words the message already carries, and it carries a fact the reader would otherwise lose, so it informs and this rule does not cut it. What this rule cuts is a sentence carrying no fact at all. The sentences this cuts: one that only performs a stance, a preface, a restatement, a softener, and a ceremonial opening or closing. The test is whether the sentence carries a fact of its own. The list moved here from the rule sentence on 2026-07-28. The session-stop-hook holds this rule and missed one instance on 2026-07-28: an abstract sentence announcing what the next sentence states. The owner caught it. The announcing sentence is the shape the catcher's reach is short on. The owner sharpened the reader test on 2026-07-28: a sentence earns its place by changing what the reader does. A sentence that leaves every action the same is cut or replaced.
 
 ### r15 — a word inflating a statement while adding nothing
 
@@ -1018,3 +1018,67 @@ repair the text from those stops rather than from the one sentence in front of y
 **Stated before this page, at.** docs/spec-format.md
 
 **Notes.** Split out of r08 on 2026-07-28. r08 stated the word cap, the one-rule limit, the subordination limit, and the list form in one sentence. The rule against carrying several rules in one sentence carried four.
+
+### r65 — a rare word standing where an everyday word says the same thing
+
+**Binds.** spec-body · human-prose · chat · artifact
+
+**Status.** stated-only, armed at nowhere.
+
+**What catches a break of it.**
+
+- **pattern** — absent.
+- **model** — absent.
+- **person** — partial. Reads: whether an everyday word carries the same meaning as the word on the page.
+
+**Stated before this page, at.** docs/language-reads/2026-07-28-read14-text-audit-skill.md
+
+**Notes.** The owner set the mechanism's bound on 2026-07-28: no word list is kept by hand in this project. A published frequency list of English is acceptable, because nobody here updates it. The rule's lower bound is the profession's own terms, which stay whatever their frequency: requirement, invariant, gate, criterion.
+
+### r66 — a document written in the register of the message that asked for it
+
+**Binds.** spec-body · human-prose · chat · artifact · commit · worker-brief
+
+**Status.** stated-only, armed at nowhere.
+
+**What catches a break of it.**
+
+- **pattern** — absent.
+- **model** — absent.
+- **person** — partial. Reads: whether a sentence took its tone from the request.
+
+**Stated before this page, at.** docs/language-reads/2026-07-28-read14-text-audit-skill.md
+
+**Notes.** The owner stated it on 2026-07-28. He writes in chat however is fastest, mixing languages and dropping letters, and every document is written by the book. Matching the register of a request is a default writing habit, so the rule names it.
+
+### r67 — a defined term standing in a file that is read apart from its definition
+
+**Binds.** spec-body · human-prose · artifact · worker-brief
+
+**Status.** stated-only, armed at nowhere.
+
+**What catches a break of it.**
+
+- **pattern** — absent.
+- **model** — absent.
+- **person** — partial. Reads: whether the file being read carries a path to the term's definition.
+
+**Stated before this page, at.** docs/language-reads/2026-07-28-read14-text-audit-skill.md, PRODUCT_SPEC.md:212
+
+**Notes.** This project keeps its glossary inside PRODUCT_SPEC.md. A skill file is loaded on its own, and its reader never opens that spec. The rule covers a term that already has a definition, which sets it apart from r21, where the entry is missing.
+
+### r68 — a placeholder word standing where the thing's own name fits
+
+**Binds.** spec-body · human-prose · chat · artifact · commit · worker-brief
+
+**Status.** stated-only, armed at nowhere.
+
+**What catches a break of it.**
+
+- **pattern** — absent.
+- **model** — absent.
+- **person** — partial. Reads: whether the name would clutter the sentence it replaces.
+
+**Stated before this page, at.** docs/language-reads/2026-07-28-read15-campaign-plan.md
+
+**Notes.** The owner stated it on 2026-07-28 while reading the campaign plan. r39 covers a pronoun whose referent is missing from its sentence, and r63 covers a thing named by its number. This rule covers the word whose referent a reader can find, and which still sends the reader back to find it.

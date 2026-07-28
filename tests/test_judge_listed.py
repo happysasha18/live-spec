@@ -14,6 +14,8 @@ import subprocess
 import tempfile
 import unittest
 
+from conftest import read_flat
+
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CHECK = os.path.join(REPO, "guardrails", "check-judge-listed.py")
 DECL = os.path.join(REPO, "guardrails", "judge-hooks.json")
@@ -143,7 +145,7 @@ class TestJudgeListed(unittest.TestCase):
         # The spec's rewrite dropped implementation filenames from its prose (they now
         # live only in ARCHITECTURE.md, checked below); the spec names the gate and
         # its declaration by their behavioural names instead.
-        spec = read("PRODUCT_SPEC.md")
+        spec = read_flat("PRODUCT_SPEC.md")
         self.assertIn("[INV-211]", spec)
         self.assertIn("the wiring check", spec)
         self.assertIn("the wired-hook declaration", spec)

@@ -18,11 +18,16 @@ from conftest import ROOT, read
 def _milestone_list(spec):
     """The enumerated M-1 milestone-gate step list. The requirements-format rewrite moved this
     from a "**Milestone (minor gate):**" bullet block to Requirement 130's Acceptance Criteria
-    (nine numbered steps across four Cases), so this now extracts that requirement's whole body."""
+    (nine numbered steps across four Cases), so this now extracts that requirement's whole body.
+
+    The heading boundaries are found on the raw text (each heading is its own physical line),
+    then the extracted body is whitespace-flattened so a wrapped line inside it still matches a
+    prose needle byte-for-byte.
+    """
     head = "## Requirement 130: The milestone gate re-proves and audits the whole"
     start = spec.index(head)
     tail = spec.index("\n## Requirement 131", start)
-    return spec[start:tail]
+    return " ".join(spec[start:tail].split())
 
 
 class TestMilestoneEnumeratesDesignReview(unittest.TestCase):
@@ -46,6 +51,7 @@ class TestMilestoneEnumeratesDesignReview(unittest.TestCase):
     def test_architecture_append_duty_names_the_design_review_record(self):
         arch = read("ARCHITECTURE.md")
         section = arch.split("## Decisions — where they live", 1)[1].split("## Prover record", 1)[0]
+        section = " ".join(section.split())
         self.assertIn("design-review record", section.lower(),
                       "ARCHITECTURE's append duty never names the design-review record beside the prover's")
 

@@ -31,7 +31,7 @@ class TestArchitectureProvedAtFullPass(unittest.TestCase):
         self.assertRegex(spec, r"\[[^\]\n]*\bINV-116\b[^\]\n]*\]")
 
     def test_spec_anchor_and_index(self):
-        spec = read("PRODUCT_SPEC.md")
+        spec = read_flat("PRODUCT_SPEC.md")
         self.assertIn("| INV-116 |", spec, "INV-116 has no Reference index row")
         self.assertIn(
             "re-prove the architecture beside it",

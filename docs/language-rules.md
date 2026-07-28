@@ -40,37 +40,37 @@ A surface is a KIND of text, not a file, and one file carries several. The numbe
 
 The numbered requirements and acceptance criteria of `PRODUCT_SPEC.md`, and the same numbered shape in `ARCHITECTURE.md` and `TEST_MATRIX.md`. A machine reads this text beside the person. The prose paragraphs in those same files are human-prose. Example: Requirement 297 of `PRODUCT_SPEC.md`, and each acceptance criterion under it.
 
-Binds 44 of the 55 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r08 · r09 · r10 · r11 · r12 · r15 · r18 · r19 · r20 · r21 · r23 · r24 · r26 · r27 · r29 · r30 · r31 · r32 · r33 · r34 · r35 · r36 · r37 · r39 · r40 · r41 · r43 · r44 · r45 · r53 · r54 · r55 · r56 · r61 · r62 · r63 · r64.
+Binds 48 of the 59 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r08 · r09 · r10 · r11 · r12 · r15 · r18 · r19 · r20 · r21 · r23 · r24 · r26 · r27 · r29 · r30 · r31 · r32 · r33 · r34 · r35 · r36 · r37 · r39 · r40 · r41 · r43 · r44 · r45 · r53 · r54 · r55 · r56 · r61 · r62 · r63 · r64 · r65 · r66 · r67 · r68.
 
 ### human-prose
 
 Text a person reads to understand something or to decide something: `README.md`, `OVERVIEW.md`, a decision page, a report, a skill's own body, a documentation page, and the prose paragraphs inside a spec. A documentation page is human-prose, and it carries `artifact` as well once it is published outside the project. Example: `README.md`, and this page.
 
-Binds 41 of the 55 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r08 · r09 · r10 · r11 · r12 · r13 · r14 · r15 · r18 · r20 · r23 · r25 · r26 · r27 · r32 · r33 · r39 · r41 · r43 · r44 · r45 · r46 · r48 · r49 · r50 · r52 · r53 · r54 · r56 · r57 · r61 · r62 · r63 · r64.
+Binds 45 of the 59 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r08 · r09 · r10 · r11 · r12 · r13 · r14 · r15 · r18 · r20 · r23 · r25 · r26 · r27 · r32 · r33 · r39 · r41 · r43 · r44 · r45 · r46 · r48 · r49 · r50 · r52 · r53 · r54 · r56 · r57 · r61 · r62 · r63 · r64 · r65 · r66 · r67 · r68.
 
 ### chat
 
 A message the agent sends the person in conversation, including the narration between tool calls — the checkers read every assistant message since the person's last turn, not the final reply alone. Example: a reply in a working session.
 
-Binds 28 of the 55 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r10 · r11 · r12 · r13 · r14 · r15 · r18 · r25 · r26 · r27 · r43 · r46 · r47 · r48 · r49 · r50 · r51 · r52 · r61 · r62 · r63.
+Binds 31 of the 59 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r10 · r11 · r12 · r13 · r14 · r15 · r18 · r25 · r26 · r27 · r43 · r46 · r47 · r48 · r49 · r50 · r51 · r52 · r61 · r62 · r63 · r65 · r66 · r68.
 
 ### artifact
 
 A page or file published to someone outside the project: a rendered page, product copy, a public README, a marketing text. Example: the project's public README as it stands on its repository page.
 
-Binds 45 of the 55 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r08 · r09 · r10 · r11 · r12 · r13 · r14 · r15 · r18 · r19 · r20 · r23 · r25 · r26 · r27 · r29 · r30 · r31 · r32 · r33 · r34 · r39 · r40 · r41 · r43 · r44 · r45 · r46 · r50 · r53 · r54 · r55 · r56 · r57 · r61 · r62 · r63 · r64.
+Binds 49 of the 59 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r08 · r09 · r10 · r11 · r12 · r13 · r14 · r15 · r18 · r19 · r20 · r23 · r25 · r26 · r27 · r29 · r30 · r31 · r32 · r33 · r34 · r39 · r40 · r41 · r43 · r44 · r45 · r46 · r50 · r53 · r54 · r55 · r56 · r57 · r61 · r62 · r63 · r64 · r65 · r66 · r67 · r68.
 
 ### commit
 
 A commit message: its subject line and its body. Example: the message on one commit.
 
-Binds 6 of the 55 rules: r10 · r12 · r18 · r19 · r27 · r61.
+Binds 8 of the 59 rules: r10 · r12 · r18 · r19 · r27 · r61 · r66 · r68.
 
 ### worker-brief
 
 The text one agent hands another as its instructions. Example: the brief a session writes when it starts a background worker.
 
-Binds 9 of the 55 rules: r10 · r12 · r13 · r14 · r15 · r18 · r27 · r48 · r61.
+Binds 12 of the 59 rules: r10 · r12 · r13 · r14 · r15 · r18 · r27 · r48 · r61 · r66 · r67 · r68.
 
 ## The words these pages use
 
@@ -141,6 +141,7 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 - `тело требования (the requirement's body)` → `текст требования (the requirement's text)`
 - `храповик (ratchet)` → `предел, который не растёт (a limit that does not grow)`
 - `засеяна (seeded)` → `начальные числа записаны (the starting numbers are recorded)`
+- `workers read document bodies` → `workers read the documents`
 
 **Exceptions.** a minted name for a thing nothing else names, carrying a glossary entry at its first appearance.
 
@@ -329,13 +330,15 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 **Rule.** Every sentence shown to the person advances the finding, the decision, or the action. A sentence carrying a fact the reader would otherwise lose stays, however short.
 
-**Reader test.** Would the reader lose a fact if this sentence were deleted?
+**Reader test.** Does the reader do anything differently because this sentence is here?
 
 **Binds.** chat · human-prose · artifact · worker-brief
 
 **Examples.**
 
 - `Its whole job is to mark where it stopped, what it guessed, and why.` → `deleted, since the two sentences above it already say this`
+- `каждый из шести законов сохраняет свою обязанность. Закон, который после переписывания стал связывать меньше случаев, считается провалом прогона.` → `Закон, который после переписывания стал связывать меньше случаев, считается провалом прогона.`
+- `Записал в двух местах, и первое было неправильным.` → `delete the sentence and name the two places`
 
 **Exceptions.** the closing recap r51 requires, which carries an answer the reader would otherwise lose inside a long reply.
 
@@ -907,6 +910,57 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 - a lane past the cap.`
 
 **Exceptions.** two items a single short clause carries without strain.
+
+### r65 — a rare word standing where an everyday word says the same thing
+
+**Rule.** A sentence takes the everyday word wherever an everyday word carries the meaning. A rare or bookish word stands only where no everyday word says the same thing. A term of the profession stays as it is, and the words around it come down.
+
+**Reader test.** Would a professional reader whose first language is other than English reach for a dictionary on this word?
+
+**Binds.** spec-body · human-prose · chat · artifact
+
+**Examples.**
+
+- `a writer marinated in this project's own vocabulary` → `a writer who has already read this project's rules`
+- `the loop is armed at a named harness event` → `a hook runs the check when the session ends`
+
+### r66 — a document written in the register of the message that asked for it
+
+**Rule.** The register of a request settles nothing about the register of the document. A person writes a request however is fastest for them. Every document is written to the rules of its surface, whatever the request looked like.
+
+**Reader test.** Did this sentence take its tone from the message that asked for the work?
+
+**Binds.** spec-body · human-prose · chat · artifact · commit · worker-brief
+
+**Examples.**
+
+- `ok so the gate basically checks the counts and yells when something is off` → `The gate measures every live document and refuses a push where a count stands above its record.`
+
+### r67 — a defined term standing in a file that is read apart from its definition
+
+**Rule.** A term defined in one home stands in another file only where that file gives its reader a path to the definition. A file read on its own carries the terms it uses, or it names where each one is defined.
+
+**Reader test.** Reading this file alone, could I reach the definition of this term?
+
+**Binds.** spec-body · human-prose · artifact · worker-brief
+
+**Examples.**
+
+- `together with the settings ladder` → `together with the four scopes that settle a setting: the session's live word, the host profile, the personal profile, and the package default`
+
+### r68 — a placeholder word standing where the thing's own name fits
+
+**Rule.** A sentence carries the name of the thing it is about. A pronoun or a general word stands only where the name would clutter the sentence. A status word stands only where the sentence has already stated the condition behind it.
+
+**Reader test.** Does this word name the thing, or does the reader have to carry the name in from an earlier sentence?
+
+**Binds.** spec-body · human-prose · chat · artifact · commit · worker-brief
+
+**Examples.**
+
+- `This keeps the leading context clear enough to hold the campaign.` → `The leading session then holds enough room to carry the campaign.`
+- `The second goal needs its own measure` → `The growing specification has no measure today`
+- `A report says which documents are done` → `A report says which documents are measured clean and read clean`
 
 ## An index of questions
 

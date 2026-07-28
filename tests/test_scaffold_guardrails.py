@@ -17,7 +17,7 @@ import subprocess
 import tempfile
 import unittest
 
-from conftest import ROOT
+from conftest import ROOT, read_flat
 SCAFFOLD = os.path.join(ROOT, "scaffold", "guardrails")
 CLEAN = os.path.join(ROOT, "tests", "fixtures", "scaffold_guardrails", "host-clean")
 
@@ -272,8 +272,7 @@ class TestShippedShape(unittest.TestCase):
             self.assertIn(key, cfg)
 
     def test_readme_walks_the_attach(self):
-        with open(os.path.join(SCAFFOLD, "README.md"), encoding="utf-8") as f:
-            readme = f.read()
+        readme = read_flat(os.path.join(SCAFFOLD, "README.md"))
         self.assertIn("guardrails.config.example.json", readme)
         self.assertIn("pre-push", readme)
         for script in SCRIPTS.values():
@@ -283,8 +282,7 @@ class TestShippedShape(unittest.TestCase):
         # Row 251: a first-time host reads the pre-config red as breakage unless the walk
         # LEADS with the config and names the red as by-design; the no-config fix line
         # points at that step.
-        with open(os.path.join(SCAFFOLD, "README.md"), encoding="utf-8") as f:
-            readme = f.read()
+        readme = read_flat(os.path.join(SCAFFOLD, "README.md"))
         walk = readme.split("## The attach walk", 1)[1]
         first_step = walk.split("1. ")[0]
         self.assertIn("0. **Copy the example config first", first_step,
