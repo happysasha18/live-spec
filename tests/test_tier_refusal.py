@@ -1,4 +1,4 @@
-"""A dispatch to the expensive tier proves its own need (ROADMAP row 507).
+"""A dispatch to the expensive tier proves its own need — its red proof (ROADMAP row 507).
 
 The evening of 2026-07-27 spent about a fifth of the weekly budget in half a day, with six of twelve
 helper runs on the expensive tier for mechanical work. Comparing task strings tells nobody which tier

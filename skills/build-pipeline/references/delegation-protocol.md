@@ -46,7 +46,7 @@ written, ahead of the new worker's first write. The session's live setting lines
 into the brief verbatim — a worker never resolves the settings ladder itself, it cannot hear the human's
 spoken word.
 
-**A worker never restores a working tree with a git command (ROADMAP row 479).** Before a worker
+**A worker never restores a working tree with a git command (SPEC INV-298; the gate INV-299).** Before a worker
 mutates a file it means to put back, it reads that file and holds its bytes. A worker puts a file
 back by WRITING ITS OWN SAVED BYTES. A worker runs no command that discards uncommitted work, in any
 tree: `git checkout -- <path>`, `git checkout .`, `git restore` outside `--staged`, `git stash` and

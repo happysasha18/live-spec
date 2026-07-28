@@ -20,11 +20,12 @@ meaning; the suite caught three and the prover found four. The readability gate 
 bullets and carries a fifth measure over a criterion's total weight, recorded at 31.
 
 ## TO RESUME, in order
-(1) The reference reads at 30 of 60 rules applicable to a stranger holding a real writing task. The
-folds and the surface definitions landed after that read, so the next step is a fresh blind read of
-`docs/language-rules.md` against the same task, and the number it returns is the measure to move.
-(2) `docs/language-defects.md` owes two consecutive blind reads with no blocking finding before anyone
-is shown it. Read five stopped 45 times with 11 blocking; read six stopped 34 times with 8.
+(1) `docs/language-defects.md` owes two consecutive blind reads with no blocking finding before anyone
+is shown it. The four readings so far, oldest first: 45 stops with 11 blocking, 34 with 8, 27 with 12,
+28 with 6. Round eleven repaired all six, so read nine is owed and read ten after it.
+(2) The reference reads at 33 of the 39 rules that bind a documentation page, applicable with no
+question to the author. The reader named one question per rule for the six that remain, and three of
+those six wait on the three answers below. A third reading measures what the worked example moved.
 (3) The three questions the reference's reader left standing and this seat could not derive: what "the
 register laws" names for a drafting brief, how a rule with no measure states its bar (r62's own note says
 its measure does not exist), and the number behind "a long flat run of peer items" in r45.

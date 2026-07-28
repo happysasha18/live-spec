@@ -2,7 +2,9 @@
 
 # Language rules — what catches a break of each one
 
-This page is for whoever maintains the checkers. Its companion `docs/language-rules.md` states the rules themselves, in the words a writer applies; this page adds, per rule, its status, what catches a break of it and how far each catcher reads, where each catcher is armed, the rule text the judging model reads, the files that stated the rule in prose before `guardrails/language-rules.json` became its one home, and the notes with their history.
+This page is for whoever maintains the catchers. Its companion `docs/language-rules.md` states the rules themselves, in the words a writer applies; this page adds, per rule, its status, what catches a break of it and how far each catcher reads, where each catcher is armed, the rule text the judging model reads, the files that stated the rule in prose before `guardrails/language-rules.json` became its one home, and the notes with their history.
+
+It opens with three things a reader needs before any single rule: the status words and the arming events defined, the files that carry the rules, and how to run each kind of catcher over a text by hand. `docs/language-defects.md` is the record of where these rules came from, and it sends a reader here for all of it.
 
 The entries stand in the same order as on the writer's page, under the same headings, so one rule is read on both pages by its id.
 
@@ -34,6 +36,101 @@ Each **catcher** under a rule carries a status of its own.
 
 A path written as `~/...` names the reader's own `.claude` tree, which the package ships to nobody; every other path is relative to the repository root.
 
+## The files that carry the rules
+
+Every command on this page runs from the repository root, the directory that holds `PRODUCT_SPEC.md`,
+`guardrails/`, and `scripts/`.
+
+- `guardrails/language-rules.json` — the source. Every rule is edited here and nowhere else.
+- `docs/language-rules.md` — the writer's page, built from the source. A hand edit here is thrown away by the next run
+  of the generator.
+- `docs/language-rule-coverage.md` — this page, built from the source and thrown away the same way.
+- `hooks/language-laws.json` — the rules in the form the judging model reads, built from the source, one body per
+  catcher and surface.
+- `scripts/gen-language-consumers.py` — the generator. It reads the source and writes the three built
+  files above.
+- `guardrails/check-language-rules.py` — the gate. It refuses a built file that has drifted from the
+  source, and a rule pointing at a file or a line that is gone.
+
+Rebuild the three built files, then check them:
+
+```
+python3 scripts/gen-language-consumers.py
+python3 guardrails/check-language-rules.py
+```
+
+## Running a catcher by hand
+
+Each rule below names its catchers. A rule's **Status** line names the events its catchers are armed
+at, and the legend above says what a break costs at each of those events.
+
+### A script catcher
+
+A rule's `pattern` catcher names the file that carries it. Those files are Python scripts, and each
+takes the text to read as its argument:
+
+```
+python3 guardrails/check-vocabulary.py PRODUCT_SPEC.md
+python3 scripts/preshow-register-lint.py docs/language-rules.md
+```
+
+Each prints one line on a clean run. A script under `guardrails/` also states how far it read, so its
+passing verdict says how much of the text it covered.
+
+`scripts/preshow-register-lint.py` is one script making two passes over a document that is about to be
+shown to a person. It always reads the text line by line against its own list of coined phrases, loan
+translations, and respellings. It also makes the model call described below, and it makes that call
+only when the environment variable `PRESHOW_REGISTER_JUDGE` is set to `1`, since the call costs a live
+model run.
+
+### The model catcher
+
+The model catcher is one model call, made by `hooks/register_judge_core.py`. That module is handed the
+text together with the rules binding the text's surface, which it reads from `hooks/language-laws.json`, and it
+answers with the sentences that break one. Two scripts make the call, one on each surface it runs on
+today.
+
+On chat, `hooks/register-judge.py` makes the call. `hooks/register-judge-collect.sh` runs at the
+session's Stop event, starts that script in the background and returns at once;
+`hooks/register-judge-report.sh` runs when the person sends their next message and prints whatever
+verdict landed in the meantime. The person has already read the reply that broke the rule by then, so
+the correction reaches them one turn later.
+
+Making that call by hand needs a session transcript, which the script takes as a Stop-hook payload on
+its standard input. A transcript is a `.jsonl` file at
+`~/.claude/projects/<project>/<session>.jsonl`, where `<project>` is the working directory's path with
+its slashes turned into dashes and `<session>` is the session's own identifier. Neither is worth typing
+out; take the newest transcript on the machine instead:
+
+```
+transcript=$(ls -t ~/.claude/projects/*/*.jsonl | head -1)
+printf '{"transcript_path": "%s"}' "$transcript" | python3 hooks/register-judge.py
+```
+
+When the turn breaks a rule, the script prints one JSON line. It names what broke and tells the session
+to hold its reply until a correction goes out. A clean turn gets no output.
+
+On a document, `scripts/preshow-register-lint.py` makes the call, at the moment the document is about
+to be shown to a person. One call took about 33 seconds when it was measured on 2026-07-17, almost all
+of it spent starting the `claude` command-line program the call runs through:
+
+```
+PRESHOW_REGISTER_JUDGE=1 python3 scripts/preshow-register-lint.py docs/language-defects.md
+```
+
+Either script stands down on its own breakage: no `claude` binary on the path, a timeout, or an answer
+the script cannot parse leaves the text unjudged, says so on standard error, and blocks nothing.
+
+### A person reading the text
+
+A person is the catcher no script and no model replaces, and a reading runs the same way every time.
+Hand the reader the text alone — no repository, no earlier draft, and no chance to ask the writer a
+question — together with the job the text is meant to serve, where it serves one. Ask for every place
+the reading stopped: what the reader stopped on, the guess the reader made there, and whether the stop
+kept the reader from going on. Write the answer to a dated file under `docs/language-reads/`, and
+repair the text from those stops rather than from the one sentence in front of you.
+`docs/language-defects.md` records what every past reading returned and what each one changed.
+
 ## The rules
 
 ### r01 — an ordinary word carrying a private project meaning
@@ -64,7 +161,7 @@ A path written as `~/...` names the reader's own `.claude` tree, which the packa
 - **model** — held. Lives at scripts/preshow-register-lint.py via hooks/register_judge_core.py. Rule text the judging model reads: no machine dialect in a surface a human reads: a word this project coined where the industry already has one, an English internal term loan-translated word for word into the reader's own language (a calque), or an English coinage respelled in the reader's alphabet. Judge by whether an outside reader, never taught this project's private vocabulary, would meet a word as machinery where meaning belongs. A plain industry-standard word passes, and so does an ordinary word that merely happens to appear inside such a coinage.
 - **person** — partial. Reads: whether a standard word exists for a thing the text minted a name for, and a loan translation or a respelling nobody has recorded yet, including a coinage born in the writer's own report.
 
-**Stated before this page, at.** docs/spec-format.md:21, docs/spec-style.md:27, docs/prose-quality-gate-design.md:19, guardrails/spec-coinages.json:2, scripts/spec-style-lint.py:262, ~/.claude/skills/spec-author/SKILL.md:109, ~/.claude/skills/text-audit/SKILL.md:198, ~/.claude/skills/communicator/references/writing-register.md:46, ~/.claude/playbook/personal/profile.md:13, ~/.claude/playbook/personal/profile.md:17, ~/.claude/skills/live-spec-base/SKILL.md:57, ~/.claude/skills/communicator/SKILL.md:264, hooks/chat-law-hook.sh:9, docs/language-defects.md:158, hooks/chat-calques.json, scripts/preshow-register-lint.py:74, ~/.claude/playbook/personal/profile.md:18, scripts/preshow-register-lint.py:96, ~/.claude/skills/communicator/SKILL.md:459
+**Stated before this page, at.** docs/spec-format.md:21, docs/spec-style.md:27, docs/prose-quality-gate-design.md:19, guardrails/spec-coinages.json:2, scripts/spec-style-lint.py:262, ~/.claude/skills/spec-author/SKILL.md:109, ~/.claude/skills/text-audit/SKILL.md:198, ~/.claude/skills/communicator/references/writing-register.md:46, ~/.claude/playbook/personal/profile.md:13, ~/.claude/playbook/personal/profile.md:17, ~/.claude/skills/live-spec-base/SKILL.md:57, ~/.claude/skills/communicator/SKILL.md:264, hooks/chat-law-hook.sh:9, docs/language-defects.md:98, hooks/chat-calques.json, scripts/preshow-register-lint.py:74, ~/.claude/playbook/personal/profile.md:18, scripts/preshow-register-lint.py:96, ~/.claude/skills/communicator/SKILL.md:459
 
 **Notes.** r16, `an internal English term loan-translated into the reader's language`, and r17, `an internal term respelled in the reader's alphabet`, folded into this entry on 2026-07-28 and their ids are retired: one class — a project word reaching the reader where a standard word exists — was split three ways by the form the word happened to take. The word list this entry names was two lists until 2026-07-28: guardrails/spec-coinages.json held six pairs for check-vocabulary.py and scripts/spec-style-lint.py:232 held nine words of its own with no repairs, so a word added to either was invisible to the other reader. They are merged into the one home this entry prints, both readers read it, and the repairs beside the nine were written for this file. midturn-chat-scan.py runs at the PreToolUse event and denies the tool call, so the correction reaches the human inside the turn. The model arm at the pre-show step turns on through PRESHOW_REGISTER_JUDGE and stands off by default (scripts/preshow-register-lint.py:138). hooks/chat-calques.json holds the scanner's patterns for the same fifteen loan translations the examples give, so a word added there needs its pair added here. The profile names three more loan translations — its words for tripwires, for the same incident family, and for a landing — with no repair recorded for any of them, and its list shares no member with hooks/chat-calques.json. A translation after the fact does not repair the sentence; it must be plain the first time. check-vocabulary.py is armed nowhere.
 
@@ -540,7 +637,7 @@ A path written as `~/...` names the reader's own `.claude` tree, which the packa
 - **model** — absent.
 - **person** — absent. Reads: whether the closing clause carries a fact worth keeping once it is made finite.
 
-**Stated before this page, at.** guardrails/criterion-readability.json:54, docs/spec-format.md:37, docs/language-defects.md:175
+**Stated before this page, at.** guardrails/criterion-readability.json:54, docs/spec-format.md:37, docs/language-defects.md:116
 
 **Notes.** The name this rule once carried was itself a minted metaphor; the owner's recorded verdict is that the thing it named does not exist. check-criterion-readability.py is armed nowhere.
 
@@ -770,7 +867,7 @@ A path written as `~/...` names the reader's own `.claude` tree, which the packa
 
 **Notes.** The rule binds the DRAFTING step alone, because a writer marinated in this project's own vocabulary writes in that vocabulary; it disqualifies nobody from reviewing or revising. A cold reader of the 2026-07-28 reading took the earlier wording to bar anyone who had read the rulebook from writing at all, which would have barred that reader from the page they were assigned. `The rules binding the surface being drafted` is what a brief lists, and docs/language-rules.md gives that roster per surface. The homes split between who writes and who judges, and they scope the unit differently: the section an edit touches, or the whole document. The drafting half has no checker.
 
-### r54 — a changed section shipped without a cold reader
+### r54 — a changed section shipped before two clean cold readings
 
 **Binds.** spec-body · human-prose · artifact
 

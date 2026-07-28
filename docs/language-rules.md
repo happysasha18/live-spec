@@ -2,7 +2,7 @@
 
 # Language rules — what to write
 
-This page states every rule this project holds its own texts to, in the words a writer applies to a sentence. Its companion `docs/language-rule-coverage.md` carries the machinery: what catches a break of each rule, how far that catcher reaches, where it is armed, and where the rule was stated before `guardrails/language-rules.json` became its one home. Nothing on that page changes a word you write.
+This page states every rule this project holds its own texts to, in the words a writer applies to a sentence. Its companion `docs/language-rule-coverage.md` carries the machinery: what catches a break of each rule, how far that catcher reaches, where it is armed, and where the rule was stated before `guardrails/language-rules.json` became its one home. Nothing on that page changes a word you write. One page carrying the whole human-prose roster at once stands at `docs/language-worked-example.md`, with the rule ids named at each fix.
 
 Read this page in one order. Find your surface below and read the rules its roster names — that roster is the whole set governing your text. Each rule is written out once, in id order, under **The rules**. When you arrive with a question rather than a defect, the index at the end names the rules that answer it.
 
@@ -679,7 +679,7 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 **Exceptions.** a revision of an existing draft, which the rulebook's own reader makes and is expected to make; a text no human reads: a worker brief, a checkpoint, an internal working note.
 
-### r54 — a changed section shipped without a cold reader
+### r54 — a changed section shipped before two clean cold readings
 
 **Rule.** A changed section is read by fresh readers who carry no project context, until two consecutive reads return zero blocking findings. A finding blocks when the reader could not go on with the text, or would have applied it wrongly; every other finding is one the reader noticed and read past.
 

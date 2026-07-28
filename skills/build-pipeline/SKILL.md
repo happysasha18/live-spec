@@ -339,13 +339,19 @@ See [references/work-kind-table.md](references/work-kind-table.md) for the full 
    whole suite.
 
    **A session that spawned a worker runs `python3 guardrails/check-worker-restore.py` here, and reads
-   its verdict before it accepts the worker's result (ROADMAP row 479).** The gate reads the worker
-   runs' own transcripts for a command that discards uncommitted work, which is the one signal that
-   separates a worker that put a file back from a worker that took a lane's night away — the
-   `git status` both paste afterwards reads "clean". A red names the run, the command and the paths;
-   the session recovers the named files from the last committed stage before anything else, and the
-   worker's result waits on that. The gate stands down by name on a host that keeps no transcripts
-   where it looks, and it carries a counting start so a machine's pre-clause history reds nothing.
+   its verdict before it accepts the worker's result (SPEC INV-298; the gate INV-299).** The gate reads
+   the worker runs' own transcripts for a command that discards uncommitted work, which is the one
+   signal that separates a worker that wrote a file's bytes back from a worker that discarded a lane's
+   uncommitted work — the `git status` both paste afterwards reads "clean". The gate reads the last 24
+   hours; a session whose worker ran earlier than that passes `--since-hours` wide enough to cover the
+   run it is accepting. A red names the run, the command and the paths. Where the run is this
+   project's, the session recovers the named files from the last committed stage before anything else,
+   and the worker's result waits on that. Where the paths belong to another project's tree, the session
+   writes what it read into that project's intake folder and touches no file there, since a repo it was
+   not assigned to stays read-only (base rule 7). The gate stands down by name on a host that keeps no
+   transcripts where it looks, and it carries a counting start so a machine's pre-clause history reds
+   nothing. A red naming an empty transcript root says the layout the gate reads has moved: no worker
+   discarded anything, and the gate's reach is what the session repairs.
 
    **Green = zero failures AND the skip-set is exactly the expected pinned list** — an unexpected skip
    (Chrome absent, a real-data fixture missing) is a FAILURE outright. **If red at a pause / session end:
@@ -531,33 +537,29 @@ and why each is a trap (SPEC T-12, T-15, INV-4, INV-5, INV-15).
   brief's named files; the senior owns write-set disjointness between concurrent same-session workers before
   spawning them, or gives one an isolated worktree (SPEC INV-105). The brief carries the problem-ledger path
   for workshop noise (SPEC INV-23) and the clock for every stamp (SPEC INV-24). And the brief carries the
-  cleanup-safety constraint so a worker never reinvents a broad kill: a cleanup acts only on what the run
-  provably owns and never a shared resource in current use — a kill targets the test resource uniquely (a
-  recorded PID / process group or an install path like `~/.cache/puppeteer/...`), never a broad name pattern
-  (`pkill chrome`, `chrome_crashpad_handler`) that can match the human's own program (SPEC INV-162, base
-  rule 17; the mistake that once closed the user's real browser). **And the brief carries the
-  restore clause, so a worker never restores a working tree with a git command (ROADMAP row 479):**
-  Before a worker mutates a file it means to put back, it reads that file and holds its bytes. A worker
-  puts a file back by WRITING ITS OWN SAVED BYTES. A worker runs no command that discards uncommitted
-  work, in any tree: `git checkout -- <path>`, `git checkout .`, `git restore` outside `--staged`,
-  `git stash` and its `push`, `save`, `create` and `store` forms, `git reset` with `--hard`, `--merge`
-  or `--keep`, and `git clean` with `-f` or `-x`. Such a command's blast radius is a PATH, so its
-  damage lands on files the worker never wrote and its brief never named. This rule binds a worker in
-  every tree, including its own isolated worktree, since a worktree shares one repository with the
-  lanes beside it and a worker cannot read off its brief what else that repository holds. A worker that
-  holds no saved bytes for a file it mutated, or that believes a file needs a git-level restore, HALTS
-  and reports the file and the mutation it made, and it writes no further file and runs no further
-  command. The orchestrator owns recovery: it restores the named file from the last committed stage,
-  hands the worker a fresh brief carrying that file's current bytes, and records the halt in the row's
-  delivery report, and the halted work resumes under that new brief. The orchestrator's own half: a
-  finished build stage is committed before the next worker touches its files.
-  `guardrails/check-worker-restore.py` reads the worker runs' transcripts for the command and runs at
-  the verify step. Every delegation reports its
-  saving in the row's delivery report, checked by suite and moved to the archive with the row by
-  the closing commit (SPEC INV-103, INV-276), and names the reads dispatched
-  beside the work delegated (SPEC INV-137). See
-  [references/delegation-protocol.md](references/delegation-protocol.md) for the full protocol: the routing
-  rule, the brief's three birth laws, the worker contract, and the delegation-reporting duty.
+  cleanup-safety constraint: a cleanup acts only on what the run provably owns, targeted by a recorded
+  process group or an owned install path (SPEC INV-162, base rule 17). Every delegation reports its saving
+  in the row's delivery report, checked by suite and moved to the archive with the row by the closing
+  commit (SPEC INV-103, INV-276), and names the reads dispatched beside the work delegated (SPEC INV-137).
+  See [references/delegation-protocol.md](references/delegation-protocol.md) for the full protocol: the
+  routing rule, the brief's three birth laws, the worker contract, and the delegation-reporting duty.
+- **A worker never restores a working tree with a git command (SPEC INV-298; the gate INV-299).** Every
+  brief this skill composes carries this clause verbatim. Before a worker mutates a file it means to put
+  back, it reads that file and holds its bytes. A worker puts a file back by WRITING ITS OWN SAVED BYTES.
+  A worker runs no command that discards uncommitted work, in any tree: `git checkout -- <path>`,
+  `git checkout .`, `git restore` outside `--staged`, `git stash` and its `push`, `save`, `create` and
+  `store` forms, `git reset` with `--hard`, `--merge` or `--keep`, and `git clean` with `-f` or `-x`. Such
+  a command's blast radius is a PATH, so its damage lands on files the worker never wrote and its brief
+  never named. This rule binds a worker in every tree, including its own isolated worktree, since a
+  worktree shares one repository with the lanes beside it and a worker cannot read off its brief what else
+  that repository holds. A worker that holds no saved bytes for a file it mutated, or that believes a file
+  needs a git-level restore, HALTS and reports the file and the mutation it made, and it writes no further
+  file and runs no further command. The orchestrator owns recovery: it restores the named file from the
+  last committed stage, hands the worker a fresh brief carrying that file's current bytes, and records the
+  halt in the row's delivery report, and the halted work resumes under that new brief. The orchestrator's
+  own half: a finished build stage is committed before the next worker touches its files.
+  `guardrails/check-worker-restore.py` reads the worker runs' transcripts for the command and runs at the
+  verify step.
 - **Traceability is a test, enforced automatically.** A standing `test_traceability.py` fails the suite on a matrix row
   citing a missing test, a duplicate invariant id, a spec invariant with no matrix row, or a ⟨DECIDE⟩ marked
   RESOLVED that still carries the live marker — so drift is caught every commit, continuously, and never waits for the next MINOR.

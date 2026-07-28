@@ -149,7 +149,7 @@
         "~/.claude/skills/live-spec-base/SKILL.md:57",
         "~/.claude/skills/communicator/SKILL.md:264",
         "hooks/chat-law-hook.sh:9",
-        "docs/language-defects.md:158",
+        "docs/language-defects.md:98",
         "hooks/chat-calques.json",
         "scripts/preshow-register-lint.py:74",
         "~/.claude/playbook/personal/profile.md:18",
@@ -978,7 +978,7 @@
       "sources": [
         "guardrails/criterion-readability.json:54",
         "docs/spec-format.md:37",
-        "docs/language-defects.md:175"
+        "docs/language-defects.md:116"
       ],
       "status": "stated-only",
       "notes": "The name this rule once carried was itself a minted metaphor; the owner's recorded verdict is that the thing it named does not exist. check-criterion-readability.py is armed nowhere."
@@ -1296,7 +1296,7 @@
     },
     {
       "id": "r54",
-      "name": "a changed section shipped without a cold reader",
+      "name": "a changed section shipped before two clean cold readings",
       "rule": "A changed section is read by fresh readers who carry no project context, until two consecutive reads return zero blocking findings. A finding blocks when the reader could not go on with the text, or would have applied it wrongly; every other finding is one the reader noticed and read past.",
       "reader_test": "Did a reader with no project context read this section and stop nowhere?",
       "surfaces": ["spec-body", "human-prose", "artifact"],
