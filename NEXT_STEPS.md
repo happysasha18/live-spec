@@ -1,6 +1,6 @@
 # live-spec — NEXT_STEPS (resume file: LIVE STATE + queue only; history → JOURNAL.md; ≤100 lines, INV-48)
 
-## LIVE STATE (2026-07-28 night — the rules about the project's own writing moved into one home)
+## LIVE STATE (2026-07-28 night — the rules about the project's own writing moved into one home; PUSHED 73741a9..d7f2dbb, all gates green, suite 2209)
 Alexander's word opened the movement: the rules about how this project writes are relatives of each
 other, they are worked in one pass, and the kinship belongs in the spec. An inventory found 61 such
 rules spread over 57 files, nine of them stated twice with different verdicts and 24 held by no checker.
@@ -34,10 +34,10 @@ renumbers neighbours, so it runs as its own delivery with a record. The list is 
 worker's account.
 
 ## Near queue
-- Rows 510-514 (2026-07-28): 510 a part of a set is named by what its members are · 511 a cross-project
+- Rows 510-515 (2026-07-28): 510 a part of a set is named by what its members are · 511 a cross-project
   finding travels on its own and nothing notices when it stays home · 512 the rotation road reaches one
   document · 513 a checker whose reach is a whole file holds one surface's rule over another's · 514 a
-  rule pinned to a line number that an edit moves.
+  rule pinned to a line number that an edit moves · 515 the gate over skill reviews reads the wrong record.
 - Rows 484-493 (2026-07-27): 484 the seat declares what it did on its own · 485 a handed-in text is
   edited only where he pointed · 486 a wish taken in says what it resembles · 487 a sentence he could not
   parse is repaired at its source · 488 an engine carries no personal trace · 489 hook proofs · 490 the
@@ -85,7 +85,7 @@ channel + listener · far tier 381, 411, 435.
 
 ## Next free codes
 Next free INV-301 (292-300 taken 2026-07-28), E-36, T-25, M-479 (468-478 taken 2026-07-28), requirement
-302; next ROADMAP row 515 (A-12, B-4, C-2, D-8, S-1, ACT-4 free too).
+302; next ROADMAP row 516 (A-12, B-4, C-2, D-8, S-1, ACT-4 free too).
 
 ## Research in hand
 Direct-protocol research: docs/research/2026-07-17-agent-routing-prior-art.md. The routing experiment's
