@@ -12,10 +12,10 @@
       "total": 88
     },
     "NEXT_STEPS.md": {
-      "bytes": 11050,
+      "bytes": 5309,
       "file": "NEXT_STEPS.md",
       "long": 0,
-      "longest": 25,
+      "longest": 24,
       "register": 0,
       "style": 0,
       "total": 0
@@ -39,7 +39,7 @@
       "total": 0
     },
     "PRODUCT_SPEC.md": {
-      "bytes": 653413,
+      "bytes": 653352,
       "file": "PRODUCT_SPEC.md",
       "long": 1831,
       "longest": 80,
@@ -147,7 +147,7 @@
       "total": 38
     },
     "docs/language-rule-coverage.md": {
-      "bytes": 72495,
+      "bytes": 75920,
       "file": "docs/language-rule-coverage.md",
       "long": 83,
       "longest": 81,
@@ -156,13 +156,13 @@
       "total": 105
     },
     "docs/language-rules.md": {
-      "bytes": 50619,
+      "bytes": 54389,
       "file": "docs/language-rules.md",
-      "long": 35,
-      "longest": 95,
+      "long": 31,
+      "longest": 89,
       "register": 0,
       "style": 8,
-      "total": 43
+      "total": 39
     },
     "docs/language-worked-example.md": {
       "bytes": 24176,
@@ -235,6 +235,15 @@
       "register": 0,
       "style": 4,
       "total": 10
+    },
+    "docs/plans/2026-07-28-two-goals-one-campaign.md": {
+      "bytes": 6536,
+      "file": "docs/plans/2026-07-28-two-goals-one-campaign.md",
+      "long": 0,
+      "longest": 25,
+      "register": 0,
+      "style": 0,
+      "total": 0
     },
     "docs/prior-art-frameworks.md": {
       "bytes": 16009,
@@ -533,6 +542,15 @@
       "style": 27,
       "total": 38
     },
+    "inbox/2026-07-28-from-tlvphotos-a-parked-question-stays-in-the-list-after-its-answer-arrives.md": {
+      "bytes": 3406,
+      "file": "inbox/2026-07-28-from-tlvphotos-a-parked-question-stays-in-the-list-after-its-answer-arrives.md",
+      "long": 5,
+      "longest": 44,
+      "register": 0,
+      "style": 4,
+      "total": 9
+    },
     "inbox/README.md": {
       "bytes": 9996,
       "file": "inbox/README.md",
@@ -581,11 +599,11 @@
     "skills/build-pipeline/SKILL.md": {
       "bytes": 56824,
       "file": "skills/build-pipeline/SKILL.md",
-      "long": 139,
+      "long": 138,
       "longest": 198,
       "register": 0,
       "style": 123,
-      "total": 262
+      "total": 261
     },
     "skills/build-pipeline/references/delegation-protocol.md": {
       "bytes": 8388,
@@ -662,11 +680,11 @@
     "skills/communicator/SKILL.md": {
       "bytes": 45376,
       "file": "skills/communicator/SKILL.md",
-      "long": 87,
+      "long": 86,
       "longest": 105,
       "register": 0,
       "style": 95,
-      "total": 182
+      "total": 181
     },
     "skills/communicator/references/field-examples.md": {
       "bytes": 7318,
@@ -849,7 +867,7 @@
       "total": 0
     },
     "skills/text-audit/SKILL.md": {
-      "bytes": 35267,
+      "bytes": 37521,
       "file": "skills/text-audit/SKILL.md",
       "long": 0,
       "longest": 25,

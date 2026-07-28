@@ -25,6 +25,32 @@ def run(record, root):
                           capture_output=True, text=True)
 
 
+def git(tmp, *args):
+    return subprocess.run(["git", "-C", tmp] + list(args), capture_output=True, text=True)
+
+
+def git_seed(tmp, committed_total, working_total, reason=None):
+    """A real git repository whose record was committed, then edited by hand in the working tree.
+
+    The hand-edit arm reads the record against the copy the last commit holds, so this fixture needs a
+    real repository rather than a plain directory: the fact under test is one only git computes.
+    """
+    record, _ = seed(tmp, UNDER_CAP, committed_total)
+    git(tmp, "init", "-q")
+    git(tmp, "config", "user.email", "gate@example.com")
+    git(tmp, "config", "user.name", "gate")
+    git(tmp, "add", "-A")
+    git(tmp, "commit", "-q", "-m", "the record as it stood")
+    with open(record, encoding="utf-8") as f:
+        data = json.load(f)
+    data["files"]["CLEAN.md"]["total"] = working_total
+    if reason:
+        data["files"]["CLEAN.md"]["reason"] = reason
+    with open(record, "w", encoding="utf-8") as f:
+        json.dump(data, f)
+    return record, tmp
+
+
 def seed(tmp, body, recorded_total):
     """A one-document tree plus a record naming that document's ceiling."""
     doc = os.path.join(tmp, "CLEAN.md")
@@ -92,6 +118,37 @@ class TestDocFindingsBound(unittest.TestCase):
                 json.dump({"files": {}}, f)
             r = run(record, tmp)
             self.assertEqual(r.returncode, 1, r.stdout)
+
+    def test_a_raised_recorded_count_with_no_reason_reds(self):
+        """RED-FIRST: a ceiling raised by hand against the last commit, carrying no reason, reds."""
+        with tempfile.TemporaryDirectory() as tmp:
+            record, root = git_seed(tmp, 0, 9)
+            r = run(record, root)
+            self.assertEqual(r.returncode, 1, "a hand-raised ceiling passed:\n%s" % r.stdout)
+            self.assertIn("raised", r.stdout)
+            self.assertIn("CLEAN.md", r.stdout)
+
+    def test_a_raised_recorded_count_with_a_reason_passes(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            record, root = git_seed(tmp, 0, 9, reason="raised on 2026-07-28: two pages merged into one")
+            r = run(record, root)
+            self.assertEqual(r.returncode, 0, r.stdout)
+            self.assertNotIn("raised", r.stdout)
+
+    def test_an_unchanged_record_says_nothing(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            record, root = git_seed(tmp, 0, 0)
+            r = run(record, root)
+            self.assertEqual(r.returncode, 0, r.stdout)
+            self.assertNotIn("raised", r.stdout)
+            self.assertNotIn("stands down", r.stdout)
+
+    def test_the_hand_edit_arm_stands_down_with_no_git(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            record, root = seed(tmp, UNDER_CAP, 0)
+            r = run(record, root)
+            self.assertEqual(r.returncode, 0, r.stdout)
+            self.assertIn("stands down", r.stdout)
 
     def test_the_real_repository_passes(self):
         r = subprocess.run(["python3", GATE], capture_output=True, text=True, cwd=ROOT)

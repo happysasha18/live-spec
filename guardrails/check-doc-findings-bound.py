@@ -24,17 +24,44 @@ WHY IT SITS AT THE PUSH. The census is a report and reports do not refuse anythi
 of 2026-07-28 and that evening one page rose from 107 findings to 112 with nothing noticing. This gate
 is what noticing looks like.
 
+THE SECOND ARM: THE RECORD ITSELF (SPEC INV-301, R302.11). The verdicts above hold the law over the
+DOCUMENTS. The record is a file a person can edit, so this arm holds the law over the RECORD. It reads
+the record against the copy the last commit holds and reds an entry whose recorded count rose with no
+reason beside it. A raise is lawful when the entry carries a non-empty `reason` field, which is the
+shape `guardrails/doc-bounds.json` already uses for a raised byte ceiling; inventing a second shape for
+one idea is what the pack's one-home rule forbids. The writing arm lives in `scripts/rule-census.py`,
+which refuses to store a rise at all, so between the two of them the printed remedy can only lower a
+number.
+
+WHY THIS ARM SITS HERE AND NOT UNDER A GATE LETTER OF ITS OWN. One law takes one gate letter. Gate aa
+already owns "a recorded count moves down alone", and the record is the other half of that one law, so a
+new letter would owe an entry in `guardrails/gate-red-proofs.json` for a fact this gate already stands
+for. The arm's own red proof rides gate aa's registered entry.
+
+HOW IT READS THE COMMITTED COPY. It asks git, through `git rev-parse --show-toplevel` beside the record
+and then `git show HEAD:<path>`. Where git answers nothing — no repository, no commit yet, no committed
+copy of that record, or a committed copy that will not parse — the arm STANDS DOWN BY NAME and says what
+it read nothing of (INV-218's shape), because a fixture tree and a fresh clone are both lawful states
+and neither is evidence of a raise. The document arm above still holds in that case.
+
+WHY AN UNCHANGED RECORD IS SILENT. The arm speaks only of an entry whose recorded count ROSE against the
+commit. A record identical to its committed copy yields no such entry, so the arm prints nothing and the
+gate's verdict is the document arm's alone. A gate that reds on an unchanged tree blocks every push in
+the repository, which is the failure this silence avoids.
+
 Usage:
   check-doc-findings-bound.py                    push mode: the repository's own record and live set.
   check-doc-findings-bound.py --record FILE      read the record from FILE (fixtures).
   check-doc-findings-bound.py --root DIR         measure the live set under DIR (fixtures).
-Exit 0 when every document sits at or under its record; exit 1 naming each document that rose.
+Exit 0 when every document sits at or under its record and no recorded count rose by hand with no
+reason; exit 1 naming each document that rose and each record entry raised without one.
 Stdlib only.
 """
 import argparse
 import importlib.util
 import json
 import os
+import subprocess
 import sys
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -53,6 +80,48 @@ def load_census():
     return module
 
 
+def committed_record(path):
+    """The record's `files` as the last commit holds it, or a note saying what git answered nothing of.
+
+    Returns (files, None) on success and (None, note) where no committed copy can be read.
+    """
+    # The real path on both sides: git answers with symlinks resolved, and a temporary directory under
+    # /var on this platform is reached through one, which would otherwise make the two paths disagree.
+    real = os.path.realpath(path)
+    directory = os.path.dirname(real) or "."
+    try:
+        top = subprocess.run(["git", "-C", directory, "rev-parse", "--show-toplevel"],
+                             capture_output=True, text=True).stdout.strip()
+    except OSError as e:
+        return None, "no git command answered here (%s)" % e
+    if not top:
+        return None, "no git repository holds %s" % path
+    rel = os.path.relpath(real, os.path.realpath(top))
+    proc = subprocess.run(["git", "-C", top, "show", "HEAD:%s" % rel],
+                          capture_output=True, text=True)
+    if proc.returncode != 0:
+        return None, "the last commit holds no copy of %s" % rel
+    try:
+        return json.loads(proc.stdout)["files"], None
+    except (ValueError, KeyError) as e:
+        return None, "the committed copy of %s would not be read (%s)" % (rel, e)
+
+
+def hand_raises(recorded, committed):
+    """Every entry whose recorded count rose against the commit while carrying no reason."""
+    out = []
+    for rel, entry in sorted(recorded.items()):
+        was = committed.get(rel)
+        if not isinstance(was, dict) or not isinstance(entry, dict):
+            continue
+        if entry.get("total", 0) <= was.get("total", 0):
+            continue
+        if str(entry.get("reason") or "").strip():
+            continue
+        out.append((rel, was.get("total", 0), entry.get("total", 0)))
+    return out
+
+
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("--record", default=RECORD)
@@ -66,6 +135,9 @@ def main(argv=None):
         print("FAIL (%s): cannot read the record %s (%s) — the record is this gate's whole ground, "
               "and a gate with no ground passes on everything." % (CHECK, args.record, e))
         return 1
+
+    committed, stood_down = committed_record(args.record)
+    raised = hand_raises(recorded, committed) if committed is not None else []
 
     census = load_census()
     cap, cap_rule = census.load_word_cap()
@@ -100,11 +172,18 @@ def main(argv=None):
         print("  Lower the ceiling to what the text now measures:")
         print("    python3 scripts/rule-census.py --json guardrails/rule-census.json")
 
-    if not rose and not unrecorded:
+    if stood_down:
+        print("  stands down: the record arm read no committed record — %s." % stood_down)
+
+    if not rose and not unrecorded and not raised:
         print("OK (%s): %d live documents, %d held at zero, none above its record (cap %d, rule %s)."
               % (CHECK, len(files), len(held), cap, cap_rule))
         return 0
 
+    for rel, was, now in raised:
+        print("FAIL (%s): the record for %s was raised from %d to %d with no reason beside it. A raise "
+              "states its reason in that entry's `reason` field, the way a raised byte ceiling does in "
+              "guardrails/doc-bounds.json." % (CHECK, rel, was, now))
     for rel, total in unrecorded:
         print("FAIL (%s): %s is live and carries no entry in the record. Measure it into the record "
               "before it ships: python3 scripts/rule-census.py --json guardrails/rule-census.json"
@@ -117,8 +196,9 @@ def main(argv=None):
             print("FAIL (%s): %s rose from %d to %d findings." % (CHECK, rel, bound, total))
         print("    long %d (longest sentence %d words), style %d, register %d"
               % (reading["long"], reading["longest"], reading["style"], reading["register"]))
-    print("  Fix: repair the text, or read `python3 scripts/rule-census.py %s` to see each finding."
-          % (rose[0][0] if rose else ""))
+    if rose:
+        print("  Fix: repair the text, or read `python3 scripts/rule-census.py %s` to see each "
+              "finding." % rose[0][0])
     return 1
 
 

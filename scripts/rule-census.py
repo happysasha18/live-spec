@@ -24,12 +24,29 @@ such a line. Every other list item is read.
 WHAT IT REFUSES. It refuses a file list that comes out empty, since a census of nothing reports clean.
 It names every file it could not read rather than dropping it.
 
+WHAT IT REFUSES TO WRITE (SPEC INV-301, R302.9, R302.10). The record of counts is a ceiling whose
+direction is down. So `--json` reads the record it is about to write, and a run where any measured
+document stands above its recorded count names every such document and writes nothing at all. A run
+where none stands above its record writes each measured count back, as before. Gate aa
+(`guardrails/check-doc-findings-bound.py`) prints this command as its remedy for a document whose count
+fell; before this refusal, that same command stored a RISEN count with the rest, so the operator whose
+push was refused held the one command that turned the refusal into a pass.
+
+HOW A HAND-WRITTEN REASON SURVIVES A REWRITE (R302.11). A raise is lawful when a person states its
+reason in the entry's `reason` field, the shape `guardrails/doc-bounds.json` already carries for a
+raised byte ceiling. A record write rewrites every entry, so a reason written by hand would be erased by
+the next run and the hand-edit path with it. This run therefore reads each path's existing entry and
+copies its `reason` onto the entry it writes for that same path. Nothing else of the old entry survives:
+every count is the count this run measured.
+
 Usage:
   rule-census.py                       # measure the live set, print the table
   rule-census.py --out FILE            # also write the table as markdown
   rule-census.py --json FILE           # also write the counts as JSON, which is the limit's seed
+  rule-census.py --root DIR            # measure the live set under DIR (fixtures; parity with gate aa)
   rule-census.py PATH [PATH ...]       # measure these files instead of the live set
-Exit 0 once every file is measured; exit 1 when the set is empty or a reading refused.
+Exit 0 once every file is measured; exit 1 when the set is empty, a reading refused, or a measured
+document stands above its recorded count while `--json` was asked to write the record.
 Stdlib only.
 """
 import argparse
@@ -69,6 +86,12 @@ STANDS_ALONE = re.compile(r"^\s*(?:[-*+]\s|\d+[.)]\s|>|\*\*[^*]+\*\*\s*(?:—|-|
 # A recorded case: a list item holding a quoted defective text, an arrow, and its quoted repair. The
 # left side is a defect on purpose, so counting it would score the evidence a rule rests on.
 QUOTED_CASE = re.compile(r"^\s*[-*+]\s+`[^`]+`\s*(?:→|->)\s*`[^`]+`\s*$")
+# The interpunct this project writes lists with. A run of short names carries none of the load the
+# word cap holds a reader to, so its length is no finding. A run of prose clauses split by the same
+# mark is prose, and the member length below is what tells the two apart.
+ROSTER_MARK = "·"
+ROSTER_MIN_MEMBERS = 4
+ROSTER_MEMBER_MAX_WORDS = 4
 
 
 def load_word_cap(path=RULES_PATH):
@@ -80,6 +103,18 @@ def load_word_cap(path=RULES_PATH):
         if cap:
             return int(cap), rule["id"]
     raise SystemExit("%s: no rule in %s carries `human_prose_flag_above_words`" % (CHECK, path))
+
+
+def load_record(path):
+    """The record this run is about to write, as it stands on disk, or an empty record where none is.
+
+    An absent or unreadable record is read as empty, so the first seed of a record writes every count.
+    """
+    try:
+        with open(path, encoding="utf-8") as fh:
+            return json.load(fh).get("files", {})
+    except (OSError, ValueError, AttributeError):
+        return {}
 
 
 def live_files(root=REPO_ROOT):
@@ -144,10 +179,26 @@ def prose_sentences(text):
     return out
 
 
+def is_code_roster(sentence):
+    """Whether this unit is a list of short names written with the interpunct.
+
+    The lead-in before a colon is dropped, so `Binds 11 of the 58 rules: r10 · r12` is read by its
+    members. Every member stays at or under the member cap for the unit to count as a list.
+    """
+    members = [part.strip() for part in sentence.split(ROSTER_MARK)]
+    if len(members) < ROSTER_MIN_MEMBERS:
+        return False
+    if ":" in members[0]:
+        members[0] = members[0].split(":", 1)[1].strip()
+    return all(len(member.split()) <= ROSTER_MEMBER_MAX_WORDS for member in members)
+
+
 def long_sentences(text, cap):
     """How many prose sentences run past the cap, and the longest count seen."""
     over, longest = 0, 0
     for sentence in prose_sentences(text):
+        if is_code_roster(sentence):
+            continue
         words = len(sentence.split())
         longest = max(longest, words)
         if words > cap:
@@ -241,14 +292,16 @@ def main(argv):
     parser.add_argument("paths", nargs="*", help="files to measure; the live set when omitted")
     parser.add_argument("--out", help="write the table here as markdown")
     parser.add_argument("--json", dest="json_out", help="write the counts here as JSON")
+    parser.add_argument("--root", default=REPO_ROOT,
+                        help="measure the live set under this directory (fixtures)")
     args = parser.parse_args(argv[1:])
 
     cap, rule_id = load_word_cap()
-    files = args.paths or live_files()
+    files = args.paths or live_files(args.root)
     if not files:
         print("%s: the file set is EMPTY — a census of nothing reports clean." % CHECK)
         return 1
-    rows = [measure(f, cap) for f in files]
+    rows = [measure(f, cap, root=args.root) for f in files]
     rows.sort(key=lambda r: r.get("total", 0), reverse=True)
     text = table(rows, cap, rule_id)
     print(text)
@@ -257,9 +310,24 @@ def main(argv):
             fh.write(text)
         print("%s: wrote %s" % (CHECK, args.out))
     if args.json_out:
+        recorded = load_record(args.json_out)
+        measured = {r["file"]: r for r in rows if "unread" not in r}
+        risen = [(rel, recorded[rel].get("total", 0), row["total"])
+                 for rel, row in sorted(measured.items())
+                 if rel in recorded and row["total"] > recorded[rel].get("total", 0)]
+        if risen:
+            print("%s: REFUSED to write %s — the record is a ceiling and its direction is down "
+                  "(SPEC INV-301, R302.9)." % (CHECK, args.json_out))
+            for rel, was, now in risen:
+                print("  %s stands above its record: recorded %d, measured %d" % (rel, was, now))
+            print("  Repair the text, or state the reason in the entry's `reason` field by hand.")
+            return 1
+        for rel, row in measured.items():
+            reason = (recorded.get(rel) or {}).get("reason")
+            if reason:
+                row["reason"] = reason
         with open(args.json_out, "w", encoding="utf-8") as fh:
-            json.dump({"cap": cap, "cap_rule": rule_id,
-                       "files": {r["file"]: r for r in rows if "unread" not in r}},
+            json.dump({"cap": cap, "cap_rule": rule_id, "files": measured},
                       fh, ensure_ascii=False, indent=2, sort_keys=True)
             fh.write("\n")
         print("%s: wrote %s" % (CHECK, args.json_out))
