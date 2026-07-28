@@ -4,9 +4,10 @@
 
 Skill: text-audit
 Date: 2026-07-28
-Reviewer: this session. Agents are barred in this window by its own instruction, so the review was run
-by the seat against the skill-creator criteria rather than by a fresh reviewer. A fresh reviewer should
-re-run it when agents are available. This record names what was checked and what was found.
+Reviewer: this session, working against the skill-creator criteria. No fresh reviewer read it, because
+the session's own instructions carried a line against dispatching workers. That line had no standing
+word behind it and was lifted the same afternoon (2026-07-28), so the next session dispatches a fresh
+reviewer. This record names what was checked and what was found.
 
 Verdict: passes with one finding, recorded below.
 
