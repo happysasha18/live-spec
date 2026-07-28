@@ -3,7 +3,7 @@
 ## LIVE STATE (2026-07-28) — one task: make the spec buildable from its own text
 
 Follow `docs/plans/2026-07-28-top-level-readability.md`. Read that plan first. It holds the test the
-work is measured by, the six families of defects with all 42 rules, a real before-and-after example, the
+work is measured by, the six groups of defects with all 43 rules, a real before-and-after example, the
 order, the batch loop, the five checks per batch, and what to report after batch one.
 
 The spec is read by the agent that builds from it. Measured 2026-07-27: a fresh agent given six
@@ -19,7 +19,7 @@ Step one is the ordered list of requirements, then batch one. The plan explains 
 
 **2026-07-27, day.** The rules this project holds its own writing to were spread over 57 files, with 61
 rules, nine of them stated twice with opposite verdicts. They now live in one file,
-`guardrails/language-rules.json`, 53 rules after seven duplicates were retired.
+`guardrails/language-rules.json`, 54 rules today after seven duplicates were retired and one was opened 2026-07-28.
 `scripts/gen-language-consumers.py` builds every page and every checker's rule text from that one file,
 and `guardrails/check-language-rules.py` refuses any of them drifting from it.
 

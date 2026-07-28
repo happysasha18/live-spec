@@ -28,14 +28,16 @@ The count is taken before and after each batch, on the same requirements, by two
 
 ## What has to be fixed, and in what order of importance
 
-The rules this project holds its own writing to are 53, of which 42 bind the spec body. They fall into
-six families. The first two are what stop an agent from building; the rest make the text hold together.
+The rules this project holds its own writing to are 54, of which 43 bind the spec body. They fall into
+six groups, each collecting one kind of defect. The first two groups are what stop an agent from
+building. The other four make the text hold together.
 
-### 1. Nothing is left hanging — this is what blocks a build
+### Group 1. The text points at something it never gives
 
 | rule | the defect |
 |---|---|
 | r07 | a set named by a count, a pointer, or a position instead of its members |
+| r63 | a single thing named by its number: `requirement 233`, `row 505`, `the second case` |
 | r33 | a relational word with an empty slot: larger than what, sufficient for what |
 | r06 | a number standing with no ground |
 | r32 | a judgment with no judge and no measure: who decides, against what |
@@ -43,7 +45,7 @@ six families. The first two are what stop an agent from building; the rest make 
 | r62 | a sentence open to two readings |
 | r34 | a hole in the source closed by an invention |
 
-### 2. Every word is explained before it is used
+### Group 2. A word is used before anything explains it
 
 | rule | the defect |
 |---|---|
@@ -52,7 +54,7 @@ six families. The first two are what stop an agent from building; the rest make 
 | r35 | a term defined in place inside a criterion |
 | r02 | a coined, loan-translated, or respelled word where a standard word exists |
 
-### 3. One sentence carries one thought
+### Group 3. One sentence carries more than one thought
 
 | rule | the defect |
 |---|---|
@@ -61,7 +63,7 @@ six families. The first two are what stop an agent from building; the rest make 
 | r44 | a paragraph carrying more than one point |
 | r45 | a long flat run of peer items with no grouping over them |
 
-### 4. Every sentence has an actor and a finished action
+### Group 4. A sentence hides who acts, or leaves its action unfinished
 
 | rule | the defect |
 |---|---|
@@ -72,7 +74,7 @@ six families. The first two are what stop an agent from building; the rest make 
 | r30 | a rule narrated in the future tense |
 | r24 | a normative sentence in the wrong person |
 
-### 5. Nothing extra
+### Group 5. Words that add nothing
 
 | rule | the defect |
 |---|---|
@@ -86,7 +88,7 @@ six families. The first two are what stop an agent from building; the rest make 
 | r10 | a thing named by denying its neighbour |
 | r43 | an abstraction standing where a concrete noun would do |
 
-### 6. The page's furniture stays where it is
+### Group 6. The marks that machines and cross-references depend on
 
 | rule | the defect |
 |---|---|
@@ -123,9 +125,9 @@ The same criterion after the fixes:
 > - the adoption gate: a host whose project instructions carry no worktree line;
 > - the lane-count check: a lane opened past the cap.
 
-Three families did the work. Family 3 split one sentence of 72 words into a line of 12 and four items.
-Family 1 gave the set its members instead of the count "four faults". Family 2 removed "red", which is
-this project's private word for a check that refuses something.
+Three groups did the work. Group 3 split one sentence of 72 words into a line of 12 and four items.
+Group 1 gave the set its members where the text had said only "four faults". Group 2 removed "red",
+which is this project's private word for a check that refuses something.
 
 ## What we do
 
@@ -145,21 +147,21 @@ The ordered list is written once, before batch one, into `docs/audit/2026-07-28-
 
 ## No new script is built, and here is why
 
-The first draft of this plan opened by building a script to count family 2's first defect, a word used
+The first draft of this plan opened by building a script to count group 2's defect, a word used
 before anything explains it. The idea was tested against the spec before being written: a probe over
 every criterion returned 139 matches, and the visible ones are mostly false. "two minutes" is a
 duration. "one of two values, confident or likely" lists its members in the same clause. A script
-cannot separate a domain noun from an ordinary word, and family 1's missing lists have the same shape.
+cannot separate a domain noun from an ordinary word, and group 1's missing lists have the same shape.
 
-So the two families that block a build are not counted by a script. They are found by the build test:
+So the two groups that block a build are not counted by a script. They are found by the build test:
 hand the requirements to a fresh agent and count what it can implement. That test is already in this
 plan and it measures the goal directly.
 
-The four families that a script does count — 3, 4, 5, and 6 — are counted by what already exists:
+The four groups a script does count — 3, 4, 5, and 6 — are counted by what already exists:
 `guardrails/check-criterion-readability.py` with its five arms, `scripts/spec-style-lint.py`,
 `guardrails/check-weak-words.py`, and `scripts/rule-census.py` over all of them.
 
-A real example of family 2, from Requirement 248 of the spec today:
+A real example of group 2, from the requirement on how the prover applies its lenses of the spec today:
 
 > for a lens the prover applies, it may ask whether that lens's dual applies to the document here
 
@@ -218,7 +220,7 @@ Nothing is carried in anyone's head between batches. What a session needs is on 
 ordered list, `guardrails/rule-census.json`, and git.
 
 - A batch is saved to git before the next begins. A wipe loses at most one batch.
-- Each batch is rewritten by a separate short-lived worker, briefed with the six families and the ten
+- Each batch is rewritten by a separate short-lived worker, briefed with the six groups and the ten
   requirements and nothing else. A session soaked in this project's own vocabulary writes in that
   vocabulary, which is the defect being removed.
 - The build test and the meaning check are run by other fresh workers, which is what makes them honest.
@@ -258,8 +260,8 @@ lives only in the sentence being rewritten, the rewrite is a bet.
   for doing the requirements a host's agent meets first. The rest stay as they are.
 - **The build test is expensive.** Two fresh agents attempting ten requirements is the largest cost in
   each batch, and it is also the only honest measure of the goal. Batch one shows what it really costs.
-- **The script for family 2 is an approximation.** It misses a word explained badly rather than not at
-  all, and it flags a word the sentence itself makes obvious.
+- **Groups 1 and 2 have no script.** They are the two that block a build, and only the build test finds
+  them, which makes the most important measure also the most expensive one.
 - **Meaning loss is reduced, never removed.** Two checks caught 7 of 7 in July, which is not proof they
   catch every one.
 - **Ten per batch is a guess.** Batch one can change it.

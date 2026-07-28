@@ -986,3 +986,19 @@ repair the text from those stops rather than from the one sentence in front of y
 **Stated before this page, at.** nowhere; no file outside the source stated the rule.
 
 **Notes.** He asks whether these three can be turned into numbers; the question stands open. His words (2026-07-27 16:55): «хотелось бы както квантифицировать легкочитаемость. Это можно? Однозначность интерпретации? Понятная причинно-следственная связь. Понимание альтернатив которые не упомянуты но ясны из контекста?».
+
+### r63 — a thing named by its number, so the reader must leave the sentence to learn what it is
+
+**Binds.** spec-body · human-prose · chat · artifact
+
+**Status.** stated-only, armed at nowhere.
+
+**What catches a break of it.**
+
+- **pattern** — absent.
+- **model** — absent.
+- **person** — absent.
+
+**Stated before this page, at.** nowhere; no file outside the source stated the rule.
+
+**Notes.** Opened 2026-07-28 by the owner's reading of the readability plan, which listed the rule families and had no entry for this one. It is the sibling of r07, which governs a SET named by its count; this one governs a single thing named by its number, its position, or its count. Both send the reader out of the sentence. No catcher yet: a number in a sentence is ordinary text, and separating a naming use from an anchor needs a reader.

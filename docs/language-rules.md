@@ -40,37 +40,37 @@ A surface is a KIND of text, not a file, and one file carries several. The numbe
 
 The numbered requirements and acceptance criteria of `PRODUCT_SPEC.md`, and the same numbered shape in `ARCHITECTURE.md` and `TEST_MATRIX.md`. A machine reads this text beside the person. The prose paragraphs in those same files are human-prose. Example: Requirement 297 of `PRODUCT_SPEC.md`, and each acceptance criterion under it.
 
-Binds 42 of the 53 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r08 · r09 · r10 · r11 · r12 · r15 · r18 · r19 · r20 · r21 · r23 · r24 · r26 · r27 · r29 · r30 · r31 · r32 · r33 · r34 · r35 · r36 · r37 · r39 · r40 · r41 · r43 · r44 · r45 · r53 · r54 · r55 · r56 · r61 · r62.
+Binds 43 of the 54 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r08 · r09 · r10 · r11 · r12 · r15 · r18 · r19 · r20 · r21 · r23 · r24 · r26 · r27 · r29 · r30 · r31 · r32 · r33 · r34 · r35 · r36 · r37 · r39 · r40 · r41 · r43 · r44 · r45 · r53 · r54 · r55 · r56 · r61 · r62 · r63.
 
 ### human-prose
 
 Text a person reads to understand something or to decide something: `README.md`, `OVERVIEW.md`, a decision page, a report, a skill's own body, a documentation page, and the prose paragraphs inside a spec. A documentation page is human-prose, and it carries `artifact` as well once it is published outside the project. Example: `README.md`, and this page.
 
-Binds 39 of the 53 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r08 · r09 · r10 · r11 · r12 · r13 · r14 · r15 · r18 · r20 · r23 · r25 · r26 · r27 · r32 · r33 · r39 · r41 · r43 · r44 · r45 · r46 · r48 · r49 · r50 · r52 · r53 · r54 · r56 · r57 · r61 · r62.
+Binds 40 of the 54 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r08 · r09 · r10 · r11 · r12 · r13 · r14 · r15 · r18 · r20 · r23 · r25 · r26 · r27 · r32 · r33 · r39 · r41 · r43 · r44 · r45 · r46 · r48 · r49 · r50 · r52 · r53 · r54 · r56 · r57 · r61 · r62 · r63.
 
 ### chat
 
 A message the agent sends the person in conversation, including the narration between tool calls — the checkers read every assistant message since the person's last turn, not the final reply alone. Example: a reply in a working session.
 
-Binds 26 of the 53 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r10 · r11 · r12 · r13 · r14 · r15 · r18 · r25 · r26 · r43 · r46 · r47 · r48 · r49 · r50 · r51 · r52 · r61 · r62.
+Binds 27 of the 54 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r10 · r11 · r12 · r13 · r14 · r15 · r18 · r25 · r26 · r43 · r46 · r47 · r48 · r49 · r50 · r51 · r52 · r61 · r62 · r63.
 
 ### artifact
 
 A page or file published to someone outside the project: a rendered page, product copy, a public README, a marketing text. Example: the project's public README as it stands on its repository page.
 
-Binds 43 of the 53 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r08 · r09 · r10 · r11 · r12 · r13 · r14 · r15 · r18 · r19 · r20 · r23 · r25 · r26 · r27 · r29 · r30 · r31 · r32 · r33 · r34 · r39 · r40 · r41 · r43 · r44 · r45 · r46 · r50 · r53 · r54 · r55 · r56 · r57 · r61 · r62.
+Binds 44 of the 54 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r08 · r09 · r10 · r11 · r12 · r13 · r14 · r15 · r18 · r19 · r20 · r23 · r25 · r26 · r27 · r29 · r30 · r31 · r32 · r33 · r34 · r39 · r40 · r41 · r43 · r44 · r45 · r46 · r50 · r53 · r54 · r55 · r56 · r57 · r61 · r62 · r63.
 
 ### commit
 
 A commit message: its subject line and its body. Example: the message on one commit.
 
-Binds 5 of the 53 rules: r10 · r12 · r18 · r19 · r61.
+Binds 5 of the 54 rules: r10 · r12 · r18 · r19 · r61.
 
 ### worker-brief
 
 The text one agent hands another as its instructions. Example: the brief a session writes when it starts a background worker.
 
-Binds 8 of the 53 rules: r10 · r12 · r13 · r14 · r15 · r18 · r48 · r61.
+Binds 8 of the 54 rules: r10 · r12 · r13 · r14 · r15 · r18 · r48 · r61.
 
 ## The words these pages use
 
@@ -767,6 +767,22 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 **Reader test.** Can a reader read this sentence one way only, name what it makes happen, and say which alternatives it passed over?
 
 **Binds.** spec-body · human-prose · chat · artifact
+
+### r63 — a thing named by its number, so the reader must leave the sentence to learn what it is
+
+**Rule.** A sentence names a thing by what it is, and its number trails at the line's end. Writing `requirement 233`, `row 505`, `the second case`, or `the four laws` sends the reader away to look the thing up before the sentence can be read.
+
+**Reader test.** Does this sentence say what the thing IS, or does it give only a number, a position, or a count that the reader must go and resolve?
+
+**Binds.** spec-body · human-prose · chat · artifact
+
+**Examples.**
+
+- `Requirement 233 states the orchestration laws.` → `The requirement on how work is routed between tiers states the orchestration laws [INV-241].`
+- `the second case above` → `the case where the worker halts and reports`
+- `the four laws` → `the four laws — worker-routing, lean-orchestrator, pull-unblocked-work, and classify-the-subtask`
+
+**Exceptions.** a number trailing at a line's end as an anchor, which is what rule r11 already governs; a numbered step inside a procedure the reader is currently walking.
 
 ## An index of questions
 
