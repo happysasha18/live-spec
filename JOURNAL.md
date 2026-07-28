@@ -5714,3 +5714,47 @@ Five rows opened: a part of a set named by what its members are (510); a cross-p
 travels on its own, with nothing noticing when it stays home (511); the rotation road that reaches one
 document (512); a checker whose reach is a whole file holding one surface's rule over another's (513);
 and a rule pinned to a line number that an edit moves (514).
+
+
+## 2026-07-28 afternoon — the two text skills are held to the rules they hold a text to
+
+Why now: Alexander's word for the day was to work the prover and the audit skill and their referred
+documents, and the resume file's own next step was to finish the audit skill before batch one of the
+readability work.
+
+The morning's uncommitted work was on the tree: both skill bodies rewritten against
+`guardrails/language-rules.json`, the prover down from 253 findings to 120 and the audit skill from 53
+to 36. The suite ran green over it, 2217 passed, and it was saved before anything new was written.
+
+Alexander's direction of that morning asked that every law state a class of mistake with its examples
+under it. Twenty-four of the 41 human-prose rules carried no example at all. Each of them gained one,
+taken from this project's own texts: the morning's rewrite of the two skills, the readability plan, the
+readings of 2026-07-27, and his own recorded words. The audit skill now prints one case under every law
+it lists, written text on the left and its repair on the right.
+
+The shipped-language gate refused the first attempt, with seven Cyrillic lines inside a skill that ships
+to hosts. Six rules whose recorded evidence is Russian gained an English case beside it, and the
+generator prints the first case written in the Latin alphabet. The Russian evidence stays in the rule
+home, where it was recorded.
+
+The census had to learn what a recorded case is. Its left side is a defect on purpose, so counting it
+scored the evidence a rule rests on. The `long` reading now passes over a list item holding a quoted
+text, an arrow, and a quoted repair. The change was proved on a file with one such line and one
+ordinary bullet of 28 words: the case is passed over, the bullet still counts.
+
+The audit skill gained the section that runs it on a spec section: ten requirements at a time, the
+requirement-shape lint that applies only there, which rules a numbered criterion takes and which its
+Context paragraph takes, the marks a rewrite leaves untouched, and the four checks that follow.
+
+The prover's own body then went from 120 findings to 27, with no sentence past the word cap. Four lists
+had collapsed into running prose, their items separated by a stray dash mid-sentence: the three review
+modes, the declared-law demands, the five edge-condition checks, and the paired-transition reads, with
+three whole lenses buried inside a neighbouring bullet's body. Each reads as a list again.
+
+The suite caught twelve meaning losses across that rewrite, which is the ratio the readability plan
+predicts and the reason it runs five checks per batch. Seven pinned phrases were restored in the text.
+The tests pin a phrase inside one line of the file, so a restored phrase also had to stay unwrapped,
+which is a fragile pin worth its own row one day. Four tests moved with a deliberate change of register.
+
+What stands in the prover is 25 findings from a checker applying a spec-body rule to a skill body
+(row 513) and 2 from a heading that shouts one word in eleven skills, opened as row 519.

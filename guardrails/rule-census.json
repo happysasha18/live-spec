@@ -12,13 +12,13 @@
       "total": 88
     },
     "NEXT_STEPS.md": {
-      "bytes": 8132,
+      "bytes": 5895,
       "file": "NEXT_STEPS.md",
       "long": 11,
-      "longest": 71,
+      "longest": 39,
       "register": 0,
-      "style": 12,
-      "total": 23
+      "style": 1,
+      "total": 12
     },
     "OVERVIEW.md": {
       "bytes": 7141,
@@ -57,13 +57,13 @@
       "total": 29
     },
     "ROADMAP.md": {
-      "bytes": 167284,
+      "bytes": 171592,
       "file": "ROADMAP.md",
       "long": 8,
       "longest": 242,
       "register": 0,
-      "style": 213,
-      "total": 221
+      "style": 212,
+      "total": 220
     },
     "SURFACES.md": {
       "bytes": 779,
@@ -80,8 +80,8 @@
       "long": 8,
       "longest": 46,
       "register": 0,
-      "style": 73,
-      "total": 81
+      "style": 71,
+      "total": 79
     },
     "adopt/ADOPT.md": {
       "bytes": 22159,
@@ -147,7 +147,7 @@
       "total": 38
     },
     "docs/language-rule-coverage.md": {
-      "bytes": 69828,
+      "bytes": 72495,
       "file": "docs/language-rule-coverage.md",
       "long": 83,
       "longest": 81,
@@ -156,13 +156,13 @@
       "total": 107
     },
     "docs/language-rules.md": {
-      "bytes": 44751,
+      "bytes": 50615,
       "file": "docs/language-rules.md",
-      "long": 63,
-      "longest": 91,
+      "long": 35,
+      "longest": 95,
       "register": 0,
-      "style": 17,
-      "total": 80
+      "style": 11,
+      "total": 46
     },
     "docs/language-worked-example.md": {
       "bytes": 24176,
@@ -226,6 +226,15 @@
       "register": 0,
       "style": 0,
       "total": 8
+    },
+    "docs/plans/2026-07-28-top-level-readability.md": {
+      "bytes": 13899,
+      "file": "docs/plans/2026-07-28-top-level-readability.md",
+      "long": 6,
+      "longest": 51,
+      "register": 0,
+      "style": 4,
+      "total": 10
     },
     "docs/prior-art-frameworks.md": {
       "bytes": 16009,
@@ -575,8 +584,8 @@
       "long": 139,
       "longest": 198,
       "register": 0,
-      "style": 137,
-      "total": 276
+      "style": 134,
+      "total": 273
     },
     "skills/build-pipeline/references/delegation-protocol.md": {
       "bytes": 8388,
@@ -701,8 +710,8 @@
       "long": 70,
       "longest": 92,
       "register": 0,
-      "style": 18,
-      "total": 88
+      "style": 15,
+      "total": 85
     },
     "skills/feedback-collector/README.md": {
       "bytes": 2901,
@@ -755,26 +764,26 @@
       "long": 141,
       "longest": 97,
       "register": 0,
-      "style": 103,
-      "total": 244
+      "style": 102,
+      "total": 243
     },
     "skills/product-prover/README.md": {
-      "bytes": 11272,
+      "bytes": 11334,
       "file": "skills/product-prover/README.md",
-      "long": 21,
-      "longest": 71,
+      "long": 0,
+      "longest": 25,
       "register": 0,
-      "style": 19,
-      "total": 40
+      "style": 15,
+      "total": 15
     },
     "skills/product-prover/SKILL.md": {
-      "bytes": 60263,
+      "bytes": 62583,
       "file": "skills/product-prover/SKILL.md",
-      "long": 127,
-      "longest": 86,
+      "long": 0,
+      "longest": 25,
       "register": 0,
-      "style": 126,
-      "total": 253
+      "style": 27,
+      "total": 27
     },
     "skills/publish/README.md": {
       "bytes": 1041,
@@ -831,22 +840,22 @@
       "total": 58
     },
     "skills/text-audit/README.md": {
-      "bytes": 5393,
+      "bytes": 5599,
       "file": "skills/text-audit/README.md",
-      "long": 9,
-      "longest": 47,
+      "long": 3,
+      "longest": 38,
       "register": 0,
       "style": 5,
-      "total": 14
+      "total": 8
     },
     "skills/text-audit/SKILL.md": {
-      "bytes": 17487,
+      "bytes": 35231,
       "file": "skills/text-audit/SKILL.md",
-      "long": 29,
-      "longest": 62,
+      "long": 21,
+      "longest": 41,
       "register": 0,
-      "style": 24,
-      "total": 53
+      "style": 15,
+      "total": 36
     },
     "templates/ARCHITECTURE.template.md": {
       "bytes": 10989,

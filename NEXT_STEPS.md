@@ -13,15 +13,26 @@ this work moves.
 
 Everything else in this project waits. Alexander's word, 2026-07-28 morning.
 
-**Before batch one, finish the audit skill.** His direction, 2026-07-28 ~09:00: every law lives in the
-audit skill, each law stated as a CLASS of mistake with examples under it, and the skill then applies to
-the spec. A list of words is the wrong shape for a law: words keep arriving, and each language has its
-own. Two pieces of that are done — the skill now prints all 41 human-prose rules out of the one rule
-file between markers, and the rule against a coined word is wired into the model that reads chat by
-meaning. What remains: read every law in the skill and make sure it states a class with examples, and
-make the skill usable on a spec section.
+**The audit skill is finished, 2026-07-28 afternoon.** His direction that morning: every law lives in
+the audit skill, and each law states a class of mistake with examples under it. The skill then applies
+to a spec section. All four pieces stand:
 
-Then the ordered list of requirements, then batch one. The plan explains why no new script is built.
+- the skill prints all 41 human-prose rules out of the one rule file between markers;
+- the rule against a coined word is wired into the model that reads chat by meaning;
+- every law carries a recorded case, written text on the left and its repair on the right, taken from
+  this project's own texts;
+- the skill carries the section that runs it on a spec section: the working size of ten requirements,
+  the lint that applies only there, the marks a rewrite leaves untouched, and the four checks that
+  follow.
+
+Both text skills were rewritten by the rules they hold a text to. The prover fell from 253 findings to
+27, and it carries no sentence past the word cap. The audit skill fell from 53 to 36. What stands in
+the prover is 25 findings from a checker reading a spec rule over a skill body (row 513), and 2 from a
+heading that shouts in eleven skills (row 519). The records are
+`docs/skill-review/2026-07-28-product-prover-prose.md` and
+`docs/skill-review/2026-07-28-text-audit-cases-and-spec-section.md`.
+
+Next: the ordered list of requirements, then batch one. The plan explains why no new script is built.
 
 ## How we got here
 
@@ -66,7 +77,7 @@ of passes and failures: `python3 -m pytest -q > <scratch>/suite.log 2>&1`, then 
 `python3 scripts/spec-freeze.py --freeze PRODUCT_SPEC.md ARCHITECTURE.md TEST_MATRIX.md --compaction`
 
 **Next free numbers**, so two lanes do not collide: requirement 302, INV-301, E-36, T-25, M-479, and
-queue row 519.
+queue row 520.
 
 ## Standing word from Alexander
 
