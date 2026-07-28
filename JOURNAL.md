@@ -2,6 +2,29 @@
 
 Edit history lives here — the WHY behind every change. The spec and README state current truth; this file explains how we got there.
 
+## 2026-07-29 — the ratchet's second check was protection in name, and a worker's command reddened the suite
+
+The check that refuses a hand-raised ceiling compared the working folder against the tip of the branch. A
+real push carries its raise already committed, so the two copies agreed and the check said nothing. The
+prover pass that found it proved it on a scratch repository: a ceiling raised from zero to nine,
+committed, the gate run, exit zero. Its own test raised a count and never committed it, so the test and
+the gate stood on two different trees.
+
+The check now reads the record against the copy the base commit holds, through the ladder the
+prover-record gate already carries, and each run names the rung it read. Criteria 12 to 16 state the check
+the specification had never introduced. The census computes its refusals above the write, so a reading
+that refused can no longer store a zero as the next ceiling.
+
+One thing went wrong in the running of the night. The prover worker ran a command that discards
+uncommitted work, to undo a re-seed of its own. Nothing was lost: the tree was clean at that moment and
+the record still matches its commit byte for byte. The check that reads worker records caught it and
+reddened the suite, which is the check working. Its finding stands on disk forever and its window is a
+day, so a finished recovery clears nothing. Queue row 527 carries that, and the way out is a question of
+policy.
+
+The cause on my side is the dispatch. The prohibition was stated in no brief the worker held, and it now
+rides every dispatch this session writes.
+
 ## 2026-07-28 — a settled answer was lost, so the session record is now read at both ends
 
 At 19:55 the owner settled how wide the reading campaign runs: every live document is read through the
