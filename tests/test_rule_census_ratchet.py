@@ -12,11 +12,15 @@ record on disk left exactly as it stood.
 No test here writes `guardrails/rule-census.json`. Every run is given a scratch record under a scratch
 root, so the repository's own record is untouched.
 """
+import contextlib
+import importlib.util
+import io
 import json
 import os
 import subprocess
 import tempfile
 import unittest
+from unittest import mock
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CENSUS = os.path.join(ROOT, "scripts", "rule-census.py")
@@ -44,6 +48,14 @@ def seed(tmp, body, recorded_total=None, reason=None):
         with open(record, "w", encoding="utf-8") as f:
             json.dump({"cap": 25, "cap_rule": "r08", "files": {"CLEAN.md": entry}}, f)
     return record
+
+
+def load_census():
+    """The census as a module, so a reading can be made to refuse the way a broken lint refuses."""
+    spec = importlib.util.spec_from_file_location("rule_census", CENSUS)
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
 
 
 def read(record):
@@ -79,6 +91,22 @@ class TestRuleCensusRatchet(unittest.TestCase):
             self.assertEqual(entry["total"], 0)
             self.assertEqual(entry.get("reason"), "raised on 2026-07-28 for the merged page",
                              "the rewrite erased the reason a person wrote by hand")
+
+    def test_the_census_writes_nothing_when_a_reading_refused(self):
+        """RED-FIRST: a lint that refused to run scores zero, and that zero reaches no record."""
+        with tempfile.TemporaryDirectory() as tmp:
+            record = seed(tmp, UNDER_CAP, 7)
+            census = load_census()
+            out = io.StringIO()
+            with mock.patch.object(census, "run_lint",
+                                   return_value=(None, "the reading refused to run")):
+                with contextlib.redirect_stdout(out):
+                    code = census.main(["rule-census.py", "--root", tmp, "--json", record])
+            self.assertEqual(code, 1, "a run whose reading refused reported success:\n%s" % out.getvalue())
+            self.assertEqual(read(record)["CLEAN.md"]["total"], 7,
+                             "a reading that never ran lowered the recorded ceiling")
+            self.assertIn("refused", out.getvalue())
+            self.assertNotIn("wrote %s" % record, out.getvalue())
 
     def test_the_census_seeds_an_absent_record(self):
         with tempfile.TemporaryDirectory() as tmp:

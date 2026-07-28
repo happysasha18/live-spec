@@ -24,10 +24,10 @@ WHY IT SITS AT THE PUSH. The census is a report and reports do not refuse anythi
 of 2026-07-28 and that evening one page rose from 107 findings to 112 with nothing noticing. This gate
 is what noticing looks like.
 
-THE SECOND ARM: THE RECORD ITSELF (SPEC INV-301, R302.11). The verdicts above hold the law over the
-DOCUMENTS. The record is a file a person can edit, so this arm holds the law over the RECORD. It reads
-the record against the copy the last commit holds and reds an entry whose recorded count rose with no
-reason beside it. A raise is lawful when the entry carries a non-empty `reason` field, which is the
+THE SECOND ARM: THE RECORD ITSELF (SPEC INV-301, R302.11 to R302.15). The verdicts above hold the law
+over the DOCUMENTS. The record is a file a person can edit, so this arm holds the law over the RECORD.
+It reads the record against the copy the base commit holds and reds an entry whose recorded count rose
+with no reason beside it. A raise is lawful when the entry carries a non-empty `reason` field, which is the
 shape `guardrails/doc-bounds.json` already uses for a raised byte ceiling; inventing a second shape for
 one idea is what the pack's one-home rule forbids. The writing arm lives in `scripts/rule-census.py`,
 which refuses to store a rise at all, so between the two of them the printed remedy can only lower a
@@ -38,14 +38,30 @@ already owns "a recorded count moves down alone", and the record is the other ha
 new letter would owe an entry in `guardrails/gate-red-proofs.json` for a fact this gate already stands
 for. The arm's own red proof rides gate aa's registered entry.
 
-HOW IT READS THE COMMITTED COPY. It asks git, through `git rev-parse --show-toplevel` beside the record
-and then `git show HEAD:<path>`. Where git answers nothing — no repository, no commit yet, no committed
-copy of that record, or a committed copy that will not parse — the arm STANDS DOWN BY NAME and says what
-it read nothing of (INV-218's shape), because a fixture tree and a fresh clone are both lawful states
-and neither is evidence of a raise. The document arm above still holds in that case.
+WHICH COPY IT READS AGAINST, AND WHY NOT `HEAD`. This gate runs from `guardrails/pre-push` and from the
+CI mirror, and at both of those moments the raise is ALREADY COMMITTED. An arm comparing the working
+folder against `HEAD` therefore reads two copies that agree, prints nothing, and passes every real push;
+it reaches an uncommitted edit alone, and a push never carries one. The honest ground for a gate on the
+push chain is the state the REMOTE ALREADY HOLDS, so the arm reads the record against a BASE COMMIT.
+
+HOW THE BASE COMMIT IS RESOLVED. Through the same ladder `guardrails/check-prover-record.sh` reads, so
+one idea keeps one shape: the environment value `LIVE_SPEC_DIFF_BASE` where it resolves to a commit (CI
+passes the push event's base commit, a planted test passes its own), then `origin/main`, then the commit
+before the tip. A fourth rung follows the first three: the TIP ITSELF, which is the only copy a
+repository holding one commit and no upstream can reach, and which keeps the arm's reach over an
+uncommitted hand edit in such a tree. Each run names the rung it read, so the arm's ground is visible.
+
+HOW IT READS THAT COPY. It asks git, through `git rev-parse --show-toplevel` beside the record and then
+`git show <base>:<path>`. Where git answers nothing — no repository, no commit yet, no copy of that
+record at the base, or a copy that will not parse — the arm STANDS DOWN BY NAME and says what it read
+nothing of (INV-218's shape). That covers a fresh clone, a machine with no network, and the first push
+of a branch whose base holds no record; none of them is evidence of a raise, and the document arm above
+still holds. The CI mirror answers the same question the same way: `.github/workflows/gates.yml` hands
+gate aa the event's base commit in `LIVE_SPEC_DIFF_BASE`, and a pull request with no such value falls to
+`origin/main`, which the full-depth checkout carries.
 
 WHY AN UNCHANGED RECORD IS SILENT. The arm speaks only of an entry whose recorded count ROSE against the
-commit. A record identical to its committed copy yields no such entry, so the arm prints nothing and the
+base copy. A record identical to that copy yields no such entry, so the arm prints nothing and the
 gate's verdict is the document arm's alone. A gate that reds on an unchanged tree blocks every push in
 the repository, which is the failure this silence avoids.
 
@@ -70,6 +86,9 @@ CENSUS = os.path.join(REPO_ROOT, "scripts", "rule-census.py")
 RECORD = os.path.join(REPO_ROOT, "guardrails", "rule-census.json")
 
 CHECK = "doc-findings-bound"
+# The base the record is read against, named the way `guardrails/check-prover-record.sh` names it.
+BASE_ENV = "LIVE_SPEC_DIFF_BASE"
+EMPTY_SHA = "0" * 40
 
 
 def load_census():
@@ -80,10 +99,29 @@ def load_census():
     return module
 
 
-def committed_record(path):
-    """The record's `files` as the last commit holds it, or a note saying what git answered nothing of.
+def base_commit(top):
+    """The commit the record is read against, by the ladder the prover-record gate already reads.
 
-    Returns (files, None) on success and (None, note) where no committed copy can be read.
+    `LIVE_SPEC_DIFF_BASE` where it resolves, then `origin/main`, then the commit before the tip, then
+    the tip itself. Returns the ref name, or None where the repository holds no commit at all.
+    """
+    ladder = []
+    stated = (os.environ.get(BASE_ENV) or "").strip()
+    if stated and stated != EMPTY_SHA:
+        ladder.append(stated)
+    ladder += ["origin/main", "HEAD~1", "HEAD"]
+    for ref in ladder:
+        proc = subprocess.run(["git", "-C", top, "rev-parse", "--verify", "--quiet",
+                               "%s^{commit}" % ref], capture_output=True, text=True)
+        if proc.returncode == 0 and proc.stdout.strip():
+            return ref
+    return None
+
+
+def base_record(path):
+    """The record's `files` as the base commit holds it, or a note saying what git answered nothing of.
+
+    Returns (files, ref, None) on success and (None, ref, note) where no base copy can be read.
     """
     # The real path on both sides: git answers with symlinks resolved, and a temporary directory under
     # /var on this platform is reached through one, which would otherwise make the two paths disagree.
@@ -93,25 +131,28 @@ def committed_record(path):
         top = subprocess.run(["git", "-C", directory, "rev-parse", "--show-toplevel"],
                              capture_output=True, text=True).stdout.strip()
     except OSError as e:
-        return None, "no git command answered here (%s)" % e
+        return None, None, "no git command answered here (%s)" % e
     if not top:
-        return None, "no git repository holds %s" % path
+        return None, None, "no git repository holds %s" % path
+    ref = base_commit(top)
+    if not ref:
+        return None, None, "no commit in %s holds a record to read against" % top
     rel = os.path.relpath(real, os.path.realpath(top))
-    proc = subprocess.run(["git", "-C", top, "show", "HEAD:%s" % rel],
+    proc = subprocess.run(["git", "-C", top, "show", "%s:%s" % (ref, rel)],
                           capture_output=True, text=True)
     if proc.returncode != 0:
-        return None, "the last commit holds no copy of %s" % rel
+        return None, ref, "%s holds no copy of %s" % (ref, rel)
     try:
-        return json.loads(proc.stdout)["files"], None
+        return json.loads(proc.stdout)["files"], ref, None
     except (ValueError, KeyError) as e:
-        return None, "the committed copy of %s would not be read (%s)" % (rel, e)
+        return None, ref, "the copy of %s at %s would not be read (%s)" % (rel, ref, e)
 
 
-def hand_raises(recorded, committed):
-    """Every entry whose recorded count rose against the commit while carrying no reason."""
+def hand_raises(recorded, base):
+    """Every entry whose recorded count rose against the base copy while carrying no reason."""
     out = []
     for rel, entry in sorted(recorded.items()):
-        was = committed.get(rel)
+        was = base.get(rel)
         if not isinstance(was, dict) or not isinstance(entry, dict):
             continue
         if entry.get("total", 0) <= was.get("total", 0):
@@ -136,8 +177,8 @@ def main(argv=None):
               "and a gate with no ground passes on everything." % (CHECK, args.record, e))
         return 1
 
-    committed, stood_down = committed_record(args.record)
-    raised = hand_raises(recorded, committed) if committed is not None else []
+    base, base_ref, stood_down = base_record(args.record)
+    raised = hand_raises(recorded, base) if base is not None else []
 
     census = load_census()
     cap, cap_rule = census.load_word_cap()
@@ -173,7 +214,9 @@ def main(argv=None):
         print("    python3 scripts/rule-census.py --json guardrails/rule-census.json")
 
     if stood_down:
-        print("  stands down: the record arm read no committed record — %s." % stood_down)
+        print("  stands down: the record arm read no base copy of the record — %s." % stood_down)
+    else:
+        print("  the record arm read the record against the copy %s holds." % base_ref)
 
     if not rose and not unrecorded and not raised:
         print("OK (%s): %d live documents, %d held at zero, none above its record (cap %d, rule %s)."
@@ -181,9 +224,10 @@ def main(argv=None):
         return 0
 
     for rel, was, now in raised:
-        print("FAIL (%s): the record for %s was raised from %d to %d with no reason beside it. A raise "
-              "states its reason in that entry's `reason` field, the way a raised byte ceiling does in "
-              "guardrails/doc-bounds.json." % (CHECK, rel, was, now))
+        print("FAIL (%s): the record for %s was raised from %d to %d against the copy %s holds, with no "
+              "reason beside it. A raise states its reason in that entry's `reason` field, the way a "
+              "raised byte ceiling does in guardrails/doc-bounds.json."
+              % (CHECK, rel, was, now, base_ref))
     for rel, total in unrecorded:
         print("FAIL (%s): %s is live and carries no entry in the record. Measure it into the record "
               "before it ships: python3 scripts/rule-census.py --json guardrails/rule-census.json"

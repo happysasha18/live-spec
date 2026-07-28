@@ -46,7 +46,9 @@ Usage:
   rule-census.py --root DIR            # measure the live set under DIR (fixtures; parity with gate aa)
   rule-census.py PATH [PATH ...]       # measure these files instead of the live set
 Exit 0 once every file is measured; exit 1 when the set is empty, a reading refused, or a measured
-document stands above its recorded count while `--json` was asked to write the record.
+document stands above its recorded count while `--json` was asked to write the record. A run where any
+reading refused or any file went unread writes NO record at all: the refusals are read above the write,
+because a reading that never ran scores 0 and that 0 would become the ceiling (R302.16).
 Stdlib only.
 """
 import argparse
@@ -309,6 +311,19 @@ def main(argv):
         with open(args.out, "w", encoding="utf-8") as fh:
             fh.write(text)
         print("%s: wrote %s" % (CHECK, args.out))
+    refused = [r for r in rows if "refused" in r or "unread" in r]
+    if args.json_out and refused:
+        # A reading that never ran scores 0 (SPEC INV-301, R302.16), and a 0 written here becomes the
+        # ceiling the ratchet holds. So the refusals are read BEFORE the write, the shape the risen
+        # case below already carries. Queue row 525 covers the neighbouring path, where a reading
+        # produces no count at all; once such a reading refuses instead of scoring 0, it stops the
+        # write right here with no further change.
+        print("%s: REFUSED to write %s — a reading that never ran scores 0, and a 0 recorded here "
+              "becomes the next ceiling (SPEC INV-301, R302.16)." % (CHECK, args.json_out))
+        for row in refused:
+            print("  %s — %s" % (row["file"], row.get("refused") or row.get("unread")))
+        print("  Repair the reading and run the census again; the record on disk is left as it stood.")
+        return 1
     if args.json_out:
         recorded = load_record(args.json_out)
         measured = {r["file"]: r for r in rows if "unread" not in r}
@@ -331,7 +346,6 @@ def main(argv):
                       fh, ensure_ascii=False, indent=2, sort_keys=True)
             fh.write("\n")
         print("%s: wrote %s" % (CHECK, args.json_out))
-    refused = [r for r in rows if "refused" in r or "unread" in r]
     return 1 if refused else 0
 
 

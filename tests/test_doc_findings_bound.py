@@ -51,6 +51,33 @@ def git_seed(tmp, committed_total, working_total, reason=None):
     return record, tmp
 
 
+def push_seed(tmp, base_total, pushed_total, reason=None):
+    """A repository whose record was committed, raised by hand, and committed again.
+
+    This is the tree a real push carries: the raise is already in the commit when the gate runs, so a
+    gate reading the working tree against the tip sees two copies that agree. A remote-tracking ref
+    stands on the earlier commit, which is where the copy the remote holds stands on a real push.
+    """
+    record, _ = seed(tmp, UNDER_CAP, base_total)
+    git(tmp, "init", "-q")
+    git(tmp, "config", "user.email", "gate@example.com")
+    git(tmp, "config", "user.name", "gate")
+    git(tmp, "add", "-A")
+    git(tmp, "commit", "-q", "-m", "the record as the remote holds it")
+    base = git(tmp, "rev-parse", "HEAD").stdout.strip()
+    with open(record, encoding="utf-8") as f:
+        data = json.load(f)
+    data["files"]["CLEAN.md"]["total"] = pushed_total
+    if reason:
+        data["files"]["CLEAN.md"]["reason"] = reason
+    with open(record, "w", encoding="utf-8") as f:
+        json.dump(data, f)
+    git(tmp, "add", "-A")
+    git(tmp, "commit", "-q", "-m", "the raise, committed the way a push carries it")
+    git(tmp, "update-ref", "refs/remotes/origin/main", base)
+    return record, tmp
+
+
 def seed(tmp, body, recorded_total):
     """A one-document tree plus a record naming that document's ceiling."""
     doc = os.path.join(tmp, "CLEAN.md")
@@ -146,6 +173,41 @@ class TestDocFindingsBound(unittest.TestCase):
     def test_the_hand_edit_arm_stands_down_with_no_git(self):
         with tempfile.TemporaryDirectory() as tmp:
             record, root = seed(tmp, UNDER_CAP, 0)
+            r = run(record, root)
+            self.assertEqual(r.returncode, 0, r.stdout)
+            self.assertIn("stands down", r.stdout)
+
+    def test_a_committed_raise_reds_against_the_base_copy(self):
+        """RED-FIRST: the raise is committed before the run, which is what every real push carries."""
+        with tempfile.TemporaryDirectory() as tmp:
+            record, root = push_seed(tmp, 0, 9)
+            r = run(record, root)
+            self.assertEqual(r.returncode, 1, "a committed hand-raise passed:\n%s" % r.stdout)
+            self.assertIn("raised", r.stdout)
+            self.assertIn("CLEAN.md", r.stdout)
+
+    def test_a_committed_raise_with_a_reason_passes(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            record, root = push_seed(tmp, 0, 9, reason="raised on 2026-07-29: two pages merged into one")
+            r = run(record, root)
+            self.assertEqual(r.returncode, 0, r.stdout)
+            self.assertNotIn("raised", r.stdout)
+
+    def test_the_arm_stands_down_where_the_base_holds_no_record(self):
+        """RED-FIRST: a first push of a new record reaches no earlier copy, and the arm says so."""
+        with tempfile.TemporaryDirectory() as tmp:
+            with open(os.path.join(tmp, "CLEAN.md"), "w", encoding="utf-8") as f:
+                f.write(UNDER_CAP)
+            git(tmp, "init", "-q")
+            git(tmp, "config", "user.email", "gate@example.com")
+            git(tmp, "config", "user.name", "gate")
+            git(tmp, "add", "-A")
+            git(tmp, "commit", "-q", "-m", "the tree before any record")
+            base = git(tmp, "rev-parse", "HEAD").stdout.strip()
+            record, root = seed(tmp, UNDER_CAP, 9)
+            git(tmp, "add", "-A")
+            git(tmp, "commit", "-q", "-m", "the record, first committed")
+            git(tmp, "update-ref", "refs/remotes/origin/main", base)
             r = run(record, root)
             self.assertEqual(r.returncode, 0, r.stdout)
             self.assertIn("stands down", r.stdout)
