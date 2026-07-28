@@ -208,6 +208,8 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 - **scaffold** — the runnable suite the templates ship with. It defines what a green suite means for the first delivery.
 - **scenario** — a requirement whose heading carries a `[feature: F-...]` tag, telling what a person does and what the person sees for one feature; the spec's body is a list of requirements, and a shipped feature's scenario is the requirement that states its working behaviour.
 - **seat** — the one acting orchestrator session that owns judgment, orchestrates the pipeline, briefs workers, judges lane independence, reads and writes and reports during a turn, and reports to the person; the source also names this actor the senior, the senior agent, and the orchestrator, and this document keeps the one name seat throughout.
+- **session extract** — one compact file holding the person's own turns from one session transcript, each turn carrying its timestamp and its text.
+- **session handover** — the file a closing session leaves for the next, written from the session extract by a fresh agent.
 - **settings card** — the rendered page that lists every setting the pack knows, its current value where one is recorded, and one plain-speech line saying how to change it.
 - **settings ladder** — the four nested scopes that resolve any setting: the session's live word, then the host profile, then the personal profile, then the pack default. A nearer scope overrides a farther one.
 - **shopfront** — the public README as the reader-facing front of a repository, whose claims match the truth just pushed.
@@ -2853,6 +2855,56 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 1. The system *shall* hold the whole resume file at 100 lines or fewer and *shall* have a suite check own the number, reddening on a bloated file proven with a synthetic one. [INV-48]
 2. The system *shall* restate an open leg as one terse line — its name, what stays open, and where the detail lives — and *shall* move the detail to the journal, the queue row, or the record the line points at. [INV-48, INV-26]
 3. The system *shall* have compaction move prose to its home and *shall* never let it drop an open leg. [INV-48, INV-26]
+
+---
+
+## Requirement 303: A session's record is read at both ends by an agent that did not live it
+
+**Context:** A session that lived the work reads its own record badly. A session writing its own handover from memory names a question as waiting for the person who already answered it. So a session's record is read at both ends by a fresh agent. That agent reads a compact extract of the person's own turns, where the raw transcript runs to megabytes.
+
+**User Story:** As the owner, I want a fresh agent reading my own turns, so that no decision of mine returns as waiting.
+
+### Acceptance Criteria
+
+**Case: the extract of the person's own turns**
+
+1. The system *shall* write the person's own turns from one session transcript into one session extract. [INV-302]
+2. Each written turn *shall* carry its timestamp and its text. [INV-302]
+3. The system *shall* take a transcript file *when* any line in it names the repository path. [INV-302]
+4. The system *shall* read every human turn in a taken file, whatever working directory a line records. [INV-302]
+5. The system *shall* count a user line as human *when* it carries no tool result, no sidechain mark, and no meta mark. [INV-302]
+6. The system *shall* drop a turn whose whole text is a harness wrapper. [INV-302]
+7. The system *shall* strip a harness wrapper out of a turn that also carries the person's own words. [INV-302]
+8. The system *shall* write the session extract outside the repository, since a transcript holds private conversation. [INV-302]
+9. Each run that writes an extract *shall* state its reach: the transcript it read, the count of human turns, and both file sizes. [INV-302, INV-269]
+10. *when* a session closes, the system *shall* run the extractor over that session's transcript before the handover is written. [INV-302]
+
+**Case: the closing step**
+
+11. *when* a session closes, the system *shall* have a fresh agent session write the session handover from the extract. [INV-302]
+12. The system *shall* keep the session that lived the work from writing its own handover. [INV-302]
+13. *when* a movement ends, the system *shall* write the session handover beside the resume file's replacement. [INV-302, M-2]
+14. The system *shall* spawn the handover's reader before the wind-down reaches its safe point. [INV-302, INV-95]
+15. The system *shall* write a session handover under `docs/handovers/` under a file name ending in `-handover.md`. [INV-302]
+16. A session handover's file name *shall* carry its date and its session identity, so two closes write two files. [INV-302, INV-117]
+17. A session handover *shall* say what stays open, what resumes where, and every decision the person made with its timestamp. [INV-302]
+18. The system *shall* keep the person's own words out of a handover, quoting them only as a decision entry's evidence. [INV-302]
+19. A session handover *shall* name the transcript it was read from, the extract file, and the agent that wrote it. [INV-302]
+20. *if* a session handover names fewer than all three, *then* the system *shall* refuse the push. [INV-302]
+21. The system *shall* hold this step by a push gate, since a session handover is a committed artifact. [INV-302]
+22. The gate *shall* read that provenance for its shape alone, since no machine sees whether a writing session was fresh. [INV-302]
+23. *when* the handover directory holds no session handover at all, the gate *shall* refuse rather than pass over an empty set. [INV-302, INV-218]
+24. *when* every session handover predates the recorded counting start, the gate *shall* stand down by name and say what it read nothing of. [INV-302, INV-218]
+
+**Case: the opening step**
+
+25. *when* a session opens, the system *shall* have a fresh agent read the previous session's handover and its extract. [INV-302]
+26. The system *shall* have that agent take the extract the previous handover names. [INV-302]
+27. *if* no such extract stands, *then* the system *shall* re-derive one from the previous session's transcript. [INV-302]
+28. That agent *shall* list every decision the person made, each with its timestamp. [INV-302]
+29. The system *shall* compare that list against `DECISIONS.md` and `NEXT_STEPS.md`. [INV-302]
+30. *if* a decision is missing from both, *then* the system *shall* report it to the seat before work starts. [INV-302]
+31. The system *shall* keep this step a discipline the seat holds, since a session's opening writes no committed artifact. [INV-302, INV-247]
 
 ---
 
@@ -7303,6 +7355,15 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 7. *when* the record names no document, the system *shall* refuse rather than pass over an empty set. [INV-301, INV-218]
 8. Each run *shall* state its reach: the count of live documents read, the count held at zero, and the word cap it measured against. [INV-301, INV-269]
 
+**Case: the record moves only down**
+
+9. No run *shall* raise a recorded count. [INV-301]
+10. *when* the census writes the record and no live document stands above its recorded count, the system *shall* write each measured count back. [INV-301]
+11. A raised recorded count *shall* be a hand edit to the record, made under the rule stated once at the criterion-readability requirement. [INV-301, INV-288]
+   - the reason sits in the entry's `reason` field, the shape `guardrails/doc-bounds.json` carries;
+   - the census carries a recorded reason forward, so a later write keeps it;
+   - *where* git holds no committed record, the arm stands down by name.
+
 
 ## Reference
 
@@ -7461,7 +7522,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-92 | R182.1, R182.2, R182.3, R182.4, R182.5, R182.6, R182.7 |
 | INV-93 | R22.5, R23.1, R23.2, R23.3, R23.4, R25.4 |
 | INV-94 | R19.1, R19.2, R19.3, R54.3, R196.17, R196.18 |
-| INV-95 | R25.1, R25.2, R25.3, R25.4, R25.5 |
+| INV-95 | R25.1, R25.2, R25.3, R25.4, R25.5, R303.14 |
 | INV-96 | R147.1, R147.2, R147.3, R148.3 |
 | INV-97 | R193.13, R196.5, R228.1, R228.2, R228.3, R228.4, R228.5, R228.6, R260.4, R268.5, R269.1 |
 | INV-98 | R132.1, R221.1, R221.2, R221.3, R221.4, R268.4 |
@@ -7483,7 +7544,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-114 | R60.4, R150.2, R183.6, R184.1, R184.2, R184.3, R184.4, R184.5 |
 | INV-115 | R130.5, R131.1 |
 | INV-116 | R130.1, R131.1, R141.1, R215.2, R242.2 |
-| INV-117 | R77.3, R77.4, R79.1, R79.2, R79.3, R84.2, R89.4, R90.5, R196.12, R251.6, R252.2, R255.1 |
+| INV-117 | R77.3, R77.4, R79.1, R79.2, R79.3, R84.2, R89.4, R90.5, R303.16, R196.12, R251.6, R252.2, R255.1 |
 | INV-118 | R149.1, R149.2, R149.3, R151.4 |
 | INV-119 | R187.11, R187.13 |
 | INV-120 | R150.1, R150.2, R150.3, R150.4, R151.3 |
@@ -7584,7 +7645,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-215 | R134.1, R134.2 |
 | INV-216 | R246.7, R246.8 |
 | INV-217 | R191.5, R215.2, R274.1, R274.2, R274.3, R274.4, R274.5, R274.6, R274.7 |
-| INV-218 | R113.1, R113.2, R301.18, R301.19, R302.7 |
+| INV-218 | R113.1, R113.2, R303.23, R303.24, R301.18, R301.19, R302.7 |
 | INV-219 | R193.13 |
 | INV-220 | R135.3, R230.7, R231.1, R231.3, R231.4, R231.5 |
 | INV-221 | R135.1, R135.2, R135.3, R230.3 |
@@ -7613,7 +7674,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-244 | R258.5, R265.1, R265.2, R265.3, R265.4, R265.5, R265.6, R265.7, R265.8, R265.9, R265.10, R265.11, R265.12, R265.13, R265.14, R265.15, R266.1, R266.7, R299.4 |
 | INV-245 | R151.1, R151.2, R151.3, R151.4 |
 | INV-246 | R232.4, R232.5, R232.6 |
-| INV-247 | R93.1, R93.2, R93.3, R195.16 |
+| INV-247 | R93.1, R93.2, R93.3, R303.31, R195.16 |
 | INV-248 | R266.1, R266.2, R266.3, R266.4, R266.5, R266.6, R266.7, R266.8, R266.9 |
 | INV-249 | R195.15, R195.16 |
 | INV-250 | R277.1, R277.2, R277.3 |
@@ -7635,7 +7696,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-266 | R281.1, R281.2 |
 | INV-267 | R281.3, R281.4, R281.5, R281.6 |
 | INV-268 | R281.7 |
-| INV-269 | R282.1, R282.2, R284.4, R285.3, R288.5, R296.10, R297.11, R299.12, R301.20, R302.8 |
+| INV-269 | R303.9, R282.1, R282.2, R284.4, R285.3, R288.5, R296.10, R297.11, R299.12, R301.20, R302.8 |
 | INV-270 | R277.21, R277.22, R283.7, R286.3, R289.6 |
 | INV-271 | R191.4, R191.7, R278.5, R278.6, R278.7 |
 | INV-272 | R283.1, R283.2, R283.3, R283.4, R283.5, R283.6, R283.7 |
@@ -7654,7 +7715,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-285 | R295.1, R295.2, R295.3, R295.4, R295.5, R295.6, R295.7 |
 | INV-286 | R296.1, R296.2, R296.3, R296.4, R296.5, R296.6, R296.7, R296.8, R296.9, R296.10, R296.11, R296.12, R296.13 |
 | INV-287 | R297.1, R297.2, R297.3, R297.4, R297.5, R297.6, R297.7, R297.8, R297.9, R297.10, R297.12 |
-| INV-288 | R297.13, R297.14, R297.15, R297.16, R297.17, R297.18 |
+| INV-288 | R297.13, R297.14, R297.15, R297.16, R297.17, R297.18, R302.11 |
 | INV-289 | R298.1, R298.2, R298.3, R298.4, R298.5, R298.6 |
 | INV-290 | R226.7, R226.8, R226.9, R226.10 |
 | INV-291 | R299.1, R299.2, R299.3, R299.4, R299.5, R299.6, R299.7, R299.8, R299.9, R299.10, R299.11, R299.13, R299.14, R299.15 |
@@ -7667,9 +7728,10 @@ The code-to-location table below is generated output, built from the body criter
 | INV-298 | R301.1, R301.2, R301.3, R301.4, R301.5, R301.6, R301.7, R301.8, R301.9, R301.10, R301.11 |
 | INV-299 | R301.12, R301.13, R301.14, R301.15, R301.16, R301.17, R301.18, R301.19 |
 | INV-300 | R208.7, R208.8, R208.9 |
-| INV-301 | R302.1, R302.2, R302.3, R302.4, R302.5, R302.6, R302.7, R302.8 |
+| INV-301 | R302.1, R302.2, R302.3, R302.4, R302.5, R302.6, R302.7, R302.8, R302.9, R302.10, R302.11 |
+| INV-302 | R303.1, R303.2, R303.3, R303.4, R303.5, R303.6, R303.7, R303.8, R303.9, R303.10, R303.11, R303.12, R303.13, R303.14, R303.15, R303.16, R303.17, R303.18, R303.19, R303.20, R303.21, R303.22, R303.23, R303.24, R303.25, R303.26, R303.27, R303.28, R303.29, R303.30, R303.31 |
 | M-1 | R49.2, R80.7, R80.8, R92.2, R130.1, R130.2, R130.3, R130.4, R130.5, R130.6, R130.7, R130.8, R130.9, R164.4, R166.3, R166.8, R198.6, R249.2 |
-| M-2 | R14.3, R125.1, R125.2, R125.3, R177.12, R204.3 |
+| M-2 | R14.3, R125.1, R125.2, R125.3, R303.13, R177.12, R204.3 |
 | M-3 | R136.1 |
 | M-4 | R251.5 |
 | M-5 | R138.1, R138.2, R246.1 |

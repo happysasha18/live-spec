@@ -64,14 +64,12 @@ gate declared unable to fail, in its own words; the pre-commit chain, which is a
 teeth and appears nowhere on the current page; the three-way promotion test behind the declined gate;
 and the two blocked breaks in the probe.
 
-## What is yours to decide
+## What was yours to decide — answered 2026-07-27, swept 2026-07-28
 
-- **Whether to take it at all.** It is a replacement, and the shipped README is your text. Every
-  sentence of yours that survived is unchanged; take the corrections alone if the additions do not suit.
-- **The project count.** The draft keeps your "two projects in production" in both places. The promoter
-  counted three products built this way and had to correct itself — track-coach came under the pack on
-  5 July, twenty days into its build, and tlvphotos' work started before live-spec existed. If your own
-  count moves, both files should move together.
+- **Whether to take it at all.** You took it. `README.md` now carries the draft's own sentences, among
+  them the builder passage and the printed-defaults line.
+- **The project count.** Answered at ~18:11 on 2026-07-27 and recorded in `DECISIONS.md`: three
+  projects, the pack's own repository being the third. `README.md` says three today.
 - **The version line.** The draft does not touch `VERSION`.
 
 ## What is closed

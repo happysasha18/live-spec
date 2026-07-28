@@ -42,6 +42,39 @@ the defect this surface exists to catch. [[wait]]
   said two while the architecture and the test matrix named three real hosts; your word at ~18:11 was that
   live-spec is the third, unambiguously. The page now says three.
 
+- 2026-07-28 ~19:55 — a document is clean only once a reader has read it through the audit skill.
+  The reading covers every live document in the tree. Your words:
+
+  ```text
+  короче если аудита не было, то файл не "чистый", ultimately каждый файл читается именно через аудит. согласен? норм?
+  ```
+
+- 2026-07-28 ~20:48 — the queue is ordered by what enters a working context earliest. The entry
+  documents and the pack skills stand at the front, and the queue then runs on through the rest of
+  the tree. Your words:
+
+  ```text
+  давай без "потолка" это должно было отсечься! нет? про то что документы всегда same or better согласен, главное механизмы держать эту марку. порядок документов ты выводил раньше! мы сказали что начнем с тех которые первыми загрязняют твой же контекст. найди их сам. next steps? скиллы аудита (им все проверяем)? потом спеки? какие то вспомогательные файлы потом? понимаешь ход мысли? просто все подряд мы делали это плохо особенно когда походу загрязнается контекст. надо идти всегда из точки где контекст чист максимальной гигиеной.
+  ```
+
+- 2026-07-28 ~20:48 — a document leaves an edit the same or better. Mechanisms hold that mark, and a
+  session's own care is too thin to hold it. The exchange is the ~20:48 message quoted above, which
+  carries both calls in one breath.
+
+- 2026-07-28, at `15:09 UTC` — a reading is owed at a minor version bump, and after a large growth
+  in a document's size. The reader is an agent session, and the pack asks a person for no reading.
+  You raised the major bump first:
+
+  ```text
+  Надо тогда поставить чтение агентом (не человеком как ты ошибаешься и говоришь) когда дибо размер сильно вырос либо когда major version?
+  ```
+
+  Hearing that a major bump is rare, you moved the trigger down at `15:12 UTC`:
+
+  ```text
+  Минорную ок.
+  ```
+
 ## Open — carried, awaiting your word
 <!-- record:open -->
 These are open questions the pack carries with a recommendation, moved here from the old spec body when
@@ -49,6 +82,10 @@ the format sent decision history out of the spec. They are not decisions attribu
 name no exchange and carry no date. Each waits for your word, and the pack runs on the stated
 recommendation until then. The spec points to each by its code, as a gap line under the requirement the
 question touches.
+
+Before this list reaches you again, every item is re-tested against the tree as it stands. An item an
+artifact now answers is closed with that citation, and an item with a trigger of its own names that
+trigger. Swept 2026-07-28: all three still stand open, and work is blocked by none of them.
 
 The adoption attic's layout is open: a flat folder with a manifest and a source-directory prefix on a
 name collision, against dated subfolders. The pack runs on the flat-with-manifest form and revisits at

@@ -2,6 +2,58 @@
 
 Edit history lives here — the WHY behind every change. The spec and README state current truth; this file explains how we got there.
 
+## 2026-07-28 — a settled answer was lost, so the session record is now read at both ends
+
+At 19:55 the owner settled how wide the reading campaign runs: every live document is read through the
+audit skill, and the entry documents stand at the front of the queue rather than at the end of it. At
+21:40 the session wrote its own handover and listed that same question as waiting for him. Two more calls
+from the same evening reached no file either: a reading is owed at a minor version bump, and the reader is
+an agent session rather than a person.
+
+The session wrote the handover from its own memory, and memory is what had already dropped the answer.
+The repair moves the writing to a reader that never lived the work. `scripts/session-extract.py` pulls the
+person's own turns out of one transcript into one compact file, which on the first real run took 1.5
+megabytes down to 53 kilobytes. A fresh agent writes the handover from that extract and names what it read.
+Gate ab refuses a handover that names no transcript, no extract, and no writer. At the opening of the next
+session a fresh agent lists the decisions in that extract and compares them against the decision record and
+the resume file, so a missing one is named before any work starts.
+
+The four lost calls went into `DECISIONS.md` with the owner's own words beside each. The resume file, the
+campaign plan, and the handover each carried the question as open with a narrow recommendation attached,
+and all three now state the answer and its date.
+
+## 2026-07-28 — one ceiling law, stated once
+
+The findings-ratchet landing copied its hand-edit criterion word for word from the sibling ratchet, and the
+redundancy check read the two sentences as a duplicate pair. The floor in `scripts/spec-debt-cap.json` was
+raised by hand from 119 to 120 to admit it, which is a loosened ratchet inside the very landing that
+forbids a recorded number from rising.
+
+The specification's own rule is one home per fact, and its precedent form for pointing at that home already
+existed twice in the file. Requirement 302's criterion 11 now points at the criterion-readability
+requirement, which holds the law, and it carries both anchors. The redundancy count fell back to 119, and
+the debt cap file is byte-identical to its committed copy again.
+
+The same law is written out five more times, once per record it governs, and twice more in the glossary.
+Queue row 520 carries the merge: one requirement states the law with the record as its parameter, and every
+other statement points at that home.
+
+## 2026-07-28 — the findings record is a ceiling in fact
+
+Gate aa held the documents and nothing held the record. `scripts/rule-census.py --json` rewrote every entry
+to whatever the text measured that minute, a risen number included, and the refusing gate printed that
+command as its own remedy. So the record was a ceiling by habit alone.
+
+Both roads are closed now. The census reads the record it is about to write, names every document standing
+above its recorded count, and writes nothing at all in that case. A hand-written reason survives the
+rewrite, since the census carries each entry's reason forward. Gate aa gained a second arm that reads
+`guardrails/rule-census.json` against its committed copy and refuses a raised count carrying no reason.
+Where git holds no committed record, that arm stands down by name and says so.
+
+Criteria R302.9 to R302.11 carry the law, rows M-480 to M-482 cover it, and four tests were seen red on the
+bug before the code existed. The prover record for this requirement lists eight defects, and this landing
+folds the first of them.
+
 ## 2026-07-27 — the inbox is swept, ten deposits down to none
 
 The push gate held again, this time on the deposit door: four messages sitting in `inbox/` carried no

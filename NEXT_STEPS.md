@@ -30,7 +30,7 @@ readers 13 and 12 times. No document has passed the reader bar yet.
 
 ## The order of work
 
-Steps 1 to 3 stand today. Steps 4 and 5 wait for the owner's answer below.
+Every step below stands today. The reading question was settled on 2026-07-28, so no step waits on it.
 
 1. The prose inside `guardrails/language-rules.json`.
 2. The three files a stranger meets first: `README.md`, `OVERVIEW.md`, `adopt/ADOPT.md`.
@@ -53,10 +53,10 @@ version bump.
 **The task's baseline has no record.** No file names which six requirements were handed to the fresh
 agent, or what it produced.
 
-## One decision waits for the owner
+## The reader bar reaches every live document
 
-How wide the reader bar runs: over all 107 live documents, or over the three entry files and the eleven
-skill files. The recommendation on record is the second, and work stops at step 3 until he answers.
+Settled on 2026-07-28. The reader bar runs over every live document in this tree. The queue puts
+first what enters a working context earliest, which is the entry documents and the pack skills.
 
 ## Rules you must not break
 
@@ -84,8 +84,8 @@ test starts can still exit zero.
 commit that changes one on purpose, record the new baseline: `python3 scripts/spec-freeze.py --freeze
 PRODUCT_SPEC.md ARCHITECTURE.md TEST_MATRIX.md --compaction`.
 
-These numbers are free, so two lines of work do not collide: requirement 303, INV-302, E-36, T-25,
-M-480, queue row 520. A number is taken by writing it into its document, and the free number here is
+These numbers are free, so two lines of work do not collide: requirement 304, INV-303, E-36, T-25,
+M-486, queue row 526. A number is taken by writing it into its document, and the free number here is
 raised in the same commit.
 
 ## The owner's standing instructions
