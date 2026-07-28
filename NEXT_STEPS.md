@@ -1,91 +1,77 @@
-# live-spec — NEXT_STEPS (resume file: LIVE STATE + queue only; history → JOURNAL.md; ≤100 lines, INV-48)
+# live-spec — where the work stands
 
-## LIVE STATE (2026-07-28 morning)
-The rules about this project's own writing live in `guardrails/language-rules.json`, 53 of them, with
-`scripts/gen-language-consumers.py` building the judging model's rule text, the writer's page, and the
-maintainer's page from that one home, and `guardrails/check-language-rules.py` refusing any drift.
-Requirements 300, 301, and a case on 208 carry the movement in the spec. 93 acceptance criteria were
-rewritten by those rules: 469 criteria past the word cap fell to 378, in-place definitions 120 → 65,
-closes with no finite verb 147 → 123, and seven rewrites lost meaning (three caught by the suite, four
-by an independent read).
+## LIVE STATE (2026-07-28) — one task: make the spec buildable from its own text
 
-## THE LIVE MOVEMENT — the top-level documents read for a stranger
-Alexander's word, 2026-07-28 morning: this is the main task, and everything else waits. The plan is
-`docs/plans/2026-07-28-top-level-readability.md`, written to be executed by a session with a clean
-context — it carries the goal, the seven rules with their measures, the order, the commands, the five
-self-checks per batch, and the stopping rule. Start there and read nothing else first.
+Follow `docs/plans/2026-07-28-top-level-readability.md`. Read that plan first. It holds the test the
+work is measured by, the six families of defects with all 42 rules, a real before-and-after example, the
+order, the batch loop, the five checks per batch, and what to report after batch one.
 
-The state it starts from: the rule home holds 53 rules; one document was rewritten by them, being 93
-acceptance criteria of `PRODUCT_SPEC.md`; the census of all 106 live documents stands at
-`docs/audit/2026-07-28-rule-census.md` with 5429 findings, and its data at `guardrails/rule-census.json`.
-The plan's step 1 is building `guardrails/check-noun-grounding.py`, which gives a machine to the one
-rule that readers actually stop on.
+The spec is read by the agent that builds from it. Measured 2026-07-27: a fresh agent given six
+requirements implemented two from the text alone, left one with written-down questions, and did not
+attempt three, which depend on lists and default values the text gives nowhere. Two of six is the number
+this work moves.
 
-## PARKED behind the movement (2026-07-28 morning, Alexander's word: everything else waits)
-- `docs/language-defects.md` stops taking cold readings. It is an internal record shown to nobody, and
-  nine readings on it produced no convergence. The shipping bar stands for texts a person is shown.
-- The rules reference reads at 33 of the 39 rules binding a documentation page; a third reading waits.
-- 30 criteria carry more than one rule and want splitting; splitting renumbers neighbours, so it is its
-  own delivery with a record.
-- The three questions answered 2026-07-28 morning without the owner: a clean-context worker drafts, this
-  seat briefs and revises; a rule with no measure states its bar as its reader test; a flat run of peer
-  items is long at seven, to be recorded as r45's threshold when that rule gets its check.
+Everything else in this project waits. Alexander's word, 2026-07-28 morning.
 
-## Near queue
-- Rows 510-516 (2026-07-28): 510 a part of a set is named by what its members are · 511 a cross-project
-  finding travels on its own and nothing notices when it stays home · 512 the rotation road reaches one
-  document · 513 a checker whose reach is a whole file holds one surface's rule over another's · 514 a
-  rule pinned to a line number that an edit moves · 515 the gate over skill reviews reads the wrong record · 516 the two-clean-readings bar is not approached in nine readings.
-- Rows 484-493 (2026-07-27): 484 the seat declares what it did on its own · 485 a handed-in text is
-  edited only where he pointed · 486 a wish taken in says what it resembles · 487 a sentence he could not
-  parse is repaired at its source · 488 an engine carries no personal trace · 489 hook proofs · 490 the
-  legibility pairing · 491 reusable suite-speed guidance · 492 the pack's own measures on a clock · 493
-  no person's verb for a thing that cannot act.
-- Row 483: the four architecture-doc reader stumbles the row-456 cold read surfaced. Small doc cleanup.
-- Row 481: the live-queue staleness sweep at the milestone gate; owns the two trigger-less deferred rows.
-- Rows 471-475 (row 470's children; 475 the enforcement-coverage registry, now served by the rule home's
-  own coverage page and its gate).
-- Rows 465-467 · row 437 · row 460 · row 469 · row 479 (landed tonight, awaiting its closing sweep).
+Step one is the ordered list of requirements, then batch one. The plan explains why no new script is built first.
 
-## FIRST at intake — classify one-time vs standing (Alexander 2026-07-21, ROADMAP 440)
-Name every request's persistence class before actioning it, and say it yourself.
+## How we got here
 
-## Standing word / OWNER-HELD
-- Onboarding runs closer to the weekend (his word 2026-07-27). Of its 26 parked questions, 23 are the
-  seat's, 1 is his, 2 wait on a first outside host.
-- Whole movement solo, push on green; plain English in docs, plain Russian in chat; gates mandatory.
-- The lane cap is lifted and helper runs are unlimited (his word 2026-07-27 night); push and deploy to
-  production on green without asking.
-- Max agentic, conserve orchestrator context (delegate reads and drafts; hold briefs and decisions).
-- Push on green is his grant; re-test every "needs his word" by derivability first.
-- Row 421 (open, his call): one window ruling several instance-agents against the one-window law.
+**2026-07-27, day.** The rules this project holds its own writing to were spread over 57 files, with 61
+rules, nine of them stated twice with opposite verdicts. They now live in one file,
+`guardrails/language-rules.json`, 53 rules after seven duplicates were retired.
+`scripts/gen-language-consumers.py` builds every page and every checker's rule text from that one file,
+and `guardrails/check-language-rules.py` refuses any of them drifting from it.
 
-## CONCURRENCY — multiple windows share ~/live-spec
-Commit narrowly by explicit path, never git add -A; re-check HEAD before writing; re-arm with
-guardrails/fence-refresh.sh after accounting for a move. No session and no worker runs a command that
-discards working-tree changes (Requirement 301). The spec freeze re-baselines at each landing commit
-(python3 scripts/spec-freeze.py --freeze PRODUCT_SPEC.md ARCHITECTURE.md TEST_MATRIX.md --compaction).
+**2026-07-27, night.** 93 acceptance criteria of `PRODUCT_SPEC.md` were rewritten by those rules.
+Sentences past the word cap fell from 469 to 378, explanations inside a rule from 120 to 65, endings
+with no verb from 147 to 123. Seven of the 93 rewrites lost meaning: the test suite caught three and an
+independent read caught four. That ratio, one loss in thirteen, is why the plan runs five checks per
+batch.
 
-## Migration readiness
-The format family is complete. The answer on carrying it to tlvphotos, written 2026-07-28: convert the
-FORMAT now, since conversion is what attaches the measuring machinery and a seeded baseline records the
-debt instead of demanding it be repaid first; hold the language rewrite until the reference clears its
-own blind read. track-coach has no working tree on this machine, only an intake folder.
+**2026-07-27, night, the part that produced nothing.** Nine readings by strangers were run on
+`docs/language-defects.md`, an internal record shown to nobody. The count of places a reader got stuck
+went 11, 8, 12, 6, 5, 5, 6, 5, 8 and never approached zero. Two causes: the text read was 340 lines, so
+each repair opened a new snag somewhere else, and the measure counted sentence length while readers
+were stopping on unexplained words. The plan fixes both by working 250 lines at a time and by measuring
+what a fresh agent can build, which is the only honest count of an unexplained word.
 
-## Open movements
-CLOSED: row 456 architecture format v4.3.0 · row 480 queue format v4.2.0 · row 477 matrix format v4.1.0 ·
-rows 461-464 audit batch v4.0.1 · row 445 spec format v4.0.0 · conduct audit v3.1.0 · comms/naming v3.0.0.
-DEFERRED: adoption + onboarding (his 2026-07-18 word; owns the parameters registry, row 427).
+**2026-07-28, morning.** All 106 live documents were measured: 5429 defects, of which 2286 are in the
+top-level documents, 1712 in the skill bodies, and 1104 under `docs/`. The census is
+`docs/audit/2026-07-28-rule-census.md` and its data is `guardrails/rule-census.json`. Readings on the
+internal record page stopped.
 
-## Queue's open head (field-gated + far tier)
-385 first real contract · 389 cross-machine read · 247 remote-deposit field leg · 396/405 conversation
-channel + listener · far tier 381, 411, 435.
+## So that nothing breaks
 
-## Next free codes
-Next free INV-301 (292-300 taken 2026-07-28), E-36, T-25, M-479 (468-478 taken 2026-07-28), requirement
-302; next ROADMAP row 517 (A-12, B-4, C-2, D-8, S-1, ACT-4 free too).
+**Several windows share this repository.** Stage files by name, never `git add -A`. Re-check `git log -1`
+before writing. After accounting for a moved HEAD, re-arm the fence with `guardrails/fence-refresh.sh`.
 
-## Research in hand
-Direct-protocol research: docs/research/2026-07-17-agent-routing-prior-art.md. The routing experiment's
-record with its two baseline points: docs/measure/2026-07-28-tier-routing-experiment.md, week ending
-2026-08-04.
+**Never discard uncommitted work.** No session and no worker runs `git checkout -- <path>`,
+`git checkout .`, `git restore` outside `--staged`, any `git stash` form, `git reset --hard/--merge/--keep`,
+or `git clean -f/-x`. To put a file back, write back the bytes you read before changing it. This rule
+broke four times and destroyed work twice.
+
+**A green exit code is not a test result.** Write the suite's output to a file and read the printed count
+of passes and failures: `python3 -m pytest -q > <scratch>/suite.log 2>&1`, then read the last line.
+
+**Re-baseline the frozen documents at each saved batch:**
+`python3 scripts/spec-freeze.py --freeze PRODUCT_SPEC.md ARCHITECTURE.md TEST_MATRIX.md --compaction`
+
+**Next free numbers**, so two lanes do not collide: requirement 302, INV-301, E-36, T-25, M-479, and
+queue row 517.
+
+## Standing word from Alexander
+
+- Run a whole movement alone; save and publish on green without asking.
+- Documents in plain English. Conversation in Russian, in ordinary words.
+- Every gate runs. No exceptions.
+- Before asking him anything, check whether an existing document already answers it. If it does, act and
+  cite the document.
+- Name every request as one-time or standing before acting on it, and say which it is.
+
+## Parked until the one task is done
+
+The queue rows stand in `ROADMAP.md`; nothing there is lost. The nearest are 510-516 and 484-493, opened
+2026-07-27 and 2026-07-28. Carrying the document format to tlvphotos waits. The onboarding work waits.
+The skill bodies, the reader docs, and the templates, which hold 3143 of the 5429 measured defects, wait
+until the top-level documents are done.

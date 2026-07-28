@@ -1,188 +1,271 @@
-# Plan — the top-level documents read for a stranger
+# Plan — make the spec buildable from its own text
 
-Written 2026-07-28 on Alexander's instruction, to be executed by a session starting with a clean
-context. Everything the executing session needs is on this page: the goal, the order, the commands, the
-self-checks, and the stopping rule. It needs no other file to begin.
+## Who reads this document
 
-## The goal, stated as a test
+The agent that builds from it. `PRODUCT_SPEC.md` is loaded by the working session, by the prover that
+reviews it, and by a host's agent at adoption. Alexander reads a requirement now and then. The everyday
+reader is a model.
 
-A person who has never seen this project opens ONE requirement of `PRODUCT_SPEC.md`, one node of
-`ARCHITECTURE.md`, one row of `ROADMAP.md`, or one case of `TEST_MATRIX.md`, and acts on it without
-asking anyone a question.
+## What goes wrong today, measured
 
-The unit is one requirement. Nobody reads 7599 lines; a reader reads the requirement they were sent to.
+On 2026-07-27 a fresh agent with no other context was given six requirements from this spec and asked to
+implement them. The result:
 
-## What the previous attempt proved, so it is not repeated
+- it implemented **two** from the text alone;
+- for **one** it wrote down the questions the text left open and built nothing;
+- **three** it did not attempt, because they depend on lists and on default values the text gives
+  nowhere.
 
-The night of 2026-07-27 rewrote 93 acceptance criteria, then ran nine cold readings of one 340-line
-page. Blocking stops went 11, 8, 12, 6, 5, 5, 6, 5, 8 and never reached zero. Three findings stand:
+A model does not stop when a text is unclear. It guesses, and the wrong thing gets built. Two of six is
+the number this work moves.
 
-- **The reading unit was too big.** Each repair added words, and the next reader stopped where the new
-  words met the old. A repair could open a fresh stop a hundred lines from the one it answered.
-- **The measure and the reader disagreed.** The measures count sentence length. The readers stopped on a
-  load-bearing noun used before the text grounds it. Repairing the measured thing left the read thing
-  standing.
-- **Rewriting loses meaning at about one in thirteen.** Seven of the 93 rewrites lost meaning: the suite
-  caught three, an independent read caught four. A rewriting pass without both readings ships silent
-  defects.
+## The test this plan is measured by
 
-## The seven rules, and the measure of each
+Hand ten requirements to a fresh agent with no other context. Count how many it implements without
+asking a question. Today that count is 2 in 6.
 
-| # | rule | measure |
+The count is taken before and after each batch, on the same requirements, by two different fresh agents.
+
+## What has to be fixed, and in what order of importance
+
+The rules this project holds its own writing to are 53, of which 42 bind the spec body. They fall into
+six families. The first two are what stop an agent from building; the rest make the text hold together.
+
+### 1. Nothing is left hanging — this is what blocks a build
+
+| rule | the defect |
+|---|---|
+| r07 | a set named by a count, a pointer, or a position instead of its members |
+| r33 | a relational word with an empty slot: larger than what, sufficient for what |
+| r06 | a number standing with no ground |
+| r32 | a judgment with no judge and no measure: who decides, against what |
+| r40 | a conditional leaving a case unaccounted for |
+| r62 | a sentence open to two readings |
+| r34 | a hole in the source closed by an invention |
+
+### 2. Every word is explained before it is used
+
+| rule | the defect |
+|---|---|
+| r21 | a domain noun with no glossary entry |
+| r01 | an ordinary word carrying a private project meaning |
+| r35 | a term defined in place inside a criterion |
+| r02 | a coined, loan-translated, or respelled word where a standard word exists |
+
+### 3. One sentence carries one thought
+
+| rule | the defect |
+|---|---|
+| r08 | a sentence past its word cap, carrying more than one rule, more than one subordinate clause, or a pile-up of participial phrases |
+| r37 | a criterion carrying more than one trigger or more than one response |
+| r44 | a paragraph carrying more than one point |
+| r45 | a long flat run of peer items with no grouping over them |
+
+### 4. Every sentence has an actor and a finished action
+
+| rule | the defect |
+|---|---|
+| r26 | a sentence with no actor, or its action buried in a noun |
+| r36 | a criterion closing on a phrase with no finite verb |
+| r39 | a pronoun with no antecedent in its own sentence |
+| r05 | an action given to a subject that cannot perform it |
+| r30 | a rule narrated in the future tense |
+| r24 | a normative sentence in the wrong person |
+
+### 5. Nothing extra
+
+| rule | the defect |
+|---|---|
+| r41 | an example restating a rule that was already clear |
+| r56 | one fact stated a second time in another place |
+| r15 | a word inflating a statement while adding nothing |
+| r12 | a word grading how important or how good a thing is |
+| r29 | a sentence reassuring or inviting the reader |
+| r31 | a birth-story standing inside a normative sentence |
+| r27 | an opener saying what a thing is not |
+| r10 | a thing named by denying its neighbour |
+| r43 | an abstraction standing where a concrete noun would do |
+
+### 6. The page's furniture stays where it is
+
+| rule | the defect |
+|---|---|
+| r11 | an internal code leading a sentence |
+| r55 | an anchor, marker, heading, or literal changed by a rewrite |
+| r04 | one thing answering to a second name |
+| r03 | a name stacking two nouns with no relation between them |
+| r23 | a word standing in all capitals |
+| r09 | a text breaking a rule it states |
+| r19 | an owner or personal name inside a shipped artifact |
+| r18 | the wrong language for the surface |
+| r20 | English that reads as compressed or poetic |
+
+The full text of every rule, with its reader test and its exceptions, is `docs/language-rules.md`,
+generated from `guardrails/language-rules.json`.
+
+## What it looks like
+
+A real acceptance criterion from the spec today, at 72 words, carrying four separate rules in one
+sentence:
+
+> 3. The system *shall* red a branch whose merge-base sits behind main's tip in the merge-base check,
+> red a lane worktree or a lane branch carrying no open queue row and a primary tree that does not hold
+> main in the config-health check, red a host whose project instructions carry no worktree line in the
+> adoption gate, and red a lane opened past the cap in the board's lane-count check. [T-23, INV-150]
+
+The same criterion after the fixes:
+
+> 3. The system *shall* refuse each of the four faults below. [T-23, INV-150]
+>
+> - the merge-base check: a branch whose merge-base sits behind main's tip;
+> - the config-health check: a lane worktree or lane branch with no open queue row, and a primary tree
+>   that does not hold main;
+> - the adoption gate: a host whose project instructions carry no worktree line;
+> - the lane-count check: a lane opened past the cap.
+
+Three families did the work. Family 3 split one sentence of 72 words into a line of 12 and four items.
+Family 1 gave the set its members instead of the count "four faults". Family 2 removed "red", which is
+this project's private word for a check that refuses something.
+
+## What we do
+
+The spec holds 301 requirements. Ten requirements are fixed at a time, then checked, then saved, then
+the next ten.
+
+Ten is about 250 lines. A fresh agent can hold that much and attempt a build from it, and a fix inside
+those lines cannot break something a hundred lines away.
+
+## The order
+
+1. First, the requirements something sends a reader to: every requirement named in `README.md`,
+   `OVERVIEW.md`, `adopt/ADOPT.md`, or a skill body. These are what a host's agent meets first.
+2. Then the rest, worst first by the counts.
+
+The ordered list is written once, before batch one, into `docs/audit/2026-07-28-requirement-order.md`.
+
+## No new script is built, and here is why
+
+The first draft of this plan opened by building a script to count family 2's first defect, a word used
+before anything explains it. The idea was tested against the spec before being written: a probe over
+every criterion returned 139 matches, and the visible ones are mostly false. "two minutes" is a
+duration. "one of two values, confident or likely" lists its members in the same clause. A script
+cannot separate a domain noun from an ordinary word, and family 1's missing lists have the same shape.
+
+So the two families that block a build are not counted by a script. They are found by the build test:
+hand the requirements to a fresh agent and count what it can implement. That test is already in this
+plan and it measures the goal directly.
+
+The four families that a script does count — 3, 4, 5, and 6 — are counted by what already exists:
+`guardrails/check-criterion-readability.py` with its five arms, `scripts/spec-style-lint.py`,
+`guardrails/check-weak-words.py`, and `scripts/rule-census.py` over all of them.
+
+A real example of family 2, from Requirement 248 of the spec today:
+
+> for a lens the prover applies, it may ask whether that lens's dual applies to the document here
+
+The word `dual` is explained nowhere, here or in the glossary. A reading agent guesses or skips.
+
+## What runs after each batch of ten
+
+**1. The build test — does the text still say enough to build from.** Two fresh agents each attempt the
+ten requirements from their text alone. Record how many each implements without asking a question. This
+is the number the plan exists to move.
+
+**2. The test suite — did a rewrite drop a phrase something depends on.** The suite pins exact phrases
+from the spec, so a dropped phrase fails a test. Run it into a file and read the printed counts:
+
+```
+python3 -m pytest -q > <scratch>/suite.log 2>&1
+tail -1 <scratch>/suite.log        # e.g. "2215 passed, 2 skipped in 116.42s"
+```
+
+The exit code alone is not the verdict. It comes back zero when the run dies before any test starts.
+
+**3. The meaning check — did a rewrite change what a rule says.** A second agent puts the old text and
+the new text side by side and reports every difference in meaning. On 27 July this caught 4 of the 7
+meaning losses among 93 rewrites; the suite caught the other 3.
+
+**4. The four structure checks.** Each one prints what it read, and that report is what is read back,
+not the exit code. Their readings on 2026-07-28 before any batch:
+
+| command | what it holds | reading today |
 |---|---|---|
-| 1 | One sentence carries one rule and stays under its surface's word cap | 35 words for a criterion, 25 for prose — `guardrails/check-criterion-readability.py` arm A |
-| 2 | A term is defined in the glossary before the body uses it | `guardrails/check-vocabulary.py` |
-| 3 | No definition stands inside a criterion | arm B of the readability check |
-| 4 | A sentence closes on a clause carrying a finite verb | arm C |
-| 5 | Codes trail at the line's end and never lead a sentence | arm D |
-| 6 | A sentence naming a set gives that set's members | `guardrails/check-weak-words.py`, and the reader |
-| 7 | A requirement grounds its load-bearing noun inside its own Context block | **step 1 builds this check** |
+| `python3 guardrails/check-requirement-shape.py PRODUCT_SPEC.md` | every requirement keeps its Context, User Story, and criteria in named cases | 1555 criteria across 301 requirements, all well-shaped |
+| `python3 guardrails/check-index-generated.py PRODUCT_SPEC.md PRODUCT_SPEC.index.md` | the code-to-location table is built from the spec, never kept by hand | 384 codes agree, body to table |
+| `python3 guardrails/check-matrix-reference.py TEST_MATRIX.md` | every code in the spec stands in the test matrix | 391 anchors agree |
+| `bash guardrails/check-freeze.sh` | the three guarded documents match their recorded baseline, so every change is deliberate | 3 files match |
 
-## Step 1 — give rule 7 a machine, before any rewriting
+**5. The counts only fall.** `python3 scripts/rule-census.py --json guardrails/rule-census.json`, and no
+file's count is higher than before. A batch that raises one is wrong and is redone.
 
-Rule 7 is what readers actually stop on, and today only a paid reading finds it. It is mechanical:
+**A new script is trusted only after it refuses a bad case.** It is run against a deliberately broken
+example and must report the fault, and against a correct one and must stay silent. Both runs are shown
+in the batch's record.
 
-> For each requirement, take every glossary term used in its User Story and its acceptance criteria.
-> A term that appears nowhere in that requirement's own Context block is ungrounded.
+## Batch one is a trial
 
-Build `guardrails/check-noun-grounding.py`:
+Batch one runs, and then four numbers are reported before batch two starts:
 
-- input: `PRODUCT_SPEC.md`, its glossary section, and its 301 requirement blocks;
-- output: per requirement, the ungrounded terms, with a total count;
-- it is red-proven on a fixture requirement that uses a glossary term its Context omits, and silent on
-  one that grounds every term;
-- its count per file joins `guardrails/rule-census.json` as a sixth measure.
+- the build count before and after — how many of the ten a fresh agent could implement, each way;
+- how many meaning losses the checks caught;
+- what batch one cost.
 
-This turns the expensive reading into a free count and gives the batches their real ordering.
+The remaining batches are agreed only after those numbers exist.
 
-## Step 2 — order the requirements by who is sent to them
+## How the work survives a wiped context
 
-Two keys, in this order:
+Nothing is carried in anyone's head between batches. What a session needs is on disk: this page, the
+ordered list, `guardrails/rule-census.json`, and git.
 
-1. **Inbound pointers.** A requirement something points a reader at is rewritten first. Collect them:
-   `grep -oE '\b(INV|E|T|M|ACT|B|S)-[0-9]+' README.md OVERVIEW.md adopt/ADOPT.md docs/*.md skills/*/SKILL.md`
-   and map each code to its requirement through `PRODUCT_SPEC.index.md`.
-2. **Score.** Everything else falls in worst-first order by the six measures.
+- A batch is saved to git before the next begins. A wipe loses at most one batch.
+- Each batch is rewritten by a separate short-lived worker, briefed with the six families and the ten
+  requirements and nothing else. A session soaked in this project's own vocabulary writes in that
+  vocabulary, which is the defect being removed.
+- The build test and the meaning check are run by other fresh workers, which is what makes them honest.
+- The session running the work holds numbers and briefs only.
 
-The ordered list is written to `docs/audit/2026-07-28-requirement-order.md` before batch one.
+## What I can and cannot do
 
-## Step 3 — the batch loop
+**Reliably:** run a measure and report the number · rewrite a sentence to a word limit · build a script
+and prove it refuses a bad case · leave the bracket codes untouched when a check verifies them
+afterwards · follow a procedure written on the page in front of me.
 
-One batch is **ten requirements**. Per batch:
+**Reliably only with a check watching:** keep the meaning across a rewrite. One loss in thirteen on
+27 July, caught only because a test pinned a phrase and a second agent compared old with new.
 
-1. Record the six measures for those ten requirements. This is the "before" number.
-2. Rewrite them in one pass against the seven rules. The rewriting session works from the rules and the
-   requirement text, and holds the bracket codes untouched.
-3. **Self-check A — meaning.** The bracket-code set of each requirement is identical before and after,
-   or every difference is named in the delivery note. Run `python3 scripts/spec-freeze.py --check`.
-4. **Self-check B — the suite.** `python3 -m pytest -q > <scratch>/suite.log 2>&1`, then read the log's
-   own summary line. A green exit code is not the verdict; the printed counts are.
-5. **Self-check C — the gates.** `bash guardrails/run-all.sh` (or the pre-commit gate the host wires),
-   and every gate's reach line is read, not only its exit code.
-6. **Self-check D — the numbers only fall.** Re-run `python3 scripts/rule-census.py --json
-   guardrails/rule-census.json` and confirm no file's count rose.
-7. **Self-check E — a reader.** A fresh reader with no context reads the ten rewritten requirements
-   alone, about 250 lines, under the prompt in `skills/text-audit/SKILL.md`. Two consecutive readings
-   with no blocking stop close the batch. A batch failing twice is re-cut rather than patched again.
-8. Commit the batch on its own, with the before-and-after numbers in the message.
+**Badly:** judge my own text as a fresh reader would. Nine rounds of repairs to one page, and a fresh
+reader got stuck 5 to 12 times on every round, including on sentences just repaired.
 
-## Step 4 — the pilot decides the rest
+**Badly:** hold a rule by memory through a long session. The rule against translating this project's
+private words into Russian is written in four places, and I broke it in this session.
 
-**Batch one is a pilot and its numbers are reported before batch two starts.** Report: how many readings
-batch one needed, how many meaning losses the two guards caught, and what the batch cost. The remaining
-batches are committed to only after those three numbers are in hand.
+**Not at all:** know that a rewrite dropped a meaning nobody ever wrote down. Where a rule's meaning
+lives only in the sentence being rewritten, the rewrite is a bet.
 
-This exists because the two-clean-readings bar has never yet been met on this project's own text. The
-pilot measures whether a 25-line unit meets it.
+**Not at all:** hold 301 requirements in one context. Each batch here stands alone for that reason.
 
-## The honest total, so the work can be stopped
+## What is good about this plan
 
-`PRODUCT_SPEC.md` holds 301 requirements — about 30 batches. The 2026-07-27 night, which was one
-rewriting pass plus nine readings, consumed a large share of a weekly budget. Thirty batches at that
-rate exceed the budget by a wide margin, so **finishing all 301 is not the commitment.** The commitment
-is: the requirements a reader is actually sent to, in order, banking value at every batch, stopping on
-the owner's word with everything landed still landed.
+- It measures the thing that matters: how many requirements a fresh agent can build from.
+- Every batch banks value. Ten requirements land buildable and stay landed.
+- It fails cheaply. Four numbers from batch one decide whether the rest happens.
+- It cannot quietly go backwards, because the counts on disk only fall.
+- It survives a wiped context, because no step needs anyone to remember an earlier step.
 
-## Out of scope, said plainly
+## What is weak about this plan
 
-Document SIZE is a different axis. `PRODUCT_SPEC.md` is 651 KB because it holds 301 requirements, and
-compaction is not this plan.
+- **It does not finish.** 301 requirements cost more than the budget allows. The plan trades finishing
+  for doing the requirements a host's agent meets first. The rest stay as they are.
+- **The build test is expensive.** Two fresh agents attempting ten requirements is the largest cost in
+  each batch, and it is also the only honest measure of the goal. Batch one shows what it really costs.
+- **The script for family 2 is an approximation.** It misses a word explained badly rather than not at
+  all, and it flags a word the sentence itself makes obvious.
+- **Meaning loss is reduced, never removed.** Two checks caught 7 of 7 in July, which is not proof they
+  catch every one.
+- **Ten per batch is a guess.** Batch one can change it.
 
-The skill bodies, the reader docs, and the templates carry 3143 of the census's 5429 findings. They wait
-until the top-level documents are done.
+## Where the numbers are
 
-## What I can actually do, said honestly
-
-**Reliable.** Running a measure over a file and reporting the number. Rewriting a sentence to a stated
-word cap. Building and red-proving a check. Holding bracket codes untouched across a rewrite when the
-codes are checked afterwards. Following a written procedure when the procedure is on the page in front
-of me.
-
-**Reliable only with a guard.** Keeping meaning across a rewrite: measured at one loss in thirteen on
-2026-07-27, caught only because a test pinned a phrase and an independent read looked. Every batch needs
-both guards, and neither is optional.
-
-**Unreliable.** Judging my own text as a reader would. I wrote nine rounds of repairs to one page and a
-fresh reader stopped 5 to 12 times on every one of them, including on the sentences I had just repaired.
-I cannot stand in for the cold reader; the reading has to be run by a session that has not seen the text.
-
-**Unreliable.** Holding a rule by habit across a long session. The rule against loan-translating this
-project's words into the working language is written in four places and I broke it in this very session.
-A rule reaches the work through a check or through a fresh short-context worker, and never through my
-memory of it.
-
-**Impossible.** Knowing whether a rewrite lost a meaning nobody wrote down. Where a criterion's meaning
-lives only in the sentence being rewritten, the rewrite is a bet. This is why the pilot batch reports
-its meaning-loss count before the rest is committed to.
-
-**Impossible.** Holding 301 requirements in one context. Any plan that needs me to remember batch three
-while doing batch seventeen fails. The plan is built so each batch stands alone.
-
-## Built for a context that gets wiped
-
-Every batch is a closed unit: its inputs are this page, the ordered list, and the ten requirements it
-touches. Nothing carries from one batch to the next except committed files and numbers on disk.
-
-- **The state lives on disk, never in a session.** `guardrails/rule-census.json` holds the counts,
-  `docs/audit/2026-07-28-requirement-order.md` holds the order, and git holds the text. A session that
-  starts cold reads those three and knows where the work stands.
-- **A batch commits before the next begins.** A wipe mid-batch loses at most one batch, and the counts on
-  disk say which one.
-- **The rewriting is done by a fresh short-context worker**, briefed with the seven rules, the ten
-  requirements, and nothing else. This follows the rule that a marinated session writes in the project's
-  own private vocabulary — the defect this whole movement exists to remove. The briefing session must
-  not also be the writing session.
-- **The reading is done by another fresh worker**, which is what makes it a cold reading at all.
-- **The briefing session holds no text.** It reads numbers, writes briefs, and accepts results. This is
-  what keeps its context small enough to survive thirty batches.
-
-## What this plan is good at
-
-- **It banks value at every batch.** Ten requirements land readable and stay landed, whatever happens next.
-- **It measures the thing readers stop on.** Step 1 gives rule 7 a machine, so the ordering stops
-  optimizing sentence length while readers stop on ungrounded nouns.
-- **It fails cheap.** The pilot reports three numbers before the other 29 batches are committed to.
-- **It cannot silently regress.** The census counts on disk only fall, and a check refuses a push that
-  raises one.
-- **It survives a wiped context**, because no step needs a session to remember an earlier step.
-
-## What this plan is weak at
-
-- **It does not finish.** 301 requirements at this rate exceed the budget. The plan explicitly trades
-  completeness for a reader-path ordering, so the tail stays unrewritten and the census will show it.
-- **Rule 7's check is an approximation.** A glossary term absent from a Context block is a good proxy for
-  an ungrounded noun, and it will miss a noun that is grounded badly rather than not at all, and will
-  flag a term whose meaning the sentence itself makes plain.
-- **The two-clean-readings bar is unproven on a 25-line unit.** The pilot is the first evidence either
-  way. If a 25-line unit also fails to converge, this plan needs a different bar and the pilot is where
-  that shows.
-- **Meaning loss is bounded, never eliminated.** Two guards caught seven of seven last time, which is not
-  proof they catch all of them.
-- **A batch of ten is a guess.** Small enough to read, large enough to be worth a landing — chosen, not
-  measured. The pilot can move it.
-
-## Where the numbers live
-
-- `docs/audit/2026-07-28-rule-census.md` — every live document measured, 106 files, 5429 findings.
-- `guardrails/rule-census.json` — the same counts as data, which is the limit that only falls.
-- `docs/audit/2026-07-28-requirement-order.md` — written by step 2, the order the batches run in.
+- `docs/audit/2026-07-28-rule-census.md` — every live document measured. 106 files, 5429 defects.
+- `guardrails/rule-census.json` — the same counts as data. The file that only falls.
+- `docs/audit/2026-07-28-requirement-order.md` — written before batch one.
