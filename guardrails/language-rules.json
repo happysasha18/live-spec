@@ -149,7 +149,7 @@
         "~/.claude/skills/live-spec-base/SKILL.md:57",
         "~/.claude/skills/communicator/SKILL.md:264",
         "hooks/chat-law-hook.sh:9",
-        "docs/language-defects.md:98",
+        "docs/language-defects.md:126",
         "hooks/chat-calques.json",
         "scripts/preshow-register-lint.py:74",
         "~/.claude/playbook/personal/profile.md:18",
@@ -978,7 +978,7 @@
       "sources": [
         "guardrails/criterion-readability.json:54",
         "docs/spec-format.md:37",
-        "docs/language-defects.md:116"
+        "docs/language-defects.md:145"
       ],
       "status": "stated-only",
       "notes": "The name this rule once carried was itself a minted metaphor; the owner's recorded verdict is that the thing it named does not exist. check-criterion-readability.py is armed nowhere."
