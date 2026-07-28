@@ -7276,6 +7276,34 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 20. Each run *shall* state its reach: the transcript root, the file pattern it matched, the window it read, and the count of command lines it took. [INV-269]
 
 
+## Requirement 302: A document repaired to zero stays at zero, and every other count moves down alone
+
+**Context:** The census measures every live document against the project's writing rules and prints a report. A report refuses nothing, so a count is free to rise between two readings. One generated page went from 107 findings to 112 in a single day, and nothing noticed until the next census was read by hand. A document repaired to zero is held at zero on every push, without exception. The record of counts is the ceiling, and the direction of every count is down.
+
+**User Story:** As the owner, I want a repaired document held at its count on every push, so a cleared page collects no new findings.
+
+### Acceptance Criteria
+
+**Case: the record is the ceiling**
+
+1. The system *shall* hold one recorded finding count per live document in `guardrails/rule-census.json`. [INV-301]
+2. *when* a push runs, the system *shall* measure every live document and *shall* compare each count against its recorded count. [INV-301]
+3. *if* a document's count stands above its recorded count, *then* the system *shall* refuse the push. [INV-301]
+   - the refusal *shall* name the document, its recorded count, and its measured count.
+4. *if* a document recorded at zero carries any finding, *then* the system *shall* refuse the push. [INV-301]
+   - the refusal *shall* name that document as one already cleared.
+
+**Case: a fall tightens the ceiling**
+
+5. *when* a document's count falls below its recorded count, the system *shall* pass that document and *shall* print the command that records the lower count. [INV-301]
+
+**Case: nothing ships unmeasured**
+
+6. *if* a live document carries no entry in the record, *then* the system *shall* refuse the push and *shall* name that document. [INV-301]
+7. *when* the record names no document, the system *shall* refuse rather than pass over an empty set. [INV-301, INV-218]
+8. Each run *shall* state its reach: the count of live documents read, the count held at zero, and the word cap it measured against. [INV-301, INV-269]
+
+
 ## Reference
 
 The code-to-location table below is generated output, built from the body criteria by `scripts/build-index.py`; no one edits it by hand. Feature codes (`F-...`) live on their scenario headings and carry no table row.
@@ -7556,7 +7584,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-215 | R134.1, R134.2 |
 | INV-216 | R246.7, R246.8 |
 | INV-217 | R191.5, R215.2, R274.1, R274.2, R274.3, R274.4, R274.5, R274.6, R274.7 |
-| INV-218 | R113.1, R113.2, R301.18, R301.19 |
+| INV-218 | R113.1, R113.2, R301.18, R301.19, R302.7 |
 | INV-219 | R193.13 |
 | INV-220 | R135.3, R230.7, R231.1, R231.3, R231.4, R231.5 |
 | INV-221 | R135.1, R135.2, R135.3, R230.3 |
@@ -7607,7 +7635,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-266 | R281.1, R281.2 |
 | INV-267 | R281.3, R281.4, R281.5, R281.6 |
 | INV-268 | R281.7 |
-| INV-269 | R282.1, R282.2, R284.4, R285.3, R288.5, R296.10, R297.11, R299.12, R301.20 |
+| INV-269 | R282.1, R282.2, R284.4, R285.3, R288.5, R296.10, R297.11, R299.12, R301.20, R302.8 |
 | INV-270 | R277.21, R277.22, R283.7, R286.3, R289.6 |
 | INV-271 | R191.4, R191.7, R278.5, R278.6, R278.7 |
 | INV-272 | R283.1, R283.2, R283.3, R283.4, R283.5, R283.6, R283.7 |
@@ -7639,6 +7667,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-298 | R301.1, R301.2, R301.3, R301.4, R301.5, R301.6, R301.7, R301.8, R301.9, R301.10, R301.11 |
 | INV-299 | R301.12, R301.13, R301.14, R301.15, R301.16, R301.17, R301.18, R301.19 |
 | INV-300 | R208.7, R208.8, R208.9 |
+| INV-301 | R302.1, R302.2, R302.3, R302.4, R302.5, R302.6, R302.7, R302.8 |
 | M-1 | R49.2, R80.7, R80.8, R92.2, R130.1, R130.2, R130.3, R130.4, R130.5, R130.6, R130.7, R130.8, R130.9, R164.4, R166.3, R166.8, R198.6, R249.2 |
 | M-2 | R14.3, R125.1, R125.2, R125.3, R177.12, R204.3 |
 | M-3 | R136.1 |

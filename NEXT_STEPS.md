@@ -1,96 +1,100 @@
-# live-spec — where the work stands
+# Next steps — live-spec
 
-## LIVE STATE (2026-07-28) — one task: make the spec buildable from its own text
+## LIVE STATE (2026-07-28) — start here
 
-Follow `docs/plans/2026-07-28-top-level-readability.md`. Read that plan first. It holds the test the
-work is measured by, the six groups of defects with all 43 rules, a real before-and-after example, the
-order, the batch loop, the five checks per batch, and what to report after batch one.
+The one task is to make this project's documents readable enough that an agent can build from them
+without asking a question.
 
-The spec is read by the agent that builds from it. Measured 2026-07-27: a fresh agent given six
-requirements implemented two from the text alone, left one with written-down questions, and did not
-attempt three, which depend on lists and default values the text gives nowhere. Two of six is the number
-this work moves.
+Read `docs/reports/2026-07-28-document-state-and-plan.md` first. It carries every live document with
+its count, the worst sections, and the mechanics this page states in short.
 
-Everything else in this project waits. Alexander's word, 2026-07-28 morning.
+Then repair the prose fields inside `guardrails/language-rules.json`: `name`, `rule`, `reader_test`,
+`notes`, and the `examples` pairs. Every other field is machine input. Five files are built from that
+one: `docs/language-rules.md`, `docs/language-rule-coverage.md`, `hooks/language-laws.json`, and a
+marked block inside each of `docs/language-defects.md` and `skills/text-audit/SKILL.md`. Rebuild with
+`python3 scripts/gen-language-consumers.py`.
 
-**The audit skill is finished, 2026-07-28 afternoon.** His direction that morning: every law lives in
-the audit skill, and each law states a class of mistake with examples under it. The skill then applies
-to a spec section. All four pieces stand:
+## The two bars
 
-- the skill prints all 41 human-prose rules out of the one rule file between markers;
-- the rule against a coined word is wired into the model that reads chat by meaning;
-- every law carries a recorded case, written text on the left and its repair on the right, taken from
-  this project's own texts;
-- the skill carries the section that runs it on a spec section: the working size of ten requirements,
-  the lint that applies only there, the marks a rewrite leaves untouched, and the four checks that
-  follow.
+**The cheap floor** is a count from `python3 scripts/rule-census.py`: sentences past the 25-word cap,
+style findings, register findings. The record of counts is `guardrails/rule-census.json`, and gate aa
+refuses a push where a document stands above its recorded count. A document recorded at zero reds on
+its first finding.
 
-Both text skills were rewritten by the rules they hold a text to. The prover fell from 253 findings to
-27, and it carries no sentence past the word cap. The audit skill fell from 53 to 36. What stands in
-the prover is 25 findings from a checker reading a spec rule over a skill body (row 513), and 2 from a
-heading that shouts in eleven skills (row 519). The records are
-`docs/skill-review/2026-07-28-product-prover-prose.md` and
-`docs/skill-review/2026-07-28-text-audit-cases-and-spec-section.md`.
+**The reader bar** is two readings in a row that stop nobody. Each reading is one fresh agent session
+holding no context on this project, reading the one document alone, under the prompt inside
+`skills/text-audit/SKILL.md`. A stop blocks when the reader could not act, or would have acted wrongly.
 
-Next: the ordered list of requirements, then batch one. The plan explains why no new script is built.
+Passing the floor is no quality claim. This page stood at zero on the floor and stopped two fresh
+readers 13 and 12 times. No document has passed the reader bar yet.
 
-## How we got here
+## The order of work
 
-**2026-07-27, day.** The rules this project holds its own writing to were spread over 57 files, with 61
-rules, nine of them stated twice with opposite verdicts. They now live in one file,
-`guardrails/language-rules.json`, 55 rules today after seven duplicates were retired and two were opened 2026-07-28.
-`scripts/gen-language-consumers.py` builds every page and every checker's rule text from that one file,
-and `guardrails/check-language-rules.py` refuses any of them drifting from it.
+Steps 1 to 3 stand today. Steps 4 and 5 wait for the owner's answer below.
 
-**2026-07-27, night.** 93 acceptance criteria of `PRODUCT_SPEC.md` were rewritten by those rules.
-Sentences past the word cap fell from 469 to 378, explanations inside a rule from 120 to 65, endings
-with no verb from 147 to 123. Seven of the 93 rewrites lost meaning: the test suite caught three and an
-independent read caught four. That ratio, one loss in thirteen, is why the plan runs five checks per
-batch.
+1. The prose inside `guardrails/language-rules.json`.
+2. The three files a stranger meets first: `README.md`, `OVERVIEW.md`, `adopt/ADOPT.md`.
+3. The three skill files loaded in every session: `skills/live-spec-base/SKILL.md` at 229 findings,
+   `skills/build-pipeline/SKILL.md` at 262, `skills/communicator/SKILL.md` at 182.
+4. `ROADMAP.md`, at 215 findings. Its rows are how this project states the work it will do, so a row
+   phrased loosely sends the next session at the wrong thing.
+5. The requirements of `PRODUCT_SPEC.md` those documents point a reader at.
+6. The rest of `PRODUCT_SPEC.md`, highest count first.
 
-**2026-07-27, night, the part that produced nothing.** Nine readings by strangers were run on
-`docs/language-defects.md`, an internal record shown to nobody. The count of places a reader got stuck
-went 11, 8, 12, 6, 5, 5, 6, 5, 8 and never approached zero. Two causes: the text read was 340 lines, so
-each repair opened a new snag somewhere else, and the measure counted sentence length while readers
-were stopping on unexplained words. The plan fixes both by working 250 lines at a time and by measuring
-what a fresh agent can build, which is the only honest count of an unexplained word.
+## Three things block this work
 
-**2026-07-28, morning.** All 106 live documents were measured: 5429 defects, of which 2286 are in the
-top-level documents, 1712 in the skill bodies, and 1104 under `docs/`. The census is
-`docs/audit/2026-07-28-rule-census.md` and its data is `guardrails/rule-census.json`. Readings on the
-internal record page stopped.
+**A test pins a phrase inside one line.** 79 test files assert an exact phrase, and 68 of their helpers
+return the file unflattened. A repaired sentence that re-wraps fails a passing test; twelve did today.
 
-## So that nothing breaks
+**The reader bar carries no gate.** The floor is held by gate aa, and nothing holds a reading. The
+repair is a record per document carrying the text's fingerprint, and a gate reading it at a minor
+version bump.
 
-**Several windows share this repository.** Stage files by name, never `git add -A`. Re-check `git log -1`
-before writing. After accounting for a moved HEAD, re-arm the fence with `guardrails/fence-refresh.sh`.
+**The task's baseline has no record.** No file names which six requirements were handed to the fresh
+agent, or what it produced.
 
-**Never discard uncommitted work.** No session and no worker runs `git checkout -- <path>`,
-`git checkout .`, `git restore` outside `--staged`, any `git stash` form, `git reset --hard/--merge/--keep`,
-or `git clean -f/-x`. To put a file back, write back the bytes you read before changing it. This rule
-broke four times and destroyed work twice.
+## One decision waits for the owner
 
-**A green exit code is not a test result.** Write the suite's output to a file and read the printed count
-of passes and failures: `python3 -m pytest -q > <scratch>/suite.log 2>&1`, then read the last line.
+How wide the reader bar runs: over all 107 live documents, or over the three entry files and the eleven
+skill files. The recommendation on record is the second, and work stops at step 3 until he answers.
 
-**Re-baseline the frozen documents at each saved batch:**
-`python3 scripts/spec-freeze.py --freeze PRODUCT_SPEC.md ARCHITECTURE.md TEST_MATRIX.md --compaction`
+## Rules you must not break
 
-**Next free numbers**, so two lanes do not collide: requirement 302, INV-301, E-36, T-25, M-479, and
-queue row 520.
+Several sessions share this repository. Stage files by name, and never run `git add -A`. Read
+`git log -1` before you write. When HEAD has moved, read what changed, then run
+`bash guardrails/fence-refresh.sh`. It records the commit you started from, and a commit refuses while
+that record and HEAD disagree.
 
-## Standing word from Alexander
+Never discard uncommitted work. No session and no worker runs any of these:
 
-- Run a whole movement alone; save and publish on green without asking.
-- Documents in plain English. Conversation in Russian, in ordinary words.
-- Every gate runs. No exceptions.
-- Before asking him anything, check whether an existing document already answers it. If it does, act and
-  cite the document.
-- Name every request as one-time or standing before acting on it, and say which it is.
+- `git checkout -- <path>` or `git checkout .`;
+- `git restore`, outside `--staged`;
+- any form of `git stash`;
+- `git reset` with `--hard`, `--merge`, or `--keep`;
+- `git clean` with `-f` or `-x`.
 
-## Parked until the one task is done
+To put a file back, write back the bytes you read before you changed it. This rule was broken four
+times, and two of those breaks destroyed work.
 
-The queue rows stand in `ROADMAP.md`; nothing there is lost. The nearest are 510-518 and 484-493, opened
-2026-07-27 and 2026-07-28. Carrying the document format to tlvphotos waits. The onboarding work waits.
-The skill bodies, the reader docs, and the templates, which hold 3143 of the 5429 measured defects, wait
-until the top-level documents are done.
+A test result is the printed count of passes and failures. Write the output to a file:
+`python3 -m pytest -q > <scratch>/suite.log 2>&1`, then read the last line. A run that dies before a
+test starts can still exit zero.
+
+`PRODUCT_SPEC.md`, `ARCHITECTURE.md` and `TEST_MATRIX.md` are frozen against silent drift. After a
+commit that changes one on purpose, record the new baseline: `python3 scripts/spec-freeze.py --freeze
+PRODUCT_SPEC.md ARCHITECTURE.md TEST_MATRIX.md --compaction`.
+
+These numbers are free, so two lines of work do not collide: requirement 303, INV-302, E-36, T-25,
+M-480, queue row 520. A number is taken by writing it into its document, and the free number here is
+raised in the same commit.
+
+## The owner's standing instructions
+
+Run a whole movement alone: one wish carried from its first edit to a green suite and a push. Save and
+publish on green without asking, which means commit the work and push it to this project's remote on
+GitHub. Write documents in plain English. Run every gate: the checks in `guardrails/`, which the
+`pre-push` hook runs as one chain, each holding the push until its fault is repaired.
+
+Before you ask the owner anything, check whether an existing document already answers it. If it does,
+act on that answer and cite the document. Name every request as one-time or standing before you act on
+it, and say which it is.

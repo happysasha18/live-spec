@@ -34,10 +34,10 @@ done
 fail=0
 
 # Local gate letters: the "-- gate X:" markers pre-push echoes before each gate.
-local_letters="$(grep -oE -- '-- gate [a-z]:' "$PREPUSH" | grep -oE '[a-z]:' | tr -d ':' | sort -u || true)"
+local_letters="$(grep -oE -- '-- gate [a-z]{1,2}:' "$PREPUSH" | grep -oE '[a-z]{1,2}:' | tr -d ':' | sort -u || true)"
 
 # CI gate letters: the "gate X" tokens inside gates.yml step names (a "name:" line).
-ci_letters="$(grep -E 'name:.*gate [a-z]' "$GATES_YML" | grep -oE 'gate [a-z]' | grep -oE '[a-z]$' | sort -u || true)"
+ci_letters="$(grep -E 'name:.*gate [a-z]' "$GATES_YML" | grep -oE 'gate [a-z]{1,2}' | grep -oE '[a-z]{1,2}$' | sort -u || true)"
 
 # Declared carve-outs: gates a CI checkout does not re-run, each with its reason.
 carve="$(jq -r '.ci_excluded | keys[]' "$CARVE_JSON" | sort -u || true)"

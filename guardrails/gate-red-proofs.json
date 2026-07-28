@@ -1,31 +1,110 @@
 {
   "_comment": "The known-red proof for every gate guardrails/pre-push runs (SPEC INV-212, gate w). A gate that cannot red is a check that looks at nothing (the hollow authority-anchor gate this movement rebuilt, commit 8a0209f). check-every-gate-can-fail.py enumerates the `-- gate X:` markers pre-push invokes and requires each classified here: a `proof` names a red-first test `<file>::<function>` that drives the gate's check to a non-zero exit, tied to the gate by a `reds` token the proof file must reference (usually the check's basename); a `covered` entry names a gate that runs no independent check of its own and rides another gate's red, with the reason it holds no separate fixture. A proof is verified by structure (file exists, function defined, token present, a non-zero-exit assertion in the function body), since the suite runs it under gate b. A gate classified nowhere reds, a reasonless `covered` reds, a `cannot_red` gate reds loudly (a gate that can never fail is a finding, not a carve-out), and a key naming no local gate reds.",
   "proofs": {
-    "a": {"proof": "tests/test_guardrails.py::test_missing_record_fails", "reds": "check-prover-record.sh"},
-    "b": {"proof": "tests/test_guardrails.py::test_broken_suite_fails", "reds": "check-tests.sh"},
-    "d": {"proof": "tests/test_matrix_reference.py::test_reds_a_hand_edited_reference", "reds": "check-matrix-reference"},
-    "e": {"proof": "tests/test_guardrails.py::test_prod_reference_fails", "reds": "check-prototype-fence.sh"},
-    "f": {"proof": "tests/test_guardrails.py::test_broken_skill_fails", "reds": "check-skill-loadability.sh"},
-    "g": {"proof": "tests/test_guardrails.py::test_label_drift_strict_fails", "reds": "check-pin-drift.sh"},
-    "h": {"proof": "tests/test_scaffold_guardrails.py::test_change_without_test_red", "reds": "scaffold/guardrails"},
-    "i": {"proof": "tests/test_guardrails.py::test_offence_fixture_fails_with_file_line", "reds": "check-shipped-language"},
-    "j": {"proof": "tests/test_broad_kill_guardrail.py::test_guardrail_reds_on_a_broad_kill", "reds": "check-broad-kill"},
-    "k": {"proof": "tests/test_ratchet_kit.py::test_ratchet_lock_reds_on_growth", "reds": "check-freeze"},
-    "l": {"proof": "tests/test_muted_launch_guardrail.py::test_reds_on_an_unmuted_headless_launch", "reds": "check-muted-launch"},
-    "m": {"proof": "tests/test_config_health.py::test_missing_installed_hook_reds", "reds": "check-config-health"},
-    "n": {"proof": "tests/test_agent_channels.py::test_gate_reds_a_message_naming_no_blocked_work", "reds": "check-earned-message"},
-    "o": {"proof": "tests/test_cleanup_notice.py::test_gate_reds_an_ending_without_a_notice", "reds": "check-cleanup-notice"},
-    "p": {"proof": "tests/test_touchpoint_kind.py::test_gate_reds_an_interruption_from_an_asynchronous_point", "reds": "check-touchpoint-kind"},
-    "q": {"proof": "tests/test_board.py::test_gate_reds_a_demotion_with_no_matching_line", "reds": "check-board"},
-    "r": {"proof": "tests/test_authority_anchor.py::test_gate_reds_the_fabricated_ranking", "reds": "check-authority-anchor"},
-    "s": {"proof": "tests/test_skill_review.py::test_body_change_without_record_reds", "reds": "check-skill-review"},
-    "t": {"proof": "tests/test_doc_rotation.py::test_gate_reds_a_rotation_that_loses_a_row", "reds": "check-doc-rotation"},
-    "u": {"proof": "tests/test_ci_mirror.py::test_missing_gate_step_reds", "reds": "check-ci-mirror.sh"},
-    "v": {"proof": "tests/test_judge_listed.py::test_missing_stop_arm_reds", "reds": "check-judge-listed.py"},
-    "w": {"proof": "tests/test_every_gate_can_fail.py::test_missing_proof_reds", "reds": "check-every-gate-can-fail.py"},
-    "x": {"proof": "tests/test_index_generated.py::test_reds_a_hand_edited_index", "reds": "check-index-generated"},
-    "y": {"proof": "tests/test_agent_card_gate.py::test_gate_reds_a_cardless_tree", "reds": "check-agent-card"},
-    "z": {"proof": "tests/test_doc_bound.py::test_gate_reds_a_doc_over_its_bound", "reds": "check-doc-bound"}
+    "a": {
+      "proof": "tests/test_guardrails.py::test_missing_record_fails",
+      "reds": "check-prover-record.sh"
+    },
+    "b": {
+      "proof": "tests/test_guardrails.py::test_broken_suite_fails",
+      "reds": "check-tests.sh"
+    },
+    "d": {
+      "proof": "tests/test_matrix_reference.py::test_reds_a_hand_edited_reference",
+      "reds": "check-matrix-reference"
+    },
+    "e": {
+      "proof": "tests/test_guardrails.py::test_prod_reference_fails",
+      "reds": "check-prototype-fence.sh"
+    },
+    "f": {
+      "proof": "tests/test_guardrails.py::test_broken_skill_fails",
+      "reds": "check-skill-loadability.sh"
+    },
+    "g": {
+      "proof": "tests/test_guardrails.py::test_label_drift_strict_fails",
+      "reds": "check-pin-drift.sh"
+    },
+    "h": {
+      "proof": "tests/test_scaffold_guardrails.py::test_change_without_test_red",
+      "reds": "scaffold/guardrails"
+    },
+    "i": {
+      "proof": "tests/test_guardrails.py::test_offence_fixture_fails_with_file_line",
+      "reds": "check-shipped-language"
+    },
+    "j": {
+      "proof": "tests/test_broad_kill_guardrail.py::test_guardrail_reds_on_a_broad_kill",
+      "reds": "check-broad-kill"
+    },
+    "k": {
+      "proof": "tests/test_ratchet_kit.py::test_ratchet_lock_reds_on_growth",
+      "reds": "check-freeze"
+    },
+    "l": {
+      "proof": "tests/test_muted_launch_guardrail.py::test_reds_on_an_unmuted_headless_launch",
+      "reds": "check-muted-launch"
+    },
+    "m": {
+      "proof": "tests/test_config_health.py::test_missing_installed_hook_reds",
+      "reds": "check-config-health"
+    },
+    "n": {
+      "proof": "tests/test_agent_channels.py::test_gate_reds_a_message_naming_no_blocked_work",
+      "reds": "check-earned-message"
+    },
+    "o": {
+      "proof": "tests/test_cleanup_notice.py::test_gate_reds_an_ending_without_a_notice",
+      "reds": "check-cleanup-notice"
+    },
+    "p": {
+      "proof": "tests/test_touchpoint_kind.py::test_gate_reds_an_interruption_from_an_asynchronous_point",
+      "reds": "check-touchpoint-kind"
+    },
+    "q": {
+      "proof": "tests/test_board.py::test_gate_reds_a_demotion_with_no_matching_line",
+      "reds": "check-board"
+    },
+    "r": {
+      "proof": "tests/test_authority_anchor.py::test_gate_reds_the_fabricated_ranking",
+      "reds": "check-authority-anchor"
+    },
+    "s": {
+      "proof": "tests/test_skill_review.py::test_body_change_without_record_reds",
+      "reds": "check-skill-review"
+    },
+    "t": {
+      "proof": "tests/test_doc_rotation.py::test_gate_reds_a_rotation_that_loses_a_row",
+      "reds": "check-doc-rotation"
+    },
+    "u": {
+      "proof": "tests/test_ci_mirror.py::test_missing_gate_step_reds",
+      "reds": "check-ci-mirror.sh"
+    },
+    "v": {
+      "proof": "tests/test_judge_listed.py::test_missing_stop_arm_reds",
+      "reds": "check-judge-listed.py"
+    },
+    "w": {
+      "proof": "tests/test_every_gate_can_fail.py::test_missing_proof_reds",
+      "reds": "check-every-gate-can-fail.py"
+    },
+    "x": {
+      "proof": "tests/test_index_generated.py::test_reds_a_hand_edited_index",
+      "reds": "check-index-generated"
+    },
+    "y": {
+      "proof": "tests/test_agent_card_gate.py::test_gate_reds_a_cardless_tree",
+      "reds": "check-agent-card"
+    },
+    "z": {
+      "proof": "tests/test_doc_bound.py::test_gate_reds_a_doc_over_its_bound",
+      "reds": "check-doc-bound"
+    },
+    "aa": {
+      "proof": "tests/test_doc_findings_bound.py::test_gate_reds_a_cleared_doc_that_regressed",
+      "reds": "check-doc-findings-bound"
+    }
   },
   "covered": {
     "c": "Gate c invokes no check of its own: pre-push echoes a note pointing at the pytest suite. The anchor-ownership assertion tests/test_traceability.py::test_architecture_owns_every_anchor_once rides the suite (gate b), whose red-proof tests/test_guardrails.py::test_broken_suite_fails shows the suite reds on a broken assertion. This mirrors the CI carve-out ci-mirror.json already declares for gate c (folded into the test suite)."

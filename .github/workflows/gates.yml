@@ -96,6 +96,8 @@ jobs:
         run: python3 guardrails/check-agent-card.py
       - name: gate z — doc bound (each growable working doc within its declared bound or freshly rotated, SPEC INV-234)
         run: python3 guardrails/check-doc-bound.py
+      - name: gate aa — doc findings bound (no live document above its recorded finding count, SPEC INV-301)
+        run: python3 guardrails/check-doc-findings-bound.py
 
   # After the gates pass on a real push to main, sync the standalone mirror repos from the
   # pack — the durable, cross-machine arm of the same job the local pre-push hook does (the

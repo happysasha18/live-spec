@@ -45,7 +45,7 @@ REPO_ROOT = os.path.dirname(SCRIPT_DIR)
 PREPUSH = os.environ.get("GATE_PROOFS_PREPUSH", os.path.join(REPO_ROOT, "guardrails", "pre-push"))
 REGISTRY = os.environ.get("GATE_PROOFS_JSON", os.path.join(REPO_ROOT, "guardrails", "gate-red-proofs.json"))
 
-GATE_MARKER = re.compile(r"-- gate ([a-z]):")
+GATE_MARKER = re.compile(r"-- gate ([a-z]{1,2}):")   # the chain outgrew one letter per gate
 
 # A genuine non-zero-exit assertion, in the idioms the suite's red-proof tests use. It matches an
 # assertion that the check FAILED (returncode 1/2, or not 0), or a call to a red-asserting helper.

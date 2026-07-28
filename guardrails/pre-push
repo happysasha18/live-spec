@@ -228,6 +228,12 @@ if ! python3 "$GUARDRAILS/check-doc-bound.py"; then
 fi
 
 echo ""
+echo "-- gate aa: doc findings bound (no live document above its recorded finding count; a cleared document stays at zero, SPEC INV-301) --"
+if ! python3 "$GUARDRAILS/check-doc-findings-bound.py"; then
+  fail=1
+fi
+
+echo ""
 if [ "$fail" -ne 0 ]; then
   echo "PUSH BLOCKED — one or more gates above failed. Fix them and try again."
   exit 1
