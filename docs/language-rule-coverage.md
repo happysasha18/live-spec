@@ -187,7 +187,7 @@ repair the text from those stops rather than from the one sentence in front of y
 
 **Stated before this page, at.** docs/spec-format.md:21, docs/spec-style.md:27, docs/prose-quality-gate-design.md:19, guardrails/spec-coinages.json:2, scripts/spec-style-lint.py:262, ~/.claude/skills/spec-author/SKILL.md:109, ~/.claude/skills/text-audit/SKILL.md:198, ~/.claude/skills/communicator/references/writing-register.md:46, ~/.claude/playbook/personal/profile.md:13, ~/.claude/playbook/personal/profile.md:17, ~/.claude/skills/live-spec-base/SKILL.md:57, ~/.claude/skills/communicator/SKILL.md:264, hooks/chat-law-hook.sh:9, docs/language-defects.md:126, hooks/chat-calques.json, scripts/preshow-register-lint.py:74, ~/.claude/playbook/personal/profile.md:18, scripts/preshow-register-lint.py:96, ~/.claude/skills/communicator/SKILL.md:459
 
-**Notes.** r16, `an internal English term loan-translated into the reader's language`, and r17, `an internal term respelled in the reader's alphabet`, folded into this entry on 2026-07-28 and their ids are retired: one class — a project word reaching the reader where a standard word exists — was split three ways by the form the word happened to take. The word list this entry names was two lists until 2026-07-28: guardrails/spec-coinages.json held six pairs for check-vocabulary.py and scripts/spec-style-lint.py:232 held nine words of its own with no repairs, so a word added to either was invisible to the other reader. They are merged into the one home this entry prints, both readers read it, and the repairs beside the nine were written for this file. midturn-chat-scan.py runs at the PreToolUse event and denies the tool call, so the correction reaches the human inside the turn. The model arm at the pre-show step turns on through PRESHOW_REGISTER_JUDGE and stands off by default (scripts/preshow-register-lint.py:138). hooks/chat-calques.json holds the scanner's patterns for the same fifteen loan translations the examples give, so a word added there needs its pair added here. The profile names three more loan translations — its words for tripwires, for the same incident family, and for a landing — with no repair recorded for any of them, and its list shares no member with hooks/chat-calques.json. A translation after the fact does not repair the sentence; it must be plain the first time. check-vocabulary.py is armed nowhere. The model arm reached documents alone until 2026-07-28: its only checker was the pre-show lint, which runs over a file, so a coined word spoken in conversation met the pattern list and no meaning read. A list holds the words someone already caught, and three coinages of one morning walked through it, so the turn judge was added here and now reads the chat surface for the whole class.
+**Notes.** r16, `an internal English term loan-translated into the reader's language`, and r17, `an internal term respelled in the reader's alphabet`, folded into this entry on 2026-07-28 and their ids are retired: one class — a project word reaching the reader where a standard word exists — was split three ways by the form the word happened to take. The word list this entry names was two lists until 2026-07-28: guardrails/spec-coinages.json held six pairs for check-vocabulary.py and scripts/spec-style-lint.py:232 held nine words of its own with no repairs, so a word added to either was invisible to the other reader. They are merged into the one home this entry prints, both readers read it, and the repairs beside the nine were written for this file. midturn-chat-scan.py runs at the PreToolUse event and denies the tool call, so the correction reaches the human inside the turn. The model arm at the pre-show step turns on through PRESHOW_REGISTER_JUDGE and stands off by default (scripts/preshow-register-lint.py:138). hooks/chat-calques.json holds the scanner's patterns for the same fifteen loan translations the examples give, so a word added there needs its pair added here. The profile names three more loan translations — its words for tripwires, for the same incident family, and for a landing — with no repair recorded for any of them, and its list shares no member with hooks/chat-calques.json. A translation after the fact does not repair the sentence; it must be plain the first time. check-vocabulary.py is armed nowhere. The model arm reached documents alone until 2026-07-28. Its only checker was the pre-show lint, which runs over a file. A coined word spoken in conversation met the pattern list, and no meaning read it. A list holds the words someone already caught, and three coinages of one morning walked through it. The turn judge was added here, and it now reads the chat surface for the whole class.
 
 ### r03 — a name stacking two nouns with no relation between them
 
@@ -253,7 +253,7 @@ repair the text from those stops rather than from the one sentence in front of y
 
 **Notes.** The claim that guardrails/check-weak-words.py finds every bare number and checks its sentence for a reference cue left the tree on 2026-07-28, when docs/language-defects.md was rewritten as the record of where the rules came from. That script runs the opposite test: at guardrails/check-weak-words.py:41 a digit anywhere in the criterion excuses a weak word.
 
-### r07 — a set named by a count, a pointer, or a position instead of given
+### r07 — a set pointed at by a count, a pointer, or a position, with its members never given
 
 **Binds.** spec-body · human-prose · chat · artifact
 
@@ -861,7 +861,7 @@ repair the text from those stops rather than from the one sentence in front of y
 
 **Notes.** The recap this rule requires is the one restatement r14 does not cut, since it carries an answer the reader would otherwise lose in a long reply. r14 states the same boundary from its own side.
 
-### r52 — a task-list subject written in machine words
+### r52 — a task subject written in machine words
 
 **Binds.** human-prose · chat
 
@@ -1001,7 +1001,7 @@ repair the text from those stops rather than from the one sentence in front of y
 
 **Stated before this page, at.** nowhere; no file outside the source stated the rule.
 
-**Notes.** Opened 2026-07-28 by the owner's reading of the readability plan, which listed the rule families and had no entry for this one. It is the sibling of r07, which governs a SET named by its count; this one governs a single thing named by its number, its position, or its count. Both send the reader out of the sentence. No catcher yet: a number in a sentence is ordinary text, and separating a naming use from an anchor needs a reader.
+**Notes.** Opened 2026-07-28 by the owner's reading of the readability plan, which listed the rule families and had no entry for this one. It is the sibling of r07, which governs a set named by its count. This one governs a single thing named by its number, its position, or its count. Both send the reader out of the sentence. No catcher yet: a number in a sentence is ordinary text, and separating a naming use from an anchor needs a reader.
 
 ### r64 — parallel items run together inside one sentence
 
@@ -1017,4 +1017,4 @@ repair the text from those stops rather than from the one sentence in front of y
 
 **Stated before this page, at.** docs/spec-format.md
 
-**Notes.** Split out of r08 on 2026-07-28. r08 stated the word cap, the one-rule limit, the subordination limit, and the list form in one sentence, which made the rule against carrying several rules in one sentence carry four.
+**Notes.** Split out of r08 on 2026-07-28. r08 stated the word cap, the one-rule limit, the subordination limit, and the list form in one sentence. The rule against carrying several rules in one sentence carried four.

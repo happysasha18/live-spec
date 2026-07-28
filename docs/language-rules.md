@@ -108,18 +108,24 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 **Binds.** spec-body · human-prose · chat · artifact
 
+**Examples.**
+
+- `The system shall red a branch whose merge-base sits behind main's tip.` → `The system shall refuse a branch whose merge-base sits behind main's tip.`
+- `a landing` → `a change that reached main`
+
 **Exceptions.** a term the text glosses in plain words at its first use; a term holding a glossary entry the reader meets before the term's first working use.
 
 ### r02 — a coined, loan-translated, or respelled word standing where a plain standard word exists
 
 **Rule.** Where the industry has a word, the text writes the industry's word. A term this project coined is replaced by the standard word, or defined where it first appears. In the reader's own language, a term is written as a real word of that language.
 
-**Reader test.** Does a standard word already name this thing, and is the word here that standard word — a real word of the reader's own language, carrying the meaning this project gives it?
+**Reader test.** Does a standard word already name this thing? Is the word used here that standard word, written as a real word of the reader's own language?
 
 **Binds.** spec-body · human-prose · chat · artifact
 
 **Examples.**
 
+- `the door` → `the entry point`
 - `нога (leg)` → `критерий приёмки, открытый пункт (an acceptance criterion, an open item)`
 - `краснеет (goes red)` → `проваливает проверку (fails the check)`
 - `станция (station)` → `шаг (step)`
@@ -179,6 +185,10 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 **Binds.** spec-body · human-prose · chat · artifact
 
+**Examples.**
+
+- `the mechanical checks, in the README, for the step the skill body calls the mechanical lints` → `the mechanical lints, in both places`
+
 ### r05 — a predicate applied to a subject that cannot carry it
 
 **Rule.** A verb or an adjective attaches to a subject that can carry it. Where the subject cannot act, the sentence names the actor that can: a person, a script, a hook, or a model.
@@ -189,6 +199,7 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 **Examples.**
 
+- `the numbers do not show red` → `name the actor that shows a colour, or state what the numbers do`
 - `Числа не показывают красное (numbers do not show red)` → `name the actor that shows a colour, or state what the numbers do`
 - `проверки не краснеют (checks do not go red)` → `the check fails`
 - `спеки не входят (specs do not enter)` → `name what the spec does`
@@ -206,7 +217,11 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 **Binds.** spec-body · human-prose · chat · artifact
 
-### r07 — a set named by a count, a pointer, or a position instead of given
+**Examples.**
+
+- `the register targets 15-25 words, and a sentence past ~25 words is a hit` → `a sentence stays between 15 and 25 words, and one past 25 is a hit`
+
+### r07 — a set pointed at by a count, a pointer, or a position, with its members never given
 
 **Rule.** A sentence that depends on a set gives that set, or points by name to the one place holding it. A part of a set is named by what its members are.
 
@@ -225,7 +240,7 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 **Rule.** One sentence carries one rule and no definitions. It stays under the word cap for its surface, and it holds at most one subordinate clause.
 
-**Reader test.** Does this sentence state one rule a reader could cite on its own, stay under the cap for its surface, and hold its subject in view from its first word to its last?
+**Reader test.** Does this sentence state one rule a reader could cite on its own? Does it stay under the cap for its surface? Does it hold its subject in view from its first word to its last?
 
 **Binds.** spec-body · human-prose · artifact
 
@@ -244,6 +259,10 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 **Reader test.** Does the sentence stating this rule obey the rule it states?
 
 **Binds.** spec-body · human-prose · artifact
+
+**Examples.**
+
+- `a 62-word sentence inside the file that states the 25-word cap` → `the same rule in three sentences, the longest of them 41 words`
 
 ### r10 — a thing named by denying its neighbour
 
@@ -273,15 +292,24 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 **Binds.** spec-body · human-prose · chat · artifact
 
+**Examples.**
+
+- `INV-141 gives the design review a pass of its own.` → `The design review runs as a pass of its own [INV-141].`
+
 **Thresholds.** max_anchor_codes = 3; max_code_spans = 3; criterion_baseline_over_cap = 61.
 
 ### r12 — a word grading how important or how good a thing is
 
 **Rule.** A text states what a thing is or does, and lets the reader weigh it. A word grading importance or quality stands only beside a concrete fact.
 
-**Reader test.** Does this sentence tell the reader how much to care, rather than what happened?
+**Reader test.** Does this sentence tell the reader how much to care about what it reports?
 
 **Binds.** spec-body · human-prose · chat · artifact · commit · worker-brief
+
+**Examples.**
+
+- `это в корне меняет дело (this changes everything)` → `state what changed, and what follows from it`
+- `Two constraints, and they are hard ones.` → `Two constraints.`
 
 ### r13 — a sentence grading the person, or grading the writer's own act
 
@@ -291,6 +319,12 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 **Binds.** chat · human-prose · artifact · worker-brief
 
+**Examples.**
+
+- `good question` → `answer it, and say what follows from the answer`
+- `ты точно подметил (you spotted that correctly)` → `answer the remark, and say what follows from it`
+- `честнее, чем на глаз (more honest than eyeballing it)` → `the number is measured, and here it is`
+
 ### r14 — a sentence carrying no information
 
 **Rule.** Every sentence shown to the person advances the finding, the decision, or the action. A sentence carrying a fact the reader would otherwise lose stays, however short.
@@ -298,6 +332,10 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 **Reader test.** Would the reader lose a fact if this sentence were deleted?
 
 **Binds.** chat · human-prose · artifact · worker-brief
+
+**Examples.**
+
+- `Its whole job is to mark where it stopped, what it guessed, and why.` → `deleted, since the two sentences above it already say this`
 
 **Exceptions.** the closing recap r51 requires, which carries an answer the reader would otherwise lose inside a long reply.
 
@@ -338,6 +376,10 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 **Reader test.** Is this text in the language its surface is pinned to?
 
 **Binds.** spec-body · human-prose · chat · artifact · commit · worker-brief
+
+**Examples.**
+
+- `a commit message in Russian, in a repository whose documents are pinned to English` → `the message in English, with the conversation about it staying Russian`
 
 **Exceptions.** a file listed under user_language_globs in scripts/shipped-language-allowlist.json; a deliberate program string recorded under cyrillic_waivers in the same file.
 
@@ -414,7 +456,7 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 **Rule.** A rule sentence says who does what and when, in the active voice with a named actor. Its action lives in a verb.
 
-**Reader test.** Does this sentence answer who does this, to what, and when, and is its action a verb rather than a noun?
+**Reader test.** Does this sentence answer who does this, to what, and when? Does its action live in a verb?
 
 **Binds.** spec-body · human-prose · chat · artifact
 
@@ -432,6 +474,10 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 **Reader test.** Does the opening clause say what the thing is before it says what it is not?
 
 **Binds.** spec-body · human-prose · chat · artifact · commit · worker-brief
+
+**Examples.**
+
+- `It doesn't know what a PRD is. It knows entities, states, transitions, invariants.` → `It works from entities, states, transitions, and invariants, rather than from a document's genre.`
 
 **Exceptions.** a genuine prohibition stated as a plain imperative; an opener led by a subordinator.
 
@@ -579,6 +625,10 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 **Binds.** spec-body · human-prose · artifact
 
+**Examples.**
+
+- `It returns the places a stranger stops.` → `That session returns the places a stranger stops.`
+
 ### r40 — a conditional leaving a case unaccounted for
 
 **Rule.** A conditional takes the form `If X, the Y does Z`, and carries an explicit `otherwise` accounting for every case.
@@ -591,9 +641,13 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 **Rule.** An example earns its place by resolving an ambiguity, and it uses realistic values. One worked case per rule is enough.
 
-**Reader test.** Could a reader have read this rule two ways without this example, and is this prose rather than a rule entry in the rule home?
+**Reader test.** Could a reader have read this rule two ways without this example? Does this example stand in prose, outside a rule entry in the rule home?
 
 **Binds.** spec-body · human-prose · artifact
+
+**Examples.**
+
+- `Grep fallback: read for the four classes by hand - sentences past ~25 words, all-capital words used for emphasis, denial frames, and adjectives that grade a result's size.` → `Grep fallback: read for those four classes by hand. The last one shows up as big, huge, minor, or breakthrough.`
 
 ### r43 — an abstraction standing where a concrete noun would do
 
@@ -615,6 +669,10 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 **Binds.** spec-body · human-prose · artifact
 
+**Examples.**
+
+- `one paragraph carrying the author's blindness, three example defects, and the loop's origin` → `the author's blindness in its own paragraph, the three defects as a list, and the origin in a paragraph after them`
+
 ### r45 — a long flat run of peer items at one level
 
 **Rule.** A document is a tree of grouped topics, and its levels nest without skipping. A long run of peer items is gathered under headed parents.
@@ -623,13 +681,21 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 **Binds.** spec-body · human-prose · artifact
 
+**Examples.**
+
+- `a bullet running the rule, its script, and its grep fallback together in one paragraph` → `the rule as the bullet, with the script and the grep fallback nested under it`
+
 ### r46 — a reply that buries its answer
 
-**Rule.** A reply opens with the answer — the outcome, the decision, or the finding — in a few lines the reader may stop at, and puts reasoning, evidence, and options underneath.
+**Rule.** A reply opens with the answer: the outcome, the decision, or the finding. The opening runs a few lines, and the reader may stop there. Reasoning, evidence, and options stand underneath.
 
 **Reader test.** Can the reader stop after the opening block and still hold the answer?
 
 **Binds.** chat · human-prose · artifact
+
+**Examples.**
+
+- `a report opening with the method it ran, and the finding in its last paragraph` → `the finding in the opening lines, and the method underneath it`
 
 **Thresholds.** reply_chars_above_which_a_lead_is_required = 550.
 
@@ -650,7 +716,7 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 ### r48 — an offer to do work the writer could already derive
 
-**Rule.** A derivable act is done and reported done, and a work item is parked for the human only after a fresh test of whether it can be derived now.
+**Rule.** A derivable act is done and reported done. A backlog item is parked for the human only after a fresh test of whether the answer can be derived now.
 
 **Reader test.** Does this sentence offer to do something the writer already has everything to do?
 
@@ -669,6 +735,11 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 **Binds.** chat · human-prose
 
+**Examples.**
+
+- `Direct answer: yes, I broke the method... (a paragraph auditing my own failure)` → `name the fix in one line, make it, and go on`
+- `Прямой ответ: да, я нарушил метод... (a paragraph auditing my own failure)` → `name the fix in one line, make it, and go on`
+
 ### r50 — a working note handed to the reader unmarked, or a choice with no open answer
 
 **Rule.** Dense working notes are marked so the reader can skip them, and they carry one idea per line. Every choice offered leaves room for a free-form answer.
@@ -676,6 +747,12 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 **Reader test.** Can the reader tell at a glance which lines are notes, and can they answer outside the options given?
 
 **Binds.** chat · human-prose · artifact
+
+**Examples.**
+
+- `a dense working note handed to the reader with no mark on it` → `the same note opening with a marker that says it is a working note, one idea per line`
+- `a dense working note handed to the reader with no mark on it` → `the same note opening with «(себе)», one idea per line`
+- `a question offering two options and no third` → `the same question, with a free-form answer left open`
 
 ### r51 — a question of the reader's left unanswered or buried
 
@@ -685,13 +762,17 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 **Binds.** chat
 
-### r52 — a task-list subject written in machine words
+### r52 — a task subject written in machine words
 
-**Rule.** The session's task list on the human's screen speaks plain product words in the documents' language, understandable at a glance.
+**Rule.** The harness task panel on the human's screen speaks plain product words in the documents' language, understandable at a glance.
 
 **Reader test.** Does a person glancing at this task subject know what is being done?
 
 **Binds.** human-prose · chat
+
+**Examples.**
+
+- `run gen-language-consumers.py and splice AUDIT_SKILL_REL` → `print the writing rules into the audit skill`
 
 ### r53 — human-facing prose drafted by a writer holding the project's own vocabulary
 
@@ -700,6 +781,10 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 **Reader test.** Was this sentence first written by someone who had never read this project's skills, working from a brief?
 
 **Binds.** human-prose · spec-body · artifact
+
+**Examples.**
+
+- `a paragraph drafted by the session that held the whole pack loaded` → `the paragraph drafted by a fresh writer from a plain brief, then revised by someone who has read the rules`
 
 **Exceptions.** a revision of an existing draft, which the rulebook's own reader makes and is expected to make; a text no human reads: a worker brief, a checkpoint, an internal working note.
 
@@ -710,6 +795,10 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 **Reader test.** Did a reader with no project context read this section and stop nowhere?
 
 **Binds.** spec-body · human-prose · artifact
+
+**Examples.**
+
+- `a section shipped after one reading that returned five stops` → `the section read again after the repairs, and shipped once two readings in a row returned nothing that blocks`
 
 **Exceptions.** the cold reader running a read is handed the section while the bar is still unmet, since a read is how the bar gets measured.
 
@@ -736,29 +825,42 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 ### r56 — one fact stated a second time in another place
 
-**Rule.** One fact lives in one home, and every other place points at that home rather than restating it.
+**Rule.** One fact lives in one home. Every other place points at that home.
 
 **Reader test.** Does another place in this project already state this fact?
 
 **Binds.** spec-body · human-prose · artifact
 
+**Examples.**
+
+- `the writing rules written out a second time inside another skill` → `the rules in one file, and the second skill pointing at that file`
+
 **Thresholds.** jaccard_min = 0.6; containment_min = 0.85; min_unit_tokens = 6.
 
 ### r57 — a phrase the human cut returning in a later draft
 
-**Rule.** A phrasing the human killed in a review round stays out of every later draft of that artifact, and an approved text takes exactly the correction the human named.
+**Rule.** A phrasing the human cut in a review round stays out of every later draft of that artifact. An approved text takes exactly the correction the human named.
 
 **Reader test.** Has the human already cut this wording from this artifact?
 
 **Binds.** human-prose · artifact
 
+**Examples.**
+
+- `«X — not Y» returning in a later draft, after the human cut it` → `the sentence saying what the thing is, in its own words`
+
 ### r61 — a defect recorded as examples with no class behind them
 
 **Rule.** When a text stops a reader, the writer names the class of mistake, defines it, and enters that class in the rule home. The examples under an entry are the recorded evidence that produced the class.
 
-**Reader test.** Does the entry state what the mistake IS, so a writer can find an instance nobody has met yet?
+**Reader test.** Does the entry state what the mistake is, so a writer can find an instance nobody has met yet?
 
 **Binds.** spec-body · human-prose · chat · artifact · commit · worker-brief
+
+**Examples.**
+
+- `a list of banned words: leg, goes red, station, door` → `the class - a coined word standing where a standard word exists - with those four as its recorded evidence`
+- `a list of banned words: «нога», «краснеет», «станция», «дверь»` → `the class - a coined word standing where a standard word exists - with those four as its recorded evidence`
 
 ### r62 — a sentence open to two readings, or hiding its cause or what it leaves out
 
@@ -768,11 +870,15 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 **Binds.** spec-body · human-prose · chat · artifact
 
+**Examples.**
+
+- `it hands the text to a fresh reader who has no knowledge of its history and marks every place a stranger stops` → `it hands the text to a fresh reader who knows nothing of its history, and that reader marks every place a stranger stops`
+
 ### r63 — a thing named by its number, so the reader must leave the sentence to learn what it is
 
 **Rule.** A sentence names a thing by what it is, and its number trails at the line's end.
 
-**Reader test.** Does this sentence say what the thing IS, or does it give only a number, a position, or a count that the reader must go and resolve?
+**Reader test.** Does this sentence say what the thing is? Does it give only a number, a position, or a count the reader must go and resolve?
 
 **Binds.** spec-body · human-prose · chat · artifact
 
@@ -829,7 +935,7 @@ A writer arrives with a question and not yet the name of a defect, and every rul
 
 **A set my sentence points at — must I give its members?**
 
-- r07 — a set named by a count, a pointer, or a position instead of given
+- r07 — a set pointed at by a count, a pointer, or a position, with its members never given
 - r08 — a sentence carrying more than one rule, running past its word cap, or piling up clauses
 - r45 — a long flat run of peer items at one level
 
@@ -856,7 +962,7 @@ A writer arrives with a question and not yet the name of a defect, and every rul
 - r02 — a coined, loan-translated, or respelled word standing where a plain standard word exists
 - r03 — a name stacking two nouns with no relation between them
 - r04 — one thing answering to a second name
-- r07 — a set named by a count, a pointer, or a position instead of given
+- r07 — a set pointed at by a count, a pointer, or a position, with its members never given
 - r11 — an internal code leading a sentence to the reader
 - r23 — a word standing in all capitals
 

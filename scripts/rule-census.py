@@ -17,6 +17,10 @@ WHAT IT MEASURES. Three readings per file, each naming the rules it stands for:
   - `register` — `scripts/preshow-register-lint.py`, whose patterns stand for r02's coinage,
     loan-translation and respelling arms and for the affirmation class.
 
+WHAT IT PASSES OVER. A recorded case — a list item holding a quoted text, an arrow, and its quoted
+repair — is evidence a rule rests on, and its left side is a defect on purpose. The `long` reading skips
+such a line. Every other list item is read.
+
 WHAT IT REFUSES. It refuses a file list that comes out empty, since a census of nothing reports clean.
 It names every file it could not read rather than dropping it.
 
@@ -62,6 +66,9 @@ SENTENCE_END = re.compile(r"(?<=[.!?])\s+")
 # A line that is its own unit: a list item, a numbered step, a quotation, or a label line of the
 # `**field** — value` shape these documents use for a node's parts.
 STANDS_ALONE = re.compile(r"^\s*(?:[-*+]\s|\d+[.)]\s|>|\*\*[^*]+\*\*\s*(?:—|-|:))")
+# A recorded case: a list item holding a quoted defective text, an arrow, and its quoted repair. The
+# left side is a defect on purpose, so counting it would score the evidence a rule rests on.
+QUOTED_CASE = re.compile(r"^\s*[-*+]\s+`[^`]+`\s*(?:→|->)\s*`[^`]+`\s*$")
 
 
 def load_word_cap(path=RULES_PATH):
@@ -119,6 +126,9 @@ def prose_sentences(text):
             flush()
             continue
         if not line.strip():
+            flush()
+            continue
+        if QUOTED_CASE.match(line):
             flush()
             continue
         if STANDS_ALONE.match(line):

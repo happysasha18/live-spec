@@ -59,6 +59,7 @@ Stdlib only.
 import argparse
 import json
 import os
+import re
 import sys
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -770,6 +771,23 @@ def build(data):
     return outputs
 
 
+
+CYRILLIC = re.compile("[\u0400-\u04FF]")
+
+
+def shipped_case(rule):
+    """The case this rule shows inside a shipped skill: the first one written in the Latin alphabet.
+
+    The audit skill ships to hosts whose reader may speak any language, and the shipped-language gate
+    holds a shipped artifact to one alphabet. A rule whose recorded evidence is Russian therefore carries
+    an English case beside it, and the whole record stays in the rule home.
+    """
+    for example in rule.get("examples") or []:
+        if not CYRILLIC.search(example["written"] + example["repair"]):
+            return example
+    return None
+
+
 def render_human_prose_rules(data):
     """Every rule binding human-prose, for the audit skill that ships without the rule home."""
     rules = [r for r in data["rules"] if "human-prose" in r["surfaces"]]
@@ -779,10 +797,18 @@ def render_human_prose_rules(data):
            "These are every rule binding human-prose. They are printed here out of `%s`, which is where "
            "each one is edited. A change made in this block is overwritten by the next run of "
            "`scripts/gen-language-consumers.py`." % SOURCE_REL, "",
-           "Each line gives the rule, then the question to ask of a sentence." , ""]
+           "Each entry names the class of mistake, states the rule, gives the question to ask of a "
+           "sentence, and carries one recorded case under it. The case is written text on the left and "
+           "its repair on the right. Every case the class was built from lives in the rule home.", ""]
     for rule in rules:
         out.append("- **%s** — %s *Ask:* %s (`%s`)"
                    % (rule["name"], sentence(rule["rule"]), rule["reader_test"], rule["id"]))
+        example = shipped_case(rule)
+        if example:
+            # One case, on one line. A case written across several lines would break the list it sits in,
+            # so its line breaks close up into spaces.
+            out.append("    - %s → %s" % (code(" ".join(example["written"].split())),
+                                          code(" ".join(example["repair"].split()))))
     out.append("")
     return out
 

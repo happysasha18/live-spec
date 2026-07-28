@@ -212,6 +212,16 @@
         "chat",
         "artifact"
       ],
+      "examples": [
+        {
+          "written": "The system shall red a branch whose merge-base sits behind main's tip.",
+          "repair": "The system shall refuse a branch whose merge-base sits behind main's tip."
+        },
+        {
+          "written": "a landing",
+          "repair": "a change that reached main"
+        }
+      ],
       "exceptions": [
         "a term the text glosses in plain words at its first use",
         "a term holding a glossary entry the reader meets before the term's first working use"
@@ -255,7 +265,7 @@
       "id": "r02",
       "name": "a coined, loan-translated, or respelled word standing where a plain standard word exists",
       "rule": "Where the industry has a word, the text writes the industry's word. A term this project coined is replaced by the standard word, or defined where it first appears. In the reader's own language, a term is written as a real word of that language.",
-      "reader_test": "Does a standard word already name this thing, and is the word here that standard word — a real word of the reader's own language, carrying the meaning this project gives it?",
+      "reader_test": "Does a standard word already name this thing? Is the word used here that standard word, written as a real word of the reader's own language?",
       "surfaces": [
         "spec-body",
         "human-prose",
@@ -266,6 +276,10 @@
         "a minted name for a thing nothing else names, carrying a glossary entry at its first appearance"
       ],
       "examples": [
+        {
+          "written": "the door",
+          "repair": "the entry point"
+        },
         {
           "written": "нога (leg)",
           "repair": "критерий приёмки, открытый пункт (an acceptance criterion, an open item)"
@@ -379,7 +393,7 @@
         "~/.claude/skills/communicator/SKILL.md:459"
       ],
       "status": "held",
-      "notes": "r16, `an internal English term loan-translated into the reader's language`, and r17, `an internal term respelled in the reader's alphabet`, folded into this entry on 2026-07-28 and their ids are retired: one class — a project word reaching the reader where a standard word exists — was split three ways by the form the word happened to take. The word list this entry names was two lists until 2026-07-28: guardrails/spec-coinages.json held six pairs for check-vocabulary.py and scripts/spec-style-lint.py:232 held nine words of its own with no repairs, so a word added to either was invisible to the other reader. They are merged into the one home this entry prints, both readers read it, and the repairs beside the nine were written for this file. midturn-chat-scan.py runs at the PreToolUse event and denies the tool call, so the correction reaches the human inside the turn. The model arm at the pre-show step turns on through PRESHOW_REGISTER_JUDGE and stands off by default (scripts/preshow-register-lint.py:138). hooks/chat-calques.json holds the scanner's patterns for the same fifteen loan translations the examples give, so a word added there needs its pair added here. The profile names three more loan translations — its words for tripwires, for the same incident family, and for a landing — with no repair recorded for any of them, and its list shares no member with hooks/chat-calques.json. A translation after the fact does not repair the sentence; it must be plain the first time. check-vocabulary.py is armed nowhere. The model arm reached documents alone until 2026-07-28: its only checker was the pre-show lint, which runs over a file, so a coined word spoken in conversation met the pattern list and no meaning read. A list holds the words someone already caught, and three coinages of one morning walked through it, so the turn judge was added here and now reads the chat surface for the whole class."
+      "notes": "r16, `an internal English term loan-translated into the reader's language`, and r17, `an internal term respelled in the reader's alphabet`, folded into this entry on 2026-07-28 and their ids are retired: one class — a project word reaching the reader where a standard word exists — was split three ways by the form the word happened to take. The word list this entry names was two lists until 2026-07-28: guardrails/spec-coinages.json held six pairs for check-vocabulary.py and scripts/spec-style-lint.py:232 held nine words of its own with no repairs, so a word added to either was invisible to the other reader. They are merged into the one home this entry prints, both readers read it, and the repairs beside the nine were written for this file. midturn-chat-scan.py runs at the PreToolUse event and denies the tool call, so the correction reaches the human inside the turn. The model arm at the pre-show step turns on through PRESHOW_REGISTER_JUDGE and stands off by default (scripts/preshow-register-lint.py:138). hooks/chat-calques.json holds the scanner's patterns for the same fifteen loan translations the examples give, so a word added there needs its pair added here. The profile names three more loan translations — its words for tripwires, for the same incident family, and for a landing — with no repair recorded for any of them, and its list shares no member with hooks/chat-calques.json. A translation after the fact does not repair the sentence; it must be plain the first time. check-vocabulary.py is armed nowhere. The model arm reached documents alone until 2026-07-28. Its only checker was the pre-show lint, which runs over a file. A coined word spoken in conversation met the pattern list, and no meaning read it. A list holds the words someone already caught, and three coinages of one morning walked through it. The turn judge was added here, and it now reads the chat surface for the whole class."
     },
     {
       "id": "r03",
@@ -435,6 +449,12 @@
         "chat",
         "artifact"
       ],
+      "examples": [
+        {
+          "written": "the mechanical checks, in the README, for the step the skill body calls the mechanical lints",
+          "repair": "the mechanical lints, in both places"
+        }
+      ],
       "catchers": {
         "pattern": {
           "status": "partial",
@@ -481,6 +501,10 @@
         "artifact"
       ],
       "examples": [
+        {
+          "written": "the numbers do not show red",
+          "repair": "name the actor that shows a colour, or state what the numbers do"
+        },
         {
           "written": "Числа не показывают красное (numbers do not show red)",
           "repair": "name the actor that shows a colour, or state what the numbers do"
@@ -549,6 +573,12 @@
         "chat",
         "artifact"
       ],
+      "examples": [
+        {
+          "written": "the register targets 15-25 words, and a sentence past ~25 words is a hit",
+          "repair": "a sentence stays between 15 and 25 words, and one past 25 is a hit"
+        }
+      ],
       "catchers": {
         "pattern": {
           "status": "absent",
@@ -578,7 +608,7 @@
     },
     {
       "id": "r07",
-      "name": "a set named by a count, a pointer, or a position instead of given",
+      "name": "a set pointed at by a count, a pointer, or a position, with its members never given",
       "rule": "A sentence that depends on a set gives that set, or points by name to the one place holding it. A part of a set is named by what its members are.",
       "reader_test": "Can a person who reads this sentence alone name the members of the set it points at?",
       "surfaces": [
@@ -630,7 +660,7 @@
       "id": "r08",
       "name": "a sentence carrying more than one rule, running past its word cap, or piling up clauses",
       "rule": "One sentence carries one rule and no definitions. It stays under the word cap for its surface, and it holds at most one subordinate clause.",
-      "reader_test": "Does this sentence state one rule a reader could cite on its own, stay under the cap for its surface, and hold its subject in view from its first word to its last?",
+      "reader_test": "Does this sentence state one rule a reader could cite on its own? Does it stay under the cap for its surface? Does it hold its subject in view from its first word to its last?",
       "surfaces": [
         "spec-body",
         "human-prose",
@@ -697,6 +727,12 @@
         "spec-body",
         "human-prose",
         "artifact"
+      ],
+      "examples": [
+        {
+          "written": "a 62-word sentence inside the file that states the 25-word cap",
+          "repair": "the same rule in three sentences, the longest of them 41 words"
+        }
       ],
       "catchers": {
         "pattern": {
@@ -814,6 +850,12 @@
         "chat",
         "artifact"
       ],
+      "examples": [
+        {
+          "written": "INV-141 gives the design review a pass of its own.",
+          "repair": "The design review runs as a pass of its own [INV-141]."
+        }
+      ],
       "thresholds": {
         "max_anchor_codes": 3,
         "max_code_spans": 3,
@@ -863,7 +905,7 @@
       "id": "r12",
       "name": "a word grading how important or how good a thing is",
       "rule": "A text states what a thing is or does, and lets the reader weigh it. A word grading importance or quality stands only beside a concrete fact.",
-      "reader_test": "Does this sentence tell the reader how much to care, rather than what happened?",
+      "reader_test": "Does this sentence tell the reader how much to care about what it reports?",
       "surfaces": [
         "spec-body",
         "human-prose",
@@ -871,6 +913,16 @@
         "artifact",
         "commit",
         "worker-brief"
+      ],
+      "examples": [
+        {
+          "written": "это в корне меняет дело (this changes everything)",
+          "repair": "state what changed, and what follows from it"
+        },
+        {
+          "written": "Two constraints, and they are hard ones.",
+          "repair": "Two constraints."
+        }
       ],
       "catchers": {
         "pattern": {
@@ -913,6 +965,20 @@
         "human-prose",
         "artifact",
         "worker-brief"
+      ],
+      "examples": [
+        {
+          "written": "good question",
+          "repair": "answer it, and say what follows from the answer"
+        },
+        {
+          "written": "ты точно подметил (you spotted that correctly)",
+          "repair": "answer the remark, and say what follows from it"
+        },
+        {
+          "written": "честнее, чем на глаз (more honest than eyeballing it)",
+          "repair": "the number is measured, and here it is"
+        }
       ],
       "catchers": {
         "pattern": {
@@ -958,6 +1024,12 @@
         "human-prose",
         "artifact",
         "worker-brief"
+      ],
+      "examples": [
+        {
+          "written": "Its whole job is to mark where it stopped, what it guessed, and why.",
+          "repair": "deleted, since the two sentences above it already say this"
+        }
       ],
       "thresholds": {
         "min_reply_chars_judged": 120,
@@ -1115,6 +1187,12 @@
         "artifact",
         "commit",
         "worker-brief"
+      ],
+      "examples": [
+        {
+          "written": "a commit message in Russian, in a repository whose documents are pinned to English",
+          "repair": "the message in English, with the conversation about it staying Russian"
+        }
       ],
       "exceptions": [
         "a file listed under user_language_globs in scripts/shipped-language-allowlist.json",
@@ -1498,7 +1576,7 @@
       "id": "r26",
       "name": "a sentence with no actor, or its action buried in a noun",
       "rule": "A rule sentence says who does what and when, in the active voice with a named actor. Its action lives in a verb.",
-      "reader_test": "Does this sentence answer who does this, to what, and when, and is its action a verb rather than a noun?",
+      "reader_test": "Does this sentence answer who does this, to what, and when? Does its action live in a verb?",
       "surfaces": [
         "spec-body",
         "human-prose",
@@ -1559,6 +1637,12 @@
         "artifact",
         "commit",
         "worker-brief"
+      ],
+      "examples": [
+        {
+          "written": "It doesn't know what a PRD is. It knows entities, states, transitions, invariants.",
+          "repair": "It works from entities, states, transitions, and invariants, rather than from a document's genre."
+        }
       ],
       "exceptions": [
         "a genuine prohibition stated as a plain imperative",
@@ -2100,6 +2184,12 @@
         "human-prose",
         "artifact"
       ],
+      "examples": [
+        {
+          "written": "It returns the places a stranger stops.",
+          "repair": "That session returns the places a stranger stops."
+        }
+      ],
       "catchers": {
         "pattern": {
           "status": "absent",
@@ -2164,11 +2254,17 @@
       "id": "r41",
       "name": "an example restating a rule that was already clear",
       "rule": "An example earns its place by resolving an ambiguity, and it uses realistic values. One worked case per rule is enough.",
-      "reader_test": "Could a reader have read this rule two ways without this example, and is this prose rather than a rule entry in the rule home?",
+      "reader_test": "Could a reader have read this rule two ways without this example? Does this example stand in prose, outside a rule entry in the rule home?",
       "surfaces": [
         "spec-body",
         "human-prose",
         "artifact"
+      ],
+      "examples": [
+        {
+          "written": "Grep fallback: read for the four classes by hand - sentences past ~25 words, all-capital words used for emphasis, denial frames, and adjectives that grade a result's size.",
+          "repair": "Grep fallback: read for those four classes by hand. The last one shows up as big, huge, minor, or breakthrough."
+        }
       ],
       "catchers": {
         "pattern": {
@@ -2248,6 +2344,12 @@
         "human-prose",
         "artifact"
       ],
+      "examples": [
+        {
+          "written": "one paragraph carrying the author's blindness, three example defects, and the loop's origin",
+          "repair": "the author's blindness in its own paragraph, the three defects as a list, and the origin in a paragraph after them"
+        }
+      ],
       "catchers": {
         "pattern": {
           "status": "absent",
@@ -2284,6 +2386,12 @@
         "human-prose",
         "artifact"
       ],
+      "examples": [
+        {
+          "written": "a bullet running the rule, its script, and its grep fallback together in one paragraph",
+          "repair": "the rule as the bullet, with the script and the grep fallback nested under it"
+        }
+      ],
       "catchers": {
         "pattern": {
           "status": "absent",
@@ -2313,12 +2421,18 @@
     {
       "id": "r46",
       "name": "a reply that buries its answer",
-      "rule": "A reply opens with the answer — the outcome, the decision, or the finding — in a few lines the reader may stop at, and puts reasoning, evidence, and options underneath.",
+      "rule": "A reply opens with the answer: the outcome, the decision, or the finding. The opening runs a few lines, and the reader may stop there. Reasoning, evidence, and options stand underneath.",
       "reader_test": "Can the reader stop after the opening block and still hold the answer?",
       "surfaces": [
         "chat",
         "human-prose",
         "artifact"
+      ],
+      "examples": [
+        {
+          "written": "a report opening with the method it ran, and the finding in its last paragraph",
+          "repair": "the finding in the opening lines, and the method underneath it"
+        }
       ],
       "thresholds": {
         "reply_chars_above_which_a_lead_is_required": 550
@@ -2401,7 +2515,7 @@
     {
       "id": "r48",
       "name": "an offer to do work the writer could already derive",
-      "rule": "A derivable act is done and reported done, and a work item is parked for the human only after a fresh test of whether it can be derived now.",
+      "rule": "A derivable act is done and reported done. A backlog item is parked for the human only after a fresh test of whether the answer can be derived now.",
       "reader_test": "Does this sentence offer to do something the writer already has everything to do?",
       "surfaces": [
         "chat",
@@ -2458,6 +2572,16 @@
         "chat",
         "human-prose"
       ],
+      "examples": [
+        {
+          "written": "Direct answer: yes, I broke the method... (a paragraph auditing my own failure)",
+          "repair": "name the fix in one line, make it, and go on"
+        },
+        {
+          "written": "Прямой ответ: да, я нарушил метод... (a paragraph auditing my own failure)",
+          "repair": "name the fix in one line, make it, and go on"
+        }
+      ],
       "catchers": {
         "pattern": {
           "status": "absent",
@@ -2492,6 +2616,20 @@
         "chat",
         "human-prose",
         "artifact"
+      ],
+      "examples": [
+        {
+          "written": "a dense working note handed to the reader with no mark on it",
+          "repair": "the same note opening with a marker that says it is a working note, one idea per line"
+        },
+        {
+          "written": "a dense working note handed to the reader with no mark on it",
+          "repair": "the same note opening with «(себе)», one idea per line"
+        },
+        {
+          "written": "a question offering two options and no third",
+          "repair": "the same question, with a free-form answer left open"
+        }
       ],
       "catchers": {
         "pattern": {
@@ -2553,12 +2691,18 @@
     },
     {
       "id": "r52",
-      "name": "a task-list subject written in machine words",
-      "rule": "The session's task list on the human's screen speaks plain product words in the documents' language, understandable at a glance.",
+      "name": "a task subject written in machine words",
+      "rule": "The harness task panel on the human's screen speaks plain product words in the documents' language, understandable at a glance.",
       "reader_test": "Does a person glancing at this task subject know what is being done?",
       "surfaces": [
         "human-prose",
         "chat"
+      ],
+      "examples": [
+        {
+          "written": "run gen-language-consumers.py and splice AUDIT_SKILL_REL",
+          "repair": "print the writing rules into the audit skill"
+        }
       ],
       "catchers": {
         "pattern": {
@@ -2594,6 +2738,12 @@
         "human-prose",
         "spec-body",
         "artifact"
+      ],
+      "examples": [
+        {
+          "written": "a paragraph drafted by the session that held the whole pack loaded",
+          "repair": "the paragraph drafted by a fresh writer from a plain brief, then revised by someone who has read the rules"
+        }
       ],
       "exceptions": [
         "a revision of an existing draft, which the rulebook's own reader makes and is expected to make",
@@ -2637,6 +2787,12 @@
         "spec-body",
         "human-prose",
         "artifact"
+      ],
+      "examples": [
+        {
+          "written": "a section shipped after one reading that returned five stops",
+          "repair": "the section read again after the repairs, and shipped once two readings in a row returned nothing that blocks"
+        }
       ],
       "thresholds": {
         "consecutive_clean_reads": 2
@@ -2735,12 +2891,18 @@
     {
       "id": "r56",
       "name": "one fact stated a second time in another place",
-      "rule": "One fact lives in one home, and every other place points at that home rather than restating it.",
+      "rule": "One fact lives in one home. Every other place points at that home.",
       "reader_test": "Does another place in this project already state this fact?",
       "surfaces": [
         "spec-body",
         "human-prose",
         "artifact"
+      ],
+      "examples": [
+        {
+          "written": "the writing rules written out a second time inside another skill",
+          "repair": "the rules in one file, and the second skill pointing at that file"
+        }
       ],
       "thresholds": {
         "jaccard_min": 0.6,
@@ -2780,11 +2942,17 @@
     {
       "id": "r57",
       "name": "a phrase the human cut returning in a later draft",
-      "rule": "A phrasing the human killed in a review round stays out of every later draft of that artifact, and an approved text takes exactly the correction the human named.",
+      "rule": "A phrasing the human cut in a review round stays out of every later draft of that artifact. An approved text takes exactly the correction the human named.",
       "reader_test": "Has the human already cut this wording from this artifact?",
       "surfaces": [
         "human-prose",
         "artifact"
+      ],
+      "examples": [
+        {
+          "written": "«X — not Y» returning in a later draft, after the human cut it",
+          "repair": "the sentence saying what the thing is, in its own words"
+        }
       ],
       "catchers": {
         "pattern": {
@@ -2818,7 +2986,7 @@
       "id": "r61",
       "name": "a defect recorded as examples with no class behind them",
       "rule": "When a text stops a reader, the writer names the class of mistake, defines it, and enters that class in the rule home. The examples under an entry are the recorded evidence that produced the class.",
-      "reader_test": "Does the entry state what the mistake IS, so a writer can find an instance nobody has met yet?",
+      "reader_test": "Does the entry state what the mistake is, so a writer can find an instance nobody has met yet?",
       "surfaces": [
         "spec-body",
         "human-prose",
@@ -2826,6 +2994,16 @@
         "artifact",
         "commit",
         "worker-brief"
+      ],
+      "examples": [
+        {
+          "written": "a list of banned words: leg, goes red, station, door",
+          "repair": "the class - a coined word standing where a standard word exists - with those four as its recorded evidence"
+        },
+        {
+          "written": "a list of banned words: «нога», «краснеет», «станция», «дверь»",
+          "repair": "the class - a coined word standing where a standard word exists - with those four as its recorded evidence"
+        }
       ],
       "catchers": {
         "pattern": {
@@ -2861,6 +3039,12 @@
         "chat",
         "artifact"
       ],
+      "examples": [
+        {
+          "written": "it hands the text to a fresh reader who has no knowledge of its history and marks every place a stranger stops",
+          "repair": "it hands the text to a fresh reader who knows nothing of its history, and that reader marks every place a stranger stops"
+        }
+      ],
       "catchers": {
         "pattern": {
           "status": "absent",
@@ -2888,7 +3072,7 @@
       "id": "r63",
       "name": "a thing named by its number, so the reader must leave the sentence to learn what it is",
       "rule": "A sentence names a thing by what it is, and its number trails at the line's end.",
-      "reader_test": "Does this sentence say what the thing IS, or does it give only a number, a position, or a count that the reader must go and resolve?",
+      "reader_test": "Does this sentence say what the thing is? Does it give only a number, a position, or a count the reader must go and resolve?",
       "surfaces": [
         "spec-body",
         "human-prose",
@@ -2934,7 +3118,7 @@
       ],
       "sources": [],
       "status": "stated-only",
-      "notes": "Opened 2026-07-28 by the owner's reading of the readability plan, which listed the rule families and had no entry for this one. It is the sibling of r07, which governs a SET named by its count; this one governs a single thing named by its number, its position, or its count. Both send the reader out of the sentence. No catcher yet: a number in a sentence is ordinary text, and separating a naming use from an anchor needs a reader."
+      "notes": "Opened 2026-07-28 by the owner's reading of the readability plan, which listed the rule families and had no entry for this one. It is the sibling of r07, which governs a set named by its count. This one governs a single thing named by its number, its position, or its count. Both send the reader out of the sentence. No catcher yet: a number in a sentence is ordinary text, and separating a naming use from an anchor needs a reader."
     },
     {
       "id": "r64",
@@ -2978,7 +3162,7 @@
         "docs/spec-format.md"
       ],
       "status": "stated-only",
-      "notes": "Split out of r08 on 2026-07-28. r08 stated the word cap, the one-rule limit, the subordination limit, and the list form in one sentence, which made the rule against carrying several rules in one sentence carry four."
+      "notes": "Split out of r08 on 2026-07-28. r08 stated the word cap, the one-rule limit, the subordination limit, and the list form in one sentence. The rule against carrying several rules in one sentence carried four."
     }
   ]
 }
