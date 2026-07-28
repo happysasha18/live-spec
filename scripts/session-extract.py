@@ -27,19 +27,41 @@ THE FOUR TRAPS, each checked against the real files on 2026-07-28:
      whose whole text is such a wrapper is dropped, and a wrapper riding beside real words is
      stripped out of the turn that keeps them.
 
-WHERE THE OUTPUT GOES. A transcript holds private conversation, so the extract is written to a
-scratch directory and never into the repository. The one thing that legitimately crosses is a
-decision entry in DECISIONS.md, which owes its evidence in the person's own words. The conventional
-name is `session-extract-<session>.md`, and this repository's ignore rules carry that pattern, so a
-run that names its output here leaves an ignored file rather than a committed one.
+WHICH TRANSCRIPT A RUN READS (R303.32, R303.33, R303.36). The transcript home names each session's
+file for that session's own identity: `176e927f-4e67-4fa6-887e-86d1d6e5d1e4.jsonl` is the file of
+the session whose every line carries `"sessionId":"176e927f-4e67-4fa6-887e-86d1d6e5d1e4"`. So
+`--session ID` matches that file name, and the leading part of an identity is taken while exactly
+one file answers to it. A closing session knows its own identity already: every session mints one
+before its first act and records it in its `.live-spec/` checkpoint, and that identity is the
+harness session id wherever the context carries one (Requirement 79, R79.1 and R79.2). The same
+identity is what a handover's file name carries (R303.16), so the closing step passes what it has.
+
+WHEN THE ANSWER IS AMBIGUOUS (R303.34, R303.35). Where the identity matches no transcript, or
+matches more than one, the run writes no extract, prints the identity it was given and every path it
+matched, and exits 1. Refusing beats guessing: 183 transcripts under the home name this repository,
+and two of them were written within one minute of each other on 2026-07-29, so the newest of them is
+decided by seconds. Where no identity is named at all — an operator running this by hand — the run
+keeps taking the transcript written last and says how many it chose among.
+
+WHERE THE OUTPUT GOES (R303.8, R303.37, R303.38). A transcript holds private conversation, so the
+extract is written to a scratch directory, and an output path landing inside the repository is
+refused by name with nothing written. The path is resolved before it is judged, so a relative path,
+a symbolic link and a path holding `..` are each judged by where they land. The one thing that
+legitimately crosses is a decision entry in DECISIONS.md, which owes its evidence in the person's
+own words. The conventional name is `session-extract-<session>.md`, and this repository's ignore
+rules carry that pattern as the second net over the file-name shape.
 
 Usage:
+  session-extract.py --out FILE --session ID [--root DIR] [--repo PATH]
   session-extract.py --out FILE [--root DIR] [--repo PATH]
   session-extract.py --out FILE --transcript FILE
   session-extract.py --list [--root DIR] [--repo PATH]
+A named transcript is the file the run reads, and `--session` speaks to the search that stands in
+for one.
 Exit 0 once the extract is written (or the candidates are listed); exit 1 when no transcript names
-the repository, when a named transcript cannot be read, or when a taken transcript holds no human
-turn; exit 2 on a usage error.
+the repository, when a named identity matches no transcript or several, when a named transcript
+cannot be read, when the output path lands inside the repository, or when a taken transcript holds
+no human turn; exit 2 on a usage error.
 Stdlib only.
 """
 import argparse
@@ -148,6 +170,22 @@ def candidates(root, repo):
     return sorted(found, key=os.path.getmtime)
 
 
+def matching(found, session):
+    """Every candidate whose file name answers to one session identity, the whole name first."""
+    stems = [(os.path.splitext(os.path.basename(p))[0], p) for p in found]
+    exact = [p for stem, p in stems if stem == session]
+    if exact:
+        return exact
+    return [p for stem, p in stems if stem.startswith(session)]
+
+
+def lands_inside(path, repo):
+    """Whether an output path, once resolved, lands inside the repository (R303.37, R303.38)."""
+    out = os.path.realpath(path)
+    root = os.path.realpath(repo)
+    return out == root or out.startswith(root + os.sep)
+
+
 def write_extract(path, transcript, turns):
     name = os.path.splitext(os.path.basename(transcript))[0]
     lines = ["# Session extract — %s" % name, ""]
@@ -172,6 +210,7 @@ def main(argv):
     ap.add_argument("--root", default=None, help="the transcript directory to read")
     ap.add_argument("--repo", default=None, help="the repository path a transcript must name")
     ap.add_argument("--transcript", default=None, help="one transcript file, named outright")
+    ap.add_argument("--session", default=None, help="the session identity the transcript is named for")
     ap.add_argument("--out", default=None, help="where the extract is written")
     ap.add_argument("--list", action="store_true", help="list the transcripts that name the repository")
     args = ap.parse_args(argv[1:])
@@ -180,8 +219,13 @@ def main(argv):
     repo = args.repo or default_repo()
 
     if not args.list and not args.out:
-        print("%s: usage: %s --out FILE [--root DIR] [--repo PATH]" % (CHECK, CHECK))
+        print("%s: usage: %s --out FILE --session ID [--root DIR] [--repo PATH]" % (CHECK, CHECK))
         return 2
+
+    if args.out and lands_inside(args.out, repo):
+        print("%s: %s lands inside %s — a transcript holds private conversation, so an extract is "
+              "written outside the repository. Nothing was written." % (CHECK, args.out, repo))
+        return 1
 
     if args.transcript:
         if not os.path.isfile(args.transcript):
@@ -201,7 +245,19 @@ def main(argv):
         if not found:
             print("%s: no transcript under %s names %s — nothing was read." % (CHECK, root, repo))
             return 1
-        taken = found[-1]
+        if args.session:
+            hits = matching(found, args.session)
+            if len(hits) != 1:
+                print("%s: the identity %s answers to %d of the %d transcript(s) under %s — no "
+                      "extract was written." % (CHECK, args.session, len(hits), len(found), root))
+                for path in hits:
+                    print("  %s" % path)
+                return 1
+            taken = hits[0]
+        else:
+            taken = found[-1]
+            print("%s: no session named — took the transcript written last of the %d under %s."
+                  % (CHECK, len(found), root))
 
     turns = human_turns(taken)
     if not turns:

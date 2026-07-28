@@ -2,6 +2,22 @@
 
 Edit history lives here — the WHY behind every change. The spec and README state current truth; this file explains how we got there.
 
+## 2026-07-29 — the session extract names its session and stays out of the tree
+
+The extractor took the newest of 183 transcripts where the criterion asked for the closing session's own.
+Two live lanes made that a coin toss decided by seconds. It now takes a session identity and matches the
+transcript file named for it, since the transcript home names each file for its session. The closing
+session already mints and records that identity at its start, so it passes what it is already carrying.
+An identity matching nothing, or matching several, refuses by name and writes nothing. An operator running
+by hand still gets the newest file, and the run says how many it chose among.
+
+The promise that an extract lands outside the repository moved from the caller's discipline into the
+code. The output path is resolved first and then judged, so a relative path, a link, and a path holding
+two dots are each judged by where they land. The ignore rule stays as the second net.
+
+Requirement 303 gained criteria 32 to 38, three matrix rows carry them, and nine tests went red on the
+defects before the code existed. One row of the matrix gave up two claims it never held.
+
 ## 2026-07-29 — the ratchet's second check was protection in name, and a worker's command reddened the suite
 
 The check that refuses a hand-raised ceiling compared the working folder against the tip of the branch. A

@@ -85,7 +85,7 @@ commit that changes one on purpose, record the new baseline: `python3 scripts/sp
 PRODUCT_SPEC.md ARCHITECTURE.md TEST_MATRIX.md --compaction`.
 
 These numbers are free, so two lines of work do not collide: requirement 304, INV-303, E-36, T-25,
-M-488, queue row 528. A number is taken by writing it into its document, and the free number here is
+M-491, queue row 529. A number is taken by writing it into its document, and the free number here is
 raised in the same commit.
 
 ## The owner's standing instructions

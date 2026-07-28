@@ -58,9 +58,18 @@ def seed(tmp, lines, name="session.jsonl"):
     return root, path
 
 
-def run(root, out, extra=()):
-    return subprocess.run(["python3", SCRIPT, "--root", root, "--repo", REPO, "--out", out] + list(extra),
+def run(root, out, extra=(), repo=REPO):
+    return subprocess.run(["python3", SCRIPT, "--root", root, "--repo", repo, "--out", out] + list(extra),
                           capture_output=True, text=True)
+
+
+def two_transcripts(tmp):
+    """Two transcripts naming one repository, the second written a minute after the first."""
+    root, mine = seed(tmp, [human("the turn of my own session")], name="s-mine.jsonl")
+    root, other = seed(tmp, [human("the turn of the other lane")], name="s-other.jsonl")
+    os.utime(mine, (1000, 1000))
+    os.utime(other, (2000, 2000))
+    return root, mine, other
 
 
 class TestSessionExtract(unittest.TestCase):
@@ -161,6 +170,126 @@ class TestSessionExtract(unittest.TestCase):
             self.assertEqual(r.returncode, 1, "a run over no matching transcript passed:\n%s" % r.stdout)
             self.assertIn("session-extract", r.stdout)
             self.assertFalse(os.path.exists(out))
+
+
+class TestWhichTranscriptIsRead(unittest.TestCase):
+    """M-488, M-489 — the run reads the transcript named for one session identity (R303.32..R303.36)."""
+
+    def test_a_named_session_reads_its_own_transcript(self):
+        """RED-FIRST: two lanes are live, and the named session gets its own file, never the newest."""
+        with tempfile.TemporaryDirectory() as tmp:
+            root, _, _ = two_transcripts(tmp)
+            out = os.path.join(tmp, "extract.md")
+            r = run(root, out, ["--session", "s-mine"])
+            self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+            with open(out, encoding="utf-8") as f:
+                text = f.read()
+            self.assertIn("the turn of my own session", text)
+            self.assertNotIn("the turn of the other lane", text)
+
+    def test_a_leading_part_of_an_identity_names_one_transcript(self):
+        """An operator typing the head of an identity is served while one file answers to it."""
+        with tempfile.TemporaryDirectory() as tmp:
+            root, _ = seed(tmp, [human("the turn of my own session")],
+                           name="176e927f-4e67-4fa6-887e-86d1d6e5d1e4.jsonl")
+            seed(tmp, [human("the turn of the other lane")], name="0014d5ce-16b2-4ae1-ba25-7a83b98d.jsonl")
+            out = os.path.join(tmp, "extract.md")
+            r = run(root, out, ["--session", "176e927f"])
+            self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+            with open(out, encoding="utf-8") as f:
+                text = f.read()
+            self.assertIn("the turn of my own session", text)
+            self.assertNotIn("the turn of the other lane", text)
+
+    def test_an_unnamed_run_takes_the_newest_and_says_how_many(self):
+        """An operator running by hand keeps the newest file, and the run says what it chose among."""
+        with tempfile.TemporaryDirectory() as tmp:
+            root, _, other = two_transcripts(tmp)
+            out = os.path.join(tmp, "extract.md")
+            r = run(root, out)
+            self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+            with open(out, encoding="utf-8") as f:
+                self.assertIn("the turn of the other lane", f.read())
+            self.assertIn("no session named", r.stdout)
+            self.assertIn("2", r.stdout)
+            self.assertIn(os.path.basename(other), r.stdout)
+
+    def test_an_identity_matching_no_transcript_refuses_by_name(self):
+        """An identity nothing answers to reds, names the identity, and writes no extract."""
+        with tempfile.TemporaryDirectory() as tmp:
+            root, _, _ = two_transcripts(tmp)
+            out = os.path.join(tmp, "extract.md")
+            r = run(root, out, ["--session", "s-nobody"])
+            self.assertEqual(r.returncode, 1, "an unmatched identity passed:\n%s" % r.stdout)
+            self.assertIn("s-nobody", r.stdout)
+            self.assertIn(root, r.stdout)
+            self.assertFalse(os.path.exists(out))
+
+    def test_an_identity_matching_several_refuses_and_names_them(self):
+        """An identity two files answer to reds and prints both paths, so the caller can choose."""
+        with tempfile.TemporaryDirectory() as tmp:
+            root, first = seed(tmp, [human("the first lane")], name="s-1a.jsonl")
+            root, second = seed(tmp, [human("the second lane")], name="s-1b.jsonl")
+            out = os.path.join(tmp, "extract.md")
+            r = run(root, out, ["--session", "s-1"])
+            self.assertEqual(r.returncode, 1, "an undecided identity passed:\n%s" % r.stdout)
+            self.assertIn(os.path.basename(first), r.stdout)
+            self.assertIn(os.path.basename(second), r.stdout)
+            self.assertFalse(os.path.exists(out))
+
+
+class TestWhereTheExtractLands(unittest.TestCase):
+    """M-490 — an output path landing inside the repository is refused (R303.8, R303.37, R303.38)."""
+
+    def seed_repo(self, tmp):
+        """A scratch repository, one transcript naming it, and its handover directory."""
+        repo = os.path.join(tmp, "repo")
+        os.makedirs(os.path.join(repo, "docs", "handovers"))
+        root, _ = seed(tmp, [human("a decision I made", cwd=repo)])
+        return repo, root
+
+    def test_an_output_path_inside_the_repository_is_refused(self):
+        """A closing agent pointing the extract at the tree is refused, and nothing is written."""
+        with tempfile.TemporaryDirectory() as tmp:
+            repo, root = self.seed_repo(tmp)
+            out = os.path.join(repo, "docs", "handovers", "2026-07-29-extract.md")
+            r = run(root, out, repo=repo)
+            self.assertEqual(r.returncode, 1, "an in-tree output path passed:\n%s" % r.stdout)
+            self.assertIn(out, r.stdout)
+            self.assertIn("repository", r.stdout)
+            self.assertFalse(os.path.exists(out))
+
+    def test_a_path_holding_dot_dot_is_judged_by_where_it_lands(self):
+        """A path walking out and back in lands in the tree, so it is refused."""
+        with tempfile.TemporaryDirectory() as tmp:
+            repo, root = self.seed_repo(tmp)
+            os.makedirs(os.path.join(tmp, "outside"))
+            out = os.path.join(tmp, "outside", "..", "repo", "docs", "extract.md")
+            r = run(root, out, repo=repo)
+            self.assertEqual(r.returncode, 1, "a path holding .. passed:\n%s" % r.stdout)
+            self.assertFalse(os.path.exists(os.path.join(repo, "docs", "extract.md")))
+
+    def test_a_symbolic_link_into_the_repository_is_refused(self):
+        """A link pointing at the tree is judged by what it points at."""
+        with tempfile.TemporaryDirectory() as tmp:
+            repo, root = self.seed_repo(tmp)
+            link = os.path.join(tmp, "link")
+            os.symlink(repo, link)
+            out = os.path.join(link, "docs", "extract.md")
+            r = run(root, out, repo=repo)
+            self.assertEqual(r.returncode, 1, "a link into the tree passed:\n%s" % r.stdout)
+            self.assertFalse(os.path.exists(os.path.join(repo, "docs", "extract.md")))
+
+    def test_an_output_path_outside_the_repository_is_written(self):
+        """The scratch directory the law asks for keeps working, so the refusal reaches it never."""
+        with tempfile.TemporaryDirectory() as tmp:
+            repo, root = self.seed_repo(tmp)
+            out = os.path.join(tmp, "scratch", "extract.md")
+            os.makedirs(os.path.dirname(out))
+            r = run(root, out, repo=repo)
+            self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+            with open(out, encoding="utf-8") as f:
+                self.assertIn("a decision I made", f.read())
 
 
 if __name__ == "__main__":
