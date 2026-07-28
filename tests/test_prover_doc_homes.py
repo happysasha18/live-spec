@@ -1,7 +1,7 @@
 """The prover doc's reader-facing homes — outside adversarial review, 2026-07-16.
 
 The frontmatter description carries only the autoload trigger; the prover/design-reviewer
-boundary is homed in "When NOT to use" (the modes paragraph points at it); the
+boundary is homed in "Work that belongs elsewhere" (the modes paragraph points at it); the
 paired-transition kind-split lives in its lens, and the KIND block stays general.
 Red-proven against the pre-restructure file (HEAD before commit 2cca664)."""
 from pathlib import Path
@@ -30,7 +30,7 @@ def test_description_carries_only_the_trigger():
 
 def test_boundary_homed_in_when_not_to_use():
     s = _skill()
-    start = s.index("## When NOT to use")
+    start = s.index("## Work that belongs elsewhere")
     end = s.index("## ", start + 5)
     section = s[start:end]
     assert "design-reviewer's own pass [INV-141]" in section, \

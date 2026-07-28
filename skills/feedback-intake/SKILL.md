@@ -28,7 +28,7 @@ feedback. A file that carries a wish goes through the door. It fires in ANY sess
 session cannot write the host's files, so its intake move is the inbox door: one new file, committed,
 swept later by the host's own session.
 
-## When NOT to fire
+## Work that belongs elsewhere
 
 Never on the agent's own output or on a question the agent asked. Never on something the human merely
 mentions without handing it in. When it is unclear whether a remark was handed in, one plain question

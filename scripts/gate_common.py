@@ -35,6 +35,41 @@ NOTE_INFORMATIVE = re.compile(r"^\s*(?:[-*+]\s+)*(?:\*\*)?\s*note\s*\(informativ
 BLOCKQUOTE = re.compile(r"^\s*>")
 
 
+REQUIREMENT_HEADING = re.compile(r"^##\s+Requirement\s+\d+\b")
+CRITERIA_HEADING = re.compile(r"^###\s+Acceptance Criteria\b")
+ANY_HEADING = re.compile(r"^#{1,6}\s")
+
+
+def spec_body_flags(lines):
+    """Given a list of raw lines, return a list[bool] — True where the line carries the requirements
+    genre's numbered criteria, which is the surface the person rule binds.
+
+    Three shapes are told apart:
+
+    - a requirements file, carrying a `## Requirement N` or `### Acceptance Criteria` heading: the
+      criteria run from an `### Acceptance Criteria` heading to the next `##` heading, so the Context
+      and User Story paragraphs above it stay explanatory prose;
+    - a prose document, carrying headings and no such marker: a skill body, a README, a reader page.
+      Every line is explanatory prose, where the register asks the writer to address the reader;
+    - a fragment with no heading at all, which a caller hands in to be judged as a criterion. Every
+      line counts, which keeps the piped-snippet contract this lint has always had.
+    """
+    if not any(REQUIREMENT_HEADING.match(l) or CRITERIA_HEADING.match(l) for l in lines):
+        if any(ANY_HEADING.match(l) for l in lines):
+            return [False] * len(lines)
+        return [True] * len(lines)
+    flags, inside = [], False
+    for raw in lines:
+        if raw.startswith("## "):
+            inside = False
+        if CRITERIA_HEADING.match(raw):
+            inside = True
+            flags.append(False)
+            continue
+        flags.append(inside)
+    return flags
+
+
 def exempt_flags(lines):
     """Given a list of raw lines, return a list[bool] — True where normative-only rules are exempt
     (inside a user-story block, an informative NOTE block, or a blockquote line). A user-story /

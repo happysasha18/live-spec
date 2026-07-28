@@ -268,7 +268,7 @@ CAPS_ALLOW = {"JSON", "CI", "HTML", "CSS", "RFC", "API", "URL", "UI", "MVP", "TT
               "LLD", "HLD", "PRD", "README", "LICENSE", "OK", "MD", "CLI", "ID", "IDE", "NLP", "SPEC",
               "LIVE", "STATE", "NEXT", "NOW", "MUST", "SHALL", "NOTE", "QA", "TODO", "HEAD",
               "KPI", "UX", "FIXME", "VCS", "DOM", "PID", "OS", "CDN", "CDP", "ASCII",
-              "TBD", "ER", "CRUD",
+              "TBD", "ER", "CRUD", "ISO", "INCOSE",
               # doc / file names used as bare tokens
               "ARCHITECTURE", "ROADMAP", "JOURNAL", "VERSION", "LIVE-STATE", "MIGRATION", "CHANGELOG",
               # the audit record's milestone-read disposition values (INV-156), a closed vocabulary
@@ -408,12 +408,26 @@ def lint(text, gate=False, tier=None):
 
     errors, warnings = [], []
     lines = text.splitlines()
+    # A fenced block is data: a command to run, a prompt to paste, a sample of output. Its words are
+    # quoted rather than written, so no register rule reads them.
+    in_fence = False
     exempt = gate_common.exempt_flags(lines) if gate_like else [False] * len(lines)
+    # The person rule binds the numbered criteria of the requirements genre. Explanatory prose — a
+    # skill body, a README, a reader page, and the Context paragraphs inside a spec — takes the
+    # opposite rule, where the register addresses the reader directly (the rule home, r24 beside r25).
+    spec_body = gate_common.spec_body_flags(lines)
     prev_blank = True
     for idx, raw in enumerate(lines):
         i = idx + 1
         line = raw.rstrip("\n")
         stripped = line.strip()
+        if stripped.startswith("```") or stripped.startswith("~~~"):
+            in_fence = not in_fence
+            prev_blank = False
+            continue
+        if in_fence:
+            prev_blank = False
+            continue
         if not stripped:
             prev_blank = True
             continue
@@ -438,7 +452,7 @@ def lint(text, gate=False, tier=None):
             if m.group(1) not in CAPS_ALLOW:
                 (errors if register_errors else warnings).append(
                     (i, "caps-shout:%s" % m.group(1), stripped[:110]))
-        if _second_person_outside_quotes(scrub) and not exempt_here:  # normative-only
+        if spec_body[idx] and _second_person_outside_quotes(scrub) and not exempt_here:  # spec-body
             norm_bucket.append((i, "second-person", stripped[:110]))
         if gate_like and not exempt_here:
             low = scrub.lower()

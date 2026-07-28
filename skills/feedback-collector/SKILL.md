@@ -40,7 +40,7 @@ or routine reaction. The reading of "strong" is a conservative floor here — ta
 when in doubt, stay silent. (The finer reading
 of the signal is its own later design pass; this v1 leans hard toward silence.)
 
-## When NOT to fire
+## Work that belongs elsewhere
 
 It stays silent — no offer, no note — on:
 

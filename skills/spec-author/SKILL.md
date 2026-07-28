@@ -24,7 +24,7 @@ spec-author's job is to keep a spec that is **complete for what exists, honest a
 structured so the prover can find the holes the author can't** — grown as the work grows, never front-loaded
 as a giant document.
 
-## When not to use
+## Work that belongs elsewhere
 
 Reserve it for a spec the code will chase. Skip it for retro-documenting already-built code so it looks
 specced (the spec leads, code chases), for a prototype (a sketch gets a label and a fence, never a spec),

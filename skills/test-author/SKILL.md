@@ -204,7 +204,7 @@ device class; the suite says plainly what it cannot see.
 - **The bug protocol:** a bug fixes the matrix cell (or adds the missing invariant row) first, then a
   test proven red on the bug, then the code. Code chases the matrix.
 
-## When NOT to use it
+## Work that belongs elsewhere
 
 Use it only with a proven spec and architecture; without them the derivation has nothing sound to derive from, and
 "write tests for X" alone routes to build-pipeline (the earlier steps first). Not for reviewing

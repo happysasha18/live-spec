@@ -480,7 +480,7 @@ answer to a class is a list, the design is wrong.
    is caught before the work restarts. The owner asked the pack to hold it, 2026-07-20.
 
 
-## When NOT to load this
+## Work that belongs elsewhere
 
 Reserve it for the pack's own work — a session outside the pack uses a general style guide instead; and
 never as a place to WRITE host- or person-specific values (those live in profiles; this file holds only

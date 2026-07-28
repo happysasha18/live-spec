@@ -27,7 +27,7 @@ The design review runs at the prove station, right after the prover's pass, over
 - **Feature intake** → the design review stands down, with one exception: when FEATURE-FIT's second-sibling question answers yes — the delta adds a second member of a kind an existing surface already has — intake draws the scoped design review over the delta's elements against the existing inventory (SPEC INV-169). The intake of a second member is the moment an undeclared grouping is born, and it was exactly the moment this pass used to stand down; the exception closes that window. A delta with no such sibling validates fit alone.
 - **The push gate** → the design review stands down. The M-6 push-gate re-check re-reads the whole spec as its own mode, which is not the prover's FULL mode, so it does not re-fire the design review; neither is it the moment for concept critique.
 
-## When NOT to use
+## Work that belongs elsewhere
 
 Reserve it for judging the DESIGN of a proven spec. Skip it for verifying that a spec holds together as written (that is product-prover's pass), for code or diffs, and for grading finished prose. It reads a document and questions its concept; it proves nothing the suite proves and asserts nothing the prover asserts.
 
@@ -109,7 +109,7 @@ You count your own progressing rounds. Termination is not guaranteed — a decla
 
 Each run writes a dated record at `docs/design-review/YYYY-MM-DD[-suffix].md` in the repo under review, the same shape and discipline as the prover's record; a second scoped run on the same day takes the `-suffix`, exactly as the prover record does, so two surface-add passes in one day never overwrite each other. It opens by naming the design-reviewer skill version that ran the pass, and it carries a **per-finding outcome** column with these values: `recommended` (a confident finding queued for a taste call), `asked` (a likely finding put to the human), `answered(+the decision)` (an ask the human resolved — alike, or different-by-intent), and `held` (an ask still unanswered, not to be re-raised on its own next pass). The dated record is the single home for an unanswered ask: where the decision archive references a held ask, it points at this record and does not restate the state [E-22]. Every pass opens by reading the prior records' `held` asks, which is what lets it tell a still-open ask from a fresh one. This record is a member of the review-record class the spec declares once — the shared shape every review pass writes; the design-review record is the sibling that adds the `held` outcome, because it alone carries a question across passes (SPEC INV-156).
 
-## When NOT to fire
+## Work that belongs elsewhere
 
 - No finding is owed for every element or every group. Most pairs are plainly fine; say nothing about them.
 - Where the grouping is not plain, or the divergence is not plain, or the whole-behaviour-versus-parameter call is unclear, the finding is below the bar — a silence or, at most, a confident recommendation, never an ask.

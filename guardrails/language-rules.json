@@ -565,7 +565,7 @@
     {
       "id": "r06",
       "name": "a number standing with no ground",
-      "rule": "Every number says what it counts, what it is compared against, and which direction is better. A number that was simply chosen says that it was chosen.",
+      "rule": "Every number says what it counts, what it is compared against, and which direction is better. A number chosen rather than derived says that it was chosen.",
       "reader_test": "Can a reader say what this number is measured against and which way is better?",
       "surfaces": [
         "spec-body",

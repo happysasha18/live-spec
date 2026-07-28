@@ -24,7 +24,15 @@ The loop came from the spec-format comprehension gate. A panel of fresh readers 
 
 ## What it does
 
-1. **The mechanical lints first.** Five lints run before any reader: every term defined at first use, weak relational words with unfilled slots, requirement shape where the text is a spec, style and register, and one name per thing. A machine settles the cheap classes, so the reader spends attention on the ones no machine knows yet.
+1. **The mechanical lints first.** Five lints run before any reader:
+
+   - a term defined at first use;
+   - a weak relational word with an unfilled slot;
+   - requirement shape, where the text is a spec;
+   - style and register;
+   - one name per thing.
+
+   A machine settles those cheap classes, so the reader spends attention on the ones no machine knows yet.
 2. **A fresh cold reader.** The text goes to a session with zero context on its history, under a stated reader-prompt. That session returns the places a stranger stops, each one marked blocking or non-blocking. It fixes nothing, and it writes down the guess it made in place of a missing answer.
 3. **Fixes from the source.** Each blocking finding is repaired from the material the text already rests on: the source spec, the code, the recorded decision. Where the source holds no answer, the finding is a real hole, and it is recorded as a question for the person. Inventing an answer is the one move the skill forbids.
 4. **Read again, and close on two clean reads.** A new stranger reads the repaired text. The loop ends at two consecutive reads with zero blocking findings.
@@ -42,13 +50,13 @@ Any text whose clarity matters before it ships:
 - a decision page before it reaches the person;
 - a piece of marketing copy or an article draft.
 
-The trigger is a person asking whether a reader will understand the text. They ask it in words like these: *"audit this text"* · *"cold-read this"* · *"is this clear"* · *"will a stranger get this"* · *"check this for undefined terms"*.
+The trigger is a person asking whether a reader will understand the text. They ask it in words like these: *"audit this text"* · *"cold-read this"* · *"is this clear"* · *"will a stranger get this"*.
 
 ---
 
 ## What it can't do
 
-- **Design review belongs to [product-prover](https://github.com/happysasha18/product-prover).** That skill argues with a spec's claims and finds design holes, such as a missing state or a false invariant. This skill reads prose for whether a stranger understands it. Run both on a spec; they read different failures on the same page.
+- **Design review belongs to [product-prover](https://github.com/happysasha18/product-prover).** That skill argues with a spec's claims and finds design holes. A missing state and a false invariant are its findings. This skill reads prose for whether a stranger understands it. Run both on a spec; they read different failures on the same page.
 - **Taste and voice stay with you.** This skill holds a text to a stated register and reports where a reader stops.
 - **A finding with no source answer becomes a question for you.** The skill fills no gap from imagination.
 

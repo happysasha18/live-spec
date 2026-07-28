@@ -148,7 +148,7 @@ metrics or loudness compliance. Below: one real read of a real track."* — the 
 what/who/how in the reader's words, the commands are shown as typed, both boundary sides are stated,
 and the taste comes from a real run that shows the product working.
 
-## When NOT to use
+## Work that belongs elsewhere
 
 Reserve it for work leaving the machine: skip it for showing work in-session (communicator rule 5), for local commits, and for a prototype —
 a sketch is never published, it isn't a product (base rule 16); not as a substitute for the human's

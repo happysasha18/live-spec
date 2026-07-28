@@ -801,8 +801,11 @@ def render_human_prose_rules(data):
            "sentence, and carries one recorded case under it. The case is written text on the left and "
            "its repair on the right. Every case the class was built from lives in the rule home.", ""]
     for rule in rules:
-        out.append("- **%s** — %s *Ask:* %s (`%s`)"
-                   % (rule["name"], sentence(rule["rule"]), rule["reader_test"], rule["id"]))
+        # The class name stands on its own line, so a reader meets the mistake before its rule, and
+        # so neither line carries the other's words past the sentence cap.
+        out.append("- **%s** (`%s`)" % (rule["name"], rule["id"]))
+        out.append("  %s" % sentence(rule["rule"]))
+        out.append("  *Ask:* %s" % rule["reader_test"])
         example = shipped_case(rule)
         if example:
             # One case, on one line. A case written across several lines would break the list it sits in,

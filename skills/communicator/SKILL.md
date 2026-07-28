@@ -26,7 +26,7 @@ Every time you: **(a)** need the human to DECIDE something; **(b)** finish or ad
 **(c)** name a problem; **(d)** answer the human's "did we actually do X?" — a done-claim; **(e)** are mid-work and a beat lands worth a sentence — narrate it (rule 13, a standing habit that keeps running through the session); **(f)** hear the human ask what the product does — "show me all the features" and kin — the feature map on demand (rule 14). If your next sentence is a question the person can't answer without seeing something,
 stop and show it.
 
-## When NOT to use
+## Work that belongs elsewhere
 
 This skill fires when a PERSON must see, decide, or hear a result. It stays out of my own working notes
 (marked "(self)", which he may skip), worker briefs, checkpoints, anything machine-read (written for the

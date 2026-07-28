@@ -211,7 +211,7 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 ### r06 — a number standing with no ground
 
-**Rule.** Every number says what it counts, what it is compared against, and which direction is better. A number that was simply chosen says that it was chosen.
+**Rule.** Every number says what it counts, what it is compared against, and which direction is better. A number chosen rather than derived says that it was chosen.
 
 **Reader test.** Can a reader say what this number is measured against and which way is better?
 

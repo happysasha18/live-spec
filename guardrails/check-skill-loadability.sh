@@ -40,8 +40,8 @@ for skill_md in "$SKILLS_DIR"/*/SKILL.md; do
     echo "FAIL (loadability): $dir_name — no metadata version (M-7)"; fail=1
   fi
 
-  if ! grep -qi 'when NOT to' "$skill_md"; then
-    echo "FAIL (loadability): $dir_name — no 'when NOT to use' section (row 80)"; fail=1
+  if ! grep -qi 'work that belongs elsewhere' "$skill_md"; then
+    echo "FAIL (loadability): $dir_name — no 'Work that belongs elsewhere' section (row 80)"; fail=1
   fi
 done
 

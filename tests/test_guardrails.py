@@ -501,7 +501,7 @@ if __name__ == "__main__":
 
 class TestGateF_SkillLoadability(unittest.TestCase):
     """Gate (f): every shipped skill LOADS — frontmatter parses, name matches its
-    folder, description + metadata version present, a 'when NOT to use' section
+    folder, description + metadata version present, a 'Work that belongs elsewhere' section
     scopes it negatively (row 80). Red-first proven on a broken scratch skill."""
 
     def test_real_repo_passes(self):
@@ -518,7 +518,7 @@ class TestGateF_SkillLoadability(unittest.TestCase):
             result = run([os.path.join(GUARDRAILS, "check-skill-loadability.sh"), tmp])
             self.assertEqual(result.returncode, 1, "broken skill must turn the gate RED")
             self.assertIn("does not match its folder", result.stdout)
-            self.assertIn("no 'when NOT to use' section", result.stdout)
+            self.assertIn("no 'Work that belongs elsewhere' section", result.stdout)
 
     def test_missing_skills_dir_fails(self):
         with tempfile.TemporaryDirectory() as tmp:

@@ -149,7 +149,7 @@ standards look like in its medium.
 - **Skip entirely** only under the single boundary above (pure research, fact-gathering, a one-file
   no-new-behaviour edit already covered by a test level).
 
-## When NOT to run it
+## Work that belongs elsewhere
 
 Skip it for the skip-boundary edit (single file · no new state, element, or visible behaviour · an existing
 test level already covers the touched fact — it still ships a test, just no pipeline); not for pure
