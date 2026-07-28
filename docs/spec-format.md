@@ -18,6 +18,40 @@ One criterion carries one trigger and one response. The keywords *when*, *while*
 
 A criterion may carry the pieces of its rule its own line leaves as an indented bullet sub-list under that line. A bullet holds an enumeration of members, a scope note, or a permitted exception — the material that would otherwise weld a second clause onto the line. Each bullet carries one complete clause with its own subject and finite verb, and carries no code anchor: the anchor belongs at the criterion line's end, and a bracket code inside a bullet is a defect. The sub-list ends at the next criterion, the next case heading, the next requirement, or a blank line followed by unindented text. The bullets belong to their criterion, so every gate that reads a criterion's prose reads them too, each bullet as a sentence of its own.
 
+## One criterion, before and after
+
+The example below is one real criterion of this project's own spec, quoted as it stood and as it reads after its repair. Six of its terms belong to the spec's domain and not to the format: a tier is one price level of the models an agent runs on; the seat is the agent session an instruction is given to; a law is a requirement the spec states about how the project works, and the four this criterion names are the orchestration laws; a reminder history is the running count of the times one law has been broken; the problem ledger is the home where those breaks are written down; and the break-record law is the requirement naming that home. The counts below take each bracketed code as one word and a hyphenated name such as pull-unblocked-work as one word.
+
+Criterion 4 of Requirement 233 once read as follows, at 105 words:
+
+> The system *shall* judge the orchestration members carrying a reminder-history of two or more —
+> worker-routing (each unit of work routed to the cheapest tier its step and kind allow),
+> lean-orchestrator (heavy reading dispatched to a worker rather than held inline), pull-unblocked-work
+> (the session keeps pulling unblocked queue work rather than idling), and classify-the-subtask (a
+> subtask is the person's or the seat's by what the subtask itself needs, never by the heading it sits
+> under) — their breaks recorded in the one home the break-record law names, the problem ledger
+> (`PROBLEMS.md`), and *shall* leave the single-occurrence members as reminders until they recur.
+> [INV-241, INV-108, INV-69, INV-137, INV-143]
+
+That sentence carries three instructions — judge the laws, record every break in the problem ledger, and leave a law with a single occurrence standing as a reminder — and the definitions of the four laws besides. The definitions are what made it long.
+
+It now reads as follows, at 35 words with the same codes and five items in a list below:
+
+> The system *shall* judge the orchestration laws carrying a reminder history of two or more, and
+> *shall* leave a law with a single occurrence as a reminder until it recurs.
+> [INV-241, INV-108, INV-69, INV-137, INV-143]
+>
+> - worker-routing: each unit of work is routed to the cheapest tier its step and kind allow;
+> - lean-orchestrator: heavy reading is dispatched to a worker, and none of it is held inline;
+> - pull-unblocked-work: the session keeps pulling unblocked queue work instead of idling;
+> - classify-the-subtask: a subtask is the person's or the seat's by what the subtask itself needs,
+>   never by the heading it sits under;
+> - each break is recorded in the problem ledger (`PROBLEMS.md`), the home the break-record law names.
+
+Two instructions stayed in the sentence. Five items moved into the list, one to a line: the four laws, each carrying the words that had defined it inside the sentence, and the instruction that records a break. Taking those definitions out cut the sentence from 105 words to 35.
+
+The repair left every other defect standing, and two of those can be named. The verb judge names neither a standard nor an output, so the criterion never says what the judging measures a law against or what a judgment produces. The threshold two or more names no unit, leaving the word occurrences out. Both classes are recorded as rules of writing — `r32`, a judgment with no judge and no measure, and `r06`, a number standing with no ground — and the criterion itself stands unrepaired in the spec today.
+
 ## The laws
 
 1. **Closed vocabulary.** Every domain noun used anywhere in the document has a one-sentence definition in the glossary. A word of ordinary English needs no entry. A coined word is translated to a defined standard term before it enters the document.

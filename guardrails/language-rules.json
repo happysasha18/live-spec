@@ -21,6 +21,28 @@
       "nowhere": "no catcher runs the rule at any event"
     }
   },
+  "vocabulary": {
+    "note": "The words these rules are stated in. Every page built from this home carries this block, so a reader holding one page holds every word that page uses. A word is defined here when two or more pages need it; a word one page alone needs is defined on that page.",
+    "words": [
+      {"word": "class", "definition": "the shape of a mistake: the form it takes wherever it turns up"},
+      {"word": "break", "definition": "one place a text falls short of a rule, being a single instance of the class that rule names"},
+      {"word": "catcher", "definition": "whatever finds a break: a literal pattern in a script, a model reading for meaning, or a person reading the text"},
+      {"word": "home", "definition": "the one file a given fact is written in"},
+      {"word": "the rule home", "definition": "the file `guardrails/language-rules.json`, where every rule is edited and nowhere else, and from which every page here is built"},
+      {"word": "rule", "definition": "one statement about one class, written as one entry in the rule home"},
+      {"word": "surface", "definition": "a kind of text rather than a file, so one file carries several; this project names six, and each rule binds the ones it applies to"},
+      {"word": "stop", "definition": "one place a reader could not go on, had to read twice, or had to guess"},
+      {"word": "a blocking stop", "definition": "a stop where the reader could not go on with the text, or would have acted on the text wrongly; every other stop is one the reader noticed and read past"}
+    ],
+    "roles": [
+      {"role": "the writer", "definition": "whoever drafts a text: a person, or the agent working for one"},
+      {"role": "the reader", "definition": "whoever reads that text afterwards, carrying whatever context they happen to have"},
+      {"role": "a cold reader", "definition": "a reader given the text alone, with no repository, no earlier drafts, and no way to ask the writer a question"},
+      {"role": "the maintainer", "definition": "whoever builds the catchers and repairs them"},
+      {"role": "the owner", "definition": "the one person whose project this is"}
+    ],
+    "closing": "One person often holds more than one of these roles in a day."
+  },
   "surfaces": {
     "note": "A surface is a KIND of text, not a file, and one file carries several. The numbered requirements and acceptance criteria of a spec are spec-body; the Context paragraphs and User Story lines in that same file are human-prose. Two rules that would give opposite verdicts on one word therefore never meet on one sentence: they govern different blocks of the file. A text declares one primary surface, and a text published to someone outside the project carries `artifact` as well, with every rule binding either surface in force. Where two rules would still give opposite verdicts on one sentence, that is a defect in these rules: it is recorded and settled here, and a writer is never handed the choice.",
     "list": [

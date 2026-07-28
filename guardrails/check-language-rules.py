@@ -257,6 +257,39 @@ def check_drift(gen, data, artifacts):
     return problems, built
 
 
+def check_block_drift(gen, data, root):
+    """The spliced blocks inside hand-written pages, against a fresh build.
+
+    A spliced page keeps its own prose and lends the generator one marked block. The page itself is
+    never compared; only what stands between the markers is, so a hand edit to the block reds and a
+    hand edit to the prose around it does not.
+    """
+    problems = []
+    try:
+        blocks = gen.build_blocks(data)
+    except gen.BuildError as e:
+        return ["the spliced blocks refuse to build off this source: %s" % e]
+    for rel, block in blocks.items():
+        path = os.path.join(root, rel)
+        text = read_text(path)
+        if text is None:
+            problems.append("%s is absent at %s, so the block it lends the generator has nowhere to "
+                            "stand." % (rel, path))
+            continue
+        start = text.find(gen.BLOCK_OPEN)
+        end = text.find(gen.BLOCK_CLOSE)
+        if start < 0 or end < 0 or end < start:
+            problems.append("%s has lost its generated-block markers, so the shared words it shows a "
+                            "reader answer to nothing; restore the marker pair and rebuild." % rel)
+            continue
+        standing = text[start + len(gen.BLOCK_OPEN):end].strip("\n")
+        if standing != block:
+            problems.append("the block between the generated-block markers in %s differs from a fresh "
+                            "build off the current source — that block is generated, never hand-kept; "
+                            "rebuild it with scripts/gen-language-consumers.py." % rel)
+    return problems
+
+
 def main(argv):
     parser = argparse.ArgumentParser(add_help=True, description="Hold the language rules and their "
                                                                 "generated consumers.")
@@ -303,6 +336,10 @@ def main(argv):
     else:
         drift, _built = check_drift(gen, data, artifacts)
         problems += drift
+        # The spliced pages stand in the repository alone; a fixture run points --doc elsewhere and
+        # carries none of them, so their blocks are read only on a repository run.
+        if os.path.dirname(args.doc) == os.path.join(REPO_ROOT, os.path.dirname(gen.DOC_REL)):
+            problems += check_block_drift(gen, data, REPO_ROOT)
         drift_read = True
     catcher_problems, reasonless = check_catchers(rules, cap=args.max_reasonless)
     problems += catcher_problems
@@ -321,6 +358,7 @@ def main(argv):
                      "the cap in this gate from %d to 0" % args.max_reasonless)
 
     files = [os.path.basename(args.source), gen.LAWS_REL, gen.DOC_REL, gen.COVERAGE_REL]
+    files += ["%s (block only)" % rel for rel in gen.SPLICED]
     if problems:
         print("%s: %d language-rule fault(s) in %s:" % (CHECK, len(problems), args.source))
         for p in problems:
@@ -339,9 +377,10 @@ def main(argv):
     print(sf.green_reach(
         CHECK, files, 0, len(rules),
         "read every rule's fields, catchers, arming point, surfaces and sources in the source; "
-        "rebuilt both artifacts in memory and compared them byte for byte with the committed pair "
-        "(%s); resolved %d source pins inside the repository and %d under the reader's own home "
-        "tree, %s; %s"
+        "rebuilt both artifacts in memory and compared them byte for byte with the committed pair, "
+        "and compared the generated block inside each spliced page with a fresh build of that block "
+        "while leaving the page's own prose unread (%s); resolved %d source pins inside the "
+        "repository and %d under the reader's own home tree, %s; %s"
         % ("read" if drift_read else "not read", in_repo, home_read, unread_note, debt_note)))
     return 0
 

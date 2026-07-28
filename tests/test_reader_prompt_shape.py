@@ -9,9 +9,15 @@ made, and the class-into-rule procedure needed that guess. A blind reader caught
 after it had stood for two repair rounds. Bringing the prompt into step then left two sentences in
 the skill and its README still saying the reader guesses nothing, which the craft review caught.
 
+The settlement on 2026-07-28 was to stop restating the shape in a fourth place. `docs/language-defects.md`
+now points at the skill and states no parts of its own, so the shape has one home and cannot drift into
+a second reading of itself. That page still relies on the guess, in the step where a stop becomes a
+rule, so the test holds the pointer and holds the restatement gone.
+
 WHAT THIS HOLDS. The prompt asks for five parts, the fourth being the reader's guess. The skill's own
-prose and its README agree that the reader records that guess. The record page names the same five
-parts. Any future edit that changes one of the four homes without the others reds here.
+prose and its README agree that the reader records that guess. The record page names the skill as the
+prompt's home and restates none of the five parts. Any future edit that changes one of these homes
+without the others fails here.
 
 Reach: this test opens `skills/text-audit/SKILL.md`, `skills/text-audit/README.md`, and
 `docs/language-defects.md`, and reads their prose. It runs no script and reads no other file.
@@ -61,13 +67,24 @@ class TestReaderPromptShape(unittest.TestCase):
             self.assertIn("writes down the guess it made in place of a missing answer", body,
                           "%s does not say the reader records its guess" % path)
 
-    def test_the_record_page_names_the_same_five_parts(self):
+    def test_the_record_page_points_at_the_prompt_s_one_home(self):
         body = read(RECORD)
-        for part in ("the phrase", "the guess"):
-            self.assertIn(part, body,
-                          "%s no longer names the reading entry's %s" % (RECORD, part))
         self.assertIn("skills/text-audit/SKILL.md", body,
                       "%s no longer names where the standing prompt lives" % RECORD)
+
+    def test_the_record_page_restates_none_of_the_five_parts(self):
+        # A second statement of the shape is what drifted before. The page may use the guess; it may
+        # not list the parts again.
+        body = read(RECORD)
+        for restatement in ("five things", "the phrase the reader stopped on",
+                            "whether the stop blocked"):
+            self.assertNotIn(restatement, body,
+                             "%s restates the reading entry's shape (%r); the shape's one home is %s"
+                             % (RECORD, restatement, SKILL))
+
+    def test_the_record_page_still_relies_on_the_guess(self):
+        self.assertIn("including the guess the reader made", read(RECORD),
+                      "%s no longer carries the guess into the step that opens a rule" % RECORD)
 
 
 if __name__ == "__main__":

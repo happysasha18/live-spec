@@ -10,6 +10,30 @@ The entries stand in the same order as on the writer's page, under the same head
 
 This page is generated from `guardrails/language-rules.json`. A change made here is overwritten by the next run of `scripts/gen-language-consumers.py`, and the gate `guardrails/check-language-rules.py` reds a page that has drifted from the source.
 
+## The words on this page
+
+The words these rules are stated in. Every page built from this home carries this block, so a reader holding one page holds every word that page uses. A word is defined here when two or more pages need it; a word one page alone needs is defined on that page.
+
+- **class** — the shape of a mistake: the form it takes wherever it turns up.
+- **break** — one place a text falls short of a rule, being a single instance of the class that rule names.
+- **catcher** — whatever finds a break: a literal pattern in a script, a model reading for meaning, or a person reading the text.
+- **home** — the one file a given fact is written in.
+- **the rule home** — the file `guardrails/language-rules.json`, where every rule is edited and nowhere else, and from which every page here is built.
+- **rule** — one statement about one class, written as one entry in the rule home.
+- **surface** — a kind of text rather than a file, so one file carries several; this project names six, and each rule binds the ones it applies to.
+- **stop** — one place a reader could not go on, had to read twice, or had to guess.
+- **a blocking stop** — a stop where the reader could not go on with the text, or would have acted on the text wrongly; every other stop is one the reader noticed and read past.
+
+Five roles appear wherever these rules are discussed.
+
+- **the writer** — whoever drafts a text: a person, or the agent working for one.
+- **the reader** — whoever reads that text afterwards, carrying whatever context they happen to have.
+- **a cold reader** — a reader given the text alone, with no repository, no earlier drafts, and no way to ask the writer a question.
+- **the maintainer** — whoever builds the catchers and repairs them.
+- **the owner** — the one person whose project this is.
+
+One person often holds more than one of these roles in a day.
+
 ## The words these pages use
 
 A rule's **status** says whether anything catches a break of it today.

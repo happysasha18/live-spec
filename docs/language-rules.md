@@ -8,6 +8,30 @@ Read this page in one order. Find your surface below and read the rules its rost
 
 This page is generated from `guardrails/language-rules.json`, which is where every one of these rules is edited. A change made here is overwritten by the next run of `scripts/gen-language-consumers.py`, and the gate `guardrails/check-language-rules.py` reds a page that has drifted from the source.
 
+## The words on this page
+
+The words these rules are stated in. Every page built from this home carries this block, so a reader holding one page holds every word that page uses. A word is defined here when two or more pages need it; a word one page alone needs is defined on that page.
+
+- **class** — the shape of a mistake: the form it takes wherever it turns up.
+- **break** — one place a text falls short of a rule, being a single instance of the class that rule names.
+- **catcher** — whatever finds a break: a literal pattern in a script, a model reading for meaning, or a person reading the text.
+- **home** — the one file a given fact is written in.
+- **the rule home** — the file `guardrails/language-rules.json`, where every rule is edited and nowhere else, and from which every page here is built.
+- **rule** — one statement about one class, written as one entry in the rule home.
+- **surface** — a kind of text rather than a file, so one file carries several; this project names six, and each rule binds the ones it applies to.
+- **stop** — one place a reader could not go on, had to read twice, or had to guess.
+- **a blocking stop** — a stop where the reader could not go on with the text, or would have acted on the text wrongly; every other stop is one the reader noticed and read past.
+
+Five roles appear wherever these rules are discussed.
+
+- **the writer** — whoever drafts a text: a person, or the agent working for one.
+- **the reader** — whoever reads that text afterwards, carrying whatever context they happen to have.
+- **a cold reader** — a reader given the text alone, with no repository, no earlier drafts, and no way to ask the writer a question.
+- **the maintainer** — whoever builds the catchers and repairs them.
+- **the owner** — the one person whose project this is.
+
+One person often holds more than one of these roles in a day.
+
 ## The surfaces, and which rules bind each one
 
 A surface is a KIND of text, not a file, and one file carries several. The numbered requirements and acceptance criteria of a spec are spec-body; the Context paragraphs and User Story lines in that same file are human-prose. Two rules that would give opposite verdicts on one word therefore never meet on one sentence: they govern different blocks of the file. A text declares one primary surface, and a text published to someone outside the project carries `artifact` as well, with every rule binding either surface in force. Where two rules would still give opposite verdicts on one sentence, that is a defect in these rules: it is recorded and settled here, and a writer is never handed the choice.

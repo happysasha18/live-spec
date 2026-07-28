@@ -26,6 +26,13 @@ per reader, and the rule text the judging model reads:
     matches (`hooks/register_judge_core.py` renumbers on it), so the marker stays as it is while the
     prose around it calls these rules.
 
+It also owns one BLOCK inside a hand-written page:
+
+  - `docs/language-defects.md` — the record of where the rules came from. Its prose is its own; the
+    shared words and roles it is written in stand between the `generated:vocabulary` markers and are
+    rewritten on every run. A cold reader is handed one page and cannot follow a pointer to another,
+    so a word two pages share is defined on both, out of the one home.
+
 WHAT IT READS. `guardrails/language-rules.json`, plus the config files a rule's `lists` field names:
 a list entry carrying `source` and `key` is read out of that JSON at build time, so a list a rule
 depends on can never drift from the list its checker reads. No rule text, no word list, and no
@@ -64,6 +71,15 @@ COVERAGE_REL = "docs/language-rule-coverage.md"
 # The hand-written page that applies the human-prose roster to one text end to end. The writer's page
 # points at it; nothing here generates it.
 WORKED_EXAMPLE_REL = "docs/language-worked-example.md"
+
+# The hand-written record of where the rules came from. Its prose is its own, and the shared words it
+# is written in are spliced into it between the markers below, so a cold reader handed that one page
+# holds every word it uses. A page carrying such a block is a SPLICED consumer: the generator owns
+# what stands between the markers and touches nothing else in the file.
+RECORD_REL = "docs/language-defects.md"
+BLOCK_OPEN = "<!-- generated:vocabulary — scripts/gen-language-consumers.py owns the block below -->"
+BLOCK_CLOSE = "<!-- /generated:vocabulary -->"
+SPLICED = (RECORD_REL,)
 
 # The surface names the source's rules bind to, in the order a reader meets them. This tuple is the
 # list's one home: the gate `guardrails/check-language-rules.py` imports it, so the list stays
@@ -401,6 +417,36 @@ def render_legend(data, closing):
     return out
 
 
+def render_vocabulary(data):
+    """The words and roles every page here is written in, defined on each page that uses them.
+
+    A cold reader is handed one page and cannot follow a pointer to another, so a word two pages
+    share is defined on both. The source is the one home; this renderer is how it reaches each page.
+    """
+    vocab = data.get("vocabulary") or {}
+    words = vocab.get("words") or []
+    roles = vocab.get("roles") or []
+    if not words or not roles:
+        raise BuildError("the source carries no `vocabulary` with both `words` and `roles`, so the "
+                         "shared words stand undefined on every page built from it")
+    out = ["## The words on this page", ""]
+    note = vocab.get("note", "")
+    if note:
+        out.extend([note, ""])
+    for entry in words:
+        out.append("- **%s** — %s." % (entry["word"], entry["definition"].rstrip(".")))
+    out.append("")
+    out.append("Five roles appear wherever these rules are discussed.")
+    out.append("")
+    for entry in roles:
+        out.append("- **%s** — %s." % (entry["role"], entry["definition"].rstrip(".")))
+    out.append("")
+    closing = vocab.get("closing", "")
+    if closing:
+        out.extend([closing, ""])
+    return out
+
+
 def render_surfaces(data, rules):
     """The six surfaces defined, the block rule, and the roster of rules binding each surface."""
     out = ["## The surfaces, and which rules bind each one", ""]
@@ -493,6 +539,7 @@ def build_doc(data):
                "and the gate `guardrails/check-language-rules.py` reds a page that has drifted from the "
                "source." % SOURCE_REL)
     out.append("")
+    out.extend(render_vocabulary(data))
     out.extend(render_surfaces(data, rules))
     out.extend(render_legend(
         data,
@@ -682,6 +729,7 @@ def build_coverage(data):
                "`scripts/gen-language-consumers.py`, and the gate `guardrails/check-language-rules.py` "
                "reds a page that has drifted from the source." % SOURCE_REL)
     out.append("")
+    out.extend(render_vocabulary(data))
     out.extend(render_legend(
         data,
         "A path written as `~/...` names the reader's own `.claude` tree, which the package ships to "
@@ -704,6 +752,21 @@ def build(data):
     outputs = {LAWS_REL: laws_text(laws), DOC_REL: build_doc(data), COVERAGE_REL: build_coverage(data)}
     validate(outputs, data)
     return outputs
+
+
+def build_blocks(data):
+    """The spliced blocks as {relative path: block body}, markers excluded."""
+    return {RECORD_REL: "\n".join(render_vocabulary(data)).rstrip("\n")}
+
+
+def splice(text, block, rel):
+    """`text` with the marked block replaced by `block`. Raises BuildError when the markers are gone."""
+    start = text.find(BLOCK_OPEN)
+    end = text.find(BLOCK_CLOSE)
+    if start < 0 or end < 0 or end < start:
+        raise BuildError("%s carries no `%s` … `%s` pair, so the shared words have nowhere to land"
+                         % (rel, BLOCK_OPEN, BLOCK_CLOSE))
+    return "%s%s\n\n%s\n\n%s" % (text[:start], BLOCK_OPEN, block, text[end:])
 
 
 def validate(outputs, data):
@@ -743,6 +806,23 @@ def validate(outputs, data):
                 raise BuildError("%s carries no entry for rule %s" % (rel, rule["id"]))
 
 
+def prepare_spliced(blocks, out_dir):
+    """The spliced pages as whole texts, built in memory before anything is written.
+
+    A spliced target absent under `out_dir` is skipped, which is what lets the suite build into a
+    scratch directory carrying no hand-written pages. A target that is present and has lost its
+    markers raises, so nothing is written at all.
+    """
+    prepared = {}
+    for rel, block in blocks.items():
+        path = os.path.join(out_dir, rel)
+        if not os.path.exists(path):
+            continue
+        with open(path, encoding="utf-8") as f:
+            prepared[rel] = splice(f.read(), block, rel)
+    return prepared
+
+
 def write(outputs, out_dir):
     written = []
     for rel, text in outputs.items():
@@ -762,6 +842,7 @@ def main(argv):
     try:
         data = load_source(args.source)
         outputs = build(data)
+        outputs.update(prepare_spliced(build_blocks(data), args.out_dir))
     except BuildError as e:
         print("%s: nothing written — %s" % (CHECK, e))
         return 1
