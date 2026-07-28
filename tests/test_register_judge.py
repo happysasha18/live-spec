@@ -118,15 +118,17 @@ def test_universal_law_carries_the_bare_code_class():
 
 def test_renumber_laws_makes_a_single_sequence():
     """A universal block joined to a personal overlay (each numbered from its own base) renumbers to one
-    unbroken 1..N sequence — no duplicate number for the judge to mis-cite. The universal law carries four
-    classes (scissors, bare-code, grading-worth, unglossed-term), so universal(4) + personal(2) = 1..6."""
+    unbroken 1..N sequence, so the judge cites no duplicate number. The universal block's law count is
+    read from the block itself: it is generated from the rule home, and a rule added to the chat surface
+    raises it. Pinning the count here once red-ed this test for a rule that had simply been added."""
+    universal_count = len(re.findall(r"LAW \d+ —", core.UNIVERSAL_CHAT_LAW))
+    assert universal_count >= 4, "the universal chat law lost laws: %d" % universal_count
     personal = "LAW 2 — synthetic personal one.\n\nLAW 3 — synthetic personal two."
     combined = core.UNIVERSAL_CHAT_LAW + "\n\n" + personal
-    out = core.renumber_laws(combined)
-    heads = re.findall(r"LAW (\d+) —", out)
-    assert heads == ["1", "2", "3", "4", "5", "6"], heads
-    # the universal block alone (four laws) renumbers to exactly 1..4
-    assert re.findall(r"LAW (\d+) —", core.renumber_laws(core.UNIVERSAL_CHAT_LAW)) == ["1", "2", "3", "4"]
+    heads = re.findall(r"LAW (\d+) —", core.renumber_laws(combined))
+    assert heads == [str(n) for n in range(1, universal_count + 3)], heads
+    alone = re.findall(r"LAW (\d+) —", core.renumber_laws(core.UNIVERSAL_CHAT_LAW))
+    assert alone == [str(n) for n in range(1, universal_count + 1)], alone
 
 
 def test_chat_law_body_is_sequentially_numbered():

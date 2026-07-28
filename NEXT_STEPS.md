@@ -13,7 +13,15 @@ this work moves.
 
 Everything else in this project waits. Alexander's word, 2026-07-28 morning.
 
-Step one is the ordered list of requirements, then batch one. The plan explains why no new script is built first.
+**Before batch one, finish the audit skill.** His direction, 2026-07-28 ~09:00: every law lives in the
+audit skill, each law stated as a CLASS of mistake with examples under it, and the skill then applies to
+the spec. A list of words is the wrong shape for a law: words keep arriving, and each language has its
+own. Two pieces of that are done — the skill now prints all 41 human-prose rules out of the one rule
+file between markers, and the rule against a coined word is wired into the model that reads chat by
+meaning. What remains: read every law in the skill and make sure it states a class with examples, and
+make the skill usable on a spec section.
+
+Then the ordered list of requirements, then batch one. The plan explains why no new script is built.
 
 ## How we got here
 

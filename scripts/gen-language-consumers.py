@@ -26,12 +26,16 @@ per reader, and the rule text the judging model reads:
     matches (`hooks/register_judge_core.py` renumbers on it), so the marker stays as it is while the
     prose around it calls these rules.
 
-It also owns one BLOCK inside a hand-written page:
+It also owns one BLOCK inside each of two hand-written pages:
 
   - `docs/language-defects.md` — the record of where the rules came from. Its prose is its own; the
     shared words and roles it is written in stand between the `generated:vocabulary` markers and are
     rewritten on every run. A cold reader is handed one page and cannot follow a pointer to another,
     so a word two pages share is defined on both, out of the one home.
+  - `skills/text-audit/SKILL.md` — the audit skill. Its procedure is its own; the rules it holds a
+    text to stand between the `generated:human-prose-rules` markers. The skill ships to a host and
+    the rule home stays behind, so the skill carries the rules with it and still has one home for
+    them. Until 2026-07-28 the skill stated seven of these rules again in its own words.
 
 WHAT IT READS. `guardrails/language-rules.json`, plus the config files a rule's `lists` field names:
 a list entry carrying `source` and `key` is read out of that JSON at build time, so a list a rule
@@ -77,9 +81,21 @@ WORKED_EXAMPLE_REL = "docs/language-worked-example.md"
 # holds every word it uses. A page carrying such a block is a SPLICED consumer: the generator owns
 # what stands between the markers and touches nothing else in the file.
 RECORD_REL = "docs/language-defects.md"
-BLOCK_OPEN = "<!-- generated:vocabulary — scripts/gen-language-consumers.py owns the block below -->"
-BLOCK_CLOSE = "<!-- /generated:vocabulary -->"
-SPLICED = (RECORD_REL,)
+# The audit skill, which ships to a host that installs the pack. The rule home stays behind, so the
+# skill carries the rules a human-prose audit holds a text to, printed here out of that home.
+AUDIT_SKILL_REL = "skills/text-audit/SKILL.md"
+BLOCK_OPEN_FMT = "<!-- generated:%s — scripts/gen-language-consumers.py owns the block below -->"
+BLOCK_CLOSE_FMT = "<!-- /generated:%s -->"
+# Each spliced page and the block it lends the generator.
+SPLICED = {RECORD_REL: "vocabulary", AUDIT_SKILL_REL: "human-prose-rules"}
+
+
+def block_open(name):
+    return BLOCK_OPEN_FMT % name
+
+
+def block_close(name):
+    return BLOCK_CLOSE_FMT % name
 
 # The surface names the source's rules bind to, in the order a reader meets them. This tuple is the
 # list's one home: the gate `guardrails/check-language-rules.py` imports it, so the list stays
@@ -754,19 +770,41 @@ def build(data):
     return outputs
 
 
+def render_human_prose_rules(data):
+    """Every rule binding human-prose, for the audit skill that ships without the rule home."""
+    rules = [r for r in data["rules"] if "human-prose" in r["surfaces"]]
+    if not rules:
+        raise BuildError("no rule binds the human-prose surface, so the audit skill would ship ruleless")
+    out = ["## The rules it holds a text to", "",
+           "These are every rule binding human-prose. They are printed here out of `%s`, which is where "
+           "each one is edited. A change made in this block is overwritten by the next run of "
+           "`scripts/gen-language-consumers.py`." % SOURCE_REL, "",
+           "Each line gives the rule, then the question to ask of a sentence." , ""]
+    for rule in rules:
+        out.append("- **%s** — %s *Ask:* %s (`%s`)"
+                   % (rule["name"], sentence(rule["rule"]), rule["reader_test"], rule["id"]))
+    out.append("")
+    return out
+
+
 def build_blocks(data):
     """The spliced blocks as {relative path: block body}, markers excluded."""
-    return {RECORD_REL: "\n".join(render_vocabulary(data)).rstrip("\n")}
+    return {
+        RECORD_REL: "\n".join(render_vocabulary(data)).rstrip("\n"),
+        AUDIT_SKILL_REL: "\n".join(render_human_prose_rules(data)).rstrip("\n"),
+    }
 
 
 def splice(text, block, rel):
     """`text` with the marked block replaced by `block`. Raises BuildError when the markers are gone."""
-    start = text.find(BLOCK_OPEN)
-    end = text.find(BLOCK_CLOSE)
+    name = SPLICED[rel]
+    opener, closer = block_open(name), block_close(name)
+    start = text.find(opener)
+    end = text.find(closer)
     if start < 0 or end < 0 or end < start:
-        raise BuildError("%s carries no `%s` … `%s` pair, so the shared words have nowhere to land"
-                         % (rel, BLOCK_OPEN, BLOCK_CLOSE))
-    return "%s%s\n\n%s\n\n%s" % (text[:start], BLOCK_OPEN, block, text[end:])
+        raise BuildError("%s carries no `%s` … `%s` pair, so its generated block has nowhere to land"
+                         % (rel, opener, closer))
+    return "%s%s\n\n%s\n\n%s" % (text[:start], opener, block, text[end:])
 
 
 def validate(outputs, data):

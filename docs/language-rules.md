@@ -40,37 +40,37 @@ A surface is a KIND of text, not a file, and one file carries several. The numbe
 
 The numbered requirements and acceptance criteria of `PRODUCT_SPEC.md`, and the same numbered shape in `ARCHITECTURE.md` and `TEST_MATRIX.md`. A machine reads this text beside the person. The prose paragraphs in those same files are human-prose. Example: Requirement 297 of `PRODUCT_SPEC.md`, and each acceptance criterion under it.
 
-Binds 43 of the 54 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r08 · r09 · r10 · r11 · r12 · r15 · r18 · r19 · r20 · r21 · r23 · r24 · r26 · r27 · r29 · r30 · r31 · r32 · r33 · r34 · r35 · r36 · r37 · r39 · r40 · r41 · r43 · r44 · r45 · r53 · r54 · r55 · r56 · r61 · r62 · r63.
+Binds 44 of the 55 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r08 · r09 · r10 · r11 · r12 · r15 · r18 · r19 · r20 · r21 · r23 · r24 · r26 · r27 · r29 · r30 · r31 · r32 · r33 · r34 · r35 · r36 · r37 · r39 · r40 · r41 · r43 · r44 · r45 · r53 · r54 · r55 · r56 · r61 · r62 · r63 · r64.
 
 ### human-prose
 
 Text a person reads to understand something or to decide something: `README.md`, `OVERVIEW.md`, a decision page, a report, a skill's own body, a documentation page, and the prose paragraphs inside a spec. A documentation page is human-prose, and it carries `artifact` as well once it is published outside the project. Example: `README.md`, and this page.
 
-Binds 40 of the 54 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r08 · r09 · r10 · r11 · r12 · r13 · r14 · r15 · r18 · r20 · r23 · r25 · r26 · r27 · r32 · r33 · r39 · r41 · r43 · r44 · r45 · r46 · r48 · r49 · r50 · r52 · r53 · r54 · r56 · r57 · r61 · r62 · r63.
+Binds 41 of the 55 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r08 · r09 · r10 · r11 · r12 · r13 · r14 · r15 · r18 · r20 · r23 · r25 · r26 · r27 · r32 · r33 · r39 · r41 · r43 · r44 · r45 · r46 · r48 · r49 · r50 · r52 · r53 · r54 · r56 · r57 · r61 · r62 · r63 · r64.
 
 ### chat
 
 A message the agent sends the person in conversation, including the narration between tool calls — the checkers read every assistant message since the person's last turn, not the final reply alone. Example: a reply in a working session.
 
-Binds 27 of the 54 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r10 · r11 · r12 · r13 · r14 · r15 · r18 · r25 · r26 · r43 · r46 · r47 · r48 · r49 · r50 · r51 · r52 · r61 · r62 · r63.
+Binds 28 of the 55 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r10 · r11 · r12 · r13 · r14 · r15 · r18 · r25 · r26 · r27 · r43 · r46 · r47 · r48 · r49 · r50 · r51 · r52 · r61 · r62 · r63.
 
 ### artifact
 
 A page or file published to someone outside the project: a rendered page, product copy, a public README, a marketing text. Example: the project's public README as it stands on its repository page.
 
-Binds 44 of the 54 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r08 · r09 · r10 · r11 · r12 · r13 · r14 · r15 · r18 · r19 · r20 · r23 · r25 · r26 · r27 · r29 · r30 · r31 · r32 · r33 · r34 · r39 · r40 · r41 · r43 · r44 · r45 · r46 · r50 · r53 · r54 · r55 · r56 · r57 · r61 · r62 · r63.
+Binds 45 of the 55 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r08 · r09 · r10 · r11 · r12 · r13 · r14 · r15 · r18 · r19 · r20 · r23 · r25 · r26 · r27 · r29 · r30 · r31 · r32 · r33 · r34 · r39 · r40 · r41 · r43 · r44 · r45 · r46 · r50 · r53 · r54 · r55 · r56 · r57 · r61 · r62 · r63 · r64.
 
 ### commit
 
 A commit message: its subject line and its body. Example: the message on one commit.
 
-Binds 5 of the 54 rules: r10 · r12 · r18 · r19 · r61.
+Binds 6 of the 55 rules: r10 · r12 · r18 · r19 · r27 · r61.
 
 ### worker-brief
 
 The text one agent hands another as its instructions. Example: the brief a session writes when it starts a background worker.
 
-Binds 8 of the 54 rules: r10 · r12 · r13 · r14 · r15 · r18 · r48 · r61.
+Binds 9 of the 55 rules: r10 · r12 · r13 · r14 · r15 · r18 · r27 · r48 · r61.
 
 ## The words these pages use
 
@@ -102,7 +102,7 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 ### r01 — an ordinary word carrying a private project meaning
 
-**Rule.** A word keeps its everyday meaning, and a term this project needs is defined in plain words at its first use — picture first, term second — then reused unchanged, holding one glossary entry that the body then uses with no definition attached.
+**Rule.** A word keeps its everyday meaning. A term this project needs holds one glossary entry, written in plain words. The body then uses that term unchanged, with no definition attached.
 
 **Reader test.** Would a person outside this project recognize this word, or does the text gloss it in plain words where it first appears?
 
@@ -112,7 +112,7 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 ### r02 — a coined, loan-translated, or respelled word standing where a plain standard word exists
 
-**Rule.** Where the industry has a word, the text writes the industry's word. A word this project coined is replaced by the standard term or defined on the page, it is never loan-translated word for word into the reader's own language, and it is never respelled in the reader's alphabet.
+**Rule.** Where the industry has a word, the text writes the industry's word. A term this project coined is replaced by the standard word, or defined where it first appears. In the reader's own language, a term is written as a real word of that language.
 
 **Reader test.** Does a standard word already name this thing, and is the word here that standard word — a real word of the reader's own language, carrying the meaning this project gives it?
 
@@ -159,7 +159,7 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 ### r03 — a name stacking two nouns with no relation between them
 
-**Rule.** A name holds one noun, and where two nouns must appear together a verb or a preposition between them carries the relation.
+**Rule.** A name holds one noun. Where two nouns belong together, a verb or a preposition between them carries the relation.
 
 **Reader test.** Does this name run two nouns together, and can a reader say how the second relates to the first?
 
@@ -181,7 +181,7 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 ### r05 — a predicate applied to a subject that cannot carry it
 
-**Rule.** A verb or an adjective attaches only to a subject that can carry it, and where a thing cannot carry it the sentence names the actor that can: a person, a script, a hook, a model. Judging this is a reading of meaning, and a list of banned verbs covers only the cases someone already met.
+**Rule.** A verb or an adjective attaches to a subject that can carry it. Where the subject cannot act, the sentence names the actor that can: a person, a script, a hook, or a model.
 
 **Reader test.** Can the thing this sentence names as its subject perform this verb, or hold this quality?
 
@@ -200,7 +200,7 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 ### r06 — a number standing with no ground
 
-**Rule.** Every number carries what it counts, what it is compared against, and which direction is better, and a number that was simply chosen says so.
+**Rule.** Every number says what it counts, what it is compared against, and which direction is better. A number that was simply chosen says that it was chosen.
 
 **Reader test.** Can a reader say what this number is measured against and which way is better?
 
@@ -208,7 +208,7 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 ### r07 — a set named by a count, a pointer, or a position instead of given
 
-**Rule.** A sentence that depends on a set gives the set, or points by name to the one place that holds it, and it names a part of a set by what that part's members are rather than by a count, a pointer, or a position.
+**Rule.** A sentence that depends on a set gives that set, or points by name to the one place holding it. A part of a set is named by what its members are.
 
 **Reader test.** Can a person who reads this sentence alone name the members of the set it points at?
 
@@ -223,7 +223,7 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 ### r08 — a sentence carrying more than one rule, running past its word cap, or piling up clauses
 
-**Rule.** One sentence carries one rule and no definitions, it stays under the word cap for its surface, and it carries one clause of subordination at most with no participial pile-up. A sequence of steps or a set of parallel parts is written as a bulleted or numbered list under a one-line lead, one part per line.
+**Rule.** One sentence carries one rule and no definitions. It stays under the word cap for its surface, and it holds at most one subordinate clause.
 
 **Reader test.** Does this sentence state one rule a reader could cite on its own, stay under the cap for its surface, and hold its subject in view from its first word to its last?
 
@@ -239,7 +239,7 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 ### r09 — a text breaking a rule it states
 
-**Rule.** A text does not ship while it contradicts a rule it states, since the sentence carrying a rule is the first test of that rule.
+**Rule.** A text ships once it obeys every rule it states. The sentence stating a rule is the first place to check that rule.
 
 **Reader test.** Does the sentence stating this rule obey the rule it states?
 
@@ -247,7 +247,7 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 ### r10 — a thing named by denying its neighbour
 
-**Rule.** A sentence says what a thing is in its own words, and never names it by denying a neighbour; a boundary worth naming gets its own plain sentence.
+**Rule.** A sentence says what a thing is, in its own words. A boundary worth naming gets its own plain sentence.
 
 **Reader test.** Does the denied half give the reader anything the reader did not already have?
 
@@ -267,7 +267,7 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 ### r11 — an internal code leading a sentence to the reader
 
-**Rule.** Plain words carry the meaning and an internal code trails: in chat it sits in parentheses at the sentence's end, and in a document it sits in square brackets at the line's end.
+**Rule.** Plain words carry the meaning, and an internal code trails. In chat the code sits in parentheses at the sentence's end. In a document it sits in square brackets at the line's end.
 
 **Reader test.** Does the sentence still carry its meaning with the code removed, and does the code stand anywhere other than at the end?
 
@@ -277,7 +277,7 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 ### r12 — a word grading how important or how good a thing is
 
-**Rule.** A text states what a thing is or does and lets the reader weigh it, with no word grading importance or quality in either direction unless a concrete fact stands beside it.
+**Rule.** A text states what a thing is or does, and lets the reader weigh it. A word grading importance or quality stands only beside a concrete fact.
 
 **Reader test.** Does this sentence tell the reader how much to care, rather than what happened?
 
@@ -285,7 +285,7 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 ### r13 — a sentence grading the person, or grading the writer's own act
 
-**Rule.** A remark from the person is answered rather than graded, and the text never certifies its own honesty, directness, or rigour.
+**Rule.** A remark from the person is answered, and the answer says what follows from it. A text lets its own honesty and rigour show through what it reports.
 
 **Reader test.** Does this sentence carry a fact, or a verdict on the person's remark or on the writer's own work?
 
@@ -293,7 +293,7 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 ### r14 — a sentence carrying no information
 
-**Rule.** Every sentence shown to the person advances the finding, the decision, or the action, and a sentence that only performs a stance, prefaces, restates, softens, or ceremonially opens or closes is cut before sending. The ban is on a sentence carrying no fact of its own; a sentence that carries a fact the reader would otherwise lose stays, however short.
+**Rule.** Every sentence shown to the person advances the finding, the decision, or the action. A sentence carrying a fact the reader would otherwise lose stays, however short.
 
 **Reader test.** Would the reader lose a fact if this sentence were deleted?
 
@@ -305,7 +305,7 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 ### r15 — a word inflating a statement while adding nothing
 
-**Rule.** A word or phrase that inflates a statement while adding no information is cut, and a phrase whose deletion changes nothing is deleted.
+**Rule.** A word earns its place by adding information. A phrase whose deletion changes nothing is deleted.
 
 **Reader test.** Does removing this word change what the sentence says?
 
@@ -343,7 +343,7 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 ### r19 — an owner or personal name inside a shipped artifact
 
-**Rule.** A shipped artifact carries no owner or personal name in a requirement.
+**Rule.** A shipped requirement names roles and components. A person's name lives in the journal.
 
 **Reader test.** Does this line name a person where it should name a role or an actor?
 
@@ -365,7 +365,7 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 ### r21 — a domain noun with no glossary entry, or an entry no line uses
 
-**Rule.** Every domain noun the document uses holds one one-sentence glossary entry, defined once under one name, and every entry is used by the body.
+**Rule.** Every domain noun the document uses holds one glossary entry of one sentence, defined once under one name. Every entry is used by the body.
 
 **Reader test.** Does the glossary define this noun once, and does the body use every entry the glossary holds?
 
@@ -375,7 +375,7 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 ### r23 — a word standing in all capitals
 
-**Rule.** No word is written in all capitals, and force comes from the declarative statement itself.
+**Rule.** Every word is written in ordinary case. Force comes from the declarative statement itself.
 
 **Reader test.** Is this word in capitals because it is a name the project has defined, or to make the sentence louder?
 
@@ -412,7 +412,7 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 ### r26 — a sentence with no actor, or its action buried in a noun
 
-**Rule.** A rule sentence says who does what and when, in the active voice with a named actor, and it carries its action in a verb rather than in a noun.
+**Rule.** A rule sentence says who does what and when, in the active voice with a named actor. Its action lives in a verb.
 
 **Reader test.** Does this sentence answer who does this, to what, and when, and is its action a verb rather than a noun?
 
@@ -427,17 +427,17 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 ### r27 — an opener saying what a thing is not
 
-**Rule.** A sentence opens with what a thing is, and never defines it by exclusion.
+**Rule.** A sentence opens with what a thing is.
 
 **Reader test.** Does the opening clause say what the thing is before it says what it is not?
 
-**Binds.** spec-body · human-prose · artifact
+**Binds.** spec-body · human-prose · chat · artifact · commit · worker-brief
 
 **Exceptions.** a genuine prohibition stated as a plain imperative; an opener led by a subordinator.
 
 ### r29 — a sentence reassuring or inviting the reader
 
-**Rule.** A normative sentence neither reassures nor invites the reader.
+**Rule.** A normative sentence states the rule, addressed to the actor that must keep it.
 
 **Reader test.** Does this sentence tell the reader how to feel about the rule, rather than state the rule?
 
@@ -480,7 +480,7 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 ### r31 — a birth-story standing inside a normative sentence
 
-**Rule.** A normative body states the mechanism in the present tense, and the date and the case behind a rule live in the journal, the lens record, or a dated prover record.
+**Rule.** A normative body states the mechanism in the present tense. The date and the case behind a rule live in the journal or in a dated record.
 
 **Reader test.** Does this sentence carry a date, a version, or the story of how the rule came to be?
 
@@ -528,7 +528,7 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 ### r34 — a hole in the source closed by an invention
 
-**Rule.** A hole in the source is recorded as a visible `[GAP: what is missing]` line, and behaviour is never invented to close it.
+**Rule.** A hole in the source is recorded as a visible `[GAP: what is missing]` line. That line is the correct output for a real hole.
 
 **Reader test.** Does the text state something no source backs?
 
@@ -536,7 +536,7 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 ### r35 — a term defined in place inside a criterion
 
-**Rule.** A criterion uses a term the glossary already defines, and defines no term in place in a dash-pair aside or a parenthetical.
+**Rule.** A criterion uses a term the glossary already defines.
 
 **Reader test.** Does this aside explain a word, and does the glossary already hold that word?
 
@@ -550,7 +550,7 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 ### r36 — a criterion closing on a phrase with no finite verb
 
-**Rule.** A criterion's closing clause is a finite sentence with its own subject and verb, or it is cut.
+**Rule.** A criterion's closing clause is a full sentence with its own subject and verb.
 
 **Reader test.** Does the clause this criterion ends on have a subject and a verb of its own?
 
@@ -565,7 +565,7 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 ### r37 — a criterion carrying more than one trigger or response
 
-**Rule.** One criterion carries one trigger and one response, and the keywords `when`, `while`, `if`, `then`, and `shall` are set in lowercase italics.
+**Rule.** One criterion carries one trigger and one response. The keywords `when`, `while`, `if`, `then`, and `shall` are set in lowercase italics.
 
 **Reader test.** Can a reader name the single condition and the single consequence this criterion states?
 
@@ -573,7 +573,7 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 ### r39 — a pronoun with no antecedent in its own sentence
 
-**Rule.** `it`, `this`, and `they` stand only with an unambiguous same-sentence antecedent; otherwise the noun is repeated.
+**Rule.** `it`, `this`, and `they` stand with an unambiguous antecedent in the same sentence. Where none stands, the noun is repeated.
 
 **Reader test.** Can a reader say which thing this pronoun points at without looking back a sentence?
 
@@ -581,7 +581,7 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 ### r40 — a conditional leaving a case unaccounted for
 
-**Rule.** A conditional takes the form `If X, the Y does Z`, with an explicit `otherwise` that accounts for every case.
+**Rule.** A conditional takes the form `If X, the Y does Z`, and carries an explicit `otherwise` accounting for every case.
 
 **Reader test.** Does this rule say what happens when the condition does not hold?
 
@@ -589,7 +589,7 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 ### r41 — an example restating a rule that was already clear
 
-**Rule.** An example inside prose a person reads earns its place by resolving an ambiguity, uses realistic values, and one worked case per rule is enough.
+**Rule.** An example earns its place by resolving an ambiguity, and it uses realistic values. One worked case per rule is enough.
 
 **Reader test.** Could a reader have read this rule two ways without this example, and is this prose rather than a rule entry in the rule home?
 
@@ -597,7 +597,7 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 ### r43 — an abstraction standing where a concrete noun would do
 
-**Rule.** The text prefers the concrete noun, and grounds a genuinely required abstraction with a two- or three-item example at its first use.
+**Rule.** The text prefers the concrete noun. A required abstraction is grounded with a two- or three-item example at its first use.
 
 **Reader test.** Can the reader picture the thing this noun names?
 
@@ -617,7 +617,7 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 ### r45 — a long flat run of peer items at one level
 
-**Rule.** A document is a tree of grouped topics, its levels nest without skipping, and a long flat run of peer items is gathered under headed parents.
+**Rule.** A document is a tree of grouped topics, and its levels nest without skipping. A long run of peer items is gathered under headed parents.
 
 **Reader test.** Does this level hold a run of peer items with no grouping over them?
 
@@ -671,7 +671,7 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 ### r50 — a working note handed to the reader unmarked, or a choice with no open answer
 
-**Rule.** Dense working notes are marked so the reader can skip them, carry one idea per line, and every choice offered leaves room for a free-form answer.
+**Rule.** Dense working notes are marked so the reader can skip them, and they carry one idea per line. Every choice offered leaves room for a free-form answer.
 
 **Reader test.** Can the reader tell at a glance which lines are notes, and can they answer outside the options given?
 
@@ -687,7 +687,7 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 ### r52 — a task-list subject written in machine words
 
-**Rule.** The session's task list on the human's screen speaks plain product words in the documents' language, understandable at a glance, and never a bare code chain.
+**Rule.** The session's task list on the human's screen speaks plain product words in the documents' language, understandable at a glance.
 
 **Reader test.** Does a person glancing at this task subject know what is being done?
 
@@ -695,7 +695,7 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 ### r53 — human-facing prose drafted by a writer holding the project's own vocabulary
 
-**Rule.** The first draft of prose a human will read is written by a fresh writer with no package rules loaded, working from a plain brief that states the facts, names the intended reader, and lists the rules binding the surface being drafted. A person who has read the rulebook reviews, revises, and holds that draft to the rules; what they hand over is the brief, not the prose.
+**Rule.** The first draft of prose a human will read is written by a fresh writer with no package rules loaded, working from a plain brief. The brief states the facts, names the intended reader, and lists the rules binding the surface. A person who has read the rulebook then reviews and revises that draft.
 
 **Reader test.** Was this sentence first written by someone who had never read this project's skills, working from a brief?
 
@@ -705,7 +705,7 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 ### r54 — a changed section shipped before two clean cold readings
 
-**Rule.** A changed section is read by fresh readers who carry no project context, until two consecutive reads return zero blocking findings. A finding blocks when the reader could not go on with the text, or would have applied it wrongly; every other finding is one the reader noticed and read past.
+**Rule.** A changed section is read by fresh readers who carry no project context, until two consecutive reads return zero blocking findings. A finding blocks when the reader could not go on, or would have applied the text wrongly.
 
 **Reader test.** Did a reader with no project context read this section and stop nowhere?
 
@@ -717,7 +717,7 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 ### r55 — an anchor, marker, heading, or literal changed by a rewrite
 
-**Rule.** A rewrite leaves anchors, structural marker lines, headings, and the literal classes standing verbatim, and every delta is named and verified.
+**Rule.** A rewrite leaves anchors, marker lines, headings, and literal classes standing verbatim. Every difference is named and verified.
 
 **Reader test.** Does every anchor, heading, number with a unit, backticked path, and quoted sentinel appear exactly as it did before?
 
@@ -754,7 +754,7 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 ### r61 — a defect recorded as examples with no class behind them
 
-**Rule.** When a text stops a reader, the writer names the class of mistake and defines it, and the class is what enters the rule home. Inside a rule entry there, the examples are the recorded evidence that produced the class and the material a pattern list is built from, so an entry carries as many as the class earned.
+**Rule.** When a text stops a reader, the writer names the class of mistake, defines it, and enters that class in the rule home. The examples under an entry are the recorded evidence that produced the class.
 
 **Reader test.** Does the entry state what the mistake IS, so a writer can find an instance nobody has met yet?
 
@@ -770,7 +770,7 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 ### r63 — a thing named by its number, so the reader must leave the sentence to learn what it is
 
-**Rule.** A sentence names a thing by what it is, and its number trails at the line's end. Writing `requirement 233`, `row 505`, `the second case`, or `the four laws` sends the reader away to look the thing up before the sentence can be read.
+**Rule.** A sentence names a thing by what it is, and its number trails at the line's end.
 
 **Reader test.** Does this sentence say what the thing IS, or does it give only a number, a position, or a count that the reader must go and resolve?
 
@@ -783,6 +783,24 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 - `the four laws` → `the four laws — worker-routing, lean-orchestrator, pull-unblocked-work, and classify-the-subtask`
 
 **Exceptions.** a number trailing at a line's end as an anchor, which is what rule r11 already governs; a numbered step inside a procedure the reader is currently walking.
+
+### r64 — parallel items run together inside one sentence
+
+**Rule.** Two or more parallel items become a bulleted or numbered list under a one-line lead, one item per line.
+
+**Reader test.** Does this sentence run several items together where a list would put one on each line?
+
+**Binds.** spec-body · human-prose · artifact
+
+**Examples.**
+
+- `The system shall refuse a branch behind main's tip, a lane with no open row, a host with no worktree line, and a lane past the cap.` → `The system shall refuse each of the four faults below.
+- a branch behind main's tip;
+- a lane with no open row;
+- a host with no worktree line;
+- a lane past the cap.`
+
+**Exceptions.** two items a single short clause carries without strain.
 
 ## An index of questions
 

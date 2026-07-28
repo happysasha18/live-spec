@@ -187,32 +187,63 @@ README, an article, or a piece of copy. Inventing an answer to close a cold read
 this skill forbids, because an invented definition reads clean to the next reader while the text now states
 something no source backs.
 
-## The register it holds a text to
+<!-- generated:human-prose-rules — scripts/gen-language-consumers.py owns the block below -->
 
-The audit holds every text to one register. A text that meets it reads cleanly for a stranger on the first
-pass.
+## The rules it holds a text to
 
-- **One idea per sentence.** A sentence carries a single fact. A sentence packing three parallel facts is
-  split, or the facts become a list.
-- **Plain words.** The text speaks in ordinary language and in the product's own terms. It carries no
-  internal handle doing the talking — no code, no coined metaphor a reader never chose to learn.
-- **Every term defined at first use.** A domain noun meets its one-sentence definition before its first
-  working use. A coined word is replaced by a defined standard term, or it is defined on the page.
-- **Positive framing.** The text says what a thing is and what happens. The contrast-by-denial frame that
-  names a thing by denying its neighbour — "X, not Y", an em-dash or comma leading into the denied
-  alternative — is replaced by a sentence that states what the thing is in its own words. Genuine
-  prohibitions stay, written as a plain imperative.
-- **No significance inflation, in either direction.** The text states a result at its true size. It does not
-  dress a small change as a breakthrough, and it does not shrink a real one. It carries no self-praise for
-  its own honesty or directness.
-- **Native short-SVO English, or the text's own language.** Sentences run subject-verb-object and stay
-  short. A text written in another language holds to the same shape in that language.
-- **Answer-first ordering, for a text that answers a question.** A text whose job is to answer opens with
-  the answer, then gives the ground. A reader gets the outcome before the reasoning.
+These are every rule binding human-prose. They are printed here out of `guardrails/language-rules.json`, which is where each one is edited. A change made in this block is overwritten by the next run of `scripts/gen-language-consumers.py`.
 
-This register is the same one the pack's communicator and spec-author hold their prose to; its full home is
-`skills/communicator/references/writing-register.md`. This skill states the working subset it audits
-against.
+Each line gives the rule, then the question to ask of a sentence.
+
+- **an ordinary word carrying a private project meaning** — A word keeps its everyday meaning. A term this project needs holds one glossary entry, written in plain words. The body then uses that term unchanged, with no definition attached. *Ask:* Would a person outside this project recognize this word, or does the text gloss it in plain words where it first appears? (`r01`)
+- **a coined, loan-translated, or respelled word standing where a plain standard word exists** — Where the industry has a word, the text writes the industry's word. A term this project coined is replaced by the standard word, or defined where it first appears. In the reader's own language, a term is written as a real word of that language. *Ask:* Does a standard word already name this thing, and is the word here that standard word — a real word of the reader's own language, carrying the meaning this project gives it? (`r02`)
+- **a name stacking two nouns with no relation between them** — A name holds one noun. Where two nouns belong together, a verb or a preposition between them carries the relation. *Ask:* Does this name run two nouns together, and can a reader say how the second relates to the first? (`r03`)
+- **one thing answering to a second name** — One thing carries one name in every sentence, from its first use onward. *Ask:* Does any thing named here appear under a different word somewhere else in this document or its neighbours? (`r04`)
+- **a predicate applied to a subject that cannot carry it** — A verb or an adjective attaches to a subject that can carry it. Where the subject cannot act, the sentence names the actor that can: a person, a script, a hook, or a model. *Ask:* Can the thing this sentence names as its subject perform this verb, or hold this quality? (`r05`)
+- **a number standing with no ground** — Every number says what it counts, what it is compared against, and which direction is better. A number that was simply chosen says that it was chosen. *Ask:* Can a reader say what this number is measured against and which way is better? (`r06`)
+- **a set named by a count, a pointer, or a position instead of given** — A sentence that depends on a set gives that set, or points by name to the one place holding it. A part of a set is named by what its members are. *Ask:* Can a person who reads this sentence alone name the members of the set it points at? (`r07`)
+- **a sentence carrying more than one rule, running past its word cap, or piling up clauses** — One sentence carries one rule and no definitions. It stays under the word cap for its surface, and it holds at most one subordinate clause. *Ask:* Does this sentence state one rule a reader could cite on its own, stay under the cap for its surface, and hold its subject in view from its first word to its last? (`r08`)
+- **a text breaking a rule it states** — A text ships once it obeys every rule it states. The sentence stating a rule is the first place to check that rule. *Ask:* Does the sentence stating this rule obey the rule it states? (`r09`)
+- **a thing named by denying its neighbour** — A sentence says what a thing is, in its own words. A boundary worth naming gets its own plain sentence. *Ask:* Does the denied half give the reader anything the reader did not already have? (`r10`)
+- **an internal code leading a sentence to the reader** — Plain words carry the meaning, and an internal code trails. In chat the code sits in parentheses at the sentence's end. In a document it sits in square brackets at the line's end. *Ask:* Does the sentence still carry its meaning with the code removed, and does the code stand anywhere other than at the end? (`r11`)
+- **a word grading how important or how good a thing is** — A text states what a thing is or does, and lets the reader weigh it. A word grading importance or quality stands only beside a concrete fact. *Ask:* Does this sentence tell the reader how much to care, rather than what happened? (`r12`)
+- **a sentence grading the person, or grading the writer's own act** — A remark from the person is answered, and the answer says what follows from it. A text lets its own honesty and rigour show through what it reports. *Ask:* Does this sentence carry a fact, or a verdict on the person's remark or on the writer's own work? (`r13`)
+- **a sentence carrying no information** — Every sentence shown to the person advances the finding, the decision, or the action. A sentence carrying a fact the reader would otherwise lose stays, however short. *Ask:* Would the reader lose a fact if this sentence were deleted? (`r14`)
+- **a word inflating a statement while adding nothing** — A word earns its place by adding information. A phrase whose deletion changes nothing is deleted. *Ask:* Does removing this word change what the sentence says? (`r15`)
+- **the language each surface is written in** — Documents, commits, code, and artifacts are written in English, and conversation runs in the human's pinned language. *Ask:* Is this text in the language its surface is pinned to? (`r18`)
+- **English that reads as compressed or poetic** — English in a document or an artifact reads like a native technical writer: short subject-verb-object sentences, common words, and no poetic compression. *Ask:* Could a native technical writer have written this sentence for an open-source project? (`r20`)
+- **a word standing in all capitals** — Every word is written in ordinary case. Force comes from the declarative statement itself. *Ask:* Is this word in capitals because it is a name the project has defined, or to make the sentence louder? (`r23`)
+- **the person an explanatory sentence speaks in** — Explanatory text addresses the reader as `you` for what a person does, and names the component for what software does. *Ask:* Does this sentence tell the reader what they do, in words spoken to them? (`r25`)
+- **a sentence with no actor, or its action buried in a noun** — A rule sentence says who does what and when, in the active voice with a named actor. Its action lives in a verb. *Ask:* Does this sentence answer who does this, to what, and when, and is its action a verb rather than a noun? (`r26`)
+- **an opener saying what a thing is not** — A sentence opens with what a thing is. *Ask:* Does the opening clause say what the thing is before it says what it is not? (`r27`)
+- **a judgment with no judge and no measure** — Every judgment names its judge and its inputs. *Ask:* Who decides whether this is true, and by what measure? (`r32`)
+- **a relational word leaving its slot empty** — A relational word fills every slot it opens, right where the word stands. *Ask:* Relative to what, by what measure, or else what alternative? (`r33`)
+- **a pronoun with no antecedent in its own sentence** — `it`, `this`, and `they` stand with an unambiguous antecedent in the same sentence. Where none stands, the noun is repeated. *Ask:* Can a reader say which thing this pronoun points at without looking back a sentence? (`r39`)
+- **an example restating a rule that was already clear** — An example earns its place by resolving an ambiguity, and it uses realistic values. One worked case per rule is enough. *Ask:* Could a reader have read this rule two ways without this example, and is this prose rather than a rule entry in the rule home? (`r41`)
+- **an abstraction standing where a concrete noun would do** — The text prefers the concrete noun. A required abstraction is grounded with a two- or three-item example at its first use. *Ask:* Can the reader picture the thing this noun names? (`r43`)
+- **a paragraph carrying more than one point** — One paragraph carries one point, stated in its first sentence, with the rest supporting it. *Ask:* Does a reader who reads only the first sentences of this section still follow it? (`r44`)
+- **a long flat run of peer items at one level** — A document is a tree of grouped topics, and its levels nest without skipping. A long run of peer items is gathered under headed parents. *Ask:* Does this level hold a run of peer items with no grouping over them? (`r45`)
+- **a reply that buries its answer** — A reply opens with the answer — the outcome, the decision, or the finding — in a few lines the reader may stop at, and puts reasoning, evidence, and options underneath. *Ask:* Can the reader stop after the opening block and still hold the answer? (`r46`)
+- **an offer to do work the writer could already derive** — A derivable act is done and reported done, and a work item is parked for the human only after a fresh test of whether it can be derived now. *Ask:* Does this sentence offer to do something the writer already has everything to do? (`r48`)
+- **a mistake expanded into a self-audit paragraph** — A mistake is owned in one line and fixed. *Ask:* Does this passage explain the writer's own failure at more length than the fix takes? (`r49`)
+- **a working note handed to the reader unmarked, or a choice with no open answer** — Dense working notes are marked so the reader can skip them, and they carry one idea per line. Every choice offered leaves room for a free-form answer. *Ask:* Can the reader tell at a glance which lines are notes, and can they answer outside the options given? (`r50`)
+- **a task-list subject written in machine words** — The session's task list on the human's screen speaks plain product words in the documents' language, understandable at a glance. *Ask:* Does a person glancing at this task subject know what is being done? (`r52`)
+- **human-facing prose drafted by a writer holding the project's own vocabulary** — The first draft of prose a human will read is written by a fresh writer with no package rules loaded, working from a plain brief. The brief states the facts, names the intended reader, and lists the rules binding the surface. A person who has read the rulebook then reviews and revises that draft. *Ask:* Was this sentence first written by someone who had never read this project's skills, working from a brief? (`r53`)
+- **a changed section shipped before two clean cold readings** — A changed section is read by fresh readers who carry no project context, until two consecutive reads return zero blocking findings. A finding blocks when the reader could not go on, or would have applied the text wrongly. *Ask:* Did a reader with no project context read this section and stop nowhere? (`r54`)
+- **one fact stated a second time in another place** — One fact lives in one home, and every other place points at that home rather than restating it. *Ask:* Does another place in this project already state this fact? (`r56`)
+- **a phrase the human cut returning in a later draft** — A phrasing the human killed in a review round stays out of every later draft of that artifact, and an approved text takes exactly the correction the human named. *Ask:* Has the human already cut this wording from this artifact? (`r57`)
+- **a defect recorded as examples with no class behind them** — When a text stops a reader, the writer names the class of mistake, defines it, and enters that class in the rule home. The examples under an entry are the recorded evidence that produced the class. *Ask:* Does the entry state what the mistake IS, so a writer can find an instance nobody has met yet? (`r61`)
+- **a sentence open to two readings, or hiding its cause or what it leaves out** — A reader reaches one interpretation of a sentence, sees what causes what, and can tell what the text leaves out. *Ask:* Can a reader read this sentence one way only, name what it makes happen, and say which alternatives it passed over? (`r62`)
+- **a thing named by its number, so the reader must leave the sentence to learn what it is** — A sentence names a thing by what it is, and its number trails at the line's end. *Ask:* Does this sentence say what the thing IS, or does it give only a number, a position, or a count that the reader must go and resolve? (`r63`)
+- **parallel items run together inside one sentence** — Two or more parallel items become a bulleted or numbered list under a one-line lead, one item per line. *Ask:* Does this sentence run several items together where a list would put one on each line? (`r64`)
+
+<!-- /generated:human-prose-rules -->
+
+The rules above are the whole set a human-prose audit holds a text to. They live in one place,
+`guardrails/language-rules.json`, and every page and every checker in the pack is built from it, so
+one edit reaches all of them. The writer's page `docs/language-rules.md` gives each rule with its
+examples, its exceptions, and its thresholds. One short document walked end to end against these
+rules, with the rule named at each fix, stands at `docs/language-worked-example.md`.
 
 ## The skill's own text is held to its register
 

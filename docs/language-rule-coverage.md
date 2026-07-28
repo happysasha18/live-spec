@@ -177,17 +177,17 @@ repair the text from those stops rather than from the one sentence in front of y
 
 **Binds.** spec-body · human-prose · chat · artifact
 
-**Status.** held, armed at session-prompt-hook, manual.
+**Status.** held, armed at session-prompt-hook, manual, session-stop-hook.
 
 **What catches a break of it.**
 
 - **pattern** — partial. Lives at guardrails/check-vocabulary.py and scripts/spec-style-lint.py, both reading guardrails/spec-coinages.json; hooks/midturn-chat-scan.py reading hooks/chat-calques.json; scripts/preshow-register-lint.py. Reach: check-vocabulary.py reads the whole text of one document named on the command line, case-folded and word-boundary matched; spec-style-lint.py reads one file line by line; midturn-chat-scan.py reads every assistant message since the last human turn with fences, inline code, and quoted spans removed, leaving bracketed spans standing because a loan translation inside them still reaches the reader, and it denies each fragment once per session; preshow-register-lint.py adds eight Russian loan-translation patterns and three respelling patterns over any file handed to it.
-- **model** — held. Lives at scripts/preshow-register-lint.py via hooks/register_judge_core.py. Rule text the judging model reads: no machine dialect in a surface a human reads: a word this project coined where the industry already has one, an English internal term loan-translated word for word into the reader's own language (a calque), or an English coinage respelled in the reader's alphabet. Judge by whether an outside reader, never taught this project's private vocabulary, would meet a word as machinery where meaning belongs. A plain industry-standard word passes, and so does an ordinary word that merely happens to appear inside such a coinage.
+- **model** — held. Lives at hooks/register-judge.py via hooks/register_judge_core.py, scripts/preshow-register-lint.py via hooks/register_judge_core.py. Rule text the judging model reads: no machine dialect in a surface a human reads: a word this project coined where the industry already has one, an English internal term loan-translated word for word into the reader's own language (a calque), or an English coinage respelled in the reader's alphabet. Judge by whether an outside reader, never taught this project's private vocabulary, would meet a word as machinery where meaning belongs. A plain industry-standard word passes, and so does an ordinary word that merely happens to appear inside such a coinage.
 - **person** — partial. Reads: whether a standard word exists for a thing the text minted a name for, and a loan translation or a respelling nobody has recorded yet, including a coinage born in the writer's own report.
 
 **Stated before this page, at.** docs/spec-format.md:21, docs/spec-style.md:27, docs/prose-quality-gate-design.md:19, guardrails/spec-coinages.json:2, scripts/spec-style-lint.py:262, ~/.claude/skills/spec-author/SKILL.md:109, ~/.claude/skills/text-audit/SKILL.md:198, ~/.claude/skills/communicator/references/writing-register.md:46, ~/.claude/playbook/personal/profile.md:13, ~/.claude/playbook/personal/profile.md:17, ~/.claude/skills/live-spec-base/SKILL.md:57, ~/.claude/skills/communicator/SKILL.md:264, hooks/chat-law-hook.sh:9, docs/language-defects.md:126, hooks/chat-calques.json, scripts/preshow-register-lint.py:74, ~/.claude/playbook/personal/profile.md:18, scripts/preshow-register-lint.py:96, ~/.claude/skills/communicator/SKILL.md:459
 
-**Notes.** r16, `an internal English term loan-translated into the reader's language`, and r17, `an internal term respelled in the reader's alphabet`, folded into this entry on 2026-07-28 and their ids are retired: one class — a project word reaching the reader where a standard word exists — was split three ways by the form the word happened to take. The word list this entry names was two lists until 2026-07-28: guardrails/spec-coinages.json held six pairs for check-vocabulary.py and scripts/spec-style-lint.py:232 held nine words of its own with no repairs, so a word added to either was invisible to the other reader. They are merged into the one home this entry prints, both readers read it, and the repairs beside the nine were written for this file. midturn-chat-scan.py runs at the PreToolUse event and denies the tool call, so the correction reaches the human inside the turn. The model arm at the pre-show step turns on through PRESHOW_REGISTER_JUDGE and stands off by default (scripts/preshow-register-lint.py:138). hooks/chat-calques.json holds the scanner's patterns for the same fifteen loan translations the examples give, so a word added there needs its pair added here. The profile names three more loan translations — its words for tripwires, for the same incident family, and for a landing — with no repair recorded for any of them, and its list shares no member with hooks/chat-calques.json. A translation after the fact does not repair the sentence; it must be plain the first time. check-vocabulary.py is armed nowhere.
+**Notes.** r16, `an internal English term loan-translated into the reader's language`, and r17, `an internal term respelled in the reader's alphabet`, folded into this entry on 2026-07-28 and their ids are retired: one class — a project word reaching the reader where a standard word exists — was split three ways by the form the word happened to take. The word list this entry names was two lists until 2026-07-28: guardrails/spec-coinages.json held six pairs for check-vocabulary.py and scripts/spec-style-lint.py:232 held nine words of its own with no repairs, so a word added to either was invisible to the other reader. They are merged into the one home this entry prints, both readers read it, and the repairs beside the nine were written for this file. midturn-chat-scan.py runs at the PreToolUse event and denies the tool call, so the correction reaches the human inside the turn. The model arm at the pre-show step turns on through PRESHOW_REGISTER_JUDGE and stands off by default (scripts/preshow-register-lint.py:138). hooks/chat-calques.json holds the scanner's patterns for the same fifteen loan translations the examples give, so a word added there needs its pair added here. The profile names three more loan translations — its words for tripwires, for the same incident family, and for a landing — with no repair recorded for any of them, and its list shares no member with hooks/chat-calques.json. A translation after the fact does not repair the sentence; it must be plain the first time. check-vocabulary.py is armed nowhere. The model arm reached documents alone until 2026-07-28: its only checker was the pre-show lint, which runs over a file, so a coined word spoken in conversation met the pattern list and no meaning read. A list holds the words someone already caught, and three coinages of one morning walked through it, so the turn judge was added here and now reads the chat surface for the whole class.
 
 ### r03 — a name stacking two nouns with no relation between them
 
@@ -235,7 +235,7 @@ repair the text from those stops rather than from the one sentence in front of y
 
 **Stated before this page, at.** nowhere; no file outside the source stated the rule.
 
-**Notes.** r59, `a predicate applied to a thing that cannot carry it`, folded into this entry on 2026-07-28 and its id is retired: r59 widened this rule from verbs to any predicate, and this entry now states the wide form. The verb list stays here as the seed a build would read and as a free first pass over the cases it happens to cover; the claim that a machine reads it left the tree on 2026-07-28. His words (2026-07-27 16:52): «есть вообще такая штука что нужно проверять сам текст на консистентность по common sense что думаешь? Типа применимы ли глаголы/прилагательные к существительным?». His words (2026-07-27 16:57): «Числа не показывают красное! Лови себя сам для начала с этого момента». His words (2026-07-27 17:27): «мне нужно чтобы ты понимал применимость одних слов к другим, не словариком». His earlier example set (2026-07-27 morning): «чашки не флуоренцируют, спеки не входят, проверки не краснеют».
+**Notes.** r59, `a predicate applied to a thing that cannot carry it`, folded into this entry on 2026-07-28 and its id is retired: r59 widened this rule from verbs to any predicate, and this entry now states the wide form. The verb list stays here as the seed a build would read and as a free first pass over the cases it happens to cover; the claim that a machine reads it left the tree on 2026-07-28. His words (2026-07-27 16:52): «есть вообще такая штука что нужно проверять сам текст на консистентность по common sense что думаешь? Типа применимы ли глаголы/прилагательные к существительным?». His words (2026-07-27 16:57): «Числа не показывают красное! Лови себя сам для начала с этого момента». His words (2026-07-27 17:27): «мне нужно чтобы ты понимал применимость одних слов к другим, не словариком». His earlier example set (2026-07-27 morning): «чашки не флуоренцируют, спеки не входят, проверки не краснеют». Judging this is a reading of meaning: a list of banned verbs covers only the cases someone already met. The sentence stating the rule was shortened on 2026-07-28 and this half moved here.
 
 ### r06 — a number standing with no ground
 
@@ -315,7 +315,7 @@ repair the text from those stops rather than from the one sentence in front of y
 
 **Stated before this page, at.** ~/.claude/playbook/personal/profile.md:20, hooks/chat-law-hook.sh:10, hooks/scissors-scan.py:27, ~/.claude/hooks/scissors-personal.json:1, docs/spec-style.md:52, docs/spec-style.md:67, scripts/spec-style-lint.py:122, scripts/spec-style-lint.py:206, docs/spec-format.md:36, docs/prose-quality-gate-design.md:19, docs/spec-compaction-protocol.md:75, ~/.claude/skills/communicator/references/writing-register.md:93, ~/.claude/skills/communicator/SKILL.md:434, ~/.claude/skills/text-audit/SKILL.md:200, ~/.claude/skills/spec-author/SKILL.md:136
 
-**Notes.** The package default carries the exception the model judge states. The owner's profile calls the ban permanent with no exception, which is what personal_override records; ~/.claude/playbook/personal/profile.md:20 and ~/.claude/skills/communicator/SKILL.md:434 hold that form. scripts/spec-style-lint.py:126 hard-codes its own exemptions for `X, not only Y` and for an imperative `use A instead of B`; those exemptions must come from this file instead. The modal words never, no, only, and exactly-one are load-bearing and survive, per docs/spec-compaction-protocol.md:75.
+**Notes.** The package default carries the exception the model judge states. The owner's profile calls the ban permanent with no exception, which is what personal_override records; ~/.claude/playbook/personal/profile.md:20 and ~/.claude/skills/communicator/SKILL.md:434 hold that form. scripts/spec-style-lint.py:126 hard-codes its own exemptions for `X, not only Y` and for an imperative `use A instead of B`; those exemptions must come from this file instead. The modal words never, no, only, and exactly-one are load-bearing and survive, per docs/spec-compaction-protocol.md:75. Positive statement binds every surface, conversation and commit messages and worker briefs included, since each of them is text a reader meets. The surfaces list says so.
 
 ### r11 — an internal code leading a sentence to the reader
 
@@ -379,7 +379,7 @@ repair the text from those stops rather than from the one sentence in front of y
 
 **Stated before this page, at.** ~/.claude/hooks/register-judge-personal.md:1, hooks/register-judge.py:30, hooks/register_judge_core.py:35
 
-**Notes.** This law governs the classes r12, r13, and r15. The two thresholds bind every law the register judge holds: a reply under 120 characters is never judged, and an offence quote under twelve characters is dropped as a hallucination. No prose home states either number, nor that the judge ignores file paths, code, command output, and quoted text. The boundary against r51: a recap of a buried answer repeats words the message already carries, and it carries a fact the reader would otherwise lose, so it informs and this rule does not cut it. What this rule cuts is a sentence carrying no fact at all.
+**Notes.** This law governs the classes r12, r13, and r15. The two thresholds bind every law the register judge holds: a reply under 120 characters is never judged, and an offence quote under twelve characters is dropped as a hallucination. No prose home states either number, nor that the judge ignores file paths, code, command output, and quoted text. The boundary against r51: a recap of a buried answer repeats words the message already carries, and it carries a fact the reader would otherwise lose, so it informs and this rule does not cut it. What this rule cuts is a sentence carrying no fact at all. The sentences this cuts: one that only performs a stance, a preface, a restatement, a softener, and a ceremonial opening or closing. The test is whether the sentence carries a fact of its own. The list moved here from the rule sentence on 2026-07-28.
 
 ### r15 — a word inflating a statement while adding nothing
 
@@ -527,7 +527,7 @@ repair the text from those stops rather than from the one sentence in front of y
 
 ### r27 — an opener saying what a thing is not
 
-**Binds.** spec-body · human-prose · artifact
+**Binds.** spec-body · human-prose · chat · artifact · commit · worker-brief
 
 **Status.** held, armed at manual.
 
@@ -1002,3 +1002,19 @@ repair the text from those stops rather than from the one sentence in front of y
 **Stated before this page, at.** nowhere; no file outside the source stated the rule.
 
 **Notes.** Opened 2026-07-28 by the owner's reading of the readability plan, which listed the rule families and had no entry for this one. It is the sibling of r07, which governs a SET named by its count; this one governs a single thing named by its number, its position, or its count. Both send the reader out of the sentence. No catcher yet: a number in a sentence is ordinary text, and separating a naming use from an anchor needs a reader.
+
+### r64 — parallel items run together inside one sentence
+
+**Binds.** spec-body · human-prose · artifact
+
+**Status.** stated-only, armed at nowhere.
+
+**What catches a break of it.**
+
+- **pattern** — absent.
+- **model** — absent.
+- **person** — absent.
+
+**Stated before this page, at.** docs/spec-format.md
+
+**Notes.** Split out of r08 on 2026-07-28. r08 stated the word cap, the one-rule limit, the subordination limit, and the list form in one sentence, which made the rule against carrying several rules in one sentence carry four.

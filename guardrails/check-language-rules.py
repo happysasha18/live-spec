@@ -276,13 +276,15 @@ def check_block_drift(gen, data, root):
             problems.append("%s is absent at %s, so the block it lends the generator has nowhere to "
                             "stand." % (rel, path))
             continue
-        start = text.find(gen.BLOCK_OPEN)
-        end = text.find(gen.BLOCK_CLOSE)
+        opener = gen.block_open(gen.SPLICED[rel])
+        closer = gen.block_close(gen.SPLICED[rel])
+        start = text.find(opener)
+        end = text.find(closer)
         if start < 0 or end < 0 or end < start:
-            problems.append("%s has lost its generated-block markers, so the shared words it shows a "
-                            "reader answer to nothing; restore the marker pair and rebuild." % rel)
+            problems.append("%s has lost its generated-block markers, so what it shows a reader answers "
+                            "to nothing; restore the marker pair and rebuild." % rel)
             continue
-        standing = text[start + len(gen.BLOCK_OPEN):end].strip("\n")
+        standing = text[start + len(opener):end].strip("\n")
         if standing != block:
             problems.append("the block between the generated-block markers in %s differs from a fresh "
                             "build off the current source — that block is generated, never hand-kept; "
