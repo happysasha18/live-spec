@@ -314,7 +314,7 @@ Each entry names the class of mistake, states the rule, gives the question to as
     - `good question` → `answer it, and say what follows from the answer`
 - **a sentence carrying no information** (`r14`)
   Every sentence shown to the person advances the finding, the decision, or the action. A sentence carrying a fact the reader would otherwise lose stays, however short.
-  *Ask:* Would the reader lose a fact if this sentence were deleted?
+  *Ask:* Does the reader do anything differently because this sentence is here?
     - `Its whole job is to mark where it stopped, what it guessed, and why.` → `deleted, since the two sentences above it already say this`
 - **a word inflating a statement while adding nothing** (`r15`)
   A word earns its place by adding information. A phrase whose deletion changes nothing is deleted.
@@ -424,6 +424,22 @@ Each entry names the class of mistake, states the rule, gives the question to as
   Two or more parallel items become a bulleted or numbered list under a one-line lead, one item per line.
   *Ask:* Does this sentence run several items together where a list would put one on each line?
     - `The system shall refuse a branch behind main's tip, a lane with no open row, a host with no worktree line, and a lane past the cap.` → `The system shall refuse each of the four faults below. - a branch behind main's tip; - a lane with no open row; - a host with no worktree line; - a lane past the cap.`
+- **a rare word standing where an everyday word says the same thing** (`r65`)
+  A sentence takes the everyday word wherever an everyday word carries the meaning. A rare or bookish word stands only where no everyday word says the same thing. A term of the profession stays as it is, and the words around it come down.
+  *Ask:* Would a professional reader whose first language is other than English reach for a dictionary on this word?
+    - `a writer marinated in this project's own vocabulary` → `a writer who has already read this project's rules`
+- **a document written in the register of the message that asked for it** (`r66`)
+  The register of a request settles nothing about the register of the document. A person writes a request however is fastest for them. Every document is written to the rules of its surface, whatever the request looked like.
+  *Ask:* Did this sentence take its tone from the message that asked for the work?
+    - `ok so the gate basically checks the counts and yells when something is off` → `The gate measures every live document and refuses a push where a count stands above its record.`
+- **a defined term standing in a file that is read apart from its definition** (`r67`)
+  A term defined in one home stands in another file only where that file gives its reader a path to the definition. A file read on its own carries the terms it uses, or it names where each one is defined.
+  *Ask:* Reading this file alone, could I reach the definition of this term?
+    - `together with the settings ladder` → `together with the four scopes that settle a setting: the session's live word, the host profile, the personal profile, and the package default`
+- **a placeholder word standing where the thing's own name fits** (`r68`)
+  A sentence carries the name of the thing it is about. A pronoun or a general word stands only where the name would clutter the sentence. A status word stands only where the sentence has already stated the condition behind it.
+  *Ask:* Does this word name the thing, or does the reader have to carry the name in from an earlier sentence?
+    - `This keeps the leading context clear enough to hold the campaign.` → `The leading session then holds enough room to carry the campaign.`
 
 <!-- /generated:human-prose-rules -->
 

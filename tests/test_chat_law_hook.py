@@ -33,7 +33,11 @@ class TestChatLawHookScript(unittest.TestCase):
             "plain product words",          # the language law's positive side
             "trail in parentheses",         # codes never lead
             "wish",                          # narration identity: which wish
-            "station",                       # narration identity: which station
+            "pipeline step",                 # narration identity: which pipeline step
+                                             # (was "station" until 2026-07-28, when the register
+                                             # lint's coinage arm retired the phrase "pipeline
+                                             # station"; the duty is the same — every beat names
+                                             # the step of the pipeline the work stands at)
             "digest",                        # station-end digest
             "10 minutes",                    # the heartbeat threshold
         ):

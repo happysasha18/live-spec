@@ -73,7 +73,9 @@ def test_d2_finding_kind_names_delta_scoped_exception():
 def test_d5_chat_law_hook_carries_reading_discipline():
     # D5: the hook's routing echo now carries base rule 25 / INV-137
     hook = _read("hooks/chat-law-hook.sh")
-    assert "base rule 25 (the reading discipline, SPEC INV-137)" in hook
+    # phrasing moved 2026-07-28 (read 16) from "base rule 25 (the reading discipline, SPEC INV-137)";
+    # the duty is unchanged — the routing echo still names base rule 25 and INV-137 as its home
+    assert "base rule 25 for the reading discipline (SPEC INV-137)" in hook
     assert "dispatched to a reader worker" in hook
 
 
