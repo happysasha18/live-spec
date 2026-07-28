@@ -19,7 +19,7 @@ The loop came out of the spec-format comprehension gate, where a panel of fresh 
 ## What it does
 
 1. **Mechanical lints first** — vocabulary (every term defined at first use), weak relational words with unfilled slots, requirement shape where the text is a spec (context before criteria, one trigger and one response per criterion, a judge and a measure on every judgment), and style and register. A machine settles the cheap classes so the reader spends attention on the ones no machine knows yet.
-2. **A fresh cold reader** — the text goes to a session with zero context on its history, under a stated reader-prompt. It returns the places a stranger stops, each marked blocking or non-blocking. It fixes nothing and guesses no answers.
+2. **A fresh cold reader** — the text goes to a session with zero context on its history, under a stated reader-prompt. It returns the places a stranger stops, each marked blocking or non-blocking. It fixes nothing, and it writes down the guess it made in place of a missing answer.
 3. **Fixes from the source** — each blocking finding is fixed from the material the text already rests on: the source spec, the code, the recorded decision. Where the source holds no answer, the finding is a real hole, recorded as a question for the person. Inventing an answer is the one move the skill forbids.
 4. **Read again, close on two clean reads** — a new stranger reads the fixed text. The loop ends at two consecutive reads with zero blocking findings.
 

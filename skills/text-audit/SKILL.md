@@ -55,7 +55,7 @@ The audit runs in four steps, and the loop closes on a stated condition.
    spends its whole attention on the classes no machine knows yet.
 2. **A fresh cold reader.** Hand the text to a session with zero context on its history, under the
    reader-prompt below. The reader returns the places a stranger stops, each classified blocking or
-   non-blocking. It fixes nothing and guesses no answers; its whole job is to mark where it stopped and why.
+   non-blocking. It fixes nothing, and it writes down the guess it made in place of a missing answer, since that guess shows the writer where the text sent the reader. Its whole job is to mark where it stopped, what it guessed, and why.
 3. **Fixes drawn from the source.** For each blocking finding, write the fix from the material the text
    already rests on — the source spec, the code, the recorded decision, the author's own notes. A term gets
    the definition its source gives it; a relational word gets the reference point its source names. Where the
@@ -144,16 +144,17 @@ Mark every place you stop. A stop is any one of these:
 - a judgment word — broken, worth, better, enough, larger-than — with no stated judge or
   measure.
 
-For each stop, write one entry with four parts:
+For each stop, write one entry with five parts:
 1. the quoted phrase;
 2. where it sits (the heading or the opening words of its paragraph);
 3. what a stranger cannot tell from the page alone;
-4. blocking or non-blocking — blocking means a reader cannot act on or trust the text until
+4. the guess you made in place of the missing answer;
+5. blocking or non-blocking — blocking means a reader cannot act on or trust the text until
    this is answered; non-blocking means the text still reads and the fix would only sharpen
    it.
 
-Do not fix anything. Do not guess the missing answer. Report only where you stopped and why.
-Return the entries as a numbered list. If you stopped nowhere, say so in one line.
+Do not fix anything. Report only where you stopped and why. Return the entries as a numbered
+list. If you stopped nowhere, say so in one line.
 
 At every relational word, ask the three questions and write which one is unanswered: relative
 to what? by what measure? or else what alternatives? A word the list above does not name, that

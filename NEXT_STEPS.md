@@ -20,9 +20,9 @@ meaning; the suite caught three and the prover found four. The readability gate 
 bullets and carries a fifth measure over a criterion's total weight, recorded at 31.
 
 ## TO RESUME, in order
-(1) `docs/language-defects.md` owes two consecutive blind reads with no blocking finding before anyone
-is shown it. The four readings so far, oldest first: 45 stops with 11 blocking, 34 with 8, 27 with 12,
-28 with 6. Round eleven repaired all six, so read nine is owed and read ten after it.
+(1) `docs/language-defects.md` waits on the owner's word about its bar. Nine readings ran overnight and
+the count of blocking stops went 11, 8, 12, 6, 5, 5, 6, 5, 8, so two consecutive clean readings is not
+being approached. The morning report states the case and proposes two readers agreeing on a blocker.
 (2) The reference reads at 33 of the 39 rules that bind a documentation page, applicable with no
 question to the author. The reader named one question per rule for the six that remain, and three of
 those six wait on the three answers below. A third reading measures what the worked example moved.
@@ -34,10 +34,10 @@ renumbers neighbours, so it runs as its own delivery with a record. The list is 
 worker's account.
 
 ## Near queue
-- Rows 510-515 (2026-07-28): 510 a part of a set is named by what its members are · 511 a cross-project
+- Rows 510-516 (2026-07-28): 510 a part of a set is named by what its members are · 511 a cross-project
   finding travels on its own and nothing notices when it stays home · 512 the rotation road reaches one
   document · 513 a checker whose reach is a whole file holds one surface's rule over another's · 514 a
-  rule pinned to a line number that an edit moves · 515 the gate over skill reviews reads the wrong record.
+  rule pinned to a line number that an edit moves · 515 the gate over skill reviews reads the wrong record · 516 the two-clean-readings bar is not approached in nine readings.
 - Rows 484-493 (2026-07-27): 484 the seat declares what it did on its own · 485 a handed-in text is
   edited only where he pointed · 486 a wish taken in says what it resembles · 487 a sentence he could not
   parse is repaired at its source · 488 an engine carries no personal trace · 489 hook proofs · 490 the
@@ -85,7 +85,7 @@ channel + listener · far tier 381, 411, 435.
 
 ## Next free codes
 Next free INV-301 (292-300 taken 2026-07-28), E-36, T-25, M-479 (468-478 taken 2026-07-28), requirement
-302; next ROADMAP row 516 (A-12, B-4, C-2, D-8, S-1, ACT-4 free too).
+302; next ROADMAP row 517 (A-12, B-4, C-2, D-8, S-1, ACT-4 free too).
 
 ## Research in hand
 Direct-protocol research: docs/research/2026-07-17-agent-routing-prior-art.md. The routing experiment's
