@@ -75,6 +75,79 @@ the defect this surface exists to catch. [[wait]]
   Минорную ок.
   ```
 
+- 2026-07-28 ~21:40 — the night's three moves run in this order. Take the worker's report on the
+  chat-law text, install the repaired file, and run the suite. Then make a recorded count refuse to
+  rise. Then commit the prover record, then the rest by name, then push on a green suite. Your words:
+
+  ```text
+  дальше три хода по порядку:
+  1. принять отчёт работника, поставить починенный файл в ~/.claude/hooks/, прогнать суиту
+  2. починить гейт счётчика так, чтобы записанное число отказывалось расти
+  3. закоммитить запись проверяющего, потом остальное по именам, потом пуш на зелёной суите
+  ```
+
+- 2026-07-28 ~21:40 — a worker's prompt is written by a separate clean worker. The seat writes none
+  of them. You settled this earlier the same day, at ~18:06, in an exchange this file does not carry;
+  this turn restates it as standing. Your words:
+
+  ```text
+  правила работы: промпты работникам пишет отдельный чистый работник, не ты.
+  ```
+
+- 2026-07-28 ~21:40 — every clarification you have to ask is a defect in how the pack talks to you.
+  The class behind it goes into `guardrails/language-rules.json`, and it is swept across the whole
+  tree. Your words:
+
+  ```text
+  каждое моё уточнение —
+  это дефект связи, находи класс в guardrails/language-rules.json и выметай его по всему дереву.
+  ```
+
+- 2026-07-28 ~21:40 — the seat lints its own replies before it sends them. Your words:
+
+  ```text
+  свои
+  реплики прогоняй через scripts/preshow-register-lint.py до отправки.
+  ```
+
+- 2026-07-28 ~21:40 — a question the handover parks for you stays yours, and the session leaves it
+  alone. The handover you read at that moment named two questions as waiting. One of them you had
+  answered at ~19:55 the same day, in the entry above. Your words:
+
+  ```text
+  два вопроса ждут меня, они в файле передачи. не начинай их решать сам.
+  ```
+
+- 2026-07-28 ~21:44 — a session that has closed can answer none of the questions it parked for you.
+  This observation opened the night's largest piece of work. Your words:
+
+  ```text
+  я только не понял кто займется вопросами из файла передачи :) потому что та сессия уже закончилась
+  ```
+
+- 2026-07-28 ~21:58 — a fresh agent reads the previous session, always, as a standing process. The
+  reader is cheap by your word. You put it as a proposal and left before the built shape came back to
+  you. It stands in the tree as Requirement 303 and queue row 522. Your words:
+
+  ```text
+  тогда имеет смысл дешевым воркером всегда читать прошлую сессию? как процесс? всегда?
+  ```
+
+- 2026-07-28 ~22:10 — the night runs on clean agents that spawn further clean agents, with the
+  context guarded and without you at the keyboard. The same turn stopped on one phrase of the reply
+  you were reading, `и корень из них первый`, which you called unclear. Your words:
+
+  ```text
+  "и корень из них первый." непонятно. все, я пошел спать. береги контекст спавни агентов чистых которые спавнят еще агентов. что думаешь что сможешь закрыть когда эти агенты закончат работу?
+  ```
+
+- 2026-07-28 ~23:52 — the session report is the table and plan of parameters, filled from concrete
+  checks. Every number in it is real, and each one traces back to a transcript. Your words:
+
+  ```text
+  пс помни что у тебя была таблица и план со всеми параметрами которые ты сказал что будешь постепенно заполнять на базе конкретных проверок! вот это я от тебя и ожидаю когда будет отчет сессии, и что все цифры настоящие! все в транскриптах
+  ```
+
 ## Open — carried, awaiting your word
 <!-- record:open -->
 These are open questions the pack carries with a recommendation, moved here from the old spec body when
