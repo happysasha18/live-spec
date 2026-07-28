@@ -27,7 +27,7 @@ Then the ordered list of requirements, then batch one. The plan explains why no 
 
 **2026-07-27, day.** The rules this project holds its own writing to were spread over 57 files, with 61
 rules, nine of them stated twice with opposite verdicts. They now live in one file,
-`guardrails/language-rules.json`, 54 rules today after seven duplicates were retired and one was opened 2026-07-28.
+`guardrails/language-rules.json`, 55 rules today after seven duplicates were retired and two were opened 2026-07-28.
 `scripts/gen-language-consumers.py` builds every page and every checker's rule text from that one file,
 and `guardrails/check-language-rules.py` refuses any of them drifting from it.
 
@@ -66,7 +66,7 @@ of passes and failures: `python3 -m pytest -q > <scratch>/suite.log 2>&1`, then 
 `python3 scripts/spec-freeze.py --freeze PRODUCT_SPEC.md ARCHITECTURE.md TEST_MATRIX.md --compaction`
 
 **Next free numbers**, so two lanes do not collide: requirement 302, INV-301, E-36, T-25, M-479, and
-queue row 517.
+queue row 519.
 
 ## Standing word from Alexander
 
@@ -79,7 +79,7 @@ queue row 517.
 
 ## Parked until the one task is done
 
-The queue rows stand in `ROADMAP.md`; nothing there is lost. The nearest are 510-516 and 484-493, opened
+The queue rows stand in `ROADMAP.md`; nothing there is lost. The nearest are 510-518 and 484-493, opened
 2026-07-27 and 2026-07-28. Carrying the document format to tlvphotos waits. The onboarding work waits.
 The skill bodies, the reader docs, and the templates, which hold 3143 of the 5429 measured defects, wait
 until the top-level documents are done.
