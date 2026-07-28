@@ -10,13 +10,13 @@ Red proven against HEAD 31a2bb3, where none of these strings exist yet.
 import re
 import unittest
 
-from conftest import read
+from conftest import read_flat
 
 
 class ResumeRederive(unittest.TestCase):
     def test_inv247_spec_clause_stands(self):
         # the requirements-format heading carries no trailing period
-        spec = read("PRODUCT_SPEC.md")
+        spec = read_flat("PRODUCT_SPEC.md")
         title = "A deferred item's own state is re-derived from the code before its work resumes"
         self.assertIn(
             title,
@@ -37,7 +37,7 @@ class ResumeRederive(unittest.TestCase):
         # the old Formal index (with its scenario-name "owner" column, e.g. "Throwing a wish") is
         # gone; the Reference table now carries locations only (SPEC INV-271). Check the index row
         # exists, and that INV-247's own defining requirement is on record as its home.
-        spec = read("PRODUCT_SPEC.md")
+        spec = read_flat("PRODUCT_SPEC.md")
         self.assertIn("| INV-247 |", spec, "no INV-247 row in the Reference table")
         self.assertIn(
             "## Requirement 93: A deferred item's own state is re-derived from the code "
@@ -46,14 +46,14 @@ class ResumeRederive(unittest.TestCase):
         )
 
     def test_inv247_base_rule_states_the_reread(self):
-        skill = read("skills/live-spec-base/SKILL.md")
+        skill = read_flat("skills/live-spec-base/SKILL.md")
         self.assertRegex(
             skill,
             r"34\. \*\*A deferred item's own state is re-derived from the code before its work resumes \(SPEC INV-247\)\.\*\*",
             "base rule 34 does not state the resume re-derivation law",
         )
         # the description's rule count moved with the added rule
-        self.assertIn("thirty-four rules in the body", skill)
+        self.assertIn("thirty-five rules in the body", skill)
         self.assertNotIn("thirty-three rules in the body", skill)
 
     def test_inv247_distinct_from_queue_take_rescan(self):
@@ -63,7 +63,7 @@ class ResumeRederive(unittest.TestCase):
         sentence; distinctness is now structural — two separate, adjacently-numbered requirements
         (92 for the trigger re-scan, 93 for the item's own re-derivation) that cite each other
         where they compose, rather than collapsing into one."""
-        spec = read("PRODUCT_SPEC.md")
+        spec = read_flat("PRODUCT_SPEC.md")
         title = "A deferred item's own state is re-derived from the code before its work resumes"
         self.assertIn(
             "## Requirement 92: Deferred rows are revisited at every queue-take", spec,

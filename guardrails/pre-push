@@ -234,6 +234,12 @@ if ! python3 "$GUARDRAILS/check-doc-findings-bound.py"; then
 fi
 
 echo ""
+echo "-- gate ab: handover provenance (a session handover names the transcript, the extract and the agent that wrote it, SPEC INV-302) --"
+if ! python3 "$GUARDRAILS/check-handover-provenance.py"; then
+  fail=1
+fi
+
+echo ""
 if [ "$fail" -ne 0 ]; then
   echo "PUSH BLOCKED — one or more gates above failed. Fix them and try again."
   exit 1

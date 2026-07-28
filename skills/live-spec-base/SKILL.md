@@ -1,6 +1,6 @@
 ---
 name: live-spec-base
-description: The live-spec pack's shared rulebook and default settings, stated ONCE — the rules every pack skill works by (ask-never-guess, plain words with trailing anchors, one name per surface, one home per fact, checkpoint discipline, the concurrent-edit fence, freshness checks, and more — thirty-four rules in the body) plus the settings ladder of four nested scopes (package defaults → personal profile → host profile → the session's live word). Load it whenever a pack skill (spec-author, product-prover, design-reviewer, build-pipeline, test-author, communicator, feedback-intake, feedback-collector, text-audit, publish) is in use, before a session briefs a worker that will write files, when resolving how the pack should behave for a given human or host (language, proactivity, prover cadence), or when two skills seem to state one rule differently — this file is the normative home; the working skills only reference and elaborate. NOT for sessions outside the pack's work, and never a place to write host- or person-specific values (those live in profiles).
+description: The live-spec pack's shared rulebook and default settings, stated ONCE — the rules every pack skill works by (ask-never-guess, plain words with trailing anchors, one name per surface, one home per fact, checkpoint discipline, the concurrent-edit fence, freshness checks, and more — thirty-five rules in the body) plus the settings ladder of four nested scopes (package defaults → personal profile → host profile → the session's live word). Load it whenever a pack skill (spec-author, product-prover, design-reviewer, build-pipeline, test-author, communicator, feedback-intake, feedback-collector, text-audit, publish) is in use, before a session briefs a worker that will write files, when resolving how the pack should behave for a given human or host (language, proactivity, prover cadence), or when two skills seem to state one rule differently — this file is the normative home; the working skills only reference and elaborate. NOT for sessions outside the pack's work, and never a place to write host- or person-specific values (those live in profiles).
 metadata:
   version: 4.3.0
 ---
@@ -478,6 +478,23 @@ answer to a class is a list, the design is wrong.
    re-reads a deferred row's revisit trigger [SPEC INV-129], this rule re-reads the item's own internals, so
    a session never designs a fix from a stale model of code that has since moved and an item already handled
    is caught before the work restarts. The owner asked the pack to hold it, 2026-07-20.
+
+35. **A session's record is read at both ends by an agent that did not live it (SPEC INV-302).** A session
+   that lived the work reads its own record badly. On 2026-07-28 a session wrote its handover from memory
+   and named a question as waiting for the owner. The owner had answered it earlier the same day. So each
+   end of a session is read by a fresh agent. That agent works from a session extract: the person's own
+   turns, each with its timestamp. `scripts/session-extract.py` pulls those turns out of one transcript.
+   The extract goes to a scratch directory, since a transcript holds private conversation. At the close,
+   the fresh agent writes the session handover from that extract. The session that lived the work writes
+   no handover of its own. A handover says where it was read from in three lines: transcript, extract,
+   written by. `guardrails/check-handover-provenance.py` reds a push whose handover names fewer than all three.
+   At the open, a fresh agent reads the previous session's extract. It lists every decision the person
+   made, each with its timestamp. It compares that list against `DECISIONS.md` and `NEXT_STEPS.md`. A
+   decision missing from both goes to the seat before work starts. The gate reads that provenance
+   for its shape alone. Whether the writing agent was fresh is a fact no machine sees. Rule 33 draws the
+   same line for a release's clean-context review. The opening step stays a discipline the seat holds,
+   since a session's opening writes no committed artifact for a gate to read. The owner asked for this
+   reading as a standing process, 2026-07-28.
 
 
 ## Work that belongs elsewhere

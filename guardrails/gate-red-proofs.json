@@ -104,6 +104,10 @@
     "aa": {
       "proof": "tests/test_doc_findings_bound.py::test_gate_reds_a_cleared_doc_that_regressed",
       "reds": "check-doc-findings-bound"
+    },
+    "ab": {
+      "proof": "tests/test_handover_provenance.py::test_a_handover_with_no_provenance_reds",
+      "reds": "check-handover-provenance"
     }
   },
   "covered": {
