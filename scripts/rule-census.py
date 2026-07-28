@@ -1,0 +1,261 @@
+#!/usr/bin/env python3
+"""rule-census.py — every live document measured against the rules that carry a machine.
+
+WHY IT EXISTS. The rules this project holds its own writing to live in `guardrails/language-rules.json`
+and were applied to one document, the spec's acceptance criteria. The rest of the live documents were
+never measured against them. This script produces the number per document, which is what gives the
+rewrite its order and what seeds the limit that only falls (ROADMAP 148, 460).
+
+WHAT IT MEASURES. Three readings per file, each naming the rules it stands for:
+
+  - `long` — sentences past the human-prose word cap, which is rule r08's `human_prose_flag_above_words`
+    read out of the rule home. A sentence here is a run of prose ended by `.`, `!` or `?`; headings,
+    code fences, tables, and link-only lines are skipped.
+  - `style` — `scripts/spec-style-lint.py --tier full`, whose findings stand for r10 (a thing named by
+    denying its neighbour), r02 (machine jargon), r12 (a grading word), r24-r26 (person), and the
+    caps rule. The script's own JSON record gives the count.
+  - `register` — `scripts/preshow-register-lint.py`, whose patterns stand for r02's coinage,
+    loan-translation and respelling arms and for the affirmation class.
+
+WHAT IT REFUSES. It refuses a file list that comes out empty, since a census of nothing reports clean.
+It names every file it could not read rather than dropping it.
+
+Usage:
+  rule-census.py                       # measure the live set, print the table
+  rule-census.py --out FILE            # also write the table as markdown
+  rule-census.py --json FILE           # also write the counts as JSON, which is the limit's seed
+  rule-census.py PATH [PATH ...]       # measure these files instead of the live set
+Exit 0 once every file is measured; exit 1 when the set is empty or a reading refused.
+Stdlib only.
+"""
+import argparse
+import json
+import os
+import re
+import subprocess
+import sys
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+REPO_ROOT = os.path.dirname(SCRIPT_DIR)
+RULES_PATH = os.path.join(REPO_ROOT, "guardrails", "language-rules.json")
+STYLE_LINT = os.path.join(SCRIPT_DIR, "spec-style-lint.py")
+REGISTER_LINT = os.path.join(SCRIPT_DIR, "preshow-register-lint.py")
+
+CHECK = "rule-census"
+
+# Directories holding a record of something that happened. A record states what was written at the
+# time, so the rules bind it at the moment it is written and never afterwards.
+RECORD_DIRS = (
+    "attic", "prototype", "nonexistent-home", "nonexistent-ci-home",
+    "docs/attic", "docs/queue-archive", "docs/language-reads", "docs/prover", "docs/audit",
+    "docs/design-review", "docs/evals", "docs/skill-review", "docs/reports", "docs/handovers",
+    "docs/measure", "docs/gate-audit", "docs/briefs", "docs/design", "docs/research",
+    "guardrails/board-fixtures", "guardrails/authority-anchor-fixtures", "tests/fixtures",
+    "scaffold", "evals", ".git",
+)
+RECORD_FILES = ("JOURNAL.md", "DECISIONS.md", "FEEDBACK.md", "MIGRATION.md", "WAITING.md")
+
+FENCE = re.compile(r"^\s*```")
+HEADING = re.compile(r"^\s*#{1,6}\s")
+TABLE = re.compile(r"^\s*\|")
+SENTENCE_END = re.compile(r"(?<=[.!?])\s+")
+# A line that is its own unit: a list item, a numbered step, a quotation, or a label line of the
+# `**field** — value` shape these documents use for a node's parts.
+STANDS_ALONE = re.compile(r"^\s*(?:[-*+]\s|\d+[.)]\s|>|\*\*[^*]+\*\*\s*(?:—|-|:))")
+
+
+def load_word_cap(path=RULES_PATH):
+    """The human-prose word cap, read out of the rule home so the census and the rule cannot drift."""
+    with open(path, encoding="utf-8") as fh:
+        data = json.load(fh)
+    for rule in data.get("rules", []):
+        cap = (rule.get("thresholds") or {}).get("human_prose_flag_above_words")
+        if cap:
+            return int(cap), rule["id"]
+    raise SystemExit("%s: no rule in %s carries `human_prose_flag_above_words`" % (CHECK, path))
+
+
+def live_files(root=REPO_ROOT):
+    """Every markdown file the rules bind today, in sorted order."""
+    out = []
+    for dirpath, dirnames, filenames in os.walk(root):
+        rel_dir = os.path.relpath(dirpath, root)
+        rel_dir = "" if rel_dir == "." else rel_dir
+        dirnames[:] = [d for d in dirnames
+                       if not os.path.join(rel_dir, d).startswith(RECORD_DIRS)
+                       and os.path.join(rel_dir, d) not in RECORD_DIRS
+                       and not d.startswith(".")]
+        for name in filenames:
+            if not name.endswith(".md"):
+                continue
+            rel = os.path.join(rel_dir, name) if rel_dir else name
+            if rel in RECORD_FILES:
+                continue
+            out.append(rel)
+    return sorted(out)
+
+
+def prose_sentences(text):
+    """The prose sentences of a markdown file: no fences, headings, tables, or bare-link lines.
+
+    Running prose wraps across lines, so a paragraph's lines are joined before it is split into
+    sentences. A list item and a label line (`**field** — value`) each stand alone: joining them the
+    way wrapped prose is joined once read a block of 40 label lines in `ARCHITECTURE.md` as one
+    sentence of 1914 words, since none of them ends in a full stop.
+    """
+    units, buffer, in_fence = [], [], False
+
+    def flush():
+        if buffer:
+            units.append(" ".join(buffer))
+            del buffer[:]
+
+    for line in text.split("\n"):
+        if FENCE.match(line):
+            in_fence = not in_fence
+            flush()
+            continue
+        if in_fence or HEADING.match(line) or TABLE.match(line):
+            flush()
+            continue
+        if not line.strip():
+            flush()
+            continue
+        if STANDS_ALONE.match(line):
+            flush()
+            units.append(line.strip())
+            continue
+        buffer.append(line.strip())
+    flush()
+
+    out = []
+    for unit in units:
+        out += [s.strip() for s in SENTENCE_END.split(unit) if s.strip()]
+    return out
+
+
+def long_sentences(text, cap):
+    """How many prose sentences run past the cap, and the longest count seen."""
+    over, longest = 0, 0
+    for sentence in prose_sentences(text):
+        words = len(sentence.split())
+        longest = max(longest, words)
+        if words > cap:
+            over += 1
+    return over, longest
+
+
+def run_lint(script, path, extra=()):
+    """A lint's finding count, read off its own JSON record where it prints one."""
+    try:
+        proc = subprocess.run([sys.executable, script] + list(extra) + [path],
+                              capture_output=True, text=True, timeout=120)
+    except (OSError, subprocess.SubprocessError) as e:
+        return None, str(e)
+    for line in reversed(proc.stdout.strip().split("\n")):
+        line = line.strip()
+        if line.startswith("{") and line.endswith("}"):
+            try:
+                record = json.loads(line)
+            except ValueError:
+                continue
+            return int(record.get("errors", 0)) + int(record.get("warnings", 0)), None
+    # A lint with no record line reports one finding per printed line under its header.
+    body = [l for l in proc.stdout.strip().split("\n") if l.strip().startswith("line ")]
+    return len(body), None
+
+
+def measure(rel, cap, root=REPO_ROOT):
+    path = os.path.join(root, rel)
+    try:
+        with open(path, encoding="utf-8") as fh:
+            text = fh.read()
+    except OSError as e:
+        return {"file": rel, "unread": str(e)}
+    over, longest = long_sentences(text, cap)
+    style, style_err = run_lint(STYLE_LINT, path, extra=("--tier", "full"))
+    register, register_err = run_lint(REGISTER_LINT, path)
+    row = {
+        "file": rel,
+        "bytes": len(text.encode("utf-8")),
+        "long": over,
+        "longest": longest,
+        "style": style if style is not None else 0,
+        "register": register if register is not None else 0,
+    }
+    row["total"] = row["long"] + row["style"] + row["register"]
+    refused = [e for e in (style_err, register_err) if e]
+    if refused:
+        row["refused"] = "; ".join(refused)
+    return row
+
+
+def table(rows, cap, rule_id):
+    out = ["# Rule census — 2026-07-28", "",
+           "Every live document measured against the rules that carry a machine. This is the order the "
+           "rewrite runs in, worst first, and the seed of the limit that only falls (ROADMAP 148, 460).",
+           "",
+           "A record of something that happened is out of scope: the journal, the decision log, the "
+           "prover records, the readings, the attic, and the prototype trees state what was written at "
+           "the time.",
+           "",
+           "`long` counts prose sentences past %d words, which is rule %s's human-prose cap read out of "
+           "the rule home. `style` is `scripts/spec-style-lint.py --tier full`. `register` is "
+           "`scripts/preshow-register-lint.py`. `longest` is the longest prose sentence in the file."
+           % (cap, rule_id),
+           "",
+           "| file | bytes | long | longest | style | register | total |",
+           "|---|---:|---:|---:|---:|---:|---:|"]
+    for row in rows:
+        if "unread" in row:
+            continue
+        out.append("| `%s` | %d | %d | %d | %d | %d | **%d** |"
+                   % (row["file"], row["bytes"], row["long"], row["longest"],
+                      row["style"], row["register"], row["total"]))
+    unread = [r for r in rows if "unread" in r]
+    if unread:
+        out += ["", "## Files this census could not read", ""]
+        out += ["- `%s` — %s" % (r["file"], r["unread"]) for r in unread]
+    measured = [r for r in rows if "unread" not in r]
+    out += ["", "## Totals", "",
+            "%d files measured. %d sentences past the cap, %d style findings, %d register findings, "
+            "%d in all." % (len(measured), sum(r["long"] for r in measured),
+                            sum(r["style"] for r in measured),
+                            sum(r["register"] for r in measured),
+                            sum(r["total"] for r in measured))]
+    return "\n".join(out) + "\n"
+
+
+def main(argv):
+    parser = argparse.ArgumentParser(add_help=True, description="Measure the live documents.")
+    parser.add_argument("paths", nargs="*", help="files to measure; the live set when omitted")
+    parser.add_argument("--out", help="write the table here as markdown")
+    parser.add_argument("--json", dest="json_out", help="write the counts here as JSON")
+    args = parser.parse_args(argv[1:])
+
+    cap, rule_id = load_word_cap()
+    files = args.paths or live_files()
+    if not files:
+        print("%s: the file set is EMPTY — a census of nothing reports clean." % CHECK)
+        return 1
+    rows = [measure(f, cap) for f in files]
+    rows.sort(key=lambda r: r.get("total", 0), reverse=True)
+    text = table(rows, cap, rule_id)
+    print(text)
+    if args.out:
+        with open(args.out, "w", encoding="utf-8") as fh:
+            fh.write(text)
+        print("%s: wrote %s" % (CHECK, args.out))
+    if args.json_out:
+        with open(args.json_out, "w", encoding="utf-8") as fh:
+            json.dump({"cap": cap, "cap_rule": rule_id,
+                       "files": {r["file"]: r for r in rows if "unread" not in r}},
+                      fh, ensure_ascii=False, indent=2, sort_keys=True)
+            fh.write("\n")
+        print("%s: wrote %s" % (CHECK, args.json_out))
+    refused = [r for r in rows if "refused" in r or "unread" in r]
+    return 1 if refused else 0
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv))

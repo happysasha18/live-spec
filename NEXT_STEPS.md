@@ -1,37 +1,35 @@
 # live-spec — NEXT_STEPS (resume file: LIVE STATE + queue only; history → JOURNAL.md; ≤100 lines, INV-48)
 
-## LIVE STATE (2026-07-28 night — the rules about the project's own writing moved into one home; PUSHED 73741a9..d7f2dbb, all gates green, suite 2209)
-Alexander's word opened the movement: the rules about how this project writes are relatives of each
-other, they are worked in one pass, and the kinship belongs in the spec. An inventory found 61 such
-rules spread over 57 files, nine of them stated twice with different verdicts and 24 held by no checker.
-They now live in `guardrails/language-rules.json`, 53 rules after five folds retired seven duplicate ids.
-`scripts/gen-language-consumers.py` writes three artifacts from that home: the rule text the judging
-model reads, a writer's page, and a maintainer's page. `guardrails/check-language-rules.py` reds when any
-of the three drifts from the source, when a rule names no catcher and no reason, or when a pin names a
-file or line that is gone.
+## LIVE STATE (2026-07-28 morning)
+The rules about this project's own writing live in `guardrails/language-rules.json`, 53 of them, with
+`scripts/gen-language-consumers.py` building the judging model's rule text, the writer's page, and the
+maintainer's page from that one home, and `guardrails/check-language-rules.py` refusing any drift.
+Requirements 300, 301, and a case on 208 carry the movement in the spec. 93 acceptance criteria were
+rewritten by those rules: 469 criteria past the word cap fell to 378, in-place definitions 120 → 65,
+closes with no finite verb 147 → 123, and seven rewrites lost meaning (three caught by the suite, four
+by an independent read).
 
-Three places in the spec carry the movement. Requirement 300 states the one-home law. Requirement 301
-states that a worker restores a file by writing back bytes it read before mutating it. Requirement 208
-gained a case: a dispatch to the expensive tier opens with an instruction that assumes a cheaper tier.
+## THE LIVE MOVEMENT — the top-level documents read for a stranger
+Alexander's word, 2026-07-28 morning: this is the main task, and everything else waits. The plan is
+`docs/plans/2026-07-28-top-level-readability.md`, written to be executed by a session with a clean
+context — it carries the goal, the seven rules with their measures, the order, the commands, the five
+self-checks per batch, and the stopping rule. Start there and read nothing else first.
 
-93 acceptance criteria were rewritten worst-first. Sentence length fell from 469 criteria past the cap to
-378, in-place definitions from 120 to 65, closes with no finite verb from 147 to 123. Seven rewrites lost
-meaning; the suite caught three and the prover found four. The readability gate now reads a criterion's
-bullets and carries a fifth measure over a criterion's total weight, recorded at 31.
+The state it starts from: the rule home holds 53 rules; one document was rewritten by them, being 93
+acceptance criteria of `PRODUCT_SPEC.md`; the census of all 106 live documents stands at
+`docs/audit/2026-07-28-rule-census.md` with 5429 findings, and its data at `guardrails/rule-census.json`.
+The plan's step 1 is building `guardrails/check-noun-grounding.py`, which gives a machine to the one
+rule that readers actually stop on.
 
-## TO RESUME, in order
-(1) `docs/language-defects.md` waits on the owner's word about its bar. Nine readings ran overnight and
-the count of blocking stops went 11, 8, 12, 6, 5, 5, 6, 5, 8, so two consecutive clean readings is not
-being approached. The morning report states the case and proposes two readers agreeing on a blocker.
-(2) The reference reads at 33 of the 39 rules that bind a documentation page, applicable with no
-question to the author. The reader named one question per rule for the six that remain, and three of
-those six wait on the three answers below. A third reading measures what the worked example moved.
-(3) The three questions the reference's reader left standing and this seat could not derive: what "the
-register laws" names for a drafting brief, how a rule with no measure states its bar (r62's own note says
-its measure does not exist), and the number behind "a long flat run of peer items" in r45.
-(4) 30 criteria carry more than one rule and want splitting into criteria of their own; splitting
-renumbers neighbours, so it runs as its own delivery with a record. The list is in the 2026-07-28 trim
-worker's account.
+## PARKED behind the movement (2026-07-28 morning, Alexander's word: everything else waits)
+- `docs/language-defects.md` stops taking cold readings. It is an internal record shown to nobody, and
+  nine readings on it produced no convergence. The shipping bar stands for texts a person is shown.
+- The rules reference reads at 33 of the 39 rules binding a documentation page; a third reading waits.
+- 30 criteria carry more than one rule and want splitting; splitting renumbers neighbours, so it is its
+  own delivery with a record.
+- The three questions answered 2026-07-28 morning without the owner: a clean-context worker drafts, this
+  seat briefs and revises; a rule with no measure states its bar as its reader test; a flat run of peer
+  items is long at seven, to be recorded as r45's threshold when that rule gets its check.
 
 ## Near queue
 - Rows 510-516 (2026-07-28): 510 a part of a set is named by what its members are · 511 a cross-project

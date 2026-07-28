@@ -1,0 +1,960 @@
+{
+  "cap": 25,
+  "cap_rule": "r08",
+  "files": {
+    "ARCHITECTURE.md": {
+      "bytes": 90015,
+      "file": "ARCHITECTURE.md",
+      "long": 88,
+      "longest": 870,
+      "register": 0,
+      "style": 0,
+      "total": 88
+    },
+    "NEXT_STEPS.md": {
+      "bytes": 8132,
+      "file": "NEXT_STEPS.md",
+      "long": 11,
+      "longest": 71,
+      "register": 0,
+      "style": 12,
+      "total": 23
+    },
+    "OVERVIEW.md": {
+      "bytes": 7141,
+      "file": "OVERVIEW.md",
+      "long": 8,
+      "longest": 67,
+      "register": 0,
+      "style": 1,
+      "total": 9
+    },
+    "PRODUCT_SPEC.index.md": {
+      "bytes": 25028,
+      "file": "PRODUCT_SPEC.index.md",
+      "long": 0,
+      "longest": 0,
+      "register": 0,
+      "style": 0,
+      "total": 0
+    },
+    "PRODUCT_SPEC.md": {
+      "bytes": 651195,
+      "file": "PRODUCT_SPEC.md",
+      "long": 1831,
+      "longest": 80,
+      "register": 0,
+      "style": 0,
+      "total": 1831
+    },
+    "README.md": {
+      "bytes": 10536,
+      "file": "README.md",
+      "long": 16,
+      "longest": 88,
+      "register": 0,
+      "style": 13,
+      "total": 29
+    },
+    "ROADMAP.md": {
+      "bytes": 167284,
+      "file": "ROADMAP.md",
+      "long": 8,
+      "longest": 242,
+      "register": 0,
+      "style": 213,
+      "total": 221
+    },
+    "SURFACES.md": {
+      "bytes": 779,
+      "file": "SURFACES.md",
+      "long": 1,
+      "longest": 26,
+      "register": 0,
+      "style": 3,
+      "total": 4
+    },
+    "TEST_MATRIX.md": {
+      "bytes": 439981,
+      "file": "TEST_MATRIX.md",
+      "long": 8,
+      "longest": 46,
+      "register": 0,
+      "style": 73,
+      "total": 81
+    },
+    "adopt/ADOPT.md": {
+      "bytes": 22159,
+      "file": "adopt/ADOPT.md",
+      "long": 46,
+      "longest": 93,
+      "register": 0,
+      "style": 0,
+      "total": 46
+    },
+    "docs/adoption.md": {
+      "bytes": 7111,
+      "file": "docs/adoption.md",
+      "long": 6,
+      "longest": 51,
+      "register": 0,
+      "style": 0,
+      "total": 6
+    },
+    "docs/architecture-format.md": {
+      "bytes": 8321,
+      "file": "docs/architecture-format.md",
+      "long": 16,
+      "longest": 49,
+      "register": 0,
+      "style": 0,
+      "total": 16
+    },
+    "docs/architecture-method.md": {
+      "bytes": 8856,
+      "file": "docs/architecture-method.md",
+      "long": 12,
+      "longest": 47,
+      "register": 0,
+      "style": 0,
+      "total": 12
+    },
+    "docs/decisions/2026-07-06-overnight-decisions.md": {
+      "bytes": 6878,
+      "file": "docs/decisions/2026-07-06-overnight-decisions.md",
+      "long": 8,
+      "longest": 51,
+      "register": 0,
+      "style": 30,
+      "total": 38
+    },
+    "docs/decisions/2026-07-07-morning-round3.md": {
+      "bytes": 4653,
+      "file": "docs/decisions/2026-07-07-morning-round3.md",
+      "long": 6,
+      "longest": 64,
+      "register": 0,
+      "style": 32,
+      "total": 38
+    },
+    "docs/language-defects.md": {
+      "bytes": 18368,
+      "file": "docs/language-defects.md",
+      "long": 34,
+      "longest": 78,
+      "register": 0,
+      "style": 4,
+      "total": 38
+    },
+    "docs/language-rule-coverage.md": {
+      "bytes": 69828,
+      "file": "docs/language-rule-coverage.md",
+      "long": 83,
+      "longest": 81,
+      "register": 0,
+      "style": 24,
+      "total": 107
+    },
+    "docs/language-rules.md": {
+      "bytes": 44751,
+      "file": "docs/language-rules.md",
+      "long": 63,
+      "longest": 91,
+      "register": 0,
+      "style": 17,
+      "total": 80
+    },
+    "docs/language-worked-example.md": {
+      "bytes": 24176,
+      "file": "docs/language-worked-example.md",
+      "long": 6,
+      "longest": 41,
+      "register": 0,
+      "style": 3,
+      "total": 9
+    },
+    "docs/lenses.md": {
+      "bytes": 19283,
+      "file": "docs/lenses.md",
+      "long": 37,
+      "longest": 49,
+      "register": 0,
+      "style": 2,
+      "total": 39
+    },
+    "docs/migration-sample/2026-07-20-backdescribe-sample.md": {
+      "bytes": 8025,
+      "file": "docs/migration-sample/2026-07-20-backdescribe-sample.md",
+      "long": 8,
+      "longest": 76,
+      "register": 0,
+      "style": 14,
+      "total": 22
+    },
+    "docs/norms/onboarding-card-2026-07-10.provenance.md": {
+      "bytes": 654,
+      "file": "docs/norms/onboarding-card-2026-07-10.provenance.md",
+      "long": 3,
+      "longest": 35,
+      "register": 0,
+      "style": 0,
+      "total": 3
+    },
+    "docs/onboarding-and-settings.md": {
+      "bytes": 6970,
+      "file": "docs/onboarding-and-settings.md",
+      "long": 10,
+      "longest": 53,
+      "register": 0,
+      "style": 0,
+      "total": 10
+    },
+    "docs/pair-adoption.md": {
+      "bytes": 7425,
+      "file": "docs/pair-adoption.md",
+      "long": 7,
+      "longest": 47,
+      "register": 0,
+      "style": 0,
+      "total": 7
+    },
+    "docs/pipeline.md": {
+      "bytes": 8733,
+      "file": "docs/pipeline.md",
+      "long": 8,
+      "longest": 44,
+      "register": 0,
+      "style": 0,
+      "total": 8
+    },
+    "docs/prior-art-frameworks.md": {
+      "bytes": 16009,
+      "file": "docs/prior-art-frameworks.md",
+      "long": 7,
+      "longest": 42,
+      "register": 0,
+      "style": 107,
+      "total": 114
+    },
+    "docs/prior-art-longtail.md": {
+      "bytes": 17043,
+      "file": "docs/prior-art-longtail.md",
+      "long": 15,
+      "longest": 53,
+      "register": 0,
+      "style": 68,
+      "total": 83
+    },
+    "docs/prior-art.md": {
+      "bytes": 1249,
+      "file": "docs/prior-art.md",
+      "long": 0,
+      "longest": 17,
+      "register": 0,
+      "style": 1,
+      "total": 1
+    },
+    "docs/prose-quality-gate-design.md": {
+      "bytes": 6575,
+      "file": "docs/prose-quality-gate-design.md",
+      "long": 9,
+      "longest": 65,
+      "register": 0,
+      "style": 25,
+      "total": 34
+    },
+    "docs/push-law.md": {
+      "bytes": 4951,
+      "file": "docs/push-law.md",
+      "long": 5,
+      "longest": 53,
+      "register": 0,
+      "style": 1,
+      "total": 6
+    },
+    "docs/restyle-repoint-log.md": {
+      "bytes": 14510,
+      "file": "docs/restyle-repoint-log.md",
+      "long": 20,
+      "longest": 78,
+      "register": 0,
+      "style": 63,
+      "total": 83
+    },
+    "docs/roadmap-format.md": {
+      "bytes": 11994,
+      "file": "docs/roadmap-format.md",
+      "long": 33,
+      "longest": 60,
+      "register": 0,
+      "style": 0,
+      "total": 33
+    },
+    "docs/spec-compaction-protocol.md": {
+      "bytes": 7695,
+      "file": "docs/spec-compaction-protocol.md",
+      "long": 11,
+      "longest": 60,
+      "register": 0,
+      "style": 25,
+      "total": 36
+    },
+    "docs/spec-format-by-project-type.md": {
+      "bytes": 5529,
+      "file": "docs/spec-format-by-project-type.md",
+      "long": 2,
+      "longest": 41,
+      "register": 0,
+      "style": 11,
+      "total": 13
+    },
+    "docs/spec-format.md": {
+      "bytes": 9332,
+      "file": "docs/spec-format.md",
+      "long": 15,
+      "longest": 98,
+      "register": 0,
+      "style": 3,
+      "total": 18
+    },
+    "docs/spec-style.md": {
+      "bytes": 14461,
+      "file": "docs/spec-style.md",
+      "long": 32,
+      "longest": 64,
+      "register": 0,
+      "style": 33,
+      "total": 65
+    },
+    "docs/test-matrix-format.md": {
+      "bytes": 10829,
+      "file": "docs/test-matrix-format.md",
+      "long": 32,
+      "longest": 59,
+      "register": 0,
+      "style": 1,
+      "total": 33
+    },
+    "docs/test-method.md": {
+      "bytes": 7940,
+      "file": "docs/test-method.md",
+      "long": 15,
+      "longest": 52,
+      "register": 0,
+      "style": 0,
+      "total": 15
+    },
+    "docs/wishes/2026-07-09-architecture-runtime-placement-views.md": {
+      "bytes": 3566,
+      "file": "docs/wishes/2026-07-09-architecture-runtime-placement-views.md",
+      "long": 7,
+      "longest": 54,
+      "register": 0,
+      "style": 7,
+      "total": 14
+    },
+    "docs/wishes/2026-07-09-project-onboarding-what-can-i-customize.md": {
+      "bytes": 9035,
+      "file": "docs/wishes/2026-07-09-project-onboarding-what-can-i-customize.md",
+      "long": 14,
+      "longest": 65,
+      "register": 0,
+      "style": 27,
+      "total": 41
+    },
+    "docs/wishes/2026-07-09-prover-unwritten-seams.md": {
+      "bytes": 3013,
+      "file": "docs/wishes/2026-07-09-prover-unwritten-seams.md",
+      "long": 9,
+      "longest": 59,
+      "register": 0,
+      "style": 9,
+      "total": 18
+    },
+    "docs/wishes/2026-07-09-test-method-lessons-tlvphoto-week.md": {
+      "bytes": 4528,
+      "file": "docs/wishes/2026-07-09-test-method-lessons-tlvphoto-week.md",
+      "long": 9,
+      "longest": 60,
+      "register": 0,
+      "style": 11,
+      "total": 20
+    },
+    "docs/wishes/2026-07-09-tlvphoto-worker-liveness-across-clear.md": {
+      "bytes": 2389,
+      "file": "docs/wishes/2026-07-09-tlvphoto-worker-liveness-across-clear.md",
+      "long": 5,
+      "longest": 35,
+      "register": 0,
+      "style": 4,
+      "total": 9
+    },
+    "docs/wishes/2026-07-10-from-tlvphoto-red-first-slips-on-small-voiced-fixes.md": {
+      "bytes": 2122,
+      "file": "docs/wishes/2026-07-10-from-tlvphoto-red-first-slips-on-small-voiced-fixes.md",
+      "long": 6,
+      "longest": 36,
+      "register": 0,
+      "style": 12,
+      "total": 18
+    },
+    "docs/worker-liveness.md": {
+      "bytes": 7719,
+      "file": "docs/worker-liveness.md",
+      "long": 16,
+      "longest": 52,
+      "register": 0,
+      "style": 1,
+      "total": 17
+    },
+    "guardrails/README.md": {
+      "bytes": 15259,
+      "file": "guardrails/README.md",
+      "long": 30,
+      "longest": 68,
+      "register": 0,
+      "style": 24,
+      "total": 54
+    },
+    "guardrails/far-tier-fixtures/report-names-far-in-runnable.md": {
+      "bytes": 367,
+      "file": "guardrails/far-tier-fixtures/report-names-far-in-runnable.md",
+      "long": 0,
+      "longest": 14,
+      "register": 0,
+      "style": 0,
+      "total": 0
+    },
+    "guardrails/far-tier-fixtures/report-runnable-no-standdown.md": {
+      "bytes": 225,
+      "file": "guardrails/far-tier-fixtures/report-runnable-no-standdown.md",
+      "long": 0,
+      "longest": 9,
+      "register": 0,
+      "style": 0,
+      "total": 0
+    },
+    "guardrails/far-tier-fixtures/report-stands-far-down.md": {
+      "bytes": 311,
+      "file": "guardrails/far-tier-fixtures/report-stands-far-down.md",
+      "long": 0,
+      "longest": 14,
+      "register": 0,
+      "style": 0,
+      "total": 0
+    },
+    "guardrails/far-tier-fixtures/vocab-clean.md": {
+      "bytes": 147,
+      "file": "guardrails/far-tier-fixtures/vocab-clean.md",
+      "long": 0,
+      "longest": 15,
+      "register": 0,
+      "style": 0,
+      "total": 0
+    },
+    "guardrails/far-tier-fixtures/vocab-deferred-without-trigger.md": {
+      "bytes": 129,
+      "file": "guardrails/far-tier-fixtures/vocab-deferred-without-trigger.md",
+      "long": 0,
+      "longest": 10,
+      "register": 0,
+      "style": 0,
+      "total": 0
+    },
+    "guardrails/far-tier-fixtures/vocab-far-with-trigger.md": {
+      "bytes": 183,
+      "file": "guardrails/far-tier-fixtures/vocab-far-with-trigger.md",
+      "long": 0,
+      "longest": 15,
+      "register": 0,
+      "style": 0,
+      "total": 0
+    },
+    "guardrails/far-tier-fixtures/window-first-offer-after-window.md": {
+      "bytes": 183,
+      "file": "guardrails/far-tier-fixtures/window-first-offer-after-window.md",
+      "long": 0,
+      "longest": 12,
+      "register": 0,
+      "style": 0,
+      "total": 0
+    },
+    "guardrails/far-tier-fixtures/window-second-offer-in-window.md": {
+      "bytes": 183,
+      "file": "guardrails/far-tier-fixtures/window-second-offer-in-window.md",
+      "long": 0,
+      "longest": 12,
+      "register": 0,
+      "style": 0,
+      "total": 0
+    },
+    "guardrails/release-note-fixtures/note-neither.md": {
+      "bytes": 399,
+      "file": "guardrails/release-note-fixtures/note-neither.md",
+      "long": 1,
+      "longest": 28,
+      "register": 0,
+      "style": 0,
+      "total": 1
+    },
+    "guardrails/release-note-fixtures/note-no-offer.md": {
+      "bytes": 417,
+      "file": "guardrails/release-note-fixtures/note-no-offer.md",
+      "long": 0,
+      "longest": 21,
+      "register": 0,
+      "style": 0,
+      "total": 0
+    },
+    "guardrails/release-note-fixtures/note-offers.md": {
+      "bytes": 543,
+      "file": "guardrails/release-note-fixtures/note-offers.md",
+      "long": 1,
+      "longest": 30,
+      "register": 0,
+      "style": 3,
+      "total": 4
+    },
+    "hooks/conduct-law.md": {
+      "bytes": 3744,
+      "file": "hooks/conduct-law.md",
+      "long": 11,
+      "longest": 72,
+      "register": 0,
+      "style": 27,
+      "total": 38
+    },
+    "inbox/README.md": {
+      "bytes": 9996,
+      "file": "inbox/README.md",
+      "long": 28,
+      "longest": 75,
+      "register": 0,
+      "style": 7,
+      "total": 35
+    },
+    "scripts/grant-ask.md": {
+      "bytes": 685,
+      "file": "scripts/grant-ask.md",
+      "long": 0,
+      "longest": 19,
+      "register": 0,
+      "style": 3,
+      "total": 3
+    },
+    "scripts/judge-rubric.md": {
+      "bytes": 2280,
+      "file": "scripts/judge-rubric.md",
+      "long": 0,
+      "longest": 25,
+      "register": 0,
+      "style": 13,
+      "total": 13
+    },
+    "scripts/read-grant-ask.md": {
+      "bytes": 1286,
+      "file": "scripts/read-grant-ask.md",
+      "long": 3,
+      "longest": 28,
+      "register": 0,
+      "style": 4,
+      "total": 7
+    },
+    "skills/build-pipeline/README.md": {
+      "bytes": 5020,
+      "file": "skills/build-pipeline/README.md",
+      "long": 9,
+      "longest": 60,
+      "register": 0,
+      "style": 6,
+      "total": 15
+    },
+    "skills/build-pipeline/SKILL.md": {
+      "bytes": 56815,
+      "file": "skills/build-pipeline/SKILL.md",
+      "long": 139,
+      "longest": 198,
+      "register": 0,
+      "style": 137,
+      "total": 276
+    },
+    "skills/build-pipeline/references/delegation-protocol.md": {
+      "bytes": 8388,
+      "file": "skills/build-pipeline/references/delegation-protocol.md",
+      "long": 28,
+      "longest": 71,
+      "register": 0,
+      "style": 25,
+      "total": 53
+    },
+    "skills/build-pipeline/references/drafter-applier-example.md": {
+      "bytes": 1166,
+      "file": "skills/build-pipeline/references/drafter-applier-example.md",
+      "long": 3,
+      "longest": 67,
+      "register": 0,
+      "style": 4,
+      "total": 7
+    },
+    "skills/build-pipeline/references/excuses-table.md": {
+      "bytes": 1297,
+      "file": "skills/build-pipeline/references/excuses-table.md",
+      "long": 0,
+      "longest": 18,
+      "register": 0,
+      "style": 4,
+      "total": 4
+    },
+    "skills/build-pipeline/references/guardrails-catalog.md": {
+      "bytes": 2041,
+      "file": "skills/build-pipeline/references/guardrails-catalog.md",
+      "long": 2,
+      "longest": 76,
+      "register": 0,
+      "style": 10,
+      "total": 12
+    },
+    "skills/build-pipeline/references/minor-bump-gate.md": {
+      "bytes": 1814,
+      "file": "skills/build-pipeline/references/minor-bump-gate.md",
+      "long": 4,
+      "longest": 65,
+      "register": 0,
+      "style": 0,
+      "total": 4
+    },
+    "skills/build-pipeline/references/request-kind-table.md": {
+      "bytes": 2108,
+      "file": "skills/build-pipeline/references/request-kind-table.md",
+      "long": 1,
+      "longest": 28,
+      "register": 0,
+      "style": 2,
+      "total": 3
+    },
+    "skills/build-pipeline/references/work-kind-table.md": {
+      "bytes": 3103,
+      "file": "skills/build-pipeline/references/work-kind-table.md",
+      "long": 0,
+      "longest": 22,
+      "register": 0,
+      "style": 13,
+      "total": 13
+    },
+    "skills/communicator/README.md": {
+      "bytes": 2208,
+      "file": "skills/communicator/README.md",
+      "long": 2,
+      "longest": 37,
+      "register": 0,
+      "style": 6,
+      "total": 8
+    },
+    "skills/communicator/SKILL.md": {
+      "bytes": 45364,
+      "file": "skills/communicator/SKILL.md",
+      "long": 87,
+      "longest": 105,
+      "register": 0,
+      "style": 115,
+      "total": 202
+    },
+    "skills/communicator/references/field-examples.md": {
+      "bytes": 7318,
+      "file": "skills/communicator/references/field-examples.md",
+      "long": 17,
+      "longest": 51,
+      "register": 0,
+      "style": 15,
+      "total": 32
+    },
+    "skills/communicator/references/page-lifecycle.md": {
+      "bytes": 6211,
+      "file": "skills/communicator/references/page-lifecycle.md",
+      "long": 11,
+      "longest": 50,
+      "register": 0,
+      "style": 0,
+      "total": 11
+    },
+    "skills/communicator/references/writing-register.md": {
+      "bytes": 9062,
+      "file": "skills/communicator/references/writing-register.md",
+      "long": 8,
+      "longest": 45,
+      "register": 0,
+      "style": 7,
+      "total": 15
+    },
+    "skills/design-reviewer/README.md": {
+      "bytes": 6593,
+      "file": "skills/design-reviewer/README.md",
+      "long": 16,
+      "longest": 55,
+      "register": 0,
+      "style": 5,
+      "total": 21
+    },
+    "skills/design-reviewer/SKILL.md": {
+      "bytes": 23527,
+      "file": "skills/design-reviewer/SKILL.md",
+      "long": 70,
+      "longest": 92,
+      "register": 0,
+      "style": 18,
+      "total": 88
+    },
+    "skills/feedback-collector/README.md": {
+      "bytes": 2901,
+      "file": "skills/feedback-collector/README.md",
+      "long": 2,
+      "longest": 32,
+      "register": 0,
+      "style": 7,
+      "total": 9
+    },
+    "skills/feedback-collector/SKILL.md": {
+      "bytes": 8032,
+      "file": "skills/feedback-collector/SKILL.md",
+      "long": 4,
+      "longest": 41,
+      "register": 0,
+      "style": 19,
+      "total": 23
+    },
+    "skills/feedback-intake/README.md": {
+      "bytes": 5640,
+      "file": "skills/feedback-intake/README.md",
+      "long": 6,
+      "longest": 35,
+      "register": 0,
+      "style": 2,
+      "total": 8
+    },
+    "skills/feedback-intake/SKILL.md": {
+      "bytes": 7681,
+      "file": "skills/feedback-intake/SKILL.md",
+      "long": 14,
+      "longest": 48,
+      "register": 0,
+      "style": 12,
+      "total": 26
+    },
+    "skills/live-spec-base/README.md": {
+      "bytes": 279,
+      "file": "skills/live-spec-base/README.md",
+      "long": 1,
+      "longest": 28,
+      "register": 0,
+      "style": 0,
+      "total": 1
+    },
+    "skills/live-spec-base/SKILL.md": {
+      "bytes": 57996,
+      "file": "skills/live-spec-base/SKILL.md",
+      "long": 141,
+      "longest": 97,
+      "register": 0,
+      "style": 103,
+      "total": 244
+    },
+    "skills/product-prover/README.md": {
+      "bytes": 11272,
+      "file": "skills/product-prover/README.md",
+      "long": 21,
+      "longest": 71,
+      "register": 0,
+      "style": 19,
+      "total": 40
+    },
+    "skills/product-prover/SKILL.md": {
+      "bytes": 60263,
+      "file": "skills/product-prover/SKILL.md",
+      "long": 127,
+      "longest": 86,
+      "register": 0,
+      "style": 126,
+      "total": 253
+    },
+    "skills/publish/README.md": {
+      "bytes": 1041,
+      "file": "skills/publish/README.md",
+      "long": 2,
+      "longest": 40,
+      "register": 0,
+      "style": 4,
+      "total": 6
+    },
+    "skills/publish/SKILL.md": {
+      "bytes": 13656,
+      "file": "skills/publish/SKILL.md",
+      "long": 33,
+      "longest": 85,
+      "register": 0,
+      "style": 35,
+      "total": 68
+    },
+    "skills/spec-author/README.md": {
+      "bytes": 5148,
+      "file": "skills/spec-author/README.md",
+      "long": 11,
+      "longest": 52,
+      "register": 0,
+      "style": 5,
+      "total": 16
+    },
+    "skills/spec-author/SKILL.md": {
+      "bytes": 57661,
+      "file": "skills/spec-author/SKILL.md",
+      "long": 117,
+      "longest": 121,
+      "register": 0,
+      "style": 0,
+      "total": 117
+    },
+    "skills/test-author/README.md": {
+      "bytes": 6396,
+      "file": "skills/test-author/README.md",
+      "long": 4,
+      "longest": 35,
+      "register": 0,
+      "style": 8,
+      "total": 12
+    },
+    "skills/test-author/SKILL.md": {
+      "bytes": 19008,
+      "file": "skills/test-author/SKILL.md",
+      "long": 38,
+      "longest": 91,
+      "register": 0,
+      "style": 20,
+      "total": 58
+    },
+    "skills/text-audit/README.md": {
+      "bytes": 5393,
+      "file": "skills/text-audit/README.md",
+      "long": 9,
+      "longest": 47,
+      "register": 0,
+      "style": 5,
+      "total": 14
+    },
+    "skills/text-audit/SKILL.md": {
+      "bytes": 17487,
+      "file": "skills/text-audit/SKILL.md",
+      "long": 29,
+      "longest": 62,
+      "register": 0,
+      "style": 24,
+      "total": 53
+    },
+    "templates/ARCHITECTURE.template.md": {
+      "bytes": 10989,
+      "file": "templates/ARCHITECTURE.template.md",
+      "long": 23,
+      "longest": 51,
+      "register": 0,
+      "style": 17,
+      "total": 40
+    },
+    "templates/DECISIONS.template.md": {
+      "bytes": 1493,
+      "file": "templates/DECISIONS.template.md",
+      "long": 1,
+      "longest": 36,
+      "register": 0,
+      "style": 13,
+      "total": 14
+    },
+    "templates/JOURNAL.template.md": {
+      "bytes": 1011,
+      "file": "templates/JOURNAL.template.md",
+      "long": 0,
+      "longest": 24,
+      "register": 0,
+      "style": 6,
+      "total": 6
+    },
+    "templates/KILL_LIST.template.md": {
+      "bytes": 674,
+      "file": "templates/KILL_LIST.template.md",
+      "long": 0,
+      "longest": 16,
+      "register": 0,
+      "style": 4,
+      "total": 4
+    },
+    "templates/NEXT_STEPS.template.md": {
+      "bytes": 1099,
+      "file": "templates/NEXT_STEPS.template.md",
+      "long": 1,
+      "longest": 27,
+      "register": 0,
+      "style": 4,
+      "total": 5
+    },
+    "templates/PROBLEMS.template.md": {
+      "bytes": 1267,
+      "file": "templates/PROBLEMS.template.md",
+      "long": 0,
+      "longest": 25,
+      "register": 0,
+      "style": 5,
+      "total": 5
+    },
+    "templates/PRODUCT_SPEC.template.md": {
+      "bytes": 4373,
+      "file": "templates/PRODUCT_SPEC.template.md",
+      "long": 6,
+      "longest": 32,
+      "register": 0,
+      "style": 2,
+      "total": 8
+    },
+    "templates/ROADMAP.template.md": {
+      "bytes": 5808,
+      "file": "templates/ROADMAP.template.md",
+      "long": 12,
+      "longest": 74,
+      "register": 0,
+      "style": 0,
+      "total": 12
+    },
+    "templates/TEST_MATRIX.template.md": {
+      "bytes": 3943,
+      "file": "templates/TEST_MATRIX.template.md",
+      "long": 5,
+      "longest": 95,
+      "register": 0,
+      "style": 2,
+      "total": 7
+    },
+    "templates/agent.template.md": {
+      "bytes": 5328,
+      "file": "templates/agent.template.md",
+      "long": 10,
+      "longest": 47,
+      "register": 0,
+      "style": 9,
+      "total": 19
+    },
+    "templates/profile.template.md": {
+      "bytes": 1622,
+      "file": "templates/profile.template.md",
+      "long": 2,
+      "longest": 72,
+      "register": 0,
+      "style": 2,
+      "total": 4
+    },
+    "templates/skill-review.template.md": {
+      "bytes": 489,
+      "file": "templates/skill-review.template.md",
+      "long": 0,
+      "longest": 14,
+      "register": 0,
+      "style": 2,
+      "total": 2
+    }
+  }
+}
