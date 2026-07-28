@@ -1697,7 +1697,7 @@ class TestMinedGapFolds(unittest.TestCase):
     def test_gap9_prover_domain_language_lens(self):
         pp = re.sub(r"\s+", " ", read("skills/product-prover/SKILL.md"))
         for phrase in ("Domain language on every user-facing surface",
-                       "read them as the USER would",
+                       "read them as the user would",
                        "a leaked internal word is a finding"):
             self.assertIn(phrase, pp, "product-prover Phase 4 lost the domain-language lens: %s" % phrase)
 

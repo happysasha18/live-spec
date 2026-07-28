@@ -29,7 +29,7 @@ def test_prover_skill_carries_the_lens():
     assert "**Entry state**" in skill
     assert "reset-or-resume semantics" in skill
     # it must name what entry symmetry does NOT ask, so a reviewer applies it as a distinct lens
-    assert "tests the STATE that path opens in" in skill
+    assert "tests the state that path opens in" in skill
 
 
 def test_index_row_present():

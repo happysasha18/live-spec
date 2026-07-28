@@ -40,7 +40,7 @@ def test_boundary_homed_in_when_not_to_use():
 
 def test_kind_block_stays_general_split_lives_in_lens():
     s = _skill()
-    kind_block = s[s.index("KIND — the finding's verdict"):s.index("CATEGORY —")]
+    kind_block = s[s.index("`KIND` — the finding's verdict"):s.index("`CATEGORY` —")]
     assert "one-sided pair" not in kind_block, \
         "the paired-transition family split leaked back into the KIND block"
     lens_start = s.index("**Paired-transition symmetry**")

@@ -76,7 +76,7 @@ class TestCleanContextReview(unittest.TestCase):
 
     def test_product_prover_wires_self_application(self):
         pv = flat("skills/product-prover/SKILL.md")
-        self.assertIn("A release's adversarial pass runs from a CLEAN context", pv)
+        self.assertIn("A release's adversarial pass runs from a clean context", pv)
         self.assertIn("SPEC INV-237", pv)
 
     def test_architecture_owns_the_invariant(self):
