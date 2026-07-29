@@ -1,0 +1,511 @@
+#!/usr/bin/env python3
+"""measurements-table.py — one table, one row per file, every indicator this project measures.
+
+WHY IT EXISTS. The project states numbers about its documents in whatever shape the reporting session
+reaches for. This script fixes one shape: docs/MEASUREMENTS.md, a single table in the reading queue's
+order, one row per file, one column per indicator, with every explanation below the table. That table
+is the source of truth for where the work stands.
+
+WHERE EACH NUMBER COMES FROM.
+  - the writing-finding columns, the longest sentence, the style column and the byte column read
+    guardrails/rule-census.json, the record scripts/rule-census.py writes;
+  - the reading columns read the dated records under docs/language-reads/, one file per reading;
+  - the agreed-stop column reads the `rounds` block of guardrails/progress-baseline.json, which
+    records each round's two readings and the places both readers stopped at;
+  - the specification columns read PRODUCT_SPEC.md directly, counting the way
+    guardrails/check-size-ratchet.py counts;
+  - the repeated-pair column runs scripts/spec-redundancy-precheck.py.
+
+A cell with no source prints `not measured`. A cell whose indicator does not apply to that file prints
+an em dash.
+
+Usage: python3 scripts/measurements-table.py
+Writes docs/MEASUREMENTS.md. Stdlib only.
+"""
+import datetime
+import glob
+import importlib.util
+import json
+import os
+import re
+import subprocess
+import sys
+
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.dirname(SCRIPT_DIR)
+GUARDRAILS = os.path.join(ROOT, "guardrails")
+sys.path.insert(0, GUARDRAILS)
+
+CENSUS_RECORD = os.path.join(GUARDRAILS, "rule-census.json")
+BASELINE = os.path.join(GUARDRAILS, "progress-baseline.json")
+SPEC = os.path.join(ROOT, "PRODUCT_SPEC.md")
+READS_DIR = os.path.join(ROOT, "docs", "language-reads")
+OUT = os.path.join(ROOT, "docs", "MEASUREMENTS.md")
+
+NOT_MEASURED = "not measured"
+NA = "—"
+SPEC_ONLY = {"PRODUCT_SPEC.md"}
+
+READ_FILE_RE = re.compile(r"^(\d{4}-\d{2}-\d{2})-read(\d+)-(.+)\.md$")
+STOPS_RE = re.compile(r"Stops:\s*(\d+)\s*[—-]\s*(\d+)\s*blocking")
+
+
+def load(path):
+    with open(path, encoding="utf-8") as f:
+        return json.load(f)
+
+
+def load_module(path, name):
+    spec = importlib.util.spec_from_file_location(name, path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+def readings_by_slug():
+    """One entry per reading record: its date, its number, and the blocking count it states."""
+    out = {}
+    for path in sorted(glob.glob(os.path.join(READS_DIR, "*.md"))):
+        m = READ_FILE_RE.match(os.path.basename(path))
+        if not m:
+            continue
+        date, number, slug = m.group(1), int(m.group(2)), m.group(3)
+        with open(path, encoding="utf-8") as f:
+            head = " ".join(f.read().split("\n")[:25])
+        stops = STOPS_RE.search(head)
+        blocking = int(stops.group(2)) if stops else None
+        out.setdefault(slug, []).append({"date": date, "n": number, "blocking": blocking})
+    for slug in out:
+        out[slug].sort(key=lambda r: r["n"])
+    return out
+
+
+def spec_numbers():
+    """The specification's own counts, taken the way the size gate takes them."""
+    try:
+        import specformat as sf
+        text = open(SPEC, encoding="utf-8").read()
+        doc = sf.parse(text)
+        ratchet = load_module(os.path.join(GUARDRAILS, "check-size-ratchet.py"), "csr")
+        crit_bytes, crit_count = ratchet.bytes_per_criterion(doc)
+        return {
+            "requirements": len(doc.requirements),
+            "criteria": len(doc.criteria),
+            "per_criterion": round(crit_bytes / crit_count, 1) if crit_count else None,
+        }
+    except Exception:
+        return {"requirements": None, "criteria": None, "per_criterion": None}
+
+
+def repeated_pairs():
+    proc = subprocess.run([sys.executable, os.path.join(SCRIPT_DIR, "spec-redundancy-precheck.py"),
+                           SPEC], capture_output=True, text=True, cwd=ROOT)
+    lines = [ln for ln in proc.stdout.splitlines() if ln.strip()]
+    if not lines:
+        return None
+    try:
+        return json.loads(lines[-1]).get("open")
+    except ValueError:
+        return None
+
+
+def file_lines(rel):
+    path = os.path.join(ROOT, rel)
+    if not os.path.exists(path):
+        return None
+    with open(path, encoding="utf-8", errors="replace") as f:
+        return len(f.read().split("\n"))
+
+
+def fmt(value):
+    if value is None:
+        return NOT_MEASURED
+    if isinstance(value, int):
+        return "{:,}".format(value)
+    return str(value)
+
+
+def queue_rows(baseline, census, reads, slug_map, rounds):
+    """One row per file, in the reading queue's order, then every remaining measured document."""
+    rows = []
+    seen = set()
+    position = 0
+    for group in baseline["priority"]["groups"]:
+        members = group.get("members", [])
+        if not members:
+            continue
+        rows.append({"group": group["title"]})
+        for rel in members:
+            position += 1
+            rows.append(build_row(position, rel, census, reads, slug_map, rounds))
+            seen.add(rel)
+    remaining = sorted(((p, r) for p, r in census.items() if p not in seen),
+                       key=lambda kv: -kv[1].get("total", 0))
+    if remaining:
+        rows.append({"group": "Every remaining live document, worst first"})
+        for rel, _ in remaining:
+            position += 1
+            rows.append(build_row(position, rel, census, reads, slug_map, rounds))
+    return rows
+
+
+def build_row(position, rel, census, reads, slug_map, rounds):
+    entry = census.get(rel)
+    slug = slug_map.get(rel)
+    my_reads = reads.get(slug, []) if slug else []
+    agreed = rounds.get(rel)
+
+    findings = entry.get("total") if entry else None
+    longest = entry.get("longest") if entry else None
+    style = entry.get("style") if entry else None
+    byts = entry.get("bytes") if entry else None
+
+    measured_clean = "yes" if findings == 0 else ("no" if findings is not None else NOT_MEASURED)
+    if agreed is None:
+        read_clean = NOT_MEASURED if not my_reads else "no"
+        agreed_cell = NOT_MEASURED if my_reads else NA
+    else:
+        last = agreed[-1]
+        read_clean = "yes" if last["agreed"] == 0 else "no"
+        agreed_cell = str(last["agreed"])
+
+    if measured_clean == "yes" and read_clean == "yes":
+        state = "finished"
+    else:
+        state = "unfinished"
+
+    row = {
+        "n": position, "file": rel, "state": state,
+        "findings": fmt(findings), "longest": fmt(longest), "style": fmt(style),
+        "readings": str(len(my_reads)) if slug else "0",
+        "agreed": agreed_cell,
+        "measured_clean": measured_clean, "read_clean": read_clean,
+        "bytes": fmt(byts), "lines": fmt(file_lines(rel)),
+    }
+    if rel in SPEC_ONLY:
+        s = spec_numbers()
+        row["requirements"] = fmt(s["requirements"])
+        row["criteria"] = fmt(s["criteria"])
+        row["per_criterion"] = fmt(s["per_criterion"])
+        row["pairs"] = fmt(repeated_pairs())
+    else:
+        row["requirements"] = row["criteria"] = row["per_criterion"] = row["pairs"] = NA
+    return row
+
+
+COLUMNS = [
+    ("n", "#", "Position in the reading queue. The queue runs by what enters a working context "
+               "earliest, so the file an agent reads on every turn stands first."),
+    ("file", "file", "The file this row measures."),
+    ("state", "state", "DONE when the file is clean on the counter and clean on the readings. "
+                       "Every other file reads open. This is the only finish line."),
+    ("findings", "find", "Writing findings: sentences past the word cap of the file's surface, plus "
+                         "style findings and register findings. Command: python3 "
+                         "scripts/rule-census.py. Target: zero."),
+    ("longest", "long", "Words in the file's longest prose sentence. One long sentence marks the "
+                        "paragraph a reader rereads. Target: 25 for human prose, 35 for a "
+                        "numbered acceptance criterion."),
+    ("style", "style", "Findings of the style check alone (scripts/spec-style-lint.py --tier full). "
+                       "Carried apart because a style finding is repaired differently. Target: zero."),
+    ("measured_clean", "cnt", "Whether the finding count sits at zero. This is the cheap bar, and a "
+                              "file above its recorded count refuses the push."),
+    ("readings", "reads", "How many fresh readers have read this file. A reader holds no project "
+                          "access: only the file and one fixed list of questions. Each reading "
+                          "writes a dated record under docs/language-reads/."),
+    ("agreed", "agree", "Places where BOTH readers of the last round stopped. One reader measures "
+                        "that reader's path; two readers agreeing measures the text. While this "
+                        "stands above zero the file is repaired again. Target: zero."),
+    ("read_clean", "read", "Whether the agreed-stop count reached zero. This is the real bar."),
+    ("lines", "lines", "Lines in the file. It says whether one reader holds the file in one pass. "
+                       "Target for a specification part file: 250 lines of requirement bodies."),
+    ("est", "est h", "Estimated hours left to carry this file to DONE. Basis: minutes per hundred "
+                     "findings for the mechanical repair, plus the reading rounds still owed times "
+                     "the minutes one round costs. Every input is recorded in "
+                     "guardrails/progress-baseline.json under estimate."),
+    ("cum", "cum h", "Cumulative hours if the files run one at a time, which is what campaign rule 1 "
+                     "says today."),
+]
+
+# Most significant first: where the file stands, then the bar that decides it, then the cost, then
+# the detail numbers behind each bar.
+ORDER = ["n", "file", "state", "agreed", "read_clean", "findings", "measured_clean",
+         "est", "cum", "readings", "longest", "style", "lines"]
+COLUMNS = sorted(COLUMNS, key=lambda c: ORDER.index(c[0]))
+SHORT = {"not measured": "n/m", "unfinished": "open", "finished": "DONE", "yes": "ok"}
+
+
+def short(value):
+    return SHORT.get(str(value), str(value))
+
+
+def estimate_minutes(row, rounds_done, est):
+    """Hours still owed on one file. Every input is recorded, and the report states the basis."""
+    minutes = 0
+    findings = row["findings"]
+    if findings == NOT_MEASURED:
+        minutes += est["first_measurement_minutes"]
+        findings_n = est["assumed_findings_when_unmeasured"]
+    else:
+        findings_n = int(str(findings).replace(",", ""))
+    minutes += (findings_n / 100.0) * est["mechanical_minutes_per_100_findings"]
+    owed = max(0, est["rounds_expected"] - rounds_done)
+    minutes += owed * est["round_minutes"]
+    return minutes
+
+
+def html_escape(text):
+    return (str(text).replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+            .replace('"', "&quot;"))
+
+
+def spec_table():
+    """The four indicators that belong to the specification alone, kept out of the wide table."""
+    s = spec_numbers()
+    return ["", "### The specification's own size", "",
+            "| indicator | today | target |", "|---|---|---|",
+            "| bytes | %s | under 840,000 |" % fmt(load(CENSUS_RECORD)["files"]
+                                                   .get("PRODUCT_SPEC.md", {}).get("bytes")),
+            "| requirements | %s | no target |" % fmt(s["requirements"]),
+            "| acceptance criteria | %s | no target |" % fmt(s["criteria"]),
+            "| bytes per criterion | %s | falls or holds, bound 207.2 |" % fmt(s["per_criterion"]),
+            "| repeated pairs | %s | falls or holds |" % fmt(repeated_pairs()),
+            "| lines per part file | %s | 250, once the division lands |" % NOT_MEASURED, ""]
+
+
+def render_md(rows, today):
+    heads = [h for _, h, _ in COLUMNS]
+    out = ["# Measurements — one row per file, every indicator", "",
+           "Generated %s by `python3 scripts/measurements-table.py`. This table is the source of "
+           "truth for where the work stands, and `docs/MEASUREMENTS.html` is the page to read it "
+           "on." % today, "",
+           "| " + " | ".join(heads) + " |",
+           "|" + "|".join(["---"] * len(heads)) + "|"]
+    for row in rows:
+        if "group" in row:
+            out.append("| | **%s** |%s" % (row["group"], "|" * (len(heads) - 2)))
+            continue
+        cells = []
+        for key, _, _ in COLUMNS:
+            value = row.get(key, NA)
+            cells.append("`%s`" % value if key == "file" else short(value))
+        out.append("| " + " | ".join(cells) + " |")
+    out.extend(spec_table())
+    out.extend(NOTES)
+    return "\n".join(out) + "\n"
+
+
+HTML_STYLE = """
+:root { color-scheme: light dark; --line: rgba(127,127,127,.32); --head: rgba(127,127,127,.14); }
+* { box-sizing: border-box; }
+body { font-family: -apple-system, "Segoe UI", system-ui, sans-serif; margin: 0; padding: 0;
+       font-size: 15px; line-height: 1.5; }
+header { padding: 1rem 1.25rem .6rem; border-bottom: 1px solid var(--line); }
+h1 { font-size: 1.15rem; margin: 0 0 .3rem; }
+header p { margin: .2rem 0; font-size: .85rem; opacity: .8; }
+.wrap { height: calc(100vh - 8.5rem); overflow: auto; }
+table { border-collapse: separate; border-spacing: 0; width: 100%; font-size: .84rem;
+        font-variant-numeric: tabular-nums; }
+thead th { position: sticky; top: 0; z-index: 3; background: var(--head);
+           backdrop-filter: blur(6px); border-bottom: 1px solid var(--line);
+           padding: .5rem .6rem; text-align: left; white-space: nowrap; cursor: help;
+           text-decoration: underline dotted; text-underline-offset: 3px; }
+thead th .tip { display: none; position: absolute; top: 100%; left: 0; z-index: 9;
+                width: 26rem; max-width: 70vw; white-space: normal; font-weight: 400;
+                font-size: .8rem; line-height: 1.45; padding: .7rem .85rem;
+                border: 1px solid var(--line); border-radius: 8px;
+                background: Canvas; color: CanvasText;
+                box-shadow: 0 10px 30px rgba(0,0,0,.28); }
+thead th:hover .tip, thead th:focus-within .tip { display: block; }
+thead th:nth-last-child(-n+4) .tip { left: auto; right: 0; }
+tbody td { border-bottom: 1px solid var(--line); padding: .3rem .6rem; white-space: nowrap; }
+tbody td.file { white-space: normal; font-family: ui-monospace, Menlo, monospace;
+                font-size: .82em; }
+tbody tr.group td { background: var(--head); font-weight: 600; }
+tbody tr:hover td { background: rgba(127,127,127,.10); }
+td.num { text-align: right; }
+td.done { font-weight: 700; }
+td.nm { opacity: .5; }
+footer { padding: .8rem 1.25rem; border-top: 1px solid var(--line); font-size: .8rem; opacity: .8; }
+"""
+
+
+def render_html(rows, today, totals):
+    head_cells = "".join(
+        '<th tabindex="0">%s<span class="tip">%s</span></th>'
+        % (html_escape(head), html_escape(tip))
+        for _, head, tip in COLUMNS)
+    body = []
+    for row in rows:
+        if "group" in row:
+            body.append('<tr class="group"><td></td><td colspan="%d">%s</td></tr>'
+                        % (len(COLUMNS) - 1, html_escape(row["group"])))
+            continue
+        cells = []
+        for key, _, _ in COLUMNS:
+            value = short(row.get(key, NA))
+            cls = []
+            if key == "file":
+                cls.append("file")
+            if key in ("n", "findings", "longest", "style", "readings", "agreed", "lines",
+                       "est", "cum"):
+                cls.append("num")
+            if value == "n/m":
+                cls.append("nm")
+            if value == "DONE":
+                cls.append("done")
+            attr = ' class="%s"' % " ".join(cls) if cls else ""
+            cells.append("<td%s>%s</td>" % (attr, html_escape(value)))
+        body.append("<tr>%s</tr>" % "".join(cells))
+    return """<!doctype html><html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Measurements — live-spec</title><style>%s</style></head><body>
+<header><h1>Measurements — one row per file, every indicator</h1>
+<p>Generated %s by <code>python3 scripts/measurements-table.py</code>. Hover a column name to read
+what it measures, why, and what it aims at.</p>
+<p>%s</p></header>
+<div class="wrap"><table><thead><tr>%s</tr></thead><tbody>%s</tbody></table></div>
+<footer>%s</footer></body></html>
+""" % (HTML_STYLE, today, html_escape(totals["headline"]), head_cells, "".join(body),
+       html_escape(totals["footer"]))
+
+
+NOTES = [
+"## What each column means",
+"",
+"Each indicator carries five things: what it counts, why the project measures it, what changes when "
+"it moves, the command that produces it, and the value it aims at.",
+"",
+"**state** — a file reads `finished` when it is measured clean and read clean. Every other file reads "
+"`unfinished`. This is the campaign's only finish line, and the queue advances when a file reaches it.",
+"",
+"**findings** — sentences past the word cap of the file's surface, plus the findings of the style "
+"check and the register check. It separates the cheap defects a script settles from the ones needing "
+"a reader. A file above its recorded count refuses the push. `python3 scripts/rule-census.py`. Target: "
+"zero.",
+"",
+"**longest sentence** — the words in the file's longest prose sentence. One long sentence marks the "
+"paragraph a reader will reread, so it names where to start. Same command. Target: 25 words for human "
+"prose, 35 for a numbered acceptance criterion.",
+"",
+"**style** — the findings of `scripts/spec-style-lint.py --tier full` alone, carried as its own column "
+"because a style finding is repaired differently from a long sentence. Target: zero.",
+"",
+"**readings** — how many fresh readers have read this file. A reader holds no project access: only the "
+"file and one fixed list of questions, at `skills/text-audit/references/reader-prompt.md`. Each reading "
+"writes a dated record under `docs/language-reads/`. Target: the count rises until two readers of one "
+"round agree on nothing.",
+"",
+"**agreed stops** — places where both readers of the latest round stopped. A single reader's list "
+"never repeats, so one reader measures that reader's path and two readers agreeing measures the text. "
+"While this stands above zero the file is repaired again. Recorded per round in "
+"`guardrails/progress-baseline.json`. Target: zero.",
+"",
+"**measured clean** — the findings column at zero.",
+"",
+"**read clean** — the agreed-stop column at zero for two rounds in a row.",
+"",
+"**bytes**, **lines** — the file's size. They say whether a file is growing, and whether one reader "
+"holds it in one pass. Target for a specification part file: 250 lines of requirement bodies, from "
+"`docs/plans/2026-07-29-specification-subdivision.md`.",
+"",
+"**requirements**, **criteria** — the specification's numbered requirements and their acceptance "
+"criteria, counted the way `guardrails/check-size-ratchet.py` counts them. They are the inputs to the "
+"density column.",
+"",
+"**bytes per criterion** — the bytes of the criterion lines divided by the number of criteria. It "
+"separates growth by addition from growth by wordiness. A delivery may lower it or leave it; raising "
+"it needs a written reason in `guardrails/spec-ratchet.json`. Target: it falls or holds.",
+"",
+"**repeated pairs** — pairs of sentences whose wording overlaps enough for a pattern to catch them, "
+"from `python3 scripts/spec-redundancy-precheck.py PRODUCT_SPEC.md`. This is the cheap layer: it "
+"reaches five of the thirty-nine requirement pairs the judged measure found on 2026-07-29, recorded in "
+"`docs/measure/2026-07-29-specification-size.md`. Target: it falls or holds.",
+"",
+"## Indicators this table cannot yet fill",
+"",
+"Each one names what it would decide, and what it needs to exist.",
+"",
+"**Cheap reader against strong reader.** Every reading so far ran on the expensive tier, with no "
+"evidence the expense buys anything. The campaign plan requires this measurement before the tier is "
+"chosen. It needs one cheap worker reading the same text as a strong worker, and the two reports "
+"compared place by place.",
+"",
+"**Rounds and cost per file.** They price the campaign, and they decide whether the queue is "
+"reachable at all. The reading records hold the data; no script counts it.",
+"",
+"**Requirements a fresh agent builds unaided.** This is the only number that says whether the "
+"readability work changed anything. It needs a recorded run naming the requirements handed over, the "
+"agent, and what it produced.",
+"",
+"**Judged duplication.** The requirement pairs stating one fact twice, the requirement groups sharing "
+"one shape, and the glossary entries naming one thing twice were measured by hand once, on "
+"2026-07-29. As standing runs they become a push check, and the specification stops growing by rule.",
+"",
+"**The share of findings a machine catches.** Every class a machine catches is a class no reader "
+"spends attention on. It reads the census and the reading records together.",
+"",
+"## The rule this page enforces",
+"",
+"Every number stated to a person, in chat or in a document, carries what it counts, why it is "
+"measured, what changes when it moves, the command that produced it, and the value it aims at. A "
+"number stated bare is a defect of the same kind as an undefined term.",
+]
+
+
+def main():
+    census = load(CENSUS_RECORD).get("files", {})
+    baseline = load(BASELINE)
+    slug_map = baseline.get("reading_slugs", {})
+    rounds = baseline.get("rounds", {})
+    est = baseline["estimate"]
+    reads = readings_by_slug()
+    today = datetime.date.today().isoformat()
+    rows = queue_rows(baseline, census, reads, slug_map, rounds)
+
+    running = 0.0
+    done = 0
+    files = 0
+    for row in rows:
+        if "group" in row:
+            continue
+        files += 1
+        if row["state"] == "finished":
+            done += 1
+            row["est"] = "0"
+            row["cum"] = "%.0f" % (running / 60.0)
+            continue
+        minutes = estimate_minutes(row, len(rounds.get(row["file"], [])), est)
+        running += minutes
+        row["est"] = "%.1f" % (minutes / 60.0)
+        row["cum"] = "%.0f" % (running / 60.0)
+
+    hours = running / 60.0
+    day = est["working_hours_per_day"]
+    sequential_days = hours / day
+    lanes = est["parallel_lanes"]
+    parallel_days = hours / (day * lanes)
+    totals = {
+        "headline": ("%d files, %d finished. %.0f hours of work still owed. One file at a time, at "
+                     "%g hours a day, that is %.0f working days. With %d files running side by "
+                     "side it is %.0f working days."
+                     % (files, done, hours, day, sequential_days, lanes, parallel_days)),
+        "footer": ("Estimate basis, all inputs recorded in guardrails/progress-baseline.json: %g "
+                   "minutes of mechanical repair per hundred findings, %g minutes per reading "
+                   "round, %d rounds expected per file, %g working hours a day. The rounds figure "
+                   "rests on one file measured today, so it is the weakest input."
+                   % (est["mechanical_minutes_per_100_findings"], est["round_minutes"],
+                      est["rounds_expected"], day)),
+    }
+
+    with open(OUT, "w", encoding="utf-8") as f:
+        f.write(render_md(rows, today))
+    html_path = OUT.replace(".md", ".html")
+    with open(html_path, "w", encoding="utf-8") as f:
+        f.write(render_html(rows, today, totals))
+    print("measurements-table: wrote %s" % OUT)
+    print("measurements-table: wrote %s" % html_path)
+    print(totals["headline"])
+
+
+if __name__ == "__main__":
+    main()

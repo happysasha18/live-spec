@@ -147,9 +147,12 @@ code { font-family: ui-monospace, Menlo, monospace; font-size: .9em;
        background: rgba(127,127,127,.14); padding: .1em .35em; border-radius: 4px; }
 pre { background: rgba(127,127,127,.10); padding: 1rem; border-radius: 8px; overflow-x: auto; }
 pre code { background: none; padding: 0; }
-table { border-collapse: collapse; width: 100%; margin: 1rem 0; display: block; overflow-x: auto; }
-th, td { border: 1px solid rgba(127,127,127,.35); padding: .45rem .7rem; text-align: left;
-         vertical-align: top; }
+table { border-collapse: collapse; margin: 1.2rem 0; display: block; overflow-x: auto;
+        position: relative; left: 50%; transform: translateX(-50%);
+        width: max-content; max-width: calc(100vw - 3rem); font-size: .84rem; }
+th, td { border: 1px solid rgba(127,127,127,.35); padding: .35rem .6rem; text-align: left;
+         vertical-align: top; white-space: nowrap; }
+td:nth-child(2) { white-space: normal; }
 th { background: rgba(127,127,127,.12); }
 blockquote { border-left: 3px solid rgba(127,127,127,.4); margin: 1rem 0; padding: .1rem 1.2rem;
              opacity: .85; }

@@ -1,0 +1,257 @@
+{
+  "_comment": "The recorded-before facts that scripts/progress-report.py reads for its 'recorded before' and 'at the format change, 2026-07-23' columns, so history stays stable across runs instead of drifting with whatever the live tree happens to hold today. Each fact carries the source it was checked against. Nothing here is re-derived at report time; a fact absent from this file prints 'not stated' rather than a guess.",
+  "format_change_2026_07_23": {
+    "date": "2026-07-23",
+    "bytes": 590695,
+    "requirements": 282,
+    "acceptance_criteria": 1372,
+    "source": "JOURNAL.md, the 2026-07-23 v4.0.0 MAJOR entry (row 445): 'The assembled document holds 282 requirements, 1,372 criteria... It measures 590,695 bytes against the 783,678-byte pre-format source.' Verified against JOURNAL.md line 313."
+  },
+  "findings_2026_07_28_morning": {
+    "date": "2026-07-28",
+    "total_findings": 5429,
+    "source": "docs/reports/2026-07-28-document-state-and-plan.md line 7: 'the repository's own count stands at 4827, down from 5429 this morning.' Verified."
+  },
+  "findings_2026_07_29_night": {
+    "date": "2026-07-29",
+    "total_findings": 4810,
+    "documents": 108,
+    "zero_findings_documents": 16,
+    "source": "docs/reports/2026-07-29-session-report.md: the census totals line '108 files measured. 3451 sentences past the cap, 1359 style findings, 0 register findings, 4810 in all,' and 'Sixteen documents measure zero.' Verified against lines 42/44/147."
+  },
+  "redundancy_pairs": {
+    "before_format_change": {
+      "date": "2026-07-23",
+      "value": 116,
+      "source": "git commit 3ab4809 (the row-445 format-change landing): scripts/spec-debt-cap.json at that commit reads max_redundancy_open.PRODUCT_SPEC.md = 116. CONTRADICTS the brief's stated figure of 114 — the committed record and the row-456 entry's own history note ('116 was raised to 121 at the row-456 architecture-format landing,' guardrails/spec-debt-cap.json _reason_redundancy_PRODUCT_SPEC field) both hold 116, not 114. This file records the verified 116; see the delivery report for the discrepancy."
+    },
+    "after_architecture_format_landing": {
+      "date": "2026-07-23",
+      "value": 121,
+      "source": "git commit a3e46ba (the row-456 architecture-format landing): scripts/spec-debt-cap.json at that commit reads max_redundancy_open.PRODUCT_SPEC.md = 121, raised from 116, reason recorded in the same commit's _reason_redundancy_PRODUCT_SPEC field. This is a later same-day event than the format change itself (row 445) and is carried here for the audit trail; the Table C column 'at the format change, 2026-07-23' reads the row-445 value (before_format_change, 116) since that is the format-change moment the other three seeded facts also mark."
+    }
+  },
+  "last_generation": {
+    "date": "2026-07-29",
+    "total_findings": 4813,
+    "zero_findings_documents": 21
+  },
+  "targets": {
+    "_comment": "The readability and growth targets scripts/progress-report.py reads for its 'target' columns. Each carries the file and sentence it derives from, and set_on the date it was seeded. A measure with no entry here prints 'not stated'.",
+    "live documents measured": {
+      "value": "all of them",
+      "source": "docs/plans/2026-07-28-two-goals-one-campaign.md line 139: 'Every live document gets readings.'",
+      "set_on": "2026-07-29"
+    },
+    "writing findings across all documents": {
+      "value": "0",
+      "source": "docs/plans/2026-07-28-two-goals-one-campaign.md line 33, the definition of measured clean: 'Measured clean means the census counts zero findings in the document: no sentence past the twenty-five-word cap, no style finding, no register finding.'",
+      "set_on": "2026-07-29"
+    },
+    "documents at zero findings": {
+      "value": "all",
+      "source": "docs/plans/2026-07-28-two-goals-one-campaign.md line 33, the definition of measured clean: 'Measured clean means the census counts zero findings in the document: no sentence past the twenty-five-word cap, no style finding, no register finding.'",
+      "set_on": "2026-07-29"
+    },
+    "documents that passed two consecutive readings with nothing blocking": {
+      "value": "all",
+      "source": "docs/plans/2026-07-28-two-goals-one-campaign.md line 36, the definition of read clean: 'Read clean means two consecutive readings returned zero stops that block the reader.'",
+      "set_on": "2026-07-29"
+    },
+    "bytes": {
+      "value": "under the ceiling",
+      "source": "guardrails/doc-bounds.json, docs.\"PRODUCT_SPEC.md\".max_bytes: 840000.",
+      "set_on": "2026-07-29"
+    },
+    "bytes per criterion": {
+      "value": "falls or holds",
+      "source": "guardrails/spec-ratchet.json, the never-raises law: 'A delivery may lower it or leave it; no delivery may raise it (raising is a change to Requirement 4, INV-265).'",
+      "set_on": "2026-07-29"
+    },
+    "pairs stating one fact twice": {
+      "value": "falls or holds",
+      "source": "scripts/spec-debt-cap.json, _reason_redundancy_PRODUCT_SPEC, the never-raises note: 'A later delivery may lower this floor or leave it, never raise it without the same justification.'",
+      "set_on": "2026-07-29"
+    },
+    "requirements": {
+      "value": "set by the subdivision plan",
+      "source": "docs/plans/2026-07-29-specification-subdivision.md line 138: 'The cap is 250 lines of requirement bodies per group file.'",
+      "set_on": "2026-07-29"
+    },
+    "acceptance criteria": {
+      "value": "set by the subdivision plan",
+      "source": "docs/plans/2026-07-29-specification-subdivision.md line 138: 'The cap is 250 lines of requirement bodies per group file.'",
+      "set_on": "2026-07-29"
+    },
+    "lines": {
+      "value": "set by the subdivision plan",
+      "source": "docs/plans/2026-07-29-specification-subdivision.md line 138: 'The cap is 250 lines of requirement bodies per group file.'",
+      "set_on": "2026-07-29"
+    },
+    "words": {
+      "value": "set by the subdivision plan",
+      "source": "docs/plans/2026-07-29-specification-subdivision.md line 138: 'The cap is 250 lines of requirement bodies per group file.'",
+      "set_on": "2026-07-29"
+    }
+  },
+  "priority": {
+    "_comment": "The reading queue's fixed order, from docs/plans/2026-07-28-two-goals-one-campaign.md, section 'The order of documents' (rewritten 2026-07-28, ten groups). scripts/progress-report.py reads this instead of re-deriving the order. Group 7's members were resolved by listing skills/ and removing the skills already named in groups 4 and 5 (text-audit; live-spec-base, build-pipeline, communicator). Group 10, 'every remaining live document, worst first', names no fixed members here: the script computes it each run from the live census, excluding every path named in groups 1-9, sorted by findings descending.",
+    "source": "docs/plans/2026-07-28-two-goals-one-campaign.md, section \"The order of documents\"",
+    "groups": [
+      {
+        "number": 1,
+        "title": "The text that enters every turn",
+        "members": [
+          "hooks/chat-law-hook.sh"
+        ]
+      },
+      {
+        "number": 2,
+        "title": "The text that enters every session at its start",
+        "members": [
+          "~/.claude/CLAUDE.md",
+          "~/.claude/live-spec/profile.md"
+        ]
+      },
+      {
+        "number": 3,
+        "title": "The file every session reads first",
+        "members": [
+          "NEXT_STEPS.md"
+        ]
+      },
+      {
+        "number": 4,
+        "title": "The text-audit skill and the four documents it points at",
+        "members": [
+          "skills/text-audit/SKILL.md",
+          "docs/language-rules.md",
+          "docs/spec-style.md",
+          "docs/spec-format.md",
+          "docs/language-worked-example.md"
+        ]
+      },
+      {
+        "number": 5,
+        "title": "The three skills loaded in every task run by the method",
+        "members": [
+          "skills/live-spec-base/SKILL.md",
+          "skills/build-pipeline/SKILL.md",
+          "skills/communicator/SKILL.md"
+        ]
+      },
+      {
+        "number": 6,
+        "title": "ROADMAP.md, read whenever a session picks up work",
+        "members": [
+          "ROADMAP.md"
+        ]
+      },
+      {
+        "number": 7,
+        "title": "The remaining seven skills",
+        "members": [
+          "skills/design-reviewer/SKILL.md",
+          "skills/feedback-collector/SKILL.md",
+          "skills/feedback-intake/SKILL.md",
+          "skills/product-prover/SKILL.md",
+          "skills/publish/SKILL.md",
+          "skills/spec-author/SKILL.md",
+          "skills/test-author/SKILL.md"
+        ]
+      },
+      {
+        "number": 8,
+        "title": "The specification family",
+        "members": [
+          "PRODUCT_SPEC.md",
+          "ARCHITECTURE.md",
+          "TEST_MATRIX.md"
+        ]
+      },
+      {
+        "number": 9,
+        "title": "The documents a stranger meets on arrival",
+        "members": [
+          "README.md",
+          "OVERVIEW.md",
+          "adopt/ADOPT.md"
+        ]
+      },
+      {
+        "number": 10,
+        "title": "Every remaining live document, worst first",
+        "members": []
+      }
+    ]
+  },
+  "reading_slugs": {
+    "_comment": "Maps the slug in a docs/language-reads/ filename to the file that reading read.",
+    "skills/text-audit/SKILL.md": "text-audit-skill",
+    "docs/language-defects.md": "language-defects",
+    "docs/language-rules.md": "language-rules-reference",
+    "docs/plans/2026-07-28-two-goals-one-campaign.md": "campaign-plan",
+    "hooks/chat-law-hook.sh": "chat-law-hook"
+  },
+  "rounds": {
+    "_comment": "One entry per file: the rounds of two readers run on it. 'agreed' is the count of places BOTH readers of that round stopped at, which is the number that decides whether the file is read clean. Recorded by the session that compared the two reading records.",
+    "skills/text-audit/SKILL.md": [
+      {
+        "round": 1,
+        "readings": [
+          17,
+          18
+        ],
+        "date": "2026-07-29",
+        "agreed": 8
+      },
+      {
+        "round": 2,
+        "readings": [
+          19,
+          20
+        ],
+        "date": "2026-07-29",
+        "agreed": 3
+      },
+      {
+        "round": 3,
+        "readings": [
+          21,
+          22
+        ],
+        "date": "2026-07-29",
+        "agreed": 2
+      },
+      {
+        "round": 4,
+        "readings": [
+          23,
+          24
+        ],
+        "date": "2026-07-29",
+        "agreed": 2
+      },
+      {
+        "round": 5,
+        "readings": [
+          25,
+          26
+        ],
+        "date": "2026-07-29",
+        "agreed": 2
+      }
+    ]
+  },
+  "estimate": {
+    "_comment": "Inputs to the est-h and cum-h columns of docs/MEASUREMENTS.html. Each one is a measured or assumed figure, and the page prints the basis under the table. mechanical_minutes_per_100_findings comes from 2026-07-28, where four documents carrying 360 findings reached zero in about half an hour of repair once the two broken checkers were fixed. round_minutes and rounds_expected come from the five rounds run on skills/text-audit/SKILL.md on 2026-07-29: two readers in parallel take about five minutes, and one repair worker takes about twenty. rounds_expected rests on that ONE file, so it is the weakest input here and it is re-seeded once a second file finishes.",
+    "mechanical_minutes_per_100_findings": 10,
+    "round_minutes": 25,
+    "rounds_expected": 5,
+    "first_measurement_minutes": 10,
+    "assumed_findings_when_unmeasured": 40,
+    "working_hours_per_day": 6,
+    "parallel_lanes": 4,
+    "set_on": "2026-07-29"
+  }
+}
