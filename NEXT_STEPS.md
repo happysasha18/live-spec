@@ -3,18 +3,19 @@
 ## Start here
 
 Open `docs/MEASUREMENTS.html` in a browser. That page is the source of truth for where the work
-stands: one row per file, one column per indicator, the reading queue's order, and the hours still
-owed. Build it with `python3 scripts/measurements-table.py`, which writes both that page and
-`docs/MEASUREMENTS.md`.
+stands. It carries one row per file and one column per indicator, in the reading queue's order, with
+the hours each file still owes. Build it with `python3 scripts/measurements-table.py`, which writes
+both that page and `docs/MEASUREMENTS.md`.
 
 The owner set that page's format on 2026-07-29 and it holds until this project ends. Its shape stays
-fixed: columns in order of significance, the header row pinned to the top, a hover note on every
-column name saying what it counts and what it aims at, and every explanation below the table.
+fixed. Columns run in order of significance and the header row pins to the top of the window. Every
+column name carries a hover note saying what it counts and what it aims at. Every explanation sits
+below the table.
 
 ## The two promises
 
-**A reader gets through a document without stopping.** Measured by the writing-finding count, which a
-script settles, and by fresh readers, who report every place they stopped.
+**A reader gets through a document without stopping.** Two measures cover it. A script settles the
+writing-finding count, and fresh readers report every place they stopped.
 
 **The specification stops growing.** Measured by its size, by the text per acceptance criterion, and
 by the pairs stating one fact twice.
@@ -26,8 +27,8 @@ Both are open. No file has reached finished.
 A place counts against the text when **both readers of one round stopped there**. A place one reader
 found alone is recorded as residue in `docs/language-defects.md`, and it blocks nothing.
 
-The session settled this on 2026-07-29 after five rounds on one file returned fifteen and ten
-blocking stops, then five and eight, then nine and four. No single reader's list repeated. Under the
+The session settled this on 2026-07-29. Five rounds on one file returned fifteen and ten blocking
+stops, then five and eight, then nine and four. No single reader's list repeated. Under the
 agreement rule the counts ran eight, three, two, two, two.
 
 ## Where the work stopped, 2026-07-29 around 12:45
@@ -48,10 +49,10 @@ the agreement rule, and compare 29 against both for the tier question below.
 2. Record round six in `guardrails/progress-baseline.json` under `rounds`, then rebuild the page with
    `python3 scripts/measurements-table.py`.
 
-The tier question is answered. `docs/measure/2026-07-29-reader-tier-comparison.md` holds it: a cheap
-reader reached one of the three places the two strong readers agreed on, and it found two real places
-neither strong reader reached. A round therefore runs as one strong reader and one cheap reader, which
-costs less and loses no coverage the agreement rule uses.
+The tier question is answered. `docs/measure/2026-07-29-reader-tier-comparison.md` holds it. A cheap
+reader reached one of the three places the two strong readers agreed on. It also found two real
+places neither strong reader reached. A round therefore runs as one strong reader and one cheap
+reader. That pair costs less and loses no coverage the agreement rule uses.
 
 ## Three findings worth acting on
 
@@ -69,9 +70,15 @@ working days instead of 42.
 
 ## The measurement rule, standing from 2026-07-29
 
-Every number stated to the owner, in chat or in a document, carries five things: what it counts and in
-what unit, why it is measured, what changes when it moves, the command that produced it, and the value
-it aims at. A number stated bare is a defect of the same kind as an undefined term.
+Every number stated to the owner, in chat or in a document, carries five things:
+
+- what it counts, and in what unit;
+- why it is measured, meaning the decision it informs;
+- what changes when it moves;
+- the command or procedure that produced it;
+- the value it aims at.
+
+A number stated bare is a defect of the same kind as an undefined term.
 
 ## Rules you must not break
 

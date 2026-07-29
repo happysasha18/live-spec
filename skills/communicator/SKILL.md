@@ -282,6 +282,7 @@ The register of the words themselves, and honesty about the result.
    - Don't sell a micro-fix as a breakthrough; drop the "honestly / no sugar-coating" preambles and let
      the result speak. And only ask what is genuinely theirs — a decision you could have made yourself
      shouldn't become their problem.
+   - A number is a fact with four parts: why it is measured, what changes when it moves, its unit, and its method. A count handed to the human without them is a defect; the rule's home is the writing register (rule 17). The chat floor is mechanical: the measurement arm of `hooks/midturn-chat-scan.py` denies the next tool call on a count whose method stands nowhere in its paragraph.
    - Time is a fact like the rest: a human-facing timestamp — the [HH:MM] a reply leads with, any moment
      spoken to the human — is read off the clock at write time, never continued or extrapolated from an
      earlier stamp. Quoting a past moment's recorded time stays legal (SPEC INV-24, the invented-time
@@ -423,7 +424,7 @@ register: a native-English technical writer for a serious open-source project. N
 to follow. Never a marketing or pitch voice, a personal brand, or something quirky.
 
 The **full register lives in [`references/writing-register.md`](references/writing-register.md)** — the
-sixteen rules (sentences and paragraphs, terms, voice, trim and shape, framing) plus the ten-point
+seventeen rules (sentences and paragraphs, terms, voice, trim and shape, framing, numbers) plus the ten-point
 verification checklist a good technical writer runs. **Load that file before drafting or editing any
 human-facing prose**; it is the normative home the pre-report walk below re-reads, and the register
 `spec-author` and every other skill follow. This section holds only the two loudest rules so a reader
@@ -446,7 +447,7 @@ another sentence. Before any movement-end or milestone report goes to the human:
 
 1. **Re-read the rules above, and the full writing register** — open this file and read the live text each
    time, and open [`references/writing-register.md`](references/writing-register.md) (the register's home
-   since row 266) so the sixteen rules and the ten-point checklist sit in front of you, read live from the page each time.
+   since row 266) so the seventeen rules and the ten-point checklist sit in front of you, read live from the page each time.
 2. **Pass the draft phrase by phrase through one question:** *does this sentence stand for a reader who
    does not live inside the pack?* A pack surface the draft names is explained in the reader's own words
    or dropped; quiet trailing anchors stay legal — the walk governs what does the TALKING, never the

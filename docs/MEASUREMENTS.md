@@ -10,10 +10,10 @@ Generated 2026-07-29 by `python3 scripts/measurements-table.py`. This table is t
 | 2 | `~/.claude/CLAUDE.md` | open | — | n/m | n/m | n/m | 2.3 | 5 | 0 | n/m | n/m | n/m |
 | 3 | `~/.claude/live-spec/profile.md` | open | — | n/m | n/m | n/m | 2.3 | 7 | 0 | n/m | n/m | n/m |
 | | **The file every session reads first** ||||||||||||
-| 4 | `NEXT_STEPS.md` | open | — | n/m | 0 | ok | 2.1 | 9 | 0 | 24 | 0 | 118 |
+| 4 | `NEXT_STEPS.md` | open | — | n/m | 0 | ok | 2.1 | 9 | 0 | 25 | 0 | 125 |
 | | **The text-audit skill and the four documents it points at** ||||||||||||
 | 5 | `skills/text-audit/SKILL.md` | open | 3 | no | 0 | ok | 0.0 | 9 | 14 | 25 | 0 | 352 |
-| 6 | `docs/language-rules.md` | open | n/m | no | 38 | no | 2.1 | 11 | 2 | 89 | 8 | 1,067 |
+| 6 | `docs/language-rules.md` | open | n/m | no | 38 | no | 2.1 | 11 | 2 | 89 | 8 | 1,079 |
 | 7 | `docs/spec-style.md` | open | — | n/m | 65 | no | 2.2 | 13 | 0 | 64 | 33 | 152 |
 | 8 | `docs/spec-format.md` | open | — | n/m | 16 | no | 2.1 | 15 | 0 | 98 | 1 | 77 |
 | 9 | `docs/language-worked-example.md` | open | — | n/m | 8 | no | 2.1 | 18 | 0 | 41 | 2 | 629 |
@@ -41,7 +41,7 @@ Generated 2026-07-29 by `python3 scripts/measurements-table.py`. This table is t
 | 26 | `adopt/ADOPT.md` | open | — | n/m | 46 | no | 2.2 | 59 | 0 | 93 | 0 | 301 |
 | | **Every remaining live document, worst first** ||||||||||||
 | 27 | `docs/prior-art-frameworks.md` | open | — | n/m | 112 | no | 2.3 | 61 | 0 | 42 | 105 | 317 |
-| 28 | `docs/language-rule-coverage.md` | open | — | n/m | 105 | no | 2.3 | 63 | 0 | 81 | 22 | 1,134 |
+| 28 | `docs/language-rule-coverage.md` | open | — | n/m | 105 | no | 2.3 | 63 | 0 | 81 | 22 | 1,150 |
 | 29 | `docs/restyle-repoint-log.md` | open | — | n/m | 83 | no | 2.2 | 65 | 0 | 78 | 63 | 141 |
 | 30 | `docs/prior-art-longtail.md` | open | — | n/m | 78 | no | 2.2 | 67 | 0 | 53 | 63 | 277 |
 | 31 | `skills/build-pipeline/references/delegation-protocol.md` | open | — | n/m | 52 | no | 2.2 | 70 | 0 | 71 | 24 | 98 |
@@ -130,7 +130,7 @@ Generated 2026-07-29 by `python3 scripts/measurements-table.py`. This table is t
 | 114 | `guardrails/release-note-fixtures/note-no-offer.md` | open | — | n/m | 0 | ok | 2.1 | 244 | 0 | 21 | 0 | 8 |
 | 115 | `skills/product-prover/README.md` | open | — | n/m | 0 | ok | 2.1 | 246 | 0 | 25 | 0 | 168 |
 | 116 | `skills/text-audit/README.md` | open | — | n/m | 0 | ok | 2.1 | 248 | 0 | 25 | 0 | 101 |
-| 117 | `skills/text-audit/references/human-prose-rules.md` | open | — | n/m | 0 | ok | 2.1 | 250 | 0 | 25 | 0 | 226 |
+| 117 | `skills/text-audit/references/human-prose-rules.md` | open | — | n/m | 0 | ok | 2.1 | 250 | 0 | 25 | 0 | 230 |
 | 118 | `skills/text-audit/references/reader-prompt.md` | open | — | n/m | 0 | ok | 2.1 | 252 | 0 | 23 | 0 | 52 |
 
 ### The specification's own size

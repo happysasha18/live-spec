@@ -23,7 +23,7 @@ end to end against these rules, and names the rule at each fix.
 
 Every rule below binds human prose, which is text a person reads to understand something or to decide something. A README, a decision page, a report, a skill's own body, and a documentation page carry it. So do the prose paragraphs inside a spec. A documentation page carries `artifact` as well once it is published outside the project.
 
-This block prints 48 of the 62 rules the source carries. A code missing from the run below belongs to a rule binding other surfaces only, or to a retired rule whose code left the set. A rule binding human prose may also bind chat, a commit message, or a worker brief. Its recorded case may come from one of those surfaces.
+This block prints 49 of the 63 rules the source carries. A code missing from the run below belongs to a rule binding other surfaces only, or to a retired rule whose code left the set. A rule binding human prose may also bind chat, a commit message, or a worker brief. Its recorded case may come from one of those surfaces.
 
 They are printed here out of `guardrails/language-rules.json`, which is where each one is edited. A change made in this block is overwritten by the next run of `scripts/gen-language-consumers.py`.
 
@@ -221,5 +221,9 @@ Each entry names the class of mistake, states the rule, gives the question to as
   A claim carries its ground on the page that makes it. A file named beside the claim holds the record, and the page still states what the reader needs.
   *Ask:* Can a reader holding this page alone see what this claim rests on?
     - `The loop came from the spec-format comprehension gate.` → `what that gate observed, stated on the page, with the file that records it named beside it`
+- **a number stated without the four parts a measurement carries** (`r72`)
+  A number stated to a reader carries four things. They are why it is measured, what changes when it moves, its unit, and the method behind it. The four stand in the number's own sentence or in the paragraph around it. A number quoted from a named source inherits that source's method.
+  *Ask:* Reading this number alone, do I know what is counted, which decision it informs, and which command gives it again?
+    - `A reading returned fifteen stops.` → `name the unit, the decision the count informs, what changes when it moves, and the command behind it`
 
 <!-- /generated:human-prose-rules -->

@@ -148,6 +148,29 @@ the defect this surface exists to catch. [[wait]]
   пс помни что у тебя была таблица и план со всеми параметрами которые ты сказал что будешь постепенно заполнять на базе конкретных проверок! вот это я от тебя и ожидаю когда будет отчет сессии, и что все цифры настоящие! все в транскриптах
   ```
 
+- 2026-07-29, morning — a place where a reader stops counts against a document only when both readers
+  of one round stopped there. A place one reader of the round found is recorded as residue, and it
+  blocks nothing. This is the pack's own reasoning, so strike it freely. The session settled it in chat
+  and wrote it down nowhere, which is the defect your 12:08 instruction closes. The ground: three rounds
+  of readings on one document returned fifteen and ten blocking stops, then five and eight, then nine
+  and four. Each round gave two fresh readers the whole file and the reader prompt from
+  `skills/text-audit`. A blocking stop is one place a reader could not go on. No single reader's list
+  repeated. Agreement between the two readers of one round is what
+  closes the reading loop.
+
+- 2026-07-29 12:08 — every decision about how the work runs is written down. A decision that lives only
+  in chat does not exist. The entry above is the first one recorded under this instruction.
+
+- 2026-07-29 12:08 — a number is never handed to you on its own. Whenever a number is stated to you, or
+  written into a document, it carries four things. Why it is measured: the decision it informs, or the
+  question it answers. What changes when it moves: what the project does differently if it rises or
+  falls. Its unit: what is being counted, in what. Its method: the command or the procedure that
+  produced it, so a reader reproduces it. A number stated without those four is a defect. You bound
+  this to chat and to the skills, and you asked that a gate hold whatever a gate can hold. The case on
+  record is this session's own sentence. A reader returned a count of stops, and the sentence named
+  neither what a stop is, nor what the count decides, nor how the count was produced. The instruction
+  reached this session in relay, so no verbatim text of yours stands here.
+
 ## Open — carried, awaiting your word
 <!-- record:open -->
 These are open questions the pack carries with a recommendation, moved here from the old spec body when

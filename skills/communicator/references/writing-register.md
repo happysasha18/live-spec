@@ -4,7 +4,7 @@ Everything the pack writes for a human — spec prose, reports, decision cards, 
 register: a native-English technical writer for a serious open-source project. Neutral, precise, easy
 to follow. Never let it read as a marketing or pitch voice, a personal brand, or something quirky. (Defined 2026-07-07 after
 the owner rejected both a "confident product pitch" draft and a persona-flavored one; his words, 2026-07-07:
-write in the language of a native-speaker technical writer for open source, consistent and easy to read.) Sixteen rules:
+write in the language of a native-speaker technical writer for open source, consistent and easy to read.) Seventeen rules:
 
 ## Sentences and paragraphs
 
@@ -107,6 +107,25 @@ Lead with what a thing is, and hold the contrast frame out.
       ceiling is a read-aloud that turns every denied-neighbour clause into its own positive sentence.
       (2026-07-09, restated with an explicit allergy: the frame stays out of chat replies to our
       conversations, and every earlier text carrying it is a bug to sweep.)
+
+
+## Numbers
+
+What a number owes the reader who meets it.
+
+- **A number carries four things.** *(rule 17)* A number stated on its own is a defect.
+    - **Why it is measured** — the decision it informs, or the question it answers.
+    - **What changes when it moves** — what the project does differently if the number rises or falls.
+    - **Its unit** — what is being counted, in what.
+    - **Its method** — the command or the procedure that produced it, so a reader reproduces it.
+    - The four stand in the number's own sentence or in the paragraph around it. A number quoted from a
+      source the text names inherits that source's method.
+    - The mechanical floor is the measurement arm of `hooks/midturn-chat-scan.py`. It reads a paragraph
+      for a count whose method stands nowhere beside it. The other three parts are meaning, and a person
+      or a reading model holds them.
+    - The case this rule rests on: a session reported that a reader returned a count of stops. That
+      sentence named what a stop is, what the count decides, and how the count was produced, in none of
+      its words. `DECISIONS.md` carries the owner's instruction of 2026-07-29 12:08.
 
 
 **Verify each finished or edited piece of writing** — the checklist a good technical writer runs:

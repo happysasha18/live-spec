@@ -21,6 +21,10 @@ WHAT IT JUDGES.
   2. Calques — the pack's internal English vocabulary loan-translated into the working language and
      handed to the human as if it were his. The list is data, hooks/chat-calques.json, and each entry
      carries the plain industry word the reply owed the reader, which the deny quotes.
+  3. A count handed over with no method beside it (the owner's measurement law, 2026-07-29 12:08). A
+     number stated to the human carries four things: why it is measured, what changes when it moves,
+     its unit, and the method that produced it. Three of those are meaning. The fourth has a shape, and
+     this arm reads for it. The law's prose home is the writing register, rule 17.
 
 THE NO-LOOP RULE. The offending text stays in the transcript for the rest of the session, so a scan
 that judged it afresh at every tool call would deny every later call in that session. A fragment is
@@ -46,6 +50,12 @@ no tool call at all is still the Stop arm's to catch, and there the correction a
 has read the line. It also reads shape rather than meaning: a sentence that names its wish in plain
 but WRONG words passes the machine.
 
+THE MEASUREMENT ARM'S OWN BOUNDARY. It catches one of the four parts, the method, and it catches that
+part by shape. A paragraph carrying any command word or any backtick span satisfies it, even where that
+command produced nothing of the number beside it. A number stated with no unit at all — "the reader
+returned 15" — carries no counted noun, so this arm never sees it. Why the number is measured and what
+changes when it moves are meaning, and a person or a reading model is what holds them.
+
 Repo home: hooks/midturn-chat-scan.py; installed copy: ~/.claude/hooks/ (beside code-anchor-scan.py).
 """
 import hashlib
@@ -63,6 +73,43 @@ CALQUES_PATH = os.path.join(HOOK_DIR, "chat-calques.json")
 STATE_DIR = os.path.join(os.path.expanduser("~"), ".claude", "hooks", ".midturn-chat")
 REPORTED_CAP = 500  # the tail kept per session; a turn never carries anywhere near this many
 
+
+# ---- The measurement arm's patterns ----------------------------------------------------------------
+# A COUNT is a number standing directly in front of one of the counted nouns below, in either working
+# language, so the noun names the unit. A percentage counts too, the sign being its own unit. The
+# citation shape the code-anchor law owns is this one's mirror — there the naming word comes FIRST and
+# the number second ("row 386") — so the two arms never judge one fragment twice.
+#
+# The nouns are the things this project MEASURES. An edit's own tally (a line, a byte, a file) stays
+# out, since a working report of what was touched is no measurement handed over as a finding.
+COUNTED_NOUNS = (
+    "finding|stop|defect|error|failure|test|reading|pass|row|requirement|criteri|document|"
+    "sentence|hit|warning|"
+    # the same counted nouns when chat runs in Russian
+    "находк|стоп|дефект|ошиб|провал|тест|чтени|проход|требовани|критери|документ|"  # user-language
+    "предложени|замечани|пункт"  # user-language
+)
+COUNT = re.compile(
+    r"(?<![\w.,:/-])\d+(?:[.,]\d+)?"      # the number, standing free of a date, a time or a path
+    r"(?:\s*%%"                           # the percent sign, a unit of its own
+    r"|\s+(?:[\w-]{1,15}\s+){0,2}"        # or up to two describing words in front of the noun
+    r"(?:%s)\w*)" % COUNTED_NOUNS,
+    re.IGNORECASE,
+)
+# The METHOD tokens: the shapes a reproducible procedure takes in this project's chat — a command or a
+# path inside a backtick span, a script or record named by its extension, a command word, or a phrase
+# naming the procedure that produced the number.
+METHOD = re.compile(
+    r"`[^`\n]+`"
+    r"|\b[\w./-]+\.(?:py|sh|json|jsonl|md|log|txt|yml)\b"
+    r"|\b(?:python3?|pytest|grep|rg|wc|git|jq|sed|awk|find|make|npm|node|curl)\b"
+    r"|\b(?:measured|counted|produced|read|taken)\s+(?:by|with|from|off)\b"
+    # user-language: the same procedure words when chat runs in Russian
+    r"|измер\w+|посчита\w+|подсчита\w+|команд\w+|методом|скриптом|гейтом|по\s+записи",  # user-language
+    re.IGNORECASE,
+)
+# A block opener: a list item carries its own point, so it opens a block of its own.
+BULLET_LINE = re.compile(r"^\s*(?:[-*+]\s|\d+[.)]\s)")
 
 _CODE_ANCHOR = []  # loaded once per process; the module compiles its patterns at import
 
@@ -145,6 +192,54 @@ def _readable_window(text, start, end, reach):
     return text[left:right].replace("\n", " ").strip()
 
 
+def blocks(text):
+    """The paragraphs a count is judged inside.
+
+    A measurement is stated with its parts in one block of prose, so the block is the window: a count in
+    one paragraph and a command three paragraphs later are two separate statements. A blank line closes
+    a block, and a list item opens one, since a bullet carries its own point.
+    """
+    out, current = [], []
+    for line in text.split("\n"):
+        if not line.strip() or BULLET_LINE.match(line):
+            if current:
+                out.append("\n".join(current))
+                current = []
+        if line.strip():
+            current.append(line)
+    if current:
+        out.append("\n".join(current))
+    return out
+
+
+def judge_measurements(text):
+    """Every count in the text whose block names no method, as findings of kind `measure`.
+
+    A fenced block is machine output rather than a sentence to the human, and a table row carries its
+    own describing cell, so both stand outside this reading. A backtick span stays IN, since a quoted
+    command is the commonest shape a method takes.
+    """
+    if not text:
+        return []
+    anchor = _load_code_anchor()
+    live = anchor.FENCE.sub(" ", text)
+    live = "\n".join(ln for ln in live.split("\n") if not ln.lstrip().startswith("|"))
+    findings = []
+    for block in blocks(live):
+        if METHOD.search(block):
+            continue
+        m = COUNT.search(block)
+        if not m:
+            continue
+        findings.append({
+            "kind": "measure",
+            "fragment": m.group().strip(),
+            "context": _readable_window(block, m.start(), m.end(), 60),
+            "say": "",
+        })
+    return findings
+
+
 def judge(text, calques=None):
     """Every offence in the turn's text, as dicts carrying kind, fragment, context and replacement."""
     if not text:
@@ -174,6 +269,8 @@ def judge(text, calques=None):
                 "context": _readable_window(live, m.start(), m.end(), 60),
                 "say": say,
             })
+
+    findings.extend(judge_measurements(text))
     return findings
 
 
@@ -217,19 +314,36 @@ def build_reason(fresh):
         if f["kind"] == "code":
             lines.append("  · internal code with no plain-word naming — «%s» in: %s"
                          % (f["fragment"], f["context"]))
+        elif f["kind"] == "measure":
+            lines.append("  · a count with no method beside it — «%s» in: %s"
+                         % (f["fragment"], f["context"]))
         else:
             lines.append("  · calque «%s», say «%s» — in: %s"
                          % (f["fragment"], f["say"], f["context"]))
+    tail = ""
+    if any(f["kind"] in ("code", "calque") for f in fresh):
+        tail += (
+            "\n\nA queue row number names nothing to a reader on its own, and a loan-translated internal "
+            "word names nothing to him at all. Say the sentence again in plain words in the very next "
+            "message, before anything else: name each wish in the product's own words with the code "
+            "trailing in parentheses, and use the plain industry word quoted above in place of each "
+            "calque."
+        )
+    if any(f["kind"] == "measure" for f in fresh):
+        tail += (
+            "\n\nA number carries four things, and one of them is missing above: why it is measured "
+            "(the decision it informs, or the question it answers), what changes when it moves, its "
+            "unit, and the method that produced it. State the count again in the very next message "
+            "with all four, naming the command or the procedure a reader runs to get the same number. "
+            "The rule's home is the writing register, rule 17."
+        )
     return (
         "MID-TURN CHAT CHECK — this narration line has already been shown to the human, and it carries "
         "text the pack's laws keep out of his reading:\n"
         + "\n".join(lines)
-        + "\n\nA queue row number names nothing to a reader on its own, and a loan-translated internal "
-        "word names nothing to him at all. Say the sentence again in plain words in the very next "
-        "message, before anything else: name each wish in the product's own words with the code "
-        "trailing in parentheses, and use the plain industry word quoted above in place of each calque. "
-        "This tool call is denied so the correction reaches him inside this turn; make the call again "
-        "straight after the correction."
+        + tail
+        + "\n\nThis tool call is denied so the correction reaches him inside this turn; make the call "
+        "again straight after the correction."
     )
 
 

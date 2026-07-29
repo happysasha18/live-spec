@@ -41,37 +41,37 @@ A surface is a KIND of text, not a file, and one file carries several. The numbe
 
 The numbered requirements and acceptance criteria of `PRODUCT_SPEC.md`, and the same numbered shape in `ARCHITECTURE.md` and `TEST_MATRIX.md`. A machine reads this text beside the person. The prose paragraphs in those same files are human-prose. Example: Requirement 297 of `PRODUCT_SPEC.md`, and each acceptance criterion under it.
 
-Binds 51 of the 62 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r08 · r09 · r10 · r11 · r12 · r15 · r18 · r19 · r20 · r21 · r23 · r24 · r26 · r27 · r29 · r30 · r31 · r32 · r33 · r34 · r35 · r36 · r37 · r39 · r40 · r41 · r43 · r44 · r45 · r53 · r54 · r55 · r56 · r61 · r62 · r63 · r64 · r65 · r66 · r67 · r68 · r69 · r70 · r71.
+Binds 52 of the 63 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r08 · r09 · r10 · r11 · r12 · r15 · r18 · r19 · r20 · r21 · r23 · r24 · r26 · r27 · r29 · r30 · r31 · r32 · r33 · r34 · r35 · r36 · r37 · r39 · r40 · r41 · r43 · r44 · r45 · r53 · r54 · r55 · r56 · r61 · r62 · r63 · r64 · r65 · r66 · r67 · r68 · r69 · r70 · r71 · r72.
 
 ### human-prose
 
 Text a person reads to understand something or to decide something. A README, a decision page, a report, a skill's own body, and a documentation page carry it. So do the prose paragraphs inside a spec. A documentation page carries `artifact` as well once it is published outside the project. Example: `README.md`, and this page.
 
-Binds 48 of the 62 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r08 · r09 · r10 · r11 · r12 · r13 · r14 · r15 · r18 · r20 · r23 · r25 · r26 · r27 · r32 · r33 · r39 · r41 · r43 · r44 · r45 · r46 · r48 · r49 · r50 · r52 · r53 · r54 · r56 · r57 · r61 · r62 · r63 · r64 · r65 · r66 · r67 · r68 · r69 · r70 · r71.
+Binds 49 of the 63 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r08 · r09 · r10 · r11 · r12 · r13 · r14 · r15 · r18 · r20 · r23 · r25 · r26 · r27 · r32 · r33 · r39 · r41 · r43 · r44 · r45 · r46 · r48 · r49 · r50 · r52 · r53 · r54 · r56 · r57 · r61 · r62 · r63 · r64 · r65 · r66 · r67 · r68 · r69 · r70 · r71 · r72.
 
 ### chat
 
 A message the agent sends the person in conversation, including the narration between tool calls — the checkers read every assistant message since the person's last turn, not the final reply alone. Example: a reply in a working session.
 
-Binds 32 of the 62 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r10 · r11 · r12 · r13 · r14 · r15 · r18 · r25 · r26 · r27 · r43 · r46 · r47 · r48 · r49 · r50 · r51 · r52 · r61 · r62 · r63 · r65 · r66 · r68 · r71.
+Binds 33 of the 63 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r10 · r11 · r12 · r13 · r14 · r15 · r18 · r25 · r26 · r27 · r43 · r46 · r47 · r48 · r49 · r50 · r51 · r52 · r61 · r62 · r63 · r65 · r66 · r68 · r71 · r72.
 
 ### artifact
 
 A page or file published to someone outside the project: a rendered page, product copy, a public README, a marketing text. Example: the project's public README as it stands on its repository page.
 
-Binds 52 of the 62 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r08 · r09 · r10 · r11 · r12 · r13 · r14 · r15 · r18 · r19 · r20 · r23 · r25 · r26 · r27 · r29 · r30 · r31 · r32 · r33 · r34 · r39 · r40 · r41 · r43 · r44 · r45 · r46 · r50 · r53 · r54 · r55 · r56 · r57 · r61 · r62 · r63 · r64 · r65 · r66 · r67 · r68 · r69 · r70 · r71.
+Binds 53 of the 63 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r08 · r09 · r10 · r11 · r12 · r13 · r14 · r15 · r18 · r19 · r20 · r23 · r25 · r26 · r27 · r29 · r30 · r31 · r32 · r33 · r34 · r39 · r40 · r41 · r43 · r44 · r45 · r46 · r50 · r53 · r54 · r55 · r56 · r57 · r61 · r62 · r63 · r64 · r65 · r66 · r67 · r68 · r69 · r70 · r71 · r72.
 
 ### commit
 
 A commit message: its subject line and its body. Example: the message on one commit.
 
-Binds 8 of the 62 rules: r10 · r12 · r18 · r19 · r27 · r61 · r66 · r68.
+Binds 8 of the 63 rules: r10 · r12 · r18 · r19 · r27 · r61 · r66 · r68.
 
 ### worker-brief
 
 The text one agent hands another as its instructions. Example: the brief a session writes when it starts a background worker.
 
-Binds 13 of the 62 rules: r10 · r12 · r13 · r14 · r15 · r18 · r27 · r48 · r61 · r66 · r67 · r68 · r69.
+Binds 13 of the 63 rules: r10 · r12 · r13 · r14 · r15 · r18 · r27 · r48 · r61 · r66 · r67 · r68 · r69.
 
 ## The words these pages use
 
@@ -1000,6 +1000,18 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 - `The loop came from the spec-format comprehension gate.` → `what that gate observed, stated on the page, with the file that records it named beside it`
 - `that run is clean` → `the command that runs the check, and what a passing run prints`
+
+### r72 — a number stated without the four parts a measurement carries
+
+**Rule.** A number stated to a reader carries four things. They are why it is measured, what changes when it moves, its unit, and the method behind it. The four stand in the number's own sentence or in the paragraph around it. A number quoted from a named source inherits that source's method.
+
+**Reader test.** Reading this number alone, do I know what is counted, which decision it informs, and which command gives it again?
+
+**Binds.** spec-body · human-prose · chat · artifact
+
+**Examples.**
+
+- `A reading returned fifteen stops.` → `name the unit, the decision the count informs, what changes when it moves, and the command behind it`
 
 ## An index of questions
 

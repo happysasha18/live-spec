@@ -3504,6 +3504,50 @@
       ],
       "status": "stated-only",
       "notes": "The reader-prompt in skills/text-audit/SKILL.md has named this stop class since it was written, and the rule home carried no rule for it. Both readings on 2026-07-29 raised it twice. One stop was a stopping rule resting on a gate the page never explains. The other was a compliance claim resting on a run the page never shows. r32 covers a judgment with no judge or measure, and r06 covers a number with no ground. This rule covers a claim whose ground stands outside the reader's reach."
+    },
+    {
+      "id": "r72",
+      "name": "a number stated without the four parts a measurement carries",
+      "rule": "A number stated to a reader carries four things. They are why it is measured, what changes when it moves, its unit, and the method behind it. The four stand in the number's own sentence or in the paragraph around it. A number quoted from a named source inherits that source's method.",
+      "reader_test": "Reading this number alone, do I know what is counted, which decision it informs, and which command gives it again?",
+      "surfaces": [
+        "spec-body",
+        "human-prose",
+        "chat",
+        "artifact"
+      ],
+      "examples": [
+        {
+          "written": "A reading returned fifteen stops.",
+          "repair": "name the unit, the decision the count informs, what changes when it moves, and the command behind it"
+        }
+      ],
+      "catchers": {
+        "pattern": {
+          "status": "partial",
+          "where": "hooks/midturn-chat-scan.py, the measurement arm",
+          "reach": "chat alone, every assistant message since the human's last turn. It reads a paragraph for a count whose block names no command, no script path and no procedure phrase. A fenced block and a table row stand outside the reading."
+        },
+        "model": {
+          "status": "absent",
+          "where": "",
+          "law_text": ""
+        },
+        "person": {
+          "status": "held",
+          "note": "why the number is measured and what changes when it moves are meaning, and the cold reader and the owner hold them"
+        }
+      },
+      "armed": [
+        "hooks/midturn-chat-scan.py"
+      ],
+      "sources": [
+        "skills/communicator/references/writing-register.md",
+        "skills/communicator/SKILL.md",
+        "DECISIONS.md"
+      ],
+      "status": "armed",
+      "notes": "The owner's instruction of 2026-07-29. The recorded case is a session's own chat sentence reporting a count of stops. That sentence named no unit, no decision the count informs, and no procedure behind it."
     }
   ]
 }

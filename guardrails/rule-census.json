@@ -12,10 +12,10 @@
       "total": 88
     },
     "NEXT_STEPS.md": {
-      "bytes": 5336,
+      "bytes": 6197,
       "file": "NEXT_STEPS.md",
       "long": 0,
-      "longest": 24,
+      "longest": 25,
       "register": 0,
       "style": 0,
       "total": 0
@@ -93,7 +93,7 @@
       "total": 46
     },
     "docs/MEASUREMENTS.md": {
-      "bytes": 18331,
+      "bytes": 18423,
       "file": "docs/MEASUREMENTS.md",
       "long": 3,
       "longest": 36,
@@ -102,7 +102,7 @@
       "total": 3
     },
     "docs/PROGRESS.md": {
-      "bytes": 14941,
+      "bytes": 15127,
       "file": "docs/PROGRESS.md",
       "long": 0,
       "longest": 22,
@@ -165,7 +165,7 @@
       "total": 38
     },
     "docs/language-rule-coverage.md": {
-      "bytes": 78898,
+      "bytes": 79955,
       "file": "docs/language-rule-coverage.md",
       "long": 83,
       "longest": 81,
@@ -174,7 +174,7 @@
       "total": 105
     },
     "docs/language-rules.md": {
-      "bytes": 56553,
+      "bytes": 57301,
       "file": "docs/language-rules.md",
       "long": 30,
       "longest": 89,
@@ -912,7 +912,7 @@
       "total": 0
     },
     "skills/text-audit/references/human-prose-rules.md": {
-      "bytes": 23605,
+      "bytes": 24239,
       "file": "skills/text-audit/references/human-prose-rules.md",
       "long": 0,
       "longest": 25,

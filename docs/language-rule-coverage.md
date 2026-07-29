@@ -1131,3 +1131,19 @@ repair the text from those stops rather than from the one sentence in front of y
 **Stated before this page, at.** docs/language-reads/2026-07-29-read17-text-audit-skill.md, docs/language-reads/2026-07-29-read18-text-audit-skill.md
 
 **Notes.** The reader-prompt in skills/text-audit/SKILL.md has named this stop class since it was written, and the rule home carried no rule for it. Both readings on 2026-07-29 raised it twice. One stop was a stopping rule resting on a gate the page never explains. The other was a compliance claim resting on a run the page never shows. r32 covers a judgment with no judge or measure, and r06 covers a number with no ground. This rule covers a claim whose ground stands outside the reader's reach.
+
+### r72 — a number stated without the four parts a measurement carries
+
+**Binds.** spec-body · human-prose · chat · artifact
+
+**Status.** armed, armed at hooks/midturn-chat-scan.py.
+
+**What catches a break of it.**
+
+- **pattern** — partial. Lives at hooks/midturn-chat-scan.py, the measurement arm. Reach: chat alone, every assistant message since the human's last turn. It reads a paragraph for a count whose block names no command, no script path and no procedure phrase. A fenced block and a table row stand outside the reading.
+- **model** — absent.
+- **person** — held. Reads: why the number is measured and what changes when it moves are meaning, and the cold reader and the owner hold them.
+
+**Stated before this page, at.** skills/communicator/references/writing-register.md, skills/communicator/SKILL.md, DECISIONS.md
+
+**Notes.** The owner's instruction of 2026-07-29. The recorded case is a session's own chat sentence reporting a count of stops. That sentence named no unit, no decision the count informs, and no procedure behind it.
