@@ -21,6 +21,7 @@ The words these rules are stated in. Every page built from this home carries thi
 - **surface** — a kind of text rather than a file, so one file carries several; this project names six, and each rule binds the ones it applies to.
 - **stop** — one place a reader could not go on, had to read twice, or had to guess.
 - **a blocking stop** — a stop where the reader could not go on with the text, or would have acted on the text wrongly; every other stop is one the reader noticed and read past.
+- **register** — the rules a surface's text is held to: which words, which sentence shapes, and how it addresses its reader.
 
 Five roles appear wherever these rules are discussed.
 
@@ -40,37 +41,37 @@ A surface is a KIND of text, not a file, and one file carries several. The numbe
 
 The numbered requirements and acceptance criteria of `PRODUCT_SPEC.md`, and the same numbered shape in `ARCHITECTURE.md` and `TEST_MATRIX.md`. A machine reads this text beside the person. The prose paragraphs in those same files are human-prose. Example: Requirement 297 of `PRODUCT_SPEC.md`, and each acceptance criterion under it.
 
-Binds 48 of the 59 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r08 · r09 · r10 · r11 · r12 · r15 · r18 · r19 · r20 · r21 · r23 · r24 · r26 · r27 · r29 · r30 · r31 · r32 · r33 · r34 · r35 · r36 · r37 · r39 · r40 · r41 · r43 · r44 · r45 · r53 · r54 · r55 · r56 · r61 · r62 · r63 · r64 · r65 · r66 · r67 · r68.
+Binds 51 of the 62 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r08 · r09 · r10 · r11 · r12 · r15 · r18 · r19 · r20 · r21 · r23 · r24 · r26 · r27 · r29 · r30 · r31 · r32 · r33 · r34 · r35 · r36 · r37 · r39 · r40 · r41 · r43 · r44 · r45 · r53 · r54 · r55 · r56 · r61 · r62 · r63 · r64 · r65 · r66 · r67 · r68 · r69 · r70 · r71.
 
 ### human-prose
 
-Text a person reads to understand something or to decide something: `README.md`, `OVERVIEW.md`, a decision page, a report, a skill's own body, a documentation page, and the prose paragraphs inside a spec. A documentation page is human-prose, and it carries `artifact` as well once it is published outside the project. Example: `README.md`, and this page.
+Text a person reads to understand something or to decide something. A README, a decision page, a report, a skill's own body, and a documentation page carry it. So do the prose paragraphs inside a spec. A documentation page carries `artifact` as well once it is published outside the project. Example: `README.md`, and this page.
 
-Binds 45 of the 59 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r08 · r09 · r10 · r11 · r12 · r13 · r14 · r15 · r18 · r20 · r23 · r25 · r26 · r27 · r32 · r33 · r39 · r41 · r43 · r44 · r45 · r46 · r48 · r49 · r50 · r52 · r53 · r54 · r56 · r57 · r61 · r62 · r63 · r64 · r65 · r66 · r67 · r68.
+Binds 48 of the 62 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r08 · r09 · r10 · r11 · r12 · r13 · r14 · r15 · r18 · r20 · r23 · r25 · r26 · r27 · r32 · r33 · r39 · r41 · r43 · r44 · r45 · r46 · r48 · r49 · r50 · r52 · r53 · r54 · r56 · r57 · r61 · r62 · r63 · r64 · r65 · r66 · r67 · r68 · r69 · r70 · r71.
 
 ### chat
 
 A message the agent sends the person in conversation, including the narration between tool calls — the checkers read every assistant message since the person's last turn, not the final reply alone. Example: a reply in a working session.
 
-Binds 31 of the 59 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r10 · r11 · r12 · r13 · r14 · r15 · r18 · r25 · r26 · r27 · r43 · r46 · r47 · r48 · r49 · r50 · r51 · r52 · r61 · r62 · r63 · r65 · r66 · r68.
+Binds 32 of the 62 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r10 · r11 · r12 · r13 · r14 · r15 · r18 · r25 · r26 · r27 · r43 · r46 · r47 · r48 · r49 · r50 · r51 · r52 · r61 · r62 · r63 · r65 · r66 · r68 · r71.
 
 ### artifact
 
 A page or file published to someone outside the project: a rendered page, product copy, a public README, a marketing text. Example: the project's public README as it stands on its repository page.
 
-Binds 49 of the 59 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r08 · r09 · r10 · r11 · r12 · r13 · r14 · r15 · r18 · r19 · r20 · r23 · r25 · r26 · r27 · r29 · r30 · r31 · r32 · r33 · r34 · r39 · r40 · r41 · r43 · r44 · r45 · r46 · r50 · r53 · r54 · r55 · r56 · r57 · r61 · r62 · r63 · r64 · r65 · r66 · r67 · r68.
+Binds 52 of the 62 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r08 · r09 · r10 · r11 · r12 · r13 · r14 · r15 · r18 · r19 · r20 · r23 · r25 · r26 · r27 · r29 · r30 · r31 · r32 · r33 · r34 · r39 · r40 · r41 · r43 · r44 · r45 · r46 · r50 · r53 · r54 · r55 · r56 · r57 · r61 · r62 · r63 · r64 · r65 · r66 · r67 · r68 · r69 · r70 · r71.
 
 ### commit
 
 A commit message: its subject line and its body. Example: the message on one commit.
 
-Binds 8 of the 59 rules: r10 · r12 · r18 · r19 · r27 · r61 · r66 · r68.
+Binds 8 of the 62 rules: r10 · r12 · r18 · r19 · r27 · r61 · r66 · r68.
 
 ### worker-brief
 
 The text one agent hands another as its instructions. Example: the brief a session writes when it starts a background worker.
 
-Binds 12 of the 59 rules: r10 · r12 · r13 · r14 · r15 · r18 · r27 · r48 · r61 · r66 · r67 · r68.
+Binds 13 of the 62 rules: r10 · r12 · r13 · r14 · r15 · r18 · r27 · r48 · r61 · r66 · r67 · r68 · r69.
 
 ## The words these pages use
 
@@ -793,7 +794,7 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 ### r54 — a changed section shipped before two clean cold readings
 
-**Rule.** A changed section is read by fresh readers who carry no project context, until two consecutive reads return zero blocking findings. A finding blocks when the reader could not go on, or would have applied the text wrongly.
+**Rule.** A changed section is read by fresh readers who carry no project context, until two consecutive reads return zero blocking findings. `skills/text-audit/SKILL.md` defines a blocking finding.
 
 **Reader test.** Did a reader with no project context read this section and stop nowhere?
 
@@ -961,6 +962,44 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 - `This keeps the leading context clear enough to hold the campaign.` → `The leading session then holds enough room to carry the campaign.`
 - `The second goal needs its own measure` → `The growing specification has no measure today`
 - `A report says which documents are done` → `A report says which documents are measured clean and read clean`
+
+### r69 — a step naming a check, a file, or an act with no way to run it or find it
+
+**Rule.** A step the reader has to carry out names the command that runs it, or the path that holds it. Where the text can name neither, it says so and names what the reader does instead.
+
+**Reader test.** Could a reader carry out this step from the page alone, with nothing else on hand?
+
+**Binds.** spec-body · human-prose · artifact · worker-brief
+
+**Examples.**
+
+- `the structure checks over requirement shape, the generated index, the matrix references, and the frozen baseline` → `each of the four checks on its own line, with the command that runs it`
+- `the project's own copy of the list otherwise` → the project's own `guardrails/weak-words.json`, created with a `weak_words` list where the project holds none
+
+### r70 — a set claimed whole while the text carries members outside it, or leaves members out with no reason
+
+**Rule.** A claim that a set is complete states what the set covers and what it leaves out. The list printed under such a claim carries every member the claim names.
+
+**Reader test.** Does the text's own list agree with the claim made over it?
+
+**Binds.** spec-body · human-prose · artifact
+
+**Examples.**
+
+- `These are every rule binding human-prose.` → `the rules binding human prose, with the printed count and the reason a code is missing`
+
+### r71 — a claim resting on ground the reader of the page cannot reach
+
+**Rule.** A claim carries its ground on the page that makes it. A file named beside the claim holds the record, and the page still states what the reader needs.
+
+**Reader test.** Can a reader holding this page alone see what this claim rests on?
+
+**Binds.** spec-body · human-prose · chat · artifact
+
+**Examples.**
+
+- `The loop came from the spec-format comprehension gate.` → `what that gate observed, stated on the page, with the file that records it named beside it`
+- `that run is clean` → `the command that runs the check, and what a passing run prints`
 
 ## An index of questions
 

@@ -23,6 +23,7 @@ The words these rules are stated in. Every page built from this home carries thi
 - **surface** — a kind of text rather than a file, so one file carries several; this project names six, and each rule binds the ones it applies to.
 - **stop** — one place a reader could not go on, had to read twice, or had to guess.
 - **a blocking stop** — a stop where the reader could not go on with the text, or would have acted on the text wrongly; every other stop is one the reader noticed and read past.
+- **register** — the rules a surface's text is held to: which words, which sentence shapes, and how it addresses its reader.
 
 Five roles appear wherever these rules are discussed.
 
@@ -1082,3 +1083,51 @@ repair the text from those stops rather than from the one sentence in front of y
 **Stated before this page, at.** docs/language-reads/2026-07-28-read15-campaign-plan.md
 
 **Notes.** The owner stated it on 2026-07-28 while reading the campaign plan. r39 covers a pronoun whose referent is missing from its sentence, and r63 covers a thing named by its number. This rule covers the word whose referent a reader can find, and which still sends the reader back to find it.
+
+### r69 — a step naming a check, a file, or an act with no way to run it or find it
+
+**Binds.** spec-body · human-prose · artifact · worker-brief
+
+**Status.** stated-only, armed at nowhere.
+
+**What catches a break of it.**
+
+- **pattern** — absent.
+- **model** — absent.
+- **person** — partial. Reads: whether the step names a command or a path the reader can follow.
+
+**Stated before this page, at.** docs/language-reads/2026-07-29-read17-text-audit-skill.md, docs/language-reads/2026-07-29-read18-text-audit-skill.md
+
+**Notes.** Both readings of skills/text-audit/SKILL.md on 2026-07-29 stopped on this shape twice. Four structure checks stood there with no command, and a fallback file with no path. r07 covers a set whose members are never given, and this rule covers a step whose command or path is never given. A script cannot judge whether a named act is runnable, so a person carries it.
+
+### r70 — a set claimed whole while the text carries members outside it, or leaves members out with no reason
+
+**Binds.** spec-body · human-prose · artifact
+
+**Status.** stated-only, armed at nowhere.
+
+**What catches a break of it.**
+
+- **pattern** — absent.
+- **model** — absent.
+- **person** — partial. Reads: whether the printed members match the claim standing over them.
+
+**Stated before this page, at.** docs/language-reads/2026-07-29-read17-text-audit-skill.md, docs/language-reads/2026-07-29-read18-text-audit-skill.md
+
+**Notes.** Both readings of skills/text-audit/SKILL.md on 2026-07-29 counted the printed rule codes, found twenty-three gaps under a claim of completeness, and stopped. The same shape stood over the reader-prompt, which named five stop classes under text claiming wider coverage. r07 covers a set whose members are never given; this rule covers a set whose members are given and contradict the claim over them.
+
+### r71 — a claim resting on ground the reader of the page cannot reach
+
+**Binds.** spec-body · human-prose · chat · artifact
+
+**Status.** stated-only, armed at nowhere.
+
+**What catches a break of it.**
+
+- **pattern** — absent.
+- **model** — absent.
+- **person** — partial. Reads: whether the page carries what the claim rests on.
+
+**Stated before this page, at.** docs/language-reads/2026-07-29-read17-text-audit-skill.md, docs/language-reads/2026-07-29-read18-text-audit-skill.md
+
+**Notes.** The reader-prompt in skills/text-audit/SKILL.md has named this stop class since it was written, and the rule home carried no rule for it. Both readings on 2026-07-29 raised it twice. One stop was a stopping rule resting on a gate the page never explains. The other was a compliance claim resting on a run the page never shows. r32 covers a judgment with no judge or measure, and r06 covers a number with no ground. This rule covers a claim whose ground stands outside the reader's reach.

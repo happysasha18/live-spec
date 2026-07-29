@@ -32,10 +32,12 @@ It also owns one BLOCK inside each of two hand-written pages:
     shared words and roles it is written in stand between the `generated:vocabulary` markers and are
     rewritten on every run. A cold reader is handed one page and cannot follow a pointer to another,
     so a word two pages share is defined on both, out of the one home.
-  - `skills/text-audit/SKILL.md` — the audit skill. Its procedure is its own; the rules it holds a
-    text to stand between the `generated:human-prose-rules` markers. The skill ships to a host and
-    the rule home stays behind, so the skill carries the rules with it and still has one home for
-    them. Until 2026-07-28 the skill stated seven of these rules again in its own words.
+  - `skills/text-audit/references/human-prose-rules.md` — the audit skill's rule sheet. Its own prose
+    is hand-written; the rules the skill holds a text to stand between the `generated:human-prose-rules`
+    markers. The skill ships to a host and the rule home stays behind, so the skill carries the rules
+    with it and still has one home for them. Until 2026-07-28 the skill stated seven of these rules
+    again in its own words. The block stood inside `skills/text-audit/SKILL.md` until 2026-07-29, when
+    the skill body was split to hold the ~500-line ideal.
 
 WHAT IT READS. `guardrails/language-rules.json`, plus the config files a rule's `lists` field names:
 a list entry carrying `source` and `key` is read out of that JSON at build time, so a list a rule
@@ -82,9 +84,11 @@ WORKED_EXAMPLE_REL = "docs/language-worked-example.md"
 # holds every word it uses. A page carrying such a block is a SPLICED consumer: the generator owns
 # what stands between the markers and touches nothing else in the file.
 RECORD_REL = "docs/language-defects.md"
-# The audit skill, which ships to a host that installs the pack. The rule home stays behind, so the
-# skill carries the rules a human-prose audit holds a text to, printed here out of that home.
-AUDIT_SKILL_REL = "skills/text-audit/SKILL.md"
+# The audit skill's rule sheet, which ships to a host that installs the pack. The rule home stays
+# behind, so the skill carries the rules a human-prose audit holds a text to, printed here out of that
+# home. It sits under the skill's `references/` directory, which is where a skill body puts material a
+# reader loads on demand; the skill body points at it.
+AUDIT_SKILL_REL = "skills/text-audit/references/human-prose-rules.md"
 BLOCK_OPEN_FMT = "<!-- generated:%s — scripts/gen-language-consumers.py owns the block below -->"
 BLOCK_CLOSE_FMT = "<!-- /generated:%s -->"
 # Each spliced page and the block it lends the generator.
@@ -788,18 +792,37 @@ def shipped_case(rule):
     return None
 
 
+def human_prose_definition(data):
+    """What the human-prose surface covers, read out of the source the surfaces are defined in."""
+    for surface in surface_list(data):
+        if surface["name"] == "human-prose":
+            return surface["definition"].strip()
+    raise BuildError("the source defines no human-prose surface, so the audit skill cannot say what "
+                     "the rules it prints bind")
+
+
 def render_human_prose_rules(data):
     """Every rule binding human-prose, for the audit skill that ships without the rule home."""
     rules = [r for r in data["rules"] if "human-prose" in r["surfaces"]]
     if not rules:
         raise BuildError("no rule binds the human-prose surface, so the audit skill would ship ruleless")
-    out = ["## The rules it holds a text to", "",
-           "These are every rule binding human-prose. They are printed here out of `%s`, which is where "
-           "each one is edited. A change made in this block is overwritten by the next run of "
-           "`scripts/gen-language-consumers.py`." % SOURCE_REL, "",
+    out = ["## The rules this audit holds human prose to", "",
+           # The claim over the printed set states its size and says why a code is missing, so a
+           # reader counting the codes meets the answer here rather than a contradiction (r70).
+           "Every rule below binds human prose, which is %s" % sentence(human_prose_definition(data)),
+           "",
+           "This block prints %d of the %d rules the source carries. A code missing from the run below "
+           "belongs to a rule binding other surfaces only, or to a retired rule whose code left the "
+           "set. A rule binding human prose may also bind chat, a commit message, or a worker brief. "
+           "Its recorded case may come from one of those surfaces." % (len(rules), len(data["rules"])),
+           "",
+           "They are printed here out of `%s`, which is where each one is edited. A change made in this "
+           "block is overwritten by the next run of `scripts/gen-language-consumers.py`." % SOURCE_REL,
+           "",
            "Each entry names the class of mistake, states the rule, gives the question to ask of a "
-           "sentence, and carries one recorded case under it. The case is written text on the left and "
-           "its repair on the right. Every case the class was built from lives in the rule home.", ""]
+           "sentence, and carries one recorded case under it. The case shows written text on the left. "
+           "The right side shows its repair, or an instruction where the repair depends on facts the "
+           "case does not carry. Every case the class was built from lives in the rule home.", ""]
     for rule in rules:
         # The class name stands on its own line, so a reader meets the mistake before its rule, and
         # so neither line carries the other's words past the sentence cap.

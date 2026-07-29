@@ -59,6 +59,10 @@
       {
         "word": "a blocking stop",
         "definition": "a stop where the reader could not go on with the text, or would have acted on the text wrongly; every other stop is one the reader noticed and read past"
+      },
+      {
+        "word": "register",
+        "definition": "the rules a surface's text is held to: which words, which sentence shapes, and how it addresses its reader"
       }
     ],
     "roles": [
@@ -95,7 +99,7 @@
       },
       {
         "name": "human-prose",
-        "definition": "text a person reads to understand something or to decide something: `README.md`, `OVERVIEW.md`, a decision page, a report, a skill's own body, a documentation page, and the prose paragraphs inside a spec. A documentation page is human-prose, and it carries `artifact` as well once it is published outside the project.",
+        "definition": "text a person reads to understand something or to decide something. A README, a decision page, a report, a skill's own body, and a documentation page carry it. So do the prose paragraphs inside a spec. A documentation page carries `artifact` as well once it is published outside the project.",
         "example": "`README.md`, and this page."
       },
       {
@@ -2797,7 +2801,7 @@
     {
       "id": "r54",
       "name": "a changed section shipped before two clean cold readings",
-      "rule": "A changed section is read by fresh readers who carry no project context, until two consecutive reads return zero blocking findings. A finding blocks when the reader could not go on, or would have applied the text wrongly.",
+      "rule": "A changed section is read by fresh readers who carry no project context, until two consecutive reads return zero blocking findings. `skills/text-audit/SKILL.md` defines a blocking finding.",
       "reader_test": "Did a reader with no project context read this section and stop nowhere?",
       "surfaces": [
         "spec-body",
@@ -3364,6 +3368,142 @@
       ],
       "status": "stated-only",
       "notes": "The owner stated it on 2026-07-28 while reading the campaign plan. r39 covers a pronoun whose referent is missing from its sentence, and r63 covers a thing named by its number. This rule covers the word whose referent a reader can find, and which still sends the reader back to find it."
+    },
+    {
+      "id": "r69",
+      "name": "a step naming a check, a file, or an act with no way to run it or find it",
+      "rule": "A step the reader has to carry out names the command that runs it, or the path that holds it. Where the text can name neither, it says so and names what the reader does instead.",
+      "reader_test": "Could a reader carry out this step from the page alone, with nothing else on hand?",
+      "surfaces": [
+        "spec-body",
+        "human-prose",
+        "artifact",
+        "worker-brief"
+      ],
+      "examples": [
+        {
+          "written": "the structure checks over requirement shape, the generated index, the matrix references, and the frozen baseline",
+          "repair": "each of the four checks on its own line, with the command that runs it"
+        },
+        {
+          "written": "the project's own copy of the list otherwise",
+          "repair": "the project's own `guardrails/weak-words.json`, created with a `weak_words` list where the project holds none"
+        }
+      ],
+      "catchers": {
+        "pattern": {
+          "status": "absent",
+          "where": "",
+          "reach": ""
+        },
+        "model": {
+          "status": "absent",
+          "where": "",
+          "law_text": ""
+        },
+        "person": {
+          "status": "partial",
+          "note": "whether the step names a command or a path the reader can follow"
+        }
+      },
+      "armed": [
+        "nowhere"
+      ],
+      "sources": [
+        "docs/language-reads/2026-07-29-read17-text-audit-skill.md",
+        "docs/language-reads/2026-07-29-read18-text-audit-skill.md"
+      ],
+      "status": "stated-only",
+      "notes": "Both readings of skills/text-audit/SKILL.md on 2026-07-29 stopped on this shape twice. Four structure checks stood there with no command, and a fallback file with no path. r07 covers a set whose members are never given, and this rule covers a step whose command or path is never given. A script cannot judge whether a named act is runnable, so a person carries it."
+    },
+    {
+      "id": "r70",
+      "name": "a set claimed whole while the text carries members outside it, or leaves members out with no reason",
+      "rule": "A claim that a set is complete states what the set covers and what it leaves out. The list printed under such a claim carries every member the claim names.",
+      "reader_test": "Does the text's own list agree with the claim made over it?",
+      "surfaces": [
+        "spec-body",
+        "human-prose",
+        "artifact"
+      ],
+      "examples": [
+        {
+          "written": "These are every rule binding human-prose.",
+          "repair": "the rules binding human prose, with the printed count and the reason a code is missing"
+        }
+      ],
+      "catchers": {
+        "pattern": {
+          "status": "absent",
+          "where": "",
+          "reach": ""
+        },
+        "model": {
+          "status": "absent",
+          "where": "",
+          "law_text": ""
+        },
+        "person": {
+          "status": "partial",
+          "note": "whether the printed members match the claim standing over them"
+        }
+      },
+      "armed": [
+        "nowhere"
+      ],
+      "sources": [
+        "docs/language-reads/2026-07-29-read17-text-audit-skill.md",
+        "docs/language-reads/2026-07-29-read18-text-audit-skill.md"
+      ],
+      "status": "stated-only",
+      "notes": "Both readings of skills/text-audit/SKILL.md on 2026-07-29 counted the printed rule codes, found twenty-three gaps under a claim of completeness, and stopped. The same shape stood over the reader-prompt, which named five stop classes under text claiming wider coverage. r07 covers a set whose members are never given; this rule covers a set whose members are given and contradict the claim over them."
+    },
+    {
+      "id": "r71",
+      "name": "a claim resting on ground the reader of the page cannot reach",
+      "rule": "A claim carries its ground on the page that makes it. A file named beside the claim holds the record, and the page still states what the reader needs.",
+      "reader_test": "Can a reader holding this page alone see what this claim rests on?",
+      "surfaces": [
+        "spec-body",
+        "human-prose",
+        "chat",
+        "artifact"
+      ],
+      "examples": [
+        {
+          "written": "The loop came from the spec-format comprehension gate.",
+          "repair": "what that gate observed, stated on the page, with the file that records it named beside it"
+        },
+        {
+          "written": "that run is clean",
+          "repair": "the command that runs the check, and what a passing run prints"
+        }
+      ],
+      "catchers": {
+        "pattern": {
+          "status": "absent",
+          "where": "",
+          "reach": ""
+        },
+        "model": {
+          "status": "absent",
+          "where": "",
+          "law_text": ""
+        },
+        "person": {
+          "status": "partial",
+          "note": "whether the page carries what the claim rests on"
+        }
+      },
+      "armed": [
+        "nowhere"
+      ],
+      "sources": [
+        "docs/language-reads/2026-07-29-read17-text-audit-skill.md",
+        "docs/language-reads/2026-07-29-read18-text-audit-skill.md"
+      ],
+      "status": "stated-only",
+      "notes": "The reader-prompt in skills/text-audit/SKILL.md has named this stop class since it was written, and the rule home carried no rule for it. Both readings on 2026-07-29 raised it twice. One stop was a stopping rule resting on a gate the page never explains. The other was a compliance claim resting on a run the page never shows. r32 covers a judgment with no judge or measure, and r06 covers a number with no ground. This rule covers a claim whose ground stands outside the reader's reach."
     }
   ]
 }

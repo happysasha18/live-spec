@@ -42,11 +42,16 @@ the agreement rule, and compare 29 against both for the tier question below.
 
 ## What the next session does first
 
-1. Read the three reading records of round six and take the agreed places.
-2. Answer the tier question from reading 29: does the cheap reader find what the strong readers find?
-   The campaign plan requires this measurement before the tier is chosen, and every reading before
-   round six ran on the strong tier with no evidence behind that choice.
-3. Record round six in `guardrails/progress-baseline.json` under `rounds`, then rebuild the page.
+1. Repair the three places both strong readers of round six stopped at, listed in
+   `docs/measure/2026-07-29-reader-tier-comparison.md`, plus the two the cheap reader found alone.
+   Then run round seven as one strong reader and one cheap reader.
+2. Record round six in `guardrails/progress-baseline.json` under `rounds`, then rebuild the page with
+   `python3 scripts/measurements-table.py`.
+
+The tier question is answered. `docs/measure/2026-07-29-reader-tier-comparison.md` holds it: a cheap
+reader reached one of the three places the two strong readers agreed on, and it found two real places
+neither strong reader reached. A round therefore runs as one strong reader and one cheap reader, which
+costs less and loses no coverage the agreement rule uses.
 
 ## Three findings worth acting on
 

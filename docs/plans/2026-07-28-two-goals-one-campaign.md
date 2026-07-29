@@ -33,7 +33,17 @@ Repairing that one place leaves the class standing everywhere else.
 **Measured clean** means the census counts zero findings in the document: no sentence past the
 twenty-five-word cap, no style finding, no register finding.
 
-**Read clean** means two consecutive readings returned zero stops that block the reader.
+**Read clean** means two consecutive rounds returned zero stops that block the reader. A round is two
+readers given the same document.
+
+A place counts as a blocking stop when both readers of one round stopped there. A place one reader of
+the round found alone is recorded as residue, and it blocks nothing. The session settled this on
+2026-07-29 and recorded it in `DECISIONS.md`.
+
+Three rounds ran on one document. Each round handed two readers the whole file and the reader prompt
+from `skills/text-audit`. The rounds returned fifteen and ten blocking stops, then five and eight,
+then nine and four. No single reader's list repeated. Agreement between the two readers of one round
+is what lets the loop close.
 
 **Finished** means the document is measured clean and read clean. A document holding one of the two
 is named by the state it reached and by the state it still owes.
@@ -76,16 +86,30 @@ document is named.
 
 ## The order of documents
 
-The order runs by who meets a document first, and by what every later document depends on.
+The owner stated the ordering principle on 2026-07-28 and recorded it in `DECISIONS.md`: the queue is
+ordered by what enters a working context earliest. A document that fills an agent's context on every
+turn costs the most, so it is repaired first.
 
-1. `skills/text-audit/SKILL.md` and the four documents it points at: `docs/language-rules.md`,
+The list below derives from that principle. It is the one order this campaign runs by, and it replaces
+the two other lists written on 2026-07-28, in `docs/reports/2026-07-28-document-state-and-plan.md` and
+in `docs/handovers/2026-07-28-readability-campaign-handover.md`.
+
+1. The text that enters every turn: `hooks/chat-law-hook.sh`.
+2. The text that enters every session at its start: `~/.claude/CLAUDE.md` and the personal profile at
+   `~/.claude/live-spec/profile.md`. Both sit outside the measured set today, and joining that set is
+   the first step of this group.
+3. The file every session reads first: `NEXT_STEPS.md`.
+4. `skills/text-audit/SKILL.md` and the four documents it points at: `docs/language-rules.md`,
    `docs/spec-style.md`, `docs/spec-format.md`, `docs/language-worked-example.md`. Every other
-   document is read through this skill, so this skill goes first.
-2. The documents an agent meets on arrival: `NEXT_STEPS.md`, `ROADMAP.md`.
-3. The documents a stranger meets on arrival: `README.md`, `OVERVIEW.md`, `adopt/ADOPT.md`.
-4. The three skills loaded in every session: `live-spec-base`, `build-pipeline`, `communicator`.
-5. The remaining seven skills.
-6. `PRODUCT_SPEC.md`, `ARCHITECTURE.md`, `TEST_MATRIX.md`.
+   document is checked through this skill.
+5. The three skills loaded in every task run by the method: `live-spec-base`, `build-pipeline`,
+   `communicator`.
+6. `ROADMAP.md`, read whenever a session picks up work.
+7. The remaining seven skills.
+8. The specification family: `PRODUCT_SPEC.md`, `ARCHITECTURE.md`, `TEST_MATRIX.md`.
+9. The documents a stranger meets on arrival: `README.md`, `OVERVIEW.md`, `adopt/ADOPT.md`. These
+   enter no agent's working context, so they stand behind every document that does.
+10. Every remaining live document, worst first.
 
 The queue carries on past this list, and it runs to every live document in the tree.
 
@@ -123,6 +147,6 @@ finds what the other finds is the tier the campaign uses.
 ## Which documents get read — settled on 2026-07-28
 
 Every live document gets readings. Measuring a document with the census costs seconds, and a reading
-costs one worker per pass. The passes repeat until two of them come back with nothing blocking.
+costs one worker per reader. The rounds repeat until two of them come back with nothing blocking.
 
 A document that has had no reading is unfinished, whatever the census measures it at.

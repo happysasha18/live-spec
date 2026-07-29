@@ -64,12 +64,12 @@ The trigger is a person asking whether a reader will understand the text. They a
 
 ## Install
 
-Claude Code required. The skill is a single `SKILL.md` file, and installing it is a copy.
+Claude Code required. The skill is `SKILL.md` plus the `references/` files it points at, and installing it is a copy of the folder.
 
 ```bash
 git clone https://github.com/happysasha18/live-spec.git
 mkdir -p ~/.claude/skills/text-audit
-cp live-spec/skills/text-audit/SKILL.md ~/.claude/skills/text-audit/
+cp -R live-spec/skills/text-audit/SKILL.md live-spec/skills/text-audit/references ~/.claude/skills/text-audit/
 ```
 
 It also ships inside the [live-spec](https://github.com/happysasha18/live-spec) plugin, if you want the whole pipeline:

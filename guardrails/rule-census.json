@@ -3,16 +3,16 @@
   "cap_rule": "r08",
   "files": {
     "ARCHITECTURE.md": {
-      "bytes": 90698,
+      "bytes": 91280,
       "file": "ARCHITECTURE.md",
       "long": 88,
-      "longest": 908,
+      "longest": 916,
       "register": 0,
       "style": 0,
       "total": 88
     },
     "NEXT_STEPS.md": {
-      "bytes": 5309,
+      "bytes": 5336,
       "file": "NEXT_STEPS.md",
       "long": 0,
       "longest": 24,
@@ -30,7 +30,7 @@
       "total": 8
     },
     "PRODUCT_SPEC.index.md": {
-      "bytes": 25121,
+      "bytes": 25663,
       "file": "PRODUCT_SPEC.index.md",
       "long": 0,
       "longest": 0,
@@ -39,7 +39,7 @@
       "total": 0
     },
     "PRODUCT_SPEC.md": {
-      "bytes": 653352,
+      "bytes": 661342,
       "file": "PRODUCT_SPEC.md",
       "long": 1831,
       "longest": 80,
@@ -57,7 +57,7 @@
       "total": 16
     },
     "ROADMAP.md": {
-      "bytes": 171592,
+      "bytes": 185487,
       "file": "ROADMAP.md",
       "long": 8,
       "longest": 242,
@@ -75,7 +75,7 @@
       "total": 3
     },
     "TEST_MATRIX.md": {
-      "bytes": 441144,
+      "bytes": 452504,
       "file": "TEST_MATRIX.md",
       "long": 8,
       "longest": 46,
@@ -91,6 +91,24 @@
       "register": 0,
       "style": 0,
       "total": 46
+    },
+    "docs/MEASUREMENTS.md": {
+      "bytes": 18331,
+      "file": "docs/MEASUREMENTS.md",
+      "long": 3,
+      "longest": 36,
+      "register": 0,
+      "style": 0,
+      "total": 3
+    },
+    "docs/PROGRESS.md": {
+      "bytes": 14941,
+      "file": "docs/PROGRESS.md",
+      "long": 0,
+      "longest": 22,
+      "register": 0,
+      "style": 0,
+      "total": 0
     },
     "docs/adoption.md": {
       "bytes": 7111,
@@ -138,7 +156,7 @@
       "total": 38
     },
     "docs/language-defects.md": {
-      "bytes": 18368,
+      "bytes": 27833,
       "file": "docs/language-defects.md",
       "long": 34,
       "longest": 78,
@@ -147,7 +165,7 @@
       "total": 38
     },
     "docs/language-rule-coverage.md": {
-      "bytes": 75920,
+      "bytes": 78898,
       "file": "docs/language-rule-coverage.md",
       "long": 83,
       "longest": 81,
@@ -156,13 +174,13 @@
       "total": 105
     },
     "docs/language-rules.md": {
-      "bytes": 54389,
+      "bytes": 56553,
       "file": "docs/language-rules.md",
-      "long": 31,
+      "long": 30,
       "longest": 89,
       "register": 0,
       "style": 8,
-      "total": 39
+      "total": 38
     },
     "docs/language-worked-example.md": {
       "bytes": 24176,
@@ -237,13 +255,22 @@
       "total": 10
     },
     "docs/plans/2026-07-28-two-goals-one-campaign.md": {
-      "bytes": 6536,
+      "bytes": 8060,
       "file": "docs/plans/2026-07-28-two-goals-one-campaign.md",
       "long": 0,
       "longest": 25,
       "register": 0,
       "style": 0,
       "total": 0
+    },
+    "docs/plans/2026-07-29-specification-subdivision.md": {
+      "bytes": 41679,
+      "file": "docs/plans/2026-07-29-specification-subdivision.md",
+      "long": 1,
+      "longest": 44,
+      "register": 0,
+      "style": 0,
+      "total": 1
     },
     "docs/prior-art-frameworks.md": {
       "bytes": 16009,
@@ -506,6 +533,24 @@
       "style": 0,
       "total": 0
     },
+    "guardrails/measured-number-fixtures/bare-number.md": {
+      "bytes": 92,
+      "file": "guardrails/measured-number-fixtures/bare-number.md",
+      "long": 0,
+      "longest": 8,
+      "register": 0,
+      "style": 0,
+      "total": 0
+    },
+    "guardrails/measured-number-fixtures/measured-number.md": {
+      "bytes": 664,
+      "file": "guardrails/measured-number-fixtures/measured-number.md",
+      "long": 0,
+      "longest": 21,
+      "register": 0,
+      "style": 0,
+      "total": 0
+    },
     "guardrails/release-note-fixtures/note-neither.md": {
       "bytes": 399,
       "file": "guardrails/release-note-fixtures/note-neither.md",
@@ -541,15 +586,6 @@
       "register": 0,
       "style": 27,
       "total": 38
-    },
-    "inbox/2026-07-28-from-tlvphotos-a-parked-question-stays-in-the-list-after-its-answer-arrives.md": {
-      "bytes": 3406,
-      "file": "inbox/2026-07-28-from-tlvphotos-a-parked-question-stays-in-the-list-after-its-answer-arrives.md",
-      "long": 5,
-      "longest": 44,
-      "register": 0,
-      "style": 4,
-      "total": 9
     },
     "inbox/README.md": {
       "bytes": 9996,
@@ -678,7 +714,7 @@
       "total": 3
     },
     "skills/communicator/SKILL.md": {
-      "bytes": 45376,
+      "bytes": 45774,
       "file": "skills/communicator/SKILL.md",
       "long": 86,
       "longest": 105,
@@ -705,7 +741,7 @@
       "total": 11
     },
     "skills/communicator/references/writing-register.md": {
-      "bytes": 9062,
+      "bytes": 10254,
       "file": "skills/communicator/references/writing-register.md",
       "long": 8,
       "longest": 45,
@@ -777,7 +813,7 @@
       "total": 1
     },
     "skills/live-spec-base/SKILL.md": {
-      "bytes": 58002,
+      "bytes": 59616,
       "file": "skills/live-spec-base/SKILL.md",
       "long": 141,
       "longest": 97,
@@ -858,7 +894,7 @@
       "total": 57
     },
     "skills/text-audit/README.md": {
-      "bytes": 5599,
+      "bytes": 5683,
       "file": "skills/text-audit/README.md",
       "long": 0,
       "longest": 25,
@@ -867,10 +903,28 @@
       "total": 0
     },
     "skills/text-audit/SKILL.md": {
-      "bytes": 37521,
+      "bytes": 22785,
       "file": "skills/text-audit/SKILL.md",
       "long": 0,
       "longest": 25,
+      "register": 0,
+      "style": 0,
+      "total": 0
+    },
+    "skills/text-audit/references/human-prose-rules.md": {
+      "bytes": 23605,
+      "file": "skills/text-audit/references/human-prose-rules.md",
+      "long": 0,
+      "longest": 25,
+      "register": 0,
+      "style": 0,
+      "total": 0
+    },
+    "skills/text-audit/references/reader-prompt.md": {
+      "bytes": 2514,
+      "file": "skills/text-audit/references/reader-prompt.md",
+      "long": 0,
+      "longest": 23,
       "register": 0,
       "style": 0,
       "total": 0

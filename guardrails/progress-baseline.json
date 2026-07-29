@@ -240,6 +240,17 @@
         ],
         "date": "2026-07-29",
         "agreed": 2
+      },
+      {
+        "round": 6,
+        "readings": [
+          27,
+          28,
+          29
+        ],
+        "date": "2026-07-29",
+        "agreed": 3,
+        "note": "readings 27 and 28 on the strong tier, reading 29 on the cheap tier; agreed counts the places both strong readers stopped at"
       }
     ]
   },

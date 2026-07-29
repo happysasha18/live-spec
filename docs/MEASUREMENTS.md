@@ -10,9 +10,9 @@ Generated 2026-07-29 by `python3 scripts/measurements-table.py`. This table is t
 | 2 | `~/.claude/CLAUDE.md` | open | — | n/m | n/m | n/m | 2.3 | 5 | 0 | n/m | n/m | n/m |
 | 3 | `~/.claude/live-spec/profile.md` | open | — | n/m | n/m | n/m | 2.3 | 7 | 0 | n/m | n/m | n/m |
 | | **The file every session reads first** ||||||||||||
-| 4 | `NEXT_STEPS.md` | open | — | n/m | 0 | ok | 2.1 | 9 | 0 | 24 | 0 | 101 |
+| 4 | `NEXT_STEPS.md` | open | — | n/m | 0 | ok | 2.1 | 9 | 0 | 24 | 0 | 118 |
 | | **The text-audit skill and the four documents it points at** ||||||||||||
-| 5 | `skills/text-audit/SKILL.md` | open | 2 | no | 0 | ok | 0.0 | 9 | 12 | 25 | 0 | 352 |
+| 5 | `skills/text-audit/SKILL.md` | open | 3 | no | 0 | ok | 0.0 | 9 | 14 | 25 | 0 | 352 |
 | 6 | `docs/language-rules.md` | open | n/m | no | 38 | no | 2.1 | 11 | 2 | 89 | 8 | 1,067 |
 | 7 | `docs/spec-style.md` | open | — | n/m | 65 | no | 2.2 | 13 | 0 | 64 | 33 | 152 |
 | 8 | `docs/spec-format.md` | open | — | n/m | 16 | no | 2.1 | 15 | 0 | 98 | 1 | 77 |
@@ -101,7 +101,7 @@ Generated 2026-07-29 by `python3 scripts/measurements-table.py`. This table is t
 | 85 | `templates/KILL_LIST.template.md` | open | — | n/m | 4 | no | 2.1 | 184 | 0 | 16 | 4 | 12 |
 | 86 | `templates/profile.template.md` | open | — | n/m | 4 | no | 2.1 | 186 | 0 | 72 | 2 | 30 |
 | 87 | `SURFACES.md` | open | — | n/m | 3 | no | 2.1 | 188 | 0 | 26 | 2 | 15 |
-| 88 | `docs/MEASUREMENTS.md` | open | — | n/m | 3 | no | 2.1 | 190 | 0 | 36 | 0 | 191 |
+| 88 | `docs/MEASUREMENTS.md` | open | — | n/m | 3 | no | 2.1 | 190 | 0 | 36 | 0 | 192 |
 | 89 | `docs/norms/onboarding-card-2026-07-10.provenance.md` | open | — | n/m | 3 | no | 2.1 | 192 | 0 | 35 | 0 | 6 |
 | 90 | `scripts/grant-ask.md` | open | — | n/m | 3 | no | 2.1 | 194 | 0 | 19 | 3 | 12 |
 | 91 | `skills/build-pipeline/references/request-kind-table.md` | open | — | n/m | 3 | no | 2.1 | 196 | 0 | 28 | 2 | 19 |
@@ -115,7 +115,7 @@ Generated 2026-07-29 by `python3 scripts/measurements-table.py`. This table is t
 | 99 | `guardrails/release-note-fixtures/note-offers.md` | open | — | n/m | 1 | no | 2.1 | 213 | 0 | 30 | 0 | 11 |
 | 100 | `skills/live-spec-base/README.md` | open | — | n/m | 1 | no | 2.1 | 215 | 0 | 28 | 0 | 4 |
 | 101 | `PRODUCT_SPEC.index.md` | open | — | n/m | 0 | ok | 2.1 | 217 | 0 | 0 | 0 | 389 |
-| 102 | `docs/PROGRESS.md` | open | — | n/m | 0 | ok | 2.1 | 219 | 0 | 22 | 0 | 271 |
+| 102 | `docs/PROGRESS.md` | open | — | n/m | 0 | ok | 2.1 | 219 | 0 | 22 | 0 | 274 |
 | 103 | `docs/plans/2026-07-28-two-goals-one-campaign.md` | open | n/m | no | 0 | ok | 2.1 | 221 | 1 | 25 | 0 | 153 |
 | 104 | `guardrails/far-tier-fixtures/report-names-far-in-runnable.md` | open | — | n/m | 0 | ok | 2.1 | 223 | 0 | 14 | 0 | 14 |
 | 105 | `guardrails/far-tier-fixtures/report-runnable-no-standdown.md` | open | — | n/m | 0 | ok | 2.1 | 225 | 0 | 9 | 0 | 10 |

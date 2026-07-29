@@ -38,6 +38,7 @@ The words these rules are stated in. Every page built from this home carries thi
 - **surface** — a kind of text rather than a file, so one file carries several; this project names six, and each rule binds the ones it applies to.
 - **stop** — one place a reader could not go on, had to read twice, or had to guess.
 - **a blocking stop** — a stop where the reader could not go on with the text, or would have acted on the text wrongly; every other stop is one the reader noticed and read past.
+- **register** — the rules a surface's text is held to: which words, which sentence shapes, and how it addresses its reader.
 
 Five roles appear wherever these rules are discussed.
 
@@ -60,9 +61,9 @@ rule home existed, and the maintainer's page prints it.
 ## How a cold reading is run
 
 Every cold reading recorded below was made by a model in a fresh session with none of this project
-loaded. The procedure and the prompt handed to the reader stand in `skills/text-audit/SKILL.md`, which
-is their home; a reading comes back as a file under `docs/language-reads/`, named for its date and its
-number.
+loaded. The procedure stands in `skills/text-audit/SKILL.md`, and the prompt handed to the reader
+stands beside it in `skills/text-audit/references/reader-prompt.md`; a reading comes back as a file
+under `docs/language-reads/`, named for its date and its number.
 
 A single stop is written down and opens nothing. A rule enters this project when the place that produced
 that stop produces it again, the second occurrence proving the wording's origin rather than the one
@@ -209,6 +210,158 @@ catchers had already gone there. The worked example of one repaired spec sentenc
 `docs/language-worked-example.md`, the home for a rule shown applied to a real text. The procedure for
 running a cold reading stayed in `skills/text-audit/SKILL.md` and this page now points at it. What is
 left here is the record itself, at half the length it stood at.
+
+### The readings of the text-audit skill, 2026-07-29
+
+Readings twenty-one and twenty-two ran on `skills/text-audit/SKILL.md` and its two reference files.
+Both stand under `docs/language-reads/`. Each returned 46 stops, nine blocking in the first and four in
+the second. The repair round closed four of them: the undeclared surface, the unnamed record, the roles
+sentence, and the law about fresh readers. Every stop below still stands, with the reading that found it.
+
+The stops still marked blocking:
+
+- "Every rule binding either surface is then in force" — 21, and 22 as non-blocking
+- "25 words for a human-prose sentence, and 35 for a spec-body criterion" — 21, 22
+- "its Context paragraph, its User Story, and its acceptance criteria" — 21
+- "A rule binds a whole region of the file" — 21, 22
+- "Run the audited project's own suite command, whatever it is" — 21, 22
+- "It counts findings per file", read against a README — 21, 22
+- "The method's build-test evidence is owed" — 21, 22
+
+The stops both readings made, marked non-blocking:
+
+- "Part of the live-spec pack" — 21, 22
+- "Four scopes settle a setting there" — 21, 22
+- "Used on its own, this skill is plain advice a person applies by hand" — 21, 22
+- "It runs on any text a person will read" — 21 on the pronoun, 22 on "a decision page"
+- "Those readers found new blocking terms on every pass" — 21, 22
+- "the three words above" — 21, 22
+- "a handful of sentences" — 21, 22
+- "the map a script builds from the body criteria at freeze" — 21, 22
+- "one architecture node with one spec fact", and the test level beside it — 21, 22
+- "runs the census comparison over every live document" — 21, 22
+- "A project holding no such file gets one" — 21, 22
+- "Which copy of that list a run reads" — 21, 22
+- "a fresh worker with the pack not loaded", one role under five names — 21, 22
+- "a bracketed query in the draft" — 21, 22
+- "Four of those rules bind every sentence of this file" — 21, 22
+- "A new slot-opening word joins the weak-word list" — 21, 22
+- "Two of those pages carry more than this sheet does" — 21, 22
+- "The case is written text on the left and its repair on the right" — 21, 22
+- "the rule home", used as a defined term — 21, 22
+
+The stops reading twenty-one made alone:
+
+- "The loop came from the comprehension gate on spec sections" — 21
+- "its clarity matters" — 21
+- "whatever writing skills the host installs beside the pack" — 21
+- "no stranger returns to it" — 21
+- "The five lints under The mechanical lints are that whole set" — 21
+- "A fresh reader holds that much" — 21
+- "A rewrite that moves one of them" — 21
+- "The third is four commands of its own" — 21
+- "the three guarded documents match the frozen baseline" — 21
+- "Each lint names a script and a grep fallback", against two scripts below — 21
+- the eleven weak words run inline in one sentence — 21
+- "The last one shows up as" — 21
+- "No named thing appears under two names" — 21
+- "An undefined term the rest of the text leans on blocks" — 21
+- "A passing run prints one line saying that the file is clean" — 21
+- the census fact stated a second time — 21
+- "ask the three questions", in the reader prompt — 21
+- "The harness task panel" and "package rules", in the printed rule sheet — 21
+
+The stops reading twenty-two made alone:
+
+- "the auditor — the session running this skill", read in the by-hand mode — 22
+- "a repair inside those lines cannot break a requirement a hundred lines away" — 22
+- "Four things change there", against six statements below — 22
+- "It reads three things nobody would ask of a README", stated twice — 22
+- "The architecture document, the recorded decision, and the test matrix" — 22
+- "`--compaction`" — 22
+- "the reader meets it before the noun's first working use" — 22
+- "the nouns this project coined", asked of a reader without the project — 22
+- "A mechanical hit is fixed before the cold reader runs", a third statement — 22
+- how a pack gets loaded or unloaded — 22
+- "A finding blocks when the reader cannot act on the text", copied into the prompt — 22
+- "The same editor runs one cold-reader loop" — 22
+- "The prompt names five stop classes", against "every other class" — 22
+- "A documentation page carries `artifact` as well" — 22
+- "`the door` → `the entry point`", a substitution with no sentence around it — 22
+- the repair text under `r10`, written in capitals against `r23` — 22
+- "A long run of peer items is gathered under headed parents", under 48 peer bullets — 22
+
+Readings twenty-five and twenty-six ran on the same three files, and both stand under
+`docs/language-reads/`. They returned 53 and 38 stops, eight blocking in the first and five in the
+second. The round closed three: how much of the register the sheet prints, the test for a blocking
+finding, and where the requirement-shape lint sits. Every stop below still stands, with the reading that
+found it.
+
+- "It states the register it holds a text to", in the description — 25
+- "Part of the live-spec pack" — 25, 26
+- "Four scopes settle a setting there" — 25, 26
+- "settle", read as decides, as fixes, and as arrived at — 26
+- "Used on its own, this skill is plain advice a person applies by hand" — 26
+- "repairs the places where they stop", with "stop" undefined — 25
+- "The loop came from the comprehension gate on spec sections" — 25
+- "The findings reached zero only after two reads in a row" — 25, 26
+- "Every reading is written to a dated reading record", against the defects file — 25, 26
+- "the cold reader is never either of them" — 25
+- "the auditor — the session running this skill", read in the by-hand mode — 26
+- "A surface is a kind of text", stated twice — 25, 26
+- "The auditor names the text's one primary surface" — 25
+- "It holds that text to the register of the text's own primary surface" — 26
+- "25 words for a human-prose sentence, and 35 for a spec-body criterion" — 25, 26
+- "a stop in one place stands for that class everywhere else" — 25
+- "the three words above" — 25
+- "its clarity matters" — 25
+- "it queues for the person's taste call" — 25, 26
+- "The comprehension gate settled on two reads" — 25
+- "a handful of sentences" — 25, 26
+- "A whole-page run puts every sentence of that page in front of one" — 25, 26
+- "its Context paragraph, its User Story, and its acceptance criteria" — 25
+- "a repair inside those lines cannot break a requirement a hundred lines away" — 25, 26
+- "Four things change there", against six statements below — 25
+- "plus the findings of the style lint and of the register lint" — 26
+- "the map a script builds from the body criteria at freeze" — 25, 26
+- "one architecture node with one spec fact", and the test level beside it — 25
+- "The third is four commands of its own" — 25, 26
+- "Run the audited project's own suite command, whatever it is" — 25
+- "the three guarded documents match the frozen baseline" — 25, 26
+- "the frozen baseline", met before it is defined — 26
+- "runs the census comparison over every live document" — 25, 26
+- "The build test measures the work once the audit has closed" — 26
+- "which takes the count before and after each batch" — 26
+- "Nothing names the requirements one ran on" — 26
+- "The method's build-test evidence is owed" — 25, 26
+- "the mechanical layer", a second name for the mechanical lints — 25
+- "Which copy of that list a run reads" — 25
+- "Context comes before criteria", stated twice — 25
+- "A sentence past the cap for its surface is a hit" — 25
+- "No named thing appears under two names" — 25
+- "so no reader spends a finding on a class a machine already owns" — 25
+- "a fresh worker with the pack not loaded" — 25, 26
+- "a writer or reader holding the project's rules is kept apart from one who does not" — 26
+- "An undefined term the rest of the text leans on blocks" — 25
+- "a bracketed query in the draft" — 25
+- "Inventing an answer to close a finding is the one move this skill forbids" — 25
+- "A passing run prints one line saying that the file is clean" — 26
+- the census gate stated a second time — 26
+- "The same editor runs one cold-reader loop" — 25, 26
+- "The prompt's last instruction takes every other stop the reader met" — 25, 26
+- where the reader's report goes, absent from the pasted block — 25
+- "A word the list above does not name", carrying no blocking mark — 25
+- the eleven weak words standing in two files — 25
+- "A new slot-opening word joins the weak-word list" — 26
+- "Two of those pages carry more than this sheet does" — 25, 26
+- "the rule text the judging model reads" — 26
+- "Every case the class was built from lives in the rule home" — 25
+- "The case is written text on the left and its repair on the right" — 25, 26
+- "`the door` → `the entry point`", a substitution with no sentence around it — 26
+- the repair under `r09`, 41 words against the 25-word cap it states — 26
+- "A long run of peer items is gathered under headed parents", under 48 peer bullets — 25, 26
+- the repair under `r64`, running its four items along one line — 25
+- "the harness task panel" and "pinned language", in the printed sheet — 25
 
 ## How a class becomes a rule
 
