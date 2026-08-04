@@ -476,3 +476,35 @@ are closed, and closing all three is one commit: the counting record committed, 
 to its cap with its live-state section restored. F1 and F2 are honest debts against a working machine
 rather than reasons to hold the code back, and F1's criterion is cheap enough to ride the same commit.
 Pushing before those three are closed sends a tree its own suite refuses.
+
+## Addendum, later the same night — the three findings closed, and the design map corrected
+
+F3, F5 and F6 are closed. The counting record was written and holds every live document, the resume
+file came down to 100 lines at zero findings with its status section restored, and the full suite
+finished at 2,316 passed and none failed. That run is the log at `scratchpad/suite-run-5.log`.
+
+Between that run and this addendum, `ARCHITECTURE.md` changed, so this record is re-read against it.
+
+**What changed there.** Four references in the design map named line numbers inside skill files. Those
+skills were edited earlier the same night, and the text each reference points at had moved. The
+references now name the lines the text stands on: the two the prover skill owns moved from 312 to 620
+and from 170 to 291, the base skill's defaults row moved from 1 to 560, and the audit skill's trigger
+section moved from 1 to 89. The design map states no new fact and drops none.
+
+**Is the design still sound after it?** Yes. A reference is a pointer from the design map into the file
+that implements what the map describes. Correcting a pointer to the line its target now occupies leaves
+every claim in the map standing, and it repairs a reader who would otherwise open a skill at a line
+that says something else. The suite's own pin tests pass over the corrected file, 177 of them.
+
+**One hole this correction exposed.** Two further references name text their target file has never
+held. `scripts/install-pack-hooks.sh` is pointed at for a fact written in a different file, and
+`guardrails/rule-census.json` is pointed at for prose inside a file that holds only data. No line
+number repairs either one, because the label itself is wrong. An earlier record of 2026-07-27 already
+flagged the first. Both stay open, and the repair report at
+`~/context-slimdown/reports/pin-drift-repair.md` records them. A reference whose label names nothing
+misleads a reader exactly as a stale line number does, and the check that reads these references passes
+them today, so the check's own reach is the deeper finding.
+
+**Readiness, restated.** The specification is sound enough for these commits to be pushed. The tree's
+own suite is green with none failing, the counting record falls from 4,949 findings to 4,915, and the
+guarded documents match a baseline re-taken over the corrected map.
