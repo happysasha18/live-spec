@@ -1,6 +1,6 @@
 ---
 name: live-spec-base
-description: Load before using any live-spec pack skill (spec-author, product-prover, design-reviewer, build-pipeline, test-author, communicator, feedback-intake, feedback-collector, text-audit, publish), before briefing a worker that will write files, or to resolve shared rules and settings.
+description: Load before using any live-spec pack skill (spec-author, product-prover, design-reviewer, build-pipeline, test-author, communicator, feedback-intake, feedback-collector, text-audit, publish), before briefing a worker that will write files, or to resolve shared rules and settings. It is the one home for the shared rules — thirty-five rules in the body — and for the settings ladder.
 metadata:
   version: 4.3.0
 ---

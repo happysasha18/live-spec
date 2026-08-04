@@ -1,6 +1,6 @@
 ---
 name: feedback-collector
-description: Use, only if enabled, when the user shows a rare, strong reaction (delight or frustration) to offer drafting a private note to the pack's authors. Consent is asked every time, and the note is never sent — delivery is the human's own step.
+description: Use, only if enabled, when the user shows a rare, strong reaction (delight or frustration) to offer drafting a private note to the pack's authors. Consent is asked every time, and the skill never sends the note — delivery is the human's own step.
 metadata:
   version: 4.3.0
 ---

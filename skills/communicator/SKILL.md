@@ -1,6 +1,6 @@
 ---
 name: communicator
-description: Use to show work to a human and ask for a decision, report a milestone, answer "did we do X", show what the product does, or raise a problem that needs their word. Not for routine narration.
+description: Use to show work to a human and ask for a decision, when a landing or milestone is REPORTED, to answer "did we do X", to show what the product does, or to raise a problem that needs their word. NOT a reason to LOAD it: a passing mid-work narration line, an internal working note, or a plain factual answer — those just get said.
 metadata:
   version: 4.3.0
 ---

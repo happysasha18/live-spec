@@ -1,6 +1,6 @@
 ---
 name: product-prover
-description: Use to review, critique, or find gaps in a spec or design document (PRD, HLD, LLD, architecture doc) before it ships. It fires as well on an uploaded document with a request for feedback, and where the word "review" goes unsaid.
+description: Use to review, critique, or find gaps in a spec or design document (PRD, HLD, LLD, architecture doc) before it ships. It fires as well on an uploaded document with a request for feedback, and where the word "review" goes unsaid. It answers one question: does the spec hold together as written?
 metadata:
   version: 4.3.0
 ---

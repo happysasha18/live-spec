@@ -206,6 +206,8 @@ device class; the suite says plainly what it cannot see.
 
 ## Work that belongs elsewhere
 
+Normally invoked by build-pipeline at its matrix and test steps (5–6). Use it directly to derive the
+test matrix, to pin test levels, or to rebuild a suite by the method.
 Use it only with a proven spec and architecture; without them the derivation has nothing sound to derive from, and
 "write tests for X" alone routes to build-pipeline (the earlier steps first). Not for reviewing
 documents (product-prover's job). Not for the mechanical gates themselves (the guardrails' job —
