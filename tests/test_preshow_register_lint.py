@@ -111,3 +111,48 @@ def test_spec_retracts_the_growth_duty_and_names_the_judge():
     assert "preshow-register-lint.py" in text, "SPEC does not name the register lint script (INV-83)"
     assert "scope its reach to the shown artifact" in text, "SPEC lost INV-83's reach sentence"
     assert "| INV-83 |" in text, "Formal index lost INV-83"
+
+
+# ---- reach: a page that REPRODUCES another document (2026-08-04) ------------------------------
+# A comparison page shows an original beside its rewrite, so the original's own coinages stand on the
+# page by design. The fence marks what the page quotes; the page's own words stay under the full check.
+_LEAK = "Drop the wish at the wish door and it walks the pipeline station by itself"
+
+
+def test_a_leak_inside_a_closed_fence_is_read_as_quotation():
+    page = ("<html><body>\n<!-- register-lint:quoted-source -->\n%s\n"
+            "<!-- register-lint:/quoted-source -->\n</body></html>" % _LEAK)
+    assert lint.scan(page) == []
+
+
+def test_the_same_leak_outside_the_fence_still_reds():
+    page = "<html><body>\n%s\n</body></html>" % _LEAK
+    assert lint.scan(page), "a coined term in the page's own words must still be caught"
+
+
+def test_the_page_own_words_are_still_checked_when_a_fence_is_present():
+    page = ("<html><body>\n<!-- register-lint:quoted-source -->\n%s\n"
+            "<!-- register-lint:/quoted-source -->\n%s\n</body></html>") % (_LEAK, _LEAK)
+    hits = lint.scan(page)
+    assert hits, "the unfenced copy is still charged"
+    assert set(h[0] for h in hits) == {5}, (
+        "only the unfenced copy is charged, and its reported line number points at the real line "
+        "of the real file")
+
+
+def test_an_unclosed_fence_exempts_nothing():
+    page = "<html><body>\n<!-- register-lint:quoted-source -->\n%s\n</body></html>" % _LEAK
+    assert lint.scan(page), "a fence left open buys no silence"
+
+
+def test_two_fenced_regions_both_count_as_quotation():
+    page = ("<!-- register-lint:quoted-source -->\n%s\n<!-- register-lint:/quoted-source -->\n"
+            "plain wording a reader understands\n"
+            "<!-- register-lint:quoted-source -->\n%s\n"
+            "<!-- register-lint:/quoted-source -->\n") % (_LEAK, _LEAK)
+    assert lint.scan(page) == []
+
+
+def test_a_file_with_no_fence_is_untouched_by_the_mask():
+    page = "%s\nsecond line\n" % _LEAK
+    assert lint.mask_quoted_source(page) == page

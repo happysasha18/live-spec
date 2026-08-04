@@ -122,10 +122,44 @@ PATTERNS = [
 # to the clean-reader check and the evidence/no-bare-claim gate, not here.
 
 
+# ---- Reproduced source (SPEC INV-83, the lint's reach) ---------------------------------------
+# A comparison page sets an original document beside its rewrite so a reader can judge the change by
+# eye. The original's own coinages appear on that page BY DESIGN — they are the thing under review,
+# and a page that hid them would show a lie. Read line by line, this lint charged the page for words
+# it was quoting, so the pages that matter most could never be shown (caught 2026-08-04 on the
+# comparison pages for profile.md and communicator/SKILL.md).
+#
+# A page marks each region it reproduces verbatim from another document with a fence, and this lint
+# reads what is inside as quotation. Everything the page states in its OWN words stays under the full
+# check, which is the whole point: the fence narrows the reach to text the page did not write.
+#
+# The fence fails closed. An opening marker with no closing one exempts NOTHING and the file is
+# checked whole, so a broken page never buys silence.
+_QUOTED_OPEN = re.compile(r"<!--\s*register-lint:quoted-source\s*-->")
+_QUOTED_REGION = re.compile(
+    r"<!--\s*register-lint:quoted-source\s*-->.*?<!--\s*register-lint:/quoted-source\s*-->",
+    re.DOTALL)
+
+
+def mask_quoted_source(text):
+    """Blank every closed quoted-source region, keeping every line number intact.
+
+    Returns the text unchanged when the file carries no fence, and when any opening marker is left
+    unclosed. Line numbers survive because each region is replaced by its own newlines, so a hit
+    reported after masking still points at the real line of the real file.
+    """
+    if "register-lint:quoted-source" not in text:
+        return text
+    masked = _QUOTED_REGION.sub(lambda m: "\n" * m.group(0).count("\n"), text)
+    if _QUOTED_OPEN.search(masked):
+        return text
+    return masked
+
+
 def scan(text):
     """Return a list of (line_no, pattern_id, snippet, source) for every pattern hit."""
     hits = []
-    for i, line in enumerate(text.splitlines(), 1):
+    for i, line in enumerate(mask_quoted_source(text).splitlines(), 1):
         if not line.strip():
             continue
         for pid, _lang, rx, source, _date in PATTERNS:
