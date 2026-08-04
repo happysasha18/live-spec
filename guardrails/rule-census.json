@@ -12,10 +12,10 @@
       "total": 88
     },
     "NEXT_STEPS.md": {
-      "bytes": 9164,
+      "bytes": 6412,
       "file": "NEXT_STEPS.md",
       "long": 0,
-      "longest": 25,
+      "longest": 24,
       "register": 0,
       "style": 0,
       "total": 0
@@ -102,7 +102,7 @@
       "total": 3
     },
     "docs/PROGRESS.md": {
-      "bytes": 15127,
+      "bytes": 15462,
       "file": "docs/PROGRESS.md",
       "long": 0,
       "longest": 22,
@@ -669,13 +669,13 @@
       "total": 10
     },
     "skills/build-pipeline/SKILL.md": {
-      "bytes": 56824,
+      "bytes": 56276,
       "file": "skills/build-pipeline/SKILL.md",
-      "long": 138,
+      "long": 135,
       "longest": 198,
       "register": 0,
-      "style": 123,
-      "total": 261
+      "style": 122,
+      "total": 257
     },
     "skills/build-pipeline/references/delegation-protocol.md": {
       "bytes": 8388,
@@ -750,13 +750,13 @@
       "total": 3
     },
     "skills/communicator/SKILL.md": {
-      "bytes": 45774,
+      "bytes": 45271,
       "file": "skills/communicator/SKILL.md",
-      "long": 86,
+      "long": 85,
       "longest": 105,
       "register": 0,
       "style": 95,
-      "total": 181
+      "total": 180
     },
     "skills/communicator/references/field-examples.md": {
       "bytes": 7318,
@@ -795,13 +795,13 @@
       "total": 16
     },
     "skills/design-reviewer/SKILL.md": {
-      "bytes": 23550,
+      "bytes": 22796,
       "file": "skills/design-reviewer/SKILL.md",
-      "long": 70,
+      "long": 67,
       "longest": 92,
       "register": 0,
-      "style": 7,
-      "total": 77
+      "style": 5,
+      "total": 72
     },
     "skills/feedback-collector/README.md": {
       "bytes": 2901,
@@ -813,13 +813,13 @@
       "total": 3
     },
     "skills/feedback-collector/SKILL.md": {
-      "bytes": 8043,
+      "bytes": 7544,
       "file": "skills/feedback-collector/SKILL.md",
-      "long": 4,
-      "longest": 41,
+      "long": 3,
+      "longest": 34,
       "register": 0,
-      "style": 17,
-      "total": 21
+      "style": 11,
+      "total": 14
     },
     "skills/feedback-intake/README.md": {
       "bytes": 5640,
@@ -831,13 +831,13 @@
       "total": 6
     },
     "skills/feedback-intake/SKILL.md": {
-      "bytes": 7692,
+      "bytes": 7088,
       "file": "skills/feedback-intake/SKILL.md",
-      "long": 14,
-      "longest": 48,
+      "long": 12,
+      "longest": 49,
       "register": 0,
-      "style": 11,
-      "total": 25
+      "style": 10,
+      "total": 22
     },
     "skills/live-spec-base/README.md": {
       "bytes": 279,
@@ -849,13 +849,13 @@
       "total": 1
     },
     "skills/live-spec-base/SKILL.md": {
-      "bytes": 59616,
+      "bytes": 58933,
       "file": "skills/live-spec-base/SKILL.md",
-      "long": 141,
+      "long": 140,
       "longest": 97,
       "register": 0,
-      "style": 88,
-      "total": 229
+      "style": 86,
+      "total": 226
     },
     "skills/product-prover/README.md": {
       "bytes": 11345,
@@ -867,7 +867,7 @@
       "total": 0
     },
     "skills/product-prover/SKILL.md": {
-      "bytes": 62607,
+      "bytes": 62016,
       "file": "skills/product-prover/SKILL.md",
       "long": 0,
       "longest": 25,
@@ -885,13 +885,13 @@
       "total": 6
     },
     "skills/publish/SKILL.md": {
-      "bytes": 13668,
+      "bytes": 13169,
       "file": "skills/publish/SKILL.md",
-      "long": 33,
+      "long": 32,
       "longest": 85,
       "register": 0,
-      "style": 33,
-      "total": 66
+      "style": 29,
+      "total": 61
     },
     "skills/spec-author/README.md": {
       "bytes": 5148,
@@ -903,13 +903,13 @@
       "total": 11
     },
     "skills/spec-author/SKILL.md": {
-      "bytes": 57673,
+      "bytes": 56758,
       "file": "skills/spec-author/SKILL.md",
-      "long": 117,
+      "long": 115,
       "longest": 121,
       "register": 0,
       "style": 0,
-      "total": 117
+      "total": 115
     },
     "skills/test-author/README.md": {
       "bytes": 6396,
@@ -921,13 +921,13 @@
       "total": 8
     },
     "skills/test-author/SKILL.md": {
-      "bytes": 19017,
+      "bytes": 18533,
       "file": "skills/test-author/SKILL.md",
-      "long": 38,
+      "long": 35,
       "longest": 91,
       "register": 0,
-      "style": 19,
-      "total": 57
+      "style": 18,
+      "total": 53
     },
     "skills/text-audit/README.md": {
       "bytes": 5683,
@@ -939,7 +939,7 @@
       "total": 0
     },
     "skills/text-audit/SKILL.md": {
-      "bytes": 22785,
+      "bytes": 21950,
       "file": "skills/text-audit/SKILL.md",
       "long": 0,
       "longest": 25,
