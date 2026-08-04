@@ -9,7 +9,8 @@ THE LAW: `guardrails/language-rules.json` is the one home for the rules this pro
 its own texts are written, and every consumer comes out of it through
 `scripts/gen-language-consumers.py`. This gate holds these faults:
 
-  - DRIFT. A committed artifact — `hooks/language-laws.json` or `docs/language-rules.md` — differs
+  - DRIFT. A committed artifact — `hooks/language-laws.json`, `docs/language-rules.md`,
+    `docs/language-rule-coverage.md`, or `skills/text-audit/references/reader-prompt.md` — differs
     from a fresh build off the current source. This is the fault that makes the source the single
     home: a rule edited in an artifact is overwritten, a rule edited in the source travels.
   - NOTHING HOLDS IT, AND NOTHING SAYS WHY. A rule with no catcher reading `held`, and no reason
@@ -300,6 +301,7 @@ def main(argv):
     parser.add_argument("--laws", default=os.path.join(REPO_ROOT, gen.LAWS_REL))
     parser.add_argument("--doc", default=os.path.join(REPO_ROOT, gen.DOC_REL))
     parser.add_argument("--coverage", default=None)
+    parser.add_argument("--reader-prompt", default=os.path.join(REPO_ROOT, gen.READER_PROMPT_REL))
     parser.add_argument("--max-reasonless", type=int, default=MAX_REASONLESS,
                         help="how many rules may stand with no held catcher and no stated reason; "
                              "the number only falls")
@@ -329,7 +331,8 @@ def main(argv):
     # the fixture's own coverage build rather than the repository's.
     args.coverage = args.coverage or os.path.join(os.path.dirname(args.doc),
                                                   os.path.basename(gen.COVERAGE_REL))
-    artifacts = {gen.LAWS_REL: args.laws, gen.DOC_REL: args.doc, gen.COVERAGE_REL: args.coverage}
+    artifacts = {gen.LAWS_REL: args.laws, gen.DOC_REL: args.doc, gen.COVERAGE_REL: args.coverage,
+                gen.READER_PROMPT_REL: args.reader_prompt}
     problems = check_shape(rules, gen.SURFACES, gen)
     if problems:
         problems.append("the artifacts were not rebuilt, since a rule the generator cannot render "
@@ -359,7 +362,8 @@ def main(argv):
         debt_note = ("every rule either names a held catcher or states why nothing holds it; lower "
                      "the cap in this gate from %d to 0" % args.max_reasonless)
 
-    files = [os.path.basename(args.source), gen.LAWS_REL, gen.DOC_REL, gen.COVERAGE_REL]
+    files = [os.path.basename(args.source), gen.LAWS_REL, gen.DOC_REL, gen.COVERAGE_REL,
+             gen.READER_PROMPT_REL]
     files += ["%s (block only)" % rel for rel in gen.SPLICED]
     if problems:
         print("%s: %d language-rule fault(s) in %s:" % (CHECK, len(problems), args.source))

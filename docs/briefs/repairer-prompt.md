@@ -79,7 +79,7 @@ The full set of 59 rules lives in `guardrails/language-rules.json`, and every se
 
 These twelve settle most repairs:
 
-- one sentence carries one rule, holds at most one subordinate clause, and stays at or under 25 words;
+- one sentence carries one rule and stays at or under 25 words;
 - one paragraph carries one point, stated in its first sentence, with the rest supporting that point;
 - every sentence says what a thing is, in its own words, and a boundary worth naming takes its own plain sentence;
 - every term is defined at its first use, or the document names the file that defines the term;

@@ -58,8 +58,8 @@ Each entry names the class of mistake, states the rule, gives the question to as
   *Ask:* Can a person who reads this sentence alone name the members of the set it points at?
     - `**Case: the three legs**` → `**Case: the prototype-reference leg, the completeness scan, and the behaviour-traces-to-spec check**`
 - **a sentence carrying more than one rule, running past its word cap, or piling up clauses** (`r08`)
-  One sentence carries one rule and no definitions. It stays under the word cap for its surface, and it holds at most one subordinate clause.
-  *Ask:* Does this sentence state one rule a reader could cite on its own? Does it stay under the cap for its surface? Does it hold its subject in view from its first word to its last?
+  One sentence carries one rule and no definitions, and it stays under the word cap for its surface.
+  *Ask:* Does this sentence state one rule a reader could cite on its own, and does it stay under the cap for its surface?
     - `the orchestration law that the session keeps pulling unblocked queue work while any remains.` → `state the law in one short sentence, and put its parts in a list`
 - **a text breaking a rule it states** (`r09`)
   A text ships once it obeys every rule it states. The sentence stating a rule is the first place to check that rule.

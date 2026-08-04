@@ -97,6 +97,12 @@ Each **catcher** under a rule carries a status of its own.
 - `manual` — a person runs the catcher over a file by hand, and nothing runs it on its own.
 - `nowhere` — no catcher runs the rule at any event.
 
+A rule's **owner** names the one thing that decides a break of it. The status words above say what runs today; the owner says what is meant to run.
+
+- `script` — a literal check decides a break of this rule on its own.
+- `skill` — deciding a break needs a model reading the text for meaning.
+- `split` — the rule bundles a mechanical arm and a meaning arm, and it owes a split before one owner.
+
 No rule on this page carries a status, and that is deliberate: a rule binds a text whether or not a machine checks it. The words above are defined here because `docs/language-rule-coverage.md` states them of every rule.
 
 ## The rules
@@ -240,9 +246,9 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 ### r08 — a sentence carrying more than one rule, running past its word cap, or piling up clauses
 
-**Rule.** One sentence carries one rule and no definitions. It stays under the word cap for its surface, and it holds at most one subordinate clause.
+**Rule.** One sentence carries one rule and no definitions, and it stays under the word cap for its surface.
 
-**Reader test.** Does this sentence state one rule a reader could cite on its own? Does it stay under the cap for its surface? Does it hold its subject in view from its first word to its last?
+**Reader test.** Does this sentence state one rule a reader could cite on its own, and does it stay under the cap for its surface?
 
 **Binds.** spec-body · human-prose · artifact
 
@@ -252,7 +258,7 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 **Exceptions.** a spec-body criterion counted in the recorded baseline of 469, which passes while the count stays at or under it — a sentence written today carries no such exception; a rhetorical triad, which carries no list.
 
-**Thresholds.** spec_body_criterion_max_words = 35; human_prose_flag_above_words = 25; human_prose_target_band = 15 to 25; max_subordinate_clauses = 1; spec_body_criterion_baseline_over_cap = 469.
+**Thresholds.** spec_body_criterion_max_words = 35; human_prose_flag_above_words = 25; human_prose_target_band = 15 to 25; spec_body_criterion_baseline_over_cap = 469.
 
 ### r09 — a text breaking a rule it states
 
