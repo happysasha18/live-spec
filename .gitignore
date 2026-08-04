@@ -30,3 +30,12 @@ outbox/
 # conversation. It belongs in a scratch directory and never in this repository (SPEC INV-302), so a
 # run that names its output here leaves an ignored file rather than a committed one.
 session-extract-*.md
+
+# A copy kept beside a file before it was rewritten is a safety net for one working session, and the
+# repository's own history is the durable record of what a file used to hold. Committing one leaves a
+# second copy of a live source in the tree, which then drifts and gets read as if it still governed —
+# guardrails/language-rules.json.bak-pre-langsweep still stated a threshold the rule home had dropped
+# (caught 2026-08-04). These stay on disk, recoverable, and out of the repository.
+*.bak
+*.bak-*
+

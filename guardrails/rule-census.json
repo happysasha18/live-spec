@@ -12,7 +12,7 @@
       "total": 88
     },
     "NEXT_STEPS.md": {
-      "bytes": 6197,
+      "bytes": 9164,
       "file": "NEXT_STEPS.md",
       "long": 0,
       "longest": 25,
@@ -93,7 +93,7 @@
       "total": 46
     },
     "docs/MEASUREMENTS.md": {
-      "bytes": 18423,
+      "bytes": 18981,
       "file": "docs/MEASUREMENTS.md",
       "long": 3,
       "longest": 36,
@@ -165,7 +165,7 @@
       "total": 38
     },
     "docs/language-rule-coverage.md": {
-      "bytes": 79955,
+      "bytes": 87201,
       "file": "docs/language-rule-coverage.md",
       "long": 83,
       "longest": 81,
@@ -174,7 +174,7 @@
       "total": 105
     },
     "docs/language-rules.md": {
-      "bytes": 57301,
+      "bytes": 57571,
       "file": "docs/language-rules.md",
       "long": 30,
       "longest": 89,
@@ -587,6 +587,42 @@
       "style": 27,
       "total": 38
     },
+    "inbox/2026-07-30-authoring-coverage-findings.md": {
+      "bytes": 11234,
+      "file": "inbox/2026-07-30-authoring-coverage-findings.md",
+      "long": 18,
+      "longest": 83,
+      "register": 0,
+      "style": 7,
+      "total": 25
+    },
+    "inbox/2026-07-30-communicator-source-findings.md": {
+      "bytes": 25087,
+      "file": "inbox/2026-07-30-communicator-source-findings.md",
+      "long": 49,
+      "longest": 94,
+      "register": 0,
+      "style": 6,
+      "total": 55
+    },
+    "inbox/2026-07-30-context-audit-from-fable.md": {
+      "bytes": 10468,
+      "file": "inbox/2026-07-30-context-audit-from-fable.md",
+      "long": 18,
+      "longest": 46,
+      "register": 0,
+      "style": 4,
+      "total": 22
+    },
+    "inbox/2026-07-30-live-spec-base-leftovers.md": {
+      "bytes": 17097,
+      "file": "inbox/2026-07-30-live-spec-base-leftovers.md",
+      "long": 32,
+      "longest": 61,
+      "register": 0,
+      "style": 2,
+      "total": 34
+    },
     "inbox/README.md": {
       "bytes": 9996,
       "file": "inbox/README.md",
@@ -912,7 +948,7 @@
       "total": 0
     },
     "skills/text-audit/references/human-prose-rules.md": {
-      "bytes": 24239,
+      "bytes": 24136,
       "file": "skills/text-audit/references/human-prose-rules.md",
       "long": 0,
       "longest": 25,
@@ -921,7 +957,7 @@
       "total": 0
     },
     "skills/text-audit/references/reader-prompt.md": {
-      "bytes": 2514,
+      "bytes": 7940,
       "file": "skills/text-audit/references/reader-prompt.md",
       "long": 0,
       "longest": 23,
