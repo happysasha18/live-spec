@@ -1,5 +1,48 @@
 # Next steps — live-spec
 
+## Read this first, 2026-07-29 evening
+
+The owner stopped the readability campaign here and opened a fresh session to rethink it. Three
+things stand settled, and one decision is his. Everything below this section describes the campaign
+as it ran before that stop, and the measurements page it points at still holds.
+
+**The campaign measured the wrong thing, and this is on record.** The count of 4,813 findings
+over 115 documents holds 3,454 sentences past 25 words. It holds 1,202 words written in capitals.
+Every other class together is 157. The register check finds nothing at all: it carries 23 fixed
+patterns and matches none of them anywhere in the tree. A number of this shape says little about
+whether a stranger can read a document.
+
+**Every rule now names its owner.** `guardrails/language-rules.json` carries 63 rules. Each one holds
+an `owner` block naming the thing that decides a break of it. A script owns 18 and the reading agent
+owns 42. Three bundle a mechanical arm with a meaning arm, and they owe a division before one owner
+fits. The reason stands in the same block, and `docs/language-rule-coverage.md` prints it under each
+rule.
+
+**The reader now gets the rules.** `skills/text-audit/references/reader-prompt.md` is generated out
+of the rule home. It prints the 38 rules that bind human prose and belong to the reading agent. It
+carried five hand-written classes before.
+
+**The decision the owner holds: what bar a text must clear to ship.** The rule says two consecutive
+readings with nothing blocking. Nine readings of one file returned 11, 8, 12, 6, 5, 5, 6, 5, 8 and
+never reached it. The agreement rule added on 2026-07-29 lowers the count by dropping every place
+one reader of a round found alone. Three shapes stand ready: zero for both readers; zero by
+agreement; or shipping with the remaining stops listed at the text's head. No file closes until this
+is answered.
+
+**The state of the tree.** Eight files carry uncommitted work. They are the rule home, the
+generator, the language-rules gate, the measurements script and its page, the repair brief, and the
+baseline record. `docs/PROGRESS.md` stands untracked beside them. The language-rules gate, the findings-bound
+gate and the register lint are green over all of it. Six tests were red before this work started and
+are red still: `test_guardrails` twice, `test_rendered_sweep`, `test_resume_digest`,
+`test_traceability`, and `test_worker_restore`. One of the six is Russian text inside shipped test
+fixtures written on 2026-07-28. No commit goes out until those six are green.
+
+**Stale counts to repair.** Three files state rule totals written by hand and left behind. The
+readability plan says 54 rules, and its six families reach 43 codes. `docs/language-defects.md` says
+53 rules and `r62`. `docs/language-worked-example.md` says 39 rules bind human prose. The home holds
+63 rules and its highest identifier is `r72`. Each of these counts should be generated out of the
+home.
+
 ## Start here
 
 Open `docs/MEASUREMENTS.html` in a browser. That page is the source of truth for where the work

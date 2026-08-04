@@ -18,3 +18,5 @@ base rule 10). Nothing here was deleted; a file that turns out to be needed is m
 - `docs/reports/2026-07-28-morning.html` -> `attic/docs-reports-2026-07-28-morning-3.html` * a rendered page whose reading is over: carried the `live-spec render-doc` generator mark * 2026-07-28
 - `docs/reports/2026-07-28-document-state-and-plan.html` -> `attic/docs-reports-2026-07-28-document-state-and-plan.html` * a rendered page whose reading is over: carried the `live-spec render-doc` generator mark * 2026-07-28
 - `docs/reports/2026-07-29-session-report.html` -> `attic/docs-reports-2026-07-29-session-report.html` * a rendered page whose reading is over: carried the `live-spec render-doc` generator mark * 2026-07-29
+- `docs/PROGRESS.html` -> `attic/docs-PROGRESS.html` * a rendered page whose reading is over: carried the `live-spec render-doc` generator mark * 2026-07-29
+- `docs/plans/2026-07-28-two-goals-one-campaign.html` -> `attic/docs-plans-2026-07-28-two-goals-one-campaign.html` * a rendered page whose reading is over: carried the `live-spec render-doc` generator mark * 2026-07-29
