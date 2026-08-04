@@ -165,9 +165,13 @@ def build_row(position, rel, census, reads, slug_map, rounds):
         read_clean = NOT_MEASURED if not my_reads else "no"
         agreed_cell = NOT_MEASURED if my_reads else NA
     else:
-        last = agreed[-1]
-        read_clean = "yes" if last["agreed"] == 0 else "no"
-        agreed_cell = str(last["agreed"])
+        # Read clean means the last TWO rounds each returned zero agreed stops, which is the bar
+        # PRODUCT_SPEC.md states at INV-267 and scripts/progress-report.py already applies. One
+        # clean round is a reader's luck; two in a row is the text.
+        last_two = agreed[-2:]
+        read_clean = ("yes" if len(last_two) == 2 and all(r["agreed"] == 0 for r in last_two)
+                      else "no")
+        agreed_cell = str(agreed[-1]["agreed"])
 
     if measured_clean == "yes" and read_clean == "yes":
         state = "finished"
@@ -197,25 +201,43 @@ COLUMNS = [
     ("n", "#", "Position in the reading queue. The queue runs by what enters a working context "
                "earliest, so the file an agent reads on every turn stands first."),
     ("file", "file", "The file this row measures."),
-    ("state", "state", "DONE when the file is clean on the counter and clean on the readings. "
-                       "Every other file reads open. This is the only finish line."),
-    ("findings", "find", "Writing findings: sentences past the word cap of the file's surface, plus "
-                         "style findings and register findings. Command: python3 "
+    ("state", "state", "DONE when both check columns read ok: the script count sits at zero and "
+                       "the last two reading rounds each returned zero agreed stops. Every other "
+                       "file reads open. This is the only finish line."),
+    ("findings", "find", "How many writing defects a script counts in this file. Three counts "
+                         "added together: prose sentences longer than 25 words, the human-prose "
+                         "cap read out of guardrails/language-rules.json rule r08 and applied to "
+                         "every file, plus every finding of the style check "
+                         "(scripts/spec-style-lint.py --tier full), plus every finding of the "
+                         "register check (scripts/preshow-register-lint.py). Produced by python3 "
                          "scripts/rule-census.py. Target: zero."),
     ("longest", "long", "Words in the file's longest prose sentence. One long sentence marks the "
-                        "paragraph a reader rereads. Target: 25 for human prose, 35 for a "
-                        "numbered acceptance criterion."),
+                        "paragraph a reader rereads. Target: 25 words. The rule allows a numbered "
+                        "acceptance criterion 35, and the counter does not yet make that "
+                        "exception, so PRODUCT_SPEC.md counts criteria of 26 to 35 words as "
+                        "findings the rule permits."),
     ("style", "style", "Findings of the style check alone (scripts/spec-style-lint.py --tier full). "
                        "Carried apart because a style finding is repaired differently. Target: zero."),
-    ("measured_clean", "cnt", "Whether the finding count sits at zero. This is the cheap bar, and a "
-                              "file above its recorded count refuses the push."),
+    ("measured_clean", "script ok", "Reads ok when the find column sits at zero. A script settles "
+                                    "this column, so it costs a command and no reader. It also "
+                                    "runs as a push check: guardrails/check-doc-findings-bound.py "
+                                    "refuses the push when a file counts more findings than "
+                                    "guardrails/rule-census.json records for it."),
     ("readings", "reads", "How many fresh readers have read this file. A reader holds no project "
                           "access: only the file and one fixed list of questions. Each reading "
                           "writes a dated record under docs/language-reads/."),
-    ("agreed", "agree", "Places where BOTH readers of the last round stopped. One reader measures "
-                        "that reader's path; two readers agreeing measures the text. While this "
-                        "stands above zero the file is repaired again. Target: zero."),
-    ("read_clean", "read", "Whether the agreed-stop count reached zero. This is the real bar."),
+    ("agreed", "both stopped", "How many places BOTH readers of the last round stopped at. A round "
+                               "is two fresh readers sent at the same version of the file, one on "
+                               "the strong tier and one on the cheap tier; a place "
+                               "counts only when both of them stopped there, because one reader "
+                               "measures that reader's path and two agreeing measure the text. "
+                               "Counted by hand from the two reading records and stored per round "
+                               "in guardrails/progress-baseline.json. While it stands above zero "
+                               "the file is repaired and read again. Target: zero."),
+    ("read_clean", "readers ok", "Reads ok when the last TWO rounds each came back at zero on the "
+                                 "both-stopped column. Only live readers settle this column, so it "
+                                 "costs two workers and a repair pass per round. One clean round "
+                                 "is a reader's luck; two in a row is the text."),
     ("lines", "lines", "Lines in the file. It says whether one reader holds the file in one pass. "
                        "Target for a specification part file: 250 lines of requirement bodies."),
     ("est", "est h", "Estimated hours left to carry this file to DONE. Basis: minutes per hundred "
@@ -375,17 +397,24 @@ NOTES = [
 "Each indicator carries five things: what it counts, why the project measures it, what changes when "
 "it moves, the command that produces it, and the value it aims at.",
 "",
-"**state** — a file reads `finished` when it is measured clean and read clean. Every other file reads "
-"`unfinished`. This is the campaign's only finish line, and the queue advances when a file reaches it.",
+"A file is carried to `finished` by two checks, and the table gives each check a count column and an ok "
+"column beside it. The first check is a script: it counts writing defects and reaches zero or it does "
+"not. The second check is live readers: two fresh readers read the file and their two lists are "
+"compared. The first check costs one command, the second costs two workers and a repair pass per "
+"round, which is why the table shows them apart.",
 "",
-"**findings** — sentences past the word cap of the file's surface, plus the findings of the style "
-"check and the register check. It separates the cheap defects a script settles from the ones needing "
-"a reader. A file above its recorded count refuses the push. `python3 scripts/rule-census.py`. Target: "
-"zero.",
+"**state** — a file reads `finished` when both checks read ok. Every other file reads `unfinished`. "
+"This is the campaign's only finish line, and the queue advances when a file reaches it.",
+"",
+"**findings** — how many writing defects the script counts. Three counts added together: prose "
+"sentences longer than 25 words, plus the findings of the style check, plus the findings of the "
+"register check. The 25 is the human-prose cap of rule r08 in `guardrails/language-rules.json`, and "
+"the counter applies it to every file. `python3 scripts/rule-census.py`. Target: zero.",
 "",
 "**longest sentence** — the words in the file's longest prose sentence. One long sentence marks the "
-"paragraph a reader will reread, so it names where to start. Same command. Target: 25 words for human "
-"prose, 35 for a numbered acceptance criterion.",
+"paragraph a reader will reread, so it names where to start. Same command. Target: 25 words. The rule "
+"allows a numbered acceptance criterion 35 words, and the counter makes no such exception. So part of "
+"PRODUCT_SPEC.md's count is criteria the rule permits.",
 "",
 "**style** — the findings of `scripts/spec-style-lint.py --tier full` alone, carried as its own column "
 "because a style finding is repaired differently from a long sentence. Target: zero.",
@@ -395,14 +424,16 @@ NOTES = [
 "writes a dated record under `docs/language-reads/`. Target: the count rises until two readers of one "
 "round agree on nothing.",
 "",
-"**agreed stops** — places where both readers of the latest round stopped. A single reader's list "
-"never repeats, so one reader measures that reader's path and two readers agreeing measures the text. "
-"While this stands above zero the file is repaired again. Recorded per round in "
-"`guardrails/progress-baseline.json`. Target: zero.",
+"**both stopped** — how many places both readers of the latest round stopped at. A single reader's "
+"list never repeats, so one reader measures that reader's path and two readers agreeing measures the "
+"text. While this stands above zero the file is repaired and read again. Counted by hand from the two "
+"reading records and stored per round in `guardrails/progress-baseline.json`. Target: zero.",
 "",
-"**measured clean** — the findings column at zero.",
+"**script ok** — the findings column at zero. The same number is a push check: "
+"`guardrails/check-doc-findings-bound.py` refuses the push when a file counts more findings than "
+"`guardrails/rule-census.json` records for it.",
 "",
-"**read clean** — the agreed-stop column at zero for two rounds in a row.",
+"**readers ok** — the both-stopped column at zero for two rounds in a row.",
 "",
 "**bytes**, **lines** — the file's size. They say whether a file is growing, and whether one reader "
 "holds it in one pass. Target for a specification part file: 250 lines of requirement bodies, from "
@@ -417,18 +448,13 @@ NOTES = [
 "it needs a written reason in `guardrails/spec-ratchet.json`. Target: it falls or holds.",
 "",
 "**repeated pairs** — pairs of sentences whose wording overlaps enough for a pattern to catch them, "
-"from `python3 scripts/spec-redundancy-precheck.py PRODUCT_SPEC.md`. This is the cheap layer: it "
-"reaches five of the thirty-nine requirement pairs the judged measure found on 2026-07-29, recorded in "
-"`docs/measure/2026-07-29-specification-size.md`. Target: it falls or holds.",
+"from `python3 scripts/spec-redundancy-precheck.py PRODUCT_SPEC.md`. A pattern catches only wording "
+"that repeats: it reaches five of the thirty-nine requirement pairs a judged reading found on "
+"2026-07-29, recorded in `docs/measure/2026-07-29-specification-size.md`. Target: it falls or holds.",
 "",
 "## Indicators this table cannot yet fill",
 "",
 "Each one names what it would decide, and what it needs to exist.",
-"",
-"**Cheap reader against strong reader.** Every reading so far ran on the expensive tier, with no "
-"evidence the expense buys anything. The campaign plan requires this measurement before the tier is "
-"chosen. It needs one cheap worker reading the same text as a strong worker, and the two reports "
-"compared place by place.",
 "",
 "**Rounds and cost per file.** They price the campaign, and they decide whether the queue is "
 "reachable at all. The reading records hold the data; no script counts it.",

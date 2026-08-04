@@ -2,7 +2,7 @@
 
 Generated 2026-07-29 by `python3 scripts/measurements-table.py`. This table is the source of truth for where the work stands, and `docs/MEASUREMENTS.html` is the page to read it on.
 
-| # | file | state | agree | read | find | cnt | est h | cum h | reads | long | style | lines |
+| # | file | state | both stopped | readers ok | find | script ok | est h | cum h | reads | long | style | lines |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
 | | **The text that enters every turn** ||||||||||||
 | 1 | `hooks/chat-law-hook.sh` | open | n/m | no | n/m | n/m | 2.3 | 2 | 1 | n/m | n/m | 14 |
@@ -148,21 +148,23 @@ Generated 2026-07-29 by `python3 scripts/measurements-table.py`. This table is t
 
 Each indicator carries five things: what it counts, why the project measures it, what changes when it moves, the command that produces it, and the value it aims at.
 
-**state** — a file reads `finished` when it is measured clean and read clean. Every other file reads `unfinished`. This is the campaign's only finish line, and the queue advances when a file reaches it.
+A file is carried to `finished` by two checks, and the table gives each check a count column and an ok column beside it. The first check is a script: it counts writing defects and reaches zero or it does not. The second check is live readers: two fresh readers read the file and their two lists are compared. The first check costs one command, the second costs two workers and a repair pass per round, which is why the table shows them apart.
 
-**findings** — sentences past the word cap of the file's surface, plus the findings of the style check and the register check. It separates the cheap defects a script settles from the ones needing a reader. A file above its recorded count refuses the push. `python3 scripts/rule-census.py`. Target: zero.
+**state** — a file reads `finished` when both checks read ok. Every other file reads `unfinished`. This is the campaign's only finish line, and the queue advances when a file reaches it.
 
-**longest sentence** — the words in the file's longest prose sentence. One long sentence marks the paragraph a reader will reread, so it names where to start. Same command. Target: 25 words for human prose, 35 for a numbered acceptance criterion.
+**findings** — how many writing defects the script counts. Three counts added together: prose sentences longer than 25 words, plus the findings of the style check, plus the findings of the register check. The 25 is the human-prose cap of rule r08 in `guardrails/language-rules.json`, and the counter applies it to every file. `python3 scripts/rule-census.py`. Target: zero.
+
+**longest sentence** — the words in the file's longest prose sentence. One long sentence marks the paragraph a reader will reread, so it names where to start. Same command. Target: 25 words. The rule allows a numbered acceptance criterion 35 words, and the counter makes no such exception. So part of PRODUCT_SPEC.md's count is criteria the rule permits.
 
 **style** — the findings of `scripts/spec-style-lint.py --tier full` alone, carried as its own column because a style finding is repaired differently from a long sentence. Target: zero.
 
 **readings** — how many fresh readers have read this file. A reader holds no project access: only the file and one fixed list of questions, at `skills/text-audit/references/reader-prompt.md`. Each reading writes a dated record under `docs/language-reads/`. Target: the count rises until two readers of one round agree on nothing.
 
-**agreed stops** — places where both readers of the latest round stopped. A single reader's list never repeats, so one reader measures that reader's path and two readers agreeing measures the text. While this stands above zero the file is repaired again. Recorded per round in `guardrails/progress-baseline.json`. Target: zero.
+**both stopped** — how many places both readers of the latest round stopped at. A single reader's list never repeats, so one reader measures that reader's path and two readers agreeing measures the text. While this stands above zero the file is repaired and read again. Counted by hand from the two reading records and stored per round in `guardrails/progress-baseline.json`. Target: zero.
 
-**measured clean** — the findings column at zero.
+**script ok** — the findings column at zero. The same number is a push check: `guardrails/check-doc-findings-bound.py` refuses the push when a file counts more findings than `guardrails/rule-census.json` records for it.
 
-**read clean** — the agreed-stop column at zero for two rounds in a row.
+**readers ok** — the both-stopped column at zero for two rounds in a row.
 
 **bytes**, **lines** — the file's size. They say whether a file is growing, and whether one reader holds it in one pass. Target for a specification part file: 250 lines of requirement bodies, from `docs/plans/2026-07-29-specification-subdivision.md`.
 
@@ -170,13 +172,11 @@ Each indicator carries five things: what it counts, why the project measures it,
 
 **bytes per criterion** — the bytes of the criterion lines divided by the number of criteria. It separates growth by addition from growth by wordiness. A delivery may lower it or leave it; raising it needs a written reason in `guardrails/spec-ratchet.json`. Target: it falls or holds.
 
-**repeated pairs** — pairs of sentences whose wording overlaps enough for a pattern to catch them, from `python3 scripts/spec-redundancy-precheck.py PRODUCT_SPEC.md`. This is the cheap layer: it reaches five of the thirty-nine requirement pairs the judged measure found on 2026-07-29, recorded in `docs/measure/2026-07-29-specification-size.md`. Target: it falls or holds.
+**repeated pairs** — pairs of sentences whose wording overlaps enough for a pattern to catch them, from `python3 scripts/spec-redundancy-precheck.py PRODUCT_SPEC.md`. A pattern catches only wording that repeats: it reaches five of the thirty-nine requirement pairs a judged reading found on 2026-07-29, recorded in `docs/measure/2026-07-29-specification-size.md`. Target: it falls or holds.
 
 ## Indicators this table cannot yet fill
 
 Each one names what it would decide, and what it needs to exist.
-
-**Cheap reader against strong reader.** Every reading so far ran on the expensive tier, with no evidence the expense buys anything. The campaign plan requires this measurement before the tier is chosen. It needs one cheap worker reading the same text as a strong worker, and the two reports compared place by place.
 
 **Rounds and cost per file.** They price the campaign, and they decide whether the queue is reachable at all. The reading records hold the data; no script counts it.
 
