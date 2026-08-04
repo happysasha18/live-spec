@@ -1,0 +1,26 @@
+{
+  "note": "An installed hook whose local copy is deliberately different from the repository source. The repository stays the version everyone gets; a machine may run a changed copy for a stated reason and for a stated span. Each entry pins the fingerprint of the installed file it covers, so the moment that file changes again the entry stops matching and the health check reds. An entry buys silence for exactly the copy it names.",
+  "hook_overrides": [
+    {
+      "hook": "midturn-chat-scan.py",
+      "installed_sha256": "e92748e59e4e796a254c757a5fd2e8e79362109c08b58cf2a15cbdf4c71dbc33",
+      "reason": "The automatic reading of chat replies is switched off on this machine while the documents it reads are being rewritten. The check reported against text the rewrite was about to replace, so every report cost a reading and settled nothing. The repository keeps the check armed for everyone else.",
+      "added": "2026-07-30",
+      "review_by": "2026-09-01"
+    },
+    {
+      "hook": "register-judge-collect.sh",
+      "installed_sha256": "bb7cb5d4c6b4d595bebe3c5a8932fa3fa5b3c4feb5dd7062fffc2b0f4d665036",
+      "reason": "The collecting half of the same switched-off reading. It stands down with the arm it feeds.",
+      "added": "2026-07-30",
+      "review_by": "2026-09-01"
+    },
+    {
+      "hook": "register-judge-report.sh",
+      "installed_sha256": "3c557d582f2037c0e30aba1e3697e152904aefec2386d919ed3169665bf21d99",
+      "reason": "The reporting half of the same switched-off reading. It stands down with the arm it feeds.",
+      "added": "2026-07-30",
+      "review_by": "2026-09-01"
+    }
+  ]
+}

@@ -158,6 +158,83 @@ class TestSessionHookDirDiff(unittest.TestCase):
             self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
 
 
+class TestDeclaredLocalOverride(unittest.TestCase):
+    """A machine may deliberately run a changed copy of a hook — a check switched off for a stated
+    span, say. The difference is declared as data in guardrails/local-overrides.json, and an entry
+    pins the fingerprint of the installed file it covers. It therefore buys silence for exactly that
+    copy: change the installed file again and the entry stops matching and the arm reds. Added
+    2026-08-04, red-first against the form that had no override at all."""
+
+    SRC = "print('source')\n"
+    LOCAL = "print('local, switched off')\n"
+
+    def _sha(self, body):
+        import hashlib
+        return hashlib.sha256(body.encode()).hexdigest()
+
+    def _repo(self, tmp, entries, installed_body):
+        helper = TestSessionHookDirDiff()
+        home = helper._repo_with_hooks(
+            tmp,
+            sources={"midturn-chat-scan.py": self.SRC},
+            installed={"midturn-chat-scan.py": installed_body})
+        with open(os.path.join(tmp, "guardrails", "local-overrides.json"), "w") as f:
+            json.dump({"hook_overrides": entries}, f)
+        return home
+
+    def test_a_declared_override_matching_the_installed_file_passes(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            home = self._repo(tmp, [{
+                "hook": "midturn-chat-scan.py",
+                "installed_sha256": self._sha(self.LOCAL),
+                "reason": "switched off while the documents it reads are rewritten",
+            }], self.LOCAL)
+            r = run_check(tmp, env_extra={"HOME": home})
+            self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+            self.assertIn("declared local override", r.stdout)
+
+    def test_the_override_stops_covering_a_file_that_changed_again(self):
+        """The entry names one copy. A different local copy is undeclared drift and reds."""
+        with tempfile.TemporaryDirectory() as tmp:
+            home = self._repo(tmp, [{
+                "hook": "midturn-chat-scan.py",
+                "installed_sha256": self._sha(self.LOCAL),
+                "reason": "switched off while the documents it reads are rewritten",
+            }], "print('a third, undeclared edit')\n")
+            r = run_check(tmp, env_extra={"HOME": home})
+            self.assertEqual(r.returncode, 1, r.stdout + r.stderr)
+            self.assertIn("midturn-chat-scan.py", r.stdout)
+
+    def test_an_override_without_a_reason_buys_nothing(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            home = self._repo(tmp, [{
+                "hook": "midturn-chat-scan.py",
+                "installed_sha256": self._sha(self.LOCAL),
+            }], self.LOCAL)
+            r = run_check(tmp, env_extra={"HOME": home})
+            self.assertEqual(r.returncode, 1, r.stdout + r.stderr)
+
+    def test_an_override_naming_another_hook_covers_nothing(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            home = self._repo(tmp, [{
+                "hook": "some-other-hook.sh",
+                "installed_sha256": self._sha(self.LOCAL),
+                "reason": "a different hook entirely",
+            }], self.LOCAL)
+            r = run_check(tmp, env_extra={"HOME": home})
+            self.assertEqual(r.returncode, 1, r.stdout + r.stderr)
+
+    def test_drift_still_reds_when_no_declaration_file_exists(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            helper = TestSessionHookDirDiff()
+            home = helper._repo_with_hooks(
+                tmp,
+                sources={"midturn-chat-scan.py": self.SRC},
+                installed={"midturn-chat-scan.py": self.LOCAL})
+            r = run_check(tmp, env_extra={"HOME": home})
+            self.assertEqual(r.returncode, 1, r.stdout + r.stderr)
+
+
 class TestSkillCopyArm(unittest.TestCase):
     """INV-243 — a skill lives twice too: source in skills/ travels with the repo, the installed
     copy under ~/.claude/skills/<name> is what pack skills actually load from. Same shape as the

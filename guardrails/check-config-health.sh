@@ -59,8 +59,31 @@ if [ -d "$HOOK_SRC_DIR" ]; then
       echo "{\"severity\":\"error\",\"code\":\"config-health\",\"message\":\"installed hook missing: ~/.claude/hooks/$hname (source exists, install missing)\",\"fix\":\"run scripts/install-pack-hooks.sh or scripts/install-session-hooks.sh\"}"
       fail=1
     elif ! cmp -s "$src_hook" "$inst_hook"; then
-      echo "{\"severity\":\"error\",\"code\":\"config-health\",\"message\":\"installed hook drifted from source: $hname\",\"fix\":\"run scripts/install-pack-hooks.sh or scripts/install-session-hooks.sh\"}"
-      fail=1
+      # A machine may deliberately run a changed copy of a hook — a check switched off for a stated
+      # span while the documents it reads are rewritten, say. The repository stays the version
+      # everyone gets, and the difference is declared as DATA in guardrails/local-overrides.json
+      # rather than by editing this script. An entry pins the fingerprint of the installed file it
+      # covers, so it buys silence for exactly that copy: change the installed file again and the
+      # entry stops matching and this arm reds. An undeclared difference still reds (2026-08-04).
+      inst_sha="$(shasum -a 256 "$inst_hook" | awk '{print $1}')"
+      if [ -f "$REPO_ROOT/guardrails/local-overrides.json" ] && python3 - "$REPO_ROOT/guardrails/local-overrides.json" "$hname" "$inst_sha" <<'PYCHECK'
+import json, sys
+path, hook, sha = sys.argv[1], sys.argv[2], sys.argv[3]
+try:
+    entries = json.load(open(path, encoding="utf-8")).get("hook_overrides", [])
+except Exception:
+    sys.exit(1)
+for e in entries:
+    if e.get("hook") == hook and e.get("installed_sha256") == sha and e.get("reason"):
+        sys.exit(0)
+sys.exit(1)
+PYCHECK
+      then
+        echo "config-health: declared local override, installed hook differs from source by design: $hname (guardrails/local-overrides.json)"
+      else
+        echo "{\"severity\":\"error\",\"code\":\"config-health\",\"message\":\"installed hook drifted from source: $hname\",\"fix\":\"run scripts/install-pack-hooks.sh or scripts/install-session-hooks.sh, or declare the difference in guardrails/local-overrides.json with its reason and the installed file's fingerprint\"}"
+        fail=1
+      fi
     fi
   done
 fi
