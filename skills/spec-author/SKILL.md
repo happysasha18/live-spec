@@ -1,6 +1,6 @@
 ---
 name: spec-author
-description: Author and maintain a living product spec as a project grows — a requirements-genre PRODUCT_SPEC.md a stranger can read on first pass: a closed-vocabulary glossary, then a body of requirements, each with a Context block, a one-sentence User Story, and acceptance criteria grouped into named cases; short codes trail as bracket anchors, and a generated code-to-location table replaces any hand-kept index. Underneath it still states entities, states, transitions, actors, invariants, and the cross-section composition between them. Use this skill whenever the user wants to start a spec, add a feature/surface to an existing spec, "spec this out", "write the spec for X", keep a spec in sync with new behavior, or asks how to structure a spec. It is the authoring half of a pair: spec-author writes the spec, product-prover reviews it. Reach for it before writing tests or code for anything non-trivial, and whenever a new stateful surface is introduced. Not for reviewing or poking holes in a spec (that is product-prover's half), for retro-documenting already-built code, or for an unfenced prototype sketch (which carries no spec).
+description: Use to start a new product spec, add a feature to an existing spec, or keep a spec in sync with behavior changes. Documenting already-built code after the fact and a prototype sketch that carries no spec stay outside it.
 metadata:
   version: 4.3.0
 ---

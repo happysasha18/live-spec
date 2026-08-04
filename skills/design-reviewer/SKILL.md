@@ -1,6 +1,6 @@
 ---
 name: design-reviewer
-description: Senior design review of a proven product spec — reads the spec after the prover and judges whether the design itself is right: do same-kind things behave alike, and what groupings did the text never declare? Use this skill whenever the user asks to review the DESIGN of a spec for consistency or similarity, asks "do these behave the same / should these be one kind / what siblings did we miss", wants the same-kind groupings a spec never named checked for behaviour parity, or mentions "design review". It proposes the undeclared same-kind groups, checks behaviour parity within each, and brings the human the strongest likely divergence with two objects in hand. NOT for verifying the spec holds together as written — that is product-prover, which answers "does the spec hold as written?" while this answers "is the design itself right?" — nor for code or diffs; and it never blocks a landing, since every finding is a recommendation or a question.
+description: Use after a spec is proven to check whether similar features behave consistently and flag ungrouped same-kind items the spec missed. It holds no landing; every finding is a recommendation or a question.
 metadata:
   version: 4.3.0
 ---

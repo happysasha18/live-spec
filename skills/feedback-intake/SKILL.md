@@ -1,6 +1,6 @@
 ---
 name: feedback-intake
-description: Receive anything a person hands back to the project — a remark, an answer, a screenshot, a reaction, a dropped file — and route it to the home its law owns; nothing handed in is ever lost. Use whenever feedback arrives in any form (a comment on shown work, an answered decision page, a file appearing in inbox/, a user's report relayed by the human), when sweeping the inbox, when opening or appending the feedback ledger (FEEDBACK.md), or when deciding where a handed-in item belongs. It is the intake half of the exchange — communicator carries work out to the human, this skill carries what comes back. NOT for the agent's own outputs or questions; it never opens a queue row on its own judgment (the door owns that verdict); and it is no analytics machine — reading, scoring, and aggregating the collected signals stay with the measurement family.
+description: Use whenever feedback arrives — a comment, answer, file, or reaction from a person, a file appearing in inbox/ (whoever put it there, person or agent), an inbox sweep, or an append to the feedback ledger FEEDBACK.md — and route it to where it belongs.
 metadata:
   version: 4.3.0
 ---

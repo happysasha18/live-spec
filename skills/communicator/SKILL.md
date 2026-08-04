@@ -1,6 +1,6 @@
 ---
 name: communicator
-description: How to show work to a human and ask for decisions they can actually make. Use when a person must DECIDE something (especially anything visual or textual), when a landing or milestone is REPORTED (movement-end report, decision page, opening an artifact for review), when answering "did we actually do X?" (that answer walks the evidence), when the human asks what the product does ("show me all the features" — the feature map on demand), or when naming a problem that needs their word. NOT a reason to LOAD it: a passing mid-work narration line (a standing habit, learned once), an internal working note, or a plain factual answer — those just get said. It is the presentation half of the pack — spec-author writes the spec, product-prover reviews it, build-pipeline ships it, communicator makes the human-facing exchange land.
+description: Use to show work to a human and ask for a decision, report a milestone, answer "did we do X", show what the product does, or raise a problem that needs their word. Not for routine narration.
 metadata:
   version: 4.3.0
 ---

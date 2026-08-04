@@ -1,6 +1,6 @@
 ---
 name: publish
-description: The publish-quality gate — run it whenever work is about to leave the machine: a repo going public, a push that updates a public README, a release, a plugin-directory submission, a skill deposited for others, rendered cards sent to a design project. It checks that the publication owes its reader what the artifact's KIND owes (a skill shows install + commands + when-to-use; a tool shows real runs; a visual product shows fresh screenshots; prose shows its reading path), lets each publish TARGET plug its own steps into the walk, and always finishes BEFORE the human's publish gate, standing only as its preparation. NOT for in-session showing of work (communicator owns that) or for commits that stay local.
+description: Use before work leaves the machine publicly — a public repo, README push, release, or shared skill — to check it meets publish quality. It finishes before the human's own publish decision and only prepares it.
 metadata:
   version: 4.3.0
 ---

@@ -1,6 +1,6 @@
 ---
 name: feedback-collector
-description: The pack's outbound feedback arm. On a genuinely strong, RARE reaction from the user — a real delight, a real hurt, a comparably notable moment — OFFER, asking positive consent every time, to draft a short private "upstream note" to the pack's authors about what happened. Use when the conversation shows an unmistakable strong reaction and the host has turned `feedback-upstream: on`; it drafts a distilled, non-public note into `outbox/` and never sends it, delivery being the human's own step. NOT feedback-intake — that RECEIVES what a person hands in, this NOTICES a strong moment and offers to carry a note up. NOT a measurement machine — it reads one moment, never scores or aggregates. Off by default, silent unless a host opts in.
+description: Use, only if enabled, when the user shows a rare, strong reaction (delight or frustration) to offer drafting a private note to the pack's authors. Consent is asked every time, and the note is never sent — delivery is the human's own step.
 metadata:
   version: 4.3.0
 ---

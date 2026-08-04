@@ -1,13 +1,6 @@
 ---
 name: build-pipeline
-description: >
-  Run a non-trivial change by the book — the spec → prove → architecture → prove architecture → matrix →
-  test → code → verify → commit & show pipeline, orchestrating the pack's working skills (spec-author,
-  product-prover, design-reviewer, test-author). Use this whenever starting a new
-  feature, a new stateful surface, or a behaviour change that deserves more than a one-line edit:
-  "build X properly", "do this by the method", "spec and ship Y", "new surface for Z". It is also the
-  entry point for bugs, refactors, docs-only changes, and feature removals — a bug enters at the matrix
-  step with a red-on-bug test. NOT for tiny reversible edits (those shortcut straight to code + a test) or pure research/fact-gathering.
+description: Use to run a non-trivial feature, bug fix, behavior change, refactor, docs-only change, or feature removal through the full spec-to-ship pipeline. A tiny reversible edit and pure research stay outside it.
 metadata:
   version: 4.3.0
 ---

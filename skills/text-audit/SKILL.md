@@ -1,6 +1,6 @@
 ---
 name: text-audit
-description: Audit any human-facing text and repair what a stranger stops on. It runs the mechanical lints first. Then it hands the text to a fresh cold reader with zero context on the text's history. It takes the places that reader stops and repairs them from the source. It repeats until two consecutive reads return zero blocking findings. Use it when a person wants a text checked for comprehension before it ships. The ask sounds like "audit this text", "cold-read this", or "will a stranger understand this". It also sounds like "is this README clear", "check this for undefined terms", or "review this copy for clarity". It runs on a spec section, a README, a decision page, marketing copy, an article, or any prose a person will read. It states the register it holds a text to, and it ships the reader-prompt ready to paste. Design review of a spec belongs to product-prover, which argues with the claims. Grading taste and rewriting a voice stay with the person. Machine-read text needs no audit, because no stranger returns to a worker brief, a checkpoint, or an internal note.
+description: Use to check any human-facing text — README, spec, copy, article — for places a first-time reader stops, then repair them.
 metadata:
   version: 4.3.0
 ---
@@ -9,10 +9,10 @@ metadata:
 
 > Part of the **live-spec pack**. The shared working rules live once in the pack's base skill,
 > `live-spec-base` (v4.3.0), whose file is `skills/live-spec-base/SKILL.md`. Four scopes settle a
-> setting there: the session's live word first, then the host profile, the personal profile, and the
-> package default. This skill points at those rules and covers only its own subject. Used on its own,
-> this skill is plain advice a person applies by hand, and "The by-hand mode" below states what that
-> mode covers.
+> setting there, in this order: the session's live word, then the host profile, then the personal
+> profile, then the package default. This skill points at those rules and covers only its own subject.
+> Used on its own, this skill is plain advice a person applies by hand, and "The by-hand mode" below
+> states what that mode covers.
 
 This skill checks whether a stranger understands a text, and repairs the places where they stop.
 
@@ -31,8 +31,8 @@ author reads a meaning a stranger cannot reach. This skill supplies the prompt t
 session, or a person, into that stranger. The prompt stands at
 [`references/reader-prompt.md`](references/reader-prompt.md).
 
-It runs on any text a person will read: a spec section, a README, a decision page, marketing copy, an
-article, a release note.
+This skill runs on any text a person will read: a spec section, a README, a decision page, marketing
+copy, an article, a release note.
 
 The loop came from the comprehension gate on spec sections, recorded in `docs/spec-format.md`. A
 comprehension gate is a check a changed section passes before it ships, and it reads whether a stranger
@@ -63,20 +63,19 @@ spec are one kind, and the prose paragraphs beside them are another.
 The live-spec repository names six surfaces: a spec body, human prose, chat, a published artifact, a
 commit message, and a worker brief.
 
-**A surface is a kind of text.** One file carries several kinds. The auditor names the text's one
-primary surface, reading it against the surface list in `guardrails/language-rules.json`. A text
-published to someone outside the project carries the artifact surface as well. Every rule binding
-either surface is then in force.
+**The auditor names the text's one primary surface**, reading it against the surface list in
+`guardrails/language-rules.json`. A text published to someone outside the project carries the artifact
+surface as well. Every rule that binds either surface is then in force.
 
 This skill runs on a text standing on any surface a person reads. It holds that text to the register of
 the text's own primary surface. A README, a report, a decision page, and a skill body stand on human
 prose. Marketing copy, an article, and a release note stand on the artifact surface, which covers any
-page published outside the project. A numbered requirement stands on the spec body, which "Running it on
-a spec section" covers.
+page published outside the project. A numbered requirement stands on the spec body, and the section
+"Running it on a spec section" covers that surface.
 
 The **register** of a surface is the set of writing rules its text is held to. It settles which words a
-text takes, which sentence shapes it holds, and how it addresses its reader. The word cap arrives with
-the register: 25 words for a human-prose sentence, and 35 for a spec-body criterion (rule `r08`).
+text takes, which sentence shapes it holds, and how it addresses its reader. The register carries the
+word cap: 25 words for a human-prose sentence, and 35 for a spec-body criterion (rule `r08`).
 
 The human-prose register is printed at
 [`references/human-prose-rules.md`](references/human-prose-rules.md).
@@ -84,12 +83,12 @@ The human-prose register is printed at
 A **class** is the shape of a mistake: the form it takes wherever it turns up. One rule names one class,
 and a stop in one place stands for that class everywhere else.
 
-`guardrails/language-rules.json` is the file where the six surfaces, the three words above, and every
-rule of every register are edited.
+`guardrails/language-rules.json` is where three things are edited: the six surfaces, the three words
+defined above (surface, register, and class), and every rule of every register.
 
 ## When it fires
 
-Load it when a human-facing text is about to ship and its clarity matters:
+Load this skill when a human-facing text is about to ship and its clarity matters:
 
 - a README before a push;
 - a spec section after an edit;
@@ -104,7 +103,7 @@ The trigger is a person asking whether a reader will understand the text: "audit
 - **A design review of a spec** belongs to product-prover, at `skills/product-prover/SKILL.md`. That
   pass argues with the claims: a missing state, a false invariant, an unhandled transition. This skill
   reads whether the words land on a stranger, and it invents no answer about the design. The two passes
-  read different failures on the same page, so run each for its own.
+  read different failures on the same page, so run each one for the failures only it finds.
 - **Taste and voice** stay with the person, and with whatever writing skills the host installs beside
   the pack. This skill holds a text to the register of its surface, and it reports where a reader stops.
   It grades no voice, and it rewrites no style beyond those rules.
@@ -115,15 +114,15 @@ The trigger is a person asking whether a reader will understand the text: "audit
 
 The audit runs in four steps. It closes when two consecutive cold reads return zero blocking findings.
 
-1. **Run the mechanical lints, and fix every hit.** Run every check a script or a grep settles, before a
-   reader spends attention on the text. Fix each hit at this step. The five lints under "The mechanical
-   lints" are that whole set. The cold reader then spends its attention on what no script can judge:
-   whether the text lands on a stranger.
+1. **Run the mechanical lints, and fix every hit.** Run every check that a script or a grep can decide,
+   before a reader spends attention on the text. Fix each hit at this step. The five lints under
+   "The mechanical lints" are that whole set. The cold reader then spends its attention on what no
+   script can judge: whether the text lands on a stranger.
 2. **Hand the text to a fresh cold reader.** The reader session has zero context on the text's history,
    and it works under the reader-prompt. That session returns the places a stranger stops, each one
    marked blocking or non-blocking. The reader repairs nothing.
-   That session writes down the guess it made in place of a missing answer, because that guess shows
-   where the text sent the reader.
+   Where the text leaves an answer out, that session writes down the guess it made, because the guess
+   shows where the text sent the reader.
 3. **Write each fix from the source.** For a blocking finding, take the fix from the material the text
    already rests on. "Where a fix comes from" holds the rules. A non-blocking finding waits: it
    queues for the person's taste call once the blocking ones are gone.
@@ -132,8 +131,8 @@ The audit runs in four steps. It closes when two consecutive cold reads return z
    settled on two reads, and `docs/spec-format.md` records that pattern.
 
 A section-sized run puts one definition and a handful of sentences in front of a reader. A whole-page
-run puts every sentence of that page in front of one. Audit the section the edit touched, and read a
-whole page when the person asks for it.
+run puts every sentence of that page in front of one reader. Audit the section the edit touched, and
+read a whole page when the person asks for it.
 
 ## Running it on a spec section
 
@@ -141,11 +140,11 @@ A spec section here is one requirement with its Context paragraph, its User Stor
 criteria. A short run of such requirements is also a section.
 
 Ten requirements at a time is the working size, and one such run is a **batch**. Ten requirements run to
-about 250 lines of `PRODUCT_SPEC.md`. The plan chose that size and gave two reasons for it
+about 250 lines of `PRODUCT_SPEC.md`. The plan chose that size for two reasons
 (`docs/plans/2026-07-28-top-level-readability.md`). A fresh reader holds that much, and a repair inside
 those lines cannot break a requirement a hundred lines away.
 
-A spec section stands on the spec-body surface. Four things change there, against the human-prose run
+A spec section stands on the spec-body surface. Four things differ there from the human-prose run that
 the sections above describe.
 
 **The requirement-shape lint applies here.** It is the mechanical lint only a spec section runs:
@@ -155,8 +154,8 @@ judgment names a judge and a measure.
 
 **A criterion and the prose around it take different rules.** A numbered acceptance criterion writes in
 the third person and names the actor it binds. The Context paragraph beside it speaks to the reader
-directly. The first rule binds the criterion lines and the second binds the Context paragraphs, so
-neither one judges the other's sentences.
+directly. The third-person rule binds the criterion lines, and the direct-address rule binds the
+Context paragraphs, so neither one judges the other's sentences.
 
 **Every mark a machine reads survives the repair.** A requirement's number and its bracket anchors stay
 exactly as they were. A bracket anchor is a short code in square brackets at a line's end, such as
@@ -164,8 +163,8 @@ exactly as they were. A bracket anchor is a short code in square brackets at a l
 were, and so does any phrase a test quotes. A rewrite that moves one of them breaks a test, or one of
 the two maps below.
 
-- The **code-to-location table** is the map a script builds from the body criteria at freeze, giving the
-  location of every code (`PRODUCT_SPEC.md`, glossary entry "generated index").
+- The **code-to-location table** is the map a script builds from the body criteria at freeze. It gives
+  the location of every code (`PRODUCT_SPEC.md`, glossary entry "generated index").
 - The **test matrix** is `TEST_MATRIX.md`, whose rows pair one architecture node with one spec fact and
   pin the test level that covers it.
 
@@ -173,8 +172,8 @@ the two maps below.
 test matrix hold the answers this text rests on. Where none of them answers, the finding is a real hole,
 and it takes an inline `[GAP: what is missing]` note.
 
-Four checks run after the section is repaired, and each one reports what it read. The third is four
-commands of its own:
+Four checks run after the section is repaired, and each one reports what it read. The structure checks,
+third in the list, are four commands of their own:
 
 - the test suite, which pins exact phrases from the spec, so a dropped phrase fails a test. Run the
   audited project's own suite command, whatever it is;
@@ -204,7 +203,7 @@ paths. `python3 scripts/spec-freeze.py --freeze PRODUCT_SPEC.md ARCHITECTURE.md 
 check.
 
 At the push, `python3 guardrails/check-doc-findings-bound.py` runs the census comparison over every live
-document, and a document recorded at zero fails on its first finding.
+document. A document recorded at zero fails on its first finding.
 
 **The build test measures the work once the audit has closed.** Step 4's two clean reads are what close
 it. A build test then asks a further question: does the repaired text still say enough to build from?
@@ -215,7 +214,7 @@ reach is every requirement in the batch. The measure is set out in
 two different fresh agents.
 
 **The method's build-test evidence is owed.** No record stands behind any build test. Nothing names the
-requirements one ran on, the agent that read them, or what it produced
+requirements a build test ran on, the agent that read them, or what it produced
 (`docs/reports/2026-07-28-document-state-and-plan.md`). So this skill states no build count. Until such
 a run is recorded, the evidence for the loop is the cold readings alone, which stand under
 `docs/language-reads/`.
@@ -225,10 +224,10 @@ a run is recorded, the evidence for the loop is the cold readings alone, which s
 Run these before any reader. Each lint names a script and a grep fallback.
 
 The scripts sit under the live-spec repository's `guardrails/` and `scripts/` directories. When that
-repository is on your disk, run the scripts from its root, whatever project the audited text belongs to.
-Each script takes the path of the audited file as its argument, so that path may lead anywhere on disk.
-When the repository is absent, use the grep fallbacks. They need no scripts and work anywhere, so the
-audit never waits on a download.
+repository is on the auditor's disk, run the scripts from its root, whatever project the audited text
+belongs to. Each script takes the path of the audited file as its argument, so that path may lead
+anywhere on disk. When the repository is absent, use the grep fallbacks. They need no scripts and work
+anywhere, so the audit never waits on a download.
 
 - **Every term is defined at first use.** Every domain noun the text uses carries a one-sentence
   definition, and the reader meets it before the noun's first working use. A domain noun is one whose
@@ -243,9 +242,8 @@ audit never waits on a download.
     - Script: `python3 guardrails/check-weak-words.py FILE`. The fuller list lives in
       `guardrails/weak-words.json`, seeded from the ISO 29148 and INCOSE vague-term lists. Those are two
       published requirements-writing standards, and each names the vague terms to avoid.
-    - Which copy of that list a run reads: the `weak-words.json` sitting beside the
-      `check-weak-words.py` that ran. The environment variable `WEAK_WORDS` names another path, and
-      that path wins.
+    - A run reads the `weak-words.json` sitting beside the `check-weak-words.py` that ran. The
+      environment variable `WEAK_WORDS` names another path, and that path wins.
     - When a cold reader reports a new slot-opening word, the auditor adds it by hand to the file that
       run just read. A project holding no such file gets one, carrying a `weak_words` list. Each word
       added this way is one more class the mechanical layer holds from then on.
@@ -255,9 +253,9 @@ audit never waits on a download.
   written as a spec. Skip it for a README, an article, or marketing copy.
     - Script: `python3 guardrails/check-requirement-shape.py FILE`.
     - Grep fallback: read each requirement by hand against the three points above.
-- **Style and register.** A sentence past the cap for its surface is a hit, and 15 to 25 words is the
-  band a human-prose sentence aims at. No word stands in capitals for emphasis, though an acronym and a
-  code identifier pass. No sentence names a thing by denying its neighbour, and no adjective grades a
+- **Style and register.** A sentence past the cap for its surface is a hit. A human-prose sentence aims
+  at the band of 15 to 25 words. No word stands in capitals for emphasis, though an acronym and a code
+  identifier pass. No sentence names a thing by denying its neighbour, and no adjective grades a
   result's size.
     - Scripts: `python3 scripts/spec-style-lint.py FILE` for a spec section, and `python3
       scripts/preshow-register-lint.py FILE` for any human-facing surface.
@@ -281,9 +279,13 @@ author's intent beyond the page. In this pack that means a fresh worker with the
 the text from outside. `docs/spec-style.md` states that separation: a writer or reader holding the
 project's rules is kept apart from one who does not.
 
-Every finding is **marked blocking or non-blocking**. An undefined term the rest of the text leans on
-blocks. So does a relational word whose slot decides what the reader does, and a claim with no findable
-ground. A non-blocking finding is a place the text still reads and the fix would only sharpen it. A
+Every finding is **marked blocking or non-blocking**. These block:
+
+- an undefined term the rest of the text leans on;
+- a relational word whose slot decides what the reader does;
+- a claim with no findable ground.
+
+A non-blocking finding is a place where the text still reads and the fix would only sharpen it. A
 smoother ordering, a shorter sentence, and a term that helps without carrying weight are non-blocking.
 
 The loop closes on zero blocking findings. The non-blocking ones go to the person as a list, and the
