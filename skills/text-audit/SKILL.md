@@ -121,8 +121,9 @@ The audit runs in four steps. It closes when two consecutive cold reads return z
 2. **Hand the text to a fresh cold reader.** The reader session has zero context on the text's history,
    and it works under the reader-prompt. That session returns the places a stranger stops, each one
    marked blocking or non-blocking. The reader repairs nothing.
-   Where the text leaves an answer out, that session writes down the guess it made instead.
-   The guess shows where the text sent the reader.
+   Where the text leaves an answer out, that session
+   writes down the guess it made in place of a missing answer. The guess shows where the text sent
+   the reader.
 3. **Write each fix from the source.** For a blocking finding, take the fix from the material the text
    already rests on. "Where a fix comes from" holds the rules. A non-blocking finding waits: it
    queues for the person's taste call once the blocking ones are gone.
