@@ -6,7 +6,7 @@ Since the last run on 2026-08-05, total findings changed by 0 and documents at z
 
 ## Where the two promises stand
 
-Promise one, a reader gets through a document without stopping, measures 4,949 open writing findings across the live set today.
+Promise one, a reader gets through a document without stopping, measures 4,915 open writing findings across the live set today.
 
 Promise two, the specification stops growing, measures PRODUCT_SPEC.md at 661,342 bytes against its 840,000-byte ceiling today.
 
@@ -49,9 +49,9 @@ Three members carry no entry in the findings record: `hooks/chat-law-hook.sh` an
 
 | # | document | findings today | measured clean | read clean | state |
 |---|---|---|---|---|---|
-| 10 | `skills/live-spec-base/SKILL.md` | 229 | no | no | waiting |
-| 11 | `skills/build-pipeline/SKILL.md` | 261 | no | no | waiting |
-| 12 | `skills/communicator/SKILL.md` | 181 | no | no | waiting |
+| 10 | `skills/live-spec-base/SKILL.md` | 226 | no | no | waiting |
+| 11 | `skills/build-pipeline/SKILL.md` | 257 | no | no | waiting |
+| 12 | `skills/communicator/SKILL.md` | 180 | no | no | waiting |
 
 ### 6. ROADMAP.md, read whenever a session picks up work
 
@@ -63,13 +63,13 @@ Three members carry no entry in the findings record: `hooks/chat-law-hook.sh` an
 
 | # | document | findings today | measured clean | read clean | state |
 |---|---|---|---|---|---|
-| 14 | `skills/design-reviewer/SKILL.md` | 77 | no | no | waiting |
-| 15 | `skills/feedback-collector/SKILL.md` | 21 | no | no | waiting |
-| 16 | `skills/feedback-intake/SKILL.md` | 25 | no | no | waiting |
+| 14 | `skills/design-reviewer/SKILL.md` | 72 | no | no | waiting |
+| 15 | `skills/feedback-collector/SKILL.md` | 14 | no | no | waiting |
+| 16 | `skills/feedback-intake/SKILL.md` | 22 | no | no | waiting |
 | 17 | `skills/product-prover/SKILL.md` | 0 | yes | no | waiting |
-| 18 | `skills/publish/SKILL.md` | 66 | no | no | waiting |
-| 19 | `skills/spec-author/SKILL.md` | 117 | no | no | waiting |
-| 20 | `skills/test-author/SKILL.md` | 57 | no | no | waiting |
+| 18 | `skills/publish/SKILL.md` | 61 | no | no | waiting |
+| 19 | `skills/spec-author/SKILL.md` | 115 | no | no | waiting |
+| 20 | `skills/test-author/SKILL.md` | 53 | no | no | waiting |
 
 ### 8. The specification family
 
@@ -195,7 +195,7 @@ The counts below come from the record `guardrails/rule-census.json`. It states w
 | measure | today | recorded before | target |
 |---|---|---|---|
 | live documents measured | 119 | 108 | all of them |
-| writing findings across all documents | 4,949 | 4,810 | 0 |
+| writing findings across all documents | 4,915 | 4,810 | 0 |
 | documents at zero findings | 21 | 16 | all |
 | documents that passed two consecutive readings with nothing blocking | 0 | not stated | all |
 
@@ -204,20 +204,20 @@ The fifteen documents carrying the most findings:
 | document | findings | of which long sentences | style | longest sentence | readings run | passed |
 |---|---|---|---|---|---|---|
 | `PRODUCT_SPEC.md` | 1,831 | 1,831 | 0 | 80 | 0 | no |
-| `skills/build-pipeline/SKILL.md` | 261 | 138 | 123 | 198 | 0 | no |
-| `skills/live-spec-base/SKILL.md` | 229 | 141 | 88 | 97 | 0 | no |
+| `skills/build-pipeline/SKILL.md` | 257 | 135 | 122 | 198 | 0 | no |
+| `skills/live-spec-base/SKILL.md` | 226 | 140 | 86 | 97 | 0 | no |
 | `ROADMAP.md` | 215 | 8 | 207 | 242 | 0 | no |
-| `skills/communicator/SKILL.md` | 181 | 86 | 95 | 105 | 0 | no |
-| `skills/spec-author/SKILL.md` | 117 | 117 | 0 | 121 | 0 | no |
+| `skills/communicator/SKILL.md` | 180 | 85 | 95 | 105 | 0 | no |
+| `skills/spec-author/SKILL.md` | 115 | 115 | 0 | 121 | 0 | no |
 | `docs/prior-art-frameworks.md` | 112 | 7 | 105 | 42 | 0 | no |
 | `docs/language-rule-coverage.md` | 105 | 83 | 22 | 81 | 0 | no |
 | `ARCHITECTURE.md` | 88 | 88 | 0 | 916 | 0 | no |
 | `docs/restyle-repoint-log.md` | 83 | 20 | 63 | 78 | 0 | no |
 | `docs/prior-art-longtail.md` | 78 | 15 | 63 | 53 | 0 | no |
-| `skills/design-reviewer/SKILL.md` | 77 | 70 | 7 | 92 | 0 | no |
 | `TEST_MATRIX.md` | 76 | 8 | 68 | 46 | 0 | no |
-| `skills/publish/SKILL.md` | 66 | 33 | 33 | 85 | 0 | no |
+| `skills/design-reviewer/SKILL.md` | 72 | 67 | 5 | 92 | 0 | no |
 | `docs/spec-style.md` | 65 | 32 | 33 | 64 | 0 | no |
+| `skills/publish/SKILL.md` | 61 | 32 | 29 | 85 | 0 | no |
 
 ## Promise two — the specification stops growing
 

@@ -67,7 +67,7 @@ build-pipeline) and the report step (T-7, communicator); both sides are named he
 
 **owns** — M-6, INV-61, INV-72, INV-114, INV-125, INV-140, INV-170, INV-171; also carries lenses it does not own, each named beside its actual owner: the entry-symmetry lens (owner spec-author), the entry-state lens (owner spec-author), the transition-payload lens (owner spec-author), the declared-laws station (owner spec-author), the paired-transition-symmetry lens (owner spec-author), the scenario-level entry/exit lens (owner spec-author), the edge-condition-completeness lens (owner spec-author), the interactive-overlap lens (owner base-rulebook), the cross-source-disagreement lens (owner build-pipeline), and the prototype-norm lens (owner build-pipeline); the delivery-separability lens (owner spec-author); and the discovery-side sibling of the declared-class uniformity lens is the design review (owner design-reviewer)
 
-**pins** — `skills/product-prover/SKILL.md:158` (review modes), `skills/product-prover/SKILL.md:312` (unwritten-seam hunt — the stress-lens family, INV-72), `.live-spec/profile.md:6` (gate cadence instance), `skills/product-prover/SKILL.md:170` (restructure-merge gate — INV-114 delta-judging)
+**pins** — `skills/product-prover/SKILL.md:158` (review modes), `skills/product-prover/SKILL.md:620` (unwritten-seam hunt — the stress-lens family, INV-72), `.live-spec/profile.md:6` (gate cadence instance), `skills/product-prover/SKILL.md:291` (restructure-merge gate — INV-114 delta-judging)
 
 ### [node: build-pipeline]
 
@@ -165,7 +165,7 @@ build-pipeline) and the report step (T-7, communicator); both sides are named he
 
 **owns** — E-18
 
-**pins** — wiring: `skills/live-spec-base/SKILL.md:1` (defaults table, `design-sync` row), `skills/communicator/SKILL.md:1` (rule 5 channel line), `skills/build-pipeline/SKILL.md:1` (step 9 sync line); machine: —
+**pins** — wiring: `skills/live-spec-base/SKILL.md:560` (defaults table, `design-sync` row), `skills/communicator/SKILL.md:1` (rule 5 channel line), `skills/build-pipeline/SKILL.md:1` (step 9 sync line); machine: —
 
 ### [node: skill-evals]
 
@@ -231,7 +231,7 @@ build-pipeline) and the report step (T-7, communicator); both sides are named he
 
 **owns** — INV-266, INV-267, INV-268 (text-audit is the skill that runs this loop)
 
-**pins** — `skills/text-audit/SKILL.md:1` (frontmatter + when it fires), the mechanical-lint and cold-read-loop sections in the same file
+**pins** — `skills/text-audit/SKILL.md:89` (frontmatter + when it fires), the mechanical-lint and cold-read-loop sections in the same file
 
 **notes** — the tenth working skill, named in the pack's skill roster and the pipeline-roles glossary (its cold-read comprehension loop is the mechanical-lints-then-panel discipline the format-laws requirements state, homed here). This node carries the working-skill roster's text-audit member without owning that anchor; the roster entity's home stays base-rulebook.
 
