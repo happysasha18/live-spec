@@ -8,7 +8,7 @@ Since the last run on 2026-08-05, total findings changed by 0 and documents at z
 
 Promise one, a reader gets through a document without stopping, measures 4,970 open writing findings across the live set today.
 
-Promise two, the specification stops growing, measures PRODUCT_SPEC.md at 661,342 bytes against its 840,000-byte ceiling today.
+Promise two, the specification stops growing, measures PRODUCT_SPEC.md at 664,095 bytes against its 840,000-byte ceiling today.
 
 ## The queue, in the plan's order
 
@@ -192,6 +192,7 @@ Three members carry no entry in the findings record: `hooks/chat-law-hook.sh` an
 | 125 | `skills/text-audit/README.md` | 0 | yes | no | waiting |
 | 126 | `skills/text-audit/references/human-prose-rules.md` | 0 | yes | no | waiting |
 | 127 | `skills/text-audit/references/reader-prompt.md` | 0 | yes | no | waiting |
+| 128 | `skills/text-audit/references/rewrite-meaning-check.md` | 0 | yes | no | waiting |
 
 ## Promise one — a reader gets through a document without stopping
 
@@ -199,9 +200,9 @@ The counts below come from the record `guardrails/rule-census.json`. It states w
 
 | measure | today | recorded before | target |
 |---|---|---|---|
-| live documents measured | 124 | 108 | all of them |
+| live documents measured | 125 | 108 | all of them |
 | writing findings across all documents | 4,970 | 4,810 | 0 |
-| documents at zero findings | 21 | 16 | all |
+| documents at zero findings | 22 | 16 | all |
 | documents that passed two consecutive readings with nothing blocking | 0 | not stated | all |
 
 The fifteen documents carrying the most findings:
@@ -228,14 +229,14 @@ The fifteen documents carrying the most findings:
 
 | measure | today | at the format change, 2026-07-23 | ceiling | target |
 |---|---|---|---|---|
-| bytes | 661,342 | 590,695 | 840,000 | under the ceiling |
-| lines | 7,778 | not stated | not stated | set by the subdivision plan |
-| words | 110,924 | not stated | not stated | set by the subdivision plan |
-| requirements | 303 | 282 | not stated | set by the subdivision plan |
-| acceptance criteria | 1,609 | 1,372 | not stated | set by the subdivision plan |
-| bytes per criterion | 189.3 | not stated | 207.2 | falls or holds |
-| pairs stating one fact twice | 119 | 116 | 119 | falls or holds |
-| share of the byte ceiling used | 78.7% | 70.3% | not stated | not stated |
+| bytes | 664,095 | 590,695 | 840,000 | under the ceiling |
+| lines | 7,812 | not stated | not stated | set by the subdivision plan |
+| words | 111,378 | not stated | not stated | set by the subdivision plan |
+| requirements | 304 | 282 | not stated | set by the subdivision plan |
+| acceptance criteria | 1,619 | 1,372 | not stated | set by the subdivision plan |
+| bytes per criterion | 188.8 | not stated | 207.2 | falls or holds |
+| pairs stating one fact twice | 120 | 116 | 119 | falls or holds |
+| share of the byte ceiling used | 79.1% | 70.3% | not stated | not stated |
 
 ## Readings run so far
 

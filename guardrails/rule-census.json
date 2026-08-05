@@ -3,7 +3,7 @@
   "cap_rule": "r08",
   "files": {
     "ARCHITECTURE.md": {
-      "bytes": 91350,
+      "bytes": 91580,
       "file": "ARCHITECTURE.md",
       "long": 88,
       "longest": 916,
@@ -30,7 +30,7 @@
       "total": 8
     },
     "PRODUCT_SPEC.index.md": {
-      "bytes": 25663,
+      "bytes": 25789,
       "file": "PRODUCT_SPEC.index.md",
       "long": 0,
       "longest": 0,
@@ -39,13 +39,13 @@
       "total": 0
     },
     "PRODUCT_SPEC.md": {
-      "bytes": 661342,
+      "bytes": 664095,
       "file": "PRODUCT_SPEC.md",
-      "long": 1831,
+      "long": 1830,
       "longest": 80,
       "register": 0,
       "style": 0,
-      "total": 1831
+      "total": 1830
     },
     "README.md": {
       "bytes": 11358,
@@ -75,7 +75,7 @@
       "total": 3
     },
     "TEST_MATRIX.md": {
-      "bytes": 452504,
+      "bytes": 454797,
       "file": "TEST_MATRIX.md",
       "long": 8,
       "longest": 46,
@@ -102,7 +102,7 @@
       "total": 3
     },
     "docs/PROGRESS.md": {
-      "bytes": 15849,
+      "bytes": 15940,
       "file": "docs/PROGRESS.md",
       "long": 0,
       "longest": 22,
@@ -903,7 +903,7 @@
       "total": 226
     },
     "skills/product-prover/README.md": {
-      "bytes": 11345,
+      "bytes": 11360,
       "file": "skills/product-prover/README.md",
       "long": 0,
       "longest": 25,
@@ -912,7 +912,7 @@
       "total": 0
     },
     "skills/product-prover/SKILL.md": {
-      "bytes": 62016,
+      "bytes": 69297,
       "file": "skills/product-prover/SKILL.md",
       "long": 0,
       "longest": 25,
@@ -984,7 +984,7 @@
       "total": 0
     },
     "skills/text-audit/SKILL.md": {
-      "bytes": 22664,
+      "bytes": 27751,
       "file": "skills/text-audit/SKILL.md",
       "long": 0,
       "longest": 25,
@@ -1015,6 +1015,15 @@
       "file": "skills/text-audit/references/rewrite-meaning-check.md",
       "long": 0,
       "longest": 22,
+      "register": 0,
+      "style": 0,
+      "total": 0
+    },
+    "skills/text-audit/references/unprompted-reader-brief.md": {
+      "bytes": 3111,
+      "file": "skills/text-audit/references/unprompted-reader-brief.md",
+      "long": 0,
+      "longest": 24,
       "register": 0,
       "style": 0,
       "total": 0

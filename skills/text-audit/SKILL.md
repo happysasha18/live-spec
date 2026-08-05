@@ -31,6 +31,11 @@ author reads a meaning a stranger cannot reach. This skill supplies the prompt t
 session, or a person, into that stranger. The prompt stands at
 [`references/reader-prompt.md`](references/reader-prompt.md).
 
+The reading step runs two cold readers over the same text, and both run every time. One works under
+the printed rule list at [`references/reader-prompt.md`](references/reader-prompt.md). One works
+under [`references/unprompted-reader-brief.md`](references/unprompted-reader-brief.md), which hands
+over the text, the reader it is written for, and the task.
+
 This skill runs on any text a person will read: a spec section, a README, a decision page, marketing
 copy, an article, a release note.
 
@@ -47,13 +52,18 @@ by hand it sits beside the audited text. This skill packages that loop for any t
 
 ## The roles and the words this skill uses
 
-Three roles run through this skill. One person may hold the auditor role and own the text, and the cold
-reader is never either of them.
+Three roles run through this skill, and two readers fill the cold reader role in every round. One
+person may hold the auditor role and own the text, and the cold reader is never either of them.
 
-- **the auditor** — the session running this skill. It runs the lints, briefs the cold reader, and
-  writes the fixes.
+- **the auditor** — the session running this skill. It runs the lints, briefs both cold readers,
+  merges what they return, and writes the fixes.
 - **the cold reader** — the fresh reader defined above. It reports where it stopped, and it repairs
-  nothing.
+  nothing. Each reading round fills this role twice, with the two readers named below.
+- **the prompted reader** — a cold reader working under the printed rule list at
+  [`references/reader-prompt.md`](references/reader-prompt.md).
+- **the unprompted reader** — a cold reader holding the text, the reader it is written for, and the
+  task. It holds no rule list and no project background. Its brief stands at
+  [`references/unprompted-reader-brief.md`](references/unprompted-reader-brief.md).
 - **the person** — whoever owns the text: its author, or whoever asked for the audit and answers for
   the text's intent.
 
@@ -112,23 +122,40 @@ The trigger is a person asking whether a reader will understand the text: "audit
 
 ## The loop
 
-The audit runs in four steps. It closes when two consecutive cold reads return zero blocking findings.
+The audit runs in five steps. A reading round is one pass by each of the two readers. The audit closes
+when both readers of a round return zero blocking findings, in two consecutive rounds.
 
 1. **Run the mechanical lints, and fix every hit.** Run every check that a script or a grep can decide,
    before a reader spends attention on the text. Fix each hit at this step. The five lints under
-   "The mechanical lints" are that whole set. The cold reader then spends its attention on what no
+   "The mechanical lints" are that whole set. The cold readers then spend their attention on what no
    script can judge: whether the text lands on a stranger.
-2. **Hand the text to a fresh cold reader.** The reader session has zero context on the text's history,
-   and it works under the reader-prompt. That session returns the places a stranger stops, each one
-   marked blocking or non-blocking. The reader repairs nothing.
+2. **Hand the text to two fresh cold readers.** Both sessions hold zero context on the text's history.
+   One works under the reader-prompt, and one works under the unprompted reader's brief. The two run
+   apart, and neither reader sees the other's output. Each session returns the places a stranger
+   stops, each one marked blocking or non-blocking. Both readers repair nothing.
    Where the text leaves an answer out, that session
    writes down the guess it made in place of a missing answer. The guess shows where the text sent
    the reader.
-3. **Write each fix from the source.** For a blocking finding, take the fix from the material the text
+3. **The auditor merges the two lists.** The auditor is the session running this skill, and the merge
+   belongs to it alone. Work these steps in order:
+    - read both lists whole before matching anything;
+    - match the stops that name the same passage. The two readers label one passage differently, so
+      the match is made on the passage each stop quotes;
+    - mark a passage both readers stopped on as found by both. Those stops are the strongest, and
+      they lead the list;
+    - where the two readers named different faults in one passage, keep both faults under that one
+      entry;
+    - keep every stop one reader found alone, and record beside it which reader found it;
+    - carry every stop into one ordered list: the stops found by both first, then the remaining
+      blocking stops, then the non-blocking ones.
+
+   That merged list is what step 4 repairs, and the reading record carries it whole.
+4. **Write each fix from the source.** For a blocking finding, take the fix from the material the text
    already rests on. "Where a fix comes from" holds the rules. A non-blocking finding waits: it
    queues for the person's taste call once the blocking ones are gone.
-4. **Read again, and close on two clean reads.** After the fixes land, hand the text to a new fresh
-   reader. The loop ends when two consecutive reads return zero blocking findings. The comprehension gate
+5. **Read again, and close on two clean rounds.** After the fixes land, hand the text to a fresh pair
+   of readers, one under each brief. The loop ends when both readers of a round return zero blocking
+   findings, in two consecutive rounds. The comprehension gate
    settled on two reads, and `docs/spec-format.md` records that pattern.
 
 A section-sized run puts one definition and a handful of sentences in front of a reader. A whole-page
@@ -206,8 +233,8 @@ check.
 At the push, `python3 guardrails/check-doc-findings-bound.py` runs the census comparison over every live
 document. A document recorded at zero fails on its first finding.
 
-**The build test measures the work once the audit has closed.** Step 4's two clean reads are what close
-it. A build test then asks a further question: does the repaired text still say enough to build from?
+**The build test measures the work once the audit has closed.** Step 5's two clean rounds are what
+close it. A build test then asks a further question: does the repaired text still say enough to build from?
 Hand the repaired requirements to a fresh agent that holds no other context. Ask it to implement
 them, and count how many it builds without asking a question. A higher count is better, and the count to
 reach is every requirement in the batch. The measure is set out in
@@ -283,10 +310,13 @@ already owns.
 
 ## The cold reader
 
-Hand the text to a fresh session under [`references/reader-prompt.md`](references/reader-prompt.md). Two
-rules govern the pass.
+Hand the text to two fresh sessions. One reads under
+[`references/reader-prompt.md`](references/reader-prompt.md), which prints 38 kinds of place to stop.
+One reads under [`references/unprompted-reader-brief.md`](references/unprompted-reader-brief.md),
+which prints none. Both passes run on every audit, whatever the budget allows. Two rules govern each
+pass.
 
-The reader holds **zero context on the text's history**: no earlier draft, no project background, no
+Each reader holds **zero context on the text's history**: no earlier draft, no project background, no
 author's intent beyond the page. In this pack that means a fresh worker with the pack not loaded, reading
 the text from outside. `docs/spec-style.md` states that separation: a writer or reader holding the
 project's rules is kept apart from one who does not.
@@ -300,8 +330,53 @@ Every finding is **marked blocking or non-blocking**. These block:
 A non-blocking finding is a place where the text still reads and the fix would only sharpen it. A
 smoother ordering, a shorter sentence, and a term that helps without carrying weight are non-blocking.
 
-The loop closes on zero blocking findings. The non-blocking ones go to the person as a list, and the
-person decides which of them to spend a rewrite on.
+The loop closes when both readers of a round return zero blocking findings, twice in a row. The
+non-blocking ones go to the person as a list, and the person decides which of them to spend a rewrite
+on.
+
+### What each reader is handed, and what each one brings back
+
+**The prompted reader** works under the printed rule list. In a measurement over three documents on
+2026-08-05, it alone caught local sentence mechanics. It found a pronoun with no antecedent, one word
+carrying two meanings, a sentence with no actor, and an image with no referent. Every one of those is
+a readability problem.
+
+**The unprompted reader** is handed the text, the reader the text is written for, and the task. Its
+brief tells it to leave the page. It opens what a claim cites, runs the steps the text teaches, and
+checks a number against its source. In the same measurement it alone caught whether the document can
+be used. It found these:
+
+- prerequisites the page never states;
+- an install section that installs nothing the page promises;
+- a link pointing at another repository;
+- a rule its own evidence contradicts;
+- an arithmetic error in a worked example.
+
+No prompted reader stepped outside the page.
+
+About thirty passages came back from both readers. Those are the strongest stops, and every one of
+them survived refutation.
+
+### What the pass costs
+
+Both readers report stops that fall away when a second worker is told to knock them down. Over the
+three documents read on 2026-08-05:
+
+- the prompted reader reported 227 stops. 135 survived refutation and 36 blocked. 40.5% were thrown
+  out.
+- the unprompted reader reported 128 stops. 87 survived refutation and 21 blocked. 32.0% were thrown
+  out.
+
+One reading by the unprompted reader brings back about 26 stops per document, and one reading by the
+prompted reader about 45. The two together bring back about 71, so the work of judging them nearly
+triples. Between a third and two fifths of what comes back leads to no repair.
+
+A second measurement on the same day read a publish candidate with three readers. It reported 53
+stops, of which 33 survived and 20 were thrown out. Nine blocking stops merged into six repairs. That
+run reproduced the split. The prompted reader alone caught a reversed sentence carrying the product's
+own argument, and the naming work across files. The unprompted readers alone caught the arithmetic
+error in the worked example. They also caught a sample path that resolves from one folder alone, and
+a dated file written into the reader's repository.
 
 ### The by-hand mode
 
@@ -309,9 +384,14 @@ A person working alone still needs a reader other than the author. Hand the text
 read it, together with the prompt and nothing else. That reader gets no repository, no earlier draft, and
 no chance to ask the writer a question (`docs/language-rule-coverage.md`, "A person reading the text").
 
+By hand the reading step takes two such people. One holds the printed prompt, and one holds the
+unprompted reader's brief. Neither one sees the other's list, and the auditor merges the two lists by
+the steps in "The loop".
+
 Where no such reader is at hand, the by-hand mode covers the mechanical lints through their grep
 fallbacks, and it stops there. The cold read does not run, and the audit does not close. Say so in the
-reading record, rather than counting the text as read.
+reading record, rather than counting the text as read. Where one reader alone is at hand, the round
+stands incomplete and the audit stays open, and the reading record says which brief went unread.
 
 ## Where a fix comes from
 
