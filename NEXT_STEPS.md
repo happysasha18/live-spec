@@ -6,9 +6,9 @@ update replaces it. Dated history lives in `JOURNAL.md`.
 ## LIVE STATE (2026-08-05, 14:11)
 
 The morning's forward queue is walked to its end. One step remains: the push, waiting on the
-suite run now writing its log. Today's landings, all after 13:12, stand below.
+suite run now writing its log. This session's landings, from 13:12 on, stand below; the morning process landed its own before.
 
-The five inbox messages became queue rows: nine new rows, 532 to 541, and row 531 grew. The
+The five morning inbox messages became rows 532 to 540, and row 531 grew. The prover pass added row 541. Two afternoon arrivals became one landed gate fix and row 542. The
 audit skill `skills/text-audit/SKILL.md` closed reading round 30 and 31. Eight stops both
 readers hit are repaired against their named sources. Thirty single-reader stops went to
 `docs/language-defects.md`. Two stops one reader marked blocking were repaired the same day.
@@ -22,8 +22,8 @@ with one owner. The rule home `guardrails/language-rules.json` holds 66 rules. T
 that drifted by hand now generate inside fenced blocks, and the drift gate reads every block
 a page carries.
 
-The reading queue dropped 25 files nobody reads: test fixtures and the templates for other
-projects. 103 files remain measured. The design map in `ARCHITECTURE.md` had 31 stale
+The reading queue dropped the test fixtures and the templates for other projects: 29 entries
+left the census record, which now holds 98 measured files. The design map in `ARCHITECTURE.md` had 31 stale
 line-pointers; they point at their lines again, with a check record beside the edit.
 
 The restore gate `guardrails/check-worker-restore.py` places a command in the directory it
@@ -45,7 +45,7 @@ listed at the text's head. Reading rounds go on while this is open.
 1. Push once the suite log reads green: `bash guardrails/pre-push`, then push.
 2. Run the next reading round on the audit skill: one strong and one cheap cold reader, then
    merge and repair by step 3 of the loop.
-3. Take rows 532 to 541 through the pipeline. Row 537 starts with a freshness re-check.
+3. Take rows 532 to 542 through the pipeline. Row 537 starts with a freshness re-check.
 4. Re-seed the rounds-per-file estimate once a second file finishes its readings. Every hour
    figure on the measurements page rests on `skills/text-audit/SKILL.md` alone.
 
