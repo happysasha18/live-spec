@@ -2102,3 +2102,35 @@ The inbox emptied: five messages became rows 532 to 540, and the tlvphotos rotat
 report folded into row 531. The sync-overwrite hazard the July leftovers flagged was verified
 dead — installed and repo copies byte-identical. The census walk stopped measuring fixtures
 and templates, 25 files nobody reads.
+
+## 2026-08-05, 14:15–15:50 — the push review, run adversarially and in parallel
+
+Alexander raised the worker cap and asked for the push. The 24 unpushed commits went to four
+adversarial reviewers at once, each taking a cluster and hunting for the defect rather than the
+summary. They found eleven, and every one of them repaired the same hour.
+
+The heaviest was the morning's own inbox harvest. It deleted four tracked messages with no attic
+copy, against the rule that nothing is silently deleted, and four queue rows then cited paths no
+longer in the tree. The messages came back out of git history into the attic, the rows were
+repointed, and two rows gained a freshness re-check as their first act, since the reds they cite
+no longer reproduce.
+
+The restore gate took four repairs in one day and is the day's clearest lesson. Its first fix
+taught it to place a command in the directory the command really ran in. A reviewer then broke
+that fix in three ways: a `cd` to a missing directory joined by `;` let a real wipe pass, a
+quoted script literal read as an executed command, and a wrapper word in front of git hid the
+git. The gate now reads a command string the way a shell does, separators and errexit included,
+and its whole-history verdict fell from 73 findings to 69, the four lost being exactly the
+reviewer's own probe.
+
+One worker ran `git stash` against the shared tree, which is the banned command it had been
+briefed against, and swept three sibling files with it. It restored its own by re-applying its
+edits and reported the act plainly. Nothing was lost, and the swept bytes still stand in the
+stash. The gate never fired, because it reads spawned workers' transcripts alone, and the wipe
+reached the tree as a main-thread act. That reach gap is queued.
+
+The remaining repairs: the public edition of the spec-review skill had fallen behind its skill,
+so the mirror sync refused to publish and printed the wrong reason for every refusal; the
+deliberate-string marker widened this morning cleared a string inside a web address; the wording
+check joined a phrase across a paragraph break; a rename reached a skill's body and stopped short
+of its glossary, its examples, four matrix rows and three docstrings.
