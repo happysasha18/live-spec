@@ -3,61 +3,50 @@
 A digest, at or under 100 lines (SPEC INV-48). One status block stands here at a time, and every
 update replaces it. Dated history lives in `JOURNAL.md`.
 
-## LIVE STATE (2026-08-05)
+## LIVE STATE (2026-08-05, 14:11)
 
-The project is rewriting its own documents so that a stranger can read them. It takes one queued
-file at a time. Two agents read the file cold, and every place both of them stopped is repaired.
-`skills/text-audit/SKILL.md` is the file in hand.
+The morning's forward queue is walked to its end. One step remains: the push, waiting on the
+suite run now writing its log. Today's landings, all after 13:12, stand below.
+
+The five inbox messages became queue rows: nine new rows, 532 to 541, and row 531 grew. The
+audit skill `skills/text-audit/SKILL.md` closed reading round 30 and 31. Eight stops both
+readers hit are repaired against their named sources. Thirty single-reader stops went to
+`docs/language-defects.md`. Two stops one reader marked blocking were repaired the same day.
 
 A **reading** is one agent reading one file cold and filing a record under `docs/language-reads/`.
-The file in hand has 14 readings on record
-(`ls docs/language-reads/ | grep -c text-audit-skill`). A **round** is two readings of one version
-of a file. One runs on the strong tier (`claude-opus-5`) and one on the cheap tier
-(`claude-sonnet-5`). The tiers are named in
-`docs/measure/2026-07-28-tier-routing-experiment.md`. The pairing was settled by
-`docs/measure/2026-07-29-reader-tier-comparison.md`. A place counts against a text when both
-readers of a round stopped there. A place one reader found alone goes to
-`docs/language-defects.md` and blocks nothing.
+A **round** is two readings of one version of a file, one on the strong tier and one on the
+cheap tier, per `docs/measure/2026-07-29-reader-tier-comparison.md`.
 
-Branch `main` stands 24 commits ahead of `origin/main`
-(`git rev-list --count origin/main..main`), and nothing has been pushed. Uncommitted work sits in
-the tree; read it with `git status --porcelain`.
+The three writing rules holding a script part and a reader part split into six rules, each
+with one owner. The rule home `guardrails/language-rules.json` holds 66 rules. Three totals
+that drifted by hand now generate inside fenced blocks, and the drift gate reads every block
+a page carries.
 
-The last full test run finished 18 failing and 2298 passing on 2026-08-04 (`python3 -m pytest -q`).
-The run before it gave 9 failing and 2302 passing. The run before that gave 10 failing and 2295
-passing. A repair of 16 of the 18 is under way in another process as this is written.
+The reading queue dropped 25 files nobody reads: test fixtures and the templates for other
+projects. 103 files remain measured. The design map in `ARCHITECTURE.md` had 31 stale
+line-pointers; they point at their lines again, with a check record beside the edit.
 
-`bash guardrails/pre-push` blocks the push today. Four gates are red. The test gate is red. The
-skill-review gate names 11 skills whose review record predates the skill's last change. The freeze
-gate reports drift in a guarded document. The findings-bound gate names
-`skills/text-audit/SKILL.md`. The same run shows 9 skill files whose recorded finding count now
-stands above what they measure.
+The restore gate `guardrails/check-worker-restore.py` places a command in the directory it
+really ran in. The morning alarm at 09:44 was a false positive from a scratch fixture, and
+nothing was lost.
 
-One decision is open for the person who decides what ships: the bar a text must clear before it
-ships. Today's rule asks for two consecutive rounds with nothing blocking, and the file in hand has
-not reached it. Three shapes stand ready. The first is zero places for both readers. The second is
-zero places by agreement. The third is shipping with the remaining stops listed at the text's head.
-Repairs and reading rounds go on while this is open. No file is called finished until it is
-answered.
+The finding ceilings, the measurements table, and the progress page are regenerated. The
+three guarded documents are re-frozen. Every skill carries a review record newer than its
+last change.
+
+One decision stays open for the person who decides what ships, a policy call: the bar a
+text must clear before it ships. Today's rule stands at two clean rounds in a row.
+Round 30-31 found stops, so the file in hand has not reached the bar. Three shapes stand
+ready: zero places for both readers, zero by agreement, or shipping with the remaining stops
+listed at the text's head. Reading rounds go on while this is open.
 
 ## Forward queue
 
-1. Get `bash guardrails/pre-push` to green and push. The test gate, the skill-review records, the
-   frozen baselines and the findings record all need work first.
-2. Lower the recorded finding counts to what the files now measure:
-   `python3 scripts/rule-census.py --json guardrails/rule-census.json`.
-3. Repair the places both readers of the last round stopped at, listed in
-   `docs/measure/2026-07-29-reader-tier-comparison.md`. Then run the next round as one strong
-   reader and one cheap reader.
-4. Split the three language rules that mix a part a script can decide with a part a reader has to
-   judge. `guardrails/language-rules.json` holds 63 rules (`grep -c '"id": "r' <that file>`). By its
-   `owner.by` field, 18 belong to a script, 42 to the reading agent, and 3 await the division.
-5. Generate the rule totals that three documents state by hand. The readability plan says 54,
-   `docs/language-defects.md` says 53, and `docs/language-worked-example.md` says 39, against 63 in
-   the rule home.
-6. Take the test fixtures and the templates for other projects out of the reading queue. Nobody
-   reads them, and removing them is the largest cut available on the estimated hours.
-7. Re-seed the estimate of rounds per file once a second file has been carried through. Every hour
+1. Push once the suite log reads green: `bash guardrails/pre-push`, then push.
+2. Run the next reading round on the audit skill: one strong and one cheap cold reader, then
+   merge and repair by step 3 of the loop.
+3. Take rows 532 to 541 through the pipeline. Row 537 starts with a freshness re-check.
+4. Re-seed the rounds-per-file estimate once a second file finishes its readings. Every hour
    figure on the measurements page rests on `skills/text-audit/SKILL.md` alone.
 
 ## Where the numbers live

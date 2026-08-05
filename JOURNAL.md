@@ -2070,3 +2070,35 @@ which is a fragile pin worth its own row one day. Four tests moved with a delibe
 
 What stands in the prover is 25 findings from a checker applying a spec-body rule to a skill body
 (row 513) and 2 from a heading that shouts one word in eleven skills, opened as row 519.
+
+## 2026-08-05, 13:12–14:11 — the queue walked to the push, on parallel workers
+
+Alexander opened the afternoon window with one line: run the forward queue to its end, on
+parallel workers, and spare the seat's own context. The seat first proved the tree quiet — the
+morning process had stopped at commit 83ebd2d — then ran the whole queue through spawned
+workers, up to five at a time, itself only briefing, accepting, and committing.
+
+The suite's fresh run came back 4 failing and 2367 passing, against 18 and 2298 the day
+before. The four reds traced to three causes, and each closed by its class. The stale finding
+ceilings fell to a regeneration. The missing prover record for the architecture change came
+from a fresh prover pass, which also found 29 stale line-pointers the pointer gate reads as
+clean; the pointers were re-pointed, verified by a second worker, and the gate's weakness went
+to row 541. The restore-gate alarm — a worker apparently discarding the tree at 09:44 — proved
+a false positive: the command ran inside a scratch fixture repository the worker had built in
+its own temp directory. The gate matched command text with no model of `cd`, so it stamped the
+project tree as the scene. The gate now resolves each command's effective directory, and the
+row-479 true positive still reds under the new logic.
+
+The reading loop advanced one full round on the audit skill. Repairs first closed the three
+stops both readers of round 27-28 hit, then round 30-31 ran cold on the repaired text, found
+eight shared blocking stops — mostly numbers that reconciled with no source — and the merge
+repaired all eight against the sources by name, cutting what no record holds. The protocol
+sentence that said a solo stop blocks nothing lost to the shipped step 3, which orders solo
+blocking stops into the repair list; two such stops were repaired the same hour. A rename in
+the reporting skill that had stopped at the body was swept to its glossary, examples, matrix
+row and test pins, in three commits with review addenda.
+
+The inbox emptied: five messages became rows 532 to 540, and the tlvphotos rotation-gate
+report folded into row 531. The sync-overwrite hazard the July leftovers flagged was verified
+dead — installed and repo copies byte-identical. The census walk stopped measuring fixtures
+and templates, 25 files nobody reads.
