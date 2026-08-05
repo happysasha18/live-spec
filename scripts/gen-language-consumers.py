@@ -820,8 +820,10 @@ def build_reader_prompt(data):
     out.append("# The cold-reader prompt, ready to paste")
     out.append("")
     out.append("This file belongs to the `text-audit` skill, whose body is [`../SKILL.md`](../SKILL.md). "
-               "The body defines a blocking finding. Its section \"The cold reader\" says who reads "
-               "under this prompt and what to do with what comes back.")
+               "One test in the body decides whether a finding blocks: the reader could not go on, or "
+               "would have applied the text wrongly. The body's section \"The cold reader\" lists the "
+               "kinds most blocking findings fall into. It also says who reads under this prompt and "
+               "what to do with what comes back.")
     out.append("")
     out.append("This prompt prints every rule bound to human prose whose owner is a skill: %d of the "
                "%d rules the rule home carries. The rules at "
@@ -830,8 +832,8 @@ def build_reader_prompt(data):
                "prompt's last instruction takes every other stop the reader met, so a class the printed "
                "list does not name still comes back." % (len(rules), len(data["rules"])))
     out.append("")
-    out.append("Paste the block below verbatim into the cold-reader session, under the body's "
-               "definition of a blocking finding, with the text appended.")
+    out.append("Paste the block below verbatim into the cold-reader session, under that one test for "
+               "a blocking finding, with the text appended.")
     out.append("")
     out.append("```")
     out.append("You are reading a piece of text for the first time. You have no background on it: no")

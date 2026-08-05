@@ -2,11 +2,11 @@
 
 # The cold-reader prompt, ready to paste
 
-This file belongs to the `text-audit` skill, whose body is [`../SKILL.md`](../SKILL.md). The body defines a blocking finding. Its section "The cold reader" says who reads under this prompt and what to do with what comes back.
+This file belongs to the `text-audit` skill, whose body is [`../SKILL.md`](../SKILL.md). One test in the body decides whether a finding blocks: the reader could not go on, or would have applied the text wrongly. The body's section "The cold reader" lists the kinds most blocking findings fall into. It also says who reads under this prompt and what to do with what comes back.
 
 This prompt prints every rule bound to human prose whose owner is a skill: 38 of the 63 rules the rule home carries. The rules at [`human-prose-rules.md`](human-prose-rules.md) name every other class an audit holds a text to. Judging those classes needs a rulebook the cold reader does not hold. The prompt's last instruction takes every other stop the reader met, so a class the printed list does not name still comes back.
 
-Paste the block below verbatim into the cold-reader session, under the body's definition of a blocking finding, with the text appended.
+Paste the block below verbatim into the cold-reader session, under that one test for a blocking finding, with the text appended.
 
 ```
 You are reading a piece of text for the first time. You have no background on it: no

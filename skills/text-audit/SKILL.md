@@ -46,9 +46,10 @@ understands that section. That gate runs the mechanical lints first, then fresh 
 
 Those readers found new blocking terms on every pass, and the terms already repaired stayed repaired.
 The findings reached zero only after two reads in a row returned nothing that blocks. Every reading is
-written to a dated **reading record** under `docs/language-reads/`, and `docs/language-defects.md`
-records what each one returned. A reading record carries every stop and any check that did not run, and
-by hand it sits beside the audited text. This skill packages that loop for any text.
+written to a dated **reading record** under `docs/language-reads/`, and by hand that record sits beside
+the audited text. The reading record holds one reading's full output: every stop it reported and any
+check that did not run. `docs/language-defects.md` holds a narrower list — the places only one of the
+two readers found, which block nothing. This skill packages that loop for any text.
 
 ## The roles and the words this skill uses
 
@@ -110,7 +111,7 @@ The trigger is a person asking whether a reader will understand the text: "audit
 
 ## Work that belongs elsewhere
 
-- **A design review of a spec** belongs to product-prover, at `skills/product-prover/SKILL.md`. That
+- **A design review of a spec** belongs to design-reviewer, at `skills/design-reviewer/SKILL.md`. That
   pass argues with the claims: a missing state, a false invariant, an unhandled transition. This skill
   reads whether the words land on a stranger, and it invents no answer about the design. The two passes
   read different failures on the same page, so run each one for the failures only it finds.
@@ -215,7 +216,7 @@ third in the list, are four commands of their own:
 
 - the test suite, which pins exact phrases from the spec, so a dropped phrase fails a test. Run the
   audited project's own suite command, whatever it is;
-- a second reader who puts the old text and the new text side by side and reports every difference in
+- a cold reader who puts the old text and the new text side by side and reports every difference in
   meaning;
 - the four structure checks, each one run from the repository root:
     - `python3 guardrails/check-requirement-shape.py PRODUCT_SPEC.md` — every requirement keeps its
@@ -230,7 +231,7 @@ third in the list, are four commands of their own:
   against the total recorded for the file in `guardrails/rule-census.json`. A count at the record or
   below it passes. A count above the record fails, and the batch runs again.
 
-Two of these four checks run anywhere: the project's own suite and the second reader. The structure
+Two of these four checks run anywhere: the project's own suite and the cold reader. The structure
 checks and the census need the live-spec scripts on disk, and the census needs its record there as well.
 Where those are absent, run the first two checks, and write in the reading record that the other two did
 not run.
@@ -243,16 +244,14 @@ check.
 At the push, `python3 guardrails/check-doc-findings-bound.py` runs the census comparison over every live
 document. A document recorded at zero fails on its first finding.
 
-**The build test measures the work once the audit has closed.** Step 5's two clean rounds are what
-close it. A build test then asks a further question: does the repaired text still say enough to build from?
-Hand the repaired requirements to a fresh agent that holds no other context. Ask it to implement
-them, and count how many it builds without asking a question. A higher count is better, and the count to
-reach is every requirement in the batch. The measure is set out in
-`docs/plans/2026-07-28-top-level-readability.md`, which takes the count before and after each batch, by
-two different fresh agents.
-
-**The method's build-test evidence is owed.** No record stands behind any build test. Nothing names the
-requirements a build test ran on, the agent that read them, or what it produced
+**The build test is defined, and its first run is still owed.** It measures the work once Step 5's two
+clean rounds close the audit. A build test asks a further question: does the repaired text still
+say enough to build from? Hand the repaired requirements to a fresh agent that holds no other context.
+Ask it to implement them, and count how many it builds without asking a question. A higher count is
+better, and the count to reach is every requirement in the batch.
+`docs/plans/2026-07-28-top-level-readability.md` sets out that measure, taking the count before and
+after each batch, by two different fresh agents. No build test has been run under it. Nothing on record
+names the requirements a build test ran on, the agent that read them, or what it produced
 (`docs/reports/2026-07-28-document-state-and-plan.md`). So this skill states no build count. Until such
 a run is recorded, the evidence for the loop is the cold readings alone, which stand under
 `docs/language-reads/`.
@@ -331,7 +330,9 @@ author's intent beyond the page. In this pack that means a fresh worker with the
 the text from outside. `docs/spec-style.md` states that separation: a writer or reader holding the
 project's rules is kept apart from one who does not.
 
-Every finding is **marked blocking or non-blocking**. These block:
+Every finding is **marked blocking or non-blocking**. One test decides it, stated at the top of this
+skill: the reader could not go on, or would have applied the text wrongly. Most blocking findings fall
+into three kinds, and that test decides any case outside them:
 
 - an undefined term the rest of the text leans on;
 - a relational word whose slot decides what the reader does;
