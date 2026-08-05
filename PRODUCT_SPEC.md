@@ -176,7 +176,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 - **prototype** — an exploration of an idea kept as a sketch, living fenced off in its own clearly named home such as a `prototype/` folder or branch, so nothing in the shipped product reaches into it.
 - **prover** — the review pass that reads a spec for holes, reasoning in entities, states, transitions, and invariants.
 - **prover record** — one dated file under `docs/prover/` recording one review pass: what was reviewed, the findings, and the verdict. The push gate reads that a committed record dated the push's own day exists and is at least as new as the documents it covers.
-- **public edition** — a skill's copy for a reader outside this project, held at `editions/<skill>/`. It states the same method, with every internal code resolved into the rule it stands for.
+- **public edition** — a skill's copy for a reader outside this project, held at `editions/<skill>/`. Requirement 304 states what it carries.
 - **publish checklist** — the per-kind walk the publish skill owns, run before any deposit leaves the machine.
 - **publish gate** — the human's own gate over anything irreversible or outward, which the publish checklist runs ahead of.
 - **published contract** — a surface in a producer agent's own spec, paired with a machine-readable artifact at the path the producer's card names, stating the version it was generated under and the moment it was generated, that another agent reads on its own clock.
@@ -7433,7 +7433,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
    - the reviewer holds the change defective until it has evidence otherwise;
    - a review set on confirming the change leaves this requirement unmet.
 2. The delta *shall* be every commit between the remote's head and the local head, read together with the work still uncommitted. [INV-304]
-3. The system *shall* read the push range through the base ladder the prover-record gate uses. [INV-304, INV-116]
+3. The system *shall* resolve the push range by the ladder INV-208 states. [INV-304, INV-116]
    - the first rung is the base the caller declares;
    - the second rung is the remote's main branch;
    - the third rung is the previous commit, and the first rung that resolves gives the base.

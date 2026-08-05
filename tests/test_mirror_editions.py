@@ -134,6 +134,24 @@ class TestTheSyncUsesTheChoice(unittest.TestCase):
         self.assertNotIn('rsync -a --delete --exclude=\'.git\' "$skill_path" "$mirror_dir/"', text,
                          "the old copy step bypassed the choice and must be gone")
 
+    def test_a_refusal_ends_the_run_non_zero(self):
+        """The summary line alone left the run exiting zero, so a half-made edition read as a clean
+        sync. Every other mirror has already synced by the time this is decided, so the exit code
+        reports what was left behind while keeping the work that succeeded."""
+        with open(SCRIPT, encoding="utf-8") as fh:
+            text = fh.read()
+        self.assertIn('REFUSED+=("$skill_name")', text,
+                      "a refused skill must be recorded, beyond the summary line")
+        self.assertIn('if [ "${#REFUSED[@]}" -gt 0 ]; then', text,
+                      "the run must read that record before it ends")
+        tail = text[text.index('if [ "${#REFUSED[@]}" -gt 0 ]; then'):]
+        self.assertIn("exit 1", tail, "a refusal must end the run non-zero")
+        # The check stands after the loop, so one refusal never stops the mirrors behind it.
+        self.assertLess(text.index("published nothing"), len(text))
+        self.assertGreater(text.index('if [ "${#REFUSED[@]}" -gt 0 ]; then'),
+                           text.index("== summary =="),
+                           "the refusal check belongs after every mirror has had its turn")
+
     def test_the_flag_touches_no_repository(self):
         """The print flag stands above every clone and every push, so a test never reaches GitHub."""
         with open(SCRIPT, encoding="utf-8") as fh:

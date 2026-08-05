@@ -3,13 +3,13 @@
   "cap_rule": "r08",
   "files": {
     "ARCHITECTURE.md": {
-      "bytes": 91580,
+      "bytes": 95735,
       "file": "ARCHITECTURE.md",
-      "long": 88,
-      "longest": 916,
+      "long": 0,
+      "longest": 25,
       "register": 0,
       "style": 0,
-      "total": 88
+      "total": 0
     },
     "NEXT_STEPS.md": {
       "bytes": 6412,
@@ -21,7 +21,7 @@
       "total": 0
     },
     "OVERVIEW.md": {
-      "bytes": 7568,
+      "bytes": 8052,
       "file": "OVERVIEW.md",
       "long": 8,
       "longest": 67,
@@ -30,7 +30,7 @@
       "total": 8
     },
     "PRODUCT_SPEC.index.md": {
-      "bytes": 25789,
+      "bytes": 25925,
       "file": "PRODUCT_SPEC.index.md",
       "long": 0,
       "longest": 0,
@@ -39,7 +39,7 @@
       "total": 0
     },
     "PRODUCT_SPEC.md": {
-      "bytes": 664095,
+      "bytes": 667759,
       "file": "PRODUCT_SPEC.md",
       "long": 1830,
       "longest": 80,
@@ -48,13 +48,13 @@
       "total": 1830
     },
     "README.md": {
-      "bytes": 11358,
+      "bytes": 12487,
       "file": "README.md",
-      "long": 14,
+      "long": 13,
       "longest": 88,
       "register": 0,
       "style": 0,
-      "total": 14
+      "total": 13
     },
     "ROADMAP.md": {
       "bytes": 185487,
@@ -75,7 +75,7 @@
       "total": 3
     },
     "TEST_MATRIX.md": {
-      "bytes": 454797,
+      "bytes": 458278,
       "file": "TEST_MATRIX.md",
       "long": 8,
       "longest": 46,
@@ -102,7 +102,7 @@
       "total": 3
     },
     "docs/PROGRESS.md": {
-      "bytes": 15940,
+      "bytes": 16033,
       "file": "docs/PROGRESS.md",
       "long": 0,
       "longest": 22,
@@ -111,7 +111,7 @@
       "total": 0
     },
     "docs/adoption.md": {
-      "bytes": 7111,
+      "bytes": 7183,
       "file": "docs/adoption.md",
       "long": 6,
       "longest": 51,
@@ -714,13 +714,13 @@
       "total": 10
     },
     "skills/build-pipeline/SKILL.md": {
-      "bytes": 56276,
+      "bytes": 63113,
       "file": "skills/build-pipeline/SKILL.md",
-      "long": 135,
+      "long": 136,
       "longest": 198,
       "register": 0,
-      "style": 122,
-      "total": 257
+      "style": 120,
+      "total": 256
     },
     "skills/build-pipeline/references/delegation-protocol.md": {
       "bytes": 8388,
@@ -741,7 +741,7 @@
       "total": 7
     },
     "skills/build-pipeline/references/excuses-table.md": {
-      "bytes": 1297,
+      "bytes": 1374,
       "file": "skills/build-pipeline/references/excuses-table.md",
       "long": 0,
       "longest": 18,
@@ -786,7 +786,7 @@
       "total": 13
     },
     "skills/communicator/README.md": {
-      "bytes": 2208,
+      "bytes": 2495,
       "file": "skills/communicator/README.md",
       "long": 2,
       "longest": 37,
@@ -795,16 +795,16 @@
       "total": 3
     },
     "skills/communicator/SKILL.md": {
-      "bytes": 45271,
+      "bytes": 45855,
       "file": "skills/communicator/SKILL.md",
-      "long": 85,
-      "longest": 105,
+      "long": 84,
+      "longest": 97,
       "register": 0,
-      "style": 95,
-      "total": 180
+      "style": 91,
+      "total": 175
     },
     "skills/communicator/references/field-examples.md": {
-      "bytes": 7318,
+      "bytes": 7797,
       "file": "skills/communicator/references/field-examples.md",
       "long": 17,
       "longest": 51,
@@ -813,7 +813,7 @@
       "total": 21
     },
     "skills/communicator/references/page-lifecycle.md": {
-      "bytes": 6211,
+      "bytes": 6528,
       "file": "skills/communicator/references/page-lifecycle.md",
       "long": 11,
       "longest": 50,
@@ -821,8 +821,17 @@
       "style": 0,
       "total": 11
     },
+    "skills/communicator/references/words.md": {
+      "bytes": 6535,
+      "file": "skills/communicator/references/words.md",
+      "long": 4,
+      "longest": 57,
+      "register": 0,
+      "style": 0,
+      "total": 4
+    },
     "skills/communicator/references/writing-register.md": {
-      "bytes": 10254,
+      "bytes": 10474,
       "file": "skills/communicator/references/writing-register.md",
       "long": 8,
       "longest": 45,
@@ -840,13 +849,13 @@
       "total": 16
     },
     "skills/design-reviewer/SKILL.md": {
-      "bytes": 22796,
+      "bytes": 27827,
       "file": "skills/design-reviewer/SKILL.md",
-      "long": 67,
-      "longest": 92,
+      "long": 0,
+      "longest": 25,
       "register": 0,
-      "style": 5,
-      "total": 72
+      "style": 0,
+      "total": 0
     },
     "skills/feedback-collector/README.md": {
       "bytes": 2901,
@@ -894,13 +903,13 @@
       "total": 1
     },
     "skills/live-spec-base/SKILL.md": {
-      "bytes": 58933,
+      "bytes": 66839,
       "file": "skills/live-spec-base/SKILL.md",
-      "long": 140,
-      "longest": 97,
+      "long": 78,
+      "longest": 49,
       "register": 0,
-      "style": 86,
-      "total": 226
+      "style": 14,
+      "total": 92
     },
     "skills/product-prover/README.md": {
       "bytes": 11360,
@@ -948,13 +957,13 @@
       "total": 11
     },
     "skills/spec-author/SKILL.md": {
-      "bytes": 56758,
+      "bytes": 62576,
       "file": "skills/spec-author/SKILL.md",
-      "long": 115,
-      "longest": 121,
+      "long": 113,
+      "longest": 99,
       "register": 0,
       "style": 0,
-      "total": 115
+      "total": 113
     },
     "skills/test-author/README.md": {
       "bytes": 6396,
@@ -984,7 +993,7 @@
       "total": 0
     },
     "skills/text-audit/SKILL.md": {
-      "bytes": 27751,
+      "bytes": 28511,
       "file": "skills/text-audit/SKILL.md",
       "long": 0,
       "longest": 25,
@@ -1029,13 +1038,13 @@
       "total": 0
     },
     "templates/ARCHITECTURE.template.md": {
-      "bytes": 10989,
+      "bytes": 12517,
       "file": "templates/ARCHITECTURE.template.md",
-      "long": 23,
-      "longest": 51,
+      "long": 0,
+      "longest": 25,
       "register": 0,
-      "style": 16,
-      "total": 39
+      "style": 1,
+      "total": 1
     },
     "templates/DECISIONS.template.md": {
       "bytes": 1493,
@@ -1047,7 +1056,7 @@
       "total": 5
     },
     "templates/JOURNAL.template.md": {
-      "bytes": 1011,
+      "bytes": 1074,
       "file": "templates/JOURNAL.template.md",
       "long": 0,
       "longest": 24,
@@ -1083,31 +1092,31 @@
       "total": 5
     },
     "templates/PRODUCT_SPEC.template.md": {
-      "bytes": 4373,
+      "bytes": 7238,
       "file": "templates/PRODUCT_SPEC.template.md",
-      "long": 6,
-      "longest": 32,
-      "register": 0,
-      "style": 1,
-      "total": 7
-    },
-    "templates/ROADMAP.template.md": {
-      "bytes": 5808,
-      "file": "templates/ROADMAP.template.md",
-      "long": 12,
-      "longest": 74,
+      "long": 0,
+      "longest": 24,
       "register": 0,
       "style": 0,
-      "total": 12
+      "total": 0
+    },
+    "templates/ROADMAP.template.md": {
+      "bytes": 6338,
+      "file": "templates/ROADMAP.template.md",
+      "long": 0,
+      "longest": 24,
+      "register": 0,
+      "style": 0,
+      "total": 0
     },
     "templates/TEST_MATRIX.template.md": {
-      "bytes": 3943,
+      "bytes": 4017,
       "file": "templates/TEST_MATRIX.template.md",
-      "long": 5,
-      "longest": 95,
+      "long": 0,
+      "longest": 25,
       "register": 0,
-      "style": 2,
-      "total": 7
+      "style": 0,
+      "total": 0
     },
     "templates/agent.template.md": {
       "bytes": 5328,

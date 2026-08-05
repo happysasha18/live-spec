@@ -102,7 +102,7 @@ named here and in the matrix.
 **pins** —
 - `skills/spec-author/SKILL.md:154` (spine)
 - `skills/spec-author/SKILL.md:180` ([target] tag tripwire)
-- `skills/spec-author/SKILL.md:203` (axes composition)
+- `skills/spec-author/SKILL.md:374` (axes composition)
 - `skills/spec-author/SKILL.md:265` (fences)
 - `skills/spec-author/SKILL.md:280` (facet sweep — the canonical facet list)
 - `skills/spec-author/SKILL.md:97` (the enumeration-threshold structure rule, INV-215)

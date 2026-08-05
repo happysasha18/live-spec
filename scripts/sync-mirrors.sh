@@ -350,6 +350,9 @@ PY
 
 # One status line per skill, collected here and printed again at the end as a summary.
 declare -a SUMMARY_LINES=()
+# A skill this run refused to publish. The summary alone left the run exiting zero, so a half-made
+# edition read as a clean sync (caught 2026-08-05 by the review of the change that added the refusal).
+declare -a REFUSED=()
 
 # Pull a short description out of a SKILL.md's YAML frontmatter "description:" field.
 # Used only as a fallback when a mirror has no README.md of its own.
@@ -410,6 +413,7 @@ for skill_path in "$SKILLS_DIR"/*/; do
   # A half-made edition stops this one mirror and leaves every other mirror to run.
   if ! publish_src="$(publish_source_for "$skill_name")"; then
     SUMMARY_LINES+=("${skill_name}: skipped (editions/${skill_name}/ holds no SKILL.md)")
+    REFUSED+=("$skill_name")
     continue
   fi
   if [ "$publish_src" != "$skill_path" ] && [ "$publish_src/" != "$skill_path" ]; then
@@ -484,3 +488,13 @@ echo "== summary =="
 for line in "${SUMMARY_LINES[@]}"; do
   echo "$line"
 done
+
+# A refusal ends the run non-zero. Every other mirror has already synced by here, so the exit code
+# reports what was left behind rather than undoing the work that succeeded.
+if [ "${#REFUSED[@]}" -gt 0 ]; then
+  echo
+  echo "sync-mirrors: ${#REFUSED[@]} skill(s) published nothing: ${REFUSED[*]}"
+  echo "  Each has an editions/<skill>/ directory holding no SKILL.md."
+  echo "  Add the edition's SKILL.md, or remove the directory to publish skills/<skill>/ again."
+  exit 1
+fi
