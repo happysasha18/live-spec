@@ -87,7 +87,10 @@ ISO_DATE = re.compile(r"\d{4}-\d{2}-\d{2}")
 STRICT_PROJECT_FILES = ("PRODUCT_SPEC.md", "ARCHITECTURE.md")
 DATED_PROJECT_FILES = ("TEST_MATRIX.md",)
 PROJECT_DATE_WINDOW = 40
-USER_REGION_MARK = re.compile(r"(?:#|<!--)\s*user-language")
+# The marker's openers cover every comment form a marked line can stand in: hash and HTML for
+# prose and scripts, slash-star and double-slash for JavaScript and CSS sources. A host once met
+# a deliberate visitor-facing string in client code that no allowed opener could clear.
+USER_REGION_MARK = re.compile(r"(?:#|<!--|/\*|//)\s*user-language")
 FENCE_USER_OPEN = re.compile(r"^\s*```+\s*user\b")
 FENCE_ANY = re.compile(r"^\s*```")
 
