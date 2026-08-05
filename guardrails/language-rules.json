@@ -1264,7 +1264,9 @@
       ],
       "exceptions": [
         "a file listed under user_language_globs in scripts/shipped-language-allowlist.json",
-        "a deliberate program string recorded under cyrillic_waivers in the same file"
+        "a deliberate program string recorded under cyrillic_waivers",
+        "a fenced user block",
+        "an inline `#|<!--|/*|//` user-language comment"
       ],
       "catchers": {
         "pattern": {

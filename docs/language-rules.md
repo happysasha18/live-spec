@@ -386,7 +386,7 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 - `a commit message in Russian, in a repository whose documents are pinned to English` → `the message in English, with the conversation about it staying Russian`
 
-**Exceptions.** a file listed under user_language_globs in scripts/shipped-language-allowlist.json; a deliberate program string recorded under cyrillic_waivers in the same file.
+**Exceptions.** a file listed under user_language_globs in scripts/shipped-language-allowlist.json; a deliberate program string recorded under cyrillic_waivers; a fenced user block; an inline `#|<!--|/*|//` user-language comment.
 
 ### r19 — an owner or personal name inside a shipped artifact
 

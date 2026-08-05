@@ -1340,6 +1340,44 @@ class TestGateShippedLanguage(unittest.TestCase):
             self.assertNotIn(name, src,
                              "detector source hardcodes a project name: %r" % name)
 
+    # --- USER_REGION_MARK anchoring (commit 91ab6aa widened the marker untested and over-cleared):
+    # the comment opener must follow start-of-line or whitespace, so a URL fragment or a bare path
+    # cannot masquerade as a real trailing comment. ---
+
+    def test_inline_marker_clears_cyrillic_for_every_opener_form(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = self._write(tmp, "SKILL.md",
+                "Привет # user-language\n"
+                "Привет <!-- user-language -->\n"
+                "Привет /* user-language */\n"
+                "Привет // user-language\n")
+            result = run(["python3", self.ENGINE, "--root", tmp, path])
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_url_fragment_does_not_masquerade_as_the_marker(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = self._write(tmp, "SKILL.md",
+                "see https://user-language.example.com — Привет\n")
+            result = run(["python3", self.ENGINE, "--root", tmp, path])
+            self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+            self.assertIn("[cyrillic]", result.stdout)
+
+    def test_bare_path_does_not_masquerade_as_the_marker(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = self._write(tmp, "SKILL.md",
+                "docs//user-language.md — Привет\n")
+            result = run(["python3", self.ENGINE, "--root", tmp, path])
+            self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+            self.assertIn("[cyrillic]", result.stdout)
+
+    def test_bare_cyrillic_with_no_marker_still_reds(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            path = self._write(tmp, "SKILL.md",
+                "Это требование написано по-русски.\n")
+            result = run(["python3", self.ENGINE, "--root", tmp, path])
+            self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+            self.assertIn("[cyrillic]", result.stdout)
+
 
 class TestScopedReachDeletedFile(unittest.TestCase):
     """Audit fold (2.3.0 audit, finding 6): a deleted test file in the diff must never be handed to

@@ -127,8 +127,7 @@ SPLICED = {RECORD_REL: "vocabulary", AUDIT_SKILL_REL: "human-prose-rules",
            PLAN_REL: "rule-totals", WORKED_EXAMPLE_REL: "human-prose-total"}
 # A page lending a SECOND block. The record page states the rule-home totals in its opening and defines
 # the shared words further down, and those two blocks answer to different parts of the source. The gate
-# named above reads one block per page, so a block here is owned and rewritten on every run while its
-# drift between runs goes unread; giving that gate a second loop is the repair.
+# named above reads every block a page lends, so this second block is checked for drift too.
 SECOND_SPLICED = {RECORD_REL: "rule-home-totals"}
 
 

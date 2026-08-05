@@ -89,8 +89,12 @@ DATED_PROJECT_FILES = ("TEST_MATRIX.md",)
 PROJECT_DATE_WINDOW = 40
 # The marker's openers cover every comment form a marked line can stand in: hash and HTML for
 # prose and scripts, slash-star and double-slash for JavaScript and CSS sources. A host once met
-# a deliberate visitor-facing string in client code that no allowed opener could clear.
-USER_REGION_MARK = re.compile(r"(?:#|<!--|/\*|//)\s*user-language")
+# a deliberate visitor-facing string in client code that no allowed opener could clear. The
+# opener is anchored to start-of-line or a preceding whitespace character, so a URL fragment
+# (`https://user-language...`, opener preceded by a colon) or a path (`docs//user-language.md`,
+# opener preceded by a letter) cannot masquerade as a real trailing comment — only an opener that
+# actually starts a comment token clears the line.
+USER_REGION_MARK = re.compile(r"(?:^|\s)(?:#|<!--|/\*|//)\s*user-language")
 FENCE_USER_OPEN = re.compile(r"^\s*```+\s*user\b")
 FENCE_ANY = re.compile(r"^\s*```")
 
