@@ -716,7 +716,7 @@ any pack file is read. It is those bootstrap lines' one home, and the profile ne
 | `design-sync` | off — a host with visual components may switch it on (recorded profile line, SPEC E-18, INV-14) | on: a landing's declared components sync to the team's design project, every sync behind the human's publish gate (rule 17) | internal |
 | `feedback-upstream` | off — the outbound feedback arm is silent; a host switches it on with a recorded profile line (SPEC INV-161, INV-14) | on: on a rare strong reaction the pack offers, with the human's explicit yes, to draft a private upstream note to the pack's authors into `outbox/`; never sends, delivery the human's own step | internal |
 | `lanes.cap` | 3 — up to three build lanes roll at once without asking (SPEC T-18, INV-214) | a leaner plan lowers it, a richer one raises it, recorded with the plan it fits; the owner's 2026-07-06 value of three lives in his profile | internal |
-| `budget.pressure` | full — every check runs at full strength; the economy ladder's rung (SPEC T-19, INV-40) | lean or tight, only on the human's word (a session's word or a profile line; asked — or the default told — at a project's setup, founding or adoption, alongside `project.kind`; the agent proposes a rung when money/time pressure is named, never sets one); each rung's legal sheds and the never-bend list live in the economy-ladder section of `PRODUCT_SPEC.md` — every taken shed is named in the delivery report, and an explicit host line outlives any rung | visible |
+| `budget.pressure` | full — every check runs at full strength; the economy ladder's rung (SPEC T-19, INV-40); a rung moves the pace and never the standard, stated under this table | lean or tight, only on the human's word (a session's word or a profile line; asked — or the default told — at a project's setup, founding or adoption, alongside `project.kind`; the agent proposes a rung when money/time pressure is named, never sets one); each rung's legal sheds and the never-bend list live in the economy-ladder section of `PRODUCT_SPEC.md` — every taken shed is named in the delivery report, and an explicit host line outlives any rung | visible |
 | `far-tier.surface-cadence` | at most once every 14 days — how often the far backlog may surface itself unasked in the status report (SPEC INV-223, roadmap row 403); the report records the last surfacing in a dated marker, and a second offer inside the window is the defect the report-shape check reds | the person's own cadence, moved by his word like any default, and recorded in his profile | internal |
 
 The Card column says what the settings card renders. A `visible` row appears on the card. An `internal` row is workshop machinery the card leaves out, reaching the reader only as a recorded host-profile line in the card's project-rules part. The card's own law lives in `PRODUCT_SPEC.md` (INV-87).
@@ -724,6 +724,18 @@ The Card column says what the settings card renders. A `visible` row appears on 
 A profile file is plain markdown: one `setting: value` line per override, each with a trailing date and,
 when it narrows the defaults, one line saying why. Settings not listed above may be proposed as wishes, and the
 table grows through the queue like everything else.
+
+### A budget moves the pace, and never the standard
+
+A rung of the economy ladder sets how fast and how cheaply the work runs. The standard the work is held
+to stands outside every rung. A check the method calls for runs at whatever the plan costs. A fresh
+clean-context agent is raised every time the method asks for one. Four such asks are an adversarial
+review, a cold reading, a release re-prove, and a deep spec-and-architecture audit. Economy is bought
+from pace, from batching, and from a cheaper tier on mechanical work. It is bought from no check. The
+full never-bend list this rule
+joins lives in the economy-ladder section of `PRODUCT_SPEC.md` (SPEC INV-40, R220). The owner's word,
+2026-08-05 ~23:00: on the smallest plan the work may run slower and may cost less, and its quality
+never drops.
 
 > The pack, whole: **live-spec-base** holds the shared rules and defaults · **spec-author** writes the spec ·
 > **product-prover** reviews it · **design-reviewer** judges the design behind it · **build-pipeline** ships the change · **test-author** derives the matrix and writes the tests · **communicator** makes the human
