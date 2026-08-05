@@ -158,6 +158,16 @@ when both readers of a round return zero blocking findings, in two consecutive r
    findings, in two consecutive rounds. The comprehension gate
    settled on two reads, and `docs/spec-format.md` records that pattern.
 
+   **A repair writes text nobody has read.** Both readers of round one met the text as it stood before
+   the fixes. Whatever the repair wrote is unread, and a definition written to close a finding carries
+   its own claims. On 2026-08-05 a separate review of one repaired skill found four defects inside
+   the repair's own new sections. One was a false claim about where every path resolves. Neither cold
+   reader could have caught them, because neither ever saw those sentences.
+
+   So round two reads the repaired text, and it is the round that earns the closing. An audit stopped
+   after round one has repaired the text a reader met and shipped the text nobody met. Say so in the
+   reading record when a run stops early, and record the audit as open.
+
 A section-sized run puts one definition and a handful of sentences in front of a reader. A whole-page
 run puts every sentence of that page in front of one reader. Audit the section the edit touched, and
 read a whole page when the person asks for it.
