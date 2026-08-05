@@ -48,6 +48,19 @@ parent session's own transcript for nothing: a main-thread session that restores
 orchestrator acting, which the rule allows. It cannot tell whether the worker ran inside its own
 isolated worktree; that case reds like any other, which is the scope the clause states.
 
+WHERE IT PLACES A FINDING. A command string is read left to right for a moving effective directory,
+starting at the record's own cwd: a `cd <path>` moves it (`cd -`, `pushd` and `popd` move it to
+UNKNOWN, since the gate does not track a directory stack), a plain literal assignment earlier in the
+same string (`S=/some/path`) is remembered so a later `cd $S/sub` still resolves, and a `git -C <path>`
+sets the directory for that one invocation only, without moving the running one. A target built from
+anything the gate cannot read statically — an unassigned variable, a subshell, command substitution —
+sets the effective directory to UNKNOWN. A forbidden git command reds when it ran at the record's cwd
+with no `cd` in between, as it always has, or when it ran at a known directory whose enclosing git
+repository still exists on disk at scan time (walking up from it for a `.git`); a known directory gone
+from disk, or holding no enclosing repository, is not a finding, and an UNKNOWN effective directory
+reds, since the gate can place it no better than a record with no timestamp. Each finding's report
+line names the effective directory beside the session's recorded cwd.
+
 WHERE IT RUNS. At the verify step of skills/build-pipeline/SKILL.md, between a worker's result and
 the orchestrator's acceptance of it, and once more in the suite as tests/test_worker_restore.py's
 real-root case. A push gate would run long after the bytes are gone.
@@ -77,6 +90,7 @@ import argparse
 import glob
 import json
 import os
+import re
 import shlex
 import sys
 import time
@@ -185,50 +199,203 @@ def _paths_after_double_dash(args):
     return out
 
 
-def classify(command):
-    """The discarding invocations in one shell command line.
+def _var_assignment(segment):
+    """(name, value) when `segment` is a standalone literal variable assignment — one token of
+    the form `NAME=value`, its value carrying no shell construct the gate cannot read
+    statically. `S=/tmp/x` is one; `S=$(pwd)`, `` S=`pwd` `` and `export S=/tmp/x` are not,
+    since the first hides a command and the other two are not a bare assignment."""
+    tokens = _tokens(segment)
+    if len(tokens) != 1:
+        return None
+    token = tokens[0]
+    if "=" not in token:
+        return None
+    name, value = token.split("=", 1)
+    if not name or not (name[0].isalpha() or name[0] == "_") \
+            or not all(c.isalnum() or c == "_" for c in name):
+        return None
+    if "$" in value or "`" in value:
+        return None
+    return name, value
 
-    Returns a list of {"command": <the segment>, "which": <the named form>, "paths": [...]}. An
-    empty list means the line discards nothing this gate reads.
+
+_VAR_REF = re.compile(r"\$\{?([A-Za-z_][A-Za-z0-9_]*)\}?")
+
+
+def _substitute(raw, env):
+    """`raw` with every `$VAR`/`${VAR}` reference resolved against `env`. None — the gate's
+    UNKNOWN — when a reference is not in `env`, or `raw` carries a construct static reading
+    cannot chase (command substitution, backticks)."""
+    if raw is None or "`" in raw or "$(" in raw:
+        return None
+    missing = []
+
+    def repl(m):
+        name = m.group(1)
+        if name not in env:
+            missing.append(name)
+            return ""
+        return env[name]
+
+    out = _VAR_REF.sub(repl, raw)
+    return None if missing else out
+
+
+def _resolve_dir(target, base):
+    """`target` (already variable-substituted) resolved against effective directory `base`.
+    None — UNKNOWN — when `target` itself is None, or `target` is relative and `base` is
+    UNKNOWN, since a relative path has nothing to resolve against."""
+    if target is None:
+        return None
+    if os.path.isabs(target):
+        return os.path.normpath(target)
+    if base is None:
+        return None
+    return os.path.normpath(os.path.join(base, target))
+
+
+def _git_dash_c_dir(segment, base, env):
+    """(has_c, directory) for a `git -C <path>` on this segment, chaining several `-C` options
+    the way git itself does — each resolved against the one before. `has_c` is False when the
+    segment carries no `-C`, in which case `directory` is meaningless and the caller keeps
+    using the running effective directory instead.
+    """
+    tokens = _tokens(segment)
+    while tokens and "=" in tokens[0] and not tokens[0].startswith("-"):
+        head = tokens[0].split("=", 1)[0]
+        if head and all(c.isalnum() or c == "_" for c in head):
+            tokens = tokens[1:]
+        else:
+            break
+    if not tokens or os.path.basename(tokens[0]) != "git":
+        return False, None
+    args = tokens[1:]
+    cur = base
+    has_c = False
+    i = 0
+    while i < len(args):
+        a = args[i]
+        if a == "-C" and i + 1 < len(args):
+            has_c = True
+            cur = _resolve_dir(_substitute(args[i + 1], env), cur)
+            i += 2
+            continue
+        if a.startswith("-C") and len(a) > 2:
+            has_c = True
+            cur = _resolve_dir(_substitute(a[2:], env), cur)
+            i += 1
+            continue
+        if a in ("-c", "--namespace", "--work-tree", "--git-dir") and i + 1 < len(args):
+            i += 2
+            continue
+        if a.startswith("--git-dir=") or a.startswith("--work-tree=") \
+                or (a.startswith("-c") and len(a) > 2):
+            i += 1
+            continue
+        break
+    return has_c, cur
+
+
+def _repo_exists_at_or_above(path):
+    """True when `path` exists on disk right now and it, or an ancestor, holds a `.git`."""
+    if not path or not os.path.isdir(path):
+        return False
+    cur = os.path.normpath(path)
+    while True:
+        if os.path.exists(os.path.join(cur, ".git")):
+            return True
+        parent = os.path.dirname(cur)
+        if parent == cur:
+            return False
+        cur = parent
+
+
+def classify(command, cwd):
+    """The discarding invocations in one shell command line, each placed in the directory it
+    really ran in.
+
+    Walks the command's own segments in order, holding an effective directory that starts at
+    `cwd` and moves with each `cd` (see `_resolve_dir`) and a running map of the plain literal
+    variable assignments the command made along the way, so `S=/tmp/x` earlier in the same
+    string lets a later `cd $S/sub` still resolve. A `git -C <path>` sets the directory for
+    that one invocation only. A forbidden git command reds when it ran at `cwd` with no `cd`
+    in between (the gate's original, unconditional read), or at a known directory whose
+    enclosing git repository still exists on disk at scan time; a known directory gone from
+    disk or holding no enclosing repository is not a finding, and an UNKNOWN effective
+    directory reds, since the gate can place it no better than an unstamped record.
+
+    Returns a list of {"command": <the segment>, "which": <the named form>, "paths": [...],
+    "effective_dir": <the directory the command ran in, or None for UNKNOWN>}. An empty list
+    means the line discards nothing this gate reds on.
     """
     found = []
+    env = {}
+    effective_dir = cwd
     for segment in _segments(command):
+        assignment = _var_assignment(segment)
+        if assignment is not None:
+            env[assignment[0]] = assignment[1]
+            continue
+
+        tokens = _tokens(segment)
+        if tokens and tokens[0] == "cd":
+            target = tokens[1] if len(tokens) > 1 else None
+            effective_dir = None if target == "-" else _resolve_dir(_substitute(target, env), effective_dir)
+            continue
+        if tokens and tokens[0] in ("pushd", "popd"):
+            effective_dir = None  # no directory stack is tracked, so a pop cannot be placed either.
+            continue
+
+        has_c, c_dir = _git_dash_c_dir(segment, effective_dir, env)
+        command_dir = c_dir if has_c else effective_dir
+
         args = _git_args(segment)
         if args is None or not args:
             continue
         sub, rest = args[0], args[1:]
+        hit = None
         if sub == "checkout":
             # `git checkout -- <paths>` and `git checkout .` overwrite the working tree from the
             # index. `git checkout <branch>` moves HEAD and keeps uncommitted work, so it is silent.
             if "--" in rest or rest[:1] == ["."]:
-                found.append({"command": segment, "which": "git checkout --",
-                              "paths": _paths_after_double_dash(rest)})
+                hit = {"which": "git checkout --", "paths": _paths_after_double_dash(rest)}
         elif sub == "restore":
             # `git restore --staged <path>` only unstages and leaves the working tree alone; every
             # other form of restore writes over it.
-            if "--staged" in rest and "--worktree" not in rest and "-W" not in rest:
-                continue
-            found.append({"command": segment, "which": "git restore",
-                          "paths": _paths_after_double_dash(rest)})
+            if not ("--staged" in rest and "--worktree" not in rest and "-W" not in rest):
+                hit = {"which": "git restore", "paths": _paths_after_double_dash(rest)}
         elif sub == "stash":
             # Bare `git stash`, `push` and `save` take the working tree away. `list`, `show`, `pop`,
             # `apply`, `branch`, `drop` and `clear` do not remove uncommitted work from the tree.
             verb = next((a for a in rest if not a.startswith("-")), "")
             if verb in ("", "push", "save", "create", "store") or not rest:
                 paths = _paths_after_double_dash(rest[1:] if verb in ("push", "save") else rest)
-                found.append({"command": segment, "which": "git stash",
-                              "paths": paths or [WHOLE_TREE]})
+                hit = {"which": "git stash", "paths": paths or [WHOLE_TREE]}
         elif sub == "reset":
             # `git reset <paths>` and `--soft`/`--mixed` leave the working tree; `--hard`, `--merge`
             # and `--keep` write over it.
             if any(a in ("--hard", "--merge", "--keep") for a in rest):
-                found.append({"command": segment, "which": "git reset --hard",
-                              "paths": [WHOLE_TREE]})
+                hit = {"which": "git reset --hard", "paths": [WHOLE_TREE]}
         elif sub == "clean":
             # The same act against untracked files: a sibling lane's new file is uncommitted work too.
             if any(a.startswith("-") and ("f" in a or "x" in a) for a in rest):
-                found.append({"command": segment, "which": "git clean",
-                              "paths": _paths_after_double_dash(rest) or [WHOLE_TREE]})
+                hit = {"which": "git clean", "paths": _paths_after_double_dash(rest) or [WHOLE_TREE]}
+
+        if hit is None:
+            continue
+
+        if command_dir is None:
+            reds = True  # UNKNOWN: as conservative a read as a record with no timestamp.
+        elif cwd is not None and os.path.normpath(command_dir) == os.path.normpath(cwd):
+            reds = True  # the record's cwd, no intervening cd — the gate's original read.
+        else:
+            reds = _repo_exists_at_or_above(command_dir)
+        if not reds:
+            continue
+
+        hit["command"] = segment
+        hit["effective_dir"] = command_dir
+        found.append(hit)
     return found
 
 
@@ -276,16 +443,18 @@ def scan(paths):
     for path in paths:
         for command, rec in _bash_commands(path):
             commands_read += 1
-            for hit in classify(command):
+            cwd = rec.get("cwd")
+            for hit in classify(command, cwd):
                 findings.append({
                     "run": path,
                     "agent": rec.get("agentId") or "(unnamed run)",
                     "session": rec.get("sessionId") or "(unnamed session)",
-                    "cwd": rec.get("cwd") or "(unrecorded cwd)",
+                    "cwd": cwd or "(unrecorded cwd)",
                     "at": rec.get("timestamp") or "(unstamped)",
                     "which": hit["which"],
                     "command": hit["command"],
                     "paths": hit["paths"] or [WHOLE_TREE],
+                    "effective_dir": hit.get("effective_dir"),
                 })
     return findings, commands_read
 
@@ -381,7 +550,10 @@ def main(argv=None):
                   "the run never wrote and its brief never named (ROADMAP row 479)."
                   % (CHECK, f["agent"], f["command"], f["which"], ", ".join(f["paths"])))
             print("    run     : %s" % f["run"])
-            print("    session : %s   cwd: %s   at: %s" % (f["session"], f["cwd"], f["at"]))
+            ran_in = f.get("effective_dir")
+            ran_in = ran_in if ran_in is not None else "UNKNOWN (a cd target the gate could not read statically)"
+            print("    session : %s   cwd: %s   ran in: %s   at: %s"
+                  % (f["session"], f["cwd"], ran_in, f["at"]))
         print()
         print("Before a worker mutates a file it means to put back, it reads that file and holds its")
         print("bytes, and it puts the file back by WRITING ITS OWN SAVED BYTES. A worker runs no")

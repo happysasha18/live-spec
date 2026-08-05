@@ -159,10 +159,16 @@ class TestGateRedsOnADiscardingCommand:
         assert res.returncode == 1, "%s passed the gate: %s" % (command, res.stdout)
 
     def test_a_command_buried_after_a_cd_still_reds(self, tmp_path):
-        root, _ = _transcript_root(tmp_path, ["cd /tmp/tree && git restore src/app.js"])
+        """A forbidden command run after a `cd` still reds when the directory it moved into is
+        a real git repository right now — the gate places the command, it does not excuse it."""
+        repo = tmp_path / "tree"
+        repo.mkdir()
+        (repo / ".git").mkdir()
+        root, _ = _transcript_root(tmp_path, ["cd %s && git restore src/app.js" % repo])
         res = _gate("--root", root)
         assert res.returncode == 1, res.stdout
         assert "src/app.js" in res.stdout
+        assert str(repo) in res.stdout, "the red names the directory the command really ran in"
 
     def test_the_red_carries_one_typed_line(self, tmp_path):
         """The gate contract's first convention: one parseable JSON object beside the human lines."""
@@ -182,6 +188,57 @@ class TestGateRedsOnADiscardingCommand:
         with open(GATE, encoding="utf-8") as f:
             head = f.read(4000)
         assert "BLOCKING" in head
+
+
+class TestTheGateModelsCdInsideTheCommand:
+    """The gate carries no model of `cd` inside one command string is the bug (2026-08-05): a
+    worker `cd`ed into a freshly `git init`-ed throwaway fixture repo under scratchpad and ran
+    `git checkout -q -- . 2>/dev/null || true` THERE, and the gate stamped it as a live-spec
+    violation because it read every command as if it ran at the record's own cwd."""
+
+    def test_a_cd_into_a_directory_gone_by_scan_time_is_not_a_finding(self, tmp_path):
+        """The fixture directory the worker built and threw away no longer exists on disk when
+        the gate runs, so a command it ran there is not this repo's problem."""
+        gone = tmp_path / "throwaway" / "e2"  # never created — gone by construction
+        root, _ = _transcript_root(
+            tmp_path / "transcripts",
+            ["cd %s && git checkout -- ." % gone])
+        res = _gate("--root", root)
+        assert res.returncode == 0, res.stdout
+
+    def test_a_cd_into_a_real_repo_is_a_finding_naming_that_directory(self, tmp_path):
+        """The same shape, but the directory the worker `cd`ed into still holds a real `.git`
+        at scan time — a live blast radius, so it reds and names where it really happened."""
+        repo = tmp_path / "throwaway" / "e2"
+        repo.mkdir(parents=True)
+        (repo / ".git").mkdir()
+        root, _ = _transcript_root(
+            tmp_path / "transcripts",
+            ["cd %s && git checkout -- ." % repo])
+        res = _gate("--root", root)
+        assert res.returncode == 1, res.stdout
+        assert str(repo) in res.stdout, "the finding names the directory it really ran in"
+
+    def test_git_dash_c_names_its_own_directory(self, tmp_path):
+        """`git -C <repo> ...` sets the directory for that one invocation, with no `cd` at all."""
+        repo = tmp_path / "elsewhere"
+        repo.mkdir()
+        (repo / ".git").mkdir()
+        root, _ = _transcript_root(
+            tmp_path / "transcripts",
+            ["git -C %s checkout -- ." % repo])  # the record's cwd is the fixed default, not repo
+        res = _gate("--root", root)
+        assert res.returncode == 1, res.stdout
+        assert str(repo) in res.stdout, "the finding names the -C directory, not the session cwd"
+
+    def test_an_unresolvable_cd_target_reds_as_unknown(self, tmp_path):
+        """`cd "$DIR"` where the command never assigned `DIR` cannot be placed statically, and
+        UNKNOWN reads conservatively — the same posture as a record the gate cannot stamp."""
+        root, _ = _transcript_root(
+            tmp_path,
+            ['cd "$DIR" && git checkout -- .'])
+        res = _gate("--root", root)
+        assert res.returncode == 1, res.stdout
 
 
 class TestGateStaysSilentOnOrdinaryWork:
