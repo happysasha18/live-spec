@@ -3,7 +3,7 @@
   "cap_rule": "r08",
   "files": {
     "ARCHITECTURE.md": {
-      "bytes": 91280,
+      "bytes": 91350,
       "file": "ARCHITECTURE.md",
       "long": 88,
       "longest": 916,
@@ -21,7 +21,7 @@
       "total": 0
     },
     "OVERVIEW.md": {
-      "bytes": 7141,
+      "bytes": 7568,
       "file": "OVERVIEW.md",
       "long": 8,
       "longest": 67,
@@ -48,13 +48,13 @@
       "total": 1831
     },
     "README.md": {
-      "bytes": 10536,
+      "bytes": 11358,
       "file": "README.md",
-      "long": 16,
+      "long": 14,
       "longest": 88,
       "register": 0,
       "style": 0,
-      "total": 16
+      "total": 14
     },
     "ROADMAP.md": {
       "bytes": 185487,
@@ -102,7 +102,7 @@
       "total": 3
     },
     "docs/PROGRESS.md": {
-      "bytes": 15462,
+      "bytes": 15849,
       "file": "docs/PROGRESS.md",
       "long": 0,
       "longest": 22,
@@ -451,6 +451,51 @@
       "register": 0,
       "style": 1,
       "total": 17
+    },
+    "editions/product-prover/PROVENANCE.md": {
+      "bytes": 12952,
+      "file": "editions/product-prover/PROVENANCE.md",
+      "long": 1,
+      "longest": 33,
+      "register": 0,
+      "style": 1,
+      "total": 2
+    },
+    "editions/product-prover/README.md": {
+      "bytes": 17850,
+      "file": "editions/product-prover/README.md",
+      "long": 12,
+      "longest": 36,
+      "register": 0,
+      "style": 2,
+      "total": 14
+    },
+    "editions/product-prover/SKILL.md": {
+      "bytes": 42828,
+      "file": "editions/product-prover/SKILL.md",
+      "long": 22,
+      "longest": 44,
+      "register": 0,
+      "style": 2,
+      "total": 24
+    },
+    "editions/product-prover/examples/sample-spec.md": {
+      "bytes": 3928,
+      "file": "editions/product-prover/examples/sample-spec.md",
+      "long": 3,
+      "longest": 36,
+      "register": 0,
+      "style": 3,
+      "total": 6
+    },
+    "editions/product-prover/reference/stress-lenses.md": {
+      "bytes": 25877,
+      "file": "editions/product-prover/reference/stress-lenses.md",
+      "long": 10,
+      "longest": 42,
+      "register": 0,
+      "style": 1,
+      "total": 11
     },
     "guardrails/README.md": {
       "bytes": 15259,
@@ -939,7 +984,7 @@
       "total": 0
     },
     "skills/text-audit/SKILL.md": {
-      "bytes": 21950,
+      "bytes": 22664,
       "file": "skills/text-audit/SKILL.md",
       "long": 0,
       "longest": 25,
@@ -961,6 +1006,15 @@
       "file": "skills/text-audit/references/reader-prompt.md",
       "long": 0,
       "longest": 23,
+      "register": 0,
+      "style": 0,
+      "total": 0
+    },
+    "skills/text-audit/references/rewrite-meaning-check.md": {
+      "bytes": 6005,
+      "file": "skills/text-audit/references/rewrite-meaning-check.md",
+      "long": 0,
+      "longest": 22,
       "register": 0,
       "style": 0,
       "total": 0
