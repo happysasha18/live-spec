@@ -69,24 +69,24 @@ named here and in the matrix.
 - INV-302 (the two session steps sit in rule 35 beside the checkpoint and resume rules. The closing step's mechanical arm, `guardrails/check-handover-provenance.py`, is the guardrails node's.)
 
 **pins** —
-- `skills/live-spec-base/SKILL.md:105` (rules)
-- `skills/live-spec-base/SKILL.md:148` (rule 6 checkpoint incl. INV-107 closing half)
-- `skills/live-spec-base/SKILL.md:168` (rule 7 fence, INV-10/INV-11)
-- `skills/live-spec-base/SKILL.md:279` (rules 15-16, door + work-kind + prototype)
-- `skills/live-spec-base/SKILL.md:320` (rule 19, INV-23 — the workshop-noise law)
-- `skills/live-spec-base/SKILL.md:339` (rule 20, INV-65 — skill search at setup and struggle)
-- `skills/live-spec-base/SKILL.md:349` (rule 21, INV-84 — the clean-writer road)
-- `skills/live-spec-base/SKILL.md:359` (rule 22, INV-98 — the convergence principle)
-- `skills/live-spec-base/SKILL.md:373` (rule 23, INV-108 — the live-channel law)
-- `skills/live-spec-base/SKILL.md:638` (ladder)
-- `skills/live-spec-base/SKILL.md:674` (defaults incl. `budget.pressure` — the economy ladder's setting; the rungs' one home is the SPEC's economy-ladder section)
-- `skills/live-spec-base/SKILL.md:428` (rule 26, INV-136/INV-139 — a project kind declares design principles the verify pass runs; the per-kind table lives in this doc)
-- `skills/live-spec-base/SKILL.md:436` (rule 27, INV-143 — the seat decides what it can decide, surfaces only what it cannot)
-- `skills/live-spec-base/SKILL.md:444` (rule 28, INV-145 — the periodic full audit)
-- `skills/live-spec-base/SKILL.md:556` (rule 32, INV-217 — the release-tier rule, minor/major/patch by the host cost)
-- `skills/live-spec-base/SKILL.md:492` (rule 31, the earned-message law INV-183/INV-189 the named-reference machinery joins. The pair-travels register [E-35], the living-description heal [INV-240], and the earned auto-deposit [T-24] ride this rule's build, ROADMAP 424 [target]. The prover's station stands as their net until they ship, per [INV-150].)
-- `skills/live-spec-base/SKILL.md:195` (rule 7's worker-restore sub-rule, INV-298 — the worker holds its own bytes, halts when it holds none, and the orchestrator owns recovery)
-- `skills/live-spec-base/SKILL.md:609` (rule 35, INV-302 — the session extract, the closing step written by a fresh agent, and the opening decision sweep)
+- `skills/live-spec-base/SKILL.md:117` (rules)
+- `skills/live-spec-base/SKILL.md:160` (rule 6 checkpoint incl. INV-107 closing half)
+- `skills/live-spec-base/SKILL.md:182` (rule 7 fence, INV-10/INV-11)
+- `skills/live-spec-base/SKILL.md:297` (rules 15-16, door + work-kind + prototype)
+- `skills/live-spec-base/SKILL.md:339` (rule 19, INV-23 — the workshop-noise law)
+- `skills/live-spec-base/SKILL.md:358` (rule 20, INV-65 — skill search at setup and struggle)
+- `skills/live-spec-base/SKILL.md:368` (rule 21, INV-84 — the clean-writer road)
+- `skills/live-spec-base/SKILL.md:378` (rule 22, INV-98 — the convergence principle)
+- `skills/live-spec-base/SKILL.md:392` (rule 23, INV-108 — the live-channel law)
+- `skills/live-spec-base/SKILL.md:661` (ladder)
+- `skills/live-spec-base/SKILL.md:719` (defaults incl. `budget.pressure` — the economy ladder's setting; the rungs' one home is the SPEC's economy-ladder section)
+- `skills/live-spec-base/SKILL.md:447` (rule 26, INV-136/INV-139 — a project kind declares design principles the verify pass runs; the per-kind table lives in this doc)
+- `skills/live-spec-base/SKILL.md:455` (rule 27, INV-143 — the seat decides what it can decide, surfaces only what it cannot)
+- `skills/live-spec-base/SKILL.md:465` (rule 28, INV-145 — the periodic full audit)
+- `skills/live-spec-base/SKILL.md:578` (rule 32, INV-217 — the release-tier rule, minor/major/patch by the host cost)
+- `skills/live-spec-base/SKILL.md:514` (rule 31, the earned-message law INV-183/INV-189 the named-reference machinery joins. The pair-travels register [E-35], the living-description heal [INV-240], and the earned auto-deposit [T-24] ride this rule's build, ROADMAP 424 [target]. The prover's station stands as their net until they ship, per [INV-150].)
+- `skills/live-spec-base/SKILL.md:209` (rule 7's worker-restore sub-rule, INV-298 — the worker holds its own bytes, halts when it holds none, and the orchestrator owns recovery)
+- `skills/live-spec-base/SKILL.md:632` (rule 35, INV-302 — the session extract, the closing step written by a fresh agent, and the opening decision sweep)
 
 **notes** — INV-11, INV-117, E-31: three of these are read by the parallel-lanes node and stay here, each for a stated reason; INV-225: ROADMAP 388
 
@@ -103,9 +103,9 @@ named here and in the matrix.
 - `skills/spec-author/SKILL.md:221` (spine)
 - `skills/spec-author/SKILL.md:247` ([target] tag tripwire)
 - `skills/spec-author/SKILL.md:374` (axes composition)
-- `skills/spec-author/SKILL.md:265` (fences)
-- `skills/spec-author/SKILL.md:280` (facet sweep — the canonical facet list)
-- `skills/spec-author/SKILL.md:97` (the enumeration-threshold structure rule, INV-215)
+- `skills/spec-author/SKILL.md:333` (fences)
+- `skills/spec-author/SKILL.md:349` (facet sweep — the canonical facet list)
+- `skills/spec-author/SKILL.md:154` (the enumeration-threshold structure rule, INV-215)
 
 **notes** —
 - also carries the prototype-norm pointer's format sentence (`norm: <path>`, frozen copy in `docs/norms/`) — wiring, the invariant's owner is build-pipeline
@@ -160,7 +160,7 @@ named here and in the matrix.
 - `skills/build-pipeline/SKILL.md:217` (the work-kind table — per-kind meanings' one home)
 - `skills/build-pipeline/SKILL.md:232` (steps)
 - `skills/build-pipeline/SKILL.md:527` (gates)
-- `skills/build-pipeline/SKILL.md:117` (re-carve paragraph — INV-113 redesign-owes-rework)
+- `skills/build-pipeline/SKILL.md:336` (re-carve paragraph — INV-113 redesign-owes-rework)
 - `skills/build-pipeline/references/delegation-protocol.md:71` (the worker-brief register-laws clause — no-scissors + no-dramatization, INV-221)
 - `guardrails/node_growth_counter.py:1` (the node-growth counter, rides the suite not the push chain, INV-233)
 - `guardrails/node-file-cap.json:1` (the nodes-per-file ratchet seeded at the current count, INV-233)
@@ -191,8 +191,8 @@ named here and in the matrix.
 - `skills/build-pipeline/SKILL.md:554` (trains, one pen — the cap, the penless overlap set, the pen-stages, the re-fence after a landing)
 - `skills/build-pipeline/SKILL.md:571` (the graph picks the lane set at queue-take)
 - `skills/build-pipeline/SKILL.md:152` (a mid-work re-door re-runs the independence edges against every rolling lane)
-- `skills/live-spec-base/SKILL.md:173` (rule 7's lanes sub-rules — three lanes under one pen)
-- `skills/live-spec-base/SKILL.md:196` (one row per landing commit)
+- `skills/live-spec-base/SKILL.md:186` (rule 7's lanes sub-rules — three lanes under one pen)
+- `skills/live-spec-base/SKILL.md:210` (one row per landing commit)
 - `scripts/open-lane.sh:1` (the lane-open act's performable form. It carries the row→in-work claim commit on main, the cap refusal, and the lane branch cut into its own worktree, INV-214.)
 - the lane-opening script is the first file this node owns of its own. Its law otherwise lives inside the two skills that perform it and its cited pins there. The branch road's carriers land with ROADMAP row 386 [target].
 
@@ -212,11 +212,11 @@ named here and in the matrix.
 
 **pins** —
 - `skills/communicator/SKILL.md:105` (the rules)
-- `skills/communicator/SKILL.md:369` (rule 10 — the decision page)
-- `skills/communicator/SKILL.md:422` (rule 11 — the evidence walk)
-- `skills/communicator/SKILL.md:301` (rule 9 — the outcome-leads line shape)
+- `skills/communicator/SKILL.md:299` (rule 10 — the decision page)
+- `skills/communicator/SKILL.md:352` (rule 11 — the evidence walk)
+- `skills/communicator/SKILL.md:231` (rule 9 — the outcome-leads line shape)
 - `skills/communicator/SKILL.md:440` (the pre-report walk)
-- `skills/communicator/SKILL.md:356` (rule 7 — the chat-arm clock sentence)
+- `skills/communicator/SKILL.md:286` (rule 7 — the chat-arm clock sentence)
 - `guardrails/check-far-tier.py --window` (INV-223 — the far-tier report-shape check's fixture)
 - `scripts/sweep-rendered.py:1` (INV-286 — the clearing mechanism and the home rule's one home)
 - `guardrails/check-rendered-sweep.py:1` (INV-286 — the sweep check, report-only against the tree, rides the suite not the push chain)
@@ -234,7 +234,7 @@ named here and in the matrix.
 
 **owns** — E-3, E-5, INV-6, B-1, E-24, INV-48, E-26
 
-**pins** — `templates/TEST_MATRIX.template.md:47` (coverage validation), `templates/ROADMAP.template.md:1`, `templates/PRODUCT_SPEC.template.md:126` (index), `templates/PROBLEMS.template.md:1` (E-24 — the ledger's shape)
+**pins** — `templates/TEST_MATRIX.template.md:52` (coverage validation), `templates/ROADMAP.template.md:1`, `templates/PRODUCT_SPEC.template.md:126` (index), `templates/PROBLEMS.template.md:1` (E-24 — the ledger's shape)
 
 ### [node: attach]
 
@@ -503,8 +503,8 @@ named here and in the matrix.
 **owns** — E-18
 
 **pins** —
-- wiring: `skills/live-spec-base/SKILL.md:689` (defaults table, `design-sync` row)
-- wiring: `skills/communicator/SKILL.md:258` (rule 5 channel line)
+- wiring: `skills/live-spec-base/SKILL.md:716` (defaults table, `design-sync` row)
+- wiring: `skills/communicator/SKILL.md:181` (rule 5 channel line)
 - wiring: `skills/build-pipeline/SKILL.md:489` (step 9 sync line)
 - machine: —
 
