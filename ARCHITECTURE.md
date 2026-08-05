@@ -234,7 +234,7 @@ named here and in the matrix.
 
 **owns** — E-3, E-5, INV-6, B-1, E-24, INV-48, E-26
 
-**pins** — `templates/TEST_MATRIX.template.md:47` (coverage validation), `templates/ROADMAP.template.md:1`, `templates/PRODUCT_SPEC.template.md:61` (index), `templates/PROBLEMS.template.md:1` (E-24 — the ledger's shape)
+**pins** — `templates/TEST_MATRIX.template.md:47` (coverage validation), `templates/ROADMAP.template.md:1`, `templates/PRODUCT_SPEC.template.md:126` (index), `templates/PROBLEMS.template.md:1` (E-24 — the ledger's shape)
 
 ### [node: attach]
 

@@ -313,8 +313,11 @@ What the release carries, grouped:
    its own documents as part of its conversion.
 
 **How a host takes it.** A host keeps its current spec until it converts. The old format keeps working
-and no gate forces the move. The old-format templates stay in `templates/` until each host converts, so a
-host that pulls 4.0.0 and waits breaks nothing. When a host does convert, the pack's conversion recipe
+and no gate forces the move, so a host that pulls 4.0.0 and waits breaks nothing.
+
+The templates carried the old format for a year after that rewrite, so a project started from them
+began in a genre the gates refuse. They were brought into the current format on 2026-08-05, proven by
+building a specification from the starting template and running the shape gate over it. When a host does convert, the pack's conversion recipe
 walks the spec unit by unit: convert each unit into the requirements genre, prove zero code drop through
 the unit's mapping, run the mechanical lints, put each converted section before the cold-reader panel, and
 assemble the units into one document. The 2026-07-22 conversion of the pack's own spec runs the recipe

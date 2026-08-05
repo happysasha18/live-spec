@@ -83,8 +83,9 @@ the walk; nothing outside a host's session writes that host's repo.
 `templates/` holds one starter file per canonical document: `PRODUCT_SPEC.template.md`,
 `ARCHITECTURE.template.md`, `TEST_MATRIX.template.md`, `ROADMAP.template.md`,
 `JOURNAL.template.md`, `NEXT_STEPS.template.md`, `PROBLEMS.template.md`, `KILL_LIST.template.md`,
-`profile.template.md`, and `test_scaffold.template.py`. A fresh project copies them at bootstrap;
-an adopted host uses them only for the documents it lacks, since Phase 3 re-engineers the rest.
+`profile.template.md`, and `test_scaffold.template.py`. A person copies them by hand for a fresh
+project; `install.sh` installs the skills alone and reaches no template. An adopted host uses them
+only for the documents it lacks, since Phase 3 re-engineers the rest.
 The test scaffold lands in `tests/` and defines the minimal green for the first landing.
 
 `scaffold/guardrails/README.md` is the authoritative description of the four mechanical checks a
