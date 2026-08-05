@@ -112,7 +112,8 @@ The trigger is a person asking whether a reader will understand the text: "audit
 ## Work that belongs elsewhere
 
 - **A design review of a spec** belongs to design-reviewer, at `skills/design-reviewer/SKILL.md`. That
-  pass argues with the claims: a missing state, a false invariant, an unhandled transition. This skill
+  pass judges the design behind the words: whether similar features behave one way, and which
+  same-kind items the spec left ungrouped. This skill
   reads whether the words land on a stranger, and it invents no answer about the design. The two passes
   read different failures on the same page, so run each one for the failures only it finds.
 - **Taste and voice** stay with the person, and with whatever writing skills the host installs beside
