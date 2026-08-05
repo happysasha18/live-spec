@@ -2,8 +2,10 @@
 
 The illustration bank for the rules in [`../SKILL.md`](../SKILL.md). Load it when you want a worked
 example of a rule in action; the SKILL.md body keeps only the short inline examples a rule cannot be
-read without. Nothing here is a new rule — every line illustrates a rule already stated in the body,
-and the *(rule N)* tag on each says which.
+read without. Most sections here illustrate a rule already stated in the body, and the *(rule N)* tag
+on each says which. One section is the exception. "The queue's far tier in the status report" states
+the far-tier report law itself. The body names the far tier only in its words list. That section is
+normative, and the two checks it names turn red on a report that breaks it.
 
 ## Narration and status in action *(rule 13)*
 
@@ -15,11 +17,11 @@ and the *(rule N)* tag on each says which.
   landing and give your word on the deploy"*
 - **The leave-word** — *✅ "понял, довожу до безопасной точки — минуты три: останавливаю фоновые задачи,
   коммичу зелёное" … "можно выключать; продолжим со строки 216, всё в файле возобновления"*
-- **Live status** — *✅ "now: fixing the feature map (stage — code); next: tests and push"*
+- **Live status** — *✅ "now: fixing the feature map (station — code); next: tests and push"*
 - **A beat breaks a silent stretch** — *❌ [forty minutes of silent tool calls, then a wall of report]
   ✅ "the spec is written, calling the prover to check the seams (station: spec done, prove next)"
   ✅ station-end: "tests finished: it is now covered that every station leaves a digest, and that
-  silence past ten minutes is a debt (tests: the three teeth pinned)"*
+  silence past ten minutes is a debt (tests: the six teeth pinned)"*
 
 ## Plain words, one name *(rule 6)*
 
@@ -81,7 +83,7 @@ out of the runnable work it enumerates and prints, in its place, one stand-down 
 > What's left to run: rows 405, 407 (…). There is also a far backlog (3 items), shown on request.
 
 A far row named among the runnable what's-left is the defect — the fixture check
-`guardrails/check-far-tier.py --report` reds it, and passes a report that stands the tier down and
+`guardrails/check-far-tier.py --report FILE` reds it, reading a written copy of the report, and passes a report that stands the tier down and
 offers it on request [SPEC INV-222].
 
 **The rare self-surfacing line** *(SPEC INV-223).* Beyond answering on request, the status report shows
@@ -92,7 +94,9 @@ E-13) — movable by the person's word, and the report records the last surfacin
 > A far backlog is also kept — 3 thoughts parked with no plan to run. Want to see it? <!-- far-tier:offer 2026-07-18 -->
 
 A second offer inside the same window is the defect the fixture check
-`guardrails/check-far-tier.py --window` reds; a first offer once the window has passed passes. This
+`guardrails/check-far-tier.py --window FILE` reds; a first offer once the window has passed passes.
+Both flags take the path of a file holding the report's text, since a chat report leaves no file of
+its own. That is why this checker rides the suite on a fixture and stands outside the push chain. This
 rides the status report the agent pushes at him, an asynchronous touchpoint [SPEC INV-205], and
 interrupts nothing.
 

@@ -4,15 +4,17 @@ A small skill for one thing: **showing work to a human and asking for decisions 
 
 It works on the exchange with a human. Code is a separate concern. The same failure keeps happening in agent work — describing in words
 what should be shown with the eyes, and asking a person to decide in units they don't think in (pixels, dB,
-model weights, internal ids). `communicator` is the antidote, distilled into seven cheap-to-follow rules.
+model weights, internal ids). `communicator` is the antidote, written as twenty-two rules gathered into
+six areas.
 
-It's the presentation member of a four-skill pack:
+It is the presentation member of the live-spec pack, which ships eleven skills. The four its rules
+touch most often:
 
 | skill | job |
 |---|---|
-| [spec-author](https://github.com/happysasha18/spec-author) | write the spec |
-| [product-prover](https://github.com/happysasha18/product-prover) | review the spec |
-| build-pipeline | ship the change by the method |
+| live-spec-base | hold the shared rules and the settings ladder |
+| spec-author | write the spec |
+| product-prover | review the spec |
 | **communicator** | **make the human-facing exchange land** |
 
 ## When it fires
@@ -21,7 +23,7 @@ Every time you (a) need the human to **decide** something — especially anythin
 **result or progress**, or (c) **name a problem**. Rule of thumb: if your next sentence is a question the person
 can't answer without seeing something, stop and show it.
 
-## The seven rules (short)
+## Seven of the twenty-two rules (short)
 
 1. **Show, don't describe** — and when unsure, ask by showing (a mockup), never in raw units or a bare term.
 2. Name a problem → make it **actionable in the same breath, with your recommended pick**.
@@ -31,12 +33,15 @@ can't answer without seeing something, stop and show it.
 6. **Plain language, in the product's own words** — use-cases over mechanism, one name per thing, the spec's vocabulary.
 7. **Honest about the result** — small is not a win; and don't escalate what you can decide yourself.
 
-Full text, the fork-presentation template, anti-patterns, and worked examples are in [`SKILL.md`](./SKILL.md).
+The other fifteen cover narration while work runs, the away-stretch, decision pages, the feature map,
+and how the person's word is held once given. Full text is in [`SKILL.md`](./SKILL.md).
 
 ## Install
 
-Drop the folder into your skills directory (e.g. `~/.claude/skills/communicator/`). The skill is a single
-`SKILL.md`; there is no code to build.
+Drop the whole folder into your skills directory (for example `~/.claude/skills/communicator/`). It is
+`SKILL.md` plus four files under `references/`, which the body loads on demand. They are `words.md`,
+`field-examples.md`, `page-lifecycle.md`, and `writing-register.md`. The body sends a reader to
+`words.md` first. There is no code to build.
 
 ## License
 

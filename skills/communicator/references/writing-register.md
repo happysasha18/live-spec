@@ -144,7 +144,9 @@ What a number owes the reader who meets it.
 7. **Deletion pass.** Try deleting each opener phrase, qualifier, and adjective. Keep only what changes
    meaning.
 8. **Anchor integrity.** Every bracket code present before the edit is still present, still trailing,
-   and still listed correctly in the Formal index.
+   and still listed correctly in the project's generated code-to-location index. In this pack that
+   index is `PRODUCT_SPEC.index.md`, built from the body criteria at freeze. The hand-kept "Formal
+   index" section it replaced was retired at the 4.0.0 format migration.
 9. **Scissors scan (rule 15).** Before sending, scan the piece — chat replies to the human included — for
    the contrast frame in every shape: a denied-neighbour clause after an em dash or a comma, and its
    Russian equivalents that set a negated word against its replacement. Rewrite each hit into a positive

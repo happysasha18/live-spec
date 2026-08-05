@@ -21,7 +21,9 @@ class TestUnifiedReportFormat(unittest.TestCase):
         for needle in (
             "✅ done",
             "🔄 in progress",
-            "name the pipeline station",
+            # The plain word carries this. "pipeline station" was the coined form, and the register
+            # lint bans a coinage in text a reader meets, which a skill body is (2026-08-05).
+            "name the pipeline step",
             "⏳",
             "remaining/queued",
             "⚠️ needs the human's word",

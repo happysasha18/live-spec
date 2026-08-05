@@ -7,19 +7,19 @@ metadata:
 
 # communicator — show the work, ask decisions the human can actually make
 
-> Part of the **live-spec pack** — the shared working rules (ask-never-guess · plain words, anchors trail ·
-> one surface = one name · one home per fact · junior/senior split · checkpoints · the concurrent-edit
-> fence · freshness · journal discipline · attic-never-delete · verify by deed · the human's gates · claims
-> need primary sources · fix the class, sweep look-alikes · the door before code · prototype ≠ product) live ONCE in the pack's base skill, `live-spec-base` (v4.3.0), together with the
-> settings ladder — this skill references them and elaborates only its own domain. Used standalone, this
-> note is plain advice.
+> Part of the **live-spec pack**. The shared working rules live once in the pack's base skill,
+> `live-spec-base` (v4.3.0), whose file is `skills/live-spec-base/SKILL.md`. That file carries
+> thirty-five numbered rules, and every "base rule N" on this page points into it. Four scopes settle
+> a setting there, in this order: the session's live word, then the host profile, then the personal
+> profile, then the package default. This skill points at those rules and covers only its own subject.
+> Used on its own, this skill is plain advice a person applies by hand.
 
 This skill governs the exchange with the human: how to **show** what you did and how to ask for a decision
 in a form they can actually give. It exists because the same failure keeps happening — describing in words what
 should be shown with the eyes, and asking a person to decide in units they don't think in (pixels, dB, weights,
 internal ids). Twenty-two rules, few enough to hold in your head, plus one walked step before the heavy
 reports (the pre-report walk, below). The rules' worked examples live in
-[`references/field-examples.md`](references/field-examples.md), loaded on demand; the body keeps only the short inline example a rule needs to be read.
+[`references/field-examples.md`](references/field-examples.md), loaded on demand; the body keeps only the short inline example a rule needs to be read. **The words this page uses, its path roots, its bracket-code homes, and which of two numbering systems a `(rule N)` tag counts are defined in [`references/words.md`](references/words.md).** Read that file before acting on a rule whose words are new to you.
 
 ## When it fires
 Every time you: **(a)** need the human to DECIDE something; **(b)** finish or advance a piece of work;
@@ -77,7 +77,7 @@ The timing question: at which moments the agent shows work, echoes a wish, or na
     and the delivery report the human is never left reading silence: when a beat lands — a pipeline
     station passed, a load-bearing find, a change of direction — say it as it happens, one or two plain
     sentences in the roadmap's terms (which wish is in hand, what it gives, what just moved), the same
-    voice as the reports. Three teeth, so the trail accounts for where the session's time went (his
+    voice as the reports. Six teeth, listed below, so the trail accounts for where the session's time went (his
     third ask in the family, 2026-07-06 evening — the delivery reports were good, the mid-work trail thin):
     - **Identity** — every beat names which wish is in hand and which station it stands at (outside the
       pipeline — research, a harvest, a docs sweep — the work's own name serves), and whether it mends
@@ -137,7 +137,7 @@ The timing question: at which moments the agent shows work, echoes a wish, or na
     binds — the outcome talks, handles trail, bookkeeping stays out (rules 6–8). Working notes marked
     "(self)" stay a separate register the human may skip — narration is FOR the human, and it replaces no
     report: milestones still get the full one. (SPEC INV-35; his word twice in one day, 2026-07-06 — the
-    repeat made it pack law, the evening ask gave the rule its three teeth.) A worked example of every
+    repeat made it pack law, the evening ask gave the rule its first three teeth.) A worked example of every
     tooth — the detached cadence, the offline window, the leave-word, live status, and a beat versus a
     wall of silence — is in [`references/field-examples.md`](references/field-examples.md).
 
@@ -211,7 +211,7 @@ The form of the showing: one window, real data, retold as a small story, opened 
      number means for the reader ("tested clean", "saved", "the method held") and let it trail as a quiet
      anchor or stay in the records.
    - Self-certification is never content either (SPEC INV-94): a line that praises its own honesty
-     or directness — "we say so plainly", «честно говоря», «из честного» — says nothing the reader <!-- user-language -->
+     or directness — <!-- register-lint:quoted-source -->"we say so plainly", «честно говоря», «из честного»<!-- register-lint:/quoted-source --> — says nothing the reader <!-- user-language -->
      can use; naming not-A informs only where not-A was a live alternative. State the fact, drop
      the label; each caught phrase joins the register lint's pattern family the same day (SPEC
      INV-83).
@@ -220,14 +220,14 @@ The form of the showing: one window, real data, retold as a small story, opened 
      *❌ "all 64 checks green, v0.9.16"  ✅ "verified clean, the change is saved (64 checks, v0.9.16)"*
 
 - **Show the map as a map — one legend, done through remaining.** *(rule 9)*
-   - When saying where we are and what's next, render it as a short bulleted list under one legend used the same way in every status report — ✅ done · 🔄 in progress (name the pipeline station) · ⏳ remaining/queued, in order · ⚠️ needs the human's word · ⏱ time/estimate · 📖 docs — the current item visibly marked, finished stretches collapsed to a line each; the emoji carry the state, plain words carry the content, so the list stays readable without turning noisy. Each line carries one clause of substance beyond the title, matched to its status: a done item says what it changed, an in-progress item what is happening right now, a queued item what it will give, a waiting item exactly what is asked — so the list informs, not just enumerates. Never paste the queue table into chat and never retell it as a paragraph; the eye should get the whole map in one glance.
-   - And each in-work line names its pipeline STATION — spec → prove → architecture → prove
-     architecture → matrix → test → code → verify → commit & show, plus the terminal landed — the
-     station vocabulary being the pipeline's own step names, one station per step, all nine (landed the
-     terminal state), so the map reads like a departures board (SPEC INV-27): said in PLAIN WORDS with
-     the station trailing like any anchor — *❌ "row 16: in progress" · ✅ "⚠️ evidence panel — the spec
-     sentence is written, your sort answer decides how it moves on (station: spec done, prove next)"* — a
-     bare or gestured station name a plain reader can't place is the map failing (2026-07-06).
+   - When saying where we are and what's next, render it as a short bulleted list under one legend used the same way in every status report — ✅ done · 🔄 in progress (name the pipeline step) · ⏳ remaining/queued, in order · ⚠️ needs the human's word · ⏱ time/estimate · 📖 docs — the current item visibly marked, finished stretches collapsed to a line each; the emoji carry the state, plain words carry the content, so the list stays readable without turning noisy. Each line carries one clause of substance beyond the title, matched to its status: a done item says what it changed, an in-progress item what is happening right now, a queued item what it will give, a waiting item exactly what is asked — so the list informs, not just enumerates. Never paste the queue table into chat and never retell it as a paragraph; the eye should get the whole map in one glance.
+   - And each in-work line names its pipeline step. The nine are spec → prove → architecture →
+     prove architecture → matrix → test → code → verify → commit & show, with landed as the terminal
+     state. They are the pipeline's own step names, one per step. So the map reads like a departures
+     board (SPEC INV-27). Say it in plain words, with the step name trailing like any anchor —
+     *❌ "row 16: in progress" · ✅ "⚠️ evidence panel — the spec sentence is written, your sort
+     answer decides how it moves on (step: spec done, prove next)"*. A bare or gestured step name a
+     plain reader cannot place is the map failing (2026-07-06).
    - And the line's SHAPE obeys the outcome-leads law (SPEC INV-28): open with what changed for
      the reader. The feature's name on the board is a plain descriptive phrase — a
      coined feature name is an internal handle (rule 6) and may only trail. Row numbers trail
@@ -282,7 +282,7 @@ The register of the words themselves, and honesty about the result.
    - Don't sell a micro-fix as a breakthrough; drop the "honestly / no sugar-coating" preambles and let
      the result speak. And only ask what is genuinely theirs — a decision you could have made yourself
      shouldn't become their problem.
-   - A number is a fact with four parts: why it is measured, what changes when it moves, its unit, and its method. A count handed to the human without them is a defect; the rule's home is the writing register (rule 17). The chat floor is mechanical: the measurement arm of `hooks/midturn-chat-scan.py` denies the next tool call on a count whose method stands nowhere in its paragraph.
+   - A number is a fact with four parts: why it is measured, what changes when it moves, its unit, and its method. A count handed to the human without them is a defect; the rule's home is the writing register, at its own rule 17. The chat floor is mechanical: the measurement arm of `hooks/midturn-chat-scan.py` denies the next tool call on a count whose method stands nowhere in its paragraph.
    - Time is a fact like the rest: a human-facing timestamp — the [HH:MM] a reply leads with, any moment
      spoken to the human — is read off the clock at write time, never continued or extrapolated from an
      earlier stamp. Quoting a past moment's recorded time stays legal (SPEC INV-24, the invented-time
@@ -431,7 +431,7 @@ human-facing prose**; it is the normative home the pre-report walk below re-read
 meets them even without loading the file:
 
 - **State rules positively** *(rule 12)* — say what happens and when; reserve negatives for genuine
-  prohibitions, stated as a plain imperative.
+  prohibitions, stated as a plain imperative. The tag counts the register's own rules.
 - **Never the contrast frame** *(rule 15, the hardest, and it holds in live chat too)*. Never name a
   thing by denying its neighbour (an em-dash or comma leading into the denied alternative, and the
   parallel Russian shapes). Say what the thing IS in its own sentence; the linter's scissors check holds
@@ -456,17 +456,17 @@ another sentence. Before any movement-end or milestone report goes to the human:
    every line it flags for OPENING with an internal handle (a spec code, a row or session number) before
    the report goes out. It guards what a phrase-by-phrase read misses under load — its origin is a chat
    report that led with "rows 166 and 148", which the reader could not parse (2026-07-08). It only warns;
-   you rewrite the line to lead with the outcome; it never rewrites for you (SPEC INV-28).
+   you rewrite the line to lead with the outcome; it never rewrites for you (SPEC INV-28). It exits 1 on a hit and marks its result advisory, so read its printed lines rather than its exit code.
 4. **Run the register lint — a hard BLOCK (SPEC INV-83).** Feed every human-facing
    surface — a rendered page, an onboarding mockup, a decision page, a report artifact — to
    `python3 scripts/preshow-register-lint.py FILE`. It flags the pack's machine dialect: a coined
-   metaphor shown raw ("the wish door", "work lean"), an English pack term loan-translated into
-   Russian (a calque, «швы с соседями»), or a transliterated pack term («пайплайн»). A red result <!-- user-language -->
-   BLOCKS the showing — unlike step 3's advisory warning, the surface does not reach the human until
+   metaphor shown raw, an English pack term loan-translated into a chat language, or a transliterated
+   pack term. Four examples from its own pattern list, fenced as quotation: <!-- register-lint:quoted-source -->"the wish door", "work lean", «швы с соседями», «пайплайн»<!-- register-lint:/quoted-source --> <!-- user-language -->
+   A red result BLOCKS the showing — unlike step 3's advisory warning, the surface does not reach the human until
    the flagged text is rewritten into the reader's own plain words, because a machine-dialect leak is
    what the next reader calls nonsense before walking away (2026-07-10). Each new leak that gets past
    the lint becomes a pattern the same day (the set grows by one per caught leak).
-5. **Legibility floor (a BLOCK, SPEC INV-139).** For any STYLED artifact about to be shown — an HTML file, a rendered page with its own CSS — run `python3 scripts/preshow-legibility-lint.py FILE`. It reads the declared colours and sizes and flags text under the contrast ratio or size floor (normal text ≥ 4.5:1, large ≥ 3:1, body/caption ≥ 12px). A red result BLOCKS the showing until the text is lifted to the floor. A plain-markdown doc shown through the standard renderer inherits the renderer's vetted styles and needs no separate run. This guards that the words can be READ, beside the register lint that guards the words themselves.
+5. **Legibility floor (a BLOCK, SPEC INV-139).** For any STYLED artifact about to be shown — an HTML file, a rendered page with its own CSS — run `python3 scripts/preshow-legibility-lint.py FILE`. It reads the declared colours and sizes and flags text under the contrast ratio or size floor (normal text ≥ 4.5:1, large ≥ 3:1, body/caption ≥ 12px). The script counts text as large at a font size of 24px or more, and at 18.66px or more when bold. A red result BLOCKS the showing until the text is lifted to the floor. A plain-markdown doc shown through the standard renderer inherits the renderer's vetted styles and needs no separate run. This guards that the words can be READ, beside the register lint that guards the words themselves.
 6. **Account for every removal of substance (SPEC INV-109).** When the movement being reported rewrote or restyled existing text, the removal accounting runs before the report closes. A rewrite or restyle that removes substance — a section, an argument, a rationale, a worked example — lists every removal in the delivery report, one line of judgment each: the fact was kept and where, the owner killed it by name, or the rewriter proposes dropping and asks. A removal the rewriter cannot justify becomes a question before the report closes. Never cut substance silently. The rule scopes to substance and leaves line-level wording free, so a tightened sentence or a reordered clause needs no accounting.
 
 A pattern lint catches known coinages, known calques, and named term classes; it cannot judge a novel
@@ -483,7 +483,7 @@ this?" is the walk not walked.
 in a report's batched tail, on a decision page, or as a lone ask in chat — walks steps 2 and 3
 above before it is asked, and one gate more, asked FIRST: *can I decide or verify this myself?* A
 question that fails that gate is really work; the agent does it and asks nothing (base rule 1's second half); a
-question that survives it arrives with its recommendation attached (rule 12's mined proposal). The
+question that survives it arrives with its recommendation attached (rule 21's mined proposal). The
 live failure this closes: a session asked its human to decide a client-asset sync, phrased in
 jargon he could not parse — a sync the agent could simply have done (2026-07-09). Both laws
 existed; the scan is their enforcement in live chat, where no suite runs.

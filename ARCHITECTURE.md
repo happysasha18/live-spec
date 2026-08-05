@@ -215,7 +215,7 @@ named here and in the matrix.
 - `skills/communicator/SKILL.md:369` (rule 10 — the decision page)
 - `skills/communicator/SKILL.md:422` (rule 11 — the evidence walk)
 - `skills/communicator/SKILL.md:301` (rule 9 — the outcome-leads line shape)
-- `skills/communicator/SKILL.md:510` (the pre-report walk)
+- `skills/communicator/SKILL.md:440` (the pre-report walk)
 - `skills/communicator/SKILL.md:356` (rule 7 — the chat-arm clock sentence)
 - `guardrails/check-far-tier.py --window` (INV-223 — the far-tier report-shape check's fixture)
 - `scripts/sweep-rendered.py:1` (INV-286 — the clearing mechanism and the home rule's one home)

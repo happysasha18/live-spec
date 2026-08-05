@@ -1808,7 +1808,9 @@ class TestProblemLedger(unittest.TestCase):
             "The capture echo",
             "row number",
             "departures board",
-            "pipeline STATION",
+            # The plain word carries this. "pipeline STATION" was the coined form, and the register
+            # lint bans a coinage in text a reader meets, which a skill body is (2026-08-05).
+            "names its pipeline step",
             "INV-27",
         ):
             self.assertIn(needle, comm, "communicator missing: %s" % needle)

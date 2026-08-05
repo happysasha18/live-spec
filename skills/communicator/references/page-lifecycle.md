@@ -37,7 +37,8 @@ shipped website. The mark is written by the act that creates the page, so it can
 truth, and nothing else carries it.
 
 A host declares its own homes outside the sweep's reach under `rendered_pages` in
-`guardrails.config.json`, the same road the reach map's directory classes take, so adopting the rule
+`guardrails.config.json`. The same file carries a `reach_classes` key, which sorts directories for the
+push-reach check `guardrails/check-push-reach.sh`. Both keys take the same road, so adopting the rule
 means declaring directories and editing no script.
 
 ## Where a cleared page goes
@@ -77,8 +78,10 @@ before the failure.
 - `python3 scripts/sweep-rendered.py` performs the clearing and prints the declaration. `--dry-run`
   names what would move and moves nothing.
 - `guardrails/check-rendered-sweep.py` reds while a transient page still stands, and the sweep clears
-  the red. It rides the suite, where the push chain's own letters run a..z with every one taken, and
-  it states its reach on its green line.
+  the red. It runs inside the test suite rather than as its own push gate. Each push gate is keyed by
+  one letter, the letters a to z are all assigned, and a check that arrived later rides the suite
+  instead. A suite-riding check needs no letter of its own, and gate b already reds a push on a red
+  suite. The check states its reach on its green line.
 
 The check reads a page's mark and never the person's attention: a page rendered a minute ago reds
 exactly like one that has stood for a week. The suite runs at verify and at landing, by which point
