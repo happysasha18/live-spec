@@ -29,6 +29,10 @@
 # Usage:
 #   ./scripts/sync-mirrors.sh
 #   ./scripts/sync-mirrors.sh --print-release-history   # print the generated section, touch nothing
+#   ./scripts/sync-mirrors.sh --print-publish-source NAME
+#       # print the directory this script would publish for one skill, and exit. It refuses on a
+#       # half-made or a stale edition exactly as the sync does, so it is the check to run before a
+#       # push. Exit 0 names a source; any other exit prints the reason and the remedy.
 #
 # Requires: git, rsync, and the GitHub CLI (`gh`), already authenticated.
 
@@ -86,8 +90,38 @@ edition_is_current() {
   edition_at="$(git -C "$PACK_ROOT" log -1 --format=%ct -- "editions/$name" 2>/dev/null || echo 0)"
   [ -n "$skill_at" ] || skill_at=0
   [ -n "$edition_at" ] || edition_at=0
-  # An edition with no commit of its own has never been published from here, so it stands aside.
+  # An edition with no commit of its own reads as older than any committed skill, so it is refused
+  # by the line below rather than standing aside: a half-made edition publishes nothing, the same
+  # law the missing-SKILL.md refusal above carries. Where NEITHER side is committed — a scratch tree
+  # with no git history, which is how the tests read this — both dates are 0 and the edition
+  # publishes, since there is no landed skill work for it to be behind.
   [ "$edition_at" -ge "$skill_at" ]
+}
+
+# Each refusal has its own status, and its reason and its remedy are written once here. Every surface
+# that reports a refusal reads them from these two functions: the message printed where the refusal
+# happens, the summary line, and the closing block. Before this the words of ONE refusal were
+# hardcoded on all three, so a stale edition was reported as an edition holding no SKILL.md, and the
+# true remedy reached stderr alone (caught 2026-08-05 by an adversarial review of the push).
+REFUSAL_NO_SKILL=3
+REFUSAL_STALE=4
+
+refusal_reason_for() {
+  local status="$1" name="$2"
+  case "$status" in
+    "$REFUSAL_NO_SKILL") printf '%s' "editions/${name}/ holds no SKILL.md" ;;
+    "$REFUSAL_STALE")    printf '%s' "editions/${name}/ is older than skills/${name}/" ;;
+    *)                   printf '%s' "editions/${name}/ was refused with status ${status}" ;;
+  esac
+}
+
+refusal_remedy_for() {
+  local status="$1" name="$2"
+  case "$status" in
+    "$REFUSAL_NO_SKILL") printf '%s' "Add the edition's SKILL.md, or remove the directory to publish skills/${name}/ again." ;;
+    "$REFUSAL_STALE")    printf '%s' "Carry the skill's newer work into the edition, then commit the edition." ;;
+    *)                   printf '%s' "Read the refusal above and repair editions/${name}/." ;;
+  esac
 }
 
 publish_source_for() {
@@ -95,14 +129,14 @@ publish_source_for() {
   local edition="$PACK_ROOT/editions/$name"
   if [ -d "$edition" ]; then
     if [ ! -f "$edition/SKILL.md" ]; then
-      echo "${name}: editions/${name}/ holds no SKILL.md, so it publishes nothing." >&2
-      echo "  Add the edition's SKILL.md, or remove the directory to publish skills/${name}/ again." >&2
-      return 3
+      echo "${name}: $(refusal_reason_for "$REFUSAL_NO_SKILL" "$name"), so it publishes nothing." >&2
+      echo "  $(refusal_remedy_for "$REFUSAL_NO_SKILL" "$name")" >&2
+      return "$REFUSAL_NO_SKILL"
     fi
     if [ "${SKIP_EDITION_FRESHNESS:-}" != "1" ] && ! edition_is_current "$name"; then
-      echo "${name}: editions/${name}/ is older than skills/${name}/, so it publishes nothing." >&2
-      echo "  Carry the skill's newer work into the edition, then commit the edition." >&2
-      return 4
+      echo "${name}: $(refusal_reason_for "$REFUSAL_STALE" "$name"), so it publishes nothing." >&2
+      echo "  $(refusal_remedy_for "$REFUSAL_STALE" "$name")" >&2
+      return "$REFUSAL_STALE"
     fi
     printf '%s\n' "$edition"
     return 0
@@ -374,6 +408,9 @@ declare -a SUMMARY_LINES=()
 # A skill this run refused to publish. The summary alone left the run exiting zero, so a half-made
 # edition read as a clean sync (caught 2026-08-05 by the review of the change that added the refusal).
 declare -a REFUSED=()
+# One "<skill>: <reason>. <remedy>" note per refusal, so the closing block reports the refusal that
+# actually happened instead of repeating one hardcoded case.
+declare -a REFUSAL_NOTES=()
 
 # Pull a short description out of a SKILL.md's YAML frontmatter "description:" field.
 # Used only as a fallback when a mirror has no README.md of its own.
@@ -431,10 +468,19 @@ for skill_path in "$SKILLS_DIR"/*/; do
   # Replace the mirror's content with the pack's copy of this skill, but keep
   # the mirror's own .git history (that's how it stays a real, pushable repo).
   # Where the skill ships a public edition, that edition is what goes out.
-  # A half-made edition stops this one mirror and leaves every other mirror to run.
-  if ! publish_src="$(publish_source_for "$skill_name")"; then
-    SUMMARY_LINES+=("${skill_name}: skipped (editions/${skill_name}/ holds no SKILL.md)")
+  # A refused edition stops this one mirror and leaves every other mirror to run. The refusal's own
+  # status decides what gets reported, so a stale edition and a half-made one read differently.
+  # `if ! cmd` would invert the status before it could be read, so the status is captured here.
+  refusal_status=0
+  publish_src="$(publish_source_for "$skill_name")" || refusal_status=$?
+  if [ "$refusal_status" -ne 0 ]; then
+    refusal_reason="$(refusal_reason_for "$refusal_status" "$skill_name")"
+    refusal_remedy="$(refusal_remedy_for "$refusal_status" "$skill_name")"
+    echo "${skill_name}: skipped (${refusal_reason})"
+    echo "  ${refusal_remedy}"
+    SUMMARY_LINES+=("${skill_name}: skipped (${refusal_reason})")
     REFUSED+=("$skill_name")
+    REFUSAL_NOTES+=("${skill_name}: ${refusal_reason}. ${refusal_remedy}")
     continue
   fi
   if [ "$publish_src" != "$skill_path" ] && [ "$publish_src/" != "$skill_path" ]; then
@@ -515,7 +561,8 @@ done
 if [ "${#REFUSED[@]}" -gt 0 ]; then
   echo
   echo "sync-mirrors: ${#REFUSED[@]} skill(s) published nothing: ${REFUSED[*]}"
-  echo "  Each has an editions/<skill>/ directory holding no SKILL.md."
-  echo "  Add the edition's SKILL.md, or remove the directory to publish skills/<skill>/ again."
+  for note in "${REFUSAL_NOTES[@]}"; do
+    echo "  $note"
+  done
   exit 1
 fi

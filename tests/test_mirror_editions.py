@@ -23,12 +23,22 @@ from conftest import ROOT
 SCRIPT = os.path.join(ROOT, "scripts", "sync-mirrors.sh")
 
 
-def publish_source(pack_root, skill_name):
-    """What the sync would publish for one skill, read out of the script itself."""
+def publish_source(pack_root, skill_name, env=None):
+    """What the sync would publish for one skill, read out of the script itself.
+
+    `env` overrides single environment variables for the child. A value of None removes the
+    variable, so a test can prove what happens with the freshness escape hatch unset.
+    """
+    child_env = dict(os.environ)
+    for key, value in (env or {}).items():
+        if value is None:
+            child_env.pop(key, None)
+        else:
+            child_env[key] = value
     result = subprocess.run(
         ["bash", os.path.join(pack_root, "scripts", "sync-mirrors.sh"),
          "--print-publish-source", skill_name],
-        capture_output=True, text=True, timeout=60)
+        capture_output=True, text=True, timeout=60, env=child_env)
     return result.returncode, result.stdout.strip(), result.stderr.strip()
 
 
@@ -101,14 +111,17 @@ class TestPublishSourceSelection(unittest.TestCase):
                              os.path.join(pack, "editions", "beta"))
 
     def test_the_loop_skips_a_refused_edition_and_runs_on(self):
-        """One broken edition leaves every other mirror to sync."""
+        """One broken edition leaves every other mirror to sync. The loop captures the refusal's
+        status rather than testing it with `if !`, which would invert it before it could be read."""
         with open(SCRIPT, encoding="utf-8") as fh:
             text = fh.read()
-        self.assertIn('if ! publish_src="$(publish_source_for "$skill_name")"; then', text,
-                      "the loop must read the refusal")
-        refusal = text.index('if ! publish_src=')
-        self.assertIn("continue", text[refusal:refusal + 400],
+        self.assertIn('publish_src="$(publish_source_for "$skill_name")" || refusal_status=$?', text,
+                      "the loop must read the refusal and keep its status")
+        refusal = text.index('publish_src="$(publish_source_for "$skill_name")" || refusal_status=$?')
+        self.assertIn("continue", text[refusal:refusal + 800],
                       "a refused edition moves to the next skill rather than ending the run")
+        self.assertNotIn('if ! publish_src=', text,
+                         "`if !` throws the status away, and each refusal reports its own reason")
 
     def test_the_flag_names_the_skill_it_needs(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -171,10 +184,72 @@ class TestAnEditionStaysAsNewAsItsSkill(unittest.TestCase):
             self.assertEqual(out, os.path.join(pack, "editions", "alpha"))
 
     def test_the_refusal_never_falls_back_to_the_internal_copy(self):
-        """Falling back would publish the internal text under the reader's nose."""
+        """Falling back would publish the internal text under the reader's nose.
+
+        The test above already proves a stale refusal's stdout is empty, so asserting the fallback's
+        absence against that same stdout would pass on nothing at all. This reads real output
+        instead. The same pack committed the other way round prints a path on stdout, which proves
+        the channel carries one; the stale run's whole output, stdout and stderr together, then
+        names no internal directory as a source and says why it refused.
+        """
+        with tempfile.TemporaryDirectory() as tmp:
+            fresh = self._pack(os.path.join(tmp, "fresh"), ["skills/alpha", "editions/alpha"])
+            code, out, err = publish_source(fresh, "alpha")
+            self.assertEqual(code, 0, err)
+            self.assertEqual(out, os.path.join(fresh, "editions", "alpha"),
+                             "stdout does carry a publish path when one is published")
+
+            stale = self._pack(os.path.join(tmp, "stale"), ["editions/alpha", "skills/alpha"])
+            code, out, err = publish_source(stale, "alpha")
+            self.assertNotEqual(code, 0, "the stale edition must refuse")
+            self.assertNotIn(os.path.join(stale, "skills", "alpha"), out + err,
+                             "no surface offers the internal copy as the source instead")
+            self.assertIn("older than", err, "and the refusal says why it refused")
+
+    def test_a_stale_refusal_is_never_reported_as_a_missing_skill_file(self):
+        """Every refusal used to be reported as an edition holding no SKILL.md, so the one remedy a
+        reader was given could not fix a stale edition."""
         with tempfile.TemporaryDirectory() as tmp:
             pack = self._pack(tmp, ["editions/alpha", "skills/alpha"])
-            self.assertNotIn("skills", publish_source(pack, "alpha")[1])
+            code, out, err = publish_source(pack, "alpha")
+            self.assertNotEqual(code, 0)
+            self.assertNotIn("holds no SKILL.md", out + err,
+                             "a stale edition is reported as stale, not as a missing file")
+            self.assertIn("Carry the skill's newer work into the edition", err,
+                          "and it carries the remedy that actually fixes it")
+
+    def test_the_freshness_escape_hatch_is_unset_in_a_normal_run(self):
+        """SKIP_EDITION_FRESHNESS=1 turns the staleness refusal off. It exists for a deliberate
+        one-off publish, and a gate run carrying it would report green on the very drift the
+        refusal was added to catch."""
+        self.assertNotEqual(os.environ.get("SKIP_EDITION_FRESHNESS"), "1",
+                            "this suite must judge the refusal with the escape hatch off")
+
+    def test_a_stale_edition_refuses_with_the_escape_hatch_unset(self):
+        """The refusal is proved with the variable removed from the child's environment, so an
+        exported value in the shell running the suite can never make this pass."""
+        with tempfile.TemporaryDirectory() as tmp:
+            pack = self._pack(tmp, ["editions/alpha", "skills/alpha"])
+            code, out, err = publish_source(pack, "alpha",
+                                            env={"SKIP_EDITION_FRESHNESS": None})
+            self.assertNotEqual(code, 0, "with the hatch unset a stale edition publishes nothing")
+            self.assertEqual(out, "")
+            self.assertIn("older than", err)
+
+    def test_the_escape_hatch_reaches_the_staleness_check_alone(self):
+        """Set to 1 it publishes a stale edition, and that is its whole reach: a half-made edition
+        is still refused, because emptying the public repository is not what the hatch is for."""
+        with tempfile.TemporaryDirectory() as tmp:
+            stale = self._pack(os.path.join(tmp, "stale"), ["editions/alpha", "skills/alpha"])
+            code, out, err = publish_source(stale, "alpha", env={"SKIP_EDITION_FRESHNESS": "1"})
+            self.assertEqual(code, 0, err)
+            self.assertEqual(out, os.path.join(stale, "editions", "alpha"))
+
+            half = self._pack(os.path.join(tmp, "half"), ["skills/alpha", "editions/alpha"])
+            os.remove(os.path.join(half, "editions", "alpha", "SKILL.md"))
+            code, out, err = publish_source(half, "alpha", env={"SKIP_EDITION_FRESHNESS": "1"})
+            self.assertNotEqual(code, 0, "the hatch never reaches the missing-SKILL.md refusal")
+            self.assertIn("SKILL.md", err)
 
 
 class TestTheSyncUsesTheChoice(unittest.TestCase):
@@ -207,6 +282,28 @@ class TestTheSyncUsesTheChoice(unittest.TestCase):
         self.assertGreater(text.index('if [ "${#REFUSED[@]}" -gt 0 ]; then'),
                            text.index("== summary =="),
                            "the refusal check belongs after every mirror has had its turn")
+
+    def test_each_refusal_reports_its_own_reason_and_remedy(self):
+        """The summary line and the closing block both printed one hardcoded case — an edition
+        holding no SKILL.md — for every refusal, staleness among them, while the stale edition's
+        true remedy reached stderr alone. Both surfaces now read the reason and the remedy from the
+        refusal's own status, and both live in one home so no surface can drift from the message
+        printed where the refusal happened."""
+        with open(SCRIPT, encoding="utf-8") as fh:
+            text = fh.read()
+        self.assertIn('SUMMARY_LINES+=("${skill_name}: skipped (${refusal_reason})")', text,
+                      "the summary line names the refusal that actually happened")
+        self.assertIn('REFUSAL_NOTES+=("${skill_name}: ${refusal_reason}. ${refusal_remedy}")', text,
+                      "each refusal records its own reason and remedy for the closing block")
+        tail = text[text.index('if [ "${#REFUSED[@]}" -gt 0 ]; then'):]
+        self.assertIn('for note in "${REFUSAL_NOTES[@]}"', tail,
+                      "the closing block prints the note each refusal wrote")
+        self.assertNotIn("Each has an editions/<skill>/ directory holding no SKILL.md.", text,
+                         "the hardcoded one-case reason must be gone from the closing block")
+        for once in ('editions/${name}/ is older than skills/${name}/',
+                     'editions/${name}/ holds no SKILL.md'):
+            self.assertEqual(text.count(once), 1,
+                             "each refusal's words are written once, in refusal_reason_for")
 
     def test_the_flag_touches_no_repository(self):
         """The print flag stands above every clone and every push, so a test never reaches GitHub."""

@@ -32,8 +32,12 @@ fix, and what you would do next. That reaches past an auditor's checklist and a 
 
 - **Surface** — a place a person meets the product: a screen, a page, a panel, an endpoint, a
   command, a report.
+- **Surface registry** — the one list the reviewed project keeps of its user-facing surfaces. Where
+  the project keeps no such list, every sweep that reads it takes an N/A verdict naming that as the
+  reason. An N/A verdict is still a verdict, so the sweep stays visible in the record.
 - **Lens** — one question put to the document. A lens produces a finding only where a real problem
   answers it.
+- **Sweep** — a lens run over every member of a class in the document, rather than at one spot.
 - **Node** — in an architecture document, a named part of the system that holds one responsibility.
 - **Pin** — a `file:line` citation showing where a claim is carried in the code.
 - **Provisional default** — a sentence that states a behaviour and marks it as unratified, standing
@@ -105,16 +109,17 @@ heading is capitalized. Use structure sparingly, so the eye lands on the right t
 - Sentence case for headers. Capitalized words carry no emphasis in what the author reads.
 - Empty line between findings, before headers, before tables.
 
-The goal is notes a reader scans in 30 seconds, reads carefully in 5 minutes, and hears at a normal
-volume.
+The goal is notes a reader scans in 30 seconds and reads carefully in 5 minutes.
 
 ## How to write findings
 
-Findings should be scannable in 10–15 seconds. One or two sentences per part.
+A finding is written to be scanned, in 10–15 seconds of reading. One or two sentences per part.
 
 Each finding has four parts, in this order:
 
-**Part 1 — Headline.** One line, plain language, no jargon.
+**Part 1 — Headline.** One line, plain language, no jargon. It opens with the finding's ID — `F1`,
+`F2`, and on — numbered once across the whole pass in the order the findings are written. Phase 5 and
+the persisted record cite those IDs.
 
 **Part 2 — Quote with source location.** One short quote stands on its own line, in blockquote style,
 followed by a source pin. Format: `> "quote text" — Section 4 / Use case: Standard Activation`, or
@@ -215,7 +220,7 @@ It is the document's own known issue, and the pass files no new finding for it.
 | internal-conflict | consistency | two requirements can't simultaneously hold |
 | direct-contradiction | contradiction | two stated rules openly conflict |
 | hard-to-monitor | observability | operators can't see or understand the system's state |
-| confusing-for-users | cognitive-load | special cases or modes users have to remember |
+| confusing-for-users | cognitive-load | special cases or modes users have to remember; its reading-load reading stands below this table |
 | hard-to-operate | ops-ux | debuggability, audit trails, traceability gaps |
 
 The cognitive-load lens carries a second reading, on reading load. It flags a prose paragraph packing
@@ -287,8 +292,21 @@ Three modes. The user picks one by asking for it; the full review is the default
   rewrite.
 - **New-surface review** — a focused pass for a single added surface. Ask for it by naming the
   surface that was added. It runs Phases 1–2 plus the composition and stress lenses of Phase 3e,
-  aimed at the new surface's seams against the surfaces it composes with. It skips the whole-document
-  property sweep, and it keeps one whole-document step: the **quantifier re-verify**.
+  aimed at the new surface's seams against the surfaces it composes with.
+
+  The composition lenses are five, and they all live in `reference/stress-lenses.md`:
+
+  - edge-condition completeness;
+  - cross-surface policy uniformity;
+  - paired-transition symmetry, inside the lifecycle sweep;
+  - interactive overlap across layers;
+  - delivery separability along a declared axis.
+
+  The unwritten-seams sweep runs beside them, as the blank-answer class those five cite. The stress
+  lenses are that file's imaginative probes.
+
+  This mode skips the whole-document property sweep, and it keeps one whole-document step: the
+  **quantifier re-verify**.
 
   Sweep the document for enumerations and universal quantifiers: "every", "only", "all", "exactly",
   and explicit member lists. Re-verify each such sentence against the surface set that now includes
@@ -313,7 +331,9 @@ Three modes. The user picks one by asking for it; the full review is the default
   - **feel bar** — the motion and craft quality the feature is held to;
   - **invited-next** — what the product invites the person to do when the feature is done.
 
-  A feature of a different kind takes that kind's own flow and trigger lenses instead.
+  Those seven are the journey seams of a product feature. A feature of another kind walks that kind's
+  own lenses instead. An infra feature walks its flows. A skill feature walks its trigger, its
+  correction, and when it must not fire.
 
   Each lens takes one of four verdicts:
 
@@ -336,6 +356,9 @@ Three modes. The user picks one by asking for it; the full review is the default
   marks them. This mode runs most often, so it is the one most exposed to the dead prose the Phase 0
   pin requirement exists to catch.
 
+  A feature-fit review stands in for no other pass. The feature still meets the full review, or the
+  new-surface review where that is its mode, before it is built.
+
 All three modes keep the whole document in view. A cross-section hole is findable only when both
 sides of the seam are present and named the same at review time. The new-surface review narrows the
 findings to the new surface's seams, and the feature-fit review narrows them to the feature's fit.
@@ -354,7 +377,16 @@ for merging back into the main line, that merge gate judges the delta. It has th
 
 - load-bearing token identity, old text against new, modulo the per-chunk named deltas, plus a
   punctuation-multiset check that catches a restructure which preserved every word and changed the
-  sentence boundaries;
+  sentence boundaries.
+
+  A load-bearing token is one word of the document's content, with markup and whitespace left out. A
+  chunk is one stretch of the old document the restructure moved as a unit. A named delta is a change
+  the restructure's own record declared for that chunk in advance.
+
+  Produce the comparison this way. Build the word-token multiset of the old text and of the new. Set
+  aside the named deltas, and compare the two. Do the same for the punctuation multiset, since
+  word-token identity alone passes a reflow that moved punctuation. No script ships with this skill
+  for it, so the comparison is produced with whatever the project has to hand;
 - the full test suite green on the merged tree;
 - a full review pass on both sides, whose blocking set is scoped to the delta.
 
@@ -365,6 +397,9 @@ did not create.
 
 The pass reads the old tree and the merged tree. A finding present on both is pre-existing, and a
 finding new to the merged side is delta-scoped and blocks.
+
+This gate runs where both sides are in reach. A document handed over on its own carries no old side.
+The gate then stands down by name, and the pass reads the document as it stands.
 
 The token-identity part applies to a restructure meant to preserve content. A deliberate redesign
 changes content by intent, so its merge stands on the green suite and the delta-scoped review pass,
@@ -391,7 +426,10 @@ Check:
   say that in one line, mark every finding on the already-built parts conditional, and review the
   document as written.
 - **Is the input an architecture document?** That is valid input, and the review runs with the
-  **architecture lens**. It holds seven checks, each judged at the project's own scale:
+  **architecture lens**. It holds seven checks, each judged at the scale the project's own kind sets.
+  The kinds are a book, a backend service, a static site, a fullstack app, a command-line tool, and a
+  skill pack. The project states which one it is. The kind decides the form each check can demand,
+  so a skill pack and a backend service answer the placement check differently. The seven checks:
   - Every fact the requirements document states is owned by exactly one node.
   - No node stands without backing in the requirements. A node with one caller and no promised second
     is flagged as speculative, and it waits for an answer: a named plan that turns it into a yes, or
@@ -618,9 +656,11 @@ Five short blocks:
    where everything stated holds and a consistency or quality gain is on offer. List them so the
    author weighs each one, apart from the defects that get applied first.
 5. On a full review only: the count of provisional-default sentences accumulated in the document,
-   with the oldest 5 listed for a judgment call. Every lens may close on a provisional default, and
-   nothing else ever sweeps them. A document without this line can converge to a majority of
-   unratified defaults while every pass stays green.
+   with the oldest 5 listed for a judgment call. A provisional-default mark carries no date, so read
+   oldest as document order: the five marks standing earliest in the document. Every lens may close
+   on a provisional default, and nothing else ever sweeps them. Without this line, most of a
+   document's sentences can end up as values nobody approved, while every review still reports no
+   findings.
 
 Where it helps clarity, render a coverage tree as a real visual diagram. Skip it where the textual
 summary already conveys the picture.
@@ -642,7 +682,8 @@ significant rework.
 - A concrete proposed action every time. A question is the last resort.
 - Hidden gaps in main findings, acknowledged gaps in Phase 3.5.
 - Concreteness test: actor, trigger, failure mode, observable outcome, at least three of the four.
-  Action test: a specific artifact or decision, and none of the banned vague verbs.
+  Action test: a specific artifact or decision, and none of the vague verbs banned in "How to write
+  findings".
 - When the document is too vague for a concrete consequence, raise "the spec needs to state X"
   instead, and leave every vague consequence unwritten.
 - Each finding part is one or two sentences.
@@ -666,7 +707,8 @@ The record opens by naming the version of this skill that ran the pass. A later 
 whether a "recently reviewed" document was reviewed under the current lens set or an older one. A
 review method that grew a lens re-arms the full pass over documents proven under the older set.
 
-A full review pass's record carries the mandatory-sweep verdict table beside the findings.
+A full review pass's record carries the mandatory-sweep verdict table beside the findings, in the
+shape Phase 3e states.
 
 Where the project runs other review passes that also write dated records, give them all one shared
 shape, so a later reader reads each pass's outcome the same way. Records written before that shape

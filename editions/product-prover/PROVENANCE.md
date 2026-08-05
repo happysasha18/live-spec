@@ -24,6 +24,7 @@ landed" names one of them.
 | INV-29 | Before a feature is written up, walk its journey seams against the existing document and close what is derivable. | SKILL.md, the feature-fit review mode. |
 | INV-30 | Verification walks the product as a visitor would, and a question only the decision-owner can answer is surfaced to them. | SKILL.md and stress-lenses, wherever a question is surfaced to "the person who owns the decision". |
 | INV-31 | A taste default is taken without asking, reported in plain words, marked as a default, and never re-confirmed. | SKILL.md word list; stress-lenses, the named-part ask and unwritten seams. |
+| INV-36 | Each project declares its kind, and that kind sets the scale at which the architecture checks are judged. | SKILL.md, Phase 0 architecture lens, the list of kinds. |
 | INV-37 | Each item is classified at intake and routed to the home that owns it: a new feature, a changed feature, or a restructure. | stress-lenses, three-source disagreement: each of the three shapes routes to its own home. |
 | INV-39 | A landing commit carries one item's delta and runs the full suite on a clean tree. | SKILL.md, reviewing a rewrite before it merges: "the full test suite green on the merged tree". |
 | INV-41 | Every measurable quality budget names its watcher, the mechanical check that fails past the number, or a decided sentence naming why a person reads it by eye. | SKILL.md, Phase 0 architecture lens, budget check. |
@@ -75,4 +76,5 @@ landed" names one of them.
 | Code | Why it is absent |
 |---|---|
 | INV-233's counter script | The original names a script in its own repository that counts nodes per file and fails on any increase. This edition states the count and the ceiling as something the reviewer records, since no script travels with the skill. |
+| The queued token-comparison script | The original names a row on its own backlog holding the wish for a script that produces the token comparison. No script ships either way, so this edition states the comparison as work the reviewer produces by hand. |
 | T-16 | Cited by the neighbouring publish and base skills rather than by this one. It classifies each work item as product, infra, skill, or prose, and this review needs no such classification. |

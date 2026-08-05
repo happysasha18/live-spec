@@ -25,9 +25,16 @@ forbidden.
 
 Read the document's declared-laws section. That is the one place naming the laws that cut across
 every surface: measurement, accessibility, error handling, a register of language. Each declared law
-carries the three demands below, and an unmet demand is a broken-invariant finding. A document with
-no place where its cross-cutting laws are declared earns one finding naming that, and the per-law
-walk starts once that section exists.
+carries the three demands below, and an unmet demand is a broken-invariant finding.
+
+Recognize that section by what it holds, since no heading is prescribed for it. It is one section of
+the document under review listing the laws that hold everywhere, each named beside the thing that
+catches a violation. Any of these is that section: one headed "Cross-cutting requirements", one
+headed "Global rules", or a requirement declaring three such laws with their gates. Read for that
+content rather than for a title.
+
+A document with no place where its cross-cutting laws are declared earns one finding naming that, and
+the per-law walk starts once that section exists.
 
 Where the document's author writes each section's clause as they go, this sweep audits the clause the
 author already wrote.
@@ -84,8 +91,10 @@ case. Five checks:
 
 A clause sometimes states a policy for an interaction kind that lives on several sibling surfaces: a
 gesture policy such as "browser pinch-zoom is refused", an affordance, an input-to-action mapping.
-For such a clause, enumerate the surfaces of that kind from the document's own list of surfaces. Then
-check whether the clause governs every one of them, or only the surface where the decision was born.
+For such a clause, enumerate the surfaces of that kind from the project's surface registry, the one
+list it keeps of its user-facing surfaces. Then check whether the clause governs every one of them,
+or only the surface where the decision was born. Where the project keeps no such list, this sweep
+takes an N/A verdict naming that as its reason. The verdict still goes in the record.
 
 A policy written for a single surface while siblings of the same kind exist is a finding. The clause
 should name the surface class and enumerate its members, so the policy holds uniformly. This catches
