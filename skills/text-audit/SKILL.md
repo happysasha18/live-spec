@@ -153,6 +153,10 @@ when both readers of a round return zero blocking findings, in two consecutive r
     - carry every stop into one ordered list: the stops found by both first, then the remaining
       blocking stops, then the non-blocking ones.
 
+   Before step 4 begins, the auditor checks each stop's factual claims against the sources that stop
+   cites, and cuts what no source holds. That check is refutation, and the auditor runs it or hands it
+   to a second worker told to knock each stop down.
+
    That merged list is what step 4 repairs, and the reading record carries it whole.
 4. **Write each fix from the source.** For a blocking finding, take the fix from the material the text
    already rests on. "Where a fix comes from" holds the rules. A non-blocking finding waits: it
@@ -191,9 +195,10 @@ those lines cannot break a requirement a hundred lines away.
 A spec section stands on the spec-body surface. Four things differ there from the human-prose run that
 the sections above describe.
 
-**The requirement-shape lint applies here.** It is the mechanical lint only a spec section runs:
-`python3 guardrails/check-requirement-shape.py FILE`. It reads three things nobody would ask of a
-README. Context comes before criteria. Each criterion carries one trigger and one response. Every
+**The requirement-shape lint applies here.** It is one of the three lints only a spec section runs:
+`python3 guardrails/check-requirement-shape.py FILE`. The vocabulary lint and the weak-word lint are
+the other two, and "The mechanical lints" names what each of the three reads. This lint reads three
+things nobody would ask of a README. Context comes before criteria. Each criterion carries one trigger and one response. Every
 judgment names a judge and a measure.
 
 **A criterion and the prose around it take different rules.** A numbered acceptance criterion writes in
