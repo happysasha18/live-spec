@@ -181,6 +181,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 - **publish gate** — the human's own gate over anything irreversible or outward, which the publish checklist runs ahead of.
 - **published contract** — a surface in a producer agent's own spec, paired with a machine-readable artifact at the path the producer's card names, stating the version it was generated under and the moment it was generated, that another agent reads on its own clock.
 - **push gate** — the ordered chain of nets that runs before a push to the pack's repository and blocks the push on any red. Each net in the chain carries a letter.
+- **push review record** — one dated file under `docs/push-review/` recording the adversarial review of the change a push sends. It names the commits it covered, the files it read, the checks it ran, and its findings. The push gate reads that a committed record covering the pushed range exists and stands no older than those commits.
 - **queue archive** — the dated directory `docs/queue-archive/` holding every roadmap row that has left the queue's body at a terminal exit, kept verbatim with its delivery report and grepable by its number; one archive file gathers one calendar month's moved rows, and a manifest line above the body points at each.
 - **queue-take** — the moment a session reads the queue's runnable head to plan the next work, building its dependency graph before opening any lane.
 - **ratchet manifest** — the host record that pins the pack version each vendored gate script came from.
@@ -7415,6 +7416,54 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 9. *when* a skill is refused, the sync *shall* run on to the remaining mirrors and *shall* record the skip in its summary. [INV-303]
 10. The publish source of one skill *shall* be readable on its own, through a flag that reaches no repository. [INV-303]
 
+---
+
+## Requirement 305: A push carries an adversarial review of the change it sends
+
+**Context:** A change can pass every test and still be wrong in ways no test asks about. A reviewer briefed to find reasons to refuse a change reads it differently from a reviewer set on confirming it. So a push carries such a review of the very commits it sends, and the review leaves a record behind it.
+
+**User Story:** As a maintainer preparing a push, I want an adversarial review of the delta on record, so that a missed defect is caught.
+
+### Acceptance Criteria
+
+**Case: the push carries a fresh adversarial review**
+
+1. *when* a push is about to send commits, the system *shall* require a committed push review record covering that delta. [INV-304]
+   - the reviewer is briefed to find reasons the change should be refused;
+   - the reviewer holds the change defective until it has evidence otherwise;
+   - a review set on confirming the change leaves this requirement unmet.
+2. The delta *shall* be every commit between the remote's head and the local head, read together with the work still uncommitted. [INV-304]
+3. The system *shall* read the push range through the base ladder the prover-record gate uses. [INV-304, INV-116]
+   - the first rung is the base the caller declares;
+   - the second rung is the remote's main branch;
+   - the third rung is the previous commit, and the first rung that resolves gives the base.
+
+**Case: the record states what the review examined**
+
+4. The record *shall* be one dated file under `docs/push-review/`, committed before the push. [INV-304, INV-156]
+5. The record *shall* name the commits it covers, the files it read, and the checks it ran. [INV-304]
+6. The record *shall* state its findings, and a review that found nothing *shall* state what it examined. [INV-304]
+   - the absence of findings then rests on the coverage the record states, rather than on silence.
+
+**Case: a record covering another range covers nothing**
+
+7. *if* a record names a range other than the pushed one, *then* the system *shall* read that record as covering nothing. [INV-304]
+8. *when* the newest record stands older than the newest commit in the pushed range, the system *shall* red and name both commits. [INV-304, INV-116]
+   - a commit carrying the record alone is exempt from the naming rule, since a record cannot name the commit that first ships it.
+
+**Case: a blocking finding holds the push**
+
+9. *while* a blocking finding on the record stands open, the system *shall* hold the push. [INV-304]
+10. *when* a blocking finding is closed, or the record states why it stands, the system *shall* let the push through. [INV-304]
+
+**Case: what the check holds, and what it leaves to the reviewer**
+
+11. The check *shall* hold the record's presence, its commit, its freshness, its named range, and its fields. [INV-304]
+12. The check *shall* leave to the reviewer the judgment of whether the review was adversarial. [INV-304]
+    - no script decides whether a reviewer set out to refuse the change;
+    - no script decides whether the files the record names were read;
+    - the record's named commits, files, checks and findings are the pressure a machine can apply.
+
 
 ## Reference
 
@@ -7594,7 +7643,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-113 | R120.1, R120.2, R184.4, R214.1, R244.5 |
 | INV-114 | R60.4, R150.2, R183.6, R184.1, R184.2, R184.3, R184.4, R184.5 |
 | INV-115 | R130.5, R131.1 |
-| INV-116 | R130.1, R131.1, R141.1, R215.2, R242.2 |
+| INV-116 | R130.1, R131.1, R141.1, R215.2, R242.2, R305.3, R305.8 |
 | INV-117 | R77.3, R77.4, R79.1, R79.2, R79.3, R84.2, R89.4, R90.5, R303.16, R303.32, R303.33, R196.12, R251.6, R252.2, R255.1 |
 | INV-118 | R149.1, R149.2, R149.3, R151.4 |
 | INV-119 | R187.11, R187.13 |
@@ -7634,7 +7683,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-153 | R56.1, R56.2, R56.3, R56.4, R191.10, R195.10, R196.4 |
 | INV-154 | R70.1, R70.2, R70.3, R70.4, R70.5, R130.2 |
 | INV-155 | R112.1, R112.2, R112.3, R112.4, R112.5, R114.3, R162.2, R212.4 |
-| INV-156 | R67.2, R68.1, R68.2, R68.3, R68.4, R116.2 |
+| INV-156 | R67.2, R68.1, R68.2, R68.3, R68.4, R116.2, R305.4 |
 | INV-157 | R114.1, R114.2, R114.3, R114.4, R114.5, R114.6, R114.7, R114.8, R115.3, R116.3, R117.1, R234.4, R236.4, R272.1 |
 | INV-158 | R115.1, R115.2, R115.3, R116.3, R267.2 |
 | INV-159 | R44.3, R47.5, R48.1, R48.2, R48.3, R48.4, R57.4, R68.4, R76.4, R88.2, R104.5, R116.3, R121.5, R122.3, R123.4, R124.4, R188.14, R193.12, R209.2, R262.4, R265.14, R266.4, R266.9, R267.6, R275.6 |
@@ -7782,6 +7831,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-301 | R302.1, R302.2, R302.3, R302.4, R302.5, R302.6, R302.7, R302.8, R302.9, R302.10, R302.11, R302.12, R302.13, R302.14, R302.15, R302.16 |
 | INV-302 | R303.1, R303.2, R303.3, R303.4, R303.5, R303.6, R303.7, R303.8, R303.9, R303.10, R303.11, R303.12, R303.13, R303.14, R303.15, R303.16, R303.17, R303.18, R303.19, R303.20, R303.21, R303.22, R303.23, R303.24, R303.25, R303.26, R303.27, R303.28, R303.29, R303.30, R303.31, R303.32, R303.33, R303.34, R303.35, R303.36, R303.37, R303.38 |
 | INV-303 | R304.1, R304.2, R304.3, R304.4, R304.5, R304.6, R304.7, R304.8, R304.9, R304.10 |
+| INV-304 | R305.1, R305.2, R305.3, R305.4, R305.5, R305.6, R305.7, R305.8, R305.9, R305.10, R305.11, R305.12 |
 | M-1 | R49.2, R80.7, R80.8, R92.2, R130.1, R130.2, R130.3, R130.4, R130.5, R130.6, R130.7, R130.8, R130.9, R164.4, R166.3, R166.8, R198.6, R249.2 |
 | M-2 | R14.3, R125.1, R125.2, R125.3, R303.13, R177.12, R204.3 |
 | M-3 | R136.1 |

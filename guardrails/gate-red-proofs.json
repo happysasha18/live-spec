@@ -108,6 +108,10 @@
     "ab": {
       "proof": "tests/test_handover_provenance.py::test_a_handover_with_no_provenance_reds",
       "reds": "check-handover-provenance"
+    },
+    "ac": {
+      "proof": "tests/test_push_review.py::test_range_with_no_record_reds",
+      "reds": "check-push-review"
     }
   },
   "covered": {

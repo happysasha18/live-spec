@@ -105,6 +105,14 @@ jobs:
         run: python3 guardrails/check-doc-findings-bound.py
       - name: gate ab — handover provenance (a session handover names the transcript, the extract and the agent that wrote it, SPEC INV-302)
         run: python3 guardrails/check-handover-provenance.py
+      - name: gate ac — push review (a push carries an adversarial review of the change it sends, SPEC INV-304)
+        # The range arm reads the pushed delta against the state the remote already holds, the same
+        # base ladder gate aa uses. github.event.before is the pre-push SHA on a push; on a pull
+        # request it is empty and the arm falls back to origin/main, which the fetch-depth-0 checkout
+        # above carries.
+        env:
+          LIVE_SPEC_DIFF_BASE: ${{ github.event.before }}
+        run: guardrails/check-push-review.sh
 
   # After the gates pass on a real push to main, sync the standalone mirror repos from the
   # pack — the durable, cross-machine arm of the same job the local pre-push hook does (the

@@ -72,6 +72,7 @@ RECORD_DIRS = (
     "attic", "prototype", "nonexistent-home", "nonexistent-ci-home",
     "docs/attic", "docs/queue-archive", "docs/language-reads", "docs/prover", "docs/audit",
     "docs/design-review", "docs/evals", "docs/skill-review", "docs/reports", "docs/handovers",
+    "docs/push-review",
     "docs/measure", "docs/gate-audit", "docs/briefs", "docs/design", "docs/research",
     "guardrails/board-fixtures", "guardrails/authority-anchor-fixtures", "tests/fixtures",
     "scaffold", "evals", ".git",

@@ -240,6 +240,12 @@ if ! python3 "$GUARDRAILS/check-handover-provenance.py"; then
 fi
 
 echo ""
+echo "-- gate ac: push review (the delta being pushed carries its fresh adversarial review record, SPEC INV-304) --"
+if ! "$GUARDRAILS/check-push-review.sh"; then
+  fail=1
+fi
+
+echo ""
 if [ "$fail" -ne 0 ]; then
   echo "PUSH BLOCKED — one or more gates above failed. Fix them and try again."
   exit 1
