@@ -26,3 +26,8 @@ base rule 10). Nothing here was deleted; a file that turns out to be needed is m
 - `docs/MEASUREMENTS.html` -> `attic/docs-MEASUREMENTS-2.html` * a rendered page whose reading is over: its source document stood beside it * 2026-08-05
 - `inbox/2026-08-05-from-tlvphotos-rotation-gate-reads-only-numbered-rows.md` -> `attic/inbox-2026-08-05-from-tlvphotos-rotation-gate-reads-only-numbered-rows.md` * a harvested inbox follow-up: its marker fix landed in the language gate the same day * 2026-08-05
 - `inbox/2026-08-05-from-tlvphotos-sweep-stale-local-servers-before-handing-over.md` -> `attic/inbox-2026-08-05-from-tlvphotos-sweep-stale-local-servers-before-handing-over.md` * a harvested inbox wish: it became queue row 542 * 2026-08-05
+- `inbox/2026-07-30-authoring-coverage-findings.md` -> `attic/inbox-2026-07-30-authoring-coverage-findings.md` * a harvested inbox message whose rows cite its items * 2026-08-05
+- `inbox/2026-07-30-communicator-source-findings.md` -> `attic/inbox-2026-07-30-communicator-source-findings.md` * a harvested inbox message whose rows cite its items * 2026-08-05
+- `inbox/2026-07-30-context-audit-from-fable.md` -> `attic/inbox-2026-07-30-context-audit-from-fable.md` * a harvested inbox message whose rows cite its items * 2026-08-05
+- `inbox/2026-07-30-live-spec-base-leftovers.md` -> `attic/inbox-2026-07-30-live-spec-base-leftovers.md` * a harvested inbox message whose rows cite its items * 2026-08-05
+- `inbox/2026-08-05-from-promoter-caps-lint-has-no-host-acronym-list.md` -> `attic/inbox-2026-08-05-from-promoter-caps-lint-has-no-host-acronym-list.md` * a harvested inbox wish: it became queue row 544 * 2026-08-05
