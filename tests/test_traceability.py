@@ -1992,7 +1992,7 @@ class TestProblemLedger(unittest.TestCase):
     def test_narration_three_teeth(self):
         """Row 139 (M-124, INV-35 grown): identity — every beat names the wish and
         station in hand; digest — a station's completion is a beat digesting what the
-        station produced (a worker-closed station is the senior's beat); heartbeat — a
+        step produced (a worker-closed step is the senior's beat); heartbeat — a
         beatless stretch past ~10 minutes [default] names what grinds. Both homes carry
         the teeth; digests never speak in counters (INV-28 seam)."""
         spec = re.sub(r"\s+", " ", read("PRODUCT_SPEC.md"))
@@ -2018,9 +2018,9 @@ class TestProblemLedger(unittest.TestCase):
             self.assertIn(needle, spec, "SPEC missing: %s" % needle)
         comm = re.sub(r"\s+", " ", read(os.path.join("skills", "communicator", "SKILL.md")))
         for needle in ("Identity", "Digest", "Heartbeat",
-                       "which wish is in hand and which station it stands at",
-                       "digests what the station produced",
-                       "worker-closed station becomes the senior's beat",
+                       "which wish is in hand and which step it stands at",
+                       "digests what the step produced",
+                       "worker-closed step becomes the senior's beat",
                        "beatless stretch past ~10 minutes owes its heartbeat [default]",
                        "never a test count"):
             self.assertIn(needle, comm, "communicator missing: %s" % needle)

@@ -79,15 +79,15 @@ The timing question: at which moments the agent shows work, echoes a wish, or na
     sentences in the roadmap's terms (which wish is in hand, what it gives, what just moved), the same
     voice as the reports. Six teeth, listed below, so the trail accounts for where the session's time went (his
     third ask in the family, 2026-07-06 evening — the delivery reports were good, the mid-work trail thin):
-    - **Identity** — every beat names which wish is in hand and which station it stands at (outside the
+    - **Identity** — every beat names which wish is in hand and which step it stands at (outside the
       pipeline — research, a harvest, a docs sweep — the work's own name serves), and whether it mends
       something broken or builds something new; a reader dropping in mid-session can tell what is being
       worked without scrolling back.
-    - **Digest** — a station's completion is itself a beat: its line digests what the station produced
+    - **Digest** — a step's completion is itself a beat: its line digests what the step produced
       in the work's own words — spec → what the delta promises · architecture → the shape and what
       changed structurally · tests → what is now covered · code → what now works — two-three plain
       sentences, never the artifact pasted, never a test count or token tally doing the talking (rule 8's
-      never-list binds digests too). A worker-closed station becomes the senior's beat the moment its
+      never-list binds digests too). A worker-closed step becomes the senior's beat the moment its
       result lands.
     - **Heartbeat** — a long grind (a big suite, a worker batch, a long render) gets a line naming what
       grinds and roughly why it takes long; a beatless stretch past ~10 minutes owes its heartbeat
