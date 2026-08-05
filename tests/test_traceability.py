@@ -1799,7 +1799,7 @@ class TestProblemLedger(unittest.TestCase):
 
     def test_capture_echo_and_board(self):
         """Row 105 (M-111/M-112, INV-27): every intake is echoed back in one sentence;
-        every status report names each in-flight feature's pipeline station."""
+        every status report names each in-flight feature's pipeline step."""
         spec = read_flat("PRODUCT_SPEC.md")
         for needle in ("INV-27", "echo", "status report"):  # register-invariant terms + anchor
             self.assertIn(needle, spec)
@@ -1975,7 +1975,7 @@ class TestProblemLedger(unittest.TestCase):
                        "the one surface present in every setting",
                        # re-pinned (this unit's own Requirement 29 criterion 2, R29.2): the old
                        # standalone "[INV-71]" bracket is now always co-cited with a sibling code;
-                       # the refresh-at-every-station-change fact itself survives verbatim below
+                       # the refresh-at-every-step-change fact itself survives verbatim below
                        "The system *shall* refresh the status at every stage change",
                        "every project the pack runs"):
             self.assertIn(needle, spec, "SPEC INV-71 lost: %s" % needle)
@@ -1991,7 +1991,7 @@ class TestProblemLedger(unittest.TestCase):
 
     def test_narration_three_teeth(self):
         """Row 139 (M-124, INV-35 grown): identity — every beat names the wish and
-        station in hand; digest — a station's completion is a beat digesting what the
+        step in hand; digest — a step's completion is a beat digesting what the
         step produced (a worker-closed step is the senior's beat); heartbeat — a
         beatless stretch past ~10 minutes [default] names what grinds. Both homes carry
         the teeth; digests never speak in counters (INV-28 seam)."""

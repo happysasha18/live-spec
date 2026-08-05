@@ -1,7 +1,7 @@
 """The chat laws' mechanical voice (row 141, SPEC INV-28 delivery).
 
 The language law (plain words talk, codes only trail) and the narration law
-(beats name wish+station, station ends digest, long silence owes a heartbeat)
+(beats name wish+step, step ends digest, long silence owes a heartbeat)
 live in skills a window may never load — so a prompt hook injects a one-line
 reminder into every prompt on the working machine. The skills stay the laws'
 homes; the hook only reminds. This test proves the script on disk, the line it
@@ -38,7 +38,7 @@ class TestChatLawHookScript(unittest.TestCase):
                                              # lint's coinage arm retired the phrase "pipeline
                                              # station"; the duty is the same — every beat names
                                              # the step of the pipeline the work stands at)
-            "digest",                        # station-end digest
+            "digest",                        # step-end digest
             "10 minutes",                    # the heartbeat threshold
         ):
             self.assertIn(needle, out, "law line missing: %r" % needle)
