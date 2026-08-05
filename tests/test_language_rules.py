@@ -55,6 +55,17 @@ def checkers_of(rule):
     return out
 
 
+def gate_module():
+    """The gate module, loaded from the repository copy — the same load
+    `guardrails/check-language-rules.py` does of the generator, done here of the gate itself so its
+    block-drift arm can be driven directly on a fixture root without touching the real source tree."""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("check_language_rules_under_test", GATE)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
 def judge_core():
     """The judge module, loaded from the repository copy."""
     import importlib.util
@@ -291,6 +302,71 @@ class TestGateRedProofs(unittest.TestCase):
             self.assertEqual(record["severity"], "error")
             self.assertEqual(record["code"], "language-rules")
             self.assertIn("gen-language-consumers.py", record["fix"])
+
+
+class TestBlockDriftReadsEveryBlockAPageLends(unittest.TestCase):
+    """`docs/language-defects.md` lends the generator two blocks: `generated:vocabulary` and
+    `generated:rule-home-totals`. The block-drift arm must hold both, not just the first one it
+    meets, so a hand edit inside the second block reds exactly as one inside the first does.
+
+    Driven directly against `check_block_drift`, on a fixture root carrying an unmodified copy of the
+    real page, so a corruption of one block alone proves the arm without touching the real page in
+    the source tree.
+    """
+
+    RECORD_REL = os.path.join("docs", "language-defects.md")
+
+    def _fixture_root(self, tmp, corrupt_block=None):
+        """A fixture root holding a copy of the real record page, its named block corrupted."""
+        text = read(os.path.join(ROOT, self.RECORD_REL))
+        if corrupt_block:
+            check = gate_module()
+            gen = check._load_generator()
+            opener = gen.block_open(corrupt_block)
+            closer = gen.block_close(corrupt_block)
+            start = text.find(opener) + len(opener)
+            end = text.find(closer)
+            self.assertGreater(end, start, "the real page carries no %s block to corrupt" % corrupt_block)
+            text = text[:start] + "\n\nA sentence nobody generated.\n\n" + text[end:]
+        dest = os.path.join(tmp, self.RECORD_REL)
+        os.makedirs(os.path.dirname(dest), exist_ok=True)
+        with open(dest, "w", encoding="utf-8") as f:
+            f.write(text)
+
+    def test_reds_a_drift_seeded_only_in_the_second_block(self):
+        # The first block (vocabulary) stands untouched; only the second (rule-home-totals) drifts.
+        # Before the loop covered every block a page lends, this drift was never read.
+        check = gate_module()
+        gen = check._load_generator()
+        with tempfile.TemporaryDirectory() as tmp:
+            self._fixture_root(tmp, corrupt_block="rule-home-totals")
+            problems = check.check_block_drift(gen, source_data(), tmp)
+            self.assertTrue(problems, "a hand edit inside the second block a page lends passed unread")
+            self.assertTrue(any("rule-home-totals" in p for p in problems),
+                            "the red does not name the block that drifted:\n%s" % problems)
+
+    def test_reds_a_drift_seeded_in_the_first_block_too(self):
+        # The arm's existing coverage of the first block must survive the change.
+        check = gate_module()
+        gen = check._load_generator()
+        with tempfile.TemporaryDirectory() as tmp:
+            self._fixture_root(tmp, corrupt_block="vocabulary")
+            problems = check.check_block_drift(gen, source_data(), tmp)
+            self.assertTrue(problems, "a hand edit inside the first block a page lends passed unread")
+            self.assertTrue(any("vocabulary" in p for p in problems),
+                            "the red does not name the block that drifted:\n%s" % problems)
+
+    def test_stays_silent_on_an_uncorrupted_fixture_root(self):
+        # The fixture root carries only the record page, so the arm's other spliced pages (absent
+        # here) rightly red as missing; this test reads only the record page's own two blocks.
+        check = gate_module()
+        gen = check._load_generator()
+        with tempfile.TemporaryDirectory() as tmp:
+            self._fixture_root(tmp)
+            problems = check.check_block_drift(gen, source_data(), tmp)
+            on_record = [p for p in problems if self.RECORD_REL in p]
+            self.assertEqual(on_record, [],
+                             "the arm red an unmodified copy of the real page:\n%s" % on_record)
 
 
 class TestASourcePinUnderTheReadersOwnTree(unittest.TestCase):

@@ -259,37 +259,43 @@ def check_drift(gen, data, artifacts):
 
 
 def check_block_drift(gen, data, root):
-    """The spliced blocks inside hand-written pages, against a fresh build.
+    """Every spliced block inside hand-written pages, against a fresh build.
 
-    A spliced page keeps its own prose and lends the generator one marked block. The page itself is
-    never compared; only what stands between the markers is, so a hand edit to the block reds and a
-    hand edit to the prose around it does not.
+    A spliced page keeps its own prose and lends the generator one or more marked blocks. The page
+    itself is never compared; only what stands between each block's own markers is, so a hand edit to
+    a block reds and a hand edit to the prose around it does not. A page lending a second block (a
+    page in `gen.SECOND_SPLICED` beside `gen.SPLICED`) is read for both — one loop per block the page
+    carries, not one loop per page, since a page's second block drifting between runs must read the
+    same as its first.
     """
     problems = []
     try:
-        blocks = gen.build_blocks(data)
+        pages = gen.page_blocks(data)
     except gen.BuildError as e:
         return ["the spliced blocks refuse to build off this source: %s" % e]
-    for rel, block in blocks.items():
+    for rel, blocks in pages.items():
         path = os.path.join(root, rel)
         text = read_text(path)
         if text is None:
-            problems.append("%s is absent at %s, so the block it lends the generator has nowhere to "
-                            "stand." % (rel, path))
+            problems.append("%s is absent at %s, so the block(s) it lends the generator have nowhere "
+                            "to stand." % (rel, path))
             continue
-        opener = gen.block_open(gen.SPLICED[rel])
-        closer = gen.block_close(gen.SPLICED[rel])
-        start = text.find(opener)
-        end = text.find(closer)
-        if start < 0 or end < 0 or end < start:
-            problems.append("%s has lost its generated-block markers, so what it shows a reader answers "
-                            "to nothing; restore the marker pair and rebuild." % rel)
-            continue
-        standing = text[start + len(opener):end].strip("\n")
-        if standing != block:
-            problems.append("the block between the generated-block markers in %s differs from a fresh "
-                            "build off the current source — that block is generated, never hand-kept; "
-                            "rebuild it with scripts/gen-language-consumers.py." % rel)
+        for name, block in blocks:
+            opener = gen.block_open(name)
+            closer = gen.block_close(name)
+            start = text.find(opener)
+            end = text.find(closer)
+            if start < 0 or end < 0 or end < start:
+                problems.append("%s has lost its `%s` generated-block markers, so what it shows a "
+                                "reader answers to nothing; restore the marker pair and rebuild."
+                                % (rel, name))
+                continue
+            standing = text[start + len(opener):end].strip("\n")
+            if standing != block:
+                problems.append("the `%s` block between the generated-block markers in %s differs from "
+                                "a fresh build off the current source — that block is generated, never "
+                                "hand-kept; rebuild it with scripts/gen-language-consumers.py."
+                                % (name, rel))
     return problems
 
 
