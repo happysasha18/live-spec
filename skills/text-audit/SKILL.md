@@ -48,8 +48,10 @@ Those readers found new blocking terms on every pass, and the terms already repa
 The findings reached zero only after two reads in a row returned nothing that blocks. Every reading is
 written to a dated **reading record** under `docs/language-reads/`, and by hand that record sits beside
 the audited text. The reading record holds one reading's full output: every stop it reported and any
-check that did not run. `docs/language-defects.md` holds a narrower list — the places only one of the
-two readers found, which block nothing. This skill packages that loop for any text.
+check that did not run. `docs/language-defects.md` holds a narrower list: the places only one of the
+two readers found. A stop one reader found alone still blocks when it meets that test. Step 3 of
+"The loop" orders those blocking stops after the stops both readers found. This skill packages that
+loop for any text.
 
 ## The roles and the words this skill uses
 
@@ -162,9 +164,11 @@ when both readers of a round return zero blocking findings, in two consecutive r
 
    **A repair writes text nobody has read.** Both readers of round one met the text as it stood before
    the fixes. Whatever the repair wrote is unread, and a definition written to close a finding carries
-   its own claims. On 2026-08-05 a separate review of one repaired skill found four defects inside
-   the repair's own new sections. One was a false claim about where every path resolves. Neither cold
-   reader could have caught them, because neither ever saw those sentences.
+   its own claims. On 2026-08-05 a separate review of the repaired `live-spec-base` skill found four
+   defects inside the repair's own new sections
+   (`docs/skill-review/2026-08-05-live-spec-base-readability.md`). Three of them blocked. One was a
+   false claim about where every path in that file resolves. Neither cold reader could have caught
+   them, because neither ever saw those sentences.
 
    So round two reads the repaired text, and it is the round that earns the closing. An audit stopped
    after round one has repaired the text a reader met and shipped the text nobody met. Say so in the
@@ -275,8 +279,9 @@ its input set as empty. That refusal is the honest answer, and it is the answer 
 
 On those surfaces the class stays with the grep fallback and with the cold reader. Record the
 refusal in the reading record and move on. Editing a script or a document to make one of them pass
-is out of bounds. A run over ten documents met four such refusals on 2026-08-05 and read them as
-coverage.
+is out of bounds. A run over ten documents met four such refusals on 2026-08-05 and recorded them as
+coverage (`docs/skill-review/2026-08-05-audit-skill-names-its-spec-only-lints.md`). That run made the
+mistake this paragraph forbids. A refusal recorded as coverage leaves its class with no owner.
 
 - **Every term is defined at first use.** Every domain noun the text uses carries a one-sentence
   definition, and the reader meets it before the noun's first working use. A domain noun is one whose
@@ -305,11 +310,12 @@ coverage.
 - **Style and register.** A sentence past the cap for its surface is a hit. A human-prose sentence aims
   at the band of 15 to 25 words. No word stands in capitals for emphasis, though an acronym and a code
   identifier pass. No sentence names a thing by denying its neighbour, and no adjective grades a
-  result's size.
+  result's size. The banned shape reads `a spec, not a plan`, where the denied half hands the reader
+  nothing. A contrast between two things the reader already holds passes.
     - Scripts: `python3 scripts/spec-style-lint.py FILE` for a spec section, and `python3
       scripts/preshow-register-lint.py FILE` for any human-facing surface.
-    - Grep fallback: read for those four classes by hand. The last one shows up as *big*, *huge*, *minor*,
-      or *breakthrough*.
+    - Grep fallback: read for those four classes by hand. The neighbour-denying one shows up as *not*
+      after a comma or a dash. The last one shows up as *big*, *huge*, *minor*, or *breakthrough*.
 - **One name per thing.** No named thing appears under two names: a file, a script, a command, or a
   concept.
     - Script: `python3 guardrails/check-one-name.py FILE`.
@@ -321,7 +327,7 @@ already owns.
 ## The cold reader
 
 Hand the text to two fresh sessions. One reads under
-[`references/reader-prompt.md`](references/reader-prompt.md), which prints 38 kinds of place to stop.
+[`references/reader-prompt.md`](references/reader-prompt.md), which prints 39 kinds of place to stop.
 One reads under [`references/unprompted-reader-brief.md`](references/unprompted-reader-brief.md),
 which prints none. Both passes run on every audit, whatever the budget allows. Two rules govern each
 pass.
@@ -349,7 +355,8 @@ on.
 ### What each reader is handed, and what each one brings back
 
 **The prompted reader** works under the printed rule list. In a measurement over three documents on
-2026-08-05, it alone caught local sentence mechanics. It found a pronoun with no antecedent, one word
+2026-08-05, recorded in `docs/skill-review/2026-08-05-audit-runs-two-readers.md`, it alone caught
+local sentence mechanics. It found a pronoun with no antecedent, one word
 carrying two meanings, a sentence with no actor, and an image with no referent. Every one of those is
 a readability problem.
 
@@ -372,23 +379,22 @@ them survived refutation.
 ### What the pass costs
 
 Both readers report stops that fall away when a second worker is told to knock them down. Over the
-three documents read on 2026-08-05:
+three documents read on 2026-08-05, whose figures stand in
+`docs/skill-review/2026-08-05-audit-runs-two-readers.md`:
 
 - the prompted reader reported 227 stops. 135 survived refutation and 36 blocked. 40.5% were thrown
   out.
 - the unprompted reader reported 128 stops. 87 survived refutation and 21 blocked. 32.0% were thrown
   out.
 
-One reading by the unprompted reader brings back about 26 stops per document, and one reading by the
-prompted reader about 45. The two together bring back about 71, so the work of judging them nearly
-triples. Between a third and two fifths of what comes back leads to no repair.
+The pair reported 355 stops across that run, of which 222 survived and 57 blocked. Against the
+unprompted reader alone, the pair brings back 2.8 times as many stops, so the work of judging them
+nearly triples. Between a third and two fifths of what comes back leads to no repair. That record
+states no per-document average, and it does not name the three documents. So this skill states no
+figure for one document.
 
-A second measurement on the same day read a publish candidate with three readers. It reported 53
-stops, of which 33 survived and 20 were thrown out. Nine blocking stops merged into six repairs. That
-run reproduced the split. The prompted reader alone caught a reversed sentence carrying the product's
-own argument, and the naming work across files. The unprompted readers alone caught the arithmetic
-error in the worked example. They also caught a sample path that resolves from one folder alone, and
-a dated file written into the reader's repository.
+A second measurement the same day read a publish candidate under both briefs, and it reproduced the
+split. That record states no counts for the second run, so this skill states none.
 
 ### The by-hand mode
 

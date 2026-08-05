@@ -370,6 +370,56 @@ found it.
 - the repair under `r64`, running its four items along one line — 25
 - "the harness task panel" and "pinned language", in the printed sheet — 25
 
+### The readings of the text-audit skill, 2026-08-05
+
+Readings thirty and thirty-one ran on `skills/text-audit/SKILL.md`, and both stand under
+`docs/language-reads/`. They returned 30 and 31 stops, eight blocking in each. The repair round closed
+the eight passages both readers stopped on and marked blocking. Every stop below stands, with the
+reading that found it.
+
+The stops one reading made alone:
+
+- "Part of the live-spec pack", with no word for what a pack obliges — 30
+- "Three roles run through this skill", against five bullets below — 30
+- "When it fires", where nothing above has been named an event — 30
+- "Those stops are the strongest", carrying no measure where it stands — 30
+- "It is the mechanical lint only a spec section runs", against three spec-only scripts — 30
+- "the three guarded documents match the frozen baseline", both terms unmet — 30
+- "The structure checks, third in the list", pointing by position — 30
+- "It measures the work once Step 5's two clean rounds close the audit" — 30
+- "Both passes run on every audit, whatever the budget allows" — 30
+- "every one of them survived refutation", a step the five steps never order — 30
+- "an image with no referent" — 30
+- "That run reproduced the split", with two splits standing nearby — 30
+- "records this file at zero findings", the census rule stated a second time — 30
+- "The loop closes when both readers of a round return zero blocking findings", a third statement — 30
+- "read a text as a stranger", against the cold reader named below it — 31
+- "the reader it is written for", a second sense of reader — 31
+- "The loop came from the comprehension gate on spec sections", the ground left unstated — 31
+- "a worker brief", named twice and never described — 31
+- "its clarity matters", carrying no measure and no judge — 31
+- "whatever writing skills the host installs beside the pack" — 31
+- "a checkpoint", absent from the six named surfaces — 31
+- "The plan chose that size for two reasons", the two never confirmed — 31
+- "A rewrite that moves one of them breaks a test", with four candidates for them — 31
+- "one architecture node with one spec fact and pin the test level that covers it" — 31
+- "The architecture document, the recorded decision, and the test matrix", met before the file is
+  named — 31
+- "a cold reader who puts the old text and the new text side by side", a task the role never carries — 31
+- "A count above the record fails, and the batch runs again", with no owner for the rerun — 31
+- "marker lines", never told apart from anchors — 31
+- "`docs/spec-style.md` states that separation", the separation left unstated — 31
+- "A passing run prints one line saying that the file is clean", with clean unmeasured — 31
+
+The stops both readings made, marked non-blocking:
+
+- "Four scopes settle a setting there" — 30, 31
+- "Those readers found new blocking terms on every pass" — 30, 31
+- "the cold reader is never either of them" — 30, 31
+- "25 words for a human-prose sentence, and 35 for a spec-body criterion" — 30, 31
+- "a handful of sentences" — 30, 31
+- "runs the census comparison over every live document" — 30, 31
+
 ## How a class becomes a rule
 
 One class shows up across many sentences, so repairing the one sentence in front of a reader leaves
