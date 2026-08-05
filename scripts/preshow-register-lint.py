@@ -156,8 +156,12 @@ def mask_quoted_source(text):
     return masked
 
 
+_PARAGRAPH_MARK = "¶"  # non-whitespace, non-word: breaks \s+ AND keeps \b working, so a match can
+                       # never cross it, unlike a plain space or a literal newline (\s matches both).
+
+
 def _flatten_with_line_map(text):
-    """Return the text with each whitespace run collapsed to one space, and a map from each
+    """Return the text with each whitespace run collapsed to one separator, and a map from each
     position in that flattened text back to its line number in the original.
 
     A coinage broken across a line break escapes a line-by-line scan entirely: "a pipeline\\n
@@ -165,24 +169,39 @@ def _flatten_with_line_map(text):
     `pipeline station` survived in skills/communicator/SKILL.md while this lint reported clean,
     and the commit that claimed to have removed it was wrong (caught 2026-08-05 by an adversarial
     review of the push). Prose wraps, so this is the ordinary case rather than a rare one.
+
+    Paragraph model: a whitespace run holding ONE newline is a soft wrap inside one paragraph and
+    collapses to a single space, so a phrase split across the wrap still joins and still reports.
+    A whitespace run holding TWO OR MORE newlines is a blank line — a PARAGRAPH boundary — and
+    collapses to `_PARAGRAPH_MARK` instead, a character no pattern's `\\s+` can cross. A phrase
+    broken across a paragraph boundary ("it drives the pipeline\\n\\nstation crews then arrive")
+    must NOT report — the two halves are not one phrase, they are two paragraphs that happen to
+    share a word pair — and collapsing that gap to a plain space instead of this mark is what
+    made it report as one coinage (caught 2026-08-05 by adversarial review of commit 83ebd2d).
     """
     out = []
     lines = []
     line_no = 1
-    prev_space = False
-    for ch in text:
+    i = 0
+    n = len(text)
+    while i < n:
+        ch = text[i]
         if ch.isspace():
-            if ch == "\n":
-                line_no += 1
-            if prev_space:
-                continue
-            out.append(" ")
-            lines.append(line_no)
-            prev_space = True
+            run_start_line = line_no + 1 if ch == "\n" else line_no
+            j = i
+            newline_count = 0
+            while j < n and text[j].isspace():
+                if text[j] == "\n":
+                    newline_count += 1
+                j += 1
+            out.append(_PARAGRAPH_MARK if newline_count >= 2 else " ")
+            lines.append(run_start_line)
+            line_no += newline_count
+            i = j
         else:
             out.append(ch)
             lines.append(line_no)
-            prev_space = False
+            i += 1
     return "".join(out), lines
 
 

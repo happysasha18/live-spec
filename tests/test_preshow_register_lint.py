@@ -177,7 +177,7 @@ def test_a_wrapped_hit_reports_the_line_it_starts_on():
     assert hits[0][0] == 2, "the reported line points at where the collocation begins"
 
 
-def test_the_same_coinage_on_one_line_is_still_reported_once(self=None):
+def test_the_same_coinage_on_one_line_is_still_reported_once():
     """The two passes must not both charge a hit that fits on a single line."""
     hits = lint.scan("it walks the pipeline station by itself")
     assert len(hits) == 1
@@ -197,3 +197,24 @@ def test_a_wrapped_hit_is_marked_as_wrapped_in_its_snippet():
     """The reader of the report needs to know why the line alone looks clean."""
     hits = lint.scan(_WRAPPED)
     assert hits[0][2].startswith("(wrapped) ")
+
+
+# ---- reach: a coinage broken across a PARAGRAPH boundary, not a soft wrap (2026-08-05) --------
+# The wrapped pass joined every whitespace run — including a blank line — into a single space, so
+# two words from two different paragraphs that happen to sit next to each other across the blank
+# line reported as one coinage. A blank line ends a paragraph; no match may cross it. This is a
+# false-positive fix, not a new leak class: the two halves below are two separate paragraphs, not
+# one broken phrase (caught 2026-08-05 by adversarial review of commit 83ebd2d).
+def test_a_word_pair_split_across_a_paragraph_boundary_is_not_reported():
+    text = "it drives the pipeline\n\nstation crews then arrive"
+    assert lint.scan(text) == [], (
+        "a blank line separates two paragraphs; the words either side must not join into a coinage")
+
+
+def test_a_coinage_split_across_a_soft_wrap_inside_one_paragraph_still_reports():
+    """The true positive stays true: a single blank-line-free wrap inside one paragraph still
+    joins and still reds — only a PARAGRAPH boundary (a blank line) is exempt."""
+    text = "it drives the pipeline\nstation crews then arrive"
+    hits = lint.scan(text)
+    assert hits, "a coinage broken by a soft wrap inside one paragraph must still be caught"
+    assert hits[0][1] == "en-pipeline-station"
