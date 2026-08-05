@@ -226,8 +226,9 @@ third in the list, are four commands of their own:
 
 - the test suite, which pins exact phrases from the spec, so a dropped phrase fails a test. Run the
   audited project's own suite command, whatever it is;
-- a cold reader who puts the old text and the new text side by side and reports every difference in
-  meaning;
+- the meaning-check reader, who puts the old text and the new text side by side and reports every
+  difference in meaning. This reader holds both drafts, which a cold reader never does, and it works
+  the eight fields at [`references/rewrite-meaning-check.md`](references/rewrite-meaning-check.md);
 - the four structure checks, each one run from the repository root:
     - `python3 guardrails/check-requirement-shape.py PRODUCT_SPEC.md` — every requirement keeps its
       Context, its User Story, and its criteria in named cases;
@@ -241,8 +242,9 @@ third in the list, are four commands of their own:
   against the total recorded for the file in `guardrails/rule-census.json`. A count at the record or
   below it passes. A count above the record fails, and the batch runs again.
 
-Two of these four checks run anywhere: the project's own suite and the cold reader. The structure
-checks and the census need the live-spec scripts on disk, and the census needs its record there as well.
+Two of these four checks run anywhere: the project's own suite and the meaning-check reader. The
+structure checks and the census need the live-spec scripts on disk, and the census needs its record
+there as well.
 Where those are absent, run the first two checks, and write in the reading record that the other two did
 not run.
 
@@ -392,11 +394,17 @@ three documents read on 2026-08-05, whose figures stand in
 - the unprompted reader reported 128 stops. 87 survived refutation and 21 blocked. 32.0% were thrown
   out.
 
-The pair reported 355 stops across that run, of which 222 survived and 57 blocked. Against the
-unprompted reader alone, the pair brings back 2.8 times as many stops, so the work of judging them
-nearly triples. Between a third and two fifths of what comes back leads to no repair. That record
-states no per-document average, and it does not name the three documents. So this skill states no
-figure for one document.
+Adding the two lines above gives 355 stops, of which 222 survived and 57 blocked. That arithmetic is
+this skill's own, and the record prints none of the three sums. It also counts twice the roughly
+thirty passages both readers found, so the pair's distinct stops run nearer 325.
+
+This change replaced the prompted reader running alone, whose 227 stops are the baseline a reader
+carries. Against 227 the pair brings back about 1.56 times as many stops, so the judging work grows
+by about half. Between a third and two fifths of what comes back leads to no repair.
+
+That record quotes a per-document figure from an earlier draft of this skill, and no measurement
+stands behind it. It also names none of the three documents, so this skill states no figure for one
+document.
 
 A second measurement the same day read a publish candidate under both briefs, and it reproduced the
 split. That record states no counts for the second run, so this skill states none.
