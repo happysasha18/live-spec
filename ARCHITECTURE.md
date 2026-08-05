@@ -100,8 +100,8 @@ named here and in the matrix.
 - INV-150 · INV-167 · INV-168 · E-33 · INV-185 · INV-186 · INV-187 · INV-215
 
 **pins** —
-- `skills/spec-author/SKILL.md:154` (spine)
-- `skills/spec-author/SKILL.md:180` ([target] tag tripwire)
+- `skills/spec-author/SKILL.md:221` (spine)
+- `skills/spec-author/SKILL.md:247` ([target] tag tripwire)
 - `skills/spec-author/SKILL.md:374` (axes composition)
 - `skills/spec-author/SKILL.md:265` (fences)
 - `skills/spec-author/SKILL.md:280` (facet sweep — the canonical facet list)
