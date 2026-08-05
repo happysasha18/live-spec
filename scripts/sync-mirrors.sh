@@ -68,14 +68,25 @@ GITHUB_OWNER="happysasha18"
 # an edition exists it is what the mirror publishes, and skills/<skill>/ stays the copy this
 # project loads. The pack remains the single source of truth for both, so a hand edit made
 # directly on a mirror is still overwritten by the next sync.
+# An edition is only a publish source when it actually holds a skill. The copy step runs
+# `rsync --delete`, so a directory that exists and holds no SKILL.md would empty the public
+# repository and leave it shipping nothing, and both the attribution stamp and the language scan
+# return 0 on a missing file, so nothing downstream would notice. A directory standing there
+# without a SKILL.md is a half-made edition, and this refuses it by name rather than publishing
+# over a working mirror.
 publish_source_for() {
   local name="$1"
   local edition="$PACK_ROOT/editions/$name"
   if [ -d "$edition" ]; then
-    printf '%s\n' "$edition"
-  else
-    printf '%s\n' "$PACK_ROOT/skills/$name"
+    if [ -f "$edition/SKILL.md" ]; then
+      printf '%s\n' "$edition"
+      return 0
+    fi
+    echo "${name}: editions/${name}/ holds no SKILL.md, so it publishes nothing." >&2
+    echo "  Add the edition's SKILL.md, or remove the directory to publish skills/${name}/ again." >&2
+    return 3
   fi
+  printf '%s\n' "$PACK_ROOT/skills/$name"
 }
 
 # --print-publish-source NAME: print the directory this script would publish for one skill and
@@ -396,7 +407,11 @@ for skill_path in "$SKILLS_DIR"/*/; do
   # Replace the mirror's content with the pack's copy of this skill, but keep
   # the mirror's own .git history (that's how it stays a real, pushable repo).
   # Where the skill ships a public edition, that edition is what goes out.
-  publish_src="$(publish_source_for "$skill_name")"
+  # A half-made edition stops this one mirror and leaves every other mirror to run.
+  if ! publish_src="$(publish_source_for "$skill_name")"; then
+    SUMMARY_LINES+=("${skill_name}: skipped (editions/${skill_name}/ holds no SKILL.md)")
+    continue
+  fi
   if [ "$publish_src" != "$skill_path" ] && [ "$publish_src/" != "$skill_path" ]; then
     echo "${skill_name}: publishing the public edition from editions/${skill_name}/"
   fi

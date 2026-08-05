@@ -72,6 +72,44 @@ class TestPublishSourceSelection(unittest.TestCase):
                              os.path.join(pack, "skills", "beta"),
                              "a skill with no edition of its own is unaffected")
 
+    def test_an_edition_with_no_skill_file_publishes_nothing(self):
+        """The copy step deletes what it replaces, so a half-made edition would empty the public
+        repository and leave it shipping nothing. Both the attribution stamp and the language scan
+        return 0 on a missing file, so nothing downstream would catch it."""
+        with tempfile.TemporaryDirectory() as tmp:
+            pack = self._scratch_pack(tmp, skills=["alpha"], editions=[])
+            os.makedirs(os.path.join(pack, "editions", "alpha"))  # the directory, with no SKILL.md
+            code, out, err = publish_source(pack, "alpha")
+            self.assertNotEqual(code, 0, "a half-made edition must refuse rather than publish")
+            self.assertEqual(out, "", "it names no source at all")
+            self.assertIn("SKILL.md", err, "the refusal says what is missing")
+
+    def test_a_refused_edition_never_falls_back_to_the_skill(self):
+        """Falling back would publish the internal copy under the reader's nose, silently undoing
+        the edition. The refusal stops this one mirror and says so."""
+        with tempfile.TemporaryDirectory() as tmp:
+            pack = self._scratch_pack(tmp, skills=["alpha"], editions=[])
+            os.makedirs(os.path.join(pack, "editions", "alpha"))
+            self.assertNotIn("skills", publish_source(pack, "alpha")[1])
+
+    def test_one_half_made_edition_leaves_its_neighbours_publishable(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            pack = self._scratch_pack(tmp, skills=["alpha", "beta"], editions=["beta"])
+            os.makedirs(os.path.join(pack, "editions", "alpha"))
+            self.assertNotEqual(publish_source(pack, "alpha")[0], 0)
+            self.assertEqual(publish_source(pack, "beta")[1],
+                             os.path.join(pack, "editions", "beta"))
+
+    def test_the_loop_skips_a_refused_edition_and_runs_on(self):
+        """One broken edition leaves every other mirror to sync."""
+        with open(SCRIPT, encoding="utf-8") as fh:
+            text = fh.read()
+        self.assertIn('if ! publish_src="$(publish_source_for "$skill_name")"; then', text,
+                      "the loop must read the refusal")
+        refusal = text.index('if ! publish_src=')
+        self.assertIn("continue", text[refusal:refusal + 400],
+                      "a refused edition moves to the next skill rather than ending the run")
+
     def test_the_flag_names_the_skill_it_needs(self):
         with tempfile.TemporaryDirectory() as tmp:
             pack = self._scratch_pack(tmp, skills=["alpha"], editions=[])
