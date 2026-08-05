@@ -14,7 +14,72 @@ metadata:
 > settings ladder — this skill references them and elaborates only its own domain. Used standalone, this
 > note is plain advice.
 
-One pipeline, each step has a tool. The order is **spec → prove → architecture → prove architecture →
+## Words this skill uses
+
+**Where the paths point.** Two repositories are in play. A path naming `skills/`, `guardrails/`,
+`scripts/`, `templates/`, `tests/`, or `PRODUCT_SPEC.md` sits in the live-spec pack's own repository,
+`github.com/happysasha18/live-spec`. Its root is the directory holding `PRODUCT_SPEC.md`,
+`guardrails/`, and `scripts/`, and every command on this page runs from that root. A path naming
+`ARCHITECTURE.md`, `TEST_MATRIX.md`, `ROADMAP.md`, `JOURNAL.md`, `docs/prover/`, or `.live-spec/`
+sits in the project under change. A path opening with `references/` names a file inside this skill's
+own directory, beside this one.
+
+- **the pack** — the shipped live-spec method: its skills, its document templates, and its gates.
+  `skills/live-spec-base/SKILL.md` holds the shared rulebook and names the ten working skills.
+- **host** — one project the pack attaches to. Each host holds its own spec, queue, journal, and
+  `.live-spec/` folder.
+- **the human** — the person who owns the product decisions. A taste call, a threshold, and a policy
+  all reach them.
+- **seat** — the orchestrating session that owns judgment, briefs workers, and reports to the human.
+  This page also calls that actor the senior and the orchestrator.
+- **worker** — a delegated session the seat briefs for bounded mechanical work, narrowed to the files
+  its brief names. This page also calls it the junior.
+- **wish** — one request as it was spoken, before the door places it.
+- **door** — the intake classification that places a wish at one entry point: feature, bug, refactor,
+  docs-only, or skip. It is decided before any code is written, and it stands apart from the wish's size.
+- **work-kind** — the intake axis naming what a wish produces: product, infra, skill, or prose.
+- **footprint** — the reach of one change: presentation-only, single-module, or cross-cutting.
+- **tripwire** — one fixed rule in the door step that lifts a wish to a door whatever its casual label.
+- **row** — one line of the project's queue, `ROADMAP.md` in this pack, holding one piece of work.
+- **spec-delta**, also **the delta** — the set of spec sentences one wish adds or changes.
+- **regression fence** — one sentence in a delta naming a neighbouring promise that must stay true,
+  citing the existing clause it guards.
+- **landing** — the act of one piece of work reaching the repository's shared truth as one commit.
+- **lane**, also **train** — one build lane a session rolls through the pipeline.
+- **the pen** — the single write-lock a repository holds. One lane at a time writes shared files under it.
+- **departures board** — the status view read live off the queue's open rows. It names each rolling
+  lane's step, and whom a waiting lane waits behind.
+- **red**, used as a verb — a check fails and stops the work at that point. **Green** names a run with
+  zero failures.
+- **gate** — a check that must pass before the work proceeds.
+- **architecture node** — one named unit in `ARCHITECTURE.md`. It carries one responsibility, owns the
+  spec facts it implements, and pins them to the code.
+- **seam** — the named boundary between two nodes, stating what crosses it and who owns the format.
+- **checkpoint** — a saved point of work a session or a worker resumes from, written under `.live-spec/`.
+- **norm** — an approved prototype frozen as the binding record of a surface's look and feel, kept
+  under `docs/norms/`.
+- **problem ledger** — the per-host file `.live-spec/PROBLEMS.md`, recording the workshop's recurring
+  operational noise.
+- **class hunt** — the search a confirmed bug drives before it closes. Name the defect abstractly,
+  find every sibling of that kind, and fix them together.
+- **compaction** — the station that removes redundancy from a document or from code.
+- **shopfront** — the public README as the reader-facing front of a repository.
+- **attic** — the host's append-only archive folder, `attic/`, where a superseded file moves.
+
+**The bracket codes.** `INV-`, `T-`, `E-`, `ACT-`, and `M-` codes index requirements in the pack's own
+`PRODUCT_SPEC.md`. `PRODUCT_SPEC.index.md` maps each code to the criteria that carry it. The word
+`SPEC` before a code marks that same home and names no separate series. `M-1` is the milestone gate
+and `M-6` is the push gate. A **base rule N** points at the numbered rule N in
+`skills/live-spec-base/SKILL.md`, which carries thirty-five. A **communicator rule N** points into
+`skills/communicator/SKILL.md`. That file numbers twice: its behaviour rules carry an inline
+`(rule N)` tag, and its writing-register checklist restarts at 1. This page names which of the two
+it means each time.
+Each sentence beside a code states its own
+rule in full, so a reader holding this page alone can pass the codes over.
+
+## The pipeline in one line
+
+One pipeline, and steps 1, 2, 5, and 6 each invoke a named skill. The order is **spec → prove → architecture → prove architecture →
 matrix → test → code → verify → commit & show**. A bug shortcuts to **bug → matrix → test → code** (citing the
 existing architecture node it lands in). **Skip the pipeline only if ALL hold:** single
 file · no new state / element / user-visible behaviour · an existing test level already covers the touched
@@ -39,12 +104,12 @@ a strong writer, on infra as a toolsmith. The ladder names the archetypes, and t
 standards look like in its medium.
 
 ## When to run it — and where each kind of change enters
-- **Step zero, before ANY tool call: name the door aloud (SPEC T-12, INV-16; base rule 15) — and the human hears the intake line back as the capture echo: heard · door · name · row · place on the map (communicator rule 12; SPEC INV-27, INV-37).**
+- **Step zero, before ANY tool call: name the door aloud (SPEC T-12, INV-16; base rule 15) — and the human hears the intake line back as the capture echo: heard · door · name · row · place on the map (communicator rule 12, its capture-echo behaviour rule; SPEC INV-27, INV-37).**
   - The intake line states size (a wish too big for its worth is negotiated in SCOPE — cut surfaces or
     split into stages, never a time budget or estimate; proposals proceed on the recommended option and
     are surfaced, SPEC T-15) · priority · door: feature · bug · refactor · docs-only · skip · work-kind: product · infra · skill ·
     prose — what the wish BUILDS, one kind per wish, scaling the FORM of every step it walks (the
-    work-kind table below; SPEC T-16, INV-22).
+    work-kind table at [references/work-kind-table.md](references/work-kind-table.md); SPEC T-16, INV-22).
 
     The same line PLACES the wish on the product's feature map — **changes feature X · a new feature ·
     restructure** — spoken in the echo and written in the row's `map:` note. The map is the spec's scenario
@@ -66,7 +131,7 @@ standards look like in its medium.
     single-module feature keeps its spec step with the rest scoped down. A presentation-only change takes the
     lightest road its door already grants — the skip boundary or the docs-only door where the door routes it
     there, and the matrix-step minimum focused on the visible layer where it is a visible feature. The
-    footprint sizes the reach, and the size does not — a heavy process on a light change is as much a defect as the
+    footprint sizes the reach, and the wish's size does not — a heavy process on a light change is as much a defect as the
     reverse. When the three sources DISAGREE (a spec-promised surface with no owning node, code behaviour no
     clause backs, a node pinned to a moved line), name the disagreement and route it to its owner (a bug row, a
     spec fix, a restructure row — SPEC INV-37), never silently trusting one source; the three-source read is
@@ -137,7 +202,7 @@ standards look like in its medium.
   in the same movement (SPEC INV-113); updating the pins alone does not cover a redesign.
 - **Docs-only change:** re-read the changed section rendered + one grep that no stale claim contradicts the
   code; no spec/matrix step.
-- **A rewrite or restyle accounts for every removal of substance (SPEC INV-109):** the rule's one home is communicator rule 6, which owns the delivery report the accounting rides. The docs-only door above and the restyle loop both invoke it — every removed section, argument, rationale, or worked example listed there with its one line of judgment, a removal the rewriter cannot justify raised as a question before the report closes, line-level wording left free.
+- **A rewrite or restyle accounts for every removal of substance (SPEC INV-109):** the rule's one home is communicator rule 6, the removal-accounting step of that skill's writing-register checklist, which owns the delivery report the accounting rides. The docs-only door above and the restyle loop both invoke it — every removed section, argument, rationale, or worked example listed there with its one line of judgment, a removal the rewriter cannot justify raised as a question before the report closes, line-level wording left free.
 - **A restructure or migration merged back to main is gated on the delta (SPEC INV-114):** A restructure or migration merge gate judges the delta. It has three parts: load-bearing token identity old-versus-new modulo the per-chunk named deltas plus the punctuation-multiset check (SPEC INV-111); the full suite green on the merged tree (SPEC INV-39); and a full prover pass on both sides whose blocking set is delta-scoped — an unmatched token, a red suite, a new-side finding absent on the old side, or an unnamed meaning change. Pre-existing findings equal on both sides route to queue rows in the same landing and never block. And a session that sharpens a human's spoken bar beyond his words says the sharpened form back and marks it as its own interpretation. The token-identity part scopes to a content-preserving restructure. A deliberate redesign changes content by intent, so it routes by the architecture-redesign law (SPEC INV-113), and its merge stands on the green suite and the delta-scoped prover pass, with no token-identity demand over text the redesign meant to change.
 - **Skip entirely** only under the single boundary above (pure research, fact-gathering, a one-file
   no-new-behaviour edit already covered by a test level).
@@ -152,7 +217,8 @@ prototype home, base rule 16 — and comes BACK through this pipeline only at pr
 ## The work-kind table — WHAT the wish builds scales HOW each step runs (SPEC T-16, INV-22)
 
 The door picks WHICH steps run. The kind picks the FORM each running step takes. The work-kind table
-below is the per-kind meanings' ONE normative home (the spec binds the contract around it). The
+at [references/work-kind-table.md](references/work-kind-table.md) is the per-kind meanings' one
+normative home. That is the one place they are stated, and the spec binds the contract around it. The
 contract, before the table: at landing, every door-granted step has either **APPLIED in its kind's form
 or STOOD DOWN by name** in the delivery report ("design-sync — text product, stands down") — a silently
 skipped step is a defect. **An unresolved kind scales nothing down** — standing a step down requires a
@@ -209,7 +275,7 @@ See [references/work-kind-table.md](references/work-kind-table.md) for the full 
    questions as one ask with two objects in hand (SPEC INV-142); its record is `docs/design-review/YYYY-MM-DD[-suffix].md`.
 
 3. **Architecture — write or update `ARCHITECTURE.md` from the proven spec** (template:
-   `ARCHITECTURE.template.md` — template paths here and in step 5 resolve from the PACK repo,
+   `templates/ARCHITECTURE.template.md` — template paths here and in step 5 resolve from the PACK repo,
    github.com/happysasha18/live-spec; a standalone install fetches them there, never from the skill
    dir: the pack is the source, a copy would fork the truth). Named nodes, one responsibility and one name
    each. Every spec fact is OWNED by exactly one node. Named seams run between the nodes. The project's kind
@@ -295,14 +361,16 @@ See [references/work-kind-table.md](references/work-kind-table.md) for the full 
 
    It opens with an **artifact inventory** — every file the user receives — and every inventory entry owns at
    least one rendered-level row. Derivation CLOSES with the template's **coverage validation checklist,
-   actually walked** (every anchor ≥ 1 row · every node's negative-side rows exist · no stale refs). A fact
+   actually walked** (every anchor ≥ 1 row · every node's negative-side rows exist · no stale refs) —
+   the template is `templates/TEST_MATRIX.template.md`, and its own current text says two mechanical
+   checks now hold those facts, so read the template before walking anything by hand. A fact
    with no row or at a too-weak level is a derivation defect, fixed here.
 
    The matrix is the bridge: tests come from the matrix, upstream of the code. (The mechanical projection is
    junior work; choosing each row's level + assertion is the senior's.)
 
 6. **Test — with `test-author`, write tests that assert the REAL shipped artifact.** Render the widget / produce the file /
-   call the function and inspect the output as real behavior, apart from any source-string match. Watch the new test FAIL first
+   call the function and inspect the output as real behavior; a match against the source text counts for nothing here. Watch the new test FAIL first
    (red-on-bug), then implement. Never edit a test just to make a change pass.
 
 7. **Code — implement until green.** Delegate well-scoped, mechanical implementation to a junior worker
@@ -329,7 +397,9 @@ See [references/work-kind-table.md](references/work-kind-table.md) for the full 
 
    Run every check the diff can reach before any push — the reach map's law (SPEC INV-45): a prose-only diff
    runs the doc gates whole and says so. Any code, spec, matrix, skill, or test file in the diff means the
-   whole suite.
+   whole suite. The reach map itself is the `reach_classes` block of `guardrails.config.json`, which
+   pairs each file class with the checks it reaches. The pack's suite runs as `python3 -m pytest -q`
+   from the repository root; a host with another runner names its own in its profile.
 
    **A session that spawned a worker runs `python3 guardrails/check-worker-restore.py` here, and reads
    its verdict before it accepts the worker's result (SPEC INV-298; the gate INV-299).** The gate reads
@@ -420,10 +490,12 @@ See [references/work-kind-table.md](references/work-kind-table.md) for the full 
    to the team's design project — after the human's gate; it never replaces the in-session show.
 
 ## Guardrails — the pipeline's mechanical enforcement (every project inherits them)
-The eight steps are guidance, and an agent DRIFTS from guidance — that is the failure that stops a project
+The nine steps are guidance, and an agent drifts from guidance — that is the failure that stops a project
 converging (a whole panel ships empty; a behaviour nobody asked for gets buried; a change lands with no test).
 So the pipeline is not trusted, it is ENFORCED: a `guardrails` check the project wires to a **git pre-push
-hook** (+ the suite), so a change that fails ANY of these is RED and CANNOT be pushed. `test_traceability`
+hook** (+ the suite), so a change that fails ANY of these is RED and CANNOT be pushed. `guardrails/` is a
+directory of check scripts, and the pack ships one runner, `guardrails/pre-push`, that a project installs
+as its own `.git/hooks/pre-push`. `tests/test_traceability.py`
 (below) is the first of these — generalise it to the full set. **Each project INSTANTIATES the checks for its
 own surfaces; the pipeline REQUIRES the check exists and is green.** This is a first-class step, applied across the whole project as a standing part of the method;
 a per-project patch does not satisfy it. See
@@ -439,7 +511,15 @@ enforcement agree.
 ## The excuses table — read it the moment one of these crosses your mind
 
 The shortcuts that break the method never announce themselves; they arrive as one of these thoughts.
-Each is a tripwire: thinking it means STOP and take the pipeline door you were about to skip.
+Each is a tripwire: thinking it means STOP and take the pipeline door you were about to skip. The six
+thoughts stand here, so this page alone can fire the tripwire:
+
+- "it's a one-liner / just a prototype";
+- "I'll write the spec after it works";
+- "the human is in a hurry";
+- "the suite is green, ship it";
+- "asking would bother them";
+- "explaining it would take longer than just doing it myself".
 
 See [references/excuses-table.md](references/excuses-table.md) for the full table of six excuse-thoughts
 and why each is a trap (SPEC T-12, T-15, INV-4, INV-5, INV-15).
@@ -525,7 +605,8 @@ and why each is a trap (SPEC T-12, T-15, INV-4, INV-5, INV-15).
   work (known edit strings, a known command, fan-out fact-gathering, a report or list or dump to produce)
   routes to a worker at the cheapest tier that can pass the brief, proposed and logged, the senior free to
   override aloud. The brief is self-contained (the BMAD story-file lesson) and SIZED, born from reading the
-  touched files in full with three recorded lines per file (SPEC INV-53/54/55), and closes on a HALT list,
+  touched files in full with three recorded lines per file — current state, what changes, and what must
+  survive (SPEC INV-53/54/55) — and closes on a HALT list,
   so the worker halts at ambiguity and never guesses past it. The worker contract (SPEC ACT-3) narrows write-ownership to the
   brief's named files; the senior owns write-set disjointness between concurrent same-session workers before
   spawning them, or gives one an isolated worktree (SPEC INV-105). The brief carries the problem-ledger path
@@ -553,7 +634,7 @@ and why each is a trap (SPEC T-12, T-15, INV-4, INV-5, INV-15).
   own half: a finished build stage is committed before the next worker touches its files.
   `guardrails/check-worker-restore.py` reads the worker runs' transcripts for the command and runs at the
   verify step.
-- **Traceability is a test, enforced automatically.** A standing `test_traceability.py` fails the suite on a matrix row
+- **Traceability is a test, enforced automatically.** A standing `tests/test_traceability.py` fails the suite on a matrix row
   citing a missing test, a duplicate invariant id, a spec invariant with no matrix row, or a ⟨DECIDE⟩ marked
   RESOLVED that still carries the live marker — so drift is caught every commit, continuously, and never waits for the next MINOR.
 
@@ -566,6 +647,16 @@ and why each is a trap (SPEC T-12, T-15, INV-4, INV-5, INV-15).
 - `test-author` — derives the matrix and writes the tests (steps 5–6). Public.
 - `build-pipeline` (this) — the orchestrator that sequences them through to a shipped, verified, committed
   change.
+
+The pack holds six more skills, and `skills/live-spec-base/SKILL.md` names the ten working ones:
+
+- `live-spec-base` — the shared rulebook and the settings ladder. Every `base rule N` on this page
+  points there.
+- `communicator` — carries the work to the human. Every `communicator rule N` on this page points there.
+- `publish` — runs the checks a publication owes its reader, invoked at step 9's shopfront walk.
+- `text-audit` — reads a text as a stranger and repairs where they stop.
+- `feedback-intake` — files what comes back from a person or an inbox.
+- `feedback-collector` — offers a rare private note up to the pack's authors.
 
 > The method, made durable: spec-author and product-prover each own one step; build-pipeline is the spine that
 > runs the whole arc from a spec to a shipped, tested, committed change.
