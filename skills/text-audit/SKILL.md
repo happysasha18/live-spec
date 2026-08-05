@@ -48,10 +48,11 @@ Those readers found new blocking terms on every pass, and the terms already repa
 The findings reached zero only after two reads in a row returned nothing that blocks. Every reading is
 written to a dated **reading record** under `docs/language-reads/`, and by hand that record sits beside
 the audited text. The reading record holds one reading's full output: every stop it reported and any
-check that did not run. `docs/language-defects.md` holds a narrower list: the places only one of the
-two readers found. A stop one reader found alone still blocks when it meets that test. Step 3 of
-"The loop" orders those blocking stops after the stops both readers found. This skill packages that
-loop for any text.
+check that did not run. `docs/language-defects.md` is the record of why each language rule says what
+it says. It carries the stops those readings left standing, sorted into the ones both readings made
+and the ones one reading made alone. A stop one reader found alone still blocks when it meets that
+test. Step 3 of "The loop" orders those blocking stops after the stops both readers found. This skill
+packages that loop for any text.
 
 ## The roles and the words this skill uses
 
@@ -118,6 +119,9 @@ The trigger is a person asking whether a reader will understand the text: "audit
   same-kind items the spec left ungrouped. This skill
   reads whether the words land on a stranger, and it invents no answer about the design. The two passes
   read different failures on the same page, so run each one for the failures only it finds.
+- **An argument with a spec's claims** belongs to product-prover, at
+  `skills/product-prover/SKILL.md`. That pass hunts a missing state, a false invariant, and an
+  unhandled transition. This skill reads the words, and it judges no claim the spec makes.
 - **Taste and voice** stay with the person, and with whatever writing skills the host installs beside
   the pack. This skill holds a text to the register of its surface, and it reports where a reader stops.
   It grades no voice, and it rewrites no style beyond those rules.
@@ -399,8 +403,9 @@ this skill's own, and the record prints none of the three sums. It also counts t
 thirty passages both readers found, so the pair's distinct stops run nearer 325.
 
 This change replaced the prompted reader running alone, whose 227 stops are the baseline a reader
-carries. Against 227 the pair brings back about 1.56 times as many stops, so the judging work grows
-by about half. Between a third and two fifths of what comes back leads to no repair.
+carries. Against those 227, the pair's roughly 325 distinct stops run about 1.43 times as many, so
+the judging work grows by about two fifths. Between a third and two fifths of what comes back leads
+to no repair.
 
 That record quotes a per-document figure from an earlier draft of this skill, and no measurement
 stands behind it. It also names none of the three documents, so this skill states no figure for one

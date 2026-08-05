@@ -374,8 +374,12 @@ found it.
 
 Readings thirty and thirty-one ran on `skills/text-audit/SKILL.md`, and both stand under
 `docs/language-reads/`. They returned 30 and 31 stops, eight blocking in each. The repair round closed
-the eight passages both readers stopped on and marked blocking. Every stop below stands, with the
-reading that found it.
+eight passages. Both readings marked five of those eight blocking. The other three blocked in reading
+thirty-one alone, and reading thirty stopped on two of the three without marking them blocking. One of
+the five repairs also closed a stop reading thirty alone marked blocking, since both stops sat in one
+paragraph. A later commit closed the two passages left. Reading thirty alone marked each one blocking:
+the lints a spec section alone runs, and refutation as a step of the loop. Every stop below stands,
+with the reading that found it.
 
 The stops one reading made alone:
 
@@ -383,12 +387,10 @@ The stops one reading made alone:
 - "Three roles run through this skill", against five bullets below — 30
 - "When it fires", where nothing above has been named an event — 30
 - "Those stops are the strongest", carrying no measure where it stands — 30
-- "It is the mechanical lint only a spec section runs", against three spec-only scripts — 30
 - "the three guarded documents match the frozen baseline", both terms unmet — 30
 - "The structure checks, third in the list", pointing by position — 30
 - "It measures the work once Step 5's two clean rounds close the audit" — 30
 - "Both passes run on every audit, whatever the budget allows" — 30
-- "every one of them survived refutation", a step the five steps never order — 30
 - "an image with no referent" — 30
 - "That run reproduced the split", with two splits standing nearby — 30
 - "records this file at zero findings", the census rule stated a second time — 30
