@@ -2,9 +2,11 @@
 
 PUSH-REVIEW
 
-Range: c869cbb..44778ea
+Range: c869cbb..124d9cc
 
 Commits:
+- 124d9cc The status block reads the pushed state and names what stands open
+- 642d229 The day's push carries an adversarial review of all its commits
 - 44778ea Four evening arrivals become two rows and one correction, all kept in the attic
 - 12acab2 The journal keeps the afternoon's review and the stash incident
 - ad31edb The harvested messages rest in the attic and their rows cite them there
