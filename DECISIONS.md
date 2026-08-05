@@ -281,7 +281,7 @@ the one slot nothing questions. That is the defect this surface exists to catch.
   readers, held over two consecutive rounds. The two looser shapes the session offered are closed —
   agreeing a place away, and shipping with the remaining places listed at the text's head.
   The audit skill `skills/text-audit/SKILL.md` states this bar, and the reading loop runs to it.
-- **The templates stay in the reading queue.** In the same exchange the session reported a
+- **The templates stay in the reading queue.** Alexander 2026-08-05, in the same exchange: the session reported a
   reviewer's dissent: the census had stopped measuring twelve template files on the ground that
   nobody reads them, while `README.md` sends a person starting a new project to exactly those
   files. Your answer settled it, and the templates are measured again from commit that follows.
