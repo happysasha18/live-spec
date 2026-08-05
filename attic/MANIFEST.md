@@ -23,3 +23,6 @@ base rule 10). Nothing here was deleted; a file that turns out to be needed is m
 - `docs/MEASUREMENTS.html` -> `attic/docs-MEASUREMENTS.html` * a rendered page whose reading is over: its source document stood beside it * 2026-08-04
 - `docs/PROGRESS.html` -> `attic/docs-PROGRESS-2.html` * a rendered page whose reading is over: carried the `live-spec render-doc` generator mark * 2026-08-04
 - `docs/plans/2026-07-29-specification-subdivision.html` -> `attic/docs-plans-2026-07-29-specification-subdivision.html` * a rendered page whose reading is over: carried the `live-spec render-doc` generator mark * 2026-08-04
+- `docs/MEASUREMENTS.html` -> `attic/docs-MEASUREMENTS-2.html` * a rendered page whose reading is over: its source document stood beside it * 2026-08-05
+- `inbox/2026-08-05-from-tlvphotos-rotation-gate-reads-only-numbered-rows.md` -> `attic/inbox-2026-08-05-from-tlvphotos-rotation-gate-reads-only-numbered-rows.md` * a harvested inbox follow-up: its marker fix landed in the language gate the same day * 2026-08-05
+- `inbox/2026-08-05-from-tlvphotos-sweep-stale-local-servers-before-handing-over.md` -> `attic/inbox-2026-08-05-from-tlvphotos-sweep-stale-local-servers-before-handing-over.md` * a harvested inbox wish: it became queue row 542 * 2026-08-05
