@@ -79,6 +79,14 @@ RECORD_DIRS = (
 )
 RECORD_FILES = ("JOURNAL.md", "DECISIONS.md", "FEEDBACK.md", "MIGRATION.md", "WAITING.md")
 
+# Directories whose markdown serves a machine or another project: fixtures a test opens by path,
+# and the templates a new host copies. Nobody reads them here, so the census leaves them unmeasured.
+MACHINE_DIRS = (
+    "templates", "guardrails/far-tier-fixtures", "guardrails/measured-number-fixtures",
+    "guardrails/release-note-fixtures",
+)
+SKIP_DIRS = RECORD_DIRS + MACHINE_DIRS
+
 FENCE = re.compile(r"^\s*```")
 HEADING = re.compile(r"^\s*#{1,6}\s")
 TABLE = re.compile(r"^\s*\|")
@@ -127,8 +135,8 @@ def live_files(root=REPO_ROOT):
         rel_dir = os.path.relpath(dirpath, root)
         rel_dir = "" if rel_dir == "." else rel_dir
         dirnames[:] = [d for d in dirnames
-                       if not os.path.join(rel_dir, d).startswith(RECORD_DIRS)
-                       and os.path.join(rel_dir, d) not in RECORD_DIRS
+                       if not os.path.join(rel_dir, d).startswith(SKIP_DIRS)
+                       and os.path.join(rel_dir, d) not in SKIP_DIRS
                        and not d.startswith(".")]
         for name in filenames:
             if not name.endswith(".md"):
