@@ -121,16 +121,28 @@ def _run_record(command, agent="a1234567890abcdef", session="s-0001",
 
 
 def _transcript_root(tmp_path, commands, project="-Users-someone-exhibition-engine",
-                     session="s-0001", agent="a1234567890abcdef"):
+                     session="s-0001", agent="a1234567890abcdef",
+                     cwd="/Users/someone/exhibition-engine"):
     """A transcript root holding one worker run, at the layout the harness writes:
-    <root>/<project-dir>/<session-id>/subagents/agent-<id>.jsonl"""
+    <root>/<project-dir>/<session-id>/subagents/agent-<id>.jsonl
+
+    `cwd` is the directory the harness recorded for the run. A case that turns on a FAILED `cd`
+    hands a real git repository here, since that is where the shell stayed."""
     runs = tmp_path / "projects" / project / session / "subagents"
     runs.mkdir(parents=True)
     path = runs / ("agent-%s.jsonl" % agent)
     with open(path, "w", encoding="utf-8") as f:
         for c in commands:
-            f.write(json.dumps(_run_record(c, agent=agent, session=session)) + "\n")
+            f.write(json.dumps(_run_record(c, agent=agent, session=session, cwd=cwd)) + "\n")
     return str(tmp_path / "projects"), str(path)
+
+
+def _repo(tmp_path, name="worktree"):
+    """A directory that reads as a git repository at scan time."""
+    repo = tmp_path / name
+    repo.mkdir(parents=True)
+    (repo / ".git").mkdir()
+    return repo
 
 
 class TestGateRedsOnADiscardingCommand:
@@ -169,6 +181,16 @@ class TestGateRedsOnADiscardingCommand:
         assert res.returncode == 1, res.stdout
         assert "src/app.js" in res.stdout
         assert str(repo) in res.stdout, "the red names the directory the command really ran in"
+
+    @pytest.mark.parametrize("command", ["command git checkout -- .", "sudo git checkout -- ."])
+    def test_a_wrapper_prefix_does_not_hide_the_command(self, tmp_path, command):
+        """`command git` and `sudo git` discard exactly what bare git discards, and both walked
+        past the gate until 2026-08-05 because the matcher read only the first word."""
+        repo = _repo(tmp_path)
+        root, _ = _transcript_root(tmp_path / "transcripts", [command], cwd=str(repo))
+        res = _gate("--root", root)
+        assert res.returncode == 1, "%s passed the gate: %s" % (command, res.stdout)
+        assert "git checkout --" in res.stdout
 
     def test_the_red_carries_one_typed_line(self, tmp_path):
         """The gate contract's first convention: one parseable JSON object beside the human lines."""
@@ -231,6 +253,69 @@ class TestTheGateModelsCdInsideTheCommand:
         assert res.returncode == 1, res.stdout
         assert str(repo) in res.stdout, "the finding names the -C directory, not the session cwd"
 
+    def test_a_failed_cd_before_a_semicolon_places_the_command_at_the_cwd(self, tmp_path):
+        """The escape an adversarial review found on 2026-08-05: `cd` into a directory that is not
+        there fails, the shell stays in the record's own cwd, and the `;` runs git THERE — while the
+        gate filed the command under a directory that never existed and passed it."""
+        repo = _repo(tmp_path)
+        root, _ = _transcript_root(
+            tmp_path / "transcripts",
+            ["cd %s ; git checkout -- ." % (tmp_path / "nonexistent-at-scan")],
+            cwd=str(repo))
+        res = _gate("--root", root)
+        assert res.returncode == 1, res.stdout
+        assert str(repo) in res.stdout, "the finding names the directory the shell never left"
+
+    def test_a_failed_cd_before_an_or_places_the_command_at_the_cwd(self, tmp_path):
+        """`||` runs the next command precisely BECAUSE the cd failed, so the same reading holds."""
+        repo = _repo(tmp_path)
+        root, _ = _transcript_root(
+            tmp_path / "transcripts",
+            ["cd %s || git checkout -- ." % (tmp_path / "nonexistent-at-scan")],
+            cwd=str(repo))
+        res = _gate("--root", root)
+        assert res.returncode == 1, res.stdout
+        assert str(repo) in res.stdout
+
+    def test_a_cd_under_set_e_carries_the_rest_of_the_script_with_it(self, tmp_path):
+        """The fixture scripts this repo's own workers write: `set -e`, a `mkdir -p X && cd X`, and
+        the throwaway repo's own commands on the lines below. Under errexit a failed cd ends the
+        script, so a line that ran at all ran at X — and X thrown away by scan time is not this
+        repo's problem. Reading that newline as ambiguous would file the throwaway repo's command
+        against the session's real tree, which is the false positive the `cd` model exists to end."""
+        repo = _repo(tmp_path)
+        gone = tmp_path / "scratchpad" / "e2"  # never created — thrown away by construction
+        root, _ = _transcript_root(
+            tmp_path / "transcripts",
+            ["set -e\nmkdir -p %s && cd %s\ngit init -q .\n"
+             "git checkout -q -- . 2>/dev/null || true" % (gone, gone)],
+            cwd=str(repo))
+        res = _gate("--root", root)
+        assert res.returncode == 0, res.stdout
+
+    def test_set_plus_e_hands_the_conservative_reading_back(self, tmp_path):
+        """`set +e` turns errexit off, and the failed cd stops carrying the lines after it."""
+        repo = _repo(tmp_path)
+        gone = tmp_path / "scratchpad" / "e3"
+        root, _ = _transcript_root(
+            tmp_path / "transcripts",
+            ["set -e\nset +e\ncd %s\ngit checkout -- ." % gone],
+            cwd=str(repo))
+        res = _gate("--root", root)
+        assert res.returncode == 1, res.stdout
+        assert str(repo) in res.stdout
+
+    def test_a_failed_cd_before_an_and_is_not_a_finding(self, tmp_path):
+        """`&&` runs the next command only when the cd succeeded. A target gone at scan time means
+        git never ran there and never ran at the cwd either, so there is nothing to place."""
+        repo = _repo(tmp_path)
+        root, _ = _transcript_root(
+            tmp_path / "transcripts",
+            ["cd %s && git checkout -- ." % (tmp_path / "nonexistent-at-scan")],
+            cwd=str(repo))
+        res = _gate("--root", root)
+        assert res.returncode == 0, res.stdout
+
     def test_an_unresolvable_cd_target_reds_as_unknown(self, tmp_path):
         """`cd "$DIR"` where the command never assigned `DIR` cannot be placed statically, and
         UNKNOWN reads conservatively — the same posture as a record the gate cannot stamp."""
@@ -259,6 +344,34 @@ class TestGateStaysSilentOnOrdinaryWork:
         """Only a command handed to a shell counts. A grep pattern quoting the same text is silent,
         which is what keeps the gate's own tests and this pack's own prose out of its findings."""
         root, _ = _transcript_root(tmp_path, ["grep -rn 'git checkout -- ' skills/"])
+        res = _gate("--root", root)
+        assert res.returncode == 0, res.stdout
+
+    def test_a_heredoc_body_quoting_the_command_is_left_alone(self, tmp_path):
+        """A heredoc body is data handed to a command, not commands the shell reads. A brief written
+        with `cat <<'EOF'` that carries the forbidden list is a session WRITING the rule down."""
+        repo = _repo(tmp_path)
+        root, _ = _transcript_root(
+            tmp_path / "transcripts",
+            ["cat <<'EOF' > brief.md\ngit checkout -- .\nEOF"],
+            cwd=str(repo))
+        res = _gate("--root", root)
+        assert res.returncode == 0, res.stdout
+
+    def test_a_quoted_script_literal_is_left_alone(self, tmp_path):
+        """The same class, in the form that actually reds this gate: a reviewer's read-only probe
+        passed a python script to `python3 -c "…"` and the gate cut the QUOTED script at its
+        newlines, reading each of its lines as a command of its own (2026-08-05)."""
+        repo = _repo(tmp_path)
+        probe = ('python3 -c "\n'
+                 "import sys\n"
+                 "cases=[\n"
+                 " ('semicolon cd','cd /tmp/aaa ; git checkout -- .'),\n"
+                 " ('baseline no cd','git checkout -- .'),\n"
+                 "]\n"
+                 "for name,c in cases: print(name,c)\n"
+                 '"')
+        root, _ = _transcript_root(tmp_path / "transcripts", [probe], cwd=str(repo))
         res = _gate("--root", root)
         assert res.returncode == 0, res.stdout
 

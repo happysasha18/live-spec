@@ -43,10 +43,18 @@ and takes the `input.command` string of every block whose `type` is `tool_use` a
 
 WHAT IT DOES NOT SEE. It reads no prose. A worker report, a brief, or a plan that NAMES a restore is
 left alone — only a command the worker actually handed to a shell counts, and only when the segment's
-first word is `git`, so the same text quoted inside a `grep` pattern stays silent. It reads the
-parent session's own transcript for nothing: a main-thread session that restores its own tree is the
-orchestrator acting, which the rule allows. It cannot tell whether the worker ran inside its own
-isolated worktree; that case reds like any other, which is the scope the clause states.
+first word is `git`, so the same text quoted inside a `grep` pattern stays silent. Text a command
+carries as DATA rather than as commands of its own is outside the reach the same way: the body of a
+heredoc (`<<WORD`, `<<'WORD'`, `<<-WORD`, up to its closing delimiter line) is dropped before the
+line is cut into segments, and the cutting itself steps over quoted spans, so the forbidden list
+written inside `python3 -c "…"` or a quoted brief is one segment whose first word is `python3`, not a
+git invocation. A reviewer's read-only probe reds this gate on 2026-08-05 for want of exactly that.
+The cost of reading quotes is that a command hidden inside them is unreachable too — `sh -c "git
+checkout -- ."` and `echo . | xargs git checkout --` pass, as does a wrapper carrying options
+(`sudo -u someone git …`); a bare `command`, `sudo` or `env` prefix is stripped and does not pass. It
+reads the parent session's own transcript for nothing: a main-thread session that restores its own
+tree is the orchestrator acting, which the rule allows. It cannot tell whether the worker ran inside
+its own isolated worktree; that case reds like any other, which is the scope the clause states.
 
 WHERE IT PLACES A FINDING. A command string is read left to right for a moving effective directory,
 starting at the record's own cwd: a `cd <path>` moves it (`cd -`, `pushd` and `popd` move it to
@@ -54,12 +62,22 @@ UNKNOWN, since the gate does not track a directory stack), a plain literal assig
 same string (`S=/some/path`) is remembered so a later `cd $S/sub` still resolves, and a `git -C <path>`
 sets the directory for that one invocation only, without moving the running one. A target built from
 anything the gate cannot read statically — an unassigned variable, a subshell, command substitution —
-sets the effective directory to UNKNOWN. A forbidden git command reds when it ran at the record's cwd
-with no `cd` in between, as it always has, or when it ran at a known directory whose enclosing git
-repository still exists on disk at scan time (walking up from it for a `.git`); a known directory gone
-from disk, or holding no enclosing repository, is not a finding, and an UNKNOWN effective directory
-reds, since the gate can place it no better than a record with no timestamp. Each finding's report
-line names the effective directory beside the session's recorded cwd.
+sets the effective directory to UNKNOWN. Where a `cd` lands depends on the SEPARATOR that joined the
+next command to it, because a cd can fail. After `cd X &&` the next command ran only if the cd
+succeeded, so it is placed at X. After `cd X ;` or `cd X ||` the next command ran either way, so when
+X is gone from disk at scan time the cd may well have failed and left the shell where it was: the
+command is placed at the PRE-CD directory, the conservative read of the two. That is the escape
+`cd /nonexistent ; git checkout -- .` walked through until 2026-08-05, running git in the record's own
+cwd while the gate filed it under a directory that never existed. `set -e` changes the reading of `;`
+and of a newline, and only of those: under errexit a failed cd ends the script, so a command that ran
+at all proves the cd succeeded and is placed at X. That is the shape the fixture scripts in this repo
+carry (`set -e`, then `mkdir -p X && cd X`, then the next line), and the gate follows `set +e` back
+off again. A forbidden git command reds when it
+ran at the record's cwd with no `cd` in between, as it always has, or when it ran at a known directory
+whose enclosing git repository still exists on disk at scan time (walking up from it for a `.git`); a
+known directory gone from disk, or holding no enclosing repository, is not a finding, and an UNKNOWN
+effective directory reds, since the gate can place it no better than a record with no timestamp. Each
+finding's report line names the effective directory beside the session's recorded cwd.
 
 WHERE IT RUNS. At the verify step of skills/build-pipeline/SKILL.md, between a worker's result and
 the orchestrator's acceptance of it, and once more in the suite as tests/test_worker_restore.py's
@@ -112,21 +130,116 @@ RUN_GLOB = os.path.join("*", "*", "subagents", "agent-*.jsonl")
 COUNTING_FROM = "2026-07-28"
 
 # The segment separators a shell command line is cut on, so `cd x && git restore y` is read as its
-# own invocation. The pipe is included: `yes | git clean -fd` is still git clean.
+# own invocation. The pipe is included: `yes | git clean -fd` is still git clean. Each separator is
+# kept beside the segment it follows, because `cd x && git …` and `cd x ; git …` place that git
+# invocation in different directories when x is gone at scan time (see `_dir_after_cd`).
 SEPARATORS = ("&&", "||", ";", "|", "\n")
+
+# Wrappers that stand in front of a command and hand it straight on, so the act is the wrapped
+# command's: `command git checkout -- .` and `sudo git checkout -- .` discard exactly what the bare
+# form discards.
+WRAPPERS = ("command", "sudo", "env")
+
+# A heredoc opener: `<<WORD`, `<<'WORD'`, `<<"WORD"` or `<<-WORD`. The `<<<` herestring is not one.
+_HEREDOC_OPENER = re.compile(r"(?<!<)<<(?!<)-?\s*(['\"]?)([A-Za-z_][A-Za-z0-9_]*)\1")
 
 WHOLE_TREE = "the whole working tree"
 
 
+def _without_heredoc_bodies(command):
+    """`command` with every heredoc BODY dropped and its opener line kept.
+
+    A heredoc body is data handed to a command, not lines the shell reads for commands of its own, so
+    a brief or a probe written `python3 - <<'PY' … PY` that quotes the forbidden list is not a run of
+    it. The closing delimiter line goes with the body; a heredoc left unclosed swallows the rest of
+    the string, which is what the shell does with it too. The delimiter is matched on the line's
+    stripped text for `<<` and `<<-` alike — a body line that is exactly the delimiter word and
+    nothing else is the terminator in practice.
+    """
+    lines = command.split("\n")
+    kept = []
+    i = 0
+    while i < len(lines):
+        line = lines[i]
+        kept.append(line)
+        i += 1
+        for match in _HEREDOC_OPENER.finditer(line):
+            word = match.group(2)
+            while i < len(lines) and lines[i].strip() != word:
+                i += 1
+            if i < len(lines):
+                i += 1  # step past the closing delimiter line itself
+    return "\n".join(kept)
+
+
+def _cut_on_separators(text):
+    """`text` cut into (span, separator-after) pairs on the separators that stand OUTSIDE quotes.
+
+    A separator inside `'…'` or `"…"` belongs to the quoted text, not to the shell: without this,
+    `python3 -c "…git checkout -- .…"` was cut at the newlines inside the script and each line of the
+    quoted script was read as a command of its own. The last pair carries the empty separator. Plain
+    character walking, no shell.
+    """
+    out = []
+    buf = []
+    quote = None
+    i = 0
+    n = len(text)
+    while i < n:
+        ch = text[i]
+        if quote == "'":
+            buf.append(ch)
+            if ch == "'":
+                quote = None
+            i += 1
+            continue
+        if quote == '"':
+            if ch == "\\" and i + 1 < n:
+                buf.append(ch)
+                buf.append(text[i + 1])
+                i += 2
+                continue
+            buf.append(ch)
+            if ch == '"':
+                quote = None
+            i += 1
+            continue
+        if ch == "\\" and i + 1 < n:
+            buf.append(ch)
+            buf.append(text[i + 1])
+            i += 2
+            continue
+        if ch in "'\"":
+            quote = ch
+            buf.append(ch)
+            i += 1
+            continue
+        if text[i:i + 2] in ("&&", "||"):
+            out.append(("".join(buf), text[i:i + 2]))
+            buf = []
+            i += 2
+            continue
+        if ch in (";", "|", "\n"):
+            out.append(("".join(buf), ch))
+            buf = []
+            i += 1
+            continue
+        buf.append(ch)
+        i += 1
+    out.append(("".join(buf), ""))
+    return out
+
+
 def _segments(command):
-    """The command line cut into invocations. Plain string surgery, no shell."""
-    out = [command]
-    for sep in SEPARATORS:
-        nxt = []
-        for part in out:
-            nxt.extend(part.split(sep))
-        out = nxt
-    return [p.strip() for p in out if p.strip()]
+    """The command line cut into invocations, each with the separator that joined the NEXT one to it.
+
+    Heredoc bodies are dropped first and quoted spans are stepped over, so only text the shell would
+    have read as commands is cut. An empty span drops out with its own separator, which leaves each
+    invocation holding the first separator that follows it.
+    """
+    return [(span.strip(), sep)
+            for span, sep in _cut_on_separators(_without_heredoc_bodies(command))
+            if span.strip()]
 
 
 def _tokens(segment):
@@ -138,20 +251,43 @@ def _tokens(segment):
         return segment.split()
 
 
+def _is_assignment(token):
+    """True when the token is a plain `NAME=value` prefix rather than a word of the command."""
+    if token.startswith("-") or "=" not in token:
+        return False
+    head = token.split("=", 1)[0]
+    return bool(head) and all(c.isalnum() or c == "_" for c in head)
+
+
+def _command_tokens(segment):
+    """The segment's words with leading `VAR=value` assignments and pass-through wrappers stripped,
+    so the first word left is the program that really ran.
+
+    `command git checkout -- .` and `sudo git checkout -- .` are the bare command's act, and they
+    walked past this gate until 2026-08-05 for want of the strip. A wrapper carrying OPTIONS
+    (`sudo -u someone git …`) is left alone, since stepping over an option that takes a value cannot
+    be done without knowing the wrapper's own grammar, and a wrapper that takes the command as a
+    STRING (`sh -c "git …"`, `xargs git …`) stays out of reach — both are named in the module
+    docstring.
+    """
+    tokens = _tokens(segment)
+    while tokens:
+        if _is_assignment(tokens[0]) or os.path.basename(tokens[0]) in WRAPPERS:
+            tokens = tokens[1:]
+            continue
+        break
+    return tokens
+
+
 def _git_args(segment):
     """The arguments of a git invocation, or None when this segment is not one.
 
-    A segment is a git invocation only when its first word — past leading `VAR=value` assignments —
-    is exactly `git`. git's own pre-command options (`-C <path>`, `-c <k=v>`, `--git-dir=…`) are
-    stepped over so the subcommand is the first thing returned.
+    A segment is a git invocation only when its first word — past leading `VAR=value` assignments and
+    a `command`, `sudo` or `env` wrapper — is exactly `git`. git's own pre-command options
+    (`-C <path>`, `-c <k=v>`, `--git-dir=…`) are stepped over so the subcommand is the first thing
+    returned.
     """
-    tokens = _tokens(segment)
-    while tokens and "=" in tokens[0] and not tokens[0].startswith("-"):
-        head = tokens[0].split("=", 1)[0]
-        if head and all(c.isalnum() or c == "_" for c in head):
-            tokens = tokens[1:]
-        else:
-            break
+    tokens = _command_tokens(segment)
     if not tokens or os.path.basename(tokens[0]) != "git":
         return None
     args = tokens[1:]
@@ -260,13 +396,7 @@ def _git_dash_c_dir(segment, base, env):
     segment carries no `-C`, in which case `directory` is meaningless and the caller keeps
     using the running effective directory instead.
     """
-    tokens = _tokens(segment)
-    while tokens and "=" in tokens[0] and not tokens[0].startswith("-"):
-        head = tokens[0].split("=", 1)[0]
-        if head and all(c.isalnum() or c == "_" for c in head):
-            tokens = tokens[1:]
-        else:
-            break
+    tokens = _command_tokens(segment)
     if not tokens or os.path.basename(tokens[0]) != "git":
         return False, None
     args = tokens[1:]
@@ -310,19 +440,68 @@ def _repo_exists_at_or_above(path):
         cur = parent
 
 
+def _errexit_after(tokens, errexit):
+    """`errexit` as this `set` line leaves it. `set -e`, `set -eu` and `set -o errexit` turn it on;
+    `set +e` and `set +o errexit` turn it off, which a script does around a step it expects to fail."""
+    i = 1
+    while i < len(tokens):
+        a = tokens[i]
+        if a in ("-o", "+o") and i + 1 < len(tokens):
+            if tokens[i + 1] == "errexit":
+                errexit = a == "-o"
+            i += 2
+            continue
+        if a.startswith("-") and "e" in a[1:]:
+            errexit = True
+        elif a.startswith("+") and "e" in a[1:]:
+            errexit = False
+        i += 1
+    return errexit
+
+
+def _dir_after_cd(before, target, separator, errexit):
+    """The effective directory the command AFTER this `cd` really ran in.
+
+    A cd can fail, and what the next command did about it decides where that command ran. `&&` runs
+    it only when the cd succeeded, so the target stands — and a target gone from disk at scan time
+    then drops the finding, which is the throwaway-fixture case. Under `set -e` a `;` and a newline
+    say the same thing, because a failed cd ends the script and nothing after it runs at all: the
+    fixture scripts this repo's own workers write are exactly that shape
+    (`set -e` … `mkdir -p X && cd X` … newline … `git checkout -q -- .`), and reading their newline
+    as ambiguous would file a throwaway repo's command against the session's real tree.
+
+    With errexit off, `;`, `||`, a pipe and a newline run the next command whether the cd succeeded or
+    not, so a target gone at scan time leaves the run ambiguous between the target and the directory
+    the shell never left; the PRE-CD directory is the conservative read of the two, and it reds when
+    it is the record's own cwd in a real repository. `||` keeps that read even under errexit, since a
+    command followed by `||` is exempt from errexit and the branch runs precisely when the cd failed.
+    """
+    if target is None:
+        return None
+    if separator == "&&":
+        return target
+    if errexit and separator in (";", "\n"):
+        return target
+    if os.path.isdir(target):
+        return target
+    return before
+
+
 def classify(command, cwd):
     """The discarding invocations in one shell command line, each placed in the directory it
     really ran in.
 
     Walks the command's own segments in order, holding an effective directory that starts at
-    `cwd` and moves with each `cd` (see `_resolve_dir`) and a running map of the plain literal
-    variable assignments the command made along the way, so `S=/tmp/x` earlier in the same
-    string lets a later `cd $S/sub` still resolve. A `git -C <path>` sets the directory for
-    that one invocation only. A forbidden git command reds when it ran at `cwd` with no `cd`
-    in between (the gate's original, unconditional read), or at a known directory whose
-    enclosing git repository still exists on disk at scan time; a known directory gone from
-    disk or holding no enclosing repository is not a finding, and an UNKNOWN effective
-    directory reds, since the gate can place it no better than an unstamped record.
+    `cwd` and moves with each `cd` (see `_resolve_dir` and `_dir_after_cd`, which reads the
+    separator after the `cd`, and whether `set -e` is standing, so a FAILED cd does not carry the
+    next command out of the record's cwd) and a running map of the plain literal variable assignments the command made along the
+    way, so `S=/tmp/x` earlier in the same string lets a later `cd $S/sub` still resolve. A
+    `git -C <path>` sets the directory for that one invocation only. A forbidden git command
+    reds when it ran at `cwd` with no `cd` in between (the gate's original, unconditional read),
+    or at a known directory whose enclosing git repository still exists on disk at scan time; a
+    known directory gone from disk or holding no enclosing repository is not a finding, and an
+    UNKNOWN effective directory reds, since the gate can place it no better than an unstamped
+    record.
 
     Returns a list of {"command": <the segment>, "which": <the named form>, "paths": [...],
     "effective_dir": <the directory the command ran in, or None for UNKNOWN>}. An empty list
@@ -331,16 +510,25 @@ def classify(command, cwd):
     found = []
     env = {}
     effective_dir = cwd
-    for segment in _segments(command):
+    errexit = False
+    for segment, separator in _segments(command):
         assignment = _var_assignment(segment)
         if assignment is not None:
             env[assignment[0]] = assignment[1]
             continue
 
         tokens = _tokens(segment)
+        if tokens and tokens[0] == "set":
+            errexit = _errexit_after(tokens, errexit)
+            continue
         if tokens and tokens[0] == "cd":
             target = tokens[1] if len(tokens) > 1 else None
-            effective_dir = None if target == "-" else _resolve_dir(_substitute(target, env), effective_dir)
+            if target == "-":
+                effective_dir = None
+            else:
+                effective_dir = _dir_after_cd(
+                    effective_dir, _resolve_dir(_substitute(target, env), effective_dir),
+                    separator, errexit)
             continue
         if tokens and tokens[0] in ("pushd", "popd"):
             effective_dir = None  # no directory stack is tracked, so a pop cannot be placed either.
