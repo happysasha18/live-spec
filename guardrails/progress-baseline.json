@@ -33,8 +33,8 @@
   },
   "last_generation": {
     "date": "2026-08-05",
-    "total_findings": 4970,
-    "zero_findings_documents": 22
+    "total_findings": 4415,
+    "zero_findings_documents": 14
   },
   "targets": {
     "_comment": "The readability and growth targets scripts/progress-report.py reads for its 'target' columns. Each carries the file and sentence it derives from, and set_on the date it was seeded. A measure with no entry here prints 'not stated'.",

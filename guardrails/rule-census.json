@@ -3,7 +3,7 @@
   "cap_rule": "r08",
   "files": {
     "ARCHITECTURE.md": {
-      "bytes": 95735,
+      "bytes": 95736,
       "file": "ARCHITECTURE.md",
       "long": 0,
       "longest": 25,
@@ -39,7 +39,7 @@
       "total": 0
     },
     "PRODUCT_SPEC.md": {
-      "bytes": 667759,
+      "bytes": 667689,
       "file": "PRODUCT_SPEC.md",
       "long": 1830,
       "longest": 80,
@@ -48,7 +48,7 @@
       "total": 1830
     },
     "README.md": {
-      "bytes": 12487,
+      "bytes": 12603,
       "file": "README.md",
       "long": 13,
       "longest": 88,
@@ -57,7 +57,7 @@
       "total": 13
     },
     "ROADMAP.md": {
-      "bytes": 185487,
+      "bytes": 201827,
       "file": "ROADMAP.md",
       "long": 8,
       "longest": 242,
@@ -75,7 +75,7 @@
       "total": 3
     },
     "TEST_MATRIX.md": {
-      "bytes": 458278,
+      "bytes": 458247,
       "file": "TEST_MATRIX.md",
       "long": 8,
       "longest": 46,
@@ -102,7 +102,7 @@
       "total": 3
     },
     "docs/PROGRESS.md": {
-      "bytes": 16033,
+      "bytes": 16134,
       "file": "docs/PROGRESS.md",
       "long": 0,
       "longest": 22,
@@ -156,25 +156,25 @@
       "total": 38
     },
     "docs/language-defects.md": {
-      "bytes": 27833,
+      "bytes": 31164,
       "file": "docs/language-defects.md",
-      "long": 34,
+      "long": 33,
       "longest": 78,
       "register": 0,
       "style": 4,
-      "total": 38
+      "total": 37
     },
     "docs/language-rule-coverage.md": {
-      "bytes": 87201,
+      "bytes": 89840,
       "file": "docs/language-rule-coverage.md",
-      "long": 83,
+      "long": 79,
       "longest": 81,
       "register": 0,
       "style": 22,
-      "total": 105
+      "total": 101
     },
     "docs/language-rules.md": {
-      "bytes": 57571,
+      "bytes": 58485,
       "file": "docs/language-rules.md",
       "long": 30,
       "longest": 89,
@@ -183,7 +183,7 @@
       "total": 38
     },
     "docs/language-worked-example.md": {
-      "bytes": 24176,
+      "bytes": 24391,
       "file": "docs/language-worked-example.md",
       "long": 6,
       "longest": 41,
@@ -246,7 +246,7 @@
       "total": 8
     },
     "docs/plans/2026-07-28-top-level-readability.md": {
-      "bytes": 13899,
+      "bytes": 14024,
       "file": "docs/plans/2026-07-28-top-level-readability.md",
       "long": 6,
       "longest": 51,
@@ -506,123 +506,6 @@
       "style": 19,
       "total": 49
     },
-    "guardrails/far-tier-fixtures/report-names-far-in-runnable.md": {
-      "bytes": 367,
-      "file": "guardrails/far-tier-fixtures/report-names-far-in-runnable.md",
-      "long": 0,
-      "longest": 14,
-      "register": 0,
-      "style": 0,
-      "total": 0
-    },
-    "guardrails/far-tier-fixtures/report-runnable-no-standdown.md": {
-      "bytes": 225,
-      "file": "guardrails/far-tier-fixtures/report-runnable-no-standdown.md",
-      "long": 0,
-      "longest": 9,
-      "register": 0,
-      "style": 0,
-      "total": 0
-    },
-    "guardrails/far-tier-fixtures/report-stands-far-down.md": {
-      "bytes": 311,
-      "file": "guardrails/far-tier-fixtures/report-stands-far-down.md",
-      "long": 0,
-      "longest": 14,
-      "register": 0,
-      "style": 0,
-      "total": 0
-    },
-    "guardrails/far-tier-fixtures/vocab-clean.md": {
-      "bytes": 147,
-      "file": "guardrails/far-tier-fixtures/vocab-clean.md",
-      "long": 0,
-      "longest": 15,
-      "register": 0,
-      "style": 0,
-      "total": 0
-    },
-    "guardrails/far-tier-fixtures/vocab-deferred-without-trigger.md": {
-      "bytes": 129,
-      "file": "guardrails/far-tier-fixtures/vocab-deferred-without-trigger.md",
-      "long": 0,
-      "longest": 10,
-      "register": 0,
-      "style": 0,
-      "total": 0
-    },
-    "guardrails/far-tier-fixtures/vocab-far-with-trigger.md": {
-      "bytes": 183,
-      "file": "guardrails/far-tier-fixtures/vocab-far-with-trigger.md",
-      "long": 0,
-      "longest": 15,
-      "register": 0,
-      "style": 0,
-      "total": 0
-    },
-    "guardrails/far-tier-fixtures/window-first-offer-after-window.md": {
-      "bytes": 183,
-      "file": "guardrails/far-tier-fixtures/window-first-offer-after-window.md",
-      "long": 0,
-      "longest": 12,
-      "register": 0,
-      "style": 0,
-      "total": 0
-    },
-    "guardrails/far-tier-fixtures/window-second-offer-in-window.md": {
-      "bytes": 183,
-      "file": "guardrails/far-tier-fixtures/window-second-offer-in-window.md",
-      "long": 0,
-      "longest": 12,
-      "register": 0,
-      "style": 0,
-      "total": 0
-    },
-    "guardrails/measured-number-fixtures/bare-number.md": {
-      "bytes": 92,
-      "file": "guardrails/measured-number-fixtures/bare-number.md",
-      "long": 0,
-      "longest": 8,
-      "register": 0,
-      "style": 0,
-      "total": 0
-    },
-    "guardrails/measured-number-fixtures/measured-number.md": {
-      "bytes": 664,
-      "file": "guardrails/measured-number-fixtures/measured-number.md",
-      "long": 0,
-      "longest": 21,
-      "register": 0,
-      "style": 0,
-      "total": 0
-    },
-    "guardrails/release-note-fixtures/note-neither.md": {
-      "bytes": 399,
-      "file": "guardrails/release-note-fixtures/note-neither.md",
-      "long": 1,
-      "longest": 28,
-      "register": 0,
-      "style": 0,
-      "total": 1
-    },
-    "guardrails/release-note-fixtures/note-no-offer.md": {
-      "bytes": 417,
-      "file": "guardrails/release-note-fixtures/note-no-offer.md",
-      "long": 0,
-      "longest": 21,
-      "register": 0,
-      "style": 0,
-      "total": 0
-    },
-    "guardrails/release-note-fixtures/note-offers.md": {
-      "bytes": 543,
-      "file": "guardrails/release-note-fixtures/note-offers.md",
-      "long": 1,
-      "longest": 30,
-      "register": 0,
-      "style": 0,
-      "total": 1
-    },
     "hooks/conduct-law.md": {
       "bytes": 3744,
       "file": "hooks/conduct-law.md",
@@ -631,42 +514,6 @@
       "register": 0,
       "style": 27,
       "total": 38
-    },
-    "inbox/2026-07-30-authoring-coverage-findings.md": {
-      "bytes": 11234,
-      "file": "inbox/2026-07-30-authoring-coverage-findings.md",
-      "long": 18,
-      "longest": 83,
-      "register": 0,
-      "style": 7,
-      "total": 25
-    },
-    "inbox/2026-07-30-communicator-source-findings.md": {
-      "bytes": 25087,
-      "file": "inbox/2026-07-30-communicator-source-findings.md",
-      "long": 49,
-      "longest": 94,
-      "register": 0,
-      "style": 6,
-      "total": 55
-    },
-    "inbox/2026-07-30-context-audit-from-fable.md": {
-      "bytes": 10468,
-      "file": "inbox/2026-07-30-context-audit-from-fable.md",
-      "long": 18,
-      "longest": 46,
-      "register": 0,
-      "style": 4,
-      "total": 22
-    },
-    "inbox/2026-07-30-live-spec-base-leftovers.md": {
-      "bytes": 17097,
-      "file": "inbox/2026-07-30-live-spec-base-leftovers.md",
-      "long": 32,
-      "longest": 61,
-      "register": 0,
-      "style": 2,
-      "total": 34
     },
     "inbox/README.md": {
       "bytes": 9996,
@@ -795,7 +642,7 @@
       "total": 3
     },
     "skills/communicator/SKILL.md": {
-      "bytes": 45855,
+      "bytes": 45831,
       "file": "skills/communicator/SKILL.md",
       "long": 84,
       "longest": 97,
@@ -804,7 +651,7 @@
       "total": 175
     },
     "skills/communicator/references/field-examples.md": {
-      "bytes": 7797,
+      "bytes": 7785,
       "file": "skills/communicator/references/field-examples.md",
       "long": 17,
       "longest": 51,
@@ -822,7 +669,7 @@
       "total": 11
     },
     "skills/communicator/references/words.md": {
-      "bytes": 6535,
+      "bytes": 6533,
       "file": "skills/communicator/references/words.md",
       "long": 4,
       "longest": 57,
@@ -993,7 +840,7 @@
       "total": 0
     },
     "skills/text-audit/SKILL.md": {
-      "bytes": 28511,
+      "bytes": 29808,
       "file": "skills/text-audit/SKILL.md",
       "long": 0,
       "longest": 25,
@@ -1002,7 +849,7 @@
       "total": 0
     },
     "skills/text-audit/references/human-prose-rules.md": {
-      "bytes": 24136,
+      "bytes": 24226,
       "file": "skills/text-audit/references/human-prose-rules.md",
       "long": 0,
       "longest": 25,
@@ -1011,7 +858,7 @@
       "total": 0
     },
     "skills/text-audit/references/reader-prompt.md": {
-      "bytes": 7940,
+      "bytes": 8241,
       "file": "skills/text-audit/references/reader-prompt.md",
       "long": 0,
       "longest": 23,
@@ -1036,114 +883,6 @@
       "register": 0,
       "style": 0,
       "total": 0
-    },
-    "templates/ARCHITECTURE.template.md": {
-      "bytes": 12517,
-      "file": "templates/ARCHITECTURE.template.md",
-      "long": 0,
-      "longest": 25,
-      "register": 0,
-      "style": 1,
-      "total": 1
-    },
-    "templates/DECISIONS.template.md": {
-      "bytes": 1493,
-      "file": "templates/DECISIONS.template.md",
-      "long": 1,
-      "longest": 36,
-      "register": 0,
-      "style": 4,
-      "total": 5
-    },
-    "templates/JOURNAL.template.md": {
-      "bytes": 1074,
-      "file": "templates/JOURNAL.template.md",
-      "long": 0,
-      "longest": 24,
-      "register": 0,
-      "style": 5,
-      "total": 5
-    },
-    "templates/KILL_LIST.template.md": {
-      "bytes": 674,
-      "file": "templates/KILL_LIST.template.md",
-      "long": 0,
-      "longest": 16,
-      "register": 0,
-      "style": 4,
-      "total": 4
-    },
-    "templates/NEXT_STEPS.template.md": {
-      "bytes": 1099,
-      "file": "templates/NEXT_STEPS.template.md",
-      "long": 1,
-      "longest": 27,
-      "register": 0,
-      "style": 4,
-      "total": 5
-    },
-    "templates/PROBLEMS.template.md": {
-      "bytes": 1267,
-      "file": "templates/PROBLEMS.template.md",
-      "long": 0,
-      "longest": 25,
-      "register": 0,
-      "style": 5,
-      "total": 5
-    },
-    "templates/PRODUCT_SPEC.template.md": {
-      "bytes": 7238,
-      "file": "templates/PRODUCT_SPEC.template.md",
-      "long": 0,
-      "longest": 24,
-      "register": 0,
-      "style": 0,
-      "total": 0
-    },
-    "templates/ROADMAP.template.md": {
-      "bytes": 6338,
-      "file": "templates/ROADMAP.template.md",
-      "long": 0,
-      "longest": 24,
-      "register": 0,
-      "style": 0,
-      "total": 0
-    },
-    "templates/TEST_MATRIX.template.md": {
-      "bytes": 4017,
-      "file": "templates/TEST_MATRIX.template.md",
-      "long": 0,
-      "longest": 25,
-      "register": 0,
-      "style": 0,
-      "total": 0
-    },
-    "templates/agent.template.md": {
-      "bytes": 5328,
-      "file": "templates/agent.template.md",
-      "long": 10,
-      "longest": 47,
-      "register": 0,
-      "style": 7,
-      "total": 17
-    },
-    "templates/profile.template.md": {
-      "bytes": 1622,
-      "file": "templates/profile.template.md",
-      "long": 2,
-      "longest": 72,
-      "register": 0,
-      "style": 2,
-      "total": 4
-    },
-    "templates/skill-review.template.md": {
-      "bytes": 489,
-      "file": "templates/skill-review.template.md",
-      "long": 0,
-      "longest": 14,
-      "register": 0,
-      "style": 2,
-      "total": 2
     }
   }
 }
