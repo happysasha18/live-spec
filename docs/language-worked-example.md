@@ -602,7 +602,14 @@ sentence that names what the config does, where a reader skimming the steps stil
 
 ## The count
 
-The human-prose roster binds 39 rules. On this page they fell into three groups.
+<!-- generated:human-prose-total — scripts/gen-language-consumers.py owns the block below -->
+
+The human-prose roster binds 50 rules.
+
+<!-- /generated:human-prose-total -->
+
+The walk on this page ran that roster as it stood when the page was written, 39 rules. They fell into
+three groups.
 
 **Fired on a sentence: 29.** r01, r02, r03, r04, r05, r06, r07, r08, r10, r11, r12, r14, r15, r20,
 r23, r25, r26, r27, r32, r33, r39, r41, r43, r44, r45, r46, r48, r56, r62.
@@ -621,8 +628,8 @@ session's task list, which no documentation page carries. r57 covers a phrasing 
 returning in a later draft, and this pair of drafts has no review history behind it.
 
 Twenty-nine rules fired on one draft of 344 words. A writer who runs the roster as a checklist walks
-all 39 items. The 34 fixes above sit in the draft's eight paragraphs, because the defects cluster. One
-sentence in the first draft broke five rules at once. It ran past the word cap, buried a definition,
+every item on it. The 34 fixes above sit in the draft's eight paragraphs, because the defects cluster.
+One sentence in the first draft broke five rules at once. It ran past the word cap, buried a definition,
 hid its actor, left an abstraction ungrounded, and skipped an example. Reading the roster in id order
 before writing puts the rules in the writer's hand while the sentence is still forming. The sentence
 then arrives already holding five of them.

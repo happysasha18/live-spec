@@ -31,18 +31,28 @@ per reader, and the rule text the judging model reads:
     bullet per rule whose owner is a skill and which binds the human-prose surface, sorted by rule
     id, each bullet giving the rule's name and its reader test.
 
-It also owns one BLOCK inside each of two hand-written pages:
+It also owns one BLOCK inside each of several hand-written pages:
 
   - `docs/language-defects.md` — the record of where the rules came from. Its prose is its own; the
     shared words and roles it is written in stand between the `generated:vocabulary` markers and are
     rewritten on every run. A cold reader is handed one page and cannot follow a pointer to another,
-    so a word two pages share is defined on both, out of the one home.
+    so a word two pages share is defined on both, out of the one home. The same page states how many
+    rules the home carries, which identifier is the highest, and how many stand retired; that sentence
+    stands between the `generated:rule-home-totals` markers.
   - `skills/text-audit/references/human-prose-rules.md` — the audit skill's rule sheet. Its own prose
     is hand-written; the rules the skill holds a text to stand between the `generated:human-prose-rules`
     markers. The skill ships to a host and the rule home stays behind, so the skill carries the rules
     with it and still has one home for them. Until 2026-07-28 the skill stated seven of these rules
     again in its own words. The block stood inside `skills/text-audit/SKILL.md` until 2026-07-29, when
     the skill body was split to hold the ~500-line ideal.
+  - `docs/plans/2026-07-28-top-level-readability.md` — the readability plan. Its opening count of the
+    rules and of the ones binding the spec body stands between the `generated:rule-totals` markers.
+  - `docs/language-worked-example.md` — the page that walks one text through the human-prose roster.
+    The size of that roster stands between the `generated:human-prose-total` markers.
+
+Those last three blocks landed on 2026-08-05. Each held a hand-typed total that drifted every time a
+rule was added, folded, or retired: the plan said 54 rules where the home carried 63, and the record
+said 53. A number a reader meets in prose is generated here or it goes stale.
 
 WHAT IT READS. `guardrails/language-rules.json`, plus the config files a rule's `lists` field names:
 a list entry carrying `source` and `key` is read out of that JSON at build time, so a list a rule
@@ -82,8 +92,12 @@ LAWS_REL = "hooks/language-laws.json"
 DOC_REL = "docs/language-rules.md"
 COVERAGE_REL = "docs/language-rule-coverage.md"
 # The hand-written page that applies the human-prose roster to one text end to end. The writer's page
-# points at it; nothing here generates it.
+# points at it, and its own prose is hand-written; the one sentence stating how large that roster is
+# comes from here, since the roster grows whenever a rule binding human prose is added.
 WORKED_EXAMPLE_REL = "docs/language-worked-example.md"
+# The plan that ordered the readability work. Its opening states how many rules this project holds its
+# own writing to and how many of them bind the spec body — two counts out of the rule home.
+PLAN_REL = "docs/plans/2026-07-28-top-level-readability.md"
 
 # The hand-written record of where the rules came from. Its prose is its own, and the shared words it
 # is written in are spliced into it between the markers below, so a cold reader handed that one page
@@ -107,8 +121,15 @@ READER_PROMPT_GENERATED_LINE = (
 )
 BLOCK_OPEN_FMT = "<!-- generated:%s — scripts/gen-language-consumers.py owns the block below -->"
 BLOCK_CLOSE_FMT = "<!-- /generated:%s -->"
-# Each spliced page and the block it lends the generator.
-SPLICED = {RECORD_REL: "vocabulary", AUDIT_SKILL_REL: "human-prose-rules"}
+# Each spliced page and the block it lends the generator. `guardrails/check-language-rules.py` reads
+# this map to compare the standing block with a fresh build, so a page appears here once.
+SPLICED = {RECORD_REL: "vocabulary", AUDIT_SKILL_REL: "human-prose-rules",
+           PLAN_REL: "rule-totals", WORKED_EXAMPLE_REL: "human-prose-total"}
+# A page lending a SECOND block. The record page states the rule-home totals in its opening and defines
+# the shared words further down, and those two blocks answer to different parts of the source. The gate
+# named above reads one block per page, so a block here is owned and rewritten on every run while its
+# drift between runs goes unread; giving that gate a second loop is the repair.
+SECOND_SPLICED = {RECORD_REL: "rule-home-totals"}
 
 
 def block_open(name):
@@ -949,23 +970,82 @@ def render_human_prose_rules(data):
     return out
 
 
+# --- the totals a page states in its own prose ----------------------------------------------------
+
+RULE_ID = re.compile(r"^r(\d+)$")
+
+# A count under ten reads as a word in the pages these blocks stand in, and as digits above it.
+COUNT_WORDS = ("no", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine")
+
+
+def count_word(number):
+    return COUNT_WORDS[number] if 0 <= number < len(COUNT_WORDS) else str(number)
+
+
+def rule_numbers(rules):
+    """The number inside each rule's id. A id of another shape refuses the build, since the totals
+    below are counted off these numbers and a silent skip would understate them."""
+    numbers = []
+    for rule in rules:
+        match = RULE_ID.match(rule["id"])
+        if not match:
+            raise BuildError("rule id `%s` is not of the form r<number>, so the identifiers cannot be "
+                             "counted" % rule["id"])
+        numbers.append(int(match.group(1)))
+    return numbers
+
+
+def binding(data, surface):
+    """The rules binding one surface."""
+    return [r for r in data["rules"] if surface in r["surfaces"]]
+
+
+def render_rule_totals(data):
+    """The readability plan's opening count: the rules in force, and the ones binding the spec body."""
+    return ("The rules this project holds its own writing to are %d, of which %d bind the spec body."
+            % (len(data["rules"]), len(binding(data, "spec-body"))))
+
+
+def render_rule_home_totals(data):
+    """The record page's opening count: how many rules the home carries, the highest identifier it has
+    reached, and how many identifiers below that one no rule holds."""
+    rules = data["rules"]
+    numbers = rule_numbers(rules)
+    highest = max(numbers)
+    retired = len(set(range(1, highest + 1)) - set(numbers))
+    return ("The rule home carries %d rules and its highest identifier is `r%02d`, so %s stand retired."
+            % (len(rules), highest, count_word(retired)))
+
+
+def render_human_prose_total(data):
+    """The worked example's count of the roster it walks a text through."""
+    return "The human-prose roster binds %d rules." % len(binding(data, "human-prose"))
+
+
 def build_blocks(data):
-    """The spliced blocks as {relative path: block body}, markers excluded."""
+    """The spliced blocks as {relative path: block body}, markers excluded. One block per page, which
+    is the shape `guardrails/check-language-rules.py` reads to catch a hand edit inside a block."""
     return {
         RECORD_REL: "\n".join(render_vocabulary(data)).rstrip("\n"),
         AUDIT_SKILL_REL: "\n".join(render_human_prose_rules(data)).rstrip("\n"),
+        PLAN_REL: render_rule_totals(data),
+        WORKED_EXAMPLE_REL: render_human_prose_total(data),
     }
 
 
-def splice(text, block, rel):
+def build_second_blocks(data):
+    """The second block a page lends, as {relative path: block body}."""
+    return {RECORD_REL: render_rule_home_totals(data)}
+
+
+def splice(text, block, name):
     """`text` with the marked block replaced by `block`. Raises BuildError when the markers are gone."""
-    name = SPLICED[rel]
     opener, closer = block_open(name), block_close(name)
     start = text.find(opener)
     end = text.find(closer)
     if start < 0 or end < 0 or end < start:
-        raise BuildError("%s carries no `%s` … `%s` pair, so its generated block has nowhere to land"
-                         % (rel, opener, closer))
+        raise BuildError("the page carries no `%s` … `%s` pair, so that generated block has nowhere "
+                         "to land" % (opener, closer))
     return "%s%s\n\n%s\n\n%s" % (text[:start], opener, block, text[end:])
 
 
@@ -1011,20 +1091,34 @@ def validate(outputs, data):
             raise BuildError("%s carries no stop bullet for rule %s" % (READER_PROMPT_REL, rule["id"]))
 
 
-def prepare_spliced(blocks, out_dir):
+def page_blocks(data):
+    """Every spliced page as {relative path: [(block name, block body), ...]}, in splice order."""
+    pages = {}
+    for rel, block in build_blocks(data).items():
+        pages.setdefault(rel, []).append((SPLICED[rel], block))
+    for rel, block in build_second_blocks(data).items():
+        pages.setdefault(rel, []).append((SECOND_SPLICED[rel], block))
+    return pages
+
+
+def prepare_spliced(data, out_dir):
     """The spliced pages as whole texts, built in memory before anything is written.
 
-    A spliced target absent under `out_dir` is skipped, which is what lets the suite build into a
-    scratch directory carrying no hand-written pages. A target that is present and has lost its
-    markers raises, so nothing is written at all.
+    A page lending more than one block takes them in turn over the same text, so one page is written
+    once with every block it lends already in place. A spliced target absent under `out_dir` is
+    skipped, which is what lets the suite build into a scratch directory carrying no hand-written
+    pages. A target that is present and has lost its markers raises, so nothing is written at all.
     """
     prepared = {}
-    for rel, block in blocks.items():
+    for rel, blocks in page_blocks(data).items():
         path = os.path.join(out_dir, rel)
         if not os.path.exists(path):
             continue
         with open(path, encoding="utf-8") as f:
-            prepared[rel] = splice(f.read(), block, rel)
+            text = f.read()
+        for name, block in blocks:
+            text = splice(text, block, name)
+        prepared[rel] = text
     return prepared
 
 
@@ -1047,7 +1141,7 @@ def main(argv):
     try:
         data = load_source(args.source)
         outputs = build(data)
-        outputs.update(prepare_spliced(build_blocks(data), args.out_dir))
+        outputs.update(prepare_spliced(data, args.out_dir))
     except BuildError as e:
         print("%s: nothing written — %s" % (CHECK, e))
         return 1

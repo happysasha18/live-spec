@@ -19,9 +19,16 @@ Three pages carry these rules, and each has one reader.
 Each rule carries a short identifier such as `r02`, and this page names a rule by that identifier
 together with the rule's short name in italics, a clause naming the defect the rule removes. An
 identifier is never reused: a retired rule takes its identifier out of the set, and no later rule takes
-it back. The rule home carries 53 rules and its highest identifier is `r62`, so nine stand retired:
-seven went in the fold recorded below, `r22` was folded into `r01` before that fold, and `r28` left the
-set with no record of why.
+it back.
+
+<!-- generated:rule-home-totals — scripts/gen-language-consumers.py owns the block below -->
+
+The rule home carries 66 rules and its highest identifier is `r75`, so nine stand retired.
+
+<!-- /generated:rule-home-totals -->
+
+Of those, seven went in the fold recorded below, `r22` was folded into `r01` earlier, and `r28` left
+with no record of why.
 
 <!-- generated:vocabulary — scripts/gen-language-consumers.py owns the block below -->
 

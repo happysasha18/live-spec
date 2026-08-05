@@ -63,7 +63,6 @@ A rule's **owner** names the one thing that decides a break of it. The status wo
 
 - `script` — a literal check decides a break of this rule on its own.
 - `skill` — deciding a break needs a model reading the text for meaning.
-- `split` — the rule bundles a mechanical arm and a meaning arm, and it owes a split before one owner.
 
 A path written as `~/...` names the reader's own `.claude` tree, which the package ships to nobody; every other path is relative to the repository root.
 
@@ -290,23 +289,23 @@ repair the text from those stops rather than from the one sentence in front of y
 
 **Notes.** r58, `a part of a set named by what its members are`, folded into this entry on 2026-07-28 and its id is retired: each entry called itself half of one class, and a reader had to hold the two side by side to see where one ended. The defect has four shapes — pointing at a set without giving it, naming by count (`the three legs`), naming by pointer (the rest, the others, several), and naming by position (the first three, the latter, item four). r58's title named the state a good sentence is in rather than the defect, so this entry's title names the defect.
 
-### r08 — a sentence carrying more than one rule, running past its word cap, or piling up clauses
+### r08 — a sentence running past the word cap for its surface
 
 **Binds.** spec-body · human-prose · artifact
 
 **Status.** held, armed at manual.
 
-**Owner.** split — The word cap and the clause count are counted by a script; whether one sentence carries two rules is read.
+**Owner.** script — The words in a sentence are counted by a script.
 
 **What catches a break of it.**
 
 - **pattern** — partial. Lives at guardrails/check-criterion-readability.py arm A, reading guardrails/criterion-readability.json:9. Reach: the acceptance-criterion lines of PRODUCT_SPEC.md alone with trailing anchors stripped, counted against a recorded baseline of 469 criteria over the cap; it reads no preamble, no Context block, no User Story, and no case heading.
 - **model** — absent.
-- **person** — held. Reads: a reader hears the pile-up and the bundled second rule, and the cold-read step is where both are caught; the same reading decides whether prose outside the spec's criteria holds the prose numbers, and tells a genuine enumeration from a rhetorical triad.
+- **person** — held. Reads: no checker reads the prose numbers, so the cold-read step is where a human-prose or artifact sentence is measured against them.
 
-**Stated before this page, at.** docs/spec-style.md:22, docs/spec-format.md:17, guardrails/criterion-readability.json:9, ~/.claude/skills/communicator/references/writing-register.md:13, ~/.claude/skills/text-audit/SKILL.md:96, ~/.claude/skills/text-audit/SKILL.md:218, docs/spec-style.md:36, ~/.claude/skills/spec-author/SKILL.md:97
+**Stated before this page, at.** guardrails/criterion-readability.json:9, ~/.claude/skills/communicator/references/writing-register.md:13, ~/.claude/skills/text-audit/SKILL.md:96, ~/.claude/skills/text-audit/SKILL.md:218
 
-**Notes.** r38, `an enumeration flattened into a running paragraph`, and r60, `a sentence piling up subordinate and participial clauses`, folded into this entry on 2026-07-28 and their ids are retired: the three stated the same list instruction three times and governed one class, how much one sentence makes a reader hold at once. The caps are per surface: a spec-body criterion is capped at 35 words, and a human-prose or artifact sentence is flagged above 25 with 15 to 25 the band to aim at. The 35-word cap is enforced against a recorded baseline; the prose numbers flag a sentence for a look and no checker holds them. The 25-word prose flag was set with no measurement behind it. A regex over three-comma sentences was declared out of reach at ~/.claude/skills/spec-author/SKILL.md:102, since it trips on ordinary triads. check-criterion-readability.py is armed nowhere. His words (2026-07-27 17:27): «например вот это разве легко прочитать: "the orchestration law that the session keeps pulling unblocked queue work while any remains."? может можно меньше причастных/деепричастных оборотов и сложноподчиненных предложений? может можно просто буллетами большинство из этого сформулировать?» The clause cap was dropped on 2026-07-29. No measurement set that number and no checker read it. A number with no ground is what r06 forbids. The class it aimed at stays inside the word cap. It also stays inside r64, which sends parallel items to a list.
+**Notes.** The caps are per surface. A spec-body criterion is capped at 35 words. A human-prose or artifact sentence is flagged above 25, with 15 to 25 the band to aim at. The 35-word cap is enforced against a recorded baseline. The prose numbers flag a sentence for a look, and no checker holds them. The 25-word prose flag was set with no measurement behind it. check-criterion-readability.py is armed nowhere. This entry carried a second arm until 2026-08-05: one sentence carries one rule and no definition. No script decides that arm, so it left for r73 and this one keeps the count. r38, `an enumeration flattened into a running paragraph`, folded into this entry on 2026-07-28 with r60, `a sentence piling up subordinate and participial clauses`. Both ids are retired, and the list instruction they carried went on to r73 with the reading. The clause cap was dropped on 2026-07-29. No measurement set that number and no checker read it. A number with no ground is what r06 forbids. The class it aimed at stays inside the word cap. It also stays inside r64, which sends parallel items to a list.
 
 ### r09 — a text breaking a rule it states
 
@@ -488,23 +487,23 @@ repair the text from those stops rather than from the one sentence in front of y
 
 **Notes.** The repair beside the anti-example was written for this file; the home records the anti-example alone.
 
-### r21 — a domain noun with no glossary entry, or an entry no line uses
+### r21 — a term defined twice, or a glossary entry no line uses
 
 **Binds.** spec-body
 
 **Status.** stated-only, armed at nowhere.
 
-**Owner.** split — A glossary entry no line uses is counted by a script; whether a noun is a domain noun is read.
+**Owner.** script — A term defined twice and a glossary entry no line uses are both counted by a script.
 
 **What catches a break of it.**
 
-- **pattern** — partial. Lives at guardrails/check-vocabulary.py. Reach: the glossary lines and requirements body of one document named on the command line; a term defined twice reds and a term no body line uses reds, while the converse is declared undecidable at guardrails/check-vocabulary.py:17.
+- **pattern** — partial. Lives at guardrails/check-vocabulary.py. Reach: the glossary lines and requirements body of one document named on the command line. A term defined twice reds, and an entry no body line uses reds.
 - **model** — absent.
-- **person** — partial. Reads: whether a domain noun the body uses is missing an entry.
+- **person** — absent.
 
 **Stated before this page, at.** docs/spec-format.md:21, docs/roadmap-format.md:9, docs/architecture-format.md:13, docs/test-matrix-format.md:9, ~/.claude/skills/spec-author/SKILL.md:109, ~/.claude/skills/spec-author/SKILL.md:174, ~/.claude/skills/text-audit/SKILL.md:79
 
-**Notes.** The architecture adds no second glossary; the glossary lives at the spec. text-audit widens the rule with an ordering duty the other homes do not carry: the definition comes before the noun's first working use. check-vocabulary.py is armed nowhere.
+**Notes.** The architecture adds no second glossary; the glossary lives at the spec. check-vocabulary.py is armed nowhere, so nothing runs this rule today. This entry carried a second arm until 2026-08-05: a domain noun the body uses with no entry. The script declares that direction undecidable at guardrails/check-vocabulary.py:17, so the arm left for r74.
 
 ### r23 — a word standing in all capitals
 
@@ -530,17 +529,17 @@ repair the text from those stops rather than from the one sentence in front of y
 
 **Status.** held, armed at manual.
 
-**Owner.** split — The person of a sentence is decided by a script; whether the actor it binds is named is read.
+**Owner.** script — The person a sentence speaks in is decided by its words.
 
 **What catches a break of it.**
 
 - **pattern** — held. Lives at scripts/spec-style-lint.py:272. Reach: one file line by line, outside double-quoted spans; advisory by default and blocking under --gate or --tier full.
 - **model** — absent.
-- **person** — partial. Reads: whether a vague `it` or `the system` stands where a finer actor exists.
+- **person** — absent.
 
 **Stated before this page, at.** docs/spec-style.md:23, docs/prose-quality-gate-design.md:20, scripts/spec-style-lint.py:272, ~/.claude/skills/spec-author/SKILL.md:136
 
-**Notes.** r24 and r25 are one rule read on two surfaces, and the block rule dissolves the clash between them: a numbered criterion is spec-body and a Context paragraph in the same file is human-prose, so the two never judge one sentence. The remaining defect is in the checker — scripts/spec-style-lint.py reds r25's surface today because its reach is the whole file rather than the numbered blocks.
+**Notes.** r24 and r25 are one rule read on two surfaces, and the block rule dissolves the clash between them: a numbered criterion is spec-body and a Context paragraph in the same file is human-prose, so the two never judge one sentence. The remaining defect is in the checker — scripts/spec-style-lint.py reds r25's surface today because its reach is the whole file rather than the numbered blocks. This entry carried a second arm until 2026-08-05: the actor a normative sentence binds is named, and is the one that acts. No checker ever read that arm, so it left for r75 and this one keeps the person.
 
 ### r25 — the person an explanatory sentence speaks in
 
@@ -1279,3 +1278,57 @@ repair the text from those stops rather than from the one sentence in front of y
 **Stated before this page, at.** skills/communicator/references/writing-register.md, skills/communicator/SKILL.md, DECISIONS.md
 
 **Notes.** The owner's instruction of 2026-07-29. The recorded case is a session's own chat sentence reporting a count of stops. That sentence named no unit, no decision the count informs, and no procedure behind it.
+
+### r73 — a sentence carrying a second rule or a definition
+
+**Binds.** spec-body · human-prose · artifact
+
+**Status.** held, armed at manual.
+
+**Owner.** skill — Whether one sentence carries a second rule or a definition is a reading.
+
+**What catches a break of it.**
+
+- **pattern** — absent.
+- **model** — absent.
+- **person** — held. Reads: a reader hears the bundled second rule and the buried definition, and the cold-read step catches both.
+
+**Stated before this page, at.** docs/spec-style.md:22, docs/spec-format.md:17, ~/.claude/skills/communicator/references/writing-register.md:13, docs/spec-style.md:36, ~/.claude/skills/spec-author/SKILL.md:97
+
+**Notes.** This entry is the reading arm of r08, split off on 2026-08-05. r08 counts the words a sentence runs to, and this one asks what the sentence carries. A regex over three-comma sentences was declared out of reach at ~/.claude/skills/spec-author/SKILL.md:102, since it trips on ordinary triads. Telling a genuine enumeration from a rhetorical triad is the same meaning call. The list instruction r38 carried before its fold into r08 stands here for that reason. His words (2026-07-27 17:27): «например вот это разве легко прочитать: "the orchestration law that the session keeps pulling unblocked queue work while any remains."? может можно меньше причастных/деепричастных оборотов и сложноподчиненных предложений? может можно просто буллетами большинство из этого сформулировать?».
+
+### r74 — a domain noun the body uses with no glossary entry
+
+**Binds.** spec-body
+
+**Status.** stated-only, armed at nowhere.
+
+**Owner.** skill — Whether a word is a domain noun owing an entry is a reading.
+
+**What catches a break of it.**
+
+- **pattern** — absent.
+- **model** — absent.
+- **person** — partial. Reads: whether a word the body uses is a domain noun owing an entry, or ordinary English.
+
+**Stated before this page, at.** docs/spec-format.md:21, docs/roadmap-format.md:9, docs/architecture-format.md:13, docs/test-matrix-format.md:9
+
+**Notes.** This entry is the reading arm of r21, split off on 2026-08-05. r21 counts a term defined twice and an entry no line uses. This one asks whether a noun the body uses owes an entry at all. No script can tell a domain noun in free prose from ordinary English, which guardrails/check-vocabulary.py:17 states in its own words. The cold reader is what catches an undefined domain noun. text-audit widens the rule with an ordering duty the other homes do not carry: the definition comes before the noun's first working use.
+
+### r75 — a normative sentence binding a vague actor
+
+**Binds.** spec-body
+
+**Status.** stated-only, armed at nowhere.
+
+**Owner.** skill — Whether the named actor is the one that acts is a reading.
+
+**What catches a break of it.**
+
+- **pattern** — absent.
+- **model** — absent.
+- **person** — partial. Reads: whether a vague `it` or `the system` stands where a finer actor exists.
+
+**Stated before this page, at.** docs/spec-style.md:23
+
+**Notes.** This entry is the reading arm of r24, split off on 2026-08-05. r24 decides the person a sentence writes in, which its words settle. This one asks whether the actor the sentence binds is named, and is the one that acts. scripts/spec-style-lint.py reads the person alone, and no checker reads the actor. docs/spec-style.md:23 states both duties in one line, which is why both halves name it.

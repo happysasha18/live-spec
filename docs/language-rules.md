@@ -41,37 +41,37 @@ A surface is a KIND of text, not a file, and one file carries several. The numbe
 
 The numbered requirements and acceptance criteria of `PRODUCT_SPEC.md`, and the same numbered shape in `ARCHITECTURE.md` and `TEST_MATRIX.md`. A machine reads this text beside the person. The prose paragraphs in those same files are human-prose. Example: Requirement 297 of `PRODUCT_SPEC.md`, and each acceptance criterion under it.
 
-Binds 52 of the 63 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r08 · r09 · r10 · r11 · r12 · r15 · r18 · r19 · r20 · r21 · r23 · r24 · r26 · r27 · r29 · r30 · r31 · r32 · r33 · r34 · r35 · r36 · r37 · r39 · r40 · r41 · r43 · r44 · r45 · r53 · r54 · r55 · r56 · r61 · r62 · r63 · r64 · r65 · r66 · r67 · r68 · r69 · r70 · r71 · r72.
+Binds 55 of the 66 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r08 · r09 · r10 · r11 · r12 · r15 · r18 · r19 · r20 · r21 · r23 · r24 · r26 · r27 · r29 · r30 · r31 · r32 · r33 · r34 · r35 · r36 · r37 · r39 · r40 · r41 · r43 · r44 · r45 · r53 · r54 · r55 · r56 · r61 · r62 · r63 · r64 · r65 · r66 · r67 · r68 · r69 · r70 · r71 · r72 · r73 · r74 · r75.
 
 ### human-prose
 
 Text a person reads to understand something or to decide something. A README, a decision page, a report, a skill's own body, and a documentation page carry it. So do the prose paragraphs inside a spec. A documentation page carries `artifact` as well once it is published outside the project. Example: `README.md`, and this page.
 
-Binds 49 of the 63 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r08 · r09 · r10 · r11 · r12 · r13 · r14 · r15 · r18 · r20 · r23 · r25 · r26 · r27 · r32 · r33 · r39 · r41 · r43 · r44 · r45 · r46 · r48 · r49 · r50 · r52 · r53 · r54 · r56 · r57 · r61 · r62 · r63 · r64 · r65 · r66 · r67 · r68 · r69 · r70 · r71 · r72.
+Binds 50 of the 66 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r08 · r09 · r10 · r11 · r12 · r13 · r14 · r15 · r18 · r20 · r23 · r25 · r26 · r27 · r32 · r33 · r39 · r41 · r43 · r44 · r45 · r46 · r48 · r49 · r50 · r52 · r53 · r54 · r56 · r57 · r61 · r62 · r63 · r64 · r65 · r66 · r67 · r68 · r69 · r70 · r71 · r72 · r73.
 
 ### chat
 
 A message the agent sends the person in conversation, including the narration between tool calls — the checkers read every assistant message since the person's last turn, not the final reply alone. Example: a reply in a working session.
 
-Binds 33 of the 63 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r10 · r11 · r12 · r13 · r14 · r15 · r18 · r25 · r26 · r27 · r43 · r46 · r47 · r48 · r49 · r50 · r51 · r52 · r61 · r62 · r63 · r65 · r66 · r68 · r71 · r72.
+Binds 33 of the 66 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r10 · r11 · r12 · r13 · r14 · r15 · r18 · r25 · r26 · r27 · r43 · r46 · r47 · r48 · r49 · r50 · r51 · r52 · r61 · r62 · r63 · r65 · r66 · r68 · r71 · r72.
 
 ### artifact
 
 A page or file published to someone outside the project: a rendered page, product copy, a public README, a marketing text. Example: the project's public README as it stands on its repository page.
 
-Binds 53 of the 63 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r08 · r09 · r10 · r11 · r12 · r13 · r14 · r15 · r18 · r19 · r20 · r23 · r25 · r26 · r27 · r29 · r30 · r31 · r32 · r33 · r34 · r39 · r40 · r41 · r43 · r44 · r45 · r46 · r50 · r53 · r54 · r55 · r56 · r57 · r61 · r62 · r63 · r64 · r65 · r66 · r67 · r68 · r69 · r70 · r71 · r72.
+Binds 54 of the 66 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r08 · r09 · r10 · r11 · r12 · r13 · r14 · r15 · r18 · r19 · r20 · r23 · r25 · r26 · r27 · r29 · r30 · r31 · r32 · r33 · r34 · r39 · r40 · r41 · r43 · r44 · r45 · r46 · r50 · r53 · r54 · r55 · r56 · r57 · r61 · r62 · r63 · r64 · r65 · r66 · r67 · r68 · r69 · r70 · r71 · r72 · r73.
 
 ### commit
 
 A commit message: its subject line and its body. Example: the message on one commit.
 
-Binds 8 of the 63 rules: r10 · r12 · r18 · r19 · r27 · r61 · r66 · r68.
+Binds 8 of the 66 rules: r10 · r12 · r18 · r19 · r27 · r61 · r66 · r68.
 
 ### worker-brief
 
 The text one agent hands another as its instructions. Example: the brief a session writes when it starts a background worker.
 
-Binds 13 of the 63 rules: r10 · r12 · r13 · r14 · r15 · r18 · r27 · r48 · r61 · r66 · r67 · r68 · r69.
+Binds 13 of the 66 rules: r10 · r12 · r13 · r14 · r15 · r18 · r27 · r48 · r61 · r66 · r67 · r68 · r69.
 
 ## The words these pages use
 
@@ -101,7 +101,6 @@ A rule's **owner** names the one thing that decides a break of it. The status wo
 
 - `script` — a literal check decides a break of this rule on its own.
 - `skill` — deciding a break needs a model reading the text for meaning.
-- `split` — the rule bundles a mechanical arm and a meaning arm, and it owes a split before one owner.
 
 No rule on this page carries a status, and that is deliberate: a rule binds a text whether or not a machine checks it. The words above are defined here because `docs/language-rule-coverage.md` states them of every rule.
 
@@ -244,19 +243,15 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 **Exceptions.** a count standing beside a name the same sentence already gave; a count reporting a measurement.
 
-### r08 — a sentence carrying more than one rule, running past its word cap, or piling up clauses
+### r08 — a sentence running past the word cap for its surface
 
-**Rule.** One sentence carries one rule and no definitions, and it stays under the word cap for its surface.
+**Rule.** A sentence stays under the word cap for its surface.
 
-**Reader test.** Does this sentence state one rule a reader could cite on its own, and does it stay under the cap for its surface?
+**Reader test.** Does this sentence stay under the cap for its surface?
 
 **Binds.** spec-body · human-prose · artifact
 
-**Examples.**
-
-- `the orchestration law that the session keeps pulling unblocked queue work while any remains.` → `state the law in one short sentence, and put its parts in a list`
-
-**Exceptions.** a spec-body criterion counted in the recorded baseline of 469, which passes while the count stays at or under it — a sentence written today carries no such exception; a rhetorical triad, which carries no list.
+**Exceptions.** a spec-body criterion counted in the recorded baseline of 469, which passes while the count stays at or under it — a sentence written today carries no such exception.
 
 **Thresholds.** spec_body_criterion_max_words = 35; human_prose_flag_above_words = 25; human_prose_target_band = 15 to 25; spec_body_criterion_baseline_over_cap = 469.
 
@@ -415,15 +410,13 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 - `the sketch itself carries the look` → `name the actor and say plainly what it does`
 
-### r21 — a domain noun with no glossary entry, or an entry no line uses
+### r21 — a term defined twice, or a glossary entry no line uses
 
-**Rule.** Every domain noun the document uses holds one glossary entry of one sentence, defined once under one name. Every entry is used by the body.
+**Rule.** A term is defined once under one name, and the body uses every entry the glossary holds.
 
-**Reader test.** Does the glossary define this noun once, and does the body use every entry the glossary holds?
+**Reader test.** Does the glossary define this term once, and does the body use every entry the glossary holds?
 
 **Binds.** spec-body
-
-**Exceptions.** a word of ordinary English, which needs no entry.
 
 ### r23 — a word standing in all capitals
 
@@ -441,9 +434,9 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 ### r24 — the person a normative sentence speaks in
 
-**Rule.** A normative sentence writes in the third person and binds a named actor.
+**Rule.** A normative sentence writes in the third person.
 
-**Reader test.** Does this requirement name the actor it binds, rather than addressing the reader?
+**Reader test.** Does this requirement speak in the third person, rather than addressing the reader?
 
 **Binds.** spec-body
 
@@ -1019,36 +1012,78 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 - `A reading returned fifteen stops.` → `name the unit, the decision the count informs, what changes when it moves, and the command behind it`
 
+### r73 — a sentence carrying a second rule or a definition
+
+**Rule.** One sentence states one rule and holds no definition.
+
+**Reader test.** Does this sentence state one rule a reader could cite on its own, with no definition folded into it?
+
+**Binds.** spec-body · human-prose · artifact
+
+**Examples.**
+
+- `the orchestration law that the session keeps pulling unblocked queue work while any remains.` → `state the law in one short sentence, and put its parts in a list`
+
+**Exceptions.** a rhetorical triad, which carries no list.
+
+### r74 — a domain noun the body uses with no glossary entry
+
+**Rule.** Every domain noun the body uses holds one glossary entry of one sentence.
+
+**Reader test.** Does the glossary hold an entry for this noun, and does that entry come before the noun's first working use?
+
+**Binds.** spec-body
+
+**Exceptions.** a word of ordinary English, which needs no entry.
+
+### r75 — a normative sentence binding a vague actor
+
+**Rule.** A normative sentence names the actor it binds, and that name is the actor that acts.
+
+**Reader test.** Does this requirement name the actor it binds, and is that the actor that acts?
+
+**Binds.** spec-body
+
+**Examples.**
+
+- `the system` → `the actor that acts, where the document names a finer one`
+
+**Exceptions.** a region marked informative.
+
 ## An index of questions
 
 A writer arrives with a question and not yet the name of a defect, and every rule title on this page is written as the name of a defect. Each question below names every rule that answers it.
 
 **How long may a sentence be, and how much may it carry?**
 
-- r08 — a sentence carrying more than one rule, running past its word cap, or piling up clauses
+- r08 — a sentence running past the word cap for its surface
 - r44 — a paragraph carrying more than one point
 - r45 — a long flat run of peer items at one level
 - r46 — a reply that buries its answer
+- r73 — a sentence carrying a second rule or a definition
 
 **Which person do I write in, and may I say `you`?**
 
 - r24 — the person a normative sentence speaks in
 - r25 — the person an explanatory sentence speaks in
 - r26 — a sentence with no actor, or its action buried in a noun
+- r75 — a normative sentence binding a vague actor
 
 **May I define a term, and where does the definition go?**
 
 - r01 — an ordinary word carrying a private project meaning
 - r02 — a coined, loan-translated, or respelled word standing where a plain standard word exists
-- r21 — a domain noun with no glossary entry, or an entry no line uses
+- r21 — a term defined twice, or a glossary entry no line uses
 - r35 — a term defined in place inside a criterion
 - r43 — an abstraction standing where a concrete noun would do
+- r74 — a domain noun the body uses with no glossary entry
 
 **A set my sentence points at — must I give its members?**
 
 - r07 — a set pointed at by a count, a pointer, or a position, with its members never given
-- r08 — a sentence carrying more than one rule, running past its word cap, or piling up clauses
+- r08 — a sentence running past the word cap for its surface
 - r45 — a long flat run of peer items at one level
+- r73 — a sentence carrying a second rule or a definition
 
 **Which tense, and may I say how the rule came about?**
 
@@ -1063,10 +1098,11 @@ A writer arrives with a question and not yet the name of a defect, and every rul
 
 **Structure: when does prose become a list, a paragraph break, or a heading?**
 
-- r08 — a sentence carrying more than one rule, running past its word cap, or piling up clauses
+- r08 — a sentence running past the word cap for its surface
 - r44 — a paragraph carrying more than one point
 - r45 — a long flat run of peer items at one level
 - r55 — an anchor, marker, heading, or literal changed by a rewrite
+- r73 — a sentence carrying a second rule or a definition
 
 **Names: what may I call a thing, and what may I not?**
 

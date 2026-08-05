@@ -28,9 +28,14 @@ The count is taken before and after each batch, on the same requirements, by two
 
 ## What has to be fixed, and in what order of importance
 
-The rules this project holds its own writing to are 54, of which 43 bind the spec body. They fall into
-six groups, each collecting one kind of defect. The first two groups are what stop an agent from
-building. The other four make the text hold together.
+<!-- generated:rule-totals — scripts/gen-language-consumers.py owns the block below -->
+
+The rules this project holds its own writing to are 66, of which 55 bind the spec body.
+
+<!-- /generated:rule-totals -->
+
+They fall into six groups, each collecting one kind of defect. The first two groups are what stop an
+agent from building. The other four make the text hold together.
 
 ### Group 1. The text points at something it never gives
 

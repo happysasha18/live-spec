@@ -23,7 +23,7 @@ end to end against these rules, and names the rule at each fix.
 
 Every rule below binds human prose, which is text a person reads to understand something or to decide something. A README, a decision page, a report, a skill's own body, and a documentation page carry it. So do the prose paragraphs inside a spec. A documentation page carries `artifact` as well once it is published outside the project.
 
-This block prints 49 of the 63 rules the source carries. A code missing from the run below belongs to a rule binding other surfaces only, or to a retired rule whose code left the set. A rule binding human prose may also bind chat, a commit message, or a worker brief. Its recorded case may come from one of those surfaces.
+This block prints 50 of the 66 rules the source carries. A code missing from the run below belongs to a rule binding other surfaces only, or to a retired rule whose code left the set. A rule binding human prose may also bind chat, a commit message, or a worker brief. Its recorded case may come from one of those surfaces.
 
 They are printed here out of `guardrails/language-rules.json`, which is where each one is edited. A change made in this block is overwritten by the next run of `scripts/gen-language-consumers.py`.
 
@@ -57,10 +57,9 @@ Each entry names the class of mistake, states the rule, gives the question to as
   A sentence that depends on a set gives that set, or points by name to the one place holding it. A part of a set is named by what its members are.
   *Ask:* Can a person who reads this sentence alone name the members of the set it points at?
     - `**Case: the three legs**` → `**Case: the prototype-reference leg, the completeness scan, and the behaviour-traces-to-spec check**`
-- **a sentence carrying more than one rule, running past its word cap, or piling up clauses** (`r08`)
-  One sentence carries one rule and no definitions, and it stays under the word cap for its surface.
-  *Ask:* Does this sentence state one rule a reader could cite on its own, and does it stay under the cap for its surface?
-    - `the orchestration law that the session keeps pulling unblocked queue work while any remains.` → `state the law in one short sentence, and put its parts in a list`
+- **a sentence running past the word cap for its surface** (`r08`)
+  A sentence stays under the word cap for its surface.
+  *Ask:* Does this sentence stay under the cap for its surface?
 - **a text breaking a rule it states** (`r09`)
   A text ships once it obeys every rule it states. The sentence stating a rule is the first place to check that rule.
   *Ask:* Does the sentence stating this rule obey the rule it states?
@@ -225,5 +224,9 @@ Each entry names the class of mistake, states the rule, gives the question to as
   A number stated to a reader carries four things. They are why it is measured, what changes when it moves, its unit, and the method behind it. The four stand in the number's own sentence or in the paragraph around it. A number quoted from a named source inherits that source's method.
   *Ask:* Reading this number alone, do I know what is counted, which decision it informs, and which command gives it again?
     - `A reading returned fifteen stops.` → `name the unit, the decision the count informs, what changes when it moves, and the command behind it`
+- **a sentence carrying a second rule or a definition** (`r73`)
+  One sentence states one rule and holds no definition.
+  *Ask:* Does this sentence state one rule a reader could cite on its own, with no definition folded into it?
+    - `the orchestration law that the session keeps pulling unblocked queue work while any remains.` → `state the law in one short sentence, and put its parts in a list`
 
 <!-- /generated:human-prose-rules -->

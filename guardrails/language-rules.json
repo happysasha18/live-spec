@@ -22,8 +22,7 @@
     },
     "owner": {
       "script": "a literal check decides a break of this rule on its own",
-      "skill": "deciding a break needs a model reading the text for meaning",
-      "split": "the rule bundles a mechanical arm and a meaning arm, and it owes a split before one owner"
+      "skill": "deciding a break needs a model reading the text for meaning"
     }
   },
   "vocabulary": {
@@ -136,7 +135,8 @@
         "r08",
         "r44",
         "r45",
-        "r46"
+        "r46",
+        "r73"
       ]
     },
     {
@@ -144,7 +144,8 @@
       "rules": [
         "r24",
         "r25",
-        "r26"
+        "r26",
+        "r75"
       ]
     },
     {
@@ -154,7 +155,8 @@
         "r02",
         "r21",
         "r35",
-        "r43"
+        "r43",
+        "r74"
       ]
     },
     {
@@ -162,7 +164,8 @@
       "rules": [
         "r07",
         "r08",
-        "r45"
+        "r45",
+        "r73"
       ]
     },
     {
@@ -186,7 +189,8 @@
         "r08",
         "r44",
         "r45",
-        "r55"
+        "r55",
+        "r73"
       ]
     },
     {
@@ -697,9 +701,9 @@
     },
     {
       "id": "r08",
-      "name": "a sentence carrying more than one rule, running past its word cap, or piling up clauses",
-      "rule": "One sentence carries one rule and no definitions, and it stays under the word cap for its surface.",
-      "reader_test": "Does this sentence state one rule a reader could cite on its own, and does it stay under the cap for its surface?",
+      "name": "a sentence running past the word cap for its surface",
+      "rule": "A sentence stays under the word cap for its surface.",
+      "reader_test": "Does this sentence stay under the cap for its surface?",
       "surfaces": [
         "spec-body",
         "human-prose",
@@ -715,14 +719,7 @@
         "spec_body_criterion_baseline_over_cap": 469
       },
       "exceptions": [
-        "a spec-body criterion counted in the recorded baseline of 469, which passes while the count stays at or under it — a sentence written today carries no such exception",
-        "a rhetorical triad, which carries no list"
-      ],
-      "examples": [
-        {
-          "written": "the orchestration law that the session keeps pulling unblocked queue work while any remains.",
-          "repair": "state the law in one short sentence, and put its parts in a list"
-        }
+        "a spec-body criterion counted in the recorded baseline of 469, which passes while the count stays at or under it — a sentence written today carries no such exception"
       ],
       "catchers": {
         "pattern": {
@@ -737,27 +734,23 @@
         },
         "person": {
           "status": "held",
-          "note": "a reader hears the pile-up and the bundled second rule, and the cold-read step is where both are caught; the same reading decides whether prose outside the spec's criteria holds the prose numbers, and tells a genuine enumeration from a rhetorical triad"
+          "note": "no checker reads the prose numbers, so the cold-read step is where a human-prose or artifact sentence is measured against them"
         }
       },
       "armed": [
         "manual"
       ],
       "sources": [
-        "docs/spec-style.md:22",
-        "docs/spec-format.md:17",
         "guardrails/criterion-readability.json:9",
         "~/.claude/skills/communicator/references/writing-register.md:13",
         "~/.claude/skills/text-audit/SKILL.md:96",
-        "~/.claude/skills/text-audit/SKILL.md:218",
-        "docs/spec-style.md:36",
-        "~/.claude/skills/spec-author/SKILL.md:97"
+        "~/.claude/skills/text-audit/SKILL.md:218"
       ],
       "status": "held",
-      "notes": "r38, `an enumeration flattened into a running paragraph`, and r60, `a sentence piling up subordinate and participial clauses`, folded into this entry on 2026-07-28 and their ids are retired: the three stated the same list instruction three times and governed one class, how much one sentence makes a reader hold at once. The caps are per surface: a spec-body criterion is capped at 35 words, and a human-prose or artifact sentence is flagged above 25 with 15 to 25 the band to aim at. The 35-word cap is enforced against a recorded baseline; the prose numbers flag a sentence for a look and no checker holds them. The 25-word prose flag was set with no measurement behind it. A regex over three-comma sentences was declared out of reach at ~/.claude/skills/spec-author/SKILL.md:102, since it trips on ordinary triads. check-criterion-readability.py is armed nowhere. His words (2026-07-27 17:27): «например вот это разве легко прочитать: \"the orchestration law that the session keeps pulling unblocked queue work while any remains.\"? может можно меньше причастных/деепричастных оборотов и сложноподчиненных предложений? может можно просто буллетами большинство из этого сформулировать?» The clause cap was dropped on 2026-07-29. No measurement set that number and no checker read it. A number with no ground is what r06 forbids. The class it aimed at stays inside the word cap. It also stays inside r64, which sends parallel items to a list.",
+      "notes": "The caps are per surface. A spec-body criterion is capped at 35 words. A human-prose or artifact sentence is flagged above 25, with 15 to 25 the band to aim at. The 35-word cap is enforced against a recorded baseline. The prose numbers flag a sentence for a look, and no checker holds them. The 25-word prose flag was set with no measurement behind it. check-criterion-readability.py is armed nowhere. This entry carried a second arm until 2026-08-05: one sentence carries one rule and no definition. No script decides that arm, so it left for r73 and this one keeps the count. r38, `an enumeration flattened into a running paragraph`, folded into this entry on 2026-07-28 with r60, `a sentence piling up subordinate and participial clauses`. Both ids are retired, and the list instruction they carried went on to r73 with the reading. The clause cap was dropped on 2026-07-29. No measurement set that number and no checker read it. A number with no ground is what r06 forbids. The class it aimed at stays inside the word cap. It also stays inside r64, which sends parallel items to a list.",
       "owner": {
-        "by": "split",
-        "why": "The word cap and the clause count are counted by a script; whether one sentence carries two rules is read."
+        "by": "script",
+        "why": "The words in a sentence are counted by a script."
       }
     },
     {
@@ -1402,20 +1395,17 @@
     },
     {
       "id": "r21",
-      "name": "a domain noun with no glossary entry, or an entry no line uses",
-      "rule": "Every domain noun the document uses holds one glossary entry of one sentence, defined once under one name. Every entry is used by the body.",
-      "reader_test": "Does the glossary define this noun once, and does the body use every entry the glossary holds?",
+      "name": "a term defined twice, or a glossary entry no line uses",
+      "rule": "A term is defined once under one name, and the body uses every entry the glossary holds.",
+      "reader_test": "Does the glossary define this term once, and does the body use every entry the glossary holds?",
       "surfaces": [
         "spec-body"
-      ],
-      "exceptions": [
-        "a word of ordinary English, which needs no entry"
       ],
       "catchers": {
         "pattern": {
           "status": "partial",
           "where": "guardrails/check-vocabulary.py",
-          "reach": "the glossary lines and requirements body of one document named on the command line; a term defined twice reds and a term no body line uses reds, while the converse is declared undecidable at guardrails/check-vocabulary.py:17"
+          "reach": "the glossary lines and requirements body of one document named on the command line. A term defined twice reds, and an entry no body line uses reds"
         },
         "model": {
           "status": "absent",
@@ -1423,8 +1413,8 @@
           "law_text": ""
         },
         "person": {
-          "status": "partial",
-          "note": "whether a domain noun the body uses is missing an entry"
+          "status": "absent",
+          "note": ""
         }
       },
       "armed": [
@@ -1440,10 +1430,10 @@
         "~/.claude/skills/text-audit/SKILL.md:79"
       ],
       "status": "stated-only",
-      "notes": "The architecture adds no second glossary; the glossary lives at the spec. text-audit widens the rule with an ordering duty the other homes do not carry: the definition comes before the noun's first working use. check-vocabulary.py is armed nowhere.",
+      "notes": "The architecture adds no second glossary; the glossary lives at the spec. check-vocabulary.py is armed nowhere, so nothing runs this rule today. This entry carried a second arm until 2026-08-05: a domain noun the body uses with no entry. The script declares that direction undecidable at guardrails/check-vocabulary.py:17, so the arm left for r74.",
       "owner": {
-        "by": "split",
-        "why": "A glossary entry no line uses is counted by a script; whether a noun is a domain noun is read."
+        "by": "script",
+        "why": "A term defined twice and a glossary entry no line uses are both counted by a script."
       }
     },
     {
@@ -1589,8 +1579,8 @@
     {
       "id": "r24",
       "name": "the person a normative sentence speaks in",
-      "rule": "A normative sentence writes in the third person and binds a named actor.",
-      "reader_test": "Does this requirement name the actor it binds, rather than addressing the reader?",
+      "rule": "A normative sentence writes in the third person.",
+      "reader_test": "Does this requirement speak in the third person, rather than addressing the reader?",
       "surfaces": [
         "spec-body"
       ],
@@ -1610,8 +1600,8 @@
           "law_text": ""
         },
         "person": {
-          "status": "partial",
-          "note": "whether a vague `it` or `the system` stands where a finer actor exists"
+          "status": "absent",
+          "note": ""
         }
       },
       "armed": [
@@ -1624,10 +1614,10 @@
         "~/.claude/skills/spec-author/SKILL.md:136"
       ],
       "status": "held",
-      "notes": "r24 and r25 are one rule read on two surfaces, and the block rule dissolves the clash between them: a numbered criterion is spec-body and a Context paragraph in the same file is human-prose, so the two never judge one sentence. The remaining defect is in the checker — scripts/spec-style-lint.py reds r25's surface today because its reach is the whole file rather than the numbered blocks.",
+      "notes": "r24 and r25 are one rule read on two surfaces, and the block rule dissolves the clash between them: a numbered criterion is spec-body and a Context paragraph in the same file is human-prose, so the two never judge one sentence. The remaining defect is in the checker — scripts/spec-style-lint.py reds r25's surface today because its reach is the whole file rather than the numbered blocks. This entry carried a second arm until 2026-08-05: the actor a normative sentence binds is named, and is the one that acts. No checker ever read that arm, so it left for r75 and this one keeps the person.",
       "owner": {
-        "by": "split",
-        "why": "The person of a sentence is decided by a script; whether the actor it binds is named is read."
+        "by": "script",
+        "why": "The person a sentence speaks in is decided by its words."
       }
     },
     {
@@ -3798,6 +3788,147 @@
       "owner": {
         "by": "skill",
         "why": "Whether the four parts of a measurement stand around the number is a reading."
+      }
+    },
+    {
+      "id": "r73",
+      "name": "a sentence carrying a second rule or a definition",
+      "rule": "One sentence states one rule and holds no definition.",
+      "reader_test": "Does this sentence state one rule a reader could cite on its own, with no definition folded into it?",
+      "surfaces": [
+        "spec-body",
+        "human-prose",
+        "artifact"
+      ],
+      "exceptions": [
+        "a rhetorical triad, which carries no list"
+      ],
+      "examples": [
+        {
+          "written": "the orchestration law that the session keeps pulling unblocked queue work while any remains.",
+          "repair": "state the law in one short sentence, and put its parts in a list"
+        }
+      ],
+      "catchers": {
+        "pattern": {
+          "status": "absent",
+          "where": "",
+          "reach": ""
+        },
+        "model": {
+          "status": "absent",
+          "where": "",
+          "law_text": ""
+        },
+        "person": {
+          "status": "held",
+          "note": "a reader hears the bundled second rule and the buried definition, and the cold-read step catches both"
+        }
+      },
+      "armed": [
+        "manual"
+      ],
+      "sources": [
+        "docs/spec-style.md:22",
+        "docs/spec-format.md:17",
+        "~/.claude/skills/communicator/references/writing-register.md:13",
+        "docs/spec-style.md:36",
+        "~/.claude/skills/spec-author/SKILL.md:97"
+      ],
+      "status": "held",
+      "notes": "This entry is the reading arm of r08, split off on 2026-08-05. r08 counts the words a sentence runs to, and this one asks what the sentence carries. A regex over three-comma sentences was declared out of reach at ~/.claude/skills/spec-author/SKILL.md:102, since it trips on ordinary triads. Telling a genuine enumeration from a rhetorical triad is the same meaning call. The list instruction r38 carried before its fold into r08 stands here for that reason. His words (2026-07-27 17:27): «например вот это разве легко прочитать: \"the orchestration law that the session keeps pulling unblocked queue work while any remains.\"? может можно меньше причастных/деепричастных оборотов и сложноподчиненных предложений? может можно просто буллетами большинство из этого сформулировать?»",
+      "owner": {
+        "by": "skill",
+        "why": "Whether one sentence carries a second rule or a definition is a reading."
+      }
+    },
+    {
+      "id": "r74",
+      "name": "a domain noun the body uses with no glossary entry",
+      "rule": "Every domain noun the body uses holds one glossary entry of one sentence.",
+      "reader_test": "Does the glossary hold an entry for this noun, and does that entry come before the noun's first working use?",
+      "surfaces": [
+        "spec-body"
+      ],
+      "exceptions": [
+        "a word of ordinary English, which needs no entry"
+      ],
+      "catchers": {
+        "pattern": {
+          "status": "absent",
+          "where": "",
+          "reach": ""
+        },
+        "model": {
+          "status": "absent",
+          "where": "",
+          "law_text": ""
+        },
+        "person": {
+          "status": "partial",
+          "note": "whether a word the body uses is a domain noun owing an entry, or ordinary English"
+        }
+      },
+      "armed": [
+        "nowhere"
+      ],
+      "sources": [
+        "docs/spec-format.md:21",
+        "docs/roadmap-format.md:9",
+        "docs/architecture-format.md:13",
+        "docs/test-matrix-format.md:9"
+      ],
+      "status": "stated-only",
+      "notes": "This entry is the reading arm of r21, split off on 2026-08-05. r21 counts a term defined twice and an entry no line uses. This one asks whether a noun the body uses owes an entry at all. No script can tell a domain noun in free prose from ordinary English, which guardrails/check-vocabulary.py:17 states in its own words. The cold reader is what catches an undefined domain noun. text-audit widens the rule with an ordering duty the other homes do not carry: the definition comes before the noun's first working use.",
+      "owner": {
+        "by": "skill",
+        "why": "Whether a word is a domain noun owing an entry is a reading."
+      }
+    },
+    {
+      "id": "r75",
+      "name": "a normative sentence binding a vague actor",
+      "rule": "A normative sentence names the actor it binds, and that name is the actor that acts.",
+      "reader_test": "Does this requirement name the actor it binds, and is that the actor that acts?",
+      "surfaces": [
+        "spec-body"
+      ],
+      "exceptions": [
+        "a region marked informative"
+      ],
+      "examples": [
+        {
+          "written": "the system",
+          "repair": "the actor that acts, where the document names a finer one"
+        }
+      ],
+      "catchers": {
+        "pattern": {
+          "status": "absent",
+          "where": "",
+          "reach": ""
+        },
+        "model": {
+          "status": "absent",
+          "where": "",
+          "law_text": ""
+        },
+        "person": {
+          "status": "partial",
+          "note": "whether a vague `it` or `the system` stands where a finer actor exists"
+        }
+      },
+      "armed": [
+        "nowhere"
+      ],
+      "sources": [
+        "docs/spec-style.md:23"
+      ],
+      "status": "stated-only",
+      "notes": "This entry is the reading arm of r24, split off on 2026-08-05. r24 decides the person a sentence writes in, which its words settle. This one asks whether the actor the sentence binds is named, and is the one that acts. scripts/spec-style-lint.py reads the person alone, and no checker reads the actor. docs/spec-style.md:23 states both duties in one line, which is why both halves name it.",
+      "owner": {
+        "by": "skill",
+        "why": "Whether the named actor is the one that acts is a reading."
       }
     }
   ]

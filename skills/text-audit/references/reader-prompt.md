@@ -4,7 +4,7 @@
 
 This file belongs to the `text-audit` skill, whose body is [`../SKILL.md`](../SKILL.md). One test in the body decides whether a finding blocks: the reader could not go on, or would have applied the text wrongly. The body's section "The cold reader" lists the kinds most blocking findings fall into. It also says who reads under this prompt and what to do with what comes back.
 
-This prompt prints every rule bound to human prose whose owner is a skill: 38 of the 63 rules the rule home carries. The rules at [`human-prose-rules.md`](human-prose-rules.md) name every other class an audit holds a text to. Judging those classes needs a rulebook the cold reader does not hold. The prompt's last instruction takes every other stop the reader met, so a class the printed list does not name still comes back.
+This prompt prints every rule bound to human prose whose owner is a skill: 39 of the 66 rules the rule home carries. The rules at [`human-prose-rules.md`](human-prose-rules.md) name every other class an audit holds a text to. Judging those classes needs a rulebook the cold reader does not hold. The prompt's last instruction takes every other stop the reader met, so a class the printed list does not name still comes back.
 
 Paste the block below verbatim into the cold-reader session, under that one test for a blocking finding, with the text appended.
 
@@ -53,6 +53,7 @@ Mark every place you stop. A stop is any one of these:
 - a set claimed whole while the text carries members outside it, or leaves members out with no reason — does the text's own list agree with the claim made over it?
 - a claim resting on ground the reader of the page cannot reach — can a reader holding this page alone see what this claim rests on?
 - a number stated without the four parts a measurement carries — reading this number alone, do I know what is counted, which decision it informs, and which command gives it again?
+- a sentence carrying a second rule or a definition — does this sentence state one rule a reader could cite on its own, with no definition folded into it?
 
 For each stop, write one entry with five parts:
 1. the quoted phrase;
