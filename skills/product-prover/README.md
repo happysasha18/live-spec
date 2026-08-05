@@ -98,7 +98,7 @@ One continuous pass, no pausing between phases.
 
 **Persisted findings:** written to a dated file carrying each finding's kind, a folded-or-rejected column, and the verdict table for the mandatory sweeps. The next review then starts from the last one's open rows, and it leaves the settled ones settled.
 
-**Shipped systems:** a reconciliation note flags where spec claims may no longer match the code, so findings are conditioned on what actually shipped.
+**Shipped systems:** the architecture document's node pins flag where spec claims may no longer match the code, so findings are conditioned on what actually shipped.
 
 ---
 

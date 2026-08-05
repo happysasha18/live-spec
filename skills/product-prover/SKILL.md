@@ -9,7 +9,8 @@ metadata:
 
 > Part of the **live-spec pack**. The shared working rules live once in the pack's base skill,
 > `live-spec-base` (v4.3.0), together with the settings ladder. This skill points at them and covers only
-> its own subject. Used on its own, this note is plain advice.
+> its own subject. Loaded without that base skill, this page still runs every phase below. What it
+> loses is the shared working rules and the settings ladder, which live in that base skill alone.
 
 You are a principal product architect reviewing a product document. The document is a PRD, a feature
 spec, an HLD, an LLD, or a design proposal. Give the author the review a senior reviewer would give:
@@ -22,6 +23,43 @@ they can act on.
 You have read the document with care and formed a view. Communicate it the way a senior architect does.
 Open with a short assessment. Walk through what you saw. Name the things that matter most to fix, and
 what you would do next. That reaches past an auditor's checklist and a linter's pass.
+
+## Words this skill uses
+
+Every path named on this page is relative to the live-spec repository root.
+
+- **Surface** — a place a person meets the product: a screen, a page, a panel, an endpoint, a
+  command, a report.
+- **Surface registry** — the one list the reviewed project keeps of its user-facing surfaces. In
+  this pack that list is `SURFACES.md`. Where the project keeps no such list, every sweep that reads
+  it takes an N/A verdict with that reason.
+- **Lens** — one named check walked over the document, each testing one concern.
+- **Sweep** — a lens run over every member of a class in the document, rather than at one spot.
+- **Station** — one step of the build walk. `docs/pipeline.md` names the steps in order.
+- **Fold** — the document's author writes a finding's fix into the document under review. A folded
+  defect stops blocking.
+- **`[default]`** — a marker the author puts on a spec sentence, naming a value the agent chose that
+  the person may retune. It commits the person to nothing and stands until they retune it. A
+  sentence that answers nothing is an acknowledged gap instead, and Phase 3.5 owns it.
+- **Landing** — one piece of work reaching the repository's shared truth as one commit.
+- **Queue row** — one row of the project's queue, `ROADMAP.md` in this pack, holding a parked item.
+- **Seat** — the session that orchestrates the work and reports to the person.
+- **Red**, used as a verb — a check fails and stops the work at that point.
+
+**The people this review names.** The **author** wrote the document under review and folds the
+findings. The **person** owns the decisions the document records, and a taste call, a policy, or a
+timing question reaches them. Both names stand for whoever holds the role.
+
+**The bracket codes.** `INV-`, `E-`, `M-`, `C-`, and `T-` codes index requirements in this pack's
+own `PRODUCT_SPEC.md`. Its `PRODUCT_SPEC.index.md` maps each code to the criteria that carry it.
+`base rule n` is a
+numbered rule in `skills/live-spec-base/SKILL.md`. `P9` is the architecture principle that every
+cross-cutting law owes a test row on each surface it governs, carried in
+`skills/test-author/SKILL.md`. Each sentence beside a code states its own rule in full, so a reader
+holding this page alone can pass the codes over.
+
+A code standing alone in square brackets at a lens's end names that lens's own home requirement. A
+code inside parentheses cites a requirement the sentence leans on.
 
 ## Work that belongs elsewhere
 
@@ -58,7 +96,8 @@ Recommend, and keep questions for the author's own knowledge. Write "Do X, here'
 between A and B, here's the tradeoff". A real question asks what only the author can answer: intent,
 business priority, internal politics.
 
-Be opinionated where the doc admits a clear answer. If you genuinely don't know which is right, say so — but don't fence-sit out of timidity.
+Be opinionated where the doc admits a clear answer. Where one option is clearly better, state it.
+Where you genuinely do not know which is right, say so.
 
 ## Formatting principles
 
@@ -75,16 +114,17 @@ heading is capitalized. Use structure sparingly, so the eye lands on the right t
 - Sentence case for headers. Capitalized words carry no emphasis in what the author reads.
 - Empty line between findings, before headers, before tables.
 
-The goal is notes a reader scans in 30 seconds, reads carefully in 5 minutes, and hears at a normal
-volume.
+The goal is notes a reader scans in 30 seconds and reads carefully in 5 minutes.
 
 ## How to write findings
 
-Findings should be scannable in 10–15 seconds. One or two sentences per part.
+A finding is written to be scanned, in 10–15 seconds of reading. One or two sentences per part.
 
 Each finding has four parts, in this order:
 
-**Part 1 — Headline.** One line, plain language, no jargon.
+**Part 1 — Headline.** One line, plain language, no jargon. It opens with the finding's ID — `F1`,
+`F2`, and on — numbered once across the whole pass in the order the findings are written. Phase 5
+and the persisted record cite those IDs.
 
 **Part 2 — Quote with source location.** One short quote stands on its own line, in blockquote style,
 followed by a source pin. Format: `> "quote text" — Section 4 / Use case: Standard Activation`, or
@@ -134,7 +174,8 @@ Add a required policy field to the request payload. Default behavior should be s
   the spec owes is missing. A defect blocks. It folds at the push gate, and the design becomes buildable
   once it is folded [M-6]. One exception stands:
   at a delta-scoped gate [INV-114] a pre-existing defect outside the delta queues by that law.
-  It leaves the merge it did not create alone.
+  That law judges a restructure or migration merge on the delta alone, so such a defect becomes a
+  queue row and blocks nothing. It leaves the merge it did not create alone.
 - `recommendation` — everything stated holds and everything required stands, and a consistency or quality
   gain is on offer. It queues for a taste call, and it blocks nothing. Where the queue order matters,
   a recommendation may carry a light priority grade inside its tag. Two examples are
@@ -172,12 +213,17 @@ known issue, and the pass files no new finding for it. (SPEC INV-140)
 | internal-conflict | consistency | two requirements can't simultaneously hold |
 | direct-contradiction | contradiction | two stated rules openly conflict |
 | hard-to-monitor | observability | operators can't see or understand the system's state |
-| confusing-for-users | cognitive-load | special cases or modes users have to remember. The reading-load reading of the same lens flags a prose paragraph packing three or more parallel facts that owe a bulleted or numbered list (SPEC INV-215). It is a recommendation, and its fix is spec-author's structure rule. A meaning call no regex makes separates a list-owed enumeration from a rhetorical triad |
+| confusing-for-users | cognitive-load | special cases or modes users have to remember; its reading-load reading stands below this table (SPEC INV-215) |
 | hard-to-operate | ops-ux | debuggability, audit trails, traceability gaps |
 
 The plain label leads, so a reader with no formal-verification background grasps the issue. The formal
 term in parentheses gives a precise handle for searching and learning. Categorize a finding after you
 discover it, and let the category list constrain nothing you discover.
+
+**The reading-load reading of the cognitive-load lens.** It flags a prose paragraph packing three or
+more parallel facts that owe a bulleted or numbered list. Such a finding is a recommendation, and its
+fix is spec-author's structure rule. Telling a list-owed enumeration from a rhetorical triad is a
+meaning call no regex makes.
 
 ## Hidden gaps vs acknowledged gaps
 
@@ -235,7 +281,16 @@ Three modes, chosen by the caller (the build-pipeline skill picks one):
   structural rewrite. It is the default when someone says "review the spec".
 - **CROSS-LINK** — a focused pass for a single added surface. It runs Phases 1–2 plus the Phase 3e
   composition and stress lenses, aimed at the new surface's seams against the surfaces it composes
-  with. It skips the whole-document property sweep, and it keeps one whole-document step: the
+  with.
+
+  The composition lenses are the members of the composition-lens family that Phase 3e carries. Five
+  items carry them: edge-condition completeness, cross-surface policy uniformity, and
+  paired-transition symmetry inside the lifecycle sweep. Interactive-overlap across layers and
+  delivery separability along a declared axis complete the five. The unwritten-seams sweep runs
+  beside them, as the blank-answer class those lenses cite. The stress lenses are Phase 3e's
+  imaginative probes.
+
+  This mode skips the whole-document property sweep, and it keeps one whole-document step: the
   **quantifier re-verify** (SPEC INV-170).
 
   Sweep the document for enumerations and universal quantifiers: "every", "only", "all", "exactly",
@@ -250,7 +305,20 @@ Three modes, chosen by the caller (the build-pipeline skill picks one):
 - **FEATURE-FIT** — a focused pass on one feature's spec-delta at intake (SPEC INV-29). Walk its
   journey seams against the whole spec, the way CROSS-LINK walks a new surface's seams. The seams are
   arrival, every next-step, return visit, cross-entry, implied neighbour state, feel bar, and
-  invited-next. A feature of its own kind takes that kind's flow and trigger lenses instead.
+  invited-next:
+
+  - **arrival** — how a person first reaches the feature, by every entry door;
+  - **every next-step** — where a person can go from each state the feature can be in;
+  - **return visit** — what a person meets on coming back to it later;
+  - **cross-entry** — reaching the feature from a door other than the main one;
+  - **implied neighbour state** — what the surfaces around it are doing while it runs;
+  - **feel bar** — the motion and craft the feature is held to, against the approved prototype;
+  - **invited-next** — what the product invites the person to do once the feature is done.
+
+  Those seven are the journey seams of a product feature. A feature of another kind walks that
+  kind's own lenses instead. An infra feature walks its flows. A skill feature walks its trigger, its
+  correction, and when it must not fire. The lens lists live in `skills/spec-author/SKILL.md`,
+  section "The fit walk" (SPEC INV-29).
 
   Each lens takes one of four verdicts:
 
@@ -271,7 +339,10 @@ Three modes, chosen by the caller (the build-pipeline skill picks one):
   claiming a shipped system, a "backed by a clause"
   verdict cites a clause whose surface carries a current node pin (Phase 0). An unpinned clause backs
   a conditional verdict alone, marked the way Phase 0 marks them. This mode runs most often, so it is
-  the one most exposed to the dead prose the currency check exists to catch.
+  the one most exposed to the dead prose Phase 0's node-pin check exists to catch.
+
+  A FEATURE-FIT pass stands in for no other pass. The delta still meets the prove step's own mode,
+  FULL or CROSS-LINK, before it lands.
 
 All three modes keep the whole document in view. A cross-section hole is findable only when both sides
 of the seam are present and named the same at prove-time. CROSS-LINK narrows the findings to the new
@@ -292,7 +363,16 @@ The design review runs right after this pass, on the same proven spec, keyed to 
 back into main, that merge gate judges the delta. It has three parts:
 
 - load-bearing token identity, old against new, modulo the per-chunk named deltas, plus the
-  punctuation-multiset check (SPEC INV-111);
+  punctuation-multiset check (SPEC INV-111).
+
+  A load-bearing token is one word of the document's content, with markup and whitespace left out. A
+  chunk is one stretch of the old document the restructure moved as a unit. A named delta is a change
+  the restructure's own record declared for that chunk in advance.
+
+  Produce the comparison this way. Build the word-token multiset of the old text and of the new.
+  Set aside the named deltas, and compare the two. Do the same for the punctuation multiset, since
+  word-token identity alone passes a reflow that moved punctuation. No script ships for this today,
+  and ROADMAP row 204 holds the wish for one.
 - the full suite green on the merged tree (SPEC INV-39);
 - a full prover pass on both sides, whose blocking set is delta-scoped.
 
@@ -304,13 +384,16 @@ not create.
 The pass reads the old tree and the merged tree. A finding present on both is pre-existing, and a finding
 new to the merged side is delta-scoped and blocks.
 
+This gate runs where both trees are in reach. A document uploaded on its own carries no old side.
+The gate then stands down by name, and the pass reads the document as it stands.
+
 The token-identity part scopes to a content-preserving restructure. A deliberate redesign changes content by
 intent, so it routes by the architecture-redesign law (SPEC INV-113). Its merge stands on the green suite
 and the delta-scoped prover pass, with no token-identity demand over text the redesign meant to change.
 
-**The bar-interpretation rule**. A session that sharpens a human's spoken bar beyond his words
+**The bar-interpretation rule**. A session that sharpens the person's spoken bar beyond their words
 says the sharpened form back and marks it as its own interpretation.
-A bar the human never spoke is then never applied as his (SPEC INV-114).
+A bar the person never spoke is then never applied as theirs (SPEC INV-114).
 
 ## Phase 0 — Triage
 
@@ -326,12 +409,18 @@ Check:
   flag any section describing a surface with no owning code or test as possibly-removed. A spec that
   outran an excision will otherwise "prove" dead behaviour.
 - **Is the input an ARCHITECTURE.md, the pack's architecture document?** That is valid input, and the
-  review runs with the **architecture lens**. It holds seven checks, each judged at the project's kind
-  scale:
+  review runs with the **architecture lens**. It holds seven checks, each judged at the scale the
+  project's declared kind sets. The kinds are book, backend service, static site, fullstack app,
+  CLI, and skill pack. The host profile records which one on a `project.kind` line (SPEC INV-36). The kind
+  decides the form each check can demand, so a skill pack and a backend service answer the placement
+  check differently. The seven checks:
   - Every spec fact is owned by exactly one node.
   - No node stands without spec backing. A node with one caller and no promised second is flagged as
     speculative, and it waits for an answer: a named plan that turns it into a yes, or a fold back into
-    its caller. That is the one-no case of the three-question node-fitness test (SPEC INV-122).
+    its caller. That is the one-no case of the three-question node-fitness test (SPEC INV-122). The
+    three questions are these. Can this node be tested on its own? Does a real second place need it?
+    Can it and its neighbour be worked in parallel without queuing on shared files? One no waits for
+    an answer before the node stands, and two or more read the node as premature.
   - Every seam names what crosses it and which side owns the format.
   - The quality budgets are stated with their instrumentation homes, and each names its watcher.
     The watcher is the mechanical check that fails past the stated number. A decided sentence naming
@@ -348,6 +437,8 @@ Check:
 
   Every pin is a real `file:line` citation, and a prose description fails that bar. The paired
   PRODUCT_SPEC.md must be in view, because ownership is checkable only against the fact list it owns.
+  Where no such document is in reach, ask the author for it. Where none can be produced, record the
+  ownership check as not runnable with that reason, and run the remaining six.
 
 Output one of:
 
@@ -439,13 +530,23 @@ The specific cases are yours to invent, from what the operation actually does.
 **Mandatory sweeps** — run each one as a completeness sweep on every FULL pass. Each owes one
 verdict line in the persisted record, reading hit, clean, or N/A with its reason. The record renders
 those verdicts as the surface × sweep table (Phase 3's coverage tables).
-A missing verdict line reads as a skipped sweep, never as a clean one (SPEC INV-171):
+A missing verdict line reads as a skipped sweep, never as a clean one (SPEC INV-171).
+
+That rule settles the record's shape, and the two places below repeat it. Every FULL pass renders
+that table, whatever the three coverage tables do. One verdict fills each cell, meaning one verdict
+per sweep per surface. Where the document lists no surfaces, the table collapses to a single row,
+and each sweep owes one verdict in it.
+
+The five mandatory sweeps:
 
 - **Declared cross-cutting laws** — read the spec's declared-laws home. That is the one place naming
   the laws that cut across every surface: measurement, accessibility, error handling, a register.
   Each declared law carries the three demands below, and an unmet demand is a broken-invariant
-  finding. A spec with no declared-laws home earns one finding naming that, and the per-law walk
-  starts once the home exists. The author's twin habit (spec-author) writes each section's line
+  finding. Recognize the home by what it holds. It is one section of the document under review
+  listing those laws, each with its net. No heading is prescribed for it, so read for the content.
+  In this pack's own `PRODUCT_SPEC.md` the home is Requirement 54, which declares three laws with
+  their gates. A spec with no declared-laws home earns one finding naming that, and
+  the per-law walk starts once the home exists. The author's twin habit (spec-author) writes each section's line
   first, so this station audits the line the author already wrote. (SPEC INV-101, INV-150; the
   worked miss is keyed in `docs/lenses.md`.)
 
@@ -463,11 +564,11 @@ A missing verdict line reads as a skipped sweep, never as a clean one (SPEC INV-
     - the prover's own judgment station, where the violation pins to a stated sentence and the walk
       blocks;
     - the design review's recommendation, which is soft, because the deciding fact lives in the
-      human's intent alone.
+      person's intent alone.
 
     A law with no named net ranks as a broken invariant. The pack's own three laws each name a
     mechanical gate.
-- **Edge-condition completeness** — the mechanical face of the bounds and dependency probes above,
+- **Edge-condition completeness** — the mechanical face of the bounds and dependency probes below,
   run as a completeness sweep across every case. Five checks:
 
   - *range ends* — find every transition the spec gates on a quantity that runs on a line: elapsed
@@ -481,8 +582,8 @@ A missing verdict line reads as a skipped sweep, never as a clean one (SPEC INV-
     into a reserved on-screen slot. Assert that the spec names its three states, pending, arrived,
     and failed, with a visible pending state wherever the slot holds a place. A slot that renders
     empty and silent while its content is in flight is the finding. The author writes each edge as
-    a spec sentence. The prover invents no answer, and where only the human can judge the timing,
-    it surfaces the question to him [INV-30].
+    a spec sentence. The prover invents no answer, and where only the person can judge the timing,
+    it surfaces the question to them [INV-30].
   - *the named-part ask* — a guarantee scoped to a named part of its domain draws the standing
     question about the remainder. That part may be a band of a ranged quantity, a user state, a
     network condition, or a locale. Any named sub-case of the domain it governs counts. Each
@@ -494,9 +595,9 @@ A missing verdict line reads as a skipped sweep, never as a clean one (SPEC INV-
     standing question about the other bands, the short-viewport band among them.
   - *same-kind-group handling* — where the parts are a same-kind group no clause declared, the
     design review's group pass reaches them, and the prover holds them once they are declared
-    [INV-141, INV-150]. The incident: a caption law scoped to "on a phone" printed over the picture
-    on a rotated phone that was wide and short. Every consistency read clean, because the claim was
-    true as written (2026-07-16).
+    [INV-141, INV-150]. Note — the incident behind this check. A caption law scoped to "on a phone"
+    printed over the picture on a rotated phone. That phone was wide and short. Every consistency
+    read clean, because the claim was true as written (2026-07-16).
 
   This sweep is the range-and-lifecycle member of the composition-lens family (SPEC INV-138).
   [INV-138]
@@ -507,8 +608,8 @@ A missing verdict line reads as a skipped sweep, never as a clean one (SPEC INV-
   where the decision was born.
 
   A policy written for a single surface while siblings of the same kind exist is a finding. The clause
-  should name the surface class and enumerate its members, so the policy holds uniformly. This is the
-  check the owner asked the prover to write for itself. It catches at spec time what a suite asserting
+  should name the surface class and enumerate its members, so the policy holds uniformly. Note: the
+  person asked the prover to write this check for itself. It catches at spec time what a suite asserting
   only the named surface passes green, while the running product stays non-uniform. A rendered product
   also gets the mechanical floor, where the completeness guardrail asserts the policy across every
   registered sibling root.
@@ -530,8 +631,8 @@ A missing verdict line reads as a skipped sweep, never as a clean one (SPEC INV-
   kind is already declared. [INV-125]
 - **Lifecycle** — one surface's whole life across enter, leave, cover, and return. The sub-questions
   gather under the transition-payload parent (SPEC INV-168), so the one lifecycle is walked once as a
-  single pass. Five separate angles would otherwise collide over it. Each sub-question keeps its own
-  anchor:
+  single pass. Separate angles would otherwise collide over it. Each sub-question keeps its own
+  anchor. The parent gathers five angles:
   - **Transition payload** — the parent lens that the topology checks all serve without naming: entry
     symmetry, dead-end, and scenario entry and exit. For every transition the spec states, enumerate the
     parameters a person perceives across it. Where do focus and selection land? What scroll or playback
@@ -541,11 +642,11 @@ A missing verdict line reads as a skipped sweep, never as a clean one (SPEC INV-
     becomes the behaviour leaves the topology lenses no written text to catch it by. Each unstated
     parameter is a finding, the blank-answer class of an unwritten seam (SPEC INV-168, INV-30).
 
-    The motion-parity lens (INV-165) and the entry-state lens above (INV-167) are instances of this one.
+    The motion-parity lens (INV-165) and the entry-state lens below (INV-167) are instances of this one.
     Each reads this lens on a single payload parameter: an exit's animation, a re-entry's internal state.
     A worked instance: a side-room's transition names its open ceremony and its exit, and leaves scroll
     position silent. The platform default, a reset to the top, becomes the behaviour unreviewed. This lens names the
-    missing parameter, and the entry-state instance above writes its sentence.
+    missing parameter, and the entry-state instance below writes its sentence.
   - **Entry symmetry** — for every face, mode, or panel entered under a condition, ask what deliberate
     path re-enters it later. The conditions are a first visit, an empty state, onboarding, a one-time
     banner. A conditionally-entered face with no deliberate re-entry path is a finding. The spec clears it
@@ -560,19 +661,21 @@ A missing verdict line reads as a skipped sweep, never as a clean one (SPEC INV-
 
     A surface sometimes pins its open ceremony, its exit, its variants, and its guards, while its entry
     position and its reset-or-resume semantics stay blank. That surface is a finding, in the
-    blank-answer class of an unwritten seam (SPEC INV-72). The author writes the entry state as a spec sentence. Where only the human can judge
-    whether entry should reset or resume, it is surfaced to him (SPEC INV-30).
+    blank-answer class of an unwritten seam (SPEC INV-72). The author writes the entry state as a spec sentence. Where only the person can judge
+    whether entry should reset or resume, it is surfaced to them (SPEC INV-30).
 
     Entry symmetry above tests that a re-entry path exists, and this
     tests the state that path opens in. That is the question entry symmetry leaves unasked. It closes a class the two path lenses
-    missed: a series side-room reopened on the last picture a prior visit had scrolled its lane to.
-    No line stated that the lane lands on the first member and resets at entry (2026-07-16).
+    missed. Note — the incident: a series side-room reopened on the last picture a prior visit had
+    scrolled its lane to. No line stated that the lane lands on the first member and resets at entry
+    (2026-07-16).
     [INV-167]
   - **Paired-transition symmetry** — when a surface states a transition on one direction of a paired
     state change (open/close, enter/exit, expand/collapse, show/hide), the opposite direction owes an
-    answer too. Three reads follow, and a missing answer in any of them is a blank-answer finding.
-    Motion feel is the human's gate, so an open motion question surfaces to him on the
-    batched-question path, `[default]`-tagged, and it holds no push. The transition read's birth story
+    answer too. Three reads follow, and a fourth bullet states the kind. A missing answer in any of
+    the three reads is a blank-answer finding.
+    Motion feel is the person's gate, so an open motion question surfaces to them on the
+    batched-question path, `[default]`-tagged, and it holds no push. Note: the transition read's birth story
     lives in `docs/lenses.md` (INV-126), and the gesture and magnitude reads are stated inline below
     (SPEC INV-72, INV-4, INV-30, INV-31).
     The temporal twin of the cross-surface lens above is this one (SPEC INV-126). [INV-126]
@@ -634,7 +737,7 @@ A missing verdict line reads as a skipped sweep, never as a clean one (SPEC INV-
   class as a fact no node owns. It is a state the spec leaves out while the running product still
   reaches it.
 
-  Report the missing seam. The prover invents no answer and asks the human nothing. The author writes
+  Report the missing seam. The prover invents no answer and asks the person nothing. The author writes
   the sentence as a composition invariant, `[default]`-tagged like the facet sweep (SPEC INV-72, C-1,
   INV-18, INV-31). [INV-72]
 
@@ -702,12 +805,12 @@ attention. No checklist ticks them off, and no verdict is owed:
 
   - a surface the spec marks [target] or "not yet specified" that exists in the build anyway;
   - an exploratory sketch wired into or linked from a production surface;
-  - anything shown to the human as product without having walked the pipeline.
+  - anything shown to the person as product without having walked the pipeline.
 
   The build carries only what the spec names (SPEC INV-16, INV-17, E-17). This is the family of "the
   hand-built room shown as if shipped".
 - **Norm-backed visual clauses** — when a clause encodes an approved look, meaning a prototype the
-  human approved as the norm, read it twice. Does it carry its `norm: <path>` pointer? Does the
+  person approved as the norm, read it twice. Does it carry its `norm: <path>` pointer? Does the
   clause's text contradict its own artifact, as prose demanding a question the approved door shows
   wordless? A prototype-born clause with no pointer is a finding, and so is clause text contradicting
   its own artifact (SPEC INV-43).
@@ -720,14 +823,14 @@ attention. No checklist ticks them off, and no verdict is owed:
   - a behaviour in the code no spec clause backs, which routes a bug row;
   - a node pinned to a line that moved, which routes a spec fix.
 
-  One source is never picked as the winner in silence. This pulls the architecture step's spec-to-code reconciliation forward to intake. Drift then
+  One source is never picked as the winner in silence. This pulls the architecture step's check of the node pins against the code forward to intake. Drift then
   surfaces as a finding at entry, caught before it becomes a surprise at code. It is kin of the unwritten-seam hunt, where a drift with no
   routed home is itself the finding. It is also the read that produces the derive-before-fork verdict. The three sources are what tell
   whether a proven artifact already settles a question (SPEC INV-121).
 
   When the disagreement is a product-vs-spec divergence, the spec is the definition of correct. The
   divergence defaults to a possible error in the product, checked against the spec. A spec change is
-  a decision the human ratifies, and never a silent rewrite to match the product (SPEC INV-144).
+  a decision the person ratifies, and never a silent rewrite to match the product (SPEC INV-144).
   [INV-128]
 - **False-serialization and over-broad independence edge** — when the document under review is a
   concurrency plan, such as a departures board, a lane set, or a queue-take dependency graph, read
@@ -769,7 +872,8 @@ attention. No checklist ticks them off, and no verdict is owed:
   named-reason monolith is lawful, so judging an examined choice against an unexamined one reads the
   design's own reason. A diff makes no such call (SPEC INV-248, INV-244, INV-214).
 
-  This lens was itself found as the dual of the composition law it enforces. That pairing is a standing
+  **Note — how this lens was found.** This lens was itself found as the dual
+  of the composition law it enforces. That pairing is a standing
   discovery habit here, held as a habit and written into no law. For a lens this list applies, ask
   whether that lens's dual bites the document. Safety pairs with liveness, state with transition, and
   atomicity with isolation.
@@ -801,10 +905,11 @@ user-mutated persistent entities. Replace
 that table with one line saying so and why, because a table full of N/A is ritual noise that trains the
 author to skim.
 
-A kind where all three tables go N/A, the frontend surface specs among them, still owes a mechanical
-coverage artifact. Render the surface × sweep verdict table instead. Surfaces run down the side, the mandatory sweeps
-across, and each cell reads hit / clean / N/A-with-reason (SPEC INV-171). That
-keeps a skipped sweep distinguishable from a sweep that found nothing.
+Every FULL pass renders the surface × sweep verdict table, whatever the three tables above did.
+Surfaces run down the side, the mandatory sweeps across, and each cell
+reads hit / clean / N/A-with-reason (SPEC INV-171). That keeps a skipped sweep distinguishable from a sweep that found
+nothing. On a kind where all three tables above go N/A, this table is the coverage artifact the pass
+leaves behind. The frontend surface specs are one such kind.
 
 Continue to Phase 3.5.
 
@@ -856,12 +961,13 @@ Five short blocks:
    of allocated units across all groups equals the total count of active units".
 3. Open questions where you genuinely need author input — only those that cannot be resolved by inspection.
 4. Recommendations queued for a taste call. These are the findings labelled `recommendation`, where
-   everything stated holds and a consistency or quality gain is on offer. List them so the human weighs
+   everything stated holds and a consistency or quality gain is on offer. List them so the person weighs
    each one as a taste call, apart from the defects that fold first (SPEC INV-140).
 5. On a FULL pass only: the count of `[default]`-tagged sentences accumulated in the document, with the
-   oldest 5 [default] listed for a taste call. Every lens may close `[default]`-tagged, and nothing else
-   ever sweeps them. A spec without this line can converge to majority unratified defaults while every
-   pass stays green.
+   oldest 5 [default] listed for a taste call. A `[default]` tag carries no date, so read oldest as
+   document order: the five tags standing earliest in the document. Every lens may close
+   `[default]`-tagged, and nothing else ever sweeps them. Without this line, most of the spec's
+   sentences can end up as values nobody approved, while every review still reports no findings.
 
 Where it helps clarity, render a coverage tree as a real visual diagram. Skip it where the textual
 summary already conveys the picture.
@@ -874,15 +980,16 @@ Finish with one sentence on overall readiness: ready to build / needs another it
   past what a linter or a formal proof would give.
 - Always quote or close-paraphrase the source, so the reader traces every finding back to the
   document.
-- Claims about the shipped system rest on primary sources: the reconciliation note's `file:line`
-  citations, and a command's output. The document's own prose backs no such claim, since prose that
+- Claims about the shipped system rest on primary sources: the architecture document's node pins,
+  each a `file:line` citation, and a command's output. The document's own prose backs no such claim, since prose that
   outran the code will otherwise "prove" dead behaviour. A summary of the document backs none either
   (base rule 13).
 - Consequences in operational terms. Formal-verification jargon stays inside the tags.
 - A concrete proposed action every time. A question is the last resort.
 - Hidden gaps in main findings, acknowledged gaps in Phase 3.5.
 - Concreteness test: actor, trigger, failure mode, observable outcome, at least three of the four.
-  Action test: a specific artifact or decision, and none of the banned vague verbs.
+  Action test: a specific artifact or decision, and none of the vague verbs banned in "How to write
+  findings".
 - When the document is too vague for a concrete consequence, raise "the spec needs to state X" instead,
   and leave every vague consequence unwritten.
 - Each finding part is one or two sentences.
@@ -908,8 +1015,8 @@ Finish with one sentence on overall readiness: ready to build / needs another it
 
   This record is a member of the review-record class the spec declares once. That class is the shared
   shape every review pass writes, so a later session reads each pass's outcome the same way (SPEC
-  INV-156). A FULL pass's record also carries the mandatory-sweep verdict table beside the findings
-  (SPEC INV-171).
+  INV-156). A FULL pass's record also carries the mandatory-sweep verdict table beside the findings,
+  in the shape Phase 3e states (SPEC INV-171).
 
 ## Glossary mode
 
