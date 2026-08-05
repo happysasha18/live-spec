@@ -57,6 +57,39 @@ PACK_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 SKILLS_DIR="$PACK_ROOT/skills"
 GITHUB_OWNER="happysasha18"
 
+# A skill's copy in skills/ is written for a session that has already loaded this pack: it cites
+# internal codes as its authority and points at scripts and tests that travel with the pack. Read
+# by a stranger those codes resolve to nothing, so the mirror was publishing a document its own
+# audience could not follow (caught 2026-08-05, when the public prover mirror was found shipping
+# the internal 62 KB copy).
+#
+# A skill may therefore ship a PUBLIC EDITION under editions/<skill>/: the same method with every
+# internal code resolved into the plain rule it stands for, carrying whatever it points at. Where
+# an edition exists it is what the mirror publishes, and skills/<skill>/ stays the copy this
+# project loads. The pack remains the single source of truth for both, so a hand edit made
+# directly on a mirror is still overwritten by the next sync.
+publish_source_for() {
+  local name="$1"
+  local edition="$PACK_ROOT/editions/$name"
+  if [ -d "$edition" ]; then
+    printf '%s\n' "$edition"
+  else
+    printf '%s\n' "$PACK_ROOT/skills/$name"
+  fi
+}
+
+# --print-publish-source NAME: print the directory this script would publish for one skill and
+# exit, touching no repo — the same testability the release-history flag gives. It stands above
+# the release-history computation so a scratch tree with no commit history can still run it.
+if [ "${1:-}" = "--print-publish-source" ]; then
+  if [ -z "${2:-}" ]; then
+    echo "usage: sync-mirrors.sh --print-publish-source SKILL-NAME" >&2
+    exit 2
+  fi
+  publish_source_for "$2"
+  exit 0
+fi
+
 PACK_VERSION="$(cat "$PACK_ROOT/VERSION" 2>/dev/null || echo "unknown")"
 PACK_SHA="$(git -C "$PACK_ROOT" rev-parse --short HEAD)"
 
@@ -362,7 +395,12 @@ for skill_path in "$SKILLS_DIR"/*/; do
 
   # Replace the mirror's content with the pack's copy of this skill, but keep
   # the mirror's own .git history (that's how it stays a real, pushable repo).
-  rsync -a --delete --exclude='.git' "$skill_path" "$mirror_dir/"
+  # Where the skill ships a public edition, that edition is what goes out.
+  publish_src="$(publish_source_for "$skill_name")"
+  if [ "$publish_src" != "$skill_path" ] && [ "$publish_src/" != "$skill_path" ]; then
+    echo "${skill_name}: publishing the public edition from editions/${skill_name}/"
+  fi
+  rsync -a --delete --exclude='.git' "$publish_src/" "$mirror_dir/"
 
   # Make sure README.md starts with the what-this-is + read-only banner.
   BANNER="$(banner_for "$skill_name")"
