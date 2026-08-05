@@ -2,7 +2,7 @@
 
 Generated 2026-08-05 by `python3 scripts/progress-report.py`.
 
-Since the last run on 2026-08-05, total findings changed by -191 and documents at zero changed by -14.
+Since the last run on 2026-08-05, total findings changed by 0 and documents at zero changed by 0.
 
 ## Where the two promises stand
 

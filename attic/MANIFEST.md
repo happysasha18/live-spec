@@ -31,3 +31,7 @@ base rule 10). Nothing here was deleted; a file that turns out to be needed is m
 - `inbox/2026-07-30-context-audit-from-fable.md` -> `attic/inbox-2026-07-30-context-audit-from-fable.md` * a harvested inbox message whose rows cite its items * 2026-08-05
 - `inbox/2026-07-30-live-spec-base-leftovers.md` -> `attic/inbox-2026-07-30-live-spec-base-leftovers.md` * a harvested inbox message whose rows cite its items * 2026-08-05
 - `inbox/2026-08-05-from-promoter-caps-lint-has-no-host-acronym-list.md` -> `attic/inbox-2026-08-05-from-promoter-caps-lint-has-no-host-acronym-list.md` * a harvested inbox wish: it became queue row 544 * 2026-08-05
+- `inbox/2026-08-05-from-promoter-readme-replacement-returns-corrected.md` -> `attic/inbox-2026-08-05-from-promoter-readme-replacement-returns-corrected.md` * a harvested inbox status update: folded into queue row 501 * 2026-08-05
+- `inbox/2026-08-05-from-promoter-the-10-july-hole-is-still-open.md` -> `attic/inbox-2026-08-05-from-promoter-the-10-july-hole-is-still-open.md` * a harvested inbox wish: it became queue row 545 * 2026-08-05
+- `inbox/2026-08-05-from-promoter-shipped-install-leaves-the-10-july-hole-open.md` -> `attic/inbox-2026-08-05-from-promoter-shipped-install-leaves-the-10-july-hole-open.md` * a harvested inbox wish: folded into queue row 545 alongside its sibling message * 2026-08-05
+- `inbox/2026-08-05-from-tlvphotos-gate-default-reach-reds-a-correct-tree.md` -> `attic/inbox-2026-08-05-from-tlvphotos-gate-default-reach-reds-a-correct-tree.md` * a harvested inbox wish: it became queue row 546 * 2026-08-05
