@@ -230,6 +230,17 @@ belongs to. Each script takes the path of the audited file as its argument, so t
 anywhere on disk. When the repository is absent, use the grep fallbacks. They need no scripts and work
 anywhere, so the audit never waits on a download.
 
+**Three of these scripts read a spec section and nothing else.** `check-vocabulary.py` reads the
+glossary. `check-weak-words.py` and `check-requirement-shape.py` read the acceptance criteria.
+
+A README, an article, or a piece of copy carries neither. Each of the three then exits 1 and names
+its input set as empty. That refusal is the honest answer, and it is the answer to expect here.
+
+On those surfaces the class stays with the grep fallback and with the cold reader. Record the
+refusal in the reading record and move on. Editing a script or a document to make one of them pass
+is out of bounds. A run over ten documents met four such refusals on 2026-08-05 and read them as
+coverage.
+
 - **Every term is defined at first use.** Every domain noun the text uses carries a one-sentence
   definition, and the reader meets it before the noun's first working use. A domain noun is one whose
   meaning is particular to this project or this field.
