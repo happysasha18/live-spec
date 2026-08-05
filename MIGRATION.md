@@ -2,13 +2,15 @@
 
 This is the operating guide for the catch-up walk: the procedure an already-adopted host's own session runs to bring the host's documents and records onto the current package version. A package release that owes its hosts actions lands one dated chapter at the end of this file; the walk reads the chapter chain and applies it under the owner's gate, preserving every recorded fact. Nothing outside a host's own session ever writes that host's repo (INV-10).
 
-The walk is the executable projection of PRODUCT_SPEC.md, "Bringing an adopted host up to the current pack" (F-catchup, A-11, INV-89…INV-92). The spec states the facts; this guide states the moves.
+The bracketed codes on this page — `INV-10`, `A-11`, `E-32` and the rest — name rules in `PRODUCT_SPEC.md`. `PRODUCT_SPEC.index.md` gives each code's location in that document. A feature code such as `F-catchup` carries no index row and sits on its requirement's heading.
+
+The walk is the executable projection of Requirement 180 in `PRODUCT_SPEC.md`, "The catch-up sequence brings an adopted host onto the current pack". Its codes are F-catchup, A-11, and INV-89 through INV-92. The spec states the facts; this guide states the moves.
 
 ## When to run this
 
 The ask arrives in any wording. It might read "re-layout the documentation" or "catch up to the current pack"; it names no procedure, so the package names one, and that procedure is this walk.
 
-Route the ask before doing anything else. A host that never adopted the pack goes to adoption (`adopt/ADOPT.md`) for the first-adoption phases. A host that already adopted goes to this catch-up walk. A single-document edit belongs to the ordinary docs-only edit. A restructure of the host's own product is the host's own queue row through the build pipeline. This walk fires only to move an adopted host's own live-spec documents and records onto a newer package version. The catch-up walk fires only when the host's recorded package version is behind the current package VERSION. A docs restructure that carries no version delta is the host's own queue row through its pipeline, whatever wording the ask used. The trigger wordings are examples under this test. A wording never decides the routing; the version delta decides. (INV-110)
+Route the ask before doing anything else. A host that never adopted the pack goes to adoption (`adopt/ADOPT.md`) for the first-adoption phases. A host that already adopted goes to this catch-up walk. A single-document edit belongs to the ordinary docs-only door, which `skills/build-pipeline/SKILL.md` states. A restructure of the host's own product is the host's own queue row through the build pipeline. This walk fires only to move an adopted host's own live-spec documents and records onto a newer package version. The catch-up walk fires only when the host's recorded package version is behind the current package VERSION. A docs restructure that carries no version delta is the host's own queue row through its pipeline, whatever wording the ask used. The trigger wordings are examples under this test. A wording never decides the routing; the version delta decides. (INV-110)
 
 ## The walk
 
@@ -16,11 +18,11 @@ The walk runs four phases in order (A-11). Its plan and its working artifacts li
 
 ## Phase 1 — orient on the delta
 
-1. Read the host's installed-set record and the tree as found.
+1. Read the host's installed-set record, which sits in the host's `.live-spec/` directory (SPEC M-7), and the tree as found.
 2. Read the package's current `VERSION` and journal, and the migration chapters below.
 3. Build the work list: the ordered chain of migration chapters from the host's recorded package version to the current one (see "Migration chapters"), plus any drift the tree shows against what those chapters expect. A record that carries no readable package version — commit pins, or no record at all — starts the chain at the earliest chapter; every step's already-done check makes over-application harmless (INV-89).
 4. Treat every precondition written in this guide as a claim to check against the tree. Where a written precondition and the tree disagree, the tree is the truth.
-5. Name the founding questions this host has never answered: read the host profile's `founding.set-version` against the current set in `scripts/founding-questions.json`, and list each question added after the host's recorded version — the agent card at `.live-spec/agent.md` (SPEC E-32) among them for a host that founded before it. A host with no `founding.set-version` line founded before the set was versioned and owes every question. Each gap rides the plan for the owner to answer, and the walk records the current set version once answered; a never-answered question is surfaced for the owner, answered on no one's behalf (SPEC INV-227, the duty binds forward INV-159).
+5. Name the founding questions this host has never answered: read the host profile at `.live-spec/profile.md` for its `founding.set-version`, against the current set in `scripts/founding-questions.json`, and list each question added after the host's recorded version — the agent card at `.live-spec/agent.md` (SPEC E-32) among them for a host that founded before it. A host with no `founding.set-version` line founded before the set was versioned and owes every question. Each gap rides the plan for the owner to answer, and the walk records the current set version once answered; a never-answered question is surfaced for the owner, answered on no one's behalf (SPEC INV-227, the duty binds forward INV-159).
 
 ## Phase 2 — plan, behind the owner's gate
 
@@ -31,21 +33,22 @@ The owner's word on the plan comes before any file moves. A walk that finds noth
 ## Phase 3 — execute, preserving facts
 
 1. Open with a clean-tree baseline commit in the host (A-5). This commit is the restore point named in the plan; the whole walk stays reversible to it by the single restore command.
-2. Run under the checkpoint discipline. The walk's checkpoint names the plan document and the per-step state. An interrupted walk resumes from the checkpoint under the already-given gate — the owner is not asked twice.
-3. Apply each step under the half-done-state law and the preserve-and-re-home law (see "Step laws"). A step reads its precondition from the tree at the moment it runs, so a walk resumed after a partial application does the right thing on what it finds.
+2. Record the pre-walk inventory beside the plan, before any file moves. "The before-and-after self-test" below states what that inventory holds.
+3. Run under the checkpoint discipline. The walk's checkpoint names the plan document and the per-step state. An interrupted walk resumes from the checkpoint under the already-given gate — the owner is not asked twice.
+4. Apply each step under the half-done-state law and the preserve-and-re-home law (see "Step laws"). A step reads its precondition from the tree at the moment it runs, so a walk resumed after a partial application does the right thing on what it finds.
 
 ## Phase 4 — verify and re-record
 
-1. Run the pack's CURRENT gate set backward over the host's existing tree — every gate scans the
-   whole tree, retroactive by construction (SPEC INV-176), so a gate the pack gained since the host
-   adopted finds the older debt now; an oversized backlog is absorbed by re-seeding the ratchet caps
-   (SPEC INV-172).
+1. Run the pack's current gate set backward over the host's existing tree. That set is the chain
+   the host's `.git/hooks/pre-push` runs. Every gate scans the whole tree, retroactive by
+   construction (SPEC INV-176). A gate the pack gained since the host adopted finds the older debt
+   now. An oversized backlog is absorbed by re-seeding the ratchet caps (SPEC INV-172).
 2. Run the host's own gates, including the test suite where one exists. A red gate is the walk's own open defect: the walk stays open until the gates read green, and the checkpoint carries the red state across sessions.
 3. Re-record the installed-set record in the current format.
 4. Land one journal chapter in the host: what moved, why, the provenance, and any finding held for the owner.
 5. Run the before-and-after self-test below and clear it before the walk is called done.
 
-The plan document and the superseded files rest in the attic and the adopt records. The walk changes documents and records only; it creates no visible product surface, so the plan opens by the ordinary show rule.
+The plan document and the superseded files rest in the attic and the adopt records. The walk changes documents and records only, and it creates no visible product surface. So the plan opens by the ordinary show rule (SPEC glossary): a new browser window on a local seat, its own channel on a remote seat.
 
 ### The before-and-after self-test (INV-92)
 
@@ -119,7 +122,7 @@ The major number marks two things a host inherits automatically by adopting, and
    that only ratchets down (`scripts/spec-debt-cap.json`), and the compaction freeze
    (`guardrails/check-freeze.sh`, pre-push gate k, which skips itself where no local baseline exists). A
    host's documents can get cleaner from here, never worse — the recurrence-stop for document bloat.
-2. **The method rule (base rule 30 / SPEC INV-164).** A quality a machine can verify is enforced by a
+2. **The method rule (rule 30 in `skills/live-spec-base/SKILL.md` / SPEC INV-164).** A quality a machine can verify is enforced by a
    gate, held by no pass's attention; compaction runs at every push, above the milestone whole-read.
 
 No host file changes, so the catch-up walk records this chapter as done on read.
@@ -140,7 +143,7 @@ SPEC INV-217: the host re-runs its walk and rewrites nothing it holds. What the 
    class-reading judge above the literal-pattern list. The list stays the free, deterministic first
    pass; the judge is opt-in (`PRESHOW_REGISTER_JUDGE`), off by default, and never makes a green run
    non-deterministic. INV-83's old "the set grows by one per caught leak" duty is retracted — a host
-   that vendored it simply drops the duty; there is nothing to do.
+   that vendored it drops the duty; there is nothing to do.
 
 2. **New push gates in the chain (each retroactive over the host's tree, absorbed by re-seeding caps).**
    Gate o cleanup-notice (INV-204), gate p touchpoint-kind (INV-205), gate q waiting-list (INV-206),
@@ -162,7 +165,7 @@ SPEC INV-217: the host re-runs its walk and rewrites nothing it holds. What the 
 
 5. **The far tier of the queue (INV-222, INV-223).** The queue gains `far` beside `deferred` — kept, no
    revisit trigger — and the what's-left report and feature map stand it down by name, with a rare
-   self-surfacing line at a settings cadence.
+   self-surfacing line at the `far-tier.surface-cadence` default: at most one offer every fourteen days.
 
 6. **The touchpoint frame, the waiting list, and the read-back (INV-205, INV-206, INV-207).** Every
    point of contact with the person has a kind, synchronous or asynchronous, and the kind licenses what
@@ -170,9 +173,9 @@ SPEC INV-217: the host re-runs its walk and rewrites nothing it holds. What the 
    scroll (INV-206); and a decision recorded as the person's names its exchange, so the pack shows the
    person what it believes they decided and they strike what they never said (INV-207).
 
-7. **The lane-open act (INV-214).** The parallel-lane law gains the act that OPENS a lane — a branch in
+7. **The lane-open act (INV-214).** The parallel-lane law gains the act that opens a lane — a branch in
    its own worktree cut from the claim commit, integration taking the pen — so a granted lane actually
-   runs. The lane cap is re-homed from the spec text to the person's profile.
+   runs. The lane cap is re-homed from the spec text to the personal profile.
 
 8. **Worker-teardown reap and the runaway-child notice (INV-213, INV-230).** A finished worker leaves no
    runaway child: teardown reaps the owned process group, and the cleanup names what it ended.
@@ -221,16 +224,22 @@ rewrites nothing it holds.
 
 ### 3.0.0 — 2026-07-20
 
+**Superseded by 4.0.0. A host whose chain reaches 4.0.0 skips this chapter.** The 4.0.0 conversion
+retired the `Description` column and the gate below with it. `guardrails/description-field.json` reads
+`armed: false` today. `PRODUCT_SPEC.index.md` carries `| Code | Location |` alone. Running this
+chapter first would author descriptions the next chapter deletes. A host whose chain stops at 3.0.0
+runs it as written.
+
 **Host action: run a migration.** The 3.0.0 major back-describes the Formal index. The index table gains
-a permanent `Description` column, and every registered code — INV, E, T, A, M, ACT, B, C, D, S — carries
+a permanent `Description` column, and every registered code — `INV`, `E`, `T`, `A`, `M`, `ACT`, `B`, `C`, `D`, `S` — carries
 a plain one-sentence human-clear description of what it does and the problem it solves. This is the
 one-pass migration INV-239 and INV-217 named: the description field's one home, filled once for the whole
 existing code set, arming the field gate that until now shipped dormant. The tier is MAJOR by rule 32 /
 SPEC INV-217 because a host does real authoring work its own session must run: a host back-describes its
-OWN registered codes, work no walk can re-run blind.
+own registered codes, work no walk can re-run blind.
 
 1. **The Formal index gains a `Description` column (E-35, INV-239).** The header moves from
-   `| Anchor | One line | Description | Section |`; the terse `One line` stays the machine handle's home,
+   `| Anchor | One line | Section |` to `| Anchor | One line | Description | Section |`; the terse `One line` stays the machine handle's home,
    and the new `Description` column is the plain human-clear line a person and a second agent read. Every
    code's description says what the item does and the problem it solves; where the rule governs a class,
    it names the class and gives a representative handful of members inline, standing in for the exhaustive
@@ -243,9 +252,9 @@ OWN registered codes, work no walk can re-run blind.
    code is the human sampling net (INV-41), never the machine's. The gate rides the suite and takes no
    push-gate letter.
 
-3. **The spec's byte ceiling rises (INV-234).** The permanent Description column adds roughly 91 KB (from ~642 KB to ~736 KB), so
-   `guardrails/doc-bounds.json` raises PRODUCT_SPEC.md's ceiling to 840000 with a recorded reason, above
-   the new live size with rotation headroom.
+3. **The spec's byte ceiling rises (INV-234).** The permanent Description column takes the spec from
+   about 642 kilobytes to about 736. So `guardrails/doc-bounds.json` raises PRODUCT_SPEC.md's ceiling
+   to 840,000 bytes with a recorded reason, above the new live size with rotation headroom.
 
 **How a host takes it.** Pull the pack, run `scripts/sync-skills.sh`, and re-run the catch-up walk
 (INV-91). For this chapter the walk back-describes the host's own registered codes to the same quality
@@ -298,10 +307,10 @@ What the release carries, grouped:
    fresh zero-context cold reads, with each fix made at the source, until two consecutive clean reads.
    The pack now carries ten working skills.
 
-7. **Two terms settle under the one-name law.** The spec's vocabulary now reads *delivery report* (once
-   the landing report) and *harness task panel* (once the harness task list), and the pack skills carry
-   the new names throughout after the same 4.0.0 sweep. A host renames these two terms in its own
-   documents as part of its conversion.
+7. **Two terms settle under the one-name law.** The spec's vocabulary now reads *delivery report*
+   (retiring `landing report`) and *harness task panel* (retiring `harness task list`), and the pack
+   skills carry the new names throughout after the same 4.0.0 sweep. A host renames these two terms in
+   its own documents as part of its conversion.
 
 **How a host takes it.** A host keeps its current spec until it converts. The old format keeps working
 and no gate forces the move. The old-format templates stay in `templates/` until each host converts, so a
@@ -310,7 +319,7 @@ walks the spec unit by unit: convert each unit into the requirements genre, prov
 the unit's mapping, run the mechanical lints, put each converted section before the cold-reader panel, and
 assemble the units into one document. The 2026-07-22 conversion of the pack's own spec runs the recipe
 end to end and records every edit past a plain concatenation (`prototype/2026-07-22-spec-format/`).
-tlvphotos converts first, on the owner's word; other hosts follow on the same word.
+The host repository named tlvphotos converts first, on the owner's word; other hosts follow on the same word.
 
 The host's own format gates — requirement-shape, vocabulary, one-name, weak-words, no-history, the
 generated index, the size ratchet, and the delta classifier — arm when the host's converted spec lands
@@ -324,12 +333,13 @@ lands behind the owner's gate.
 member, defined in `docs/architecture-format.md`: each node stands as a `### [node: <name>]` section with
 its responsibility, the spec anchors it owns, its file-and-line pins, and an optional notes line, read
 through the one node reader `guardrails/archformat.py`. This joins the spec (4.0.0), the test matrix
-(4.1.0), and the roadmap (4.2.0) as family members a host converts by the same per-document recipe the
-4.0.0 chapter states: convert the document's units, prove no content dropped by the word-and-punctuation
-multiset check, repoint every consumer of the old shape to the reader, run the mechanical lints, and put
-each converted section before the cold-reader panel. A host keeps its old-format `ARCHITECTURE.md` until
+(4.1.0), and the roadmap (4.2.0) as family members a host converts. This chapter's five steps are the
+current per-document recipe, and they supersede the 4.0.0 chapter's wording: convert the document's
+units, prove no content dropped by the word-and-punctuation multiset check, repoint every consumer of
+the old shape to the reader, run the mechanical lints, and put each converted section before the
+cold-reader panel. A host keeps its old-format `ARCHITECTURE.md` until
 it converts; the architecture format gates arm only when the host's converted document lands (SPEC
 INV-270), staying dormant and reddening nothing until then. The pack's own conversion of its
 `ARCHITECTURE.md` runs the recipe end to end and records every named delta
-(`prototype/2026-07-23-architecture-format/`). tlvphotos converts on the owner's word; other hosts follow
+(`prototype/2026-07-23-architecture-format/`). The host repository tlvphotos converts on the owner's word; other hosts follow
 on the same word.

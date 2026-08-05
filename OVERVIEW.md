@@ -6,7 +6,8 @@ file. Normative rules live in `PRODUCT_SPEC.md` and the skill files; this page e
 ## The living spec is the product's source of truth
 
 A project running under the pack keeps one document, `PRODUCT_SPEC.md`, stating what the product
-promises today. It opens with a glossary that defines every domain noun, then a body of
+promises today. That project is called the host, and the pack's own repository is a host too.
+The document opens with a glossary that defines every domain noun, then a body of
 requirements: each carries a short context (when the situation arises, who is involved, what the
 reader sees), one user story, and acceptance criteria grouped into named cases. Short codes such as `[INV-104]` or
 `[E-6, T-12]` trail at line ends as anchors for the machine; a reader can ignore them. A generated code-to-location table
@@ -19,12 +20,14 @@ a removed feature leaves a dated tombstone, and history moves to `JOURNAL.md`.
 
 ## The pipeline — a wish becomes shipped, tested work
 
-A wish is a request in plain words, thrown at any moment. Intake names its door aloud — feature,
+A wish is a request in plain words, thrown at any moment. It becomes one row in the queue,
+`ROADMAP.md`, the moment it is spoken (SPEC E-2). Intake names its door aloud — feature,
 bug, refactor, docs-only, skip — before any code; fixed tripwires decide, so a casual ask that
 creates a new surface still enters as a feature (SPEC T-12). A feature walks nine stations in order.
 
 1. **Spec** — `spec-author` writes the delta: entities, states, transitions, invariants, regression
-   fences on touched live surfaces, a sweep of the standard facets, non-goals, one success measure.
+   fences on touched live surfaces, a sweep of the standard facets (the viewport bands, touch,
+   the empty and error states, keyboard reach), non-goals, one success measure.
 2. **Prove** — `product-prover` reviews the grown spec; findings are recorded and folded.
 3. **Architecture** — `ARCHITECTURE.md` maps named nodes, each owning spec facts, pinned to real
    `file:line`. The document also owes a runtime view (each promised flow walked node by node, with
@@ -47,17 +50,19 @@ station with the full suite and an audit of the touched matrix sections. A docs-
 changed section as it renders, plus one search for a claim the code no longer supports. The skip door
 covers a one-file edit that adds no state and no visible behaviour, and it still ships a test.
 
-Mechanical guardrails on the pre-push hook enforce the
-structure: a change without a test, an empty surface, or a behaviour without a spec sentence turns
-the push red. The normative walk lives in `skills/build-pipeline/SKILL.md`.
+Four mechanical guardrails on the pre-push hook enforce the structure. A change without a test, an
+empty surface, a behaviour without a spec sentence, or a duplicated anchor turns the push red. The
+host wires that hook itself, in the second install step the README states. The normative walk lives
+in `skills/build-pipeline/SKILL.md`.
 
 ## The prover is a formal-review step
 
 `product-prover` reads documents the way a formal-methods reviewer reads a model: entities, states,
 transitions, invariants, safety, liveness, atomicity, and the composition between surfaces. It runs
 at two stations (spec and architecture) and, on the pack itself, again before every push. Findings
-land in dated files under `docs/prover/`, each marked folded or rejected with a reason, so the fate
-of every defect stays checkable after a memory wipe. The prover finds holes in what documents
+land in dated files under `docs/prover/`. Each one carries a marked fate with a reason — folded,
+queued, recorded, rejected, or still open — so the fate of every defect stays checkable after a
+memory wipe. The prover finds holes in what documents
 claim; the tests then cover the facts.
 
 ## The settings ladder
@@ -72,8 +77,8 @@ The normative table and the default values live in `skills/live-spec-base/SKILL.
 | host profile | `<host>/.live-spec/profile.md` | one project |
 | session | the human's spoken word | this conversation only |
 
-An override exists only as a written, dated line in its profile, with a journal note, so every
-divergence stays visible. The session scope is spoken only and dies with the conversation; making
+An override exists only as a written line in its profile file. Setting one leaves a dated journal
+note, so every divergence stays visible. The session scope is spoken only and dies with the conversation; making
 it permanent is a promotion into a profile, on the human's word.
 
 ## Ten working skills, plus the one shared rulebook they all load
@@ -90,7 +95,8 @@ it permanent is a promotion into a profile, on the human's word.
 - **communicator** — shows work plainly and asks only the decisions the human can actually make.
 - **feedback-intake** — receives everything a person hands back and routes each item to its home.
 - **feedback-collector** — on a rare strong reaction, offers (with your yes) a private note up to the pack's authors; off by default, never sends on its own.
-- **text-audit** — reads any human-facing text as a stranger and fixes where a reader stops, until two clean cold reads.
+- **text-audit** — reads any human-facing text as a stranger and fixes where a reader stops. It
+  closes after two rounds in a row where both fresh readers find nothing blocking.
 - **publish** — the quality gate when work leaves the machine, owing what the artifact's kind owes.
 
 ## What the spec learned recently
