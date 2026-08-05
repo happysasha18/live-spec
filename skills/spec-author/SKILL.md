@@ -11,8 +11,10 @@ metadata:
 > one surface = one name · one home per fact · junior/senior split · checkpoints · the concurrent-edit
 > fence · freshness · journal discipline · attic-never-delete · verify by deed · the human's gates · claims
 > need primary sources · fix the class, sweep look-alikes · the door before code · prototype ≠ product) live once in the pack's base skill, `live-spec-base` (v4.3.0), together with the
-> settings ladder — this skill references them and elaborates only its own domain. Used standalone, this
-> note is plain advice.
+> settings ladder — this skill references them and elaborates only its own domain. That base skill's
+> file is `skills/live-spec-base/SKILL.md`, and it states each of those rules in full. Loaded without
+> it, this page still runs every section below. What it loses is those shared rules and the settings
+> ladder, which live in that base skill alone.
 
 spec-author authors and grows a **living spec** — a requirements-genre `PRODUCT_SPEC.md` that says what the product is, what every
 part is allowed to claim, and how the parts compose — *incrementally, as the project develops*. spec-author is the
@@ -23,6 +25,51 @@ cross-links explicit.
 spec-author's job is to keep a spec that is **complete for what exists, honest about what's undecided, and
 structured so the prover can find the holes the author can't** — grown as the work grows, never front-loaded
 as a giant document.
+
+## Words this skill uses
+
+Every path on this page is relative to the root of the live-spec repository. That root is the directory
+holding `PRODUCT_SPEC.md`, `guardrails/`, `scripts/`, and `templates/`. Run every script named below
+from that root, as `python3 <path> <arguments>`. Each one prints its own usage line when it is run with
+no arguments, so the arguments never have to be guessed.
+
+- **Wish** — one request a person voices in plain words, captured as a queue row.
+- **Door** — the intake classification that sends a queued wish to one entry point of the pipeline. Its
+  values are feature, bug, refactor, docs-only, and skip. It is decided before any code is written.
+- **Queue row** — one row of the project's queue, `ROADMAP.md` in this pack. A closed row moves to
+  `docs/queue-archive/`, so a row number cited below may sit there rather than in the live queue.
+- **Lane** — one build train a session rolls through the pipeline.
+- **Landing** — one piece of work reaching the repository's shared truth as one commit.
+- **Host** — one project the pack attaches to. Each host keeps its own spec, queue, journal, and
+  `.live-spec/` folder.
+- **Host profile** — the host's own settings file, `.live-spec/profile.md`. This page reads its
+  `project.kind`, `project.layers`, `project.design-principles`, and `project.axes` lines.
+- **Kind** — what a host's product is, named from a fixed vocabulary: book, backend service, static
+  site, fullstack app, CLI, or skill pack. The host profile records it.
+- **Surface** — any part of the shipped product a user meets. A **stateful surface** holds state a
+  user can change and find again later.
+- **Spec-delta** — the set of spec sentences one wish or feature adds or changes.
+- **Facet** — one aspect of a feature's design, ending as a written spec sentence.
+- **Regression fence** — one sentence in a spec-delta naming a neighbouring promise that must stay
+  true through the change, citing the clause it guards.
+- **Composition axis** — one angle a stateful surface's behaviour can vary along.
+- **Lens** — one named check the prover or the design review walks a document with.
+- **Seat** — the session that orchestrates the work and reports to the person.
+- **Red**, used as a verb — a check fails and stops the work at that point.
+
+**The markers this page writes.** `[feature: F-x]` on a requirement heading marks a person-facing
+scenario. `[target]` marks a surface or phase the spec names and does not yet specify for build.
+`[default]` names a value the agent chose that the person may retune. `[GAP: ...]` under a criterion
+records what the source left open. `⟨DECIDE⟩` marks a call only the person can make, and it carries a
+one-line question.
+
+**The bracket codes.** `INV-`, `E-`, `T-`, `S-`, `C-`, `M-`, `D-`, `A-`, `B-`, and `ACT-` codes index
+requirements in this pack's own `PRODUCT_SPEC.md`. Its preamble names each letter's kind: `E-` an
+entity, `INV-` an invariant, `T-` a transition, `M-` a rhythm rule, `A-` an adoption step, `B-` a
+bootstrap step, `ACT-` an actor, `C-` a composition-axis rule, `D-` a recorded decision, and `S-` a
+header rule. `PRODUCT_SPEC.index.md` maps each code to the criteria carrying it, written as `R12.4` —
+requirement 12, criterion 4. Each sentence beside a code states its own rule in full, so a reader
+holding this page alone can pass the codes over.
 
 ## Work that belongs elsewhere
 
@@ -65,6 +112,12 @@ stopped being read, and a spec no one reads stops doing its job.
   its result. No word in the document is written in all capitals outside a code anchor or a filename. A
   guardrail holds this shape — `guardrails/check-requirement-shape.py` reds a requirement missing its
   Context, its User Story, or its `### Acceptance Criteria`, and a criterion whose case or anchor is wrong.
+  The parser behind that guardrail reads fixed line forms, held in `guardrails/specformat.py`:
+    - a requirement heading opens `## Requirement N: `;
+    - the Context line opens `**Context:**`, and the story line opens `**User Story:**`;
+    - the criteria sit under a `### Acceptance Criteria` heading, each one written `N. text`;
+    - a case line reads `**Case: the situation**`, bold and alone on its line;
+    - a glossary entry reads `- **term** — definition`.
 - **Each scenario states how it is entered and how it exits (SPEC INV-127).** A scenario is a flow with
   edges, and its Context block carries them: it states how the situation arises — from which prior state,
   with what already true (the preconditions) — and what the situation leaves true when it resolves (the
@@ -86,6 +139,10 @@ stopped being read, and a spec no one reads stops doing its job.
   criterion in the body and its noun in the glossary; the table carries locations only. The gate
   `guardrails/check-index-generated.py` reds a committed table that differs from a fresh build, a body code
   the table misses, or a table code no criterion carries — so the table can never drift into a second truth.
+  Two commands work it. `python3 scripts/build-index.py PRODUCT_SPEC.md -o PRODUCT_SPEC.index.md` builds
+  the table, and that output is spliced under `## Reference`. `python3
+  guardrails/check-index-generated.py PRODUCT_SPEC.md PRODUCT_SPEC.index.md` then reads the document
+  beside its committed copy.
 - **Name the situation in the case; put the exact threshold in the criterion.** The bold **case** line
   names the situation in plain words; the numbered criteria under it carry the exact number or condition.
   The reader gets the shape from the case; the builder drops into the criterion for the precise value.
@@ -107,13 +164,16 @@ stopped being read, and a spec no one reads stops doing its job.
   filename rule, a collision law, three header fields, and four body parts belongs in a bulleted list —
   the human language was already right, and the one remaining fix was reading efficiency.
 - **A preamble and a glossary open the doc.** Open the spec with a short preamble: what the document covers
-  in two or three sentences, what the bracket codes are (each letter's kind — `E-` an entity, `INV-` an
-  invariant, `T-` a transition, and the rest — and that a reader can ignore them while a maintainer follows
+  in two or three sentences, what the bracket codes are (each letter's kind, taken from the list under
+  "The bracket codes" above — and that a reader can ignore them while a maintainer follows
   them), how the keywords *shall*, *when*, *while*, *if*, and *then* read, and that **edit history lives in
   the JOURNAL, apart from the spec itself.** A **glossary** follows, before the first requirement: every
   domain noun the body uses carries a one-sentence entry there, defined once under one name (closed
   vocabulary — a coined word is translated to a defined standard term before it enters the document). The
-  gate `guardrails/check-vocabulary.py` reds a domain noun the body uses with no glossary entry.
+  gate `guardrails/check-vocabulary.py` reds a term defined twice, a glossary entry no body line uses,
+  and a coinage listed in `guardrails/spec-coinages.json`. Its own header states what it leaves out.
+  No script can tell a domain noun from ordinary English, so a used-but-undefined noun is caught by
+  the cold reader instead.
 - **The spec states the current truth — a changelog lives elsewhere.** No "changed in v0.8.3 from…" edit-history notes in the prose;
   the *why-we-changed-it* belongs in `JOURNAL.md` (dated, with the reason). A superseded rule may stay with a
   one-line "superseded by §X" pointer when the old shape still needs explaining — but the prose reads as
@@ -131,15 +191,22 @@ stopped being read, and a spec no one reads stops doing its job.
   since row 266) — spec prose follows it like every other human-facing text.
 - **A machine gate holds the register — attention alone drifts — and the prose is written by a clean agent.**
   Re-styling a spec by hand drifts (a voice reads fine on a sample, then the same tells return round after
-  round). The durable fix, proven and sealed in `docs/prose-quality-gate-design.md`: (1) a fresh agent with
-  the pack not loaded writes the prose from bare facts — a context that has loaded the pack writes ornate prose, so it
-  only does the mechanical half; (2) `scripts/spec-style-lint.py --gate` blocks the tells a regex can see
-  (contrast-by-denial frames, define-by-exclusion openers, jargon, shouted capitals, second person, reassurance, future
-  narration), with defined terms allowlisted and marked informative regions exempt; (3) `spec-redundancy-precheck.py`
-  catches lexical near-duplication and `spec-judge.py` runs a fresh `LLM` judge (locked hash-pinned rubric,
-  verbatim-quote evidence, a seeded self-test canary) for the redundancy/register a regex cannot see;
-  (4) an unfixed tell becomes a dated, tracked waiver, never a silent park; (5) `spec-done-gate.py` is the one
-  definition of done. Restyle each section through this loop: fresh writer → gate to 0 errors → anchor multiset
+  round). A **tell** here is a writing habit a reader recognizes as machine-written. The durable fix has
+  five parts, and parts 2 to 5 are proven and sealed in `docs/prose-quality-gate-design.md`:
+    1. A fresh agent with the pack not loaded writes the prose from bare facts. A context that has
+       loaded the pack writes ornate prose, so it only does the mechanical half. This leg is spec law
+       (SPEC INV-84), restated in `skills/live-spec-base/SKILL.md`.
+    2. `scripts/spec-style-lint.py --gate` blocks the tells a regex can see: contrast-by-denial frames,
+       define-by-exclusion openers, jargon, shouted capitals, second person, reassurance, and future
+       narration. Defined terms are allowlisted and marked informative regions are exempt.
+    3. `scripts/spec-redundancy-precheck.py` catches lexical near-duplication. `scripts/spec-judge.py`
+       then runs a fresh language-model judge against the hash-pinned rubric `scripts/judge-rubric.md`,
+       for the redundancy and register a regex cannot see.
+    4. An unfixed tell is recorded in `scripts/spec-waivers.json` as a dated waiver, and the running
+       total is capped by `scripts/spec-debt-cap.json`.
+    5. `scripts/spec-done-gate.py` is the one definition of done.
+
+  Restyle each section through this loop: fresh writer → gate to 0 errors → anchor multiset
   unchanged → suite green → re-point any broken traceability check-phrase by narrowing to a register-clean phrase
   (log it) → commit. The floor is the machine; the ceiling stays the exemplars + a human's read.
 
@@ -188,10 +255,11 @@ hand-build past the method.
 **A clause born of an approved look points at its norm (SPEC INV-43).** When the human approves a
 visual prototype as the look ("this is the door"), the clause that encodes it carries a `norm: <path>`
 pointer at its line end, beside its anchors — the prose carries the laws, the artifact keeps the look;
-a build from text alone ships a cheap look-alike with a green suite (tlvphoto, 2026-07-05). Approval
+a build from text alone ships a cheap look-alike with a green suite (tlvphotos, 2026-07-05). Approval
 freezes the artifact into the project's records: copy it to `docs/norms/` with a dated provenance line
 (what, approved when, from which sketch) and point at the frozen copy, keeping the one-way fence absolute
-(E-17) — a pointer into a live prototype home would break it. A text-born clause carries no pointer, and the law
+— the prototype's code sits in its own named home, and nothing in the shipped product reaches into it
+(E-17); a pointer into a live prototype home would break it. A text-born clause carries no pointer, and the law
 binds forward — a clause owes its pointer at the first landing that touches it.
 
 **Reshaping an existing spec? Hold the anchor-set guard.** A restructure (a genre migration, a resection)
@@ -273,8 +341,9 @@ re-authored as new law — a fact is fenced or re-authored, never both. A fence 
 behind it has discovered an unwritten promise: reconcile it from the shipped truth (like an adopted
 claim), write it as its own spec fact with its own row, and state it explicitly. If
 the cited neighbour claim is adoption-born and still unverified, its reconciliation runs before it can
-be fenced — a hope cannot be fenced. Name the fences by cited anchor in the wish's queue row
-("fences: …") so "untouched and still true" stays greppable. A prototype fences nothing — it promises
+be fenced — a hope cannot be fenced. Name the fences by cited anchor in the wish's queue row, which is
+a row of `ROADMAP.md` in this pack ("fences: …"), so "untouched and still true" stays searchable. A
+prototype fences nothing — it promises
 nothing.
 
 ## The facet sweep — run when a wish's door says feature (SPEC T-13, INV-18)
@@ -298,14 +367,17 @@ host profile's `project.design-principles` line. When the wish touches a surface
 principle governs, write the principle's answer as a spec sentence the same way a facet ends as a
 sentence — the frontend kind's interactive-overlap rule (interactive controls that belong to different
 layers occupy separate screen space) is answered wherever a covering overlay opens over floating chrome,
-so the delta states which controls retract while the overlay stands. The verify feel pass runs the
-declared design principles; the spec names the answer so the pass has something to check.
+so the delta states which controls retract while the overlay stands. The pipeline's verify station
+runs the declared design principles, each in its medium's own form (ARCHITECTURE.md, `docs/pipeline.md`
+station 9). The spec names the answer so that station has something to check.
 
 **Read the surface's composition axes from the kind too (SPEC INV-244).** Beside its layers, proofs,
 and design principles, a project kind owes every surface a further axis set beyond the kind-independent
 C-1 floor — the composition axes a surface answers because its kind renders under them, homed in the
 per-kind axis table in ARCHITECTURE.md and declared on the host profile's `project.axes` line, an
 explicit "none beyond the C-1 floor" a legitimate answer for a kind with no visitor-facing surface.
+The C-1 floor is the canonical axis list above: view, mode, tier, viewport size, persistence and
+reopen, concurrency, and every other live surface.
 Composing a surface reads these declared axes from the kind before folding the facet sweep below, the
 same way it reads the declared layers, so the delta answers each axis this kind owes; it does not
 assume another kind's set. And where an owed axis adds runtime code to cover it (SPEC INV-248), the
@@ -347,18 +419,21 @@ delivery-separability lens.
   ends as a spec sentence — mirror, a named shorter exit, or deliberately instant — decided or
   `[default]`-tagged like any facet (SPEC INV-126; incident: tlvphotos's polaroid room revealed under a soft
   veil in one breath and closed on a hard cut with no transition, found by hand on a real phone, 2026-07-12).
-  The facet has a second half, the reversibility of the means: where the surface opens by a
-  continuous, reversible gesture — a pinch, a drag, a lift — the same gesture reversed is written among its
-  ways to close, or a decided sentence states why it is absent; silence there is a finding, and the rightness
-  of the reason stays the human's gate (SPEC INV-126; incident: tlvphotos's pinch-to-zoom layer opened by a
-  finger-tracked scale-up and closed only by a control, no reverse pinch, felt on a phone, 2026-07-14).
-  The second half asks magnitude beside existence: where the pair rides a continuous, reversible
-  quantity — a pinch span, a drag distance, a wheel accumulation — the author writes whether the two
-  directions demand the same magnitude, symmetric or a named deliberate asymmetry, decided or
-  `[default]`-tagged like any facet (SPEC INV-126; incident: tlvphotos's inspect zoom opened on any
-  spread past rest yet closed only at a squeeze to ~0.82× of rest — the reverse existed at a deeper
-  cost to the hand, and every prover pass came clean because the lens asked only existence, felt on
-  a real phone, 2026-07-16).
+  That first part asks about the motion. Two further parts follow it, so the facet ends as three
+  sentences rather than one.
+    - The second part asks the reversibility of the means. Where the surface opens by a continuous,
+      reversible gesture — a pinch, a drag, a lift — the same gesture reversed is written among its
+      ways to close. A decided sentence may instead state why it is absent. Silence there is a
+      finding, and the rightness of the reason stays the human's gate (SPEC INV-126). The incident:
+      tlvphotos's pinch-to-zoom layer opened by a finger-tracked scale-up and closed only by a
+      control. No reverse pinch, felt on a phone, 2026-07-14.
+    - The third part asks magnitude beside existence. Where the pair rides a continuous, reversible
+      quantity — a pinch span, a drag distance, a wheel accumulation — the author writes whether the
+      two directions demand the same magnitude. That answer is symmetry or a named deliberate
+      asymmetry, decided or `[default]`-tagged like any facet (SPEC INV-126). The incident:
+      tlvphotos's inspect zoom opened on any spread past rest, and closed only at a squeeze to
+      ~0.82× of rest. The reverse existed at a deeper cost to the hand. Every prover pass came clean
+      because the lens asked only existence, felt on a real phone, 2026-07-16.
 - **Edge completeness — both ends of a gate, and the three faces of a wait.** When the surface has a
   behaviour gated on a quantity that runs on a line (elapsed time since a last visit, a count, a distance, a
   size), write what it does at both ends of the range — below the low end and above the high end, beyond
@@ -369,7 +444,8 @@ delivery-separability lens.
   spec sentence, decided or `[default]`-tagged like any facet (SPEC INV-138).
 
 **The list is curated, each facet earning its place by named incident.** A facet joins only with a named real incident it would have
-caught — each entry above carries its incident — and the list is re-justified at milestones; a checklist
+caught. Five of the ten entries above name theirs, and the other five carry none. The list is
+re-justified at milestones; a checklist
 that grows by taste becomes a forty-row form nobody walks (the Google launch-checklist lesson).
 
 **The declared-laws line rides every new section (SPEC INV-101).** Where the spec keeps a declared-laws home — the one place naming its cross-cutting laws (measurement, accessibility, error handling, a register: what the product declares) — a new surface's section states its line against each declared law, the clause or a dated exemption, before the prover ever reads the delta. Each declared law also carries its net — the review or gate that enforces it — written beside the law in that home, so the assignment lives where the laws are declared (SPEC INV-150). A law belongs to a mechanical gate where a deterministic guardrail or test decides the violation, to the prover where the violation pins to a stated sentence, and to the design review where the deciding fact lives only in the human's intent. The prover's cross-cutting station then audits the declared lines. It no longer has to discover them. A spec with no such home yet earns the home first, and a declared law with no named net is a finding there.
@@ -397,12 +473,12 @@ across views once the surface exists — one dimension, split by time, never spe
 
 The facets above ask what every visible feature owes its device; the fit walk asks how the feature
 sits in the person's path — the questions nobody thinks to ask until a guest is stuck at the tenth
-picture with no way on (tlvphoto, 2026-07-06). **The lens lists' home is here**, kind-scaled, curated
+picture with no way on (tlvphotos, 2026-07-06). **The lens lists' home is here**, kind-scaled, curated
 with incidents exactly like the facet list:
 
 - **product / UX kind — the visitor's journey:** how does the person arrive here (every entry door,
   including the ones past the main one) · what do they do here · where do they go NEXT from every state this surface
-  can be in (no dead ends — the door↔room loop incident, tlvphoto 2026-07-06) · what does a return
+  can be in (no dead ends — the door↔room loop incident, tlvphotos 2026-07-06) · what does a return
   visit change (seen-state, no-repeat — and the remembered state it implies) · a conditionally-entered
   face (first visit, empty state, onboarding, a one-time banner) names its deliberate re-entry path or
   states the one-way as a decision (SPEC INV-50) · what does the feel owe
@@ -443,8 +519,10 @@ heading style, the acceptance-criterion shape, and what the coverage check means
 
 **The mechanic is one, for every type.** Each unit carries a stable inline tag on its heading — the same
 family as the anchors, e.g. `[feature: F-wish]` — and the downstream artifacts back-reference it: one
-coverage table in ARCHITECTURE.md names the implementer node(s) and a test per unit. The guardrail reads
-both directions — every unit has an implementer and a test, and every promised unit carries its tag. This
+coverage table in ARCHITECTURE.md names the implementer node(s) and a test per unit. The two-way check reads
+both directions — every unit has an implementer and a test, and every promised unit carries its tag. In this
+pack that check is the feature-coverage trace in `tests/test_traceability.py`, reading ARCHITECTURE.md's
+`## Feature coverage` table. This
 is the anchor-ownership machinery extended a level up, never a second machine to keep in sync.
 
 **No file explosion.** One PRODUCT_SPEC.md, one ARCHITECTURE.md, one TEST_MATRIX.md; the unit tags live
@@ -454,7 +532,7 @@ genuinely huge project, and only by explicit call.
 **The source is plain Markdown; the render resolves the links.** The source stays plain Markdown — a
 tag plus one table. When a doc is rendered, a relative `.md` cross-link opens its rendered `.html`
 neighbour and its `#anchor` lands on the target heading (ROADMAP row 195, shipped 2026-07-10). Linking
-a trailing bracket code to its Formal-index row stays an optional later leg; until that lands, a reader
+a trailing bracket code to its row in the code-to-location table stays an optional later leg; until that lands, a reader
 follows a bare tag by searching the source.
 
 **On live-spec itself.** live-spec is a package, but its scenarios are the product's features, so it
@@ -513,7 +591,8 @@ verifiable here, never for the borrowed authority alone.
    code-to-location table is regenerated at freeze by `scripts/build-index.py`; leave it to the builder
    rather than editing it by hand. Reuse the existing vocabulary; don't introduce a second word for an existing concept.
    Starting fresh? Copy `templates/PRODUCT_SPEC.template.md`. (Template paths resolve from the pack repo —
-   github.com/happysasha18/live-spec; a standalone install of this skill fetches them there. They are
+   github.com/happysasha18/live-spec. A standalone install of this skill reads them from a checkout of
+   that repository, taken with `git clone https://github.com/happysasha18/live-spec`. They are
    deliberately not copied into the skill dir: the pack is the source, a copy would fork the truth.)
 2. **Ask, don't silently fill.** When the spec needs a decision only the author can make (a threshold, a
    policy, desired behavior on an edge), ask the leading question or mark ⟨DECIDE⟩, treating intent as
