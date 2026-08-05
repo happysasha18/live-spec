@@ -86,6 +86,9 @@ MACHINE_DIRS = (
     "guardrails/release-note-fixtures",
 )
 SKIP_DIRS = RECORD_DIRS + MACHINE_DIRS
+# A directory matches only at a path boundary, so a sibling whose name extends a skipped one
+# (templates-old beside templates) stays measured.
+SKIP_PREFIXES = tuple(d + os.sep for d in SKIP_DIRS)
 
 FENCE = re.compile(r"^\s*```")
 HEADING = re.compile(r"^\s*#{1,6}\s")
@@ -135,7 +138,7 @@ def live_files(root=REPO_ROOT):
         rel_dir = os.path.relpath(dirpath, root)
         rel_dir = "" if rel_dir == "." else rel_dir
         dirnames[:] = [d for d in dirnames
-                       if not os.path.join(rel_dir, d).startswith(SKIP_DIRS)
+                       if not os.path.join(rel_dir, d).startswith(SKIP_PREFIXES)
                        and os.path.join(rel_dir, d) not in SKIP_DIRS
                        and not d.startswith(".")]
         for name in filenames:
