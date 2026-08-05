@@ -1,7 +1,7 @@
 """Row 313: the status-report format Alexander asked for, captured in the communicator skill.
 
 He wants one unified emoji legend across every done/remaining report — ✅ done · 🔄 in progress
-(naming the pipeline station) · ⏳ remaining/queued · ⚠️ needs the human's word · ⏱ time/estimate ·
+(naming the pipeline step) · ⏳ remaining/queued · ⚠️ needs the human's word · ⏱ time/estimate ·
 📖 docs — so the emoji carry the state and plain words carry the content. And when a PLAN is
 reported, each step names whether it can run in PARALLEL and, when known, which MODEL tier does the
 work (opus/sonnet/haiku/Fable). This test pins both additions in the shipped communicator SKILL.md.

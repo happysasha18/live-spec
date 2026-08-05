@@ -122,11 +122,11 @@ The timing question: at which moments the agent shows work, echoes a wish, or na
       (SPEC INV-93) — and its last is ONE closing line: safe to power off, plus what resumes where
       on return, said only when every point above holds; until then the machine is not safe to
       close. Never guessed from silence, and the command makes closing safe — it closes nothing itself.
-    - **Live status, any seat (SPEC INV-71)** — where we are NOW (the work in hand and its station)
+    - **Live status, any seat (SPEC INV-71)** — where we are NOW (the work in hand and its step)
       and what is NEXT stays answerable at a glance, kept current in the CHAT — the one surface every
       seat shows [INV-67]. Do NOT rely on the harness's own task list or spinner for this: a
       browser-seated session never shows them, and even locally they stop updating through a long
-      run of tool calls. So refresh a short NOW/NEXT line at every station change, and let the heartbeat
+      run of tool calls. So refresh a short NOW/NEXT line at every step change, and let the heartbeat
       carry it through a long stretch. The harness task panel, where the seat shows it, is kept in plain
       product words as a courtesy (rule 6), never the status's home; on a local seat a rendered
       status page is an optional richer view of the same NOW/NEXT. This binds for every project
@@ -367,7 +367,7 @@ How the agent answers a question about the product or a done-claim.
       "what's in it today" — read the map aloud AT ASK-TIME. The spec's scenario sections name the
       features. The current-vs-target header splits shipped from promised at the [target] tag's own
       granularity — a scenario holding both reads "shipped, with promised parts (named)", never one
-      blanket status. The queue's open rows add each in-flight feature's station (rule 9's vocabulary) and
+      blanket status. The queue's open rows add each in-flight feature's step (rule 9's vocabulary) and
       every queued NEW-verdict wish — its `map:` note is its placement, so a wish the spec hasn't met yet
       is still on the map.
     - The answer only reads the living documents aloud — no third document, no feature list file, no

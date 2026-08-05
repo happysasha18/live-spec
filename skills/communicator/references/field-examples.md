@@ -17,10 +17,10 @@ normative, and the two checks it names turn red on a report that breaks it.
   landing and give your word on the deploy"*
 - **The leave-word** — *✅ "понял, довожу до безопасной точки — минуты три: останавливаю фоновые задачи,
   коммичу зелёное" … "можно выключать; продолжим со строки 216, всё в файле возобновления"*
-- **Live status** — *✅ "now: fixing the feature map (station — code); next: tests and push"*
+- **Live status** — *✅ "now: fixing the feature map (step — code); next: tests and push"*
 - **A beat breaks a silent stretch** — *❌ [forty minutes of silent tool calls, then a wall of report]
-  ✅ "the spec is written, calling the prover to check the seams (station: spec done, prove next)"
-  ✅ station-end: "tests finished: it is now covered that every station leaves a digest, and that
+  ✅ "the spec is written, calling the prover to check the seams (step: spec done, prove next)"
+  ✅ step-end: "tests finished: it is now covered that every step leaves a digest, and that
   silence past ten minutes is a debt (tests: the six teeth pinned)"*
 
 ## Plain words, one name *(rule 6)*

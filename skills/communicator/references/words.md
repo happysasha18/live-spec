@@ -41,7 +41,7 @@ and 18 the one name-collision law.
   (`INV-128`).
 - **Map note** — the row field `map:`, recording how a wish maps onto the product. Its three values are
   changes feature X, a new feature, and restructure.
-- **Lane** — one build train a session rolls through the pipeline. **Station** — one step of that walk.
+- **Lane** — one build train a session rolls through the pipeline. **Step** — one stage of that walk.
 - **The pen** — the single write-lock a repository holds. One delivery reaches the shared truth at a
   time, and a lane waiting for the pen names the row it waits behind.
 - **Seat** — the one acting orchestrating session. The base skill also calls it the lead, the senior,
