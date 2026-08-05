@@ -18,20 +18,17 @@ holds 66. Three totals that drifted by hand now generate inside fenced blocks.
 Eleven inbox messages were harvested into rows 532 to 546, and every message rests in `attic/`
 with a manifest line.
 
-Two things stand open for the person who decides what ships. The first is a policy call: the bar
-a text must clear before it ships. Today's rule asks for two rounds in a row with nothing
-blocking. The second is a dissent the review recorded. The reading queue now leaves the
-templates and the test fixtures unmeasured. A reviewer contests that on the README's own words.
+Both questions the review raised are answered (`DECISIONS.md`, 2026-08-05). A text ships when
+both cold readers return nothing that blocks, twice in a row. The templates are measured again,
+and the test fixtures stay outside the reading queue.
 
 ## Forward queue
 
-1. Add the row the review owes. The restore gate reads spawned workers' transcripts alone, so a
-   command run on the main thread that discards a tree escapes it.
-2. Run the next reading round on the audit skill. The skill asks for one prompted reader and one
+1. Run the next reading round on the audit skill. The skill asks for one prompted reader and one
    unprompted reader; today's round ran two prompted readers, which the next round corrects.
-3. Take rows 532 to 546 through the pipeline. Rows 537 and 538 open with a freshness re-check,
+2. Take rows 532 to 546 through the pipeline. Rows 537 and 538 open with a freshness re-check,
    since the reds they cite no longer reproduce.
-4. Re-seed the rounds-per-file estimate once a second file finishes its readings.
+3. Re-seed the rounds-per-file estimate once a second file finishes its readings.
 
 ## Where the numbers live
 

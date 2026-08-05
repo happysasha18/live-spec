@@ -12,7 +12,7 @@
       "total": 0
     },
     "NEXT_STEPS.md": {
-      "bytes": 6412,
+      "bytes": 4343,
       "file": "NEXT_STEPS.md",
       "long": 0,
       "longest": 24,
@@ -57,7 +57,7 @@
       "total": 13
     },
     "ROADMAP.md": {
-      "bytes": 201827,
+      "bytes": 212239,
       "file": "ROADMAP.md",
       "long": 8,
       "longest": 242,
@@ -75,7 +75,7 @@
       "total": 3
     },
     "TEST_MATRIX.md": {
-      "bytes": 458247,
+      "bytes": 458214,
       "file": "TEST_MATRIX.md",
       "long": 8,
       "longest": 46,
@@ -93,7 +93,7 @@
       "total": 46
     },
     "docs/MEASUREMENTS.md": {
-      "bytes": 18981,
+      "bytes": 18278,
       "file": "docs/MEASUREMENTS.md",
       "long": 3,
       "longest": 36,
@@ -102,7 +102,7 @@
       "total": 3
     },
     "docs/PROGRESS.md": {
-      "bytes": 16134,
+      "bytes": 14699,
       "file": "docs/PROGRESS.md",
       "long": 0,
       "longest": 22,
@@ -156,7 +156,7 @@
       "total": 38
     },
     "docs/language-defects.md": {
-      "bytes": 31164,
+      "bytes": 31406,
       "file": "docs/language-defects.md",
       "long": 33,
       "longest": 78,
@@ -174,7 +174,7 @@
       "total": 101
     },
     "docs/language-rules.md": {
-      "bytes": 58485,
+      "bytes": 58537,
       "file": "docs/language-rules.md",
       "long": 30,
       "longest": 89,
@@ -453,7 +453,7 @@
       "total": 17
     },
     "editions/product-prover/PROVENANCE.md": {
-      "bytes": 12952,
+      "bytes": 13385,
       "file": "editions/product-prover/PROVENANCE.md",
       "long": 1,
       "longest": 33,
@@ -471,7 +471,7 @@
       "total": 14
     },
     "editions/product-prover/SKILL.md": {
-      "bytes": 42828,
+      "bytes": 45578,
       "file": "editions/product-prover/SKILL.md",
       "long": 22,
       "longest": 44,
@@ -489,7 +489,7 @@
       "total": 6
     },
     "editions/product-prover/reference/stress-lenses.md": {
-      "bytes": 25877,
+      "bytes": 26486,
       "file": "editions/product-prover/reference/stress-lenses.md",
       "long": 10,
       "longest": 42,
@@ -840,7 +840,7 @@
       "total": 0
     },
     "skills/text-audit/SKILL.md": {
-      "bytes": 29808,
+      "bytes": 30762,
       "file": "skills/text-audit/SKILL.md",
       "long": 0,
       "longest": 25,
@@ -883,6 +883,114 @@
       "register": 0,
       "style": 0,
       "total": 0
+    },
+    "templates/ARCHITECTURE.template.md": {
+      "bytes": 12517,
+      "file": "templates/ARCHITECTURE.template.md",
+      "long": 0,
+      "longest": 25,
+      "register": 0,
+      "style": 1,
+      "total": 1
+    },
+    "templates/DECISIONS.template.md": {
+      "bytes": 1493,
+      "file": "templates/DECISIONS.template.md",
+      "long": 1,
+      "longest": 36,
+      "register": 0,
+      "style": 4,
+      "total": 5
+    },
+    "templates/JOURNAL.template.md": {
+      "bytes": 1074,
+      "file": "templates/JOURNAL.template.md",
+      "long": 0,
+      "longest": 24,
+      "register": 0,
+      "style": 5,
+      "total": 5
+    },
+    "templates/KILL_LIST.template.md": {
+      "bytes": 674,
+      "file": "templates/KILL_LIST.template.md",
+      "long": 0,
+      "longest": 16,
+      "register": 0,
+      "style": 4,
+      "total": 4
+    },
+    "templates/NEXT_STEPS.template.md": {
+      "bytes": 1099,
+      "file": "templates/NEXT_STEPS.template.md",
+      "long": 1,
+      "longest": 27,
+      "register": 0,
+      "style": 4,
+      "total": 5
+    },
+    "templates/PROBLEMS.template.md": {
+      "bytes": 1267,
+      "file": "templates/PROBLEMS.template.md",
+      "long": 0,
+      "longest": 25,
+      "register": 0,
+      "style": 5,
+      "total": 5
+    },
+    "templates/PRODUCT_SPEC.template.md": {
+      "bytes": 7238,
+      "file": "templates/PRODUCT_SPEC.template.md",
+      "long": 0,
+      "longest": 24,
+      "register": 0,
+      "style": 0,
+      "total": 0
+    },
+    "templates/ROADMAP.template.md": {
+      "bytes": 6338,
+      "file": "templates/ROADMAP.template.md",
+      "long": 0,
+      "longest": 24,
+      "register": 0,
+      "style": 0,
+      "total": 0
+    },
+    "templates/TEST_MATRIX.template.md": {
+      "bytes": 4017,
+      "file": "templates/TEST_MATRIX.template.md",
+      "long": 0,
+      "longest": 25,
+      "register": 0,
+      "style": 0,
+      "total": 0
+    },
+    "templates/agent.template.md": {
+      "bytes": 5328,
+      "file": "templates/agent.template.md",
+      "long": 10,
+      "longest": 47,
+      "register": 0,
+      "style": 7,
+      "total": 17
+    },
+    "templates/profile.template.md": {
+      "bytes": 1622,
+      "file": "templates/profile.template.md",
+      "long": 2,
+      "longest": 72,
+      "register": 0,
+      "style": 2,
+      "total": 4
+    },
+    "templates/skill-review.template.md": {
+      "bytes": 489,
+      "file": "templates/skill-review.template.md",
+      "long": 0,
+      "longest": 14,
+      "register": 0,
+      "style": 2,
+      "total": 2
     }
   }
 }

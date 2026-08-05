@@ -79,10 +79,11 @@ RECORD_DIRS = (
 )
 RECORD_FILES = ("JOURNAL.md", "DECISIONS.md", "FEEDBACK.md", "MIGRATION.md", "WAITING.md")
 
-# Directories whose markdown serves a machine or another project: fixtures a test opens by path,
-# and the templates a new host copies. Nobody reads them here, so the census leaves them unmeasured.
+# Directories whose markdown a machine reads: a fixture a test opens by its path. No person reads
+# one, so the census leaves them unmeasured. The templates stay measured, because a person
+# starting a new project reads them and README.md sends them there (review dissent, 2026-08-05).
 MACHINE_DIRS = (
-    "templates", "guardrails/far-tier-fixtures", "guardrails/measured-number-fixtures",
+    "guardrails/far-tier-fixtures", "guardrails/measured-number-fixtures",
     "guardrails/release-note-fixtures",
 )
 SKIP_DIRS = RECORD_DIRS + MACHINE_DIRS

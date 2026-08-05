@@ -275,6 +275,19 @@ the one slot nothing questions. That is the defect this surface exists to catch.
   of the four: what a stop is, what the count decides, and how it was produced. The instruction
   reached this session through another session, so no words of yours stand here.
 
+- **A text ships when both cold readers return nothing that blocks, twice in a row.** Asked on
+  2026-08-05 at ~22:52 which of three bars a text must clear, you answered that quality never
+  suffers, whatever else does. So the strictest of the three stands: zero blocking places for both
+  readers, held over two consecutive rounds. The two looser shapes the session offered are closed —
+  agreeing a place away, and shipping with the remaining places listed at the text's head.
+  The audit skill `skills/text-audit/SKILL.md` states this bar, and the reading loop runs to it.
+- **The templates stay in the reading queue.** In the same exchange the session reported a
+  reviewer's dissent: the census had stopped measuring twelve template files on the ground that
+  nobody reads them, while `README.md` sends a person starting a new project to exactly those
+  files. Your answer settled it, and the templates are measured again from commit that follows.
+  The test fixtures stay outside, since a test opens them by path and no person reads one, which
+  is the audit skill's own rule for machine-read text.
+
 ## Open — carried, awaiting your word
 <!-- record:open -->
 These are open questions the pack carries with a recommendation. They moved here from the old spec
