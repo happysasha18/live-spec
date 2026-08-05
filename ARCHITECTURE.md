@@ -30,7 +30,10 @@ follows (guardrails).
 ## The shape at a glance
 
 live-spec is a skill pack: ten working skills plus the one shared rulebook they all load, each of them
-text a model reads. Templates, guardrails, and its own dogfood documents sit beside them in one repo. Everything executes inside an agent session on the host machine;
+text a model reads. Templates, guardrails, and its own dogfood documents sit beside them in one repo.
+`editions/` holds a skill's public edition: the same method with every internal code resolved into the
+rule it stands for. Where an edition stands, it is what that skill's public mirror ships.
+Everything executes inside an agent session on the host machine;
 the repo is the source of truth, the installed copies under `~/.claude/skills/` are what a session
 actually loads, git hooks and CI re-run the same gates, and the human reads rendered pages in a
 browser. No server, no runtime of its own.
@@ -179,9 +182,9 @@ build-pipeline) and the report step (T-7, communicator); both sides are named he
 
 **responsibility** — the publish-quality gate: per-kind publication checklist (its one home) + the target-plugin seam; runs before the human's gate, never instead (row 98)
 
-**owns** — E-20, INV-44, INV-96, INV-119, INV-181, INV-228
+**owns** — E-20, INV-44, INV-96, INV-119, INV-181, INV-228, INV-303
 
-**pins** — `skills/publish/SKILL.md:1` (frontmatter + when it fires), the kind-checklist table and target-plugin sections in the same file, the release-note shape with its optional offers section (INV-228: the release-note shape carries an optional offers section phrased as choices, and the publish walk records the offer-or-none decision, consuming the touchpoint-frame classification), `guardrails/check-release-note.py:1` (the release-note offer report-shape check, report-only, rides the suite not the push chain, INV-228), the mirror sync `scripts/sync-mirrors.sh:1` (banner · release history · attribution · language scan)
+**pins** — `skills/publish/SKILL.md:1` (frontmatter + when it fires), the kind-checklist table and target-plugin sections in the same file, the release-note shape with its optional offers section (INV-228: the release-note shape carries an optional offers section phrased as choices, and the publish walk records the offer-or-none decision, consuming the touchpoint-frame classification), `guardrails/check-release-note.py:1` (the release-note offer report-shape check, report-only, rides the suite not the push chain, INV-228), the mirror sync `scripts/sync-mirrors.sh:1` (publish-source selection · banner · release history · attribution · language scan)
 
 ### [node: test-author]
 

@@ -176,6 +176,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 - **prototype** — an exploration of an idea kept as a sketch, living fenced off in its own clearly named home such as a `prototype/` folder or branch, so nothing in the shipped product reaches into it.
 - **prover** — the review pass that reads a spec for holes, reasoning in entities, states, transitions, and invariants.
 - **prover record** — one dated file under `docs/prover/` recording one review pass: what was reviewed, the findings, and the verdict. The push gate reads that a committed record dated the push's own day exists and is at least as new as the documents it covers.
+- **public edition** — a skill's copy for a reader outside this project, held at `editions/<skill>/`. It states the same method, with every internal code resolved into the rule it stands for.
 - **publish checklist** — the per-kind walk the publish skill owns, run before any deposit leaves the machine.
 - **publish gate** — the human's own gate over anything irreversible or outward, which the publish checklist runs ahead of.
 - **published contract** — a surface in a producer agent's own spec, paired with a machine-readable artifact at the path the producer's card names, stating the version it was generated under and the moment it was generated, that another agent reads on its own clock.
@@ -225,7 +226,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 - **spec-delta** — the set of spec sentences one wish or feature adds or changes, drafted and proven against the whole spec before any test or code is written.
 - **spec-touching delivery** — a delivery whose change set includes the spec document.
 - **staleness bound** — the one number a consumer owns, stating how old a published artifact may be and still carry that consumer's analysis.
-- **standalone mirror** — a public mirror repository rebuilt from the pack folder by the sync script, carrying its own generated banner, release history, and attribution line.
+- **standalone mirror** — a public mirror repository the sync script rebuilds at every sync, carrying its own generated banner, release history, and attribution line. Its source is the skill's public edition where one exists, and the pack's own skill folder where none does.
 - **standard facet** — one dimension every visible feature has whether or not anyone names it, such as a viewport band, touch, or an empty state, swept when a feature is specified.
 - **stateful surface** — a part of a host project that holds state: a screen, a panel, or a saved file the user can change and find again later.
 - **status report** — the running account a session keeps of the work in hand, what the queue holds next, and the messages its agent channel has sent.
@@ -7383,6 +7384,38 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
    - a live document the census could not read *shall* stop the write the same way.
 
 
+## Requirement 304: A skill's public mirror carries the edition written for a stranger
+
+**Context:** A skill's copy under `skills/` is written for a session that has already loaded this pack. It cites internal codes and points at scripts that travel with the pack. The sync script rebuilds each standalone mirror from the pack and pushes it to a public repository. A stranger reading that mirror needs the method in words that stand on their own.
+
+**User Story:** As a stranger reading a mirror, I want it to carry a public edition, so that every rule stands in plain words.
+
+### Acceptance Criteria
+
+**Case: a skill ships a public edition**
+
+1. A skill *shall* be able to ship a public edition under `editions/<skill>/`. [INV-303]
+   - the edition states the same method, with every internal code resolved into the rule it stands for;
+   - the edition carries whatever the method points at, so a reader needs no file from this pack.
+2. *where* an edition exists, the sync script *shall* rebuild that skill's standalone mirror from it. [INV-303, INV-96]
+3. *while* an edition stands, `skills/<skill>/` *shall* stay the copy a session in this project loads. [INV-303]
+4. *when* the sync publishes an edition, it *shall* print that skill's name and the directory it published. [INV-303, INV-269]
+
+**Case: a skill ships no edition**
+
+5. *where* `editions/<skill>/` is absent, the sync script *shall* rebuild that mirror from `skills/<skill>/`. [INV-303, INV-96]
+6. The pack *shall* stay the one source of both copies, so a hand edit on a mirror is overwritten. [INV-303, INV-96]
+
+**Case: a half-made edition is refused**
+
+7. *if* `editions/<skill>/` holds no `SKILL.md`, *then* the sync script *shall* refuse that skill by name. [INV-303]
+   - the copy step deletes what it replaces, so publishing an empty edition leaves the mirror shipping nothing;
+   - the refusal names the missing file and the two ways out, adding the file or removing the directory.
+8. *when* a skill is refused, the sync *shall* publish no source for it and *shall* leave its mirror as it stands. [INV-303]
+9. *when* a skill is refused, the sync *shall* run on to the remaining mirrors and *shall* record the skip in its summary. [INV-303]
+10. The publish source of one skill *shall* be readable on its own, through a flag that reaches no repository. [INV-303]
+
+
 ## Reference
 
 The code-to-location table below is generated output, built from the body criteria by `scripts/build-index.py`; no one edits it by hand. Feature codes (`F-...`) live on their scenario headings and carry no table row.
@@ -7541,7 +7574,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-93 | R22.5, R23.1, R23.2, R23.3, R23.4, R25.4 |
 | INV-94 | R19.1, R19.2, R19.3, R54.3, R196.17, R196.18 |
 | INV-95 | R25.1, R25.2, R25.3, R25.4, R25.5, R303.14 |
-| INV-96 | R147.1, R147.2, R147.3, R148.3 |
+| INV-96 | R147.1, R147.2, R147.3, R148.3, R304.2, R304.5, R304.6 |
 | INV-97 | R193.13, R196.5, R228.1, R228.2, R228.3, R228.4, R228.5, R228.6, R260.4, R268.5, R269.1 |
 | INV-98 | R132.1, R221.1, R221.2, R221.3, R221.4, R268.4 |
 | INV-99 | R49.1, R49.2, R68.3 |
@@ -7714,7 +7747,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-266 | R281.1, R281.2 |
 | INV-267 | R281.3, R281.4, R281.5, R281.6 |
 | INV-268 | R281.7 |
-| INV-269 | R303.9, R282.1, R282.2, R284.4, R285.3, R288.5, R296.10, R297.11, R299.12, R301.20, R302.8 |
+| INV-269 | R303.9, R282.1, R282.2, R284.4, R285.3, R288.5, R296.10, R297.11, R299.12, R301.20, R302.8, R304.4 |
 | INV-270 | R277.21, R277.22, R283.7, R286.3, R289.6 |
 | INV-271 | R191.4, R191.7, R278.5, R278.6, R278.7 |
 | INV-272 | R283.1, R283.2, R283.3, R283.4, R283.5, R283.6, R283.7 |
@@ -7748,6 +7781,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-300 | R208.7, R208.8, R208.9 |
 | INV-301 | R302.1, R302.2, R302.3, R302.4, R302.5, R302.6, R302.7, R302.8, R302.9, R302.10, R302.11, R302.12, R302.13, R302.14, R302.15, R302.16 |
 | INV-302 | R303.1, R303.2, R303.3, R303.4, R303.5, R303.6, R303.7, R303.8, R303.9, R303.10, R303.11, R303.12, R303.13, R303.14, R303.15, R303.16, R303.17, R303.18, R303.19, R303.20, R303.21, R303.22, R303.23, R303.24, R303.25, R303.26, R303.27, R303.28, R303.29, R303.30, R303.31, R303.32, R303.33, R303.34, R303.35, R303.36, R303.37, R303.38 |
+| INV-303 | R304.1, R304.2, R304.3, R304.4, R304.5, R304.6, R304.7, R304.8, R304.9, R304.10 |
 | M-1 | R49.2, R80.7, R80.8, R92.2, R130.1, R130.2, R130.3, R130.4, R130.5, R130.6, R130.7, R130.8, R130.9, R164.4, R166.3, R166.8, R198.6, R249.2 |
 | M-2 | R14.3, R125.1, R125.2, R125.3, R303.13, R177.12, R204.3 |
 | M-3 | R136.1 |
