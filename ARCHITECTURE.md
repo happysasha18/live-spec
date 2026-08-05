@@ -1,29 +1,32 @@
 # live-spec — Architecture
 
-Derived from PRODUCT_SPEC.md; the package version has one home, the VERSION file, and is not pinned
-here where it would read stale (row 265). Last reconciled with the spec: 2026-07-23.
+Derived from PRODUCT_SPEC.md. The package version has one home, the VERSION file, and is not pinned
+here where it would read stale (row 265). A row number names the wish queue: an open row stands in
+`ROADMAP.md`, and a closed one in the archive under `docs/queue-archive/`. Last reconciled with the spec: 2026-07-23.
 
 This is how live-spec is built: the named nodes that the spec's facts live in. One node carries one name
 and one responsibility — the one-surface-one-name rule, applied to structure. The dated record of every
 architecture-lens prove lives at `docs/prover/architecture-prover-record.md`; this document states the
 structure as it stands today. In the
-field's vocabulary the nodes are the C4 model's building blocks and the arc42 building-block view (§5); the
-seams below are their relationships, the runtime view is arc42's §6, the placement view its
-deployment view (§7), and the quality budgets are arc42 quality scenarios (§10).
+field's vocabulary the nodes are the C4 model's building blocks and the arc42 building-block view (§5).
+The seams below are their relationships. The runtime view is arc42's §6, and the placement view is its
+deployment view (§7). The quality budgets are arc42 quality scenarios (§10).
 
 The agent keeps this doc up to date by assignment. When a wish lands, its new facts go to the node that already
 owns their kind, and the pin is refreshed. A fact with no home yet goes to the node that fits. A large or
 surface-class wish updates the doc before the matrix is touched; a bug or small wish just cites the node it
-lands in. An assignment changes no structure and triggers no re-prove — only a new node or a new seam
+lands in. An assignment changes no structure and triggers no re-prove. Only a new node or a new seam
 does, and only then is the doc re-proved. The landing-by-landing history lives in JOURNAL.md; this doc
 states the structure as it stands today. [E-14]
 
 **What "pin" means here.** live-spec is a documentation-and-skills product: its shipped artifact is the
-text. So a pin points to the `file:line` where a node's responsibility is stated or carried. Every pin
+text. So a pin points to the `file:line` where a node's responsibility is stated or carried. A pin whose
+line reads 1 names the file as a whole. Every pin
 below comes from a grep or read actually run, never from memory. Two nodes carry a [target] mark in their
-heading — specified, with some code still ahead. A fully-target node keeps its pin cell empty until its
-code lands (snapshot); a partly-live one pins what already ships and leaves the rest for the landing that
-follows (guardrails).
+heading — specified, with some code still ahead. The same mark stands on an anchor, a pin, a
+responsibility, or a table row, and it means the same thing there. A fully-target node keeps its pin
+cell empty until its code lands (snapshot). A partly-live one pins what already ships, and leaves the
+rest for the landing that follows (guardrails).
 
 ---
 
@@ -33,24 +36,57 @@ live-spec is a skill pack: ten working skills plus the one shared rulebook they 
 text a model reads. Templates, guardrails, and its own dogfood documents sit beside them in one repo.
 `editions/` holds a skill's public edition: the same method with every internal code resolved into the
 rule it stands for. Where an edition stands, it is what that skill's public mirror ships.
-Everything executes inside an agent session on the host machine;
-the repo is the source of truth, the installed copies under `~/.claude/skills/` are what a session
-actually loads, git hooks and CI re-run the same gates, and the human reads rendered pages in a
+Everything executes inside an agent session on the host machine.
+The repo is the source of truth, and the installed copies under `~/.claude/skills/` are what a session
+actually loads. Git hooks and CI re-run the same gates, and the human reads rendered pages in a
 browser. No server, no runtime of its own.
 
 ## Nodes
 
-Every spec fact (a code anchored on a criterion in PRODUCT_SPEC.md, located through the generated code-to-location table) is OWNED by exactly one node. The one deliberate
-split: the wish walk `T-1..T-7` is one index row but two responsibilities — the walk itself (T-1..T-6,
-build-pipeline) and the report step (T-7, communicator); both sides are named here and in the matrix.
+Every spec fact is OWNED by exactly one node. A spec fact is a code anchored on a criterion in
+PRODUCT_SPEC.md, located through the generated code-to-location table at `PRODUCT_SPEC.index.md`.
+One split is deliberate. The wish walk `T-1..T-7` is one row of that table but two responsibilities:
+the walk itself (T-1..T-6, build-pipeline) and the report step (T-7, communicator). Both sides are
+named here and in the matrix.
 
 ### [node: base-rulebook]
 
 **responsibility** — shared working rules stated once + package defaults + the settings ladder
 
-**owns** — E-12, E-13, INV-5, INV-9, INV-11 (the fence fires before every write and every commit in every writing skill with no lane rolling at all), INV-13, INV-14, INV-23, INV-56, INV-65, INV-76, INV-84, INV-98, INV-108, T-19, INV-40, ACT-1, ACT-2, ACT-3 (the brief's isolated-tree clause likewise stays with the delegation law that states it), M-2, M-7, E-17, INV-105, INV-107, INV-117 (the session identity is minted by every session at its start and feeds both the pen tie-break and the inbox source-mark's projection), INV-135, INV-136, INV-139, INV-291, INV-143, INV-145, INV-152, INV-163, INV-217, E-31 (the state-directory anchor is one anchor carrying two unrelated facts, the canonical `.live-spec` directory and the worktree-isolation default that fires on two lanes' overlapping write-sets, so it sits here with its leading fact and its stated category while the lanes node owns the mechanism that default fires), INV-182, INV-183, INV-188, INV-189, INV-190, INV-191, INV-193, INV-194, INV-195, INV-196, INV-197, INV-225 (the sibling of the far-tier report-shape check), E-35, INV-240, T-24, INV-298 (the worker-restore rule sits in rule 7 beside the concurrent-edit fence [INV-11], since a discarding command reaches past a brief's write-set; the orchestrator's half — the restore from the last committed stage, the fresh brief, the halt on the delivery report, the committed stage before the next worker — sits with it, and the mechanical arm that reads it, `guardrails/check-worker-restore.py`, is the guardrails node's), INV-302 (the two session steps sit in rule 35 beside the checkpoint and resume rules, and the closing step's mechanical arm, `guardrails/check-handover-provenance.py`, is the guardrails node's)
+**owns** —
+- E-12 · E-13 · INV-5 · INV-9
+- INV-11 (the fence fires before every write and every commit in every writing skill with no lane rolling at all)
+- INV-13 · INV-14 · INV-23 · INV-56 · INV-65 · INV-76 · INV-84 · INV-98 · INV-108 · T-19 · INV-40 · ACT-1 · ACT-2
+- ACT-3 (the brief's isolated-tree clause likewise stays with the delegation law that states it)
+- M-2 · M-7 · E-17 · INV-105 · INV-107
+- INV-117 (the session identity is minted by every session at its start and feeds both the pen tie-break and the inbox source-mark's projection)
+- INV-135 · INV-136 · INV-139 · INV-291 · INV-143 · INV-145 · INV-152 · INV-163 · INV-217
+- E-31 (the state-directory anchor is one anchor carrying two unrelated facts. Those are the canonical `.live-spec` directory and the worktree-isolation default that fires on two lanes' overlapping write-sets. It sits here with its leading fact and its stated category, while the lanes node owns the mechanism that default fires.)
+- INV-182 · INV-183 · INV-188 · INV-189 · INV-190 · INV-191 · INV-193 · INV-194 · INV-195 · INV-196 · INV-197
+- INV-225 (the sibling of the far-tier report-shape check)
+- E-35 · INV-240 · T-24
+- INV-298 (the worker-restore rule sits in rule 7 beside the concurrent-edit fence [INV-11], since a discarding command reaches past a brief's write-set. The orchestrator's half sits with it: the restore from the last committed stage and the fresh brief. The halt on the delivery report and the committed stage before the next worker complete that half. The mechanical arm that reads it, `guardrails/check-worker-restore.py`, is the guardrails node's.)
+- INV-302 (the two session steps sit in rule 35 beside the checkpoint and resume rules. The closing step's mechanical arm, `guardrails/check-handover-provenance.py`, is the guardrails node's.)
 
-**pins** — `skills/live-spec-base/SKILL.md:17` (rules), `:58` (rule 6 checkpoint incl. INV-107 closing half), `:73` (rule 7 fence, INV-10/INV-11), `:130` (rules 15-16, door + work-kind + prototype), `:167` (rule 19, INV-23 — the workshop-noise law), `:184` (rule 20, INV-65 — skill search at setup and struggle), `:194` (rule 21, INV-84 — the clean-writer road), `:204` (rule 22, INV-98 — the convergence principle), `:217` (rule 23, INV-108 — the live-channel law), `:338` (ladder), `:374` (defaults incl. `budget.pressure` — the economy ladder's setting; the rungs' one home is the SPEC's economy-ladder section), `:267` (rule 26, INV-136/INV-139 — a project kind declares design principles the verify pass runs; the per-kind table lives in this doc), `:275` (rule 27, INV-143 — the seat decides what it can decide, surfaces only what it cannot), `:283` (rule 28, INV-145 — the periodic full audit), `:425` (rule 32, INV-217 — the release-tier rule, minor/major/patch by the host cost), `skills/live-spec-base/SKILL.md:366` (rule 31, the earned-message law INV-183/INV-189 the named-reference machinery joins; the pair-travels register [E-35], the living-description heal [INV-240], and the earned auto-deposit [T-24] ride this rule's build, ROADMAP 424 [target], the prover's station standing as their net until they ship, per [INV-150]), `skills/live-spec-base/SKILL.md:104` (rule 7's worker-restore sub-rule, INV-298 — the worker holds its own bytes, halts when it holds none, and the orchestrator owns recovery), `skills/live-spec-base/SKILL.md:482` (rule 35, INV-302 — the session extract, the closing step written by a fresh agent, and the opening decision sweep)
+**pins** —
+- `skills/live-spec-base/SKILL.md:105` (rules)
+- `skills/live-spec-base/SKILL.md:148` (rule 6 checkpoint incl. INV-107 closing half)
+- `skills/live-spec-base/SKILL.md:168` (rule 7 fence, INV-10/INV-11)
+- `skills/live-spec-base/SKILL.md:279` (rules 15-16, door + work-kind + prototype)
+- `skills/live-spec-base/SKILL.md:320` (rule 19, INV-23 — the workshop-noise law)
+- `skills/live-spec-base/SKILL.md:339` (rule 20, INV-65 — skill search at setup and struggle)
+- `skills/live-spec-base/SKILL.md:349` (rule 21, INV-84 — the clean-writer road)
+- `skills/live-spec-base/SKILL.md:359` (rule 22, INV-98 — the convergence principle)
+- `skills/live-spec-base/SKILL.md:373` (rule 23, INV-108 — the live-channel law)
+- `skills/live-spec-base/SKILL.md:638` (ladder)
+- `skills/live-spec-base/SKILL.md:674` (defaults incl. `budget.pressure` — the economy ladder's setting; the rungs' one home is the SPEC's economy-ladder section)
+- `skills/live-spec-base/SKILL.md:428` (rule 26, INV-136/INV-139 — a project kind declares design principles the verify pass runs; the per-kind table lives in this doc)
+- `skills/live-spec-base/SKILL.md:436` (rule 27, INV-143 — the seat decides what it can decide, surfaces only what it cannot)
+- `skills/live-spec-base/SKILL.md:444` (rule 28, INV-145 — the periodic full audit)
+- `skills/live-spec-base/SKILL.md:556` (rule 32, INV-217 — the release-tier rule, minor/major/patch by the host cost)
+- `skills/live-spec-base/SKILL.md:492` (rule 31, the earned-message law INV-183/INV-189 the named-reference machinery joins. The pair-travels register [E-35], the living-description heal [INV-240], and the earned auto-deposit [T-24] ride this rule's build, ROADMAP 424 [target]. The prover's station stands as their net until they ship, per [INV-150].)
+- `skills/live-spec-base/SKILL.md:195` (rule 7's worker-restore sub-rule, INV-298 — the worker holds its own bytes, halts when it holds none, and the orchestrator owns recovery)
+- `skills/live-spec-base/SKILL.md:609` (rule 35, INV-302 — the session extract, the closing step written by a fresh agent, and the opening decision sweep)
 
 **notes** — INV-11, INV-117, E-31: three of these are read by the parallel-lanes node and stay here, each for a stated reason; INV-225: ROADMAP 388
 
@@ -58,49 +94,139 @@ build-pipeline) and the report step (T-7, communicator); both sides are named he
 
 **responsibility** — authoring method for a living, use-case-first, prover-ready PRODUCT_SPEC.md
 
-**owns** — E-4, C-1, T-13, INV-18, INV-29, INV-50, T-14, INV-19, INV-20, INV-21, INV-101, INV-118, INV-126, INV-127, INV-138, INV-226, INV-244, INV-248 (the lens carried by product-prover), INV-150, INV-167, INV-168, E-33, INV-185, INV-186, INV-187, INV-215
+**owns** —
+- E-4 · C-1 · T-13 · INV-18 · INV-29 · INV-50 · T-14 · INV-19 · INV-20 · INV-21 · INV-101 · INV-118 · INV-126 · INV-127 · INV-138 · INV-226 · INV-244
+- INV-248 (the lens carried by product-prover)
+- INV-150 · INV-167 · INV-168 · E-33 · INV-185 · INV-186 · INV-187 · INV-215
 
-**pins** — `skills/spec-author/SKILL.md:135` (spine), `:160` ([target] tag tripwire), `:181` (axes composition), `:243` (fences), `:263` (facet sweep — the canonical facet list), `:83` (the enumeration-threshold structure rule, INV-215)
+**pins** —
+- `skills/spec-author/SKILL.md:154` (spine)
+- `skills/spec-author/SKILL.md:180` ([target] tag tripwire)
+- `skills/spec-author/SKILL.md:203` (axes composition)
+- `skills/spec-author/SKILL.md:265` (fences)
+- `skills/spec-author/SKILL.md:280` (facet sweep — the canonical facet list)
+- `skills/spec-author/SKILL.md:97` (the enumeration-threshold structure rule, INV-215)
 
-**notes** — also carries the prototype-norm pointer's format sentence (`norm: <path>`, frozen copy in `docs/norms/`) — wiring, the invariant's owner is build-pipeline; also carries the pole-declaration duty for a new host-specific capability (the pack-to-host split, owner base-rulebook)
+**notes** —
+- also carries the prototype-norm pointer's format sentence (`norm: <path>`, frozen copy in `docs/norms/`) — wiring, the invariant's owner is build-pipeline
+- also carries the pole-declaration duty for a new host-specific capability (the pack-to-host split, owner base-rulebook)
 
 ### [node: product-prover]
 
 **responsibility** — formal review of spec and architecture; executes the push-gate re-check
 
-**owns** — M-6, INV-61, INV-72, INV-114, INV-125, INV-140, INV-170, INV-171; also carries lenses it does not own, each named beside its actual owner: the entry-symmetry lens (owner spec-author), the entry-state lens (owner spec-author), the transition-payload lens (owner spec-author), the declared-laws station (owner spec-author), the paired-transition-symmetry lens (owner spec-author), the scenario-level entry/exit lens (owner spec-author), the edge-condition-completeness lens (owner spec-author), the interactive-overlap lens (owner base-rulebook), the cross-source-disagreement lens (owner build-pipeline), and the prototype-norm lens (owner build-pipeline); the delivery-separability lens (owner spec-author); and the discovery-side sibling of the declared-class uniformity lens is the design review (owner design-reviewer)
+**owns** —
+- M-6 · INV-61 · INV-72 · INV-114 · INV-125 · INV-140 · INV-170 · INV-171
+- also carries lenses it does not own, each named beside its actual owner:
+    - the entry-symmetry lens (owner spec-author)
+    - the entry-state lens (owner spec-author)
+    - the transition-payload lens (owner spec-author)
+    - the declared-laws station (owner spec-author)
+    - the paired-transition-symmetry lens (owner spec-author)
+    - the scenario-level entry/exit lens (owner spec-author)
+    - the edge-condition-completeness lens (owner spec-author)
+    - the delivery-separability lens (owner spec-author)
+    - the interactive-overlap lens (owner base-rulebook)
+    - the cross-source-disagreement lens (owner build-pipeline)
+    - the prototype-norm lens (owner build-pipeline)
+- the discovery-side sibling of the declared-class uniformity lens is the design review (owner design-reviewer)
 
-**pins** — `skills/product-prover/SKILL.md:158` (review modes), `skills/product-prover/SKILL.md:620` (unwritten-seam hunt — the stress-lens family, INV-72), `.live-spec/profile.md:6` (gate cadence instance), `skills/product-prover/SKILL.md:291` (restructure-merge gate — INV-114 delta-judging)
+**pins** —
+- `skills/product-prover/SKILL.md:276` (review modes)
+- `skills/product-prover/SKILL.md:723` (unwritten-seam hunt — the stress-lens family, INV-72)
+- `.live-spec/profile.md:6` (gate cadence instance)
+- `skills/product-prover/SKILL.md:362` (restructure-merge gate — INV-114 delta-judging)
 
 ### [node: build-pipeline]
 
-**responsibility** — the wish lifecycle: intake → classify → spec → prove → architecture → prove architecture → matrix → test → code → verify → commit & show → landed
+**responsibility** — the wish lifecycle, walked station by station. The walk runs intake → classify → spec → prove → architecture → prove architecture. It then runs matrix → test → code → verify → commit & show → landed.
 
-**owns** — E-2, T-1..T-6, T-8, T-9, T-11, T-12, T-15, T-16, T-17, INV-1, INV-3, INV-4, INV-12, INV-16, INV-22, INV-26, INV-30, INV-31, INV-33, INV-37, INV-41, INV-43, INV-46, INV-53, INV-54, INV-55, INV-62, INV-63, INV-69, INV-70, INV-74, INV-75, INV-82, INV-99, INV-103, INV-137, INV-104, INV-106, INV-113, E-14, E-15, INV-15, M-1, INV-115, INV-116, INV-121, INV-122, INV-123, INV-124, INV-128, INV-129, INV-133, INV-134, INV-144, INV-151, INV-153, INV-159, INV-164, INV-166, INV-247 (the resume-side twin of the primary-source rule and the architecture step's pin-from-a-command), INV-221 (the pack owes the general law the profile holds as a personal value), INV-222 (the queue's far tier — the report-shape home is communicator, carried there as wiring), INV-233 (kin of the three-question fitness test [INV-122] and the boundary-health law [INV-128]), T-22, INV-235 (the expensive-decision class and its adversarial-read road), INV-237 (generalizing verify's fresh-eyes freshness [INV-46] and the periodic audit's adversarial stance to the release pass the 2.7.0 release ran in-context), INV-300 (the expensive-tier case of the routing rule this node already owns [INV-69]: the refusal instruction a brief opens with, the recorded refusal and its re-run a tier down, and the promoted phrase that turns a task away before any model call; the instruction, the ladder, the promotion threshold and the promoted phrases are data at `guardrails/tier-refusal.json`, and the refusals themselves are a record under `docs/measure/`); also carries three steps whose governing law is the parallel-lanes node's — the queue-take that reads the runnable head, the claim that flips a row to in-work, and the landing commit — the steps staying here as wiring while the lane set, the claim's atomicity, and the landing commit's one-row shape are owned there and cited rather than restated; and the mid-work re-door is this node's step, the independence re-check it fires being the lanes node's law
+**owns** —
+- E-2 · T-1..T-6 · T-8 · T-9 · T-11 · T-12 · T-15 · T-16 · T-17 · INV-1 · INV-3 · INV-4 · INV-12 · INV-16 · INV-22 · INV-26 · INV-30 · INV-31 · INV-33 · INV-37 · INV-41 · INV-43 · INV-46 · INV-53 · INV-54 · INV-55 · INV-62 · INV-63 · INV-69 · INV-70 · INV-74 · INV-75 · INV-82 · INV-99 · INV-103 · INV-137 · INV-104 · INV-106 · INV-113 · E-14 · E-15 · INV-15 · M-1 · INV-115 · INV-116 · INV-121 · INV-122 · INV-123 · INV-124 · INV-128 · INV-129 · INV-133 · INV-134 · INV-144 · INV-151 · INV-153 · INV-159 · INV-164 · INV-166
+- INV-247 (the resume-side twin of the primary-source rule and the architecture step's pin-from-a-command)
+- INV-221 (the pack owes the general law the profile holds as a personal value)
+- INV-222 (the queue's far tier — the report-shape home is communicator, carried there as wiring)
+- INV-233 (kin of the three-question fitness test [INV-122] and the boundary-health law [INV-128])
+- T-22
+- INV-235 (the expensive-decision class and its adversarial-read road)
+- INV-237 (generalizing verify's fresh-eyes freshness [INV-46] and the periodic audit's adversarial stance to the release pass the 2.7.0 release ran in-context)
+- INV-300 (the expensive-tier case of the routing rule this node already owns [INV-69]. Three parts carry it. The refusal instruction opens a brief, and the recorded refusal is re-run a tier down. The promoted phrase turns a task away before any model call. The data behind all three sits in the file the pins below name. The refusals themselves are a record under `docs/measure/`.)
+- also carries three steps whose governing law is the parallel-lanes node's. Those steps are the queue-take that reads the runnable head, the claim that flips a row to in-work, and the landing commit. The steps stay here as wiring. The lane set, the claim's atomicity, and the landing commit's one-row shape are owned there and cited rather than restated.
+- the mid-work re-door is this node's step, and the independence re-check it fires is the lanes node's law
 
-**pins** — `skills/build-pipeline/SKILL.md:49` (step zero: the door + work-kind), `:33` (the craft ladder — step→craft one home), `:161` (the work-kind table — per-kind meanings' one home), `:175` (steps), `:397` (gates), `:59` (re-carve paragraph — INV-113 redesign-owes-rework), `skills/build-pipeline/references/delegation-protocol.md:49` (the worker-brief register-laws clause — no-scissors + no-dramatization, INV-221), `guardrails/node_growth_counter.py:1` (the node-growth counter, rides the suite not the push chain, INV-233), `guardrails/node-file-cap.json:1` (the nodes-per-file ratchet seeded at the current count, INV-233), `tests/test_node_growth.py:1` (the node-growth suite check, rides the suite not the push chain, INV-233), `guardrails/check-tier-refusal.py:1` (the tier-refusal gate: the record's shape, a pattern's evidence, and the `--brief` step that turns a matching task away before any model call, rides the suite not the push chain, INV-300), `guardrails/tier-refusal.json:1` (the instruction, the tier ladder, the promotion threshold and the promoted phrases as data, INV-300), `docs/measure/tier-refusals.md:1` (the refusal record the patterns grow from, INV-300), `tests/test_tier_refusal.py:1` (its red proof, INV-300)
+**pins** —
+- `skills/build-pipeline/SKILL.md:107` (step zero: the door + work-kind)
+- `skills/build-pipeline/SKILL.md:91` (the craft ladder — step→craft one home)
+- `skills/build-pipeline/SKILL.md:217` (the work-kind table — per-kind meanings' one home)
+- `skills/build-pipeline/SKILL.md:232` (steps)
+- `skills/build-pipeline/SKILL.md:527` (gates)
+- `skills/build-pipeline/SKILL.md:117` (re-carve paragraph — INV-113 redesign-owes-rework)
+- `skills/build-pipeline/references/delegation-protocol.md:71` (the worker-brief register-laws clause — no-scissors + no-dramatization, INV-221)
+- `guardrails/node_growth_counter.py:1` (the node-growth counter, rides the suite not the push chain, INV-233)
+- `guardrails/node-file-cap.json:1` (the nodes-per-file ratchet seeded at the current count, INV-233)
+- `tests/test_node_growth.py:1` (the node-growth suite check, rides the suite not the push chain, INV-233)
+- `guardrails/check-tier-refusal.py:1` (the tier-refusal gate. It reads the record's shape and a pattern's evidence. Its `--brief` step turns a matching task away before any model call. It rides the suite, taking no gate letter, INV-300)
+- `guardrails/tier-refusal.json:1` (the instruction, the tier ladder, the promotion threshold and the promoted phrases as data, INV-300)
+- `docs/measure/tier-refusals.md:1` (the refusal record the patterns grow from, INV-300)
+- `tests/test_tier_refusal.py:1` (its red proof, INV-300)
 
-**notes** — INV-247: standing beside the queue-take trigger re-scan [INV-129] — that reads whether the row returns while this reads whether its described internals still hold. INV-247: homing the spec clause and base rule 34. INV-247: ROADMAP 430. INV-233: three homes with no new home. INV-233: the prover's seventh architecture lens (the growth re-ask, carried by product-prover as wiring). INV-233: the proposed number two nodes per code file set on the host's word [INV-41]. INV-233: ROADMAP 390. INV-235: the spec is the law's one home, with no skill-prose fork. INV-235: the full anchor citations live in the spec clause; the generated index carries locations only. INV-235: ROADMAP 395. INV-237: carried into this node's verify station and product-prover as wiring. INV-237: the rest a discipline the seat holds. INV-237: ROADMAP 422.
+**notes** —
+- INV-247: standing beside the queue-take trigger re-scan [INV-129]. That reads whether the row returns, and this reads whether its described internals still hold.
+- INV-247: homing the spec clause and base rule 34. INV-247: ROADMAP 430.
+- INV-233: three homes with no new home.
+- INV-233: the prover's seventh architecture lens (the growth re-ask, carried by product-prover as wiring).
+- INV-233: the proposed number two nodes per code file set on the host's word [INV-41]. INV-233: ROADMAP 390.
+- INV-235: the spec is the law's one home, with no skill-prose fork.
+- INV-235: the full anchor citations live in the spec clause; the generated index carries locations only. INV-235: ROADMAP 395.
+- INV-237: carried into this node's verify station and product-prover as wiring.
+- INV-237: the rest a discipline the seat holds. INV-237: ROADMAP 422.
 
 ### [node: parallel-lanes]
 
-**responsibility** — concurrent work on one repo: the pen that serializes every shared-truth write, the cap and the graph that pick the lane set, the lane's branch in its own worktree, the lane-open act that opens each one, and the integration that lands it
+**responsibility** — concurrent work on one repo. The pen serializes every shared-truth write. The cap and the graph pick the lane set. The lane's branch sits in its own worktree. The lane-open act opens each lane, and the integration lands it.
 
 **owns** — T-18, INV-2, INV-39, INV-49, INV-131, E-34, T-23, INV-198, INV-199, INV-200, INV-201, INV-214
 
-**pins** — `skills/build-pipeline/SKILL.md:451` (trains, one pen — the cap, the penless overlap set, the pen-stages, the re-fence after a landing), `:464` (the graph picks the lane set at queue-take), `:94` (a mid-work re-door re-runs the independence edges against every rolling lane), `skills/live-spec-base/SKILL.md:78` (rule 7's lanes sub-rules — three lanes under one pen), `:81` (one row per landing commit); `scripts/open-lane.sh:1` (the lane-open act's performable form — the row→in-work claim commit on main, the cap refusal, the lane branch cut into its own worktree, INV-214), the first file this node owns of its own, its law otherwise living inside the two skills that perform it and its cited pins there; the branch road's carriers land with ROADMAP row 386 [target]
+**pins** —
+- `skills/build-pipeline/SKILL.md:554` (trains, one pen — the cap, the penless overlap set, the pen-stages, the re-fence after a landing)
+- `skills/build-pipeline/SKILL.md:571` (the graph picks the lane set at queue-take)
+- `skills/build-pipeline/SKILL.md:152` (a mid-work re-door re-runs the independence edges against every rolling lane)
+- `skills/live-spec-base/SKILL.md:173` (rule 7's lanes sub-rules — three lanes under one pen)
+- `skills/live-spec-base/SKILL.md:196` (one row per landing commit)
+- `scripts/open-lane.sh:1` (the lane-open act's performable form. It carries the row→in-work claim commit on main, the cap refusal, and the lane branch cut into its own worktree, INV-214.)
+- the lane-opening script is the first file this node owns of its own. Its law otherwise lives inside the two skills that perform it and its cited pins there. The branch road's carriers land with ROADMAP row 386 [target].
 
-**notes** — the node's live half — the pen and the claim's atomicity, the cap, the graph, the one-row landing commit and its clean-tree precondition, the re-fence after a landing, and the independence re-check a re-door fires — is carried in shipped skill text today and pinned below; the branch road is specified with its carriers still ahead (the lane branch and its walk, the pen-moves-main clause, the fast-forward landing, the conflict law, the vendored project-instructions line), riding ROADMAP row 386 [target] with the prover's station as its net meanwhile; also carries the mechanism the worktree-isolation default fires, the condition itself and the session identity the pen tie-break orders on staying base-rulebook's; the restructure merge gate stays product-prover's, since it judges a restructure's delta by token identity, where an ordinary lane's landing gate is the full suite on the rebased tree
+**notes** —
+- the node's live half is carried in shipped skill text today and pinned above. That half is the pen and the claim's atomicity, the cap, the graph, and the one-row landing commit with its clean-tree precondition. It also holds the re-fence after a landing and the independence re-check a re-door fires.
+- the branch road is specified with its carriers still ahead. Those carriers are the lane branch and its walk, the pen-moves-main clause, the fast-forward landing, the conflict law, and the vendored project-instructions line. The road rides ROADMAP row 386 [target], with the prover's station as its net meanwhile.
+- also carries the mechanism the worktree-isolation default fires. The condition itself and the session identity the pen tie-break orders on stay base-rulebook's.
+- the restructure merge gate stays product-prover's, since it judges a restructure's delta by token identity. An ordinary lane's landing gate is the full suite on the rebased tree.
 
 ### [node: communicator]
 
-**responsibility** — the human-facing exchange: reports, batched questions, decision pages, done-claim answers, the capture echo + departures board, the feature map on demand, the pre-report walk, working narration
+**responsibility** — the human-facing exchange. It carries reports, batched questions, decision pages, and done-claim answers. It also carries the capture echo and departures board, the feature map on demand, the pre-report walk, and working narration.
 
-**owns** — T-7 (the report step; the walk before it is build-pipeline's), E-22, INV-25, INV-27, INV-28, INV-32, INV-34, INV-35, INV-38, INV-93, INV-94, INV-95, INV-109, INV-42, INV-51, INV-52, INV-57, INV-58, INV-59, INV-60, INV-64, INV-71, INV-81, INV-83, INV-130, INV-67, INV-223, INV-286 (the showing walk's clearing arm, the same shape as INV-223: the law is this node's, its check rides the suite and takes no gate letter, and the record homes are declared as host config in the guardrails node's config file)
+**owns** — T-7 · E-22 · INV-25 · INV-27 · INV-28 · INV-32 · INV-34 · INV-35 · INV-38 · INV-93 · INV-94 · INV-95 · INV-109 · INV-42 · INV-51 · INV-52 · INV-57 · INV-58 · INV-59 · INV-60 · INV-64 · INV-71 · INV-81 · INV-83 · INV-130 · INV-67 · INV-223 · INV-286
+- T-7 is the report step, and the walk before it is build-pipeline's.
+- INV-286 is the showing walk's clearing arm, the same shape as INV-223. The law is this node's. Its check rides the suite and takes no gate letter. The record homes are declared as host config in the guardrails node's config file.
 
-**pins** — `skills/communicator/SKILL.md:35` (the rules), `:295` (rule 10 — the decision page), `:348` (rule 11 — the evidence walk), `:228` (rule 9 — the outcome-leads line shape), `:436` (the pre-report walk), `:282` (rule 7 — the chat-arm clock sentence), `guardrails/check-far-tier.py --window` (INV-223 — the far-tier report-shape check's fixture), `scripts/sweep-rendered.py:1` (INV-286 — the clearing mechanism and the home rule's one home), `guardrails/check-rendered-sweep.py:1` (INV-286 — the sweep check, report-only against the tree, rides the suite not the push chain), `guardrails.config.json:1` (INV-286 — the homes declared outside the sweep's reach under `rendered_pages.outside_reach`), `scripts/render-doc.py:1` (INV-286 — the renderer that stamps the generator mark the clearing rule reads; its cross-link laws stay with M-4), `attic/MANIFEST.md:1` (INV-286, INV-7 — where a clearing's declaration line lands)
+**pins** —
+- `skills/communicator/SKILL.md:105` (the rules)
+- `skills/communicator/SKILL.md:369` (rule 10 — the decision page)
+- `skills/communicator/SKILL.md:422` (rule 11 — the evidence walk)
+- `skills/communicator/SKILL.md:301` (rule 9 — the outcome-leads line shape)
+- `skills/communicator/SKILL.md:510` (the pre-report walk)
+- `skills/communicator/SKILL.md:356` (rule 7 — the chat-arm clock sentence)
+- `guardrails/check-far-tier.py --window` (INV-223 — the far-tier report-shape check's fixture)
+- `scripts/sweep-rendered.py:1` (INV-286 — the clearing mechanism and the home rule's one home)
+- `guardrails/check-rendered-sweep.py:1` (INV-286 — the sweep check, report-only against the tree, rides the suite not the push chain)
+- `guardrails.config.json:1` (INV-286 — the homes declared outside the sweep's reach under `rendered_pages.outside_reach`)
+- `scripts/render-doc.py:1` (INV-286 — the renderer that stamps the generator mark the clearing rule reads; its cross-link laws stay with M-4)
+- `attic/MANIFEST.md:1` (INV-286, INV-7 — where a clearing's declaration line lands)
 
-**notes** — also carries the clock law's chat-arm sentence as a wiring pin — that clock invariant's owner is the guardrails node; also carries the two earned-message tells — the deposit-tell and the decline-tell — as status-report wiring, a plain notice register, owned by the base-rulebook
+**notes** —
+- also carries the clock law's chat-arm sentence as a wiring pin. That clock invariant's owner is the guardrails node.
+- also carries the two earned-message tells — the deposit-tell and the decline-tell — as status-report wiring. They stand in a plain notice register, and the base-rulebook owns them.
 
 ### [node: templates]
 
@@ -108,29 +234,56 @@ build-pipeline) and the report step (T-7, communicator); both sides are named he
 
 **owns** — E-3, E-5, INV-6, B-1, E-24, INV-48, E-26
 
-**pins** — `templates/TEST_MATRIX.template.md:43` (coverage validation), `templates/ROADMAP.template.md:1`, `templates/PRODUCT_SPEC.template.md:61` (index), `templates/PROBLEMS.template.md:1` (E-24 — the ledger's shape)
+**pins** — `templates/TEST_MATRIX.template.md:47` (coverage validation), `templates/ROADMAP.template.md:1`, `templates/PRODUCT_SPEC.template.md:61` (index), `templates/PROBLEMS.template.md:1` (E-24 — the ledger's shape)
 
 ### [node: attach]
 
-**responsibility** — attaching the pack to a host: adoption phases, VCS gate, attic, skill install + version record + the pack update check, the who-am-I-working-with step; also the catch-up walk that brings an already-adopted host onto the current pack
+**responsibility** — attaching the pack to a host. That covers the adoption phases, the VCS gate, the attic, and the who-am-I-working-with step. It also covers the skill install, the version record, and the pack update check. The catch-up walk that brings an already-adopted host onto the current pack sits here too.
 
-**owns** — E-1, E-9, INV-7, INV-8, B-2, B-3, INV-36, A-0, A-1, A-2, A-3, A-4, A-5, A-7, A-8, A-9, A-10, A-11, INV-89, INV-90, INV-91, INV-92, INV-110, INV-111, E-21, E-25, INV-85, INV-86, INV-172, INV-177, INV-227 (the recorded `founding.set-version` profile line is carried by host-contract as wiring, ownership stays here beside E-25 and INV-177), INV-178, INV-180
+**owns** —
+- E-1 · E-9 · INV-7 · INV-8 · B-2 · B-3 · INV-36 · A-0 · A-1 · A-2 · A-3 · A-4 · A-5 · A-7 · A-8 · A-9 · A-10 · A-11 · INV-89 · INV-90 · INV-91 · INV-92 · INV-110 · INV-111 · E-21 · E-25 · INV-85 · INV-86 · INV-172 · INV-177
+- INV-227 (the recorded `founding.set-version` profile line is carried by host-contract as wiring, ownership stays here beside E-25 and INV-177)
+- INV-178 · INV-180
 
-**pins** — `adopt/ADOPT.md:39` (VCS gate first), `:172` (unbacked-surface verdict), `:183` (attic), `:259` (attach record), `:80` (B-3 — who am I working with, first step of orient), `MIGRATION.md:1` (A-11 — the catch-up walk's operating guide), `install.sh:2` (E-21 — the installer itself), `scripts/check-pack-update.sh:1` (E-25 — the update check + the founding arm, INV-227), `scripts/founding-questions.json:1` (INV-227 — the versioned founding-question set), `adopt/install-ratchet.sh:1` (INV-172 — the ratchet kit installer)
+**pins** —
+- `adopt/ADOPT.md:44` (VCS gate first)
+- `adopt/ADOPT.md:196` (unbacked-surface verdict)
+- `adopt/ADOPT.md:207` (attic)
+- `adopt/ADOPT.md:283` (attach record)
+- `adopt/ADOPT.md:85` (B-3 — who am I working with, first step of orient)
+- `MIGRATION.md:1` (A-11 — the catch-up walk's operating guide)
+- `install.sh:2` (E-21 — the installer itself)
+- `scripts/check-pack-update.sh:1` (E-25 — the update check + the founding arm, INV-227)
+- `scripts/founding-questions.json:1` (INV-227 — the versioned founding-question set)
+- `adopt/install-ratchet.sh:1` (INV-172 — the ratchet kit installer)
 
 ### [node: inbox]
 
-**responsibility** — parallel-safe intake door for wishes born outside a live-spec session; its remote arm for granted seats and its stranger arm (a monitor bridges Issues/Discussions into inbox files), two hosts on one repo converging on a single surfacing by a claim on the shared item
+**responsibility** — the parallel-safe intake door for wishes born outside a live-spec session. Its remote arm serves granted seats. Its stranger arm bridges Issues and Discussions into inbox files through a monitor. Two hosts on one repo converge on a single surfacing by a claim on the shared item.
 
-**owns** — E-11, T-10, INV-10, INV-112, INV-146, INV-147, INV-148, INV-149, INV-174, INV-192, INV-232 (the read-direction sibling of the remote arm's push grant this node owns), INV-249 (the concurrency half of E-11's one-file law)
+**owns** —
+- E-11 · T-10 · INV-10 · INV-112 · INV-146 · INV-147 · INV-148 · INV-149 · INV-174 · INV-192
+- INV-232 (the read-direction sibling of the remote arm's push grant this node owns)
+- INV-249 (the concurrency half of E-11's one-file law)
 
-**pins** — `inbox/README.md:3` (one door, one new file), `:10` (file format), `:15` (commit rule), `:23` (remote arm), `:28` (stranger arm), `scripts/stranger-wish-monitor.py:1` (the monitor bridge, INV-147), `scripts/stranger-wish-monitor.py:103` (the cross-host claim + arbitration, INV-149), `.github/ISSUE_TEMPLATE/wish.yml:1` (the wish template requesting a source, INV-146), `.github/workflows/stranger-monitor.yml:1` (the package repo's scheduled monitor, INV-148), `scripts/read-grant.py:1` (the read-grant honest-failure check, INV-232), `scripts/read-grant-ask.md:1` (the read grant ask, beside grant-ask.md, INV-232)
+**pins** —
+- `inbox/README.md:3` (one door, one new file)
+- `inbox/README.md:10` (file format)
+- `inbox/README.md:109` (commit rule)
+- `inbox/README.md:120` (remote arm)
+- `inbox/README.md:125` (stranger arm)
+- `scripts/stranger-wish-monitor.py:1` (the monitor bridge, INV-147)
+- `scripts/stranger-wish-monitor.py:103` (the cross-host claim + arbitration, INV-149)
+- `.github/ISSUE_TEMPLATE/wish.yml:1` (the wish template requesting a source, INV-146)
+- `.github/workflows/stranger-monitor.yml:1` (the package repo's scheduled monitor, INV-148)
+- `scripts/read-grant.py:1` (the read-grant honest-failure check, INV-232)
+- `scripts/read-grant-ask.md:1` (the read grant ask, beside `scripts/grant-ask.md`, INV-232)
 
 **notes** — INV-232: the consumer's read the spec-author node owns. INV-232: the honest-failure check `scripts/read-grant.py`. INV-232: the real cross-machine read field-gated on a private producer-and-consumer pair over a private repo, rows 385 and 247, this landing the law arm alone.
 
 ### [node: host-contract]
 
-**responsibility** — the recorded settings instances: this host's profile, the human's personal profile, the thin loader that boots the personal layer, and the agent records — the self-declaring card in each agent's own tree, found by the pack's live scan
+**responsibility** — the recorded settings instances. Those are this host's profile, the human's personal profile, and the thin loader that boots the personal layer. The agent records sit here too: the self-declaring card in each agent's own tree, found by the pack's live scan.
 
 **owns** — E-8, E-16, E-32, INV-184 (the card's flag at founding and at adoption's orient is carried by attach as wiring; ownership stays here)
 
@@ -142,17 +295,198 @@ build-pipeline) and the report step (T-7, communicator); both sides are named he
 
 **owns** — S-0, M-3, M-4, D-1, D-2, D-4, D-6, D-7, E-23
 
-**pins** — `PRODUCT_SPEC.md:1`, `ROADMAP.md:15` (queue table), `JOURNAL.md:1`, `VERSION:1`, `scripts/sync-skills.sh:1` (E-23), `.live-spec/PROBLEMS.md:1` (E-24's dogfood instance; anchor owned by templates)
+**pins** — `PRODUCT_SPEC.md:1`, `ROADMAP.md:34` (queue table), `JOURNAL.md:1`, `VERSION:1`, `scripts/sync-skills.sh:1` (E-23), `.live-spec/PROBLEMS.md:1` (E-24's dogfood instance; anchor owned by templates)
 
 ### [node: guardrails] [target]
 
 **responsibility** — mechanical pre-push checks + surface registry + CI mirror
 
-**owns** — E-6, E-10, M-5, INV-17, INV-24, INV-45, INV-224 (the reach map's directory classes as host config read from guardrails.config.json, the pack's values as default, a host adopting via its own declared project layers with no vendored-script edit, ROADMAP 380), INV-47, INV-97 (the four host checks' shipping contract; code pin lands with row 241, [target]), INV-66, E-29, INV-73, INV-132, INV-120 (the shipped-language gate, wired into the pack's own pre-push as gate i and the CI mirror — row 279), INV-245 (the project-name arm on gate i), INV-173, INV-175, INV-176, INV-202, INV-203, INV-205 (the frame's home for its four instance rows 402/403/408/409), INV-206, INV-229 (the parked-question default arm on the same waiting-list gate `guardrails/check-board.py`), INV-207, INV-208, INV-209 (it composes with the growth law rows 390 + 392 carry — the bound governs what is shown, the archive keeps all and stays grepable so a row cited by number stays findable), INV-210, INV-211, INV-212, INV-213 (notice-first through the shared `guardrails/cleanup_notice.py`, the cleanup-notice shape [ROADMAP 417] on the test-author node, ending no process, so it can never become the broad-sweep footgun it guards), INV-216 (the dead-permission-path arm of config-health), INV-218, INV-219 (it is the declaration law's mechanical net, the target deferral coming off that law with it), INV-220 (ships universal, installs by the setup walk [INV-173], covered by config-health parity [INV-175] and classified in judge-hooks.json [INV-211], runs/fires read by the meter [INV-202]), INV-238 (the machine for the standing no-only-say-hedge behaviour, profile `proactivity.no-only-say-hedge`), INV-230 (the reap and detection arms of the runaway-child class this node owns, a process-space habit at teardown taking no gate letter), INV-231, INV-234 (the growable-doc sibling of gate t [INV-209] in this node's own doc-grooming family), INV-236 (the transport arm of the two-channel law the base-rulebook states), INV-239 (`guardrails/check-description-field.py`, the non-empty description-field gate, dormant until the back-describe migration), INV-241 (the net for the orchestration laws that had none), INV-246 (off by default and opt-in, classified as a library entry in judge-hooks.json [INV-211] and not wired into the pack's default settings.json, the orchestration-law family's boundary [INV-241]), INV-242 (`guardrails/check-landing-next-steps.py`), INV-243, INV-250..INV-265 (the requirements-format laws and their format-gate family, armed at the row-445 conversion delivery), INV-269 (`gatelib`-shaped reach lines asserted in each gate's own tests), INV-270 (the suite-riding armed tests are the record), INV-271, INV-272 (ROADMAP 477), INV-273, INV-274, INV-275 (ROADMAP 480) [target], INV-276 [target], INV-277 [target], INV-278 (the architecture-format member: node sections inheriting the family laws from the spec format, defined in `docs/architecture-format.md`, armed at this conversion delivery), INV-279 (the owns-anchor cites and carries no history: a restated law reds, a sentence the spec lacks moves to the spec, the dated prover-record relocated), INV-280 (one node reader every consumer reads through), INV-281 (the whole-turn reach shared through `hooks/turn_reader.py`), INV-282 (the hook-side sibling of gate w's registry [INV-212], rides the suite not the push chain, no gate letter), INV-283 (the machine the plain-language anchor law had none of; that law's own home stays communicator), INV-284 (the empty-validation scan, shipped, covered, classified and metered on the same terms as the hedge gate [INV-238]), INV-285 (the tool-boundary arm of the chat laws, the one hook on the PreToolUse surface; its loan-translation list ships as data, its per-session report memory sits beside the register judge's verdict files, ROADMAP 495), INV-287 (the criterion-readability arms over the spec's acceptance criteria, `guardrails/check-criterion-readability.py` reading through the family's shared parser `guardrails/specformat.py`, riding the suite and taking no push-gate letter the way the size ratchet does), INV-288 (the per-arm recorded counts in `guardrails/criterion-readability.json`, the readability sibling of the size ratchet's bound [INV-264, INV-265]), INV-289 (the setup-walk installer generates its coverage from guardrails/judge-hooks.json's file/command/matcher/data/personal_overlay fields and chains to scripts/install-pack-hooks.sh, closing row 495's setup-walk leg; ROADMAP 506), INV-290 (the deletion-only push stand-down, `guardrails/check-deletion-only-push.sh` — reads git's own ref-update lines fed to the pre-push hook's stdin and reports whether every one is a pure deletion; called from the top of `guardrails/pre-push` before any lettered gate, taking no gate letter of its own the way `check-suite-budget.sh` and several INV-230/231/236/242 arms already do, ROADMAP 502), INV-292 (`guardrails/language-rules.json`, the one home where each rule about this project's own texts sits with its own fields), INV-293 (`scripts/gen-language-consumers.py` writes the consumers — the per-surface law bodies at `hooks/language-laws.json`, the writer's rendering at `docs/language-rules.md`, and the maintainer's rendering at `docs/language-rule-coverage.md`, which carries each rule's status, its catchers and their reach — while `guardrails/check-language-rules.py` reds a consumer that no longer matches the home and a pin naming no file, riding the suite with no push-gate letter), INV-294 (the catcher record each rule carries, its arming point beside it, and the reason where nothing runs it), INV-295 (the surface list each rule carries, and the personal layer's override of a carve-out with the shipped default kept beside it), INV-296 (these rules stand as relatives and move in one working pass), INV-297 (a reader's finding lands as a named class with its examples under it; the cold reads that produce those findings run at the text-audit node), INV-301 (the findings ratchet over every live document: `guardrails/check-doc-findings-bound.py` stands as gate aa and reads `guardrails/rule-census.json` as its ceiling, the readability sibling of the size ratchet [INV-264] and the growable-doc bound [INV-234], holding a cleared document at zero), INV-299 (the mechanical arm of the worker-restore rule: the gate script pinned below, its call site inside the pipeline's verify step, and the wording check `tests/test_worker_restore.py` runs over the rulebook, the pipeline skill, the delegation protocol, the agent-card template and the lane-opening script; the rule those homes state is the base-rulebook's, stated once in its rule 7)
+**owns** —
+- E-6 · E-10 · M-5 · INV-17 · INV-24 · INV-45
+- INV-224 (the reach map's directory classes stand as host config, read from the file the pins below name. The pack's own values stand as the default. A host adopts through its own declared project layers, with no vendored-script edit, ROADMAP 380.)
+- INV-47
+- INV-97 (the four host checks' shipping contract; code pin lands with row 241, [target])
+- INV-66 · E-29 · INV-73 · INV-132
+- INV-120 (the shipped-language gate, wired into the pack's own pre-push as gate i and the CI mirror — row 279)
+- INV-245 (the project-name arm on gate i)
+- INV-173 · INV-175 · INV-176 · INV-202 · INV-203
+- INV-205 (the frame's home for its four instance rows 402/403/408/409)
+- INV-206
+- INV-229 (the parked-question default arm on the same waiting-list gate `guardrails/check-board.py`)
+- INV-207, INV-208
+- INV-209 (it composes with the growth law rows 390 and 392 carry. The bound governs what is shown. The archive keeps every row and stays grepable, so a row cited by number stays findable.)
+- INV-210, INV-211, INV-212
+- INV-213 (notice-first through the shared `guardrails/cleanup_notice.py`, whose cleanup-notice shape [ROADMAP 417] sits on the test-author node. It ends no process, so it can never become the broad-sweep footgun it guards.)
+- INV-216 (config-health's arm over a permission path that no longer resolves)
+- INV-218
+- INV-219 (it is the declaration law's mechanical net, the target deferral coming off that law with it)
+- INV-220 (ships universal and installs by the setup walk [INV-173]. Config-health parity covers it [INV-175] and `judge-hooks.json` classifies it [INV-211]. The meter reads its runs and fires [INV-202].)
+- INV-238 (the machine for the standing no-only-say-hedge behaviour, profile `proactivity.no-only-say-hedge`)
+- INV-230 (the reap and detection arms of the runaway-child class this node owns, a process-space habit at teardown taking no gate letter)
+- INV-231
+- INV-234 (the growable-doc sibling of gate t [INV-209] in this node's own doc-grooming family)
+- INV-236 (the transport arm of the two-channel law the base-rulebook states)
+- INV-239 (the description-field gate named in the pins below, dormant until the back-describe migration)
+- INV-241 (the net for the orchestration laws that had none)
+- INV-246 (off by default and opt-in. `judge-hooks.json` classifies it as a library entry [INV-211], and the pack's default `settings.json` leaves it unwired. It sits at the orchestration-law family's boundary [INV-241].)
+- INV-242 (`guardrails/check-landing-next-steps.py`)
+- INV-243
+- INV-250..INV-265 (the requirements-format laws and their format-gate family, armed at the row-445 conversion delivery)
+- INV-269 (`gatelib`-shaped reach lines asserted in each gate's own tests)
+- INV-270 (the suite-riding armed tests are the record)
+- INV-271
+- INV-272 (ROADMAP 477)
+- INV-273, INV-274
+- INV-275 (ROADMAP 480) [target]
+- INV-276 [target]
+- INV-277 [target]
+- INV-278 (the architecture-format member: node sections inheriting the family laws from the spec format, defined in `docs/architecture-format.md`, armed at this conversion delivery)
+- INV-279 (the owns-anchor cites and carries no history. A restated law reds, and a sentence the spec lacks moves to the spec. The dated prover-record relocated.)
+- INV-280 (the one-reader law over the node sections)
+- INV-281 (the whole-turn reach shared through `hooks/turn_reader.py`)
+- INV-282 (the hook-side sibling of gate w's registry [INV-212], rides the suite not the push chain, no gate letter)
+- INV-283 (the machine the plain-language anchor law had none of; that law's own home stays communicator)
+- INV-284 (the empty-validation scan, shipped, covered, classified and metered on the same terms as the hedge gate [INV-238])
+- INV-285 (the tool-boundary arm of the chat laws, the one hook on the PreToolUse surface. Its loan-translation list ships as data. Its per-session report memory sits beside the register judge's verdict files, ROADMAP 495.)
+- INV-287 (the criterion-readability arms over the spec's acceptance criteria. `guardrails/check-criterion-readability.py` reads through the family's shared parser `guardrails/specformat.py`. It rides the suite and takes no push-gate letter, the way the size ratchet does.)
+- INV-288 (the per-arm recorded counts in `guardrails/criterion-readability.json`, the readability sibling of the size ratchet's bound [INV-264, INV-265])
+- INV-289 (the setup-walk installer generates its coverage from guardrails/judge-hooks.json's file/command/matcher/data/personal_overlay fields and chains to scripts/install-pack-hooks.sh, closing row 495's setup-walk leg; ROADMAP 506)
+- INV-290 (a push carrying deletions alone stands the whole gate chain down. Its script reads git's own ref-update lines fed to the pre-push hook's stdin. It reports whether every one is a pure deletion. `guardrails/pre-push` calls it from the top, before any lettered gate. It takes no gate letter of its own, the way `check-suite-budget.sh` and several INV-230/231/236/242 arms already do, ROADMAP 502.)
+- INV-292 (`guardrails/language-rules.json`, the one home where each rule about this project's own texts sits with its own fields)
+- INV-293 (`scripts/gen-language-consumers.py` writes the consumers. Those are the per-surface law bodies at `hooks/language-laws.json` and the writer's rendering at `docs/language-rules.md`. The third is the maintainer's rendering at `docs/language-rule-coverage.md`, which carries each rule's status, its catchers and their reach. `guardrails/check-language-rules.py` reds a consumer that no longer matches the home, and a pin naming no file. It rides the suite with no push-gate letter.)
+- INV-294 (the catcher record each rule carries, its arming point beside it, and the reason where nothing runs it)
+- INV-295 (the surface list each rule carries, and the personal layer's override of a carve-out with the shipped default kept beside it)
+- INV-296 (these rules stand as relatives and move in one working pass)
+- INV-297 (a reader's finding lands as a named class with its examples under it. The cold reads that produce those findings run at the text-audit node.)
+- INV-301 (the findings ratchet over every live document. `guardrails/check-doc-findings-bound.py` stands as gate aa and reads `guardrails/rule-census.json` as its ceiling. It is the readability sibling of the size ratchet [INV-264] and the growable-doc bound [INV-234], and it holds a cleared document at zero.)
+- INV-299 (the mechanical arm of the worker-restore rule. It is the gate script pinned below, with its call site inside the pipeline's verify step. Beside it stands the wording check `tests/test_worker_restore.py`, run over the rulebook, the pipeline skill, the delegation protocol, the agent-card template and the lane-opening script. The rule those homes state is the base-rulebook's, stated once in its rule 7.)
+- INV-304 (the adversarial review a push carries over the change it sends. `guardrails/check-push-review.sh` stands as gate ac. It reads the record home `docs/push-review/` against the pushed range. It holds what a script can hold. The record exists, is committed, and is fresh against the newest commit in the range. It names that range, and it closes or explains each blocking finding. Whether the review was genuinely adversarial stays outside its reach. The requirement and the script's own header both say so. It is the push-time sibling of the design-review record gate that runs on the same hook.)
 
-**pins** — `guardrails/pre-push:1` (gates), `hooks/answer-first-scan.py:1` (the answer-first Stop-hook arm, INV-220), `hooks/hedge-scan.py:1` (the hedge-scan Stop-gate, modeled on the scissors scan, INV-238), `guardrails/net_meter.py:1` (the net-liveness meter, INV-202), `guardrails/touchpoints.json:1` (the touchpoint manifest, INV-205), `guardrails/check-touchpoint-kind.py:1` (the touchpoint-kind gate, INV-205), `guardrails/check-board.py:1` (the waiting-list gate, INV-206), `WAITING.md:1` (the waiting-list board, INV-206), `guardrails/check-far-tier.py:1` (the far-tier report-shape check, report-only, rides the suite not the push chain, INV-222/INV-223), `guardrails/check-wrong-referral.py:1` (the wrong-referral report-shape check, report-only, rides the suite not the push chain, INV-225), `guardrails.config.json:1` (the guardrails config: gated-doc list, ratchet, and the reach map's `reach_classes` — infra/prose/referrer directory classes as host config, INV-224), `guardrails/check-authority-anchor.py:1` (the authority-anchor gate, INV-207), `guardrails/authority-anchor.json:1` (the declared person roster + role forms as data, INV-207), `DECISIONS.md:1` (the read-back / decision-set record, the decision-readback touchpoint surface, INV-207), `templates/DECISIONS.template.md:1` (the shipped read-back template, INV-207), `guardrails/check-skill-review.sh:1` (the skill-review gate, INV-208), `docs/skill-review/README.md:1` (the review-record home, INV-208), `templates/skill-review.template.md:1` (the shipped review record template, INV-208), `guardrails/check-doc-rotation.py:1` (the doc-rotation gate, gate t, INV-209), `scripts/rotate-doc.py:1` (the rotation mechanism, INV-209), `guardrails/check-matrix-reference.py:1` (the matrix-reference gate, gate d, INV-273), `guardrails/check-doc-bound.py:1` (the growable-doc bound watcher, gate z, INV-234), `guardrails/doc-bounds.json:1` (the four docs' declared byte ceilings, INV-234), `guardrails/check-ci-mirror.sh:1` (the CI-mirror gate, gate u, INV-210), `guardrails/ci-mirror.json:1` (the declared CI carve-out set, INV-210), `guardrails/check-judge-listed.py:1` (the judge-listed gate, gate v, INV-211), `guardrails/judge-hooks.json:1` (the wired-hook declaration, INV-211, INV-289), `guardrails/check-every-gate-can-fail.py:1` (the meta-gate over the chain, gate w, INV-212), `guardrails/gate-red-proofs.json:1` (the per-gate red-proof registry, INV-212), `guardrails/check-hooks-can-fire.py:1` (the hook-side red-proof runner, executes each hook against its own fixture, rides the suite not the push chain, INV-282), `guardrails/hook-red-proofs.json:1` (the per-hook red-proof registry: a fixture per hook plus the declared entries whose output can carry no verdict, each with its reason, INV-282), `guardrails/hook-red-fixtures/scissors-scan/payload.json:1` (the fixture root's shape, one directory per hook under `guardrails/hook-red-fixtures/`, INV-282), `hooks/code-anchor-scan.py:1` (the code-anchor Stop-hook scan, an internal code trails a sentence as a quiet anchor, INV-283), `hooks/affirmation-scan.py:1` (the empty-validation Stop-hook scan, universal tier plus a personal overlay, INV-284), `guardrails/check-runaway-child.py:1` (the runaway-child Stop-time notice, report-only, INV-213), `guardrails/reap_owned_group.py:1` (the worker-teardown reap + idle-output detection, process-space habit not a push gate, INV-230), `guardrails/check-listener-tripwire.py:1` (the listener tripwire, a deferred-row mechanical revisit trigger, rides the suite not the push chain, INV-231), `guardrails/route_agent_transport.py:1` (the traffic-kind transport router, rides the suite not the push chain, INV-236), `guardrails/check-landing-next-steps.py:1` (the landing-refreshed-map gate, reds a `landed`-flipping commit whose diff omits NEXT_STEPS.md, rides the suite not the push chain, INV-242), `guardrails/check-description-field.py:1` (the non-empty description-field gate, arms at the back-describe migration, INV-239) [target], `guardrails/check-deposit-description.py:1` (the agent-channel deposit-time description lint, homed beside check-earned-message.py, INV-239) [target], `hooks/register_judge_core.py:1` (the register judge mechanism, INV-203), `hooks/turn_reader.py:1` (the shared full-turn reader six checks read through, each reading every assistant message shown since the last human turn: the contrast-frame scan, the hedge scan, the register judge, the code-anchor scan, the empty-validation scan, and the tool-boundary scan; the answer-first arm reads the final reply alone and takes no part in it, INV-281), `hooks/midturn-chat-scan.py:1` (the tool-boundary scan, the PreToolUse arm denying the next tool call on a naked code or a loan translation, INV-285), `hooks/chat-calques.json:1` (the loan-translation list as data, each entry carrying its plain replacement, INV-285), `hooks/register-judge.py:1` (the chat-surface judge, INV-203), `hooks/register-judge-collect.sh:1` (the Stop arm), `hooks/register-judge-report.sh:1` (the UserPromptSubmit arm), `hooks/conduct-judge.py:1` (the conduct judge reading the turn's action trace, INV-241), `hooks/conduct-judge-collect.sh:1` (its Stop arm), `hooks/conduct-judge-report.sh:1` (its UserPromptSubmit arm), `hooks/lean-orchestrator-scan.py:1` (the lean-orchestrator arm, a Stop-hook soft signal warning a session that hoards raw file content inline with no worker dispatch, opt-in/library, INV-246), `guardrails/check-push-reach.sh:1` (the reach map's deciding script, gate b's scope: prose stand-down · the scoped middle road · full), `guardrails/check-suite-budget.sh:1` (the suite wall-time budget's net), `guardrails/check-prototype-fence.sh:1` (prototype fence, gate e), `guardrails/check-shipped-language.sh:1` (shipped-language gate, INV-120), `scripts/check-shipped-language.py:1` (its machine), `guardrails/pre-commit:1` (commit fence), `guardrails/install.sh:1`, `hooks/clock-hook.sh:1` (the chat clock's hand), `hooks/scissors-scan.py:1` (the canonical universal scan hook), `scripts/install-pack-hooks.sh:1` (chained by install-session-hooks.sh, INV-289), `guardrails/check-config-health.sh:1` (INV-175; +skill-copy arm INV-243), `guardrails/check-config-health-perms.py:1` (the dead-permission-path arm, INV-216), `guardrails/nonempty_input.py:1` (the shared non-empty-input shape, INV-218), `guardrails/check-index-prose.py:1` (the retired index-prose gate — check-index-generated.py took over gate x at the row-445 conversion, INV-218), `guardrails/check-agent-card.py:1` (the agent-card gate, gate y, INV-219), `tests/test_guardrails.py:1`, `tests/test_traceability.py:1` (the feature-coverage trace, E-29/INV-73), `guardrails/archformat.py:1` (the node reader every consumer reads through, INV-280), `tests/test_architecture_format.py:1` (the architecture-format checks: node-section shape INV-278, no-restated-law INV-279, one-reader INV-280, riding the suite), `scripts/install-session-hooks.sh:1` (the setup-walk installer, generates its own two hooks from the declaration and chains to install-pack-hooks.sh for the other eight, INV-289), `tests/test_install_session_hooks.py:1` (the two-directions coverage proof, INV-289), `.github/workflows/gates.yml:1` (the CI mirror), `guardrails/check-deletion-only-push.sh:1` (the deletion-only push stand-down, INV-290), `tests/test_deletion_only_push.py:1` (its red proof, both directions), `guardrails/language-rules.json:1` (the one home for the language rules, INV-292), `scripts/gen-language-consumers.py:1` (the consumer generator, INV-293), `hooks/language-laws.json:1` (the generated law bodies, one per surface, INV-293), `docs/language-rules.md:1` (the generated writer's rendering, INV-293), `docs/language-rule-coverage.md:1` (the generated maintainer's rendering: each rule's status, its catchers and their reach, INV-293), `guardrails/check-language-rules.py:1` (the gate over the home and its consumers, rides the suite not the push chain, INV-292, INV-294), `tests/test_language_rules.py:1` (its red proof), `guardrails/check-doc-findings-bound.py:1` (the per-document findings ratchet, gate aa, INV-301), `guardrails/rule-census.json:1` (the recorded finding count per live document, the ratchet's ceiling, INV-301), `scripts/rule-census.py:1` (the measure both the report and the gate read through, INV-301), `tests/test_doc_findings_bound.py:1` (its red proof, both directions, INV-301), `guardrails/check-worker-restore.py:1` (the worker-restore gate, blocking, run at the pipeline's verify step and once more in the suite against this machine's own transcript root, INV-299), `tests/test_worker_restore.py:1` (its red proof and the one-wording check over the rulebook, the pipeline skill, the delegation protocol, the agent-card template and the lane-opening script, INV-299), `skills/build-pipeline/references/delegation-protocol.md:49` (the clause in the delegation protocol, INV-299), `guardrails/check-handover-provenance.py:1` (the handover-provenance gate, gate ab, INV-302), `scripts/session-extract.py:1` (the session extract's machine, INV-302), `tests/test_handover_provenance.py:1` (its red proof, INV-302), `templates/agent.template.md:38` (the clause in the agent card a brief is written from, INV-299), `scripts/open-lane.sh:100` (the clause in the printed brief stub, INV-299); registry: —
+**pins** —
+- `guardrails/pre-push:1` (gates)
+- `hooks/answer-first-scan.py:1` (the answer-first Stop-hook arm, INV-220)
+- `hooks/hedge-scan.py:1` (the hedge-scan Stop-gate, modeled on the scissors scan, INV-238)
+- `guardrails/net_meter.py:1` (the net-liveness meter, INV-202)
+- `guardrails/touchpoints.json:1` (the touchpoint manifest, INV-205)
+- `guardrails/check-touchpoint-kind.py:1` (the touchpoint-kind gate, INV-205)
+- `guardrails/check-board.py:1` (the waiting-list gate, INV-206)
+- `WAITING.md:1` (the waiting-list board, INV-206)
+- `guardrails/check-far-tier.py:1` (the far-tier report-shape check, report-only, rides the suite not the push chain, INV-222/INV-223)
+- `guardrails/check-wrong-referral.py:1` (the wrong-referral report-shape check, report-only, rides the suite not the push chain, INV-225)
+- `guardrails.config.json:1` (the guardrails config: gated-doc list, ratchet, and the reach map's `reach_classes` — infra/prose/referrer directory classes as host config, INV-224)
+- `guardrails/check-authority-anchor.py:1` (the authority-anchor gate, INV-207)
+- `guardrails/authority-anchor.json:1` (the declared person roster + role forms as data, INV-207)
+- `DECISIONS.md:1` (the read-back / decision-set record, the decision-readback touchpoint surface, INV-207)
+- `templates/DECISIONS.template.md:1` (the shipped read-back template, INV-207)
+- `guardrails/check-skill-review.sh:1` (the skill-review gate, INV-208)
+- `docs/skill-review/README.md:1` (the review-record home, INV-208)
+- `templates/skill-review.template.md:1` (the shipped review record template, INV-208)
+- `guardrails/check-doc-rotation.py:1` (the doc-rotation gate, gate t, INV-209)
+- `scripts/rotate-doc.py:1` (the rotation mechanism, INV-209)
+- `guardrails/check-matrix-reference.py:1` (the matrix-reference gate, gate d, INV-273)
+- `guardrails/check-doc-bound.py:1` (the growable-doc bound watcher, gate z, INV-234)
+- `guardrails/doc-bounds.json:1` (the four docs' declared byte ceilings, INV-234)
+- `guardrails/check-ci-mirror.sh:1` (the CI-mirror gate, gate u, INV-210)
+- `guardrails/ci-mirror.json:1` (the declared CI carve-out set, INV-210)
+- `guardrails/check-judge-listed.py:1` (the judge-listed gate, gate v, INV-211)
+- `guardrails/judge-hooks.json:1` (the wired-hook declaration, INV-211, INV-289)
+- `guardrails/check-every-gate-can-fail.py:1` (the meta-gate over the chain, gate w, INV-212)
+- `guardrails/gate-red-proofs.json:1` (the per-gate red-proof registry, INV-212)
+- `guardrails/check-hooks-can-fire.py:1` (the hook-side red-proof runner, executes each hook against its own fixture, rides the suite not the push chain, INV-282)
+- `guardrails/hook-red-proofs.json:1` (the per-hook red-proof registry: a fixture per hook plus the declared entries whose output can carry no verdict, each with its reason, INV-282)
+- `guardrails/hook-red-fixtures/scissors-scan/payload.json:1` (the fixture root's shape, one directory per hook under `guardrails/hook-red-fixtures/`, INV-282)
+- `hooks/code-anchor-scan.py:1` (the code-anchor Stop-hook scan, an internal code trails a sentence as a quiet anchor, INV-283)
+- `hooks/affirmation-scan.py:1` (the empty-validation Stop-hook scan, universal tier plus a personal overlay, INV-284)
+- `guardrails/check-runaway-child.py:1` (the runaway-child Stop-time notice, report-only, INV-213)
+- `guardrails/reap_owned_group.py:1` (the worker-teardown reap + idle-output detection, process-space habit not a push gate, INV-230)
+- `guardrails/check-listener-tripwire.py:1` (the listener tripwire, a deferred-row mechanical revisit trigger, rides the suite not the push chain, INV-231)
+- `guardrails/route_agent_transport.py:1` (the traffic-kind transport router, rides the suite not the push chain, INV-236)
+- `guardrails/check-landing-next-steps.py:1` (the landing-refreshed-map gate, reds a `landed`-flipping commit whose diff omits NEXT_STEPS.md, rides the suite not the push chain, INV-242)
+- `guardrails/check-description-field.py:1` (the non-empty description-field gate, arms at the back-describe migration, INV-239) [target]
+- `guardrails/check-deposit-description.py:1` (the agent-channel deposit-time description lint, homed beside check-earned-message.py, INV-239) [target]
+- `hooks/register_judge_core.py:1` (the register judge mechanism, INV-203)
+- `hooks/turn_reader.py:1` (the shared full-turn reader six checks read through. Each reads every assistant message shown since the last human turn. The six are the contrast-frame scan, the hedge scan, the register judge, the code-anchor scan, the empty-validation scan, and the tool-boundary scan. The answer-first arm reads the final reply alone and takes no part in it, INV-281.)
+- `hooks/midturn-chat-scan.py:1` (the tool-boundary scan, the PreToolUse arm denying the next tool call on a naked code or a loan translation, INV-285)
+- `hooks/chat-calques.json:1` (the loan-translation list as data, each entry carrying its plain replacement, INV-285)
+- `hooks/register-judge.py:1` (the chat-surface judge, INV-203)
+- `hooks/register-judge-collect.sh:1` (the Stop arm)
+- `hooks/register-judge-report.sh:1` (the UserPromptSubmit arm)
+- `hooks/conduct-judge.py:1` (the conduct judge reading the turn's action trace, INV-241)
+- `hooks/conduct-judge-collect.sh:1` (its Stop arm)
+- `hooks/conduct-judge-report.sh:1` (its UserPromptSubmit arm)
+- `hooks/lean-orchestrator-scan.py:1` (the lean-orchestrator arm, a Stop-hook soft signal warning a session that hoards raw file content inline with no worker dispatch, opt-in/library, INV-246)
+- `guardrails/check-push-reach.sh:1` (the reach map's deciding script, gate b's scope: prose stand-down · the scoped middle road · full)
+- `guardrails/check-suite-budget.sh:1` (the suite wall-time budget's net)
+- `guardrails/check-prototype-fence.sh:1` (prototype fence, gate e)
+- `guardrails/check-shipped-language.sh:1` (shipped-language gate, INV-120)
+- `scripts/check-shipped-language.py:1` (its machine)
+- `guardrails/pre-commit:1` (commit fence)
+- `guardrails/install.sh:1`
+- `hooks/clock-hook.sh:1` (the chat clock's hand)
+- `hooks/scissors-scan.py:1` (the canonical universal scan hook)
+- `scripts/install-pack-hooks.sh:1` (chained by install-session-hooks.sh, INV-289)
+- `guardrails/check-config-health.sh:1` (INV-175; +skill-copy arm INV-243)
+- `guardrails/check-config-health-perms.py:1` (the dead-permission-path arm, INV-216)
+- `guardrails/nonempty_input.py:1` (the shared non-empty-input shape, INV-218)
+- `guardrails/check-index-prose.py:1` (the retired index-prose gate — check-index-generated.py took over gate x at the row-445 conversion, INV-218)
+- `guardrails/check-agent-card.py:1` (the agent-card gate, gate y, INV-219)
+- `tests/test_guardrails.py:1`
+- `tests/test_traceability.py:1` (the feature-coverage trace, E-29/INV-73)
+- `guardrails/archformat.py:1` (the node reader every consumer reads through, INV-280)
+- `tests/test_architecture_format.py:1` (the architecture-format checks: node-section shape INV-278, no-restated-law INV-279, one-reader INV-280, riding the suite)
+- `scripts/install-session-hooks.sh:1` (the setup-walk installer, generates its own two hooks from the declaration and chains to install-pack-hooks.sh for the other eight, INV-289)
+- `tests/test_install_session_hooks.py:1` (the two-directions coverage proof, INV-289)
+- `.github/workflows/gates.yml:1` (the CI mirror)
+- `guardrails/check-deletion-only-push.sh:1` (the deletion-only push stand-down, INV-290)
+- `tests/test_deletion_only_push.py:1` (its red proof, both directions)
+- `guardrails/language-rules.json:1` (the one home for the language rules, INV-292)
+- `scripts/gen-language-consumers.py:1` (the consumer generator, INV-293)
+- `hooks/language-laws.json:1` (the generated law bodies, one per surface, INV-293)
+- `docs/language-rules.md:1` (the generated writer's rendering, INV-293)
+- `docs/language-rule-coverage.md:1` (the generated maintainer's rendering: each rule's status, its catchers and their reach, INV-293)
+- `guardrails/check-language-rules.py:1` (the gate over the home and its consumers, rides the suite not the push chain, INV-292, INV-294)
+- `tests/test_language_rules.py:1` (its red proof)
+- `guardrails/check-push-review.sh:1` (the push-time adversarial review record gate, gate ac, INV-304)
+- `docs/push-review/README.md:1` (the record home and the shape a record carries, INV-304)
+- `guardrails/check-doc-findings-bound.py:1` (the per-document findings ratchet, gate aa, INV-301)
+- `guardrails/rule-census.json:1` (the recorded finding count per live document, the ratchet's ceiling, INV-301)
+- `scripts/rule-census.py:1` (the measure both the report and the gate read through, INV-301)
+- `tests/test_doc_findings_bound.py:1` (its red proof, both directions, INV-301)
+- `guardrails/check-worker-restore.py:1` (the worker-restore gate, blocking, run at the pipeline's verify step and once more in the suite against this machine's own transcript root, INV-299)
+- `tests/test_worker_restore.py:1` (its red proof, and the one-wording check. That check reads the rulebook, the pipeline skill, the delegation protocol, the agent-card template and the lane-opening script, INV-299.)
+- `skills/build-pipeline/references/delegation-protocol.md:49` (the clause in the delegation protocol, INV-299)
+- `guardrails/check-handover-provenance.py:1` (the handover-provenance gate, gate ab, INV-302)
+- `scripts/session-extract.py:1` (the session extract's machine, INV-302)
+- `tests/test_handover_provenance.py:1` (its red proof, INV-302)
+- `templates/agent.template.md:38` (the clause in the agent card a brief is written from, INV-299)
+- `scripts/open-lane.sh:100` (the clause in the printed brief stub, INV-299)
+- registry: —
 
-**notes** — the pack's own gates + opt-in fence LIVE (hooks installed), the chat clock's mechanical hand, and the CI mirror LIVE (row 14 — `.github/workflows/gates.yml`, the same scripts as a second net); host-facing checks + registry still [target] (row 55). INV-24: the clock law's chat-arm sentence is carried by communicator as wiring, the human-facing timestamp read living in the communicator skill; ownership of the clock law stays here. INV-213: the owned-identity discipline the test-author node owns, the browser-kill lesson of row 334. INV-213: live wiring a documented owner-run install step, kept out of any auto-wire into a running session's Stop hook. INV-213: the cleanup-notice and owned-identity disciplines applied to an orphaned worker descendant. INV-216: personal-layer. INV-216: rides gate m's CI carve-out and known-red proof, no new gate letter. INV-216: kin of config-health [INV-175] and the judge-listed gate [INV-211]. INV-219: the sibling of the kind-with-no-layers flag. INV-229: an arm extending the existing gate q, no new gate letter. INV-229: it consumes the parked-feedback-question touchpoint classification the touchpoint-kind frame [INV-205] declares. INV-230: safe for that reason under the owned-identity discipline the test-author node owns. INV-230: the idle habit's worker-contract home is the base-rulebook worker contract, carried here as wiring. INV-234: the architecture-budget rule's budget-plus-watcher shape lifted to every growable artifact. INV-236: correcting the two-channel law's refused git-universal premise (the owner's word). INV-236: rides the suite and takes no push-gate letter the way the listener tripwire does [INV-231]. INV-238: installs by the setup walk beside the scissors scan and the answer-first arm [INV-173], covered by config-health parity [INV-175] and classified in judge-hooks.json [INV-211], runs/fires read by the meter [INV-202]. INV-239: both check presence only and ship with this feature's build, target. INV-245: riding gate i's mechanism and known-red proof with no new gate letter. INV-245: ROADMAP 441. INV-246: the mechanical net the lean-orchestrator law lacked, one of the orchestration laws the conduct judge holds [INV-241]. INV-246: stands down silently on its own breakage [INV-203], runs/fires read by the net-meter [INV-202]. INV-250..INV-265: `check-requirement-shape.py` [INV-250, INV-251, INV-252, INV-257], `check-no-history.py` [INV-253], `check-vocabulary.py` [INV-254], `check-one-name.py` [INV-255], `check-weak-words.py` [INV-256], the generated index `check-index-generated.py` + `scripts/build-index.py` [INV-258, INV-259] standing as gate x, the delta classifier `check-delta-record.py` [INV-260..263] armed by availability from the conversion-end freeze baseline, and the size ratchet `check-size-ratchet.py` + `guardrails/spec-ratchet.json` [INV-264, INV-265] seeded at that freeze. INV-250..INV-265: the shared parser `guardrails/specformat.py` is their one reader. INV-287/INV-288: the fourth fact this family reads off one document — shape [INV-250..252], volume [INV-264], words [INV-254, INV-256], and now reading form — each in its own gate. INV-289: scripts/install-session-hooks.sh was found covering only two of the ten declared hooks despite guardrails/judge-hooks.json already naming ten (found verifying ROADMAP row 495); scripts/install-pack-hooks.sh already covered the other eight; install-session-hooks.sh chains to it without rewriting it, since its own literal source is pinned by four other tests.
+**notes** —
+- the pack's own gates and opt-in fence are LIVE (hooks installed), together with the chat clock's mechanical hand. The CI mirror is LIVE too (row 14 — `.github/workflows/gates.yml`, the same scripts as a second net). Host-facing checks and the registry are still [target] (row 55).
+- INV-24: the clock law's chat-arm sentence is carried by communicator as wiring. The human-facing timestamp read lives in the communicator skill, and ownership of the clock law stays here.
+- INV-213: the owned-identity discipline the test-author node owns, the browser-kill lesson of row 334.
+- INV-213: live wiring a documented owner-run install step, kept out of any auto-wire into a running session's Stop hook.
+- INV-213: the cleanup-notice and owned-identity disciplines applied to an orphaned worker descendant.
+- INV-216: personal-layer. INV-216: rides gate m's CI carve-out and known-red proof, no new gate letter.
+- INV-216: kin of config-health [INV-175] and the judge-listed gate [INV-211].
+- INV-219: the sibling of the kind-with-no-layers flag.
+- INV-229: an arm extending the existing gate q, no new gate letter.
+- INV-229: it consumes the parked-feedback-question touchpoint classification the touchpoint-kind frame [INV-205] declares.
+- INV-230: safe for that reason under the owned-identity discipline the test-author node owns.
+- INV-230: the idle habit's worker-contract home is the base-rulebook worker contract, carried here as wiring.
+- INV-234: the architecture-budget rule's budget-plus-watcher shape lifted to every growable artifact.
+- INV-236: correcting the two-channel law's refused git-universal premise (the owner's word).
+- INV-236: rides the suite and takes no push-gate letter the way the listener tripwire does [INV-231].
+- INV-238: installs by the setup walk beside the scissors scan and the answer-first arm [INV-173]. Config-health parity covers it [INV-175], `guardrails/judge-hooks.json` classifies it [INV-211], and the meter reads its runs and fires [INV-202].
+- INV-239: both check presence only and ship with this feature's build, target.
+- INV-245: riding gate i's mechanism and known-red proof with no new gate letter. INV-245: ROADMAP 441.
+- INV-246: the mechanical net the lean-orchestrator law lacked, one of the orchestration laws the conduct judge holds [INV-241].
+- INV-246: stands down silently on its own breakage [INV-203], runs/fires read by the net-meter [INV-202].
+- INV-250..INV-265: the shape and word gates are `guardrails/check-requirement-shape.py` [INV-250, INV-251, INV-252, INV-257], `guardrails/check-no-history.py` [INV-253], `guardrails/check-vocabulary.py` [INV-254], `guardrails/check-one-name.py` [INV-255], and `guardrails/check-weak-words.py` [INV-256]. The generated index `guardrails/check-index-generated.py` with `scripts/build-index.py` [INV-258, INV-259] stands as gate x. The delta classifier `guardrails/check-delta-record.py` [INV-260..263] is armed by availability from the conversion-end freeze baseline. The size ratchet `guardrails/check-size-ratchet.py` with `guardrails/spec-ratchet.json` [INV-264, INV-265] is seeded at that freeze.
+- INV-250..INV-265: the shared parser `guardrails/specformat.py` is their one reader.
+- INV-287/INV-288: the fourth fact this family reads off one document. The other three are shape [INV-250..252], volume [INV-264], and words [INV-254, INV-256], each in its own gate.
+- INV-289: `scripts/install-session-hooks.sh` covered only two of the ten declared hooks, while `guardrails/judge-hooks.json` already named ten (ROADMAP row 495). `scripts/install-pack-hooks.sh` already covered the other eight. The session-hook installer chains to it without rewriting it, since its own literal source is pinned by four other tests.
 
 ### [node: snapshot] [target]
 
@@ -160,15 +494,19 @@ build-pipeline) and the report step (T-7, communicator); both sides are named he
 
 **owns** — E-7, A-6
 
-**pins** — — (spec'd; code still ahead)
+**pins** — — (specified; code still ahead)
 
 ### [node: design-sync]
 
-**responsibility** — optional machine, [target: machine; wiring live] — declared components of a landing synced to the team's design project, human-gated (ROADMAP row 93; the machine's first real run remains)
+**responsibility** — an optional machine, [target: machine; wiring live]. A landing's declared components sync to the team's design project, human-gated (ROADMAP row 93). The machine's first real run remains.
 
 **owns** — E-18
 
-**pins** — wiring: `skills/live-spec-base/SKILL.md:560` (defaults table, `design-sync` row), `skills/communicator/SKILL.md:1` (rule 5 channel line), `skills/build-pipeline/SKILL.md:1` (step 9 sync line); machine: —
+**pins** —
+- wiring: `skills/live-spec-base/SKILL.md:689` (defaults table, `design-sync` row)
+- wiring: `skills/communicator/SKILL.md:258` (rule 5 channel line)
+- wiring: `skills/build-pipeline/SKILL.md:489` (step 9 sync line)
+- machine: —
 
 ### [node: skill-evals]
 
@@ -184,21 +522,33 @@ build-pipeline) and the report step (T-7, communicator); both sides are named he
 
 **owns** — E-20, INV-44, INV-96, INV-119, INV-181, INV-228, INV-303
 
-**pins** — `skills/publish/SKILL.md:1` (frontmatter + when it fires), the kind-checklist table and target-plugin sections in the same file, the release-note shape with its optional offers section (INV-228: the release-note shape carries an optional offers section phrased as choices, and the publish walk records the offer-or-none decision, consuming the touchpoint-frame classification), `guardrails/check-release-note.py:1` (the release-note offer report-shape check, report-only, rides the suite not the push chain, INV-228), the mirror sync `scripts/sync-mirrors.sh:1` (publish-source selection · banner · release history · attribution · language scan)
+**pins** —
+- `skills/publish/SKILL.md:1` (frontmatter + when it fires)
+- the kind-checklist table and target-plugin sections in the same file
+- the release-note shape with its optional offers section (INV-228: the shape carries an optional offers section phrased as choices. The publish walk records the offer-or-none decision, consuming the touchpoint-frame classification.)
+- `guardrails/check-release-note.py:1` (the release-note offer report-shape check, report-only, rides the suite not the push chain, INV-228)
+- the mirror sync `scripts/sync-mirrors.sh:1` (publish-source selection · banner · release history · attribution · language scan)
 
 ### [node: test-author]
 
-**responsibility** — the test method's one home: derives TEST_MATRIX.md from the proven spec through the proven architecture and writes the tests — the level ladder, real-artifact assertions, red-first proof, the pinned skip-set, traceability as a standing test (row 163)
+**responsibility** — the test method's one home. It derives TEST_MATRIX.md from the proven spec through the proven architecture, and it writes the tests. Its parts are the level ladder, real-artifact assertions, red-first proof, the pinned skip-set, and traceability as a standing test (row 163).
 
 **owns** — E-27, INV-77, INV-78, INV-79, INV-80, INV-100, INV-102, INV-155, INV-157, INV-158, INV-160, INV-162, INV-204
 
-**pins** — `skills/test-author/SKILL.md:1` (name + description), the level-ladder table and the two step sections in the same file; `templates/headless_harness.py:1` (the canonical hardened + muted harness template; shell-first resolution + launch frame probe; the cleanup-notice emitter at each reap); `guardrails/cleanup_notice.py:1` (the shared cleanup-notice shape, INV-204); `guardrails/check-cleanup-notice.sh:1` (the notice gate, INV-204)
+**pins** —
+- `skills/test-author/SKILL.md:1` (name + description)
+- the level-ladder table and the two step sections in the same file
+- `templates/headless_harness.py:1` (the canonical hardened and muted harness template; shell-first resolution and launch frame probe; the cleanup-notice emitter at each reap)
+- `guardrails/cleanup_notice.py:1` (the shared cleanup-notice shape, INV-204)
+- `guardrails/check-cleanup-notice.sh:1` (the notice gate, INV-204)
 
-**notes** — and the canonical browser test harness the pack ships once as a template, which a consumer adopts by updating and layers its own methods on (row 327, INV-157/158); the harness's process-group reap reports what it ended, INV-204
+**notes** —
+- also carries the canonical browser test harness the pack ships once as a template. A consumer adopts it by updating, and layers its own methods on (row 327, INV-157/158).
+- the harness's process-group reap reports what it ended, INV-204
 
 ### [node: feedback-intake]
 
-**responsibility** — the intake half of the exchange: receives anything handed back through three channels, routes each item to the home its law owns, keeps the feedback ledger's shape, echoes every arrival (row 47)
+**responsibility** — the intake half of the exchange. It receives anything handed back through three channels and routes each item to the home its law owns. It keeps the feedback ledger's shape and echoes every arrival (row 47).
 
 **owns** — E-28, T-20, INV-68
 
@@ -206,7 +556,7 @@ build-pipeline) and the report step (T-7, communicator); both sides are named he
 
 ### [node: feedback-collector]
 
-**responsibility** — the outbound feedback arm, the pack's third arrow: on a rare genuinely-strong reaction it offers, with the human's positive consent, to draft a distilled non-public upstream note to the pack's authors and deposit it in the gitignored `outbox/`, never sending — delivery the human's own step; off by default (the `feedback-upstream` flag); distinct from feedback-intake (the inverse arrow) and from the measurement family (ROADMAP row 321)
+**responsibility** — the outbound feedback arm, the pack's third arrow. On a rare genuinely-strong reaction it offers, with the human's positive consent, to draft a distilled non-public upstream note to the pack's authors. It deposits that note in the gitignored `outbox/` and sends nothing, so delivery stays the human's own step. It is off by default, under the `feedback-upstream` flag. It stands apart from feedback-intake, the inverse arrow, and from the measurement family (ROADMAP row 321).
 
 **owns** — E-30, T-21, INV-161, INV-179
 
@@ -214,7 +564,7 @@ build-pipeline) and the report step (T-7, communicator); both sides are named he
 
 ### [node: onboarding-card]
 
-**responsibility** — the settings card: a build-time renderer parsing the base's package-defaults table + the profile files into the card page per the frozen norm; shown at founding/adoption end and on the standing "what can I customize?" question (F-onboarding)
+**responsibility** — the settings card. A build-time renderer parses the base's package-defaults table and the profile files into the card page, per the frozen norm. The card is shown at the end of founding or adoption, and on the standing "what can I customize?" question (F-onboarding).
 
 **owns** — INV-87, INV-88
 
@@ -224,30 +574,36 @@ build-pipeline) and the report step (T-7, communicator); both sides are named he
 
 **responsibility** — the design-review pass
 
-**owns** — INV-141 (ROADMAP row 310), INV-142, INV-154, INV-156 (ROADMAP row 323; this node holds the class because it reached the one-class reading from the record-sibling seam it already owns (design review → record), the class declared once here and cited by product-prover and build-pipeline without restatement), INV-165, INV-169
+**owns** —
+- INV-141 (ROADMAP row 310)
+- INV-142 · INV-154
+- INV-156 (ROADMAP row 323. This node holds the class because it reached the one-class reading from the record-sibling seam it already owns, design review → record. The class is declared once here, and product-prover and build-pipeline cite it without restatement.)
+- INV-165 · INV-169
 
 **pins** — `skills/design-reviewer/SKILL.md:1` (frontmatter + when it fires), the similarity-lens, confidence-read, echo-channel, and record-discipline sections in the same file
 
 ### [node: text-audit]
 
-**responsibility** — the audit-and-fix loop for human-facing texts: run the mechanical register lints, then fresh zero-context cold reads, fixing each finding at its source until two consecutive reads come back clean
+**responsibility** — the audit-and-fix loop for human-facing texts. It runs the mechanical register lints first, then fresh zero-context cold reads. Each finding is fixed at its source until two consecutive reads come back clean.
 
 **owns** — INV-266, INV-267, INV-268 (text-audit is the skill that runs this loop)
 
-**pins** — `skills/text-audit/SKILL.md:89` (frontmatter + when it fires), the mechanical-lint and cold-read-loop sections in the same file
+**pins** — `skills/text-audit/SKILL.md:1` (frontmatter + when it fires), the mechanical-lint and cold-read-loop sections in the same file
 
-**notes** — the tenth working skill, named in the pack's skill roster and the pipeline-roles glossary (its cold-read comprehension loop is the mechanical-lints-then-panel discipline the format-laws requirements state, homed here). This node carries the working-skill roster's text-audit member without owning that anchor; the roster entity's home stays base-rulebook.
+**notes** —
+- the tenth working skill, named in the pack's skill roster and the pipeline-roles glossary. Its cold-read comprehension loop is the mechanical-lints-then-panel discipline the format-laws requirements state, homed here.
+- this node carries the working-skill roster's text-audit member without owning that anchor. The roster entity's home stays base-rulebook.
 
 ## Seams
 
 The places two nodes meet — named, because that is where composition bugs live. Each seam states what
-crosses it and which side owns the format. Where a crossing has a real schema, the row names the schema's home — for this pack the shapes *are* the templates (the templates node owns them).
+crosses it and which side owns the format. Where a crossing has a real schema, the row names the schema's home. For this pack the shapes *are* the templates, and the templates node owns them.
 
 | Seam | Between | What crosses | Format owner |
 |---|---|---|---|
 | communicator ↔ attach | communicator → attach | a cleared page and its manifest line: the page's bytes move into `attic/` and one dated line naming the page, why it read as a render, and where it went appends to `attic/MANIFEST.md` [INV-286, INV-7] | attach (the attic and its manifest shape are the adoption node's, and the clearing writes to that shape) |
 | spec → prove | package-docs · product-prover | PRODUCT_SPEC.md, whole document | spec-author (the shape both sides speak) |
-| architecture → prove | package-docs · product-prover | ARCHITECTURE.md, whole document — sent into the prover at every M-1 and M-6 gate beside the spec (INV-116) | build-pipeline (the architecture step's shape, `ARCHITECTURE.template.md`) |
+| architecture → prove | package-docs · product-prover | ARCHITECTURE.md, whole document — sent into the prover at every M-1 and M-6 gate beside the spec (INV-116) | build-pipeline (the architecture step's shape, `templates/ARCHITECTURE.template.md`) |
 | prove → record | product-prover · package-docs | prover record `docs/prover/YYYY-MM-DD[-suffix].md`, folded/rejected column | product-prover |
 | pipeline → shapes | build-pipeline · templates | the document shapes the steps produce, incl. the coverage checklist | templates |
 | outside item → its home | inbox · package-docs | one item file (wish or feedback), harvested at sweep into the home its route owns — a ROADMAP row, or by the routing law (T-20) | inbox (file naming law); feedback-intake (the routing) |
@@ -284,10 +640,10 @@ crosses it and which side owns the format. Where a crossing has a real schema, t
 ## Feature coverage
 
 The feature layer above the anchor matrix (SPEC E-29, INV-73). live-spec's primary unit is its
-person-facing scenario; each such heading in PRODUCT_SPEC.md carries an inline `[feature: F-x]` tag, and
-the table below maps every unit to the node(s) that implement it and a test that exercises it. The check
-runs both ways (`tests/test_traceability.py`, `TestFeatureCoverage`): every tag is a row here and every
-row is a tagged scenario, every named node is real, every named test exists. The infra machine package-docs implements guarantees rather than user features and sits outside this layer by the project type's own definition. guardrails sits outside it too, except for the prototype fence: the mechanical check is itself the person-facing guarantee, so F-prototype names it as an implementer. host-contract sits outside it for its settings arm and inside it for the agent records — the card is a person-facing surface an agent reads, so F-roster and F-agent-birth name it as an implementer [E-32, INV-184].
+person-facing scenario. Each such heading in PRODUCT_SPEC.md carries an inline `[feature: F-x]` tag.
+The table below maps every unit to the node or nodes that implement it, and to a test that exercises
+it. The check runs both ways (`tests/test_traceability.py`, `TestFeatureCoverage`). Every tag is a row
+here and every row is a tagged scenario. Every named node is real, and every named test exists. The infra machine package-docs implements guarantees rather than user features and sits outside this layer by the project type's own definition. guardrails sits outside it too, except for the prototype fence: the mechanical check is itself the person-facing guarantee, so F-prototype names it as an implementer. host-contract sits outside it for its settings arm and inside it for the agent records. The card is a person-facing surface an agent reads, so F-roster and F-agent-birth name it as an implementer [E-32, INV-184].
 
 | feature | implemented by | test |
 |---|---|---|
@@ -311,13 +667,13 @@ row is a tagged scenario, every named node is real, every named test exists. The
 ## Runtime view
 
 How each promised flow runs through the nodes [INV-74]. live-spec's kind is a skill pack, so its flow
-unit is a wish (or a handed-in item) walking through the skills; each hop below crosses a seam named in
+unit is a wish or a handed-in item walking through the skills. Each hop below crosses a seam named in
 the Seams table, and the payload stays that table's fact. One line per flow: the walk, then where it
 can fail.
 
 | Flow | The walk through the nodes | Where it can fail | If it fails |
 |---|---|---|---|
-| F-wish | the human speaks → build-pipeline (door, intake) → communicator (capture echo) → parallel-lanes (queue-take: the graph picks the lane set under the cap; the claim commits to main under the pen and the lane's branch is cut from that commit) → spec-author (delta) → product-prover (prove → record) → build-pipeline (architecture step, this doc) → test-author (matrix + tests) → build-pipeline (code, verify — on the lane's own branch in its own worktree) → parallel-lanes (integration: the pen, the rebase onto main's tip, the gate on the rebased tree, the fast-forward) → communicator (landing report, show) | a misread door (the tripwires outrank labels); an unfolded defect (the record's folded column); a red suite at the gate; a lane landing on a base main has moved under | the tripwires re-door it mid-work; an unfolded defect blocks the landing until folded or rejected in the record; a red suite blocks the commit (the gate itself says no); the merge-base check reds a branch whose base sits behind main's tip so the gate never reads a stale tree [target], and git refuses a second worktree's attempt to move main on its own today |
+| F-wish | the human speaks → build-pipeline (door, intake) → communicator (capture echo) → parallel-lanes (queue-take: the graph picks the lane set under the cap; the claim commits to main under the pen and the lane's branch is cut from that commit) → spec-author (delta) → product-prover (prove → record) → build-pipeline (architecture step, this doc) → test-author (matrix + tests) → build-pipeline (code, verify — on the lane's own branch in its own worktree) → parallel-lanes (integration: the pen, the rebase onto main's tip, the gate on the rebased tree, the fast-forward) → communicator (delivery report, show) | a misread door (the tripwires outrank labels); an unfolded defect (the record's folded column); a red suite at the gate; a lane landing on a base main has moved under | the tripwires re-door it mid-work; an unfolded defect blocks the landing until folded or rejected in the record; a red suite blocks the commit (the gate itself says no); the merge-base check reds a branch whose base sits behind main's tip so the gate never reads a stale tree [target], and git refuses a second worktree's attempt to move main on its own today |
 | F-bug | build-pipeline (bug door, queue-cut) → test-author (red-on-bug row + test) → build-pipeline (fix, class sweep) → guardrails (gate) | a fix without its red test; a class fixed at one instance only | the traceability test goes red until the row and test exist; the class sweep is checked at review — a point fix reopens |
 | F-page-clearing | a person's exchange closes → communicator (rule 5: the page's reading is over) → `scripts/sweep-rendered.py` (reads the renderer's mark, skips what git tracks and the four homes outside the reach) → attach (the page moves into `attic/`, its manifest line appends and flushes) → communicator (the declaration line rides the delivery report) | a page the process cannot move (a read-only directory, an attic standing as a file); a page committed before the law existed | the run halts and reports by name, every page already moved carrying its own flushed manifest line; a committed page stands outside the reach and waits for a deliberate deletion commit |
 | F-release-sweep | publish (the shopfront walk at a version push) → `scripts/sweep-rendered.py` over the whole tree → communicator (the outcome in one line on the delivery report) | a release that forgets to sweep | `guardrails/check-rendered-sweep.py` reds the suite while a page stands, so gate b blocks the push before the release leaves |
@@ -351,16 +707,17 @@ reads, so the "runtime" is the agent session that loads them. Five places carry 
 | the host project's repo | the documents the method writes for that host: spec, queue, journal, checkpoints, ledgers | plain markdown in the host's tree |
 | GitHub + CI · the human's browser | the remote copy and the gates' second net; rendered artifacts, decision pages, and the settings card open here | `.github/workflows/gates.yml`; `scripts/render-doc.py`; `scripts/onboarding-card.py` (runs in the agent session on the host machine, output opens in the browser) |
 
-No secret lives in this pack: the repo, the templates, and the installed skills carry none, and a *host's* secrets stay in that host's own keychain or platform bindings — its placement table names the holder (the pack's own validation derivations model this).
+No secret lives in this pack. The repo, the templates, and the installed skills carry none. A *host's* secrets stay in that host's own keychain or platform bindings. Its placement table names the holder (the pack's own validation derivations model this).
 
-The named-reference machinery [E-35] runs in two placements the table already names. The two presence gates run client-side at gate time: the non-empty description-field gate `guardrails/check-description-field.py` runs at commit and push time in the repo with its CI mirror as a second net, and the agent-channel deposit-time lint `guardrails/check-deposit-description.py` runs the moment an agent deposits a `from-<agent>` inbox file, in the depositing session on the author's own machine [target]. The earned auto-deposit [T-24] and the living-description overwrite [INV-240] are behaviours of the model in the writing session, reading the installed skill text.
+The named-reference machinery [E-35] runs in two placements the table already names. The two presence gates run client-side at gate time. The non-empty description-field gate `guardrails/check-description-field.py` runs at commit and push time in the repo, with its CI mirror as a second net. The agent-channel deposit-time lint `guardrails/check-deposit-description.py` runs the moment an agent deposits a `from-<agent>` inbox file. That run happens in the depositing session, on the author's own machine [target]. The earned auto-deposit [T-24] and the living-description overwrite [INV-240] are behaviours of the model in the writing session, reading the installed skill text.
 
 ## Footprint and proof by project.kind
 
-The footprint categories and the test ladder are kind-abstract stations; each `project.kind` [INV-36]
-fills them with its own concrete layers and its own concrete proof kinds, declared at founding in the host
-profile (`project.layers` and `project.proofs`, SPEC INV-135). This table is the per-kind scaffold — the
-shape a founding fills, beside the node-structure-by-kind scaffold in `ARCHITECTURE.template.md`. The three
+The footprint categories and the test ladder are kind-abstract stations. Each `project.kind` [INV-36]
+fills them with its own concrete layers and its own concrete proof kinds. A founding declares both in
+the host profile, on `project.layers` and `project.proofs` (SPEC INV-135). This table is the per-kind
+scaffold — the shape a founding fills, beside the node-structure-by-kind scaffold in
+`templates/ARCHITECTURE.template.md`. The three
 footprints (presentation-only · single-module · cross-cutting) hold for every kind; only the layer names
 and the proof kinds change. A founding check reds a `project.kind` recorded with neither declared.
 
@@ -373,19 +730,20 @@ and the proof kinds change. A founding check reds a `project.kind` recorded with
 | music project | arrangement · stems · mix | the analysis renders · the owner's ear |
 
 The three real hosts fix the fixtures for the founding check: a code kind, a photo-visual kind, and a
-prose kind — each with its own layers and proofs, plus a
-kind-only profile that must go red.
+prose kind. Each carries its own layers and proofs. A kind-only profile stands beside them, and it
+must go red.
 
 ## Design principles by project.kind
 
-Beside its layers and proofs, a project kind carries a set of **design principles** — checkable design
-rules the kind's products must hold, of the family of cross-surface policy uniformity [INV-125] and
-paired-transition symmetry [INV-126] (SPEC INV-136). The pack ships the starter set below; a founding
-that records a visual kind declares its design principles in the host profile on a `project.design-principles`
-line (the starter set plus any the project adds), and a founding check reds a visual kind recorded with
-none. The verify pass reads the declared principles and runs each in the medium's own form beside the
-visitor walk and the feel pass [INV-30]: a principle the suite cannot green (motion feel, a real-device
-gesture) is the human's own eye-walk [INV-77]; one the suite can hold becomes a matrix row in the
+Beside its layers and proofs, a project kind carries a set of **design principles**. These are
+checkable design rules the kind's products must hold. They belong to the family of cross-surface
+policy uniformity [INV-125] and paired-transition symmetry [INV-126] (SPEC INV-136). The pack ships
+the starter set below. A founding that records a visual kind declares its design principles in the
+host profile, on a `project.design-principles` line. That line carries the starter set plus any the
+project adds. A founding check reds a visual kind recorded with none. The verify pass reads the
+declared principles and runs each in the medium's own form. That run sits beside the visitor walk and
+the feel pass [INV-30]. A principle the suite cannot green, such as motion feel or a real-device
+gesture, is the human's own eye-walk [INV-77]. One the suite can hold becomes a matrix row in the
 adopting project's own suite. This table is the per-kind scaffold; a kind with no entry yet carries none.
 
 | project.kind | starter design principles | how each is checked |
@@ -395,49 +753,50 @@ adopting project's own suite. This table is the per-kind scaffold; a kind with n
 | prose / promotion campaign | the register held across every surface · one thought per paragraph · the reading path stated | the register lint and the owner's review |
 | skill pack | the description triggers when it should · install and commands shown · when-to-use stated | the skill-creator review [INV-99] and the eval suite |
 
-**The interactive-overlap rule** (the frontend kind's founding design principle) is stated in full in
-the spec's founding design-principle clause, SPEC INV-136; ARCHITECTURE carries only its projection into
-the adopting project's own suite: for each covering overlay the project defines, a browser or pixel-level
-row opens the overlay and asserts every other interactive control is not rendered or not pressable
-(computed `pointer-events:none`, `opacity:0`, or off-screen) while it stands. The pack ships the law and
-the starter set and leaves the pixel assertion to the products it serves — live-spec itself has no UI —
-the ship-the-shape pole of the pack-to-host split [INV-163].
+**The interactive-overlap rule** is the frontend kind's founding design principle. It is
+stated in full in the spec's founding design-principle clause, SPEC INV-136. This document carries its
+projection into the adopting project's own suite alone. For each covering overlay the project defines, a
+browser or pixel-level row opens the overlay. That row asserts every other interactive control is not
+rendered or not pressable while the overlay stands. The computed forms are `pointer-events:none`,
+`opacity:0`, or off-screen. The pack ships the law and the starter set, and leaves the pixel assertion
+to the products it serves. live-spec itself has no UI.
+This is the ship-the-shape pole of the pack-to-host split [INV-163].
 
 **The seam between the build and the configuration** (SPEC INV-291) is the principle every deployed
-kind carries, and a founding names it on the host's own `project.config-surface` line beside the
-layers, the proofs, the design principles, and the axes [INV-135, INV-136, INV-244]. A kind is
-deployed when its product runs where its readers reach it and reads values it did not have to be
-rebuilt to receive: the static-site, fullstack, photo-portfolio, and backend kinds stand on that
-side, while a book, a prose campaign, a CLI, and a skill pack stand off it — a CLI carries a
-configuration file, and that file sits on the reader's machine, so its owner turns nothing in it
-without a release the reader takes. A reader places one thing on one side of the seam by a single
-question: does the shipped product already know how to behave once this value changes? A value the
-running code already reads belongs to the configuration; a change that needs the code to do
-something it does not do today belongs to the build; and a value the product reads at build time
-stays on the build side until that reading moves to run time. `guardrails/check-config-surface.py`
-reads the host profile and reports three things — a kind recorded with no declaration, a declaration
-with no words after its key, and a "none" written beside a `project.layers` line that names a
-deployment layer — and it carries no list of kinds, since which kinds are deployed is the judgment
-this table states and a founding answers. Whether a declared value truly reaches production with no
-build sits past a profile line's reach, so the founding conversation and the proof by deed hold that
-half: the owner turns a switch in production, and no build runs.
+kind carries. A founding names it on the host's own `project.config-surface` line. That line sits
+beside the layers, the proofs, the design principles, and the axes [INV-135, INV-136, INV-244]. A
+kind is deployed when its product runs where its readers reach it. That product also reads values it
+did not have to be rebuilt to receive. The static-site, fullstack, photo-portfolio, and backend kinds
+stand on that side. A book, a prose campaign, a CLI, and a skill pack stand off it. A CLI carries a
+configuration file, and that file sits on the reader's machine. Its owner turns nothing in it without
+a release the reader takes. A reader places one thing on one side of the seam by a single question.
+Does the shipped product already know how to behave once this value changes? A value the running code
+already reads belongs to the configuration. A change that needs the code to do something it does not
+do today belongs to the build. A value the product reads at build time stays on the build side until
+that reading moves to run time. `guardrails/check-config-surface.py` reads the host profile and
+reports three things. The first is a kind recorded with no declaration. The second is a declaration
+with no words after its key. The third is a "none" written beside a `project.layers` line that names
+a deployment layer. It carries no list of kinds, since which kinds are deployed is the judgment this
+table states and a founding answers. Whether a declared value truly reaches production with no build
+sits past a profile line's reach. The founding conversation and the proof by deed hold that half: the
+owner turns a switch in production, and no build runs.
 
 ## Composition axes by project.kind
 
 Beside its concrete layers and proof kinds [INV-135] and its design principles [INV-136], a
-project kind declares the **composition axes** it owes every surface beyond the kind-independent
-C-1 floor — the further axes a surface answers because its kind renders under them (SPEC INV-244).
-The floor (view · mode · tier · viewport · reopen · concurrency · every co-present surface) holds
-for every stateful surface whatever its kind [C-1]; the axes below are the kind-owed tail, an open
-set each kind names one member at a time [INV-226]. The pack ships the starter set below; a founding
-declares its kind's axis set in the host profile on a `project.axes` line, and a founding check reds
-a kind recorded with no axis-set declaration at all, the same rank a kind recorded with no layers or
-proofs carries [INV-135, A-10]. A kind may declare **none beyond the floor** as an explicit stated
-decision, the empty case the per-kind design-principles set already legitimises for a kind with no
-visitor-facing surface [INV-136]; the check reds on silence and passes on an explicit "none". Before
-composing a surface, spec-author reads its axes from the kind the way it already reads the declared
-layers [INV-135], and writes each owed axis's answer as a facet-sweep sentence, decided or
-`[default]`-tagged like any facet [INV-18, INV-31]. This table is the per-kind scaffold; a kind with
+project kind declares the **composition axes**. It owes them to every surface beyond the
+kind-independent C-1 floor. They are the further axes a surface answers because its kind renders
+under them (SPEC INV-244). The floor holds for every stateful surface whatever its kind [C-1]. That
+floor is view · mode · tier · viewport · reopen · concurrency · every co-present surface. The axes
+below are the kind-owed tail, an open set each kind names one member at a time [INV-226]. The pack
+ships the starter set below. A founding declares its kind's axis set in the host profile, on a
+`project.axes` line. A founding check reds a kind recorded with no axis-set declaration at all. That
+is the same rank a kind recorded with no layers or proofs carries [INV-135, A-10]. A kind may declare
+**none beyond the floor** as an explicit stated decision. The per-kind design-principles set already
+legitimises that empty case for a kind with no visitor-facing surface [INV-136]. The check reds on
+silence and passes on an explicit "none". Before composing a surface, spec-author reads its axes from
+the kind, the way it already reads the declared layers [INV-135]. It writes each owed axis's answer
+as a facet-sweep sentence, decided or `[default]`-tagged like any facet [INV-18, INV-31]. This table is the per-kind scaffold; a kind with
 no entry yet carries none.
 
 | project.kind | composition axes owed beyond the C-1 floor | axis-set shape |
@@ -450,24 +809,25 @@ no entry yet carries none.
 | skill pack | none beyond the floor (an explicit stated decision) | empty |
 | custom | none beyond the floor (an explicit stated decision) | empty |
 
-This story lands the input-capability coverage for the visual kinds (`static site`, `fullstack`) and
-records every other kind's declaration as founding data; each non-visual kind's own coverage rides
+This story lands the input-capability coverage for the visual kinds, `static site` and `fullstack`.
+It records every other kind's declaration as founding data. Each non-visual kind's own coverage rides
 its own increment, the backend's load, version, and tenant among them (SPEC INV-244, INV-36). The
-declaration is the facet sweep's half alone: an owed axis is covered only once the surface is also
-composed and tested against each elementary value of the axis once the surface exists, the two halves
-splitting one dimension by time [C-1, INV-18]. The input-capability axis carries a value space of its
-own — touch and a fine pointer are combinable capabilities a single device holds at once, a tablet
-with a trackpad and a touchscreen laptop each holding both — so a surface answers for them in
-combination, and the co-occurrence value (hover present alongside touch) rides in with the deferred
-forcing step that makes the author answer for the in-between [target]. The founding check reads the
-same three real hosts the footprint check's fixtures do [INV-135]: a visual kind owing
-input-capability, a kind declaring none beyond the floor (this pack, a skill pack), and a kind-only
-profile with no `project.axes` line that must go red.
+declaration is the facet sweep's half alone. An owed axis is covered only once the surface is also
+composed and tested against each elementary value of the axis. That second half waits for the surface
+to exist, so the two halves split one dimension by time [C-1, INV-18]. The input-capability axis
+carries a value space of its own. Touch and a fine pointer are combinable capabilities a single
+device holds at once. A tablet with a trackpad and a touchscreen laptop each hold both. So a surface
+answers for them in combination. The co-occurrence value, hover present alongside touch, rides in
+with the deferred forcing step that makes the author answer for the in-between [target]. The founding
+check reads the same three real hosts the footprint check's fixtures do [INV-135]. The first is a
+visual kind owing input-capability. The second is a kind declaring none beyond the floor, this pack
+being a skill pack. The third is a kind-only profile with no `project.axes` line, and it must go
+red.
 
 ## Quality budgets
 
 What quality means for a skill pack, in numbers [INV-41]. Numbers proposed by the agent, tunable on
-the human's word [INV-70]; each is asserted by a matrix row, and its instrumentation home is where the
+the human's word [INV-70]. Each is asserted by a matrix row, and its instrumentation home is where the
 real number is read.
 
 | Budget | Number | Instrumentation home | Watcher |
@@ -478,39 +838,41 @@ real number is read.
 | spec prose register | style lint: 0 errors on PRODUCT_SPEC.md | `scripts/spec-style-lint.py` JSON tail | the style-lint gate reds on any error at the pre-show and push gates (INV-83) |
 | settings card render | ≤ 1 s on a pack-sized catalog [default] | the render script's own run, asserted by its matrix row | its matrix-row test (M-206) reds past the 1 s budget, read from the render script's own instrumentation |
 
-A skill's judgment quality beyond the evals has no honest number; it is said by name here and judged
+A skill's judgment quality beyond the evals has no honest number. It is said by name here and judged
 by the human's eye on real landings, never given a vanity metric.
 
 ## Decisions — where they live
 
-The pack's decisions live in three homes already: the queue's dated rows (each landing's verdicts
-inline), JOURNAL.md's chapters (the why), and DECISIONS.md's open-decision entries (D-1, D-6, D-7 —
-attic layout, pair queue view, engine-fact citation — moved there from the retired Formal index at the
-4.0.0 format migration, the spec's `[GAP: ...]` lines now pointing to them). This section is the doc's one entry point
-to them; it holds pointers, never the decisions themselves. Structure-changing decisions also appear
-in the architecture prover record at `docs/prover/architecture-prover-record.md`, one line each. And
-every full pass at an M-1 milestone gate or an M-6 push gate that proves this document beside the spec
-(INV-116) appends its dated row to that prover record — the gate walk carries the duty, so the record
-stays current with the architecture's freshness rule rather than trailing it. The M-1 milestone gate
-also runs the design review on the re-proven spec (INV-141); its dated design-review record lands in
-`docs/design-review/` beside the prover record, and a structure-changing design decision it settles
-appears in that prover record's rows like any other.
+The pack's decisions live in three homes already. The first is the queue's dated rows, each landing's
+verdicts inline. The second is JOURNAL.md's chapters, which hold the why. The third is DECISIONS.md's
+open-decision entries: D-1, D-6, D-7, covering attic layout, pair queue view, and engine-fact
+citation. They moved there from the retired Formal index at the 4.0.0 format migration, and the spec's
+`[GAP: ...]` lines now point to them. This section is the doc's one entry point to them, and it holds
+pointers rather than the decisions themselves. Structure-changing decisions also appear in the
+architecture prover record at `docs/prover/architecture-prover-record.md`, one line each. Every full
+pass that proves this document beside the spec appends its dated row to that prover record (INV-116).
+Those passes run at an M-1 milestone gate and at an M-6 push gate. The gate walk carries the duty, so
+the record stays current with the architecture's freshness rule rather than trailing it. The M-1
+milestone gate also runs the design review on the re-proven spec (INV-141). Its dated design-review
+record lands in `docs/design-review/`, beside the prover record. A structure-changing design decision
+it settles appears in that prover record's rows like any other.
 
 *Coverage rule (walked at matrix derivation): every spec anchor appears in some node's "owns" column. An
 orphan fact means a missing node or a missing assignment. A node that owns nothing has no spec backing,
 and that is itself a finding. Mechanized in `tests/test_traceability.py`.*
 
-**Boundary health — a typical request lands in one node (SPEC INV-128).** A right node boundary shows one
-sign: an edit inside a node leaves its neighbours untouched, so a typical request's footprint is
-single-module. When requests repeatedly cut across the same several nodes — the entry impact read records a
-cross-cutting footprint on the same node pair again and again — the boundary sits in the wrong place, and
-the recorded footprints are the evidence a boundary move rests on. A boundary moves only through the architecture step
-and its re-prove, as a restructure row [E-14, and INV-37 in the spec]; it never moves on a guess, and it
-never stays wrong in denial while the cross-cuts pile up. The **cross-cut counter** mechanizes the signal:
-`guardrails/crosscut_counter.py` reads the closed queue's cross-cutting landings and counts, per unordered
-node pair, how many cross-cutting changes touched both nodes; a pair reaching the threshold (3 by default,
-tunable) is flagged for the MINOR audit as a boundary-move candidate — the mechanized form of "seen twice,
-own it" (base rule 19) applied to boundaries. The flag is an audit signal, never a per-push red: the count
-is evidence the MINOR audit weighs, and the boundary still moves only through the architecture step and its
-re-prove [INV-37]. This law states the bar and the signal; the counter is the recorded footprints made
+**Boundary health — a typical request lands in one node (SPEC INV-128).** A right node boundary shows
+one sign. An edit inside a node leaves its neighbours untouched, so a typical request's footprint is
+single-module. When requests repeatedly cut across the same several nodes, the boundary sits in the
+wrong place. The signal is the entry impact read recording a cross-cutting footprint on the same node
+pair again and again. The recorded footprints are the evidence a boundary move rests on. A boundary
+moves only through the architecture step and its re-prove, as a restructure row [E-14, and INV-37 in
+the spec]. It never moves on a guess, and it never stays wrong in denial while the cross-cuts pile up.
+The **cross-cut counter** mechanizes the signal. `guardrails/crosscut_counter.py` reads the closed
+queue's cross-cutting landings. It counts, per unordered node pair, how many cross-cutting changes
+touched both nodes. A pair reaching the threshold, 3 by default and tunable, is flagged for the MINOR
+audit as a boundary-move candidate. That is the mechanized form of "seen twice, own it" (base rule 19)
+applied to boundaries. The flag is an audit signal, never a per-push red. The count is evidence the
+MINOR audit weighs. The boundary still moves only through the architecture step and its re-prove
+[INV-37]. This law states the bar and the signal; the counter is the recorded footprints made
 countable.
