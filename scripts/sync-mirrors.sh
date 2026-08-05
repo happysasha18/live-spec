@@ -74,17 +74,38 @@ GITHUB_OWNER="happysasha18"
 # return 0 on a missing file, so nothing downstream would notice. A directory standing there
 # without a SKILL.md is a half-made edition, and this refuses it by name rather than publishing
 # over a working mirror.
+# An edition also has to be as new as the skill it mirrors. Nothing ties the two together, so a
+# repair landing in skills/<name>/ leaves the edition behind and the sync publishes the older text
+# without a word. That happened the day the mechanism shipped: eleven missing inputs were added to
+# the prover skill and the edition never got them (caught 2026-08-05 by an adversarial review of
+# the push). This compares the newest commit touching each side and refuses the stale one.
+edition_is_current() {
+  local name="$1"
+  local skill_at edition_at
+  skill_at="$(git -C "$PACK_ROOT" log -1 --format=%ct -- "skills/$name" 2>/dev/null || echo 0)"
+  edition_at="$(git -C "$PACK_ROOT" log -1 --format=%ct -- "editions/$name" 2>/dev/null || echo 0)"
+  [ -n "$skill_at" ] || skill_at=0
+  [ -n "$edition_at" ] || edition_at=0
+  # An edition with no commit of its own has never been published from here, so it stands aside.
+  [ "$edition_at" -ge "$skill_at" ]
+}
+
 publish_source_for() {
   local name="$1"
   local edition="$PACK_ROOT/editions/$name"
   if [ -d "$edition" ]; then
-    if [ -f "$edition/SKILL.md" ]; then
-      printf '%s\n' "$edition"
-      return 0
+    if [ ! -f "$edition/SKILL.md" ]; then
+      echo "${name}: editions/${name}/ holds no SKILL.md, so it publishes nothing." >&2
+      echo "  Add the edition's SKILL.md, or remove the directory to publish skills/${name}/ again." >&2
+      return 3
     fi
-    echo "${name}: editions/${name}/ holds no SKILL.md, so it publishes nothing." >&2
-    echo "  Add the edition's SKILL.md, or remove the directory to publish skills/${name}/ again." >&2
-    return 3
+    if [ "${SKIP_EDITION_FRESHNESS:-}" != "1" ] && ! edition_is_current "$name"; then
+      echo "${name}: editions/${name}/ is older than skills/${name}/, so it publishes nothing." >&2
+      echo "  Carry the skill's newer work into the edition, then commit the edition." >&2
+      return 4
+    fi
+    printf '%s\n' "$edition"
+    return 0
   fi
   printf '%s\n' "$PACK_ROOT/skills/$name"
 }

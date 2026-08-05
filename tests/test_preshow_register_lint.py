@@ -156,3 +156,44 @@ def test_two_fenced_regions_both_count_as_quotation():
 def test_a_file_with_no_fence_is_untouched_by_the_mask():
     page = "%s\nsecond line\n" % _LEAK
     assert lint.mask_quoted_source(page) == page
+
+
+# ---- reach: a coinage broken across a line break (2026-08-05) ---------------------------------
+# Prose wraps. A line-by-line scan cannot see a collocation whose two words land on different
+# lines, so `pipeline station` survived in skills/communicator/SKILL.md while this lint reported
+# clean, and the commit that claimed to have removed it was wrong. An adversarial review of the
+# push caught it.
+_WRAPPED = "when a beat lands — a pipeline\n    station passed, say it"
+
+
+def test_a_coinage_split_across_a_line_break_is_caught():
+    hits = lint.scan(_WRAPPED)
+    assert hits, "a wrapped collocation must red"
+    assert hits[0][1] == "en-pipeline-station"
+
+
+def test_a_wrapped_hit_reports_the_line_it_starts_on():
+    hits = lint.scan("first line\n" + _WRAPPED)
+    assert hits[0][0] == 2, "the reported line points at where the collocation begins"
+
+
+def test_the_same_coinage_on_one_line_is_still_reported_once(self=None):
+    """The two passes must not both charge a hit that fits on a single line."""
+    hits = lint.scan("it walks the pipeline station by itself")
+    assert len(hits) == 1
+
+
+def test_prose_that_merely_wraps_is_left_alone():
+    assert lint.scan("when a beat lands — a pipeline\n    step passed, say it") == []
+
+
+def test_a_wrapped_coinage_inside_a_fence_stays_quotation():
+    page = ("<!-- register-lint:quoted-source -->\na pipeline\nstation passed\n"
+            "<!-- register-lint:/quoted-source -->")
+    assert lint.scan(page) == []
+
+
+def test_a_wrapped_hit_is_marked_as_wrapped_in_its_snippet():
+    """The reader of the report needs to know why the line alone looks clean."""
+    hits = lint.scan(_WRAPPED)
+    assert hits[0][2].startswith("(wrapped) ")

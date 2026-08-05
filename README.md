@@ -65,9 +65,9 @@ Work enters the spec before code. A new behaviour arrives as a spec change, gets
 
 ---
 
-## Nearly five thousand lines of rules, and that is the point
+## Over six thousand lines of rules, and that is the point
 
-The rules are the part a software house would charge you for: thirty-five shared rules across the skill set, stated once. They cover how a spec gets written so it stays readable. They cover when a question is worth your attention and when it is routine. They cover what a green suite does and does not prove. Written out, they and the skills carrying them run to about 4,800 lines under `skills/`. You do not read them. They run.
+The rules are the part a software house would charge you for: thirty-five shared rules across the skill set, stated once. They cover how a spec gets written so it stays readable. They cover when a question is worth your attention and when it is routine. They cover what a green suite does and does not prove. Written out, they and the skills carrying them run to 6,328 lines under `skills/`. Of those, 5,178 are the skill bodies. Count them with `cat skills/*/SKILL.md skills/*/references/*.md | wc -l` (2026-08-05). You do not read them. They run.
 
 The relationship is the one you have with a builder. You do not need to know how; you still decide what. A good contractor does not ask the client to choose the rebar, and does not pick the kitchen either.
 

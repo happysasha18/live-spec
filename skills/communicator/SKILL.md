@@ -75,7 +75,7 @@ The timing question: at which moments the agent shows work, echoes a wish, or na
 
 - **Narrate the work while it runs — mark the beats.** *(rule 13)* Between the capture echo (rule 12)
     and the delivery report the human is never left reading silence: when a beat lands — a pipeline
-    station passed, a load-bearing find, a change of direction — say it as it happens, one or two plain
+    step passed, a load-bearing find, a change of direction — say it as it happens, one or two plain
     sentences in the roadmap's terms (which wish is in hand, what it gives, what just moved), the same
     voice as the reports. Six teeth, listed below, so the trail accounts for where the session's time went (his
     third ask in the family, 2026-07-06 evening — the delivery reports were good, the mid-work trail thin):

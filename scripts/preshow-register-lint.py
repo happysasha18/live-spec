@@ -156,10 +156,63 @@ def mask_quoted_source(text):
     return masked
 
 
+def _flatten_with_line_map(text):
+    """Return the text with each whitespace run collapsed to one space, and a map from each
+    position in that flattened text back to its line number in the original.
+
+    A coinage broken across a line break escapes a line-by-line scan entirely: "a pipeline\\n
+    station passed" carries the banned collocation and no single line holds it. That is how
+    `pipeline station` survived in skills/communicator/SKILL.md while this lint reported clean,
+    and the commit that claimed to have removed it was wrong (caught 2026-08-05 by an adversarial
+    review of the push). Prose wraps, so this is the ordinary case rather than a rare one.
+    """
+    out = []
+    lines = []
+    line_no = 1
+    prev_space = False
+    for ch in text:
+        if ch.isspace():
+            if ch == "\n":
+                line_no += 1
+            if prev_space:
+                continue
+            out.append(" ")
+            lines.append(line_no)
+            prev_space = True
+        else:
+            out.append(ch)
+            lines.append(line_no)
+            prev_space = False
+    return "".join(out), lines
+
+
 def scan(text):
-    """Return a list of (line_no, pattern_id, snippet, source) for every pattern hit."""
+    """Return a list of (line_no, pattern_id, snippet, source) for every pattern hit.
+
+    Two passes run. The line pass reports a hit with the line it stands on. The flattened pass
+    catches a collocation split across a line break, which the line pass cannot see.
+    """
     hits = []
-    for i, line in enumerate(mask_quoted_source(text).splitlines(), 1):
+    masked = mask_quoted_source(text)
+
+    flat, line_of = _flatten_with_line_map(masked)
+    seen_wrapped = set()
+    for pid, _lang, rx, source, _date in PATTERNS:
+        for m in rx.finditer(flat):
+            start, end = m.start(), m.end() - 1
+            if end >= len(line_of):
+                end = len(line_of) - 1
+            # A hit inside one line is the line pass's to report, with its own snippet.
+            if line_of[start] == line_of[end]:
+                continue
+            key = (line_of[start], pid)
+            if key in seen_wrapped:
+                continue
+            seen_wrapped.add(key)
+            snippet = " ".join(flat[max(0, start - 40):end + 40].split())
+            hits.append((line_of[start], pid, "(wrapped) " + snippet[:110], source))
+
+    for i, line in enumerate(masked.splitlines(), 1):
         if not line.strip():
             continue
         for pid, _lang, rx, source, _date in PATTERNS:

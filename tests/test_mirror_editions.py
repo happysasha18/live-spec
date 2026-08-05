@@ -121,6 +121,62 @@ class TestPublishSourceSelection(unittest.TestCase):
             self.assertIn("SKILL-NAME", result.stdout + result.stderr)
 
 
+class TestAnEditionStaysAsNewAsItsSkill(unittest.TestCase):
+    """Nothing ties an edition to the skill it mirrors, so a repair landing in skills/<name>/ leaves
+    the edition behind and the sync publishes the older text without a word. That happened the day
+    the mechanism shipped: eleven missing inputs were added to the prover skill and the edition never
+    got them. The choice now compares the newest commit on each side.
+    """
+
+    def _git(self, cwd, *args, when=None):
+        # The choice reads the COMMITTER date (%ct), so that is the one the test has to move.
+        env = dict(os.environ,
+                   GIT_AUTHOR_NAME="t", GIT_AUTHOR_EMAIL="t@t",
+                   GIT_COMMITTER_NAME="t", GIT_COMMITTER_EMAIL="t@t")
+        if when:
+            env["GIT_AUTHOR_DATE"] = when
+            env["GIT_COMMITTER_DATE"] = when
+        return subprocess.run(["git", "-C", cwd] + list(args),
+                              capture_output=True, text=True, env=env, timeout=60)
+
+    def _pack(self, tmp, order):
+        """A scratch pack whose two sides are committed in the given order, one second apart."""
+        os.makedirs(os.path.join(tmp, "scripts"))
+        shutil.copy(SCRIPT, os.path.join(tmp, "scripts", "sync-mirrors.sh"))
+        for rel in ("skills/alpha", "editions/alpha"):
+            os.makedirs(os.path.join(tmp, rel))
+            with open(os.path.join(tmp, rel, "SKILL.md"), "w") as fh:
+                fh.write("body\n")
+        self._git(tmp, "init", "-q")
+        for i, side in enumerate(order):
+            when = "2026-01-01T00:%02d:00" % (10 + i * 30)
+            self._git(tmp, "add", "--", side)
+            self._git(tmp, "-c", "user.email=t@t", "-c", "user.name=t",
+                      "commit", "-q", "-m", side, when=when)
+        return tmp
+
+    def test_an_edition_older_than_its_skill_publishes_nothing(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            pack = self._pack(tmp, ["editions/alpha", "skills/alpha"])
+            code, out, err = publish_source(pack, "alpha")
+            self.assertNotEqual(code, 0, "a stale edition must refuse rather than publish")
+            self.assertEqual(out, "")
+            self.assertIn("older than", err)
+
+    def test_an_edition_as_new_as_its_skill_publishes(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            pack = self._pack(tmp, ["skills/alpha", "editions/alpha"])
+            code, out, _ = publish_source(pack, "alpha")
+            self.assertEqual(code, 0)
+            self.assertEqual(out, os.path.join(pack, "editions", "alpha"))
+
+    def test_the_refusal_never_falls_back_to_the_internal_copy(self):
+        """Falling back would publish the internal text under the reader's nose."""
+        with tempfile.TemporaryDirectory() as tmp:
+            pack = self._pack(tmp, ["editions/alpha", "skills/alpha"])
+            self.assertNotIn("skills", publish_source(pack, "alpha")[1])
+
+
 class TestTheSyncUsesTheChoice(unittest.TestCase):
     """The selection is wired into the copy step, so it decides what actually reaches a mirror."""
 
