@@ -1,6 +1,6 @@
 # live-spec
 
-**Ten [Claude Code](https://claude.com/claude-code) skills that turn a wish spoken in passing into a specified, reviewed, tested, committed change — with scripts that block the push when the documents and the code disagree.**
+**Ten working [Claude Code](https://claude.com/claude-code) skills, plus the one shared rulebook they all load. They turn a wish spoken in passing into a specified, reviewed, tested, committed change. Scripts block the push when the documents and the code disagree.**
 
 ---
 
@@ -19,7 +19,19 @@ live-spec closes it. You say the sentence in passing, with nothing to file and n
 /plugin install live-spec@live-spec
 ```
 
-Or clone and run `./install.sh`, which copies the skills into `~/.claude/skills/`. Then attach it to a project. Use [`templates/`](templates/) for a new project. Use [`docs/adoption.md`](docs/adoption.md) for an existing codebase, where the pack writes the first spec from what actually ships. After that everything runs in plain words: *"attach live-spec to this project"*, any wish, *"status"*, *"publish"*.
+Or clone and run `./install.sh`, which copies the skills into `~/.claude/skills/`. Then attach it to a project. Use [`templates/`](templates/) for a new project. Use [`docs/adoption.md`](docs/adoption.md) for an existing codebase, where the pack writes the first spec from what actually ships.
+
+Both paths above install skill files alone. The push gate is a second step, run from your project's root:
+
+```
+bash <your-clone-of-this-repo>/adopt/install-scaffold.sh
+```
+
+That copies the four checks into your project's `guardrails/` and seeds `guardrails.config.json`. Fill your paths in that config. Then add the four check lines to `.git/hooks/pre-push`, listed in [`scaffold/guardrails/README.md`](scaffold/guardrails/README.md). A push runs the checks once that hook calls them.
+
+The checks need Python 3.9 or newer, and a project that is already a git repository.
+
+After that everything runs in plain words: *"attach live-spec to this project"*, any wish, *"status"*, *"publish"*.
 
 ---
 
@@ -30,7 +42,7 @@ A project under the pack keeps one document, `PRODUCT_SPEC.md`, stating what the
 - The document opens with a **glossary**. Every domain noun used anywhere in the spec has a one-sentence definition. An ordinary English word needs no entry.
 - The body is a list of **requirements**. Each requirement has a short **context** (when the situation arises, who is involved, what the reader sees), one **user story** (as a person in a named role, I want one thing, so that one benefit follows), and **acceptance criteria**.
 - The criteria are grouped into **named cases**. A case names a situation and lists two to six numbered steps. Each step carries one trigger and one response, written with the plain keywords *when*, *while*, *if*, *then*, and *shall*.
-- A short code anchor trails at the end of a line and points to the rule's home in the spec. A reader can ignore the anchors. A maintainer follows them.
+- A short code anchor trails at the end of a line and points to the rule's home in the spec. An anchor looks like `[INV-104]` or `[E-6, T-12]`. A reader can ignore the anchors. A maintainer follows them.
 
 The test matrix follows the same format, defined in [`docs/test-matrix-format.md`](docs/test-matrix-format.md): each row is one criterion stating what a fact does and what it must never do, grouped by architecture node, and the coverage table at the document's end is generated from the rows and gated against hand edits. The roadmap and the architecture document follow it too, the architecture defined in [`docs/architecture-format.md`](docs/architecture-format.md): each part of the system stands as one node section naming its responsibility, the spec facts it owns, and where it lives in the code. One shared parser reads every node section, and every check reads a node through it.
 
@@ -40,7 +52,7 @@ Work enters the spec before code. A new behaviour arrives as a spec change, gets
 
 ## What's different
 
-**The gates are scripts.** Two checks decide whether a push is allowed: every fact in the spec has an owning test, and the documents match what shipped. Both are Python on the pre-push hook, mirrored in [CI](.github/workflows/gates.yml). A change that has drifted from its specification is refused. Some other frameworks enforce their specs by asking a model to check. A model having a bad day reports that it checked.
+**The gates are scripts.** Four checks decide whether a push is allowed. Every surface the registry lists shows up in what renders, and every rendered surface is listed. A change to a user-facing file carries a test. Every listed surface cites a spec anchor that exists. No anchor is duplicated and no surface is registered twice. The four are Python on the pre-push hook, mirrored in [CI](.github/workflows/gates.yml). A change that has drifted from its specification is refused. Some other frameworks enforce their specs by asking a model to check. A model having a bad day reports that it checked.
 
 **It can decline a gate it cannot build honestly, and records the reasoning.** A planned gate would have failed a session that worked one step at a time. The [prover's record](docs/prover/) for that landing declined it, with three reasons: independence is a judgment, and a script sees only a diff; the evidence a correct run would leave is destroyed by design; and the one mechanical signal available would fire on every lawful sequential run. It shipped as a written discipline. The rule behind this decision is that a requirement no script can enforce stays a note, and a judgment call is never wired as an automated gate. There are more than three hundred such records in [`docs/prover/`](docs/prover/), including the ones where the reviewer missed something and said so.
 
@@ -83,7 +95,7 @@ The full accounts, including the reviews that missed something and said so, live
 
 ## The skills
 
-`live-spec-base` holds the shared rulebook · `build-pipeline` sequences a change end to end · `spec-author` writes the living spec · [`product-prover`](https://github.com/happysasha18/product-prover) reviews it · `design-reviewer` asks whether the design itself is right once the spec holds together · `test-author` derives the matrix and the tests · `communicator` shows work and asks answerable questions · `feedback-intake` routes what you hand back · `feedback-collector` sends upstream notes with your consent · `text-audit` reads a text as a stranger and fixes where they stop · `publish` gates anything leaving the machine.
+`live-spec-base` holds the shared rulebook · `build-pipeline` sequences a change end to end · `spec-author` writes the living spec · [`product-prover`](skills/product-prover/) reviews it · `design-reviewer` asks whether the design itself is right once the spec holds together · `test-author` derives the matrix and the tests · `communicator` shows work and asks answerable questions · `feedback-intake` routes what you hand back · `feedback-collector` sends upstream notes with your consent · `text-audit` reads a text as a stranger and fixes where they stop · `publish` gates anything leaving the machine.
 
 Map of everything: [`OVERVIEW.md`](OVERVIEW.md) · [pipeline](docs/pipeline.md) · [adoption](docs/adoption.md)
 

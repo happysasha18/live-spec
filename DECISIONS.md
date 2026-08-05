@@ -119,7 +119,8 @@ the defect this surface exists to catch. [[wait]]
   ```
 
 - 2026-07-28 ~21:44 — a session that has closed can answer none of the questions it parked for you.
-  This observation opened the night's largest piece of work. Your words:
+  This observation opened the night's largest piece of work: the standing read of the previous session
+  recorded in the next entry, now Requirement 303 in `PRODUCT_SPEC.md` and queue row 522. Your words:
 
   ```text
   я только не понял кто займется вопросами из файла передачи :) потому что та сессия уже закончилась
@@ -154,9 +155,10 @@ the defect this surface exists to catch. [[wait]]
   and wrote it down nowhere, which is the defect your 12:08 instruction closes. The ground: three rounds
   of readings on one document returned fifteen and ten blocking stops, then five and eight, then nine
   and four. Each round gave two fresh readers the whole file and the reader prompt from
-  `skills/text-audit`. A blocking stop is one place a reader could not go on. No single reader's list
-  repeated. Agreement between the two readers of one round is what
-  closes the reading loop.
+  `skills/text-audit`. A blocking stop is one place a reader could not go on. No reader's list repeated
+  from one round to the next: each fresh reader named a set of its own. Inside a single round the two
+  readers did stop at some of the same places, and `guardrails/progress-baseline.json` holds that count
+  per round. Agreement between the two readers of one round is what closes the reading loop.
 
 - 2026-07-29 12:08 — every decision about how the work runs is written down. A decision that lives only
   in chat does not exist. The entry above is the first one recorded under this instruction.

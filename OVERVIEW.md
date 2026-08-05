@@ -8,8 +8,8 @@ file. Normative rules live in `PRODUCT_SPEC.md` and the skill files; this page e
 A project running under the pack keeps one document, `PRODUCT_SPEC.md`, stating what the product
 promises today. It opens with a glossary that defines every domain noun, then a body of
 requirements: each carries a short context (when the situation arises, who is involved, what the
-reader sees), one user story, and acceptance criteria grouped into named cases. Short codes trail at
-line ends as anchors for the machine; a reader can ignore them. A generated code-to-location table
+reader sees), one user story, and acceptance criteria grouped into named cases. Short codes such as `[INV-104]` or
+`[E-6, T-12]` trail at line ends as anchors for the machine; a reader can ignore them. A generated code-to-location table
 closes the document. The pack's own spec is the reference shape; its version lives in `VERSION`.
 
 The spec is living in a precise sense. Work enters it before code: a new behaviour arrives as a spec
@@ -42,7 +42,12 @@ creates a new surface still enters as a feature (SPEC T-12). A feature walks nin
 9. **Commit and show** — docs travel with the change; the human sees the real render; accepted
    work is pushed to the host's remote by rule, the README re-checked at every push (INV-82).
 
-A bug shortcuts to matrix → test → code. Mechanical guardrails on the pre-push hook enforce the
+A bug shortcuts to matrix → test → code. A refactor changes no behaviour, so it enters at the verify
+station with the full suite and an audit of the touched matrix sections. A docs-only change re-reads the
+changed section as it renders, plus one search for a claim the code no longer supports. The skip door
+covers a one-file edit that adds no state and no visible behaviour, and it still ships a test.
+
+Mechanical guardrails on the pre-push hook enforce the
 structure: a change without a test, an empty surface, or a behaviour without a spec sentence turns
 the push red. The normative walk lives in `skills/build-pipeline/SKILL.md`.
 
@@ -71,7 +76,7 @@ An override exists only as a written, dated line in its profile, with a journal 
 divergence stays visible. The session scope is spoken only and dies with the conversation; making
 it permanent is a promotion into a profile, on the human's word.
 
-## Nine skills, one division of labour
+## Ten working skills, plus the one shared rulebook they all load
 
 - **live-spec-base** — the shared rulebook and the default settings, stated once; on any apparent
   rule conflict, this file wins.

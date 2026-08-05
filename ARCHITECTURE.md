@@ -29,8 +29,8 @@ follows (guardrails).
 
 ## The shape at a glance
 
-live-spec is a skill pack: eleven skills (text a model reads) plus templates, guardrails, and its own
-dogfood documents, all in one repo. Everything executes inside an agent session on the host machine;
+live-spec is a skill pack: ten working skills plus the one shared rulebook they all load, each of them
+text a model reads. Templates, guardrails, and its own dogfood documents sit beside them in one repo. Everything executes inside an agent session on the host machine;
 the repo is the source of truth, the installed copies under `~/.claude/skills/` are what a session
 actually loads, git hooks and CI re-run the same gates, and the human reads rendered pages in a
 browser. No server, no runtime of its own.
