@@ -246,6 +246,12 @@ if ! "$GUARDRAILS/check-push-review.sh"; then
 fi
 
 echo ""
+echo "-- gate ae: named checks (the registry says what each runnable file a skill body names is, SPEC INV-306) --"
+if ! python3 "$GUARDRAILS/check-named-checks.py"; then
+  fail=1
+fi
+
+echo ""
 if [ "$fail" -ne 0 ]; then
   echo "PUSH BLOCKED — one or more gates above failed. Fix them and try again."
   exit 1

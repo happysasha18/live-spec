@@ -112,6 +112,10 @@
     "ac": {
       "proof": "tests/test_push_review.py::test_range_with_no_record_reds",
       "reds": "check-push-review"
+    },
+    "ae": {
+      "proof": "tests/test_check_registry.py::test_gate_reds_a_pack_only_check_named_in_a_skill_body",
+      "reds": "check-named-checks"
     }
   },
   "covered": {

@@ -1,0 +1,256 @@
+{
+  "_comment": "The check registry (SPEC INV-306, requirement 307). One entry per file under scripts/ or guardrails/ that a file under skills/ names in command position, plus every module and data file those entries read at run time. A command position is a path preceded on its line by 'python3 ', 'bash ', 'sh ', or a leading './'; every other path mention is prose and keeps its path. guardrails/check-named-checks.py (gate ae) recomputes every field from the tree and reds a disagreement. Field meanings: kind is check, library or data; name is the handle a skill body uses, carried by a check alone; kit is derived from reach, so an empty reach reads ships, a reach naming a path under the pack's machinery directories reads pack-only, and every other reach reads host-optional; root is argument, working-directory or own-tree; reach is what the check reads that nobody handed it, as a pack-relative path or a plain name for a target outside the tree; needs is what the entry reads at run time, as registry keys. Two derivations the design left open and this file settles: a module another entry imports and that carries no 'if __name__' block is a library even when it opens with a shebang line, and a data file the check carries as its own word list or configuration travels in needs alone while a record describing another actor's tree also stands in reach. Seed measurement on 2026-08-06: 32 entries, holding 21 checks, 3 libraries and 8 data files; over the 21 checks, 14 ships, 3 host-optional and 4 pack-only, and 14 record root argument, 2 working-directory and 5 own-tree.",
+  "entries": {
+    "guardrails/check-doc-findings-bound.py": {
+      "kind": "check",
+      "name": "doc-findings-bound",
+      "kit": "pack-only",
+      "root": "own-tree",
+      "reach": ["guardrails/rule-census.json"],
+      "needs": ["guardrails/rule-census.json", "scripts/rule-census.py"]
+    },
+    "guardrails/check-freeze.sh": {
+      "kind": "check",
+      "name": "freeze",
+      "kit": "host-optional",
+      "root": "working-directory",
+      "reach": ["PRODUCT_SPEC.md", "ARCHITECTURE.md", "TEST_MATRIX.md"],
+      "needs": ["scripts/spec-freeze.py"]
+    },
+    "guardrails/check-index-generated.py": {
+      "kind": "check",
+      "name": "index-generated",
+      "kit": "ships",
+      "root": "argument",
+      "reach": [],
+      "needs": ["guardrails/specformat.py", "guardrails/nonempty_input.py"]
+    },
+    "guardrails/check-language-rules.py": {
+      "kind": "check",
+      "name": "language-rules",
+      "kit": "pack-only",
+      "root": "own-tree",
+      "reach": [
+        "guardrails/language-rules.json",
+        "hooks/language-laws.json",
+        "skills/text-audit/references/reader-prompt.md",
+        "skills/text-audit/references/human-prose-rules.md"
+      ],
+      "needs": [
+        "guardrails/specformat.py",
+        "guardrails/nonempty_input.py",
+        "guardrails/language-rules.json",
+        "scripts/gen-language-consumers.py"
+      ]
+    },
+    "guardrails/check-matrix-reference.py": {
+      "kind": "check",
+      "name": "matrix-reference",
+      "kit": "ships",
+      "root": "argument",
+      "reach": [],
+      "needs": [
+        "guardrails/specformat.py",
+        "guardrails/nonempty_input.py",
+        "scripts/build-matrix-reference.py"
+      ]
+    },
+    "guardrails/check-one-name.py": {
+      "kind": "check",
+      "name": "one-name",
+      "kit": "ships",
+      "root": "argument",
+      "reach": [],
+      "needs": [
+        "guardrails/specformat.py",
+        "guardrails/nonempty_input.py",
+        "guardrails/one-name-aliases.json"
+      ]
+    },
+    "guardrails/check-requirement-shape.py": {
+      "kind": "check",
+      "name": "requirement-shape",
+      "kit": "ships",
+      "root": "argument",
+      "reach": [],
+      "needs": ["guardrails/specformat.py", "guardrails/nonempty_input.py"]
+    },
+    "guardrails/check-vocabulary.py": {
+      "kind": "check",
+      "name": "vocabulary",
+      "kit": "ships",
+      "root": "argument",
+      "reach": [],
+      "needs": [
+        "guardrails/specformat.py",
+        "guardrails/nonempty_input.py",
+        "guardrails/spec-coinages.json"
+      ]
+    },
+    "guardrails/check-weak-words.py": {
+      "kind": "check",
+      "name": "weak-words",
+      "kit": "ships",
+      "root": "argument",
+      "reach": [],
+      "needs": [
+        "guardrails/specformat.py",
+        "guardrails/nonempty_input.py",
+        "guardrails/weak-words.json"
+      ]
+    },
+    "guardrails/check-worker-restore.py": {
+      "kind": "check",
+      "name": "worker-restore",
+      "kit": "host-optional",
+      "root": "working-directory",
+      "reach": ["~/.claude/projects"],
+      "needs": ["guardrails/nonempty_input.py"]
+    },
+    "scripts/build-index.py": {
+      "kind": "check",
+      "name": "build-index",
+      "kit": "ships",
+      "root": "argument",
+      "reach": [],
+      "needs": ["guardrails/specformat.py", "guardrails/nonempty_input.py"]
+    },
+    "scripts/build-matrix-reference.py": {
+      "kind": "check",
+      "name": "build-matrix-reference",
+      "kit": "ships",
+      "root": "argument",
+      "reach": [],
+      "needs": ["guardrails/nonempty_input.py"]
+    },
+    "scripts/gen-language-consumers.py": {
+      "kind": "check",
+      "name": "gen-language-consumers",
+      "kit": "pack-only",
+      "root": "own-tree",
+      "reach": [
+        "guardrails/language-rules.json",
+        "hooks/language-laws.json",
+        "PRODUCT_SPEC.md",
+        "SKILL.md"
+      ],
+      "needs": ["guardrails/nonempty_input.py", "guardrails/language-rules.json"]
+    },
+    "scripts/preshow-legibility-lint.py": {
+      "kind": "check",
+      "name": "preshow-legibility-lint",
+      "kit": "ships",
+      "root": "argument",
+      "reach": [],
+      "needs": []
+    },
+    "scripts/preshow-lint.py": {
+      "kind": "check",
+      "name": "preshow-lint",
+      "kit": "ships",
+      "root": "argument",
+      "reach": [],
+      "needs": []
+    },
+    "scripts/preshow-register-lint.py": {
+      "kind": "check",
+      "name": "preshow-register-lint",
+      "kit": "ships",
+      "root": "argument",
+      "reach": [],
+      "needs": []
+    },
+    "scripts/render-doc.py": {
+      "kind": "check",
+      "name": "render-doc",
+      "kit": "ships",
+      "root": "argument",
+      "reach": [],
+      "needs": []
+    },
+    "scripts/rule-census.py": {
+      "kind": "check",
+      "name": "rule-census",
+      "kit": "pack-only",
+      "root": "own-tree",
+      "reach": [
+        "guardrails/language-rules.json",
+        "DECISIONS.md",
+        "FEEDBACK.md",
+        "JOURNAL.md",
+        "MIGRATION.md",
+        "WAITING.md"
+      ],
+      "needs": [
+        "guardrails/language-rules.json",
+        "scripts/spec-style-lint.py",
+        "scripts/preshow-register-lint.py"
+      ]
+    },
+    "scripts/spec-freeze.py": {
+      "kind": "check",
+      "name": "spec-freeze",
+      "kit": "ships",
+      "root": "argument",
+      "reach": [],
+      "needs": ["scripts/spec-freeze.json"]
+    },
+    "scripts/spec-style-lint.py": {
+      "kind": "check",
+      "name": "spec-style-lint",
+      "kit": "ships",
+      "root": "argument",
+      "reach": [],
+      "needs": [
+        "scripts/gate_common.py",
+        "scripts/spec-style-lint.json",
+        "scripts/spec-waivers.json",
+        "guardrails/spec-coinages.json"
+      ]
+    },
+    "scripts/sweep-rendered.py": {
+      "kind": "check",
+      "name": "sweep-rendered",
+      "kit": "host-optional",
+      "root": "own-tree",
+      "reach": ["attic/MANIFEST.md"],
+      "needs": ["scripts/render-doc.py"]
+    },
+    "guardrails/specformat.py": {
+      "kind": "library",
+      "needs": []
+    },
+    "guardrails/nonempty_input.py": {
+      "kind": "library",
+      "needs": []
+    },
+    "scripts/gate_common.py": {
+      "kind": "library",
+      "needs": []
+    },
+    "guardrails/language-rules.json": {
+      "kind": "data"
+    },
+    "guardrails/one-name-aliases.json": {
+      "kind": "data"
+    },
+    "guardrails/rule-census.json": {
+      "kind": "data"
+    },
+    "guardrails/spec-coinages.json": {
+      "kind": "data"
+    },
+    "guardrails/weak-words.json": {
+      "kind": "data"
+    },
+    "scripts/spec-freeze.json": {
+      "kind": "data"
+    },
+    "scripts/spec-style-lint.json": {
+      "kind": "data"
+    },
+    "scripts/spec-waivers.json": {
+      "kind": "data"
+    }
+  }
+}

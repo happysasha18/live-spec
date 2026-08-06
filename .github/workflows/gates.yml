@@ -113,6 +113,8 @@ jobs:
         env:
           LIVE_SPEC_DIFF_BASE: ${{ github.event.before }}
         run: guardrails/check-push-review.sh
+      - name: gate ae — named checks (the registry says what each runnable file a skill body names is, SPEC INV-306)
+        run: python3 guardrails/check-named-checks.py
 
   # After the gates pass on a real push to main, sync the standalone mirror repos from the
   # pack — the durable, cross-machine arm of the same job the local pre-push hook does (the
