@@ -140,6 +140,7 @@ REFERRER_DIRS="$(reach_class referrer_dirs | tr '\n' ' ')"
 # [ROADMAP 366].
 ALWAYS_SCOPED=(
   "tests/test_traceability.py"   # integrity rider — rides every scoped run for suite integrity
+  "tests/test_setup_entry.py"    # enumerating-infra test — globs skills/*/SKILL.md, invisible to by-name discovery
 )
 # --- ALWAYS_SCOPED (permanent scoped-run riders) END ---
 
