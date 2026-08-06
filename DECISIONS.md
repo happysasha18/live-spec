@@ -50,6 +50,13 @@ the one slot nothing questions. That is the defect this surface exists to catch.
 
 ## On record
 <!-- record:on -->
+- 2026-08-06 ~21:00 — the board reads whole, soon (row 166, Live work board). Your words in chat:
+  ideally, soon enough, you want to see everything on the board — all the backlog tasks — readable;
+  there is one source of truth, every task referred from the product spec and the architecture; the
+  done tasks need hiding as they will become a pile; the in-card step statuses should be emoticons
+  too; a comment on every step about what was done is good and must be utterly understandable as
+  well; the sentence "It replaces asking the agent how things are going" is broken English again;
+  and the Live work board task now reads understandably.
 - 2026-08-06 ~20:47 — the variant-5 board form holds, with four amendments (row 166, Live work
   board). Your words in chat: the board looks good now; the done part should be with emoticons to
   save the place — readability is the main thing; the same names will be referred in every
