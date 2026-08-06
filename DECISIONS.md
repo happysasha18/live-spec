@@ -50,6 +50,13 @@ the one slot nothing questions. That is the defect this surface exists to catch.
 
 ## On record
 <!-- record:on -->
+- 2026-08-06 ~20:47 — the variant-5 board form holds, with four amendments (row 166, Live work
+  board). Your words in chat: the board looks good now; the done part should be with emoticons to
+  save the place — readability is the main thing; the same names will be referred in every
+  communication, this window included; the "more" part auto-closing is frustrating; a reference
+  like "17 findings" must say what the findings are and how they relate to the specific task; and
+  option bullets have no place on a card already in progress — options are shown way before the
+  ticket is accepted.
 - 2026-08-06 ~20:36 — the variant-4 tiles failed your read, and the board gains lanes and per-task
   technical details (row 166). Your words in chat: there are also lanes for parallel agents, and
   also info per task like what is the branch and worktree; frankly, you do not get what is on the
