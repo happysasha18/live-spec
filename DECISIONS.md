@@ -50,6 +50,14 @@ the one slot nothing questions. That is the defect this surface exists to catch.
 
 ## On record
 <!-- record:on -->
+- 2026-08-06 ~20:35 — approvals are rare; transparency is the standing ask (row 166 and the method
+  wide). Your words in chat: you do not like the idea of manual approval for everything; it should
+  be rare — maybe more in the start, but in three to six months, as models grow up, readability and
+  consistency improve anyway, and all you will need to see is transparency. Same message, the card's
+  reading order: the short name is a super-sharp semantic handle — the "ah, this is what I think it
+  is" recognition every time the ticket is referred — then the description describing the behavior,
+  then all the other details. And a task is a part of the product spec, and that part is featured on
+  the board.
 - 2026-08-06 ~20:16 — the board is a kanban over the whole queue (row 166). Your words in chat,
   looking at the variant-3 sample: the page shows and maintains all the tasks — done, in progress,
   and the roadmap; each task carries a super-understandable short referrable name, a description
