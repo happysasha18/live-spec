@@ -3,10 +3,20 @@
 A digest, at or under 100 lines (SPEC INV-48). One status block stands here at a time, and every
 update replaces it. Dated history lives in `JOURNAL.md`.
 
-## LIVE STATE (2026-08-05, 22:26)
+## LIVE STATE (2026-08-06, 09:29)
 
-The branch is pushed. Every gate in `bash guardrails/pre-push` passed, and the day's 57 commits
-carry one adversarial review record at `docs/push-review/2026-08-05-day-of-readability-repairs.md`.
+The 2026-08-05 branch went out at 22:46 with every gate green. The morning added the records the
+new day demands and the tests the budget rule was missing, and that work waits on one more push.
+
+A fresh reader proved the four never-bend criteria untested: removing them left the suite green.
+They now carry a matrix row and a test that reds when any one is removed. A prover pass over the same delta
+found two defects in it. The clause on raising a fresh clean-context agent named no rung. It also
+carried two codes where five belong. The clause is split in two now, and its codes stand.
+
+A review of the pack read the attribution beside the budget rule and found a phrase the owner
+never said standing inside the quotation. The quotation now holds his words alone. The same class was caught twice
+yesterday. That is why the queue holds row 550. A decision recorded as his must carry his own
+words and a pointer to the exchange, and the check must red a bare date.
 
 The afternoon ran the whole forward queue through parallel workers. The audit skill
 closed reading round 30 and 31, and every stop the two readers shared. Four adversarial reviewers then read the day's commits and found eleven defects; all
