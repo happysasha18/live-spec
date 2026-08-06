@@ -9,7 +9,7 @@ instead of things you have to remember.
 
 <!-- generated:count:gate-roster — scripts/gen-tree-counts.py owns the block below -->
 
-The push hook runs 30 distinct gate letters today. The roster below is the whole set, one line per gate as `guardrails/pre-push` announces it.
+The push hook runs 31 distinct gate letters today. The roster below is the whole set, one line per gate as `guardrails/pre-push` announces it.
 
 Count them yourself, and list them:
 
@@ -26,6 +26,7 @@ A push of this repository is refused where either command disagrees with what st
 -- gate ab: handover provenance (a session handover names the transcript, the extract and the agent that wrote it, SPEC INV-302) --
 -- gate ac: push review (the delta being pushed carries its fresh adversarial review record, SPEC INV-304) --
 -- gate ad: published tree counts (every count this repository publishes about its own tree matches the tree, and the reproduction command beside it returns the published number, SPEC INV-305) --
+-- gate ae: named checks (the registry says what each runnable file a skill body names is, SPEC INV-306) --
 -- gate b: test suite green (scoped by the diff's reach, SPEC INV-45) --
 -- gate c: every spec anchor owned by exactly one architecture node --
 -- gate d: TEST_MATRIX.md generated Reference agrees with the body (SPEC INV-273/INV-218) --

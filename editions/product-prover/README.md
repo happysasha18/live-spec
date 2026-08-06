@@ -48,7 +48,7 @@ team already uses.
 A model reads the document afresh each time, so two runs over one unchanged file return overlapping
 lists of unequal length. That gap measures the run, and the document is the thing held constant.
 
-<!-- PLACEHOLDER, splice the real record here as one sentence, no number before it exists: "Two runs over this sample on <date> returned N and M findings, and K of them were reached by both; the full output of each run is in <path>." -->
+Two runs over this sample on 2026-08-06 returned 32 and 30 findings, and 24 of them were reached by both; the full output of each run is in [`examples/sample-review-run-1.md`](examples/sample-review-run-1.md) and [`examples/sample-review-run-2.md`](examples/sample-review-run-2.md).
 
 Read a single count as one careful reader's pass. The findings both runs reached are the ones to act
 on first.
