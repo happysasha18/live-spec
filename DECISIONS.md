@@ -76,14 +76,21 @@ the one slot nothing questions. That is the defect this surface exists to catch.
   log of everything (tonight's acceptance is a single bullet on the in-progress card); no legend —
   everything self-explanatory; the blue vertical lines in the subtasks questioned; "that sample is
   variant 3" is opaque; and whatever is in work is something the seat can take on its own without
-  questions — you hope most tasks will be like that.
+  questions — you hope most tasks will be like that. The same turn asked: maybe find some kanban
+  process skill and learn from it if needed — answered the same evening by the two studies, the
+  method's and the tools'.
 - 2026-08-06 ~21:00 — the board reads whole, soon (row 166, Live work board). Your words in chat:
   ideally, soon enough, you want to see everything on the board — all the backlog tasks — readable;
   there is one source of truth, every task referred from the product spec and the architecture; the
   done tasks need hiding as they will become a pile; the in-card step statuses should be emoticons
   too; a comment on every step about what was done is good and must be utterly understandable as
   well; the sentence "It replaces asking the agent how things are going" is broken English again;
-  and the Live work board task now reads understandably.
+  and the Live work board task now reads understandably. Two more remarks of the same turn: where
+  the frozen standard lives was unclear to you (answered in chat at ~21:01 — a frozen copy under
+  the project's documents folder, held and opened by the builder); and you may never open the
+  board yourself — the seat holding this representation being sort of enough — a purpose remark
+  the board's design carries: the page serves your eye when you want it, and binds the seat's own
+  bookkeeping always.
 - 2026-08-06 ~20:47 — the variant-5 board form holds, with four amendments (row 166, Live work
   board). Your words in chat: the board looks good now; the done part should be with emoticons to
   save the place — readability is the main thing; the same names will be referred in every
@@ -112,8 +119,10 @@ the one slot nothing questions. That is the defect this surface exists to catch.
   crosses several modules, and an attached plan saying what can run in parallel if the budget
   permits; the whole reads as a kanban board showing progress and which worker is doing which task;
   recurring workers may get names and icons, personalities to be developed and shown for your eye.
-- 2026-08-06 ~19:28 — the board's tasks carry time accounting (row 166). Your words in chat: for
-  every task, add the time the seat estimated for it and the time it actually took. Both figures
+- 2026-08-06 ~19:28 — the board's tasks carry time accounting (row 166). Your words in chat,
+  opening the evening: work down the list — a one-time instruction for that session, which the
+  seat read as resuming the queue's head; and for every task, add the time the seat estimated for
+  it and the time it actually took. Both figures
   stand on the task's board row, at take-up as the estimate and at the close as the pair.
 - 2026-08-06 ~19:17 — the work board is the next movement, ahead of the rest of the queue (row 166).
   Your words in chat: every task carries a name that is understandable, a description that is
