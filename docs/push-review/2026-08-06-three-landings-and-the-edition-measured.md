@@ -3,6 +3,7 @@
 PUSH-REVIEW
 
 Range: 9b3a666..a4a9f0c
+Range note: the range pushed in two portions; the second portion's base 48ccd89 (the commit that first shipped this record) and its commits c0a6e3a and a4a9f0c all sit inside the reviewed range above.
 
 Reviewed commits (every commit in the range touches a file outside `docs/push-review/`):
 - a4a9f0c The four unregistered count surfaces state their real owners — NEXT_STEPS.md drops the claim that each of the four carries its own later row and points the undeclared-page class at row 563 and the other three at row 555's non-goal
