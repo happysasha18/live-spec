@@ -3336,7 +3336,8 @@ class TestGroundingLaw(unittest.TestCase):
         spec = re.sub(r"\s+", " ", read("PRODUCT_SPEC.md"))
         for needle in (
             "Requirement 310: A work block is grounded in the person's sight before it runs",
-            "open it by naming its root — the person's dated request, a standing instruction of "
+            "open it by naming its root beside the pipeline stage, the demanding rule, and the estimate",
+            "A root *shall* be the person's dated request, a standing instruction of "
             "theirs, or a reason stated plainly enough for the person to judge",
             "The system *shall* start no work block whose root it cannot name.",
             "shall* name no machinery — an alarm, a gate, a scheduled reminder — as a root",
@@ -3345,9 +3346,10 @@ class TestGroundingLaw(unittest.TestCase):
             self.assertIn(needle, spec, "SPEC missing the grounding law: %s" % needle)
         pipeline = re.sub(r"\s+", " ", read(os.path.join("skills", "build-pipeline", "SKILL.md")))
         for needle in (
-            "opens by naming its root — the person's dated request, a standing instruction, or a "
-            "stated reason, machinery never a root",
-            "accounted against its announced plan line (SPEC INV-314)",
+            "Each work block in the report opens by naming its root.",
+            "The root is the person's dated request, a standing instruction, or a stated reason, "
+            "and machinery is never a root.",
+            "accounts each block against its announced plan line (SPEC INV-314)",
         ):
             self.assertIn(needle, pipeline, "build-pipeline SKILL.md missing the grounding law: %s" % needle)
         self.assertIn("test_grounding_law", read("TEST_MATRIX.md"), "M-545 must pin this test")

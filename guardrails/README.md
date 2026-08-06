@@ -117,17 +117,17 @@ behaviour takes more than one line. A gate with no note here runs all the same.
 
 **`pre-commit`** — the concurrent-edit fence. It protects against two sessions writing the
 same repo at once. It is **off by default**: if no `.live-spec-fence` file exists at the
-repo root, the hook does nothing. A session opts in by running `guardrails/fence-refresh.sh`,
-which records the commit it started from on the fence file's first line and the arming
-session's token on its second (`$LIVE_SPEC_SESSION_ID`, else `$CLAUDE_CODE_SESSION_ID`, else
-empty). From then on, if the commit at the repo's tip ever moves without that session's
-knowledge (another writer got there first), the next commit is blocked with a message
-explaining what to review and how to re-arm the fence. The session's own commits stay free:
-the `post-commit` hook re-arms the fence to the new tip when the committing session's token
-matches the recorded one (ROADMAP row 572), so only the arming session extends its own arm. A
-commit from another window carries a different token, re-arms nothing, and leaves the recorded
-tip stale, so the next commit from anyone still blocks. With no token in the environment the
-fence keeps its old manual-refresh behavior.
+repo root, the hook does nothing. A session opts in by running `guardrails/fence-refresh.sh`.
+The refresh records the starting commit on line one and the arming session's token on line
+two (`$LIVE_SPEC_SESSION_ID`, else `$CLAUDE_CODE_SESSION_ID`, else empty). From then on, if
+the commit at the repo's tip ever moves without that session's knowledge (another writer got
+there first), the next commit is blocked with a message explaining what to review and how to
+re-arm the fence. The session's own commits stay free. The `post-commit` hook re-arms the
+fence to the new tip when the committing session's token matches the recorded one (ROADMAP
+row 572). Only the arming session extends its own arm. A commit from another window carries a
+different token and re-arms nothing. The recorded tip then goes stale, so the next commit
+from anyone still blocks. With no token in the environment the fence keeps its old
+manual-refresh behavior.
 
 `pre-commit` also runs two content gates. It rejects a staged line stamped with a future time
 (`check-future-times.sh`, SPEC `INV-24`), and it runs the **deferral-marker gate**

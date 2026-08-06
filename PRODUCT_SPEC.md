@@ -7803,30 +7803,34 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 ## Requirement 310: A work block is grounded in the person's sight before it runs
 
-**Context:** Sessions entered long work blocks the person could not connect to any request of theirs (his words, 2026-08-07 00:17, 00:42 and 00:46). A block of work and every line reporting it opens by naming its root, so the person can correct the state by eye at any moment.
+**Context:** Sessions entered long work blocks the person could not connect to any request of theirs (his words, 2026-08-07 00:17, 00:42 and 00:46). A block and every line reporting it open by naming their root, so the person can correct the state by eye.
 
-**User Story:** As a person leading the work, I want every work block and report line to open by naming the request it serves, so that I can judge at a glance why the session is doing what it is doing.
+**User Story:** As a person leading the work, I want every work block and report line to open by naming the request it serves. Then I can judge at a glance why the session does what it does.
 
 ### Acceptance Criteria
 
 **Case: the root is named before work runs**
 
-1. *when* a work block starts, the system *shall* open it by naming its root — the person's dated request, a standing instruction of theirs, or a reason stated plainly enough for the person to judge — beside the pipeline stage, the demanding rule, and the estimate. [INV-314]
-2. The system *shall* start no work block whose root it cannot name. [INV-314]
-3. The system *shall* name no machinery — an alarm, a gate, a scheduled reminder — as a root, and *shall* name instead the person's instruction the machinery carries. [INV-314]
+1. *when* a work block starts, the system *shall* open it by naming its root beside the pipeline stage, the demanding rule, and the estimate. [INV-314]
+2. A root *shall* be the person's dated request, a standing instruction of theirs, or a reason stated plainly enough for the person to judge. [INV-314]
+3. The system *shall* start no work block whose root it cannot name. [INV-314]
+4. The system *shall* name no machinery — an alarm, a gate, a scheduled reminder — as a root. [INV-314]
+5. The system *shall* name instead the person's instruction the machinery carries. [INV-314]
 
 **Case: reports carry the same root**
 
-4. The system *shall* open every report line with its block's root, and *shall* count a report line missing its root a defect. [INV-314, INV-28]
+6. The system *shall* open every report line with its block's root, and *shall* count a report line missing its root a defect. [INV-314, INV-28]
 
 **Case: a step outside the plan**
 
-5. *when* a running block is about to take a step outside its announced plan, the system *shall* stop and announce the step and its root before taking it. [INV-314]
+7. *when* a running block is about to step outside its announced plan, the system *shall* stop. [INV-314]
+8. The system *shall* announce the out-of-plan step and its root before taking it. [INV-314]
 
 **Case: the plan is the account**
 
-6. The system *shall* keep each task's plan as the home a block is announced against — the work board's per-task plan once the board ships, the written plan page until then. [INV-314, INV-308]
-7. The system *shall* account each block against its plan line in the delivery report. [INV-314, INV-103]
+9. The system *shall* keep each task's plan as the home a block is announced against. [INV-314, INV-308]
+10. That home *shall* be the work board's per-task plan once the board ships, and the written plan page until then. [INV-314, INV-308]
+11. The system *shall* account each block against its plan line in the delivery report. [INV-314, INV-103]
 
 
 ## Reference

@@ -626,9 +626,9 @@ and why each is a trap (SPEC T-12, T-15, INV-4, INV-5, INV-15).
   commit (SPEC INV-103, INV-276), and names the reads dispatched beside the work delegated (SPEC INV-137).
   See [references/delegation-protocol.md](references/delegation-protocol.md) for the full protocol: the
   routing rule, the brief's three birth laws, the worker contract, and the delegation-reporting duty.
-  Each work block in the report opens by naming its root — the person's dated request, a standing
-  instruction, or a stated reason, machinery never a root — and is accounted against its announced plan
-  line (SPEC INV-314).
+  Each work block in the report opens by naming its root. The root is the person's dated request, a
+  standing instruction, or a stated reason, and machinery is never a root. The report accounts each
+  block against its announced plan line (SPEC INV-314).
 - **A worker never restores a working tree with a git command (SPEC INV-298; the gate INV-299).** Every
   brief this skill composes carries this clause verbatim. Before a worker mutates a file it means to put
   back, it reads that file and holds its bytes. A worker puts a file back by WRITING ITS OWN SAVED BYTES.
