@@ -2,9 +2,11 @@
 
 PUSH-REVIEW
 
-Range: 9b3a666..fc57abe
+Range: 9b3a666..a4a9f0c
 
 Reviewed commits (every commit in the range touches a file outside `docs/push-review/`):
+- a4a9f0c The four unregistered count surfaces state their real owners — NEXT_STEPS.md drops the claim that each of the four carries its own later row and points the undeclared-page class at row 563 and the other three at row 555's non-goal
+- c0a6e3a The forward queue names the push review's four new rows — one new item in NEXT_STEPS.md naming rows 562 to 565, and a renumber of the two items below it
 - fc57abe The push review's three blocking findings close, and the rest join the queue — the description-length figures state the measured 493, the skill-review record says the closing-sentence recommendation was taken, matrix row M-518 says the loading is unscored, queue rows 562 to 565 open, and the gate page gains its note for gate ad
 - 996a405 The session's record: rows 555-557 landed, the suite's five reds repaired at their roots
 - ce04fc6 The edition's README states what two real runs support, and the counts catch up
@@ -51,7 +53,24 @@ Re-run at fc57abe, after the repair of the three blocking findings:
 - `python3 guardrails/check-doc-findings-bound.py` — OK. Still 114 live documents, 20 at zero, none above its record.
 - `python3 -m pytest tests/test_setup_entry.py tests/test_traceability.py tests/test_check_registry.py -q` — 219 passed in 6.87s. The eval and matrix edits break no test that reads them.
 
-Findings: ten. Three of them blocked, and all three closed in fc57abe, which I re-verified on the artifacts. The ten findings below describe the tree as I found it at 996a405. Their disposition after fc57abe: findings 1, 2 and 3 are repaired, and the Blocking section states what I checked for each. Finding 4 became queue row 563, finding 5 became row 564, and finding 7 became row 565. Finding 8 is repaired, since guardrails/README.md now carries the note for gate ad. Findings 6, 9 and 10 carry no disposition and stand as written.
+Run at c0a6e3a, over the forward-queue edit:
+
+- Forward-queue numbering re-derived from NEXT_STEPS.md — items 1 through 8, no gap and no duplicate, and no text elsewhere in the file cites an item by its old number.
+- Item 6's four descriptions read against ROADMAP.md — they name row 562's scoring run, row 563's counts outside the declared registry, row 564's re-implemented walk readers, and row 565's two ledger shapes, in that order. All four rows stand queued and dated 2026-08-06, and each cites the push review as its source.
+- NEXT_STEPS.md re-measured — 85 lines against the 100-line digest cap, and one LIVE STATE block.
+- `python3 guardrails/check-doc-bound.py` — OK, gate z. Four growable documents read, each within its declared bound.
+- `python3 guardrails/check-doc-findings-bound.py` — OK. Still 114 live documents, 20 at zero, none above its record.
+- ROADMAP swept for a row covering each of the four surfaces the counts registry leaves outside — only rows 555 and 563 touch the class at all. See finding 11.
+
+Run at a4a9f0c, over the repair of finding 11:
+
+- NEXT_STEPS.md read again — the phrase "each with its own later row" is gone. The paragraph now points the undeclared-page class at row 563 and the other three at row 555's non-goal. Row 563 stands queued and its body names counts on pages the registry does not declare. Row 555's non-goal names a chat number, a rendered-artifact number and a shipped-skill-body count, saying each stays unheld. Both pointers land on what the rows actually say.
+- Forward queue re-derived — items 1 through 8 still, no gap and no duplicate, 86 lines against the 100-line cap, one LIVE STATE block.
+- `python3 guardrails/check-doc-bound.py` — OK, gate z, four documents within their bounds.
+- `python3 guardrails/check-doc-findings-bound.py` — OK. 114 live documents, 20 at zero, none above its record.
+- `python3 guardrails/check-tree-counts.py` — OK. Four of four rows matched.
+
+Findings: eleven. Three of them blocked, and all three closed in fc57abe, which I re-verified on the artifacts. Findings 1 to 10 describe the tree as I found it at 996a405. Their disposition after fc57abe: findings 1, 2 and 3 are repaired, and the Blocking section states what I checked for each. Finding 4 became queue row 563, finding 5 became row 564, and finding 7 became row 565. Finding 8 is repaired, since guardrails/README.md now carries the note for gate ad. Findings 6, 9 and 10 carry no disposition and stand as written. Finding 11 came out of the c0a6e3a check and is repaired in a4a9f0c, which I re-verified against rows 555 and 563.
 
 The three landings are real work and most of what they publish survives re-measurement. Every count the new registry declares matches the tree, the census total matches the progress page, the registry composition figures in the commit messages are exact, and the two-run comparison's arithmetic holds row by row. The defects sit in the numbers and claims the new gates do not reach.
 
@@ -74,6 +93,8 @@ The three landings are real work and most of what they publish survives re-measu
 9. **Gate k's green over this range proves nothing.** The baseline under `.spec-freeze/` was re-blessed at 16:14 on 2026-08-06. PRODUCT_SPEC.md's last change in this range landed at 16:12 and ARCHITECTURE.md's and TEST_MATRIX.md's at 16:13. So the freeze verifies the delta against a baseline taken from the delta. `guardrails/check-freeze.sh` documents the per-session blessing as its design, so this is a known reach limit rather than a new defect. It is written here because a reader of the push log would otherwise read gate k's green as coverage of these documents. Severity: low.
 
 10. **The last commit's subject claims repairs the delta does not carry.** 996a405 says the suite's five reds were repaired at their roots. The JOURNAL entry beneath it names three installed-copy syncs, one hook reinstall and one freeze re-bless among the repairs. None of those is in the pushed tree. Two repairs are: the cleanup notice added to `scripts/gen-tree-counts.py` and the extract line added to the handover. A fresh clone reproduces neither the reds nor the other three repairs. Severity: low.
+
+11. **The forward queue promises four later rows and three of them do not exist.** NEXT_STEPS.md's "Where the numbers live" section says four surfaces stay outside `guardrails/tree-counts.json`, "each with its own later row", then names them: a number a session writes into chat, a number in a rendered artifact, a count inside a skill body, and a count on an undeclared page. I swept all 191 ROADMAP rows. Only rows 555 and 563 touch the class. Row 555 names the first three in its Non-goal and says they stay unheld, citing no row. Row 563 covers the fourth. So three of the four surfaces have no later row, and when the sentence was written in e68045f none of the four did. The substance holds and the promise of coverage does not. This came out of the c0a6e3a check rather than from that commit, which touched only the forward queue's items. Severity: medium. Repaired in a4a9f0c: the coverage promise is dropped, and each surface now points at what really holds it.
 
 Two things I checked and cleared, recorded so the absence rests on the coverage rather than on silence. The rewrite of Requirement 169's criterion 4 replaces a stale four-check sentence with five bullets, and each bullet matches one test method in `templates/test_scaffold.template.py`, including the generated-Reference check that replaced the retired coverage checklist. The removal of the census and the doc-findings gate from `skills/text-audit/SKILL.md` leaves the body's three count claims agreeing with its own list, and the four checks that remain named in command position all carry a ships or host-optional kit in the registry.
 
