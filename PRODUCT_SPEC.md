@@ -3844,10 +3844,32 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: the scaffold defines the first green**
 
-4. The scaffold suite *shall* judge the first delivery green by four checks: the document set exists; every header is filled with content; the coverage checklist is present; and one live-state block is present. [B-1]
+4. The scaffold suite *shall* judge the first delivery green by what the shipped scaffold runs. [B-1, INV-274]
+   - the six documents stand, and none is an empty shell;
+   - the spec's opening carries a version and a date;
+   - the matrix carries its generated reference and its coverage teaching;
+   - the queue is a table;
+   - the resume file holds at most one live-state block.
 5. *when* a header holds a leftover template placeholder, the scaffold suite *shall* count that header as red. [B-1]
 6. The scaffold green *shall* stand as the starting floor; the first delivery *shall* ship its own first real test beside the scaffold. [B-1]
    [GAP: the spec does not state what content a live-state block must carry for the scaffold suite to count it present.]
+
+**Case: a second founding is safe**
+
+7. *when* a founding runs on a tree a prior founding began, the system *shall* read each phase's precondition from the tree. [INV-89, B-1]
+   - a destination that already stands is reported to the person as done, and skipped.
+8. The system *shall* overwrite no file it did not create in the running founding. [INV-7, B-1]
+   - a destination standing with its template placeholders intact is named to the person, and replaced only where the person says so.
+
+**Case: the host profile carries the host's own lines**
+
+9. *when* a founding writes `.live-spec/profile.md`, the system *shall* write one line for every question in the founding-question set whose key names no path. [B-3, INV-227]
+   - the economy rung and the answered set's version stand beside those lines.
+10. The system *shall* write no setting about the person into the host profile, and *shall* use no personal-profile template as that file's source. [E-13, B-3]
+
+**Case: the surface registry takes the config's name**
+
+11. *when* a founding creates the surface registry, the system *shall* create it after `guardrails.config.json` exists, and *shall* take its filename from that config's registry path. [INV-97, E-10]
 
 ---
 
@@ -7472,6 +7494,137 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
     - no script decides whether the files the record names were read;
     - the record's named commits, files, checks and findings are the pressure a machine can apply.
 
+---
+
+## Requirement 306: A count this repository publishes about its own tree is built from the tree
+
+**Context:** A reader who meets a number decides whether to trust it. A count a person typed goes stale as the tree grows. The reader cannot tell a fresh count from a stale one. So every count this repository publishes about its own tree carries a declared measurement, a home, and a push gate.
+
+**User Story:** As a reader, I want each count built from the tree, so that a figure I cannot check never reaches me.
+
+### Acceptance Criteria
+
+**Case: every published count is declared**
+
+1. The system *shall* declare each count this repository publishes about its own tree in `guardrails/tree-counts.json`. [INV-305]
+   - the entry carries the measurements producing the count and every page statement of it.
+2. The system *shall* refuse to build a count whose ground leaves any part empty. [INV-305]
+   - the parts are what it counts, its unit, the decision it informs, and what changes when it moves;
+   - the remaining parts are its baseline, its better direction, and its target.
+3. The system *shall* accept an empty baseline, direction or target that carries a written reason, and *shall* refuse one that carries none. [INV-305]
+
+**Case: a count in a generated block is rebuilt**
+
+4. The system *shall* build a block home's text with `scripts/gen-tree-counts.py`, and *shall* red a committed block differing from a fresh build. [INV-305, INV-258]
+5. The system *shall* write no text at a sentence home, and *shall* red where the page lacks the sentence the template renders. [INV-305]
+   - the red names the page and the rendered sentence.
+
+**Case: the published command answers for the published number**
+
+6. *when* a measurement declares a reproduction command, the system *shall* run it, and *shall* red where its output disagrees with the number a home states. [INV-305]
+7. The system *shall* read a measurement claimed at-least as a floor, and *shall* red only where the tree falls below it. [INV-305]
+8. The system *shall* render the reader's copy of a reproduction command from the same argument list it runs. [INV-305]
+
+**Case: what the gate may execute**
+
+9. The system *shall* run a reproduction command as an argument list with no shell, expanding patterns inside the repository root. [INV-305]
+10. The system *shall* red a command naming a program outside the declared allowlist, and *shall* run no stage of that command. [INV-305]
+11. The system *shall* red an argument that is absolute, that leaves the repository root, or that holds a newline. [INV-305]
+
+**Case: the gate measures what the push sends**
+
+12. The system *shall* red before either arm reads where a path a measurement reads, or a page holding a home, carries an uncommitted modification. [INV-305]
+    - the red names the path.
+
+**Case: the gate reports its reach and reds over nothing**
+
+13. The system *shall* red a registry parsing to zero counts, and a pattern matching zero files, by name. [INV-305, INV-218]
+14. The system *shall* print on its green line every count read, every page swept, every command run, and its elapsed seconds. [INV-305, INV-269]
+
+**Case: the gate is wired and can fail**
+
+15. The system *shall* run as gate ad on `guardrails/pre-push`, *shall* carry its step in the CI workflow, and *shall* carry a red-first proof. [INV-305, INV-210, INV-212]
+
+**Case: honest about its reach**
+
+16. The system *shall* judge whether a published count matches the tree, and *shall* leave to the person whether the count is worth publishing. [INV-305, INV-269]
+    - whether the ground stated around a count is the right ground is the person's judgment too.
+
+---
+
+## Requirement 307: The pack records what each of its runnable files is
+
+**Context:** A skill body tells an agent to run a file by path. Some of those files judge the pack's own document set and mean nothing in a host project. Nothing on the page says which is which. So the pack carries one machine-readable record of every runnable file a skill names, what each one is, and which tree each one judges.
+
+**User Story:** As a skill's user, I want each named check to judge my own tree, so that none reads the pack's documents.
+
+### Acceptance Criteria
+
+**Case: the registry records what each runnable file is**
+
+1. The system *shall* carry one registry entry for every runnable file a skill body names in command position, and for every file those entries read. [INV-306]
+   - a command position is a path preceded on its line by `python3`, `bash`, `sh`, or a leading `./`;
+   - every other path mention is prose and keeps its path.
+2. Each entry *shall* record its kind as one of check, library, or data. [INV-306]
+3. *if* an entry's recorded kind disagrees with the tree, *then* the gate *shall* red, naming the entry and the test that disagreed. [INV-306]
+   - an entry point present or absent, and an import present or absent, are the disagreements this arm reads.
+4. *if* an entry's path names no file in the tree, *then* the gate *shall* red, naming the entry. [INV-306]
+
+**Case: a check carries a name, a kit, and a reach**
+
+5. A check entry *shall* carry a name unique across the registry, and a library or data entry *shall* carry none. [INV-306]
+6. A check entry's kit *shall* be derived from its reach. [INV-306]
+   - an empty reach reads ships; a reach naming a path under the pack's machinery directories reads pack-only; every other reach reads host-optional.
+7. *if* a check's source states a document name its reach does not declare, *then* the gate *shall* red, naming the entry and the document. [INV-306]
+   - the source is read with comments and docstrings stripped, so a name inside usage text passes;
+   - a reach member naming a missing path inside the pack reds on the same arm.
+8. Every module a check imports from `scripts/` or `guardrails/` *shall* appear in that entry's needs, and every needs member *shall* be a registry entry. [INV-306]
+
+**Case: a pack-only check leaves the host instructions**
+
+9. No skill body *shall* name a check whose kit reads pack-only in command position. [INV-306]
+10. *if* a skill body names a pack-only check in command position, *then* the gate *shall* red. [INV-306]
+    - the red names the skill file, the line, and the check's reach.
+
+**Case: a check declares how it learns which tree it judges**
+
+11. Each check entry *shall* record its root as one of argument, working-directory, or own-tree. [INV-306]
+12. *if* a check recorded argument or working-directory defaults its scan root from its own file's location, *then* the gate *shall* red. [INV-306]
+    - the red names the entry and the line.
+
+**Case: the gate is itself held**
+
+13. The gate *shall* run as gate ae on `guardrails/pre-push`, *shall* carry a red-proof entry, and *shall* appear as a step in the CI workflow. [INV-306, INV-210, INV-212]
+14. *when* the gate passes, it *shall* print the count of entries read, the count of skill bodies scanned, and the count of command-position paths found. [INV-306, INV-269]
+
+---
+
+## Requirement 308: A spoken sentence sets a project up on the pack
+
+**Context:** The pack promises that a project is set up in plain words. Three sentences carry that promise: attaching an existing project, founding a new one, and bringing an adopted project onto a newer pack. Each has a walk. Reaching a walk needs a skill description a spoken sentence loads. It also needs a resolution of the pack's own tree, which lives outside the skills that install.
+
+**User Story:** As a new installer, I want a plain sentence to run the right setup walk, so that I need no procedure file. [E-21]
+
+### Acceptance Criteria
+
+**Case: the sentence reaches one skill**
+
+1. Exactly one installed skill description *shall* carry the setup entry, naming the pack in each of its trigger phrases. [A-0, E-21]
+2. No second installed skill description *shall* carry those phrases. [INV-13]
+   - a skill whose own vocabulary neighbours them names the setup entry as the earlier door.
+
+**Case: the pack's tree resolves, or the run stops honestly**
+
+3. *when* a setup run begins, the system *shall* resolve the pack tree by an ordered read list, the first hit winning. [INV-307, M-7]
+   - the run says which read answered, the path it gave, and that tree's version before it moves.
+4. *if* no read answers, *then* the system *shall* stop, *shall* hand the person one action that supplies the tree, and *shall* start no walk. [INV-307]
+5. *when* the resolved tree's version differs from the installed skills' version, the system *shall* say both numbers aloud before the walk continues. [M-7, INV-307]
+6. The system *shall* record the resolved path together with the read that produced it, so a later run can tell one install route from another. [A-7, M-7]
+
+**Case: every setup sentence has a placed route**
+
+7. The closed request set *shall* place all three setup sentences, each naming its entry document and its back-check. [INV-307, INV-151]
+
 
 ## Reference
 
@@ -7479,14 +7632,14 @@ The code-to-location table below is generated output, built from the body criter
 
 | Code | Location |
 |---|---|
-| A-0 | R168.1 |
+| A-0 | R168.1, R308.1 |
 | A-1 | R170.7, R172.8, R173.2, R177.1 |
 | A-2 | R177.2 |
 | A-3 | R48.4, R53.4, R75.3, R76.4, R177.5, R177.7, R276.1, R276.3 |
 | A-4 | R178.4, R179.1, R179.2, R296.5, R296.6, R296.7 |
 | A-5 | R168.1, R168.2, R177.8, R180.8, R182.5 |
 | A-6 | R1.4, R177.9, R247.5 |
-| A-7 | R125.3, R136.3, R177.10, R177.11, R177.12, R188.4, R202.3, R251.3, R268.1, R275.5 |
+| A-7 | R125.3, R136.3, R177.10, R177.11, R177.12, R188.4, R202.3, R251.3, R268.1, R275.5, R308.6 |
 | A-8 | R177.4, R180.7, R200.5 |
 | A-9 | R179.4, R179.5, R296.3 |
 | A-10 | R53.4, R174.3, R178.1, R193.12, R265.6, R299.8 |
@@ -7494,9 +7647,9 @@ The code-to-location table below is generated output, built from the body criter
 | ACT-1 | R144.2, R188.6, R200.1, R248.2 |
 | ACT-2 | R100.1, R206.1, R208.1 |
 | ACT-3 | R77.5, R128.1, R166.1, R171.9, R200.6, R206.4, R207.3, R207.7, R208.6, R213.5, R217.2, R235.6 |
-| B-1 | R169.1, R169.3, R169.4, R169.5, R169.6 |
+| B-1 | R169.1, R169.3, R169.4, R169.5, R169.6, R169.7, R169.8 |
 | B-2 | R167.1, R170.1, R170.2, R170.3, R170.4, R170.5, R170.6, R170.7, R172.1, R172.8, R173.3 |
-| B-3 | R167.1, R171.1, R171.3, R171.4, R171.5, R171.6, R171.7, R171.8 |
+| B-3 | R167.1, R169.9, R169.10, R171.1, R171.3, R171.4, R171.5, R171.6, R171.7, R171.8 |
 | C-1 | R53.5, R258.1, R258.2, R258.3, R258.4, R258.5, R259.1, R265.2, R265.10, R276.1, R276.2 |
 | D-2 | R208.5 |
 | D-4 | R198.3, R251.3, R275.5 |
@@ -7510,10 +7663,10 @@ The code-to-location table below is generated output, built from the body criter
 | E-7 | R1.4, R177.9, R247.1, R247.2, R247.3, R247.4 |
 | E-8 | R47.3, R162.1, R200.5, R200.6, R202.1, R247.5 |
 | E-9 | R179.3, R296.5 |
-| E-10 | R61.1, R102.2, R177.3, R228.6, R250.1, R250.2, R250.3, R260.3 |
+| E-10 | R61.1, R102.2, R169.11, R177.3, R228.6, R250.1, R250.2, R250.3, R260.3 |
 | E-11 | R153.3, R163.6, R187.4, R187.5, R187.7, R190.1, R190.4, R195.1, R195.2, R196.13, R196.14, R252.1, R252.2, R252.3 |
 | E-12 | R2.1, R2.2, R2.3, R50.2, R51.1, R59.3, R198.1, R198.4, R198.5, R202.1 |
-| E-13 | R47.3, R80.1, R80.2, R89.1, R91.2, R170.4, R171.1, R171.2, R173.1, R173.5, R186.3, R198.1, R200.2, R200.4, R202.1, R202.2, R202.4, R207.4, R219.1, R220.4, R239.2, R300.14, R300.15 |
+| E-13 | R47.3, R80.1, R80.2, R89.1, R91.2, R169.10, R170.4, R171.1, R171.2, R173.1, R173.5, R186.3, R198.1, R200.2, R200.4, R202.1, R202.2, R202.4, R207.4, R219.1, R220.4, R239.2, R300.14, R300.15 |
 | E-14 | R16.1, R16.2, R118.1, R118.2, R118.3, R118.4, R118.5, R118.6, R124.1, R124.4, R159.2, R159.7, R177.6, R187.1, R194.3, R223.2, R259.2 |
 | E-15 | R53.1, R87.3, R124.2, R124.3, R130.3, R177.6, R223.2 |
 | E-16 | R130.9, R181.5, R181.6, R188.14, R193.5, R205.1, R205.3, R205.4, R205.5 |
@@ -7521,7 +7674,7 @@ The code-to-location table below is generated output, built from the body criter
 | E-18 | R1.4, R145.1, R145.2, R248.1, R248.2 |
 | E-19 | R130.3, R249.1, R249.2, R249.3 |
 | E-20 | R144.1, R144.2, R144.3, R146.3, R187.13 |
-| E-21 | R188.1, R188.2, R188.3, R188.4 |
+| E-21 | R188.1, R188.2, R188.3, R188.4, R308.1 |
 | E-22 | R7.1, R7.2, R7.3, R69.3, R163.4, R296.4 |
 | E-23 | R188.5, R251.3, R251.4, R275.5 |
 | E-24 | R130.5, R162.1, R162.3, R162.4, R164.1, R164.3, R166.5, R166.6, R166.7 |
@@ -7542,13 +7695,13 @@ The code-to-location table below is generated output, built from the body criter
 | INV-4 | R7.1, R9.6, R10.3, R11.1, R11.3, R21.2, R22.7, R22.10, R32.3, R35.2, R45.4, R46.4, R56.2, R57.3, R69.3, R69.4, R72.3, R76.2, R78.1, R80.5, R88.3, R89.2, R153.2, R161.4, R163.4, R170.3, R193.3, R211.4, R212.5, R241.1 |
 | INV-5 | R10.4, R21.2, R40.7, R75.3, R76.2, R78.2, R170.6, R203.1, R220.2 |
 | INV-6 | R75.2, R124.2, R223.3 |
-| INV-7 | R179.1, R205.4, R256.5, R296.5, R296.11 |
+| INV-7 | R169.8, R179.1, R205.4, R256.5, R296.5, R296.11 |
 | INV-8 | R168.1, R168.3, R168.4, R168.5 |
 | INV-9 | R7.4, R7.5, R46.4, R72.4, R139.1, R163.3, R164.2, R171.4, R171.5, R200.1, R200.3, R219.1, R220.1 |
 | INV-10 | R90.5, R100.1, R100.2, R158.1, R163.5, R166.7, R187.5, R187.6, R187.7, R192.2, R193.7, R193.8, R193.10, R195.2, R197.3, R205.3, R207.1, R251.1, R251.2 |
 | INV-11 | R77.2, R81.3, R89.4, R90.5, R91.2, R128.4, R139.3, R141.1, R158.1, R166.2, R187.6, R193.7, R205.5, R207.3, R253.5, R256.1, R256.2, R256.7, R270.5, R301.11 |
 | INV-12 | R9.1, R9.4, R9.5, R9.6, R10.2, R13.4, R16.4, R47.2, R50.3, R160.3, R170.3 |
-| INV-13 | R7.8, R198.2, R198.6, R205.1, R205.2 |
+| INV-13 | R7.8, R198.2, R198.6, R205.1, R205.2, R308.2 |
 | INV-14 | R157.2, R203.1, R203.2, R203.3, R204.1, R204.2, R204.3, R204.4, R248.1, R273.1 |
 | INV-15 | R48.3, R161.3 |
 | INV-16 | R40.3, R40.7, R41.1, R41.2, R43.3, R45.2, R50.4, R52.4, R99.1, R99.2, R99.3, R101.1, R147.2, R178.2, R220.1 |
@@ -7624,7 +7777,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-86 | R187.1, R187.2, R187.6, R189.2 |
 | INV-87 | R186.1, R186.2, R186.3, R186.5, R186.6, R186.7, R186.10, R186.11, R186.13, R186.14, R186.15, R186.16 |
 | INV-88 | R186.8, R186.9 |
-| INV-89 | R180.3, R181.1, R181.2, R181.3, R181.4, R181.5, R181.7, R181.11 |
+| INV-89 | R169.7, R180.3, R181.1, R181.2, R181.3, R181.4, R181.5, R181.7, R181.11 |
 | INV-90 | R181.8, R181.9, R181.10, R181.11 |
 | INV-91 | R115.2, R180.1, R180.2, R180.3, R188.13, R274.3, R274.4 |
 | INV-92 | R182.1, R182.2, R182.3, R182.4, R182.5, R182.6, R182.7 |
@@ -7632,7 +7785,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-94 | R19.1, R19.2, R19.3, R54.3, R196.17, R196.18 |
 | INV-95 | R25.1, R25.2, R25.3, R25.4, R25.5, R303.14 |
 | INV-96 | R147.1, R147.2, R147.3, R148.3, R304.2, R304.5, R304.6 |
-| INV-97 | R193.13, R196.5, R228.1, R228.2, R228.3, R228.4, R228.5, R228.6, R260.4, R268.5, R269.1 |
+| INV-97 | R169.11, R193.13, R196.5, R228.1, R228.2, R228.3, R228.4, R228.5, R228.6, R260.4, R268.5, R269.1 |
 | INV-98 | R132.1, R221.1, R221.2, R221.3, R221.4, R268.4 |
 | INV-99 | R49.1, R49.2, R68.3 |
 | INV-100 | R106.1, R106.2, R106.3, R106.4, R114.1, R114.2 |
@@ -7686,7 +7839,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-148 | R254.8 |
 | INV-149 | R255.1, R255.2, R255.3, R255.4, R255.5, R255.6 |
 | INV-150 | R55.1, R55.2, R55.3, R55.4, R56.1, R56.3, R86.4, R88.4, R90.3, R90.4, R114.6, R191.8, R193.9, R194.5, R196.11, R233.1, R263.8 |
-| INV-151 | R45.1, R45.2, R45.3, R45.4, R56.1, R212.3 |
+| INV-151 | R45.1, R45.2, R45.3, R45.4, R56.1, R212.3, R308.7 |
 | INV-152 | R45.4, R56.1, R88.3, R93.2, R197.9, R212.1, R212.2, R212.3, R212.4, R212.5, R214.5, R232.2, R241.4 |
 | INV-153 | R56.1, R56.2, R56.3, R56.4, R191.10, R195.10, R196.4 |
 | INV-154 | R70.1, R70.2, R70.3, R70.4, R70.5, R130.2 |
@@ -7745,15 +7898,15 @@ The code-to-location table below is generated output, built from the body criter
 | INV-207 | R238.1, R238.2, R238.3, R238.4, R238.5 |
 | INV-208 | R242.1, R242.2, R242.3, R242.4 |
 | INV-209 | R243.1, R243.2, R243.3, R243.4, R243.5, R245.3, R287.3 |
-| INV-210 | R246.1, R246.2 |
+| INV-210 | R246.1, R246.2, R306.15, R307.13 |
 | INV-211 | R246.3, R246.4, R292.1, R292.6, R292.7, R292.8, R294.4 |
-| INV-212 | R226.2, R246.5, R246.6, R292.1, R292.5 |
+| INV-212 | R226.2, R246.5, R246.6, R292.1, R292.5, R306.15, R307.13 |
 | INV-213 | R235.1, R235.2 |
 | INV-214 | R82.4, R91.1, R91.2, R91.3, R91.4, R266.7 |
 | INV-215 | R134.1, R134.2 |
 | INV-216 | R246.7, R246.8 |
 | INV-217 | R191.5, R215.2, R274.1, R274.2, R274.3, R274.4, R274.5, R274.6, R274.7 |
-| INV-218 | R113.1, R113.2, R303.23, R303.24, R303.34, R303.35, R303.37, R301.18, R301.19, R302.7, R302.14 |
+| INV-218 | R113.1, R113.2, R303.23, R303.24, R303.34, R303.35, R303.37, R301.18, R301.19, R302.7, R302.14, R306.13 |
 | INV-219 | R193.13 |
 | INV-220 | R135.3, R230.7, R231.1, R231.3, R231.4, R231.5 |
 | INV-221 | R135.1, R135.2, R135.3, R230.3 |
@@ -7762,7 +7915,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-224 | R226.4, R226.5, R296.13 |
 | INV-225 | R196.9, R196.10, R196.11, R196.19, R196.20 |
 | INV-226 | R52.5, R121.3, R214.1, R258.4, R263.9, R264.1, R264.2, R264.3, R264.4, R264.5, R265.3, R265.11, R266.9 |
-| INV-227 | R180.6, R188.12, R188.13, R188.14 |
+| INV-227 | R169.9, R180.6, R188.12, R188.13, R188.14 |
 | INV-228 | R240.1, R240.2, R240.3 |
 | INV-229 | R241.1, R241.2, R241.3, R241.4 |
 | INV-230 | R207.8, R235.3, R235.4, R235.5 |
@@ -7793,7 +7946,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-255 | R277.15, R277.16 |
 | INV-256 | R277.17, R277.18 |
 | INV-257 | R277.19, R277.20 |
-| INV-258 | R278.1, R278.2 |
+| INV-258 | R278.1, R278.2, R306.4 |
 | INV-259 | R278.3, R278.4 |
 | INV-260 | R279.1 |
 | INV-261 | R279.2, R279.3, R279.4, R279.5, R279.13 |
@@ -7804,12 +7957,12 @@ The code-to-location table below is generated output, built from the body criter
 | INV-266 | R220.9, R281.1, R281.2 |
 | INV-267 | R281.3, R281.4, R281.5, R281.6 |
 | INV-268 | R281.7 |
-| INV-269 | R303.9, R282.1, R282.2, R284.4, R285.3, R288.5, R296.10, R297.11, R299.12, R301.20, R302.8, R304.4 |
+| INV-269 | R303.9, R282.1, R282.2, R284.4, R285.3, R288.5, R296.10, R297.11, R299.12, R301.20, R302.8, R304.4, R306.14, R306.16, R307.14 |
 | INV-270 | R277.21, R277.22, R283.7, R286.3, R289.6 |
 | INV-271 | R191.4, R191.7, R278.5, R278.6, R278.7 |
 | INV-272 | R283.1, R283.2, R283.3, R283.4, R283.5, R283.6, R283.7 |
 | INV-273 | R284.1, R284.2, R284.3, R284.4 |
-| INV-274 | R285.1, R285.2, R285.3, R285.4 |
+| INV-274 | R169.4, R285.1, R285.2, R285.3, R285.4 |
 | INV-275 | R286.1, R286.2, R286.3, R286.4 |
 | INV-276 | R5.1, R96.4, R130.7, R209.1, R243.1, R243.5, R245.5, R257.1, R286.4, R287.1, R287.2, R287.3, R287.4, R287.5 |
 | INV-277 | R288.1, R288.2, R288.3, R288.4, R288.5 |
@@ -7840,13 +7993,16 @@ The code-to-location table below is generated output, built from the body criter
 | INV-302 | R303.1, R303.2, R303.3, R303.4, R303.5, R303.6, R303.7, R303.8, R303.9, R303.10, R303.11, R303.12, R303.13, R303.14, R303.15, R303.16, R303.17, R303.18, R303.19, R303.20, R303.21, R303.22, R303.23, R303.24, R303.25, R303.26, R303.27, R303.28, R303.29, R303.30, R303.31, R303.32, R303.33, R303.34, R303.35, R303.36, R303.37, R303.38 |
 | INV-303 | R304.1, R304.2, R304.3, R304.4, R304.5, R304.6, R304.7, R304.8, R304.9, R304.10 |
 | INV-304 | R305.1, R305.2, R305.3, R305.4, R305.5, R305.6, R305.7, R305.8, R305.9, R305.10, R305.11, R305.12 |
+| INV-305 | R306.1, R306.2, R306.3, R306.4, R306.5, R306.6, R306.7, R306.8, R306.9, R306.10, R306.11, R306.12, R306.13, R306.14, R306.15, R306.16 |
+| INV-306 | R307.1, R307.2, R307.3, R307.4, R307.5, R307.6, R307.7, R307.8, R307.9, R307.10, R307.11, R307.12, R307.13, R307.14 |
+| INV-307 | R308.3, R308.4, R308.5, R308.7 |
 | M-1 | R49.2, R80.7, R80.8, R92.2, R130.1, R130.2, R130.3, R130.4, R130.5, R130.6, R130.7, R130.8, R130.9, R164.4, R166.3, R166.8, R198.6, R249.2 |
 | M-2 | R14.3, R125.1, R125.2, R125.3, R303.13, R177.12, R204.3 |
 | M-3 | R136.1 |
 | M-4 | R251.5 |
 | M-5 | R138.1, R138.2, R246.1 |
 | M-6 | R60.3, R72.4, R141.1, R141.2, R141.3, R141.4, R144.2, R203.3, R203.4, R219.6, R220.3, R254.8, R259.3 |
-| M-7 | R136.2, R136.3, R177.11, R180.9, R181.10, R188.5, R201.2, R201.4, R201.5, R275.5 |
+| M-7 | R136.2, R136.3, R177.11, R180.9, R181.10, R188.5, R201.2, R201.4, R201.5, R275.5, R308.3, R308.5, R308.6 |
 | S-0 | R1.1, R1.2, R1.3, R102.3, R159.3 |
 | T-1..T-7 | R6.1, R6.2, R6.3, R6.4, R6.5 |
 | T-7 | R75.4 |

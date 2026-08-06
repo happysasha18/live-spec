@@ -21,9 +21,9 @@ live-spec closes it. You say the sentence in passing, with nothing to file and n
 
 Those two lines go into Claude Code. Or clone this repository and run `./install.sh`, which copies the skills into `~/.claude/skills/`.
 
-Then attach the pack to a project, which is where your spec and the other documents get written. Use [`templates/`](templates/) for a new project. Use [`adopt/ADOPT.md`](adopt/ADOPT.md) for an existing codebase, where the pack writes the first spec from what ships today. [`docs/adoption.md`](docs/adoption.md) describes that same run in plainer words.
+Then say *"attach live-spec to this project"* in the project you want it in, or *"found a new project on live-spec"* in an empty directory. The pack reads the tree and runs the setup walk it calls for: [`adopt/START.md`](adopt/START.md) for a fresh project, [`adopt/ADOPT.md`](adopt/ADOPT.md) for an existing codebase. On that second path the pack writes the first spec from what ships today. [`docs/adoption.md`](docs/adoption.md) describes the same run in plainer words.
 
-Both paths above install skill files alone. The push gate is a third step, and it reads the documents attaching just wrote. Run it from your project's root, cloning this repository first if you took the plugin path:
+The push gate is a third step, and it reads the documents attaching just wrote. The setup walk runs it for you. To run it by hand from your project's root, use the pack tree you already have. The plugin install puts the whole tree under `~/.claude/plugins/cache/`. The clone below is for the `install.sh` path, which carries skill files alone:
 
 ```
 git clone https://github.com/happysasha18/live-spec.git
@@ -67,7 +67,15 @@ Work enters the spec before code. A new behaviour arrives as a spec change, gets
 
 ## Over six thousand lines of rules, and that is the point
 
-The rules are the part a software house would charge you for: thirty-five shared rules across the skill set, stated once. They cover how a spec gets written so it stays readable. They cover when a question is worth your attention and when it is routine. They cover what a green suite does and does not prove. Written out, they and the skills carrying them run to 6,328 lines under `skills/`. Of those, 5,178 are the skill bodies. Count them with `cat skills/*/SKILL.md skills/*/references/*.md | wc -l` (2026-08-05). You do not read them. They run.
+The rules are the part a software house would charge you for: thirty-five shared rules across the skill set, stated once. They cover how a spec gets written so it stays readable. They cover when a question is worth your attention and when it is routine. They cover what a green suite does and does not prove.
+
+<!-- generated:count:skills-lines — scripts/gen-tree-counts.py owns the block below -->
+
+Written out, they and the skills carrying them run to 6,460 lines under `skills/`. Of those, 5,225 lines are the skill bodies, and the rest are the reference pages a body loads on demand. Count them yourself with `cat skills/*/SKILL.md skills/*/references/*.md | wc -l` and `cat skills/*/SKILL.md | wc -l`. A push of this repository is refused where either command disagrees with the number printed here. The body figure is what a session pays before it starts work, so it is the figure to hold down. It is held under the figure that includes the references. When it rises, every session that loads a skill pays more to begin.
+
+<!-- /generated:count:skills-lines -->
+
+You do not read them. They run.
 
 The relationship is the one you have with a builder. You do not need to know how; you still decide what. A good contractor does not ask the client to choose the rebar, and does not pick the kitchen either.
 

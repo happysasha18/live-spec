@@ -2134,3 +2134,72 @@ so the mirror sync refused to publish and printed the wrong reason for every ref
 deliberate-string marker widened this morning cleared a string inside a web address; the wording
 check joined a phrase across a paragraph break; a rename reached a skill's body and stopped short
 of its glossary, its examples, four matrix rows and three docstrings.
+
+## 2026-08-06 — three landings: the front page's numbers, the record of what each script is, and a spoken setup
+
+Three pieces of work finished today and land their documents together. A fourth repair, to the public
+edition of the prover skill, rides along because it was found the same way.
+
+**Four numbers on the front pages were wrong.** The guardrails page said thirteen gates; the push hook
+runs twenty-nine. The README said 6,328 lines under `skills/`; the command printed beside that sentence
+returns 6,370. The same paragraph said 5,178 skill-body lines against 5,216 measured. The guardrails
+page said eighty worker runs from before a rule existed, against a command whose reading moves between
+two runs minutes apart. Each of the four was typed by a person and went stale as the tree grew, and a
+reader who ran the command printed beside the number would have caught every one of them.
+
+The repair is not four corrections. A count this repository publishes about its own tree now has a
+declared measurement in `guardrails/tree-counts.json`, a home on its page, and a gate that re-measures
+it on every push. Where the count sits inside a paragraph, `scripts/gen-tree-counts.py` writes that
+paragraph and a hand edit to it reds. Where the count sits in a sentence a person wrote, the generator
+writes nothing and the gate checks that the sentence still says what the tree says. The registry holds
+an argument list rather than command text, so what the gate runs and what the reader is invited to run
+are one field and cannot drift. The gate stops at what a machine can judge: whether the number matches
+the tree. Whether the number is worth publishing at all is left to the person, and the gate says so on
+its own green line.
+
+Four surfaces stay unheld and are named rather than implied: a number a session types into chat, a
+number in a rendered artifact, a count inside a shipped skill body, and a count on a page nobody
+declared. Queue row 555 carries the landed slice and names those four.
+
+**A skill told an agent to run checks that judge this pack's own documents.** The audit skill's steps
+sent a host project's agent to run two checks whose subject is this repository's document set. In a
+host project they would read nothing of the host and print a green line. The repair is a record of what
+each runnable file is: `scripts/check-registry.json` states the kind, the name, the kit, the root, the
+reach and the needs of every file a skill body names as a command, and of every file those entries
+read. A gate holds it, and it reds a skill body that names a check whose reach is this pack's own
+machinery. This is the first slice of the host-scripts work, and it changes no execution path: nothing
+that ran yesterday runs differently. The review that shaped it found the wider design carried four
+mechanisms resting on a fifth that did not exist, and named this slice as the one that leaves the tree
+honest on its own. Queue row 556 carries it.
+
+**Saying "attach live-spec to this project" now reaches a walk.** The pack has promised since its first
+version that a project is set up in plain words, and no installed skill description carried the
+sentence, so a person had to find a procedure file and hand it to an agent. There was also no walk at
+all for an empty directory. The entry now sits on one skill description, a routing card resolves the
+pack's own tree — which is the hard part, because the tree lives outside the skills that install — and
+`adopt/START.md` is the founding walk. The proof that mattered here was a deed: a founding was driven
+against a throwaway tree built to mirror the real plugin-cache layout, and it reached one commit, six
+filled documents and a green scaffold suite. Three reds were run against it: surviving placeholders
+red, a renamed template fails by name, and a second founding leaves a person's own sentence standing.
+Queue row 557 carries it.
+
+That landing also repaired a sentence in the spec that had been false for some time. The spec said the
+scaffold suite judges the first delivery green by four checks, one of them a coverage checklist the
+matrix format retired. The shipped scaffold runs five checks and none of them is that one. The founding
+walk could not be written honestly against the retired sentence, and it is the sentence a builder would
+have copied into a new project, so it was repaired at its live homes in the same pass.
+
+**The public edition of the prover skill was repaired.** Its README stated that a run over the example
+document returned twenty-two findings and a second run returned fourteen. Two fresh sessions were given
+the shipped skill and the shipped example and ran it end to end without seeing each other's work. They
+returned twenty-nine and twenty-five kinded findings. The published pair was not reproducible, so the
+page stopped publishing it and now says what the two runs actually support. The same reading tightened
+the opening claim: the borrowed part is the set of questions, and the pass itself is a careful reading
+by a model with no solver behind it.
+
+**What is owed after this entry.** The three queue rows stand open with their deliveries in the working
+tree; each closes at the push. The check-registry landing's own files were still being written while
+these documents were landed, so its matrix rows name their test file as a future owner and flip when
+that file arrives. Four new rows opened for what today's work uncovered: a push from a session that
+wrote no handover, a machine over the reading panel, the surface registry's two names, and a settings
+line for the pack's own tree.

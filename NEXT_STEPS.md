@@ -3,44 +3,52 @@
 A digest, at or under 100 lines (SPEC INV-48). One status block stands here at a time, and every
 update replaces it. Dated history lives in `JOURNAL.md`.
 
-## LIVE STATE (2026-08-06, 09:29)
+## LIVE STATE (2026-08-06, 15:08)
 
-The 2026-08-05 branch went out at 22:46 with every gate green. The morning added the records the
-new day demands and the tests the budget rule was missing, and that work waits on one more push.
+Three landings finished their code and tests today, and their shared documents were written in one
+pass by a single writer. Nothing is pushed yet.
 
-A fresh reader proved the four never-bend criteria untested: removing them left the suite green.
-They now carry a matrix row and a test that reds when any one is removed. A prover pass over the same delta
-found two defects in it. The clause on raising a fresh clean-context agent named no rung. It also
-carried two codes where five belong. The clause is split in two now, and its codes stand.
+Four numbers on the two front pages were wrong. They were the gate count, two line counts under
+`skills/`, and a worker-run count that moves between readings minutes apart. Every count this repository publishes
+about its own tree now has a declared measurement and a home on its page. Gate ad re-measures each of
+them on every push. Queue row 555.
 
-A review of the pack read the attribution beside the budget rule and found a phrase the owner
-never said standing inside the quotation. The quotation now holds his words alone. The same class was caught twice
-yesterday. That is why the queue holds row 550. A decision recorded as his must carry his own
-words and a pointer to the exchange, and the check must red a bare date.
+The audit skill told an agent to run two checks that judge this pack's own document set. In a host
+project those two would read nothing and print green. `scripts/check-registry.json` is the record of
+what each runnable file is, and gate ae holds it. That landing's own files were still being written
+while these documents were landed. So matrix rows M-505 to M-511 read *todo* and name their test file
+as the future owner. Queue row 556.
 
-The afternoon ran the whole forward queue through parallel workers. The audit skill
-closed reading round 30 and 31, and every stop the two readers shared. Four adversarial reviewers then read the day's commits and found eleven defects; all
-eleven were repaired the same day. The restore gate took four repairs and now reads a command
-string the way a shell does. The public edition of the spec-review skill is current again. The
-three writing rules that held two owners became six rules with one owner each, and the rule home
-holds 66. Three totals that drifted by hand now generate inside fenced blocks.
+Saying "attach live-spec to this project" now reaches a walk. The entry sits on one skill
+description, a routing card resolves the pack's own tree, and `adopt/START.md` is the founding walk
+for an empty directory. It was proven by a founding run against a throwaway tree to a green scaffold
+suite. Queue row 557.
 
-Eleven inbox messages were harvested into rows 532 to 546, and every message rests in `attic/`
-with a manifest line.
-
-Both questions the review raised are answered (`DECISIONS.md`, 2026-08-05). A text ships when
-both cold readers return nothing that blocks, twice in a row. The templates are measured again,
-and the test fixtures stay outside the reading queue.
+The public edition of the prover skill published a finding count from two runs that no longer
+reproduces. Two fresh runs measured twenty-nine and twenty-five kinded findings, and the page now says
+what those runs support.
 
 ## Forward queue
 
-1. Run the next reading round on the audit skill. The skill asks for one prompted reader and one
-   unprompted reader; today's round ran two prompted readers, which the next round corrects.
-2. Take rows 532 to 546 through the pipeline. Rows 537 and 538 open with a freshness re-check,
-   since the reds they cite no longer reproduce.
-3. Re-seed the rounds-per-file estimate once a second file finishes its readings.
-4. Queue row 549 is closed: the never-bend criteria of the budget rule carry a matrix row and a
-   test that reds when any one of them is removed.
+1. Push the three landings. Each of rows 555, 556 and 557 closes at the push, and the freeze baseline
+   for the spec, the architecture and the matrix is owed before it.
+2. When the check-registry landing's own files arrive, flip matrix rows M-505 to M-511 to *built* and
+   pin the two files under the guardrails node in `ARCHITECTURE.md`.
+3. The rule census refuses to write its record while `editions/product-prover/README.md` (14 recorded,
+   18 measured) and `editions/product-prover/SKILL.md` (24 recorded, 27 measured) stand above their
+   ceilings. Gate aa stays red until those two come down. Two new live files, `adopt/START.md` and
+   `skills/build-pipeline/references/project-setup.md`, get their first entry in the same run.
+4. Row 558: give the opening read an artifact and make the handover gate refuse a push from a session
+   that wrote none. The newest handover under `docs/handovers/` is dated 2026-07-29.
+5. Row 559: put a machine over the reading panel — a gate that reds a round whose two readers came
+   from one brief, and a stated test for what counts as a stop that blocks.
+6. Row 560 waits on your word: the surface registry a new project copies carries two names, and the
+   rename has been offered twice with no answer.
+7. Row 561: give the settings ladder a `pack.tree` line, which the setup walk's routing card needs
+   and nothing reads yet.
+8. Run the next reading round on the audit skill, with one prompted reader and one unprompted reader.
+9. Take rows 532 to 546 through the pipeline. Rows 537 and 538 open with a freshness re-check, since
+   the reds they cite no longer reproduce.
 
 ## Where the numbers live
 
@@ -50,6 +58,12 @@ and what it aims at. Build it with `python3 scripts/measurements-table.py`. Ever
 the person who decides what ships carries five things. It names what it counts and in what unit. It
 names the decision it informs, and what changes when it moves. It names the command that produced
 it and the value it aims at. A bare number is a defect of the same kind as an undefined term.
+
+`guardrails/tree-counts.json` is the home for every count this repository publishes about its own
+tree. It carries the measurement that produces each count and every page that states it, and gate ad
+re-measures them on every push. Four surfaces stay outside it, each with its own later row. A number
+a session writes into chat. A number in a rendered artifact. A count inside a skill body. A count on
+an undeclared page.
 
 ## Rules you must not break
 
