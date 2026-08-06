@@ -2,9 +2,11 @@
 
 PUSH-REVIEW
 
-Range: c869cbb..b462e14
+Range: c869cbb..914d5cb
 
 Commits:
+- 914d5cb The never-bend criteria gain their test row, and the fresh-agent clause names its scope
+- dff23ca A fresh head reads the budget law and names where it cannot be found
 - b462e14 A decision recorded as his must carry his own words, not a date alone
 - 35ced57 The templates decision returns to the pack's own voice, and the review earns two rows
 - 6f37b17 The decision entry names its exchange it came from
