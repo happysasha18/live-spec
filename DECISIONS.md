@@ -50,6 +50,14 @@ the one slot nothing questions. That is the defect this surface exists to catch.
 
 ## On record
 <!-- record:on -->
+- 2026-08-06 ~21:49 — a task in work absorbs new words, and every task keeps an on-demand history
+  (row 166, Live work board). Your words in chat: people have ideas in the flow, so a task already
+  in work can be updated multiple times — the flexibility is the point of an AI-run delivery
+  process, and how that is implemented and displayed must be thought through; a log per task,
+  accessible on demand ("here you wanted this while it was in progress"), is agreed; you had not
+  received research on kanban tools for inspiration; and it is time for the adversarial review of
+  this feature's specification. You asked what the next steps are and whether we are still
+  exploring — answered: still inception.
 - 2026-08-06 ~21:35 — every new wish is placed in the task graph (row 166 and intake law). Your
   words in chat: when a new wish comes, it should be determined how it relates to what came
   before; the seat maintains all the tasks and their relations in its head, so it can always find
