@@ -112,9 +112,11 @@ for name in $substantive_skills; do
     case "$(basename "$rec")" in README.md) continue ;; esac   # the home doc is not a record
     git ls-files --error-unmatch "$rec" >/dev/null 2>&1 || continue   # committed only
     body="$(cat "$rec")"
-    printf '%s' "$body" | grep -q "SKILL-REVIEW" || continue
-    printf '%s' "$body" | grep -qiE '^Verdict:' || continue
-    printf '%s' "$body" | grep -qw "$name" || continue
+    # A here-string reads the whole body. A pipe into `grep -q` loses the race once a record
+    # outgrows the pipe buffer: grep leaves at the first hit and the writer takes SIGPIPE.
+    grep -q "SKILL-REVIEW" <<<"$body" || continue
+    grep -qiE '^Verdict:' <<<"$body" || continue
+    grep -qw "$name" <<<"$body" || continue
     matched="$rec"
     break
   done < <(git ls-files "$REVIEW_DIR" 2>/dev/null)

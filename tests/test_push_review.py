@@ -312,3 +312,30 @@ def test_the_limit_is_stated_in_every_home():
     assert "cannot hold" in script, "the script does not state its own limit"
     spec = read_flat("PRODUCT_SPEC.md")
     assert "no script decides whether a reviewer set out to refuse the change" in spec
+
+
+def test_a_long_record_still_matches_the_hashes_it_names(tmp_path):
+    """A record of real size passes. The gate once read the body through a pipe into `grep -q`:
+    grep left at the first hit, the writer took SIGPIPE, and `set -o pipefail` turned a hash the
+    record plainly named into a miss. The longer the record, the more reliably it red a correct
+    tree (found 2026-08-06, the record stood at 57 kilobytes)."""
+    tmp = tmp_path
+    _init_repo(tmp)
+    _write(tmp, "a.txt", "one\n")
+    _commit_all(tmp, "base")
+    base = _head(tmp)
+    _run(["git", "branch", "-f", "origin-main", base], cwd=tmp)
+    _write(tmp, "a.txt", "two\n")
+    _commit_all(tmp, "work")
+    work = _head(tmp)
+    shas = [_short(base), _short(work)]
+    padding = "\n".join(
+        "Finding %d: a paragraph of ordinary review prose that carries no hash at all." % i
+        for i in range(1, 1200))
+    _write(tmp, "docs/push-review/2026-08-05-long.md", _record(shas, extra=padding))
+    _commit_all(tmp, "the record")
+    body = (tmp / "docs/push-review/2026-08-05-long.md").read_text()
+    assert len(body) > 60000, "the fixture record must be long enough to fill a pipe buffer"
+    res = _run([str(GATE)], cwd=tmp, extra_env={"LIVE_SPEC_DIFF_BASE": base})
+    assert res.returncode == 0, (
+        "the gate red a record that names every reviewed commit:\n%s" % (res.stdout + res.stderr))

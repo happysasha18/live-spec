@@ -140,10 +140,13 @@ missing_report=""
 for rec in $tracked_records; do
   body="$(cat "$rec")"
   misses=""
-  printf '%s' "$body" | grep -qF "$BASE_SHORT" || misses="$misses $BASE_SHORT(base)"
+  # A shell pattern match reads the whole body in this process. A pipe into `grep -q` reads it
+  # wrong: grep exits at the first hit, printf takes SIGPIPE, and `set -o pipefail` then reports
+  # the found hash as missing. The longer the record, the more reliably that happens.
+  case "$body" in *"$BASE_SHORT"*) ;; *) misses="$misses $BASE_SHORT(base)" ;; esac
   for c in $reviewed; do
     short="${c:0:7}"
-    printf '%s' "$body" | grep -qF "$short" || misses="$misses $short"
+    case "$body" in *"$short"*) ;; *) misses="$misses $short" ;; esac
   done
   if [ -z "$misses" ]; then
     matched="$rec"
@@ -165,13 +168,18 @@ fi
 body="$(cat "$matched")"
 shape_fail=0
 
-if ! printf '%s' "$body" | grep -q "PUSH-REVIEW"; then
-  echo "FAIL (push review): $matched carries no PUSH-REVIEW marker (SPEC INV-304)."
-  shape_fail=1
-fi
+# The same whole-body read the hash match uses: a pipe into `grep -q` reports a marker the record
+# carries as absent once the body outgrows the pipe buffer.
+case "$body" in
+  *"PUSH-REVIEW"*) ;;
+  *)
+    echo "FAIL (push review): $matched carries no PUSH-REVIEW marker (SPEC INV-304)."
+    shape_fail=1
+    ;;
+esac
 
 for field in "Range" "Files read" "Checks run" "Findings" "Blocking"; do
-  line="$(printf '%s\n' "$body" | grep -m1 -E "^${field}:" || true)"
+  line="$(grep -m1 -E "^${field}:" <<<"$body" || true)"
   if [ -z "$line" ]; then
     echo "FAIL (push review): $matched carries no \`${field}:\` field, so the record leaves unsaid what"
     echo "  the review covered (SPEC INV-304)."
@@ -191,8 +199,8 @@ if [ "$shape_fail" -ne 0 ]; then
 fi
 
 # --- arm E: a blocking finding is closed, or the record says why it stands ---
-block="$(printf '%s\n' "$body" | awk '/^Blocking:/{flag=1} flag{ if ($0 ~ /^[[:space:]]*$/) exit; print }')"
-value="$(printf '%s\n' "$block" | head -1 | sed -E 's/^Blocking:[[:space:]]*//')"
+block="$(awk '/^Blocking:/{flag=1} flag{ if ($0 ~ /^[[:space:]]*$/) exit; print }' <<<"$body")"
+value="$(sed -E 's/^Blocking:[[:space:]]*//' <<<"$(head -1 <<<"$block")")"
 lower="$(printf '%s' "$value" | tr '[:upper:]' '[:lower:]' | tr -d '[:space:].')"
 
 if [ "$lower" != "none" ]; then
