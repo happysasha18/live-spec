@@ -2,9 +2,12 @@
 
 PUSH-REVIEW
 
-Range: c869cbb..ef0f0a0
+Range: c869cbb..1b8fd9e
 
 Commits:
+- 1b8fd9e Prover check confirms the suite budget row's raised ceiling as lawful
+- af9c2a2 A test proves its mechanism on the smallest input that carries the proof
+- cbaffdd The review record carries the suite-budget finding
 - ef0f0a0 The suite budget reads its measured figure at 2404 tests, and the fat gets a row
 - 30b1d31 The review record carries the four-refusal cycle and its root
 - 2d84d5e The queue owns the two-copy table that refused four pushes
@@ -1011,3 +1014,16 @@ The budget row moves with the measured figure each time the suite grows, which i
 the row itself records: it read 383 to 405 seconds at 1,856 tests on 2026-07-24. It now reads 470
 against 456 measured at 2,404. Queue row 553 holds the work that brings the number back down by
 narrowing what the meta-test re-runs.
+
+### Finding 41 — a ceiling that has only ever risen
+
+The suite wall-time budget was proved lawful: its own text states that it moves with the fresh
+measured figure as the suite grows, and the project's down-only law names a different family of
+caps. The record stands at docs/prover/2026-08-06-suite-budget-row.md.
+
+The prover added a reading worth keeping. The row has moved six times, from 60 seconds to 470,
+and every move went up. Each carries a buffer over its measurement, so a regression at the same
+suite size still reds. Nothing has yet pulled the number down.
+
+Queue row 553 is the counterweight and it is queued rather than built. Queue row 554 carries the
+class the owner named: a test proves its mechanism on the smallest input that carries the proof.
