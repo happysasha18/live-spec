@@ -230,7 +230,7 @@ named here and in the matrix.
 
 ### [node: templates]
 
-**responsibility** — the document shapes a host copies at bootstrap; the matrix's coverage checklist
+**responsibility** — the document shapes a host copies at bootstrap; the matrix's generated reference section
 
 **owns** — E-3, E-5, INV-6, B-1, E-24, INV-48, E-26
 
@@ -244,13 +244,16 @@ named here and in the matrix.
 - E-1 · E-9 · INV-7 · INV-8 · B-2 · B-3 · INV-36 · A-0 · A-1 · A-2 · A-3 · A-4 · A-5 · A-7 · A-8 · A-9 · A-10 · A-11 · INV-89 · INV-90 · INV-91 · INV-92 · INV-110 · INV-111 · E-21 · E-25 · INV-85 · INV-86 · INV-172 · INV-177
 - INV-227 (the recorded `founding.set-version` profile line is carried by host-contract as wiring, ownership stays here beside E-25 and INV-177)
 - INV-178 · INV-180
+- INV-307 (the spoken setup entry. One skill description carries the sentences. The routing card resolves the pack's own tree and picks the walk. `adopt/START.md` is the founding walk. The description field is carried by build-pipeline as wiring; ownership stays here beside A-0 and E-21.)
 
 **pins** —
-- `adopt/ADOPT.md:44` (VCS gate first)
-- `adopt/ADOPT.md:196` (unbacked-surface verdict)
-- `adopt/ADOPT.md:207` (attic)
-- `adopt/ADOPT.md:283` (attach record)
-- `adopt/ADOPT.md:85` (B-3 — who am I working with, first step of orient)
+- `adopt/ADOPT.md:47` (VCS gate first)
+- `adopt/ADOPT.md:199` (unbacked-surface verdict)
+- `adopt/ADOPT.md:210` (attic)
+- `adopt/ADOPT.md:289` (attach record)
+- `adopt/ADOPT.md:88` (B-3 — who am I working with, first step of orient)
+- `adopt/START.md:1` (B-1 — the founding walk)
+- `skills/build-pipeline/references/project-setup.md:1` (INV-307 — the setup routing card)
 - `MIGRATION.md:1` (A-11 — the catch-up walk's operating guide)
 - `install.sh:2` (E-21 — the installer itself)
 - `scripts/check-pack-update.sh:1` (E-25 — the update check + the founding arm, INV-227)
@@ -360,6 +363,8 @@ named here and in the matrix.
 - INV-297 (a reader's finding lands as a named class with its examples under it. The cold reads that produce those findings run at the text-audit node.)
 - INV-301 (the findings ratchet over every live document. `guardrails/check-doc-findings-bound.py` stands as gate aa and reads `guardrails/rule-census.json` as its ceiling. It is the readability sibling of the size ratchet [INV-264] and the growable-doc bound [INV-234], and it holds a cleared document at zero.)
 - INV-299 (the mechanical arm of the worker-restore rule. It is the gate script pinned below, with its call site inside the pipeline's verify step. Beside it stands the wording check `tests/test_worker_restore.py`, run over the rulebook, the pipeline skill, the delegation protocol, the agent-card template and the lane-opening script. The rule those homes state is the base-rulebook's, stated once in its rule 7.)
+- INV-305 (a count this repository publishes about its own tree. `guardrails/tree-counts.json` is the machine home of every such count. It carries the measurement that produces the count and every page statement of it. `scripts/gen-tree-counts.py` fills the generated blocks. `guardrails/check-tree-counts.py` stands as gate ad over both. Whether a count is worth publishing stays with the person.)
+- INV-306 (the record of what each runnable file the pack ships is. `scripts/check-registry.json` is the machine home of the kind, name, kit, root, reach and needs per file, and `guardrails/check-named-checks.py` stands as gate ae over it. It keeps a check that judges this pack's own documents out of the steps a host project follows. Both files are pinned below.)
 - INV-304 (the adversarial review a push carries over the change it sends. `guardrails/check-push-review.sh` stands as gate ac. It reads the record home `docs/push-review/` against the pushed range. It holds what a script can hold. The record exists, is committed, and is fresh against the newest commit in the range. It names that range, and it closes or explains each blocking finding. Whether the review was genuinely adversarial stays outside its reach. The requirement and the script's own header both say so. It is the push-time sibling of the design-review record gate that runs on the same hook.)
 
 **pins** —
@@ -392,6 +397,9 @@ named here and in the matrix.
 - `guardrails/judge-hooks.json:1` (the wired-hook declaration, INV-211, INV-289)
 - `guardrails/check-every-gate-can-fail.py:1` (the meta-gate over the chain, gate w, INV-212)
 - `guardrails/gate-red-proofs.json:1` (the per-gate red-proof registry, INV-212)
+- `guardrails/tree-counts.json:1` (the published tree counts: measurement, ground and page homes per count, INV-305)
+- `scripts/gen-tree-counts.py:1` (the generator that fills each marked block from the tree, INV-305)
+- `guardrails/check-tree-counts.py:1` (the published-count gate, gate ad, INV-305)
 - `guardrails/check-hooks-can-fire.py:1` (the hook-side red-proof runner, executes each hook against its own fixture, rides the suite not the push chain, INV-282)
 - `guardrails/hook-red-proofs.json:1` (the per-hook red-proof registry: a fixture per hook plus the declared entries whose output can carry no verdict, each with its reason, INV-282)
 - `guardrails/hook-red-fixtures/scissors-scan/payload.json:1` (the fixture root's shape, one directory per hook under `guardrails/hook-red-fixtures/`, INV-282)
@@ -460,6 +468,8 @@ named here and in the matrix.
 - `tests/test_handover_provenance.py:1` (its red proof, INV-302)
 - `templates/agent.template.md:38` (the clause in the agent card a brief is written from, INV-299)
 - `scripts/open-lane.sh:100` (the clause in the printed brief stub, INV-299)
+- `scripts/check-registry.json:1` (the check registry: kind, name, kit, root, reach and needs per runnable file, INV-306)
+- `guardrails/check-named-checks.py:1` (the check-registry gate, gate ae, INV-306)
 - registry: —
 
 **notes** —
@@ -605,7 +615,7 @@ crosses it and which side owns the format. Where a crossing has a real schema, t
 | spec → prove | package-docs · product-prover | PRODUCT_SPEC.md, whole document | spec-author (the shape both sides speak) |
 | architecture → prove | package-docs · product-prover | ARCHITECTURE.md, whole document — sent into the prover at every M-1 and M-6 gate beside the spec (INV-116) | build-pipeline (the architecture step's shape, `templates/ARCHITECTURE.template.md`) |
 | prove → record | product-prover · package-docs | prover record `docs/prover/YYYY-MM-DD[-suffix].md`, folded/rejected column | product-prover |
-| pipeline → shapes | build-pipeline · templates | the document shapes the steps produce, incl. the coverage checklist | templates |
+| pipeline → shapes | build-pipeline · templates | the document shapes the steps produce, incl. the matrix's generated reference section | templates |
 | outside item → its home | inbox · package-docs | one item file (wish or feedback), harvested at sweep into the home its route owns — a ROADMAP row, or by the routing law (T-20) | inbox (file naming law); feedback-intake (the routing) |
 | handed-in item → its home | feedback-intake · package-docs | the routed landing: a wish row, a ledger line, a harvested answer — the route named in the echo | feedback-intake (the routing law) |
 | feedback ↔ the echo | feedback-intake · communicator | the one echo per received item (a wish-shaped item keeps the wish echo, INV-27) | communicator (the echo's shape) |

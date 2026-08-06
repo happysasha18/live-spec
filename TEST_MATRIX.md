@@ -62,6 +62,8 @@ by `test_artifact_inventory` — the test parses this table, so adding an entry 
 | Bootstrap suite scaffold | `templates/test_scaffold.template.py` | shipped script | `test_artifact_inventory` + `test_scaffold_bootstrap_runs` (real simulated bootstrap, both ways) |
 | Dev-machine skill sync | `scripts/sync-skills.sh` | shipped script | `test_artifact_inventory` + `test_sync_skills_script` (real run, twice) |
 | Adoption procedure | `adopt/ADOPT.md` | shipped text | `test_artifact_inventory` |
+| Founding procedure | `adopt/START.md` | shipped text | `test_artifact_inventory` + `test_a_founding_resolves_the_pack_and_reaches_the_first_green` (a real founding on a throwaway tree) |
+| Setup routing card | `skills/build-pipeline/references/project-setup.md` | shipped text | `test_artifact_inventory` |
 | Installer | `install.sh` | shipped script | `test_artifact_inventory` |
 | Migration note (rename) | `MIGRATION.md` | shipped text | `test_artifact_inventory` |
 | Front door | `README.md` | shipped text | `test_artifact_inventory` |
@@ -486,6 +488,13 @@ by `test_artifact_inventory` — the test parses this table, so adding an entry 
 | M-333 | Version is one fact (INV-178): every skill's frontmatter version and every in-text base-version reference equals the root VERSION, stamped by `scripts/stamp-versions.py` at every bump; never a hand-rolled per-skill number drifting while the suite stays green [INV-178] | string | `test_every_skill_frontmatter_version_equals_pack_version` + `test_every_base_reference_equals_pack_version` + `test_spec_states_the_law` | *built* |
 | M-336 | The pack's authored artifacts and their installed copies are one declared class with net-parity (INV-180): four members — vendored kit scripts (INV-172/177), installed hooks and gates (INV-173/175), stamped version copies (INV-178), installed skills (A-7/M-7/E-23/E-25) — each named, the parity stated (each member names the mechanical net that tells its running copy stale), the installed-skills member named the class's acknowledged weakest (held by discipline where its three siblings hold by a machine); the class binds forward [INV-159]; never a new installable artifact with no stated staleness net to write against [INV-180] | string | `test_installed_copy_class_declared` + `test_installed_copy_class_enumerates_every_member` + `test_installed_copy_class_states_parity_and_binds_forward` | *built* |
 | M-408 | The founding-question set is versioned and the update check names each never-answered question (INV-227, ROADMAP row 394): the questions founding asks — personal-versus-reusable and the kind (INV-36), layers and proofs (INV-135), a visual kind's design principles (INV-136), the agent card (E-32/INV-184) — are a growing set with one machine home `scripts/founding-questions.json`, each question carrying the set version it entered; a host records its answered version on a `founding.set-version` profile line (E-16) and the daily check's founding arm (E-25) names each question added past it beside the stale vendored files (INV-177), a versionless host owing them all; a never-answered question is surfaced for the owner at catch-up (A-11) and answered on no one's behalf, the duty binding forward (INV-159); the agent card is the worked instance, every tree founded before it carrying an older set version; homes founding and orient (B-2/A-1), the catch-up walk's orient (A-11), the host profile (E-16), the update check (E-25), owned by attach; never a grown founding set leaving an older host unaware a question now exists, never the never-answered question answered on the host's behalf [INV-227] | string | `test_old_host_gets_unanswered_question_named` + `test_current_host_passes` + `test_versionless_host_is_told_the_set_is_versioned` + `test_pack_manifest_and_profile_agree` + `test_spec_states_the_law` + `test_formal_index_row` + `test_architecture_owns_the_invariant` + `test_matrix_row_covers_the_law` (red proven against HEAD 573d8ea, 2026-07-18: no founding-questions.json, no founding.set-version line, the update check has no founding arm) | *built* |
+| M-512 | The spoken setup entry reaches exactly one skill (INV-307): one installed skill description carries both setup phrases and names the pack beside each setup word, and `spec-author` names that entry as the earlier door; never a second description carrying the same phrases [INV-307, A-0] | string | `test_one_description_carries_both_setup_phrases` + `test_no_second_description_carries_the_setup_phrases` + `test_spec_author_names_the_earlier_door` | *built* |
+| M-513 | The routing card ships with the skill and holds no phases (INV-307): `skills/build-pipeline/references/project-setup.md` names all three walks by path and carries six ordered reads ending in one action handed to the person; never a phase heading or a second procedure inside the card [INV-307] | string | `test_card_exists_and_names_all_three_walks` + `test_card_carries_six_ordered_reads_ending_in_one_action` + `test_card_holds_no_phases` | *built* |
+| M-514 | The founding walk exists and points where it must (INV-307): `adopt/START.md` names every template it copies and each one ships, it points at `adopt/ADOPT.md` for the phases that live there, it names `tests/test_scaffold.py` as the judge of the first green, and it creates the surface registry after the config and under that config's name; never a restated phase heading and never a check list of its own [INV-307, INV-89] | string | `test_walk_exists_and_every_template_it_names_ships` + `test_walk_points_at_adopt_rather_than_restating_it` + `test_walk_is_safe_on_a_half_done_tree` + `test_walk_names_the_judge_and_no_check_list_of_its_own` + `test_registry_is_created_after_the_config_and_takes_its_name` | *built* |
+| M-515 | The closed request set places all three setup sentences (INV-307): the request-kind table carries a row for an existing project, a new project and an already-adopted project, each naming its entry document and its back-check, and `docs/adoption.md` routes a fresh project to `adopt/START.md`; never a shipped sentence saying a person copies the templates by hand [INV-307, INV-151] | string | `test_three_setup_rows_each_naming_entry_and_back_check` + `test_adoption_guide_routes_a_fresh_project_and_drops_the_hand_copy` + `test_the_templates_list_names_every_template_that_ships` | *built* |
+| M-516 | The pack's own tree stays reachable on both install routes (INV-307): every path under `skills/` the card names sits inside a skill folder, so `install.sh` carries it, and a resolved tree whose version differs from the installed skills' version is said aloud before the walk continues; never a card step that only the plugin route can reach [INV-307, M-7] | string | `test_every_skills_path_the_card_names_sits_under_a_skill_folder` + `test_a_version_disagreement_is_said_aloud` | *built* |
+| M-517 | A founding runs on a throwaway tree, proven by deed (INV-307): the walk resolves the pack tree from a fixture mirroring the plugin cache, reaches one commit and a green scaffold suite with the host profile carrying the project's own keys, keeps what a person wrote on a second run, and stops with one action where no read answers; never a run that overwrites a filled document or passes with template placeholders surviving [INV-307, B-1] | string | `test_a_founding_resolves_the_pack_and_reaches_the_first_green` + `test_the_host_profile_carries_the_hosts_keys_and_none_of_the_persons` + `test_a_second_founding_keeps_what_the_person_wrote` + `test_a_missing_template_fails_by_name` + `test_surviving_placeholders_are_red` + `test_a_tree_that_resolves_nothing_stops_with_one_action` | *built* |
+| M-518 | The phrases the entry is scored on stand written where a later session can audit them (INV-307): `evals/build-pipeline.md` carries every scored setup phrase and the two phrases that must not load, so the shipped description field can be re-scored against the same list; never a triggering claim resting on a phrase list nobody wrote down [INV-307, A-0] | string | `test_the_eval_carries_every_scored_phrase` (the loading itself is scored by the recorded eval run) | *built* |
 
 ### [node: inbox]
 
@@ -652,6 +661,21 @@ by `test_artifact_inventory` — the test parses this table, so adding an entry 
 | M-495 | The record states what the review examined (INV-304): a record under `docs/push-review/` carries the `PUSH-REVIEW` marker and five fields, each with a value — `Range:`, `Files read:`, `Checks run:`, `Findings:` and `Blocking:` — so a review that found nothing still says which files it read and which checks it ran, and the absence of findings rests on that coverage rather than on silence; `Blocking:` reads `none`, or lists one item per blocking finding, each carrying `closed:` with what changed or `stands:` with the reason it stands; does — reds a record short a field, reds a field left empty, reds an open blocking item, and passes a blocking item that is closed or explained; never an empty file satisfying the gate, never a blocking finding leaving the machine unexplained [INV-304] | string | `tests/test_push_review.py::test_record_short_a_field_reds` + `test_open_blocking_finding_reds` + `test_closed_blocking_finding_passes` + `test_record_home_ships` (red proven against a record naming the pushed range with its `Checks run:` field removed) | *built* |
 | M-496 | The gate holds what a machine can hold and names the rest (INV-304): `guardrails/check-push-review.sh` runs as gate ac of `guardrails/pre-push` and carries its known-red proof in `guardrails/gate-red-proofs.json` [INV-212]; the script's own comments, the requirement, and `docs/push-review/README.md` each state that no script decides whether the review was adversarial, whether the files the record names were read, or whether the findings are the ones the delta deserved; does — states that limit on the green line and in all three homes; never a green line read as a judgment that the review was adversarial, never the gate wired without its known-red proof [INV-304] | string | `tests/test_push_review.py::test_gate_wired_into_pre_push` + `test_gate_carries_its_known_red_proof` + `test_the_limit_is_stated_in_every_home` + `test_gate_ships` + `test_spec_states_the_law` | *built* |
 
+| M-498 | A published count answers to the command printed beside it (INV-305): `guardrails/check-tree-counts.py` (gate ad) runs each measurement's argument list and reds where the number a page states disagrees with what the command returns, naming both numbers and the command; never a figure a reader is invited to reproduce that its own reproduction command contradicts [INV-305] | string | `test_a_drifted_block_reds_the_published_number_against_its_own_command` (red proven before the gate existed) | *built* |
+| M-499 | A count inside a generated block is rebuilt from the tree (INV-305): `scripts/gen-tree-counts.py` fills every marked block, and gate ad reds a committed block differing from a fresh build, naming the block and the built value; never a hand-typed number standing inside a generated block [INV-305, INV-258] | string | `test_a_drifted_block_reds` + `test_the_generator_fills_a_placeholder_block` | *built* |
+| M-500 | A sentence home is judged and never written (INV-305): the generator writes no text at a sentence home, and gate ad reds a page that has lost the sentence its template renders, naming the page and the rendered sentence; never a generator edit to a paragraph a person authored [INV-305] | string | `test_a_page_missing_its_rendered_sentence_reds` + `test_the_generator_writes_no_text_at_a_sentence_home` | *built* |
+| M-501 | A floor claim reds only below its floor (INV-305): a measurement claimed at-least passes while the tree stands at or above the declared number and reds below it, naming the floor and the measured value; never a red on a tree that has grown past the floor its page publishes [INV-305] | string | `test_a_floor_the_tree_falls_below_reds` + `test_a_tree_above_its_floor_passes` | *built* |
+| M-502 | The gate runs an argument list through a read-only allowlist (INV-305): a stage naming a program outside the declared allowlist reds by name and no stage of that command runs, and an argument that is absolute, that leaves the repository root, or that holds a newline reds; never a registry token reaching a shell [INV-305] | string | `test_a_program_outside_the_allowlist_reds_and_runs_no_stage` + `test_an_argument_that_leaves_the_repository_root_reds` | *built* |
+| M-503 | The gate measures the tree the push sends (INV-305): an uncommitted modification to a measured path, or to a page holding a home, reds before either arm reads and names the path; never a green read off working-tree bytes the push leaves behind [INV-305] | string | `test_an_uncommitted_measured_path_reds` + `test_an_uncommitted_page_reds` | *built* |
+| M-504 | The gate reds over nothing and states its reach (INV-305): a registry parsing to zero counts and a pattern matching zero files each red by name, and the green line states every count read, every page swept, every command run and its elapsed seconds; never a green line over an empty registry [INV-305, INV-218, INV-269] | string | `test_an_empty_registry_reds_by_name` + `test_the_reach_line_names_counts_pages_commands_and_seconds` | *built* |
+| M-505 | Every runnable file a skill body names in command position carries a registry entry (INV-306): `scripts/check-registry.json` holds one entry per named check and per file those entries read, each recording its kind as check, library or data; never a runnable file a skill names that the registry does not carry [INV-306] | string | `tests/test_check_registry.py::test_gate_reds_a_command_position_path_with_no_entry` + `test_gate_reds_a_needs_member_that_is_no_registry_entry` + `test_the_registry_records_one_entry_per_kind_it_states` | *built* |
+| M-506 | A registry entry disagreeing with the tree reds (INV-306): the gate reds an entry whose recorded kind the tree contradicts and an entry whose path names no file, naming the entry and the test that disagreed; never a registry line left standing over a file that moved [INV-306] | string | `tests/test_check_registry.py::test_gate_reds_a_kind_that_disagrees_with_the_tree` + `test_gate_reds_an_entry_whose_key_names_no_file` | *built* |
+| M-507 | A check entry carries a unique name and a kit derived from its reach (INV-306): an empty reach reads ships, a reach naming a path under the pack's machinery directories reads pack-only, every other reach reads host-optional, and a library or data entry carries no name; never a kit typed by hand beside a reach that contradicts it [INV-306] | string | `tests/test_check_registry.py::test_gate_reds_a_duplicate_name` + `test_gate_reds_a_kit_that_disagrees_with_its_reach` + `test_gate_reds_a_name_on_a_library_entry` | *built* |
+| M-508 | A check's source is held against its declared reach (INV-306): a document name stated in the source with comments and docstrings stripped reds where the reach does not declare it, and a reach member naming a missing path inside the pack reds on the same arm; never a check reading a document its reach never declared [INV-306] | string | `tests/test_check_registry.py::test_gate_reds_a_document_the_source_states_and_the_reach_omits` + `test_gate_reds_a_reach_member_that_names_a_missing_path` | *built* |
+| M-509 | A pack-only check leaves the host instructions (INV-306): the gate reds a skill body naming a pack-only check in command position, naming the skill file, the line and the check's reach; never a step that sends a host project's agent to run a check over this pack's own documents [INV-306] | string | `tests/test_check_registry.py::test_gate_reds_a_pack_only_check_named_in_a_skill_body` | *built* |
+| M-510 | A check declares how it learns which tree it judges (INV-306): each check entry records its root as argument, working-directory or own-tree, and a check recorded argument or working-directory that defaults its scan root from its own file's location reds by entry and line; never a declared root the code silently overrides [INV-306] | string | `tests/test_check_registry.py::test_gate_reds_a_root_declared_argument_over_an_own_tree_default` + `test_every_check_entry_carries_the_five_fields` | *built* |
+| M-511 | The registry gate is wired and states its reach (INV-306): it runs as gate ae of `guardrails/pre-push`, carries a red-proof entry and a mirrored step in the CI workflow, and prints the entries read, the skill bodies scanned and the command-position paths found; never a gate on the hook with no proof that it can fail [INV-306, INV-210, INV-212] | string | `tests/test_check_registry.py::test_the_green_run_states_its_reach` + `tests/test_every_gate_can_fail.py::test_real_chain_is_compliant` + `test_registered_proofs_exist` + `tests/test_ci_mirror.py::test_real_tree_is_compliant` | *built* |
+
 ### [node: text-audit]
 
 | ID | Fact (from spec) | Test level | Owning test | Status |
@@ -750,7 +774,7 @@ The anchor-to-row table below is generated output, built from the body rows by `
 
 | Anchor | Rows |
 |---|---|
-| A-0 | M-039 |
+| A-0 | M-039, M-512, M-518 |
 | A-1 | M-040 |
 | A-2 | M-041 |
 | A-3 | M-042 |
@@ -765,7 +789,7 @@ The anchor-to-row table below is generated output, built from the body rows by `
 | ACT-1 | M-008 |
 | ACT-2 | M-009 |
 | ACT-3 | M-010, M-095, M-102, M-119 |
-| B-1 | M-034 |
+| B-1 | M-034, M-517 |
 | B-2 | M-079 |
 | B-3 | M-165 |
 | C-1 | M-014 |
@@ -897,7 +921,7 @@ The anchor-to-row table below is generated output, built from the body rows by `
 | INV-86 | M-201 |
 | INV-87 | M-206, M-208, M-209, M-210, M-212, M-213 |
 | INV-88 | M-207, M-211 |
-| INV-89 | M-218 |
+| INV-89 | M-218, M-514 |
 | INV-90 | M-219 |
 | INV-91 | M-220 |
 | INV-92 | M-221 |
@@ -959,7 +983,7 @@ The anchor-to-row table below is generated output, built from the body rows by `
 | INV-148 | M-290 |
 | INV-149 | M-291 |
 | INV-150 | M-292 |
-| INV-151 | M-296 |
+| INV-151 | M-296, M-515 |
 | INV-152 | M-297, M-302 |
 | INV-153 | M-298 |
 | INV-154 | M-299 |
@@ -1018,15 +1042,15 @@ The anchor-to-row table below is generated output, built from the body rows by `
 | INV-207 | M-388 |
 | INV-208 | M-389 |
 | INV-209 | M-390 |
-| INV-210 | M-391 |
+| INV-210 | M-391, M-511 |
 | INV-211 | M-392 |
-| INV-212 | M-393 |
+| INV-212 | M-393, M-511 |
 | INV-213 | M-394 |
 | INV-214 | M-395 |
 | INV-215 | M-396 |
 | INV-216 | M-397 |
 | INV-217 | M-398 |
-| INV-218 | M-399, M-482, M-484, M-486, M-489, M-490 |
+| INV-218 | M-399, M-482, M-484, M-486, M-489, M-490, M-504 |
 | INV-219 | M-400 |
 | INV-220 | M-401 |
 | INV-221 | M-402 |
@@ -1066,7 +1090,7 @@ The anchor-to-row table below is generated output, built from the body rows by `
 | INV-255 | M-438 |
 | INV-256 | M-439 |
 | INV-257 | M-435 |
-| INV-258 | M-440, M-447 |
+| INV-258 | M-440, M-447, M-499 |
 | INV-259 | M-440 |
 | INV-260 | M-441 |
 | INV-261 | M-441 |
@@ -1077,7 +1101,7 @@ The anchor-to-row table below is generated output, built from the body rows by `
 | INV-266 | M-446 |
 | INV-267 | M-446 |
 | INV-268 | M-446 |
-| INV-269 | M-443 |
+| INV-269 | M-443, M-504 |
 | INV-270 | M-444 |
 | INV-271 | M-445 |
 | INV-272 | M-448 |
@@ -1113,13 +1137,16 @@ The anchor-to-row table below is generated output, built from the body rows by `
 | INV-302 | M-483, M-484, M-485, M-488, M-489, M-490 |
 | INV-303 | M-491, M-492, M-493 |
 | INV-304 | M-494, M-495, M-496 |
+| INV-305 | M-498, M-499, M-500, M-501, M-502, M-503, M-504 |
+| INV-306 | M-505, M-506, M-507, M-508, M-509, M-510, M-511 |
+| INV-307 | M-512, M-513, M-514, M-515, M-516, M-517, M-518 |
 | M-1 | M-029, M-128 |
 | M-2 | M-011 |
 | M-3 | M-053 |
 | M-4 | M-054, M-057, M-059, M-105, M-143, M-185, M-199, M-204 |
 | M-5 | M-062, M-154 |
 | M-6 | M-015, M-190 |
-| M-7 | M-012, M-261 |
+| M-7 | M-012, M-261, M-516 |
 | S-0 | M-052 |
 | T-1 | M-017 |
 | T-2 | M-017 |
