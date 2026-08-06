@@ -3,7 +3,14 @@
 A digest, at or under 100 lines (SPEC INV-48). One status block stands here at a time, and every
 update replaces it. Dated history lives in `JOURNAL.md`.
 
-## LIVE STATE (2026-08-06, 22:02)
+## LIVE STATE (2026-08-07, 00:29)
+
+At 00:17 Alexander handed in four process complaints in one message: the method is slow and he
+suspects redundant work, the context is still too big, he wants the board for correcting state by
+eye, and sessions enter long work blocks with no grounding he can see. They routed to rows 568
+(cost audit), 570 (fixed context load), field evidence on row 166, and 569 (work grounded in his
+sight before it runs). A first investigation pass ran the same session; its numbers are in the
+journal's 2026-08-07 chapter. The state below is the board movement's, unchanged from 22:02.
 
 The work board movement (row 166, Live work board) ran the whole evening with Alexander in the
 chat. It stands in inception by the stage ladder he set at ~21:34. Its specification is
@@ -31,15 +38,18 @@ under its estimate.
       dated word-history behind it — partly folded already, verify at the re-read.
    Then the statement re-validates and the task turns *ready*. The build opens: the entry check,
    the board source file and generator, the page checked against the frozen norm.
-2. The page's next revision reads `~/live-spec-carry/2026-08-06/kanban-tools-study.md` (card-face
+2. Rows 568 and 569 (his 00:17 word: investigate the slowness, solve the ungrounded work blocks)
+   and row 570 (the fixed context load) — 568's audit page is the first deliverable, and 569's
+   design should land with or right after the board's plan cells, since the board is its home.
+3. The page's next revision reads `~/live-spec-carry/2026-08-06/kanban-tools-study.md` (card-face
    and history patterns from Linear/Jira/GitHub; lane header counts; the widened/edited marker).
    Collapsible per-deliverable folds are already owed (his ~21:34 word).
-3. Row 567 (bug): the session rules name `scripts/preshow-register-lint.py`, and no host tree
+4. Row 567 (bug): the session rules name `scripts/preshow-register-lint.py`, and no host tree
    holds it. Ship the checker at adopt and catch-up, or re-word the law. From the tlvphotos
    report, atticked with the manifest naming this row.
-4. Row 566: board-ready statements for the whole queue. Every open row gets an authored
+5. Row 566: board-ready statements for the whole queue. Every open row gets an authored
    echo-name, description, plan and estimate through the entry check, in batches.
-5. Rows 558, 559, 560 (waiting on Alexander: the two-name screens list), 561, 562-565, and rows
+6. Rows 558, 559, 560 (waiting on Alexander: the two-name screens list), 561, 562-565, and rows
    532-546 stand as before; see the queue.
 
 ## Where the numbers live

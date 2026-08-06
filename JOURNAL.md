@@ -2278,3 +2278,28 @@ host tree holds became row 567; the backlog-statements campaign became row 566.
 The task stands in inception by his own ladder. Inception's remaining products: the full
 adversarial review of the specification by a fresh seat, the stage-ladder re-map of the columns,
 and the task-graph criteria. He asked for a clean stop so the session's context can be wiped.
+
+## 2026-08-07, 00:17–00:28 — four process complaints routed, and the first cost numbers taken
+
+At 00:17 Alexander handed in four complaints about the method itself: the work is slow and he
+suspects redundancy (why the whole suite on every run, why an isolated feature buys the full
+ceremony — maybe justified, he wants it investigated); the context still seems too huge; he wants
+the work board so he can correct state by his own eye; and sessions repeatedly enter work blocks
+of about two hours with no grounding he can see — the board-spec evening among them, where work
+began that stood in no plan he had been shown. The routing: rows 568 (the cost audit), 570 (the
+fixed context load), 569 (a work block grounded in his sight before it runs), and field evidence
+on row 166 read as a priority signal. One ledger entry in FEEDBACK.md carries all four.
+
+The same session took first numbers. The suite is 2,491 tests in 208 files; a clean-tree full run
+at 00:20 took 449 seconds against the architecture's 360-second budget. Inside that run the
+suite-runs-itself meta-test spawned a full inner suite costing 134 seconds — the scoping row 362
+gave it holds only on the push road, while the standing dev command (`python3 -m pytest -q`, the
+one every brief carries) fires it every time. The push gate runs 27 lettered gates, and its scoped
+road falls back to the full suite for any file outside the prose and infra classes. The board
+evening's inception ran roughly 19:28 to 22:01 and produced 99 criteria over three spec passes and
+two review rounds before any build. The fixed rulebook load a working session carries: the base
+skill 68 KB, build-pipeline 64 KB, product-prover 69 KB, spec-author 63 KB, communicator 46 KB —
+base plus two working skills is roughly 45k tokens before any conversation, and the per-prompt law
+block adds more on every message. The clean-tree run also went red on the known after-midnight
+family — the real-repo-and-calendar tests red until the day's first prover record exists — its
+third firing, appended to the problem ledger, the ask for his word riding this report.

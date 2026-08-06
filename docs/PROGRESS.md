@@ -1,8 +1,8 @@
 # Progress — the two promises
 
-Generated 2026-08-06 by `python3 scripts/progress-report.py`.
+Generated 2026-08-07 by `python3 scripts/progress-report.py`.
 
-Since the last run on 2026-08-06, total findings changed by 0 and documents at zero changed by 0.
+Since the last run on 2026-08-07, total findings changed by 0 and documents at zero changed by 0.
 
 ## Where the two promises stand
 
