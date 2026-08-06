@@ -50,6 +50,18 @@ the one slot nothing questions. That is the defect this surface exists to catch.
 
 ## On record
 <!-- record:on -->
+- 2026-08-06 ~21:35 — every new wish is placed in the task graph (row 166 and intake law). Your
+  words in chat: when a new wish comes, it should be determined how it relates to what came
+  before; the seat maintains all the tasks and their relations in its head, so it can always find
+  the best implementation path, seeing possible parallelism and dependencies.
+- 2026-08-06 ~21:34 — the stage ladder gains inception (row 166, Live work board). Your words in
+  chat: "in work" means the item is clear and in the pipeline; before it sits the backlog of all
+  kinds of ideas, then inception, where either everything becomes clear and the item moves to
+  ready, or your input is needed — so one more stage stands between the backlog pile and ready,
+  and that is where the board task itself stands now. "The board's rules, written and twice
+  reviewed" is inception's product, never an execution subtask. Subtasks carrying info must be
+  collapsible. A fresh wish arrives already connected to the feature and spec part it touches, as
+  decided earlier. You also asked to reach a clean point so the session's context can be wiped.
 - 2026-08-06 ~21:16 — a card's plan is a short list of deliverables (row 166, Live work board).
   Your words in chat: no need for both numbers and emoticons; a task never carries a hundred
   subtasks — like in every agile it splits into fewer deliverables, and the subtask list is never a
