@@ -59,6 +59,49 @@ Criteria scored against Scenario B (the with-skill arm should now score GREEN wh
 | A delegation brief carries the ledger walk + the clock (ACT-3) | — (bare plans no worker) | GREEN target — the >3-files-and-90s-suite tripwire forces a worker; the brief must carry the exact edit strings, the checkpoint path, the problem-ledger WATCHED-line duty, AND the clock read at briefing |
 | Steps worked in their craft's head (INV-33) | — | GREEN target — the mechanical rename routes to a worker (senior briefs), the judgment (naming, matrix, verify) stays senior, the hats named at each step |
 
+## Scenario C — the spoken setup entry loads the skill (added 2026-08-06, row 557)
+
+Scenarios A and B measure what the skill does once it is loaded. This one measures whether it loads
+at all. The pack's front page promises that a person who has installed it says one sentence and the
+setup walk runs, and that promise rests on the description field alone: a matcher reads the field and
+picks the skill, so a sentence nobody's field covers reaches nothing. The arm this scenario scores
+was added to `skills/build-pipeline/SKILL.md`'s description on 2026-08-06 (SPEC Requirement 308).
+
+**How it is scored.** One fresh session per phrase, each given the phrase as its whole first message
+and nothing else. Score which skills load. A phrase in the first list that loads no build-pipeline is
+a red; a phrase in the second list that loads build-pipeline is a red. `evals/README.md` states the
+standing boundary: a machine carrying the pack has no truly bare session, so this scenario measures
+the marginal value of the field's wording over what the machine already teaches.
+
+Eight phrases *shall* load build-pipeline:
+
+| # | Phrase | Loads build-pipeline |
+|---|---|---|
+| 1 | attach live-spec to this project | to be scored |
+| 2 | adopt live-spec here | to be scored |
+| 3 | set live-spec up on this repo | to be scored |
+| 4 | add live-spec to this codebase | to be scored |
+| 5 | found a new project on live-spec | to be scored |
+| 6 | start a new project with live-spec | to be scored |
+| 7 | I just installed live-spec, what now | to be scored |
+| 8 | update live-spec here | to be scored |
+
+Two phrases *shall* miss it:
+
+| # | Phrase | Loads build-pipeline |
+|---|---|---|
+| 9 | install the requests library | to be scored — a miss is the pass |
+| 10 | start a new project | to be scored — a miss is the pass |
+
+Phrase 6 is the contested one: `spec-author`'s own field opens on starting a new spec, and phrase 10
+is the same sentence with the pack's name taken out. The two together measure whether the pack's name
+is what does the picking. Phrase 9 measures the same thing from the other side, on the word install.
+
+**When it re-scores.** The description field runs 477 characters against a shipped range of 122 to
+383 characters over eleven fields, so this one is the longest in the pack today. No gate caps the
+field, and dilution would show here first. Re-score this scenario after any later growth of the
+field.
+
 ## Re-run
 
 One Sonnet worker per arm. Bare arm: the prompt above + "do not invoke any tools or skills". With-skill

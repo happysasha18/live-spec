@@ -1551,7 +1551,10 @@ class TestBootstrapScaffold(unittest.TestCase):
         for phrase in ("A gate cannot protect files older than itself",
                        "[INV-8]",  # "a gate can't protect files older than itself" / no landing into an unversioned host
                        "copy the suite scaffold",
-                       "judge the first delivery green by four checks",
+                       # The four-checks sentence named a checklist that retired at queue row 477;
+                       # the pin moves to the repaired sentence, which reads the shipped scaffold
+                       # (SPEC R308 landing, INV-274). PRODUCT_SPEC.md carries the repair.
+                       "judge the first delivery green by what the shipped scaffold runs",
                        "the scaffold suite *shall* count that header as red",
                        "offer hooks in plain words, and *shall* impose none"):  # hooks offered at bootstrap exactly as at adoption
             self.assertIn(phrase, spec, "SPEC lost the bootstrap-order clause: %s" % phrase)

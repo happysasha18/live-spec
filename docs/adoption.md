@@ -3,7 +3,10 @@
 live-spec attaches to a codebase that already has code, documents, and habits. The project that
 adopts it is called the **host**. The normative procedure is [adopt/ADOPT.md](../adopt/ADOPT.md);
 this page gives the shape of the run, what the host gains, and where the supporting files live.
-When this page and ADOPT.md differ, ADOPT.md wins.
+When this page and ADOPT.md differ, ADOPT.md wins. A project with nothing in it yet takes a
+different walk, the founding at [adopt/START.md](../adopt/START.md). Two spoken sentences reach the right one of the
+two: "attach live-spec to this project" and "found a new project on live-spec". The routing card the
+build-pipeline skill carries is what picks.
 
 One boundary holds through the whole run: from a host session, the live-spec package repo is
 read-only. A defect found during adoption goes into live-spec's `inbox/` as one new file and into
@@ -80,12 +83,19 @@ the walk; nothing outside a host's session writes that host's repo.
 
 ## The scaffold and templates
 
-`templates/` holds one starter file per canonical document: `PRODUCT_SPEC.template.md`,
-`ARCHITECTURE.template.md`, `TEST_MATRIX.template.md`, `ROADMAP.template.md`,
-`JOURNAL.template.md`, `NEXT_STEPS.template.md`, `PROBLEMS.template.md`, `KILL_LIST.template.md`,
-`profile.template.md`, and `test_scaffold.template.py`. A person copies them by hand for a fresh
-project; `install.sh` installs the skills alone and reaches no template. An adopted host uses them
-only for the documents it lacks, since Phase 3 re-engineers the rest.
+`templates/` holds fourteen starter files. Six are the canonical document set:
+`PRODUCT_SPEC.template.md`, `ARCHITECTURE.template.md`, `TEST_MATRIX.template.md`,
+`ROADMAP.template.md`, `JOURNAL.template.md`, and `NEXT_STEPS.template.md`. Three land on the
+project's own word: `DECISIONS.template.md`, `PROBLEMS.template.md`, and `KILL_LIST.template.md`.
+The remaining five each carry their own job. `test_scaffold.template.py` is the first runnable
+suite, and `agent.template.md` is the tree's agent card. `profile.template.md` is the shape of a
+person's own profile, and `skill-review.template.md` the shape of a skill-review record.
+`headless_harness.py` is the shared harness for browser-level tests.
+
+A fresh project gets these through the founding walk, [adopt/START.md](../adopt/START.md). That
+walk lands each one under its canonical name, and it stops by name where the pack tree lacks one.
+`install.sh` installs the skills alone and reaches no template. An adopted host uses them only for
+the documents it lacks, since Phase 3 re-engineers the rest.
 The test scaffold lands in `tests/` and defines the minimal green for the first landing.
 
 `scaffold/guardrails/README.md` is the authoritative description of the four mechanical checks a

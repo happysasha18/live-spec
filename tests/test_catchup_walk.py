@@ -110,12 +110,26 @@ class TestCatchupPreserveAndRehome(unittest.TestCase):
     def test_canonical_set_has_one_home(self):
         heading = "## The canonical document set"
         self.assertIn(heading, read_flat("adopt/ADOPT.md"))
-        for other in ("docs/adoption.md", "docs/pair-adoption.md", "MIGRATION.md"):
+        # adopt/START.md, the founding walk, joins the swept siblings (SPEC R308, INV-307).
+        for other in ("docs/adoption.md", "docs/pair-adoption.md", "MIGRATION.md", "adopt/START.md"):
             self.assertNotIn(
                 heading, read_flat(other),
                 f"second canonical-set list in {other} — the one home is ADOPT.md",
             )
         self.assertIn("The canonical document set lives in `adopt/ADOPT.md`", read_flat("docs/adoption.md"))
+
+    def test_the_two_shared_phase_headings_have_one_home(self):
+        """The founding walk points at ADOPT.md's version-control and orient phases rather than
+        restating them, so each heading text stands in ADOPT.md alone (SPEC R308, INV-307)."""
+        for heading in ("Phase 0 — Version-control gate first",
+                        "Phase 1 — Orient: read everything first"):
+            self.assertIn(heading, read_flat("adopt/ADOPT.md"))
+            for other in ("adopt/START.md", "MIGRATION.md", "docs/adoption.md",
+                          "docs/pair-adoption.md"):
+                self.assertNotIn(
+                    heading, read_flat(other),
+                    f"{other} restates an ADOPT.md phase heading — the one home is ADOPT.md",
+                )
 
     def test_spec_file_row_in_defaults_table(self):
         self.assertIn("spec.file", read_flat("skills/live-spec-base/SKILL.md"))

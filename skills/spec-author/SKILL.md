@@ -1,6 +1,6 @@
 ---
 name: spec-author
-description: Use to start a new product spec, add a feature to an existing spec, or keep a spec in sync with behavior changes. Documenting already-built code after the fact and a prototype sketch that carries no spec stay outside it.
+description: Use to start a new product spec, add a feature to an existing spec, or keep a spec in sync with behavior changes. Setting a project up on live-spec comes earlier, at build-pipeline's setup entry. Documenting already-built code after the fact and a prototype sketch that carries no spec stay outside it.
 metadata:
   version: 4.3.0
 ---

@@ -6,6 +6,9 @@ has a clear done-state. Adoption never assumes a blank slate, and it **never del
 
 **Routing:** this guide is the first adoption. A host that already adopted and needs to come up to a
 newer pack goes to the catch-up walk instead — [MIGRATION.md](../MIGRATION.md) at the package root.
+A tree with no code and no documents of its own is a founding, and it goes to
+[START.md](START.md). The routing card at `skills/build-pipeline/references/project-setup.md` reads
+the tree and picks among the three walks.
 
 First proven on a real project (tlvphoto, 2026-07-04); the practical notes below are from that run.
 
@@ -237,7 +240,8 @@ product-prover pass with the architecture lens before deriving anything from it.
 transition / cross-section / surface, each pinned to a test **level** (string / DOM / browser / pixel —
 extend with `data` for a data pipeline). Every row states both sides — what the fact does and what it must
 never do (the negative is the regression fence). Visibility/layout facts get level ≥ browser. The
-derivation closes with the template's coverage-validation checklist, actually walked. If the host has no
+derivation closes with the mechanical row lint and the matrix's generated reference section, which
+replaced the hand-walked checklist at queue row 477 (SPEC INV-274). If the host has no
 suite yet, all rows are `TODO` — the data/invariant rows become the acceptance criteria for the next
 build sprint.
 
@@ -245,6 +249,8 @@ Done when: `ARCHITECTURE.md` exists with every spec fact owned (prover-lensed), 
 ≥ 1 row per spec invariant under its owning node, each with a level, all `TODO` (or better).
 
 ---
+
+## Installing the gates (SPEC INV-97, INV-172, INV-173)
 
 **First attach the four project-side checks, in one command (SPEC INV-97).** From the host root:
 `bash <pack>/adopt/install-scaffold.sh`. The four checks are the pipeline's mechanical teeth as code a

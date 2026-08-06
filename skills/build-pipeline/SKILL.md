@@ -1,6 +1,6 @@
 ---
 name: build-pipeline
-description: Use to run a non-trivial feature, bug fix, behavior change, refactor, docs-only change, or feature removal through the full spec-to-ship pipeline. A tiny reversible edit and pure research stay outside it.
+description: Use to run a non-trivial feature, bug fix, behavior change, refactor, docs-only change, or feature removal through the full spec-to-ship pipeline. Use it as well to set a project up on live-spec, where it reads the tree, picks the setup walk, and runs it. Spoken: attach live-spec to this project, adopt or install live-spec here, onboard this codebase onto live-spec, found a new project on live-spec, update live-spec here. A tiny reversible edit and pure research stay outside the pipeline.
 metadata:
   version: 4.3.0
 ---
@@ -213,6 +213,15 @@ Skip it for the skip-boundary edit (single file · no new state, element, or vis
 test level already covers the touched fact — it still ships a test, just no pipeline); not for pure
 research or fact-gathering (no artifact changes); not for a SEE/TRY ask (that goes to the labelled
 prototype home, base rule 16 — and comes BACK through this pipeline only at promotion).
+
+## Setting a project up on the pack
+
+A session that hears "attach live-spec to this project", "found a new project on live-spec", or
+"update live-spec here" runs a setup walk first. Read
+[references/project-setup.md](references/project-setup.md), the routing card beside this page. It
+resolves the pack tree, reads the project tree, and names the walk this project takes. The setup
+entry stands outside the derivation chain, beside the sketch lane. When the walk finishes, the first wish enters at its
+own door like any other request.
 
 ## The work-kind table — WHAT the wish builds scales HOW each step runs (SPEC T-16, INV-22)
 
