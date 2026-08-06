@@ -2,9 +2,15 @@
 
 PUSH-REVIEW
 
-Range: c869cbb..914d5cb
+Range: c869cbb..14159eb
 
 Commits:
+- 14159eb Row 549 lands: the never-bend criteria are held by a test
+- 0f871f8 The queue gains row 551 for the transcript's lost paste and rule 35's silent opening
+- 58e9671 The row returns to the queue so its landing carries the status file
+- cb9f062 The index rebuilds off the split criterion, and the status block reads the morning
+- fc5c8c3 The review record covers the morning's landings
+- b3373ac The never-bend criteria gain their test row, and the fresh-agent clause names its scope
 - 914d5cb The never-bend criteria gain their test row, and the fresh-agent clause names its scope
 - dff23ca A fresh head reads the budget law and names where it cannot be found
 - b462e14 A decision recorded as his must carry his own words, not a date alone
