@@ -2,10 +2,11 @@
 
 PUSH-REVIEW
 
-Range: 9b3a666..a4a9f0c
-Range note: the range pushed in two portions; the second portion's base 48ccd89 (the commit that first shipped this record) and its commits c0a6e3a and a4a9f0c all sit inside the reviewed range above.
+Range: 9b3a666..0ce6fe7
+Range note: the range pushed in two portions; the second portion's base 48ccd89 (the commit that first shipped this record) and its commits c0a6e3a and a4a9f0c all sit inside the reviewed range above. A third portion follows, based at 8276607, which carries this record alone; its one commit of its own is 0ce6fe7, reviewed below.
 
 Reviewed commits (every commit in the range touches a file outside `docs/push-review/`):
+- 0ce6fe7 The spent work copies leave on Alexander's word, and the live state says what stays — a dated JOURNAL.md entry on the approved deletion of four work copies and five merged branches, and NEXT_STEPS.md item 8 rewritten to describe the three branches that stay
 - a4a9f0c The four unregistered count surfaces state their real owners — NEXT_STEPS.md drops the claim that each of the four carries its own later row and points the undeclared-page class at row 563 and the other three at row 555's non-goal
 - c0a6e3a The forward queue names the push review's four new rows — one new item in NEXT_STEPS.md naming rows 562 to 565, and a renumber of the two items below it
 - fc57abe The push review's three blocking findings close, and the rest join the queue — the description-length figures state the measured 493, the skill-review record says the closing-sentence recommendation was taken, matrix row M-518 says the loading is unscored, queue rows 562 to 565 open, and the gate page gains its note for gate ad
@@ -70,6 +71,18 @@ Run at a4a9f0c, over the repair of finding 11:
 - `python3 guardrails/check-doc-bound.py` — OK, gate z, four documents within their bounds.
 - `python3 guardrails/check-doc-findings-bound.py` — OK. 114 live documents, 20 at zero, none above its record.
 - `python3 guardrails/check-tree-counts.py` — OK. Four of four rows matched.
+
+Run at 0ce6fe7, over the record of the removed work copies:
+
+- `git worktree list` — one tree, the repository itself. `.claude/worktrees/` holds nothing. The journal's "four clean work copies were removed" matches the tree.
+- `git branch -vv` — three branches stand beside main, exactly the three the journal names.
+- `git rev-list --count main..backup-2026-08-06-before-relay` — 4, and `git log --date=iso` dates all four between 09:20 and 09:31 on 2026-08-06. The journal's "four commits of its own, a safety copy from this morning" holds.
+- `git merge-base --is-ancestor relay backup-2026-08-06-before-relay` — false, which is what the branch name states. The backup is a snapshot taken before the relay, so it holds a parallel copy of the same work rather than relay's tip.
+- `git branch --merged main` — main and relay. The journal's "relay (fully merged)" holds.
+- `git rev-list --count main..wip/comms-naming-424` — 1, and its commit 55597bc is dated 2026-07-19. The journal's "one checkpoint commit of 2026-07-19" holds.
+- The five deleted branches were counted against the queue item they replace, which named four work copies plus the merged registry branch. The journal's "the four copies' branches and one branch that had no copy" agrees with that accounting.
+
+One limit of this check, stated rather than left silent: a deleted branch leaves no artifact, so the journal's "each held zero uncommitted files and zero commits ahead of main, checked before removal" cannot be reproduced after the fact. It rests on the session that ran the check and on Alexander's approval, which the entry records with its time.
 
 Findings: eleven. Three of them blocked, and all three closed in fc57abe, which I re-verified on the artifacts. Findings 1 to 10 describe the tree as I found it at 996a405. Their disposition after fc57abe: findings 1, 2 and 3 are repaired, and the Blocking section states what I checked for each. Finding 4 became queue row 563, finding 5 became row 564, and finding 7 became row 565. Finding 8 is repaired, since guardrails/README.md now carries the note for gate ad. Findings 6, 9 and 10 carry no disposition and stand as written. Finding 11 came out of the c0a6e3a check and is repaired in a4a9f0c, which I re-verified against rows 555 and 563.
 
