@@ -50,6 +50,9 @@ the one slot nothing questions. That is the defect this surface exists to catch.
 
 ## On record
 <!-- record:on -->
+- 2026-08-06 ~19:28 — the board's tasks carry time accounting (row 166). Your words in chat: for
+  every task, add the time the seat estimated for it and the time it actually took. Both figures
+  stand on the task's board row, at take-up as the estimate and at the close as the pair.
 - 2026-08-06 ~19:17 — the work board is the next movement, ahead of the rest of the queue (row 166).
   Your words in chat: every task carries a name that is understandable, a description that is
   understandable, and a plan that is understandable; once approved, that wording freezes, and the
