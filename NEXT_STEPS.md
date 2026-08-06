@@ -35,9 +35,9 @@ handover also names its extract file now.
    founding-walk tests that re-implement the walk's readers, and the two run-record shapes.
 7. Take rows 532 to 546 through the pipeline. Rows 537 and 538 open with a freshness re-check, since
    the reds they cite no longer reproduce.
-8. Four stale work copies under `.claude/worktrees/` carry no unmerged commits (all from 2026-07-21,
-   plus the merged registry branch). Removing them awaits Alexander's listed approval, since nothing
-   is deleted silently.
+8. Three named branches stay in the repository for a later read: a safety copy of this morning's
+   relay with four commits of its own, the merged relay branch, and a work-in-progress checkpoint
+   of 2026-07-19. The spent work copies were removed on Alexander's word (journal, 2026-08-06).
 
 ## Where the numbers live
 

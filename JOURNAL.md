@@ -2229,3 +2229,12 @@ clock (INV-204). The installed push hook was reinstalled after the two-gate merg
 handover's provenance names its extract file in the carry directory. The freeze baseline was
 recorded for the spec, the architecture and the matrix, and the tree counts regenerated: the push
 chain runs 31 checks.
+
+## 2026-08-06, 19:01 — the spent work copies leave, on Alexander's word
+
+Alexander approved the deletion in chat at about 19:00. Four clean work copies under
+`.claude/worktrees/` were removed, and five fully merged local branches went with them (the four
+copies' branches and one branch that had no copy). Each held zero uncommitted files and zero commits
+ahead of main, checked before removal. Three branches stay, held out of the approved list:
+`backup-2026-08-06-before-relay` (four commits of its own, a safety copy from this morning),
+`relay` (fully merged), and `wip/comms-naming-424` (one checkpoint commit of 2026-07-19).
