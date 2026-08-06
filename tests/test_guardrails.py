@@ -578,18 +578,19 @@ class TestPreCommitFence(unittest.TestCase):
         run(["git", "config", "user.email", "a@example.com"], cwd=tmp)
         run(["git", "config", "user.name", "a"], cwd=tmp)
         hooks_dir = os.path.join(tmp, ".git", "hooks")
-        shutil.copy(os.path.join(GUARDRAILS, "pre-commit"), os.path.join(hooks_dir, "pre-commit"))
-        os.chmod(os.path.join(hooks_dir, "pre-commit"), 0o755)
+        for hook in ("pre-commit", "post-commit"):
+            shutil.copy(os.path.join(GUARDRAILS, hook), os.path.join(hooks_dir, hook))
+            os.chmod(os.path.join(hooks_dir, hook), 0o755)
         with open(os.path.join(tmp, "f.txt"), "w") as f:
             f.write("hi\n")
         run(["git", "add", "f.txt"], cwd=tmp)
         run(["git", "commit", "-q", "-m", "init"], cwd=tmp)
 
-    def _commit_more(self, tmp, msg):
+    def _commit_more(self, tmp, msg, extra_env=None):
         with open(os.path.join(tmp, "f.txt"), "a") as f:
             f.write(msg + "\n")
         run(["git", "add", "f.txt"], cwd=tmp)
-        return run(["git", "commit", "-q", "-m", msg], cwd=tmp)
+        return run(["git", "commit", "-q", "-m", msg], cwd=tmp, extra_env=extra_env)
 
     def test_unarmed_fence_passes_silently(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -616,6 +617,111 @@ class TestPreCommitFence(unittest.TestCase):
             self.assertIn("COMMIT BLOCKED", result.stdout + result.stderr)
 
 
+class TestPostCommitFenceReArm(unittest.TestCase):
+    """Gate: the fence re-arms on the session's OWN successful commit (ROADMAP row
+    572) — a second commit in the same session never needs a manual
+    guardrails/fence-refresh.sh, while a commit carrying a different session token
+    (another window) still leaves the fence stale, so the next commit still blocks."""
+
+    SESSION_A = {"LIVE_SPEC_SESSION_ID": "session-A-0001"}
+    SESSION_B = {"LIVE_SPEC_SESSION_ID": "session-B-9999"}
+
+    def _init_repo(self, tmp):
+        run(["git", "init", "-q"], cwd=tmp)
+        run(["git", "config", "user.email", "a@example.com"], cwd=tmp)
+        run(["git", "config", "user.name", "a"], cwd=tmp)
+        hooks_dir = os.path.join(tmp, ".git", "hooks")
+        for hook in ("pre-commit", "post-commit"):
+            shutil.copy(os.path.join(GUARDRAILS, hook), os.path.join(hooks_dir, hook))
+            os.chmod(os.path.join(hooks_dir, hook), 0o755)
+        with open(os.path.join(tmp, "f.txt"), "w") as f:
+            f.write("hi\n")
+        run(["git", "add", "f.txt"], cwd=tmp)
+        run(["git", "commit", "-q", "-m", "init"], cwd=tmp)
+
+    def _commit(self, tmp, msg, extra_env):
+        with open(os.path.join(tmp, "f.txt"), "a") as f:
+            f.write(msg + "\n")
+        run(["git", "add", "f.txt"], cwd=tmp)
+        return run(["git", "commit", "-q", "-m", msg], cwd=tmp, extra_env=extra_env)
+
+    def _fence_lines(self, tmp):
+        with open(os.path.join(tmp, ".live-spec-fence")) as f:
+            return [ln.strip() for ln in f.readlines()]
+
+    def test_same_session_two_commits_no_manual_refresh(self):
+        """Deliverable 2a: one session lands two commits with no manual refresh."""
+        with tempfile.TemporaryDirectory() as tmp:
+            self._init_repo(tmp)
+            refresh = run([os.path.join(GUARDRAILS, "fence-refresh.sh")], cwd=tmp,
+                           extra_env=self.SESSION_A)
+            self.assertEqual(refresh.returncode, 0, refresh.stdout + refresh.stderr)
+            fence_after_arm = self._fence_lines(tmp)
+            self.assertEqual(fence_after_arm[1], self.SESSION_A["LIVE_SPEC_SESSION_ID"])
+
+            first = self._commit(tmp, "own commit 1", self.SESSION_A)
+            self.assertEqual(first.returncode, 0, first.stdout + first.stderr)
+            # the fence's recorded sha must have moved to the new HEAD (re-armed)
+            head_after_first = run(["git", "rev-parse", "HEAD"], cwd=tmp).stdout.strip()
+            self.assertEqual(self._fence_lines(tmp)[0], head_after_first)
+
+            # the session's own SECOND commit — this is exactly what used to block
+            # (row 572) demanding a manual guardrails/fence-refresh.sh
+            second = self._commit(tmp, "own commit 2", self.SESSION_A)
+            self.assertEqual(second.returncode, 0, second.stdout + second.stderr)
+            self.assertNotIn("COMMIT BLOCKED", second.stdout + second.stderr)
+
+            third = self._commit(tmp, "own commit 3", self.SESSION_A)
+            self.assertEqual(third.returncode, 0, third.stdout + third.stderr)
+
+    def test_foreign_session_commit_still_blocks(self):
+        """Deliverable 2b: a commit from another session/window still blocks the
+        armed session's next commit — the re-arm must not fire for a foreign move."""
+        with tempfile.TemporaryDirectory() as tmp:
+            self._init_repo(tmp)
+            run([os.path.join(GUARDRAILS, "fence-refresh.sh")], cwd=tmp, extra_env=self.SESSION_A)
+
+            own = self._commit(tmp, "session A's own commit", self.SESSION_A)
+            self.assertEqual(own.returncode, 0, own.stdout + own.stderr)
+            fence_sha_after_own = self._fence_lines(tmp)[0]
+
+            # session B (another window) lands a commit in the same repo. Nothing has
+            # diverged from B's own view yet (HEAD still matches the recorded sha), so
+            # this first foreign commit is allowed through — same as any first writer
+            # through an armed-but-unmoved HEAD. What matters is what happens next.
+            foreign = self._commit(tmp, "session B's foreign commit", self.SESSION_B)
+            self.assertEqual(foreign.returncode, 0, foreign.stdout + foreign.stderr)
+
+            # the fence must NOT have been re-armed by the foreign session — it stays
+            # stale at session A's last commit, not at session B's new HEAD.
+            self.assertEqual(self._fence_lines(tmp)[0], fence_sha_after_own)
+            head_after_foreign = run(["git", "rev-parse", "HEAD"], cwd=tmp).stdout.strip()
+            self.assertNotEqual(self._fence_lines(tmp)[0], head_after_foreign)
+
+            # session A's next commit must now BLOCK: HEAD moved via a foreign commit
+            # the fence never accounted for.
+            blocked = self._commit(tmp, "session A tries again", self.SESSION_A)
+            self.assertEqual(blocked.returncode, 1, blocked.stdout + blocked.stderr)
+            self.assertIn("COMMIT BLOCKED", blocked.stdout + blocked.stderr)
+
+    def test_no_session_token_never_auto_rearms(self):
+        """No session token available (plain shell) — post-commit stays a no-op, the
+        historical manual-refresh-only behavior, so a second commit still blocks."""
+        with tempfile.TemporaryDirectory() as tmp:
+            self._init_repo(tmp)
+            no_token_env = {"LIVE_SPEC_SESSION_ID": "", "CLAUDE_CODE_SESSION_ID": ""}
+            refresh = run([os.path.join(GUARDRAILS, "fence-refresh.sh")], cwd=tmp,
+                           extra_env=no_token_env)
+            self.assertEqual(refresh.returncode, 0, refresh.stdout + refresh.stderr)
+
+            first = self._commit(tmp, "no-token commit 1", no_token_env)
+            self.assertEqual(first.returncode, 0, first.stdout + first.stderr)
+
+            second = self._commit(tmp, "no-token commit 2", no_token_env)
+            self.assertEqual(second.returncode, 1, second.stdout + second.stderr)
+            self.assertIn("COMMIT BLOCKED", second.stdout + second.stderr)
+
+
 class TestInstallScript(unittest.TestCase):
     def test_install_copies_hooks_into_scratch_repo(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -624,7 +730,7 @@ class TestInstallScript(unittest.TestCase):
             shutil.copytree(GUARDRAILS, scratch_guardrails)
             result = run(["./install.sh"], cwd=scratch_guardrails)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-            for hook in ("pre-commit", "pre-push"):
+            for hook in ("pre-commit", "pre-push", "post-commit"):
                 dest = os.path.join(tmp, ".git", "hooks", hook)
                 self.assertTrue(os.path.isfile(dest), "%s not installed" % hook)
                 self.assertTrue(os.stat(dest).st_mode & stat.S_IXUSR)

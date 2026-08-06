@@ -1,0 +1,52 @@
+#!/usr/bin/env bash
+# post-commit — the concurrent-edit fence's self re-arm (SPEC INV-11, ROADMAP row 572).
+#
+# The fence (pre-commit) blocks a commit when HEAD has moved since it was armed,
+# regardless of who moved it — right when a foreign session commits, wrong when the
+# session's OWN prior commit is what moved it: every commit after the first in one
+# session then read as a foreign move, and the fence demanded a manual
+# guardrails/fence-refresh.sh each time (PROBLEMS.md, 2026-07-27 / 2026-08-07).
+#
+# This hook re-arms the fence on the session's own successful commit ONLY. The fence
+# file (.live-spec-fence) carries the armed sha on line 1 and, since row 572, the
+# arming session's token on line 2 (from $LIVE_SPEC_SESSION_ID if set, else
+# $CLAUDE_CODE_SESSION_ID, else empty — empty means no token, which means no
+# auto-rearm: the historical manual-refresh-only behavior). A commit re-arms the
+# fence to its own new HEAD only when its own session token is non-empty AND matches
+# the token already recorded — i.e. only the session that currently owns the arm can
+# extend it.
+#
+# A foreign session's commit still lands (the fence only ever catches DIVERGENCE,
+# never the first writer through an armed-but-unmoved HEAD — that is unchanged and
+# is not this hook's job to alter). But that foreign commit's token does not match
+# what is recorded, so this hook leaves the fence file untouched: the recorded sha
+# goes stale, and the very next commit by ANYONE finds HEAD has moved past it and
+# blocks — the fence keeps its teeth against another window.
+#
+# If the fence is not armed (no .live-spec-fence), this hook is a no-op: it never
+# arms the fence on its own — the fence stays opt-in, via guardrails/fence-refresh.sh.
+
+set -euo pipefail
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+FENCE_FILE="$REPO_ROOT/.live-spec-fence"
+
+[ -f "$FENCE_FILE" ] || exit 0
+
+recorded_token="$(sed -n '2p' "$FENCE_FILE" | tr -d '[:space:]')"
+session_token="${LIVE_SPEC_SESSION_ID:-${CLAUDE_CODE_SESSION_ID:-}}"
+
+# No session token available (plain shell, no Claude session, no override) — never
+# auto-rearm; guardrails/fence-refresh.sh remains the only way, same as before this fix.
+[ -n "$session_token" ] || exit 0
+
+# Only the session that currently owns the arm gets to extend it.
+[ "$recorded_token" = "$session_token" ] || exit 0
+
+new_head="$(git -C "$REPO_ROOT" rev-parse HEAD)"
+{
+  echo "$new_head"
+  echo "$session_token"
+} > "$FENCE_FILE"
+
+exit 0

@@ -2,12 +2,20 @@
 # pre-commit — the concurrent-edit fence (SPEC INV-11).
 #
 # OPT-IN by design: a session arms the fence by running guardrails/fence-refresh.sh,
-# which writes the HEAD sha it last saw into .live-spec-fence (untracked, repo root).
+# which writes the HEAD sha it last saw into .live-spec-fence (untracked, repo root),
+# plus its own session token on line 2 (ROADMAP row 572 — see guardrails/post-commit).
 #
 # If .live-spec-fence is ABSENT, this hook passes silently — the fence is not armed,
 # and that is deliberate, not a bug to "fix". If present and HEAD has moved since it
 # was recorded, another writer touched the repo; the commit is blocked until the
 # fence is reviewed and refreshed.
+#
+# This check only ever compares the recorded sha (line 1) to HEAD — it has no notion
+# of sessions itself. The session's own commits stop needing a manual refresh between
+# them because guardrails/post-commit re-arms the fence right after a commit that was
+# made by the session that currently owns the arm (row 572); a commit from a session
+# that doesn't own the arm still leaves the fence stale, so this check still blocks
+# the next commit, from anyone, exactly as before.
 
 set -euo pipefail
 
@@ -50,7 +58,7 @@ if [ ! -f "$FENCE_FILE" ]; then
   exit 0
 fi
 
-recorded_sha="$(tr -d '[:space:]' < "$FENCE_FILE")"
+recorded_sha="$(sed -n '1p' "$FENCE_FILE" | tr -d '[:space:]')"
 current_sha="$(git -C "$REPO_ROOT" rev-parse HEAD)"
 
 if [ "$recorded_sha" != "$current_sha" ]; then
