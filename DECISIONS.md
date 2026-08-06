@@ -50,6 +50,12 @@ the one slot nothing questions. That is the defect this surface exists to catch.
 
 ## On record
 <!-- record:on -->
+- 2026-08-06 ~20:36 — the variant-4 tiles failed your read, and the board gains lanes and per-task
+  technical details (row 166). Your words in chat: there are also lanes for parallel agents, and
+  also info per task like what is the branch and worktree; frankly, you do not get what is on the
+  kanban shown — the tiles do not look like tasks, it is a text you need to crack your mind to
+  understand. Verdict held as the card law: a card reads as a task at a glance — authored handle
+  first, behavior line, chips — and technical details sit behind the card.
 - 2026-08-06 ~20:35 — approvals are rare; transparency is the standing ask (row 166 and the method
   wide). Your words in chat: you do not like the idea of manual approval for everything; it should
   be rare — maybe more in the start, but in three to six months, as models grow up, readability and
