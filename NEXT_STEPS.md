@@ -50,9 +50,10 @@ it and the value it aims at. A bare number is a defect of the same kind as an un
 
 `guardrails/tree-counts.json` is the home for every count this repository publishes about its own
 tree. It carries the measurement that produces each count and every page that states it, and gate ad
-re-measures them on every push. Four surfaces stay outside it, each with its own later row. A number
+re-measures them on every push. Four surfaces stay outside it. A number
 a session writes into chat. A number in a rendered artifact. A count inside a skill body. A count on
-an undeclared page.
+an undeclared page. The undeclared-page class has its row (563); the other three stand named as
+unheld in the count row's non-goal (555).
 
 ## Rules you must not break
 
