@@ -2,9 +2,12 @@
 
 PUSH-REVIEW
 
-Range: c869cbb..14159eb
+Range: c869cbb..0aa17a2
 
 Commits:
+- 0aa17a2 The whole class of pipe-truncated reads leaves the gates, with a test that bites
+- 7919f13 A gate reads a record whole, so a long record stops reading as an empty one
+- 14159eb Row 549 lands: the never-bend criteria are held by a test
 - 14159eb Row 549 lands: the never-bend criteria are held by a test
 - 0f871f8 The queue gains row 551 for the transcript's lost paste and rule 35's silent opening
 - 58e9671 The row returns to the queue so its landing carries the status file
@@ -939,3 +942,23 @@ covers a spawned worker's own transcript, not a command run by the session that 
 is the same one named as a standing finding above. The journal entry for this incident is
 `JOURNAL.md`'s afternoon review section, landed in commit 12acab2, "The journal keeps the afternoon's
 review and the stash incident".
+
+### Finding 38 — REPAIRED — a push gate red a correct tree, and grew more certain of it as the record grew
+
+The gate that holds this very record read its body by writing the whole text into a pipe and
+reading the far end with a reader that leaves at its first hit. The writer then took a broken
+pipe, and the strict pipeline setting turned that into "the text holds no such hash". The record
+reached 57 kilobytes today, and an independent reviewer measured the old form reporting a present
+hash as missing in 13 runs out of 300. The new form matched in 300 out of 300.
+
+The same shape stood in five more places. Two more sat in the same gate: the marker read, and the
+blocking-field read, which died with no output at all. One sat in the skill-review gate. One sat
+in the freeze gate, where it turned a skip into a hard drift report on a correct tree. One sat in
+the skill-loadability gate. All six now read their text in the shell's own process.
+
+Two tests hold the class. One drives a long record whose hash sits near the top. One drives a
+record whose prose sits below its fields, which is the shape that killed the blocking-field read.
+Reverting either fixed site turns its test red, proved by hand before this record was written.
+
+Closed by 7919f13 and 0aa17a2. The reviewer's own three gaps in the first commit are what the second
+one closes.
