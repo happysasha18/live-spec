@@ -50,6 +50,13 @@ the one slot nothing questions. That is the defect this surface exists to catch.
 
 ## On record
 <!-- record:on -->
+- 2026-08-06 ~21:16 — a card's plan is a short list of deliverables (row 166, Live work board).
+  Your words in chat: no need for both numbers and emoticons; a task never carries a hundred
+  subtasks — like in every agile it splits into fewer deliverables, and the subtask list is never a
+  log of everything (tonight's acceptance is a single bullet on the in-progress card); no legend —
+  everything self-explanatory; the blue vertical lines in the subtasks questioned; "that sample is
+  variant 3" is opaque; and whatever is in work is something the seat can take on its own without
+  questions — you hope most tasks will be like that.
 - 2026-08-06 ~21:00 — the board reads whole, soon (row 166, Live work board). Your words in chat:
   ideally, soon enough, you want to see everything on the board — all the backlog tasks — readable;
   there is one source of truth, every task referred from the product spec and the architecture; the
