@@ -3,7 +3,7 @@
   "cap_rule": "r08",
   "files": {
     "ARCHITECTURE.md": {
-      "bytes": 95736,
+      "bytes": 97576,
       "file": "ARCHITECTURE.md",
       "long": 0,
       "longest": 25,
@@ -12,10 +12,10 @@
       "total": 0
     },
     "NEXT_STEPS.md": {
-      "bytes": 4343,
+      "bytes": 6278,
       "file": "NEXT_STEPS.md",
       "long": 0,
-      "longest": 24,
+      "longest": 25,
       "register": 0,
       "style": 0,
       "total": 0
@@ -30,7 +30,7 @@
       "total": 8
     },
     "PRODUCT_SPEC.index.md": {
-      "bytes": 25997,
+      "bytes": 26591,
       "file": "PRODUCT_SPEC.index.md",
       "long": 0,
       "longest": 0,
@@ -39,16 +39,16 @@
       "total": 0
     },
     "PRODUCT_SPEC.md": {
-      "bytes": 668627,
+      "bytes": 679540,
       "file": "PRODUCT_SPEC.md",
-      "long": 1830,
+      "long": 1829,
       "longest": 80,
       "register": 0,
       "style": 0,
-      "total": 1830
+      "total": 1829
     },
     "README.md": {
-      "bytes": 12603,
+      "bytes": 13403,
       "file": "README.md",
       "long": 13,
       "longest": 88,
@@ -57,7 +57,7 @@
       "total": 13
     },
     "ROADMAP.md": {
-      "bytes": 214569,
+      "bytes": 228410,
       "file": "ROADMAP.md",
       "long": 8,
       "longest": 242,
@@ -75,7 +75,7 @@
       "total": 3
     },
     "TEST_MATRIX.md": {
-      "bytes": 458944,
+      "bytes": 470209,
       "file": "TEST_MATRIX.md",
       "long": 8,
       "longest": 46,
@@ -84,13 +84,22 @@
       "total": 76
     },
     "adopt/ADOPT.md": {
-      "bytes": 22159,
+      "bytes": 22517,
       "file": "adopt/ADOPT.md",
       "long": 46,
       "longest": 93,
       "register": 0,
       "style": 0,
       "total": 46
+    },
+    "adopt/START.md": {
+      "bytes": 7481,
+      "file": "adopt/START.md",
+      "long": 0,
+      "longest": 25,
+      "register": 0,
+      "style": 0,
+      "total": 0
     },
     "docs/MEASUREMENTS.md": {
       "bytes": 18278,
@@ -111,7 +120,7 @@
       "total": 0
     },
     "docs/adoption.md": {
-      "bytes": 7183,
+      "bytes": 8015,
       "file": "docs/adoption.md",
       "long": 6,
       "longest": 51,
@@ -462,22 +471,22 @@
       "total": 2
     },
     "editions/product-prover/README.md": {
-      "bytes": 17850,
+      "bytes": 12079,
       "file": "editions/product-prover/README.md",
-      "long": 12,
-      "longest": 36,
+      "long": 1,
+      "longest": 45,
       "register": 0,
-      "style": 2,
-      "total": 14
+      "style": 1,
+      "total": 2
     },
     "editions/product-prover/SKILL.md": {
-      "bytes": 45578,
+      "bytes": 48972,
       "file": "editions/product-prover/SKILL.md",
-      "long": 22,
-      "longest": 44,
+      "long": 0,
+      "longest": 25,
       "register": 0,
-      "style": 2,
-      "total": 24
+      "style": 1,
+      "total": 1
     },
     "editions/product-prover/examples/sample-spec.md": {
       "bytes": 3928,
@@ -489,22 +498,22 @@
       "total": 6
     },
     "editions/product-prover/reference/stress-lenses.md": {
-      "bytes": 26486,
+      "bytes": 29253,
       "file": "editions/product-prover/reference/stress-lenses.md",
-      "long": 10,
-      "longest": 42,
+      "long": 0,
+      "longest": 25,
       "register": 0,
-      "style": 1,
-      "total": 11
+      "style": 0,
+      "total": 0
     },
     "guardrails/README.md": {
-      "bytes": 15259,
+      "bytes": 20192,
       "file": "guardrails/README.md",
-      "long": 30,
+      "long": 29,
       "longest": 68,
       "register": 0,
       "style": 19,
-      "total": 49
+      "total": 48
     },
     "hooks/conduct-law.md": {
       "bytes": 3744,
@@ -561,7 +570,7 @@
       "total": 10
     },
     "skills/build-pipeline/SKILL.md": {
-      "bytes": 63113,
+      "bytes": 63938,
       "file": "skills/build-pipeline/SKILL.md",
       "long": 136,
       "longest": 198,
@@ -614,8 +623,17 @@
       "style": 0,
       "total": 4
     },
+    "skills/build-pipeline/references/project-setup.md": {
+      "bytes": 4809,
+      "file": "skills/build-pipeline/references/project-setup.md",
+      "long": 0,
+      "longest": 24,
+      "register": 0,
+      "style": 0,
+      "total": 0
+    },
     "skills/build-pipeline/references/request-kind-table.md": {
-      "bytes": 2108,
+      "bytes": 2972,
       "file": "skills/build-pipeline/references/request-kind-table.md",
       "long": 1,
       "longest": 28,
@@ -804,7 +822,7 @@
       "total": 11
     },
     "skills/spec-author/SKILL.md": {
-      "bytes": 62576,
+      "bytes": 62658,
       "file": "skills/spec-author/SKILL.md",
       "long": 113,
       "longest": 99,
@@ -840,7 +858,7 @@
       "total": 0
     },
     "skills/text-audit/SKILL.md": {
-      "bytes": 30762,
+      "bytes": 30365,
       "file": "skills/text-audit/SKILL.md",
       "long": 0,
       "longest": 25,
