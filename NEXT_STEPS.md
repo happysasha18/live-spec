@@ -20,22 +20,27 @@ handover also names its extract file now.
 
 ## Forward queue
 
-1. Row 558: give the opening read an artifact and make the handover gate refuse a push from a session
+1. The work board, ahead of everything (row 166; Alexander's word 2026-08-06 ~19:17, on record in
+   `DECISIONS.md`). Every task gets an understandable name, an understandable description, and an
+   understandable plan. Approved wording freezes and the seat speaks it letter for letter — at
+   take-up, along the way, and at the close. The movement includes a validation step in front of
+   the board: nothing enters work before it passes.
+2. Row 558: give the opening read an artifact and make the handover gate refuse a push from a session
    that wrote none. The newest handover under `docs/handovers/` is dated 2026-08-06.
-2. Row 559: put a machine over the reading panel — a gate that reds a round whose two readers came
+3. Row 559: put a machine over the reading panel — a gate that reds a round whose two readers came
    from one brief, and a stated test for what counts as a stop that blocks. The design sits at
    `~/live-spec-carry/2026-08-06/design-D-reading-bar.md`.
-3. Row 560 waits on Alexander's word: the surface registry a new project copies carries two names,
+4. Row 560 waits on Alexander's word: the surface registry a new project copies carries two names,
    and the rename has been offered twice with no answer.
-4. Row 561: give the settings ladder a `pack.tree` line, which the setup walk's routing card needs
+5. Row 561: give the settings ladder a `pack.tree` line, which the setup walk's routing card needs
    and nothing reads yet.
-5. Run the next reading round on the audit skill, with one prompted reader and one unprompted reader.
-6. Rows 562 to 565 carry the push review's findings of 2026-08-06. They are the real scoring run
+6. Run the next reading round on the audit skill, with one prompted reader and one unprompted reader.
+7. Rows 562 to 565 carry the push review's findings of 2026-08-06. They are the real scoring run
    for the spoken-entry phrases, the counts published outside the declared registry, the
    founding-walk tests that re-implement the walk's readers, and the two run-record shapes.
-7. Take rows 532 to 546 through the pipeline. Rows 537 and 538 open with a freshness re-check, since
+8. Take rows 532 to 546 through the pipeline. Rows 537 and 538 open with a freshness re-check, since
    the reds they cite no longer reproduce.
-8. Three named branches stay in the repository for a later read: a safety copy of this morning's
+9. Three named branches stay in the repository for a later read: a safety copy of this morning's
    relay with four commits of its own, the merged relay branch, and a work-in-progress checkpoint
    of 2026-07-19. The spent work copies were removed on Alexander's word (journal, 2026-08-06).
 

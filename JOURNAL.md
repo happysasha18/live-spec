@@ -2238,3 +2238,10 @@ copies' branches and one branch that had no copy). Each held zero uncommitted fi
 ahead of main, checked before removal. Three branches stay, held out of the approved list:
 `backup-2026-08-06-before-relay` (four commits of its own, a safety copy from this morning),
 `relay` (fully merged), and `wip/comms-naming-424` (one checkpoint commit of 2026-07-19).
+
+## 2026-08-06, 19:18 — the board moves to the front, on Alexander's word
+
+At about 19:17 in chat Alexander set the next movement: the work board (row 166), with frozen task
+wording — an understandable name, description and plan per task, approved once and then spoken
+letter for letter — and a validation step in front of the board that everything passes before it
+enters work. The session confirmed everything of this day is pushed and offered the context wipe.

@@ -50,6 +50,12 @@ the one slot nothing questions. That is the defect this surface exists to catch.
 
 ## On record
 <!-- record:on -->
+- 2026-08-06 ~19:17 — the work board is the next movement, ahead of the rest of the queue (row 166).
+  Your words in chat: every task carries a name that is understandable, a description that is
+  understandable, and a plan that is understandable; once approved, that wording freezes, and the
+  seat speaks of the task in those words letter for letter — at take-up, along the way, and at the
+  close. The same movement carries a validation step in front of the board: nothing enters work
+  before it passes that check.
 - 2026-07-27 ~11:35 — the repository carries no git tags. You never asked for them. The four that
   existed had stopped being made eight releases ago, which read as a machine misfiring. The version
   lives in `VERSION`, the release history in `JOURNAL.md`. The four deleted tags and the commits they
