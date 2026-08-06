@@ -275,18 +275,21 @@ the one slot nothing questions. That is the defect this surface exists to catch.
   of the four: what a stop is, what the count decides, and how it was produced. The instruction
   reached this session through another session, so no words of yours stand here.
 
-- **A text ships when both cold readers return nothing that blocks, twice in a row.** Asked on
-  2026-08-05 at ~22:52 which of three bars a text must clear, you answered that quality never
-  suffers, whatever else does. So the strictest of the three stands: zero blocking places for both
-  readers, held over two consecutive rounds. The two looser shapes the session offered are closed —
-  agreeing a place away, and shipping with the remaining places listed at the text's head.
-  The audit skill `skills/text-audit/SKILL.md` states this bar, and the reading loop runs to it.
-- **The templates stay in the reading queue.** Alexander 2026-08-05, in the same exchange: the session reported a
-  reviewer's dissent: the census had stopped measuring twelve template files on the ground that
-  nobody reads them, while `README.md` sends a person starting a new project to exactly those
-  files. Your answer settled it, and the templates are measured again from commit that follows.
-  The test fixtures stay outside, since a test opens them by path and no person reads one, which
-  is the audit skill's own rule for machine-read text.
+- **A text ships when both cold readers return nothing that blocks, twice in a row.** Alexander
+  2026-08-05 at 22:52, on being handed the bar as an open question: quality never suffers, whatever
+  else does. He rejected the framing that offered him a choice of bars. His sentence leaves the
+  strictest reading standing: zero blocking places for both readers, held over two consecutive
+  rounds, which is the bar already in force. The two looser shapes the session had offered are
+  closed by it. The audit skill `skills/text-audit/SKILL.md` states this bar, and the loop runs to it.
+- **The templates stay in the reading queue.** This is the pack's own reasoning, so strike it freely.
+  A reviewer objected that the census had stopped measuring twelve template files on the ground that
+  nobody reads them, while `README.md` sends a person starting a new project to exactly those files.
+  The session judged the objection right and returned them, in commit 3b4308d on 2026-08-05. The test
+  fixtures stay outside, since a test opens them by path and no person reads one, which is the audit
+  skill's own rule for machine-read text. Alexander said nothing on this question. Asked about it at
+  22:52 he answered that he had not understood it, and the next morning he was still asking what the
+  templates are. An earlier form of this entry stood in his name; the adversarial review of
+  2026-08-06 caught it.
 
 ## Open — carried, awaiting your word
 <!-- record:open -->
