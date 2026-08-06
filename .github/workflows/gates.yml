@@ -31,7 +31,7 @@ jobs:
         # empty and the script falls back to origin/main.
         env:
           LIVE_SPEC_DIFF_BASE: ${{ github.event.before }}
-        run: guardrails/check-prover-record.sh
+        run: guardrails/check-prover-record.sh --push
       - name: gate d — matrix Reference generated and agrees with the body
         run: python3 guardrails/check-matrix-reference.py TEST_MATRIX.md
       - name: gate g — pin drift

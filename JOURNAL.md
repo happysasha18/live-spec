@@ -2303,3 +2303,42 @@ base plus two working skills is roughly 45k tokens before any conversation, and 
 block adds more on every message. The clean-tree run also went red on the known after-midnight
 family — the real-repo-and-calendar tests red until the day's first prover record exists — its
 third firing, appended to the problem ledger, the ask for his word riding this report.
+
+## 2026-08-07, 00:17–01:26 — the night of the four complaints
+
+At 00:17 he handed in four complaints about the method itself. The work is slow and he suspects
+redundant steps. The context is too big. He wants the board so he can correct state by eye. Work
+blocks start with no grounding he can see. They became rows 568, 570, field evidence on row 166,
+and row 569. At 00:42 and 00:46 he named the fix he wants as urgent functionality: every act and
+every report opens by naming its root. That landed the same hour as law 7 of the session-rules
+reminder, installed and live from the next prompt.
+
+The session's own conduct proved his point twice. It resumed a leftover publication chore on an
+automatic reminder and framed captured requirements as finished work owing publication. He asked
+what any of it had to do with his complaints. The publication run stopped on his word, and its two
+review workers were killed minutes in.
+
+On his 00:48 order the work re-formed as one plan of three deliverables. The cost map landed as
+docs/audits/2026-08-07-cost-map.md: nine steps a feature pays, each with its measured price, the
+rule demanding it, and a verdict. Its rendered copy was shown, then swept to the attic. The
+measured facts: a full test run took 449 seconds; 134 of them were the suite running itself again;
+the board evening ran roughly 19:28 to 22:01 with no build; a session holding the base and two
+working skills carries roughly 45k tokens of rulebook.
+
+Two repairs landed. The suite's scratch self-run now records the checks' content digest at green
+and skips while the digest stands, so ordinary runs stop paying it (row 573). The record-freshness
+check gained a work road accepting the newest committed record while it stays fresh, so a clean
+tree reads green after midnight; the push road still demands today's record (row 571). The fence
+self-block became row 572. A per-run temp-folder leak became row 574; eleven old leaked folders
+were removed from the system temp dir.
+
+At ~01:10 he answered three of the audit's questions, recorded in DECISIONS.md in his words. No
+numeric size caps: the one standard for any text is no redundancy. No self-invented numeric
+standards anywhere; the invented 360-second suite budget is dropped. The test plan derives from
+the settled specifications, and the question was already answered when asked.
+
+The night's own texts then failed the document gates: wordy queue rows, an unmeasured page, an
+unswept rendered copy, a drifted installed hook, a missing archive manifest line. Each was
+repaired the same session. His 01:06 order stands at the top of the resume file: next session
+presents one plan over all four complaints, executes without deviation, and the result must
+survive an adversarial review.

@@ -26,6 +26,17 @@ set -euo pipefail
 REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 cd "$REPO_ROOT"
 
+# Two roads (row 571, the cost audit's repair b). The PUSH road (--push; pre-push and CI pass
+# it) keeps the original demand: a record dated today. The default WORK road serves an ordinary
+# suite run: a clean tree after midnight is not a defect, so it also accepts the newest committed
+# record of any date — the freshness checks below still refuse it the moment PRODUCT_SPEC.md or
+# ARCHITECTURE.md changed after it.
+PUSH_ROAD=0
+if [ "${1:-}" = "--push" ]; then
+  PUSH_ROAD=1
+  shift
+fi
+
 PROVER_DIR="${1:-docs/prover}"
 TODAY="${2:-$(date +%Y-%m-%d)}"
 
@@ -63,6 +74,22 @@ shopt -s nullglob
 candidates=("$PROVER_DIR"/"$TODAY"*.md)
 shopt -u nullglob
 
+WORK_ROAD_FALLBACK=0
+if [ ${#candidates[@]} -eq 0 ] && [ "$PUSH_ROAD" -ne 1 ]; then
+  # WORK road fallback: the newest committed record of any date stands in, and the
+  # freshness checks below still refuse it if a guarded document changed after it.
+  newest=""
+  for f in $(git ls-files "$PROVER_DIR" | grep -E '/[0-9]{4}-[0-9]{2}-[0-9]{2}.*\.md$' | sort); do
+    newest="$f"
+  done
+  if [ -n "$newest" ]; then
+    candidates=("$newest")
+    WORK_ROAD_FALLBACK=1
+    echo "NOTE (prover record): no record dated $TODAY; work-run road (row 571) — the newest"
+    echo "  committed record stands in while it stays fresh for the guarded documents: $newest"
+  fi
+fi
+
 if [ ${#candidates[@]} -eq 0 ]; then
   echo "FAIL (prover record): no file matching $PROVER_DIR/$TODAY*.md exists."
   echo "  A fresh whole-spec prover re-check must be recorded before every push (SPEC M-6)."
@@ -87,7 +114,11 @@ if [ ${#tracked[@]} -eq 0 ]; then
   exit 1
 fi
 
-echo "OK (prover record): committed record(s) for $TODAY found:"
+if [ "$WORK_ROAD_FALLBACK" -eq 1 ]; then
+  echo "OK (prover record): committed record accepted on the work-run road:"
+else
+  echo "OK (prover record): committed record(s) for $TODAY found:"
+fi
 printf '  %s\n' "${tracked[@]}"
 
 SPEC_COMMIT=$(git log -1 --format=%H -- PRODUCT_SPEC.md)

@@ -12,10 +12,10 @@
       "total": 0
     },
     "NEXT_STEPS.md": {
-      "bytes": 6155,
+      "bytes": 4574,
       "file": "NEXT_STEPS.md",
       "long": 0,
-      "longest": 24,
+      "longest": 25,
       "register": 0,
       "style": 0,
       "total": 0
@@ -58,7 +58,7 @@
       "total": 13
     },
     "ROADMAP.md": {
-      "bytes": 235968,
+      "bytes": 239787,
       "file": "ROADMAP.md",
       "long": 8,
       "longest": 242,
@@ -112,7 +112,7 @@
       "total": 3
     },
     "docs/PROGRESS.md": {
-      "bytes": 15136,
+      "bytes": 15125,
       "file": "docs/PROGRESS.md",
       "long": 0,
       "longest": 22,
@@ -146,6 +146,15 @@
       "register": 0,
       "style": 0,
       "total": 12
+    },
+    "docs/audits/2026-08-07-cost-map.md": {
+      "bytes": 5769,
+      "file": "docs/audits/2026-08-07-cost-map.md",
+      "long": 1,
+      "longest": 43,
+      "register": 0,
+      "style": 3,
+      "total": 4
     },
     "docs/decisions/2026-07-06-overnight-decisions.md": {
       "bytes": 6878,
@@ -551,6 +560,15 @@
       "register": 0,
       "style": 27,
       "total": 38
+    },
+    "inbox/2026-08-07-from-tlvphotos-system-dialogs-need-announcing.md": {
+      "bytes": 3949,
+      "file": "inbox/2026-08-07-from-tlvphotos-system-dialogs-need-announcing.md",
+      "long": 6,
+      "longest": 43,
+      "register": 0,
+      "style": 0,
+      "total": 6
     },
     "inbox/README.md": {
       "bytes": 9996,

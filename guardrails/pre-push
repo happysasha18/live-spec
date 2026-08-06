@@ -46,7 +46,7 @@ echo "== live-spec push gate =="
 
 echo ""
 echo "-- gate a: fresh prover record for today --"
-if ! "$GUARDRAILS/check-prover-record.sh"; then
+if ! "$GUARDRAILS/check-prover-record.sh" --push; then
   fail=1
 fi
 

@@ -57,6 +57,66 @@ def gate_machinery_diff(files):
     )
 
 
+def machinery_digest(root=None):
+    """Row 573 (the cost audit's repair a): one content hash over every gate-machinery file on
+    disk — the same class GATE_MACHINERY_PREFIXES names. The digest moves the moment any byte
+    of the machinery changes, however the change arrived: committed, staged, or loose."""
+    import hashlib
+    base = root or ROOT
+    h = hashlib.sha256()
+    rels = []
+    for prefix in GATE_MACHINERY_PREFIXES:
+        full = os.path.join(base, prefix)
+        if os.path.isfile(full):
+            rels.append(prefix)
+        elif os.path.isdir(full):
+            for dirpath, dirnames, filenames in os.walk(full):
+                dirnames[:] = [d for d in dirnames if d != "__pycache__"]
+                for name in filenames:
+                    rels.append(os.path.relpath(os.path.join(dirpath, name), base))
+    for rel in sorted(rels):
+        h.update(rel.encode("utf-8"))
+        with open(os.path.join(base, rel), "rb") as f:
+            h.update(f.read())
+        h.update(b"\0")
+    return h.hexdigest()
+
+
+def _green_digest_store():
+    override = os.environ.get("LIVE_SPEC_META_STORE")
+    if override:
+        return override
+    return os.path.join(ROOT, ".live-spec", "checkpoints", "meta-suite-green.json")
+
+
+def green_digest_matches(test_name, digest):
+    """True when the stored last-green digest for this scratch test equals the current one —
+    the machinery is byte-identical to a state this test already verified green, so the
+    expensive scratch run proves nothing new and may skip. Missing or unreadable store is
+    CONSERVATIVE: no match, the run fires."""
+    try:
+        with open(_green_digest_store(), encoding="utf-8") as f:
+            stored = json.load(f)
+    except (OSError, ValueError):
+        return False
+    return stored.get(test_name) == digest
+
+
+def record_green_digest(test_name, digest):
+    """After a green scratch run, remember the machinery digest it verified, so unchanged
+    machinery stops paying the inner suite on every ordinary work run (row 573)."""
+    store = _green_digest_store()
+    try:
+        with open(store, encoding="utf-8") as f:
+            data = json.load(f)
+    except (OSError, ValueError):
+        data = {}
+    data[test_name] = digest
+    os.makedirs(os.path.dirname(store), exist_ok=True)
+    with open(store, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=1)
+
+
 def _push_diff_files():
     """The files this push's diff touches: the committed delta against origin/main UNION the
     working tree's own uncommitted changes — so a meta-test decision made mid-session (before a
@@ -162,6 +222,25 @@ class TestGateA_ProverRecord(unittest.TestCase):
     def _commit_all(self, tmp, msg):
         run(["git", "add", "-A"], cwd=tmp)
         run(["git", "commit", "-q", "-m", msg], cwd=tmp)
+
+    def test_work_road_accepts_fresh_yesterday_record_and_push_road_refuses(self):
+        """Row 571 (the cost audit's repair b): after midnight a clean tree is not a defect.
+        The default WORK road accepts the newest committed record of any date while it stays
+        fresh for the guarded documents; the --push road keeps demanding a record dated today
+        (his recorded line: a full re-check before every push)."""
+        with tempfile.TemporaryDirectory() as tmp:
+            self._init_repo(tmp)
+            self._write(tmp, "PRODUCT_SPEC.md", "spec v1\n")
+            self._commit_all(tmp, "spec v1")
+            self._write(tmp, "docs/prover/2026-07-05-x.md", "prover record for v1\n")
+            self._commit_all(tmp, "record for v1, after the spec change")
+            script = os.path.join(GUARDRAILS, "check-prover-record.sh")
+            work = run([script, "docs/prover", "2026-07-06"], cwd=tmp)
+            self.assertEqual(work.returncode, 0, work.stdout + work.stderr)
+            self.assertIn("work-run road", work.stdout)
+            push = run([script, "--push", "docs/prover", "2026-07-06"], cwd=tmp)
+            self.assertEqual(push.returncode, 1, push.stdout + push.stderr)
+            self.assertIn("FAIL (prover record)", push.stdout)
 
     def test_stale_record_fails(self):
         """A record committed BEFORE the last PRODUCT_SPEC.md change is stale (row 61,
@@ -286,19 +365,37 @@ class TestGateB_Tests(unittest.TestCase):
         if not should_run:
             self.skipTest(reason)
 
+    def _skip_if_machinery_unchanged_since_green(self, test_name):
+        """Row 573 (the cost audit's repair a): the diff-reach skip above cannot help while an
+        unpushed gate-machinery commit sits in origin/main..HEAD — every ordinary work run all
+        day re-paid the ~2-minute inner suite for the same unchanged bytes. So a green scratch
+        run records the machinery's content digest, and the run skips while that digest stands.
+        Conservative teeth kept: no recorded green, an unreadable store, or any changed
+        machinery byte fires the run. Returns the current digest for the green recording."""
+        digest = machinery_digest()
+        if green_digest_matches(test_name, digest):
+            self.skipTest(
+                "suite-in-suite meta-test: gate machinery is byte-identical to the state this "
+                "test last verified green (row 573) — skipped; any machinery edit re-fires it"
+            )
+        return digest
+
     def test_real_content_passes(self):
         self._skip_if_inner()
         self._skip_unless_gate_machinery_diff()
+        digest = self._skip_if_machinery_unchanged_since_green("test_real_content_passes")
         with tempfile.TemporaryDirectory() as tmp:
             scratch_tests = self._scratch_tests_dir(tmp)
             result = run([os.path.join(GUARDRAILS, "check-tests.sh"), scratch_tests],
                          extra_env={"LIVE_SPEC_SCRATCH": "1"})
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             self.assertIn("OK (tests)", result.stdout)
+        record_green_digest("test_real_content_passes", digest)
 
     def test_broken_suite_fails(self):
         self._skip_if_inner()
         self._skip_unless_gate_machinery_diff()
+        digest = self._skip_if_machinery_unchanged_since_green("test_broken_suite_fails")
         with tempfile.TemporaryDirectory() as tmp:
             scratch_tests = self._scratch_tests_dir(tmp)
             target = os.path.join(scratch_tests, "test_traceability.py")
@@ -315,6 +412,49 @@ class TestGateB_Tests(unittest.TestCase):
                          extra_env={"LIVE_SPEC_SCRATCH": "1"})
             self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
             self.assertIn("FAIL (tests)", result.stdout)
+        record_green_digest("test_broken_suite_fails", digest)
+
+
+class TestScratchRunDigestCache(unittest.TestCase):
+    """Row 573: the last-green digest memory behind the suite-in-suite scratch runs — a
+    machinery byte-change re-fires the run, an unchanged machinery skips it, and a missing
+    or unreadable store stays conservative."""
+
+    def test_digest_moves_on_a_machinery_byte_change(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            gd = os.path.join(tmp, "guardrails")
+            os.makedirs(gd)
+            with open(os.path.join(gd, "check.sh"), "w", encoding="utf-8") as f:
+                f.write("echo one\n")
+            d1 = machinery_digest(root=tmp)
+            with open(os.path.join(gd, "check.sh"), "w", encoding="utf-8") as f:
+                f.write("echo two\n")
+            d2 = machinery_digest(root=tmp)
+            self.assertNotEqual(d1, d2)
+
+    def test_store_round_trip_and_conservative_misses(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            store = os.path.join(tmp, "sub", "store.json")
+            old = os.environ.get("LIVE_SPEC_META_STORE")
+            os.environ["LIVE_SPEC_META_STORE"] = store
+            try:
+                self.assertFalse(green_digest_matches("t", "abc"),
+                                 "a missing store must be conservative (no match)")
+                record_green_digest("t", "abc")
+                self.assertTrue(green_digest_matches("t", "abc"))
+                self.assertFalse(green_digest_matches("t", "def"),
+                                 "a changed digest must re-fire the run")
+                self.assertFalse(green_digest_matches("other", "abc"),
+                                 "each scratch test owns its own green record")
+                with open(store, "w", encoding="utf-8") as f:
+                    f.write("not json")
+                self.assertFalse(green_digest_matches("t", "abc"),
+                                 "an unreadable store must be conservative (no match)")
+            finally:
+                if old is None:
+                    del os.environ["LIVE_SPEC_META_STORE"]
+                else:
+                    os.environ["LIVE_SPEC_META_STORE"] = old
 
 
 class TestGateD_MatrixReference(unittest.TestCase):

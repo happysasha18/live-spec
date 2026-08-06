@@ -50,6 +50,20 @@ the one slot nothing questions. That is the defect this surface exists to catch.
 
 ## On record
 <!-- record:on -->
+- 2026-08-07 ~01:10 — no numeric size caps on specifications; the standard is no redundancy (the
+  cost audit, row 568). Your words in chat: the number is unjustified; a text should just have no
+  redundancies — when you look at it, there should be nothing you can remove without losing the
+  information; maximum size is beside the point; if reaching that takes many reviews and that is a
+  problem, tell you about it. This strikes the audit page's proposed per-size sentence caps.
+- 2026-08-07 ~01:10 — no self-invented numeric standards anywhere (the cost audit, row 568). Your
+  words in chat, on the test-run time budget: it should be best and justified effort; why invent
+  numbers and then hand you the values to think about. The invented 360-second budget is dropped;
+  the record keeps measured numbers only. The class: every standard the process holds itself to is
+  either yours, derived and justified, or absent.
+- 2026-08-07 ~01:10 — the test plan's timing was never a question (the cost audit, row 568). Your
+  words in chat: it is derived from the product and architecture specifications, as already said.
+  So the written rule stands — the test plan starts once those documents exist and are settled;
+  the audit page's question on it is withdrawn as already answered.
 - 2026-08-06 ~21:49 — a task in work absorbs new words, and every task keeps an on-demand history
   (row 166, Live work board). Your words in chat: people have ideas in the flow, so a task already
   in work can be updated multiple times — the flexibility is the point of an AI-run delivery

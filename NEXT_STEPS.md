@@ -3,54 +3,37 @@
 A digest, at or under 100 lines (SPEC INV-48). One status block stands here at a time, and every
 update replaces it. Dated history lives in `JOURNAL.md`.
 
-## LIVE STATE (2026-08-07, 00:29)
+## LIVE STATE (2026-08-07, 01:20)
 
-At 00:17 Alexander handed in four process complaints in one message: the method is slow and he
-suspects redundant work, the context is still too big, he wants the board for correcting state by
-eye, and sessions enter long work blocks with no grounding he can see. They routed to rows 568
-(cost audit), 570 (fixed context load), field evidence on row 166, and 569 (work grounded in his
-sight before it runs). A first investigation pass ran the same session; its numbers are in the
-journal's 2026-08-07 chapter. The state below is the board movement's, unchanged from 22:02.
+The night session closed after his four complaints of 00:17. The work is slow. The context is
+huge. He wants the board for correcting state by eye. Work blocks start with no grounding he can
+see. The complaints stand as rows 568, 570, 166 (field evidence), and 569. His three answers of ~01:10 are in
+DECISIONS.md. No numeric caps: the one text standard is no redundancy. No self-invented numeric
+standards anywhere. The test plan derives from the settled specifications.
+Two repairs landed the same night. The record-freshness check gained a work road, so a clean tree
+reads green after midnight (row 571, archived). The suite's scratch self-run now remembers its
+last green digest and skips while the checks are byte-identical (row 573, archived). Law 7 — every
+act and report opens by naming its root — rides the session-rules reminder on every prompt. The
+cost-map page is docs/audits/2026-08-07-cost-map.md; his answers close its questions 1, 3 and 4.
 
-The work board movement (row 166, Live work board) ran the whole evening with Alexander in the
-chat. It stands in inception by the stage ladder he set at ~21:34. Its specification is
-Requirement 309: 99 criteria after three drafted passes and two folded review rounds, ids
-INV-308..313, feature F-work-board, the whole scenario [target]. The queue's status vocabulary
-gained *ready* across its five homes. The approved page form is frozen at
-`docs/norms/work-board.html`. It is variant 8, his 20:47 "looks good" plus every later
-amendment, and the dated history sits in the provenance file beside it. The architecture carries the work-board node
-owning the six new rules; the matrix carries rows M-519..M-544, all todo. His nine widenings of
-the evening are each in `DECISIONS.md` with their times, and the journal's 22:01 chapter tells the
-whole arc. Estimate discipline started this evening: every estimated step of the movement closed
-under its estimate.
+His 01:06 order for the next session stands in force. Present one plan covering all four
+complaints before any work, in plain words. Execute it without deviation. The result must
+survive an adversarial review. Start there. The board state stands as recorded in the journal's
+2026-08-06 22:01 chapter and its checkpoint file.
 
 ## Forward queue
 
-1. Row 166 continues — inception's remaining products, in order:
-   a. The FULL adversarial review of Requirement 309 by a fresh seat with none of this evening's
-      context (his ask ~21:49). Brief from primary sources only.
-   b. The stage-ladder re-map (his ~21:34 word): columns become backlog · inception · ready ·
-      in work · done. Validation is inception's exit, and exploration is inception's product. This
-      is spec pass 4, and it opens with the round-3 scoped re-read the review loop still owes.
-   c. The task-graph criteria (his ~21:35 word): every new wish is placed into the maintained web
-      of tasks — relations, dependencies, parallelism — at arrival. The seat plans the path off it.
-   d. The mid-flight-updates and history-fold criteria check (~21:49): widening count on the card,
-      dated word-history behind it — partly folded already, verify at the re-read.
-   Then the statement re-validates and the task turns *ready*. The build opens: the entry check,
-   the board source file and generator, the page checked against the frozen norm.
-2. Rows 568 and 569 (his 00:17 word: investigate the slowness, solve the ungrounded work blocks)
-   and row 570 (the fixed context load) — 568's audit page is the first deliverable, and 569's
-   design should land with or right after the board's plan cells, since the board is its home.
-3. The page's next revision reads `~/live-spec-carry/2026-08-06/kanban-tools-study.md` (card-face
-   and history patterns from Linear/Jira/GitHub; lane header counts; the widened/edited marker).
-   Collapsible per-deliverable folds are already owed (his ~21:34 word).
-4. Row 567 (bug): the session rules name `scripts/preshow-register-lint.py`, and no host tree
-   holds it. Ship the checker at adopt and catch-up, or re-word the law. From the tlvphotos
-   report, atticked with the manifest naming this row.
-5. Row 566: board-ready statements for the whole queue. Every open row gets an authored
-   echo-name, description, plan and estimate through the entry check, in batches.
-6. Rows 558, 559, 560 (waiting on Alexander: the two-name screens list), 561, 562-565, and rows
-   532-546 stand as before; see the queue.
+1. His 01:06 order: the plan over rows 568, 569, 570, presented first, then executed without
+   deviation, then adversarially reviewed by a fresh seat. Rows 572 and 574 ride it as repairs.
+2. Row 166 resumes after that: the fresh adversarial review of the board's specification, the
+   stage-ladder re-map, the task-graph criteria. Its page revision reads the kanban-tools study
+   in ~/live-spec-carry/2026-08-06/.
+3. Row 567 (bug): the session rules name a register check no host tree holds. Ship it with the
+   pack or re-word the law.
+4. Row 566: board-ready statements for the whole queue, in batches through the entry check.
+5. Rows 558-565 and 532-546 stand as before; see the queue.
+6. A tlvphotos inbox deposit (system dialogs need announcing) arrived ~01:20, measured, unswept.
+   The morning sweep takes it.
 
 ## Where the numbers live
 
