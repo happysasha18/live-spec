@@ -10,6 +10,8 @@ an in-progress card — folded as variant 6 and frozen under his rare-approvals 
 evening (~20:35, DECISIONS.md): standing unless he rejects it. Refreshed to variant 7 on his word
 of ~21:00 the same evening (in-card step emoticons, native-English microcopy sweep, the done pile
 behind an earlier-fold) — a deliberate norm change, re-hashed in the manifest in the same commit.
+Refreshed again to variant 8 on his word of ~21:16 (plans as few deliverables, one marker per line,
+no legends, no internal numbering on cards) — the same deliberate-change discipline.
 From: work-board mockup variants 3 to 6, built 2026-08-06 19:35–20:53 by mockup workers from the
 approved 2026-07-07 sketch (variant 2); source prototypes live in prototype/, frozen here per the
 norm law.
