@@ -50,6 +50,13 @@ the one slot nothing questions. That is the defect this surface exists to catch.
 
 ## On record
 <!-- record:on -->
+- 2026-08-06 ~20:16 — the board is a kanban over the whole queue (row 166). Your words in chat,
+  looking at the variant-3 sample: the page shows and maintains all the tasks — done, in progress,
+  and the roadmap; each task carries a super-understandable short referrable name, a description
+  that describes the behavior, a time estimation, a tag naming the feature it belongs to or that it
+  crosses several modules, and an attached plan saying what can run in parallel if the budget
+  permits; the whole reads as a kanban board showing progress and which worker is doing which task;
+  recurring workers may get names and icons, personalities to be developed and shown for your eye.
 - 2026-08-06 ~19:28 — the board's tasks carry time accounting (row 166). Your words in chat: for
   every task, add the time the seat estimated for it and the time it actually took. Both figures
   stand on the task's board row, at take-up as the estimate and at the close as the pair.
