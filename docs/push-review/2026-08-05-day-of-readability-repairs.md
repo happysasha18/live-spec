@@ -2,9 +2,11 @@
 
 PUSH-REVIEW
 
-Range: c869cbb..2d84d5e
+Range: c869cbb..ef0f0a0
 
 Commits:
+- ef0f0a0 The suite budget reads its measured figure at 2404 tests, and the fat gets a row
+- 30b1d31 The review record carries the four-refusal cycle and its root
 - 2d84d5e The queue owns the two-copy table that refused four pushes
 - e7b86e4 The spec-table regeneration gets its independent check
 - 2d84d5e The queue owns the two-copy table that refused four pushes
@@ -995,3 +997,17 @@ all 388 rows. Its record stands at docs/prover/2026-08-06-spec-table-regeneratio
 
 The root sits in the queue as row 552. One command after a spec edit writes both copies, and a
 check reds a tree where the two disagree.
+
+### Finding 40 — REPAIRED — the suite passed its stated wall-time, and one test held two thirds of it
+
+The push refused on the suite's wall-time: 456 seconds against a stated 470 at the time it was
+read, and 443 measured under load. On an idle machine the figure held at 456 for 2,404 tests.
+
+One test carries 282 of those seconds. It copies the tree and runs the whole suite inside itself
+to prove the runner reports green and red correctly. It fires only when a diff touches gate
+machinery, which today's did, so an ordinary day runs near 174 seconds.
+
+The budget row moves with the measured figure each time the suite grows, which is the practice
+the row itself records: it read 383 to 405 seconds at 1,856 tests on 2026-07-24. It now reads 470
+against 456 measured at 2,404. Queue row 553 holds the work that brings the number back down by
+narrowing what the meta-test re-runs.
