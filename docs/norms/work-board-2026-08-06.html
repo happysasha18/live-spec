@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="refresh" content="30">
+<title>live-spec — the work board (PROTOTYPE, variant 6)</title>
+<style>
+  :root {
+    color-scheme: light dark;
+    --ink: #16161a; --dim: #5c5c66; --page: #f4f4f6; --card: #fff;
+    --line: #d8d8de; --hair: #e6e6ea;
+    --blue: #2a6fb4; --green: #2f8f46; --amber: #b4712a; --grey: #7a7a86; --plum: #6d54a8;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ink: #e8e8ec; --dim: #9a9aa6; --page: #121215; --card: #1c1c21;
+      --line: #34343c; --hair: #2a2a31;
+      --blue: #6ba8e0; --green: #63c67c; --amber: #dfa05c; --grey: #9a9aa6; --plum: #a48fd8;
+    }
+  }
+  * { box-sizing: border-box; }
+  body { font: 15px/1.5 -apple-system, "Segoe UI", Roboto, sans-serif; color: var(--ink);
+         background: var(--page); margin: 0; padding: 1.4rem 1.2rem 3rem; }
+  .wrap { max-width: 1560px; margin: 0 auto; }
+
+  .proto { background: #b4562a; color: #fff; font-weight: 700; font-size: .88rem;
+           padding: .45rem .8rem; border-radius: 8px; display: inline-block; margin-bottom: .9rem; }
+  h1 { font-size: 1.3rem; margin: .1rem 0 .25rem; letter-spacing: -.01em; }
+  .stamp { color: var(--dim); font-size: .87rem; margin-bottom: 1.3rem; }
+
+  /* ---------- board ---------- */
+  .board { display: grid; grid-template-columns: repeat(5, minmax(290px, 1fr));
+           gap: .85rem; align-items: start; }
+  .col { min-width: 0; }
+  .colhead { display: flex; align-items: baseline; gap: .5rem; padding: 0 .15rem .5rem; }
+  .colhead h2 { font-size: .78rem; margin: 0; text-transform: uppercase;
+                letter-spacing: .07em; color: var(--dim); font-weight: 700; }
+  .count { font-size: .74rem; font-weight: 700; color: var(--dim);
+           background: var(--hair); border-radius: 999px; padding: .05rem .45rem; }
+  .colbody { border-top: 3px solid var(--grey); border-radius: 3px 3px 10px 10px;
+             background: var(--hair); padding: .55rem; min-height: 4rem; }
+  .col.validate .colbody { border-top-color: var(--grey); }
+  .col.ready    .colbody { border-top-color: var(--green); }
+  .col.inwork   .colbody { border-top-color: var(--blue); }
+  .col.waiting  .colbody { border-top-color: var(--amber); }
+  .col.done     .colbody { border-top-color: var(--green); }
+  .col.validate { order: 1; } .col.ready { order: 2; } .col.inwork { order: 3; }
+  .col.waiting  { order: 4; } .col.done  { order: 5; }
+  @media (max-width: 980px) {
+    .board { grid-template-columns: 1fr; }
+    .col.inwork { order: 1; } .col.waiting { order: 2; } .col.ready { order: 3; }
+    .col.validate { order: 4; } .col.done { order: 5; }
+  }
+
+  /* ---------- the ticket ---------- */
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 9px;
+          padding: .7rem .75rem .6rem; margin-bottom: .55rem;
+          box-shadow: 0 1px 2px #0000000f; }
+  .card:last-child { margin-bottom: 0; }
+  .card.live { border-color: var(--blue); border-left-width: 4px; }
+  .card.ask  { border-left: 4px solid var(--amber); }
+
+  .handle { font-size: 1.12rem; font-weight: 700; line-height: 1.2; letter-spacing: -.012em;
+            margin: 0 0 .3rem; }
+  .behav { font-size: .855rem; line-height: 1.4; color: var(--dim); margin: 0 0 .55rem; }
+
+  .chips { display: flex; flex-wrap: wrap; gap: .3rem; align-items: center; }
+  .chip { font-size: .705rem; font-weight: 700; letter-spacing: .03em; text-transform: uppercase;
+          border-radius: 4px; padding: .1rem .4rem; border: 1px solid var(--line);
+          color: var(--dim); white-space: nowrap; }
+  .chip.place   { text-transform: none; letter-spacing: 0; font-weight: 600; }
+  .chip.feature { color: var(--blue);  border-color: color-mix(in srgb, var(--blue) 45%, transparent); }
+  .chip.bug     { color: var(--amber); border-color: color-mix(in srgb, var(--amber) 45%, transparent); }
+  .chip.docs    { color: var(--plum);  border-color: color-mix(in srgb, var(--plum) 45%, transparent); }
+  .chip.method  { color: var(--green); border-color: color-mix(in srgb, var(--green) 45%, transparent); }
+  .chip.est     { text-transform: none; letter-spacing: 0; font-weight: 600;
+                  font-variant-numeric: tabular-nums; }
+  .chip.est.under { color: var(--green); border-color: color-mix(in srgb, var(--green) 45%, transparent); }
+  .chip.worker  { text-transform: none; letter-spacing: 0; font-weight: 600;
+                  background: color-mix(in srgb, var(--blue) 12%, transparent);
+                  border-color: color-mix(in srgb, var(--blue) 40%, transparent); color: var(--ink); }
+  .chip.you     { color: var(--amber); border-color: color-mix(in srgb, var(--amber) 55%, transparent);
+                  background: color-mix(in srgb, var(--amber) 12%, transparent); }
+
+  /* ---------- the closed line (done column) ---------- */
+  .card.closed { padding: .4rem .5rem .35rem; margin-bottom: .35rem; }
+  .doneline { display: flex; align-items: baseline; gap: .4rem; flex-wrap: wrap; }
+  .st { font-size: .95rem; line-height: 1; flex: 0 0 auto; }
+  .dh { font-weight: 700; font-size: .96rem; letter-spacing: -.01em; line-height: 1.25;
+        flex: 1 1 9rem; min-width: 0; }
+  .pair { font-size: .78rem; color: var(--dim); font-variant-numeric: tabular-nums;
+          white-space: nowrap; flex: 0 0 auto; }
+  .pair .nul { border-bottom: 1px dotted var(--dim); cursor: help; }
+  .card.closed details.more { margin-top: .3rem; padding-top: .25rem; }
+  .card.closed details.more > summary { font-size: .7rem; }
+
+  /* ---------- the details layer ---------- */
+  details.more { margin-top: .5rem; border-top: 1px solid var(--hair); padding-top: .35rem; }
+  details.more > summary { cursor: pointer; list-style: none; font-size: .76rem; font-weight: 700;
+                           letter-spacing: .05em; text-transform: uppercase; color: var(--dim); }
+  details.more > summary::-webkit-details-marker { display: none; }
+  details.more > summary::after { content: " ▾"; }
+  details.more[open] > summary::after { content: " ▴"; }
+  details.more > summary:hover { color: var(--ink); }
+  .body { font-size: .85rem; line-height: 1.5; padding-top: .45rem; }
+  .body p { margin: .45rem 0; }
+  .body .lbl { display: block; font-size: .72rem; text-transform: uppercase; letter-spacing: .05em;
+               color: var(--dim); font-weight: 700; margin: .7rem 0 .2rem; }
+  .body ol, .body ul { margin: .25rem 0; padding-left: 1.15rem; }
+  .body li { margin: .35rem 0; }
+  .body li .out { display: block; color: var(--dim); font-size: .82rem; margin-top: .1rem; }
+  .par { color: var(--blue); font-weight: 700; }
+  .meta { font-size: .8rem; color: var(--dim); font-variant-numeric: tabular-nums; }
+  .meta code { font-size: .95em; }
+  .under { color: var(--green); font-weight: 600; }
+  .who { display: inline-block; border: 1px solid var(--line); border-radius: 999px;
+         padding: 0 .4rem; font-size: .76rem; white-space: nowrap; }
+  .who .tier { color: var(--dim); }
+
+  /* ---------- a reference that opens into words ---------- */
+  details.sub { margin: .35rem 0 .1rem; border-left: 2px solid var(--hair); padding-left: .5rem; }
+  details.sub > summary { cursor: pointer; list-style: none; font-size: .82rem; color: var(--dim);
+                          line-height: 1.4; }
+  details.sub > summary::-webkit-details-marker { display: none; }
+  details.sub > summary::after { content: " ▾"; }
+  details.sub[open] > summary::after { content: " ▴"; }
+  details.sub > summary:hover { color: var(--ink); }
+  .grp { display: block; font-size: .72rem; text-transform: uppercase; letter-spacing: .05em;
+         font-weight: 700; color: var(--dim); margin: .6rem 0 .15rem; }
+  .finds { margin: .1rem 0 .3rem; padding-left: 1.05rem; }
+  .finds li { margin: .28rem 0; font-size: .82rem; line-height: 1.45; color: var(--ink); }
+
+  /* ---------- lanes ---------- */
+  .lane { margin-bottom: .55rem; }
+  .lane:last-child { margin-bottom: 0; }
+  .lanelbl { font-size: .72rem; text-transform: uppercase; letter-spacing: .06em;
+             font-weight: 700; color: var(--dim); padding: 0 .15rem .25rem; }
+  .lane.free .lanelbl { opacity: .75; }
+  .freebox { border: 1px dashed var(--line); border-radius: 9px; padding: .6rem .7rem;
+             font-size: .84rem; color: var(--dim); }
+
+  .empty { border: 1px dashed var(--line); border-radius: 9px; padding: .7rem;
+           font-size: .84rem; color: var(--dim); }
+  .rest { border: 1px dashed var(--line); border-radius: 9px; padding: .55rem;
+          font-size: .82rem; color: var(--dim); text-align: center; }
+  .colnote { font-size: .8rem; color: var(--dim); padding: .5rem .15rem 0; }
+
+  footer { margin-top: 1.6rem; font-size: .84rem; color: var(--dim); }
+  footer .who { margin-right: .35rem; }
+  footer p { margin: .5rem 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<div class="proto">PROTOTYPE, variant 6 — the approved variant-5 form with your four amendments of 20:47: the done column reads one line per task, an opened “more” survives the page reloading itself, every count in a card opens into plain words, and nothing on a card already in work is phrased as a choice. Every figure below is read from the repository as it stands at 20:53, 06.08.2026.</div>
+
+<h1>live-spec — the work board</h1>
+<div class="stamp">Built 20:53 · 191 wishes on the roadmap, 11 of them on this board · in work: 1 of 3 lanes · last landing 20:48 · this page reloads itself every 30 seconds</div>
+
+<div class="board">
+
+  <!-- ══════════════ IN WORK ══════════════ -->
+  <div class="col inwork">
+    <div class="colhead"><h2>In work</h2><span class="count">1 / 3</span></div>
+    <div class="colbody">
+
+      <div class="lane">
+        <div class="lanelbl">Lane 1</div>
+        <div class="card live">
+          <p class="handle">Live work board</p>
+          <p class="behav">You open one page and see what the agent is doing right now, what is done, and what waits on you.</p>
+          <div class="chips">
+            <span class="chip place">work board</span>
+            <span class="chip feature">feature</span>
+            <span class="chip est">est 202m · spent 72m on 8 estimated steps</span>
+            <span class="chip worker">✍️ Drafter</span>
+            <span class="chip worker">🔨 Builder</span>
+          </div>
+
+          <details class="more" id="w-live">
+            <summary>more</summary>
+            <div class="body">
+              <p>A page that always shows the whole queue as a board: every task done, in hand or waiting, where it stands, which worker is on it, what it was estimated at and what it actually took. It replaces asking the agent how things are going.</p>
+
+              <span class="lbl">Plan · <span class="par">∥</span> marks steps that ran side by side</span>
+              <ol>
+                <li>Read what the existing documents already say about showing progress.
+                  <span class="out">Done 19:33 · no estimate taken. <span class="who">📖 Reader <span class="tier">· fresh context</span></span></span></li>
+                <li><span class="par">∥</span> Write the change into the product document.
+                  <span class="out">Done · est 40m, took 26m. <span class="who">✍️ Drafter <span class="tier">· fresh context</span></span></span></li>
+                <li><span class="par">∥</span> Build a first sample of the board and show it to you.
+                  <span class="out">Done · est 30m, took 4m — that sample is variant 3. <span class="who">🔨 Builder <span class="tier">· fresh context</span></span></span></li>
+                <li>Review the written change against the rest of the product document.
+                  <span class="out">Done · est 20m, took 9m. <span class="who">🔍 Reviewer <span class="tier">· fresh context</span></span></span>
+                  <details class="sub" id="s-round1">
+                    <summary>The board’s part of the product document got an independent review — 17 things to fix, all of them since folded back in. Open to read them.</summary>
+
+                    <span class="grp">Where this page sits among the surfaces already promised</span>
+                    <ul class="finds">
+                      <li>Nothing said how this page relates to the status line in chat and to the status page already promised. It is now that status page grown up, and the chat line stays whole beside it.</li>
+                      <li>A file on this machine was promised as an address you can open from anywhere. The page is now published at one stable link.</li>
+                      <li>The new page owed itself a line in the list of surfaces this project keeps, and wrote none. It registers before it renders.</li>
+                      <li>The list of what left today was narrowed to “only when you ask”, when it belongs inside every report. Restored.</li>
+                      <li>One fact about the board was repeated in three places in the glossary. Cut to one.</li>
+                    </ul>
+
+                    <span class="grp">What a card says, and where its facts come from</span>
+                    <ul class="finds">
+                      <li>A finished task’s facts were to be drawn from a landing report that carries none of them. That report now keeps a per-step trail, and the closed card reads from it.</li>
+                      <li>Nothing said who judges a task’s wording, or what happens when the wording fails. Now: a mechanical check, then a reader who has seen nothing else, then rewrite and check again.</li>
+                      <li>The tag on a card named neither of the two kinds this project actually records. It now names one of feature, bug, refactor, docs, skip.</li>
+                      <li>Card and row were two names for one object. One name now.</li>
+                    </ul>
+
+                    <span class="grp">Time, estimates, and the wording that freezes</span>
+                    <ul class="finds">
+                      <li>One estimate had three homes, and the freeze forbade the correction that taking a task up implies. One estimate now, changeable only before take-up, with any overrun stated at the close.</li>
+                      <li>The form you approve had nothing pointing at where it is written down. The approved page is now frozen as a copy, and the rule points at that copy.</li>
+                      <li>Thirty-three lines read as though already shipped, when none of it is built yet. The whole part is marked not-yet-built.</li>
+                    </ul>
+
+                    <span class="grp">Several agents working at once</span>
+                    <ul class="finds">
+                      <li>Two surfaces would each have shown what waits on you, with no rule for clearing an item from either. The board now renders the one waiting file and keeps no list of its own.</li>
+                      <li>Two agents writing one board file had no rule stopping them overwriting each other. The board takes the same lock the rest of the project uses.</li>
+                      <li>Nothing said what the page shows when a bug jumps the queue and a task is parked. The parked card stays, naming what pushed it aside.</li>
+                    </ul>
+
+                    <span class="grp">The page while you are watching it</span>
+                    <ul class="finds">
+                      <li>A promise about how fast the page draws had nothing measuring it. A timing check in the test suite watches it.</li>
+                      <li>Through a long step the page would have looked frozen. Its timestamp refreshes on the same heartbeat as the chat.</li>
+                    </ul>
+                  </details>
+                </li>
+                <li>Fold that review’s findings back into the product document.
+                  <span class="out">Done · est 25m, took 8m. <span class="who">✍️ Drafter <span class="tier">· fresh context</span></span></span></li>
+                <li>Write your 20:16 kanban ask into the same product part.
+                  <span class="out">Done · est 20m, took 7m. <span class="who">✍️ Drafter <span class="tier">· fresh context</span></span></span></li>
+                <li>Build the kanban sample, variant 4.
+                  <span class="out">Done · est 30m, took 4m — the one you rejected at 20:36. <span class="who">🔨 Builder <span class="tier">· fresh context</span></span></span></li>
+                <li>Re-read the added lines against the rest of the product document.
+                  <span class="out">Done · est 12m, took 8m. <span class="who">🔍 Reviewer <span class="tier">· fresh context</span></span></span>
+                  <details class="sub" id="s-round2">
+                    <summary>A second reader, who had seen nothing else, checked the sixteen lines added at 20:16 — 18 things to fix, six of them serious. Folding them in is step 10 below, running now. Open to read them.</summary>
+
+                    <span class="grp">The five columns against what the queue actually records</span>
+                    <ul class="finds">
+                      <li>A column named “awaiting validation” shows tasks that another line in the same part says never reach the page at all.</li>
+                      <li>The queue records four words for where a task stands, and the page wants five columns — so three of the five can be read off nothing that exists.</li>
+                      <li>A finished task leaves the queue file entirely, so the done column has no source left to read.</li>
+                      <li>The waiting column re-opens the question the first review settled: one home, and only one, for an item that waits on you.</li>
+                      <li>The new opening sentence contradicts itself inside a single line.</li>
+                    </ul>
+
+                    <span class="grp">The plan and the steps a card shows</span>
+                    <ul class="finds">
+                      <li>The plan the page must show has no recorded home anywhere.</li>
+                      <li>The word “plan” names two different lists of steps in neighbouring lines.</li>
+                      <li>The side-by-side mark claims what only the timing record can settle, and the freeze forbids correcting it afterwards.</li>
+                    </ul>
+
+                    <span class="grp">Naming the worker on a step</span>
+                    <ul class="finds">
+                      <li>A worker’s craft name is never assigned anywhere and never written down, so no running step can carry one.</li>
+                      <li>The five starter craft names are a third vocabulary for the same role, and “Reviewer” now names two different things.</li>
+                      <li>The note beside a running worker has no source the page can read while the step is still running.</li>
+                      <li>The icons are called fixed, and nothing says where the fixed set lives.</li>
+                    </ul>
+
+                    <span class="grp">Words that name nothing definite</span>
+                    <ul class="finds">
+                      <li>The phrase for the part of the queue past what can run now covers three different sets, and nothing defines it.</li>
+                      <li>“Kanban” enters a heading with no entry in the glossary, while a plain phrase for the same thing is available.</li>
+                      <li>A line marked as a tunable default names no value that can be tuned.</li>
+                    </ul>
+
+                    <span class="grp">Lines that state too little or too much</span>
+                    <ul class="finds">
+                      <li>The page shows that far part of the queue standing open, where the law shows it only when you ask.</li>
+                      <li>One line states a deed with no measure and no judge behind it.</li>
+                      <li>One line is already implied by its two neighbours, and contradicted by a third.</li>
+                    </ul>
+                  </details>
+                </li>
+                <li>Build variant 5 on your words of 20:35 and 20:36.
+                  <span class="out">Done · est 25m, took 6m — the form you approved at 20:47. <span class="who">🔨 Builder <span class="tier">· fresh context</span></span></span></li>
+                <li>Fold the second review’s 18 findings into the product document.
+                  <span class="out">Running since 20:42 · est 35m. <span class="who">✍️ Drafter <span class="tier">· fresh context</span></span></span></li>
+                <li>Build variant 6 — this page — on your four amendments of 20:47.
+                  <span class="out">Running since 20:49 · est 20m. <span class="who">🔨 Builder <span class="tier">· fresh context</span></span></span></li>
+              </ol>
+              <p class="meta">Steps 2 and 3 ran side by side this evening; steps 10 and 11 run side by side now. Nine steps have closed. Eight of them carried an estimate and every one came in under it: 202 minutes estimated against 72 minutes spent. The ninth is step 1, taken before this movement started keeping estimates at all. Your word on the form came at 20:47, so the rest now opens — the design, its review, the test plan, the tests, the build, the check, the landing — each estimated when it is taken up.</p>
+
+              <span class="lbl">Where it lives</span>
+              <p class="meta">Changes spec part: Requirement 309 — the work board.<br>
+                 Branch <code>main</code>, on the main working copy — no separate copy of the tree was made for this movement.<br>
+                 Queue row 166 · taken into work 19:31 · running 82 min · widened six times tonight on your words at 19:17, 19:28, 20:16, 20:35, 20:36 and 20:47.</p>
+            </div>
+          </details>
+        </div>
+      </div>
+
+      <div class="lane free">
+        <div class="lanelbl">Lane 2 — free</div>
+        <div class="freebox">Nothing running here. The next task that passes its entry check can start without waiting for lane 1.</div>
+      </div>
+
+      <div class="lane free">
+        <div class="lanelbl">Lane 3 — free</div>
+        <div class="freebox">Nothing running here. Three tasks at once is the cap; a fourth waits.</div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════ WAITING ON ALEXANDER ══════════════ -->
+  <div class="col waiting">
+    <div class="colhead"><h2>Waiting on Alexander</h2><span class="count">4</span></div>
+    <div class="colbody">
+
+      <div class="card ask">
+        <p class="handle">One name for the screens list</p>
+        <p class="behav">The list of screens a new project copies is called two different things; one of them wins.</p>
+        <div class="chips">
+          <span class="chip place">cross-module</span>
+          <span class="chip feature">feature</span>
+          <span class="chip est">no estimate — set when it is taken up</span>
+          <span class="chip you">asked 2×, no answer</span>
+        </div>
+        <details class="more" id="w-560">
+          <summary>more</summary>
+          <div class="body">
+            <p>The same list carries two names across the shipped procedure, the guide, the starter config, and this project’s own root. One artifact under two names is a defect the document rules already name. Nothing is blocked: the founding walk takes the config’s value, so the old name stays in place until you choose.</p>
+            <p class="meta">Spec part: named when the change is drafted, after your choice.<br>
+               Branch: none yet — no work copy has been opened for it.<br>
+               Queue row 560 · found 2026-08-06 · parked on your answer, no revisit date.</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="card ask">
+        <p class="handle">Fixed, still blocking pushes</p>
+        <p class="behav">After a mistake is repaired, the check that caught it stays red for a day and holds up every publish.</p>
+        <div class="chips">
+          <span class="chip place">cross-module</span>
+          <span class="chip bug">bug</span>
+          <span class="chip est">no estimate — set when it is taken up</span>
+          <span class="chip you">held since 29.07</span>
+        </div>
+        <details class="more" id="w-527">
+          <summary>more</summary>
+          <div class="body">
+            <p>One check reads the workers’ own records and goes red when a worker ran a command that throws away unsaved work. The record of that run stays on disk forever, so the finding stays true forever, while the check only looks back a day. A finished repair therefore clears nothing, and every publish waits out the day. The written law already names the way out — the file is put back, the worker is briefed again, the stop is recorded — and the check reads none of it.</p>
+            <p class="meta">Your word is owed on one question: what closes a finding of this kind.<br>
+               Spec part: named when the change is drafted.<br>
+               Branch: none yet. Queue row 527 · found 2026-07-29 · held for you since.</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="card ask">
+        <p class="handle">A reason that never expires</p>
+        <p class="behav">One reason written once lets a document’s length limit be raised again and again, forever.</p>
+        <div class="chips">
+          <span class="chip place">cross-module</span>
+          <span class="chip bug">bug</span>
+          <span class="chip est">no estimate — set when it is taken up</span>
+          <span class="chip you">held since 29.07</span>
+        </div>
+        <details class="more" id="w-529">
+          <summary>more</summary>
+          <div class="body">
+            <p>Each document has a recorded length it may not exceed, and a raise has to be justified. The record copies the justification forward on every write, so the first one a person writes stands as a standing licence and the limit moves freely ever after. Not one of that record’s 109 entries — one per document write it has seen — carries a justification yet, so the first landing that writes one opens the hole.</p>
+            <p class="meta">Your word is owed on one question: whether a justification is spent when it is used.<br>
+               Spec part: named when the change is drafted.<br>
+               Branch: none yet. Queue row 529 · found 2026-07-29 · held for you since.</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="card ask">
+        <p class="handle">Three rule conflicts to settle</p>
+        <p class="behav">Three of the pack’s own rules contradict each other, and no rewrite can pick a winner for you.</p>
+        <div class="chips">
+          <span class="chip place">cross-module</span>
+          <span class="chip docs">docs</span>
+          <span class="chip est">no estimate — set when it is taken up</span>
+          <span class="chip you">held since 05.08</span>
+        </div>
+        <details class="more" id="w-536">
+          <summary>more</summary>
+          <div class="body">
+            <p>One rule uses the word “owner” for two different actors in a single sentence — the agent that holds a zone, and you — and which one governs decides whether one agent may release another’s data. A design review is routed to two different skills at once. And fourteen rules collide with no order of precedence stated. A rewrite once invented an answer to the first of these; that invention was removed and the silence restored, which is why the question stands here.</p>
+            <p class="meta">Spec part: the shared rulebook the whole pack reads.<br>
+               Branch: none yet. Queue row 536 · found 2026-07-30 · held for you since 2026-08-05.</p>
+          </div>
+        </details>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══════════════ READY ══════════════ -->
+  <div class="col ready">
+    <div class="colhead"><h2>Ready</h2><span class="count">0</span></div>
+    <div class="colbody">
+      <div class="empty">Nothing checked and waiting. The entry check that fills this column ships with the task in lane 1.</div>
+    </div>
+  </div>
+
+  <!-- ══════════════ AWAITING VALIDATION ══════════════ -->
+  <div class="col validate">
+    <div class="colhead"><h2>Awaiting validation</h2><span class="count">183</span></div>
+    <div class="colbody">
+
+      <div class="card">
+        <p class="handle">No push without a handover</p>
+        <p class="behav">A session that leaves no written handover cannot publish its work.</p>
+        <div class="chips">
+          <span class="chip place">cross-module</span>
+          <span class="chip feature">feature</span>
+          <span class="chip est">no estimate — set at the entry check</span>
+        </div>
+        <details class="more" id="w-558">
+          <summary>more</summary>
+          <div class="body">
+            <p>The existing check judges the handovers that exist and says nothing about the ones that were never written, so three sessions closed without one and nothing noticed. The newest handover on disk is dated 2026-07-29. This gives the opening read a written artifact of its own and extends the check from the shape of a handover to its presence.</p>
+            <p class="meta">Spec part: named when the change is drafted.<br>
+               Branch: none yet. Queue row 558 · found 2026-08-06 · queued the same day.</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="card">
+        <p class="handle">Two independent readers</p>
+        <p class="behav">A clarity reading is refused when both readers were handed the same instructions.</p>
+        <div class="chips">
+          <span class="chip place">cross-module</span>
+          <span class="chip feature">feature</span>
+          <span class="chip est">no estimate — set at the entry check</span>
+        </div>
+        <details class="more" id="w-559">
+          <summary>more</summary>
+          <div class="body">
+            <p>The product document leaves a hole where the number of readers and where they come from should stand. The last round ran two readers both loaded with the project’s own rules, so the round measured what those rules already say. Across three documents, thirty-eight of these clarity readings have run, and not once has a reader come back with nothing to fix. The repair states plainly what counts as a stop that blocks — the reader shows the act it tried and could not carry out — and refuses a round whose two readers came from one brief.</p>
+            <p class="meta">Spec part: named when the change is drafted.<br>
+               Branch: none yet. Queue row 559 · found 2026-08-06 · queued the same day.</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="card">
+        <p class="handle">Remember where the pack lives</p>
+        <p class="behav">The setup asks to save where the pack sits on your machine, and there is nowhere to save it.</p>
+        <div class="chips">
+          <span class="chip place">settings</span>
+          <span class="chip feature">feature</span>
+          <span class="chip est">no estimate — set at the entry check</span>
+        </div>
+        <details class="more" id="w-561">
+          <summary>more</summary>
+          <div class="body">
+            <p>The setup offers to write the path onto your own profile, and the settings list carries no line to write it to, so nothing reads it back. Every later run works the path out from scratch.</p>
+            <p class="meta">Spec part: the settings list in the shared rulebook.<br>
+               Branch: none yet. Queue row 561 · found 2026-08-06 · queued the same day.</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="rest">…and 180 more on the roadmap</div>
+      <p class="colnote">191 wishes stand on the roadmap. Eleven of them are on this board; the other 180 wait behind them. Nothing enters work before its name, its description and its plan read clearly and pass the entry check.</p>
+
+    </div>
+  </div>
+
+  <!-- ══════════════ DONE ══════════════ -->
+  <div class="col done">
+    <div class="colhead"><h2>Done</h2><span class="count">7 today</span></div>
+    <div class="colbody">
+
+      <div class="card closed">
+        <div class="doneline">
+          <span class="st" title="landed">✅</span>
+          <span class="dh">Every count measures itself</span>
+          <span class="pair"><span class="nul" title="no estimate was recorded">—</span> → <span class="nul" title="the time it took was not recorded separately">—</span> · 16:06</span>
+        </div>
+        <details class="more" id="w-555">
+          <summary>more</summary>
+          <div class="body">
+            <p>Every number this project publishes about itself is now counted by a machine before it is shown.</p>
+            <p>The pages said thirteen checks where twenty-nine ran, and three more counts had gone stale the same way. Each published count now names the command that measures it, and a check re-measures every one before anything is published.</p>
+            <span class="lbl">Plan</span>
+            <ul>
+              <li>Design the fix and have it reviewed.<span class="out">The review sent it back once; the reworked design is what got built. <span class="who">the working session <span class="tier">· craft not recorded</span></span></span></li>
+              <li>Build the register of counts and the check that holds it.<span class="out">Built; the tests were watched fail first, and six failures were proven and undone byte for byte. <span class="who">a worker <span class="tier">· craft not recorded</span></span></span></li>
+              <li>Land the documents and publish.<span class="out">Published 16:06. <span class="who">the working session <span class="tier">· craft not recorded</span></span></span></li>
+            </ul>
+            <p class="meta">Spec part: written at the landing; this card does not carry the number.<br>
+               Branch <code>main</code>, merged and published. Queue row 555 · landed 2026-08-06 · estimated — / took: not recorded separately.</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="card closed">
+        <div class="doneline">
+          <span class="st" title="landed">✅</span>
+          <span class="dh">Checks that name their project</span>
+          <span class="pair"><span class="nul" title="no estimate was recorded">—</span> → <span class="nul" title="the time it took was not recorded separately">—</span> · 16:08</span>
+        </div>
+        <details class="more" id="w-556">
+          <summary>more</summary>
+          <div class="body">
+            <p>A check now records which project it judges, so no one else’s project is sent to run it.</p>
+            <p>A skill was sending other people’s projects to run checks that only judge this project’s own documents — they would have read nothing and reported green. Each runnable file now records what it is, which project it judges, and whether it belongs in a project that adopts the pack.</p>
+            <span class="lbl">Plan</span>
+            <ul>
+              <li>Design the record and have it reviewed.<span class="out">The review found four mechanisms resting on a fifth that did not exist; the design was cut to the slice that stands on its own. <span class="who">the working session <span class="tier">· craft not recorded</span></span></span></li>
+              <li>Build the record and its check.<span class="out">Built on a separate copy of the tree and merged back. <span class="who">a worker <span class="tier">· craft not recorded</span></span></span></li>
+              <li>Land the documents and publish.<span class="out">Published 16:08; two wrong instructions in the reading skill were fixed on the way. <span class="who">the working session <span class="tier">· craft not recorded</span></span></span></li>
+            </ul>
+            <p class="meta">Spec part: written at the landing; this card does not carry the number.<br>
+               Built on a separate work copy, merged into <code>main</code> and published. Queue row 556 · landed 2026-08-06 · estimated — / took: not recorded separately.</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="card closed">
+        <div class="doneline">
+          <span class="st" title="landed">✅</span>
+          <span class="dh">Saying attach now starts setup</span>
+          <span class="pair"><span class="nul" title="no estimate was recorded">—</span> → <span class="nul" title="the time it took was not recorded separately">—</span> · 16:07</span>
+        </div>
+        <details class="more" id="w-557">
+          <summary>more</summary>
+          <div class="body">
+            <p>Telling an agent to attach live-spec to a project now runs a real setup, instead of nothing.</p>
+            <p>The promise had stood since the first version with nothing behind it, so a person had to find a procedure file and hand it to an agent themselves. An empty folder had no walk at all. Both now do.</p>
+            <span class="lbl">Plan</span>
+            <ul>
+              <li>Design the entry and the walk, and have it reviewed.<span class="out">Reworked after the review. <span class="who">the working session <span class="tier">· craft not recorded</span></span></span></li>
+              <li>Prove it by founding a throwaway project end to end.<span class="out">Reached one commit, six filled documents and a green starter suite; three failure cases were proven too. <span class="who">🔨 Builder <span class="tier">· fresh context</span></span></span></li>
+              <li>Land the documents and publish.<span class="out">Published 16:07; a false sentence in the product document was repaired in the same pass. <span class="who">the working session <span class="tier">· craft not recorded</span></span></span></li>
+            </ul>
+            <p class="meta">Spec part: written at the landing; this card does not carry the number.<br>
+               Branch <code>main</code>, published. Queue row 557 · landed 2026-08-06 · estimated — / took: not recorded separately.</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="card closed">
+        <div class="doneline">
+          <span class="st" title="landed">✅</span>
+          <span class="dh">Public claims match real runs</span>
+          <span class="pair"><span class="nul" title="no estimate was recorded">—</span> → 5h20m</span>
+        </div>
+        <details class="more" id="w-review">
+          <summary>more</summary>
+          <div class="body">
+            <p>The public page of the review skill now states figures two real runs produced, with both records shipped beside it.</p>
+            <p>Its front page published a pair of figures no run could reproduce. Two fresh sessions ran the shipped skill over the shipped example without seeing each other’s work; the page now states their real result and ships both full records beside it.</p>
+            <span class="lbl">Plan</span>
+            <ul>
+              <li>Read the edition cold, twice.<span class="out">Twelve places where a reader stopped and could not go on, and one verdict both readers reached: publish one real run in full, and cut the length. <span class="who">📖 Reader ×2 <span class="tier">· fresh context</span></span></span></li>
+              <li>Rewrite the edition to hold for any kind of product.<span class="out">The front page fell from 2,919 to 1,938 words. <span class="who">✍️ Drafter <span class="tier">· fresh context</span></span></span></li>
+              <li>Split the sentences the rewrite made too long.<span class="out">Every file of the edition now sits under its recorded length. <span class="who">✍️ Drafter <span class="tier">· clean context</span></span></span></li>
+              <li>Measure the edition again against the repaired text.<span class="out">Two readers working apart returned 32 and 30 things to fix, and 24 of those were found by both — that agreement is what makes a round trustworthy. The earlier measurement was thrown out because it read text being rewritten at the same moment. <span class="who">🔍 Reviewer ×2 <span class="tier">· fresh context</span></span></span></li>
+            </ul>
+            <p class="meta">Spec part: written at the landing; this card does not carry the number.<br>
+               Branch <code>main</code>. No queue row — it rode the day’s landings. Estimated — / took 5 h 20 min across two sessions, 11:33 to 16:53, interleaved with the three landings above.</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="card closed">
+        <div class="doneline">
+          <span class="st" title="landed">✅</span>
+          <span class="dh">Spent work copies removed</span>
+          <span class="pair"><span class="nul" title="no estimate was recorded">—</span> → <span class="nul" title="the time it took was not recorded separately">—</span> · 19:01</span>
+        </div>
+        <details class="more" id="w-copies">
+          <summary>more</summary>
+          <div class="body">
+            <p>Four finished copies of the working tree and five merged branches were deleted, each checked empty first.</p>
+            <p>Each copy and branch was checked to hold no unsaved file and nothing unpublished before it was removed. Three branches were kept back and named, including a safety copy of this morning’s work.</p>
+            <span class="lbl">Plan</span>
+            <ul>
+              <li>Check every copy and branch before removing anything.<span class="out">Each held zero unsaved files and zero unpublished commits. <span class="who">✅ Checker <span class="tier">· the working session</span></span></span></li>
+              <li>Remove them and record what stays.<span class="out">Recorded 19:01. <span class="who">the working session <span class="tier">· craft not recorded</span></span></span></li>
+            </ul>
+            <p class="meta">Spec part: none — this was housekeeping, not a change to the product.<br>
+               Branch <code>main</code>; one work copy remains, this one. No queue row. Estimated — / your word at about 19:00, recorded 19:01.</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="card closed">
+        <div class="doneline">
+          <span class="st" title="landed">✅</span>
+          <span class="dh">Pick the board’s look</span>
+          <span class="pair"><span class="nul" title="no estimate was taken — it waited on you">—</span> → <span class="nul" title="asked 19:41, asked again 20:19 and 20:40, answered 20:47 — one hour six minutes waiting on you">1h06m</span> · 20:47</span>
+        </div>
+        <details class="more" id="w-look">
+          <summary>more</summary>
+          <div class="body">
+            <p>Your word on one of the samples freezes it as the form the real board is built to.</p>
+            <p>Four samples were shown tonight: variant 3 at 19:41, variant 4 at 20:19, variant 5 at 20:40, and this variant 6. You rejected variant 4 at 20:36 — the tiles did not read as tasks. At 20:47 you held variant 5’s form good, with four amendments: the done column reads one line per task with a state mark; an opened “more” must survive the reload; a reference like “17 findings” must say what the findings are; and nothing on a card already in work may be phrased as a choice. This page is those four amendments built.</p>
+            <p class="meta">Changes spec part: Requirement 309 — the work board.<br>
+               Branch <code>main</code>. Queue row 166, the same task as lane 1 — this was its stopping point, and it is open again.<br>
+               Asked 19:41, 20:19, 20:40 · answered 20:47.</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="card closed">
+        <div class="doneline">
+          <span class="st" title="landed">✅</span>
+          <span class="dh">Tonight’s six asks on record</span>
+          <span class="pair"><span class="nul" title="no estimate was recorded">—</span> → <span class="nul" title="from your first word at about 19:17 to the task standing in work at 19:31">14m</span> · 20:48</span>
+        </div>
+        <details class="more" id="w-asks">
+          <summary>more</summary>
+          <div class="body">
+            <p>Everything you asked for this evening is written down, and the board task now carries all of it.</p>
+            <p>The board moved ahead of the queue; task wording freezes once approved; every task carries the time estimated and the time it took; the board shows the whole queue as a board; approvals stay rare and transparency is the standing ask; a card must read as a task at a glance, with the technical detail behind it; and the variant-5 form holds with four amendments.</p>
+            <span class="lbl">Plan</span>
+            <ul>
+              <li>Record the ranking and widen the task.<span class="out">Recorded 19:19 and 19:21. <span class="who">the working session <span class="tier">· craft not recorded</span></span></span></li>
+              <li>Record the time accounting and widen it again.<span class="out">Recorded 19:29. <span class="who">the working session <span class="tier">· craft not recorded</span></span></span></li>
+              <li>Take the task into work.<span class="out">Claimed 19:31 with its intake noted. <span class="who">the working session <span class="tier">· craft not recorded</span></span></span></li>
+              <li>Record the board ask and widen it a fourth time.<span class="out">Recorded 20:18. <span class="who">the working session <span class="tier">· craft not recorded</span></span></span></li>
+              <li>Record the rare-approval ask and the card law, fifth and sixth.<span class="out">Recorded 20:36 and 20:37. <span class="who">the working session <span class="tier">· craft not recorded</span></span></span></li>
+              <li>Record the form verdict and its four amendments, seventh.<span class="out">Recorded 20:48. <span class="who">the working session <span class="tier">· craft not recorded</span></span></span></li>
+            </ul>
+            <p class="meta">Changes spec part: Requirement 309 — the work board.<br>
+               Branch <code>main</code>. Queue row 166 · your first word at about 19:17, in work by 19:31 — 14 min. No estimate was recorded.</p>
+          </div>
+        </details>
+      </div>
+
+      <p class="colnote">✅ landed. Two other marks belong to this column and neither is in use today: 🚫 declined, 🔁 superseded. The dash on the left of every pair is an estimate nobody recorded — nothing kept estimates before this evening, so those pairs cannot be reconstructed. From the task in lane 1 on, the estimate is written when the work is taken up and the pair stands on the card at the close.</p>
+
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  <p>The workers that recur carry the same name and icon every time you see them:
+    <span class="who">📖 Reader</span> reads and distils ·
+    <span class="who">✍️ Drafter</span> writes the documents ·
+    <span class="who">🔍 Reviewer</span> attacks the draft ·
+    <span class="who">🔨 Builder</span> builds the thing ·
+    <span class="who">✅ Checker</span> verifies before anything moves.
+    The note beside a name says what the worker was given: fresh context means it read the task and nothing else. Steps from before this evening carry no craft record, and the card says as much.</p>
+  <p>How this will live: a card moves column whenever the work moves, the words on its face are the ones you approved and are spoken back to you letter for letter, and the estimate is written at take-up with the pair added at the close. Anything you open on this page stays open when the page reloads itself.</p>
+</footer>
+
+</div>
+
+<script>
+// Keep every opened fold open across the 30-second reload. State is held per fold id
+// in this browser only; if storage is unavailable the page simply behaves as before.
+(function () {
+  var KEY = 'live-spec-work-board-open-folds';
+  var open = {};
+  try {
+    var saved = window.localStorage.getItem(KEY);
+    if (saved) { JSON.parse(saved).forEach(function (id) { open[id] = 1; }); }
+  } catch (e) { /* storage blocked — folds just start closed */ }
+
+  // Restore synchronously, before the browser paints this document.
+  var all = document.querySelectorAll('details[id]');
+  for (var i = 0; i < all.length; i++) {
+    if (open[all[i].id]) { all[i].open = true; }
+  }
+
+  // A toggle does not bubble, so listen in the capture phase.
+  document.addEventListener('toggle', function (ev) {
+    var d = ev.target;
+    if (!d || d.tagName !== 'DETAILS' || !d.id) { return; }
+    if (d.open) { open[d.id] = 1; } else { delete open[d.id]; }
+    try { window.localStorage.setItem(KEY, JSON.stringify(Object.keys(open))); } catch (e) { /* ignore */ }
+  }, true);
+})();
+</script>
+
+</body>
+</html>
