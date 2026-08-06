@@ -206,7 +206,7 @@ named here and in the matrix.
 
 **responsibility** — the human-facing exchange. It carries reports, batched questions, decision pages, and done-claim answers. It also carries the capture echo and departures board, the feature map on demand, the pre-report walk, and working narration.
 
-**owns** — T-7 · E-22 · INV-25 · INV-27 · INV-28 · INV-32 · INV-34 · INV-35 · INV-38 · INV-93 · INV-94 · INV-95 · INV-109 · INV-42 · INV-51 · INV-52 · INV-57 · INV-58 · INV-59 · INV-60 · INV-64 · INV-71 · INV-81 · INV-83 · INV-130 · INV-67 · INV-223 · INV-286
+**owns** — T-7 · E-22 · INV-25 · INV-27 · INV-28 · INV-32 · INV-34 · INV-35 · INV-38 · INV-93 · INV-94 · INV-95 · INV-109 · INV-42 · INV-51 · INV-52 · INV-57 · INV-58 · INV-59 · INV-60 · INV-64 · INV-71 · INV-81 · INV-83 · INV-130 · INV-67 · INV-223 · INV-286 · INV-314
 - T-7 is the report step, and the walk before it is build-pipeline's.
 - INV-286 is the showing walk's clearing arm, the same shape as INV-223. The law is this node's. Its check rides the suite and takes no gate letter. The record homes are declared as host config in the guardrails node's config file.
 

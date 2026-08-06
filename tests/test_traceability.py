@@ -3324,3 +3324,30 @@ class TestDocBacktickWellformedness(unittest.TestCase):
         odd = self._odd_backtick_lines(read("PRODUCT_SPEC.md"))
         self.assertEqual(odd, [], "PRODUCT_SPEC.md lines with an odd inline-backtick count "
                                   "(a malformed code span that desyncs scrub): %s" % odd)
+
+
+class TestGroundingLaw(unittest.TestCase):
+    """Row 569 (M-545, INV-314): a work block and every line reporting it opens by naming its
+    root — the person's dated request, a standing instruction, or a stated reason, never
+    machinery — and is accounted against its plan line. Both homes: PRODUCT_SPEC.md's
+    Requirement 310 and skills/build-pipeline/SKILL.md's delegation-accounting section."""
+
+    def test_grounding_law(self):
+        spec = re.sub(r"\s+", " ", read("PRODUCT_SPEC.md"))
+        for needle in (
+            "Requirement 310: A work block is grounded in the person's sight before it runs",
+            "open it by naming its root — the person's dated request, a standing instruction of "
+            "theirs, or a reason stated plainly enough for the person to judge",
+            "The system *shall* start no work block whose root it cannot name.",
+            "shall* name no machinery — an alarm, a gate, a scheduled reminder — as a root",
+            "[INV-314]",
+        ):
+            self.assertIn(needle, spec, "SPEC missing the grounding law: %s" % needle)
+        pipeline = re.sub(r"\s+", " ", read(os.path.join("skills", "build-pipeline", "SKILL.md")))
+        for needle in (
+            "opens by naming its root — the person's dated request, a standing instruction, or a "
+            "stated reason, machinery never a root",
+            "accounted against its announced plan line (SPEC INV-314)",
+        ):
+            self.assertIn(needle, pipeline, "build-pipeline SKILL.md missing the grounding law: %s" % needle)
+        self.assertIn("test_grounding_law", read("TEST_MATRIX.md"), "M-545 must pin this test")
