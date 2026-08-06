@@ -32,9 +32,10 @@ This is how the family's no-history law reaches a queue document: the body stays
 
 ## The status vocabulary
 
-The status vocabulary is closed — four words, each set in lowercase italics and each carrying a date:
+The status vocabulary is closed — five words, each set in lowercase italics and each carrying a date:
 
-- *queued* — the wish is accepted and waiting its turn.
+- *queued* — the wish is accepted and waiting its turn. Its task statement has not passed validation yet.
+- *ready* — the wish's task statement has passed validation and its wording is frozen, so the row may be taken up as it stands. The row keeps this status until a session claims it, when it reads *in-work*.
 - *in-work* — the wish is claimed by a session. A landing that leaves any leg open keeps its row live with the open leg named, since a row closes only whole; the row reads *in-work* while a session still drives the open leg, and *deferred* on a named trigger when that leg waits on an outside event. A stale claim is re-read at queue-take — the moment a session takes its next wish from the queue: an *in-work* row with no commit citing it for seven days joins the staleness review list for the human's word. The mechanical sweep behind that list is promised under ROADMAP row 481; until it lands, the taking session runs the re-read itself.
 - *deferred* — the wish is parked on a named revisit trigger, the trigger written in the status cell and re-read at queue-take and at the next milestone review — the whole-project re-check the pack runs at each version milestone.
 - *far* — the wish is parked with no near trigger, re-read at the milestone reviews.

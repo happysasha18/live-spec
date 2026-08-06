@@ -126,6 +126,7 @@ by `test_artifact_inventory` — the test parses this table, so adding an entry 
 | Skill evals — method + honest boundary | `evals/README.md` | shipped text | `test_artifact_inventory`, `test_eval_readme_states_honest_boundary` |
 | Skill evals — one per working skill | `evals/` | shipped text dir | `test_skill_evals_present` (self-closing over skills/) |
 | Eval run records | `docs/evals/` | records dir (non-empty) | `test_artifact_inventory` |
+| Work board page — the frozen norm | `docs/norms/work-board.html` | rendered page | `test_artifact_inventory` + `test_norm_fingerprints` |
 
 ---
 
@@ -767,6 +768,39 @@ by `test_artifact_inventory` — the test parses this table, so adding an entry 
 | M-323 | A feature delta adding a second member of a kind an existing surface already has draws the scoped design review at intake (INV-169): feature-fit asks the second-sibling question by construction, a yes draws the scoped pass over the delta's elements against the existing inventory, a no is recorded as a lens verdict; the intake stand-down holds only for a delta with no such sibling; never a second sibling entering, shipping, and diverging with no design pass until the next full [INV-169] | string | `test_spec_states_the_second_sibling_law` + `test_spec_scopes_the_stand_down` + `test_prover_skill_asks_the_question_at_intake` + `test_design_reviewer_carries_the_exception` + `test_index_row_present` | *built* |
 | M-303 | Every review pass records its outcome of one class (INV-156): three write a dated file under the pass's own home (prover `docs/prover/`, design review `docs/design-review/`, audit `docs/audit/`), opening by naming the skill and version, a per-finding disposition column, a same-day `-suffix`; members — the prover record and the design-review record as full siblings (the design review alone holding an ask across passes INV-142), and the audit record (the periodic adversarial audit + its whole-pack skill-creator craft walk INV-145 (M-128)) carrying folded / rejected(+why) for a craft walk and met / owed / flag for a milestone read, no held-ask; the verify-by-deed audit the one named difference — its verdict and the per-landing skill-creator review it runs INV-99 land in the landing record's accounting rather than a dated class file INV-46; the class binds forward, a new pass a member or a named difference, pre-declaration records unreshaped; never a review pass whose record shape no reader can predict, never verify silently promoted to a dated class file [INV-156] | string | `test_review_record_class_declared` + `test_names_every_member` + `test_states_verify_difference` + `test_formal_index_and_ownership` (red proven against the pre-delta tree, 2026-07-15) | *built* |
 
+### [node: work-board [target]]
+
+The whole block is *todo*. The page, its source file, its generator, and the statement-validation check are specified, and none is built (ROADMAP row 166). Every owning-test cell below names the landing that carries the row's test, never a test file. Citing a test that does not exist is the defect this column holds. The rows read the recorded state rather than any named column, so the stage ladder's own settling moves no row's wording.
+
+| ID | Fact (from spec) | Test level | Owning test | Status |
+|---|---|---|---|---|
+| M-519 | The work board is the rendered status page the pack already promises, one rendered surface under one name, held as one source file in the host's tree and published from that file at one stable link the person opens from any device; never a second rendered status surface standing under a second name, and never a board held anywhere but that one source file [INV-308, INV-71, INV-67] | string | lands with the generator (ROADMAP row 166) | *todo* |
+| M-520 | One work board stands per host project, every row naming the session that wrote it, and a session's write passes the concurrent-edit fence like any shared-document write, a blocked write re-reading the board and re-applying its own row; never another project's work merged into a host's board, and never a board write that skips the fence [INV-308, INV-11] | string | lands with the generator (ROADMAP row 166) | *todo* |
+| M-521 | The board stands whether or not anyone asks, leads with the one-line identifier every opened artifact carries, and is registered in the host's surface registry `SURFACES.md` — with the marker text the completeness check reads and the spec anchors it answers to — before it renders; never a board rendered ahead of its registry row, and never a page opened without its identifying line [INV-308, E-10, INV-51] | string | lands with the generator (ROADMAP row 166) | *todo* |
+| M-522 | The board's form follows the frozen norm `docs/norms/work-board.html`, cited by the requirement's own norm pointer from the approval on, and shows rows in feature language with the work in hand and a timestamped feed; never a form drifting from the frozen norm without a recorded landing, and never a second copy of the approved form standing beside it [INV-308, INV-43] | string | lands with the generator (ROADMAP row 166); the frozen norm itself is already held by `test_norm_fingerprints` | *todo* |
+| M-523 | The whole queue stands on the board in columns, one column per recorded state, and every row the page shows stands in exactly one column, an open row's column read off the status its queue row records; never a queue row dropped from the page in silence, and never a row standing in two columns at once [INV-308, INV-277] | browser-computed | lands with the generator (ROADMAP row 166) | *todo* |
+| M-524 | The far tier stands down by name with its rows opening only on the person's request, the *queued* rows below the runnable head collapse into a stated count that opens on the person's act, and the *deferred* rows show as a stated count alone with each revisit trigger behind an expand; never a collapsed row dropped in silence, and never the far tier's rows standing open unasked [INV-308, INV-222, INV-223] | DOM-text | lands with the generator (ROADMAP row 166) | *todo* |
+| M-525 | The in-work column splits into lanes, one for each build lane the lane cap allows, a lane holding no row reading as free, and a parked row stands in the in-work column marked parked and naming the row that preempted it, returning to the work in hand once that row clears; never a lane count diverging from the cap, and never a parked row cleared off the board [INV-308, T-9, T-18] | browser-computed | lands with the generator (ROADMAP row 166) | *todo* |
+| M-526 | A card reads as a task at a glance: the echo-name first as the recognition hook, then the description of the behaviour, then the chips, every other detail held behind the card in a details layer, with a placement tag chip on every row read from the queue row's own map and footprint notes and a named link to the part of the product spec the task changes; never technical detail standing on the card's face, and never a board row without its placement tag and its spec link [INV-308, INV-28, INV-37, INV-128] | DOM-text | lands with the generator (ROADMAP row 166) | *todo* |
+| M-527 | An in-work row shows the steps of its own statement's plan with a mark beside the one pipeline stage the row now stands at, and names its branch and worktree in the row's details, both read from the lane's own claim commit and checkpoint; never a stage mark composed from narration rather than read from the record, and never a branch or worktree name typed onto the row rather than read from the lane [INV-308, E-34, INV-69] | DOM-text | lands with the generator (ROADMAP row 166) | *todo* |
+| M-528 | The board's waiting region renders the waiting board `WAITING.md` and keeps no list of its own, so one clearing rule and one gate hold every waiting item, and a row whose progress waits on a waiting-board item is marked waiting while standing in the column its own state names; never a second waiting list kept on the board, and never a waiting row moved out of the column its state names [INV-308, INV-206] | DOM-text | lands with the generator (ROADMAP row 166) | *todo* |
+| M-529 | Each running step names its worker by a fixed craft name and icon with a muted tier note beside it, the seat naming that craft in the worker's brief at spawn and the movement's checkpoint carrying the craft, its icon and the logged tier while the step runs, a mid-flight tier change updating it, and the board reading a running step's worker there; never a craft guessed for a step whose record names none, and never which worker runs which task left unreadable across the in-work column [INV-308, INV-33, INV-69] | DOM-text | lands with the generator (ROADMAP row 166) | *todo* |
+| M-530 | The fixed craft set and its icons live in the board's own source file as their one home, the names read as display names of the pipeline's craft standards with the skill names kept internal; never a second home for the craft set, and never an internal skill name shown on a card [INV-308, INV-137] | string | lands with the generator (ROADMAP row 166) | *todo* |
+| M-531 | Every task carries a statement holding its echo-name, its description, its plan and its time estimate, kept with its validation record in the work board's own source file keyed by the queue row's id, the queue row keeping its five cells; never a statement or a validation record held outside that source file, and never a queue row grown a sixth cell to carry one [INV-309, INV-277] | string | lands with the validation check (ROADMAP row 166) | *todo* |
+| M-532 | No task enters work before its statement passes validation — the mechanical floor of echo-name, description, plan and estimate each present with the register check clean, then a clean-context reader carrying no project vocabulary who answers what is to be done, why, and how long from the statement alone and later places the echo-name on its own — a failed statement rewritten and validated again, its task staying out of work until it passes; never a task taken up on a statement that has not passed, and never a reader carrying project vocabulary standing in for the clean-context one [INV-309] | string | lands with the validation check (ROADMAP row 166) | *todo* |
+| M-533 | A passed validation is read as approval and writes the task's queue row status to *ready*, dated like every other status, the gate-and-reader road standing as policy in `DECISIONS.md` with the person's word on a single task as the exception; never a per-statement route to the person standing as the road, and never a status written without its date [INV-309, INV-277] | string | lands with the validation check (ROADMAP row 166) | *todo* |
+| M-534 | A passed statement's wording freezes and is spoken letter for letter at take-up, along the way and at the close, the person's re-wording taken and frozen anew, and a task's estimate or plan revised only before take-up with validation run again and the statement frozen anew, an estimate held as it stands once the task is taken up and any overrun stated plainly at the close; never a frozen statement paraphrased when the task is spoken, and never an estimate revised after take-up [INV-309, INV-93] | string | lands with the validation check (ROADMAP row 166) | *todo* |
+| M-535 | The statement's plan lists the steps ahead in the order they run, its parallel mark read as the plan's expectation with the take-up lane decision deciding what actually runs together and a divergence recorded plainly in the delivery report's trail, and the steps running together inside one task are bounded by the same lane cap that bounds build lanes; never a plan's parallel mark overriding the lane decision, and never a divergence between the two left off the trail [INV-309, INV-49, T-18] | string | lands with the validation check (ROADMAP row 166) | *todo* |
+| M-536 | The statement's estimate is the one estimate every other surface cites, written onto the board row when the task is taken up, the actual standing beside it on the same row at the close, and the landing's own settling of estimate against actual extended onto the board; never a second estimate cited from anywhere but the statement, and never a closed row showing an estimate with no actual beside it [INV-310, INV-93] | DOM-text | lands with the generator (ROADMAP row 166) | *todo* |
+| M-537 | Every closed task keeps its row on the board rather than being cleared, the done column read from the month's archive file under `docs/queue-archive/` with the current month standing by default and an older month opening on the person's ask, each closed row showing its own terminal state — landed, declined, superseded, or decided — and tagged with its door read from the archived row's intake note; never a closed row cleared off the board, and never a done column built from anything but the archive [INV-311, INV-276, INV-134] | string | lands with the generator (ROADMAP row 166) | *todo* |
+| M-538 | The delivery report carries a trail over the plan's steps — each step's outcome, the worker tier or role that ran it, and the step's share of the task's time — and a closed row's step trail is drawn from that report; never a step trail composed on the board itself, and never a closed step standing with no outcome named [INV-311, INV-103] | DOM-text | lands with the generator (ROADMAP row 166) | *todo* |
+| M-539 | The board updates at every pipeline stage change, at take-up, at a worker's spawn and finish, at a landing, and at every state that waits on the person, and the board file's update rides inside the landing's own commit; never a stage change that leaves the page standing stale, and never a board update landing outside the commit of the landing it records [INV-312, INV-71] | string | lands with the generator (ROADMAP row 166) | *todo* |
+| M-540 | A board update completes within about five seconds of the stage change it records and delays that stage not at all, and a long stretch with no stage change refreshes the board's stamp on the same heartbeat the chat's narration already carries; never a stage held back by its own board update, and never a quiet stretch reading the same as a stalled one [INV-312, INV-35, INV-71] | string | lands with the generator's own suite timing assertion (ROADMAP row 166) | *todo* |
+| M-541 | The board lays out in one column on a narrow screen with the work in hand at the top, every control reachable by touch and by keyboard, and the page holds the contrast the pack's pages hold; never a control reachable only by hover, and never a narrow screen pushing the work in hand below what a reader sees first [INV-313] | browser-computed | lands with the generator (ROADMAP row 166) | *todo* |
+| M-542 | An empty board says so and shows the queue's head in its place, every board carries the stamp of the time it last updated so a reader judges its freshness, and an open page re-reads itself about every five seconds; never an empty board reading the same as a broken one, and never a page standing with no freshness stamp for a reader to judge [INV-313] | DOM-text | lands with the generator (ROADMAP row 166) | *todo* |
+| M-543 | The board writes no history the journal already owns and merges no other project's work into a host's board, the chat's departures board keeping its own report duty inside every status report and on ask, the narration whole, and the live status line unreduced; never a board row standing in for a beat the session owes in the chat, and never the board's arrival reducing a chat duty [INV-308, INV-27, INV-35, INV-71] | string | lands with the generator (ROADMAP row 166) | *todo* |
+| M-544 | The board counts as working when the person answers four questions from the page alone over one real working stretch — what is now being done, who runs what, what was done, and how long each took against its estimate; never a question of the four the page leaves the reader to ask in chat, and never the board counted as working off a green suite with no such stretch read [INV-308] | DOM-text | the person's read over one real working stretch (ROADMAP row 166) — human-verified, the honest level here weaker than a machine gate, flagged | *todo* |
+
 ---
 ## Reference
 
@@ -807,7 +841,7 @@ The anchor-to-row table below is generated output, built from the body rows by `
 | E-7 | M-063, M-169 |
 | E-8 | M-051 |
 | E-9 | M-036, M-463 |
-| E-10 | M-061, M-083 |
+| E-10 | M-061, M-083, M-521 |
 | E-11 | M-048 |
 | E-12 | M-001, M-066, M-093 |
 | E-13 | M-002 |
@@ -831,7 +865,7 @@ The anchor-to-row table below is generated output, built from the body rows by `
 | E-31 | M-352 |
 | E-32 | M-365 |
 | E-33 | M-361 |
-| E-34 | M-372 |
+| E-34 | M-372, M-527 |
 | E-35 | M-423 |
 | INV-1 | M-021 |
 | INV-2 | M-022, M-378, M-379 |
@@ -843,7 +877,7 @@ The anchor-to-row table below is generated output, built from the body rows by `
 | INV-8 | M-038 |
 | INV-9 | M-004 |
 | INV-10 | M-050 |
-| INV-11 | M-005 |
+| INV-11 | M-005, M-520 |
 | INV-12 | M-025 |
 | INV-13 | M-006 |
 | INV-14 | M-007 |
@@ -859,31 +893,31 @@ The anchor-to-row table below is generated output, built from the body rows by `
 | INV-24 | M-106, M-110, M-123, M-132 |
 | INV-25 | M-107 |
 | INV-26 | M-109 |
-| INV-27 | M-111, M-112 |
-| INV-28 | M-113, M-121, M-133, M-137, M-177, M-233 |
+| INV-27 | M-111, M-112, M-543 |
+| INV-28 | M-113, M-121, M-133, M-137, M-177, M-233, M-526 |
 | INV-29 | M-114 |
 | INV-30 | M-115 |
 | INV-31 | M-116 |
 | INV-32 | M-117 |
-| INV-33 | M-120 |
+| INV-33 | M-120, M-529 |
 | INV-34 | M-122 |
-| INV-35 | M-124, M-138, M-232 |
+| INV-35 | M-124, M-138, M-232, M-540, M-543 |
 | INV-36 | M-125 |
-| INV-37 | M-126 |
+| INV-37 | M-126, M-526 |
 | INV-38 | M-127 |
 | INV-39 | M-130, M-376, M-377, M-382 |
 | INV-40 | M-135, M-497 |
 | INV-41 | M-136, M-185, M-347 |
 | INV-42 | M-139 |
-| INV-43 | M-140, M-214, M-227 |
+| INV-43 | M-140, M-214, M-227, M-522 |
 | INV-44 | M-141, M-171 |
 | INV-45 | M-142, M-344, M-345, M-346, M-348 |
 | INV-46 | M-144 |
 | INV-47 | M-145 |
 | INV-48 | M-146 |
-| INV-49 | M-147, M-242, M-395 |
+| INV-49 | M-147, M-242, M-395, M-535 |
 | INV-50 | M-148 |
-| INV-51 | M-149 |
+| INV-51 | M-149, M-521 |
 | INV-52 | M-150 |
 | INV-53 | M-151 |
 | INV-54 | M-152 |
@@ -899,11 +933,11 @@ The anchor-to-row table below is generated output, built from the body rows by `
 | INV-64 | M-163 |
 | INV-65 | M-166 |
 | INV-66 | M-168, M-171 |
-| INV-67 | M-170, M-334 |
+| INV-67 | M-170, M-334, M-519 |
 | INV-68 | M-174 |
-| INV-69 | M-175, M-243, M-277 |
+| INV-69 | M-175, M-243, M-277, M-527, M-529 |
 | INV-70 | M-176 |
-| INV-71 | M-178 |
+| INV-71 | M-178, M-519, M-539, M-540, M-543 |
 | INV-72 | M-179 |
 | INV-73 | M-181 |
 | INV-74 | M-182, M-184, M-185, M-193 |
@@ -925,7 +959,7 @@ The anchor-to-row table below is generated output, built from the body rows by `
 | INV-90 | M-219 |
 | INV-91 | M-220 |
 | INV-92 | M-221 |
-| INV-93 | M-222 |
+| INV-93 | M-222, M-534, M-536 |
 | INV-94 | M-223 |
 | INV-95 | M-224 |
 | INV-96 | M-225 |
@@ -935,7 +969,7 @@ The anchor-to-row table below is generated output, built from the body rows by `
 | INV-100 | M-236 |
 | INV-101 | M-237 |
 | INV-102 | M-238 |
-| INV-103 | M-241 |
+| INV-103 | M-241, M-538 |
 | INV-104 | M-239 |
 | INV-105 | M-244, M-381 |
 | INV-106 | M-245 |
@@ -960,16 +994,16 @@ The anchor-to-row table below is generated output, built from the body rows by `
 | INV-125 | M-266, M-293 |
 | INV-126 | M-267, M-294, M-341 |
 | INV-127 | M-268 |
-| INV-128 | M-269 |
+| INV-128 | M-269, M-526 |
 | INV-129 | M-270 |
 | INV-130 | M-271 |
 | INV-131 | M-272 |
 | INV-132 | M-273 |
 | INV-133 | M-274 |
-| INV-134 | M-275 |
+| INV-134 | M-275, M-537 |
 | INV-135 | M-276 |
 | INV-136 | M-278 |
-| INV-137 | M-279 |
+| INV-137 | M-279, M-530 |
 | INV-138 | M-280, M-350, M-351 |
 | INV-139 | M-281 |
 | INV-140 | M-282, M-325, M-338 |
@@ -1038,7 +1072,7 @@ The anchor-to-row table below is generated output, built from the body rows by `
 | INV-203 | M-384 |
 | INV-204 | M-385 |
 | INV-205 | M-386 |
-| INV-206 | M-387 |
+| INV-206 | M-387, M-528 |
 | INV-207 | M-388 |
 | INV-208 | M-389 |
 | INV-209 | M-390 |
@@ -1054,8 +1088,8 @@ The anchor-to-row table below is generated output, built from the body rows by `
 | INV-219 | M-400 |
 | INV-220 | M-401 |
 | INV-221 | M-402 |
-| INV-222 | M-403 |
-| INV-223 | M-404 |
+| INV-222 | M-403, M-524 |
+| INV-223 | M-404, M-524 |
 | INV-224 | M-405 |
 | INV-225 | M-406 |
 | INV-226 | M-407 |
@@ -1108,8 +1142,8 @@ The anchor-to-row table below is generated output, built from the body rows by `
 | INV-273 | M-449 |
 | INV-274 | M-450 |
 | INV-275 | M-451 |
-| INV-276 | M-452 |
-| INV-277 | M-453 |
+| INV-276 | M-452, M-537 |
+| INV-277 | M-453, M-523, M-531, M-533 |
 | INV-278 | M-454 |
 | INV-279 | M-455 |
 | INV-280 | M-456 |
@@ -1140,6 +1174,12 @@ The anchor-to-row table below is generated output, built from the body rows by `
 | INV-305 | M-498, M-499, M-500, M-501, M-502, M-503, M-504 |
 | INV-306 | M-505, M-506, M-507, M-508, M-509, M-510, M-511 |
 | INV-307 | M-512, M-513, M-514, M-515, M-516, M-517, M-518 |
+| INV-308 | M-519, M-520, M-521, M-522, M-523, M-524, M-525, M-526, M-527, M-528, M-529, M-530, M-543, M-544 |
+| INV-309 | M-531, M-532, M-533, M-534, M-535 |
+| INV-310 | M-536 |
+| INV-311 | M-537, M-538 |
+| INV-312 | M-539, M-540 |
+| INV-313 | M-541, M-542 |
 | M-1 | M-029, M-128 |
 | M-2 | M-011 |
 | M-3 | M-053 |
@@ -1156,7 +1196,7 @@ The anchor-to-row table below is generated output, built from the body rows by `
 | T-6 | M-017, M-101 |
 | T-7 | M-030, M-099 |
 | T-8 | M-018, M-094 |
-| T-9 | M-019, M-100 |
+| T-9 | M-019, M-100, M-525 |
 | T-10 | M-049 |
 | T-11 | M-020 |
 | T-12 | M-067 |
@@ -1165,7 +1205,7 @@ The anchor-to-row table below is generated output, built from the body rows by `
 | T-15 | M-076 |
 | T-16 | M-084 |
 | T-17 | M-108 |
-| T-18 | M-129, M-372, M-373, M-374, M-375, M-380 |
+| T-18 | M-129, M-372, M-373, M-374, M-375, M-380, M-525, M-535 |
 | T-19 | M-134, M-497 |
 | T-20 | M-173 |
 | T-21 | M-309 |

@@ -27,16 +27,19 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 - **base skill** — the pack skill that holds the shared rulebook and the default settings, stated once, so every working skill points at one home rather than restating them.
 - **beat** — one narration line marking one unit of the work's progress; a stretch with no beat is beatless, and the heartbeat line covers it.
 - **blocking finding** — a finding that a criterion cannot be understood or acted on as written; it stops the section from passing.
+- **board row** — one line of the work board standing for one task, live while in hand and kept once it closes.
 - **breakpoint** — a point where a movement ends and session memory can be wiped with no loss, its live state replaced, a dated journal entry added, and the work committed.
 - **brief** — the written instruction set a worker runs from, carrying its files, its steps, its clock, and its stop conditions.
 - **bytes-per-criterion** — the byte count of a document's criterion lines alone, glossary and preamble bytes excluded, divided by the count of criteria in its body.
 - **cadence** — the one number a producer owns, stating how often it regenerates its published artifact.
 - **capability** — one thing a window can do; a capability holding durable state, a standing mission, and a zone of its own is an agent, and a capability living wholly inside one session is a skill.
 - **capture echo** — the line the sweep posts back on an item's source, naming what was heard, its route, its name, and its row.
+- **card** — one work board row rendered as a task: its echo-name, the line saying what the change does, its chips, and the details layer behind it.
 - **card scan** — the live scan that reads the agent-card files under each of its roots and treats every card it finds as an agent.
 - **catch-up** — the sequence that brings an already-adopted host onto the pack's current version.
 - **catch-up walk** — the ordered set of steps a session walks to run catch-up on an adopted host.
 - **checkpoint** — a saved point of work that can be resumed from, written under `.live-spec/`. A planned-work checkpoint is one grouped unit of planned work in the resume state, carrying a status the landing that ships its items flips to closed; a worker's checkpoint is the file a worker keeps under `.live-spec/checkpoints/`, holding its resume point and touched on a fixed interval as a heartbeat.
+- **chip** — one short labelled fact standing on a card, such as its estimate, its placement tag, or its state.
 - **class hunt** — the search a confirmed bug drives before it closes: name the defect abstractly, find every sibling of that kind, and fix them in one change.
 - **closed vocabulary** — the rule that every domain noun in the document holds exactly one glossary entry.
 - **cold reader** — a fresh reader who reads a changed section with zero project context.
@@ -52,6 +55,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 - **content contract** — the engine's public list naming every place a concrete instance plugs in. Each entry has a handle and a test proving the engine works without that instance's value.
 - **conversion delivery** — the one delivery that converts the whole spec document to the requirements format; every gate this section names arms in it.
 - **coverage validation** — the checklist that closes the matrix derivation, walked to confirm every spec anchor, artifact, and node carries the rows it owes.
+- **craft name** — the display name a running step's worker is shown by on the work board, standing with the craft's icon; the fixed set of craft names and icons lives in the work board's source file.
 - **crafts** — the professions a project's own work already draws on, such as a product manager, an architect, a test engineer, or a senior developer, matched against the project's kind when the fit list is proposed.
 - **criteria set** — the set of criteria a spec document holds at one moment, each keyed by its code and its criterion text.
 - **criterion** — one numbered line stating one rule — a single situation with the duty that holds in it — with its code anchor trailing at the line's end.
@@ -67,7 +71,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 - **delta classifier** — the pre-push gate that reads the delta record and diffs the old criteria set against the new one.
 - **delta kind** — one of the four words a delta record assigns to a touched code: *new* (a code the body did not carry before), *sharpen* (a code whose criterion text changed), *retire* (a code the body no longer carries), or *scenario-only* (a code whose criterion text is unchanged and only its placement moved — the named case it sits under or the prose around it).
 - **delta record** — the per-code declaration a spec-touching delivery carries, naming each touched code as new, sharpen, retire, or scenario-only.
-- **departures board** — the status-report view, read live off the queue's open rows at report time, that names every rolling train's station and the row a waiting lane sits behind; no separate file is kept for it.
+- **departures board** — the status-report view, read live off the queue's open rows at report time, that names every rolling train's station and the row a waiting lane sits behind; the view itself keeps no file of its own.
 - **description field** — the authored home of a code's plain statement: the criterion the code trails carries the code's rule, and an entity code's definition lives in the glossary; the generated code-to-location table carries locations only.
 - **design principle** — a checkable design rule that a project kind's products must hold, run by the verify pass in the medium's own form.
 - **design project** — the team's own design project, an external destination where rendered cards go for human review.
@@ -80,7 +84,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 - **Done-when** — the written acceptance a queue row or one of its legs carries, naming the observable state that closes it.
 - **door** — the intake classification that places a queued wish at one entry point of the pipeline, one of feature, bug, refactor, docs-only, or skip, decided before any code is written and kept separate from the wish's size. A request that never becomes a queued wish — an ask merely to see or try a thing — takes a separate entry lane, the labelled-sketch door, held outside this five-way set.
 - **earned message** — one file a sender agent deposits in a receiver agent's inbox, naming the sender's own work that earned it.
-- **echo-name** — the short name the capture echo posts back on an item's source, so the person can find the row the item became.
+- **echo-name** — the short name the capture echo posts back on an item's source, so the person can find the row the item became; the same name is the task's own short name on the work board's card.
 - **economy ladder** — the setting `budget.pressure`, whose three rungs — full, lean, and tight — name what rigor a tight budget may shed.
 - **engine** — in an engine-and-instance pair, the generic reusable mechanism. It ships as its own host, public by default, tested on its own generic fixtures.
 - **entity** — a numbered part of the product a code can name, as against a rule of behaviour.
@@ -229,6 +233,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 - **staleness bound** — the one number a consumer owns, stating how old a published artifact may be and still carry that consumer's analysis.
 - **standalone mirror** — a public mirror repository the sync script rebuilds at every sync, carrying its own generated banner, release history, and attribution line. Its source is the skill's public edition where one exists, and the pack's own skill folder where none does.
 - **standard facet** — one dimension every visible feature has whether or not anyone names it, such as a viewport band, touch, or an empty state, swept when a feature is specified.
+- **statement validation** — the check a task statement passes before its task enters work: a mechanical floor — name, description, plan and estimate present, an estimate stated, the register check clean — and a clean-context reader's judgment that the statement is understandable.
 - **stateful surface** — a part of a host project that holds state: a screen, a panel, or a saved file the user can change and find again later.
 - **status report** — the running account a session keeps of the work in hand, what the queue holds next, and the messages its agent channel has sent.
 - **stranger** — a contributor with no push rights and no per-repository grant for a repository; a stranger's message enters through an Issue or Discussion opened on the repository's public tracker, which the monitor bridges into the inbox.
@@ -237,6 +242,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 - **suite-honesty class** — the class of invariants that keep a green suite meaningful — each naming the net that enforces it — so a passing suite proves the behaviour it claims.
 - **surface registry** — one host-authored list of every user-facing surface the product carries, read by a completeness net.
 - **target tag** — the marker `[target]` a spec line carries on a line of its own to mark a feature or leg that is promised but not yet built.
+- **task statement** — one task's frozen wording: its name, its description, its plan, and its time estimate, spoken in those words everywhere.
 - **test matrix** — the document (`TEST_MATRIX.md`) whose rows pair one architecture node with one spec fact, each row pinning the test level that covers the fact.
 - **test-matrix format** — the format-family member the test matrix is written in: an artifact inventory, matrix rows grouped into node blocks, and a generated Reference; it inherits the family's shared laws from the spec format and adds only the matrix-particular rules.
 - **thin loader** — the personal layer's global instruction file, holding only what must be true before any pack file loads.
@@ -257,6 +263,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 - **watch-level** — a law's status when the design review is its named net: the law is watched and recommended rather than blocked, until the author's own declaration moves it to a blocking net.
 - **weak word** — a relational word — proportional, larger, sufficient, fast, and their kind — that opens a slot for a reference point, a measure, or a reason.
 - **wish** — one request a person voices in plain words, of any size and at any moment, captured as a queue row and carried to a recorded terminal state.
+- **work board** — the standing page of the working picture, one source file in the host's tree published at one stable link. It shows the whole queue in columns, one column per recorded state, each row rendered as a card.
 - **work-kind** — the intake axis naming what a wish produces, one of product, infra, skill, or prose, which scales how much machinery each pipeline step spends.
 - **worker** — a delegated agent session the seat briefs for a bounded piece of mechanical work, narrowed to the files its brief names.
 - **working skill** — a pack skill that elaborates one domain of the pipeline and opens by naming the base skill and the base version it was written against; the pack's working skills are spec-author, product-prover, design-reviewer, build-pipeline, test-author, communicator, publish, text-audit (the audit-and-fix loop for human-facing texts, which runs mechanical lints and then fresh zero-context cold reads and fixes each finding at its source until two reads come back clean in a row), feedback-intake, and feedback-collector.
@@ -818,7 +825,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 1. The system *shall* show the project's name in a handed page's visible content, not only in its URL. [INV-51]
 2. The system *shall* state what the page needs from the person — a word, with what and by when, or that it is only an update with no action. [INV-51]
-3. The system *shall* lead every handed or opened artifact — a report page, a decision page, or a rendered doc — with that identifier, and *shall* carry the same two facts in the chat line that announces it. [INV-51]
+3. The system *shall* lead every handed or opened artifact — a report page, a decision page, a rendered doc, or a standing rendered surface the person opens — with that identifier, and *shall* carry the same two facts in the chat line that announces it. [INV-51]
 
 ---
 
@@ -6946,7 +6953,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 **Case: the row form**
 
 1. Each body row *shall* carry exactly five cells matching the header — the id, the wish, the class, the status, and the acceptance — and the body rows *shall* stand in ascending id order. [INV-277]
-2. A row's status cell *shall* carry one word of the closed status vocabulary — *queued*, *in-work*, *deferred*, or *far* — each set in lowercase italics and carrying its date, a *deferred* row naming its revisit trigger. [INV-277]
+2. A row's status cell *shall* carry one word of the closed status vocabulary — *queued*, *ready*, *in-work*, *deferred*, or *far* — each set in lowercase italics and carrying its date, a *deferred* row naming its trigger. [INV-277]
 3. A row's class cell *shall* carry one word of the closed size vocabulary — *bug*, *small*, *surface*, or *large* — the size measure the glossary's size entry defines. [INV-277]
 
 **Case: the row lint holds the shape and the vocabularies**
@@ -7625,8 +7632,178 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 7. The closed request set *shall* place all three setup sentences, each naming its entry document and its back-check. [INV-307, INV-151]
 
+---
+
+## Requirement 309: The work board shows the whole queue in columns — the work in hand, the work done, and what each took  [feature: F-work-board]
+   [target]
+
+**Context:** The person leads several windows and asks at any moment what the agent is doing. The work board holds that answer on a page, open whenever the person looks. It is the rendered status page the pack already promises, grown up, so one surface keeps one name. That page is one source file in the host's tree, published at one stable link the person opens from any device. A task reaches the work board when its wish is captured, before its statement is validated: validation gates entry into work, never entry onto the page. A row stays after the task closes, so the page carries what is being done and what was done, each with its time. The chat's departures board keeps its own job. The page carries the whole queue in columns, the work in hand among them. Every row the page shows stands in one column: an open row by the state its queue row records, a closed row in the done column read from the queue archive. The far tier stays off the page under its own request law, and the queued rows standing below the runnable head collapse into a stated count. A card reads as a task at a glance — its echo-name first, then what the change does, then its chips — and the technical detail sits behind the card. Each running step names the worker on it by a craft name and an icon, so which worker runs which task reads at one glance. The work board's form follows the sketch the person already approved, frozen as a norm copy under `docs/norms/` and cited by the form clause's norm pointer. Nothing of this scenario is built yet.
+
+**User Story:** As a person leading several windows, I want one page showing work in hand and work done, so that I need not ask.
+
+### Acceptance Criteria
+
+**Case: the promises this work board leaves standing**
+
+1. The system *shall* keep the chat's departures board at its own scope and shape, taking over none of its report duty. [INV-27]
+2. The system *shall* keep narration whole, no board row standing in for a beat the session owes in the chat. [INV-35]
+3. The system *shall* keep the capture echo's honest range and the delivery report's estimate beside actual as they stand. [INV-93]
+4. The system *shall* keep the routine report's scope and the status report's chat home unchanged, its report-shape check riding the suite. [INV-38, INV-222]
+5. The system *shall* keep the chat's live status line whole once the work board ships, the work board adding a view and reducing no chat duty. [INV-71]
+
+**Case: the work board is the rendered status page, grown up**
+
+6. The system *shall* read the work board as the rendered status page the pack already promises, one rendered surface under one name. [INV-308, INV-71]
+7. The system *shall* hold the work board as one source file in the host's tree. [INV-308]
+8. The system *shall* publish that source file at one stable link, updated from it, so the person opens the work board from any device. [INV-308, INV-67]
+   [target]
+9. The system *shall* register the work board in the host's surface registry `SURFACES.md`, with the marker text the completeness check reads in the rendered page and the spec anchors it answers to, before it renders. [E-10]
+10. The system *shall* lead the work board with the one-line identifier every opened artifact carries — its project, and what it needs of the person. [INV-51]
+11. The system *shall* keep one work board per host project and *shall* name the session on every row. [INV-308]
+12. *when* a session writes the work board, the system *shall* pass the concurrent-edit fence like any shared-document write, and *shall* have a blocked write re-read the work board and re-apply its own row. [INV-308, INV-11]
+13. The system *shall* read both surfaces off the same work, the chat's departures board answering inside every status report and on ask. [INV-308, INV-27]
+14. The system *shall* keep the work board standing whether or not anyone asks. [INV-308]
+
+**Case: the form the work board takes**
+
+15. The system *shall* take the work board's form from the sketch the person approved, landing that approved form as a frozen copy under `docs/norms/` and citing it by this clause's norm pointer from the approval on. `norm: docs/norms/work-board.html` [INV-308, INV-43]
+16. The system *shall* show board rows in feature language, the work in hand, and a timestamped feed. [INV-308]
+17. The system *shall* have the work board's waiting region render the waiting board `WAITING.md` and keep no list of its own, so one clearing rule and one gate hold every waiting item. [INV-308, INV-206]
+18. *when* a board row stands blocked — on the person through the waiting board, on another task, or on something outside the project — the system *shall* mark it blocked with the time it has stood so, leaving it in the column its own state names. [INV-308, INV-206]
+19. The system *shall* carry every mark the work board shows with its meaning beside it in place, the page shipping no legend block. [INV-308]
+
+**Case: the whole queue stands in columns**
+
+20. The system *shall* show the whole queue on the board in columns, one column per recorded state. [INV-308] [default]
+   - the columns are awaiting validation, ready, in work, and done.
+21. The system *shall* state on the page, under each column, the one condition a card meets to leave that column. [INV-308]
+22. The system *shall* stand every row it shows in exactly one column, dropping none, an open row's column read off the status its queue row records. [INV-308, INV-277]
+   - awaiting validation reads off *queued*, ready off *ready*, and in work off *in-work*.
+23. The system *shall* keep the far tier off the board, standing it down by name and opening its rows only on the person's request, as the runnable report does. [INV-308, INV-222, INV-223]
+24. The system *shall* collapse the *queued* rows standing below the runnable head into a stated count that opens on the person's act, and *shall* drop none in silence. [INV-308] [default]
+   - the retunable value is how many *queued* rows stand visible at the head before the rest collapse.
+25. The system *shall* show the *deferred* rows as a stated count alone, each row's revisit trigger standing behind an expand. [INV-308, INV-222] [default]
+26. The system *shall* place a parked row in the in-work column and *shall* leave its parked mark to the preemption case below. [INV-308, T-9]
+27. The system *shall* split the in-work column into lanes, one lane for each build lane the lane cap allows. [INV-308, T-18]
+28. The system *shall* show a lane holding no row as free. [INV-308, T-18]
+29. The system *shall* have a free lane draw the head *ready* task into it, a lane already holding a row drawing none. [INV-308, T-18]
+
+**Case: a card reads as a task at a glance**
+
+30. The system *shall* order a card's reading: the echo-name first as the recognition hook, then the description of the behaviour, then the chips. It *shall* hold every other detail behind the card in a details layer. [INV-308, INV-28] [default]
+   - the echo-name runs three to five plain words.
+31. The system *shall* expand every count and reference in a card's details into plain words an outside reader follows, a bare number standing as a defect. [INV-308, INV-28]
+32. The system *shall* show a placement tag, as a chip on every board row, read from the queue row's own map and footprint notes. [INV-308, INV-37, INV-128]
+   - the tag names the feature the row belongs to, or the several modules the row reaches across.
+33. The system *shall* have every board row name and link the part of the product spec its task changes, read from that placement note and the spec delta's own anchors. [INV-308, INV-37]
+34. The system *shall* show an in-work row's plan — the deliverables of the task's own statement — on its board row. [INV-308]
+35. The system *shall* mark beside that plan the one pipeline stage of the nine the row now stands at. [INV-308, INV-27]
+36. The system *shall* keep the fine-grained trail of activity off the card, in the delivery report and the journal the trail criterion below already names. [INV-308, INV-311]
+37. The system *shall* lead each deliverable's line with its state mark alone, that line carrying no numbering beside the mark. [INV-308]
+38. The system *shall* show a card in work with its settled deliverables and their progress, no line on such a card phrased as an option or an open choice. [INV-308, INV-28]
+39. *when* a genuine fork opens mid-work, the system *shall* mark that card blocked under the rule above and *shall* put the question to the person. [INV-308, INV-206]
+40. The system *shall* name an in-work row's branch and worktree in the row's details, read from the lane's own claim commit and checkpoint. [INV-308, E-34, INV-69]
+
+**Case: a task enters work only through a validated statement**
+
+41. The system *shall* give every task a statement carrying its echo-name, its description, its plan, and its time estimate. [INV-309, INV-28]
+42. The system *shall* keep a task's statement and its validation record in the work board's own source file, keyed by the queue row's id, the queue row keeping its five cells. [INV-309, INV-277]
+43. The system *shall* have the plan list the deliverables in the order they run, each a slice of the change that shows value on its own and can be tested on its own. [INV-309]
+44. The system *shall* hold an activity that carries value only alongside others — writing the tests, say — outside a plan's deliverables. [INV-309]
+45. The system *shall* keep a plan's deliverables to a handful. [INV-309] [default]
+   - the retunable value is the most deliverables one plan holds, standing at five.
+46. The system *shall* read the plan's parallel mark as the plan's expectation, the take-up lane decision deciding what actually runs together, and *shall* record a divergence plainly in the delivery report's trail. [INV-309, INV-49]
+47. The system *shall* bound the deliverables running together inside one task by the same lane cap that bounds build lanes. [INV-309, T-18] [default]
+48. The system *shall* read the statement's estimate as the one estimate every other surface cites — the capture echo's range, the board row, and the settling at the close. [INV-309, INV-93]
+49. The system *shall* let no task enter work before its statement passes validation's mechanical floor — echo-name, description, plan and estimate each present, an estimate stated, and the register check clean. [INV-309]
+50. The system *shall* put every statement before a clean-context reader that carries no project vocabulary and answers three questions from the statement alone — what is to be done, why, and how long — and a question the reader cannot answer fails the statement. [INV-309]
+51. The system *shall* hold every outcome comment the board shows to the same plain reading the statement meets, judged by that same reader. [INV-309]
+52. The system *shall* have that same reader pass the echo-name test — shown the echo-name alone later, it names which change the task is — a name it cannot place failing the statement. [INV-309, INV-28]
+53. *when* a statement fails validation, the system *shall* have it rewritten and validated again, its task staying out of work until it passes. [INV-309]
+54. The system *shall* read a passed validation as approval, since routing every statement to the person would stall the granted autonomy. [INV-309] [default]
+55. *when* a task's statement passes validation, the system *shall* set its queue row's status to *ready*, dated like every other status. [INV-309, INV-277]
+56. The system *shall* read that passing as the task's commitment point, the moment the pack takes the task on and stands behind delivering it. [INV-309]
+57. The system *shall* hold the gate-and-reader approval as the standing road and the person's word on a single task as the exception, that standing policy recorded in `DECISIONS.md`. [INV-309] [default]
+
+**Case: approved wording freezes**
+
+58. *when* a statement passes, the system *shall* freeze its wording and speak the task in those words letter for letter, its echo-name standing as the task's one name in every communication that names the task — the chat, the reports, and a worker's brief. [INV-309, INV-28]
+59. The system *shall* hold that wording at take-up, along the way, and at the close. [INV-309]
+60. *when* the person re-words a statement, the system *shall* take the new wording and freeze it anew. [INV-309]
+61. The system *shall* let a task's estimate and its plan be revised only before the task is taken up, the revision running statement validation again and freezing the statement anew. [INV-309, INV-93]
+62. *when* a task has been taken up, the system *shall* hold its estimate as it stands and *shall* state any overrun plainly at the close. [INV-309, INV-93]
+
+**Case: the row carries the time promised and the time spent**
+
+63. *when* a task is taken up, the system *shall* write its statement's estimate on its board row. [INV-310, INV-93]
+64. *when* a task closes, the system *shall* stand the actual beside that estimate on the same row. [INV-310, INV-93]
+65. The system *shall* extend the landing's own settling of estimate against actual onto the work board. [INV-310, INV-93]
+66. The system *shall* stand each closed task's end-to-end time beside that pair, from its statement passing validation to its close, read off the board's own stamps. [INV-310, INV-93] [default]
+67. The system *shall* show how many tasks closed on the day the page is read, counted off those same stamps. [INV-310] [default]
+   - the retunable value is the stretch the count covers, standing at one day.
+
+**Case: a closed task keeps its row**
+
+68. The system *shall* keep every closed task's row on the work board rather than clear it. [INV-311]
+69. The system *shall* render each closed task in the done column as one line — state mark, echo-name, time pair — the rest behind a fold the person opens. [INV-311, INV-28] [default]
+70. The system *shall* read the done column from the month's archive file under `docs/queue-archive/`, the current month standing by default and an older month opening on the person's ask. [INV-311, INV-276] [default]
+71. The system *shall* show each closed row's own terminal state — landed, declined, superseded, or decided — so a declined row shows as declined. [INV-311, INV-276]
+72. The system *shall* tag each closed row with its door — feature, bug, refactor, docs-only, or skip — read from the archived row's own intake note. [INV-311, INV-134] [default]
+   - the door is the default axis here; the person may prefer the work-kind axis — product, infra, skill, or prose — in its place.
+73. The system *shall* extend the delivery report to carry a trail over the plan's steps — each step's outcome, the worker tier or role that ran it, and the step's share of the task's time. [INV-311, INV-103]
+74. The system *shall* draw a closed row's step trail from that delivery report. [INV-311, INV-103]
+
+**Case: a preempted task keeps its row**
+
+75. *when* a bug preempts the lane, the system *shall* keep the parked task's row on the work board marked parked, naming the row that preempted it, and *shall* return it to the work in hand once the bug clears. [INV-308, T-9]
+76. The system *shall* name that preemption on the page as the board's one queue-jumping class, open to the bug door alone. [INV-308, T-9, INV-134]
+
+**Case: the worker on each running step**
+
+77. The system *shall* name the worker on each running step of the plan by a fixed craft name and icon. [INV-308, INV-33]
+78. The system *shall* have the seat name a step's craft in the worker's brief at spawn. The movement's checkpoint record *shall* carry that craft, its icon and the logged tier while the step runs, a mid-flight tier change updating it, and the board *shall* read a running step's worker there. [INV-308, INV-69, D-2]
+79. The system *shall* hold the fixed craft set and its icons in the work board's own source file as their one home. [INV-308]
+80. The system *shall* read the board's craft names as display names of the pipeline's craft standards, keeping the skill names internal. [INV-308, INV-33, INV-137]
+   - Reader stands for the reader worker, Drafter the product-manager craft, Reviewer the formal-reviewer role, Builder the developer craft, Checker the quality-assurance craft.
+   - the board's Reviewer names the proving craft, and the design-review role keeps its name.
+81. The system *shall* stand a muted note of that worker's tier beside the craft name. [INV-308, INV-69]
+82. The system *shall* take the starter crafts as the Reader, the Drafter, the Reviewer, the Builder, and the Checker. [INV-308] [default]
+83. The system *shall* hold a worker's identity at its craft name, its icon, and its tier note, and *shall* take a fuller personality only on the person's word. [INV-308]
+84. *when* a step's record names no craft, the system *shall* show that step with its craft unnamed rather than guess one. [INV-308]
+85. The system *shall* keep which worker runs which task readable at one glance across the whole in-work column. [INV-308]
+
+**Case: the work board refreshes at every moment the person could look**
+
+86. The system *shall* update the work board at every pipeline stage change, at take-up, and at a worker's spawn and finish. [INV-312, INV-71]
+87. The system *shall* update it at a landing, and at every state that waits on the person. [INV-312, INV-71]
+88. *while* a stretch runs long with no stage change, the system *shall* refresh the work board's stamp on the same heartbeat the chat's narration already carries, so a quiet stretch reads apart from a stalled one. [INV-312, INV-35, INV-71]
+89. The system *shall* carry the work board file's update inside the landing's own commit. [INV-312]
+90. The system *shall* complete a work board update within about five seconds of the stage change it records, and *shall* never delay that stage. [INV-312] [default]
+   - the generator's own suite timing assertion watches this number once the generator ships.
+
+**Case: the work board reads on any screen**
+
+91. The system *shall* lay the work board out in one column on a narrow screen, the work in hand at the top. [INV-313] [default]
+92. The system *shall* make every control reachable by touch and *shall* hide nothing behind a hover. [INV-313]
+93. The system *shall* keep the work board reachable by keyboard and readable at the contrast the pack's pages hold. [INV-313] [default]
+
+**Case: the empty work board and the stale work board**
+
+94. *when* no work is in hand, the system *shall* say so and show the queue's head in its place. [INV-313]
+95. The system *shall* stamp the work board with the time it last updated, so a reader judges its freshness. [INV-313]
+96. The system *shall* have an open page re-read itself about every five seconds. [INV-313] [default]
+
+**Case: what the work board is not, and how its working shows**
+
+97. The system *shall* merge no other project's work into a host's work board. [INV-308]
+98. The system *shall* write on the work board no history the journal already owns. [INV-308]
+99. The system *shall* count the work board working *when* the person answers four questions from the page alone over one real working stretch. The four are what is now being done, who runs what, what was done, and how long each took against its estimate. [INV-308]
+
 
 ## Reference
+
+
+
 
 The code-to-location table below is generated output, built from the body criteria by `scripts/build-index.py`; no one edits it by hand. Feature codes (`F-...`) live on their scenario headings and carry no table row.
 
@@ -7651,7 +7828,7 @@ The code-to-location table below is generated output, built from the body criter
 | B-2 | R167.1, R170.1, R170.2, R170.3, R170.4, R170.5, R170.6, R170.7, R172.1, R172.8, R173.3 |
 | B-3 | R167.1, R169.9, R169.10, R171.1, R171.3, R171.4, R171.5, R171.6, R171.7, R171.8 |
 | C-1 | R53.5, R258.1, R258.2, R258.3, R258.4, R258.5, R259.1, R265.2, R265.10, R276.1, R276.2 |
-| D-2 | R208.5 |
+| D-2 | R208.5, R309.78 |
 | D-4 | R198.3, R251.3, R275.5 |
 | D-7 | R187.2 |
 | E-1 | R3.1, R3.2, R3.3, R3.4, R187.1 |
@@ -7663,7 +7840,7 @@ The code-to-location table below is generated output, built from the body criter
 | E-7 | R1.4, R177.9, R247.1, R247.2, R247.3, R247.4 |
 | E-8 | R47.3, R162.1, R200.5, R200.6, R202.1, R247.5 |
 | E-9 | R179.3, R296.5 |
-| E-10 | R61.1, R102.2, R169.11, R177.3, R228.6, R250.1, R250.2, R250.3, R260.3 |
+| E-10 | R61.1, R102.2, R169.11, R177.3, R228.6, R250.1, R250.2, R250.3, R260.3, R309.9 |
 | E-11 | R153.3, R163.6, R187.4, R187.5, R187.7, R190.1, R190.4, R195.1, R195.2, R196.13, R196.14, R252.1, R252.2, R252.3 |
 | E-12 | R2.1, R2.2, R2.3, R50.2, R51.1, R59.3, R198.1, R198.4, R198.5, R202.1 |
 | E-13 | R47.3, R80.1, R80.2, R89.1, R91.2, R169.10, R170.4, R171.1, R171.2, R173.1, R173.5, R186.3, R198.1, R200.2, R200.4, R202.1, R202.2, R202.4, R207.4, R219.1, R220.4, R239.2, R300.14, R300.15 |
@@ -7687,7 +7864,7 @@ The code-to-location table below is generated output, built from the body criter
 | E-31 | R189.1, R189.2, R189.3 |
 | E-32 | R188.14, R193.1, R193.2, R193.4, R194.3, R195.9, R197.5, R197.7, R197.8 |
 | E-33 | R190.2, R194.1, R194.2, R194.3 |
-| E-34 | R83.1, R83.2, R83.3, R85.3, R88.5, R91.1 |
+| E-34 | R83.1, R83.2, R83.3, R85.3, R88.5, R91.1, R309.40 |
 | E-35 | R191.1, R195.11 |
 | INV-1 | R4.3, R4.4, R5.1, R5.2, R13.5, R64.1, R92.2, R96.2, R96.3, R130.7, R130.8, R158.2, R187.3, R196.15, R254.2 |
 | INV-2 | R77.1, R77.2, R77.3, R77.4, R77.5, R84.2, R86.1, R89.3, R90.5, R140.2 |
@@ -7699,7 +7876,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-8 | R168.1, R168.3, R168.4, R168.5 |
 | INV-9 | R7.4, R7.5, R46.4, R72.4, R139.1, R163.3, R164.2, R171.4, R171.5, R200.1, R200.3, R219.1, R220.1 |
 | INV-10 | R90.5, R100.1, R100.2, R158.1, R163.5, R166.7, R187.5, R187.6, R187.7, R192.2, R193.7, R193.8, R193.10, R195.2, R197.3, R205.3, R207.1, R251.1, R251.2 |
-| INV-11 | R77.2, R81.3, R89.4, R90.5, R91.2, R128.4, R139.3, R141.1, R158.1, R166.2, R187.6, R193.7, R205.5, R207.3, R253.5, R256.1, R256.2, R256.7, R270.5, R301.11 |
+| INV-11 | R77.2, R81.3, R89.4, R90.5, R91.2, R128.4, R139.3, R141.1, R158.1, R166.2, R187.6, R193.7, R205.5, R207.3, R253.5, R256.1, R256.2, R256.7, R270.5, R301.11, R309.12 |
 | INV-12 | R9.1, R9.4, R9.5, R9.6, R10.2, R13.4, R16.4, R47.2, R50.3, R160.3, R170.3 |
 | INV-13 | R7.8, R198.2, R198.6, R205.1, R205.2, R308.2 |
 | INV-14 | R157.2, R203.1, R203.2, R203.3, R204.1, R204.2, R204.3, R204.4, R248.1, R273.1 |
@@ -7715,31 +7892,31 @@ The code-to-location table below is generated output, built from the body criter
 | INV-24 | R54.3, R137.1, R137.2, R137.3, R137.4, R194.3, R194.4, R197.6, R197.9, R207.5 |
 | INV-25 | R17.6, R201.1, R201.2, R201.3, R201.4, R201.5 |
 | INV-26 | R14.1, R14.2, R14.3, R127.2, R127.3, R161.5, R287.5 |
-| INV-27 | R15.1, R15.2, R15.4, R15.5, R15.6, R22.8, R23.1, R80.5, R86.3, R152.4, R154.1, R159.5, R159.7, R187.8, R195.12, R196.7, R196.9, R196.16, R254.5 |
-| INV-28 | R8.2, R17.1, R17.2, R17.3, R17.4, R17.5, R17.6, R17.7, R17.8, R22.8, R22.9, R29.3, R54.3, R159.4, R188.9, R191.3, R195.12, R212.5, R293.1, R293.2, R295.1, R295.3, R296.7 |
+| INV-27 | R15.1, R15.2, R15.4, R15.5, R15.6, R22.8, R23.1, R80.5, R86.3, R152.4, R154.1, R159.5, R159.7, R187.8, R195.12, R196.7, R196.9, R196.16, R254.5, R309.1, R309.13, R309.35 |
+| INV-28 | R8.2, R17.1, R17.2, R17.3, R17.4, R17.5, R17.6, R17.7, R17.8, R22.8, R22.9, R29.3, R54.3, R159.4, R188.9, R191.3, R195.12, R212.5, R293.1, R293.2, R295.1, R295.3, R296.7, R309.30, R309.31, R309.38, R309.41, R309.52, R309.58, R309.69 |
 | INV-29 | R57.1, R57.2, R57.3, R57.4, R58.2, R63.2, R68.2 |
 | INV-30 | R51.3, R59.1, R59.2, R59.3, R61.5, R65.2, R104.2, R108.1, R173.4, R175.3, R175.4, R175.5, R176.2, R261.3, R261.5, R263.4, R265.13 |
 | INV-31 | R7.6, R32.4, R46.3, R53.2, R71.1, R71.2, R72.1, R157.1, R186.2, R191.3, R195.12, R220.2, R259.4, R261.2, R261.7, R263.4, R265.9, R265.13 |
 | INV-32 | R8.1, R8.2, R31.3 |
-| INV-33 | R51.1, R51.2, R51.3 |
+| INV-33 | R51.1, R51.2, R51.3, R309.77, R309.80 |
 | INV-34 | R18.2, R20.1, R20.2, R20.3, R21.1, R54.3 |
-| INV-35 | R17.3, R22.1, R22.2, R22.3, R22.4, R22.5, R22.6, R22.7, R22.8, R22.9, R22.10, R23.1, R23.2, R25.5, R27.1, R29.2, R140.1, R157.6, R220.2 |
+| INV-35 | R17.3, R22.1, R22.2, R22.3, R22.4, R22.5, R22.6, R22.7, R22.8, R22.9, R22.10, R23.1, R23.2, R25.5, R27.1, R29.2, R140.1, R157.6, R220.2, R309.2, R309.88 |
 | INV-36 | R121.3, R122.3, R123.4, R173.1, R173.2, R173.3, R173.7, R174.1, R186.1, R193.12, R214.1, R219.2, R265.1, R265.2, R299.1 |
-| INV-37 | R15.6, R16.1, R16.2, R16.3, R16.4, R16.5, R43.5, R43.8, R46.1, R118.6, R120.2, R159.7, R159.8, R173.4, R187.3, R187.4, R187.7, R244.5 |
-| INV-38 | R159.1, R159.2, R159.3, R159.4, R159.5, R159.6, R159.8 |
+| INV-37 | R15.6, R16.1, R16.2, R16.3, R16.4, R16.5, R43.5, R43.8, R46.1, R118.6, R120.2, R159.7, R159.8, R173.4, R187.3, R187.4, R187.7, R244.5, R309.32, R309.33 |
+| INV-38 | R159.1, R159.2, R159.3, R159.4, R159.5, R159.6, R159.8, R309.4 |
 | INV-39 | R81.2, R81.3, R82.3, R85.4, R86.1, R90.5, R91.2, R130.6, R160.6, R160.7, R183.4, R184.1, R192.5, R207.2, R219.5, R219.7, R220.2, R256.6, R301.10 |
 | INV-40 | R220.1, R220.2, R220.3, R220.4, R220.5, R220.6, R220.7, R220.8, R220.10, R226.1, R226.6 |
 | INV-41 | R48.3, R118.4, R121.1, R121.2, R121.3, R121.4, R121.5, R191.9, R192.7, R194.9, R225.1, R226.3, R244.1, R245.1, R264.2 |
 | INV-42 | R32.1, R32.2, R32.3, R32.4, R33.3, R36.2 |
-| INV-43 | R43.2, R73.2, R103.1, R103.2, R103.3, R104.1, R104.2, R104.3, R104.4, R104.5, R104.6 |
+| INV-43 | R43.2, R73.2, R103.1, R103.2, R103.3, R104.1, R104.2, R104.3, R104.4, R104.5, R104.6, R309.15 |
 | INV-44 | R139.4, R146.1, R146.2, R146.3, R146.4, R214.1, R296.8 |
 | INV-45 | R142.1, R219.6, R220.3, R226.1, R226.2 |
 | INV-46 | R68.3, R112.4, R131.3, R213.1, R213.2, R213.3, R213.4, R214.3, R215.2, R220.8, R220.9, R301.17 |
 | INV-47 | R227.1, R227.2, R227.3, R228.2 |
 | INV-48 | R127.1, R127.2, R127.3, R157.6, R211.2 |
-| INV-49 | R80.1, R82.1, R82.2, R82.3, R82.4, R91.1, R91.3, R92.1 |
+| INV-49 | R80.1, R82.1, R82.2, R82.3, R82.4, R91.1, R91.3, R92.1, R309.46 |
 | INV-50 | R58.1, R58.2, R64.2, R67.1, R262.2 |
-| INV-51 | R26.1, R26.2, R26.3, R28.2, R30.3 |
+| INV-51 | R26.1, R26.2, R26.3, R28.2, R30.3, R309.10 |
 | INV-52 | R27.1, R27.2 |
 | INV-53 | R210.4, R216.1, R216.2, R216.3 |
 | INV-54 | R217.1, R217.2 |
@@ -7755,11 +7932,11 @@ The code-to-location table below is generated output, built from the body criter
 | INV-64 | R31.1, R31.2, R31.3, R153.2 |
 | INV-65 | R167.1, R167.2, R167.3, R167.4 |
 | INV-66 | R199.1, R199.2 |
-| INV-67 | R28.1, R28.2, R28.3, R29.1, R29.4, R186.4, R194.11, R253.3, R254.7, R255.6 |
+| INV-67 | R28.1, R28.2, R28.3, R29.1, R29.4, R186.4, R194.11, R253.3, R254.7, R255.6, R309.8 |
 | INV-68 | R152.1, R152.2, R152.3, R152.5, R152.6, R157.7, R158.3, R158.5 |
-| INV-69 | R17.7, R18.4, R206.2, R206.3, R206.4, R208.1, R208.2, R208.3, R208.4, R208.5, R208.6, R208.7, R210.1, R210.2, R219.3, R219.4, R220.10, R230.1, R233.4 |
+| INV-69 | R17.7, R18.4, R206.2, R206.3, R206.4, R208.1, R208.2, R208.3, R208.4, R208.5, R208.6, R208.7, R210.1, R210.2, R219.3, R219.4, R220.10, R230.1, R233.4, R309.40, R309.78, R309.81 |
 | INV-70 | R72.1, R72.2, R72.3, R72.4, R131.1, R139.1, R211.1, R231.2, R232.5 |
-| INV-71 | R29.1, R29.2, R29.3, R29.4 |
+| INV-71 | R29.1, R29.2, R29.3, R29.4, R309.5, R309.6, R309.86, R309.87, R309.88 |
 | INV-72 | R65.1, R67.1, R175.7, R258.3, R259.1, R259.2, R259.3, R259.4, R260.3, R261.4, R261.6, R261.7, R262.3, R263.4, R263.6, R265.8 |
 | INV-73 | R87.3, R194.1, R224.2 |
 | INV-74 | R48.3, R118.4, R122.1, R122.2, R122.3, R262.2 |
@@ -7781,7 +7958,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-90 | R181.8, R181.9, R181.10, R181.11 |
 | INV-91 | R115.2, R180.1, R180.2, R180.3, R188.13, R274.3, R274.4 |
 | INV-92 | R182.1, R182.2, R182.3, R182.4, R182.5, R182.6, R182.7 |
-| INV-93 | R22.5, R23.1, R23.2, R23.3, R23.4, R25.4 |
+| INV-93 | R22.5, R23.1, R23.2, R23.3, R23.4, R25.4, R309.3, R309.48, R309.61, R309.62, R309.63, R309.64, R309.65, R309.66 |
 | INV-94 | R19.1, R19.2, R19.3, R54.3, R196.17, R196.18 |
 | INV-95 | R25.1, R25.2, R25.3, R25.4, R25.5, R303.14 |
 | INV-96 | R147.1, R147.2, R147.3, R148.3, R304.2, R304.5, R304.6 |
@@ -7791,7 +7968,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-100 | R106.1, R106.2, R106.3, R106.4, R114.1, R114.2 |
 | INV-101 | R54.1, R54.2, R54.3, R54.4, R55.2, R56.2, R56.4, R67.1, R85.3, R88.1, R90.4, R90.5, R194.2 |
 | INV-102 | R107.1, R107.2, R107.3 |
-| INV-103 | R44.2, R209.1, R209.2, R210.5, R301.9 |
+| INV-103 | R44.2, R209.1, R209.2, R210.5, R301.9, R309.73, R309.74 |
 | INV-104 | R42.1, R42.2, R45.3 |
 | INV-105 | R83.3, R88.1, R90.5, R207.3, R256.5, R256.6 |
 | INV-106 | R140.1, R140.2 |
@@ -7816,16 +7993,16 @@ The code-to-location table below is generated output, built from the body criter
 | INV-125 | R55.1, R61.4, R61.5, R61.7, R62.3, R63.3, R64.3, R66.1, R67.1, R70.1, R116.2, R175.7, R260.1, R260.2, R260.3, R260.4, R260.5, R260.6, R263.9, R264.5, R266.9, R267.4 |
 | INV-126 | R67.1, R175.7, R261.1, R261.2, R261.3, R261.4, R261.5, R261.6, R261.7, R263.9, R264.5, R266.9 |
 | INV-127 | R65.1, R66.1, R67.1, R262.1, R262.2, R262.3, R262.4, R262.5 |
-| INV-128 | R43.1, R43.2, R43.3, R43.4, R43.5, R43.6, R43.7, R43.8, R44.1, R174.2 |
+| INV-128 | R43.1, R43.2, R43.3, R43.4, R43.5, R43.6, R43.7, R43.8, R44.1, R174.2, R309.32 |
 | INV-129 | R92.1, R92.2, R93.1, R94.1, R95.1, R95.3, R190.7, R287.4 |
 | INV-130 | R7.6, R7.7, R69.5, R196.7 |
 | INV-131 | R41.3, R41.4 |
 | INV-132 | R224.3, R224.4 |
 | INV-133 | R38.1, R38.2, R38.3 |
-| INV-134 | R44.1, R44.2, R44.3, R174.4 |
+| INV-134 | R44.1, R44.2, R44.3, R174.4, R309.72, R309.76 |
 | INV-135 | R67.2, R174.1, R174.2, R174.3, R174.4, R174.5, R175.2, R193.12, R226.4, R244.6, R265.1, R265.4, R265.6, R265.7, R299.8, R299.10 |
 | INV-136 | R61.5, R61.6, R175.1, R175.2, R175.3, R175.4, R175.5, R175.6, R175.7, R175.8, R263.9, R264.5, R265.1, R265.2, R265.5, R266.9, R267.4, R299.14, R299.15 |
-| INV-137 | R17.7, R210.1, R210.2, R210.3, R210.4, R210.5, R216.3, R233.4 |
+| INV-137 | R17.7, R210.1, R210.2, R210.3, R210.4, R210.5, R216.3, R233.4, R309.80 |
 | INV-138 | R52.1, R52.2, R67.1, R263.1, R263.2, R263.3, R263.4, R263.5, R263.6, R263.7, R263.8, R263.9, R264.3, R264.5, R265.11, R266.9 |
 | INV-139 | R61.5, R176.1, R176.2, R176.3, R176.4, R176.5, R267.4 |
 | INV-140 | R60.1, R60.2, R60.3, R60.4, R61.3, R68.1, R69.1 |
@@ -7894,7 +8071,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-203 | R18.4, R18.5, R19.3, R134.2, R135.3, R230.1, R230.2, R230.3, R230.4, R230.5, R230.6, R230.8, R232.7, R233.2, R233.6, R294.2, R294.3, R300.5 |
 | INV-204 | R117.6, R234.1, R234.2, R234.3, R234.4, R235.4, R236.4 |
 | INV-205 | R236.1, R236.2, R236.3, R236.4, R238.4, R239.3, R240.3 |
-| INV-206 | R94.3, R237.1, R237.2, R237.3, R237.4, R237.5, R241.3 |
+| INV-206 | R94.3, R237.1, R237.2, R237.3, R237.4, R237.5, R241.3, R309.17, R309.18, R309.39 |
 | INV-207 | R238.1, R238.2, R238.3, R238.4, R238.5 |
 | INV-208 | R242.1, R242.2, R242.3, R242.4 |
 | INV-209 | R243.1, R243.2, R243.3, R243.4, R243.5, R245.3, R287.3 |
@@ -7910,8 +8087,8 @@ The code-to-location table below is generated output, built from the body criter
 | INV-219 | R193.13 |
 | INV-220 | R135.3, R230.7, R231.1, R231.3, R231.4, R231.5 |
 | INV-221 | R135.1, R135.2, R135.3, R230.3 |
-| INV-222 | R5.3, R5.4, R5.5, R94.1, R94.2, R94.3, R94.4, R95.3, R196.11, R239.1, R257.4 |
-| INV-223 | R5.5, R94.3, R239.1, R239.2, R239.3, R239.4 |
+| INV-222 | R5.3, R5.4, R5.5, R94.1, R94.2, R94.3, R94.4, R95.3, R196.11, R239.1, R257.4, R309.4, R309.23, R309.25 |
+| INV-223 | R5.5, R94.3, R239.1, R239.2, R239.3, R239.4, R309.23 |
 | INV-224 | R226.4, R226.5, R296.13 |
 | INV-225 | R196.9, R196.10, R196.11, R196.19, R196.20 |
 | INV-226 | R52.5, R121.3, R214.1, R258.4, R263.9, R264.1, R264.2, R264.3, R264.4, R264.5, R265.3, R265.11, R266.9 |
@@ -7964,8 +8141,8 @@ The code-to-location table below is generated output, built from the body criter
 | INV-273 | R284.1, R284.2, R284.3, R284.4 |
 | INV-274 | R169.4, R285.1, R285.2, R285.3, R285.4 |
 | INV-275 | R286.1, R286.2, R286.3, R286.4 |
-| INV-276 | R5.1, R96.4, R130.7, R209.1, R243.1, R243.5, R245.5, R257.1, R286.4, R287.1, R287.2, R287.3, R287.4, R287.5 |
-| INV-277 | R288.1, R288.2, R288.3, R288.4, R288.5 |
+| INV-276 | R5.1, R96.4, R130.7, R209.1, R243.1, R243.5, R245.5, R257.1, R286.4, R287.1, R287.2, R287.3, R287.4, R287.5, R309.70, R309.71 |
+| INV-277 | R288.1, R288.2, R288.3, R288.4, R288.5, R309.22, R309.42, R309.55 |
 | INV-278 | R289.1, R289.2, R289.3, R289.4, R289.5, R289.6 |
 | INV-279 | R290.1, R290.2, R290.3, R290.4, R290.5 |
 | INV-280 | R291.1, R291.2, R291.3 |
@@ -7996,6 +8173,12 @@ The code-to-location table below is generated output, built from the body criter
 | INV-305 | R306.1, R306.2, R306.3, R306.4, R306.5, R306.6, R306.7, R306.8, R306.9, R306.10, R306.11, R306.12, R306.13, R306.14, R306.15, R306.16 |
 | INV-306 | R307.1, R307.2, R307.3, R307.4, R307.5, R307.6, R307.7, R307.8, R307.9, R307.10, R307.11, R307.12, R307.13, R307.14 |
 | INV-307 | R308.3, R308.4, R308.5, R308.7 |
+| INV-308 | R309.6, R309.7, R309.8, R309.11, R309.12, R309.13, R309.14, R309.15, R309.16, R309.17, R309.18, R309.19, R309.20, R309.21, R309.22, R309.23, R309.24, R309.25, R309.26, R309.27, R309.28, R309.29, R309.30, R309.31, R309.32, R309.33, R309.34, R309.35, R309.36, R309.37, R309.38, R309.39, R309.40, R309.75, R309.76, R309.77, R309.78, R309.79, R309.80, R309.81, R309.82, R309.83, R309.84, R309.85, R309.97, R309.98, R309.99 |
+| INV-309 | R309.41, R309.42, R309.43, R309.44, R309.45, R309.46, R309.47, R309.48, R309.49, R309.50, R309.51, R309.52, R309.53, R309.54, R309.55, R309.56, R309.57, R309.58, R309.59, R309.60, R309.61, R309.62 |
+| INV-310 | R309.63, R309.64, R309.65, R309.66, R309.67 |
+| INV-311 | R309.36, R309.68, R309.69, R309.70, R309.71, R309.72, R309.73, R309.74 |
+| INV-312 | R309.86, R309.87, R309.88, R309.89, R309.90 |
+| INV-313 | R309.91, R309.92, R309.93, R309.94, R309.95, R309.96 |
 | M-1 | R49.2, R80.7, R80.8, R92.2, R130.1, R130.2, R130.3, R130.4, R130.5, R130.6, R130.7, R130.8, R130.9, R164.4, R166.3, R166.8, R198.6, R249.2 |
 | M-2 | R14.3, R125.1, R125.2, R125.3, R303.13, R177.12, R204.3 |
 | M-3 | R136.1 |
@@ -8007,7 +8190,7 @@ The code-to-location table below is generated output, built from the body criter
 | T-1..T-7 | R6.1, R6.2, R6.3, R6.4, R6.5 |
 | T-7 | R75.4 |
 | T-8 | R92.1, R95.1, R96.1, R96.2, R96.3, R96.4 |
-| T-9 | R37.1, R37.2, R80.6, R81.1, R86.3, R160.1, R160.2, R160.3, R160.6, R160.7, R163.2, R165.4, R166.4 |
+| T-9 | R37.1, R37.2, R80.6, R81.1, R86.3, R160.1, R160.2, R160.3, R160.6, R160.7, R163.2, R165.4, R166.4, R309.26, R309.75, R309.76 |
 | T-10 | R77.5, R79.3, R153.3, R155.1, R187.5, R187.9, R190.4, R195.2, R196.5, R254.5, R256.3, R256.4 |
 | T-11 | R12.1, R12.2, R39.1, R39.2, R39.3, R39.4, R160.4 |
 | T-12 | R40.1, R40.2, R40.3, R40.4, R40.5, R40.6, R50.1, R50.4, R101.1, R101.2, R154.1, R220.1 |
@@ -8016,7 +8199,7 @@ The code-to-location table below is generated output, built from the body criter
 | T-15 | R10.1, R10.2, R10.3, R12.4, R13.3, R40.1, R220.3 |
 | T-16 | R9.1, R9.2, R9.3, R9.5, R9.6, R47.1, R47.2, R47.3, R47.4, R47.5, R48.3, R143.1, R143.2, R143.3, R173.4, R173.5, R173.6, R220.3, R248.3 |
 | T-17 | R13.1, R13.2, R13.3, R13.5, R187.3, R187.7, R187.10 |
-| T-18 | R80.1, R80.2, R80.3, R80.4, R80.5, R80.6, R80.7, R80.8, R81.1, R82.3, R85.1, R89.1, R89.2, R89.3, R89.4, R91.1, R160.5, R207.2, R256.6 |
+| T-18 | R80.1, R80.2, R80.3, R80.4, R80.5, R80.6, R80.7, R80.8, R81.1, R82.3, R85.1, R89.1, R89.2, R89.3, R89.4, R91.1, R160.5, R207.2, R256.6, R309.27, R309.28, R309.29, R309.47 |
 | T-19 | R72.2, R208.3, R208.4, R219.1, R219.2, R219.3, R219.4, R219.5, R219.7, R220.5, R220.6, R220.7, R220.10 |
 | T-20 | R45.3, R153.1, R153.2, R153.3, R153.4, R154.1, R154.2, R154.3, R154.4, R154.5, R155.1, R155.2, R155.3, R155.4, R156.2, R156.3, R254.6 |
 | T-21 | R157.3, R157.4, R157.6 |

@@ -3,62 +3,52 @@
 A digest, at or under 100 lines (SPEC INV-48). One status block stands here at a time, and every
 update replaces it. Dated history lives in `JOURNAL.md`.
 
-## LIVE STATE (2026-08-06, 16:53)
+## LIVE STATE (2026-08-06, 22:02)
 
-The three landings of 2026-08-06 are committed and pushed. They are the measured published counts
-(row 555), the check registry with gate ae (row 556), and the spoken setup entry (row 557). The push chain runs
-31 checks. Matrix rows M-505 to M-511 stand built. The freeze baseline covers the spec, the
-architecture and the matrix at this state.
-
-The public prover edition is repaired for any product kind and sits under its prose ceilings. Two
-fresh runs over the shipped sample returned 32 and 30 findings, with 24 reached by both. The
-edition's front page states exactly that, and both full run records ship beside the sample.
-
-The suite is green. The five reds of the morning handover were repaired at their roots. The repairs were a scoped-run pin, three synced
-skill copies, a cleanup notice in the counts generator, and a reinstalled push hook. The last
-handover also names its extract file now.
+The work board movement (row 166, Live work board) ran the whole evening with Alexander in the
+chat. It stands in inception by the stage ladder he set at ~21:34. Its specification is
+Requirement 309: 99 criteria after three drafted passes and two folded review rounds, ids
+INV-308..313, feature F-work-board, the whole scenario [target]. The queue's status vocabulary
+gained *ready* across its five homes. The approved page form is frozen at
+`docs/norms/work-board.html`. It is variant 8, his 20:47 "looks good" plus every later
+amendment, and the dated history sits in the provenance file beside it. The architecture carries the work-board node
+owning the six new rules; the matrix carries rows M-519..M-544, all todo. His nine widenings of
+the evening are each in `DECISIONS.md` with their times, and the journal's 22:01 chapter tells the
+whole arc. Estimate discipline started this evening: every estimated step of the movement closed
+under its estimate.
 
 ## Forward queue
 
-1. The work board, ahead of everything (row 166; Alexander's word 2026-08-06 ~19:17, on record in
-   `DECISIONS.md`). Every task gets an understandable name, an understandable description, and an
-   understandable plan. Approved wording freezes and the seat speaks it letter for letter — at
-   take-up, along the way, and at the close. The movement includes a validation step in front of
-   the board: nothing enters work before it passes.
-2. Row 558: give the opening read an artifact and make the handover gate refuse a push from a session
-   that wrote none. The newest handover under `docs/handovers/` is dated 2026-08-06.
-3. Row 559: put a machine over the reading panel — a gate that reds a round whose two readers came
-   from one brief, and a stated test for what counts as a stop that blocks. The design sits at
-   `~/live-spec-carry/2026-08-06/design-D-reading-bar.md`.
-4. Row 560 waits on Alexander's word: the surface registry a new project copies carries two names,
-   and the rename has been offered twice with no answer.
-5. Row 561: give the settings ladder a `pack.tree` line, which the setup walk's routing card needs
-   and nothing reads yet.
-6. Run the next reading round on the audit skill, with one prompted reader and one unprompted reader.
-7. Rows 562 to 565 carry the push review's findings of 2026-08-06. They are the real scoring run
-   for the spoken-entry phrases, the counts published outside the declared registry, the
-   founding-walk tests that re-implement the walk's readers, and the two run-record shapes.
-8. Take rows 532 to 546 through the pipeline. Rows 537 and 538 open with a freshness re-check, since
-   the reds they cite no longer reproduce.
-9. Three named branches stay in the repository for a later read: a safety copy of this morning's
-   relay with four commits of its own, the merged relay branch, and a work-in-progress checkpoint
-   of 2026-07-19. The spent work copies were removed on Alexander's word (journal, 2026-08-06).
+1. Row 166 continues — inception's remaining products, in order:
+   a. The FULL adversarial review of Requirement 309 by a fresh seat with none of this evening's
+      context (his ask ~21:49). Brief from primary sources only.
+   b. The stage-ladder re-map (his ~21:34 word): columns become backlog · inception · ready ·
+      in work · done. Validation is inception's exit, and exploration is inception's product. This
+      is spec pass 4, and it opens with the round-3 scoped re-read the review loop still owes.
+   c. The task-graph criteria (his ~21:35 word): every new wish is placed into the maintained web
+      of tasks — relations, dependencies, parallelism — at arrival. The seat plans the path off it.
+   d. The mid-flight-updates and history-fold criteria check (~21:49): widening count on the card,
+      dated word-history behind it — partly folded already, verify at the re-read.
+   Then the statement re-validates and the task turns *ready*. The build opens: the entry check,
+   the board source file and generator, the page checked against the frozen norm.
+2. The page's next revision reads `~/live-spec-carry/2026-08-06/kanban-tools-study.md` (card-face
+   and history patterns from Linear/Jira/GitHub; lane header counts; the widened/edited marker).
+   Collapsible per-deliverable folds are already owed (his ~21:34 word).
+3. Row 567 (bug): the session rules name `scripts/preshow-register-lint.py`, and no host tree
+   holds it. Ship the checker at adopt and catch-up, or re-word the law. From the tlvphotos
+   report, atticked with the manifest naming this row.
+4. Row 566: board-ready statements for the whole queue. Every open row gets an authored
+   echo-name, description, plan and estimate through the entry check, in batches.
+5. Rows 558, 559, 560 (waiting on Alexander: the two-name screens list), 561, 562-565, and rows
+   532-546 stand as before; see the queue.
 
 ## Where the numbers live
 
 `docs/MEASUREMENTS.md` holds one row per file and one column per indicator, in the reading queue's
-order. It gives the hours each file still owes. Each column carries a note saying what it counts
-and what it aims at. Build it with `python3 scripts/measurements-table.py`. Every number stated to
-the person who decides what ships carries five things. It names what it counts and in what unit. It
-names the decision it informs, and what changes when it moves. It names the command that produced
-it and the value it aims at. A bare number is a defect of the same kind as an undefined term.
-
-`guardrails/tree-counts.json` is the home for every count this repository publishes about its own
-tree. It carries the measurement that produces each count and every page that states it, and gate ad
-re-measures them on every push. Four surfaces stay outside it. A number
-a session writes into chat. A number in a rendered artifact. A count inside a skill body. A count on
-an undeclared page. The undeclared-page class has its row (563); the other three stand named as
-unheld in the count row's non-goal (555).
+order. Build it with `python3 scripts/measurements-table.py`. A number stated to the person who decides
+what ships names four things. They are what it counts, the decision it informs, the command
+that produced it, and the value it aims at. `guardrails/tree-counts.json` is the home for every count this
+repository publishes about its own tree, re-measured by gate ad on every push.
 
 ## Rules you must not break
 
@@ -68,12 +58,11 @@ start of your session, read what changed and run `bash guardrails/fence-refresh.
 
 Never discard uncommitted work. No session and no worker runs `git checkout -- <path>`,
 `git checkout .`, or `git restore` outside `--staged`. The same holds for `git stash` in every
-form. It holds for `git reset` with `--hard`, `--merge` or `--keep`, and for `git clean` with `-f`
-or `-x`. To put a file back, write back the bytes you read before you changed it.
+form, for `git reset` with `--hard`, `--merge` or `--keep`, and for `git clean` with `-f` or
+`-x`. To put a file back, write back the bytes you read before you changed it.
 
-Never give two workers the same file. Two workers held one file on 2026-07-29, and the second read
-the first one's edits as an intrusion and reverted them. A test result is the printed count of
-passes and failures. Run `python3 -m pytest -q > <scratch>/suite.log 2>&1` and read the last line.
+Never give two workers the same file. A test result is the printed count of passes and failures.
+Run `python3 -m pytest -q > <scratch>/suite.log 2>&1` and read the last line.
 
 `PRODUCT_SPEC.md`, `ARCHITECTURE.md` and `TEST_MATRIX.md` are frozen against silent drift. After a
 commit that changes one on purpose, record the new baseline: `python3 scripts/spec-freeze.py
@@ -85,7 +74,8 @@ requirements, invariants and queue rows take the next identifier above the highe
 
 ## Standing instructions
 
-Carry one change from its first edit to a passing suite and a push without stopping to ask. Publish
-once the suite passes. Write documents in plain English. Before you ask the person who decides what
-ships anything, check whether a document already answers it. If it does, act on that answer and
-cite it. Say aloud whether a request is one-time or standing before acting.
+Carry one change from its first edit to a passing suite and a push without stopping to ask.
+Publish once the suite passes. Write documents in plain English. Speak of every task by its board
+echo-name in every communication. Before you ask the person who decides what ships anything,
+check whether a document already answers it. If it does, act on that answer and cite it. Say
+aloud whether a request is one-time or standing before acting.

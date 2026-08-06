@@ -405,7 +405,7 @@ class TestArtifacts(unittest.TestCase):
 # (row 480), the family's one-delivery arming rule (INV-270): until the whole document moves, the body
 # is old-format and the lint runs against fixtures only.
 
-QUEUE_STATUSES = ("queued", "in-work", "deferred", "far")
+QUEUE_STATUSES = ("queued", "ready", "in-work", "deferred", "far")
 QUEUE_CLASSES = ("bug", "small", "surface", "large")
 _STATUS_ITALIC_RE = re.compile(r"^\*([a-z][a-z-]*)\b")   # the first italic token, lowercase
 _QUEUE_DATE_RE = re.compile(r"\d{4}-\d{2}-\d{2}")
@@ -413,8 +413,8 @@ _QUEUE_DATE_RE = re.compile(r"\d{4}-\d{2}-\d{2}")
 
 def queue_row_lint(rows):
     """The row lint (SPEC INV-277): each body row carries exactly five cells, ids ascend, the status
-    cell is a closed word in lowercase italics carrying a date (a *deferred* row naming its revisit
-    trigger), and the class cell is one of the four size words. Returns the offending-row messages,
+    cell is one of the five closed words in lowercase italics carrying a date (a *deferred* row naming
+    its revisit trigger), and the class cell is one of the four size words. Returns the offending-row messages,
     empty when every row holds its shape and vocabularies. Each row is a list of stripped cell strings."""
     offenders = []
     last = None
@@ -1289,6 +1289,8 @@ class TestTargetOwnership(unittest.TestCase):
         "INV-199": 386,  # the merge-base check ahead of the gate + the stale-lane check
         "INV-201": 386,  # the adoption gate reading the host's vendored worktree line
         "INV-244": 437,  # the axes value-space in-between forcing step + the recursive axis-registry similarity sweep
+        "INV-308": 166,  # the work board surface, promised whole and unbuilt
+        "INV-67": 166,   # the board's one-stable-link published page
     }
 
     def roadmap_rows(self):

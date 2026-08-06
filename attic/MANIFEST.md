@@ -37,3 +37,4 @@ base rule 10). Nothing here was deleted; a file that turns out to be needed is m
 - `inbox/2026-08-05-from-tlvphotos-gate-default-reach-reds-a-correct-tree.md` -> `attic/inbox-2026-08-05-from-tlvphotos-gate-default-reach-reds-a-correct-tree.md` * a harvested inbox wish: it became queue row 546 * 2026-08-05
 - `docs/MEASUREMENTS.html` -> `attic/docs-MEASUREMENTS-3.html` * a rendered page whose reading is over: its source document stood beside it * 2026-08-05
 - `inbox/2026-08-06-from-tlvphotos-transcript-loses-pasted-text.md` -> `attic/inbox-2026-08-06-from-tlvphotos-transcript-loses-pasted-text.md` * a harvested inbox wish: it became queue row 551 * 2026-08-06
+- `inbox/2026-08-06-from-tlvphotos-preshow-register-lint-missing.md` -> `attic/inbox-2026-08-06-from-tlvphotos-preshow-register-lint-missing.md` * a harvested inbox report: it became queue row 567 * 2026-08-06

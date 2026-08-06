@@ -121,12 +121,12 @@ def landed_rows_for_commit(sha, cwd):
 
 
 def _live_status(status):
-    """True when the status cell OPENS with one of the four live closed-vocabulary words — the
-    post-conversion form (*queued* / *in-work* / *deferred* / *far*). Such a row is live whatever
-    prose follows (a deferred trigger may quote the word landed inside a Done-when citation),
+    """True when the status cell OPENS with one of the five live closed-vocabulary words — the
+    post-conversion form (*queued* / *ready* / *in-work* / *deferred* / *far*). Such a row is live
+    whatever prose follows (a deferred trigger may quote the word landed inside a Done-when citation),
     so it is never a landing flip."""
     head = status.strip().lstrip("*").lower()
-    return head.startswith(("queued", "in-work", "deferred", "far"))
+    return head.startswith(("queued", "ready", "in-work", "deferred", "far"))
 
 
 def landed_moves_for_commit(sha, cwd):

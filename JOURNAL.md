@@ -2245,3 +2245,36 @@ At about 19:17 in chat Alexander set the next movement: the work board (row 166)
 wording — an understandable name, description and plan per task, approved once and then spoken
 letter for letter — and a validation step in front of the board that everything passes before it
 enters work. The session confirmed everything of this day is pushed and offered the context wipe.
+
+## 2026-08-06, 22:01 — the work board's inception: nine widenings, three spec passes, the form frozen
+
+The board movement (row 166, Live work board) ran all evening as one continuous exchange with
+Alexander. He widened the task nine times while it ran — time accounting per task (~19:28), the
+whole queue as columns (~20:16), rare approvals and the handle-first card (~20:35), the card-at-a-
+glance law with lanes and branch details (~20:36), four page amendments (~20:47), the whole backlog
+readable with step emoticons and the done fold (~21:00), plans as few deliverables (~21:16), the
+stage ladder gaining inception and the task graph (~21:34-35), and the mid-flight-updates law with
+the per-task history fold (~21:49). Each word went to the decision record within minutes and the
+process absorbed every one without breaking step, which he then named as the point of an AI-run
+delivery process.
+
+The specification grew through three drafted passes with two review rounds between them: 40
+criteria at the first draft, 50 after the first review's 18 findings folded, 83 after the second
+review's 18 findings and six widenings folded, 99 after the evening laws and five kanban-method
+adoptions landed. The queue's status vocabulary gained the word ready, swept across its five homes.
+The reviews' sharpest catch was the state seam: three of the promised columns read off states the
+product recorded nowhere; the folds gave each column a recorded source. The word kanban itself left
+the spec for the plain phrase, staying only in quoted provenance.
+
+The page's form closed by his eye: eight samples in one evening (variants 3 through 8, the last
+three each answering a rejection or an amendment of his), the sixth frozen as the norm at 20:57,
+refreshed twice on his later words, and renamed to its stable undated home docs/norms/work-board.html
+at the close. Two studies fed the design — the kanban method (five adoptions) and the kanban tools
+(card-face and history patterns; carried to the next revision). The architecture gained the
+work-board node owning the six new rules with six seams and a budget; the matrix gained rows
+M-519..M-544, all todo. A neighbour's report (tlvphotos) that the session rules name a checker no
+host tree holds became row 567; the backlog-statements campaign became row 566.
+
+The task stands in inception by his own ladder. Inception's remaining products: the full
+adversarial review of the specification by a fresh seat, the stage-ladder re-map of the columns,
+and the task-graph criteria. He asked for a clean stop so the session's context can be wiped.

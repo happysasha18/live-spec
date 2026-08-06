@@ -59,7 +59,9 @@ MANIFEST_CLOSE = "<!-- /rotated-manifest -->"
 # The terminal vocabulary the queue format states in one home (docs/roadmap-format.md): a row may
 # rotate only when its status carries one of these four words, the same list the rotation gate reads.
 CLOSED_SIGNALS = ("landed", "decided", "declined", "superseded")
-OPEN_SIGNALS = ("queued", "in-work", "in work", "deferred", "field leg", "field-gated",
+# `*ready*` carries its asterisks here on purpose: the bare word is a substring of "already",
+# which real closing prose uses, and a false open signal would refuse a lawful rotation.
+OPEN_SIGNALS = ("queued", "*ready*", "in-work", "in work", "deferred", "field leg", "field-gated",
                 "intended", "open", "[target]", "waiting", "half landed")
 
 

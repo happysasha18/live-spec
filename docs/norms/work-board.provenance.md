@@ -1,4 +1,4 @@
-# Norm provenance — work-board-2026-08-06.html
+# Norm provenance — work-board.html
 
 What: the work board — the standing page showing the whole queue in columns (awaiting validation,
 ready, in work with three lanes, waiting on the person, done), handle-first cards with a details
