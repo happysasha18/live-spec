@@ -30,9 +30,12 @@ handover also names its extract file now.
 4. Row 561: give the settings ladder a `pack.tree` line, which the setup walk's routing card needs
    and nothing reads yet.
 5. Run the next reading round on the audit skill, with one prompted reader and one unprompted reader.
-6. Take rows 532 to 546 through the pipeline. Rows 537 and 538 open with a freshness re-check, since
+6. Rows 562 to 565 carry the push review's findings of 2026-08-06. They are the real scoring run
+   for the spoken-entry phrases, the counts published outside the declared registry, the
+   founding-walk tests that re-implement the walk's readers, and the two run-record shapes.
+7. Take rows 532 to 546 through the pipeline. Rows 537 and 538 open with a freshness re-check, since
    the reds they cite no longer reproduce.
-7. Four stale work copies under `.claude/worktrees/` carry no unmerged commits (all from 2026-07-21,
+8. Four stale work copies under `.claude/worktrees/` carry no unmerged commits (all from 2026-07-21,
    plus the merged registry branch). Removing them awaits Alexander's listed approval, since nothing
    is deleted silently.
 
