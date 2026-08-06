@@ -2,9 +2,13 @@
 
 PUSH-REVIEW
 
-Range: c869cbb..10f450d
+Range: c869cbb..2d84d5e
 
 Commits:
+- 2d84d5e The queue owns the two-copy table that refused four pushes
+- e7b86e4 The spec-table regeneration gets its independent check
+- 2d84d5e The queue owns the two-copy table that refused four pushes
+- e7b86e4 The spec-table regeneration gets its independent check
 - 10f450d The table inside the spec catches up with the split criterion
 - 0aa17a2 The whole class of pipe-truncated reads leaves the gates, with a test that bites
 - 7919f13 A gate reads a record whole, so a long record stops reading as an empty one
@@ -963,3 +967,31 @@ Reverting either fixed site turns its test red, proved by hand before this recor
 
 Closed by 7919f13 and 0aa17a2. The reviewer's own three gaps in the first commit are what the second
 one closes.
+
+### Finding 39 — REPAIRED — one edit to a requirement refused four pushes in a row
+
+The spec keeps its code table in two places, and one of them is written by hand. Splitting a
+criterion renumbered the criteria after it. The generated copy was rebuilt; the copy inside the
+spec was left behind, and a test caught the disagreement. Catching it up aged the records the
+push gates read, so the same edit was refused again. The cycle ran four times before it closed.
+
+An independent reader confirmed the catch-up touched the table alone: the text above the
+Reference heading is byte-identical across the commit, and the code table agrees body to table on
+all 388 rows ().
+
+The root sits in the queue as row 552: one command after a spec edit writes both copies, and a
+check reds a tree where the two disagree.
+
+### Finding 39 — REPAIRED — one edit to a requirement refused four pushes in a row
+
+The spec keeps its code table in two places, and one of them is written by hand. Splitting a
+criterion renumbered the criteria after it. The generated copy was rebuilt; the copy inside the
+spec was left behind, and a test caught the disagreement. Catching it up aged the records the
+push gates read, so the same edit was refused again. The cycle ran four times before it closed.
+
+An independent reader confirmed the catch-up touched the table alone. The text above the
+Reference heading is byte-identical across the commit, and the code table agrees body to table on
+all 388 rows. Its record stands at docs/prover/2026-08-06-spec-table-regeneration.md.
+
+The root sits in the queue as row 552. One command after a spec edit writes both copies, and a
+check reds a tree where the two disagree.
