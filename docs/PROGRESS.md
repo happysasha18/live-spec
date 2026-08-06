@@ -8,7 +8,7 @@ Since the last run on 2026-08-07, total findings changed by 0 and documents at z
 
 Promise one, a reader gets through a document without stopping, measures 4,812 open writing findings across the live set today.
 
-Promise two, the specification stops growing, measures PRODUCT_SPEC.md at 701,890 bytes against its 840,000-byte ceiling today.
+Promise two, the specification stops growing, measures PRODUCT_SPEC.md at 703,887 bytes against its 840,000-byte ceiling today.
 
 ## The queue, in the plan's order
 
@@ -221,14 +221,14 @@ The fifteen documents carrying the most findings:
 
 | measure | today | at the format change, 2026-07-23 | ceiling | target |
 |---|---|---|---|---|
-| bytes | 701,890 | 590,695 | 840,000 | under the ceiling |
-| lines | 8,208 | not stated | not stated | set by the subdivision plan |
-| words | 117,665 | not stated | not stated | set by the subdivision plan |
-| requirements | 309 | 282 | not stated | set by the subdivision plan |
-| acceptance criteria | 1,777 | 1,372 | not stated | set by the subdivision plan |
-| bytes per criterion | 184.9 | not stated | 207.2 | falls or holds |
+| bytes | 703,887 | 590,695 | 840,000 | under the ceiling |
+| lines | 8,238 | not stated | not stated | set by the subdivision plan |
+| words | 118,012 | not stated | not stated | set by the subdivision plan |
+| requirements | 310 | 282 | not stated | set by the subdivision plan |
+| acceptance criteria | 1,784 | 1,372 | not stated | set by the subdivision plan |
+| bytes per criterion | 184.8 | not stated | 207.2 | falls or holds |
 | pairs stating one fact twice | 119 | 116 | 119 | falls or holds |
-| share of the byte ceiling used | 83.6% | 70.3% | not stated | not stated |
+| share of the byte ceiling used | 83.8% | 70.3% | not stated | not stated |
 
 ## Readings run so far
 
