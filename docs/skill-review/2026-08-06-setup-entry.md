@@ -95,11 +95,13 @@ the SKILL.md.
 Repair, landed: the second clause is dropped. The test that pins this criterion moved with it, from
 the absolute path to the path a session actually reads the card at.
 
-## Finding 5 — the description is 477 characters, the longest of eleven. Recommendation; recorded, not taken.
+## Finding 5 — the description is the longest of eleven (477 characters at review time). Recommendation; taken at the landing.
 
 Measured over all eleven shipped fields: text-audit 122 characters, test-author 128, design-reviewer
 202, publish 209, feedback-collector 246, feedback-intake 251, product-prover 293, spec-author 302,
-communicator 328, live-spec-base 383, build-pipeline 477. The field grew from 204 characters. The
+communicator 328, live-spec-base 383, build-pipeline 477. The field grew from 204 characters.
+(The landing then took the closing-sentence recommendation below, and the shipped field measures 493
+characters at the push of 2026-08-06.) The
 guidance names the description as the primary triggering mechanism, asks for both what the skill does
 and the contexts it is for, and asks for pushy phrasing against undertriggering, so the five spoken
 variants are the coverage that guidance calls for and the length buys something.
@@ -108,9 +110,8 @@ The reviewer's recommendation: the closing exclusion, "A tiny reversible edit an
 outside it", now sits after the setup arm, and the word "it" has two candidate referents. Naming the
 pipeline explicitly would settle it.
 
-Recorded rather than taken: the design under build states this field's text verbatim, so changing its
-closing sentence is a decision for the design's owner. It goes to the orchestrating session with this
-record.
+The orchestrating session, the design's owner, took it at the landing: the shipped field closes with
+"stay outside the pipeline", and the referent is settled.
 
 ## Finding 6 — the triggering claim is unmeasured, and the artifact says so. Note.
 

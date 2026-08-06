@@ -44,8 +44,9 @@ because it reasoned from documents; the reworked design states the file that set
 
 ## Two things recorded, with their reasons
 
-- The build-pipeline description field becomes the longest in the pack at 477 characters, against a
-  shipped range of 122 to 383 over eleven fields. No gate caps the field. The eval is where the cost
+- The build-pipeline description field becomes the longest in the pack: 477 characters at review
+  time, 493 as shipped, after the landing took the closing-sentence repair. The other ten fields
+  range from 122 to 383 characters. No gate caps the field. The eval is where the cost
   would show, and it re-scores after any later growth.
 - `tests/fixtures/specformat/good_corpus_section.md` carries a copy of the spec sentence this landing
   repairs. It is a format fixture whose job is the shape of a well-formed section, and the format

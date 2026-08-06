@@ -105,6 +105,10 @@ behaviour takes more than one line. A gate with no note here runs all the same.
   `check-muted-launch.sh`).
 - **m. Config health.** The installed hooks match their `guardrails/` sources byte-for-byte
   (SPEC `INV-175`, `check-config-health.sh`).
+- **ad. Published tree counts.** `guardrails/tree-counts.json` declares every count this repository
+  publishes about its own tree, the measurement that produces it, and the pages that state it.
+  `check-tree-counts.py` re-measures each declared count against the committed tree and reds a page
+  whose number disagrees (SPEC `INV-305`).
 - **ae. Named checks.** `scripts/check-registry.json` records what each runnable file a skill body
   names is: its kind, its handle, and which tree it judges. The record also holds whether the file
   belongs in an adopting project, what it reads on its own, and what it needs. `check-named-checks.py`

@@ -97,8 +97,8 @@ Phrase 6 is the contested one: `spec-author`'s own field opens on starting a new
 is the same sentence with the pack's name taken out. The two together measure whether the pack's name
 is what does the picking. Phrase 9 measures the same thing from the other side, on the word install.
 
-**When it re-scores.** The description field runs 477 characters against a shipped range of 122 to
-383 characters over eleven fields, so this one is the longest in the pack today. No gate caps the
+**When it re-scores.** The description field runs 493 characters, and the other ten fields range
+from 122 to 383 characters, so this one is the longest in the pack today (measured 2026-08-06). No gate caps the
 field, and dilution would show here first. Re-score this scenario after any later growth of the
 field.
 
