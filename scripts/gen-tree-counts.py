@@ -52,6 +52,7 @@ SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 REPO_ROOT = os.path.dirname(SCRIPT_DIR)
 sys.path.insert(0, os.path.join(REPO_ROOT, "guardrails"))
 from nonempty_input import require_nonempty, VacuousInputError  # noqa: E402
+from cleanup_notice import cleanup_notice  # noqa: E402
 
 CHECK = "gen-tree-counts"
 
@@ -316,6 +317,9 @@ def run_argv(entry_name, argv, root):
     except subprocess.TimeoutExpired:
         for process in processes:
             process.kill()
+            cleanup_notice(ended="pid=%d" % process.pid,
+                           what="count stage for %s (ran past %d seconds)" % (entry_name, STAGE_SECONDS),
+                           owned_via="pid=%d (a stage this run spawned)" % process.pid)
         raise BuildError("count %s ran past %d seconds and was ended" % (entry_name, STAGE_SECONDS))
     for process in processes[:-1]:
         process.wait()

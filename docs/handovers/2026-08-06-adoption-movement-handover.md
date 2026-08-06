@@ -1,6 +1,7 @@
 # Handover, 2026-08-06 — the adoption movement, stopped mid-landing on purpose
 
 transcript: `/Users/sashaabramovich/.claude/projects/-Users-sashaabramovich/555af883-33bf-4b23-9996-f27461eea82a.jsonl`
+extract: `/Users/sashaabramovich/live-spec-carry/2026-08-06/x-555af883.md` — the session extract, in the carry directory that outlives the session's scratch.
 written by: the working session itself, at Alexander's word to keep the state and restart clean.
 The three previous sessions closed with no handover at all, which is why he has no record of the work
 and why this file exists before the restart rather than after it.

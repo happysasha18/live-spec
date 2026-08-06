@@ -2203,3 +2203,29 @@ these documents were landed, so its matrix rows name their test file as a future
 that file arrives. Four new rows opened for what today's work uncovered: a push from a session that
 wrote no handover, a machine over the reading panel, the surface registry's two names, and a settings
 line for the pack's own tree.
+
+## 2026-08-06, 16:00–16:53 — the three landings reach main, measured and pushed
+
+The continuation session walked the handover's debt list in its stated order. The three finished
+landings were committed by name: the measured published counts (row 555), the check registry with
+its branch merged and both new gates kept side by side (row 556), and the spoken setup entry
+(row 557). Matrix rows M-505 to M-510 flipped to built against the tests that prove them. Row M-511
+now names the gate-chain and CI-mirror meta-tests, since those are the tests that prove its wiring
+facts.
+
+The public prover edition took the seventeen kind-neutral edits into its stress-lenses reference.
+Two lens references those edits orphaned were repaired. The overlong sentences the rewrite introduced
+were split by a clean worker, and every edition file stands under its recorded ceiling. The rule
+census wrote its record again, with first entries for the new live files.
+
+Two fresh reviewer sessions then measured the edition over the shipped sample, reading the committed
+text. They returned 32 and 30 findings, and a third reader matched 24 as reached by both. Both full
+run records ship beside the sample, and the edition's front page states what the runs support.
+
+The suite's five reds were repaired at their roots. The setup-entry tests ride every scoped push run.
+sync-skills cleared three drifted installed copies: build-pipeline, spec-author and text-audit, each
+a 4.3.0 body sync (A-7). gen-tree-counts now says what it ended when a count stage runs past its
+clock (INV-204). The installed push hook was reinstalled after the two-gate merge. The last
+handover's provenance names its extract file in the carry directory. The freeze baseline was
+recorded for the spec, the architecture and the matrix, and the tree counts regenerated: the push
+chain runs 31 checks.
