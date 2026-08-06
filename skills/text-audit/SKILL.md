@@ -225,7 +225,7 @@ the two maps below.
 test matrix hold the answers this text rests on. Where none of them answers, the finding is a real hole,
 and it takes an inline `[GAP: what is missing]` note.
 
-Four checks run after the section is repaired, and each one reports what it read. The structure checks,
+Three checks run after the section is repaired, and each one reports what it read. The structure checks,
 third in the list, are four commands of their own:
 
 - the test suite, which pins exact phrases from the spec, so a dropped phrase fails a test. Run the
@@ -240,16 +240,11 @@ third in the list, are four commands of their own:
       code-to-location table still matches a fresh build off the body;
     - `python3 guardrails/check-matrix-reference.py TEST_MATRIX.md` — every anchor on a body row of the
       test matrix stands in that matrix's generated Reference section;
-    - `bash guardrails/check-freeze.sh` — the three guarded documents match the frozen baseline;
-- the census, `python3 scripts/rule-census.py`. It counts findings per file: sentences past the
-  human-prose word cap, plus the findings of the style lint and of the register lint. That total is read
-  against the total recorded for the file in `guardrails/rule-census.json`. A count at the record or
-  below it passes. A count above the record fails, and the batch runs again.
+    - `bash guardrails/check-freeze.sh` — the three guarded documents match the frozen baseline.
 
-Two of these four checks run anywhere: the project's own suite and the meaning-check reader. The
-structure checks and the census need the live-spec scripts on disk, and the census needs its record
-there as well.
-Where those are absent, run the first two checks, and write in the reading record that the other two did
+Two of these three checks run anywhere: the project's own suite and the meaning-check reader. The
+structure checks need the live-spec scripts on disk.
+Where those are absent, run the first two checks, and write in the reading record that the third did
 not run.
 
 The frozen baseline is the recorded map of a guarded document's anchors, marker lines, numbers, and
@@ -257,8 +252,9 @@ paths. `python3 scripts/spec-freeze.py --freeze PRODUCT_SPEC.md ARCHITECTURE.md 
 --compaction` writes that map under `.spec-freeze/`. A checkout carrying no baseline there skips the
 check.
 
-At the push, `python3 guardrails/check-doc-findings-bound.py` runs the census comparison over every live
-document. A document recorded at zero fails on its first finding.
+The census and its push-time ratchet measure this pack's own documents against this pack's own writing
+rules, so they stay inside the pack. A text you audit is measured by the style lint and the register lint
+this section already names.
 
 **The build test is defined, and its first run is still owed.** It measures the work once Step 5's two
 clean rounds close the audit. A build test asks a further question: does the repaired text still
@@ -460,8 +456,8 @@ it. Run `python3 scripts/preshow-register-lint.py skills/text-audit/SKILL.md` fr
 and run it over each file under `skills/text-audit/references/` as well. A passing run prints one line
 saying that the file is clean.
 
-`guardrails/rule-census.json` records this file at zero findings, and `python3
-guardrails/check-doc-findings-bound.py` refuses a push that raises that count.
+`guardrails/rule-census.json` records this file at zero findings, and the pack's doc-findings gate
+refuses a push that raises that count.
 
 Whoever changes this skill runs the register lint again. The same editor runs one cold-reader loop over
 the changed section before the skill ships.

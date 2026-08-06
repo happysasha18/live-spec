@@ -116,6 +116,10 @@
     "ad": {
       "proof": "tests/test_tree_counts.py::test_a_drifted_block_reds",
       "reds": "check-tree-counts"
+    },
+    "ae": {
+      "proof": "tests/test_check_registry.py::test_gate_reds_a_pack_only_check_named_in_a_skill_body",
+      "reds": "check-named-checks"
     }
   },
   "covered": {

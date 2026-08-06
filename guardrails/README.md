@@ -104,6 +104,11 @@ behaviour takes more than one line. A gate with no note here runs all the same.
   `check-muted-launch.sh`).
 - **m. Config health.** The installed hooks match their `guardrails/` sources byte-for-byte
   (SPEC `INV-175`, `check-config-health.sh`).
+- **ae. Named checks.** `scripts/check-registry.json` records what each runnable file a skill body
+  names is: its kind, its handle, and which tree it judges. The record also holds whether the file
+  belongs in an adopting project, what it reads on its own, and what it needs. `check-named-checks.py`
+  recomputes every field from the tree and reds a disagreement. It also reds a skill body that names
+  a check measuring this pack's own machinery (SPEC `INV-306`).
 
 **`pre-commit`** — the concurrent-edit fence. It protects against two sessions writing the
 same repo at once. It is **off by default**: if no `.live-spec-fence` file exists at the
