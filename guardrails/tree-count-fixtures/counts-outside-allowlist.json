@@ -1,0 +1,34 @@
+{
+  "_comment": "The same fixture registry as counts.json, with one measurement naming a program the allowlist does not carry. tests/test_tree_counts.py runs the gate over this file and requires the gate to name the program and to run no stage of that command (SPEC R306.10, INV-305).",
+  "allowed_programs": ["cat", "ls", "wc", "grep", "sort", "uniq", "head"],
+  "expected_seconds": 5,
+  "counts": {
+    "fixture-lines": {
+      "measurements": [
+        {
+          "name": "fixture_lines",
+          "argv": [["python3", "-c", "print(5)"], ["wc", "-l"]],
+          "claim": "equals",
+          "render": "digits"
+        }
+      ],
+      "homes": [
+        {
+          "kind": "block",
+          "page": "page.txt",
+          "marker": "fixture-lines",
+          "text": "The fixture tree holds {fixture_lines} lines of text across its files."
+        }
+      ],
+      "ground": {
+        "counts": "lines of text in the files of the fixture tree",
+        "unit": "lines",
+        "decision": "how much text a fixture run of the gate reads",
+        "on_move": "every fixture run reads more text or less",
+        "compared_to": "the two files this fixture tree ships",
+        "better": "down",
+        "target": "five lines, the size the cases here are written against"
+      }
+    }
+  }
+}

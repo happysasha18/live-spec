@@ -5,9 +5,63 @@ instead of things you have to remember.
 
 ## What each gate catches
 
-**`pre-push`** — blocks a push unless every gate below holds (thirteen today — a, b, c, d, e, f,
-g, h, i, j, k, l, m; this list is the one enumeration, kept current by the quantifier re-verify,
-SPEC INV-170):
+**`pre-push`** — blocks a push unless every gate below holds.
+
+<!-- generated:count:gate-roster — scripts/gen-tree-counts.py owns the block below -->
+
+The push hook runs 30 distinct gate letters today. The roster below is the whole set, one line per gate as `guardrails/pre-push` announces it.
+
+Count them yourself, and list them:
+
+```
+grep -oE -- '-- gate [a-z]{1,2}:' guardrails/pre-push | sort -u | wc -l
+grep -oE -- '-- gate [a-z]{1,2}: [^"]+' guardrails/pre-push | sort -u
+```
+
+A push of this repository is refused where either command disagrees with what stands here. The count decides how much of the tree a push protects. It also decides how long a push waits. It is read against the gate steps `.github/workflows/gates.yml` mirrors, which `guardrails/check-ci-mirror.sh` holds equal to this roster. The roster holds to no number of its own. A gate is added when a stated law earns one, and dropped when its law goes, so neither direction is better on its own. When the count rises, every push runs one more check and waits for it.
+
+```
+-- gate a: fresh prover record for today --
+-- gate aa: doc findings bound (no live document above its recorded finding count; a cleared document stays at zero, SPEC INV-301) --
+-- gate ab: handover provenance (a session handover names the transcript, the extract and the agent that wrote it, SPEC INV-302) --
+-- gate ac: push review (the delta being pushed carries its fresh adversarial review record, SPEC INV-304) --
+-- gate ad: published tree counts (every count this repository publishes about its own tree matches the tree, and the reproduction command beside it returns the published number, SPEC INV-305) --
+-- gate b: test suite green (scoped by the diff's reach, SPEC INV-45) --
+-- gate c: every spec anchor owned by exactly one architecture node --
+-- gate d: TEST_MATRIX.md generated Reference agrees with the body (SPEC INV-273/INV-218) --
+-- gate e: prototype fence --
+-- gate f: skill loadability --
+-- gate g: pin drift --
+-- gate h: the four host checks (this repo attached as its own first host, SPEC INV-97) --
+-- gate i: shipped-language (no owner name or stray Cyrillic in the shipped set, SPEC INV-120) --
+-- gate j: no broad browser-kill (cleanup targets the test resource only, SPEC INV-162) --
+-- gate k: compaction freeze (guarded docs' anchor map / markers / numbers unchanged, 2.0) --
+-- gate l: muted browser launch (every browser-driving script launches muted, SPEC INV-157) --
+-- gate m: config health (installed hooks match guardrails/ source, SPEC INV-175) --
+-- gate n: the earned message (an agent's inbox deposit names its birth, SPEC INV-189) --
+-- gate o: cleanup notice (every cleanup path that ends a process says what it ended, SPEC INV-204) --
+-- gate p: touchpoint kind (a surface speaks only the kind its touchpoint affords, SPEC INV-205) --
+-- gate q: waiting list (the board loses nothing — no over-cap shown set, no demotion into the void, SPEC INV-206) --
+-- gate r: authority anchor (a decision recorded as the person's names its exchange, SPEC INV-207) --
+-- gate s: skill review (a substantive skill change carries its skill-creator review record, SPEC INV-208) --
+-- gate t: doc rotation (the pack's split-and-rotated docs lose nothing — every rotated row is findable in its archive and every archive is named in a manifest line, SPEC INV-209) --
+-- gate u: CI mirror parity (every local gate is mirrored in CI or a declared carve-out, SPEC INV-210) --
+-- gate v: judges listed (every wired chat judge is referenced in the installed settings.json, SPEC INV-211) --
+-- gate w: every gate can fail (every gate in this chain carries a known-red proof, SPEC INV-212) --
+-- gate x: generated index (the committed index equals a fresh build off the body; body and index agree; an empty body reds by name, SPEC INV-258/INV-259/INV-218) --
+-- gate y: agent card (a live-spec host tree carries its .live-spec/agent.md card, SPEC INV-219) --
+-- gate z: doc bound (each growable working doc within its declared bound or freshly rotated, SPEC INV-234) --
+```
+
+<!-- /generated:count:gate-roster -->
+
+Each check lives in its own small script so it can be run and tested on its own, pointed at a
+scratch file instead of the real repo.
+
+### Notes on some of the gates
+
+The roster above is the whole set. These notes enumerate nothing. They cover the gates whose
+behaviour takes more than one line. A gate with no note here runs all the same.
 
 - **a. Fresh review.** A prover record dated today exists under `docs/prover/` and is
   committed. This is the push gate every push of live-spec must pass (SPEC anchor `M-6`):
@@ -50,9 +104,6 @@ SPEC INV-170):
   `check-muted-launch.sh`).
 - **m. Config health.** The installed hooks match their `guardrails/` sources byte-for-byte
   (SPEC `INV-175`, `check-config-health.sh`).
-
-Each check lives in its own small script so it can be run and tested on its own, pointed at a
-scratch file instead of the real repo.
 
 **`pre-commit`** — the concurrent-edit fence. It protects against two sessions writing the
 same repo at once. It is **off by default**: if no `.live-spec-fence` file exists at the
@@ -157,11 +208,15 @@ layout it reads has moved and it reds by name through `guardrails/nonempty_input
 reporting clean over nothing (SPEC INV-218).
 
 The gate carries a counting start, `COUNTING_FROM` in its own header (`--counting-from`,
-`LIVE_SPEC_WORKER_RESTORE_FROM`), because this machine's transcripts hold 80 worker runs from before
-the clause existed that carry a discarding command. A finding stamped before that date is carried as
-history: every verdict line counts it and it reds nothing. A finding stamped on or after that date
-reds, and so does a finding whose record carries no timestamp, since the gate cannot place it. Read
-the history with `--counting-from 2000-01-01 --all`.
+`LIVE_SPEC_WORKER_RESTORE_FROM`). This machine's transcripts hold worker runs from before the clause
+existed that carry a discarding command. This page states no figure for that class, and no figure
+would hold. The runs live in a transcript root outside this repository, and that root grows while a
+person reads it. Two readings minutes apart returned different totals on 2026-08-06. Ask the machine
+that holds them instead. The command
+`python3 guardrails/check-worker-restore.py --counting-from 2000-01-01 --all` lists every such run on
+this machine, with the date each one carries. A finding stamped before the counting start is carried
+as history: every verdict line counts it and it reds nothing. A finding stamped on or after that date
+reds, and so does a finding whose record carries no timestamp, since the gate cannot place it.
 
 ## How a host project adapts the pattern
 

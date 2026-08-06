@@ -1,0 +1,163 @@
+{
+  "_comment": "Every count this repository publishes about its own tree, with the measurement that produces it and every page statement of it (SPEC R306, INV-305). `scripts/gen-tree-counts.py` fills each generated block from the tree, and `guardrails/check-tree-counts.py` (gate ad) refuses a push where a published count and the tree disagree. An `argv` is a list of stages, each stage a list of literal argument tokens; it is run with no shell, through the program allowlist below, with patterns expanded inside the repository root, and the same list is what a reader is shown as the reproduction command. So this file is a CODE SURFACE: an edit to an argv changes what a push measures, and it is reviewed the way a change to a check script is reviewed. Sorting runs in byte order, so one command returns one order on every machine. A count states seven parts beside its number, and the generator refuses an entry leaving one of them empty: what it counts, its unit, the decision it informs, what changes when it moves, its baseline, its better direction, and its target. The eighth part is the method, and it needs no field: it is the published rendering of the argv. What no field holds and no gate reads: whether the count is worth publishing at all.",
+  "allowed_programs": ["cat", "ls", "wc", "grep", "sort", "uniq", "head"],
+  "expected_seconds": 10,
+  "counts": {
+    "skills-lines": {
+      "measurements": [
+        {
+          "name": "skills_and_references",
+          "argv": [["cat", "skills/*/SKILL.md", "skills/*/references/*.md"], ["wc", "-l"]],
+          "claim": "equals",
+          "render": "digits_grouped"
+        },
+        {
+          "name": "skill_bodies",
+          "argv": [["cat", "skills/*/SKILL.md"], ["wc", "-l"]],
+          "claim": "equals",
+          "render": "digits_grouped"
+        }
+      ],
+      "homes": [
+        {
+          "kind": "block",
+          "page": "README.md",
+          "marker": "skills-lines",
+          "text": "Written out, they and the skills carrying them run to {skills_and_references} lines under `skills/`. Of those, {skill_bodies} lines are the skill bodies, and the rest are the reference pages a body loads on demand. Count them yourself with `{command:skills_and_references}` and `{command:skill_bodies}`. A push of this repository is refused where either command disagrees with the number printed here. The body figure is what a session pays before it starts work, so it is the figure to hold down. It is held under the figure that includes the references. When it rises, every session that loads a skill pays more to begin."
+        },
+        {
+          "kind": "sentence",
+          "page": "README.md",
+          "template": "## Over six thousand lines of rules, and that is the point",
+          "measurement": "skills_and_references",
+          "claim": "at_least",
+          "floor": 6000
+        }
+      ],
+      "ground": {
+        "counts": "lines of text under `skills/`: the skill bodies together with the reference pages they load on demand, and the skill bodies alone",
+        "unit": "lines",
+        "decision": "how much of the pack a session loads before it starts work",
+        "on_move": "every session that loads a skill pays more to begin, or less",
+        "compared_to": "the figure that includes the reference pages, which the body figure is read under",
+        "better": "down",
+        "target": "the body figure stays under the figure that includes the reference pages"
+      }
+    },
+    "gate-roster": {
+      "measurements": [
+        {
+          "name": "gate_letters",
+          "argv": [["grep", "-oE", "--", "-- gate [a-z]{1,2}:", "guardrails/pre-push"],
+                   ["sort", "-u"], ["wc", "-l"]],
+          "claim": "equals",
+          "render": "digits"
+        },
+        {
+          "name": "roster",
+          "argv": [["grep", "-oE", "--", "-- gate [a-z]{1,2}: [^\"]+", "guardrails/pre-push"],
+                   ["sort", "-u"]],
+          "claim": "listing",
+          "render": "lines"
+        }
+      ],
+      "homes": [
+        {
+          "kind": "block",
+          "page": "guardrails/README.md",
+          "marker": "gate-roster",
+          "text": "The push hook runs {gate_letters} distinct gate letters today. The roster below is the whole set, one line per gate as `guardrails/pre-push` announces it.\n\nCount them yourself, and list them:\n\n```\n{command:gate_letters}\n{command:roster}\n```\n\nA push of this repository is refused where either command disagrees with what stands here. The count decides how much of the tree a push protects. It also decides how long a push waits. It is read against the gate steps `.github/workflows/gates.yml` mirrors, which `guardrails/check-ci-mirror.sh` holds equal to this roster. The roster holds to no number of its own. A gate is added when a stated law earns one, and dropped when its law goes, so neither direction is better on its own. When the count rises, every push runs one more check and waits for it.\n\n```\n{roster}\n```"
+        }
+      ],
+      "ground": {
+        "counts": "distinct gate letters `guardrails/pre-push` runs",
+        "unit": "gate letters",
+        "decision": "how much of the tree a push protects, and how long a push takes",
+        "on_move": "every push of this repository runs one more check and waits for it, or one fewer",
+        "compared_to": "the gate steps `.github/workflows/gates.yml` mirrors, which `guardrails/check-ci-mirror.sh` holds equal to this roster",
+        "better": {
+          "value": "neither",
+          "reason": "a roster that shrinks means a check was dropped and a roster that grows means every push waits longer, so neither direction is better on its own"
+        },
+        "target": {
+          "value": "",
+          "reason": "the roster holds to no number: a gate is added when a stated law earns one and dropped when its law goes, and a target would push against that"
+        }
+      }
+    },
+    "scaffold-checks": {
+      "measurements": [
+        {
+          "name": "scaffold_checks",
+          "argv": [["ls", "scaffold/guardrails/check_*.py"], ["wc", "-l"]],
+          "claim": "equals",
+          "render": "words"
+        }
+      ],
+      "homes": [
+        {
+          "kind": "sentence",
+          "page": "README.md",
+          "template": "**The gates are scripts.** {n} checks decide whether a push in your project is allowed.",
+          "measurement": "scaffold_checks",
+          "render": "words_capitalized"
+        },
+        {
+          "kind": "sentence",
+          "page": "README.md",
+          "template": "The {n} are Python on the pre-push hook, mirrored in [CI](.github/workflows/gates.yml).",
+          "measurement": "scaffold_checks"
+        },
+        {
+          "kind": "sentence",
+          "page": "guardrails/README.md",
+          "template": "The {n} scaffold checks (completeness · tests-present · traces-to-spec · conflicts) run against the base diff",
+          "measurement": "scaffold_checks"
+        }
+      ],
+      "ground": {
+        "counts": "check scripts a host installs from `scaffold/guardrails/`",
+        "unit": "check scripts",
+        "decision": "how much of a host project's push a gate covers once the host attaches this pack",
+        "on_move": "a host's push runs one more check, and three sentences on two pages state a number the tree no longer carries",
+        "compared_to": "the set `scaffold/guardrails/` ships, which is the whole set a host installs",
+        "better": {
+          "value": "neither",
+          "reason": "a check earns its place from a stated law, so a scaffold that grows without one is worse and a scaffold that drops a law's check is worse too"
+        },
+        "target": {
+          "value": "",
+          "reason": "the scaffold holds to no number of checks; it holds to one check per law a host project owes, and publishing a target number here would be the second typed count this entry exists to end"
+        }
+      }
+    },
+    "prover-records": {
+      "measurements": [
+        {
+          "name": "prover_records",
+          "argv": [["ls", "docs/prover/*.md"], ["wc", "-l"]],
+          "claim": "at_least",
+          "floor": 300,
+          "render": "digits"
+        }
+      ],
+      "homes": [
+        {
+          "kind": "sentence",
+          "page": "README.md",
+          "template": "There are more than three hundred such records in [`docs/prover/`](docs/prover/), including the ones where the reviewer missed something and said so.",
+          "measurement": "prover_records"
+        }
+      ],
+      "ground": {
+        "counts": "prover record files under `docs/prover/`, counted as the markdown records the glob names",
+        "unit": "record files",
+        "decision": "whether a reader can trust that a review really runs before a push",
+        "on_move": "one more push carried its review, or a push landed without one",
+        "compared_to": "the floor of 300 records the sentence on `README.md` publishes",
+        "better": "up",
+        "target": "at or above 300 records, the floor that sentence publishes"
+      }
+    }
+  }
+}

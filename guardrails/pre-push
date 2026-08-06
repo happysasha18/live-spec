@@ -246,6 +246,12 @@ if ! "$GUARDRAILS/check-push-review.sh"; then
 fi
 
 echo ""
+echo "-- gate ad: published tree counts (every count this repository publishes about its own tree matches the tree, and the reproduction command beside it returns the published number, SPEC INV-305) --"
+if ! python3 "$GUARDRAILS/check-tree-counts.py"; then
+  fail=1
+fi
+
+echo ""
 if [ "$fail" -ne 0 ]; then
   echo "PUSH BLOCKED — one or more gates above failed. Fix them and try again."
   exit 1

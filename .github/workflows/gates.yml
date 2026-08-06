@@ -113,6 +113,8 @@ jobs:
         env:
           LIVE_SPEC_DIFF_BASE: ${{ github.event.before }}
         run: guardrails/check-push-review.sh
+      - name: gate ad — published tree counts (a count this repository publishes about its own tree is built from the tree, SPEC INV-305)
+        run: python3 guardrails/check-tree-counts.py
 
   # After the gates pass on a real push to main, sync the standalone mirror repos from the
   # pack — the durable, cross-machine arm of the same job the local pre-push hook does (the

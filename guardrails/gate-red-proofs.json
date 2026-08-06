@@ -112,6 +112,10 @@
     "ac": {
       "proof": "tests/test_push_review.py::test_range_with_no_record_reds",
       "reds": "check-push-review"
+    },
+    "ad": {
+      "proof": "tests/test_tree_counts.py::test_a_drifted_block_reds",
+      "reds": "check-tree-counts"
     }
   },
   "covered": {

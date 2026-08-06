@@ -1,0 +1,14 @@
+# The fixture page whose block drifted from the tree
+
+This page is page.txt with one number changed inside the generated block: it states four lines where
+the fixture tree holds five. A test copies it over page.txt and requires the gate to red.
+
+<!-- generated:count:fixture-lines — scripts/gen-tree-counts.py owns the block below -->
+
+The fixture tree holds 4 lines of text across its files. Count them yourself with `cat tree/*.txt | wc -l`; a run of the gate over this fixture is refused where that command disagrees with the number printed here. The number decides how much text a fixture run reads, and it is read against the two files this fixture tree ships. It holds at five lines, and the direction to hold is down: when it rises, every fixture run reads more text than the case needs.
+
+<!-- /generated:count:fixture-lines -->
+
+Five lines stand in the fixture tree.
+
+More than three lines stand in the fixture tree.

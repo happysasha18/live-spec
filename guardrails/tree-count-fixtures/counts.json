@@ -1,0 +1,75 @@
+{
+  "_comment": "A fixture registry for tests/test_tree_counts.py, in the shape guardrails/tree-counts.json carries. Its measurements read guardrails/tree-count-fixtures/tree, a small tree a test owns outright. An `argv` here is run exactly the way a real one is, so an edit to one of these argument lists changes what a test measures and is reviewed the way a change to a check script is reviewed (SPEC R306, INV-305).",
+  "allowed_programs": ["cat", "ls", "wc", "grep", "sort", "uniq", "head"],
+  "expected_seconds": 5,
+  "counts": {
+    "fixture-lines": {
+      "measurements": [
+        {
+          "name": "fixture_lines",
+          "argv": [["cat", "tree/*.txt"], ["wc", "-l"]],
+          "claim": "equals",
+          "render": "digits"
+        }
+      ],
+      "homes": [
+        {
+          "kind": "block",
+          "page": "page.txt",
+          "marker": "fixture-lines",
+          "text": "The fixture tree holds {fixture_lines} lines of text across its files. Count them yourself with `cat tree/*.txt | wc -l`; a run of the gate over this fixture is refused where that command disagrees with the number printed here. The number decides how much text a fixture run reads, and it is read against the two files this fixture tree ships. It holds at five lines, and the direction to hold is down: when it rises, every fixture run reads more text than the case needs."
+        },
+        {
+          "kind": "sentence",
+          "page": "page.txt",
+          "template": "{n} lines stand in the fixture tree.",
+          "measurement": "fixture_lines",
+          "render": "words_capitalized"
+        }
+      ],
+      "ground": {
+        "counts": "lines of text in the files of the fixture tree",
+        "unit": "lines",
+        "decision": "how much text a fixture run of the gate reads",
+        "on_move": "every fixture run reads more text or less",
+        "compared_to": "the two files this fixture tree ships",
+        "better": "down",
+        "target": "five lines, the size the cases here are written against"
+      }
+    },
+    "fixture-floor": {
+      "measurements": [
+        {
+          "name": "fixture_floor",
+          "argv": [["cat", "tree/*.txt"], ["wc", "-l"]],
+          "claim": "at_least",
+          "floor": 3,
+          "render": "digits"
+        }
+      ],
+      "homes": [
+        {
+          "kind": "sentence",
+          "page": "page.txt",
+          "template": "More than three lines stand in the fixture tree.",
+          "measurement": "fixture_floor"
+        }
+      ],
+      "ground": {
+        "counts": "lines of text in the files of the fixture tree, read as a floor",
+        "unit": "lines",
+        "decision": "whether the fixture tree still carries enough text for the at-least case to mean anything",
+        "on_move": "the floor case stops proving what it was written to prove",
+        "compared_to": {
+          "value": "",
+          "reason": "a floor is read against itself; no second figure stands beside it here"
+        },
+        "better": {
+          "value": "neither",
+          "reason": "a fixture tree that grows costs a run more time and one that shrinks below the floor stops carrying the case, so neither direction is better on its own"
+        },
+        "target": "at or above three lines, the floor this fixture publishes"
+      }
+    }
+  }
+}
