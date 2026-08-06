@@ -2,9 +2,10 @@
 
 PUSH-REVIEW
 
-Range: c869cbb..1b8fd9e
+Range: c869cbb..5956b17
 
 Commits:
+- 5956b17 The progress page reads the spec's current size
 - 1b8fd9e Prover check confirms the suite budget row's raised ceiling as lawful
 - af9c2a2 A test proves its mechanism on the smallest input that carries the proof
 - cbaffdd The review record carries the suite-budget finding
