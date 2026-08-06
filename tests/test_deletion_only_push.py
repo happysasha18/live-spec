@@ -14,15 +14,15 @@ full suite it is proving untouched. The proof covers both directions: a deletion
 the chain down, a content push runs it exactly as before.
 """
 
-import glob
 import os
 import re
+import shutil
 import signal
 import subprocess
 import tempfile
 import unittest
 
-from conftest import ROOT, read
+from conftest import ROOT, SUITE_TEMP_PREFIXES, read
 
 GUARDRAILS = os.path.join(ROOT, "guardrails")
 CHECKER = os.path.join(GUARDRAILS, "check-deletion-only-push.sh")
@@ -52,14 +52,34 @@ def run(args, cwd=None, extra_env=None, **kwargs):
     )
 
 
+# Row 574's deeper finding: guardrails/check-tests.sh, called bare (no SCOPED_TEST_FILES, no
+# scratch argument — the branch a content push falls to below), runs the real suite as a nested
+# pytest process with no marker distinguishing it from a top-level run. That nested run reaches
+# this very class again and, with LIVE_SPEC_SCRATCH unset (this is the real tree, not the git-less
+# scratch copy setUp already carves out), does not skip — it calls run_bounded a second time, and
+# that inner call's own start_new_session=True hands its child a BRAND NEW process group, detached
+# from the outer run's. The outer kill below reaches only its own group, so a nested pre-push that
+# is still inside its own timeout window when the outer one fires keeps running, orphaned, past the
+# point where this file's own cleanup already swept — a live instance of "a worker's completion can
+# orphan a runaway child" (this pack's own prior finding). The env marker below is read by setUp:
+# a nested invocation skips itself rather than racing a second, unguarded kill window.
+NESTED_MARKER = "LIVE_SPEC_NESTED_PREPUSH_KILL_TEST"
+
+
 def run_bounded(args, input_text, timeout):
     """Run a possibly-long-lived process, killing its WHOLE process group on timeout (never just
     the direct child) so a real gate chain that spawns check-tests.sh/pytest is never left running
     as an orphan after the test returns (base rule: cleanup scopes to what the run provably owns).
+    The child's env carries NESTED_MARKER so that if the chain it spawns loops back into THIS test
+    class (a bare check-tests.sh run reaches the real suite, which reaches this file again), the
+    inner instance recognises it is already nested and skips rather than opening a second,
+    unguarded process group the outer kill cannot reach.
     Returns (returncode_or_None, combined_stdout). None means it was killed on timeout."""
+    env = dict(os.environ)
+    env[NESTED_MARKER] = "1"
     proc = subprocess.Popen(
         args, cwd=ROOT, stdin=subprocess.PIPE, stdout=subprocess.PIPE,
-        stderr=subprocess.STDOUT, text=True, start_new_session=True,
+        stderr=subprocess.STDOUT, text=True, start_new_session=True, env=env,
     )
     try:
         out, _ = proc.communicate(input=input_text, timeout=timeout)
@@ -74,22 +94,36 @@ def run_bounded(args, input_text, timeout):
 
 
 class _CleansSuiteLogLeaks(object):
-    """check-tests.sh mktemps a livespec-test-suite-log.* file the instant it starts, before
-    pytest itself runs; a test that intentionally kills the chain mid-flight to prove the
-    ordinary path started can catch the chain right after that mktemp. Scoped cleanup: only
-    files matching this exact prefix, only ones that did not exist before this test's own run."""
-
-    PATTERN = os.path.join(tempfile.gettempdir(), "livespec-test-suite-log.*")
+    """A bounded kill (run_bounded below, SIGKILL, uncatchable) can land at any point inside the
+    real chain this test deliberately spawns: check-tests.sh mktemps its own
+    livespec-test-suite-log.* file the instant it starts, and — on the reach map's conservative
+    branch — goes on to run the real, full suite as a nested pytest process, which is itself
+    mid-way through creating and cleaning up other suite tests' own temp artifacts (row 574: an
+    agent-inbox test's per-test temp dir was the one a sweep scoped to the log file alone left
+    behind, since a kill this test throws on purpose can catch whichever artifact any suite test
+    happens to hold open, not only the one file this class's cleanup used to know by name).
+    Scoped cleanup by the suite's own prefix rule (conftest.py's SUITE_TEMP_PREFIXES — the same
+    rule the session-end leak check reads) rather than one hardcoded pattern: every entry new
+    since this test's own run started, file or directory alike."""
 
     def _before(self):
-        return set(glob.glob(self.PATTERN))
+        return set(os.listdir(tempfile.gettempdir()))
+
+    def _ours(self, names):
+        return {n for n in names if n.startswith(SUITE_TEMP_PREFIXES)}
 
     def _clean_new(self, before):
-        for f in set(glob.glob(self.PATTERN)) - before:
-            try:
-                os.remove(f)
-            except OSError:
-                pass
+        tmp = tempfile.gettempdir()
+        after = set(os.listdir(tmp))
+        for name in self._ours(after) - self._ours(before):
+            path = os.path.join(tmp, name)
+            if os.path.isdir(path) and not os.path.islink(path):
+                shutil.rmtree(path, ignore_errors=True)
+            else:
+                try:
+                    os.remove(path)
+                except OSError:
+                    pass
 
 
 class TestCheckerScriptShips(unittest.TestCase):
@@ -212,6 +246,13 @@ class TestPrePushStandsDownOnDeletion(_CleansSuiteLogLeaks, unittest.TestCase):
         # reason.
         if os.environ.get("LIVE_SPEC_SCRATCH"):
             self.skipTest("scratch copy carries no .git for guardrails/pre-push to root itself")
+        if os.environ.get(NESTED_MARKER):
+            # A bare check-tests.sh run (the content-push branch below) can reach the real suite
+            # a second time with a real .git, so LIVE_SPEC_SCRATCH alone does not catch this case —
+            # NESTED_MARKER does. Skip: a nested run_bounded call would open a second process group
+            # the outer kill cannot reach (row 574).
+            self.skipTest("already inside a run_bounded chain — a nested instance would open an "
+                          "unguarded process group (SPEC INV-100, ROADMAP row 574)")
 
     def test_deletion_only_push_finishes_in_seconds_with_a_named_standdown(self):
         code, out = run_bounded(["bash", PREPUSH], DELETION_STDIN, timeout=15)
@@ -230,7 +271,8 @@ class TestPrePushStandsDownOnDeletion(_CleansSuiteLogLeaks, unittest.TestCase):
         # are exercised in full by the rest of the suite, not re-run here. The whole process
         # GROUP is killed on timeout (run_bounded), never just the top bash process, so a
         # check-tests.sh/pytest descendant this window catches is never left running afterward;
-        # any suite-log temp file that same descendant mktemps before being killed is swept too.
+        # any suite temp artifact that descendant (or ITS OWN nested full-suite run) leaves
+        # behind at the moment of the kill is swept too, by the suite's own prefix rule.
         before = self._before()
         code, out = run_bounded(["bash", PREPUSH], CONTENT_STDIN, timeout=3)
         self._clean_new(before)

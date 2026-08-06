@@ -112,11 +112,18 @@ def read_all_flat(rel):
     return " ".join(read_all(rel).split())
 
 
-_PREFIXES = ("livespec-test-", "row241-host-")
+# The suite's own temp-artifact prefixes — the single source of truth for "this name is ours".
+# Exported (no leading underscore) so any test that deliberately kills a process which may be
+# mid-way through creating one of these artifacts (SIGKILL, uncatchable, skips every tearDown)
+# can sweep by the same rule this session-end check uses, rather than guessing at one hardcoded
+# pattern of its own (ROADMAP row 574: a guess at one pattern left every OTHER suite artifact,
+# such as an agent-inbox test's temp dir, free to leak past a kill it never anticipated).
+SUITE_TEMP_PREFIXES = ("livespec-test-", "row241-host-")
+_PREFIXES = SUITE_TEMP_PREFIXES  # back-compat alias for any in-file reference
 
 
 def _ours(names):
-    return {n for n in names if n.startswith(_PREFIXES)}
+    return {n for n in names if n.startswith(SUITE_TEMP_PREFIXES)}
 
 
 @pytest.fixture(autouse=True, scope="session")
