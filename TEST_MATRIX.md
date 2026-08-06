@@ -157,6 +157,7 @@ by `test_artifact_inventory` — the test parses this table, so adding an entry 
 | M-069 | A prototype lives fenced (own home) with a prototype label per artifact kind, opened only by the assigned senior, shown only as a sketch; never wired into or presented as the product [E-17] | string | `test_base_rules_door_and_prototype`, `test_working_skills_carry_the_door` | *built* |
 | M-134 | The economy ladder: the spec names `budget.pressure` (full [default] · lean · tight) moved only by the human's word and asked — or the default told — at a project's setup (founding/adoption) alongside project.kind, each rung's legal sheds (node-scoped mid-work test runs with the full suite kept at landing gates; cross-link with an owed full deferrable as a dated debt line; batched landing gates whose batch-end red bisects by landing order; cheaper worker tiers), and the base skill's settings table carries the `budget.pressure` row; never a rung moved by the agent's own word, never a shed taken silently — every taken shed named in the landing report [T-19] | string | `test_economy_ladder` | *built* |
 | M-135 | The never-bend list at every rung, stated once: the door law + tripwires, red-before-fix, the human's gates, the landing report with named sheds, landing purity, the push gate at full rigor, the safety net, narration whole, and an explicit host line outliving any rung; never a rung that sheds the push gate, the door law, or a host profile's tighter line [INV-40] | string | `test_economy_ladder` | *built* |
+| M-497 | The never-bend list also holds the standard the work is held to, unmoved by any rung (a rung moves the project's pace alone), and a check the method calls for, which runs at whatever the plan costs; a tight rung still raises a fresh clean-context agent for an adversarial review, a cold reading, a release re-prove, or a deep spec-and-architecture audit; economy is bought only from pace, from batching, and from a cheaper tier on mechanical work, never bought by dropping a check; never a rung that lowers the standard, skips a called-for check, skips the fresh-agent read, or buys its economy from a dropped check [T-19, INV-40] | string | `test_never_bend_standard_and_fresh_agent_criteria` | *built* |
 | M-186 | A background worker outlives a memory wipe and the resume protocol proves it dead or alive: the spec and the base rules carry the protocol — the handoff note records the worker's id (→ its checkpoint), its briefed write-set, and the two liveness checks (file times over ~30 s [default] + one message, ~2 min [default]); the process list and the harness task list are never proof of death; a prior-context worker is foreign until verified; no second worker onto a shared tree until the first halts by its own reply or is declared dead; prefer halting workers before a wipe; never a handoff framing a possibly-running worker's output as finished [INV-76] | string | `test_worker_liveness_protocol` (red proven pre-code: the base rules spoke no liveness) | *built* |
 | M-198 | Human-facing prose is drafted by a clean writer: SPEC INV-84 and base rule 21 state the road — a plain brief (the facts, the intended reader, the register laws) hands the drafting to a fresh writer session with no package rules loaded; the rules-loaded session briefs, reviews, and lands, and never writes the prose itself; binds new and in-edit text only; a blanket rewrite of settled text is refused; never the marinated session drafting a page a human will read [INV-84] | string | `test_clean_writer_law` (red proven against the pre-fold text — no INV-84, no rule 21 there, 2026-07-10) | *built* |
 | M-234 | The convergence principle stated once (INV-98, row 218): every piece of work names its goal up front as an artifact the work can be held against (frozen norm, exemplar bank, failing test, written acceptance); a paraphrase cannot serve as the goal; every iteration measures distance to the goal itself and a proxy never replaces the goal; the distance only shrinks and reached levels lock by a mechanism; a divergent stretch is named and bounded by its convergence point — in both homes (spec clause + base rule 22, the rule citing the playbook chapter); never the rule restated in full inside a working skill, never a goal accepted as a paraphrase [INV-98] | string | `test_goal_is_an_artifact` + `test_distance_to_the_goal_itself` + `test_levels_lock_and_divergence_bounded` + `test_spec_anchor_index_and_playbook_cite` (red proven against the pre-delta tree, 2026-07-11) | *built* |
@@ -847,7 +848,7 @@ The anchor-to-row table below is generated output, built from the body rows by `
 | INV-37 | M-126 |
 | INV-38 | M-127 |
 | INV-39 | M-130, M-376, M-377, M-382 |
-| INV-40 | M-135 |
+| INV-40 | M-135, M-497 |
 | INV-41 | M-136, M-185, M-347 |
 | INV-42 | M-139 |
 | INV-43 | M-140, M-214, M-227 |
@@ -1138,7 +1139,7 @@ The anchor-to-row table below is generated output, built from the body rows by `
 | T-16 | M-084 |
 | T-17 | M-108 |
 | T-18 | M-129, M-372, M-373, M-374, M-375, M-380 |
-| T-19 | M-134 |
+| T-19 | M-134, M-497 |
 | T-20 | M-173 |
 | T-21 | M-309 |
 | T-22 | M-368 |

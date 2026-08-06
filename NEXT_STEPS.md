@@ -29,6 +29,8 @@ and the test fixtures stay outside the reading queue.
 2. Take rows 532 to 546 through the pipeline. Rows 537 and 538 open with a freshness re-check,
    since the reds they cite no longer reproduce.
 3. Re-seed the rounds-per-file estimate once a second file finishes its readings.
+4. The never-bend criteria of the budget rule now carry a matrix row and a test that reds when
+   any one of them is removed, so queue row 549 closes with this landing.
 
 ## Where the numbers live
 

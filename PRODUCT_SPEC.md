@@ -5244,8 +5244,9 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 6. The system *shall* hold at every rung the standard the work is held to, moving the project's pace alone. [INV-40, T-19]
 7. The system *shall* run a check the method calls for at whatever the plan costs. [INV-40, T-19]
-8. The system *shall* raise a fresh clean-context agent for an adversarial review, a cold reading, a release re-prove, and a deep spec-and-architecture audit. [INV-40, INV-46]
-9. The system *shall* buy economy from pace, from batching, and from a cheaper tier on mechanical work, and *shall* buy it from no check. [INV-40, T-19, INV-69]
+8. The system *shall* hold at every rung the fresh clean-context agent any ask of the method raises. [INV-40, INV-46]
+9. The system *shall* count an adversarial review, a cold reading, a release re-prove, and a deep audit among those asks. [INV-46, INV-145, INV-237, INV-266]
+10. The system *shall* buy economy from pace, from batching, and from a cheaper tier on mechanical work, and *shall* buy it from no check. [INV-40, T-19, INV-69]
 
 ## Requirement 221: Every process converges on a goal named as an artifact
 

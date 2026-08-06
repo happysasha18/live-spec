@@ -734,8 +734,8 @@ review, a cold reading, a release re-prove, and a deep spec-and-architecture aud
 from pace, from batching, and from a cheaper tier on mechanical work. It is bought from no check. The
 full never-bend list this rule
 joins lives in the economy-ladder section of `PRODUCT_SPEC.md` (SPEC INV-40, R220). The owner's word,
-2026-08-05 at 22:12 and 22:52: on the smallest plan the work may run slower and cost less. Its
-quality never drops.
+2026-08-05 at 22:52: quality never suffers, whatever else does. At 22:12 he named the smaller plan
+and asked that a fresh worker the method needs be raised on it all the same.
 
 > The pack, whole: **live-spec-base** holds the shared rules and defaults · **spec-author** writes the spec ·
 > **product-prover** reviews it · **design-reviewer** judges the design behind it · **build-pipeline** ships the change · **test-author** derives the matrix and writes the tests · **communicator** makes the human

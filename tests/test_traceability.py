@@ -2596,6 +2596,28 @@ class TestProblemLedger(unittest.TestCase):
         for needle in ("budget.pressure", "economy ladder", "SPEC T-19"):
             self.assertIn(needle, base, "base missing: %s" % needle)
 
+    def test_never_bend_standard_and_fresh_agent_criteria(self):
+        """Row 549 (M-497, T-19/INV-40): R220.6-R220.9, added to the never-bend list alongside
+        M-134/M-135 but never named by a matrix row. An adversarial review found deleting any one
+        of the four left the suite green (ROADMAP row 549); this pins each criterion's own text so
+        removing one reds this test."""
+        spec = re.sub(r"\s+", " ", read("PRODUCT_SPEC.md"))
+        for needle in (
+            # R220.6: a rung moves the pace alone, the standard itself never moves
+            "hold at every rung the standard the work is held to, moving the project's pace alone",
+            # R220.7: a check the method calls for runs at whatever the plan costs
+            "run a check the method calls for at whatever the plan costs",
+            # R220.8: every rung holds the fresh clean-context agent the method asks for
+            "hold at every rung the fresh clean-context agent any ask of the method raises",
+            # R220.9: the four named passes count among those asks
+            "count an adversarial review, a cold reading, a release re-prove, and a deep audit "
+            "among those asks",
+            # R220.10: economy is bought from pace, batching and cheaper tiers, and from no check
+            "buy economy from pace, from batching, and from a cheaper tier on mechanical work",
+            "buy it from no check",
+        ):
+            self.assertIn(needle, spec, "SPEC missing (R220.6-R220.10 never-bend criterion): %s" % needle)
+
     def test_landing_purity(self):
         """Row 135 (M-130, INV-39): a landing commit carries exactly one row's delta."""
         spec = re.sub(r"\s+", " ", read("PRODUCT_SPEC.md"))

@@ -116,5 +116,53 @@ class TestRuleCensusRatchet(unittest.TestCase):
             self.assertIn("CLEAN.md", read(record))
 
 
+def _write(tmp, rel_path, body="# page\n\nA short sentence.\n"):
+    """A markdown file at `rel_path` under `tmp`, its parent directories made as needed."""
+    full = os.path.join(tmp, rel_path)
+    os.makedirs(os.path.dirname(full), exist_ok=True)
+    with open(full, "w", encoding="utf-8") as f:
+        f.write(body)
+
+
+class TestLiveFilesMachineDirs(unittest.TestCase):
+    """`live_files()` over MACHINE_DIRS and the templates directory (commits 3b4308d, 8054fc3).
+
+    3b4308d reversed an earlier exclusion of `templates/`: a person starting a new project reads
+    those files, so they now stay in the measured set. 8054fc3 made SKIP_PREFIXES match only at a
+    path boundary, so a sibling directory whose name merely extends a skipped one (`far-tier-fixtures`
+    beside `far-tier-fixtures-old`) is not swept up by the prefix test and stays measured.
+    """
+
+    def setUp(self):
+        self.census = load_census()
+
+    def test_a_template_file_is_measured(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            _write(tmp, os.path.join("templates", "PRODUCT_SPEC.template.md"))
+            files = self.census.live_files(root=tmp)
+            self.assertIn(os.path.join("templates", "PRODUCT_SPEC.template.md"), files,
+                          "a file under templates/ was passed over though a person reads it")
+
+    def test_a_fixture_under_the_machine_dirs_is_passed_over(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            for machine_dir in self.census.MACHINE_DIRS:
+                _write(tmp, os.path.join(machine_dir, "fixture.md"))
+            files = self.census.live_files(root=tmp)
+            for machine_dir in self.census.MACHINE_DIRS:
+                rel = os.path.join(machine_dir, "fixture.md")
+                self.assertNotIn(rel, files,
+                                 "%s was measured though it sits in a MACHINE_DIRS fixture dir" % rel)
+
+    def test_a_sibling_that_merely_extends_a_skipped_name_stays_measured(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            skipped = self.census.MACHINE_DIRS[0]
+            sibling = skipped + "-old"
+            _write(tmp, os.path.join(sibling, "sibling.md"))
+            files = self.census.live_files(root=tmp)
+            self.assertIn(os.path.join(sibling, "sibling.md"), files,
+                          "%s was skipped though its name only extends %s at a non-boundary"
+                          % (sibling, skipped))
+
+
 if __name__ == "__main__":
     unittest.main()
