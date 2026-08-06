@@ -97,7 +97,7 @@ if [ -z "$reviewed" ]; then
 fi
 
 reviewed_count="$(printf '%s\n' $reviewed | grep -c '' || true)"
-NEWEST_REVIEWED="$(printf '%s\n' $reviewed | head -1)"
+NEWEST_REVIEWED="$(head -1 <<<"$(printf '%s\n' $reviewed)")"
 
 # --- arm A: a committed record exists ---
 tracked_records=""

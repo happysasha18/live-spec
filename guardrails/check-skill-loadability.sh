@@ -25,7 +25,7 @@ for skill_md in "$SKILLS_DIR"/*/SKILL.md; do
   fi
   fm="$(awk '/^---$/{n++; next} n==1{print} n>=2{exit}' "$skill_md")"
 
-  name="$(printf '%s\n' "$fm" | sed -n 's/^name:[[:space:]]*//p' | head -1)"
+  name="$(sed -n 's/^name:[[:space:]]*//p' <<<"$fm" | head -1)"
   if [ -z "$name" ]; then
     echo "FAIL (loadability): $dir_name — frontmatter has no name:"; fail=1
   elif [ "$name" != "$dir_name" ]; then

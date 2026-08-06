@@ -339,3 +339,31 @@ def test_a_long_record_still_matches_the_hashes_it_names(tmp_path):
     res = _run([str(GATE)], cwd=tmp, extra_env={"LIVE_SPEC_DIFF_BASE": base})
     assert res.returncode == 0, (
         "the gate red a record that names every reviewed commit:\n%s" % (res.stdout + res.stderr))
+
+
+def test_a_long_record_with_a_blank_line_after_its_fields_still_reads(tmp_path):
+    """The blocking-field reader once died silently on a long record. It walked the body with awk
+    and left at the first blank line after the fields, which is the record's ordinary shape; the
+    writer took SIGPIPE and the gate exited 141 printing nothing at all. A record padded BELOW its
+    fields drives that reader, which the hash test above never reaches (found 2026-08-06)."""
+    tmp = tmp_path
+    _init_repo(tmp)
+    _write(tmp, "a.txt", "one\n")
+    _commit_all(tmp, "base")
+    base = _head(tmp)
+    _write(tmp, "a.txt", "two\n")
+    _commit_all(tmp, "work")
+    work = _head(tmp)
+    shas = [_short(base), _short(work)]
+    padding = "\n".join(
+        "Note %d: review prose standing below the fields, after a blank line." % i
+        for i in range(1, 1600))
+    body = _record(shas) + "\n" + padding + "\n"
+    _write(tmp, "docs/push-review/2026-08-05-tail.md", body)
+    _commit_all(tmp, "the record")
+    assert len(body) > 90000, "the fixture must outgrow the pipe buffer below its fields"
+    res = _run([str(GATE)], cwd=tmp, extra_env={"LIVE_SPEC_DIFF_BASE": base})
+    assert res.returncode == 0, (
+        "the gate failed on a record whose prose sits below its fields:\n%s"
+        % (res.stdout + res.stderr))
+    assert res.stdout.strip(), "the gate exited without printing a verdict"

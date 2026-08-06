@@ -36,7 +36,10 @@ set -e
 
 # A missing baseline for one of the docs is reported as its own violation line; treat that as a
 # skip signal (partial baseline = an un-blessed doc), not a hard drift.
-if printf '%s\n' "$out" | grep -q "no frozen baseline"; then
+# A here-string reads the whole output in this process. A pipe into `grep -q` loses the race
+# once the verify output grows: grep leaves at the first hit, the writer takes SIGPIPE, and
+# `set -o pipefail` turns the skip signal into a hard drift report (found 2026-08-06).
+if grep -q "no frozen baseline" <<<"$out"; then
   echo "OK (freeze): a guarded doc has no frozen baseline yet — session-local check skipped."
   echo "  (regenerate with: python3 scripts/spec-freeze.py --freeze $DOCS --compaction)"
   exit 0
