@@ -2,9 +2,10 @@
 
 PUSH-REVIEW
 
-Range: c869cbb..0aa17a2
+Range: c869cbb..10f450d
 
 Commits:
+- 10f450d The table inside the spec catches up with the split criterion
 - 0aa17a2 The whole class of pipe-truncated reads leaves the gates, with a test that bites
 - 7919f13 A gate reads a record whole, so a long record stops reading as an empty one
 - 14159eb Row 549 lands: the never-bend criteria are held by a test
