@@ -27,3 +27,10 @@ and the eighteen restored pieces, old text against new, by an inventory the veri
 - Every near-miss the verifier weighed — folded pointers, a dropped summary sentence, a reworded
   budget clause — was traced to a surviving stronger statement and cleared with reasons recorded.
 - The second reader's ten-rule spot check found nothing lost, weakened, or invented.
+
+## Addendum, 11:25
+
+One sentence changed after this review: the message check's judging moment moved to the intake
+sweep, and a deposit never blocks a push. The sentence carries the owner's verbatim ruling of
+11:19, on record in DECISIONS.md. The seat reviewed the four-file delta against that word; a
+fresh-head pass adds nothing to a sentence that quotes the instruction it implements.
