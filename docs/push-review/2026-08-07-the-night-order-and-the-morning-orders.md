@@ -88,6 +88,10 @@ Nine findings of my own follow. Three block.
 
 9. Struck-cap wording survives in two more live places, the same class as finding 2. PRODUCT_SPEC.md:2858 still asks for the resume file `capped` and `a short, capped current picture`. Its Context paragraph directly above was rewritten to the qualitative law. ROADMAP.md:200, row 524, still states the resume file carries a hard cap of 100 lines as present fact. Neither blocks alone. Both belong to row 576's unfinished sweep.
 
+Range note: the closing commit 54f1b0a shipped this record together with the closures it
+prescribes. Its delta is exactly the three closures below plus the row-cell and handover
+repairs this review named, each judged above; this note rides a record-only commit after it.
+
 Blocking: three, each closed by the seat in the closing commit that ships this record.
 - Finding 1, the tip commit reds the prover-record gate and the suite. closed: the review
   record's freshness addendum lands in the closing commit, on top of every spec change.
