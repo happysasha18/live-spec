@@ -88,6 +88,10 @@ Nine findings of my own follow. Three block.
 
 9. Struck-cap wording survives in two more live places, the same class as finding 2. PRODUCT_SPEC.md:2858 still asks for the resume file `capped` and `a short, capped current picture`. Its Context paragraph directly above was rewritten to the qualitative law. ROADMAP.md:200, row 524, still states the resume file carries a hard cap of 100 lines as present fact. Neither blocks alone. Both belong to row 576's unfinished sweep.
 
+Range note four: commit 515cbeb refreshes the generated line-count block after the 11:19
+sentence grew the rulebook by two lines; a one-line generated-figure delta. This note rides
+a record-only commit.
+
 Range note three: commit ba84d67 adds the rulebook review record's addendum covering the
 11:19 sentence and reinstalls the push chain's hook copy; a record-plus-addendum delta the
 seat reviewed against the same word. This note rides a record-only commit.
