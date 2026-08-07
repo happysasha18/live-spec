@@ -57,6 +57,27 @@ def _run_check(repo, base_sha):
     return subprocess.run(["python3", CHECK], cwd=str(repo), capture_output=True, text=True, env=env)
 
 
+def _commit_dated(repo, msg, date_iso):
+    """A commit whose author/committer date is forced to `date_iso` — used to prove that a heal
+    commit's real DAG position (a genuine descendant of its landing) is not enough on its own; the
+    checker also reads the committer timestamp, so a backdated heal still fails the after-its-
+    landing check."""
+    _git(repo, "add", "-A")
+    env = dict(os.environ)
+    env["GIT_AUTHOR_DATE"] = date_iso
+    env["GIT_COMMITTER_DATE"] = date_iso
+    r = subprocess.run(["git", "-C", str(repo), "commit", "-q", "-m", msg],
+                        capture_output=True, text=True, env=env)
+    assert r.returncode == 0, r.stdout + r.stderr
+    return _git(repo, "rev-parse", "HEAD").strip()
+
+
+def _roadmap_two_rows(status7, status9, wish7="Some wish", wish9="Another wish"):
+    return (ROADMAP_HEADER
+            + "| 7 | %s | small | %s | Some decision |\n" % (wish7, status7)
+            + "| 9 | %s | small | %s | Some decision |\n" % (wish9, status9))
+
+
 def test_reds_landing_commit_without_next_steps(tmp_path):
     repo = _init_repo(tmp_path)
     _write(repo, "ROADMAP.md", _roadmap_row(7, "open"))
@@ -254,3 +275,92 @@ def test_new_trigger_declined_move_is_exempt(tmp_path):
 
     r = _run_check(repo, base)
     assert r.returncode == 0, r.stdout + r.stderr
+
+
+# --- the heal road: a missed landing can be healed forward, never by amending history ---
+
+def test_heals_missed_landing_with_later_heal_commit(tmp_path):
+    # A landing commit misses its NEXT_STEPS.md refresh; a later commit that touches NEXT_STEPS.md
+    # and names the miss by its shortsha heals it — the checker warns instead of redding.
+    repo = _init_repo(tmp_path)
+    _write(repo, "ROADMAP.md", _roadmap_row(7, "open"))
+    _write(repo, "NEXT_STEPS.md", "state\n")
+    base = _commit(repo, "base")
+
+    _write(repo, "ROADMAP.md", _roadmap_row(7, "**landed 2026-07-20**"))
+    land_sha = _commit(repo, "land row 7, no NEXT_STEPS touch")
+
+    _write(repo, "NEXT_STEPS.md", "state\nrow 7 landed (healed)\n")
+    _commit(repo, "heals landing %s — refresh the map after the fact" % land_sha[:8])
+
+    r = _run_check(repo, base)
+    out = r.stdout + r.stderr
+    assert r.returncode == 0, out
+    assert '"severity": "warn"' in out
+    assert "7" in out
+
+
+def test_missed_landing_with_later_next_steps_commit_not_naming_sha_still_reds(tmp_path):
+    # A later commit touches NEXT_STEPS.md but never names the missed landing's sha — it heals
+    # nothing, so the miss stays an unhealed red.
+    repo = _init_repo(tmp_path)
+    _write(repo, "ROADMAP.md", _roadmap_row(7, "open"))
+    _write(repo, "NEXT_STEPS.md", "state\n")
+    base = _commit(repo, "base")
+
+    _write(repo, "ROADMAP.md", _roadmap_row(7, "**landed 2026-07-20**"))
+    _commit(repo, "land row 7, no NEXT_STEPS touch")
+
+    _write(repo, "NEXT_STEPS.md", "state\nsome unrelated refresh\n")
+    _commit(repo, "touch NEXT_STEPS.md, no heal phrase")
+
+    r = _run_check(repo, base)
+    out = r.stdout + r.stderr
+    assert r.returncode != 0, out
+    assert "7" in out
+    assert "INV-242" in out
+
+
+def test_heal_phrase_commit_dated_before_its_landing_still_reds(tmp_path):
+    # The heal commit is a genuine descendant of the landing (so it can legitimately name its real
+    # sha) but its committer date is backdated to before the landing — a heal must come after its
+    # landing in history, so this still reds.
+    repo = _init_repo(tmp_path)
+    _write(repo, "ROADMAP.md", _roadmap_row(7, "open"))
+    _write(repo, "NEXT_STEPS.md", "state\n")
+    base = _commit(repo, "base")
+
+    _write(repo, "ROADMAP.md", _roadmap_row(7, "**landed 2026-07-20**"))
+    land_sha = _commit(repo, "land row 7, no NEXT_STEPS touch")
+
+    _write(repo, "NEXT_STEPS.md", "state\nrow 7 landed (healed)\n")
+    _commit_dated(repo, "heals landing %s — but backdated before the landing" % land_sha[:8],
+                  "2020-01-01T00:00:00")
+
+    r = _run_check(repo, base)
+    out = r.stdout + r.stderr
+    assert r.returncode != 0, out
+    assert "7" in out
+    assert "INV-242" in out
+
+
+def test_one_heal_commit_names_two_missed_landings(tmp_path):
+    # A single heal commit's message can name several missed landings — both get healed.
+    repo = _init_repo(tmp_path)
+    _write(repo, "ROADMAP.md", _roadmap_two_rows("open", "open"))
+    _write(repo, "NEXT_STEPS.md", "state\n")
+    base = _commit(repo, "base")
+
+    _write(repo, "ROADMAP.md", _roadmap_two_rows("**landed 2026-07-20**", "open"))
+    land7 = _commit(repo, "land row 7, no NEXT_STEPS touch")
+
+    _write(repo, "ROADMAP.md", _roadmap_two_rows("**landed 2026-07-20**", "**landed 2026-07-21**"))
+    land9 = _commit(repo, "land row 9, no NEXT_STEPS touch")
+
+    _write(repo, "NEXT_STEPS.md", "state\nrows 7 and 9 landed (healed)\n")
+    _commit(repo, "heals landing %s, heals landing %s" % (land7[:8], land9[:8]))
+
+    r = _run_check(repo, base)
+    out = r.stdout + r.stderr
+    assert r.returncode == 0, out
+    assert out.count('"severity": "warn"') == 2

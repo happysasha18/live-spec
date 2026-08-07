@@ -6139,6 +6139,10 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 3. The system *shall* leave a commit that closes no row, and a row closed to *declined*, *deferred*, or *superseded*, owing no refresh. [INV-242]
 4. *when* the push-gate letters are exhausted, the system *shall* ride this check on the suite, so a red here reds the suite gate and blocks the push. [INV-242, INV-222]
 
+**Case: a missed landing heals forward**
+
+5. *when* a landing commit misses the refresh, the system *shall* let a later commit in the same range heal it. The healer *shall* touch `NEXT_STEPS.md` and name the missed landing by its commit id. A heal predating its landing heals nothing, and the system *shall* warn rather than red once healed, keeping the miss on record. [INV-242]
+
 ## Requirement 258: Every stateful surface is reviewed against a floor of composition axes
 
 **Context:** Some parts of a host project hold state — a screen, a panel, a saved file the user can change and find again later. Each is a stateful surface. Every stateful surface is reviewed against a set of composition axes, each axis one question about the surface's behaviour. A floor of axes holds for every stateful surface whatever its project's kind. The axis a reviewer skips most is the last one, the presence of every other live surface: a caption still naming the previous photo once the closing screen arrives is the classic stranding hole, because the caption's behaviour with the finale in view was never written as a sentence.

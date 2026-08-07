@@ -28,8 +28,19 @@ while the REMOVED line for the same number did not (or there is no removed line 
 born already `landed` counts too). The commit is a "landing" iff at least one row flips this way.
 
 RED CONDITION. A landing commit whose changed-file list (`git show --name-only --format=`) does
-not include NEXT_STEPS.md reds: exit nonzero, one JSON line per offending commit naming its
-short sha, the flipped row number(s), and the fix.
+not include NEXT_STEPS.md is a MISS. An unhealed miss reds: exit nonzero, one JSON line per
+offending commit naming its short sha, the flipped row number(s), and the fix.
+
+HEAL ROAD. A miss found after the fact cannot be fixed by amending history — that would fabricate
+a record where the refresh always shipped with the landing. Instead a LATER commit in the same
+BASE..HEAD range heals it forward, so the miss stays visible on record rather than being erased.
+A commit heals a miss when it (a) touches NEXT_STEPS.md, (b) its message contains the phrase
+`heals landing <shortsha>` where <shortsha> is at least 7 hex characters prefix-matching the missed
+landing commit's full sha, and (c) its committer timestamp is not earlier than the landing commit's
+— a heal that predates its landing heals nothing, since history only runs forward. One heal commit
+may name several landings in one message. A healed miss prints a WARNING (severity "warn", naming
+the landing, its rows, and the healing commit) and does not red; the miss stays on record even
+though it no longer blocks.
 
 This checker rides the suite rather than taking its own push-gate letter, because the push-gate
 letters a–z are exhausted (INV-212's meta-guard requires every letter be classified). Riding the
@@ -196,6 +207,31 @@ def commit_files(sha, cwd):
     return set(line.strip() for line in r.stdout.splitlines() if line.strip())
 
 
+HEAL_RE = re.compile(r"heals landing ([0-9a-f]{7,40})", re.IGNORECASE)
+
+
+def commit_message(sha, cwd):
+    r = _run(["git", "show", "-s", "--format=%B", sha], cwd=cwd)
+    return r.stdout
+
+
+def commit_ts(sha, cwd):
+    """The commit's committer-date unix timestamp — used to order a heal after its landing."""
+    r = _run(["git", "show", "-s", "--format=%ct", sha], cwd=cwd)
+    lines = r.stdout.strip().splitlines()
+    return int(lines[-1]) if lines else 0
+
+
+def heal_targets_for_commit(sha, cwd):
+    """The set of lowercased shortshas this commit's message names via `heals landing <shortsha>`,
+    when the commit also touches NEXT_STEPS.md — a commit that does not touch the resume file heals
+    nothing regardless of what its message says."""
+    if "NEXT_STEPS.md" not in commit_files(sha, cwd):
+        return set()
+    msg = commit_message(sha, cwd)
+    return set(m.group(1).lower() for m in HEAL_RE.finditer(msg))
+
+
 def main():
     r = _run(["git", "rev-parse", "--show-toplevel"])
     cwd = r.stdout.strip() if r.returncode == 0 else os.getcwd()
@@ -225,6 +261,14 @@ def main():
         if flipped and "NEXT_STEPS.md" in commit_files(sha, cwd):
             discharged.update(flipped)
 
+    # Heal candidates: every commit in the range that touches NEXT_STEPS.md and names at least one
+    # missed landing by shortsha, paired with its committer timestamp for the after-its-landing check.
+    heal_commits = []
+    for sha in commits:
+        targets = heal_targets_for_commit(sha, cwd)
+        if targets:
+            heal_commits.append((sha, targets, commit_ts(sha, cwd)))
+
     fail = False
     for sha in commits:
         flipped = [n for n in per_commit[sha] if n not in discharged]
@@ -234,6 +278,27 @@ def main():
             continue
         short = sha[:8]
         nums = ", ".join(str(n) for n in flipped)
+
+        landing_ts = commit_ts(sha, cwd)
+        healer = None
+        for hsha, targets, heal_ts in heal_commits:
+            if heal_ts < landing_ts:
+                continue
+            if any(len(t) >= 7 and sha.lower().startswith(t) for t in targets):
+                healer = hsha
+                break
+
+        if healer:
+            record = {
+                "severity": "warn",
+                "code": "landing-next-steps",
+                "message": ("landing commit %s flips ROADMAP row(s) %s to landed without a same-"
+                            "commit NEXT_STEPS.md refresh, healed by %s (INV-242)"
+                            % (short, nums, healer[:8])),
+            }
+            print(json.dumps(record))
+            continue
+
         record = {
             "severity": "error",
             "code": "landing-next-steps",

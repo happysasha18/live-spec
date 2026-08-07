@@ -4,32 +4,28 @@ A digest with no redundancy (SPEC INV-48) — one live-state block, nothing remo
 information. One status block stands here at a time, and every update replaces it. Dated history
 lives in `JOURNAL.md`.
 
-## LIVE STATE (2026-08-07, 09:22)
+## LIVE STATE (2026-08-07, 09:59)
 
-His 01:06 order is five-sixths done, in eight commits on the tree, unpushed. The plan page
-stands at docs/plans/2026-08-07-night-plan.md; his 01:41 word released it. Landed: the
-edit-safety check now recognizes the session's own commits (row 572); the suite's
-temp-folder leak is closed at its root, three clean full runs (row 574); grounded work is
-written law — Requirement 310, a block and every report line open by naming their root (row
-569); the page "what a feature costs" is finished under his three recorded answers, and his
-read is its one open piece (row 568); the rulebook cut took its first file, the spec
-reviewer's, verified by a fresh reader (row 570). Still open from the order: the shared
-rulebook's rewrite is finishing under a worker now, and after it come the fresh-seat
-adversarial review of the whole night, the journal chapter, one full green suite, and the
-push.
+The night order's build work is done and the morning's two orders are moving. Landed since the
+09:22 block: the rulebook cut's second file, the shared rulebook, verified fresh with one
+weakened sentence repaired (row 570); his 09:11 strike of the README's line-count boasts; the
+invented-numbers first batch — three size caps on spec text removed, two stale test numbers
+now read the live record, the rulings and census pages stand in docs/audits/ (row 576); and
+the landing-refresh law's heal road (row 577), whose landing commit heals the night's three
+missed resume-file refreshes by name. Open: he reads the cost page and the rulings page; the
+fresh-seat adversarial review of the whole stretch, the journal chapter, the prose-level
+record re-measure, one full green suite, and the push.
 
-The morning added two of his orders. At 09:11 he struck the README's line-count boast; the
-heading, the three-hundred-records count, and both floors are edited out, landing when the
-rulebook file settles (rides row 570's landing). At 09:16 he ordered every process-invented
-number found and rooted out — row 576, in work, an enumerator sweeping the tree. Two task
-statements are frozen through the clean-reader check: "what a feature costs" (row 568) and
-"the rulebook cut" (row 570); the seat speaks them letter for letter.
+The plan page stands at docs/plans/2026-08-07-night-plan.md; his 01:41 word released it. Two
+task statements are frozen through the clean-reader check: "what a feature costs" (row 568)
+and "the rulebook cut" (row 570); the seat speaks them letter for letter. The rulebook cut's
+remaining files (the pipeline, the spec writer, the reporting skill and the smaller ones)
+stay on the row with the before-measurements.
 
 ## Forward queue
 
-1. The tail of his 01:06 order: finish the shared rulebook's rewrite, verify it fresh, land
-   it with the README number-claims removal; then the fresh-seat adversarial review, the
-   journal, the full suite, the push.
+1. The tail of his 01:06 order: the fresh-seat adversarial review of the whole stretch, the
+   journal chapter, the prose-level record re-measure, one full green suite, the push.
 2. Row 576: the invented-numbers table — the seat rules on each enumerated number, removals
    land in named batches, the table goes to him.
 3. Row 166 resumes: the fresh adversarial review of the board's specification, the
