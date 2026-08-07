@@ -88,6 +88,19 @@ Nine findings of my own follow. Three block.
 
 9. Struck-cap wording survives in two more live places, the same class as finding 2. PRODUCT_SPEC.md:2858 still asks for the resume file `capped` and `a short, capped current picture`. Its Context paragraph directly above was rewritten to the qualitative law. ROADMAP.md:200, row 524, still states the resume file carries a hard cap of 100 lines as present fact. Neither blocks alone. Both belong to row 576's unfinished sweep.
 
+Range note five: the base moved to 8960289, the remote tip this record's own commit pushed.
+Two commits ride above it. 7a178f4 is the morning inbox sweep — three tlvphotos deposits read,
+judged at the door, given queue rows 581 to 585, recorded in FEEDBACK.md and archived under
+docs/queue-archive/, with the census re-measured and the progress page rebuilt off it. 0a20cd2
+carries the resume file's new live-state block and the journal chapter for that sweep. The seat
+read both deltas against the sweep's own brief: no spec, architecture or matrix file is touched,
+the full suite ran green at 2,502 tests before the first commit, and the short-form push-gate
+re-check is filed at docs/prover/2026-08-07-pushgate-intake-sweep.md. The sweep's own finding —
+the earned-message gate reporting all three deposits unearned, one of them written to the exact
+template `inbox/README.md` prints — is not closed here; it stands as queue row 585, since the
+gate's red is cleared by the sweep the design intends and no push is blocked by it. This note
+rides a record-only commit.
+
 Range note four: commit 515cbeb refreshes the generated line-count block after the 11:19
 sentence grew the rulebook by two lines; a one-line generated-figure delta. This note rides
 a record-only commit.
