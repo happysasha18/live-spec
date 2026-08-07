@@ -50,6 +50,13 @@ the one slot nothing questions. That is the defect this surface exists to catch.
 
 ## On record
 <!-- record:on -->
+- 2026-08-07 09:11 — the README's published line-count boast is struck (the rulebook cut, row
+  570). Your words in chat, on the six-thousand-line heading and the floor test holding it: I
+  never asked for a number, again; you made it up. The heading and its floor go. The same-class
+  three-hundred-records sentence goes with them, on your recorded class rule; strike this line
+  if you want that sentence back. The measured-count block with its verification commands
+  stays, since it states facts with their sources. The class, restated: a published measurement
+  may state a fact, and no measurement becomes a standard or a selling claim without your word.
 - 2026-08-07 ~01:10 — no numeric size caps on specifications; the standard is no redundancy (the
   cost audit, row 568). Your words in chat: the number is unjustified; a text should just have no
   redundancies — when you look at it, there should be nothing you can remove without losing the

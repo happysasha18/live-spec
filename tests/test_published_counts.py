@@ -9,8 +9,7 @@ It measures the tree itself, with its own reader and its own table of cardinals,
 gate's renderer cannot hide a defect on the page. A sentence carrying a word is checked against the
 word this file spells; a sentence carrying a floor is checked against the floor it publishes.
 
-Red-first: each case was written and run against the pages before the registry existed, and the two
-skill-line cases failed on the numbers `README.md` carried that morning.
+Red-first: each case was written and run against the pages before the registry existed.
 """
 import glob
 import os
@@ -42,19 +41,6 @@ def count_files(pattern):
     return len(hits)
 
 
-def count_lines(*patterns):
-    """The lines every file under these patterns holds together — the line count `wc -l` returns."""
-    total = 0
-    seen = 0
-    for pattern in patterns:
-        for path in sorted(glob.glob(os.path.join(ROOT, pattern))):
-            seen += 1
-            with open(path, encoding="utf-8") as f:
-                total += f.read().count("\n")
-    assert seen, "the patterns %s match no file" % (patterns,)
-    return total
-
-
 def test_the_scaffold_check_count_is_stated_as_the_tree_holds_it():
     """`scaffold/guardrails/check_*.py` is the whole set a host installs, and three sentences on two
     pages state its size in words."""
@@ -72,28 +58,6 @@ def test_the_scaffold_check_count_is_stated_as_the_tree_holds_it():
     assert "The %s scaffold checks" % spelled in guardrails_readme, (
         "guardrails/README.md states a scaffold-check count the tree does not carry (%d checks)"
         % measured)
-
-
-def test_the_prover_record_floor_holds():
-    """`README.md` publishes a floor, so the tree is held at or above it."""
-    floor = 300
-    measured = count_files("docs/prover/*.md")
-    assert measured >= floor, (
-        "README.md says more than three hundred prover records and docs/prover/ holds %d markdown "
-        "records" % measured)
-    assert "There are more than three hundred such records in [`docs/prover/`](docs/prover/)" \
-        in flat(read("README.md")), "README.md no longer carries the prover-record sentence"
-
-
-def test_the_skill_line_floor_holds():
-    """The heading above the rules paragraph publishes a floor of six thousand lines."""
-    floor = 6000
-    measured = count_lines("skills/*/SKILL.md", "skills/*/references/*.md")
-    assert measured >= floor, (
-        "README.md's heading says over six thousand lines under skills/ and the tree holds %d lines"
-        % measured)
-    assert "## Over six thousand lines of rules, and that is the point" in read("README.md"), (
-        "README.md no longer carries the heading that publishes the six-thousand-line floor")
 
 
 def test_the_gate_roster_count_agrees_with_the_push_hook():

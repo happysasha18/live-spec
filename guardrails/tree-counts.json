@@ -24,14 +24,6 @@
           "page": "README.md",
           "marker": "skills-lines",
           "text": "Written out, they and the skills carrying them run to {skills_and_references} lines under `skills/`. Of those, {skill_bodies} lines are the skill bodies, and the rest are the reference pages a body loads on demand. Count them yourself with `{command:skills_and_references}` and `{command:skill_bodies}`. A push of this repository is refused where either command disagrees with the number printed here. The body figure is what a session pays before it starts work, so it is the figure to hold down. It is held under the figure that includes the references. When it rises, every session that loads a skill pays more to begin."
-        },
-        {
-          "kind": "sentence",
-          "page": "README.md",
-          "template": "## Over six thousand lines of rules, and that is the point",
-          "measurement": "skills_and_references",
-          "claim": "at_least",
-          "floor": 6000
         }
       ],
       "ground": {
@@ -129,34 +121,6 @@
           "value": "",
           "reason": "the scaffold holds to no number of checks; it holds to one check per law a host project owes, and publishing a target number here would be the second typed count this entry exists to end"
         }
-      }
-    },
-    "prover-records": {
-      "measurements": [
-        {
-          "name": "prover_records",
-          "argv": [["ls", "docs/prover/*.md"], ["wc", "-l"]],
-          "claim": "at_least",
-          "floor": 300,
-          "render": "digits"
-        }
-      ],
-      "homes": [
-        {
-          "kind": "sentence",
-          "page": "README.md",
-          "template": "There are more than three hundred such records in [`docs/prover/`](docs/prover/), including the ones where the reviewer missed something and said so.",
-          "measurement": "prover_records"
-        }
-      ],
-      "ground": {
-        "counts": "prover record files under `docs/prover/`, counted as the markdown records the glob names",
-        "unit": "record files",
-        "decision": "whether a reader can trust that a review really runs before a push",
-        "on_move": "one more push carried its review, or a push landed without one",
-        "compared_to": "the floor of 300 records the sentence on `README.md` publishes",
-        "better": "up",
-        "target": "at or above 300 records, the floor that sentence publishes"
       }
     }
   }
