@@ -95,9 +95,8 @@ repairs this review named, each judged above; this note rides a record-only comm
 Blocking: three, each closed by the seat in the closing commit that ships this record.
 - Finding 1, the tip commit reds the prover-record gate and the suite. closed: the review
   record's freshness addendum lands in the closing commit, on top of every spec change.
-- Finding 2, ARCHITECTURE.md:882 asserts the struck 100-line cap and names a deleted test.
-  closed: the row now states the digest law with its living watchers, and the two same-class
-  sites the review named beside it (the spec's user story, queue row 524) are swept in the
-  same commit.
-- Finding 3, the regeneration of docs/PROGRESS.md is uncommitted and its published byte count
-  is wrong. closed: the regeneration lands in the closing commit off the settled tree.
+- Finding 2, the architecture's stale cap row. closed: ARCHITECTURE.md:882 now states the
+  digest law with its living watchers, and the two same-class sites the review named beside
+  it (the spec's user story, queue row 524) are swept in the same commit.
+- Finding 3, the uncommitted progress page. closed: the regeneration lands in the closing
+  commit off the settled tree, and its published byte count reads true.
