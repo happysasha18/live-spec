@@ -2342,3 +2342,49 @@ unswept rendered copy, a drifted installed hook, a missing archive manifest line
 repaired the same session. His 01:06 order stands at the top of the resume file: next session
 presents one plan over all four complaints, executes without deviation, and the result must
 survive an adversarial review.
+
+## 2026-08-07, 01:41–10:27 — his order executed: five landings, two morning orders, the review survived after repairs
+
+His 01:41 word released the night plan (docs/plans/2026-08-07-night-plan.md); the order of
+01:06 stood behind it. The blocks landed as commits: the plan and queue at 01:48 (537c6ae),
+the commit fence's self re-arm at 01:59 with the second commit as its own proof (b74444b),
+the grounding law as Requirement 310 with its test at 02:04 (d245b7b), the finished cost page
+under his three recorded answers at 02:05 (02f97ac), the suite's temp-folder leak closed at
+its root at 03:00 after a two-cause hunt — a timed kill orphaning another test's folder and a
+nested full run escaping the kill (4dafeb8). The rulebook cut took the spec reviewer's file
+(f7d4548, 69,297 to 66,675 bytes) after a fresh verifier failed the first attempt on ten
+over-cap sentences and one dropped example; the repairs landed and re-verified. The session
+limit killed the shared rulebook's rewriter at 03:09 mid-flight; the morning finisher closed
+its census to 74 against the 92 allowed, repointed 21 architecture pins, restored 18 lost
+pieces, and a second fresh verifier found one weakened sentence, repaired at the seat
+(b1560a4, 67,781 to 66,472 bytes). Installed skill copies re-synced twice, versions unchanged
+at 4.3.0, content updated (A-7).
+
+The morning brought two of his orders. At 09:11 he struck the README's line-count boast — "I
+never asked for a number, again" — recorded in DECISIONS.md; the six-thousand-line heading,
+the three-hundred-records count and both floors left the tree (efc7d74). At 09:16 he widened
+it: find ALL the invented numbers and root them out. Row 576 opened; a sweep found 144
+numeric standards; the seat ruled them into eight groups on his ~01:10 class rule; the first
+removal batch landed (2d34616): the 500-byte criterion cap, the 250-line part target and the
+resume digest's 100-line cap replaced by their qualitative laws, two stale test numbers now
+reading the live record, derivation citations written beside the sentence caps, the
+accessibility floors and the skill-size ideal. His 09:07 complaint that the work's thread was
+illegible was answered by reconciling the night against the forward queue and replacing the
+stale live-state block; the standing cure stays the work board (row 166). Two frozen task
+statements passed the clean reader after one failed round: "what a feature costs" and "the
+rulebook cut". At 09:47 the seat's own acceptance run found the landing-refresh law had no
+remedy road for a miss found after its commit; row 577 landed the heal road — a later
+in-range commit naming the missed landing heals it visibly — and its landing healed the
+night's three misses by name (5da174d).
+
+The fresh-seat adversarial review (strongest tier, clean context) returned six defects and
+eight recommendations; all six fixed the same morning: the fence re-arm now requires its own
+parent to be the recorded tip, closing a bypassed-check absorption the reviewer reproduced
+(e8921e8); the matrix row and the spec's embedded table re-pointed (f6048da); the leftover
+pre-fix leaked folder /tmp/livespec-test-agent-inbox-g60jly0r removed at 10:27 — the journal
+line row 574's claim owed; the rulings page's overstatement corrected and the derived-group
+tension named for his eye; the rulebook row's hidden progress written out with its numbers
+(40c3c95). Recommendations that earn work stand as rows 578 and 579. The review record is
+filed at docs/prover/2026-08-07-night-order-adversarial.md (d62ef94). WHY the night went this
+way: his four complaints were each a class, and every repair swept its class — the fence, the
+leak, the grounding, the numbers — rather than the instance that surfaced it.

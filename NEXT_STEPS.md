@@ -4,7 +4,7 @@ A digest with no redundancy (SPEC INV-48) — one live-state block, nothing remo
 information. One status block stands here at a time, and every update replaces it. Dated history
 lives in `JOURNAL.md`.
 
-## LIVE STATE (2026-08-07, 09:59)
+## LIVE STATE (2026-08-07, 10:27)
 
 The night order's build work is done and the morning's two orders are moving. Landed since
 the 09:22 block, four movements. The rulebook cut's second file, the shared rulebook,
@@ -12,10 +12,11 @@ verified fresh with one weakened sentence repaired (row 570). His 09:11 strike o
 README's line-count boasts. The invented-numbers first batch: three size caps on spec text
 removed, two stale test numbers now reading the live record (row 576). Its rulings and
 census pages stand in docs/audits/. The landing-refresh law's heal road, whose landing
-commit heals the night's three missed resume-file refreshes by name (row 577). Open: he
-reads the cost page and the rulings page. The rest of the tail is the fresh-seat adversarial
-review, the journal chapter, the prose-level record re-measure, a full green suite, the
-push.
+commit heals the night's three missed resume-file refreshes by name (row 577). The fresh-seat adversarial review returned six defects; all six are fixed and
+landed, its record filed under docs/prover/, and rows 578 and 579 hold its two working
+recommendations. The journal carries the night's chapter. Open: he reads the cost page and
+the rulings page ("what a feature costs", the number rulings); the final full suite and the
+push close the order.
 
 The plan page stands at docs/plans/2026-08-07-night-plan.md; his 01:41 word released it. Two
 task statements are frozen through the clean-reader check, spoken letter for letter: "what a
@@ -25,8 +26,7 @@ stay on the row with the before-measurements.
 
 ## Forward queue
 
-1. The tail of his 01:06 order: the fresh-seat adversarial review, the journal chapter, the
-   prose-level record re-measure, a full green suite, the push.
+1. The tail of his 01:06 order: the final full suite and the push.
 2. Row 576: the invented-numbers table — the seat rules on each enumerated number, removals
    land in named batches, the table goes to him.
 3. Row 166 resumes: the fresh adversarial review of the board's specification, the
