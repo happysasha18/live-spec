@@ -77,8 +77,11 @@ jobs:
           done
       - name: gate n — the earned message (an agent's inbox deposit names its birth, SPEC INV-189)
         run: |
+          # Report-only (the owner's word, 2026-08-07 11:19): a deposit never blocks a push;
+          # the intake sweep is the judging moment.
           if [ -d inbox ]; then
-            python3 guardrails/check-earned-message.py inbox
+            python3 guardrails/check-earned-message.py inbox || \
+              echo "deposits above await the intake sweep; a deposit never blocks a push"
           else
             echo "no inbox in this checkout — the gate stands down by name"
           fi

@@ -168,10 +168,12 @@ fi
 
 echo ""
 echo "-- gate n: the earned message (an agent's inbox deposit names its birth, SPEC INV-189) --"
+# Report-only at push (the owner's word, 2026-08-07 11:19): a deposit is recorded on arrival and
+# never blocks a push. The check's judging moment is the intake sweep, which declines an unearned
+# deposit at the door. Here it prints what the sweep will meet and the push proceeds either way.
 if [ -f "$GUARDRAILS/check-earned-message.py" ] && [ -d "$REPO_ROOT/inbox" ]; then
-  if ! python3 "$GUARDRAILS/check-earned-message.py" "$REPO_ROOT/inbox"; then
-    fail=1
-  fi
+  python3 "$GUARDRAILS/check-earned-message.py" "$REPO_ROOT/inbox" || \
+    echo "   (deposits above await the intake sweep; a deposit never blocks a push)"
 else
   echo "   (no inbox in this tree — the gate stands down by name)"
 fi

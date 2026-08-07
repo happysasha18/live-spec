@@ -50,6 +50,12 @@ the one slot nothing questions. That is the defect this surface exists to catch.
 
 ## On record
 <!-- record:on -->
+- 2026-08-07 11:19 — an inbox request is written down, and nothing stands in the way; a deposit
+  never blocks a push. Your words in chat: это просто заявки; их надо записать и чтобы ничего
+  не мешало; это баг; записать точно надо, а пуш тут при чем. The message check moves to the
+  intake sweep as its one judging moment; the push chain reports what the sweep will meet and
+  proceeds. You also released the push with the two deposits still in the inbox, and named the
+  gate's old wiring a bug.
 - 2026-08-07 09:16 — every number the process invented is found and rooted out (row 576). Your
   words in chat: вообще надо найти ВСЕ эти дебильные числа которые ты придумал и выкорчевать.
   The sweep, the eight-group ruling, and the first removal batch run under this word; the

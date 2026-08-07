@@ -522,8 +522,10 @@ meaning. If the answer to a class is a list, the design is wrong.
      or the sender has hit a fault
      in that zone and carries the evidence. The zone's owner is presumed competent and informed, so nothing
      that owner's own instruments already see earns a file [INV-189]. The mechanical check is
-     `guardrails/check-earned-message.py`. It reds while an unearned file sits in an inbox, and the sweep
-     clears the red by declining at the door, so no human reads it.
+     `guardrails/check-earned-message.py`. It runs at the intake sweep and judges each deposit there;
+     the sweep declines an unearned one at the door, so no human reads it. A deposit is recorded on
+     arrival and never blocks a push (the owner's word, 2026-08-07 11:19: a request is written down,
+     and nothing stands in the way).
    - **A referral travels back to whoever asked.** A question from another agent's zone is answered by
      naming that zone, and the zone's owner receives nothing from a referral. A human asker is answered
      in chat and costs one sentence. An agent asker is answered along the reply road as its message's
