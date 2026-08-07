@@ -2855,7 +2855,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Context:** The resume file is read in one minute at a cold start, so growth is a design failure. The file's law is qualitative: it carries one live-state block, holding nothing a reader could lose without losing information. A suite check watches for drift, catching a bloated file with a synthetic fixture. An open leg is restated as one terse line, and its detail flows to its home.
 
-**User Story:** As a returning session, I want the resume file capped and each open leg stated in one terse line, so that a cold start reads a short, capped current picture.
+**User Story:** As a returning session, I want the resume file held to its digest law and each open leg stated in one terse line, so that a cold start reads a short current picture.
 
 ### Acceptance Criteria
 

@@ -50,7 +50,8 @@ the push, or find out why it did not run, before doing anything else.
 - **His two reads.** He has not yet read `docs/audits/2026-08-07-cost-map.md` ("what a
   feature costs") or `docs/audits/2026-08-07-number-rulings.md` (the number rulings). Both
   are written and pass their own register checks.
-- **The rulebook cut's remaining files.** Two of ten are done. Still queued, in measured
+- **The rulebook cut's remaining files.** Two of eleven are done (the count corrected at the
+  seat against the row; the tree holds eleven rulebook files). Still queued, in measured
   order: the pipeline skill, the spec-author skill, the reporting skill, text-audit,
   design-reviewer, test-author, publish, and the two feedback skills.
 - **The invented-numbers mapping table.** `docs/audits/2026-08-07-number-census.md` lists 144

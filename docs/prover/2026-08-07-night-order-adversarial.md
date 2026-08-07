@@ -3,6 +3,9 @@ Record filed by the orchestrator seat at 10:25 from the fresh reviewer's report,
 (The filing first carried an invented 10:37 stamp; corrected against the filing commit's own clock.)
 Addendum, 10:48: the push gate re-measured the full suite at 473 s over 2,502 tests; the
 architecture's wall-time row re-set to the fresh figure per its own law, in this record's commit.
+Addendum at the closing commit: the push review's three blocking findings closed here — the
+glossary and stale-cap sweeps, the architecture's resume-file row, and the progress page's
+regeneration all land with this freshness line, and nothing lands after it before the push.
 Reviewer: a clean-context seat on the strongest tier, distinct from the authoring seat (base rule 33).
 Range: 7c3858a..HEAD. Verdict as returned: 6 defects, 8 recommendations. Disposition at filing:
 all six defects fixed and landed (D1 e8921e8, D2 f6048da, D3 f6048da, D4 removed with its journal
