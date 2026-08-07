@@ -3341,6 +3341,8 @@ class TestGroundingLaw(unittest.TestCase):
             "theirs, or a reason stated plainly enough for the person to judge",
             "The system *shall* start no work block whose root it cannot name.",
             "shall* name no machinery — an alarm, a gate, a scheduled reminder — as a root",
+            "*when* a running block is about to step outside its announced plan, the system *shall* stop.",
+            "The system *shall* account each block against its plan line in the delivery report.",
             "[INV-314]",
         ):
             self.assertIn(needle, spec, "SPEC missing the grounding law: %s" % needle)

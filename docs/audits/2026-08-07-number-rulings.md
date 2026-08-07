@@ -3,7 +3,8 @@
 On 2026-08-07 at 09:16 you asked to find the numbers the process invented and root them out (row 576).
 A read-only sweep of the tree found 144 numeric standards. Your answer at about 01:10 set the rule for
 the whole class. A standard is yours, or it is derived and justified, or it is absent. Each of the 144
-was judged against that rule, and the eight groups below hold the result.
+was placed in one of the eight groups below. The per-number mapping table is the task's next
+artifact; the census page holds every number's home meanwhile.
 
 Strike anything here that does not match what you said.
 
@@ -34,6 +35,13 @@ Each of these is a measurement. The derivation is written where the number lives
 
 These embody the same logic as your no-redundancy standard. The number is measured, and the only
 allowed motion is improvement.
+
+One tension in this group is yours to judge. The census's own closing calls the four byte
+ceilings and the bytes-per-criterion bound kin of the size-cap class you struck. The ruling
+keeps them because each is seeded from measurement, moves only by rotation or downward, and
+writes its reason in its file. The headroom convention inside the ceilings (roughly a hundred
+kilobytes) has no stated ground of its own. Strike the ruling if the distinction does not
+convince you.
 
 ## 3. Machinery tuning, kept and marked
 
@@ -82,8 +90,9 @@ sentence-count caps for report sections, and the question-count checklists. Home
 `skills/product-prover/SKILL.md`, `skills/build-pipeline/SKILL.md`, `skills/spec-author/SKILL.md`,
 `skills/communicator/SKILL.md`, `skills/test-author/SKILL.md`, `skills/text-audit/SKILL.md`.
 
-Each rewrite under the rulebook cut replaces them with the qualitative form. The ones already
-rewritten tonight kept only what a suite test pins.
+Each rewrite under the rulebook cut replaces them with the qualitative form. The two files
+already rewritten tonight still carry some of these numbers — the reviewer's scan-time targets
+among them, none pinned by a test. They go in the same task's next pass.
 
 ## 7. External derivations, citation written in
 
