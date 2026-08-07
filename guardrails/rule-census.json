@@ -3,7 +3,7 @@
   "cap_rule": "r08",
   "files": {
     "ARCHITECTURE.md": {
-      "bytes": 105238,
+      "bytes": 105461,
       "file": "ARCHITECTURE.md",
       "long": 0,
       "longest": 25,
@@ -39,14 +39,14 @@
       "total": 0
     },
     "PRODUCT_SPEC.md": {
-      "bytes": 704495,
+      "bytes": 704463,
       "file": "PRODUCT_SPEC.md",
-      "long": 1866,
+      "long": 1865,
       "longest": 80,
       "reason": "2026-08-06: the work-board requirement (row 166, Requirement 309) took a third widening pass to 99 criteria; the added criteria are single-sentence rules past the 25-word cap, and style and register stand at zero.",
       "register": 0,
       "style": 0,
-      "total": 1866
+      "total": 1865
     },
     "README.md": {
       "bytes": 13342,
@@ -58,7 +58,7 @@
       "total": 13
     },
     "ROADMAP.md": {
-      "bytes": 244103,
+      "bytes": 250900,
       "file": "ROADMAP.md",
       "long": 8,
       "longest": 242,
@@ -588,24 +588,6 @@
       "style": 27,
       "total": 38
     },
-    "inbox/2026-08-07-from-tlvphotos-focus-and-draft-cost.md": {
-      "bytes": 3301,
-      "file": "inbox/2026-08-07-from-tlvphotos-focus-and-draft-cost.md",
-      "long": 5,
-      "longest": 50,
-      "register": 0,
-      "style": 1,
-      "total": 6
-    },
-    "inbox/2026-08-07-from-tlvphotos-system-dialogs-need-announcing.md": {
-      "bytes": 3949,
-      "file": "inbox/2026-08-07-from-tlvphotos-system-dialogs-need-announcing.md",
-      "long": 6,
-      "longest": 43,
-      "register": 0,
-      "style": 0,
-      "total": 6
-    },
     "inbox/README.md": {
       "bytes": 9996,
       "file": "inbox/README.md",
@@ -661,7 +643,7 @@
       "total": 256
     },
     "skills/build-pipeline/references/delegation-protocol.md": {
-      "bytes": 8388,
+      "bytes": 8526,
       "file": "skills/build-pipeline/references/delegation-protocol.md",
       "long": 28,
       "longest": 71,
@@ -850,7 +832,7 @@
       "total": 1
     },
     "skills/live-spec-base/SKILL.md": {
-      "bytes": 66411,
+      "bytes": 66577,
       "file": "skills/live-spec-base/SKILL.md",
       "long": 60,
       "longest": 48,
