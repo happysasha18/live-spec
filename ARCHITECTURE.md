@@ -69,24 +69,24 @@ named here and in the matrix.
 - INV-302 (the two session steps sit in rule 35 beside the checkpoint and resume rules. The closing step's mechanical arm, `guardrails/check-handover-provenance.py`, is the guardrails node's.)
 
 **pins** —
-- `skills/live-spec-base/SKILL.md:117` (rules)
-- `skills/live-spec-base/SKILL.md:160` (rule 6 checkpoint incl. INV-107 closing half)
-- `skills/live-spec-base/SKILL.md:182` (rule 7 fence, INV-10/INV-11)
-- `skills/live-spec-base/SKILL.md:297` (rules 15-16, door + work-kind + prototype)
-- `skills/live-spec-base/SKILL.md:339` (rule 19, INV-23 — the workshop-noise law)
-- `skills/live-spec-base/SKILL.md:358` (rule 20, INV-65 — skill search at setup and struggle)
-- `skills/live-spec-base/SKILL.md:368` (rule 21, INV-84 — the clean-writer road)
-- `skills/live-spec-base/SKILL.md:378` (rule 22, INV-98 — the convergence principle)
-- `skills/live-spec-base/SKILL.md:392` (rule 23, INV-108 — the live-channel law)
-- `skills/live-spec-base/SKILL.md:661` (ladder)
-- `skills/live-spec-base/SKILL.md:719` (defaults incl. `budget.pressure` — the economy ladder's setting; the rungs' one home is the SPEC's economy-ladder section)
-- `skills/live-spec-base/SKILL.md:447` (rule 26, INV-136/INV-139 — a project kind declares design principles the verify pass runs; the per-kind table lives in this doc)
-- `skills/live-spec-base/SKILL.md:455` (rule 27, INV-143 — the seat decides what it can decide, surfaces only what it cannot)
-- `skills/live-spec-base/SKILL.md:465` (rule 28, INV-145 — the periodic full audit)
-- `skills/live-spec-base/SKILL.md:578` (rule 32, INV-217 — the release-tier rule, minor/major/patch by the host cost)
-- `skills/live-spec-base/SKILL.md:514` (rule 31, the earned-message law INV-183/INV-189 the named-reference machinery joins. The pair-travels register [E-35], the living-description heal [INV-240], and the earned auto-deposit [T-24] ride this rule's build, ROADMAP 424 [target]. The prover's station stands as their net until they ship, per [INV-150].)
-- `skills/live-spec-base/SKILL.md:209` (rule 7's worker-restore sub-rule, INV-298 — the worker holds its own bytes, halts when it holds none, and the orchestrator owns recovery)
-- `skills/live-spec-base/SKILL.md:632` (rule 35, INV-302 — the session extract, the closing step written by a fresh agent, and the opening decision sweep)
+- `skills/live-spec-base/SKILL.md:108` (rules)
+- `skills/live-spec-base/SKILL.md:150` (rule 6 checkpoint incl. INV-107 closing half)
+- `skills/live-spec-base/SKILL.md:170` (rule 7 fence, INV-10/INV-11)
+- `skills/live-spec-base/SKILL.md:282` (rules 15-16, door + work-kind + prototype)
+- `skills/live-spec-base/SKILL.md:324` (rule 19, INV-23 — the workshop-noise law)
+- `skills/live-spec-base/SKILL.md:345` (rule 20, INV-65 — skill search at setup and struggle)
+- `skills/live-spec-base/SKILL.md:356` (rule 21, INV-84 — the clean-writer road)
+- `skills/live-spec-base/SKILL.md:366` (rule 22, INV-98 — the convergence principle)
+- `skills/live-spec-base/SKILL.md:380` (rule 23, INV-108 — the live-channel law)
+- `skills/live-spec-base/SKILL.md:651` (ladder)
+- `skills/live-spec-base/SKILL.md:708` (defaults incl. `budget.pressure` — the economy ladder's setting; the rungs' one home is the SPEC's economy-ladder section)
+- `skills/live-spec-base/SKILL.md:438` (rule 26, INV-136/INV-139 — a project kind declares design principles the verify pass runs; the per-kind table lives in this doc)
+- `skills/live-spec-base/SKILL.md:446` (rule 27, INV-143 — the seat decides what it can decide, surfaces only what it cannot)
+- `skills/live-spec-base/SKILL.md:455` (rule 28, INV-145 — the periodic full audit)
+- `skills/live-spec-base/SKILL.md:567` (rule 32, INV-217 — the release-tier rule, minor/major/patch by the host cost)
+- `skills/live-spec-base/SKILL.md:503` (rule 31, the earned-message law INV-183/INV-189 the named-reference machinery joins. The pair-travels register [E-35], the living-description heal [INV-240], and the earned auto-deposit [T-24] ride this rule's build, ROADMAP 424 [target]. The prover's station stands as their net until they ship, per [INV-150].)
+- `skills/live-spec-base/SKILL.md:197` (rule 7's worker-restore sub-rule, INV-298 — the worker holds its own bytes, halts when it holds none, and the orchestrator owns recovery)
+- `skills/live-spec-base/SKILL.md:621` (rule 35, INV-302 — the session extract, the closing step written by a fresh agent, and the opening decision sweep)
 
 **notes** — INV-11, INV-117, E-31: three of these are read by the parallel-lanes node and stay here, each for a stated reason; INV-225: ROADMAP 388
 
@@ -191,8 +191,8 @@ named here and in the matrix.
 - `skills/build-pipeline/SKILL.md:554` (trains, one pen — the cap, the penless overlap set, the pen-stages, the re-fence after a landing)
 - `skills/build-pipeline/SKILL.md:571` (the graph picks the lane set at queue-take)
 - `skills/build-pipeline/SKILL.md:152` (a mid-work re-door re-runs the independence edges against every rolling lane)
-- `skills/live-spec-base/SKILL.md:186` (rule 7's lanes sub-rules — three lanes under one pen)
-- `skills/live-spec-base/SKILL.md:210` (one row per landing commit)
+- `skills/live-spec-base/SKILL.md:174` (rule 7's lanes sub-rules — three lanes under one pen)
+- `skills/live-spec-base/SKILL.md:198` (one row per landing commit)
 - `scripts/open-lane.sh:1` (the lane-open act's performable form. It carries the row→in-work claim commit on main, the cap refusal, and the lane branch cut into its own worktree, INV-214.)
 - the lane-opening script is the first file this node owns of its own. Its law otherwise lives inside the two skills that perform it and its cited pins there. The branch road's carriers land with ROADMAP row 386 [target].
 
@@ -513,7 +513,7 @@ named here and in the matrix.
 **owns** — E-18
 
 **pins** —
-- wiring: `skills/live-spec-base/SKILL.md:716` (defaults table, `design-sync` row)
+- wiring: `skills/live-spec-base/SKILL.md:705` (defaults table, `design-sync` row)
 - wiring: `skills/communicator/SKILL.md:181` (rule 5 channel line)
 - wiring: `skills/build-pipeline/SKILL.md:489` (step 9 sync line)
 - machine: —

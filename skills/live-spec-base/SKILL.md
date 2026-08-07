@@ -7,20 +7,19 @@ metadata:
 
 # live-spec-base — one rulebook, ten working skills
 
-The pack's shared working rules live here, once. A working skill (spec-author, product-prover,
-design-reviewer, build-pipeline, test-author, communicator, feedback-intake, feedback-collector,
-text-audit, publish) opens by naming this base and the version it was written against. It references
-these rules and elaborates only its own domain. Communicator teaches how to speak plainly; that we speak
-plainly is this file's sentence. A second full statement of a shared rule inside a working skill is drift,
-a defect to fold at the next milestone (SPEC INV-13). The pack does not keep such a duplicate for convenience.
-One rule is carried whole by every skill that briefs a worker. The worker-restore sub-rule under rule 7 rides each
-brief in one wording, and `tests/test_worker_restore.py` reds a home that states it in words of its own (SPEC
-INV-299). Used standalone, outside the pack,
-a working skill still stands: its pointer here reads as plain advice.
+The pack's shared working rules live here, once. A working skill opens by naming this base and the
+version it was written against. It then references these rules and elaborates only its own domain.
+The ten working skills are named in the closing roster below. A second full statement of a shared
+rule inside a working skill is drift (SPEC INV-13). It is a defect to fold at the next milestone,
+never kept for convenience. One rule is carried whole instead by every skill that briefs a worker.
+The worker-restore sub-rule under rule 7 rides each brief in one wording. `tests/test_worker_restore.py`
+reds a home that states it in words of its own (SPEC INV-299). Communicator teaches how to speak
+plainly; that we speak plainly is this file's sentence. Used standalone, outside the pack, a
+working skill still stands: its pointer here reads as plain advice.
 
 ## Where the paths and the codes in this file point
 
-This file names paths of two kinds, and they resolve in two different trees.
+This file names paths of two kinds, resolving in two different trees.
 
 **The pack's own machinery** sits in the live-spec repository, whose public home is
 `github.com/happysasha18/live-spec`. Its directories are `guardrails/`, `scripts/`, `tests/`,
@@ -28,28 +27,22 @@ This file names paths of two kinds, and they resolve in two different trees.
 at `skills/<name>/SKILL.md`, beside this one.
 
 **A host's own documents and workspace** sit at the root of whatever project the pack is attached to.
-`PRODUCT_SPEC.md`, `ARCHITECTURE.md`, `ROADMAP.md`, `JOURNAL.md`, `NEXT_STEPS.md`, `DECISIONS.md`,
-`attic/`, `prototype/`, `inbox/`, `outbox/`, `docs/`, and `.live-spec/` are the host's. The live-spec
+Those are `PRODUCT_SPEC.md`, `ARCHITECTURE.md`, `ROADMAP.md`, `JOURNAL.md`, `NEXT_STEPS.md`,
+`DECISIONS.md`, `attic/`, `prototype/`, `inbox/`, `outbox/`, `docs/`, and `.live-spec/`. The live-spec
 repository is a host of its own, so on that one machine the two trees are the same directory.
 
 A bracket code such as `INV-4` is a short handle for one rule of the product spec. Its home is
 `PRODUCT_SPEC.md`, where the code trails the line it names. That file's preamble names every letter a
-code can carry and what each one stands for, so a reader meeting a code this page never uses can
-decode it there.
-
-A roadmap row number, such as row 416, names a line of `ROADMAP.md`. A row that has closed rotates to
-a dated file under `docs/queue-archive/`, so a row cited here may sit there rather than in
-`ROADMAP.md`.
-
-Two other bracket marks read as part of the sentence they sit in, and `PRODUCT_SPEC.md` states both.
+code can carry and what each stands for, so a code this page never uses decodes there. A roadmap row number, such as row 416, names a line of `ROADMAP.md`. A row that has closed
+rotates to a dated file under `docs/queue-archive/`. So a row cited here may sit there instead. Two
+other bracket marks read as part of the sentence they sit in, and `PRODUCT_SPEC.md` states both.
 `[target]` marks a feature or leg that is promised and not yet built. `[default]` names a value the
 agent set that the person may retune.
 
 ## The words this file uses
 
-Each term below is defined once and its one home is named. Most sit in the glossary of
-`PRODUCT_SPEC.md`. Each line here gives a short read of that entry, and the entry itself is the
-authority.
+Each term is defined once. Most sit in the glossary of `PRODUCT_SPEC.md`, whose entry is the authority
+behind the short read given here.
 
 - **the pack** — the shipped live-spec method: its skills, its document and suite templates, and its
   guardrail scripts. It carries a version.
@@ -57,8 +50,8 @@ authority.
   `.live-spec/` folder.
 - **the seat** — the one acting orchestrator session that owns judgment, orchestrates the pipeline,
   briefs workers, judges lane independence, and reports to the person. The glossary keeps the one name
-  seat throughout, and records the senior and the orchestrator as the source's other names for it.
-  This file adds a fourth, the lead. The four names mean the one session.
+  seat throughout. It records the senior and the orchestrator as the source's other names for it, and
+  this file adds a fourth, the lead. The four names mean the one session.
 - **a worker** — a delegated agent session the seat briefs for a bounded piece of mechanical work,
   narrowed to the files its brief names.
 - **a tier** — the model level a unit of work runs at: a no-decision one-shot worker, a multi-step
@@ -96,23 +89,21 @@ authority.
 file, one number, one incident — whatever arrives, it arrived as an instance of something. Name the
 class, state the rule for it, find the other live instances, and the instance that was pointed at is
 repaired as a free consequence. A change that repairs only the instance has answered nothing, because
-the next instance is already on its way.
+the next instance is already on its way. The rule holds at every channel an item arrives through, and
+there are three: a person's feedback, a finding the agent makes itself, and a message from another
+agent. The three are one filter.
 
-The rule holds at every channel an item arrives through, and there are three: a person's
-feedback, a finding the agent makes itself, and a message from another agent. The three are one filter.
-
-This is a rule of thinking, and it governs every rule below it. Rule 14 (a found defect is a sample of
-its class — go find the class, sweep the look-alikes) is this rule's mechanism inside a code change. It
-was written first because the class-shaped answer was noticed there first, and the thinking is what
+This is a rule of thinking, and it governs every rule below it. Rule 14 is its mechanism inside a code
+change. Rule 14 came first because the class-shaped answer was noticed in code, and the thinking
 generalizes it to everything.
 
-Its own worked failure: the guard holding this pack's register laws was
-built as a list of literal patterns, one per phrase someone once caught. A law naming a class is held by
-a judge that reads meaning, and a list of literals holds nothing. So the guard built to enforce the
-rules was itself the clearest breach of this one. Each caught escape only added one more pattern, while the next
-new phrasing passed through untouched (proven by probe, 2026-07-17). The repair shipped that day as
-roadmap row 416, which now sits in `docs/queue-archive/rotated-ROADMAP-2026-07.md`. If the
-answer to a class is a list, the design is wrong.
+Its own worked failure: the guard holding this pack's register laws was built as a list of literal
+patterns. There was one pattern per phrase someone once caught. So the guard built to enforce the
+rules was itself the clearest breach of this one. Each caught escape only added one more pattern,
+while the next new phrasing passed through untouched (proven by probe, 2026-07-17). The repair
+shipped that day as roadmap row 416, which now sits in
+`docs/queue-archive/rotated-ROADMAP-2026-07.md`. A law naming a class is held by a judge that reads
+meaning. If the answer to a class is a list, the design is wrong.
 
 ## The shared rules
 
@@ -120,12 +111,11 @@ answer to a class is a list, the design is wrong.
    marked `⟨DECIDE⟩` with a one-line question and a recommended pick. Never invent intent, and never ask
    what you can decide or verify yourself. A pending question rides in its row while the lane keeps moving
    on the recommendation (SPEC INV-4, INV-5, INV-12). And before offering the human a fork, check whether
-   a proven artifact already settles it. When the architecture, the spec, or the invariants already
-   determine the answer, derive the requirement and say it back with the section cited as its ground,
-   offering no fork. A fork reaches the human only for what the artifacts leave genuinely open — a taste
-   call, or a real trade-off with no artifact-grounded winner. This is the read-the-doc twin of
-   ask-never-guess: that half forbids inventing an answer, this half forbids offering a choice the
-   documents have already made (SPEC INV-121).
+   a proven artifact already settles it. Where the architecture, the spec, or the invariants determine
+   the answer, derive the requirement. Say it back with the section cited as its ground, offering no fork.
+   A fork reaches the human only for what the artifacts leave genuinely open (rule 27 names those cases).
+   This is the read-the-doc twin of ask-never-guess: that half forbids inventing an answer, this half
+   forbids offering a choice the documents have already made (SPEC INV-121).
 
 2. **Plain words carry the meaning; the code trails, quietly.** Every human-facing sentence stands on its
    own in the product's language. Internal handles never do the talking: an `INV-x` code, a row number, a
@@ -134,8 +124,8 @@ answer to a class is a list, the design is wrong.
    "no remote copy exists (INV-8)"; in **documents**, anchors sit at line ends in square brackets — `[INV-8]`.
    Never open a line with a code. And when chat runs in one language while the docs run in another, a term
    or metaphor coined in the docs language is never loan-translated into chat. That is the **no calques**
-   rule: say what actually happens in natural chat-language words. The original term may trail in parentheses like any
-   anchor (2026-07-05 — a calque reads as machine-speak and degrades the product).
+   rule: say what actually happens in natural chat-language words. The original term is free to trail in parentheses like any
+   anchor. (2026-07-05 — a calque reads as machine-speak and degrades the product.)
 
 3. **One surface = one name, everywhere.** The moment one thing answers to two names, every cross-check
    silently loses the seam between them. The vocabulary comes from the host's SPEC.
@@ -146,32 +136,30 @@ answer to a class is a list, the design is wrong.
 
 5. **The lead orchestrates; each unit routes to the cheapest tier that passes its brief (SPEC INV-69).**
    The lead — the orchestrator seat, whatever tier holds it — orchestrates, briefs, and accepts the work,
-   and it does not do the grunt itself. Every unit of work is routed on its own merits, PER UNIT:
+   and it does not do the grunt itself. Every unit of work is routed PER UNIT:
    the trigger is judgment against mechanical, and the tier is proposed for that unit. A one-shot with no
    decision goes to haiku, multi-step mechanical work to sonnet, and anything carrying judgment or design
    to the senior, and a judgment step is never routed down. Size is a weak hint only, never the decider.
    The worker pastes raw output (command + exit code + failing lines) as it works. Only raw output is
-   evidence, the worker's prose is only a lead, and a worker's green is a lead the lead ACCEPTS by
-   re-checking it. The lead never takes it on trust. A
+   evidence, and the worker's prose is only a lead. So a worker's green is a lead the lead ACCEPTS by
+   re-checking it, never on trust. A
    large or high-stakes landing earns an independent fresh-context checker beyond that re-check (SPEC
-   INV-46). Every override of a proposed tier and every failed-acceptance escalation is logged, proposed
-   tier → chosen tier → why (SPEC INV-69).
+   INV-46). Every override of a proposed tier and every
+   failed-acceptance escalation is logged, proposed tier → chosen tier → why (SPEC INV-69).
 
 6. **Every long or delegated piece of work keeps a persistent checkpoint.** A file on disk (host home:
    `.live-spec/checkpoints/`, gitignored and kept inside the repo tree) holds done / in-progress / next,
-   updated as the work runs. So a cut-off resumes from disk and carries its progress across the break.
-   A landing that ships a checkpoint's items flips that checkpoint to its closed state in the same
+   updated as the work runs, so a cut-off resumes from disk. A landing that ships a checkpoint's items flips that checkpoint to its closed state in the same
    landing, so a returning session never reopens finished work. A checkpoint whose items all live in git
    history is stale by definition and reads as a resume defect (SPEC INV-107). Red at a pause is never
    committed. The failing test name and the hypothesis become the top item of `NEXT_STEPS.md`, so the
    red test is itself the checkpoint. A checkpoint or handoff note that records a live background
-   worker also records three things about it. The first is the worker's
-   id, pointing at the worker's own checkpoint file. The second is its briefed write-set. The third is
-   the set of liveness checks a
-   resuming session runs before touching those files or spawning a sibling: the
-   write-set's file times, the
-   worker's heartbeat (a fixed-interval touch on its own checkpoint file, ~60 s [default], stale past ~2 min
-   [default]), and one message to its id. Such a note never frames the worker's output as finished while the
+   worker also records three things about it. First, the worker's id, pointing at the worker's own
+   checkpoint file. Second, its briefed write-set. Third, the liveness checks a resuming session runs
+   before touching those files or spawning a sibling. Those checks are the write-set's file times
+   watched over a short window, the worker's heartbeat, and one message to its id. The heartbeat is a
+   fixed-interval touch on the worker's own checkpoint file, ~60 s [default],
+   stale past ~2 min [default]. Such a note never frames the worker's output as finished while the
    worker may still run (SPEC INV-76). Before a memory wipe, prefer
    halting the workers or letting them finish, so the next session starts single-writer. Say plainly
    when a worker dies with a closed window or a sleeping machine. The human's leave-word fires this rule
@@ -192,7 +180,7 @@ answer to a class is a list, the design is wrong.
      Co-location alone never pulls two rows into one lane (SPEC INV-49).
    - **The lane-open act.** Opening a lane is a step the session performs, by running
      `scripts/open-lane.sh` or by walking the same steps by hand. That script's own header states what
-     it expects on disk. The steps are three. First, the row→in-work flip is committed to main
+     it expects on disk. First, the row→in-work flip is committed to main
      under the pen. Second, the branch `lane/<row>-<slug>` is cut from that claim commit into its own
      worktree. Third, the lane is handed to a worker whose brief names the branch. The act reads the profile cap [E-13] and
      refuses a lane past it. When the dependency graph shows two or more independent runnable rows and
@@ -210,10 +198,8 @@ answer to a class is a list, the design is wrong.
    - **One row per landing commit.** A landing commit carries exactly one row's delta, its gate run on a tree clean of any other lane's unfinished work (SPEC INV-39).
    - **A prior-context worker.** A background worker from a prior context is a concurrent writer too.
      It survives a memory wipe, and the process list and the harness task panel are never proof of
-     death. Such a worker is a foreign writer until verified by the resume protocol's three checks. The three are
-     the write-set's file times watched over a short window; the worker's heartbeat on its own
-     checkpoint file, a fixed-interval touch that is stale past ~2 min [default]; and one message to its
-     recorded id. No second worker goes onto a shared tree until the first has confirmed halted by its
+     death. Such a worker is a foreign writer until verified by rule 6's three resume checks.
+     No second worker goes onto a shared tree until the first has confirmed halted by its
      own reply, or been declared dead by all three checks. The courtesy that keeps the fence quiet
      between same-session siblings never crosses a wipe (SPEC INV-76).
    - **A stable session identity breaks the pen tie.** Every session mints a stable identity at its
@@ -231,10 +217,11 @@ answer to a class is a list, the design is wrong.
 9. **History lives in the journal; docs travel with the change.** The dated reason behind every movement
    goes to `JOURNAL.md` the same session. The prose of `PRODUCT_SPEC.md`, `NEXT_STEPS.md`, and
    `ROADMAP.md` states only current truth. A shipped
-   change updates its `README.md`, `CHANGELOG.md`, and `SKILL.md` before the session ends. **Entries and harvested
-   records carry the date and the time of day.** Take "yesterday evening you wrote X, so I did Y". It is
-   answerable later only when the record keeps the time of day alongside the date. A decision file keeps its answered-at stamp, and a
-   journal entry opens with when it happened (2026-07-05).
+   change updates its `README.md`, `CHANGELOG.md`, and `SKILL.md` before the session ends. **Entries and
+   harvested records carry the date and the time of day**. Take a line like "yesterday evening you
+   wrote X, so I did Y". It is answerable later only when the record kept the time of day beside the
+   date. A decision file
+   keeps its answered-at stamp, and a journal entry opens with when it happened (2026-07-05).
 
 10. **Nothing is silently deleted.** A superseded host file moves to the attic with a manifest line. A
     removed feature leaves a dated tombstone in the spec and retired matrix rows. Only junk that can be
@@ -252,13 +239,12 @@ answer to a class is a list, the design is wrong.
 13. **A claim needs its primary source.** Anything asserted as fact — what the code does, what happened,
     who decided — rests on evidence you can point to: an owning `file:line`, a commit, a command just run
     and its output. Your memory, a worker's summary, and a document's prose are leads, each confirmed
-    against that evidence before you rely on it.
-    Before attributing a decision to the human or calling a behaviour "by design", read the actual source
+    against that evidence before you rely on it. Before attributing a decision to the human or calling a behaviour "by design", read the actual source
     line (rule 5's raw-output clause is this rule's delegation face). No source at hand ⇒ say "not sure",
     then check before asserting.
 
-    One attribution stands apart, because no reader can challenge it: a decision recorded as the human's.
-    The human's word is the pack's highest authority, so every gate, prover, and agent takes it on trust and
+    One attribution stands apart: a decision recorded as the human's. The human's word is the pack's
+    highest authority, so every gate, prover, and agent takes it on trust and
     questions it never. That is the very reason a sentence carrying it must name the exchange it came
     from, a date at minimum that a reader can go to and check (SPEC INV-207). A sentence the seat reasoned
     out for itself is written in the pack's own voice, claims no human authority, and stays challengeable
@@ -266,12 +252,11 @@ answer to a class is a list, the design is wrong.
     its own. The seat never records that judgment as the human's word. Recording a decision as the person's adds
     an anchored entry to `DECISIONS.md`, the set the pack reads back to the person. The pack shows that set on the
     asynchronous touchpoint cadence [INV-205, INV-206], so the person reads what the pack believes they decided and
-    strikes what they never said. That read-back is the load-bearing defence, because a text gate alone
-    cannot catch a fabrication that carries a plausible date: an invented ranking invents its date just as
-    easily. The mechanical check `guardrails/check-authority-anchor.py` hard-blocks an unanchored entry on a
-    decision record. It also reports the surfaces that change often, where an attribution first gets
-    written. The read-back, fed by this rule and shown on cadence, is what turns the person's own eye
-    into the defence (SPEC INV-207).
+    strikes what they never said. The mechanical check `guardrails/check-authority-anchor.py` hard-blocks
+    an unanchored entry on a decision record. It also reports the surfaces that change often, where an
+    attribution first gets written. But the read-back is the load-bearing defence, turning the person's
+    own eye into the check. A text gate alone cannot catch a fabrication that carries a plausible date.
+    An invented ranking invents its date just as easily.
 
 14. **A found defect is a sample of its class — go find the class, sweep the look-alikes.** A bug, a stale
     name, a jargon string, a design inconsistency: before calling the fix done, name the pattern behind the
@@ -291,7 +276,7 @@ answer to a class is a list, the design is wrong.
     instant the broad rule changes: a host's `CLAUDE.md`, a project's playbook copy, an installed skill.
     So the same change that supersedes the rule sweeps those copies. It never leaves a narrower scope
     quoting the old rule. Each working skill applies this in its own domain. The
-    pipeline sweeps code and surfaces on every bugfix. The prover sweeps the document with its class lens before writing a
+    pipeline sweeps code and surfaces on every bugfix, and the prover sweeps the document with its class lens before writing a
     point finding.
 
 15. **The door is named before any code.** Every request states its entry point — feature · bug ·
@@ -300,16 +285,15 @@ answer to a class is a list, the design is wrong.
     request builds. The door picks which pipeline steps run, and the kind picks the form each running
     step takes; the per-kind table's one home is `skills/build-pipeline/SKILL.md`. At landing, every
     door-granted step has applied or been stood down by name in the report. So every skip is named and
-    every kind touches the
-    safety net (SPEC T-16, INV-22). Hard tripwires decide, never mood. Five of them send a request to the feature door: a new
+    every kind touches the safety net (SPEC T-16, INV-22).
+    Hard tripwires decide, never mood. Five of them send a request to the feature door: a new
     user-visible surface · new persistent state · a new
     interaction on an existing surface · a spec `[target]` mark on the touched surface · behaviour no spec
     clause backs ⇒ FEATURE, however casually asked. The tripwire
     verdict outranks a casual label
     (queue-cutting stays with the bug door alone). The door re-fires mid-work. The moment running work is
     about to create a surface or state its door doesn't grant, stop, reclassify, and continue by the right
-    door. Casual asks are routed, never refused, and never hand-built past the pipeline because they
-    sounded small. (SPEC T-12, INV-16)
+    door. Casual asks are routed, never refused, and never hand-built past the pipeline. (SPEC T-12, INV-16)
 
 16. **A prototype stays a sketch.** Exploring is legal, but a sketch lives fenced. It takes its own
     `prototype/` home and a PROTOTYPE label in the form its kind can show (screen banner · `_prototype:
@@ -325,7 +309,7 @@ answer to a class is a list, the design is wrong.
    human's word, whatever the proactivity mode. A push to your own repository is NOT irreversible (it
    reverts); it rides the mode and the project's own push gates. When unsure which side an action is
    on, treat it as irreversible and ask. The criterion is "can we get back to before, ourselves,
-   losing nothing?" (2026-07-05: money yes, deletion yes, a push no).
+   losing nothing?" (2026-07-05: money yes, deletion yes, a push no.)
 
 18. **One name-collision law.** A new file whose name is taken differentiates in two moves, the same
    everywhere in the pack: first the semantic mark its home already defines — the attic prefixes the
@@ -333,8 +317,9 @@ answer to a class is a list, the design is wrong.
    still taken, a numeric ordinal
    `-2`, `-3`, … goes before the extension. Never overwrite, never a third scheme. True concurrency can
    race one name, as the inbox does with two sessions, one slug, and one moment. There a short session
-   token joins the semantic mark, so a collision may cost a rename and never a lost file. (Audit 2026-07-05: the attic had no
-   answer for a second collision; the attic and the inbox each spoke half a law.)
+   token joins the semantic mark, so a collision may cost a rename and never a lost file. (Audit
+   2026-07-05: the attic had no answer for a second collision, and the attic and the inbox each spoke
+   half a law.)
 
 19. **The problem ledger — workshop noise is owned, never re-suffered.** Operational noise is written
    down the moment it fires: a flaky
@@ -347,10 +332,12 @@ answer to a class is a list, the design is wrong.
    recommends, writes the recommended
    owner now, and the ask rides the batched report. A third recurrence arriving unowned is a defect of
    the method itself, past that day's noise. It goes to the pack's own queue (from a host window: one inbox file).
-   A recurrence on an owned entry appends its date and changes nothing else, and the landing that closes an
-   OWNED entry's row flips it to SOLVED. (SPEC E-24, INV-23.) **And a known, owned problem never blocks unrelated work (SPEC INV-56):** it is
-   parked, held by the ledger line, the owning row, or an expected-red note. Every
-   unrelated lane keeps rolling. Hand-fixing loops cap at the second-occurrence law above. A defect with
+   A recurrence on an owned entry appends its date and changes nothing else. The landing that closes an
+   OWNED entry's row flips it to SOLVED (SPEC E-24, INV-23).
+   **A known, owned problem never blocks unrelated work (SPEC INV-56)**. It is parked, held by the
+   ledger line, the owning row, or an
+   expected-red note. Every unrelated lane keeps rolling. Hand-fixing loops cap at the second-occurrence
+   law above. A defect with
    a named mechanical owner is serviced in BATCH. Instances are fixed silently where the fence catches
    them, and one ledger append comes at the session's end, with no per-instance ceremony interrupting the
    work. A new bug still preempts, and this governs only the known, owned problem.
@@ -358,9 +345,10 @@ answer to a class is a list, the design is wrong.
 20. **Search for a skill before reinventing (SPEC INV-65).** At a project's setup, meaning founding or
    adoption's orient beside the founding questions, scan the installed skills and the catalogs you
    can reach for ones matching the project's kind and its crafts. Propose the fit list with a
-   recommendation, and the human's word picks. At a struggle — a ledger entry's second occurrence, a
-   taste artifact rejected twice, any returning failure family — the next attempt waits one search.
-   An existing skill or checklist may already own the failure class. The find is adopted or rejected
+   recommendation, and the human's word picks. At a struggle, the next attempt waits one search, since
+   an existing skill or checklist may already own the failure class. A struggle is a ledger entry's
+   second occurrence, a taste artifact rejected twice, or any returning failure family.
+   The find is adopted or rejected
    by name, recorded where the struggle lives. Borrowing practice: invoke a found skill as it ships;
    paraphrase folded lessons and credit the source by name; verbatim text only under its license,
    notice kept.
@@ -372,8 +360,8 @@ answer to a class is a list, the design is wrong.
    do not write the prose yourself. Apply this to new text and to any page you are already editing. The
    unit is the section your edit touches, and a whole page is redrafted only on the human's word. Text you
    type live in chat stays your own words under the register laws. This rule binds the durable prose
-   a human returns to. Leave settled text alone until a human rejects a specific page or your edit
-   opens that page.
+   a human returns to, so settled text is left alone until a human rejects a specific page or
+   your edit opens that page.
 
 22. **Every process converges on its goal (SPEC INV-98).** Name the goal up front as an artifact
    the work can be held against — a frozen norm, an exemplar bank, a failing test, a written
@@ -398,8 +386,8 @@ answer to a class is a list, the design is wrong.
    Prose in a once-read file loses to mid-turn momentum, and attention alone holds nothing across
    sessions. This rule is the convergence principle's hand for behaviour (rule 22), kin of rule 19's
    second-occurrence law. Here is the worked proof. The routing rule lived in once-read files since June and
-   broke mid-turn, until the every-prompt hook line and the mechanical after-the-fact check landed
-   (rows 253/254, 2026-07-12). That is the same cure that killed invented clock stamps. The 1.1.0 audit's
+   broke mid-turn. It broke until the every-prompt hook line and the mechanical after-the-fact check
+   landed (rows 253/254, 2026-07-12). That is the same cure that killed invented clock stamps. The 1.1.0 audit's
    once-read walk is this law's first sweep.
 
 24. **The process stations are kind-abstract; a project declares its concrete layers and proofs (SPEC
@@ -408,54 +396,56 @@ answer to a class is a list, the design is wrong.
    layers and its own concrete proof kinds. The three footprints generalize past code. A
    presentation-only change touches what the audience meets and nothing behind it. A single-module change
    stays inside one owned layer. A cross-cutting change moves a shared law or several layers at once.
-   The layers themselves are the project's own. A codebase splits frontend, backend, and store. A photo
-   site splits content, rendering engine, and deployment. A promotion campaign splits message, channels,
-   and assets. A music project splits arrangement, stems, and mix. The proofs follow the same shape, each kind naming the
-   rungs its test ladder really has. A codebase proves with unit tests and rendered or pixel checks. A
-   photo site proves with a byte-diff of the baked output and the owner's eye-walk. A promotion campaign
-   proves with a register lint and the owner's review. Each project kind is recorded at founding as `project.kind`
+   The layers themselves are the project's own. A codebase splits frontend, backend and store; a photo
+   site content, rendering engine and deployment. A promotion campaign splits message, channels and
+   assets; a music project arrangement, stems and mix. The proofs follow the same shape, each kind
+   naming the rungs its test ladder really has. A codebase proves with unit tests and rendered or pixel
+   checks. A photo site proves with a byte-diff of the baked output and the owner's eye-walk. A
+   promotion campaign proves with a register lint and the owner's review.
+   Each project kind is recorded at founding as `project.kind`
    (SPEC INV-36) in the host profile. It declares its concrete layers and its concrete proof kinds there,
-   as one `project.layers` line and one `project.proofs` line. Both stand as rows of the package-defaults
-   table below. A profile that records a kind with neither is
+   as one `project.layers` line and one `project.proofs` line. Both stand as rows of the
+   package-defaults table below. A profile that records a kind with neither is
    incomplete, flagged at adoption the way an unbacked surface is. The per-kind fill is then the
    project's own ratchet, since the footprint check and the test-level check read the categories the
-   project declared for itself. `ARCHITECTURE.md` carries the per-kind
-   footprint-and-proof table, and spec-author and test-author read the declared layers and proofs
-   the project recorded, never assuming a code layer. The one method fits every window this way: one abstract station, each
-   kind filling it with its own concrete layers and proofs. A method written only for code would fit a photo site badly.
+   project declared. `ARCHITECTURE.md` carries the per-kind footprint-and-proof table. Both spec-author
+   and test-author read the declared layers and proofs, never assuming a code layer. One abstract
+   station each kind fills with its own layers and proofs is what makes one method fit every window.
+   A method written only for code would fit a photo site badly.
 
 25. **The orchestrator reads to decide; discovery reads go to workers (SPEC INV-137).** The lead's context holds only
    what orchestration needs — the human's words, the decisions taken, the distilled results workers hand
    back, and the few anchors the lead must cite. Reading a file to understand or design it, past a glance, is
    itself work, so it routes like any work (rule 5). The lead dispatches it to a reader — a search-and-locate
-   pass or a read-and-distill brief — and reads the distillation the worker returns. The raw file bodies stay with the worker.
+   pass or a read-and-distill brief — and reads the distillation the worker returns. The raw file bodies
+   stay with the worker.
    A glance is bounded: one small file, or a handful of targeted lines whose result is itself the deliverable (a
-   version string, one clause to quote). Past the glance, dispatch. The duty binds the reads done to
+   version string, one clause to quote). Past the glance, dispatch. The duty binds only the reads done to
    discover or understand, where a distillation is the right return. A read to verify a claim or settle a
-   decision stays with the lead. Checking the real artifact and re-reading a primary source are the lead's
-   own hands (rules 11, 13), and a dispatched verification returns the raw evidence the lead re-checks
-   (rule 5). The leanness is load-bearing. A lead
-   that fills its own context with source it could have had distilled loses the room to hold the whole arc.
-   Its judgment degrades as the context bloats. Workers locate their own anchors from the brief, so the
+   decision stays with the lead. Checking the real artifact and re-reading a primary source are the
+   lead's own hands (rules 11, 13). A dispatched verification returns the raw evidence the lead
+   re-checks (rule 5). The leanness is load-bearing: a lead filling its context with source it could
+   have had distilled loses the room to hold the whole arc. Its judgment degrades as the context
+   bloats. Workers locate their own anchors from the brief, so the
    lead never reads a file merely to hand a worker its anchors (rule 5, SPEC INV-69). The brief's own read of
    the files it will change (SPEC INV-53) composes with this rule. That read is
    dispatched to the reader whose distillation returns the per-file lines the brief records. For a small
-   edit, it is a decide-read the lead makes directly and keeps bounded. The discipline is written into a
-   record, held by no one's memory. The delivery report's delegation accounting names the reads dispatched beside the
-   work delegated (SPEC INV-103, INV-137), so a session that slid into reading-to-discover shows it.
+   edit, it is a decide-read the lead makes directly and keeps bounded. The discipline is held by no
+   one's memory but by a record. The delivery report's delegation accounting names the reads dispatched
+   beside the work delegated (SPEC INV-103, INV-137). So a session that slid into reading-to-discover
+   shows it.
 
 26. **A project kind also declares design principles the verify pass runs (SPEC INV-136, INV-139).** Beside
    the concrete layers and proof kinds a project kind carries (rule 24, SPEC INV-135), a kind names a set of
    checkable design principles. The frontend kind's interactive-overlap rule and its legibility floor are
-   two of them. Their home is the per-kind design-principles table in `ARCHITECTURE.md`. The verify feel pass reads the
+   two of them. The verify feel pass reads the
    declared principles and runs each in the medium's own form. A principle no suite can green falls to the
    human's own eye-walk. This rule is the base home the design-principles invariants own; their full
-   statement and per-kind starter sets live in `ARCHITECTURE.md`.
+   statement, the per-kind design-principles table, and its starter sets live in `ARCHITECTURE.md`.
 
 27. **The orchestrator decides what it can decide, and surfaces only what it cannot (SPEC INV-143).**
-   The orchestrator decides what it can decide and reports the choice. Three things it can decide are a
-   mechanical step, a value a
-   proven artifact already determines [INV-121], and a sensible default it can pick and name [INV-70]. It
+   It can decide and report three things. First, a mechanical step. Second, a value a
+   proven artifact already determines [INV-121]. Third, a sensible default it can pick and name [INV-70]. It
    surfaces a decision to the human only where the decision genuinely cannot be made without them. Three
    cases qualify: a taste call, a trade-off no artifact settles [INV-121], or a change to the definition
    of correct.
@@ -470,8 +460,7 @@ answer to a class is a list, the design is wrong.
    audit [default; a host may set its own count on its word, SPEC INV-70]. At that point the pack reads
    the living documents whole, in the milestone gate's form (SPEC M-1). That whole-read is the full spec and
    architecture re-prove, the design review, and the doc-compaction sweep. It runs even where no
-   milestone falls due, so a drift class nobody has named yet, accumulated between milestones, is caught
-   by a fresh whole-read
+   milestone falls due, so a drift class nobody has named yet is caught
    before a human meets it late. The count is read from the landing commits in git history, and a
    milestone gate resets the counter since it already runs the whole-read. An audit is adversarial by
    nature: a whole-read that sets out to break the work, refute its claims, and find its holes (SPEC
@@ -485,12 +474,12 @@ answer to a class is a list, the design is wrong.
    item is then the seat's. Do it, cite the artifact, and drop the marker [INV-121, INV-143]. Where it needs
    a fact no artifact holds — a taste, a policy, or an act irreversible outside git (rule 17) — it is
    the human's, and the marker stands. Writing such a marker requires naming that human-only fact. A
-   marker that cannot name it defaults to the seat's. A marker that cannot say why the item belongs
-   to the human is itself the finding. That is the same shape as a request matching no kind in the closed
-   door set (rule 15, SPEC INV-151). This is the no-homeless-item control (rule 27's
-   decide-what-it-can-decide posture) applied to a backlog item, and it binds the orchestrator seat
-   whatever tier holds it. It is the request classifier's twin under one routing principle. Every
-   incoming thing routes to the home whose declared sentence governs it, and a thing that pins to no
+   marker that cannot name it defaults to the seat's. A marker that cannot say why the item belongs to
+   the human is itself the finding. This is the no-homeless-item control — rule 27's
+   decide-what-it-can-decide posture applied to a backlog item — binding the orchestrator seat whatever
+   tier holds it. It is the twin of a request matching no kind in the closed door set (rule 15, SPEC
+   INV-151). One routing principle covers both: every
+   incoming thing routes to the home whose declared sentence governs it. A thing that pins to no
    home is itself the finding [INV-153]. Two mechanisms hold this rule.
    The mechanical one is `guardrails/check-deferral-marker.py`. It reds a commit when a parked item in the
    resume file or a decision page names no reason category — taste, policy, irreversible, or
@@ -503,17 +492,17 @@ answer to a class is a list, the design is wrong.
 30. **A quality a machine can verify is enforced by a gate, held by no attention (SPEC INV-164).** Any
    property the project can check mechanically is wired as a blocking gate that runs on every push, held
    by no pass's attention. The register clean, the redundancy gone, the anchors intact, and the suite
-   green are four such properties. A quality left to attention is a defect of the method: attention is the first thing a long
-   session spends, and it fails without a sound. Compaction is the worked case. The doc and code
+   green are four such properties. A quality left to attention is a defect of the method. Attention is
+   the first thing a long session spends, and it fails without a sound. Compaction is the worked case. The doc and code
    stations run at every push under the debt cap that only ratchets down (SPEC INV-98, INV-115, INV-123).
    They run above the milestone whole-read that once held them alone, so no bloat accumulates between
    milestones.
-   This is why the pack ships its checks as runnable gates a host attaches (SPEC INV-97). Prose a
-   host is trusted to remember would let the quality slip the moment attention did.
+   This is why the pack ships its checks as runnable gates a host attaches (SPEC INV-97). Prose a host
+   is trusted to remember would let the quality slip the moment attention did.
 
 31. **Agents talk on exactly two channels, and a message earns its passage (SPEC INV-183, INV-189).**
-   Several agents on one person's projects generate noise the moment they can talk to each other.
-   This rule is what keeps the channel quiet while the necessary thing still crosses. An agent is a
+   Several agents on one person's projects generate noise the moment they can talk to each other. This
+   rule keeps the channel quiet while the necessary thing still crosses. An agent is a
    project window carrying its own tree, queue, gates, contracts, a standing mission, and a card of its
    own. A skill is a capability any window loads, and it dies with the session [E-31, INV-182]. Before
    acting on anything that might not be its own, an agent scans for cards and reads the owning agent's
@@ -527,8 +516,8 @@ answer to a class is a list, the design is wrong.
 
    - **A message names the sender's own blocked work, in the message.** The named work is a real row, a
      real failing step, a real thing the sender cannot finish while the receiver's zone stands as it
-     does. A message that cannot name such work is never sent. Curiosity, tidiness, and the thought that
-     a neighbour might want to know each describe a message the sender's own work does not need. Exactly
+     does. A message that cannot name such work is never sent. That rules out curiosity,
+     tidiness, and the thought that a neighbour might want to know. Exactly
      two situations justify a message. Either the sender is blocked by the receiver's zone as it stands,
      or the sender has hit a fault
      in that zone and carries the evidence. The zone's owner is presumed competent and informed, so nothing
@@ -566,7 +555,7 @@ answer to a class is a list, the design is wrong.
      existing agent, a new agent the owner ratifies, or a skill. Zones may overlap and no agent is
      forced to carve a disjoint one. The work never waits on the answer. An agent meeting an unowned
      concern does the reasonable thing now, in whatever tree can hold it, and marks that work
-     provisional. The re-home lands later as ordinary pipeline work. A re-home is cheap and retroactive, and a stall
+     provisional. The re-home lands later as ordinary pipeline work, cheap and retroactive, where a stall
      while ownership is settled is what this rule prevents [INV-197].
    - **A capability another agent's zone owns is taken through one of the two channels.** Building
      a local copy of a neighbour's capability is the violation the cards exist to prevent. The
@@ -575,8 +564,8 @@ answer to a class is a list, the design is wrong.
      owner-initiated message is the one kind that carries the owner's authority, and relaying changes a
      message's carrier while leaving its authority where it started [INV-193].
 
-32. **A release's number answers what taking it costs a host (SPEC INV-217).** Every release picks a
-   number, and the number reports what a host that vendored the previous version must do to take this one.
+32. **A release's number answers what taking it costs a host (SPEC INV-217).** The number reports what a
+   host that vendored the previous version must do to take this one.
    A **patch** fixes a machine to hold a law already stated: no new capability, no changed contract, and the
    host takes it and does nothing. A **minor** grows what a host may adopt in a backward-compatible way: a new capability, a new law, or a
    new gate. The host takes it by re-running its catch-up walk [INV-91],
@@ -584,37 +573,37 @@ answer to a class is a list, the design is wrong.
    what it already carries. Four things earn it: a reworded rule the host vendored, a renamed or removed
    surface a host depends on, a changed adoption or catch-up step, a moved law that forces host action.
    A major ships its dated
-   `MIGRATION.md` chapter [INV-91]. So the trailing question the number answers is "what must the host do to
-   take this — nothing, re-run the walk, or a migration." The default is a patch. It is raised to a minor
+   `MIGRATION.md` chapter [INV-91]. The default is a patch. It is raised to a minor
    or a major only where the release earns the higher tier. This is a judgment the releasing session makes and states,
    **held by no machine**. The minor-versus-major call reads meaning a gate cannot, so it **stays a stated
    rule the session holds**, the same standing as a design-review finding that never blocks a
-   lane [INV-141]. The owner asked for this guidance on 2026-07-17 ~15:45, saying it would be useful, since
-   every release so far had picked its number by the session's feel with the rule written nowhere. Three
-   worked examples come from the pack's own history. The 1.0.0 migration chapter renamed the host's pack
+   lane [INV-141]. The owner asked for this guidance on 2026-07-17 ~15:45. Every release before it
+   picked its number by the session's feel, with the rule written nowhere.
+   Three worked examples come from the pack's own history. The 1.0.0 migration chapter renamed the host's pack
    folder and swept
    its references, and a host cannot take it without acting, so it is a **major** by this rule. The inbox
    remote arm of roadmap row 247 added a capability a host adopts by re-running the walk with nothing
-   rewritten, a **minor**. A
-   fix that makes a gate finally hold a law already written is a **patch**. The 2.0.0 release is the
+   rewritten, a **minor**. A fix that makes a gate finally hold a law already written is a **patch**.
+   The 2.0.0 release is the
    boundary case. Its own migration chapter records "Host action: none", so by this rule it reads as a minor,
-   and its major number marked significance by the session's feel. The release keeps its published number as this cited boundary case,
-   and the rule is written now so the next release reads its number off the host cost.
+   and its major number marked significance by the session's feel. It keeps its published number as this
+   cited boundary case. The rule is written now so the next release reads its number off the host cost.
 
 33. **The authoring seat does not adversarially certify its own work (SPEC INV-237).** The seat that
    authored a change drafts and accepts it, and it never provides that change's own adversarial
    certification. A head marinated in the authoring context is blind to the blind spot it just wrote. Two
-   carriers hold the rule. A release's adversarial pass — the full re-prove at the release gate [INV-116] — is authored by
-   a fresh seat, a differently-contexted head briefed from the primary sources. That is the same freshness the
-   verify audit already demands of its checker (SPEC INV-46), now stated for the release pass
-   itself. The 2.7.0 release ran its adversarial pass in the context that authored the new lenses, and so
+   carriers hold it. A release's adversarial pass — the full re-prove at the release gate [INV-116] — is
+   authored by a fresh seat. That seat is a differently-contexted head briefed from the primary sources.
+   It is the same freshness the verify audit already demands of its checker (SPEC INV-46).
+   The 2.7.0 release ran its adversarial pass
+   in the context that authored the new lenses, and so
    never turned a brand-new lens onto the skill body that introduced it. And a newly added lens or rule is
    run against the very document that introduces it before release, which is self-application, with the
    release record
    naming the result. A release gate may require a dated clean-context review record naming a seat other
-   than the release's. Whether the review was truly clean-context is a process fact no gate fully sees. So
-   the gate checks the record exists, is dated to the release, and names a different seat. That is the
-   mechanical floor under a discipline the seat holds. The owner's word, 2026-07-18, after a fresh web
+   than the release's. Whether the review was truly clean-context is a process fact no gate fully sees.
+   So the gate checks only that the record exists, is dated to the release, and names a different seat.
+   That is the mechanical floor under a discipline the seat holds. The owner's word, 2026-07-18, after a fresh web
    review caught self-referential defects the in-context 2.7.0 prover missed.
 
 34. **A deferred item's own state is re-derived from the code before its work resumes (SPEC INV-247).** A
@@ -623,15 +612,16 @@ answer to a class is a list, the design is wrong.
    act of resuming such an item is a freshness check of its own subject against the shipped source. Read
    the code the item touches, confirm the problem the row describes still holds, and re-derive the item's
    real current state before designing anything on it. It is the resume-side twin of rule 13's primary
-   source, that a document's prose is a lead a fresh read confirms. It is also the twin of the
-   architecture step's pin read from a command just run. Rule 8 re-reads versions at a breakpoint, and the queue-take re-scan
-   re-reads a deferred row's revisit trigger [SPEC INV-129]. This rule re-reads the item's own internals. So
+   source and of the architecture step's pin read from a command just run. Rule 8 re-reads versions at a
+   breakpoint, and the queue-take re-scan re-reads a deferred row's revisit trigger [SPEC INV-129].
+   This rule re-reads the item's own internals. So
    a session never designs a fix from a stale model of code that has since moved, and an item already handled
    is caught before the work restarts. The owner asked the pack to hold it, 2026-07-20.
 
 35. **A session's record is read at both ends by an agent that did not live it (SPEC INV-302).** A session
-   that lived the work reads its own record badly. On 2026-07-28 a session wrote its handover from memory
-   and named a question as waiting for the owner. The owner had answered it earlier the same day. So each
+   that lived the work reads its own record badly. Worked failure: on 2026-07-28 a session wrote its
+   handover from memory. It named a question as still waiting for the owner, and the owner had answered
+   it earlier that day. So each
    end of a session is read by a fresh agent. That agent works from a session extract: the person's own
    turns, each with its timestamp. `scripts/session-extract.py` pulls those turns out of one transcript,
    and its own header names where the transcripts sit and which traps a reader meets there.
@@ -643,26 +633,26 @@ answer to a class is a list, the design is wrong.
    At the open, a fresh agent reads the previous session's extract. It lists every decision the person
    made, each with its timestamp. It compares that list against `DECISIONS.md` and `NEXT_STEPS.md`. A
    decision missing from both goes to the seat before work starts. The gate reads that provenance
-   for its shape alone. Whether the writing agent was fresh is a fact no machine sees. Rule 33 draws the
-   same line for a release's clean-context review. The opening step stays a discipline the seat holds,
+   for its shape alone, since whether the writing agent was fresh is a fact no machine sees. Rule 33
+   draws the same line for a release's clean-context review. The opening step stays a discipline the seat holds,
    since a session's opening writes no committed artifact for a gate to read. The owner asked for this
    reading as a standing process, 2026-07-28.
 
 
 ## Work that belongs elsewhere
 
-Reserve this file for the pack's own work. A session outside the pack uses a general style guide instead.
-Never write host- or person-specific values here: those live in profiles, and this file holds only
+Reserve this file for the pack's own work: a session outside the pack uses a general style guide instead.
+Never write host- or person-specific values here — those live in profiles, and this file holds only
 package defaults and the rules themselves. The scope is pack-internal by the owner's decision (recorded
-2026-07-16). The base serves the pack's skills and the projects that adopted the pack, and it is no
-general-purpose rulebook for unrelated sessions. That is a decided sentence, closing the recurring scope
+2026-07-16). The base serves the pack's skills and the projects that adopted the pack. It is no
+general-purpose rulebook for unrelated sessions. That decided sentence closes the recurring scope
 question for good.
 
 ## The settings ladder
 
-How the pack behaves is a **named setting** living in one of four nested scopes. A setting belongs to the
-scope it describes. Broader values are inherited downward until a narrower scope overrides them on the
-human's word. Resolution reads from the narrowest scope out — **session beats host beats personal beats
+How the pack behaves is a **named setting** living in one of four nested scopes, and a setting belongs to
+the scope it describes. Broader values are inherited downward until a narrower scope overrides them on
+the human's word. Resolution reads from the narrowest scope out — **session beats host beats personal beats
 package default** (SPEC E-13):
 
 | Scope | Home | Holds settings about |
@@ -681,12 +671,11 @@ only on the human's word, and the agent may propose but never set them (SPEC INV
 freshness points as skills (rule 8). A profile line the current pack does not recognize is ignored out
 loud, named once in the session's next report as a visible, ordinary skip, never an error.
 
-**The profile is found or founded at setup (SPEC B-3).** The pack looks for the personal profile before
+**The profile is found or founded at setup (SPEC B-3)**. The pack looks for the personal profile before
 the founding questions resolve. It looks at founding, at adoption's orient, and at the first session on
 a new machine or with a new human. Found ⇒ loaded and said aloud. Absent ⇒ an offer to create it from
 `templates/profile.template.md`, which sits in the pack's own tree. The human tells about themselves and
-may name sources for the pack
-to read and propose from. Every line lands on the human's word, and a declined proposal is dropped (INV-9
+may name sources for the pack to read and propose from. Every line lands on the human's word, and a declined proposal is dropped (INV-9
 caps it: mode and trust move only on their word). A declined step runs the session on package
 defaults, said aloud, and the offer returns at the next setup. A worker session never onboards
 anyone, since its brief carries its setting lines (SPEC ACT-3).
@@ -731,11 +720,11 @@ A rung of the economy ladder sets how fast and how cheaply the work runs. The st
 to stands outside every rung. A check the method calls for runs at whatever the plan costs. A fresh
 clean-context agent is raised every time the method asks for one. Four such asks are an adversarial
 review, a cold reading, a release re-prove, and a deep spec-and-architecture audit. Economy is bought
-from pace, from batching, and from a cheaper tier on mechanical work. It is bought from no check. The
-full never-bend list this rule
-joins lives in the economy-ladder section of `PRODUCT_SPEC.md` (SPEC INV-40, R220). The owner's word,
-2026-08-05 at 22:52: quality never suffers, whatever else does. At 22:12 he named the smaller plan
-and asked that a fresh worker the method needs be raised on it all the same.
+from pace, from batching, and from a cheaper tier on mechanical work. It is never bought from a
+dropped check. The full never-bend list this rule joins lives in the economy-ladder section of
+`PRODUCT_SPEC.md` (SPEC INV-40, R220). The owner's word, 2026-08-05 at 22:52: quality never suffers,
+whatever else does. At 22:12 he had named the smaller plan. He asked that a fresh worker the method
+needs be raised on it all the same.
 
 > The pack, whole: **live-spec-base** holds the shared rules and defaults · **spec-author** writes the spec ·
 > **product-prover** reviews it · **design-reviewer** judges the design behind it · **build-pipeline** ships the change · **test-author** derives the matrix and writes the tests · **communicator** makes the human
