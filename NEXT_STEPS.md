@@ -4,19 +4,20 @@ A digest with no redundancy (SPEC INV-48) — one live-state block, nothing remo
 information. One status block stands here at a time, and every update replaces it. Dated history
 lives in `JOURNAL.md`.
 
-## LIVE STATE (2026-08-07, 10:27)
+## LIVE STATE (2026-08-07, 15:02)
 
-The night order's build work is done and the morning's two orders are moving. Landed since
-the 09:22 block, four movements. The rulebook cut's second file, the shared rulebook,
-verified fresh with one weakened sentence repaired (row 570). His 09:11 strike of the
-README's line-count boasts. The invented-numbers first batch: three size caps on spec text
-removed, two stale test numbers now reading the live record (row 576). Its rulings and
-census pages stand in docs/audits/. The landing-refresh law's heal road, whose landing
-commit heals the night's three missed resume-file refreshes by name (row 577). The fresh-seat adversarial review returned six defects, and all six
-are fixed and landed. Its record is filed under docs/prover/. Rows 578 and 579 hold its two
-working recommendations. The journal carries the night's chapter. Open: he reads the two
-pages, "what a feature costs" and the number rulings. The final full suite and the push
-close the order.
+The 01:06 order is closed. Its tail was the final full suite and the push. The suite ran
+green at 2,502 tests in 539 seconds. Commit 7a178f4 carries the sweep and the counts
+refresh, and the push sends it with this block.
+
+The inbox is empty. Three deposits from the tlvphotos window were swept this pass. The
+system-dialogs deposit became queue row 581. The focus-and-draft-cost deposit became rows
+582 and 583. The token-and-context-thrift deposit became row 584. Each deposit is recorded
+in the feedback ledger and archived under docs/queue-archive/. The sweep also found the
+earned-message gate refusing the template its own home prints, which is row 585.
+
+The night's own landings and the morning's two orders stand in the journal's 2026-08-07
+chapters. Open: he reads the two pages, "what a feature costs" and the number rulings.
 
 The plan page stands at docs/plans/2026-08-07-night-plan.md; his 01:41 word released it. Two
 task statements are frozen through the clean-reader check, spoken letter for letter: "what a
@@ -26,18 +27,17 @@ stay on the row with the before-measurements.
 
 ## Forward queue
 
-1. The tail of his 01:06 order: the final full suite and the push.
-2. Row 576: the invented-numbers table — the seat rules on each enumerated number, removals
+1. Row 576: the invented-numbers table — the seat rules on each enumerated number, removals
    land in named batches, the table goes to him.
-3. Row 166 resumes: the fresh adversarial review of the board's specification, the
+2. Row 166 resumes: the fresh adversarial review of the board's specification, the
    stage-ladder re-map, the task-graph criteria. Its page revision reads the kanban-tools
    study in ~/live-spec-carry/2026-08-06/.
-4. Row 567 (bug): the session rules name a register check no host tree holds. Ship it with
+3. Row 567 (bug): the session rules name a register check no host tree holds. Ship it with
    the pack or re-word the law.
-5. Row 566: board-ready statements for the whole queue, in batches through the entry check.
+4. Row 566: board-ready statements for the whole queue, in batches through the entry check.
+5. Rows 581-585, this morning's intake: the system-dialog announcement, the thread in hand,
+   the early showing, the thrift rule, and the earned-message gate's own form.
 6. Rows 558-565 and 532-546 stand as before; see the queue.
-7. A tlvphotos inbox deposit (system dialogs need announcing) arrived ~01:20, measured,
-   unswept. The morning sweep takes it.
 
 ## Where the numbers live
 

@@ -2389,3 +2389,36 @@ tension named for his eye; the rulebook row's hidden progress written out with i
 filed at docs/prover/2026-08-07-night-order-adversarial.md (d62ef94). WHY the night went this
 way: his four complaints were each a class, and every repair swept its class — the fence, the
 leak, the grounding, the numbers — rather than the instance that surfaced it.
+
+
+## 2026-08-07, 14:45–15:02 — the morning sweep, and the 01:06 order's tail closed
+
+The forward queue's item 7 named one unswept tlvphotos deposit. By the time the sweep ran there
+were three. All three were read, judged at the door, recorded and archived in one commit
+(7a178f4). The system-dialogs deposit — a session raising keychain dialogs the owner answers with
+Deny, twice in one night, with the session unable to see either — became row 581. The
+focus-and-draft-cost deposit carried two findings and became two rows: 582, that nothing in the
+pack keeps the number of open threads down, so five prototype pages stand open while the two he
+cares about move not at all; and 583, that a long build with no early showing spends its whole
+cost before the first word of feedback, and that the report which follows hands him six addresses
+where one would do. The token-and-context-thrift deposit became row 584: spend context and tokens
+deliberately, the saving coming out of process rather than out of depth. Each deposit has its
+dated line in FEEDBACK.md and its file under docs/queue-archive/, with the harvest line naming
+the rows it fed.
+
+The sweep found a defect of its own, and it is row 585. `guardrails/check-earned-message.py`
+reported all three deposits unearned. One of the three had in fact named its birth exactly as
+`inbox/README.md` prints the template — inside a fenced block — and the gate reads past every
+fence before it reads any field. The other two carried the owner's own words relayed by that
+window, and the reserved owner door reads the filename alone, so his wish relayed by an agent is
+read as an agent's unearned message. Counting the 2026-07-28 deposit, four real deposits have now
+been taken in on their substance over a gate that reported each one unearned. WHY this matters
+more than its three instances: a gate whose every real subject is waved through by hand teaches
+the sweep to stop reading it, and the gate that never earns a verdict is the one that misses the
+message it was built to catch.
+
+The order's tail then closed. The full suite ran green at 2,502 tests in 538.86 seconds, the
+census was re-measured with the three deposits gone — the spec's ceiling falling 1,866 to 1,865 —
+and the progress page rode the same numbers. The push-gate re-check is filed short-form at
+docs/prover/2026-08-07-pushgate-intake-sweep.md, the delta being small and touching neither the
+spec nor the architecture.
