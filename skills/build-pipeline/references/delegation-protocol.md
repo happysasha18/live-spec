@@ -93,5 +93,5 @@ The line is what keeps the habit alive; a session that never writes it is a sess
 stopped delegating. The line lives in the row's delivery report, which the closing commit moves to the archive with the
 row, and a suite check reads it from the archive: a delivered row without the line goes red
 (SPEC INV-103, INV-276, forward from 2026-07-12).
- The same accounting also names the reads dispatched beside the work delegated, so a session that filled its own context with a read it should have dispatched shows that in the report (SPEC INV-137). The duty binds the
+ The same accounting also names the reads dispatched beside the work delegated, so a session that filled its own context with a read it should have dispatched shows that in the report (SPEC INV-137). Each work block in the report opens by naming its root, and the report accounts the block against its announced plan line (SPEC INV-314). The duty binds the
 orchestrator seat regardless of model, whatever tier leads the seat.

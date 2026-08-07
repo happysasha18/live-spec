@@ -151,7 +151,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 - **net-liveness meter** — the shared instrument that records how often a net ran and how often it fired, and reads the two numbers back so a silent net is caught by the numbers.
 - **never side** — the half of a matrix row's sentence stating what the fact must never do, written with the literal word *never*.
 - **never-bend list** — the set of protections that holds at every rung of the economy ladder and does not bend.
-- **new-criteria budget** — the byte sum a spec-touching delivery declares for the criteria it adds under the *new* kind, each within the per-criterion byte cap.
+- **new-criteria budget** — the byte sum a spec-touching delivery declares for the criteria it adds under the *new* kind.
 - **node block** — the group of matrix rows owned by one architecture node, headed by the node's name, standing as the matrix's case grouping.
 - **node reader** — the one reader that reads the node shape — the node names, each node's owned-anchor set, and each node's pins — read through by every consumer of the architecture; the sibling of `guardrails/specformat.py`, the spec format's one reader.
 - **node section** — the section one architecture node stands as, headed `### [node: <name>]` and carrying four fields: the responsibility, the owns list of spec anchors, the pins list of file-and-line places, and a notes line for what the other fields cannot hold.
