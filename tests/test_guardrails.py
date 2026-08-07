@@ -649,6 +649,80 @@ class TestPostCommitFenceReArm(unittest.TestCase):
         with open(os.path.join(tmp, ".live-spec-fence")) as f:
             return [ln.strip() for ln in f.readlines()]
 
+    def _commit_no_verify(self, tmp, msg, extra_env):
+        with open(os.path.join(tmp, "f.txt"), "a") as f:
+            f.write(msg + "\n")
+        run(["git", "add", "f.txt"], cwd=tmp)
+        return run(["git", "commit", "-q", "--no-verify", "-m", msg], cwd=tmp,
+                    extra_env=extra_env)
+
+    def test_no_verify_commit_after_foreign_move_does_not_rearm(self):
+        """Regression pin, adversarial review D1 (row 572): session A arms and
+        commits; foreign session B commits first-through, leaving the fence stale;
+        A then commits with --no-verify, which skips pre-commit entirely but still
+        runs post-commit. Token matching alone used to re-arm the fence to a HEAD
+        that CONTAINS B's commit, silently absorbing B's move. The fix requires
+        this commit's own parent to equal the recorded sha before re-arming — since
+        A's --no-verify commit's parent is B's commit, not the recorded sha, the
+        fence must stay untouched, and A's next NORMAL commit must still block."""
+        with tempfile.TemporaryDirectory() as tmp:
+            self._init_repo(tmp)
+            run([os.path.join(GUARDRAILS, "fence-refresh.sh")], cwd=tmp, extra_env=self.SESSION_A)
+
+            own = self._commit(tmp, "session A's own commit", self.SESSION_A)
+            self.assertEqual(own.returncode, 0, own.stdout + own.stderr)
+            fence_sha_after_own = self._fence_lines(tmp)[0]
+
+            # Foreign session B commits first-through — allowed (first writer through
+            # an armed-but-unmoved HEAD), but leaves the fence stale at A's sha.
+            foreign = self._commit(tmp, "session B's foreign commit", self.SESSION_B)
+            self.assertEqual(foreign.returncode, 0, foreign.stdout + foreign.stderr)
+            self.assertEqual(self._fence_lines(tmp)[0], fence_sha_after_own)
+
+            # Session A commits with --no-verify: pre-commit's staleness check is
+            # skipped entirely, but post-commit still runs and A's token still
+            # matches the recorded one. This is exactly the defect sequence.
+            no_verify = self._commit_no_verify(tmp, "A's no-verify commit", self.SESSION_A)
+            self.assertEqual(no_verify.returncode, 0, no_verify.stdout + no_verify.stderr)
+
+            # The fence must still be stale at A's last honest commit — NOT re-armed
+            # to a HEAD that contains B's commit.
+            self.assertEqual(self._fence_lines(tmp)[0], fence_sha_after_own,
+                              "post-commit must not re-arm across a foreign commit "
+                              "just because a --no-verify commit's token matched")
+            head_after_no_verify = run(["git", "rev-parse", "HEAD"], cwd=tmp).stdout.strip()
+            self.assertNotEqual(self._fence_lines(tmp)[0], head_after_no_verify)
+
+            # A's next NORMAL commit (pre-commit runs) must now BLOCK — B's move was
+            # never surfaced, so the fence must still catch it here.
+            blocked = self._commit(tmp, "A tries a normal commit next", self.SESSION_A)
+            self.assertEqual(blocked.returncode, 1, blocked.stdout + blocked.stderr)
+            self.assertIn("COMMIT BLOCKED", blocked.stdout + blocked.stderr)
+
+    def test_recorded_token_present_but_session_empty_at_commit_no_rearm(self):
+        """R4 gap: the fence is armed WITH a real recorded token, but the commit
+        happens with no session token available at all (plain shell, both env vars
+        empty). post-commit must not re-arm — it exits at the empty-token guard
+        before ever comparing tokens or parents."""
+        with tempfile.TemporaryDirectory() as tmp:
+            self._init_repo(tmp)
+            run([os.path.join(GUARDRAILS, "fence-refresh.sh")], cwd=tmp, extra_env=self.SESSION_A)
+            fence_sha_after_arm = self._fence_lines(tmp)[0]
+
+            no_token_env = {"LIVE_SPEC_SESSION_ID": "", "CLAUDE_CODE_SESSION_ID": ""}
+            result = self._commit(tmp, "commit with no session token present", no_token_env)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+            # fence untouched: still recorded at the armed sha, not the new HEAD
+            self.assertEqual(self._fence_lines(tmp)[0], fence_sha_after_arm)
+            head_after = run(["git", "rev-parse", "HEAD"], cwd=tmp).stdout.strip()
+            self.assertNotEqual(self._fence_lines(tmp)[0], head_after)
+
+            # so the very next commit blocks, even though it's session A trying again
+            blocked = self._commit(tmp, "A tries again", self.SESSION_A)
+            self.assertEqual(blocked.returncode, 1, blocked.stdout + blocked.stderr)
+            self.assertIn("COMMIT BLOCKED", blocked.stdout + blocked.stderr)
+
     def test_same_session_two_commits_no_manual_refresh(self):
         """Deliverable 2a: one session lands two commits with no manual refresh."""
         with tempfile.TemporaryDirectory() as tmp:
@@ -720,6 +794,130 @@ class TestPostCommitFenceReArm(unittest.TestCase):
             second = self._commit(tmp, "no-token commit 2", no_token_env)
             self.assertEqual(second.returncode, 1, second.stdout + second.stderr)
             self.assertIn("COMMIT BLOCKED", second.stdout + second.stderr)
+
+
+class TestFenceSessionTokenFallback(unittest.TestCase):
+    """R4 gap: $LIVE_SPEC_SESSION_ID unset but $CLAUDE_CODE_SESSION_ID set — the
+    fallback branch (fence-refresh.sh and post-commit both do
+    "${LIVE_SPEC_SESSION_ID:-${CLAUDE_CODE_SESSION_ID:-}}") must arm AND re-arm on
+    the CLAUDE_CODE_SESSION_ID value, not silently treat it as no-token."""
+
+    CLAUDE_TOKEN = "claude-code-session-token-only"
+
+    def _init_repo(self, tmp):
+        run(["git", "init", "-q"], cwd=tmp)
+        run(["git", "config", "user.email", "a@example.com"], cwd=tmp)
+        run(["git", "config", "user.name", "a"], cwd=tmp)
+        hooks_dir = os.path.join(tmp, ".git", "hooks")
+        for hook in ("pre-commit", "post-commit"):
+            shutil.copy(os.path.join(GUARDRAILS, hook), os.path.join(hooks_dir, hook))
+            os.chmod(os.path.join(hooks_dir, hook), 0o755)
+        with open(os.path.join(tmp, "f.txt"), "w") as f:
+            f.write("hi\n")
+        run(["git", "add", "f.txt"], cwd=tmp)
+        run(["git", "commit", "-q", "-m", "init"], cwd=tmp)
+
+    def _run_no_livespec_token(self, args, cwd):
+        """Like the module-level run(), but explicitly ensures LIVE_SPEC_SESSION_ID
+        is ABSENT (not merely empty) so only the CLAUDE_CODE_SESSION_ID fallback is
+        exercised, regardless of what the ambient test environment carries."""
+        env = dict(os.environ)
+        env.pop("LIVE_SPEC_SESSION_ID", None)
+        env["CLAUDE_CODE_SESSION_ID"] = self.CLAUDE_TOKEN
+        return subprocess.run(args, cwd=cwd, capture_output=True, text=True, env=env)
+
+    def _commit(self, tmp, msg):
+        with open(os.path.join(tmp, "f.txt"), "a") as f:
+            f.write(msg + "\n")
+        self._run_no_livespec_token(["git", "add", "f.txt"], tmp)
+        return self._run_no_livespec_token(["git", "commit", "-q", "-m", msg], tmp)
+
+    def _fence_lines(self, tmp):
+        with open(os.path.join(tmp, ".live-spec-fence")) as f:
+            return [ln.strip() for ln in f.readlines()]
+
+    def test_claude_code_session_id_fallback_arms_and_rearms(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            self._init_repo(tmp)
+            refresh = self._run_no_livespec_token(
+                [os.path.join(GUARDRAILS, "fence-refresh.sh")], tmp)
+            self.assertEqual(refresh.returncode, 0, refresh.stdout + refresh.stderr)
+            # arm recorded the CLAUDE_CODE_SESSION_ID value as the token (line 2)
+            self.assertEqual(self._fence_lines(tmp)[1], self.CLAUDE_TOKEN)
+
+            first = self._commit(tmp, "fallback commit 1")
+            self.assertEqual(first.returncode, 0, first.stdout + first.stderr)
+            head_after_first = subprocess.run(
+                ["git", "rev-parse", "HEAD"], cwd=tmp, capture_output=True, text=True
+            ).stdout.strip()
+            # re-armed to the new HEAD purely off the CLAUDE_CODE_SESSION_ID fallback
+            self.assertEqual(self._fence_lines(tmp)[0], head_after_first)
+
+            # a second commit under the same fallback token must not block
+            second = self._commit(tmp, "fallback commit 2")
+            self.assertEqual(second.returncode, 0, second.stdout + second.stderr)
+            self.assertNotIn("COMMIT BLOCKED", second.stdout + second.stderr)
+
+
+class TestFenceCorruptedFile(unittest.TestCase):
+    """R4 gap: a corrupted .live-spec-fence (garbage line 1, or extra lines) must
+    fail CLOSED — pre-commit blocks rather than passing a malformed sha compare —
+    and post-commit must never touch a fence it did not itself just re-arm cleanly
+    (no commit succeeds here, so post-commit never even fires; this pins that the
+    file is left byte-for-byte as written, not "fixed up" or cleared)."""
+
+    def _init_repo(self, tmp):
+        run(["git", "init", "-q"], cwd=tmp)
+        run(["git", "config", "user.email", "a@example.com"], cwd=tmp)
+        run(["git", "config", "user.name", "a"], cwd=tmp)
+        hooks_dir = os.path.join(tmp, ".git", "hooks")
+        for hook in ("pre-commit", "post-commit"):
+            shutil.copy(os.path.join(GUARDRAILS, hook), os.path.join(hooks_dir, hook))
+            os.chmod(os.path.join(hooks_dir, hook), 0o755)
+        with open(os.path.join(tmp, "f.txt"), "w") as f:
+            f.write("hi\n")
+        run(["git", "add", "f.txt"], cwd=tmp)
+        run(["git", "commit", "-q", "-m", "init"], cwd=tmp)
+
+    def _try_commit(self, tmp, msg):
+        with open(os.path.join(tmp, "f.txt"), "a") as f:
+            f.write(msg + "\n")
+        run(["git", "add", "f.txt"], cwd=tmp)
+        return run(["git", "commit", "-q", "-m", msg], cwd=tmp)
+
+    def test_one_line_garbage_fence_blocks_and_is_left_untouched(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            self._init_repo(tmp)
+            fence_path = os.path.join(tmp, ".live-spec-fence")
+            garbage = "not-a-real-sha-at-all\n"
+            with open(fence_path, "w") as f:
+                f.write(garbage)
+
+            result = self._try_commit(tmp, "should be blocked by garbage fence")
+            self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+            self.assertIn("COMMIT BLOCKED", result.stdout + result.stderr)
+
+            with open(fence_path) as f:
+                self.assertEqual(f.read(), garbage,
+                                  "a blocked commit must leave the corrupted fence "
+                                  "exactly as written, not rewrite or clear it")
+
+    def test_three_line_fence_blocks_and_is_left_untouched(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            self._init_repo(tmp)
+            fence_path = os.path.join(tmp, ".live-spec-fence")
+            garbage = "also-not-a-real-sha\nsome-token\nunexpected-third-line\n"
+            with open(fence_path, "w") as f:
+                f.write(garbage)
+
+            result = self._try_commit(tmp, "should be blocked by 3-line fence")
+            self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+            self.assertIn("COMMIT BLOCKED", result.stdout + result.stderr)
+
+            with open(fence_path) as f:
+                self.assertEqual(f.read(), garbage,
+                                  "a blocked commit must leave the corrupted fence "
+                                  "exactly as written, not rewrite or clear it")
 
 
 class TestInstallScript(unittest.TestCase):

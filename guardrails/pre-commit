@@ -65,10 +65,19 @@ if [ "$recorded_sha" != "$current_sha" ]; then
   echo "COMMIT BLOCKED — the concurrent-edit fence is armed and HEAD has moved."
   echo "  Recorded HEAD: $recorded_sha"
   echo "  Current HEAD:  $current_sha"
-  echo "  Someone else committed or pulled into this repo since your session started."
-  echo "  Review what changed (e.g. git log $recorded_sha..$current_sha), then refresh"
-  echo "  the fence once you've accounted for it:"
-  echo "    guardrails/fence-refresh.sh"
+  recorded_token="$(sed -n '2p' "$FENCE_FILE" | tr -d '[:space:]')"
+  session_token="${LIVE_SPEC_SESSION_ID:-${CLAUDE_CODE_SESSION_ID:-}}"
+  if [ -n "$recorded_token" ] && [ "$recorded_token" != "$session_token" ]; then
+    # Restart-staleness diagnosis: after a session restart (new token) or a foreign
+    # window's commit, the fence blocks with no hint of WHOSE arm it is. Name it.
+    echo "  This arm belongs to another session (or one that has since ended) —"
+    echo "  not this one. It is not necessarily something to review; it may just be stale."
+  else
+    echo "  Someone else committed or pulled into this repo since your session started."
+  fi
+  echo "  Review what changed (e.g. git log $recorded_sha..$current_sha) if needed, then"
+  echo "  re-arm the fence for this session with the one command:"
+  echo "    bash guardrails/fence-refresh.sh"
   exit 1
 fi
 

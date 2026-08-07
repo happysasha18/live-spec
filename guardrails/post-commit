@@ -16,6 +16,29 @@
 # the token already recorded — i.e. only the session that currently owns the arm can
 # extend it.
 #
+# Token-matching alone is not enough (adversarial review, row 572 defect D1): a
+# session that commits with `--no-verify` skips pre-commit — the staleness check
+# never runs — but post-commit still fires. If a foreign commit had slid in first
+# (fence goes stale at the recorded sha, foreign commit lands because a first writer
+# through an armed-but-unmoved HEAD is allowed), the `--no-verify` commit's token
+# still matches the recorded one, and a token-only check would re-arm the fence to a
+# HEAD that CONTAINS the foreign commit — silently absorbing it, with nobody ever
+# shown that a foreign move happened.
+#
+# So this hook also requires that the new HEAD's PARENT (`git rev-parse HEAD^`)
+# equals the sha recorded on line 1 — i.e. this commit's own parent is exactly what
+# the fence last saw, so nothing landed in between. If it does not (a foreign commit
+# slid in, or the session amended and rewrote history out from under its own arm),
+# the hook leaves the fence file untouched: the recorded sha stays stale, and the
+# fence still blocks at the next honest (non-`--no-verify`) commit, from anyone.
+#
+# Accepted price: this makes a session's own `git commit --amend` cost one manual
+# guardrails/fence-refresh.sh afterward. An amend rewrites the very commit the fence
+# had recorded on line 1 into a new sha; the amended commit's parent is its
+# grandparent, not the recorded (now-superseded) sha, so the parent check correctly
+# reads this as "something changed underneath the arm" and refuses to auto-rearm.
+# That one manual step per amend is the deliberate cost of closing D1.
+#
 # A foreign session's commit still lands (the fence only ever catches DIVERGENCE,
 # never the first writer through an armed-but-unmoved HEAD — that is unchanged and
 # is not this hook's job to alter). But that foreign commit's token does not match
@@ -33,6 +56,7 @@ FENCE_FILE="$REPO_ROOT/.live-spec-fence"
 
 [ -f "$FENCE_FILE" ] || exit 0
 
+recorded_sha="$(sed -n '1p' "$FENCE_FILE" | tr -d '[:space:]')"
 recorded_token="$(sed -n '2p' "$FENCE_FILE" | tr -d '[:space:]')"
 session_token="${LIVE_SPEC_SESSION_ID:-${CLAUDE_CODE_SESSION_ID:-}}"
 
@@ -42,6 +66,14 @@ session_token="${LIVE_SPEC_SESSION_ID:-${CLAUDE_CODE_SESSION_ID:-}}"
 
 # Only the session that currently owns the arm gets to extend it.
 [ "$recorded_token" = "$session_token" ] || exit 0
+
+# D1: token match alone is not proof nothing landed in between (a --no-verify commit
+# skips the pre-commit staleness check entirely). Require this commit's own parent
+# to be exactly the sha the fence last recorded — if a foreign commit slid in, or an
+# amend rewrote the recorded commit out from under the arm, HEAD^ will not match and
+# this hook must leave the fence alone.
+new_head_parent="$(git -C "$REPO_ROOT" rev-parse HEAD^ 2>/dev/null || true)"
+[ -n "$new_head_parent" ] && [ "$new_head_parent" = "$recorded_sha" ] || exit 0
 
 new_head="$(git -C "$REPO_ROOT" rev-parse HEAD)"
 {
