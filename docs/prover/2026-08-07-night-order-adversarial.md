@@ -1,6 +1,8 @@
 # Prover record — 2026-08-07, the night order and the morning's two orders
 Record filed by the orchestrator seat at 10:25 from the fresh reviewer's report, verbatim below.
 (The filing first carried an invented 10:37 stamp; corrected against the filing commit's own clock.)
+Addendum, 10:48: the push gate re-measured the full suite at 473 s over 2,502 tests; the
+architecture's wall-time row re-set to the fresh figure per its own law, in this record's commit.
 Reviewer: a clean-context seat on the strongest tier, distinct from the authoring seat (base rule 33).
 Range: 7c3858a..HEAD. Verdict as returned: 6 defects, 8 recommendations. Disposition at filing:
 all six defects fixed and landed (D1 e8921e8, D2 f6048da, D3 f6048da, D4 removed with its journal
