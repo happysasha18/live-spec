@@ -1,8 +1,9 @@
 # [Project Name] — Next Steps
 
-> Digest law: this whole file stays at or under 100 lines (SPEC INV-48) — one terse line per open
-> leg (its name, what stays open, where the detail lives); detail flows to the journal and the queue
-> rows this file points at. Compaction moves prose to its home; it never drops an open leg.
+> Digest law: this whole file holds one live-state block and a digest with no redundancy — nothing
+> removable without losing information (SPEC INV-48) — one terse line per open leg (its name, what
+> stays open, where the detail lives); detail flows to the journal and the queue rows this file
+> points at. Compaction moves prose to its home; it never drops an open leg.
 
 **This is a resume file.** It holds ONLY the current live state + the forward queue. When a new movement lands, REPLACE the live state block. Never stack entries. Dated history and the WHY live in JOURNAL.md.
 

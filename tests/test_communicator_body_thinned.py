@@ -19,6 +19,8 @@ from conftest import ROOT, read, read_flat
 
 SKILL_REL = os.path.join("skills", "communicator", "SKILL.md")
 EXAMPLES_REL = os.path.join("skills", "communicator", "references", "field-examples.md")
+# Derivation: the published skill-authoring guidance (~/.claude/skills/skill-creator/SKILL.md,
+# "Keep SKILL.md under 500 lines") — not a project-invented number.
 IDEAL_MAX_LINES = 500  # the Done-when's "under ~500"
 
 

@@ -2851,17 +2851,17 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 ---
 
-## Requirement 127: The resume file is a digest under a hard cap
+## Requirement 127: The resume file is a digest with no redundancy
 
-**Context:** The resume file is read in one minute at a cold start, so growth is a design failure. The whole file holds at most 100 lines, and a suite check owns the number, going red on a bloated file proven with a synthetic one. The cap and the restate-every-open-leg law are reconciled by form: an open leg is restated as one terse line, and its detail flows to its home.
+**Context:** The resume file is read in one minute at a cold start, so growth is a design failure. The file's law is qualitative: it carries one live-state block, holding nothing a reader could lose without losing information. A suite check watches for drift, catching a bloated file with a synthetic fixture. An open leg is restated as one terse line, and its detail flows to its home.
 
 **User Story:** As a returning session, I want the resume file capped and each open leg stated in one terse line, so that a cold start reads a short, capped current picture.
 
 ### Acceptance Criteria
 
-**Case: the hard cap and its check**
+**Case: the digest law and its check**
 
-1. The system *shall* hold the whole resume file at 100 lines or fewer and *shall* have a suite check own the number, reddening on a bloated file proven with a synthetic one. [INV-48]
+1. The system *shall* hold the whole resume file to one live-state block and a digest with no redundancy — nothing removable without losing information. A suite check *shall* own that shape, reddening on a bloated file proven with a synthetic one. [INV-48]
 2. The system *shall* restate an open leg as one terse line — its name, what stays open, and where the detail lives — and *shall* move the detail to the journal, the queue row, or the record the line points at. [INV-48, INV-26]
 3. The system *shall* have compaction move prose to its home and *shall* never let it drop an open leg. [INV-48, INV-26]
 
@@ -6740,7 +6740,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 **Case: growth stays inside the declared budget**
 
 8. *when* a delivery declares its *new* criteria, the system *shall* sum their bytes into the delivery's new-criteria budget. [INV-263]
-9. Each declared new criterion *shall* fit within a 500-byte cap. [INV-263]
+9. A declared new criterion *shall* carry no redundancy, and its form *shall* be governed by the readability arms. [INV-263]
 10. *when* the delta classifier measures the document's byte growth over the delivery, it *shall* exclude declared sharpen bytes and glossary-addition bytes from the growth. [INV-263]
 11. *if* the measured growth exceeds the declared new-criteria budget, *then* the delta classifier *shall* red. [INV-263]
 

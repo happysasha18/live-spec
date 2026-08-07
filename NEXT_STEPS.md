@@ -1,39 +1,46 @@
 # Next steps — live-spec
 
-A digest, at or under 100 lines (SPEC INV-48). One status block stands here at a time, and every
-update replaces it. Dated history lives in `JOURNAL.md`.
+A digest with no redundancy (SPEC INV-48) — one live-state block, nothing removable without losing
+information. One status block stands here at a time, and every update replaces it. Dated history
+lives in `JOURNAL.md`.
 
-## LIVE STATE (2026-08-07, 01:20)
+## LIVE STATE (2026-08-07, 09:22)
 
-The night session closed after his four complaints of 00:17. The work is slow. The context is
-huge. He wants the board for correcting state by eye. Work blocks start with no grounding he can
-see. The complaints stand as rows 568, 570, 166 (field evidence), and 569. His three answers of ~01:10 are in
-DECISIONS.md. No numeric caps: the one text standard is no redundancy. No self-invented numeric
-standards anywhere. The test plan derives from the settled specifications.
-Two repairs landed the same night. The record-freshness check gained a work road, so a clean tree
-reads green after midnight (row 571, archived). The suite's scratch self-run now remembers its
-last green digest and skips while the checks are byte-identical (row 573, archived). Law 7 — every
-act and report opens by naming its root — rides the session-rules reminder on every prompt. The
-cost-map page is docs/audits/2026-08-07-cost-map.md; his answers close its questions 1, 3 and 4.
+His 01:06 order is five-sixths done, in eight commits on the tree, unpushed. The plan page
+stands at docs/plans/2026-08-07-night-plan.md; his 01:41 word released it. Landed: the
+edit-safety check now recognizes the session's own commits (row 572); the suite's
+temp-folder leak is closed at its root, three clean full runs (row 574); grounded work is
+written law — Requirement 310, a block and every report line open by naming their root (row
+569); the page "what a feature costs" is finished under his three recorded answers, and his
+read is its one open piece (row 568); the rulebook cut took its first file, the spec
+reviewer's, verified by a fresh reader (row 570). Still open from the order: the shared
+rulebook's rewrite is finishing under a worker now, and after it come the fresh-seat
+adversarial review of the whole night, the journal chapter, one full green suite, and the
+push.
 
-His 01:06 order for the next session stands in force. Present one plan covering all four
-complaints before any work, in plain words. Execute it without deviation. The result must
-survive an adversarial review. Start there. The board state stands as recorded in the journal's
-2026-08-06 22:01 chapter and its checkpoint file.
+The morning added two of his orders. At 09:11 he struck the README's line-count boast; the
+heading, the three-hundred-records count, and both floors are edited out, landing when the
+rulebook file settles (rides row 570's landing). At 09:16 he ordered every process-invented
+number found and rooted out — row 576, in work, an enumerator sweeping the tree. Two task
+statements are frozen through the clean-reader check: "what a feature costs" (row 568) and
+"the rulebook cut" (row 570); the seat speaks them letter for letter.
 
 ## Forward queue
 
-1. His 01:06 order: the plan over rows 568, 569, 570, presented first, then executed without
-   deviation, then adversarially reviewed by a fresh seat. Rows 572 and 574 ride it as repairs.
-2. Row 166 resumes after that: the fresh adversarial review of the board's specification, the
-   stage-ladder re-map, the task-graph criteria. Its page revision reads the kanban-tools study
-   in ~/live-spec-carry/2026-08-06/.
-3. Row 567 (bug): the session rules name a register check no host tree holds. Ship it with the
-   pack or re-word the law.
-4. Row 566: board-ready statements for the whole queue, in batches through the entry check.
-5. Rows 558-565 and 532-546 stand as before; see the queue.
-6. A tlvphotos inbox deposit (system dialogs need announcing) arrived ~01:20, measured, unswept.
-   The morning sweep takes it.
+1. The tail of his 01:06 order: finish the shared rulebook's rewrite, verify it fresh, land
+   it with the README number-claims removal; then the fresh-seat adversarial review, the
+   journal, the full suite, the push.
+2. Row 576: the invented-numbers table — the seat rules on each enumerated number, removals
+   land in named batches, the table goes to him.
+3. Row 166 resumes: the fresh adversarial review of the board's specification, the
+   stage-ladder re-map, the task-graph criteria. Its page revision reads the kanban-tools
+   study in ~/live-spec-carry/2026-08-06/.
+4. Row 567 (bug): the session rules name a register check no host tree holds. Ship it with
+   the pack or re-word the law.
+5. Row 566: board-ready statements for the whole queue, in batches through the entry check.
+6. Rows 558-565 and 532-546 stand as before; see the queue.
+7. A tlvphotos inbox deposit (system dialogs need announcing) arrived ~01:20, measured,
+   unswept. The morning sweep takes it.
 
 ## Where the numbers live
 

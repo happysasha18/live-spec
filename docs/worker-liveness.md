@@ -54,6 +54,6 @@ When the code step was delegated and the delta is surface-sized, verify also run
 
 Every movement ends the same way: replace the NEXT_STEPS live state, add a dated journal entry, and commit. After that, session memory can be wiped with zero loss (M-2). NEXT_STEPS may be gitignored, so the journal entry is the durable net.
 
-The resume file is a digest with a hard cap: the whole NEXT_STEPS file holds at most 100 lines [default], and a suite check owns the number. An open leg restates as one terse line — its name, what stays open, and where the detail lives — while the detail itself flows to the journal or the queue row (INV-48, INV-26).
+The resume file is a digest with no redundancy: the whole NEXT_STEPS file holds one live-state block and nothing removable without losing information, and a suite check owns that shape. An open leg restates as one terse line — its name, what stays open, and where the detail lives — while the detail itself flows to the journal or the queue row (INV-48, INV-26).
 
 A cold session reads NEXT_STEPS first. If the pause left a red test, the failing test name plus a hypothesis stands as the top item; the checkpoint is the red test, and red is never committed (live-spec-base rule 6). If the note records a live worker, the session runs the three liveness checks above before touching that worker's files or spawning any sibling (INV-76). On the way back it also re-checks skill freshness (A-7).

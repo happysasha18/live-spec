@@ -681,9 +681,9 @@ The classifier diffs the old criteria set against the new one under normalizatio
 italic markers stripped, case folded outside code anchors — and reds where the record and the diff
 disagree — an added code with no `new` declared, a
 vanished code with no `retire`, a changed criterion with no `sharpen`. A `sharpen` also proves the old
-sentence no longer survives anywhere in the new document. Each declared `new` criterion fits a **500-byte
-cap**, and the delivery's measured criterion-byte growth (excluding sharpen deltas and glossary additions)
-stays within the sum of the byte counts of its declared new criteria.
+sentence no longer survives anywhere in the new document. The delivery's measured criterion-byte growth
+(excluding sharpen deltas and glossary additions) stays within the sum of the byte counts of its declared
+new criteria.
 
 Beside the per-delivery record, the whole spec holds a **bytes-per-criterion ratchet**: the byte count of
 its criterion lines alone, divided by the count of criteria, recorded in `guardrails/spec-ratchet.json` and

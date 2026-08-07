@@ -49,6 +49,9 @@ import re
 import sys
 
 # ---- The floors (defaults; a host may override on its word, INV-70) -----------------------------
+# Derivation: WCAG 2.1 Level AA (Success Criteria 1.4.3, 1.4.11) — normal text 4.5:1, large text
+# 3:1, where "large" starts at 18pt (24px) regular or 14pt (18.66px) bold. Not a project-invented
+# number; the ratios and point sizes are the published standard's own floors.
 CONTRAST_NORMAL = 4.5
 CONTRAST_LARGE = 3.0
 LARGE_PX = 24.0

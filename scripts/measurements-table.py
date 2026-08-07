@@ -239,7 +239,7 @@ COLUMNS = [
                                  "costs two workers and a repair pass per round. One clean round "
                                  "is a reader's luck; two in a row is the text."),
     ("lines", "lines", "Lines in the file. It says whether one reader holds the file in one pass. "
-                       "Target for a specification part file: 250 lines of requirement bodies."),
+                       "No numeric target for a specification part file; set by the reading."),
     ("est", "est h", "Estimated hours left to carry this file to DONE. Basis: minutes per hundred "
                      "findings for the mechanical repair, plus the reading rounds still owed times "
                      "the minutes one round costs. Every input is recorded in "

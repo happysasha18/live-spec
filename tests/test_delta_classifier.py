@@ -65,12 +65,7 @@ class TestDeltaClassifier(unittest.TestCase):
         self.assertNotEqual(r.returncode, 0, "passed a sharpen whose old sentence survives:\n%s" % r.stdout)
         self.assertIn("survives", r.stdout)
 
-    # --- the byte cap and the growth budget (INV-263) ---
-    def test_new_criterion_over_the_500_byte_cap_reds(self):
-        r = run("mini_good.md", "mini_added_oversized.md", "rec_added_new.json")
-        self.assertNotEqual(r.returncode, 0, "passed a new criterion over the cap:\n%s" % r.stdout)
-        self.assertIn("500-byte cap", r.stdout)
-
+    # --- the growth budget (INV-263) ---
     def test_growth_over_the_declared_budget_reds(self):
         r = run("mini_good.md", "mini_budget_over.md", "rec_added_new.json")
         self.assertNotEqual(r.returncode, 0, "passed growth over the budget:\n%s" % r.stdout)

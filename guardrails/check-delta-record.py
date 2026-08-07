@@ -34,11 +34,9 @@ new criterion line must no longer equal its old text (else nothing was sharpened
 must not survive that match ANYWHERE in the new document (else the old wording lingers). Either fault
 reds.
 
-GROWTH BUDGET (INV-263). Each declared `new` criterion must fit a 500-byte cap (the cap's seed is the
-pilot rewrite's measured average bytes per criterion, `prototype/2026-07-22-spec-format/pilot/
-NUMBERS.md`). The new-criteria budget is the byte sum of the declared new criteria. The classifier
-measures the document's criterion-byte growth over the delivery, EXCLUDING declared-sharpen byte
-deltas and glossary-addition bytes (glossary bytes are never criterion bytes, so they fall out by
+GROWTH BUDGET (INV-263). The new-criteria budget is the byte sum of the declared new criteria. The
+classifier measures the document's criterion-byte growth over the delivery, EXCLUDING declared-sharpen
+byte deltas and glossary-addition bytes (glossary bytes are never criterion bytes, so they fall out by
 construction), and reds when the measured growth exceeds the budget.
 
 Usage:
@@ -56,7 +54,6 @@ import specformat as sf  # noqa: E402
 from nonempty_input import require_nonempty, VacuousInputError  # noqa: E402
 
 CHECK = "check-delta-record"
-NEW_CRITERION_BYTE_CAP = 500       # INV-263 c9; seed = pilot average bytes per criterion
 
 
 def _code_texts(doc):
@@ -153,7 +150,7 @@ def main(argv):
             problems.append("`%s` is declared `scenario-only` but its criterion text changed under "
                             "normalization — a text change is a `sharpen`, not scenario-only (INV-261)." % code)
 
-    # INV-263: the 500-byte cap per declared-new criterion and the growth budget.
+    # INV-263: the growth budget from declared-new criteria.
     new_declared = {c for c, v in declared.items() if v == "new"}
     sharpen_declared = {c for c, v in declared.items() if v == "sharpen"}
 
@@ -165,9 +162,6 @@ def main(argv):
                 continue                     # a criterion carrying two new codes is counted once
             seen_new_lines.add(e["norm"])
             budget += e["bytes"]
-            if e["bytes"] > NEW_CRITERION_BYTE_CAP:
-                problems.append("a declared-new criterion for `%s` is %d bytes, over the %d-byte cap "
-                                "(INV-263): %s" % (code, e["bytes"], NEW_CRITERION_BYTE_CAP, e["raw"][:70]))
 
     # Growth of criterion bytes, excluding declared-sharpen byte deltas.
     growth = _total_bytes(new) - _total_bytes(old)

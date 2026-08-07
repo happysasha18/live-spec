@@ -137,7 +137,7 @@ Generated 2026-08-05 by `python3 scripts/measurements-table.py`. This table is t
 | acceptance criteria | 1,631 | no target |
 | bytes per criterion | 188.3 | falls or holds, bound 207.2 |
 | repeated pairs | 119 | falls or holds |
-| lines per part file | not measured | 250, once the division lands |
+| lines per part file | not measured | no target |
 
 ## What each column means
 
@@ -161,7 +161,7 @@ A file is carried to `finished` by two checks, and the table gives each check a 
 
 **readers ok** — the both-stopped column at zero for two rounds in a row.
 
-**bytes**, **lines** — the file's size. They say whether a file is growing, and whether one reader holds it in one pass. Target for a specification part file: 250 lines of requirement bodies, from `docs/plans/2026-07-29-specification-subdivision.md`.
+**bytes**, **lines** — the file's size. They say whether a file is growing, and whether one reader holds it in one pass. No numeric target for a specification part file; set by the reading, per `docs/plans/2026-07-29-specification-subdivision.md`.
 
 **requirements**, **criteria** — the specification's numbered requirements and their acceptance criteria, counted the way `guardrails/check-size-ratchet.py` counts them. They are the inputs to the density column.
 
