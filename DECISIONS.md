@@ -50,6 +50,17 @@ the one slot nothing questions. That is the defect this surface exists to catch.
 
 ## On record
 <!-- record:on -->
+- 2026-08-07 09:16 — every number the process invented is found and rooted out (row 576). Your
+  words in chat: вообще надо найти ВСЕ эти дебильные числа которые ты придумал и выкорчевать.
+  The sweep, the eight-group ruling, and the first removal batch run under this word; the
+  rulings page is yours to strike line by line.
+- 2026-08-07 09:11 — the frozen task wording binds now, reaffirmed (rows 166 and 566). Your
+  words in chat: we said we will communicate exactly in the same terms in the plan, when the
+  plan was set; that was supposed to be in the spec — is it, and why is the session speaking
+  differently? Answered with the citation: the law stands as the work-board requirement's
+  criteria 49 and 58 (Requirement 309). The session had taken tasks into work without written
+  statements; two statements were written, validated by a clean reader, and frozen the same
+  morning, and every mention now speaks them letter for letter.
 - 2026-08-07 09:11 — the README's published line-count boast is struck (the rulebook cut, row
   570). Your words in chat, on the six-thousand-line heading and the floor test holding it: I
   never asked for a number, again; you made it up. The heading and its floor go. The same-class

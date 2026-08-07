@@ -12,7 +12,7 @@
       "total": 0
     },
     "NEXT_STEPS.md": {
-      "bytes": 4785,
+      "bytes": 4854,
       "file": "NEXT_STEPS.md",
       "long": 0,
       "longest": 25,
@@ -39,7 +39,7 @@
       "total": 0
     },
     "PRODUCT_SPEC.md": {
-      "bytes": 704500,
+      "bytes": 704495,
       "file": "PRODUCT_SPEC.md",
       "long": 1866,
       "longest": 80,
@@ -58,7 +58,7 @@
       "total": 13
     },
     "ROADMAP.md": {
-      "bytes": 242303,
+      "bytes": 244103,
       "file": "ROADMAP.md",
       "long": 8,
       "longest": 242,
@@ -76,7 +76,7 @@
       "total": 3
     },
     "TEST_MATRIX.md": {
-      "bytes": 486105,
+      "bytes": 486075,
       "file": "TEST_MATRIX.md",
       "long": 8,
       "longest": 46,
@@ -112,7 +112,7 @@
       "total": 3
     },
     "docs/PROGRESS.md": {
-      "bytes": 15298,
+      "bytes": 15618,
       "file": "docs/PROGRESS.md",
       "long": 0,
       "longest": 22,
@@ -148,7 +148,7 @@
       "total": 12
     },
     "docs/audits/2026-08-07-cost-map.md": {
-      "bytes": 5836,
+      "bytes": 5914,
       "file": "docs/audits/2026-08-07-cost-map.md",
       "long": 0,
       "longest": 20,
@@ -166,10 +166,10 @@
       "total": 22
     },
     "docs/audits/2026-08-07-number-rulings.md": {
-      "bytes": 5687,
+      "bytes": 6357,
       "file": "docs/audits/2026-08-07-number-rulings.md",
       "long": 0,
-      "longest": 19,
+      "longest": 24,
       "register": 0,
       "style": 0,
       "total": 0
@@ -202,7 +202,7 @@
       "total": 37
     },
     "docs/language-rule-coverage.md": {
-      "bytes": 89840,
+      "bytes": 90005,
       "file": "docs/language-rule-coverage.md",
       "long": 79,
       "longest": 81,
@@ -211,7 +211,7 @@
       "total": 101
     },
     "docs/language-rules.md": {
-      "bytes": 58781,
+      "bytes": 58537,
       "file": "docs/language-rules.md",
       "long": 30,
       "longest": 89,

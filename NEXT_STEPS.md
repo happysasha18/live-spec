@@ -12,11 +12,11 @@ verified fresh with one weakened sentence repaired (row 570). His 09:11 strike o
 README's line-count boasts. The invented-numbers first batch: three size caps on spec text
 removed, two stale test numbers now reading the live record (row 576). Its rulings and
 census pages stand in docs/audits/. The landing-refresh law's heal road, whose landing
-commit heals the night's three missed resume-file refreshes by name (row 577). The fresh-seat adversarial review returned six defects; all six are fixed and
-landed, its record filed under docs/prover/, and rows 578 and 579 hold its two working
-recommendations. The journal carries the night's chapter. Open: he reads the cost page and
-the rulings page ("what a feature costs", the number rulings); the final full suite and the
-push close the order.
+commit heals the night's three missed resume-file refreshes by name (row 577). The fresh-seat adversarial review returned six defects, and all six
+are fixed and landed. Its record is filed under docs/prover/. Rows 578 and 579 hold its two
+working recommendations. The journal carries the night's chapter. Open: he reads the two
+pages, "what a feature costs" and the number rulings. The final full suite and the push
+close the order.
 
 The plan page stands at docs/plans/2026-08-07-night-plan.md; his 01:41 word released it. Two
 task statements are frozen through the clean-reader check, spoken letter for letter: "what a

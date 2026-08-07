@@ -2368,9 +2368,10 @@ numeric standards; the seat ruled them into eight groups on his ~01:10 class rul
 removal batch landed (2d34616): the 500-byte criterion cap, the 250-line part target and the
 resume digest's 100-line cap replaced by their qualitative laws, two stale test numbers now
 reading the live record, derivation citations written beside the sentence caps, the
-accessibility floors and the skill-size ideal. His 09:07 complaint that the work's thread was
+accessibility floors and the skill-size ideal. His 09:20 complaint that the work's thread was
 illegible was answered by reconciling the night against the forward queue and replacing the
-stale live-state block; the standing cure stays the work board (row 166). Two frozen task
+stale live-state block; the standing cure stays the work board (row 166). (The chapter first
+stamped this complaint 09:07, the check-in's time; the fresh handover reader caught it.) Two frozen task
 statements passed the clean reader after one failed round: "what a feature costs" and "the
 rulebook cut". At 09:47 the seat's own acceptance run found the landing-refresh law had no
 remedy road for a miss found after its commit; row 577 landed the heal road — a later
