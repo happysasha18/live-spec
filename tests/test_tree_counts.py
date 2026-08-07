@@ -420,10 +420,10 @@ class TestTheGeneratorWritesAllOrNothing(unittest.TestCase):
 
 
 class TestTheRealRegistry(unittest.TestCase):
-    def test_the_registry_parses_and_declares_the_four_counts(self):
+    def test_the_registry_parses_and_declares_the_counts(self):
         data = json.loads(read(REGISTRY))
         self.assertEqual(sorted(data["counts"]),
-                         ["gate-roster", "prover-records", "scaffold-checks", "skills-lines"])
+                         ["gate-roster", "scaffold-checks", "skills-lines"])
 
     def test_every_count_carries_its_seven_ground_parts(self):
         data = json.loads(read(REGISTRY))

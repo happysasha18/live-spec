@@ -255,8 +255,6 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 **Thresholds.** spec_body_criterion_max_words = 35; human_prose_flag_above_words = 25; human_prose_target_band = 15 to 25; spec_body_criterion_baseline_over_cap = 469.
 
-**Derivation.** The 25/35-word caps follow plain-language readability practice. A general-reader sentence stays legible in one pass under about 25 words. The acceptance-criterion's fixed, code-anchored shape earns the wider 35-word allowance.
-
 ### r09 — a text breaking a rule it states
 
 **Rule.** A text ships once it obeys every rule it states. The sentence stating a rule is the first place to check that rule.

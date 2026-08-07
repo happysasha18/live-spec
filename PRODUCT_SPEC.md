@@ -7807,7 +7807,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 ## Requirement 310: A work block is grounded in the person's sight before it runs
 
-**Context:** Sessions entered long work blocks the person could not connect to any request of theirs (his words, 2026-08-07 00:17, 00:42 and 00:46). A block and every line reporting it open by naming their root, so the person can correct the state by eye.
+**Context:** Sessions entered long work blocks the person could not connect to any request of theirs. A block and every line reporting it open by naming their root, so the person can correct the state by eye.
 
 **User Story:** As a person leading the work, I want every work block and report line to open by naming the request it serves. Then I can judge at a glance why the session does what it does.
 
@@ -7845,7 +7845,6 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 The code-to-location table below is generated output, built from the body criteria by `scripts/build-index.py`; no one edits it by hand. Feature codes (`F-...`) live on their scenario headings and carry no table row.
 
 | Code | Location |
-|---|---|
 | A-0 | R168.1, R308.1 |
 | A-1 | R170.7, R172.8, R173.2, R177.1 |
 | A-2 | R177.2 |
@@ -7930,7 +7929,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-25 | R17.6, R201.1, R201.2, R201.3, R201.4, R201.5 |
 | INV-26 | R14.1, R14.2, R14.3, R127.2, R127.3, R161.5, R287.5 |
 | INV-27 | R15.1, R15.2, R15.4, R15.5, R15.6, R22.8, R23.1, R80.5, R86.3, R152.4, R154.1, R159.5, R159.7, R187.8, R195.12, R196.7, R196.9, R196.16, R254.5, R309.1, R309.13, R309.35 |
-| INV-28 | R8.2, R17.1, R17.2, R17.3, R17.4, R17.5, R17.6, R17.7, R17.8, R22.8, R22.9, R29.3, R54.3, R159.4, R188.9, R191.3, R195.12, R212.5, R293.1, R293.2, R295.1, R295.3, R296.7, R309.30, R309.31, R309.38, R309.41, R309.52, R309.58, R309.69, R310.4 |
+| INV-28 | R8.2, R17.1, R17.2, R17.3, R17.4, R17.5, R17.6, R17.7, R17.8, R22.8, R22.9, R29.3, R54.3, R159.4, R188.9, R191.3, R195.12, R212.5, R293.1, R293.2, R295.1, R295.3, R296.7, R309.30, R309.31, R309.38, R309.41, R309.52, R309.58, R309.69, R310.6 |
 | INV-29 | R57.1, R57.2, R57.3, R57.4, R58.2, R63.2, R68.2 |
 | INV-30 | R51.3, R59.1, R59.2, R59.3, R61.5, R65.2, R104.2, R108.1, R173.4, R175.3, R175.4, R175.5, R176.2, R261.3, R261.5, R263.4, R265.13 |
 | INV-31 | R7.6, R32.4, R46.3, R53.2, R71.1, R71.2, R72.1, R157.1, R186.2, R191.3, R195.12, R220.2, R259.4, R261.2, R261.7, R263.4, R265.9, R265.13 |
@@ -8005,7 +8004,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-100 | R106.1, R106.2, R106.3, R106.4, R114.1, R114.2 |
 | INV-101 | R54.1, R54.2, R54.3, R54.4, R55.2, R56.2, R56.4, R67.1, R85.3, R88.1, R90.4, R90.5, R194.2 |
 | INV-102 | R107.1, R107.2, R107.3 |
-| INV-103 | R44.2, R209.1, R209.2, R210.5, R301.9, R309.73, R309.74, R310.7 |
+| INV-103 | R44.2, R209.1, R209.2, R210.5, R301.9, R309.73, R309.74, R310.11 |
 | INV-104 | R42.1, R42.2, R45.3 |
 | INV-105 | R83.3, R88.1, R90.5, R207.3, R256.5, R256.6 |
 | INV-106 | R140.1, R140.2 |
@@ -8144,7 +8143,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-239 | R191.1, R191.2, R191.3, R191.4, R191.5, R191.6, R191.7, R191.8, R191.9, R191.10 |
 | INV-240 | R192.1, R192.2, R192.3, R192.4, R192.5, R192.6, R192.7 |
 | INV-241 | R232.3, R233.1, R233.2, R233.3, R233.4, R233.5, R233.6, R233.7, R233.8 |
-| INV-242 | R257.1, R257.2, R257.3, R257.4 |
+| INV-242 | R257.1, R257.2, R257.3, R257.4, R257.5 |
 | INV-243 | R271.1, R271.2, R271.3, R271.4, R275.5 |
 | INV-244 | R258.5, R265.1, R265.2, R265.3, R265.4, R265.5, R265.6, R265.7, R265.8, R265.9, R265.10, R265.11, R265.12, R265.13, R265.14, R265.15, R266.1, R266.7, R299.4 |
 | INV-245 | R151.1, R151.2, R151.3, R151.4 |
@@ -8210,13 +8209,13 @@ The code-to-location table below is generated output, built from the body criter
 | INV-305 | R306.1, R306.2, R306.3, R306.4, R306.5, R306.6, R306.7, R306.8, R306.9, R306.10, R306.11, R306.12, R306.13, R306.14, R306.15, R306.16 |
 | INV-306 | R307.1, R307.2, R307.3, R307.4, R307.5, R307.6, R307.7, R307.8, R307.9, R307.10, R307.11, R307.12, R307.13, R307.14 |
 | INV-307 | R308.3, R308.4, R308.5, R308.7 |
-| INV-308 | R309.6, R309.7, R309.8, R309.11, R309.12, R309.13, R309.14, R309.15, R309.16, R309.17, R309.18, R309.19, R309.20, R309.21, R309.22, R309.23, R309.24, R309.25, R309.26, R309.27, R309.28, R309.29, R309.30, R309.31, R309.32, R309.33, R309.34, R309.35, R309.36, R309.37, R309.38, R309.39, R309.40, R309.75, R309.76, R309.77, R309.78, R309.79, R309.80, R309.81, R309.82, R309.83, R309.84, R309.85, R309.97, R309.98, R309.99, R310.6 |
+| INV-308 | R309.6, R309.7, R309.8, R309.11, R309.12, R309.13, R309.14, R309.15, R309.16, R309.17, R309.18, R309.19, R309.20, R309.21, R309.22, R309.23, R309.24, R309.25, R309.26, R309.27, R309.28, R309.29, R309.30, R309.31, R309.32, R309.33, R309.34, R309.35, R309.36, R309.37, R309.38, R309.39, R309.40, R309.75, R309.76, R309.77, R309.78, R309.79, R309.80, R309.81, R309.82, R309.83, R309.84, R309.85, R309.97, R309.98, R309.99, R310.9, R310.10 |
 | INV-309 | R309.41, R309.42, R309.43, R309.44, R309.45, R309.46, R309.47, R309.48, R309.49, R309.50, R309.51, R309.52, R309.53, R309.54, R309.55, R309.56, R309.57, R309.58, R309.59, R309.60, R309.61, R309.62 |
 | INV-310 | R309.63, R309.64, R309.65, R309.66, R309.67 |
 | INV-311 | R309.36, R309.68, R309.69, R309.70, R309.71, R309.72, R309.73, R309.74 |
 | INV-312 | R309.86, R309.87, R309.88, R309.89, R309.90 |
 | INV-313 | R309.91, R309.92, R309.93, R309.94, R309.95, R309.96 |
-| INV-314 | R310.1, R310.2, R310.3, R310.4, R310.5, R310.6, R310.7 |
+| INV-314 | R310.1, R310.2, R310.3, R310.4, R310.5, R310.6, R310.7, R310.8, R310.9, R310.10, R310.11 |
 | M-1 | R49.2, R80.7, R80.8, R92.2, R130.1, R130.2, R130.3, R130.4, R130.5, R130.6, R130.7, R130.8, R130.9, R164.4, R166.3, R166.8, R198.6, R249.2 |
 | M-2 | R14.3, R125.1, R125.2, R125.3, R303.13, R177.12, R204.3 |
 | M-3 | R136.1 |

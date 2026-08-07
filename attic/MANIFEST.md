@@ -39,3 +39,5 @@ base rule 10). Nothing here was deleted; a file that turns out to be needed is m
 - `inbox/2026-08-06-from-tlvphotos-transcript-loses-pasted-text.md` -> `attic/inbox-2026-08-06-from-tlvphotos-transcript-loses-pasted-text.md` * a harvested inbox wish: it became queue row 551 * 2026-08-06
 - `inbox/2026-08-06-from-tlvphotos-preshow-register-lint-missing.md` -> `attic/inbox-2026-08-06-from-tlvphotos-preshow-register-lint-missing.md` * a harvested inbox report: it became queue row 567 * 2026-08-06
 - `docs/audits/2026-08-07-cost-map.html` -> `attic/docs-audits-2026-08-07-cost-map.html` * a rendered page whose reading is over: carried the `live-spec render-doc` generator mark * 2026-08-07
+- `docs/audits/2026-08-07-cost-map.html` -> `attic/docs-audits-2026-08-07-cost-map-2.html` * a rendered page whose reading is over: carried the `live-spec render-doc` generator mark * 2026-08-07
+- `docs/audits/2026-08-07-number-rulings.html` -> `attic/docs-audits-2026-08-07-number-rulings.html` * a rendered page whose reading is over: carried the `live-spec render-doc` generator mark * 2026-08-07
