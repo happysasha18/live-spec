@@ -3,7 +3,7 @@
   "cap_rule": "r08",
   "files": {
     "ARCHITECTURE.md": {
-      "bytes": 105227,
+      "bytes": 105238,
       "file": "ARCHITECTURE.md",
       "long": 0,
       "longest": 25,
@@ -12,7 +12,7 @@
       "total": 0
     },
     "NEXT_STEPS.md": {
-      "bytes": 4574,
+      "bytes": 4785,
       "file": "NEXT_STEPS.md",
       "long": 0,
       "longest": 25,
@@ -30,7 +30,7 @@
       "total": 8
     },
     "PRODUCT_SPEC.index.md": {
-      "bytes": 28088,
+      "bytes": 28233,
       "file": "PRODUCT_SPEC.index.md",
       "long": 0,
       "longest": 0,
@@ -39,17 +39,17 @@
       "total": 0
     },
     "PRODUCT_SPEC.md": {
-      "bytes": 701890,
+      "bytes": 704500,
       "file": "PRODUCT_SPEC.md",
-      "long": 1869,
+      "long": 1866,
       "longest": 80,
       "reason": "2026-08-06: the work-board requirement (row 166, Requirement 309) took a third widening pass to 99 criteria; the added criteria are single-sentence rules past the 25-word cap, and style and register stand at zero.",
       "register": 0,
       "style": 0,
-      "total": 1869
+      "total": 1866
     },
     "README.md": {
-      "bytes": 13403,
+      "bytes": 13342,
       "file": "README.md",
       "long": 13,
       "longest": 88,
@@ -58,7 +58,7 @@
       "total": 13
     },
     "ROADMAP.md": {
-      "bytes": 239787,
+      "bytes": 242303,
       "file": "ROADMAP.md",
       "long": 8,
       "longest": 242,
@@ -76,7 +76,7 @@
       "total": 3
     },
     "TEST_MATRIX.md": {
-      "bytes": 484325,
+      "bytes": 486105,
       "file": "TEST_MATRIX.md",
       "long": 8,
       "longest": 46,
@@ -103,7 +103,7 @@
       "total": 0
     },
     "docs/MEASUREMENTS.md": {
-      "bytes": 18278,
+      "bytes": 18256,
       "file": "docs/MEASUREMENTS.md",
       "long": 3,
       "longest": 36,
@@ -112,7 +112,7 @@
       "total": 3
     },
     "docs/PROGRESS.md": {
-      "bytes": 15125,
+      "bytes": 15298,
       "file": "docs/PROGRESS.md",
       "long": 0,
       "longest": 22,
@@ -148,13 +148,31 @@
       "total": 12
     },
     "docs/audits/2026-08-07-cost-map.md": {
-      "bytes": 5769,
+      "bytes": 5836,
       "file": "docs/audits/2026-08-07-cost-map.md",
-      "long": 1,
-      "longest": 43,
+      "long": 0,
+      "longest": 20,
       "register": 0,
       "style": 3,
-      "total": 4
+      "total": 3
+    },
+    "docs/audits/2026-08-07-number-census.md": {
+      "bytes": 31991,
+      "file": "docs/audits/2026-08-07-number-census.md",
+      "long": 5,
+      "longest": 135,
+      "register": 0,
+      "style": 17,
+      "total": 22
+    },
+    "docs/audits/2026-08-07-number-rulings.md": {
+      "bytes": 5687,
+      "file": "docs/audits/2026-08-07-number-rulings.md",
+      "long": 0,
+      "longest": 19,
+      "register": 0,
+      "style": 0,
+      "total": 0
     },
     "docs/decisions/2026-07-06-overnight-decisions.md": {
       "bytes": 6878,
@@ -193,7 +211,7 @@
       "total": 101
     },
     "docs/language-rules.md": {
-      "bytes": 58537,
+      "bytes": 58781,
       "file": "docs/language-rules.md",
       "long": 30,
       "longest": 89,
@@ -299,6 +317,15 @@
       "register": 0,
       "style": 0,
       "total": 1
+    },
+    "docs/plans/2026-08-07-night-plan.md": {
+      "bytes": 6274,
+      "file": "docs/plans/2026-08-07-night-plan.md",
+      "long": 0,
+      "longest": 25,
+      "register": 0,
+      "style": 0,
+      "total": 0
     },
     "docs/prior-art-frameworks.md": {
       "bytes": 16009,
@@ -472,7 +499,7 @@
       "total": 18
     },
     "docs/worker-liveness.md": {
-      "bytes": 7719,
+      "bytes": 7764,
       "file": "docs/worker-liveness.md",
       "long": 16,
       "longest": 52,
@@ -544,7 +571,7 @@
       "total": 0
     },
     "guardrails/README.md": {
-      "bytes": 20638,
+      "bytes": 21233,
       "file": "guardrails/README.md",
       "long": 29,
       "longest": 68,
@@ -560,6 +587,15 @@
       "register": 0,
       "style": 27,
       "total": 38
+    },
+    "inbox/2026-08-07-from-tlvphotos-focus-and-draft-cost.md": {
+      "bytes": 3301,
+      "file": "inbox/2026-08-07-from-tlvphotos-focus-and-draft-cost.md",
+      "long": 5,
+      "longest": 50,
+      "register": 0,
+      "style": 1,
+      "total": 6
     },
     "inbox/2026-08-07-from-tlvphotos-system-dialogs-need-announcing.md": {
       "bytes": 3949,
@@ -616,7 +652,7 @@
       "total": 10
     },
     "skills/build-pipeline/SKILL.md": {
-      "bytes": 63938,
+      "bytes": 64194,
       "file": "skills/build-pipeline/SKILL.md",
       "long": 136,
       "longest": 198,
@@ -814,13 +850,13 @@
       "total": 1
     },
     "skills/live-spec-base/SKILL.md": {
-      "bytes": 67781,
+      "bytes": 66411,
       "file": "skills/live-spec-base/SKILL.md",
-      "long": 78,
-      "longest": 49,
+      "long": 60,
+      "longest": 48,
       "register": 0,
       "style": 14,
-      "total": 92
+      "total": 74
     },
     "skills/product-prover/README.md": {
       "bytes": 11360,
@@ -832,7 +868,7 @@
       "total": 0
     },
     "skills/product-prover/SKILL.md": {
-      "bytes": 69297,
+      "bytes": 66872,
       "file": "skills/product-prover/SKILL.md",
       "long": 0,
       "longest": 25,
@@ -868,13 +904,13 @@
       "total": 11
     },
     "skills/spec-author/SKILL.md": {
-      "bytes": 62658,
+      "bytes": 62599,
       "file": "skills/spec-author/SKILL.md",
-      "long": 113,
+      "long": 112,
       "longest": 99,
       "register": 0,
       "style": 0,
-      "total": 113
+      "total": 112
     },
     "skills/test-author/README.md": {
       "bytes": 6396,
@@ -985,7 +1021,7 @@
       "total": 4
     },
     "templates/NEXT_STEPS.template.md": {
-      "bytes": 1099,
+      "bytes": 1181,
       "file": "templates/NEXT_STEPS.template.md",
       "long": 1,
       "longest": 27,

@@ -6,26 +6,27 @@ lives in `JOURNAL.md`.
 
 ## LIVE STATE (2026-08-07, 09:59)
 
-The night order's build work is done and the morning's two orders are moving. Landed since the
-09:22 block: the rulebook cut's second file, the shared rulebook, verified fresh with one
-weakened sentence repaired (row 570); his 09:11 strike of the README's line-count boasts; the
-invented-numbers first batch — three size caps on spec text removed, two stale test numbers
-now read the live record, the rulings and census pages stand in docs/audits/ (row 576); and
-the landing-refresh law's heal road (row 577), whose landing commit heals the night's three
-missed resume-file refreshes by name. Open: he reads the cost page and the rulings page; the
-fresh-seat adversarial review of the whole stretch, the journal chapter, the prose-level
-record re-measure, one full green suite, and the push.
+The night order's build work is done and the morning's two orders are moving. Landed since
+the 09:22 block, four movements. The rulebook cut's second file, the shared rulebook,
+verified fresh with one weakened sentence repaired (row 570). His 09:11 strike of the
+README's line-count boasts. The invented-numbers first batch: three size caps on spec text
+removed, two stale test numbers now reading the live record (row 576). Its rulings and
+census pages stand in docs/audits/. The landing-refresh law's heal road, whose landing
+commit heals the night's three missed resume-file refreshes by name (row 577). Open: he
+reads the cost page and the rulings page. The rest of the tail is the fresh-seat adversarial
+review, the journal chapter, the prose-level record re-measure, a full green suite, the
+push.
 
 The plan page stands at docs/plans/2026-08-07-night-plan.md; his 01:41 word released it. Two
-task statements are frozen through the clean-reader check: "what a feature costs" (row 568)
-and "the rulebook cut" (row 570); the seat speaks them letter for letter. The rulebook cut's
+task statements are frozen through the clean-reader check, spoken letter for letter: "what a
+feature costs" (row 568) and "the rulebook cut" (row 570). The rulebook cut's
 remaining files (the pipeline, the spec writer, the reporting skill and the smaller ones)
 stay on the row with the before-measurements.
 
 ## Forward queue
 
-1. The tail of his 01:06 order: the fresh-seat adversarial review of the whole stretch, the
-   journal chapter, the prose-level record re-measure, one full green suite, the push.
+1. The tail of his 01:06 order: the fresh-seat adversarial review, the journal chapter, the
+   prose-level record re-measure, a full green suite, the push.
 2. Row 576: the invented-numbers table — the seat rules on each enumerated number, removals
    land in named batches, the table goes to him.
 3. Row 166 resumes: the fresh adversarial review of the board's specification, the
