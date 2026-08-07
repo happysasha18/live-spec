@@ -88,6 +88,11 @@ Nine findings of my own follow. Three block.
 
 9. Struck-cap wording survives in two more live places, the same class as finding 2. PRODUCT_SPEC.md:2858 still asks for the resume file `capped` and `a short, capped current picture`. Its Context paragraph directly above was rewritten to the qualitative law. ROADMAP.md:200, row 524, still states the resume file carries a hard cap of 100 lines as present fact. Neither blocks alone. Both belong to row 576's unfinished sweep.
 
+Range note two: commit 06a4e7c landed after this record on the owner's 11:19 word — the
+inbox-message check stops blocking pushes and judges at the intake sweep instead. The seat
+reviewed its four-file delta against that word directly; the decision is on record in
+DECISIONS.md, and this note rides a record-only commit.
+
 Range note: the closing commit 54f1b0a shipped this record together with the closures it
 prescribes. Its delta is exactly the three closures below plus the row-cell and handover
 repairs this review named, each judged above; this note rides a record-only commit after it.
