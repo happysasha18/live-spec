@@ -4,10 +4,36 @@ A digest with no redundancy (SPEC INV-48) — one live-state block, nothing remo
 information. One status block stands here at a time, and every update replaces it. Dated history
 lives in `JOURNAL.md`.
 
-## LIVE STATE (2026-08-09, 00:30)
+## LIVE STATE (2026-08-09, 01:09)
 
 The culling runs. Day 1, the preparation batch, opened at 00:19 on his order of
-2026-08-08, 22:17.
+2026-08-08, 22:17, and its work is done. Everything it owed stands in the tree, in six
+commits from `fb1e9d7` to `cef83d5`.
+
+Day 1 results. The two red tests are green, and the whole suite passes: 2502 tests, 447
+seconds. The four starting measures stand in `.live-spec/day1-measures-2026-08-09.md` with
+the command for each. The three censuses stand at `.live-spec/day1-census-rules.md`,
+`.live-spec/day1-census-checks.md` and `.live-spec/day1-census-delivery.md`. The queue page
+for his pen stands at `.live-spec/day1-queue-for-striking.md`.
+
+What the censuses found. Thirty-five rules carry 48 387 bytes of rule text, and their
+traces run through 123 test files and 7 368 document lines. Thirty-one checks cost 486
+seconds together, and the full test suite is 451 of those seconds. Six of the thirty-one
+have a dated real catch on record. A stranger who follows the README gets the skills alone.
+Of the 66 installed files, 33 carry 219 references to files the install never placed.
+The queue holds 209 open rows, and 109 of them serve the quality machinery.
+
+Two numbers disagree with the audit of 2026-08-08, and both are recorded with their method.
+The rulebook read before work measures 18 400 tokens against the audit's 45 000, which
+counts a working skill as well. The install census counts 219 dangling references against
+the audit's 183.
+
+Day 1 also found one defect and gave it queue row 586. A census worker put two generated
+files back from git history, and uncommitted work in the tree went with them. Both files
+are generated, so a stamp was lost. The check that guards restores watches five git
+subcommands and misses a redirect out of `git show`.
+
+Day 2 is next: the trial cut that prices the work.
 
 Three pages hold it. The plan sits at `.live-spec/culling-plan-2026-08-08.md`. Its
 four-round review record sits beside it at `.live-spec/culling-plan-2026-08-08-review.md`.
