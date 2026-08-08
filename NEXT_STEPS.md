@@ -4,20 +4,29 @@ A digest with no redundancy (SPEC INV-48) — one live-state block, nothing remo
 information. One status block stands here at a time, and every update replaces it. Dated history
 lives in `JOURNAL.md`.
 
-## LIVE STATE (2026-08-07, 15:02)
+## LIVE STATE (2026-08-08, 21:03)
 
-The 01:06 order is closed. Its tail was the final full suite and the push. The suite ran
-green at 2,502 tests in 539 seconds. Commit 7a178f4 carries the sweep and the counts
-refresh, and the push sends it with this block.
+His order of 2026-08-08 20:45: a second, hostile audit over the whole crisis, because the
+2026-08-07 recovery plan was unreadable to him. Delivered the same evening as a one-page
+Russian document (his explicit language choice for this page): verdict, five ranked
+problems each with its cure, the fate of the 08-07 plan, and a three-phase exit. The
+source lives outside the tree (session scratchpad, `crisis-audit-2026-08-08.md`) until he
+rules on it; the rendered page was shown to him at 21:02.
 
-The inbox is empty. Three deposits from the tlvphotos window were swept this pass. The
-system-dialogs deposit became queue row 581. The focus-and-draft-cost deposit became rows
-582 and 583. The token-and-context-thrift deposit became row 584. Each deposit is recorded
-in the feedback ledger and archived under docs/queue-archive/. The sweep also found the
-earned-message gate refusing the template its own home prints, which is row 585.
+Its verdict in one line: the quality machinery has become the project's main consumer —
+the product is 5.7% of the tree, 61% of recent queue rows serve the machinery itself, the
+installer ships 183 dangling references no gate can see — and the cure is a freeze on new
+machinery, a gate diet (27 blocking gates toward ~5), a rulebook cut to one sitting's
+read, then adoption at the head of the queue. Of the 08-07 plan, four pieces survive: the
+current-order file, the queue sort to one page, the check-firing census, and the
+three-line opening (done-condition, budget, measure) for any multi-session effort.
+
+His read of the 08-08 page is the one open box. The 08-07 plan's six steps stay parked;
+they enter the queue only rewritten under the 08-08 page if he approves it.
 
 The night's own landings and the morning's two orders stand in the journal's 2026-08-07
-chapters. Open: he reads the two pages, "what a feature costs" and the number rulings.
+chapters. Open: he reads the two pages, "what a feature costs" and the number rulings, and
+now the recovery plan above.
 
 The plan page stands at docs/plans/2026-08-07-night-plan.md; his 01:41 word released it. Two
 task statements are frozen through the clean-reader check, spoken letter for letter: "what a
@@ -26,6 +35,9 @@ remaining files (the pipeline, the spec writer, the reporting skill and the smal
 stay on the row with the before-measurements.
 
 ## Forward queue
+
+The recovery plan's six steps enter this queue only once he gives his word on the plan.
+Until then they stay at `docs/plans/2026-08-07-recovery-plan.md`.
 
 1. Row 576: the invented-numbers table — the seat rules on each enumerated number, removals
    land in named batches, the table goes to him.
