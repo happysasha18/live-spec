@@ -21,8 +21,24 @@ read, then adoption at the head of the queue. Of the 08-07 plan, four pieces sur
 current-order file, the queue sort to one page, the check-firing census, and the
 three-line opening (done-condition, budget, measure) for any multi-session effort.
 
-His read of the 08-08 page is the one open box. The 08-07 plan's six steps stay parked;
-they enter the queue only rewritten under the 08-08 page if he approves it.
+He read the audit page at ~21:30 and agreed with the diagnosis. He flagged one fabricated
+line (a monetization goal he never stated — the project is open source, its goal is to be
+useful); a source sweep found three more unsourced numbers and all four are corrected on
+the page. He consented to a one-to-two-week culling and ordered a detailed plan with
+frozen wording: dependencies, chronology, each stage razor-sharp (action, goal, result,
+acceptance, owner), Opus and Sonnet carrying ~90% of the execution.
+
+The detailed plan is written (session scratchpad, `culling-plan-2026-08-08.md`), attacked
+by a fresh-context hostile reviewer (3 blocking, 7 major, 4 minor — all folded; the
+biggest: the cut must sweep spec/architecture/matrix/needle-tests and re-freeze baselines,
+now stage 4d), and shown to him at 21:55 alongside the corrected audit page. Stages:
+0 freeze+green tree → 1 three censuses (checks, rules per-rule, delivery) ∥ 2 queue sort
+→ 3 his verdict per rule + calendar recheck → 4 the cut (4b rules → 4d fabric sweep →
+4a gates → 4c tests) → 5 install fix + stranger run under a home with no pack tree →
+6 closing page with before/after measurements and the standing regime decision.
+
+His word on the plan is the one open box. Execution starts on it; wording then freezes.
+The 08-07 plan's six steps stay archived under the 08-08 pages.
 
 The night's own landings and the morning's two orders stand in the journal's 2026-08-07
 chapters. Open: he reads the two pages, "what a feature costs" and the number rulings, and
