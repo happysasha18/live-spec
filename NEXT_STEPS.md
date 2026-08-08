@@ -37,7 +37,23 @@ now stage 4d), and shown to him at 21:55 alongside the corrected audit page. Sta
 4a gates → 4c tests) → 5 install fix + stranger run under a home with no pack tree →
 6 closing page with before/after measurements and the standing regime decision.
 
-His word on the plan is the one open box. Execution starts on it; wording then freezes.
+The plan went through three editions the same evening on his amendments (21:51-22:23:
+iterations one day max after prep; verdicts belong to the orchestrator, he rules only on
+taste/policy rows with a nightly digest and git-revert veto; the moratorium is held by his
+word, everything else is the orchestrator's; priorities ranked with rationale) and four
+fresh-context hostile review rounds. The final round: approvable, no blocking findings,
+all five priority ranks held; its four repairs are folded. Review record sits beside the
+plan (session scratchpad, culling-plan-2026-08-08-review.md).
+
+Third-edition keys: pulse of four measures published nightly by a fresh acceptance agent
+(never the working seat); one cut = one commit carrying its verdict-row ID, verdict page
+commits first, resumability read from git; sweep surfaces per census row; touched skills
+sync to installed copies same iteration; each iteration pre-declares the measure it must
+move, two missed days = stop page.
+
+Open boxes for his word: (1) approve and freeze the plan; (2) the rule binding his own
+channel during the culling — messages that are neither veto, taste mark, nor "стоп
+просев" get one queue line and a one-line reply — only he can speak that rule.
 The 08-07 plan's six steps stay archived under the 08-08 pages.
 
 The night's own landings and the morning's two orders stand in the journal's 2026-08-07
