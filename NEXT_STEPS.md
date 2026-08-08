@@ -51,9 +51,26 @@ commits first, resumability read from git; sweep surfaces per census row; touche
 sync to installed copies same iteration; each iteration pre-declares the measure it must
 move, two missed days = stop page.
 
-Open boxes for his word: (1) approve and freeze the plan; (2) the rule binding his own
-channel during the culling — messages that are neither veto, taste mark, nor "стоп
-просев" get one queue line and a one-line reply — only he can speak that rule.
+APPROVED AND FROZEN by his word of 2026-08-08 22:14 ("план мы НЕ меняем"). The plan, its
+four-round review record, and the audit now live in the tree:
+`.live-spec/culling-plan-2026-08-08.md`, `.live-spec/culling-plan-2026-08-08-review.md`,
+`.live-spec/crisis-audit-2026-08-08.md`. Late amendments folded before the freeze: checks
+every ~2 hours by a fresh agent (three lines to chat; a mismatch halts the batch), the
+full evening circle with his veto, every work block opens with "день N, порция, шаг" or
+does not start, day 1 spelled out plainly.
+
+RESTART PROTOCOL (agreed 22:14): he ends this session and opens a fresh one in the
+live-spec window — it runs Opus by the project settings; Fable is not needed anywhere in
+the culling (in-culling checks are mechanical, Sonnet tier). The fresh session reads ONLY
+this file and the plan file, then starts day 1 exactly as the plan's "День 1 —
+подготовка" writes it. It sets itself a 2-hour check timer. Reports only in the plan's
+terms. No rereading of the whole tree, no plan edits, no new checks (moratorium is his).
+
+Drift signals he watches for (from the plan's own rules): a first reply that does something
+other than start day 1; any work block not opening with "день N, порция, шаг"; any
+proposal to improve or rephrase the plan; any new check or rule. His brake word: «стоп
+чистка». The optional rule binding his own mid-culling messages was offered and remains
+unspoken — without it, his mid-course orders land as they always did.
 The 08-07 plan's six steps stay archived under the 08-08 pages.
 
 The night's own landings and the morning's two orders stand in the journal's 2026-08-07
