@@ -10,7 +10,7 @@ This page holds every open row so you can strike the ones you no longer want. Ea
 
 ## Machinery
 
-Rows that serve the project's own quality checks, records, and internal bookkeeping — not something a stranger using the pack would touch directly.
+Rows that serve the project's own quality checks, records, and internal bookkeeping. A stranger using the pack never touches these directly.
 
 | Row | What it delivers |
 |---|---|
@@ -18,7 +18,7 @@ Rows that serve the project's own quality checks, records, and internal bookkeep
 | 69 | Move the prover skill's tables into a separate reference file. |
 | 100 | Give any recurring workshop problem an owner after its second occurrence. |
 | 118 | Flag any untouched default choice still unreviewed after two landings. |
-| 119 | Make decision cards explain consequences to the human, not mechanism. |
+| 119 | Make decision cards explain consequences to the human, leaving mechanism out. |
 | 134 | Have a hook read the real clock so timestamps stop drifting. |
 | 141 | Have a hook remind every session of the plain-language rules. |
 | 148 | Rewrite the project's own spec so a human can read it. |
@@ -41,7 +41,7 @@ Rows that serve the project's own quality checks, records, and internal bookkeep
 | 386 | Prove parallel work lanes actually run three lanes at once. |
 | 404 | Build a record proving the new inter-agent protocols worked in real use. |
 | 410 | Define how the project's own lessons climb from note to rule to machine. |
-| 412 | Prove independent lanes truly run in parallel, not one after another. |
+| 412 | Prove independent lanes truly run at the same time. |
 | 425 | Fix two queue rows carrying an invalid class label. |
 | 426 | Reassign a borrowed reference code once its real owner row lands. |
 | 435 | Fix the skill-copy check missing a changed executable-permission bit. |
@@ -53,9 +53,9 @@ Rows that serve the project's own quality checks, records, and internal bookkeep
 | 466 | Make a future document conversion verify that claims survive, beyond checking codes alone. |
 | 467 | Move an oversized skill section into a separate reference file. |
 | 471 | Make every report state a time estimate and its accuracy. |
-| 472 | State remaining work beside a done claim, not after it. |
+| 472 | State remaining work in the same place as a done claim. |
 | 473 | Deposit a cross-project finding the same session it is found. |
-| 474 | Run the conduct-judge check once per reply, not many times. |
+| 474 | Run the conduct-judge check exactly once per reply. |
 | 475 | Build one registry tracking every rule, its net, and its status. |
 | 481 | Flag stale queue rows for review at each milestone. |
 | 483 | Fix four reader-confusing spots found in the architecture document. |
@@ -102,7 +102,7 @@ Rows that serve the project's own quality checks, records, and internal bookkeep
 | 551 | Fix a pasted message vanishing from the transcript unrecorded. |
 | 552 | Keep a spec's generated index pages synced with its edited source. |
 | 553 | Stop one slow test from re-running the whole suite to prove itself. |
-| 554 | Make a test prove its point on the smallest input, not the whole suite. |
+| 554 | Make a test prove its point on the smallest input that shows it. |
 | 555 | Re-measure the repo's own published size counts instead of hand-typing them. |
 | 556 | Record which runnable script belongs to which project. |
 | 558 | Catch a session that closes without leaving its required handover. |
@@ -145,11 +145,11 @@ Rows that serve the product a stranger uses when they adopt or run the pack.
 | 108 | Ask product-fit questions about journey and flow before accepting a feature. |
 | 117 | Add a visitor-walk and feel pass to product verification. |
 | 129 | Have every project record and update its own declared kind. |
-| 131 | Narrate work as it happens, not only at the end. |
+| 131 | Narrate work step by step while it happens. |
 | 133 | Render the whole feature map in plain words on request. |
 | 140 | State a ladder of legal shortcuts to take under budget pressure. |
 | 143 | Require the architecture step to set measurable performance budgets. |
-| 144 | Make the visible task list speak plain words, not internal codes. |
+| 144 | Make the visible task list speak plain words throughout. |
 | 163 | Extract the test-writing method into its own reusable skill. |
 | 165 | Search existing skills for a fit before repeating a solved failure. |
 | 166 | Show a standing live view of what the agent is doing now. |
@@ -168,13 +168,13 @@ Rows that serve the product a stranger uses when they adopt or run the pack.
 | 236 | Have projects document their technologies and how swappable each one is. |
 | 241 | Ship the four guardrail checks as code any host can install. |
 | 243 | Link the README and the article series to each other. |
-| 247 | Let the intake inbox be reached remotely over GitHub, not just locally. |
+| 247 | Let the intake inbox be reached remotely over GitHub. |
 | 381 | Give a promised flow a diagram instead of duplicating it in prose. |
 | 385 | Ship the working parts of a data contract once a host declares one. |
 | 389 | Define how a remote reader gets permission to read a private contract. |
 | 396 | Let two agents on one machine talk directly instead of only via git. |
 | 398 | Auto-route a request typed in the wrong project to the right one. |
-| 399 | Validate a message at the moment it is written, not just received. |
+| 399 | Validate a message at the moment it is written. |
 | 400 | Redesign any borrowed shape once its forcing real-world constraint is gone. |
 | 401 | Make receiving the same message twice a harmless no-op. |
 | 411 | Show who is working on what, and where it stands, on a map. |
@@ -226,7 +226,7 @@ Rows that serve the product a stranger uses when they adopt or run the pack.
 | 570 | Cut the fixed rulebook every session loads before any real work. |
 | 581 | Announce anything that might raise a system permission dialog before it runs. |
 | 582 | Show which one thing is being finished versus what waits. |
-| 583 | Show progress partway through a long build, not just a final report. |
+| 583 | Show progress partway through a long build. |
 | 584 | Read only what's needed and batch calls to save tokens and context. |
 
 ## Too vague to classify
