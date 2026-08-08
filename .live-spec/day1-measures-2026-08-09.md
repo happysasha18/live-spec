@@ -8,7 +8,7 @@ this seat's, and day 14 must re-run these same commands for the comparison to ho
 
 | # | measure | starting value | command |
 |---|---|---:|---|
-| 1 | how far a stranger's install gets | pending the delivery census | day 1 census, `.live-spec/day1-census-delivery.md` |
+| 1 | how far a stranger's install gets | 219 references point at nothing, 123 distinct targets, across 33 of 66 installed files | day 1 census, `.live-spec/day1-census-delivery.md` |
 | 2 | rulebook a session reads before work | 73 645 bytes ≈ 18 400 tokens | `cat skills/live-spec-base/SKILL.md ~/.claude/live-spec/profile.md \| wc -c`, divided by four |
 | 3 | full test run | 447.22 s, 2502 tests, all green | `python3 -m pytest -q` |
 | 4 | checks before a publish | 31 | `grep -oE -- '-- gate [a-z]{1,2}:' guardrails/pre-push \| sort -u \| wc -l` |
@@ -29,6 +29,15 @@ out.
 
 **Measure 4** counts distinct gate letters that `guardrails/pre-push` announces. The count
 matches the 31 the plan states.
+
+**Measure 1** was taken by installing the pack into a throwaway home, with the real `~/.claude`
+untouched. The README's own walkthrough runs `./install.sh`, which places the ten skill folders
+and nothing besides. Hooks arrive only from `scripts/install-session-hooks.sh`, which the README
+never names. Counting the larger set, skills and hooks together, 66 files land and 33 of them
+carry references to files the install never placed. The audit of 2026-08-08 states 183 for this
+measure; this census counts 219. The census names three scoping choices that plausibly close the
+gap, and it holds its own count with its method written down. Day 14 re-runs this census, so the
+comparison stands on one method.
 
 ## The day's first repair
 
