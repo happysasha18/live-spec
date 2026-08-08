@@ -4,84 +4,72 @@ A digest with no redundancy (SPEC INV-48) — one live-state block, nothing remo
 information. One status block stands here at a time, and every update replaces it. Dated history
 lives in `JOURNAL.md`.
 
-## LIVE STATE (2026-08-08, 21:03)
+## LIVE STATE (2026-08-09, 00:30)
 
-His order of 2026-08-08 20:45: a second, hostile audit over the whole crisis, because the
-2026-08-07 recovery plan was unreadable to him. Delivered the same evening as a one-page
-Russian document (his explicit language choice for this page): verdict, five ranked
-problems each with its cure, the fate of the 08-07 plan, and a three-phase exit. The
-source lives outside the tree (session scratchpad, `crisis-audit-2026-08-08.md`) until he
-rules on it; the rendered page was shown to him at 21:02.
+The culling runs. Day 1, the preparation batch, opened at 00:19 on his order of
+2026-08-08, 22:17.
 
-Its verdict in one line: the quality machinery has become the project's main consumer —
-the product is 5.7% of the tree, 61% of recent queue rows serve the machinery itself, the
-installer ships 183 dangling references no gate can see — and the cure is a freeze on new
-machinery, a gate diet (27 blocking gates toward ~5), a rulebook cut to one sitting's
-read, then adoption at the head of the queue. Of the 08-07 plan, four pieces survive: the
-current-order file, the queue sort to one page, the check-firing census, and the
-three-line opening (done-condition, budget, measure) for any multi-session effort.
+Three pages hold it. The plan sits at `.live-spec/culling-plan-2026-08-08.md`. Its
+four-round review record sits beside it at `.live-spec/culling-plan-2026-08-08-review.md`.
+The audit behind both is `.live-spec/crisis-audit-2026-08-08.md`. The plan is frozen, and
+his word alone changes it.
 
-He read the audit page at ~21:30 and agreed with the diagnosis. He flagged one fabricated
-line (a monetization goal he never stated — the project is open source, its goal is to be
-useful); a source sweep found three more unsourced numbers and all four are corrected on
-the page. He consented to a one-to-two-week culling and ordered a detailed plan with
-frozen wording: dependencies, chronology, each stage razor-sharp (action, goal, result,
-acceptance, owner), Opus and Sonnet carrying ~90% of the execution.
+The audit verdict in one line: the quality machinery became the project's main consumer.
+The product is 5.7% of the tree. 61% of recent queue rows serve the machinery itself. The
+installer ships 183 dangling references that no gate sees. The cure is a freeze on new
+machinery. Then a gate diet, from 27 blocking gates toward about five. Then a rulebook cut
+to one sitting's read. Adoption stands at the head of the queue after that.
 
-The detailed plan is written (session scratchpad, `culling-plan-2026-08-08.md`), attacked
-by a fresh-context hostile reviewer (3 blocking, 7 major, 4 minor — all folded; the
-biggest: the cut must sweep spec/architecture/matrix/needle-tests and re-freeze baselines,
-now stage 4d), and shown to him at 21:55 alongside the corrected audit page. Stages:
-0 freeze+green tree → 1 three censuses (checks, rules per-rule, delivery) ∥ 2 queue sort
-→ 3 his verdict per rule + calendar recheck → 4 the cut (4b rules → 4d fabric sweep →
-4a gates → 4c tests) → 5 install fix + stranger run under a home with no pack tree →
-6 closing page with before/after measurements and the standing regime decision.
+He read the audit page at ~21:30 on 08-08 and agreed with the diagnosis. He flagged one
+fabricated line, a monetization goal he never stated. The project is open source, and its
+goal is to be useful. A source sweep found three more unsourced numbers. All four are
+corrected on the page.
 
-The plan went through three editions the same evening on his amendments (21:51-22:23:
-iterations one day max after prep; verdicts belong to the orchestrator, he rules only on
-taste/policy rows with a nightly digest and git-revert veto; the moratorium is held by his
-word, everything else is the orchestrator's; priorities ranked with rationale) and four
-fresh-context hostile review rounds. The final round: approvable, no blocking findings,
-all five priority ranks held; its four repairs are folded. Review record sits beside the
-plan (session scratchpad, culling-plan-2026-08-08-review.md).
+The plan's own calendar:
 
-Third-edition keys: pulse of four measures published nightly by a fresh acceptance agent
-(never the working seat); one cut = one commit carrying its verdict-row ID, verdict page
-commits first, resumability read from git; sweep surfaces per census row; touched skills
-sync to installed copies same iteration; each iteration pre-declares the measure it must
-move, two missed days = stop page.
+- day 1 — preparation
+- day 2 — a trial cut that prices the work
+- day 3 — the install fix
+- days 4-10 — the rule cut, one batch a day, thickest files first
+- days 11-12 — a dress rehearsal by a stranger agent in an empty folder
+- to day 14 — the closing page and the standing rule against regrowth
 
-APPROVED AND FROZEN by his word of 2026-08-08 22:14 ("план мы НЕ меняем"). The plan, its
-four-round review record, and the audit now live in the tree:
-`.live-spec/culling-plan-2026-08-08.md`, `.live-spec/culling-plan-2026-08-08-review.md`,
-`.live-spec/crisis-audit-2026-08-08.md`. Late amendments folded before the freeze: checks
-every ~2 hours by a fresh agent (three lines to chat; a mismatch halts the batch), the
-full evening circle with his veto, every work block opens with "день N, порция, шаг" or
-does not start, day 1 spelled out plainly.
+The calendar numbers are an estimate. Day 2 measures the real price, and the calendar is
+recounted then.
 
-RESTART PROTOCOL (agreed 22:14): he ends this session and opens a fresh one in the
-live-spec window — it runs Opus by the project settings; Fable is not needed anywhere in
-the culling (in-culling checks are mechanical, Sonnet tier). The fresh session reads ONLY
-this file and the plan file, then starts day 1 exactly as the plan's "День 1 —
-подготовка" writes it. It sets itself a 2-hour check timer. Reports only in the plan's
-terms. No rereading of the whole tree, no plan edits, no new checks (moratorium is his).
+Day 1 owes four things. The two red tests go green. The four starting measures are
+recorded. Three censuses are written: every check, every rule with the places it is wired,
+and everything a person lacks after installing the pack. A queue page is prepared for him
+to strike rows from, and it holds no work.
 
-Drift signals he watches for (from the plan's own rules): a first reply that does something
-other than start day 1; any work block not opening with "день N, порция, шаг"; any
-proposal to improve or rephrase the plan; any new check or rule. His brake word: «стоп
-чистка». The optional rule binding his own mid-culling messages was offered and remains
-unspoken — without it, his mid-course orders land as they always did.
-The 08-07 plan's six steps stay archived under the 08-08 pages.
+How each day runs. A verdict list comes in the morning. One cut is one commit carrying its
+row number. A fresh agent checks every two hours, in three lines. The evening brings a full
+circle of the four measures and a digest to him. His veto is one revert. Every work block
+opens with a line naming the day, the batch and the step, or it does not start. Each day
+declares in advance which of the four measures it must move. Two days in a row without that
+move stop the work, and he gets a page saying why.
+
+Rules for the two weeks. Nothing new is built. No new check, rule or hook appears, and only
+he can grant an exception. A problem found on the way earns one queue row and waits. Only
+what blocks the day's batch is fixed at once. A red test from another area is named in the
+evening digest. His brake word is «стоп чистка».
+
+Drift signals he watches, four of them. A first reply doing anything besides starting the
+day. A work block missing its opening line. A proposal to improve or reword the plan. A new
+check or rule appearing.
+
+Two timers stand in the running session. One started day 1 and is spent. The other checks
+every two hours. Both live in that session alone, and they die with it.
+
+The 08-07 plan's six steps stay archived under the 08-08 pages. The plan page stands at
+docs/plans/2026-08-07-night-plan.md, and his 01:41 word released it. Two task statements are
+frozen through the clean-reader check, spoken letter for letter. They are "what a feature
+costs" (row 568) and "the rulebook cut" (row 570). The rulebook cut's remaining files stay
+on the row with the before-measurements. They are the pipeline, the spec writer, the
+reporting skill and the smaller ones.
 
 The night's own landings and the morning's two orders stand in the journal's 2026-08-07
-chapters. Open: he reads the two pages, "what a feature costs" and the number rulings, and
-now the recovery plan above.
-
-The plan page stands at docs/plans/2026-08-07-night-plan.md; his 01:41 word released it. Two
-task statements are frozen through the clean-reader check, spoken letter for letter: "what a
-feature costs" (row 568) and "the rulebook cut" (row 570). The rulebook cut's
-remaining files (the pipeline, the spec writer, the reporting skill and the smaller ones)
-stay on the row with the before-measurements.
+chapters. Open: he reads the two pages, "what a feature costs" and the number rulings.
 
 ## Forward queue
 
