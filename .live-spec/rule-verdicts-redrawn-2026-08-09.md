@@ -66,3 +66,43 @@ session reads before work, at 73 503 bytes today.
 
 Every row above lands as its own commit. A batch shares one adversarial review and one skill-creator
 review, since both gates read the push range. That is the shape day 2 measured.
+
+## Closing note, 2026-08-09 09:06 — this list stands unexecuted, and five of its rows are withdrawn
+
+A fresh adversarial review read the list against the rules' own text before any row executed. Its
+record is `docs/prover/2026-08-09-redrawn-rule-verdicts.md`, with five blocking findings, seven
+major and six minor. Nothing here has been executed. The findings that change the list follow.
+
+**The measure this list leans on can move without the load moving.** The command behind it counts
+two files, the base skill body and the personal profile. A reference page under the base skill's
+own folder is neither, so every byte relocated there leaves the count on the day it moves, while a
+session that follows the pointer still reads it. Any shortening row therefore owes a target size for
+its law and for its page, and the measurement command owes an extension that counts the base skill's
+reference pages beside its body.
+
+**Three removal rows are withdrawn, because each rule's own opening sentence contradicts the reach
+this list gave it.** Rule 20 opens at a project's founding or adoption, which is a stranger's own
+path onto the pack. Rule 28 carries a count a host may set on its own word, so it runs in a
+stranger's tree. Rule 19 tells a session to read the host's own problems file and to send a third
+unowned recurrence to the pack as an inbox message.
+
+**Two rows carried two verdicts each and could not be executed as written.** Rules 35 and 19 read
+"cut to its law, or remove". The plan's day shape gives each row one mark, and a later session reads
+progress by comparing this list against the git log.
+
+**The relocation lever holds for six rules and fails for the two largest.** A table consulted at a
+named step survives the move, since the step names the page. That covers rules 32, 24, 13, 29, 6 and
+25. A prohibition that must be known before an act does not survive, since nothing prompts a session
+to look. Rule 7 holds the ban on a worker restoring a tree, written after uncommitted work was
+destroyed three times. Rule 31 holds the rule that credentials never cross. Both are prohibitions,
+and together they are the 11 544 bytes this list called the main prize.
+
+**What the arithmetic really allows.** The three removals were 2 725 bytes, which is 3.7 per cent of
+the measure. Halving the eleven shortening rows saves 19.8 per cent. Cutting each to a 300-byte law
+saves 35.2 per cent, and that figure now excludes rules 7 and 31. Day 2's one real sample moved the
+measure by 142 bytes, which is 0.19 per cent.
+
+**The pattern in three passes of verdicts.** Day 2's list was drawn from the census summary tables.
+This list was drawn from the census summary plus each rule's trace section. Both were overturned on
+reach. The next list is drawn from each rule's own text in `skills/live-spec-base/SKILL.md`, read
+whole, with the census beside it as evidence rather than as the source.
