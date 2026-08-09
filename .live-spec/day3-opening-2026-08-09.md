@@ -63,6 +63,7 @@ them first. A second route leaves the claim unverified and softens the readme's 
 
 ## What day 3 must move
 
-Day 3 declares the install measure. Today it reads 219 references pointing at nothing on the short
-path. The measure moves when a skill body's paths each say where they live, and the count is re-taken
-by the same census method.
+Day 3 declares the install measure. Today it reads 218 references pointing at nothing on the short
+path: day 1 counted 219, and row 2.2's removal took one of them with the check it retired. The
+measure moves when a skill body's paths each say where they live, and the count is re-taken by the
+same census method.

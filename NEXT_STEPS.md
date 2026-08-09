@@ -4,44 +4,60 @@ A digest with no redundancy (SPEC INV-48) — one live-state block, nothing remo
 information. One status block stands here at a time, and every update replaces it. Dated history
 lives in `JOURNAL.md`.
 
-## LIVE STATE (2026-08-09, 12:26)
+## LIVE STATE (2026-08-09, 15:35)
 
-The culling ran through the night and stands paused. One page holds the whole state:
-`.live-spec/handover-2026-08-09.md`. Read that first, and read nothing else to catch up.
+Written for a session starting with clean context.
 
-In one line: no executable plan stands, three verdict lists were overturned by fresh review before
-anything executed, and no rule was cut.
+**The campaign.** His plan of 2026-08-08 cuts this project's self-checking machinery over two weeks.
+It sits at `.live-spec/culling-plan-2026-08-08.md`. Days 1 and 2 are delivered. Day 3, the install
+repair, is the live day.
 
-What changed in the tree. The handover-provenance check is gone with its tail. The
-architecture-pointer check was removed and came back on his word of 11:22, so thirty checks stand.
-Queue rows 541, 586 and 587 are live. Day 1's four measures and three censuses are written. The
-suite is green at 2492 tests. Seventeen commits sit local, and nothing is pushed.
+**Where it stands, in four numbers.** Rules cut: 0 of 88. Checks removed and still gone: 1 of 31.
+Text the campaign wrote about itself: about 346 000 bytes. The rulebook it is cutting holds 66 435.
+Commits since the last push of 2026-08-07: 26, all local.
 
-Six decisions wait on him, and the handover lists them. Base rule 30 is the one that decides whether
-the campaign leaves anything behind, since the machine regrows the day the freeze ends without it.
+**What the first day established.** Three lists of removal decisions were drawn. Fresh review
+overturned all three. Twice the list came from summary tables, and the rule's own text said something
+else. So a verdict row now quotes the rule's opening sentence and names who the rule reaches. No
+verdict executes without a fresh review. A worker brief must forbid background jobs. Four of the
+first five workers died waiting, and none since that line went in.
 
-Four pieces of work need nobody's permission, and the handover lists those too. The first is queue
-row 541, the pointer check's own repair.
+**The finding that decides the rest.** The plan's target is the rules inside
+`skills/live-spec-base/SKILL.md`. That file holds 66 435 bytes of the 410 457 in the eleven skill
+files. The keep-or-cut criterion protects 26 of the 35 rules. Deleting the rest moves 3.7 per cent.
+The plan was written against 45 000 tokens read per session. Day 1 measured 18 400. The plan has not
+been re-approved against that figure. Deleting unneeded rules stays worth doing. Rewriting what
+survives shorter carries the volume, and it needs no keep-or-cut decision. One obstacle stands: the
+plan gives three verdicts, keep, merge and remove. Review refused "shorten" as an unlawful fourth.
+Adding it is his word.
 
-The plan of 2026-08-08 stays his frozen order. The recompiled plan of 2026-08-09 was reviewed and
-found unfit to execute, with its whole first phase resting on the decisions above.
+**What waits on him.** None of these is answered as of 15:35.
 
-## Forward queue
+1. Base rule 30 turns any machine-verifiable property into a blocking check. It is the engine behind
+   thirty of them. Without an answer the machinery regrows the day the freeze ends.
+2. Base rule 23.
+3. Merging two review records into one per push.
+4. Verifying the plugin install path, which changes what his own sessions load.
+5. Adding "shorten" as a fourth verdict.
 
-The recovery plan's six steps enter this queue only once he gives his word on the plan.
-Until then they stay at `docs/plans/2026-08-07-recovery-plan.md`.
+**Work needing nobody's word.** Queue row 541, the pointer check's own repair. Measuring how much the
+rulebook repeats itself. Extending the runs-and-fires count from checks to rules, under landed row
+391. Repairing the install so every path a skill names says which tree it lives in. That last one was
+written today and failed its own review on seven findings. Its eight files sit at
+`~/live-spec-carry/2026-08-09/`.
 
-1. Row 576: the invented-numbers table — the seat rules on each enumerated number, removals
-   land in named batches, the table goes to him.
-2. Row 166 resumes: the fresh adversarial review of the board's specification, the
-   stage-ladder re-map, the task-graph criteria. Its page revision reads the kanban-tools
-   study in ~/live-spec-carry/2026-08-06/.
-3. Row 567 (bug): the session rules name a register check no host tree holds. Ship it with
-   the pack or re-word the law.
-4. Row 566: board-ready statements for the whole queue, in batches through the entry check.
-5. Rows 581-585, this morning's intake: the system-dialog announcement, the thread in hand,
-   the early showing, the thrift rule, and the earned-message gate's own form.
-6. Rows 558-565 and 532-546 stand as before; see the queue.
+**Three habits that cost 2026-08-09, named so the next session skips them.**
+1. His instruction and the tree's record disagreed. The session picked the record and worked on.
+   Stop there, state the difference in one line, and wait. This is the one case that blocks.
+2. His spoken settings landed in a state page nobody governs by. A standing setting belongs in the
+   profile. A task belongs in `ROADMAP.md`. `scripts/session-extract.py` already pulls his own turns
+   for a fresh reader, and what it finds has to land in one of those two homes.
+3. A page was rewritten whole where three lines needed changing. Change what needs changing.
+
+**Right now.** A fresh review of the push range refused it on three findings. All three arrived with
+the repair pass. Its record is `docs/push-review/2026-08-09-the-culling-first-day.md`. One of the
+three is structural. An `ARCHITECTURE.md` edit demands a fresh record under `docs/prover/` that
+descends from it, and a push-review record leaves that gate unsatisfied.
 
 ## Where the numbers live
 
