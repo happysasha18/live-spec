@@ -2899,31 +2899,26 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 17. A session handover *shall* say what stays open, what resumes where, and every decision the person made with its timestamp. [INV-302]
 18. The system *shall* keep the person's own words out of a handover, quoting them only as a decision entry's evidence. [INV-302]
 19. A session handover *shall* name the transcript it was read from, the extract file, and the agent that wrote it. [INV-302]
-20. *if* a session handover names fewer than all three, *then* the system *shall* refuse the push. [INV-302]
-21. The system *shall* hold this step by a push gate, since a session handover is a committed artifact. [INV-302]
-22. The gate *shall* read that provenance for its shape alone, since no machine sees whether a writing session was fresh. [INV-302]
-23. *when* the handover directory holds no session handover at all, the gate *shall* refuse rather than pass over an empty set. [INV-302, INV-218]
-24. *when* every session handover predates the recorded counting start, the gate *shall* stand down by name and say what it read nothing of. [INV-302, INV-218]
 
 **Case: the opening step**
 
-25. *when* a session opens, the system *shall* have a fresh agent read the previous session's handover and its extract. [INV-302]
-26. The system *shall* have that agent take the extract the previous handover names. [INV-302]
-27. *if* no such extract stands, *then* the system *shall* re-derive one from the previous session's transcript. [INV-302]
-28. That agent *shall* list every decision the person made, each with its timestamp. [INV-302]
-29. The system *shall* compare that list against `DECISIONS.md` and `NEXT_STEPS.md`. [INV-302]
-30. *if* a decision is missing from both, *then* the system *shall* report it to the seat before work starts. [INV-302]
-31. The system *shall* keep this step a discipline the seat holds, since a session's opening writes no committed artifact. [INV-302, INV-247]
+20. *when* a session opens, the system *shall* have a fresh agent read the previous session's handover and its extract. [INV-302]
+21. The system *shall* have that agent take the extract the previous handover names. [INV-302]
+22. *if* no such extract stands, *then* the system *shall* re-derive one from the previous session's transcript. [INV-302]
+23. That agent *shall* list every decision the person made, each with its timestamp. [INV-302]
+24. The system *shall* compare that list against `DECISIONS.md` and `NEXT_STEPS.md`. [INV-302]
+25. *if* a decision is missing from both, *then* the system *shall* report it to the seat before work starts. [INV-302]
+26. The system *shall* keep this step a discipline the seat holds, since a session's opening writes no committed artifact. [INV-302, INV-247]
 
 **Case: which transcript a run reads, and where the extract lands**
 
-32. The system *shall* take a session identity from the caller and *shall* read the transcript file named for that identity. [INV-302, INV-117]
-33. *when* a session closes, the system *shall* name its own session identity to the extractor, and that identity *shall* come from the session's checkpoint. [INV-302, INV-117]
-34. *if* the named identity matches no transcript, or matches more than one, *then* the system *shall* write no extract and *shall* refuse the run. [INV-302, INV-218]
-35. A refusal of that kind *shall* name the identity it was given and every transcript it matched. [INV-302, INV-218]
-36. *while* no identity is named, the system *shall* read the most recently written transcript it takes and *shall* say how many it chose among. [INV-302]
-37. The system *shall* refuse an output path that lands inside the repository, and the refusal *shall* name that path and the reason. [INV-302, INV-218]
-38. The system *shall* resolve an output path before judging it, so a relative path, a link, and `..` are judged by where they land. [INV-302]
+27. The system *shall* take a session identity from the caller and *shall* read the transcript file named for that identity. [INV-302, INV-117]
+28. *when* a session closes, the system *shall* name its own session identity to the extractor, and that identity *shall* come from the session's checkpoint. [INV-302, INV-117]
+29. *if* the named identity matches no transcript, or matches more than one, *then* the system *shall* write no extract and *shall* refuse the run. [INV-302, INV-218]
+30. A refusal of that kind *shall* name the identity it was given and every transcript it matched. [INV-302, INV-218]
+31. *while* no identity is named, the system *shall* read the most recently written transcript it takes and *shall* say how many it chose among. [INV-302]
+32. The system *shall* refuse an output path that lands inside the repository, and the refusal *shall* name that path and the reason. [INV-302, INV-218]
+33. The system *shall* resolve an output path before judging it, so a relative path, a link, and `..` are judged by where they land. [INV-302]
 
 ---
 
@@ -8018,7 +8013,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-114 | R60.4, R150.2, R183.6, R184.1, R184.2, R184.3, R184.4, R184.5 |
 | INV-115 | R130.5, R131.1 |
 | INV-116 | R130.1, R131.1, R141.1, R215.2, R242.2, R305.3, R305.8 |
-| INV-117 | R77.3, R77.4, R79.1, R79.2, R79.3, R84.2, R89.4, R90.5, R303.16, R303.32, R303.33, R196.12, R251.6, R252.2, R255.1 |
+| INV-117 | R77.3, R77.4, R79.1, R79.2, R79.3, R84.2, R89.4, R90.5, R303.16, R303.27, R303.28, R196.12, R251.6, R252.2, R255.1 |
 | INV-118 | R149.1, R149.2, R149.3, R151.4 |
 | INV-119 | R187.11, R187.13 |
 | INV-120 | R150.1, R150.2, R150.3, R150.4, R151.3 |
@@ -8119,7 +8114,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-215 | R134.1, R134.2 |
 | INV-216 | R246.7, R246.8 |
 | INV-217 | R191.5, R215.2, R274.1, R274.2, R274.3, R274.4, R274.5, R274.6, R274.7 |
-| INV-218 | R113.1, R113.2, R303.23, R303.24, R303.34, R303.35, R303.37, R301.18, R301.19, R302.7, R302.14, R306.13 |
+| INV-218 | R113.1, R113.2, R303.29, R303.30, R303.32, R301.18, R301.19, R302.7, R302.14, R306.13 |
 | INV-219 | R193.13 |
 | INV-220 | R135.3, R230.7, R231.1, R231.3, R231.4, R231.5 |
 | INV-221 | R135.1, R135.2, R135.3, R230.3 |
@@ -8148,7 +8143,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-244 | R258.5, R265.1, R265.2, R265.3, R265.4, R265.5, R265.6, R265.7, R265.8, R265.9, R265.10, R265.11, R265.12, R265.13, R265.14, R265.15, R266.1, R266.7, R299.4 |
 | INV-245 | R151.1, R151.2, R151.3, R151.4 |
 | INV-246 | R232.4, R232.5, R232.6 |
-| INV-247 | R93.1, R93.2, R93.3, R303.31, R195.16 |
+| INV-247 | R93.1, R93.2, R93.3, R303.26, R195.16 |
 | INV-248 | R266.1, R266.2, R266.3, R266.4, R266.5, R266.6, R266.7, R266.8, R266.9 |
 | INV-249 | R195.15, R195.16 |
 | INV-250 | R277.1, R277.2, R277.3 |
@@ -8203,7 +8198,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-299 | R301.12, R301.13, R301.14, R301.15, R301.16, R301.17, R301.18, R301.19 |
 | INV-300 | R208.7, R208.8, R208.9 |
 | INV-301 | R302.1, R302.2, R302.3, R302.4, R302.5, R302.6, R302.7, R302.8, R302.9, R302.10, R302.11, R302.12, R302.13, R302.14, R302.15, R302.16 |
-| INV-302 | R303.1, R303.2, R303.3, R303.4, R303.5, R303.6, R303.7, R303.8, R303.9, R303.10, R303.11, R303.12, R303.13, R303.14, R303.15, R303.16, R303.17, R303.18, R303.19, R303.20, R303.21, R303.22, R303.23, R303.24, R303.25, R303.26, R303.27, R303.28, R303.29, R303.30, R303.31, R303.32, R303.33, R303.34, R303.35, R303.36, R303.37, R303.38 |
+| INV-302 | R303.1, R303.2, R303.3, R303.4, R303.5, R303.6, R303.7, R303.8, R303.9, R303.10, R303.11, R303.12, R303.13, R303.14, R303.15, R303.16, R303.17, R303.18, R303.19, R303.20, R303.21, R303.22, R303.23, R303.24, R303.25, R303.26, R303.27, R303.28, R303.29, R303.30, R303.31, R303.32, R303.33 |
 | INV-303 | R304.1, R304.2, R304.3, R304.4, R304.5, R304.6, R304.7, R304.8, R304.9, R304.10 |
 | INV-304 | R305.1, R305.2, R305.3, R305.4, R305.5, R305.6, R305.7, R305.8, R305.9, R305.10, R305.11, R305.12 |
 | INV-305 | R306.1, R306.2, R306.3, R306.4, R306.5, R306.6, R306.7, R306.8, R306.9, R306.10, R306.11, R306.12, R306.13, R306.14, R306.15, R306.16 |

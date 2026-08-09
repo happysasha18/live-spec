@@ -3,7 +3,7 @@
   "cap_rule": "r08",
   "files": {
     "ARCHITECTURE.md": {
-      "bytes": 106253,
+      "bytes": 106121,
       "file": "ARCHITECTURE.md",
       "long": 0,
       "longest": 25,
@@ -12,7 +12,7 @@
       "total": 0
     },
     "NEXT_STEPS.md": {
-      "bytes": 9059,
+      "bytes": 10298,
       "file": "NEXT_STEPS.md",
       "long": 0,
       "longest": 25,
@@ -30,7 +30,7 @@
       "total": 8
     },
     "PRODUCT_SPEC.index.md": {
-      "bytes": 28233,
+      "bytes": 28170,
       "file": "PRODUCT_SPEC.index.md",
       "long": 0,
       "longest": 0,
@@ -39,7 +39,7 @@
       "total": 0
     },
     "PRODUCT_SPEC.md": {
-      "bytes": 704421,
+      "bytes": 703696,
       "file": "PRODUCT_SPEC.md",
       "long": 1865,
       "longest": 80,
@@ -58,7 +58,7 @@
       "total": 13
     },
     "ROADMAP.md": {
-      "bytes": 251423,
+      "bytes": 251158,
       "file": "ROADMAP.md",
       "long": 8,
       "longest": 242,
@@ -76,7 +76,7 @@
       "total": 3
     },
     "TEST_MATRIX.md": {
-      "bytes": 485861,
+      "bytes": 484753,
       "file": "TEST_MATRIX.md",
       "long": 8,
       "longest": 46,
@@ -580,7 +580,7 @@
       "total": 0
     },
     "guardrails/README.md": {
-      "bytes": 21053,
+      "bytes": 20921,
       "file": "guardrails/README.md",
       "long": 29,
       "longest": 68,
@@ -859,7 +859,7 @@
       "total": 1
     },
     "skills/live-spec-base/SKILL.md": {
-      "bytes": 66577,
+      "bytes": 66435,
       "file": "skills/live-spec-base/SKILL.md",
       "long": 60,
       "longest": 48,

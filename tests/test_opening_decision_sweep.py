@@ -39,7 +39,7 @@ class TestOpeningDecisionSweep(unittest.TestCase):
     def test_the_rulebook_names_the_closing_step_too(self):
         base = flat("skills/live-spec-base/SKILL.md")
         self.assertIn("session handover", base)
-        self.assertIn("check-handover-provenance.py", base)
+        self.assertIn("written by", base)
 
     def test_the_spec_says_why_no_gate_holds_it(self):
         spec = flat("PRODUCT_SPEC.md")

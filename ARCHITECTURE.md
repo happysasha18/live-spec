@@ -66,7 +66,7 @@ named here and in the matrix.
 - INV-225 (the sibling of the far-tier report-shape check)
 - E-35 · INV-240 · T-24
 - INV-298 (the worker-restore rule sits in rule 7 beside the concurrent-edit fence [INV-11], since a discarding command reaches past a brief's write-set. The orchestrator's half sits with it: the restore from the last committed stage and the fresh brief. The halt on the delivery report and the committed stage before the next worker complete that half. The mechanical arm that reads it, `guardrails/check-worker-restore.py`, is the guardrails node's.)
-- INV-302 (the two session steps sit in rule 35 beside the checkpoint and resume rules. The closing step's mechanical arm, `guardrails/check-handover-provenance.py`, is the guardrails node's.)
+- INV-302 (the two session steps sit in rule 35 beside the checkpoint and resume rules. Both steps stay a discipline the seat holds; the session extract's machine, `scripts/session-extract.py`, is the guardrails node's.)
 
 **pins** —
 - `skills/live-spec-base/SKILL.md:108` (rules)
@@ -463,9 +463,7 @@ named here and in the matrix.
 - `guardrails/check-worker-restore.py:1` (the worker-restore gate, blocking, run at the pipeline's verify step and once more in the suite against this machine's own transcript root, INV-299)
 - `tests/test_worker_restore.py:1` (its red proof, and the one-wording check. That check reads the rulebook, the pipeline skill, the delegation protocol, the agent-card template and the lane-opening script, INV-299.)
 - `skills/build-pipeline/references/delegation-protocol.md:49` (the clause in the delegation protocol, INV-299)
-- `guardrails/check-handover-provenance.py:1` (the handover-provenance gate, gate ab, INV-302)
 - `scripts/session-extract.py:1` (the session extract's machine, INV-302)
-- `tests/test_handover_provenance.py:1` (its red proof, INV-302)
 - `templates/agent.template.md:38` (the clause in the agent card a brief is written from, INV-299)
 - `scripts/open-lane.sh:100` (the clause in the printed brief stub, INV-299)
 - `scripts/check-registry.json:1` (the check registry: kind, name, kit, root, reach and needs per runnable file, INV-306)

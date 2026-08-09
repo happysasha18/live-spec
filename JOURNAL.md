@@ -2422,3 +2422,75 @@ census was re-measured with the three deposits gone — the spec's ceiling falli
 and the progress page rode the same numbers. The push-gate re-check is filed short-form at
 docs/prover/2026-08-07-pushgate-intake-sweep.md, the delta being small and touching neither the
 spec nor the architecture.
+
+
+## 2026-08-07, 14:23–16:15 — the diagnosis and recovery plan, landed as a proposal
+
+His 14:23 order asked for a diagnosis of the project and a firm recovery plan, or word that the
+task is impossible. Fourteen transcript-digest files, already distilling every session touching
+this project from 07-16 to today, were the evidence base; the repo's own tree was censused
+alongside them — the queue and its archives, the work log, the tracked-problems list, the checks
+folder's own guide, the cost page, the decisions record. The seat drafted the diagnosis and the
+six-step plan from that evidence; a clean writer rewrote the draft without touching its claims;
+a fresh reviewer, clean context, then attacked the rewritten page against the fourteen digests
+and the tree, quote by quote and count by count.
+
+The review returned eight blocking findings and fifteen major ones. Six of the eight blocking
+findings were real, and the survivors — those six plus the fifteen major findings — were folded
+into the landed page: wrong or spliced quotations corrected, a circular root, an inverted
+routing table, unverifiable and contradicted counts, a gate an already-drifted session could
+pass by shape, and an unobservable retirement condition, each repaired at its source. Two of the
+eight blocking findings turned out to be false alarms of the review's own making — the "или это
+невозможно" section title and the "непонятно с чего начинать" clause in Step 2's root — because
+the digest files the reviewer read had truncated both quotes; the owner's original 14:23 message
+carries both clauses verbatim, so both stood unchanged in the landed page.
+
+The diagnosis and recovery plan is filed at docs/plans/2026-08-07-recovery-plan.md; the
+adversarial record, carrying a provenance header naming the two false alarms and their cause, is
+filed at docs/prover/2026-08-07-recovery-plan-adversarial.md. The page lands as a proposal, not
+as an approved order — his read is the one open box, and the plan's six steps enter the forward
+queue only once he gives his word on it.
+
+
+## 2026-08-09, 00:19–04:10 — the culling starts: day 1 prepares, day 2 prices two cuts
+
+Root: his order of 2026-08-08, 22:17, to start day 1 of the culling plan two hours later, and the
+plan he froze at 22:14 the same evening.
+
+Day 1 owed four things and delivered them. The two red tests went green in commit `fb1e9d7`. Two
+feedback files under `inbox/` entered the document record, and the live-state block of
+`NEXT_STEPS.md` was rewritten in short sentences after growing back to 19 findings. The four
+starting measures were taken with a named command each, so day 14 can measure the same way. Three
+censuses were written: every rule with its traces, every check with its cost and its last real
+catch, and everything a person lacks after installing the pack. A queue page was prepared for his
+pen.
+
+The censuses carry the day's real numbers. Thirty-five rules hold 48 387 bytes, and their traces
+run through 123 test files and 7 368 document lines. Thirty-one checks cost 486 seconds together,
+and the test suite is 451 of those seconds. Six of the thirty-one have a dated real catch. A
+stranger who follows the readme gets the skills alone, and 33 of the 66 installed files carry 219
+references to files the install never placed. The queue holds 209 open rows, and 109 of them serve
+the quality machinery.
+
+Day 2 cut two gates to learn the price. Row 2.1 removed the architecture-pin drift gate in commit
+`1b32d8f`, touching 19 files in 28 minutes. Row 2.2 removed the handover-provenance gate. The
+suite fell from 447 seconds to 410, and the gate roster fell from 31 to 29.
+
+The price arrived in the tail rather than the edit. A fresh adversarial review of the two cuts
+returned four blocking findings and six major ones, and its record stands at
+`docs/prover/2026-08-09-culling-day2-cuts.md`. The rulebook edit inside row 2.2 pulled in a
+skill-creator review as well, recorded at `docs/skill-review/2026-08-09-live-spec-base.md`, and
+that review refused the first two drafts of the repaired rule 35. So one small gate, which had
+never caught an error and cost 0.06 seconds, carried a worker pass, a seat repair, two fresh
+reviews, an installed-copy sync, and a journal entry.
+
+One verdict of this seat is now contested on the record. The review found that the pin-drift gate
+reached a stranger through `adopt/ADOPT.md`, which told an adopting project to wire it. The frozen
+criterion keeps a thing that protects a stranger using the pack. Whether the reader of the adoption
+page is such a stranger is a reading of his own criterion, so it goes to him with the measured cost
+and a recommendation. The cut reverts with one command while he decides.
+
+Three findings of the review are repaired here: rule 35 states its own reason at both ends, the
+retired matrix row M-082 names the test that still holds two of its arms, and this entry gives both
+cuts their dated reason. Queue row 587 carries the observed failure that row 558's decline left
+unheld.

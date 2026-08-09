@@ -4,7 +4,7 @@ A digest with no redundancy (SPEC INV-48) — one live-state block, nothing remo
 information. One status block stands here at a time, and every update replaces it. Dated history
 lives in `JOURNAL.md`.
 
-## LIVE STATE (2026-08-09, 01:09)
+## LIVE STATE (2026-08-09, 04:07)
 
 The culling runs. Day 1, the preparation batch, opened at 00:19 on his order of
 2026-08-08, 22:17, and its work is done. Everything it owed stands in the tree, in six
@@ -17,9 +17,9 @@ the command for each. The three censuses stand at `.live-spec/day1-census-rules.
 for his pen stands at `.live-spec/day1-queue-for-striking.md`.
 
 What the censuses found. Thirty-five rules carry 48 387 bytes of rule text, and their
-traces run through 123 test files and 7 368 document lines. Thirty-one checks cost 486
-seconds together, and the full test suite is 451 of those seconds. Six of the thirty-one
-have a dated real catch on record. A stranger who follows the README gets the skills alone.
+traces run through 123 test files and 7 368 document lines. The census read 31 checks
+costing 486 seconds together, and the full test suite was 451 of those seconds. Six of the
+31 had a dated real catch on record. Day 2 has since withdrawn two of them, so 29 stand. A stranger who follows the README gets the skills alone.
 Of the 66 installed files, 33 carry 219 references to files the install never placed.
 The queue holds 209 open rows, and 109 of them serve the quality machinery.
 
@@ -33,7 +33,24 @@ files back from git history, and uncommitted work in the tree went with them. Bo
 are generated, so a stamp was lost. The check that guards restores watches five git
 subcommands and misses a redirect out of `git show`.
 
-Day 2 is next: the trial cut that prices the work.
+Day 2, the trial cut that prices the work, ran through the night. Two gates went: the
+architecture-pin drift gate in commit `1b32d8f`, and the handover-provenance gate. The gate
+roster fell from 31 to 29, and the full suite fell from 447 seconds to 410.
+
+The price sits in the tail. Row 2.1 touched 19 files in 28 minutes. Row 2.2 pulled in a fresh
+adversarial review of both cuts, at `docs/prover/2026-08-09-culling-day2-cuts.md`, which
+returned four blocking findings and six major ones. It also pulled in a skill-creator review,
+at `docs/skill-review/2026-08-09-live-spec-base.md`, because the cut edited rule 35. That
+review refused two drafts before passing the third.
+
+One verdict of this seat is contested on the record and waits for his word. The pin-drift gate
+reached a stranger through `adopt/ADOPT.md`, which told an adopting project to wire it. The
+frozen criterion keeps a thing that protects a stranger using the pack. The cut reverts with
+one command while he decides. Two more rows wait for him: base rule 30 and base rule 23, the
+two that turn every observation into permanent machinery.
+
+The three rule verdicts of day 2, rows 2.3 to 2.5, stand unexecuted until the calendar is
+recounted against the measured price.
 
 Three pages hold it. The plan sits at `.live-spec/culling-plan-2026-08-08.md`. Its
 four-round review record sits beside it at `.live-spec/culling-plan-2026-08-08-review.md`.

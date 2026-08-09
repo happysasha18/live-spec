@@ -27,7 +27,7 @@ THE FOUR TRAPS, each checked against the real files on 2026-07-28:
      whose whole text is such a wrapper is dropped, and a wrapper riding beside real words is
      stripped out of the turn that keeps them.
 
-WHICH TRANSCRIPT A RUN READS (R303.32, R303.33, R303.36). The transcript home names each session's
+WHICH TRANSCRIPT A RUN READS (R303.27, R303.28, R303.31). The transcript home names each session's
 file for that session's own identity: `176e927f-4e67-4fa6-887e-86d1d6e5d1e4.jsonl` is the file of
 the session whose every line carries `"sessionId":"176e927f-4e67-4fa6-887e-86d1d6e5d1e4"`. So
 `--session ID` matches that file name, and the leading part of an identity is taken while exactly
@@ -36,14 +36,14 @@ before its first act and records it in its `.live-spec/` checkpoint, and that id
 harness session id wherever the context carries one (Requirement 79, R79.1 and R79.2). The same
 identity is what a handover's file name carries (R303.16), so the closing step passes what it has.
 
-WHEN THE ANSWER IS AMBIGUOUS (R303.34, R303.35). Where the identity matches no transcript, or
+WHEN THE ANSWER IS AMBIGUOUS (R303.29, R303.30). Where the identity matches no transcript, or
 matches more than one, the run writes no extract, prints the identity it was given and every path it
 matched, and exits 1. Refusing beats guessing: 183 transcripts under the home name this repository,
 and two of them were written within one minute of each other on 2026-07-29, so the newest of them is
 decided by seconds. Where no identity is named at all — an operator running this by hand — the run
 keeps taking the transcript written last and says how many it chose among.
 
-WHERE THE OUTPUT GOES (R303.8, R303.37, R303.38). A transcript holds private conversation, so the
+WHERE THE OUTPUT GOES (R303.8, R303.32, R303.33). A transcript holds private conversation, so the
 extract is written to a scratch directory, and an output path landing inside the repository is
 refused by name with nothing written. The path is resolved before it is judged, so a relative path,
 a symbolic link and a path holding `..` are each judged by where they land. The one thing that
@@ -180,7 +180,7 @@ def matching(found, session):
 
 
 def lands_inside(path, repo):
-    """Whether an output path, once resolved, lands inside the repository (R303.37, R303.38)."""
+    """Whether an output path, once resolved, lands inside the repository (R303.32, R303.33)."""
     out = os.path.realpath(path)
     root = os.path.realpath(repo)
     return out == root or out.startswith(root + os.sep)

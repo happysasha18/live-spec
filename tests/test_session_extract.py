@@ -173,7 +173,7 @@ class TestSessionExtract(unittest.TestCase):
 
 
 class TestWhichTranscriptIsRead(unittest.TestCase):
-    """M-488, M-489 — the run reads the transcript named for one session identity (R303.32..R303.36)."""
+    """M-488, M-489 — the run reads the transcript named for one session identity (R303.27..R303.31)."""
 
     def test_a_named_session_reads_its_own_transcript(self):
         """RED-FIRST: two lanes are live, and the named session gets its own file, never the newest."""
@@ -239,7 +239,7 @@ class TestWhichTranscriptIsRead(unittest.TestCase):
 
 
 class TestWhereTheExtractLands(unittest.TestCase):
-    """M-490 — an output path landing inside the repository is refused (R303.8, R303.37, R303.38)."""
+    """M-490 — an output path landing inside the repository is refused (R303.8, R303.32, R303.33)."""
 
     def seed_repo(self, tmp):
         """A scratch repository, one transcript naming it, and its handover directory."""

@@ -630,15 +630,15 @@ meaning. If the answer to a class is a list, the design is wrong.
    The extract goes to a scratch directory, since a transcript holds private conversation. At the close,
    the fresh agent writes the session handover from that extract. The session that lived the work writes
    no handover of its own. A handover is a file under `docs/handovers/` whose name ends in
-   `-handover.md`, and it says where it was read from in three lines: transcript, extract,
-   written by. `guardrails/check-handover-provenance.py` reds a push whose handover names fewer than all three.
+   `-handover.md`, and it says where it was read from in three lines: transcript, extract, written by.
    At the open, a fresh agent reads the previous session's extract. It lists every decision the person
    made, each with its timestamp. It compares that list against `DECISIONS.md` and `NEXT_STEPS.md`. A
-   decision missing from both goes to the seat before work starts. The gate reads that provenance
-   for its shape alone, since whether the writing agent was fresh is a fact no machine sees. Rule 33
-   draws the same line for a release's clean-context review. The opening step stays a discipline the seat holds,
-   since a session's opening writes no committed artifact for a gate to read. The owner asked for this
-   reading as a standing process, 2026-07-28.
+   decision missing from both goes to the seat before work starts.
+   Both ends stay a discipline the seat holds. A script read the handover's three lines until
+   2026-08-09, and the live-spec pack withdrew that script after finding no error the script had
+   ever caught.
+   A session's opening writes no committed artifact for a script to read. The owner asked for
+   this reading as a standing process, 2026-07-28.
 
 
 ## Work that belongs elsewhere
