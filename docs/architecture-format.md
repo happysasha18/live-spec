@@ -85,7 +85,7 @@ bond the old table carried.
 
 One parser module reads the node sections — the node names, each node's owned-anchor set, each
 node's pins — and every consumer reads through it: the traceability suite's helpers, the node-growth
-counter, the pin-drift check, and every test that asks which node owns an anchor. The module is the
+counter, and every test that asks which node owns an anchor. The module is the
 sibling of `guardrails/specformat.py`, the spec format's one reader. A consumer that greps the raw
 node shape on its own is a defect the conversion retires: at conversion the suite carried eleven
 tests matching a node's table row by its leading characters, and each moves to an assertion through

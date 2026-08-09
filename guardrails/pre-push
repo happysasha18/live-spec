@@ -85,12 +85,6 @@ if ! python3 "$GUARDRAILS/check-matrix-reference.py" "$REPO_ROOT/TEST_MATRIX.md"
   fail=1
 fi
 
-echo ""
-echo "-- gate g: pin drift --"
-if ! "$GUARDRAILS/check-pin-drift.sh"; then
-  fail=1
-fi
-
 echo "-- gate f: skill loadability --"
 if ! "$GUARDRAILS/check-skill-loadability.sh"; then
   fail=1

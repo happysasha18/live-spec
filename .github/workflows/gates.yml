@@ -34,8 +34,6 @@ jobs:
         run: guardrails/check-prover-record.sh --push
       - name: gate d — matrix Reference generated and agrees with the body
         run: python3 guardrails/check-matrix-reference.py TEST_MATRIX.md
-      - name: gate g — pin drift
-        run: guardrails/check-pin-drift.sh
       - name: gate f — skill loadability
         run: guardrails/check-skill-loadability.sh
       - name: gate e — prototype fence

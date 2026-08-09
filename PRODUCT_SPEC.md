@@ -7019,7 +7019,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 ## Requirement 291: One node reader serves every consumer of the node shape
 
-**Context:** The node sections are read by many checks — the traceability suite's tests, the node-growth counter, the pin-drift check, and every test asking which node owns an anchor. One reader reads the node shape for all of them: the node names, each node's owned-anchor set, and each node's pins. It is the sibling of `guardrails/specformat.py`, the spec format's one reader. A consumer that reads the raw node shape on its own reads a shape that can drift under it, so such a consumer is a defect the conversion retires. The node-growth counter's hardcoded node-name list retires the same way — it re-derives the list from the reader, so a renamed node stays in step across every consumer.
+**Context:** The node sections are read by many checks — the traceability suite's tests, the node-growth counter, and every test asking which node owns an anchor. One reader reads the node shape for all of them: the node names, each node's owned-anchor set, and each node's pins. It is the sibling of `guardrails/specformat.py`, the spec format's one reader. A consumer that reads the raw node shape on its own reads a shape that can drift under it, so such a consumer is a defect the conversion retires. The node-growth counter's hardcoded node-name list retires the same way — it re-derives the list from the reader, so a renamed node stays in step across every consumer.
 
 **User Story:** As a maintainer changing a node, I want every check to read the node shape through one reader, so that a rename or a moved anchor reaches every consumer at once and none reads a stale shape.
 
@@ -7027,7 +7027,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: one reader, every consumer through it**
 
-1. One reader — the node reader — *shall* read the node shape, the node names, each node's owned-anchor set, and each node's pins, and every consumer *shall* read through it: the traceability tests, the node-growth counter, the pin-drift check, and every test asking which node owns an anchor. [INV-280]
+1. One reader — the node reader — *shall* read the node shape, the node names, each node's owned-anchor set, and each node's pins, and every consumer *shall* read through it: the traceability tests, the node-growth counter, and every test asking which node owns an anchor. [INV-280]
 2. *if* a consumer reads the raw node shape on its own, *then* the suite *shall* red, that consumer standing as a defect the conversion retires. [INV-280]
 
 **Case: the hardcoded node list re-derives**

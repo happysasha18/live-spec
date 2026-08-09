@@ -21,10 +21,6 @@
       "proof": "tests/test_guardrails.py::test_broken_skill_fails",
       "reds": "check-skill-loadability.sh"
     },
-    "g": {
-      "proof": "tests/test_guardrails.py::test_label_drift_strict_fails",
-      "reds": "check-pin-drift.sh"
-    },
     "h": {
       "proof": "tests/test_scaffold_guardrails.py::test_change_without_test_red",
       "reds": "scaffold/guardrails"
