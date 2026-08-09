@@ -9,7 +9,7 @@ this seat's, and day 14 must re-run these same commands for the comparison to ho
 | # | measure | starting value | command |
 |---|---|---:|---|
 | 1 | how far a stranger's install gets | 219 references point at nothing, 123 distinct targets, across 33 of 66 installed files | day 1 census, `.live-spec/day1-census-delivery.md` |
-| 2 | rulebook a session reads before work | 73 645 bytes ≈ 18 400 tokens | `cat skills/live-spec-base/SKILL.md ~/.claude/live-spec/profile.md \| wc -c`, divided by four |
+| 2 | rulebook a session reads before work | 73 645 bytes ≈ 18 400 tokens | `{ find skills/live-spec-base -name '*.md' -not -name 'README.md' -print0 \| xargs -0 cat; cat ~/.claude/live-spec/profile.md; } \| wc -c`, divided by four |
 | 3 | full test run | 447.22 s, 2502 tests, all green | `python3 -m pytest -q` |
 | 4 | checks before a publish | 31 | `grep -oE -- '-- gate [a-z]{1,2}:' guardrails/pre-push \| sort -u \| wc -l` |
 
@@ -51,3 +51,18 @@ The repair entered the two feedback files into the record with `python3 scripts/
 --json guardrails/rule-census.json`, and rewrote the live-state block of `NEXT_STEPS.md` in short
 sentences. The record was compared row by row before and after: only the two new rows appeared,
 and no document's finding count rose.
+
+## The second measure's command was repaired, 2026-08-09 10:53
+
+The first command counted two files: the base skill body and the personal profile. A review of the
+redrawn rule verdicts, `docs/prover/2026-08-09-redrawn-rule-verdicts.md`, found that a rule's text
+moved into a reference page beside the body would leave the count on the day it moved. A session
+following the pointer still reads those bytes, so the number would fall while the load held.
+
+The command in the table above now counts every markdown file under `skills/live-spec-base/`, the
+readme excepted, together with the profile. It returns 73 503 bytes today, which is the same figure
+the old command returns, since no reference page exists yet. The starting value of 73 645 bytes was
+taken on 2026-08-09 at 00:40, before day 2 edited rule 35.
+
+Day 14 runs the repaired command. Any shortening that moves text under that folder is then visible
+as a move rather than a saving.
