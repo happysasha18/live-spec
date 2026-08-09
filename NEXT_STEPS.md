@@ -4,115 +4,27 @@ A digest with no redundancy (SPEC INV-48) — one live-state block, nothing remo
 information. One status block stands here at a time, and every update replaces it. Dated history
 lives in `JOURNAL.md`.
 
-## LIVE STATE (2026-08-09, 04:07)
+## LIVE STATE (2026-08-09, 12:26)
 
-The culling runs. Day 1, the preparation batch, opened at 00:19 on his order of
-2026-08-08, 22:17, and its work is done. Everything it owed stands in the tree, in six
-commits from `fb1e9d7` to `cef83d5`.
+The culling ran through the night and stands paused. One page holds the whole state:
+`.live-spec/handover-2026-08-09.md`. Read that first, and read nothing else to catch up.
 
-Day 1 results. The two red tests are green, and the whole suite passes: 2502 tests, 447
-seconds. The four starting measures stand in `.live-spec/day1-measures-2026-08-09.md` with
-the command for each. The three censuses stand at `.live-spec/day1-census-rules.md`,
-`.live-spec/day1-census-checks.md` and `.live-spec/day1-census-delivery.md`. The queue page
-for his pen stands at `.live-spec/day1-queue-for-striking.md`.
+In one line: no executable plan stands, three verdict lists were overturned by fresh review before
+anything executed, and no rule was cut.
 
-What the censuses found. Thirty-five rules carry 48 387 bytes of rule text, and their
-traces run through 123 test files and 7 368 document lines. The census read 31 checks
-costing 486 seconds together, and the full test suite was 451 of those seconds. Six of the
-31 had a dated real catch on record. Day 2 has since withdrawn two of them, so 29 stand. A stranger who follows the README gets the skills alone.
-Of the 66 installed files, 33 carry 219 references to files the install never placed.
-The queue holds 209 open rows, and 109 of them serve the quality machinery.
+What changed in the tree. The handover-provenance check is gone with its tail. The
+architecture-pointer check was removed and came back on his word of 11:22, so thirty checks stand.
+Queue rows 541, 586 and 587 are live. Day 1's four measures and three censuses are written. The
+suite is green at 2492 tests. Seventeen commits sit local, and nothing is pushed.
 
-Two numbers disagree with the audit of 2026-08-08, and both are recorded with their method.
-The rulebook read before work measures 18 400 tokens against the audit's 45 000, which
-counts a working skill as well. The install census counts 219 dangling references against
-the audit's 183.
+Six decisions wait on him, and the handover lists them. Base rule 30 is the one that decides whether
+the campaign leaves anything behind, since the machine regrows the day the freeze ends without it.
 
-Day 1 also found one defect and gave it queue row 586. A census worker put two generated
-files back from git history, and uncommitted work in the tree went with them. Both files
-are generated, so a stamp was lost. The check that guards restores watches five git
-subcommands and misses a redirect out of `git show`.
+Four pieces of work need nobody's permission, and the handover lists those too. The first is queue
+row 541, the pointer check's own repair.
 
-Day 2, the trial cut that prices the work, ran through the night. Two gates went: the
-architecture-pin drift gate in commit `1b32d8f`, and the handover-provenance gate. The gate
-roster fell from 31 to 29, and the full suite fell from 447 seconds to 410.
-
-The price sits in the tail. Row 2.1 touched 19 files in 28 minutes. Row 2.2 pulled in a fresh
-adversarial review of both cuts, at `docs/prover/2026-08-09-culling-day2-cuts.md`, which
-returned four blocking findings and six major ones. It also pulled in a skill-creator review,
-at `docs/skill-review/2026-08-09-live-spec-base.md`, because the cut edited rule 35. That
-review refused two drafts before passing the third.
-
-One verdict of this seat is contested on the record and waits for his word. The pin-drift gate
-reached a stranger through `adopt/ADOPT.md`, which told an adopting project to wire it. The
-frozen criterion keeps a thing that protects a stranger using the pack. The cut reverts with
-one command while he decides. Two more rows wait for him: base rule 30 and base rule 23, the
-two that turn every observation into permanent machinery.
-
-The three rule verdicts of day 2, rows 2.3 to 2.5, stand unexecuted until the calendar is
-recounted against the measured price.
-
-Three pages hold it. The plan sits at `.live-spec/culling-plan-2026-08-08.md`. Its
-four-round review record sits beside it at `.live-spec/culling-plan-2026-08-08-review.md`.
-The audit behind both is `.live-spec/crisis-audit-2026-08-08.md`. The plan is frozen, and
-his word alone changes it.
-
-The audit verdict in one line: the quality machinery became the project's main consumer.
-The product is 5.7% of the tree. 61% of recent queue rows serve the machinery itself. The
-installer ships 183 dangling references that no gate sees. The cure is a freeze on new
-machinery. Then a gate diet, from 27 blocking gates toward about five. Then a rulebook cut
-to one sitting's read. Adoption stands at the head of the queue after that.
-
-He read the audit page at ~21:30 on 08-08 and agreed with the diagnosis. He flagged one
-fabricated line, a monetization goal he never stated. The project is open source, and its
-goal is to be useful. A source sweep found three more unsourced numbers. All four are
-corrected on the page.
-
-The plan's own calendar:
-
-- day 1 — preparation
-- day 2 — a trial cut that prices the work
-- day 3 — the install fix
-- days 4-10 — the rule cut, one batch a day, thickest files first
-- days 11-12 — a dress rehearsal by a stranger agent in an empty folder
-- to day 14 — the closing page and the standing rule against regrowth
-
-The calendar numbers are an estimate. Day 2 measures the real price, and the calendar is
-recounted then.
-
-Day 1 owes four things. The two red tests go green. The four starting measures are
-recorded. Three censuses are written: every check, every rule with the places it is wired,
-and everything a person lacks after installing the pack. A queue page is prepared for him
-to strike rows from, and it holds no work.
-
-How each day runs. A verdict list comes in the morning. One cut is one commit carrying its
-row number. A fresh agent checks every two hours, in three lines. The evening brings a full
-circle of the four measures and a digest to him. His veto is one revert. Every work block
-opens with a line naming the day, the batch and the step, or it does not start. Each day
-declares in advance which of the four measures it must move. Two days in a row without that
-move stop the work, and he gets a page saying why.
-
-Rules for the two weeks. Nothing new is built. No new check, rule or hook appears, and only
-he can grant an exception. A problem found on the way earns one queue row and waits. Only
-what blocks the day's batch is fixed at once. A red test from another area is named in the
-evening digest. His brake word is «стоп чистка».
-
-Drift signals he watches, four of them. A first reply doing anything besides starting the
-day. A work block missing its opening line. A proposal to improve or reword the plan. A new
-check or rule appearing.
-
-Two timers stand in the running session. One started day 1 and is spent. The other checks
-every two hours. Both live in that session alone, and they die with it.
-
-The 08-07 plan's six steps stay archived under the 08-08 pages. The plan page stands at
-docs/plans/2026-08-07-night-plan.md, and his 01:41 word released it. Two task statements are
-frozen through the clean-reader check, spoken letter for letter. They are "what a feature
-costs" (row 568) and "the rulebook cut" (row 570). The rulebook cut's remaining files stay
-on the row with the before-measurements. They are the pipeline, the spec writer, the
-reporting skill and the smaller ones.
-
-The night's own landings and the morning's two orders stand in the journal's 2026-08-07
-chapters. Open: he reads the two pages, "what a feature costs" and the number rulings.
+The plan of 2026-08-08 stays his frozen order. The recompiled plan of 2026-08-09 was reviewed and
+found unfit to execute, with its whole first phase resting on the decisions above.
 
 ## Forward queue
 
