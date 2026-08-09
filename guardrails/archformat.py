@@ -2,7 +2,7 @@
 """archformat.py — the shared reader for the architecture format (PROTOTYPE, ROADMAP row 456).
 
 The sibling of `guardrails/specformat.py`: one home for reading ARCHITECTURE.md's node body, so every
-consumer — the traceability suite's helpers, the node-growth counter, every test
+consumer — the traceability suite's helpers, the node-growth counter, the pin-drift check, every test
 that asks which node owns an anchor — reads the shape the same way. A consumer that greps the raw node
 shape on its own is the defect the row-456 conversion retires; this module is the one reader they import.
 
@@ -172,9 +172,24 @@ def _summary(path):
     return len(nodes), n_anchor, n_pin
 
 
+def _emit_pins(path):
+    """Print every node pin as `path<TAB>line<TAB>label`, one per line — the pin feed a consumer drives
+    off instead of slicing the raw Nodes section itself (the pin-drift check is the first such consumer,
+    SPEC INV-280). The label is the pin's parenthetical, empty when the pin trails none."""
+    with open(path, encoding="utf-8") as f:
+        nodes = parse_nodes(f.read())
+    for n in nodes:
+        for pin, label in n.pins:
+            p, _, line = pin.rpartition(":")
+            sys.stdout.write("%s\t%s\t%s\n" % (p, line, label))
+
+
 if __name__ == "__main__":
     import os
     default = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
                            "ARCHITECTURE.md")
     args = sys.argv[1:]
-    _summary(args[0] if args else default)
+    if args and args[0] == "--pins":
+        _emit_pins(args[1] if len(args) > 1 else default)
+    else:
+        _summary(args[0] if args else default)

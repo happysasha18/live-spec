@@ -41,5 +41,4 @@ base rule 10). Nothing here was deleted; a file that turns out to be needed is m
 - `docs/audits/2026-08-07-cost-map.html` -> `attic/docs-audits-2026-08-07-cost-map.html` * a rendered page whose reading is over: carried the `live-spec render-doc` generator mark * 2026-08-07
 - `docs/audits/2026-08-07-cost-map.html` -> `attic/docs-audits-2026-08-07-cost-map-2.html` * a rendered page whose reading is over: carried the `live-spec render-doc` generator mark * 2026-08-07
 - `docs/audits/2026-08-07-number-rulings.html` -> `attic/docs-audits-2026-08-07-number-rulings.html` * a rendered page whose reading is over: carried the `live-spec render-doc` generator mark * 2026-08-07
-- `guardrails/check-pin-drift.sh` -> `attic/check-pin-drift.sh` * gate g retired (day 2 culling, row 2.1: no real catch on record, 6.49s on every push) * 2026-08-09
 - `guardrails/check-handover-provenance.py` -> `attic/check-handover-provenance.py` * gate ab retired (day 2 culling, row 2.2: no real catch on record) * 2026-08-09

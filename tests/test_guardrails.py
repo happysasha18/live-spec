@@ -970,6 +970,41 @@ class TestGateF_SkillLoadability(unittest.TestCase):
             self.assertEqual(result.returncode, 1, "empty skills dir must fail, not pass silently")
 
 
+class TestGateG_PinDrift(unittest.TestCase):
+    """Gate (g): architecture pins must not rot (SPEC E-14, row 90) — file-missing or
+    beyond-EOF is RED; label-not-near-line is reported drift (RED under --strict)."""
+
+    def test_real_repo_passes(self):
+        result = run([os.path.join(GUARDRAILS, "check-pin-drift.sh"),
+                      os.path.join(ROOT, "ARCHITECTURE.md")])
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_missing_file_fails(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            arch = os.path.join(tmp, "ARCHITECTURE.md")
+            with open(arch, "w") as f:
+                f.write("### [node: n]\n\n**responsibility** — r\n\n**owns** — E-1\n\n"
+                        "**pins** — `ghost.py:5` (spine)\n")
+            result = run([os.path.join(GUARDRAILS, "check-pin-drift.sh"), arch])
+            self.assertEqual(result.returncode, 1, "missing pinned file must be RED")
+            self.assertIn("pinned file missing", result.stdout)
+
+    def test_label_drift_strict_fails(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            target = os.path.join(tmp, "code.py")
+            with open(target, "w") as f:
+                f.write("\n" * 100)
+            arch = os.path.join(tmp, "ARCHITECTURE.md")
+            with open(arch, "w") as f:
+                f.write("### [node: n]\n\n**responsibility** — r\n\n**owns** — E-1\n\n"
+                        "**pins** — `code.py:50` (nonexistent-symbol)\n")
+            soft = run([os.path.join(GUARDRAILS, "check-pin-drift.sh"), arch])
+            self.assertEqual(soft.returncode, 0, "non-strict drift must report, not block")
+            self.assertIn("DRIFT", soft.stdout)
+            strict = run([os.path.join(GUARDRAILS, "check-pin-drift.sh"), arch, "--strict"])
+            self.assertEqual(strict.returncode, 1, "strict drift must be RED")
+
+
 class TestGateTimeFence(unittest.TestCase):
     """Row 104 (M-110, INV-24 second arm): an added line pairing today's date with a
     clock time later than the commit moment goes red at pre-commit."""
@@ -1386,7 +1421,7 @@ class TestCIMirror(unittest.TestCase):
         with open(path, encoding="utf-8") as f:
             body = f.read()
         for needle in ("pytest", "check-prover-record.sh", "check-matrix-reference.py",
-                       "check-skill-loadability.sh",
+                       "check-pin-drift.sh", "check-skill-loadability.sh",
                        "check-prototype-fence.sh", "check-shipped-language.sh", "fetch-depth: 0"):
             self.assertIn(needle, body, "gates.yml missing: %s" % needle)
 
@@ -1410,6 +1445,20 @@ class TestCIMirror(unittest.TestCase):
         self.assertNotIn("-m unittest", gate,
                          "check-tests.sh must not invoke unittest (it under-collects the suite)")
         self.assertIn("pytest", ci, "the CI mirror must run pytest")
+
+    def test_machine_local_pins_skip_in_ci_only(self):
+        """The CI net must not false-red on pins that live only on the author's
+        machine (~/.claude/...), while the local run stays strict (row 14's first
+        live CI run caught exactly this)."""
+        if os.environ.get("LIVE_SPEC_SCRATCH"):
+            self.skipTest("machine-local pin behaviour — meaningless in a git-less scratch copy")
+        script = os.path.join(GUARDRAILS, "check-pin-drift.sh")
+        in_ci = run([script], extra_env={"CI": "true", "HOME": "/nonexistent-ci-home"})
+        self.assertEqual(in_ci.returncode, 0, in_ci.stdout + in_ci.stderr)
+        self.assertIn("machine-local pin, absent in CI; skipped", in_ci.stdout)
+        local = run([script], extra_env={"CI": "", "HOME": "/nonexistent-ci-home"})
+        self.assertEqual(local.returncode, 1,
+                         "outside CI a missing machine-local pin must stay a hard FAIL")
 
 
 class TestPreShowLint(unittest.TestCase):

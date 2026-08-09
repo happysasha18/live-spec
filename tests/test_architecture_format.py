@@ -214,7 +214,7 @@ def test_no_consumer_parses_the_raw_node_table_by_hand():
     """No consumer under tests/ or guardrails/ (but archformat itself) reconstructs a node by SLICING the
     architecture's Nodes SECTION out and reading its rows. The reach covers BOTH the Python idiom (a
     `.split("## Nodes")` that carves the section) AND the shell idiom (a `sed`/`awk` range address
-    `/## Nodes/,/## Seams/` that does the same) — a shell consumer is the kind INV-280 names, so
+    `/## Nodes/,/## Seams/` that does the same) — the pin-drift check is a shell consumer INV-280 names, so
     a .py-only reach would leave it unseen (SPEC INV-280, gate-reach INV-269). A `.index("## Nodes")`
     heading-order check and a `|`-split of some OTHER table (feature coverage, seams, budgets) are
     legitimate and not flagged."""

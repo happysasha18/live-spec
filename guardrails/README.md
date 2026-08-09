@@ -9,7 +9,7 @@ instead of things you have to remember.
 
 <!-- generated:count:gate-roster — scripts/gen-tree-counts.py owns the block below -->
 
-The push hook runs 29 distinct gate letters today. The roster below is the whole set, one line per gate as `guardrails/pre-push` announces it.
+The push hook runs 30 distinct gate letters today. The roster below is the whole set, one line per gate as `guardrails/pre-push` announces it.
 
 Count them yourself, and list them:
 
@@ -31,6 +31,7 @@ A push of this repository is refused where either command disagrees with what st
 -- gate d: TEST_MATRIX.md generated Reference agrees with the body (SPEC INV-273/INV-218) --
 -- gate e: prototype fence --
 -- gate f: skill loadability --
+-- gate g: pin drift --
 -- gate h: the four host checks (this repo attached as its own first host, SPEC INV-97) --
 -- gate i: shipped-language (no owner name or stray Cyrillic in the shipped set, SPEC INV-120) --
 -- gate j: no broad browser-kill (cleanup targets the test resource only, SPEC INV-162) --
@@ -89,6 +90,8 @@ behaviour takes more than one line. A gate with no note here runs all the same.
 
 - **f. Skill loadability.** Every `skills/**/SKILL.md` parses: frontmatter, name, description,
   version (`check-skill-loadability.sh`).
+- **g. Pin drift.** ARCHITECTURE.md's `file:line` pins still resolve; the named thing is
+  normative, the line a cache (`check-pin-drift.sh`).
 - **h. Host checks.** The four scaffold checks (completeness · tests-present ·
   traces-to-spec · conflicts) run against the base diff (`scaffold/guardrails/check_*.py`).
 - **i. Shipped language.** No Cyrillic or owner-name in the shipped set (SPEC `INV-120`,
@@ -240,7 +243,7 @@ at once, shrinking-only from then on — and generates the guard test. The secti
 structural gates, which are adapted by hand.
 
 The gate shape (fresh review · green tests · ownership · full coverage · prototype fence ·
-loadability · host checks · shipped language · no broad kill · freeze · muted launch ·
+loadability · pin drift · host checks · shipped language · no broad kill · freeze · muted launch ·
 config health) is the part worth copying as-is. What changes per host:
 
 - **Test command.** Swap `python3 -m pytest -q tests` in `check-tests.sh` for whatever the host

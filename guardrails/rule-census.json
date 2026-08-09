@@ -39,7 +39,7 @@
       "total": 0
     },
     "PRODUCT_SPEC.md": {
-      "bytes": 703696,
+      "bytes": 703738,
       "file": "PRODUCT_SPEC.md",
       "long": 1865,
       "longest": 80,
@@ -58,7 +58,7 @@
       "total": 13
     },
     "ROADMAP.md": {
-      "bytes": 251158,
+      "bytes": 251959,
       "file": "ROADMAP.md",
       "long": 8,
       "longest": 242,
@@ -76,16 +76,16 @@
       "total": 3
     },
     "TEST_MATRIX.md": {
-      "bytes": 484753,
+      "bytes": 484806,
       "file": "TEST_MATRIX.md",
       "long": 8,
       "longest": 46,
       "register": 0,
-      "style": 67,
-      "total": 75
+      "style": 68,
+      "total": 76
     },
     "adopt/ADOPT.md": {
-      "bytes": 22460,
+      "bytes": 22517,
       "file": "adopt/ADOPT.md",
       "long": 46,
       "longest": 93,
@@ -112,7 +112,7 @@
       "total": 3
     },
     "docs/PROGRESS.md": {
-      "bytes": 15685,
+      "bytes": 15687,
       "file": "docs/PROGRESS.md",
       "long": 0,
       "longest": 22,
@@ -130,7 +130,7 @@
       "total": 6
     },
     "docs/architecture-format.md": {
-      "bytes": 8300,
+      "bytes": 8321,
       "file": "docs/architecture-format.md",
       "long": 16,
       "longest": 49,
@@ -580,7 +580,7 @@
       "total": 0
     },
     "guardrails/README.md": {
-      "bytes": 20921,
+      "bytes": 21101,
       "file": "guardrails/README.md",
       "long": 29,
       "longest": 68,

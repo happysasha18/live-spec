@@ -227,7 +227,8 @@ Done when: superseded files are under `attic/` with a manifest, and no live poin
 ## Phase 5 — Architecture, then the test matrix (SPEC A-3 tail, E-14/E-15)
 
 **Pins are names first (E-14):** pin nodes to a named thing (function, marker, selector); the `:line`
-is a cache. A landing holds every pin level by hand.
+is a cache. Wire the drift check (`guardrails/check-pin-drift.sh`) so a stale pin is reported, never
+trusted.
 
 **First the architecture.** Seed `ARCHITECTURE.md` from Phase 2's inventory: the surfaces' `file:line`
 pins become named nodes (one responsibility, one name each — template: `ARCHITECTURE.template.md`), every

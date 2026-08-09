@@ -6,9 +6,9 @@ Since the last run on 2026-08-09, total findings changed by 0 and documents at z
 
 ## Where the two promises stand
 
-Promise one, a reader gets through a document without stopping, measures 4,875 open writing findings across the live set today.
+Promise one, a reader gets through a document without stopping, measures 4,876 open writing findings across the live set today.
 
-Promise two, the specification stops growing, measures PRODUCT_SPEC.md at 703,696 bytes against its 840,000-byte ceiling today.
+Promise two, the specification stops growing, measures PRODUCT_SPEC.md at 703,738 bytes against its 840,000-byte ceiling today.
 
 ## The queue, in the plan's order
 
@@ -77,7 +77,7 @@ Three members carry no entry in the findings record: `hooks/chat-law-hook.sh` an
 |---|---|---|---|---|---|
 | 21 | `PRODUCT_SPEC.md` | 1,865 | no | no | waiting |
 | 22 | `ARCHITECTURE.md` | 0 | yes | no | waiting |
-| 23 | `TEST_MATRIX.md` | 75 | no | no | waiting |
+| 23 | `TEST_MATRIX.md` | 76 | no | no | waiting |
 
 ### 9. The documents a stranger meets on arrival
 
@@ -198,7 +198,7 @@ The counts below come from the record `guardrails/rule-census.json`. It states w
 | measure | today | recorded before | target |
 |---|---|---|---|
 | live documents measured | 122 | 108 | all of them |
-| writing findings across all documents | 4,875 | 4,810 | 0 |
+| writing findings across all documents | 4,876 | 4,810 | 0 |
 | documents at zero findings | 22 | 16 | all |
 | documents that passed two consecutive readings with nothing blocking | 0 | not stated | all |
 
@@ -217,7 +217,7 @@ The fifteen documents carrying the most findings:
 | `docs/language-rule-coverage.md` | 101 | 79 | 22 | 81 | 0 | no |
 | `docs/restyle-repoint-log.md` | 83 | 20 | 63 | 78 | 0 | no |
 | `docs/prior-art-longtail.md` | 78 | 15 | 63 | 53 | 0 | no |
-| `TEST_MATRIX.md` | 75 | 8 | 67 | 46 | 0 | no |
+| `TEST_MATRIX.md` | 76 | 8 | 68 | 46 | 0 | no |
 | `skills/live-spec-base/SKILL.md` | 74 | 60 | 14 | 48 | 0 | no |
 | `docs/spec-style.md` | 65 | 32 | 33 | 64 | 0 | no |
 | `docs/plans/2026-08-07-recovery-plan.md` | 61 | 55 | 6 | 99 | 0 | no |
@@ -226,9 +226,9 @@ The fifteen documents carrying the most findings:
 
 | measure | today | at the format change, 2026-07-23 | ceiling | target |
 |---|---|---|---|---|
-| bytes | 703,696 | 590,695 | 840,000 | under the ceiling |
+| bytes | 703,738 | 590,695 | 840,000 | under the ceiling |
 | lines | 8,240 | not stated | not stated | set by the subdivision plan |
-| words | 117,970 | not stated | not stated | set by the subdivision plan |
+| words | 117,976 | not stated | not stated | set by the subdivision plan |
 | requirements | 310 | 282 | not stated | set by the subdivision plan |
 | acceptance criteria | 1,784 | 1,372 | not stated | set by the subdivision plan |
 | bytes per criterion | 184.8 | not stated | 207.2 | falls or holds |

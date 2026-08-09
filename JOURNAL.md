@@ -2494,3 +2494,25 @@ Three findings of the review are repaired here: rule 35 states its own reason at
 retired matrix row M-082 names the test that still holds two of its arms, and this entry gives both
 cuts their dated reason. Queue row 587 carries the observed failure that row 558's decline left
 unheld.
+
+
+## 2026-08-09, 11:22-11:35 — the architecture-pointer check comes back on his word
+
+Root: his word of 2026-08-09, 11:22, reading the night's report: the check that holds the
+architecture document's pointers level with the code is essential to keep.
+
+His reading is right, and the seat's ground for cutting it was weak. The verdict rested on the
+check having no dated catch on record, which measures the check's log rather than its worth. The
+architecture document is built from pointers into code, and pointers rot in silence.
+
+Commit `1b32d8f` is reverted. The check, its gate letter, its tests, its rows in the spec and the
+matrix, and its step in the mirrored workflow all stand again. Queue row 541 returns to the live
+queue from the archive, and the two rows opened last night stay. The archive manifest drops the line
+that recorded the retirement.
+
+Row 541 is the same check's own defect, found on 2026-08-05: it accepts a pointer when any matching
+word sits within a 51-line window, and a pass that day found 29 stale pointers green under it. One
+pointer labelled rule 20 landed on rule 19's opening line. The restore therefore brings back a check
+that gives more assurance than it has earned, and row 541 is the work that closes that gap.
+
+The gate roster stands at 30.

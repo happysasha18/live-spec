@@ -200,7 +200,7 @@ class TestArchitecture(unittest.TestCase):
         nodes = archformat.parse_nodes(arch)
         # Same path charset the pre-conversion regex matched (`[\w./-]+`) — a `~`-prefixed
         # machine-local pin (real only on the pin's own author's machine, SPEC M-5) stays out of
-        # scope here exactly as before.
+        # scope here exactly as before, the way guardrails/check-pin-drift.sh treats it specially.
         pins = [pin for n in nodes for pin, _label in n.pins if re.match(r"^[\w./-]+:\d+$", pin)]
         self.assertGreater(len(pins), 10, "pin parse failure")
         for pin in pins:
