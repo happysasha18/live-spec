@@ -48,3 +48,25 @@ its tests, its lines in the spec and the matrix, its mentions in other documents
 re-freeze of the guarded baselines.
 
 The measured price of these five rows sets the calendar for days 4 to 10.
+
+## Closing note, 2026-08-09 04:20 — rows 2.3, 2.4 and 2.5 are withdrawn
+
+The three rule verdicts stand withdrawn, and no rule was cut on them. Two reasons, both found
+after the list was written.
+
+The adversarial review of rows 2.1 and 2.2 overturned the ground of row 2.1. It found the
+pin-drift gate reaching a stranger through the adoption page, which the verdict's own reason had
+ruled out. That verdict was drawn from the check census, which prices a check and names its last
+real catch. It carries no column for who the check reaches.
+
+Reading base rule 8's traces before executing row 2.3 showed the same shape. Its machinery is
+`scripts/sync-skills.sh` and the installed-copy staleness class, and that pair produced the first
+blocking finding of the night: the installed copy of the rulebook stood on old text while two
+other projects run on those copies. The rule reaches a person using the pack.
+
+Both verdicts were drawn in one sitting from the census tables. Each rule's own trace section,
+which the day 1 census wrote in full, answers the reach question and was read afterwards.
+
+What follows from this: the next verdict list reads each rule's trace section before it rules,
+and it states for each rule who the rule reaches. Day 4's list carries that column. This changes
+no part of the plan, which sets the criterion and leaves the seat to apply it.
