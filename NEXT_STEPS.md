@@ -4,47 +4,38 @@ A digest with no redundancy (SPEC INV-48) — one live-state block, nothing remo
 information. One status block stands here at a time, and every update replaces it. Dated history
 lives in `JOURNAL.md`.
 
-## LIVE STATE (2026-08-09, 15:35)
+## LIVE STATE (2026-08-10, 21:40)
 
 Written for a session starting with clean context.
 
-**The campaign.** His plan of 2026-08-08 cuts this project's self-checking machinery over two weeks.
-It sits at `.live-spec/culling-plan-2026-08-08.md`. Days 1 and 2 are delivered. Day 3, the install
-repair, is the live day.
+**ONE PLAN — standing order, his word 2026-08-10 21:26.** The only plan is the cutting campaign.
+Base: `.live-spec/culling-plan-2026-08-08.md`, frozen, the record of what was ordered. Executing
+revision awaiting his «принято»: `.live-spec/culling-plan-v3-2026-08-10.md` (Russian, his word of
+21:12; its line-by-line provenance sweep is `.live-spec/plan-v3-sweep-2026-08-10.md`). Every
+live-spec session works on this plan until it is accepted and executed. An interrupted session
+changes nothing: the next one resumes the same plan at the same step. Every status line is phrased
+in the plan's own step codes (U/R/D/S/C). If Alexander himself asks for work outside the plan, the
+session answers with one line naming the unfinished plan and asks whether to fold the request into
+the plan or set the plan aside by his word. The page he reads is the claude.ai artifact rendering
+the v3 file; regenerate it from the committed file only.
 
-**Where it stands, in four numbers.** Rules cut: 0 of 88. Checks removed and still gone: 1 of 31.
-Text the campaign wrote about itself: about 346 000 bytes. The rulebook it is cutting holds 66 435.
-Commits since the last push of 2026-08-07: 26, all local.
+**Where it stands.** Phase 0 of v3 is closed: the missing architecture review record landed
+(`docs/prover/2026-08-10-architecture-wall-time-row.md`), commit `2121b91` went green (2,490 passed,
+0 failed), the adversarial range review found no blocker
+(`docs/push-review/2026-08-10-the-repaired-range.md`), and the push landed at 21:35 — 31 commits,
+`ba479b6..e82da27`, every gate green. Rules cut: 0 of 88. Checks removed and still gone: 1 of 31.
 
-**What the first day established.** Three lists of removal decisions were drawn. Fresh review
-overturned all three. Twice the list came from summary tables, and the rule's own text said something
-else. So a verdict row now quotes the rule's opening sentence and names who the rule reaches. No
-verdict executes without a fresh review. A worker brief must forbid background jobs. Four of the
-first five workers died waiting, and none since that line went in.
+**What waits on him.** The nine rulings D1–D9 on the v3 plan page, each carrying a recommendation,
+one sitting. Phase R of v3 — six items his written word already covers, listed there — runs without
+waiting.
 
-**The finding that decides the rest.** The plan's target is the rules inside
-`skills/live-spec-base/SKILL.md`. That file holds 66 435 bytes of the 410 457 in the eleven skill
-files. The keep-or-cut criterion protects 26 of the 35 rules. Deleting the rest moves 3.7 per cent.
-The plan was written against 45 000 tokens read per session. Day 1 measured 18 400. The plan has not
-been re-approved against that figure. Deleting unneeded rules stays worth doing. Rewriting what
-survives shorter carries the volume, and it needs no keep-or-cut decision. One obstacle stands: the
-plan gives three verdicts, keep, merge and remove. Review refused "shorten" as an unlawful fourth.
-Adding it is his word.
-
-**What waits on him.** None of these is answered as of 15:35.
-
-1. Base rule 30 turns any machine-verifiable property into a blocking check. It is the engine behind
-   thirty of them. Without an answer the machinery regrows the day the freeze ends.
-2. Base rule 23.
-3. Merging two review records into one per push.
-4. Verifying the plugin install path, which changes what his own sessions load.
-5. Adding "shorten" as a fourth verdict.
-
-**Work needing nobody's word.** Queue row 541, the pointer check's own repair. Measuring how much the
-rulebook repeats itself. Extending the runs-and-fires count from checks to rules, under landed row
-391. Repairing the install so every path a skill names says which tree it lives in. That last one was
-written today and failed its own review on seven findings. Its eight files sit at
-`~/live-spec-carry/2026-08-09/`.
+**Debts recorded by the 2026-08-10 push review.** Findings 6, 7, 9 and 10 of the 2026-08-09
+push-review record still stand (219 vs 218; gate s greening on a 2026-07-17 record; a retired
+R303.19 citation; "ten skill folders" vs 11; ROADMAP row 522's gate ab citation). The push-review
+house format in `docs/push-review/README.md` differs from what gate ac's in-push arms actually
+parse — worth a queue row. Post-push hook warns: `editions/product-prover/` is older than
+`skills/product-prover/` — carry the newer work into the edition and commit it; mirror sync did not
+complete, run `scripts/sync-mirrors.sh` by hand.
 
 **Three habits that cost 2026-08-09, named so the next session skips them.**
 1. His instruction and the tree's record disagreed. The session picked the record and worked on.

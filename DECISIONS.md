@@ -409,6 +409,23 @@ the one slot nothing questions. That is the defect this surface exists to catch.
   templates are. An earlier form of this entry stood in his name; the adversarial review of
   2026-08-06 caught it.
 
+- **One plan until it is done.** Alexander 2026-08-10 21:26: «даже если план в этой сессии не
+  закончим в следующей над тем же планом всегда работаем. если сессия прервалась тот же план
+  заново. все статусы тоже по тому же плану», and the reminder he asked for: «ты можешь сделать так
+  чтобы гарантировать что если даже я ошибусь то ты хотя бы мне напомнишь про план (пока мы его
+  весь не сделали)?». The standing order lives in `NEXT_STEPS.md`'s live-state block: the plan is
+  `.live-spec/culling-plan-v3-2026-08-10.md` over the frozen base of 2026-08-08, every session
+  resumes it, every status speaks its step codes, and a request of his that leaves the plan gets one
+  reminder line before anything else happens.
+
+- **The plan file gets a hand-slap guard — his one exception to campaign rule 2.** Alexander
+  2026-08-10, evening: «ты поставил проверки бить себя по рукам при каждом коммите плана где
+  ненужные изменения которые ты сам придумал?» — read as the order to install exactly that, and as
+  the exception rule 2 reserves for his word. Scope: the plan file alone. Mechanism:
+  `.live-spec/check-plan-delta.sh`, run as a local pre-commit step — a commit touching the plan must
+  stage a `.live-spec/plan-v3-delta-<date>*.md` page carrying one rooted line per changed hunk. It
+  stays outside the frozen gate roster until the campaign's closing ruling (plan v3, D9).
+
 ## Open — carried, awaiting your word
 <!-- record:open -->
 These are open questions the pack carries with a recommendation. They moved here from the old spec

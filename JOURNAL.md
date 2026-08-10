@@ -2516,3 +2516,35 @@ pointer labelled rule 20 landed on rule 19's opening line. The restore therefore
 that gives more assurance than it has earned, and row 541 is the work that closes that gap.
 
 The gate roster stands at 30.
+
+## 2026-08-10, 20:30-21:55 — the held push lands, and the plan's third revision arrives with its provenance
+
+Root: his words of 2026-08-10 — 20:30 (read the last three days from outside, land the previous
+agent's finished work, produce one executable plan on the current one's base), 21:12 (the plan reads
+in Russian, one translation, then one source of truth), 21:16 (one recorded truth, every deviation
+named), 21:26 (one plan until done, statuses in its terms), and his evening question that ordered
+the plan-file guard.
+
+The gap since 2026-08-09 11:35: that afternoon's work stands in `.live-spec/day3-opening-2026-08-09.md`
+and `.live-spec/handover-2026-08-09.md`; the session ended against the weekly usage limit with the
+push still refused.
+
+Tonight the refusal's structural finding closed. A fresh prover pass re-derived the four numbers
+commit `740dc0f` republished into `ARCHITECTURE.md` — all four match the tree — and its record
+landed with commit `2121b91` on a green suite (2,490 passed, 0 failed). A clean-context adversarial
+review of the whole range found no blocker (`docs/push-review/2026-08-10-the-repaired-range.md`),
+and the push landed at 21:35: 31 commits, `ba479b6..e82da27`, every gate green.
+
+The plan: revision v3 of the frozen 2026-08-08 campaign lands at
+`.live-spec/culling-plan-v3-2026-08-10.md`, in Russian by his word, awaiting his «принято». It went
+through two hostile review rounds and a line-by-line provenance sweep against the base and the
+08-09 handover (`.live-spec/plan-v3-sweep-2026-08-10.md`); the sweep's fourteen substantive findings
+were repaired the same evening, and the sweep page keeps the reckoning. His 21:26 order enters
+`NEXT_STEPS.md`: one plan until accepted and executed, statuses in its step codes, a reminder to him
+if he himself steers off it.
+
+His evening question granted the one exception the campaign's rule 2 reserves for his word: a
+narrow guard on the plan file itself. `.live-spec/check-plan-delta.sh` runs as a local pre-commit
+step — a commit changing the plan without a delta page rooting every hunk is refused. It stays out
+of the frozen gate roster on purpose, until his closing ruling (v3, D9): the campaign cuts
+machinery, and this guard earns a roster seat only by his word.
