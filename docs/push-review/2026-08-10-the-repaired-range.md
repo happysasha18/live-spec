@@ -158,8 +158,10 @@ first ships it.
 Findings: five stand, none of them blocking. Findings 1 and 2 are new. Finding 3 carries forward the
 08-09 record's unrepaired majors. Findings 4 and 5 are minor and predate this range.
 
-Blocking: none. The three findings that blocked on 2026-08-09 are each closed above, and this pass
-raised no new one.
+Blocking: none
+
+The three findings that blocked on 2026-08-09 are each closed above, and this pass raised no new
+one.
 
 ### 1. Major — the resume's live-state block sits two steps behind the tree
 
