@@ -2,7 +2,7 @@
 
 PUSH-REVIEW
 
-Range: `origin/main..HEAD`, that is ba479b6..2121b91, plus this record itself.
+Range: `origin/main..HEAD`, that is ba479b6..2121b91, plus the commits carrying this record.
 
 The base is `origin/main` at ba479b6, the remote tip pushed 2026-08-07 at 15:24. `git rev-list
 --count ba479b6..HEAD` returns 28. The head is 2121b91, tonight's commit carrying a prover record
@@ -21,9 +21,16 @@ that refusal and on whether the three findings are truly closed in the tree.
 Root: the pre-push run's own printed remedy at gate ac (SPEC INV-304), and Alexander's word of
 2026-08-10 20:30 to land the previous seat's finished work.
 
-## Files read
+Reviewed commits: 28, every one of them named here. The two above are read line by line in this
+pass. The twenty-six below were read by the 2026-08-09 seat and are named in its record with what
+each does; this pass re-read their diff by file and by added line, and re-verified the four numbers
+and the two check removals that record ruled on.
 
-The full diff of the range, by file and by added line. `NEXT_STEPS.md` whole, and its diff in
+9c929a0 9cfc5c8 1f7fca7 d58c903 49f246c d80a7e0 75cb327 17429cc ab8031c 3b9bdd6 94dfd02 0ef204e
+1b32d8f e68b8c3 73840dc cef83d5 ab72d75 daf953d 63db23c 4efa029 fb1e9d7 b52d355 36e0518 992c356
+b2c8186 ee118f6.
+
+Files read: the full diff of the range, by file and by added line. `NEXT_STEPS.md` whole, and its diff in
 740dc0f. `docs/prover/2026-08-10-architecture-wall-time-row.md` whole. The wall-time row at
 `ARCHITECTURE.md:878`. `guardrails/pre-push` whole, `guardrails/check-pin-drift.sh`,
 `guardrails/check-doc-findings-bound.py` at its live-document arm, `scripts/progress-report.py` at
@@ -39,9 +46,8 @@ its continuity sentence and its baseline write. `guardrails/rule-census.json`'s 
 `docs/plans/current-order.md`, `attic/MANIFEST.md`, `inbox/2026-08-08-verdict-lands-same-minute.md`,
 and `docs/push-review/2026-08-09-the-culling-first-day.md` whole, for its verdict and for form.
 
-## Checks run
-
-Every result below is the printed line, taken after the last commit in the range.
+Checks run: nineteen, each with its result. Every result below is the printed line, taken after the
+last commit in the range.
 
 - `bash guardrails/pre-push` — one gate red out of thirty, gate ac, the push-review gate this record
   answers. Every other gate printed OK. The log's last line reads "PUSH BLOCKED — one or more gates
@@ -137,10 +143,23 @@ and every one of them belongs to a class the published tree already carries, inc
 `ROADMAP.md`, `TEST_MATRIX.md` and `.live-spec/`. Gate i finds no owner name and no Cyrillic inside
 the shipped set, which is the boundary the owner set for this repository.
 
+**The gate reads more of this record than a hand run shows.** The first push attempt was refused,
+and the refusal is worth recording here. Run by hand, `guardrails/check-push-review.sh` stops at its
+freshness arm. Run inside a real push it goes on to arm C, which asks the record to name the base
+commit and every reviewed commit by short hash, and to arm D, which asks for the five field lines
+`Range:`, `Files read:`, `Checks run:`, `Findings:` and `Blocking:`, each carrying a value. The first
+version of this record named three commits of the twenty-eight and gave its fields as headings. The
+commit list above and the field lines throughout are the repair. A commit that carries the record
+alone is exempt from the list by the script's own rule, since a record cannot name the commit that
+first ships it.
+
 ## Findings
 
-Five findings stand. None blocks. Findings 1 and 2 are new. Finding 3 carries forward the 08-09
-record's unrepaired majors. Findings 4 and 5 are minor and predate this range.
+Findings: five stand, none of them blocking. Findings 1 and 2 are new. Finding 3 carries forward the
+08-09 record's unrepaired majors. Findings 4 and 5 are minor and predate this range.
+
+Blocking: none. The three findings that blocked on 2026-08-09 are each closed above, and this pass
+raised no new one.
 
 ### 1. Major — the resume's live-state block sits two steps behind the tree
 
