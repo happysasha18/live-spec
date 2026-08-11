@@ -432,7 +432,9 @@ the one slot nothing questions. That is the defect this surface exists to catch.
   nothing («давай сделаем но если со мной то не сегодня»). D2 agreed in substance («согласен,
   чушь»), execution waits until the one-sentence fix reads clear to him, and he asked for the
   cause of the communication failures, answered in chat the same minute. D3 open on his three
-  questions: what defines a failure class, class or same failure, why twice. D5 open («вообще не
+  questions: what defines a failure class, class or same failure, why twice. His 2026-08-10 21:28
+  «остальные два пункта тоже не понятны» named D7 and D8 of that evening's list; both carry his
+  10:23 ruling above. D5 open («вообще не
   знаю что это и зачем»); the base two-hour order stands until his word. D6 struck in its old
   shape («какая-то выдуманная чушь»): the five-artifact escort itself is the defect. D9 open
   («не понял»). His direction for the whole campaign, verbatim: «мне кажется там много накопилось

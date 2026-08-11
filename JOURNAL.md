@@ -2618,3 +2618,9 @@ resume file. Ruled yes: D1, D4, D8; D7 scheduled; D2 agreed in substance with ex
 D3, D5, D9 open on his questions; D6 struck, replaced by R7 — the escort inventory with each
 requirement's origin. Two fresh readers now sweep this session's transcript: every instruction
 of his must have a home in the committed records, and the resume file's numbers must reproduce.
+
+One cause named before the wipe, on his «контекст замусорен»: this session carried the three-day
+transcript analysis, the plan's authoring with two review rounds, and the whole of phase R with
+some thirty worker returns — three sessions' weight in one context. The lesson stands in the
+one-plan order already: once a plan lands, its execution belongs to a fresh session that opens
+from the resume file.
