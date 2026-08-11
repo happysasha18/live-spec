@@ -21,6 +21,11 @@ has users of its own, their reports follow the same route once a session receive
 what happens next: every received item lands, the same session, in the home its route owns — and the
 person hears where it went.
 
+**Where the paths in this file point.** Every path here belongs to the project the pack is attached
+to. That covers `FEEDBACK.md`, `inbox/`, and `.live-spec/PROBLEMS.md`. The pack's own machinery sits in
+the live-spec repository, at `github.com/happysasha18/live-spec`. After an install, `live-spec-base`
+sits as a folder beside this skill's folder.
+
 ## When it fires
 
 The moment any session receives a handed-in item, and at every inbox sweep, for the files that carry

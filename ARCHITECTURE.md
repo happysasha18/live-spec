@@ -100,12 +100,12 @@ named here and in the matrix.
 - INV-150 · INV-167 · INV-168 · E-33 · INV-185 · INV-186 · INV-187 · INV-215
 
 **pins** —
-- `skills/spec-author/SKILL.md:221` (spine)
-- `skills/spec-author/SKILL.md:247` ([target] tag tripwire)
-- `skills/spec-author/SKILL.md:374` (axes composition)
-- `skills/spec-author/SKILL.md:333` (fences)
-- `skills/spec-author/SKILL.md:349` (facet sweep — the canonical facet list)
-- `skills/spec-author/SKILL.md:154` (the enumeration-threshold structure rule, INV-215)
+- `skills/spec-author/SKILL.md:228` (spine)
+- `skills/spec-author/SKILL.md:254` ([target] tag tripwire)
+- `skills/spec-author/SKILL.md:381` (axes composition)
+- `skills/spec-author/SKILL.md:340` (fences)
+- `skills/spec-author/SKILL.md:356` (facet sweep — the canonical facet list)
+- `skills/spec-author/SKILL.md:161` (the enumeration-threshold structure rule, INV-215)
 
 **notes** —
 - also carries the prototype-norm pointer's format sentence (`norm: <path>`, frozen copy in `docs/norms/`) — wiring, the invariant's owner is build-pipeline
@@ -132,10 +132,10 @@ named here and in the matrix.
 - the discovery-side sibling of the declared-class uniformity lens is the design review (owner design-reviewer)
 
 **pins** —
-- `skills/product-prover/SKILL.md:276` (review modes)
-- `skills/product-prover/SKILL.md:712` (unwritten-seam hunt — the stress-lens family, INV-72)
+- `skills/product-prover/SKILL.md:282` (review modes)
+- `skills/product-prover/SKILL.md:717` (unwritten-seam hunt — the stress-lens family, INV-72)
 - `.live-spec/profile.md:6` (gate cadence instance)
-- `skills/product-prover/SKILL.md:362` (restructure-merge gate — INV-114 delta-judging)
+- `skills/product-prover/SKILL.md:364` (restructure-merge gate — INV-114 delta-judging)
 
 ### [node: build-pipeline]
 

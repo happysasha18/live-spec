@@ -2575,3 +2575,21 @@ words count, furniture words stand aside. The second round blocked once more on 
 counting gap, now closed and locked by a test that runs the gate the way CI does. The gate that
 accepted any label word within 51 lines now proves a pin against its own line, eight rotten
 pointers in ARCHITECTURE.md are repointed, and the recorded failure class is a red-proof test.
+
+## 2026-08-11, 06:53-08:15 — the install repair lands, and phase R closes its last working step
+
+Root: the frozen plan's day 3 and the 2026-08-09 handover's "runs without anyone's word" list.
+
+The eight set-aside files came back as rebuilt locating paragraphs on top of today's pages. All
+seven findings of the 2026-08-09 review closed, and a fresh review then blocked once more on one
+clause — "beside this one" resolving into the wrong folder inside words.md — plus four pages that
+sent a reader to the public address for a skill an install places one folder over. Five point
+fixes landed the same morning. The review this time has its own file,
+`docs/skill-review/2026-08-11-install-repair-eight-files.md`; the 2026-08-09 review lived only in
+a transcript, and that gap closes here.
+
+Nine architecture pins moved with the pages that grew, each target read before writing, and the
+pointer gate reads green at 210 pins. Two findings went to their owners: build-pipeline and
+design-reviewer still place the product spec in the pack's tree, a follow-on unit of the same
+class; and no machine reads any locating paragraph, which waits as a decision candidate under the
+campaign's rule 2.

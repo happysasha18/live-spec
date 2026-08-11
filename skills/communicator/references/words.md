@@ -5,11 +5,14 @@ a reader meeting an unfamiliar term on that page settles it from this file. Noth
 Every definition below was taken from a source in the tree: the glossary of `PRODUCT_SPEC.md`, the
 words section of `skills/live-spec-base/SKILL.md`, a spec criterion, or a shipped script.
 
-**Where the paths point.** Every path on the body's page sits in the repository of the project the
-session is working on. A path opening with `references/` is the exception: it names a file in this
-skill's own directory, beside this one. A path opening with `skills/`, `scripts/`, `guardrails/`, or
-`hooks/` names a file in the live-spec pack's own repository, whose public home is
-`github.com/happysasha18/live-spec`.
+**Where the paths point.** Two trees are in play. Every path on the body's page and on this one sits
+in the repository of the project the session is working on. A path opening with `references/` is the
+exception: it names a file in this skill's own directory, beside this file. A path opening with
+`skills/`, `scripts/`, `guardrails/`, `hooks/`, `templates/`, or `adopt/` names a file in the
+live-spec pack's own repository. Its public home is `github.com/happysasha18/live-spec`. An install
+copies each skill folder into one place, so a path naming another skill points to that skill's
+folder, beside this skill's folder. The `templates/` and `adopt/` folders stay in the pack's
+repository, since an install copies them nowhere.
 
 **Where the codes resolve.** A bracket code such as `INV-93` or `E-17` points to that rule's home in
 the project spec, `PRODUCT_SPEC.md`. The letter before the number names the kind: `E-` an entity,

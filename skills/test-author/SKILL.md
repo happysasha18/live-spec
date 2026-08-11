@@ -21,6 +21,12 @@ overhaul, 2026-07-02..04) produced the level ladder, the state-space walk, and t
 enforcement this skill carries. Worked patterns are paraphrased from track-coach's matrix (MIT,
 credited); the pack's own matrix template is the shipped shape.
 
+**Where the paths in this file point.** Two trees are in play. The named files under `tests/`,
+`guardrails/`, `scripts/`, and `templates/` are the live-spec pack's own, at
+`github.com/happysasha18/live-spec`. After an install, `live-spec-base` sits as a folder beside this
+skill's folder. Every other path belongs to the project under test, starting with its `TEST_MATRIX.md`
+and its own test folder.
+
 ## What this skill owns
 
 Two artifacts, in order. **TEST_MATRIX.md** — the spec projected into a checkable grid: derived from

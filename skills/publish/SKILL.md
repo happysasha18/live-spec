@@ -20,6 +20,11 @@ where a publish target adds its own steps. It runs BEFORE
 the human's publish gate (base rules 12/17) and before any push gate the host holds — what the human
 approves has already earned approval. It never sends anything itself.
 
+**Where the paths in this file point.** Two trees are in play. The named files under `scripts/` and
+`guardrails/` are the live-spec pack's own, at `github.com/happysasha18/live-spec`. After an install,
+`live-spec-base` sits as a folder beside this skill's folder. Every other path belongs to the project
+the pack is attached to, starting with its README and its release notes.
+
 ## When it fires
 
 Anything crossing the machine's edge: first public push of a repo · a push that changes what a public

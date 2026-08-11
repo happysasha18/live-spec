@@ -28,10 +28,17 @@ as a giant document.
 
 ## Words this skill uses
 
-Every path on this page is relative to the root of the live-spec repository. That root is the directory
-holding `PRODUCT_SPEC.md`, `guardrails/`, `scripts/`, and `templates/`. Run every script named below
-from that root, as `python3 <path> <arguments>`. Each one prints its own usage line when it is run with
-no arguments, so the arguments never have to be guessed.
+**Where the paths in this file point.** Two trees are in play. The named files under `scripts/`,
+`guardrails/`, `templates/`, `tests/`, and `skills/` are the live-spec pack's own, at
+`github.com/happysasha18/live-spec`. So are the design notes this page names by filename under
+`docs/`. An install copies each skill folder into one place, so a path naming another skill points to
+that skill's folder, beside this skill's folder. Every other path belongs to the project the pack is
+attached to, including `PRODUCT_SPEC.md`, `ARCHITECTURE.md`, `ROADMAP.md`, `JOURNAL.md`, and
+`.live-spec/`.
+
+Run every script named below from the live-spec repository root, as `python3 <path> <arguments>`. Each
+one prints its own usage line when it is run with no arguments, so the arguments never have to be
+guessed.
 
 - **Wish** — one request a person voices in plain words, captured as a queue row.
 - **Door** — the intake classification that sends a queued wish to one entry point of the pipeline. Its

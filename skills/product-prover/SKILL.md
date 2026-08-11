@@ -26,7 +26,13 @@ pass, and a formal proof.
 
 ## Words this skill uses
 
-Every path named on this page is relative to the live-spec repository root.
+**Where the paths in this file point.** Two trees are in play. The named files under `guardrails/`,
+`tests/`, and `skills/` are the live-spec pack's own, at `github.com/happysasha18/live-spec`, and so
+are `docs/pipeline.md` and `docs/lenses.md`. An install copies each skill folder into one place, so a
+path naming another skill points to that skill's folder, beside this skill's folder. Run every script
+this page names from the live-spec repository root. Every other path belongs to the project under
+review, including `PRODUCT_SPEC.md`, `ARCHITECTURE.md`, `SURFACES.md`, `ROADMAP.md`, and its own
+`docs/prover/`.
 
 - **Surface** — a place a person meets the product: a screen, a page, a panel, an endpoint, a
   command, a report.

@@ -16,10 +16,15 @@ metadata:
 
 This skill checks whether a stranger understands a text, and repairs the places where they stop.
 
-**Where the paths in this file point.** Every path below is relative to the root of the live-spec
-repository, whose public home is `github.com/happysasha18/live-spec`. That root is the directory that
-holds `PRODUCT_SPEC.md`, `guardrails/`, and `scripts/`. A path opening with `references/` is the
-exception: it names a file inside this skill's own directory, beside this one.
+**Where the paths in this file point.** Two trees are in play. The named files under `guardrails/`,
+`scripts/`, and `skills/` are the live-spec pack's own, at `github.com/happysasha18/live-spec`. So
+are the design notes this page names by filename under `docs/`. An install copies each skill folder
+into one place, so a path naming another skill points to that skill's folder, beside this skill's
+folder. A path opening with `references/` names a file in this skill's own folder, beside this file.
+The dated pages under `docs/skill-review/`, `docs/plans/`, `docs/reports/`, and `docs/language-reads/`
+are the live-spec repository's own records, cited here as evidence. Every other path belongs to the
+project whose text is under audit, including `PRODUCT_SPEC.md`, `ARCHITECTURE.md`, and
+`TEST_MATRIX.md`.
 
 A **cold reader** meets the text with no knowledge of its history. It holds no earlier draft, no
 author's intent, and no project background beyond the words on the page. Inside the pack a cold reader

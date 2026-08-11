@@ -19,6 +19,11 @@ carries what a person hands BACK. This skill carries an occasional note UP — t
 pack — so they learn what delighted or hurt real use. It is the outbound feedback arm, and it moves rarely
 and only with the human's explicit word. Spec home: `PRODUCT_SPEC.md` E-30 / T-21 / INV-161.
 
+**Where the paths in this file point.** Every path here belongs to the project the pack is attached
+to. That covers `FEEDBACK.md`, `outbox/`, and `PRODUCT_SPEC.md`. The pack's own machinery sits in the
+live-spec repository, at `github.com/happysasha18/live-spec`. After an install, `live-spec-base` sits
+as a folder beside this skill's folder.
+
 ## Before anything: the flag
 
 The arm is **off by default**. It reads nothing, offers nothing, and stays wholly silent unless the host
