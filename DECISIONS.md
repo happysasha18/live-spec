@@ -493,3 +493,13 @@ the engine's versioned public promise, while an internal fact rots at the engine
 <!-- record:note -->
 Nothing here is ever dropped. A struck line stays with its note so the record of what was corrected
 outlives the correction.
+
+- **The plan-v3 sitting, second pass.** Alexander 2026-08-11, in chat between 11:12 and 14:49,
+  answering the follow-up on the open D-items. D3: keep («Оставить»), given after the three
+  questions — what defines a failure class, class or the same failure, why twice — were answered
+  in chat; the plan's sitting block updated in place (delta page
+  `.live-spec/plan-v3-delta-2026-08-11-2.md`). D2: he confirms the current rule is wrong and asks
+  whether rule 23 becomes the only birth channel for checks and what limits that carries —
+  explanation owed, execution still waits his «понял, делай». D5: he asks whether per-change
+  verification alone suffices, questioning the evening measure — answer owed, his word pending.
+  D9: he asks what the item is about — a plainer explanation owed.
