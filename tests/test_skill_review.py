@@ -175,6 +175,50 @@ def test_stale_record_does_not_cover_a_later_change():
         assert "FAIL (skill review)" in r.stdout
 
 
+def test_an_earlier_stale_record_does_not_mask_a_later_change_when_a_fresher_one_also_exists():
+    """Two records name the same skill: one committed before the skill's last change (and sorting
+    first in `git ls-files`, since filenames are dated and sort lexically), one committed with —
+    or after — that change. The gate must not stop at the first name+marker+verdict hit and call
+    it fresh off some OTHER file's commit; it must find and accept the record that itself covers
+    the change. Reproduces the live bug (2026-08-11 debts, finding 7 of
+    docs/prover/2026-08-09-the-culling-first-day.md): two 'live-spec-base' records existed, the
+    gate matched the older one, and an unrelated commit touching a third file under
+    docs/skill-review/ made the whole directory read as fresh regardless."""
+    with tempfile.TemporaryDirectory() as tmp:
+        _init_repo(tmp)
+        _write(tmp, "skills/demo/SKILL.md", SKILL_V1)
+        _write(tmp, "docs/skill-review/2026-07-17-demo.md", RECORD)  # sorts first, but stale
+        _commit_all(tmp, "skill v1 + an early review")
+        base = _head(tmp)
+        _write(tmp, "skills/demo/SKILL.md", SKILL_BODY_CHANGED)
+        _write(tmp, "docs/skill-review/2026-08-09-demo.md", RECORD)  # sorts later, covers the change
+        _commit_all(tmp, "skill body changed again, with a fresh review this time")
+        r = _run([GATE], cwd=tmp, extra_env={"LIVE_SPEC_DIFF_BASE": base})
+        assert r.returncode == 0, r.stdout + r.stderr
+        assert "2026-08-09-demo.md" in r.stdout, r.stdout + r.stderr
+
+
+def test_an_unrelated_fresher_record_does_not_launder_a_stale_match():
+    """The mirror case: only a stale record names this skill, but a THIRD, unrelated file under
+    docs/skill-review/ was committed after the skill's last change (for some other skill
+    entirely). The gate must still red — the directory's newest commit is not a stand-in for
+    this skill's own matched record being fresh."""
+    with tempfile.TemporaryDirectory() as tmp:
+        _init_repo(tmp)
+        _write(tmp, "skills/demo/SKILL.md", SKILL_V1)
+        _write(tmp, "docs/skill-review/2026-07-17-demo.md", RECORD)
+        _commit_all(tmp, "skill v1 + its review")
+        base = _head(tmp)
+        _write(tmp, "skills/demo/SKILL.md", SKILL_BODY_CHANGED)
+        _commit_all(tmp, "skill body changed again, review not refreshed")
+        _write(tmp, "docs/skill-review/2026-08-10-other-skill.md",
+               RECORD.replace("demo", "other-skill"))
+        _commit_all(tmp, "an unrelated record, for a different skill, lands later")
+        r = _run([GATE], cwd=tmp, extra_env={"LIVE_SPEC_DIFF_BASE": base})
+        assert r.returncode == 1, r.stdout + r.stderr
+        assert "FAIL (skill review)" in r.stdout
+
+
 def test_record_must_be_committed_not_untracked():
     """A review record sitting untracked in the working tree does not count — it must be
     committed, mirroring the prover-record gate's tracked-file rule."""

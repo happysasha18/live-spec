@@ -28,10 +28,12 @@
 #
 # THE RECORD. For each substantively-changed skill <name>, the gate requires a COMMITTED record
 # under <review-dir> that (1) names the skill, (2) carries the SKILL-REVIEW marker and a Verdict:
-# line, and (3) is FRESH — the newest commit touching <review-dir> is at least as new as the newest
-# commit touching that skill (equal, or an ancestor of the record's commit — the record may ship in
-# the same commit as the skill change it covers). A stale record from an earlier review does not
-# cover a later change, mirroring check-prover-record.sh's freshness rule.
+# line, and (3) is FRESH — THAT RECORD'S OWN commit is at least as new as the skill's own last
+# change (equal, or an ancestor of the record's commit — the record may ship in the same commit as
+# the skill change it covers). A stale record from an earlier review does not cover a later
+# change, mirroring check-prover-record.sh's freshness rule, and a fresh but unrelated commit
+# elsewhere under <review-dir> does not launder a stale match for THIS skill either — each
+# candidate record is checked on its own commit, not the directory's.
 #
 # Exit 0 = every substantively-changed skill carries a fresh review record (or none changed).
 # Exit 1 = at least one substantively-changed skill has no matching record.
@@ -98,14 +100,21 @@ if [ -z "$substantive_skills" ]; then
   exit 0
 fi
 
-# --- the freshest committed record file under the review dir ---
-RECORD_COMMIT="$(git log -1 --format=%H -- "$REVIEW_DIR" 2>/dev/null || true)"
-
 fail=0
 for name in $substantive_skills; do
   skill_commit="$(git log -1 --format=%H -- "skills/$name" 2>/dev/null || true)"
 
-  # find a COMMITTED record that names this skill, carries the marker, and carries a verdict
+  # Find a COMMITTED record that names this skill, carries the marker, carries a verdict, AND is
+  # itself fresh enough — its own commit is at or after the skill's last change. Checking the whole
+  # review dir's newest commit here (its earlier shape) let an unrelated same-day record elsewhere
+  # under docs/skill-review/ wave through a match on a different, stale record for THIS skill: the
+  # loop below took the first name+marker+verdict hit in `git ls-files` order (oldest-dated file
+  # first, since filenames sort lexically), and the directory-wide freshness check then compared
+  # against a commit that record never carried. Two records for 'live-spec-base' — 2026-07-17 and a
+  # same-day-as-the-skill-change 2026-08-09 one — reproduced exactly this: the gate matched the
+  # 2026-07-17 record and called it fresh off the directory's unrelated last commit (finding 7,
+  # docs/prover/2026-08-09-the-culling-first-day.md). Each candidate's OWN commit is checked now, and
+  # the loop keeps looking past a stale match instead of stopping on the first name hit.
   matched=""
   while IFS= read -r rec; do
     [ -z "$rec" ] && continue
@@ -117,27 +126,23 @@ for name in $substantive_skills; do
     grep -q "SKILL-REVIEW" <<<"$body" || continue
     grep -qiE '^Verdict:' <<<"$body" || continue
     grep -qw "$name" <<<"$body" || continue
+
+    rec_commit="$(git log -1 --format=%H -- "$rec" 2>/dev/null || true)"
+    if [ -n "$skill_commit" ] && [ -n "$rec_commit" ] && [ "$rec_commit" != "$skill_commit" ] && \
+       ! git merge-base --is-ancestor "$skill_commit" "$rec_commit" 2>/dev/null; then
+      continue   # this record predates the skill's last change — keep looking for a fresher one
+    fi
     matched="$rec"
     break
   done < <(git ls-files "$REVIEW_DIR" 2>/dev/null)
 
   if [ -z "$matched" ]; then
     echo "FAIL (skill review): skill '$name' is substantively changed in this push but no committed"
-    echo "  skill-creator review record under $REVIEW_DIR/ names it with a verdict (SPEC INV-208)."
+    echo "  skill-creator review record under $REVIEW_DIR/ names it with a verdict at least as new as"
+    echo "  the skill's own last change — a stale earlier review does not cover a later change"
+    echo "  (SPEC INV-208). skill '$name' last changed in ${skill_commit:-unknown}."
     fail=1
     continue
-  fi
-
-  # freshness: the review dir's newest commit must be at least as new as the skill's
-  if [ -n "$RECORD_COMMIT" ] && [ -n "$skill_commit" ]; then
-    if [ "$RECORD_COMMIT" != "$skill_commit" ] && \
-       ! git merge-base --is-ancestor "$skill_commit" "$RECORD_COMMIT" 2>/dev/null; then
-      echo "FAIL (skill review): the review record for '$name' predates the skill's last change —"
-      echo "  a stale earlier review does not cover a later change (SPEC INV-208)."
-      echo "  skill '$name' last changed in $skill_commit; newest $REVIEW_DIR/ commit is $RECORD_COMMIT."
-      fail=1
-      continue
-    fi
   fi
 
   echo "OK (skill review): skill '$name' carries a fresh review record ($matched)."

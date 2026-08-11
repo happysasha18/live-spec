@@ -1,4 +1,4 @@
-"""M-485 — a session's opening step reads the previous session's extract (SPEC INV-302, R303.19..R303.23).
+"""M-485 — a session's opening step reads the previous session's extract (SPEC INV-302, R303.20..R303.26).
 
 A session's opening writes no committed artifact, so no push gate can hold this step. It is a
 discipline the seat holds, stated in the specification and carried to the working moment by the base
