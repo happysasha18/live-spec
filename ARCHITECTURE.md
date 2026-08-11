@@ -158,9 +158,9 @@ named here and in the matrix.
 - `skills/build-pipeline/SKILL.md:107` (step zero: the door + work-kind)
 - `skills/build-pipeline/SKILL.md:91` (the craft ladder — step→craft one home)
 - `skills/build-pipeline/SKILL.md:226` (the work-kind table — per-kind meanings' one home)
-- `skills/build-pipeline/SKILL.md:232` (steps)
+- `skills/build-pipeline/SKILL.md:241` (steps)
 - `skills/build-pipeline/SKILL.md:536` (gates)
-- `skills/build-pipeline/SKILL.md:336` (re-carve paragraph — INV-113 redesign-owes-rework)
+- `skills/build-pipeline/SKILL.md:347` (re-carve paragraph — INV-113 redesign-owes-rework)
 - `skills/build-pipeline/references/delegation-protocol.md:71` (the worker-brief register-laws clause — no-scissors + no-dramatization, INV-221)
 - `guardrails/node_growth_counter.py:1` (the node-growth counter, rides the suite not the push chain, INV-233)
 - `guardrails/node-file-cap.json:1` (the nodes-per-file ratchet seeded at the current count, INV-233)
@@ -188,8 +188,8 @@ named here and in the matrix.
 **owns** — T-18, INV-2, INV-39, INV-49, INV-131, E-34, T-23, INV-198, INV-199, INV-200, INV-201, INV-214
 
 **pins** —
-- `skills/build-pipeline/SKILL.md:554` (trains, one pen — the cap, the penless overlap set, the pen-stages, the re-fence after a landing)
-- `skills/build-pipeline/SKILL.md:571` (the graph picks the lane set at queue-take)
+- `skills/build-pipeline/SKILL.md:563` (trains, one pen — the cap, the penless overlap set, the pen-stages, the re-fence after a landing)
+- `skills/build-pipeline/SKILL.md:580` (the graph picks the lane set at queue-take)
 - `skills/build-pipeline/SKILL.md:152` (a mid-work re-door re-runs the independence edges against every rolling lane)
 - `skills/live-spec-base/SKILL.md:174` (rule 7's lanes sub-rules — three lanes under one pen)
 - `skills/live-spec-base/SKILL.md:198` (one row per landing commit)
