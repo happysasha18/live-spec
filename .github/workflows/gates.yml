@@ -24,11 +24,13 @@ jobs:
         run: pip install pytest
       - name: test suite (gate b, full — the reach map stays local)
         run: python3 -m pytest -q
-      - name: gate a — fresh prover record
+      - name: gate a — fresh prover record (one record per push, SPEC M-6/INV-116/INV-304)
         # LIVE_SPEC_DIFF_BASE lets the script judge the inbox-only carve-out (row 269,
         # SPEC M-6/INV-112): a push whose diff is exactly one new inbox/ file owes no
-        # fresh record. github.event.before is the pre-push SHA on a push; on a PR it is
-        # empty and the script falls back to origin/main.
+        # fresh record. The same base carries the range arm, which reads the pushed delta
+        # against the state the remote already holds. github.event.before is the pre-push
+        # SHA on a push; on a PR it is empty and the script falls back to origin/main,
+        # which the fetch-depth-0 checkout above carries.
         env:
           LIVE_SPEC_DIFF_BASE: ${{ github.event.before }}
         run: guardrails/check-prover-record.sh --push
@@ -106,14 +108,6 @@ jobs:
         env:
           LIVE_SPEC_DIFF_BASE: ${{ github.event.before }}
         run: python3 guardrails/check-doc-findings-bound.py
-      - name: gate ac — push review (a push carries an adversarial review of the change it sends, SPEC INV-304)
-        # The range arm reads the pushed delta against the state the remote already holds, the same
-        # base ladder gate aa uses. github.event.before is the pre-push SHA on a push; on a pull
-        # request it is empty and the arm falls back to origin/main, which the fetch-depth-0 checkout
-        # above carries.
-        env:
-          LIVE_SPEC_DIFF_BASE: ${{ github.event.before }}
-        run: guardrails/check-push-review.sh
       - name: gate ad — published tree counts (a count this repository publishes about its own tree is built from the tree, SPEC INV-305)
         run: python3 guardrails/check-tree-counts.py
       - name: gate ae — named checks (the registry says what each runnable file a skill body names is, SPEC INV-306)

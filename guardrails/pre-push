@@ -45,7 +45,7 @@ fail=0
 echo "== live-spec push gate =="
 
 echo ""
-echo "-- gate a: fresh prover record for today --"
+echo "-- gate a: fresh prover record for today (one record per push: the re-check of the spec and the architecture, and the adversarial read of the pushed range, SPEC M-6/INV-116/INV-304) --"
 if ! "$GUARDRAILS/check-prover-record.sh" --push; then
   fail=1
 fi
@@ -232,12 +232,6 @@ fi
 echo ""
 echo "-- gate aa: doc findings bound (no live document above its recorded finding count; a cleared document stays at zero, SPEC INV-301) --"
 if ! python3 "$GUARDRAILS/check-doc-findings-bound.py"; then
-  fail=1
-fi
-
-echo ""
-echo "-- gate ac: push review (the delta being pushed carries its fresh adversarial review record, SPEC INV-304) --"
-if ! "$GUARDRAILS/check-push-review.sh"; then
   fail=1
 fi
 

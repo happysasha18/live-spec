@@ -105,10 +105,6 @@
       "proof": "tests/test_doc_findings_bound.py::test_gate_reds_a_cleared_doc_that_regressed",
       "reds": "check-doc-findings-bound"
     },
-    "ac": {
-      "proof": "tests/test_push_review.py::test_range_with_no_record_reds",
-      "reds": "check-push-review"
-    },
     "ad": {
       "proof": "tests/test_tree_counts.py::test_a_drifted_block_reds",
       "reds": "check-tree-counts"

@@ -2687,3 +2687,42 @@ uninvited but carries one of the few real dated catches, so the merge into the p
 (D4) is the right move for it; cutting the nine invented escorts barely cheapens deletion, since
 four of the five deletion escorts rest on his own word; the largest remaining weight is the
 delivery report's ~20 mandated fields.
+
+## 2026-08-11, 14:55-15:30 — one review record per push: the second gate and its home retire (D4)
+
+His word on the sitting, 2026-08-11 10:23: «д4 ок». That lifts the freeze the plan held over this
+item, and the merge ran the same day.
+
+A push owed two review records. Gate a demanded a dated prover record under `docs/prover/`, fresh
+against the last change to `PRODUCT_SPEC.md` and `ARCHITECTURE.md`. Gate ac demanded a second
+record, in its own home `docs/push-review/`, carrying an adversarial read of the pushed range. Two
+fresh agents wrote two files about one change, and two checks read them. The R7 escort inventory
+had already found the second one uninvited — no queue row, no decision entry, a session added the
+review, the record and the gate around 2026-08-05 — while also finding it one of the six gates in
+the tree with a real dated catch: eleven findings across 24 unpushed commits on the day it landed.
+So the inventory asked for a merge, not a cut, and that is what this is.
+
+There is now one record per push. It is the dated prover record, and it carries both readings: the
+re-check of the spec and the architecture, and the adversarial read of the commits being sent.
+`guardrails/check-prover-record.sh` reads it as gate a. On the push road it runs its own arms first
+and then the arms folded in from the retired gate — the record names the base commit and every
+reviewed commit, carries the `PUSH-REVIEW` marker and its five fields with values, and leaves no
+blocking finding unclosed and unexplained. What the merged gate cannot hold is stated where it
+always was: no script decides whether a review was adversarial.
+
+`guardrails/check-push-review.sh` rests at `attic/check-push-review.sh` under its manifest line, out
+of the push chain and out of the CI workflow, its known-red entry gone from the registry. The five
+records already written moved into `docs/prover/`, so the trail survives whole. Requirement 305 is a
+merge stub pointing at Requirement 141, which grew from four criteria to eleven while the pair of
+requirements fell from sixteen criteria to twelve.
+
+The merge also closed a debt the tree had recorded and not paid: the house format documented a
+`Commits:` field that no arm ever parsed. It is gone. `docs/prover/README.md` now names the marker
+and exactly the five fields the gate reads, with the commit list nested under `Range:`, and a test
+holds the two lists equal so they cannot drift apart again.
+
+One thing the merge did not repair, because it did not create it: no skill under `skills/` tells a
+writer to produce this record. That gap stood under the old two-record shape too. The record home's
+README is where the shape is taught.
+
+Full suite: see the commit message.

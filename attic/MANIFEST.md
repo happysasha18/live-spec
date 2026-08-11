@@ -3,6 +3,7 @@
 Every file that left active use rests here with one line saying what it was (SPEC INV-7, A-4,
 base rule 10). Nothing here was deleted; a file that turns out to be needed is moved back.
 
+- `guardrails/check-push-review.sh` -> `attic/check-push-review.sh` * the second review-record gate a push once ran; its arms now stand inside `guardrails/check-prover-record.sh`, which reads the one record a push carries * 2026-08-11
 - `ARCHITECTURE.html` -> `attic/ARCHITECTURE.html` * a rendered page whose reading is over * 2026-07-27
 - `PRODUCT_SPEC.html` -> `attic/PRODUCT_SPEC.html` * a rendered page whose reading is over * 2026-07-27
 - `README.html` -> `attic/README.html` * a rendered page whose reading is over * 2026-07-27

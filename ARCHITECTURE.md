@@ -365,7 +365,7 @@ named here and in the matrix.
 - INV-299 (the mechanical arm of the worker-restore rule. It is the gate script pinned below, with its call site inside the pipeline's verify step. Beside it stands the wording check `tests/test_worker_restore.py`, run over the rulebook, the pipeline skill, the delegation protocol, the agent-card template and the lane-opening script. The rule those homes state is the base-rulebook's, stated once in its rule 7.)
 - INV-305 (a count this repository publishes about its own tree. `guardrails/tree-counts.json` is the machine home of every such count. It carries the measurement that produces the count and every page statement of it. `scripts/gen-tree-counts.py` fills the generated blocks. `guardrails/check-tree-counts.py` stands as gate ad over both. Whether a count is worth publishing stays with the person.)
 - INV-306 (the record of what each runnable file the pack ships is. `scripts/check-registry.json` is the machine home of the kind, name, kit, root, reach and needs per file, and `guardrails/check-named-checks.py` stands as gate ae over it. It keeps a check that judges this pack's own documents out of the steps a host project follows. Both files are pinned below.)
-- INV-304 (the adversarial review a push carries over the change it sends. `guardrails/check-push-review.sh` stands as gate ac. It reads the record home `docs/push-review/` against the pushed range. It holds what a script can hold. The record exists, is committed, and is fresh against the newest commit in the range. It names that range, and it closes or explains each blocking finding. Whether the review was genuinely adversarial stays outside its reach. The requirement and the script's own header both say so. It is the push-time sibling of the design-review record gate that runs on the same hook.)
+- INV-304 (the adversarial review a push carries over the change it sends. It rides the one record a push already owes. `guardrails/check-prover-record.sh` holds it as gate a on the push road, over the record home `docs/prover/`. It holds what a script can hold. The record exists, is committed, and is fresh against the newest commit in the range. It names that range, carries each field with a value, and closes or explains each blocking finding. Whether the review was genuinely adversarial stays outside its reach. The requirement and the script's own header both say so. The second gate that once held this alone rests at `attic/check-push-review.sh`.)
 
 **pins** —
 - `guardrails/pre-push:1` (gates)
@@ -453,8 +453,8 @@ named here and in the matrix.
 - `docs/language-rule-coverage.md:1` (the generated maintainer's rendering: each rule's status, its catchers and their reach, INV-293)
 - `guardrails/check-language-rules.py:1` (the gate over the home and its consumers, rides the suite not the push chain, INV-292, INV-294)
 - `tests/test_language_rules.py:1` (its red proof)
-- `guardrails/check-push-review.sh:1` (the push-time adversarial review record gate, gate ac, INV-304)
-- `docs/push-review/README.md:1` (the record home and the shape a record carries, INV-304)
+- `guardrails/check-prover-record.sh:1` (the one review-record gate a push runs, gate a, M-6, INV-116, INV-304)
+- `docs/prover/README.md:1` (the record home and the shape a record carries, INV-304)
 - `guardrails/check-doc-findings-bound.py:1` (the per-document findings ratchet, gate aa, INV-301)
 - `guardrails/rule-census.json:1` (the recorded finding count per live document, the ratchet's ceiling, INV-301)
 - `scripts/rule-census.py:1` (the measure both the report and the gate read through, INV-301)

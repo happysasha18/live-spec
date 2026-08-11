@@ -9,7 +9,7 @@ instead of things you have to remember.
 
 <!-- generated:count:gate-roster — scripts/gen-tree-counts.py owns the block below -->
 
-The push hook runs 30 distinct gate letters today. The roster below is the whole set, one line per gate as `guardrails/pre-push` announces it.
+The push hook runs 29 distinct gate letters today. The roster below is the whole set, one line per gate as `guardrails/pre-push` announces it.
 
 Count them yourself, and list them:
 
@@ -21,9 +21,8 @@ grep -oE -- '-- gate [a-z]{1,2}: [^"]+' guardrails/pre-push | sort -u
 A push of this repository is refused where either command disagrees with what stands here. The count decides how much of the tree a push protects. It also decides how long a push waits. It is read against the gate steps `.github/workflows/gates.yml` mirrors, which `guardrails/check-ci-mirror.sh` holds equal to this roster. The roster holds to no number of its own. A gate is added when a stated law earns one, and dropped when its law goes, so neither direction is better on its own. When the count rises, every push runs one more check and waits for it.
 
 ```
--- gate a: fresh prover record for today --
+-- gate a: fresh prover record for today (one record per push: the re-check of the spec and the architecture, and the adversarial read of the pushed range, SPEC M-6/INV-116/INV-304) --
 -- gate aa: doc findings bound (no live document above its recorded finding count; a cleared document stays at zero, SPEC INV-301) --
--- gate ac: push review (the delta being pushed carries its fresh adversarial review record, SPEC INV-304) --
 -- gate ad: published tree counts (every count this repository publishes about its own tree matches the tree, and the reproduction command beside it returns the published number, SPEC INV-305) --
 -- gate ae: named checks (the registry says what each runnable file a skill body names is, SPEC INV-306) --
 -- gate b: test suite green (scoped by the diff's reach, SPEC INV-45) --
@@ -65,7 +64,12 @@ behaviour takes more than one line. A gate with no note here runs all the same.
 
 - **a. Fresh review.** A prover record dated today exists under `docs/prover/` and is
   committed. This is the push gate every push of live-spec must pass (SPEC anchor `M-6`):
-  no push without a same-day whole-spec re-check on file.
+  no push without a same-day whole-spec re-check on file. One record carries the whole
+  review a push owes (SPEC `INV-304`). On the push road the same check reads that record
+  against the pushed range. The record names the base commit and every commit reviewed. It
+  carries the `PUSH-REVIEW` marker and its five fields with values. No blocking finding is
+  left open. Whether the review was adversarial rests on the reviewer; no script decides
+  that. `docs/prover/README.md` holds the shape for a person writing one.
 - **b. Tests green.** `python3 -m pytest -q tests` exits clean — the SAME runner the CI mirror
   runs, so the local net and the second net can never disagree on what "the suite" is.
 - **c. Every spec anchor has exactly one owner.** In this repo that's already asserted
