@@ -43,9 +43,9 @@ suite after R1b reads 2,500 passed, 0 failed. Decision candidates D10 (the fires
 (a machine reading the locating paragraphs) stay parked — policy calls under the campaign's rule
 2. Fifteen commits sit local; the next push owes its own fresh range review.
 
-**The sitting's first pass happened 2026-08-11 10:23; his words are in `DECISIONS.md`.** Ruled
-yes: D1 (the "shorten" verdict), D4 (one review record per push), D8 (retire
-`answer-first-scan.py`). D7 is scheduled for a later day with him at the keyboard. D2 is agreed
+**The sitting's first pass happened 2026-08-11 10:23; his words are in `DECISIONS.md`.** Three
+rulings are yes. D1, the "shorten" verdict. D4, one review record per push. D8, retiring
+`answer-first-scan.py`. D7 is scheduled for a later day with him at the keyboard. D2 is agreed
 in substance; execution waits until the one-sentence fix reads clear to him. D3, D5 and D9 stay
 open on his questions. D6 is struck in its old shape — the five-artifact escort itself is the
 defect. The new step R7 inventories every mandated escort with its origin, and invented ones go
