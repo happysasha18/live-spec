@@ -4,7 +4,7 @@ A digest with no redundancy (SPEC INV-48) — one live-state block, nothing remo
 information. One status block stands here at a time, and every update replaces it. Dated history
 lives in `JOURNAL.md`.
 
-## LIVE STATE (2026-08-11, 10:37)
+## LIVE STATE (2026-08-11, 16:41)
 
 Written for a session starting with clean context.
 
@@ -14,58 +14,42 @@ revision awaiting his «принято»: `.live-spec/culling-plan-v3-2026-08-10
 21:12; its line-by-line provenance sweep is `.live-spec/plan-v3-sweep-2026-08-10.md`). Every
 live-spec session works on this plan until it is accepted and executed. An interrupted session
 changes nothing: the next one resumes the same plan at the same step. Every status line is phrased
-in the plan's own step codes (U/R/D/S/C). If Alexander himself asks for work outside the plan, the
-session answers with one line naming the unfinished plan. It then asks whether to fold the request
-in or set the plan aside by his word. The page he reads is the claude.ai artifact rendering
-the v3 file; regenerate it from the committed file only. One more order of his, 2026-08-11 10:23. Once the
-plan is submitted for his review, the session executes nothing from it until the review happens.
-The exception is what he ordered directly.
+in the plan's own step codes (U/R/D/S/C). The plan file itself carries execution statuses — done /
+in work / waiting — kept current by point edits with delta pages (his word 2026-08-11 ~14:55). If
+Alexander himself asks for work outside the plan, the session answers with one line naming the
+unfinished plan. It then asks whether to fold the request in or set the plan aside by his word.
+The page he reads is the claude.ai artifact rendering the v3 file; regenerate it from the
+committed file only. One more order of his, 2026-08-11 10:23. Once the plan is submitted for his
+review, the session executes nothing from it until the review happens. The exception is what he
+ordered directly. His 11:08 «давай все по некст степс» was that direct word for D4, D8 and R7.
 
-**Where it stands.** Phase 0 of v3 is closed. The missing architecture review record landed
-(`docs/prover/2026-08-10-architecture-wall-time-row.md`), and commit `2121b91` went green: 2,490
-passed, 0 failed. The adversarial range review found no blocker
-(`docs/push-review/2026-08-10-the-repaired-range.md`). The push landed at 21:35 — 31 commits,
-`ba479b6..e82da27`, every gate green. Rules cut: 0 of 88. Checks removed and still gone: 1 of 31 (`NEXT_STEPS.md@e82da27:15`).
+**Where it stands, 16:41.** Phases 0 and R are closed, R7 included. The R7 escort inventory sits
+at `.live-spec/escort-inventory-R7-2026-08-11.md` (`fa6d6a9`): 41 mandated escorts — 21 from his
+dated word, 11 derived, 9 invented. Prior R-step numbers (R2 6,363 bytes / 37 groups, R5 46,100
+bytes / 307 tests, R3 51-of-88 unenforced) live in the plan's stamped steps and the journal. The
+sitting's rulings, after his second and third passes (`DECISIONS.md`): D1 yes. D3 keep. D4
+executed — one review record per push, read by one gate; gate ac and Requirement 305 retired
+(`06cf3ae`). D5 yes and executed — verification after each real change, no schedule, the
+two-hour session alarm removed. D8 executed (`a829e8b`, suite then 2,484/0). D6 struck; D7
+scheduled with him at the keyboard, later. D10 and D11 stay parked as policy calls. D2 waits his
+«делай»; the rule-23 broadening that makes it whole is a campaign-close post-action in the plan.
+D9 is explained in chat; its word comes at the campaign close. Suite now: 2,486 passed, 0 failed
+(16:37 log).
 
-**Phase R closed on the morning of 08-11; every step is landed.** R2: the rulebook repeats
-itself by 6,363 bytes in 37 groups (`66aa265`). R5: the 53 rules outside the shared rulebook are
-priced at 46,100 bytes with 307 pinned tests (`d11331f`). R6, after two hostile review rounds
-(`3915e95`): the architecture-pointer gate proves a pin against its own line. R3 (`713ceb0`): 51
-of the 88 rules have no enforcing machine, and 8 carry a recorded fire. Its ledger proposal is
-decision candidate D10 — a policy call, since it grows machinery under the campaign's rule 2. R1
-(`d7d73e1`): every path a skill names says which tree it lives in. Its review is filed at
-`docs/skill-review/2026-08-11-install-repair-eight-files.md`; the installed copies synced the
-same hour. Thirteen architecture pins came home, and the fresh review record covers both pin
-commits (`781205e`). R1b closed the class the same morning (`d9a4d88`). build-pipeline and design-reviewer now place
-the product spec with the host, and a sweep of all eleven skills finds no dissenter. The false
-run-from-root order is gone. Reviews are filed under `docs/skill-review/` dated 2026-08-11. The
-suite after R1b reads 2,500 passed, 0 failed. Decision candidates D10 (the fires ledger) and D11
-(a machine reading the locating paragraphs) stay parked — policy calls under the campaign's rule
-2. The local-only commits are counted by `git rev-list --count origin/main..HEAD`; the next push
-owes its own fresh range review.
+**Debts closed this afternoon (`391ba41`, `c9a4088`).** The 219-vs-218 figure, the retired
+R303.19 citation and ROADMAP row 522's gate-ab clause are fixed. The "ten skill folders" debt was
+already closed. Gate s now checks freshness per candidate record, pinned by two red-then-green
+tests on the bug lane. Its honest new red — the 2026-08-11 skill-review record lacks a
+`Verdict:` line — is in repair with a worker. The prover edition carried the newer skill work.
+The problem ledger holds a new WATCHED line: parallel pytest runs share /tmp and red the
+leaked-temp gates on a neighbour's files.
 
-**The sitting's first pass happened 2026-08-11 10:23; his words are in `DECISIONS.md`.** Three
-rulings are yes. D1, the "shorten" verdict. D4, one review record per push. D8, retiring
-`answer-first-scan.py`. D7 is scheduled for a later day with him at the keyboard. D2 is agreed
-in substance; execution waits until the one-sentence fix reads clear to him. D3, D5 and D9 stay
-open on his questions. D6 is struck in its old shape — the five-artifact escort itself is the
-defect. The new step R7 inventories every mandated escort with its origin, and invented ones go
-under the knife. His campaign direction, verbatim: «выпиливать а не чинить».
-
-**Runnable next.** On his direct «ок»: the D4 gate merge (his word lifts the freeze) and the D8
-retirement. R7's inventory is the session's derivation from his 10:23 direction («надо понять все
-такие лишние элементы»), named as such in the plan's sitting block. The rule-30 removal waits for
-his «понял, делай» on the one-sentence fix, which now stands written in the plan's D2 line.
-Phase 2 batches wait for the plan's «принято».
-
-**Debts recorded by the 2026-08-10 push review.** Findings 6, 7, 9 and 10 of the 2026-08-09
-push-review record still stand. They cover 219 vs 218, gate s greening on a 2026-07-17 record, and a
-retired R303.19 citation. Two more: "ten skill folders" vs 11, and ROADMAP row 522's gate ab
-citation. The
-push-review house format in `docs/push-review/README.md` differs from what gate ac's in-push arms
-actually parse — worth a queue row. The post-push hook warns that `editions/product-prover/` is
-older than `skills/product-prover/`: carry the newer work into the edition and commit it. Mirror
-sync did not complete; run `scripts/sync-mirrors.sh` by hand.
+**Runnable next.** The verdict-line repair commit lands. Then a fresh clean-context agent writes
+the ONE range review record in the merged form, covering every unpushed commit
+(`git rev-list --count origin/main..HEAD`). On green: push, then `scripts/sync-mirrors.sh` and
+the edition publish — both were held back so no unreviewed content leaves the machine. The
+rule-30 removal waits his «делай». Phase 2 batches wait the plan's «принято»; phase 3 opens on
+D2 plus the already-given D3.
 
 **Three habits that cost 2026-08-09, named so the next session skips them.**
 1. His instruction and the tree's record disagreed. The session picked the record and worked on.
@@ -74,11 +58,6 @@ sync did not complete; run `scripts/sync-mirrors.sh` by hand.
    profile. A task belongs in `ROADMAP.md`. `scripts/session-extract.py` already pulls his own turns
    for a fresh reader, and what it finds has to land in one of those two homes.
 3. A page was rewritten whole where three lines needed changing. Change what needs changing.
-
-**Right now.** A fresh review of the push range refused it on three findings. All three arrived with
-the repair pass. Its record is `docs/push-review/2026-08-09-the-culling-first-day.md`. One of the
-three is structural. An `ARCHITECTURE.md` edit demands a fresh record under `docs/prover/` that
-descends from it, and a push-review record leaves that gate unsatisfied.
 
 ## Where the numbers live
 

@@ -2726,3 +2726,26 @@ writer to produce this record. That gap stood under the old two-record shape too
 README is where the shape is taught.
 
 Full suite: see the commit message.
+
+## 2026-08-11, 14:49-16:41 — the sitting's rulings execute: D4 lands, D5 takes effect, the debts close
+
+His answers arrived in chat through the afternoon. D3: keep. D5: yes — verification runs after
+each real change, with no schedule; the two-hour session alarm was removed at 14:57. The plan
+file now carries execution statuses by his standing word of ~14:55 (78a47a5). His 14:52 word set
+the standing Fable-token guard, recorded in the profile, the memory and this file's standing
+instructions; its first written sentence ran 36 words, redded the readability gate, and was
+split (2954a77). The last scheduled two-hour batch check ran under the old base and returned:
+removals match the verdicts; a targeted test run redded only on leaked-temp assertions while a
+second suite wrote the same /tmp, now a WATCHED ledger line; the rulebook-volume re-count read
+7,642 bytes in 44 duplicate groups against the recorded 6,363/37, traced to the profile growing
+outside this repo, with no rule file changed in the batch.
+
+D4 executed by a fresh worker (06cf3ae): a push now carries one review record in docs/prover/,
+read by one gate; gate ac, its script, its record home and Requirement 305 retired; the five
+existing push-review records moved under docs/prover/; the parser-format debt closed. The
+recorded debts closed (391ba41): the 218 figure corrected, the R303.19 citation repointed, row
+522's gate-ab clause fixed. Gate s freshness became per-candidate, pinned by two red-then-green
+tests; they pin a repaired defect on the bug lane, and this note names them for the campaign's
+no-new-machinery accounting. The prover edition carried the newer skill work (c9a4088). The R7
+escort inventory landed earlier in the afternoon (fa6d6a9). Suite after all of it: 2,486 passed,
+0 failed.
