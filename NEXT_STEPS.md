@@ -17,7 +17,9 @@ changes nothing: the next one resumes the same plan at the same step. Every stat
 in the plan's own step codes (U/R/D/S/C). If Alexander himself asks for work outside the plan, the
 session answers with one line naming the unfinished plan. It then asks whether to fold the request
 in or set the plan aside by his word. The page he reads is the claude.ai artifact rendering
-the v3 file; regenerate it from the committed file only.
+the v3 file; regenerate it from the committed file only. One more order of his, 2026-08-11 10:23. Once the
+plan is submitted for his review, the session executes nothing from it until the review happens.
+The exception is what he ordered directly.
 
 **Where it stands.** Phase 0 of v3 is closed. The missing architecture review record landed
 (`docs/prover/2026-08-10-architecture-wall-time-row.md`), and commit `2121b91` went green: 2,490
@@ -34,15 +36,24 @@ decision candidate D10 — a policy call, since it grows machinery under the cam
 (`d7d73e1`): every path a skill names says which tree it lives in. Its review is filed at
 `docs/skill-review/2026-08-11-install-repair-eight-files.md`; the installed copies synced the
 same hour. Thirteen architecture pins came home, and the fresh review record covers both pin
-commits (`781205e`). The suite reads 2,500 passed, 0 failed. Queued follow-on: R1b —
-build-pipeline and design-reviewer still place the product spec in the pack's tree. Decision
-candidate D11 is a policy call the same way. A machine reading the locating paragraphs would be
-a new check, and rule 2 reserves those for his word. Thirteen commits sit local; the next push owes
-its own fresh range review.
+commits (`781205e`). R1b closed the class the same morning (`d9a4d88`). build-pipeline and design-reviewer now place
+the product spec with the host, and a sweep of all eleven skills finds no dissenter. The false
+run-from-root order is gone. Reviews are filed under `docs/skill-review/` dated 2026-08-11. The
+suite after R1b reads 2,500 passed, 0 failed. Decision candidates D10 (the fires ledger) and D11
+(a machine reading the locating paragraphs) stay parked — policy calls under the campaign's rule
+2. Fifteen commits sit local; the next push owes its own fresh range review.
 
-**What waits on him.** The nine rulings D1–D9 on the v3 plan page, each carrying a recommendation,
-one sitting. Phase R of v3 — six items his written word already covers, listed there — runs without
-waiting.
+**The sitting's first pass happened 2026-08-11 10:23; his words are in `DECISIONS.md`.** Ruled
+yes: D1 (the "shorten" verdict), D4 (one review record per push), D8 (retire
+`answer-first-scan.py`). D7 is scheduled for a later day with him at the keyboard. D2 is agreed
+in substance; execution waits until the one-sentence fix reads clear to him. D3, D5 and D9 stay
+open on his questions. D6 is struck in its old shape — the five-artifact escort itself is the
+defect. The new step R7 inventories every mandated escort with its origin, and invented ones go
+under the knife. His campaign direction, verbatim: «выпиливать а не чинить».
+
+**Runnable next, each on his recorded word:** the D4 gate merge (his «ок» lifts the freeze), the
+D8 retirement, and R7's inventory. The rule-30 removal waits for his «понял, делай» on the
+one-sentence fix. Phase 2 batches wait for the plan's «принято».
 
 **Debts recorded by the 2026-08-10 push review.** Findings 6, 7, 9 and 10 of the 2026-08-09
 push-review record still stand. They cover 219 vs 218, gate s greening on a 2026-07-17 record, and a

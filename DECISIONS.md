@@ -426,6 +426,24 @@ the one slot nothing questions. That is the defect this surface exists to catch.
   stage a `.live-spec/plan-v3-delta-<date>*.md` page carrying one rooted line per changed hunk. It
   stays outside the frozen gate roster until the campaign's closing ruling (plan v3, D9).
 
+- **The plan-v3 sitting, first pass.** Alexander 2026-08-11 10:23, reading the D-section: D1 yes
+  («вроде очевидно, не понимаю зачем тут меня спрашивать» — and the lesson lands: the obvious is
+  never parked on him). D4 yes («д4 ок»). D8 yes («д8 ок»). D7 scheduled, later, and it blocks
+  nothing («давай сделаем но если со мной то не сегодня»). D2 agreed in substance («согласен,
+  чушь»), execution waits until the one-sentence fix reads clear to him, and he asked for the
+  cause of the communication failures, answered in chat the same minute. D3 open on his three
+  questions: what defines a failure class, class or same failure, why twice. D5 open («вообще не
+  знаю что это и зачем»); the base two-hour order stands until his word. D6 struck in its old
+  shape («какая-то выдуманная чушь»): the five-artifact escort itself is the defect. D9 open
+  («не понял»). His direction for the whole campaign, verbatim: «мне кажется там много накопилось
+  совсем ненужного. и его надо как ты сказал выпиливать а не чинить».
+
+- **Plan parts wait for his review once submitted.** Alexander 2026-08-11 10:23: «тут ждало моего
+  пересмотра, а вместо этого ты что то начал делать». Standing order: after a plan is submitted
+  for his «принято», the session executes nothing from it except what he ordered directly, until
+  the review happens. Work his written word already covers elsewhere is named to him before it
+  starts.
+
 ## Open — carried, awaiting your word
 <!-- record:open -->
 These are open questions the pack carries with a recommendation. They moved here from the old spec

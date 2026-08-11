@@ -2606,3 +2606,15 @@ the pack repository's root — the page's own reference card says an installed r
 root, and the lane-opening script must run in the host's tree. The sentence is gone; each command
 names its own tree. The review is filed at `docs/skill-review/2026-08-11-install-repair-r1b.md`.
 The final text sits at the page's original line count, so no architecture pin moved.
+
+## 2026-08-11, 10:23-10:45 — the sitting's first pass, and the session closes for a context wipe
+
+Root: his message of 10:23 — the D-verdicts, the «выпиливать а не чинить» direction, the order
+that a submitted plan waits for his review, and the ask to close the session so the context can
+be wiped without loss.
+
+His verdicts stand in `DECISIONS.md` word for word, in the plan's sitting block, and in the
+resume file. Ruled yes: D1, D4, D8; D7 scheduled; D2 agreed in substance with execution held;
+D3, D5, D9 open on his questions; D6 struck, replaced by R7 — the escort inventory with each
+requirement's origin. Two fresh readers now sweep this session's transcript: every instruction
+of his must have a home in the committed records, and the resume file's numbers must reproduce.
