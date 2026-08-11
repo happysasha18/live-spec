@@ -2671,3 +2671,19 @@ side, and the Stop-hook entry naming them is cut from `~/.claude/settings.json`,
 project's own rule that installed copies are synced, not left to drift.
 
 Full suite: 2484 passed, 0 failed.
+
+## 2026-08-11, 14:49-14:55 — the sitting's second pass, and the R7 escort inventory lands
+
+Alexander's answers to the sitting follow-up arrived in chat (between 11:12 and 14:49). D3 is
+ruled: keep. The plan's sitting block takes the point edit, rooted on the delta page
+`plan-v3-delta-2026-08-11-2.md`; D2, D5 and D9 stay open on his follow-up questions, each owed a
+plainer answer in chat before his word.
+
+The R7 escort inventory, run by a fresh reader over the whole rule set, lands at
+`.live-spec/escort-inventory-R7-2026-08-11.md`: 41 mandated escort documents across commit, push,
+deletion, review and landing — 21 created by Alexander's dated word, 11 derived from rules he
+approved, 9 with no traceable human word. The reader's three notes: the push-review record is
+uninvited but carries one of the few real dated catches, so the merge into the prover record
+(D4) is the right move for it; cutting the nine invented escorts barely cheapens deletion, since
+four of the five deletion escorts rest on his own word; the largest remaining weight is the
+delivery report's ~20 mandated fields.
