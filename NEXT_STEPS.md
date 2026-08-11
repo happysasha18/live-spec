@@ -25,6 +25,17 @@ passed, 0 failed. The adversarial range review found no blocker
 (`docs/push-review/2026-08-10-the-repaired-range.md`). The push landed at 21:35 — 31 commits,
 `ba479b6..e82da27`, every gate green. Rules cut: 0 of 88. Checks removed and still gone: 1 of 31.
 
+**The night of 08-11 ran phase R.** R2 landed: self-repetition across the eleven skill files is
+6,363 bytes in 37 groups (`66aa265`). R5 landed: the 53 rules outside the shared rulebook are
+priced at 46,100 bytes with 307 pinned tests (`d11331f`). R6 landed after two hostile review
+rounds (`3915e95`): the architecture-pointer gate now proves a pin against its own line, and eight
+rotten pointers in `ARCHITECTURE.md` were repointed. The plan's batch-test baseline came back to
+the measured 73,578 with its delta page (`54442ec`, `5a361fd`), and the plan's stale line
+citations moved onto pinned snapshots (`87ffce6`). A fresh check verified the whole night batch:
+files match, suite fully green (2,502 passed), rulebook volume unchanged. Open in phase R: R1
+(the install repair) and R3 (the runs-and-fires count for rules). Seven commits sit local; the
+next push owes its own fresh range review.
+
 **What waits on him.** The nine rulings D1–D9 on the v3 plan page, each carrying a recommendation,
 one sitting. Phase R of v3 — six items his written word already covers, listed there — runs without
 waiting.
