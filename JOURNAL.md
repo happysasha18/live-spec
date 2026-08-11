@@ -2548,3 +2548,30 @@ narrow guard on the plan file itself. `.live-spec/check-plan-delta.sh` runs as a
 step — a commit changing the plan without a delta page rooting every hunk is refused. It stays out
 of the frozen gate roster on purpose, until his closing ruling (v3, D9): the campaign cuts
 machinery, and this guard earns a roster seat only by his word.
+
+## 2026-08-11, 02:53-04:50 — the night batch of phase R: two censuses land, and the pointer gate learns to read its own line
+
+Root: the two-hour verification order (his word 2026-08-08 22:17) fired against a batch that had
+truly changed, and phase R of the plan `.live-spec/culling-plan-v3-2026-08-10.md` runs on his
+recorded word alone (the 2026-08-09 handover's "needs nobody's word" list; the frozen plan's day 3).
+
+The fresh check found the batch honest and caught one stale number: the plan's batch-test baseline
+was measured before day 2's cut. The baseline came back to the measured 73,578 bytes in all three
+places, each change rooted on the delta page `.live-spec/plan-v3-delta-2026-08-11.md` — the
+plan-file guard's first live pass. Its first wiring was dead text after `exit 0` in the installed
+hook, caught by the suite's own hook-parity test; the guard now lives in the hook's source and
+stands down in trees that lack its script.
+
+R2 landed (`66aa265`): exact self-repetition across the eleven skill files is 6,363 bytes in 37
+groups — deduplication alone cannot carry the campaign, which is the bet phase 2 already makes.
+R5 landed (`d11331f`): the 53 rules outside the shared rulebook are priced (46,100 bytes, 307
+pinned tests; the three heaviest all live in build-pipeline), and its stale-citation finding sent
+the plan's line references onto pinned snapshots (`87ffce6`).
+
+R6 (queue row 541) went through two hostile review rounds before its commit. The first round
+caught the repair moving three correct pins onto rule headings to quiet its own new arm — the
+2026-08-05 record names those pins' true lines — and prescribed the record's own fix: naming
+words count, furniture words stand aside. The second round blocked once more on a CI-only
+counting gap, now closed and locked by a test that runs the gate the way CI does. The gate that
+accepted any label word within 51 lines now proves a pin against its own line, eight rotten
+pointers in ARCHITECTURE.md are repointed, and the recorded failure class is a red-proof test.

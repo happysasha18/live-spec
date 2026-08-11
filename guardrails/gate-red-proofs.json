@@ -22,7 +22,7 @@
       "reds": "check-skill-loadability.sh"
     },
     "g": {
-      "proof": "tests/test_guardrails.py::test_label_drift_strict_fails",
+      "proof": "tests/test_guardrails.py::test_label_on_a_neighbouring_rules_line_reds",
       "reds": "check-pin-drift.sh"
     },
     "h": {

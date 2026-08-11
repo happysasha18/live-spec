@@ -971,38 +971,201 @@ class TestGateF_SkillLoadability(unittest.TestCase):
 
 
 class TestGateG_PinDrift(unittest.TestCase):
-    """Gate (g): architecture pins must not rot (SPEC E-14, row 90) — file-missing or
-    beyond-EOF is RED; label-not-near-line is reported drift (RED under --strict)."""
+    """Gate (g): architecture pins must not rot (SPEC E-14, row 90, row 541) — file-missing,
+    beyond-EOF, and a label the target line does not carry are all RED, with no --strict to
+    opt into. A line pin is proved against its own line within ±2 lines, by the label's
+    NAMING words: document furniture ("rule", "line", "table") does not count while the label
+    carries a word that names something, and counts only for a label that has nothing else.
+    A `:1` file-level pin is proved against the whole file, and an unlabelled pin by the
+    file's existence, named on the green line."""
+
+    SCRIPT = os.path.join(GUARDRAILS, "check-pin-drift.sh")
+
+    def _arch(self, tmp, pin_line):
+        """An ARCHITECTURE.md holding one node with one pin."""
+        arch = os.path.join(tmp, "ARCHITECTURE.md")
+        with open(arch, "w") as f:
+            f.write("### [node: n]\n\n**responsibility** — r\n\n**owns** — E-1\n\n"
+                    "**pins** — %s\n" % pin_line)
+        return arch
+
+    def _rulebook(self, tmp):
+        """A skill body shaped like the pack's own: rule 19 opens twenty lines above rule 20,
+        the shape the 2026-08-05 prover pass caught (a pin labelled rule 20 sitting on rule
+        19's opening line, green under the old 51-line window)."""
+        target = os.path.join(tmp, "RULES.md")
+        body = ["# The shared rules", ""]
+        body.append("19. **The problem ledger — workshop noise is owned.** Operational noise is")
+        body += ["    written down the moment it fires and never re-suffered." for _ in range(19)]
+        body.append("20. **Search for a skill before reinventing.** At a project's setup, scan the")
+        body.append("    installed skills and the catalogs you can reach.")
+        with open(target, "w") as f:
+            f.write("\n".join(body) + "\n")
+        return body.index("20. **Search for a skill before reinventing.** At a project's setup, scan the") + 1
 
     def test_real_repo_passes(self):
-        result = run([os.path.join(GUARDRAILS, "check-pin-drift.sh"),
-                      os.path.join(ROOT, "ARCHITECTURE.md")])
+        result = run([self.SCRIPT, os.path.join(ROOT, "ARCHITECTURE.md")])
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_green_line_names_the_files_it_read(self):
+        """Row 541's third clause: the reach line names the files the gate opened."""
+        result = run([self.SCRIPT, os.path.join(ROOT, "ARCHITECTURE.md")])
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("reach: files=[", result.stdout)
+        self.assertIn("ARCHITECTURE.md", result.stdout)
+        self.assertIn("skills/live-spec-base/SKILL.md", result.stdout)
+        self.assertIn("guardrails/pre-push", result.stdout)
 
     def test_missing_file_fails(self):
         with tempfile.TemporaryDirectory() as tmp:
-            arch = os.path.join(tmp, "ARCHITECTURE.md")
-            with open(arch, "w") as f:
-                f.write("### [node: n]\n\n**responsibility** — r\n\n**owns** — E-1\n\n"
-                        "**pins** — `ghost.py:5` (spine)\n")
-            result = run([os.path.join(GUARDRAILS, "check-pin-drift.sh"), arch])
+            arch = self._arch(tmp, "`ghost.py:5` (spine)")
+            result = run([self.SCRIPT, arch])
             self.assertEqual(result.returncode, 1, "missing pinned file must be RED")
             self.assertIn("pinned file missing", result.stdout)
 
-    def test_label_drift_strict_fails(self):
+    def test_label_on_a_neighbouring_rules_line_reds(self):
+        """THE recorded failure class (ROADMAP row 541, prover record F4, 2026-08-05): a pin
+        labelled rule 20 landed on rule 19's opening line and read clean, because the old matcher
+        accepted the generic word "rule", which stands in every window of a rulebook. The label's
+        naming words — skill, search, setup, INV-65 — are what must stand on the pinned line."""
+        with tempfile.TemporaryDirectory() as tmp:
+            self._rulebook(tmp)
+            arch = self._arch(tmp, "`RULES.md:3` (rule 20, INV-65 — skill search at setup)")
+            result = run([self.SCRIPT, arch])
+            self.assertEqual(result.returncode, 1,
+                             "a pin labelled rule 20 sitting on rule 19's line must be RED:\n"
+                             + result.stdout)
+            self.assertIn("RULES.md:3", result.stdout)
+            self.assertIn("no naming word", result.stdout)
+            self.assertIn("looked for [", result.stdout)
+            self.assertIn("line 3 reads:", result.stdout)
+
+    def test_a_fabricated_label_on_the_right_rule_reds(self):
+        """The probe the review asked for: a label naming something the pack never wrote, on the
+        line of the rule it cites. The generic word "rule" holds no evidence, so the pin reds even
+        though it sits on rule 20's own line."""
+        with tempfile.TemporaryDirectory() as tmp:
+            line = self._rulebook(tmp)
+            arch = self._arch(tmp, "`RULES.md:%d` (rule 20 — the totally-invented-thing)" % line)
+            result = run([self.SCRIPT, arch])
+            self.assertEqual(result.returncode, 1,
+                             "a fabricated label must red on the right line too:\n" + result.stdout)
+            self.assertIn("totally-invented-thing", result.stdout)
+
+    def test_a_pin_on_its_own_rules_line_passes(self):
+        """The same fixture, pointed at rule 20's own line: green — the gate judges the pin, not
+        the file, so the red above is not an always-red."""
+        with tempfile.TemporaryDirectory() as tmp:
+            line = self._rulebook(tmp)
+            arch = self._arch(tmp, "`RULES.md:%d` (rule 20, INV-65 — skill search at setup)" % line)
+            result = run([self.SCRIPT, arch])
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+    def test_a_label_word_seventy_lines_away_reds(self):
+        """Row 541's other sentence: a pin pointing seventy lines from its sentence read clean
+        under the old window. The tolerance is now ±2 lines, and it is stated in the green line."""
+        with tempfile.TemporaryDirectory() as tmp:
+            target = os.path.join(tmp, "code.py")
+            with open(target, "w") as f:
+                f.write("\n".join(["# filler"] * 70 + ["def render_widget():", "    pass"]) + "\n")
+            arch = self._arch(tmp, "`code.py:2` (render_widget)")
+            far = run([self.SCRIPT, arch])
+            self.assertEqual(far.returncode, 1,
+                             "a label seventy lines from the pinned line must be RED:\n" + far.stdout)
+            near = run([self.SCRIPT, self._arch(tmp, "`code.py:71` (render_widget)")])
+            self.assertEqual(near.returncode, 0, near.stdout + near.stderr)
+
+    def test_a_label_the_line_does_not_carry_reds_with_no_strict_flag(self):
+        """The old gate reported a label miss as advisory DRIFT unless --strict was passed, and
+        the push chain passed no --strict — which is how 29 stale pins crossed a green gate."""
         with tempfile.TemporaryDirectory() as tmp:
             target = os.path.join(tmp, "code.py")
             with open(target, "w") as f:
                 f.write("\n" * 100)
-            arch = os.path.join(tmp, "ARCHITECTURE.md")
-            with open(arch, "w") as f:
-                f.write("### [node: n]\n\n**responsibility** — r\n\n**owns** — E-1\n\n"
-                        "**pins** — `code.py:50` (nonexistent-symbol)\n")
-            soft = run([os.path.join(GUARDRAILS, "check-pin-drift.sh"), arch])
-            self.assertEqual(soft.returncode, 0, "non-strict drift must report, not block")
-            self.assertIn("DRIFT", soft.stdout)
-            strict = run([os.path.join(GUARDRAILS, "check-pin-drift.sh"), arch, "--strict"])
-            self.assertEqual(strict.returncode, 1, "strict drift must be RED")
+            arch = self._arch(tmp, "`code.py:50` (nonexistent-symbol)")
+            plain = run([self.SCRIPT, arch])
+            self.assertEqual(plain.returncode, 1, "a label miss is RED with no flag to pass")
+            self.assertIn("nonexistent-symbol", plain.stdout)
+            strict = run([self.SCRIPT, arch, "--strict"])
+            self.assertEqual(strict.returncode, 1, "--strict is still accepted and still RED")
+            self.assertIn("the flag changes nothing", strict.stdout)
+
+    def test_a_file_level_pin_is_proved_against_the_whole_file(self):
+        """A `:1` pin names the file — line 1 is a shebang or a brace — so its label is proved
+        against the whole file, and a label the file never carries still reds."""
+        with tempfile.TemporaryDirectory() as tmp:
+            target = os.path.join(tmp, "installer.sh")
+            with open(target, "w") as f:
+                f.write("#!/usr/bin/env bash\n" + "echo filler\n" * 40 +
+                        "# the ratchet seeding step\n")
+            ok = run([self.SCRIPT, self._arch(tmp, "`installer.sh:1` (the ratchet seeding)")])
+            self.assertEqual(ok.returncode, 0, ok.stdout + ok.stderr)
+            bad = run([self.SCRIPT, self._arch(tmp, "`installer.sh:1` (the telemetry uploader)")])
+            self.assertEqual(bad.returncode, 1, "a label the file never carries must be RED")
+            self.assertIn("no naming word", bad.stdout)
+
+    def test_a_sub_item_label_is_judged_by_its_own_words(self):
+        """A pin naming a sub-item inside a rule ("rule 7's worker-restore sub-rule") points at
+        the sub-item's line, and its naming words — worker, restore, INV-298 — are found there,
+        while the generic "rule" carries no weight either way."""
+        with tempfile.TemporaryDirectory() as tmp:
+            target = os.path.join(tmp, "RULES.md")
+            with open(target, "w") as f:
+                f.write("# The shared rules\n\n7. **The concurrent-edit fence.**\n"
+                        + "   - filler\n" * 20 +
+                        "   - **A worker never restores a working tree with a git command.**\n")
+            arch = self._arch(tmp, "`RULES.md:24` (rule 7's worker-restore sub-rule, INV-298)")
+            result = run([self.SCRIPT, arch])
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            drifted = self._arch(tmp, "`RULES.md:3` (rule 7's worker-restore sub-rule, INV-298)")
+            self.assertEqual(run([self.SCRIPT, drifted]).returncode, 1,
+                             "the same label on rule 7's opening line carries no evidence")
+
+    def test_a_label_of_generic_words_alone_is_proved_by_them(self):
+        """"gates" and "the rules" name nothing beyond the furniture, so the furniture is what
+        proves them — a label with nothing else to give is still judged by what it has."""
+        with tempfile.TemporaryDirectory() as tmp:
+            target = os.path.join(tmp, "SKILL.md")
+            with open(target, "w") as f:
+                f.write("# A skill\n\n" + "prose line\n" * 30 + "## Gates worth remembering\n"
+                        + "prose line\n" * 5)
+            ok = run([self.SCRIPT, self._arch(tmp, "`SKILL.md:33` (gates)")])
+            self.assertEqual(ok.returncode, 0, ok.stdout + ok.stderr)
+            bad = run([self.SCRIPT, self._arch(tmp, "`SKILL.md:10` (gates)")])
+            self.assertEqual(bad.returncode, 1, "the same one-word label elsewhere must be RED")
+
+    def _assert_counts_close(self, result):
+        m = re.search(r"OK \(pin drift\): (\d+) pin\(s\) checked — (\d+) line pin\(s\).*?"
+                      r"(\d+) file-level :1 pin\(s\).*?(\d+) unlabelled pin\(s\)"
+                      r" proved by the file's existence alone: (.+?)\.\n", result.stdout, re.S)
+        self.assertIsNotNone(m, "the green line must state its four counts:\n" + result.stdout)
+        total, line_pins, file_pins, bare, names = m.groups()
+        self.assertEqual(int(total), int(line_pins) + int(file_pins) + int(bare),
+                         "the three kinds must account for every pin checked")
+        self.assertEqual(int(bare), len([n for n in names.split(",") if n.strip()]),
+                         "every unlabelled pin is named: " + names)
+        return int(total)
+
+    def test_the_green_line_accounts_for_every_pin(self):
+        """The counts close: line pins + file-level pins + unlabelled pins = pins checked, and the
+        unlabelled ones — proved by existence alone — are named rather than folded in silently."""
+        result = run([self.SCRIPT, os.path.join(ROOT, "ARCHITECTURE.md")])
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self._assert_counts_close(result)
+
+    def test_the_counts_close_in_ci_too_with_a_pin_skipped(self):
+        """The second net (SPEC M-5) skips a machine-local pin, so that pin stands outside the
+        count as well as outside the buckets — it is named by the note line instead. A pin counted
+        and bucketed nowhere would red CI after a green local push."""
+        if os.environ.get("LIVE_SPEC_SCRATCH"):
+            self.skipTest("machine-local pin behaviour — meaningless in a git-less scratch copy")
+        local = run([self.SCRIPT], extra_env={"CI": "", "HOME": os.path.expanduser("~")})
+        self.assertEqual(local.returncode, 0, local.stdout + local.stderr)
+        in_ci = run([self.SCRIPT], extra_env={"CI": "true", "HOME": "/nonexistent-ci-home"})
+        self.assertEqual(in_ci.returncode, 0, in_ci.stdout + in_ci.stderr)
+        self.assertIn("machine-local pin, absent in CI; skipped", in_ci.stdout)
+        self.assertEqual(self._assert_counts_close(in_ci) + 1, self._assert_counts_close(local),
+                         "the skipped pin leaves the count, and only that pin")
 
 
 class TestGateTimeFence(unittest.TestCase):

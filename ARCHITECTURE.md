@@ -133,7 +133,7 @@ named here and in the matrix.
 
 **pins** —
 - `skills/product-prover/SKILL.md:276` (review modes)
-- `skills/product-prover/SKILL.md:723` (unwritten-seam hunt — the stress-lens family, INV-72)
+- `skills/product-prover/SKILL.md:712` (unwritten-seam hunt — the stress-lens family, INV-72)
 - `.live-spec/profile.md:6` (gate cadence instance)
 - `skills/product-prover/SKILL.md:362` (restructure-merge gate — INV-114 delta-judging)
 
@@ -157,9 +157,9 @@ named here and in the matrix.
 **pins** —
 - `skills/build-pipeline/SKILL.md:107` (step zero: the door + work-kind)
 - `skills/build-pipeline/SKILL.md:91` (the craft ladder — step→craft one home)
-- `skills/build-pipeline/SKILL.md:217` (the work-kind table — per-kind meanings' one home)
+- `skills/build-pipeline/SKILL.md:226` (the work-kind table — per-kind meanings' one home)
 - `skills/build-pipeline/SKILL.md:232` (steps)
-- `skills/build-pipeline/SKILL.md:527` (gates)
+- `skills/build-pipeline/SKILL.md:536` (gates)
 - `skills/build-pipeline/SKILL.md:336` (re-carve paragraph — INV-113 redesign-owes-rework)
 - `skills/build-pipeline/references/delegation-protocol.md:71` (the worker-brief register-laws clause — no-scissors + no-dramatization, INV-221)
 - `guardrails/node_growth_counter.py:1` (the node-growth counter, rides the suite not the push chain, INV-233)
@@ -211,12 +211,12 @@ named here and in the matrix.
 - INV-286 is the showing walk's clearing arm, the same shape as INV-223. The law is this node's. Its check rides the suite and takes no gate letter. The record homes are declared as host config in the guardrails node's config file.
 
 **pins** —
-- `skills/communicator/SKILL.md:105` (the rules)
+- `skills/communicator/SKILL.md:35` (the rules)
 - `skills/communicator/SKILL.md:299` (rule 10 — the decision page)
 - `skills/communicator/SKILL.md:352` (rule 11 — the evidence walk)
-- `skills/communicator/SKILL.md:231` (rule 9 — the outcome-leads line shape)
+- `skills/communicator/SKILL.md:231` (rule 9's outcome-leads line shape)
 - `skills/communicator/SKILL.md:440` (the pre-report walk)
-- `skills/communicator/SKILL.md:286` (rule 7 — the chat-arm clock sentence)
+- `skills/communicator/SKILL.md:286` (rule 7's chat-arm clock sentence)
 - `guardrails/check-far-tier.py --window` (INV-223 — the far-tier report-shape check's fixture)
 - `scripts/sweep-rendered.py:1` (INV-286 — the clearing mechanism and the home rule's one home)
 - `guardrails/check-rendered-sweep.py:1` (INV-286 — the sweep check, report-only against the tree, rides the suite not the push chain)
@@ -255,7 +255,7 @@ named here and in the matrix.
 - `adopt/START.md:1` (B-1 — the founding walk)
 - `skills/build-pipeline/references/project-setup.md:1` (INV-307 — the setup routing card)
 - `MIGRATION.md:1` (A-11 — the catch-up walk's operating guide)
-- `install.sh:2` (E-21 — the installer itself)
+- `install.sh:1` (E-21 — the installer itself)
 - `scripts/check-pack-update.sh:1` (E-25 — the update check + the founding arm, INV-227)
 - `scripts/founding-questions.json:1` (INV-227 — the versioned founding-question set)
 - `adopt/install-ratchet.sh:1` (INV-172 — the ratchet kit installer)
@@ -512,8 +512,8 @@ named here and in the matrix.
 
 **pins** —
 - wiring: `skills/live-spec-base/SKILL.md:705` (defaults table, `design-sync` row)
-- wiring: `skills/communicator/SKILL.md:181` (rule 5 channel line)
-- wiring: `skills/build-pipeline/SKILL.md:489` (step 9 sync line)
+- wiring: `skills/communicator/SKILL.md:181` (rule 5's channel line)
+- wiring: `skills/build-pipeline/SKILL.md:498` (the design-sync line in step 9)
 - machine: —
 
 ### [node: skill-evals]
