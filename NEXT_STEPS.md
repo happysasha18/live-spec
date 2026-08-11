@@ -25,7 +25,7 @@ The exception is what he ordered directly.
 (`docs/prover/2026-08-10-architecture-wall-time-row.md`), and commit `2121b91` went green: 2,490
 passed, 0 failed. The adversarial range review found no blocker
 (`docs/push-review/2026-08-10-the-repaired-range.md`). The push landed at 21:35 — 31 commits,
-`ba479b6..e82da27`, every gate green. Rules cut: 0 of 88. Checks removed and still gone: 1 of 31.
+`ba479b6..e82da27`, every gate green. Rules cut: 0 of 88. Checks removed and still gone: 1 of 31 (`NEXT_STEPS.md@e82da27:15`).
 
 **Phase R closed on the morning of 08-11; every step is landed.** R2: the rulebook repeats
 itself by 6,363 bytes in 37 groups (`66aa265`). R5: the 53 rules outside the shared rulebook are
@@ -52,9 +52,11 @@ open on his questions. D6 is struck in its old shape — the five-artifact escor
 defect. The new step R7 inventories every mandated escort with its origin, and invented ones go
 under the knife. His campaign direction, verbatim: «выпиливать а не чинить».
 
-**Runnable next, each on his recorded word:** the D4 gate merge (his «ок» lifts the freeze), the
-D8 retirement, and R7's inventory. The rule-30 removal waits for his «понял, делай» on the
-one-sentence fix. Phase 2 batches wait for the plan's «принято».
+**Runnable next.** On his direct «ок»: the D4 gate merge (his word lifts the freeze) and the D8
+retirement. R7's inventory is the session's derivation from his 10:23 direction («надо понять все
+такие лишние элементы»), named as such in the plan's sitting block. The rule-30 removal waits for
+his «понял, делай» on the one-sentence fix, which now stands written in the plan's D2 line.
+Phase 2 batches wait for the plan's «принято».
 
 **Debts recorded by the 2026-08-10 push review.** Findings 6, 7, 9 and 10 of the 2026-08-09
 push-review record still stand. They cover 219 vs 218, gate s greening on a 2026-07-17 record, and a
