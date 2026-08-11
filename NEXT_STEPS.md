@@ -28,10 +28,10 @@ passed, 0 failed. The adversarial range review found no blocker
 **The night of 08-11 ran phase R.** R2 landed: self-repetition across the eleven skill files is
 6,363 bytes in 37 groups (`66aa265`). R5 landed: the 53 rules outside the shared rulebook are
 priced at 46,100 bytes with 307 pinned tests (`d11331f`). R6 landed after two hostile review
-rounds (`3915e95`): the architecture-pointer gate now proves a pin against its own line, and eight
+rounds (`3915e95`). The architecture-pointer gate now proves a pin against its own line, and eight
 rotten pointers in `ARCHITECTURE.md` were repointed. The plan's batch-test baseline came back to
-the measured 73,578 with its delta page (`54442ec`, `5a361fd`), and the plan's stale line
-citations moved onto pinned snapshots (`87ffce6`). A fresh check verified the whole night batch:
+the measured 73,578, with its delta page (`54442ec`, `5a361fd`). The plan's stale line citations
+moved onto pinned snapshots (`87ffce6`). A fresh check verified the whole night batch:
 files match, suite fully green (2,502 passed), rulebook volume unchanged. Open in phase R: R1
 (the install repair) and R3 (the runs-and-fires count for rules). Seven commits sit local; the
 next push owes its own fresh range review.
