@@ -503,3 +503,11 @@ outlives the correction.
   explanation owed, execution still waits his «понял, делай». D5: he asks whether per-change
   verification alone suffices, questioning the evening measure — answer owed, his word pending.
   D9: he asks what the item is about — a plainer explanation owed.
+
+- **The plan-v3 sitting, third pass.** Alexander 2026-08-11 ~14:55 in chat: D5 yes —
+  verification runs after each real change, no scheduled runs, the two-hour session alarm
+  removed. Standing order: the plan itself always carries execution statuses (done / in work /
+  waiting), updated as point edits with delta pages. Rule-23 broadening (absorbing cut rule 30's
+  legitimate function: any twice-recorded dated defect counts, document drift included) recorded
+  as a campaign-close post-action in the plan; his word «figure it out и сделай чтобы не
+  потерялось». D9 and R7 explanations owed in chat; D2 execution still waits his «делай».
