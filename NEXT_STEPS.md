@@ -4,52 +4,34 @@ A digest with no redundancy (SPEC INV-48) — one live-state block, nothing remo
 information. One status block stands here at a time, and every update replaces it. Dated history
 lives in `JOURNAL.md`.
 
-## LIVE STATE (2026-08-11, 16:41)
+## LIVE STATE (2026-08-11, 22:17)
 
 Written for a session starting with clean context.
 
-**One plan — the standing order, his word 2026-08-10 21:26.** The only plan is the cutting campaign.
-Base: `.live-spec/culling-plan-2026-08-08.md`, frozen, the record of what was ordered. Executing
-revision awaiting his «принято»: `.live-spec/culling-plan-v3-2026-08-10.md` (Russian, his word of
-21:12; its line-by-line provenance sweep is `.live-spec/plan-v3-sweep-2026-08-10.md`). Every
-live-spec session works on this plan until it is accepted and executed. An interrupted session
-changes nothing: the next one resumes the same plan at the same step. Every status line is phrased
-in the plan's own step codes (U/R/D/S/C). The plan file itself carries execution statuses — done /
-in work / waiting. Point edits with delta pages keep it current (his word 2026-08-11 ~14:55). If
-Alexander himself asks for work outside the plan, the session answers with one line naming the
-unfinished plan. It then asks whether to fold the request in or set the plan aside by his word.
-The page he reads is the claude.ai artifact rendering the v3 file; regenerate it from the
-committed file only. One more order of his, 2026-08-11 10:23. Once the plan is submitted for his
-review, the session executes nothing from it until the review happens. The exception is what he
-ordered directly. His 11:08 «давай все по некст степс» was that direct word for D4, D8 and R7.
+**The plan is accepted.** His word 2026-08-11 21:22: «мы же приняли план». Statuses live in the
+plan file, `.live-spec/culling-plan-v3-2026-08-10.md`. Its page is republished after every plan
+edit (his 17:09 order; the seat holds the URL).
 
-**Where it stands, 16:41.** Phases 0 and R are closed, R7 included. The R7 escort inventory sits
-at `.live-spec/escort-inventory-R7-2026-08-11.md` (`fa6d6a9`): 41 mandated escorts — 21 from his
-dated word, 11 derived, 9 invented. Prior R-step numbers live in the plan's stamped steps and the journal. They are R2 6,363 bytes /
-37 groups, R5 46,100 bytes / 307 tests, R3 51-of-88 unenforced. The
-sitting's rulings, after his second and third passes (`DECISIONS.md`): D1 yes. D3 keep. D4
-executed — one review record per push, read by one gate; gate ac and Requirement 305 retired
-(`06cf3ae`). D5 yes and executed — verification after each real change, no schedule, the
-two-hour session alarm removed. D8 executed (`a829e8b`, suite then 2,484/0). D6 struck; D7
-scheduled with him at the keyboard, later. D10 and D11 stay parked as policy calls. D2 waits his
-«делай»; the rule-23 broadening that makes it whole is a campaign-close post-action in the plan.
-D9 is explained in chat; its word comes at the campaign close. Suite now: 2,486 passed, 0 failed
-(16:37 log).
+**Pushed 22:15.** 34 commits, `e82da27..dfa9f57`, all gates green. One review record per push
+(D4 executed). Four review rounds ran; three blockers were raised and closed.
 
-**Debts closed this afternoon (`391ba41`, `c9a4088`).** The 219-vs-218 figure, the retired
-R303.19 citation and ROADMAP row 522's gate-ab clause are fixed. The "ten skill folders" debt was
-already closed. Gate s now checks freshness per candidate record, pinned by two red-then-green
-tests on the bug lane. Its honest new red — the 2026-08-11 skill-review record lacks a
-`Verdict:` line — is in repair with a worker. The prover edition carried the newer skill work.
-The problem ledger holds a new WATCHED line: parallel pytest runs share /tmp and red the
-leaked-temp gates on a neighbour's files.
+**Executed today.** D8 (`a829e8b`). D4 (`06cf3ae`). D5 — verification after each real change, the
+two-hour alarm removed. R7 inventory (`fa6d6a9`): 41 escorts — 21 his word, 11 derived, 9
+invented.
 
-**Runnable next.** The verdict-line repair commit lands. Then a fresh clean-context agent writes
-the one range review record in the merged form, covering every unpushed commit
-(`git rev-list --count origin/main..HEAD`). On green: push, then `scripts/sync-mirrors.sh` and
-the edition publish — both were held back so no unreviewed content leaves the machine. The
-rule-30 removal waits his «делай». Phase 2 batches wait the plan's «принято»; phase 3 opens on
-D2 plus the already-given D3.
+**Next session's first step.** Execute D2 — cut rule 30 from the rulebook (his «делай», 21:22,
+recorded). The rule-23 broadening stands as a campaign-close post-action. Then phase 2 batches
+open (plan accepted, D1 yes). Phase 3 opens on D2 plus D3.
+
+**Open small items.** Rulebook-volume rows measure stale — R2 table, the plan's numbers row. The
+"3,095" figure survives in five places, each citing `DECISIONS.md`. ROADMAP row 588 carries pin
+rot. Reviewer finding 15: `docs/PROGRESS.md` went stale against the spec three times in one
+range. A gate proposal sits parked under campaign rule 2, needing his word or campaign close.
+
+**Scheduled and deferred.** D7 stays scheduled with him at the keyboard. D9, D10 and D11 are
+decided at campaign close.
+
+**Mirror sync ran post-push;** the seat verifies it.
 
 **Three habits that cost 2026-08-09, named so the next session skips them.**
 1. His instruction and the tree's record disagreed. The session picked the record and worked on.

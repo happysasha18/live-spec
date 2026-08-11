@@ -446,6 +446,13 @@ the one slot nothing questions. That is the defect this surface exists to catch.
   the review happens. Work his written word already covers elsewhere is named to him before it
   starts.
 
+- **The plan-v3 sitting, fourth pass.** Alexander 2026-08-11 21:22 in chat: the plan is accepted
+  («мы же приняли план») — the «принято» the plan waited on. D2 read as «делай» from «давай все
+  это правь» after the D3-absorption explanation; the seat states this reading as its own and he
+  can strike it. Standing form of work: maximum delegation, Fable for orchestration and
+  exceptional tasks only, maximum context hygiene («фиксируй форму работы…»). Push completed
+  22:15, 34 commits e82da27..dfa9f57, first push under the one-record rule.
+
 ## Open — carried, awaiting your word
 <!-- record:open -->
 These are open questions the pack carries with a recommendation. They moved here from the old spec

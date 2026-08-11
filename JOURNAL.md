@@ -2749,3 +2749,29 @@ tests; they pin a repaired defect on the bug lane, and this note names them for 
 no-new-machinery accounting. The prover edition carried the newer skill work (c9a4088). The R7
 escort inventory landed earlier in the afternoon (fa6d6a9). Suite after all of it: 2,486 passed,
 0 failed.
+
+## 2026-08-11, 21:22-22:1x — the sitting's fourth pass: the plan is accepted, the range clears review, and pushes
+
+His word in chat at 21:22 closed the sitting: the plan is accepted («мы же приняли план»), and D2
+reads as «делай» from «давай все это правь» after the D3-absorption explanation was walked
+through with him; the seat records that reading as its own, open to his strike. His close of the
+same exchange, «доходи до точки/пуша, и сделаем некст степс и по новой», set the range moving to
+its review and push.
+
+The adversarial read of the thirty-four-commit range ran four passes. Three refused the push and
+named one blocking finding each: gate aa, `NEXT_STEPS.md` cleared to zero and carrying three
+findings again (closed `dbb5794`); gate m, two hook comment lines reworded in the repository but
+left stale in the installed copies (closed `7afe7ba`); and the generated index drifted between
+its two homes, the embedded Reference table still routing INV-220 to a criterion `7afe7ba` had
+already stripped it from (closed `68ee8b9`). The fourth pass found none, and the range landed at
+`dfa9f57`.
+
+Fifteen findings stood in all across the four passes; four stayed open and none blocking. The
+reviewer's finding 15 — `docs/PROGRESS.md` drifted stale against the spec three times in this one
+range — is recorded as wanting a gate rather than a fourth hand repair; it sits parked under
+campaign rule 2 pending his word or campaign close.
+
+Push at 22:15: 34 commits, `e82da27..dfa9f57`, all gates green, one review record on the push
+(the first push under D4's one-record rule). `python3 -m pytest -q` at `68ee8b9`: 1 failed, 2,483
+passed, 2 skipped — the one failure was the prover-record freshness test the closing commit
+itself repairs.
