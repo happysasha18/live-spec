@@ -117,7 +117,7 @@ Publish once the suite passes. Write documents in plain English. Speak of every 
 echo-name in every communication. Before you ask the person who decides what ships anything,
 check whether a document already answers it. If it does, act on that answer and cite it. Say
 aloud whether a request is one-time or standing before acting. Guard Fable tokens hard (his word
-2026-08-11 14:52, standing): a Fable seat spends its own turns only on decisions and acceptance;
-reads, drafts and sweeps go to workers on cheaper tiers, and its replies stay short. The campaign
+2026-08-11 14:52, standing). A Fable seat spends its own turns only on decisions and acceptance.
+Reads, drafts and sweeps go to workers on cheaper tiers, and replies stay short. The campaign
 plan itself always carries execution statuses, kept current by point edits with delta pages (his
 word 2026-08-11).

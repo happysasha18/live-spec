@@ -26,3 +26,4 @@ that closes the row flips them to SOLVED; the milestone compaction archives belo
 
 | Signature | Occurrences (dates) | Status | Notes |
 |---|---|---|---|
+| parallel pytest runs share /tmp: leaked-temp gates (INV-100 assertions in test_guardrails gate a/b, scissors-scan) red on a NEIGHBOUR suite's files when two suites run at once | 2026-08-11 15:14 (verification worker's targeted run vs the D4 worker's concurrent full run; PIDs recorded in the check report) | WATCHED | the committed full run stays the evidence; a red carrying only leaked-temp assertions during a concurrent run reads as this signature first; candidate owner if it recurs: per-run pytest basetemp |
