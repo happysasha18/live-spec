@@ -2593,3 +2593,16 @@ pointer gate reads green at 210 pins. Two findings went to their owners: build-p
 design-reviewer still place the product spec in the pack's tree, a follow-on unit of the same
 class; and no machine reads any locating paragraph, which waits as a decision candidate under the
 campaign's rule 2.
+
+## 2026-08-11, 08:53-10:25 — the install-repair class reaches its last two pages
+
+Root: the frozen plan's day 3 and his standing law that a caught defect is fixed as a class; the
+R1 review's finding M3 named the two pages.
+
+build-pipeline and design-reviewer now place the product spec with the host project, the same
+answer the other nine pages give, and a sweep of all eleven skills finds no dissenter left. The
+fresh review blocked once, on an inherited sentence telling the reader to run every command from
+the pack repository's root — the page's own reference card says an installed reader has no such
+root, and the lane-opening script must run in the host's tree. The sentence is gone; each command
+names its own tree. The review is filed at `docs/skill-review/2026-08-11-install-repair-r1b.md`.
+The final text sits at the page's original line count, so no architecture pin moved.

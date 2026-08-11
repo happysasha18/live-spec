@@ -17,12 +17,12 @@ metadata:
 ## Words this skill uses
 
 **Where the paths point.** Two repositories are in play. A path naming `skills/`, `guardrails/`,
-`scripts/`, `templates/`, `tests/`, or `PRODUCT_SPEC.md` sits in the live-spec pack's own repository,
-`github.com/happysasha18/live-spec`. Its root is the directory holding `PRODUCT_SPEC.md`,
-`guardrails/`, and `scripts/`, and every command on this page runs from that root. A path naming
-`ARCHITECTURE.md`, `TEST_MATRIX.md`, `ROADMAP.md`, `JOURNAL.md`, `docs/prover/`, or `.live-spec/`
-sits in the project under change. A path opening with `references/` names a file inside this skill's
-own directory, beside this one.
+`scripts/`, `templates/`, or `tests/` sits in the live-spec pack's own repository,
+`github.com/happysasha18/live-spec`. An install copies each skill folder into one place, so a path
+naming another skill points to that skill's folder, beside this skill's folder. A path opening with
+`references/` names a file inside this skill's own directory, beside this file. Every other path
+belongs to the project under change, including `PRODUCT_SPEC.md`, `ARCHITECTURE.md`,
+`TEST_MATRIX.md`, `ROADMAP.md`, `JOURNAL.md`, `docs/prover/`, and `.live-spec/`.
 
 - **the pack** — the shipped live-spec method: its skills, its document templates, and its gates.
   `skills/live-spec-base/SKILL.md` holds the shared rulebook and names the ten working skills.
@@ -66,8 +66,8 @@ own directory, beside this one.
 - **shopfront** — the public README as the reader-facing front of a repository.
 - **attic** — the host's append-only archive folder, `attic/`, where a superseded file moves.
 
-**The bracket codes.** `INV-`, `T-`, `E-`, `ACT-`, and `M-` codes index requirements in the pack's own
-`PRODUCT_SPEC.md`. `PRODUCT_SPEC.index.md` maps each code to the criteria that carry it. The word
+**The bracket codes.** `INV-`, `T-`, `E-`, `ACT-`, and `M-` codes index requirements in this pack's
+own `PRODUCT_SPEC.md`. `PRODUCT_SPEC.index.md` maps each code to the criteria that carry it. The word
 `SPEC` before a code marks that same home and names no separate series. `M-1` is the milestone gate
 and `M-6` is the push gate. A **base rule N** points at the numbered rule N in
 `skills/live-spec-base/SKILL.md`, which carries thirty-five. A **communicator rule N** points into

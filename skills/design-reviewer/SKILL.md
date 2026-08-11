@@ -28,10 +28,12 @@ it can raise a judgement where an assertion would be premature.
 
 ## Words this skill uses
 
-**Where the paths point.** Two repositories are in play. A path naming a skill, a guardrail, a
-script, or `PRODUCT_SPEC.md` sits in the live-spec pack's own repository, and so does
-`docs/pipeline.md`. A path naming `ARCHITECTURE.md`, `SURFACES.md`, `.live-spec/profile.md`,
-`docs/design-review/`, `docs/prover/`, or `docs/decisions/` sits in the repository under review.
+**Where the paths point.** Two repositories are in play. A path naming a skill, a guardrail, or a
+script sits in the live-spec pack's own repository, `github.com/happysasha18/live-spec`, and so does
+`docs/pipeline.md`. An install copies each skill folder into one place, so a path naming another
+skill points to that skill's folder, beside this skill's folder. Every other path belongs to the
+project under review, including `PRODUCT_SPEC.md`, `ARCHITECTURE.md`, `SURFACES.md`,
+`.live-spec/profile.md`, `docs/design-review/`, `docs/prover/`, and `docs/decisions/`.
 
 - **Element** — one thing a person acts on that a spec sentence names: a photo, a caption, a control,
   a slot.
