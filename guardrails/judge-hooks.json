@@ -6,7 +6,6 @@
     "chat-law-hook": "UserPromptSubmit",
     "register-judge-report": "UserPromptSubmit",
     "scissors-scan": "Stop",
-    "answer-first-scan": "Stop",
     "hedge-scan": "Stop",
     "register-judge-collect": "Stop",
     "affirmation-scan": "Stop",
@@ -30,7 +29,6 @@
     "chat-law-hook": "chat-law-hook.sh",
     "register-judge-report": "register-judge-report.sh",
     "scissors-scan": "scissors-scan.py",
-    "answer-first-scan": "answer-first-scan.py",
     "hedge-scan": "hedge-scan.py",
     "register-judge-collect": "register-judge-collect.sh",
     "affirmation-scan": "affirmation-scan.py",
@@ -42,7 +40,6 @@
     "chat-law-hook": "sh ~/.claude/hooks/chat-law-hook.sh",
     "register-judge-report": "sh ~/.claude/hooks/register-judge-report.sh",
     "scissors-scan": "python3 ~/.claude/hooks/scissors-scan.py",
-    "answer-first-scan": "python3 ~/.claude/hooks/answer-first-scan.py",
     "hedge-scan": "python3 ~/.claude/hooks/hedge-scan.py",
     "register-judge-collect": "sh ~/.claude/hooks/register-judge-collect.sh",
     "affirmation-scan": "python3 ~/.claude/hooks/affirmation-scan.py",
@@ -54,7 +51,6 @@
     "chat-law-hook": null,
     "register-judge-report": null,
     "scissors-scan": null,
-    "answer-first-scan": null,
     "hedge-scan": null,
     "register-judge-collect": null,
     "affirmation-scan": null,
@@ -67,9 +63,6 @@
     "register-judge-report": [],
     "scissors-scan": [
       "turn_reader.py"
-    ],
-    "answer-first-scan": [
-      "answer-first-scan.json"
     ],
     "hedge-scan": [
       "turn_reader.py"

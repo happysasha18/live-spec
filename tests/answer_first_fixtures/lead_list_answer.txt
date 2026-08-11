@@ -1,7 +1,0 @@
-[19:15] Three things changed in this pass, each landed and green:
-
-- the sidebar setting now writes through the settings store, so the three neighbouring surfaces stay consistent;
-- the empty state is specified on all three surfaces, closing the spec gap;
-- the hero image is compressed and lazy-loaded, cutting cold first paint by more than half.
-
-Each has a test asserting the real behaviour, and the suite is 924 green. The per-item detail and the numbers are underneath.

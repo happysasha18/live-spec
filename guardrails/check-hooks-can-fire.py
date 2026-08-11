@@ -9,8 +9,7 @@ hook script (the repo copy under hooks/ when one exists, else the installed copy
 under guardrails/hook-red-fixtures/, and asserts the hook's own stdout carries a live decision:
 
   * "json-block" — stdout parses as JSON with "decision": "block" (the shape every Stop-hook scan
-    in this family emits: scissors-scan, hedge-scan, answer-first-scan, affirmation-scan,
-    lean-orchestrator-scan).
+    in this family emits: scissors-scan, hedge-scan, affirmation-scan, lean-orchestrator-scan).
   * "json-deny" — stdout parses as JSON carrying hookSpecificOutput.permissionDecision == "deny",
     the documented PreToolUse verdict shape (midturn-chat-scan.py). $HOME is isolated per run, since
     a PreToolUse scan that reports each offence once per session keeps state under $HOME.

@@ -1,5 +1,0 @@
-[15:03] I began by scoping the question against the four sources you named, then ran a fan-out of searches across each, cross-checking every candidate claim against at least two independent references and discarding the ones that traced back to a single blog restating a press release; after that I read the primary filings in full, pulled the numbers into a table, normalized the currencies to a common base, and re-ran the comparison twice to be sure the ordering held under both the nominal and the inflation-adjusted view, and only after all of that did the picture settle into something I would stand behind.
-
-The finding, at the very end: the second vendor is cheaper at your volume, by about 18%.
-
-The table and the per-source notes are below if you want to check my working.

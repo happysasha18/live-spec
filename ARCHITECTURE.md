@@ -323,7 +323,7 @@ named here and in the matrix.
 - INV-216 (config-health's arm over a permission path that no longer resolves)
 - INV-218
 - INV-219 (it is the declaration law's mechanical net, the target deferral coming off that law with it)
-- INV-220 (ships universal and installs by the setup walk [INV-173]. Config-health parity covers it [INV-175] and `judge-hooks.json` classifies it [INV-211]. The meter reads its runs and fires [INV-202].)
+- INV-220 (retired: the Stop-hook arm's machinery is gone, its file retired at `attic/answer-first-scan.py`. The answer-first law itself stands untouched, stated in the personal profile and reminded by `hooks/chat-law-hook.sh`.)
 - INV-238 (the machine for the standing no-only-say-hedge behaviour, profile `proactivity.no-only-say-hedge`)
 - INV-230 (the reap and detection arms of the runaway-child class this node owns, a process-space habit at teardown taking no gate letter)
 - INV-231
@@ -369,7 +369,6 @@ named here and in the matrix.
 
 **pins** —
 - `guardrails/pre-push:1` (gates)
-- `hooks/answer-first-scan.py:1` (the answer-first Stop-hook arm, INV-220)
 - `hooks/hedge-scan.py:1` (the hedge-scan Stop-gate, modeled on the scissors scan, INV-238)
 - `guardrails/net_meter.py:1` (the net-liveness meter, INV-202)
 - `guardrails/touchpoints.json:1` (the touchpoint manifest, INV-205)
@@ -413,7 +412,7 @@ named here and in the matrix.
 - `guardrails/check-description-field.py:1` (the non-empty description-field gate, arms at the back-describe migration, INV-239) [target]
 - `guardrails/check-deposit-description.py:1` (the agent-channel deposit-time description lint, homed beside check-earned-message.py, INV-239) [target]
 - `hooks/register_judge_core.py:1` (the register judge mechanism, INV-203)
-- `hooks/turn_reader.py:1` (the shared full-turn reader six checks read through. Each reads every assistant message shown since the last human turn. The six are the contrast-frame scan, the hedge scan, the register judge, the code-anchor scan, the empty-validation scan, and the tool-boundary scan. The answer-first arm reads the final reply alone and takes no part in it, INV-281.)
+- `hooks/turn_reader.py:1` (the shared full-turn reader six checks read through. Each reads every assistant message shown since the last human turn. The six are the contrast-frame scan, the hedge scan, the register judge, the code-anchor scan, the empty-validation scan, and the tool-boundary scan, INV-281.)
 - `hooks/midturn-chat-scan.py:1` (the tool-boundary scan, the PreToolUse arm denying the next tool call on a naked code or a loan translation, INV-285)
 - `hooks/chat-calques.json:1` (the loan-translation list as data, each entry carrying its plain replacement, INV-285)
 - `hooks/register-judge.py:1` (the chat-surface judge, INV-203)
@@ -486,7 +485,7 @@ named here and in the matrix.
 - INV-234: the architecture-budget rule's budget-plus-watcher shape lifted to every growable artifact.
 - INV-236: correcting the two-channel law's refused git-universal premise (the owner's word).
 - INV-236: rides the suite and takes no push-gate letter the way the listener tripwire does [INV-231].
-- INV-238: installs by the setup walk beside the scissors scan and the answer-first arm [INV-173]. Config-health parity covers it [INV-175], `guardrails/judge-hooks.json` classifies it [INV-211], and the meter reads its runs and fires [INV-202].
+- INV-238: installs by the setup walk beside the scissors scan [INV-173]. Config-health parity covers it [INV-175], `guardrails/judge-hooks.json` classifies it [INV-211], and the meter reads its runs and fires [INV-202].
 - INV-239: both check presence only and ship with this feature's build, target.
 - INV-245: riding gate i's mechanism and known-red proof with no new gate letter. INV-245: ROADMAP 441.
 - INV-246: the mechanical net the lean-orchestrator law lacked, one of the orchestration laws the conduct judge holds [INV-241].

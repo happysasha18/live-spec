@@ -1,5 +1,0 @@
-[16:20] To get to the bottom of this I first reproduced the failure locally by pinning the same seed the CI run used, then bisected the last twelve commits until the red first appeared, instrumented the suspect function with logging on every branch, ran it under both the fast and the slow path to rule out a timing race, checked the fixture files had not drifted, confirmed the database migration had actually applied, and finally diffed the serialized output byte-for-byte against the golden file to see exactly where the two diverged before I was willing to name a cause.
-
-The cause: a timezone was being applied twice, so any timestamp after midnight UTC shifted a day.
-
-The one-line fix and its test are staged.

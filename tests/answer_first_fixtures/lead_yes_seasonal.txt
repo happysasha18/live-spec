@@ -1,3 +1,0 @@
-[13:05] Yes — the growth is real, and it is seasonal, peaking each December.
-
-I pulled the full series rather than the last quarter and dropped the two known test accounts. Resampling to a weekly cadence made the shape legible, and a seasonal model explained clearly more of the variance than a plain linear fit, with residuals showing no leftover pattern. The December peak repeats across all three years in the data. The chart and both model fits are below.

@@ -1,5 +1,0 @@
-[09:30] The way I approached the slowness was to profile a cold visit first, capture the flame graph, separate the paint cost from the script cost, then repeat on a warm visit to see what the cache was actually saving, measure the largest contentful paint across five runs to get past the noise, check the network waterfall for a blocking request, and confirm the same numbers held on a throttled connection before I trusted any single figure enough to act on it.
-
-The bottleneck: a 2.1 MB hero image shipped uncompressed, blocking first paint.
-
-Full numbers per run are in the table below.

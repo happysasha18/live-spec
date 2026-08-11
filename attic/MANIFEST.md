@@ -42,3 +42,6 @@ base rule 10). Nothing here was deleted; a file that turns out to be needed is m
 - `docs/audits/2026-08-07-cost-map.html` -> `attic/docs-audits-2026-08-07-cost-map-2.html` * a rendered page whose reading is over: carried the `live-spec render-doc` generator mark * 2026-08-07
 - `docs/audits/2026-08-07-number-rulings.html` -> `attic/docs-audits-2026-08-07-number-rulings.html` * a rendered page whose reading is over: carried the `live-spec render-doc` generator mark * 2026-08-07
 - `guardrails/check-handover-provenance.py` -> `attic/check-handover-provenance.py` * gate ab retired (day 2 culling, row 2.2: no real catch on record) * 2026-08-09
+- `hooks/answer-first-scan.py` -> `attic/answer-first-scan.py` * D8 retired (Alexander 2026-08-11 10:23 "д8 ок", DECISIONS.md): 3,095 runs, zero catches * 2026-08-11
+- `hooks/answer-first-scan.json` -> `attic/answer-first-scan.json` * data file for the retired answer-first-scan arm, retired alongside it (D8) * 2026-08-11
+- `guardrails/hook-red-fixtures/answer-first-scan/` -> `attic/hook-red-fixtures-answer-first-scan/` * the red-proof fixture for the retired arm, retired alongside it (D8) * 2026-08-11

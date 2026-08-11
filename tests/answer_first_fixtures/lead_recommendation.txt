@@ -1,3 +1,0 @@
-[11:45] Recommendation: put the setting in the sidebar, owned by the settings store.
-
-I laid out every place it could live and walked the data flow for each. The sidebar keeps the write on the module that already owns this state, so no neighbouring surface diverges, and it behaves cleanly under the phone layout where header space is scarce. The two options I rejected — the header and a modal — each split ownership of the write across two modules, which the three neighbouring surfaces would then have to reconcile. Their full tradeoffs are underneath.

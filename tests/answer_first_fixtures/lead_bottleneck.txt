@@ -1,3 +1,0 @@
-[09:30] The bottleneck is a 2.1 MB hero image shipped uncompressed, which blocks first paint.
-
-I profiled a cold visit and separated paint cost from script cost, then repeated on a warm visit to see what the cache saved. Across five runs the largest contentful paint sat just over four seconds cold, and the network waterfall showed the hero image as the single blocking request. Compressing and lazy-loading it should cut cold first paint by more than half. Per-run numbers are in the table below.

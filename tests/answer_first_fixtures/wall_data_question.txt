@@ -1,5 +1,0 @@
-[13:05] To answer whether the trend is real I pulled the full series rather than the last quarter, removed the two rows that were known test accounts, resampled to a weekly cadence so the daily noise would stop hiding the shape, fit both a linear and a seasonal model to see which explained more of the variance, checked the residuals for a pattern the models missed, and only once the seasonal fit came out clearly ahead did I feel the answer was safe to give you rather than a story I had talked myself into.
-
-The answer: yes, the growth is real and it is seasonal, peaking each December.
-
-The chart and the model fits are below.

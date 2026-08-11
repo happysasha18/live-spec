@@ -855,19 +855,19 @@ repair the text from those stops rather than from the one sentence in front of y
 
 **Binds.** chat · human-prose · artifact
 
-**Status.** held, armed at session-stop-hook, session-prompt-hook.
+**Status.** stated-only, armed at session-prompt-hook.
 
 **Owner.** skill — Whether the opening block carries the answer is a reading of the whole reply.
 
 **What catches a break of it.**
 
-- **pattern** — partial. Lives at hooks/answer-first-scan.py. Reach: the final assistant message of the turn alone; a reply past 550 characters whose opening block carries none of the three lead signals in hooks/answer-first-scan.json reds, and inter-tool narration stands out of scope by design.
+- **pattern** — absent.
 - **model** — absent.
-- **person** — partial. Reads: the scan measures whether a lead is present, never whether the lead is the right answer.
+- **person** — absent.
 
-**Stated before this page, at.** ~/.claude/playbook/personal/profile.md:21, hooks/chat-law-hook.sh:7, hooks/answer-first-scan.py:37, ~/.claude/skills/text-audit/SKILL.md:235, ~/.claude/skills/communicator/SKILL.md:231
+**Stated before this page, at.** ~/.claude/playbook/personal/profile.md:21, hooks/chat-law-hook.sh:7, ~/.claude/skills/text-audit/SKILL.md:235, ~/.claude/skills/communicator/SKILL.md:231
 
-**Notes.** The threshold and the three lead signals moved out of the hook into hooks/answer-first-scan.json on 2026-07-28, so one edit reaches the scan and this rule's own list; the profile says a few lines.
+**Notes.** The Stop-hook proxy hooks/answer-first-scan.py retired: 3,095 runs, zero catches (DECISIONS.md). Its file moved to attic/answer-first-scan.py, along with its data file hooks/answer-first-scan.json, the source the 550-char floor and the three lead signals once read from. chat-law-hook.sh still reminds the law every prompt (session-prompt-hook), the supply half; nothing reads the outgoing reply for it now.
 
 ### r47 — a clock time in a reply read from anywhere but the clock
 

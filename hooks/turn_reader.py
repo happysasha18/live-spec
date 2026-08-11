@@ -5,8 +5,6 @@ Moved out of hooks/register-judge.py so every Stop-hook scan that owes the whole
 last message) can share one reader: register-judge.py, scissors-scan.py, hedge-scan.py. A hook that
 reads only the last assistant message shipped every violation between tool calls untouched (proven
 2026-07-17 on the register judge; the same defect applied to the contrast-frame and hedge scans).
-answer-first-scan.py is the deliberate exception — it judges only the final reply the human reads,
-never the inter-tool narration, so it keeps its own last-message reader.
 
 Repo home: hooks/turn_reader.py; installed copy: ~/.claude/hooks/ (beside the hooks that import it).
 """

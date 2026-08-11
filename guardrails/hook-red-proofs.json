@@ -11,11 +11,6 @@
    "detect": "json-block",
    "note": "fires on the offering-hedge frame 'just say the word'"
   },
-  "answer-first-scan.py": {
-   "fixture": "hook-red-fixtures/answer-first-scan",
-   "detect": "json-block",
-   "note": "fires on a reply over the length threshold whose opening paragraph carries no short lead"
-  },
   "affirmation-scan.py": {
    "fixture": "hook-red-fixtures/affirmation-scan",
    "detect": "json-block",

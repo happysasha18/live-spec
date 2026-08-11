@@ -1,5 +1,0 @@
-[10:15] Comparing the two libraries I built a small harness that exercised the same workload through each, measured throughput and tail latency under identical load, read both changelogs back a year to gauge how actively each is maintained, counted the open issues that looked like real correctness bugs versus feature requests, checked the bundle-size impact on a representative build, and weighed the license terms against how you intend to ship before I would put my weight behind either one over the other.
-
-The pick: the second library — faster tail latency and a permissive license.
-
-The full comparison table is below.

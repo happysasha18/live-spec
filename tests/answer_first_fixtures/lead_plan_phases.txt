@@ -1,3 +1,0 @@
-[17:40] Plan: a three-phase dual-write over about two days, rollback-safe at every phase.
-
-I mapped every table and service that touches the column and worked out the write order so no service ever sees a half-migrated row. Phase one opens a dual-write window; phase two backfills the old rows, sized at roughly six hours against the current row count; phase three switches reads over and closes the window. Each phase has a rehearsed rollback that undoes it without data loss. The step-by-step detail follows.

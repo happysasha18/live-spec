@@ -1,3 +1,0 @@
-[15:03] The second vendor is cheaper at your volume, by about 18%.
-
-Here is how that breaks down. I read the primary filings for both, normalized the currencies to a common base, and re-ran the comparison under both nominal and inflation-adjusted views; the ordering held either way. At your stated monthly volume the first vendor lands near $4,200 and the second near $3,440, and the gap widens above that as the second one's tiered pricing kicks in. The per-source notes and the full table are below if you want to check the working line by line.

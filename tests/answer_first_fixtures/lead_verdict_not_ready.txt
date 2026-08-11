@@ -1,3 +1,0 @@
-[14:10] Verdict: not ready — the empty state is unspecified on two of the three surfaces.
-
-Everything else holds together. The entities, states, and transitions are consistent, and every invariant is exercised by at least one scenario. The gap is the standard-facet sweep: the list view and the detail view never say what a person sees with no data, and the third surface answers it only for one of its two modes. Each per-section finding, with the clause it touches, is listed below.

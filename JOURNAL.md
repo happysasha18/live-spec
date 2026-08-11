@@ -2624,3 +2624,50 @@ transcript analysis, the plan's authoring with two review rounds, and the whole 
 some thirty worker returns — three sessions' weight in one context. The lesson stands in the
 one-plan order already: once a plan lands, its execution belongs to a fresh session that opens
 from the resume file.
+
+## 2026-08-11, 11:08-12:00 — D8: the answer-first Stop-hook arm retires
+
+Root: Alexander 2026-08-11 10:23 («д8 ок», DECISIONS.md); execution ordered 11:08. Rationale: the
+arm ran 3,095 times against real turns and caught nothing.
+
+`hooks/answer-first-scan.py` and its data file `hooks/answer-first-scan.json` moved to `attic/`,
+manifest line added; the red-proof fixture `guardrails/hook-red-fixtures/answer-first-scan/` moved
+alongside them. Every wiring point came out: `guardrails/judge-hooks.json`'s wired/file/command/
+matcher/data entries, `guardrails/hook-red-proofs.json`'s proof entry, the family list in
+`guardrails/check-hooks-can-fire.py`'s docstring, the installer's `JUDGE_FILES` list and `wire()`
+call in `scripts/install-pack-hooks.sh`, and the `COMPLETE_STOP` roster in
+`tests/test_judge_listed.py`. `tests/test_answer_first_arm.py` and its 24-file fixture directory
+are deleted outright, matching how the handover-provenance gate's own test left the tree
+2026-08-09 — a retired gate keeps its file in the attic, not its test.
+
+PRODUCT_SPEC.md's Requirement 231 lost its five acceptance criteria describing the retired
+machinery, kept as a one-line retirement stub under the same number so no later requirement
+renumbers; Requirement 230's AC7 (the arm's own reading-scope exception) came out with it. TEST_MATRIX.md's
+M-401 flips to *retired* with a tombstone line, the form `docs/queue-archive` already set for
+`check-handover-provenance.py` (M-484): the row stays, never deleted. ARCHITECTURE.md's INV-220
+bullet and its `hooks/answer-first-scan.py:1` pin were rewritten to match. `guardrails/
+language-rules.json`'s r46 (the answer-first law itself) drops to `stated-only`, armed only at
+`session-prompt-hook` — the law is untouched and still reminded every prompt by
+`hooks/chat-law-hook.sh`; only the Stop-hook proxy that tried to catch a break of it is gone. The
+generated consumers (`docs/language-rules.md`, `docs/language-rule-coverage.md`,
+`hooks/language-laws.json`, the two generated Reference tables in PRODUCT_SPEC.md/
+PRODUCT_SPEC.index.md and TEST_MATRIX.md) were rebuilt from source, never hand-edited.
+
+The first pass over PRODUCT_SPEC.md, ARCHITECTURE.md, and TEST_MATRIX.md put his name, the
+timestamp, and the Russian quote into the shipped text — exactly the mistake row 274's impersonal-
+voice rule exists to catch, and the shipped-language gate caught it (7 offences, all three
+documents plus `language-rules.json`). A second pass took every date, name, and quote out of the
+shipped rows, leaving them in this entry instead, and added `[INV-70]` as its own bracket on
+Requirement 72's AC2 (`[INV-70, T-19]` → `[INV-70] [T-19]`) — the deleted Requirement 231 AC2 had
+been the only place that exact standalone anchor stood, and `test_parameter_default` reds without
+it. Deleting `test_answer_first_arm.py` also uncovered a real, unrelated bug the retired file's
+presence had been masking: TEST_MATRIX.md's M-420 row cited `test_reads_the_last_message_not_the_
+narration`, a name that only ever existed in the file just deleted — a stale copy from M-401's own
+test list. M-420 actually owns `test_reads_the_whole_turn_not_only_the_last_message` in
+`tests/test_hedge_arm.py`; the row now cites it.
+
+`~/.claude/hooks/answer-first-scan.py` and its `.json` sibling are removed from the installed
+side, and the Stop-hook entry naming them is cut from `~/.claude/settings.json`, matching the
+project's own rule that installed copies are synced, not left to drift.
+
+Full suite: 2484 passed, 0 failed.

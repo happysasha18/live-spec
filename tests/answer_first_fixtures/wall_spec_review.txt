@@ -1,5 +1,0 @@
-[14:10] Reading this spec I went section by section building the entity list as I went, tracked every state each surface can hold, matched each transition to the actor who triggers it, looked for a cross-section hole where two surfaces name the same state differently, checked the invariants for one that no scenario actually exercises, and held the whole thing against the standard-facet sweep to see which of phone, touch, empty, error, and accessibility the draft had quietly left unanswered before forming any judgment about readiness.
-
-The verdict: not ready — the empty state is unspecified on two of the three surfaces.
-
-The per-section findings are listed underneath.

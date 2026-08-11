@@ -2601,24 +2601,11 @@
           "repair": "the finding in the opening lines, and the method underneath it"
         }
       ],
-      "thresholds": {
-        "reply_chars_above_which_a_lead_is_required": 550
-      },
-      "lists": [
-        {
-          "name": "the lead signals, any one of which counts a lead as present",
-          "source": "hooks/answer-first-scan.json",
-          "key": "lead_signals",
-          "shape": "field",
-          "field": "description",
-          "note": "the reply fires only when every one of them fails"
-        }
-      ],
       "catchers": {
         "pattern": {
-          "status": "partial",
-          "where": "hooks/answer-first-scan.py",
-          "reach": "the final assistant message of the turn alone; a reply past 550 characters whose opening block carries none of the three lead signals in hooks/answer-first-scan.json reds, and inter-tool narration stands out of scope by design"
+          "status": "absent",
+          "where": "",
+          "reach": ""
         },
         "model": {
           "status": "absent",
@@ -2626,23 +2613,21 @@
           "law_text": ""
         },
         "person": {
-          "status": "partial",
-          "note": "the scan measures whether a lead is present, never whether the lead is the right answer"
+          "status": "absent",
+          "note": ""
         }
       },
       "armed": [
-        "session-stop-hook",
         "session-prompt-hook"
       ],
       "sources": [
         "~/.claude/playbook/personal/profile.md:21",
         "hooks/chat-law-hook.sh:7",
-        "hooks/answer-first-scan.py:37",
         "~/.claude/skills/text-audit/SKILL.md:235",
         "~/.claude/skills/communicator/SKILL.md:231"
       ],
-      "status": "held",
-      "notes": "The threshold and the three lead signals moved out of the hook into hooks/answer-first-scan.json on 2026-07-28, so one edit reaches the scan and this rule's own list; the profile says a few lines.",
+      "status": "stated-only",
+      "notes": "The Stop-hook proxy hooks/answer-first-scan.py retired: 3,095 runs, zero catches (DECISIONS.md). Its file moved to attic/answer-first-scan.py, along with its data file hooks/answer-first-scan.json, the source the 550-char floor and the three lead signals once read from. chat-law-hook.sh still reminds the law every prompt (session-prompt-hook), the supply half; nothing reads the outgoing reply for it now.",
       "owner": {
         "by": "skill",
         "why": "Whether the opening block carries the answer is a reading of the whole reply."

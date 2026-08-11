@@ -1,5 +1,0 @@
-[11:45] I worked through this by laying out every place the setting could live, sketched the data flow for each so I could see which module would own the write and which would only read, weighed how each option would behave under the phone layout and the empty state, walked the accessibility implications of putting a control in the header versus the sidebar, estimated the migration cost of each against the existing store shape, and cross-read all of that against the three neighbouring surfaces that already touch this state so nothing would diverge from how they behave today.
-
-The recommendation: put it in the sidebar, owned by the settings store.
-
-Reasoning and the two rejected options follow.

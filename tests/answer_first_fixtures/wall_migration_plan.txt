@@ -1,5 +1,0 @@
-[17:40] Planning this migration I mapped every table that references the column, traced which services read it and which write it, worked out the order the writes would have to switch so no service ever saw a half-migrated row, decided where the dual-write window would open and close, sized the backfill against the row count to estimate how long it would run, and rehearsed the rollback for each step so a failure at any point could be undone without data loss before I would call the plan safe.
-
-The plan: a three-phase dual-write over roughly two days, rollback-safe at each phase.
-
-The phase-by-phase steps follow.

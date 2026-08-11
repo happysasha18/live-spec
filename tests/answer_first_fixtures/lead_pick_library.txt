@@ -1,3 +1,0 @@
-[10:15] Pick the second library: faster tail latency and a permissive license that fits how you ship.
-
-I ran the same workload through each under identical load. Throughput was within a few percent, but the second library's tail latency was roughly half the first's at the 99th percentile. Its changelog shows steady maintenance over the past year, and its open issues are mostly feature requests rather than correctness bugs. The bundle-size difference is negligible. The full comparison table is below.

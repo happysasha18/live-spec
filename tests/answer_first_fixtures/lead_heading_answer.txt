@@ -1,3 +1,0 @@
-[08:20] ## Result: the deploy is green and live in production.
-
-The push triggered the CI run, which passed all 921 tests, and the health check on the deployed URL returns a clean 200 with the new version string. I re-shot the README screenshot since the output changed, and it reads at least as well as before. Nothing else regressed. The run link and the before/after screenshots are below for a quick look.

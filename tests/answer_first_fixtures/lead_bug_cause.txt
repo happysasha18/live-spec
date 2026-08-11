@@ -1,3 +1,0 @@
-[16:20] The cause is a timezone applied twice, so any timestamp after midnight UTC shifts a day forward.
-
-I reproduced it by pinning the CI seed, then bisected the last twelve commits to the point the red first appeared. Instrumenting the suspect function showed the offset being added in both the parser and the formatter. The one-line fix removes the second application, and a regression test now pins a post-midnight timestamp through the full round-trip. The staged diff and the red-first test are ready for review.

@@ -31,9 +31,9 @@ done
 DEST_DIR="$HOME/.claude/hooks"
 SETTINGS="$HOME/.claude/settings.json"
 
-# The universal files this script ships: the scissors scan, the answer-first arm, the hedge scan, and
-# the register-judge mechanism + arms.
-JUDGE_FILES="scissors-scan.py answer-first-scan.py hedge-scan.py affirmation-scan.py code-anchor-scan.py midturn-chat-scan.py chat-calques.json answer-first-scan.json language-laws.json turn_reader.py register_judge_core.py register-judge.py register-judge-collect.sh register-judge-report.sh"
+# The universal files this script ships: the scissors scan, the hedge scan, and the register-judge
+# mechanism + arms.
+JUDGE_FILES="scissors-scan.py hedge-scan.py affirmation-scan.py code-anchor-scan.py midturn-chat-scan.py chat-calques.json language-laws.json turn_reader.py register_judge_core.py register-judge.py register-judge-collect.sh register-judge-report.sh"
 
 if [ "$DRY_RUN" = "1" ]; then
   for f in $JUDGE_FILES; do
@@ -43,7 +43,7 @@ if [ "$DRY_RUN" = "1" ]; then
       echo "DRY-RUN: would copy $DIR/hooks/$f -> $DEST_DIR/$f"
     fi
   done
-  echo "DRY-RUN: would wire Stop hooks 'scissors-scan.py' + 'answer-first-scan.py' + 'hedge-scan.py' + 'register-judge-collect.sh' into $SETTINGS (if absent)."
+  echo "DRY-RUN: would wire Stop hooks 'scissors-scan.py' + 'hedge-scan.py' + 'register-judge-collect.sh' into $SETTINGS (if absent)."
   echo "DRY-RUN: would wire PreToolUse hook 'midturn-chat-scan.py' into $SETTINGS (if absent)."
   echo "DRY-RUN: would wire UserPromptSubmit hook 'register-judge-report.sh' into $SETTINGS (if absent)."
   echo "DRY-RUN: scissors-personal.json, hedge-personal.json, and register-judge-personal.md are never touched by this script."
@@ -78,7 +78,6 @@ def wire(event, needle, cmd):
         print("installed: %s hook %s wired" % (event, needle))
 
 wire("Stop", "scissors-scan.py", "python3 ~/.claude/hooks/scissors-scan.py")
-wire("Stop", "answer-first-scan.py", "python3 ~/.claude/hooks/answer-first-scan.py")
 wire("Stop", "hedge-scan.py", "python3 ~/.claude/hooks/hedge-scan.py")
 wire("Stop", "affirmation-scan.py", "python3 ~/.claude/hooks/affirmation-scan.py")
 wire("Stop", "code-anchor-scan.py", "python3 ~/.claude/hooks/code-anchor-scan.py")

@@ -1731,7 +1731,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 1. *when* the walk meets a tunable knob, the system *shall* set it to a default value, choosing the cheaper or faster point wherever quality allows, write it with its `[default]` tag, and name in the delivery report what it trades. [INV-70, INV-31, INV-18]
    [GAP: the quality bar that permits the cheaper point is unstated in the source.]
-2. The system *shall* owe no re-ask, letting the human tune the knob afterward and updating it together at most, the same idea the economy ladder applies to cost. [INV-70, T-19]
+2. The system *shall* owe no re-ask, letting the human tune the knob afterward and updating it together at most, the same idea the economy ladder applies to cost. [INV-70] [T-19]
 
 **Case: the agent moves every task it can**
 
@@ -5492,37 +5492,25 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 4. *when* the seat finishes a turn on the chat surface, a Stop arm *shall* dispatch every message shown since the last human turn, and a prompt-submit arm *shall* report the verdict at the person's next message. [INV-203]
 5. *when* a styled file is about to be shown, the same judge *shall* stand as the ceiling of the pre-show register gate pointed at that file. [INV-83, INV-203]
 6. The contrast-frame scan, the hedge scan, the code-anchor scan, the empty-validation scan, and the tool-boundary scan *shall* each read every message shown since the last human turn through the shared full-turn reader, the reach the register judge's Stop arm carries. [INV-281, INV-203]
-7. The answer-first arm *shall* read only the final reply, the one net that stands clear of the inter-tool narration lines. [INV-281, INV-220]
 
 **Case: the judge stands down on its own breakage**
 
-8. *if* the judge's own machinery breaks — a missing binary, a timeout, a non-zero exit, or a shape it cannot read — *then* the system *shall* leave the literal-list verdict standing rather than red, so a guard cannot train the guarded to route around it. [INV-203]
-9. A scan reading through the shared full-turn reader *shall* stand down *where* the stop hook is already active, or the event payload or the turn's record cannot be read. [INV-281]
+7. *if* the judge's own machinery breaks — a missing binary, a timeout, a non-zero exit, or a shape it cannot read — *then* the system *shall* leave the literal-list verdict standing rather than red, so a guard cannot train the guarded to route around it. [INV-203]
+8. A scan reading through the shared full-turn reader *shall* stand down *where* the stop hook is already active, or the event payload or the turn's record cannot be read. [INV-281]
 
 ---
 
-## Requirement 231: The answer-first arm reds a lead-less wall
+## Requirement 231: The answer-first arm reds a lead-less wall — retired
 
-**Context:** The answer-first law asks every reply to open with its answer in a few lines the reader may stop at, with reasoning underneath. Whether a text opens with its answer is undecidable, so the arm reds a measurable proxy: a reply over a length floor whose opening block is a wall with no short lead. It is honest about what it cannot see and corrects one message later.
+**Context:** The Stop-hook proxy this requirement specified ran 3,095 times against real turns with zero catches, a mechanized gate that never once fired. Its retirement is recorded in DECISIONS.md. The answer-first law itself is untouched — it stands permanently in the personal profile and is still reminded at every prompt by the chat-law hook (Requirement 230); only this requirement's own mechanized proxy is gone.
 
-**User Story:** As a person reading the seat's replies, I want a reply over the floor with no short lead flagged for a lead-first redo, so that a method-first wall is caught while a genuine lead-first reply is never falsely flagged.
+**User Story:** As a person who read 3,095 silent runs of this proxy with nothing caught, I want the dead machinery retired rather than left running unread, so that the pack carries no gate that never fires.
 
 ### Acceptance Criteria
 
-**Case: the proxy reds a lead-less wall**
+**Case: retired**
 
-1. *when* a reply runs past the length floor and its opening block fails all three lead signals — a short opening sentence, a short opening paragraph, or scannable opening structure — the system *shall* flag it and ask for a lead-first correction. [INV-220]
-2. The system *shall* read the length floor and the lead thresholds from the host's own tunable defaults, values the host may retune. [INV-70]
-
-**Case: honest about its reach**
-
-3. The system *shall* judge only whether an opening lead is present, and *shall* leave whether that lead answers the right question to the person. [INV-220]
-4. The system *shall* judge only the final reply the person reads, and *shall* leave the short inter-tool narration lines alone. [INV-220]
-
-**Case: a Stop-hook notice**
-
-5. *when* the arm fires, the system *shall* flag the previous reply and deliver the correction one message later, since a chat reply is already emitted and cannot be blocked. [INV-220]
-6. The system *shall* ship the arm as a universal pack hook covered by the config-health check, and *shall* have its runs and fires read by the net-liveness meter rather than trusted. [INV-175, INV-180, INV-202]
+1. The system *shall* carry no Stop-hook arm implementing this proxy; its former file stands retired at `attic/answer-first-scan.py`, never re-armed without a fresh decision. [INV-220]
 
 ---
 
@@ -7966,7 +7954,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-67 | R28.1, R28.2, R28.3, R29.1, R29.4, R186.4, R194.11, R253.3, R254.7, R255.6, R309.8 |
 | INV-68 | R152.1, R152.2, R152.3, R152.5, R152.6, R157.7, R158.3, R158.5 |
 | INV-69 | R17.7, R18.4, R206.2, R206.3, R206.4, R208.1, R208.2, R208.3, R208.4, R208.5, R208.6, R208.7, R210.1, R210.2, R219.3, R219.4, R220.10, R230.1, R233.4, R309.40, R309.78, R309.81 |
-| INV-70 | R72.1, R72.2, R72.3, R72.4, R131.1, R139.1, R211.1, R231.2, R232.5 |
+| INV-70 | R72.1, R72.2, R72.3, R72.4, R131.1, R139.1, R211.1, R232.5 |
 | INV-71 | R29.1, R29.2, R29.3, R29.4, R309.5, R309.6, R309.86, R309.87, R309.88 |
 | INV-72 | R65.1, R67.1, R175.7, R258.3, R259.1, R259.2, R259.3, R259.4, R260.3, R261.4, R261.6, R261.7, R262.3, R263.4, R263.6, R265.8 |
 | INV-73 | R87.3, R194.1, R224.2 |
@@ -8071,12 +8059,12 @@ The code-to-location table below is generated output, built from the body criter
 | INV-172 | R188.10, R268.1, R268.2, R268.3, R268.4, R268.5, R268.6, R272.2, R275.2 |
 | INV-173 | R133.3, R135.3, R232.1, R269.1, R269.2, R269.3, R269.4, R269.5, R275.3, R294.4, R301.12 |
 | INV-174 | R195.2, R253.4, R253.5, R270.5 |
-| INV-175 | R231.6, R246.4, R270.1, R270.2, R270.3, R270.4, R270.5, R271.1, R271.2, R271.4, R275.3, R292.3, R292.7, R294.4 |
+| INV-175 | R246.4, R270.1, R270.2, R270.3, R270.4, R270.5, R271.1, R271.2, R271.4, R275.3, R292.3, R292.7, R294.4 |
 | INV-176 | R246.7, R272.1, R272.2, R272.3 |
 | INV-177 | R188.10, R188.11, R228.5, R275.2 |
 | INV-178 | R242.3, R273.1, R273.2, R274.7, R275.4 |
 | INV-179 | R157.5 |
-| INV-180 | R231.6, R275.1, R275.2, R275.3, R275.4, R275.5, R275.6 |
+| INV-180 | R275.1, R275.2, R275.3, R275.4, R275.5, R275.6 |
 | INV-181 | R148.1, R148.2, R148.3 |
 | INV-182 | R189.4, R189.5, R196.5, R197.9 |
 | INV-183 | R95.2, R135.2, R190.1, R190.2, R190.3, R190.8, R191.2, R194.6, R195.9, R195.14 |
@@ -8098,8 +8086,8 @@ The code-to-location table below is generated output, built from the body criter
 | INV-199 | R86.1, R86.2, R86.3, R86.4, R86.5 |
 | INV-200 | R87.1, R87.2, R87.3 |
 | INV-201 | R83.2, R88.1, R88.2, R88.3, R88.4, R88.5, R88.6 |
-| INV-202 | R229.1, R229.2, R229.3, R229.4, R231.6, R232.7, R233.5, R294.4 |
-| INV-203 | R18.4, R18.5, R19.3, R134.2, R135.3, R230.1, R230.2, R230.3, R230.4, R230.5, R230.6, R230.8, R232.7, R233.2, R233.6, R294.2, R294.3, R300.5 |
+| INV-202 | R229.1, R229.2, R229.3, R229.4, R232.7, R233.5, R294.4 |
+| INV-203 | R18.4, R18.5, R19.3, R134.2, R135.3, R230.1, R230.2, R230.3, R230.4, R230.5, R230.6, R230.7, R232.7, R233.2, R233.6, R294.2, R294.3, R300.5 |
 | INV-204 | R117.6, R234.1, R234.2, R234.3, R234.4, R235.4, R236.4 |
 | INV-205 | R236.1, R236.2, R236.3, R236.4, R238.4, R239.3, R240.3 |
 | INV-206 | R94.3, R237.1, R237.2, R237.3, R237.4, R237.5, R241.3, R309.17, R309.18, R309.39 |
@@ -8116,7 +8104,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-217 | R191.5, R215.2, R274.1, R274.2, R274.3, R274.4, R274.5, R274.6, R274.7 |
 | INV-218 | R113.1, R113.2, R303.29, R303.30, R303.32, R301.18, R301.19, R302.7, R302.14, R306.13 |
 | INV-219 | R193.13 |
-| INV-220 | R135.3, R230.7, R231.1, R231.3, R231.4, R231.5 |
+| INV-220 | R135.3, R231.1 |
 | INV-221 | R135.1, R135.2, R135.3, R230.3 |
 | INV-222 | R5.3, R5.4, R5.5, R94.1, R94.2, R94.3, R94.4, R95.3, R196.11, R239.1, R257.4, R309.4, R309.23, R309.25 |
 | INV-223 | R5.5, R94.3, R239.1, R239.2, R239.3, R239.4, R309.23 |
@@ -8177,7 +8165,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-278 | R289.1, R289.2, R289.3, R289.4, R289.5, R289.6 |
 | INV-279 | R290.1, R290.2, R290.3, R290.4, R290.5 |
 | INV-280 | R291.1, R291.2, R291.3 |
-| INV-281 | R230.6, R230.7, R230.9 |
+| INV-281 | R230.6, R230.8 |
 | INV-282 | R292.1, R292.2, R292.3, R292.4, R292.5, R292.6, R292.7, R292.8 |
 | INV-283 | R293.1, R293.2, R293.3, R293.4, R293.5, R293.6, R293.7, R293.8, R295.2 |
 | INV-284 | R294.1, R294.2, R294.3, R294.4 |

@@ -1,3 +1,0 @@
-[12:00] Done: the export now includes the per-item tax breakdown, and the totals reconcile to the invoice.
-
-The change adds a tax column to each row and a footer that sums it, and I verified the footer matches the invoice total on three real orders. The number formatting follows the same locale rules as the rest of the sheet. A test drives a real export and asserts the reconciliation. It is staged and green.

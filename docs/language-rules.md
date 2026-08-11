@@ -700,15 +700,6 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 - `a report opening with the method it ran, and the finding in its last paragraph` → `the finding in the opening lines, and the method underneath it`
 
-**Thresholds.** reply_chars_above_which_a_lead_is_required = 550.
-
-**The lists this rule names.**
-
-- *the lead signals, any one of which counts a lead as present* — 3 members, read at build time from `hooks/answer-first-scan.json` under `lead_signals`; the reply fires only when every one of them fails:
-    - the opening sentence runs to 220 characters or fewer, ending at the first `.`, `!`, `?`, `:` or newline
-    - the opening block — everything up to the first blank line — runs to 450 characters or fewer
-    - the opening block is scannable structure: a heading, a bulleted or numbered list item, a blockquote, or a table row
-
 ### r47 — a clock time in a reply read from anywhere but the clock
 
 **Rule.** Every reply leads with a bracketed clock time, and every moment spoken to the human is read off the clock at write time.
