@@ -2,11 +2,11 @@
 
 Generated 2026-08-11 by `python3 scripts/progress-report.py`.
 
-Since the last run on 2026-08-11, total findings changed by 0 and documents at zero changed by 0.
+Since the last run on 2026-08-11, total findings changed by -5 and documents at zero changed by 0.
 
 ## Where the two promises stand
 
-Promise one, a reader gets through a document without stopping, measures 4,876 open writing findings across the live set today.
+Promise one, a reader gets through a document without stopping, measures 4,871 open writing findings across the live set today.
 
 Promise two, the specification stops growing, measures PRODUCT_SPEC.md at 702,715 bytes against its 840,000-byte ceiling today.
 
@@ -40,7 +40,7 @@ Three members carry no entry in the findings record: `hooks/chat-law-hook.sh` an
 | # | document | findings today | measured clean | read clean | state |
 |---|---|---|---|---|---|
 | 5 | `skills/text-audit/SKILL.md` | 0 | yes | no | waiting |
-| 6 | `docs/language-rules.md` | 38 | no | no | waiting |
+| 6 | `docs/language-rules.md` | 37 | no | no | waiting |
 | 7 | `docs/spec-style.md` | 65 | no | no | waiting |
 | 8 | `docs/spec-format.md` | 16 | no | no | waiting |
 | 9 | `docs/language-worked-example.md` | 8 | no | no | waiting |
@@ -75,7 +75,7 @@ Three members carry no entry in the findings record: `hooks/chat-law-hook.sh` an
 
 | # | document | findings today | measured clean | read clean | state |
 |---|---|---|---|---|---|
-| 21 | `PRODUCT_SPEC.md` | 1,865 | no | no | waiting |
+| 21 | `PRODUCT_SPEC.md` | 1,863 | no | no | waiting |
 | 22 | `ARCHITECTURE.md` | 0 | yes | no | waiting |
 | 23 | `TEST_MATRIX.md` | 76 | no | no | waiting |
 
@@ -94,7 +94,7 @@ Three members carry no entry in the findings record: `hooks/chat-law-hook.sh` an
 | 27 | `editions/product-prover/examples/sample-review-run-2.md` | 186 | no | no | waiting |
 | 28 | `editions/product-prover/examples/sample-review-run-1.md` | 157 | no | no | waiting |
 | 29 | `docs/prior-art-frameworks.md` | 112 | no | no | waiting |
-| 30 | `docs/language-rule-coverage.md` | 101 | no | no | waiting |
+| 30 | `docs/language-rule-coverage.md` | 99 | no | no | waiting |
 | 31 | `docs/restyle-repoint-log.md` | 83 | no | no | waiting |
 | 32 | `docs/prior-art-longtail.md` | 78 | no | no | waiting |
 | 33 | `docs/plans/2026-08-07-recovery-plan.md` | 61 | no | no | waiting |
@@ -198,7 +198,7 @@ The counts below come from the record `guardrails/rule-census.json`. It states w
 | measure | today | recorded before | target |
 |---|---|---|---|
 | live documents measured | 122 | 108 | all of them |
-| writing findings across all documents | 4,876 | 4,810 | 0 |
+| writing findings across all documents | 4,871 | 4,810 | 0 |
 | documents at zero findings | 22 | 16 | all |
 | documents that passed two consecutive readings with nothing blocking | 0 | not stated | all |
 
@@ -206,7 +206,7 @@ The fifteen documents carrying the most findings:
 
 | document | findings | of which long sentences | style | longest sentence | readings run | passed |
 |---|---|---|---|---|---|---|
-| `PRODUCT_SPEC.md` | 1,865 | 1,865 | 0 | 80 | 0 | no |
+| `PRODUCT_SPEC.md` | 1,863 | 1,863 | 0 | 80 | 0 | no |
 | `skills/build-pipeline/SKILL.md` | 256 | 136 | 120 | 198 | 0 | no |
 | `ROADMAP.md` | 215 | 8 | 207 | 242 | 0 | no |
 | `editions/product-prover/examples/sample-review-run-2.md` | 186 | 140 | 46 | 68 | 0 | no |
@@ -214,7 +214,7 @@ The fifteen documents carrying the most findings:
 | `editions/product-prover/examples/sample-review-run-1.md` | 157 | 114 | 43 | 63 | 0 | no |
 | `docs/prior-art-frameworks.md` | 112 | 7 | 105 | 42 | 0 | no |
 | `skills/spec-author/SKILL.md` | 112 | 112 | 0 | 99 | 0 | no |
-| `docs/language-rule-coverage.md` | 101 | 79 | 22 | 81 | 0 | no |
+| `docs/language-rule-coverage.md` | 99 | 77 | 22 | 81 | 0 | no |
 | `docs/restyle-repoint-log.md` | 83 | 20 | 63 | 78 | 0 | no |
 | `docs/prior-art-longtail.md` | 78 | 15 | 63 | 53 | 0 | no |
 | `TEST_MATRIX.md` | 76 | 8 | 68 | 46 | 0 | no |

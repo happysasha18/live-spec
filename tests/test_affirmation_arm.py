@@ -4,8 +4,7 @@
 F4 (2026-07-27 prover record): affirmation-scan.py ships to every adopter through
 scripts/install-pack-hooks.sh (JUDGE_FILES + a wired Stop hook), with one red fixture in
 guardrails/hook-red-proofs.json and no test module of its own. Every sibling scan carries a
-dedicated module holding both directions — the hedge arm (tests/test_hedge_arm.py), the
-answer-first arm (tests/test_answer_first_arm.py). A Stop hook that blocks every turn is paid for
+dedicated module holding both directions — the hedge arm (tests/test_hedge_arm.py). A Stop hook that blocks every turn is paid for
 by the human on the FALSE-POSITIVE direction most of all, so that direction gets the larger share
 of cases here.
 

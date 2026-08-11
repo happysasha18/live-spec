@@ -2,7 +2,6 @@
 # Installs the canonical pack hooks (SPEC INV-173) on this machine, universal tier only. Idempotent:
 # re-running changes nothing once installed. These mechanisms ship here:
 #   - the scissors-scan Stop hook (the literal contrast-frame scan);
-#   - the answer-first arm (a lead-less wall notice, SPEC INV-220);
 #   - the hedge-scan Stop hook (the literal offering-hedge scan, SPEC INV-238);
 #   - the affirmation-scan Stop hook (validation and praise of the human);
 #   - the code-anchor Stop hook (a queue row number left standing where plain words belong);

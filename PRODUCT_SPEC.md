@@ -5528,9 +5528,9 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 ## Requirement 231: The answer-first arm reds a lead-less wall — retired
 
-**Context:** The Stop-hook proxy this requirement specified ran 3,095 times against real turns with zero catches, a mechanized gate that never once fired. Its retirement is recorded in DECISIONS.md. The answer-first law itself is untouched — it stands permanently in the personal profile and is still reminded at every prompt by the chat-law hook (Requirement 230); only this requirement's own mechanized proxy is gone.
+**Context:** The Stop-hook proxy this requirement specified ran against real turns with zero catches, a mechanized gate that never once fired. Its retirement is recorded in DECISIONS.md. The answer-first law itself is untouched — it stands permanently in the personal profile and is still reminded at every prompt by the chat-law hook (Requirement 230); only this requirement's own mechanized proxy is gone.
 
-**User Story:** As a person who read 3,095 silent runs of this proxy with nothing caught, I want the dead machinery retired rather than left running unread, so that the pack carries no gate that never fires.
+**User Story:** As a person who read the silent runs of this proxy with nothing caught, I want the dead machinery retired rather than left running unread, so that the pack carries no gate that never fires.
 
 ### Acceptance Criteria
 

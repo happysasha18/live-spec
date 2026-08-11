@@ -12,7 +12,7 @@
 # (command form + data files, so the declaration stays the one home for what is wired — never a second
 # hand-kept list here), then CHAINS to scripts/install-pack-hooks.sh for the other eight. That script
 # already carries its own tests pinned to its literal source (tests/test_register_judge.py,
-# tests/test_hedge_arm.py, tests/test_answer_first_arm.py, tests/test_affirmation_arm.py,
+# tests/test_hedge_arm.py, tests/test_affirmation_arm.py,
 # tests/test_midturn_chat_scan.py), so it is chained rather than rewritten — the ONE command below
 # still reaches all ten.
 #

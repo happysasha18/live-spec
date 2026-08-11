@@ -15,7 +15,7 @@ revision awaiting his «принято»: `.live-spec/culling-plan-v3-2026-08-10
 live-spec session works on this plan until it is accepted and executed. An interrupted session
 changes nothing: the next one resumes the same plan at the same step. Every status line is phrased
 in the plan's own step codes (U/R/D/S/C). The plan file itself carries execution statuses — done /
-in work / waiting — kept current by point edits with delta pages (his word 2026-08-11 ~14:55). If
+in work / waiting. Point edits with delta pages keep it current (his word 2026-08-11 ~14:55). If
 Alexander himself asks for work outside the plan, the session answers with one line naming the
 unfinished plan. It then asks whether to fold the request in or set the plan aside by his word.
 The page he reads is the claude.ai artifact rendering the v3 file; regenerate it from the
@@ -25,8 +25,8 @@ ordered directly. His 11:08 «давай все по некст степс» was
 
 **Where it stands, 16:41.** Phases 0 and R are closed, R7 included. The R7 escort inventory sits
 at `.live-spec/escort-inventory-R7-2026-08-11.md` (`fa6d6a9`): 41 mandated escorts — 21 from his
-dated word, 11 derived, 9 invented. Prior R-step numbers (R2 6,363 bytes / 37 groups, R5 46,100
-bytes / 307 tests, R3 51-of-88 unenforced) live in the plan's stamped steps and the journal. The
+dated word, 11 derived, 9 invented. Prior R-step numbers live in the plan's stamped steps and the journal. They are R2 6,363 bytes /
+37 groups, R5 46,100 bytes / 307 tests, R3 51-of-88 unenforced. The
 sitting's rulings, after his second and third passes (`DECISIONS.md`): D1 yes. D3 keep. D4
 executed — one review record per push, read by one gate; gate ac and Requirement 305 retired
 (`06cf3ae`). D5 yes and executed — verification after each real change, no schedule, the
@@ -45,7 +45,7 @@ The problem ledger holds a new WATCHED line: parallel pytest runs share /tmp and
 leaked-temp gates on a neighbour's files.
 
 **Runnable next.** The verdict-line repair commit lands. Then a fresh clean-context agent writes
-the ONE range review record in the merged form, covering every unpushed commit
+the one range review record in the merged form, covering every unpushed commit
 (`git rev-list --count origin/main..HEAD`). On green: push, then `scripts/sync-mirrors.sh` and
 the edition publish — both were held back so no unreviewed content leaves the machine. The
 rule-30 removal waits his «делай». Phase 2 batches wait the plan's «принято»; phase 3 opens on

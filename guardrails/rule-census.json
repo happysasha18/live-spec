@@ -3,7 +3,7 @@
   "cap_rule": "r08",
   "files": {
     "ARCHITECTURE.md": {
-      "bytes": 106121,
+      "bytes": 106031,
       "file": "ARCHITECTURE.md",
       "long": 0,
       "longest": 25,
@@ -12,7 +12,7 @@
       "total": 0
     },
     "NEXT_STEPS.md": {
-      "bytes": 4822,
+      "bytes": 7245,
       "file": "NEXT_STEPS.md",
       "long": 0,
       "longest": 25,
@@ -30,7 +30,7 @@
       "total": 8
     },
     "PRODUCT_SPEC.index.md": {
-      "bytes": 28170,
+      "bytes": 28083,
       "file": "PRODUCT_SPEC.index.md",
       "long": 0,
       "longest": 0,
@@ -39,14 +39,14 @@
       "total": 0
     },
     "PRODUCT_SPEC.md": {
-      "bytes": 703738,
+      "bytes": 702715,
       "file": "PRODUCT_SPEC.md",
-      "long": 1865,
+      "long": 1863,
       "longest": 80,
       "reason": "2026-08-06: the work-board requirement (row 166, Requirement 309) took a third widening pass to 99 criteria; the added criteria are single-sentence rules past the 25-word cap, and style and register stand at zero.",
       "register": 0,
       "style": 0,
-      "total": 1865
+      "total": 1863
     },
     "README.md": {
       "bytes": 13342,
@@ -58,7 +58,7 @@
       "total": 13
     },
     "ROADMAP.md": {
-      "bytes": 251959,
+      "bytes": 252164,
       "file": "ROADMAP.md",
       "long": 8,
       "longest": 242,
@@ -76,7 +76,7 @@
       "total": 3
     },
     "TEST_MATRIX.md": {
-      "bytes": 484806,
+      "bytes": 484287,
       "file": "TEST_MATRIX.md",
       "long": 8,
       "longest": 46,
@@ -202,22 +202,22 @@
       "total": 37
     },
     "docs/language-rule-coverage.md": {
-      "bytes": 90005,
+      "bytes": 89803,
       "file": "docs/language-rule-coverage.md",
-      "long": 79,
+      "long": 77,
       "longest": 81,
       "register": 0,
       "style": 22,
-      "total": 101
+      "total": 99
     },
     "docs/language-rules.md": {
-      "bytes": 58537,
+      "bytes": 57896,
       "file": "docs/language-rules.md",
-      "long": 30,
+      "long": 29,
       "longest": 89,
       "register": 0,
       "style": 8,
-      "total": 38
+      "total": 37
     },
     "docs/language-worked-example.md": {
       "bytes": 24391,
@@ -535,7 +535,7 @@
       "total": 1
     },
     "editions/product-prover/SKILL.md": {
-      "bytes": 48972,
+      "bytes": 47714,
       "file": "editions/product-prover/SKILL.md",
       "long": 0,
       "longest": 25,
@@ -571,7 +571,7 @@
       "total": 6
     },
     "editions/product-prover/reference/stress-lenses.md": {
-      "bytes": 29253,
+      "bytes": 28972,
       "file": "editions/product-prover/reference/stress-lenses.md",
       "long": 0,
       "longest": 25,
@@ -580,7 +580,7 @@
       "total": 0
     },
     "guardrails/README.md": {
-      "bytes": 21101,
+      "bytes": 21595,
       "file": "guardrails/README.md",
       "long": 29,
       "longest": 68,
@@ -661,7 +661,7 @@
       "total": 10
     },
     "skills/build-pipeline/SKILL.md": {
-      "bytes": 64194,
+      "bytes": 64220,
       "file": "skills/build-pipeline/SKILL.md",
       "long": 136,
       "longest": 198,
@@ -778,7 +778,7 @@
       "total": 11
     },
     "skills/communicator/references/words.md": {
-      "bytes": 6533,
+      "bytes": 6844,
       "file": "skills/communicator/references/words.md",
       "long": 4,
       "longest": 57,
@@ -805,7 +805,7 @@
       "total": 16
     },
     "skills/design-reviewer/SKILL.md": {
-      "bytes": 27827,
+      "bytes": 28021,
       "file": "skills/design-reviewer/SKILL.md",
       "long": 0,
       "longest": 25,
@@ -823,7 +823,7 @@
       "total": 3
     },
     "skills/feedback-collector/SKILL.md": {
-      "bytes": 7544,
+      "bytes": 7889,
       "file": "skills/feedback-collector/SKILL.md",
       "long": 3,
       "longest": 34,
@@ -841,7 +841,7 @@
       "total": 6
     },
     "skills/feedback-intake/SKILL.md": {
-      "bytes": 7088,
+      "bytes": 7439,
       "file": "skills/feedback-intake/SKILL.md",
       "long": 12,
       "longest": 49,
@@ -877,7 +877,7 @@
       "total": 0
     },
     "skills/product-prover/SKILL.md": {
-      "bytes": 66872,
+      "bytes": 67412,
       "file": "skills/product-prover/SKILL.md",
       "long": 0,
       "longest": 25,
@@ -895,7 +895,7 @@
       "total": 6
     },
     "skills/publish/SKILL.md": {
-      "bytes": 13169,
+      "bytes": 13547,
       "file": "skills/publish/SKILL.md",
       "long": 32,
       "longest": 85,
@@ -913,7 +913,7 @@
       "total": 11
     },
     "skills/spec-author/SKILL.md": {
-      "bytes": 62599,
+      "bytes": 63033,
       "file": "skills/spec-author/SKILL.md",
       "long": 112,
       "longest": 99,
@@ -931,7 +931,7 @@
       "total": 8
     },
     "skills/test-author/SKILL.md": {
-      "bytes": 18533,
+      "bytes": 18935,
       "file": "skills/test-author/SKILL.md",
       "long": 35,
       "longest": 91,
@@ -949,7 +949,7 @@
       "total": 0
     },
     "skills/text-audit/SKILL.md": {
-      "bytes": 30365,
+      "bytes": 30795,
       "file": "skills/text-audit/SKILL.md",
       "long": 0,
       "longest": 25,

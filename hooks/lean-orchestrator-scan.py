@@ -25,7 +25,7 @@ THE SIGNAL fires (a block+suppressOutput Stop decision, the soft-signal shape th
 [INV-238]) when cumulative inline raw content is at or over the threshold AND the dispatch count is zero.
 The dispatch-count-zero gate is the honest false-positive floor: a session that spawned even one worker is
 demonstrably delegating, so the soft signal steps aside rather than second-guess the mix — the same
-conservative stance the answer-first arm takes [INV-220]. It catches the pure-hoard case the rule actually
+conservative stance the retired answer-first arm took [INV-220]. It catches the pure-hoard case the rule actually
 names (the seat does all the reading itself and never dispatches) and is honest that a mixed session slips
 by, the way the hedge scan's literal net trails the class [INV-203]. The net naturally CLEARS the moment the
 seat dispatches its first worker.

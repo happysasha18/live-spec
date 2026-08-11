@@ -31,7 +31,7 @@ escape behind the next word [INV-173, INV-203]. The class itself — a hedge in 
 against whether the act was actually derivable — is held by the bucket-1 conduct judge that reads
 the turn's action trace, not by this literal net. And this is a Stop-hook notice: the reply is
 already emitted when it fires, so it flags the previous reply and asks for a rewrite that reaches
-the human one message later, the same one-turn floor the answer-first arm carries [INV-220].
+the human one message later, the same one-turn floor the retired answer-first arm carried [INV-220].
 """
 import json
 import os
