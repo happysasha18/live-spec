@@ -81,4 +81,13 @@ if [ "$recorded_sha" != "$current_sha" ]; then
   exit 1
 fi
 
+# Plan-delta guard — his word of 2026-08-10 (DECISIONS.md), the one granted exception to the
+# cutting campaign's rule 2. A commit that changes the campaign plan file must stage a delta
+# page rooting every changed hunk. The guard stands down in a tree that has no guard script
+# (scratch repos, other hosts), and stands down inside the script when the plan is not staged.
+plan_guard="$(git rev-parse --show-toplevel)/.live-spec/check-plan-delta.sh"
+if [ -f "$plan_guard" ]; then
+  bash "$plan_guard" || exit 1
+fi
+
 exit 0

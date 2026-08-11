@@ -8,21 +8,21 @@ lives in `JOURNAL.md`.
 
 Written for a session starting with clean context.
 
-**ONE PLAN — standing order, his word 2026-08-10 21:26.** The only plan is the cutting campaign.
+**One plan — the standing order, his word 2026-08-10 21:26.** The only plan is the cutting campaign.
 Base: `.live-spec/culling-plan-2026-08-08.md`, frozen, the record of what was ordered. Executing
 revision awaiting his «принято»: `.live-spec/culling-plan-v3-2026-08-10.md` (Russian, his word of
 21:12; its line-by-line provenance sweep is `.live-spec/plan-v3-sweep-2026-08-10.md`). Every
 live-spec session works on this plan until it is accepted and executed. An interrupted session
 changes nothing: the next one resumes the same plan at the same step. Every status line is phrased
 in the plan's own step codes (U/R/D/S/C). If Alexander himself asks for work outside the plan, the
-session answers with one line naming the unfinished plan and asks whether to fold the request into
-the plan or set the plan aside by his word. The page he reads is the claude.ai artifact rendering
+session answers with one line naming the unfinished plan. It then asks whether to fold the request
+in or set the plan aside by his word. The page he reads is the claude.ai artifact rendering
 the v3 file; regenerate it from the committed file only.
 
-**Where it stands.** Phase 0 of v3 is closed: the missing architecture review record landed
-(`docs/prover/2026-08-10-architecture-wall-time-row.md`), commit `2121b91` went green (2,490 passed,
-0 failed), the adversarial range review found no blocker
-(`docs/push-review/2026-08-10-the-repaired-range.md`), and the push landed at 21:35 — 31 commits,
+**Where it stands.** Phase 0 of v3 is closed. The missing architecture review record landed
+(`docs/prover/2026-08-10-architecture-wall-time-row.md`), and commit `2121b91` went green: 2,490
+passed, 0 failed. The adversarial range review found no blocker
+(`docs/push-review/2026-08-10-the-repaired-range.md`). The push landed at 21:35 — 31 commits,
 `ba479b6..e82da27`, every gate green. Rules cut: 0 of 88. Checks removed and still gone: 1 of 31.
 
 **What waits on him.** The nine rulings D1–D9 on the v3 plan page, each carrying a recommendation,
@@ -30,12 +30,13 @@ one sitting. Phase R of v3 — six items his written word already covers, listed
 waiting.
 
 **Debts recorded by the 2026-08-10 push review.** Findings 6, 7, 9 and 10 of the 2026-08-09
-push-review record still stand (219 vs 218; gate s greening on a 2026-07-17 record; a retired
-R303.19 citation; "ten skill folders" vs 11; ROADMAP row 522's gate ab citation). The push-review
-house format in `docs/push-review/README.md` differs from what gate ac's in-push arms actually
-parse — worth a queue row. Post-push hook warns: `editions/product-prover/` is older than
-`skills/product-prover/` — carry the newer work into the edition and commit it; mirror sync did not
-complete, run `scripts/sync-mirrors.sh` by hand.
+push-review record still stand. They cover 219 vs 218, gate s greening on a 2026-07-17 record, and a
+retired R303.19 citation. Two more: "ten skill folders" vs 11, and ROADMAP row 522's gate ab
+citation. The
+push-review house format in `docs/push-review/README.md` differs from what gate ac's in-push arms
+actually parse — worth a queue row. The post-push hook warns that `editions/product-prover/` is
+older than `skills/product-prover/`: carry the newer work into the edition and commit it. Mirror
+sync did not complete; run `scripts/sync-mirrors.sh` by hand.
 
 **Three habits that cost 2026-08-09, named so the next session skips them.**
 1. His instruction and the tree's record disagreed. The session picked the record and worked on.
