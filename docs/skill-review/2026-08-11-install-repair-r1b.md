@@ -9,6 +9,11 @@ repair, and it wrote no file. Base rule 33 asks for that freshness. The unit clo
 `docs/skill-review/2026-08-11-install-repair-eight-files.md`: these two pages placed the product
 spec in the pack's tree, against the other nine.
 
+Verdict: passes after one repair the review forced. The blocking clause — an inherited
+run-from-root sentence with no home-tree distinction — is deleted in favor of each command naming
+its own tree, and the last unanchored "beside this one" in the family is repaired too; both pages
+now place PRODUCT_SPEC.md with the host, closing the class.
+
 First verdict: blocked, on one inherited sentence. The page's replacement for the false pack-root
 identification told the reader to run every command from the pack repository's root. The page's
 own reference card says an installed reader has no such root, and the lane-opening script must run

@@ -10,6 +10,12 @@ repair, and it wrote no file. Base rule 33 asks for that freshness. The 2026-08-
 was never filed — it survives only in that session's transcript — and this record closes that gap
 for the present round.
 
+Verdict: passes after one repair the review forced. The blocking clause — words.md's unanchored
+"beside this one" — and its twin in text-audit are both repaired, along with the four-page
+live-spec-base pointer gap and the redundant docs/deltas/ sentence; the six 2026-08-09 findings
+confirmed closed stay closed, and everything else left is a non-blocking standing finding recorded
+for another owner.
+
 First verdict: blocked, on one clause. Line 12 of words.md reused "beside this one" where the
 phrase resolves to the references/ folder, sending a reader into the wrong directory for the base
 skill — the exact reader failure the 2026-08-09 finding 3 described. Four pages also made loading
