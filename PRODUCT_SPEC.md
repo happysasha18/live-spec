@@ -3101,7 +3101,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: the nets it rests on**
 
-3. The system *shall* have the register judge read this class on the chat and document surfaces, and *shall* carry the law in the worker brief for the surface the judge does not read. [INV-221, INV-203, INV-173, INV-220]
+3. The system *shall* have the register judge read this class on the chat and document surfaces, and *shall* carry the law in the worker brief for the surface the judge does not read. [INV-221, INV-203, INV-173]
    - the register judge runs the regex pattern files as the cheap first pass ahead of the model judge, and those files are the universal list plus any host's own overlay;
    - the worker brief carries the law because chat and agent-to-agent text are emitted before any gate reads them.
 
