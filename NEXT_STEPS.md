@@ -36,9 +36,11 @@ at the next release: a host that adopted 2.0.0 still carries rule 30 (`DECISIONS
 **Scheduled and deferred.** D7 stays scheduled with him at the keyboard. D9, D10 and D11 are
 decided at campaign close.
 
-**Push pending at this stamp.** The review record `docs/prover/2026-08-12-the-rule-30-cut.md`
-covers the range; its two blockers are repaired by the commit carrying this block. The post-push
-line and the mirror sync land here after the push; the seat verifies both.
+**Pushed 04:20.** Nine commits, `dfa9f57..aec167a`, all gates green. One review record on the
+push, `docs/prover/2026-08-12-the-rule-30-cut.md`: three passes, five blockers raised and closed.
+The skill-review gate added three records mid-flight (`docs/skill-review/2026-08-12-*.md`, all
+three skills pass). Mirror sync ran post-push; every mirror reported "no mirror repo yet". The
+skill-review recommendations live as queue rows 590–593.
 
 **Three habits that cost 2026-08-09, named so the next session skips them.**
 1. His instruction and the tree's record disagreed. The session picked the record and worked on.

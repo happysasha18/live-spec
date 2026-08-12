@@ -6,7 +6,7 @@ Since the last run on 2026-08-12, total findings changed by 0 and documents at z
 
 ## Where the two promises stand
 
-Promise one, a reader gets through a document without stopping, measures 4,871 open writing findings across the live set today.
+Promise one, a reader gets through a document without stopping, measures 4,870 open writing findings across the live set today.
 
 Promise two, the specification stops growing, measures PRODUCT_SPEC.md at 702,784 bytes against its 840,000-byte ceiling today.
 
@@ -50,7 +50,7 @@ Three members carry no entry in the findings record: `hooks/chat-law-hook.sh` an
 | # | document | findings today | measured clean | read clean | state |
 |---|---|---|---|---|---|
 | 10 | `skills/live-spec-base/SKILL.md` | 74 | no | no | waiting |
-| 11 | `skills/build-pipeline/SKILL.md` | 256 | no | no | waiting |
+| 11 | `skills/build-pipeline/SKILL.md` | 255 | no | no | waiting |
 | 12 | `skills/communicator/SKILL.md` | 175 | no | no | waiting |
 
 ### 6. ROADMAP.md, read whenever a session picks up work
@@ -198,7 +198,7 @@ The counts below come from the record `guardrails/rule-census.json`. It states w
 | measure | today | recorded before | target |
 |---|---|---|---|
 | live documents measured | 122 | 108 | all of them |
-| writing findings across all documents | 4,871 | 4,810 | 0 |
+| writing findings across all documents | 4,870 | 4,810 | 0 |
 | documents at zero findings | 22 | 16 | all |
 | documents that passed two consecutive readings with nothing blocking | 0 | not stated | all |
 
@@ -207,7 +207,7 @@ The fifteen documents carrying the most findings:
 | document | findings | of which long sentences | style | longest sentence | readings run | passed |
 |---|---|---|---|---|---|---|
 | `PRODUCT_SPEC.md` | 1,863 | 1,863 | 0 | 80 | 0 | no |
-| `skills/build-pipeline/SKILL.md` | 256 | 136 | 120 | 198 | 0 | no |
+| `skills/build-pipeline/SKILL.md` | 255 | 135 | 120 | 198 | 0 | no |
 | `ROADMAP.md` | 215 | 8 | 207 | 242 | 0 | no |
 | `editions/product-prover/examples/sample-review-run-2.md` | 186 | 140 | 46 | 68 | 0 | no |
 | `skills/communicator/SKILL.md` | 175 | 84 | 91 | 97 | 0 | no |
