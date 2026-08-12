@@ -4,9 +4,58 @@ A digest with no redundancy (SPEC INV-48) — one live-state block, nothing remo
 information. One status block stands here at a time, and every update replaces it. Dated history
 lives in `JOURNAL.md`.
 
-## LIVE STATE (2026-08-12, 03:30)
+## LIVE STATE (2026-08-12, 09:51)
 
 Written for a session starting with clean context.
+
+**Stage 2 batch 2 and stage 3 both closed this morning.** Root: his instruction 2026-08-12 07:55 to
+run the next pass by the accepted plan. Batch 2 took base rule 32, because rule 31 stands first by
+price and waits for his ruling on the two senses of "owner" (queue rows 536/539), and the resume
+block's own fallback says to take the next rule by the day-1 census price. Rule 32 fell 2,205 →
+1,449 bytes with all ten requirements carried word for word, checked by a fresh reader against the
+inventory. Folded into the same batch: the retired rule number named at the rulebook's head, four
+restorations in rule 7, and the rule count removed from three unguarded copies. The rulebook stands
+at 72,466 bytes, down from 72,929 at the batch's open, so the batch's own test passes. Verdict
+lines: `.live-spec/batch2-verdicts-2026-08-12.md`. Stage 3 ran all three steps: evidence for the 25
+checks with no dated catch (the plan expected 24), verdicts of 18 keep / 6 repair / 1 already
+removed, and no removal executed — the plan permits removing one check, and the verdict recommends
+keeping it. Stage 3 as written cuts almost no volume; it yields six repairs and six questions.
+
+**Batch 3 starts on base rule 29** (2,138 bytes), the next-priced rule below 32 by the day-1 census,
+while rule 31 waits for his word.
+
+**Six questions wait for him**, written into `DECISIONS.md` under the stage-3 heading with the exact
+line each would take: the class ruling covering fifteen silent-rot keeps, and gates ae, n, p, o and
+ab. Row 536's "owner" ruling and his «принято» on the plan text for row 594 also stand open.
+
+**Also repaired in this pass.** The rule-price page's 53 pins re-derived, 48 of them stale, and the
+pin guard widened to read that page as well as `ARCHITECTURE.md`; its verdict word now matches its
+own findings. Thirteen pointers into the rulebook repointed after the rule edits moved lines. The
+progress page's generator stopped writing a run-to-run comparison, which is why that repair kept
+coming back. The mirror sync now tells an absent repository from a check that could not answer, and
+stops loudly on the second; the `product-prover` mirror exists and its content matches the pack.
+Stale volume figures corrected, and the "3,095" figure recorded in `DECISIONS.md` as a decision-time
+reading with no log behind it. The worker-restore gate carries the tlvphotos finding of 2026-08-12
+06:05:40, which the reply in `inbox/2026-08-12-tlvphotos-reply-worker-restore-finding.md` establishes
+was declined by the harness and cost nothing.
+
+**Three habits this pass paid for, named so the next session skips them.**
+1. A worker cannot run the full suite. This environment moves any foreground command past 600
+   seconds into the background, and the suite runs 18 to 21 minutes, so the worker stalls and
+   returns an unfinished report as final. A brief names the exact test files that finish in seconds;
+   the orchestrator runs one clean full suite at the end of the pass with no worker active.
+2. A full suite run while workers edit the tree reds on files being written. Those reds mean
+   nothing. The closing run stands alone.
+3. A repair written into generated output is undone by the next generation. Fix the generator.
+
+**The task list stays visible while work runs** (his word 2026-08-12 08:40, standing). Its items
+carry the plan document's own step names, one item per step of the current pass, and a spawned
+worker's label carries the same number and title in the chat language. The plan file stays the one
+source; the list holds the current pass alone.
+
+**The next release earns a major number.** Rule 32's rewrite and rule 7's before it reworded rules a
+host has vendored, which base rule 32 itself names as earning a major. `MIGRATION.md` owes its
+chapter. The release number is decided at campaign close.
 
 **The plan is accepted and wears its statuses.** His word 2026-08-11 21:22: «мы же приняли
 план». Statuses live in the plan file, `.live-spec/culling-plan-v3-2026-08-10.md`, as emoji on
@@ -14,43 +63,42 @@ every stage and decision (his 22:28 readability word). The page at the standing 
 render of that file. It is republished after every plan edit (his 17:09 order; the seat holds
 the URL).
 
-**Executed this night, 02:28–05:38.** Stage-2 batch 1 closed (`56c9473`). Rule 7 fell 5,476 →
-5,171 bytes with all nine requirements carried. Rulebook volume 73,578 → 72,929; suite 2,485
-green. Verdict lines: `.live-spec/batch1-verdicts-2026-08-12.md`. Earlier: The plan readability pass (`99481e0`, insert-only). D2 —
-rule 30 cut whole from the rulebook (`3866a6c`). Its number stays a hole between 29 and 31, and
-the count reads thirty-four in every home. The spec's generator clause now reads: a check is
-born from a second dated break (rule 23) or the owner's word. Records in every home
-(`d07f2d0`). Suite 2484 passed / 0 failed; freeze re-frozen byte-identical; installed skill
-copies synced. Queue row 589 records the executing worker stopping mid-run with an invented
-report; acceptance read the tree and the worker's finished report then matched it.
+**Earlier the same night, 02:28–05:38.** Stage-2 batch 1 closed on rule 7, 5,476 → 5,171 bytes
+(`56c9473`), and rule 30 was cut whole from the rulebook (`3866a6c`, records `d07f2d0`). Rulebook
+volume 73,578 → 72,929.
 
-**Next session's first step — the pass plan (his request 2026-08-12 07:55).** Stage-2 batch 2.
-The rule: rule 31 if his word on the two senses of "owner" has arrived (queue rows 536/539; its
-S1 inventory is ready); absent that word, the next rule by the day-1 census price. Row 588 opens
-the pass: re-derive the R5 price pins (38 of 53 rotted) or stamp the table as a dated snapshot,
-because the fallback pick reads that table. The batch folds the queued rows that land with a
-rulebook-touching batch: 590, 591, 592, 593, 595. Row 589 lands as its one-line worker-brief
-edit. The batch gets a fresh skill-creator review record (row 594's finding; the recipe edit
-itself waits his «принято» on the plan text). Stage 3 (D2 and D3 both hold) runs after the batch
-wherever both touch `tests/test_guardrails.py`. A small-items sweep closes the pass: the stale
-rulebook-volume rows (R2 table, the plan's numbers row), the "3,095" figure in five places, and
-the `docs/PROGRESS.md` self-comparison class, fourth occurrence 2026-08-12. Items needing him at
-the keyboard or his word stay out of the pass by his 07:55 instruction.
+**Next session's first step.** Stage-2 batch 3 on base rule 29, by the S1–S5 recipe in the plan,
+unless his ruling on rule 31's "owner" has arrived — that ruling makes rule 31 the batch, and its
+S1 inventory is already written. Then stage 3's own six repairs, each already noted against its
+queue row: 553, 588, 530, 585, 550, and 526 with 532. The skill-creator review record the push gate
+demands is run before each push; the recipe edit that would make it standing waits his «принято» on
+the plan text (row 594).
 
 **Open small items.** A gate proposal sits parked under campaign rule 2, needing his word or
 campaign close. `MIGRATION.md` owes a chapter at the next release: a host that adopted 2.0.0
-still carries rule 30 (`DECISIONS.md`, 2026-08-12).
+still carries rule 30 (`DECISIONS.md`, 2026-08-12). The `product-prover` skill owes one full read by
+the orchestrator seat before its mirror is re-synced — his standing ask, restated 2026-08-12 08:18;
+the mirror at `happysasha18/product-prover` currently matches the pack.
 
 **Scheduled and deferred.** D7 stays scheduled with him at the keyboard. D9, D10 and D11 are
 decided at campaign close.
 
-**Pushed twice.** 04:20: nine commits, `dfa9f57..aec167a`, the rule-30 cut with its record
-(`docs/prover/2026-08-12-the-rule-30-cut.md`, three passes, five blockers closed) and three
-skill-review records. 06:35: eight commits, `aec167a..e8900d9`, batch 1 with its record
-(`docs/prover/2026-08-12-batch1-range.md`, five blockers closed across two rounds). That push
-also re-derived the suite wall-time budget to ≤ 800 s in the architecture's own row and added
-the batch's level lock test. Mirror sync ran post-push; every mirror reported "no mirror repo
-yet". Review findings live as queue rows 589–595.
+**The morning pass stands unpushed, and that is the next session's first act.** Everything above is
+committed and sits on `main` ahead of `origin/main` from `e8900d9` onward. No full suite has run
+since the pass began: this environment moves a foreground command past 600 seconds into the
+background and the suite runs 18 to 21 minutes, and every partial run today was taken while workers
+were writing the tree, so its reds carry no verdict. The push rule reads a suite log's own printed
+verdict, so the push waits for one clean run with no worker active. The order to follow:
+`python3 -m pytest -q > <scratch>/suite.log 2>&1` alone, read the last line, then
+`bash guardrails/pre-push`, then push. The skill-creator review record the gate demands is part of
+that walk. His standing authorization covers the push itself (2026-08-12 08:01, «пуш, деплой, все
+разрешаю»).
+
+**Pushed twice earlier the same night.** 04:20: nine commits, `dfa9f57..aec167a`, the rule-30 cut
+with its record. 06:35: eight commits, `aec167a..e8900d9`, batch 1 with its record
+(`docs/prover/2026-08-12-batch1-range.md`). That push re-derived the suite wall-time budget to
+≤ 800 s in the architecture's own row. The mirror sync it ran reported "no mirror repo yet" for
+every skill, which was the sync's own defect and is repaired (queue row 597).
 
 **Three habits that cost 2026-08-09, named so the next session skips them.**
 1. His instruction and the tree's record disagreed. The session picked the record and worked on.
