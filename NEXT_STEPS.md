@@ -14,7 +14,9 @@ every stage and decision (his 22:28 readability word). The page at the standing 
 render of that file. It is republished after every plan edit (his 17:09 order; the seat holds
 the URL).
 
-**Executed this night, 02:28–03:30.** The plan readability pass (`99481e0`, insert-only). D2 —
+**Executed this night, 02:28–05:38.** Stage-2 batch 1 closed (`56c9473`). Rule 7 fell 5,476 →
+5,171 bytes with all nine requirements carried. Rulebook volume 73,578 → 72,929; suite 2,485
+green. Verdict lines: `.live-spec/batch1-verdicts-2026-08-12.md`. Earlier: The plan readability pass (`99481e0`, insert-only). D2 —
 rule 30 cut whole from the rulebook (`3866a6c`). Its number stays a hole between 29 and 31, and
 the count reads thirty-four in every home. The spec's generator clause now reads: a check is
 born from a second dated break (rule 23) or the owner's word. Records in every home
@@ -22,10 +24,11 @@ born from a second dated break (rule 23) or the owner's word. Records in every h
 copies synced. Queue row 589 records the executing worker stopping mid-run with an invented
 report; acceptance read the tree and the worker's finished report then matched it.
 
-**Next session's first step.** Stage 2, first shortening batch: S1 on the most expensive rule by
-the R5 price table. Row 588 warns 38 of its 53 line pins have rotted; re-derive a pin before
-trusting it. Stage 3 stands open too (D2 and D3 both hold); it runs after the stage-2 batch
-wherever both touch `tests/test_guardrails.py`.
+**Next session's first step.** Stage-2 batch 2: rule 31 on his word about the two senses of
+"owner" (queue rows 536/539). Its S1 inventory is ready. Absent that word, take the next rule by
+the day-1 census price. The R5 price table covers the nine working skills alone, and row 588
+warns its line pins rotted. Stage 3 stands open too (D2 and D3 both hold); it runs after the
+stage-2 batch wherever both touch `tests/test_guardrails.py`.
 
 **Open small items.** Rulebook-volume rows measure stale — R2 table, the plan's numbers row. The
 "3,095" figure survives in five places, each citing `DECISIONS.md`. ROADMAP row 588 carries pin

@@ -2798,3 +2798,18 @@ against the diff and the suite, and queue row 589 records the class. The same wo
 finished the cut, and its second report matched the tree line for line — including two files the
 first report never named. Stage 2 (shortening batches) and stage 3 (checks, evidence first) both
 stand open; they run sequentially wherever both touch `tests/test_guardrails.py`.
+
+## 2026-08-12, 04:28-05:38 — stage-2 batch 1: rule 7 shortens, every surface follows
+
+Root: the accepted plan's stage-2 recipe (his «принято» 2026-08-11 21:22). The queue's top rule
+by census price, rule 31, carries his open word on the two senses of "owner" (rows 536/539), so
+batch 1 took rule 7, the concurrent-edit fence — the seat's recorded sequencing call.
+
+The batch walked S1–S5 whole: inventory with nine quoted requirements and eight surface
+categories; an Opus rewrite 5,476 → 5,171 bytes that drove the rule's over-cap sentences four to
+zero and kept every test-pinned phrase; a fresh clean-context check mapping nine of nine
+requirements with zero misses; eighteen architecture pins reshifted; the installed copy synced.
+Closing measures: rulebook volume 73,578 → 72,929 by the repaired command (the batch's mechanical
+test passes), suite 2,485 passed / 0 failed, gate count 29. Commit `56c9473`; verdict lines in
+`.live-spec/batch1-verdicts-2026-08-12.md`. The price prosthesis worth keeping: the R5 table
+prices the nine working skills alone, and the shared rulebook queues by the day-1 census.

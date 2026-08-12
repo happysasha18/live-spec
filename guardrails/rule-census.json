@@ -12,7 +12,7 @@
       "total": 0
     },
     "NEXT_STEPS.md": {
-      "bytes": 6103,
+      "bytes": 6438,
       "file": "NEXT_STEPS.md",
       "long": 0,
       "longest": 25,
@@ -859,13 +859,13 @@
       "total": 1
     },
     "skills/live-spec-base/SKILL.md": {
-      "bytes": 65496,
+      "bytes": 65191,
       "file": "skills/live-spec-base/SKILL.md",
-      "long": 60,
+      "long": 56,
       "longest": 48,
       "register": 0,
       "style": 14,
-      "total": 74
+      "total": 70
     },
     "skills/product-prover/README.md": {
       "bytes": 11360,
