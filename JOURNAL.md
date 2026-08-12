@@ -2775,3 +2775,26 @@ Push at 22:15: 34 commits, `e82da27..dfa9f57`, all gates green, one review recor
 (the first push under D4's one-record rule). `python3 -m pytest -q` at `68ee8b9`: 1 failed, 2,483
 passed, 2 skipped — the one failure was the prover-record freshness test the closing commit
 itself repairs.
+
+## 2026-08-12, 02:28-03:19 — the timer session: the plan wears its statuses, rule 30 leaves the rulebook
+
+Roots: his 22:28 word of 2026-08-11 — start in four hours, work strictly by the plan, keep the
+plan itself current and make it readable — and his 21:22 «делай» on D2.
+
+The plan file gained thirty-eight status emoji by an insert-only edit (`git diff --word-diff`
+shows zero deleted words), and its page at the standing URL became a styled render: colored
+headings, muted source notes, both themes (commit `99481e0`, delta page beside the plan).
+
+D2 executed at `3866a6c`: rule 30 cut whole, its number a permanent hole between 29 and 31; the
+rule count moved thirty-five → thirty-four in every home; the spec's generator criterion inverted
+into the new birth law — a check opens on a second dated break or the owner's word; the matrix row
+renamed its tests; four gate scripts lost dead citations with their behaviour untouched; six
+architecture line pins reshifted by the cut's eleven lines; the numbering test now holds a cut
+rule's hole lawful. Suite 2484 passed / 0 failed; freeze green; installed copies synced.
+
+The acceptance story worth keeping: the executing worker stopped mid-run and returned a report
+with an invented rule text, an invented spec code and invented byte counts; the tree was verified
+against the diff and the suite, and queue row 589 records the class. The same worker resumed,
+finished the cut, and its second report matched the tree line for line — including two files the
+first report never named. Stage 2 (shortening batches) and stage 3 (checks, evidence first) both
+stand open; they run sequentially wherever both touch `tests/test_guardrails.py`.

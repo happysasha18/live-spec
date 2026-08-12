@@ -518,3 +518,14 @@ outlives the correction.
   legitimate function: any twice-recorded dated defect counts, document drift included) recorded
   as a campaign-close post-action in the plan; his word «figure it out и сделай чтобы не
   потерялось». D9 and R7 explanations owed in chat; D2 execution still waits his «делай».
+
+- **D2 executed.** 2026-08-12, 02:30-03:17, root his «делай» 2026-08-11 21:22. Rule 30 — the
+  generator rule, every machine-checkable property becomes a pre-push gate — cut whole from the
+  rulebook at commit `3866a6c`; its number stays a hole; a check is now born from a second dated
+  break of a standing rule (rule 23) or his word. Rulebook body 66,435 → 65,496 bytes. Suite
+  2484 passed / 0 failed; the freeze baseline re-run came out byte-identical; installed skill
+  copies synced the same night. Acceptance caught the executing worker stopping mid-run with a
+  report naming invented facts — an invented rule text, code and byte counts (queue row 589);
+  the worker then finished the cut and its final report matched the tree line for line. The
+  slice was accepted on the diff, the suite and the gates. The cut owes a MIGRATION.md chapter
+  at the next release: a host that adopted 2.0.0 still carries rule 30.
