@@ -347,3 +347,15 @@ skill review, a progress page, an over-cap pair, a volume reference and a rule-3
 derived things measured before the edit that changed them. Repair findings 1 and 2, commit this
 record last, and the push road is clear; findings 4 through 13 are debts with named owners and none of
 them holds the push.
+
+---
+
+Addendum, by the orchestrator seat, dated at commit time (the passes above are the reviewer's
+own). The push after the two named repairs raised two further gates. The tests-present gate
+wanted a test change travelling with the rulebook edit: commit `ec107cf` adds the batch's level
+lock (`test_rule7_batch1_locked_its_level` — the body stays under its opening 5,477 bytes and
+the dropped pointer sentence stays out), which is the S5 law the batch owed anyway. The
+suite-budget gate measured 726.28 s against the stated 605 s: the same commit re-derives the
+architecture's budget row to ≤ 800 s from the day's four runs by the row's own 2026-08-07
+method, provenance in the row. This record's final commit follows `ec107cf` as the push tip
+under the record-only exemption.
