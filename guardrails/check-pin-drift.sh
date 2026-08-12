@@ -1,7 +1,10 @@
 #!/usr/bin/env bash
 # check-pin-drift.sh — gate (g): architecture pins must not rot (row 90, the
 # track-coach lesson: 7 of 17 pins drifted in ONE session, silently; row 541, the
-# 2026-08-05 prover pass that found 29 stale pins standing green under this gate).
+# 2026-08-05 prover pass that found 29 stale pins standing green under this gate;
+# row 588, where 48 of the r5 rule-price page's 53 range pins rotted unseen because
+# this gate read ARCHITECTURE.md alone — the r5 leg near the bottom of this file
+# closed that gap without touching the ARCHITECTURE.md check above it).
 #
 # A pin looks like `path/to/file:123` (label words) in a node section of
 # ARCHITECTURE.md, read through the one node reader guardrails/archformat.py
@@ -164,10 +167,76 @@ fi
 
 if [ "$fail" -ne 0 ]; then
   echo "  Fix: re-run the pin's grep and update the path/line, or re-label the pin to name what the line carries (SPEC E-14)."
-  exit 1
 fi
 
 reach="$(printf '%s' "$read_files" | sed '/^$/d' | sort -u | paste -sd, - | sed 's/,/, /g')"
-echo "OK (pin drift): $checked pin(s) checked — $line_pins line pin(s) proved against their own line (tolerance ±$TOL lines), $file_pins file-level :1 pin(s) proved against the whole file, $bare_pins unlabelled pin(s) proved by the file's existence alone: ${bare_names%, }."
+# The word OK stands only over a leg that passed. The r5 leg below runs either way, so this
+# leg's verdict is decided here, before that leg can add findings of its own (row 588).
+arch_fail="$fail"
+if [ "$arch_fail" -eq 0 ]; then
+  echo "OK (pin drift): $checked pin(s) checked — $line_pins line pin(s) proved against their own line (tolerance ±$TOL lines), $file_pins file-level :1 pin(s) proved against the whole file, $bare_pins unlabelled pin(s) proved by the file's existence alone: ${bare_names%, }."
+else
+  echo "FAILED (pin drift): $checked pin(s) checked in $(basename "$ARCH"), and the findings above stand."
+fi
 echo "  reach: files=[$(basename "$ARCH"), $reach]"
+
+# --- the .live-spec range-pin leg (ROADMAP row 588) ---------------------------------------
+# ARCHITECTURE.md is not the only page that pins a line — the r5 rule-price page pins 53 skill
+# rules by `path:start-end`, a RANGE rather than a single line, and it rotted unseen because
+# this gate read ARCHITECTURE.md alone. This leg widens the reach to that page, by the same
+# naming-word rule as above: the pinned range must carry the label somewhere in its own span
+# (the whole range, not a ±2-line window — a range pin names more than one line on purpose).
+# The ARCHITECTURE.md check above is untouched by this leg; it still runs, reports, and reds on
+# its own terms.
+GITROOT="$(git -C "$SCRIPT_DIR" rev-parse --show-toplevel 2>/dev/null || true)"
+R5="$GITROOT/.live-spec/r5-rule-prices-2026-08-11.md"
+if [ -n "$GITROOT" ] && [ -f "$R5" ]; then
+  r5_checked=0
+  fail_before_r5="$fail"
+  while IFS=$'\t' read -r rpath rstart rend rlabel; do
+    [ -z "$rpath" ] && continue
+    r5_checked=$((r5_checked+1))
+    rfull="$GITROOT/$rpath"
+    if [ ! -f "$rfull" ]; then
+      echo "FAIL (pin drift, r5): $rpath:$rstart-$rend — pinned file missing"; fail=1; continue
+    fi
+    rtotal=$(wc -l < "$rfull")
+    if [ "$rend" -gt "$rtotal" ]; then
+      echo "FAIL (pin drift, r5): $rpath:$rstart-$rend — end beyond file end ($rtotal lines)"; fail=1; continue
+    fi
+    rwindow="$(sed -n "${rstart},${rend}p" "$rfull")"
+    rwords="$(label_words "$rlabel")"
+    rnaming="$(awk 'BEGIN{before=1} /^--$/{before=0;next} before && NF' <<<"$rwords")"
+    if [ -n "$rnaming" ]; then rjudged="$rnaming"; rkind="naming word"
+    else rjudged="$(awk 'BEGIN{after=0} /^--$/{after=1;next} after && NF' <<<"$rwords")"; rkind="word"
+    fi
+    rfound=0
+    while IFS= read -r rpart; do
+      [ -z "$rpart" ] && continue
+      if grep -qiF -- "$rpart" <<<"$rwindow"; then rfound=1; break; fi
+      if grep -qiF -- "${rpart%s}" <<<"$rwindow"; then rfound=1; break; fi
+    done <<<"$rjudged"
+    if [ "$rfound" -eq 0 ]; then
+      echo "FAIL (pin drift, r5): $rpath:$rstart-$rend — no $rkind of the label stands in lines $rstart-$rend"
+      fail=1
+    fi
+  done < <(python3 - "$R5" <<'PYEOF'
+import re, sys
+text = open(sys.argv[1], encoding="utf-8").read()
+homes = list(re.finditer(r'Home: `([^`]+):(\d+)-(\d+)`\.', text))
+opens = list(re.finditer(r'Opening line, quoted in full: "(.+?)"\n', text, re.S))
+for hm, om in zip(homes, opens):
+    print("%s\t%s\t%s\t%s" % (hm.group(1), hm.group(2), hm.group(3), om.group(1).replace("\t", " ")))
+PYEOF
+)
+  if [ "$fail" -eq "$fail_before_r5" ]; then
+    echo "OK (pin drift, r5): $r5_checked range pin(s) checked against $(basename "$R5") — each proved against its own line range, by the label's naming words."
+  else
+    echo "FAILED (pin drift, r5): $r5_checked range pin(s) checked against $(basename "$R5"), and the findings above stand."
+  fi
+else
+  echo "note (pin drift): no .live-spec/r5-rule-prices-2026-08-11.md found under this tree; that leg skipped."
+fi
+
+[ "$fail" -ne 0 ] && exit 1
 exit 0
