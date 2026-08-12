@@ -10,19 +10,20 @@ Written for a session starting with clean context.
 
 **The plan is accepted and wears its statuses.** His word 2026-08-11 21:22: «мы же приняли
 план». Statuses live in the plan file, `.live-spec/culling-plan-v3-2026-08-10.md`, as emoji on
-every stage and decision (his 22:28 readability word); the page at the standing URL is a styled
-render of that file, republished after every plan edit (his 17:09 order; the seat holds the URL).
+every stage and decision (his 22:28 readability word). The page at the standing URL is a styled
+render of that file. It is republished after every plan edit (his 17:09 order; the seat holds
+the URL).
 
 **Executed this night, 02:28–03:30.** The plan readability pass (`99481e0`, insert-only). D2 —
-rule 30 cut whole from the rulebook (`3866a6c`): its number stays a hole between 29 and 31, the
-count reads thirty-four in every home, and the spec's generator clause now says a check is born
-from a second dated break of a standing rule (rule 23) or the owner's word. Records in every home
+rule 30 cut whole from the rulebook (`3866a6c`). Its number stays a hole between 29 and 31, and
+the count reads thirty-four in every home. The spec's generator clause now reads: a check is
+born from a second dated break (rule 23) or the owner's word. Records in every home
 (`d07f2d0`). Suite 2484 passed / 0 failed; freeze re-frozen byte-identical; installed skill
 copies synced. Queue row 589 records the executing worker stopping mid-run with an invented
 report; acceptance read the tree and the worker's finished report then matched it.
 
 **Next session's first step.** Stage 2, first shortening batch: S1 on the most expensive rule by
-the R5 price table — row 588 warns 38 of its 53 line pins have rotted, so re-derive a pin before
+the R5 price table. Row 588 warns 38 of its 53 line pins have rotted; re-derive a pin before
 trusting it. Stage 3 stands open too (D2 and D3 both hold); it runs after the stage-2 batch
 wherever both touch `tests/test_guardrails.py`.
 
@@ -30,7 +31,7 @@ wherever both touch `tests/test_guardrails.py`.
 "3,095" figure survives in five places, each citing `DECISIONS.md`. ROADMAP row 588 carries pin
 rot. `docs/PROGRESS.md` self-comparison class, fourth occurrence 2026-08-12. A gate proposal sits
 parked under campaign rule 2, needing his word or campaign close. `MIGRATION.md` owes a chapter
-at the next release: a host that adopted 2.0.0 still carries rule 30 (DECISIONS, 2026-08-12).
+at the next release: a host that adopted 2.0.0 still carries rule 30 (`DECISIONS.md`, 2026-08-12).
 
 **Scheduled and deferred.** D7 stays scheduled with him at the keyboard. D9, D10 and D11 are
 decided at campaign close.
