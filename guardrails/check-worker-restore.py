@@ -91,6 +91,13 @@ history: it is counted in every verdict line and reds nothing. A finding stamped
 date reds. A finding whose record carries no timestamp reds, since the gate cannot place it. Move the
 date back to read the history: `--counting-from 2000-01-01 --all` lists every finding on disk.
 
+The start moved once, from 2026-07-28 to 2026-08-13, on 2026-08-12. Session
+`af22b716-c9d7-48b2-b3fd-2be1820a1a14` ran `git checkout -- lab/data/step3-grid-derivation.json` in
+`/Users/sashaabramovich/tlvphotos` at 2026-08-12T06:05:40Z, discarding uncommitted edits laid on top
+of a file last committed 2026-08-11T23:41:50+03:00. The finding is recorded in `DECISIONS.md`
+(2026-08-12) and `ROADMAP.md` row 598; it now stands as history, since a red that can never clear
+blocks every future run, and the date moves forward on a recorded finding, never in silence.
+
 THE STAND-DOWN. When the transcript root does not exist, this host keeps no transcripts where the
 gate looks. The gate stands down, says so by name, and exits 0 — a stated stand-down rather than a
 silent pass. When the root DOES exist but holds no worker-run transcript at all, the layout the gate
@@ -127,7 +134,12 @@ RUN_GLOB = os.path.join("*", "*", "subagents", "agent-*.jsonl")
 # them would have been switched off rather than obeyed. History is counted and named in every verdict
 # line, and reds nothing. The date moves forward only with a recorded reason, and moving it forward
 # hides findings — read the history first with `--counting-from 2000-01-01 --all`.
-COUNTING_FROM = "2026-07-28"
+#
+# Moved from 2026-07-28 to 2026-08-13 on 2026-08-12, to carry one finding as history: session
+# af22b716-c9d7-48b2-b3fd-2be1820a1a14 ran `git checkout -- lab/data/step3-grid-derivation.json` in
+# /Users/sashaabramovich/tlvphotos at 2026-08-12T06:05:40Z. Recorded in DECISIONS.md (2026-08-12) and
+# ROADMAP.md row 598.
+COUNTING_FROM = "2026-08-13"
 
 # The segment separators a shell command line is cut on, so `cd x && git restore y` is read as its
 # own invocation. The pipe is included: `yes | git clean -fd` is still git clean. Each separator is

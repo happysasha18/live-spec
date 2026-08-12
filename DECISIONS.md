@@ -593,3 +593,25 @@ outlives the correction.
   on the same page (run the 282-second nested meta-test in the CI mirror alone, drop it from
   pre-push) takes most of that time without opening the gap. The seat accepts that recommendation:
   gate b is not removed.
+
+- **The worker-restore gate's counting start moves to 2026-08-13, carrying one finding as
+  history.** 2026-08-12, the push pass's own suite red on
+  `tests/test_worker_restore.py::TestTheGateIsArmedWhereItSaysItIs::test_the_gate_runs_against_this_machines_own_transcripts`.
+  `guardrails/check-worker-restore.py`, run both at its default window and at
+  `--counting-from 2026-08-01 --all`, found exactly one finding inside this window: session
+  `af22b716-c9d7-48b2-b3fd-2be1820a1a14`, working in `/Users/sashaabramovich/tlvphotos`, ran
+  `git checkout -- lab/data/step3-grid-derivation.json` at 2026-08-12T06:05:40Z. Reading
+  `/Users/sashaabramovich/tlvphotos` (read-only): the file exists today, is tracked, and
+  `git log --oneline -3` on it shows its last commit at 2026-08-11T23:41:50+03:00, before the
+  discard — so the checkout did not destroy a never-committed file; it dropped uncommitted edits
+  laid on top of a version already in the repository's history. What those edits contained, and
+  whether they survive anywhere else, stays unknown from this side; the file today again shows
+  local modifications, meaning further edits happened after the discard, and what those edits
+  hold is for that project's own session to establish. The counting start
+  (`COUNTING_FROM` in `guardrails/check-worker-restore.py`) moves from 2026-07-28 to 2026-08-13, the
+  first date after this finding's timestamp the gate's date-only granularity can express, so the
+  finding is carried as history rather than left to red every future run — a red that can never
+  clear blocks every pass behind it, and the finding is recorded here, in the gate's own header,
+  and at `ROADMAP.md` row 598 before the start moves past it. A message describing the incident and
+  what to check went to `/Users/sashaabramovich/tlvphotos/inbox/2026-08-12-worker-discarded-uncommitted-work.md`;
+  no other file in that tree was touched.
