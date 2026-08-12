@@ -10,6 +10,7 @@ into five live siblings, 2026-07-12.)
 """
 
 import os
+import re
 import unittest
 
 from conftest import ROOT, read_flat
@@ -57,6 +58,30 @@ class TestClassHunt(unittest.TestCase):
         self.assertIn("Class lens", pv)
         self.assertIn("the document-side face of the confirmed-bug class hunt", pv)
 
+    def test_the_class_lens_owes_a_line_where_it_stands(self):
+        """ROADMAP row 611 — the class lens stands in a tier of its own and owes a line.
+
+        The imaginative-probe tier reads "no verdict is owed", and the class lens sat under it, so a
+        pass could file a point finding, skip the sweep, and owe no line saying so. The lens now
+        stands beside that tier with the reason it stands apart, and it owes one line per pass.
+
+        Each needle here names the class line. A needle reading only "reads as a skipped sweep"
+        would pass against the mandatory-sweep paragraph, which carried that sentence before this
+        duty existed.
+        """
+        pv = read_flat("skills/product-prover/SKILL.md")
+        self.assertIn("**The class lens** — one duty standing beside the probes above", pv)
+        self.assertIn("it runs on every pass, whatever the document holds", pv)
+        self.assertIn("Every pass writes one class line in its persisted record", pv)
+        self.assertIn("writes no class line reads as a skipped sweep", pv)
+        self.assertIn("`Class lens: swept — <the classes filed>`", pv)
+
+    def test_readme_names_the_class_lens(self):
+        """A standalone reader learns the sweep exists from the README alone (row 611)."""
+        rd = read_flat("skills/product-prover/README.md")
+        self.assertIn("The class lens is one duty standing beside those probes", rd)
+        self.assertIn("the class lens writes its own line there", rd)
+
     def test_matrix_row_covers_the_class_hunt(self):
         with open(os.path.join(ROOT, "TEST_MATRIX.md"), encoding="utf-8") as f:
             for line in f:
@@ -64,6 +89,64 @@ class TestClassHunt(unittest.TestCase):
                     self.assertIn("INV-124", line)
                     return
         self.fail("M-265 matrix row missing")
+
+
+CLASS_LINE = re.compile(
+    r"^Class lens:\s*(?:(swept|N/A)\s*—\s*\S.*?|(no class))\s*$",
+    re.MULTILINE)
+
+
+def class_line_verdict(record):
+    """The class line a persisted prover record owes, or None where the record carries none.
+
+    The rule this embodies is the skill's, stated under the surface × sweep table: every pass
+    writes one class line reading `Class lens: swept — <the classes filed>`, `Class lens: no
+    class`, or `Class lens: N/A — <reason>`. The swept line names each class the pass filed, so a
+    bare `swept` carries no sweep anyone can read. A record with no class line at all owes a
+    verdict nobody wrote, and it reads as a skipped sweep. A missing line never reads as a clean
+    one, which is the reading INV-171 gives a missing sweep verdict. The check is embodied here, in
+    fixtures alone: the records already on disk predate the rule, and the push gate this would
+    become is a later row's work.
+    """
+    hit = CLASS_LINE.search(record)
+    return (hit.group(1) or hit.group(2)) if hit else None
+
+
+_POINT_FINDING = (
+    "## F1 — The caption law is scoped to one surface\n\n"
+    "`recommendation · now · confusing-for-users (cognitive-load)`\n\n"
+    "| Surface | Cross-cutting laws | Edge conditions |\n"
+    "|---|---|---|\n"
+    "| Gallery | clean | hit (F1) |\n"
+)
+
+
+class TestClassLineFixtures(unittest.TestCase):
+    """ROADMAP row 611 — a pass with a point finding and no class line reds."""
+
+    def test_a_point_finding_with_no_class_line_reds(self):
+        self.assertIsNone(class_line_verdict(_POINT_FINDING))
+
+    def test_a_swept_line_naming_its_class_passes(self):
+        record = _POINT_FINDING + "\nClass lens: swept — the scoped-caption class, F1 and F4.\n"
+        self.assertEqual("swept", class_line_verdict(record))
+
+    def test_the_three_verdicts_each_pass(self):
+        for line in ("Class lens: swept — the scoped-caption class",
+                     "Class lens: no class",
+                     "Class lens: N/A — section 7 arrived as a stub, so the whole document "
+                     "was never in view"):
+            record = _POINT_FINDING + "\n" + line + "\n"
+            self.assertIsNotNone(class_line_verdict(record), line)
+
+    def test_a_bare_swept_line_reds(self):
+        """The swept line names each class filed, so `swept` on its own carries no sweep."""
+        record = _POINT_FINDING + "\nClass lens: swept\n"
+        self.assertIsNone(class_line_verdict(record))
+
+    def test_an_empty_reason_reds(self):
+        record = _POINT_FINDING + "\nClass lens: N/A — \n"
+        self.assertIsNone(class_line_verdict(record))
 
 
 if __name__ == "__main__":

@@ -12,7 +12,7 @@
       "total": 0
     },
     "NEXT_STEPS.md": {
-      "bytes": 13556,
+      "bytes": 14652,
       "file": "NEXT_STEPS.md",
       "long": 0,
       "longest": 25,
@@ -39,7 +39,7 @@
       "total": 0
     },
     "PRODUCT_SPEC.md": {
-      "bytes": 702784,
+      "bytes": 703443,
       "file": "PRODUCT_SPEC.md",
       "long": 1863,
       "longest": 80,
@@ -58,7 +58,7 @@
       "total": 13
     },
     "ROADMAP.md": {
-      "bytes": 286795,
+      "bytes": 298439,
       "file": "ROADMAP.md",
       "long": 8,
       "longest": 242,
@@ -526,7 +526,7 @@
       "total": 2
     },
     "editions/product-prover/README.md": {
-      "bytes": 12124,
+      "bytes": 12313,
       "file": "editions/product-prover/README.md",
       "long": 1,
       "longest": 31,
@@ -535,7 +535,7 @@
       "total": 1
     },
     "editions/product-prover/SKILL.md": {
-      "bytes": 47714,
+      "bytes": 48988,
       "file": "editions/product-prover/SKILL.md",
       "long": 0,
       "longest": 25,
@@ -544,7 +544,7 @@
       "total": 1
     },
     "editions/product-prover/examples/sample-review-run-1.md": {
-      "bytes": 63571,
+      "bytes": 63765,
       "file": "editions/product-prover/examples/sample-review-run-1.md",
       "long": 114,
       "longest": 63,
@@ -553,7 +553,7 @@
       "total": 157
     },
     "editions/product-prover/examples/sample-review-run-2.md": {
-      "bytes": 63439,
+      "bytes": 63608,
       "file": "editions/product-prover/examples/sample-review-run-2.md",
       "long": 140,
       "longest": 68,
@@ -571,7 +571,7 @@
       "total": 6
     },
     "editions/product-prover/reference/stress-lenses.md": {
-      "bytes": 28972,
+      "bytes": 30660,
       "file": "editions/product-prover/reference/stress-lenses.md",
       "long": 0,
       "longest": 25,
@@ -886,7 +886,7 @@
       "total": 68
     },
     "skills/product-prover/README.md": {
-      "bytes": 11360,
+      "bytes": 11800,
       "file": "skills/product-prover/README.md",
       "long": 0,
       "longest": 25,
@@ -895,7 +895,7 @@
       "total": 0
     },
     "skills/product-prover/SKILL.md": {
-      "bytes": 67562,
+      "bytes": 71781,
       "file": "skills/product-prover/SKILL.md",
       "long": 0,
       "longest": 25,

@@ -1,12 +1,12 @@
 # Progress — the two promises
 
-Generated 2026-08-12 by `python3 scripts/progress-report.py`, reading the tree as it stands today.
+Generated 2026-08-13 by `python3 scripts/progress-report.py`, reading the tree as it stands today.
 
 ## Where the two promises stand
 
 Promise one, a reader gets through a document without stopping, measures 4,874 open writing findings across the live set today.
 
-Promise two, the specification stops growing, measures PRODUCT_SPEC.md at 702,784 bytes against its 840,000-byte ceiling today.
+Promise two, the specification stops growing, measures PRODUCT_SPEC.md at 703,443 bytes against its 840,000-byte ceiling today.
 
 ## The queue, in the plan's order
 
@@ -226,13 +226,13 @@ The fifteen documents carrying the most findings:
 
 | measure | today | at the format change, 2026-07-23 | ceiling | target |
 |---|---|---|---|---|
-| bytes | 702,784 | 590,695 | 840,000 | under the ceiling |
-| lines | 8,223 | not stated | not stated | set by the subdivision plan |
-| words | 117,814 | not stated | not stated | set by the subdivision plan |
+| bytes | 703,443 | 590,695 | 840,000 | under the ceiling |
+| lines | 8,227 | not stated | not stated | set by the subdivision plan |
+| words | 117,925 | not stated | not stated | set by the subdivision plan |
 | requirements | 310 | 282 | not stated | set by the subdivision plan |
-| acceptance criteria | 1,776 | 1,372 | not stated | set by the subdivision plan |
-| bytes per criterion | 184.9 | not stated | 207.2 | falls or holds |
-| pairs stating one fact twice | 119 | 116 | 119 | falls or holds |
+| acceptance criteria | 1,777 | 1,372 | not stated | set by the subdivision plan |
+| bytes per criterion | 185.1 | not stated | 207.2 | falls or holds |
+| pairs stating one fact twice | 117 | 116 | 119 | falls or holds |
 | share of the byte ceiling used | 83.7% | 70.3% | not stated | not stated |
 
 ## Readings run so far

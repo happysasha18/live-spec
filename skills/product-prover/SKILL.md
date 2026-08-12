@@ -1,6 +1,6 @@
 ---
 name: product-prover
-description: Use to review, critique, or find gaps in a spec or design document (PRD, HLD, LLD, architecture doc) before it ships. It fires as well on an uploaded document with a request for feedback, and where the word "review" goes unsaid. It answers one question: does the spec hold together as written?
+description: Structured senior-architect review of product documents: PRDs, feature specs, HLDs, LLDs, design proposals, and architecture documents. It reviews them with formal-verification thinking, covering entities, states, transitions, invariants, safety, liveness, atomicity, and composition. Use this skill whenever the user asks to review, critique, stress-test, lint, or find gaps in a spec or design document. It fires as well when they ask "is this spec ready / what did I miss / poke holes in this". It fires on an uploaded product document with a request for feedback, and on the words "Product Prover". A request for feedback counts even where the word "review" goes unsaid. It reads documents, so code and diffs route elsewhere. It finds holes in what a document claims, and the test suite proves what the artifact does. It answers "does the spec hold together as written?"
 metadata:
   version: 4.3.0
 ---
@@ -41,6 +41,11 @@ review, including `PRODUCT_SPEC.md`, `ARCHITECTURE.md`, `SURFACES.md`, `ROADMAP.
   it takes an N/A verdict with that reason.
 - **Lens** — one named check walked over the document, each testing one concern.
 - **Sweep** — a lens run over every member of a class in the document, rather than at one spot.
+- **Seam** — a join the document has to write an answer for. Three kinds appear below, and every sweep
+  and lens names which kind it walks. A structural seam is the boundary between two parts, and it owes
+  what crosses it and which side owns the format. A situational seam is one reachable situation a
+  surface passes through, and it owes a sentence saying how the surface behaves there. A journey seam
+  is one moment in a person's path through a feature, and it owes the same.
 - **Station** — one step of the build walk. `docs/pipeline.md` names the steps in order.
 - **Fold** — the document's author writes a finding's fix into the document under review. A folded
   defect stops blocking.
@@ -287,17 +292,31 @@ Three modes, chosen by the caller (the build-pipeline skill picks one):
 - **FULL** — the whole spec, every phase below. A minor (`x.Y.0`) bump requires it, and so does any
   structural rewrite. It is the default when someone says "review the spec".
 - **CROSS-LINK** — a focused pass for a single added surface. It runs Phases 1–2 plus the Phase 3e
-  composition and stress lenses, aimed at the new surface's seams against the surfaces it composes
-  with.
+  lenses named below, aimed at the new surface's seams against the surfaces it composes with.
 
-  The composition lenses are the five members of the composition-lens family Phase 3e carries:
+  Seven lenses run in this mode. Five are members of the composition-lens family. They are
   edge-condition completeness, cross-surface policy uniformity, paired-transition symmetry inside
-  the lifecycle sweep. The other two are interactive-overlap across layers and delivery separability
-  along a declared axis. The unwritten-seams sweep runs beside them, as the blank-answer class those
-  lenses cite. The stress lenses are Phase 3e's imaginative probes.
+  the lifecycle sweep, interactive-overlap across layers, and delivery separability along a declared
+  axis. The last two of those are imaginative probes and owe no verdict. The unwritten-seams sweep
+  runs beside them, as the blank-answer class those lenses cite, and the declared cross-cutting laws
+  sweep is the seventh.
 
-  This mode skips the whole-document property sweep, and it keeps one whole-document step: the
-  **quantifier re-verify** (SPEC INV-170).
+  This mode skips Phase 3's property analysis, steps 3a through 3d, which read the whole document
+  for safety, liveness, enforceability and internal consistency.
+
+  Every mandatory sweep of Phase 3e runs, scoped to the new surface and its seams, with one
+  exception. The lifecycle sweep sends its paired-transition symmetry sub-question alone, and its
+  other angles stand down here.
+
+  Declared cross-cutting laws is one of those mandatory sweeps, so it fires on a surface add. It
+  reads the newcomer's clause against each declared law, and the newcomer's test row beside it. The
+  author writes that clause at the add, before this pass ever reads the delta (SPEC INV-101). No
+  earlier pass has audited it, so this sweep is the one a new surface most needs.
+
+  The record for this mode carries a verdict line for each mandatory sweep it ran, and the class
+  line beneath them (base rule 14).
+
+  The mode keeps one whole-document step: the **quantifier re-verify** (SPEC INV-170).
 
   Sweep the document for enumerations and universal quantifiers: "every", "only", "all", "exactly",
   and explicit member lists. Re-verify each such sentence against the surface set that now includes
@@ -523,7 +542,8 @@ For every entity, transition, and operation, check whether the document specifie
   agreement stated as an invariant? Two homes for one derivable fact with no tying sentence drift apart,
   and the tie is the finding's proposed sentence.
 
-3e. Generative stress-testing — two tiers: mandatory sweeps and imaginative probes (SPEC INV-171).
+3e. Generative stress-testing — three tiers. Mandatory sweeps and imaginative probes (SPEC INV-171),
+and the class lens standing alone (base rule 14).
 
 Stress-test every operation, transition, rule, and assumption against the families of questions below.
 The specific cases are yours to invent, from what the operation actually does.
@@ -614,7 +634,7 @@ The five mandatory sweeps:
   also gets the mechanical floor, where the completeness guardrail asserts the policy across every
   registered sibling root.
 
-  The preventive twin of the class lens above is this one. That one sweeps a found defect's
+  The preventive twin of the class lens below is this one. That one sweeps a found defect's
   siblings, and this one holds a decided policy uniform before any defect is filed (SPEC INV-125).
   Its discovery-side sibling is the design review [INV-141], the design-reviewer skill's pass. It
   reaches the undeclared same-kind groupings this lens stays blind to for want of a declaration.
@@ -629,6 +649,17 @@ The five mandatory sweeps:
   scope it to the one member by a decided sentence. This is the
   prose-law form a declared-class enumeration alone would miss, since that enumeration presupposes the
   kind is already declared. [INV-125]
+
+  One more member of the composition-lens family asks a different question (SPEC INV-226). A
+  general law written over instances chooses between two shapes. Where the instances form a closed
+  set the author can name, the law enumerates them in its own clause. Where the set is open-ended,
+  the law names its worked examples and leaves the set open. SPEC INV-226 names that choice
+  enumerate-or-ride.
+
+  The author writes that choice while writing the law, since only the author knows whether the set
+  of instances is closed. This skill runs no sweep of its own for it, and no verdict line answers
+  it. This sweep catches the surface-shaped case, where the instances are sibling surfaces the
+  document registers.
 - **Lifecycle** — one surface's whole life across enter, leave, cover, and return. The sub-questions
   gather under the transition-payload parent (SPEC INV-168), so the one lifecycle is walked once as a
   single pass. Separate angles would otherwise collide over it. Each sub-question keeps its own
@@ -767,21 +798,6 @@ attention. No checklist ticks them off, and no verdict is owed:
   clear-evidence gate self-disarms on.
   In pack use, the three-source lens below supplies the missing evidence. The architecture document
   is in view there, and it names the authoritative surfaces the document under review omits.
-- **Class lens** — when a lens above, or any phase, surfaces a defect at one spot, treat it as a
-  sample of a class (base rule 14; SPEC INV-124). Three questions come before the finding is written:
-
-  - *does the same kind live elsewhere?* Sweep the whole document for the same pattern in every other
-    section and surface: the same wording, the same structure, the same omission. Write one finding
-    that names the class and lists every instance found. A point finding on a class defect sends the
-    author on the sweep the pass skipped.
-  - *does the architecture account for the defect's cause?* A boundary drawn wrong, or left silent,
-    can let the class exist. A structural cause is a finding against ARCHITECTURE.md itself, and it
-    reaches past the single instance.
-  - *does the spec describe the broken behaviour at all?* A spec silent on it, or under-describing
-    its composition, is the real defect the finding names. A prover catches nothing the spec never
-    states.
-
-  The three questions are the document-side face of the confirmed-bug class hunt (SPEC INV-124).
 - **Interactive-overlap across layers** — one surface sometimes opens over another, as a modal, a zoom,
   or an overlay, and the covering surface carries its own controls. Read the spec for every other interactive control that stays on screen while the overlay stands.
   Ask whether the spec states that control is hidden or made unpressable.
@@ -875,6 +891,33 @@ attention. No checklist ticks them off, and no verdict is owed:
   fold into a lens already run, as an invariant's dual is its decreasing progress measure the
   liveness reading already covers. Others are nameable and rarely bite. [INV-248]
 
+**The class lens** — one duty standing beside the probes above, in a tier of its own. The probes
+above owe no verdict because each one is a check the pass invents for the document in front of it.
+The class lens is a standing duty: it runs on every pass, whatever the document holds, and it owes
+one line in the record. Base rule 14 carries it: a found defect is a sample of its class, so go find
+the class and sweep the look-alikes.
+
+When a lens above, or any phase, surfaces a defect at one spot, treat it as a sample of a class.
+Three questions come before the finding is written:
+
+- *does the same kind live elsewhere?* Sweep the whole document for the same pattern in every other
+  section and surface: the same wording, the same structure, the same omission. Write one finding
+  that names the class and lists every instance found. A point finding on a class defect sends the
+  author on the sweep the pass skipped.
+- *does the architecture account for the defect's cause?* A boundary drawn wrong, or left silent,
+  can let the class exist. A structural cause is a finding against ARCHITECTURE.md itself, and it
+  reaches past the single instance.
+- *does the spec describe the broken behaviour at all?* A spec silent on it, or under-describing
+  its composition, is the real defect the finding names. A prover catches nothing the spec never
+  states.
+
+The three questions are the document-side face of the confirmed-bug class hunt (SPEC INV-124).
+
+Every pass writes one class line in its persisted record, in the shape the record section below
+gives it. A pass that files a point finding and writes no class line reads as a skipped sweep. The
+line stands whatever the finding count, and a pass that found nothing writes `no class` against a
+document it swept clean.
+
 For any given operation, one or two lenses produce a real finding, and the rest read obviously fine.
 That is expected, and the work is in the imagining. Each axis owes a finding only where one is real. A
 mandatory sweep owes its verdict line even at a finding count of zero, and that is what "clean" says. A
@@ -898,6 +941,15 @@ author to skim.
 Then render the surface × sweep verdict table in the shape Phase 3e states, whatever the three tables
 above did. On a kind where all three go N/A, that table is the coverage artifact the pass leaves
 behind. The frontend surface specs are one such kind.
+
+Then write the class line beneath that table. One of three shapes carries it:
+
+- `Class lens: swept — <the classes filed>`, where a defect was found and its look-alikes swept. The
+  line names each class the pass filed.
+- `Class lens: no class`, where the pass read the whole document and found no class to file. A pass
+  that found no defect at all writes this line too.
+- `Class lens: N/A — <reason>`, where the pass could not read the whole document, so no sweep for
+  look-alikes was open to it. The reason names what stood out of view.
 
 Continue to Phase 3.5.
 
@@ -989,15 +1041,19 @@ Finish with one sentence on overall readiness: ready to build / needs another it
 
 ## Glossary mode
 
-Triggers: `/glossary`, `/glossary <term>`, `/define <term>`, plain English ("what does liveness mean?").
+Triggers: a request written in plain English inside a message — "glossary", "glossary liveness",
+"define atomicity", "what does liveness mean?". The same words after a leading slash count too.
+
+No command is registered anywhere for these words. A message that opens with a slash reaches Claude
+Code's own command picker, so the working form is ordinary text.
 
 For a single term, output three things. A one-sentence plain definition. A one-sentence example, taken
 from the document where possible. And the question this concept prompts you to ask in design review.
 
-Example for `/glossary liveness`:
+Example for a request about liveness:
 **liveness** — a property that says something good must eventually happen. Example: a failed state should eventually retry, succeed, or roll back; a state with no exit is a liveness violation. What to ask: for every state, can the entity get out of it?
 
-For `/glossary` with no term, list every formal term used so far in this session, one-sentence definitions only.
+For a glossary request naming no term, list every formal term used so far in this session, one-sentence definitions only.
 
 Definitions to use (keep these exact, do not paraphrase loosely):
 - **state-space** — the set of all situations the system can be in.

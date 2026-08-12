@@ -1621,7 +1621,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 ## Requirement 67: A full prover pass owes a coverage record
 
-**Context:** Phase-level prose proves nothing about which lenses actually ran, and on a kind where the classic coverage tables all go not-applicable a skipped lens is indistinguishable from a lens that found nothing. The prover's stress lenses therefore split into two tiers, and each mandatory sweep owes one verdict line.
+**Context:** Phase-level prose proves nothing about which lenses actually ran, and on a kind where the classic coverage tables all go not-applicable a skipped lens is indistinguishable from a lens that found nothing. The prover's stress lenses therefore split into three tiers. Each mandatory sweep owes one verdict line, and the imaginative probes owe none. The class lens is the third tier, the standing sweep that owes one record line every pass.
 
 **User Story:** As a person trusting a full prover pass, I want each mandatory sweep to owe one verdict line rendered as a surface-by-sweep table, so that a missing verdict reads as a skipped sweep, its absence never passing for a clean one.
 
@@ -1632,6 +1632,10 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 1. The system *shall* have each mandatory sweep — the declared-laws walk, edge-condition completeness, cross-surface uniformity, the lifecycle sweep under the transition-payload parent, and the unwritten-seams derivation — owe one verdict line in the persisted record: hit, clean, or not-applicable with its reason. [INV-171, INV-101, INV-138, INV-125, INV-168, INV-50, INV-167, INV-126, INV-127, INV-72]
 2. The system *shall* render the verdicts as a surface-by-sweep table, the replacement for the coverage tables on a kind where those go not-applicable, and leave the imaginative probes — the checks the prover invents for the particular document beyond the mandatory sweeps — discretionary owing no verdict. [INV-171, INV-135, INV-156]
 3. *when* a verdict line is missing, the system *shall* read it as a skipped sweep and never as a clean one. [INV-171]
+
+**Case: the class line the record carries**
+
+4. The system *shall* have every pass write one class line in its record, beneath the verdict table. The line *shall* read swept with the classes filed, no class, or not-applicable with its reason. [INV-171, INV-124]
 
 ---
 
@@ -6327,7 +6331,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 **Case: reaching the choice by feel is the defect**
 
 4. The system *shall* read a general law reaching enumerate-or-ride by feel as the defect this rule keys, the member set deciding, and *shall* have a law whose set is genuinely borderline state which side it took and why. [INV-226]
-5. The system *shall* read this as the declaration member of the composition-lens family. [INV-226, INV-125, INV-126, INV-136, INV-138]
+5. The system *shall* read this as the declaration member of the composition-lens family, and *shall* place its enforcement with the author who writes the law. The prover *shall* run no sweep of its own for it, since only the author knows whether a member set is closed. The prover *shall* catch the sibling-surface case in its cross-surface uniformity sweep. [INV-226, INV-125, INV-126, INV-136, INV-138]
 
 ---
 

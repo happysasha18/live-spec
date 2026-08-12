@@ -69,15 +69,19 @@ Row 588 is closed, its acceptance line met and verified.
 
 **The prover skill's full read is done, and its five findings are queue rows 608 through 612.**
 Root: his standing ask, restated 2026-08-12 08:18. Both parts were read whole by the orchestrator
-seat. The record is `docs/prover/2026-08-12-product-prover-full-read.md`. Rows 608 and 612 are closed. The
+seat. The record is `docs/prover/2026-08-12-product-prover-full-read.md`. All five rows are now
+closed, across two review records. The first record,
+`docs/skill-review/2026-08-12-product-prover.md`, closed rows 608 and 612. The
 record filename in the meta rules now names `docs/prover/YYYY-MM-DD-<slug>.md`, matching the string
 the push gate's own repair line demands. The lifecycle lead-in now reads so that six bullets under a
-stated five make sense on first reading. Their review record is
-`docs/skill-review/2026-08-12-product-prover.md`. Three rows stay open, each asking a scope question
-rather than a wording one. Row 609 asks whether the declaration member of the composition-lens family
-earns a sixth mandatory sweep. Row 610 asks what the cross-link mode actually skips, since "the
-whole-document property sweep" is defined nowhere. Row 611 asks whether the class lens owes a verdict
-line, though its tier says none is owed. The mirror re-sync his ask names comes after these are
+stated five make sense on first reading. The second record,
+`docs/skill-review/2026-08-12-product-prover-2.md`, closed rows 609, 610 and 611. Row 609 answered
+that INV-226 is the
+spec-author's writing duty, and the answer lives in criterion R264.5 and the prover's cross-surface
+uniformity sweep. Row 610 answered that the cross-link mode skips Phase 3's property analysis, steps
+3a through 3d. That answer lives in the mode's own paragraph in both copies. Row 611 answered that
+the class lens owes one line per pass. That answer lives in the class-lens tier of both copies, and
+in the record shape beneath the verdict table. The mirror re-sync his ask names comes after these are
 pushed, because the sync reads the committed tree.
 
 **The range `4a0b982..HEAD` goes out this pass.** Count it with `git log`, since a number written
@@ -168,6 +172,16 @@ while workers write the tree reds on files being written, and its reds carry no 
 Continue live-spec. Open by asking Alexander in plain Russian what he wants done, using the four
 choices below. Ask before starting any of them. He said on 2026-08-12 at 18:04 that he wants to be
 asked in human language rather than handed a plan.
+
+**First act, and he asked for it by name at 2026-08-12 23:58.** The campaign stated several goals,
+written down across earlier sittings. Find them in the session
+transcripts, since that is where he says they live. Send cheap reader workers at those transcripts
+and read their summaries here, which is his word of 00:03. Derive from them the parameters the campaign is
+actually judged by, then put every one under watch in the plan's status block. Each parameter carries
+the command that measures it, and the pass that rewrites the block runs that command. Today the block
+watches one number, the rulebook's byte count. The second stated goal, making the machinery cheaper,
+is measured by nothing. The full run's budget rose from 800 to 1280 to 1410 seconds inside one day,
+and the only place that noticed is queue row 553. Queue row 617 holds this work.
 
 Before asking, do these three reads so the question is informed. Read this whole file. Read
 `.live-spec/culling-plan-v3-2026-08-10.md`, whose head block says where the campaign stands. Read

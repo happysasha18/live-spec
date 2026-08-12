@@ -90,6 +90,8 @@ One continuous pass, no pausing between phases.
   - whether any seam is left with an unwritten answer
 
   Imaginative probes follow, with no verdict owed: ties, concurrency, bounds, dependency failures, and dangling references. Most produce nothing on most operations, and inventing a finding to satisfy one is a failure.
+
+  The class lens is one duty standing beside those probes. A defect found at one spot is swept across the document for its look-alikes, so one finding names the class and lists every instance. Every pass leaves a written record of what it checked, and the class lens writes its own line there. A point finding with no class line reads as a sweep nobody did.
 - **Your acknowledged gaps, kept separate** — the Open Items and TBDs you already flagged are reported *after* the ones you missed. The things you already know then leave the signal intact.
 - **Human factors** — observability, cognitive load, debuggability. The system that is formally perfect and operationally unusable is a real system.
 - **Closing summary** — five short blocks. The top three fixes. Properties phrased so you can paste them straight into the spec. The genuine open questions only you can answer. The recommendations queued for a taste call, held apart from the defects that fold first. And, on a full pass, a running count of the placeholder decisions still sitting in the document, oldest first, so they stay visible.
@@ -104,7 +106,7 @@ One continuous pass, no pausing between phases.
 
 ## Glossary mode
 
-The terms are half the point. Ask `/glossary liveness`, `/define atomicity`, or *"what does composition mean?"*. Each answer gives a plain definition, an example, and the question the concept makes you ask in a review.
+The terms are half the point. Ask *"glossary: liveness"*, *"define atomicity"*, or *"what does composition mean?"*. The pack registers no slash command, so write every request as ordinary text. Each answer gives a plain definition, an example, and the question the concept makes you ask in a review.
 
 ---
 
