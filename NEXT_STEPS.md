@@ -149,3 +149,26 @@ aloud whether a request is one-time or standing before acting. Guard Fable token
 Reads, drafts and sweeps go to workers on cheaper tiers, and replies stay short. The campaign
 plan itself always carries execution statuses, kept current by point edits with delta pages (his
 word 2026-08-11).
+
+Keep the session's task list visible for the whole of a pass, one item per step, each worded as the
+plan document words that step, and give every spawned worker a label carrying the same number and
+title in the chat language (his word 2026-08-12 08:40, standing). Three surfaces then say one
+thing: the agents panel, the task list, and the plan. The plan file stays the one source, and the
+list holds the current pass alone. This line owes a copy in the personal profile, which lives in
+another repository and waits for a session that owns it.
+
+A worker never runs the full suite. This environment moves a foreground command past 600 seconds
+into the background, the suite runs 18 to 21 minutes, and a worker that starts it stalls and then
+returns an unfinished report as final. A brief names the exact test files that finish in seconds.
+The orchestrator runs one clean full suite at the end of a pass with no worker active, because a
+run taken while workers write the tree reds on files being written and its reds carry no verdict.
+
+## Prompt for the next session
+
+Continue live-spec by the plan. First act: one clean full suite alone, started in the background,
+its last line read; then `bash guardrails/pre-push`; then push the whole range from `e8900d9`; then
+`bash scripts/sync-mirrors.sh`. His authorization for the push stands (2026-08-12 08:01). Then
+stage-2 batch 3 on base rule 29, or on rule 31 where his ruling on the two senses of "owner" has
+arrived, since rule 31's S1 inventory is already written. Then the standing ask he restated on
+2026-08-12 08:18: one full read of the product-prover skill by the orchestrator seat, its findings
+landed in the pack, and the mirror re-synced afterwards.
