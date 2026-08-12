@@ -2814,3 +2814,61 @@ Closing measures: rulebook volume 73,578 → 72,929 by the repaired command (the
 test passes), suite 2,485 passed / 0 failed, gate count 29. Commit `56c9473`; verdict lines in
 `.live-spec/batch1-verdicts-2026-08-12.md`. The price prosthesis worth keeping: the R5 table
 prices the nine working skills alone, and the shared rulebook queues by the day-1 census.
+
+## 2026-08-12, 06:37-09:53 — stage-2 batch 2 on rule 32, stage 3's evidence and verdicts, and six repairs the pass paid for
+
+Root: his instruction of 2026-08-12 07:55 to run the next pass by the accepted plan. Written on
+2026-08-12 at 13:20 by the session that took the pass over, because the pass itself closed without
+an entry here; everything below is reconstructed from the twenty-six commits, from
+`.live-spec/batch2-verdicts-2026-08-12.md`, and from the `DECISIONS.md` lines the pass wrote.
+
+**Batch 2 took base rule 32, the release-tier law.** Rule 31 stands first by the day-1 census price
+and waits on his ruling about the two senses of "owner" (queue rows 536 and 539), so the resume
+block's own fallback applied and the batch took the next rule by price. The recipe walked whole:
+inventory at `0bf9844` with ten quoted requirements, an Opus rewrite at `0ac3b19` from 2,205 bytes
+to 1,449, a fresh clean-context check at `deba91b`, five architecture pins repointed at `4b20af9`,
+and the batch closed at `05560d0`. The rulebook fell 72,929 to 72,466, so the batch's own
+mechanical test passes. What the rewrite dropped: three worked examples, a dated provenance note,
+and two sentences about why the rule was written. Every normative sentence stayed.
+
+**Three items folded into the same batch.** The rulebook's head now names rule 30's retired number,
+so a reader meets the hole in the numbering with its explanation beside it. Four small restorations
+went back into rule 7 — the lead-in naming the parallel-lanes bullets as one family, the phrase
+"convergence point", the pointer to `scripts/open-lane.sh`'s own preconditions, and the actor on
+the independence-judging sentence. And the literal count of the base rulebook's rules was removed
+from three copies no test guarded, leaving the base's own frontmatter as its one home
+(`e17eea9`, `dc78db9`, rows 590, 593 and 595).
+
+**Stage 3 ran all three steps and cut almost nothing.** C1 at `7d59845` wrote an evidence line for
+each of the 25 checks with no dated catch; the plan expected 24, and the tree's own arithmetic —
+31 checks less the 6 with a dated catch — reconciles at 25. C2 at `3aec8e7` returned 18 keep, 6
+repair, and 1 already removed. C3 at `39a8bb9` executed no removal: the plan permits removing a
+check only where its evidence line names other coverage of the same failure class, exactly one
+check has such coverage named, and its own verdict recommends keeping it. What the stage yields is
+six repairs, each noted against its own queue row, and six questions written into `DECISIONS.md`
+for him. The questions are the class ruling covering fifteen silent-rot keeps, and gates ae, n, p,
+o and ab.
+
+**Six repairs the pass paid for beside the batch.** The rule-price page's 53 line pins were
+re-derived and 48 proved stale, and the pin guard was widened to read that page beside
+`ARCHITECTURE.md` (`0e95f45`, row 588). Thirteen more architecture pins were repointed after the
+rule edits moved their lines (`e8c4a3a`). The progress page's generator stopped writing a
+run-to-run comparison, which is why that same repair kept coming back to the output
+(`4dfdc66`, `0b218bb`). The mirror sync now tells an absent repository from a check that could not
+answer, and stops loudly on the second (`7520a42`, row 597). The worker-restore gate now says what
+the shell did with each command it finds, and the tlvphotos record was corrected to what that
+project's reply established: the command was declined by the harness, never ran, and cost nothing
+(`62447e8`, `1cadbe6`, `6ed17ec`, `9e94f75`, row 598). And the 3,095-runs figure behind decision D8
+was recorded in `DECISIONS.md` as a decision-time reading with no log behind it (`89cbcf7`).
+
+**What the pass left for the next one.** No full suite ran while it worked, because this
+environment moves a foreground command past 600 seconds into the background and the suite runs
+16 to 21 minutes, so every partial run of the morning was taken over a tree that workers were
+writing. The pass therefore stood unpushed at 09:53 and named the push as the next session's first
+act. That closing run, taken alone at 12:53, came back 3 failed and 2,491 passed in 993 seconds,
+and it found three things this pass had left behind: four documents standing above their recorded
+prose ceilings, two architecture pins five lines stale that the pin guard passed on an accidental
+word match, and this entry's own absence. All three are repaired at `46de0a6` and `999a28c`.
+
+The habit worth keeping: a pass that closes without its own journal entry leaves the next session
+reconstructing it from commits, and the reconstruction costs more than the writing would have.

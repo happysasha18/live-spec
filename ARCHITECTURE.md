@@ -72,15 +72,15 @@ named here and in the matrix.
 - `skills/live-spec-base/SKILL.md:108` (rules)
 - `skills/live-spec-base/SKILL.md:157` (rule 6 checkpoint incl. INV-107 closing half)
 - `skills/live-spec-base/SKILL.md:173` (rule 7 fence, INV-10/INV-11)
-- `skills/live-spec-base/SKILL.md:279` (rules 15-16, door + work-kind + prototype)
+- `skills/live-spec-base/SKILL.md:284` (rules 15-16, door + work-kind + prototype)
 - `skills/live-spec-base/SKILL.md:326` (rule 19, INV-23 — the workshop-noise law)
 - `skills/live-spec-base/SKILL.md:347` (rule 20, INV-65 — skill search at setup and struggle)
 - `skills/live-spec-base/SKILL.md:358` (rule 21, INV-84 — the clean-writer road)
 - `skills/live-spec-base/SKILL.md:368` (rule 22, INV-98 — the convergence principle)
-- `skills/live-spec-base/SKILL.md:377` (rule 23, INV-108 — the live-channel law)
+- `skills/live-spec-base/SKILL.md:382` (rule 23, INV-108 — the live-channel law)
 - `skills/live-spec-base/SKILL.md:634` (ladder)
-- `skills/live-spec-base/SKILL.md:686` (defaults incl. `budget.pressure` — the economy ladder's setting; the rungs' one home is the SPEC's economy-ladder section)
-- `skills/live-spec-base/SKILL.md:435` (rule 26, INV-136/INV-139 — a project kind declares design principles the verify pass runs; the per-kind table lives in this doc)
+- `skills/live-spec-base/SKILL.md:691` (defaults incl. `budget.pressure` — the economy ladder's setting; the rungs' one home is the SPEC's economy-ladder section)
+- `skills/live-spec-base/SKILL.md:440` (rule 26, INV-136/INV-139 — a project kind declares design principles the verify pass runs; the per-kind table lives in this doc)
 - `skills/live-spec-base/SKILL.md:448` (rule 27, INV-143 — the seat decides what it can decide, surfaces only what it cannot)
 - `skills/live-spec-base/SKILL.md:457` (rule 28, INV-145 — the periodic full audit)
 - `skills/live-spec-base/SKILL.md:560` (rule 32, INV-217 — the release-tier rule, minor/major/patch by the host cost)
@@ -510,7 +510,7 @@ named here and in the matrix.
 **owns** — E-18
 
 **pins** —
-- wiring: `skills/live-spec-base/SKILL.md:683` (defaults table, `design-sync` row)
+- wiring: `skills/live-spec-base/SKILL.md:688` (defaults table, `design-sync` row)
 - wiring: `skills/communicator/SKILL.md:181` (rule 5's channel line)
 - wiring: `skills/build-pipeline/SKILL.md:498` (the design-sync line in step 9)
 - machine: —

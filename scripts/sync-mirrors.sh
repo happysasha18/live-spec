@@ -460,8 +460,14 @@ for skill_path in "$SKILLS_DIR"/*/; do
       echo "sync-mirrors: FAIL — gh is not on PATH, so no mirror repo can be checked." >&2
       exit 1
     fi
-    gh_view_err="$(gh repo view "$repo" 2>&1 >/dev/null)"
-    gh_view_status=$?
+    # `set -e` counts an assignment whose command substitution fails as the failing simple
+    # command, so a bare `gh_view_err="$(gh ...)"` kills the script the moment gh exits
+    # non-zero — before the status can be read and before any branch below can run. Seeding
+    # the status and appending `|| gh_view_status=$?` puts the assignment inside a compound
+    # command, where errexit stands down and the status reaches the branches (found
+    # 2026-08-12 by the push review of `e8900d9..493f094`, finding 4).
+    gh_view_status=0
+    gh_view_err="$(gh repo view "$repo" 2>&1 >/dev/null)" || gh_view_status=$?
     if [ "$gh_view_status" -ne 0 ]; then
       if grep -qi 'Could not resolve to a Repository\|HTTP 404' <<< "$gh_view_err"; then
         echo "${skill_name}: skipped (no mirror repo yet)"
