@@ -91,12 +91,21 @@ history: it is counted in every verdict line and reds nothing. A finding stamped
 date reds. A finding whose record carries no timestamp reds, since the gate cannot place it. Move the
 date back to read the history: `--counting-from 2000-01-01 --all` lists every finding on disk.
 
-The start moved once, from 2026-07-28 to 2026-08-13, on 2026-08-12. Session
-`af22b716-c9d7-48b2-b3fd-2be1820a1a14` ran `git checkout -- lab/data/step3-grid-derivation.json` in
-`/Users/sashaabramovich/tlvphotos` at 2026-08-12T06:05:40Z, discarding uncommitted edits laid on top
-of a file last committed 2026-08-11T23:41:50+03:00. The finding is recorded in `DECISIONS.md`
-(2026-08-12) and `ROADMAP.md` row 598; it now stands as history, since a red that can never clear
-blocks every future run, and the date moves forward on a recorded finding, never in silence.
+The start carries a date, or an ISO timestamp that adds a time of day
+(`2026-08-12T06:06:00Z`); a plain date still means midnight at the start of that day, so nothing
+already written changes meaning.
+
+The start moved twice on 2026-08-12. First from 2026-07-28 to 2026-08-13, to carry one recorded
+finding as history — session `af22b716-c9d7-48b2-b3fd-2be1820a1a14` ran `git checkout --
+lab/data/step3-grid-derivation.json` in `/Users/sashaabramovich/tlvphotos` at 2026-08-12T06:05:40Z,
+discarding uncommitted edits laid on top of a file last committed 2026-08-11T23:41:50+03:00. A
+whole-day step also carried every discarding command run for the rest of that day past the gate
+unnoticed, with several workers running in this repository the same day. The start now reads
+`2026-08-12T06:06:00Z`, one minute after the finding: the finding still stands as history, recorded
+in `DECISIONS.md` (2026-08-12) and `ROADMAP.md` row 598, and every discarding command stamped
+2026-08-12T06:06:00Z or later reds again. A red that can never clear blocks every future run, so the
+date moves forward on a recorded finding, never in silence — and never further than the finding
+requires.
 
 THE STAND-DOWN. When the transcript root does not exist, this host keeps no transcripts where the
 gate looks. The gate stands down, says so by name, and exits 0 — a stated stand-down rather than a
@@ -107,7 +116,8 @@ after that check, and a window holding no worker run is legitimate — a session
 so an empty WINDOW is declared here as a permitted empty set and reports OK naming the window.
 
 Usage:
-  check-worker-restore.py [--root PATH] [--since-hours H] [--all] [--counting-from YYYY-MM-DD]
+  check-worker-restore.py [--root PATH] [--since-hours H] [--all]
+                           [--counting-from YYYY-MM-DD | YYYY-MM-DDTHH:MM:SSZ]
 Exit 0 when no worker run discarded working-tree changes since the counting start, 1 otherwise.
 Stdlib only.
 """
@@ -129,17 +139,22 @@ DEFAULT_ROOT = os.path.join(os.path.expanduser("~"), ".claude", "projects")
 DEFAULT_SINCE_HOURS = 24.0
 RUN_GLOB = os.path.join("*", "*", "subagents", "agent-*.jsonl")
 
-# The day the gate began counting. Every worker run stamped before it is history: the clause was
+# The moment the gate began counting. Every worker run stamped before it is history: the clause was
 # written on 2026-07-27 and the machine's transcripts hold runs from before it, so a gate that red on
 # them would have been switched off rather than obeyed. History is counted and named in every verdict
-# line, and reds nothing. The date moves forward only with a recorded reason, and moving it forward
-# hides findings — read the history first with `--counting-from 2000-01-01 --all`.
+# line, and reds nothing. The value moves forward only with a recorded reason, never further than
+# that reason requires, and moving it forward hides findings — read the history first with
+# `--counting-from 2000-01-01 --all`. It reads a plain date (meaning midnight at the start of that
+# day) or a full ISO timestamp with a time of day.
 #
 # Moved from 2026-07-28 to 2026-08-13 on 2026-08-12, to carry one finding as history: session
 # af22b716-c9d7-48b2-b3fd-2be1820a1a14 ran `git checkout -- lab/data/step3-grid-derivation.json` in
-# /Users/sashaabramovich/tlvphotos at 2026-08-12T06:05:40Z. Recorded in DECISIONS.md (2026-08-12) and
-# ROADMAP.md row 598.
-COUNTING_FROM = "2026-08-13"
+# /Users/sashaabramovich/tlvphotos at 2026-08-12T06:05:40Z. That whole-day step also carried every
+# discarding command run for the rest of 2026-08-12 past the gate unnoticed. Narrowed the same day to
+# 2026-08-12T06:06:00Z, one minute after the finding: the finding still stands as history, recorded in
+# DECISIONS.md (2026-08-12) and ROADMAP.md row 598, and every discarding command from 06:06 onward
+# that day reds again.
+COUNTING_FROM = "2026-08-12T06:06:00Z"
 
 # The segment separators a shell command line is cut on, so `cd x && git restore y` is read as its
 # own invocation. The pipe is included: `yes | git clean -fd` is still git clean. Each separator is
@@ -156,6 +171,10 @@ WRAPPERS = ("command", "sudo", "env")
 _HEREDOC_OPENER = re.compile(r"(?<!<)<<(?!<)-?\s*(['\"]?)([A-Za-z_][A-Za-z0-9_]*)\1")
 
 WHOLE_TREE = "the whole working tree"
+
+# A counting-start value: a plain date, or an ISO timestamp that adds a time of day.
+_COUNTING_FROM_DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+_COUNTING_FROM_TIMESTAMP_RE = re.compile(r"^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}")
 
 
 def _without_heredoc_bodies(command):
@@ -659,17 +678,32 @@ def scan(paths):
     return findings, commands_read
 
 
+def _normalize_stamp(value):
+    """`value`'s first 19 characters as `YYYY-MM-DDTHH:MM:SS`, comparable as plain text against
+    another normalized stamp.
+
+    A bare date (`YYYY-MM-DD`, 10 characters) is padded with `T00:00:00` — midnight at the start of
+    that day, which is what a date-only value has always meant here, so nothing already written
+    changes meaning. A fuller timestamp is read only to the second; a trailing `Z`, a fractional
+    part, or a numeric offset falls past the 19th character and is dropped.
+    """
+    if len(value) == 10:
+        return value + "T00:00:00"
+    return value[:19]
+
+
 def is_history(finding, counting_from):
     """True when the run's record is stamped before the counting start.
 
-    The stamp is the harness's ISO-8601 timestamp, so its first ten characters are the date and
-    compare as text. A record carrying no stamp is never history: the gate cannot place it in time,
-    and an unplaceable finding is read as a new one.
+    The stamp is the harness's ISO-8601 timestamp. Both it and the counting start are normalized to
+    `YYYY-MM-DDTHH:MM:SS` (see `_normalize_stamp`) and compared as text, which reads a start carrying
+    a time of day exactly as finely as it reads one that doesn't. A record carrying no stamp is never
+    history: the gate cannot place it in time, and an unplaceable finding is read as a new one.
     """
     at = finding.get("at") or ""
     if len(at) < 10 or not at[:4].isdigit():
         return False
-    return at[:10] < counting_from
+    return _normalize_stamp(at) < _normalize_stamp(counting_from)
 
 
 def _open_sentence(text):
@@ -698,14 +732,16 @@ def main(argv=None):
                         help="read every worker run on disk rather than the recent window")
     parser.add_argument("--counting-from",
                         default=os.environ.get("LIVE_SPEC_WORKER_RESTORE_FROM", COUNTING_FROM),
-                        help="the day the gate starts counting; a finding stamped before it is "
-                             "carried as history (YYYY-MM-DD)")
+                        help="the moment the gate starts counting; a finding stamped before it is "
+                             "carried as history (YYYY-MM-DD, or YYYY-MM-DDTHH:MM:SSZ for a time "
+                             "of day)")
     args = parser.parse_args(argv)
 
     counting_from = args.counting_from.strip()
-    parts = counting_from.split("-")
-    if len(parts) != 3 or not all(p.isdigit() for p in parts) or len(parts[0]) != 4:
-        print("%s: --counting-from reads %r, and the gate reads a date written YYYY-MM-DD."
+    if not (_COUNTING_FROM_DATE_RE.match(counting_from)
+             or _COUNTING_FROM_TIMESTAMP_RE.match(counting_from)):
+        print("%s: --counting-from reads %r, and the gate reads a date written YYYY-MM-DD or an "
+              "ISO timestamp written YYYY-MM-DDTHH:MM:SSZ."
               % (CHECK, args.counting_from))
         return 1
 
