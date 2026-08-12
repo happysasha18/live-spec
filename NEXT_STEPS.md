@@ -80,14 +80,15 @@ whole-document property sweep" is defined nowhere. Row 611 asks whether the clas
 line, though its tier says none is owed. The mirror re-sync his ask names comes after these are
 pushed, because the sync reads the committed tree.
 
-**The range `4a0b982..HEAD` goes out this pass, nine commits.** Seven carry the day's later work. They are
-the plan repair, this resume file twice, and the prover read with its queue rows. The rest are the
-two prover fixes with their review record, and the queue row for the install defect the tlvphotos
-window reported.
-The eighth carries the repairs the push review of this very range asked for, and the ninth carries
-that review's record. One of the nine edits a skill body, so the push also needs the full suite
-green. `guardrails/check-prover-record.sh --push` reds until the record lands, because it compares
-the newest record commit against the newest reviewed commit.
+**The range `4a0b982..HEAD` goes out this pass.** Count it with `git log`, since a number written
+here rots between passes. The day's later work carries the plan repair, this resume file, and the
+prover read with its queue rows. Beside those sit the two prover fixes with their review record, and
+the queue row for the install defect the tlvphotos window reported. Above them sit this walk's own
+answers. They are the repairs the push review demanded, the two tests the gate chain demanded, and
+the review record itself. One commit in the range edits a skill body, so the push also needs the
+full suite green.
+`guardrails/check-prover-record.sh --push` reds until the record lands, because it compares the
+newest record commit against the newest reviewed commit.
 
 **The plan wears its statuses.** `.live-spec/culling-plan-v3-2026-08-10.md` is the one copy. A full
 read of it today found four cells disagreeing with their own text, and all four are repaired.
