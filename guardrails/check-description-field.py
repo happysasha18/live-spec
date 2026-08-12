@@ -18,7 +18,7 @@ that field's mechanical net, pinned to a PRESENCE check: it asserts every regist
 Formal index carries a non-empty description field and reds a code whose field is empty, naming the
 code. It judges presence ALONE — whether the description reads well, or semantically matches the
 item, is the human sampling net below [INV-41], never the machine's, because a semantic match on a
-translated, reformulated sentence is undecidable and no gate can rule on it [base rule 30].
+translated, reformulated sentence is undecidable and no gate can rule on it.
 
 DORMANT UNTIL ARMED (folded finding N5, INV-217). The existing code set carries no rich descriptions
 yet — the back-describe migration that gives every already-registered code its plain-description line

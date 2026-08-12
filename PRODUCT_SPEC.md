@@ -3031,9 +3031,9 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 ## Requirement 132: Compaction is continuous, a gate on every push
 
-**Context:** The doc- and code-compaction stations run at every push, above the milestone that once held them alone. Every push is held to the reached-clean floor by a mechanical gate, so no bloat accumulates between milestones. The deeper rule this carries reaches every project: any quality a machine can verify is wired as a blocking gate, since a quality left to attention is a defect of the method.
+**Context:** The doc- and code-compaction stations run at every push, above the milestone that once held them alone. Every push is held to the reached-clean floor by a mechanical gate, so no bloat accumulates between milestones. The general clause that once stood here — any quality a machine can verify becomes a blocking gate — is removed. A check no longer follows from the property being checkable; it is opened where a standing rule breaks a second time, or where the owner asks for it.
 
-**User Story:** As a person guarding against bloat, I want the clean floor held by a gate on every push, so that no bloat accumulates between the milestone whole-reads and no verifiable quality rests on attention.
+**User Story:** As a person guarding against bloat, I want the clean floor held by a gate on every push, so that no bloat accumulates between the milestone whole-reads.
 
 ### Acceptance Criteria
 
@@ -3042,9 +3042,9 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 1. *when* a push runs, the system *shall* hold it to the reached-clean floor: the register lint at zero errors, the redundancy gate at zero open pairs, and the debt cap ratcheting down only, each asserted against the live document. [INV-164, INV-83, INV-98]
 2. The system *shall* run the milestone whole-read above the gate as the deep periodic audit, so the two stations layer rather than duplicate. [INV-164]
 
-**Case: a machine-verifiable quality is a gate**
+**Case: a check is not born from checkability**
 
-3. The system *shall* wire any quality a machine can verify as a blocking gate held by no pass's attention, since a quality left to attention is a defect of the method. [INV-164]
+3. The system *shall* mint no gate from the sole fact that a quality is machine-verifiable, and *shall* open a new check only *where* a standing rule has broken a second time or the owner has asked for it. [INV-164, INV-108]
 
 ---
 
@@ -7986,7 +7986,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-105 | R83.3, R88.1, R90.5, R207.3, R256.5, R256.6 |
 | INV-106 | R140.1, R140.2 |
 | INV-107 | R126.1, R126.2, R131.2, R183.2 |
-| INV-108 | R43.2, R154.5, R222.1, R222.2, R222.3, R222.4, R233.4, R269.1 |
+| INV-108 | R43.2, R132.3, R154.5, R222.1, R222.2, R222.3, R222.4, R233.4, R269.1 |
 | INV-109 | R24.1, R24.2, R24.3, R130.5 |
 | INV-110 | R115.1, R183.1, R185.1, R185.2, R185.3, R185.4 |
 | INV-111 | R130.7, R183.1, R183.2, R183.3, R183.4, R183.5, R183.6, R183.7, R184.1, R192.6 |

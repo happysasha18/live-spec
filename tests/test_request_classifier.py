@@ -254,8 +254,9 @@ class TestDeferralJustifiesItself(DocHomeCase):
 
         The count is derived from the shape the file gives its rules: a top-level numbered bold
         head, `N. **`, matched at column zero so an indented sub-point is passed over. The heads
-        are required to number consecutively from one, since a repeated or skipped number would
-        make the derived count disagree with the rulebook's own numbering.
+        are required to number strictly upward from one; a cut rule leaves its number standing as
+        a hole (rule 30, cut by his D2 word 2026-08-11), because every citation keeps pointing at
+        the number it names, and the count derives from the heads present.
 
         Accepted description shape: the count stated immediately before the word "rules", either
         as an English number word ("thirty-one") or as a numeral ("31"); the rest of the sentence
@@ -269,9 +270,12 @@ class TestDeferralJustifiesItself(DocHomeCase):
         heads = [int(n) for n in re.findall(r"^([0-9]+)\. \*\*", read(rel), re.M)]
         self.assertTrue(heads, "%s states no numbered rule heads (`N. **`), so the rule count "
                                "has nothing to derive from" % rel)
-        self.assertEqual(heads, list(range(1, len(heads) + 1)),
-                         "%s numbers its rule heads %s; the body numbers its rules consecutively "
-                         "from one" % (rel, heads))
+        self.assertEqual(heads[0], 1,
+                         "%s opens its rule heads at %d; the body numbers its rules from one"
+                         % (rel, heads[0]))
+        self.assertEqual(heads, sorted(set(heads)),
+                         "%s numbers its rule heads %s; the numbers climb strictly, a cut rule's "
+                         "number stays a hole and is never reused" % (rel, heads))
         rules = len(heads)
 
         desc = _frontmatter_description(rel)

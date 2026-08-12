@@ -1,14 +1,14 @@
 # Progress — the two promises
 
-Generated 2026-08-11 by `python3 scripts/progress-report.py`.
+Generated 2026-08-12 by `python3 scripts/progress-report.py`.
 
-Since the last run on 2026-08-11, total findings changed by 0 and documents at zero changed by 0.
+Since the last run on 2026-08-12, total findings changed by 0 and documents at zero changed by 0.
 
 ## Where the two promises stand
 
 Promise one, a reader gets through a document without stopping, measures 4,871 open writing findings across the live set today.
 
-Promise two, the specification stops growing, measures PRODUCT_SPEC.md at 702,684 bytes against its 840,000-byte ceiling today.
+Promise two, the specification stops growing, measures PRODUCT_SPEC.md at 702,784 bytes against its 840,000-byte ceiling today.
 
 ## The queue, in the plan's order
 
@@ -226,9 +226,9 @@ The fifteen documents carrying the most findings:
 
 | measure | today | at the format change, 2026-07-23 | ceiling | target |
 |---|---|---|---|---|
-| bytes | 702,684 | 590,695 | 840,000 | under the ceiling |
+| bytes | 702,784 | 590,695 | 840,000 | under the ceiling |
 | lines | 8,223 | not stated | not stated | set by the subdivision plan |
-| words | 117,794 | not stated | not stated | set by the subdivision plan |
+| words | 117,814 | not stated | not stated | set by the subdivision plan |
 | requirements | 310 | 282 | not stated | set by the subdivision plan |
 | acceptance criteria | 1,776 | 1,372 | not stated | set by the subdivision plan |
 | bytes per criterion | 184.9 | not stated | 207.2 | falls or holds |

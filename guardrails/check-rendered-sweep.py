@@ -4,7 +4,7 @@
 A rendered page is built to be read once, and the tree carried four of them at the root when
 this check was written, the oldest eighteen days old and one of them a render of a document that
 no longer exists under that name. The clearing was a habit nobody held, and a quality left to
-attention fails without a sound (base rule 30). So the clearing gets a machine.
+attention fails without a sound. So the clearing gets a machine.
 
 The rule this check reads is the renderer rule, stated once in `scripts/sweep-rendered.py` and
 imported from there so the check and the sweep can never disagree: a page the pack's document

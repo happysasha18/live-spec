@@ -7,7 +7,7 @@ sender is blocked by the receiver's zone as it stands, or the sender lived a fau
 zone and carries the evidence it lived. A message that can name neither is never sent,
 because curiosity, tidiness, and the thought that a neighbour might want to know each
 describe a message the sender's own work does not need. Until now that was discipline
-only, and discipline is what a long session spends first (base rule 30).
+only, and discipline is what a long session spends first.
 
 This gate is its mechanical arm. It reads the inbox as a folder of deposits, finds each
 one an AGENT sent, and reds when such a deposit names neither birth. The red clears one of

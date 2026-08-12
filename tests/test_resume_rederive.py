@@ -53,7 +53,7 @@ class ResumeRederive(unittest.TestCase):
             "base rule 34 does not state the resume re-derivation law",
         )
         # the description's rule count moved with the added rule
-        self.assertIn("thirty-five rules in the body", skill)
+        self.assertIn("thirty-four rules in the body", skill)
         self.assertNotIn("thirty-three rules in the body", skill)
 
     def test_inv247_distinct_from_queue_take_rescan(self):

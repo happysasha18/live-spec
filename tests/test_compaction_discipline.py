@@ -7,6 +7,7 @@ per-item judgment, kin to the removal-accounting duty (INV-109).
 """
 
 import os
+import re
 import unittest
 
 from conftest import ROOT, criterion_with_bullets, read, read_flat
@@ -56,14 +57,15 @@ class TestCompactionDiscipline(unittest.TestCase):
 
 
 class TestCompactionIsContinuous(unittest.TestCase):
-    """INV-164 (the 2.0 method rule): compaction runs at every push, held by a mechanical gate, not
-    saved for the milestone; and the deeper rule — a machine-verifiable quality is a gate, not a
-    habit. This is the fix for the spec bloating when compaction ran milestone-only (2026-07-15)."""
+    """INV-164: compaction runs at every push, held by a mechanical gate, not saved for the
+    milestone. This is the fix for the spec bloating when compaction ran milestone-only
+    (2026-07-15). The clause that once minted a gate from any machine-verifiable quality is
+    removed; a check is opened from a second break (INV-108) or the owner's word."""
 
-    def test_machine_verifiable_is_a_gate_not_a_habit(self):
+    def test_a_check_is_not_born_from_checkability(self):
         spec = read_flat("PRODUCT_SPEC.md")
-        self.assertIn("any quality a machine can verify is wired as a blocking gate", spec)
-        self.assertIn("a quality left to attention is a defect of the method", spec)
+        self.assertIn("mint no gate from the sole fact that a quality is machine-verifiable", spec)
+        self.assertNotIn("wire any quality a machine can verify as a blocking gate", spec)
 
     def test_compaction_is_continuous(self):
         spec = read_flat("PRODUCT_SPEC.md")
@@ -81,12 +83,16 @@ class TestCompactionIsContinuous(unittest.TestCase):
                     return
         self.fail("INV-164 index row missing")
 
-    def test_base_rulebook_carries_the_principle(self):
-        """The method rule reaches every project through the base rulebook (rule 30, SPEC INV-164)."""
-        base = read_flat("skills/live-spec-base/SKILL.md")
-        self.assertIn("A quality a machine can verify is enforced by a gate", base)
-        self.assertIn("A quality left to attention is a defect of the method", base)
-        self.assertIn("SPEC INV-164", base)
+    def test_base_rulebook_carries_no_generator_rule(self):
+        """The rulebook no longer carries the rule that minted a gate from checkability. Its
+        number 30 stays a hole: the rules after it keep the numbers every citation points at."""
+        base = read("skills/live-spec-base/SKILL.md")
+        self.assertNotIn("A quality a machine can verify is enforced by a gate",
+                         " ".join(base.split()))
+        heads = re.findall(r"^(\d+)\. \*\*", base, re.M)
+        self.assertNotIn("30", heads, "rule 30 is cut; its number stays a hole")
+        self.assertIn("29", heads)
+        self.assertIn("31", heads)
 
     def test_build_pipeline_carries_compaction_every_pass(self):
         """Baked into build-pipeline: compaction is a station run every pass (SPEC INV-164)."""

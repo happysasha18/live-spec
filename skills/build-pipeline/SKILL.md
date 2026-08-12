@@ -70,7 +70,7 @@ belongs to the project under change, including `PRODUCT_SPEC.md`, `ARCHITECTURE.
 own `PRODUCT_SPEC.md`. `PRODUCT_SPEC.index.md` maps each code to the criteria that carry it. The word
 `SPEC` before a code marks that same home and names no separate series. `M-1` is the milestone gate
 and `M-6` is the push gate. A **base rule N** points at the numbered rule N in
-`skills/live-spec-base/SKILL.md`, which carries thirty-five. A **communicator rule N** points into
+`skills/live-spec-base/SKILL.md`, which carries thirty-four. A **communicator rule N** points into
 `skills/communicator/SKILL.md`. That file numbers twice: its behaviour rules carry an inline
 `(rule N)` tag, and its writing-register checklist restarts at 1. This page names which of the two
 it means each time.
@@ -542,9 +542,7 @@ and why each is a trap (SPEC T-12, T-15, INV-4, INV-5, INV-15).
   stations run at every push, above the MINOR gate that once held them alone. Every push is held to the
   reached-clean floor by the mechanical gates — the register lint at zero errors, the redundancy gate at
   zero open pairs, and the debt cap that only ratchets down (`scripts/spec-debt-cap.json`) — asserted
-  against the live document by the suite, so no bloat accumulates between milestones. The deeper method
-  rule (base rule 30): any quality a machine can verify is shipped as a runnable gate a host attaches,
-  held by no pass's attention, since a quality left to attention is a defect of the method. This is the
+  against the live document by the suite, so no bloat accumulates between milestones. This is the
   fix for the spec bloating when compaction ran milestone-only (2026-07-15).
 - **Process bookkeeping scales to the delta (SPEC INV-61):** the pre-push re-check keeps its rigor and
   scales its FORM — a small delta (skill/prose/infra kind, no new surface, no structure change) ships a

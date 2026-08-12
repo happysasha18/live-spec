@@ -67,7 +67,7 @@ Work enters the spec before code. A new behaviour arrives as a spec change, gets
 
 ## The rules are the product
 
-The rules are the part a software house would charge you for: thirty-five shared rules across the skill set, stated once. They cover how a spec gets written so it stays readable. They cover when a question is worth your attention and when it is routine. They cover what a green suite does and does not prove.
+The rules are the part a software house would charge you for: thirty-four shared rules across the skill set, stated once. They cover how a spec gets written so it stays readable. They cover when a question is worth your attention and when it is routine. They cover what a green suite does and does not prove.
 
 <!-- generated:count:skills-lines — scripts/gen-tree-counts.py owns the block below -->
 

@@ -1,6 +1,6 @@
 ---
 name: live-spec-base
-description: Load before using any live-spec pack skill (spec-author, product-prover, design-reviewer, build-pipeline, test-author, communicator, feedback-intake, feedback-collector, text-audit, publish), before briefing a worker that will write files, or to resolve shared rules and settings. It is the one home for the shared rules — thirty-five rules in the body — and for the settings ladder.
+description: Load before using any live-spec pack skill (spec-author, product-prover, design-reviewer, build-pipeline, test-author, communicator, feedback-intake, feedback-collector, text-audit, publish), before briefing a worker that will write files, or to resolve shared rules and settings. It is the one home for the shared rules — thirty-four rules in the body — and for the settings ladder.
 metadata:
   version: 4.3.0
 ---
@@ -488,17 +488,6 @@ meaning. If the answer to a class is a list, the design is wrong.
    re-fires the derivability test at the moment a marker is written or the harness's own
    `AskUserQuestion` prompt is opened, so the re-test fires right at the point the leak would happen. It
    reminds and cannot block, the way the chat laws are always delivered (SPEC INV-28).
-
-30. **A quality a machine can verify is enforced by a gate, held by no attention (SPEC INV-164).** Any
-   property the project can check mechanically is wired as a blocking gate that runs on every push, held
-   by no pass's attention. The register clean, the redundancy gone, the anchors intact, and the suite
-   green are four such properties. A quality left to attention is a defect of the method. Attention is
-   the first thing a long session spends, and it fails without a sound. Compaction is the worked case. The doc and code
-   stations run at every push under the debt cap that only ratchets down (SPEC INV-98, INV-115, INV-123).
-   They run above the milestone whole-read that once held them alone, so no bloat accumulates between
-   milestones.
-   This is why the pack ships its checks as runnable gates a host attaches (SPEC INV-97). Prose a host
-   is trusted to remember would let the quality slip the moment attention did.
 
 31. **Agents talk on exactly two channels, and a message earns its passage (SPEC INV-183, INV-189).**
    Several agents on one person's projects generate noise the moment they can talk to each other. This

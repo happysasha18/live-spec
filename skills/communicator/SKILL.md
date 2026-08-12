@@ -9,7 +9,7 @@ metadata:
 
 > Part of the **live-spec pack**. The shared working rules live once in the pack's base skill,
 > `live-spec-base` (v4.3.0), whose file is `skills/live-spec-base/SKILL.md`. That file carries
-> thirty-five numbered rules, and every "base rule N" on this page points into it. Four scopes settle
+> thirty-four numbered rules, and every "base rule N" on this page points into it. Four scopes settle
 > a setting there, in this order: the session's live word, then the host profile, then the personal
 > profile, then the package default. This skill points at those rules and covers only its own subject.
 > Used on its own, this skill is plain advice a person applies by hand.

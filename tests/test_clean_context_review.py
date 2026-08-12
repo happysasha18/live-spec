@@ -67,7 +67,7 @@ class TestCleanContextReview(unittest.TestCase):
         self.assertIn("33. **The authoring seat does not adversarially certify its own work", base)
         self.assertIn("SPEC INV-237", base)
         # the rule-count claim in the description stays in sync
-        self.assertIn("thirty-five rules in the body", base)
+        self.assertIn("thirty-four rules in the body", base)
 
     def test_build_pipeline_wires_verify_station(self):
         bp = flat("skills/build-pipeline/SKILL.md")

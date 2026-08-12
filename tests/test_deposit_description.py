@@ -4,7 +4,7 @@ The named-reference pair's new reach is the agent channel: when an agent deposit
 inbox file, every internal code it references travels beside its plain one-sentence description, so
 the neighbour reads a self-explaining file [E-35, INV-183]. This lint is that reach's mechanical net
 — `guardrails/check-deposit-description.py`. It reads the same `from-<agent>` deposits the
-earned-message gate reads [INV-189, base rule 30] and reds a referenced internal code that arrives
+earned-message gate reads [INV-189] and reds a referenced internal code that arrives
 with no description beside it, naming the code and the file. It judges PRESENCE alone and never the
 semantic match, undecidable on a translated or reformulated sentence and owned by the human net
 [INV-41, INV-83].

@@ -9,7 +9,7 @@ file and never a bare code it cannot decode [INV-183]. This lint reads every `fr
 deposit and reds a referenced internal code that arrives with no non-empty description beside it,
 naming the code and the file. It is homed beside the earned-message gate `check-earned-message.py`,
 which already reads those same deposited files, and it reuses that gate's file-discovery so the two
-nets read one corpus by one rule [base rule 30, INV-189].
+nets read one corpus by one rule [INV-189].
 
 It judges PRESENCE ALONE, never the semantic match: whether the words beside a code truly describe it
 is undecidable on a translated or reformulated sentence and belongs to the human net [INV-41, INV-83].

@@ -78,15 +78,15 @@ named here and in the matrix.
 - `skills/live-spec-base/SKILL.md:356` (rule 21, INV-84 — the clean-writer road)
 - `skills/live-spec-base/SKILL.md:366` (rule 22, INV-98 — the convergence principle)
 - `skills/live-spec-base/SKILL.md:380` (rule 23, INV-108 — the live-channel law)
-- `skills/live-spec-base/SKILL.md:651` (ladder)
-- `skills/live-spec-base/SKILL.md:708` (defaults incl. `budget.pressure` — the economy ladder's setting; the rungs' one home is the SPEC's economy-ladder section)
+- `skills/live-spec-base/SKILL.md:640` (ladder)
+- `skills/live-spec-base/SKILL.md:697` (defaults incl. `budget.pressure` — the economy ladder's setting; the rungs' one home is the SPEC's economy-ladder section)
 - `skills/live-spec-base/SKILL.md:438` (rule 26, INV-136/INV-139 — a project kind declares design principles the verify pass runs; the per-kind table lives in this doc)
 - `skills/live-spec-base/SKILL.md:446` (rule 27, INV-143 — the seat decides what it can decide, surfaces only what it cannot)
 - `skills/live-spec-base/SKILL.md:455` (rule 28, INV-145 — the periodic full audit)
-- `skills/live-spec-base/SKILL.md:567` (rule 32, INV-217 — the release-tier rule, minor/major/patch by the host cost)
-- `skills/live-spec-base/SKILL.md:503` (rule 31, the earned-message law INV-183/INV-189 the named-reference machinery joins. The pair-travels register [E-35], the living-description heal [INV-240], and the earned auto-deposit [T-24] ride this rule's build, ROADMAP 424 [target]. The prover's station stands as their net until they ship, per [INV-150].)
+- `skills/live-spec-base/SKILL.md:556` (rule 32, INV-217 — the release-tier rule, minor/major/patch by the host cost)
+- `skills/live-spec-base/SKILL.md:492` (rule 31, the earned-message law INV-183/INV-189 the named-reference machinery joins. The pair-travels register [E-35], the living-description heal [INV-240], and the earned auto-deposit [T-24] ride this rule's build, ROADMAP 424 [target]. The prover's station stands as their net until they ship, per [INV-150].)
 - `skills/live-spec-base/SKILL.md:197` (rule 7's worker-restore sub-rule, INV-298 — the worker holds its own bytes, halts when it holds none, and the orchestrator owns recovery)
-- `skills/live-spec-base/SKILL.md:621` (rule 35, INV-302 — the session extract, the closing step written by a fresh agent, and the opening decision sweep)
+- `skills/live-spec-base/SKILL.md:610` (rule 35, INV-302 — the session extract, the closing step written by a fresh agent, and the opening decision sweep)
 
 **notes** — INV-11, INV-117, E-31: three of these are read by the parallel-lanes node and stay here, each for a stated reason; INV-225: ROADMAP 388
 
@@ -510,7 +510,7 @@ named here and in the matrix.
 **owns** — E-18
 
 **pins** —
-- wiring: `skills/live-spec-base/SKILL.md:705` (defaults table, `design-sync` row)
+- wiring: `skills/live-spec-base/SKILL.md:694` (defaults table, `design-sync` row)
 - wiring: `skills/communicator/SKILL.md:181` (rule 5's channel line)
 - wiring: `skills/build-pipeline/SKILL.md:498` (the design-sync line in step 9)
 - machine: —
