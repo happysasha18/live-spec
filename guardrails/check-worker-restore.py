@@ -41,6 +41,31 @@ record; the gate reads the records whose `type` is `assistant`, walks their `mes
 and takes the `input.command` string of every block whose `type` is `tool_use` and whose `name` is
 `Bash`. It reads `cwd`, `sessionId`, `agentId` and `timestamp` off the same record to name the run.
 
+WHAT THE SHELL ANSWERED. Every `tool_use` block carries an `id`, and the shell's answer to that call
+sits in the same file: a later record holding a `tool_result` block whose `tool_use_id` repeats it. A
+call the harness REFUSED is marked on that answering record by a `toolDenialKind` key —
+`automode-blocked`, `permission-rule`, `user-rejected` or `interrupted` — and the block carries
+`is_error` true with the refusal notice as its text. Nothing reached a shell. A call that RAN carries
+no such key whatever its exit status: a success comes back with the shell's stdout, and a command
+that exited 1 comes back as an error carrying the shell's own complaint. Across the 2,200 worker runs
+on this machine every refusal carries the key and no ordinary answer does, so the key is the whole
+signal and the refusal's own text is never read for meaning. A call whose id finds no answering block
+— a run cut off mid-call, a transcript still being written — has an UNKNOWN outcome. The answers are
+read only from a run that already produced a finding, so a clean run costs the one pass it always
+did.
+
+WHAT A FINDING SAYS ABOUT ITS OUTCOME. Every finding names one of the three: the command RAN, the
+harness DECLINED it, or the transcript gives no answer and the outcome is UNKNOWN. All three red. The
+rule forbids handing such a command to a shell at all, and whether the shell obeyed lies outside the
+worker's reach — the same brief and the same momentum land the destructive case on a machine whose
+permissions are set one notch looser. What the outcome changes is the RECOVERY, so the findings print
+ranked by the work they leave a reader: the executed ones first, then the ones with no recorded
+answer, then the declined attempts. Unknown sits second because it cannot be ruled out, and a reader
+who must go and check whether bytes are gone faces the same errand as one who knows they are, while a
+declined attempt costs nothing to recover and leaves only a brief to tighten. The verdict line tallies
+the three, and the typed JSON line carries the first finding after the ranking, so a machine reading
+one object reads the most urgent one.
+
 WHAT IT DOES NOT SEE. It reads no prose. A worker report, a brief, or a plan that NAMES a restore is
 left alone — only a command the worker actually handed to a shell counts, and only when the segment's
 first word is `git`, so the same text quoted inside a `grep` pattern stays silent. Text a command
@@ -96,9 +121,8 @@ The start carries a date, or an ISO timestamp that adds a time of day
 already written changes meaning.
 
 The start moved twice on 2026-08-12. First from 2026-07-28 to 2026-08-13, to carry one recorded
-finding as history — session `af22b716-c9d7-48b2-b3fd-2be1820a1a14` ran `git checkout --
-lab/data/step3-grid-derivation.json` in `/Users/sashaabramovich/tlvphotos` at 2026-08-12T06:05:40Z,
-discarding uncommitted edits laid on top of a file last committed 2026-08-11T23:41:50+03:00. A
+finding as history — session `af22b716-c9d7-48b2-b3fd-2be1820a1a14` handed a shell `git checkout --
+lab/data/step3-grid-derivation.json` in `/Users/sashaabramovich/tlvphotos` at 2026-08-12T06:05:40Z. A
 whole-day step also carried every discarding command run for the rest of that day past the gate
 unnoticed, with several workers running in this repository the same day. The start now reads
 `2026-08-12T06:06:00Z`, one minute after the finding: the finding still stands as history, recorded
@@ -106,6 +130,17 @@ in `DECISIONS.md` (2026-08-12) and `ROADMAP.md` row 598, and every discarding co
 2026-08-12T06:06:00Z or later reds again. A red that can never clear blocks every future run, so the
 date moves forward on a recorded finding, never in silence — and never further than the finding
 requires.
+
+What that finding cost was read wrong when it was written, and the tlvphotos reply of the same day
+corrected it (`inbox/2026-08-12-tlvphotos-reply-worker-restore-finding.md`, 2026-08-12): the harness
+classifier declined the call, the command never ran, and the file's one uncommitted line — a
+regenerated timestamp — survived. The gate now says as much in the finding itself. The start stays
+where it stands all the same, and it was tested back at `2026-07-28` on 2026-08-12 with the outcome
+visible to see. Two findings red at that value: the declined tlvphotos attempt, and one that RAN —
+session `176e927f-4e67-4fa6-887e-86d1d6e5d1e4` at 2026-07-28T21:12:39Z, `git checkout --
+guardrails/rule-census.json` in this repository's own tree. A declined attempt reds like any other,
+so either one turns a finished incident into a red no future run can clear, which is the one thing
+the counting start exists to prevent.
 
 THE STAND-DOWN. When the transcript root does not exist, this host keeps no transcripts where the
 gate looks. The gate stands down, says so by name, and exits 0 — a stated stand-down rather than a
@@ -118,7 +153,8 @@ so an empty WINDOW is declared here as a permitted empty set and reports OK nami
 Usage:
   check-worker-restore.py [--root PATH] [--since-hours H] [--all]
                            [--counting-from YYYY-MM-DD | YYYY-MM-DDTHH:MM:SSZ]
-Exit 0 when no worker run discarded working-tree changes since the counting start, 1 otherwise.
+Exit 0 when no worker run handed a shell a discarding command since the counting start, 1 otherwise,
+whether the shell ran that command or declined it.
 Stdlib only.
 """
 import argparse
@@ -148,13 +184,31 @@ RUN_GLOB = os.path.join("*", "*", "subagents", "agent-*.jsonl")
 # day) or a full ISO timestamp with a time of day.
 #
 # Moved from 2026-07-28 to 2026-08-13 on 2026-08-12, to carry one finding as history: session
-# af22b716-c9d7-48b2-b3fd-2be1820a1a14 ran `git checkout -- lab/data/step3-grid-derivation.json` in
-# /Users/sashaabramovich/tlvphotos at 2026-08-12T06:05:40Z. That whole-day step also carried every
-# discarding command run for the rest of 2026-08-12 past the gate unnoticed. Narrowed the same day to
-# 2026-08-12T06:06:00Z, one minute after the finding: the finding still stands as history, recorded in
-# DECISIONS.md (2026-08-12) and ROADMAP.md row 598, and every discarding command from 06:06 onward
-# that day reds again.
+# af22b716-c9d7-48b2-b3fd-2be1820a1a14 handed a shell `git checkout --
+# lab/data/step3-grid-derivation.json` in /Users/sashaabramovich/tlvphotos at 2026-08-12T06:05:40Z.
+# That whole-day step also carried every discarding command run for the rest of 2026-08-12 past the
+# gate unnoticed. Narrowed the same day to 2026-08-12T06:06:00Z, one minute after the finding: the
+# finding still stands as history, recorded in DECISIONS.md (2026-08-12) and ROADMAP.md row 598, and
+# every discarding command from 06:06 onward that day reds again.
+#
+# The value was re-tested at 2026-07-28 on 2026-08-12, once the outcome of that command became
+# visible in the finding: the tlvphotos reply established that the classifier declined the call and
+# nothing was lost (inbox/2026-08-12-tlvphotos-reply-worker-restore-finding.md). Two findings red at
+# 2026-07-28 — that declined attempt, and one that ran in this repo's own tree on 2026-07-28T21:12:39Z
+# — and a declined attempt reds like any other, so the earlier value turns two finished incidents into
+# a permanent red and the 06:06 start stays.
 COUNTING_FROM = "2026-08-12T06:06:00Z"
+
+# What the shell did with a command the gate found. All three red; they differ in the recovery they
+# leave, and the findings print in this order — the executed ones first, the ones the transcript
+# never answered second because they cannot be ruled out, the declined attempts last.
+OUTCOME_RAN = "ran"
+OUTCOME_DECLINED = "declined"
+OUTCOME_UNKNOWN = "unknown"
+OUTCOME_ORDER = {OUTCOME_RAN: 0, OUTCOME_UNKNOWN: 1, OUTCOME_DECLINED: 2}
+
+# The reason a run's transcript can answer nothing about a call it recorded.
+NO_ANSWER = "the run's transcript carries no tool_result for this call"
 
 # The segment separators a shell command line is cut on, so `cd x && git restore y` is read as its
 # own invocation. The pipe is included: `yes | git clean -fd` is still git clean. Each separator is
@@ -624,7 +678,8 @@ def worker_runs(root):
 
 
 def _bash_commands(path):
-    """Every Bash command a worker run handed to a shell, with the record that names the run."""
+    """Every Bash command a worker run handed to a shell, with the record that names the run and the
+    `tool_use` id the shell's answer will repeat."""
     out = []
     try:
         fh = open(path, encoding="utf-8", errors="replace")
@@ -651,30 +706,93 @@ def _bash_commands(path):
                     continue
                 command = (b.get("input") or {}).get("command")
                 if isinstance(command, str) and command.strip():
-                    out.append((command, rec))
+                    out.append((command, rec, b.get("id")))
+    return out
+
+
+def _outcome_of(record, block):
+    """(outcome, detail) for one `tool_result`: what the shell did with the call it answers.
+
+    `toolDenialKind` is the harness's own word for a call it refused, and it stands on a refusal
+    alone. The refusal notice beside it is text the gate never reads for meaning — the key is the
+    whole signal. Every other answer came back from a shell that RAN the command, whatever its exit
+    status, so a command that exited non-zero still ran and still discarded whatever it reached
+    before it stopped.
+    """
+    kind = record.get("toolDenialKind")
+    if kind:
+        return OUTCOME_DECLINED, str(kind)
+    if block.get("is_error"):
+        return OUTCOME_RAN, "the shell answered with an error"
+    return OUTCOME_RAN, ""
+
+
+def _answers(path, tool_use_ids):
+    """The shell's answer to each of `tool_use_ids`, read out of the same run transcript.
+
+    A `tool_use` id missing from the returned map had no `tool_result` in the file, which is the
+    UNKNOWN outcome. Called only for a run that already produced a finding, so the ordinary clean
+    run never pays for this second pass.
+    """
+    out = {}
+    try:
+        fh = open(path, encoding="utf-8", errors="replace")
+    except OSError:
+        return out
+    with fh:
+        for line in fh:
+            line = line.strip()
+            if not line.startswith("{") or '"tool_result"' not in line:
+                continue
+            try:
+                rec = json.loads(line)
+            except ValueError:
+                continue
+            blocks = rec.get("message", {}).get("content", []) or []
+            if not isinstance(blocks, list):
+                continue
+            for b in blocks:
+                if not isinstance(b, dict) or b.get("type") != "tool_result":
+                    continue
+                tool_id = b.get("tool_use_id")
+                if tool_id in tool_use_ids:
+                    out[tool_id] = _outcome_of(rec, b)
     return out
 
 
 def scan(paths):
-    """The findings across a set of worker-run transcripts, each naming command, path, and run."""
+    """The findings across a set of worker-run transcripts, each naming command, path, run, and what
+    the shell did with the command."""
     findings = []
     commands_read = 0
     for path in paths:
-        for command, rec in _bash_commands(path):
+        hits_here = []
+        wanted = set()
+        for command, rec, tool_id in _bash_commands(path):
             commands_read += 1
             cwd = rec.get("cwd")
             for hit in classify(command, cwd):
-                findings.append({
-                    "run": path,
-                    "agent": rec.get("agentId") or "(unnamed run)",
-                    "session": rec.get("sessionId") or "(unnamed session)",
-                    "cwd": cwd or "(unrecorded cwd)",
-                    "at": rec.get("timestamp") or "(unstamped)",
-                    "which": hit["which"],
-                    "command": hit["command"],
-                    "paths": hit["paths"] or [WHOLE_TREE],
-                    "effective_dir": hit.get("effective_dir"),
-                })
+                hits_here.append((hit, rec, tool_id))
+                wanted.add(tool_id)
+        if not hits_here:
+            continue
+        answers = _answers(path, wanted)
+        for hit, rec, tool_id in hits_here:
+            outcome, detail = answers.get(tool_id, (OUTCOME_UNKNOWN, NO_ANSWER))
+            cwd = rec.get("cwd")
+            findings.append({
+                "run": path,
+                "agent": rec.get("agentId") or "(unnamed run)",
+                "session": rec.get("sessionId") or "(unnamed session)",
+                "cwd": cwd or "(unrecorded cwd)",
+                "at": rec.get("timestamp") or "(unstamped)",
+                "which": hit["which"],
+                "command": hit["command"],
+                "paths": hit["paths"] or [WHOLE_TREE],
+                "effective_dir": hit.get("effective_dir"),
+                "outcome": outcome,
+                "outcome_detail": detail,
+            })
     return findings, commands_read
 
 
@@ -704,6 +822,73 @@ def is_history(finding, counting_from):
     if len(at) < 10 or not at[:4].isdigit():
         return False
     return _normalize_stamp(at) < _normalize_stamp(counting_from)
+
+
+def finding_line(f):
+    """The finding's own sentence, saying what the command was and what the shell did with it.
+
+    All three outcomes are findings — the rule forbids handing the command to a shell — and each
+    sentence names the recovery its outcome leaves behind, so a reader learns from the first line
+    whether bytes are gone, may be gone, or were never at risk.
+    """
+    paths = ", ".join(f["paths"])
+    outcome = f.get("outcome", OUTCOME_UNKNOWN)
+    if outcome == OUTCOME_RAN:
+        return ("%s ran `%s` — %s, discarding every uncommitted change under %s, including bytes "
+                "the run never wrote and its brief never named (ROADMAP row 479)."
+                % (f["agent"], f["command"], f["which"], paths))
+    if outcome == OUTCOME_DECLINED:
+        return ("%s handed a shell `%s`, a %s that would have discarded every uncommitted change "
+                "under %s, and the harness declined the call (%s), so nothing was discarded and the "
+                "finding stands on the attempt (ROADMAP row 479)."
+                % (f["agent"], f["command"], f["which"], paths,
+                   f.get("outcome_detail") or "declined"))
+    return ("%s handed a shell `%s`, a %s whose blast radius is every uncommitted change under %s, "
+            "and %s, so whether those bytes were discarded is unknown and wants checking by hand "
+            "(ROADMAP row 479)."
+            % (f["agent"], f["command"], f["which"], paths, f.get("outcome_detail") or NO_ANSWER))
+
+
+def outcome_phrase(f):
+    """The finding's outcome in one field, for the indented detail block."""
+    outcome = f.get("outcome", OUTCOME_UNKNOWN)
+    detail = f.get("outcome_detail") or ""
+    if outcome == OUTCOME_RAN:
+        return "RAN%s" % (" (%s)" % detail if detail else "")
+    if outcome == OUTCOME_DECLINED:
+        return "DECLINED by the harness (%s) — it never reached a shell" % (detail or "declined")
+    return "UNKNOWN — %s" % (detail or NO_ANSWER)
+
+
+def outcome_tally(findings):
+    """The sentence that counts the outcomes across a set of findings."""
+    counts = outcome_counts(findings)
+    return ("%d ran, %d declined by the harness before reaching a shell, %d with no recorded "
+            "answer; the executed ones print first"
+            % (counts[OUTCOME_RAN], counts[OUTCOME_DECLINED], counts[OUTCOME_UNKNOWN]))
+
+
+def outcome_counts(findings):
+    """How many findings carry each outcome."""
+    counts = {OUTCOME_RAN: 0, OUTCOME_DECLINED: 0, OUTCOME_UNKNOWN: 0}
+    for f in findings:
+        counts[f.get("outcome", OUTCOME_UNKNOWN)] = counts.get(f.get("outcome", OUTCOME_UNKNOWN), 0) + 1
+    return counts
+
+
+def typed_message(f):
+    """The typed line's message, which names the outcome as plainly as the human line does."""
+    outcome = f.get("outcome", OUTCOME_UNKNOWN)
+    if outcome == OUTCOME_RAN:
+        head, verb = "a worker run discarded working-tree changes", "ran"
+    elif outcome == OUTCOME_DECLINED:
+        head, verb = ("a worker run handed a shell a command that discards working-tree changes and "
+                      "the harness declined it", "handed")
+    else:
+        head, verb = ("a worker run handed a shell a command that discards working-tree changes, "
+                      "with no answer recorded", "handed")
+    return ("%s: %s %s `%s` against %s in %s (ROADMAP row 479)"
+            % (head, f["agent"], verb, f["command"], ", ".join(f["paths"]), f["run"]))
 
 
 def _open_sentence(text):
@@ -781,15 +966,17 @@ def main(argv=None):
         (history if is_history(f, counting_from) else current).append(f)
 
     if current:
+        # Most urgent first: executed, then unanswered, then declined. Python's sort is stable, so
+        # findings sharing an outcome keep the order the transcripts were read in.
+        current.sort(key=lambda f: OUTCOME_ORDER.get(f.get("outcome"), OUTCOME_ORDER[OUTCOME_UNKNOWN]))
         for f in current:
-            print("%s: %s ran `%s` — %s, discarding every uncommitted change under %s, including bytes "
-                  "the run never wrote and its brief never named (ROADMAP row 479)."
-                  % (CHECK, f["agent"], f["command"], f["which"], ", ".join(f["paths"])))
+            print("%s: %s" % (CHECK, finding_line(f)))
             print("    run     : %s" % f["run"])
             ran_in = f.get("effective_dir")
             ran_in = ran_in if ran_in is not None else "UNKNOWN (a cd target the gate could not read statically)"
             print("    session : %s   cwd: %s   ran in: %s   at: %s"
                   % (f["session"], f["cwd"], ran_in, f["at"]))
+            print("    outcome : %s" % outcome_phrase(f))
         print()
         print("Before a worker mutates a file it means to put back, it reads that file and holds its")
         print("bytes, and it puts the file back by WRITING ITS OWN SAVED BYTES. A worker runs no")
@@ -802,31 +989,40 @@ def main(argv=None):
         print("orchestrator owns recovery: it restores the named file from the last committed stage,")
         print("hands the worker a fresh brief carrying that file's current bytes, and records the halt")
         print("in the row's delivery report.")
+        print("Handing such a command to a shell breaks the rule whether the shell obeyed or refused,")
+        print("so every outcome above is a finding; what the outcome tells a reader is how much")
+        print("recovery it faces. Outcomes: %s." % outcome_tally(current))
         print("Reach: %s under %s, %d command line%s read; %s."
               % (window, root, commands_read, "" if commands_read == 1 else "s",
                  history_phrase(len(history), counting_from)))
         first = current[0]
+        counts = outcome_counts(current)
         print(json.dumps({
             "severity": "error",
             "code": "worker-restore",
-            "message": ("a worker run discarded working-tree changes: %s ran `%s` against %s in %s "
-                        "(ROADMAP row 479)"
-                        % (first["agent"], first["command"], ", ".join(first["paths"]), first["run"])),
+            "outcome": first.get("outcome", OUTCOME_UNKNOWN),
+            "outcomes": {"ran": counts[OUTCOME_RAN], "declined": counts[OUTCOME_DECLINED],
+                         "unknown": counts[OUTCOME_UNKNOWN]},
+            "message": typed_message(first),
             "fix": ("a worker restores a file it mutated by writing its own saved bytes back, and halts "
                     "and reports when a file needs a git-level restore — the orchestrator owns recovery"),
         }))
         return 1
 
-    print("OK (%s): no worker run discarded working-tree changes since %s. Read %s under %s — the files "
-          "matching %s, one per worker run — taking every assistant record's Bash tool_use command "
+    print("OK (%s): no worker run handed a shell a discarding command since %s. Read %s under %s — the "
+          "files matching %s, one per worker run — taking every assistant record's Bash tool_use command "
           "field (%d command line%s) and reading each git invocation's subcommand and flags for "
           "git checkout -- and git checkout ., git restore outside --staged, git stash and its push, "
           "save, create and store forms, git reset with --hard, --merge or --keep, and git clean with "
-          "-f or -x. Report prose is outside the reach: only a command handed to a shell counts. %s "
+          "-f or -x. Report prose is outside the reach: only a command handed to a shell counts, and a "
+          "command that reached one is a finding whether the shell ran it or the harness declined it — "
+          "each finding says which, read from the tool_result that repeats the call's tool_use id. %s "
           "(ROADMAP row 479)."
           % (CHECK, counting_from, window, root, RUN_GLOB, commands_read,
              "" if commands_read == 1 else "s",
              _open_sentence(history_phrase(len(history), counting_from))))
+    if history:
+        print("Outcomes across the history: %s." % outcome_tally(history))
     return 0
 
 

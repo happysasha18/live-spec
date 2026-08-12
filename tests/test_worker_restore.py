@@ -104,8 +104,10 @@ def _gate(*args, counting_from=FIXTURE_COUNTING_FROM):
 
 
 def _run_record(command, agent="a1234567890abcdef", session="s-0001",
-                cwd="/Users/someone/exhibition-engine"):
-    """One assistant record carrying a Bash tool_use, the shape a real worker transcript carries."""
+                cwd="/Users/someone/exhibition-engine", tool_id="toolu_0000"):
+    """One assistant record carrying a Bash tool_use, the shape a real worker transcript carries.
+
+    `tool_id` is the call's own id, which the shell's answer repeats in its `tool_use_id`."""
     return {
         "type": "assistant",
         "isSidechain": True,
@@ -115,25 +117,76 @@ def _run_record(command, agent="a1234567890abcdef", session="s-0001",
         "timestamp": "2026-07-27T20:26:28.001Z",
         "message": {"role": "assistant", "content": [
             {"type": "text", "text": "putting the bundle back"},
-            {"type": "tool_use", "name": "Bash", "input": {"command": command}},
+            {"type": "tool_use", "id": tool_id, "name": "Bash", "input": {"command": command}},
         ]},
     }
 
 
+def _result_record(tool_use_id, denial_kind=None, shell_error=False, stdout="", session="s-0001",
+                   agent="a1234567890abcdef", cwd="/Users/someone/exhibition-engine"):
+    """The shell's answer to one Bash call, at the shape the harness writes it.
+
+    A call the harness refused carries `toolDenialKind` on the record and `is_error` on the block,
+    and its text is a refusal notice rather than anything a shell produced. A call that ran carries
+    no denial key, whether the shell was happy with it (`shell_error` false) or the command exited
+    non-zero (`shell_error` true, the shell's own complaint as the text).
+    """
+    if denial_kind:
+        content = ("Permission for this action was denied by the Claude Code auto mode classifier. "
+                   "Reason: Blocked by classifier.")
+        result = "Error: " + content
+    elif shell_error:
+        content = "error: pathspec did not match any file known to git"
+        result = "Error: Exit code 1 " + content
+    else:
+        content = stdout
+        result = {"stdout": stdout, "stderr": "", "interrupted": False, "isImage": False}
+    record = {
+        "type": "user",
+        "isSidechain": True,
+        "agentId": agent,
+        "sessionId": session,
+        "cwd": cwd,
+        "timestamp": "2026-07-27T20:26:29.001Z",
+        "toolUseResult": result,
+        "message": {"role": "user", "content": [
+            {"type": "tool_result", "tool_use_id": tool_use_id, "content": content,
+             "is_error": bool(denial_kind) or shell_error},
+        ]},
+    }
+    if denial_kind:
+        record["toolDenialKind"] = denial_kind
+    return record
+
+
 def _transcript_root(tmp_path, commands, project="-Users-someone-exhibition-engine",
                      session="s-0001", agent="a1234567890abcdef",
-                     cwd="/Users/someone/exhibition-engine"):
+                     cwd="/Users/someone/exhibition-engine", answers=None):
     """A transcript root holding one worker run, at the layout the harness writes:
     <root>/<project-dir>/<session-id>/subagents/agent-<id>.jsonl
 
     `cwd` is the directory the harness recorded for the run. A case that turns on a FAILED `cd`
-    hands a real git repository here, since that is where the shell stayed."""
+    hands a real git repository here, since that is where the shell stayed.
+
+    `answers` runs parallel to `commands` and says what the shell did with each call: None writes no
+    answer at all, which is the run cut off mid-call, `"ran"` writes an ordinary shell answer,
+    `"ran-error"` writes one from a command the shell ran and that exited non-zero, and any other
+    string writes a refusal carrying that denial kind."""
     runs = tmp_path / "projects" / project / session / "subagents"
     runs.mkdir(parents=True)
     path = runs / ("agent-%s.jsonl" % agent)
+    answers = answers if answers is not None else [None] * len(commands)
     with open(path, "w", encoding="utf-8") as f:
-        for c in commands:
-            f.write(json.dumps(_run_record(c, agent=agent, session=session, cwd=cwd)) + "\n")
+        for i, (c, answer) in enumerate(zip(commands, answers)):
+            tool_id = "toolu_%04d" % i
+            f.write(json.dumps(_run_record(c, agent=agent, session=session, cwd=cwd,
+                                           tool_id=tool_id)) + "\n")
+            if answer is None:
+                continue
+            denial = None if answer in ("ran", "ran-error") else answer
+            f.write(json.dumps(_result_record(tool_id, denial_kind=denial,
+                                              shell_error=answer == "ran-error", stdout="",
+                                              session=session, agent=agent, cwd=cwd)) + "\n")
     return str(tmp_path / "projects"), str(path)
 
 
@@ -210,6 +263,99 @@ class TestGateRedsOnADiscardingCommand:
         with open(GATE, encoding="utf-8") as f:
             head = f.read(4000)
         assert "BLOCKING" in head
+
+
+class TestEveryFindingSaysWhatTheShellDid:
+    """A finding names its outcome, so the project receiving it knows what recovery it faces.
+
+    tlvphotos read the finding of 2026-08-12 and answered it the same day
+    (inbox/2026-08-12-tlvphotos-reply-worker-restore-finding.md): the harness classifier declined the
+    `git checkout --`, it never ran, and nothing was lost — while the finding as written said
+    uncommitted edits were dropped. The shell's own answer sat in the same transcript all along, in
+    the tool_result whose `tool_use_id` repeats the call's id. All three outcomes are findings, since
+    the rule forbids handing the command to a shell at all, and each one says which it was.
+    """
+
+    CASES = {
+        "ran": ("ran", "RAN", "discarding every uncommitted change"),
+        "declined": ("automode-blocked", "DECLINED", "nothing was discarded"),
+        "unknown": (None, "UNKNOWN", "is unknown"),
+    }
+
+    @pytest.mark.parametrize("outcome", sorted(CASES))
+    def test_each_outcome_reds_and_names_itself(self, tmp_path, outcome):
+        answer, field, sentence = self.CASES[outcome]
+        root, _ = _transcript_root(tmp_path, ["git checkout -- engine/assets/exhibition.js"],
+                                   answers=[answer])
+        res = _gate("--root", root)
+        assert res.returncode == 1, "a %s command stopped reding: %s" % (outcome, res.stdout)
+        assert "outcome : %s" % field in res.stdout, (
+            "the finding never says the command %s:\n%s" % (outcome, res.stdout))
+        assert sentence in res.stdout, (
+            "the finding's own sentence never says what the %s outcome leaves to recover:\n%s"
+            % (outcome, res.stdout))
+
+    def test_the_declined_finding_names_the_denial_kind(self, tmp_path):
+        """The harness's own word for the refusal, so a reader can tell a classifier block from a
+        permission rule from a person saying no."""
+        root, _ = _transcript_root(tmp_path, ["git checkout -- lab/data/step3-grid-derivation.json"],
+                                   answers=["automode-blocked"])
+        res = _gate("--root", root)
+        assert "automode-blocked" in res.stdout
+        assert "declined" in res.stdout
+
+    def test_the_three_outcomes_read_differently(self, tmp_path):
+        """The whole point, stated as one assertion: one command, three shells' answers, three
+        different findings. A gate that collapses them back into one sentence reds here."""
+        sentences = {}
+        for outcome, (answer, _field, _s) in sorted(self.CASES.items()):
+            root, _ = _transcript_root(tmp_path / outcome,
+                                       ["git checkout -- engine/assets/exhibition.js"],
+                                       answers=[answer])
+            res = _gate("--root", root)
+            first = [line for line in res.stdout.splitlines()
+                     if line.startswith("check-worker-restore: ")][0]
+            sentences[outcome] = first
+        assert len(set(sentences.values())) == 3, (
+            "the gate stopped telling the outcomes apart — it wrote %r for %d distinct shells' "
+            "answers" % (sentences, len(sentences)))
+
+    def test_an_executed_finding_prints_before_a_declined_one(self, tmp_path):
+        """Ranked by the recovery each leaves: bytes that may be gone come first, an attempt that
+        cost nothing comes last."""
+        root, _ = _transcript_root(
+            tmp_path,
+            ["git checkout -- declined-first.js", "git checkout -- ran-second.js"],
+            answers=["automode-blocked", "ran"])
+        res = _gate("--root", root)
+        assert res.returncode == 1, res.stdout
+        assert res.stdout.index("ran-second.js") < res.stdout.index("declined-first.js"), (
+            "the declined attempt printed ahead of the executed command:\n%s" % res.stdout)
+        assert "1 ran, 1 declined" in res.stdout, "the verdict never tallies the outcomes"
+
+    def test_the_typed_line_carries_the_outcome_and_the_tally(self, tmp_path):
+        """A machine reading the one JSON object reads the most urgent finding of the run."""
+        root, _ = _transcript_root(
+            tmp_path,
+            ["git checkout -- declined-first.js", "git checkout -- ran-second.js"],
+            answers=["automode-blocked", "ran"])
+        res = _gate("--root", root)
+        objects = [json.loads(line) for line in res.stdout.splitlines()
+                   if line.startswith("{") and line.rstrip().endswith("}")]
+        assert len(objects) == 1
+        assert objects[0]["outcome"] == "ran"
+        assert objects[0]["outcomes"] == {"ran": 1, "declined": 1, "unknown": 0}
+        assert "ran-second.js" in objects[0]["message"]
+
+    def test_a_command_that_exited_non_zero_still_ran(self, tmp_path):
+        """An error the SHELL returned is not a refusal: the command reached a shell, and whatever
+        it discarded before it stopped is gone."""
+        root, _ = _transcript_root(tmp_path, ["git checkout -- engine/assets/exhibition.js"],
+                                   answers=["ran-error"])
+        res = _gate("--root", root)
+        assert res.returncode == 1, res.stdout
+        assert "outcome : RAN" in res.stdout
+        assert "DECLINED" not in res.stdout
 
 
 class TestTheGateModelsCdInsideTheCommand:

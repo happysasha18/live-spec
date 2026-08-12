@@ -615,3 +615,23 @@ outlives the correction.
   and at `ROADMAP.md` row 598 before the start moves past it. A message describing the incident and
   what to check went to `/Users/sashaabramovich/tlvphotos/inbox/2026-08-12-worker-discarded-uncommitted-work.md`;
   no other file in that tree was touched.
+
+  **Correction, 2026-08-12.** The paragraph above is what this side could establish from its own
+  transcripts, and one of its statements is wrong. tlvphotos answered the notice the same day
+  (`inbox/2026-08-12-tlvphotos-reply-worker-restore-finding.md`, 2026-08-12): the harness classifier
+  DECLINED that `git checkout --`, so the command never ran and dropped nothing. What sat
+  uncommitted on the file was a single regenerated timestamp line, written minutes earlier by the
+  project's own `lab/step3-grid-derive.py` during a verification step, and it survived the attempt
+  and is now committed. Read "ran `git checkout -- lab/data/step3-grid-derivation.json`" above as
+  "handed a shell `git checkout -- lab/data/step3-grid-derivation.json`", and read the sentence about
+  dropped edits as describing what the command would have done. The finding itself stands: the rule
+  forbids handing such a command to a shell, and this worker's brief carried the rule in words. The
+  gate's blind spot was real too — it reported a command handed to a shell while the shell's own
+  answer sat in the same transcript — and it is closed the same day: `check-worker-restore.py` now
+  reads each call's `tool_result` and every finding says whether the command ran, was declined, or
+  went unanswered, with the executed ones printed first. The counting start stays at
+  `2026-08-12T06:06:00Z`. It was re-tested at the earlier `2026-07-28` with the outcome visible, and
+  two findings red there — the declined tlvphotos attempt, and one that really ran, session
+  `176e927f-4e67-4fa6-887e-86d1d6e5d1e4` at 2026-07-28T21:12:39Z with `git checkout --
+  guardrails/rule-census.json` in this repository — so moving the start back would turn two finished
+  incidents into a red no future run can clear.
