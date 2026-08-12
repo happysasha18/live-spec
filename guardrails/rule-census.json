@@ -12,7 +12,7 @@
       "total": 0
     },
     "NEXT_STEPS.md": {
-      "bytes": 7245,
+      "bytes": 5126,
       "file": "NEXT_STEPS.md",
       "long": 0,
       "longest": 25,
@@ -39,7 +39,7 @@
       "total": 0
     },
     "PRODUCT_SPEC.md": {
-      "bytes": 702715,
+      "bytes": 702784,
       "file": "PRODUCT_SPEC.md",
       "long": 1863,
       "longest": 80,
@@ -58,7 +58,7 @@
       "total": 13
     },
     "ROADMAP.md": {
-      "bytes": 252164,
+      "bytes": 254296,
       "file": "ROADMAP.md",
       "long": 8,
       "longest": 242,
@@ -76,7 +76,7 @@
       "total": 3
     },
     "TEST_MATRIX.md": {
-      "bytes": 484287,
+      "bytes": 484252,
       "file": "TEST_MATRIX.md",
       "long": 8,
       "longest": 46,
@@ -112,7 +112,7 @@
       "total": 3
     },
     "docs/PROGRESS.md": {
-      "bytes": 15685,
+      "bytes": 15683,
       "file": "docs/PROGRESS.md",
       "long": 0,
       "longest": 22,
@@ -661,13 +661,13 @@
       "total": 10
     },
     "skills/build-pipeline/SKILL.md": {
-      "bytes": 64220,
+      "bytes": 64007,
       "file": "skills/build-pipeline/SKILL.md",
-      "long": 136,
+      "long": 135,
       "longest": 198,
       "register": 0,
       "style": 120,
-      "total": 256
+      "total": 255
     },
     "skills/build-pipeline/references/delegation-protocol.md": {
       "bytes": 8526,
@@ -859,7 +859,7 @@
       "total": 1
     },
     "skills/live-spec-base/SKILL.md": {
-      "bytes": 66435,
+      "bytes": 65496,
       "file": "skills/live-spec-base/SKILL.md",
       "long": 60,
       "longest": 48,

@@ -276,6 +276,11 @@ class TestDeferralJustifiesItself(DocHomeCase):
         self.assertEqual(heads, sorted(set(heads)),
                          "%s numbers its rule heads %s; the numbers climb strictly, a cut rule's "
                          "number stays a hole and is never reused" % (rel, heads))
+        holes = set(range(1, max(heads) + 1)) - set(heads)
+        self.assertLessEqual(holes, {30},
+                             "%s skips rule numbers %s; the only recorded cut is rule 30 "
+                             "(his D2 word 2026-08-11) — an unrecorded hole is a lost rule"
+                             % (rel, sorted(holes)))
         rules = len(heads)
 
         desc = _frontmatter_description(rel)
