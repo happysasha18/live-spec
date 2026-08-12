@@ -85,8 +85,8 @@ named here and in the matrix.
 - `skills/live-spec-base/SKILL.md:457` (rule 28, INV-145 — the periodic full audit)
 - `skills/live-spec-base/SKILL.md:560` (rule 32, INV-217 — the release-tier rule, minor/major/patch by the host cost)
 - `skills/live-spec-base/SKILL.md:494` (rule 31, the earned-message law INV-183/INV-189 the named-reference machinery joins. The pair-travels register [E-35], the living-description heal [INV-240], and the earned auto-deposit [T-24] ride this rule's build, ROADMAP 424 [target]. The prover's station stands as their net until they ship, per [INV-150].)
-- `skills/live-spec-base/SKILL.md:195` (rule 7's worker-restore sub-rule, INV-298 — the worker holds its own bytes, halts when it holds none, and the orchestrator owns recovery)
-- `skills/live-spec-base/SKILL.md:599` (rule 35, INV-302 — the session extract, the closing step written by a fresh agent, and the opening decision sweep)
+- `skills/live-spec-base/SKILL.md:200` (rule 7's worker-restore sub-rule, INV-298 — the worker holds its own bytes, halts when it holds none, and the orchestrator owns recovery)
+- `skills/live-spec-base/SKILL.md:604` (rule 35, INV-302 — the session extract, the closing step written by a fresh agent, and the opening decision sweep)
 
 **notes** — INV-11, INV-117, E-31: three of these are read by the parallel-lanes node and stay here, each for a stated reason; INV-225: ROADMAP 388
 

@@ -12,7 +12,7 @@
       "total": 0
     },
     "NEXT_STEPS.md": {
-      "bytes": 6604,
+      "bytes": 12358,
       "file": "NEXT_STEPS.md",
       "long": 0,
       "longest": 25,
@@ -58,7 +58,7 @@
       "total": 13
     },
     "ROADMAP.md": {
-      "bytes": 258294,
+      "bytes": 265512,
       "file": "ROADMAP.md",
       "long": 8,
       "longest": 242,
@@ -76,7 +76,7 @@
       "total": 3
     },
     "TEST_MATRIX.md": {
-      "bytes": 484252,
+      "bytes": 484219,
       "file": "TEST_MATRIX.md",
       "long": 8,
       "longest": 46,
@@ -112,7 +112,7 @@
       "total": 3
     },
     "docs/PROGRESS.md": {
-      "bytes": 15683,
+      "bytes": 15621,
       "file": "docs/PROGRESS.md",
       "long": 0,
       "longest": 22,
@@ -580,7 +580,7 @@
       "total": 0
     },
     "guardrails/README.md": {
-      "bytes": 21595,
+      "bytes": 22932,
       "file": "guardrails/README.md",
       "long": 29,
       "longest": 68,
@@ -614,6 +614,15 @@
       "register": 0,
       "style": 4,
       "total": 8
+    },
+    "inbox/2026-08-12-tlvphotos-reply-worker-restore-finding.md": {
+      "bytes": 3774,
+      "file": "inbox/2026-08-12-tlvphotos-reply-worker-restore-finding.md",
+      "long": 7,
+      "longest": 33,
+      "register": 0,
+      "style": 0,
+      "total": 7
     },
     "inbox/README.md": {
       "bytes": 9996,
@@ -661,7 +670,7 @@
       "total": 10
     },
     "skills/build-pipeline/SKILL.md": {
-      "bytes": 64007,
+      "bytes": 64028,
       "file": "skills/build-pipeline/SKILL.md",
       "long": 135,
       "longest": 198,
@@ -751,7 +760,7 @@
       "total": 3
     },
     "skills/communicator/SKILL.md": {
-      "bytes": 45831,
+      "bytes": 45848,
       "file": "skills/communicator/SKILL.md",
       "long": 84,
       "longest": 97,
@@ -778,7 +787,7 @@
       "total": 11
     },
     "skills/communicator/references/words.md": {
-      "bytes": 6844,
+      "bytes": 6865,
       "file": "skills/communicator/references/words.md",
       "long": 4,
       "longest": 57,
@@ -859,13 +868,13 @@
       "total": 1
     },
     "skills/live-spec-base/SKILL.md": {
-      "bytes": 65191,
+      "bytes": 64728,
       "file": "skills/live-spec-base/SKILL.md",
-      "long": 56,
+      "long": 54,
       "longest": 48,
       "register": 0,
       "style": 14,
-      "total": 70
+      "total": 68
     },
     "skills/product-prover/README.md": {
       "bytes": 11360,

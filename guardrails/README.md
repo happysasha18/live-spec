@@ -218,19 +218,23 @@ segment whose first word is `git` counts, so the same text quoted inside a `grep
 silent. The default window is the runs touched in the last 24 hours (`--since-hours`, `--all` for
 every run on disk).
 
-Every finding says what the shell did with the command. The `tool_use` block carries an `id`, and the
-shell's answer sits in the same transcript as a `tool_result` block repeating it as `tool_use_id`; a
-call the harness refused is marked there by a `toolDenialKind` key (`automode-blocked`,
-`permission-rule`, `user-rejected`, `interrupted`), and a call that reached a shell carries no such
-key whatever its exit status. So a finding reads one of three ways: the command RAN, the harness
-DECLINED it, or the transcript answers nothing and the outcome is UNKNOWN. All three red — the rule
-forbids handing such a command to a shell at all, and whether the shell obeyed lies outside the
-worker's reach. What the outcome tells the reader is how much recovery it faces, so the findings
-print ranked by that: the executed ones first, the unanswered ones second because they cannot be
-ruled out, the declined attempts last. The verdict line tallies the three, and the typed JSON line
-carries `outcome`, an `outcomes` count, and the first finding after the ranking. tlvphotos asked for
-this on 2026-08-12 (`inbox/2026-08-12-tlvphotos-reply-worker-restore-finding.md`), having received a
-finding that read as lost work when the classifier had declined the command and nothing was lost.
+Every finding says what the shell did with the command. The `tool_use` block carries an `id`. The
+shell's answer sits in the same transcript as a `tool_result` block repeating it as `tool_use_id`.
+A call the harness refused is marked there by a `toolDenialKind` key. Its four values are
+`automode-blocked`, `permission-rule`, `user-rejected` and `interrupted`. A call that reached a
+shell carries no such key, whatever its exit status.
+
+So a finding reads one of three ways. The command ran. The harness declined it. Or the transcript
+answers nothing, and the outcome is unknown. All three red, because the rule forbids handing such a
+command to a shell at all. Whether the shell obeyed lies outside the worker's reach.
+
+What the outcome tells the reader is how much recovery it faces. The findings print ranked by that:
+the executed ones first, the unanswered ones second, the declined attempts last. The unanswered ones
+outrank the declined because they cannot be ruled out. The verdict line tallies the three. The typed
+JSON line carries `outcome`, an `outcomes` count, and the first finding after the ranking.
+tlvphotos asked for this on 2026-08-12, in
+`inbox/2026-08-12-tlvphotos-reply-worker-restore-finding.md`. It had received a finding that read as
+lost work, when the classifier had declined the command and nothing was lost.
 
 It is BLOCKING and rides the verify step rather than the push chain: a push gate runs long after the
 bytes are gone, while verify is where the orchestrator accepts a worker's result. It is armed in two

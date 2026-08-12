@@ -9,31 +9,33 @@ lives in `JOURNAL.md`.
 Written for a session starting with clean context.
 
 **Stage 2 batch 2 and stage 3 both closed this morning.** Root: his instruction 2026-08-12 07:55 to
-run the next pass by the accepted plan. Batch 2 took base rule 32, because rule 31 stands first by
-price and waits for his ruling on the two senses of "owner" (queue rows 536/539), and the resume
-block's own fallback says to take the next rule by the day-1 census price. Rule 32 fell 2,205 →
+run the next pass by the accepted plan. Batch 2 took base rule 32. Rule 31 stands first by price,
+and it waits for his ruling on the two senses of "owner" (queue rows 536/539). The resume block's
+own fallback says to take the next rule by the day-1 census price. Rule 32 fell 2,205 →
 1,449 bytes with all ten requirements carried word for word, checked by a fresh reader against the
-inventory. Folded into the same batch: the retired rule number named at the rulebook's head, four
-restorations in rule 7, and the rule count removed from three unguarded copies. The rulebook stands
-at 72,466 bytes, down from 72,929 at the batch's open, so the batch's own test passes. Verdict
-lines: `.live-spec/batch2-verdicts-2026-08-12.md`. Stage 3 ran all three steps: evidence for the 25
-checks with no dated catch (the plan expected 24), verdicts of 18 keep / 6 repair / 1 already
-removed, and no removal executed — the plan permits removing one check, and the verdict recommends
-keeping it. Stage 3 as written cuts almost no volume; it yields six repairs and six questions.
+inventory. Three more items folded into the same batch. They are the retired rule number named at
+the rulebook's head, four restorations in rule 7, and the rule count removed from three unguarded
+copies. The rulebook stands at 72,466 bytes, down from 72,929 at the batch's open, so the batch's
+own test passes. Verdict lines: `.live-spec/batch2-verdicts-2026-08-12.md`. Stage 3 ran all three
+steps. It gathered evidence for the 25 checks with no dated catch, where the plan expected 24. Its
+verdicts were 18 keep / 6 repair / 1 already removed. It executed no removal: the plan permits
+removing one check, and the verdict recommends keeping it. Stage 3 as written cuts almost no
+volume; it yields six repairs and six questions.
 
 **Batch 3 starts on base rule 29** (2,138 bytes), the next-priced rule below 32 by the day-1 census,
 while rule 31 waits for his word.
 
-**Six questions wait for him**, written into `DECISIONS.md` under the stage-3 heading with the exact
-line each would take: the class ruling covering fifteen silent-rot keeps, and gates ae, n, p, o and
-ab. Row 536's "owner" ruling and his «принято» on the plan text for row 594 also stand open.
+**Six questions wait for him.** Each is written into `DECISIONS.md` under the stage-3 heading with
+the exact line it would take. They cover the class ruling for fifteen silent-rot keeps, and gates
+ae, n, p, o and ab. Row 536's "owner" ruling and his «принято» on the plan text for row 594 also
+stand open.
 
-**Also repaired in this pass.** The rule-price page's 53 pins re-derived, 48 of them stale, and the
-pin guard widened to read that page as well as `ARCHITECTURE.md`; its verdict word now matches its
-own findings. Thirteen pointers into the rulebook repointed after the rule edits moved lines. The
-progress page's generator stopped writing a run-to-run comparison, which is why that repair kept
-coming back. The mirror sync now tells an absent repository from a check that could not answer, and
-stops loudly on the second; the `product-prover` mirror exists and its content matches the pack.
+**Also repaired in this pass.** The rule-price page's 53 pins were re-derived, and 48 of them were
+stale. The pin guard widened to read that page as well as `ARCHITECTURE.md`. Its verdict word now
+matches its own findings. Thirteen pointers into the rulebook repointed after the rule edits moved
+lines. The progress page's generator stopped writing a run-to-run comparison, which is why that
+repair kept coming back. The mirror sync now tells an absent repository from a check that could not answer, and
+it stops loudly on the second. The `product-prover` mirror exists, and its content matches the pack.
 Stale volume figures corrected, and the "3,095" figure recorded in `DECISIONS.md` as a decision-time
 reading with no log behind it. The worker-restore gate carries the tlvphotos finding of 2026-08-12
 06:05:40, which the reply in `inbox/2026-08-12-tlvphotos-reply-worker-restore-finding.md` establishes
@@ -42,19 +44,19 @@ was declined by the harness and cost nothing.
 **Three habits this pass paid for, named so the next session skips them.**
 1. A worker cannot run the full suite. This environment moves any foreground command past 600
    seconds into the background, and the suite runs 18 to 21 minutes, so the worker stalls and
-   returns an unfinished report as final. A brief names the exact test files that finish in seconds;
-   the orchestrator runs one clean full suite at the end of the pass with no worker active.
+   returns an unfinished report as final. A brief names the exact test files that finish in
+   seconds. The orchestrator runs one clean full suite at the end of the pass with no worker active.
 2. A full suite run while workers edit the tree reds on files being written. Those reds mean
    nothing. The closing run stands alone.
 3. A repair written into generated output is undone by the next generation. Fix the generator.
 
 **The task list stays visible while work runs** (his word 2026-08-12 08:40, standing). Its items
-carry the plan document's own step names, one item per step of the current pass, and a spawned
-worker's label carries the same number and title in the chat language. The plan file stays the one
+carry the plan document's own step names, one item per step of the current pass. A spawned worker's
+label carries the same number and title in the chat language. The plan file stays the one
 source; the list holds the current pass alone.
 
 **The next release earns a major number.** Rule 32's rewrite and rule 7's before it reworded rules a
-host has vendored, which base rule 32 itself names as earning a major. `MIGRATION.md` owes its
+host has vendored. Base rule 32 itself names that as earning a major. `MIGRATION.md` owes its
 chapter. The release number is decided at campaign close.
 
 **The plan is accepted and wears its statuses.** His word 2026-08-11 21:22: «мы же приняли
@@ -64,29 +66,29 @@ render of that file. It is republished after every plan edit (his 17:09 order; t
 the URL).
 
 **Earlier the same night, 02:28–05:38.** Stage-2 batch 1 closed on rule 7, 5,476 → 5,171 bytes
-(`56c9473`), and rule 30 was cut whole from the rulebook (`3866a6c`, records `d07f2d0`). Rulebook
+(`56c9473`). Rule 30 was cut whole from the rulebook (`3866a6c`, records `d07f2d0`). Rulebook
 volume 73,578 → 72,929.
 
-**Next session's first step.** Stage-2 batch 3 on base rule 29, by the S1–S5 recipe in the plan,
-unless his ruling on rule 31's "owner" has arrived — that ruling makes rule 31 the batch, and its
+**Next session's first step.** Stage-2 batch 3 on base rule 29, by the S1–S5 recipe in the plan.
+Where his ruling on rule 31's "owner" has arrived, rule 31 becomes the batch. Rule 31's
 S1 inventory is already written. Then stage 3's own six repairs, each already noted against its
 queue row: 553, 588, 530, 585, 550, and 526 with 532. The skill-creator review record the push gate
-demands is run before each push; the recipe edit that would make it standing waits his «принято» on
+demands is run before each push. The recipe edit that would make it standing waits his «принято» on
 the plan text (row 594).
 
 **Open small items.** A gate proposal sits parked under campaign rule 2, needing his word or
 campaign close. `MIGRATION.md` owes a chapter at the next release: a host that adopted 2.0.0
 still carries rule 30 (`DECISIONS.md`, 2026-08-12). The `product-prover` skill owes one full read by
-the orchestrator seat before its mirror is re-synced — his standing ask, restated 2026-08-12 08:18;
-the mirror at `happysasha18/product-prover` currently matches the pack.
+the orchestrator seat before its mirror is re-synced. This is his standing ask, restated
+2026-08-12 08:18. The mirror at `happysasha18/product-prover` currently matches the pack.
 
 **Scheduled and deferred.** D7 stays scheduled with him at the keyboard. D9, D10 and D11 are
 decided at campaign close.
 
-**The morning pass stands unpushed, and that is the next session's first act.** Everything above is
+**The morning pass stands unpushed.** That is the next session's first act. Everything above is
 committed and sits on `main` ahead of `origin/main` from `e8900d9` onward. No full suite has run
-since the pass began: this environment moves a foreground command past 600 seconds into the
-background and the suite runs 18 to 21 minutes, and every partial run today was taken while workers
+since the pass began. This environment moves a foreground command past 600 seconds into the
+background, and the suite runs 18 to 21 minutes. Every partial run today was taken while workers
 were writing the tree, so its reds carry no verdict. The push rule reads a suite log's own printed
 verdict, so the push waits for one clean run with no worker active. The order to follow:
 `python3 -m pytest -q > <scratch>/suite.log 2>&1` alone, read the last line, then
@@ -150,25 +152,25 @@ Reads, drafts and sweeps go to workers on cheaper tiers, and replies stay short.
 plan itself always carries execution statuses, kept current by point edits with delta pages (his
 word 2026-08-11).
 
-Keep the session's task list visible for the whole of a pass, one item per step, each worded as the
-plan document words that step, and give every spawned worker a label carrying the same number and
+Keep the session's task list visible for the whole of a pass, one item per step. Word each item as
+the plan document words that step. Give every spawned worker a label carrying the same number and
 title in the chat language (his word 2026-08-12 08:40, standing). Three surfaces then say one
 thing: the agents panel, the task list, and the plan. The plan file stays the one source, and the
 list holds the current pass alone. This line owes a copy in the personal profile, which lives in
 another repository and waits for a session that owns it.
 
 A worker never runs the full suite. This environment moves a foreground command past 600 seconds
-into the background, the suite runs 18 to 21 minutes, and a worker that starts it stalls and then
+into the background, and the suite runs 18 to 21 minutes. A worker that starts it stalls and then
 returns an unfinished report as final. A brief names the exact test files that finish in seconds.
-The orchestrator runs one clean full suite at the end of a pass with no worker active, because a
-run taken while workers write the tree reds on files being written and its reds carry no verdict.
+The orchestrator runs one clean full suite at the end of a pass with no worker active. A run taken
+while workers write the tree reds on files being written, and its reds carry no verdict.
 
 ## Prompt for the next session
 
 Continue live-spec by the plan. First act: one clean full suite alone, started in the background,
-its last line read; then `bash guardrails/pre-push`; then push the whole range from `e8900d9`; then
-`bash scripts/sync-mirrors.sh`. His authorization for the push stands (2026-08-12 08:01). Then
-stage-2 batch 3 on base rule 29, or on rule 31 where his ruling on the two senses of "owner" has
-arrived, since rule 31's S1 inventory is already written. Then the standing ask he restated on
-2026-08-12 08:18: one full read of the product-prover skill by the orchestrator seat, its findings
-landed in the pack, and the mirror re-synced afterwards.
+with its last line read. Then `bash guardrails/pre-push`, then push the whole range from `e8900d9`,
+then `bash scripts/sync-mirrors.sh`. His authorization for the push stands (2026-08-12 08:01). Then
+stage-2 batch 3 on base rule 29. Where his ruling on the two senses of "owner" has arrived, rule 31
+becomes the batch, since its S1 inventory is already written. Then the standing ask he restated on
+2026-08-12 08:18. It is one full read of the product-prover skill by the orchestrator seat. Its
+findings land in the pack, and the mirror is re-synced afterwards.
