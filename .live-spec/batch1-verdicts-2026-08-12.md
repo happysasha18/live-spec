@@ -21,7 +21,9 @@ batch 2 on his word; its S1 inventory is ready (`.live-spec/s1-rule-31-2026-08-1
   rotted pointers found at the edges and excluded with reasons. Page:
   `.live-spec/s1-rule-7-2026-08-12.md`.
 - **S2 (rewrite, Opus).** Body 5,476 → 5,171 bytes (−305; the frozen clause 6 held byte-for-byte
-  at 1,566). Over-cap sentences inside the rule 4 → 0; the file's census findings 74 → 70. All
+  at 1,566). Over-cap sentences in the rewritten prose 4 → 0; five more stand inside the byte-frozen
+  worker-restore clause, untouched by design, so the whole rule reads 9 → 5. The file's census
+  findings 74 → 70. All
   nine requirements carried, all twelve codes kept in place, every test-pinned literal phrase
   survives. One sentence dropped whole (the pointer at a script's own header); its facts stand in
   the script.

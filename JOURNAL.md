@@ -2806,8 +2806,9 @@ by census price, rule 31, carries his open word on the two senses of "owner" (ro
 batch 1 took rule 7, the concurrent-edit fence — the seat's recorded sequencing call.
 
 The batch walked S1–S5 whole: inventory with nine quoted requirements and eight surface
-categories; an Opus rewrite 5,476 → 5,171 bytes that drove the rule's over-cap sentences four to
-zero and kept every test-pinned phrase; a fresh clean-context check mapping nine of nine
+categories; an Opus rewrite 5,476 → 5,171 bytes that drove the rewritten prose's over-cap sentences
+four to zero (five more stand in the byte-frozen worker-restore clause) and kept every
+test-pinned phrase; a fresh clean-context check mapping nine of nine
 requirements with zero misses; eighteen architecture pins reshifted; the installed copy synced.
 Closing measures: rulebook volume 73,578 → 72,929 by the repaired command (the batch's mechanical
 test passes), suite 2,485 passed / 0 failed, gate count 29. Commit `56c9473`; verdict lines in
