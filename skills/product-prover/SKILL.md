@@ -632,7 +632,7 @@ The five mandatory sweeps:
 - **Lifecycle** — one surface's whole life across enter, leave, cover, and return. The sub-questions
   gather under the transition-payload parent (SPEC INV-168), so the one lifecycle is walked once as a
   single pass. Separate angles would otherwise collide over it. Each sub-question keeps its own
-  anchor. The parent gathers five angles:
+  anchor. The parent lens stands first below, and the five angles it gathers follow it:
   - **Transition payload** — the parent lens that the topology checks all serve without naming: entry
     symmetry, dead-end, and scenario entry and exit. For every transition the spec states, enumerate the
     parameters a person perceives across it. Where do focus and selection land? What scroll or playback
@@ -966,9 +966,10 @@ Finish with one sentence on overall readiness: ready to build / needs another it
   and a summary of the document backs none either (base rule 13).
 - Phase pacing: a `PROCEED` triage → opening assessment → Phase 1 → 2 → 3 → 3.5 → 4 → 5, all in one
   continuous response, with no pause.
-- Persist the findings. They are written to the project's `docs/prover/YYYY-MM-DD.md`, in the repo under
+- Persist the findings. They are written to the project's `docs/prover/YYYY-MM-DD-<slug>.md`, in the repo under
   review, which is a separate repo from this skill's own. Each finding carries a folded or
-  rejected-with-why column and its kind, defect or recommendation, per build-pipeline step 2. That makes
+  rejected-with-why column and its kind, defect or recommendation, per build-pipeline step 2. The
+  slug names the pass. It is what lets a second pass on the same day write beside the first. That makes
   the fold verifiable after a memory wipe, and it lets the next run check the previous unfolded rows.
 
   The record opens by naming the prover skill version that ran the pass. A later session then tells
