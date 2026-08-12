@@ -3,7 +3,7 @@
   "cap_rule": "r08",
   "files": {
     "ARCHITECTURE.md": {
-      "bytes": 106031,
+      "bytes": 106203,
       "file": "ARCHITECTURE.md",
       "long": 0,
       "longest": 25,
@@ -12,7 +12,7 @@
       "total": 0
     },
     "NEXT_STEPS.md": {
-      "bytes": 6438,
+      "bytes": 6604,
       "file": "NEXT_STEPS.md",
       "long": 0,
       "longest": 25,
