@@ -3,7 +3,7 @@
   "cap_rule": "r08",
   "files": {
     "ARCHITECTURE.md": {
-      "bytes": 106727,
+      "bytes": 107404,
       "file": "ARCHITECTURE.md",
       "long": 0,
       "longest": 25,
@@ -58,7 +58,7 @@
       "total": 13
     },
     "ROADMAP.md": {
-      "bytes": 286574,
+      "bytes": 286795,
       "file": "ROADMAP.md",
       "long": 8,
       "longest": 242,
