@@ -229,19 +229,6 @@ def target_val(baseline, key):
     return baseline.get("targets", {}).get(key, {}).get("value", NOT_STATED)
 
 
-def fmt_delta(current, previous):
-    """A signed change against a prior count: "+3", "-2", or "0". Either side missing prints
-    "not stated" rather than a fabricated delta."""
-    if current is None or previous is None:
-        return NOT_STATED
-    delta = current - previous
-    if delta > 0:
-        return "+%s" % fmt(delta)
-    if delta < 0:
-        return "-%s" % fmt(abs(delta))
-    return "0"
-
-
 def fmt(n, decimals=None):
     if n is None:
         return NOT_STATED
@@ -456,41 +443,24 @@ def build_section4(reads):
 # Assembly
 # ---------------------------------------------------------------------------------------------
 
-def build_continuity_line(baseline, findings_total, zero_count):
-    """One sentence naming the previous generation's date and what moved since: the change in
-    total findings and the change in documents at zero. None when no previous generation is
-    recorded yet."""
-    last = baseline.get("last_generation", {})
-    prev_date = last.get("date")
-    if prev_date is None:
-        return None
-    return ("Since the last run on %s, total findings changed by %s and documents at zero "
-            "changed by %s." % (prev_date,
-                                 fmt_delta(findings_total, last.get("total_findings")),
-                                 fmt_delta(zero_count, last.get("zero_findings_documents"))))
-
-
 def render(now, census_files, cap, cap_rule, spec_measure, baseline, ratchet_bound, max_bytes,
            redundancy_open, debt_cap, reads, live_paths):
     findings_total = sum(v.get("total", 0) for v in census_files.values())
     s1, s2 = build_section1(census_files, spec_measure, findings_total,
                              load_json(DOC_BOUNDS_PATH)["docs"])
-    table_a, stats_a = build_table_a(census_files, baseline, reads, live_paths)
+    table_a, _ = build_table_a(census_files, baseline, reads, live_paths)
     table_b = build_table_b(census_files, reads)
     table_c = build_table_c(spec_measure, baseline, ratchet_bound, max_bytes, redundancy_open,
                              debt_cap)
     table_d = build_section4(reads)
     priority_groups, priority_rows = build_priority(baseline, census_files, reads)
-    continuity = build_continuity_line(baseline, stats_a["findings_total"], stats_a["zero_count"])
 
     out = []
     out.append("# Progress — the two promises")
     out.append("")
-    out.append("Generated %s by `python3 scripts/progress-report.py`." % now)
+    out.append("Generated %s by `python3 scripts/progress-report.py`, reading the tree as it "
+                "stands today." % now)
     out.append("")
-    if continuity is not None:
-        out.append(continuity)
-        out.append("")
     out.append("## Where the two promises stand")
     out.append("")
     out.append(s1)
@@ -527,20 +497,7 @@ def render(now, census_files, cap, cap_rule, spec_measure, baseline, ratchet_bou
     for item in WHAT_NO_MEASURE_COVERS:
         out.append(item)
         out.append("")
-    return "\n".join(out).rstrip() + "\n", stats_a
-
-
-def write_last_generation(baseline, now, stats_a):
-    """Update `last_generation` in `guardrails/progress-baseline.json` to this run's own numbers,
-    read first so the page's continuity line compares against the moment before this write."""
-    baseline["last_generation"] = {
-        "date": now,
-        "total_findings": stats_a["findings_total"],
-        "zero_findings_documents": stats_a["zero_count"],
-    }
-    with open(BASELINE_PATH, "w", encoding="utf-8") as f:
-        json.dump(baseline, f, indent=2, ensure_ascii=False)
-        f.write("\n")
+    return "\n".join(out).rstrip() + "\n"
 
 
 def main():
@@ -557,12 +514,11 @@ def main():
     live_paths = live_document_paths()
 
     now = datetime.date.today().isoformat()
-    text, stats_a = render(now, census_files, cap, cap_rule, spec_measure, baseline,
-                            ratchet_bound, max_bytes, redundancy_open, debt_cap, reads, live_paths)
+    text = render(now, census_files, cap, cap_rule, spec_measure, baseline,
+                   ratchet_bound, max_bytes, redundancy_open, debt_cap, reads, live_paths)
 
     with open(OUT_PATH, "w", encoding="utf-8") as f:
         f.write(text)
-    write_last_generation(baseline, now, stats_a)
     print("progress-report: wrote %s" % OUT_PATH)
     return 0
 

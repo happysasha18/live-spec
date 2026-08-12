@@ -196,9 +196,10 @@ class TestQueueSection(unittest.TestCase):
         self.assertNotEqual(row[2], "0")
 
 
-class TestTargetsAndContinuity(unittest.TestCase):
-    """Table A's and Table C's target columns read the baseline file, and the continuity line
-    under "Generated" names the previous run's date and what moved since."""
+class TestTargetsAndNoComparison(unittest.TestCase):
+    """Table A's and Table C's target columns read the baseline file. The page states what the
+    tree holds today only — no sentence anywhere on it may compare this run against a previous
+    one."""
 
     @classmethod
     def setUpClass(cls):
@@ -217,13 +218,12 @@ class TestTargetsAndContinuity(unittest.TestCase):
                 expected = targets.get(row[0], {}).get("value", "not stated")
                 self.assertEqual(row[-1], expected, row)
 
-    def test_continuity_line_names_a_date_and_two_changes(self):
-        gen_idx = self.text.index("Generated ")
-        gen_end = self.text.index("\n\n", gen_idx)
-        rest = self.text[gen_end:].lstrip("\n")
-        continuity = rest.split("\n\n", 1)[0]
-        self.assertRegex(continuity, r"\d{4}-\d{2}-\d{2}")
-        self.assertEqual(len(re.findall(r"changed by", continuity)), 2, continuity)
+    def test_the_page_never_carries_a_run_to_run_comparison(self):
+        """A generated page states the tree as it stands today, never what moved since a prior
+        run. This fails the moment "Since the last run" or a "changed by" delta returns."""
+        self.assertNotIn("Since the last run", self.text)
+        self.assertNotIn("changed by", self.text)
+        self.assertNotRegex(self.text, r"[Cc]ompared to (the )?(last|previous) run")
 
 
 class TestNotStatedNotZero(unittest.TestCase):
