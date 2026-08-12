@@ -493,6 +493,54 @@ instance plugs in, each entry carrying a handle and a test. The recommendation i
 cites the engine's contract entries by their handle and nothing deeper. The reason: a contract entry is
 the engine's versioned public promise, while an internal fact rots at the engine's next refactor. [D-7]
 
+### Stage 3 C2 — six checks await your word
+
+Source for all six: `.live-spec/stage3-verdicts-2026-08-12.md`, step C2's closing list ("List 2 — what
+waits for Alexander's word"). Each line below is dated 2026-08-12, copied in the source page's own
+wording, and stands until you rule on it — the seat has ruled on none of these.
+
+**The class line, covering fifteen keeps.**
+
+> Checks that guard silent rot stay in the chain for now: c, d, e, f, k, o, q, u, v, w, x, y, z, ad
+> and ae are kept on the seat's extension of your word of 2026-08-09 11:22 about the
+> architecture-pointer check, none of them has other coverage of its failure class, and the
+> extension is the seat's own until you rule on it.
+
+**Gate ae — `check-named-checks.py`.**
+
+> Gate ae spends 20,157 bytes and 0.16 seconds proving that `scripts/check-registry.json`
+> describes each runnable file correctly, has caught nothing since 2026-08-06, and has no other
+> reader of the registry; the seat recommends retiring it and keeping the registry as a plain
+> document, and runs it until your word.
+
+**Gate n — `check-earned-message.py`.**
+
+> Gate n spends 16,759 bytes running report-only at push, has caught no unearned message and has
+> reded four lawful deposits between 2026-07-28 and 2026-08-07 (queue row 585); the seat
+> recommends retiring it and leaving the intake sweep as the judging moment, and holds its repair
+> until your word.
+
+**Gate p — `check-touchpoint-kind.py`.**
+
+> Gate p spends 7,980 bytes proving that each surface speaks only the message kind its touchpoint
+> affords, with no catch on record and no other coverage; you are the person a wrong-kind message
+> reaches, so the seat asks whether the machine still earns its place and keeps it running until
+> your word.
+
+**Gate o — `check-cleanup-notice.sh`.**
+
+> Gate o requires a cleanup to print what it ended, and its own header says it shipped ahead of
+> the stricter owned-identity check that is now gate j; with no catch on record for either, the
+> seat asks whether the notice requirement is still wanted beside j and keeps o running until your
+> word.
+
+**Gate ab — `check-handover-provenance.py`, already retired.**
+
+> The handover-provenance gate was retired on 2026-08-09 with no other machine covering its class
+> (queue row 522: the discipline is now the seat's alone); under the removal rule the campaign
+> adopted afterwards that missing coverage would have brought the question to you first, so the
+> seat asks you to confirm the retirement stands.
+
 ## Struck — recorded as yours, then you struck it
 <!-- record:struck -->
 - ~~Parallel lanes rank above the communication layer, and they wait for a field run.~~ STRUCK
@@ -534,3 +582,14 @@ outlives the correction.
   the worker then finished the cut and its final report matched the tree line for line. The
   slice was accepted on the diff, the suite and the gates. The cut owes a MIGRATION.md chapter
   at the next release: a host that adopted 2.0.0 still carries rule 30.
+
+- **Gate b stays; step C3's one permitted removal is declined.** 2026-08-12, stage 3 step C2/C3
+  (`.live-spec/stage3-verdicts-2026-08-12.md`). Gate b (`check-tests.sh`) is the only one of the
+  25 checks whose evidence meets step C3's removal test in full: its neighbour,
+  `.github/workflows/gates.yml`, re-runs the identical suite (SPEC M-5) and is the mechanism that
+  caught the 2026-07-14 miss when the local runner's collection was wrong. The page's own verdict
+  on b is repair, not removal — cutting it would move every regression's first catch from the
+  pre-push moment to CI, after the push, for a gain of 451.45 seconds, while the repair recorded
+  on the same page (run the 282-second nested meta-test in the CI mirror alone, drop it from
+  pre-push) takes most of that time without opening the gap. The seat accepts that recommendation:
+  gate b is not removed.
