@@ -132,10 +132,10 @@ named here and in the matrix.
 - the discovery-side sibling of the declared-class uniformity lens is the design review (owner design-reviewer)
 
 **pins** —
-- `skills/product-prover/SKILL.md:282` (review modes)
-- `skills/product-prover/SKILL.md:717` (unwritten-seam hunt — the stress-lens family, INV-72)
+- `skills/product-prover/SKILL.md:288` (review modes)
+- `skills/product-prover/SKILL.md:749` (unwritten-seam hunt — the stress-lens family, INV-72)
 - `.live-spec/profile.md:6` (gate cadence instance)
-- `skills/product-prover/SKILL.md:364` (restructure-merge gate — INV-114 delta-judging)
+- `skills/product-prover/SKILL.md:384` (restructure-merge gate — INV-114 delta-judging)
 
 ### [node: build-pipeline]
 

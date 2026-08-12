@@ -47,7 +47,7 @@ class TestCrossSurfacePolicy(unittest.TestCase):
     def test_prover_carries_the_cross_surface_lens(self):
         pv = read_flat("skills/product-prover/SKILL.md")
         self.assertIn("Cross-surface policy uniformity", pv)
-        self.assertIn("The preventive twin of the class lens above", pv)
+        self.assertIn("The preventive twin of the class lens", pv)
 
     def test_build_pipeline_completeness_holds_uniformity(self):
         bp = read_all_flat("skills/build-pipeline/SKILL.md")
