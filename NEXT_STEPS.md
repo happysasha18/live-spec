@@ -162,10 +162,30 @@ while workers write the tree reds on files being written, and its reds carry no 
 
 ## Prompt for the next session
 
-Continue live-spec by the plan. First act: one clean full suite alone, started in the background,
-with its last line read. Then `bash guardrails/pre-push`, then push the whole range from `e8900d9`,
-then `bash scripts/sync-mirrors.sh`. His authorization for the push stands (2026-08-12 08:01). Then
-stage-2 batch 3 on base rule 29. Where his ruling on the two senses of "owner" has arrived, rule 31
-becomes the batch, since its S1 inventory is already written. Then the standing ask he restated on
-2026-08-12 08:18. It is one full read of the product-prover skill by the orchestrator seat. Its
-findings land in the pack, and the mirror is re-synced afterwards.
+Continue live-spec. Open by asking Alexander in plain Russian what he wants done, using the four
+choices below. Ask before starting any of them. He said on 2026-08-12 at 18:04 that he wants to be
+asked in human language rather than handed a plan.
+
+Before asking, do these three reads so the question is informed. Read this whole file. Read
+`.live-spec/culling-plan-v3-2026-08-10.md`, whose head block says where the campaign stands. Read
+`git log --oneline origin/main..HEAD` to see the five unpushed commits.
+
+The four choices to put to him:
+
+1. **Ship what is waiting.** Five commits sit unpushed. The walk is a fresh adversarial review record
+   over `origin/main..HEAD`, then one clean full suite alone in the background. Then
+   `bash guardrails/pre-push < /dev/null` in the background, then `git push --no-verify`, then
+   `bash scripts/sync-mirrors.sh`. Budget about 45 minutes. His authorization for the push stands.
+2. **Answer the seven open questions.** Six sit in `DECISIONS.md` under the stage-3 heading, about
+   whether five named gates keep earning their place. The seventh is what "owner" means in base rule 31.
+   It has been open since 2026-08-05, and it keeps the queue's most expensive rule out of the
+   campaign. Each is a policy call only he can make. Answering them unblocks real cutting.
+3. **Run the next shortening batch.** Batch 3 on base rule 29, 2,138 bytes, by the S1-S5 recipe.
+   Where he has answered the "owner" question, rule 31 becomes the batch instead, and its inventory
+   is already written.
+4. **Finish the prover skill's three open findings.** Rows 609, 610 and 611. Each asks a scope
+   question about what the skill owes a verdict for, so each needs a decision before an edit.
+
+Say the four in two sentences each at most. Recommend one, and say why in one line. Then wait.
+
+Never open by narrating what a previous session did. He has read the report already.
