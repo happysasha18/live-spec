@@ -4,7 +4,7 @@ Generated 2026-08-12 by `python3 scripts/progress-report.py`, reading the tree a
 
 ## Where the two promises stand
 
-Promise one, a reader gets through a document without stopping, measures 4,871 open writing findings across the live set today.
+Promise one, a reader gets through a document without stopping, measures 4,874 open writing findings across the live set today.
 
 Promise two, the specification stops growing, measures PRODUCT_SPEC.md at 702,784 bytes against its 840,000-byte ceiling today.
 
@@ -159,36 +159,37 @@ Three members carry no entry in the findings record: `hooks/chat-law-hook.sh` an
 | 94 | `docs/audits/2026-08-07-cost-map.md` | 3 | no | no | waiting |
 | 95 | `docs/norms/onboarding-card-2026-07-10.provenance.md` | 3 | no | no | waiting |
 | 96 | `inbox/2026-08-08-profile-briefed-worker-ab-result.md` | 3 | no | no | waiting |
-| 97 | `scripts/grant-ask.md` | 3 | no | no | waiting |
-| 98 | `skills/build-pipeline/references/request-kind-table.md` | 3 | no | no | waiting |
-| 99 | `skills/communicator/README.md` | 3 | no | no | waiting |
-| 100 | `skills/feedback-collector/README.md` | 3 | no | no | waiting |
-| 101 | `editions/product-prover/PROVENANCE.md` | 2 | no | no | waiting |
-| 102 | `skills/build-pipeline/references/excuses-table.md` | 2 | no | no | waiting |
-| 103 | `templates/skill-review.template.md` | 2 | no | no | waiting |
-| 104 | `docs/plans/2026-07-29-specification-subdivision.md` | 1 | no | no | waiting |
-| 105 | `docs/prior-art.md` | 1 | no | no | waiting |
-| 106 | `editions/product-prover/README.md` | 1 | no | no | waiting |
-| 107 | `editions/product-prover/SKILL.md` | 1 | no | no | waiting |
-| 108 | `skills/live-spec-base/README.md` | 1 | no | no | waiting |
-| 109 | `templates/ARCHITECTURE.template.md` | 1 | no | no | waiting |
-| 110 | `PRODUCT_SPEC.index.md` | 0 | yes | no | waiting |
-| 111 | `adopt/START.md` | 0 | yes | no | waiting |
-| 112 | `docs/PROGRESS.md` | 0 | yes | no | waiting |
-| 113 | `docs/audits/2026-08-07-number-rulings.md` | 0 | yes | no | waiting |
-| 114 | `docs/plans/2026-07-28-two-goals-one-campaign.md` | 0 | yes | no | waiting |
-| 115 | `docs/plans/2026-08-07-night-plan.md` | 0 | yes | no | waiting |
-| 116 | `editions/product-prover/reference/stress-lenses.md` | 0 | yes | no | waiting |
-| 117 | `skills/build-pipeline/references/project-setup.md` | 0 | yes | no | waiting |
-| 118 | `skills/product-prover/README.md` | 0 | yes | no | waiting |
-| 119 | `skills/text-audit/README.md` | 0 | yes | no | waiting |
-| 120 | `skills/text-audit/references/human-prose-rules.md` | 0 | yes | no | waiting |
-| 121 | `skills/text-audit/references/reader-prompt.md` | 0 | yes | no | waiting |
-| 122 | `skills/text-audit/references/rewrite-meaning-check.md` | 0 | yes | no | waiting |
-| 123 | `skills/text-audit/references/unprompted-reader-brief.md` | 0 | yes | no | waiting |
-| 124 | `templates/PRODUCT_SPEC.template.md` | 0 | yes | no | waiting |
-| 125 | `templates/ROADMAP.template.md` | 0 | yes | no | waiting |
-| 126 | `templates/TEST_MATRIX.template.md` | 0 | yes | no | waiting |
+| 97 | `inbox/2026-08-12-preshow-lint-script-missing.md` | 3 | no | no | waiting |
+| 98 | `scripts/grant-ask.md` | 3 | no | no | waiting |
+| 99 | `skills/build-pipeline/references/request-kind-table.md` | 3 | no | no | waiting |
+| 100 | `skills/communicator/README.md` | 3 | no | no | waiting |
+| 101 | `skills/feedback-collector/README.md` | 3 | no | no | waiting |
+| 102 | `editions/product-prover/PROVENANCE.md` | 2 | no | no | waiting |
+| 103 | `skills/build-pipeline/references/excuses-table.md` | 2 | no | no | waiting |
+| 104 | `templates/skill-review.template.md` | 2 | no | no | waiting |
+| 105 | `docs/plans/2026-07-29-specification-subdivision.md` | 1 | no | no | waiting |
+| 106 | `docs/prior-art.md` | 1 | no | no | waiting |
+| 107 | `editions/product-prover/README.md` | 1 | no | no | waiting |
+| 108 | `editions/product-prover/SKILL.md` | 1 | no | no | waiting |
+| 109 | `skills/live-spec-base/README.md` | 1 | no | no | waiting |
+| 110 | `templates/ARCHITECTURE.template.md` | 1 | no | no | waiting |
+| 111 | `PRODUCT_SPEC.index.md` | 0 | yes | no | waiting |
+| 112 | `adopt/START.md` | 0 | yes | no | waiting |
+| 113 | `docs/PROGRESS.md` | 0 | yes | no | waiting |
+| 114 | `docs/audits/2026-08-07-number-rulings.md` | 0 | yes | no | waiting |
+| 115 | `docs/plans/2026-07-28-two-goals-one-campaign.md` | 0 | yes | no | waiting |
+| 116 | `docs/plans/2026-08-07-night-plan.md` | 0 | yes | no | waiting |
+| 117 | `editions/product-prover/reference/stress-lenses.md` | 0 | yes | no | waiting |
+| 118 | `skills/build-pipeline/references/project-setup.md` | 0 | yes | no | waiting |
+| 119 | `skills/product-prover/README.md` | 0 | yes | no | waiting |
+| 120 | `skills/text-audit/README.md` | 0 | yes | no | waiting |
+| 121 | `skills/text-audit/references/human-prose-rules.md` | 0 | yes | no | waiting |
+| 122 | `skills/text-audit/references/reader-prompt.md` | 0 | yes | no | waiting |
+| 123 | `skills/text-audit/references/rewrite-meaning-check.md` | 0 | yes | no | waiting |
+| 124 | `skills/text-audit/references/unprompted-reader-brief.md` | 0 | yes | no | waiting |
+| 125 | `templates/PRODUCT_SPEC.template.md` | 0 | yes | no | waiting |
+| 126 | `templates/ROADMAP.template.md` | 0 | yes | no | waiting |
+| 127 | `templates/TEST_MATRIX.template.md` | 0 | yes | no | waiting |
 
 ## Promise one — a reader gets through a document without stopping
 
@@ -196,8 +197,8 @@ The counts below come from the record `guardrails/rule-census.json`. It states w
 
 | measure | today | recorded before | target |
 |---|---|---|---|
-| live documents measured | 123 | 108 | all of them |
-| writing findings across all documents | 4,871 | 4,810 | 0 |
+| live documents measured | 124 | 108 | all of them |
+| writing findings across all documents | 4,874 | 4,810 | 0 |
 | documents at zero findings | 22 | 16 | all |
 | documents that passed two consecutive readings with nothing blocking | 0 | not stated | all |
 

@@ -23,9 +23,11 @@ gate names a different path in its own repair line, so the author is sent lookin
 pass on the same day overwrites the first pass's record, taking with it the folded-or-rejected
 column the skill's next paragraph says makes the fold verifiable after a memory wipe.
 
-The pack's own tree already votes: `docs/prover/` holds 381 records and 380 of them carry a slug.
-Only `2026-07-04.md` follows the skill as written. Every real pass has silently overridden the
-instruction.
+The pack's own tree already votes: `docs/prover/` holds 360 dated records and 356 of them carry a
+slug. Four follow the skill as written, and they are `2026-07-04.md`, `2026-07-05.md`,
+`2026-07-19.md` and `2026-07-20.md`. Every other pass has silently overridden the instruction.
+(Counts re-derived 2026-08-12 18:59 by the push review of `4a0b982..HEAD`, which found the figures
+first written here — 381 and 380 — matching nothing in the tree.)
 
 Fix: the meta rule reads `docs/prover/YYYY-MM-DD-<slug>.md`, the slug naming the pass, matching the
 gate's own repair line. Sweep the same sentence in `editions/product-prover/SKILL.md`.

@@ -3,7 +3,7 @@
   "cap_rule": "r08",
   "files": {
     "ARCHITECTURE.md": {
-      "bytes": 106203,
+      "bytes": 106727,
       "file": "ARCHITECTURE.md",
       "long": 0,
       "longest": 25,
@@ -12,7 +12,7 @@
       "total": 0
     },
     "NEXT_STEPS.md": {
-      "bytes": 12358,
+      "bytes": 13469,
       "file": "NEXT_STEPS.md",
       "long": 0,
       "longest": 25,
@@ -58,7 +58,7 @@
       "total": 13
     },
     "ROADMAP.md": {
-      "bytes": 265512,
+      "bytes": 286574,
       "file": "ROADMAP.md",
       "long": 8,
       "longest": 242,
@@ -112,7 +112,7 @@
       "total": 3
     },
     "docs/PROGRESS.md": {
-      "bytes": 15621,
+      "bytes": 15716,
       "file": "docs/PROGRESS.md",
       "long": 0,
       "longest": 22,
@@ -615,6 +615,15 @@
       "style": 4,
       "total": 8
     },
+    "inbox/2026-08-12-preshow-lint-script-missing.md": {
+      "bytes": 2743,
+      "file": "inbox/2026-08-12-preshow-lint-script-missing.md",
+      "long": 2,
+      "longest": 39,
+      "register": 0,
+      "style": 1,
+      "total": 3
+    },
     "inbox/2026-08-12-tlvphotos-reply-worker-restore-finding.md": {
       "bytes": 3774,
       "file": "inbox/2026-08-12-tlvphotos-reply-worker-restore-finding.md",
@@ -886,7 +895,7 @@
       "total": 0
     },
     "skills/product-prover/SKILL.md": {
-      "bytes": 67412,
+      "bytes": 67562,
       "file": "skills/product-prover/SKILL.md",
       "long": 0,
       "longest": 25,

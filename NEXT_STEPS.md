@@ -14,15 +14,15 @@ at 16:33, 33 commits. The mirror sync ran after it. `product-prover` is up to da
 reports no mirror repository yet, which is the true state.
 
 **The closing full suite is green: 2,497 passed, 0 failed.** It ran alone with no worker writing the
-tree. Two full runs were taken today. One measured 1,159.75 s and one 750.36 s, both inside the gate
-chain.
+tree. Two full runs fed the wall-time budget, and `ARCHITECTURE.md` is their home. One measured
+1,159.75 s inside the pre-push gate set on a quiet machine. The other measured 993.31 s standalone,
+while three worker sessions shared the machine.
 
 **Batch 3 has not opened.** It takes base rule 29 (2,138 bytes), the next-priced rule below 32 by the
 day-1 census. Rule 31 still waits on his ruling about the two senses of "owner" (queue rows 536/539). That is a
 policy call: it fixes which skill runs a design review, and the precedence among fourteen rule
-collisions.
-its own S1 inventory is already written, at `.live-spec/s1-rule-31-2026-08-12.md`. Step S1 for rule 29
-is the next act. The whole pass of 12:53-16:33 went to the closing run, the gate and the push.
+collisions. Rule 31's own S1 inventory is already written, at
+`.live-spec/s1-rule-31-2026-08-12.md`. Step S1 for rule 29 is the next act. The whole pass of 12:53-16:33 went to the closing run, the gate and the push.
 
 **Seven things wait on his word.** Six are in `DECISIONS.md` under the stage-3 heading, each with the
 exact line it would take. They are the class ruling for fifteen silent-rot keeps, and gates ae, n, p,
@@ -80,12 +80,14 @@ whole-document property sweep" is defined nowhere. Row 611 asks whether the clas
 line, though its tier says none is owed. The mirror re-sync his ask names comes after these are
 pushed, because the sync reads the committed tree.
 
-**Four commits stand unpushed, and the next push owes a fresh review record.** They are `b102281`,
-`c9f4a16`, `d6a6ea3` and `c9e1886`. They carry the plan repair, this resume file, the prover read
-with its rows, and the two prover fixes with their review record. That last one edits a skill body,
-so the push also needs the full suite green.
-`guardrails/check-prover-record.sh --push` reds today until a record covers them, because the
-newest record commit is older than the newest reviewed commit.
+**The range `4a0b982..HEAD` goes out this pass, nine commits.** Seven carry the day's later work. They are
+the plan repair, this resume file twice, and the prover read with its queue rows. The rest are the
+two prover fixes with their review record, and the queue row for the install defect the tlvphotos
+window reported.
+The eighth carries the repairs the push review of this very range asked for, and the ninth carries
+that review's record. One of the nine edits a skill body, so the push also needs the full suite
+green. `guardrails/check-prover-record.sh --push` reds until the record lands, because it compares
+the newest record commit against the newest reviewed commit.
 
 **The plan wears its statuses.** `.live-spec/culling-plan-v3-2026-08-10.md` is the one copy. A full
 read of it today found four cells disagreeing with their own text, and all four are repaired.
@@ -168,11 +170,12 @@ asked in human language rather than handed a plan.
 
 Before asking, do these three reads so the question is informed. Read this whole file. Read
 `.live-spec/culling-plan-v3-2026-08-10.md`, whose head block says where the campaign stands. Read
-`git log --oneline origin/main..HEAD` to see the five unpushed commits.
+`git log --oneline origin/main..HEAD` to see what still stands unpushed, and count it there rather
+than trusting a number written here.
 
 The four choices to put to him:
 
-1. **Ship what is waiting.** Five commits sit unpushed. The walk is a fresh adversarial review record
+1. **Ship what is waiting.** Whatever `git log --oneline origin/main..HEAD` lists sits unpushed. The walk is a fresh adversarial review record
    over `origin/main..HEAD`, then one clean full suite alone in the background. Then
    `bash guardrails/pre-push < /dev/null` in the background, then `git push --no-verify`, then
    `bash scripts/sync-mirrors.sh`. Budget about 45 minutes. His authorization for the push stands.

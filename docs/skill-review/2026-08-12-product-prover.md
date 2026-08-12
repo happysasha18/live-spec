@@ -17,7 +17,7 @@ Two of the five findings from the day's full read, chosen because neither carrie
 
 **Row 608.** The meta rules said the findings are written to `docs/prover/YYYY-MM-DD.md`.
 `guardrails/check-prover-record.sh:131` tells the author the opposite in its own repair line, naming
-`$TODAY-<slug>.md`, and 380 of the 381 records in this tree already carry a slug. The sentence now
+`$TODAY-<slug>.md`, and 356 of the 360 dated records in this tree already carry a slug. The sentence now
 reads `docs/prover/YYYY-MM-DD-<slug>.md`, and two short sentences after it say what the slug is for:
 it names the pass, and it is what lets a second pass on the same day write beside the first. Without
 that, the second pass overwrites the first record's folded-or-rejected column, which the very next
@@ -38,7 +38,7 @@ stated count agree on first reading.
 2. **The prescribed path now matches the gate that reads it.** Reviewed and clear.
    `guardrails/check-prover-record.sh` matches records by `<prover-dir>/<date>*.md`, so both the old
    bare-date form and the new slug form satisfy the match; what changed is that the skill and the
-   gate's repair line now tell an author the same string. The 381 records already on disk are
+   gate's repair line now tell an author the same string. The 360 dated records already on disk are
    unaffected.
 
 3. **The public edition needs no sweep for row 608, and none exists for row 612.** Reviewed, and it
