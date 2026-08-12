@@ -4,111 +4,99 @@ A digest with no redundancy (SPEC INV-48) — one live-state block, nothing remo
 information. One status block stands here at a time, and every update replaces it. Dated history
 lives in `JOURNAL.md`.
 
-## LIVE STATE (2026-08-12, 09:51)
+## LIVE STATE (2026-08-12, 16:38)
 
 Written for a session starting with clean context.
 
-**Stage 2 batch 2 and stage 3 both closed this morning.** Root: his instruction 2026-08-12 07:55 to
-run the next pass by the accepted plan. Batch 2 took base rule 32. Rule 31 stands first by price,
-and it waits for his ruling on the two senses of "owner" (queue rows 536/539). The resume block's
-own fallback says to take the next rule by the day-1 census price. Rule 32 fell 2,205 →
-1,449 bytes with all ten requirements carried word for word, checked by a fresh reader against the
-inventory. Three more items folded into the same batch. They are the retired rule number named at
-the rulebook's head, four restorations in rule 7, and the rule count removed from three unguarded
-copies. The rulebook stands at 72,466 bytes, down from 72,929 at the batch's open, so the batch's
-own test passes. Verdict lines: `.live-spec/batch2-verdicts-2026-08-12.md`. Stage 3 ran all three
-steps. It gathered evidence for the 25 checks with no dated catch, where the plan expected 24. Its
-verdicts were 18 keep / 6 repair / 1 already removed. It executed no removal: the plan permits
-removing one check, and the verdict recommends keeping it. Stage 3 as written cuts almost no
-volume; it yields six repairs and six questions.
+**The morning pass is pushed.** Root: his standing authorization of 2026-08-12 08:01, and his
+instruction of 12:59 to carry the work to a push. The range `e8900d9..4a0b982` went to `origin/main`
+at 16:33, 33 commits. The mirror sync ran after it. `product-prover` is up to date; every other skill
+reports no mirror repository yet, which is the true state.
 
-**Batch 3 starts on base rule 29** (2,138 bytes), the next-priced rule below 32 by the day-1 census,
-while rule 31 waits for his word.
+**The closing full suite is green: 2,497 passed, 0 failed.** It ran alone with no worker writing the
+tree. Two full runs were taken today. One measured 1,159.75 s and one 750.36 s, both inside the gate
+chain.
 
-**Six questions wait for him.** Each is written into `DECISIONS.md` under the stage-3 heading with
-the exact line it would take. They cover the class ruling for fifteen silent-rot keeps, and gates
-ae, n, p, o and ab. Row 536's "owner" ruling and his «принято» on the plan text for row 594 also
-stand open.
+**Batch 3 has not opened.** It takes base rule 29 (2,138 bytes), the next-priced rule below 32 by the
+day-1 census. Rule 31 still waits on his ruling about the two senses of "owner" (queue rows 536/539). That is a
+policy call: it fixes which skill runs a design review, and the precedence among fourteen rule
+collisions.
+its own S1 inventory is already written, at `.live-spec/s1-rule-31-2026-08-12.md`. Step S1 for rule 29
+is the next act. The whole pass of 12:53-16:33 went to the closing run, the gate and the push.
 
-**Also repaired in this pass.** The rule-price page's 53 pins were re-derived, and 48 of them were
-stale. The pin guard widened to read that page as well as `ARCHITECTURE.md`. Its verdict word now
-matches its own findings. Thirteen pointers into the rulebook repointed after the rule edits moved
-lines. The progress page's generator stopped writing a run-to-run comparison, which is why that
-repair kept coming back. The mirror sync now tells an absent repository from a check that could not answer, and
-it stops loudly on the second. The `product-prover` mirror exists, and its content matches the pack.
-Stale volume figures corrected, and the "3,095" figure recorded in `DECISIONS.md` as a decision-time
-reading with no log behind it. The worker-restore gate carries the tlvphotos finding of 2026-08-12
-06:05:40, which the reply in `inbox/2026-08-12-tlvphotos-reply-worker-restore-finding.md` establishes
-was declined by the harness and cost nothing.
+**Seven things wait on his word.** Six are in `DECISIONS.md` under the stage-3 heading, each with the
+exact line it would take. They are the class ruling for fifteen silent-rot keeps, and gates ae, n, p,
+o and ab. The seventh is row 536's "owner" ruling, open since 2026-08-05. His «принято» on the plan
+text for row 594 also stands open.
+
+**What the closing run and the gate found, and what it cost.** The suite came back 3 failed at 12:53.
+One failure was real and two read it back. Four documents stood above their recorded prose ceilings.
+`NEXT_STEPS.md` had been cleared to zero and carried 21 over-cap sentences after the 09:51 and 09:53
+rewrites. A cleared document stays cleared. Its sentences were split, and its ceiling held. `guardrails/README.md` and `ROADMAP.md` came back to their own ceilings. The tlvphotos reply
+was measured into the record at its own seven findings, because it holds another project's words.
+
+**The push review of the range raised sixteen findings.** Four blocked and all four are closed inside
+the range. They were the prose ratchet, the published tree counts, three missing skill review
+records, and one repair that could not run. `scripts/sync-mirrors.sh` was rewritten to stop loudly.
+Under `set -euo pipefail` its assignment killed the script before any branch could print. Two tests
+now read the script's own lines and run them under a failing `gh`. Both were proven red against the
+pre-fix script. Row 597 is reopened, corrected and closed a second time.
+
+**Seven architecture pins landed five lines short.** The pin guard passed every one. Its five-line
+window is satisfied by any word of four characters or more. The words that carried them were `this`,
+`when`, `work`, `live`, `session`, `SPEC` and `defaults`. All seven are repaired. Row 599 holds the
+guard's own repair.
+
+**The suite wall-time budget is re-derived at 1280 s.** The gate refused the push at 800 s. The rise
+was measured before the row was touched. `tests/test_guardrails.py` costs 640.59 s of a full run,
+against the near-282 s that row had claimed for it since 2026-08-06. One file is over half of every
+run. Row 553 owns the work that narrows it and now carries the fresh figure. Write the number with no
+thousands separator: the gate reads it with `grep -oE '≤ *[0-9]+'`.
+
+**Nine queue rows opened today, 599 through 607.** They are:
+
+- 599, the pin guard's five-line window.
+- 600, the tree-counts rebuild missing from the batch recipe.
+- 601, a batch's reached size held by no machine.
+- 602, the migration chapter still walking a host to the cut rule 30.
+- 603, the rulebook's rule count derived by nothing.
+- 604, the worker-restore gate's per-record outcome read.
+- 605, the 2026-07-28 discard that ran in this tree.
+- 606, a dead field publishing a stale figure.
+- 607, the skill-review gate matching a record by any mention of a name.
+
+Row 588 is closed, its acceptance line met and verified.
+
+**The prover skill's full read is done, and its findings are unlanded.** Root: his standing ask,
+restated 2026-08-12 08:18. Both parts were read whole by the orchestrator seat. Five findings stand,
+drafted at
+`/private/tmp/claude-501/-Users-sashaabramovich/101c0f21-bda7-4d44-b5b0-ee8cd28d9bfd/scratchpad/prover-read-findings-draft.md`.
+Two are checkable in a minute each. The skill tells an author to write the record as
+`docs/prover/YYYY-MM-DD.md`. The push gate's own repair line demands `$TODAY-<slug>.md`, and 380 of
+381 records already carry a slug. The second: "the whole-document property sweep" decides what a
+surface add skips, and it is defined nowhere in the repository. The other three are these. The
+declaration member of the composition-lens family has no lens in the prover. The class lens sits in
+the tier that owes no verdict, though base rule 14 is unconditional. And six bullets stand under a
+stated five in the lifecycle sweep. That draft is outside the repository and dies with the machine's temp directory, so
+land it first.
+
+**The plan wears its statuses.** `.live-spec/culling-plan-v3-2026-08-10.md` is the one copy. A full
+read of it today found four cells disagreeing with their own text, and all four are repaired.
+Batch 3 had no marker at all. Stage 3's header had no overall marker. The stage-2 queue line still
+called the 53 rules unmeasured while R5 stands done. And decision D6 carried a withdrawal marker
+beside a live recommendation. The delta page is `.live-spec/plan-v3-delta-2026-08-12-4.md`.
 
 **Three habits this pass paid for, named so the next session skips them.**
-1. A worker cannot run the full suite. This environment moves any foreground command past 600
-   seconds into the background, and the suite runs 18 to 21 minutes, so the worker stalls and
-   returns an unfinished report as final. A brief names the exact test files that finish in
-   seconds. The orchestrator runs one clean full suite at the end of the pass with no worker active.
-2. A full suite run while workers edit the tree reds on files being written. Those reds mean
-   nothing. The closing run stands alone.
-3. A repair written into generated output is undone by the next generation. Fix the generator.
-
-**The task list stays visible while work runs** (his word 2026-08-12 08:40, standing). Its items
-carry the plan document's own step names, one item per step of the current pass. A spawned worker's
-label carries the same number and title in the chat language. The plan file stays the one
-source; the list holds the current pass alone.
+1. A run whose verdict line you grep for must be grepped by the string it actually prints. The gate
+   prints "All gates green — push allowed." A watcher waiting for the upper-case form of those words waits forever.
+2. `git push` fires the gate chain again, and that is twenty minutes. Run `bash guardrails/pre-push`
+   yourself, read its verdict, then push with `--no-verify` on the same unchanged tree.
+3. Raising a budget without measuring what moved writes a number nobody believes. Measure the term
+   that grew, name it in the row, and point at the queue row that brings it down.
 
 **The next release earns a major number.** Rule 32's rewrite and rule 7's before it reworded rules a
-host has vendored. Base rule 32 itself names that as earning a major. `MIGRATION.md` owes its
-chapter. The release number is decided at campaign close.
-
-**The plan is accepted and wears its statuses.** His word 2026-08-11 21:22: «мы же приняли
-план». Statuses live in the plan file, `.live-spec/culling-plan-v3-2026-08-10.md`, as emoji on
-every stage and decision (his 22:28 readability word). The page at the standing URL is a styled
-render of that file. It is republished after every plan edit (his 17:09 order; the seat holds
-the URL).
-
-**Earlier the same night, 02:28–05:38.** Stage-2 batch 1 closed on rule 7, 5,476 → 5,171 bytes
-(`56c9473`). Rule 30 was cut whole from the rulebook (`3866a6c`, records `d07f2d0`). Rulebook
-volume 73,578 → 72,929.
-
-**Next session's first step.** Stage-2 batch 3 on base rule 29, by the S1–S5 recipe in the plan.
-Where his ruling on rule 31's "owner" has arrived, rule 31 becomes the batch. Rule 31's
-S1 inventory is already written. Then stage 3's own six repairs, each already noted against its
-queue row: 553, 588, 530, 585, 550, and 526 with 532. The skill-creator review record the push gate
-demands is run before each push. The recipe edit that would make it standing waits his «принято» on
-the plan text (row 594).
-
-**Open small items.** A gate proposal sits parked under campaign rule 2, needing his word or
-campaign close. `MIGRATION.md` owes a chapter at the next release: a host that adopted 2.0.0
-still carries rule 30 (`DECISIONS.md`, 2026-08-12). The `product-prover` skill owes one full read by
-the orchestrator seat before its mirror is re-synced. This is his standing ask, restated
-2026-08-12 08:18. The mirror at `happysasha18/product-prover` currently matches the pack.
-
-**Scheduled and deferred.** D7 stays scheduled with him at the keyboard. D9, D10 and D11 are
-decided at campaign close.
-
-**The morning pass stands unpushed.** That is the next session's first act. Everything above is
-committed and sits on `main` ahead of `origin/main` from `e8900d9` onward. No full suite has run
-since the pass began. This environment moves a foreground command past 600 seconds into the
-background, and the suite runs 18 to 21 minutes. Every partial run today was taken while workers
-were writing the tree, so its reds carry no verdict. The push rule reads a suite log's own printed
-verdict, so the push waits for one clean run with no worker active. The order to follow:
-`python3 -m pytest -q > <scratch>/suite.log 2>&1` alone, read the last line, then
-`bash guardrails/pre-push`, then push. The skill-creator review record the gate demands is part of
-that walk. His standing authorization covers the push itself (2026-08-12 08:01, «пуш, деплой, все
-разрешаю»).
-
-**Pushed twice earlier the same night.** 04:20: nine commits, `dfa9f57..aec167a`, the rule-30 cut
-with its record. 06:35: eight commits, `aec167a..e8900d9`, batch 1 with its record
-(`docs/prover/2026-08-12-batch1-range.md`). That push re-derived the suite wall-time budget to
-≤ 800 s in the architecture's own row. The mirror sync it ran reported "no mirror repo yet" for
-every skill, which was the sync's own defect and is repaired (queue row 597).
-
-**Three habits that cost 2026-08-09, named so the next session skips them.**
-1. His instruction and the tree's record disagreed. The session picked the record and worked on.
-   Stop there, state the difference in one line, and wait. This is the one case that blocks.
-2. His spoken settings landed in a state page nobody governs by. A standing setting belongs in the
-   profile. A task belongs in `ROADMAP.md`. `scripts/session-extract.py` already pulls his own turns
-   for a fresh reader, and what it finds has to land in one of those two homes.
-3. A page was rewritten whole where three lines needed changing. Change what needs changing.
+host has vendored. Base rule 32 names that as earning a major. `MIGRATION.md` owes its chapter, and
+row 602 holds it. The release number is decided at campaign close.
 
 ## Where the numbers live
 
