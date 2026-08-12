@@ -446,10 +446,31 @@ for skill_path in "$SKILLS_DIR"/*/; do
       continue
     fi
   else
-    if ! gh repo view "$repo" >/dev/null 2>&1; then
-      echo "${skill_name}: skipped (no mirror repo yet)"
-      SUMMARY_LINES+=("${skill_name}: skipped (no mirror repo yet)")
-      continue
+    # `gh repo view`'s exit status alone can't tell "no such repo" apart from "the check
+    # itself couldn't run" — a bad or expired token, a dead network, or gh missing from PATH
+    # all also exit non-zero. Collapsing those into "no mirror repo yet" let a real, live,
+    # already-pushed repo (happysasha18/product-prover) read as absent for every skill in the
+    # same run (caught 2026-08-12: NEXT_STEPS recorded "every mirror reported 'no mirror repo
+    # yet'" from a run where `gh repo view happysasha18/product-prover` in fact succeeds).
+    # So gh's own stderr is read alongside its exit status: a repo gh explicitly says it
+    # cannot resolve is absence; gh missing, or any other failure (auth, network), means the
+    # check could not answer at all, and that stops the whole sync loudly instead of quietly
+    # reading as absence.
+    if ! command -v gh >/dev/null 2>&1; then
+      echo "sync-mirrors: FAIL — gh is not on PATH, so no mirror repo can be checked." >&2
+      exit 1
+    fi
+    gh_view_err="$(gh repo view "$repo" 2>&1 >/dev/null)"
+    gh_view_status=$?
+    if [ "$gh_view_status" -ne 0 ]; then
+      if grep -qi 'Could not resolve to a Repository\|HTTP 404' <<< "$gh_view_err"; then
+        echo "${skill_name}: skipped (no mirror repo yet)"
+        SUMMARY_LINES+=("${skill_name}: skipped (no mirror repo yet)")
+        continue
+      fi
+      echo "sync-mirrors: FAIL — could not tell whether ${repo} exists (gh exit ${gh_view_status}): ${gh_view_err}" >&2
+      echo "This is not the same as the repo being absent. Fix the cause above, then re-run." >&2
+      exit 1
     fi
   fi
 
