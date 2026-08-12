@@ -69,19 +69,21 @@ Row 588 is closed, its acceptance line met and verified.
 
 **The prover skill's full read is done, and its five findings are queue rows 608 through 612.**
 Root: his standing ask, restated 2026-08-12 08:18. Both parts were read whole by the orchestrator
-seat. The record is `docs/prover/2026-08-12-product-prover-full-read.md`. Row 608: the skill tells an
-author to write the record as `docs/prover/YYYY-MM-DD.md`, and the push gate's own repair line
-demands `$TODAY-<slug>.md`. Row 610: "the whole-document property sweep" decides what a surface add
-skips, and it is defined nowhere. Those two are one-line textual fixes with their answers already
-written in the record. Row 612 is a lead-in reflow. Rows 609 and 611 each carry a decision. Row 609 asks
-whether the declaration member of the composition-lens family earns a sixth mandatory sweep. Row 611
-asks whether the class lens owes a verdict line, though its tier says none is owed. Every one edits a skill body, so
-each draws a fresh skill-creator review record and a full suite run before it can be pushed. The
-mirror re-sync his ask names comes after those edits land.
+seat. The record is `docs/prover/2026-08-12-product-prover-full-read.md`. Rows 608 and 612 are closed. The
+record filename in the meta rules now names `docs/prover/YYYY-MM-DD-<slug>.md`, matching the string
+the push gate's own repair line demands. The lifecycle lead-in now reads so that six bullets under a
+stated five make sense on first reading. Their review record is
+`docs/skill-review/2026-08-12-product-prover.md`. Three rows stay open, each asking a scope question
+rather than a wording one. Row 609 asks whether the declaration member of the composition-lens family
+earns a sixth mandatory sweep. Row 610 asks what the cross-link mode actually skips, since "the
+whole-document property sweep" is defined nowhere. Row 611 asks whether the class lens owes a verdict
+line, though its tier says none is owed. The mirror re-sync his ask names comes after these are
+pushed, because the sync reads the committed tree.
 
-**Two commits stand unpushed, and the next push owes a fresh review record.** They are `b102281`
-and `c9f4a16`. The first carries the plan repair and this resume file. The second carries the prover
-read with its rows.
+**Four commits stand unpushed, and the next push owes a fresh review record.** They are `b102281`,
+`c9f4a16`, `d6a6ea3` and `c9e1886`. They carry the plan repair, this resume file, the prover read
+with its rows, and the two prover fixes with their review record. That last one edits a skill body,
+so the push also needs the full suite green.
 `guardrails/check-prover-record.sh --push` reds today until a record covers them, because the
 newest record commit is older than the newest reviewed commit.
 
