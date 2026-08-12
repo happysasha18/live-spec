@@ -108,9 +108,13 @@ class TestCompactionIsContinuous(unittest.TestCase):
         self.assertNotIn("That script's own header states what it expects on disk", body)
 
     def test_build_pipeline_carries_compaction_every_pass(self):
-        """Baked into build-pipeline: compaction is a station run every pass (SPEC INV-164)."""
+        """Baked into build-pipeline: compaction is a station run every pass (SPEC INV-164).
+
+        Pinned to the bullet's own sentence (row 592), not just the invariant code, so
+        deleting the bullet while leaving the code behind in a comment fails this test."""
         pipe = read_flat("skills/build-pipeline/SKILL.md")
         self.assertIn("INV-164", pipe)
+        self.assertIn("doc- and code-compaction stations run at every push", pipe)
 
 
 if __name__ == "__main__":
