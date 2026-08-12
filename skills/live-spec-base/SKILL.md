@@ -553,29 +553,19 @@ meaning. If the answer to a class is a list, the design is wrong.
      message's carrier while leaving its authority where it started [INV-193].
 
 32. **A release's number answers what taking it costs a host (SPEC INV-217).** The number reports what a
-   host that vendored the previous version must do to take this one.
-   A **patch** fixes a machine to hold a law already stated: no new capability, no changed contract, and the
-   host takes it and does nothing. A **minor** grows what a host may adopt in a backward-compatible way: a new capability, a new law, or a
-   new gate. The host takes it by re-running its catch-up walk [INV-91],
-   with nothing it already carries rewritten. A **major** is a release a host cannot take without changing
-   what it already carries. Four things earn it: a reworded rule the host vendored, a renamed or removed
-   surface a host depends on, a changed adoption or catch-up step, a moved law that forces host action.
-   A major ships its dated
-   `MIGRATION.md` chapter [INV-91]. The default is a patch. It is raised to a minor
-   or a major only where the release earns the higher tier. This is a judgment the releasing session makes and states,
-   **held by no machine**. The minor-versus-major call reads meaning a gate cannot, so it **stays a stated
-   rule the session holds**, the same standing as a design-review finding that never blocks a
-   lane [INV-141]. The owner asked for this guidance on 2026-07-17 ~15:45. Every release before it
-   picked its number by the session's feel, with the rule written nowhere.
-   Three worked examples come from the pack's own history. The 1.0.0 migration chapter renamed the host's pack
-   folder and swept
-   its references, and a host cannot take it without acting, so it is a **major** by this rule. The inbox
-   remote arm of roadmap row 247 added a capability a host adopts by re-running the walk with nothing
-   rewritten, a **minor**. A fix that makes a gate finally hold a law already written is a **patch**.
-   The 2.0.0 release is the
-   boundary case. Its own migration chapter records "Host action: none", so by this rule it reads as a minor,
-   and its major number marked significance by the session's feel. It keeps its published number as this
-   cited boundary case. The rule is written now so the next release reads its number off the host cost.
+   host that vendored the previous version must do to take this one. A **patch** fixes a machine to hold a
+   law already stated: no new capability, no changed contract, and the host takes it and does nothing. A
+   **minor** grows what a host may adopt in a backward-compatible way: a new capability, a new law, or a
+   new gate. The host takes it by re-running its catch-up walk [INV-91], with nothing it already carries
+   rewritten. A **major** is a release a host cannot take without changing what it already carries. Four
+   things earn it: a reworded rule the host vendored, a renamed or removed surface a host depends on, a
+   changed adoption or catch-up step, a moved law that forces host action. A major ships its dated
+   `MIGRATION.md` chapter [INV-91]. The default is a patch. It is raised to a minor or a major only where
+   the release earns the higher tier. This is a judgment the releasing session makes and states, **held by
+   no machine**. The minor-versus-major call reads meaning a gate cannot, so it **stays a stated rule the
+   session holds**, the same standing as a design-review finding that never blocks a lane [INV-141]. The
+   2.0.0 release is the boundary case. Its migration chapter records "Host action: none", so by this rule
+   it reads as a minor. It keeps its published number as this cited boundary case.
 
 33. **The authoring seat does not adversarially certify its own work (SPEC INV-237).** The seat that
    authored a change drafts and accepts it, and it never provides that change's own adversarial
