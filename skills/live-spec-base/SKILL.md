@@ -167,47 +167,44 @@ meaning. If the answer to a class is a list, the design is wrong.
    is committed. One closing line follows, only when the whole walk holds (SPEC INV-95; the communicator
    carries the walk).
 
-7. **The concurrent-edit fence, before every write and every commit.** Re-check `git status` and HEAD against
-   what you last read. If HEAD moved, or the tree holds changes you did not make, stop, re-read, then
-   proceed surgically or back off. A repo you were not assigned to is read-only (one exception: a new wish
-   file in its inbox). This binds every skill that writes shared files, adoption among them (SPEC INV-10, INV-11).
-   The parallel-lanes rules underneath the fence, one each:
-   - **Lanes under one pen, up to the profile cap.** Within one session, build lanes up to the
-     profile-declared lane cap may roll without asking (SPEC T-18; `lanes.cap`, package default three
-     [E-13]; one more only on the human's asked word). Every write to a document the lanes share
-     serializes under the single PEN, one lane at a time. The shared living doc is a convergence point
-     the pen reconciles at integration, so sharing it never forces the lanes to run one after another.
-     Co-location alone never pulls two rows into one lane (SPEC INV-49).
-   - **The lane-open act.** Opening a lane is a step the session performs, by running
-     `scripts/open-lane.sh` or by walking the same steps by hand. That script's own header states what
-     it expects on disk. First, the row→in-work flip is committed to main
-     under the pen. Second, the branch `lane/<row>-<slug>` is cut from that claim commit into its own
-     worktree. Third, the lane is handed to a worker whose brief names the branch. The act reads the profile cap [E-13] and
-     refuses a lane past it. When the dependency graph shows two or more independent runnable rows and
-     lanes stand free, the session performs the act. Going single-file then is recorded on the departures
-     board, the status-report view, as a "serial by the graph" board reason. That is a discipline the session holds, since judging
-     independence is a senior read no gate can settle (SPEC INV-214, INV-49).
-   - **Worktree isolation on overlap.** A later lane's code and tests live in its own isolated copy of
-     the tree until the senior integrates them. So worktree isolation is the default when two lanes'
-     write-sets overlap, and a shared file one lane holds open is never written by another (SPEC INV-105).
+7. **The concurrent-edit fence, before every write and every commit.** Re-check `git status` and HEAD
+   against what you last read. If HEAD moved, or the tree holds changes you did not make, stop, re-read,
+   then proceed surgically or back off. A repo you were not assigned to is read-only, apart from a new wish
+   file in its inbox. This binds every skill that writes shared files, adoption among them (SPEC INV-10,
+   INV-11).
+   - **Lanes under one pen, up to the profile cap.** Within one session, build lanes roll without asking up
+     to the profile-declared lane cap (SPEC T-18; `lanes.cap`, package default three [E-13]). One more
+     opens only on the human's asked word. Every write to a document the lanes share serializes under the
+     single PEN, one lane at a time. The pen reconciles that document at integration, so sharing it never
+     makes the lanes wait on each other. Co-location alone never pulls two rows into one lane (SPEC INV-49).
+   - **The lane-open act.** The session opens a lane by running `scripts/open-lane.sh`, or by walking the
+     same steps by hand. First, the row→in-work flip is committed to main under the pen. Second, the branch
+     `lane/<row>-<slug>` is cut from that claim commit into its own worktree. Third, the lane goes to a
+     worker whose brief names the branch. The act reads the profile cap [E-13] and refuses a lane past it.
+     It runs whenever the dependency graph shows two or more independent runnable rows and lanes stand free.
+     Going single-file then is recorded on the departures board, the status-report view, as a "serial by the
+     graph" board reason. Judging independence is a senior read no gate can settle, so this stays a
+     discipline (SPEC INV-214, INV-49).
+   - **Worktree isolation on overlap.** A later lane's code and tests live in its own isolated copy of the
+     tree until the senior integrates them. So worktree isolation is the default when two lanes' write-sets
+     overlap. A shared file one lane holds open is never written by another (SPEC INV-105).
    - **Brief-time disjointness** — before spawning another concurrent writer, the senior confirms its
      brief's write-set is disjoint from every already-running writer's brief, or gives it an isolated
      worktree at brief-time. The fence stays silent between same-session siblings and cannot catch the
      senior's own workers colliding (SPEC ACT-3, INV-11).
    - **A worker never restores a working tree with a git command (SPEC INV-298).** Before a worker mutates a file it means to put back, it reads that file and holds its bytes. A worker puts a file back by WRITING ITS OWN SAVED BYTES. A worker runs no command that discards uncommitted work, in any tree: `git checkout -- <path>`, `git checkout .`, `git restore` outside `--staged`, `git stash` and its `push`, `save`, `create` and `store` forms, `git reset` with `--hard`, `--merge` or `--keep`, and `git clean` with `-f` or `-x`. Such a command's blast radius is a PATH, so its damage lands on files the worker never wrote and its brief never named. This rule binds a worker in every tree, including its own isolated worktree, since a worktree shares one repository with the lanes beside it and a worker cannot read off its brief what else that repository holds. A worker that holds no saved bytes for a file it mutated, or that believes a file needs a git-level restore, HALTS and reports the file and the mutation it made, and it writes no further file and runs no further command. The orchestrator owns recovery: it restores the named file from the last committed stage, hands the worker a fresh brief carrying that file's current bytes, and records the halt in the row's delivery report, and the halted work resumes under that new brief. The orchestrator's own half: a finished build stage is committed before the next worker touches its files. `guardrails/check-worker-restore.py` reads the worker runs' transcripts for the command and runs at the verify step.
-   - **One row per landing commit.** A landing commit carries exactly one row's delta, its gate run on a tree clean of any other lane's unfinished work (SPEC INV-39).
-   - **A prior-context worker.** A background worker from a prior context is a concurrent writer too.
-     It survives a memory wipe, and the process list and the harness task panel are never proof of
-     death. Such a worker is a foreign writer until verified by rule 6's three resume checks.
-     No second worker goes onto a shared tree until the first has confirmed halted by its
-     own reply, or been declared dead by all three checks. The courtesy that keeps the fence quiet
-     between same-session siblings never crosses a wipe (SPEC INV-76).
-   - **A stable session identity breaks the pen tie.** Every session mints a stable identity at its
-     start and records it in its `.live-spec/` checkpoint, unchanged for the session's life. The
-     identity is the harness session id where the context carries one, and otherwise the start time
-     joined with the worktree path and a single-use random string. The parallel-lanes pen tie-break
-     orders on this identity for a genuine concurrent claim with no git ancestry, so exactly one
-     session backs off (SPEC INV-117).
+   - **One row per landing commit.** A landing commit carries exactly one row's delta (SPEC INV-39). Its
+     gate runs on a tree clean of any other lane's unfinished work.
+   - **A prior-context worker.** A background worker from a prior context is a concurrent writer too. It
+     survives a memory wipe, and the process list and the harness task panel are never proof of death. It
+     stays a foreign writer until verified by rule 6's three resume checks. No second worker goes onto a
+     shared tree until the first replies that it halted, or all three checks declare it dead. The fence's
+     silence between same-session siblings never crosses the wipe (SPEC INV-76).
+   - **A stable session identity breaks the pen tie.** Every session mints a stable identity at its start
+     and records it in its `.live-spec/` checkpoint, unchanged for its life. The identity is the harness
+     session id where the context carries one. Otherwise it is the start time joined with the worktree path
+     and a single-use random string. On a genuine concurrent claim with no git ancestry, the pen tie-break
+     orders on this identity, so exactly one session backs off (SPEC INV-117).
 
 8. **Freshness: versions are re-checked at every breakpoint.** Read the modification time of the
    installed skills, the pack, and the profiles. On any version change, re-read the changed file before
