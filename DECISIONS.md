@@ -428,7 +428,12 @@ the one slot nothing questions. That is the defect this surface exists to catch.
 
 - **The plan-v3 sitting, first pass.** Alexander 2026-08-11 10:23, reading the D-section: D1 yes
   («вроде очевидно, не понимаю зачем тут меня спрашивать» — and the lesson lands: the obvious is
-  never parked on him). D4 yes («д4 ок»). D8 yes («д8 ок»). D7 scheduled, later, and it blocks
+  never parked on him). D4 yes («д4 ок»). D8 yes («д8 ок»). The 3,095-runs, zero-catches figure
+  behind D8 is a decision-time reading, not a logged measurement: `guardrails/net_meter.py` names
+  the arm's would-be log as `.live-spec/net-meter.jsonl`, and no such file exists on the machine.
+  The figure first stands in `JOURNAL.md`, 2026-08-11 11:08-12:00, at execution, and its absence of
+  a recoverable source is confirmed at `docs/prover/2026-08-11-thirty-commit-range.md`, finding 12.
+  D7 scheduled, later, and it blocks
   nothing («давай сделаем но если со мной то не сегодня»). D2 agreed in substance («согласен,
   чушь»), execution waits until the one-sentence fix reads clear to him, and he asked for the
   cause of the communication failures, answered in chat the same minute. D3 open on his three

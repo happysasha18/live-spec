@@ -72,10 +72,14 @@ session reads before work"). That command covers a narrower body than this repor
 
 `{ find skills/live-spec-base -name '*.md' -not -name 'README.md' -print0 | xargs -0 cat; cat ~/.claude/live-spec/profile.md; } | wc -c`
 
-gives **73 578 bytes** today, close to the 73 645 recorded on day 1 (the file has taken small
-edits since). Against that narrower total, the 6 363 duplicated bytes found in this report
-(drawn from the larger eleven-skill body, not from `live-spec-base` alone) come to **8.7%** of it
-— useful only as an order of magnitude, since the two figures cover different bodies.
+gave **73 578 bytes** on 2026-08-11 (the day this report was written), close to the 73 645
+recorded on day 1. Re-run again on 2026-08-12, after that day's cuts, the same command gives
+**72 929 bytes** — the figure the plan's volume row now carries. Against that current narrower
+total, the 6 363 duplicated bytes found in this report (drawn from the larger eleven-skill body,
+not from `live-spec-base` alone, and not re-measured since 2026-08-11) come to **8.7%** of it
+(6 363 / 72 929, computed 2026-08-12) — useful only as an order of magnitude, since the two
+figures cover different bodies and the duplicate count is a day-old reading against a day-new
+total.
 
 Against the full body this report actually measured (417 600 bytes, the eleven skills plus the
 profile), the same 6 363 duplicated bytes are **1.5%** of the total.
