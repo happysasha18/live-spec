@@ -24,17 +24,22 @@ born from a second dated break (rule 23) or the owner's word. Records in every h
 copies synced. Queue row 589 records the executing worker stopping mid-run with an invented
 report; acceptance read the tree and the worker's finished report then matched it.
 
-**Next session's first step.** Stage-2 batch 2: rule 31 on his word about the two senses of
-"owner" (queue rows 536/539). Its S1 inventory is ready. Absent that word, take the next rule by
-the day-1 census price. The R5 price table covers the nine working skills alone, and row 588
-warns its line pins rotted. Stage 3 stands open too (D2 and D3 both hold); it runs after the
-stage-2 batch wherever both touch `tests/test_guardrails.py`.
+**Next session's first step — the pass plan (his request 2026-08-12 07:55).** Stage-2 batch 2.
+The rule: rule 31 if his word on the two senses of "owner" has arrived (queue rows 536/539; its
+S1 inventory is ready); absent that word, the next rule by the day-1 census price. Row 588 opens
+the pass: re-derive the R5 price pins (38 of 53 rotted) or stamp the table as a dated snapshot,
+because the fallback pick reads that table. The batch folds the queued rows that land with a
+rulebook-touching batch: 590, 591, 592, 593, 595. Row 589 lands as its one-line worker-brief
+edit. The batch gets a fresh skill-creator review record (row 594's finding; the recipe edit
+itself waits his «принято» on the plan text). Stage 3 (D2 and D3 both hold) runs after the batch
+wherever both touch `tests/test_guardrails.py`. A small-items sweep closes the pass: the stale
+rulebook-volume rows (R2 table, the plan's numbers row), the "3,095" figure in five places, and
+the `docs/PROGRESS.md` self-comparison class, fourth occurrence 2026-08-12. Items needing him at
+the keyboard or his word stay out of the pass by his 07:55 instruction.
 
-**Open small items.** Rulebook-volume rows measure stale — R2 table, the plan's numbers row. The
-"3,095" figure survives in five places, each citing `DECISIONS.md`. ROADMAP row 588 carries pin
-rot. `docs/PROGRESS.md` self-comparison class, fourth occurrence 2026-08-12. A gate proposal sits
-parked under campaign rule 2, needing his word or campaign close. `MIGRATION.md` owes a chapter
-at the next release: a host that adopted 2.0.0 still carries rule 30 (`DECISIONS.md`, 2026-08-12).
+**Open small items.** A gate proposal sits parked under campaign rule 2, needing his word or
+campaign close. `MIGRATION.md` owes a chapter at the next release: a host that adopted 2.0.0
+still carries rule 30 (`DECISIONS.md`, 2026-08-12).
 
 **Scheduled and deferred.** D7 stays scheduled with him at the keyboard. D9, D10 and D11 are
 decided at campaign close.
