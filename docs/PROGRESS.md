@@ -4,7 +4,7 @@ Generated 2026-08-12 by `python3 scripts/progress-report.py`, reading the tree a
 
 ## Where the two promises stand
 
-Promise one, a reader gets through a document without stopping, measures 4,866 open writing findings across the live set today.
+Promise one, a reader gets through a document without stopping, measures 4,871 open writing findings across the live set today.
 
 Promise two, the specification stops growing, measures PRODUCT_SPEC.md at 702,784 bytes against its 840,000-byte ceiling today.
 
@@ -47,7 +47,7 @@ Three members carry no entry in the findings record: `hooks/chat-law-hook.sh` an
 
 | # | document | findings today | measured clean | read clean | state |
 |---|---|---|---|---|---|
-| 10 | `skills/live-spec-base/SKILL.md` | 70 | no | no | waiting |
+| 10 | `skills/live-spec-base/SKILL.md` | 68 | no | no | waiting |
 | 11 | `skills/build-pipeline/SKILL.md` | 255 | no | no | waiting |
 | 12 | `skills/communicator/SKILL.md` | 175 | no | no | waiting |
 
@@ -137,57 +137,58 @@ Three members carry no entry in the findings record: `hooks/chat-law-hook.sh` an
 | 72 | `inbox/2026-08-08-verdict-lands-same-minute.md` | 8 | no | no | waiting |
 | 73 | `skills/test-author/README.md` | 8 | no | no | waiting |
 | 74 | `docs/pair-adoption.md` | 7 | no | no | waiting |
-| 75 | `scripts/read-grant-ask.md` | 7 | no | no | waiting |
-| 76 | `skills/build-pipeline/references/drafter-applier-example.md` | 7 | no | no | waiting |
-| 77 | `docs/adoption.md` | 6 | no | no | waiting |
-| 78 | `docs/push-law.md` | 6 | no | no | waiting |
-| 79 | `editions/product-prover/examples/sample-spec.md` | 6 | no | no | waiting |
-| 80 | `skills/feedback-intake/README.md` | 6 | no | no | waiting |
-| 81 | `skills/publish/README.md` | 6 | no | no | waiting |
-| 82 | `docs/norms/work-board.provenance.md` | 5 | no | no | waiting |
-| 83 | `templates/DECISIONS.template.md` | 5 | no | no | waiting |
-| 84 | `templates/JOURNAL.template.md` | 5 | no | no | waiting |
-| 85 | `templates/NEXT_STEPS.template.md` | 5 | no | no | waiting |
-| 86 | `templates/PROBLEMS.template.md` | 5 | no | no | waiting |
-| 87 | `skills/build-pipeline/references/minor-bump-gate.md` | 4 | no | no | waiting |
-| 88 | `skills/communicator/references/words.md` | 4 | no | no | waiting |
-| 89 | `templates/KILL_LIST.template.md` | 4 | no | no | waiting |
-| 90 | `templates/profile.template.md` | 4 | no | no | waiting |
-| 91 | `SURFACES.md` | 3 | no | no | waiting |
-| 92 | `docs/MEASUREMENTS.md` | 3 | no | no | waiting |
-| 93 | `docs/audits/2026-08-07-cost-map.md` | 3 | no | no | waiting |
-| 94 | `docs/norms/onboarding-card-2026-07-10.provenance.md` | 3 | no | no | waiting |
-| 95 | `inbox/2026-08-08-profile-briefed-worker-ab-result.md` | 3 | no | no | waiting |
-| 96 | `scripts/grant-ask.md` | 3 | no | no | waiting |
-| 97 | `skills/build-pipeline/references/request-kind-table.md` | 3 | no | no | waiting |
-| 98 | `skills/communicator/README.md` | 3 | no | no | waiting |
-| 99 | `skills/feedback-collector/README.md` | 3 | no | no | waiting |
-| 100 | `editions/product-prover/PROVENANCE.md` | 2 | no | no | waiting |
-| 101 | `skills/build-pipeline/references/excuses-table.md` | 2 | no | no | waiting |
-| 102 | `templates/skill-review.template.md` | 2 | no | no | waiting |
-| 103 | `docs/plans/2026-07-29-specification-subdivision.md` | 1 | no | no | waiting |
-| 104 | `docs/prior-art.md` | 1 | no | no | waiting |
-| 105 | `editions/product-prover/README.md` | 1 | no | no | waiting |
-| 106 | `editions/product-prover/SKILL.md` | 1 | no | no | waiting |
-| 107 | `skills/live-spec-base/README.md` | 1 | no | no | waiting |
-| 108 | `templates/ARCHITECTURE.template.md` | 1 | no | no | waiting |
-| 109 | `PRODUCT_SPEC.index.md` | 0 | yes | no | waiting |
-| 110 | `adopt/START.md` | 0 | yes | no | waiting |
-| 111 | `docs/PROGRESS.md` | 0 | yes | no | waiting |
-| 112 | `docs/audits/2026-08-07-number-rulings.md` | 0 | yes | no | waiting |
-| 113 | `docs/plans/2026-07-28-two-goals-one-campaign.md` | 0 | yes | no | waiting |
-| 114 | `docs/plans/2026-08-07-night-plan.md` | 0 | yes | no | waiting |
-| 115 | `editions/product-prover/reference/stress-lenses.md` | 0 | yes | no | waiting |
-| 116 | `skills/build-pipeline/references/project-setup.md` | 0 | yes | no | waiting |
-| 117 | `skills/product-prover/README.md` | 0 | yes | no | waiting |
-| 118 | `skills/text-audit/README.md` | 0 | yes | no | waiting |
-| 119 | `skills/text-audit/references/human-prose-rules.md` | 0 | yes | no | waiting |
-| 120 | `skills/text-audit/references/reader-prompt.md` | 0 | yes | no | waiting |
-| 121 | `skills/text-audit/references/rewrite-meaning-check.md` | 0 | yes | no | waiting |
-| 122 | `skills/text-audit/references/unprompted-reader-brief.md` | 0 | yes | no | waiting |
-| 123 | `templates/PRODUCT_SPEC.template.md` | 0 | yes | no | waiting |
-| 124 | `templates/ROADMAP.template.md` | 0 | yes | no | waiting |
-| 125 | `templates/TEST_MATRIX.template.md` | 0 | yes | no | waiting |
+| 75 | `inbox/2026-08-12-tlvphotos-reply-worker-restore-finding.md` | 7 | no | no | waiting |
+| 76 | `scripts/read-grant-ask.md` | 7 | no | no | waiting |
+| 77 | `skills/build-pipeline/references/drafter-applier-example.md` | 7 | no | no | waiting |
+| 78 | `docs/adoption.md` | 6 | no | no | waiting |
+| 79 | `docs/push-law.md` | 6 | no | no | waiting |
+| 80 | `editions/product-prover/examples/sample-spec.md` | 6 | no | no | waiting |
+| 81 | `skills/feedback-intake/README.md` | 6 | no | no | waiting |
+| 82 | `skills/publish/README.md` | 6 | no | no | waiting |
+| 83 | `docs/norms/work-board.provenance.md` | 5 | no | no | waiting |
+| 84 | `templates/DECISIONS.template.md` | 5 | no | no | waiting |
+| 85 | `templates/JOURNAL.template.md` | 5 | no | no | waiting |
+| 86 | `templates/NEXT_STEPS.template.md` | 5 | no | no | waiting |
+| 87 | `templates/PROBLEMS.template.md` | 5 | no | no | waiting |
+| 88 | `skills/build-pipeline/references/minor-bump-gate.md` | 4 | no | no | waiting |
+| 89 | `skills/communicator/references/words.md` | 4 | no | no | waiting |
+| 90 | `templates/KILL_LIST.template.md` | 4 | no | no | waiting |
+| 91 | `templates/profile.template.md` | 4 | no | no | waiting |
+| 92 | `SURFACES.md` | 3 | no | no | waiting |
+| 93 | `docs/MEASUREMENTS.md` | 3 | no | no | waiting |
+| 94 | `docs/audits/2026-08-07-cost-map.md` | 3 | no | no | waiting |
+| 95 | `docs/norms/onboarding-card-2026-07-10.provenance.md` | 3 | no | no | waiting |
+| 96 | `inbox/2026-08-08-profile-briefed-worker-ab-result.md` | 3 | no | no | waiting |
+| 97 | `scripts/grant-ask.md` | 3 | no | no | waiting |
+| 98 | `skills/build-pipeline/references/request-kind-table.md` | 3 | no | no | waiting |
+| 99 | `skills/communicator/README.md` | 3 | no | no | waiting |
+| 100 | `skills/feedback-collector/README.md` | 3 | no | no | waiting |
+| 101 | `editions/product-prover/PROVENANCE.md` | 2 | no | no | waiting |
+| 102 | `skills/build-pipeline/references/excuses-table.md` | 2 | no | no | waiting |
+| 103 | `templates/skill-review.template.md` | 2 | no | no | waiting |
+| 104 | `docs/plans/2026-07-29-specification-subdivision.md` | 1 | no | no | waiting |
+| 105 | `docs/prior-art.md` | 1 | no | no | waiting |
+| 106 | `editions/product-prover/README.md` | 1 | no | no | waiting |
+| 107 | `editions/product-prover/SKILL.md` | 1 | no | no | waiting |
+| 108 | `skills/live-spec-base/README.md` | 1 | no | no | waiting |
+| 109 | `templates/ARCHITECTURE.template.md` | 1 | no | no | waiting |
+| 110 | `PRODUCT_SPEC.index.md` | 0 | yes | no | waiting |
+| 111 | `adopt/START.md` | 0 | yes | no | waiting |
+| 112 | `docs/PROGRESS.md` | 0 | yes | no | waiting |
+| 113 | `docs/audits/2026-08-07-number-rulings.md` | 0 | yes | no | waiting |
+| 114 | `docs/plans/2026-07-28-two-goals-one-campaign.md` | 0 | yes | no | waiting |
+| 115 | `docs/plans/2026-08-07-night-plan.md` | 0 | yes | no | waiting |
+| 116 | `editions/product-prover/reference/stress-lenses.md` | 0 | yes | no | waiting |
+| 117 | `skills/build-pipeline/references/project-setup.md` | 0 | yes | no | waiting |
+| 118 | `skills/product-prover/README.md` | 0 | yes | no | waiting |
+| 119 | `skills/text-audit/README.md` | 0 | yes | no | waiting |
+| 120 | `skills/text-audit/references/human-prose-rules.md` | 0 | yes | no | waiting |
+| 121 | `skills/text-audit/references/reader-prompt.md` | 0 | yes | no | waiting |
+| 122 | `skills/text-audit/references/rewrite-meaning-check.md` | 0 | yes | no | waiting |
+| 123 | `skills/text-audit/references/unprompted-reader-brief.md` | 0 | yes | no | waiting |
+| 124 | `templates/PRODUCT_SPEC.template.md` | 0 | yes | no | waiting |
+| 125 | `templates/ROADMAP.template.md` | 0 | yes | no | waiting |
+| 126 | `templates/TEST_MATRIX.template.md` | 0 | yes | no | waiting |
 
 ## Promise one — a reader gets through a document without stopping
 
@@ -195,8 +196,8 @@ The counts below come from the record `guardrails/rule-census.json`. It states w
 
 | measure | today | recorded before | target |
 |---|---|---|---|
-| live documents measured | 122 | 108 | all of them |
-| writing findings across all documents | 4,866 | 4,810 | 0 |
+| live documents measured | 123 | 108 | all of them |
+| writing findings across all documents | 4,871 | 4,810 | 0 |
 | documents at zero findings | 22 | 16 | all |
 | documents that passed two consecutive readings with nothing blocking | 0 | not stated | all |
 
@@ -216,7 +217,7 @@ The fifteen documents carrying the most findings:
 | `docs/restyle-repoint-log.md` | 83 | 20 | 63 | 78 | 0 | no |
 | `docs/prior-art-longtail.md` | 78 | 15 | 63 | 53 | 0 | no |
 | `TEST_MATRIX.md` | 76 | 8 | 68 | 46 | 0 | no |
-| `skills/live-spec-base/SKILL.md` | 70 | 56 | 14 | 48 | 0 | no |
+| `skills/live-spec-base/SKILL.md` | 68 | 54 | 14 | 48 | 0 | no |
 | `docs/spec-style.md` | 65 | 32 | 33 | 64 | 0 | no |
 | `docs/plans/2026-08-07-recovery-plan.md` | 61 | 55 | 6 | 99 | 0 | no |
 
