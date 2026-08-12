@@ -95,17 +95,21 @@ class TestCompactionIsContinuous(unittest.TestCase):
         self.assertIn("31", heads)
 
     def test_rule7_batch1_locked_its_level(self):
-        """Stage-2 batch 1 (2026-08-12) shortened rule 7 to 5,171 body bytes and dropped the
-        pointer sentence whose facts live in the script's own header. This lock holds the
-        reached level (the plan's S5 law): the body stays under its opening 5,477 bytes, and
-        the dropped sentence stays out."""
+        """Stage-2 batch 1 (2026-08-12) shortened rule 7 to 5,171 body bytes. Row 595's
+        skill-creator review then recommended four small restorations, folded the same day: the
+        lead-in naming the parallel-lanes bullets one family, the "convergence point" name back
+        on the shared document, the pointer to the script's own on-disk preconditions, and the
+        lane-open bullet's dropped actor. This lock holds the batch-1 gain net of that fold: the
+        body stays under its pre-rewrite opening size of 5,477 bytes, and the restored pointer
+        sentence is back."""
         base = read("skills/live-spec-base/SKILL.md")
         m = re.search(r"(?ms)^7\. \*\*.*?(?=^8\. \*\*)", base)
         self.assertIsNotNone(m, "rule 7's body not found between heads 7 and 8")
         body = m.group(0)
         self.assertLess(len(body.encode("utf-8")), 5477,
-                        "rule 7's body grew back past its batch-1 opening size")
-        self.assertNotIn("That script's own header states what it expects on disk", body)
+                        "rule 7's body grew back past its pre-rewrite opening size")
+        self.assertIn("The script's own header states what it expects on disk", body,
+                       "row 595's restored pointer sentence is missing")
 
     def test_build_pipeline_carries_compaction_every_pass(self):
         """Baked into build-pipeline: compaction is a station run every pass (SPEC INV-164).

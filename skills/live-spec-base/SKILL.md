@@ -107,6 +107,9 @@ meaning. If the answer to a class is a list, the design is wrong.
 
 ## The shared rules
 
+Rule 30 was cut whole from this rulebook; its number is retired and stays open. Every other rule below
+keeps the number it already carries.
+
 1. **Ask, never guess.** A gap only the human can fill — a threshold, a policy, a taste call — is asked or
    marked `⟨DECIDE⟩` with a one-line question and a recommended pick. Never invent intent, and never ask
    what you can decide or verify yourself. A pending question rides in its row while the lane keeps moving
@@ -172,19 +175,21 @@ meaning. If the answer to a class is a list, the design is wrong.
    then proceed surgically or back off. A repo you were not assigned to is read-only, apart from a new wish
    file in its inbox. This binds every skill that writes shared files, adoption among them (SPEC INV-10,
    INV-11).
+
+   The parallel-lanes rules sit underneath the fence.
    - **Lanes under one pen, up to the profile cap.** Within one session, build lanes roll without asking up
      to the profile-declared lane cap (SPEC T-18; `lanes.cap`, package default three [E-13]). One more
      opens only on the human's asked word. Every write to a document the lanes share serializes under the
-     single PEN, one lane at a time. The pen reconciles that document at integration, so sharing it never
-     makes the lanes wait on each other. Co-location alone never pulls two rows into one lane (SPEC INV-49).
+     single PEN, one lane at a time. That document is a convergence point the pen reconciles at
+     integration, so sharing it never makes the lanes wait on each other. Co-location alone never pulls two rows into one lane (SPEC INV-49).
    - **The lane-open act.** The session opens a lane by running `scripts/open-lane.sh`, or by walking the
-     same steps by hand. First, the row→in-work flip is committed to main under the pen. Second, the branch
+     same steps by hand. The script's own header states what it expects on disk. First, the row→in-work flip is committed to main under the pen. Second, the branch
      `lane/<row>-<slug>` is cut from that claim commit into its own worktree. Third, the lane goes to a
      worker whose brief names the branch. The act reads the profile cap [E-13] and refuses a lane past it.
      It runs whenever the dependency graph shows two or more independent runnable rows and lanes stand free.
      Going single-file then is recorded on the departures board, the status-report view, as a "serial by the
      graph" board reason. Judging independence is a senior read no gate can settle, so this stays a
-     discipline (SPEC INV-214, INV-49).
+     discipline the session holds (SPEC INV-214, INV-49).
    - **Worktree isolation on overlap.** A later lane's code and tests live in its own isolated copy of the
      tree until the senior integrates them. So worktree isolation is the default when two lanes' write-sets
      overlap. A shared file one lane holds open is never written by another (SPEC INV-105).
