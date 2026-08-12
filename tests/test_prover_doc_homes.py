@@ -8,6 +8,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 SKILL = ROOT / "skills" / "product-prover" / "SKILL.md"
+GATE = ROOT / "guardrails" / "check-prover-record.sh"
 
 
 def _skill():
@@ -48,3 +49,45 @@ def test_kind_block_stays_general_split_lives_in_lens():
     lens = s[lens_start:lens_end]
     assert "declared one-sided pair" in lens and "open motion question" in lens, \
         "the family's kind-split left its lens home"
+
+
+def _gate_repair_lines():
+    """The gate's own repair lines — the strings it prints to an author, read from the
+    echo statements rather than from any comment about them."""
+    return [line.strip() for line in GATE.read_text(encoding="utf-8").splitlines()
+            if line.strip().startswith("echo ") and "PROVER_DIR" in line]
+
+
+def test_the_record_path_the_skill_prescribes_is_the_one_the_gate_demands():
+    """Row 608: the skill sent an author to `docs/prover/YYYY-MM-DD.md` while the gate's
+    own repair line named the slug form, so an author who obeyed the skill was refused.
+    This pins the two together — either side drifting turns this red."""
+    s = _skill()
+    assert "docs/prover/YYYY-MM-DD-<slug>.md" in s, \
+        "the prover's persist line stopped naming the slug form the gate demands"
+    assert "docs/prover/YYYY-MM-DD.md" not in s, \
+        "the bare-date form the gate refuses is back in the prover's persist line"
+    repairs = _gate_repair_lines()
+    assert repairs, "check-prover-record.sh prints no repair line naming its record directory"
+    assert any("$TODAY-<slug>.md" in line for line in repairs), \
+        "the gate stopped telling an author to write the slug form the skill prescribes"
+
+
+def test_the_lifecycle_lead_in_counts_the_bullets_that_follow_it():
+    """Row 612: the lead-in said the parent gathers five angles and six bullets followed.
+    It now names the parent first and the five it gathers after it. This holds the stated
+    count against the bullets actually under it."""
+    lines = _skill().splitlines()
+    start = next(i for i, line in enumerate(lines) if line.startswith("- **Lifecycle**"))
+    lead_in = next(i for i in range(start, len(lines))
+                   if "the five angles it gathers follow it" in lines[i])
+    bullets = 0
+    for line in lines[lead_in + 1:]:
+        if line.startswith("- **"):
+            break
+        if line.startswith("  - **"):
+            bullets += 1
+    assert bullets == 6, \
+        "the lifecycle sweep now has %d bullets under a lead-in promising a parent plus five" % bullets
+    assert lines[lead_in].strip().endswith(":"), \
+        "the lifecycle lead-in stopped introducing the bullets it counts"
