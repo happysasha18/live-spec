@@ -67,18 +67,23 @@ thousands separator: the gate reads it with `grep -oE '≤ *[0-9]+'`.
 
 Row 588 is closed, its acceptance line met and verified.
 
-**The prover skill's full read is done, and its findings are unlanded.** Root: his standing ask,
-restated 2026-08-12 08:18. Both parts were read whole by the orchestrator seat. Five findings stand,
-drafted at
-`/private/tmp/claude-501/-Users-sashaabramovich/101c0f21-bda7-4d44-b5b0-ee8cd28d9bfd/scratchpad/prover-read-findings-draft.md`.
-Two are checkable in a minute each. The skill tells an author to write the record as
-`docs/prover/YYYY-MM-DD.md`. The push gate's own repair line demands `$TODAY-<slug>.md`, and 380 of
-381 records already carry a slug. The second: "the whole-document property sweep" decides what a
-surface add skips, and it is defined nowhere in the repository. The other three are these. The
-declaration member of the composition-lens family has no lens in the prover. The class lens sits in
-the tier that owes no verdict, though base rule 14 is unconditional. And six bullets stand under a
-stated five in the lifecycle sweep. That draft is outside the repository and dies with the machine's temp directory, so
-land it first.
+**The prover skill's full read is done, and its five findings are queue rows 608 through 612.**
+Root: his standing ask, restated 2026-08-12 08:18. Both parts were read whole by the orchestrator
+seat. The record is `docs/prover/2026-08-12-product-prover-full-read.md`. Row 608: the skill tells an
+author to write the record as `docs/prover/YYYY-MM-DD.md`, and the push gate's own repair line
+demands `$TODAY-<slug>.md`. Row 610: "the whole-document property sweep" decides what a surface add
+skips, and it is defined nowhere. Those two are one-line textual fixes with their answers already
+written in the record. Row 612 is a lead-in reflow. Rows 609 and 611 each carry a decision. Row 609 asks
+whether the declaration member of the composition-lens family earns a sixth mandatory sweep. Row 611
+asks whether the class lens owes a verdict line, though its tier says none is owed. Every one edits a skill body, so
+each draws a fresh skill-creator review record and a full suite run before it can be pushed. The
+mirror re-sync his ask names comes after those edits land.
+
+**Two commits stand unpushed, and the next push owes a fresh review record.** They are `b102281`
+and `c9f4a16`. The first carries the plan repair and this resume file. The second carries the prover
+read with its rows.
+`guardrails/check-prover-record.sh --push` reds today until a record covers them, because the
+newest record commit is older than the newest reviewed commit.
 
 **The plan wears its statuses.** `.live-spec/culling-plan-v3-2026-08-10.md` is the one copy. A full
 read of it today found four cells disagreeing with their own text, and all four are repaired.
