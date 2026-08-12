@@ -70,7 +70,7 @@ belongs to the project under change, including `PRODUCT_SPEC.md`, `ARCHITECTURE.
 own `PRODUCT_SPEC.md`. `PRODUCT_SPEC.index.md` maps each code to the criteria that carry it. The word
 `SPEC` before a code marks that same home and names no separate series. `M-1` is the milestone gate
 and `M-6` is the push gate. A **base rule N** points at the numbered rule N in
-`skills/live-spec-base/SKILL.md`, which carries thirty-four. A **communicator rule N** points into
+`skills/live-spec-base/SKILL.md`; its own frontmatter states how many it carries. A **communicator rule N** points into
 `skills/communicator/SKILL.md`. That file numbers twice: its behaviour rules carry an inline
 `(rule N)` tag, and its writing-register checklist restarts at 1. This page names which of the two
 it means each time.

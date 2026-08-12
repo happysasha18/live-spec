@@ -27,8 +27,8 @@ twenty-two rules. Inside the body's section "The writing register", and inside
 [`writing-register.md`](writing-register.md), it counts that register's own seventeen rules. Read the
 tag against the section it stands in.
 
-**Base rules.** A "base rule N" points into `skills/live-spec-base/SKILL.md`, which carries
-thirty-four numbered rules. The ones the body cites are 1 ask never guess, 2 plain words carry the
+**Base rules.** A "base rule N" points into `skills/live-spec-base/SKILL.md`; its own frontmatter
+states how many numbered rules it carries. The ones the body cites are 1 ask never guess, 2 plain words carry the
 meaning, 4 one canonical home per fact, 6 every long or delegated piece of work keeps a checkpoint,
 10 nothing is silently deleted, 13 a claim needs its primary source, 16 a prototype stays a sketch,
 and 18 the one name-collision law.
