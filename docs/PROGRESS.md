@@ -1,8 +1,6 @@
 # Progress — the two promises
 
-Generated 2026-08-12 by `python3 scripts/progress-report.py`.
-
-Since the last run on 2026-08-12, total findings changed by 0 and documents at zero changed by 0.
+Generated 2026-08-12 by `python3 scripts/progress-report.py`, reading the tree as it stands today.
 
 ## Where the two promises stand
 
