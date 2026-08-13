@@ -418,6 +418,7 @@ shape.
 > - **live-spec-base** holds the shared rules and the defaults.
 > - **spec-author** writes the spec.
 > - **product-prover** reviews it as written.
+> - **product-prover-pack** binds the external canonical prover to the pack.
 > - **design-reviewer** judges the design behind it.
 > - **build-pipeline** ships the change.
 > - **test-author** derives the matrix and writes the tests.

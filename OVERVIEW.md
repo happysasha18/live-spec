@@ -87,6 +87,8 @@ it permanent is a promotion into a profile, on the human's word.
   rule conflict, this file wins.
 - **spec-author** — writes and grows the living spec, use-case-first and prover-ready.
 - **product-prover** — reviews specs and architecture documents with formal-verification thinking.
+- **product-prover-pack** — the pack adapter for the external canonical product-prover: the pin
+  map, the pack paths, the record home, and the mode names; it reviews nothing itself.
 - **design-reviewer** — reviews the design itself once the spec is proven: groups the same-kind
   things the text never declared, checks each kind behaves alike, and brings the strongest likely
   difference to the human. It recommends and questions, leaving the landing free.

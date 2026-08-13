@@ -220,7 +220,7 @@ documents (product-prover's job). Not for the mechanical gates themselves (the g
 this skill DERIVES what they later enforce).
 
 > The pack, whole: **live-spec-base** holds the shared rules and defaults · **spec-author** writes the spec ·
-> **product-prover** reviews it · **design-reviewer** judges the design behind it · **build-pipeline** ships the change · **test-author** derives the matrix
+> **product-prover** reviews it · **product-prover-pack** binds the external prover to the pack · **design-reviewer** judges the design behind it · **build-pipeline** ships the change · **test-author** derives the matrix
 > and writes the tests · **communicator** makes the human exchange land · **feedback-intake** brings what
 > comes back to its home · **feedback-collector** offers a rare private note up to the authors · **text-audit** reads a text as a stranger and fixes where they stop · **publish** sees the work out the door, owing its kind's checklist.
 
