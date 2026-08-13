@@ -1,6 +1,6 @@
 """INV-140 — the prover labels each finding a defect or a recommendation.
 Enshrines the finding-kind reporting rule across its homes. Landed 2026-07-13."""
-from conftest import read, read_all_flat
+from conftest import external_clone_or_skip, read, read_all_flat
 
 
 def _flat(rel):
@@ -10,6 +10,7 @@ def _flat(rel):
 
 
 def test_prover_tag_carries_kind():
+    external_clone_or_skip()
     pp = _flat("skills/product-prover/SKILL.md")
     assert "kind · plain-label (formal-term)" in pp
     # the canon's worked example changed with the parcel-locker rewrite; the tag shape holds
@@ -19,6 +20,7 @@ def test_prover_tag_carries_kind():
 def test_severity_axis_retired_from_prover():
     """kind is the sole verdict axis: the old three-level severity vocabulary
     is gone from the prover's tag and rule surface (INV-140 collapse)."""
+    external_clone_or_skip()
     pp = _flat("skills/product-prover/SKILL.md")
     for token in ("must-fix", "should-clarify", "worth-considering"):
         assert token not in pp, f"retired severity token {token!r} still in prover SKILL"
@@ -42,11 +44,13 @@ def test_push_gate_folds_on_kind():
     assert "fold every defect and queue every recommendation" in spec
     # the externalized canon says "pre-merge check" where the pack says "push gate" (the pack
     # adapter's own description keeps the push-gate name); the kind-folding semantics hold.
+    external_clone_or_skip()
     pp = _flat("skills/product-prover/SKILL.md")
     assert "A defect blocks. It is applied to the document at the pre-merge check" in pp
 
 
 def test_prover_defines_defect_and_recommendation():
+    external_clone_or_skip()
     pp = _flat("skills/product-prover/SKILL.md")
     assert "a stated invariant is violated" in pp
     # "taste call" became "judgment call" in the canon's rewrite; the queue semantics hold

@@ -10,7 +10,7 @@ entry-state lens [INV-167] are instances this parent lens generalizes.
 These tests assert the spec states the lens and the product-prover skill carries it, so the standing
 lens is real text a reviewer runs by construction rather than a note in a journal.
 """
-from conftest import read, read_all
+from conftest import external_clone_or_skip, read, read_all
 
 
 def test_spec_states_the_transition_payload_lens():
@@ -20,6 +20,7 @@ def test_spec_states_the_transition_payload_lens():
 
 def test_prover_skill_carries_the_lens():
     # whole-surface read: the canon carries this lens in reference/stress-lenses.md
+    external_clone_or_skip()
     skill = read_all("skills/product-prover/SKILL.md")
     assert "**Transition payload**" in skill
     assert "answered by the platform default" in skill

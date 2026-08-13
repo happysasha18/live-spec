@@ -9,12 +9,13 @@ surface × sweep table — and discretionary imaginative probes. The five lifecy
 under the transition-payload parent (INV-168) so one lifecycle is walked once, not five times
 from five colliding angles.
 """
-from conftest import read, read_all_flat  # read: the spec-side checks below
+from conftest import external_clone_or_skip, read, read_all_flat
 
 
 def _skill():
     # the whole normative surface, whitespace-collapsed: the canon offloads the sweep/probe
     # split and the lifecycle lenses to reference/stress-lenses.md.
+    external_clone_or_skip()
     return read_all_flat("skills/product-prover/SKILL.md")
 
 

@@ -13,7 +13,7 @@ polaroid room revealed under a soft veil and closed on a hard cut, felt on a rea
 import os
 import unittest
 
-from conftest import ROOT, read_all_flat, read_flat
+from conftest import ROOT, external_clone_or_skip, read_all_flat, read_flat
 
 
 class TestPairedTransition(unittest.TestCase):
@@ -62,6 +62,7 @@ class TestPairedTransition(unittest.TestCase):
         self.assertIn("the exit's motion mirrors the enter's", sa)
 
     def test_prover_carries_the_paired_transition_check(self):
+        external_clone_or_skip()
         pv = read_all_flat("skills/product-prover/SKILL.md")
         self.assertIn("Paired-transition symmetry", pv)
         self.assertIn("the temporal twin of the cross-surface uniformity sweep above", pv)
@@ -78,6 +79,7 @@ class TestPairedTransition(unittest.TestCase):
             self.assertIn(needle, spec, needle)
         for needle in ("reversibility of the means", "reversible gesture"):
             self.assertIn(needle, spec, needle)
+        external_clone_or_skip()
         pv = read_all_flat("skills/product-prover/SKILL.md")
         # the canon names the same sub-question "The inverse of the means"
         self.assertIn("The inverse of the means", pv)
@@ -101,6 +103,7 @@ class TestPairedTransition(unittest.TestCase):
         # index now carries locations only (SPEC INV-271) — the "same magnitude" prose check
         # already stands against the body above; here just confirm the row exists.
         self.assertTrue(row)
+        external_clone_or_skip()
         pv = read_all_flat("skills/product-prover/SKILL.md")
         self.assertIn("The inverse's magnitude", pv)
         self.assertIn("same magnitude as the forward move", pv)
@@ -167,6 +170,7 @@ class TestViewportQuantifierLens(unittest.TestCase):
         # index now carries locations only (SPEC INV-271) — the row's presence is the anchor
         # proof; the "viewport quantifier" prose check already stands against the body above.
         self.assertTrue(row)
+        external_clone_or_skip()
         pv = read_all_flat("skills/product-prover/SKILL.md")
         # the canon generalized the lens to "The condition quantifier", keeping the viewport
         # bands as its worked instance — the band-scoped standing question holds.
@@ -208,6 +212,7 @@ class TestGeneralSubDomainDuty(unittest.TestCase):
         # index now carries locations only (SPEC INV-271) — the row's presence is the anchor
         # proof; the phrase checks above and below already stand against the body and the skill.
         self.assertTrue(row)
+        external_clone_or_skip()
         pv = read_all_flat("skills/product-prover/SKILL.md")
         for needle in ("a named part of its domain", "the remainder"):
             self.assertIn(needle, pv, needle)

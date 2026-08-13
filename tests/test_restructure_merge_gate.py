@@ -17,7 +17,7 @@ its own interpretation. String rows on the law's three homes plus the spec ancho
 import os
 import unittest
 
-from conftest import ROOT, read_flat
+from conftest import ROOT, external_clone_or_skip, read_flat
 
 
 class TestRestructureMergeGateLaw(unittest.TestCase):
@@ -28,6 +28,7 @@ class TestRestructureMergeGateLaw(unittest.TestCase):
     )
 
     def test_merge_gate_judges_the_delta_in_all_homes(self):
+        external_clone_or_skip()
         for home in self.HOMES:
             body = read_flat(home)
             self.assertIn("merge gate judges the delta", body, home)
@@ -54,6 +55,7 @@ class TestRestructureMergeGateLaw(unittest.TestCase):
                 self.assertIn("scopes to a content-preserving restructure", body, home)
 
     def test_preexisting_findings_route_not_block_in_all_homes(self):
+        external_clone_or_skip()
         for home in self.HOMES:
             body = read_flat(home)
             if home == "PRODUCT_SPEC.md":
@@ -74,6 +76,7 @@ class TestRestructureMergeGateLaw(unittest.TestCase):
                 )
 
     def test_say_the_bar_back_duty_in_all_homes(self):
+        external_clone_or_skip()
         for home in self.HOMES:
             body = read_flat(home)
             if home == "PRODUCT_SPEC.md":

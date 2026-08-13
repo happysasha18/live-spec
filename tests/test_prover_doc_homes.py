@@ -6,6 +6,8 @@ paired-transition kind-split lives in its lens, and the KIND block stays general
 Red-proven against the pre-restructure file (HEAD before commit 2cca664)."""
 from pathlib import Path
 
+from conftest import external_clone_or_skip
+
 ROOT = Path(__file__).resolve().parent.parent
 SKILL = ROOT / "skills" / "product-prover" / "SKILL.md"
 LENSES = ROOT / "skills" / "product-prover" / "reference" / "stress-lenses.md"
@@ -14,6 +16,7 @@ GATE = ROOT / "guardrails" / "check-prover-record.sh"
 
 
 def _skill():
+    external_clone_or_skip()
     return SKILL.read_text(encoding="utf-8")
 
 
@@ -55,6 +58,7 @@ def test_kind_block_stays_general_split_lives_in_lens():
     # the paired-transition lens lives in the canon's reference/stress-lenses.md now, and the
     # canon generalized "open motion question" into the taste-call open question surfaced to
     # the decision-owner (motion feel kept as a worked instance).
+    external_clone_or_skip()
     lenses = LENSES.read_text(encoding="utf-8")
     lens = lenses[lenses.index("**Paired-transition symmetry**"):
                   lenses.index("**Persistence and versions**")]
@@ -93,6 +97,7 @@ def test_the_lifecycle_lead_in_counts_the_bullets_that_follow_it():
     the lifecycle is reference/stress-lenses.md's "### 4. Lifecycle" section: a lead-in
     naming five angles beside the transition-payload parent, then one bold-led paragraph
     per sub-lens — the parent plus the five, six heads."""
+    external_clone_or_skip()
     lines = LENSES.read_text(encoding="utf-8").splitlines()
     start = next(i for i, line in enumerate(lines) if line.startswith("### 4. Lifecycle"))
     end = next(i for i in range(start + 1, len(lines)) if lines[i].startswith("### "))

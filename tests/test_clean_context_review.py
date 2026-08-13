@@ -19,6 +19,8 @@ the two wiring skills carry no INV-237, so every assertion below fails.
 import os
 import unittest
 
+from conftest import external_clone_or_skip
+
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -77,6 +79,7 @@ class TestCleanContextReview(unittest.TestCase):
     def test_product_prover_wires_self_application(self):
         # The externalized prover canon states the duty in its own maintainer note; the
         # SPEC INV-237 anchor is a pack fact and lives on the pack adapter's binding.
+        external_clone_or_skip()
         pv = flat("skills/product-prover/SKILL.md")
         self.assertIn("adversarial pass over it from a clean context", pv)
         self.assertIn("authored none of that release's changes", pv)

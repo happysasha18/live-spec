@@ -8,6 +8,7 @@ import glob
 import os
 import re
 import tempfile
+import unittest
 
 import pytest
 
@@ -114,6 +115,24 @@ def read_all(rel):
 def read_all_flat(rel):
     """The whole-surface text with whitespace collapsed, so wrapped lines match needles."""
     return " ".join(read_all(rel).split())
+
+
+def external_clone_or_skip(name="product-prover"):
+    """The installed external skill clone's root, or a clean skip on a bare checkout.
+
+    skills/product-prover/ is an untracked clone that scripts/install-external-skills.sh
+    installs; the tracked contract for it lives in skills/product-prover-pack/SKILL.md.
+    A test that reads the clone's CONTENT calls this before reading, so a checkout with
+    no installed clone skips with the reason instead of crashing on FileNotFoundError.
+    """
+    root = os.path.join(ROOT, "skills", name)
+    if not os.path.isfile(os.path.join(root, "SKILL.md")):
+        raise unittest.SkipTest(
+            "external clone skills/%s/ not installed (tracked contract: "
+            "skills/product-prover-pack/SKILL.md; install: "
+            "scripts/install-external-skills.sh)" % name
+        )
+    return root
 
 
 # The suite's own temp-artifact prefixes — the single source of truth for "this name is ours".

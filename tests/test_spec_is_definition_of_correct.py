@@ -3,7 +3,7 @@ and changing it is a decision. Enshrines the reconciliation triage + the ratific
 the forbidden move across its homes so none can silently drift out. Landed 2026-07-14."""
 from pathlib import Path
 
-from conftest import read_all_flat
+from conftest import external_clone_or_skip, read_all_flat
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -30,6 +30,7 @@ def test_prover_carries_the_divergence_pointer():
     # The divergence rule itself lives in the externalized canon (three-source disagreement,
     # closing paragraph); the INV-144 anchor is a pack fact and lives on the pack adapter's
     # pin map. The whole-surface read follows the canon wherever its reference files move.
+    external_clone_or_skip()
     prover = read_all_flat("skills/product-prover/SKILL.md")
     assert "the document is the definition of correct" in prover
     pack = _read("skills/product-prover-pack/SKILL.md")

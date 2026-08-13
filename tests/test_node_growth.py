@@ -23,6 +23,8 @@ import sys
 import tempfile
 import unittest
 
+from conftest import external_clone_or_skip
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 COUNTER = os.path.join(ROOT, "guardrails", "node_growth_counter.py")
 CAP = os.path.join(ROOT, "guardrails", "node-file-cap.json")
@@ -165,6 +167,7 @@ class TestNodeGrowthReviewDuties(unittest.TestCase):
         pack = read("skills/product-prover-pack/SKILL.md")
         self.assertIn("INV-233", pack,
                       "the pack adapter must pin INV-233 to the node-growth re-ask")
+        external_clone_or_skip()
         prover = read("skills/product-prover/SKILL.md")
         self.assertRegex(prover.lower(), r"node[- ]growth|co-residen|re-ask",
                          "the seventh lens must be described in words, not only cited")

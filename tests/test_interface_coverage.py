@@ -19,7 +19,7 @@ import re
 import sys
 import unittest
 
-from conftest import ROOT, read, read_all_flat, read_flat
+from conftest import ROOT, external_clone_or_skip, read, read_all_flat, read_flat
 
 sys.path.insert(0, os.path.join(ROOT, "tests"))
 from test_traceability import matrix_blocks  # reuse the block parser
@@ -119,6 +119,7 @@ class TestLayerToLevelAndInterfaceLaw(unittest.TestCase):
     def test_prover_declared_laws_station_owns_the_per_surface_test_duty(self):
         # the canon states the duty as the declared-laws sweep's second demand ("A test per
         # surface."); the INV-101 anchor is a pack fact carried by the pack adapter's pin map.
+        external_clone_or_skip()
         pv = read_all_flat("skills/product-prover/SKILL.md")
         self.assertIn("A test per surface", pv,
                       "product-prover's declared-laws station lost the per-surface-test duty")

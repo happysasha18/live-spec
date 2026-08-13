@@ -21,7 +21,7 @@ import os
 import sys
 import unittest
 
-from conftest import ROOT, read, read_all_flat, read_flat
+from conftest import ROOT, external_clone_or_skip, read, read_all_flat, read_flat
 
 sys.path.insert(0, os.path.join(ROOT, "guardrails"))
 import archformat  # the one node reader every consumer reads through (SPEC INV-280)
@@ -49,6 +49,7 @@ class TestDeliverySeparabilityLaw(unittest.TestCase):
         self.assertIn("read the finding as the third case", flat)
 
     def test_inv248_prover_carries_the_lens(self):
+        external_clone_or_skip()
         pp = read_all_flat("skills/product-prover/SKILL.md")
         self.assertIn("Delivery separability along a declared axis", pp,
                       "product-prover does not carry the delivery-separability lens")
@@ -62,6 +63,7 @@ class TestDeliverySeparabilityLaw(unittest.TestCase):
     def test_inv248_prover_carries_the_dual_habit(self):
         """The lens carries the dual-discovery habit — ask whether an applied lens's dual bites — as a
         habit, never a law that every lens ship a partner."""
+        external_clone_or_skip()
         pp = read_all_flat("skills/product-prover/SKILL.md")
         self.assertIn("whether that lens's dual bites", pp,
                       "product-prover does not carry the dual-discovery habit")

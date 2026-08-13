@@ -10,7 +10,7 @@ draws the scoped design review over the delta.
 These tests assert the spec states the law and both skills carry it, so the intake window is
 closed in real text rather than a journal note.
 """
-from conftest import read
+from conftest import external_clone_or_skip, read
 
 
 def test_spec_states_the_second_sibling_law():
@@ -29,6 +29,7 @@ def test_spec_scopes_the_stand_down():
 
 
 def test_prover_skill_asks_the_question_at_intake():
+    external_clone_or_skip()
     skill = read("skills/product-prover/SKILL.md")
     assert "second member of a kind an existing surface already has" in skill
     # the INV-169 anchor is a pack fact: the externalized canon carries no project codes,

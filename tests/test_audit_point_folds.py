@@ -11,12 +11,13 @@ Six amendments, each a sentence or two in skills/product-prover/SKILL.md:
 - R4: FEATURE-FIT verdicts on a shipped system cite pinned clauses or go conditional.
 - R5: the FULL pass's closing summary reports the accumulated [default] count.
 """
-from conftest import read_all_flat
+from conftest import external_clone_or_skip, read_all_flat
 
 
 def _skill():
     # the whole normative surface, whitespace-collapsed: the canon offloads its stress
     # lenses to reference/stress-lenses.md, and several needles wrap across source lines.
+    external_clone_or_skip()
     return read_all_flat("skills/product-prover/SKILL.md")
 
 

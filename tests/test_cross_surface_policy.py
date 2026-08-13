@@ -13,7 +13,7 @@ tlvphotos's pinch-zoom policy shipped for the walk alone, 2026-07-12.)
 import os
 import unittest
 
-from conftest import ROOT, read_flat, read_all, read_all_flat
+from conftest import ROOT, external_clone_or_skip, read_flat, read_all, read_all_flat
 
 
 class TestCrossSurfacePolicy(unittest.TestCase):
@@ -45,6 +45,7 @@ class TestCrossSurfacePolicy(unittest.TestCase):
         self.fail("INV-125 Formal-index row missing")
 
     def test_prover_carries_the_cross_surface_lens(self):
+        external_clone_or_skip()
         pv = read_all_flat("skills/product-prover/SKILL.md")
         self.assertIn("Cross-surface policy uniformity", pv)
         # the canon states the twin relation mid-sentence ("This sweep is the preventive twin
@@ -64,6 +65,7 @@ class TestCrossSurfacePolicy(unittest.TestCase):
         spec = read_flat("PRODUCT_SPEC.md")
         self.assertIn("a sentence states a principle for a whole kind", spec)
         self.assertIn("lift", spec)
+        external_clone_or_skip()
         pv = read_all_flat("skills/product-prover/SKILL.md")
         self.assertIn("kind-general rule", pv)
         self.assertIn("scope it to the one member", pv)

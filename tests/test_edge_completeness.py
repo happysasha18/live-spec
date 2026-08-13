@@ -1,7 +1,7 @@
 """INV-138 — a gated behaviour names every side of its gate.
 Both ends of a threshold-gated transition + the three states of an async slot.
 Enshrines the law across its six homes. Landed 2026-07-13."""
-from conftest import read, read_all_flat
+from conftest import external_clone_or_skip, read, read_all_flat
 
 
 def _flat(rel):
@@ -41,6 +41,7 @@ def test_spec_author_carries_the_facet():
 
 
 def test_prover_carries_the_edge_completeness_lens():
+    external_clone_or_skip()
     pp = _flat("skills/product-prover/SKILL.md")
     assert "Edge-condition completeness" in pp
     assert "both ends of the range" in pp

@@ -19,7 +19,7 @@ import re
 import sys
 import unittest
 
-from conftest import ROOT, read, read_flat
+from conftest import ROOT, external_clone_or_skip, read, read_flat
 
 sys.path.insert(0, os.path.join(ROOT, "guardrails"))
 import archformat  # the one node reader every consumer reads through (SPEC INV-280)
@@ -38,6 +38,7 @@ class TestEnumerationReadsAsList(unittest.TestCase):
                       "spec-author's INV-215 rule never speaks of an enumeration")
 
     def test_prover_cognitive_load_lens_reads_the_packed_enumeration(self):
+        external_clone_or_skip()
         body = read_flat("skills/product-prover/SKILL.md")
         self.assertIn("cognitive-load", body,
                       "the prover has no cognitive-load lens to carry the reading-load reading")

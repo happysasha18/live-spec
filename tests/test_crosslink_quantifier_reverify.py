@@ -9,7 +9,7 @@ CROSS-LINK now carries the quantifier re-verify as its one mandatory whole-doc s
 
 These tests assert the spec states the law and the prover skill's CROSS-LINK mode carries it.
 """
-from conftest import read
+from conftest import external_clone_or_skip, read
 
 
 def test_spec_states_the_quantifier_reverify():
@@ -27,6 +27,7 @@ def test_spec_names_the_staleness_vector():
 
 
 def test_prover_skill_crosslink_carries_the_step():
+    external_clone_or_skip()
     skill = read("skills/product-prover/SKILL.md")
     assert "quantifier re-verify" in skill
     # the INV-170 anchor is a pack fact: the externalized canon carries no project codes,

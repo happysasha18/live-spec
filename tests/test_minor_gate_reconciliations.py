@@ -3,6 +3,8 @@ whole-spec audit forced, so none can silently drift back out. Landed 2026-07-13.
 import re
 from pathlib import Path
 
+from conftest import external_clone_or_skip
+
 ROOT = Path(__file__).resolve().parent.parent
 
 
@@ -65,6 +67,7 @@ def test_d2_finding_kind_names_delta_scoped_exception():
     # prover canon states the same exception in its own generic words, and the pack adapter's
     # pin map carries the INV-114 anchor for the rewrite-gate home.
     spec = _read("PRODUCT_SPEC.md")
+    external_clone_or_skip()
     prover = " ".join(_read("skills/product-prover/SKILL.md").split())
     assert "a delta-scoped gate meets a pre-existing defect outside the delta" in spec
     assert "queue it by that law rather than block the merge it did not create" in spec

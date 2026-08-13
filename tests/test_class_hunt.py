@@ -13,7 +13,7 @@ import os
 import re
 import unittest
 
-from conftest import ROOT, read_all_flat, read_flat
+from conftest import ROOT, external_clone_or_skip, read_all_flat, read_flat
 
 
 class TestClassHunt(unittest.TestCase):
@@ -54,6 +54,7 @@ class TestClassHunt(unittest.TestCase):
         self.assertIn("The hunt is four moves:", bp)
 
     def test_prover_carries_the_class_lens(self):
+        external_clone_or_skip()
         pv = read_all_flat("skills/product-prover/SKILL.md")
         self.assertIn("Class lens", pv)
         # the SPEC INV-124 tie is a pack anchor: since the v5.0.0 externalization the generic
@@ -74,6 +75,7 @@ class TestClassHunt(unittest.TestCase):
         would pass against the mandatory-sweep paragraph, which carried that sentence before this
         duty existed.
         """
+        external_clone_or_skip()
         pv = read_all_flat("skills/product-prover/SKILL.md")
         # the standing-duty paragraph lives in the canon's reference/stress-lenses.md now, as
         # its own "The class lens" section, and the canon says "review" where the pack said
@@ -86,6 +88,7 @@ class TestClassHunt(unittest.TestCase):
 
     def test_readme_names_the_class_lens(self):
         """A standalone reader learns the sweep exists from the README alone (row 611)."""
+        external_clone_or_skip()
         rd = read_flat("skills/product-prover/README.md")
         self.assertIn("The class lens stands beside them, and it owes a line of its own", rd)
         self.assertIn("Each pass records whether that sweep ran", rd)

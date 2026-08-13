@@ -4,7 +4,7 @@ import json
 import subprocess
 from pathlib import Path
 
-from conftest import ROOT
+from conftest import ROOT, external_clone_or_skip
 
 
 EDITION = Path(ROOT) / "editions" / "product-prover"
@@ -46,6 +46,7 @@ def test_the_public_mirror_will_receive_its_own_workflow():
 
 
 def test_internal_and_public_copies_share_the_user_facing_contract():
+    external_clone_or_skip()
     internal = (Path(ROOT) / "skills" / "product-prover" / "SKILL.md").read_text(encoding="utf-8")
     public = (EDITION / "SKILL.md").read_text(encoding="utf-8")
     for needle in (

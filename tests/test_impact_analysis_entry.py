@@ -14,7 +14,7 @@ boundary-health law, product-prover's three-source lens, communicator's capture 
 import os
 import unittest
 
-from conftest import ROOT, read_all_flat, read_flat
+from conftest import ROOT, external_clone_or_skip, read_all_flat, read_flat
 
 
 class TestImpactAnalysisEntry(unittest.TestCase):
@@ -76,6 +76,7 @@ class TestImpactAnalysisEntry(unittest.TestCase):
         self.assertIn("Boundary health — a typical request lands in one node (SPEC INV-128)", arch)
 
     def test_prover_carries_three_source_lens(self):
+        external_clone_or_skip()
         pv = read_all_flat("skills/product-prover/SKILL.md")
         self.assertIn("Three-source disagreement", pv)
 

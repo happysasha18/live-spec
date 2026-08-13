@@ -10,7 +10,7 @@ speculative-node flag — a node with one caller and no promised second is flagg
 import os
 import unittest
 
-from conftest import ROOT, read_flat
+from conftest import ROOT, external_clone_or_skip, read_flat
 
 
 class TestNodeFitnessTest(unittest.TestCase):
@@ -21,6 +21,7 @@ class TestNodeFitnessTest(unittest.TestCase):
         self.assertIn("worked in parallel without queuing on shared files", bp)
 
     def test_prover_flags_the_speculative_node(self):
+        external_clone_or_skip()
         pp = read_flat("skills/product-prover/SKILL.md")
         self.assertIn("one caller and no promised second is flagged", pp)
 
