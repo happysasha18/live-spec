@@ -2872,3 +2872,62 @@ word match, and this entry's own absence. All three are repaired at `46de0a6` an
 
 The habit worth keeping: a pass that closes without its own journal entry leaves the next session
 reconstructing it from commits, and the reconstruction costs more than the writing would have.
+
+## 2026-08-12 18:45 - 2026-08-13 03:30 — the evening pass: the prover finishes, and seven gate chains pay for it
+
+Root: his word at 18:45, ship what is waiting, and his word at 23:09, finish the prover first with a
+readability review and an adversarial review over it. At 00:09 he added Anthropic's skill-creator as
+the last pass before the push. At 23:47 he asked for a logical end point in one sitting.
+
+The range `4a0b982..13671c2` went to `origin/main`, 25 commits, at 03:29. The prover's public mirror
+carries tonight's edition.
+
+**The prover's last three findings are closed, and none of them was a wording question.** Row 609
+asked whether the instance-enumeration law earns a sixth mandatory sweep. It does not: the law turns
+on whether a member set is closed, and only the document's author knows that. The part the reviewer
+can see, where the members are sibling surfaces the document registers, one existing sweep already
+covers. Row 610 asked what the cross-link mode skips, and the answer is the property analysis of
+Phase 3. Row 611 asked whether the class lens owes a verdict line. It owes one line in every record,
+so the lens left a list whose own criterion says its members owe no verdict, and it stands in a tier
+of its own. That move needed the spec: Requirement 67 now reads three tiers and criterion R67.4
+states the line's duty.
+
+**Four review passes ran over that work, and each found what the ones before it could not.** The
+first adversarial read refused the change on six counts, among them a sentence citing the very
+criterion it contradicted. The first readability read found the seams a diff-shaped edit leaves: a
+sentence written against the fix's target, with no second reading against the paragraph it lands in.
+Fable's pair refused it again, once on a requirement's context sentence sitting two lines above the
+criterion the earlier defence had read, and once on a leftover definition that sent all twelve
+imaginative probes into the cross-link mode.
+
+**skill-creator measured the one line no adversarial pass had looked at.** The skill's frontmatter
+description decides whether any of the work runs at all. It fires on five of the eight queries it
+deserves and stays silent on all twenty-four that deserve silence. It misses "stress test this plan",
+though generative stress-testing is the skill's own work, and it misses an architecture document by
+name. The public edition's description already carried every missing element and every house rule, so
+it now stands in both copies. The glossary triggers the pack never registered are gone, "seam" is
+defined where the skill defines its words, and the edition's tier definitions live in one home again.
+
+**The pass paid seven gate-chain runs, at 23 to 27 minutes each, and six of them refused.** Two prose
+ratchets, one missing test, one drifted pin set, one generated table out of step with its own copy,
+one published count, and two wall-time ceilings. Every refusal was a generated artifact or a
+measurement catching up after the fact. Queue rows 600, 621 and 622 hold that class, and the habit
+the next pass should carry is to run every rebuild before starting the chain rather than after it.
+
+**The wall-time ceiling is the sharpest of those.** Seven full runs of one evening measured 1,221.81,
+1,281.39, 1,304.65, 1,605.37, 1,559.15, 1,387.88 and 1,451.77 seconds, on trees whose code differs by
+under a second of test time. The gate is reading the machine's load. It refused three pushes on that
+reading, and the ceiling has moved 800 to 1280 to 1410 to 1780 inside one day. The row now says so in
+plain words, and row 622 asks for a measure a neighbouring process cannot inflate.
+
+**Batch 3 opened alongside all of it.** A second worker wrote the requirements inventory for base
+rule 29 into a write-set of one file. Four of its ten requirements are held by a named machine, five
+by nothing, and those same five are already stated elsewhere in the pack. Of 2,138 bytes, 52.6% is
+kinship framing and a retelling of two machines that already live in the spec, the matrix and the
+gate's own docstring.
+
+**Ten queue rows opened, 613 through 622.** The first came from another project: the tlvphotos window
+reported that two files the installed skill bodies tell a reader to run reach no host, because the
+install copies the skill directory alone. Row 617 carries his ask of 23:58 — find the campaign's
+stated goals in the session transcripts with cheap readers, and put every one under watch in the
+plan's status block with the command that measures it.

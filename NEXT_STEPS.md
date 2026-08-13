@@ -4,109 +4,76 @@ A digest with no redundancy (SPEC INV-48) — one live-state block, nothing remo
 information. One status block stands here at a time, and every update replaces it. Dated history
 lives in `JOURNAL.md`.
 
-## LIVE STATE (2026-08-12, 16:38)
+## LIVE STATE (2026-08-13, 03:30)
 
 Written for a session starting with clean context.
 
-**The morning pass is pushed.** Root: his standing authorization of 2026-08-12 08:01, and his
-instruction of 12:59 to carry the work to a push. The range `e8900d9..4a0b982` went to `origin/main`
-at 16:33, 33 commits. The mirror sync ran after it. `product-prover` is up to date; every other skill
-reports no mirror repository yet, which is the true state.
+**The evening pass is pushed.** Root: his word of 2026-08-12 at 18:45, ship what is waiting. His
+word of 23:47 asked for a logical end point in one sitting. The range `4a0b982..13671c2` went to
+`origin/main`, 25 commits. `scripts/sync-mirrors.sh` ran after it and the prover's public mirror
+carries tonight's edition; every other skill reports no mirror repository yet, which is the true
+state.
 
-**The closing full suite is green: 2,497 passed, 0 failed.** It ran alone with no worker writing the
-tree. Two full runs fed the wall-time budget, and `ARCHITECTURE.md` is their home. One measured
-1,159.75 s inside the pre-push gate set on a quiet machine. The other measured 993.31 s standalone,
-while three worker sessions shared the machine.
+**The product-prover skill is finished.** All five findings of its full read are closed, rows 608
+through 612. Row 609 answered that the instance-enumeration law is the author's writing duty, since
+only the author knows whether a member set is closed. Row 610 answered that the cross-link mode skips
+the property analysis of Phase 3, steps 3a through 3d. Row 611 answered that the class lens owes one
+line in every record. The lens left the imaginative-probe list and stands in a tier of its own.
+Requirement 67 now reads three tiers and criterion R67.4 states that line's duty.
 
-**Batch 3 has not opened.** It takes base rule 29 (2,138 bytes), the next-priced rule below 32 by the
-day-1 census. Rule 31 still waits on his ruling about the two senses of "owner" (queue rows 536/539). That is a
-policy call: it fixes which skill runs a design review, and the precedence among fourteen rule
-collisions. Rule 31's own S1 inventory is already written, at
-`.live-spec/s1-rule-31-2026-08-12.md`. Step S1 for rule 29 is the next act. The whole pass of 12:53-16:33 went to the closing run, the gate and the push.
+**Four review passes shaped how those answers landed, and each one earned its place.** The first
+adversarial read refused the change on six counts. The first readability read found the seams. A sentence had
+been written against the fix's target, with no second reading against the paragraph it lands in. Fable's pair
+then refused it again on two, one of them a requirement's context sentence two lines above the
+criterion the earlier defence had read. skill-creator measured the one line nobody had looked at. The
+skill's frontmatter fires on five of the eight queries it deserves. It stays silent on all
+twenty-four that deserve silence. The public edition's line, which carries stress-test and lint and the skill's own name, now
+stands in both copies. Records: `docs/skill-review/2026-08-12-product-prover-2.md` and
+`docs/prover/2026-08-13-push-range-3.md`.
 
-**Seven things wait on his word.** Six are in `DECISIONS.md` under the stage-3 heading, each with the
-exact line it would take. They are the class ruling for fifteen silent-rot keeps, and gates ae, n, p,
-o and ab. The seventh is row 536's "owner" ruling, open since 2026-08-05. His «принято» on the plan
-text for row 594 also stands open.
+**Batch 3 opened on base rule 29 and its inventory is written**, at
+`.live-spec/s1-rule-29-2026-08-12.md`. The rule states ten requirements. Four are held by a named
+machine and five by nothing. Those same five are already stated by rules 27, 1 and 17, and by the
+routing principle. Of 2,138 bytes, 52.6% is kinship framing and a retelling of two machines. Those
+machines already live in the spec, the matrix and the gate's own docstring. Step S2 is the next act.
 
-**What the closing run and the gate found, and what it cost.** The suite came back 3 failed at 12:53.
-One failure was real and two read it back. Four documents stood above their recorded prose ceilings.
-`NEXT_STEPS.md` had been cleared to zero and carried 21 over-cap sentences after the 09:51 and 09:53
-rewrites. A cleared document stays cleared. Its sentences were split, and its ceiling held. `guardrails/README.md` and `ROADMAP.md` came back to their own ceilings. The tlvphotos reply
-was measured into the record at its own seven findings, because it holds another project's words.
+**Ten queue rows opened, 613 through 622.** They are:
 
-**The push review of the range raised sixteen findings.** Four blocked and all four are closed inside
-the range. They were the prose ratchet, the published tree counts, three missing skill review
-records, and one repair that could not run. `scripts/sync-mirrors.sh` was rewritten to stop loudly.
-Under `set -euo pipefail` its assignment killed the script before any branch could print. Two tests
-now read the script's own lines and run them under a failing `gh`. Both were proven red against the
-pre-fix script. Row 597 is reopened, corrected and closed a second time.
+- 613, the two files the install names and never delivers.
+- 614, the author's skill stating no enumerate-or-ride duty.
+- 615, the class line with no reach outside its own test.
+- 616, the status word thirteen live rows carry outside the queue's vocabulary.
+- 617, the campaign's goals with no measured parameters.
+- 618, the prover body at 1,079 lines with no reference directory.
+- 619, the internal copy drifted from its public edition on five points.
+- 620, every skill pinning the base version in prose.
+- 621, a generated table with two homes and no machine between them.
+- 622, the suite budget reading the machine's load.
 
-**Seven architecture pins landed five lines short.** The pin guard passed every one. Its five-line
-window is satisfied by any word of four characters or more. The words that carried them were `this`,
-`when`, `work`, `live`, `session`, `SPEC` and `defaults`. All seven are repaired. Row 599 holds the
-guard's own repair.
+**Seven things still wait on his word.** Six are in `DECISIONS.md` under the stage-3 heading, each
+with the exact line it would take. They are the class ruling for fifteen silent-rot keeps, and gates
+ae, n, p, o and ab. The seventh is row 536's "owner" ruling, open since 2026-08-05. His «принято» on
+the plan text for row 594 also stands open.
 
-**The suite wall-time budget is re-derived at 1280 s.** The gate refused the push at 800 s. The rise
-was measured before the row was touched. `tests/test_guardrails.py` costs 640.59 s of a full run,
-against the near-282 s that row had claimed for it since 2026-08-06. One file is over half of every
-run. Row 553 owns the work that narrows it and now carries the fresh figure. Write the number with no
-thousands separator: the gate reads it with `grep -oE '≤ *[0-9]+'`.
+**The suite is green at 2,506 passed.** The wall-time ceiling now reads 1780 s, and the row says why
+in plain words. Seven full runs of this pass measured 1,221.81, 1,281.39, 1,304.65, 1,605.37,
+1,559.15, 1,387.88 and 1,451.77 seconds. That is a 31% swing on trees differing by under a second of
+test time, so the gate is reading the machine's load. It refused three pushes tonight on that
+reading. Row 622 asks for a measure a neighbouring process cannot inflate, and row 553 still owns the
+one file taking 640 s of every run.
 
-**Nine queue rows opened today, 599 through 607.** They are:
+**What this pass cost, named so the next session skips it.** Seven gate-chain runs, at 23 to 27
+minutes each. Six refusals: two prose ratchets, one missing test, one drifted pin set, one generated
+table out of step, one published count, and two wall-time ceilings. Every one of them was a
+generated artifact or a measurement catching up after the fact. Rows 600, 621 and 622 hold that class.
+The habit that pays: after any edit moving lines or criteria, run the rebuilds first. They are the
+tree counts, the spec index and its embedded copy, and the census. Then start the chain once.
 
-- 599, the pin guard's five-line window.
-- 600, the tree-counts rebuild missing from the batch recipe.
-- 601, a batch's reached size held by no machine.
-- 602, the migration chapter still walking a host to the cut rule 30.
-- 603, the rulebook's rule count derived by nothing.
-- 604, the worker-restore gate's per-record outcome read.
-- 605, the 2026-07-28 discard that ran in this tree.
-- 606, a dead field publishing a stale figure.
-- 607, the skill-review gate matching a record by any mention of a name.
-
-Row 588 is closed, its acceptance line met and verified.
-
-**The prover skill's full read is done, and its five findings are queue rows 608 through 612.**
-Root: his standing ask, restated 2026-08-12 08:18. Both parts were read whole by the orchestrator
-seat. The record is `docs/prover/2026-08-12-product-prover-full-read.md`. All five rows are now
-closed, across two review records. The first record,
-`docs/skill-review/2026-08-12-product-prover.md`, closed rows 608 and 612. The
-record filename in the meta rules now names `docs/prover/YYYY-MM-DD-<slug>.md`, matching the string
-the push gate's own repair line demands. The lifecycle lead-in now reads so that six bullets under a
-stated five make sense on first reading. The second record,
-`docs/skill-review/2026-08-12-product-prover-2.md`, closed rows 609, 610 and 611. Row 609 answered
-that INV-226 is the
-spec-author's writing duty, and the answer lives in criterion R264.5 and the prover's cross-surface
-uniformity sweep. Row 610 answered that the cross-link mode skips Phase 3's property analysis, steps
-3a through 3d. That answer lives in the mode's own paragraph in both copies. Row 611 answered that
-the class lens owes one line per pass. That answer lives in the class-lens tier of both copies, and
-in the record shape beneath the verdict table. The mirror re-sync his ask names comes after these are
-pushed, because the sync reads the committed tree.
-
-**The range `4a0b982..HEAD` goes out this pass.** Count it with `git log`, since a number written
-here rots between passes. The day's later work carries the plan repair, this resume file, and the
-prover read with its queue rows. Beside those sit the two prover fixes with their review record, and
-the queue row for the install defect the tlvphotos window reported. Above them sit this walk's own
-answers. They are the repairs the push review demanded, the two tests the gate chain demanded, and
-the review record itself. One commit in the range edits a skill body, so the push also needs the
-full suite green.
-`guardrails/check-prover-record.sh --push` reds until the record lands, because it compares the
-newest record commit against the newest reviewed commit.
-
-**The plan wears its statuses.** `.live-spec/culling-plan-v3-2026-08-10.md` is the one copy. A full
-read of it today found four cells disagreeing with their own text, and all four are repaired.
-Batch 3 had no marker at all. Stage 3's header had no overall marker. The stage-2 queue line still
-called the 53 rules unmeasured while R5 stands done. And decision D6 carried a withdrawal marker
-beside a live recommendation. The delta page is `.live-spec/plan-v3-delta-2026-08-12-4.md`.
-
-**Three habits this pass paid for, named so the next session skips them.**
-1. A run whose verdict line you grep for must be grepped by the string it actually prints. The gate
-   prints "All gates green — push allowed." A watcher waiting for the upper-case form of those words waits forever.
-2. `git push` fires the gate chain again, and that is twenty minutes. Run `bash guardrails/pre-push`
-   yourself, read its verdict, then push with `--no-verify` on the same unchanged tree.
-3. Raising a budget without measuring what moved writes a number nobody believes. Measure the term
-   that grew, name it in the row, and point at the queue row that brings it down.
+**Three habits from the earlier pass still hold.** A run whose verdict you grep for must be grepped
+by the string it prints. Here that string is "All gates green — push allowed." A `git push` fires the
+whole chain again. Run `bash guardrails/pre-push` yourself and read its verdict. Then push with
+`--no-verify` on the same unchanged tree. A number written into a document rots between passes, so
+name the command beside it or leave the counting to `git log`.
 
 **The next release earns a major number.** Rule 32's rewrite and rule 7's before it reworded rules a
 host has vendored. Base rule 32 names that as earning a major. `MIGRATION.md` owes its chapter, and
