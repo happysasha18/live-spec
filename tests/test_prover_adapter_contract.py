@@ -165,6 +165,60 @@ class TestTheCloneSkipStaysVisibleInCI(unittest.TestCase):
             self.fail("under CI the guard returned a root for a clone that does not exist")
 
 
+class TestTheArchitectureDoesNotPinIntoAnotherRepository(unittest.TestCase):
+    """A pin is a promise about a line, and the pack can only make it about lines it owns.
+
+    `ARCHITECTURE.md` carried three pins at `skills/product-prover/SKILL.md:288/749/384`.
+    That file is an untracked clone of an external canonical repository, so those pins
+    promised line numbers in bytes this repository does not control. On a bare checkout gate
+    g reported them as "pinned file missing" and moved on; once CI installs the pinned canon
+    the file IS there and all three read as drifted, because the canon's own release moved
+    its lines — the pack would be red in CI for an edit made in another repository, with no
+    repair available on this side.
+
+    The pins now stand on `skills/product-prover-pack/SKILL.md`, the tracked adapter, which
+    says of itself that it is the one place the pack updates when a lens moves or renames in
+    a prover release. The rule is asserted here as a class rather than as three line numbers,
+    so the next external skill cannot reopen it.
+    """
+
+    def _external_roots(self):
+        """`skills/<name>/` for every external skill the TRACKED adapter pages declare.
+
+        Read from the adapters' `requires:` metadata line — the same tracked sentence the
+        installer and tests/test_traceability.py's external_skill_roots() read — so this
+        holds identically on a bare checkout, with the clone installed, and in CI.
+        """
+        roots, skills = [], ROOT / "skills"
+        for page in sorted(skills.glob("*/SKILL.md")):
+            found = re.search(
+                r"^\s*requires:\s*([\w-]+)\s*>=\s*[\d.]+\s*\(([^()\s]+)\)",
+                page.read_text(encoding="utf-8")[:4000], re.M,
+            )
+            if found:
+                roots.append("skills/%s/" % found.group(1))
+        return roots
+
+    def test_the_roster_is_not_empty_so_this_rule_cannot_pass_by_vacancy(self):
+        self.assertIn("skills/product-prover/", self._external_roots())
+
+    def test_no_architecture_pin_points_into_an_external_skill(self):
+        roots = self._external_roots()
+        architecture = (ROOT / "ARCHITECTURE.md").read_text(encoding="utf-8")
+        offenders = [
+            pin for pin in re.findall(r"^- `([^`]+)`", architecture, re.M)
+            if any(pin.startswith(root) for root in roots)
+        ]
+        self.assertEqual(
+            [], offenders,
+            "ARCHITECTURE.md pins line numbers inside an external repository: %s. Those "
+            "lines belong to a release this pack does not make, so the pin rots on the "
+            "canon's schedule and gate g reds here with no repair available on this side. "
+            "Pin the tracked adapter skills/product-prover-pack/SKILL.md instead — it is by "
+            "its own words the one place the pack updates when a lens moves." % offenders,
+        )
+
+
 class TestTheCIAuthorityModel(unittest.TestCase):
     """CI installs the external canon, pinned — and this is what that claim rests on.
 

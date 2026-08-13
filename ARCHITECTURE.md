@@ -78,7 +78,7 @@ named here and in the matrix.
 - `skills/live-spec-base/SKILL.md:358` (rule 21, INV-84 — the clean-writer road)
 - `skills/live-spec-base/SKILL.md:368` (rule 22, INV-98 — the convergence principle)
 - `skills/live-spec-base/SKILL.md:382` (rule 23, INV-108 — the live-channel law)
-- `skills/live-spec-base/SKILL.md:634` (ladder)
+- `skills/live-spec-base/SKILL.md:628` (ladder)
 - `skills/live-spec-base/SKILL.md:691` (defaults incl. `budget.pressure` — the economy ladder's setting; the rungs' one home is the SPEC's economy-ladder section)
 - `skills/live-spec-base/SKILL.md:440` (rule 26, INV-136/INV-139 — a project kind declares design principles the verify pass runs; the per-kind table lives in this doc)
 - `skills/live-spec-base/SKILL.md:448` (rule 27, INV-143 — the seat decides what it can decide, surfaces only what it cannot)
@@ -131,11 +131,13 @@ named here and in the matrix.
     - the prototype-norm lens (owner build-pipeline)
 - the discovery-side sibling of the declared-class uniformity lens is the design review (owner design-reviewer)
 
-**pins** —
-- `skills/product-prover/SKILL.md:288` (review modes)
-- `skills/product-prover/SKILL.md:749` (unwritten-seam hunt — the stress-lens family, INV-72)
+**pins** — the prover's mechanics live in a repository this pack does not own. The pack
+cannot promise a line number there, so its pins stand on the tracked adapter instead. The
+adapter is the one place the pack updates when a lens moves in a prover release.
+- `skills/product-prover-pack/SKILL.md:15` (mode names — the review modes the pipeline asks for)
+- `skills/product-prover-pack/SKILL.md:90` (unwritten seams — the stress-lens family, INV-72)
 - `.live-spec/profile.md:6` (gate cadence instance)
-- `skills/product-prover/SKILL.md:384` (restructure-merge gate — INV-114 delta-judging)
+- `skills/product-prover-pack/SKILL.md:60` (restructure-merge gate — INV-114 delta-judging)
 
 ### [node: build-pipeline]
 
