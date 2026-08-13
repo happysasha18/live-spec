@@ -79,12 +79,13 @@ class TestCleanContextReview(unittest.TestCase):
     def test_product_prover_wires_self_application(self):
         # The externalized prover canon states the duty in its own maintainer note; the
         # SPEC INV-237 anchor is a pack fact and lives on the pack adapter's binding.
+        pack = flat("skills/product-prover-pack/SKILL.md")
+        self.assertIn("SPEC INV-237", pack)
+        # The tracked-adapter anchor above holds on a bare checkout; only the canon read below needs the clone.
         external_clone_or_skip()
         pv = flat("skills/product-prover/SKILL.md")
         self.assertIn("adversarial pass over it from a clean context", pv)
         self.assertIn("authored none of that release's changes", pv)
-        pack = flat("skills/product-prover-pack/SKILL.md")
-        self.assertIn("SPEC INV-237", pack)
 
     def test_architecture_owns_the_invariant(self):
         # Exactly one architecture node owns INV-237 (traceability owns every anchor once). Since the

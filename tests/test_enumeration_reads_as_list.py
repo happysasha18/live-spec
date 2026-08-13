@@ -38,10 +38,6 @@ class TestEnumerationReadsAsList(unittest.TestCase):
                       "spec-author's INV-215 rule never speaks of an enumeration")
 
     def test_prover_cognitive_load_lens_reads_the_packed_enumeration(self):
-        external_clone_or_skip()
-        body = read_flat("skills/product-prover/SKILL.md")
-        self.assertIn("cognitive-load", body,
-                      "the prover has no cognitive-load lens to carry the reading-load reading")
         # the INV-215 anchor is a pack fact: the externalized canon carries no project codes,
         # so the pack adapter's pin map binds the code to the cognitive-load lens — on one
         # line, so the reading is anchored on the lens rather than stranded elsewhere.
@@ -52,6 +48,11 @@ class TestEnumerationReadsAsList(unittest.TestCase):
                          if "cognitive-load" in ln and "INV-215" in ln), None)
         self.assertIsNotNone(cog_line,
                              "the adapter's INV-215 line never names the cognitive-load lens")
+        # The tracked-adapter anchors above hold on a bare checkout; only the canon read below needs the clone.
+        external_clone_or_skip()
+        body = read_flat("skills/product-prover/SKILL.md")
+        self.assertIn("cognitive-load", body,
+                      "the prover has no cognitive-load lens to carry the reading-load reading")
 
     def test_spec_states_the_law(self):
         body = read_flat("PRODUCT_SPEC.md")

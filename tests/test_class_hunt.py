@@ -54,15 +54,16 @@ class TestClassHunt(unittest.TestCase):
         self.assertIn("The hunt is four moves:", bp)
 
     def test_prover_carries_the_class_lens(self):
-        external_clone_or_skip()
-        pv = read_all_flat("skills/product-prover/SKILL.md")
-        self.assertIn("Class lens", pv)
         # the SPEC INV-124 tie is a pack anchor: since the v5.0.0 externalization the generic
         # prover canon carries no project codes, and the pack adapter binds the class lens to
         # the confirmed-bug class hunt instead.
         pack = read_flat("skills/product-prover-pack/SKILL.md")
         self.assertIn("the document-side face of the confirmed-bug class hunt", pack)
         self.assertIn("INV-124", pack)
+        # The tracked-adapter anchors above hold on a bare checkout; only the canon read below needs the clone.
+        external_clone_or_skip()
+        pv = read_all_flat("skills/product-prover/SKILL.md")
+        self.assertIn("Class lens", pv)
 
     def test_the_class_lens_owes_a_line_where_it_stands(self):
         """ROADMAP row 611 — the class lens stands in a tier of its own and owes a line.

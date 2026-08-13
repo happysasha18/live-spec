@@ -49,14 +49,15 @@ class TestDeliverySeparabilityLaw(unittest.TestCase):
         self.assertIn("read the finding as the third case", flat)
 
     def test_inv248_prover_carries_the_lens(self):
-        external_clone_or_skip()
-        pp = read_all_flat("skills/product-prover/SKILL.md")
-        self.assertIn("Delivery separability along a declared axis", pp,
-                      "product-prover does not carry the delivery-separability lens")
         # the INV-248 anchor is a pack fact: the pack adapter's pin map carries it (unbracketed,
         # the pin-map row form) against the lens's name.
         pack = read_flat("skills/product-prover-pack/SKILL.md")
         self.assertIn("INV-248", pack)
+        # The tracked-adapter anchor above holds on a bare checkout; only the canon reads below need the clone.
+        external_clone_or_skip()
+        pp = read_all_flat("skills/product-prover/SKILL.md")
+        self.assertIn("Delivery separability along a declared axis", pp,
+                      "product-prover does not carry the delivery-separability lens")
         self.assertIn("unexamined monolith", pp,
                       "the lens does not name the unexamined-monolith finding")
 

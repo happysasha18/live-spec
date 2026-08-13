@@ -67,13 +67,14 @@ def test_d2_finding_kind_names_delta_scoped_exception():
     # prover canon states the same exception in its own generic words, and the pack adapter's
     # pin map carries the INV-114 anchor for the rewrite-gate home.
     spec = _read("PRODUCT_SPEC.md")
-    external_clone_or_skip()
-    prover = " ".join(_read("skills/product-prover/SKILL.md").split())
     assert "a delta-scoped gate meets a pre-existing defect outside the delta" in spec
     assert "queue it by that law rather than block the merge it did not create" in spec
-    assert "Pre-existing findings become tracked follow-ups in the same change and never block" in prover
     pack = _read("skills/product-prover-pack/SKILL.md")
     assert "| INV-114 | How to write findings; Reviewing a rewrite before it merges |" in pack
+    # The tracked-file anchors above hold on a bare checkout; only the canon read below needs the clone.
+    external_clone_or_skip()
+    prover = " ".join(_read("skills/product-prover/SKILL.md").split())
+    assert "Pre-existing findings become tracked follow-ups in the same change and never block" in prover
 
 
 def test_d5_chat_law_hook_carries_reading_discipline():

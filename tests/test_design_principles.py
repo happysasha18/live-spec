@@ -197,14 +197,16 @@ class TestDesignPrinciplesLaw(unittest.TestCase):
         # the deposit asked for the overlap rule as a spec-time prover lens, sibling to the
         # cross-surface and paired-transition lenses; the verify-time design principle is its
         # floor, this lens catches it earlier on the spec (SPEC INV-136)
-        external_clone_or_skip()
-        pv = read_all_flat("skills/product-prover/SKILL.md")
+        #
         # the canon un-hyphenated the lens name; the INV-136 anchor is a pack fact carried by
         # the pack adapter's pin map.
-        self.assertIn("Interactive overlap across layers", pv)
-        self.assertIn("retract the lower layer's controls", pv)
         pack = read_flat("skills/product-prover-pack/SKILL.md")
         self.assertIn("INV-136", pack)
+        # The tracked-adapter anchor above holds on a bare checkout; only the canon read below needs the clone.
+        external_clone_or_skip()
+        pv = read_all_flat("skills/product-prover/SKILL.md")
+        self.assertIn("Interactive overlap across layers", pv)
+        self.assertIn("retract the lower layer's controls", pv)
 
     def test_spec_and_index_home_the_prover_lens(self):
         spec = read_flat("PRODUCT_SPEC.md")

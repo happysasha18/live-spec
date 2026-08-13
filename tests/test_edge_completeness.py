@@ -41,13 +41,14 @@ def test_spec_author_carries_the_facet():
 
 
 def test_prover_carries_the_edge_completeness_lens():
+    # the INV-138 anchor is a pack fact: the pack adapter's pin map carries it against the lens
+    pack = read("skills/product-prover-pack/SKILL.md")
+    assert "INV-138" in pack
+    # The tracked-adapter anchor above holds on a bare checkout; only the canon read below needs the clone.
     external_clone_or_skip()
     pp = _flat("skills/product-prover/SKILL.md")
     assert "Edge-condition completeness" in pp
     assert "both ends of the range" in pp
-    # the INV-138 anchor is a pack fact: the pack adapter's pin map carries it against the lens
-    pack = read("skills/product-prover-pack/SKILL.md")
-    assert "INV-138" in pack
 
 
 def test_matrix_row_covers_edge_completeness():

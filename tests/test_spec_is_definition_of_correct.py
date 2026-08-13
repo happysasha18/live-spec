@@ -30,11 +30,12 @@ def test_prover_carries_the_divergence_pointer():
     # The divergence rule itself lives in the externalized canon (three-source disagreement,
     # closing paragraph); the INV-144 anchor is a pack fact and lives on the pack adapter's
     # pin map. The whole-surface read follows the canon wherever its reference files move.
+    pack = _read("skills/product-prover-pack/SKILL.md")
+    assert "INV-144" in pack
+    # The tracked-adapter anchor above holds on a bare checkout; only the canon read below needs the clone.
     external_clone_or_skip()
     prover = read_all_flat("skills/product-prover/SKILL.md")
     assert "the document is the definition of correct" in prover
-    pack = _read("skills/product-prover-pack/SKILL.md")
-    assert "INV-144" in pack
 
 
 def test_architecture_owns_144():
