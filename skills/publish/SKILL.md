@@ -2,7 +2,7 @@
 name: publish
 description: Use before work leaves the machine publicly — a public repo, README push, release, or shared skill — to check it meets publish quality. It finishes before the human's own publish decision and only prepares it.
 metadata:
-  version: 4.3.0
+  version: 5.0.0
 ---
 
 # publish — the work leaves the machine looking like a product
@@ -10,7 +10,7 @@ metadata:
 > Part of the **live-spec pack** — the shared working rules (ask-never-guess · plain words, anchors trail ·
 > one surface = one name · one home per fact · junior/senior split · checkpoints · the concurrent-edit
 > fence · freshness · journal discipline · attic-never-delete · verify by deed · the human's gates · claims
-> need primary sources · fix the class, sweep look-alikes · the door before code · prototype ≠ product) live ONCE in the pack's base skill, `live-spec-base` (v4.3.0), together with the
+> need primary sources · fix the class, sweep look-alikes · the door before code · prototype ≠ product) live ONCE in the pack's base skill, `live-spec-base` (v5.0.0), together with the
 > settings ladder — this skill references them and elaborates only its own domain. Used standalone, this
 > note is plain advice.
 

@@ -2,13 +2,13 @@
 name: text-audit
 description: Use to check any human-facing text — README, spec, copy, article — for places a first-time reader stops, then repair them.
 metadata:
-  version: 4.3.0
+  version: 5.0.0
 ---
 
 # text-audit — read a text as a stranger, fix where they stop
 
 > Part of the **live-spec pack**. The shared working rules live once in the pack's base skill,
-> `live-spec-base` (v4.3.0), whose file is `skills/live-spec-base/SKILL.md`. Four scopes settle a
+> `live-spec-base` (v5.0.0), whose file is `skills/live-spec-base/SKILL.md`. Four scopes settle a
 > setting there, in this order: the session's live word, then the host profile, then the personal
 > profile, then the package default. This skill points at those rules and covers only its own subject.
 > Used on its own, this skill is plain advice a person applies by hand, and "The by-hand mode" below

@@ -2,7 +2,7 @@
 name: spec-author
 description: Use to start a new product spec, add a feature to an existing spec, or keep a spec in sync with behavior changes. Setting a project up on live-spec comes earlier, at build-pipeline's setup entry. Documenting already-built code after the fact and a prototype sketch that carries no spec stay outside it.
 metadata:
-  version: 4.3.0
+  version: 5.0.0
 ---
 
 # Spec Author
@@ -10,7 +10,7 @@ metadata:
 > Part of the **live-spec pack** — the shared working rules (ask-never-guess · plain words, anchors trail ·
 > one surface = one name · one home per fact · junior/senior split · checkpoints · the concurrent-edit
 > fence · freshness · journal discipline · attic-never-delete · verify by deed · the human's gates · claims
-> need primary sources · fix the class, sweep look-alikes · the door before code · prototype ≠ product) live once in the pack's base skill, `live-spec-base` (v4.3.0), together with the
+> need primary sources · fix the class, sweep look-alikes · the door before code · prototype ≠ product) live once in the pack's base skill, `live-spec-base` (v5.0.0), together with the
 > settings ladder — this skill references them and elaborates only its own domain. That base skill's
 > file is `skills/live-spec-base/SKILL.md`, and it states each of those rules in full. Loaded without
 > it, this page still runs every section below. What it loses is those shared rules and the settings
