@@ -208,6 +208,6 @@ and a gap it missed on your own document is the most valuable report to send.
 
 [MIT](LICENSE) © Alexander Abramovich. The skill is prose, so it pulls in no third-party code and
 carries no dependency of its own. The sample spec is written for this repository and describes no real
-company. This is edition `1.1.0-standalone`: it carries its own version and follows no live-spec
+company. This is edition `1.2.0-standalone`: it carries its own version and follows no live-spec
 release, so the two move on separate clocks. The live-spec source history appended by the mirror
 records provenance. This edition's version stands above.

@@ -2,7 +2,7 @@
 name: product-prover
 description: 'Structured senior-architect review of product documents: PRDs, feature specs, HLDs, LLDs, design proposals, and architecture documents. It reviews them with formal-verification thinking, covering entities, states, transitions, invariants, safety, liveness, atomicity, and composition. Use this skill whenever the user asks to review, critique, stress-test, lint, or find gaps in a spec or design document. It fires as well when they ask "is this spec ready / what did I miss / poke holes in this". It fires on an uploaded product document with a request for feedback, and on the words "Product Prover". A request for feedback counts even where the word "review" goes unsaid. It reads documents, so code and diffs route elsewhere. It finds holes in what a document claims, and the test suite proves what the artifact does. It answers "does the spec hold together as written?"'
 metadata:
-  version: 1.1.0-standalone
+  version: 1.2.0-standalone
 ---
 
 # Product Prover
@@ -760,7 +760,7 @@ The record opens by naming the version of this skill that ran the pass. It also 
 characters of the SHA-256 digest of `SKILL.md` and `reference/stress-lenses.md`, labelled separately.
 A later session then tells whether a "recently reviewed" document used the current lens set or an
 older one. A review method that grew a lens re-arms the full pass over documents reviewed under the
-older set. A release must bump this edition's version whenever either runtime file changes.
+older set.
 
 A full review pass's record carries the mandatory-sweep verdict table beside the findings, in the
 shape Phase 3e states.
@@ -823,5 +823,5 @@ Glossary requests are standalone. Answer them without re-running the review.
 ---
 
 Made with [live-spec](https://github.com/happysasha18/live-spec), the fuller method this skill was
-lifted from. This is edition `1.1.0-standalone`: it carries its own version and follows no live-spec
+lifted from. This is edition `1.2.0-standalone`: it carries its own version and follows no live-spec
 release.
