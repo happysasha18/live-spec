@@ -139,8 +139,17 @@ REFERRER_DIRS="$(reach_class referrer_dirs | tr '\n' ' ')"
 # One home: the suite-hygiene net (tests/test_guardrails.py::TestScopedReachHygiene) reads THIS block
 # [ROADMAP 366].
 ALWAYS_SCOPED=(
-  "tests/test_traceability.py"   # integrity rider — rides every scoped run for suite integrity
-  "tests/test_setup_entry.py"    # enumerating-infra test — globs skills/*/SKILL.md, invisible to by-name discovery
+  "tests/test_traceability.py"      # integrity rider — rides every scoped run for suite integrity
+  "tests/test_setup_entry.py"       # enumerating-infra test — globs skills/*/SKILL.md, invisible to by-name discovery
+  "tests/test_guardrails_unit.py"   # the guardrail unit half: fast, sandbox-free, rides every scoped run
+)
+# SCOPED_EXCLUDED — test files the by-name discovery must NOT pull into a scoped run. One member:
+# the guardrail integration half, whose classes copy the repository, build git sandboxes and run
+# the suite inside the suite. It runs on explicit ask and in the full suite; a scoped run takes the
+# unit half above instead. A changed infra file whose ONLY owning test sits in an excluded file
+# counts as unowned and the diff falls to FULL — the conservative floor keeps its teeth.
+SCOPED_EXCLUDED=(
+  "tests/test_guardrails.py"
 )
 # --- ALWAYS_SCOPED (permanent scoped-run riders) END ---
 
@@ -153,7 +162,14 @@ scoped_has() {
   return 1
 }
 add_scoped() {
+  # returns 1 (and adds nothing) for an excluded file, so a caller counting owners
+  # never counts an excluded owner — the file then falls to FULL if nothing else owns it
+  local ex
+  for ex in "${SCOPED_EXCLUDED[@]:-}"; do
+    [ -n "$ex" ] && [ "$1" = "$ex" ] && return 1
+  done
   scoped_has "$1" || scoped+=("$1")
+  return 0
 }
 
 conservative_full=0
@@ -164,8 +180,11 @@ for f in "${infra_files[@]}"; do
       # test file must never be handed to pytest (a nonexistent path reds collection, a false red);
       # it falls through to by-name discovery and, unowned, to FULL [2.3.0 audit, finding 6].
       if [ -f "$f" ]; then
-        add_scoped "$f"
-        continue
+        if add_scoped "$f"; then
+          continue
+        fi
+        # an excluded test file that itself changed falls through to by-name discovery
+        # and, unowned there, to FULL
       fi
       ;;
   esac
@@ -175,8 +194,9 @@ for f in "${infra_files[@]}"; do
 
   while IFS= read -r t; do
     [ -z "$t" ] && continue
-    add_scoped "$t"
-    owning=1
+    if add_scoped "$t"; then
+      owning=1
+    fi
   done < <(grep -l -F -- "$base" tests/test_*.py 2>/dev/null || true)
 
   while IFS= read -r r; do
@@ -185,8 +205,9 @@ for f in "${infra_files[@]}"; do
     rbase="$(basename "$r")"
     while IFS= read -r t; do
       [ -z "$t" ] && continue
-      add_scoped "$t"
-      owning=1
+      if add_scoped "$t"; then
+        owning=1
+      fi
     done < <(grep -l -F -- "$rbase" tests/test_*.py 2>/dev/null || true)
   done < <(grep -rl -F -- "$base" $REFERRER_DIRS 2>/dev/null || true)
 
@@ -207,7 +228,7 @@ for t in "${ALWAYS_SCOPED[@]:-}"; do
     echo "BLOCK (reach): ALWAYS_SCOPED pins a missing file: $t — fix the pin before pushing." >&2
     exit 1
   fi
-  add_scoped "$t"
+  add_scoped "$t" || true
 done
 
 sorted_scoped="$(printf '%s\n' "${scoped[@]}" | sort -u)"
