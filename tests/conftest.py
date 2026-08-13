@@ -124,14 +124,30 @@ def external_clone_or_skip(name="product-prover"):
     installs; the tracked contract for it lives in skills/product-prover-pack/SKILL.md.
     A test that reads the clone's CONTENT calls this before reading, so a checkout with
     no installed clone skips with the reason instead of crashing on FileNotFoundError.
+
+    In CI the same skip would be permanent and silent: .github/workflows/gates.yml checks
+    out, installs pytest and runs the suite with no step that installs the external skill,
+    so every call here would skip on every run forever and the whole re-pinned prover
+    surface would stop being proven anywhere. A convenience for a developer's bare
+    checkout must not become the CI net's blind spot, so under CI this refuses to skip and
+    says what is unproven. ROADMAP row 624 holds the owner's choice between the two ways
+    to make it green (publish/prove over tracked files alone, or give CI an installer
+    step); either way, until one is taken the debt is visible rather than silent.
     """
     root = os.path.join(ROOT, "skills", name)
     if not os.path.isfile(os.path.join(root, "SKILL.md")):
-        raise unittest.SkipTest(
+        reason = (
             "external clone skills/%s/ not installed (tracked contract: "
             "skills/product-prover-pack/SKILL.md; install: "
             "scripts/install-external-skills.sh)" % name
         )
+        if os.environ.get("CI"):
+            raise AssertionError(
+                "this proof did not run and CI has no other net for it — " + reason +
+                "; give the gates job an installer step or re-home the requirement on a "
+                "tracked file (ROADMAP row 624). A silent permanent skip is not a pass."
+            )
+        raise unittest.SkipTest(reason)
     return root
 
 
