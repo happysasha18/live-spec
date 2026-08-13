@@ -122,8 +122,11 @@ The major number marks two things a host inherits automatically by adopting, and
    that only ratchets down (`scripts/spec-debt-cap.json`), and the compaction freeze
    (`guardrails/check-freeze.sh`, pre-push gate k, which skips itself where no local baseline exists). A
    host's documents can get cleaner from here, never worse — the recurrence-stop for document bloat.
-2. **The method rule (rule 30 in `skills/live-spec-base/SKILL.md` / SPEC INV-164).** A quality a machine can verify is enforced by a
-   gate, held by no pass's attention; compaction runs at every push, above the milestone whole-read.
+2. **The method rule (SPEC INV-164): a quality a machine can verify is enforced by a gate**, held by
+   no pass's attention; compaction runs at every push, above the milestone whole-read. *(2026-08-13
+   note: the numbered rulebook slot that once carried this rule was cut whole on 2026-08-12 and its
+   number stays an open hole; the law itself is gate-held and stands. A host that still carries the
+   numbered rule follows the 5.0.0 chapter.)*
 
 No host file changes, so the catch-up walk records this chapter as done on read.
 
@@ -346,3 +349,24 @@ INV-270), staying dormant and reddening nothing until then. The pack's own conve
 `ARCHITECTURE.md` runs the recipe end to end and records every named delta
 (`prototype/2026-07-23-architecture-format/`). The host repository tlvphotos converts on the owner's word; other hosts follow
 on the same word.
+
+### 5.0.0 — 2026-08-13
+
+**Host action: re-run the catch-up walk.** The 5.0.0 major moves the product-prover canon to its own
+repository; the pack now installs it as an external skill instead of shipping its body. Three steps,
+each safe on a half-done state:
+
+1. Install the external product-prover: run `scripts/install-external-skills.sh`, which clones the
+   canon into the pack checkout's `skills/product-prover/`. Already-done check: that directory exists,
+   carries its own `.git`, and its version meets the floor the adapter states in
+   `skills/product-prover-pack/SKILL.md`. The step needs network; without it the walk stays open on
+   this step under the checkpoint.
+2. Run `./install.sh` to install or refresh the pack-owned skill directories — the
+   `product-prover-pack` adapter arrives this way. The installer skips the external canonical clone.
+   Earlier chapters route a skill refresh through `scripts/sync-skills.sh`; from this release the
+   installer owns the step, because the sync tool predates the external clone and does not yet skip
+   it.
+3. Rule-30 retirement. The base rulebook's rule 30 was cut whole on 2026-08-12; its number stays an
+   open hole, and the law it held is gate-held (SPEC INV-164). A host that adopted 2.0.0 and quotes
+   rule 30 in its own documents re-points those lines to the gate-held law; a host that quotes nothing
+   records this step done on read.

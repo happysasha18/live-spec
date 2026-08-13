@@ -2931,3 +2931,17 @@ reported that two files the installed skill bodies tell a reader to run reach no
 install copies the skill directory alone. Row 617 carries his ask of 23:58 — find the campaign's
 stated goals in the session transcripts with cheap readers, and put every one under watch in the
 plan's status block with the command that measures it.
+
+## 2026-08-13 — the 5.0.0 release gets its owed migration chapter, and the cut rule's pointer is dated
+
+The 5.0.0 major shipped on 2026-08-13 (`be4e4f0`) owing hosts a visible action — the product-prover
+canon moved to its own repository and the pack now installs it as an external skill — and the chapter
+chain still ended at 4.3.0, so the walk could route no host past it. The chain gains the 5.0.0 chapter:
+install the external canon through `scripts/install-external-skills.sh`, refresh the pack-owned skills
+through the ordinary `./install.sh`, and retire rule 30 where a host still carries it. The 2.0.0
+chapter now names the method rule by what it says with the number dropped, and a dated note points a
+rule-30-carrying host at the new chapter.
+
+A new suite row holds the law that let this slip: the current VERSION must own a migration chapter, or
+a changelog line saying the release owes nothing. The row went red against the tree as found and turned
+green with the chapter. Queue row 602 lands with this entry and rotates to the archive.

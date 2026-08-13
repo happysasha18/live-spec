@@ -9,7 +9,7 @@ non-idempotent `git mv` step and no walk at all).
 import os
 import unittest
 
-from conftest import read_flat
+from conftest import read, read_flat
 
 
 class TestCatchupWalk(unittest.TestCase):
@@ -160,6 +160,21 @@ class TestCatchupVersionChain(unittest.TestCase):
         self.assertIn("oldest first", mig)
         spec = read_flat("PRODUCT_SPEC.md")
         self.assertIn("dated migration chapter", spec)
+
+    def test_current_version_owes_a_chapter_or_says_nothing_owed(self):
+        """INV-91: a release owing host action ships a dated MIGRATION chapter; a release owing
+        nothing says so in its changelog. Red-proven 2026-08-13: VERSION read 5.0.0 (the external
+        product-prover major, a host-visible install step) while the chapter chain ended at 4.3.0
+        and the journal carried no owes-nothing line — the chain could route no host past 4.3.0."""
+        version = read_flat("VERSION").strip()
+        mig = read_flat("MIGRATION.md")
+        if f"### {version} " in mig:
+            return
+        journal = read("JOURNAL.md")
+        self.assertTrue(
+            any(version in line and "owes nothing" in line for line in journal.splitlines()),
+            f"VERSION {version} has no MIGRATION chapter and no owes-nothing changelog line",
+        )
 
     def test_versionless_record_starts_at_earliest_chapter(self):
         """The dry-read hole (2026-07-10): an old-format record has no readable version —
