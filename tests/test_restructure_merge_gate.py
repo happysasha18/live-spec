@@ -21,19 +21,30 @@ from conftest import ROOT, external_clone_or_skip, read_flat
 
 
 class TestRestructureMergeGateLaw(unittest.TestCase):
-    HOMES = (
+    """The law's three homes, split by who owns the bytes.
+
+    Two of the three homes are TRACKED files this repository owns; the third is the
+    externalized canon, an untracked clone that a bare checkout does not carry. A single
+    loop over all three had to be guarded by the clone check, and that guard sat at the
+    top — so on a bare checkout (and in CI, which installs no clone) the tracked halves
+    of the law went unasserted along with the external one. The homes are therefore split
+    into two tests apiece: the tracked home runs everywhere, unguarded, and only the canon
+    read stands behind the guard. A bare checkout now reports the tracked assertions as
+    PASSED and the canon assertions as SKIPPED, instead of reporting silence for both.
+    """
+
+    TRACKED_HOMES = (
         "PRODUCT_SPEC.md",
-        "skills/product-prover/SKILL.md",
         "skills/build-pipeline/SKILL.md",
     )
+    EXTERNAL_HOME = "skills/product-prover/SKILL.md"
 
-    def test_merge_gate_judges_the_delta_in_all_homes(self):
-        external_clone_or_skip()
-        for home in self.HOMES:
+    def test_merge_gate_judges_the_delta_in_the_tracked_homes(self):
+        for home in self.TRACKED_HOMES:
             body = read_flat(home)
             self.assertIn("merge gate judges the delta", body, home)
-            # PRODUCT_SPEC.md's R184.1 rewords "delta-scoped" to "scoped to the delta"; the two
-            # skill homes keep the original compact phrasing, so each is checked its own way.
+            # PRODUCT_SPEC.md's R184.1 rewords "delta-scoped" to "scoped to the delta"; the
+            # skill home keeps the original compact phrasing, so each is checked its own way.
             if home == "PRODUCT_SPEC.md":
                 self.assertIn("blocking set is scoped to the delta", body, home)
                 # the old "token-identity part scopes to a content-preserving restructure"
@@ -43,20 +54,24 @@ class TestRestructureMergeGateLaw(unittest.TestCase):
                     "with no token-identity demand over text the redesign meant to change",
                     body, home,
                 )
-            elif home == "skills/product-prover/SKILL.md":
-                # the externalized canon states the same two scopings in its own words
-                self.assertIn("blocking set is scoped to the delta", body, home)
-                self.assertIn(
-                    "The token-identity part applies to a restructure meant to preserve content",
-                    body, home,
-                )
             else:
                 self.assertIn("blocking set is delta-scoped", body, home)
                 self.assertIn("scopes to a content-preserving restructure", body, home)
 
-    def test_preexisting_findings_route_not_block_in_all_homes(self):
+    def test_merge_gate_judges_the_delta_in_the_external_canon(self):
         external_clone_or_skip()
-        for home in self.HOMES:
+        home = self.EXTERNAL_HOME
+        body = read_flat(home)
+        self.assertIn("merge gate judges the delta", body, home)
+        # the externalized canon states the same two scopings in its own words
+        self.assertIn("blocking set is scoped to the delta", body, home)
+        self.assertIn(
+            "The token-identity part applies to a restructure meant to preserve content",
+            body, home,
+        )
+
+    def test_preexisting_findings_route_not_block_in_the_tracked_homes(self):
+        for home in self.TRACKED_HOMES:
             body = read_flat(home)
             if home == "PRODUCT_SPEC.md":
                 # R184.3: "queue rows"/"same landing"/"never block" become singular/"delivery"/
@@ -65,32 +80,27 @@ class TestRestructureMergeGateLaw(unittest.TestCase):
                     "route it to a queue row in the same delivery", body, home
                 )
                 self.assertIn("shall* not block on it", body, home)
-            elif home == "skills/product-prover/SKILL.md":
-                # the canon's generic wording of the same routing law
-                self.assertIn(
-                    "become tracked follow-ups in the same change and never block", body, home
-                )
             else:
                 self.assertIn(
                     "route to queue rows in the same landing and never block", body, home
                 )
 
-    def test_say_the_bar_back_duty_in_all_homes(self):
+    def test_preexisting_findings_route_not_block_in_the_external_canon(self):
         external_clone_or_skip()
-        for home in self.HOMES:
+        home = self.EXTERNAL_HOME
+        # the canon's generic wording of the same routing law
+        self.assertIn(
+            "become tracked follow-ups in the same change and never block",
+            read_flat(home), home,
+        )
+
+    def test_say_the_bar_back_duty_in_the_tracked_homes(self):
+        for home in self.TRACKED_HOMES:
             body = read_flat(home)
             if home == "PRODUCT_SPEC.md":
                 # R184.5: "say"/"mark" (shall-subjunctive) replace "says"/"marks".
                 self.assertIn(
                     "shall* say the sharpened form back and mark it as its own interpretation",
-                    body,
-                    home,
-                )
-            elif home == "skills/product-prover/SKILL.md":
-                # the canon states the same duty imperatively, as the reviewer's own reading
-                self.assertIn(
-                    "state the sharpened form back to them, and mark it as the reviewer's own "
-                    "reading",
                     body,
                     home,
                 )
@@ -100,6 +110,38 @@ class TestRestructureMergeGateLaw(unittest.TestCase):
                     body,
                     home,
                 )
+
+    def test_say_the_bar_back_duty_in_the_external_canon(self):
+        external_clone_or_skip()
+        home = self.EXTERNAL_HOME
+        # the canon states the same duty imperatively, as the reviewer's own reading
+        self.assertIn(
+            "state the sharpened form back to them, and mark it as the reviewer's own reading",
+            read_flat(home), home,
+        )
+
+    def test_the_split_covers_every_home_the_law_has(self):
+        """The split itself is pinned: a home added to the law must land on one side.
+
+        The defect this file was repaired for was a tracked home hiding behind an external
+        guard. A future edit that adds a home to only one tuple, or drops one, would rebuild
+        that hole quietly, so the union is asserted against the law's own roster.
+        """
+        self.assertEqual(
+            set(self.TRACKED_HOMES) | {self.EXTERNAL_HOME},
+            {
+                "PRODUCT_SPEC.md",
+                "skills/build-pipeline/SKILL.md",
+                "skills/product-prover/SKILL.md",
+            },
+        )
+        self.assertNotIn(self.EXTERNAL_HOME, self.TRACKED_HOMES)
+        for home in self.TRACKED_HOMES:
+            self.assertTrue(
+                os.path.isfile(os.path.join(ROOT, home)),
+                "%s is listed as tracked but is not on disk — a tracked home must be "
+                "readable on a bare checkout" % home,
+            )
 
     def test_spec_anchor_and_index(self):
         spec = read_flat("PRODUCT_SPEC.md")
