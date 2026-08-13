@@ -87,9 +87,11 @@ class TestMirrorSyncGuard(unittest.TestCase):
         self.assertIsNotNone(guard, "sync-mirrors carries no product-prover skip guard")
         self.assertIn("SKIPPED", guard.group(1), "the guard skips without saying so")
 
-
-if __name__ == "__main__":
-    unittest.main()
+def _rows_cited_but_absent(message):
+    """Queue rows a message names that ROADMAP.md does not carry, in citation order."""
+    roadmap = (ROOT / "ROADMAP.md").read_text(encoding="utf-8")
+    cited = re.findall(r"\brows? (\d+)", message)
+    return [n for n in cited if not re.search(r"^\| %s \|" % n, roadmap, re.M)]
 
 
 class TestTheCloneSkipStaysVisibleInCI(unittest.TestCase):
@@ -101,8 +103,9 @@ class TestTheCloneSkipStaysVisibleInCI(unittest.TestCase):
     checks out, installs pytest and runs the suite with NO step that installs the external
     skill, so in CI that same condition holds on every run forever: the guard would convert
     a loud crash into a quiet "skipped" and the whole re-pinned surface would be proven
-    nowhere. Under CI the guard therefore fails and names the debt. ROADMAP row 624 holds
-    the owner's choice of remedy; this pins the behavior meanwhile.
+    nowhere. Under CI the guard therefore fails and names the debt, and names both remedies
+    (an installer step in the gates job, or re-homing the requirement on a tracked file)
+    without choosing between them — that fork is the owner's. This pins the behavior meanwhile.
     """
 
     def _call_with_ci(self, value):
@@ -140,9 +143,21 @@ class TestTheCloneSkipStaysVisibleInCI(unittest.TestCase):
         except AssertionError as failed:
             message = str(failed)
             self.assertIn("did not run", message)
-            self.assertIn("row 624", message, "the failure must name where the remedy is held")
             self.assertIn(
                 "install-external-skills.sh", message, "and how to make the proof run"
+            )
+            # Name both remedies, choose neither: the fork is the owner's.
+            self.assertIn("installer step", message)
+            self.assertIn("re-homing the requirement", message)
+            # A failure message that cites a queue row this tree does not carry sends the
+            # operator nowhere. The first draft of this guard cited row 624, which lives
+            # only on an unmerged branch; the adversarial read caught it, and this pin is
+            # what would have caught it first. The rule is checked against the real message
+            # AND against a synthetic one, so it can never pass merely by citing no row.
+            self.assertEqual([], _rows_cited_but_absent(message))
+            self.assertEqual(
+                ["999999"], _rows_cited_but_absent("see ROADMAP row 999999 for the remedy"),
+                "the dangling-row rule must actually catch a row ROADMAP.md does not carry",
             )
         else:
             self.fail("under CI the guard returned a root for a clone that does not exist")
@@ -156,5 +171,9 @@ class TestTheCloneSkipStaysVisibleInCI(unittest.TestCase):
         self.assertNotIn(
             "install-external-skills", workflow,
             "CI now installs the external clone: re-read the guard in tests/conftest.py, "
-            "the CI arm may have become dead code (ROADMAP row 624)",
+            "the CI arm may have become dead code",
         )
+
+
+if __name__ == "__main__":
+    unittest.main()

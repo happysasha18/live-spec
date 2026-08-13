@@ -130,9 +130,15 @@ def external_clone_or_skip(name="product-prover"):
     so every call here would skip on every run forever and the whole re-pinned prover
     surface would stop being proven anywhere. A convenience for a developer's bare
     checkout must not become the CI net's blind spot, so under CI this refuses to skip and
-    says what is unproven. ROADMAP row 624 holds the owner's choice between the two ways
-    to make it green (publish/prove over tracked files alone, or give CI an installer
-    step); either way, until one is taken the debt is visible rather than silent.
+    says what is unproven.
+
+    Two remedies close it, and the failure names both rather than choosing: give the gates
+    job the installer step, or re-home the requirement on a file this repo tracks. The same
+    fork was reached from the other side by the adversarial read on branch
+    `prover-decoupling-emergency-2026-08-13` (its `docs/prover/2026-08-13-push-range-4.md`,
+    finding 4, and the ROADMAP row it opened there) — that branch's disposition is the
+    owner's, so this names the remedies in full instead of pointing at a row number no
+    branch here carries.
     """
     root = os.path.join(ROOT, "skills", name)
     if not os.path.isfile(os.path.join(root, "SKILL.md")):
@@ -144,8 +150,8 @@ def external_clone_or_skip(name="product-prover"):
         if os.environ.get("CI"):
             raise AssertionError(
                 "this proof did not run and CI has no other net for it — " + reason +
-                "; give the gates job an installer step or re-home the requirement on a "
-                "tracked file (ROADMAP row 624). A silent permanent skip is not a pass."
+                "; close it by giving the gates job an installer step, or by re-homing the "
+                "requirement on a file this repo tracks. A silent permanent skip is not a pass."
             )
         raise unittest.SkipTest(reason)
     return root
