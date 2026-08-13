@@ -31,7 +31,10 @@ def test_spec_scopes_the_stand_down():
 def test_prover_skill_asks_the_question_at_intake():
     skill = read("skills/product-prover/SKILL.md")
     assert "second member of a kind an existing surface already has" in skill
-    assert "INV-169" in skill
+    # the INV-169 anchor is a pack fact: the externalized canon carries no project codes,
+    # so the pack adapter's pin map binds the code to the second-sibling question.
+    pack = read("skills/product-prover-pack/SKILL.md")
+    assert "INV-169" in pack
 
 
 def test_design_reviewer_carries_the_exception():

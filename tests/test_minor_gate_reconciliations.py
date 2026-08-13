@@ -61,13 +61,16 @@ def test_d1_reading_discipline_composes_with_brief_read():
 
 def test_d2_finding_kind_names_delta_scoped_exception():
     # D2: INV-140's "every defect blocks" carves out the delta-scoped gate (INV-114). The spec's
-    # requirements-format rewrite restated this as a *when*/*shall* criterion; the prover skill
-    # keeps its original phrasing untouched.
+    # requirements-format rewrite restated this as a *when*/*shall* criterion; the externalized
+    # prover canon states the same exception in its own generic words, and the pack adapter's
+    # pin map carries the INV-114 anchor for the rewrite-gate home.
     spec = _read("PRODUCT_SPEC.md")
-    prover = _read("skills/product-prover/SKILL.md")
+    prover = " ".join(_read("skills/product-prover/SKILL.md").split())
     assert "a delta-scoped gate meets a pre-existing defect outside the delta" in spec
     assert "queue it by that law rather than block the merge it did not create" in spec
-    assert "at a delta-scoped gate [INV-114] a pre-existing defect outside the delta queues" in prover
+    assert "Pre-existing findings become tracked follow-ups in the same change and never block" in prover
+    pack = _read("skills/product-prover-pack/SKILL.md")
+    assert "| INV-114 | How to write findings; Reviewing a rewrite before it merges |" in pack
 
 
 def test_d5_chat_law_hook_carries_reading_discipline():

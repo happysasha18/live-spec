@@ -8,6 +8,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 SKILL = ROOT / "skills" / "product-prover" / "SKILL.md"
+LENSES = ROOT / "skills" / "product-prover" / "reference" / "stress-lenses.md"
+PACK = ROOT / "skills" / "product-prover-pack" / "SKILL.md"
 GATE = ROOT / "guardrails" / "check-prover-record.sh"
 
 
@@ -34,9 +36,14 @@ def test_boundary_homed_in_when_not_to_use():
     start = s.index("## Work that belongs elsewhere")
     end = s.index("## ", start + 5)
     section = s[start:end]
-    assert "design-reviewer's own pass [INV-141]" in section, \
+    # the externalized canon states the boundary generically; the sibling pass's name and
+    # the INV-141 anchor are pack facts, bound to this section by the pack adapter's pin map.
+    assert "belongs to a design-consistency review" in section, \
         "the prover/design-reviewer boundary left its one home"
     assert "This pass verifies the document." in section
+    pack = PACK.read_text(encoding="utf-8")
+    assert "| INV-141 | Work that belongs elsewhere" in pack, \
+        "the pack adapter stopped pinning INV-141 to the boundary section"
 
 
 def test_kind_block_stays_general_split_lives_in_lens():
@@ -61,12 +68,14 @@ def _gate_repair_lines():
 def test_the_record_path_the_skill_prescribes_is_the_one_the_gate_demands():
     """Row 608: the skill sent an author to `docs/prover/YYYY-MM-DD.md` while the gate's
     own repair line named the slug form, so an author who obeyed the skill was refused.
-    This pins the two together — either side drifting turns this red."""
-    s = _skill()
-    assert "docs/prover/YYYY-MM-DD-<slug>.md" in s, \
-        "the prover's persist line stopped naming the slug form the gate demands"
-    assert "docs/prover/YYYY-MM-DD.md" not in s, \
-        "the bare-date form the gate refuses is back in the prover's persist line"
+    This pins the two together — either side drifting turns this red. Since the v5.0.0
+    externalization the pack-specific record path lives on the tracked adapter (its persist
+    sentence names the directory and the slug form in two backtick spans)."""
+    pack = PACK.read_text(encoding="utf-8")
+    assert "`docs/prover/`" in pack and "`YYYY-MM-DD-<slug>.md`" in pack, \
+        "the pack's persist line stopped naming the slug form the gate demands"
+    assert "YYYY-MM-DD.md" not in pack, \
+        "the bare-date form the gate refuses is back in the pack's persist line"
     repairs = _gate_repair_lines()
     assert repairs, "check-prover-record.sh prints no repair line naming its record directory"
     assert any("$TODAY-<slug>.md" in line for line in repairs), \

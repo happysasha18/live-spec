@@ -39,15 +39,18 @@ class TestEnumerationReadsAsList(unittest.TestCase):
 
     def test_prover_cognitive_load_lens_reads_the_packed_enumeration(self):
         body = read_flat("skills/product-prover/SKILL.md")
-        self.assertIn("INV-215", body,
-                      "the prover names no INV-215 reading of a packed enumeration")
         self.assertIn("cognitive-load", body,
                       "the prover has no cognitive-load lens to carry the reading-load reading")
-        # the reading is anchored on the cognitive-load lens line, not stranded elsewhere
-        cog_line = next((ln for ln in read("skills/product-prover/SKILL.md").splitlines()
+        # the INV-215 anchor is a pack fact: the externalized canon carries no project codes,
+        # so the pack adapter's pin map binds the code to the cognitive-load lens — on one
+        # line, so the reading is anchored on the lens rather than stranded elsewhere.
+        pack = read_flat("skills/product-prover-pack/SKILL.md")
+        self.assertIn("INV-215", pack,
+                      "the pack adapter names no INV-215 binding for the packed-enumeration reading")
+        cog_line = next((ln for ln in read("skills/product-prover-pack/SKILL.md").splitlines()
                          if "cognitive-load" in ln and "INV-215" in ln), None)
         self.assertIsNotNone(cog_line,
-                             "the cognitive-load lens line never names the INV-215 reading-load reading")
+                             "the adapter's INV-215 line never names the cognitive-load lens")
 
     def test_spec_states_the_law(self):
         body = read_flat("PRODUCT_SPEC.md")

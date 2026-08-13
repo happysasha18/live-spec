@@ -86,15 +86,19 @@ def _skill_surface(rel):
 
     A skill may offload set-piece material (large tables, worked examples) from its
     SKILL.md into a sibling references/ directory to stay within the length budget —
-    build-pipeline does. A content-presence check reads the skill as ONE home, so its
-    surface is SKILL.md plus its references/*.md: the anchor is found wherever inside
-    the skill it lives. A size check keeps reading SKILL.md alone via read(), because
-    the body-thinness ideal is about the SKILL.md body itself.
+    build-pipeline does, and the external product-prover clone uses the singular
+    reference/ for the same offload. A content-presence check reads the skill as ONE
+    home, so its surface is SKILL.md plus its reference(s)/*.md: the anchor is found
+    wherever inside the skill it lives. A size check keeps reading SKILL.md alone via
+    read(), because the body-thinness ideal is about the SKILL.md body itself.
     """
     m = re.match(r"(skills/[^/]+)/SKILL\.md$", rel)
     if not m:
         return [rel]
-    refs = sorted(glob.glob(os.path.join(ROOT, m.group(1), "references", "*.md")))
+    refs = sorted(
+        glob.glob(os.path.join(ROOT, m.group(1), "references", "*.md"))
+        + glob.glob(os.path.join(ROOT, m.group(1), "reference", "*.md"))
+    )
     return [rel] + [os.path.relpath(p, ROOT) for p in refs]
 
 

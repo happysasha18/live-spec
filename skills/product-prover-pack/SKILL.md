@@ -57,16 +57,21 @@ release, this table is the one place the pack updates.
 
 | Requirement | Prover home |
 | ----------- | ----------- |
-| INV-114 | How to write findings |
+| INV-114 | How to write findings; Reviewing a rewrite before it merges |
 | INV-141 | Work that belongs elsewhere; Cross-surface policy uniformity |
 | INV-30, INV-31, INV-72, INV-138 | Edge-condition completeness |
 | INV-125 | Cross-surface policy uniformity |
 | INV-126, INV-127, INV-165, INV-167 | Lifecycle |
-| INV-72 | Unwritten seams; Interactive-overlap across layers; Edge-condition completeness |
-| INV-136 | Interactive-overlap across layers |
-| INV-128 | Three-source disagreement |
+| INV-72 | Unwritten seams; Interactive overlap across layers; Edge-condition completeness |
+| INV-136 | Interactive overlap across layers |
+| INV-128, INV-144 | Three-source disagreement |
 | INV-49 | False-serialization and over-broad independence edge |
 | INV-244, INV-248 | Delivery separability along a declared axis |
+| INV-101 | Declared cross-cutting laws |
+| INV-169 | The second-sibling question (feature-fit review) |
+| INV-170 | The quantifier re-verify (new-surface review) |
+| INV-215 | The cognitive-load lens, its reading-load reading |
+| INV-233 | The node-growth re-ask (architecture lens) |
 
 ## Version discipline
 
@@ -90,10 +95,11 @@ review run inside a live-spec project.
   finding, and a written one-way counts as an answer.
 - **Domain language on every user-facing surface.** The review holds every user-facing string to one
   bar: read them as the user would; a leaked internal word is a finding.
-- **The architecture lens, six items.** Beside spec-fact ownership and named seams, the review checks
+- **The architecture lens, seven items.** Beside spec-fact ownership and named seams, the review checks
   that the quality budgets are stated with their instrumentation homes and watchers — each names its
-  watcher — that the runtime view walks every promised flow, and that the placement view says where
-  every node runs.
+  watcher — that the runtime view walks every promised flow, that the placement view says where
+  every node runs, and that each grown node re-answers its fitness questions (the node-growth
+  re-ask).
 - **Unbacked surfaces and unlabelled sketches.** A surface no requirement backs, or a sketch shown
   without its label, is a finding; the stress families of questions in the prover's own reference run
   over each.
@@ -103,3 +109,12 @@ review run inside a live-spec project.
   to; a plan contradicting its own artifact is a finding.
 - **The record names its reviewer.** Every record closes naming the prover skill version it ran under,
   so a spec proven under an old lens set never keeps a silent green.
+- **The class lens (SPEC INV-124).** The prover's class lens is the document-side face of the
+  confirmed-bug class hunt: the three questions it asks on a filed defect are how the hunt reaches
+  the document, and its class line lands in the record beside the other verdicts.
+- **Member of the review-record class (SPEC INV-156).** The record a review writes under
+  `docs/prover/` is one member of the review-record class the pack's spec declares once — the shared
+  dated-file shape every review pass in this pack writes.
+- **Clean-context release review (SPEC INV-237).** A release of this pack runs its adversarial pass
+  from a fresh, differently-contexted seat that authored none of the release's changes, and a newly
+  grown lens or rule is self-applied to its own introducing document before release.

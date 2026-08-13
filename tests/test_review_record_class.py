@@ -61,10 +61,12 @@ class TestReviewRecordClass(unittest.TestCase):
 
     def test_formal_index_and_ownership(self):
         self.assertIn("| INV-156 |", self.spec, "INV-156 has no Formal-index row")
-        # the class is declared once; the two pack-owned record skills point at it, never restate it
-        pp = read_flat("skills/product-prover/SKILL.md")
+        # the class is declared once; the pack-side record carriers point at it, never restate it.
+        # Since the v5.0.0 externalization the prover's pack-facing pointer lives on the tracked
+        # adapter, not on the generic external canon.
+        pp = read_flat("skills/product-prover-pack/SKILL.md")
         dr = read_flat("skills/design-reviewer/SKILL.md")
-        for body, who in ((pp, "product-prover"), (dr, "design-reviewer")):
+        for body, who in ((pp, "product-prover-pack"), (dr, "design-reviewer")):
             self.assertIn("review-record class", body, "%s does not point at the class" % who)
             self.assertIn("INV-156", body, "%s does not cite INV-156" % who)
 

@@ -29,7 +29,10 @@ def test_spec_names_the_staleness_vector():
 def test_prover_skill_crosslink_carries_the_step():
     skill = read("skills/product-prover/SKILL.md")
     assert "quantifier re-verify" in skill
-    assert "INV-170" in skill
+    # the INV-170 anchor is a pack fact: the externalized canon carries no project codes,
+    # so the pack adapter's pin map binds the code to the quantifier re-verify.
+    pack = read("skills/product-prover-pack/SKILL.md")
+    assert "INV-170" in pack
 
 
 def test_index_row_present():

@@ -75,9 +75,13 @@ class TestCleanContextReview(unittest.TestCase):
         self.assertIn("authored by a fresh seat, never the seat that authored the change", bp)
 
     def test_product_prover_wires_self_application(self):
+        # The externalized prover canon states the duty in its own maintainer note; the
+        # SPEC INV-237 anchor is a pack fact and lives on the pack adapter's binding.
         pv = flat("skills/product-prover/SKILL.md")
-        self.assertIn("A release's adversarial pass runs from a clean context", pv)
-        self.assertIn("SPEC INV-237", pv)
+        self.assertIn("adversarial pass over it from a clean context", pv)
+        self.assertIn("authored none of that release's changes", pv)
+        pack = flat("skills/product-prover-pack/SKILL.md")
+        self.assertIn("SPEC INV-237", pack)
 
     def test_architecture_owns_the_invariant(self):
         # Exactly one architecture node owns INV-237 (traceability owns every anchor once). Since the

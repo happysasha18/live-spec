@@ -158,10 +158,14 @@ class TestNodeGrowthMechanism(unittest.TestCase):
 
 class TestNodeGrowthReviewDuties(unittest.TestCase):
     def test_product_prover_carries_the_seventh_lens(self):
-        """The prover's architecture lens grows a seventh check — the node-growth re-ask (INV-233)."""
+        """The prover's architecture lens grows a seventh check — the node-growth re-ask (INV-233).
+
+        The externalized canon describes the check in words with no project codes; the pack
+        adapter's pin map carries the INV-233 anchor for it."""
+        pack = read("skills/product-prover-pack/SKILL.md")
+        self.assertIn("INV-233", pack,
+                      "the pack adapter must pin INV-233 to the node-growth re-ask")
         prover = read("skills/product-prover/SKILL.md")
-        self.assertIn("INV-233", prover,
-                      "product-prover must state the seventh architecture lens (the node-growth re-ask)")
         self.assertRegex(prover.lower(), r"node[- ]growth|co-residen|re-ask",
                          "the seventh lens must be described in words, not only cited")
 
