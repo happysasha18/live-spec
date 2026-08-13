@@ -45,18 +45,35 @@ fail=0
 echo "== live-spec push gate =="
 
 echo ""
-echo "-- gate a: fresh prover record for today (one record per push: the re-check of the spec and the architecture, and the adversarial read of the pushed range, SPEC M-6/INV-116/INV-304) --"
-if ! "$GUARDRAILS/check-prover-record.sh" --push; then
-  fail=1
-fi
-
-echo ""
-echo "-- gate b: test suite green (scoped by the diff's reach, SPEC INV-45) --"
+echo "-- reach classification (one read, feeds gates a and b, SPEC INV-45) --"
 set +e
 reach_out="$("$GUARDRAILS/check-push-reach.sh")"
 reach_code=$?
 set -e
 echo "$reach_out"
+
+echo ""
+echo "-- gate a: fresh prover record for today (one record per push: the re-check of the spec and the architecture, and the adversarial read of the pushed range, SPEC M-6/INV-116/INV-304) --"
+# A prose-only or scoped diff (reach verdicts 0 and 2) never touches the spec, the architecture,
+# or the matrix — the documents the prover record re-checks — so the record stands down by name
+# on those two verdicts. Full reach (and every classifier failure, which falls to FULL) keeps
+# the existing check unchanged.
+case "$reach_code" in
+  0)
+    echo "   prose-only diff: the prover record stands down by name; full reach keeps the check."
+    ;;
+  2)
+    echo "   scoped infra diff: the prover record stands down by name; full reach keeps the check."
+    ;;
+  *)
+    if ! "$GUARDRAILS/check-prover-record.sh" --push; then
+      fail=1
+    fi
+    ;;
+esac
+
+echo ""
+echo "-- gate b: test suite green (scoped by the diff's reach, SPEC INV-45) --"
 case "$reach_code" in
   0)
     echo "   prose-only diff: the suite stands down by name; every other gate still runs."

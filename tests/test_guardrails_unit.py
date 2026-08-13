@@ -115,6 +115,38 @@ class TestPrePush(unittest.TestCase):
             self.assertIn(script, body, "pre-push no longer wires in %s" % script)
         self.assertIn("gate c", body.lower())
 
+    def test_reach_classified_once_before_gate_a(self):
+        # P2-lite: the reach classifier runs exactly once, ahead of gate a, and both
+        # gates a and b read that one verdict — never a second classifier run.
+        with open(os.path.join(GUARDRAILS, "pre-push"), encoding="utf-8") as f:
+            body = f.read()
+        call = '"$GUARDRAILS/check-push-reach.sh"'
+        self.assertEqual(body.count(call), 1,
+                         "the reach classifier must be invoked exactly once")
+        self.assertLess(body.index(call), body.index("-- gate a"),
+                        "the reach verdict must exist before gate a reads it")
+
+    def test_gate_a_stands_down_on_prose_and_scoped_reach(self):
+        # P2-lite: gate a (the fresh prover record) stands down by name on the
+        # prose-only (0) and scoped (2) reach verdicts; every other verdict —
+        # full reach and each classifier failure — keeps the existing check.
+        with open(os.path.join(GUARDRAILS, "pre-push"), encoding="utf-8") as f:
+            body = f.read()
+        gate_a = body[body.index("-- gate a"):body.index("-- gate b")]
+        self.assertIn('case "$reach_code" in', gate_a,
+                      "gate a must branch on the reach verdict")
+        for verdict in ("0)", "2)"):
+            self.assertIn(verdict, gate_a,
+                          "gate a must name reach verdict %s as a stand-down" % verdict)
+        self.assertRegex(
+            gate_a, r'\*\)\s*\n\s*if ! "\$GUARDRAILS/check-prover-record\.sh" --push',
+            "the default (full-reach) arm must keep the prover-record check")
+        for arm in ("0)", "2)"):
+            arm_body = gate_a[gate_a.index(arm):]
+            arm_body = arm_body[:arm_body.index(";;")]
+            self.assertNotIn("check-prover-record.sh", arm_body,
+                             "the %s stand-down arm must not run the prover-record check" % arm)
+
 
 class TestGateF_SkillLoadability(unittest.TestCase):
     """Gate (f): every shipped skill LOADS — frontmatter parses, name matches its
