@@ -321,6 +321,28 @@ class TestSkillCopyArm(unittest.TestCase):
             r = run_check(tmp, env_extra={"HOME": home})
             self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
 
+    def test_ignores_external_clone_skill(self):
+        # ext-clone carries its own .git — the external canonical clone the installer fetches
+        # (scripts/install-external-skills.sh owns its installed copy, not the sync). The arm
+        # must not red "installed skill missing"/"drifted" for it, or it names sync-skills.sh
+        # as the fix and the sync re-copies the clone's .git forever (the churn loop, 2026-08-13).
+        with tempfile.TemporaryDirectory() as tmp:
+            body = "same\n"
+            home = self._repo_with_skills(
+                tmp,
+                pack_skills={
+                    "foo": {"SKILL.md": body},
+                    "ext-clone": {"SKILL.md": "external canon\n",
+                                  ".git/HEAD": "ref: refs/heads/main\n"},
+                },
+                installed_skills={"foo": {"SKILL.md": body}})
+            r = run_check(tmp, env_extra={"HOME": home})
+            self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+            for line in r.stdout.splitlines():
+                if "error" in line:
+                    self.assertNotIn("ext-clone", line,
+                                     "external clone red by the skill arm: %s" % line)
+
     def test_ci_skips_skill_arm(self):
         with tempfile.TemporaryDirectory() as tmp:
             home = self._repo_with_skills(

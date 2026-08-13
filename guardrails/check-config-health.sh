@@ -103,6 +103,13 @@ if [ -d "$SKILL_SRC_DIR" ]; then
   for src_skill in "$SKILL_SRC_DIR"/*/; do
     [ -d "$src_skill" ] || continue
     sname="$(basename "$src_skill")"
+    # External-skill fence (shared policy; siblings: install.sh, scripts/sync-skills.sh,
+    # scripts/sync-mirrors.sh): a skill dir holding its own .git is the external canonical clone —
+    # scripts/install-external-skills.sh owns its installed copy, not the sync; INV-243 holds
+    # pack-owned skills only.
+    if [ -e "$src_skill/.git" ]; then
+      continue
+    fi
     inst_skill="$HOME/.claude/skills/$sname"
     if [ ! -d "$inst_skill" ]; then
       echo "{\"severity\":\"error\",\"code\":\"config-health\",\"message\":\"installed skill missing: ~/.claude/skills/$sname (source exists, install missing)\",\"fix\":\"run scripts/sync-skills.sh\"}"

@@ -364,8 +364,7 @@ each safe on a half-done state:
 2. Run `./install.sh` to install or refresh the pack-owned skill directories — the
    `product-prover-pack` adapter arrives this way. The installer skips the external canonical clone.
    Earlier chapters route a skill refresh through `scripts/sync-skills.sh`; from this release the
-   installer owns the step, because the sync tool predates the external clone and does not yet skip
-   it.
+   installer owns the step. The sync tool skips the external clone too, as of 2026-08-13.
 3. Rule-30 retirement. The base rulebook's rule 30 was cut whole on 2026-08-12; its number stays an
    open hole, and the law it held is gate-held (SPEC INV-164). A host that adopted 2.0.0 and quotes
    rule 30 in its own documents re-points those lines to the gate-held law; a host that quotes nothing

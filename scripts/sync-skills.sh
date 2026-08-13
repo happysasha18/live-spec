@@ -20,6 +20,12 @@ version_of() {
 changed=0
 for skill_dir in "$REPO_SKILLS"/*/; do
   name="$(basename "$skill_dir")"
+  # External-skill fence — the shared policy install.sh and scripts/sync-mirrors.sh already carry:
+  # a skill dir holding its own .git is the external canonical clone; never copy it (or its .git).
+  if [ -e "$skill_dir/.git" ]; then
+    echo "  $name — SKIPPED (external skill's canonical clone; scripts/install-external-skills.sh owns it)"
+    continue
+  fi
   src_v="$(version_of "$skill_dir/SKILL.md")"
   dst_v="$(version_of "$DEST/$name/SKILL.md")"
   # Skip only when the installed tree is byte-identical to the source — the SAME whole-tree compare

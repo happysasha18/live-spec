@@ -1654,6 +1654,47 @@ class TestSkillSync(unittest.TestCase):
             self.assertEqual(r2.returncode, 0, r2.stderr)
             self.assertIn("everything fresh", r2.stdout, "second run must be a no-op that says so")
 
+    def test_sync_skills_fences_external_clone(self):
+        # The external-skill fence install.sh carries (skip a skill dir holding its own .git —
+        # the external canonical clone; scripts/install-external-skills.sh owns it) must hold in
+        # the dev-machine sync too, or the sync copies the clone's whole .git/ into the installed
+        # dir and the config-health skill arm reds forever (the churn loop, 2026-08-13). Hermetic:
+        # a bare checkout carries no external clone, so the test builds its own fake repo layout —
+        # the script finds its skills dir from its own location ($(dirname $0)/../skills).
+        import subprocess
+        import tempfile
+        with tempfile.TemporaryDirectory() as tmp:
+            scripts_dir = os.path.join(tmp, "scripts")
+            os.makedirs(scripts_dir)
+            with open(os.path.join(ROOT, "scripts", "sync-skills.sh"), "rb") as f:
+                body = f.read()
+            script = os.path.join(scripts_dir, "sync-skills.sh")
+            with open(script, "wb") as f:
+                f.write(body)
+            plain = os.path.join(tmp, "skills", "plain-skill")
+            os.makedirs(plain)
+            with open(os.path.join(plain, "SKILL.md"), "w") as f:
+                f.write("---\nmetadata:\n  version: 1.2.3\n---\nbody\n")
+            ext = os.path.join(tmp, "skills", "ext-clone")
+            os.makedirs(os.path.join(ext, ".git"))
+            with open(os.path.join(ext, "SKILL.md"), "w") as f:
+                f.write("---\nmetadata:\n  version: 9.9.9\n---\nexternal canon\n")
+            with open(os.path.join(ext, ".git", "HEAD"), "w") as f:
+                f.write("ref: refs/heads/main\n")
+            dest = os.path.join(tmp, "dest")
+            r = subprocess.run(["bash", script, dest], capture_output=True, text=True)
+            self.assertEqual(r.returncode, 0, r.stderr)
+            self.assertTrue(os.path.isfile(os.path.join(dest, "plain-skill", "SKILL.md")),
+                            "pack-owned skill not synced")
+            self.assertFalse(os.path.exists(os.path.join(dest, "ext-clone")),
+                             "external clone copied into the installed dir — the fence is gone")
+            self.assertFalse(os.path.exists(os.path.join(dest, "ext-clone", ".git")),
+                             "external clone's .git landed in the installed dir")
+            self.assertIn("SKIPPED", r.stdout,
+                          "the fence must speak, not skip silently")
+            self.assertIn("install-external-skills.sh", r.stdout,
+                          "the SKIPPED line must name the owner of the external clone")
+
     def test_spec_states_skill_sync(self):
         spec = re.sub(r"\s+", " ", read("PRODUCT_SPEC.md"))
         for phrase in ("keeps its installed skills fresh by a named step",
