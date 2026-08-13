@@ -12,6 +12,7 @@ names the count has been brought along.
 """
 import os
 import re
+import tempfile
 import unittest
 
 from conftest import ROOT
@@ -50,12 +51,73 @@ def plain(text):
     return _LINK.sub(r"\1", text)
 
 
-def working_skill_count():
-    """How many working skills stand on disk: every folder under skills/ except the rulebook."""
-    names = [n for n in os.listdir(SKILLS_DIR)
-             if os.path.isdir(os.path.join(SKILLS_DIR, n)) and not n.startswith(".")]
+# An adapter page declares the external skill it stands in for on its metadata `requires:`
+# line — the same tracked sentence tests/test_traceability.py's external_skill_roots() and
+# scripts/install-external-skills.sh both read. That roster is the AUTHORITY here, because it
+# is tracked: it reads the same on a bare checkout, on a developer's machine with the clone
+# installed, and in CI. The structural `.git` probe below is the second net, for a checkout
+# nobody declared.
+_REQUIRES = re.compile(r"^\s*requires:\s*([\w-]+)\s*>=\s*[\d.]+\s*\(([^()\s]+)\)", re.M)
+
+
+def declared_external_skills(skills_dir=SKILLS_DIR):
+    """Every external skill name the pack's tracked adapter pages declare."""
+    names = set()
+    if not os.path.isdir(skills_dir):
+        return names
+    for name in sorted(os.listdir(skills_dir)):
+        page = os.path.join(skills_dir, name, "SKILL.md")
+        if not os.path.isfile(page):
+            continue
+        with open(page, encoding="utf-8") as fh:
+            found = _REQUIRES.search(fh.read(4000))
+        if found:
+            names.add(found.group(1))
+    return names
+
+
+def is_external_skill(skills_dir, name):
+    """Is this folder another repository, installed here rather than shipped by the pack?
+
+    The same structural probe install.sh, scripts/sync-skills.sh and scripts/stamp-versions.py
+    already use: a skill folder carrying its own `.git` is an EXTERNAL skill that some
+    installer put here — product-prover today — and belongs to a repository this one does
+    not own. `os.path.exists` rather than `isdir`, because a worktree checkout writes `.git`
+    as a FILE, and install.sh's `[ -e ... ]` covers both spellings for the same reason.
+
+    The probe is structural, not a name list, so it holds for the next external skill as
+    well as this one and cannot be fooled by a rename.
+    """
+    return os.path.exists(os.path.join(skills_dir, name, ".git"))
+
+
+def working_skill_count(skills_dir=SKILLS_DIR):
+    """How many working skills stand on disk: every folder under skills/ except the rulebook.
+
+    And except any external skill installed into the same folder. The count answers "how
+    many skills does this pack hold", so a clone of another repository sitting under
+    skills/ is not one of them — the same boundary the census (scripts/rule-census.py), the
+    version stamper and the two sync scripts already hold. Before this fence the number was
+    a property of the READER's machine rather than of the pack: a developer who ran
+    scripts/install-external-skills.sh counted eleven where every document says ten, and
+    the three checks below reddened on their own machine while staying green in a CI that
+    installed nothing. Now that CI installs the pinned canon, the unfenced count would have
+    reddened there too, on every run.
+    """
+    declared = declared_external_skills(skills_dir)
+    names = [n for n in os.listdir(skills_dir)
+             if os.path.isdir(os.path.join(skills_dir, n)) and not n.startswith(".")
+             and n not in declared and not is_external_skill(skills_dir, n)]
     assert RULEBOOK in names, "the shared rulebook must stand among the skill folders"
     return len(names) - 1
+
+
+def pack_skill_folders(skills_dir=SKILLS_DIR):
+    """The pack's own skill folders, rulebook included, external skills excluded."""
+    declared = declared_external_skills(skills_dir)
+    return {n for n in os.listdir(skills_dir)
+            if os.path.isdir(os.path.join(skills_dir, n)) and not n.startswith(".")
+            and n not in declared and not is_external_skill(skills_dir, n)}
 
 
 def read(rel):
@@ -116,6 +178,60 @@ class TestTheMatcherItself(unittest.TestCase):
         self.assertEqual(count_phrases("The cost is measured per working skill."), [])
 
 
+class TestTheExternalSkillFence(unittest.TestCase):
+    """The fence is proven on a planted layout, not on this machine's install state.
+
+    A check that only ran where the clone happens to be installed would prove nothing on a
+    machine without it, and nothing at all about the NEXT external skill. The layout below
+    is built in a temp directory under one of the suite's own artifact prefixes, so the
+    session hygiene fixture in conftest.py covers it, and it is torn down either way.
+    """
+
+    def _plant(self, tmp):
+        for name in (RULEBOOK, "alpha", "beta"):
+            os.makedirs(os.path.join(tmp, name))
+
+    def test_a_folder_that_is_its_own_checkout_is_not_one_of_the_packs_skills(self):
+        with tempfile.TemporaryDirectory(prefix="livespec-test-skillcount-") as tmp:
+            self._plant(tmp)
+            os.makedirs(os.path.join(tmp, "external-canon", ".git"))
+            unfenced = len([n for n in os.listdir(tmp)
+                            if os.path.isdir(os.path.join(tmp, n))]) - 1
+            self.assertEqual(
+                3, unfenced,
+                "the layout must be one the fence actually changes, or this proves nothing",
+            )
+            self.assertEqual(2, working_skill_count(tmp))
+
+    def test_the_worktree_spelling_of_a_checkout_is_fenced_too(self):
+        """A worktree writes `.git` as a FILE; install.sh's `[ -e ]` covers both spellings."""
+        with tempfile.TemporaryDirectory(prefix="livespec-test-skillcount-") as tmp:
+            self._plant(tmp)
+            os.makedirs(os.path.join(tmp, "external-worktree"))
+            with open(os.path.join(tmp, "external-worktree", ".git"), "w") as fh:
+                fh.write("gitdir: /elsewhere/.git/worktrees/external\n")
+            self.assertEqual(2, working_skill_count(tmp))
+
+    def test_an_ordinary_skill_folder_is_still_counted(self):
+        """The fence must not empty the count — a rule that excludes everything is no rule."""
+        with tempfile.TemporaryDirectory(prefix="livespec-test-skillcount-") as tmp:
+            self._plant(tmp)
+            self.assertEqual(2, working_skill_count(tmp))
+            self.assertFalse(is_external_skill(tmp, "alpha"))
+
+    def test_the_real_tree_reads_the_same_number_either_way(self):
+        """On this repository the fence changes the answer only when a clone is installed.
+
+        Stated as an identity rather than a fixed number so the check survives the pack
+        gaining or losing a skill: the fenced count equals the raw folder count minus the
+        rulebook minus however many external checkouts are actually present.
+        """
+        folders = [n for n in os.listdir(SKILLS_DIR)
+                   if os.path.isdir(os.path.join(SKILLS_DIR, n)) and not n.startswith(".")]
+        external = [n for n in folders if is_external_skill(SKILLS_DIR, n)]
+        self.assertEqual(len(folders) - 1 - len(external), working_skill_count())
+
+
 class TestSkillCountAgrees(unittest.TestCase):
     def test_the_rulebook_is_one_of_the_folders(self):
         """The count is a subtraction off disk, so the thing subtracted has to be there."""
@@ -154,10 +270,26 @@ class TestSkillCountAgrees(unittest.TestCase):
         body = text[heading.end():]
         nxt = re.search(r"^##\s", body, re.M)
         entries = re.findall(r"^-\s+\*\*([a-z-]+)\*\*", body[:nxt.start() if nxt else len(body)], re.M)
+        # The section also introduces the external canon, because a reader needs to know it
+        # exists — but it is another repository's skill and not one of the pack's. Which
+        # entries those are is read from the tracked adapter roster, so this arithmetic is
+        # the same on a bare checkout, on a machine with the clone installed, and in CI.
+        # Before this, the check silently measured whether the reader had run the installer.
+        external = declared_external_skills()
+        pack_entries = [e for e in entries if e not in external]
         self.assertEqual(
-            len(entries), working_skill_count() + 1,
-            "the section lists %d skills while disk holds %d folders under skills/"
-            % (len(entries), working_skill_count() + 1))
+            len(pack_entries), working_skill_count() + 1,
+            "the section lists %d of the pack's own skills (%d entries, %d of them external) "
+            "while disk holds %d pack folders under skills/"
+            % (len(pack_entries), len(entries), len(entries) - len(pack_entries),
+               working_skill_count() + 1))
+        # …and it is the SAME set, not merely the same size: an entry renamed, or a skill
+        # shipped without an entry, is exactly the drift this section is here to prevent and
+        # a count alone would let both through as long as they cancelled out.
+        self.assertEqual(
+            pack_skill_folders(), set(pack_entries),
+            "the section's entries and the pack's skill folders name different sets",
+        )
         self.assertEqual(heading.group(1).lower(), NUMBER_WORDS[working_skill_count()],
                          "the heading disagrees with the entries standing under it")
 
