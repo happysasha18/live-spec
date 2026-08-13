@@ -74,3 +74,32 @@ release, this table is the one place the pack updates.
 this page's metadata. The installed copy under `skills/product-prover/` is not tracked by this
 repository; the external repository is its only source of truth. Raising the minimum here is a pack
 change and lands as one.
+
+## The pack's lens bindings
+
+This page is written against `live-spec-base` (v4.3.0). The bindings below are the pack-side review
+duties a live-spec project adds to the external prover's own lenses. The prover's body states the
+general method; each line here is the pack's concrete pin of one duty, read beside the body on every
+review run inside a live-spec project.
+
+- **Unwritten seams [INV-72].** For every surface the document places before a user, the review walks
+  every other surface that can be present at the same time and asks what happens at the seam; a
+  reachable situation with a blank answer is a finding. The reviewer reports the blank and invents no
+  answer. The headline of this duty is the unwritten seam.
+- **Entry symmetry (SPEC INV-50).** A conditionally-entered face with no deliberate re-entry path is a
+  finding, and a written one-way counts as an answer.
+- **Domain language on every user-facing surface.** The review holds every user-facing string to one
+  bar: read them as the user would; a leaked internal word is a finding.
+- **The architecture lens, six items.** Beside spec-fact ownership and named seams, the review checks
+  that the quality budgets are stated with their instrumentation homes and watchers — each names its
+  watcher — that the runtime view walks every promised flow, and that the placement view says where
+  every node runs.
+- **Unbacked surfaces and unlabelled sketches.** A surface no requirement backs, or a sketch shown
+  without its label, is a finding; the stress families of questions in the prover's own reference run
+  over each.
+- **Gaps, never taste.** The review's output bar is: Report gaps. Taste is out of scope. What reads
+  as a preference goes to the design reviewer or the human, never into a finding.
+- **The norm lens.** An approved prototype cited as `norm: <path>` is the definition the build answers
+  to; a plan contradicting its own artifact is a finding.
+- **The record names its reviewer.** Every record closes naming the prover skill version it ran under,
+  so a spec proven under an old lens set never keeps a silent green.

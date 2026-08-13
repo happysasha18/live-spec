@@ -17,6 +17,10 @@ echo ""
 
 for skill_dir in "$SKILLS_SRC"/*/; do
   skill_name="$(basename "$skill_dir")"
+  if [ -e "$skill_dir/.git" ]; then
+    echo "  $skill_name — SKIPPED (external skill's canonical clone; scripts/install-external-skills.sh owns it)"
+    continue
+  fi
   dest="$SKILLS_DEST/$skill_name"
 
   if [ -d "$dest" ]; then

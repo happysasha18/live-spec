@@ -564,7 +564,7 @@ class TestQueue(unittest.TestCase):
 
 
 class TestVersionsAndPins(unittest.TestCase):
-    SKILLS = ("live-spec-base", "spec-author", "product-prover", "build-pipeline", "communicator",
+    SKILLS = ("live-spec-base", "spec-author", "product-prover-pack", "build-pipeline", "communicator",
               "publish", "test-author", "feedback-intake", "design-reviewer")
 
     def test_version_homes(self):
@@ -597,15 +597,18 @@ class TestVersionsAndPins(unittest.TestCase):
                           "base skill no longer states the settings-ladder resolution order (SPEC E-13)")
 
     def test_public_skills_ship_readme_license_and_crossref(self):
-        # both public skills ship their own shopfront: a README and a LICENSE, like siblings
-        for skill in ("product-prover", "design-reviewer"):
-            for doc in ("README.md", "LICENSE"):
-                path = os.path.join(ROOT, "skills", skill, doc)
-                self.assertTrue(os.path.isfile(path),
-                                "public skill %s ships no %s" % (skill, doc))
-        # the prover's README must cross-reference its younger sibling by folder name
-        self.assertIn("design-reviewer", read("skills/product-prover/README.md"),
-                      "product-prover README no longer cross-references design-reviewer")
+        # design-reviewer, the pack-shipped public skill, carries its own shopfront: a README and
+        # a LICENSE. The prover's shopfront moved to its canonical repository with the v5.0.0
+        # decoupling; the pack README names that repository as the external skill's home, and the
+        # design-reviewer README cross-references its sibling by name.
+        for doc in ("README.md", "LICENSE"):
+            path = os.path.join(ROOT, "skills", "design-reviewer", doc)
+            self.assertTrue(os.path.isfile(path),
+                            "public skill design-reviewer ships no %s" % doc)
+        self.assertIn("github.com/happysasha18/product-prover", read("README.md"),
+                      "pack README no longer names the external prover's canonical repository")
+        self.assertIn("product-prover", read("skills/design-reviewer/README.md"),
+                      "design-reviewer README no longer cross-references product-prover")
 
 
 class TestDoors(unittest.TestCase):
@@ -670,7 +673,7 @@ class TestDoorLawAndPrototype(unittest.TestCase):
         self.assertIn("Step zero, before ANY tool call: name the door aloud", bp,
                       "build-pipeline lost the door step")
         self.assertIn("feature · bug · refactor · docs-only · skip", bp)
-        pp = read_flat("skills/product-prover/SKILL.md")
+        pp = read_flat("skills/product-prover-pack/SKILL.md")
         self.assertIn("Unbacked surfaces and unlabelled sketches", pp,
                       "product-prover lost the unbacked-surfaces lens")
         self.assertIn("families of questions", pp, "prover lost its stress-lens families line")
@@ -685,7 +688,7 @@ class TestDoorLawAndPrototype(unittest.TestCase):
         base_version = re.search(r"(?m)^\s*version:\s*([0-9.]+)",
                                  read("skills/live-spec-base/SKILL.md")).group(1)
         for rel in ("skills/build-pipeline/SKILL.md", "skills/communicator/SKILL.md",
-                    "skills/product-prover/SKILL.md", "skills/spec-author/SKILL.md",
+                    "skills/product-prover-pack/SKILL.md", "skills/spec-author/SKILL.md",
                     "skills/publish/SKILL.md", "skills/test-author/SKILL.md",
                     "skills/feedback-intake/SKILL.md"):
             self.assertIn("`live-spec-base` (v%s)" % base_version, read(rel),
@@ -799,7 +802,7 @@ class TestDoorLawAndPrototype(unittest.TestCase):
         self.assertIn("The brief is self-contained", bp, "build-pipeline lost the worker-brief rule")
         self.assertIn("The excuses table", bp, "build-pipeline lost the excuses table")
         self.assertIn("Size never picks the door", bp)
-        pp = re.sub(r"\s+", " ", read("skills/product-prover/SKILL.md"))
+        pp = re.sub(r"\s+", " ", read("skills/product-prover-pack/SKILL.md"))
         self.assertIn("Report gaps. Taste is out of scope.", pp, "product-prover lost the anti-taste line")
         base = read("skills/live-spec-base/SKILL.md")
         self.assertRegex(base, r"(?m)^17\. \*\*Irreversible means gone, not merely public",
@@ -849,7 +852,7 @@ class TestUnwrittenSeamHunt(unittest.TestCase):
             self.assertIn(anchor, spec, "SPEC INV-72 prose lost anchor %s" % anchor)
 
         # product-prover skill: the active-hunt stress lens ships in the SKILL.md.
-        pp = re.sub(r"\s+", " ", read("skills/product-prover/SKILL.md"))
+        pp = re.sub(r"\s+", " ", read("skills/product-prover-pack/SKILL.md"))
         self.assertIn("unwritten seam", pp.lower(), "product-prover lost the unwritten-seam lens headline")
         self.assertIn(self.SEAM, pp, "product-prover lens lost the co-present-surface enumeration")
         self.assertIn("[INV-72]", pp, "product-prover lens lost its anchor")
@@ -944,9 +947,19 @@ class TestSkillEvals(unittest.TestCase):
     """SPEC E-19: every working skill owns an eval — self-closing over skills/ (row 94)."""
 
     def working_skills(self):
-        return sorted(d for d in os.listdir(os.path.join(ROOT, "skills"))
-                      if os.path.isdir(os.path.join(ROOT, "skills", d))
-                      and d != "live-spec-base")
+        skills = []
+        for d in sorted(os.listdir(os.path.join(ROOT, "skills"))):
+            skill_md = os.path.join(ROOT, "skills", d, "SKILL.md")
+            if d == "live-spec-base" or not os.path.isfile(skill_md):
+                continue
+            with open(skill_md, encoding="utf-8") as f:
+                head = f.read(2000)
+            if re.search(r"(?m)^\s*requires:", head):
+                # a binding page for an external skill reviews nothing itself and owes no
+                # eval of its own; the canonical repository carries the external skill's evals
+                continue
+            skills.append(d)
+        return skills
 
     def test_skill_evals_present(self):
         skills = self.working_skills()
@@ -1022,8 +1035,9 @@ class TestInstallerAndDecisionPage(unittest.TestCase):
         import subprocess
         import tempfile
         script = os.path.join(ROOT, "install.sh")
-        skills = sorted(d for d in os.listdir(os.path.join(ROOT, "skills"))
-                        if os.path.isdir(os.path.join(ROOT, "skills", d)))
+        tracked = subprocess.run(["git", "ls-files", "skills"], cwd=ROOT,
+                                 capture_output=True, text=True).stdout
+        skills = sorted({p.split("/")[1] for p in tracked.splitlines() if p.count("/") >= 2})
         self.assertGreaterEqual(len(skills), 5, "skills/ parse failure")
         with tempfile.TemporaryDirectory() as tmp:
             env = dict(os.environ, HOME=tmp)
@@ -1700,7 +1714,7 @@ class TestMinedGapFolds(unittest.TestCase):
         self.assertIn("a row without it is a derivation defect", bp)
 
     def test_gap9_prover_domain_language_lens(self):
-        pp = re.sub(r"\s+", " ", read("skills/product-prover/SKILL.md"))
+        pp = re.sub(r"\s+", " ", read("skills/product-prover-pack/SKILL.md"))
         for phrase in ("Domain language on every user-facing surface",
                        "read them as the user would",
                        "a leaked internal word is a finding"):
@@ -1874,7 +1888,7 @@ class TestProblemLedger(unittest.TestCase):
         author = read_flat(os.path.join("skills", "spec-author", "SKILL.md"))
         for needle in ("The fit walk", "journey", "INV-29"):
             self.assertIn(needle, author, "spec-author missing: %s" % needle)
-        prover = read_flat(os.path.join("skills", "product-prover", "SKILL.md"))
+        prover = read_flat(os.path.join("skills", "product-prover-pack", "SKILL.md"))
         self.assertIn("FEATURE-FIT", prover, "prover missing its FEATURE-FIT mode")
         pipeline = read_all_flat(os.path.join("skills", "build-pipeline", "SKILL.md"))
         self.assertIn("fit walk", pipeline, "pipeline step 1 must cite the fit walk")
@@ -2102,7 +2116,7 @@ class TestProblemLedger(unittest.TestCase):
         for needle in ("plan-vs-prototype diff", "entry: mockup-first",
                        "only by the human naming it", "OPEN the artifact before building"):
             self.assertIn(needle, pipe, "build-pipeline missing: %s" % needle)
-        prover = re.sub(r"\s+", " ", read(os.path.join("skills", "product-prover", "SKILL.md")))
+        prover = re.sub(r"\s+", " ", read(os.path.join("skills", "product-prover-pack", "SKILL.md")))
         for needle in ("`norm: <path>`", "contradicting its own artifact"):
             self.assertIn(needle, prover, "product-prover missing: %s" % needle)
 
@@ -2205,7 +2219,7 @@ class TestProblemLedger(unittest.TestCase):
         spec = re.sub(r"\s+", " ", read("PRODUCT_SPEC.md"))
         for needle in ("INV-50", "deliberate re-entry path", "until dismissed"):
             self.assertIn(needle, spec, "SPEC missing: %s" % needle)
-        prover = re.sub(r"\s+", " ", read(os.path.join("skills", "product-prover", "SKILL.md")))
+        prover = re.sub(r"\s+", " ", read(os.path.join("skills", "product-prover-pack", "SKILL.md")))
         for needle in ("Entry symmetry", "A conditionally-entered face with no deliberate re-entry path is a finding", "SPEC INV-50"):
             self.assertIn(needle, prover, "product-prover missing: %s" % needle)
         author = re.sub(r"\s+", " ", read(os.path.join("skills", "spec-author", "SKILL.md")))
@@ -2555,7 +2569,7 @@ class TestProblemLedger(unittest.TestCase):
         for needle in ("names its watcher", "reds past the stated", "read by eye",
                        "names its watcher, the mechanical check that reds past the stated number"):
             self.assertIn(needle, spec, "SPEC missing: %s" % needle)
-        prover = re.sub(r"\s+", " ", read(os.path.join("skills", "product-prover", "SKILL.md")))
+        prover = re.sub(r"\s+", " ", read(os.path.join("skills", "product-prover-pack", "SKILL.md")))
         self.assertIn("each names its watcher", prover,
                       "prover lens missing the watcher ask in the budget item — the watcher "
                       "duty must stay folded into the budget check, never its own check")
@@ -2962,9 +2976,9 @@ class TestArchitectureViews(unittest.TestCase):
         ):
             self.assertIn(needle, spec, "SPEC architecture lens lost a check: %s" % needle)
         for home, needle in (
-            ("skills/product-prover/SKILL.md", "runtime view"),
-            ("skills/product-prover/SKILL.md", "placement"),
-            ("skills/product-prover/SKILL.md", "instrumentation home"),
+            ("skills/product-prover-pack/SKILL.md", "runtime view"),
+            ("skills/product-prover-pack/SKILL.md", "placement"),
+            ("skills/product-prover-pack/SKILL.md", "instrumentation home"),
             ("skills/build-pipeline/SKILL.md", "runtime view"),
             ("skills/build-pipeline/SKILL.md", "placement view"),
         ):
@@ -3117,7 +3131,7 @@ class TestFieldLessons(unittest.TestCase):
         adopt = re.sub(r"\s+", " ", read("adopt/ADOPT.md"))
         self.assertIn("same prover version", adopt)
         self.assertIn("re-arms the full pass", adopt)
-        prover = re.sub(r"\s+", " ", read("skills/product-prover/SKILL.md"))
+        prover = re.sub(r"\s+", " ", read("skills/product-prover-pack/SKILL.md"))
         self.assertIn("naming the prover skill version", prover)
 
     def test_suite_plumbing_must_not_lie(self):
