@@ -22,6 +22,12 @@ def main():
     changed = 0
     skills_dir = os.path.join(ROOT, "skills")
     for name in sorted(os.listdir(skills_dir)):
+        # A skill dir holding its own .git is another project's canonical clone (install.sh,
+        # scripts/sync-skills.sh and the INV-243 config-health arm carry this same probe). Its
+        # version is that repo's fact, released on that repo's schedule; stamping the pack's
+        # number over it is a write into a project this one neither owns nor can release.
+        if os.path.exists(os.path.join(skills_dir, name, ".git")):
+            continue
         path = os.path.join(skills_dir, name, "SKILL.md")
         if not os.path.isfile(path):
             continue
