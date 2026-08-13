@@ -270,8 +270,35 @@ def check_shape(registry):
 
 # --- running a measurement --------------------------------------------------------------------------
 
+def external_skill_roots(root):
+    """`skills/<name>/` directories that are another repository, installed into this tree.
+
+    The same structural probe install.sh, scripts/sync-skills.sh, scripts/stamp-versions.py
+    and guardrails/check-config-health.sh already carry: a skill folder holding its own
+    `.git` was put there by an installer and belongs to a repository this one does not own.
+    `os.path.exists`, not `isdir`, because a worktree checkout writes `.git` as a file.
+    """
+    skills = os.path.join(root, "skills")
+    if not os.path.isdir(skills):
+        return []
+    return [os.path.join("skills", name) + os.sep
+            for name in sorted(os.listdir(skills))
+            if os.path.exists(os.path.join(skills, name, ".git"))]
+
+
 def expand_stage(entry_name, stage, root):
-    """One stage's tokens with every path pattern expanded here, sorted, inside the root."""
+    """One stage's tokens with every path pattern expanded here, sorted, inside the root.
+
+    A pattern never reaches into an EXTERNAL skill. This gate's law is that a count this
+    repository publishes ABOUT ITS OWN TREE is built from the tree (SPEC R306, INV-305), and
+    an installed clone of another repository is not this tree. Before this fence the two
+    `skills/*` line counts answered differently depending on whether the reader had run
+    scripts/install-external-skills.sh — 5,528 lines bare against 6,365 with the canon
+    installed — so no single published number could be right in both places, and once CI
+    began installing the canon the published figure became unsatisfiable rather than merely
+    stale. The measurement now reports the pack's own bytes in either environment.
+    """
+    external = external_skill_roots(root)
     out = []
     for token in stage:
         if not any(char in token for char in PATTERN_CHARS):
@@ -284,7 +311,10 @@ def expand_stage(entry_name, stage, root):
             if os.path.commonpath([os.path.realpath(match), root_real]) != root_real:
                 raise BuildError("count %s expands the pattern %s onto %s, which stands outside the "
                                  "root" % (entry_name, token, match))
-            inside.append(os.path.relpath(match, root))
+            relative = os.path.relpath(match, root)
+            if any(relative.startswith(prefix) for prefix in external):
+                continue
+            inside.append(relative)
         if not inside:
             raise BuildError("count %s reads the pattern %s, which matches no file — a measurement "
                              "over nothing reports a number while counting nothing (SPEC INV-218)"

@@ -419,6 +419,83 @@ class TestTheGeneratorWritesAllOrNothing(unittest.TestCase):
             self.assertIn("holds 5 lines", read(page))
 
 
+class TestPatternsStopAtTheExternalSkill(unittest.TestCase):
+    """A count about THIS tree does not count another repository installed inside it.
+
+    `skills/product-prover/` is an untracked clone of an external canonical repository. Both
+    `skills-lines` measurements expand `skills/*/SKILL.md`, which matched it — so the two
+    figures README.md publishes answered differently depending on whether the reader had run
+    `scripts/install-external-skills.sh`: 5,528 lines bare against 6,365 with the canon
+    installed. That was survivable while it was only a developer's local red. Once CI began
+    installing the pinned canon before the suite, no single published number could be right
+    in both places and the count became unsatisfiable rather than merely stale.
+
+    The fence is the structural probe install.sh, sync-skills.sh, stamp-versions.py and
+    check-config-health.sh already carry, and it lives in the shared expander, so gate ad's
+    drift arm and its published-command arm hold it identically.
+
+    Red first: with the fence removed, `expand_stage` returns the planted external file and
+    the first assertion below fails.
+    """
+
+    def _plant(self, tmp):
+        for name in ("alpha", "beta"):
+            os.makedirs(os.path.join(tmp, "skills", name))
+            write(os.path.join(tmp, "skills", name, "SKILL.md"), "one\ntwo\n")
+        os.makedirs(os.path.join(tmp, "skills", "external-canon", ".git"))
+        write(os.path.join(tmp, "skills", "external-canon", "SKILL.md"), "not ours\n")
+        return generator_module()
+
+    def test_a_pattern_never_reaches_into_an_installed_external_skill(self):
+        with tempfile.TemporaryDirectory(prefix="livespec-test-treecounts-") as tmp:
+            gen = self._plant(tmp)
+            got = gen.expand_stage("probe", ["cat", "skills/*/SKILL.md"], tmp)
+            self.assertEqual(
+                ["cat", "skills/alpha/SKILL.md", "skills/beta/SKILL.md"], got,
+                "the expander handed the measurement another repository's file",
+            )
+
+    def test_the_worktree_spelling_of_a_checkout_is_fenced_too(self):
+        with tempfile.TemporaryDirectory(prefix="livespec-test-treecounts-") as tmp:
+            gen = self._plant(tmp)
+            os.makedirs(os.path.join(tmp, "skills", "external-worktree"))
+            write(os.path.join(tmp, "skills", "external-worktree", ".git"),
+                  "gitdir: /elsewhere/.git/worktrees/external\n")
+            write(os.path.join(tmp, "skills", "external-worktree", "SKILL.md"), "nor ours\n")
+            got = gen.expand_stage("probe", ["cat", "skills/*/SKILL.md"], tmp)
+            self.assertEqual(["cat", "skills/alpha/SKILL.md", "skills/beta/SKILL.md"], got)
+
+    def test_the_fence_does_not_empty_the_measurement(self):
+        """A fence that excluded everything would report a number while counting nothing."""
+        with tempfile.TemporaryDirectory(prefix="livespec-test-treecounts-") as tmp:
+            gen = self._plant(tmp)
+            self.assertEqual(
+                3, len(gen.expand_stage("probe", ["cat", "skills/*/SKILL.md"], tmp)),
+                "the program token plus both pack skills must survive the fence",
+            )
+            self.assertEqual([], gen.external_skill_roots(os.path.join(tmp, "nowhere")))
+
+    def test_a_pattern_matching_only_external_files_reds_rather_than_reporting_zero(self):
+        """Vacuity (SPEC INV-218) still bites after the fence, not before it."""
+        with tempfile.TemporaryDirectory(prefix="livespec-test-treecounts-") as tmp:
+            gen = self._plant(tmp)
+            with self.assertRaises(gen.BuildError) as caught:
+                gen.expand_stage("probe", ["cat", "skills/external-canon/*.md"], tmp)
+            self.assertIn("matches no file", str(caught.exception))
+
+    def test_the_real_tree_reads_the_same_either_way(self):
+        """On this repository the two published figures must not move with the install state."""
+        gen = generator_module()
+        expanded = gen.expand_stage("skills-lines", ["cat", "skills/*/SKILL.md"], ROOT)
+        external = gen.external_skill_roots(ROOT)
+        for path in expanded[1:]:
+            self.assertFalse(
+                any(path.startswith(prefix) for prefix in external),
+                "the published skills-lines measurement reads %s, which belongs to an "
+                "external repository installed under skills/" % path,
+            )
+
+
 class TestTheRealRegistry(unittest.TestCase):
     def test_the_registry_parses_and_declares_the_counts(self):
         data = json.loads(read(REGISTRY))
