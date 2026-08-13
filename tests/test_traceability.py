@@ -131,6 +131,36 @@ def inventory_entries():
     return entries
 
 
+def external_skill_roots():
+    """{'skills/<name>/': canonical repository} for every skill installed from an external
+    canonical repository, read from the TRACKED adapter pages alone: a skills/*/SKILL.md whose
+    metadata `requires:` line names the external skill, its version floor and its canonical
+    repository (the contract tests/test_prover_adapter_contract.py holds live). The install
+    itself is an untracked clone, so a bare checkout legitimately carries nothing under such a
+    root — a test meeting a path there asserts this tracked contract, never the clone's presence.
+    """
+    roots = {}
+    skills_dir = os.path.join(ROOT, "skills")
+    for name in sorted(os.listdir(skills_dir)):
+        page = os.path.join(skills_dir, name, "SKILL.md")
+        if not os.path.isfile(page):
+            continue
+        with open(page, encoding="utf-8") as f:
+            head = f.read(4000)
+        m = re.search(r"^\s*requires:\s*([\w-]+)\s*>=\s*[\d.]+\s*\(([^()\s]+)\)", head, re.M)
+        if m:
+            roots["skills/%s/" % m.group(1)] = m.group(2)
+    return roots
+
+
+def external_root_of(path, roots):
+    """The external skill root holding `path`, or None for a tracked path."""
+    for root in roots:
+        if path.startswith(root):
+            return root
+    return None
+
+
 class TestSpecIndex(unittest.TestCase):
     def test_spec_index_unique_anchors(self):
         raw, _ = spec_index_anchors()
@@ -203,8 +233,17 @@ class TestArchitecture(unittest.TestCase):
         # scope here exactly as before, the way guardrails/check-pin-drift.sh treats it specially.
         pins = [pin for n in nodes for pin, _label in n.pins if re.match(r"^[\w./-]+:\d+$", pin)]
         self.assertGreater(len(pins), 10, "pin parse failure")
+        ext_roots = external_skill_roots()
         for pin in pins:
             path, line_no = pin.rsplit(":", 1)
+            root = external_root_of(path, ext_roots)
+            if root is not None:
+                # The pinned file lives in an external skill's clone, absent by design on a
+                # bare checkout; the pin is held by the tracked adapter contract instead —
+                # the adapter page names the canonical repository the clone comes from.
+                self.assertRegex(ext_roots[root], r"^[\w.-]+/[\w./-]+$",
+                                 "external root %s: adapter names no canonical repository" % root)
+                continue
             full = os.path.join(ROOT, path)
             self.assertTrue(os.path.isfile(full), "pinned file missing: %s" % path)
             with open(full, encoding="utf-8") as f:
@@ -378,7 +417,15 @@ class TestArtifacts(unittest.TestCase):
     def test_artifact_inventory(self):
         entries = inventory_entries()
         self.assertGreater(len(entries), 20, "inventory parse failure")
+        ext_roots = external_skill_roots()
         for path, is_dir in entries:
+            root = external_root_of(path, ext_roots)
+            if root is not None:
+                # An inventory entry inside an external skill's clone, absent by design on a
+                # bare checkout: the tracked adapter contract stands in for the clone here.
+                self.assertRegex(ext_roots[root], r"^[\w.-]+/[\w./-]+$",
+                                 "external root %s: adapter names no canonical repository" % root)
+                continue
             full = os.path.join(ROOT, path)
             if is_dir:
                 self.assertTrue(os.path.isdir(full), "inventory dir missing: %s" % path)
@@ -386,6 +433,18 @@ class TestArtifacts(unittest.TestCase):
             else:
                 self.assertTrue(os.path.isfile(full), "inventory file missing: %s" % path)
                 self.assertGreater(os.path.getsize(full), 0, "inventory file empty: %s" % path)
+
+    def test_external_skill_roots_read_from_tracked_adapter(self):
+        # Guards the stand-in above: were the adapter scrape to break, external_skill_roots()
+        # would come back empty and the pin/inventory checks would silently fall back to
+        # clone-presence semantics — red on a bare checkout. The known external skill must
+        # be found, with its canonical repository, from tracked files alone.
+        roots = external_skill_roots()
+        self.assertIn("skills/product-prover/", roots,
+                      "the tracked adapter pages yield no external prover root")
+        self.assertEqual(roots["skills/product-prover/"],
+                         "github.com/happysasha18/product-prover",
+                         "the adapter's canonical repository moved or vanished")
 
     def test_templates_ship(self):
         for name in ("PRODUCT_SPEC", "ARCHITECTURE", "TEST_MATRIX", "ROADMAP", "JOURNAL", "NEXT_STEPS"):
