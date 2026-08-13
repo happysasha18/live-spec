@@ -1,6 +1,6 @@
 ---
 name: product-prover
-description: Structured senior-architect review of product documents: PRDs, feature specs, HLDs, LLDs, design proposals, and architecture documents. It reviews them with formal-verification thinking, covering entities, states, transitions, invariants, safety, liveness, atomicity, and composition. Use this skill whenever the user asks to review, critique, stress-test, lint, or find gaps in a spec or design document. It fires as well when they ask "is this spec ready / what did I miss / poke holes in this". It fires on an uploaded product document with a request for feedback, and on the words "Product Prover". A request for feedback counts even where the word "review" goes unsaid. It reads documents, so code and diffs route elsewhere. It finds holes in what a document claims, and the test suite proves what the artifact does. It answers "does the spec hold together as written?"
+description: 'Structured senior-architect review of product documents: PRDs, feature specs, HLDs, LLDs, design proposals, and architecture documents. It reviews them with formal-verification thinking, covering entities, states, transitions, invariants, safety, liveness, atomicity, and composition. Use this skill whenever the user asks to review, critique, stress-test, lint, or find gaps in a spec or design document. It fires as well when they ask "is this spec ready / what did I miss / poke holes in this". It fires on an uploaded product document with a request for feedback, and on the words "Product Prover". A request for feedback counts even where the word "review" goes unsaid. It reads documents, so code and diffs route elsewhere. It finds holes in what a document claims, and the test suite proves what the artifact does. It answers "does the spec hold together as written?"'
 metadata:
   version: 4.3.0
 ---
@@ -37,8 +37,9 @@ review, including `PRODUCT_SPEC.md`, `ARCHITECTURE.md`, `SURFACES.md`, `ROADMAP.
 - **Surface** — a place a person meets the product: a screen, a page, a panel, an endpoint, a
   command, a report.
 - **Surface registry** — the one list the reviewed project keeps of its user-facing surfaces. In
-  this pack that list is `SURFACES.md`. Where the project keeps no such list, every sweep that reads
-  it takes an N/A verdict with that reason.
+  this pack that list is `SURFACES.md`. Where the project keeps no such list, file that missing home
+  once. Derive a working inventory from Phase 1, label it review-derived, and keep every sweep
+  runnable. N/A is reserved for no enumerable surfaces or a document the pass could not read whole.
 - **Lens** — one named check walked over the document, each testing one concern.
 - **Sweep** — a lens run over every member of a class in the document, rather than at one spot.
 - **Seam** — a join the document has to write an answer for. Three kinds appear below, and every sweep
@@ -126,9 +127,22 @@ heading is capitalized. Use structure sparingly, so the eye lands on the right t
 
 The goal is notes a reader scans in 30 seconds and reads carefully in 5 minutes.
 
+**Two artifacts, one review.** The conversation is the decision layer. Keep it under 1,500 words
+unless the person asks for the full record inline. It carries the verdict, compact model, and top
+three findings in full. It also carries a one-line index of every remaining finding, open questions,
+and readiness. The persisted prover record is the evidence layer. It carries every finding in full
+and all coverage tables. It also holds the class line, assumptions, `[default]` count, and ledger.
+Name its path in the conversation and never replay the whole record there.
+
+The document under review is read-only during a prover pass. Propose paste-ready clauses and
+`[default]` sentences, but fold none into the document unless the person explicitly asks to apply
+the fixes. Writing the prover record is separate from editing the reviewed document.
+
 ## How to write findings
 
-A finding is written to be scanned, in 10–15 seconds of reading. One or two sentences per part.
+A finding is written to be scanned, in 10–15 seconds of reading. One or two sentences per part. Every
+finding takes the full shape in the persisted record. The conversation expands the top three and
+indexes the rest in one line each.
 
 Each finding has four parts, in this order:
 
@@ -624,8 +638,10 @@ The five mandatory sweeps:
 - **Cross-surface policy uniformity** — a clause sometimes states a policy for an interaction kind that
   lives on several sibling surfaces: a gesture policy such as "browser pinch-zoom is refused", an
   affordance, an input-to-action mapping. For such a clause, enumerate the surfaces of that kind from
-  the surface registry. Then check whether the clause governs every one of them, or only the surface
-  where the decision was born.
+  the surface registry. Where that maintained list is missing, use the review-derived inventory from
+  Phase 1 and file the missing registry once. Then check whether the clause governs every surface, or
+  only the one where the decision was born. The missing registry never turns this runnable sweep into
+  N/A.
 
   A policy written for a single surface while siblings of the same kind exist is a finding. The clause
   should name the surface class and enumerate its members, so the policy holds uniformly. Note: it
@@ -1011,13 +1027,17 @@ summary already conveys the picture.
 
 Finish with one sentence on overall readiness: ready to build / needs another iteration / needs significant rework.
 
+In the conversation, render this summary first, followed by the three expanded findings and the
+compact index. The record keeps the full phase order and evidence; chat does not repeat it.
+
 ## Meta rules
 
 - Claims about the shipped system rest on primary sources: the architecture document's node pins,
   each a `file:line` citation, and a command's output. The document's own prose backs no such claim,
   and a summary of the document backs none either (base rule 13).
 - Phase pacing: a `PROCEED` triage → opening assessment → Phase 1 → 2 → 3 → 3.5 → 4 → 5, all in one
-  continuous response, with no pause.
+  continuous pass, with no pause. The record carries the full order, while the conversation carries
+  the compact decision layer above.
 - Persist the findings. They are written to the project's `docs/prover/YYYY-MM-DD-<slug>.md`, in the repo under
   review, which is a separate repo from this skill's own. Each finding carries a folded or
   rejected-with-why column and its kind, defect or recommendation, per build-pipeline step 2. The

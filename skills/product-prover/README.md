@@ -4,6 +4,10 @@
 
 Point it at a PRD, feature spec, HLD, or design proposal. It reads the document the way a principal architect would. You get four things back: a short verdict, the structural model it extracted, the gaps that matter, and what to fix before you build.
 
+The conversation is deliberately short: the verdict, compact model, top three findings, and an index
+of the rest. The dated prover record keeps the full evidence and coverage tables. The document under
+review stays read-only unless you explicitly ask to apply fixes.
+
 ---
 
 ## Why

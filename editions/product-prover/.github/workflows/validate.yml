@@ -1,0 +1,21 @@
+name: validate standalone edition
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Validate package
+        run: python3 scripts/validate.py
+      - name: Require a version bump on runtime changes
+        if: github.event_name == 'pull_request'
+        run: python3 scripts/validate.py --base "origin/${{ github.base_ref }}"
+      - name: Require a version bump on a pushed release
+        if: github.event_name == 'push' && github.event.before != '0000000000000000000000000000000000000000'
+        run: python3 scripts/validate.py --base "${{ github.event.before }}"
