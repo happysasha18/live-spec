@@ -50,6 +50,20 @@ the one slot nothing questions. That is the defect this surface exists to catch.
 
 ## On record
 <!-- record:on -->
+- 2026-08-13 08:51 — rule 31's "owner" is the agent that owns the zone (row 536, first ruling).
+  Your words in chat: я никогда не видел правила 31! откуда мне знать что такое этот оунер. если
+  это про агентов, тогда это агент. Consequence: everywhere rule 31 says "owner" about zone
+  matters, it means the owning agent; a clause that genuinely needs you personally must name you
+  explicitly, and the sweep of rule 31's text for that distinction rides whichever path the
+  13.08 comparison decides.
+- 2026-08-13 08:51 — the six stage-3 check questions are the seat's to rule on. Your words in
+  chat: вопрос 3 мне там нечего решать это твоя внутренняя механика. Consequence: the seat rules
+  on the fifteen silent-rot keeps and gates ae, n, p, o, ab itself, records each ruling as its
+  own judgment under this delegation, and executes them at a landing; nothing in that set
+  returns to you unless it changes what you personally meet.
+- 2026-08-13 08:51 — the one-command-install check (D7) is postponed. Your words in chat:
+  установка одной командой пока не настолько важна. Consequence: D7 leaves the waiting list and
+  returns on your naming it; the README promise stays as is until then.
 - 2026-08-07 11:19 — an inbox request is written down, and nothing stands in the way; a deposit
   never blocks a push. Your words in chat: это просто заявки; их надо записать и чтобы ничего
   не мешало; это баг; записать точно надо, а пуш тут при чем. The message check moves to the
