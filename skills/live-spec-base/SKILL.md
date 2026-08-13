@@ -469,28 +469,22 @@ keeps the number it already carries.
    INV-46).
 
 29. **A deferral must justify itself, or the item is the seat's to do (SPEC INV-152).** A backlog item
-   carrying a needs-the-human's-word marker is re-tested by derivability every time it is touched, at its
-   first writing and at every touch after. Three things carry such a marker: a queue row held for his
-   word, a `NEXT_STEPS.md` line, and a decision a setup script leaves open. Sometimes the answer pins to an existing artifact: a base rule, a spec
-   sentence, the architecture, an approved prototype, or an already-answered decision [INV-59]. The
-   item is then the seat's. Do it, cite the artifact, and drop the marker [INV-121, INV-143]. Where it needs
-   a fact no artifact holds — a taste, a policy, or an act irreversible outside git (rule 17) — it is
-   the human's, and the marker stands. Writing such a marker requires naming that human-only fact. A
-   marker that cannot name it defaults to the seat's. A marker that cannot say why the item belongs to
-   the human is itself the finding. This is the no-homeless-item control — rule 27's
-   decide-what-it-can-decide posture applied to a backlog item — binding the orchestrator seat whatever
-   tier holds it. It is the twin of a request matching no kind in the closed door set (rule 15, SPEC
-   INV-151). One routing principle covers both: every
-   incoming thing routes to the home whose declared sentence governs it. A thing that pins to no
-   home is itself the finding [INV-153]. Two mechanisms hold this rule.
-   The mechanical one is `guardrails/check-deferral-marker.py`. It reds a commit when a parked item in the
-   resume file or a decision page names no reason category — taste, policy, irreversible, or
-   device-feel — the same shape as INV-155's retry-plugin grep. The delivery one is the deferral line of
-   the chat-law hook at `hooks/chat-law-hook.sh`. It
-   re-fires the derivability test at the moment a marker is written or the harness's own
-   `AskUserQuestion` prompt is opened, so the re-test fires right at the point the leak would happen. It
-   reminds and cannot block, the way the chat laws are always delivered (SPEC INV-28).
-
+   carrying a needs-the-human's-word marker is re-tested by derivability at its first writing and at
+   every touch after. Three things carry such a marker: a queue row held for the human's word, a
+   `NEXT_STEPS.md` line, and a decision a setup script leaves open. Where the answer pins to an
+   existing artifact — a base rule, a spec sentence, the architecture, an approved prototype, or an
+   already-answered decision [INV-59] — the item is the seat's: do it, cite the artifact, and drop
+   the marker [INV-121, INV-143]. Where it needs a fact no artifact holds — a taste, a policy, an act
+   irreversible outside git (rule 17), or the feel of a real device in the human's own hands — it is
+   the human's, and the marker stands. Writing such a marker requires naming that human-only fact; a
+   marker that cannot name it defaults to the seat's and is itself the finding. The posture is rule
+   27's, applied to a backlog item, and it binds the orchestrator seat whatever tier holds it. Rule
+   15's closed door set is its twin [INV-151]: one routing principle covers both, that every incoming
+   thing routes to the home whose declared sentence governs it, and a thing that pins to no home is
+   itself the finding [INV-153]. Two arms hold the rule. `guardrails/check-deferral-marker.py` reds a
+   commit where a parked item in the resume file or a decision page names none of the four [INV-155].
+   The deferral line of `hooks/chat-law-hook.sh` re-fires the test the moment a marker is written or
+   an `AskUserQuestion` is opened; it reminds and cannot block (SPEC INV-28).
 31. **Agents talk on exactly two channels, and a message earns its passage (SPEC INV-183, INV-189).**
    Several agents on one person's projects generate noise the moment they can talk to each other. This
    rule keeps the channel quiet while the necessary thing still crosses. An agent is a

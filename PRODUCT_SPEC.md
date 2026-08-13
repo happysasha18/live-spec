@@ -5115,7 +5115,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 ## Requirement 212: A deferral must justify itself or the item is the seat's to do
 
-**Context:** A backlog item carrying a needs-the-human's-word marker is re-tested for derivability every time it is touched, not only when first written. Where the answer pins to an existing artifact — a base rule, a spec sentence, the architecture, an approved prototype, or an already-answered decision — the item is the seat's to do, cite, and drop the marker. Where it needs a fact no artifact holds — a taste, a policy, or a move irreversible outside git — it is the human's and the marker stands, but writing the marker requires naming that human-only fact.
+**Context:** A backlog item carrying a needs-the-human's-word marker is re-tested for derivability every time it is touched, not only when first written. Where the answer pins to an existing artifact — a base rule, a spec sentence, the architecture, an approved prototype, or an already-answered decision — the item is the seat's to do, cite, and drop the marker. Where it needs a fact no artifact holds — a taste, a policy, a move irreversible outside git, or the feel of a real device — it is the human's and the marker stands, but writing the marker requires naming that human-only fact.
 
 **User Story:** As a person handed only the questions that truly need me, I want every deferral marker re-tested for derivability and made to name its human-only fact, so that a derivable item becomes the seat's own work and stays off my board.
 
@@ -5124,13 +5124,12 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 **Case: a derivable item is the seat's**
 
 1. *when* a held backlog item is touched, the system *shall* re-test it for derivability, and *when* the answer pins to an existing artifact the seat *shall* do the item, cite the artifact, and drop the marker. [INV-152, INV-59, INV-121, INV-143]
-2. *if* the item needs a fact no artifact holds — a taste, a policy, or a move irreversible outside git — *then* the marker *shall* stand and *shall* name that human-only fact. [INV-152, INV-17]
+2. *if* the item needs a fact no artifact holds — a taste, a policy, a move irreversible outside git, or the feel of a real device (a feel judged only by the human's own hand on the human's own device) — *then* the marker *shall* stand and *shall* name that human-only fact. [INV-152, INV-17]
 3. The system *shall* default a marker that cannot name its human-only fact to the seat's own, the unnamed marker being the finding, the same shape as a request matching no kind in the closed door set. [INV-152, INV-151]
 
 **Case: two arms enforce the deferral**
 
 4. The system *shall* red a commit *when* a mechanical net finds a parked item in the resume file or a decision page naming no reason category — taste, policy, irreversible, or device-feel (a feel judged only by the human's own hand on the human's own device). [INV-152, INV-155]
-   [GAP: the source names three human-only facts in prose (taste, policy, irreversible) and four reason categories in the mechanical net, device-feel standing only in the net's list.]
 5. *when* a marker is written or a question is opened to the human, a delivery arm *shall* re-fire the derivability test at that moment, reading the grammatical shape of a deferral itself. [INV-152, INV-28, INV-4]
 
 ---
