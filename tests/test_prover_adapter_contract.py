@@ -185,16 +185,42 @@ class TestTheCIAuthorityModel(unittest.TestCase):
     WORKFLOW = (".github", "workflows", "gates.yml")
 
     def _workflow(self):
-        """The workflow with its comment lines removed.
+        """The `gates` JOB's runnable lines, with comments removed.
 
-        The step below carries a long comment explaining the pin, and that comment names
-        the same flags the step does. Reading the raw file would let a check pass on the
-        PROSE while the step itself had been changed — the exact shape of hollow proof this
-        module exists to forbid — so every assertion here reads runnable lines only.
+        Two narrowings, each closing a way a check here could pass over nothing.
+
+        Comments come off because the installer step carries a long comment naming the same
+        flags the step does; reading the raw file would let every assertion below pass on
+        the EXPLANATION after the step itself was deleted.
+
+        And the read is scoped to the `gates` job, not the whole file. `gates.yml` carries a
+        second job (`sync-mirrors`), and a file-wide search would accept an installer step
+        standing in any job printed before the suite — satisfying both the presence check and
+        the ordering check while the job that actually runs the suite installs nothing.
         """
         text = (ROOT.joinpath(*self.WORKFLOW)).read_text(encoding="utf-8")
-        return "\n".join(
-            line for line in text.splitlines() if not line.lstrip().startswith("#")
+        lines, taking, job = [], False, None
+        for line in text.splitlines():
+            found = re.match(r"^  ([a-zA-Z0-9_-]+):\s*$", line)
+            if found:                       # a job header sits at exactly two spaces
+                job = found.group(1)
+                taking = job == "gates"
+                continue
+            if taking and not line.lstrip().startswith("#"):
+                lines.append(line)
+        assert job is not None, "gates.yml declares no job at all"
+        return "\n".join(lines)
+
+    def test_the_workflow_reader_is_scoped_to_the_gates_job(self):
+        """The reader's scope is itself pinned, in both directions."""
+        raw = (ROOT.joinpath(*self.WORKFLOW)).read_text(encoding="utf-8")
+        self.assertIn("sync-mirrors:", raw, "gates.yml is expected to carry a second job")
+        seen = self._workflow()
+        self.assertIn("run: python3 -m pytest -q", seen, "the gates job must survive the reader")
+        self.assertNotIn(
+            "sync standalone mirrors", seen,
+            "the reader leaked a second job's steps: an installer step over there would "
+            "satisfy the ordering check while the gates job installs nothing",
         )
 
     def test_the_workflow_reader_drops_comments_so_prose_cannot_stand_in_for_a_step(self):
@@ -268,25 +294,43 @@ class TestTheCIAuthorityModel(unittest.TestCase):
         # mode that would make every assertion above pass over a pin that does nothing.
         self.assertIn("unknown argument", script)
 
-    def test_the_pinned_commit_is_at_or_above_the_adapter_floor_it_claims(self):
-        """The pin and the tracked floor must not drift apart.
-
-        The floor lives in the tracked adapter and the installer enforces it at install
-        time; this reads the same floor from the same file, so a pin moved to a canon below
-        the floor is caught by the pack's own tests and not only by a CI run.
-        """
+    def _floor(self):
         adapter = (ROOT / "skills" / "product-prover-pack" / "SKILL.md").read_text(
             encoding="utf-8"
         )
-        floor = re.search(r"product-prover >= (\d+)\.(\d+)\.(\d+)", adapter)
-        self.assertIsNotNone(floor, "the adapter must still carry a version floor")
-        self.assertTrue(
-            all(part.isdigit() for part in floor.groups()),
-            "the floor must parse as a version",
-        )
-        # The canon's own version stamp is only readable where the clone is installed; the
-        # floor's presence and shape is the tracked half, and that is what is asserted here.
+        found = re.search(r"product-prover >= (\d+)\.(\d+)\.(\d+)", adapter)
+        self.assertIsNotNone(found, "the adapter must still carry a version floor")
         self.assertIn("github.com/happysasha18/product-prover", adapter)
+        return tuple(int(part) for part in found.groups())
+
+    def test_the_adapter_still_carries_the_floor_the_installer_reads(self):
+        """The tracked half: the floor exists, parses, and names its canon."""
+        self.assertEqual(3, len(self._floor()))
+
+    def test_the_installed_canon_is_at_or_above_that_floor(self):
+        """The other half, and it is only readable where the canon is installed.
+
+        The first draft of this pair was one test that claimed to compare the pin against
+        the floor and did no such thing: it asserted that a `(\\d+)` capture consisted of
+        digits, which cannot fail. That is a check passing over nothing, which this module
+        exists to forbid, so the comparison is made here for real and the tracked-only half
+        is named honestly above.
+        """
+        canon = ROOT / "skills" / "product-prover" / "SKILL.md"
+        if not canon.is_file():
+            raise unittest.SkipTest(
+                "external clone not installed; the tracked half of this pair "
+                "(test_the_adapter_still_carries_the_floor_the_installer_reads) runs anyway"
+            )
+        stamp = re.search(r"version:\s*(\d+)\.(\d+)\.(\d+)", canon.read_text(encoding="utf-8"))
+        self.assertIsNotNone(stamp, "the installed canon carries no readable version stamp")
+        got = tuple(int(part) for part in stamp.groups())
+        self.assertGreaterEqual(
+            got, self._floor(),
+            "the installed canon %s is below the adapter's floor %s — the pin in "
+            ".github/workflows/gates.yml names a canon this pack does not accept"
+            % (got, self._floor()),
+        )
 
 
 if __name__ == "__main__":
