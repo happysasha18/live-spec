@@ -108,7 +108,16 @@ The full accounts, including the reviews that missed something and said so, live
 
 ## The skills
 
-[`live-spec-base`](skills/live-spec-base/) holds the shared rulebook · [`build-pipeline`](skills/build-pipeline/) sequences a change end to end · [`spec-author`](skills/spec-author/) writes the living spec · [`product-prover`](skills/product-prover/) reviews it · [`design-reviewer`](skills/design-reviewer/) asks whether the design itself is right once the spec holds together · [`test-author`](skills/test-author/) derives the matrix and the tests · [`communicator`](skills/communicator/) shows work and asks answerable questions · [`feedback-intake`](skills/feedback-intake/) routes what you hand back · [`feedback-collector`](skills/feedback-collector/) sends upstream notes with your consent · [`text-audit`](skills/text-audit/) reads a text as a stranger and fixes where they stop · [`publish`](skills/publish/) gates anything leaving the machine.
+[`live-spec-base`](skills/live-spec-base/) holds the shared rulebook · [`build-pipeline`](skills/build-pipeline/) sequences a change end to end · [`spec-author`](skills/spec-author/) writes the living spec · [`product-prover`](https://github.com/happysasha18/product-prover) reviews it (external skill, own repository) · [`design-reviewer`](skills/design-reviewer/) asks whether the design itself is right once the spec holds together · [`test-author`](skills/test-author/) derives the matrix and the tests · [`communicator`](skills/communicator/) shows work and asks answerable questions · [`feedback-intake`](skills/feedback-intake/) routes what you hand back · [`feedback-collector`](skills/feedback-collector/) sends upstream notes with your consent · [`text-audit`](skills/text-audit/) reads a text as a stranger and fixes where they stop · [`publish`](skills/publish/) gates anything leaving the machine.
+
+## External skills
+
+- **[product-prover](https://github.com/happysasha18/product-prover)** — spec verification and
+  validation with formal-verification thinking. The pack's review step invokes it; it lives in its
+  own repository with its own version line. `scripts/install-external-skills.sh` installs it
+  (version floor in `skills/product-prover-pack/SKILL.md`); the pack-side bindings — mode names,
+  record contract, pin map — live on that same page.
+
 
 The ideas in five minutes: [`OVERVIEW.md`](OVERVIEW.md) · [pipeline](docs/pipeline.md) · [adoption](docs/adoption.md)
 

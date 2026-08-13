@@ -650,7 +650,7 @@ and why each is a trap (SPEC T-12, T-15, INV-4, INV-5, INV-15).
 
 ## How it relates to the other skills
 - `spec-author` — writes/grows the spec (step 1). Public.
-- `product-prover` — reviews the whole spec with formal-verification thinking (step 2). Public.
+- `product-prover` — reviews the whole spec with formal-verification thinking (step 2). External skill, installed by `scripts/install-external-skills.sh`; pack bindings in `skills/product-prover-pack/SKILL.md`.
 - `design-reviewer` — a second pass right after the prover (step 2): judges the design, proposes the
   same-kind groupings the text never declared, and echoes the strongest likely divergence to the human;
   recommendations and questions only, never a block. Public.

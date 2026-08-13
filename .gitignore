@@ -39,3 +39,7 @@ session-extract-*.md
 *.bak
 *.bak-*
 
+
+# product-prover is an external skill (github.com/happysasha18/product-prover),
+# installed by scripts/install-external-skills.sh — the clone is never tracked here
+skills/product-prover/

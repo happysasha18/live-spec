@@ -1,5 +1,7 @@
 # Lens & rule origins
 
+> Prover lens *mechanics* now live in the external [product-prover](https://github.com/happysasha18/product-prover) repository; this file keeps the pack's provenance histories.
+
 The provenance home for the pack's rules and prover lenses: the date and the motivating case that
 gave each rule its shape. The spec and the skill bodies state the mechanism in plain present tense;
 the birth-story lives here, keyed by the rule's code, so it stays retrievable (and reusable for a
