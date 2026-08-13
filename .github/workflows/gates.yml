@@ -22,6 +22,19 @@ jobs:
           python-version: "3.12"
       - name: install pytest
         run: pip install pytest
+      # The external canon, pinned. Before this step existed the suite ran with no clone,
+      # so every assertion that reads the externalized product-prover skipped on every CI
+      # run forever, and CI claimed a green it had not earned (ROADMAP row 622 territory;
+      # the same fork the emergency branch reached from the other side). The pack now
+      # INSTALLS the canon rather than pretending to prove it: --ref names the exact commit
+      # the pack's assertions are written against, and --expect-commit verifies the checkout
+      # landed there, so a moved tag or branch cannot change what CI proves. Moving the pin
+      # is a deliberate pack change; tests/test_prover_adapter_contract.py holds its shape.
+      - name: install the external product-prover canon (pinned, gate b's evidence)
+        run: >-
+          scripts/install-external-skills.sh
+          --ref 94d36454d55438951311d302fc86adba33123868
+          --expect-commit 94d36454d55438951311d302fc86adba33123868
       - name: test suite (gate b, full — the reach map stays local)
         run: python3 -m pytest -q
       - name: gate a — fresh prover record (one record per push, SPEC M-6/INV-116/INV-304)

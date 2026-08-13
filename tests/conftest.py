@@ -125,20 +125,24 @@ def external_clone_or_skip(name="product-prover"):
     A test that reads the clone's CONTENT calls this before reading, so a checkout with
     no installed clone skips with the reason instead of crashing on FileNotFoundError.
 
-    In CI the same skip would be permanent and silent: .github/workflows/gates.yml checks
-    out, installs pytest and runs the suite with no step that installs the external skill,
+    In CI the same skip would once have been permanent and silent: the gates job checked
+    out, installed pytest and ran the suite with no step that installs the external skill,
     so every call here would skip on every run forever and the whole re-pinned prover
-    surface would stop being proven anywhere. A convenience for a developer's bare
-    checkout must not become the CI net's blind spot, so under CI this refuses to skip and
-    says what is unproven.
+    surface would be proven nowhere. That fork is now closed, and closed one way: CI
+    INSTALLS the canon. `.github/workflows/gates.yml` runs
+    `scripts/install-external-skills.sh` with a commit pin and a verification of that pin
+    before the suite step, so the ~52 canon assertions actually run in the environment that
+    gates a push. The pack proves the canon it depends on instead of claiming a green over
+    a file it never read.
 
-    Two remedies close it, and the failure names both rather than choosing: give the gates
-    job the installer step, or re-home the requirement on a file this repo tracks. The same
-    fork was reached from the other side by the adversarial read on branch
+    The CI arm below therefore stays, changed in meaning: it is no longer a debt marker but
+    the tripwire on the installer step. If that step is ever removed, renamed or fails, this
+    fails loudly and names the step, instead of the suite quietly reporting ~52 skips.
+
+    The same fork was reached from the other side by the adversarial read on branch
     `prover-decoupling-emergency-2026-08-13` (its `docs/prover/2026-08-13-push-range-4.md`,
-    finding 4, and the ROADMAP row it opened there) — that branch's disposition is the
-    owner's, so this names the remedies in full instead of pointing at a row number no
-    branch here carries.
+    finding 4, and the ROADMAP row it opened there); that branch's disposition remains the
+    owner's, and nothing here depends on it.
     """
     root = os.path.join(ROOT, "skills", name)
     if not os.path.isfile(os.path.join(root, "SKILL.md")):
@@ -150,8 +154,10 @@ def external_clone_or_skip(name="product-prover"):
         if os.environ.get("CI"):
             raise AssertionError(
                 "this proof did not run and CI has no other net for it — " + reason +
-                "; close it by giving the gates job an installer step, or by re-homing the "
-                "requirement on a file this repo tracks. A silent permanent skip is not a pass."
+                "; CI is supposed to carry the canon, so reaching this line means the "
+                "pinned installer step in .github/workflows/gates.yml was removed, renamed "
+                "or failed. Restore that step rather than widening this guard. A silent "
+                "permanent skip is not a pass."
             )
         raise unittest.SkipTest(reason)
     return root

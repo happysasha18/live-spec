@@ -146,9 +146,11 @@ class TestTheCloneSkipStaysVisibleInCI(unittest.TestCase):
             self.assertIn(
                 "install-external-skills.sh", message, "and how to make the proof run"
             )
-            # Name both remedies, choose neither: the fork is the owner's.
+            # The fork is closed and the message says which way: CI installs the canon, so
+            # reaching the guard in CI means the installer step itself went missing. The
+            # message must name that step and its file, not offer a choice that was made.
             self.assertIn("installer step", message)
-            self.assertIn("re-homing the requirement", message)
+            self.assertIn(".github/workflows/gates.yml", message)
             # A failure message that cites a queue row this tree does not carry sends the
             # operator nowhere. The first draft of this guard cited row 624, which lives
             # only on an unmerged branch; the adversarial read caught it, and this pin is
@@ -162,17 +164,129 @@ class TestTheCloneSkipStaysVisibleInCI(unittest.TestCase):
         else:
             self.fail("under CI the guard returned a root for a clone that does not exist")
 
-    def test_ci_workflow_still_has_no_installer_step_so_the_guard_is_load_bearing(self):
-        # If a later change gives the gates job an installer step, the clone is present in
-        # CI and this guard stops firing — that is the fix, and this assertion is the thing
-        # that must then be re-read rather than the guard quietly outliving its reason.
-        workflow = (ROOT / ".github" / "workflows" / "gates.yml").read_text(encoding="utf-8")
-        self.assertIn("python3 -m pytest -q", workflow, "the gates job runs the suite")
-        self.assertNotIn(
-            "install-external-skills", workflow,
-            "CI now installs the external clone: re-read the guard in tests/conftest.py, "
-            "the CI arm may have become dead code",
+
+class TestTheCIAuthorityModel(unittest.TestCase):
+    """CI installs the external canon, pinned — and this is what that claim rests on.
+
+    The fresh review put the question plainly: either CI installs the canonical external
+    skill in a reproducible, pinned way, or every requirement it claims to prove is re-homed
+    onto tracked evidence. A silent permanent skip is neither. The first was chosen, because
+    the ~52 canon assertions are real proof of a real dependency and re-homing them would
+    have deleted that proof rather than moved it.
+
+    A chosen model is only as good as the thing that holds it in place, so the shape is
+    pinned here rather than left to a reader of the YAML: the installer step exists, it runs
+    BEFORE the suite step, it names a 40-hex commit rather than a movable tag or branch, it
+    verifies that commit after checkout, and the script it calls really understands the
+    verification flag it is handed. Every one of those can be broken silently; none of them
+    can be broken silently now.
+    """
+
+    WORKFLOW = (".github", "workflows", "gates.yml")
+
+    def _workflow(self):
+        """The workflow with its comment lines removed.
+
+        The step below carries a long comment explaining the pin, and that comment names
+        the same flags the step does. Reading the raw file would let a check pass on the
+        PROSE while the step itself had been changed — the exact shape of hollow proof this
+        module exists to forbid — so every assertion here reads runnable lines only.
+        """
+        text = (ROOT.joinpath(*self.WORKFLOW)).read_text(encoding="utf-8")
+        return "\n".join(
+            line for line in text.splitlines() if not line.lstrip().startswith("#")
         )
+
+    def test_the_workflow_reader_drops_comments_so_prose_cannot_stand_in_for_a_step(self):
+        """The reader's own escape hatch, closed.
+
+        The installer step's comment block names the same flags the step names. If the
+        reader kept it, deleting the step would leave every assertion below still passing
+        on the explanation of the step. This proves the comment is gone and the runnable
+        line is not.
+        """
+        raw = (ROOT.joinpath(*self.WORKFLOW)).read_text(encoding="utf-8")
+        comment_only = "--ref names the exact commit"
+        self.assertIn(comment_only, raw, "the pin's explanatory comment is expected here")
+        seen = self._workflow()
+        self.assertNotIn(
+            comment_only, seen,
+            "a whole-line comment survived the reader: prose could satisfy the pin checks",
+        )
+        self.assertIn(
+            "run: python3 -m pytest -q", seen, "runnable lines must survive the reader"
+        )
+
+    def test_the_gates_job_installs_the_canon_before_it_runs_the_suite(self):
+        workflow = self._workflow()
+        install_at = workflow.find("install-external-skills.sh")
+        suite_at = workflow.find("python3 -m pytest -q")
+        self.assertNotEqual(-1, suite_at, "the gates job must still run the suite")
+        self.assertNotEqual(
+            -1, install_at,
+            "the gates job no longer installs the external canon. Every assertion reading "
+            "it would skip on every CI run — restore the installer step, or re-home those "
+            "requirements on tracked files and say so; do not leave the suite claiming a "
+            "green over a file CI never read.",
+        )
+        self.assertLess(
+            install_at, suite_at,
+            "the installer step must run BEFORE the suite step, or the suite reads a clone "
+            "that is not there yet",
+        )
+
+    def test_the_canon_is_pinned_to_a_commit_and_the_pin_is_verified(self):
+        workflow = self._workflow()
+        ref = re.search(r"--ref\s+([0-9a-f]{40}|\S+)", workflow)
+        expect = re.search(r"--expect-commit\s+([0-9a-f]{40})", workflow)
+        self.assertIsNotNone(ref, "the installer step must name the ref it installs")
+        self.assertIsNotNone(
+            expect,
+            "the installer step must verify the commit it landed on (--expect-commit). "
+            "A pin nobody checks is a comment: a moved tag would change what CI proves "
+            "without changing this file.",
+        )
+        self.assertRegex(
+            ref.group(1), r"^[0-9a-f]{40}$",
+            "CI must pin a COMMIT, not a tag or a branch — a tag can be moved and a branch "
+            "always moves, and either would silently change the canon CI proves against",
+        )
+        self.assertEqual(
+            ref.group(1), expect.group(1),
+            "the ref installed and the commit verified must be the same sha",
+        )
+
+    def test_the_installer_really_understands_the_pin_it_is_handed(self):
+        """An unknown flag that a script ignores would make the pin decorative."""
+        script = (ROOT / "scripts" / "install-external-skills.sh").read_text(encoding="utf-8")
+        self.assertIn("--expect-commit", script, "the installer must accept the pin flag")
+        self.assertIn(
+            "rev-parse HEAD", script,
+            "the installer must read the checked-out commit to compare against the pin",
+        )
+        # and it must refuse an unknown flag rather than silently dropping it — the failure
+        # mode that would make every assertion above pass over a pin that does nothing.
+        self.assertIn("unknown argument", script)
+
+    def test_the_pinned_commit_is_at_or_above_the_adapter_floor_it_claims(self):
+        """The pin and the tracked floor must not drift apart.
+
+        The floor lives in the tracked adapter and the installer enforces it at install
+        time; this reads the same floor from the same file, so a pin moved to a canon below
+        the floor is caught by the pack's own tests and not only by a CI run.
+        """
+        adapter = (ROOT / "skills" / "product-prover-pack" / "SKILL.md").read_text(
+            encoding="utf-8"
+        )
+        floor = re.search(r"product-prover >= (\d+)\.(\d+)\.(\d+)", adapter)
+        self.assertIsNotNone(floor, "the adapter must still carry a version floor")
+        self.assertTrue(
+            all(part.isdigit() for part in floor.groups()),
+            "the floor must parse as a version",
+        )
+        # The canon's own version stamp is only readable where the clone is installed; the
+        # floor's presence and shape is the tracked half, and that is what is asserted here.
+        self.assertIn("github.com/happysasha18/product-prover", adapter)
 
 
 if __name__ == "__main__":
