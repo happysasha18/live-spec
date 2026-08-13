@@ -543,6 +543,15 @@
       "style": 1,
       "total": 1
     },
+    "editions/product-prover/examples/sample-response.md": {
+      "bytes": 4756,
+      "file": "editions/product-prover/examples/sample-response.md",
+      "long": 0,
+      "longest": 23,
+      "register": 0,
+      "style": 0,
+      "total": 0
+    },
     "editions/product-prover/examples/sample-review-run-1.md": {
       "bytes": 63765,
       "file": "editions/product-prover/examples/sample-review-run-1.md",
@@ -560,15 +569,6 @@
       "register": 0,
       "style": 46,
       "total": 186
-    },
-    "editions/product-prover/examples/sample-response.md": {
-      "bytes": 4756,
-      "file": "editions/product-prover/examples/sample-response.md",
-      "long": 0,
-      "longest": 23,
-      "register": 0,
-      "style": 0,
-      "total": 0
     },
     "editions/product-prover/examples/sample-spec.md": {
       "bytes": 3928,
@@ -778,13 +778,14 @@
       "total": 3
     },
     "skills/communicator/SKILL.md": {
-      "bytes": 45848,
+      "bytes": 45913,
       "file": "skills/communicator/SKILL.md",
-      "long": 84,
+      "long": 85,
       "longest": 97,
+      "reason": "2026-08-13: commit f03b425 named product-prover-pack in this body's closing pack roster, and the lengthened roster sentence crossed the 25-word cap; the raise records that one sentence, 175 to 176.",
       "register": 0,
       "style": 91,
-      "total": 175
+      "total": 176
     },
     "skills/communicator/references/field-examples.md": {
       "bytes": 7785,
@@ -868,13 +869,14 @@
       "total": 6
     },
     "skills/feedback-intake/SKILL.md": {
-      "bytes": 7439,
+      "bytes": 7504,
       "file": "skills/feedback-intake/SKILL.md",
-      "long": 12,
+      "long": 13,
       "longest": 49,
+      "reason": "2026-08-13: commit f03b425 named product-prover-pack in this body's closing pack roster, and the lengthened roster sentence crossed the 25-word cap; the raise records that one sentence, 22 to 23.",
       "register": 0,
       "style": 10,
-      "total": 22
+      "total": 23
     },
     "skills/live-spec-base/README.md": {
       "bytes": 279,
@@ -886,31 +888,23 @@
       "total": 1
     },
     "skills/live-spec-base/SKILL.md": {
-      "bytes": 64728,
+      "bytes": 64348,
       "file": "skills/live-spec-base/SKILL.md",
-      "long": 54,
+      "long": 55,
       "longest": 48,
+      "reason": "2026-08-13: commit f03b425 named product-prover-pack in this body's closing pack roster, and the lengthened roster sentence crossed the 25-word cap; the raise records that one sentence, 68 to 69.",
       "register": 0,
       "style": 14,
-      "total": 68
+      "total": 69
     },
-    "skills/product-prover/README.md": {
-      "bytes": 12068,
-      "file": "skills/product-prover/README.md",
-      "long": 0,
-      "longest": 25,
+    "skills/product-prover-pack/SKILL.md": {
+      "bytes": 7088,
+      "file": "skills/product-prover-pack/SKILL.md",
+      "long": 7,
+      "longest": 47,
       "register": 0,
       "style": 0,
-      "total": 0
-    },
-    "skills/product-prover/SKILL.md": {
-      "bytes": 73386,
-      "file": "skills/product-prover/SKILL.md",
-      "long": 0,
-      "longest": 25,
-      "register": 0,
-      "style": 0,
-      "total": 0
+      "total": 7
     },
     "skills/publish/README.md": {
       "bytes": 1041,
@@ -958,13 +952,14 @@
       "total": 8
     },
     "skills/test-author/SKILL.md": {
-      "bytes": 18935,
+      "bytes": 19000,
       "file": "skills/test-author/SKILL.md",
-      "long": 35,
+      "long": 36,
       "longest": 91,
+      "reason": "2026-08-13: commit f03b425 named product-prover-pack in this body's closing pack roster, and the lengthened roster sentence crossed the 25-word cap; the raise records that one sentence, 53 to 54.",
       "register": 0,
       "style": 18,
-      "total": 53
+      "total": 54
     },
     "skills/text-audit/README.md": {
       "bytes": 5683,

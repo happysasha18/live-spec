@@ -85,7 +85,11 @@ MACHINE_DIRS = (
     "guardrails/far-tier-fixtures", "guardrails/measured-number-fixtures",
     "guardrails/release-note-fixtures",
 )
-SKIP_DIRS = RECORD_DIRS + MACHINE_DIRS
+
+# The external canonical clone: untracked here and owned by its own repository, so the pack cannot
+# repair prose it does not own (.gitignore names it; scripts/install-external-skills.sh installs it).
+EXTERNAL_DIRS = ("skills/product-prover",)
+SKIP_DIRS = RECORD_DIRS + MACHINE_DIRS + EXTERNAL_DIRS
 # A directory matches only at a path boundary, so a sibling whose name extends a skipped one
 # (templates-old beside templates) stays measured.
 SKIP_PREFIXES = tuple(d + os.sep for d in SKIP_DIRS)
