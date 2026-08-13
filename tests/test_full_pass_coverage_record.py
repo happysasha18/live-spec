@@ -9,11 +9,13 @@ surface × sweep table — and discretionary imaginative probes. The five lifecy
 under the transition-payload parent (INV-168) so one lifecycle is walked once, not five times
 from five colliding angles.
 """
-from conftest import read
+from conftest import read, read_all_flat  # read: the spec-side checks below
 
 
 def _skill():
-    return read("skills/product-prover/SKILL.md")
+    # the whole normative surface, whitespace-collapsed: the canon offloads the sweep/probe
+    # split and the lifecycle lenses to reference/stress-lenses.md.
+    return read_all_flat("skills/product-prover/SKILL.md")
 
 
 def test_spec_states_the_coverage_record_law():
@@ -30,7 +32,8 @@ def test_skill_splits_sweeps_from_probes():
 
 def test_each_sweep_owes_a_verdict_line():
     s = _skill()
-    assert "hit / clean / N/A-with-reason" in s
+    # the canon states the three verdicts in prose rather than the slash-delimited shorthand
+    assert "reading hit, clean, or N/A with its reason" in s
     assert "A missing verdict line reads as a skipped sweep" in s
 
 
@@ -41,7 +44,8 @@ def test_surface_by_sweep_table_replaces_the_na_collapse():
 
 def test_lifecycle_gathers_under_the_payload_parent():
     s = _skill()
-    assert "**Lifecycle**" in s
+    # the lifecycle is its own numbered section in the canon's reference file now
+    assert "### 4. Lifecycle" in s
     # the five gathered lenses keep their names and anchors
     for name in ("**Transition payload**", "**Entry symmetry**", "**Entry state**",
                  "**Paired-transition symmetry**", "**Persistence and versions**",

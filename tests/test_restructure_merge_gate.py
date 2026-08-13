@@ -42,6 +42,13 @@ class TestRestructureMergeGateLaw(unittest.TestCase):
                     "with no token-identity demand over text the redesign meant to change",
                     body, home,
                 )
+            elif home == "skills/product-prover/SKILL.md":
+                # the externalized canon states the same two scopings in its own words
+                self.assertIn("blocking set is scoped to the delta", body, home)
+                self.assertIn(
+                    "The token-identity part applies to a restructure meant to preserve content",
+                    body, home,
+                )
             else:
                 self.assertIn("blocking set is delta-scoped", body, home)
                 self.assertIn("scopes to a content-preserving restructure", body, home)
@@ -56,6 +63,11 @@ class TestRestructureMergeGateLaw(unittest.TestCase):
                     "route it to a queue row in the same delivery", body, home
                 )
                 self.assertIn("shall* not block on it", body, home)
+            elif home == "skills/product-prover/SKILL.md":
+                # the canon's generic wording of the same routing law
+                self.assertIn(
+                    "become tracked follow-ups in the same change and never block", body, home
+                )
             else:
                 self.assertIn(
                     "route to queue rows in the same landing and never block", body, home
@@ -68,6 +80,14 @@ class TestRestructureMergeGateLaw(unittest.TestCase):
                 # R184.5: "say"/"mark" (shall-subjunctive) replace "says"/"marks".
                 self.assertIn(
                     "shall* say the sharpened form back and mark it as its own interpretation",
+                    body,
+                    home,
+                )
+            elif home == "skills/product-prover/SKILL.md":
+                # the canon states the same duty imperatively, as the reviewer's own reading
+                self.assertIn(
+                    "state the sharpened form back to them, and mark it as the reviewer's own "
+                    "reading",
                     body,
                     home,
                 )

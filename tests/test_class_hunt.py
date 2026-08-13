@@ -13,7 +13,7 @@ import os
 import re
 import unittest
 
-from conftest import ROOT, read_flat
+from conftest import ROOT, read_all_flat, read_flat
 
 
 class TestClassHunt(unittest.TestCase):
@@ -54,7 +54,7 @@ class TestClassHunt(unittest.TestCase):
         self.assertIn("The hunt is four moves:", bp)
 
     def test_prover_carries_the_class_lens(self):
-        pv = read_flat("skills/product-prover/SKILL.md")
+        pv = read_all_flat("skills/product-prover/SKILL.md")
         self.assertIn("Class lens", pv)
         # the SPEC INV-124 tie is a pack anchor: since the v5.0.0 externalization the generic
         # prover canon carries no project codes, and the pack adapter binds the class lens to
@@ -74,18 +74,21 @@ class TestClassHunt(unittest.TestCase):
         would pass against the mandatory-sweep paragraph, which carried that sentence before this
         duty existed.
         """
-        pv = read_flat("skills/product-prover/SKILL.md")
-        self.assertIn("**The class lens** — one duty standing beside the probes above", pv)
-        self.assertIn("it runs on every pass, whatever the document holds", pv)
-        self.assertIn("Every pass writes one class line in its persisted record", pv)
+        pv = read_all_flat("skills/product-prover/SKILL.md")
+        # the standing-duty paragraph lives in the canon's reference/stress-lenses.md now, as
+        # its own "The class lens" section, and the canon says "review" where the pack said
+        # "pass" — the duty (its own tier, one line every time, silence reads as a skip) holds.
+        self.assertIn("One duty standing beside the probes above, in a tier of its own", pv)
+        self.assertIn("it runs on every review, whatever the document holds", pv)
+        self.assertIn("Every review writes one class line in its record", pv)
         self.assertIn("writes no class line reads as a skipped sweep", pv)
         self.assertIn("`Class lens: swept — <the classes filed>`", pv)
 
     def test_readme_names_the_class_lens(self):
         """A standalone reader learns the sweep exists from the README alone (row 611)."""
         rd = read_flat("skills/product-prover/README.md")
-        self.assertIn("The class lens is one duty standing beside those probes", rd)
-        self.assertIn("the class lens writes its own line there", rd)
+        self.assertIn("The class lens stands beside them, and it owes a line of its own", rd)
+        self.assertIn("Each pass records whether that sweep ran", rd)
 
     def test_matrix_row_covers_the_class_hunt(self):
         with open(os.path.join(ROOT, "TEST_MATRIX.md"), encoding="utf-8") as f:

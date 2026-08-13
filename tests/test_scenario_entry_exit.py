@@ -11,7 +11,7 @@ the composition clause, the entry/exit duty in spec-author, product-prover's sce
 import os
 import unittest
 
-from conftest import ROOT, read_flat
+from conftest import ROOT, read_all_flat, read_flat
 
 
 class TestScenarioEntryExit(unittest.TestCase):
@@ -45,7 +45,7 @@ class TestScenarioEntryExit(unittest.TestCase):
         self.assertIn("Each scenario states how it is entered and how it exits (SPEC INV-127)", sa)
 
     def test_prover_carries_the_scenario_level_lens(self):
-        pv = read_flat("skills/product-prover/SKILL.md")
+        pv = read_all_flat("skills/product-prover/SKILL.md")
         self.assertIn("Scenario entry and exit", pv)
         self.assertIn("a whole flow's edges", pv)
 

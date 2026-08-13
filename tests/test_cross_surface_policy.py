@@ -45,9 +45,11 @@ class TestCrossSurfacePolicy(unittest.TestCase):
         self.fail("INV-125 Formal-index row missing")
 
     def test_prover_carries_the_cross_surface_lens(self):
-        pv = read_flat("skills/product-prover/SKILL.md")
+        pv = read_all_flat("skills/product-prover/SKILL.md")
         self.assertIn("Cross-surface policy uniformity", pv)
-        self.assertIn("The preventive twin of the class lens", pv)
+        # the canon states the twin relation mid-sentence ("This sweep is the preventive twin
+        # of the class lens below"), so the needle is pinned lowercase.
+        self.assertIn("the preventive twin of the class lens", pv)
 
     def test_build_pipeline_completeness_holds_uniformity(self):
         bp = read_all_flat("skills/build-pipeline/SKILL.md")
@@ -62,7 +64,7 @@ class TestCrossSurfacePolicy(unittest.TestCase):
         spec = read_flat("PRODUCT_SPEC.md")
         self.assertIn("a sentence states a principle for a whole kind", spec)
         self.assertIn("lift", spec)
-        pv = read_flat("skills/product-prover/SKILL.md")
+        pv = read_all_flat("skills/product-prover/SKILL.md")
         self.assertIn("kind-general rule", pv)
         self.assertIn("scope it to the one member", pv)
 

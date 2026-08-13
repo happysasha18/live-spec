@@ -11,7 +11,7 @@ import os
 import re
 import unittest
 
-from conftest import ROOT, read_flat
+from conftest import ROOT, read_all_flat, read_flat
 
 
 class TestDeclaredLaws(unittest.TestCase):
@@ -23,7 +23,7 @@ class TestDeclaredLaws(unittest.TestCase):
         self.assertIn("dated exemption", spec)
 
     def test_the_prover_station(self):
-        prover = read_flat("skills/product-prover/SKILL.md")
+        prover = read_all_flat("skills/product-prover/SKILL.md")
         self.assertIn("Declared cross-cutting laws", prover)
         self.assertIn("dated exemption", prover)
         self.assertIn("ranks as a broken invariant", prover)
@@ -70,9 +70,12 @@ class TestLawNamesItsNet(unittest.TestCase):
         self.assertIn("dated reason", spec)
 
     def test_prover_station_demands_net(self):
-        prover = read_flat("skills/product-prover/SKILL.md")
-        self.assertIn("names its net", prover)
-        self.assertIn("no named net", prover)
+        # the externalized canon renamed the pack's "net" vocabulary to "enforcer" (the departed
+        # body already used the two as synonyms); the demand itself — every law names what fails
+        # when it is broken, a netless law is a broken invariant — is unchanged.
+        prover = read_all_flat("skills/product-prover/SKILL.md")
+        self.assertIn("Every declared law names the thing that fails when the law is broken", prover)
+        self.assertIn("A law with no named enforcer ranks as a broken invariant", prover)
 
     def test_spec_author_writes_the_net(self):
         author = read_flat("skills/spec-author/SKILL.md")

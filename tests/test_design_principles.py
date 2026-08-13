@@ -197,10 +197,13 @@ class TestDesignPrinciplesLaw(unittest.TestCase):
         # the deposit asked for the overlap rule as a spec-time prover lens, sibling to the
         # cross-surface and paired-transition lenses; the verify-time design principle is its
         # floor, this lens catches it earlier on the spec (SPEC INV-136)
-        pv = read_flat("skills/product-prover/SKILL.md")
-        self.assertIn("Interactive-overlap across layers", pv)
+        pv = read_all_flat("skills/product-prover/SKILL.md")
+        # the canon un-hyphenated the lens name; the INV-136 anchor is a pack fact carried by
+        # the pack adapter's pin map.
+        self.assertIn("Interactive overlap across layers", pv)
         self.assertIn("retract the lower layer's controls", pv)
-        self.assertIn("[INV-136]", pv)
+        pack = read_flat("skills/product-prover-pack/SKILL.md")
+        self.assertIn("INV-136", pack)
 
     def test_spec_and_index_home_the_prover_lens(self):
         spec = read_flat("PRODUCT_SPEC.md")
@@ -211,8 +214,8 @@ class TestDesignPrinciplesLaw(unittest.TestCase):
         # blind spot at spec time is carried by the product-prover skill, its owning home. The
         # locations-only index (SPEC INV-271) no longer lists prose homes, so the lens attribution
         # is asserted at its skill home.
-        prover = read_flat("skills/product-prover/SKILL.md").lower()
-        self.assertIn("interactive-overlap", prover)
+        prover = read_all_flat("skills/product-prover/SKILL.md").lower()
+        self.assertIn("interactive overlap", prover)
         self.assertIn("this lens catches the blind spot", prover)
 
 

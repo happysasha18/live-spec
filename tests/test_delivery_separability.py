@@ -21,7 +21,7 @@ import os
 import sys
 import unittest
 
-from conftest import ROOT, read, read_flat
+from conftest import ROOT, read, read_all_flat, read_flat
 
 sys.path.insert(0, os.path.join(ROOT, "guardrails"))
 import archformat  # the one node reader every consumer reads through (SPEC INV-280)
@@ -49,17 +49,20 @@ class TestDeliverySeparabilityLaw(unittest.TestCase):
         self.assertIn("read the finding as the third case", flat)
 
     def test_inv248_prover_carries_the_lens(self):
-        pp = read_flat("skills/product-prover/SKILL.md")
+        pp = read_all_flat("skills/product-prover/SKILL.md")
         self.assertIn("Delivery separability along a declared axis", pp,
                       "product-prover does not carry the delivery-separability lens")
-        self.assertIn("[INV-248]", pp)
+        # the INV-248 anchor is a pack fact: the pack adapter's pin map carries it (unbracketed,
+        # the pin-map row form) against the lens's name.
+        pack = read_flat("skills/product-prover-pack/SKILL.md")
+        self.assertIn("INV-248", pack)
         self.assertIn("unexamined monolith", pp,
                       "the lens does not name the unexamined-monolith finding")
 
     def test_inv248_prover_carries_the_dual_habit(self):
         """The lens carries the dual-discovery habit — ask whether an applied lens's dual bites — as a
         habit, never a law that every lens ship a partner."""
-        pp = read_flat("skills/product-prover/SKILL.md")
+        pp = read_all_flat("skills/product-prover/SKILL.md")
         self.assertIn("whether that lens's dual bites", pp,
                       "product-prover does not carry the dual-discovery habit")
         self.assertIn("never demands every lens ship a partner", pp,

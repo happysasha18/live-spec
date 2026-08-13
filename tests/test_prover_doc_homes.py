@@ -48,13 +48,18 @@ def test_boundary_homed_in_when_not_to_use():
 
 def test_kind_block_stays_general_split_lives_in_lens():
     s = _skill()
-    kind_block = s[s.index("`KIND` — the finding's verdict"):s.index("`CATEGORY` —")]
+    kind_block = s[s.index("`KIND` — whether the finding is a defect or a recommendation"):
+                   s.index("`CATEGORY` —")]
     assert "one-sided pair" not in kind_block, \
         "the paired-transition family split leaked back into the KIND block"
-    lens_start = s.index("**Paired-transition symmetry**")
-    lens_end = s.index("**Persistence and versions**")
-    lens = s[lens_start:lens_end]
-    assert "declared one-sided pair" in lens and "open motion question" in lens, \
+    # the paired-transition lens lives in the canon's reference/stress-lenses.md now, and the
+    # canon generalized "open motion question" into the taste-call open question surfaced to
+    # the decision-owner (motion feel kept as a worked instance).
+    lenses = LENSES.read_text(encoding="utf-8")
+    lens = lenses[lenses.index("**Paired-transition symmetry**"):
+                  lenses.index("**Persistence and versions**")]
+    assert "declared one-sided pair" in lens and \
+        "the open question is surfaced to the decision-owner" in lens, \
         "the family's kind-split left its lens home"
 
 
@@ -83,20 +88,22 @@ def test_the_record_path_the_skill_prescribes_is_the_one_the_gate_demands():
 
 
 def test_the_lifecycle_lead_in_counts_the_bullets_that_follow_it():
-    """Row 612: the lead-in said the parent gathers five angles and six bullets followed.
-    It now names the parent first and the five it gathers after it. This holds the stated
-    count against the bullets actually under it."""
-    lines = _skill().splitlines()
-    start = next(i for i, line in enumerate(lines) if line.startswith("- **Lifecycle**"))
-    lead_in = next(i for i in range(start, len(lines))
-                   if "the five angles it gathers follow it" in lines[i])
-    bullets = 0
-    for line in lines[lead_in + 1:]:
-        if line.startswith("- **"):
-            break
-        if line.startswith("  - **"):
-            bullets += 1
-    assert bullets == 6, \
-        "the lifecycle sweep now has %d bullets under a lead-in promising a parent plus five" % bullets
-    assert lines[lead_in].strip().endswith(":"), \
-        "the lifecycle lead-in stopped introducing the bullets it counts"
+    """Row 612: the lead-in states how many angles the lifecycle gathers, and this holds
+    that stated count against the sub-lenses actually under it. In the canon's v5.0.0 shape
+    the lifecycle is reference/stress-lenses.md's "### 4. Lifecycle" section: a lead-in
+    naming five angles beside the transition-payload parent, then one bold-led paragraph
+    per sub-lens — the parent plus the five, six heads."""
+    lines = LENSES.read_text(encoding="utf-8").splitlines()
+    start = next(i for i, line in enumerate(lines) if line.startswith("### 4. Lifecycle"))
+    end = next(i for i in range(start + 1, len(lines)) if lines[i].startswith("### "))
+    section = lines[start:end]
+    lead_in = next((i for i, line in enumerate(section) if "Five separate angles" in line),
+                   None)
+    assert lead_in is not None, \
+        "the lifecycle lead-in stopped stating the count of angles it gathers"
+    heads = [line for line in section if line.startswith("**")]
+    assert len(heads) == 6, \
+        "the lifecycle section now has %d sub-lens heads under a lead-in promising a parent " \
+        "plus five" % len(heads)
+    assert heads[0].startswith("**Transition payload**"), \
+        "the transition-payload parent stopped leading the lifecycle's sub-lenses"
