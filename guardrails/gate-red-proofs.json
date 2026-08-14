@@ -18,7 +18,7 @@
       "reds": "check-prototype-fence.sh"
     },
     "f": {
-      "proof": "tests/test_guardrails.py::test_broken_skill_fails",
+      "proof": "tests/test_guardrails_unit.py::test_broken_skill_fails",
       "reds": "check-skill-loadability.sh"
     },
     "g": {
