@@ -9,7 +9,7 @@ non-idempotent `git mv` step and no walk at all).
 import os
 import unittest
 
-from conftest import read, read_flat
+from conftest import read, read_all_flat, read_flat
 
 
 class TestCatchupWalk(unittest.TestCase):
@@ -132,7 +132,7 @@ class TestCatchupPreserveAndRehome(unittest.TestCase):
                 )
 
     def test_spec_file_row_in_defaults_table(self):
-        self.assertIn("spec.file", read_flat("skills/live-spec-base/SKILL.md"))
+        self.assertIn("spec.file", read_all_flat("skills/live-spec-base/SKILL.md"))
 
 
 class TestCatchupSelfTest(unittest.TestCase):

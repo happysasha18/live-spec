@@ -15,7 +15,7 @@ The checker `guardrails/check-far-tier.py` is report-shape only and is NOT in th
 import os
 import subprocess
 
-from conftest import ROOT, read, read_all_flat
+from conftest import ROOT, read, read_all, read_all_flat
 
 CHECK = os.path.join(ROOT, "guardrails", "check-far-tier.py")
 FIX = os.path.join(ROOT, "guardrails", "far-tier-fixtures")
@@ -101,7 +101,7 @@ def test_roadmap_template_carries_the_far_status():
 
 
 def test_settings_ladder_carries_the_cadence_default():
-    base = read("skills/live-spec-base/SKILL.md")
+    base = read_all("skills/live-spec-base/SKILL.md")
     assert "far-tier.surface-cadence" in base, "the settings ladder carries no far-tier cadence default"
 
 

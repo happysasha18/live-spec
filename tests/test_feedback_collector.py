@@ -8,7 +8,7 @@ arrow) and from the measurement family (no scoring).
 String-level assertions on the shipped files. Landed 2026-07-15."""
 import re
 
-from conftest import ROOT, read
+from conftest import ROOT, read, read_all
 
 SKILL = "skills/feedback-collector/SKILL.md"
 
@@ -79,5 +79,5 @@ def test_spec_states_the_third_arrow():
 def test_flag_in_settings_catalog():
     # INV-87: every setting is a marked row in the package-defaults catalog. feedback-upstream lives
     # there, off by default. Never a setting named only in prose with no catalog row.
-    base = read("skills/live-spec-base/SKILL.md")
+    base = read_all("skills/live-spec-base/SKILL.md")
     assert "`feedback-upstream`" in base

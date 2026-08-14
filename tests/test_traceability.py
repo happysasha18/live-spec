@@ -1045,7 +1045,7 @@ class TestDesignSyncWiring(unittest.TestCase):
     """SPEC E-18, row 93 pack-side half: the switch + channel lines are wired; the machine stays [target]."""
 
     def test_designsync_wiring(self):
-        base = re.sub(r"\s+", " ", read("skills/live-spec-base/SKILL.md"))
+        base = re.sub(r"\s+", " ", read_all("skills/live-spec-base/SKILL.md"))
         self.assertIn("`design-sync`", base, "base defaults table lost the design-sync switch")
         self.assertIn("off — a host with visual components may switch it on", base,
                       "design-sync switch lost its off-by-default value")
@@ -2482,7 +2482,7 @@ class TestProblemLedger(unittest.TestCase):
                        "A dropped proposal *shall* stay dropped",  # re-pinned: *shall* markup, same rule
                        "templates/profile.template.md"):
             self.assertIn(needle, spec, "SPEC missing: %s" % needle)
-        base = re.sub(r"\s+", " ", read(os.path.join("skills", "live-spec-base", "SKILL.md")))
+        base = re.sub(r"\s+", " ", read_all(os.path.join("skills", "live-spec-base", "SKILL.md")))
         for needle in ("found or founded at setup", "profile.template.md",
                        "never onboards anyone"):
             self.assertIn(needle, base, "base missing: %s" % needle)
@@ -2575,7 +2575,7 @@ class TestProblemLedger(unittest.TestCase):
         for needle in ("INV-36", "Founding names the project kind, and the kind can change",
                        "shall* not silently override that explicit line"):
             self.assertIn(needle, spec, "SPEC missing: %s" % needle)
-        base = re.sub(r"\s+", " ", read(os.path.join("skills", "live-spec-base", "SKILL.md")))
+        base = re.sub(r"\s+", " ", read_all(os.path.join("skills", "live-spec-base", "SKILL.md")))
         for needle in ("`project.kind`", "asked at founding and at adoption"):
             self.assertIn(needle, base, "base missing: %s" % needle)
         adopt = re.sub(r"\s+", " ", read(os.path.join("adopt", "ADOPT.md")))
@@ -2722,7 +2722,7 @@ class TestProblemLedger(unittest.TestCase):
                        "bisect a batch-end red by delivery order",
                        "An explicit host line outlives any rung"):
             self.assertIn(needle, spec, "SPEC missing: %s" % needle)
-        base = re.sub(r"\s+", " ", read(os.path.join("skills", "live-spec-base", "SKILL.md")))
+        base = re.sub(r"\s+", " ", read_all(os.path.join("skills", "live-spec-base", "SKILL.md")))
         for needle in ("budget.pressure", "economy ladder", "SPEC T-19"):
             self.assertIn(needle, base, "base missing: %s" % needle)
 

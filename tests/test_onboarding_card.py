@@ -1,7 +1,9 @@
 """F-onboarding: the settings card (M-206..M-210, INV-87/INV-88).
 
 The card is rendered by scripts/onboarding-card.py from the base skill's
-package-defaults table (rows marked card-visible) plus the profile files.
+package-defaults table (rows marked card-visible) plus the profile files. That
+table's home is the base skill's on-demand settings-ladder module,
+skills/live-spec-base/references/settings-ladder.md.
 Function-level rows run the real renderer and inspect the real output.
 """
 import os
@@ -14,7 +16,10 @@ import unittest
 
 from conftest import ROOT, read, read_flat
 RENDERER = os.path.join(ROOT, "scripts", "onboarding-card.py")
-BASE = os.path.join(ROOT, "skills", "live-spec-base", "SKILL.md")
+# The package-defaults table moved out of the rulebook body into the base skill's own on-demand
+# module, loaded when a setting is being resolved. The renderer reads the table's home, so the
+# card is rendered from the module rather than from SKILL.md.
+BASE = os.path.join(ROOT, "skills", "live-spec-base", "references", "settings-ladder.md")
 HOST_PROFILE = os.path.join(ROOT, ".live-spec", "profile.md")
 NORM = os.path.join(ROOT, "docs", "norms", "onboarding-card-2026-07-10.html")
 

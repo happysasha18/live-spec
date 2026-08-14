@@ -888,14 +888,22 @@
       "total": 1
     },
     "skills/live-spec-base/SKILL.md": {
-      "bytes": 64348,
+      "bytes": 56083,
       "file": "skills/live-spec-base/SKILL.md",
-      "long": 55,
+      "long": 54,
       "longest": 48,
-      "reason": "2026-08-13: commit f03b425 named product-prover-pack in this body's closing pack roster, and the lengthened roster sentence crossed the 25-word cap; the raise records that one sentence, 68 to 69.",
       "register": 0,
       "style": 14,
-      "total": 69
+      "total": 68
+    },
+    "skills/live-spec-base/references/settings-ladder.md": {
+      "bytes": 9680,
+      "file": "skills/live-spec-base/references/settings-ladder.md",
+      "long": 2,
+      "longest": 28,
+      "register": 0,
+      "style": 0,
+      "total": 2
     },
     "skills/product-prover-pack/SKILL.md": {
       "bytes": 7088,
@@ -1122,6 +1130,15 @@
       "register": 0,
       "style": 2,
       "total": 2
+    },
+    "work/ladder-measurement.md": {
+      "bytes": 8546,
+      "file": "work/ladder-measurement.md",
+      "long": 4,
+      "longest": 33,
+      "register": 0,
+      "style": 0,
+      "total": 4
     }
   }
 }
