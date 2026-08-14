@@ -318,9 +318,28 @@ class TestGateB_Tests(unittest.TestCase):
     scratch-suite tests skip themselves (one level of nesting, never a fork bomb).
     """
 
+    @staticmethod
+    def _scratch_ignore(directory, names):
+        """What the scratch copy leaves behind: caches, the repository itself, and any OTHER
+        repository installed inside it.
+
+        An external skill is another repository's checkout living under skills/ — product-prover
+        today — and every fence in the pack tells it apart by the `.git` it carries (see
+        tests/test_skill_count_agrees.py::is_external_skill, install.sh, scripts/sync-skills.sh).
+        A plain copy strips that marker along with the pack's own, and the copy then shows the
+        clone as an eleventh pack skill carrying the external repository's version: the count law
+        and the one-version law both red inside gate b, here and in CI alike, since CI installs
+        the pinned canon before the suite runs. The clone is not the pack's tree, so it does not
+        travel into a copy of the pack's tree; the outer suite still proves it clone-present.
+        """
+        ignored = {n for n in names if n in (".git", "__pycache__")}
+        ignored.update(n for n in names
+                       if os.path.exists(os.path.join(directory, n, ".git")))
+        return ignored
+
     def _scratch_tests_dir(self, tmp):
         dest = os.path.join(tmp, "repo")
-        shutil.copytree(ROOT, dest, ignore=shutil.ignore_patterns(".git", "__pycache__"))
+        shutil.copytree(ROOT, dest, ignore=self._scratch_ignore)
         return os.path.join(dest, "tests")
 
     def _skip_if_inner(self):
