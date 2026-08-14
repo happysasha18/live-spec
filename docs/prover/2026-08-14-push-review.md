@@ -68,3 +68,9 @@ a3e54fb The external prover's adapter contract gets its first live fence
 ## Environment reds known at push time
 
 The full suite at b2fc1af fails four host-local checks on the review machine. A fresh-HOME probe with the CI variables set passes all three underlying checks. Expected CI result on this push: green. CI itself runs after the push.
+
+## Post-record commits
+
+- c73c6e4 — this record itself; it touches the prover directory alone.
+- 26f6850 — gate repairs on the gates' own remedies: six SKILL-REVIEW records and the README tree-count block rebuilt by its generator. The freeze baseline was re-blessed locally after the reviewed pin moves.
+- c06af27 — the six records rewritten to name every substantive commit of the range per skill, with the verdict line where the gate reads it.
