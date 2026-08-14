@@ -566,9 +566,16 @@ class TestRequestSetPlacesEverySetupSentence(unittest.TestCase):
         self.assertIn("The canonical document set lives in `adopt/ADOPT.md`", body)
 
     def test_the_templates_list_names_every_template_that_ships(self):
-        """The stale-list repair riding criterion 16: the guide named ten of fourteen files."""
+        """The stale-list repair riding criterion 16: the guide named ten of fourteen files.
+
+        A template is a file the host copies. What the interpreter leaves behind next to one —
+        `__pycache__` for `headless_harness.py`, a dotfile the tree never ships — is not a
+        template and is not named by the guide. The cache folder is born inside the scratch copy
+        after the copy is taken, so a run that imports the harness would otherwise red on it."""
         body = read("docs/adoption.md")
         for entry in sorted(os.listdir(os.path.join(ROOT, "templates"))):
+            if entry.startswith(".") or entry == "__pycache__":
+                continue
             self.assertIn(entry, body,
                           "docs/adoption.md's templates section does not name %s" % entry)
 

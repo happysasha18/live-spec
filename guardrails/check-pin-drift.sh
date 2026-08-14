@@ -93,14 +93,18 @@ while IFS=$'\t' read -r path line label; do
     /*)    full="$path" ;;
     *)     full="$ROOT/$path" ;;
   esac
-  # A machine-local pin (~/ or absolute, outside the repo) exists only on the author's
-  # machine; in CI (the second net, SPEC M-5) it is noted and skipped, never a false red.
+  # A machine-local pin (~/ or absolute, outside the repo) exists only on the machine that
+  # carries it. Where the HOME running this gate holds no such file — CI, a fresh machine, a
+  # run under a clean HOME — it is noted and skipped, never a false red (the second net,
+  # SPEC M-5). The stand-down reads the file, not the CI variable: the variable said "absent"
+  # only where CI happened to be the sole clean HOME, which stopped being true. A pin whose
+  # file IS present is checked wherever it stands, so a drifted home file still reds locally.
   # It is skipped BEFORE the count, so the green line's arithmetic closes over the pins
   # this run actually read; the note above names what stood outside it.
   case "$path" in
     "~/"*|/*)
-      if [ ! -f "$full" ] && [ "${CI:-}" = "true" ]; then
-        echo "note (pin drift): $path:$line — machine-local pin, absent in CI; skipped."
+      if [ ! -f "$full" ]; then
+        echo "note (pin drift): $path:$line — machine-local pin, absent under this HOME; skipped."
         continue
       fi ;;
   esac

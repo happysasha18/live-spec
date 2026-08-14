@@ -1031,19 +1031,30 @@ class TestGateG_PinDrift(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self._assert_counts_close(result)
 
+    NOTE = "machine-local pin, absent under this HOME; skipped"
+
     def test_the_counts_close_in_ci_too_with_a_pin_skipped(self):
-        """The second net (SPEC M-5) skips a machine-local pin, so that pin stands outside the
-        count as well as outside the buckets — it is named by the note line instead. A pin counted
-        and bucketed nowhere would red CI after a green local push."""
+        """The second net (SPEC M-5) skips a machine-local pin whose file this HOME does not
+        carry, so that pin stands outside the count as well as outside the buckets — it is named
+        by the note line instead. A pin counted and bucketed nowhere would red CI after a green
+        local push.
+
+        The delta between the two arms is counted, not assumed to be one. The stand-down reads
+        the file, so a HOME carrying the pinned file skips nothing while a clean HOME — CI, a
+        fresh machine — skips it in both arms; either way the pins one arm stood down on and the
+        other did not are exactly what separates the two counts."""
         if os.environ.get("LIVE_SPEC_SCRATCH"):
             self.skipTest("machine-local pin behaviour — meaningless in a git-less scratch copy")
         local = run([self.SCRIPT], extra_env={"CI": "", "HOME": os.path.expanduser("~")})
         self.assertEqual(local.returncode, 0, local.stdout + local.stderr)
         in_ci = run([self.SCRIPT], extra_env={"CI": "true", "HOME": "/nonexistent-ci-home"})
         self.assertEqual(in_ci.returncode, 0, in_ci.stdout + in_ci.stderr)
-        self.assertIn("machine-local pin, absent in CI; skipped", in_ci.stdout)
-        self.assertEqual(self._assert_counts_close(in_ci) + 1, self._assert_counts_close(local),
-                         "the skipped pin leaves the count, and only that pin")
+        self.assertIn(self.NOTE, in_ci.stdout,
+                      "the CI arm carries no HOME, so it must name the pin it stood down on")
+        delta = in_ci.stdout.count(self.NOTE) - local.stdout.count(self.NOTE)
+        self.assertEqual(self._assert_counts_close(in_ci) + delta,
+                         self._assert_counts_close(local),
+                         "the skipped pins leave the count, and only those pins")
 
 
 class TestGateTimeFence(unittest.TestCase):
@@ -1188,19 +1199,44 @@ class TestCIMirror(unittest.TestCase):
                          "check-tests.sh must not invoke unittest (it under-collects the suite)")
         self.assertIn("pytest", ci, "the CI mirror must run pytest")
 
-    def test_machine_local_pins_skip_in_ci_only(self):
-        """The CI net must not false-red on pins that live only on the author's
-        machine (~/.claude/...), while the local run stays strict (row 14's first
-        live CI run caught exactly this)."""
+    NOTE = "machine-local pin, absent under this HOME; skipped"
+
+    def test_machine_local_pins_stand_down_where_the_home_carries_no_such_file(self):
+        """The CI net must not false-red on pins that live only on the author's machine
+        (~/.claude/...) — row 14's first live CI run caught exactly this. The stand-down reads
+        the file rather than the CI variable: CI stopped being the only clean HOME the moment a
+        gate ran under one (2026-08-14, run 31812253511), and a fresh machine is the same case."""
         if os.environ.get("LIVE_SPEC_SCRATCH"):
             self.skipTest("machine-local pin behaviour — meaningless in a git-less scratch copy")
         script = os.path.join(GUARDRAILS, "check-pin-drift.sh")
-        in_ci = run([script], extra_env={"CI": "true", "HOME": "/nonexistent-ci-home"})
-        self.assertEqual(in_ci.returncode, 0, in_ci.stdout + in_ci.stderr)
-        self.assertIn("machine-local pin, absent in CI; skipped", in_ci.stdout)
-        local = run([script], extra_env={"CI": "", "HOME": "/nonexistent-ci-home"})
-        self.assertEqual(local.returncode, 1,
-                         "outside CI a missing machine-local pin must stay a hard FAIL")
+        for label, env in (("CI", {"CI": "true", "HOME": "/nonexistent-ci-home"}),
+                           ("a fresh machine", {"CI": "", "HOME": "/nonexistent-ci-home"})):
+            result = run([script], extra_env=env)
+            self.assertEqual(result.returncode, 0,
+                             "a HOME carrying no such file must not red under %s: %s"
+                             % (label, result.stdout + result.stderr))
+            self.assertIn(self.NOTE, result.stdout,
+                          "under %s the stood-down pin must be named" % label)
+
+    def test_a_home_pin_whose_file_is_present_but_drifted_still_reds(self):
+        """The teeth the stand-down keeps: absence stands down, drift does not. A machine that
+        carries the pinned file is held to it, in CI as much as at home — otherwise the widened
+        stand-down would swallow the very rot gate g exists to catch."""
+        script = os.path.join(GUARDRAILS, "check-pin-drift.sh")
+        with tempfile.TemporaryDirectory() as home, tempfile.TemporaryDirectory() as tree:
+            os.makedirs(os.path.join(home, ".claude"))
+            with open(os.path.join(home, ".claude", "CLAUDE.md"), "w") as f:
+                f.write("A home file carrying nothing the label names.\n")
+            arch = os.path.join(tree, "ARCHITECTURE.md")
+            with open(arch, "w") as f:
+                f.write("### [node: n]\n\n**responsibility** — r\n\n**owns** — E-1\n\n"
+                        "**pins** — `~/.claude/CLAUDE.md:1` (INV-184, the settings ladder)\n")
+            result = run([script, arch], extra_env={"CI": "true", "HOME": home})
+            self.assertEqual(result.returncode, 1,
+                             "a present home file that does not carry its label must stay RED: "
+                             + result.stdout + result.stderr)
+            self.assertNotIn(self.NOTE, result.stdout,
+                             "a present file must be checked, never stood down")
 
 
 class TestGateShippedLanguage(unittest.TestCase):
