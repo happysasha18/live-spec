@@ -32,7 +32,9 @@ it silent rather than picking the answer that suits the pass.** It goes to the o
 
 ## Range
 
-`acf0e3c..35f3977`, 17 commits, every one named:
+`acf0e3c..f09a876`, 19 commits, every one named. Two of them — the record itself and the
+matrix-row repair the first complete suite demanded — landed after this record's first
+writing, and are named here rather than left out of the range they belong to:
 
 - `08acf23` The dev-machine sync and the config-health arm learn the external-skill fence the installer already carries
 - `54f61fd` tests+adapter: re-home pack anchors on the product-prover-pack adapter
@@ -51,6 +53,8 @@ it silent rather than picking the answer that suits the pass.** It goes to the o
 - `1ebc6e8` Two checks of the CI authority model could pass over nothing; both now bite
 - `db6c0d9` The published skills line count stops counting another repository's lines
 - `35f3977` The architecture stops promising line numbers inside another repository
+- `c1139b0` The candidate-repair range gets its record: no prover mode ran, and the law that says so is cited
+- `f09a876` Row M-253 names the tests that now carry its law, not the three it used to have
 
 ## Files read
 
@@ -62,7 +66,8 @@ it silent rather than picking the answer that suits the pass.** It goes to the o
 
 ## Checks run
 
-Everything below was run against this exact tree before this record was written.
+The bullets below were run before this record was first written. The four complete suites
+after them were added once they finished, over the final tree, and say so in their own words.
 
 - Gate g (pin drift): **OK, 209 pins checked** — with the canon installed AND on a bare
   checkout. Red at the base in both environments.
@@ -80,11 +85,53 @@ Everything below was run against this exact tree before this record was written.
 - Each of the four fresh-review repairs was proven red first; the before/after counts are in
   each commit's own message and in the wave digest.
 
-**Not claimed here:** four complete suites over this exact tree, in the tracked-only and
-clone-present environments, against `acf0e3c` in both. They are owed by the charter and are
-being run now; their complete node-id failure-set comparison lands in
-`/private/tmp/live-spec-night/roadmap-wave-digest.md`. This record does not assert their
-result, because at the moment it was written they had not finished.
+**The four complete suites, added after they finished.** Run strictly one at a time on one
+machine, each a whole `python3 -m pytest -q --durations=25`, over the final tree — the two
+commits that landed after this record was first written are named in the range above.
+
+| run | result | wall |
+|---|---|---|
+| final, tracked-only (no clone) | **7 failed, 2,491 passed, 54 skipped** | 16m 49s |
+| final, clone-present (what CI now carries) | **7 failed, 2,544 passed, 1 skipped** | 16m 03s |
+| baseline `acf0e3c`, tracked-only | **73 failed, 2,448 passed, 1 skipped** | 15m 42s |
+| baseline `acf0e3c`, clone-present | **68 failed, 2,453 passed, 1 skipped** | 16m 08s |
+
+Complete node-id sets were compared, not samples. **Introduced by this range: none, in
+either environment** — `comm -23 final baseline` is empty both ways. The candidate closes 66
+of the baseline's failures on a tracked-only checkout and 61 with the canon installed.
+
+Two properties of the final set are worth stating because they are what the range was for.
+It is the **same seven node ids in both environments**: the candidate no longer behaves
+differently depending on whether a developer has run the installer. And the 54 skips of the
+tracked-only run are exactly the canon-only assertions, which become 53 further passes when
+the canon is present (2,491 + 53 = 2,544, one skip remaining in both) — the skips are named
+and accounted for rather than silent.
+
+The seven that remain, each present in both baseline sets:
+
+1. `test_config_health.py::TestConfigHealth::test_this_repo_installed_hooks_match_source` —
+   environmental; reads the real `~/.claude`, which has drifted from source on this machine.
+2. `test_config_health.py::TestPermissionPathHealth::test_real_personal_settings_stands_down_or_passes`
+   — environmental; reads real-HOME permissions.
+3. `test_every_gate_can_fail.py::TestEveryGateCanFail::test_registered_proofs_exist` —
+   pre-existing; gate f names a proof function `test_broken_skill_fails` that does not exist.
+4. `test_every_gate_can_fail.py::TestEveryGateCanFail::test_real_chain_is_compliant` —
+   cascade of 3.
+5. `test_guardrails.py::TestGateB_Tests::test_real_content_passes` — cascade; gate b runs the
+   whole suite inside itself and reds while anything above reds. Its inner run reports
+   `6 failed, 2,533 passed` — this list minus itself.
+6. `test_landing_next_steps.py::test_real_repo_range_refreshes_next_steps` — pre-existing;
+   its message names `acf0e3c1`, the base commit itself, as the offending landing.
+7. `test_worker_restore.py::…::test_the_gate_runs_against_this_machines_own_transcripts` —
+   environmental; reads this machine's own transcript directory.
+
+One red the range closes rather than merely leaves alone:
+`TestGateA_ProverRecord::test_real_repo_passes` fails at both baselines and passes on both
+final runs. This record is what closes it.
+
+**Cost this range adds to a run:** the pinned installer step took 1.6s. The suite's own
+shape dominates instead — `TestGateB_Tests::test_real_content_passes` 218.5s, then the
+`TestGateG_PinDrift` family and `TestCIMirror` at 39–91s each. Reported, not tuned.
 
 ## Findings
 
