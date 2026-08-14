@@ -1201,11 +1201,14 @@ class TestCIMirror(unittest.TestCase):
 
     NOTE = "machine-local pin, absent under this HOME; skipped"
 
-    def test_machine_local_pins_stand_down_where_the_home_carries_no_such_file(self):
+    def test_machine_local_pins_skip_in_ci_only(self):
         """The CI net must not false-red on pins that live only on the author's machine
         (~/.claude/...) — row 14's first live CI run caught exactly this. The stand-down reads
         the file rather than the CI variable: CI stopped being the only clean HOME the moment a
-        gate ran under one (2026-08-14, run 31812253511), and a fresh machine is the same case."""
+        gate ran under one (2026-08-14, run 31812253511), and a fresh machine is the same case.
+
+        The name says "in ci only" because TEST_MATRIX.md row M-154 pins it by that name; the
+        row's own wording is what a matrix pass should catch up next, not this test's behaviour."""
         if os.environ.get("LIVE_SPEC_SCRATCH"):
             self.skipTest("machine-local pin behaviour — meaningless in a git-less scratch copy")
         script = os.path.join(GUARDRAILS, "check-pin-drift.sh")
