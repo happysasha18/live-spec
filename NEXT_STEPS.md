@@ -75,11 +75,11 @@ whole chain again. Run `bash guardrails/pre-push` yourself and read its verdict.
 `--no-verify` on the same unchanged tree. A number written into a document rots between passes, so
 name the command beside it or leave the counting to `git log`.
 
-**The next release earns a major number, and its chapter has since landed.** Rule 32's rewrite and
+**The next release earns a major number.** Rule 32's rewrite and
 rule 7's before it reworded rules a host has vendored. Base rule 32 names that as earning a major.
 `MIGRATION.md` owed its chapter, and row 602 held it. Row 602 landed on 2026-08-13 in commit
-`acf0e3c1`, which wrote the 5.0.0 chapter, dated the stale rule-30 pointer, and rotated the row to
-`docs/queue-archive/rotated-ROADMAP-2026-08.md`; that landing did not refresh this file, and this
+`acf0e3c1`. That commit wrote the 5.0.0 chapter and dated the stale rule-30 pointer. It rotated the
+row to `docs/queue-archive/rotated-ROADMAP-2026-08.md`. It did not refresh this file, and this
 paragraph is the refresh it owed. The release number is decided at campaign close.
 
 ## Where the numbers live
