@@ -1094,6 +1094,17 @@ class TestInstallerAndDecisionPage(unittest.TestCase):
         import subprocess
         import tempfile
         script = os.path.join(ROOT, "install.sh")
+        # The skill list comes from the index, so this run needs a git repository under ROOT. Gate
+        # b's scratch copy carries no .git by design (TestGateB_Tests copies the tree without it),
+        # and there `git ls-files skills` names nothing — a false red about the installer, from a
+        # tree that holds no index to read. Stand down by name where there is no repository; the
+        # real tree and the CI checkout both hold one, so both still run this. The parse-failure
+        # teeth below stay: a repository that yields no skills is still a finding.
+        inside_repo = subprocess.run(["git", "rev-parse", "--is-inside-work-tree"], cwd=ROOT,
+                                     capture_output=True, text=True).stdout.strip() == "true"
+        if not inside_repo:
+            self.skipTest("no git repository under the tree root — `git ls-files skills` has no "
+                          "index to read here (gate b's scratch copy); the real tree and CI run it")
         tracked = subprocess.run(["git", "ls-files", "skills"], cwd=ROOT,
                                  capture_output=True, text=True).stdout
         skills = sorted({p.split("/")[1] for p in tracked.splitlines() if p.count("/") >= 2})
