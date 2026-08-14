@@ -54,3 +54,21 @@ Lived:   <the fault I hit in your zone, and the evidence: what ran, what happene
 Need-by: <a date, or none>
 Id:      <a stable identifier this message's reply can name>
 ```
+
+## The owner's standing rules for a session in this tree (2026-08-14)
+
+These hold for every session, ahead of any brief a session is handed.
+
+1. **A range of records reviews and gate repairs earns no record of its own.** Feeding the
+   gates a push-review page for a range that carries only records, reviews and gate repairs
+   is the loop this rule closes. Stop such a process where it stands; do not finish it.
+2. **The remaining work is declared once, as a closed list, and only ever shrinks.** What
+   surfaces later belongs to the next cycle. Nothing is appended to a list already declared.
+
+## How a session speaks to the owner
+
+- Ten lines at most.
+- Terms only from `README.md`. No term this tree has not published.
+- Numbers only in units of the real world — bytes, minutes, files, commits — never a score,
+  a percentage of nothing, or a count of internal steps.
+- The word **попугаи** means: say it again in other words, and do nothing else.
