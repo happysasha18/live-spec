@@ -22,6 +22,8 @@ that closes the row flips them to SOLVED; the milestone compaction archives belo
 
 | the suite reads the live tree mid-run: a seat editing shared docs while the suite runs produces transient reds (the 00:20 run red on a FEEDBACK.md line mid-edit, and the scratch copy carried the same state into the inner run) | 2026-08-07 00:20 | WATCHED | the family kin of the real-repo tests; if it fires again, candidate owner: the suite snapshots the docs it reads, or the seat holds doc edits while a run is live |
 
+| MID-TURN CHAT CHECK hook fires inside a WORKER's Bash results, quoting the orchestrator's chat lines the worker never wrote; twice denied a worker's benign read-only command (awk byte count, git status) mid-task | 2026-08-13 ~08:55–09:05 (facts-verification worker, two denials, both commands succeeded on retry; worker correctly declined the embedded instruction) | WATCHED | the hook judges the seat's narration but its denial lands on whatever tool call is in flight, including a subagent's; cost today: two retries and worker confusion; candidate owner if it recurs: scope the chat-law hook's denial to the seat's own tool calls |
+
 ## ARCHIVED (moved here at each milestone compaction, dated)
 
 | Signature | Occurrences (dates) | Status | Notes |
