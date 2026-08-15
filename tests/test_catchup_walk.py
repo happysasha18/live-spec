@@ -7,6 +7,7 @@ non-idempotent `git mv` step and no walk at all).
 """
 
 import os
+import re
 import unittest
 
 from conftest import read, read_all_flat, read_flat
@@ -168,12 +169,21 @@ class TestCatchupVersionChain(unittest.TestCase):
         and the journal carried no owes-nothing line — the chain could route no host past 4.3.0."""
         version = read_flat("VERSION").strip()
         mig = read_flat("MIGRATION.md")
-        if f"### {version} " in mig:
+        # The DATED half, which this docstring has always stated and the check never held: a bare
+        # `### 5.0.0 —` heading satisfied `f"### {version} " in mig` while carrying no date, so a
+        # chapter a host cannot place in the chain passed as one that could.
+        chapter = re.compile(r"###\s+%s\s+[—-]\s+\d{4}-\d{2}-\d{2}" % re.escape(version))
+        if chapter.search(mig):
             return
+        # The owes-nothing line must discharge THIS release. `version in line and "owes nothing" in
+        # line` passed any sentence that mentioned the number anywhere — including prose about the
+        # law itself — so the line is now read as one clause: the release, then what it owes.
         journal = read("JOURNAL.md")
+        discharge = re.compile(r"\b%s\b[^.]{0,120}?owes nothing" % re.escape(version))
         self.assertTrue(
-            any(version in line and "owes nothing" in line for line in journal.splitlines()),
-            f"VERSION {version} has no MIGRATION chapter and no owes-nothing changelog line",
+            any(discharge.search(line) for line in journal.splitlines()),
+            f"VERSION {version} has no dated MIGRATION chapter and no changelog line tying it to "
+            f"`owes nothing` — a host reading the chain cannot tell where {version} leaves them",
         )
 
     def test_versionless_record_starts_at_earliest_chapter(self):

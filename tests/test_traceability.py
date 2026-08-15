@@ -1005,24 +1005,54 @@ class TestDocRenderer(unittest.TestCase):
 class TestSkillEvals(unittest.TestCase):
     """SPEC E-19: every working skill owns an eval — self-closing over skills/ (row 94)."""
 
+    # The working skills this pack owns, counted off skills/ on 2026-08-15: every tracked skill
+    # directory except live-spec-base (the shared rulebook) and product-prover-pack (the binding
+    # page for the external prover). The floor read 4 while the tree carried nine — a floor five
+    # skills can vanish under holds nothing.
+    WORKING_SKILL_FLOOR = 9
+
+    def _frontmatter(self, path):
+        """The skill's YAML frontmatter, or "" where it carries none.
+
+        Read from the fences, not from the first 2000 characters: `^\\s*requires:` over a character
+        window matched any line of prose that opened with the word, so a working skill could shed
+        its eval obligation by writing about a requirement in its body.
+        """
+        with open(path, encoding="utf-8") as f:
+            text = f.read()
+        m = re.match(r"---\n(.*?)\n---\n", text, re.S)
+        return m.group(1) if m else ""
+
+    def _declares_external(self, path):
+        """True where the frontmatter declares a `requires:` key with a value — the mark of a
+        binding page for an external skill, which reviews nothing itself and owes no eval of its
+        own; the canonical repository carries that skill's evals. The key is read at the top level
+        or one level in, under `metadata:`, the two places the pack's pages put it."""
+        return bool(re.search(r"(?m)^\s{0,4}requires:\s*\S", self._frontmatter(path)))
+
     def working_skills(self):
         skills = []
         for d in sorted(os.listdir(os.path.join(ROOT, "skills"))):
             skill_md = os.path.join(ROOT, "skills", d, "SKILL.md")
             if d == "live-spec-base" or not os.path.isfile(skill_md):
                 continue
-            with open(skill_md, encoding="utf-8") as f:
-                head = f.read(2000)
-            if re.search(r"(?m)^\s*requires:", head):
-                # a binding page for an external skill reviews nothing itself and owes no
-                # eval of its own; the canonical repository carries the external skill's evals
+            if self._declares_external(skill_md):
                 continue
             skills.append(d)
         return skills
 
+    def test_the_working_skill_floor_holds(self):
+        """The floor is the pack's real count, so a working skill that vanishes reds here instead
+        of passing under a number set when the pack was half this size."""
+        skills = self.working_skills()
+        self.assertGreaterEqual(
+            len(skills), self.WORKING_SKILL_FLOOR,
+            "the pack owns %d working skills; this tree reads %d: %s"
+            % (self.WORKING_SKILL_FLOOR, len(skills), skills))
+
     def test_skill_evals_present(self):
         skills = self.working_skills()
-        self.assertGreaterEqual(len(skills), 4)
+        self.assertGreaterEqual(len(skills), self.WORKING_SKILL_FLOOR)
         for s in skills:
             path = "evals/%s.md" % s
             self.assertTrue(os.path.exists(os.path.join(ROOT, path)),
@@ -1234,12 +1264,19 @@ class TestPackListParity(unittest.TestCase):
         return sorted(d for d in os.listdir(os.path.join(ROOT, "skills"))
                       if os.path.isdir(os.path.join(ROOT, "skills", d)))
 
+    # The headings a skill puts its roster of the pack under. "The pack, whole:" was the only one
+    # read until 2026-08-15, so text-audit's roster — the eighth list of the pack in the tree —
+    # drifted outside the parity check for its whole life and lost product-prover-pack unseen.
+    ROSTER_HEADINGS = ("The pack, whole:", "## The pack this skill belongs to")
+
     def footer_bodies(self):
         out = {}
         for s in self.all_skills():
             body = read_flat(os.path.join("skills", s, "SKILL.md"))
-            if "The pack, whole:" in body:
-                out[s] = re.sub(r"\s+", " ", body.split("The pack, whole:", 1)[1])
+            for heading in self.ROSTER_HEADINGS:
+                if heading in body:
+                    out[s] = re.sub(r"\s+", " ", body.split(heading, 1)[1])
+                    break
         return out
 
     def test_real_repo_lists_complete(self):
