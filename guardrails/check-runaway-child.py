@@ -49,7 +49,14 @@ REPO_ROOT = os.path.dirname(SCRIPT_DIR)
 sys.path.insert(0, SCRIPT_DIR)
 import cleanup_notice  # noqa: E402  (the shared notice shape, SPEC INV-204)
 
-CPU_THRESHOLD = 50.0   # a descendant at or above this CPU share is "burning"; the default is host-settable.
+# A descendant at or above this CPU share is "burning". 50% kept — ruled 2026-08-15
+# (decision-dossier-2026-08-15.md, Number 4): the one incident on record (a suite SIGKILLed mid-run,
+# 2026-08-13/14) does not point at this number specifically; 50% matches the example rules tools like
+# monit commonly show. No single recommended replacement value, so today's value stands. Truth, not
+# the earlier claim: this is a FIXED default today — no env var or config file is read for it. A host
+# override is queued (not wired yet), and belongs in the settings ladder's package-defaults table
+# (skills/live-spec-base/references/settings-ladder.md) once it exists.
+CPU_THRESHOLD = 50.0
 
 
 def _path_under(path, root):
