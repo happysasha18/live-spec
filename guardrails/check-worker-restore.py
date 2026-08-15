@@ -172,6 +172,11 @@ from nonempty_input import require_nonempty, VacuousInputError  # noqa: E402
 
 CHECK = "check-worker-restore"
 DEFAULT_ROOT = os.path.join(os.path.expanduser("~"), ".claude", "projects")
+# 24h kept — ruled 2026-08-15 (decision-dossier-2026-08-15.md, Number 1): no incident traces this
+# window either way (2026-08-07 census: "no trace found"); the dossier named no single recommended
+# replacement, so today's value stands. Already env-overridable via
+# LIVE_SPEC_WORKER_RESTORE_SINCE_HOURS; a durable, recorded override belongs in the settings ladder's
+# package-defaults table (skills/live-spec-base/references/settings-ladder.md).
 DEFAULT_SINCE_HOURS = 24.0
 RUN_GLOB = os.path.join("*", "*", "subagents", "agent-*.jsonl")
 
