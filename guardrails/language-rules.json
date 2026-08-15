@@ -3096,6 +3096,7 @@
           "repair": "the rules in one file, and the second skill pointing at that file"
         }
       ],
+      "_ruling": "thresholds: 0.60 / 0.85 / 6 kept — ruled 2026-08-15 (decision-dossier-2026-08-15.md, Number 3): matches the design doc's own worked reasoning (docs/prose-quality-gate-design.md), no incident traces either value (2026-08-07 census: \"no trace found\" x3); the dossier named no single recommended replacement value, so today's values stand. Hand-duplicated with scripts/spec-redundancy-precheck.py's JAC/CON/MIN_TOKENS under the same ruling; nothing ties the two copies together, so they can drift silently. A durable, recorded override belongs in the settings ladder's package-defaults table (skills/live-spec-base/references/settings-ladder.md).",
       "thresholds": {
         "jaccard_min": 0.6,
         "containment_min": 0.85,

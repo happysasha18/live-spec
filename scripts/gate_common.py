@@ -116,6 +116,11 @@ def segment_units(text):
 
 # --- waivers -----------------------------------------------------------------------------------
 WAIVER_FIELDS = ("id", "rule", "file", "snippet", "reason", "owner", "date", "expiry")
+# 30 days kept — ruled 2026-08-15 (decision-dossier-2026-08-15.md, Number 2): no waiver has ever
+# expired and blocked a push (2026-08-07 census: "no trace found"); the dossier named no single
+# recommended replacement, so today's value stands. A durable, recorded override belongs in the
+# settings ladder's package-defaults table (skills/live-spec-base/references/settings-ladder.md),
+# e.g. a gate.max-waiver-days row.
 MAX_WAIVER_DAYS = 30
 
 

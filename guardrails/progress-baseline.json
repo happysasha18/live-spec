@@ -256,13 +256,14 @@
   },
   "estimate": {
     "_comment": "Inputs to the est-h and cum-h columns of docs/MEASUREMENTS.html. Each one is a measured or assumed figure, and the page prints the basis under the table. mechanical_minutes_per_100_findings comes from 2026-07-28, where four documents carrying 360 findings reached zero in about half an hour of repair once the two broken checkers were fixed. round_minutes and rounds_expected come from the five rounds run on skills/text-audit/SKILL.md on 2026-07-29: two readers in parallel take about five minutes, and one repair worker takes about twenty. rounds_expected rests on that ONE file, so it is the weakest input here and it is re-seeded once a second file finishes.",
+    "_ruling": "Ruled 2026-08-15 (decision-dossier-2026-08-15.md, Number 5): rounds_expected (5) and working_hours_per_day (6) kept — the dossier named no single recommended replacement for either; rounds_expected still rests on the one file's five rounds and stays the weakest input until a second file finishes, working_hours_per_day matches the common six-productive-hours-of-an-eight-hour-day heuristic. parallel_lanes changed 4 -> 3 to align with the settings ladder's lanes.cap (skills/live-spec-base/references/settings-ladder.md) — the recorded cap is the older owner-dated fact (the owner's 2026-07-06 value of three), and this file's 4 was the unreconciled number. A durable, recorded per-host override for any of the three belongs in the settings ladder's package-defaults table.",
     "mechanical_minutes_per_100_findings": 10,
     "round_minutes": 25,
     "rounds_expected": 5,
     "first_measurement_minutes": 10,
     "assumed_findings_when_unmeasured": 40,
     "working_hours_per_day": 6,
-    "parallel_lanes": 4,
+    "parallel_lanes": 3,
     "set_on": "2026-07-29"
   }
 }

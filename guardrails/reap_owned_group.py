@@ -35,7 +35,13 @@ sys.path.insert(0, SCRIPT_DIR)
 import cleanup_notice  # noqa: E402  (the shared cleanup-notice shape, SPEC INV-204)
 
 # A worker whose status reads "running" while its output mtime is at least this many seconds behind the
-# clock is idle-output. The default is host-settable, the way the runaway threshold is.
+# clock is idle-output. 120s kept — ruled 2026-08-15 (decision-dossier-2026-08-15.md, Number 4):
+# matches the shipped two-minute window; the one incident on record (JOURNAL.md row 393 / INV-230, a
+# worker found idle 48 minutes late) does not pin the number itself. No single recommended replacement
+# value, so today's value stands. Truth, not the earlier claim: this is a FIXED default today — no env
+# var or config file is read for it. A host override is queued (not wired yet), and belongs in the
+# settings ladder's package-defaults table (skills/live-spec-base/references/settings-ladder.md) once
+# it exists.
 IDLE_THRESHOLD = 120.0
 
 
