@@ -281,6 +281,67 @@ def test_a_tree_with_no_range_stands_down():
         assert "no push range resolves" in r.stdout
 
 
+def test_a_recordless_class_range_stands_down():
+    """A pushed range whose every commit touches only the owner's recordless class — records,
+    reviews, rules and test machinery — owes no prover record at all (agent card rule 1). No
+    record exists anywhere in this tree, and the gate still stands down by name.
+
+    The fixture used to include a guardrails/ commit, mirroring this repo's own real range
+    7244063..39e393c (all docs/.live-spec/tests/guardrails commits). The owner's ruling of
+    2026-08-15 22:07 narrowed the class to drop guardrails/ and .github/workflows/ — a push
+    touching gate machinery now demands its record again — so that real range no longer
+    qualifies (it carries 11da641, a guardrails/check-pin-drift.sh commit) and can no longer
+    stand in as the stand-down proof. This fixture is rewritten to a synthetic in-class range
+    of docs/.live-spec/tests-only commits instead."""
+    with tempfile.TemporaryDirectory() as tmp:
+        _init_repo(tmp)
+        _write(tmp, "a.txt", "one\n")
+        base = _commit_all(tmp, "a v1")
+        _write(tmp, "docs/prover/scratch-note.md", "a scratch prover note\n")
+        _commit_all(tmp, "a records touch")
+        _write(tmp, "tests/test_scratch.py", "def test_x():\n    assert True\n")
+        _commit_all(tmp, "a test addition")
+        _write(tmp, "TEST_MATRIX.md", "| row | ... |\n")
+        _commit_all(tmp, "a matrix row")
+        r = _gate(tmp, base)
+        assert r.returncode == 0, r.stdout + r.stderr
+        assert "recordless class" in r.stdout
+        assert "agent card rule 1" in r.stdout
+
+
+def test_a_range_with_one_out_of_class_file_still_demands_the_record():
+    """The teeth: a range that is all-in-class except for one commit touching one file outside
+    the class keeps the full record demand — the stand-down never widens past the exact class."""
+    with tempfile.TemporaryDirectory() as tmp:
+        _init_repo(tmp)
+        _write(tmp, "a.txt", "one\n")
+        base = _commit_all(tmp, "a v1")
+        _write(tmp, "tests/test_scratch.py", "def test_x():\n    assert True\n")
+        _commit_all(tmp, "a test addition")
+        _write(tmp, "README.md", "a change outside the recordless class\n")
+        _commit_all(tmp, "a scratch touch outside the class")
+        r = _gate(tmp, base)
+        assert r.returncode == 1, r.stdout + r.stderr
+        assert "FAIL (prover record)" in r.stdout
+        assert "no file matching" in r.stdout
+
+
+def test_a_guardrails_only_commit_now_reds():
+    """guardrails/ left the recordless class by the owner's ruling of 2026-08-15 22:07 (a push
+    touching gate machinery demands its record again). A range whose only commit touches
+    guardrails/ — in-class before that ruling — now reds instead of standing down."""
+    with tempfile.TemporaryDirectory() as tmp:
+        _init_repo(tmp)
+        _write(tmp, "a.txt", "one\n")
+        base = _commit_all(tmp, "a v1")
+        _write(tmp, "guardrails/scratch-gate.sh", "#!/usr/bin/env bash\necho ok\n")
+        _commit_all(tmp, "a gate tweak")
+        r = _gate(tmp, base)
+        assert r.returncode == 1, r.stdout + r.stderr
+        assert "FAIL (prover record)" in r.stdout
+        assert "no file matching" in r.stdout
+
+
 # --- one record, one gate: the second of each is gone ---
 
 def test_one_record_and_one_gate_carry_the_push_review():
