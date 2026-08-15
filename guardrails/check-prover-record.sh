@@ -132,12 +132,16 @@ if [ ${#candidates[@]} -eq 0 ] && [ "$PUSH_ROAD" -ne 1 ]; then
 fi
 
 if [ ${#candidates[@]} -eq 0 ]; then
-  # Recordless class (the owner's word, agent card rule 1): a pushed range whose every commit
-  # touches only records, reviews, rules and gate machinery earns no prover record of its own,
-  # and this gate stands down for it by name, ahead of the record-missing FAIL below. The class
-  # is exact:
-  #   docs/prover/  docs/skill-review/  docs/language-reads/  .live-spec/  guardrails/
-  #   .github/workflows/  tests/  TEST_MATRIX.md
+  # Recordless class (the owner's word, agent card rule 1; narrowed by his ruling of
+  # 2026-08-15 22:07, grounded in his north star of honest conservative proof): a pushed range
+  # whose every commit touches only records, reviews, rules and test machinery earns no prover
+  # record of its own, and this gate stands down for it by name, ahead of the record-missing
+  # FAIL below. The class is exact:
+  #   docs/prover/  docs/skill-review/  docs/language-reads/  .live-spec/  tests/  TEST_MATRIX.md
+  # guardrails/ and .github/workflows/ left this class by that ruling: a push touching gate
+  # machinery itself demands its record again, since gate machinery is exactly the code this
+  # push chain trusts to hold the line — a change to it earns no free pass from the record it
+  # enforces on everything else.
   # A range where any commit touches one file outside this class keeps the full record demand.
   # This arm runs on the PUSH road only, using the range already derived above, and only where
   # no record was found — a range with a record on file keeps every existing behavior below —
@@ -152,15 +156,15 @@ if [ ${#candidates[@]} -eq 0 ]; then
         while IFS= read -r p; do
           [ -z "$p" ] && continue
           case "$p" in
-            docs/prover/*|docs/skill-review/*|docs/language-reads/*|.live-spec/*|guardrails/*|.github/workflows/*|tests/*|TEST_MATRIX.md) ;;
+            docs/prover/*|docs/skill-review/*|docs/language-reads/*|.live-spec/*|tests/*|TEST_MATRIX.md) ;;
             *) rc_all_in_class=0 ;;
           esac
         done <<< "$rc_paths"
       done <<< "$rc_range_commits"
       if [ "$rc_all_in_class" -eq 1 ]; then
         echo "OK (prover record): stand-down — every commit in $DIFF_BASE..HEAD touches only the"
-        echo "  owner's recordless class (records, reviews, rules and gate machinery), agent card rule 1;"
-        echo "  no fresh prover record is owed for this push."
+        echo "  owner's recordless class (records, reviews, rules and test machinery), agent card rule 1,"
+        echo "  narrowed by the 2026-08-15 22:07 ruling; no fresh prover record is owed for this push."
         exit 0
       fi
     fi
