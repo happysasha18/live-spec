@@ -282,31 +282,61 @@ def test_a_tree_with_no_range_stands_down():
 
 
 def test_a_recordless_class_range_stands_down():
-    """A pushed range whose every commit touches only the owner's recordless class — records,
-    reviews, rules and test machinery — owes no prover record at all (agent card rule 1). No
-    record exists anywhere in this tree, and the gate still stands down by name.
+    """A pushed range whose every commit touches only the RECORD DIRECTORIES — docs/prover/,
+    docs/skill-review/, docs/language-reads/ — owes no prover record at all (agent card rule 1).
+    No record exists anywhere in this tree, and the gate still stands down by name.
 
-    The fixture used to include a guardrails/ commit, mirroring this repo's own real range
-    7244063..39e393c (all docs/.live-spec/tests/guardrails commits). The owner's ruling of
-    2026-08-15 22:07 narrowed the class to drop guardrails/ and .github/workflows/ — a push
-    touching gate machinery now demands its record again — so that real range no longer
-    qualifies (it carries 11da641, a guardrails/check-pin-drift.sh commit) and can no longer
-    stand in as the stand-down proof. This fixture is rewritten to a synthetic in-class range
-    of docs/.live-spec/tests-only commits instead."""
+    The class this fixture rides has been narrowed twice. It first held guardrails/ and
+    .github/workflows/ too, mirroring this repo's own real range 7244063..39e393c; the owner's
+    ruling of 2026-08-15 22:07 dropped those two. It then still held .live-spec/, tests/ and
+    TEST_MATRIX.md, and the adversarial REFUSE of 2026-08-15 23:41 (F1–F3) dropped those as
+    well: under the wider class a reviewer built a live range that gutted the strict test and
+    rewrote the rules card while owing no record for either. Enforcement machinery never
+    exempts itself, so the class is now the three record directories and nothing else, and
+    this fixture touches only them."""
     with tempfile.TemporaryDirectory() as tmp:
         _init_repo(tmp)
         _write(tmp, "a.txt", "one\n")
         base = _commit_all(tmp, "a v1")
         _write(tmp, "docs/prover/scratch-note.md", "a scratch prover note\n")
         _commit_all(tmp, "a records touch")
-        _write(tmp, "tests/test_scratch.py", "def test_x():\n    assert True\n")
-        _commit_all(tmp, "a test addition")
-        _write(tmp, "TEST_MATRIX.md", "| row | ... |\n")
-        _commit_all(tmp, "a matrix row")
+        _write(tmp, "docs/skill-review/scratch-review.md", "a scratch skill review\n")
+        _commit_all(tmp, "a review touch")
+        _write(tmp, "docs/language-reads/scratch-read.md", "a scratch language read\n")
+        _commit_all(tmp, "a language read")
         r = _gate(tmp, base)
         assert r.returncode == 0, r.stdout + r.stderr
         assert "recordless class" in r.stdout
         assert "agent card rule 1" in r.stdout
+
+
+def _out_of_class_range_reds(relpath, message):
+    """A range whose only commit touches `relpath` keeps the full record demand."""
+    with tempfile.TemporaryDirectory() as tmp:
+        _init_repo(tmp)
+        _write(tmp, "a.txt", "one\n")
+        base = _commit_all(tmp, "a v1")
+        _write(tmp, relpath, "a scratch touch\n")
+        _commit_all(tmp, message)
+        r = _gate(tmp, base)
+        assert r.returncode == 1, r.stdout + r.stderr
+        assert "FAIL (prover record)" in r.stdout
+        assert "no file matching" in r.stdout
+
+
+def test_a_tests_only_commit_now_reds():
+    """tests/ left the recordless class by the REFUSE of 2026-08-15 23:41 (F1–F3): the suite is
+    enforcement machinery, and a range that rewrites what the tests demand may not ride the
+    exemption those same tests grant. A range whose only commit touches tests/ — in-class
+    before that refusal — now reds instead of standing down."""
+    _out_of_class_range_reds("tests/test_scratch.py", "a test addition")
+
+
+def test_a_live_spec_only_commit_now_reds():
+    """.live-spec/ left the recordless class by the same refusal: the rules card is the very
+    document the stand-down cites as its authority, so a range that rewrites the card may not
+    stand down on the card's own word. A range whose only commit touches .live-spec/ now reds."""
+    _out_of_class_range_reds(".live-spec/scratch-card-note.md", "a rules card touch")
 
 
 def test_a_range_with_one_out_of_class_file_still_demands_the_record():
@@ -316,8 +346,8 @@ def test_a_range_with_one_out_of_class_file_still_demands_the_record():
         _init_repo(tmp)
         _write(tmp, "a.txt", "one\n")
         base = _commit_all(tmp, "a v1")
-        _write(tmp, "tests/test_scratch.py", "def test_x():\n    assert True\n")
-        _commit_all(tmp, "a test addition")
+        _write(tmp, "docs/prover/scratch-note.md", "a scratch prover note\n")
+        _commit_all(tmp, "a records touch")
         _write(tmp, "README.md", "a change outside the recordless class\n")
         _commit_all(tmp, "a scratch touch outside the class")
         r = _gate(tmp, base)

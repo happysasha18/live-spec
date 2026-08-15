@@ -132,16 +132,20 @@ if [ ${#candidates[@]} -eq 0 ] && [ "$PUSH_ROAD" -ne 1 ]; then
 fi
 
 if [ ${#candidates[@]} -eq 0 ]; then
-  # Recordless class (the owner's word, agent card rule 1; narrowed by his ruling of
-  # 2026-08-15 22:07, grounded in his north star of honest conservative proof): a pushed range
-  # whose every commit touches only records, reviews, rules and test machinery earns no prover
-  # record of its own, and this gate stands down for it by name, ahead of the record-missing
-  # FAIL below. The class is exact:
-  #   docs/prover/  docs/skill-review/  docs/language-reads/  .live-spec/  tests/  TEST_MATRIX.md
-  # guardrails/ and .github/workflows/ left this class by that ruling: a push touching gate
-  # machinery itself demands its record again, since gate machinery is exactly the code this
-  # push chain trusts to hold the line — a change to it earns no free pass from the record it
-  # enforces on everything else.
+  # Recordless class (the owner's word, agent card rule 1; narrowed to records alone by the
+  # adversarial REFUSE of 2026-08-15 23:41, findings F1–F3, grounded in his north star of
+  # honest conservative proof): a pushed range whose every commit touches only the RECORD
+  # DIRECTORIES earns no prover record of its own, and this gate stands down for it by name,
+  # ahead of the record-missing FAIL below. The class is exact, and it is only these three:
+  #   docs/prover/  docs/skill-review/  docs/language-reads/
+  # Every other path rides the full record demand. .live-spec/, tests/, TEST_MATRIX.md,
+  # guardrails/ and .github/workflows/ are all OUT. The earlier, wider class let a reviewer
+  # build a live range that gutted the strict test and rewrote the rules card recordlessly —
+  # the exempted range changed the very rules and tests that decide what a record must hold.
+  # Enforcement machinery must never exempt itself: rules, tests and gates are exactly the
+  # code this push chain trusts to hold the line, so a change to any of them earns no free
+  # pass from the record it enforces on everything else. What stays in the class is what
+  # carries no behaviour of its own: the written records of reviews and reads.
   # A range where any commit touches one file outside this class keeps the full record demand.
   # This arm runs on the PUSH road only, using the range already derived above, and only where
   # no record was found — a range with a record on file keeps every existing behavior below —
@@ -156,15 +160,16 @@ if [ ${#candidates[@]} -eq 0 ]; then
         while IFS= read -r p; do
           [ -z "$p" ] && continue
           case "$p" in
-            docs/prover/*|docs/skill-review/*|docs/language-reads/*|.live-spec/*|tests/*|TEST_MATRIX.md) ;;
+            docs/prover/*|docs/skill-review/*|docs/language-reads/*) ;;
             *) rc_all_in_class=0 ;;
           esac
         done <<< "$rc_paths"
       done <<< "$rc_range_commits"
       if [ "$rc_all_in_class" -eq 1 ]; then
         echo "OK (prover record): stand-down — every commit in $DIFF_BASE..HEAD touches only the"
-        echo "  owner's recordless class (records, reviews, rules and test machinery), agent card rule 1,"
-        echo "  narrowed by the 2026-08-15 22:07 ruling; no fresh prover record is owed for this push."
+        echo "  owner's recordless class, the record directories alone (docs/prover/, docs/skill-review/,"
+        echo "  docs/language-reads/), agent card rule 1, narrowed by the REFUSE of 2026-08-15 23:41;"
+        echo "  no fresh prover record is owed for this push."
         exit 0
       fi
     fi
