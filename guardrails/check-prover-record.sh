@@ -84,6 +84,11 @@ TODAY="${2:-$(date +%Y-%m-%d)}"
 #   github.event.before, a planted test passes the base commit), else origin/main, else
 #   HEAD~1. If no base resolves, the carve-out cannot be judged and the full gate runs.
 DIFF_BASE=""
+# DIFF_BASE_LAST_RESORT marks the HEAD~1 fallback: a single-commit-tree-with-no-remote
+# expedient for local/synthetic runs, never the base a real push (CI's explicit
+# LIVE_SPEC_DIFF_BASE, or a hook's real origin/main) resolves. The recordless-class arm below
+# reads it so that arm never fires off a base no real push would ever measure against.
+DIFF_BASE_LAST_RESORT=0
 if [ -n "${LIVE_SPEC_DIFF_BASE:-}" ] && \
    [ "${LIVE_SPEC_DIFF_BASE}" != "0000000000000000000000000000000000000000" ] && \
    git rev-parse --verify --quiet "${LIVE_SPEC_DIFF_BASE}^{commit}" >/dev/null 2>&1; then
@@ -92,6 +97,7 @@ elif git rev-parse --verify --quiet origin/main >/dev/null 2>&1; then
   DIFF_BASE="origin/main"
 elif git rev-parse --verify --quiet "HEAD~1" >/dev/null 2>&1; then
   DIFF_BASE="HEAD~1"
+  DIFF_BASE_LAST_RESORT=1
 fi
 
 if [ -n "$DIFF_BASE" ]; then
@@ -126,6 +132,40 @@ if [ ${#candidates[@]} -eq 0 ] && [ "$PUSH_ROAD" -ne 1 ]; then
 fi
 
 if [ ${#candidates[@]} -eq 0 ]; then
+  # Recordless class (the owner's word, agent card rule 1): a pushed range whose every commit
+  # touches only records, reviews, rules and gate machinery earns no prover record of its own,
+  # and this gate stands down for it by name, ahead of the record-missing FAIL below. The class
+  # is exact:
+  #   docs/prover/  docs/skill-review/  docs/language-reads/  .live-spec/  guardrails/
+  #   .github/workflows/  tests/  TEST_MATRIX.md
+  # A range where any commit touches one file outside this class keeps the full record demand.
+  # This arm runs on the PUSH road only, using the range already derived above, and only where
+  # no record was found — a range with a record on file keeps every existing behavior below —
+  # and only against a base a real push would resolve (never the HEAD~1 last resort).
+  if [ "$PUSH_ROAD" -eq 1 ] && [ -n "$DIFF_BASE" ] && [ "$DIFF_BASE_LAST_RESORT" -ne 1 ]; then
+    rc_range_commits="$(git rev-list "$DIFF_BASE..HEAD" 2>/dev/null || true)"
+    if [ -n "$rc_range_commits" ]; then
+      rc_all_in_class=1
+      while IFS= read -r c; do
+        [ -z "$c" ] && continue
+        rc_paths="$(git show --pretty=format: --name-only "$c" | grep -v '^[[:space:]]*$' || true)"
+        while IFS= read -r p; do
+          [ -z "$p" ] && continue
+          case "$p" in
+            docs/prover/*|docs/skill-review/*|docs/language-reads/*|.live-spec/*|guardrails/*|.github/workflows/*|tests/*|TEST_MATRIX.md) ;;
+            *) rc_all_in_class=0 ;;
+          esac
+        done <<< "$rc_paths"
+      done <<< "$rc_range_commits"
+      if [ "$rc_all_in_class" -eq 1 ]; then
+        echo "OK (prover record): stand-down — every commit in $DIFF_BASE..HEAD touches only the"
+        echo "  owner's recordless class (records, reviews, rules and gate machinery), agent card rule 1;"
+        echo "  no fresh prover record is owed for this push."
+        exit 0
+      fi
+    fi
+  fi
+
   echo "FAIL (prover record): no file matching $PROVER_DIR/$TODAY*.md exists."
   echo "  A fresh whole-spec prover re-check must be recorded before every push (SPEC M-6)."
   echo "  Fix: run the product-prover pass and save its record as $PROVER_DIR/$TODAY-<slug>.md, then commit it."

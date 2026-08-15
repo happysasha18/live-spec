@@ -67,8 +67,15 @@ These hold for every session, ahead of any brief a session is handed.
 
 ## How a session speaks to the owner
 
-- Ten lines at most.
-- Terms only from `README.md`. No term this tree has not published.
-- Numbers only in units of the real world — bytes, minutes, files, commits — never a score,
-  a percentage of nothing, or a count of internal steps.
-- The word **попугаи** means: say it again in other words, and do nothing else.
+Any message that asks the owner's word or reports a result to him:
+
+1. What it changes for a person using the package or the site, in one phrase. Terms absent
+   from `README.md` are banned.
+2. The recommendation and its reason, in one line.
+3. What becomes irreversible if he agrees.
+4. The external review's verdict: whether one exists, and what it says.
+5. Numbers only in units of the real world — bytes, minutes, files, commits, money. Counts of
+   internal artifacts (rules, gates, findings, passes, queue rows) live in a linked appendix.
+
+Ten lines at most. A message that breaks this format he leaves unread. The word **попугаи**
+means: reformulate it to this format, and do nothing else meanwhile.
