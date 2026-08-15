@@ -16,6 +16,10 @@
     "JOURNAL.md": {
       "max_bytes": 640000,
       "reason": "seed 2026-07-18 above ~543 KB current with rotation headroom; old dated chapters rotate to a dated archive before this ceiling."
+    },
+    "ARCHITECTURE.md": {
+      "max_bytes": 107845,
+      "reason": "seeded 2026-08-15 for the readability milestone of the accepted plan v2 (2026-08-14), and seeded differently from the four above: NO headroom. The ceiling is the file's measured size on the day it was declared — 107845 bytes — so the ratchet points down only. The four large documents got a hundred kilobytes of room because they were already past reading size and rotation was the remedy; the architecture is still readable at ~105 KB, and the milestone's whole point is that it stays that way. A node that must grow pays for the growth here, by name: raise this number with a reason that says what was added and why no node could hold it instead."
     }
   }
 }
