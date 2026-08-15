@@ -147,20 +147,77 @@ class TestR226DoesNotContradictItself(unittest.TestCase):
         self.assertTrue(m, "PRODUCT_SPEC.md carries no Requirement 226")
         return m.group(0)
 
+    # Each exception criterion 6 is allowed to name, and the mechanism that must exist for the
+    # name to mean anything: the phrase a reader would find, then the file and the pattern that
+    # proves the mechanism is real. A criterion-6 exception this map cannot resolve is the
+    # finding — either the spec names a stand-down nothing implements, or a real stand-down
+    # arrived and nobody taught this test about it.
+    EXCEPTION_MECHANISMS = {
+        "deletion-only": ("PRODUCT_SPEC.md", r"\n7\. \*when\* every ref-update line"),
+        "recordless": (".live-spec/agent.md", r"earns no record"),
+    }
+
+    def _criterion_6(self):
+        body = self._requirement_226_body()
+        m6 = re.search(r"\n6\. (.*)", body)
+        self.assertTrue(m6, "Requirement 226 carries no criterion 6")
+        return m6.group(1)
+
+    def _named_exceptions(self, text):
+        """The exception list criterion 6 actually carries, parsed — not a substring guess.
+
+        A vacuous substring assertion ("does the word deletion-only appear anywhere") passes a
+        criterion that has silently grown a second, unnamed exception. This reads the clause
+        after `except`, drops any lead-in before its colon and the trailing anchor, and splits
+        the list into the items a reader would count.
+        """
+        m = re.search(r"\bexcept\b(.*)$", text)
+        if not m:
+            return []
+        clause = m.group(1).split("[INV")[0]
+        if ":" in clause:
+            clause = clause.split(":", 1)[1]
+        parts = re.split(r";|\band\b", clause)
+        return [p.strip(" .,;") for p in parts if p.strip(" .,;")]
+
     def test_criterion_6_no_longer_reads_as_an_unscoped_universal(self):
         body = self._requirement_226_body()
         self.assertNotIn("at every push, never scoped", body,
                           "criterion 6 still reads as a universal R226.7 falsifies")
 
-    def test_criterion_6_names_its_one_exception(self):
-        body = self._requirement_226_body()
-        m6 = re.search(r"\n6\. .*", body)
-        self.assertTrue(m6, "Requirement 226 carries no criterion 6")
-        self.assertIn("carries content", m6.group(0),
+    def test_criterion_6_scopes_itself_to_a_push_that_carries_content(self):
+        self.assertIn("carries content", self._criterion_6(),
                        "criterion 6 does not scope itself to a push that carries content")
-        self.assertTrue(
-            "criterion 7" in m6.group(0) or "deletion-only" in m6.group(0),
-            "criterion 6 points at no named exception for the deletion-only case")
+
+    def test_every_exception_criterion_6_names_has_a_real_mechanism(self):
+        """The teeth: each named exception resolves to a mechanism that exists on disk, and an
+        exception this map cannot name reds rather than passing unread."""
+        named = self._named_exceptions(self._criterion_6())
+        self.assertTrue(named, "criterion 6 names no exception at all, yet R226.7 is one")
+        for item in named:
+            key = next((k for k in self.EXCEPTION_MECHANISMS if k in item), None)
+            self.assertIsNotNone(
+                key,
+                "criterion 6 names an exception this test cannot resolve to a mechanism: %r. "
+                "Either the spec names a stand-down nothing implements, or a real stand-down "
+                "arrived and this map was not taught it." % item)
+            path, pattern = self.EXCEPTION_MECHANISMS[key]
+            self.assertRegex(read(path), pattern,
+                             "criterion 6 names the %s exception, but %s carries no mechanism "
+                             "for it" % (key, path))
+
+    def test_gate_a_carries_no_stand_down_criterion_6_does_not_name(self):
+        """The other direction, and the reason `2718c69` was reverted: gate a once skipped the
+        prover record on the prose-only and scoped reach verdicts — a third exception no
+        criterion named. Any conditional that can skip the record check inside gate a's block
+        reds here until the spec's exception list names it."""
+        with open(PREPUSH, encoding="utf-8") as f:
+            body = f.read()
+        gate_a = body[body.index("-- gate a"):body.index("-- gate b")]
+        self.assertNotIn("case ", gate_a,
+                         "gate a branches again — a stand-down criterion 6 does not name")
+        self.assertRegex(gate_a, r'if ! "\$GUARDRAILS/check-prover-record\.sh" --push',
+                         "gate a no longer runs the prover-record check at all")
 
 
 class TestPrePushAnchorsOnTheRightInvariant(unittest.TestCase):

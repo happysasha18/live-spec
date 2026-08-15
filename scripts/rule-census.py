@@ -76,7 +76,12 @@ RECORD_DIRS = (
     "guardrails/board-fixtures", "guardrails/authority-anchor-fixtures", "tests/fixtures",
     "scaffold", "evals", ".git",
 )
-RECORD_FILES = ("JOURNAL.md", "DECISIONS.md", "FEEDBACK.md", "MIGRATION.md", "WAITING.md")
+# MIGRATION.md left this list on 2026-08-15 (the readability milestone of plan v2, accepted
+# 2026-08-14). It was classified with the journal and the decision log, which state what was
+# written at the time and are read afterwards by nobody. MIGRATION.md is not that: a person
+# adopting the pack reads it to move a live tree from one version to the next, so it is a live
+# document a reader meets, and the census must measure it like any other.
+RECORD_FILES = ("JOURNAL.md", "DECISIONS.md", "FEEDBACK.md", "WAITING.md")
 
 # Directories whose markdown a machine reads: a fixture a test opens by its path. No person reads
 # one, so the census leaves them unmeasured. The templates stay measured, because a person

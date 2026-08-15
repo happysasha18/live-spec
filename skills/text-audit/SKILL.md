@@ -472,6 +472,7 @@ the changed section before the skill ships.
 - **live-spec-base** holds the shared rules and the defaults.
 - **spec-author** writes the spec.
 - **product-prover** reviews the spec as written.
+- **product-prover-pack** binds that external skill to this pack: pin map, record home, mode names.
 - **design-reviewer** judges the design the spec describes.
 - **build-pipeline** ships the change.
 - **test-author** derives the matrix and writes the tests.

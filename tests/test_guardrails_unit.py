@@ -126,26 +126,19 @@ class TestPrePush(unittest.TestCase):
         self.assertLess(body.index(call), body.index("-- gate a"),
                         "the reach verdict must exist before gate a reads it")
 
-    def test_gate_a_stands_down_on_prose_and_scoped_reach(self):
-        # P2-lite: gate a (the fresh prover record) stands down by name on the
-        # prose-only (0) and scoped (2) reach verdicts; every other verdict —
-        # full reach and each classifier failure — keeps the existing check.
+    def test_gate_a_runs_the_record_check_on_every_reach_verdict(self):
+        # The 2718c69 stand-down is reverted (the owner's 2026-08-15 word): a prose-only or
+        # scoped diff still carries commits a push range must answer for, so gate a reads the
+        # reach verdict for nothing. The record check runs unconditionally again; the only
+        # stand-downs that exist are the two PRODUCT_SPEC.md R226.6 names by hand.
         with open(os.path.join(GUARDRAILS, "pre-push"), encoding="utf-8") as f:
             body = f.read()
         gate_a = body[body.index("-- gate a"):body.index("-- gate b")]
-        self.assertIn('case "$reach_code" in', gate_a,
-                      "gate a must branch on the reach verdict")
-        for verdict in ("0)", "2)"):
-            self.assertIn(verdict, gate_a,
-                          "gate a must name reach verdict %s as a stand-down" % verdict)
+        self.assertNotIn('case "$reach_code" in', gate_a,
+                         "gate a must not branch on the reach verdict")
         self.assertRegex(
-            gate_a, r'\*\)\s*\n\s*if ! "\$GUARDRAILS/check-prover-record\.sh" --push',
-            "the default (full-reach) arm must keep the prover-record check")
-        for arm in ("0)", "2)"):
-            arm_body = gate_a[gate_a.index(arm):]
-            arm_body = arm_body[:arm_body.index(";;")]
-            self.assertNotIn("check-prover-record.sh", arm_body,
-                             "the %s stand-down arm must not run the prover-record check" % arm)
+            gate_a, r'if ! "\$GUARDRAILS/check-prover-record\.sh" --push',
+            "gate a must run the prover-record check")
 
 
 class TestGateF_SkillLoadability(unittest.TestCase):
