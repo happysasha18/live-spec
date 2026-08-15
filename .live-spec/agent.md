@@ -59,9 +59,10 @@ Id:      <a stable identifier this message's reply can name>
 
 These hold for every session, ahead of any brief a session is handed.
 
-1. **A range of records reviews and gate repairs earns no record of its own.** Feeding the
-   gates a push-review page for a range that carries only records, reviews and gate repairs
-   is the loop this rule closes. Stop such a process where it stands; do not finish it.
+1. **A range whose every commit touches only the record directories — docs/prover/,
+   docs/skill-review/, docs/language-reads/ — earns no record of its own.** Feeding the
+   gates a push-review page for a range that carries only those records is the loop this
+   rule closes. Stop such a process where it stands; do not finish it.
 2. **The remaining work is declared once, as a closed list, and only ever shrinks.** What
    surfaces later belongs to the next cycle. Nothing is appended to a list already declared.
 
