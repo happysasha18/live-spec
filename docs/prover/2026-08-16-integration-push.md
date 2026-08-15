@@ -33,6 +33,10 @@ a0060d2 Gate a learns the owner's recordless class; the agent card carries his f
 817e18e Gate a reads no reach verdict: the 2718c69 stand-down is reverted
 ```
 
+## Post-record commits
+
+- 8c70c22 — the exception clause rewritten under the readability caps; the judging seat verifies the diff.
+
 ## Execution note
 
 The owner's conditional word of 2026-08-15 23:11 authorizes this push: the verdict line reads ALLOW-WITH-NOTES and the suite carries zero failures beyond the four machine-local checks once this record closes the freshness arm. The judging seat verified the final commit's diff itself. The push runs from the judging seat's worker under the owner's live word of 2026-08-15 22:06.
