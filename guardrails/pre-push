@@ -54,23 +54,14 @@ echo "$reach_out"
 
 echo ""
 echo "-- gate a: fresh prover record for today (one record per push: the re-check of the spec and the architecture, and the adversarial read of the pushed range, SPEC M-6/INV-116/INV-304) --"
-# A prose-only or scoped diff (reach verdicts 0 and 2) never touches the spec, the architecture,
-# or the matrix — the documents the prover record re-checks — so the record stands down by name
-# on those two verdicts. Full reach (and every classifier failure, which falls to FULL) keeps
-# the existing check unchanged.
-case "$reach_code" in
-  0)
-    echo "   prose-only diff: the prover record stands down by name; full reach keeps the check."
-    ;;
-  2)
-    echo "   scoped infra diff: the prover record stands down by name; full reach keeps the check."
-    ;;
-  *)
-    if ! "$GUARDRAILS/check-prover-record.sh" --push; then
-      fail=1
-    fi
-    ;;
-esac
+# The reach verdict does not scope this gate (the 2718c69 stand-down, reverted on the owner's
+# 2026-08-15 word). A prose-only or scoped diff still sends commits, and the record this gate
+# demands is the adversarial read of the pushed RANGE (INV-304) — a thing no file-class verdict
+# can stand down for. The only stand-downs that exist are the two PRODUCT_SPEC.md R226.6 names
+# by hand: a deletion-only push (handled above, before this chain) and the recordless class.
+if ! "$GUARDRAILS/check-prover-record.sh" --push; then
+  fail=1
+fi
 
 echo ""
 echo "-- gate b: test suite green (scoped by the diff's reach, SPEC INV-45) --"
