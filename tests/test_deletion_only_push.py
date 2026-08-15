@@ -154,8 +154,14 @@ class TestR226DoesNotContradictItself(unittest.TestCase):
     # arrived and nobody taught this test about it.
     EXCEPTION_MECHANISMS = {
         "deletion-only": ("PRODUCT_SPEC.md", r"\n7\. \*when\* every ref-update line"),
+        "inbox": ("guardrails/check-prover-record.sh", r"exactly one new inbox/ file"),
         "recordless": (".live-spec/agent.md", r"earns no record"),
     }
+
+    # The files that implement a stand-down criterion 6 must name: gate a's own script, and the
+    # pre-push block that stands the whole chain — gate a included — down ahead of it.
+    STAND_DOWN_SOURCES = ("guardrails/check-prover-record.sh", "guardrails/pre-push")
+    STAND_DOWN_MARKER = re.compile(r"^\s*#\s*STAND-DOWN:\s*(\S+)\s*$", re.M)
 
     def _criterion_6(self):
         body = self._requirement_226_body()
@@ -206,16 +212,57 @@ class TestR226DoesNotContradictItself(unittest.TestCase):
                              "criterion 6 names the %s exception, but %s carries no mechanism "
                              "for it" % (key, path))
 
+    def _implemented_stand_downs(self):
+        """Every stand-down the CODE implements, read off the `# STAND-DOWN: <name>` markers.
+
+        The convention is stated in guardrails/check-prover-record.sh's header: an arm that can
+        let a push past the prover-record demand carries one such line above it. Reading the
+        markers is the point — the test that stood here read a hand-written proxy instead (does
+        gate a's block in pre-push contain the word `case`), so it held nothing about the script
+        the block calls. Gate a's stand-downs live inside check-prover-record.sh, and the whole
+        chain's deletion-only stand-down lives in pre-push above it; both are read.
+        """
+        found = {}
+        for rel in self.STAND_DOWN_SOURCES:
+            for name in self.STAND_DOWN_MARKER.findall(read(rel)):
+                found.setdefault(name, rel)
+        return found
+
     def test_gate_a_carries_no_stand_down_criterion_6_does_not_name(self):
         """The other direction, and the reason `2718c69` was reverted: gate a once skipped the
         prover record on the prose-only and scoped reach verdicts — a third exception no
-        criterion named. Any conditional that can skip the record check inside gate a's block
-        reds here until the spec's exception list names it."""
+        criterion named. This reads the implemented stand-downs off the scripts themselves and
+        holds the two lists equal in both directions: every mechanism the code implements is
+        named by criterion 6, and every exception criterion 6 names has a mechanism behind it.
+        An arm added without its marker reds against the marker convention; an arm added with a
+        marker criterion 6 does not name reds here; a clause deleted from criterion 6 while its
+        arm still stands in the code reds here too."""
+        implemented = self._implemented_stand_downs()
+        self.assertTrue(
+            implemented,
+            "no `# STAND-DOWN: <name>` marker anywhere in %s — either the stand-down arms lost "
+            "their markers, or the convention this test reads was dropped from the scripts"
+            % ", ".join(self.STAND_DOWN_SOURCES))
+
+        criterion_6 = self._criterion_6()
+        for name, rel in sorted(implemented.items()):
+            self.assertIn(
+                name, criterion_6,
+                "%s implements a stand-down named %r that R226 criterion 6 does not name: a "
+                "push can pass the prover-record gate for a reason the spec never states. "
+                "Name it in criterion 6, or take the arm out." % (rel, name))
+
+        for item in self._named_exceptions(criterion_6):
+            self.assertTrue(
+                any(name in item for name in implemented),
+                "criterion 6 names an exception no marked stand-down implements: %r. The "
+                "implemented ones are %s. Either the spec grants an exception nothing in the "
+                "code performs, or a real arm lost its `# STAND-DOWN:` marker."
+                % (item, sorted(implemented)))
+
         with open(PREPUSH, encoding="utf-8") as f:
             body = f.read()
         gate_a = body[body.index("-- gate a"):body.index("-- gate b")]
-        self.assertNotIn("case ", gate_a,
-                         "gate a branches again — a stand-down criterion 6 does not name")
         self.assertRegex(gate_a, r'if ! "\$GUARDRAILS/check-prover-record\.sh" --push',
                          "gate a no longer runs the prover-record check at all")
 

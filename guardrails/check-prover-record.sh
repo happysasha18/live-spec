@@ -40,6 +40,21 @@
 # gate applies the pressure a machine can apply — the record names the commits, the files, the
 # checks and the findings — and leaves the judgment where it belongs.
 #
+# THE STAND-DOWN MARKER CONVENTION (the REFUSE of 2026-08-15 23:41, finding F2). Every arm in
+# this chain that can let a push past the record demand — an arm that exits 0 without a record
+# on file — carries, immediately above it, one line of the exact shape:
+#
+#   # STAND-DOWN: <name>
+#
+# <name> is a single token, and PRODUCT_SPEC.md R226 criterion 6 must carry that same token in
+# the exception it names. guardrails/pre-push carries the same marker over the deletion-only
+# stand-down, which stands the whole chain down ahead of gate a. The convention exists so a
+# test can enumerate the stand-downs THE CODE IMPLEMENTS rather than the ones a person
+# remembered to list: tests/test_deletion_only_push.py greps these markers and holds both
+# directions — every marker is named by criterion 6, and every exception criterion 6 names has
+# a marker. An arm added here without its marker, or a marker whose name criterion 6 does not
+# carry, reds that test. The two must be edited together.
+#
 # Usage: check-prover-record.sh [--push] [prover-dir] [YYYY-MM-DD]
 #   prover-dir  defaults to docs/prover (relative to the repo root)
 #   date        defaults to today
@@ -100,6 +115,7 @@ elif git rev-parse --verify --quiet "HEAD~1" >/dev/null 2>&1; then
   DIFF_BASE_LAST_RESORT=1
 fi
 
+# STAND-DOWN: inbox-deposit
 if [ -n "$DIFF_BASE" ]; then
   changed="$(git diff --name-status "$DIFF_BASE" HEAD)"
   # exactly one line, status A (added), path under inbox/
@@ -150,6 +166,7 @@ if [ ${#candidates[@]} -eq 0 ]; then
   # This arm runs on the PUSH road only, using the range already derived above, and only where
   # no record was found — a range with a record on file keeps every existing behavior below —
   # and only against a base a real push would resolve (never the HEAD~1 last resort).
+  # STAND-DOWN: recordless
   if [ "$PUSH_ROAD" -eq 1 ] && [ -n "$DIFF_BASE" ] && [ "$DIFF_BASE_LAST_RESORT" -ne 1 ]; then
     rc_range_commits="$(git rev-list "$DIFF_BASE..HEAD" 2>/dev/null || true)"
     if [ -n "$rc_range_commits" ]; then

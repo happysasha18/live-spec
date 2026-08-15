@@ -22,6 +22,12 @@ GUARDRAILS="$REPO_ROOT/guardrails"
 # (four tag deletions read as an empty diff, fell to the full suite, died on the two-minute limit).
 # This check carries no gate letter: it is a triage read ahead of the chain, the placement
 # check-push-reach.sh already holds inside gate b, not a net that blocks on red.
+#
+# The marker below is the machine-readable half of the convention guardrails/check-prover-record.sh
+# states in full: every arm that can let a push past the prover-record demand carries one
+# `# STAND-DOWN: <name>` line, and PRODUCT_SPEC.md R226 criterion 6 must name that same <name>.
+# tests/test_deletion_only_push.py reads both directions off these markers.
+# STAND-DOWN: deletion-only
 if [ -t 0 ]; then
   PUSH_REF_LINES=""
 else

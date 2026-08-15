@@ -5422,7 +5422,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: the cheap gates never scope**
 
-6. The system *shall* run the prover-record, ownership, coverage, loadability, and prototype-fence checks at every push that carries content, never scoped, except where criterion 7's deletion-only stand-down applies and where the owner's recordless class stands the prover-record check down for an all-in-class range. [INV-40]
+6. The system *shall* run the prover-record, ownership, coverage, loadability, and prototype-fence checks at every push that carries content, never scoped, except: where criterion 7's deletion-only stand-down applies; where the inbox-deposit carve-out M-6 already carries stands the prover-record check down for a push whose diff is exactly one new file under `inbox/`; where the owner's recordless class stands the prover-record check down for an all-in-class range. [INV-40]
 
 **Case: a deletion-only push carries no content**
 
