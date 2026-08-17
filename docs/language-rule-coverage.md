@@ -195,7 +195,7 @@ repair the text from those stops rather than from the one sentence in front of y
 - **model** — held. Lives at hooks/register-judge.py via hooks/register_judge_core.py, scripts/preshow-register-lint.py via hooks/register_judge_core.py. Rule text the judging model reads: no machine dialect in a surface a human reads: a word this project coined where the industry already has one, an English internal term loan-translated word for word into the reader's own language (a calque), or an English coinage respelled in the reader's alphabet. Judge by whether an outside reader, never taught this project's private vocabulary, would meet a word as machinery where meaning belongs. A plain industry-standard word passes, and so does an ordinary word that merely happens to appear inside such a coinage.
 - **person** — partial. Reads: whether a standard word exists for a thing the text minted a name for, and a loan translation or a respelling nobody has recorded yet, including a coinage born in the writer's own report.
 
-**Stated before this page, at.** docs/spec-format.md:21, docs/spec-style.md:27, docs/prose-quality-gate-design.md:19, guardrails/spec-coinages.json:2, scripts/spec-style-lint.py:262, ~/.claude/skills/spec-author/SKILL.md:109, ~/.claude/skills/text-audit/SKILL.md:223, ~/.claude/skills/communicator/references/writing-register.md:46, ~/.claude/playbook/personal/profile.md:16, ~/.claude/playbook/personal/profile.md:17, ~/.claude/skills/live-spec-base/SKILL.md:57, ~/.claude/skills/communicator/SKILL.md:264, hooks/chat-law-hook.sh:9, docs/language-defects.md:126, scripts/preshow-register-lint.py:74, scripts/preshow-register-lint.py:96, ~/.claude/skills/communicator/SKILL.md:459
+**Stated before this page, at.** docs/spec-format.md:21, docs/spec-style.md:27, docs/prose-quality-gate-design.md:19, guardrails/spec-coinages.json:2, scripts/spec-style-lint.py:262, ~/.claude/skills/spec-author/references/how-it-reads.md:16, ~/.claude/skills/text-audit/SKILL.md:223, ~/.claude/skills/communicator/references/writing-register.md:46, ~/.claude/playbook/personal/profile.md:16, ~/.claude/playbook/personal/profile.md:17, ~/.claude/skills/live-spec-base/SKILL.md:57, ~/.claude/skills/communicator/SKILL.md:264, hooks/chat-law-hook.sh:9, docs/language-defects.md:126, scripts/preshow-register-lint.py:74, scripts/preshow-register-lint.py:96, ~/.claude/skills/communicator/SKILL.md:459
 
 **Notes.** r16, `an internal English term loan-translated into the reader's language`, and r17, `an internal term respelled in the reader's alphabet`, folded into this entry on 2026-07-28 and their ids are retired: one class — a project word reaching the reader where a standard word exists — was split three ways by the form the word happened to take. The word list this entry names was two lists until 2026-07-28: guardrails/spec-coinages.json held six pairs for check-vocabulary.py and scripts/spec-style-lint.py:232 held nine words of its own with no repairs, so a word added to either was invisible to the other reader. They are merged into the one home this entry prints, both readers read it, and the repairs beside the nine were written for this file. The arm that held this rule in chat is retired to attic/midturn-chat-scan.py. It stood before every tool call in the tree. Its refusal landed on whichever call was in flight, a background worker's included. No field of that event tells the two apart. The law stands, and only its machine is gone. The model arm at the pre-show step turns on through PRESHOW_REGISTER_JUDGE and stands off by default (scripts/preshow-register-lint.py:138). attic/chat-calques.json holds the retired scanner's patterns for the same fifteen loan translations the examples give. The profile names three more loan translations — its words for tripwires, for the same incident family, and for a landing — with no repair recorded for any of them, and its list shares no member with that pattern list. A translation after the fact does not repair the sentence; it must be plain the first time. check-vocabulary.py is armed nowhere. The model arm reached documents alone until 2026-07-28. Its only checker was the pre-show lint, which runs over a file. A coined word spoken in conversation met the pattern list, and no meaning read it. A list holds the words someone already caught, and three coinages of one morning walked through it. The turn judge was added here, and it now reads the chat surface for the whole class.
 
@@ -231,7 +231,7 @@ repair the text from those stops rather than from the one sentence in front of y
 - **model** — absent.
 - **person** — partial. Reads: a second name nobody has recorded as an alias yet.
 
-**Stated before this page, at.** docs/spec-format.md:22, docs/spec-style.md:25, docs/roadmap-format.md:9, docs/architecture-format.md:13, docs/test-matrix-format.md:9, guardrails/one-name-aliases.json:2, ~/.claude/skills/live-spec-base/SKILL.md:61, ~/.claude/skills/communicator/references/writing-register.md:28, ~/.claude/skills/spec-author/SKILL.md:232, ~/.claude/skills/spec-author/SKILL.md:548
+**Stated before this page, at.** docs/spec-format.md:22, docs/spec-style.md:25, docs/roadmap-format.md:9, docs/architecture-format.md:13, docs/test-matrix-format.md:9, guardrails/one-name-aliases.json:2, ~/.claude/skills/live-spec-base/SKILL.md:61, ~/.claude/skills/communicator/references/writing-register.md:28, ~/.claude/skills/spec-author/references/the-spine.md:5, ~/.claude/skills/spec-author/references/primary-unit.md:35
 
 **Notes.** check-one-name.py exists and is armed nowhere; its docstring reads UNARMED until the spec-format conversion delivery. The homes name the thing being named four ways: term, concept, surface, artifact.
 
@@ -339,7 +339,7 @@ repair the text from those stops rather than from the one sentence in front of y
 - **model** — held. Lives at hooks/register-judge.py via hooks/register_judge_core.py. Rule text the judging model reads: no naming a thing by denying its neighbour. The banned frame is 'X, not Y' / 'X — not Y', and in Russian «X, а не Y». It is banned when the denied half adds nothing the reader did not already have. A contrast between two things that BOTH genuinely exist and are both live for the reader is legitimate and passes.
 - **person** — partial. Reads: whether the denied half is genuinely live for this reader, which is the call the exception turns on.
 
-**Stated before this page, at.** ~/.claude/playbook/personal/profile.md:18, hooks/chat-law-hook.sh:10, hooks/scissors-scan.py:27, ~/.claude/hooks/scissors-personal.json:1, docs/spec-style.md:52, docs/spec-style.md:67, scripts/spec-style-lint.py:122, scripts/spec-style-lint.py:206, docs/spec-format.md:36, docs/prose-quality-gate-design.md:19, docs/spec-compaction-protocol.md:75, ~/.claude/skills/communicator/references/writing-register.md:93, ~/.claude/skills/communicator/SKILL.md:434, ~/.claude/skills/text-audit/SKILL.md:226, ~/.claude/skills/spec-author/SKILL.md:136
+**Stated before this page, at.** ~/.claude/playbook/personal/profile.md:18, hooks/chat-law-hook.sh:10, hooks/scissors-scan.py:27, ~/.claude/hooks/scissors-personal.json:1, docs/spec-style.md:52, docs/spec-style.md:67, scripts/spec-style-lint.py:122, scripts/spec-style-lint.py:206, docs/spec-format.md:36, docs/prose-quality-gate-design.md:19, docs/spec-compaction-protocol.md:75, ~/.claude/skills/communicator/references/writing-register.md:93, ~/.claude/skills/communicator/SKILL.md:434, ~/.claude/skills/text-audit/SKILL.md:226, ~/.claude/skills/spec-author/references/how-it-reads.md:43
 
 **Notes.** The package default carries the exception the model judge states. The owner's profile calls the ban permanent with no exception, which is what personal_override records; ~/.claude/playbook/personal/profile.md:18 and ~/.claude/skills/communicator/SKILL.md:434 hold that form. scripts/spec-style-lint.py:126 hard-codes its own exemptions for `X, not only Y` and for an imperative `use A instead of B`; those exemptions must come from this file instead. The modal words never, no, only, and exactly-one are load-bearing and survive, per docs/spec-compaction-protocol.md:75. Positive statement binds every surface, conversation and commit messages and worker briefs included, since each of them is text a reader meets. The surfaces list says so.
 
@@ -357,7 +357,7 @@ repair the text from those stops rather than from the one sentence in front of y
 - **model** — held. Lives at hooks/register-judge.py via hooks/register_judge_core.py. Rule text the judging model reads: no bare internal code opening a sentence to the human. A sentence shown to the person must not LEAD with an internal handle as its first token — an invariant code (INV-237), a roadmap or matrix row (row 422, M-419), a milestone or entity code (M-6, E-13, T-22), or a bare section number. The handle may TRAIL the plain sentence in parentheses as a quiet anchor once the words have carried the meaning; only a code standing as the opening token offends. Leading with the code is the agent talking to itself in its own filing system rather than to the reader. A sentence that opens in plain words and closes with a parenthetical anchor passes.
 - **person** — partial. Reads: whether the plain sentence really carries the meaning the code was standing in for.
 
-**Stated before this page, at.** hooks/chat-law-hook.sh:8, hooks/code-anchor-scan.py:69, scripts/preshow-lint.py:26, guardrails/criterion-readability.json:110, docs/lenses.md:17, docs/spec-format.md:17, docs/roadmap-format.md:12, docs/architecture-format.md:16, docs/test-matrix-format.md:10, ~/.claude/skills/live-spec-base/SKILL.md:52, ~/.claude/playbook/personal/profile.md:14, ~/.claude/skills/communicator/references/writing-register.md:66, ~/.claude/skills/communicator/SKILL.md:254, ~/.claude/skills/spec-author/SKILL.md:76
+**Stated before this page, at.** hooks/chat-law-hook.sh:8, hooks/code-anchor-scan.py:69, scripts/preshow-lint.py:26, guardrails/criterion-readability.json:110, docs/lenses.md:17, docs/spec-format.md:17, docs/roadmap-format.md:12, docs/architecture-format.md:16, docs/test-matrix-format.md:10, ~/.claude/skills/live-spec-base/SKILL.md:52, ~/.claude/playbook/personal/profile.md:14, ~/.claude/skills/communicator/references/writing-register.md:66, ~/.claude/skills/communicator/SKILL.md:254, ~/.claude/skills/spec-author/references/glossary.md:48
 
 **Notes.** The arm that held this rule in chat is retired to attic/midturn-chat-scan.py. It stood before every tool call in the tree. Its refusal landed on whichever call was in flight, a background worker's included. No field of that event tells the two apart. The law stands, and only its machine is gone. The Stop-side code-anchor scan still holds this rule at the turn's end. The anchor counts come from guardrails/criterion-readability.json and no prose home states them. code-anchor-scan.py:73 also catches a document name run against a number and code-anchor-scan.py:76 a spoken-space or hash variant, neither of which any prose home states. The criterion arm is armed nowhere.
 
@@ -501,7 +501,7 @@ repair the text from those stops rather than from the one sentence in front of y
 - **model** — absent.
 - **person** — absent.
 
-**Stated before this page, at.** docs/spec-format.md:21, docs/roadmap-format.md:9, docs/architecture-format.md:13, docs/test-matrix-format.md:9, ~/.claude/skills/spec-author/SKILL.md:109, ~/.claude/skills/spec-author/SKILL.md:174, ~/.claude/skills/text-audit/SKILL.md:79
+**Stated before this page, at.** docs/spec-format.md:21, docs/roadmap-format.md:9, docs/architecture-format.md:13, docs/test-matrix-format.md:9, ~/.claude/skills/spec-author/references/how-it-reads.md:16, ~/.claude/skills/spec-author/references/how-it-reads.md:81, ~/.claude/skills/text-audit/SKILL.md:79
 
 **Notes.** The architecture adds no second glossary; the glossary lives at the spec. check-vocabulary.py is armed nowhere, so nothing runs this rule today. This entry carried a second arm until 2026-08-05: a domain noun the body uses with no entry. The script declares that direction undecidable at guardrails/check-vocabulary.py:17, so the arm left for r74.
 
@@ -519,7 +519,7 @@ repair the text from those stops rather than from the one sentence in front of y
 - **model** — absent.
 - **person** — partial. Reads: whether a capitalized token is a defined term earning a carve-out or a shout.
 
-**Stated before this page, at.** docs/spec-format.md:17, docs/spec-style.md:34, docs/roadmap-format.md:11, docs/architecture-format.md:16, docs/test-matrix-format.md:10, docs/prose-quality-gate-design.md:19, scripts/spec-style-lint.py:238, ~/.claude/skills/spec-author/SKILL.md:65, ~/.claude/skills/text-audit/SKILL.md:96
+**Stated before this page, at.** docs/spec-format.md:17, docs/spec-style.md:34, docs/roadmap-format.md:11, docs/architecture-format.md:16, docs/test-matrix-format.md:10, docs/prose-quality-gate-design.md:19, scripts/spec-style-lint.py:238, ~/.claude/skills/spec-author/references/glossary.md:37, ~/.claude/skills/text-audit/SKILL.md:96
 
 **Notes.** The carve-out list lives here, and scripts/spec-style-lint.py:238 must read it from this file rather than keep its own copy. docs/spec-format.md:17 still states the old form, with no carve-out at all. A carve-out entry is a defined term, an acronym, a document name, or a closed-vocabulary value, and docs/spec-style.md:62 says the list is meant to grow. check-requirement-shape.py is armed nowhere. Four entries were added 2026-07-28. FULL is the third value of the review-mode vocabulary, beside CROSS-LINK and FEATURE-FIT. TBD, ER and CRUD are industry acronyms.
 
@@ -537,7 +537,7 @@ repair the text from those stops rather than from the one sentence in front of y
 - **model** — absent.
 - **person** — absent.
 
-**Stated before this page, at.** docs/spec-style.md:23, docs/prose-quality-gate-design.md:20, scripts/spec-style-lint.py:272, ~/.claude/skills/spec-author/SKILL.md:136
+**Stated before this page, at.** docs/spec-style.md:23, docs/prose-quality-gate-design.md:20, scripts/spec-style-lint.py:272, ~/.claude/skills/spec-author/references/how-it-reads.md:43
 
 **Notes.** r24 and r25 are one rule read on two surfaces, and the block rule dissolves the clash between them: a numbered criterion is spec-body and a Context paragraph in the same file is human-prose, so the two never judge one sentence. The remaining defect is in the checker — scripts/spec-style-lint.py reds r25's surface today because its reach is the whole file rather than the numbered blocks. This entry carried a second arm until 2026-08-05: the actor a normative sentence binds is named, and is the one that acts. No checker ever read that arm, so it left for r75 and this one keeps the person.
 
@@ -643,7 +643,7 @@ repair the text from those stops rather than from the one sentence in front of y
 - **model** — absent.
 - **person** — partial. Reads: a birth-story told with no date in it.
 
-**Stated before this page, at.** docs/spec-style.md:37, docs/spec-format.md:26, docs/lenses.md:3, docs/roadmap-format.md:13, docs/architecture-format.md:18, docs/test-matrix-format.md:11, guardrails/check-no-history.py:7, ~/.claude/skills/live-spec-base/SKILL.md:112, ~/.claude/skills/spec-author/SKILL.md:117
+**Stated before this page, at.** docs/spec-style.md:37, docs/spec-format.md:26, docs/lenses.md:3, docs/roadmap-format.md:13, docs/architecture-format.md:18, docs/test-matrix-format.md:11, guardrails/check-no-history.py:7, ~/.claude/skills/live-spec-base/SKILL.md:112, ~/.claude/skills/spec-author/references/how-it-reads.md:24
 
 **Notes.** The homes scope the rule four ways: the normative body, the whole spec, the spec with the queue and the next-steps prose, and the requirements body alone. A dated line in a spec preamble passes the script and breaks docs/spec-format.md:26. check-no-history.py is armed nowhere.
 
@@ -749,7 +749,7 @@ repair the text from those stops rather than from the one sentence in front of y
 - **model** — absent.
 - **person** — partial. Reads: the atomicity of a criterion is a cold-reader judgment.
 
-**Stated before this page, at.** docs/spec-format.md:17, docs/roadmap-format.md:10, docs/test-matrix-format.md:10, guardrails/check-requirement-shape.py:18, ~/.claude/skills/spec-author/SKILL.md:60
+**Stated before this page, at.** docs/spec-format.md:17, docs/roadmap-format.md:10, docs/test-matrix-format.md:10, guardrails/check-requirement-shape.py:18, ~/.claude/skills/spec-author/references/glossary.md:32
 
 **Notes.** check-requirement-shape.py is armed nowhere.
 
@@ -987,7 +987,7 @@ repair the text from those stops rather than from the one sentence in front of y
 - **model** — held. Lives at scripts/spec-judge.py with scripts/judge-rubric.md. Rule text the judging model reads: a fresh agent with the pack not loaded, judging the whole document in one context against a hash-pinned rubric, giving verbatim-quote evidence, with a seeded self-test canary.
 - **person** — partial. Reads: whether the writer really held no package vocabulary.
 
-**Stated before this page, at.** ~/.claude/skills/live-spec-base/SKILL.md:232, docs/lenses.md:50, docs/spec-style.md:86, ~/.claude/skills/spec-author/SKILL.md:132, docs/prose-quality-gate-design.md:40
+**Stated before this page, at.** ~/.claude/skills/live-spec-base/SKILL.md:232, docs/lenses.md:50, docs/spec-style.md:86, ~/.claude/skills/spec-author/references/how-it-reads.md:39, docs/prose-quality-gate-design.md:40
 
 **Notes.** The rule binds the DRAFTING step alone, because a writer marinated in this project's own vocabulary writes in that vocabulary; it disqualifies nobody from reviewing or revising. A cold reader of the 2026-07-28 reading took the earlier wording to bar anyone who had read the rulebook from writing at all, which would have barred that reader from the page they were assigned. `The rules binding the surface being drafted` is what a brief lists, and docs/language-rules.md gives that roster per surface. The homes split between who writes and who judges, and they scope the unit differently: the section an edit touches, or the whole document. The drafting half has no checker. The owner became a script over a record on 2026-07-29. Reading finished prose cannot say who drafted it. The drafting brief is recorded instead, and a check reads that record. No such record exists today.
 
@@ -1005,7 +1005,7 @@ repair the text from those stops rather than from the one sentence in front of y
 - **model** — absent.
 - **person** — partial. Reads: the text-audit loop is run by a person or a model; no script decides whether it ran.
 
-**Stated before this page, at.** docs/spec-format.md:40, docs/roadmap-format.md:15, docs/architecture-format.md:22, docs/test-matrix-format.md:13, ~/.claude/skills/spec-author/SKILL.md:565, ~/.claude/skills/text-audit/SKILL.md:63
+**Stated before this page, at.** docs/spec-format.md:40, docs/roadmap-format.md:15, docs/architecture-format.md:22, docs/test-matrix-format.md:13, ~/.claude/skills/spec-author/SKILL.md:164, ~/.claude/skills/text-audit/SKILL.md:63
 
 **Notes.** Four format documents carry the same sentence verbatim. The owner became a script over the reading records on 2026-07-29. A finished text carries no trace of how many readers saw it. The records under docs/language-reads/ carry it. No script reads them today.
 
@@ -1293,9 +1293,9 @@ repair the text from those stops rather than from the one sentence in front of y
 - **model** — absent.
 - **person** — held. Reads: a reader hears the bundled second rule and the buried definition, and the cold-read step catches both.
 
-**Stated before this page, at.** docs/spec-style.md:22, docs/spec-format.md:17, ~/.claude/skills/communicator/references/writing-register.md:13, docs/spec-style.md:36, ~/.claude/skills/spec-author/SKILL.md:97
+**Stated before this page, at.** docs/spec-style.md:22, docs/spec-format.md:17, ~/.claude/skills/communicator/references/writing-register.md:13, docs/spec-style.md:36, ~/.claude/skills/spec-author/references/how-it-reads.md:4
 
-**Notes.** This entry is the reading arm of r08, split off on 2026-08-05. r08 counts the words a sentence runs to, and this one asks what the sentence carries. A regex over three-comma sentences was declared out of reach at ~/.claude/skills/spec-author/SKILL.md:102, since it trips on ordinary triads. Telling a genuine enumeration from a rhetorical triad is the same meaning call. The list instruction r38 carried before its fold into r08 stands here for that reason. His words (2026-07-27 17:27): «например вот это разве легко прочитать: "the orchestration law that the session keeps pulling unblocked queue work while any remains."? может можно меньше причастных/деепричастных оборотов и сложноподчиненных предложений? может можно просто буллетами большинство из этого сформулировать?».
+**Notes.** This entry is the reading arm of r08, split off on 2026-08-05. r08 counts the words a sentence runs to, and this one asks what the sentence carries. A regex over three-comma sentences was declared out of reach at ~/.claude/skills/spec-author/references/how-it-reads.md:9, since it trips on ordinary triads. Telling a genuine enumeration from a rhetorical triad is the same meaning call. The list instruction r38 carried before its fold into r08 stands here for that reason. His words (2026-07-27 17:27): «например вот это разве легко прочитать: "the orchestration law that the session keeps pulling unblocked queue work while any remains."? может можно меньше причастных/деепричастных оборотов и сложноподчиненных предложений? может можно просто буллетами большинство из этого сформулировать?».
 
 ### r74 — a domain noun the body uses with no glossary entry
 
