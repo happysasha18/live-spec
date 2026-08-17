@@ -48,6 +48,59 @@ fi
 
 fail=0
 
+# -- the fast local chain (2026-08-18) --
+# The local chain runs the checks that take seconds: the prover record, the pins, skill
+# loadability, and the registry and accounting checks. The one slow member is gate b, the whole
+# pytest suite, which takes over twenty minutes on this machine and is the SERVER's job — the
+# gates workflow runs `python3 -m pytest -q` on every push, in the step named
+# "test suite (gate b, full — the reach map stays local)" (.github/workflows/gates.yml). Running
+# it a second time on the pusher's machine bought a slower push, not a safer one.
+# The old chain is still here and still reachable: LIVE_SPEC_PUSH_FULL=1 runs gate b locally
+# exactly as before, reach-scoped, with its suite-budget arm. That is the flag for a machine with
+# no server, a network-less push, or anyone who wants the old behaviour.
+# Nothing else moved: every gate whose value is catching something BEFORE the push — gate a's
+# fresh prover record above all — runs on every push as it always did.
+PUSH_FULL="${LIVE_SPEC_PUSH_FULL:-}"
+
+# Gate g, pin drift, is the second cost in the local chain: 56 seconds on 2026-08-18, more than
+# every other fast gate together. It stays — it holds pins repaired BEFORE a push, and it proved
+# sixty-odd re-aimed pins the evening before — but it stops charging a push that cannot have moved
+# a pin. A pin lives in ARCHITECTURE.md or in the r5 rule-price page, and points at a file. So a
+# diff touching none of: ARCHITECTURE.md, .live-spec/r5-rule-prices-2026-08-11.md, skills/ (the r5
+# page pins skill rules), the gate's own two readers, or any file an ARCHITECTURE.md pin names,
+# cannot have moved one.
+# The diff base is the chain's own, LIVE_SPEC_DIFF_BASE with origin/main as the default, the base
+# gate a and the reach classifier already read. Every unreadable answer runs the gate: no base, no
+# diff, no pin list. The SERVER runs gate g unconditionally (.github/workflows/gates.yml), so the
+# guarantee is unchanged — it just stops being paid for on every push that cannot touch it.
+# PIN_REACH_FILES replaces the diff for tests only, the way REACH_FILES does in check-push-reach.sh.
+gate_g_can_skip() {
+  # exit 0 = this diff cannot have moved a pin, gate g may stand down; 1 = run it.
+  local base changed targets f
+  [ -n "$PUSH_FULL" ] && return 1
+  if [ -n "${PIN_REACH_FILES:-}" ]; then
+    changed="$PIN_REACH_FILES"
+  else
+    base="${LIVE_SPEC_DIFF_BASE:-origin/main}"
+    git rev-parse --verify --quiet "$base" >/dev/null || return 1
+    changed="$(git diff --name-only "$base"..HEAD || true)"
+  fi
+  [ -z "$changed" ] && return 1
+  targets="$(python3 "$GUARDRAILS/archformat.py" --pins "$REPO_ROOT/ARCHITECTURE.md" 2>/dev/null | cut -f1 | sort -u || true)"
+  [ -z "$targets" ] && return 1
+  while IFS= read -r f; do
+    [ -z "$f" ] && continue
+    case "$f" in
+      ARCHITECTURE.md|.live-spec/r5-rule-prices-2026-08-11.md|skills/*) return 1 ;;
+      guardrails/check-pin-drift.sh|guardrails/archformat.py) return 1 ;;  # the gate's own reading changed
+    esac
+    if printf '%s\n' "$targets" | grep -qxF -- "$f"; then
+      return 1
+    fi
+  done <<< "$changed"
+  return 0
+}
+
 echo "== live-spec push gate =="
 
 echo ""
@@ -71,22 +124,30 @@ fi
 
 echo ""
 echo "-- gate b: test suite green (scoped by the diff's reach, SPEC INV-45) --"
-case "$reach_code" in
-  0)
-    echo "   prose-only diff: the suite stands down by name; every other gate still runs."
-    ;;
-  2)
-    scoped_files="$(printf '%s\n' "$reach_out" | sed -n 's/^SCOPED //p')"
-    if ! SCOPED_TEST_FILES="$scoped_files" "$GUARDRAILS/check-tests.sh"; then
-      fail=1
-    fi
-    ;;
-  *)
-    if ! "$GUARDRAILS/check-tests.sh"; then
-      fail=1
-    fi
-    ;;
-esac
+if [ -z "$PUSH_FULL" ]; then
+  echo "   the server runs this one: .github/workflows/gates.yml runs python3 -m pytest -q on every"
+  echo "   push, in its step \"test suite (gate b, full — the reach map stays local)\". The local"
+  echo "   chain is the fast set, so a push here does not pay the suite's twenty minutes twice."
+  echo "   Run it locally with LIVE_SPEC_PUSH_FULL=1 git push, or python3 -m pytest -q by hand."
+else
+  echo "   LIVE_SPEC_PUSH_FULL is set: running the suite locally, reach-scoped, as the chain always did."
+  case "$reach_code" in
+    0)
+      echo "   prose-only diff: the suite stands down by name; every other gate still runs."
+      ;;
+    2)
+      scoped_files="$(printf '%s\n' "$reach_out" | sed -n 's/^SCOPED //p')"
+      if ! SCOPED_TEST_FILES="$scoped_files" "$GUARDRAILS/check-tests.sh"; then
+        fail=1
+      fi
+      ;;
+    *)
+      if ! "$GUARDRAILS/check-tests.sh"; then
+        fail=1
+      fi
+      ;;
+  esac
+fi
 
 echo ""
 echo "-- gate c: every spec anchor owned by exactly one architecture node --"
@@ -101,8 +162,14 @@ fi
 
 echo ""
 echo "-- gate g: pin drift --"
-if ! "$GUARDRAILS/check-pin-drift.sh"; then
-  fail=1
+if gate_g_can_skip; then
+  echo "   the diff touches no pin: it changes neither ARCHITECTURE.md, nor the r5 rule-price page,"
+  echo "   nor skills/, nor any file a pin names, so nothing in it can have moved a pin. The server"
+  echo "   runs gate g on every push (.github/workflows/gates.yml), and LIVE_SPEC_PUSH_FULL=1 runs it here."
+else
+  if ! "$GUARDRAILS/check-pin-drift.sh"; then
+    fail=1
+  fi
 fi
 
 echo "-- gate f: skill loadability --"

@@ -57,6 +57,23 @@ A push of this repository is refused where either command disagrees with what st
 Each check lives in its own small script so it can be run and tested on its own, pointed at a
 scratch file instead of the real repo.
 
+### What runs locally, and what the server runs
+
+The local chain is the fast set. Every gate above runs on a push except gate b, the pytest suite.
+Measured on 2026-08-18: the local chain took 144 seconds, and the suite alone takes over twenty
+minutes. The server runs that suite on every push, in the `gates.yml` step named
+`test suite (gate b, full — the reach map stays local)`. A second local run bought a slower push and
+no new protection. Set `LIVE_SPEC_PUSH_FULL=1` to run the old chain, gate b included and
+reach-scoped. One thing the fast set gives up: `guardrails/check-suite-budget.sh` rides the suite,
+so a push measures the suite's wall-time only under that flag.
+
+Gate g, pin drift, is the chain's second cost: 56 to 63 seconds of every push. It stays local, since
+pins are repaired because it stands there. It now runs only when the push can move a pin. That means
+a diff touching `ARCHITECTURE.md`, `.live-spec/r5-rule-prices-2026-08-11.md`, `skills/`, the gate's
+own two readers, or a file an `ARCHITECTURE.md` pin names. Anything the chain cannot read — no base,
+no diff, no pin list — runs the gate. Measured on 2026-08-18: 103 seconds with gate g, 40 without.
+The server runs gate g on every push, unconditionally, and so does `LIVE_SPEC_PUSH_FULL=1`.
+
 ### Notes on some of the gates
 
 The roster above is the whole set. These notes enumerate nothing. They cover the gates whose
@@ -208,6 +225,13 @@ That list is stated in this section, in the gate's own header, and in `skills/li
 `skills/build-pipeline/SKILL.md`, `skills/build-pipeline/references/delegation-protocol.md`,
 `templates/agent.template.md` and `scripts/open-lane.sh`, in one wording, and
 `tests/test_worker_restore.py` reds when two of them differ.
+
+The gate reds on this project's own sessions. The transcript root holds the owner's other projects too.
+A discarding command in one of their sessions is their defect, as row 598 says in words.
+The key is the session's recorded `cwd`: a session belongs to a neighbour when that directory exists
+and git reads it as another repository. A session the gate cannot place elsewhere still reds. A
+neighbour's finding is never dropped — it prints as a notice naming session, directory, command and
+outcome, and reds nothing.
 
 It opens the worker-run transcripts under the harness transcript root (`~/.claude/projects` by
 default, `--root` or `LIVE_SPEC_TRANSCRIPT_ROOT` to move it): the files matching
