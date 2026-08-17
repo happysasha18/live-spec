@@ -7,12 +7,13 @@ metadata:
 
 # build-pipeline — ship a change by the method
 
-> Part of the **live-spec pack** — the shared working rules (ask-never-guess · plain words, anchors trail ·
-> one surface = one name · one home per fact · junior/senior split · checkpoints · the concurrent-edit
-> fence · freshness · journal discipline · attic-never-delete · verify by deed · the human's gates · claims
-> need primary sources · fix the class, sweep look-alikes · the door before code · prototype ≠ product) live ONCE in the pack's base skill, `live-spec-base` (v5.0.0), together with the
-> settings ladder — this skill references them and elaborates only its own domain. Used standalone, this
-> note is plain advice.
+> Part of the **live-spec pack**. The shared working rules live in one place: the pack's base skill,
+> `live-spec-base` (v5.0.0), which also holds the settings ladder. Those rules are ask-never-guess ·
+> plain words, anchors trail · one surface = one name · one home per fact · junior/senior split ·
+> checkpoints · the concurrent-edit fence · freshness · journal discipline · attic-never-delete ·
+> verify by deed · the human's gates · claims need primary sources · fix the class, sweep
+> look-alikes · the door before code · prototype ≠ product. This skill references them and
+> elaborates only its own domain. Used standalone, this note is plain advice.
 
 ## Words this skill uses
 
@@ -81,117 +82,189 @@ rule in full, so a reader holding this page alone can pass the codes over.
 
 One pipeline, and steps 1, 2, 5, and 6 each invoke a named skill. The order is **spec → prove → architecture → prove architecture →
 matrix → test → code → verify → commit & show**. A bug shortcuts to **bug → matrix → test → code** (citing the
-existing architecture node it lands in). **Skip the pipeline only if ALL hold:** single
-file · no new state / element / user-visible behaviour · an existing test level already covers the touched
-fact (still ship a test; the order of test and fix follows test-author's small-fix path — red first by
-default, and a one-batch fix owes the mechanical red proof). A skip still owes the door step's spec-backed-literal tripwire: does this edit touch a spec-backed literal or clause? A yes routes the docs and the test into the same session as the fix (SPEC INV-104). Anything touching visibility / layout / colour enters at the matrix step minimum.
-Otherwise don't skip a step — the bugs that pass every test hide in the steps you skipped. (The private playbook repo's PLAYBOOK.md holds
-the principle behind each step. This skill is its executable projection; keep the two in sync.)
+existing architecture node it lands in). **Skip the pipeline only where all three of these hold.**
+The change touches a single file. It adds no new state, no new element, and no new user-visible
+behaviour. An existing test level already covers the touched fact. A skip still ships a test. The
+order of test and fix follows test-author's small-fix path — red first by default, and a one-batch
+fix owes the mechanical red proof. A skip still owes the door step's spec-backed-literal tripwire:
+does this edit touch a spec-backed literal or clause? A yes routes the docs and the test into the
+same session as the fix (SPEC INV-104). Anything touching visibility / layout / colour enters at the
+matrix step minimum. Otherwise don't skip a step — the bugs that pass every test hide in the steps
+you skipped. (The private playbook repo's PLAYBOOK.md holds the principle behind each step. This
+skill is its executable projection; keep the two in sync.)
 
-**The craft ladder — which craft's standards judge each step (SPEC INV-33).** Each artifact is judged by its
-own craft's standards: **spec** — a strong product manager (the user's journey, the
-product's words) · **prove / prove architecture** — the prover's formal-methods reviewer ·
-**architecture** — a software architect (nodes, seams, one responsibility each) · **matrix** — a QA
-automation lead deriving coverage · **test** — the same QA engineer writing it · **code** — a senior
-developer · **verify** — the visitor's own fresh eyes, the builder's own view set aside · **commit & show** — a careful
-release hand whose reader is the human.
+**The craft ladder — which craft's standards judge each step (SPEC INV-33).** Each artifact is judged
+by its own craft's standards. The **spec** is judged as a strong product manager judges it: the
+user's journey, the product's words. **Prove** and **prove architecture** are judged as the prover's
+formal-methods reviewer judges them. The **architecture** is judged as a software architect judges
+it: nodes, seams, one responsibility each. The **matrix** is judged as a QA automation lead deriving
+coverage. The **test** is judged as the same QA engineer writing it. The **code** is judged as a
+senior developer. **Verify** is judged by the visitor's own fresh eyes, the builder's own view set
+aside. **Commit & show** is judged as a careful release hand whose reader is the human.
 
 The delivery report's step accounting speaks in these standards. The craft each artifact was made under is
 namable on ask.
 
-The craft takes the work-KIND's form (SPEC INV-22, INV-33): on a prose product the code step is worked as
-a strong writer, on infra as a toolsmith. The ladder names the archetypes, and the kind says what their
-standards look like in its medium.
+The craft takes the work-kind's form (SPEC INV-22, INV-33). On a prose product the code step is
+worked as a strong writer. On infra it is worked as a toolsmith. The ladder names the archetypes, and
+the kind says what their standards look like in its medium.
 
 ## When to run it — and where each kind of change enters
-- **Step zero, before ANY tool call: name the door aloud (SPEC T-12, INV-16; base rule 15) — and the human hears the intake line back as the capture echo: heard · door · name · row · place on the map (communicator rule 12, its capture-echo behaviour rule; SPEC INV-27, INV-37).**
-  - The intake line states size (a wish too big for its worth is negotiated in SCOPE — cut surfaces or
-    split into stages, never a time budget or estimate; proposals proceed on the recommended option and
-    are surfaced, SPEC T-15) · priority · door: feature · bug · refactor · docs-only · skip · work-kind: product · infra · skill ·
-    prose — what the wish BUILDS, one kind per wish, scaling the FORM of every step it walks (the
-    work-kind table at [references/work-kind-table.md](references/work-kind-table.md); SPEC T-16, INV-22).
+- **Step zero, before ANY tool call: name the door aloud (SPEC T-12, INV-16; base rule 15).**
+  The human then hears the intake line back as the capture echo. The echo names heard · door · name ·
+  row · place on the map (communicator rule 12, its capture-echo behaviour rule). Its spec codes are
+  INV-27 and INV-37.
+  - The intake line states size, priority, door, and work-kind. A wish too big for its worth is
+    negotiated in scope — cut surfaces or split into stages, never a time budget or estimate.
+    Proposals proceed on the recommended option and are surfaced (SPEC T-15). The door is one of
+    feature · bug · refactor · docs-only · skip. The work-kind is one of product · infra · skill ·
+    prose — what the wish builds, one kind per wish. The kind scales the form of every step the wish
+    walks (the work-kind table at [references/work-kind-table.md](references/work-kind-table.md);
+    SPEC T-16, INV-22).
 
-    The same line PLACES the wish on the product's feature map — **changes feature X · a new feature ·
-    restructure** — spoken in the echo and written in the row's `map:` note. The map is the spec's scenario
-    sections plus the architecture's nodes, never a third document. A restructure verdict queues its OWN row
-    (refactor door if only structure moves, feature door if behaviour moves too); the re-carve happens only
-    through the architecture step and its re-prove (SPEC INV-37). A same-version docs-layout pass rides one sanctioned light vehicle: the pass builds on a clean pushed base, locks the owner's decisions in a checkpoint first, and proves content survived by a word-token multiset check and a punctuation multiset check (SPEC INV-111).
+    The same line places the wish on the product's feature map — **changes feature X · a new feature ·
+    restructure**. The placement is spoken in the echo and written in the row's `map:` note. The map is
+    the spec's scenario sections plus the architecture's nodes, never a third document. A restructure
+    verdict queues its own row: refactor door if only structure moves, feature door if behaviour moves
+    too. The re-carve happens only through the architecture step and its re-prove (SPEC INV-37). A
+    same-version docs-layout pass rides one sanctioned light vehicle. The pass builds on a clean pushed
+    base, and locks the owner's decisions in a checkpoint first. It proves content survived by a
+    word-token multiset check and a punctuation multiset check (SPEC INV-111).
   - **The same line reads the FOOTPRINT — a three-source impact read that decides the route (SPEC INV-128).**
-    Beside the door and the work-kind, read the change against the spec, the architecture and the code at
-    once, and name one footprint — **presentation-only** · **single-module** · **cross-cutting** — spoken in
-    the echo and written in the row's `footprint:` note. See
+    Beside the door and the work-kind, read the change against the spec, the architecture and the code
+    at once. Name one footprint — **presentation-only** · **single-module** · **cross-cutting**. The
+    footprint is spoken in the echo and written in the row's `footprint:` note. See
     [references/footprint-read.md](references/footprint-read.md) for the full read: how the footprint
-    composes with the door, what each footprint grants each step, what a three-source disagreement owes,
-    and the mid-work re-classification.
+    composes with the door, and what each footprint grants each step. That page also carries what a
+    three-source disagreement owes, and the mid-work re-classification.
   - Tripwires decide by rule, ahead of judgment — a new user-visible surface · new persistent state · a new interaction on an existing surface
     · the spec marks the touched surface [target] · behaviour no spec clause backs ⇒ FEATURE, however
     casually asked. The tripwire verdict outranks a casual "bugfix" label, and queue-cutting belongs to the
     bug door alone — a re-doored wish takes no preemption.
-  - Re-fire the door mid-work the moment the work is
-    about to create a surface or state its door doesn't grant: STOP, reclassify, continue by the right
-    door. When the re-door creates a surface or state that did not exist when the lanes opened, the same
-    re-check **re-runs the independence edges against every rolling lane (SPEC INV-131)** — the new surface
-    can collide with a sibling that was independent a moment ago; a new edge pulls the re-doored lane back
-    to serial (waiting behind the lane it now shares a surface with) with a board line, so the departures
-    board never asserts a stale independence after the ground moved. The integration re-fence [INV-39]
-    still catches the collision at landing; this closes the board's observability gap and adds no new net.
+  - Re-fire the door mid-work the moment the work is about to create a surface or state its door
+    doesn't grant. Stop, reclassify, and continue by the right door. The re-door sometimes creates a
+    surface or state that did not exist when the lanes opened. In that case the same re-check
+    **re-runs the independence edges against every rolling lane (SPEC INV-131)**. The new surface can
+    collide with a sibling that was independent a moment ago. A new edge pulls the re-doored lane back
+    to serial, waiting behind the lane it now shares a surface with. The board carries a line for that
+    move. That way the departures board never asserts a stale independence after the ground moved. The
+    integration re-fence [INV-39] still catches the collision at landing; this closes the board's
+    observability gap and adds no new net.
   - **A declared mockup-first entry condition is honoured from the row, cancelled only by name (SPEC
     INV-43).** See [references/mockup-first-entry.md](references/mockup-first-entry.md) for where the
     condition is written, what cancels it, and the worked case behind it.
-  - **One wish = one user story (SPEC T-17):** a wish carrying several distinct things a person will DO and
-    SEE splits at intake — each story its own row through the full pipeline (stages slice ONE story's depth,
-    T-15's knife; separate stories never fuse into one row). Sub-behaviours (a hover face, a phone face, a
-    backpointer) are the story's ACCEPTANCE, folded into the one story. Unclear whether it is one story or
-    two ⇒ ask at intake, and every row born of a split cites the one spoken wish it came from. A request to
-    merely SEE/TRY with no commitment goes to a labelled prototype home instead (base rule 16) — it stays a
-    prototype, outside prod and unshown as product.
-- **The door set is CLOSED, and a request enters at the highest document its change reaches (SPEC INV-151).** A request enters at the highest document in the derivation chain — spec → architecture → matrix → code → docs — whose sentences must change to satisfy it; the settings ladder stands beside the chain for a pure value. Walk the chain from the top: after this is done, would any sentence in this document read differently? The first yes is the entry layer, and the request flows down through every step its door grants. The set of entry points is closed — every request kind has a named home and a mandatory back-check, and a request the set cannot place is one plain question, never an improvised route:
+  - **One wish = one user story (SPEC T-17):** a wish carrying several distinct things a person will
+    do and see splits at intake. Each story takes its own row through the full pipeline. Stages slice
+    one story's depth — that is T-15's knife — and separate stories never fuse into one row.
+    Sub-behaviours (a hover face, a phone face, a backpointer) are the story's acceptance, folded into
+    the one story. Unclear whether it is one story or two ⇒ ask at intake. And every row born of a
+    split cites the one spoken wish it came from. A request to merely see or try, with no commitment,
+    goes to a labelled prototype home instead (base rule 16). It stays a prototype, outside prod and
+    unshown as product.
+- **The door set is CLOSED, and a request enters at the highest document its change reaches (SPEC INV-151).**
+  A request enters at the highest document in the derivation chain whose sentences must change to
+  satisfy it. The chain is spec → architecture → matrix → code → docs. The settings ladder stands
+  beside the chain for a pure value. Walk the chain from the top: after this is done, would any
+  sentence in this document read differently? The first yes is the entry layer. The request then flows
+  down through every step its door grants. The set of entry points is closed. Every request kind has a
+  named home and a mandatory back-check. A request the set cannot place is one plain question, never
+  an improvised route:
 
   See [references/request-kind-table.md](references/request-kind-table.md) for the full closed set of
-  request kinds, their entry step, and mandatory back-check (product behaviour · a technically-phrased request · a defect · docs-only · a tiny reversible edit · a settings/parameter value · an inbox wish · a method/skill change · a sketch · research/a question · a feedback hand-back).
+  request kinds, their entry step, and mandatory back-check. The kinds are: product behaviour · a
+  technically-phrased request · a defect · docs-only · a tiny reversible edit · a settings/parameter
+  value · an inbox wish · a method/skill change · a sketch · research/a question · a feedback hand-back.
 
-  **A request that matches no kind in this closed set becomes one plain question to the human (base rule 1), never a guessed route.** The closed set is what makes "no gap between the layers" a checkable property held by rule, where before it leaned on habit: the landing contract already lists every door-granted step applied or stood down by name (SPEC INV-22), so a request the set cannot place is surfaced to the human as a question. This is the request-side twin of the property net's homeless-item finding (SPEC INV-150), the deferral test's (SPEC INV-152), and the earned message's (SPEC INV-189, INV-191) — one routing principle stated four times (SPEC INV-153): every incoming thing routes to the home whose declared sentence governs it, and a thing that pins to no home is itself the finding. The fourth control carries it across a window's edge: a message to another agent routes to the sender's own blocked work, and a question no work stands on is dropped and never sent.
+  **A request that matches no kind in this closed set becomes one plain question to the human (base
+  rule 1), never a guessed route.**
+
+  The closed set makes "no gap between the layers" a checkable property held by rule, where before it
+  leaned on habit. The landing contract already lists every door-granted step applied or stood down by
+  name (SPEC INV-22). So a request the set cannot place is surfaced to the human as a question. This
+  is the request-side twin of three other findings. They are the property net's homeless-item finding
+  (SPEC INV-150), the deferral test's (SPEC INV-152), and the earned message's (SPEC INV-189,
+  INV-191). The four are one routing principle stated four times (SPEC INV-153). Every incoming thing
+  routes to the home whose declared sentence governs it. A thing that pins to no home is itself the
+  finding. The fourth control carries the principle across a window's edge. A message to another agent
+  routes to the sender's own blocked work. A question no work stands on is dropped and never sent.
 - **New feature / new stateful surface / behaviour change:** the full pipeline from step 1.
-- **Bug:** enter at the matrix step with a red-on-bug test (`bug → matrix → test → code`); if the fixed fact
-  also lives in SPEC prose, update the spec sentence in the same change. **The door step adds one tripwire at the bug door:** does this edit touch a spec-backed literal or clause (a version string, a pinned count, a named vocabulary, a promised wording)? A yes binds the docs-travel-with-the-change rule and the red-first small-fix path into one duty — the docs and the test land in the same session as the fix; the tripwire reads the edit's content, so a one-word change to a spec-cited literal owes the same duty as a full feature (SPEC INV-104). **A confirmed bug drives a class hunt before it closes (SPEC INV-124). The hunt is four moves:** (1) name the defect abstractly (the KIND of mistake — a scope too narrow, a
-  missing guard, an assumption that holds in one place and fails in the neighbour), then actively SEARCH
-  every surface where that kind could live and fix all siblings in the same change — the search goes
-  finding the siblings not yet seen, the matrix row and the red-on-bug test covering the CLASS beyond the
-  single instance (base rule 14); (2) check the architecture — a structural cause (a boundary drawn wrong
-  or left silent, a node owning what it should not) updates ARCHITECTURE.md in the same change, a cluster
-  in one district reading as an architecture smell; (3) check the spec — a spec silent on or
-  under-describing the broken behaviour is the real defect, fixed FIRST so the prover can flag it, then
-  the code fix lands under it (the spec-under-describes-composition lesson, generalized); (4) escalate to
-  the human when the class boundary needs his read — which behaviours are one class, what the intended
-  design was, whether a whole area wants a rethink — the method stops and asks for the boundary, and does not guess it. The four moves are the bug door's close condition; a point fix that leaves the siblings
-  standing is a status, never a landing (SPEC INV-26). **A RECURRING bug re-doors to feature:**
-  a second bug in the same area within ~30 days is not another patch — the area is missing an INVARIANT,
-  so it escalates to the full pipeline from step 1 (spec the invariant, re-prove, then fix under it).
-  The journal is how you notice: before taking any bug, grep JOURNAL.md for the area's name and check
-  the dates.
-- **Removal of a shipped feature is a change too:** spec section → dated REMOVED tombstone · matrix rows
-  retired (not left "BUILT") · owning tests deleted · SKILL.md / README swept — all the same session. (This
-  is the step that actually got skipped once: an excision cleaned code + tests but left four doc surfaces dangling.)
-- **Refactor (behaviour-neutral):** no spec/matrix delta, but enter at step 8 with the FULL suite + the
-  visual sample set + a matrix audit of the touched sections (a monolith refactor re-risks everything);
-  if the refactor moves node boundaries but leaves the document's shape standing, ARCHITECTURE.md's pins
-  update in the same change — the pins-only path is scoped to a boundary shift that leaves the document's
-  shape standing. A deliberate redesign (layers restacked, a surface's ownership moved, nodes merged or
-  split) re-shapes the architecture document to the new form and re-proves it with the architecture lens
-  in the same movement (SPEC INV-113); updating the pins alone does not cover a redesign.
+- **Bug:** enter at the matrix step with a red-on-bug test (`bug → matrix → test → code`). If the
+  fixed fact also lives in SPEC prose, update the spec sentence in the same change.
+
+  **The door step adds one tripwire at the bug door.** The tripwire asks: does this edit touch a
+  spec-backed literal or clause — a version string, a pinned count, a named vocabulary, a promised
+  wording? A yes binds two rules into one duty: the docs-travel-with-the-change rule, and the
+  red-first small-fix path. Under that duty the docs and the test land in the same session as the
+  fix. The tripwire reads the edit's content, so a one-word change to a spec-cited literal owes the
+  same duty as a full feature (SPEC INV-104).
+
+  **A confirmed bug drives a class hunt before it closes (SPEC INV-124). The hunt is four moves:**
+
+  1. Name the defect abstractly — the kind of mistake, such as a scope too narrow, a missing guard,
+     or an assumption that holds in one place and fails in the neighbour. Then actively search every
+     surface where that kind could live, and fix all siblings in the same change. The search goes
+     finding the siblings not yet seen. The matrix row and the red-on-bug test cover the class beyond
+     the single instance (base rule 14).
+  2. Check the architecture. A structural cause — a boundary drawn wrong or left silent, a node
+     owning what it should not — updates ARCHITECTURE.md in the same change. A cluster in one
+     district reads as an architecture smell.
+  3. Check the spec. A spec silent on or under-describing the broken behaviour is the real defect,
+     and it is fixed first so the prover can flag it. The code fix then lands under it (the
+     spec-under-describes-composition lesson, generalized).
+  4. Escalate to the human when the class boundary needs his read: which behaviours are one class,
+     what the intended design was, whether a whole area wants a rethink. The method stops and asks
+     for the boundary, and does not guess it.
+
+  The four moves are the bug door's close condition. A point fix that leaves the siblings standing is
+  a status, never a landing (SPEC INV-26).
+
+  **A RECURRING bug re-doors to feature.** A second bug in the same area within ~30 days is not
+  another patch: the area is missing an INVARIANT. So it escalates to the full pipeline from step 1 —
+  spec the invariant, re-prove, then fix under it. The journal is how you notice: before taking any
+  bug, grep JOURNAL.md for the area's name and check the dates.
+- **Removal of a shipped feature is a change too.** The spec section becomes a dated tombstone marked
+  removed. The matrix rows are retired, and none is left standing as built. The owning tests are
+  deleted, and SKILL.md / README are swept — all the same session. (This is the step that actually got
+  skipped once: an excision cleaned code + tests but left four doc surfaces dangling.)
+- **Refactor (behaviour-neutral):** no spec/matrix delta. Enter at step 8 with the FULL suite, the
+  visual sample set, and a matrix audit of the touched sections. A monolith refactor re-risks
+  everything. Where the refactor moves node boundaries but leaves the document's shape standing,
+  ARCHITECTURE.md's pins update in the same change. The pins-only path is scoped to a boundary shift
+  that leaves the document's shape standing. A deliberate redesign restacks layers, moves a surface's
+  ownership, or merges or splits nodes. Such a redesign re-shapes the architecture document to the new
+  form, and re-proves it with the architecture lens in the same movement (SPEC INV-113). Updating the
+  pins alone does not cover a redesign.
 - **Docs-only change:** re-read the changed section rendered + one grep that no stale claim contradicts the
   code; no spec/matrix step.
-- **A rewrite or restyle accounts for every removal of substance (SPEC INV-109):** the rule's one home is communicator rule 6, the removal-accounting step of that skill's writing-register checklist, which owns the delivery report the accounting rides. The docs-only door above and the restyle loop both invoke it — every removed section, argument, rationale, or worked example listed there with its one line of judgment, a removal the rewriter cannot justify raised as a question before the report closes, line-level wording left free.
-- **A restructure or migration merged back to main is gated on the delta (SPEC INV-114):** A restructure or migration merge gate judges the delta. It has three parts: load-bearing token identity old-versus-new modulo the per-chunk named deltas plus the punctuation-multiset check (SPEC INV-111); the full suite green on the merged tree (SPEC INV-39); and a full prover pass on both sides whose blocking set is delta-scoped — an unmatched token, a red suite, a new-side finding absent on the old side, or an unnamed meaning change. Pre-existing findings equal on both sides route to queue rows in the same landing and never block. And a session that sharpens a human's spoken bar beyond his words says the sharpened form back and marks it as its own interpretation. The token-identity part scopes to a content-preserving restructure. A deliberate redesign changes content by intent, so it routes by the architecture-redesign law (SPEC INV-113), and its merge stands on the green suite and the delta-scoped prover pass, with no token-identity demand over text the redesign meant to change.
+- **A rewrite or restyle accounts for every removal of substance (SPEC INV-109).**
+  The rule's one home is communicator rule 6, the removal-accounting step of that skill's
+  writing-register checklist. That step owns the delivery report the accounting rides. The docs-only
+  door above and the restyle loop both invoke it. Every removed section, argument, rationale, or
+  worked example is listed there with its one line of judgment. A removal the rewriter cannot justify
+  is raised as a question before the report closes. Line-level wording is left free.
+- **A restructure or migration merged back to main is gated on the delta (SPEC INV-114).**
+  A restructure or migration merge gate judges the delta. It has three parts. The first is
+  load-bearing token identity old-versus-new, modulo the per-chunk named deltas, plus the
+  punctuation-multiset check (SPEC INV-111). The second is the full suite green on the merged tree
+  (SPEC INV-39). The third is a full prover pass on both sides, whose blocking set is delta-scoped.
+  That set is an unmatched token, a red suite, a new-side finding absent on the old side, or an
+  unnamed meaning change. Pre-existing findings equal on both sides route to queue rows in the same
+  landing and never block. And a session that sharpens a human's spoken bar beyond his words says the
+  sharpened form back and marks it as its own interpretation. The token-identity part scopes to a
+  content-preserving restructure. A deliberate redesign changes content by intent, so it routes by the
+  architecture-redesign law (SPEC INV-113). Its merge stands on the green suite and the delta-scoped
+  prover pass, with no token-identity demand over text the redesign meant to change.
 - **Skip entirely** only under the single boundary above (pure research, fact-gathering, a one-file
   no-new-behaviour edit already covered by a test level).
 
 ## Work that belongs elsewhere
 
-Skip it for the skip-boundary edit (single file · no new state, element, or visible behaviour · an existing
-test level already covers the touched fact — it still ships a test, just no pipeline); not for pure
-research or fact-gathering (no artifact changes); not for a SEE/TRY ask (that goes to the labelled
-prototype home, base rule 16 — and comes BACK through this pipeline only at promotion).
+The pipeline's skip covers the skip-boundary edit. That edit touches a single file, adds no new state,
+element, or visible behaviour, and lands on a fact an existing test level already covers. It still
+ships a test, just no pipeline. Two other kinds of work stand outside the pipeline rather than
+skipping it. Pure research and fact-gathering change no artifact, so nothing enters here. An ask that
+only wants to see or try something goes to the labelled prototype home (base rule 16), and comes back
+through this pipeline only at promotion.
 
 ## Setting a project up on the pack
 
@@ -202,20 +275,25 @@ resolves the pack tree, reads the project tree, and names the walk this project 
 entry stands outside the derivation chain, beside the sketch lane. When the walk finishes, the first wish enters at its
 own door like any other request.
 
-## The work-kind table — WHAT the wish builds scales HOW each step runs (SPEC T-16, INV-22)
+## The work-kind table — what the wish builds scales how each step runs (SPEC T-16, INV-22)
 
-The door picks WHICH steps run. The kind picks the FORM each running step takes. The work-kind table
+The door picks which steps run. The kind picks the form each running step takes. The work-kind table
 at [references/work-kind-table.md](references/work-kind-table.md) is the per-kind meanings' one
-normative home. That is the one place they are stated, and the spec binds the contract around it. The
-contract, before the table: at landing, every door-granted step has either **APPLIED in its kind's form
-or STOOD DOWN by name** in the delivery report ("design-sync — text product, stands down") — a silently
-skipped step is a defect. **An unresolved kind scales nothing down** — standing a step down requires a
-NAMED kind (the ask rides the row, SPEC INV-12). And no kind ever touches the safety net: the door law
-and its tripwires, the delta's mandatory sentences (fences · facets · non-goals · success measure),
-ask-at-intake — the same law a scope cut obeys (SPEC T-15).
+normative home. That is the one place they are stated, and the spec binds the contract around it.
 
-See [references/work-kind-table.md](references/work-kind-table.md) for the full table of how each step
-(1 spec · 2 prove · 3 architecture · 4 prove architecture · 5 matrix · 6 test · 7 code · 8 verify by deed · 9 commit & show · design-sync/snapshot) takes shape under product / infra / skill / prose, including the verify-by-deed VISITOR WALK and FEEL pass (SPEC INV-30, INV-136, INV-139) and the skill-review duty (SPEC INV-99).
+The contract stands before the table. At landing, every door-granted step has either **APPLIED in its
+kind's form or STOOD DOWN by name** in the delivery report. A stand-down reads like "design-sync —
+text product, stands down". A silently skipped step is a defect. **An unresolved kind scales nothing
+down** — standing a step down requires a named kind (the ask rides the row, SPEC INV-12). And no kind
+ever touches the safety net. That net is the door law and its tripwires, the delta's mandatory
+sentences (fences · facets · non-goals · success measure), and ask-at-intake. A scope cut obeys the
+same law (SPEC T-15).
+
+See [references/work-kind-table.md](references/work-kind-table.md) for the full table of how each
+step takes shape under product / infra / skill / prose. The steps are: 1 spec · 2 prove · 3
+architecture · 4 prove architecture · 5 matrix · 6 test · 7 code · 8 verify by deed · 9 commit & show
+· design-sync/snapshot. That table also carries the verify-by-deed VISITOR WALK and FEEL pass (SPEC
+INV-30, INV-136, INV-139), and the skill-review duty (SPEC INV-99).
 
 ## The steps
 
@@ -224,43 +302,52 @@ See [references/work-kind-table.md](references/work-kind-table.md) for the full 
    every stateful surface across **every** view/mode axis it lives under, including axes beyond its own. Real gaps are
    marked `⟨DECIDE⟩` and asked, never guessed. Use human-first language, with codes at line ends.
 
-   A feature-doored wish also walks the **fit walk** — the kind-scaled product-fit interrogation (journey ·
-   flows · trigger lenses; lens lists live in spec-author; prover mode FEATURE-FIT; SPEC INV-29) — and the
-   **standard-facet sweep** (the canonical list lives in spec-author): phone/narrow layout · touch-vs-hover ·
+   A feature-doored wish also walks the **fit walk** and the **standard-facet sweep**. The fit walk is
+   the kind-scaled product-fit interrogation: journey · flows · trigger lenses. Its lens lists live in
+   spec-author, its prover mode is FEATURE-FIT, and its code is SPEC INV-29. The standard-facet
+   sweep's canonical list lives in spec-author: phone/narrow layout · touch-vs-hover ·
    empty/error/loading · accessibility · performance. Every facet ends as a spec sentence, decided or
-   `[default]`-tagged and TOLD at landing as a plain-words tradeoff, never a confirmation request (SPEC
-   INV-31). A mid-work re-door walks the sweep before work resumes (SPEC T-13, INV-18).
+   `[default]`-tagged and told at landing as a plain-words tradeoff, never a confirmation request
+   (SPEC INV-31). A mid-work re-door walks the sweep before work resumes (SPEC T-13, INV-18).
 
-   And when the wish touches a surface that already lives, the delta opens with **regression fences** BEFORE
-   that sweep — neighbouring promises that must stay true, each citing the clause it guards, named by anchor
-   in the wish's row. A fence discharges through the cited clause's existing never-side row, never a new row
-   (SPEC T-14, INV-19).
+   And when the wish touches a surface that already lives, the delta opens with **regression fences**
+   before that sweep. A regression fence names a neighbouring promise that must stay true, and cites
+   the clause it guards. Each fence is named by anchor in the wish's row. A fence discharges through
+   the cited clause's existing never-side row, never a new row (SPEC T-14, INV-19).
 
-   The delta CLOSES with its two sentences — non-goals ("nothing left out" is valid, a narrowing one is
-   surfaced) and one success measure, decided or `[default]`-tagged (SPEC INV-20, INV-21).
+   The delta CLOSES with its two sentences. The first is non-goals, where "nothing left out" is valid
+   and a narrowing one is surfaced. The second is one success measure, decided or `[default]`-tagged
+   (SPEC INV-20, INV-21).
 
-2. **Prove — invoke `product-prover`.** The prover only catches a cross-section hole when both sides are
-   present and named the same at prove-time — so a surface absent or unlinked then is invisible to it. Two
-   modes (see product-prover): **FULL** (all phases, the WHOLE spec — required at MINOR gates and structural
-   rewrites) and **CROSS-LINK** (the new surface's seams against the named existing surfaces — on every
-   surface add). **Write the findings to the project's `docs/prover/YYYY-MM-DD.md` (in the repo under review, separate from this
-   skill's) with a per-finding folded / rejected(+why) column** so "fold every defect" is verifiable after
-   a wipe. The next prover run opens by checking the previous file's unfolded rows. Fold every defect by
-   the book, and record the recommendations. Resolve every `⟨DECIDE⟩` that the surfaces under change TOUCH (ask
-   the human when it's genuinely their call), and list the remaining open ones in the reply so the count is
-   visible — don't gate on resolving all of them.
+2. **Prove — invoke `product-prover`.** The prover only catches a cross-section hole when both sides
+   are present and named the same at prove-time. A surface absent or unlinked then is invisible to it.
+   The prover has two modes (see product-prover), **FULL** and **CROSS-LINK**. **FULL** walks all
+   phases over the whole spec, and is required at MINOR gates and structural rewrites. **CROSS-LINK**
+   walks the new surface's seams against the named existing surfaces, on every surface add.
 
-   **Then, when the cadence calls for it, invoke `design-reviewer` over the same proven spec** (SPEC INV-141):
-   a second pass right after the prover that judges the design, where the prover before it verified the spec holds — it proposes the
-   same-kind groupings the text never declared and checks behaviour parity within each. The cadence decides
-   whether it runs at all: full on a FULL prover pass, scoped on a surface add, and standing down at
-   FEATURE-FIT intake and the push gate (at those two it is not invoked). Every finding is a recommendation or a
-   question and never a defect, so it never holds the lane; a confirmed grouping lands as a class clause
-   through spec-author, and that class clause **re-enters the prove step** — the prover re-reads it and the
-   design review re-reads what it re-partitions, the loop bounded at three progressing rounds and surfaced
-   to the human at its cap without holding the lane [INV-154]; only once the loop rests are the tests
-   derived. Its strongest likely divergence rides the batched
-   questions as one ask with two objects in hand (SPEC INV-142); its record is `docs/design-review/YYYY-MM-DD[-suffix].md`.
+   **Write the findings to the project's `docs/prover/YYYY-MM-DD.md`** — that record lives in the repo
+   under review, separate from this skill's. **Give each finding a folded / rejected(+why) column**, so
+   "fold every defect" is verifiable after a wipe. The next prover run opens by checking the previous
+   file's unfolded rows. Fold every defect by the book, and record the recommendations. Resolve every
+   `⟨DECIDE⟩` that the surfaces under change touch, asking the human when it's genuinely their call.
+   List the remaining open ones in the reply so the count is visible. The step does not gate on
+   resolving all of them.
+
+   **Then, when the cadence calls for it, invoke `design-reviewer` over the same proven spec** (SPEC
+   INV-141). It is a second pass right after the prover that judges the design, where the prover
+   before it verified the spec holds. It proposes the same-kind groupings the text never declared, and
+   checks behaviour parity within each. The cadence decides whether it runs at all. It runs full on a
+   FULL prover pass, and scoped on a surface add. It stands down at FEATURE-FIT intake and the push
+   gate, where it is not invoked.
+
+   Every finding is a recommendation or a question and never a defect, so it never holds the lane. A
+   confirmed grouping lands as a class clause through spec-author. That class clause
+   **re-enters the prove step**. The prover re-reads it, and the design review re-reads what it
+   re-partitions. The
+   loop is bounded at three progressing rounds, and surfaced to the human at its cap without holding
+   the lane [INV-154]. Only once the loop rests are the tests derived. Its strongest likely divergence
+   rides the batched questions as one ask with two objects in hand (SPEC INV-142). Its record is
+   `docs/design-review/YYYY-MM-DD[-suffix].md`.
 
 3. **Architecture — write or update `ARCHITECTURE.md` from the proven spec** (template:
    `templates/ARCHITECTURE.template.md` — template paths here and in step 5 resolve from the PACK repo,
