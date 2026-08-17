@@ -28,17 +28,19 @@ question and a larger number, since a transcript of an agent READING about the r
 words; the reviews of this change added several while it was under way.
 
 Findings: three blocking, listed below, plus notes.
-
-Blocking:
+Blocking: three, named here and argued in full below.
+- stands: the repair did not repair the fault, so it was abandoned and the arm retired instead.
+- closed: the problems row records the retirement now, rather than the illusory 2026-08-16 fix.
+- closed: the hook comment states the retirement, rather than the second false line it had carried.
 
 1. **The repair did not repair the fault.** stands: the change is abandoned and the arm retired instead.
    The guard stood the hook down unless the transcript's filename proved the call was the seat's. On this
    harness a worker's PreToolUse event carries the SEAT's `transcript_path` and the SEAT's `session_id`,
    so the guard read true and the worker was denied exactly as before. The reviewer rebuilt the
    2026-08-16 event from the transcripts and ran the fixed hook against it: it emitted its refusal. The
-   corroborating counts are independent of that reconstruction — every one of the 31 state files the
-   hook has written is named for a seat session and none for an agent, while 68 worker transcripts hold
-   76 delivered refusals. A later probe closed the last door: a worker process carries the seat's
+   corroborating counts are independent of that reconstruction — of the 31 state files the hook ever wrote,
+   none names an agent — 30 resolve to a seat transcript and the odd one is this session's own bench
+   fixture — while 68 worker transcripts hold 76 delivered refusals. A later probe closed the last door: a worker process carries the seat's
    `CLAUDE_CODE_SESSION_ID` and `CLAUDE_PID` unchanged, so the environment separates the two no better
    than the event does.
 
@@ -61,8 +63,9 @@ Notes, all closed by the retirement or carried forward:
 - `ROADMAP.md` row 543 said the script "sits disabled" carrying `exit 0` on line 2 of the installed
   copy. It carried no such line and was firing. The row is corrected and now covers the two scripts
   that do.
-- `docs/PROGRESS.md` carries regenerated churn from the night before this work and rides along
-  uncommitted; it is left out of the retirement commit.
+- `docs/PROGRESS.md` carried regenerated churn from the night before this work. It rides IN the
+  retirement commit rather than beside it: the retirement shrinks the specification, so the page that
+  publishes its size had to move with it.
 - `tests/test_config_health.py` holds two reds on installed-versus-source drift in `pre-push` and
   eleven skills. They fail identically against `HEAD` with this change stashed, so they predate it and
   are untouched by it.
@@ -74,8 +77,7 @@ Notes, all closed by the retirement or carried forward:
 The retirement that followed the refusal above was read by a second adversarial reviewer and refused on
 ten blocking findings. The wiring side was clean; the prose side was not. Every finding is closed below,
 and each closure names what changed.
-
-Blocking:
+Blocking: ten, all closed in the same pass. Each carries its `closed:` below.
 
 1. `PRODUCT_SPEC.md` R230.6 still required the retired arm to read through the shared reader, against
    R295.1 requiring it not to exist. closed: the tool-boundary scan is out of that criterion's list.
@@ -87,7 +89,8 @@ Blocking:
 4. `docs/onboarding-and-settings.md`, the human-facing setup page, sent a new host after a hook that no
    longer ships and stated ten wired hooks against eight. closed: counts and text corrected.
 5. `scripts/install-session-hooks.sh` carried the same stale counts in a file this change had edited.
-   closed: eight and six throughout.
+   closed: the counts are gone rather than corrected — the prose names the declaration instead of
+   repeating a number that drifts with it.
 6. `guardrails/judge-hooks.json` stated "every one of the ten today" against a map of eight. closed.
 7. `hooks/code-anchor-scan.py` justified its fragment/context split by a caller now in the attic.
    closed: the docstring names the retirement and why the split still earns its place.
@@ -126,4 +129,80 @@ two of its own laws under the retirement edit (a node field carrying a date, and
 document held at zero findings); the specification's findings ceiling had to come down from 1,863 to
 1,862, which the census refused until the retirement prose in `guardrails/language-rules.json` was cut
 into shorter sentences; and gates a, b and g read red only while the record itself stood uncommitted.
+
+---
+
+## Fourth pass — the pushed range, REFUSED, then repaired
+
+PUSH-REVIEW
+
+Range: f9eaecc..HEAD (base f9eaecc; five reviewed commits listed below; this record's own commit follows
+them and touches the record directory alone, which gate a exempts because a record cannot name the commit
+that first ships it)
+- 8b6521f A hand-copied count leaves the prose for the declaration that holds it (this pass's own repair)
+- 19efaed The communicator edit carries its skill review
+- 5a51a41 The published counts catch up with the retirement's one-finding drop
+- 6889b19 The retirement's record carries the suite it was measured against
+- 49f26a7 Retire the tool-boundary chat arm: it could not prove whose work it stopped
+Files read: the whole delta commit by commit, PRODUCT_SPEC.md and ARCHITECTURE.md as they now stand,
+TEST_MATRIX.md rows M-461 and M-465, ROADMAP.md rows 537 and 543, JOURNAL.md's new entry,
+.live-spec/PROBLEMS.md, attic/MANIFEST.md, docs/PROGRESS.md, docs/skill-review/2026-08-17-communicator.md,
+guardrails/judge-hooks.json, guardrails/language-rules.json, guardrails/rule-census.json, the installers,
+the hooks, the skills the range edits, and the live ~/.claude configuration.
+Checks run: the refusal census recounted independently by record shape — 108 delivered, 76 into workers
+across 68 transcripts, 32 into the seat across 19, matching every published figure; the census sum —
+129 files, 4,950 findings, 24 at zero, PRODUCT_SPEC.md at 702,954 bytes and 1,862 findings, matching
+docs/PROGRESS.md; `scripts/progress-report.py` rerun, leaving the tree byte-identical, so the page is
+reproducible rather than typed; `pytest --collect-only` — 2,530 collected, agreeing with the suite line;
+eighteen gates at exit 0, including hooks-can-fire, judge-listed, language-rules, named-checks,
+doc-findings-bound, tree-counts, every-gate-can-fail, index-generated, matrix-reference,
+requirement-shape, criterion-readability, shipped-language, config-health and skill-review;
+`pytest` over 25 test files touching this change — 142 passed — and over 16 consistency files — 422
+passed, 3 skipped.
+
+Findings: one blocking, repaired below, and seven notes, six of them closed.
+Blocking: one, closed in commit 8b6521f — the wired-hook count still read ten in three live documents
+and four edited files. Its `closed:` line stands below.
+
+1. **The wired-hook count drifted in three more documents, the same class the second pass made blocking
+   three times.** The retirement takes the declaration from ten wired hooks to eight, and three live
+   present-tense sentences still said ten: `PRODUCT_SPEC.md` Requirement 298's Context ("declares ten
+   wired session hooks … reaches all ten"), `ARCHITECTURE.md`'s installer pin ("the other eight", in a
+   pin whose own file this range had already corrected to "the rest"), and `TEST_MATRIX.md` row M-465's
+   live clause ("installs and wires all ten declared hooks"). Every one was true before this range and
+   false after it. Four more sites carried the same number in files this range had edited:
+   `scripts/install-session-hooks.sh`'s header, `tests/test_install_session_hooks.py` in three places,
+   and `tests/test_chat_law_hook.py`.
+   closed: every site now names the declaration rather than repeating a count that drifts with it. That
+   is the repair the number deserved the first time — a count hand-copied into prose is the defect, and
+   correcting ten to eight would only have reset the clock on it.
+
+Notes:
+
+- **The governing law has no home.** The commit message and Requirement 295 both appeal to a law — a
+  check that cannot prove whose work it stops does not get to stop work — that is stated nowhere in
+  PRODUCT_SPEC.md. It lives as a lesson in `.live-spec/PROBLEMS.md` and in JOURNAL.md, and no queue row
+  opens it. stands: minting a law in the specification is the owner's word to give, and this record
+  carries the gap rather than closing it quietly. The next hook of this class has nothing to be judged
+  against.
+- **A number handed over without its method, inside the requirement retiring the measurement machine.**
+  Requirement 295's User Story said "stopped 76 times" with no method beside it, which is the very rule
+  the retired arm used to hold. closed: the criterion now carries how the number was counted and what it
+  decided.
+- **The record carried three statements the tree had left behind** — that `docs/PROGRESS.md` was kept
+  out of the retirement commit, that the installer counts were corrected "eight and six throughout", and
+  that the suite stood at two failures. closed: all three now say what is true, the last of them because
+  the owner's word on 2026-08-17 allowed the two documented sync scripts to run and both failures went
+  green.
+- **"All 31 state files are named for seat sessions" was 30 of 31.** closed: the texts now say none names
+  an agent, thirty resolve to a seat transcript, and the odd one is this session's own bench fixture.
+- **"The pack wires no hook to PreToolUse today" was broader than the truth** — the pack ships a separator
+  fence that wires one, and this machine carries an unrelated personal entry there. closed: the sentence
+  now speaks of the pack's default settings.
+- **A dead path in a live measured document:** `docs/audits/2026-08-07-number-census.md` pointed at the
+  retired file's old home. closed: it points at the attic and says why.
+- **The fence row's re-opening named the wrong owner.** It read the two occurrences as a re-arm that
+  fails to fire, where `guardrails/post-commit` re-arms only on a fence already carrying this session's
+  own token — so a session inheriting an ended session's arm blocks once by design. closed: the row now
+  states that, with the proof from this session, and asks the real question instead.
 
