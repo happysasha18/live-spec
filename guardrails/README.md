@@ -67,6 +67,13 @@ no new protection. Set `LIVE_SPEC_PUSH_FULL=1` to run the old chain, gate b incl
 reach-scoped. One thing the fast set gives up: `guardrails/check-suite-budget.sh` rides the suite,
 so a push measures the suite's wall-time only under that flag.
 
+Gate g, pin drift, is the chain's second cost: 56 to 63 seconds of every push. It stays local, since
+pins are repaired because it stands there. It now runs only when the push can move a pin. That means
+a diff touching `ARCHITECTURE.md`, `.live-spec/r5-rule-prices-2026-08-11.md`, `skills/`, the gate's
+own two readers, or a file an `ARCHITECTURE.md` pin names. Anything the chain cannot read — no base,
+no diff, no pin list — runs the gate. Measured on 2026-08-18: 103 seconds with gate g, 40 without.
+The server runs gate g on every push, unconditionally, and so does `LIVE_SPEC_PUSH_FULL=1`.
+
 ### Notes on some of the gates
 
 The roster above is the whole set. These notes enumerate nothing. They cover the gates whose

@@ -190,17 +190,95 @@ class TestThePrePushChainIsTheFastSet(unittest.TestCase):
         self.assertIn('if ! "$GUARDRAILS/check-tests.sh"; then', full_arm)
         self.assertIn("prose-only diff: the suite stands down by name", full_arm)
 
-    def test_the_flag_moves_nothing_but_the_suite(self):
-        """Speed must not cost a guarantee. Gate a's fresh prover record and every other gate whose
-        value is catching something BEFORE the push run on every push, flag or no flag."""
+    def test_only_the_two_slow_gates_are_conditional(self):
+        """Speed must not cost a guarantee. Two gates read the flag: b, which the server runs
+        anyway, and g, which stands down only for a diff that cannot have moved a pin. Every other
+        gate — gate a's fresh prover record above all — runs on every push, flag or no flag."""
         body = self._body()
-        outside_gate_b = body[:body.index("-- gate b")] + body[body.index("-- gate c"):]
-        self.assertNotIn("$PUSH_FULL", outside_gate_b.replace('PUSH_FULL="${LIVE_SPEC_PUSH_FULL:-}"', ""),
-                         "a gate other than b now depends on the flag — the fast chain dropped a "
-                         "check whose whole value is running before the push")
+        conditional = ("$PUSH_FULL", "gate_g_can_skip")
+        blocks = {
+            "b": body[body.index("-- gate b"):body.index("-- gate c")],
+            "g": body[body.index("-- gate g"):body.index("-- gate f")],
+        }
+        rest = body[body.index("== live-spec push gate =="):]
+        for letter, block in blocks.items():
+            rest = rest.replace(block, "")
+            self.assertTrue(any(name in block for name in conditional),
+                            "gate %s stopped reading the flag" % letter)
+        for name in conditional:
+            self.assertNotIn(name, rest,
+                             "a third gate now depends on the flag — the fast chain dropped a "
+                             "check whose whole value is running before the push")
         gate_a = body[body.index("-- gate a"):body.index("-- gate b")]
         self.assertRegex(gate_a, r'if ! "\$GUARDRAILS/check-prover-record\.sh" --push',
                          "gate a stopped running the prover-record check on every push")
+
+    def _gate_g_block(self):
+        body = self._body()
+        return body[body.index("-- gate g"):body.index("-- gate f")]
+
+    def _can_skip(self, changed, env=None):
+        """Ask the chain's own `gate_g_can_skip` about one changed-file list.
+
+        The function is sourced out of pre-push rather than copied here, so a test can never pass
+        against a rule the chain stopped carrying."""
+        body = self._body()
+        start = body.index("gate_g_can_skip() {")
+        end = body.index("\n}\n", start) + 3
+        script = ('set -uo pipefail\ncd "$1"\nGUARDRAILS="$1/guardrails"\nREPO_ROOT="$1"\n'
+                  'PUSH_FULL="${LIVE_SPEC_PUSH_FULL:-}"\n' + body[start:end]
+                  + '\nif gate_g_can_skip; then echo SKIP; else echo RUN; fi\n')
+        run_env = dict(os.environ, PIN_REACH_FILES=changed)
+        run_env.pop("LIVE_SPEC_PUSH_FULL", None)
+        run_env.update(env or {})
+        out = subprocess.run(["bash", "-c", script, "bash", ROOT],
+                             capture_output=True, text=True, env=run_env)
+        self.assertTrue(out.stdout.strip(), out.stdout + out.stderr)
+        verdict = out.stdout.strip().splitlines()[-1]
+        self.assertIn(verdict, ("SKIP", "RUN"), out.stdout + out.stderr)
+        return verdict == "SKIP"
+
+    def test_gate_g_stands_down_when_the_diff_can_move_no_pin(self):
+        """Gate g cost 56 seconds of every push on 2026-08-18, more than the rest of the fast set
+        together. A diff that touches nothing a pin can name pays none of it."""
+        self.assertTrue(self._can_skip("docs/PROGRESS.md\ninbox/2026-08-18-note.md"),
+                        "gate g still runs on a diff that cannot have moved a pin")
+
+    def test_gate_g_runs_on_anything_that_can_move_a_pin(self):
+        """Three ways a pin moves: the page holding the pins, the page of range pins, and the skill
+        files those range pins name. A fourth: the file an ARCHITECTURE.md pin points at."""
+        for changed in ("ARCHITECTURE.md",
+                        ".live-spec/r5-rule-prices-2026-08-11.md",
+                        "skills/live-spec-base/SKILL.md",
+                        "guardrails/check-pin-drift.sh"):
+            self.assertFalse(self._can_skip(changed),
+                             "gate g stood down on a diff touching %s, which can move a pin"
+                             % changed)
+
+    def test_gate_g_runs_when_the_answer_cannot_be_read(self):
+        """Conservative by construction: no changed-file list and no usable base means run it."""
+        self.assertFalse(self._can_skip("", env={"LIVE_SPEC_DIFF_BASE": "no-such-ref-for-a-test"}),
+                         "gate g stood down on a diff it could not read")
+
+    def test_the_flag_puts_gate_g_back_unconditionally(self):
+        self.assertFalse(self._can_skip("docs/PROGRESS.md", env={"LIVE_SPEC_PUSH_FULL": "1"}),
+                         "the full-chain flag no longer runs gate g on every push")
+
+    def test_the_gate_g_stand_down_says_who_still_runs_it(self):
+        block = self._gate_g_block()
+        self.assertIn("gate_g_can_skip", block, "gate g no longer asks whether it can stand down")
+        self.assertIn("check-pin-drift.sh", block, "gate g no longer runs its check at all")
+        self.assertIn("gates.yml", block,
+                      "the stand-down line never says the server still runs gate g")
+
+    def test_the_server_runs_gate_g_on_every_push(self):
+        with open(os.path.join(ROOT, ".github", "workflows", "gates.yml"), encoding="utf-8") as f:
+            workflow = f.read()
+        step = workflow[workflow.index("name: gate g"):].split("- name:")[0]
+        self.assertIn("check-pin-drift.sh", step,
+                      "the server's gate g step no longer runs the pin-drift check")
+        self.assertNotIn("if:", step,
+                         "the server's gate g became conditional too — the guarantee weakened")
 
     def test_the_server_still_runs_the_full_suite(self):
         """The other half of the split, read off the workflow itself."""
