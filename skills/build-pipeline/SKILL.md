@@ -350,191 +350,239 @@ INV-30, INV-136, INV-139), and the skill-review duty (SPEC INV-99).
    `docs/design-review/YYYY-MM-DD[-suffix].md`.
 
 3. **Architecture — write or update `ARCHITECTURE.md` from the proven spec** (template:
-   `templates/ARCHITECTURE.template.md` — template paths here and in step 5 resolve from the PACK repo,
-   github.com/happysasha18/live-spec; a standalone install fetches them there, never from the skill
-   dir: the pack is the source, a copy would fork the truth). Named nodes, one responsibility and one name
-   each. Every spec fact is OWNED by exactly one node. Named seams run between the nodes. The project's kind
-   (`project.kind`, SPEC INV-36) PROPOSES the starting node structure — a fullstack app splits frontend /
-   backend / template / store, a CLI one node per command, a skill pack one node per skill — and the
-   template's "Node structure by project.kind" table carries the per-kind scaffold; the spec's facts then
-   decide the final nodes, a speculative node still being unbacked structure the prover flags.
+   `templates/ARCHITECTURE.template.md`). Template paths here and in step 5 resolve from the pack
+   repo, github.com/happysasha18/live-spec. A standalone install fetches them there, never from the
+   skill dir: the pack is the source, a copy would fork the truth. Named nodes, one responsibility and
+   one name each. Every spec fact is owned by exactly one node. Named seams run between the nodes.
 
-   In a live codebase every node pins to its owning `file:line`. **This step is where the spec is reconciled
-   with reality:** each pin comes from a command you ran, never from the doc's own prose, your memory, or a
-   worker's summary — those are leads to verify (base rule 13). Specs drift from code, so fix the spec to the
-   shipped truth, always in that one direction.
+   The project's kind (`project.kind`, SPEC INV-36) PROPOSES the starting node structure. A fullstack
+   app splits frontend / backend / template / store, a CLI takes one node per command, and a skill
+   pack takes one node per skill. The template's "Node structure by project.kind" table carries the
+   per-kind scaffold. The spec's facts then decide the final nodes, and a speculative node is still
+   unbacked structure the prover flags.
 
-   A large or surface-class change updates the doc. A bug or small change just cites its existing node and
-   skips to the matrix. (Running the pin-greps is junior work; judging what a mismatch MEANS is the senior's.)
-   **The architecture owes NUMBERS as well as names (SPEC INV-41):** measurable quality budgets plus
-   each budget's instrumentation home — where the real numbers are measured and where a human can
-   read them (an export, a debug view, a report). The author also names each budget's watcher: the
-   mechanical check that reds past the stated number, or the decided sentence naming why that budget
-   is read by eye.
+   In a live codebase every node pins to its owning `file:line`. **This step is where the spec is
+   reconciled with reality.** Each pin comes from a command you ran, never from the doc's own prose,
+   your memory, or a worker's summary. Those are leads to verify (base rule 13). Specs drift from
+   code, so fix the spec to the shipped truth, always in that one direction.
 
-   WHAT is measurable comes from the project's KIND (SPEC INV-36): ask "what does quality MEAN here, in
-   numbers?" before writing any. See
+   A large or surface-class change updates the doc. A bug or small change just cites its existing node
+   and skips to the matrix. (Running the pin-greps is junior work; judging what a mismatch means is
+   the senior's.)
+
+   **The architecture owes numbers as well as names (SPEC INV-41):** measurable quality budgets, plus
+   each budget's instrumentation home. The instrumentation home is where the real numbers are measured
+   and where a human can read them — an export, a debug view, a report. The author also names each
+   budget's watcher. That watcher is the mechanical check that reds past the stated number, or the
+   decided sentence naming why that budget is read by eye.
+
+   WHAT is measurable comes from the project's KIND (SPEC INV-36). Ask "what does quality mean here,
+   in numbers?" before writing any. See
    [references/architecture-step-detail.md](references/architecture-step-detail.md) for the per-kind
    numbers and for the quality that has no honest number.
 
-   Each budget is asserted by a matrix-row acceptance, never a hope in prose. A surface with no budget line
-   and no instrumentation home is a derivation defect, exactly like an unowned fact. The numbers are the
-   host's taste: propose with a recommendation, set on the human's word at the surface's first budget
-   landing.
+   Each budget is asserted by a matrix-row acceptance, never a hope in prose. A surface with no budget
+   line and no instrumentation home is a derivation defect, exactly like an unowned fact. The numbers
+   are the host's taste. Propose with a recommendation, and set on the human's word at the surface's
+   first budget landing.
 
    **The doc owes two more views beside the node map (SPEC INV-74, INV-75), scaled by kind:** the
    **runtime view** and the **placement view**. See
    [references/architecture-step-detail.md](references/architecture-step-detail.md) for what each view
    walks and states.
-   **The doc is ITERATIVE, current only to what's shipped or in flight:** it maps the product as it stands
-   plus the landing in flight. A node exists for what ships today, or for what the spec already promises
-   under an owned queue row (marked [target], pin empty).
 
-   A future feature earns its node when its landing arrives. A speculative node is unbacked structure — the
-   prover flags it. "Should I architect the next few milestones now?" is answered NO strictly by the method,
-   taste playing no part.
+   **The doc is iterative, current only to what's shipped or in flight.** It maps the product as it
+   stands plus the landing in flight. A node exists for what ships today, or for what the spec already
+   promises under an owned queue row (marked [target], pin empty).
 
-   **Every new or carved node passes a three-question fitness test at its birth (SPEC INV-122):** can it be
-   tested alone · does a real second place need it · can it and its neighbour be worked in parallel without
-   queuing on shared files — three yes answers make the node right, a single no is a flag to answer (name the plan that turns it to a yes, or fold the carve back), and two or more no make it premature. See
-   [references/architecture-step-detail.md](references/architecture-step-detail.md) for the test's two homes
-   and how a carve that fails it is folded back.
+   A future feature earns its node when its landing arrives. A speculative node is unbacked structure,
+   and the prover flags it. "Should I architect the next few milestones now?" is answered no strictly
+   by the method, taste playing no part.
 
-   Re-carving the whole node map IS legal: it arrives as a restructure placement's own queue row (SPEC
-   INV-37), walks this step, and is re-proven like any structure change. A placement may SAY the shape no
-   longer fits; only a landing changes the shape. **When structure is deliberately redesigned — layers
-   restacked, a surface's ownership moved, nodes merged or split — the architecture document is re-shaped
-   to the new form and re-proven with the architecture lens in the same movement (SPEC INV-113). Updating
-   the pins alone is scoped to a boundary shift that leaves the document's shape standing; after a real
-   redesign the old shape itself lies, so fresh pins on a stale shape are a defect.**
+   **Every new or carved node passes a three-question fitness test at its birth (SPEC INV-122).** The
+   three questions are these. The first is: can it be tested alone? The second is: does a real second
+   place need it? The third is: can it and its neighbour be worked in parallel without queuing on
+   shared files? Three yes answers make the node
+   right. A single no is a flag to answer — name the plan that turns it to a yes, or fold the carve
+   back. Two or more no make it premature. See
+   [references/architecture-step-detail.md](references/architecture-step-detail.md) for the test's two
+   homes and how a carve that fails it is folded back.
+
+   Re-carving the whole node map is legal. It arrives as a restructure placement's own queue row (SPEC
+   INV-37), walks this step, and is re-proven like any structure change. A placement may say the shape
+   no longer fits; only a landing changes the shape.
+
+   **Structure is deliberately redesigned when layers are restacked, a surface's ownership moves, or
+   nodes are merged or split. In that case the architecture document is re-shaped to the new form and
+   re-proven with the architecture lens in the same movement (SPEC INV-113). Updating the pins alone
+   is scoped to a boundary shift that leaves the document's shape standing. After a real redesign the
+   old shape itself lies, so fresh pins on a stale shape are a defect.**
 
 4. **Prove the architecture — invoke `product-prover` with the architecture lens** whenever the doc
-   changed in step 3 — six checks, each at the project's kind scale: every spec fact has an owning node ·
-   no node stands without spec backing · every seam names what crosses it and who owns the format · the
-   quality budgets are stated with their instrumentation homes, each naming its watcher (INV-41) · the runtime view walks every
-   promised flow (INV-74) · the placement view says where every node runs (INV-75). Findings land in the
-   same `docs/prover/` record discipline as step 2. A full pass at an M-1 or M-6 gate that proves
-   ARCHITECTURE.md beside the spec (INV-116) also **appends its dated row to the architecture prover
-   record** at `docs/prover/architecture-prover-record.md` — the dated home the record moved to when the
-   architecture became a format member (SPEC INV-279) — so that record tracks the architecture's freshness
-   rule and stays current with it.
+   changed in step 3. It runs six checks, each at the project's kind scale. Every spec fact has an
+   owning node. No node stands without spec backing. Every seam names what crosses it and who owns the
+   format. The quality budgets are stated with their instrumentation homes, each naming its watcher
+   (INV-41). The runtime view walks every promised flow (INV-74). The placement view says where every
+   node runs (INV-75).
 
-5. **Test spec — invoke `test-author` to DERIVE `TEST_MATRIX.md` from the proven spec through the proven architecture (the method's one home, SPEC E-27).** The
-   matrix is derived, and hand-filling its rows does not count: rows organized **architecture node × spec fact** (one block per
-   node), every fact gets ≥ 1 row, **every row states BOTH sides — what the fact DOES and what it must
-   NEVER do** (the never side IS the regression fence, SPEC INV-6; a row without it is a derivation
-   defect), and **every row pins a test LEVEL** (string / DOM-text / browser-computed / pixel). Any fact
-   about visibility / layout / colour / interaction gets level ≥ browser-computed.
+   Findings land in the same `docs/prover/` record discipline as step 2. A full pass at an M-1 or M-6
+   gate proves ARCHITECTURE.md beside the spec (INV-116). Such a pass also **appends its dated row to
+   the architecture prover record** at `docs/prover/architecture-prover-record.md`. That is the dated
+   home the record moved to when the architecture became a format member (SPEC INV-279). So that
+   record tracks the architecture's freshness rule and stays current with it.
 
-   It opens with an **artifact inventory** — every file the user receives — and every inventory entry owns at
-   least one rendered-level row. Derivation CLOSES with the template's **coverage validation checklist,
-   actually walked** (every anchor ≥ 1 row · every node's negative-side rows exist · no stale refs) —
-   the template is `templates/TEST_MATRIX.template.md`, and its own current text says two mechanical
-   checks now hold those facts, so read the template before walking anything by hand. A fact
-   with no row or at a too-weak level is a derivation defect, fixed here.
+5. **Test spec — invoke `test-author` to derive `TEST_MATRIX.md` from the proven spec through the
+   proven architecture (the method's one home, SPEC E-27).** The matrix is derived, and hand-filling
+   its rows does not count. Rows are organized **architecture node × spec fact**, one block per node,
+   and every fact gets ≥ 1 row. Then **every row states BOTH sides — what the fact DOES and what it
+   must NEVER do**. The never side is the regression fence (SPEC INV-6), and a row without it is a
+   derivation defect. And **every row pins a test level** (string / DOM-text / browser-computed /
+   pixel).
+   Any fact about visibility / layout / colour / interaction gets level ≥ browser-computed.
 
-   The matrix is the bridge: tests come from the matrix, upstream of the code. (The mechanical projection is
-   junior work; choosing each row's level + assertion is the senior's.)
+   It opens with an **artifact inventory** — every file the user receives. Every inventory entry owns
+   at least one rendered-level row. Derivation closes with the template's **coverage validation
+   checklist, actually walked**: every anchor ≥ 1 row · every node's negative-side rows exist · no
+   stale refs. The template is `templates/TEST_MATRIX.template.md`. Its own current text says two
+   mechanical checks now hold those facts, so read the template before walking anything by hand. A
+   fact with no row or at a too-weak level is a derivation defect, fixed here.
 
-6. **Test — with `test-author`, write tests that assert the REAL shipped artifact.** Render the widget / produce the file /
-   call the function and inspect the output as real behavior; a match against the source text counts for nothing here. Watch the new test FAIL first
-   (red-on-bug), then implement. Never edit a test just to make a change pass.
+   The matrix is the bridge: tests come from the matrix, upstream of the code. (The mechanical
+   projection is junior work; choosing each row's level + assertion is the senior's.)
 
-7. **Code — implement until green.** Delegate well-scoped, mechanical implementation to a junior worker
-   with a precise brief + a persistent checkpoint file (so a cut-off resumes from its checkpoint). Keep the hard
-   parts (ambiguous specs, design, tricky debugging) on the senior model. Verify the junior's result by deed.
+6. **Test — with `test-author`, write tests that assert the real shipped artifact.** Render the
+   widget, produce the file, or call the function, and inspect the output as real behavior. A match
+   against the source text counts for nothing here. Watch the new test fail first (red-on-bug), then
+   implement. Never edit a test just to make a change pass.
 
-   **A norm-pointered surface builds with the artifact open (SPEC INV-43):** when the surface's spec clauses
-   carry a `norm: <path>` pointer, OPEN the artifact before building — the frozen prototype is the norm for
-   look and feel, the clause text only its laws — and record a one-line plan-vs-prototype diff in the
-   landing's accounting. A missing diff line is a defect at review. The verify step's feel bar (step 8) reads
-   the same pointer.
+7. **Code — implement until green.** Delegate well-scoped, mechanical implementation to a junior
+   worker with a precise brief + a persistent checkpoint file, so a cut-off resumes from its
+   checkpoint. Keep the hard parts (ambiguous specs, design, tricky debugging) on the senior model.
+   Verify the junior's result by deed.
 
-   **Taste-heavy deliverables build smallest-first (SPEC INV-62):** when taste rules the deliverable — voice,
-   copy, visual style, spec prose — STOP at the cheapest judgeable sample (one paragraph, one card, two
-   sections) and take the human's word on it before the full build spends anything. Five full packs once failed
-   on a problem a one-paragraph sample would have caught.
+   **A norm-pointered surface builds with the artifact open (SPEC INV-43).** When the surface's spec
+   clauses carry a `norm: <path>` pointer, OPEN the artifact before building. The frozen prototype is
+   the norm for look and feel, and the clause text only its laws. Record a one-line plan-vs-prototype
+   diff in the landing's accounting. A missing diff line is a defect at review. The verify step's feel
+   bar (step 8) reads the same pointer.
 
-   **And a rejected artifact reopens its SOURCE (SPEC INV-63):** the fix starts at the spec clause / card /
-   brief that produced it — correct the source, then rebuild from it. Line-patching the rejected output
-   against an unchanged source is the five-round trap, banned.
+   **Taste-heavy deliverables build smallest-first (SPEC INV-62).** Taste rules a deliverable of
+   voice, copy, visual style, or spec prose. There, stop at the cheapest judgeable sample — one
+   paragraph, one card, two sections — and take the human's word on it before the full build spends
+   anything. Five full packs once failed on a problem a one-paragraph sample would have caught.
+
+   **And a rejected artifact reopens its SOURCE (SPEC INV-63).** The fix starts at the spec clause /
+   card / brief that produced it: correct the source, then rebuild from it. Line-patching the rejected
+   output against an unchanged source is the five-round trap, banned.
 
 8. **Verify by deed.** Run it and see the result with your own eyes. Only call it done/working after that;
    otherwise label it an assumption.
 
-   Run every check the diff can reach before any push — the reach map's law (SPEC INV-45): a prose-only diff
-   runs the doc gates whole and says so. Any code, spec, matrix, skill, or test file in the diff means the
-   whole suite. The reach map itself is the `reach_classes` block of `guardrails.config.json`, which
-   pairs each file class with the checks it reaches. The pack's suite runs as `python3 -m pytest -q`
-   from the repository root; a host with another runner names its own in its profile.
+   Run every check the diff can reach before any push — the reach map's law (SPEC INV-45). A
+   prose-only diff runs the doc gates whole and says so. Any code, spec, matrix, skill, or test file
+   in the diff means the whole suite. The reach map itself is the `reach_classes` block of
+   `guardrails.config.json`, which pairs each file class with the checks it reaches. The pack's suite
+   runs as `python3 -m pytest -q` from the repository root; a host with another runner names its own
+   in its profile.
 
    **A session that spawned a worker runs `python3 guardrails/check-worker-restore.py` here, and reads
    its verdict before it accepts the worker's result (SPEC INV-298; the gate INV-299).** See
    [references/verify-step-detail.md](references/verify-step-detail.md) for what the gate reads, the
    window it reads, and what a red owes.
 
-   **Green = zero failures AND the skip-set is exactly the expected pinned list** — an unexpected skip
-   (Chrome absent, a real-data fixture missing) is a FAILURE outright. **If red at a pause / session end:
-   never commit; write the failing test name + hypothesis as the top `NEXT_STEPS.md` item** — the checkpoint
-   IS the red test.
+   **Green means zero failures, and a skip-set exactly matching the expected pinned list.** An
+   unexpected skip — Chrome absent, a real-data fixture missing — is a failure outright. **If red at a
+   pause or session end, never commit.** Write the failing test name + hypothesis as the top
+   `NEXT_STEPS.md` item. That red test is the checkpoint.
 
-   **Green also means DETERMINISTIC (SPEC INV-155).** A test that passes only sometimes is a defect; intermittent green does not count as a pass. A flake whose root is in owned code — the test or the product — is fixed at that root: name the
-   nondeterminism (wall-clock time, ordering, shared or leaked state, an unseeded random, a missing wait on a
-   tool the test drives) and remove it, so the test passes every run for the same reason. It is masked by
-   nothing: never a retry, never a rerun-until-green, never a raised timeout that hides the race, never "it
-   passed this time" taken as a pass. Only where the nondeterminism is not removable in owned code — the
-   external tool itself misbehaving at random — is it workshop noise on the problem ledger [SPEC INV-23], a
-   separate home. Green means deterministic.
+   **Green also means deterministic (SPEC INV-155).** A test that passes only sometimes is a defect,
+   and intermittent green does not count as a pass. A flake whose root is in owned code — the test or
+   the product — is fixed at that root. Name the nondeterminism: wall-clock time, ordering, shared or
+   leaked state, an unseeded random, or a missing wait on a tool the test drives. Then remove it, so
+   the test passes every run for the same reason. It is masked by nothing. Never a retry, never a
+   rerun-until-green, never a raised timeout that hides the race, never "it passed this time" taken as
+   a pass. Only where the nondeterminism is not removable in owned code — the external tool itself
+   misbehaving at random — is it workshop noise on the problem ledger [SPEC INV-23], a separate home.
+   Green means deterministic.
 
-   **The audit — a second pair of FRESH eyes, REQUIRED where the stakes are high and only the
+   **The audit — a second pair of fresh eyes, REQUIRED where the stakes are high and only the
    author has judged the work (SPEC INV-46).** Verify runs a fresh-context checker when the change is
-   HIGH-STAKES and its only review is the author's own. High-stakes means one of two things: the delta is
-   surface-sized (a new surface or a multi-file behaviour change), or the change edits the method itself — a
-   rule whose MEANING changed, a new or re-scoped invariant (a wording-only edit that changes no rule's
-   meaning is not a method edit). The author's own review means no independent read has happened, where an
-   independent read is a differently-contexted head briefed from the primary sources on the "goal missed"
-   hypothesis; a prover pass in the author's own context never counts as one, and delegation never makes the
-   review independent — the same head that briefed the worker reads the result. See
-   [references/verify-step-detail.md](references/verify-step-detail.md) for the rest of the protocol: how the
-   checker is briefed, the ladder it walks, and where its findings go.
+   high-stakes and its only review is the author's own. High-stakes means one of two things. The delta
+   is surface-sized, meaning a new surface or a multi-file behaviour change. Or the change edits the
+   method itself — a rule whose meaning changed, a new or re-scoped invariant. A wording-only edit
+   that changes no rule's meaning is not a method edit.
 
-   **The authoring seat never certifies its own work adversarially (SPEC INV-237).** The freshness above is
-   the whole rule, and the release pass may not waive it: a release's adversarial pass — the full
-   re-prove at the release gate — is authored by a fresh seat, never the seat that authored the change, and
-   a newly added lens or rule is run against the very document that introduces it before release
-   (self-application), the release record naming the result. A release gate may require a dated
-   clean-context review record naming a seat other than the release's; the mechanical floor checks the
-   record exists, is release-dated, and names a different seat, the rest a discipline the seat holds.
+   The author's own review means no independent read has happened. An independent read is a
+   differently-contexted head briefed from the primary sources on the "goal missed" hypothesis. A
+   prover pass in the author's own context never counts as one. And delegation never makes the review
+   independent, since the same head that briefed the worker reads the result. See
+   [references/verify-step-detail.md](references/verify-step-detail.md) for the rest of the protocol:
+   how the checker is briefed, the ladder it walks, and where its findings go.
 
-9. **Commit & show.** Commit when green with no regression (unasked) — same or better is enough, never wait for perfect. Where the host has a remote, PUSH accepted work there by rule (SPEC INV-82): every gate the diff reaches ran and passed (the verdict read from the suite log's own line), plus the host's own push lines; the remote is discovered from the tree, and only a host with no remote gets one contextual question at the first push moment (create one — GitHub, GitLab, whatever the human names — or stay local, recorded in the host profile). Every push re-walks the README against the pushed truth — crisp and current, a stale claim fixed before the push (the shopfront law at every-push cadence). After the push the push step reads the remote gate's own verdict (the CI run the push triggered, one `gh run` read), and a red verdict is the pushing session's own immediate bug: fixed and re-pushed the same session before anything else, so the human never meets the red first in a GitHub email; a slow gate is watched to its verdict on the detached-work cadence (SPEC INV-106, INV-35). The human's personally named gates still wait for his word. Bump the version, PATCH by default; the number reports what taking the release costs a host, and the tier is read off that cost — a patch fixes a machine to hold a law already stated (the host does nothing), a minor grows what a host may adopt by re-running its catch-up walk with nothing rewritten, a major forces a host action and ships its dated MIGRATION.md chapter (base rule 32 / SPEC INV-217). The minor-versus-major call is a stated judgment the releasing session makes and names, held by no gate.
-   Docs travel with the change — README + CHANGELOG + the skill's own `SKILL.md`, same session. Diary the WHY
-   in `JOURNAL.md`.
+   **The authoring seat never certifies its own work adversarially (SPEC INV-237).** The freshness
+   above is the whole rule, and the release pass may not waive it. A release's adversarial pass — the
+   full re-prove at the release gate — is authored by a fresh seat, never the seat that authored the
+   change. A newly added lens or rule is run against the very document that introduces it before
+   release (self-application), and the release record names the result. A release gate may require a
+   dated clean-context review record naming a seat other than the release's. The mechanical floor
+   checks that the record exists, is release-dated, and names a different seat; the rest is a
+   discipline the seat holds.
 
-   **The CHANGELOG speaks to the USER, the journal to the builder:** each entry says what changed for the
-   person using the product, with one concrete example from real output, in outcome terms only. Function
-   names, internal ids, and row numbers live in the journal instead. And no doc pins a drifting version
-   number in prose — "current version: vX.Y" always goes stale. Point at the version's one home (the VERSION
-   file, the frontmatter) or omit it.
+9. **Commit & show.** Commit when green with no regression (unasked). Same or better is enough, and
+   the work never waits for perfect.
 
-   The delivery report TELLS the taste choices made without asking — the open `[default]`s — each in plain
-   words with an example and a tweakable mark. No confirmation is requested; silence is consent, never
-   re-asked (SPEC INV-31). The same TELL covers a tunable parameter you set to a sensible default — a
-   resolution, a batch size, a timeout, a sampling rate — named with what it trades, tuned together later at
-   most, never a stall on a knob you can reasonably pick (SPEC INV-70).
+   Where the host has a remote, PUSH accepted work there by rule (SPEC INV-82). The push stands on two
+   things: every gate the diff reaches ran and passed, the verdict read from the suite log's own line,
+   plus the host's own push lines. The remote is discovered from the tree. Only a host with no remote
+   gets one contextual question at the first push moment — create one (GitHub, GitLab, whatever the
+   human names), or stay local, recorded in the host profile.
 
-   A delivery report, a ROADMAP row, and a decision page are exactly the surfaces where a decision gets
-   recorded AS the person's, so base rule 13's writing rule on human authority binds them (SPEC INV-207).
-   A `[default]` the seat picked is the SEAT's own judgment and is written in the pack's own voice; it is
-   never dressed as the human's word. When a decision genuinely IS the person's, the entry names the
-   exchange it came from — a date a reader can check — and an anchored copy goes to `DECISIONS.md`, the
-   read-back set the human reads on his own clock and strikes what he never said. An autonomy grant
-   authorizes the seat to decide; it never authorizes recording that decision as the human's.
+   Every push re-walks the README against the pushed truth, crisp and current, a stale claim fixed
+   before the push. That is the shopfront law at every-push cadence. After the push the push step
+   reads the remote gate's own verdict: the CI run the push triggered, one `gh run` read. A red
+   verdict is the pushing session's own immediate bug. It is fixed and re-pushed the same session
+   before anything else, so the human never meets the red first in a GitHub email. A slow gate is
+   watched to its verdict on the detached-work cadence (SPEC INV-106, INV-35). The human's personally
+   named gates still wait for his word.
 
-   Show the human the REAL render in a new window; push or deposit only after they've reviewed it. A push
-   re-renders all deposited artifacts, and a push shipping a new version walks the publish skill's shopfront
-   check — README claims + kind-owed visuals fresh, the outcome line riding the delivery report (SPEC INV-44).
-   Where the host's design-sync is ON (base defaults; SPEC E-18), the landing's DECLARED components also sync
-   to the team's design project — after the human's gate; it never replaces the in-session show.
+   Bump the version, PATCH by default. The number reports what taking the release costs a host, and
+   the tier is read off that cost. A patch fixes a machine to hold a law already stated, and the host
+   does nothing. A minor grows what a host may adopt by re-running its catch-up walk with nothing
+   rewritten. A major forces a host action and ships its dated MIGRATION.md chapter (base rule 32 /
+   SPEC INV-217). The minor-versus-major call is a stated judgment the releasing session makes and
+   names, held by no gate.
+
+   Docs travel with the change — README + CHANGELOG + the skill's own `SKILL.md`, same session. Diary
+   the why in `JOURNAL.md`.
+
+   **The CHANGELOG speaks to the USER, the journal to the builder.** Each entry says what changed for
+   the person using the product, with one concrete example from real output, in outcome terms only.
+   Function names, internal ids, and row numbers live in the journal instead. And no doc pins a
+   drifting version number in prose, since "current version: vX.Y" always goes stale. Point at the
+   version's one home — the VERSION file, the frontmatter — or omit it.
+
+   The delivery report tells the taste choices made without asking — the open `[default]`s. Each is
+   given in plain words with an example and a tweakable mark. No confirmation is requested; silence is
+   consent, never re-asked (SPEC INV-31). The same telling covers a tunable parameter you set to a
+   sensible default: a resolution, a batch size, a timeout, a sampling rate. Each is named with what
+   it trades, and tuned together later at most. A knob you can reasonably pick never stalls the work
+   (SPEC INV-70).
+
+   A delivery report, a ROADMAP row, and a decision page are exactly the surfaces where a decision
+   gets recorded as the person's. So base rule 13's writing rule on human authority binds them (SPEC
+   INV-207). A `[default]` the seat picked is the seat's own judgment, and is written in the pack's
+   own voice. It is never dressed as the human's word. When a decision genuinely is the person's, the
+   entry names the exchange it came from — a date a reader can check. An anchored copy goes to
+   `DECISIONS.md`, the read-back set the human reads on his own clock and strikes what he never said.
+   An autonomy grant authorizes the seat to decide. It never authorizes recording that decision as the
+   human's.
+
+   Show the human the real render in a new window; push or deposit only after they've reviewed it. A
+   push re-renders all deposited artifacts. A push shipping a new version walks the publish skill's
+   shopfront check — README claims + kind-owed visuals fresh, the outcome line riding the delivery
+   report (SPEC INV-44). Where the host's design-sync is ON (base defaults; SPEC E-18), the landing's
+   declared components also sync to the team's design project. That sync happens after the human's
+   gate, and it never replaces the in-session show.
 
 ## Guardrails — the pipeline's mechanical enforcement (every project inherits them)
 The nine steps are guidance, and an agent drifts from guidance — that is the failure that stops a project
