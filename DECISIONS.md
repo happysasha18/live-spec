@@ -50,6 +50,16 @@ the one slot nothing questions. That is the defect this surface exists to catch.
 
 ## On record
 <!-- record:on -->
+- 2026-08-17 ~23:30 — the short chat-law reminder is the shipped norm for every host, not a
+  personal overlay on your machine. Answering the coordinator's direct question — should the short
+  form be the norm for everyone who installs the pack, or only on your own machine. Your words in
+  chat: норма для всех конечно же. ты же обслуживатель всех проектов, елкипалки. In English: the
+  norm for everyone, of course — you serve all the projects (closing with a colloquial aside, kept
+  above as you wrote it). Consequence: the hook that opens every prompt names the seven session
+  laws and points at the two files holding their wording, and it ships that way to each host; the
+  pack no longer believes the earlier decision that the hook must retell the laws in full, so the
+  records written under that belief follow this one instead. The word reached the night's work
+  through the coordinator; the time is when it reached this seat, not when you typed it.
 - 2026-08-13 08:51 — rule 31's "owner" is the agent that owns the zone (row 536, first ruling).
   Your words in chat: я никогда не видел правила 31! откуда мне знать что такое этот оунер. если
   это про агентов, тогда это агент. Consequence: everywhere rule 31 says "owner" about zone
