@@ -353,6 +353,17 @@ $ python3 -m pytest -q tests/test_guardrails.py -k TestGateA_ProverRecord
 `test_real_repo_passes` is among those eight, and it is the one the final full run caught red before
 this extension.
 
+**My own run left one file dirty, and I am naming it rather than quietly undoing it.** Running
+`tests/test_guardrails.py` executes `scripts/progress-report.py` with the repository root as its
+working directory, so it rewrote `docs/PROGRESS.md` in this tree: the generated date moves 2026-08-17
+→ 2026-08-18, the open-findings count 4,950 → 4,970, and the quoted spec ceiling 840,000 → 703,126.
+The behaviour predates this pass — the 2026-08-17 record names the same effect — and `c466d3e`
+earlier in this range put the file back to the base's copy deliberately, so it is protected tonight.
+I have left the change uncommitted and unrestored: committing it is outside the one file this pass
+may write, and clearing it would mean a git-level restore, which is exactly the move base rule 7's
+worker-restore sub-rule (INV-298) reds on. It is the integrator's to decide, and it is stated here so
+the decision is made in the open rather than inherited from a tree someone quietly tidied.
+
 The same gate reddened between the first landing of this record and its extension, on exactly the
 freshness arm it is built to red on: `0ce20c8` touched `ARCHITECTURE.md` after `3b73943`. That is the
 gate working, not the gate failing, and it is the reason this file was extended rather than left as
