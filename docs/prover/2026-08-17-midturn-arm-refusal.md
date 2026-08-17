@@ -15,7 +15,8 @@ Files read: `hooks/midturn-chat-scan.py`, `hooks/turn_reader.py`, `hooks/chat-la
 hooks and settings under `~/.claude/`, the hook's own state files under `~/.claude/hooks/.midturn-chat/`,
 and the session transcripts under `~/.claude/projects/` for the two recorded incidents.
 Checks run: `pytest tests/test_midturn_chat_scan.py` — 34 passed, being the file's 31 tests plus the three the repair added; `check-hooks-can-fire.py` — exit 0;
-the same hook fed the reconstructed live worker payload — deny emitted, exit 0; two mutation runs, one
+the same hook fed a worker payload BUILT BY HAND from the
+transcripts rather than captured live — deny emitted, exit 0; two mutation runs, one
 deleting the guard's `subagents` branch (34 passed, gate exit 0 — the branch proved nothing) and one
 deleting the guard entirely (2 failed of 34); `check-language-rules.py`, `check-shipped-language.sh`,
 `check-judge-listed.py`, `check-named-checks.py`, `check-every-gate-can-fail.py`,
@@ -36,8 +37,18 @@ Blocking: three, named here and argued in full below.
 1. **The repair did not repair the fault.** stands: the change is abandoned and the arm retired instead.
    The guard stood the hook down unless the transcript's filename proved the call was the seat's. On this
    harness a worker's PreToolUse event carries the SEAT's `transcript_path` and the SEAT's `session_id`,
-   so the guard read true and the worker was denied exactly as before. The reviewer rebuilt the
-   2026-08-16 event from the transcripts and ran the fixed hook against it: it emitted its refusal. The
+   so the guard read true and the worker was denied exactly as before.
+
+   HOW MUCH OF THIS WAS SEEN RATHER THAN BUILT, corrected on the owner's word 2026-08-17. Every payload
+   fed to the hook in this pass and the ones before it was assembled by hand — from the transcripts for
+   the reconstruction, and from scratch for the bench and the fixtures. None was captured off a live
+   event as it happened, and an earlier draft of this record let "live" stand where "rebuilt" belonged.
+   The live trace this rests on is the RECORD of what the arm did, not a replayed event: one refusal
+   delivered into a worker's tool result at 2026-08-15 21:39:41 local, its record carrying
+   `isSidechain: true` under the seat's own session `b9af9566`, whose transcript sits at the seat level
+   of `~/.claude/projects/-private-tmp-live-spec-roadmap-wave/`. That single row is the whole claim: the
+   event reached a worker while the identifiers on it were the seat's. The hand-built payload only
+   demonstrates what the guard then does with such a row. The
    corroborating counts are independent of that reconstruction — of the 31 state files the hook ever wrote,
    none names an agent — 30 resolve to a seat transcript and the odd one is this session's own bench
    fixture — while 68 worker transcripts hold 76 delivered refusals. A later probe closed the last door: a worker process carries the seat's
@@ -208,4 +219,30 @@ Notes:
   fails to fire, where `guardrails/post-commit` re-arms only on a fence already carrying this session's
   own token — so a session inheriting an ended session's arm blocks once by design. closed: the row now
   states that, with the proof from this session, and asks the real question instead.
+
+---
+
+## What this record accepts as lost, and what stands outside it
+
+Both entries below are the owner's word of 2026-08-17, written here because a loss nobody recorded is a
+loss nobody can weigh later.
+
+**Two branches deleted, their loss accepted by name.** Neither was merged into `main`, so deleting the
+ref lets its commits go.
+
+- `backup-2026-08-06-before-relay`, tip `28791f7`. Four commits. What `main` does not carry is a
+  superseded state of two documents: the branch's `NEXT_STEPS.md` holds a 2026-08-06 09:29 live-state
+  block, 44 lines the current file does not carry, and `main` replaced that block with a 2026-08-13
+  03:30 one; and its `ROADMAP.md` row 549 stands at *queued* where `main` reads *landed*, the branch
+  being behind rather than ahead. Its review record survives under a renamed directory, at
+  `docs/prover/2026-08-05-day-of-readability-repairs.md`, and `main`'s copy covers a longer range than
+  the branch's did.
+- `wip/comms-naming-424`, tip `55597bc`. One commit, a checkpoint its own subject calls "not yet
+  landable". Both documents it added, `docs/design-review/2026-07-19.md` and `docs/prover/2026-07-19.md`,
+  stand in `main` today, so its content is superseded rather than dropped.
+
+**One change to the machine that this range does not cover.** `~/.claude/statusline-command.sh` was
+edited on 2026-08-17 at 13:11 by a crisis manager on the owner's direct word. It is named here so a
+reader of this record does not attribute it to the retirement: it is outside the pushed range, outside
+the repository, and no commit in this range touches it.
 
