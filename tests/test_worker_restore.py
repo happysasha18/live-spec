@@ -498,6 +498,24 @@ class TestTheGateJudgesThisProjectsOwnSessions:
         return repo
 
     @staticmethod
+    def _gate_stands_in_a_repository():
+        """Whether the gate's own copy has a repository to read its project key from.
+
+        Gate b's meta-run copies this tree to a temp directory with no repository beside it. There
+        the gate can place no session anywhere, so by design it keeps every finding and the two
+        neighbour cases below have nothing to read. The fail-safe itself is proven by
+        `test_a_session_in_no_repository_at_all_still_reds`, which needs no repository."""
+        proc = subprocess.run(["git", "-C", os.path.join(ROOT, "guardrails"),
+                               "rev-parse", "--git-common-dir"], capture_output=True, text=True)
+        return proc.returncode == 0
+
+    def _needs_a_repository(self):
+        if not self._gate_stands_in_a_repository():
+            pytest.skip("this tree carries no repository beside the gate (gate b's meta-run copies "
+                        "it to a temp directory), so the gate holds no project key and keeps every "
+                        "finding by design")
+
+    @staticmethod
     def _typed_lines(res):
         return [line for line in res.stdout.splitlines()
                 if line.startswith("{") and line.rstrip().endswith("}")]
@@ -505,6 +523,7 @@ class TestTheGateJudgesThisProjectsOwnSessions:
     def test_a_neighbouring_projects_session_reds_nothing(self, tmp_path):
         """The whole narrowing, as one assertion: the same forbidden command, run by a session whose
         directory is another repository, no longer refuses this package's push."""
+        self._needs_a_repository()
         foreign = self._foreign_repo(tmp_path)
         root, _ = _transcript_root(tmp_path / "transcripts", [self.COMMAND],
                                    project="-neighbour-project", session="s-foreign",
@@ -518,6 +537,7 @@ class TestTheGateJudgesThisProjectsOwnSessions:
     def test_the_neighbours_finding_is_carried_as_a_notice_and_not_lost(self, tmp_path):
         """Narrowed, not blunted. The finding row 598 was written from — session, directory, command
         and outcome — is still on the page, so this project can still notify the one that owns it."""
+        self._needs_a_repository()
         foreign = self._foreign_repo(tmp_path)
         root, _ = _transcript_root(tmp_path / "transcripts", [self.COMMAND],
                                    project="-neighbour-project", session="s-foreign",
