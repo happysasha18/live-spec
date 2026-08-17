@@ -136,9 +136,12 @@ into shorter sentences; and gates a, b and g read red only while the record itse
 
 PUSH-REVIEW
 
-Range: f9eaecc..HEAD (base f9eaecc; five reviewed commits listed below; this record's own commit follows
+Range: f9eaecc..HEAD (base f9eaecc; six reviewed commits listed below; this record's own commit follows
 them and touches the record directory alone, which gate a exempts because a record cannot name the commit
 that first ships it)
+- e35408b A gate that reds on an interrupted write joins the problems journal (a flake this push met,
+  recorded rather than retried in silence: `check-pin-drift.sh` exits non-zero when a signal interrupts
+  its own `printf`, reddening gate g on a tree whose pins are fine)
 - 8b6521f A hand-copied count leaves the prose for the declaration that holds it (this pass's own repair)
 - 19efaed The communicator edit carries its skill review
 - 5a51a41 The published counts catch up with the retirement's one-finding drop
