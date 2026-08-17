@@ -12,19 +12,21 @@ no-answer-needed kind — an asynchronous, person-opened point (he reads it when
 notes himself), so an offer (a teaching-adjacent line) is afforded and an interruption is not. This
 movement consumes that classification; it does not re-open the frame.
 
-The checker `guardrails/check-release-note.py` reds a record that leaves the offer-or-none decision
-unrecorded and passes one that offers or records "none". It rides the suite and NOT the push chain:
-the release note the walk produces is a process artifact the walk records at runtime, and no committed
-release-note file exists in the tree for a push gate to scan (the sibling of the far-tier report-shape
-check, SPEC INV-83).
+The checker `guardrails/attic/check-release-note.py` reds a record that leaves the offer-or-none
+decision unrecorded and passes one that offers or records "none". It rides the suite and NOT the push
+chain: the release note the walk produces is a process artifact the walk records at runtime, and no
+committed release-note file exists in the tree for a push gate to scan (the sibling of the far-tier
+report-shape check, SPEC INV-83). It was parked in the attic on 2026-08-18 with its fixtures beside
+it, having only ever read those fixtures; this suite still drives it there, and the test below still
+holds it out of the push chain.
 """
 import os
 import subprocess
 
 from conftest import ROOT, read
 
-GATE = os.path.join(ROOT, "guardrails", "check-release-note.py")
-FIXTURES = os.path.join(ROOT, "guardrails", "release-note-fixtures")
+GATE = os.path.join(ROOT, "guardrails", "attic", "check-release-note.py")
+FIXTURES = os.path.join(ROOT, "guardrails", "attic", "release-note-fixtures")
 
 
 def _gate(*args):
@@ -38,7 +40,7 @@ def _fix(name):
 # --- the checker ships ---
 
 def test_gate_ships():
-    assert os.path.isfile(GATE), "guardrails/check-release-note.py missing"
+    assert os.path.isfile(GATE), "guardrails/attic/check-release-note.py missing"
 
 
 # --- the red condition: the offer-or-none decision left unrecorded ---

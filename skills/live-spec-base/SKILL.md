@@ -480,7 +480,7 @@ keeps the number it already carries.
      no artifact, and on which no work of the sender's stands, is dropped; holding it was itself the
      defect [INV-191]. A referral that points at a zone which does not own the question is named as a
      wrong referral, where the exchange loops back over the same pair. The two-crossing cap does not
-     absorb it. `guardrails/check-wrong-referral.py` reds such an exchange on a fixture and rides
+     absorb it. `guardrails/attic/check-wrong-referral.py` reds such an exchange on a fixture and rides
      the suite, staying off the push chain [INV-225, INV-196].
    - **Data never travels as a message, and a contract publishes nothing by default.** A consumer wanting
      numbers reads the neighbour's published artifact [INV-188]. Every field in that artifact leaves the

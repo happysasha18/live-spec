@@ -83,7 +83,7 @@ out of the runnable work it enumerates and prints, in its place, one stand-down 
 > What's left to run: rows 405, 407 (…). There is also a far backlog (3 items), shown on request.
 
 A far row named among the runnable what's-left is the defect — the fixture check
-`guardrails/check-far-tier.py --report FILE` reds it, reading a written copy of the report, and passes a report that stands the tier down and
+`guardrails/attic/check-far-tier.py --report FILE` reds it, reading a written copy of the report, and passes a report that stands the tier down and
 offers it on request [SPEC INV-222].
 
 **The rare self-surfacing line** *(SPEC INV-223).* Beyond answering on request, the status report shows
@@ -94,7 +94,7 @@ E-13) — movable by the person's word, and the report records the last surfacin
 > A far backlog is also kept — 3 thoughts parked with no plan to run. Want to see it? <!-- far-tier:offer 2026-07-18 -->
 
 A second offer inside the same window is the defect the fixture check
-`guardrails/check-far-tier.py --window FILE` reds; a first offer once the window has passed passes.
+`guardrails/attic/check-far-tier.py --window FILE` reds; a first offer once the window has passed passes.
 Both flags take the path of a file holding the report's text, since a chat report leaves no file of
 its own. That is why this checker rides the suite on a fixture and stands outside the push chain. This
 rides the status report the agent pushes at him, an asynchronous touchpoint [SPEC INV-205], and

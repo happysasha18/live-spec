@@ -86,9 +86,10 @@ RECORD_FILES = ("JOURNAL.md", "DECISIONS.md", "FEEDBACK.md", "WAITING.md")
 # Directories whose markdown a machine reads: a fixture a test opens by its path. No person reads
 # one, so the census leaves them unmeasured. The templates stay measured, because a person
 # starting a new project reads them and README.md sends them there (review dissent, 2026-08-05).
+# Both fixture directories moved under guardrails/attic/ on 2026-08-18 with the checks that read them.
 MACHINE_DIRS = (
-    "guardrails/far-tier-fixtures",
-    "guardrails/release-note-fixtures",
+    "guardrails/attic/far-tier-fixtures",
+    "guardrails/attic/release-note-fixtures",
 )
 
 # The external canonical clone: untracked here and owned by its own repository, so the pack cannot

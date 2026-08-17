@@ -9,16 +9,18 @@ SPEC INV-223 (ROADMAP 403) — the far backlog surfaces itself rarely and unaske
 report carries a rare line naming that a far tier exists, at a settings-ladder cadence default
 (at most once every fourteen days) with a dated marker; a second offer inside the window reds.
 
-The checker `guardrails/check-far-tier.py` is report-shape only and is NOT in the pre-push chain
-(a chat report is not a committed file a push gate could scan); the suite drives it over fixtures.
+The checker `guardrails/attic/check-far-tier.py` is report-shape only and is NOT in the pre-push
+chain (a chat report is not a committed file a push gate could scan); the suite drives it over
+fixtures. It was parked in the attic on 2026-08-18 with those fixtures beside it, having never
+been wired anywhere and never caught a real defect; this suite still drives it there.
 """
 import os
 import subprocess
 
 from conftest import ROOT, read, read_all, read_all_flat
 
-CHECK = os.path.join(ROOT, "guardrails", "check-far-tier.py")
-FIX = os.path.join(ROOT, "guardrails", "far-tier-fixtures")
+CHECK = os.path.join(ROOT, "guardrails", "attic", "check-far-tier.py")
+FIX = os.path.join(ROOT, "guardrails", "attic", "far-tier-fixtures")
 
 
 def _run(*args):
@@ -32,7 +34,7 @@ def _fix(name):
 # --- the checker ships ---
 
 def test_checker_ships():
-    assert os.path.isfile(CHECK), "guardrails/check-far-tier.py missing"
+    assert os.path.isfile(CHECK), "guardrails/attic/check-far-tier.py missing"
 
 
 def test_checker_not_wired_into_pre_push():

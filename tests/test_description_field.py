@@ -2,7 +2,7 @@
 
 The named-reference pair gives every registered code a plain one-sentence description, and that
 description's one home is a dedicated field the Formal index gains [E-35, base rule 4]. This suite
-covers the mechanical presence net over that field — `guardrails/check-description-field.py` — and
+covers the mechanical presence net over that field — `guardrails/attic/check-description-field.py` — and
 the field's own existence in the shipped index.
 
 Two facts sit under one owning test file, as the matrix rows say (M-421 the gate, M-423 the field):
@@ -11,10 +11,10 @@ description, judging PRESENCE alone and never whether the description reads well
 (that semantic read is the human sampling net, INV-41); and it ships DORMANT — the existing code set
 carries no rich descriptions yet (the back-describe migration is a future his-gated landing, INV-217,
 folded finding N5), so an armed gate would red the whole tree, and the gate stays down until the
-migration arms it through `guardrails/description-field.json`.
+migration arms it through `guardrails/attic/description-field.json`.
 
 Every armed/dormant case drives the real shipped script over a FIXTURE Formal-index snippet and a
-FIXTURE config, so the real `guardrails/description-field.json` is never flipped and the real tree
+FIXTURE config, so the real `guardrails/attic/description-field.json` is never flipped and the real tree
 stays green under the dormant ship.
 """
 import json
@@ -26,7 +26,7 @@ import unittest
 
 from conftest import ROOT, read, read_flat
 
-GATE = os.path.join(ROOT, "guardrails", "check-description-field.py")
+GATE = os.path.join(ROOT, "guardrails", "attic", "check-description-field.py")
 
 
 def run_gate(spec_path=None, config_path=None):
@@ -180,7 +180,7 @@ class TestDescriptionFieldGate(unittest.TestCase):
         # config ships disarmed and names that retirement; the fixture tests above keep the mechanism's
         # red-proof alive. Successor pair: check-description-field -> check-index-generated (gate x) +
         # tests/test_index_generated.py::TestArmedOnTheRealSpec.
-        cfg = json.loads(read("guardrails/description-field.json"))
+        cfg = json.loads(read("guardrails/attic/description-field.json"))
         self.assertFalse(cfg["armed"],
                          "the description-field gate re-armed — it retired at the requirements-format "
                          "conversion; its successor is the generated-index gate (INV-271)")

@@ -2,6 +2,10 @@
 """check-release-note.py — a release note may offer the reader next-step choices, and the walk records
 the offer-or-none decision (SPEC INV-228, ROADMAP 402).
 
+PARKED 2026-08-18 in `guardrails/attic/`, with `release-note-fixtures/` beside it. By design it never
+joined the push chain, and the publish walk has never handed it a real note, so the only records it has
+ever read are its own three fixtures. Its suite still drives it here.
+
 A GitHub changelog / release note is a human-facing surface the reader opens himself — the release-note
 touchpoint the frame declares [INV-205]: asynchronous, person-opened, a human audience with no answer
 needed. On such a surface an OFFER is afforded — appealing next steps the reader may take, phrased as

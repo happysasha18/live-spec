@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 """check-wrong-referral.py — a wrong referral is named as the finding (SPEC INV-225).
 
+PARKED 2026-08-18 in `guardrails/attic/`. It is wired into nothing — no push chain, no CI step, no
+runtime caller — and the only exchange it has ever read is the fixture its suite writes, so no real
+wrong referral has ever been caught by it. Its suite still drives it here.
+
 Rule / INV-225 states it: a referral names the zone it says owns the question, and it is
 WRONG when that zone does not own it. A wrong referral shows itself in the exchange — the
 named zone refers the question back rather than answering it, and the question crosses the

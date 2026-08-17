@@ -14,7 +14,7 @@ Two things this file proves, kept distinct:
   1. The check itself — a runnable gate over a host profile, driven here by subprocess on fixture
      profiles. It reds on silence, passes on an explicit "none" from a project that deploys nothing,
      and reds a "none" that contradicts the host's own declared deployment layer. It rides the suite
-     and stays off the push chain, the standing `guardrails/check-wrong-referral.py` already carries
+     and stays off the push chain, the standing `guardrails/attic/check-wrong-referral.py` already carries
      [INV-225], because the pack ships no deployed product of its own.
 
   2. The law's homes — the SPEC clause and its Reference row, the per-kind design-principles table in
