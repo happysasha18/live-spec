@@ -60,7 +60,7 @@
     },
     "bytes": {
       "value": "under the ceiling",
-      "source": "guardrails/doc-bounds.json, docs.\"PRODUCT_SPEC.md\".max_bytes: 840000.",
+      "source": "guardrails/doc-bounds.json, docs.\"PRODUCT_SPEC.md\".max_bytes: 703126 since the 2026-08-18 ratchet, which withdrew the unspent headroom (it read 840000 when this line was written on 2026-07-29).",
       "set_on": "2026-07-29"
     },
     "bytes per criterion": {
