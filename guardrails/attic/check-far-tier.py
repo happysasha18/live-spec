@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 """check-far-tier.py — the far tier stands down by name, and it surfaces itself rarely.
 
+PARKED 2026-08-18 in `guardrails/attic/`, with `far-tier-fixtures/` beside it. It stands in no push
+chain and no CI step, and the only reports it has ever read are those fixtures: no real what's-left
+report has ever been handed to it, so it has caught nothing. Its suite still drives it here.
+
 Two report-shape laws, checked here so the suite can red them on a fixture. This checker is
 NOT in the pre-push chain: the status report and the feature map are chat surfaces the agent
 speaks at runtime, so no committed report file exists for a push gate to scan (a chat surface

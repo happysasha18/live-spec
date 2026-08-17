@@ -1271,11 +1271,12 @@ class TestWrongReferralNamed(unittest.TestCase, _AnchorHomeMixin):
     the two-crossing cap. A referral names the zone it says owns the question; it is wrong when
     that zone refers it back rather than answering, which crosses the same two agents twice
     [INV-196]. The escalation names the wrong referral rather than the neutral "could not settle".
-    The checker `guardrails/check-wrong-referral.py` reds a wrong exchange and passes a correct
-    one; it rides the suite, not the push chain (the exchange is a status-report surface with no
-    committed file to gate, INV-83's sibling)."""
+    The checker `guardrails/attic/check-wrong-referral.py` reds a wrong exchange and passes a
+    correct one; it rides the suite, not the push chain (the exchange is a status-report surface
+    with no committed file to gate, INV-83's sibling). It was parked in the attic on 2026-08-18,
+    having caught no real wrong referral, and this suite still drives it there."""
 
-    SCRIPT = os.path.join(ROOT, "guardrails", "check-wrong-referral.py")
+    SCRIPT = os.path.join(ROOT, "guardrails", "attic", "check-wrong-referral.py")
 
     def test_wrong_referral_law_stands(self):
         clause = self.assert_declared("INV-225")
@@ -1316,7 +1317,8 @@ class TestWrongReferralNamed(unittest.TestCase, _AnchorHomeMixin):
 
     def test_checker_reds_wrong_referral_passes_correct(self):
         self.assertTrue(os.path.isfile(self.SCRIPT),
-                        "the wrong-referral checker is absent: guardrails/check-wrong-referral.py")
+                        "the wrong-referral checker is absent: "
+                        "guardrails/attic/check-wrong-referral.py")
         # WRONG: live-spec refers the question to track-coach, which refers it back — a
         # counter-referral between the same pair, the question crossing the two agents twice.
         wrong = self._run(
