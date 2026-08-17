@@ -4,7 +4,7 @@ Generated 2026-08-17 by `python3 scripts/progress-report.py`, reading the tree a
 
 ## Where the two promises stand
 
-Promise one, a reader gets through a document without stopping, measures 4,951 open writing findings across the live set today.
+Promise one, a reader gets through a document without stopping, measures 4,950 open writing findings across the live set today.
 
 Promise two, the specification stops growing, measures PRODUCT_SPEC.md at 702,954 bytes against its 840,000-byte ceiling today.
 
@@ -73,7 +73,7 @@ Three members carry no entry in the findings record: `hooks/chat-law-hook.sh` an
 
 | # | document | findings today | measured clean | read clean | state |
 |---|---|---|---|---|---|
-| 21 | `PRODUCT_SPEC.md` | 1,863 | no | no | waiting |
+| 21 | `PRODUCT_SPEC.md` | 1,862 | no | no | waiting |
 | 22 | `ARCHITECTURE.md` | 0 | yes | no | waiting |
 | 23 | `TEST_MATRIX.md` | 76 | no | no | waiting |
 
@@ -204,7 +204,7 @@ The counts below come from the record `guardrails/rule-census.json`. It states w
 | measure | today | recorded before | target |
 |---|---|---|---|
 | live documents measured | 129 | 108 | all of them |
-| writing findings across all documents | 4,951 | 4,810 | 0 |
+| writing findings across all documents | 4,950 | 4,810 | 0 |
 | documents at zero findings | 24 | 16 | all |
 | documents that passed two consecutive readings with nothing blocking | 0 | not stated | all |
 
@@ -212,7 +212,7 @@ The fifteen documents carrying the most findings:
 
 | document | findings | of which long sentences | style | longest sentence | readings run | passed |
 |---|---|---|---|---|---|---|
-| `PRODUCT_SPEC.md` | 1,863 | 1,863 | 0 | 80 | 0 | no |
+| `PRODUCT_SPEC.md` | 1,862 | 1,862 | 0 | 90 | 0 | no |
 | `skills/build-pipeline/SKILL.md` | 255 | 135 | 120 | 198 | 0 | no |
 | `ROADMAP.md` | 215 | 8 | 207 | 242 | 0 | no |
 | `editions/product-prover/examples/sample-review-run-2.md` | 186 | 140 | 46 | 68 | 0 | no |
@@ -220,7 +220,7 @@ The fifteen documents carrying the most findings:
 | `editions/product-prover/examples/sample-review-run-1.md` | 157 | 114 | 43 | 63 | 0 | no |
 | `docs/prior-art-frameworks.md` | 112 | 7 | 105 | 42 | 0 | no |
 | `skills/spec-author/SKILL.md` | 112 | 112 | 0 | 99 | 0 | no |
-| `docs/language-rule-coverage.md` | 99 | 77 | 22 | 81 | 0 | no |
+| `docs/language-rule-coverage.md` | 99 | 77 | 22 | 64 | 0 | no |
 | `docs/restyle-repoint-log.md` | 83 | 20 | 63 | 78 | 0 | no |
 | `docs/prior-art-longtail.md` | 78 | 15 | 63 | 53 | 0 | no |
 | `TEST_MATRIX.md` | 76 | 8 | 68 | 46 | 0 | no |
