@@ -86,7 +86,7 @@ class TestChatLawHookScript(unittest.TestCase):
         source, so this proves the BEHAVIOUR — run against an isolated fake $HOME, both end up wired
         as UserPromptSubmit entries — instead of grepping the script's text for a word the declarative
         rewrite no longer needs to spell out in the shell file itself. Full both-directions coverage
-        of all ten declared hooks (not just these two) is proven in tests/test_install_session_hooks.py."""
+        of every declared hook (not just these two) is proven in tests/test_install_session_hooks.py."""
         import json
         import tempfile
 

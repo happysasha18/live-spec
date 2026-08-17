@@ -123,7 +123,7 @@ Most rows here duplicate homes already listed above; the ones below are addition
 | 80 | 120 (sec) | hooks/conduct-judge-collect.sh:44 (also hooks/register-judge-collect.sh:43) | default timeout for the conduct/register judge's background model call | no trace found |
 | 81 | 50 (KB) | hooks/lean-orchestrator-scan.py:56 (also PRODUCT_SPEC.md:5554) | cumulative inline raw-content ceiling before a dispatch-free session is flagged for hoarding reads | no trace found |
 | 82 | 6 | PRODUCT_SPEC.md:5554 | count of literal file-dump verbs counted toward the inline-read threshold above | no trace found |
-| 83 | 500 | hooks/midturn-chat-scan.py:74 | cap on fragment hashes retained per session state file | no trace found |
+| 83 | 500 | attic/midturn-chat-scan.py:74 (the arm was retired on 2026-08-17) | cap on fragment hashes retained per session state file | no trace found |
 | 84 | 25 (sec) | hooks/register_judge_core.py:35 | default timeout for the judge's model subprocess call | no trace found |
 | 85 | 80 (chars) | hooks/register_judge_core.py:42 | max verbatim quote span the judge asks the model to copy | no trace found |
 

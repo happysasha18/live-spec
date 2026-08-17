@@ -352,7 +352,7 @@ adapter is the one place the pack updates when a lens moves in a prover release.
 - INV-282 (the hook-side sibling of gate w's registry [INV-212], rides the suite not the push chain, no gate letter)
 - INV-283 (the machine the plain-language anchor law had none of; that law's own home stays communicator)
 - INV-284 (the empty-validation scan, shipped, covered, classified and metered on the same terms as the hedge gate [INV-238])
-- INV-285 (the tool-boundary arm of the chat laws, retired. It stood before every tool call in the tree. Its refusal landed on whichever call was in flight, a background worker's included. No field of that event names whose call it is. The pack wires no hook to PreToolUse today, and the arm's files rest in `attic/`, ROADMAP 495.)
+- INV-285 (the tool-boundary arm of the chat laws, retired. It stood before every tool call in the tree. Its refusal landed on whichever call was in flight, a background worker's included. No field of that event names whose call it is. The pack's default settings wire no hook to PreToolUse today, and the arm's files rest in `attic/`, ROADMAP 495.)
 - INV-287 (the criterion-readability arms over the spec's acceptance criteria. `guardrails/check-criterion-readability.py` reads through the family's shared parser `guardrails/specformat.py`. It rides the suite and takes no push-gate letter, the way the size ratchet does.)
 - INV-288 (the per-arm recorded counts in `guardrails/criterion-readability.json`, the readability sibling of the size ratchet's bound [INV-264, INV-265])
 - INV-289 (the setup-walk installer generates its coverage from guardrails/judge-hooks.json's file/command/matcher/data/personal_overlay fields and chains to scripts/install-pack-hooks.sh, closing row 495's setup-walk leg; ROADMAP 506)
@@ -441,7 +441,7 @@ adapter is the one place the pack updates when a lens moves in a prover release.
 - `tests/test_traceability.py:1` (the feature-coverage trace, E-29/INV-73)
 - `guardrails/archformat.py:1` (the node reader every consumer reads through, INV-280)
 - `tests/test_architecture_format.py:1` (the architecture-format checks: node-section shape INV-278, no-restated-law INV-279, one-reader INV-280, riding the suite)
-- `scripts/install-session-hooks.sh:1` (the setup-walk installer, generates its own two hooks from the declaration and chains to install-pack-hooks.sh for the other eight, INV-289)
+- `scripts/install-session-hooks.sh:1` (the setup-walk installer, generates its own two hooks from the declaration and chains to install-pack-hooks.sh for the rest, INV-289)
 - `tests/test_install_session_hooks.py:1` (the two-directions coverage proof, INV-289)
 - `.github/workflows/gates.yml:1` (the CI mirror)
 - `guardrails/check-deletion-only-push.sh:1` (the deletion-only push stand-down, INV-290)
@@ -493,7 +493,7 @@ adapter is the one place the pack updates when a lens moves in a prover release.
 - INV-250..INV-265: the shape and word gates are `guardrails/check-requirement-shape.py` [INV-250, INV-251, INV-252, INV-257], `guardrails/check-no-history.py` [INV-253], `guardrails/check-vocabulary.py` [INV-254], `guardrails/check-one-name.py` [INV-255], and `guardrails/check-weak-words.py` [INV-256]. The generated index `guardrails/check-index-generated.py` with `scripts/build-index.py` [INV-258, INV-259] stands as gate x. The delta classifier `guardrails/check-delta-record.py` [INV-260..263] is armed by availability from the conversion-end freeze baseline. The size ratchet `guardrails/check-size-ratchet.py` with `guardrails/spec-ratchet.json` [INV-264, INV-265] is seeded at that freeze.
 - INV-250..INV-265: the shared parser `guardrails/specformat.py` is their one reader.
 - INV-287/INV-288: the fourth fact this family reads off one document. The other three are shape [INV-250..252], volume [INV-264], and words [INV-254, INV-256], each in its own gate.
-- INV-289: `scripts/install-session-hooks.sh` covered only two of the ten declared hooks, while `guardrails/judge-hooks.json` already named ten (ROADMAP row 495). `scripts/install-pack-hooks.sh` already covered the other eight. The session-hook installer chains to it without rewriting it, since its own literal source is pinned by four other tests.
+- INV-289: `scripts/install-session-hooks.sh` covered its own two alone, while `guardrails/judge-hooks.json` named every wired hook (ROADMAP row 495). `scripts/install-pack-hooks.sh` already covered the rest. The session-hook installer chains to it without rewriting it, since its own literal source is pinned by four other tests.
 
 ### [node: snapshot] [target]
 

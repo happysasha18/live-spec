@@ -7135,7 +7135,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Context:** The PreToolUse arm this requirement specified stood before every tool call in the tree. It judged the seat's narration alone, and it delivered its refusal into whichever tool call happened to be in flight — a background worker's included, where it arrived as an order from nowhere to rewrite a sentence that worker never wrote, and was hunted for a night as an instruction planted from outside. No field of the event the arm reads separates the seat's call from a worker's, so it could not prove whose work it stopped, and the law that a check unable to prove that stands down governs the arm itself. Its retirement is recorded in JOURNAL.md. The two laws it carried stand: the code-anchor law keeps the Stop-side scan that reads the same text at the turn's end (Requirement 293), and the measurement law now names no machine and rests with a person.
 
-**User Story:** As a person whose background workers were stopped 76 times by a refusal about lines they never wrote, I want the arm retired rather than left standing, so that no check in the pack refuses work it cannot prove is the work it is judging.
+**User Story:** As a person whose background workers were stopped 76 times by a refusal about lines they never wrote — counted off the transcripts by record shape, a tool result opening with the scan's own refusal line, the count deciding whether the arm was repairable or had to go — I want the arm retired rather than left standing, so that no check in the pack refuses work it cannot prove is the work it is judging.
 
 ### Acceptance Criteria
 
@@ -7222,7 +7222,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 ## Requirement 298: The setup walk installs every session hook the pack declares
 
-**Context:** `guardrails/judge-hooks.json` declares ten wired session hooks, each with the event it rides. `scripts/install-session-hooks.sh` is the one command a human runs, since the harness classifier blocks an agent's own hand in its configuration. Before this requirement it installed two of the ten; the other eight reached a real machine only by hand, so a fresh machine, and any host adopting the pack, got a fifth of the conduct machinery with no sign the rest was missing. The fix generates the installer's own coverage from the declaration and chains to the existing installer that already covered the other eight, so the one command reaches all ten with their data files.
+**Context:** `guardrails/judge-hooks.json` declares every wired session hook, each with the event it rides. `scripts/install-session-hooks.sh` is the one command a human runs, since the harness classifier blocks an agent's own hand in its configuration. Before this requirement it installed its own two alone; the rest reached a real machine only by hand, so a fresh machine, and any host adopting the pack, got a fifth of the conduct machinery with no sign the rest was missing. The fix generates the installer's own coverage from the declaration and chains to the existing installer that already covered the rest, so the one command reaches every declared hook with its data files.
 
 **User Story:** As a person adopting the pack on a fresh machine, I want the one installer command to wire every session hook the declaration names, so that I get the whole conduct machinery.
 

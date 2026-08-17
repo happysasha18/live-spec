@@ -1,12 +1,13 @@
 #!/bin/sh
 # Installs every session hook guardrails/judge-hooks.json declares "wired" (ROADMAP row 506).
 #
-# Before this fix this script only ever installed two of the ten (clock-hook.sh, chat-law-hook.sh —
-# rows 134/141); the other eight (the register judge's two arms, the four literal Stop scans, and the
-# mid-turn PreToolUse scan) reached a real machine only by a human copying them and editing
-# settings.json by hand over several weeks. That left the shipped setup a fifth of the machinery the
-# declaration itself already named ten of, with no signal a fresh machine — or any host adopting the
-# pack — was short seven of them (found 2026-07-27 verifying row 495's setup-walk leg).
+# Before this fix this script only ever installed its own two (clock-hook.sh, chat-law-hook.sh —
+# rows 134/141); the rest (the register judge's two arms and the four literal Stop scans) reached a
+# real machine only by a human copying them and editing settings.json by hand over several weeks.
+# That left the shipped setup a fraction of the machinery the declaration itself already named, with
+# no signal a fresh machine — or any host adopting the pack — was short most of them (found
+# 2026-07-27 verifying row 495's setup-walk leg). The mid-turn PreToolUse scan stood in that list
+# until it was retired on 2026-08-17.
 #
 # The fix: this script now GENERATES its own two hooks' installation from guardrails/judge-hooks.json
 # (command form + data files, so the declaration stays the one home for what is wired — never a second

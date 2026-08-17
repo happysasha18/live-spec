@@ -1,7 +1,7 @@
 """tests/test_install_session_hooks.py — the setup walk installs every hook the pack declares
 (ROADMAP row 506).
 
-guardrails/judge-hooks.json declares ten wired session hooks, each with its event, its plain command
+guardrails/judge-hooks.json declares every wired session hook, each with its event, its plain command
 form, and the shipped data files it reads. scripts/install-session-hooks.sh is the ONE command a human
 runs (the harness classifier blocks an agent's own hand in its configuration, so this is the only lever
 that reaches a real machine's settings.json). This suite drives that REAL script against an isolated
@@ -22,7 +22,7 @@ failed on turn_reader.py/chat-calques.json/register_judge_core.py/register-judge
 test_rerun_changes_nothing could not even be reached meaningfully since the first run itself under-covered.
 Fixed by teaching the installer to read the declaration for its own two hooks (clock-hook, chat-law-hook)
 and chain to the existing scripts/install-pack-hooks.sh for the other eight (that script already carried
-its own tests pinned to its literal source, so it is chained rather than rewritten), reaching all ten
+its own tests pinned to its literal source, so it is chained rather than rewritten), reaching every one
 from the one command a human actually runs.
 """
 import json
@@ -176,7 +176,7 @@ def test_a_personal_overlay_already_present_is_left_untouched(tmp_path):
 
 def test_a_meter_wrapped_existing_entry_is_recognized_not_duplicated(tmp_path):
     """A host may already wrap a hook in the personal ~/.claude/hooks/hook-meter.py counter (this
-    machine wraps seven of the ten today). The installer must recognize that hook as already wired by
+    machine wraps most of them today). The installer must recognize that hook as already wired by
     its filename appearing in the existing command — whatever form that command takes — and never add
     a second, plain-form entry beside it."""
     home = str(tmp_path / "home")

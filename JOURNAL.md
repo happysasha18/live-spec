@@ -2962,8 +2962,9 @@ it on 2026-08-13, with the repair spelled out and the status left at watched.
 The repair tried first was to stand the hook down unless the event proved the call belonged to the seat,
 reading the transcript's filename for the session's own name. An adversarial review refused it with the
 harness in hand: a worker's event carries the seat's transcript path and the seat's session id, so the
-guard read true and denied the worker exactly as before. Two independent counts said the same — all 31
-state files the hook has ever written are named for seat sessions and none for an agent, while 68 worker
+guard read true and denied the worker exactly as before. Two independent counts said the same —
+all 31 state files the hook ever wrote name a session and none names an agent — 30 resolve to a
+seat transcript, and the odd one is `testsess`, this session's own bench fixture, while 68 worker
 transcripts hold a delivered refusal — and a probe found a worker's process carrying the seat's session
 id and process id unchanged. Nothing in the event, and nothing in the environment, separates the two.
 
