@@ -183,7 +183,7 @@ class TestDesignPrinciplesLaw(unittest.TestCase):
         self.assertIn("INV-136", bp)
 
     def test_spec_author_reads_declared_design_principles(self):
-        sa = read_flat("skills/spec-author/SKILL.md")
+        sa = read_all_flat("skills/spec-author/SKILL.md")
         self.assertIn("declared design principle", sa,
                       "spec-author does not read the declared design principles")
         self.assertIn("INV-136", sa)

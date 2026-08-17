@@ -16,7 +16,7 @@ import os
 import re
 import unittest
 
-from conftest import ROOT, read, read_flat
+from conftest import ROOT, read, read_flat, read_all_flat
 
 KIND = re.compile(r"(?m)^\s*[-*]?\s*`?project\.kind:")
 LAYERS = re.compile(r"(?m)^\s*[-*]?\s*`?project\.layers:")
@@ -120,7 +120,7 @@ class TestFoundingLaw(unittest.TestCase):
             self.assertIn(needle, arch, "ARCHITECTURE per-kind table lost: %s" % needle)
 
     def test_spec_author_and_test_author_read_declared_layers(self):
-        sa = read_flat("skills/spec-author/SKILL.md")
+        sa = read_all_flat("skills/spec-author/SKILL.md")
         ta = read_flat("skills/test-author/SKILL.md")
         self.assertIn("declared layers", sa, "spec-author does not read the declared layers")
         self.assertIn("declared proof", ta, "test-author does not read the declared proofs")

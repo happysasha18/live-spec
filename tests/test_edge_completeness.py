@@ -1,7 +1,7 @@
 """INV-138 — a gated behaviour names every side of its gate.
 Both ends of a threshold-gated transition + the three states of an async slot.
 Enshrines the law across its six homes. Landed 2026-07-13."""
-from conftest import external_clone_or_skip, read, read_all_flat
+from conftest import external_clone_or_skip, read, read_all, read_all_flat
 
 # Two readers, and which one a check gets is decided by WHO OWNS THE LINE BREAKS.
 #
@@ -63,7 +63,10 @@ def test_formal_index_row():
 
 
 def test_spec_author_carries_the_facet():
-    sa = tracked("skills/spec-author/SKILL.md")
+    # `read_all` is the raw whole-surface read: the facet moved into spec-author's references/,
+    # so the surface widens, but the line breaks stay the page's own — the locality this file
+    # insists on is kept, only the flat reader is refused here.
+    sa = read_all("skills/spec-author/SKILL.md")
     assert "Edge completeness" in sa
     assert "the three faces of a wait" in sa
 

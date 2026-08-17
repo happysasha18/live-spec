@@ -74,7 +74,7 @@ class TestDeliverySeparabilityLaw(unittest.TestCase):
     def test_inv248_spec_author_states_delivery(self):
         """When an owed axis adds runtime code, spec-author states how the axis is delivered
         (SPEC INV-248) — a monolith with a named reason, or a delivery road a later row lands."""
-        sa = read_flat("skills/spec-author/SKILL.md")
+        sa = read_all_flat("skills/spec-author/SKILL.md")
         self.assertIn("INV-248", sa, "spec-author does not carry the delivery-separability duty")
         self.assertIn("how that axis is delivered", sa,
                       "spec-author does not state the delivery answer for a runtime-code axis")
