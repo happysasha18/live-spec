@@ -222,7 +222,7 @@ The form of the showing: one window, real data, retold as a small story, opened 
      *❌ "all 64 checks green, v0.9.16"  ✅ "verified clean, the change is saved (64 checks, v0.9.16)"*
 
 - **Show the map as a map — one legend, done through remaining.** *(rule 9)*
-   - When saying where we are and what's next, render a short bulleted list under one legend. That legend is used the same way in every status report. The legend: ✅ done · 🔄 in progress (name the pipeline step) · ⏳ remaining/queued, in order. Then ⚠️ needs the human's word · ⏱ time/estimate · 📖 docs. The current item is visibly marked, and finished stretches collapse to a line each. Because the emoji carry the state, plain words carry the content, the list stays readable without turning noisy. Each line carries one clause of substance beyond the title, matched to its status. A done item says what it changed; an in-progress item, what is happening right now. A queued item says what it will give; a waiting item, exactly what is asked. So the list informs, and does not merely enumerate. Never paste the queue table into chat and never retell it as a paragraph; the eye should get the whole map in one glance.
+   - When saying where we are and what's next, render a short bulleted list under one legend. That legend is used the same way in every status report. The legend: ✅ done · 🔄 in progress (name the pipeline step) · ⏳ remaining/queued, in order. Then ⚠️ needs the human's word · ⏱ time/estimate · 📖 docs. The current item is visibly marked, and finished stretches collapse to a line each. The list stays readable without turning noisy, because the emoji carry the state, plain words carry the content. Each line carries one clause of substance beyond the title, matched to its status. A done item says what it changed; an in-progress item, what is happening right now. A queued item says what it will give; a waiting item, exactly what is asked. So the list informs, and does not merely enumerate. Never paste the queue table into chat and never retell it as a paragraph; the eye should get the whole map in one glance.
    - And each in-work line names its pipeline step. The nine are spec → prove → architecture →
      prove architecture → matrix → test → code → verify → commit & show, with landed as the terminal
      state. They are the pipeline's own step names, one per step. So the map reads like a departures
@@ -464,7 +464,7 @@ milestone report goes to the human:
    until the flagged text is rewritten into the reader's own plain words. A machine-dialect leak is
    what the next reader calls nonsense before walking away (2026-07-10). Each new leak that gets past
    the lint becomes a pattern the same day (the set grows by one per caught leak).
-5. **Legibility floor (a block, SPEC INV-139).** Run `python3 scripts/preshow-legibility-lint.py FILE` for any styled artifact about to be shown. A styled artifact is an HTML file, or a rendered page with its own CSS. It reads the declared colours and sizes, and flags text under the contrast ratio or size floor. The floors: normal text ≥ 4.5:1, large ≥ 3:1, body/caption ≥ 12px. The script counts text as large at a font size of 24px or more, and at 18.66px or more when bold. A red result blocks the showing until the text is lifted to the floor. A plain-markdown doc shown through the standard renderer inherits the renderer's vetted styles and needs no separate run. This guards that the words can be read, beside the register lint that guards the words themselves.
+5. **Legibility floor (a block, SPEC INV-139).** Run `python3 scripts/preshow-legibility-lint.py FILE` for any styled artifact about to be shown. A styled artifact is an HTML file, or a rendered page with its own CSS. The lint reads the declared colours and sizes, and flags text under the contrast ratio or size floor. The floors: normal text ≥ 4.5:1, large ≥ 3:1, body/caption ≥ 12px. The script counts text as large at a font size of 24px or more, and at 18.66px or more when bold. A red result blocks the showing until the text is lifted to the floor. A plain-markdown doc shown through the standard renderer inherits the renderer's vetted styles and needs no separate run. This guards that the words can be read, beside the register lint that guards the words themselves.
 6. **Account for every removal of substance (SPEC INV-109).** The removal accounting runs before the report closes. It runs whenever the movement being reported rewrote or restyled existing text. A rewrite or restyle that removes substance lists every removal in the delivery report, one line of judgment each. Substance is a section, an argument, a rationale, a worked example. Each line says one of three things. The fact was kept and where; the owner killed it by name; or the rewriter proposes dropping and asks. A removal the rewriter cannot justify becomes a question before the report closes. Never cut substance silently. The rule scopes to substance and leaves line-level wording free, so a tightened sentence or a reordered clause needs no accounting.
 
 A pattern lint catches known coinages, known calques, and named term classes; it cannot judge a novel
@@ -481,9 +481,10 @@ this?" is the walk not walked.
 steps 2 and 3 above before it is asked. That holds in a report's batched tail, on a decision page, or as
 a lone ask in chat. One gate more is asked first — *can I decide or verify this myself?* — before any
 question goes out. A question that fails that gate is really work, so the agent does it and asks nothing
-(base rule 1's second half). A question that survives it arrives with its recommendation attached (rule
-21's mined proposal). The live failure this closes: a session asked its human to decide a client-asset
-sync, phrased in jargon he could not parse. The agent could have done that sync itself (2026-07-09). Both
+(base rule 1's second half). A question that survives it arrives with its recommendation attached
+(rule 21's mined proposal). The live failure this closes: a session asked its human to decide a
+client-asset sync, phrased in jargon he could not parse. The agent could have done that sync itself
+(2026-07-09). Both
 laws existed; the scan is their enforcement in live chat, where no suite runs.
 
 ## Worked examples, forks, and anti-patterns
