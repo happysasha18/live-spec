@@ -21,9 +21,11 @@ a removed feature leaves a dated tombstone, and history moves to `JOURNAL.md`.
 ## The pipeline — a wish becomes shipped, tested work
 
 A wish is a request in plain words, thrown at any moment. It becomes one row in the queue,
-`ROADMAP.md`, the moment it is spoken (SPEC E-2). Intake names its door aloud — feature,
-bug, refactor, docs-only, skip — before any code; fixed tripwires decide, so a casual ask that
-creates a new surface still enters as a feature (SPEC T-12). A feature walks nine stations in order.
+`ROADMAP.md`, the moment it is spoken (SPEC E-2). Intake names its **door** aloud — the intake
+classification that places a wish at one entry point, decided before any code is written and
+independent of the wish's size: feature, bug, refactor, docs-only, skip. Fixed tripwires decide,
+so a casual ask that creates a new surface still enters as a feature (SPEC T-12). A feature walks
+nine stations in order.
 
 1. **Spec** — `spec-author` writes the delta: entities, states, transitions, invariants, regression
    fences on touched live surfaces, a sweep of the standard facets (the viewport bands, touch,
@@ -31,7 +33,8 @@ creates a new surface still enters as a feature (SPEC T-12). A feature walks nin
 2. **Prove** — `product-prover` reviews the grown spec; findings are recorded and folded.
 3. **Architecture** — `ARCHITECTURE.md` maps named nodes, each owning spec facts, pinned to real
    `file:line`. The document also owes a runtime view (each promised flow walked node by node, with
-   a fallback at every failure point, INV-74) and a placement view saying where every node runs (INV-75).
+   a fallback at every failure point, SPEC INV-74) and a placement view saying where every node
+   runs (SPEC INV-75).
 4. **Prove the architecture** — the prover again, with an architecture lens: every fact owned,
    every node backed by the spec, every seam named, both views present.
 5. **Test matrix** — `test-author` derives `TEST_MATRIX.md`, one block per node, one row per fact;
@@ -43,7 +46,7 @@ creates a new surface still enters as a feature (SPEC T-12). A feature walks nin
 8. **Verify by deed** — run the real thing and look at it; green means zero failures and exactly
    the expected skip list.
 9. **Commit and show** — docs travel with the change; the human sees the real render; accepted
-   work is pushed to the host's remote by rule, the README re-checked at every push (INV-82).
+   work is pushed to the host's remote by rule, the README re-checked at every push (SPEC INV-82).
 
 A bug shortcuts to matrix → test → code. A refactor changes no behaviour, so it enters at the verify
 station with the full suite and an audit of the touched matrix sections. A docs-only change re-reads the
@@ -52,7 +55,7 @@ covers a one-file edit that adds no state and no visible behaviour, and it still
 
 Four mechanical guardrails on the pre-push hook enforce the structure. A change without a test, an
 empty surface, a behaviour without a spec sentence, or a duplicated anchor turns the push red. The
-host wires that hook itself, in the second install step the README states. The normative walk lives
+host wires that hook itself, in the third install step the README states. The normative walk lives
 in `skills/build-pipeline/SKILL.md`.
 
 ## The prover is a formal-review step
@@ -104,11 +107,13 @@ it permanent is a promotion into a profile, on the human's word.
 ## What the spec learned recently
 
 The newest invariants each fix a field failure as a class. The architecture now owes the runtime
-and placement views above (INV-74, INV-75). A background worker outlives a memory wipe, so a
-resuming session proves it dead or alive before touching shared files (INV-76). The test layer
+and placement views above (SPEC INV-74, INV-75). A background worker outlives a memory wipe, so a
+resuming session proves it dead or alive before touching shared files (SPEC INV-76). The test layer
 gained a set of lessons: behaviour past a headless browser's reach gets a real-device walk row; a
 geometry fact asserts relative distances, at several viewport sizes, over repeated steps; an engine
-extracted from one project tests on its own generic fixtures; and the suite's own plumbing is itself
-tested, so a skip path or a wrapper's exit code can never fake a pass (INV-77–INV-80). Every
-question to the human first passes the gate "can I decide or verify this myself" (INV-81), and
-accepted work reaches the remote by rule, the pipeline's last station (INV-82).
+extracted from one project — the generic reusable half of an engine-and-instance pair — tests on
+engine-shaped fixtures carrying its own ids and content model, with the donor project's data kept
+as an extra suite and never the only one; and the suite's own plumbing is itself tested, so a skip
+path or a wrapper's exit code can never fake a pass (SPEC INV-77–INV-80). Every
+question to the human first passes the gate "can I decide or verify this myself" (SPEC INV-81), and
+accepted work reaches the remote by rule, the pipeline's last station (SPEC INV-82).

@@ -25,7 +25,7 @@ The one normative list of the documents a live-spec host carries; every other gu
 - `ROADMAP.md` — the queue; one wish, one row.
 - `JOURNAL.md` — dated history with the why.
 - `NEXT_STEPS.md` — the one resume file a cold session reads.
-- `SURFACE_REGISTRY.md` — or an equivalent executable gate test (E-10); doc form is the fallback.
+- `SURFACES.md` — or an equivalent executable gate test (E-10); doc form is the fallback.
 - `attic/` with its manifest — superseded host files rest here, never deleted (INV-7).
 - `.live-spec/` — the host's records: `profile.md` (host overrides), the installed-set record (M-7),
   `adopt/` (run artifacts and plans), `checkpoints/` (gitignored), and `agent.md` — the host's agent
@@ -163,17 +163,17 @@ Done when: every existing document has a digest entry.
 
 **Registry form (E-10):** when the host has a test harness, lift the surface inventory into an
 executable completeness gate (or recognise an existing one — a declared surface map inside a gate test
-satisfies E-10 outright); the `SURFACE_REGISTRY.md` document is the fallback for doc-only hosts.
+satisfies E-10 outright); the `SURFACES.md` document is the fallback for doc-only hosts.
 
 1. List every **user-facing output** (HTML, CLI output, API responses, rendered widgets, emails, consumed
    JSON).
 2. List every **surface** (a page, panel, form, chart) and pin it to its owning `file:line` — this seeds the
-   **surface registry** (`SURFACE_REGISTRY.md`, SPEC E-10), which is self-closing: a surface that renders but
+   **surface registry** (`SURFACES.md`, SPEC E-10), which is self-closing: a surface that renders but
    isn't registered is red.
 3. List every significant **data entity** (from filenames, JSON keys, class names, tables, config).
 
 Record in `.live-spec/adopt/inventory.md` (one line per item; A-8 home), then lift the surfaces into
-`SURFACE_REGISTRY.md`.
+`SURFACES.md`.
 
 Done when: the inventory exists and every surface in the registry has a real `file:line` (or is marked
 `⟨DECIDE⟩`).

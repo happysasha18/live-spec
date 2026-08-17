@@ -5,12 +5,16 @@ adopts it is called the **host**. The normative procedure is [adopt/ADOPT.md](..
 this page gives the shape of the run, what the host gains, and where the supporting files live.
 When this page and ADOPT.md differ, ADOPT.md wins. A project with nothing in it yet takes a
 different walk, the founding at [adopt/START.md](../adopt/START.md). Two spoken sentences reach the right one of the
-two: "attach live-spec to this project" and "found a new project on live-spec". The routing card the
-build-pipeline skill carries is what picks.
+two: "attach live-spec to this project" and "found a new project on live-spec". The
+[routing card](../skills/build-pipeline/references/project-setup.md) the build-pipeline skill
+carries is what picks.
 
 One boundary holds through the whole run: from a host session, the live-spec package repo is
 read-only. A defect found during adoption goes into live-spec's `inbox/` as one new file and into
-the host's own journal (SPEC INV-10).
+the host's own journal (SPEC INV-10). A live-spec session sweeps that folder later:
+`feedback-intake` routes each deposit to its one home — a queue row, a decision archive entry, or a
+feedback-ledger line — and the same commit that lands the route removes the swept file
+(SPEC INV-68, T-10).
 
 ## The procedure at a glance
 
@@ -39,8 +43,9 @@ ADOPT.md runs as ordered phases; each phase states its own done-condition. In pl
 8. **Attach record (Phase 6).** The run records the installed skill versions in `.live-spec/`,
    seeds the host profile, writes its journal entry, and the host joins the standard pipeline.
 
-The recommended first action after adoption is a full product-prover pass over the spec; ADOPT.md
-Phase 6 states the one condition that lets a host skip it.
+The recommended first action after adoption is a full product-prover pass over the spec. The one
+thing that lets a host skip it: a recent prover record covering the spec, from the same prover
+version installed now, with no drift since (ADOPT.md, Phase 6).
 
 ## What the host gains
 
@@ -54,7 +59,7 @@ each document does for the host.
 - **A journal** — `JOURNAL.md`, dated entries with the why, so history survives memory wipes.
 - **A resume file** — `NEXT_STEPS.md`, the one place a cold session reads to continue the work.
 - **A queue** — `ROADMAP.md`, where existing TODO items land as rows.
-- **A surface registry** — `SURFACE_REGISTRY.md` (or an equivalent gate test), so an unregistered
+- **A surface registry** — `SURFACES.md` (or an equivalent gate test), so an unregistered
   rendered surface goes red.
 - **Profiles** — the host profile at `.live-spec/profile.md` holds this project's overrides; the
   personal profile at `~/.claude/live-spec/profile.md` holds the human's standing preferences.
@@ -102,8 +107,10 @@ The test scaffold lands in `tests/` and defines the minimal green for the first 
 host instantiates for its own surfaces: completeness (every rendered surface is registered and
 non-empty), tests-present (a diff touching a user-facing module also touches `tests/`),
 behaviour-traces-to-spec (every user-facing behaviour names its spec clause), and conflicts
-(duplicate IDs, dead references, unmatrixed invariants). Runnable generic check code is a planned
-next movement; today each project wires its own instance. `install.sh` at the package root copies
+(duplicate IDs, dead references, unmatrixed invariants). One command vendors them:
+`bash <pack>/adopt/install-scaffold.sh` from the host root copies the four checks and their shared
+library into the host's `guardrails/`, and seeds `guardrails.config.json` where the host carries
+none — a filled config is never clobbered (SPEC INV-97). `install.sh` at the package root copies
 the pack's skills into `~/.claude/skills/`, backing up any existing skill with a timestamp.
 
 ## What stays optional

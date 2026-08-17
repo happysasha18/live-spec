@@ -56,15 +56,15 @@ bash /path/to/live-spec/adopt/install-scaffold.sh
 
 It copies the four checks into your project's `guardrails/` and seeds `guardrails.config.json`.
 
-That config then needs two things from you. Fill in your paths: the spec, the test matrix, the queue, the tests, and the surface registry. The queue is the dated list of what has been asked of the product and where each ask stands. This repository keeps its own in [`ROADMAP.md`](ROADMAP.md).
+That config then needs two things from you. Fill in your paths: the spec, the test matrix, the queue, the tests, and the surface registry — the table listing every surface the project ships, a surface being one named part a user meets: a screen, a page, a command, a public function. The queue is the dated list of what has been asked of the product and where each ask stands. This repository keeps its own in [`ROADMAP.md`](ROADMAP.md).
 
 Second, empty the config's `waivers` block. It ships holding one example waiver, and that example switches the completeness check off. Leave the example in place and you run on three checks instead of four, with nothing to tell you.
 
-Last, add the four check lines to `.git/hooks/pre-push`. They are listed in [`scaffold/guardrails/README.md`](scaffold/guardrails/README.md). Create that hook file if your project has none, and make it executable. The checks run on your next push.
+One more step, outside the config: add the four check lines to `.git/hooks/pre-push`. They are listed in [`scaffold/guardrails/README.md`](scaffold/guardrails/README.md). Create that hook file if your project has none, and make it executable. The checks run on your next push.
 
 The checks need Python 3.9 or newer, and a project that is already a git repository.
 
-After that everything runs in plain words: any wish, *"status"*, *"publish"*.
+After that everything runs in plain words: any wish, *"status"* — where the work stands now and what is next — *"publish"*.
 
 ---
 
@@ -87,7 +87,7 @@ Work enters the spec before code. A new behaviour arrives as a spec change, gets
 
 ## What's different
 
-**The gates are scripts.** Four checks decide whether a push in your project is allowed. A **surface** is one named part of what a project ships that a user meets: a screen, a page, a command, a public function. The registry is the table that lists them, `SURFACES.md` here. The first check reads that table both ways round: everything the registry lists is really shipped, and everything shipped is listed. The second: a change to a user-facing file carries a test. The third: every listed surface cites a spec code that exists. The fourth: no code is claimed twice and no surface is registered twice. The four are Python on the pre-push hook, mirrored in [CI](.github/workflows/gates.yml). A change that has drifted from its specification is refused. Some other frameworks enforce their specs by asking a model to check. A model having a bad day reports that it checked.
+**The gates are scripts.** Four checks decide whether a push in your project is allowed. The surface registry is the table listing the surfaces a project ships, `SURFACES.md` here. The first check reads that table both ways round: everything the registry lists is really shipped, and everything shipped is listed. The second: a change to a user-facing file carries a test. The third: every listed surface cites a spec code that exists. The fourth: no code is claimed twice and no surface is registered twice. The four are Python on the pre-push hook, mirrored in [CI](.github/workflows/gates.yml). A change that has drifted from its specification is refused. Some other frameworks enforce their specs by asking a model to check. A model having a bad day reports that it checked.
 
 **It can decline a gate it cannot build honestly, and records the reasoning.** One planned gate was refused. It would have gone red on a session that landed two independent pieces of work one after the other. Those two could have run side by side. The [record of that refusal](docs/prover/2026-07-18-rows386-412-414-lane-open-act.md) gives three reasons. Whether two pieces of work were independent is a senior's read, and a script sees only a diff. The evidence a correct run leaves is destroyed on purpose: a finished lane's branch is torn down when it lands. And the one signal a script could key on would fire on every lawful one-at-a-time run too. So the requirement shipped as a written discipline, held by the session and backed by no script. The rule behind that: a requirement no script can enforce stays a note, and a judgment call is never wired as an automated gate. The records are in [`docs/prover/`](docs/prover/), including the ones where the reviewer missed something and said so.
 
@@ -128,11 +128,9 @@ Many tools offer control by asking a long list of questions up front. That is mo
 
 ## What it missed
 
-Three projects run under this pack in production, the pack's own repository among them, and they keep catching the method out.
-
 One check hunts dead ends: a state a user can enter and cannot leave. It ran on the right screen and found nothing, because that screen did have exits. The trap was a door shown only on a first visit, with no way back to it afterwards. The check tested each state for an exit and never asked whether a page you leave can be reached again. That was the method's own fault, and it became a new rule ([`docs/lenses.md`](docs/lenses.md), INV-50).
 
-In another project a test asserted that near-silent audio tracks are hidden from a view. The spec required the opposite: those tracks stay visible, with their names. The test was green for a month while the product did the wrong thing.
+A test asserted that near-silent audio tracks are hidden from a view. The spec required the opposite: those tracks stay visible, with their names. The test was green for a month while the product did the wrong thing.
 
 And a scroll that satisfies its motion contract exactly can still feel cheap, which no rubric will catch honestly.
 
