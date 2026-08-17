@@ -8,9 +8,12 @@ without rewriting a word of it, so `ARCHITECTURE.md` had to follow the text with
 That renumber is what obliges this record: `M-6`/`INV-116` want the prover pass to cover the
 architecture, and the packet as it arrived carried none.
 
-Range: 9efe559..2139bad (base 9efe559, the remote head; four reviewed commits listed below; this
-record's own commit follows them and touches `docs/prover/` alone, which gate a exempts because a
+Range: 9efe559..ed7c3bf (base 9efe559, the remote head; seven reviewed commits listed below; this
+record's own commits follow them and touch `docs/prover/` alone, which gate a exempts because a
 record cannot name the commit that first ships it)
+- ed7c3bf The repo's chat-law hook is the copy this machine runs
+- 94ae4c3 The reviews' findings land: firing conditions and the reading key return to the bodies
+- 3905f7f The three slimmed skills carry their skill-creator reviews, each allowing with findings
 - 2139bad The census keeps the three untouched entries as the last landing recorded them
 - cb26b70 communicator: the rule histories move to references, word for word
 - 88c4622 build-pipeline: five reference sections move out of the body, word for word
