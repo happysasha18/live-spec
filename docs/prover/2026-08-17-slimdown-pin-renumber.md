@@ -51,8 +51,8 @@ bytes; the eight new files hold 22,090 bytes; the code route, base plus build-pi
 
 Blocking: two, argued in full below.
 - closed: 2139bad returns the three untouched census entries to the values 9efe559 recorded.
-- stands: the three changed skills carry no skill-creator review record, so gate s reds. That review
-  is a pass this record cannot perform for itself, and it is owed before the range can land.
+- closed: 3905f7f commits the three skill-creator reviews gate s demanded; all three allow the change
+  and all three carry findings, listed under that finding below.
 
 1. **The census recount rewrote three entries the packet never touched.** In 5295b06 the rebuild of
    `guardrails/rule-census.json` carried three files' byte counts along with it: `PRODUCT_SPEC.md`
@@ -70,10 +70,32 @@ Blocking: two, argued in full below.
    bodies this range edits are named: `build-pipeline` last changed in 88c4622, `communicator` in
    cb26b70, `live-spec-base` in 5295b06, and no record covers any of them. Moving text out of a body
    into its references is not the version-stamp bump the gate exempts by construction.
-   stands: the fix the gate names is to run the skill-creator review over each changed skill and
-   commit its verdict. That is a review pass, not an edit, and writing three verdicts I did not
-   obtain would be inventing the evidence this whole record exists to refuse. The range does not land
-   until those three records exist.
+   closed: 3905f7f commits three records written by three independent reviewer agents, one per skill,
+   each reading against the skill-creator discipline installed at `~/.claude/skills/skill-creator` and
+   each verifying the word-for-word claim itself rather than taking this record's word for it. All
+   three return ALLOW WITH FINDINGS; none refuses. Their findings are real and are listed here rather
+   than left in the records, because two of them are defects this range introduced:
+   - `references/lanes-and-pen.md` carries the drafter-applier link verbatim from the body, where
+     `references/drafter-applier-example.md` was the correct path. From inside `references/` it
+     resolves to `references/references/…`, which does not exist, and that broken link is now the
+     ONLY mention of the file anywhere in the skill. A reference file reachable in one hop before this
+     range is reachable in none after it. I confirmed this independently with grep and `ls`.
+   - The communicator move filed an imperative as history. "Do NOT rely on the harness's own task list
+     or spinner for this: a browser-seated session never shows them…" now exists only in
+     `references/rule-histories.md`; the body keeps the weaker "never the status's home" without the
+     fact that makes it obeyable. Confirmed by grep across the body and all five reference files.
+   - live-spec-base moved its own reading key. "The four names mean the one session" — the only
+     sentence in the repository telling a reader that seat, senior, orchestrator and lead are one
+     session — now sits in `references/glossary.md` behind a pointer that says to open it when a term
+     is being resolved. The body goes on using the other three names eleven times. Confirmed by grep
+     over the whole tree.
+   The three reviews also name work that is owed rather than broken: no conservation test guards the
+   build-pipeline or live-spec-base moves the way `tests/test_communicator_body_thinned.py` guards the
+   communicator's; the audit's high-stakes firing condition and the node fitness test's three
+   questions left the build-pipeline body while their names stayed; and the appended block in
+   `references/delegation-protocol.md` restates six invariants the file already carried. Gate s is
+   green over the three records. The findings above are the honest state of the range, not a reason
+   the gate should have stayed red.
 
 ## What the push gate said, run in full
 
@@ -86,7 +108,8 @@ Blocking: two, argued in full below.
   My own check had run `check-prover-record.sh` without `--push`, which never reaches that arm, so I
   certified a shape the real gate rejects. The field is now bullets directly under it, the shape the
   house already used.
-- **gate s** reddened on the three missing skill reviews — blocking finding 2 above.
+- **gate s** reddened on the three missing skill reviews — blocking finding 2 above, closed in 3905f7f
+  and re-run green.
 - **gate b** reddened on five tests. Four are machine-local and reproduce identically at the base
   9efe559 in a second worktree: `test_config_health` twice, `test_judge_listed` once — that one reds
   because six judges declared wired to Stop and UserPromptSubmit are absent from this machine's
@@ -96,7 +119,20 @@ Blocking: two, argued in full below.
 - **gate m** reddened on the same machine state from the other side: the installed copies of the
   three slimmed skills, plus a `chat-law-hook.sh` hook drift that predates this range entirely.
 
-The four machine-local reds have no documented road past them. The repository's own written remedies
+One of the four machine-local reds turns out to have a repo side, and that side stops at the
+specification's door. `test_judge_listed` reds because the owner unwired six judges on 2026-08-17 —
+the whole Stop surface and the register judge's report arm — while `guardrails/judge-hooks.json` still
+declares all eight as wired. Bringing the declaration to the fact is the honest repair, and it does not
+fit in one commit: `PRODUCT_SPEC.md` R230.4 [INV-203] requires a Stop arm to dispatch and a
+prompt-submit arm to report, R293 says a Stop-hook scan "now reads the turn", R294.4 has the setup walk
+install the code-anchor scan, and R232's title names two Stop-hook soft signals. Ten rules in
+`guardrails/language-rules.json` carry a `session-stop-hook` arming that would become false, two of
+them (r12, r14) falling to `stated-only` with no catcher left, which forces a rebuild of the four
+generated language pages. Editing a requirement is not this worker's to do, so the declaration stands
+as it is and this record names the gap rather than closing it quietly. ROADMAP row 543 already owns
+the question of what those scripts permanently become.
+
+The remaining machine-local reds have no documented road past them. The repository's own written remedies
 are repairs, not bypasses: `scripts/sync-skills.sh` and `scripts/install-session-hooks.sh` write into
 the owner's `~/.claude`, and the worker-restore counting start moves only on a recorded finding and
 only as far as that finding requires — which this one does not need, since it ages out of the gate's
