@@ -472,6 +472,113 @@ class TestTheGateModelsCdInsideTheCommand:
         assert res.returncode == 1, res.stdout
 
 
+class TestTheGateJudgesThisProjectsOwnSessions:
+    """Whose sessions the gate reds on (narrowed 2026-08-18).
+
+    The transcript root holds every session this machine ever ran, the owner's other projects among
+    them, and until 2026-08-18 a `git checkout --` run in a neighbouring project refused THIS
+    package's deliveries. Row 598 already ruled the other way in words — "the incident belongs to
+    tlvphotos — its own session owns recovery and any repair — and live-spec holds the record alone"
+    — so the gate now reds on the sessions whose recorded cwd belongs to this repository and carries
+    a neighbour's finding as a notice that reds nothing.
+
+    The narrowing is fail-safe: a session the gate cannot PLACE in another repository — a directory
+    gone by scan time, a directory that is no repository at all — still reds, because row 598's
+    catch and row 605's must both survive a change of scope.
+    """
+
+    COMMAND = "git checkout -- engine/assets/exhibition.js"
+
+    @staticmethod
+    def _foreign_repo(tmp_path, name="neighbour-project"):
+        """A directory that is a real git repository of its OWN, the way tlvphotos is."""
+        repo = tmp_path / name
+        repo.mkdir(parents=True)
+        subprocess.run(["git", "init", "-q", str(repo)], check=True, capture_output=True)
+        return repo
+
+    @staticmethod
+    def _typed_lines(res):
+        return [line for line in res.stdout.splitlines()
+                if line.startswith("{") and line.rstrip().endswith("}")]
+
+    def test_a_neighbouring_projects_session_reds_nothing(self, tmp_path):
+        """The whole narrowing, as one assertion: the same forbidden command, run by a session whose
+        directory is another repository, no longer refuses this package's push."""
+        foreign = self._foreign_repo(tmp_path)
+        root, _ = _transcript_root(tmp_path / "transcripts", [self.COMMAND],
+                                   project="-neighbour-project", session="s-foreign",
+                                   cwd=str(foreign), answers=["ran"])
+        res = _gate("--root", root)
+        assert res.returncode == 0, (
+            "another project's session still refuses this project's delivery:\n%s" % res.stdout)
+        assert not self._typed_lines(res), (
+            "a neighbour's finding still carries the blocking gate's typed line:\n%s" % res.stdout)
+
+    def test_the_neighbours_finding_is_carried_as_a_notice_and_not_lost(self, tmp_path):
+        """Narrowed, not blunted. The finding row 598 was written from — session, directory, command
+        and outcome — is still on the page, so this project can still notify the one that owns it."""
+        foreign = self._foreign_repo(tmp_path)
+        root, _ = _transcript_root(tmp_path / "transcripts", [self.COMMAND],
+                                   project="-neighbour-project", session="s-foreign",
+                                   cwd=str(foreign), answers=["ran"])
+        res = _gate("--root", root)
+        assert "ANOTHER PROJECT'S SESSIONS" in res.stdout, (
+            "the neighbour's finding was dropped instead of carried:\n%s" % res.stdout)
+        for named in ("s-foreign", str(foreign), "engine/assets/exhibition.js", "RAN"):
+            assert named in res.stdout, (
+                "the notice never names %r, so a reader cannot write the neighbour:\n%s"
+                % (named, res.stdout))
+
+    def test_this_projects_own_session_reds_exactly_as_before(self, tmp_path):
+        """The other direction. A session whose cwd is this repository's own tree reds, names its
+        path and carries the typed line, which is the behaviour row 605's finding was read from."""
+        root, _ = _transcript_root(tmp_path / "transcripts", [self.COMMAND],
+                                   project="-this-project", session="s-ours",
+                                   cwd=ROOT, answers=["ran"])
+        res = _gate("--root", root)
+        assert res.returncode == 1, (
+            "this project's own session stopped reding — the narrowing blunted the gate:\n%s"
+            % res.stdout)
+        assert "engine/assets/exhibition.js" in res.stdout
+        assert "outcome : RAN" in res.stdout
+        assert len(self._typed_lines(res)) == 1
+        assert "ANOTHER PROJECT'S SESSIONS" not in res.stdout
+
+    def test_a_session_directory_gone_by_scan_time_still_reds(self, tmp_path):
+        """Fail-safe. A worker's throwaway tree, or a lane worktree removed after the run, cannot be
+        placed in any repository — and an unplaceable session reads as this project's."""
+        gone = tmp_path / "removed-worktree"  # never created
+        root, _ = _transcript_root(tmp_path / "transcripts", [self.COMMAND],
+                                   project="-gone", session="s-gone", cwd=str(gone),
+                                   answers=["ran"])
+        res = _gate("--root", root)
+        assert res.returncode == 1, (
+            "a session the gate cannot place stopped reding, which loses findings:\n%s" % res.stdout)
+
+    def test_a_session_in_no_repository_at_all_still_reds(self, tmp_path):
+        """The same fail-safe from the other side: the directory is there and belongs to no
+        repository, so nothing places it elsewhere and it reds."""
+        plain = tmp_path / "not-a-repo"
+        plain.mkdir()
+        root, _ = _transcript_root(tmp_path / "transcripts", [self.COMMAND],
+                                   project="-plain", session="s-plain", cwd=str(plain),
+                                   answers=["ran"])
+        res = _gate("--root", root)
+        assert res.returncode == 1, res.stdout
+
+    def test_every_verdict_says_whose_sessions_it_judged(self, tmp_path):
+        """A scope a reader cannot see is a scope that drifts, so both verdicts state it."""
+        root, _ = _transcript_root(tmp_path / "clean", ["git status"])
+        green = _gate("--root", root)
+        assert green.returncode == 0, green.stdout
+        assert "this project's own sessions" in green.stdout
+        red_root, _ = _transcript_root(tmp_path / "red", [self.COMMAND], cwd=ROOT)
+        red = _gate("--root", red_root)
+        assert red.returncode == 1, red.stdout
+        assert "this project's own sessions" in red.stdout
+
+
 class TestGateStaysSilentOnOrdinaryWork:
 
     def test_a_reading_command_passes(self, tmp_path):

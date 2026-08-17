@@ -209,6 +209,13 @@ That list is stated in this section, in the gate's own header, and in `skills/li
 `templates/agent.template.md` and `scripts/open-lane.sh`, in one wording, and
 `tests/test_worker_restore.py` reds when two of them differ.
 
+The gate reds on this project's own sessions. The transcript root holds the owner's other projects too.
+A discarding command in one of their sessions is their defect, as row 598 says in words.
+The key is the session's recorded `cwd`: a session belongs to a neighbour when that directory exists
+and git reads it as another repository. A session the gate cannot place elsewhere still reds. A
+neighbour's finding is never dropped — it prints as a notice naming session, directory, command and
+outcome, and reds nothing.
+
 It opens the worker-run transcripts under the harness transcript root (`~/.claude/projects` by
 default, `--root` or `LIVE_SPEC_TRANSCRIPT_ROOT` to move it): the files matching
 `<project-dir>/<session-id>/subagents/agent-*.jsonl`, one per worker run. In each it reads the

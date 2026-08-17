@@ -41,6 +41,24 @@ record; the gate reads the records whose `type` is `assistant`, walks their `mes
 and takes the `input.command` string of every block whose `type` is `tool_use` and whose `name` is
 `Bash`. It reads `cwd`, `sessionId`, `agentId` and `timestamp` off the same record to name the run.
 
+WHOSE SESSIONS IT JUDGES. The transcript root holds every session this machine ever ran, the owner's
+other projects among them, and a discarding command run in another project's session is that
+project's defect and not this one's — row 598 says so in its own words: "the incident belongs to
+tlvphotos — its own session owns recovery and any repair — and live-spec holds the record alone".
+Until 2026-08-18 the gate red on all of them alike, so a neighbour's command refused this package's
+own deliveries. The gate now REDS on this project's own sessions and carries a neighbour's finding as
+a notice. The key is the session's own recorded directory, the `cwd` the harness writes on every
+record. A session is a NEIGHBOUR's when that directory exists on disk right now and git reads it as a
+different repository: `git rev-parse --git-common-dir` run beside it answers a shared git directory
+that is not this file's own. Every worktree of this repository answers this repository's one shared
+git directory, so a lane worktree is this project's session wherever on disk it sits. The reading is
+fail-safe in the two cases a reader would ask about: a session whose directory is gone by scan time
+(a throwaway tree, a removed worktree) and a session git cannot place are both read as THIS
+project's and still red, because a gate that fell silent on what it could not place would lose the
+catch it exists for. A neighbour's finding is never dropped — it prints under its own heading with
+session, directory, command and outcome, so the notice this package sent tlvphotos on 2026-08-12 is
+still a notice a reader can write from this output. It reds nothing.
+
 WHAT THE SHELL ANSWERED. Every `tool_use` block carries an `id`, and the shell's answer to that call
 sits in the same file: a later record holding a `tool_result` block whose `tool_use_id` repeats it. A
 call the harness REFUSED is marked on that answering record by a `toolDenialKind` key —
@@ -163,6 +181,7 @@ import json
 import os
 import re
 import shlex
+import subprocess
 import sys
 import time
 
@@ -682,6 +701,65 @@ def worker_runs(root):
     return sorted(glob.glob(os.path.join(root, RUN_GLOB)))
 
 
+def _git_common_dir(directory):
+    """The shared git directory of the repository `directory` sits in, as an absolute path.
+
+    None means the question has no answer here: the directory is gone by scan time, git could not be
+    asked, or the directory belongs to no repository. Every caller reads None as UNPLACEABLE and
+    keeps the finding, which is the fail-safe side.
+
+    A worktree answers the repository's ONE shared git directory rather than its own private one,
+    which is what makes this the key for "the same project": every lane worktree of this repository
+    answers the same value as the repository's main tree.
+    """
+    if not directory or not os.path.isdir(directory):
+        return None
+    try:
+        proc = subprocess.run(["git", "-C", directory, "rev-parse", "--git-common-dir"],
+                              capture_output=True, text=True, timeout=30)
+    except (OSError, subprocess.SubprocessError):
+        return None
+    if proc.returncode != 0:
+        return None
+    out = proc.stdout.strip()
+    if not out:
+        return None
+    if not os.path.isabs(out):
+        out = os.path.join(directory, out)
+    return os.path.realpath(out)
+
+
+_OWN_REPO = []
+
+
+def own_repo():
+    """This project's own shared git directory, read once beside this file."""
+    if not _OWN_REPO:
+        _OWN_REPO.append(_git_common_dir(SCRIPT_DIR))
+    return _OWN_REPO[0]
+
+
+def is_own_session(cwd, cache=None):
+    """True when a session recording `cwd` belongs to THIS project.
+
+    False only for a session the gate can PLACE in another repository: its directory is on disk and
+    git answers a shared git directory that is not this project's. Everything else — an unrecorded
+    cwd, a directory gone by scan time, a directory git cannot place, a gate whose own file sits in
+    no repository — reads True, so narrowing the scope never loses a finding the gate cannot rule
+    out.
+    """
+    own = own_repo()
+    if own is None or not cwd:
+        return True
+    if cache is not None and cwd in cache:
+        return cache[cwd]
+    other = _git_common_dir(cwd)
+    verdict = other is None or other == own
+    if cache is not None:
+        cache[cwd] = verdict
+    return verdict
+
+
 def _bash_commands(path):
     """Every Bash command a worker run handed to a shell, with the record that names the run and the
     `tool_use` id the shell's answer will repeat."""
@@ -767,9 +845,14 @@ def _answers(path, tool_use_ids):
 
 def scan(paths):
     """The findings across a set of worker-run transcripts, each naming command, path, run, and what
-    the shell did with the command."""
+    the shell did with the command.
+
+    Every finding carries `own`: True when the session that ran the command belongs to this project
+    and the finding reds, False when the session belongs to a neighbouring project on the same
+    machine and the finding is carried as a notice (`is_own_session`)."""
     findings = []
     commands_read = 0
+    session_cache = {}
     for path in paths:
         hits_here = []
         wanted = set()
@@ -797,6 +880,7 @@ def scan(paths):
                 "effective_dir": hit.get("effective_dir"),
                 "outcome": outcome,
                 "outcome_detail": detail,
+                "own": is_own_session(cwd, session_cache),
             })
     return findings, commands_read
 
@@ -912,6 +996,46 @@ def history_phrase(count, counting_from):
                "it" if count == 1 else "them"))
 
 
+def scope_phrase(neighbours):
+    """The sentence every verdict carries about whose sessions it judged."""
+    if not neighbours:
+        return ("The verdict covers this project's own sessions — the ones whose recorded directory "
+                "belongs to this repository, or that the gate cannot place elsewhere — and no "
+                "session of another project on this machine carried a discarding command in reach.")
+    return ("The verdict covers this project's own sessions — the ones whose recorded directory "
+            "belongs to this repository, or that the gate cannot place elsewhere; %d finding%s "
+            "below stand%s in another project's session and red%s nothing here."
+            % (len(neighbours), "" if len(neighbours) == 1 else "s",
+               "s" if len(neighbours) == 1 else "", "s" if len(neighbours) == 1 else ""))
+
+
+def print_neighbours(neighbours):
+    """The findings that belong to another project on this machine, printed as notices.
+
+    They red nothing, and none of them is dropped: each names its session, its directory, its
+    command and what the shell did with it, which is everything this project needed on 2026-08-12 to
+    write the tlvphotos session the notice that row 598 records.
+    """
+    if not neighbours:
+        return
+    print()
+    print("%s: ANOTHER PROJECT'S SESSIONS — %d discarding command%s below ran under a session this "
+          "project does not own, so %s this project's defect and red%s nothing here. Each notice "
+          "names its session and directory: the project that owns it owns the recovery, and this "
+          "one can send it a notice as it did on 2026-08-12 (ROADMAP rows 479 and 598)."
+          % (CHECK, len(neighbours), "" if len(neighbours) == 1 else "s",
+             "it is not" if len(neighbours) == 1 else "they are not",
+             "s" if len(neighbours) == 1 else ""))
+    for f in neighbours:
+        print("    NOTICE  : %s" % finding_line(f))
+        print("    run     : %s" % f["run"])
+        ran_in = f.get("effective_dir")
+        ran_in = ran_in if ran_in is not None else "UNKNOWN (a cd target the gate could not read statically)"
+        print("    session : %s   cwd: %s   ran in: %s   at: %s"
+              % (f["session"], f["cwd"], ran_in, f["at"]))
+        print("    outcome : %s" % outcome_phrase(f))
+
+
 def main(argv=None):
     parser = argparse.ArgumentParser(description="red when a worker run discarded working-tree changes")
     parser.add_argument("--root", default=os.environ.get("LIVE_SPEC_TRANSCRIPT_ROOT", DEFAULT_ROOT))
@@ -966,8 +1090,13 @@ def main(argv=None):
         window = "the worker runs touched in the last %g hours" % args.since_hours
 
     findings, commands_read = scan(runs)
+    # A neighbouring project's session reds nothing here; its findings print below as notices, so
+    # the catch survives the narrowing (ROADMAP row 598, and the docstring's WHOSE SESSIONS section).
+    neighbours = [f for f in findings if not f.get("own", True)]
     history, current = [], []
     for f in findings:
+        if not f.get("own", True):
+            continue
         (history if is_history(f, counting_from) else current).append(f)
 
     if current:
@@ -997,9 +1126,10 @@ def main(argv=None):
         print("Handing such a command to a shell breaks the rule whether the shell obeyed or refused,")
         print("so every outcome above is a finding; what the outcome tells a reader is how much")
         print("recovery it faces. Outcomes: %s." % outcome_tally(current))
-        print("Reach: %s under %s, %d command line%s read; %s."
+        print("Reach: %s under %s, %d command line%s read; %s. %s"
               % (window, root, commands_read, "" if commands_read == 1 else "s",
-                 history_phrase(len(history), counting_from)))
+                 history_phrase(len(history), counting_from), scope_phrase(neighbours)))
+        print_neighbours(neighbours)
         first = current[0]
         counts = outcome_counts(current)
         print(json.dumps({
@@ -1022,12 +1152,14 @@ def main(argv=None):
           "-f or -x. Report prose is outside the reach: only a command handed to a shell counts, and a "
           "command that reached one is a finding whether the shell ran it or the harness declined it — "
           "each finding says which, read from the tool_result that repeats the call's tool_use id. %s "
-          "(ROADMAP row 479)."
+          "%s (ROADMAP row 479)."
           % (CHECK, counting_from, window, root, RUN_GLOB, commands_read,
              "" if commands_read == 1 else "s",
-             _open_sentence(history_phrase(len(history), counting_from))))
+             _open_sentence(history_phrase(len(history), counting_from)),
+             scope_phrase(neighbours)))
     if history:
         print("Outcomes across the history: %s." % outcome_tally(history))
+    print_neighbours(neighbours)
     return 0
 
 
