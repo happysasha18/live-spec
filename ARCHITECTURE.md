@@ -213,12 +213,12 @@ adapter is the one place the pack updates when a lens moves in a prover release.
 - INV-286 is the showing walk's clearing arm, the same shape as INV-223. The law is this node's. Its check rides the suite and takes no gate letter. The record homes are declared as host config in the guardrails node's config file.
 
 **pins** —
-- `skills/communicator/SKILL.md:35` (the rules)
-- `skills/communicator/SKILL.md:291` (rule 10 — the decision page)
-- `skills/communicator/SKILL.md:343` (rule 11 — the evidence walk)
-- `skills/communicator/SKILL.md:227` (rule 9's outcome-leads line shape)
-- `skills/communicator/SKILL.md:431` (the pre-report walk)
-- `skills/communicator/SKILL.md:278` (rule 7's chat-arm clock sentence)
+- `skills/communicator/SKILL.md:38` (the rules)
+- `skills/communicator/SKILL.md:300` (rule 10 — the decision page)
+- `skills/communicator/SKILL.md:351` (rule 11 — the evidence walk)
+- `skills/communicator/SKILL.md:233` (rule 9's outcome-leads line shape)
+- `skills/communicator/SKILL.md:438` (the pre-report walk)
+- `skills/communicator/SKILL.md:287` (rule 7's chat-arm clock sentence)
 - `guardrails/attic/check-far-tier.py --window` (INV-223 — the far-tier report-shape check's fixture)
 - `scripts/sweep-rendered.py:1` (INV-286 — the clearing mechanism and the home rule's one home)
 - `guardrails/check-rendered-sweep.py:1` (INV-286 — the sweep check, report-only against the tree, rides the suite not the push chain)
@@ -511,7 +511,7 @@ adapter is the one place the pack updates when a lens moves in a prover release.
 
 **pins** —
 - wiring: `skills/live-spec-base/references/settings-ladder.md:60` (defaults table, `design-sync` row)
-- wiring: `skills/communicator/SKILL.md:177` (rule 5's channel line)
+- wiring: `skills/communicator/SKILL.md:182` (rule 5's channel line)
 - wiring: `skills/build-pipeline/SKILL.md:449` (the design-sync line in step 9)
 - machine: —
 

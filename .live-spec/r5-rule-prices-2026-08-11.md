@@ -34,22 +34,22 @@ This shape does not match every skill evenly. Three skills — `product-prover`,
 | 2 | build-pipeline | `skills/build-pipeline/SKILL.md:286-352` | 3. **Architecture — write or update `ARCHITECTURE.md` from the proven spec** (template: | 5,705 | 20 | 5,725 |
 | 3 | build-pipeline | `skills/build-pipeline/SKILL.md:471-500` | 9. **Commit & show.** Commit when green with no regression (unasked) — same or better is enough, ... | 4,028 | 14 | 4,042 |
 | 4 | spec-author | `skills/spec-author/references/the-spine.md:21-50` | 7. **Terms** — every domain term is defined in the glossary, once, under one name. A word of ordi... | 2,286 | 25 | 2,311 |
-| 5 | communicator | `skills/communicator/SKILL.md:459-479` | 6. **Account for every removal of substance (SPEC INV-109).** When the movement being reported re... | 2,292 | 7 | 2,299 |
+| 5 | communicator | `skills/communicator/SKILL.md:469-489` | 6. **Account for every removal of substance (SPEC INV-109).** When the movement being reported re... | 2,292 | 7 | 2,299 |
 | 6 | build-pipeline | `skills/build-pipeline/SKILL.md:263-285` | 2. **Prove — invoke `product-prover`.** The prover only catches a cross-section hole when both si... | 2,230 | 7 | 2,237 |
 | 7 | build-pipeline | `skills/build-pipeline/SKILL.md:243-262` | 1. **Spec — invoke `spec-author`.** Write or grow the project `PRODUCT_SPEC.md`: entities, states... | 1,625 | 49 | 1,674 |
 | 8 | build-pipeline | `skills/build-pipeline/SKILL.md:364-380` | 5. **Test spec — invoke `test-author` to DERIVE `TEST_MATRIX.md` from the proven spec through the... | 1,466 | 10 | 1,476 |
 | 9 | text-audit | `skills/text-audit/SKILL.md:173-193` | 5. **Read again, and close on two clean rounds.** After the fixes land, hand the text to a fresh ... | 1,473 | 0 | 1,473 |
 | 10 | build-pipeline | `skills/build-pipeline/SKILL.md:385-403` | 7. **Code — implement until green.** Delegate well-scoped, mechanical implementation to a junior ... | 1,452 | 2 | 1,454 |
 | 11 | text-audit | `skills/text-audit/SKILL.md:152-169` | 3. **The auditor merges the two lists.** The auditor is the session running this skill, and the m... | 1,179 | 0 | 1,179 |
-| 12 | communicator | `skills/communicator/SKILL.md:449-457` | 4. **Run the register lint — a hard BLOCK (SPEC INV-83).** Feed every human-facing | 1,039 | 9 | 1,048 |
+| 12 | communicator | `skills/communicator/SKILL.md:459-467` | 4. **Run the register lint — a hard BLOCK (SPEC INV-83).** Feed every human-facing | 1,039 | 9 | 1,048 |
 | 13 | spec-author | `skills/spec-author/SKILL.md:193-202` | 1. **Author / grow the relevant requirement** in `PRODUCT_SPEC.md`: find (or open) the requiremen... | 1,044 | 3 | 1,047 |
 | 14 | build-pipeline | `skills/build-pipeline/SKILL.md:353-363` | 4. **Prove the architecture — invoke `product-prover` with the architecture lens** whenever the doc | 1,003 | 27 | 1,030 |
 | 15 | test-author | `skills/test-author/SKILL.md:64-74` | 8. **Close by the mechanical gates, not a hand-walked list.** The coverage checklist the matrix once | 941 | 0 | 941 |
 | 16 | design-reviewer | `skills/design-reviewer/SKILL.md:204-215` | 3. **Every position behaves alike.** The same gesture on the same type in a different slot behave... | 859 | 7 | 866 |
 | 17 | design-reviewer | `skills/design-reviewer/SKILL.md:131-139` | 1. **Enumerate.** Build your own inventory of the elements. Use the prover's Phase 1 extraction h... | 751 | 9 | 760 |
-| 18 | communicator | `skills/communicator/SKILL.md:458-458` | 5. **Legibility floor (a BLOCK, SPEC INV-139).** For any STYLED artifact about to be shown — an H... | 748 | 4 | 752 |
+| 18 | communicator | `skills/communicator/SKILL.md:468-468` | 5. **Legibility floor (a BLOCK, SPEC INV-139).** For any STYLED artifact about to be shown — an H... | 748 | 4 | 752 |
 | 19 | test-author | `skills/test-author/SKILL.md:56-63` | 7. **A norm-pointered clause owes a norm-conformance row.** When a spec clause carries a | 711 | 2 | 713 |
-| 20 | communicator | `skills/communicator/SKILL.md:444-448` | 3. **Run the mechanical check** — feed the drafted prose to `python3 scripts/preshow-lint.py -` a... | 620 | 24 | 644 |
+| 20 | communicator | `skills/communicator/SKILL.md:454-458` | 3. **Run the mechanical check** — feed the drafted prose to `python3 scripts/preshow-lint.py -` a... | 620 | 24 | 644 |
 | 21 | text-audit | `skills/text-audit/SKILL.md:145-151` | 2. **Hand the text to two fresh cold readers.** Both sessions hold zero context on the text's his... | 549 | 0 | 549 |
 | 22 | design-reviewer | `skills/design-reviewer/SKILL.md:148-154` | 4. **Check parity.** For each candidate group, list the declared interactions of each member from... | 537 | 0 | 537 |
 | 23 | design-reviewer | `skills/design-reviewer/SKILL.md:155-162` | 5. **Fire the tight ask.** A divergence becomes a finding only when the signal is strong. Every | 517 | 0 | 517 |
@@ -60,8 +60,8 @@ This shape does not match every skill evenly. Three skills — `product-prover`,
 | 28 | spec-author | `skills/spec-author/references/the-spine.md:16-19` | 5. **Invariants** — the properties that must hold across *every* reachable state, stated as crite... | 373 | 0 | 373 |
 | 29 | text-audit | `skills/text-audit/SKILL.md:141-144` | 1. **Run the mechanical lints, and fix every hit.** Run every check that a script or a grep can d... | 361 | 0 | 361 |
 | 30 | build-pipeline | `skills/build-pipeline/SKILL.md:381-384` | 6. **Test — with `test-author`, write tests that assert the REAL shipped artifact.** Render the w... | 355 | 0 | 355 |
-| 31 | communicator | `skills/communicator/SKILL.md:440-443` | 2. **Pass the draft phrase by phrase through one question:** *does this sentence stand for a read... | 344 | 0 | 344 |
-| 32 | communicator | `skills/communicator/SKILL.md:437-439` | 1. **Re-read the rules above, and the full writing register** — open this file and read the live ... | 340 | 0 | 340 |
+| 31 | communicator | `skills/communicator/SKILL.md:450-453` | 2. **Pass the draft phrase by phrase through one question:** *does this sentence stand for a read... | 344 | 0 | 344 |
+| 32 | communicator | `skills/communicator/SKILL.md:447-449` | 1. **Re-read the rules above, and the full writing register** — open this file and read the live ... | 340 | 0 | 340 |
 | 33 | spec-author | `skills/spec-author/SKILL.md:210-214` | 5. **Then walk the two layers to the tests** — the architecture doc (nodes owning the spec's facts, | 337 | 0 | 337 |
 | 34 | design-reviewer | `skills/design-reviewer/SKILL.md:140-144` | 2. **Describe by role.** For each element, write its role sentence: "a photo a viewer opens large to | 326 | 1 | 327 |
 | 35 | spec-author | `skills/spec-author/SKILL.md:207-209` | 4. **Hand off to `product-prover` on the whole spec — the delta included.** The prover catches a | 304 | 0 | 304 |
@@ -136,7 +136,7 @@ Price: 2,286 body bytes plus 25 pinned tests = 2,311.
 
 ### 5. communicator — The pre-report walk — run before any movement-end or milestone report, and before any surface is shown (SPEC INV-34, INV-83), item 6
 
-Home: `skills/communicator/SKILL.md:459-479`.
+Home: `skills/communicator/SKILL.md:469-489`.
 
 Opening line, quoted in full: "6. **Account for every removal of substance (SPEC INV-109).** When the movement being reported rewrote or restyled existing text, the removal accounting runs before the report closes. A rewrite or restyle that removes substance — a section, an argument, a rationale, a worked example — lists every removal in the delivery report, one line of judgment each: the fact was kept and where, the owner killed it by name, or the rewriter proposes dropping and asks. A removal the rewriter cannot justify becomes a question before the report closes. Never cut substance silently. The rule scopes to substance and leaves line-level wording free, so a tightened sentence or a reordered clause needs no accounting."
 
@@ -220,7 +220,7 @@ Price: 1,179 body bytes plus 0 pinned tests = 1,179.
 
 ### 12. communicator — The pre-report walk — run before any movement-end or milestone report, and before any surface is shown (SPEC INV-34, INV-83), item 4
 
-Home: `skills/communicator/SKILL.md:449-457`.
+Home: `skills/communicator/SKILL.md:459-467`.
 
 Opening line, quoted in full: "4. **Run the register lint — a hard BLOCK (SPEC INV-83).** Feed every human-facing"
 
@@ -292,7 +292,7 @@ Price: 751 body bytes plus 9 pinned tests = 760.
 
 ### 18. communicator — The pre-report walk — run before any movement-end or milestone report, and before any surface is shown (SPEC INV-34, INV-83), item 5
 
-Home: `skills/communicator/SKILL.md:458-458`.
+Home: `skills/communicator/SKILL.md:468-468`.
 
 Opening line, quoted in full: "5. **Legibility floor (a BLOCK, SPEC INV-139).** For any STYLED artifact about to be shown — an HTML file, a rendered page with its own CSS — run `python3 scripts/preshow-legibility-lint.py FILE`. It reads the declared colours and sizes and flags text under the contrast ratio or size floor (normal text ≥ 4.5:1, large ≥ 3:1, body/caption ≥ 12px). The script counts text as large at a font size of 24px or more, and at 18.66px or more when bold. A red result BLOCKS the showing until the text is lifted to the floor. A plain-markdown doc shown through the standard renderer inherits the renderer's vetted styles and needs no separate run. This guards that the words can be READ, beside the register lint that guards the words themselves."
 
@@ -316,7 +316,7 @@ Price: 711 body bytes plus 2 pinned tests = 713.
 
 ### 20. communicator — The pre-report walk — run before any movement-end or milestone report, and before any surface is shown (SPEC INV-34, INV-83), item 3
 
-Home: `skills/communicator/SKILL.md:444-448`.
+Home: `skills/communicator/SKILL.md:454-458`.
 
 Opening line, quoted in full: "3. **Run the mechanical check** — feed the drafted prose to `python3 scripts/preshow-lint.py -` and clear"
 
@@ -448,7 +448,7 @@ Price: 355 body bytes plus 0 pinned tests = 355.
 
 ### 31. communicator — The pre-report walk — run before any movement-end or milestone report, and before any surface is shown (SPEC INV-34, INV-83), item 2
 
-Home: `skills/communicator/SKILL.md:440-443`.
+Home: `skills/communicator/SKILL.md:450-453`.
 
 Opening line, quoted in full: "2. **Pass the draft phrase by phrase through one question:** *does this sentence stand for a reader who"
 
@@ -460,7 +460,7 @@ Price: 344 body bytes plus 0 pinned tests = 344.
 
 ### 32. communicator — The pre-report walk — run before any movement-end or milestone report, and before any surface is shown (SPEC INV-34, INV-83), item 1
 
-Home: `skills/communicator/SKILL.md:437-439`.
+Home: `skills/communicator/SKILL.md:447-449`.
 
 Opening line, quoted in full: "1. **Re-read the rules above, and the full writing register** — open this file and read the live text each"
 
