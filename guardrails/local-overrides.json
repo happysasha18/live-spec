@@ -14,6 +14,13 @@
       "reason": "The reporting half of the same switched-off reading. It stands down with the arm it feeds.",
       "added": "2026-07-30",
       "review_by": "2026-09-01"
+    },
+    {
+      "hook": "chat-law-hook.sh",
+      "installed_sha256": "f8e28a6e925c5905149ff66d690fc7aa58c8a03f502c2377fbd383b0a9d5a249",
+      "reason": "The repository now carries the shrunk hook the owner asked for on 2026-08-17, so the two copies speak the same line and print the same reminder. They differ in one comment line of the header: the installed copy points a reader at the pre-shrink text through a backup file on this machine, which means nothing to anyone else, so the repository copy points at this repository's own history instead. The behaviour is identical; only that pointer differs.",
+      "added": "2026-08-17",
+      "review_by": "2026-10-01"
     }
   ]
 }

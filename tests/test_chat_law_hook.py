@@ -25,58 +25,81 @@ class TestChatLawHookScript(unittest.TestCase):
         self.assertTrue(os.path.isfile(SCRIPT), "missing script: %s" % SCRIPT)
         self.assertTrue(os.access(SCRIPT, os.X_OK), "%s is not executable" % SCRIPT)
 
-    def test_output_carries_both_laws(self):
+    # The hook shrank on 2026-08-17 by the owner's decision: it had been retelling all seven laws in
+    # full (~4.5 KB into every prompt) and now speaks one line that NAMES the seven and POINTS at the
+    # two files holding their wording. The four tests below follow that decision. Each still proves
+    # the same law reaches the window — by its name and its pointer now, rather than by its full text.
+    # A test that pins wording the hook no longer says would only pin the size back on.
+
+    POINTERS = ("~/.claude/live-spec/profile.md", "~/.claude/skills/live-spec-base/SKILL.md")
+
+    def _line(self):
         result = subprocess.run([SCRIPT], capture_output=True, text=True)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-        out = result.stdout
+        return result.stdout
+
+    def test_output_points_at_the_law_texts(self):
+        """The shrunk hook's whole contract: it stops carrying the texts, so it must carry the way to
+        them. Both homes are named, and the line says the laws are to be acted on."""
+        out = self._line()
+        for needle in self.POINTERS:
+            self.assertIn(needle, out, "the hook names no home for the law texts: %r" % needle)
+        self.assertIn("Session laws (live-spec)", out, "the line does not announce what it is")
+        self.assertIn("Act on them", out, "the line does not say the laws bind this turn")
+
+    def test_output_names_all_seven_laws(self):
+        """Names only, but all seven of them: a law dropped from the line is a law the window never
+        hears about, and the numbering is how the profile's fuller text is found."""
+        out = self._line()
+        for n in range(1, 8):
+            self.assertIn(" %d " % n, out, "law %d is not named in the reminder line" % n)
+
+    def test_output_carries_both_laws(self):
+        """Laws 2 and 3 — the language law (plain words talk, codes only trail) and the narration law
+        (the work is narrated as it goes). Named, with the profile holding the wording."""
+        out = self._line()
         for needle in (
-            "plain product words",          # the language law's positive side
-            "trail in parentheses",         # codes never lead
-            "wish",                          # narration identity: which wish
-            "pipeline step",                 # narration identity: which pipeline step
-                                             # (was "station" until 2026-07-28, when the register
-                                             # lint's coinage arm retired the phrase "pipeline
-                                             # station"; the duty is the same — every beat names
-                                             # the step of the pipeline the work stands at)
-            "digest",                        # step-end digest
-            "10 minutes",                    # the heartbeat threshold
+            "plain words",                   # the language law's positive side
+            "trail in parentheses",          # codes never lead
+            "narrate the work",              # the narration law, by name
+            "preshow-register-lint.py",      # the industry-words law's mechanical net, still named
+            self.POINTERS[0],                # where the full wording stands
         ):
             self.assertIn(needle, out, "law line missing: %r" % needle)
 
     def test_output_carries_the_no_scissors_law(self):
-        result = subprocess.run([SCRIPT], capture_output=True, text=True)
-        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-        out = result.stdout
+        """Law 4. The banned shape is named and shown, and the profile holds its full statement."""
+        out = self._line()
         for needle in (
-            "its own positive sentence",     # say what a thing IS
             "contrast frame",                # the banned shape, named
-            "banned in every text",          # the scope
-            "language.no-scissors",          # the law's home stays the profile
+            '"X, not Y"',                    # and shown, so the name is unmistakable
+            self.POINTERS[0],                # the law's home stays the profile
         ):
             self.assertIn(needle, out, "no-scissors line missing: %r" % needle)
 
     def test_output_carries_the_routing_law(self):
-        result = subprocess.run([SCRIPT], capture_output=True, text=True)
-        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-        out = result.stdout
+        """Law 5. The seat's duty and the three tiers stay in the line, because a window that mis-routes
+        spends the owner's money before any file can be read."""
+        out = self._line()
         for needle in (
-            "orchestrator seat",
-            "cheapest sufficient tier",
-            "locate their own anchors",
-            "SPEC INV-69",
+            "routing",
+            "workers execute",
+            "opus=judgment",
+            "sonnet=mechanical multi-step",
+            "haiku=single step",
+            self.POINTERS[0],
         ):
             self.assertIn(needle, out, "routing line missing: %r" % needle)
 
     def test_output_carries_the_deferral_law(self):
-        result = subprocess.run([SCRIPT], capture_output=True, text=True)
-        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-        out = result.stdout
+        """Law 6. The re-test the law asks for is named by its trigger word, and the profile holds the
+        rest (the AskUserQuestion case, the marker net, the spec home)."""
+        out = self._line()
         for needle in (
-            "re-test it by derivability",     # the ask-moment re-test
-            "AskUserQuestion",                # the question is a deferral too
-            "itself the finding",             # an unnamed marker/question is the finding
-            "check-deferral-marker.py",       # the mechanical net named
-            "SPEC INV-152",                   # the law's spec home
+            "deferral",                      # the subject
+            "derivability",                  # the re-test the law asks for
+            "before parking it",             # the moment it applies
+            self.POINTERS[0],
         ):
             self.assertIn(needle, out, "deferral line missing: %r" % needle)
 
