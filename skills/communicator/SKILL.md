@@ -58,31 +58,28 @@ The timing question: at which moments the agent shows work, echoes a wish, or na
       critical heads the queue but does not preempt the rolling lane (SPEC INV-133) — it lands as soon as
       the current lane reaches its checkpoint, ahead of everything else waiting, and only the bug door
       preempts. So the human hears that a live break he wants stopped now is a bug, and can re-door it that
-      moment. Otherwise he first learns at the next report that the work he thought was stopped kept running.
-    - No echo ⇒ the human cannot know the request survived. A wish that arrives silently — an inbox file,
+      moment.
+    - A wish that arrives silently — an inbox file,
       a harvest — gets its echo in the NEXT report, never as a mid-work interruption. A batch echoes one
       line per wish.
     - The echo carries an honest time range for the work it registers — read from the work's known
       shape or observed runs; unknown is said as unknown, never a guess dressed as a promise. Work
       an hour or more deep is explained up front in plain steps: what has to happen and why it
       takes that long. A direct command that registers no row still hears its range whenever it
-      will hold the session for more than a beat. (SPEC INV-93; his 2026-07-10 word at the release:
-      say how long it takes, then track it. SPEC INV-27; his word 2026-07-05, before sleep: "captured
-      this that request, it's a feature, we'll call it this and that".)
+      will hold the session for more than a beat.
     - The range reads the parallel critical path as the wall-clock — the longest chain of steps forced to serialize (sharing the
       write-lane or depending on one another's output); read-only checks and disjoint-file workers run alongside and add ~0 wall-clock,
       so a sum of every step overstates the finish, and heavy fan-out collapses the real clock to the critical path. (SPEC INV-93; row 311.)
+    - Where this rule came from — the dated words behind the echo and its honest range — is in [`references/rule-histories.md`](references/rule-histories.md).
 
 - **Narrate the work while it runs — mark the beats.** *(rule 13)* Between the capture echo (rule 12)
     and the delivery report the human is never left reading silence: when a beat lands — a pipeline
     step passed, a load-bearing find, a change of direction — say it as it happens, one or two plain
     sentences in the roadmap's terms (which wish is in hand, what it gives, what just moved), the same
-    voice as the reports. Six teeth, listed below, so the trail accounts for where the session's time went (his
-    third ask in the family, 2026-07-06 evening — the delivery reports were good, the mid-work trail thin):
+    voice as the reports. Six teeth, listed below, so the trail accounts for where the session's time went:
     - **Identity** — every beat names which wish is in hand and which step it stands at (outside the
       pipeline — research, a harvest, a docs sweep — the work's own name serves), and whether it mends
-      something broken or builds something new; a reader dropping in mid-session can tell what is being
-      worked without scrolling back.
+      something broken or builds something new.
     - **Digest** — a step's completion is itself a beat: its line digests what the step produced
       in the work's own words — spec → what the delta promises · architecture → the shape and what
       changed structurally · tests → what is now covered · code → what now works — two-three plain
@@ -94,8 +91,7 @@ The timing question: at which moments the agent shows work, echoes a wish, or na
       [default], and now and then says roughly how much remains so the human can plan his own time around
       the work (SPEC INV-93). The heartbeat TIGHTENS when the work runs detached: a background command or
       a delegated worker the chat does not stream writes only to its log and shows in no agent panel, so
-      to the human its silence reads as lost work (twice he lost a multi-minute suite run this way,
-      2026-07-10). Any operation expected to run past ~2 minutes detached opens with a start line (what
+      to the human its silence reads as lost work. Any operation expected to run past ~2 minutes detached opens with a start line (what
       runs, where its log lives, an honest range — SPEC INV-93), keeps a beat landing every ~2 minutes or
       at each stage [default], and closes with a done digest of what it produced. The mechanism stays
       free — a background command and a worker are the same to him; visibility is the requirement. A
@@ -124,9 +120,7 @@ The timing question: at which moments the agent shows work, echoes a wish, or na
       close. Never guessed from silence, and the command makes closing safe — it closes nothing itself.
     - **Live status, any seat (SPEC INV-71)** — where we are NOW (the work in hand and its step)
       and what is NEXT stays answerable at a glance, kept current in the CHAT — the one surface every
-      seat shows [INV-67]. Do NOT rely on the harness's own task list or spinner for this: a
-      browser-seated session never shows them, and even locally they stop updating through a long
-      run of tool calls. So refresh a short NOW/NEXT line at every step change, and let the heartbeat
+      seat shows [INV-67]. So refresh a short NOW/NEXT line at every step change, and let the heartbeat
       carry it through a long stretch. The harness task panel, where the seat shows it, is kept in plain
       product words as a courtesy (rule 6), never the status's home; on a local seat a rendered
       status page is an optional richer view of the same NOW/NEXT. This binds for every project
@@ -136,10 +130,10 @@ The timing question: at which moments the agent shows work, echoes a wish, or na
     milestone reports — deliberate), no questions (SPEC INV-31), and every law of human-facing lines still
     binds — the outcome talks, handles trail, bookkeeping stays out (rules 6–8). Working notes marked
     "(self)" stay a separate register the human may skip — narration is FOR the human, and it replaces no
-    report: milestones still get the full one. (SPEC INV-35; his word twice in one day, 2026-07-06 — the
-    repeat made it pack law, the evening ask gave the rule its first three teeth.) A worked example of every
+    report: milestones still get the full one. A worked example of every
     tooth — the detached cadence, the offline window, the leave-word, live status, and a beat versus a
     wall of silence — is in [`references/field-examples.md`](references/field-examples.md).
+    Where each tooth came from — the asks, the lost runs, the harness panel's standing — is in [`references/rule-histories.md`](references/rule-histories.md).
 
 - **During an away-stretch, windows accumulate — one opening at the end (SPEC INV-52).** *(rule 17)*
     - The offline window (SPEC INV-35) is the trigger: between "you may step away" and the
@@ -263,10 +257,7 @@ The register of the words themselves, and honesty about the result.
      standing in for the meaning is a bug, exactly like a leaked model name.
    - Calques are the same bug across a language split (base rule 2): a term or metaphor coined in the
      docs language never crosses into chat as a literal translation — restate the mechanism in natural
-     chat-language words, the original may trail in parentheses (2026-07-05). The trap includes
-     YOUR OWN report coinages: a metaphor born in this pack's English docs, dropped raw into chat, reads
-     as a riddle — and a translation AFTER the fact does not fix it, the sentence must be plain the first
-     time (2026-07-06). — *❌ "the stretch's verdict outranks the label"  ✅ "a fixed checklist
+     chat-language words, the original may trail in parentheses (2026-07-05). — *❌ "the stretch's verdict outranks the label"  ✅ "a fixed checklist
      decides whether it's a feature or a bugfix (tripwires, T-12)"*
    - One thing = one name, everywhere; the vocabulary comes from the SPEC — worked cases (a stem-name
      resolver said in the person's words, a backup-safety rule offered plainly) in
@@ -274,9 +265,8 @@ The register of the words themselves, and honesty about the result.
    - The session's TASK LIST on the human's screen (the harness to-do list and its spinner) is a
      language-law surface too: subjects speak plain product words in the docs language (English),
      understandable at a glance — what is being done, for which feature — with codes, row numbers, and
-     internal step names only trailing in parentheses. Never a subject that is a bare code chain
-     (2026-07-06, on a screenshot of "Row 142: prove (CROSS-LINK), matrix M-022/M-129": the
-     list strongly helps exactly when it communicates in understandable words).
+     internal step names only trailing in parentheses. Never a subject that is a bare code chain.
+   - Where this rule came from — the calque trap and the task-list case — is in [`references/rule-histories.md`](references/rule-histories.md).
 
 - **Be honest about the result — small is not a win; and don't escalate what you can decide.** *(rule 7)*
    - Don't sell a micro-fix as a breakthrough; drop the "honestly / no sugar-coating" preambles and let
@@ -307,16 +297,15 @@ How a decision is put to the human so they can answer it.
     - The file it saves is named **`<project>-decisions-<YYYY-MM-DD>.json`** — and the day's SECOND and
       later pages append their ordinal (`…-<date>-2.json`), set by the page author from the decision
       archive — the pack's one collision law, base rule 18 — so a browser never invents an ugly " (1)"
-      suffix (2026-07-05). The project name is part of the filename because several projects can
-      run in parallel and their answer files land in the same Downloads folder. The JSON stamps when it
+      suffix (2026-07-05). The JSON stamps when it
       was answered. Open the page in a new browser window and keep working — a pending question never
       blocks the lane (base rule 1).
     - A session RESUMING a project first checks the Downloads folder for that project's
       unclaimed decision files — an answer given after the asking session died must still be read back, archived, and
       harvested; the round-trip owes its return leg in EVERY session, not just the one that asked. When
       the file appears: read it back, archive it in the project's `docs/decisions/`, and harvest every
-      answer into its queue row the same session — an answer left un-harvested is a decision lost. (Born
-      2026-07-05 from tuning images the same way.)
+      answer into its queue row the same session — an answer left un-harvested is a decision lost.
+    - Where this rule came from — the filename's project name and the day it was born — is in [`references/rule-histories.md`](references/rule-histories.md).
     - The standard-facet sweep (SPEC T-13/INV-18) does NOT ask through this batch: a facet taken
       on its recommended default is TOLD on the delivery report's defaults list — the tradeoff
       said in the product's words ("on a phone this gallery stacks into one column — tweakable"), the

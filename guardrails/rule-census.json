@@ -834,14 +834,14 @@
       "total": 3
     },
     "skills/communicator/SKILL.md": {
-      "bytes": 45861,
+      "bytes": 44881,
       "file": "skills/communicator/SKILL.md",
-      "long": 85,
+      "long": 80,
       "longest": 97,
       "reason": "2026-08-13: commit f03b425 named product-prover-pack in this body's closing pack roster, and the lengthened roster sentence crossed the 25-word cap; the raise records that one sentence, 175 to 176.",
       "register": 0,
-      "style": 91,
-      "total": 176
+      "style": 87,
+      "total": 167
     },
     "skills/communicator/references/field-examples.md": {
       "bytes": 7785,
@@ -860,6 +860,15 @@
       "register": 0,
       "style": 0,
       "total": 11
+    },
+    "skills/communicator/references/rule-histories.md": {
+      "bytes": 2100,
+      "file": "skills/communicator/references/rule-histories.md",
+      "long": 4,
+      "longest": 43,
+      "register": 0,
+      "style": 5,
+      "total": 9
     },
     "skills/communicator/references/words.md": {
       "bytes": 6865,

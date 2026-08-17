@@ -214,11 +214,11 @@ adapter is the one place the pack updates when a lens moves in a prover release.
 
 **pins** —
 - `skills/communicator/SKILL.md:35` (the rules)
-- `skills/communicator/SKILL.md:299` (rule 10 — the decision page)
-- `skills/communicator/SKILL.md:352` (rule 11 — the evidence walk)
-- `skills/communicator/SKILL.md:231` (rule 9's outcome-leads line shape)
-- `skills/communicator/SKILL.md:440` (the pre-report walk)
-- `skills/communicator/SKILL.md:286` (rule 7's chat-arm clock sentence)
+- `skills/communicator/SKILL.md:289` (rule 10 — the decision page)
+- `skills/communicator/SKILL.md:341` (rule 11 — the evidence walk)
+- `skills/communicator/SKILL.md:225` (rule 9's outcome-leads line shape)
+- `skills/communicator/SKILL.md:429` (the pre-report walk)
+- `skills/communicator/SKILL.md:276` (rule 7's chat-arm clock sentence)
 - `guardrails/check-far-tier.py --window` (INV-223 — the far-tier report-shape check's fixture)
 - `scripts/sweep-rendered.py:1` (INV-286 — the clearing mechanism and the home rule's one home)
 - `guardrails/check-rendered-sweep.py:1` (INV-286 — the sweep check, report-only against the tree, rides the suite not the push chain)
@@ -511,7 +511,7 @@ adapter is the one place the pack updates when a lens moves in a prover release.
 
 **pins** —
 - wiring: `skills/live-spec-base/references/settings-ladder.md:60` (defaults table, `design-sync` row)
-- wiring: `skills/communicator/SKILL.md:181` (rule 5's channel line)
+- wiring: `skills/communicator/SKILL.md:175` (rule 5's channel line)
 - wiring: `skills/build-pipeline/SKILL.md:440` (the design-sync line in step 9)
 - machine: —
 
