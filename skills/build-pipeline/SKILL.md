@@ -191,7 +191,7 @@ the kind says what their standards look like in its medium.
 - **Bug:** enter at the matrix step with a red-on-bug test (`bug → matrix → test → code`). If the
   fixed fact also lives in SPEC prose, update the spec sentence in the same change.
 
-  **The door step adds one tripwire at the bug door.** The tripwire asks: does this edit touch a
+  **The door step adds one tripwire at the bug door**. The tripwire asks: does this edit touch a
   spec-backed literal or clause — a version string, a pinned count, a named vocabulary, a promised
   wording? A yes binds two rules into one duty: the docs-travel-with-the-change rule, and the
   red-first small-fix path. Under that duty the docs and the test land in the same session as the
@@ -218,7 +218,7 @@ the kind says what their standards look like in its medium.
   The four moves are the bug door's close condition. A point fix that leaves the siblings standing is
   a status, never a landing (SPEC INV-26).
 
-  **A RECURRING bug re-doors to feature.** A second bug in the same area within ~30 days is not
+  **A RECURRING bug re-doors to feature**. A second bug in the same area within ~30 days is not
   another patch: the area is missing an INVARIANT. So it escalates to the full pipeline from step 1 —
   spec the invariant, re-prove, then fix under it. The journal is how you notice: before taking any
   bug, grep JOURNAL.md for the area's name and check the dates.
@@ -263,7 +263,7 @@ The pipeline's skip covers the skip-boundary edit. That edit touches a single fi
 element, or visible behaviour, and lands on a fact an existing test level already covers. It still
 ships a test, just no pipeline. Two other kinds of work stand outside the pipeline rather than
 skipping it. Pure research and fact-gathering change no artifact, so nothing enters here. An ask that
-only wants to see or try something goes to the labelled prototype home (base rule 16), and comes back
+only wants to see or try something goes to the labelled prototype home (base rule 16). It comes back
 through this pipeline only at promotion.
 
 ## Setting a project up on the pack
@@ -356,13 +356,13 @@ INV-30, INV-136, INV-139), and the skill-review duty (SPEC INV-99).
    one name each. Every spec fact is owned by exactly one node. Named seams run between the nodes.
 
    The project's kind (`project.kind`, SPEC INV-36) PROPOSES the starting node structure. A fullstack
-   app splits frontend / backend / template / store, a CLI takes one node per command, and a skill
+   app splits frontend / backend / template / store. A CLI takes one node per command, and a skill
    pack takes one node per skill. The template's "Node structure by project.kind" table carries the
    per-kind scaffold. The spec's facts then decide the final nodes, and a speculative node is still
    unbacked structure the prover flags.
 
    In a live codebase every node pins to its owning `file:line`. **This step is where the spec is
-   reconciled with reality.** Each pin comes from a command you ran, never from the doc's own prose,
+   reconciled with reality**. Each pin comes from a command you ran, never from the doc's own prose,
    your memory, or a worker's summary. Those are leads to verify (base rule 13). Specs drift from
    code, so fix the spec to the shipped truth, always in that one direction.
 
@@ -467,11 +467,11 @@ INV-30, INV-136, INV-139), and the skill-review duty (SPEC INV-99).
    bar (step 8) reads the same pointer.
 
    **Taste-heavy deliverables build smallest-first (SPEC INV-62).** Taste rules a deliverable of
-   voice, copy, visual style, or spec prose. There, stop at the cheapest judgeable sample — one
-   paragraph, one card, two sections — and take the human's word on it before the full build spends
+   voice, copy, visual style, or spec prose. There, stop at the cheapest judgeable sample: one
+   paragraph, one card, two sections. Take the human's word on it before the full build spends
    anything. Five full packs once failed on a problem a one-paragraph sample would have caught.
 
-   **And a rejected artifact reopens its SOURCE (SPEC INV-63).** The fix starts at the spec clause /
+   **And a rejected artifact reopens its SOURCE (SPEC INV-63)**. The fix starts at the spec clause /
    card / brief that produced it: correct the source, then rebuild from it. Line-patching the rejected
    output against an unchanged source is the five-round trap, banned.
 
@@ -486,11 +486,11 @@ INV-30, INV-136, INV-139), and the skill-review duty (SPEC INV-99).
    in its profile.
 
    **A session that spawned a worker runs `python3 guardrails/check-worker-restore.py` here, and reads
-   its verdict before it accepts the worker's result (SPEC INV-298; the gate INV-299).** See
+   its verdict before it accepts the worker's result (SPEC INV-298; the gate INV-299)**. See
    [references/verify-step-detail.md](references/verify-step-detail.md) for what the gate reads, the
    window it reads, and what a red owes.
 
-   **Green means zero failures, and a skip-set exactly matching the expected pinned list.** An
+   **Green means zero failures, and a skip-set exactly matching the expected pinned list**. An
    unexpected skip — Chrome absent, a real-data fixture missing — is a failure outright. **If red at a
    pause or session end, never commit.** Write the failing test name + hypothesis as the top
    `NEXT_STEPS.md` item. That red test is the checkpoint.
@@ -501,12 +501,12 @@ INV-30, INV-136, INV-139), and the skill-review duty (SPEC INV-99).
    leaked state, an unseeded random, or a missing wait on a tool the test drives. Then remove it, so
    the test passes every run for the same reason. It is masked by nothing. Never a retry, never a
    rerun-until-green, never a raised timeout that hides the race, never "it passed this time" taken as
-   a pass. Only where the nondeterminism is not removable in owned code — the external tool itself
-   misbehaving at random — is it workshop noise on the problem ledger [SPEC INV-23], a separate home.
+   a pass. Sometimes the nondeterminism is not removable in owned code, the external tool itself misbehaving at
+   random. Only then is it workshop noise on the problem ledger [SPEC INV-23], a separate home.
    Green means deterministic.
 
    **The audit — a second pair of fresh eyes, REQUIRED where the stakes are high and only the
-   author has judged the work (SPEC INV-46).** Verify runs a fresh-context checker when the change is
+   author has judged the work (SPEC INV-46)**. Verify runs a fresh-context checker when the change is
    high-stakes and its only review is the author's own. High-stakes means one of two things. The delta
    is surface-sized, meaning a new surface or a multi-file behaviour change. Or the change edits the
    method itself — a rule whose meaning changed, a new or re-scoped invariant. A wording-only edit
@@ -519,10 +519,9 @@ INV-30, INV-136, INV-139), and the skill-review duty (SPEC INV-99).
    [references/verify-step-detail.md](references/verify-step-detail.md) for the rest of the protocol:
    how the checker is briefed, the ladder it walks, and where its findings go.
 
-   **The authoring seat never certifies its own work adversarially (SPEC INV-237).** The freshness
-   above is the whole rule, and the release pass may not waive it. A release's adversarial pass — the
-   full re-prove at the release gate — is authored by a fresh seat, never the seat that authored the
-   change. A newly added lens or rule is run against the very document that introduces it before
+   **The authoring seat never certifies its own work adversarially (SPEC INV-237)**. The freshness
+   above is the whole rule, and the release pass may not waive it. A release's adversarial pass is the full re-prove at the release
+   gate. It is authored by a fresh seat, never the seat that authored the change. A newly added lens or rule is run against the very document that introduces it before
    release (self-application), and the release record names the result. A release gate may require a
    dated clean-context review record naming a seat other than the release's. The mechanical floor
    checks that the record exists, is release-dated, and names a different seat; the rest is a
@@ -532,10 +531,10 @@ INV-30, INV-136, INV-139), and the skill-review duty (SPEC INV-99).
    the work never waits for perfect.
 
    Where the host has a remote, PUSH accepted work there by rule (SPEC INV-82). The push stands on two
-   things: every gate the diff reaches ran and passed, the verdict read from the suite log's own line,
-   plus the host's own push lines. The remote is discovered from the tree. Only a host with no remote
-   gets one contextual question at the first push moment — create one (GitHub, GitLab, whatever the
-   human names), or stay local, recorded in the host profile.
+   things. First, every gate the diff reaches ran and passed, the verdict read from the suite log's
+   own line. Second, the host's own push lines. The remote is discovered from the tree. Only a host with no remote
+   gets one contextual question at the first push moment. The question is: create one — GitHub,
+   GitLab, whatever the human names — or stay local, recorded in the host profile.
 
    Every push re-walks the README against the pushed truth, crisp and current, a stale claim fixed
    before the push. That is the shopfront law at every-push cadence. After the push the push step
@@ -555,7 +554,7 @@ INV-30, INV-136, INV-139), and the skill-review duty (SPEC INV-99).
    Docs travel with the change — README + CHANGELOG + the skill's own `SKILL.md`, same session. Diary
    the why in `JOURNAL.md`.
 
-   **The CHANGELOG speaks to the USER, the journal to the builder.** Each entry says what changed for
+   **The CHANGELOG speaks to the USER, the journal to the builder**. Each entry says what changed for
    the person using the product, with one concrete example from real output, in outcome terms only.
    Function names, internal ids, and row numbers live in the journal instead. And no doc pins a
    drifting version number in prose, since "current version: vX.Y" always goes stale. Point at the
@@ -579,34 +578,37 @@ INV-30, INV-136, INV-139), and the skill-review duty (SPEC INV-99).
 
    Show the human the real render in a new window; push or deposit only after they've reviewed it. A
    push re-renders all deposited artifacts. A push shipping a new version walks the publish skill's
-   shopfront check — README claims + kind-owed visuals fresh, the outcome line riding the delivery
-   report (SPEC INV-44). Where the host's design-sync is ON (base defaults; SPEC E-18), the landing's
+   shopfront check. That check reads README claims + kind-owed visuals fresh, the outcome line riding
+   the delivery report (SPEC INV-44). Where the host's design-sync is ON (base defaults; SPEC E-18), the landing's
    declared components also sync to the team's design project. That sync happens after the human's
    gate, and it never replaces the in-session show.
 
 ## Guardrails — the pipeline's mechanical enforcement (every project inherits them)
-The nine steps are guidance, and an agent drifts from guidance — that is the failure that stops a project
-converging (a whole panel ships empty; a behaviour nobody asked for gets buried; a change lands with no test).
-So the pipeline is not trusted, it is ENFORCED: a `guardrails` check the project wires to a **git pre-push
-hook** (+ the suite), so a change that fails ANY of these is RED and CANNOT be pushed. `guardrails/` is a
-directory of check scripts, and the pack ships one runner, `guardrails/pre-push`, that a project installs
-as its own `.git/hooks/pre-push`. `tests/test_traceability.py`
-(below) is the first of these — generalise it to the full set. **Each project INSTANTIATES the checks for its
-own surfaces; the pipeline REQUIRES the check exists and is green.** This is a first-class step, applied across the whole project as a standing part of the method;
-a per-project patch does not satisfy it. See
+The nine steps are guidance, and an agent drifts from guidance. That drift is the failure that stops a
+project converging. A whole panel ships empty, a behaviour nobody asked for gets buried, a change
+lands with no test. So the pipeline is enforced by a machine. The project wires a `guardrails` check
+to a **git pre-push hook**, beside the suite. A change that fails any of these reds, and cannot be
+pushed. `guardrails/` is a directory of check scripts, and the pack ships one runner,
+`guardrails/pre-push`, that a project installs as its own `.git/hooks/pre-push`.
+`tests/test_traceability.py` (below) is the first of these — generalise it to the full set.
+
+**Each project instantiates the checks for its own surfaces, and the pipeline requires that the check
+exists and is green**. This is a first-class step, applied across the whole project as a standing part
+of the method. A per-project patch does not satisfy it. See
 [references/guardrails-catalog.md](references/guardrails-catalog.md) for the four mechanical guardrails
 (Completeness incl. cross-surface policy uniformity SPEC INV-125 · Tests-present · Behaviour-traces-to-spec ·
 Conflicts).
-**Honest boundary:** guardrails catch STRUCTURAL defects (empty surface, missing test, untraced behaviour,
-partial artifact, id/naming conflict). They do NOT catch a subtle SEMANTIC bug (is the number right?) — that
-still needs `product-prover` + a human's eyes. Enforce structure mechanically, and reason about meaning with
-the prover. Verify-by-deed (step 8) and commit/push (step 9) both run the guardrails first, so guidance and
-enforcement agree.
+
+**Honest boundary:** guardrails catch structural defects — an empty surface, a missing test, untraced
+behaviour, a partial artifact, an id/naming conflict. A subtle semantic bug (is the number right?)
+stands outside their reach, and still needs `product-prover` + a human's eyes. Enforce structure
+mechanically, and reason about meaning with the prover. Verify-by-deed (step 8) and commit/push (step
+9) both run the guardrails first, so guidance and enforcement agree.
 
 ## The excuses table — read it the moment one of these crosses your mind
 
 The shortcuts that break the method never announce themselves; they arrive as one of these thoughts.
-Each is a tripwire: thinking it means STOP and take the pipeline door you were about to skip. The six
+Each is a tripwire: thinking it means stop and take the pipeline door you were about to skip. The six
 thoughts stand here, so this page alone can fire the tripwire:
 
 - "it's a one-liner / just a prototype";
@@ -620,44 +622,50 @@ See [references/excuses-table.md](references/excuses-table.md) for the full tabl
 and why each is a trap (SPEC T-12, T-15, INV-4, INV-5, INV-15).
 
 ## Gates worth remembering
-- **Before a MINOR (0.x.0) bump:** the 3-pass preventive audit — product-prover on the whole spec + a matrix
-  audit + a surface-composition check, plus the full design review (SPEC INV-141) and the cross-cut counter
-  (SPEC INV-128, INV-37) and code compaction as a station beside doc compaction (SPEC INV-123). See
+- **Before a MINOR (0.x.0) bump:** the 3-pass preventive audit — product-prover on the whole spec + a
+  matrix audit + a surface-composition check. The gate also carries the full design review (SPEC
+  INV-141) and the cross-cut counter (SPEC INV-128, INV-37). It carries code compaction too, as a
+  station beside doc compaction (SPEC INV-123). See
   [references/minor-bump-gate.md](references/minor-bump-gate.md) for the full gate procedure.
 - **Compaction runs every pass, above the milestone gate (SPEC INV-164):** the doc- and code-compaction
-  stations run at every push, above the MINOR gate that once held them alone. Every push is held to the
-  reached-clean floor by the mechanical gates — the register lint at zero errors, the redundancy gate at
-  zero open pairs, and the debt cap that only ratchets down (`scripts/spec-debt-cap.json`) — asserted
-  against the live document by the suite, so no bloat accumulates between milestones. This is the
-  fix for the spec bloating when compaction ran milestone-only (2026-07-15).
+  stations run at every push, above the MINOR gate that once held them alone. Every push is held to
+  the reached-clean floor by the mechanical gates. Those gates are the register lint at zero errors,
+  the redundancy gate at zero open pairs, and the debt cap that only ratchets down
+  (`scripts/spec-debt-cap.json`). The suite asserts them against the live document, so no bloat
+  accumulates between milestones. This is the fix for the spec bloating when compaction ran
+  milestone-only (2026-07-15).
 - **Process bookkeeping scales to the delta (SPEC INV-61):** the pre-push re-check keeps its rigor and
-  scales its FORM — a small delta (skill/prose/infra kind, no new surface, no structure change) ships a
-  three-line SHORT-FORM record (previous records clean · the delta in one line · the verdict). A
-  surface-sized or structural delta keeps the full walk. Claims batch per declared lane, and the journal
-  chapter and the resume rewrite come once per landing batch. Never scaled: the law's own text, the
-  red-first test, the delta's prove, the gates.
+  scales its form. A small delta is a skill/prose/infra kind with no new surface and no structure
+  change. It ships a three-line SHORT-FORM record: previous records clean · the delta in one line ·
+  the verdict. A
+  surface-sized or structural delta keeps the full walk. Claims batch per declared lane, and the
+  journal chapter and the resume rewrite come once per landing batch. Four things never scale: the
+  law's own text, the red-first test, the delta's prove, and the gates.
 - **Order is law:** `spec → prove → architecture → prove architecture → matrix → test → code`;
-  `bug → matrix → test → code`. Never code first and back-fill a spec — and never jump from spec straight
-  to tests: the two layers between them (architecture, test-spec derivation) are where whole classes of
-  holes get caught (SPEC E-14/E-15/INV-15).
-- **A row closes only whole (SPEC INV-26):** where a row carries several legs, its Done-when enumerates
-  each, and the delivery report may close the row only with EVERY leg met —
-  half-done is a status, never a landing. An open leg keeps the row in-work, and the resume file's LIVE-STATE restates it at every
-  supersession, never compresses it away (still open at compaction ⇒ restated in full).
+  `bug → matrix → test → code`. Never code first and back-fill a spec. And never jump from spec
+  straight to tests. The two layers between them — architecture and test-spec derivation — are where
+  whole classes of holes get caught (SPEC E-14/E-15/INV-15).
+- **A row closes only whole (SPEC INV-26).** Where a row carries several legs, its Done-when
+  enumerates each. The delivery report may close the row only with every leg met —
+  half-done is a status, never a landing. An open leg keeps the row in-work. The resume file's
+  LIVE-STATE restates it at every supersession, and never compresses it away (still open at compaction
+  ⇒ restated in full).
 - **Trains, one pen (SPEC T-18, INV-39):** one session may roll up to the profile-declared lane cap of
-  INDEPENDENT build lanes without asking, the lanes picked by a dependency graph and each one opened as
-  an act performed; every shared-doc edit, the integration, and the closing of a row take the pen one
-  lane at a time. See [references/lanes-and-pen.md](references/lanes-and-pen.md) for the full lane law:
-  the cap and the independence test, the pen-stage rules, the lane graph and its deferred-trigger
-  re-scan, the open-lane act, and the drafter-applier form [T-18, INV-39, INV-49, INV-214].
-- **Junior delegation (decided from the request, BEFORE the first tool call, SPEC INV-69):** judgment work
-  (spec, prove, architecture, matrix-level calls, findings triage, any taste call) stays senior; mechanical
-  work (known edit strings, a known command, fan-out fact-gathering, a report or list or dump to produce)
-  routes to a worker at the cheapest tier that can pass the brief, proposed and logged, the senior free to
-  override aloud.
-  See [references/delegation-protocol.md](references/delegation-protocol.md) for the full protocol: the
-  routing rule, the brief's three birth laws, the worker contract, the cleanup-safety constraint, and the
-  delegation-reporting duty with its per-block root and plan-line accounting.
+  independent build lanes without asking. The lanes are picked by a dependency graph, and each one is
+  opened as an act performed. Every shared-doc edit, the integration, and the closing of a row take
+  the pen one lane at a time. See [references/lanes-and-pen.md](references/lanes-and-pen.md) for the
+  full lane law: the cap and the independence test, the pen-stage rules, and the lane graph with its
+  deferred-trigger re-scan. That page also carries the open-lane act and the drafter-applier form
+  [T-18, INV-39, INV-49, INV-214].
+- **Junior delegation (decided from the request, before the first tool call, SPEC INV-69):** judgment
+  work stays senior — spec, prove, architecture, matrix-level calls, findings triage, any taste call.
+  Mechanical work is known edit strings, a known command, fan-out fact-gathering, or a report or list
+  or dump to produce. It routes to a worker at the cheapest tier that can pass the brief. That routing
+  is proposed and logged, and the senior is free to override aloud.
+  See [references/delegation-protocol.md](references/delegation-protocol.md) for the full protocol:
+  the routing rule, the brief's three birth laws, and the worker contract. That page also carries the
+  cleanup-safety constraint, and the delegation-reporting duty with its per-block root and plan-line
+  accounting.
 - **A worker never restores a working tree with a git command (SPEC INV-298; the gate INV-299).** Every
   brief this skill composes carries this clause verbatim. Before a worker mutates a file it means to put
   back, it reads that file and holds its bytes. A worker puts a file back by WRITING ITS OWN SAVED BYTES.
@@ -675,9 +683,11 @@ and why each is a trap (SPEC T-12, T-15, INV-4, INV-5, INV-15).
   own half: a finished build stage is committed before the next worker touches its files.
   `guardrails/check-worker-restore.py` reads the worker runs' transcripts for the command and runs at the
   verify step.
-- **Traceability is a test, enforced automatically.** A standing `tests/test_traceability.py` fails the suite on a matrix row
-  citing a missing test, a duplicate invariant id, a spec invariant with no matrix row, or a ⟨DECIDE⟩ marked
-  RESOLVED that still carries the live marker — so drift is caught every commit, continuously, and never waits for the next MINOR.
+- **Traceability is a test, enforced automatically.** A standing `tests/test_traceability.py` fails the
+  suite on four things. One is a matrix row citing a missing test. Another is a duplicate invariant
+  id. A third is a spec invariant with no matrix row. The fourth is a ⟨DECIDE⟩ marked resolved that
+  still carries the live marker. So drift is caught every commit, continuously, and never waits for
+  the next MINOR.
 
 ## How it relates to the other skills
 - `spec-author` — writes/grows the spec (step 1). Public.

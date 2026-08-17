@@ -3,7 +3,7 @@
   "cap_rule": "r08",
   "files": {
     "ARCHITECTURE.md": {
-      "bytes": 107726,
+      "bytes": 107774,
       "file": "ARCHITECTURE.md",
       "long": 0,
       "longest": 25,
@@ -31,10 +31,10 @@
       "total": 0
     },
     "OVERVIEW.md": {
-      "bytes": 8237,
+      "bytes": 8578,
       "file": "OVERVIEW.md",
       "long": 8,
-      "longest": 67,
+      "longest": 98,
       "register": 0,
       "style": 0,
       "total": 8
@@ -59,16 +59,16 @@
       "total": 1862
     },
     "README.md": {
-      "bytes": 13979,
+      "bytes": 21896,
       "file": "README.md",
-      "long": 13,
+      "long": 4,
       "longest": 105,
       "register": 0,
       "style": 0,
-      "total": 13
+      "total": 4
     },
     "ROADMAP.md": {
-      "bytes": 300671,
+      "bytes": 291720,
       "file": "ROADMAP.md",
       "long": 8,
       "longest": 242,
@@ -95,7 +95,7 @@
       "total": 76
     },
     "adopt/ADOPT.md": {
-      "bytes": 22517,
+      "bytes": 22485,
       "file": "adopt/ADOPT.md",
       "long": 46,
       "longest": 93,
@@ -122,7 +122,7 @@
       "total": 3
     },
     "docs/PROGRESS.md": {
-      "bytes": 17735,
+      "bytes": 16271,
       "file": "docs/PROGRESS.md",
       "long": 0,
       "longest": 22,
@@ -131,13 +131,13 @@
       "total": 0
     },
     "docs/adoption.md": {
-      "bytes": 8015,
+      "bytes": 9299,
       "file": "docs/adoption.md",
-      "long": 6,
+      "long": 5,
       "longest": 51,
       "register": 0,
       "style": 0,
-      "total": 6
+      "total": 5
     },
     "docs/architecture-format.md": {
       "bytes": 8321,
@@ -212,7 +212,7 @@
       "total": 37
     },
     "docs/language-rule-coverage.md": {
-      "bytes": 90220,
+      "bytes": 90218,
       "file": "docs/language-rule-coverage.md",
       "long": 77,
       "longest": 64,
@@ -599,7 +599,7 @@
       "total": 0
     },
     "guardrails/README.md": {
-      "bytes": 22932,
+      "bytes": 24730,
       "file": "guardrails/README.md",
       "long": 29,
       "longest": 68,
@@ -698,14 +698,14 @@
       "total": 10
     },
     "skills/build-pipeline/SKILL.md": {
-      "bytes": 53492,
+      "bytes": 55388,
       "file": "skills/build-pipeline/SKILL.md",
-      "long": 101,
-      "longest": 198,
+      "long": 4,
+      "longest": 47,
       "reason": "2026-08-17: the skill-creator review of the slimming (docs/skill-review/2026-08-17-build-pipeline-slimdown.md) found two firing conditions had left the body with only their names behind - the audit's high-stakes definition and the node fitness test's three questions. Both return word for word, so this body rises 207 to 211 while references/verify-step-detail.md falls 15 to 13. A gate's trigger belongs where the step is walked.",
       "register": 0,
-      "style": 110,
-      "total": 211
+      "style": 33,
+      "total": 37
     },
     "skills/build-pipeline/references/architecture-step-detail.md": {
       "bytes": 2348,
@@ -845,7 +845,7 @@
       "total": 169
     },
     "skills/communicator/references/field-examples.md": {
-      "bytes": 7785,
+      "bytes": 7797,
       "file": "skills/communicator/references/field-examples.md",
       "long": 17,
       "longest": 51,
@@ -954,7 +954,7 @@
       "total": 1
     },
     "skills/live-spec-base/SKILL.md": {
-      "bytes": 52651,
+      "bytes": 52657,
       "file": "skills/live-spec-base/SKILL.md",
       "long": 55,
       "longest": 48,
@@ -1009,7 +1009,7 @@
       "total": 6
     },
     "skills/publish/SKILL.md": {
-      "bytes": 13547,
+      "bytes": 13553,
       "file": "skills/publish/SKILL.md",
       "long": 32,
       "longest": 85,
