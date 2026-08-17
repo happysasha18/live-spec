@@ -3,6 +3,11 @@
 
 BLOCKING when armed; a self-declared DORMANT no-op until then.
 
+PARKED 2026-08-18 in `guardrails/attic/`, with its arming switch `description-field.json` beside it. Its
+switch has stood at `armed: false` its whole life, so every run it has ever made printed "OK (dormant)"
+and no run could red. The back-describe landing that would have armed it never came; the row-445
+conversion removed the description column it was built to read. Returning the pair is one move.
+
 WHERE IT LIVES. This gate RIDES THE SUITE (gate b) and takes NO push-gate letter, the same placement
 check-far-tier.py and check-board.py's own suite test take: its enforcement is a suite test
 (tests/test_description_field.py) that runs it against the REAL tree and asserts the expected result,
@@ -24,7 +29,7 @@ DORMANT UNTIL ARMED (folded finding N5, INV-217). The existing code set carries 
 yet — the back-describe migration that gives every already-registered code its plain-description line
 is a future his-gated landing [INV-217]. Until that landing the description field stands empty for the
 whole tree, so an armed gate would red everything. The gate therefore ships DORMANT and reads its
-arming state from `guardrails/description-field.json`: with `armed: false` it prints an OK-dormant line
+arming state from `guardrails/attic/description-field.json`: with `armed: false` it prints an OK-dormant line
 and exits 0; the migration flips it to true in the same landing that back-describes the code set, and
 only then does the gate enforce. This is the sibling of the index-prose gate's vacuous-pass guard
 [INV-218]: a check that would red the whole tree before its subject exists is turned off by name, not
@@ -38,7 +43,7 @@ why it ships dormant.
 
 Usage:
   check-description-field.py
-    Reads guardrails/description-field.json (the arming switch) and PRODUCT_SPEC.md's Formal index.
+    Reads guardrails/attic/description-field.json (the arming switch) and PRODUCT_SPEC.md's Formal index.
     DESCRIPTION_FIELD_CONFIG overrides the config path; DESCRIPTION_FIELD_SPEC overrides the spec path
     (the suite points both at fixtures, so the real config is never flipped).
 Exit 0 when dormant, or when armed and every registered code carries a non-empty description; exit 1
@@ -50,12 +55,14 @@ import re
 import sys
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-REPO_ROOT = os.path.dirname(SCRIPT_DIR)
-sys.path.insert(0, SCRIPT_DIR)
+GUARDRAILS_DIR = os.path.dirname(SCRIPT_DIR)   # the script sits in guardrails/attic/ since 2026-08-18
+REPO_ROOT = os.path.dirname(GUARDRAILS_DIR)
+sys.path.insert(0, GUARDRAILS_DIR)
 from nonempty_input import require_nonempty, VacuousInputError  # noqa: E402
 
+# The arming switch travelled with the gate, so returning the pair is one move.
 CONFIG_PATH = os.environ.get("DESCRIPTION_FIELD_CONFIG",
-                             os.path.join(REPO_ROOT, "guardrails", "description-field.json"))
+                             os.path.join(SCRIPT_DIR, "description-field.json"))
 SPEC_PATH = os.environ.get("DESCRIPTION_FIELD_SPEC", os.path.join(REPO_ROOT, "PRODUCT_SPEC.md"))
 CHECK = "check-description-field"
 

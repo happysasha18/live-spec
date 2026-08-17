@@ -18,6 +18,11 @@ work is now buildable.
 WHERE IT LIVES. It rides the queue-take scan and the suite, NOT the push chain: it takes no gate letter,
 the way the far-tier report-shape check does [INV-222] — the trigger is a queue-cadence read, not a
 committed file a push gate would scan.
+
+PARKED 2026-08-18 in `guardrails/attic/`. It reds only on a session record carrying a socket field, and
+no harness has ever shipped a listener, so the condition it watches for has never once occurred. It is
+parked, not dropped: `guardrails/route_agent_transport.py` still loads it from here for the one home of
+the socket-field truth, and the day a listener ships it moves back with one `git mv`.
 """
 import json
 import os

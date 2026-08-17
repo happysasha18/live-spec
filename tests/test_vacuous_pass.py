@@ -8,7 +8,7 @@ from the prose entirely, and the scan compared zero against zero and reported cl
 The law (sibling of the unexpected-skip law INV-155): a check DECLARES the input set it
 expects to be non-empty, and an empty set REDS BY NAME rather than passing silently. This
 movement builds the shared shape (`guardrails/nonempty_input.py`) and applies it to the first
-named instance — the traceability index prose check `guardrails/check-index-prose.py`, which
+named instance — the traceability index prose check `guardrails/attic/check-index-prose.py`, which
 today has no home for the "a Formal-index code whose home prose never carries the anchor"
 defect: `test_spec_index_unique_anchors` checks uniqueness alone.
 
@@ -23,7 +23,7 @@ import unittest
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 GUARDRAILS = os.path.join(REPO, "guardrails")
-CHECK = os.path.join(GUARDRAILS, "check-index-prose.py")
+CHECK = os.path.join(GUARDRAILS, "attic", "check-index-prose.py")
 SHAPE = os.path.join(GUARDRAILS, "nonempty_input.py")
 
 
@@ -118,13 +118,13 @@ class TestSharedShape(unittest.TestCase):
 
 
 class TestIndexProseGate(unittest.TestCase):
-    """The retired index-prose gate — `guardrails/check-index-prose.py`: every Formal-index anchor
+    """The retired index-prose gate — `guardrails/attic/check-index-prose.py`: every Formal-index anchor
     is carried in the spec prose (its home), and the index-anchor input set is expected non-empty.
     check-index-generated.py took over gate x at the row-445 conversion (see below); this class
     exercises the retired script's still-shipped fixture red-proofs."""
 
     def test_gate_ships(self):
-        self.assertTrue(os.path.isfile(CHECK), "the gate is absent: guardrails/check-index-prose.py")
+        self.assertTrue(os.path.isfile(CHECK), "the gate is absent: guardrails/attic/check-index-prose.py")
 
     def test_gate_reds_on_empty_input(self):
         # The vacuous case: an index that parses to zero anchors reds BY NAME, in place of

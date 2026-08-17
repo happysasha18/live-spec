@@ -17,11 +17,11 @@ import subprocess
 
 from conftest import ROOT, read
 
-CHECK = os.path.join(ROOT, "guardrails", "check-listener-tripwire.py")
+CHECK = os.path.join(ROOT, "guardrails", "attic", "check-listener-tripwire.py")
 
 
 def _load():
-    assert os.path.isfile(CHECK), "guardrails/check-listener-tripwire.py missing"
+    assert os.path.isfile(CHECK), "guardrails/attic/check-listener-tripwire.py missing"
     spec = importlib.util.spec_from_file_location("check_listener_tripwire", CHECK)
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
@@ -31,7 +31,7 @@ def _load():
 # --- the mechanism ships ---
 
 def test_check_ships():
-    assert os.path.isfile(CHECK), "guardrails/check-listener-tripwire.py missing"
+    assert os.path.isfile(CHECK), "guardrails/attic/check-listener-tripwire.py missing"
 
 
 # --- the pure core: a non-empty socket field fires, an empty one does not ---

@@ -3,6 +3,11 @@
 from gate x at the row-445 conversion, superseded by check-index-generated.py; this script still
 ships for its fixture red-proofs.
 
+PARKED 2026-08-18 in `guardrails/attic/`. On the real tree it exits 1 and always will: PRODUCT_SPEC.md
+has carried no `## Formal index` section since the row-445 conversion, so the section this gate parses
+is gone. Its fixture red-proofs still run from here. Moving it back is one `git mv` plus the two path
+lines below.
+
 The first named instance of the vacuous-pass law (SPEC INV-218, ROADMAP 384). The Formal index
 promises code → home: every anchor in the index is defined somewhere in the spec's prose. Today
 `tests/test_traceability.py::test_spec_index_unique_anchors` checks uniqueness alone, so an index
@@ -27,8 +32,9 @@ import re
 import sys
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
-REPO_ROOT = os.path.dirname(SCRIPT_DIR)
-sys.path.insert(0, SCRIPT_DIR)
+GUARDRAILS_DIR = os.path.dirname(SCRIPT_DIR)   # the script sits in guardrails/attic/ since 2026-08-18
+REPO_ROOT = os.path.dirname(GUARDRAILS_DIR)
+sys.path.insert(0, GUARDRAILS_DIR)
 from nonempty_input import require_nonempty, VacuousInputError  # noqa: E402
 
 SPEC_PATH = os.environ.get("INDEX_PROSE_SPEC", os.path.join(REPO_ROOT, "PRODUCT_SPEC.md"))

@@ -50,3 +50,11 @@ base rule 10). Nothing here was deleted; a file that turns out to be needed is m
 - `hooks/chat-calques.json` -> `attic/chat-calques.json` * the loan-translation list the retired arm read, retired alongside it * 2026-08-17
 - `guardrails/hook-red-fixtures/midturn-chat-scan/` -> `attic/hook-red-fixtures-midturn-chat-scan/` * the red-proof fixture for the retired arm, retired alongside it * 2026-08-17
 - `guardrails/measured-number-fixtures/` -> `attic/measured-number-fixtures/` * the bare-number and measured-number pair the retired arm's measurement tests read; no test opens them once the arm is gone * 2026-08-17
+
+The checks parked on 2026-08-18 rest in `guardrails/attic/` instead of here. Each keeps its own
+fixtures and data beside it, so returning one is a single move. Their lines take the same form.
+
+- `guardrails/check-index-prose.py` -> `guardrails/attic/check-index-prose.py` * it was built to catch a Formal-index code the spec prose never carried; it cannot catch one any more, because PRODUCT_SPEC.md has held no `## Formal index` section since the row-445 conversion, so every run on the real tree exits 1 on the missing section rather than on a defect; its fixture red-proofs still run from the attic * 2026-08-18
+- `guardrails/check-description-field.py` -> `guardrails/attic/check-description-field.py` * it was built to red a registered code whose Formal-index description field stood empty; its arming switch has read `armed: false` for its whole life, so every run it has ever made printed "OK (dormant)" and no run could ever red, and the row-445 conversion took away the description column it would have read * 2026-08-18
+- `guardrails/description-field.json` -> `guardrails/attic/description-field.json` * the arming switch that gate reads, moved with it so the pair returns in one move * 2026-08-18
+- `guardrails/check-listener-tripwire.py` -> `guardrails/attic/check-listener-tripwire.py` * it was built to fire the day a session record showed a non-empty socket field, returning ROADMAP 405 to the runnable head; no harness has ever shipped a listener, so the condition it watches for has never once occurred; `guardrails/route_agent_transport.py` still reads it here for the one home of the socket-field truth * 2026-08-18

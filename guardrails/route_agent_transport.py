@@ -38,9 +38,10 @@ def _listener_module():
     """The listener tripwire's single source of the socket-field truth, loaded by path.
 
     Reusing it keeps ONE home for what counts as a shipped listener [INV-194], so the router and
-    the tripwire never drift on the machine-fact they both read.
+    the tripwire never drift on the machine-fact they both read. The tripwire moved to
+    `guardrails/attic/` on 2026-08-18; the router still reads it there, so the one home holds.
     """
-    path = os.path.join(_HERE, "check-listener-tripwire.py")
+    path = os.path.join(_HERE, "attic", "check-listener-tripwire.py")
     spec = importlib.util.spec_from_file_location("check_listener_tripwire", path)
     mod = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(mod)
