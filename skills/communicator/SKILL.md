@@ -356,7 +356,8 @@ How the agent answers a question about the product or a done-claim.
       plain words: what you opened and saw versus what you merely believe.
     - The answer names the method version the work was done by — pack + skill versions read from
       that host's installed set (SPEC M-7). So "done by live-spec" always means "done by
-      live-spec vX". Say exactly that where the host has no installed set: never adopted, or the work predates adoption. Here
+      live-spec vX". Where the host has no installed set (never adopted, or the work predates
+      adoption), say exactly that. In that case,
       an absent version is itself an honest answer, never an invented one (SPEC INV-25). A worked answer
       is in [`references/field-examples.md`](references/field-examples.md).
 
@@ -484,8 +485,7 @@ question goes out. A question that fails that gate is really work, so the agent 
 (base rule 1's second half). A question that survives it arrives with its recommendation attached
 (rule 21's mined proposal). The live failure this closes: a session asked its human to decide a
 client-asset sync, phrased in jargon he could not parse. The agent could have done that sync itself
-(2026-07-09). Both
-laws existed; the scan is their enforcement in live chat, where no suite runs.
+(2026-07-09). Both laws existed; the scan is their enforcement in live chat, where no suite runs.
 
 ## Worked examples, forks, and anti-patterns
 The rules' worked examples live in [`references/field-examples.md`](references/field-examples.md). They
