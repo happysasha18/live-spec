@@ -78,12 +78,25 @@ def test_d2_finding_kind_names_delta_scoped_exception():
 
 
 def test_d5_chat_law_hook_carries_reading_discipline():
-    # D5: the hook's routing echo now carries base rule 25 / INV-137
+    # D5: the session is told the reading discipline — base rule 25, SPEC INV-137.
+    #
+    # The hook used to prove this by retelling the rule in its own words; it carried the phrases
+    # "base rule 25 for the reading discipline (SPEC INV-137)" and "dispatched to a reader worker"
+    # (phrasing last moved 2026-07-28, read 16). On 2026-08-17 the owner had the hook shrunk: it no
+    # longer retells any law, it names the seven and points at the two files holding their wording.
+    #
+    # So the guarantee moves surface rather than dissolving. What has to hold now is REACHABILITY:
+    # the hook must name the home, and the home must actually carry the rule. Both halves are checked
+    # here, because either one alone would let the duty slip away silently — a hook pointing at a file
+    # that lost the rule, or a file keeping a rule nothing points at.
     hook = _read("hooks/chat-law-hook.sh")
-    # phrasing moved 2026-07-28 (read 16) from "base rule 25 (the reading discipline, SPEC INV-137)";
-    # the duty is unchanged — the routing echo still names base rule 25 and INV-137 as its home
-    assert "base rule 25 for the reading discipline (SPEC INV-137)" in hook
-    assert "dispatched to a reader worker" in hook
+    assert "live-spec-base/SKILL.md" in hook, (
+        "the hook names no home for the law texts, so the reading discipline is unreachable from a "
+        "session that only ever sees the hook's line"
+    )
+    home = _read("skills/live-spec-base/SKILL.md")
+    assert "25. **The orchestrator reads to decide; discovery reads go to workers (SPEC INV-137).**" in home
+    assert "dispatches it to a reader" in home
 
 
 def test_version_homes_agree():

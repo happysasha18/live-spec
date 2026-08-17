@@ -404,7 +404,7 @@
         "~/.claude/playbook/personal/profile.md:17",
         "~/.claude/skills/live-spec-base/SKILL.md:57",
         "~/.claude/skills/communicator/SKILL.md:264",
-        "hooks/chat-law-hook.sh:9",
+        "hooks/chat-law-hook.sh:8",
         "docs/language-defects.md:126",
         "scripts/preshow-register-lint.py:74",
         "scripts/preshow-register-lint.py:96",
@@ -859,7 +859,7 @@
       ],
       "sources": [
         "~/.claude/playbook/personal/profile.md:18",
-        "hooks/chat-law-hook.sh:10",
+        "hooks/chat-law-hook.sh:8",
         "hooks/scissors-scan.py:27",
         "~/.claude/hooks/scissors-personal.json:1",
         "docs/spec-style.md:52",
@@ -2621,7 +2621,7 @@
       ],
       "sources": [
         "~/.claude/playbook/personal/profile.md:21",
-        "hooks/chat-law-hook.sh:7",
+        "hooks/chat-law-hook.sh:8",
         "~/.claude/skills/text-audit/SKILL.md:235",
         "~/.claude/skills/communicator/SKILL.md:231"
       ],
@@ -2715,7 +2715,7 @@
       "sources": [
         "hooks/hedge-scan.py:7",
         "hooks/hedge-scan.py:48",
-        "hooks/chat-law-hook.sh:12",
+        "hooks/chat-law-hook.sh:8",
         "~/.claude/hooks/hedge-personal.json:1",
         "guardrails/pre-commit:25"
       ],
