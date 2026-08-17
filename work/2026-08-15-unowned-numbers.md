@@ -72,7 +72,6 @@ All verified present tonight at the homes named.
 
 - ARCHITECTURE.md node-count floor, ≥20 — `tests/test_architecture_format.py`
 - hedge-fixture floors, ≥8 / ≥2 — `tests/test_hedge_arm.py`
-- mid-turn scan budget, <0.1 s — `tests/test_midturn_chat_scan.py`
 - INV-286 anchor/index floors, ≥8 — `tests/test_rendered_sweep.py`
 - register-judge kept-quote floor, ≥40 chars — `tests/test_register_judge.py`
 - worker-command-check window, 24 h — `ROADMAP.md`

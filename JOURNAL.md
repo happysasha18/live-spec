@@ -2945,3 +2945,44 @@ rule-30-carrying host at the new chapter.
 A new suite row holds the law that let this slip: the current VERSION must own a migration chapter, or
 a changelog line saying the release owes nothing. The row went red against the tree as found and turned
 green with the chapter. Queue row 602 lands with this entry and rotates to the archive.
+
+## 2026-08-17 — the tool-boundary chat arm is retired: it could not prove whose work it stopped
+
+The PreToolUse scan sat on every tool call in the tree, with no matcher to narrow it. What it judged was
+always the seat's narration, since the shared turn reader skips a worker's own records. What it refused
+was whichever tool call happened to be in flight. Those are not the same call, and for 76 recorded
+refusals they were a worker's.
+
+Read from inside a worker, that refusal is an order from nowhere: rewrite a sentence you never wrote,
+then make your call again. On the night of 2026-08-16 a worker met one, declined it, and said so aloud.
+The seat wrote the incident up as an instruction planted from outside and promised to find the source in
+the morning. The source was this hook, and the tree already knew: a row in the problems journal had named
+it on 2026-08-13, with the repair spelled out and the status left at watched.
+
+The repair tried first was to stand the hook down unless the event proved the call belonged to the seat,
+reading the transcript's filename for the session's own name. An adversarial review refused it with the
+harness in hand: a worker's event carries the seat's transcript path and the seat's session id, so the
+guard read true and denied the worker exactly as before. Two independent counts said the same — all 31
+state files the hook has ever written are named for seat sessions and none for an agent, while 68 worker
+transcripts hold a delivered refusal — and a probe found a worker's process carrying the seat's session
+id and process id unchanged. Nothing in the event, and nothing in the environment, separates the two.
+
+So the arm is retired rather than repaired, and the law it broke is the pack's own: a check that cannot
+prove whose work it stops does not get to stop work. The script and its word list rest in the attic, the
+settings entry and the installer line are gone, and Requirement 295 carries the retirement.
+
+What this costs, stated rather than glossed: the measurement rule — a count handed to the person carries
+the method that produced it — now names no machine and rests with a person. The code-anchor rule keeps
+its Stop-side scan, which reads the same text when the turn ends. The calque rule keeps the pre-show lint
+over files. The correction that used to arrive inside the turn now arrives at its end.
+
+Two smaller lies fell with it. The chat-law hook's own comment had said the scan "stays off" since
+2026-07-30 while it was wired and firing, and a local override entry claimed the same; both are corrected,
+and that false comment is part of why the night was spent hunting an outside attacker. And the seat's own
+report that the refusal text appeared in no transcript rested on a grep that never ran: `timeout` is not
+installed on this machine, the command failed at once, and an empty output was read as an answer. The
+true counts, counted by record shape rather than by text search: a transcript record whose tool result opens with the scan's own refusal line, under a path carrying a worker's own directory: 108 refusals delivered in all, 76 of them into a worker's tool result across 68
+worker transcripts, and 32 into the seat's own across 19. Counting by text search instead inflates this,
+since a transcript of an agent READING about the refusal carries the same words — the reviews of this very
+change added several.
+

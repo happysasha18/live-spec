@@ -7,7 +7,13 @@
 # shortening had dropped, keeping each law to one line.
 # Full rule texts stay in ~/.claude/live-spec/profile.md and
 # ~/.claude/skills/live-spec-base/SKILL.md.
-# The automatic chat check (midturn-chat-scan.py) stays off, so no line here claims it runs.
+# The automatic chat check (midturn-chat-scan.py) was RETIRED on 2026-08-17 and this file no longer
+# has a sibling at the tool boundary: the entry is out of ~/.claude/settings.json, the script rests in
+# attic/, and PRODUCT_SPEC.md Requirement 295 carries the retirement. From 2026-07-30 until then this
+# line read "stays off" while the hook was in fact wired and firing, and that false line is part of why
+# a worker's denial by it was hunted for a night as an instruction planted from outside
+# (.live-spec/PROBLEMS.md, the MID-TURN CHAT CHECK row). No line below claims any scan runs: these
+# lines are the human's rules, and machinery is not a rule.
 # Repo home: hooks/chat-law-hook.sh; installed copy: ~/.claude/hooks/.
 echo 'Session rules (live-spec), short form. Seven laws follow. Act on them as they stand. Full texts: ~/.claude/live-spec/profile.md and ~/.claude/skills/live-spec-base/SKILL.md. Where two rules answer one case differently, name the clash to the human as a policy question.'
 echo '1. Answer first (live-spec): open every reply with the outcome; detail follows below it, and going longer than that waits for the human to ask. Home: the personal profile, key language.answer-first.'

@@ -11,7 +11,7 @@ under guardrails/hook-red-fixtures/, and asserts the hook's own stdout carries a
   * "json-block" — stdout parses as JSON with "decision": "block" (the shape every Stop-hook scan
     in this family emits: scissors-scan, hedge-scan, affirmation-scan, lean-orchestrator-scan).
   * "json-deny" — stdout parses as JSON carrying hookSpecificOutput.permissionDecision == "deny",
-    the documented PreToolUse verdict shape (midturn-chat-scan.py). $HOME is isolated per run, since
+    the documented PreToolUse verdict shape (no hook wires that event today). $HOME is isolated per run, since
     a PreToolUse scan that reports each offence once per session keeps state under $HOME.
   * "nonempty-contains" — stdout is non-empty and contains a named substring (register-judge-report.sh,
     a UserPromptSubmit hook that prints a plain reason line, not a decision object).

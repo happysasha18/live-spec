@@ -125,7 +125,9 @@ def find_matches(text):
     surrounding sixty characters on either side, which is what a reader needs to find the sentence
     again. The two are separated because a caller that remembers which offences it has already
     reported needs an identity that survives the turn growing around it; a context window shifts as
-    later text arrives, and the fragment does not. hooks/midturn-chat-scan.py is that caller.
+    later text arrives, and the fragment does not. The caller that needed it was the tool-boundary scan,
+    retired 2026-08-17 to attic/midturn-chat-scan.py; the split is kept because the identity it gives is
+    the right one for any future caller that reports once.
     """
     live = _strippable(text)
     matches = []

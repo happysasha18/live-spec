@@ -2,11 +2,12 @@
 the tree it describes (SPEC INV-281, S9 of docs/prover/2026-07-27-push-gate-fold.md).
 
 ARCHITECTURE.md's `hooks/turn_reader.py:1` pin names the hooks that import the shared full-turn
-reader — the contrast-frame scan, the hedge scan, the register judge, the code-anchor scan, the
-empty-validation scan, and the tool-boundary scan. That list moved from three to five to six inside
-one day, each time by a hand edit against a `grep` somebody remembered to run. This file is the net:
+reader — the contrast-frame scan, the hedge scan, the register judge, the code-anchor scan, and the
+empty-validation scan. That list moved from three to five to six inside one day, each time by a hand
+edit against a `grep` somebody remembered to run, and back to five when the tool-boundary scan was
+retired on 2026-08-17. This file is the net:
 it reads the actual importers of hooks/turn_reader.py under hooks/ and asserts the pin's own
-parenthetical names every one of them, by its own descriptive name, so a seventh importer arriving
+parenthetical names every one of them, by its own descriptive name, so a sixth importer arriving
 with no matching pin edit reds here instead of waiting for the next person who remembers to grep.
 """
 import os
@@ -27,7 +28,6 @@ IMPORTER_NAMES = {
     "register-judge.py": "register judge",
     "code-anchor-scan.py": "code-anchor scan",
     "affirmation-scan.py": "empty-validation scan",
-    "midturn-chat-scan.py": "tool-boundary scan",
 }
 
 IMPORT_RE = re.compile(r"^\s*(?:import\s+turn_reader\b|from\s+turn_reader\s+import\b)", re.MULTILINE)
@@ -110,4 +110,23 @@ def test_turn_reader_pin_names_every_actual_importer():
             ", ".join(IMPORTER_NAMES[name] for name in stale_in_pin),
             ", hooks/".join(stale_in_pin),
         )
+    )
+
+NUMBER_WORDS = {
+    2: "two", 3: "three", 4: "four", 5: "five", 6: "six", 7: "seven", 8: "eight", 9: "nine",
+}
+
+
+def test_turn_reader_pin_count_word_matches_the_tree():
+    """The pin opens with a count in words, and that word drifted from its own list on 2026-08-17: the
+    parenthetical was edited down to five scans while the opening still read `six checks`. The name list
+    passed, since it is the only thing the sibling test reads. This reads the number itself."""
+    actual = _actual_importers()
+    parenthetical = _turn_reader_pin_parenthetical()
+    expected = NUMBER_WORDS[len(actual)]
+    head = parenthetical.split(".", 1)[0]
+    assert "%s checks read through" % expected in head, (
+        "ARCHITECTURE.md's turn_reader pin opens with %r while %d hooks import it (%s) — "
+        "tests/test_architecture_pins.py"
+        % (head, len(actual), ", ".join(actual))
     )

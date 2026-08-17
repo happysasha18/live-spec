@@ -5,9 +5,6 @@
 #   - the hedge-scan Stop hook (the literal offering-hedge scan, SPEC INV-238);
 #   - the affirmation-scan Stop hook (validation and praise of the human);
 #   - the code-anchor Stop hook (a queue row number left standing where plain words belong);
-#   - the mid-turn chat scan (PreToolUse), which judges the seat's own narration at the first tool
-#     call after it is written, so a correction reaches the human inside the same turn; it reads the
-#     calque list shipped beside it as chat-calques.json;
 #   - the register judge (register_judge_core.py + register-judge.py + the async collect/report arms),
 #     the class-reading model judge that holds what a literal list cannot (SPEC INV-203). Its universal
 #     law ships in the mechanism; its personal laws ride ~/.claude/hooks/register-judge-personal.md.
@@ -32,7 +29,7 @@ SETTINGS="$HOME/.claude/settings.json"
 
 # The universal files this script ships: the scissors scan, the hedge scan, and the register-judge
 # mechanism + arms.
-JUDGE_FILES="scissors-scan.py hedge-scan.py affirmation-scan.py code-anchor-scan.py midturn-chat-scan.py chat-calques.json language-laws.json turn_reader.py register_judge_core.py register-judge.py register-judge-collect.sh register-judge-report.sh"
+JUDGE_FILES="scissors-scan.py hedge-scan.py affirmation-scan.py code-anchor-scan.py language-laws.json turn_reader.py register_judge_core.py register-judge.py register-judge-collect.sh register-judge-report.sh"
 
 if [ "$DRY_RUN" = "1" ]; then
   for f in $JUDGE_FILES; do
@@ -43,7 +40,6 @@ if [ "$DRY_RUN" = "1" ]; then
     fi
   done
   echo "DRY-RUN: would wire Stop hooks 'scissors-scan.py' + 'hedge-scan.py' + 'register-judge-collect.sh' into $SETTINGS (if absent)."
-  echo "DRY-RUN: would wire PreToolUse hook 'midturn-chat-scan.py' into $SETTINGS (if absent)."
   echo "DRY-RUN: would wire UserPromptSubmit hook 'register-judge-report.sh' into $SETTINGS (if absent)."
   echo "DRY-RUN: scissors-personal.json, hedge-personal.json, and register-judge-personal.md are never touched by this script."
   exit 0
@@ -81,7 +77,6 @@ wire("Stop", "hedge-scan.py", "python3 ~/.claude/hooks/hedge-scan.py")
 wire("Stop", "affirmation-scan.py", "python3 ~/.claude/hooks/affirmation-scan.py")
 wire("Stop", "code-anchor-scan.py", "python3 ~/.claude/hooks/code-anchor-scan.py")
 wire("Stop", "register-judge-collect.sh", "sh ~/.claude/hooks/register-judge-collect.sh")
-wire("PreToolUse", "midturn-chat-scan.py", "python3 ~/.claude/hooks/midturn-chat-scan.py")
 wire("UserPromptSubmit", "register-judge-report.sh", "sh ~/.claude/hooks/register-judge-report.sh")
 
 os.makedirs(os.path.dirname(p), exist_ok=True)

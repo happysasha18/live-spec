@@ -10,11 +10,10 @@
 #
 # The fix: this script now GENERATES its own two hooks' installation from guardrails/judge-hooks.json
 # (command form + data files, so the declaration stays the one home for what is wired — never a second
-# hand-kept list here), then CHAINS to scripts/install-pack-hooks.sh for the other eight. That script
+# hand-kept list here), then CHAINS to scripts/install-pack-hooks.sh for the other six. That script
 # already carries its own tests pinned to its literal source (tests/test_register_judge.py,
-# tests/test_hedge_arm.py, tests/test_affirmation_arm.py,
-# tests/test_midturn_chat_scan.py), so it is chained rather than rewritten — the ONE command below
-# still reaches all ten.
+# tests/test_hedge_arm.py, tests/test_affirmation_arm.py), so it is chained rather than rewritten — the ONE command below
+# still reaches all eight.
 #
 # Run BY THE HUMAN (`sh ~/live-spec/scripts/install-session-hooks.sh`) — the harness classifier blocks
 # an agent's own hand in its configuration, deliberately. Idempotent: re-running changes nothing and
@@ -42,7 +41,7 @@ decl_path, hooks_src, dest_dir, settings_path = sys.argv[1:5]
 with open(decl_path, encoding="utf-8") as f:
     decl = json.load(f)
 
-OWN = ["clock-hook", "chat-law-hook"]  # this script's own two; the other eight chain to install-pack-hooks.sh
+OWN = ["clock-hook", "chat-law-hook"]  # this script's own two; the other six chain to install-pack-hooks.sh
 
 
 def _same(a, b):
@@ -87,7 +86,7 @@ with open(settings_path, "w", encoding="utf-8") as f:
     json.dump(s, f, indent=2, ensure_ascii=False)
 PYEOF
 
-# The other eight already have their own installer — chained here rather than duplicated.
+# The other six already have their own installer — chained here rather than duplicated.
 sh "$ROOT/scripts/install-pack-hooks.sh"
 
 # Coverage summary + personal-overlay report, read back from settings.json + the declaration so

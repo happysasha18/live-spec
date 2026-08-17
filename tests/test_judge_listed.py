@@ -38,9 +38,10 @@ def wrapped(hook_file):
     return "python3 ~/.claude/hooks/hook-meter.py ~/.claude/hooks/%s" % hook_file
 
 
-# The mid-turn chat scan sits on a third surface, PreToolUse: it judges the seat's narration at the
-# first tool call after it is written, so a correction reaches the human inside the same turn.
-COMPLETE_PRE = ["midturn-chat-scan.py"]
+# The pack wires no hook to PreToolUse today: the mid-turn chat scan that did was retired on 2026-08-17
+# (PRODUCT_SPEC.md Requirement 295). This synthetic name keeps the third surface exercised, so the gate's
+# reading of a PreToolUse array stays proven against the day a hook rides it again.
+COMPLETE_PRE = ["a-pretooluse-hook.py"]
 
 
 def settings_with(stop_hooks, ups_hooks, pre_hooks=COMPLETE_PRE):

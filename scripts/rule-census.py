@@ -87,7 +87,7 @@ RECORD_FILES = ("JOURNAL.md", "DECISIONS.md", "FEEDBACK.md", "WAITING.md")
 # one, so the census leaves them unmeasured. The templates stay measured, because a person
 # starting a new project reads them and README.md sends them there (review dissent, 2026-08-05).
 MACHINE_DIRS = (
-    "guardrails/far-tier-fixtures", "guardrails/measured-number-fixtures",
+    "guardrails/far-tier-fixtures",
     "guardrails/release-note-fixtures",
 )
 

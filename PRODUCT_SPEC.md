@@ -5520,7 +5520,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 4. *when* the seat finishes a turn on the chat surface, a Stop arm *shall* dispatch every message shown since the last human turn, and a prompt-submit arm *shall* report the verdict at the person's next message. [INV-203]
 5. *when* a styled file is about to be shown, the same judge *shall* stand as the ceiling of the pre-show register gate pointed at that file. [INV-83, INV-203]
-6. The contrast-frame scan, the hedge scan, the code-anchor scan, the empty-validation scan, and the tool-boundary scan *shall* each read every message shown since the last human turn through the shared full-turn reader, the reach the register judge's Stop arm carries. [INV-281, INV-203]
+6. The contrast-frame scan, the hedge scan, the code-anchor scan, and the empty-validation scan *shall* each read every message shown since the last human turn through the shared full-turn reader, the reach the register judge's Stop arm carries. [INV-281, INV-203]
 
 **Case: the judge stands down on its own breakage**
 
@@ -7131,32 +7131,17 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 ---
 
-## Requirement 295: A chat law is judged while the turn still runs
+## Requirement 295: A chat law is judged while the turn still runs — retired
 
-**Context:** The chat laws are judged when the turn stops, and a narration line written between tool calls reaches the person long before that moment. The check meant for such a line then speaks into a turn already read, which is how bare row numbers and a loan-translated word reach the person under a scan that catches that exact sentence. The earliest boundary after a narration line is the moment before the next tool call, so the same laws are read there and the correction lands inside the turn that broke them.
+**Context:** The PreToolUse arm this requirement specified stood before every tool call in the tree. It judged the seat's narration alone, and it delivered its refusal into whichever tool call happened to be in flight — a background worker's included, where it arrived as an order from nowhere to rewrite a sentence that worker never wrote, and was hunted for a night as an instruction planted from outside. No field of the event the arm reads separates the seat's call from a worker's, so it could not prove whose work it stopped, and the law that a check unable to prove that stands down governs the arm itself. Its retirement is recorded in JOURNAL.md. The two laws it carried stand: the code-anchor law keeps the Stop-side scan that reads the same text at the turn's end (Requirement 293), and the measurement law now names no machine and rests with a person.
 
-**User Story:** As a person reading the seat's lines while it works, I want a broken chat law caught at the next tool call, so that the correction reaches me inside the same turn.
+**User Story:** As a person whose background workers were stopped 76 times by a refusal about lines they never wrote, I want the arm retired rather than left standing, so that no check in the pack refuses work it cannot prove is the work it is judging.
 
 ### Acceptance Criteria
 
-**Case: judged at the tool boundary**
+**Case: retired**
 
-1. *when* a message shown since the last human turn carries an internal code standing outside its anchor or a listed loan translation, the system *shall* deny the next tool call and name each fragment with the plain words it owes. [INV-285, INV-28]
-2. The system *shall* judge the code half through the code-anchor scan itself, so one law is read at both boundaries. [INV-285, INV-283]
-
-**Case: the loan-translation list**
-
-3. The system *shall* read the loan translations from a list holding a plain replacement for each, and *shall* name that replacement in what it reports. [INV-285, INV-28]
-4. *where* a listed word is ordinary language on its own, the list *shall* carry the surrounding sense that makes it a loan translation. [INV-285]
-5. The system *shall* pass a loan translation inside a fenced, backticked, or quoted span, which is a sentence about the word. [INV-285]
-
-**Case: a fragment is reported once**
-
-6. The system *shall* record what it reported for the session and *shall* stay silent on a fragment already reported. [INV-285]
-
-**Case: the check never stops the work**
-
-7. The system *shall* stand down on any failure of its own, leaving the session's tool calls running. [INV-285]
+1. The system *shall* carry no PreToolUse arm implementing this requirement; its former files stand retired at `attic/midturn-chat-scan.py` and `attic/chat-calques.json`, never re-armed without a fresh decision. [INV-285]
 
 ---
 
@@ -7909,7 +7894,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-25 | R17.6, R201.1, R201.2, R201.3, R201.4, R201.5 |
 | INV-26 | R14.1, R14.2, R14.3, R127.2, R127.3, R161.5, R287.5 |
 | INV-27 | R15.1, R15.2, R15.4, R15.5, R15.6, R22.8, R23.1, R80.5, R86.3, R152.4, R154.1, R159.5, R159.7, R187.8, R195.12, R196.7, R196.9, R196.16, R254.5, R309.1, R309.13, R309.35 |
-| INV-28 | R8.2, R17.1, R17.2, R17.3, R17.4, R17.5, R17.6, R17.7, R17.8, R22.8, R22.9, R29.3, R54.3, R159.4, R188.9, R191.3, R195.12, R212.5, R293.1, R293.2, R295.1, R295.3, R296.7, R309.30, R309.31, R309.38, R309.41, R309.52, R309.58, R309.69, R310.6 |
+| INV-28 | R8.2, R17.1, R17.2, R17.3, R17.4, R17.5, R17.6, R17.7, R17.8, R22.8, R22.9, R29.3, R54.3, R159.4, R188.9, R191.3, R195.12, R212.5, R293.1, R293.2, R296.7, R309.30, R309.31, R309.38, R309.41, R309.52, R309.58, R309.69, R310.6 |
 | INV-29 | R57.1, R57.2, R57.3, R57.4, R58.2, R63.2, R68.2 |
 | INV-30 | R51.3, R59.1, R59.2, R59.3, R61.5, R65.2, R104.2, R108.1, R173.4, R175.3, R175.4, R175.5, R176.2, R261.3, R261.5, R263.4, R265.13 |
 | INV-31 | R7.6, R32.4, R46.3, R53.2, R71.1, R71.2, R72.1, R157.1, R186.2, R191.3, R195.12, R220.2, R259.4, R261.2, R261.7, R263.4, R265.9, R265.13 |
@@ -8164,9 +8149,9 @@ The code-to-location table below is generated output, built from the body criter
 | INV-280 | R291.1, R291.2, R291.3 |
 | INV-281 | R230.6, R230.8 |
 | INV-282 | R292.1, R292.2, R292.3, R292.4, R292.5, R292.6, R292.7, R292.8 |
-| INV-283 | R293.1, R293.2, R293.3, R293.4, R293.5, R293.6, R293.7, R293.8, R295.2 |
+| INV-283 | R293.1, R293.2, R293.3, R293.4, R293.5, R293.6, R293.7, R293.8 |
 | INV-284 | R294.1, R294.2, R294.3, R294.4 |
-| INV-285 | R295.1, R295.2, R295.3, R295.4, R295.5, R295.6, R295.7 |
+| INV-285 | R295.1 |
 | INV-286 | R296.1, R296.2, R296.3, R296.4, R296.5, R296.6, R296.7, R296.8, R296.9, R296.10, R296.11, R296.12, R296.13 |
 | INV-287 | R297.1, R297.2, R297.3, R297.4, R297.5, R297.6, R297.7, R297.8, R297.9, R297.10, R297.12 |
 | INV-288 | R297.13, R297.14, R297.15, R297.16, R297.17, R297.18, R302.11 |

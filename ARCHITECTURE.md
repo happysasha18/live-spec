@@ -352,7 +352,7 @@ adapter is the one place the pack updates when a lens moves in a prover release.
 - INV-282 (the hook-side sibling of gate w's registry [INV-212], rides the suite not the push chain, no gate letter)
 - INV-283 (the machine the plain-language anchor law had none of; that law's own home stays communicator)
 - INV-284 (the empty-validation scan, shipped, covered, classified and metered on the same terms as the hedge gate [INV-238])
-- INV-285 (the tool-boundary arm of the chat laws, the one hook on the PreToolUse surface. Its loan-translation list ships as data. Its per-session report memory sits beside the register judge's verdict files, ROADMAP 495.)
+- INV-285 (the tool-boundary arm of the chat laws, retired. It stood before every tool call in the tree. Its refusal landed on whichever call was in flight, a background worker's included. No field of that event names whose call it is. The pack wires no hook to PreToolUse today, and the arm's files rest in `attic/`, ROADMAP 495.)
 - INV-287 (the criterion-readability arms over the spec's acceptance criteria. `guardrails/check-criterion-readability.py` reads through the family's shared parser `guardrails/specformat.py`. It rides the suite and takes no push-gate letter, the way the size ratchet does.)
 - INV-288 (the per-arm recorded counts in `guardrails/criterion-readability.json`, the readability sibling of the size ratchet's bound [INV-264, INV-265])
 - INV-289 (the setup-walk installer generates its coverage from guardrails/judge-hooks.json's file/command/matcher/data/personal_overlay fields and chains to scripts/install-pack-hooks.sh, closing row 495's setup-walk leg; ROADMAP 506)
@@ -414,9 +414,7 @@ adapter is the one place the pack updates when a lens moves in a prover release.
 - `guardrails/check-description-field.py:1` (the non-empty description-field gate, arms at the back-describe migration, INV-239) [target]
 - `guardrails/check-deposit-description.py:1` (the agent-channel deposit-time description lint, homed beside check-earned-message.py, INV-239) [target]
 - `hooks/register_judge_core.py:1` (the register judge mechanism, INV-203)
-- `hooks/turn_reader.py:1` (the shared full-turn reader six checks read through. Each reads every assistant message shown since the last human turn. The six are the contrast-frame scan, the hedge scan, the register judge, the code-anchor scan, the empty-validation scan, and the tool-boundary scan, INV-281.)
-- `hooks/midturn-chat-scan.py:1` (the tool-boundary scan, the PreToolUse arm denying the next tool call on a naked code or a loan translation, INV-285)
-- `hooks/chat-calques.json:1` (the loan-translation list as data, each entry carrying its plain replacement, INV-285)
+- `hooks/turn_reader.py:1` (the shared full-turn reader five checks read through. Each reads every assistant message shown since the last human turn. The five are the contrast-frame scan, the hedge scan, the register judge, the code-anchor scan, and the empty-validation scan, INV-281.)
 - `hooks/register-judge.py:1` (the chat-surface judge, INV-203)
 - `hooks/register-judge-collect.sh:1` (the Stop arm)
 - `hooks/register-judge-report.sh:1` (the UserPromptSubmit arm)

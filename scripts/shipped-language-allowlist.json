@@ -18,9 +18,9 @@
     "scripts/preshow-register-lint.py",
     "scripts/register-lint-floor.json",
     "hooks/chat-law-hook.sh",
-    "hooks/chat-calques.json",
+    "attic/chat-calques.json",
     "skills/communicator/references/field-examples.md",
-    "guardrails/measured-number-fixtures/*.md"
+    "attic/measured-number-fixtures/*.md"
   ],
   "authorship_globs": [
     "LICENSE",

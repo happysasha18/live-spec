@@ -85,11 +85,11 @@ trace. This makes new lines safe to add under an older pack. [E-13]
 
 ## Session hooks
 
-`guardrails/judge-hooks.json` declares every session hook the pack wires live — ten today, each with
+`guardrails/judge-hooks.json` declares every session hook the pack wires live — eight today, each with
 the event it rides, its command form, and the shipped files it reads. The one installer a human runs is
 `scripts/install-session-hooks.sh`: it generates its own two hooks (the wall clock, the chat laws) from
-that declaration, then chains to `scripts/install-pack-hooks.sh` for the other eight (the register
-judge's two arms, the four literal Stop scans, and the mid-turn PreToolUse scan), so the one command
+that declaration, then chains to `scripts/install-pack-hooks.sh` for the other six (the register
+judge's two arms and the four literal Stop scans), so the one command
 reaches full coverage. The human runs it by hand, because the harness deliberately blocks the agent from
 editing its own configuration. Re-running it changes nothing — a hook already wired, in any form, is
 left exactly as it stands, and a personal overlay file (`*-personal.json`/`*-personal.md`, or a host's
@@ -100,9 +100,9 @@ own `hook-meter.py` counter) already on the machine is only ever reported, never
 - `hooks/chat-law-hook.sh` reminds every window of the chat laws: plain product words do the
   talking, internal codes only trail in parentheses, and long silence owes a narration line. The
   skills stay the laws' normative homes; the hook only reminds. [INV-28, INV-35]
-- The other eight — the register judge (its async collect/report arms and their shared mechanism),
-  the scissors/hedge/affirmation/code-anchor Stop scans, and the mid-turn chat scan — are documented in
-  full at `scripts/install-pack-hooks.sh`'s own header.
+- The other six — the register judge (its async collect/report arms and their shared mechanism) and
+  the scissors/hedge/affirmation/code-anchor Stop scans — are documented in full at
+  `scripts/install-pack-hooks.sh`'s own header.
 
 ## Planned
 

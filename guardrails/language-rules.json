@@ -373,8 +373,8 @@
       "catchers": {
         "pattern": {
           "status": "partial",
-          "where": "guardrails/check-vocabulary.py and scripts/spec-style-lint.py, both reading guardrails/spec-coinages.json; hooks/midturn-chat-scan.py reading hooks/chat-calques.json; scripts/preshow-register-lint.py",
-          "reach": "check-vocabulary.py reads the whole text of one document named on the command line, case-folded and word-boundary matched; spec-style-lint.py reads one file line by line; midturn-chat-scan.py reads every assistant message since the last human turn with fences, inline code, and quoted spans removed, leaving bracketed spans standing because a loan translation inside them still reaches the reader, and it denies each fragment once per session; preshow-register-lint.py adds eight Russian loan-translation patterns and three respelling patterns over any file handed to it"
+          "where": "guardrails/check-vocabulary.py and scripts/spec-style-lint.py, both reading guardrails/spec-coinages.json; scripts/preshow-register-lint.py",
+          "reach": "check-vocabulary.py reads the whole text of one document named on the command line, case-folded and word-boundary matched; spec-style-lint.py reads one file line by line; preshow-register-lint.py adds eight Russian loan-translation patterns and three respelling patterns over any file handed to it"
         },
         "model": {
           "status": "held",
@@ -406,13 +406,12 @@
         "~/.claude/skills/communicator/SKILL.md:264",
         "hooks/chat-law-hook.sh:9",
         "docs/language-defects.md:126",
-        "hooks/chat-calques.json",
         "scripts/preshow-register-lint.py:74",
         "scripts/preshow-register-lint.py:96",
         "~/.claude/skills/communicator/SKILL.md:459"
       ],
       "status": "held",
-      "notes": "r16, `an internal English term loan-translated into the reader's language`, and r17, `an internal term respelled in the reader's alphabet`, folded into this entry on 2026-07-28 and their ids are retired: one class — a project word reaching the reader where a standard word exists — was split three ways by the form the word happened to take. The word list this entry names was two lists until 2026-07-28: guardrails/spec-coinages.json held six pairs for check-vocabulary.py and scripts/spec-style-lint.py:232 held nine words of its own with no repairs, so a word added to either was invisible to the other reader. They are merged into the one home this entry prints, both readers read it, and the repairs beside the nine were written for this file. midturn-chat-scan.py runs at the PreToolUse event and denies the tool call, so the correction reaches the human inside the turn. The model arm at the pre-show step turns on through PRESHOW_REGISTER_JUDGE and stands off by default (scripts/preshow-register-lint.py:138). hooks/chat-calques.json holds the scanner's patterns for the same fifteen loan translations the examples give, so a word added there needs its pair added here. The profile names three more loan translations — its words for tripwires, for the same incident family, and for a landing — with no repair recorded for any of them, and its list shares no member with hooks/chat-calques.json. A translation after the fact does not repair the sentence; it must be plain the first time. check-vocabulary.py is armed nowhere. The model arm reached documents alone until 2026-07-28. Its only checker was the pre-show lint, which runs over a file. A coined word spoken in conversation met the pattern list, and no meaning read it. A list holds the words someone already caught, and three coinages of one morning walked through it. The turn judge was added here, and it now reads the chat surface for the whole class.",
+      "notes": "r16, `an internal English term loan-translated into the reader's language`, and r17, `an internal term respelled in the reader's alphabet`, folded into this entry on 2026-07-28 and their ids are retired: one class — a project word reaching the reader where a standard word exists — was split three ways by the form the word happened to take. The word list this entry names was two lists until 2026-07-28: guardrails/spec-coinages.json held six pairs for check-vocabulary.py and scripts/spec-style-lint.py:232 held nine words of its own with no repairs, so a word added to either was invisible to the other reader. They are merged into the one home this entry prints, both readers read it, and the repairs beside the nine were written for this file. The arm that held this rule in chat is retired to attic/midturn-chat-scan.py. It stood before every tool call in the tree. Its refusal landed on whichever call was in flight, a background worker's included. No field of that event tells the two apart. The law stands, and only its machine is gone. The model arm at the pre-show step turns on through PRESHOW_REGISTER_JUDGE and stands off by default (scripts/preshow-register-lint.py:138). attic/chat-calques.json holds the retired scanner's patterns for the same fifteen loan translations the examples give. The profile names three more loan translations — its words for tripwires, for the same incident family, and for a landing — with no repair recorded for any of them, and its list shares no member with that pattern list. A translation after the fact does not repair the sentence; it must be plain the first time. check-vocabulary.py is armed nowhere. The model arm reached documents alone until 2026-07-28. Its only checker was the pre-show lint, which runs over a file. A coined word spoken in conversation met the pattern list, and no meaning read it. A list holds the words someone already caught, and three coinages of one morning walked through it. The turn judge was added here, and it now reads the chat surface for the whole class.",
       "owner": {
         "by": "skill",
         "why": "A list holds the coinages already met; a word coined tomorrow is caught by a reader who knows the standard word."
@@ -907,8 +906,8 @@
       "catchers": {
         "pattern": {
           "status": "held",
-          "where": "hooks/code-anchor-scan.py, hooks/midturn-chat-scan.py, scripts/preshow-lint.py, guardrails/check-criterion-readability.py arm D",
-          "reach": "code-anchor-scan.py reads every assistant message since the last human turn over six regexes, with parentheses, square brackets, table rows, fences, backticks, and quoted spans stripped as lawful; midturn-chat-scan.py reads the same text at the tool boundary and reports each fragment once per session; preshow-lint.py reads a file or stdin over one lead regex; the criterion arm reads PRODUCT_SPEC.md criteria only"
+          "where": "hooks/code-anchor-scan.py, scripts/preshow-lint.py, guardrails/check-criterion-readability.py arm D",
+          "reach": "code-anchor-scan.py reads every assistant message since the last human turn over six regexes, with parentheses, square brackets, table rows, fences, backticks, and quoted spans stripped as lawful; preshow-lint.py reads a file or stdin over one lead regex; the criterion arm reads PRODUCT_SPEC.md criteria only"
         },
         "model": {
           "status": "held",
@@ -942,7 +941,7 @@
         "~/.claude/skills/spec-author/SKILL.md:76"
       ],
       "status": "held",
-      "notes": "midturn-chat-scan.py runs at the PreToolUse event and denies the tool call so the correction reaches the human inside the turn. The anchor counts come from guardrails/criterion-readability.json and no prose home states them. code-anchor-scan.py:73 also catches a document name run against a number and code-anchor-scan.py:76 a spoken-space or hash variant, neither of which any prose home states. The criterion arm is armed nowhere.",
+      "notes": "The arm that held this rule in chat is retired to attic/midturn-chat-scan.py. It stood before every tool call in the tree. Its refusal landed on whichever call was in flight, a background worker's included. No field of that event tells the two apart. The law stands, and only its machine is gone. The Stop-side code-anchor scan still holds this rule at the turn's end. The anchor counts come from guardrails/criterion-readability.json and no prose home states them. code-anchor-scan.py:73 also catches a document name run against a number and code-anchor-scan.py:76 a spoken-space or hash variant, neither of which any prose home states. The criterion arm is armed nowhere.",
       "owner": {
         "by": "script",
         "why": "The position of an internal code in a line is decided by where the code sits."
@@ -3749,9 +3748,9 @@
       ],
       "catchers": {
         "pattern": {
-          "status": "partial",
-          "where": "hooks/midturn-chat-scan.py, the measurement arm",
-          "reach": "chat alone, every assistant message since the human's last turn. It reads a paragraph for a count whose block names no command, no script path and no procedure phrase. A fenced block and a table row stand outside the reading."
+          "status": "absent",
+          "where": "",
+          "reach": "no catcher reads this rule today. The retired arm read chat alone. It took a paragraph for a count whose block named no command, no script path and no procedure phrase. A fenced block and a table row stood outside its reading."
         },
         "model": {
           "status": "absent",
@@ -3764,15 +3763,15 @@
         }
       },
       "armed": [
-        "hooks/midturn-chat-scan.py"
+        "nowhere"
       ],
       "sources": [
         "skills/communicator/references/writing-register.md",
         "skills/communicator/SKILL.md",
         "DECISIONS.md"
       ],
-      "status": "armed",
-      "notes": "The owner's instruction of 2026-07-29. The recorded case is a session's own chat sentence reporting a count of stops. That sentence named no unit, no decision the count informs, and no procedure behind it.",
+      "status": "stated-only",
+      "notes": "The arm that held this rule is retired to attic/midturn-chat-scan.py. It stood before every tool call in the tree. Its refusal landed on whichever call was in flight, a background worker's included. No field of that event tells the two apart. It was the only catcher this rule ever had. The rule now rests wholly with a person. Its case, its four parts and its prose homes all stand unchanged. The owner's instruction of 2026-07-29. The recorded case is a session's own chat sentence reporting a count of stops. That sentence named no unit, no decision the count informs, and no procedure behind it.",
       "owner": {
         "by": "skill",
         "why": "Whether the four parts of a measurement stand around the number is a reading."

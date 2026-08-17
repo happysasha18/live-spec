@@ -32,11 +32,6 @@
    "detect": "json-block",
    "note": "fires on a queue row number left standing in prose with no plain-word naming of the wish (the 2026-07-27 live failure, verbatim)"
   },
-  "midturn-chat-scan.py": {
-   "fixture": "hook-red-fixtures/midturn-chat-scan",
-   "detect": "json-deny",
-   "note": "the PreToolUse arm of the same two laws, judging the seat's narration at the first tool call after it is written rather than at the turn's end. Fires on the recorded live-failure sentence verbatim, which carries both counts at once: two queue rows named by bare number, and one loan-translated internal word standing where the plain industry word belonged. Its verdict is the PreToolUse deny shape, so it is proven under \"json-deny\" rather than the Stop family's \"json-block\"; the runner isolates $HOME per run so the hook's per-session state file never touches the real state home, and a repeated census therefore reds nothing through the hook's own report-once rule"
-  },
   "clock-hook.sh": {
    "fixture": "hook-red-fixtures/clock-hook",
    "detect": "nonempty-contains",

@@ -120,9 +120,9 @@ What a number owes the reader who meets it.
     - **Its method** — the command or the procedure that produced it, so a reader reproduces it.
     - The four stand in the number's own sentence or in the paragraph around it. A number quoted from a
       source the text names inherits that source's method.
-    - The mechanical floor is the measurement arm of `hooks/midturn-chat-scan.py`. It reads a paragraph
-      for a count whose method stands nowhere beside it. The other three parts are meaning, and a person
-      or a reading model holds them.
+    - No machine holds this rule. The scan that read a paragraph for a count whose method stood nowhere
+      beside it was retired on 2026-08-17, and all four parts now rest where the other three already did:
+      with a person or a reading model.
     - The case this rule rests on: a session reported that a reader returned a count of stops. That
       sentence named what a stop is, what the count decides, and how the count was produced, in none of
       its words. `DECISIONS.md` carries the owner's instruction of 2026-07-29 12:08.

@@ -46,3 +46,7 @@ base rule 10). Nothing here was deleted; a file that turns out to be needed is m
 - `hooks/answer-first-scan.py` -> `attic/answer-first-scan.py` * D8 retired (Alexander 2026-08-11 10:23 "д8 ок", DECISIONS.md): 3,095 runs, zero catches * 2026-08-11
 - `hooks/answer-first-scan.json` -> `attic/answer-first-scan.json` * data file for the retired answer-first-scan arm, retired alongside it (D8) * 2026-08-11
 - `guardrails/hook-red-fixtures/answer-first-scan/` -> `attic/hook-red-fixtures-answer-first-scan/` * the red-proof fixture for the retired arm, retired alongside it (D8) * 2026-08-11
+- `hooks/midturn-chat-scan.py` -> `attic/midturn-chat-scan.py` * the PreToolUse arm retired (Alexander 2026-08-17): it stood before every tool call in the tree and delivered its refusal into whichever call was in flight, a background worker's included, and no field of the event separates the seat's call from a worker's * 2026-08-17
+- `hooks/chat-calques.json` -> `attic/chat-calques.json` * the loan-translation list the retired arm read, retired alongside it * 2026-08-17
+- `guardrails/hook-red-fixtures/midturn-chat-scan/` -> `attic/hook-red-fixtures-midturn-chat-scan/` * the red-proof fixture for the retired arm, retired alongside it * 2026-08-17
+- `guardrails/measured-number-fixtures/` -> `attic/measured-number-fixtures/` * the bare-number and measured-number pair the retired arm's measurement tests read; no test opens them once the arm is gone * 2026-08-17
