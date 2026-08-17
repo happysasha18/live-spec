@@ -113,3 +113,17 @@ Carried forward, not closed here: `.live-spec/r3-rule-fires-2026-08-11.md` D10.4
 retired arm in the hook meter. It is a dated working record rather than a live queue row, and it is left
 standing as the record of what was proposed that day.
 
+## The suite on the committed tree
+
+`python3 -m pytest -q` against the retirement as committed at `49f26a7`: **2,474 passed, 2 failed,
+54 skipped**, 20 minutes 17 seconds. Both failures are `tests/test_config_health.py` — the installed
+copies of `guardrails/pre-push` and eleven skills drifting from their sources, and the personal
+permission-path arm. They fail identically against `f9eaecc` with this change stashed, so they predate
+it; `ROADMAP.md` row 537 owns them.
+
+The final pass also closed four reds this change had made and one it inherited: `ARCHITECTURE.md` broke
+two of its own laws under the retirement edit (a node field carrying a date, and a 38-word sentence in a
+document held at zero findings); the specification's findings ceiling had to come down from 1,863 to
+1,862, which the census refused until the retirement prose in `guardrails/language-rules.json` was cut
+into shorter sentences; and gates a, b and g read red only while the record itself stood uncommitted.
+
