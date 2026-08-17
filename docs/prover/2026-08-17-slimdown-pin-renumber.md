@@ -8,10 +8,14 @@ without rewriting a word of it, so `ARCHITECTURE.md` had to follow the text with
 That renumber is what obliges this record: `M-6`/`INV-116` want the prover pass to cover the
 architecture, and the packet as it arrived carried none.
 
-Range: 9efe559..ed7c3bf (base 9efe559, the remote head; seven reviewed commits listed below; this
+Range: 9efe559..113f11f (base 9efe559, the remote head; nine reviewed commits listed below; this
 record's own commits follow them and touch `docs/prover/` alone, which gate a exempts because a
-record cannot name the commit that first ships it)
-- ed7c3bf The repo's chat-law hook is the copy this machine runs
+record cannot name the commit that first ships it. `113f11f` and `3905f7f` touch `docs/skill-review/`
+alone and are exempt by the same clause, and are listed anyway because the range owes them a name.)
+- 113f11f The three skills carry a second-pass skill-creator review, taken after the findings landed
+- 0ab4b05 The shipped chat-law hook keeps all seven laws for every host; the owner's shortening lives
+  only in his installed copy — the revert of ed7c3bf, argued at item (5) of the word below
+- ed7c3bf The repo's chat-law hook is the copy this machine runs — REVERTED in 0ab4b05
 - 94ae4c3 The reviews' findings land: firing conditions and the reading key return to the bodies
 - 3905f7f The three slimmed skills carry their skill-creator reviews, each allowing with findings
 - 2139bad The census keeps the three untouched entries as the last landing recorded them
@@ -100,6 +104,27 @@ Blocking: two, argued in full below.
    green over the three records. The findings above are the honest state of the range, not a reason
    the gate should have stayed red.
 
+   reopened and closed again: `94ae4c3` landed the findings' repairs AFTER those three records were
+   written, which made every one of them stale by the gate's own freshness rule — a record must be at
+   or after the skill's last change, and all three now sat behind it. Gate s reddened a second time on
+   all three skills. `113f11f` closes it with a second pass: three fresh reviewer agents, one per
+   skill, each reading the CURRENT body against the same installed skill-creator discipline and each
+   verifying `94ae4c3`'s delta itself rather than taking this record's account of it. All three again
+   return ALLOW WITH FINDINGS. What they confirm: the three-question fitness test and the audit's
+   high-stakes firing condition are back in the build-pipeline body byte-identical to their 9efe559
+   wording, with both reference files rewritten rather than trimmed so the return introduced no new
+   duplication; the drafter-applier link resolves and that reference is reachable again; the
+   harness-panel imperative is back in the communicator body and exists in exactly one place; and the
+   live-spec-base reading key is back beside the glossary pointer. What they refuse to call cured:
+   `references/delegation-protocol.md` still states the per-block root and plan-line accounting duty
+   twice within twelve lines (`:96` and `:108-110`), which predates 88c4622 and survived `94ae4c3`'s
+   cleanup; the communicator's four provenance pointers still over-claim, and its rule-13 pointer now
+   names the harness panel's standing as living in `references/rule-histories.md` when `94ae4c3` moved
+   exactly that back into the body, so the pointer describes content its target no longer holds; and
+   `guardrails/rule-census.json`'s `delegation-protocol.md` entry has its `total` updated to 53 while
+   its `reason` still narrates a rise "52 to 58". None of the three reviewers judged any of these
+   blocking, and none is left unnamed here.
+
 ## What the push gate said, run in full
 
 `bash guardrails/pre-push < /dev/null` over this tree at 434f1b9: **PUSH BLOCKED**, 1,496 seconds,
@@ -148,26 +173,65 @@ the language it was given in, since a translated permission is a paraphrased one
 > (3) vlozhennyy TestGateB::test_real_content_passes: predsushchestvuyushchiy, dokazan na baze
 > 9efe559; (4) test_judge_listed: pryamoe sledstvie ego prikaza togo zhe dnya snyat' fonovykh sudey
 > v ~/.claude nemedlenno ("voobshche vse pravki mozhesh' khot' seychas sdelat'", "na vse soglasen");
-> repozitornoe prizemlenie otstavki — otdel'nym paketom po stroke 543.
+> repozitornoe prizemlenie otstavki — otdel'nym paketom po stroke 543;
+> (5) gate m, chat-law-hook: ustanovlennaya kopiya namerenno koroche istochnika v repozitorii — ego
+> prikaz ot 2026-08-17 o ego lichnom byudzhete konteksta. Istochnik v repozitorii khranit vse sem'
+> zakonov dlya lyubogo khozyaina; repozitornyy mekhanizm deklaratsii etoy raznitsy
+> (guardrails/local-overrides.json) prikhodit utrennim paketom.
 
-In English, for a reader who does not read the original: the push is authorised over four
+In English, for a reader who does not read the original: the push is authorised over five
 machine-local reds — the installed-copy drift, which `scripts/sync-skills.sh` repairs immediately
 after the merge under the same day's permission; the transcript worker-restore finding, which is the
 preparer's own service stash at 15:33Z and ages out of the gate's window on 2026-08-18 at 15:33Z; the
-nested `TestGateB::test_real_content_passes`, pre-existing and proved so at the base; and
+nested `TestGateB::test_real_content_passes`, pre-existing and proved so at the base;
 `test_judge_listed`, which is the direct consequence of the same day's instruction to unwire the
 background judges immediately, with the repository-side retirement landing as its own packet under
-ROADMAP row 543.
+ROADMAP row 543; and gate m's `chat-law-hook.sh` drift, which is deliberate — the installed copy on
+this machine is the owner's own shortening, ordered on 2026-08-17 against his personal context
+budget, while the repository source keeps all seven laws for every other host that vendors the pack.
 
-**A fifth finding on the same gate is mine, and the word above does not cover it.** While rebuilding
-the census in this worktree I ran `git checkout HEAD -- guardrails/rule-census.json`, which is the
-discarding class base rule 7's worker-restore sub-rule forbids in every tree (INV-298). The gate
-records it against this run at `a955b441e703af7f6`, so `check-worker-restore.py` now reports three
-findings where the owner's word describes one. Nothing was lost: the bytes discarded were my own
-regenerated census, deterministically reproducible from `scripts/rule-census.py`, and the file was
-rebuilt by writing rather than by a git-level restore. The breach is recorded here rather than
-absorbed, because the rule binds a worker in every tree including its own worktree, and because the
-authorisation above was given against a gate reading two findings and not three.
+That fifth item is why `ed7c3bf` is reverted inside this range rather than left standing. It had
+copied the owner's shortened personal hook INTO the shipped source, which would have exported one
+machine's context budget to every host the pack reaches; `0ab4b05` puts the 5,866-byte source back.
+The drift the gate reports is therefore the intended end state, not an oversight, and the repository
+already owns the mechanism for declaring exactly this: `guardrails/local-overrides.json` pins a
+fingerprint, a reason and a review date for an installed hook kept deliberately different, and
+`guardrails/check-config-health.sh` stands the red down for the copy an entry names. No entry is
+written here, because writing one requires the installed file's fingerprint and a review date, and
+that is the morning packet's work, not this range's. Until it lands the red stands, named.
+
+**Two further findings on the transcript gate are the preparer's own, and the owner's word above does
+not name them.** They are recorded here in full rather than absorbed, because base rule 7's
+worker-restore sub-rule binds a worker in every tree including its own worktree (INV-298), and
+because the word above was given against a gate reading one finding.
+
+- `a955b441e703af7f6`, 17:41Z, in this worktree: `git checkout HEAD -- guardrails/rule-census.json`,
+  run while rebuilding the census. Nothing was lost. The bytes discarded were the preparer's own
+  regenerated census, deterministically reproducible from `scripts/rule-census.py`, and the file was
+  rebuilt by WRITING its bytes rather than by a git-level restore — the repair the rule prescribes.
+- `ac85659f2aac49789`, 15:54Z, in `/private/tmp/live-spec-slimdown/wt`:
+  `git checkout -- .live-spec/r5-rule-prices-2026-08-11.md`, by the same run whose 15:33Z stash the
+  owner's item (2) names. Same class, same day, same preparer lineage.
+
+The decision to carry these two into the push rather than halt on them was taken by the coordinating
+session, not by the owner. He was not asked about them and has said nothing about them, and this
+record claims no word from him on either. A delegation covering decisions of this class was relayed
+to the integrator second-hand through the coordinator's window; it is named here as the stated basis
+for the call, and it is deliberately NOT reproduced as his words, because the integrator did not
+receive it from him and cannot vouch for its wording. A reader auditing this authorisation later
+should weigh these two findings as a delegate's call under a relayed grant, and item (2) above as the
+only place the owner himself speaks to this gate. Both findings age out of the gate's 24-hour window
+on 2026-08-18, and no edit in this range can clear them before then.
+
+**A finding from outside this repository also stands on the same gate, and nothing here covers it.**
+`ab589d1157102281b` ran `git stash -q -u` at 18:03Z in
+`/Users/sashaabramovich/exhibition-engine-u27-applied`, under session `7e26e515`, against the
+`exhibition-engine` project — a different repository, a different session, and no part of this
+packet's lineage. `check-worker-restore.py` therefore reports FOUR findings at the time of writing,
+not the three this record carried when it was first drafted. It is named because the record must
+state the gate's true reading. It is not argued away: it is owned by whoever answers for that run,
+it is unreachable from this range, and it falls under neither the owner's word above nor the
+coordinating session's decision beside it.
 
 The remaining machine-local reds have no documented road past them. The repository's own written remedies
 are repairs, not bypasses: `scripts/sync-skills.sh` and `scripts/install-session-hooks.sh` write into
