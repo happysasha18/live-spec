@@ -57,6 +57,16 @@ A push of this repository is refused where either command disagrees with what st
 Each check lives in its own small script so it can be run and tested on its own, pointed at a
 scratch file instead of the real repo.
 
+### What runs locally, and what the server runs
+
+The local chain is the fast set. Every gate above runs on a push except gate b, the pytest suite.
+Measured on 2026-08-18: the local chain took 144 seconds, and the suite alone takes over twenty
+minutes. The server runs that suite on every push, in the `gates.yml` step named
+`test suite (gate b, full — the reach map stays local)`. A second local run bought a slower push and
+no new protection. Set `LIVE_SPEC_PUSH_FULL=1` to run the old chain, gate b included and
+reach-scoped. One thing the fast set gives up: `guardrails/check-suite-budget.sh` rides the suite,
+so a push measures the suite's wall-time only under that flag.
+
 ### Notes on some of the gates
 
 The roster above is the whole set. These notes enumerate nothing. They cover the gates whose

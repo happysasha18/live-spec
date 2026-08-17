@@ -141,6 +141,78 @@ class TestPrePush(unittest.TestCase):
             "gate a must run the prover-record check")
 
 
+class TestThePrePushChainIsTheFastSet(unittest.TestCase):
+    """The local chain runs the checks that take seconds; the suite is the server's job (2026-08-18).
+
+    Measured on this machine: every gate in the chain except gate b finishes inside about two and a
+    half minutes together, and gate b — the whole pytest suite — takes over twenty on its own. The
+    server already runs that suite on every push, so a local re-run bought a slower push and no new
+    protection. Gate b is therefore the one member of the chain the local run leaves to the server,
+    and `LIVE_SPEC_PUSH_FULL=1` puts it back, reach-scoped, exactly as the chain always ran it.
+
+    pre-push is not executed here: it would call check-tests.sh, which defaults to the very tests/
+    dir this file lives in. The class asserts its wiring, the same way TestPrePush above does.
+    """
+
+    def _body(self):
+        with open(os.path.join(GUARDRAILS, "pre-push"), encoding="utf-8") as f:
+            return f.read()
+
+    def _gate_b_block(self):
+        body = self._body()
+        return body[body.index("-- gate b"):body.index("-- gate c")]
+
+    def test_the_suite_does_not_run_locally_by_default(self):
+        block = self._gate_b_block()
+        self.assertIn('if [ -z "$PUSH_FULL" ]; then', block,
+                      "gate b no longer branches on the full-chain flag, so a local push pays the "
+                      "suite's twenty minutes again")
+        default_arm = block[:block.index("else")]
+        self.assertNotIn("check-tests.sh", default_arm,
+                         "the default local chain still runs the suite")
+        self.assertIn("gates.yml", default_arm,
+                      "the default arm never says who runs the suite instead")
+
+    def test_the_flag_is_named_where_a_person_will_look(self):
+        block = self._gate_b_block()
+        self.assertIn("LIVE_SPEC_PUSH_FULL=1", block,
+                      "the printed line never names the flag that runs the suite locally")
+        self.assertIn("LIVE_SPEC_PUSH_FULL", self._body().split("== live-spec push gate ==")[0],
+                      "the flag is never read at the top of the chain")
+
+    def test_the_old_chain_is_still_reachable_by_the_flag(self):
+        """Reachable and unchanged: the flag's arm carries the reach-scoped suite the chain ran
+        before, SCOPED_TEST_FILES and all, so nobody loses the old behaviour."""
+        block = self._gate_b_block()
+        full_arm = block[block.index("else"):]
+        self.assertIn('case "$reach_code" in', full_arm)
+        self.assertIn('SCOPED_TEST_FILES="$scoped_files" "$GUARDRAILS/check-tests.sh"', full_arm)
+        self.assertIn('if ! "$GUARDRAILS/check-tests.sh"; then', full_arm)
+        self.assertIn("prose-only diff: the suite stands down by name", full_arm)
+
+    def test_the_flag_moves_nothing_but_the_suite(self):
+        """Speed must not cost a guarantee. Gate a's fresh prover record and every other gate whose
+        value is catching something BEFORE the push run on every push, flag or no flag."""
+        body = self._body()
+        outside_gate_b = body[:body.index("-- gate b")] + body[body.index("-- gate c"):]
+        self.assertNotIn("$PUSH_FULL", outside_gate_b.replace('PUSH_FULL="${LIVE_SPEC_PUSH_FULL:-}"', ""),
+                         "a gate other than b now depends on the flag — the fast chain dropped a "
+                         "check whose whole value is running before the push")
+        gate_a = body[body.index("-- gate a"):body.index("-- gate b")]
+        self.assertRegex(gate_a, r'if ! "\$GUARDRAILS/check-prover-record\.sh" --push',
+                         "gate a stopped running the prover-record check on every push")
+
+    def test_the_server_still_runs_the_full_suite(self):
+        """The other half of the split, read off the workflow itself."""
+        with open(os.path.join(ROOT, ".github", "workflows", "gates.yml"), encoding="utf-8") as f:
+            workflow = f.read()
+        self.assertIn("name: test suite (gate b, full", workflow,
+                      "the workflow no longer carries gate b's step, so nothing runs the suite")
+        step = workflow[workflow.index("name: test suite (gate b, full"):]
+        self.assertIn("python3 -m pytest -q", step.split("- name:")[0],
+                      "the server's gate b step no longer runs the whole suite")
+
+
 class TestGateF_SkillLoadability(unittest.TestCase):
     """Gate (f): every shipped skill LOADS — frontmatter parses, name matches its
     folder, description + metadata version present, a 'Work that belongs elsewhere' section

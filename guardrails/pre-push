@@ -48,6 +48,20 @@ fi
 
 fail=0
 
+# -- the fast local chain (2026-08-18) --
+# The local chain runs the checks that take seconds: the prover record, the pins, skill
+# loadability, and the registry and accounting checks. The one slow member is gate b, the whole
+# pytest suite, which takes over twenty minutes on this machine and is the SERVER's job — the
+# gates workflow runs `python3 -m pytest -q` on every push, in the step named
+# "test suite (gate b, full — the reach map stays local)" (.github/workflows/gates.yml). Running
+# it a second time on the pusher's machine bought a slower push, not a safer one.
+# The old chain is still here and still reachable: LIVE_SPEC_PUSH_FULL=1 runs gate b locally
+# exactly as before, reach-scoped, with its suite-budget arm. That is the flag for a machine with
+# no server, a network-less push, or anyone who wants the old behaviour.
+# Nothing else moved: every gate whose value is catching something BEFORE the push — gate a's
+# fresh prover record above all — runs on every push as it always did.
+PUSH_FULL="${LIVE_SPEC_PUSH_FULL:-}"
+
 echo "== live-spec push gate =="
 
 echo ""
@@ -71,22 +85,30 @@ fi
 
 echo ""
 echo "-- gate b: test suite green (scoped by the diff's reach, SPEC INV-45) --"
-case "$reach_code" in
-  0)
-    echo "   prose-only diff: the suite stands down by name; every other gate still runs."
-    ;;
-  2)
-    scoped_files="$(printf '%s\n' "$reach_out" | sed -n 's/^SCOPED //p')"
-    if ! SCOPED_TEST_FILES="$scoped_files" "$GUARDRAILS/check-tests.sh"; then
-      fail=1
-    fi
-    ;;
-  *)
-    if ! "$GUARDRAILS/check-tests.sh"; then
-      fail=1
-    fi
-    ;;
-esac
+if [ -z "$PUSH_FULL" ]; then
+  echo "   the server runs this one: .github/workflows/gates.yml runs python3 -m pytest -q on every"
+  echo "   push, in its step \"test suite (gate b, full — the reach map stays local)\". The local"
+  echo "   chain is the fast set, so a push here does not pay the suite's twenty minutes twice."
+  echo "   Run it locally with LIVE_SPEC_PUSH_FULL=1 git push, or python3 -m pytest -q by hand."
+else
+  echo "   LIVE_SPEC_PUSH_FULL is set: running the suite locally, reach-scoped, as the chain always did."
+  case "$reach_code" in
+    0)
+      echo "   prose-only diff: the suite stands down by name; every other gate still runs."
+      ;;
+    2)
+      scoped_files="$(printf '%s\n' "$reach_out" | sed -n 's/^SCOPED //p')"
+      if ! SCOPED_TEST_FILES="$scoped_files" "$GUARDRAILS/check-tests.sh"; then
+        fail=1
+      fi
+      ;;
+    *)
+      if ! "$GUARDRAILS/check-tests.sh"; then
+        fail=1
+      fi
+      ;;
+  esac
+fi
 
 echo ""
 echo "-- gate c: every spec anchor owned by exactly one architecture node --"
