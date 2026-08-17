@@ -229,7 +229,7 @@ the kind says what their standards look like in its medium.
   spec the invariant, re-prove, then fix under it. The journal is how you notice: before taking any
   bug, grep JOURNAL.md for the area's name and check the dates.
 - **Removal of a shipped feature is a change too.** The spec section becomes a dated tombstone marked
-  removed. The matrix rows are retired, and none is left standing as built. The owning tests are
+  removed. The matrix rows are retired, and none is left at `BUILT`. The owning tests are
   deleted, and SKILL.md / README are swept — all the same session. (This is the step that actually got
   skipped once: an excision cleaned code + tests but left four doc surfaces dangling.)
 - **Refactor (behaviour-neutral):** no spec/matrix delta. Enter at step 8 with the FULL suite, the
