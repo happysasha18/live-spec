@@ -4,6 +4,8 @@ cadence beside the milestone gate) across the rule's homes, so none can drift
 back out. Landed 2026-07-14."""
 from pathlib import Path
 
+from conftest import read_all
+
 ROOT = Path(__file__).resolve().parent.parent
 
 
@@ -60,6 +62,6 @@ def test_audit_is_defined_adversarial_by_nature_once():
     and the redundant 'adversarial audit' qualifier is gone from build-pipeline."""
     spec = _read("PRODUCT_SPEC.md")
     assert "carries an audit — a whole-read that sets out to break the work" in spec
-    pipe = _read("skills/build-pipeline/SKILL.md")
+    pipe = read_all("skills/build-pipeline/SKILL.md")
     assert "adversarial audit" not in pipe
     assert "An audit is adversarial by nature" in pipe

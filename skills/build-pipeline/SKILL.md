@@ -117,31 +117,12 @@ standards look like in its medium.
     (refactor door if only structure moves, feature door if behaviour moves too); the re-carve happens only
     through the architecture step and its re-prove (SPEC INV-37). A same-version docs-layout pass rides one sanctioned light vehicle: the pass builds on a clean pushed base, locks the owner's decisions in a checkpoint first, and proves content survived by a word-token multiset check and a punctuation multiset check (SPEC INV-111).
   - **The same line reads the FOOTPRINT — a three-source impact read that decides the route (SPEC INV-128).**
-    Beside the door and the work-kind, read the change against three sources at once: the spec (what
-    behaviour changes), the architecture (which module owns it), the code (what actually gets touched). Name
-    one footprint — **presentation-only** (touches what the audience meets, nothing behind it) · **single-module**
-    (stays inside one owned layer) · **cross-cutting** (moves a shared law or several layers) — spoken in the
-    echo and written in the row's `footprint:` note beside `door:`, `kind:`, `map:`. **The footprint composes
-    with the door, never overriding it:** the door decides which steps run, the footprint decides how far each
-    step reaches, and the door's guarantees always hold — a feature never skips the spec step whatever its
-    footprint (SPEC INV-16). A cross-cutting change opens the full pipeline from step 1, its architecture and
-    matrix work spanning every layer it moves. A single-module change runs the steps its door grants with their
-    scope narrowed to the one owned module (its architecture read, its matrix rows, its tests bounded to that
-    module's block and interface); a single-module bug or refactor takes the existing matrix-step entry, a
-    single-module feature keeps its spec step with the rest scoped down. A presentation-only change takes the
-    lightest road its door already grants — the skip boundary or the docs-only door where the door routes it
-    there, and the matrix-step minimum focused on the visible layer where it is a visible feature. The
-    footprint sizes the reach, and the wish's size does not — a heavy process on a light change is as much a defect as the
-    reverse. When the three sources DISAGREE (a spec-promised surface with no owning node, code behaviour no
-    clause backs, a node pinned to a moved line), name the disagreement and route it to its owner (a bug row, a
-    spec fix, a restructure row — SPEC INV-37), never silently trusting one source; the three-source read is
-    the verdict derive-before-fork (SPEC INV-121) rests on. The footprint **re-classifies mid-work** the moment
-    an edit reaches past its named layer (presentation → single-module, single-module → cross-cutting), the
-    delivery report recording footprint held or re-classified to X at step N — the sibling of the door's
-    mid-work re-fire below. (The mechanical `footprint:`-note suite check [INV-134], the per-kind
-    concrete-layers-and-proofs declaration [INV-135], and the cross-cut counter [INV-128 boundary-health,
-    `guardrails/crosscut_counter.py`] have landed; the declared-module-interface and interface-level test
-    machinery rides its own follow-on row; this step states the read and the routing.)
+    Beside the door and the work-kind, read the change against the spec, the architecture and the code at
+    once, and name one footprint — **presentation-only** · **single-module** · **cross-cutting** — spoken in
+    the echo and written in the row's `footprint:` note. See
+    [references/footprint-read.md](references/footprint-read.md) for the full read: how the footprint
+    composes with the door, what each footprint grants each step, what a three-source disagreement owes,
+    and the mid-work re-classification.
   - Tripwires decide by rule, ahead of judgment — a new user-visible surface · new persistent state · a new interaction on an existing surface
     · the spec marks the touched surface [target] · behaviour no spec clause backs ⇒ FEATURE, however
     casually asked. The tripwire verdict outranks a casual "bugfix" label, and queue-cutting belongs to the
@@ -155,10 +136,8 @@ standards look like in its medium.
     board never asserts a stale independence after the ground moved. The integration re-fence [INV-39]
     still catches the collision at landing; this closes the board's observability gap and adds no new net.
   - **A declared mockup-first entry condition is honoured from the row, cancelled only by name (SPEC
-    INV-43).** A story whose intake said "show me first, then build" carries the condition WRITTEN in
-    its queue row ("entry: mockup-first"); a later general "go build" moves priority, never the
-    condition — only by the human naming it does the condition fall. A condition living only in chat
-    memory is the defect this line prevents (the tlvphoto door was built past its voiced mockup-first word).
+    INV-43).** See [references/mockup-first-entry.md](references/mockup-first-entry.md) for where the
+    condition is written, what cancels it, and the worked case behind it.
   - **One wish = one user story (SPEC T-17):** a wish carrying several distinct things a person will DO and
     SEE splits at intake — each story its own row through the full pipeline (stages slice ONE story's depth,
     T-15's knife; separate stories never fuse into one row). Sub-behaviours (a hover face, a phone face, a
@@ -307,10 +286,9 @@ See [references/work-kind-table.md](references/work-kind-table.md) for the full 
    is read by eye.
 
    WHAT is measurable comes from the project's KIND (SPEC INV-36): ask "what does quality MEAN here, in
-   numbers?" before writing any. A user-facing product measures paint/interaction times ("first image
-   within 2 s on a cold visit"); a backend service latency, throughput, error rate; a CLI or pipeline run
-   time on a typical input and per-unit cost; a skill pack its evals' pass rate and suite wall-time; prose
-   what honestly HAS a number. A quality with no honest number is SAID by name, never given a vanity metric.
+   numbers?" before writing any. See
+   [references/architecture-step-detail.md](references/architecture-step-detail.md) for the per-kind
+   numbers and for the quality that has no honest number.
 
    Each budget is asserted by a matrix-row acceptance, never a hope in prose. A surface with no budget line
    and no instrumentation home is a derivation defect, exactly like an unowned fact. The numbers are the
@@ -318,14 +296,9 @@ See [references/work-kind-table.md](references/work-kind-table.md) for the full 
    landing.
 
    **The doc owes two more views beside the node map (SPEC INV-74, INV-75), scaled by kind:** the
-   **runtime view** walks every flow the spec promises through the nodes — which node serves each step,
-   what crosses each hop (citing the seam by name; the payload and format stay the seam table's fact),
-   where the flow can fail; a flow the doc cannot walk end to end is a finding. The **placement view**
-   states every node's place — build-time on the author's machine · CDN static · client browser · edge
-   worker · external service — plus the load-bearing technology choice where one exists, first-class (a
-   node-table column or its own small table), so the reader answers "where does this run" at a glance.
-   The per-kind flow unit and both section shapes live in the template; a book satisfies each view with
-   one sentence.
+   **runtime view** and the **placement view**. See
+   [references/architecture-step-detail.md](references/architecture-step-detail.md) for what each view
+   walks and states.
    **The doc is ITERATIVE, current only to what's shipped or in flight:** it maps the product as it stands
    plus the landing in flight. A node exists for what ships today, or for what the spec already promises
    under an owned queue row (marked [target], pin empty).
@@ -334,13 +307,9 @@ See [references/work-kind-table.md](references/work-kind-table.md) for the full 
    prover flags it. "Should I architect the next few milestones now?" is answered NO strictly by the method,
    taste playing no part.
 
-   **Every new or carved node passes a three-question fitness test at its birth (SPEC INV-122):** can it be
-   tested alone · does a real second place need it · can it and its neighbour be worked in parallel without
-   queuing on shared files — three yes answers make the node right, a single no is a flag to answer (name the plan that turns it to a yes, or fold the carve back), and two or more no make it premature. The
-   test's first home is here, the architecture step, where new abstractions are born; a carve that fails it
-   is folded back into its caller until a real second need or a real testability gain arrives. Its second
-   home is product-prover, extending the speculative-node flag: a node with one caller and no promised
-   second is flagged for that answer (the one-no case), never auto-rejected.
+   **Every new or carved node passes a three-question fitness test at its birth (SPEC INV-122):** see
+   [references/architecture-step-detail.md](references/architecture-step-detail.md) for the three
+   questions, how a single no and two nos are read, and the test's two homes.
 
    Re-carving the whole node map IS legal: it arrives as a restructure placement's own queue row (SPEC
    INV-37), walks this step, and is re-proven like any structure change. A placement may SAY the shape no
@@ -411,19 +380,9 @@ See [references/work-kind-table.md](references/work-kind-table.md) for the full 
    from the repository root; a host with another runner names its own in its profile.
 
    **A session that spawned a worker runs `python3 guardrails/check-worker-restore.py` here, and reads
-   its verdict before it accepts the worker's result (SPEC INV-298; the gate INV-299).** The gate reads
-   the worker runs' own transcripts for a command that discards uncommitted work, which is the one
-   signal that separates a worker that wrote a file's bytes back from a worker that discarded a lane's
-   uncommitted work — the `git status` both paste afterwards reads "clean". The gate reads the last 24
-   hours; a session whose worker ran earlier than that passes `--since-hours` wide enough to cover the
-   run it is accepting. A red names the run, the command and the paths. Where the run is this
-   project's, the session recovers the named files from the last committed stage before anything else,
-   and the worker's result waits on that. Where the paths belong to another project's tree, the session
-   writes what it read into that project's intake folder and touches no file there, since a repo it was
-   not assigned to stays read-only (base rule 7). The gate stands down by name on a host that keeps no
-   transcripts where it looks, and it carries a counting start so a machine's pre-clause history reds
-   nothing. A red naming an empty transcript root says the layout the gate reads has moved: no worker
-   discarded anything, and the gate's reach is what the session repairs.
+   its verdict before it accepts the worker's result (SPEC INV-298; the gate INV-299).** See
+   [references/verify-step-detail.md](references/verify-step-detail.md) for what the gate reads, the
+   window it reads, and what a red owes.
 
    **Green = zero failures AND the skip-set is exactly the expected pinned list** — an unexpected skip
    (Chrome absent, a real-data fixture missing) is a FAILURE outright. **If red at a pause / session end:
@@ -439,26 +398,9 @@ See [references/work-kind-table.md](references/work-kind-table.md) for the full 
    separate home. Green means deterministic.
 
    **The audit — a second pair of FRESH eyes, REQUIRED where the stakes are high and only the
-   author has judged the work (SPEC INV-46).** An audit is adversarial by nature: a whole-read that sets
-   out to break the work, refute its claims, and find its holes. Verify runs a fresh-context checker when the change is
-   HIGH-STAKES and its only review is the author's own. High-stakes means one of two things: the delta is
-   surface-sized (a new surface or a multi-file behaviour change), or the change edits the method itself — a
-   rule whose MEANING changed, a new or re-scoped invariant (a wording-only edit that changes no rule's
-   meaning is not a method edit). The author's own review means no independent read has happened, where an
-   independent read is a differently-contexted head briefed from the primary sources on the "goal missed"
-   hypothesis; a prover pass in the author's own context never counts as one, and delegation never makes the
-   review independent — the same head that briefed the worker reads the result. One fresh checker per landing
-   batch covers every law in the batch (SPEC INV-61 scales the audit's form, never its freshness). Brief the
-   checker with the SPEC sentences the landing claims (the anchors) and the artifact paths — primary sources
-   only: never the worker's summary, never the senior's own plan. Its opening
-   hypothesis is "tasks completed, goal missed". It walks each claimed fact up the ladder exists →
-   substantive → wired → flows, and greps for stubs: TODO · FIXME · placeholder · lorem · hardcoded sample ·
-   empty function body.
-
-   Findings become rows or red, never a nod, folded before the landing commits. The checker is a worker
-   under the full contract (checkpoint, ledger, clock), and its verdict rides the delivery report. Anywhere
-   else the checker is the senior's option. A skill or prose landing walks the ladder in its kind's form:
-   the checker re-reads the SHIPPED text against the spec sentences.
+   author has judged the work (SPEC INV-46).** See
+   [references/verify-step-detail.md](references/verify-step-detail.md) for the audit protocol: what
+   high-stakes means, what an independent read is, how the checker is briefed, and where its findings go.
 
    **The authoring seat never certifies its own work adversarially (SPEC INV-237).** The freshness above is
    the whole rule, and the release pass may not waive it: a release's adversarial pass — the full
@@ -559,74 +501,19 @@ and why each is a trap (SPEC T-12, T-15, INV-4, INV-5, INV-15).
   half-done is a status, never a landing. An open leg keeps the row in-work, and the resume file's LIVE-STATE restates it at every
   supersession, never compresses it away (still open at compaction ⇒ restated in full).
 - **Trains, one pen (SPEC T-18, INV-39):** one session may roll up to the profile-declared lane cap of
-  INDEPENDENT build lanes without asking (`lanes.cap`, package default three [E-13]; the owner's
-  2026-07-06 value three in his profile; one more opens only on the human's asked word, never silently) —
-  pairwise independent: no true dependency between them and no same-section / same-behaviour collision —
-  mere co-location in a shared living doc is not an edge. Opening each lane is narrated, and
-  every train rides the departures board, a waiting lane naming whom it waits behind. Only penless
-  stages overlap: a later train's code and tests in its own isolated tree (its delta integrates only
-  under the pen; the disjoint-file road stays within one lane), read-only analysis free.
-
-  Every shared-doc edit, the integration, and the closing of a row take the pen one lane at a time — a
-  pen-stage is never cut mid-edit — and a landing commit carries exactly one row's delta, its gate run
-  on a tree clean of the other lanes' unfinished work; that same closing commit moves the row from the
-  queue's body to the month's archive file with its delivery report (the live-body law, SPEC INV-276).
-  After a landing, waiting lanes re-fence and
-  re-run their gates on the new truth. Never across sessions, never mid-milestone. A bug takes the pen
-  at the end of the current pen-stage and parks every rolling lane, each at its own checkpoint,
-  resuming in landing order.
-  **Lanes are picked by a graph, never by mood (SPEC INV-49):** at queue-take read the runnable head
-  and build the mini dependency graph — an edge only on a true dependency (one row needs another's
-  landed output) or a same-section / same-behaviour collision (the two rewrite one clause or one
-  behaviour's rule). Mere co-location in a shared living doc draws no edge: the shared living docs
-  (PRODUCT_SPEC, ARCHITECTURE, TEST_MATRIX) are a convergence point reconciled at integration, never a
-  serializing surface. Open lanes on a pairwise-independent set up to the cap. Rows that
-  collide only at integration — co-location included — pre-roll isolated build stages with the landing
-  order DECLARED at claim (first-declared lands first, the later re-fences). Tiny rows ride serial — parallel pays only when
-  build stages dominate the pen work — and the chosen set, the order, and a said-aloud "serial by the
-  graph" are board lines. The same queue-take also re-scans every deferred row's revisit trigger against
-  the current moment (SPEC INV-129): a time-bound trigger can come true and lapse between two milestone
-  gates, so the milestone re-scan is not its only reader — a fired trigger returns its row to the runnable
-  head right then, so a deferred wish never waits on a trigger nobody reads whichever cadence comes first.
-
-  **Opening a lane is an act you PERFORM (SPEC INV-214):** once the graph picks a
-  pairwise-independent set of two or more runnable rows with lanes free under the cap, open each one — do
-  not fall back to single-file. The act, `scripts/open-lane.sh <row> <slug>` or the same walk by hand:
-  stage the row→in-work flip in the queue, run the script to fence-check, refuse a lane past the profile
-  cap (`lanes.cap`, default three), commit that flip alone to main under the pen (the one-row claim
-  commit), cut `lane/<row>-<slug>` from it into its own worktree under `.claude/worktrees/`, and print the
-  worker brief stub naming the branch. Then delegate the lane with the Agent tool's `isolation:
-  "worktree"` option (it carries no gate, usable today), the brief naming the branch its work rides. Going
-  single-file while independent lanes stand free is a recorded choice: say the "serial by the graph" board
-  line and name why (the rows collide, the cap is full, the rows are tiny, or a dependency orders them).
-  That recorded reason is a discipline you hold, since no gate can judge whether two rows were independent
-  and owed a parallel lane — that judgment is the graph itself, a senior read (SPEC INV-49, INV-214).
-
-  **The drafter-applier pipeline is the standard colliding-rows form (SPEC INV-49):** on colliding rows
-  the penless DRAFT stage overlaps the current landing, a drafter worker preparing the next row's exact
-  edit strings while the applier lands the current row under the pen. See
-  [references/drafter-applier-example.md](references/drafter-applier-example.md) for the drafter's
-  self-verify list and the 2026-07-12 worked run [T-18, INV-39, INV-49].
+  INDEPENDENT build lanes without asking, the lanes picked by a dependency graph and each one opened as
+  an act performed; every shared-doc edit, the integration, and the closing of a row take the pen one
+  lane at a time. See [references/lanes-and-pen.md](references/lanes-and-pen.md) for the full lane law:
+  the cap and the independence test, the pen-stage rules, the lane graph and its deferred-trigger
+  re-scan, the open-lane act, and the drafter-applier form [T-18, INV-39, INV-49, INV-214].
 - **Junior delegation (decided from the request, BEFORE the first tool call, SPEC INV-69):** judgment work
   (spec, prove, architecture, matrix-level calls, findings triage, any taste call) stays senior; mechanical
   work (known edit strings, a known command, fan-out fact-gathering, a report or list or dump to produce)
   routes to a worker at the cheapest tier that can pass the brief, proposed and logged, the senior free to
-  override aloud. The brief is self-contained (the BMAD story-file lesson) and SIZED, born from reading the
-  touched files in full with three recorded lines per file — current state, what changes, and what must
-  survive (SPEC INV-53/54/55) — and closes on a HALT list,
-  so the worker halts at ambiguity and never guesses past it. The worker contract (SPEC ACT-3) narrows write-ownership to the
-  brief's named files; the senior owns write-set disjointness between concurrent same-session workers before
-  spawning them, or gives one an isolated worktree (SPEC INV-105). The brief carries the problem-ledger path
-  for workshop noise (SPEC INV-23) and the clock for every stamp (SPEC INV-24). And the brief carries the
-  cleanup-safety constraint: a cleanup acts only on what the run provably owns, targeted by a recorded
-  process group or an owned install path (SPEC INV-162, base rule 17). Every delegation reports its saving
-  in the row's delivery report, checked by suite and moved to the archive with the row by the closing
-  commit (SPEC INV-103, INV-276), and names the reads dispatched beside the work delegated (SPEC INV-137).
+  override aloud.
   See [references/delegation-protocol.md](references/delegation-protocol.md) for the full protocol: the
-  routing rule, the brief's three birth laws, the worker contract, and the delegation-reporting duty.
-  Each work block in the report opens by naming its root. The root is the person's dated request, a
-  standing instruction, or a stated reason, and machinery is never a root. The report accounts each
-  block against its announced plan line (SPEC INV-314).
+  routing rule, the brief's three birth laws, the worker contract, the cleanup-safety constraint, and the
+  delegation-reporting duty with its per-block root and plan-line accounting.
 - **A worker never restores a working tree with a git command (SPEC INV-298; the gate INV-299).** Every
   brief this skill composes carries this clause verbatim. Before a worker mutates a file it means to put
   back, it reads that file and holds its bytes. A worker puts a file back by WRITING ITS OWN SAVED BYTES.

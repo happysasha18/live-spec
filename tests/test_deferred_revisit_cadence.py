@@ -12,7 +12,7 @@ queue-take walk. String level, matrix M-270.
 import os
 import unittest
 
-from conftest import ROOT, read_flat
+from conftest import ROOT, read_all_flat, read_flat
 
 
 class TestDeferredRevisitCadence(unittest.TestCase):
@@ -46,7 +46,7 @@ class TestDeferredRevisitCadence(unittest.TestCase):
         self.assertIn("Deferred rows are revisited at every queue-take", spec)
 
     def test_build_pipeline_carries_the_queue_take_rescan(self):
-        bp = read_flat("skills/build-pipeline/SKILL.md")
+        bp = read_all_flat("skills/build-pipeline/SKILL.md")
         self.assertIn(
             "re-scans every deferred row's revisit trigger against the current moment (SPEC INV-129)",
             bp,

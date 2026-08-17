@@ -698,22 +698,32 @@
       "total": 10
     },
     "skills/build-pipeline/SKILL.md": {
-      "bytes": 64143,
+      "bytes": 52432,
       "file": "skills/build-pipeline/SKILL.md",
-      "long": 135,
+      "long": 99,
       "longest": 198,
       "register": 0,
-      "style": 120,
-      "total": 255
+      "style": 108,
+      "total": 207
+    },
+    "skills/build-pipeline/references/architecture-step-detail.md": {
+      "bytes": 2503,
+      "file": "skills/build-pipeline/references/architecture-step-detail.md",
+      "long": 6,
+      "longest": 81,
+      "register": 0,
+      "style": 5,
+      "total": 11
     },
     "skills/build-pipeline/references/delegation-protocol.md": {
-      "bytes": 8526,
+      "bytes": 10060,
       "file": "skills/build-pipeline/references/delegation-protocol.md",
-      "long": 28,
+      "long": 32,
       "longest": 71,
+      "reason": "2026-08-17: the junior-delegation excess moved word for word out of skills/build-pipeline/SKILL.md into this file's own section; the same findings left that body, whose total fell 255 to 207 in the same run, so the pack's total fell by 42 while this one entry rose 52 to 58. No sentence was written for this file.",
       "register": 0,
-      "style": 24,
-      "total": 52
+      "style": 26,
+      "total": 58
     },
     "skills/build-pipeline/references/drafter-applier-example.md": {
       "bytes": 1166,
@@ -733,6 +743,15 @@
       "style": 2,
       "total": 2
     },
+    "skills/build-pipeline/references/footprint-read.md": {
+      "bytes": 3111,
+      "file": "skills/build-pipeline/references/footprint-read.md",
+      "long": 10,
+      "longest": 61,
+      "register": 0,
+      "style": 2,
+      "total": 12
+    },
     "skills/build-pipeline/references/guardrails-catalog.md": {
       "bytes": 2041,
       "file": "skills/build-pipeline/references/guardrails-catalog.md",
@@ -742,6 +761,15 @@
       "style": 9,
       "total": 11
     },
+    "skills/build-pipeline/references/lanes-and-pen.md": {
+      "bytes": 4862,
+      "file": "skills/build-pipeline/references/lanes-and-pen.md",
+      "long": 15,
+      "longest": 74,
+      "register": 0,
+      "style": 4,
+      "total": 19
+    },
     "skills/build-pipeline/references/minor-bump-gate.md": {
       "bytes": 1814,
       "file": "skills/build-pipeline/references/minor-bump-gate.md",
@@ -750,6 +778,15 @@
       "register": 0,
       "style": 0,
       "total": 4
+    },
+    "skills/build-pipeline/references/mockup-first-entry.md": {
+      "bytes": 753,
+      "file": "skills/build-pipeline/references/mockup-first-entry.md",
+      "long": 1,
+      "longest": 42,
+      "register": 0,
+      "style": 1,
+      "total": 2
     },
     "skills/build-pipeline/references/project-setup.md": {
       "bytes": 4809,
@@ -768,6 +805,15 @@
       "register": 0,
       "style": 2,
       "total": 3
+    },
+    "skills/build-pipeline/references/verify-step-detail.md": {
+      "bytes": 3646,
+      "file": "skills/build-pipeline/references/verify-step-detail.md",
+      "long": 10,
+      "longest": 73,
+      "register": 0,
+      "style": 5,
+      "total": 15
     },
     "skills/build-pipeline/references/work-kind-table.md": {
       "bytes": 3103,

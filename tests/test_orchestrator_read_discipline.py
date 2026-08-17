@@ -3,6 +3,8 @@ Enshrines the read-discipline law across its homes so it cannot silently drift o
 Landed 2026-07-13."""
 from pathlib import Path
 
+from conftest import read_all
+
 ROOT = Path(__file__).resolve().parent.parent
 
 
@@ -29,7 +31,7 @@ def test_spec_invariant_137_present_and_indexed():
 
 def test_delegation_accounting_names_reads():
     # the discipline is made visible in the landing report's delegation accounting
-    bp = _read("skills/build-pipeline/SKILL.md")
+    bp = read_all("skills/build-pipeline/SKILL.md")
     assert "reads dispatched" in bp
     assert "INV-137" in bp
 

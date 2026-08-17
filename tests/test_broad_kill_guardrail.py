@@ -13,7 +13,7 @@ import os
 import re
 import subprocess
 import tempfile
-from conftest import ROOT, read
+from conftest import ROOT, read, read_all
 
 GUARD = os.path.join(ROOT, "guardrails", "check-broad-kill.sh")
 
@@ -141,7 +141,7 @@ def test_shared_install_path_is_not_a_safe_kill_target():
 
 def test_worker_briefing_carries_the_constraint():
     # a briefed worker inherits the constraint, so it never reinvents a broad `pkill chrome`.
-    bp = read("skills/build-pipeline/SKILL.md")
+    bp = read_all("skills/build-pipeline/SKILL.md")
     assert "INV-162" in bp
 
 

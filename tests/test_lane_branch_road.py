@@ -30,7 +30,7 @@ import subprocess
 import tempfile
 import unittest
 
-from conftest import ROOT, read_flat
+from conftest import ROOT, read_all_flat, read_flat
 
 
 def _robust_rmtree(path):
@@ -299,7 +299,7 @@ class TestLaneBranchLaw(unittest.TestCase):
         # the delegation.
         spec = read_flat("PRODUCT_SPEC.md")
         self.assertIn("the Agent tool's worktree isolation option with no permission gate", spec)
-        bp = read_flat("skills/build-pipeline/SKILL.md")
+        bp = read_all_flat("skills/build-pipeline/SKILL.md")
         self.assertIn('`isolation: "worktree"`', bp)
         self.assertIn("it carries no gate, usable today", bp)
 
@@ -528,7 +528,7 @@ class TestTheLaneOpenActLaw(unittest.TestCase):
         base = read_flat("skills/live-spec-base/SKILL.md")
         self.assertIn("The lane-open act", base)
         self.assertIn("`lanes.cap`", base)   # the cap row in the package defaults
-        pipe = read_flat("skills/build-pipeline/SKILL.md")
+        pipe = read_all_flat("skills/build-pipeline/SKILL.md")
         self.assertIn("Opening a lane is an act you PERFORM", pipe)
 
     def test_architecture_owns_inv214(self):

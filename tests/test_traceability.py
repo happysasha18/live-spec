@@ -3508,7 +3508,7 @@ class TestGroundingLaw(unittest.TestCase):
             "[INV-314]",
         ):
             self.assertIn(needle, spec, "SPEC missing the grounding law: %s" % needle)
-        pipeline = re.sub(r"\s+", " ", read(os.path.join("skills", "build-pipeline", "SKILL.md")))
+        pipeline = re.sub(r"\s+", " ", read_all(os.path.join("skills", "build-pipeline", "SKILL.md")))
         for needle in (
             "Each work block in the report opens by naming its root.",
             "The root is the person's dated request, a standing instruction, or a stated reason, "

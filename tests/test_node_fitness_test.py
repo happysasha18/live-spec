@@ -10,12 +10,12 @@ speculative-node flag — a node with one caller and no promised second is flagg
 import os
 import unittest
 
-from conftest import ROOT, external_clone_or_skip, read_flat
+from conftest import ROOT, external_clone_or_skip, read_all_flat, read_flat
 
 
 class TestNodeFitnessTest(unittest.TestCase):
     def test_build_pipeline_carries_the_three_questions(self):
-        bp = read_flat("skills/build-pipeline/SKILL.md")
+        bp = read_all_flat("skills/build-pipeline/SKILL.md")
         self.assertIn("three-question fitness test", bp)
         self.assertIn("can it be tested alone", bp)
         self.assertIn("worked in parallel without queuing on shared files", bp)
