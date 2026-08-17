@@ -49,7 +49,10 @@ lost or reworded. The three bodies fall 56,083 to 52,466, 64,143 to 52,432 and 4
 bytes; the eight new files hold 22,090 bytes; the code route, base plus build-pipeline, falls
 120,226 to 104,898 bytes.
 
-Blocking: one, closed in 2139bad.
+Blocking: two, argued in full below.
+- closed: 2139bad returns the three untouched census entries to the values 9efe559 recorded.
+- stands: the three changed skills carry no skill-creator review record, so gate s reds. That review
+  is a pass this record cannot perform for itself, and it is owed before the range can land.
 
 1. **The census recount rewrote three entries the packet never touched.** In 5295b06 the rebuild of
    `guardrails/rule-census.json` carried three files' byte counts along with it: `PRODUCT_SPEC.md`
@@ -60,6 +63,46 @@ Blocking: one, closed in 2139bad.
    closed: 2139bad returns exactly those three `bytes` fields to their 9efe559 values and nothing
    else — three lines, the entries then byte-identical to the base copy field by field. The ratchet
    and gate aa are green over the restored file.
+
+2. **The three changed skills owe a skill-creator review record, and the packet brought none.** Gate s
+   (SPEC INV-208) holds that a substantively changed skill carries a committed record under
+   `docs/skill-review/` whose verdict is at least as new as the skill's own last change. All three
+   bodies this range edits are named: `build-pipeline` last changed in 88c4622, `communicator` in
+   cb26b70, `live-spec-base` in 5295b06, and no record covers any of them. Moving text out of a body
+   into its references is not the version-stamp bump the gate exempts by construction.
+   stands: the fix the gate names is to run the skill-creator review over each changed skill and
+   commit its verdict. That is a review pass, not an edit, and writing three verdicts I did not
+   obtain would be inventing the evidence this whole record exists to refuse. The range does not land
+   until those three records exist.
+
+## What the push gate said, run in full
+
+`bash guardrails/pre-push < /dev/null` over this tree at 434f1b9: **PUSH BLOCKED**, 1,496 seconds,
+29 gates. Four reds, and they are not one class:
+
+- **gate a** reddened on THIS record, and the defect was mine. The blocking field read
+  `Blocking: one, closed in 2139bad.` as a lone line, and the gate's parser reads the field only as
+  far as the first blank line and wants the literal token `closed:` or `stands:` in what it finds.
+  My own check had run `check-prover-record.sh` without `--push`, which never reaches that arm, so I
+  certified a shape the real gate rejects. The field is now bullets directly under it, the shape the
+  house already used.
+- **gate s** reddened on the three missing skill reviews — blocking finding 2 above.
+- **gate b** reddened on five tests. Four are machine-local and reproduce identically at the base
+  9efe559 in a second worktree: `test_config_health` twice, `test_judge_listed` once — that one reds
+  because six judges declared wired to Stop and UserPromptSubmit are absent from this machine's
+  `~/.claude/settings.json` — and the worker-restore transcript gate. The fifth,
+  `TestGateB_Tests::test_real_content_passes`, also reds at the base, and reds there for the same
+  single inner test. None of the five is this range's work.
+- **gate m** reddened on the same machine state from the other side: the installed copies of the
+  three slimmed skills, plus a `chat-law-hook.sh` hook drift that predates this range entirely.
+
+The four machine-local reds have no documented road past them. The repository's own written remedies
+are repairs, not bypasses: `scripts/sync-skills.sh` and `scripts/install-session-hooks.sh` write into
+the owner's `~/.claude`, and the worker-restore counting start moves only on a recorded finding and
+only as far as that finding requires — which this one does not need, since it ages out of the gate's
+24-hour window on its own. `docs/push-law.md` states the governing rule: loosening a gate takes a
+recorded profile entry, never a silent skip. `--no-verify` appears in `NEXT_STEPS.md` as a way to
+avoid paying for the same 25-minute chain twice on a green verdict, not as a road past a red one.
 
 Notes:
 
