@@ -11,9 +11,9 @@ carries is what picks.
 
 One boundary holds through the whole run: from a host session, the live-spec package repo is
 read-only. A defect found during adoption goes into live-spec's `inbox/` as one new file and into
-the host's own journal (SPEC INV-10). A live-spec session sweeps that folder later:
-`feedback-intake` routes each deposit to its one home — a queue row, a decision archive entry, or a
-feedback-ledger line — and the same commit that lands the route removes the swept file
+the host's own journal (SPEC INV-10). A live-spec session sweeps that folder later.
+`feedback-intake` routes each deposit to its one home: a queue row, a decision archive entry, or a
+feedback-ledger line. The same commit that lands the route removes the swept file
 (SPEC INV-68, T-10).
 
 ## The procedure at a glance
@@ -43,9 +43,9 @@ ADOPT.md runs as ordered phases; each phase states its own done-condition. In pl
 8. **Attach record (Phase 6).** The run records the installed skill versions in `.live-spec/`,
    seeds the host profile, writes its journal entry, and the host joins the standard pipeline.
 
-The recommended first action after adoption is a full product-prover pass over the spec. The one
-thing that lets a host skip it: a recent prover record covering the spec, from the same prover
-version installed now, with no drift since (ADOPT.md, Phase 6).
+The recommended first action after adoption is a full product-prover pass over the spec. One thing
+lets a host skip it: a recent prover record covering the spec, with no drift since. That record
+must come from the same prover version installed now (ADOPT.md, Phase 6).
 
 ## What the host gains
 
@@ -108,18 +108,21 @@ host instantiates for its own surfaces: completeness (every rendered surface is 
 non-empty), tests-present (a diff touching a user-facing module also touches `tests/`),
 behaviour-traces-to-spec (every user-facing behaviour names its spec clause), and conflicts
 (duplicate IDs, dead references, unmatrixed invariants). One command vendors them:
-`bash <pack>/adopt/install-scaffold.sh` from the host root writes six files into the host's
-`guardrails/` — the four checks, their shared library, and that README itself — seeds
-`guardrails.config.json` where the host carries none (a filled config is never clobbered), and
-writes `scripts/ratchet-manifest.json`, creating a `scripts/` folder in the host that has none
-(SPEC INV-97, INV-177). Two installers follow it, both named by ADOPT.md at the end of Phase 5:
-`bash <pack>/adopt/install-ratchet.sh [DOC...]` vendors the style, redundancy and freeze gates,
+`bash <pack>/adopt/install-scaffold.sh`, run from the host root. It writes six files into the
+host's `guardrails/`: the four checks, their shared library, and that README itself. It seeds
+`guardrails.config.json` where the host carries none, and a filled config is never clobbered. It
+also writes `scripts/ratchet-manifest.json`, creating a `scripts/` folder in the host that has none
+(SPEC INV-97, INV-177).
+
+Two installers follow it, both named by ADOPT.md at the end of Phase 5.
+`bash <pack>/adopt/install-ratchet.sh [DOC...]` vendors the style, redundancy and freeze gates. It
 seeds the debt caps at the host's size today and generates `tests/test_ratchet_lock.py`
-(SPEC INV-172); `bash <pack>/scripts/install-pack-hooks.sh` installs the pack's canonical scan
+(SPEC INV-172). `bash <pack>/scripts/install-pack-hooks.sh` installs the pack's canonical scan
 hooks on the machine, idempotently, leaving the personal overlay files alone (SPEC INV-173). A host
 that stops after the first installer carries less gate than the procedure asks for.
-`install.sh` at the package root copies
-the pack's skills into `~/.claude/skills/`, backing up any existing skill with a timestamp.
+
+`install.sh` at the package root copies the pack's skills into `~/.claude/skills/`, backing up any
+existing skill with a timestamp.
 
 ## What stays optional
 
