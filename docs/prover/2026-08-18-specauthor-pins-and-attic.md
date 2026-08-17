@@ -346,8 +346,12 @@ OK (freshness): record commit is not older than the last PRODUCT_SPEC.md commit.
 OK (freshness): record commit is not older than the last ARCHITECTURE.md commit.
 
 $ python3 -m pytest -q tests/test_guardrails.py -k TestGateA_ProverRecord
-GATE_A_RESULT
+........                                                                 [100%]
+8 passed, 70 deselected in 2.02s
 ```
+
+`test_real_repo_passes` is among those eight, and it is the one the final full run caught red before
+this extension.
 
 The same gate reddened between the first landing of this record and its extension, on exactly the
 freshness arm it is built to red on: `0ce20c8` touched `ARCHITECTURE.md` after `3b73943`. That is the
