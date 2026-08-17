@@ -49,7 +49,7 @@
       "total": 0
     },
     "PRODUCT_SPEC.md": {
-      "bytes": 703125,
+      "bytes": 702954,
       "file": "PRODUCT_SPEC.md",
       "long": 1862,
       "longest": 90,
@@ -86,7 +86,7 @@
       "total": 3
     },
     "TEST_MATRIX.md": {
-      "bytes": 484267,
+      "bytes": 484277,
       "file": "TEST_MATRIX.md",
       "long": 8,
       "longest": 46,
@@ -167,7 +167,7 @@
       "total": 3
     },
     "docs/audits/2026-08-07-number-census.md": {
-      "bytes": 32027,
+      "bytes": 31991,
       "file": "docs/audits/2026-08-07-number-census.md",
       "long": 5,
       "longest": 135,
