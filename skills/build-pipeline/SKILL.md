@@ -111,9 +111,9 @@ the kind says what their standards look like in its medium.
 
 ## When to run it — and where each kind of change enters
 - **Step zero, before ANY tool call: name the door aloud (SPEC T-12, INV-16; base rule 15).**
-  The human then hears the intake line back as the capture echo. The echo names heard · door · name ·
-  row · place on the map (communicator rule 12, its capture-echo behaviour rule). Its spec codes are
-  INV-27 and INV-37.
+  The human then hears the intake line back as the capture echo (SPEC INV-27, INV-37). The echo names
+  heard · door · name · row · place on the map (communicator rule 12, its capture-echo behaviour
+  rule).
   - The intake line states size, priority, door, and work-kind. A wish too big for its worth is
     negotiated in scope — cut surfaces or split into stages, never a time budget or estimate.
     Proposals proceed on the recommended option and are surfaced (SPEC T-15). The door is one of
@@ -137,10 +137,16 @@ the kind says what their standards look like in its medium.
     [references/footprint-read.md](references/footprint-read.md) for the full read: how the footprint
     composes with the door, and what each footprint grants each step. That page also carries what a
     three-source disagreement owes, and the mid-work re-classification.
-  - Tripwires decide by rule, ahead of judgment — a new user-visible surface · new persistent state · a new interaction on an existing surface
-    · the spec marks the touched surface [target] · behaviour no spec clause backs ⇒ FEATURE, however
-    casually asked. The tripwire verdict outranks a casual "bugfix" label, and queue-cutting belongs to the
-    bug door alone — a re-doored wish takes no preemption.
+  - Tripwires decide by rule, ahead of judgment. Five things trip a wish to the feature door:
+    - a new user-visible surface;
+    - new persistent state;
+    - a new interaction on an existing surface;
+    - the spec marks the touched surface [target];
+    - behaviour no spec clause backs.
+
+    Any one of them makes the wish ⇒ FEATURE, however casually asked. The tripwire verdict outranks a
+    casual "bugfix" label, and queue-cutting belongs to the bug door alone — a re-doored wish takes no
+    preemption.
   - Re-fire the door mid-work the moment the work is about to create a surface or state its door
     doesn't grant. Stop, reclassify, and continue by the right door. The re-door sometimes creates a
     surface or state that did not exist when the lanes opened. In that case the same re-check
@@ -501,8 +507,9 @@ INV-30, INV-136, INV-139), and the skill-review duty (SPEC INV-99).
    leaked state, an unseeded random, or a missing wait on a tool the test drives. Then remove it, so
    the test passes every run for the same reason. It is masked by nothing. Never a retry, never a
    rerun-until-green, never a raised timeout that hides the race, never "it passed this time" taken as
-   a pass. Sometimes the nondeterminism is not removable in owned code, the external tool itself misbehaving at
-   random. Only then is it workshop noise on the problem ledger [SPEC INV-23], a separate home.
+   a pass. Sometimes the nondeterminism is not removable in owned code, the external tool itself
+   misbehaving at random. Only then is it workshop noise on the problem ledger [SPEC INV-23], a
+   separate home.
    Green means deterministic.
 
    **The audit — a second pair of fresh eyes, REQUIRED where the stakes are high and only the
@@ -520,8 +527,9 @@ INV-30, INV-136, INV-139), and the skill-review duty (SPEC INV-99).
    how the checker is briefed, the ladder it walks, and where its findings go.
 
    **The authoring seat never certifies its own work adversarially (SPEC INV-237)**. The freshness
-   above is the whole rule, and the release pass may not waive it. A release's adversarial pass is the full re-prove at the release
-   gate. It is authored by a fresh seat, never the seat that authored the change. A newly added lens or rule is run against the very document that introduces it before
+   above is the whole rule, and the release pass may not waive it. A release's adversarial pass is
+   the full re-prove at the release gate. It is authored by a fresh seat, never the seat that authored
+   the change. A newly added lens or rule is run against the very document that introduces it before
    release (self-application), and the release record names the result. A release gate may require a
    dated clean-context review record naming a seat other than the release's. The mechanical floor
    checks that the record exists, is release-dated, and names a different seat; the rest is a
@@ -532,8 +540,8 @@ INV-30, INV-136, INV-139), and the skill-review duty (SPEC INV-99).
 
    Where the host has a remote, PUSH accepted work there by rule (SPEC INV-82). The push stands on two
    things. First, every gate the diff reaches ran and passed, the verdict read from the suite log's
-   own line. Second, the host's own push lines. The remote is discovered from the tree. Only a host with no remote
-   gets one contextual question at the first push moment. The question is: create one — GitHub,
+   own line. Second, the host's own push lines. The remote is discovered from the tree. Only a host
+   with no remote gets one contextual question at the first push moment. The question is: create one — GitHub,
    GitLab, whatever the human names — or stay local, recorded in the host profile.
 
    Every push re-walks the README against the pushed truth, crisp and current, a stale claim fixed
@@ -579,8 +587,8 @@ INV-30, INV-136, INV-139), and the skill-review duty (SPEC INV-99).
    Show the human the real render in a new window; push or deposit only after they've reviewed it. A
    push re-renders all deposited artifacts. A push shipping a new version walks the publish skill's
    shopfront check. That check reads README claims + kind-owed visuals fresh, the outcome line riding
-   the delivery report (SPEC INV-44). Where the host's design-sync is ON (base defaults; SPEC E-18), the landing's
-   declared components also sync to the team's design project. That sync happens after the human's
+   the delivery report (SPEC INV-44). Where the host's design-sync is ON (base defaults; SPEC E-18),
+   the landing's declared components also sync to the team's design project. That sync happens after the human's
    gate, and it never replaces the in-session show.
 
 ## Guardrails — the pipeline's mechanical enforcement (every project inherits them)
