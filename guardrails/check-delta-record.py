@@ -13,12 +13,13 @@ THE DELTA RECORD FILE FORMAT. A spec-touching delivery carries a delta record �
         "INV-300": "new",           # a code the body did not carry before
         "INV-4":   "sharpen",       # a code whose criterion text changed
         "INV-99":  "retire",        # a code the body no longer carries
-        "INV-5":   "scenario-only"  # a code whose text is unchanged; only its cases/examples moved
+        "INV-5":   "scenario-only", # a code whose text is unchanged; only its cases/examples moved
+        "INV-7":   "extend"         # a code that keeps every old criterion and gains a new one
       }
     }
 
-Every touched code names exactly one of the four kinds (INV-260). The classifier diffs the old criteria
-set against the new one and reds where the record and the diff disagree.
+Every touched code names exactly one of the five kinds (INV-260, INV-315). The classifier diffs the old
+criteria set against the new one and reds where the record and the diff disagree.
 
 THE DIFF, under normalization (INV-261). Each criterion is keyed by its code and its criterion text;
 the text is normalized — whitespace collapsed, italic `*` markers stripped, letters case-folded
@@ -29,12 +30,20 @@ text change; any other difference is none. Then:
   - a code in the NEW set and absent from the OLD with no `new` declared reds (INV-261 c4);
   - a code whose criterion text differs under normalization with no `sharpen` declared reds (INV-261 c5).
 
+THE GRANULARITY OF A CHANGE (INV-315). The gate's unit is the code, but the real unit is the criterion:
+one code can carry several criteria. So a changed code splits in two. When the code's old sentences all
+survive under it AND it carries at least one sentence it did not carry before — a strict superset — the
+edit ADDED a criterion under an existing code, and the kind is `extend`. Any other difference (a sentence
+rewritten, a sentence dropped) is a `replace`, and its kind is `sharpen`. The survival check below is a
+`sharpen` check only: for `extend` the old sentence surviving is the POINT of the edit, not a defect.
+
 SHARPEN SURVIVAL (INV-262). A `sharpen` code is checked by a normalized full-sentence match: its own
 new criterion line must no longer equal its old text (else nothing was sharpened), and its OLD sentence
 must not survive that match ANYWHERE in the new document (else the old wording lingers). Either fault
 reds.
 
-GROWTH BUDGET (INV-263). The new-criteria budget is the byte sum of the declared new criteria. The
+GROWTH BUDGET (INV-263). The new-criteria budget is the byte sum of the declared new criteria, plus —
+for a declared `extend` — the bytes of only the sentences that code did not carry before. The
 classifier measures the document's criterion-byte growth over the delivery, EXCLUDING declared-sharpen
 byte deltas and glossary-addition bytes (glossary bytes are never criterion bytes, so they fall out by
 construction), and reds when the measured growth exceeds the budget.
@@ -130,11 +139,23 @@ def main(argv):
         old_norms = {e["norm"] for e in old_ct[code]}
         new_norms = {e["norm"] for e in new_ct[code]}
         changed = old_norms != new_norms
+        # INV-315: a strict superset is an ADDED criterion under an existing code (`extend`); every
+        # other difference rewrote or dropped a sentence (`replace`), which is a `sharpen`.
+        is_extend = old_norms < new_norms
+        is_replace = changed and not is_extend
         k = kind(code)
-        if changed and k != "sharpen":
+        if is_replace and k != "sharpen":
             problems.append("`%s`'s criterion text differs under normalization between old and new, "
                             "but the delta record declares it %s, not `sharpen` (INV-261)."
                             % (code, k or "nothing"))
+        if is_extend and k != "extend":
+            problems.append("`%s` keeps every old criterion and gains a new one under the same code, "
+                            "but the delta record declares it %s, not `extend` (INV-315)."
+                            % (code, k or "nothing"))
+        if k == "extend" and not is_extend:
+            problems.append("`%s` is declared `extend` but its old criteria are not all still carried "
+                            "under it with something added — that is a `sharpen`, not an extend "
+                            "(INV-315)." % code)
         if k == "sharpen":
             # INV-262: the sharpened code's own line no longer equals its old text.
             if not changed:
@@ -153,6 +174,7 @@ def main(argv):
     # INV-263: the growth budget from declared-new criteria.
     new_declared = {c for c, v in declared.items() if v == "new"}
     sharpen_declared = {c for c, v in declared.items() if v == "sharpen"}
+    extend_declared = {c for c, v in declared.items() if v == "extend"}
 
     budget = 0
     seen_new_lines = set()
@@ -160,6 +182,15 @@ def main(argv):
         for e in new_ct.get(code, []):
             if e["norm"] in seen_new_lines:
                 continue                     # a criterion carrying two new codes is counted once
+            seen_new_lines.add(e["norm"])
+            budget += e["bytes"]
+    # INV-315: an `extend` brings only its ADDED sentences into the budget. The code's old sentences
+    # are still carried, so they are not growth; without this the added line would red on INV-263.
+    for code in sorted(extend_declared, key=sf.code_sort_key):
+        old_norms = {e["norm"] for e in old_ct.get(code, [])}
+        for e in new_ct.get(code, []):
+            if e["norm"] in old_norms or e["norm"] in seen_new_lines:
+                continue
             seen_new_lines.add(e["norm"])
             budget += e["bytes"]
 
