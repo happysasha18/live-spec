@@ -14,29 +14,57 @@ live-spec closes it. You say the sentence in passing, with nothing to file and n
 
 ## Install
 
+There are two ways in. Pick one road at step 1, then follow that road's lines wherever the steps below fork.
+
+### Step 1 — get the pack onto your machine
+
+**The plugin road.** Type two lines into Claude Code:
+
 ```
 /plugin marketplace add happysasha18/live-spec
 /plugin install live-spec@live-spec
 ```
 
-Those two lines go into Claude Code. Or clone this repository and run `./install.sh`, which copies the skills into `~/.claude/skills/`.
+That is the whole step. The plugin puts the entire pack tree under `~/.claude/plugins/cache/`. You do not clone this repository, now or later.
 
-Then say *"attach live-spec to this project"* in the project you want it in, or *"found a new project on live-spec"* in an empty directory. The pack reads the tree and runs the setup walk it calls for: [`adopt/START.md`](adopt/START.md) for a fresh project, [`adopt/ADOPT.md`](adopt/ADOPT.md) for an existing codebase. On that second path the pack writes the first spec from what ships today. [`docs/adoption.md`](docs/adoption.md) describes the same run in plainer words.
-
-The push gate is a third step, and it reads the documents attaching just wrote. The setup walk runs it for you. To run it by hand from your project's root, use the pack tree you already have. The plugin install puts the whole tree under `~/.claude/plugins/cache/`. The clone below is for the `install.sh` path, which carries skill files alone:
+**The clone road.** Clone the repository and run its installer:
 
 ```
 git clone https://github.com/happysasha18/live-spec.git
-bash live-spec/adopt/install-scaffold.sh
+cd live-spec && ./install.sh
 ```
 
-That copies the four checks into your project's `guardrails/` and seeds `guardrails.config.json`. Fill in that config: your paths to the spec, the test matrix, the queue, the tests, and the surface registry. Empty its `waivers` block, which arrives holding one example waiver that switches the completeness check off.
+`install.sh` copies the skill folders into `~/.claude/skills/` and copies nothing else. Keep the clone. It is your copy of the pack tree, and step 3 runs a script that lives inside it.
 
-Then add the four check lines to `.git/hooks/pre-push`, listed in [`scaffold/guardrails/README.md`](scaffold/guardrails/README.md). Create that hook file if your project has none, and make it executable. A push runs the checks once that hook calls them.
+### Step 2 — attach the pack to a project
+
+Both roads do the same thing here. Open the project in Claude Code and say *"attach live-spec to this project"*, or *"found a new project on live-spec"* in an empty directory. The pack locates its own tree and reads yours, then runs the setup walk that fits. [`adopt/START.md`](adopt/START.md) founds a fresh project; [`adopt/ADOPT.md`](adopt/ADOPT.md) attaches an existing codebase and writes your first spec from what your code ships today. [`docs/adoption.md`](docs/adoption.md) tells the same story in plainer words.
+
+### Step 3 — install the push gate
+
+The push gate is a separate step, and it reads the documents step 2 just wrote. **The setup walk offers to install it for you.** That is the ordinary path. Read on only if you would rather do it by hand.
+
+By hand, run one script from your project's root. It lives in the pack tree you already got in step 1, so the line you type depends on which road you took:
+
+```
+# plugin road — the tree sits in the plugin cache
+bash ~/.claude/plugins/cache/*/live-spec/*/adopt/install-scaffold.sh
+
+# clone road — the tree is the clone from step 1
+bash /path/to/live-spec/adopt/install-scaffold.sh
+```
+
+It copies the four checks into your project's `guardrails/` and seeds `guardrails.config.json`.
+
+That config then needs two things from you. Fill in your paths: the spec, the test matrix, the queue, the tests, and the surface registry. The queue is the dated list of what has been asked of the product and where each ask stands. This repository keeps its own in [`ROADMAP.md`](ROADMAP.md).
+
+Second, empty the config's `waivers` block. It ships holding one example waiver, and that example switches the completeness check off. Leave the example in place and you run on three checks instead of four, with nothing to tell you.
+
+Last, add the four check lines to `.git/hooks/pre-push`. They are listed in [`scaffold/guardrails/README.md`](scaffold/guardrails/README.md). Create that hook file if your project has none, and make it executable. The checks run on your next push.
 
 The checks need Python 3.9 or newer, and a project that is already a git repository.
 
-After that everything runs in plain words: *"attach live-spec to this project"*, any wish, *"status"*, *"publish"*.
+After that everything runs in plain words: any wish, *"status"*, *"publish"*.
 
 ---
 
@@ -47,9 +75,11 @@ A project under the pack keeps one document, `PRODUCT_SPEC.md`, stating what the
 - The document opens with a **glossary**. Every domain noun used anywhere in the spec has a one-sentence definition. An ordinary English word needs no entry.
 - The body is a list of **requirements**. Each requirement has a short **context** (when the situation arises, who is involved, what the reader sees), one **user story** (as a person in a named role, I want one thing, so that one benefit follows), and **acceptance criteria**.
 - The criteria are grouped into **named cases**. A case names a situation and lists two to six numbered steps. Each step carries one trigger and one response, written with the plain keywords *when*, *while*, *if*, *then*, and *shall*.
-- A short code anchor trails at the end of a line and points to the rule's home in the spec. An anchor looks like `[INV-104]` or `[E-6, T-12]`. A reader can ignore the anchors. A maintainer follows them.
+- Each line ends with a short code in brackets: `[INV-104]`, or `[E-6, T-12]` where several apply. The code is that rule's permanent id, and this spec line is its home. The test matrix and the architecture document cite the same code, so a maintainer can walk between all three. A reader can ignore the codes.
 
-The test matrix follows the same format, defined in [`docs/test-matrix-format.md`](docs/test-matrix-format.md): each row is one criterion stating what a fact does and what it must never do, grouped by architecture node, and the coverage table at the document's end is generated from the rows and gated against hand edits. The roadmap and the architecture document follow it too, the architecture defined in [`docs/architecture-format.md`](docs/architecture-format.md): each part of the system stands as one node section naming its responsibility, the spec facts it owns, and where it lives in the code. One shared parser reads every node section, and every check reads a node through it.
+A **fact** is one thing the spec says the product does. The test matrix follows the same format, defined in [`docs/test-matrix-format.md`](docs/test-matrix-format.md). Each matrix row takes one fact and states both halves of it: what it does, and what it must never do. Rows are grouped by architecture node, and the coverage table at the document's end is generated from the rows and gated against hand edits.
+
+The roadmap and the architecture document follow the format too. The architecture is defined in [`docs/architecture-format.md`](docs/architecture-format.md). Each part of the system stands as one node section, naming its responsibility, the facts it owns, and where it lives in the code. One shared parser reads every node section, and every check reads a node through it.
 
 Work enters the spec before code. A new behaviour arrives as a spec change, gets reviewed, and only then gets built. A guardrail check goes red when a shipped behaviour has no spec sentence behind it. A removed feature leaves a dated tombstone, and its history moves to `JOURNAL.md`.
 
@@ -57,17 +87,17 @@ Work enters the spec before code. A new behaviour arrives as a spec change, gets
 
 ## What's different
 
-**The gates are scripts.** Four checks decide whether a push in your project is allowed. A surface is one named, user-visible part of what the project ships. The registry is the table listing them, `SURFACES.md` here. Every surface the registry lists shows up in what renders, and every rendered surface is listed. A change to a user-facing file carries a test. Every listed surface cites a spec anchor that exists. No anchor is duplicated and no surface is registered twice. The four are Python on the pre-push hook, mirrored in [CI](.github/workflows/gates.yml). A change that has drifted from its specification is refused. Some other frameworks enforce their specs by asking a model to check. A model having a bad day reports that it checked.
+**The gates are scripts.** Four checks decide whether a push in your project is allowed. A **surface** is one named part of what a project ships that a user meets: a screen, a page, a command, a public function. The registry is the table that lists them, `SURFACES.md` here. The first check reads that table both ways round: everything the registry lists is really shipped, and everything shipped is listed. The second: a change to a user-facing file carries a test. The third: every listed surface cites a spec code that exists. The fourth: no code is claimed twice and no surface is registered twice. The four are Python on the pre-push hook, mirrored in [CI](.github/workflows/gates.yml). A change that has drifted from its specification is refused. Some other frameworks enforce their specs by asking a model to check. A model having a bad day reports that it checked.
 
-**It can decline a gate it cannot build honestly, and records the reasoning.** A planned gate would have failed a session that worked one step at a time. The [prover's record](docs/prover/) for that landing declined it, with three reasons: independence is a judgment, and a script sees only a diff; the evidence a correct run would leave is destroyed by design; and the one mechanical signal available would fire on every lawful sequential run. It shipped as a written discipline. The rule behind this decision is that a requirement no script can enforce stays a note, and a judgment call is never wired as an automated gate. The records are in [`docs/prover/`](docs/prover/), including the ones where the reviewer missed something and said so.
+**It can decline a gate it cannot build honestly, and records the reasoning.** One planned gate was refused. It would have gone red on a session that landed two independent pieces of work one after the other. Those two could have run side by side. The [record of that refusal](docs/prover/2026-07-18-rows386-412-414-lane-open-act.md) gives three reasons. Whether two pieces of work were independent is a senior's read, and a script sees only a diff. The evidence a correct run leaves is destroyed on purpose: a finished lane's branch is torn down when it lands. And the one signal a script could key on would fire on every lawful one-at-a-time run too. So the requirement shipped as a written discipline, held by the session and backed by no script. The rule behind that: a requirement no script can enforce stays a note, and a judgment call is never wired as an automated gate. The records are in [`docs/prover/`](docs/prover/), including the ones where the reviewer missed something and said so.
 
-**The rules are built for a model's failure modes.** Every claim shown for review is tagged with its source: read from the artifact, your own recorded word, or the agent's inference, with inferences flagged most visibly. The line between what a document says and what a model filled in is invisible to a reader, and that is where the errors live. A background worker from a dead session is treated as a concurrent writer until three signals agree it stopped. A decision you withdraw twice keeps its recommendation and is never raised again, because a tireless agent will go on asking on its own.
+**The rules are built for a model's failure modes.** Every claim shown for review is tagged with its source. The source is the artifact it was read from, your own recorded word, or the agent's inference. Inferences are flagged loudest ([the rule](skills/communicator/SKILL.md)). The line between what a document says and what a model filled in is invisible to a reader, and that is where the errors live. A background worker from a dead session counts as a live writer until three signals agree it stopped. Its files stop changing, its heartbeat goes stale, and it fails to answer a direct message ([`docs/worker-liveness.md`](docs/worker-liveness.md)). A decision you withdraw twice keeps its recommendation and is never raised again, because a tireless agent will go on asking ([the rule](skills/communicator/SKILL.md)).
 
 ---
 
 ## The rules are the product
 
-The rules are the part a software house would charge you for: thirty-four shared rules across the skill set, stated once. They cover how a spec gets written so it stays readable. They cover when a question is worth your attention and when it is routine. They cover what a green suite does and does not prove.
+The rules are the part a software house would charge you for: thirty-four shared rules across the skill set, stated once in [`live-spec-base`](skills/live-spec-base/SKILL.md). They cover how a spec gets written so it stays readable. They cover when a question is worth your attention and when it is routine. They cover what a green suite does and does not prove.
 
 <!-- generated:count:skills-lines — scripts/gen-tree-counts.py owns the block below -->
 
@@ -87,7 +117,7 @@ The pack is opinionated. The opinions belong to one engineer, and they are not n
 
 You keep control, in a strong sense. Access to the diff was never the problem. Knowing where to look is.
 
-- **Nothing is decided silently.** Every default is printed in the delivery report, in the product's own words, marked as tweakable: *"on a phone this gallery stacks into one column."*
+- **Nothing is decided silently.** Every default the agent picked is printed in the delivery report at the end of a change. It appears in the product's own words, marked as tweakable: *"on a phone this gallery stacks into one column."* ([the rule](skills/communicator/SKILL.md))
 - **Routine choices are made and reported; the lane keeps moving.** Only what the documents genuinely leave open reaches you as a question.
 - **Undo is one commit.** The change lands with its spec, matrix, and architecture together.
 - **It cannot run away.** The gates go red and stop the push.
@@ -98,7 +128,13 @@ Many tools offer control by asking a long list of questions up front. That is mo
 
 ## What it missed
 
-Three projects run under this pack in production, the pack's own repository among them, and they keep catching the method out. A dead-end check ran on the right surface and still missed a one-way door, because it read states within a single surface while nothing walked the round trip between two surfaces. That was the method's own fault, and it became a new rule. A test guarded that near-silent audio stems are dropped from a view, and it stayed green for a month while the spec's actual requirement, that those stems stay visible and named, went unrendered. And a scroll that satisfies its motion contract exactly can still feel cheap, which no rubric will catch honestly.
+Three projects run under this pack in production, the pack's own repository among them, and they keep catching the method out.
+
+One check hunts dead ends: a state a user can enter and cannot leave. It ran on the right screen and found nothing, because that screen did have exits. The trap was a door shown only on a first visit, with no way back to it afterwards. The check tested each state for an exit and never asked whether a page you leave can be reached again. That was the method's own fault, and it became a new rule ([`docs/lenses.md`](docs/lenses.md), INV-50).
+
+In another project a test asserted that near-silent audio tracks are hidden from a view. The spec required the opposite: those tracks stay visible, with their names. The test was green for a month while the product did the wrong thing.
+
+And a scroll that satisfies its motion contract exactly can still feel cheap, which no rubric will catch honestly.
 
 > **A spec owns what a project can write down and test. Feel belongs to the owner's eye.**
 
@@ -127,11 +163,11 @@ The ideas in five minutes: [`OVERVIEW.md`](OVERVIEW.md) · [pipeline](docs/pipel
 
 This pack is for people who can already build software, know what discipline costs, and now build with agents that are fast and untrustworthy. It is the wrong tool for a first project. It hands you a spec, an architecture document, a test matrix, and a pre-push hook. That is the right shape for the problem and too much for someone who has never shipped.
 
-Three projects, one author, no outside adopters yet. The judgment loop is one model reviewing its own work. Only the mechanical gates are genuinely independent, which is why they are scripts. The version moves fast and the rules will sharpen under you. The gates stabilize first, because those carry red-first proofs.
+Three projects, one author, no outside adopters yet. The judgment loop is one model reviewing its own work. Only the mechanical gates are genuinely independent, which is why they are scripts. The version moves fast and the rules will sharpen under you. The gates stabilize first, because each one carries a red-first proof. A red-first proof is a test watched failing before the gate existed, which is what shows the gate can fail at all. Every gate's proof is named in [`guardrails/gate-red-proofs.json`](guardrails/gate-red-proofs.json), and a gate with no proof blocks the push.
 
 Prior art is credited in full, including what was borrowed and from whom: [survey](docs/prior-art-frameworks.md) · [originality audit](docs/research/2026-07-10-originality-audit.md) · [comparative reviews](docs/research/2026-07-06-bmad-kiro-livespec-comparison.md), briefed to criticize all three subjects. This pack sits alongside BMAD, Kiro, and the wider spec-driven-development family. What it adds is the mechanical push gate and the recorded prover discipline. [Superpowers](https://github.com/obra/superpowers) is ahead of anything here on execution discipline, and its stars are earned. If you know prior art we missed, open an issue.
 
-**Known issues.** Internal vocabulary still leaks into human-facing text. A register lint blocks the known leaks in shown artifacts, and chat stays the weakest surface. The spec still carries counted style debt, dated in the queue. The settings card is young and has run on one project. All three are tracked and reviewed at every push.
+**Known issues.** Internal vocabulary still leaks into human-facing text. A register lint — [`scripts/preshow-register-lint.py`](scripts/preshow-register-lint.py) — blocks the leaks it already knows before an artifact is shown, and chat stays the weakest surface. The spec still carries style debt, counted and capped in [`scripts/spec-debt-cap.json`](scripts/spec-debt-cap.json), with the work to clear it dated in the queue, [`ROADMAP.md`](ROADMAP.md). The settings card is the page listing every setting the pack knows, its current value, and one plain line saying how to change it. That card is young and has run on one project. All three are tracked and reviewed at every push.
 
 ---
 
