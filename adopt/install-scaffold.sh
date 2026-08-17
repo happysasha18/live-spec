@@ -129,7 +129,7 @@ echo "       python3 guardrails/check_tests_present.py --base origin/main"
 echo "       python3 guardrails/check_traces_to_spec.py"
 echo "       python3 guardrails/check_conflicts.py"
 echo "  3. prove one red-first: plant a fake registry row, watch check_completeness.py red, remove it"
-echo "  4. add the four check lines to your pre-push hook (README step 5)"
+echo "  4. add the four check lines to your pre-push hook (guardrails/README.md, step 5 — the copy just vendored)"
 
 python3 - "${#VENDOR_CODE[@]}" "$CONFIG_SEEDED" << 'PYEOF'
 import json, sys

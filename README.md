@@ -14,7 +14,7 @@ live-spec closes it. You say the sentence in passing, with nothing to file and n
 
 ## Install
 
-There are two ways in. Pick one road at step 1, then follow that road's lines wherever the steps below fork.
+There are two ways in. Pick one road at step 1, then follow that road's lines wherever the steps below fork. Take the plugin road if you want to use the pack and download nothing you have to keep; take the clone road if you want the pack's own tree sitting on your disk, to read and to keep.
 
 ### Step 1 — get the pack onto your machine
 
@@ -44,6 +44,8 @@ Both roads do the same thing here. Open the project in Claude Code and say *"att
 
 The push gate is a separate step, and it reads the documents step 2 just wrote. **The setup walk offers to install it for you.** That is the ordinary path. Read on only if you would rather do it by hand.
 
+Two things have to be true before any of it works, and each has one command that says so. `python3 --version` must print 3.9 or newer, and `git rev-parse --is-inside-work-tree` must print `true` in your project's root.
+
 By hand, run one script from your project's root. It lives in the pack tree you already got in step 1, so the line you type depends on which road you took:
 
 ```
@@ -54,15 +56,24 @@ bash ~/.claude/plugins/cache/*/live-spec/*/adopt/install-scaffold.sh
 bash /path/to/live-spec/adopt/install-scaffold.sh
 ```
 
-It copies the four checks into your project's `guardrails/` and seeds `guardrails.config.json`.
+It writes six files into your project's `guardrails/` — the four checks, the shared library they load, and a copy of the page that documents them — seeds `guardrails.config.json` when your project carries none, and writes `scripts/ratchet-manifest.json`, creating a `scripts/` folder if you have none. It never overwrites a config you already filled. You have it right when the run prints one `vendored:` line per file, a `seeded:` line for the config, the manual steps that remain, and a last line reading `{"severity": "ok", "code": "scaffold-install", ...}`.
 
-That config then needs two things from you. Fill in your paths: the spec, the test matrix, the queue, the tests, and the surface registry — the table listing every surface the project ships, a surface being one named part a user meets: a screen, a page, a command, a public function. The queue is the dated list of what has been asked of the product and where each ask stands. This repository keeps its own in [`ROADMAP.md`](ROADMAP.md).
+That config then needs two things from you. Fill in your paths: the spec, the test matrix, the queue, the tests, and the surface registry — the table listing every surface the project ships, a surface being one named part a user meets: a screen, a page, a command, a public function. The queue is the dated list of what has been asked of the product and where each ask stands. This repository keeps its own in [`ROADMAP.md`](ROADMAP.md). Three more fields in that same config decide what the checks can see, and the seeded example fills them with example values a fresh project rarely matches: `user_facing_globs`, the files whose change demands a test; `rendered_artifacts`, or `render_command` instead, naming what the completeness check reads as your shipped output; and `surface_discovery_pattern`, the expression that finds surface ids inside that output. Leave the first two as they ship and two of the four checks go red on a path that does not exist. Leave the pattern matching nothing your artifacts contain and the check passes while seeing nothing, which is the one failure that never announces itself. [`scaffold/guardrails/README.md`](scaffold/guardrails/README.md) describes every field one at a time.
 
-Second, empty the config's `waivers` block. It ships holding one example waiver, and that example switches the completeness check off. Leave the example in place and you run on three checks instead of four, with nothing to tell you.
+Second, empty the config's `waivers` block. It ships holding one example waiver, and that example switches the completeness check off: every run prints `WAIVED (completeness): no rendered artifact yet — declared 2026-07-10, owner <maintainer>` and exits zero. The line is loud enough. What it says is that someone else's declaration, dated before you arrived, is standing where your own would go, and you are running on three checks instead of four.
 
-One more step, outside the config: add the four check lines to `.git/hooks/pre-push`. They are listed in [`scaffold/guardrails/README.md`](scaffold/guardrails/README.md). Create that hook file if your project has none, and make it executable. The checks run on your next push.
+One more step, outside the config: add these four lines to `.git/hooks/pre-push`.
 
-The checks need Python 3.9 or newer, and a project that is already a git repository.
+```sh
+python3 guardrails/check_completeness.py || exit 1
+python3 guardrails/check_tests_present.py || exit 1
+python3 guardrails/check_traces_to_spec.py || exit 1
+python3 guardrails/check_conflicts.py || exit 1
+```
+
+Create that file if your project has none, and make it executable with `chmod +x .git/hooks/pre-push`. Run it once by hand — `sh .git/hooks/pre-push` — and four lines each opening `OK (` with an exit of zero mean the gate is live. The same four lines are in your own `guardrails/README.md`, the copy the script just vendored, on either road. The tests-present check diffs against `origin/main`; a project whose default branch or remote is named otherwise passes its own with `--base <ref>`.
+
+Two more installers finish the gate the adoption procedure asks for, and both run from your project's root against the same pack tree. `bash <pack>/adopt/install-ratchet.sh` vendors the style, redundancy, and freeze gates, measures your documents as they stand today, writes the debt caps at those numbers, and generates `tests/test_ratchet_lock.py`, so the gate is green the day it lands and the debt can only hold or shrink from there. `bash <pack>/scripts/install-pack-hooks.sh` puts the pack's own scan hooks on your machine; running it twice changes nothing, and it never touches your personal overlay files. [`adopt/ADOPT.md`](adopt/ADOPT.md) counts both as part of the attach.
 
 After that everything runs in plain words: any wish, *"status"* — where the work stands now and what is next — *"publish"*.
 
@@ -101,7 +112,7 @@ The rules are the part a software house would charge you for: thirty-four shared
 
 <!-- generated:count:skills-lines — scripts/gen-tree-counts.py owns the block below -->
 
-Written out, they and the skills carrying them run to 5,549 lines under `skills/`. Of those, 4,228 lines are the skill bodies, and the rest are the reference pages a body loads on demand. Count them yourself with `cat skills/*/SKILL.md skills/*/references/*.md | wc -l` and `cat skills/*/SKILL.md | wc -l`. A push of this repository is refused where either command disagrees with the number printed here. The body figure is what a session pays before it starts work, so it is the figure to hold down. It is held under the figure that includes the references. When it rises, every session that loads a skill pays more to begin.
+Written out, they and the skills carrying them run to 5,698 lines under `skills/`. Of those, 4,075 lines are the skill bodies, and the rest are the reference pages a body loads on demand. Count them yourself with `cat skills/*/SKILL.md skills/*/references/*.md | wc -l` and `cat skills/*/SKILL.md | wc -l`. A push of this repository is refused where either command disagrees with the number printed here. The body figure is what a session pays before it starts work, so it is the figure to hold down. It is held under the figure that includes the references. When it rises, every session that loads a skill pays more to begin.
 
 <!-- /generated:count:skills-lines -->
 

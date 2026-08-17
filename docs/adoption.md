@@ -108,9 +108,17 @@ host instantiates for its own surfaces: completeness (every rendered surface is 
 non-empty), tests-present (a diff touching a user-facing module also touches `tests/`),
 behaviour-traces-to-spec (every user-facing behaviour names its spec clause), and conflicts
 (duplicate IDs, dead references, unmatrixed invariants). One command vendors them:
-`bash <pack>/adopt/install-scaffold.sh` from the host root copies the four checks and their shared
-library into the host's `guardrails/`, and seeds `guardrails.config.json` where the host carries
-none — a filled config is never clobbered (SPEC INV-97). `install.sh` at the package root copies
+`bash <pack>/adopt/install-scaffold.sh` from the host root writes six files into the host's
+`guardrails/` — the four checks, their shared library, and that README itself — seeds
+`guardrails.config.json` where the host carries none (a filled config is never clobbered), and
+writes `scripts/ratchet-manifest.json`, creating a `scripts/` folder in the host that has none
+(SPEC INV-97, INV-177). Two installers follow it, both named by ADOPT.md at the end of Phase 5:
+`bash <pack>/adopt/install-ratchet.sh [DOC...]` vendors the style, redundancy and freeze gates,
+seeds the debt caps at the host's size today and generates `tests/test_ratchet_lock.py`
+(SPEC INV-172); `bash <pack>/scripts/install-pack-hooks.sh` installs the pack's canonical scan
+hooks on the machine, idempotently, leaving the personal overlay files alone (SPEC INV-173). A host
+that stops after the first installer carries less gate than the procedure asks for.
+`install.sh` at the package root copies
 the pack's skills into `~/.claude/skills/`, backing up any existing skill with a timestamp.
 
 ## What stays optional
