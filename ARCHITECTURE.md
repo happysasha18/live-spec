@@ -100,12 +100,12 @@ named here and in the matrix.
 - INV-150 · INV-167 · INV-168 · E-33 · INV-185 · INV-186 · INV-187 · INV-215
 
 **pins** —
-- `skills/spec-author/SKILL.md:228` (spine)
-- `skills/spec-author/SKILL.md:254` ([target] tag tripwire)
-- `skills/spec-author/SKILL.md:381` (axes composition)
-- `skills/spec-author/SKILL.md:340` (fences)
-- `skills/spec-author/SKILL.md:356` (facet sweep — the canonical facet list)
-- `skills/spec-author/SKILL.md:161` (the enumeration-threshold structure rule, INV-215)
+- `skills/spec-author/references/the-spine.md:1` (spine)
+- `skills/spec-author/references/the-spine.md:27` ([target] tag tripwire)
+- `skills/spec-author/references/facet-sweep.md:26` (axes composition)
+- `skills/spec-author/SKILL.md:98` (fences)
+- `skills/spec-author/references/facet-sweep.md:1` (facet sweep — the canonical facet list)
+- `skills/spec-author/references/how-it-reads.md:68` (the enumeration-threshold structure rule, INV-215)
 
 **notes** —
 - also carries the prototype-norm pointer's format sentence (`norm: <path>`, frozen copy in `docs/norms/`) — wiring, the invariant's owner is build-pipeline

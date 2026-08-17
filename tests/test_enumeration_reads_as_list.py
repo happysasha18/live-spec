@@ -19,7 +19,7 @@ import re
 import sys
 import unittest
 
-from conftest import ROOT, external_clone_or_skip, read, read_flat
+from conftest import ROOT, external_clone_or_skip, read, read_flat, read_all_flat
 
 sys.path.insert(0, os.path.join(ROOT, "guardrails"))
 import archformat  # the one node reader every consumer reads through (SPEC INV-280)
@@ -28,7 +28,7 @@ import archformat  # the one node reader every consumer reads through (SPEC INV-
 class TestEnumerationReadsAsList(unittest.TestCase):
 
     def test_spec_author_states_the_enumeration_threshold(self):
-        body = read_flat("skills/spec-author/SKILL.md")
+        body = read_all_flat("skills/spec-author/SKILL.md")
         self.assertIn("INV-215", body,
                       "spec-author's structure guidance carries no INV-215 rule")
         self.assertIn("three or more", body,

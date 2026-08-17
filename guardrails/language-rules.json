@@ -397,7 +397,7 @@
         "docs/prose-quality-gate-design.md:19",
         "guardrails/spec-coinages.json:2",
         "scripts/spec-style-lint.py:262",
-        "~/.claude/skills/spec-author/SKILL.md:109",
+        "~/.claude/skills/spec-author/references/how-it-reads.md:16",
         "~/.claude/skills/text-audit/SKILL.md:223",
         "~/.claude/skills/communicator/references/writing-register.md:46",
         "~/.claude/playbook/personal/profile.md:16",
@@ -509,8 +509,8 @@
         "guardrails/one-name-aliases.json:2",
         "~/.claude/skills/live-spec-base/SKILL.md:61",
         "~/.claude/skills/communicator/references/writing-register.md:28",
-        "~/.claude/skills/spec-author/SKILL.md:232",
-        "~/.claude/skills/spec-author/SKILL.md:548"
+        "~/.claude/skills/spec-author/references/the-spine.md:5",
+        "~/.claude/skills/spec-author/references/primary-unit.md:35"
       ],
       "status": "stated-only",
       "notes": "check-one-name.py exists and is armed nowhere; its docstring reads UNARMED until the spec-format conversion delivery. The homes name the thing being named four ways: term, concept, surface, artifact.",
@@ -872,7 +872,7 @@
         "~/.claude/skills/communicator/references/writing-register.md:93",
         "~/.claude/skills/communicator/SKILL.md:434",
         "~/.claude/skills/text-audit/SKILL.md:226",
-        "~/.claude/skills/spec-author/SKILL.md:136"
+        "~/.claude/skills/spec-author/references/how-it-reads.md:43"
       ],
       "status": "held",
       "notes": "The package default carries the exception the model judge states. The owner's profile calls the ban permanent with no exception, which is what personal_override records; ~/.claude/playbook/personal/profile.md:18 and ~/.claude/skills/communicator/SKILL.md:434 hold that form. scripts/spec-style-lint.py:126 hard-codes its own exemptions for `X, not only Y` and for an imperative `use A instead of B`; those exemptions must come from this file instead. The modal words never, no, only, and exactly-one are load-bearing and survive, per docs/spec-compaction-protocol.md:75. Positive statement binds every surface, conversation and commit messages and worker briefs included, since each of them is text a reader meets. The surfaces list says so.",
@@ -938,7 +938,7 @@
         "~/.claude/playbook/personal/profile.md:14",
         "~/.claude/skills/communicator/references/writing-register.md:66",
         "~/.claude/skills/communicator/SKILL.md:254",
-        "~/.claude/skills/spec-author/SKILL.md:76"
+        "~/.claude/skills/spec-author/references/glossary.md:48"
       ],
       "status": "held",
       "notes": "The arm that held this rule in chat is retired to attic/midturn-chat-scan.py. It stood before every tool call in the tree. Its refusal landed on whichever call was in flight, a background worker's included. No field of that event tells the two apart. The law stands, and only its machine is gone. The Stop-side code-anchor scan still holds this rule at the turn's end. The anchor counts come from guardrails/criterion-readability.json and no prose home states them. code-anchor-scan.py:73 also catches a document name run against a number and code-anchor-scan.py:76 a spoken-space or hash variant, neither of which any prose home states. The criterion arm is armed nowhere.",
@@ -1426,8 +1426,8 @@
         "docs/roadmap-format.md:9",
         "docs/architecture-format.md:13",
         "docs/test-matrix-format.md:9",
-        "~/.claude/skills/spec-author/SKILL.md:109",
-        "~/.claude/skills/spec-author/SKILL.md:174",
+        "~/.claude/skills/spec-author/references/how-it-reads.md:16",
+        "~/.claude/skills/spec-author/references/how-it-reads.md:81",
         "~/.claude/skills/text-audit/SKILL.md:79"
       ],
       "status": "stated-only",
@@ -1567,7 +1567,7 @@
         "docs/test-matrix-format.md:10",
         "docs/prose-quality-gate-design.md:19",
         "scripts/spec-style-lint.py:238",
-        "~/.claude/skills/spec-author/SKILL.md:65",
+        "~/.claude/skills/spec-author/references/glossary.md:37",
         "~/.claude/skills/text-audit/SKILL.md:96"
       ],
       "status": "held",
@@ -1612,7 +1612,7 @@
         "docs/spec-style.md:23",
         "docs/prose-quality-gate-design.md:20",
         "scripts/spec-style-lint.py:272",
-        "~/.claude/skills/spec-author/SKILL.md:136"
+        "~/.claude/skills/spec-author/references/how-it-reads.md:43"
       ],
       "status": "held",
       "notes": "r24 and r25 are one rule read on two surfaces, and the block rule dissolves the clash between them: a numbered criterion is spec-body and a Context paragraph in the same file is human-prose, so the two never judge one sentence. The remaining defect is in the checker — scripts/spec-style-lint.py reds r25's surface today because its reach is the whole file rather than the numbered blocks. This entry carried a second arm until 2026-08-05: the actor a normative sentence binds is named, and is the one that acts. No checker ever read that arm, so it left for r75 and this one keeps the person.",
@@ -1969,7 +1969,7 @@
         "docs/test-matrix-format.md:11",
         "guardrails/check-no-history.py:7",
         "~/.claude/skills/live-spec-base/SKILL.md:112",
-        "~/.claude/skills/spec-author/SKILL.md:117"
+        "~/.claude/skills/spec-author/references/how-it-reads.md:24"
       ],
       "status": "held",
       "notes": "The homes scope the rule four ways: the normative body, the whole spec, the spec with the queue and the next-steps prose, and the requirements body alone. A dated line in a spec preamble passes the script and breaks docs/spec-format.md:26. check-no-history.py is armed nowhere.",
@@ -2307,7 +2307,7 @@
         "docs/roadmap-format.md:10",
         "docs/test-matrix-format.md:10",
         "guardrails/check-requirement-shape.py:18",
-        "~/.claude/skills/spec-author/SKILL.md:60"
+        "~/.claude/skills/spec-author/references/glossary.md:32"
       ],
       "status": "stated-only",
       "notes": "check-requirement-shape.py is armed nowhere.",
@@ -2951,7 +2951,7 @@
         "~/.claude/skills/live-spec-base/SKILL.md:232",
         "docs/lenses.md:50",
         "docs/spec-style.md:86",
-        "~/.claude/skills/spec-author/SKILL.md:132",
+        "~/.claude/skills/spec-author/references/how-it-reads.md:39",
         "docs/prose-quality-gate-design.md:40"
       ],
       "status": "held",
@@ -3007,7 +3007,7 @@
         "docs/roadmap-format.md:15",
         "docs/architecture-format.md:22",
         "docs/test-matrix-format.md:13",
-        "~/.claude/skills/spec-author/SKILL.md:565",
+        "~/.claude/skills/spec-author/SKILL.md:164",
         "~/.claude/skills/text-audit/SKILL.md:63"
       ],
       "status": "stated-only",
@@ -3820,10 +3820,10 @@
         "docs/spec-format.md:17",
         "~/.claude/skills/communicator/references/writing-register.md:13",
         "docs/spec-style.md:36",
-        "~/.claude/skills/spec-author/SKILL.md:97"
+        "~/.claude/skills/spec-author/references/how-it-reads.md:4"
       ],
       "status": "held",
-      "notes": "This entry is the reading arm of r08, split off on 2026-08-05. r08 counts the words a sentence runs to, and this one asks what the sentence carries. A regex over three-comma sentences was declared out of reach at ~/.claude/skills/spec-author/SKILL.md:102, since it trips on ordinary triads. Telling a genuine enumeration from a rhetorical triad is the same meaning call. The list instruction r38 carried before its fold into r08 stands here for that reason. His words (2026-07-27 17:27): «например вот это разве легко прочитать: \"the orchestration law that the session keeps pulling unblocked queue work while any remains.\"? может можно меньше причастных/деепричастных оборотов и сложноподчиненных предложений? может можно просто буллетами большинство из этого сформулировать?»",
+      "notes": "This entry is the reading arm of r08, split off on 2026-08-05. r08 counts the words a sentence runs to, and this one asks what the sentence carries. A regex over three-comma sentences was declared out of reach at ~/.claude/skills/spec-author/references/how-it-reads.md:9, since it trips on ordinary triads. Telling a genuine enumeration from a rhetorical triad is the same meaning call. The list instruction r38 carried before its fold into r08 stands here for that reason. His words (2026-07-27 17:27): «например вот это разве легко прочитать: \"the orchestration law that the session keeps pulling unblocked queue work while any remains.\"? может можно меньше причастных/деепричастных оборотов и сложноподчиненных предложений? может можно просто буллетами большинство из этого сформулировать?»",
       "owner": {
         "by": "skill",
         "why": "Whether one sentence carries a second rule or a definition is a reading."

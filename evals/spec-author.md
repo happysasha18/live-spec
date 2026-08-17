@@ -2,8 +2,8 @@
 
 ## Scenario
 
-Both arms get the same task; the with-skill arm first reads `skills/spec-author/SKILL.md` and works by
-it. Prompt (verbatim):
+Both arms get the same task; the with-skill arm first reads `skills/spec-author/SKILL.md` and the
+`skills/spec-author/references/` pages it points at, and works by them. Prompt (verbatim):
 
 > Write the PRODUCT_SPEC.md section for this new feature of a photo-gallery web app: "clicking a photo opens a
 > lightbox — the photo shown enlarged, with prev/next arrows".
@@ -42,6 +42,7 @@ batch, fences opened the delta, the two closing sentences closed it.
 ## Re-run
 
 One Sonnet worker per arm. Bare arm: the scenario + "do not invoke any tools or skills". With-skill arm:
-"First read skills/spec-author/SKILL.md and work strictly by it" + the same scenario. BEFORE the next
+"First read skills/spec-author/SKILL.md and every page under skills/spec-author/references/, and work
+strictly by them" + the same scenario. BEFORE the next
 run: de-contaminate the prompt (drop the enumerated hints; put the context in a small repo fixture the
 scenario points at). Score per criterion; append the dated record to `docs/evals/`.

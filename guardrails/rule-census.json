@@ -3,7 +3,7 @@
   "cap_rule": "r08",
   "files": {
     "ARCHITECTURE.md": {
-      "bytes": 107652,
+      "bytes": 107726,
       "file": "ARCHITECTURE.md",
       "long": 0,
       "longest": 25,
@@ -16,7 +16,7 @@
       "file": "MIGRATION.md",
       "long": 62,
       "longest": 65,
-      "reason": "2026-08-15: MIGRATION.md left scripts/rule-census.py RECORD_FILES for the readability milestone of plan v2 (accepted 2026-08-14) \u2014 a person adopting the pack reads it to move a live tree between versions, so it is a live document, not a record of what was written at the time. Seeded at the counts measured the day it entered: 62 sentences past the 25-word cap, 0 style, 0 register. The ceiling only falls from here.",
+      "reason": "2026-08-15: MIGRATION.md left scripts/rule-census.py RECORD_FILES for the readability milestone of plan v2 (accepted 2026-08-14) — a person adopting the pack reads it to move a live tree between versions, so it is a live document, not a record of what was written at the time. Seeded at the counts measured the day it entered: 62 sentences past the 25-word cap, 0 style, 0 register. The ceiling only falls from here.",
       "register": 0,
       "style": 0,
       "total": 62
@@ -49,7 +49,7 @@
       "total": 0
     },
     "PRODUCT_SPEC.md": {
-      "bytes": 702954,
+      "bytes": 703125,
       "file": "PRODUCT_SPEC.md",
       "long": 1862,
       "longest": 90,
@@ -86,7 +86,7 @@
       "total": 3
     },
     "TEST_MATRIX.md": {
-      "bytes": 484277,
+      "bytes": 484267,
       "file": "TEST_MATRIX.md",
       "long": 8,
       "longest": 46,
@@ -122,7 +122,7 @@
       "total": 3
     },
     "docs/PROGRESS.md": {
-      "bytes": 16271,
+      "bytes": 17735,
       "file": "docs/PROGRESS.md",
       "long": 0,
       "longest": 22,
@@ -167,7 +167,7 @@
       "total": 3
     },
     "docs/audits/2026-08-07-number-census.md": {
-      "bytes": 31991,
+      "bytes": 32027,
       "file": "docs/audits/2026-08-07-number-census.md",
       "long": 5,
       "longest": 135,
@@ -212,7 +212,7 @@
       "total": 37
     },
     "docs/language-rule-coverage.md": {
-      "bytes": 89996,
+      "bytes": 90220,
       "file": "docs/language-rule-coverage.md",
       "long": 77,
       "longest": 64,
@@ -1018,7 +1018,7 @@
       "total": 61
     },
     "skills/spec-author/README.md": {
-      "bytes": 5148,
+      "bytes": 5346,
       "file": "skills/spec-author/README.md",
       "long": 11,
       "longest": 52,
@@ -1027,13 +1027,94 @@
       "total": 11
     },
     "skills/spec-author/SKILL.md": {
-      "bytes": 63033,
+      "bytes": 20397,
       "file": "skills/spec-author/SKILL.md",
-      "long": 112,
+      "long": 46,
+      "longest": 98,
+      "register": 0,
+      "style": 0,
+      "total": 46
+    },
+    "skills/spec-author/references/anti-patterns.md": {
+      "bytes": 2296,
+      "file": "skills/spec-author/references/anti-patterns.md",
+      "long": 2,
+      "longest": 54,
+      "register": 0,
+      "style": 0,
+      "total": 2
+    },
+    "skills/spec-author/references/change-record.md": {
+      "bytes": 2148,
+      "file": "skills/spec-author/references/change-record.md",
+      "long": 2,
+      "longest": 54,
+      "register": 0,
+      "style": 0,
+      "total": 2
+    },
+    "skills/spec-author/references/completeness-pass.md": {
+      "bytes": 2820,
+      "file": "skills/spec-author/references/completeness-pass.md",
+      "long": 1,
+      "longest": 39,
+      "register": 0,
+      "style": 0,
+      "total": 1
+    },
+    "skills/spec-author/references/composition-sweep.md": {
+      "bytes": 2801,
+      "file": "skills/spec-author/references/composition-sweep.md",
+      "long": 5,
+      "longest": 55,
+      "register": 0,
+      "style": 0,
+      "total": 5
+    },
+    "skills/spec-author/references/facet-sweep.md": {
+      "bytes": 11793,
+      "file": "skills/spec-author/references/facet-sweep.md",
+      "long": 25,
+      "longest": 84,
+      "register": 0,
+      "style": 0,
+      "total": 25
+    },
+    "skills/spec-author/references/glossary.md": {
+      "bytes": 3830,
+      "file": "skills/spec-author/references/glossary.md",
+      "long": 1,
+      "longest": 43,
+      "register": 0,
+      "style": 0,
+      "total": 1
+    },
+    "skills/spec-author/references/how-it-reads.md": {
+      "bytes": 11930,
+      "file": "skills/spec-author/references/how-it-reads.md",
+      "long": 17,
       "longest": 99,
       "register": 0,
       "style": 0,
-      "total": 112
+      "total": 17
+    },
+    "skills/spec-author/references/primary-unit.md": {
+      "bytes": 3957,
+      "file": "skills/spec-author/references/primary-unit.md",
+      "long": 9,
+      "longest": 58,
+      "register": 0,
+      "style": 0,
+      "total": 9
+    },
+    "skills/spec-author/references/the-spine.md": {
+      "bytes": 3939,
+      "file": "skills/spec-author/references/the-spine.md",
+      "long": 8,
+      "longest": 70,
+      "register": 0,
+      "style": 0,
+      "total": 8
     },
     "skills/test-author/README.md": {
       "bytes": 6396,

@@ -41,7 +41,7 @@ class TestScenarioEntryExit(unittest.TestCase):
         self.fail("INV-127 Formal-index row missing")
 
     def test_spec_author_carries_the_entry_exit_duty(self):
-        sa = read_flat("skills/spec-author/SKILL.md")
+        sa = read_all_flat("skills/spec-author/SKILL.md")
         self.assertIn("Each scenario states how it is entered and how it exits (SPEC INV-127)", sa)
 
     def test_prover_carries_the_scenario_level_lens(self):

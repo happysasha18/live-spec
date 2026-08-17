@@ -24,7 +24,7 @@ import os
 import re
 import unittest
 
-from conftest import ROOT, read, read_flat
+from conftest import ROOT, read, read_flat, read_all_flat
 
 
 def heading_tag_gaps(spec_text):
@@ -97,7 +97,7 @@ class TestScenarioHeadingTag(unittest.TestCase):
         self.fail("INV-132 index row missing")
 
     def test_spec_author_carries_heading_convention(self):
-        sa = read_flat("skills/spec-author/SKILL.md")
+        sa = read_all_flat("skills/spec-author/SKILL.md")
         self.assertIn("[not a scenario]", sa)
         self.assertIn("untagged, unmarked requirement heading is unambiguously red", sa)
 

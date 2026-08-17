@@ -24,6 +24,8 @@ This shape does not match every skill evenly. Three skills — `product-prover`,
 
 **Repaired at HEAD.** The pins above were re-derived against commit `a5b94f85b8bd607e0ff462eb9e07e0c96235354d` (2026-08-12): every row's home file, line range, body bytes and pinned-test count were re-measured by the same methods stated above. All 53 rules still exist under their original title and number; 48 of the 53 line ranges had drifted (later edits to the same skill files shifted them), and 3 rows' pinned-test counts moved by one file because `tests/` itself changed since d11331f. No row's price-rank order changed.
 
+**Re-pointed after the spec-author offload (2026-08-17).** Nine sections of `skills/spec-author/SKILL.md` moved word for word into `skills/spec-author/references/`. Seven of this page's spec-author rows — the seven items of the spine — now live in `skills/spec-author/references/the-spine.md`, and the ten that stayed in the body shifted up. Every affected row's home path and line range was re-derived by matching its exact text in the new tree. No rule's text, body-byte count, pinned-test count or price changed, and no row's price-rank order changed: the move was verbatim.
+
 ## The price table, most expensive first
 
 | # | skill | home file : lines | opening line | body bytes | pinned tests | price |
@@ -31,7 +33,7 @@ This shape does not match every skill evenly. Three skills — `product-prover`,
 | 1 | build-pipeline | `skills/build-pipeline/SKILL.md:404-470` | 8. **Verify by deed.** Run it and see the result with your own eyes. Only call it done/working af... | 5,954 | 32 | 5,986 |
 | 2 | build-pipeline | `skills/build-pipeline/SKILL.md:286-352` | 3. **Architecture — write or update `ARCHITECTURE.md` from the proven spec** (template: | 5,705 | 20 | 5,725 |
 | 3 | build-pipeline | `skills/build-pipeline/SKILL.md:471-500` | 9. **Commit & show.** Commit when green with no regression (unasked) — same or better is enough, ... | 4,028 | 14 | 4,042 |
-| 4 | spec-author | `skills/spec-author/SKILL.md:248-277` | 7. **Terms** — every domain term is defined in the glossary, once, under one name. A word of ordi... | 2,286 | 25 | 2,311 |
+| 4 | spec-author | `skills/spec-author/references/the-spine.md:21-50` | 7. **Terms** — every domain term is defined in the glossary, once, under one name. A word of ordi... | 2,286 | 25 | 2,311 |
 | 5 | communicator | `skills/communicator/SKILL.md:459-479` | 6. **Account for every removal of substance (SPEC INV-109).** When the movement being reported re... | 2,292 | 7 | 2,299 |
 | 6 | build-pipeline | `skills/build-pipeline/SKILL.md:263-285` | 2. **Prove — invoke `product-prover`.** The prover only catches a cross-section hole when both si... | 2,230 | 7 | 2,237 |
 | 7 | build-pipeline | `skills/build-pipeline/SKILL.md:243-262` | 1. **Spec — invoke `spec-author`.** Write or grow the project `PRODUCT_SPEC.md`: entities, states... | 1,625 | 49 | 1,674 |
@@ -40,7 +42,7 @@ This shape does not match every skill evenly. Three skills — `product-prover`,
 | 10 | build-pipeline | `skills/build-pipeline/SKILL.md:385-403` | 7. **Code — implement until green.** Delegate well-scoped, mechanical implementation to a junior ... | 1,452 | 2 | 1,454 |
 | 11 | text-audit | `skills/text-audit/SKILL.md:152-169` | 3. **The auditor merges the two lists.** The auditor is the session running this skill, and the m... | 1,179 | 0 | 1,179 |
 | 12 | communicator | `skills/communicator/SKILL.md:449-457` | 4. **Run the register lint — a hard BLOCK (SPEC INV-83).** Feed every human-facing | 1,039 | 9 | 1,048 |
-| 13 | spec-author | `skills/spec-author/SKILL.md:594-603` | 1. **Author / grow the relevant requirement** in `PRODUCT_SPEC.md`: find (or open) the requiremen... | 1,044 | 3 | 1,047 |
+| 13 | spec-author | `skills/spec-author/SKILL.md:193-202` | 1. **Author / grow the relevant requirement** in `PRODUCT_SPEC.md`: find (or open) the requiremen... | 1,044 | 3 | 1,047 |
 | 14 | build-pipeline | `skills/build-pipeline/SKILL.md:353-363` | 4. **Prove the architecture — invoke `product-prover` with the architecture lens** whenever the doc | 1,003 | 27 | 1,030 |
 | 15 | test-author | `skills/test-author/SKILL.md:64-74` | 8. **Close by the mechanical gates, not a hand-walked list.** The coverage checklist the matrix once | 941 | 0 | 941 |
 | 16 | design-reviewer | `skills/design-reviewer/SKILL.md:204-215` | 3. **Every position behaves alike.** The same gesture on the same type in a different slot behave... | 859 | 7 | 866 |
@@ -55,32 +57,32 @@ This shape does not match every skill evenly. Three skills — `product-prover`,
 | 25 | design-reviewer | `skills/design-reviewer/SKILL.md:195-198` | 1. **Entry mirrors exit.** A layer that opens by a motion from its source closes by the reverse of | 398 | 1 | 399 |
 | 26 | test-author | `skills/test-author/SKILL.md:52-55` | 6. **Matrix-local row ids are legal, spec anchors stay the parent.** One spec fact may project into | 387 | 0 | 387 |
 | 27 | test-author | `skills/test-author/SKILL.md:48-51` | 5. **Name the state space before filling cells.** Axes first: view states (mode, toggles), data | 374 | 0 | 374 |
-| 28 | spec-author | `skills/spec-author/SKILL.md:243-246` | 5. **Invariants** — the properties that must hold across *every* reachable state, stated as crite... | 373 | 0 | 373 |
+| 28 | spec-author | `skills/spec-author/references/the-spine.md:16-19` | 5. **Invariants** — the properties that must hold across *every* reachable state, stated as crite... | 373 | 0 | 373 |
 | 29 | text-audit | `skills/text-audit/SKILL.md:141-144` | 1. **Run the mechanical lints, and fix every hit.** Run every check that a script or a grep can d... | 361 | 0 | 361 |
 | 30 | build-pipeline | `skills/build-pipeline/SKILL.md:381-384` | 6. **Test — with `test-author`, write tests that assert the REAL shipped artifact.** Render the w... | 355 | 0 | 355 |
 | 31 | communicator | `skills/communicator/SKILL.md:440-443` | 2. **Pass the draft phrase by phrase through one question:** *does this sentence stand for a read... | 344 | 0 | 344 |
 | 32 | communicator | `skills/communicator/SKILL.md:437-439` | 1. **Re-read the rules above, and the full writing register** — open this file and read the live ... | 340 | 0 | 340 |
-| 33 | spec-author | `skills/spec-author/SKILL.md:611-615` | 5. **Then walk the two layers to the tests** — the architecture doc (nodes owning the spec's facts, | 337 | 0 | 337 |
+| 33 | spec-author | `skills/spec-author/SKILL.md:210-214` | 5. **Then walk the two layers to the tests** — the architecture doc (nodes owning the spec's facts, | 337 | 0 | 337 |
 | 34 | design-reviewer | `skills/design-reviewer/SKILL.md:140-144` | 2. **Describe by role.** For each element, write its role sentence: "a photo a viewer opens large to | 326 | 1 | 327 |
-| 35 | spec-author | `skills/spec-author/SKILL.md:608-610` | 4. **Hand off to `product-prover` on the whole spec — the delta included.** The prover catches a | 304 | 0 | 304 |
+| 35 | spec-author | `skills/spec-author/SKILL.md:207-209` | 4. **Hand off to `product-prover` on the whole spec — the delta included.** The prover catches a | 304 | 0 | 304 |
 | 36 | text-audit | `skills/text-audit/SKILL.md:170-172` | 4. **Write each fix from the source.** For a blocking finding, take the fix from the material the... | 270 | 0 | 270 |
-| 37 | spec-author | `skills/spec-author/SKILL.md:604-606` | 2. **Ask, don't silently fill.** When the spec needs a decision only the author can make (a thres... | 250 | 0 | 250 |
-| 38 | spec-author | `skills/spec-author/SKILL.md:336-339` | 5. **The two closing sentences** — non-goals + one success measure (SPEC INV-20, INV-21). | 218 | 31 | 249 |
-| 39 | spec-author | `skills/spec-author/SKILL.md:237-238` | 2. **Entities** — the nouns. Each defined in the **glossary**, with its attributes, its unit/vali... | 208 | 0 | 208 |
+| 37 | spec-author | `skills/spec-author/SKILL.md:203-205` | 2. **Ask, don't silently fill.** When the spec needs a decision only the author can make (a thres... | 250 | 0 | 250 |
+| 38 | spec-author | `skills/spec-author/SKILL.md:94-97` | 5. **The two closing sentences** — non-goals + one success measure (SPEC INV-20, INV-21). | 218 | 31 | 249 |
+| 39 | spec-author | `skills/spec-author/references/the-spine.md:10-11` | 2. **Entities** — the nouns. Each defined in the **glossary**, with its attributes, its unit/vali... | 208 | 0 | 208 |
 | 40 | test-author | `skills/test-author/SKILL.md:41-42` | 1. **Open with the artifact inventory** — every file the user receives, each owning at least one | 197 | 0 | 197 |
 | 41 | test-author | `skills/test-author/SKILL.md:45-46` | 3. **Every row states BOTH sides** — what the fact does, and what it must never do. The never sid... | 186 | 0 | 186 |
-| 42 | spec-author | `skills/spec-author/SKILL.md:239-240` | 3. **States & transitions** — every move an entity can make, told as criteria (which action, whic... | 183 | 0 | 183 |
+| 42 | spec-author | `skills/spec-author/references/the-spine.md:12-13` | 3. **States & transitions** — every move an entity can make, told as criteria (which action, whic... | 183 | 0 | 183 |
 | 43 | design-reviewer | `skills/design-reviewer/SKILL.md:145-147` | 3. **Propose groups.** Elements whose role sentences match are a candidate same-kind group. The | 180 | 0 | 180 |
 | 44 | test-author | `skills/test-author/SKILL.md:43-44` | 2. **Blocks per architecture node; every spec fact ≥ 1 row.** A fact with no row is a derivation | 170 | 0 | 170 |
-| 45 | spec-author | `skills/spec-author/SKILL.md:241-242` | 4. **Actors** — who initiates each significant action (user, role, automated service, external sy... | 168 | 0 | 168 |
-| 46 | spec-author | `skills/spec-author/SKILL.md:334-334` | 3. **The standard-facet sweep** — every facet a spec sentence, decided or `[default]`-tagged (SPE... | 116 | 15 | 131 |
-| 47 | spec-author | `skills/spec-author/SKILL.md:332-332` | 1. **Regression fences** — when the wish touches a live surface (next section; SPEC T-14, INV-19); | 101 | 6 | 107 |
-| 48 | spec-author | `skills/spec-author/SKILL.md:333-333` | 2. **The new behaviour itself** — entities, states, transitions, composed across the canonical axes; | 103 | 0 | 103 |
+| 45 | spec-author | `skills/spec-author/references/the-spine.md:14-15` | 4. **Actors** — who initiates each significant action (user, role, automated service, external sy... | 168 | 0 | 168 |
+| 46 | spec-author | `skills/spec-author/SKILL.md:92-92` | 3. **The standard-facet sweep** — every facet a spec sentence, decided or `[default]`-tagged (SPE... | 116 | 15 | 131 |
+| 47 | spec-author | `skills/spec-author/SKILL.md:90-90` | 1. **Regression fences** — when the wish touches a live surface (next section; SPEC T-14, INV-19); | 101 | 6 | 107 |
+| 48 | spec-author | `skills/spec-author/SKILL.md:91-91` | 2. **The new behaviour itself** — entities, states, transitions, composed across the canonical axes; | 103 | 0 | 103 |
 | 49 | test-author | `skills/test-author/SKILL.md:47-47` | 4. **Every row pins a LEVEL** — the ladder below. The level is the row's most important judgment. | 100 | 0 | 100 |
-| 50 | spec-author | `skills/spec-author/SKILL.md:335-335` | 4. **The fit walk** — how the feature sits in the person's path, kind-scaled (SPEC INV-29); | 94 | 4 | 98 |
-| 51 | spec-author | `skills/spec-author/SKILL.md:247-247` | 6. **Cross-section composition** — the part most specs miss. See the dedicated step below. | 93 | 0 | 93 |
-| 52 | spec-author | `skills/spec-author/SKILL.md:236-236` | 1. **Purpose** — why the product exists, in plain words: the opening preamble. | 81 | 0 | 81 |
-| 53 | spec-author | `skills/spec-author/SKILL.md:607-607` | 3. **Run the completeness pass** (below) on the section just written. | 70 | 0 | 70 |
+| 50 | spec-author | `skills/spec-author/SKILL.md:93-93` | 4. **The fit walk** — how the feature sits in the person's path, kind-scaled (SPEC INV-29); | 94 | 4 | 98 |
+| 51 | spec-author | `skills/spec-author/references/the-spine.md:20-20` | 6. **Cross-section composition** — the part most specs miss. See the dedicated step below. | 93 | 0 | 93 |
+| 52 | spec-author | `skills/spec-author/references/the-spine.md:9-9` | 1. **Purpose** — why the product exists, in plain words: the opening preamble. | 81 | 0 | 81 |
+| 53 | spec-author | `skills/spec-author/SKILL.md:206-206` | 3. **Run the completeness pass** (below) on the section just written. | 70 | 0 | 70 |
 
 ## Every rule, in full, in the same order
 
@@ -122,11 +124,11 @@ Price: 4,028 body bytes plus 14 pinned tests = 4,042.
 
 ### 4. spec-author — The spine — what every spec must contain (not its section order), item 7
 
-Home: `skills/spec-author/SKILL.md:248-277`.
+Home: `skills/spec-author/references/the-spine.md:21-50`.
 
 Opening line, quoted in full: "7. **Terms** — every domain term is defined in the glossary, once, under one name. A word of ordinary"
 
-Body bytes: 2,286, counted over `skills/spec-author/SKILL.md` lines 248-277 with `len(text.encode('utf-8'))`.
+Body bytes: 2,286, counted over `skills/spec-author/references/the-spine.md` lines 21-50 with `len(text.encode('utf-8'))`.
 
 Pinned tests: 25, from `grep -rlF '<code>' tests/` over each of this rule's own codes (E-17, INV-16, INV-43), files unioned across codes.
 
@@ -230,11 +232,11 @@ Price: 1,039 body bytes plus 9 pinned tests = 1,048.
 
 ### 13. spec-author — How spec-author works, item 1
 
-Home: `skills/spec-author/SKILL.md:594-603`.
+Home: `skills/spec-author/SKILL.md:193-202`.
 
 Opening line, quoted in full: "1. **Author / grow the relevant requirement** in `PRODUCT_SPEC.md`: find (or open) the requirement the"
 
-Body bytes: 1,044, counted over `skills/spec-author/SKILL.md` lines 594-603 with `len(text.encode('utf-8'))`.
+Body bytes: 1,044, counted over `skills/spec-author/SKILL.md` lines 193-202 with `len(text.encode('utf-8'))`.
 
 Pinned tests: 3, from `grep -rlF '<code>' tests/` over each of this rule's own codes (INV-37), files unioned across codes.
 
@@ -410,11 +412,11 @@ Price: 374 body bytes plus 0 pinned tests = 374.
 
 ### 28. spec-author — The spine — what every spec must contain (not its section order), item 5
 
-Home: `skills/spec-author/SKILL.md:243-246`.
+Home: `skills/spec-author/references/the-spine.md:16-19`.
 
 Opening line, quoted in full: "5. **Invariants** — the properties that must hold across *every* reachable state, stated as criteria that"
 
-Body bytes: 373, counted over `skills/spec-author/SKILL.md` lines 243-246 with `len(text.encode('utf-8'))`.
+Body bytes: 373, counted over `skills/spec-author/references/the-spine.md` lines 16-19 with `len(text.encode('utf-8'))`.
 
 Pinned tests: 0. This rule cites no SPEC code in its own text, so the search fell back to its lead-in phrase: `grep -rlF 'Invariants' tests/`.
 
@@ -470,11 +472,11 @@ Price: 340 body bytes plus 0 pinned tests = 340.
 
 ### 33. spec-author — How spec-author works, item 5
 
-Home: `skills/spec-author/SKILL.md:611-615`.
+Home: `skills/spec-author/SKILL.md:210-214`.
 
 Opening line, quoted in full: "5. **Then walk the two layers to the tests** — the architecture doc (nodes owning the spec's facts,"
 
-Body bytes: 337, counted over `skills/spec-author/SKILL.md` lines 611-615 with `len(text.encode('utf-8'))`.
+Body bytes: 337, counted over `skills/spec-author/SKILL.md` lines 210-214 with `len(text.encode('utf-8'))`.
 
 Pinned tests: 0. This rule cites no SPEC code in its own text, so the search fell back to its lead-in phrase: `grep -rlF 'Then walk the two layers to the tests' tests/`.
 
@@ -494,11 +496,11 @@ Price: 326 body bytes plus 1 pinned tests = 327.
 
 ### 35. spec-author — How spec-author works, item 4
 
-Home: `skills/spec-author/SKILL.md:608-610`.
+Home: `skills/spec-author/SKILL.md:207-209`.
 
 Opening line, quoted in full: "4. **Hand off to `product-prover` on the whole spec — the delta included.** The prover catches a"
 
-Body bytes: 304, counted over `skills/spec-author/SKILL.md` lines 608-610 with `len(text.encode('utf-8'))`.
+Body bytes: 304, counted over `skills/spec-author/SKILL.md` lines 207-209 with `len(text.encode('utf-8'))`.
 
 Pinned tests: 0. This rule cites no SPEC code in its own text, so the search fell back to its lead-in phrase: `grep -rlF 'Hand off to `product-prover` on the whole spec — the delta included' tests/`.
 
@@ -518,11 +520,11 @@ Price: 270 body bytes plus 0 pinned tests = 270.
 
 ### 37. spec-author — How spec-author works, item 2
 
-Home: `skills/spec-author/SKILL.md:604-606`.
+Home: `skills/spec-author/SKILL.md:203-205`.
 
 Opening line, quoted in full: "2. **Ask, don't silently fill.** When the spec needs a decision only the author can make (a threshold, a"
 
-Body bytes: 250, counted over `skills/spec-author/SKILL.md` lines 604-606 with `len(text.encode('utf-8'))`.
+Body bytes: 250, counted over `skills/spec-author/SKILL.md` lines 203-205 with `len(text.encode('utf-8'))`.
 
 Pinned tests: 0. This rule cites no SPEC code in its own text, so the search fell back to its lead-in phrase: `grep -rlF 'Ask, don't silently fill' tests/`.
 
@@ -530,11 +532,11 @@ Price: 250 body bytes plus 0 pinned tests = 250.
 
 ### 38. spec-author — The feature delta, assembled — one home for its mandatory parts, item 5
 
-Home: `skills/spec-author/SKILL.md:336-339`.
+Home: `skills/spec-author/SKILL.md:94-97`.
 
 Opening line, quoted in full: "5. **The two closing sentences** — non-goals + one success measure (SPEC INV-20, INV-21)."
 
-Body bytes: 218, counted over `skills/spec-author/SKILL.md` lines 336-339 with `len(text.encode('utf-8'))`.
+Body bytes: 218, counted over `skills/spec-author/SKILL.md` lines 94-97 with `len(text.encode('utf-8'))`.
 
 Pinned tests: 31, from `grep -rlF '<code>' tests/` over each of this rule's own codes (INV-20, INV-21), files unioned across codes.
 
@@ -542,11 +544,11 @@ Price: 218 body bytes plus 31 pinned tests = 249.
 
 ### 39. spec-author — The spine — what every spec must contain (not its section order), item 2
 
-Home: `skills/spec-author/SKILL.md:237-238`.
+Home: `skills/spec-author/references/the-spine.md:10-11`.
 
 Opening line, quoted in full: "2. **Entities** — the nouns. Each defined in the **glossary**, with its attributes, its unit/valid range if"
 
-Body bytes: 208, counted over `skills/spec-author/SKILL.md` lines 237-238 with `len(text.encode('utf-8'))`.
+Body bytes: 208, counted over `skills/spec-author/references/the-spine.md` lines 10-11 with `len(text.encode('utf-8'))`.
 
 Pinned tests: 0. This rule cites no SPEC code in its own text, so the search fell back to its lead-in phrase: `grep -rlF 'Entities' tests/`.
 
@@ -578,11 +580,11 @@ Price: 186 body bytes plus 0 pinned tests = 186.
 
 ### 42. spec-author — The spine — what every spec must contain (not its section order), item 3
 
-Home: `skills/spec-author/SKILL.md:239-240`.
+Home: `skills/spec-author/references/the-spine.md:12-13`.
 
 Opening line, quoted in full: "3. **States & transitions** — every move an entity can make, told as criteria (which action, which actor,"
 
-Body bytes: 183, counted over `skills/spec-author/SKILL.md` lines 239-240 with `len(text.encode('utf-8'))`.
+Body bytes: 183, counted over `skills/spec-author/references/the-spine.md` lines 12-13 with `len(text.encode('utf-8'))`.
 
 Pinned tests: 0. This rule cites no SPEC code in its own text, so the search fell back to its lead-in phrase: `grep -rlF 'States & transitions' tests/`.
 
@@ -614,11 +616,11 @@ Price: 170 body bytes plus 0 pinned tests = 170.
 
 ### 45. spec-author — The spine — what every spec must contain (not its section order), item 4
 
-Home: `skills/spec-author/SKILL.md:241-242`.
+Home: `skills/spec-author/references/the-spine.md:14-15`.
 
 Opening line, quoted in full: "4. **Actors** — who initiates each significant action (user, role, automated service, external system)."
 
-Body bytes: 168, counted over `skills/spec-author/SKILL.md` lines 241-242 with `len(text.encode('utf-8'))`.
+Body bytes: 168, counted over `skills/spec-author/references/the-spine.md` lines 14-15 with `len(text.encode('utf-8'))`.
 
 Pinned tests: 0. This rule cites no SPEC code in its own text, so the search fell back to its lead-in phrase: `grep -rlF 'Actors' tests/`.
 
@@ -626,11 +628,11 @@ Price: 168 body bytes plus 0 pinned tests = 168.
 
 ### 46. spec-author — The feature delta, assembled — one home for its mandatory parts, item 3
 
-Home: `skills/spec-author/SKILL.md:334-334`.
+Home: `skills/spec-author/SKILL.md:92-92`.
 
 Opening line, quoted in full: "3. **The standard-facet sweep** — every facet a spec sentence, decided or `[default]`-tagged (SPEC T-13, INV-18);"
 
-Body bytes: 116, counted over `skills/spec-author/SKILL.md` lines 334-334 with `len(text.encode('utf-8'))`.
+Body bytes: 116, counted over `skills/spec-author/SKILL.md` lines 92-92 with `len(text.encode('utf-8'))`.
 
 Pinned tests: 15, from `grep -rlF '<code>' tests/` over each of this rule's own codes (INV-18, T-13), files unioned across codes.
 
@@ -638,11 +640,11 @@ Price: 116 body bytes plus 15 pinned tests = 131.
 
 ### 47. spec-author — The feature delta, assembled — one home for its mandatory parts, item 1
 
-Home: `skills/spec-author/SKILL.md:332-332`.
+Home: `skills/spec-author/SKILL.md:90-90`.
 
 Opening line, quoted in full: "1. **Regression fences** — when the wish touches a live surface (next section; SPEC T-14, INV-19);"
 
-Body bytes: 101, counted over `skills/spec-author/SKILL.md` lines 332-332 with `len(text.encode('utf-8'))`.
+Body bytes: 101, counted over `skills/spec-author/SKILL.md` lines 90-90 with `len(text.encode('utf-8'))`.
 
 Pinned tests: 6, from `grep -rlF '<code>' tests/` over each of this rule's own codes (INV-19, T-14), files unioned across codes.
 
@@ -650,11 +652,11 @@ Price: 101 body bytes plus 6 pinned tests = 107.
 
 ### 48. spec-author — The feature delta, assembled — one home for its mandatory parts, item 2
 
-Home: `skills/spec-author/SKILL.md:333-333`.
+Home: `skills/spec-author/SKILL.md:91-91`.
 
 Opening line, quoted in full: "2. **The new behaviour itself** — entities, states, transitions, composed across the canonical axes;"
 
-Body bytes: 103, counted over `skills/spec-author/SKILL.md` lines 333-333 with `len(text.encode('utf-8'))`.
+Body bytes: 103, counted over `skills/spec-author/SKILL.md` lines 91-91 with `len(text.encode('utf-8'))`.
 
 Pinned tests: 0. This rule cites no SPEC code in its own text, so the search fell back to its lead-in phrase: `grep -rlF 'The new behaviour itself' tests/`.
 
@@ -674,11 +676,11 @@ Price: 100 body bytes plus 0 pinned tests = 100.
 
 ### 50. spec-author — The feature delta, assembled — one home for its mandatory parts, item 4
 
-Home: `skills/spec-author/SKILL.md:335-335`.
+Home: `skills/spec-author/SKILL.md:93-93`.
 
 Opening line, quoted in full: "4. **The fit walk** — how the feature sits in the person's path, kind-scaled (SPEC INV-29);"
 
-Body bytes: 94, counted over `skills/spec-author/SKILL.md` lines 335-335 with `len(text.encode('utf-8'))`.
+Body bytes: 94, counted over `skills/spec-author/SKILL.md` lines 93-93 with `len(text.encode('utf-8'))`.
 
 Pinned tests: 4, from `grep -rlF '<code>' tests/` over each of this rule's own codes (INV-29), files unioned across codes.
 
@@ -686,11 +688,11 @@ Price: 94 body bytes plus 4 pinned tests = 98.
 
 ### 51. spec-author — The spine — what every spec must contain (not its section order), item 6
 
-Home: `skills/spec-author/SKILL.md:247-247`.
+Home: `skills/spec-author/references/the-spine.md:20-20`.
 
 Opening line, quoted in full: "6. **Cross-section composition** — the part most specs miss. See the dedicated step below."
 
-Body bytes: 93, counted over `skills/spec-author/SKILL.md` lines 247-247 with `len(text.encode('utf-8'))`.
+Body bytes: 93, counted over `skills/spec-author/references/the-spine.md` lines 20-20 with `len(text.encode('utf-8'))`.
 
 Pinned tests: 0. This rule cites no SPEC code in its own text, so the search fell back to its lead-in phrase: `grep -rlF 'Cross-section composition' tests/`.
 
@@ -698,11 +700,11 @@ Price: 93 body bytes plus 0 pinned tests = 93.
 
 ### 52. spec-author — The spine — what every spec must contain (not its section order), item 1
 
-Home: `skills/spec-author/SKILL.md:236-236`.
+Home: `skills/spec-author/references/the-spine.md:9-9`.
 
 Opening line, quoted in full: "1. **Purpose** — why the product exists, in plain words: the opening preamble."
 
-Body bytes: 81, counted over `skills/spec-author/SKILL.md` lines 236-236 with `len(text.encode('utf-8'))`.
+Body bytes: 81, counted over `skills/spec-author/references/the-spine.md` lines 9-9 with `len(text.encode('utf-8'))`.
 
 Pinned tests: 0. This rule cites no SPEC code in its own text, so the search fell back to its lead-in phrase: `grep -rlF 'Purpose' tests/`.
 
@@ -710,11 +712,11 @@ Price: 81 body bytes plus 0 pinned tests = 81.
 
 ### 53. spec-author — How spec-author works, item 3
 
-Home: `skills/spec-author/SKILL.md:607-607`.
+Home: `skills/spec-author/SKILL.md:206-206`.
 
 Opening line, quoted in full: "3. **Run the completeness pass** (below) on the section just written."
 
-Body bytes: 70, counted over `skills/spec-author/SKILL.md` lines 607-607 with `len(text.encode('utf-8'))`.
+Body bytes: 70, counted over `skills/spec-author/SKILL.md` lines 206-206 with `len(text.encode('utf-8'))`.
 
 Pinned tests: 0. This rule cites no SPEC code in its own text, so the search fell back to its lead-in phrase: `grep -rlF 'Run the completeness pass' tests/`.
 

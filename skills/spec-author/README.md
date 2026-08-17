@@ -43,7 +43,7 @@ When a surface persists state beyond the session (localStorage, files, preferenc
 
 ## What's inside
 
-No code, no dependencies, nothing to build — spec-author is a single `SKILL.md`: a structured set of authoring instructions Claude follows. Drop it in and ask. Works anywhere Claude Code runs.
+No code, no dependencies, nothing to build. spec-author is a `SKILL.md` plus the `references/` pages beside it: a structured set of authoring instructions Claude follows. The body carries the working loop. Each set piece holds its own file — the glossary, the reading form, the spine, the facet sweep — read when the body points there. Drop it in and ask. Works anywhere Claude Code runs.
 
 ---
 

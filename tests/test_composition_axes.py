@@ -36,7 +36,7 @@ import re
 import sys
 import unittest
 
-from conftest import ROOT, read, read_flat
+from conftest import ROOT, read, read_flat, read_all_flat
 
 sys.path.insert(0, os.path.join(ROOT, "guardrails"))
 import archformat  # the one node reader every consumer reads through (SPEC INV-280)
@@ -140,7 +140,7 @@ class TestCompositionAxesLaw(unittest.TestCase):
     def test_spec_author_reads_declared_axes(self):
         """Before composing a surface, spec-author reads its axes from the kind (SPEC INV-244), the
         way it already reads the declared layers (INV-135)."""
-        sa = read_flat("skills/spec-author/SKILL.md")
+        sa = read_all_flat("skills/spec-author/SKILL.md")
         self.assertIn("INV-244", sa, "spec-author does not carry the composition-axes duty")
         self.assertIn("axes from the kind", sa,
                       "spec-author does not state it reads a surface's axes from the kind")

@@ -57,7 +57,7 @@ class TestPairedTransition(unittest.TestCase):
         self.assertIn("Both directions of a paired state change get the same craft", spec)
 
     def test_spec_author_carries_the_facet(self):
-        sa = read_flat("skills/spec-author/SKILL.md")
+        sa = read_all_flat("skills/spec-author/SKILL.md")
         self.assertIn("paired-transition symmetry", sa)
         self.assertIn("the exit's motion mirrors the enter's", sa)
 
@@ -83,7 +83,7 @@ class TestPairedTransition(unittest.TestCase):
         pv = read_all_flat("skills/product-prover/SKILL.md")
         # the canon names the same sub-question "The inverse of the means"
         self.assertIn("The inverse of the means", pv)
-        sa = read_flat("skills/spec-author/SKILL.md")
+        sa = read_all_flat("skills/spec-author/SKILL.md")
         self.assertIn("reversibility of the means", sa)
 
     def test_magnitude_sub_question(self):
@@ -107,7 +107,7 @@ class TestPairedTransition(unittest.TestCase):
         pv = read_all_flat("skills/product-prover/SKILL.md")
         self.assertIn("The inverse's magnitude", pv)
         self.assertIn("same magnitude as the forward move", pv)
-        sa = read_flat("skills/spec-author/SKILL.md")
+        sa = read_all_flat("skills/spec-author/SKILL.md")
         self.assertIn("asks magnitude beside existence", sa)
         self.assertIn("0.82×", sa)
 
@@ -133,7 +133,7 @@ class TestOrientationFacet(unittest.TestCase):
         self.assertIn("the short-viewport band", spec)
         # the "a landscape phone is wide and short" illustration is thinned out of the compact
         # spec body but survives verbatim in spec-author's elaboration of the same facet.
-        sa = read_flat("skills/spec-author/SKILL.md")
+        sa = read_all_flat("skills/spec-author/SKILL.md")
         for needle in ("orientation / short viewport", "a rotated phone", "width ≤ 640px",
                        "phone is wide and short"):
             self.assertIn(needle, sa, needle)

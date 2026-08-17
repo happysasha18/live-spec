@@ -30,7 +30,7 @@ class TestDeclaredLaws(unittest.TestCase):
         self.assertIn("ranks as a broken invariant", prover)
 
     def test_the_author_habit(self):
-        author = read_flat("skills/spec-author/SKILL.md")
+        author = read_all_flat("skills/spec-author/SKILL.md")
         self.assertIn("declared-laws home", author)
         self.assertIn("before the prover", author)
 
@@ -80,7 +80,7 @@ class TestLawNamesItsNet(unittest.TestCase):
         self.assertIn("A law with no named enforcer ranks as a broken invariant", prover)
 
     def test_spec_author_writes_the_net(self):
-        author = read_flat("skills/spec-author/SKILL.md")
+        author = read_all_flat("skills/spec-author/SKILL.md")
         self.assertIn("carries its net", author)
         self.assertIn("INV-150", author)
 

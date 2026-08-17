@@ -739,7 +739,7 @@ class TestDoorLawAndPrototype(unittest.TestCase):
         cm = read_flat("skills/communicator/SKILL.md")
         self.assertIn("shown ONLY under its `PROTOTYPE` label", cm,
                       "communicator lost the prototype-showing rule")
-        sa = read_flat("skills/spec-author/SKILL.md")
+        sa = read_all_flat("skills/spec-author/SKILL.md")
         self.assertIn("Name the future with the [target] tag", sa,
                       "spec-author lost the [target] tripwire rule")
         # the four working skills' base pin points at the CURRENT base version (read from its
@@ -919,7 +919,7 @@ class TestUnwrittenSeamHunt(unittest.TestCase):
         self.assertIn("invents no answer", pp, "product-prover lost the never-invent side of the hunt")
 
         # spec-author skill: the matching axis lives in the compose list (its operational home).
-        sa = re.sub(r"\s+", " ", read("skills/spec-author/SKILL.md"))
+        sa = re.sub(r"\s+", " ", read_all("skills/spec-author/SKILL.md"))
         self.assertIn(self.SEAM, sa, "spec-author compose list lost the every-other-live-surface axis")
 
 
@@ -944,7 +944,7 @@ class TestFacetSweep(unittest.TestCase):
     )
 
     def test_facet_list_is_curated(self):
-        sa = re.sub(r"\s+", " ", read("skills/spec-author/SKILL.md"))
+        sa = re.sub(r"\s+", " ", read_all("skills/spec-author/SKILL.md"))
         self.assertIn("The list is curated, each facet earning its place by named incident", sa, "spec-author lost the curation law")
         self.assertIn("named real incident", sa)
         # every facet entry in the canonical list names its incident
@@ -967,7 +967,7 @@ class TestFacetSweep(unittest.TestCase):
             self.assertIn(anchor, body, "SPEC prose lost anchor %s" % anchor)
 
     def test_skills_carry_facet_sweep(self):
-        sa = re.sub(r"\s+", " ", read("skills/spec-author/SKILL.md"))
+        sa = re.sub(r"\s+", " ", read_all("skills/spec-author/SKILL.md"))
         self.assertIn("canonical facet list", sa, "spec-author lost the facet list home")
         for phrase in self.FACETS:
             self.assertIn(phrase, sa, "spec-author facet list lost: %s" % phrase)
@@ -1882,7 +1882,7 @@ class TestMinedGapFolds(unittest.TestCase):
                        "Function names, internal ids, and row numbers live in the journal instead",
                        "no doc pins a drifting version number in prose"):
             self.assertIn(phrase, bp, "build-pipeline step 9 lost the docs discipline: %s" % phrase)
-        sa = re.sub(r"\s+", " ", read("skills/spec-author/SKILL.md"))
+        sa = re.sub(r"\s+", " ", read_all("skills/spec-author/SKILL.md"))
         self.assertIn("Pinning a drifting version number in prose", sa,
                       "spec-author anti-patterns lost the version-pin entry")
 
@@ -2256,7 +2256,7 @@ class TestProblemLedger(unittest.TestCase):
                        "a missing line being a defect caught at the code step",
                        "until the human cancels it by name"):
             self.assertIn(needle, spec, "SPEC missing: %s" % needle)
-        author = re.sub(r"\s+", " ", read(os.path.join("skills", "spec-author", "SKILL.md")))
+        author = re.sub(r"\s+", " ", read_all(os.path.join("skills", "spec-author", "SKILL.md")))
         for needle in ("`norm: <path>`", "docs/norms/", "frozen copy",
                        "a pointer into a live prototype home would break it"):
             self.assertIn(needle, author, "spec-author missing: %s" % needle)
@@ -2698,7 +2698,7 @@ class TestProblemLedger(unittest.TestCase):
         for needle in ("SPEC INV-41", "measurable quality budgets", "instrumentation home",
                        "WHAT is measurable comes from the project's KIND"):
             self.assertIn(needle, pipe, "build-pipeline missing: %s" % needle)
-        author = re.sub(r"\s+", " ", read(os.path.join("skills", "spec-author", "SKILL.md")))
+        author = re.sub(r"\s+", " ", read_all(os.path.join("skills", "spec-author", "SKILL.md")))
         for needle in ("SPEC INV-41", "budget sentence"):
             self.assertIn(needle, author, "spec-author missing: %s" % needle)
 
@@ -2956,7 +2956,7 @@ class TestFeatureCoverage(unittest.TestCase):
         self.assertIn("feature-coverage trace", spec.lower(),
                       "SPEC lost the feature-coverage-trace machine name")
         self.assertIn("primary unit", spec.lower(), "SPEC lost the primary-unit notion")
-        sa = re.sub(r"\s+", " ", read("skills/spec-author/SKILL.md"))
+        sa = re.sub(r"\s+", " ", read_all("skills/spec-author/SKILL.md"))
         self.assertIn("primary unit", sa.lower(), "spec-author lost the primary-unit-by-type format")
         self.assertIn("[feature:", sa, "spec-author lost the inline feature-tag mechanic")
         for unit in ("feature", "command", "guarantee", "argument"):
@@ -3047,9 +3047,14 @@ class TestAuthoringTerminology(unittest.TestCase):
     def test_no_needle_metaphor_in_authoring_docs(self):
         # the live authoring surfaces speak the plain term, never the old metaphor
         for rel in ("skills/spec-author/SKILL.md", "docs/prose-quality-gate-design.md"):
-            body = read(rel).lower()
-            self.assertNotIn("needle", body, "%s still carries the coined 'needle' metaphor" % rel)
-            self.assertIn("check-phrase", body, "%s lost the plain 'check-phrase' term" % rel)
+            # the two sides read different surfaces on purpose. The never-side stays on the body
+            # alone: widening a NotIn would make it a stricter, different check than the one pinned
+            # here. The positive side reads the whole skill surface, so a term that moved into
+            # references/ still counts as present.
+            self.assertNotIn("needle", read(rel).lower(),
+                             "%s still carries the coined 'needle' metaphor" % rel)
+            self.assertIn("check-phrase", read_all(rel).lower(),
+                          "%s lost the plain 'check-phrase' term" % rel)
 
     def test_standard_vocabulary_crosswalk(self):
         # the crosswalk's one home moved to its design note (row 202); spec-author keeps a live pointer
