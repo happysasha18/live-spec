@@ -3,7 +3,7 @@
   "cap_rule": "r08",
   "files": {
     "ARCHITECTURE.md": {
-      "bytes": 107661,
+      "bytes": 107652,
       "file": "ARCHITECTURE.md",
       "long": 0,
       "longest": 25,
@@ -49,7 +49,7 @@
       "total": 0
     },
     "PRODUCT_SPEC.md": {
-      "bytes": 702954,
+      "bytes": 703125,
       "file": "PRODUCT_SPEC.md",
       "long": 1862,
       "longest": 90,
@@ -86,7 +86,7 @@
       "total": 3
     },
     "TEST_MATRIX.md": {
-      "bytes": 484277,
+      "bytes": 484267,
       "file": "TEST_MATRIX.md",
       "long": 8,
       "longest": 46,
@@ -167,7 +167,7 @@
       "total": 3
     },
     "docs/audits/2026-08-07-number-census.md": {
-      "bytes": 31991,
+      "bytes": 32027,
       "file": "docs/audits/2026-08-07-number-census.md",
       "long": 5,
       "longest": 135,
@@ -898,13 +898,22 @@
       "total": 1
     },
     "skills/live-spec-base/SKILL.md": {
-      "bytes": 56083,
+      "bytes": 52466,
       "file": "skills/live-spec-base/SKILL.md",
       "long": 54,
       "longest": 48,
       "register": 0,
       "style": 14,
       "total": 68
+    },
+    "skills/live-spec-base/references/glossary.md": {
+      "bytes": 3572,
+      "file": "skills/live-spec-base/references/glossary.md",
+      "long": 0,
+      "longest": 22,
+      "register": 0,
+      "style": 0,
+      "total": 0
     },
     "skills/live-spec-base/references/settings-ladder.md": {
       "bytes": 9680,
@@ -914,6 +923,15 @@
       "register": 0,
       "style": 0,
       "total": 2
+    },
+    "skills/live-spec-base/references/worked-examples.md": {
+      "bytes": 1543,
+      "file": "skills/live-spec-base/references/worked-examples.md",
+      "long": 0,
+      "longest": 22,
+      "register": 0,
+      "style": 0,
+      "total": 0
     },
     "skills/product-prover-pack/SKILL.md": {
       "bytes": 7088,

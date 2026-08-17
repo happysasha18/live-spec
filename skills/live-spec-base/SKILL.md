@@ -42,47 +42,11 @@ agent set that the person may retune.
 
 ## The words this file uses
 
-Each term is defined once. Most sit in the glossary of `PRODUCT_SPEC.md`, whose entry is the authority
-behind the short read given here.
+Each term this file's rules deal in is defined once, in one module beside this file:
+[references/glossary.md](references/glossary.md). It holds every term from *the pack* to *an agent
+card*, each with the `PRODUCT_SPEC.md` entry that stands behind it.
 
-- **the pack** — the shipped live-spec method: its skills, its document and suite templates, and its
-  guardrail scripts. It carries a version.
-- **a host** — one project the pack attaches to. Each host holds its own spec, queue, journal, and
-  `.live-spec/` folder.
-- **the seat** — the one acting orchestrator session that owns judgment, orchestrates the pipeline,
-  briefs workers, judges lane independence, and reports to the person. The glossary keeps the one name
-  seat throughout. It records the senior and the orchestrator as the source's other names for it, and
-  this file adds a fourth, the lead. The four names mean the one session.
-- **a worker** — a delegated agent session the seat briefs for a bounded piece of mechanical work,
-  narrowed to the files its brief names.
-- **a tier** — the model level a unit of work runs at: a no-decision one-shot worker, a multi-step
-  mechanical worker, or the seat for judgment. Rule 5 names haiku and sonnet as the two worker levels.
-- **a brief** — the written instruction set a worker runs from, carrying its files, its steps, its
-  clock, and its stop conditions.
-- **a wish** — one request a person voices in plain words, captured as a queue row and carried to a
-  recorded terminal state.
-- **a queue row** — one live wish written as exactly five cells of `ROADMAP.md`: its id, the wish,
-  its class, its status, and its acceptance. Its home is `docs/roadmap-format.md`. This file calls it
-  a row.
-- **a lane** — one build train a session rolls through the pipeline. A lane branch is that lane's
-  isolated copy, a git worktree holding a branch named for its queue row.
-- **the pen** — the single write-lock a repository holds, under which one delivery reaches the
-  repository's shared truth at a time.
-- **a landing** — the act of one piece of work reaching the repository's shared truth as one commit
-  under the pen.
-- **a gate** — a check that must pass before work proceeds, and a red gate stops the work at that
-  step. Where a sentence here says a check *reds* something, it means the check fails on it.
-- **a checkpoint** — a saved point of work that can be resumed from, written under `.live-spec/`.
-- **the attic** — the host's append-only archive folder `attic/`. A superseded file moves here with
-  one manifest line and is kept for good.
-- **a breakpoint** — a point where a movement ends and session memory can be wiped with no loss, its
-  live state replaced, a dated journal entry added, and the work committed.
-- **a door** — the intake classification placing a queued wish at one entry point of the pipeline,
-  one of feature, bug, refactor, docs-only, or skip. An ask merely to see or try a thing takes a
-  separate entry lane, the labelled-sketch door, held outside that five-way set.
-- **an agent** — defined where the rule that binds it stands, at rule 31.
-- **an agent card** — a host's self-describing file `.live-spec/agent.md`, stating its name, mission,
-  zones, published contracts, and inbox address. `templates/agent.template.md` gives its shape.
+Open that module when a term is being resolved, and not before.
 
 ## The rule of thinking, above all the rest
 
@@ -98,13 +62,9 @@ This is a rule of thinking, and it governs every rule below it. Rule 14 is its m
 change. Rule 14 came first because the class-shaped answer was noticed in code, and the thinking
 generalizes it to everything.
 
-Its own worked failure: the guard holding this pack's register laws was built as a list of literal
-patterns. There was one pattern per phrase someone once caught. So the guard built to enforce the
-rules was itself the clearest breach of this one. Each caught escape only added one more pattern,
-while the next new phrasing passed through untouched (proven by probe, 2026-07-17). The repair
-shipped that day as roadmap row 416, which now sits in
-`docs/queue-archive/rotated-ROADMAP-2026-07.md`. A law naming a class is held by a judge that reads
-meaning. If the answer to a class is a list, the design is wrong.
+Its own worked failure, the guard built as a list of literal patterns, is written out in
+[references/worked-examples.md](references/worked-examples.md). A law naming a class is held by a
+judge that reads meaning. If the answer to a class is a list, the design is wrong.
 
 ## The shared rules
 
@@ -399,12 +359,9 @@ keeps the number it already carries.
    layers and its own concrete proof kinds. The three footprints generalize past code. A
    presentation-only change touches what the audience meets and nothing behind it. A single-module change
    stays inside one owned layer. A cross-cutting change moves a shared law or several layers at once.
-   The layers themselves are the project's own. A codebase splits frontend, backend and store; a photo
-   site content, rendering engine and deployment. A promotion campaign splits message, channels and
-   assets; a music project arrangement, stems and mix. The proofs follow the same shape, each kind
-   naming the rungs its test ladder really has. A codebase proves with unit tests and rendered or pixel
-   checks. A photo site proves with a byte-diff of the baked output and the owner's eye-walk. A
-   promotion campaign proves with a register lint and the owner's review.
+   The layers themselves are the project's own. The proofs follow the same shape, each kind
+   naming the rungs its test ladder really has. See
+   [references/worked-examples.md](references/worked-examples.md) for the per-kind illustration of both.
    Each project kind is recorded at founding as `project.kind`
    (SPEC INV-36) in the host profile. It declares its concrete layers and its concrete proof kinds there,
    as one `project.layers` line and one `project.proofs` line. Both stand as rows of the
@@ -563,9 +520,9 @@ keeps the number it already carries.
    `MIGRATION.md` chapter [INV-91]. The default is a patch. It is raised to a minor or a major only where
    the release earns the higher tier. This is a judgment the releasing session makes and states, **held by
    no machine**. The minor-versus-major call reads meaning a gate cannot, so it **stays a stated rule the
-   session holds**, the same standing as a design-review finding that never blocks a lane [INV-141]. The
-   2.0.0 release is the boundary case. Its migration chapter records "Host action: none", so by this rule
-   it reads as a minor. It keeps its published number as this cited boundary case.
+   session holds**, the same standing as a design-review finding that never blocks a lane [INV-141]. The 2.0.0
+   release is this rule's cited boundary case, written out in
+   [references/worked-examples.md](references/worked-examples.md).
 
 33. **The authoring seat does not adversarially certify its own work (SPEC INV-237).** The seat that
    authored a change drafts and accepts it, and it never provides that change's own adversarial
