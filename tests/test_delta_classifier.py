@@ -65,6 +65,53 @@ class TestDeltaClassifier(unittest.TestCase):
         self.assertNotEqual(r.returncode, 0, "passed a sharpen whose old sentence survives:\n%s" % r.stdout)
         self.assertIn("survives", r.stdout)
 
+    # --- a criterion added under an existing code (INV-315) ---
+    # `mini_extended.md` is `mini_good.md` with ONE bullet added under the code INV-2 already there; the
+    # old INV-2 line is untouched word for word. Before the fifth kind existed this case had no green
+    # outcome at all: declaring nothing/new/retire/scenario-only red on "not `sharpen`", and declaring
+    # `sharpen` red on the old sentence surviving — but that survival is the point of an addition.
+
+    def test_declared_extend_passes(self):
+        """Pins the green: only `extend` passes this pair, so the outcome is reachable."""
+        r = run("mini_good.md", "mini_extended.md", "rec_extend.json")
+        self.assertEqual(r.returncode, 0, "the classifier red a correctly declared extend:\n%s" % r.stdout)
+        self.assertIn("reach:", r.stdout)
+
+    def test_extend_missing_reds(self):
+        """Discriminates extend from `nothing`: an undeclared addition must still red, and red as an
+        extend — not as the old mis-diagnosed `sharpen`."""
+        r = run("mini_good.md", "mini_extended.md", "rec_empty.json")
+        self.assertNotEqual(r.returncode, 0, "passed an undeclared extend:\n%s" % r.stdout)
+        self.assertIn("not `extend`", r.stdout)
+
+    def test_extend_wrongly_declared_sharpen_reds_survival_false_positive(self):
+        """Discriminates extend from `sharpen` in the direction the old classifier got wrong. Declaring
+        `sharpen` over an addition must red on the granularity, and the survival red it used to raise
+        here is exactly the false positive that left this case with no green."""
+        r = run("mini_good.md", "mini_extended.md", "rec_extend_as_sharpen.json")
+        self.assertNotEqual(r.returncode, 0, "passed an addition declared `sharpen`:\n%s" % r.stdout)
+        self.assertIn("not `extend`", r.stdout)
+
+    def test_extend_declared_over_a_real_sharpen_reds(self):
+        """Discriminates in the other direction: `mini_sharpened.md` REPLACES INV-2's sentence, so it is
+        a sharpen and `extend` must not pass it. Without this, `extend` would be a way round INV-262."""
+        r = run("mini_good.md", "mini_sharpened.md", "rec_extend_wrong.json")
+        self.assertNotEqual(r.returncode, 0, "passed a sharpen declared `extend`:\n%s" % r.stdout)
+        self.assertIn("INV-315", r.stdout)
+
+    def test_sharpen_fixture_stays_green_and_is_not_an_extend(self):
+        """Fixture 2 of the three: the existing sharpen pair keeps its exact old verdict."""
+        self.assertEqual(run("mini_good.md", "mini_sharpened.md", "rec_sharpen.json").returncode, 0)
+
+    def test_extend_declared_over_no_change_reds(self):
+        """Fixture 3 of the three, made discriminating: a no-change pair is green with an empty record,
+        and declaring `extend` over a code that gained nothing must red — so no-change and extend cannot
+        both explain the same delivery."""
+        self.assertEqual(run("mini_good.md", "mini_good.md", "rec_empty.json").returncode, 0)
+        r = run("mini_good.md", "mini_good.md", "rec_extend_wrong.json")
+        self.assertNotEqual(r.returncode, 0, "passed `extend` over a code that gained nothing:\n%s" % r.stdout)
+        self.assertIn("INV-315", r.stdout)
+
     # --- the growth budget (INV-263) ---
     def test_growth_over_the_declared_budget_reds(self):
         r = run("mini_good.md", "mini_budget_over.md", "rec_added_new.json")
