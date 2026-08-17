@@ -46,6 +46,9 @@ Each term this file's rules deal in is defined once, in one module beside this f
 [references/glossary.md](references/glossary.md). It holds every term from *the pack* to *an agent
 card*, each with the `PRODUCT_SPEC.md` entry that stands behind it.
 
+One term is stated here rather than there, because the rules below use all four of its names: the seat,
+the senior, the orchestrator and the lead. The four names mean the one session.
+
 Open that module when a term is being resolved, and not before.
 
 ## The rule of thinking, above all the rest

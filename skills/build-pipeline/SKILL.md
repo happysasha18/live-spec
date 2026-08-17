@@ -307,9 +307,11 @@ See [references/work-kind-table.md](references/work-kind-table.md) for the full 
    prover flags it. "Should I architect the next few milestones now?" is answered NO strictly by the method,
    taste playing no part.
 
-   **Every new or carved node passes a three-question fitness test at its birth (SPEC INV-122):** see
-   [references/architecture-step-detail.md](references/architecture-step-detail.md) for the three
-   questions, how a single no and two nos are read, and the test's two homes.
+   **Every new or carved node passes a three-question fitness test at its birth (SPEC INV-122):** can it be
+   tested alone · does a real second place need it · can it and its neighbour be worked in parallel without
+   queuing on shared files — three yes answers make the node right, a single no is a flag to answer (name the plan that turns it to a yes, or fold the carve back), and two or more no make it premature. See
+   [references/architecture-step-detail.md](references/architecture-step-detail.md) for the test's two homes
+   and how a carve that fails it is folded back.
 
    Re-carving the whole node map IS legal: it arrives as a restructure placement's own queue row (SPEC
    INV-37), walks this step, and is re-proven like any structure change. A placement may SAY the shape no
@@ -398,9 +400,16 @@ See [references/work-kind-table.md](references/work-kind-table.md) for the full 
    separate home. Green means deterministic.
 
    **The audit — a second pair of FRESH eyes, REQUIRED where the stakes are high and only the
-   author has judged the work (SPEC INV-46).** See
-   [references/verify-step-detail.md](references/verify-step-detail.md) for the audit protocol: what
-   high-stakes means, what an independent read is, how the checker is briefed, and where its findings go.
+   author has judged the work (SPEC INV-46).** Verify runs a fresh-context checker when the change is
+   HIGH-STAKES and its only review is the author's own. High-stakes means one of two things: the delta is
+   surface-sized (a new surface or a multi-file behaviour change), or the change edits the method itself — a
+   rule whose MEANING changed, a new or re-scoped invariant (a wording-only edit that changes no rule's
+   meaning is not a method edit). The author's own review means no independent read has happened, where an
+   independent read is a differently-contexted head briefed from the primary sources on the "goal missed"
+   hypothesis; a prover pass in the author's own context never counts as one, and delegation never makes the
+   review independent — the same head that briefed the worker reads the result. See
+   [references/verify-step-detail.md](references/verify-step-detail.md) for the rest of the protocol: how the
+   checker is briefed, the ladder it walks, and where its findings go.
 
    **The authoring seat never certifies its own work adversarially (SPEC INV-237).** The freshness above is
    the whole rule, and the release pass may not waive it: a release's adversarial pass — the full

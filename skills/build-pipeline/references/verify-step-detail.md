@@ -24,14 +24,10 @@ discarded anything, and the gate's reach is what the session repairs.
 
 **The audit — a second pair of FRESH eyes, REQUIRED where the stakes are high and only the
 author has judged the work (SPEC INV-46).** An audit is adversarial by nature: a whole-read that sets
-out to break the work, refute its claims, and find its holes. Verify runs a fresh-context checker when the change is
-HIGH-STAKES and its only review is the author's own. High-stakes means one of two things: the delta is
-surface-sized (a new surface or a multi-file behaviour change), or the change edits the method itself — a
-rule whose MEANING changed, a new or re-scoped invariant (a wording-only edit that changes no rule's
-meaning is not a method edit). The author's own review means no independent read has happened, where an
-independent read is a differently-contexted head briefed from the primary sources on the "goal missed"
-hypothesis; a prover pass in the author's own context never counts as one, and delegation never makes the
-review independent — the same head that briefed the worker reads the result. One fresh checker per landing
+out to break the work, refute its claims, and find its holes. When the audit FIRES — what high-stakes
+means and what counts as the author's own review — stands in `SKILL.md` at the verify step: that is the
+gate's firing condition and belongs where the step is walked. What follows is how the audit is run once
+it has fired. One fresh checker per landing
 batch covers every law in the batch (SPEC INV-61 scales the audit's form, never its freshness). Brief the
 checker with the SPEC sentences the landing claims (the anchors) and the artifact paths — primary sources
 only: never the worker's summary, never the senior's own plan. Its opening

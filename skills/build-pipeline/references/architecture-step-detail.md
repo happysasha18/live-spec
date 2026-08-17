@@ -25,9 +25,11 @@ one sentence.
 
 ## The three-question fitness test (SPEC INV-122)
 
-**Every new or carved node passes a three-question fitness test at its birth (SPEC INV-122):** can it be
-tested alone · does a real second place need it · can it and its neighbour be worked in parallel without
-queuing on shared files — three yes answers make the node right, a single no is a flag to answer (name the plan that turns it to a yes, or fold the carve back), and two or more no make it premature. The
+The three questions themselves, and how one no and two nos are read, stand in `SKILL.md` at the
+architecture step: they are the test's firing condition and belong where the step is walked. What
+follows is where the test lives and what a failed carve costs.
+
+The
 test's first home is here, the architecture step, where new abstractions are born; a carve that fails it
 is folded back into its caller until a real second need or a real testability gain arrives. Its second
 home is product-prover, extending the speculative-node flag: a node with one caller and no promised

@@ -16,7 +16,7 @@
       "file": "MIGRATION.md",
       "long": 62,
       "longest": 65,
-      "reason": "2026-08-15: MIGRATION.md left scripts/rule-census.py RECORD_FILES for the readability milestone of plan v2 (accepted 2026-08-14) — a person adopting the pack reads it to move a live tree between versions, so it is a live document, not a record of what was written at the time. Seeded at the counts measured the day it entered: 62 sentences past the 25-word cap, 0 style, 0 register. The ceiling only falls from here.",
+      "reason": "2026-08-15: MIGRATION.md left scripts/rule-census.py RECORD_FILES for the readability milestone of plan v2 (accepted 2026-08-14) \u2014 a person adopting the pack reads it to move a live tree between versions, so it is a live document, not a record of what was written at the time. Seeded at the counts measured the day it entered: 62 sentences past the 25-word cap, 0 style, 0 register. The ceiling only falls from here.",
       "register": 0,
       "style": 0,
       "total": 62
@@ -698,32 +698,33 @@
       "total": 10
     },
     "skills/build-pipeline/SKILL.md": {
-      "bytes": 52432,
+      "bytes": 53492,
       "file": "skills/build-pipeline/SKILL.md",
-      "long": 99,
+      "long": 101,
       "longest": 198,
+      "reason": "2026-08-17: the skill-creator review of the slimming (docs/skill-review/2026-08-17-build-pipeline-slimdown.md) found two firing conditions had left the body with only their names behind - the audit's high-stakes definition and the node fitness test's three questions. Both return word for word, so this body rises 207 to 211 while references/verify-step-detail.md falls 15 to 13. A gate's trigger belongs where the step is walked.",
       "register": 0,
-      "style": 108,
-      "total": 207
+      "style": 110,
+      "total": 211
     },
     "skills/build-pipeline/references/architecture-step-detail.md": {
-      "bytes": 2503,
+      "bytes": 2348,
       "file": "skills/build-pipeline/references/architecture-step-detail.md",
       "long": 6,
-      "longest": 81,
+      "longest": 69,
       "register": 0,
       "style": 5,
       "total": 11
     },
     "skills/build-pipeline/references/delegation-protocol.md": {
-      "bytes": 10060,
+      "bytes": 9263,
       "file": "skills/build-pipeline/references/delegation-protocol.md",
-      "long": 32,
+      "long": 29,
       "longest": 71,
       "reason": "2026-08-17: the junior-delegation excess moved word for word out of skills/build-pipeline/SKILL.md into this file's own section; the same findings left that body, whose total fell 255 to 207 in the same run, so the pack's total fell by 42 while this one entry rose 52 to 58. No sentence was written for this file.",
       "register": 0,
-      "style": 26,
-      "total": 58
+      "style": 24,
+      "total": 53
     },
     "skills/build-pipeline/references/drafter-applier-example.md": {
       "bytes": 1166,
@@ -762,7 +763,7 @@
       "total": 11
     },
     "skills/build-pipeline/references/lanes-and-pen.md": {
-      "bytes": 4862,
+      "bytes": 4840,
       "file": "skills/build-pipeline/references/lanes-and-pen.md",
       "long": 15,
       "longest": 74,
@@ -807,13 +808,13 @@
       "total": 3
     },
     "skills/build-pipeline/references/verify-step-detail.md": {
-      "bytes": 3646,
+      "bytes": 3153,
       "file": "skills/build-pipeline/references/verify-step-detail.md",
-      "long": 10,
+      "long": 9,
       "longest": 73,
       "register": 0,
-      "style": 5,
-      "total": 15
+      "style": 4,
+      "total": 13
     },
     "skills/build-pipeline/references/work-kind-table.md": {
       "bytes": 3103,
@@ -834,14 +835,14 @@
       "total": 3
     },
     "skills/communicator/SKILL.md": {
-      "bytes": 44881,
+      "bytes": 45070,
       "file": "skills/communicator/SKILL.md",
-      "long": 80,
+      "long": 81,
       "longest": 97,
-      "reason": "2026-08-13: commit f03b425 named product-prover-pack in this body's closing pack roster, and the lengthened roster sentence crossed the 25-word cap; the raise records that one sentence, 175 to 176.",
+      "reason": "2026-08-17: the skill-creator review of the slimming (docs/skill-review/2026-08-17-communicator-slimdown.md) found an imperative filed as history - the harness task-list and spinner prohibition under rule 13. It returns word for word, so this body rises 167 to 169 while references/rule-histories.md falls 9 to 7. An instruction is not provenance.",
       "register": 0,
-      "style": 87,
-      "total": 167
+      "style": 88,
+      "total": 169
     },
     "skills/communicator/references/field-examples.md": {
       "bytes": 7785,
@@ -862,13 +863,13 @@
       "total": 11
     },
     "skills/communicator/references/rule-histories.md": {
-      "bytes": 2100,
+      "bytes": 1922,
       "file": "skills/communicator/references/rule-histories.md",
-      "long": 4,
+      "long": 3,
       "longest": 43,
       "register": 0,
-      "style": 5,
-      "total": 9
+      "style": 4,
+      "total": 7
     },
     "skills/communicator/references/words.md": {
       "bytes": 6865,
@@ -953,13 +954,14 @@
       "total": 1
     },
     "skills/live-spec-base/SKILL.md": {
-      "bytes": 52466,
+      "bytes": 52651,
       "file": "skills/live-spec-base/SKILL.md",
-      "long": 54,
+      "long": 55,
       "longest": 48,
+      "reason": "2026-08-17: the skill-creator review of the slimming (docs/skill-review/2026-08-17-live-spec-base-slimdown.md) found the body's own reading key behind a pointer - the sentence saying seat, senior, orchestrator and lead name one session, while the rules below use all four names. It returns to the body, raising this file 68 to 70.",
       "register": 0,
-      "style": 14,
-      "total": 68
+      "style": 15,
+      "total": 70
     },
     "skills/live-spec-base/references/glossary.md": {
       "bytes": 3572,

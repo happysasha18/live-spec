@@ -21,8 +21,6 @@ a reader dropping in mid-session can tell what is being worked without scrolling
 
 (twice he lost a multi-minute suite run this way, 2026-07-10)
 
-Do NOT rely on the harness's own task list or spinner for this: a browser-seated session never shows them, and even locally they stop updating through a long run of tool calls.
-
 (SPEC INV-35; his word twice in one day, 2026-07-06 — the repeat made it pack law, the evening ask gave the rule its first three teeth.)
 
 ## Rule 6 — plain language, in the product's own words

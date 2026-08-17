@@ -120,7 +120,9 @@ The timing question: at which moments the agent shows work, echoes a wish, or na
       close. Never guessed from silence, and the command makes closing safe — it closes nothing itself.
     - **Live status, any seat (SPEC INV-71)** — where we are NOW (the work in hand and its step)
       and what is NEXT stays answerable at a glance, kept current in the CHAT — the one surface every
-      seat shows [INV-67]. So refresh a short NOW/NEXT line at every step change, and let the heartbeat
+      seat shows [INV-67]. Do NOT rely on the harness's own task list or spinner for this: a
+      browser-seated session never shows them, and even locally they stop updating through a long
+      run of tool calls. So refresh a short NOW/NEXT line at every step change, and let the heartbeat
       carry it through a long stretch. The harness task panel, where the seat shows it, is kept in plain
       product words as a courtesy (rule 6), never the status's home; on a local seat a rendered
       status page is an optional richer view of the same NOW/NEXT. This binds for every project

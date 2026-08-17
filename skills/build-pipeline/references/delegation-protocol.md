@@ -96,21 +96,14 @@ row, and a suite check reads it from the archive: a delivered row without the li
  The same accounting also names the reads dispatched beside the work delegated, so a session that filled its own context with a read it should have dispatched shows that in the report (SPEC INV-137). Each work block in the report opens by naming its root, and the report accounts the block against its announced plan line (SPEC INV-314). The duty binds the
 orchestrator seat regardless of model, whatever tier leads the seat.
 
-## The brief, the worker contract, and the reporting duty, as the body stated them
+## The cleanup-safety constraint, and the grounding law's canonical wording
 
-Moved word for word out of `SKILL.md`'s "Junior delegation" bullet, which now points here.
+Two things the body's "Junior delegation" bullet carried and this file did not. The brief's birth laws,
+the worker contract, write-set disjointness and the reporting duty are stated above and are not
+restated here.
 
-The brief is self-contained (the BMAD story-file lesson) and SIZED, born from reading the
-touched files in full with three recorded lines per file — current state, what changes, and what must
-survive (SPEC INV-53/54/55) — and closes on a HALT list,
-so the worker halts at ambiguity and never guesses past it. The worker contract (SPEC ACT-3) narrows write-ownership to the
-brief's named files; the senior owns write-set disjointness between concurrent same-session workers before
-spawning them, or gives one an isolated worktree (SPEC INV-105). The brief carries the problem-ledger path
-for workshop noise (SPEC INV-23) and the clock for every stamp (SPEC INV-24). And the brief carries the
-cleanup-safety constraint: a cleanup acts only on what the run provably owns, targeted by a recorded
-process group or an owned install path (SPEC INV-162, base rule 17). Every delegation reports its saving
-in the row's delivery report, checked by suite and moved to the archive with the row by the closing
-commit (SPEC INV-103, INV-276), and names the reads dispatched beside the work delegated (SPEC INV-137).
+The brief carries the cleanup-safety constraint: a cleanup acts only on what the run provably owns,
+targeted by a recorded process group or an owned install path (SPEC INV-162, base rule 17).
 
 Each work block in the report opens by naming its root. The root is the person's dated request, a
 standing instruction, or a stated reason, and machinery is never a root. The report accounts each

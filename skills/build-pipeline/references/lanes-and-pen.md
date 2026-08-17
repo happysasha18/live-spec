@@ -51,5 +51,5 @@ form (SPEC T-18, INV-39, INV-49, INV-214). Every line below reads exactly as it 
   **The drafter-applier pipeline is the standard colliding-rows form (SPEC INV-49):** on colliding rows
   the penless DRAFT stage overlaps the current landing, a drafter worker preparing the next row's exact
   edit strings while the applier lands the current row under the pen. See
-  [references/drafter-applier-example.md](references/drafter-applier-example.md) for the drafter's
+  [drafter-applier-example.md](drafter-applier-example.md) for the drafter's
   self-verify list and the 2026-07-12 worked run [T-18, INV-39, INV-49].
