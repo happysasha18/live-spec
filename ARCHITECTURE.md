@@ -395,7 +395,7 @@ adapter is the one place the pack updates when a lens moves in a prover release.
 - `guardrails/check-ci-mirror.sh:1` (the CI-mirror gate, gate u, INV-210)
 - `guardrails/ci-mirror.json:1` (the declared CI carve-out set, INV-210)
 - `guardrails/check-judge-listed.py:1` (the judge-listed gate, gate v, INV-211)
-- `guardrails/judge-hooks.json:1` (the wired-hook declaration, INV-211, INV-289)
+- `guardrails/judge-hooks.json:1` (the wired-hook declaration. Two hooks are wired by default: the clock hook and the chat-law hook. The six chat scans went opt-in on 2026-08-17, and a host wires each itself, INV-211, INV-289)
 - `guardrails/check-every-gate-can-fail.py:1` (the meta-gate over the chain, gate w, INV-212)
 - `guardrails/gate-red-proofs.json:1` (the per-gate red-proof registry, INV-212)
 - `guardrails/tree-counts.json:1` (the published tree counts: measurement, ground and page homes per count, INV-305)
@@ -414,7 +414,7 @@ adapter is the one place the pack updates when a lens moves in a prover release.
 - `guardrails/attic/check-description-field.py:1` (the non-empty description-field gate, arms at the back-describe migration, INV-239) [target]
 - `guardrails/check-deposit-description.py:1` (the agent-channel deposit-time description lint, homed beside check-earned-message.py, INV-239) [target]
 - `hooks/register_judge_core.py:1` (the register judge mechanism, INV-203)
-- `hooks/turn_reader.py:1` (the shared full-turn reader five checks read through. Each reads every assistant message shown since the last human turn. The five are the contrast-frame scan, the hedge scan, the register judge, the code-anchor scan, and the empty-validation scan, INV-281.)
+- `hooks/turn_reader.py:1` (the shared full-turn reader five checks read through, none of them wired by default since 2026-08-17. Each reads every assistant message shown since the last human turn. The five are the contrast-frame scan, the hedge scan, the register judge, the code-anchor scan, and the empty-validation scan, INV-281.)
 - `hooks/register-judge.py:1` (the chat-surface judge, INV-203)
 - `hooks/register-judge-collect.sh:1` (the Stop arm)
 - `hooks/register-judge-report.sh:1` (the UserPromptSubmit arm)
@@ -485,7 +485,7 @@ adapter is the one place the pack updates when a lens moves in a prover release.
 - INV-234: the architecture-budget rule's budget-plus-watcher shape lifted to every growable artifact.
 - INV-236: correcting the two-channel law's refused git-universal premise (the owner's word).
 - INV-236: rides the suite and takes no push-gate letter the way the listener tripwire does [INV-231].
-- INV-238: installs by the setup walk beside the scissors scan [INV-173]. Config-health parity covers it [INV-175], `guardrails/judge-hooks.json` classifies it [INV-211], and the meter reads its runs and fires [INV-202].
+- INV-238: its file is placed by the setup walk beside the scissors scan and the host wires it [INV-173]. Config-health parity covers it [INV-175], `guardrails/judge-hooks.json` classifies it [INV-211], and the meter reads its runs and fires [INV-202].
 - INV-239: both check presence only and ship with this feature's build, target.
 - INV-245: riding gate i's mechanism and known-red proof with no new gate letter. INV-245: ROADMAP 441.
 - INV-246: the mechanical net the lean-orchestrator law lacked, one of the orchestration laws the conduct judge holds [INV-241].

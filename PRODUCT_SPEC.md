@@ -5514,7 +5514,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: the universal laws the judge reads**
 
-3. The system *shall* read the universal laws that ship in the mechanism — naming a thing by denying its neighbour, opening a chat sentence with a bare internal code, grading importance or quality without a concrete fact, and showing a coined term with no plain gloss — and *shall* leave the personal laws to an overlay the personal layer owns. [INV-203, INV-221]
+3. The system *shall* read the universal laws that ship in the mechanism, the set `guardrails/language-rules.json` states and `hooks/language-laws.json` carries to the judge, and *shall* leave the personal laws to an overlay the personal layer owns. [INV-203, INV-221]
 
 **Case: two surfaces, one mechanism**
 
@@ -5526,6 +5526,10 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 7. *if* the judge's own machinery breaks — a missing binary, a timeout, a non-zero exit, or a shape it cannot read — *then* the system *shall* leave the literal-list verdict standing rather than red, so a guard cannot train the guarded to route around it. [INV-203]
 8. A scan reading through the shared full-turn reader *shall* stand down *where* the stop hook is already active, or the event payload or the turn's record cannot be read. [INV-281]
+
+**Case: the host wires these arms itself**
+
+9. Each arm and scan above *shall* bind *where* the host wired it, since all six stood down from the default wiring on 2026-08-17. [INV-203, INV-211]
 
 ---
 
@@ -5555,8 +5559,8 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 1. *when* any message the seat showed since the last human turn carries an offering-hedge frame from the pattern list, the system *shall* block the stop with a rewrite instruction reaching the seat one message later. [INV-238, INV-173]
    - a quoted, backticked, or fenced span is stripped from the message before the pattern list is matched;
-   - the scissors scan is the literal gate that blocks a sentence naming a thing by denying its neighbour; this arm is modelled on it, matching against an inline universal pattern list and an optional personal-overlay file a host tunes, as the scissors scan carries one;
-   - the gate is installed by the setup walk.
+   - the scissors scan is the literal gate for the contrast-frame law (`guardrails/language-rules.json`, rule r10); this arm is modelled on it, matching against an inline universal pattern list and an optional personal-overlay file a host tunes, as the scissors scan carries one;
+   - the setup walk places the gate's file and leaves the wiring to the host.
 2. The system *shall* leave clear of a genuine taste, policy, or irreversible question that names its human-only fact, since that question is an honest admission the human owns. [INV-238, INV-152]
 3. The system *shall* catch only the frames it lists, so a paraphrase it does not carry stays with the conduct judge that reads the class in meaning. [INV-238, INV-241]
 
@@ -5569,6 +5573,10 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 **Case: both stand down on their own breakage**
 
 7. *if* a payload or transcript is unreadable, *then* the system *shall* stand the signal down silently, and *shall* have its runs and fires read by the net-liveness meter rather than trusted. [INV-203, INV-202]
+
+**Case: the host wires these arms itself**
+
+8. The hedge gate *shall* bind *where* the host wired it into its own settings.json, since it stood down from the pack's default wiring on 2026-08-17. [INV-238, INV-211]
 
 ---
 
@@ -7107,6 +7115,10 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
    - an ordinary word carrying a letter and a number in lower case passes.
 8. The system *shall* pass a naming word and its number *where* the same line carries a file name or a file word, the shape a reference to a line inside a source file takes. [INV-283]
 
+**Case: the host wires these arms itself**
+
+9. The code-anchor scan *shall* bind *where* the host wired it into its own settings.json, since it stood down from the pack's default wiring on 2026-08-17. [INV-283, INV-211]
+
 ---
 
 ## Requirement 294: Empty validation aimed at the person reds
@@ -7126,7 +7138,11 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: shipped as a pack hook**
 
-4. The system *shall* install the scan by the setup walk beside the scissors scan, *shall* have it covered by the config-health check and classified in the wired-hook declaration, and *shall* have its runs and fires read by the net-liveness meter. [INV-284, INV-173, INV-175, INV-211, INV-202]
+4. The system *shall* place the scan's file by the setup walk beside the scissors scan, *shall* have it covered by the config-health check and classified in the wired-hook declaration, and *shall* have its runs and fires read by the net-liveness meter. [INV-284, INV-173, INV-175, INV-211, INV-202]
+
+**Case: the host wires these arms itself**
+
+5. The empty-validation scan *shall* bind *where* the host wired it into its own settings.json, since it stood down from the pack's default wiring on 2026-08-17. [INV-284, INV-211]
 
 
 ---
@@ -7800,6 +7816,33 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 10. That home *shall* be the work board's per-task plan once the board ships, and the written plan page until then. [INV-314, INV-308]
 11. The system *shall* account each block against its plan line in the delivery report. [INV-314, INV-103]
 
+---
+
+## Requirement 311: Six chat scans ship as opt-in, and the host wires them
+
+**Context:** The pack wired four literal Stop scans and the register judge's two async arms into every host's settings.json by default. The owner stood all six down on his own machine on 2026-08-17 and asked the repository to say so. The files still ship and their tests still run; what changed is who turns them on. A host that wants one adds its command to its own settings.json, reading the surface and the command form from the wired-hook declaration. JOURNAL.md carries the owner's word and its date.
+
+**User Story:** As a person who turned six background scans off, I want the pack to declare them opt-in. Then no document of mine promises a verdict this machine never delivers.
+
+### Acceptance Criteria
+
+**Case: the six stand down from the default wiring**
+
+1. The system *shall* classify six chat scans as library hooks the default wiring never turns on. [INV-211, INV-173]
+   - the contrast-frame scan;
+   - the hedge scan;
+   - the empty-validation scan;
+   - the code-anchor scan;
+   - the register judge's collect arm;
+   - the register judge's report arm.
+2. The wiring check *shall* demand none of the six, since a library hook is owed no settings.json entry. [INV-211]
+
+**Case: the files still ship, and the host wires them**
+
+3. The system *shall* keep placing all six files by the setup walk, and *shall* leave each hook's wiring to the host. [INV-173, INV-211]
+4. The system *shall* state each hook's surface and command form in the wired-hook declaration, so a host wiring one reads them. [INV-211, INV-70]
+5. The system *shall* record the owner's word and its date in JOURNAL.md. [INV-220]
+
 
 ## Reference
 
@@ -7936,7 +7979,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-67 | R28.1, R28.2, R28.3, R29.1, R29.4, R186.4, R194.11, R253.3, R254.7, R255.6, R309.8 |
 | INV-68 | R152.1, R152.2, R152.3, R152.5, R152.6, R157.7, R158.3, R158.5 |
 | INV-69 | R17.7, R18.4, R206.2, R206.3, R206.4, R208.1, R208.2, R208.3, R208.4, R208.5, R208.6, R208.7, R210.1, R210.2, R219.3, R219.4, R220.10, R230.1, R233.4, R309.40, R309.78, R309.81 |
-| INV-70 | R72.1, R72.2, R72.3, R72.4, R131.1, R139.1, R211.1, R232.5 |
+| INV-70 | R72.1, R72.2, R72.3, R72.4, R131.1, R139.1, R211.1, R232.5, R311.4 |
 | INV-71 | R29.1, R29.2, R29.3, R29.4, R309.5, R309.6, R309.86, R309.87, R309.88 |
 | INV-72 | R65.1, R67.1, R175.7, R258.3, R259.1, R259.2, R259.3, R259.4, R260.3, R261.4, R261.6, R261.7, R262.3, R263.4, R263.6, R265.8 |
 | INV-73 | R87.3, R194.1, R224.2 |
@@ -8039,7 +8082,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-170 | R66.1, R66.2 |
 | INV-171 | R66.2, R67.1, R67.2, R67.3, R67.4 |
 | INV-172 | R188.10, R268.1, R268.2, R268.3, R268.4, R268.5, R268.6, R272.2, R275.2 |
-| INV-173 | R133.3, R135.3, R232.1, R269.1, R269.2, R269.3, R269.4, R269.5, R275.3, R294.4, R301.12 |
+| INV-173 | R133.3, R135.3, R232.1, R269.1, R269.2, R269.3, R269.4, R269.5, R275.3, R294.4, R301.12, R311.1, R311.3 |
 | INV-174 | R195.2, R253.4, R253.5, R270.5 |
 | INV-175 | R246.4, R270.1, R270.2, R270.3, R270.4, R270.5, R271.1, R271.2, R271.4, R275.3, R292.3, R292.7, R294.4 |
 | INV-176 | R246.7, R272.1, R272.2, R272.3 |
@@ -8069,7 +8112,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-200 | R87.1, R87.2, R87.3 |
 | INV-201 | R83.2, R88.1, R88.2, R88.3, R88.4, R88.5, R88.6 |
 | INV-202 | R229.1, R229.2, R229.3, R229.4, R232.7, R233.5, R294.4 |
-| INV-203 | R18.4, R18.5, R19.3, R134.2, R135.3, R230.1, R230.2, R230.3, R230.4, R230.5, R230.6, R230.7, R232.7, R233.2, R233.6, R294.2, R294.3, R300.5 |
+| INV-203 | R18.4, R18.5, R19.3, R134.2, R135.3, R230.1, R230.2, R230.3, R230.4, R230.5, R230.6, R230.7, R230.9, R232.7, R233.2, R233.6, R294.2, R294.3, R300.5 |
 | INV-204 | R117.6, R234.1, R234.2, R234.3, R234.4, R235.4, R236.4 |
 | INV-205 | R236.1, R236.2, R236.3, R236.4, R238.4, R239.3, R240.3 |
 | INV-206 | R94.3, R237.1, R237.2, R237.3, R237.4, R237.5, R241.3, R309.17, R309.18, R309.39 |
@@ -8077,7 +8120,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-208 | R242.1, R242.2, R242.3, R242.4 |
 | INV-209 | R243.1, R243.2, R243.3, R243.4, R243.5, R245.3, R287.3 |
 | INV-210 | R246.1, R246.2, R306.15, R307.13 |
-| INV-211 | R246.3, R246.4, R292.1, R292.6, R292.7, R292.8, R294.4 |
+| INV-211 | R230.9, R232.8, R246.3, R246.4, R292.1, R292.6, R292.7, R292.8, R293.9, R294.4, R294.5, R311.1, R311.2, R311.3, R311.4 |
 | INV-212 | R226.2, R246.5, R246.6, R292.1, R292.5, R306.15, R307.13 |
 | INV-213 | R235.1, R235.2 |
 | INV-214 | R82.4, R91.1, R91.2, R91.3, R91.4, R266.7 |
@@ -8086,7 +8129,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-217 | R191.5, R215.2, R274.1, R274.2, R274.3, R274.4, R274.5, R274.6, R274.7 |
 | INV-218 | R113.1, R113.2, R303.29, R303.30, R303.32, R301.18, R301.19, R302.7, R302.14, R306.13 |
 | INV-219 | R193.13 |
-| INV-220 | R231.1 |
+| INV-220 | R231.1, R311.5 |
 | INV-221 | R135.1, R135.2, R135.3, R230.3 |
 | INV-222 | R5.3, R5.4, R5.5, R94.1, R94.2, R94.3, R94.4, R95.3, R196.11, R239.1, R257.4, R309.4, R309.23, R309.25 |
 | INV-223 | R5.5, R94.3, R239.1, R239.2, R239.3, R239.4, R309.23 |
@@ -8104,7 +8147,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-235 | R197.2, R197.4, R214.1, R214.2, R214.3, R214.4, R214.5 |
 | INV-236 | R190.4, R190.5, R190.6, R190.7, R190.8 |
 | INV-237 | R215.1, R215.2, R215.3, R215.4, R220.9 |
-| INV-238 | R232.1, R232.2, R232.3, R294.1 |
+| INV-238 | R232.1, R232.2, R232.3, R232.8, R294.1 |
 | INV-239 | R191.1, R191.2, R191.3, R191.4, R191.5, R191.6, R191.7, R191.8, R191.9, R191.10 |
 | INV-240 | R192.1, R192.2, R192.3, R192.4, R192.5, R192.6, R192.7 |
 | INV-241 | R232.3, R233.1, R233.2, R233.3, R233.4, R233.5, R233.6, R233.7, R233.8 |
@@ -8149,8 +8192,8 @@ The code-to-location table below is generated output, built from the body criter
 | INV-280 | R291.1, R291.2, R291.3 |
 | INV-281 | R230.6, R230.8 |
 | INV-282 | R292.1, R292.2, R292.3, R292.4, R292.5, R292.6, R292.7, R292.8 |
-| INV-283 | R293.1, R293.2, R293.3, R293.4, R293.5, R293.6, R293.7, R293.8 |
-| INV-284 | R294.1, R294.2, R294.3, R294.4 |
+| INV-283 | R293.1, R293.2, R293.3, R293.4, R293.5, R293.6, R293.7, R293.8, R293.9 |
+| INV-284 | R294.1, R294.2, R294.3, R294.4, R294.5 |
 | INV-285 | R295.1 |
 | INV-286 | R296.1, R296.2, R296.3, R296.4, R296.5, R296.6, R296.7, R296.8, R296.9, R296.10, R296.11, R296.12, R296.13 |
 | INV-287 | R297.1, R297.2, R297.3, R297.4, R297.5, R297.6, R297.7, R297.8, R297.9, R297.10, R297.12 |
