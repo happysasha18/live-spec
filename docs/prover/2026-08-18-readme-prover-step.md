@@ -2,8 +2,9 @@
 
 PUSH-REVIEW
 
-Range: 72f27fb5..a759db3f
+Range: 72f27fb5..211edfc3
 - a759db3f The record carries the front door's missing line
+- 211edfc3 The record names the test that pins the step
 - e9baeda The first step's promise is pinned by a test, and the new line says what the prover is
 - 221308c README: Step 1 (clone road) installs product-prover too
 Files read: README.md, install.sh, scripts/install-external-skills.sh, skills/product-prover-pack/SKILL.md
