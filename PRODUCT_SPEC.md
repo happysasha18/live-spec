@@ -5529,7 +5529,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: the host wires these arms itself**
 
-9. The two arms and four scans above *shall* each bind *where* the host wired it, since each stood down from the default wiring on 2026-08-17. [INV-203, INV-211]
+9. The two arms and four scans above *shall* each bind *where* the host wired it, since each stood down from the pack's default wiring. [INV-203, INV-211]
 
 ---
 
@@ -5576,7 +5576,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: the host wires this arm itself**
 
-8. The hedge gate *shall* block no stop on a host that has not turned it on, the pack's default since 2026-08-17. [INV-238, INV-211]
+8. The hedge gate *shall* block no stop on a host that has not turned it on, which is the pack's default. [INV-238, INV-211]
 
 ---
 
@@ -5878,9 +5878,9 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 ## Requirement 246: The guards over the guards
 
-**Context:** A gate can report green two ways: because the input was clean, or because it never fires at all. Four checks guard the gate machinery itself against that hollow class — the pushed gates must be mirrored into the remote check, every chat judge must be wired into settings, every gate must carry a proof it can fail, and every path a permission rule names must still exist.
+**Context:** A gate can report green two ways: because the input was clean, or because it never fires at all. Four checks guard the gate machinery itself against that hollow class — the pushed gates must be mirrored into the remote check, every chat judge the pack declares wired must be wired into settings, every gate must carry a proof it can fail, and every path a permission rule names must still exist.
 
-**User Story:** As a maintainer trusting the push gate, I want the gate machinery itself checked, so that no gate silently protects nothing — mirrored into the remote, wired into settings, provably able to fail, and pointed at real paths.
+**User Story:** As a maintainer trusting the push gate, I want the gate machinery itself checked, so that no gate silently protects nothing — mirrored into the remote, wired into settings where the declaration says wired, provably able to fail, and pointed at real paths.
 
 ### Acceptance Criteria
 
@@ -5889,7 +5889,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 1. *when* the push gate runs a gate letter locally that the remote mirror does not run, the system *shall* red, naming the gate and the one fix, a legitimate remote-skip living in `guardrails/ci-mirror.json` with its reason. [INV-210, M-5]
 2. *if* a carve-out names a letter that is no local gate, *then* the system *shall* red it as drift. [INV-210]
 
-**Case: every chat judge is wired**
+**Case: every chat judge the declaration wires is wired**
 
 3. *when* a hook under `hooks/` is not classified in the wired-hook declaration, or a wired hook is missing from its array in the installed settings, the system *shall* red, naming the hook, the surface, and the fix. [INV-211]
 4. *where* the personal-layer settings cannot be read, the system *shall* stand the wiring check down by name rather than falsely pass. [INV-211, INV-175]
@@ -7149,7 +7149,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 ## Requirement 295: A chat law is judged while the turn still runs — retired
 
-**Context:** The PreToolUse arm this requirement specified stood before every tool call in the tree. It judged the seat's narration alone, and it delivered its refusal into whichever tool call happened to be in flight — a background worker's included, where it arrived as an order from nowhere to rewrite a sentence that worker never wrote, and was hunted for a night as an instruction planted from outside. No field of the event the arm reads separates the seat's call from a worker's, so it could not prove whose work it stopped, and the law that a check unable to prove that stands down governs the arm itself. Its retirement is recorded in JOURNAL.md. The two laws it carried stand: the code-anchor law keeps the Stop-side scan that reads the same text at the turn's end (Requirement 293), opt-in from 2026-08-17 (Requirement 311), and the measurement law now names no machine and rests with a person.
+**Context:** The PreToolUse arm this requirement specified stood before every tool call in the tree. It judged the seat's narration alone, and it delivered its refusal into whichever tool call happened to be in flight — a background worker's included, where it arrived as an order from nowhere to rewrite a sentence that worker never wrote, and was hunted for a night as an instruction planted from outside. No field of the event the arm reads separates the seat's call from a worker's, so it could not prove whose work it stopped, and the law that a check unable to prove that stands down governs the arm itself. Its retirement is recorded in JOURNAL.md. The two laws it carried stand: the code-anchor law keeps the Stop-side scan that reads the same text at the turn's end (Requirement 293), opt-in by Requirement 311, and the measurement law now names no machine and rests with a person.
 
 **User Story:** As a person whose background workers were stopped 76 times by a refusal about lines they never wrote — counted off the transcripts by record shape, a tool result opening with the scan's own refusal line, the count deciding whether the arm was repairable or had to go — I want the arm retired rather than left standing, so that no check in the pack refuses work it cannot prove is the work it is judging.
 
@@ -7246,7 +7246,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: generated coverage**
 
-1. *when* the human runs the installer, the system *shall* place the file of every hook `guardrails/judge-hooks.json` names and wire every hook in its wired declaration, each under its declared event with its declared command form. [INV-289]
+1. *when* the human runs the installer, the system *shall* place the file of every hook the declaration's `file` map names and wire every hook in its wired declaration, each under its declared event with its declared command form. [INV-289]
 2. The system *shall* install every data file a hook's declaration names, beside that hook. [INV-289]
 
 **Case: both directions proven mechanically**
@@ -7824,7 +7824,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 ## Requirement 311: Six background chat checks ship as opt-in, and the host wires them
 
-**Context:** The pack wired four literal Stop scans and the register judge's two async arms into every host's settings.json by default. The owner stood all six down on his own machine on 2026-08-17 and asked the repository to say so. The files still ship and their tests still run; what changed is who turns them on. A host that wants one adds its command to its own settings.json, reading the surface and the command form from the wired-hook declaration. JOURNAL.md carries the owner's word and its date.
+**Context:** The pack wired four literal Stop scans and the register judge's two async arms into every host's settings.json by default. The owner stood all six down on his own machine and asked the repository to say so. The files still ship and their tests still run; what changed is who turns them on. A host that wants one adds its command to its own settings.json, reading the surface and the command form from the wired-hook declaration. JOURNAL.md carries the owner's word and its date.
 
 **User Story:** As a person who turned six background checks off, I want the pack to declare them opt-in. Then no document of mine promises a verdict this machine never delivers.
 

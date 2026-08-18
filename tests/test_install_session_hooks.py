@@ -103,6 +103,13 @@ def test_every_declared_hook_command_matches_the_declaration(tmp_path):
     assert not mismatched, "declared command form not found verbatim: %r" % (mismatched,)
 
 
+# The six the owner stood down on 2026-08-17, pinned as a literal set. Both tests below read the
+# roster out of guardrails/judge-hooks.json, so without this floor a stem quietly dropped from the
+# declaration would drop out of their coverage and leave them green.
+OPT_IN_SIX = {"scissors-scan", "hedge-scan", "affirmation-scan", "code-anchor-scan",
+              "register-judge-collect", "register-judge-report"}
+
+
 def test_every_opt_in_hook_file_lands_unwired(tmp_path):
     """The six that left the wired list on 2026-08-17 still SHIP (PRODUCT_SPEC.md Requirement 311.3,
     Requirement 298.7). Two directions, both of which the wired-list tests above stopped covering the
@@ -114,6 +121,8 @@ def test_every_opt_in_hook_file_lands_unwired(tmp_path):
     assert proc.returncode == 0, proc.stdout + proc.stderr
 
     decl = _load_decl()
+    assert set(decl["opt_in_surface"]) == OPT_IN_SIX, (
+        "the opt-in roster moved; this test reads the declaration, so the roster is pinned here too")
     installed_dir = os.path.join(home, ".claude", "hooks")
     settings = _settings(home)
 

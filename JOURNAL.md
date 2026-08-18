@@ -3008,7 +3008,7 @@ so it is restated in the pack's own words and both readers take it from the regi
 
 What that leaves them, said plainly rather than glossed: the lint's own model judge waits on
 PRESHOW_REGISTER_JUDGE, off unless a host sets it. So the catcher of record for both rules is a person
-running `scripts/preshow-register-lint.py` over a file. Their `armed` field says `manual`, which is
+running `scripts/preshow-register-lint.py` over a file with that variable set. Their `armed` field says `manual`, which is
 what that is. Neither rule is left as a sentence nobody reads, and neither is left with a machine
 either.
 
@@ -3019,7 +3019,7 @@ nothing is lost that a host cannot turn on in one line. Requirement 311 carries 
 
 One step is owed on the machine before this pushes. `hooks/language-laws.json` is generated from the
 rule registry, and the registry changed, so the installed copy at `~/.claude/hooks/` is now the older
-build and gate m reds on it. The owner runs `sh scripts/install-pack-hooks.sh` to refresh it, and no
+build. Gate m reds on it, and so do the two config-health tests that ride the suite. The owner runs `sh scripts/install-pack-hooks.sh` to refresh it, and no
 agent may run that installer. Nothing reads the stale copy meanwhile: the two hooks this machine wires
 are the clock and the chat laws, neither of which opens that file, and the document lint imports the
 mechanism out of this repository. The red is the drift itself, not a judge reading old law.

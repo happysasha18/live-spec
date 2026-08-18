@@ -91,7 +91,7 @@ clock and the chat laws. The other six are opt-in from 2026-08-17: the register 
 the four literal Stop scans. The declaration records the surface each rides, for a host that turns one
 on. The one installer a human runs is `scripts/install-session-hooks.sh`. It generates the two wired
 hooks from that declaration, then chains to `scripts/install-pack-hooks.sh`, which places the other six
-files and wires none. So the one command puts every shipped file in place. The human runs it by hand, because the harness deliberately blocks the agent from
+files and wires none. So the one command puts every hook file the declaration lists in place. The human runs it by hand, because the harness deliberately blocks the agent from
 editing its own configuration. Re-running it changes nothing — a hook already wired, in any form, is
 left exactly as it stands, and a personal overlay file (`*-personal.json`/`*-personal.md`, or a host's
 own `hook-meter.py` counter) already on the machine is only ever reported, never touched.

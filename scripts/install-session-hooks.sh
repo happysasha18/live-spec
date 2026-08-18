@@ -143,4 +143,4 @@ if os.path.isfile(hook_meter):
           "it stays wrapped, since a hook already wired in any form is left exactly as it stands.")
 PYEOF
 
-echo "Installed. Every window's next prompt and turn carry the pack's declared session hooks."
+echo "Installed. Every window's next prompt carries the two wired hooks; the six opt-in checks are in place and wired by you."
