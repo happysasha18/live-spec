@@ -2,8 +2,9 @@
 
 PUSH-REVIEW
 
-Range: ebc4d428..bd3940f8
+Range: ebc4d428..aa6384e8
 - bd3940f8 The record follows the base main moved to
+- aa6384e8 The record names the gate repairs the split needed
 - 01c87da Fix two push-gate findings from the spec split: shipped-language and a whole class of spec-by-path readers
 - cf343a7 Merge origin/main: the skills-lines cull lands under the split
 - 43efc57 The record names the pushed range by its hashes
