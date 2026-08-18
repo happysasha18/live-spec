@@ -33,8 +33,8 @@ jobs:
       - name: install the external product-prover canon (pinned, gate b's evidence)
         run: >-
           scripts/install-external-skills.sh
-          --ref 94d36454d55438951311d302fc86adba33123868
-          --expect-commit 94d36454d55438951311d302fc86adba33123868
+          --ref 540914d740e4f6178d1a69f324c43a0ae871e066
+          --expect-commit 540914d740e4f6178d1a69f324c43a0ae871e066
       - name: test suite (gate b, full — the reach map stays local)
         if: ${{ !cancelled() }}
         run: python3 -m pytest -q
