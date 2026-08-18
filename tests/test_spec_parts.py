@@ -259,7 +259,7 @@ def spec_file_reads(source, filename):
     read_all/read_all_flat, which pass through it), under whatever name the module imported,
     re-exported or assigned it.
 
-    KNOWN LIMITS, recorded rather than papered over. This rule reads one module's syntax, so four
+    KNOWN LIMITS, recorded rather than papered over. This rule reads one module's syntax, so these
     shapes are outside it by construction, and a green here does not speak for them:
 
       - A METHOD reader. `self.read(rel)` resolves through an instance, which syntax alone cannot
@@ -273,6 +273,21 @@ def spec_file_reads(source, filename):
       - A read through a SUBPROCESS — a gate invoked with the spec's path on its command line. That
         is a different rule's business: those paths come from `spec_paths()`, and the seven CLI
         tests widened for it are proven in their own files.
+      - TUPLE UNPACKING of a binding: `reader, writer = read, write` rebinds through a Tuple target,
+        which the source-ordered assignment pass does not follow (it reads `name = name` only).
+      - An alias made INSIDE a function body: `def t(): r = read; r(SPEC)`. Function scope is read
+        for one thing only — a local rebinding of a name the module bound (the shadow case above) —
+        not for aliases invented there.
+      - The name reaching a reader through a collection built ELSEWHERE, or through a comprehension
+        rather than a `for` statement. The plain `for rel in (SPEC, "README.md")` shape IS followed,
+        one step, because the suite holds it (tests/test_finding_kind.py:60); a name that travels
+        further than that step is not tracked.
+      - A path built by STRING CONCATENATION — `ROOT + "/PRODUCT_SPEC.md"` — rather than by join or
+        `/`. No such path exists here; the rule knows the two spellings the suite uses.
+      - The FIXTURE EXEMPTION is deliberately wide: any call that also carries a name other than a
+        root — `_write(tmp, SPEC, ...)`, `read(SPEC, root=project)` — is left alone. That is what
+        keeps a fixture repo's own copy out of this rule, and it means a live read that happens to
+        pass an unrelated name alongside the spec would be exempted with it.
 
     Each limit is a place where this guard is silent, not a place where it says yes.
     """
@@ -324,35 +339,57 @@ def spec_file_reads(source, filename):
             shadowed.setdefault(id(node), set()).update(local)
 
     node_reads, offenders = [], []
+    def classify(up, arg, lineno):
+        """Judge one call that receives the spec's name, and record where it stands."""
+        name = _call_name(up)
+        here_shadowed = name in shadowed.get(id(up), ())
+        if not here_shadowed and (
+                (isinstance(up.func, ast.Name) and name in node_names) or _from_conftest(up)):
+            node_reads.append(lineno)
+            return
+        if here_shadowed:
+            offenders.append(lineno)
+            return
+        if _opens_a_file(up, roots) or name in readers:
+            # an opener, a path built from the root, or the module's own file-reading helper —
+            # whatever that helper is called, including `read` itself. Unless the call also
+            # carries a root of its own (`_write(tmp, SPEC, ...)`, `read(SPEC, root=project)`):
+            # then the file is a fixture repo's own copy and not the document under this rule.
+            elsewhere = [a for a in up.args
+                         if a is not arg and isinstance(a, ast.Name) and a.id not in roots]
+            elsewhere += [kw.value for kw in up.keywords
+                          if isinstance(kw.value, ast.Name) and kw.value.id not in roots]
+            if not elsewhere:
+                offenders.append(lineno)
+
     for node in ast.walk(tree):
         if not _names_the_spec(node):
             continue
         up = parent.get(id(node))
         if isinstance(up, ast.Call):
-            name = _call_name(up)
-            here_shadowed = name in shadowed.get(id(up), ())
-            if not here_shadowed and (
-                    (isinstance(up.func, ast.Name) and name in node_names) or _from_conftest(up)):
-                node_reads.append(node.lineno)
-                continue
-            if here_shadowed:
-                offenders.append(node.lineno)
-                continue
-            if _opens_a_file(up, roots) or name in readers:
-                # an opener, a path built from the root, or the module's own file-reading helper —
-                # whatever that helper is called, including `read` itself. Unless the call also
-                # carries a root of its own (`_write(tmp, SPEC, ...)`, `read(SPEC, root=project)`):
-                # then the file is a fixture repo's own copy and not the document under this rule.
-                elsewhere = [a for a in up.args
-                             if a is not node and isinstance(a, ast.Name) and a.id not in roots]
-                elsewhere += [kw.value for kw in up.keywords
-                              if isinstance(kw.value, ast.Name) and kw.value.id not in roots]
-                if not elsewhere:
-                    offenders.append(node.lineno)
-                continue
+            classify(up, node, node.lineno)
         elif isinstance(up, ast.BinOp) and isinstance(up.op, ast.Div) \
                 and _anchored_at_root(up.left, roots):
             offenders.append(node.lineno)
+
+    # The name may reach the reader through a COLLECTION and a loop variable:
+    # `for rel in ("PRODUCT_SPEC.md", "README.md"): ... tracked(rel)`. That is a real shape in this
+    # suite (tests/test_finding_kind.py), and one step of following is enough for it: the call the
+    # loop variable is handed to is judged exactly as if the name stood in it.
+    for loop in ast.walk(tree):
+        if not (isinstance(loop, ast.For) and isinstance(loop.target, ast.Name)):
+            continue
+        if not isinstance(loop.iter, (ast.Tuple, ast.List, ast.Set)):
+            continue
+        named = [e for e in loop.iter.elts if _names_the_spec(e)]
+        if not named:
+            continue
+        var = loop.target.id
+        for node in ast.walk(loop):
+            if isinstance(node, ast.Call):
+                for arg in node.args:
+                    if isinstance(arg, ast.Name) and arg.id == var:
+                        classify(node, arg, named[0].lineno)
     return node_reads, offenders
 
 
@@ -425,6 +462,9 @@ class TestTheSuiteHasOneReadingNode(unittest.TestCase):
             # ... and the node's name rebound inside ONE function, where it is no longer the node
             'from conftest import read\ndef t():\n    read = lambda rel: open(rel).read()\n'
             '    return read("PRODUCT_SPEC.md")\n',
+            # the name reaching an opener through a collection and a loop variable
+            'def r(rel):\n    with open(os.path.join(ROOT, rel)) as f:\n        return f.read()\n'
+            'for rel in ("PRODUCT_SPEC.md", "README.md"):\n    x = r(rel)\n',
             # the likeliest NEXT regression: the node exports the name, so the path can be built
             # from the constant and never spell the file at all
             'from conftest import ROOT, SPEC\nx = open(os.path.join(ROOT, SPEC)).read()\n',
@@ -450,7 +490,11 @@ class TestTheSuiteHasOneReadingNode(unittest.TestCase):
                     'def r(rel):\n    with open(os.path.join(ROOT, rel)) as f:\n'
                     '        return f.read()\n'
                     'from conftest import read\ntracked = r\ntracked = read\n'
-                    'x = tracked("PRODUCT_SPEC.md")\n']:
+                    'x = tracked("PRODUCT_SPEC.md")\n',
+                    # ... and the same journey into the node, the shape tests/test_finding_kind.py
+                    # holds at line 60
+                    'from conftest import read\nfor rel in ("PRODUCT_SPEC.md", "README.md"):\n'
+                    '    x = read(rel)\n']:
             reads, offenders = spec_file_reads(src, "<node>")
             self.assertEqual(offenders, [], "the guard named the one node an offender:\n%s" % src)
             self.assertTrue(reads, "the guard did not see the node's read at all:\n%s" % src)
