@@ -2,7 +2,7 @@
 """hooks/affirmation-scan.py — empty affirmation and validation aimed at the user is banned.
 
 F4 (2026-07-27 prover record): affirmation-scan.py ships to every adopter through
-scripts/install-pack-hooks.sh (JUDGE_FILES + a wired Stop hook), with one red fixture in
+scripts/install-pack-hooks.sh (JUDGE_FILES; the host wires it since 2026-08-17), with one red fixture in
 guardrails/hook-red-proofs.json and no test module of its own. Every sibling scan carries a
 dedicated module holding both directions — the hedge arm (tests/test_hedge_arm.py). A Stop hook that blocks every turn is paid for
 by the human on the FALSE-POSITIVE direction most of all, so that direction gets the larger share

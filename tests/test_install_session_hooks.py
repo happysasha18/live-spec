@@ -178,7 +178,11 @@ def test_a_meter_wrapped_existing_entry_is_recognized_not_duplicated(tmp_path):
     """A host may already wrap a hook in the personal ~/.claude/hooks/hook-meter.py counter (this
     machine wraps most of them today). The installer must recognize that hook as already wired by
     its filename appearing in the existing command — whatever form that command takes — and never add
-    a second, plain-form entry beside it."""
+    a second, plain-form entry beside it.
+
+    The seeded entry is chat-law-hook.sh on UserPromptSubmit, a hook the installer still wires. It was
+    scissors-scan.py on Stop until 2026-08-17, when that scan went opt-in and the installer stopped
+    writing to the Stop array at all — which left this test passing because nothing ran."""
     home = str(tmp_path / "home")
     claude_dir = os.path.join(home, ".claude")
     os.makedirs(claude_dir)
@@ -186,9 +190,9 @@ def test_a_meter_wrapped_existing_entry_is_recognized_not_duplicated(tmp_path):
     with open(settings_path, "w", encoding="utf-8") as f:
         json.dump({
             "hooks": {
-                "Stop": [
+                "UserPromptSubmit": [
                     {"hooks": [{"type": "command",
-                                "command": "python3 ~/.claude/hooks/hook-meter.py ~/.claude/hooks/scissors-scan.py"}]}
+                                "command": "python3 ~/.claude/hooks/hook-meter.py ~/.claude/hooks/chat-law-hook.sh"}]}
                 ]
             }
         }, f)
@@ -197,7 +201,9 @@ def test_a_meter_wrapped_existing_entry_is_recognized_not_duplicated(tmp_path):
     assert proc.returncode == 0, proc.stdout + proc.stderr
 
     settings = _settings(home)
-    cmds = _commands_for(settings, "Stop")
-    scissors_cmds = [c for c in cmds if "scissors-scan.py" in c]
-    assert len(scissors_cmds) == 1, "the meter-wrapped entry was duplicated rather than recognized: %r" % cmds
-    assert "hook-meter.py" in scissors_cmds[0], "the installer rewrote the host's own meter-wrapped form"
+    cmds = _commands_for(settings, "UserPromptSubmit")
+    law_cmds = [c for c in cmds if "chat-law-hook.sh" in c]
+    assert len(law_cmds) == 1, "the meter-wrapped entry was duplicated rather than recognized: %r" % cmds
+    assert "hook-meter.py" in law_cmds[0], "the installer rewrote the host's own meter-wrapped form"
+    assert any("clock-hook.sh" in c for c in cmds), (
+        "the installer must still wire the hook the fixture did not seed: %r" % cmds)

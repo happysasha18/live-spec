@@ -54,7 +54,7 @@ Each **catcher** under a rule carries a status of its own.
 - `pre-commit` — a gate refuses the commit until the text changes.
 - `pre-push` — a gate refuses the push until the text changes.
 - `session-stop-hook` — the session's reply is held at the end of the turn, and a correction is asked for before the text reaches the reader.
-- `session-prompt-hook` — the verdict on the previous reply is put in front of the session when the person sends their next message.
+- `session-prompt-hook` — the law, or the verdict on the previous reply, is put in front of the session at their next message. The pack wires the reminder half (hooks/chat-law-hook.sh); the verdict half is opt-in from 2026-08-17.
 - `PreToolUse` — the next tool call is denied, so the correction reaches the reader inside the same turn; a rule armed here records it in its notes, since the `armed` field's vocabulary holds no word for the event.
 - `manual` — a person runs the catcher over a file by hand, and nothing runs it on its own.
 - `nowhere` — no catcher runs the rule at any event.
@@ -341,7 +341,7 @@ repair the text from those stops rather than from the one sentence in front of y
 
 **Stated before this page, at.** ~/.claude/playbook/personal/profile.md:18, hooks/chat-law-hook.sh:8, hooks/scissors-scan.py:27, ~/.claude/hooks/scissors-personal.json:1, docs/spec-style.md:52, docs/spec-style.md:67, scripts/spec-style-lint.py:122, scripts/spec-style-lint.py:206, docs/spec-format.md:36, docs/prose-quality-gate-design.md:19, docs/spec-compaction-protocol.md:75, ~/.claude/skills/communicator/references/writing-register.md:93, ~/.claude/skills/communicator/SKILL.md:434, ~/.claude/skills/text-audit/SKILL.md:226, ~/.claude/skills/spec-author/references/how-it-reads.md:43
 
-**Notes.** The package default carries the exception the model judge states. The owner's profile calls the ban permanent with no exception, which is what personal_override records; ~/.claude/playbook/personal/profile.md:18 and ~/.claude/skills/communicator/SKILL.md:434 hold that form. scripts/spec-style-lint.py:126 hard-codes its own exemptions for `X, not only Y` and for an imperative `use A instead of B`; those exemptions must come from this file instead. The modal words never, no, only, and exactly-one are load-bearing and survive, per docs/spec-compaction-protocol.md:75. Positive statement binds every surface, conversation and commit messages and worker briefs included, since each of them is text a reader meets. The surfaces list says so.
+**Notes.** The package default carries the exception the model judge states. The owner's profile calls the ban permanent with no exception, which is what personal_override records; ~/.claude/playbook/personal/profile.md:18 and ~/.claude/skills/communicator/SKILL.md:434 hold that form. scripts/spec-style-lint.py:126 hard-codes its own exemptions for `X, not only Y` and for an imperative `use A instead of B`; those exemptions must come from this file instead. The modal words never, no, only, and exactly-one are load-bearing and survive, per docs/spec-compaction-protocol.md:75. Positive statement binds every surface, conversation and commit messages and worker briefs included, since each of them is text a reader meets. The surfaces list says so. The Stop-side scissors scan stood down on 2026-08-17; the pattern gate in scripts/spec-style-lint.py and the prompt-hook reminder carry the rule now (JOURNAL.md).
 
 ### r11 — an internal code leading a sentence to the reader
 
@@ -359,7 +359,7 @@ repair the text from those stops rather than from the one sentence in front of y
 
 **Stated before this page, at.** hooks/chat-law-hook.sh:8, hooks/code-anchor-scan.py:69, scripts/preshow-lint.py:26, guardrails/criterion-readability.json:110, docs/lenses.md:17, docs/spec-format.md:17, docs/roadmap-format.md:12, docs/architecture-format.md:16, docs/test-matrix-format.md:10, ~/.claude/skills/live-spec-base/SKILL.md:52, ~/.claude/playbook/personal/profile.md:14, ~/.claude/skills/communicator/references/writing-register.md:66, ~/.claude/skills/communicator/SKILL.md:254, ~/.claude/skills/spec-author/references/glossary.md:48
 
-**Notes.** The arm that held this rule in chat is retired to attic/midturn-chat-scan.py. It stood before every tool call in the tree. Its refusal landed on whichever call was in flight, a background worker's included. No field of that event tells the two apart. The law stands, and only its machine is gone. The Stop-side code-anchor scan still holds this rule at the turn's end. The anchor counts come from guardrails/criterion-readability.json and no prose home states them. code-anchor-scan.py:73 also catches a document name run against a number and code-anchor-scan.py:76 a spoken-space or hash variant, neither of which any prose home states. The criterion arm is armed nowhere.
+**Notes.** The arm that held this rule in chat is retired to attic/midturn-chat-scan.py. It stood before every tool call in the tree. Its refusal landed on whichever call was in flight, a background worker's included. No field of that event tells the two apart. The law stands, and only its machine is gone. The Stop-side code-anchor scan held this rule at the turn's end until 2026-08-17. The owner unwired it, and the pre-show lint and the prompt-hook reminder carry the rule now. The anchor counts come from guardrails/criterion-readability.json and no prose home states them. code-anchor-scan.py:73 also catches a document name run against a number and code-anchor-scan.py:76 a spoken-space or hash variant, neither of which any prose home states. The criterion arm is armed nowhere.
 
 ### r12 — a word grading how important or how good a thing is
 
@@ -395,7 +395,7 @@ repair the text from those stops rather than from the one sentence in front of y
 
 **Stated before this page, at.** ~/.claude/playbook/personal/profile.md:20, ~/.claude/playbook/personal/profile.md:53, ~/.claude/hooks/register-judge-personal.md:15, hooks/affirmation-scan.py:32, ~/.claude/hooks/affirmation-personal.json:1, ~/.claude/skills/communicator/SKILL.md:213, docs/lenses.md:275, scripts/preshow-register-lint.py:105
 
-**Notes.** The class is split across two checkers by pole: affirmation-scan.py holds the person pole, preshow-register-lint.py holds the self-certification pole. The ten English phrasings live only in the script.
+**Notes.** The class is split across two checkers by pole: affirmation-scan.py holds the person pole, preshow-register-lint.py holds the self-certification pole. The ten English phrasings live only in the script. The Stop-side affirmation scan stood down on 2026-08-17; scripts/preshow-register-lint.py holds the self-certification pole by hand (JOURNAL.md).
 
 ### r14 — a sentence carrying no information
 
@@ -408,7 +408,7 @@ repair the text from those stops rather than from the one sentence in front of y
 **What catches a break of it.**
 
 - **pattern** — absent.
-- **model** — held. Lives at hooks/register_judge_core.py, scripts/preshow-register-lint.py via hooks/register_judge_core.py. Rule text the judging model reads: no sentence that carries no information. This is compaction turned on what the reader reads: every sentence shown to the reader advances the finding, the decision, or the action. A sentence that only performs a stance, prefaces or frames without content, restates what the reader already holds, softens, or ceremonially opens or closes is cut before sending.
+- **model** — held. Lives at scripts/preshow-register-lint.py via hooks/register_judge_core.py. Rule text the judging model reads: no sentence that carries no information. This is compaction turned on what the reader reads: every sentence shown to the reader advances the finding, the decision, or the action. A sentence that only performs a stance, prefaces or frames without content, restates what the reader already holds, softens, or ceremonially opens or closes is cut before sending.
 - **person** — partial. Reads: whether a sentence the judge passed still restates what the reader already holds.
 
 **Stated before this page, at.** ~/.claude/hooks/register-judge-personal.md:1, hooks/register-judge.py:30, hooks/register_judge_core.py:35
@@ -903,7 +903,7 @@ repair the text from those stops rather than from the one sentence in front of y
 
 **Stated before this page, at.** hooks/hedge-scan.py:7, hooks/hedge-scan.py:48, hooks/chat-law-hook.sh:8, ~/.claude/hooks/hedge-personal.json:1, guardrails/pre-commit:25
 
-**Notes.** A marker or a question that cannot name its fact is itself the finding. The eleven English phrasings live only in the script.
+**Notes.** A marker or a question that cannot name its fact is itself the finding. The eleven English phrasings live only in the script. The Stop-side hedge scan stood down on 2026-08-17; guardrails/check-deferral-marker.py and the prompt-hook reminder carry the rule now (JOURNAL.md).
 
 ### r49 — a mistake expanded into a self-audit paragraph
 

@@ -5529,7 +5529,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: the host wires these arms itself**
 
-9. Each arm and scan above *shall* bind *where* the host wired it, since all six stood down from the default wiring on 2026-08-17. [INV-203, INV-211]
+9. Each arm and scan above *shall* bind *where* the host wired it, since each stood down from the default wiring on 2026-08-17. [INV-203, INV-211]
 
 ---
 
@@ -5574,9 +5574,9 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 7. *if* a payload or transcript is unreadable, *then* the system *shall* stand the signal down silently, and *shall* have its runs and fires read by the net-liveness meter rather than trusted. [INV-203, INV-202]
 
-**Case: the host wires these arms itself**
+**Case: the host wires this arm itself**
 
-8. The hedge gate *shall* bind *where* the host wired it into its own settings.json, since it stood down from the pack's default wiring on 2026-08-17. [INV-238, INV-211]
+8. The hedge gate *shall* block no stop on a host that has not turned it on, the pack's default since 2026-08-17. [INV-238, INV-211]
 
 ---
 
@@ -7115,9 +7115,9 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
    - an ordinary word carrying a letter and a number in lower case passes.
 8. The system *shall* pass a naming word and its number *where* the same line carries a file name or a file word, the shape a reference to a line inside a source file takes. [INV-283]
 
-**Case: the host wires these arms itself**
+**Case: the host wires this arm itself**
 
-9. The code-anchor scan *shall* bind *where* the host wired it into its own settings.json, since it stood down from the pack's default wiring on 2026-08-17. [INV-283, INV-211]
+9. *where* the code-anchor scan is unwired, the system *shall* leave a naked code to the pre-show lint over a drafted file. [INV-283, INV-211]
 
 ---
 
@@ -7140,9 +7140,9 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 4. The system *shall* place the scan's file by the setup walk beside the scissors scan, *shall* have it covered by the config-health check and classified in the wired-hook declaration, and *shall* have its runs and fires read by the net-liveness meter. [INV-284, INV-173, INV-175, INV-211, INV-202]
 
-**Case: the host wires these arms itself**
+**Case: the host wires this arm itself**
 
-5. The empty-validation scan *shall* bind *where* the host wired it into its own settings.json, since it stood down from the pack's default wiring on 2026-08-17. [INV-284, INV-211]
+5. The empty-validation scan *shall* catch nothing on a host that never turned it on. The register judge holds the class instead. [INV-284, INV-211]
 
 
 ---
@@ -7818,17 +7818,17 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 ---
 
-## Requirement 311: Six chat scans ship as opt-in, and the host wires them
+## Requirement 311: Six background chat checks ship as opt-in, and the host wires them
 
 **Context:** The pack wired four literal Stop scans and the register judge's two async arms into every host's settings.json by default. The owner stood all six down on his own machine on 2026-08-17 and asked the repository to say so. The files still ship and their tests still run; what changed is who turns them on. A host that wants one adds its command to its own settings.json, reading the surface and the command form from the wired-hook declaration. JOURNAL.md carries the owner's word and its date.
 
-**User Story:** As a person who turned six background scans off, I want the pack to declare them opt-in. Then no document of mine promises a verdict this machine never delivers.
+**User Story:** As a person who turned six background checks off, I want the pack to declare them opt-in. Then no document of mine promises a verdict this machine never delivers.
 
 ### Acceptance Criteria
 
 **Case: the six stand down from the default wiring**
 
-1. The system *shall* classify six chat scans as library hooks the default wiring never turns on. [INV-211, INV-173]
+1. The system *shall* classify six background chat checks as library hooks the default wiring never turns on. [INV-211, INV-173]
    - the contrast-frame scan;
    - the hedge scan;
    - the empty-validation scan;
