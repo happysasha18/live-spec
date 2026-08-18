@@ -103,7 +103,14 @@ def _is_root_expression(node):
     `Path(__file__).resolve().parent.parent` are the two the suite uses. What makes them the root is
     the shape — this file, then two steps up — not the name they are bound to, so a module may call
     the result ROOT, REPO, REPO_ROOT or anything else and still be judged the same.
+
+    A walk-up that then DESCENDS is not the root: `os.path.join(<root>, "tests", "fixtures")` names a
+    fixture directory, and a document under it is a fixture's own, not this one.
     """
+    if isinstance(node, ast.Call) and _call_name(node) == "join" and len(node.args) > 1:
+        return False
+    if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Div):
+        return False
     dump = ast.dump(node)
     return "__file__" in dump and (dump.count("dirname") >= 2 or dump.count("parent") >= 2)
 
@@ -218,22 +225,22 @@ def _bindings(tree, filename, seen=None):
             elif alias.name in sib_readers:
                 readers.add(alias.asname or alias.name)
 
-    growing = True
-    while growing:
-        growing = False
-        for node in tree.body:
-            if not (isinstance(node, ast.Assign) and isinstance(node.value, ast.Name)):
-                continue
-            targets = [t.id for t in node.targets if isinstance(t, ast.Name)]
-            source_is = (node_names if node.value.id in node_names
-                         else readers if node.value.id in readers else None)
-            if source_is is None:
-                continue
-            for t in targets:
-                if t not in source_is:
-                    source_is.add(t)
-                    growing = True
-    return node_names, readers
+    # Assignment binds a name too, and the LAST binding in the file is the one that stands. Walking
+    # the assignments in source order is what makes `tracked = read` followed by `tracked = <an
+    # opener>` an opener; a set-union pass called it a node read, because the node's standing had
+    # already been added and nothing took it away.
+    kind = dict([(n, "node") for n in node_names] + [(n, "reader") for n in readers])
+    for node in tree.body:
+        if isinstance(node, ast.Assign) and isinstance(node.value, ast.Name):
+            what = kind.get(node.value.id)
+            for t in node.targets:
+                if isinstance(t, ast.Name):
+                    if what is None:
+                        kind.pop(t.id, None)
+                    else:
+                        kind[t.id] = what
+    return (set(n for n, k in kind.items() if k == "node"),
+            set(n for n, k in kind.items() if k == "reader"))
 
 
 def spec_file_reads(source, filename):
@@ -301,6 +308,21 @@ def spec_file_reads(source, filename):
         return ((isinstance(n, ast.Constant) and n.value == SPEC)
                 or (isinstance(n, ast.Name) and n.id in spec_names))
 
+    # A function may REBIND the node's name in its own scope — `def t(): read = lambda rel: ...`.
+    # Inside that function the name is no longer the node, so the module-level standing is dropped
+    # for the calls under it: a local rebinding is judged where it stands, like any other reader.
+    shadowed = {}
+    for fn in ast.walk(tree):
+        if not isinstance(fn, (ast.FunctionDef, ast.AsyncFunctionDef)):
+            continue
+        local = set()
+        for node in ast.walk(fn):
+            if isinstance(node, ast.Assign):
+                local.update(t.id for t in node.targets
+                             if isinstance(t, ast.Name) and t.id in node_names)
+        for node in ast.walk(fn):
+            shadowed.setdefault(id(node), set()).update(local)
+
     node_reads, offenders = [], []
     for node in ast.walk(tree):
         if not _names_the_spec(node):
@@ -308,8 +330,13 @@ def spec_file_reads(source, filename):
         up = parent.get(id(node))
         if isinstance(up, ast.Call):
             name = _call_name(up)
-            if (isinstance(up.func, ast.Name) and name in node_names) or _from_conftest(up):
+            here_shadowed = name in shadowed.get(id(up), ())
+            if not here_shadowed and (
+                    (isinstance(up.func, ast.Name) and name in node_names) or _from_conftest(up)):
                 node_reads.append(node.lineno)
+                continue
+            if here_shadowed:
+                offenders.append(node.lineno)
                 continue
             if _opens_a_file(up, roots) or name in readers:
                 # an opener, a path built from the root, or the module's own file-reading helper —
@@ -391,6 +418,13 @@ class TestTheSuiteHasOneReadingNode(unittest.TestCase):
             # the root under a name the conventions do not list, recognised by the value it binds
             'REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))\n'
             'x = open(os.path.join(REPO_ROOT, "PRODUCT_SPEC.md")).read()\n',
+            # the node's name rebound to an opener AFTER it: the last binding is the one that stands
+            'from conftest import read\ntracked = read\n'
+            'def r(rel):\n    with open(os.path.join(ROOT, rel)) as f:\n        return f.read()\n'
+            'tracked = r\nx = tracked("PRODUCT_SPEC.md")\n',
+            # ... and the node's name rebound inside ONE function, where it is no longer the node
+            'from conftest import read\ndef t():\n    read = lambda rel: open(rel).read()\n'
+            '    return read("PRODUCT_SPEC.md")\n',
             # the likeliest NEXT regression: the node exports the name, so the path can be built
             # from the constant and never spell the file at all
             'from conftest import ROOT, SPEC\nx = open(os.path.join(ROOT, SPEC)).read()\n',
@@ -410,7 +444,13 @@ class TestTheSuiteHasOneReadingNode(unittest.TestCase):
                     # classified as neither a node read nor an offender
                     'from conftest import read\ntracked = read\nx = tracked("PRODUCT_SPEC.md")\n',
                     'from conftest import read_all_flat\ncanon = read_all_flat\n'
-                    'x = canon("PRODUCT_SPEC.md")\n']:
+                    'x = canon("PRODUCT_SPEC.md")\n',
+                    # an opener rebound to the NODE afterwards is a node read: last binding again,
+                    # and the rule has to run that way in both directions or it is just a preference
+                    'def r(rel):\n    with open(os.path.join(ROOT, rel)) as f:\n'
+                    '        return f.read()\n'
+                    'from conftest import read\ntracked = r\ntracked = read\n'
+                    'x = tracked("PRODUCT_SPEC.md")\n']:
             reads, offenders = spec_file_reads(src, "<node>")
             self.assertEqual(offenders, [], "the guard named the one node an offender:\n%s" % src)
             self.assertTrue(reads, "the guard did not see the node's read at all:\n%s" % src)
@@ -420,7 +460,11 @@ class TestTheSuiteHasOneReadingNode(unittest.TestCase):
         # that reds on these would be turned off within the week.
         for src in ['self.assertIn("PRODUCT_SPEC.md", out)\n',
                     'DOCS = ["PRODUCT_SPEC.md", "ROADMAP.md"]\n',
-                    'open(os.path.join(tmp, "PRODUCT_SPEC.md"), "w").write("# fixture\\n")\n']:
+                    'open(os.path.join(tmp, "PRODUCT_SPEC.md"), "w").write("# fixture\\n")\n',
+                    # a path that walks up to the root and then DESCENDS names a fixture directory,
+                    # and a document under it is a fixture's own
+                    'FX = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),'
+                    ' "tests", "fixtures")\nx = open(os.path.join(FX, "PRODUCT_SPEC.md")).read()\n']:
             reads, offenders = spec_file_reads(src, "<mention>")
             self.assertEqual((reads, offenders), ([], []),
                              "the guard read a mention as a read of the live spec:\n%s" % src)
