@@ -216,6 +216,25 @@ def _git(*args):
     return r.stdout if r.returncode == 0 else None
 
 
+def _judged_status():
+    """ROOT's status with the interpreter's own droppings filtered out.
+
+    Running the suite compiles the tree it imports from, so `__pycache__` directories appear
+    under paths the run merely read. They are not the suite writing to the judged tree, and on a
+    fresh CI checkout they appear during the run every time. Everything else — a tracked file
+    changed, a file deleted, any other untracked path — still counts."""
+    status = _git("status", "--porcelain")
+    if status is None:
+        return None
+    keep = []
+    for line in status.splitlines():
+        path = line[3:].strip().strip('"')
+        if line.startswith("??") and (path.endswith("__pycache__/") or path.endswith(".pyc")):
+            continue
+        keep.append(line)
+    return "\n".join(keep)
+
+
 @pytest.fixture(autouse=True, scope="session")
 def judged_tree_gains_no_commits():
     """The suite reads the judged tree; it does not write to it (2026-08-18 polluter incident:
@@ -235,10 +254,10 @@ def judged_tree_gains_no_commits():
     if head_before is None:
         yield  # ROOT is not a git checkout (e.g. an installed copy) — nothing to compare.
         return
-    status_before = _git("status", "--porcelain")
+    status_before = _judged_status()
     yield
     head_after = _git("rev-parse", "HEAD")
-    status_after = _git("status", "--porcelain")
+    status_after = _judged_status()
     assert head_before == head_after, (
         "the suite left new commits on the judged tree's checked-out branch: HEAD moved from "
         "%s to %s — a script under test wrote to ROOT instead of a directory of its own"
