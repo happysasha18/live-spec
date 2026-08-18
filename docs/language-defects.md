@@ -23,7 +23,7 @@ it back.
 
 <!-- generated:rule-home-totals — scripts/gen-language-consumers.py owns the block below -->
 
-The rule home carries 66 rules and its highest identifier is `r75`, so nine stand retired.
+The rule home carries 64 rules and its highest identifier is `r75`, so 11 stand retired.
 
 <!-- /generated:rule-home-totals -->
 

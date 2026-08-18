@@ -154,7 +154,6 @@
         "r01",
         "r02",
         "r21",
-        "r35",
         "r43",
         "r74"
       ]
@@ -702,27 +701,21 @@
       "rule": "A sentence stays under the word cap for its surface.",
       "reader_test": "Does this sentence stay under the cap for its surface?",
       "surfaces": [
-        "spec-body",
         "human-prose",
         "artifact"
       ],
       "thresholds": {
-        "spec_body_criterion_max_words": 35,
         "human_prose_flag_above_words": 25,
         "human_prose_target_band": [
           15,
           25
-        ],
-        "spec_body_criterion_baseline_over_cap": 469
+        ]
       },
-      "exceptions": [
-        "a spec-body criterion counted in the recorded baseline of 469, which passes while the count stays at or under it — a sentence written today carries no such exception"
-      ],
       "catchers": {
         "pattern": {
           "status": "partial",
-          "where": "guardrails/check-criterion-readability.py arm A, reading guardrails/criterion-readability.json:9",
-          "reach": "the acceptance-criterion lines of PRODUCT_SPEC.md alone with trailing anchors stripped, counted against a recorded baseline of 469 criteria over the cap; it reads no preamble, no Context block, no User Story, and no case heading"
+          "where": "scripts/rule-census.py `long` reading",
+          "reach": "every live document's human-prose sentences, counted against this threshold and recorded per file in guardrails/rule-census.json; it counts and records, it does not itself block — guardrails/check-doc-findings-bound.py (gate aa) is what refuses a push on a risen count"
         },
         "model": {
           "status": "absent",
@@ -738,13 +731,12 @@
         "manual"
       ],
       "sources": [
-        "guardrails/criterion-readability.json:9",
         "~/.claude/skills/communicator/references/writing-register.md:13",
         "~/.claude/skills/text-audit/SKILL.md:96",
         "~/.claude/skills/text-audit/SKILL.md:218"
       ],
       "status": "held",
-      "notes": "The caps are per surface. A spec-body criterion is capped at 35 words. A human-prose or artifact sentence is flagged above 25, with 15 to 25 the band to aim at. The 35-word cap is enforced against a recorded baseline. The prose numbers flag a sentence for a look, and no checker holds them. The 25/35-word caps follow plain-language readability practice. A general-reader sentence stays legible in one pass under about 25 words. The acceptance-criterion's fixed, code-anchored shape earns the wider 35-word allowance. check-criterion-readability.py is armed nowhere. This entry carried a second arm until 2026-08-05: one sentence carries one rule and no definition. No script decides that arm, so it left for r73 and this one keeps the count. r38, `an enumeration flattened into a running paragraph`, folded into this entry on 2026-07-28 with r60, `a sentence piling up subordinate and participial clauses`. Both ids are retired, and the list instruction they carried went on to r73 with the reading. The clause cap was dropped on 2026-07-29. No measurement set that number and no checker read it. A number with no ground is what r06 forbids. The class it aimed at stays inside the word cap. It also stays inside r64, which sends parallel items to a list.",
+      "notes": "A human-prose or artifact sentence is flagged above 25 words, with 15 to 25 the band to aim at. The prose numbers flag a sentence for a look, and no checker holds them; scripts/rule-census.py counts and records a document's over-cap sentences, and gate aa refuses a push where that recorded count rises. The 25-word cap follows plain-language readability practice: a general-reader sentence stays legible in one pass under about 25 words. This entry carried a second arm until 2026-08-05: one sentence carries one rule and no definition. No script decides that arm, so it left for r73 and this one keeps the count. r38, `an enumeration flattened into a running paragraph`, folded into this entry on 2026-07-28 with r60, `a sentence piling up subordinate and participial clauses`. Both ids are retired, and the list instruction they carried went on to r73 with the reading. The clause cap was dropped on 2026-07-29. No measurement set that number and no checker read it. A number with no ground is what r06 forbids. The class it aimed at stays inside the word cap. It also stays inside r64, which sends parallel items to a list. The spec-body surface and its 35-word criterion cap retired 2026-08-19 with guardrails/check-criterion-readability.py (Requirement 297, INV-287/INV-288). It was an invented ceiling that only watched a count move. The surviving human-prose cap above is the one this rule was ever independently derived for.",
       "owner": {
         "by": "script",
         "why": "The words in a sentence are counted by a script."
@@ -895,16 +887,11 @@
           "repair": "The design review runs as a pass of its own [INV-141]."
         }
       ],
-      "thresholds": {
-        "max_anchor_codes": 3,
-        "max_code_spans": 3,
-        "criterion_baseline_over_cap": 61
-      },
       "catchers": {
         "pattern": {
           "status": "held",
-          "where": "hooks/code-anchor-scan.py, scripts/preshow-lint.py, guardrails/check-criterion-readability.py arm D",
-          "reach": "code-anchor-scan.py reads every assistant message since the last human turn over six regexes, with parentheses, square brackets, table rows, fences, backticks, and quoted spans stripped as lawful; preshow-lint.py reads a file or stdin over one lead regex; the criterion arm reads PRODUCT_SPEC.md criteria only"
+          "where": "hooks/code-anchor-scan.py, scripts/preshow-lint.py",
+          "reach": "code-anchor-scan.py reads every assistant message since the last human turn over six regexes, with parentheses, square brackets, table rows, fences, backticks, and quoted spans stripped as lawful; preshow-lint.py reads a file or stdin over one lead regex"
         },
         "model": {
           "status": "held",
@@ -924,7 +911,6 @@
         "hooks/chat-law-hook.sh:8",
         "hooks/code-anchor-scan.py:69",
         "scripts/preshow-lint.py:26",
-        "guardrails/criterion-readability.json:110",
         "docs/lenses.md:17",
         "docs/spec-format.md:17",
         "docs/roadmap-format.md:12",
@@ -937,7 +923,7 @@
         "~/.claude/skills/spec-author/references/glossary.md:48"
       ],
       "status": "held",
-      "notes": "The arm that held this rule in chat is retired to attic/midturn-chat-scan.py. It stood before every tool call in the tree. Its refusal landed on whichever call was in flight, a background worker's included. No field of that event tells the two apart. The law stands, and only its machine is gone. The Stop-side code-anchor scan held this rule at the turn's end until 2026-08-17. The owner unwired it, and the pre-show lint and the prompt-hook reminder carry the rule now. The anchor counts come from guardrails/criterion-readability.json and no prose home states them. code-anchor-scan.py:73 also catches a document name run against a number and code-anchor-scan.py:76 a spoken-space or hash variant, neither of which any prose home states. The criterion arm is armed nowhere.",
+      "notes": "The arm that held this rule in chat is retired to attic/midturn-chat-scan.py. It stood before every tool call in the tree. Its refusal landed on whichever call was in flight, a background worker's included. No field of that event tells the two apart. The law stands, and only its machine is gone. The Stop-side code-anchor scan held this rule at the turn's end until 2026-08-17. The owner unwired it, and the pre-show lint and the prompt-hook reminder carry the rule now. code-anchor-scan.py:73 also catches a document name run against a number and code-anchor-scan.py:76 a spoken-space or hash variant, neither of which any prose home states. The criterion arm — guardrails/check-criterion-readability.py arm D, its per-sentence anchor-count thresholds, its 61-criterion baseline — retired 2026-08-19 with Requirement 297 (INV-287/INV-288). It was an invented ceiling on top of this rule, not the rule itself. The rule stands on its two remaining catchers above.",
       "owner": {
         "by": "script",
         "why": "The position of an internal code in a line is decided by where the code sits."
@@ -2162,111 +2148,6 @@
       "owner": {
         "by": "skill",
         "why": "Telling an invention from a fact needs the source the claim rests on."
-      }
-    },
-    {
-      "id": "r35",
-      "name": "a term defined in place inside a criterion",
-      "rule": "A criterion uses a term the glossary already defines.",
-      "reader_test": "Does this aside explain a word, and does the glossary already hold that word?",
-      "surfaces": [
-        "spec-body"
-      ],
-      "thresholds": {
-        "max_aside_chars": 25,
-        "baseline_hits": 120
-      },
-      "lists": [
-        {
-          "name": "the words an in-place gloss opens on",
-          "source": "guardrails/criterion-readability.json",
-          "key": "arms.inline-gloss.threshold.gloss_openers"
-        }
-      ],
-      "catchers": {
-        "pattern": {
-          "status": "partial",
-          "where": "guardrails/check-criterion-readability.py arm B, reading guardrails/criterion-readability.json:15",
-          "reach": "PRODUCT_SPEC.md acceptance criteria alone, plus the glossary terms used to name the already-defined term, over an aside past 25 characters opening on one of 22 gloss-opening words, counted against a baseline of 120"
-        },
-        "model": {
-          "status": "absent",
-          "where": "",
-          "law_text": ""
-        },
-        "person": {
-          "status": "partial",
-          "note": "whether the term deserves a glossary entry at all"
-        }
-      },
-      "armed": [
-        "nowhere"
-      ],
-      "sources": [
-        "docs/spec-format.md:37",
-        "docs/spec-style.md:26",
-        "guardrails/criterion-readability.json:15"
-      ],
-      "status": "stated-only",
-      "notes": "A term not worth a glossary entry is not worth a gloss. check-criterion-readability.py is armed nowhere.",
-      "owner": {
-        "by": "script",
-        "why": "A gloss inside a criterion is a shape, and the glossary is a list the script reads."
-      }
-    },
-    {
-      "id": "r36",
-      "name": "a criterion closing on a phrase with no finite verb",
-      "rule": "A criterion's closing clause is a full sentence with its own subject and verb.",
-      "reader_test": "Does the clause this criterion ends on have a subject and a verb of its own?",
-      "surfaces": [
-        "spec-body"
-      ],
-      "thresholds": {
-        "min_tail_words": 4,
-        "baseline_hits": 147
-      },
-      "lists": [
-        {
-          "name": "the determiners a closing noun phrase opens on",
-          "source": "guardrails/criterion-readability.json",
-          "key": "arms.absolute-tail.threshold.np_openers"
-        },
-        {
-          "name": "the finite markers whose absence makes the closing clause a fragment",
-          "source": "guardrails/criterion-readability.json",
-          "key": "arms.absolute-tail.threshold.finite_markers"
-        }
-      ],
-      "catchers": {
-        "pattern": {
-          "status": "partial",
-          "where": "guardrails/check-criterion-readability.py arm C, reading guardrails/criterion-readability.json:54",
-          "reach": "PRODUCT_SPEC.md acceptance criteria alone, over a closing clause of four or more words opening on one of 22 determiners, carrying none of 22 finite markers, and resting on a participle, counted against a baseline of 147"
-        },
-        "model": {
-          "status": "absent",
-          "where": "",
-          "law_text": ""
-        },
-        "person": {
-          "status": "absent",
-          "note": "whether the closing clause carries a fact worth keeping once it is made finite"
-        }
-      },
-      "armed": [
-        "nowhere"
-      ],
-      "sources": [
-        "guardrails/criterion-readability.json:54",
-        "docs/spec-format.md:37",
-        "docs/language-defects.md:145"
-      ],
-      "status": "stated-only",
-      "notes": "The name this rule once carried was itself a minted metaphor; the owner's recorded verdict is that the thing it named does not exist. check-criterion-readability.py is armed nowhere.",
-      "owner": {
-        "by": "script",
-        "why": "A closing clause with no finite verb is decided by parsing the clause."
       }
     },
     {

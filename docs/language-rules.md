@@ -41,37 +41,37 @@ A surface is a KIND of text, not a file, and one file carries several. The numbe
 
 The numbered requirements and acceptance criteria of `PRODUCT_SPEC.md`, and the same numbered shape in `ARCHITECTURE.md` and `TEST_MATRIX.md`. A machine reads this text beside the person. The prose paragraphs in those same files are human-prose. Example: Requirement 297 of `PRODUCT_SPEC.md`, and each acceptance criterion under it.
 
-Binds 55 of the 66 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r08 · r09 · r10 · r11 · r12 · r15 · r18 · r19 · r20 · r21 · r23 · r24 · r26 · r27 · r29 · r30 · r31 · r32 · r33 · r34 · r35 · r36 · r37 · r39 · r40 · r41 · r43 · r44 · r45 · r53 · r54 · r55 · r56 · r61 · r62 · r63 · r64 · r65 · r66 · r67 · r68 · r69 · r70 · r71 · r72 · r73 · r74 · r75.
+Binds 52 of the 64 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r09 · r10 · r11 · r12 · r15 · r18 · r19 · r20 · r21 · r23 · r24 · r26 · r27 · r29 · r30 · r31 · r32 · r33 · r34 · r37 · r39 · r40 · r41 · r43 · r44 · r45 · r53 · r54 · r55 · r56 · r61 · r62 · r63 · r64 · r65 · r66 · r67 · r68 · r69 · r70 · r71 · r72 · r73 · r74 · r75.
 
 ### human-prose
 
 Text a person reads to understand something or to decide something. A README, a decision page, a report, a skill's own body, and a documentation page carry it. So do the prose paragraphs inside a spec. A documentation page carries `artifact` as well once it is published outside the project. Example: `README.md`, and this page.
 
-Binds 50 of the 66 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r08 · r09 · r10 · r11 · r12 · r13 · r14 · r15 · r18 · r20 · r23 · r25 · r26 · r27 · r32 · r33 · r39 · r41 · r43 · r44 · r45 · r46 · r48 · r49 · r50 · r52 · r53 · r54 · r56 · r57 · r61 · r62 · r63 · r64 · r65 · r66 · r67 · r68 · r69 · r70 · r71 · r72 · r73.
+Binds 50 of the 64 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r08 · r09 · r10 · r11 · r12 · r13 · r14 · r15 · r18 · r20 · r23 · r25 · r26 · r27 · r32 · r33 · r39 · r41 · r43 · r44 · r45 · r46 · r48 · r49 · r50 · r52 · r53 · r54 · r56 · r57 · r61 · r62 · r63 · r64 · r65 · r66 · r67 · r68 · r69 · r70 · r71 · r72 · r73.
 
 ### chat
 
 A message the agent sends the person in conversation, including the narration between tool calls — the checkers read every assistant message since the person's last turn, not the final reply alone. Example: a reply in a working session.
 
-Binds 33 of the 66 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r10 · r11 · r12 · r13 · r14 · r15 · r18 · r25 · r26 · r27 · r43 · r46 · r47 · r48 · r49 · r50 · r51 · r52 · r61 · r62 · r63 · r65 · r66 · r68 · r71 · r72.
+Binds 33 of the 64 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r10 · r11 · r12 · r13 · r14 · r15 · r18 · r25 · r26 · r27 · r43 · r46 · r47 · r48 · r49 · r50 · r51 · r52 · r61 · r62 · r63 · r65 · r66 · r68 · r71 · r72.
 
 ### artifact
 
 A page or file published to someone outside the project: a rendered page, product copy, a public README, a marketing text. Example: the project's public README as it stands on its repository page.
 
-Binds 54 of the 66 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r08 · r09 · r10 · r11 · r12 · r13 · r14 · r15 · r18 · r19 · r20 · r23 · r25 · r26 · r27 · r29 · r30 · r31 · r32 · r33 · r34 · r39 · r40 · r41 · r43 · r44 · r45 · r46 · r50 · r53 · r54 · r55 · r56 · r57 · r61 · r62 · r63 · r64 · r65 · r66 · r67 · r68 · r69 · r70 · r71 · r72 · r73.
+Binds 54 of the 64 rules: r01 · r02 · r03 · r04 · r05 · r06 · r07 · r08 · r09 · r10 · r11 · r12 · r13 · r14 · r15 · r18 · r19 · r20 · r23 · r25 · r26 · r27 · r29 · r30 · r31 · r32 · r33 · r34 · r39 · r40 · r41 · r43 · r44 · r45 · r46 · r50 · r53 · r54 · r55 · r56 · r57 · r61 · r62 · r63 · r64 · r65 · r66 · r67 · r68 · r69 · r70 · r71 · r72 · r73.
 
 ### commit
 
 A commit message: its subject line and its body. Example: the message on one commit.
 
-Binds 8 of the 66 rules: r10 · r12 · r18 · r19 · r27 · r61 · r66 · r68.
+Binds 8 of the 64 rules: r10 · r12 · r18 · r19 · r27 · r61 · r66 · r68.
 
 ### worker-brief
 
 The text one agent hands another as its instructions. Example: the brief a session writes when it starts a background worker.
 
-Binds 13 of the 66 rules: r10 · r12 · r13 · r14 · r15 · r18 · r27 · r48 · r61 · r66 · r67 · r68 · r69.
+Binds 13 of the 64 rules: r10 · r12 · r13 · r14 · r15 · r18 · r27 · r48 · r61 · r66 · r67 · r68 · r69.
 
 ## The words these pages use
 
@@ -249,11 +249,9 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 **Reader test.** Does this sentence stay under the cap for its surface?
 
-**Binds.** spec-body · human-prose · artifact
+**Binds.** human-prose · artifact
 
-**Exceptions.** a spec-body criterion counted in the recorded baseline of 469, which passes while the count stays at or under it — a sentence written today carries no such exception.
-
-**Thresholds.** spec_body_criterion_max_words = 35; human_prose_flag_above_words = 25; human_prose_target_band = 15 to 25; spec_body_criterion_baseline_over_cap = 469.
+**Thresholds.** human_prose_flag_above_words = 25; human_prose_target_band = 15 to 25.
 
 ### r09 — a text breaking a rule it states
 
@@ -298,8 +296,6 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 **Examples.**
 
 - `INV-141 gives the design review a pass of its own.` → `The design review runs as a pass of its own [INV-141].`
-
-**Thresholds.** max_anchor_codes = 3; max_code_spans = 3; criterion_baseline_over_cap = 61.
 
 ### r12 — a word grading how important or how good a thing is
 
@@ -582,35 +578,6 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 **Reader test.** Does the text state something no source backs?
 
 **Binds.** spec-body · artifact
-
-### r35 — a term defined in place inside a criterion
-
-**Rule.** A criterion uses a term the glossary already defines.
-
-**Reader test.** Does this aside explain a word, and does the glossary already hold that word?
-
-**Binds.** spec-body
-
-**Thresholds.** max_aside_chars = 25; baseline_hits = 120.
-
-**The lists this rule names.**
-
-- *the words an in-place gloss opens on* — 22 members, read at build time from `guardrails/criterion-readability.json` under `arms.inline-gloss.threshold.gloss_openers`: `a`, `an`, `the`, `one`, `each`, `every`, `either`, `both`, `being`, `meaning`, `namely`, `that`, `this`, `these`, `those`, `its`, `their`, `two`, `three`, `four`, `five`, `six`
-
-### r36 — a criterion closing on a phrase with no finite verb
-
-**Rule.** A criterion's closing clause is a full sentence with its own subject and verb.
-
-**Reader test.** Does the clause this criterion ends on have a subject and a verb of its own?
-
-**Binds.** spec-body
-
-**Thresholds.** min_tail_words = 4; baseline_hits = 147.
-
-**The lists this rule names.**
-
-- *the determiners a closing noun phrase opens on* — 22 members, read at build time from `guardrails/criterion-readability.json` under `arms.absolute-tail.threshold.np_openers`: `the`, `a`, `an`, `this`, `that`, `these`, `those`, `its`, `their`, `his`, `her`, `each`, `every`, `one`, `no`, `any`, `all`, `both`, `another`, `such`, `it`, `they`
-- *the finite markers whose absence makes the closing clause a fragment* — 22 members, read at build time from `guardrails/criterion-readability.json` under `arms.absolute-tail.threshold.finite_markers`: `is`, `are`, `was`, `were`, `be`, `been`, `am`, `shall`, `will`, `would`, `may`, `might`, `must`, `can`, `could`, `does`, `do`, `did`, `has`, `have`, `had`, `then`
 
 ### r37 — a criterion carrying more than one trigger or response
 
@@ -1065,7 +1032,6 @@ A writer arrives with a question and not yet the name of a defect, and every rul
 - r01 — an ordinary word carrying a private project meaning
 - r02 — a coined, loan-translated, or respelled word standing where a plain standard word exists
 - r21 — a term defined twice, or a glossary entry no line uses
-- r35 — a term defined in place inside a criterion
 - r43 — an abstraction standing where a concrete noun would do
 - r74 — a domain noun the body uses with no glossary entry
 

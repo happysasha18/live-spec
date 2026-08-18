@@ -877,8 +877,7 @@
 
 9. No run *shall* raise a recorded count. [INV-301]
 10. *when* the census writes the record and no live document stands above its recorded count, the system *shall* write each measured count back. [INV-301]
-11. A raised recorded count *shall* be a hand edit to the record, made under the rule stated once at the criterion-readability requirement. [INV-301, INV-288]
-   - the reason sits in the entry's `reason` field, the shape `guardrails/doc-bounds.json` carries;
+11. A raised recorded count *shall* be a hand edit to the record, stating a non-empty `reason` field for the raised entry. [INV-301]
    - the census carries a recorded reason forward, so a later write keeps it.
 12. *when* the gate runs, one arm *shall* read the record against the copy the base commit holds. [INV-301]
    - the base commit is the one the remote holds, read from the stated base, then `origin/main`, then the commit before the tip;

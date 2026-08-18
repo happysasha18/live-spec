@@ -30,7 +30,7 @@ The count is taken before and after each batch, on the same requirements, by two
 
 <!-- generated:rule-totals — scripts/gen-language-consumers.py owns the block below -->
 
-The rules this project holds its own writing to are 66, of which 55 bind the spec body.
+The rules this project holds its own writing to are 64, of which 52 bind the spec body.
 
 <!-- /generated:rule-totals -->
 

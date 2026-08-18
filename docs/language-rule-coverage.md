@@ -291,7 +291,7 @@ repair the text from those stops rather than from the one sentence in front of y
 
 ### r08 — a sentence running past the word cap for its surface
 
-**Binds.** spec-body · human-prose · artifact
+**Binds.** human-prose · artifact
 
 **Status.** held, armed at manual.
 
@@ -299,13 +299,13 @@ repair the text from those stops rather than from the one sentence in front of y
 
 **What catches a break of it.**
 
-- **pattern** — partial. Lives at guardrails/check-criterion-readability.py arm A, reading guardrails/criterion-readability.json:9. Reach: the acceptance-criterion lines of PRODUCT_SPEC.md alone with trailing anchors stripped, counted against a recorded baseline of 469 criteria over the cap; it reads no preamble, no Context block, no User Story, and no case heading.
+- **pattern** — partial. Lives at scripts/rule-census.py `long` reading. Reach: every live document's human-prose sentences, counted against this threshold and recorded per file in guardrails/rule-census.json; it counts and records, it does not itself block — guardrails/check-doc-findings-bound.py (gate aa) is what refuses a push on a risen count.
 - **model** — absent.
 - **person** — held. Reads: no checker reads the prose numbers, so the cold-read step is where a human-prose or artifact sentence is measured against them.
 
-**Stated before this page, at.** guardrails/criterion-readability.json:9, ~/.claude/skills/communicator/references/writing-register.md:13, ~/.claude/skills/text-audit/SKILL.md:96, ~/.claude/skills/text-audit/SKILL.md:218
+**Stated before this page, at.** ~/.claude/skills/communicator/references/writing-register.md:13, ~/.claude/skills/text-audit/SKILL.md:96, ~/.claude/skills/text-audit/SKILL.md:218
 
-**Notes.** The caps are per surface. A spec-body criterion is capped at 35 words. A human-prose or artifact sentence is flagged above 25, with 15 to 25 the band to aim at. The 35-word cap is enforced against a recorded baseline. The prose numbers flag a sentence for a look, and no checker holds them. The 25/35-word caps follow plain-language readability practice. A general-reader sentence stays legible in one pass under about 25 words. The acceptance-criterion's fixed, code-anchored shape earns the wider 35-word allowance. check-criterion-readability.py is armed nowhere. This entry carried a second arm until 2026-08-05: one sentence carries one rule and no definition. No script decides that arm, so it left for r73 and this one keeps the count. r38, `an enumeration flattened into a running paragraph`, folded into this entry on 2026-07-28 with r60, `a sentence piling up subordinate and participial clauses`. Both ids are retired, and the list instruction they carried went on to r73 with the reading. The clause cap was dropped on 2026-07-29. No measurement set that number and no checker read it. A number with no ground is what r06 forbids. The class it aimed at stays inside the word cap. It also stays inside r64, which sends parallel items to a list.
+**Notes.** A human-prose or artifact sentence is flagged above 25 words, with 15 to 25 the band to aim at. The prose numbers flag a sentence for a look, and no checker holds them; scripts/rule-census.py counts and records a document's over-cap sentences, and gate aa refuses a push where that recorded count rises. The 25-word cap follows plain-language readability practice: a general-reader sentence stays legible in one pass under about 25 words. This entry carried a second arm until 2026-08-05: one sentence carries one rule and no definition. No script decides that arm, so it left for r73 and this one keeps the count. r38, `an enumeration flattened into a running paragraph`, folded into this entry on 2026-07-28 with r60, `a sentence piling up subordinate and participial clauses`. Both ids are retired, and the list instruction they carried went on to r73 with the reading. The clause cap was dropped on 2026-07-29. No measurement set that number and no checker read it. A number with no ground is what r06 forbids. The class it aimed at stays inside the word cap. It also stays inside r64, which sends parallel items to a list. The spec-body surface and its 35-word criterion cap retired 2026-08-19 with guardrails/check-criterion-readability.py (Requirement 297, INV-287/INV-288). It was an invented ceiling that only watched a count move. The surviving human-prose cap above is the one this rule was ever independently derived for.
 
 ### r09 — a text breaking a rule it states
 
@@ -353,13 +353,13 @@ repair the text from those stops rather than from the one sentence in front of y
 
 **What catches a break of it.**
 
-- **pattern** — held. Lives at hooks/code-anchor-scan.py, scripts/preshow-lint.py, guardrails/check-criterion-readability.py arm D. Reach: code-anchor-scan.py reads every assistant message since the last human turn over six regexes, with parentheses, square brackets, table rows, fences, backticks, and quoted spans stripped as lawful; preshow-lint.py reads a file or stdin over one lead regex; the criterion arm reads PRODUCT_SPEC.md criteria only.
+- **pattern** — held. Lives at hooks/code-anchor-scan.py, scripts/preshow-lint.py. Reach: code-anchor-scan.py reads every assistant message since the last human turn over six regexes, with parentheses, square brackets, table rows, fences, backticks, and quoted spans stripped as lawful; preshow-lint.py reads a file or stdin over one lead regex.
 - **model** — held. Lives at hooks/register-judge.py via hooks/register_judge_core.py. Rule text the judging model reads: no bare internal code opening a sentence to the human. A sentence shown to the person must not LEAD with an internal handle as its first token — an invariant code (INV-237), a roadmap or matrix row (row 422, M-419), a milestone or entity code (M-6, E-13, T-22), or a bare section number. The handle may TRAIL the plain sentence in parentheses as a quiet anchor once the words have carried the meaning; only a code standing as the opening token offends. Leading with the code is the agent talking to itself in its own filing system rather than to the reader. A sentence that opens in plain words and closes with a parenthetical anchor passes.
 - **person** — partial. Reads: whether the plain sentence really carries the meaning the code was standing in for.
 
-**Stated before this page, at.** hooks/chat-law-hook.sh:8, hooks/code-anchor-scan.py:69, scripts/preshow-lint.py:26, guardrails/criterion-readability.json:110, docs/lenses.md:17, docs/spec-format.md:17, docs/roadmap-format.md:12, docs/architecture-format.md:16, docs/test-matrix-format.md:10, ~/.claude/skills/live-spec-base/SKILL.md:52, ~/.claude/playbook/personal/profile.md:14, ~/.claude/skills/communicator/references/writing-register.md:66, ~/.claude/skills/communicator/SKILL.md:254, ~/.claude/skills/spec-author/references/glossary.md:48
+**Stated before this page, at.** hooks/chat-law-hook.sh:8, hooks/code-anchor-scan.py:69, scripts/preshow-lint.py:26, docs/lenses.md:17, docs/spec-format.md:17, docs/roadmap-format.md:12, docs/architecture-format.md:16, docs/test-matrix-format.md:10, ~/.claude/skills/live-spec-base/SKILL.md:52, ~/.claude/playbook/personal/profile.md:14, ~/.claude/skills/communicator/references/writing-register.md:66, ~/.claude/skills/communicator/SKILL.md:254, ~/.claude/skills/spec-author/references/glossary.md:48
 
-**Notes.** The arm that held this rule in chat is retired to attic/midturn-chat-scan.py. It stood before every tool call in the tree. Its refusal landed on whichever call was in flight, a background worker's included. No field of that event tells the two apart. The law stands, and only its machine is gone. The Stop-side code-anchor scan held this rule at the turn's end until 2026-08-17. The owner unwired it, and the pre-show lint and the prompt-hook reminder carry the rule now. The anchor counts come from guardrails/criterion-readability.json and no prose home states them. code-anchor-scan.py:73 also catches a document name run against a number and code-anchor-scan.py:76 a spoken-space or hash variant, neither of which any prose home states. The criterion arm is armed nowhere.
+**Notes.** The arm that held this rule in chat is retired to attic/midturn-chat-scan.py. It stood before every tool call in the tree. Its refusal landed on whichever call was in flight, a background worker's included. No field of that event tells the two apart. The law stands, and only its machine is gone. The Stop-side code-anchor scan held this rule at the turn's end until 2026-08-17. The owner unwired it, and the pre-show lint and the prompt-hook reminder carry the rule now. code-anchor-scan.py:73 also catches a document name run against a number and code-anchor-scan.py:76 a spoken-space or hash variant, neither of which any prose home states. The criterion arm — guardrails/check-criterion-readability.py arm D, its per-sentence anchor-count thresholds, its 61-criterion baseline — retired 2026-08-19 with Requirement 297 (INV-287/INV-288). It was an invented ceiling on top of this rule, not the rule itself. The rule stands on its two remaining catchers above.
 
 ### r12 — a word grading how important or how good a thing is
 
@@ -698,42 +698,6 @@ repair the text from those stops rather than from the one sentence in front of y
 **Stated before this page, at.** docs/spec-format.md:24, guardrails/check-requirement-shape.py:20, ~/.claude/skills/text-audit/SKILL.md:198, ~/.claude/skills/text-audit/SKILL.md:207
 
 **Notes.** check-requirement-shape.py is armed nowhere.
-
-### r35 — a term defined in place inside a criterion
-
-**Binds.** spec-body
-
-**Status.** stated-only, armed at nowhere.
-
-**Owner.** script — A gloss inside a criterion is a shape, and the glossary is a list the script reads.
-
-**What catches a break of it.**
-
-- **pattern** — partial. Lives at guardrails/check-criterion-readability.py arm B, reading guardrails/criterion-readability.json:15. Reach: PRODUCT_SPEC.md acceptance criteria alone, plus the glossary terms used to name the already-defined term, over an aside past 25 characters opening on one of 22 gloss-opening words, counted against a baseline of 120.
-- **model** — absent.
-- **person** — partial. Reads: whether the term deserves a glossary entry at all.
-
-**Stated before this page, at.** docs/spec-format.md:37, docs/spec-style.md:26, guardrails/criterion-readability.json:15
-
-**Notes.** A term not worth a glossary entry is not worth a gloss. check-criterion-readability.py is armed nowhere.
-
-### r36 — a criterion closing on a phrase with no finite verb
-
-**Binds.** spec-body
-
-**Status.** stated-only, armed at nowhere.
-
-**Owner.** script — A closing clause with no finite verb is decided by parsing the clause.
-
-**What catches a break of it.**
-
-- **pattern** — partial. Lives at guardrails/check-criterion-readability.py arm C, reading guardrails/criterion-readability.json:54. Reach: PRODUCT_SPEC.md acceptance criteria alone, over a closing clause of four or more words opening on one of 22 determiners, carrying none of 22 finite markers, and resting on a participle, counted against a baseline of 147.
-- **model** — absent.
-- **person** — absent. Reads: whether the closing clause carries a fact worth keeping once it is made finite.
-
-**Stated before this page, at.** guardrails/criterion-readability.json:54, docs/spec-format.md:37, docs/language-defects.md:145
-
-**Notes.** The name this rule once carried was itself a minted metaphor; the owner's recorded verdict is that the thing it named does not exist. check-criterion-readability.py is armed nowhere.
 
 ### r37 — a criterion carrying more than one trigger or response
 
