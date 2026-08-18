@@ -1,6 +1,9 @@
 #!/bin/sh
 # Installs the canonical pack hooks (SPEC INV-173) on this machine, universal tier only. Idempotent:
-# re-running changes nothing once installed. These mechanisms ship here:
+# re-running changes nothing once installed. It COPIES the files below and wires none of them: all six
+# stood down from the default wiring on the owner's word of 2026-08-17 (JOURNAL.md; PRODUCT_SPEC.md
+# Requirement 311), so each is opt-in and a host turns one on in its own settings.json. These
+# mechanisms ship here:
 #   - the scissors-scan Stop hook (the literal contrast-frame scan);
 #   - the hedge-scan Stop hook (the literal offering-hedge scan, SPEC INV-238);
 #   - the affirmation-scan Stop hook (validation and praise of the human);
@@ -39,8 +42,7 @@ if [ "$DRY_RUN" = "1" ]; then
       echo "DRY-RUN: would copy $DIR/hooks/$f -> $DEST_DIR/$f"
     fi
   done
-  echo "DRY-RUN: would wire Stop hooks 'scissors-scan.py' + 'hedge-scan.py' + 'register-judge-collect.sh' into $SETTINGS (if absent)."
-  echo "DRY-RUN: would wire UserPromptSubmit hook 'register-judge-report.sh' into $SETTINGS (if absent)."
+  echo "DRY-RUN: would wire nothing into $SETTINGS — these six scans are opt-in since 2026-08-17."
   echo "DRY-RUN: scissors-personal.json, hedge-personal.json, and register-judge-personal.md are never touched by this script."
   exit 0
 fi
@@ -56,31 +58,8 @@ for f in $JUDGE_FILES; do
   fi
 done
 
-python3 - "$SETTINGS" << 'PYEOF'
-import json, os, sys
-
-p = sys.argv[1]
-s = json.load(open(p)) if os.path.exists(p) else {}
-hooks = s.setdefault("hooks", {})
-
-def wire(event, needle, cmd):
-    arr = hooks.setdefault(event, [])
-    have = [hk.get("command", "") for e in arr for hk in e.get("hooks", [])]
-    if any(needle in c for c in have):
-        print("already present: %s hook %s wired" % (event, needle))
-    else:
-        arr.append({"hooks": [{"type": "command", "command": cmd}]})
-        print("installed: %s hook %s wired" % (event, needle))
-
-wire("Stop", "scissors-scan.py", "python3 ~/.claude/hooks/scissors-scan.py")
-wire("Stop", "hedge-scan.py", "python3 ~/.claude/hooks/hedge-scan.py")
-wire("Stop", "affirmation-scan.py", "python3 ~/.claude/hooks/affirmation-scan.py")
-wire("Stop", "code-anchor-scan.py", "python3 ~/.claude/hooks/code-anchor-scan.py")
-wire("Stop", "register-judge-collect.sh", "sh ~/.claude/hooks/register-judge-collect.sh")
-wire("UserPromptSubmit", "register-judge-report.sh", "sh ~/.claude/hooks/register-judge-report.sh")
-
-os.makedirs(os.path.dirname(p), exist_ok=True)
-json.dump(s, open(p, "w"), indent=2, ensure_ascii=False)
-PYEOF
+echo "note: these six scans are opt-in since 2026-08-17 (JOURNAL.md). Their files stand in $DEST_DIR and"
+echo "      this script wires none of them into $SETTINGS. A host that wants one adds its command there"
+echo "      by hand, reading the surface and the command form from guardrails/judge-hooks.json."
 
 echo "note: ~/.claude/hooks/scissors-personal.json, hedge-personal.json, and register-judge-personal.md are owned by the personal layer — never created or modified here."
