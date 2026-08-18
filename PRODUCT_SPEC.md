@@ -5529,7 +5529,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: the host wires these arms itself**
 
-9. Each arm and scan above *shall* bind *where* the host wired it, since each stood down from the default wiring on 2026-08-17. [INV-203, INV-211]
+9. The two arms and four scans above *shall* each bind *where* the host wired it, since each stood down from the default wiring on 2026-08-17. [INV-203, INV-211]
 
 ---
 
@@ -7142,14 +7142,14 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Case: the host wires this arm itself**
 
-5. The empty-validation scan *shall* catch nothing on a host that never turned it on. The register judge holds the class instead. [INV-284, INV-211]
+5. The empty-validation scan *shall* catch nothing on a host that never turned it on, leaving the class to the person. [INV-284, INV-211]
 
 
 ---
 
 ## Requirement 295: A chat law is judged while the turn still runs — retired
 
-**Context:** The PreToolUse arm this requirement specified stood before every tool call in the tree. It judged the seat's narration alone, and it delivered its refusal into whichever tool call happened to be in flight — a background worker's included, where it arrived as an order from nowhere to rewrite a sentence that worker never wrote, and was hunted for a night as an instruction planted from outside. No field of the event the arm reads separates the seat's call from a worker's, so it could not prove whose work it stopped, and the law that a check unable to prove that stands down governs the arm itself. Its retirement is recorded in JOURNAL.md. The two laws it carried stand: the code-anchor law keeps the Stop-side scan that reads the same text at the turn's end (Requirement 293), and the measurement law now names no machine and rests with a person.
+**Context:** The PreToolUse arm this requirement specified stood before every tool call in the tree. It judged the seat's narration alone, and it delivered its refusal into whichever tool call happened to be in flight — a background worker's included, where it arrived as an order from nowhere to rewrite a sentence that worker never wrote, and was hunted for a night as an instruction planted from outside. No field of the event the arm reads separates the seat's call from a worker's, so it could not prove whose work it stopped, and the law that a check unable to prove that stands down governs the arm itself. Its retirement is recorded in JOURNAL.md. The two laws it carried stand: the code-anchor law keeps the Stop-side scan that reads the same text at the turn's end (Requirement 293), opt-in from 2026-08-17 (Requirement 311), and the measurement law now names no machine and rests with a person.
 
 **User Story:** As a person whose background workers were stopped 76 times by a refusal about lines they never wrote — counted off the transcripts by record shape, a tool result opening with the scan's own refusal line, the count deciding whether the arm was repairable or had to go — I want the arm retired rather than left standing, so that no check in the pack refuses work it cannot prove is the work it is judging.
 

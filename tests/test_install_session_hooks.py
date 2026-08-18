@@ -21,7 +21,7 @@ wired — see the delivery report for the exact captured stdout), test_every_dec
 failed on turn_reader.py/chat-calques.json/register_judge_core.py/register-judge.py never landing, and
 test_rerun_changes_nothing could not even be reached meaningfully since the first run itself under-covered.
 Fixed by teaching the installer to read the declaration for its own two hooks (clock-hook, chat-law-hook)
-and chain to the existing scripts/install-pack-hooks.sh for the other eight (that script already carried
+and chain to the existing scripts/install-pack-hooks.sh for the other six (that script already carried
 its own tests pinned to its literal source, so it is chained rather than rewritten), reaching every one
 from the one command a human actually runs.
 """

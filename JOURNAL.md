@@ -3002,16 +3002,25 @@ entries now: their files still ship, their surfaces and command forms still stan
 `guardrails/judge-hooks.json` for a host wiring one back on, and gate v demands none of them.
 
 The rules followed the machinery. Every language rule whose Stop-side catcher was one of the six drops
-that arm and keeps the ones that still run. Two of them had no other catcher. r12 was handed to the
-document lint, which already ran its class by hand. r14's law had been held in one host's personal
-overlay and read only by the Stop judge; the law is restated in the pack's own words and the document
-lint carries it, so the rule keeps a live catcher rather than becoming a sentence nobody reads. That is
-the lesson of the earlier retirement, applied on purpose.
+that arm and keeps the ones that still run. Two of them had no other catcher. r12 and r14 go to the
+document lint. r14's law had been held in one host's personal overlay and read only by the Stop judge,
+so it is restated in the pack's own words and both readers take it from the registry now.
+
+What that leaves them, said plainly rather than glossed: the lint's own model judge waits on
+PRESHOW_REGISTER_JUDGE, off unless a host sets it. So the catcher of record for both rules is a person
+running `scripts/preshow-register-lint.py` over a file. Their `armed` field says `manual`, which is
+what that is. Neither rule is left as a sentence nobody reads, and neither is left with a machine
+either.
 
 What this costs, stated rather than glossed: four literal nets and one model judge no longer read the
 turn on any machine that does not ask for them. The scans still exist and their tests still run, so
 nothing is lost that a host cannot turn on in one line. Requirement 311 carries the standing; Requirements
 230, 232, 293, and 294 each say plainly that their arm binds where the host wired it.
+
+One step is owed on the machine before this pushes. `hooks/language-laws.json` is generated from the
+rule registry, and the registry changed, so the installed copy at `~/.claude/hooks/` is now the older
+build and gate m reds on it. The owner runs `sh scripts/install-pack-hooks.sh` to refresh it. Until
+then the judges on this machine read the pre-change law text, and no agent may run that installer.
 
 Two smaller repairs rode along. The local-override file carried two entries for hooks whose installed
 copies match this repository exactly, so they bought silence for a difference that no longer exists; both
