@@ -2,7 +2,8 @@
 
 PUSH-REVIEW
 
-Range: 942b8cd2..RANGEPLACEHOLDER
+Range: 942b8cd2..2b9676a3
+- 2b9676a3 The record carries the drift both culls left behind
 - 777f8606 Two hand-kept lists catch up with yesterday's two culls
 Files read: tests/test_progress_report.py, scripts/progress-report.py, docs/PROGRESS.md, guardrails/progress-baseline.json, ARCHITECTURE.md, docs/roadmap-format.md, tests/test_skill_count_agrees.py, OVERVIEW.md, README.md, skills/live-spec-base/SKILL.md, guardrails/check-prover-record.sh, guardrails/pre-push, docs/prover/README.md
 Checks run: `python3 -m pytest tests/test_progress_report.py tests/test_skill_count_agrees.py -q` — 31 passed. The full suite ran separately, on the server side of this push; this pass did not re-run it locally.
