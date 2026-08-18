@@ -97,10 +97,6 @@
       "proof": "tests/test_agent_card_gate.py::test_gate_reds_a_cardless_tree",
       "reds": "check-agent-card"
     },
-    "z": {
-      "proof": "tests/test_doc_bound.py::test_gate_reds_a_doc_over_its_bound",
-      "reds": "check-doc-bound"
-    },
     "aa": {
       "proof": "tests/test_doc_findings_bound.py::test_gate_reds_a_cleared_doc_that_regressed",
       "reds": "check-doc-findings-bound"

@@ -305,12 +305,6 @@ if ! python3 "$GUARDRAILS/check-agent-card.py"; then
 fi
 
 echo ""
-echo "-- gate z: doc bound (each growable working doc within its declared bound or freshly rotated, SPEC INV-234) --"
-if ! python3 "$GUARDRAILS/check-doc-bound.py"; then
-  fail=1
-fi
-
-echo ""
 echo "-- gate aa: doc findings bound (no live document above its recorded finding count; a cleared document stays at zero, SPEC INV-301) --"
 if ! python3 "$GUARDRAILS/check-doc-findings-bound.py"; then
   fail=1

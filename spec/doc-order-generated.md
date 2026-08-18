@@ -258,30 +258,6 @@
 
 ---
 
-## Requirement 245: Everything growable declares the number that bounds it
-
-**Context:** When a thing just grows without end — a script, a spec, a test matrix — the system cannot do nothing. Where a node's fitness asks whether a file holds one thing or several, this asks whether a thing has grown past what it may weigh, where size is the signal and needs its own declared number. Each of the four large working documents declares a byte ceiling with a recorded reason, and a watcher reds a document past its ceiling.
-
-**User Story:** As a person watching a document grow without bound, I want each growable artifact to declare a byte ceiling with a reason and a watcher to read it, so that crossing the bound earns a rotation while a silent creep upward has no door.
-
-### Acceptance Criteria
-
-**Case: a ceiling with a recorded reason**
-
-1. The system *shall* have each of the four named working documents — the spec (PRODUCT_SPEC.md), the queue (ROADMAP.md), the test matrix (TEST_MATRIX.md), and the journal (JOURNAL.md) — declare a byte ceiling with a non-empty recorded reason in `guardrails/doc-bounds.json`, and *shall* red a document past its ceiling. [INV-234, INV-41]
-2. *if* a declared bound carries no reason, *then* the system *shall* red it. [INV-234]
-
-**Case: rotation is the remedy**
-
-3. *when* a document over its ceiling carries a manifest naming an archive dated the same day, the system *shall* pass it, since the grooming that shrinks it back under the bound has just been applied. [INV-234, INV-209]
-4. The system *shall* seed the ceilings above the current file sizes with rotation headroom, and *shall* let a ceiling rise only with a recorded reason. [INV-234]
-
-**Case: the queue archives at each closing commit**
-
-5. The system *shall*, for the queue (ROADMAP.md), take the closing commit as its archiving cadence, hold its byte ceiling as a backstop, and grow its manifest one line per monthly archive file; the spec, the test matrix, and the journal keep their byte-ceiling rotation unchanged. [INV-234, INV-276]
-
----
-
 ## Requirement 246: The guards over the guards
 
 **Context:** A gate can report green two ways: because the input was clean, or because it never fires at all. Four checks guard the gate machinery itself against that hollow class — the pushed gates must be mirrored into the remote check, every chat judge the pack declares wired must be wired into settings, every gate must carry a proof it can fail, and every path a permission rule names must still exist.

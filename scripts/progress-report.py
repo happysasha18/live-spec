@@ -21,7 +21,7 @@ THE SIX SECTIONS, in the fixed order this document always carries:
   3. Promise one (comprehension): Table A, the whole-repository counts; Table B, the fifteen
      documents carrying the most findings.
   4. Promise two (the spec stops growing): Table C, the spec's own size measures against the
-     format-change baseline and each measure's recorded ceiling.
+     format-change baseline and the target recorded for it.
   5. Readings run so far: one row per file under `docs/language-reads/`.
   6. What no measure here covers: a short, fixed list of the holes, held in this script.
 
@@ -52,7 +52,6 @@ SPEC_PATH = os.path.join(REPO_ROOT, "PRODUCT_SPEC.md")
 RULE_CENSUS_PATH = os.path.join(GUARDRAILS, "rule-census.json")
 BASELINE_PATH = os.path.join(GUARDRAILS, "progress-baseline.json")
 SPEC_RATCHET_PATH = os.path.join(GUARDRAILS, "spec-ratchet.json")
-DOC_BOUNDS_PATH = os.path.join(GUARDRAILS, "doc-bounds.json")
 SPEC_DEBT_CAP_PATH = os.path.join(SCRIPT_DIR, "spec-debt-cap.json")
 REDUNDANCY_SCRIPT = os.path.join(SCRIPT_DIR, "spec-redundancy-precheck.py")
 SIZE_RATCHET_SCRIPT = os.path.join(GUARDRAILS, "check-size-ratchet.py")
@@ -272,13 +271,11 @@ WHAT_NO_MEASURE_COVERS = [
 ]
 
 
-def build_section1(census_files, spec_measure, findings_total, doc_bounds):
-    max_bytes = doc_bounds.get("PRODUCT_SPEC.md", {}).get("max_bytes")
+def build_section1(census_files, spec_measure, findings_total):
     s1 = ("Promise one, a reader gets through a document without stopping, measures %s open "
           "writing findings across the live set today." % fmt(findings_total))
     s2 = ("Promise two, the specification stops growing, measures PRODUCT_SPEC.md at %s bytes "
-          "against its %s-byte ceiling today."
-          % (fmt(spec_measure["bytes"]), fmt(max_bytes) if max_bytes else NOT_STATED))
+          "today." % fmt(spec_measure["bytes"]))
     return s1, s2
 
 
@@ -327,7 +324,7 @@ def build_table_b(census_files, reads):
     return rows
 
 
-def build_table_c(spec_measure, baseline, ratchet_bound, max_bytes, redundancy_open, debt_cap):
+def build_table_c(spec_measure, baseline, ratchet_bound, redundancy_open, debt_cap):
     fc = baseline.get("format_change_2026_07_23", {})
     fc_bytes = fc.get("bytes")
     fc_req = fc.get("requirements")
@@ -335,11 +332,8 @@ def build_table_c(spec_measure, baseline, ratchet_bound, max_bytes, redundancy_o
     fc_redundancy = baseline.get("redundancy_pairs", {}).get(
         "before_format_change", {}).get("value")
 
-    today_share = (100.0 * spec_measure["bytes"] / max_bytes) if max_bytes else None
-    fc_share = (100.0 * fc_bytes / max_bytes) if (max_bytes and fc_bytes is not None) else None
-
     rows = [
-        ["bytes", fmt(spec_measure["bytes"]), fmt(fc_bytes), fmt(max_bytes),
+        ["bytes", fmt(spec_measure["bytes"]), fmt(fc_bytes), NOT_STATED,
          target_val(baseline, "bytes")],
         ["lines", fmt(spec_measure["lines"]), NOT_STATED, NOT_STATED,
          target_val(baseline, "lines")],
@@ -353,8 +347,6 @@ def build_table_c(spec_measure, baseline, ratchet_bound, max_bytes, redundancy_o
          fmt(ratchet_bound, decimals=1), target_val(baseline, "bytes per criterion")],
         ["pairs stating one fact twice", fmt(redundancy_open), fmt(fc_redundancy),
          fmt(debt_cap), target_val(baseline, "pairs stating one fact twice")],
-        ["share of the byte ceiling used", fmt_pct(today_share), fmt_pct(fc_share), NOT_STATED,
-         NOT_STATED],
     ]
     return rows
 
@@ -446,14 +438,13 @@ def build_section4(reads):
 # Assembly
 # ---------------------------------------------------------------------------------------------
 
-def render(now, census_files, cap, cap_rule, spec_measure, baseline, ratchet_bound, max_bytes,
+def render(now, census_files, cap, cap_rule, spec_measure, baseline, ratchet_bound,
            redundancy_open, debt_cap, reads, live_paths):
     findings_total = sum(v.get("total", 0) for v in census_files.values())
-    s1, s2 = build_section1(census_files, spec_measure, findings_total,
-                             load_json(DOC_BOUNDS_PATH)["docs"])
+    s1, s2 = build_section1(census_files, spec_measure, findings_total)
     table_a, _ = build_table_a(census_files, baseline, reads, live_paths)
     table_b = build_table_b(census_files, reads)
-    table_c = build_table_c(spec_measure, baseline, ratchet_bound, max_bytes, redundancy_open,
+    table_c = build_table_c(spec_measure, baseline, ratchet_bound, redundancy_open,
                              debt_cap)
     table_d = build_section4(reads)
     priority_groups, priority_rows = build_priority(baseline, census_files, reads)
@@ -517,8 +508,6 @@ def main(argv=None):
     baseline = load_json(BASELINE_PATH)
     spec_measure = measure_spec()
     ratchet_bound = load_json(SPEC_RATCHET_PATH).get("bytes_per_criterion")
-    doc_bounds = load_json(DOC_BOUNDS_PATH)
-    max_bytes = doc_bounds.get("docs", {}).get("PRODUCT_SPEC.md", {}).get("max_bytes")
     redundancy_open = measure_redundancy_open()
     debt_cap = load_json(SPEC_DEBT_CAP_PATH).get("max_redundancy_open", {}).get(
         "PRODUCT_SPEC.md")
@@ -527,7 +516,7 @@ def main(argv=None):
 
     now = datetime.date.today().isoformat()
     text = render(now, census_files, cap, cap_rule, spec_measure, baseline,
-                   ratchet_bound, max_bytes, redundancy_open, debt_cap, reads, live_paths)
+                   ratchet_bound, redundancy_open, debt_cap, reads, live_paths)
 
     with open(args.out, "w", encoding="utf-8") as f:
         f.write(text)

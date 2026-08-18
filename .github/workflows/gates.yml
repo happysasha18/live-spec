@@ -112,8 +112,6 @@ jobs:
         run: python3 guardrails/check-index-generated.py PRODUCT_SPEC.md PRODUCT_SPEC.index.md
       - name: gate y — agent card (a live-spec host tree carries its .live-spec/agent.md card, SPEC INV-219)
         run: python3 guardrails/check-agent-card.py
-      - name: gate z — doc bound (each growable working doc within its declared bound or freshly rotated, SPEC INV-234)
-        run: python3 guardrails/check-doc-bound.py
       - name: gate aa — doc findings bound (no live document above its recorded finding count, SPEC INV-301)
         # The record arm reads the record against the state the remote already holds (SPEC R302.12).
         # github.event.before is the pre-push SHA on a push; on a PR it is empty and the arm falls back

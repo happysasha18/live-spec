@@ -329,7 +329,6 @@ adapter is the one place the pack updates when a lens moves in a prover release.
 - INV-238 (the machine for the standing no-only-say-hedge behaviour, profile `proactivity.no-only-say-hedge`)
 - INV-230 (the reap and detection arms of the runaway-child class this node owns, a process-space habit at teardown taking no gate letter)
 - INV-231
-- INV-234 (the growable-doc sibling of gate t [INV-209] in this node's own doc-grooming family)
 - INV-236 (the transport arm of the two-channel law the base-rulebook states)
 - INV-239 (the description-field gate named in the pins below, dormant until the back-describe migration)
 - INV-241 (the net for the orchestration laws that had none)
@@ -363,7 +362,7 @@ adapter is the one place the pack updates when a lens moves in a prover release.
 - INV-295 (the surface list each rule carries, and the personal layer's override of a carve-out with the shipped default kept beside it)
 - INV-296 (these rules stand as relatives and move in one working pass)
 - INV-297 (a reader's finding lands as a named class with its examples under it. The cold reads that produce those findings run at the text-audit node.)
-- INV-301 (the findings ratchet over every live document. `guardrails/check-doc-findings-bound.py` stands as gate aa and reads `guardrails/rule-census.json` as its ceiling. It is the readability sibling of the size ratchet [INV-264] and the growable-doc bound [INV-234], and it holds a cleared document at zero.)
+- INV-301 (the findings ratchet over every live document. `guardrails/check-doc-findings-bound.py` stands as gate aa and reads `guardrails/rule-census.json` as its ceiling. It is the readability sibling of the size ratchet [INV-264], and it holds a cleared document at zero.)
 - INV-299 (the mechanical arm of the worker-restore rule. It is the gate script pinned below, with its call site inside the pipeline's verify step. Beside it stands the wording check `tests/test_worker_restore.py`, run over the rulebook, the pipeline skill, the delegation protocol, the agent-card template and the lane-opening script. The rule those homes state is the base-rulebook's, stated once in its rule 7.)
 - INV-305 (a count this repository publishes about its own tree. `guardrails/tree-counts.json` is the machine home of every such count. It carries the measurement that produces the count and every page statement of it. `scripts/gen-tree-counts.py` fills the generated blocks. `guardrails/check-tree-counts.py` stands as gate ad over both. Whether a count is worth publishing stays with the person.)
 - INV-306 (the record of what each runnable file the pack ships is. `scripts/check-registry.json` is the machine home of the kind, name, kit, root, reach and needs per file, and `guardrails/check-named-checks.py` stands as gate ae over it. It keeps a check that judges this pack's own documents out of the steps a host project follows. Both files are pinned below.)
@@ -390,8 +389,6 @@ adapter is the one place the pack updates when a lens moves in a prover release.
 - `guardrails/check-doc-rotation.py:1` (the doc-rotation gate, gate t, INV-209)
 - `scripts/rotate-doc.py:1` (the rotation mechanism, INV-209)
 - `guardrails/check-matrix-reference.py:1` (the matrix-reference gate, gate d, INV-273)
-- `guardrails/check-doc-bound.py:1` (the growable-doc bound watcher, gate z, INV-234)
-- `guardrails/doc-bounds.json:1` (the four docs' declared byte ceilings, INV-234)
 - `guardrails/check-ci-mirror.sh:1` (the CI-mirror gate, gate u, INV-210)
 - `guardrails/ci-mirror.json:1` (the declared CI carve-out set, INV-210)
 - `guardrails/check-judge-listed.py:1` (the judge-listed gate, gate v, INV-211)
@@ -482,7 +479,6 @@ adapter is the one place the pack updates when a lens moves in a prover release.
 - INV-229: it consumes the parked-feedback-question touchpoint classification the touchpoint-kind frame [INV-205] declares.
 - INV-230: safe for that reason under the owned-identity discipline the test-author node owns.
 - INV-230: the idle habit's worker-contract home is the base-rulebook worker contract, carried here as wiring.
-- INV-234: the architecture-budget rule's budget-plus-watcher shape lifted to every growable artifact.
 - INV-236: correcting the two-channel law's refused git-universal premise (the owner's word).
 - INV-236: rides the suite and takes no push-gate letter the way the listener tripwire does [INV-231].
 - INV-238: its file is placed by the setup walk beside the scissors scan and the host wires it [INV-173]. Config-health parity covers it [INV-175], `guardrails/judge-hooks.json` classifies it [INV-211], and the meter reads its runs and fires [INV-202].
@@ -591,11 +587,11 @@ adapter is the one place the pack updates when a lens moves in a prover release.
 
 ### [node: text-audit]
 
-**responsibility** — the audit-and-fix loop for human-facing texts. It runs the mechanical register lints first, then fresh zero-context cold reads. Each finding is fixed at its source until two consecutive reads come back clean. As of 2026-08-18 the loop's own mechanics live in a repository this pack does not own; this pack keeps the pack-side bindings alone.
+**responsibility** — the audit-and-fix loop for human-facing texts. It runs the mechanical register lints first, then fresh zero-context cold reads. Each finding is fixed at its source until two consecutive reads come back clean.
 
 **owns** — INV-266, INV-267, INV-268 (text-audit is the skill that runs this loop)
 
-**pins** — the audit loop's mechanics live in a repository this pack does not own. The pack cannot
+**pins** — the loop's mechanics live in a repository this pack does not own. The pack cannot
 promise a line number there, so its pins stand on the tracked adapter instead. The adapter is the one
 place the pack updates when the loop's own shape moves in a text-audit release.
 - `skills/text-audit-pack/SKILL.md:1` (frontmatter — what the adapter carries, what it does not)
@@ -603,7 +599,7 @@ place the pack updates when the loop's own shape moves in a text-audit release.
 - `skills/text-audit-pack/SKILL.md:74` (what a cheap reader means run inside this pack)
 
 **notes** —
-- the tenth working skill, named in the pack's skill roster and the pipeline-roles glossary. Its cold-read comprehension loop is the mechanical-lints-then-panel discipline the format-laws requirements state. As of 2026-08-18 the loop's body lives at github.com/happysasha18/text-audit, its own repository with its own version line. This node's home in the pack is the binding page.
+- the tenth working skill, named in the pack's skill roster and the pipeline-roles glossary. Its cold-read comprehension loop is the mechanical-lints-then-panel discipline the format-laws requirements state. The loop's own body lives at github.com/happysasha18/text-audit, its own repository with its own version line; this node's home in the pack is the binding page.
 - this node carries the working-skill roster's text-audit member without owning that anchor. The roster entity's home stays base-rulebook.
 
 ### [node: work-board] [target]

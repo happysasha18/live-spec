@@ -9,7 +9,7 @@ instead of things you have to remember.
 
 <!-- generated:count:gate-roster — scripts/gen-tree-counts.py owns the block below -->
 
-The push hook runs 29 distinct gate letters today. The roster below is the whole set, one line per gate as `guardrails/pre-push` announces it.
+The push hook runs 28 distinct gate letters today. The roster below is the whole set, one line per gate as `guardrails/pre-push` announces it.
 
 Count them yourself, and list them:
 
@@ -49,7 +49,6 @@ A push of this repository is refused where either command disagrees with what st
 -- gate w: every gate can fail (every gate in this chain carries a known-red proof, SPEC INV-212) --
 -- gate x: generated index (the committed index equals a fresh build off the body; body and index agree; an empty body reds by name, SPEC INV-258/INV-259/INV-218) --
 -- gate y: agent card (a live-spec host tree carries its .live-spec/agent.md card, SPEC INV-219) --
--- gate z: doc bound (each growable working doc within its declared bound or freshly rotated, SPEC INV-234) --
 ```
 
 <!-- /generated:count:gate-roster -->

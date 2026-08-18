@@ -69,9 +69,9 @@ class TestCiMirror(unittest.TestCase):
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
 
     def test_stale_carveout_reds(self):
-        # a carve-out naming no local gate is itself drift and reds. The single-letter gates now span
-        # a..z (gate z landed 2026-07-18, ROADMAP 392), so the fixture uses a token no `-- gate [a-z]:`
-        # marker can ever be — a two-letter key — which can never match a real gate letter.
+        # a carve-out naming no local gate is itself drift and reds. The gate letters run single then
+        # double (a..y, aa..), so the fixture uses a token no `-- gate [a-z]{1,2}:` marker can ever be
+        # — a doubled unused letter — which can never match a real gate letter.
         import json
         with open(CARVE_JSON) as f:
             data = json.load(f)
