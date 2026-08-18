@@ -18,11 +18,11 @@ live-spec closes it. You say the sentence in passing, with nothing to file and n
 
 There are two ways in. Pick one road at step 1, then follow that road's lines wherever the steps below fork. Take the plugin road if you want to use the pack and download nothing you have to keep. Take the clone road if you want the pack's own tree on your disk, to read and to keep.
 
-One thing before you start: the "no CLI" promise above is about everything *after* this section. Step 1's two lines are a one-time setup, typed once into Claude Code. Once they're in, you never type another command. Every request from there on is a plain sentence.
+One thing before you start: the "no CLI" promise above is about everything *after* this section. Step 1's lines are a one-time setup, typed once into Claude Code. Once they're in, you never type another command. Every request from there on is a plain sentence.
 
 ### Step 1 — get the pack onto your machine
 
-The only lines you ever type, in this whole setup, are the two below for whichever road you pick. Copy them exactly as shown. Everything after this step, you just say in plain words.
+The only lines you ever type, in this whole setup, are the ones below for whichever road you pick. Copy them exactly as shown. Everything after this step, you just say in plain words.
 
 **The plugin road — take this one unless you have a reason not to.** Type two lines into Claude Code:
 
@@ -33,14 +33,15 @@ The only lines you ever type, in this whole setup, are the two below for whichev
 
 That is the whole step. The plugin puts the entire pack tree under `~/.claude/plugins/cache/`. You do not clone this repository, now or later.
 
-**The clone road — for a programmer who wants the project's own files on disk to read.** Clone the repository and run its installer:
+**The clone road — for a programmer who wants the project's own files on disk to read.** Clone the repository and run its installers:
 
 ```
 git clone https://github.com/happysasha18/live-spec.git
 cd live-spec && ./install.sh
+scripts/install-external-skills.sh
 ```
 
-`install.sh` copies the skill folders into `~/.claude/skills/` and copies nothing else. Keep the clone. It is your copy of the pack tree. Step 2's setup walk reads from it.
+`install.sh` copies the skill folders into `~/.claude/skills/` and copies nothing else. The second command installs one more skill: `product-prover`, the one that reviews your spec. It lives in its own repository, not this one. This line is what puts it on your machine, and it needs network access to do it. Keep the clone. It is your copy of the pack tree. Step 2's setup walk reads from it.
 
 ### Step 2 — attach the pack to a project
 
