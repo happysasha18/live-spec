@@ -33,13 +33,13 @@ class TestGateD_MatrixReference(unittest.TestCase):
 
     def test_real_matrix_passes(self):
         result = run(["python3", os.path.join(GUARDRAILS, "check-matrix-reference.py"),
-                      os.path.join(ROOT, "TEST_MATRIX.md")])
+                      os.path.join(ROOT, "TEST_MATRIX.md")], cwd=ROOT)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertIn("reach:", result.stdout)
 
     def test_missing_file_fails(self):
         result = run(["python3", os.path.join(GUARDRAILS, "check-matrix-reference.py"),
-                      "/nonexistent/TEST_MATRIX.md"])
+                      "/nonexistent/TEST_MATRIX.md"], cwd=ROOT)
         self.assertEqual(result.returncode, 1)
 
     def test_retired_checkbox_gate_unwired(self):
@@ -298,7 +298,7 @@ class TestGateF_SkillLoadability(unittest.TestCase):
 
     def test_real_repo_passes(self):
         result = run([os.path.join(GUARDRAILS, "check-skill-loadability.sh"),
-                      os.path.join(ROOT, "skills")])
+                      os.path.join(ROOT, "skills")], cwd=ROOT)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
     def test_broken_skill_fails(self):
@@ -307,14 +307,14 @@ class TestGateF_SkillLoadability(unittest.TestCase):
             os.makedirs(bad)
             with open(os.path.join(bad, "SKILL.md"), "w") as f:
                 f.write("---\nname: wrongname\n---\nno negative section\n")
-            result = run([os.path.join(GUARDRAILS, "check-skill-loadability.sh"), tmp])
+            result = run([os.path.join(GUARDRAILS, "check-skill-loadability.sh"), tmp], cwd=ROOT)
             self.assertEqual(result.returncode, 1, "broken skill must turn the gate RED")
             self.assertIn("does not match its folder", result.stdout)
             self.assertIn("no 'Work that belongs elsewhere' section", result.stdout)
 
     def test_missing_skills_dir_fails(self):
         with tempfile.TemporaryDirectory() as tmp:
-            result = run([os.path.join(GUARDRAILS, "check-skill-loadability.sh"), tmp])
+            result = run([os.path.join(GUARDRAILS, "check-skill-loadability.sh"), tmp], cwd=ROOT)
             self.assertEqual(result.returncode, 1, "empty skills dir must fail, not pass silently")
 
 
@@ -326,7 +326,7 @@ class TestGateReachMap(unittest.TestCase):
     SCRIPT = os.path.join(GUARDRAILS, "check-push-reach.sh")
 
     def reach(self, files):
-        return run(["bash", self.SCRIPT], extra_env={"REACH_FILES": files})
+        return run(["bash", self.SCRIPT], extra_env={"REACH_FILES": files}, cwd=ROOT)
 
     def test_prose_only_diff_stands_suite_down(self):
         r = self.reach("README.md\ndocs/research/example.md")
@@ -376,7 +376,7 @@ class TestGateReachMap(unittest.TestCase):
 
     def reach_with_config(self, files, config_path):
         return run(["bash", self.SCRIPT],
-                   extra_env={"REACH_FILES": files, "REACH_CONFIG": config_path})
+                   extra_env={"REACH_FILES": files, "REACH_CONFIG": config_path}, cwd=ROOT)
 
     def _write_config(self, tmpdir, mutate):
         """Write a fixture config: the committed config with reach_classes mutated in place.
