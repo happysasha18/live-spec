@@ -1,6 +1,7 @@
 # PUSH-REVIEW — README.md's findings count returns to its record
 
-Date: 2026-08-18 09:36 local. Range: origin/main..431138c (one commit, 431138c).
+Date: 2026-08-18 09:36 local. Range: bcdbdbe..5f620c3 — the pushed range: 431138c
+the prose rewrite, 5f620c3 this record.
 
 Root: the README layering pass (commit 7c7931b, already on origin/main) rewrote
 most of README.md's prose and pushed gate aa (`guardrails/check-doc-findings-bound.py`)
