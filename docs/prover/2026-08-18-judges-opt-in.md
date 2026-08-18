@@ -4,6 +4,7 @@ PUSH-REVIEW
 
 Range: dc9340a0..ce6c1e47
 - 99050f5 Dedup surviving chat-law paraphrases into pointers
+- ae4e760 Merge origin/main into morning/2026-08-18-judges
 - c525a59 The spec carries no dates, and the last read's findings close
 - 02e4770 The front door stops promising wiring the installer no longer does
 - 624bd4b The second read's blockers are answered
