@@ -15,6 +15,26 @@ import pytest
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+# Git exports these while it runs a hook, and every `git` a test starts inherits them.
+# An inherited GIT_DIR outranks `-C tmp`, so a fixture that builds its own little
+# repository commits into the repository being pushed instead — the suite run inside the
+# pre-push guard fabricated hundreds of commits this way. They are stripped once, here,
+# before any test collects: nothing in this suite may act on a repository it did not name.
+INHERITED_GIT_ENV = (
+    "GIT_DIR",
+    "GIT_WORK_TREE",
+    "GIT_INDEX_FILE",
+    "GIT_OBJECT_DIRECTORY",
+    "GIT_ALTERNATE_OBJECT_DIRECTORIES",
+    "GIT_COMMON_DIR",
+    "GIT_QUARANTINE_PATH",
+    "GIT_PREFIX",
+    "GIT_NAMESPACE",
+)
+
+for _inherited in INHERITED_GIT_ENV:
+    os.environ.pop(_inherited, None)
+
 
 def read(rel):
     with open(os.path.join(ROOT, rel), encoding="utf-8") as f:

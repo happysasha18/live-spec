@@ -1665,3 +1665,75 @@ class TestGuardrailFilesShip(unittest.TestCase):
         with open(gitignore, encoding="utf-8") as f:
             body = f.read()
         self.assertIn(".live-spec-fence", body)
+
+
+class TestNoInheritedGitEnvironment(unittest.TestCase):
+    """A fixture's own repository stays its own, even when git hands the suite its environment.
+
+    Git exports GIT_DIR while it runs a hook, and GIT_DIR outranks `-C`: a fixture that
+    inits and commits in a temp directory writes into the repository being pushed instead.
+    That is how pre-push runs fabricated hundreds of commits onto the branch under them.
+    """
+
+    def _seed(self, tmp, name):
+        repo = os.path.join(tmp, name)
+        os.mkdir(repo)
+        for arg in (["init", "-q"], ["config", "user.email", "e@e"], ["config", "user.name", "e"]):
+            subprocess.run(["git", "-C", repo] + arg, check=True, capture_output=True)
+        return repo
+
+    def _count(self, repo):
+        return subprocess.run(["git", "-C", repo, "rev-list", "--count", "HEAD"],
+                              capture_output=True, text=True, check=True).stdout.strip()
+
+    def test_the_session_carries_none_of_gits_own_variables(self):
+        from conftest import INHERITED_GIT_ENV
+
+        for name in INHERITED_GIT_ENV:
+            self.assertNotIn(name, os.environ, "%s survived into the suite's environment" % name)
+
+    def test_an_inherited_git_dir_captures_a_fixtures_commit_until_it_is_cleared(self):
+        """The mechanism proved on two scratch repositories, not described in prose."""
+        from conftest import INHERITED_GIT_ENV
+
+        with tempfile.TemporaryDirectory() as tmp:
+            judged = self._seed(tmp, "judged")
+            with open(os.path.join(judged, "seed.txt"), "w") as f:
+                f.write("seed\n")
+            subprocess.run(["git", "-C", judged, "add", "seed.txt"], check=True, capture_output=True)
+            subprocess.run(["git", "-C", judged, "commit", "-q", "-m", "base"], check=True,
+                           capture_output=True)
+            before = self._count(judged)
+
+            fixture = self._seed(tmp, "fixture")
+            captured = dict(os.environ)
+            captured["GIT_DIR"] = os.path.join(judged, ".git")
+            with open(os.path.join(fixture, "a.txt"), "w") as f:
+                f.write("a\n")
+            subprocess.run(["git", "-C", fixture, "add", "-A"], env=captured, capture_output=True)
+            subprocess.run(["git", "-C", fixture, "commit", "-q", "-m", "fixture"], env=captured,
+                           capture_output=True)
+            during = self._count(judged)
+            self.assertNotEqual(before, during,
+                                "the mechanism this guards no longer reproduces; if git changed, "
+                                "rewrite this test rather than delete it")
+
+            cleaned = dict(captured)
+            for name in INHERITED_GIT_ENV:
+                cleaned.pop(name, None)
+            with open(os.path.join(fixture, "b.txt"), "w") as f:
+                f.write("b\n")
+            subprocess.run(["git", "-C", fixture, "add", "-A"], env=cleaned, capture_output=True)
+            subprocess.run(["git", "-C", fixture, "commit", "-q", "-m", "fixture two"], env=cleaned,
+                           capture_output=True)
+            self.assertEqual(during, self._count(judged),
+                             "a cleaned environment still let a fixture commit into the judged repo")
+
+    def test_the_gate_that_runs_the_suite_clears_them(self):
+        from conftest import INHERITED_GIT_ENV
+
+        with open(os.path.join(GUARDRAILS, "check-tests.sh"), encoding="utf-8") as f:
+            body = f.read()
+        unset = body.split("unset ", 1)[-1].split("\n\n", 1)[0]
+        for name in INHERITED_GIT_ENV:
+            self.assertIn(name, unset, "check-tests.sh starts the suite still carrying %s" % name)

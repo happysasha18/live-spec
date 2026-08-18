@@ -31,6 +31,13 @@
 
 set -euo pipefail
 
+# A hook runs with git's own environment exported, and an inherited GIT_DIR outranks any
+# `-C` a test passes: a fixture that builds its own little repository would commit into
+# the repository being pushed instead. The suite starts from a clean git environment.
+unset GIT_DIR GIT_WORK_TREE GIT_INDEX_FILE GIT_OBJECT_DIRECTORY \
+      GIT_ALTERNATE_OBJECT_DIRECTORIES GIT_COMMON_DIR GIT_QUARANTINE_PATH \
+      GIT_PREFIX GIT_NAMESPACE
+
 if [ -n "${1:-}" ]; then
   TESTS_DIR="$1"
   REPO_ROOT="$(cd "$(dirname "$TESTS_DIR")" && pwd)"
