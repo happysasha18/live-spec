@@ -3,6 +3,10 @@
 PUSH-REVIEW
 
 Range: dc9340a0..175a3c7d
+- f092fa5 The review record carries both passes
+- d432fca The dedup keeps the mechanism and names the personal profile
+- fa799b8 The skill-creator review of the communicator
+- f7ccd80 The published skill-line counts follow the bodies the dedup shortened
 - 99050f5 Dedup surviving chat-law paraphrases into pointers
 - ae4e760 Merge origin/main into morning/2026-08-18-judges
 - c525a59 The spec carries no dates, and the last read's findings close
@@ -48,6 +52,17 @@ refused outright by two workers independently: the `law_text` fields in
 prompt a live judge runs on, generated onward into `hooks/language-laws.json`. Folding
 them into a pointer would have quietly disarmed the audit, so they stand untouched, as
 does the personal profile that owns laws one and four and lives outside this repository.
+
+The skill-creator review refused this package once, and the refusal earned its keep. It
+found that the dedup had cut the mechanism of rule 15, not only its retelling, out of the
+one section that promises a reader meets these rules without opening another file; and
+that both new pointers said "profile.md" without saying which, when the law lives only in
+the personal profile outside this repository and the in-repo file of that name carries no
+such key. Both were repaired — the mechanism restored word for word, the pointers naming
+the personal profile the way the rest of the pack names it — and the record
+docs/skill-review/2026-08-18-communicator.md keeps the first REJECT with its findings
+beside the second pass and its ALLOW. The communicator ends at 45,839 bytes against
+45,985 before the dedup: a smaller saving than the cut that broke it.
 
 Checks run: targeted suites across every touched area — 414 passed. `-k PinDrift`
 returned 13 of 13 green in an isolated re-run; an earlier 12 of 13 was a flake from a
