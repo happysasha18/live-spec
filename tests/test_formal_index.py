@@ -50,7 +50,10 @@ from test_traceability import read, expand, ANCHOR_TOKEN  # noqa: E402
 #   INV-234 — the growable-doc byte ceiling, retired 2026-08-18 together with the watcher that
 #   enforced it. A retired law leaves its number empty rather than have every later law renumbered,
 #   so an older citation keeps meaning what it said when it was written.
-EXPECTED_GAPS = {"D": [3, 5, 6], "INV": [234]}
+#   INV-287, INV-288 — the criterion-readability word/anchor ceiling family (Requirement 297),
+#   retired 2026-08-19 together with guardrails/check-criterion-readability.py, the same class as
+#   INV-234 and the same reason: the numbers stay empty rather than renumber every law after them.
+EXPECTED_GAPS = {"D": [3, 5, 6], "INV": [234, 287, 288]}
 
 
 # --------------------------------------------------------------------------- parsers (text-in)
