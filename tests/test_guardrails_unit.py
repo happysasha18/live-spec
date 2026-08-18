@@ -272,13 +272,30 @@ class TestThePrePushChainIsTheFastSet(unittest.TestCase):
                       "the stand-down line never says the server still runs gate g")
 
     def test_the_server_runs_gate_g_on_every_push(self):
+        """The real guarantee is not "no `if:` line" — it is "this step cannot be skipped for
+        any reason but a cancelled run". A step with no `if:` at all runs unconditionally as
+        long as the job itself is not cancelled. A step reading exactly
+        `if: ${{ !cancelled() }}` runs under that same one condition — it removes the implicit
+        `success()` GitHub Actions would otherwise attach, so an earlier gate's failure can no
+        longer skip it (2026-08-19: every gate step in this job took that condition, so one push
+        surfaces every finding instead of stopping at the first red gate). Either shape upholds
+        gate g running on every push; anything else — a narrower or an additional clause — does
+        not, and must red here. A substring check for "!cancelled()" would wave through
+        `if: ${{ !cancelled() && github.actor == 'x' }}`, so the comparison is exact."""
         with open(os.path.join(ROOT, ".github", "workflows", "gates.yml"), encoding="utf-8") as f:
             workflow = f.read()
         step = workflow[workflow.index("name: gate g"):].split("- name:")[0]
         self.assertIn("check-pin-drift.sh", step,
                       "the server's gate g step no longer runs the pin-drift check")
-        self.assertNotIn("if:", step,
-                         "the server's gate g became conditional too — the guarantee weakened")
+        if_lines = [ln.strip() for ln in step.splitlines() if ln.strip().startswith("if:")]
+        self.assertLessEqual(len(if_lines), 1,
+                             "the server's gate g step carries more than one if: line: %r" % if_lines)
+        if if_lines:
+            self.assertEqual(
+                if_lines[0], "if: ${{ !cancelled() }}",
+                "the server's gate g step carries a condition narrower or wider than "
+                "!cancelled() — the guarantee that it runs on every push weakened: %r"
+                % if_lines[0])
 
     def test_the_server_still_runs_the_full_suite(self):
         """The other half of the split, read off the workflow itself."""
