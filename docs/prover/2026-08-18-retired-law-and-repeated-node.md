@@ -2,7 +2,10 @@
 
 PUSH-REVIEW
 
-Range: 51104be0..RANGEPLACEHOLDER
+Range: 51104be0..0b939c2e
+- 28dff1e The record names the pushed range by its hashes
+- 80d15fa The record names the server's two findings
+- 0b939c2e The record carries the server's two findings
 - d135358 A retired law leaves an empty number, and the new node points instead of repeating
 Files read: ARCHITECTURE.md, tests/test_formal_index.py, tests/test_convergence_locks.py, scripts/spec-redundancy-precheck.py
 Findings: retiring a law costs edits in several hand-pinned places, and that is a class worth closing — the detail is below
