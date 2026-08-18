@@ -591,9 +591,9 @@ adapter is the one place the pack updates when a lens moves in a prover release.
 
 **owns** — INV-266, INV-267, INV-268 (text-audit is the skill that runs this loop)
 
-**pins** — the loop's mechanics live in a repository this pack does not own. The pack cannot
-promise a line number there, so its pins stand on the tracked adapter instead. The adapter is the one
-place the pack updates when the loop's own shape moves in a text-audit release.
+**pins** — an outside repository holds the loop, so the pins stand on the tracked adapter, for the
+reason the product-prover node above states. The adapter is the one place the pack updates when a
+text-audit release moves the loop's own shape.
 - `skills/text-audit-pack/SKILL.md:1` (frontmatter — what the adapter carries, what it does not)
 - `skills/text-audit-pack/SKILL.md:30` (the mechanical lints this pack declares — the register-lint arm)
 - `skills/text-audit-pack/SKILL.md:74` (what a cheap reader means run inside this pack)

@@ -3,7 +3,7 @@
   "cap_rule": "r08",
   "files": {
     "ARCHITECTURE.md": {
-      "bytes": 108306,
+      "bytes": 108275,
       "file": "ARCHITECTURE.md",
       "long": 0,
       "longest": 25,
@@ -122,7 +122,7 @@
       "total": 3
     },
     "docs/PROGRESS.md": {
-      "bytes": 16271,
+      "bytes": 19236,
       "file": "docs/PROGRESS.md",
       "long": 0,
       "longest": 22,
@@ -410,7 +410,7 @@
       "total": 83
     },
     "docs/roadmap-format.md": {
-      "bytes": 12252,
+      "bytes": 12142,
       "file": "docs/roadmap-format.md",
       "long": 33,
       "longest": 60,
