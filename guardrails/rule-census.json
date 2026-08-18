@@ -31,7 +31,7 @@
       "total": 0
     },
     "OVERVIEW.md": {
-      "bytes": 8578,
+      "bytes": 8788,
       "file": "OVERVIEW.md",
       "long": 8,
       "longest": 98,
@@ -49,26 +49,26 @@
       "total": 0
     },
     "PRODUCT_SPEC.md": {
-      "bytes": 49413,
+      "bytes": 49517,
       "file": "PRODUCT_SPEC.md",
       "long": 130,
-      "longest": 90,
+      "longest": 103,
       "reason": "2026-08-06: the work-board requirement (row 166, Requirement 309) took a third widening pass to 99 criteria; the added criteria are single-sentence rules past the 25-word cap, and style and register stand at zero.",
       "register": 0,
       "style": 0,
       "total": 130
     },
     "README.md": {
-      "bytes": 25293,
+      "bytes": 25937,
       "file": "README.md",
       "long": 4,
-      "longest": 105,
+      "longest": 122,
       "register": 0,
       "style": 0,
       "total": 4
     },
     "ROADMAP.md": {
-      "bytes": 291720,
+      "bytes": 297444,
       "file": "ROADMAP.md",
       "long": 8,
       "longest": 242,
@@ -844,10 +844,10 @@
       "total": 3
     },
     "skills/communicator/SKILL.md": {
-      "bytes": 45839,
+      "bytes": 45905,
       "file": "skills/communicator/SKILL.md",
       "long": 2,
-      "longest": 42,
+      "longest": 52,
       "reason": "2026-08-17: the skill-creator review of the slimming (docs/skill-review/2026-08-17-communicator-slimdown.md) found an imperative filed as history - the harness task-list and spinner prohibition under rule 13. It returns word for word, so this body rises 167 to 169 while references/rule-histories.md falls 9 to 7. An instruction is not provenance.",
       "register": 0,
       "style": 15,
@@ -908,7 +908,7 @@
       "total": 16
     },
     "skills/design-reviewer/SKILL.md": {
-      "bytes": 28098,
+      "bytes": 28166,
       "file": "skills/design-reviewer/SKILL.md",
       "long": 0,
       "longest": 25,
@@ -944,10 +944,10 @@
       "total": 6
     },
     "skills/feedback-intake/SKILL.md": {
-      "bytes": 7504,
+      "bytes": 7570,
       "file": "skills/feedback-intake/SKILL.md",
       "long": 13,
-      "longest": 49,
+      "longest": 52,
       "reason": "2026-08-13: commit f03b425 named product-prover-pack in this body's closing pack roster, and the lengthened roster sentence crossed the 25-word cap; the raise records that one sentence, 22 to 23.",
       "register": 0,
       "style": 10,
@@ -963,7 +963,7 @@
       "total": 1
     },
     "skills/live-spec-base/SKILL.md": {
-      "bytes": 53050,
+      "bytes": 53118,
       "file": "skills/live-spec-base/SKILL.md",
       "long": 6,
       "longest": 47,
@@ -1135,7 +1135,7 @@
       "total": 8
     },
     "skills/test-author/SKILL.md": {
-      "bytes": 19000,
+      "bytes": 19066,
       "file": "skills/test-author/SKILL.md",
       "long": 36,
       "longest": 91,
@@ -1144,59 +1144,14 @@
       "style": 18,
       "total": 54
     },
-    "skills/text-audit/README.md": {
-      "bytes": 5683,
-      "file": "skills/text-audit/README.md",
-      "long": 0,
-      "longest": 25,
+    "skills/text-audit-pack/SKILL.md": {
+      "bytes": 5263,
+      "file": "skills/text-audit-pack/SKILL.md",
+      "long": 6,
+      "longest": 58,
       "register": 0,
       "style": 0,
-      "total": 0
-    },
-    "skills/text-audit/SKILL.md": {
-      "bytes": 30895,
-      "file": "skills/text-audit/SKILL.md",
-      "long": 0,
-      "longest": 25,
-      "register": 0,
-      "style": 0,
-      "total": 0
-    },
-    "skills/text-audit/references/human-prose-rules.md": {
-      "bytes": 24226,
-      "file": "skills/text-audit/references/human-prose-rules.md",
-      "long": 0,
-      "longest": 25,
-      "register": 0,
-      "style": 0,
-      "total": 0
-    },
-    "skills/text-audit/references/reader-prompt.md": {
-      "bytes": 8241,
-      "file": "skills/text-audit/references/reader-prompt.md",
-      "long": 0,
-      "longest": 23,
-      "register": 0,
-      "style": 0,
-      "total": 0
-    },
-    "skills/text-audit/references/rewrite-meaning-check.md": {
-      "bytes": 6005,
-      "file": "skills/text-audit/references/rewrite-meaning-check.md",
-      "long": 0,
-      "longest": 22,
-      "register": 0,
-      "style": 0,
-      "total": 0
-    },
-    "skills/text-audit/references/unprompted-reader-brief.md": {
-      "bytes": 3111,
-      "file": "skills/text-audit/references/unprompted-reader-brief.md",
-      "long": 0,
-      "longest": 24,
-      "register": 0,
-      "style": 0,
-      "total": 0
+      "total": 6
     },
     "spec/adopt-existing-project.md": {
       "bytes": 2986,

@@ -426,4 +426,5 @@ shape.
 > - **feedback-intake** brings what comes back to its home.
 > - **feedback-collector** offers a rare private note up to the pack's authors.
 > - **text-audit** reads a text as a stranger and repairs where they stop.
+> - **text-audit-pack** binds the external audit skill to the pack.
 > - **publish** runs the checks a publication owes its reader.

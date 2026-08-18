@@ -33,8 +33,8 @@
       "reach": [
         "guardrails/language-rules.json",
         "hooks/language-laws.json",
-        "skills/text-audit/references/reader-prompt.md",
-        "skills/text-audit/references/human-prose-rules.md"
+        "docs/language-rules.md",
+        "docs/language-rule-coverage.md"
       ],
       "needs": [
         "guardrails/specformat.py",

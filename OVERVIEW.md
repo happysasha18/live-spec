@@ -84,7 +84,7 @@ An override exists only as a written line in its profile file. Setting one leave
 note, so every divergence stays visible. The session scope is spoken only and dies with the conversation; making
 it permanent is a promotion into a profile, on the human's word.
 
-## Ten working skills, plus the one shared rulebook they all load
+## Eleven working skills, plus the one shared rulebook they all load
 
 - **live-spec-base** — the shared rulebook and the default settings, stated once; on any apparent
   rule conflict, this file wins.
@@ -102,6 +102,9 @@ it permanent is a promotion into a profile, on the human's word.
 - **feedback-collector** — on a rare strong reaction, offers (with your yes) a private note up to the pack's authors; off by default, never sends on its own.
 - **text-audit** — reads any human-facing text as a stranger and fixes where a reader stops. It
   closes after two rounds in a row where both fresh readers find nothing blocking.
+- **text-audit-pack** — the pack adapter for the external canonical text-audit: this pack's own
+  mechanical lints, the reading-record home, what a cheap reader means run here; it audits nothing
+  itself.
 - **publish** — the quality gate when work leaves the machine, owing what the artifact's kind owes.
 
 ## What the spec learned recently

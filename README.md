@@ -198,7 +198,7 @@ The gates stabilize first. Each one carries a red-first proof. Before a gate exi
 
 ### The skills
 
-[`live-spec-base`](skills/live-spec-base/) holds the shared rulebook · [`build-pipeline`](skills/build-pipeline/) sequences a change end to end · [`spec-author`](skills/spec-author/) writes the living spec · [`product-prover`](https://github.com/happysasha18/product-prover) reviews it (external skill, own repository) · [`product-prover-pack`](skills/product-prover-pack/) is the adapter that binds that external skill to this pack · [`design-reviewer`](skills/design-reviewer/) asks whether the design itself is right once the spec holds together · [`test-author`](skills/test-author/) derives the matrix and the tests · [`communicator`](skills/communicator/) shows work and asks answerable questions · [`feedback-intake`](skills/feedback-intake/) routes what you hand back · [`feedback-collector`](skills/feedback-collector/) sends upstream notes with your consent · [`text-audit`](skills/text-audit/) reads a text as a stranger and fixes where they stop · [`publish`](skills/publish/) gates anything leaving the machine.
+[`live-spec-base`](skills/live-spec-base/) holds the shared rulebook · [`build-pipeline`](skills/build-pipeline/) sequences a change end to end · [`spec-author`](skills/spec-author/) writes the living spec · [`product-prover`](https://github.com/happysasha18/product-prover) reviews it (external skill, own repository) · [`product-prover-pack`](skills/product-prover-pack/) is the adapter that binds that external skill to this pack · [`design-reviewer`](skills/design-reviewer/) asks whether the design itself is right once the spec holds together · [`test-author`](skills/test-author/) derives the matrix and the tests · [`communicator`](skills/communicator/) shows work and asks answerable questions · [`feedback-intake`](skills/feedback-intake/) routes what you hand back · [`feedback-collector`](skills/feedback-collector/) sends upstream notes with your consent · [`text-audit`](https://github.com/happysasha18/text-audit) reads a text as a stranger and fixes where they stop (external skill, own repository) · [`text-audit-pack`](skills/text-audit-pack/) is the adapter that binds that external skill to this pack · [`publish`](skills/publish/) gates anything leaving the machine.
 
 ### External skills
 
@@ -207,6 +207,11 @@ The gates stabilize first. Each one carries a red-first proof. Before a gate exi
   own repository with its own version line. `scripts/install-external-skills.sh` installs it
   (version floor in `skills/product-prover-pack/SKILL.md`); the pack-side bindings — mode names,
   record contract, pin map — live on that same page.
+- **[text-audit](https://github.com/happysasha18/text-audit)** — the cold-reader audit-and-fix loop
+  for human-facing text, extracted from this pack on 2026-08-18. It lives in its own repository with
+  its own version line. The pack-side bindings live at `skills/text-audit-pack/SKILL.md`: this pack's
+  own mechanical lints, the reading-record home, what a cheap reader means run here. Not yet installed
+  by `scripts/install-external-skills.sh`, which is still single-skill.
 
 The ideas in five minutes: [`OVERVIEW.md`](OVERVIEW.md) · [pipeline](docs/pipeline.md) · [adoption](docs/adoption.md)
 
