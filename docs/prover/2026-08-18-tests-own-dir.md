@@ -37,7 +37,27 @@ passed) left the working copy clean. The catcher is
 and status around the whole session and reds on any drift. It was proved by planting a
 deliberate empty commit — red — and then green.
 
+The third mechanism is the one that was actually firing, and it surfaced only after the
+two above were fixed and a fourth push still came back wrecked. Git exports its own
+environment while it runs a hook, and an inherited `GIT_DIR` outranks the `-C` a test
+passes. Every fixture that inits a little repository in a temp directory and commits to
+it was therefore committing into the repository being pushed — which is why the wreckage
+appeared during pushes and never during an ordinary local run of the same tests. It was
+reproduced deliberately: `tests/test_doc_findings_bound.py` alone leaves the tree clean;
+the same file with `GIT_DIR` exported puts seven commits into the real repository.
+`tests/conftest.py` now strips the nine variables git exports before any test is
+collected, and `check-tests.sh` unsets them before starting the suite. After the repair
+the same reproduction leaves zero commits, and the one test that failed under the
+captured environment passes. The catcher, `TestNoInheritedGitEnvironment`, proves the
+mechanism on two scratch repositories rather than describing it, and fails loudly if git
+ever stops behaving this way instead of quietly passing.
+
 Findings:
+- Two honest repairs shipped for a defect neither of them caused. Each was real — an
+  ambient repo root and a defaulted working directory are both loaded guns — but the
+  thing actually firing was the environment, and it stayed invisible because it only
+  fires under a hook. A defect that reproduces only inside the harness that runs it will
+  be misattributed until someone reproduces it there on purpose.
 - A default that points at the real repository is not a convenience, it is a loaded gun.
   The repair that lasts is not fixing the call sites but removing the default, so the
   next person cannot omit the argument at all.
