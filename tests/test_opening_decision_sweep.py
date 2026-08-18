@@ -6,15 +6,11 @@ rulebook, the same road Requirement 93 takes for the resume-side re-read of a de
 
 These are clause-presence tests, the form this project uses for a law no machine can watch.
 """
-import os
 import unittest
 
-ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-
-def flat(rel):
-    with open(os.path.join(ROOT, rel), encoding="utf-8") as f:
-        return " ".join(f.read().split())
+# The suite's one reading node: for the spec it returns the core and every part the map
+# names, and for any other file the file itself. A local reader would have shadowed it.
+from conftest import read_flat as flat
 
 
 class TestOpeningDecisionSweep(unittest.TestCase):

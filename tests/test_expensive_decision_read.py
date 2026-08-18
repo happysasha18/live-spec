@@ -29,15 +29,14 @@ import os
 import sys
 import unittest
 
+# The suite's one reading node: for the spec it returns the core and every part the map
+# names, and for any other file the file itself. A local reader would have shadowed it.
+from conftest import read
+
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 sys.path.insert(0, os.path.join(REPO, "guardrails"))
 import archformat  # the one node reader every consumer reads through (SPEC INV-280)
-
-
-def read(rel):
-    with open(os.path.join(REPO, rel), encoding="utf-8") as f:
-        return f.read()
 
 
 def line_with(text, phrase):

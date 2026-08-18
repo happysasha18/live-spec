@@ -19,18 +19,9 @@ the two wiring skills carry no INV-237, so every assertion below fails.
 import os
 import unittest
 
-from conftest import external_clone_or_skip
+from conftest import external_clone_or_skip, read, read_flat as flat
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-
-def read(rel):
-    with open(os.path.join(REPO, rel), encoding="utf-8") as f:
-        return f.read()
-
-
-def flat(rel):
-    return " ".join(read(rel).split())
 
 
 CLAUSE_OPENER = "The authoring seat does not certify its own work"

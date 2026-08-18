@@ -78,12 +78,59 @@ ROOT_NAMES = ("ROOT", "REPO")
 # read() themselves, so they reach the whole document too.
 NODE_READS = ("read", "read_flat", "read_all", "read_all_flat")
 # Calls that turn a name into an open file or its text.
-OPENERS = ("open", "open_spec", "Path", "read_text", "read_bytes")
+OPENERS = ("open", "Path", "read_text", "read_bytes")
 
 
 def _call_name(node):
     fn = node.func
     return fn.attr if isinstance(fn, ast.Attribute) else getattr(fn, "id", None)
+
+
+def _from_conftest(node):
+    """True for `conftest.read(...)` — the node reached through the module rather than by import."""
+    fn = node.func
+    return (isinstance(fn, ast.Attribute) and fn.attr in NODE_READS
+            and isinstance(fn.value, ast.Name) and fn.value.id == "conftest")
+
+
+def _opens_a_file(node):
+    """True where this expression opens a file or builds a path from the repository root."""
+    if isinstance(node, ast.Call):
+        name = _call_name(node)
+        if name in OPENERS:
+            return True
+        if name == "join" and any(_anchored_at_root(a) for a in node.args):
+            return True
+    if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Div) and _anchored_at_root(node.left):
+        return True
+    return False
+
+
+def local_readers(tree):
+    """The module's own functions that READ A FILE, judged by their bodies.
+
+    A helper is a reader because of what it does — it opens a file, or builds a path from the
+    repository root, or calls another helper that does — never because of what it is called. Judging
+    by name is how a `def flat(rel)` that opens a file stayed invisible to a guard that looked for
+    "read" in the name, and how a module's own `def read(rel)` got taken for the node it shadows.
+    """
+    defs = {}
+    for node in tree.body:
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+            defs[node.name] = node
+    readers, growing = set(), True
+    while growing:
+        growing = False
+        for name, fn in defs.items():
+            if name in readers:
+                continue
+            for node in ast.walk(fn):
+                if _opens_a_file(node) or (isinstance(node, ast.Call)
+                                           and _call_name(node) in readers):
+                    readers.add(name)
+                    growing = True
+                    break
+    return readers
 
 
 def _anchored_at_root(node):
@@ -120,15 +167,18 @@ def spec_file_reads(source, filename):
         for child in ast.iter_child_nodes(node):
             parent[id(child)] = node
 
-    # The node is the node whatever a module imports it as: `from conftest import read as _read`
-    # binds it under a private name, and that is a fix rather than an evasion — it is how a module
-    # that already had its own `_read` helper adopts the node without touching its call sites.
-    node_names = set(NODE_READS)
+    # The node is the node whatever a module imports it AS — `from conftest import read as _read`
+    # binds it under a private name, and that is how a module with its own helper adopts the node
+    # without touching a call site. But the name alone blesses nothing: `read` is legal here only
+    # where it came FROM CONFTEST. Seeding this set with the bare names blessed eleven modules that
+    # define their own `def read(rel)` over an `open()`, which is the very shadow being hunted.
+    node_names = set()
     for node in ast.walk(tree):
         if isinstance(node, ast.ImportFrom) and node.module == "conftest":
             for alias in node.names:
                 if alias.name in NODE_READS:
                     node_names.add(alias.asname or alias.name)
+    readers = local_readers(tree)
 
     # The spec is named by its literal, and also by whatever name is BOUND to that literal —
     # `from conftest import SPEC`, or a module's own `SPEC = "PRODUCT_SPEC.md"`. Once the node
@@ -155,18 +205,20 @@ def spec_file_reads(source, filename):
         up = parent.get(id(node))
         if isinstance(up, ast.Call):
             name = _call_name(up)
-            if name in node_names and len(up.args) == 1:
+            if (isinstance(up.func, ast.Name) and name in node_names) or _from_conftest(up):
                 node_reads.append(node.lineno)
                 continue
-            if name in OPENERS:
-                offenders.append(node.lineno)
-                continue
-            if name == "join" and any(_anchored_at_root(a) for a in up.args):
-                offenders.append(node.lineno)
-                continue
-            if name and "read" in name and len(up.args) == 1:
-                # a module's own reader, shadowing the node's name while bypassing it
-                offenders.append(node.lineno)
+            if _opens_a_file(up) or name in readers:
+                # an opener, a path built from the root, or the module's own file-reading helper —
+                # whatever that helper is called, including `read` itself. Unless the call also
+                # carries a root of its own (`_write(tmp, SPEC, ...)`, `read(SPEC, root=project)`):
+                # then the file is a fixture repo's own copy and not the document under this rule.
+                elsewhere = [a for a in up.args
+                             if a is not node and isinstance(a, ast.Name) and a.id not in ROOT_NAMES]
+                elsewhere += [kw.value for kw in up.keywords
+                              if isinstance(kw.value, ast.Name) and kw.value.id not in ROOT_NAMES]
+                if not elsewhere:
+                    offenders.append(node.lineno)
                 continue
         elif isinstance(up, ast.BinOp) and isinstance(up.op, ast.Div) \
                 and _anchored_at_root(up.left):
@@ -178,17 +230,19 @@ class TestTheSuiteHasOneReadingNode(unittest.TestCase):
     def test_no_test_reads_the_spec_off_its_own_path(self):
         """The claim the whole split rests on: the suite reads the spec through ONE node.
 
-        It was not true when that node landed. 49 sites opened
-        `os.path.join(ROOT, "PRODUCT_SPEC.md")`, and five more reached the same file by a different
-        spelling — `(ROOT / "PRODUCT_SPEC.md").read_text()` — including one module whose own `_read`
-        helper shadowed the node's name while bypassing it. Every one of them would have kept
-        passing over the CORE ALONE the moment a part existed: green over a fraction of the
-        document, which is worse than red.
+        It was not true when that node landed, and it took three passes to become true, each one
+        closing a subclass while the class stayed open. 50 sites opened
+        `os.path.join(ROOT, "PRODUCT_SPEC.md")`. Twenty-two more reached the same file by a pathlib
+        spelling or through a module's own `_read` helper — invisible to a scan for `open(` on the
+        line. Thirty-five more sat behind a module's own `def read(rel)` over an `open()`, blessed
+        because the rule seeded the legal names with the bare word `read` and never asked where that
+        `read` came from, and behind a `def flat(rel)` that a name-based rule could not see at all.
 
-        So the rule is checked on the parsed tree: a read of the live file — the name anchored at
-        the repository root, or handed to an opener — must be the one node's call. The first
-        version of this guard scanned for the substring `open(` on the same line and found four of
-        the five pathlib readers not at all; a guard for one spelling is not a guard for the rule.
+        So the rule asks the tree two questions and no others. WHERE does the name stand: anchored
+        at the repository root, or handed to something that opens files? And WHAT is that something:
+        a helper is a reader because its BODY opens a file or builds a path from the root, never
+        because of what it is called; the node is the node only where the module imported it FROM
+        CONFTEST. Name-based reasoning is what let both of the last two subclasses through.
         """
         offenders = []
         for path in sorted(glob.glob(os.path.join(ROOT, "tests", "*.py"))):
@@ -207,8 +261,9 @@ class TestTheSuiteHasOneReadingNode(unittest.TestCase):
         """Red proof for the guard above: each spelling a test could reach the file by is caught.
 
         Without this, the guard's green says only that nothing matched — including the case where it
-        matches nothing because it cannot see. The first four shapes are the ones this suite
-        actually held; the fifth is the helper-shadow that hid one of them from the substring scan.
+        matches nothing because it cannot see, which is how the first two versions of this rule each
+        certified a claim that was untrue as they landed. Every shape below was found in this suite,
+        by a later version of the rule, after an earlier one had passed it.
         """
         walkarounds = [
             'x = open(os.path.join(ROOT, "PRODUCT_SPEC.md"), encoding="utf-8").read()\n',
@@ -216,6 +271,14 @@ class TestTheSuiteHasOneReadingNode(unittest.TestCase):
             'x = (REPO / "PRODUCT_SPEC.md").read_text()\n',
             'x = Path("PRODUCT_SPEC.md").open().read()\n',
             'def _read(rel):\n    return (ROOT / rel).read_text()\nx = _read("PRODUCT_SPEC.md")\n',
+            # a module's own `read`, holding the node's own name over an opener: legality has to
+            # follow the import, or the shadow is blessed by the very word it shadows
+            'def read(rel):\n    with open(os.path.join(REPO, rel)) as f:\n        return f.read()\n'
+            'x = read("PRODUCT_SPEC.md")\n',
+            # ... and a helper with no reading word in its name at all, which is why a helper is
+            # judged by its body
+            'def flat(rel):\n    with open(os.path.join(ROOT, rel)) as f:\n'
+            '        return " ".join(f.read().split())\nx = flat("PRODUCT_SPEC.md")\n',
             # the likeliest NEXT regression: the node exports the name, so the path can be built
             # from the constant and never spell the file at all
             'from conftest import ROOT, SPEC\nx = open(os.path.join(ROOT, SPEC)).read()\n',
@@ -226,9 +289,10 @@ class TestTheSuiteHasOneReadingNode(unittest.TestCase):
             self.assertTrue(offenders, "the guard passed a reader that walks around the node:\n%s"
                             % src)
 
-        for src in ['x = read("PRODUCT_SPEC.md")\n',
-                    'x = read_flat("PRODUCT_SPEC.md")\n',
-                    'x = conftest.read("PRODUCT_SPEC.md")\n']:
+        for src in ['from conftest import read\nx = read("PRODUCT_SPEC.md")\n',
+                    'from conftest import read_flat\nx = read_flat("PRODUCT_SPEC.md")\n',
+                    'from conftest import read as _read\nx = _read("PRODUCT_SPEC.md")\n',
+                    'import conftest\nx = conftest.read("PRODUCT_SPEC.md")\n']:
             reads, offenders = spec_file_reads(src, "<node>")
             self.assertEqual(offenders, [], "the guard named the one node an offender:\n%s" % src)
             self.assertTrue(reads, "the guard did not see the node's read at all:\n%s" % src)

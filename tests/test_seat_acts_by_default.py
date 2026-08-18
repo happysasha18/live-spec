@@ -1,13 +1,10 @@
 """INV-143 / base rule 27 — the orchestrator decides what it can decide, and surfaces
 only what it cannot. Enshrines the default-action posture across its homes so it cannot
 silently drift out. Landed 2026-07-14."""
-from pathlib import Path
 
 # _read IS the suite's one reading node: for the spec it returns the core and every part
 # the map names, and for any other file the file itself.
 from conftest import read as _read
-
-ROOT = Path(__file__).resolve().parent.parent
 
 
 def test_base_rule_states_the_default_action_posture():

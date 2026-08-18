@@ -14,16 +14,11 @@ import subprocess
 import tempfile
 import unittest
 
-from conftest import read_flat
+from conftest import read, read_flat
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CHECK = os.path.join(REPO, "guardrails", "check-judge-listed.py")
 DECL = os.path.join(REPO, "guardrails", "judge-hooks.json")
-
-
-def read(rel):
-    with open(os.path.join(REPO, rel)) as f:
-        return f.read()
 
 
 def run_check(env_extra=None):

@@ -21,15 +21,14 @@ import sys
 import tempfile
 import unittest
 
+# The suite's one reading node: for the spec it returns the core and every part the map
+# names, and for any other file the file itself. A local reader would have shadowed it.
+from conftest import read
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 GATE = os.path.join(ROOT, "guardrails", "check-doc-bound.py")
 BOUNDS = os.path.join(ROOT, "guardrails", "doc-bounds.json")
 FOUR_DOCS = ["PRODUCT_SPEC.md", "ROADMAP.md", "TEST_MATRIX.md", "JOURNAL.md"]
-
-
-def read(rel):
-    with open(os.path.join(ROOT, rel), encoding="utf-8") as f:
-        return f.read()
 
 
 def run_gate(base, bounds_path, today=None):

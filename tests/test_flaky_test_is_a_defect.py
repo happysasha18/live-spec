@@ -4,13 +4,10 @@ proves the law is carried in all three text homes: the spec's green-means-
 deterministic clause with its removable-in-owned-code seam question, the
 build-pipeline step-8 green definition, and the test-author determinism rule.
 Landed 2026-07-15."""
-from pathlib import Path
 
 # _read IS the suite's one reading node: for the spec it returns the core and every part
 # the map names, and for any other file the file itself.
 from conftest import read as _read
-
-ROOT = Path(__file__).resolve().parent.parent
 
 
 def test_flaky_test_is_a_defect_spec_states_the_seam():

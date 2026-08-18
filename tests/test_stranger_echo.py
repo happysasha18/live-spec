@@ -5,11 +5,8 @@ the capture echo posted as a comment on the source Issue at harvest, the Issue c
 its row reaches a terminal exit — extending M-289's no-wish close (a no-wish item is closed
 with a recorded note) to the yes-wish case.
 """
-from pathlib import Path
 
 from conftest import SPEC, read
-
-REPO = Path(__file__).resolve().parent.parent
 
 
 def test_stranger_yes_wish_echoes_and_closes_source():

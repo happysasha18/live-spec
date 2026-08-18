@@ -23,14 +23,13 @@ import subprocess
 import sys
 import unittest
 
+# The suite's one reading node: for the spec it returns the core and every part the map
+# names, and for any other file the file itself. A local reader would have shadowed it.
+from conftest import read
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 GATE = os.path.join(ROOT, "guardrails", "check-doc-rotation.py")
 ROTATE = os.path.join(ROOT, "scripts", "rotate-doc.py")
-
-
-def read(rel):
-    with open(os.path.join(ROOT, rel), encoding="utf-8") as f:
-        return f.read()
 
 
 def run_gate(base, docs, extra=None):
