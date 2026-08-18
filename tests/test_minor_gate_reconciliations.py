@@ -3,13 +3,9 @@ whole-spec audit forced, so none can silently drift back out. Landed 2026-07-13.
 import re
 from pathlib import Path
 
-from conftest import external_clone_or_skip
+from conftest import external_clone_or_skip, read as _read
 
 ROOT = Path(__file__).resolve().parent.parent
-
-
-def _read(rel):
-    return (ROOT / rel).read_text(encoding="utf-8")
 
 
 _ONES = ("zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",

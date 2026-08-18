@@ -3,13 +3,9 @@ Enshrines the read-discipline law across its homes so it cannot silently drift o
 Landed 2026-07-13."""
 from pathlib import Path
 
-from conftest import read_all
+from conftest import read as _read, read_all
 
 ROOT = Path(__file__).resolve().parent.parent
-
-
-def _read(rel):
-    return (ROOT / rel).read_text(encoding="utf-8")
 
 
 def test_base_rule_states_read_discipline():

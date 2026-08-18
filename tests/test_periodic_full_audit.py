@@ -4,13 +4,9 @@ cadence beside the milestone gate) across the rule's homes, so none can drift
 back out. Landed 2026-07-14."""
 from pathlib import Path
 
-from conftest import read_all
+from conftest import read as _read, read_all
 
 ROOT = Path(__file__).resolve().parent.parent
-
-
-def _read(rel):
-    return (ROOT / rel).read_text(encoding="utf-8")
 
 
 def test_base_rule_states_periodic_full_audit():

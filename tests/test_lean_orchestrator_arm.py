@@ -23,7 +23,7 @@ import json
 import os
 import subprocess
 
-from conftest import ROOT
+from conftest import ROOT, read as _read
 
 HOOKS = os.path.join(ROOT, "hooks")
 SCRIPT = os.path.join(HOOKS, "lean-orchestrator-scan.py")
@@ -280,10 +280,6 @@ def test_classified_in_judge_hooks():
 
 
 # ---- traceability: the law stands in every document it is owed in (SPEC INV-246) ------------------
-
-def _read(rel):
-    with open(os.path.join(ROOT, rel), encoding="utf-8") as f:
-        return f.read()
 
 
 def test_spec_states_the_law():

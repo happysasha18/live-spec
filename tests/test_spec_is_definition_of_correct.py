@@ -1,15 +1,11 @@
 """INV-144 — when the product and the spec diverge, the spec is the definition of correct,
 and changing it is a decision. Enshrines the reconciliation triage + the ratification bar +
 the forbidden move across its homes so none can silently drift out. Landed 2026-07-14."""
-from pathlib import Path
 
-from conftest import external_clone_or_skip, read_all_flat
-
-ROOT = Path(__file__).resolve().parent.parent
-
-
-def _read(rel):
-    return (ROOT / rel).read_text(encoding="utf-8")
+# _read IS the suite's one reading node: for PRODUCT_SPEC.md it returns the core and every part
+# the map names, and for any other file the file itself. A local reader would have shadowed it and
+# gone blind to the parts.
+from conftest import external_clone_or_skip, read as _read, read_all_flat
 
 
 def test_spec_states_the_definition_of_correct():

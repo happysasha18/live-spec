@@ -20,7 +20,7 @@ import importlib.util
 import json
 import os
 
-from conftest import ROOT
+from conftest import ROOT, read as _read
 
 HOOKS = os.path.join(ROOT, "hooks")
 
@@ -33,11 +33,6 @@ def _load(path, name):
 
 
 core = _load(os.path.join(HOOKS, "register_judge_core.py"), "register_judge_core")
-
-
-def _read(rel):
-    with open(os.path.join(ROOT, rel), encoding="utf-8") as f:
-        return f.read()
 
 
 # ---- The law stands in its homes (SPEC INV-221) -----------------------------------------------------
