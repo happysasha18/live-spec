@@ -43,3 +43,10 @@ session-extract-*.md
 # product-prover is an external skill (github.com/happysasha18/product-prover),
 # installed by scripts/install-external-skills.sh — the clone is never tracked here
 skills/product-prover/
+
+# text-audit is an external skill too, extracted 2026-08-18 (github.com/happysasha18/text-audit,
+# adapter at skills/text-audit-pack/SKILL.md). scripts/install-external-skills.sh does not fetch it
+# yet — that installer is still single-skill and its multi-skill extension is unclaimed pack work — so
+# a manual clone under this path is the only way it lands here today. This line just keeps such a
+# clone out of the repository, the same as product-prover's.
+skills/text-audit/

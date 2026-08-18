@@ -222,7 +222,7 @@ this skill DERIVES what they later enforce).
 > The pack, whole: **live-spec-base** holds the shared rules and defaults · **spec-author** writes the spec ·
 > **product-prover** reviews it · **product-prover-pack** binds the external prover to the pack · **design-reviewer** judges the design behind it · **build-pipeline** ships the change · **test-author** derives the matrix
 > and writes the tests · **communicator** makes the human exchange land · **feedback-intake** brings what
-> comes back to its home · **feedback-collector** offers a rare private note up to the authors · **text-audit** reads a text as a stranger and fixes where they stop · **publish** sees the work out the door, owing its kind's checklist.
+> comes back to its home · **feedback-collector** offers a rare private note up to the authors · **text-audit** reads a text as a stranger and fixes where they stop · **text-audit-pack** binds the external audit skill to the pack · **publish** sees the work out the door, owing its kind's checklist.
 
 Credits: the level ladder, the state-space walk, and the bug protocol were proven on track-coach
 (github.com/happysasha18/track-coach, MIT) during its 2026-07 test overhaul; the enforcement pattern

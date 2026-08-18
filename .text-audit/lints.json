@@ -1,0 +1,11 @@
+{
+  "_comment": "This pack's own mechanical lints, declared per the text-audit skill's host contract. text-audit runs every command below whose surface matches the audited text's own, before falling back to its bundled grep. See skills/text-audit-pack/SKILL.md for what each one catches and why guardrails/check-language-rules.py is deliberately absent from this list.",
+  "lints": [
+    {"surface": "spec-body", "command": "python3 guardrails/check-vocabulary.py"},
+    {"surface": "spec-body", "command": "python3 guardrails/check-weak-words.py"},
+    {"surface": "spec-body", "command": "python3 guardrails/check-requirement-shape.py"},
+    {"surface": "spec-body", "command": "python3 scripts/spec-style-lint.py"},
+    {"surface": "*", "command": "python3 scripts/preshow-register-lint.py"},
+    {"surface": "*", "command": "python3 guardrails/check-one-name.py"}
+  ]
+}

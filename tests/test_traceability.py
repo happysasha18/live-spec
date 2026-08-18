@@ -1005,11 +1005,14 @@ class TestDocRenderer(unittest.TestCase):
 class TestSkillEvals(unittest.TestCase):
     """SPEC E-19: every working skill owns an eval — self-closing over skills/ (row 94)."""
 
-    # The working skills this pack owns, counted off skills/ on 2026-08-15: every tracked skill
-    # directory except live-spec-base (the shared rulebook) and product-prover-pack (the binding
-    # page for the external prover). The floor read 4 while the tree carried nine — a floor five
-    # skills can vanish under holds nothing.
-    WORKING_SKILL_FLOOR = 9
+    # The working skills this pack owns, counted off skills/ on 2026-08-18: every tracked skill
+    # directory except live-spec-base (the shared rulebook) and every binding page for an external
+    # skill (product-prover-pack, text-audit-pack). The floor read 4 while the tree carried nine — a
+    # floor five skills can vanish under holds nothing. text-audit's own 2026-08-18 extraction into
+    # its own repository dropped the floor from 9 to 8, the same deliberate, documented drop
+    # product-prover's earlier extraction made; a floor that fell silently instead would hide the
+    # next skill that vanishes unnoticed behind this one's accounted-for departure.
+    WORKING_SKILL_FLOOR = 8
 
     def _frontmatter(self, path):
         """The skill's YAML frontmatter, or "" where it carries none.

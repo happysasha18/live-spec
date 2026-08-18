@@ -615,4 +615,5 @@ rather than carried by every session that touches no setting.
 > exchange land · **feedback-intake** brings what comes back to its home ·
 > **feedback-collector** offers a rare private note up to the authors ·
 > **text-audit** reads a text as a stranger and fixes where they stop ·
+> **text-audit-pack** binds the external audit skill to the pack ·
 > **publish** sees the work out the door, owing its kind's checklist.

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """gen-language-consumers.py — build the language rules' consumers from their one home.
 
-WHAT IT DOES. It reads the language rules and writes the four files that carry them onward — one page
+WHAT IT DOES. It reads the language rules and writes the three files that carry them onward — one page
 per reader, and the rule text the judging model reads:
 
   - `docs/language-rules.md` — the WRITER's page. Per rule: the rule sentence, the reader test, the
@@ -25,11 +25,11 @@ per reader, and the rule text the judging model reads:
     exceptions, numbered from 1 inside each surface. `LAW` is the marker the judge's own parser
     matches (`hooks/register_judge_core.py` renumbers on it), so the marker stays as it is while the
     prose around it calls these rules.
-  - `skills/text-audit/references/reader-prompt.md` — the COLD READER's page: the prompt a session
-    pastes into a fresh reading session. Its hand-written frame stays as written — the title, the
-    opening paragraphs, and the closing paragraph. The pasteable block's stop list is generated: one
-    bullet per rule whose owner is a skill and which binds the human-prose surface, sorted by rule
-    id, each bullet giving the rule's name and its reader test.
+Until the text-audit skill's extraction into its own repository (2026-08-18), this script also built
+the cold reader's page — the prompt a session pastes into a fresh reading session — and spliced a
+rules block into that skill's `references/human-prose-rules.md`. That skill now owns and versions its
+own copies of both pages; this generator no longer writes or checks them.
+`skills/text-audit-pack/SKILL.md` is the pack-side seam list for what the extraction cut.
 
 It also owns one BLOCK inside each of several hand-written pages:
 
@@ -39,12 +39,6 @@ It also owns one BLOCK inside each of several hand-written pages:
     so a word two pages share is defined on both, out of the one home. The same page states how many
     rules the home carries, which identifier is the highest, and how many stand retired; that sentence
     stands between the `generated:rule-home-totals` markers.
-  - `skills/text-audit/references/human-prose-rules.md` — the audit skill's rule sheet. Its own prose
-    is hand-written; the rules the skill holds a text to stand between the `generated:human-prose-rules`
-    markers. The skill ships to a host and the rule home stays behind, so the skill carries the rules
-    with it and still has one home for them. Until 2026-07-28 the skill stated seven of these rules
-    again in its own words. The block stood inside `skills/text-audit/SKILL.md` until 2026-07-29, when
-    the skill body was split to hold the ~500-line ideal.
   - `docs/plans/2026-07-28-top-level-readability.md` — the readability plan. Its opening count of the
     rules and of the ones binding the spec body stands between the `generated:rule-totals` markers.
   - `docs/language-worked-example.md` — the page that walks one text through the human-prose roster.
@@ -53,6 +47,11 @@ It also owns one BLOCK inside each of several hand-written pages:
 Those last three blocks landed on 2026-08-05. Each held a hand-typed total that drifted every time a
 rule was added, folded, or retired: the plan said 54 rules where the home carried 63, and the record
 said 53. A number a reader meets in prose is generated here or it goes stale.
+
+`skills/text-audit/references/human-prose-rules.md` lent a fourth block, `generated:human-prose-rules`,
+until the 2026-08-18 extraction. That skill's copy is now a frozen, hand-kept snapshot in its own
+repository; a rule added here no longer reaches it, and the rules on that page are read there as
+history, not as this project's live word.
 
 WHAT IT READS. `guardrails/language-rules.json`, plus the config files a rule's `lists` field names:
 a list entry carrying `source` and `key` is read out of that JSON at build time, so a list a rule
@@ -104,27 +103,15 @@ PLAN_REL = "docs/plans/2026-07-28-top-level-readability.md"
 # holds every word it uses. A page carrying such a block is a SPLICED consumer: the generator owns
 # what stands between the markers and touches nothing else in the file.
 RECORD_REL = "docs/language-defects.md"
-# The audit skill's rule sheet, which ships to a host that installs the pack. The rule home stays
-# behind, so the skill carries the rules a human-prose audit holds a text to, printed here out of that
-# home. It sits under the skill's `references/` directory, which is where a skill body puts material a
-# reader loads on demand; the skill body points at it.
-AUDIT_SKILL_REL = "skills/text-audit/references/human-prose-rules.md"
-# The cold reader's page: the prompt a session pastes into a fresh reading session. This one is a
-# full artifact, not a spliced block — the generator owns the whole file, frame and all, because the
-# frame's own claim about how many stop classes the block prints changes with the source.
-READER_PROMPT_REL = "skills/text-audit/references/reader-prompt.md"
-# This page is itself held to the human-prose rules it lists, so its own opening line states the
-# same fact GENERATED_LINE does without the all-capitals word r23 bans outside a defined acronym.
-READER_PROMPT_GENERATED_LINE = (
-    "Generated by scripts/gen-language-consumers.py from %s. Edit the source and run the generator; "
-    "a hand edit here reds guardrails/check-language-rules.py." % SOURCE_REL
-)
+# text-audit's own rule sheet and cold-reader prompt were generated here (AUDIT_SKILL_REL,
+# READER_PROMPT_REL) until the skill's 2026-08-18 extraction into its own repository. The skill now
+# carries a frozen, hand-kept snapshot of both pages there; this generator neither writes nor checks
+# them. `skills/text-audit-pack/SKILL.md` names the seam.
 BLOCK_OPEN_FMT = "<!-- generated:%s — scripts/gen-language-consumers.py owns the block below -->"
 BLOCK_CLOSE_FMT = "<!-- /generated:%s -->"
 # Each spliced page and the block it lends the generator. `guardrails/check-language-rules.py` reads
 # this map to compare the standing block with a fresh build, so a page appears here once.
-SPLICED = {RECORD_REL: "vocabulary", AUDIT_SKILL_REL: "human-prose-rules",
-           PLAN_REL: "rule-totals", WORKED_EXAMPLE_REL: "human-prose-total"}
+SPLICED = {RECORD_REL: "vocabulary", PLAN_REL: "rule-totals", WORKED_EXAMPLE_REL: "human-prose-total"}
 # A page lending a SECOND block. The record page states the rule-home totals in its opening and defines
 # the shared words further down, and those two blocks answer to different parts of the source. The gate
 # named above reads every block a page lends, so this second block is checked for drift too.
@@ -806,167 +793,22 @@ def build_coverage(data):
     return "\n".join(out).rstrip("\n") + "\n"
 
 
-# --- the cold reader's page ------------------------------------------------------------------------
-
-def reader_prompt_rules(data):
-    """Every rule the cold-reader prompt prints, sorted by id.
-
-    A rule prints here when its owner is a skill — deciding a break of it needs a model reading the
-    text for meaning, the same judgment a cold reader makes — and it binds the human-prose surface.
-    """
-    rules = [r for r in data["rules"]
-             if r.get("owner", {}).get("by") == "skill" and "human-prose" in r["surfaces"]]
-    if not rules:
-        raise BuildError("no skill-owned rule binds human-prose, so the cold-reader prompt would ship "
-                         "empty")
-    return sorted(rules, key=lambda r: r["id"])
-
-
-def render_reader_prompt_stops(rules):
-    """The stop list inside the pasteable block: one bullet per rule, its name then its reader test."""
-    out = []
-    for rule in rules:
-        test = rule["reader_test"].strip()
-        if test:
-            test = test[:1].lower() + test[1:]
-        out.append("- %s — %s" % (rule["name"], test))
-    return out
-
-
-def build_reader_prompt(data):
-    """The cold-reader prompt: its hand-written frame kept, its stop list generated from the rules."""
-    rules = reader_prompt_rules(data)
-    out = ["<!-- %s -->" % READER_PROMPT_GENERATED_LINE, ""]
-    out.append("# The cold-reader prompt, ready to paste")
-    out.append("")
-    out.append("This file belongs to the `text-audit` skill, whose body is [`../SKILL.md`](../SKILL.md). "
-               "One test in the body decides whether a finding blocks: the reader could not go on, or "
-               "would have applied the text wrongly. The body's section \"The cold reader\" lists the "
-               "kinds most blocking findings fall into. It also says who reads under this prompt and "
-               "what to do with what comes back.")
-    out.append("")
-    out.append("This prompt prints every rule bound to human prose whose owner is a skill: %d of the "
-               "%d rules the rule home carries. The rules at "
-               "[`human-prose-rules.md`](human-prose-rules.md) name every other class an audit holds a "
-               "text to. Judging those classes needs a rulebook the cold reader does not hold. The "
-               "prompt's last instruction takes every other stop the reader met, so a class the printed "
-               "list does not name still comes back." % (len(rules), len(data["rules"])))
-    out.append("")
-    out.append("Paste the block below verbatim into the cold-reader session, under that one test for "
-               "a blocking finding, with the text appended.")
-    out.append("")
-    out.append("```")
-    out.append("You are reading a piece of text for the first time. You have no background on it: no")
-    out.append("project history, no earlier draft, no knowledge of what the author meant beyond the "
-               "words")
-    out.append("on the page. Read it once, straight through, as a stranger who needs to understand it "
-               "and")
-    out.append("act on it.")
-    out.append("")
-    out.append("Mark every place you stop. A stop is any one of these:")
-    out.extend(render_reader_prompt_stops(rules))
-    out.append("")
-    out.append("For each stop, write one entry with five parts:")
-    out.append("1. the quoted phrase;")
-    out.append("2. where it sits (the heading or the opening words of its paragraph);")
-    out.append("3. what a stranger cannot tell from the page alone;")
-    out.append("4. the guess you made in place of the missing answer;")
-    out.append("5. blocking or non-blocking.")
-    out.append("")
-    out.append("Do not fix anything. Report only where you stopped and why. Return the entries as a "
-               "numbered")
-    out.append("list. If you stopped nowhere, say so in one line.")
-    out.append("")
-    out.append("At every relational word, ask the three questions and write which one is unanswered: "
-               "relative")
-    out.append("to what? by what measure? or else what alternative? A word the list above does not "
-               "name, that")
-    out.append("still stopped you, is a real find — report it and note that it is new.")
-    out.append("")
-    out.append("--- TEXT ---")
-    out.append("<paste the text here>")
-    out.append("```")
-    out.append("")
-    out.append("That last instruction keeps a reader catching words the list does not carry yet. A new "
-               "slot-opening word joins the weak-word list, and the skill body's weak-word lint says "
-               "which copy of that list takes the edit.")
-    return "\n".join(out).rstrip("\n") + "\n"
-
-
 # --- building, validating, writing -----------------------------------------------------------------
 
 def build(data):
-    """Every artifact as {relative path: text}. Raises BuildError before any write."""
+    """Every artifact as {relative path: text}. Raises BuildError before any write.
+
+    Until the 2026-08-18 extraction this also built the cold-reader's prompt and the audit skill's
+    rule sheet (`build_reader_prompt`, `render_human_prose_rules`, both since removed). text-audit now
+    keeps a frozen, hand-kept copy of both pages in its own repository; see
+    `skills/text-audit-pack/SKILL.md` for the seam.
+    """
     check_shape(data)
     laws = build_laws(data)
-    outputs = {LAWS_REL: laws_text(laws), DOC_REL: build_doc(data), COVERAGE_REL: build_coverage(data),
-               READER_PROMPT_REL: build_reader_prompt(data)}
+    outputs = {LAWS_REL: laws_text(laws), DOC_REL: build_doc(data), COVERAGE_REL: build_coverage(data)}
     validate(outputs, data)
     return outputs
 
-
-
-CYRILLIC = re.compile("[\u0400-\u04FF]")
-
-
-def shipped_case(rule):
-    """The case this rule shows inside a shipped skill: the first one written in the Latin alphabet.
-
-    The audit skill ships to hosts whose reader may speak any language, and the shipped-language gate
-    holds a shipped artifact to one alphabet. A rule whose recorded evidence is Russian therefore carries
-    an English case beside it, and the whole record stays in the rule home.
-    """
-    for example in rule.get("examples") or []:
-        if not CYRILLIC.search(example["written"] + example["repair"]):
-            return example
-    return None
-
-
-def human_prose_definition(data):
-    """What the human-prose surface covers, read out of the source the surfaces are defined in."""
-    for surface in surface_list(data):
-        if surface["name"] == "human-prose":
-            return surface["definition"].strip()
-    raise BuildError("the source defines no human-prose surface, so the audit skill cannot say what "
-                     "the rules it prints bind")
-
-
-def render_human_prose_rules(data):
-    """Every rule binding human-prose, for the audit skill that ships without the rule home."""
-    rules = [r for r in data["rules"] if "human-prose" in r["surfaces"]]
-    if not rules:
-        raise BuildError("no rule binds the human-prose surface, so the audit skill would ship ruleless")
-    out = ["## The rules this audit holds human prose to", "",
-           # The claim over the printed set states its size and says why a code is missing, so a
-           # reader counting the codes meets the answer here rather than a contradiction (r70).
-           "Every rule below binds human prose, which is %s" % sentence(human_prose_definition(data)),
-           "",
-           "This block prints %d of the %d rules the source carries. A code missing from the run below "
-           "belongs to a rule binding other surfaces only, or to a retired rule whose code left the "
-           "set. A rule binding human prose may also bind chat, a commit message, or a worker brief. "
-           "Its recorded case may come from one of those surfaces." % (len(rules), len(data["rules"])),
-           "",
-           "They are printed here out of `%s`, which is where each one is edited. A change made in this "
-           "block is overwritten by the next run of `scripts/gen-language-consumers.py`." % SOURCE_REL,
-           "",
-           "Each entry names the class of mistake, states the rule, gives the question to ask of a "
-           "sentence, and carries one recorded case under it. The case shows written text on the left. "
-           "The right side shows its repair, or an instruction where the repair depends on facts the "
-           "case does not carry. Every case the class was built from lives in the rule home.", ""]
-    for rule in rules:
-        # The class name stands on its own line, so a reader meets the mistake before its rule, and
-        # so neither line carries the other's words past the sentence cap.
-        out.append("- **%s** (`%s`)" % (rule["name"], rule["id"]))
-        out.append("  %s" % sentence(rule["rule"]))
-        out.append("  *Ask:* %s" % rule["reader_test"])
-        example = shipped_case(rule)
-        if example:
-            # One case, on one line. A case written across several lines would break the list it sits in,
-            # so its line breaks close up into spaces.
-            out.append("    - %s → %s" % (code(" ".join(example["written"].split())),
-                                          code(" ".join(example["repair"].split()))))
-    out.append("")
-    return out
 
 
 # --- the totals a page states in its own prose ----------------------------------------------------
@@ -1026,7 +868,6 @@ def build_blocks(data):
     is the shape `guardrails/check-language-rules.py` reads to catch a hand edit inside a block."""
     return {
         RECORD_REL: "\n".join(render_vocabulary(data)).rstrip("\n"),
-        AUDIT_SKILL_REL: "\n".join(render_human_prose_rules(data)).rstrip("\n"),
         PLAN_REL: render_rule_totals(data),
         WORKED_EXAMPLE_REL: render_human_prose_total(data),
     }
@@ -1058,8 +899,6 @@ def validate(outputs, data):
     for rel in (DOC_REL, COVERAGE_REL):
         if GENERATED_LINE not in outputs[rel].splitlines()[0]:
             raise BuildError("%s does not open by naming itself generated" % rel)
-    if READER_PROMPT_GENERATED_LINE not in outputs[READER_PROMPT_REL].splitlines()[0]:
-        raise BuildError("%s does not open by naming itself generated" % READER_PROMPT_REL)
 
     try:
         reparsed = json.loads(outputs[LAWS_REL])
@@ -1085,9 +924,6 @@ def validate(outputs, data):
         for rule in data["rules"]:
             if "### %s — " % rule["id"] not in outputs[rel]:
                 raise BuildError("%s carries no entry for rule %s" % (rel, rule["id"]))
-    for rule in reader_prompt_rules(data):
-        if "- %s — " % rule["name"] not in outputs[READER_PROMPT_REL]:
-            raise BuildError("%s carries no stop bullet for rule %s" % (READER_PROMPT_REL, rule["id"]))
 
 
 def page_blocks(data):
