@@ -26,13 +26,16 @@ INDEX_ROW = re.compile(r"^\|\s*([A-Za-z]+-\d+)\s*\|")
 def main():
     config, root = gate_lib.load_config(CHECK)
     spec_rel = gate_lib.require_key(CHECK, config, "spec_path")
-    spec_path = gate_lib.require_path(CHECK, root, spec_rel, "spec")
+    gate_lib.require_path(CHECK, root, spec_rel, "spec")
     matrix_rel = gate_lib.require_key(CHECK, config, "matrix_path")
     matrix_path = gate_lib.require_path(CHECK, root, matrix_rel, "matrix")
     registry_rel = gate_lib.require_key(CHECK, config, "registry_path")
     registry_path = gate_lib.require_path(CHECK, root, registry_rel, "registry")
 
-    spec = gate_lib.read_file(spec_path)
+    # The spec may be written as a core file plus part files (SPEC INV-259): read it as
+    # the one document every other reader in the suite sees — core, parts, and its
+    # generated index — never a single file that may hold only a fraction of it.
+    spec = gate_lib.read_spec(CHECK, root, spec_rel)
     matrix = gate_lib.read_file(matrix_path)
 
     # (a) duplicate anchor ids in the spec's index table rows

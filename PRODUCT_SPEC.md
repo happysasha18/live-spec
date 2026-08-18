@@ -275,33 +275,33 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 | Part | Requirements | Topic |
 |---|---|---|
-| `spec/wish-intake.md` | R4 | Приём пожелания |
-| `spec/draft-sandbox.md` | R98 | Черновой прототип |
-| `spec/external-publish.md` | R143 | Публикация наружу |
-| `spec/customer-feedback.md` | R152–R158 | Обратная связь заказчика |
-| `spec/product-map.md` | R159 | Карта продукта по запросу |
-| `spec/bug-priority-queue.md` | R160–R161 | Баг перехватывает очередь |
-| `spec/internal-failure-log.md` | R162–R167 | Журнал внутренних сбоев |
-| `spec/fresh-start.md` | R169 | Старт с нуля |
-| `spec/adopt-existing-project.md` | R177 | Присоединение существующего проекта |
-| `spec/pack-upgrade.md` | R180 | Обновление до текущей версии пакета |
-| `spec/settings-card.md` | R186 | Карточка настроек |
-| `spec/engine-instance-pair.md` | R187 | Движок и его экземпляр |
-| `spec/agent-identity.md` | R193 | Кто есть кто среди агентов |
-| `spec/public-contract.md` | R194 | Публичный контракт между частями системы |
-| `spec/agent-request.md` | R195 | Запрос между агентами |
-| `spec/agent-birth.md` | R197 | Рождение нового агента |
-| `spec/work-board.md` | R309 | Доска работ |
-| `spec/queue-intake-priority.md` | R5–R6, R9–R10, R12–R17, R37–R50, R92–R96, R252–R256 | Очередь: приём, классификация и приоритет заявки |
-| `spec/owner-questions-drafts.md` | R7–R8, R31–R36, R69, R238, R241 | Вопросы владельцу и правки черновиков |
-| `spec/live-status-reporting.md` | R18–R30, R129, R236–R237, R239–R240, R257, R293–R294, R310–R311 | Живой статус и как система говорит с заказчиком |
-| `spec/parallel-lanes.md` | R77–R91 | Параллельные дорожки работы |
-| `spec/design-spec-review.md` | R11, R52–R68, R70–R76, R99–R104, R214–R215, R258–R266 | Проверка дизайна и спеки перед сборкой |
-| `spec/test-honesty.md` | R105–R117 | Честность тестов |
-| `spec/doc-order-generated.md` | R1, R97, R118–R124, R223–R224, R244–R250, R277–R291, R297 | Порядок в документах проекта |
-| `spec/public-text-rules.md` | R144–R151 | Правила публичного текста |
-| `spec/push-gate-milestone-audit.md` | R125–R128, R130–R142, R303, R305 | Пуш-гейты, контрольные точки и полный аудит на вехах |
-| `spec/guardrails-freshness.md` | R168, R188, R222, R225–R235, R242–R243, R251, R267–R276, R292, R295–R296, R298, R300–R302, R304, R306–R307 | Автоматические гардрейлы и актуальность пакета |
-| `spec/roles-and-agents.md` | R2, R51, R189–R192, R196, R198–R199, R206–R213, R216–R221 | Роли, исполнители и агенты внутри системы |
-| `spec/settings-layers.md` | R200–R205 | Настройки и кто что решает |
-| `spec/project-setup-tuning.md` | R3, R170–R176, R178–R179, R181–R185, R299, R308 | Запуск и донастройка проекта под себя |
+| `spec/wish-intake.md` | R4 | Taking in a wish |
+| `spec/draft-sandbox.md` | R98 | Draft sandbox |
+| `spec/external-publish.md` | R143 | Publishing to the outside |
+| `spec/customer-feedback.md` | R152–R158 | Feedback from the customer |
+| `spec/product-map.md` | R159 | Product map on request |
+| `spec/bug-priority-queue.md` | R160–R161 | A bug jumps the queue |
+| `spec/internal-failure-log.md` | R162–R167 | Log of internal failures |
+| `spec/fresh-start.md` | R169 | Starting from nothing |
+| `spec/adopt-existing-project.md` | R177 | Joining an existing project |
+| `spec/pack-upgrade.md` | R180 | Upgrading to the current pack version |
+| `spec/settings-card.md` | R186 | Settings card |
+| `spec/engine-instance-pair.md` | R187 | An engine and its instance |
+| `spec/agent-identity.md` | R193 | Telling agents apart |
+| `spec/public-contract.md` | R194 | The public contract between the system's parts |
+| `spec/agent-request.md` | R195 | A request between agents |
+| `spec/agent-birth.md` | R197 | A new agent is born |
+| `spec/work-board.md` | R309 | Work board |
+| `spec/queue-intake-priority.md` | R5–R6, R9–R10, R12–R17, R37–R50, R92–R96, R252–R256 | Queue: intake, classification, and priority |
+| `spec/owner-questions-drafts.md` | R7–R8, R31–R36, R69, R238, R241 | Questions for the owner and draft edits |
+| `spec/live-status-reporting.md` | R18–R30, R129, R236–R237, R239–R240, R257, R293–R294, R310–R311 | Live status, and how the system talks to the customer |
+| `spec/parallel-lanes.md` | R77–R91 | Parallel work lanes |
+| `spec/design-spec-review.md` | R11, R52–R68, R70–R76, R99–R104, R214–R215, R258–R266 | Design and spec review before the build |
+| `spec/test-honesty.md` | R105–R117 | Test honesty |
+| `spec/doc-order-generated.md` | R1, R97, R118–R124, R223–R224, R244–R250, R277–R291, R297 | Order in the project's documents |
+| `spec/public-text-rules.md` | R144–R151 | Rules for public-facing text |
+| `spec/push-gate-milestone-audit.md` | R125–R128, R130–R142, R303, R305 | Push gates, checkpoints, and full audits at milestones |
+| `spec/guardrails-freshness.md` | R168, R188, R222, R225–R235, R242–R243, R251, R267–R276, R292, R295–R296, R298, R300–R302, R304, R306–R307 | Automatic guardrails and pack freshness |
+| `spec/roles-and-agents.md` | R2, R51, R189–R192, R196, R198–R199, R206–R213, R216–R221 | Roles, workers, and agents inside the system |
+| `spec/settings-layers.md` | R200–R205 | Settings, and who decides what |
+| `spec/project-setup-tuning.md` | R3, R170–R176, R178–R179, R181–R185, R299, R308 | Setting up and tuning a project for its own use |
