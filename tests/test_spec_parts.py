@@ -71,9 +71,11 @@ class TestTheLiveSpecReadsAsOneDocument(unittest.TestCase):
             self.assertEqual(read(SPEC), f.read())
 
 
-# The two names this suite spells the repository root with. A path anchored at one of them and
-# ending in the spec's name IS the live file; the same name anchored at a temp dir is a fixture's
-# own document and none of this rule's business.
+# The names this suite conventionally spells the repository root with. A path anchored at the root
+# and ending in the spec's name IS the live file; the same name anchored at a temp dir is a fixture
+# repo's own document and none of this rule's business. These two are a FLOOR, not the rule — the
+# root is recognised by the VALUE a module binds (see `_root_names`), because three files spell it
+# `REPO_ROOT` and a rule that knew only the conventional spellings walked past them.
 ROOT_NAMES = ("ROOT", "REPO")
 # The reading node, in the spellings a test imports it by. `read_all`/`read_all_flat` go through
 # read() themselves, so they reach the whole document too.
@@ -94,20 +96,45 @@ def _from_conftest(node):
             and isinstance(fn.value, ast.Name) and fn.value.id == "conftest")
 
 
-def _opens_a_file(node):
+def _is_root_expression(node):
+    """True for an expression that WALKS UP FROM THIS FILE to the repository root.
+
+    `os.path.dirname(os.path.dirname(os.path.abspath(__file__)))` and
+    `Path(__file__).resolve().parent.parent` are the two the suite uses. What makes them the root is
+    the shape — this file, then two steps up — not the name they are bound to, so a module may call
+    the result ROOT, REPO, REPO_ROOT or anything else and still be judged the same.
+    """
+    dump = ast.dump(node)
+    return "__file__" in dump and (dump.count("dirname") >= 2 or dump.count("parent") >= 2)
+
+
+def _root_names(tree):
+    """The names this module binds to the repository root, by value and by convention."""
+    names = set(ROOT_NAMES)
+    for node in tree.body:
+        if isinstance(node, ast.Assign) and _is_root_expression(node.value):
+            names.update(t.id for t in node.targets if isinstance(t, ast.Name))
+    for node in ast.walk(tree):
+        if isinstance(node, ast.ImportFrom) and node.module == "conftest":
+            names.update(a.asname or a.name for a in node.names if a.name == "ROOT")
+    return names
+
+
+def _opens_a_file(node, roots):
     """True where this expression opens a file or builds a path from the repository root."""
     if isinstance(node, ast.Call):
         name = _call_name(node)
         if name in OPENERS:
             return True
-        if name == "join" and any(_anchored_at_root(a) for a in node.args):
+        if name == "join" and any(_anchored_at_root(a, roots) for a in node.args):
             return True
-    if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Div) and _anchored_at_root(node.left):
+    if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Div) \
+            and _anchored_at_root(node.left, roots):
         return True
     return False
 
 
-def local_readers(tree):
+def local_readers(tree, roots):
     """The module's own functions that READ A FILE, judged by their bodies.
 
     A helper is a reader because of what it does — it opens a file, or builds a path from the
@@ -131,24 +158,24 @@ def local_readers(tree):
             if name in readers:
                 continue
             for node in ast.walk(fn):
-                if _opens_a_file(node) or (isinstance(node, ast.Call)
-                                           and _call_name(node) in readers):
+                if _opens_a_file(node, roots) or (isinstance(node, ast.Call)
+                                                  and _call_name(node) in readers):
                     readers.add(name)
                     growing = True
                     break
     return readers
 
 
-def _anchored_at_root(node):
+def _anchored_at_root(node, roots):
     """True when this expression starts from the repository root rather than a temp dir."""
     if isinstance(node, ast.Name):
-        return node.id in ROOT_NAMES
+        return node.id in roots
     if isinstance(node, ast.Attribute):
-        return node.attr in ROOT_NAMES
+        return node.attr in roots
     if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Div):
-        return _anchored_at_root(node.left)
+        return _anchored_at_root(node.left, roots)
     if isinstance(node, ast.Call):
-        return any(_anchored_at_root(a) for a in node.args)
+        return _is_root_expression(node) or any(_anchored_at_root(a, roots) for a in node.args)
     return False
 
 
@@ -161,9 +188,15 @@ def _bindings(tree, filename, seen=None):
     module is resolved against that module's own bindings — the node stays the node across the
     re-export, and a sibling's local opener stays an opener. Without this the re-exported call is
     neither, which is the same silence a missing rule gives.
+
+    A name is also bound by plain ASSIGNMENT — `tracked = read`, `canon = read_all_flat`, which is
+    how two modules here give the node a name that says what the read is FOR. That rebinding carries
+    the node's standing, and it would carry an opener's just as well, so it is followed to a
+    fixpoint in both directions.
     """
     seen = seen or set()
-    node_names, readers = set(), local_readers(tree)
+    roots = _root_names(tree)
+    node_names, readers = set(), local_readers(tree, roots)
     here = os.path.dirname(os.path.abspath(filename))
     for node in ast.walk(tree):
         if not isinstance(node, ast.ImportFrom) or not node.module:
@@ -184,6 +217,22 @@ def _bindings(tree, filename, seen=None):
                 node_names.add(alias.asname or alias.name)
             elif alias.name in sib_readers:
                 readers.add(alias.asname or alias.name)
+
+    growing = True
+    while growing:
+        growing = False
+        for node in tree.body:
+            if not (isinstance(node, ast.Assign) and isinstance(node.value, ast.Name)):
+                continue
+            targets = [t.id for t in node.targets if isinstance(t, ast.Name)]
+            source_is = (node_names if node.value.id in node_names
+                         else readers if node.value.id in readers else None)
+            if source_is is None:
+                continue
+            for t in targets:
+                if t not in source_is:
+                    source_is.add(t)
+                    growing = True
     return node_names, readers
 
 
@@ -200,7 +249,25 @@ def spec_file_reads(source, filename):
     opener. Naming the file without reading it — an assertion message, a list of document names, a
     fixture repo's own `PRODUCT_SPEC.md` under a temp dir — is not this rule's business and is left
     alone. Of the reads, the legal form is the sole argument of the one node: read/read_flat (and
-    read_all/read_all_flat, which pass through it).
+    read_all/read_all_flat, which pass through it), under whatever name the module imported,
+    re-exported or assigned it.
+
+    KNOWN LIMITS, recorded rather than papered over. This rule reads one module's syntax, so four
+    shapes are outside it by construction, and a green here does not speak for them:
+
+      - A METHOD reader. `self.read(rel)` resolves through an instance, which syntax alone cannot
+        follow. The one in this suite (tests/test_scaffold_guardrails.py) reads its own host fixture
+        repo, so flagging it would be WRONG, and telling the two cases apart needs the type, not the
+        tree. A class that read the live spec through a method would pass unseen.
+      - A reader assembled AT CALL TIME: `getattr(mod, name)(rel)`, a dispatch dict, `functools
+        .partial`. Nothing in the suite does this; catching it means interpreting the module.
+      - A reader imported from OUTSIDE tests/. The re-export hop resolves sibling test modules; an
+        import from a package elsewhere stops where the file lookup does.
+      - A read through a SUBPROCESS — a gate invoked with the spec's path on its command line. That
+        is a different rule's business: those paths come from `spec_paths()`, and the seven CLI
+        tests widened for it are proven in their own files.
+
+    Each limit is a place where this guard is silent, not a place where it says yes.
     """
     tree = ast.parse(source, filename)
     parent = {}
@@ -214,6 +281,7 @@ def spec_file_reads(source, filename):
     # where it came FROM CONFTEST. Seeding this set with the bare names blessed eleven modules that
     # define their own `def read(rel)` over an `open()`, which is the very shadow being hunted.
     node_names, readers = _bindings(tree, filename)
+    roots = _root_names(tree)
 
     # The spec is named by its literal, and also by whatever name is BOUND to that literal —
     # `from conftest import SPEC`, or a module's own `SPEC = "PRODUCT_SPEC.md"`. Once the node
@@ -243,20 +311,20 @@ def spec_file_reads(source, filename):
             if (isinstance(up.func, ast.Name) and name in node_names) or _from_conftest(up):
                 node_reads.append(node.lineno)
                 continue
-            if _opens_a_file(up) or name in readers:
+            if _opens_a_file(up, roots) or name in readers:
                 # an opener, a path built from the root, or the module's own file-reading helper —
                 # whatever that helper is called, including `read` itself. Unless the call also
                 # carries a root of its own (`_write(tmp, SPEC, ...)`, `read(SPEC, root=project)`):
                 # then the file is a fixture repo's own copy and not the document under this rule.
                 elsewhere = [a for a in up.args
-                             if a is not node and isinstance(a, ast.Name) and a.id not in ROOT_NAMES]
+                             if a is not node and isinstance(a, ast.Name) and a.id not in roots]
                 elsewhere += [kw.value for kw in up.keywords
-                              if isinstance(kw.value, ast.Name) and kw.value.id not in ROOT_NAMES]
+                              if isinstance(kw.value, ast.Name) and kw.value.id not in roots]
                 if not elsewhere:
                     offenders.append(node.lineno)
                 continue
         elif isinstance(up, ast.BinOp) and isinstance(up.op, ast.Div) \
-                and _anchored_at_root(up.left):
+                and _anchored_at_root(up.left, roots):
             offenders.append(node.lineno)
     return node_reads, offenders
 
@@ -316,6 +384,13 @@ class TestTheSuiteHasOneReadingNode(unittest.TestCase):
             '        return " ".join(f.read().split())\nx = flat("PRODUCT_SPEC.md")\n',
             # a reader that is a lambda rather than a def — a function is a function
             'read = lambda rel: open(os.path.join(ROOT, rel)).read()\nx = read("PRODUCT_SPEC.md")\n',
+            # an opener given a second name by plain assignment: the rebinding carries the opener's
+            # standing exactly as it carries the node's
+            'def r(rel):\n    with open(os.path.join(ROOT, rel)) as f:\n        return f.read()\n'
+            'tracked = r\nx = tracked("PRODUCT_SPEC.md")\n',
+            # the root under a name the conventions do not list, recognised by the value it binds
+            'REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))\n'
+            'x = open(os.path.join(REPO_ROOT, "PRODUCT_SPEC.md")).read()\n',
             # the likeliest NEXT regression: the node exports the name, so the path can be built
             # from the constant and never spell the file at all
             'from conftest import ROOT, SPEC\nx = open(os.path.join(ROOT, SPEC)).read()\n',
@@ -329,7 +404,13 @@ class TestTheSuiteHasOneReadingNode(unittest.TestCase):
         for src in ['from conftest import read\nx = read("PRODUCT_SPEC.md")\n',
                     'from conftest import read_flat\nx = read_flat("PRODUCT_SPEC.md")\n',
                     'from conftest import read as _read\nx = _read("PRODUCT_SPEC.md")\n',
-                    'import conftest\nx = conftest.read("PRODUCT_SPEC.md")\n']:
+                    'import conftest\nx = conftest.read("PRODUCT_SPEC.md")\n',
+                    # the node given a name that says what the read is FOR — two modules here do
+                    # exactly this, and before the rule followed assignment their calls were
+                    # classified as neither a node read nor an offender
+                    'from conftest import read\ntracked = read\nx = tracked("PRODUCT_SPEC.md")\n',
+                    'from conftest import read_all_flat\ncanon = read_all_flat\n'
+                    'x = canon("PRODUCT_SPEC.md")\n']:
             reads, offenders = spec_file_reads(src, "<node>")
             self.assertEqual(offenders, [], "the guard named the one node an offender:\n%s" % src)
             self.assertTrue(reads, "the guard did not see the node's read at all:\n%s" % src)
