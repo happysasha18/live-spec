@@ -29,7 +29,7 @@ The atomicity of a criterion is a cold-reader judgment (Area 5), not a lint. Lik
 are semantic reads no script decides; the gap-line FORM is checked here, the rest is the panel's.
 
 Usage:
-  check-requirement-shape.py <document.md>
+  check-requirement-shape.py <document.md> [<part.md> ...]
 Exit 0 on a well-shaped document (printing the reach line, INV-269); exit 1 naming each violation.
 Stdlib only.
 """
@@ -77,15 +77,20 @@ def _caps_violations(text):
 
 
 def main(argv):
-    if len(argv) != 2:
-        print("%s: usage: %s <document.md>" % (CHECK, os.path.basename(argv[0])))
+    if len(argv) < 2:
+        print("%s: usage: %s <document.md> [<part.md> ...]" % (CHECK, os.path.basename(argv[0])))
         return 2
-    path = argv[1]
-    if not os.path.isfile(path):
-        print("%s: cannot read %s — the gate stands on the document file." % (CHECK, path))
+    # The document may arrive as a core plus its parts (specformat's parts map). The gate
+    # reads the concatenation as ONE document, so a rule that spans core and part is seen once; with
+    # no parts this is the single file, byte for byte.
+    paths = sf.spec_paths(argv[1:])
+    missing = [p for p in paths if not os.path.isfile(p)]
+    if missing:
+        print("%s: cannot read %s — the gate stands on the document file."
+              % (CHECK, ", ".join(missing)))
         return 1
-    with open(path, encoding="utf-8") as f:
-        text = f.read()
+    where = ", ".join(paths)   # what a fault line names: the file, or the files
+    _read, text = sf.read_document(paths, expand=False)
     doc = sf.parse(text)
 
     problems = []
@@ -154,12 +159,12 @@ def main(argv):
                         "(INV-251)." % (ln, w))
 
     if problems:
-        print("%s: %d shape violation(s) in %s:" % (CHECK, len(problems), path))
+        print("%s: %d shape violation(s) in %s:" % (CHECK, len(problems), where))
         for p in problems:
             print("  - %s" % p)
         return 1
 
-    print(sf.green_reach(CHECK, [os.path.basename(path)], scanned, scanned,
+    print(sf.green_reach(CHECK, [os.path.basename(p) for p in paths], scanned, scanned,
                          "all %d criteria well-shaped across %d requirements"
                          % (scanned, len(doc.requirements))))
     return 0

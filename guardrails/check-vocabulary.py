@@ -21,7 +21,7 @@ hand). The cold-reader panel (Area 5) catches an undefined domain noun a reader 
 list is the machine's growing net for the ones already known.
 
 Usage:
-  check-vocabulary.py <document.md>
+  check-vocabulary.py <document.md> [<part.md> ...]
   VOCAB_COINAGES overrides the coinage-list path (the suite points it at a fixture list).
 Exit 0 on a closed vocabulary (printing the reach line, INV-269); exit 1 naming each violation.
 Stdlib only.
@@ -66,15 +66,20 @@ def _uses(body_words, term):
 
 
 def main(argv):
-    if len(argv) != 2:
-        print("%s: usage: %s <document.md>" % (CHECK, os.path.basename(argv[0])))
+    if len(argv) < 2:
+        print("%s: usage: %s <document.md> [<part.md> ...]" % (CHECK, os.path.basename(argv[0])))
         return 2
-    path = argv[1]
-    if not os.path.isfile(path):
-        print("%s: cannot read %s — the gate stands on the document file." % (CHECK, path))
+    # The document may arrive as a core plus its parts (specformat's parts map). The gate
+    # reads the concatenation as ONE document, so a rule that spans core and part is seen once; with
+    # no parts this is the single file, byte for byte.
+    paths = sf.spec_paths(argv[1:])
+    missing = [p for p in paths if not os.path.isfile(p)]
+    if missing:
+        print("%s: cannot read %s — the gate stands on the document file."
+              % (CHECK, ", ".join(missing)))
         return 1
-    with open(path, encoding="utf-8") as f:
-        text = f.read()
+    where = ", ".join(paths)   # what a fault line names: the file, or the files
+    _read, text = sf.read_document(paths, expand=False)
     doc = sf.parse(text)
 
     try:
@@ -119,12 +124,12 @@ def main(argv):
                             "standard term `%s` before it enters (INV-254)." % (coinage, replacement))
 
     if problems:
-        print("%s: %d vocabulary violation(s) in %s:" % (CHECK, len(problems), path))
+        print("%s: %d vocabulary violation(s) in %s:" % (CHECK, len(problems), where))
         for p in problems:
             print("  - %s" % p)
         return 1
 
-    print(sf.green_reach(CHECK, [os.path.basename(path)], used, scanned,
+    print(sf.green_reach(CHECK, [os.path.basename(p) for p in paths], used, scanned,
                          "every glossary term used in the body; no banned coinage present"))
     return 0
 

@@ -15,7 +15,7 @@ NOT MECHANICALLY CHECKED (reported): a two-name drift the alias file does not ye
 catch, not this lint's — the machine holds the pairs already learned.
 
 Usage:
-  check-one-name.py <document.md>
+  check-one-name.py <document.md> [<part.md> ...]
   ONE_NAME_ALIASES overrides the alias-list path (the suite points it at a fixture list).
 Exit 0 when no known alias appears (printing the reach line, INV-269); exit 1 naming each alias found.
 Stdlib only.
@@ -35,15 +35,20 @@ ALIASES_PATH = os.environ.get("ONE_NAME_ALIASES", os.path.join(SCRIPT_DIR, "one-
 
 
 def main(argv):
-    if len(argv) != 2:
-        print("%s: usage: %s <document.md>" % (CHECK, os.path.basename(argv[0])))
+    if len(argv) < 2:
+        print("%s: usage: %s <document.md> [<part.md> ...]" % (CHECK, os.path.basename(argv[0])))
         return 2
-    path = argv[1]
-    if not os.path.isfile(path):
-        print("%s: cannot read %s — the gate stands on the document file." % (CHECK, path))
+    # The document may arrive as a core plus its parts (specformat's parts map). The gate
+    # reads the concatenation as ONE document, so a rule that spans core and part is seen once; with
+    # no parts this is the single file, byte for byte.
+    paths = sf.spec_paths(argv[1:])
+    missing = [p for p in paths if not os.path.isfile(p)]
+    if missing:
+        print("%s: cannot read %s — the gate stands on the document file."
+              % (CHECK, ", ".join(missing)))
         return 1
-    with open(path, encoding="utf-8") as f:
-        text = f.read()
+    where = ", ".join(paths)   # what a fault line names: the file, or the files
+    _read, text = sf.read_document(paths, expand=False)
 
     cfg = {}
     if os.path.isfile(ALIASES_PATH):
@@ -71,12 +76,12 @@ def main(argv):
                                 "use `%s` (INV-255)." % (line_no, canonical, alias, canonical))
 
     if problems:
-        print("%s: %d two-name violation(s) in %s:" % (CHECK, len(problems), path))
+        print("%s: %d two-name violation(s) in %s:" % (CHECK, len(problems), where))
         for p in problems:
             print("  - %s" % p)
         return 1
 
-    print(sf.green_reach(CHECK, [os.path.basename(path)], 0, scanned,
+    print(sf.green_reach(CHECK, [os.path.basename(p) for p in paths], 0, scanned,
                          "no known alias present across %d alias(es) of %d artifact(s)"
                          % (scanned, len(artifacts))))
     return 0

@@ -18,7 +18,7 @@ It declares its expected-non-empty input with the shared guard (INV-218): a body
 coded criteria reds by name rather than passing over nothing.
 
 Usage:
-  check-index-generated.py <document.md> <committed-index.md>
+  check-index-generated.py <document.md> [<part.md> ...] <committed-index.md>
 Exit 0 when the committed table equals the fresh build and body and table agree (printing the reach
 line, INV-269); exit 1 naming each fault. Stdlib only.
 """
@@ -34,17 +34,24 @@ CHECK = "check-index-generated"
 
 
 def main(argv):
-    if len(argv) != 3:
-        print("%s: usage: %s <document.md> <committed-index.md>" % (CHECK, os.path.basename(argv[0])))
+    if len(argv) < 3:
+        print("%s: usage: %s <document.md> [<part.md> ...] <committed-index.md>"
+              % (CHECK, os.path.basename(argv[0])))
         return 2
-    doc_path, index_path = argv[1], argv[2]
-    for p in (doc_path, index_path):
+    # The document may arrive as a core plus its parts (specformat's parts map); the committed index
+    # is always the LAST argument and the ones before it are the document, read as one concatenation.
+    # The table is aggregate over that whole document, so a part left out of the list is a body the
+    # committed table then over-carries, and the orphan-code fault below is what says so (INV-259).
+    index_path = argv[-1]
+    doc_paths = sf.spec_paths(argv[1:-1])
+    for p in doc_paths + [index_path]:
         if not os.path.isfile(p):
             print("%s: cannot read %s — the gate stands on the document and the committed index."
                   % (CHECK, p))
             return 1
-    with open(doc_path, encoding="utf-8") as f:
-        doc = sf.parse(f.read())
+    doc_names = [os.path.basename(p) for p in doc_paths]
+    _read, doc_text = sf.read_document(doc_paths, expand=False)
+    doc = sf.parse(doc_text)
     with open(index_path, encoding="utf-8") as f:
         committed = f.read()
 
@@ -77,12 +84,12 @@ def main(argv):
 
     if problems:
         print("%s: %d index fault(s) between %s and %s:"
-              % (CHECK, len(problems), os.path.basename(doc_path), os.path.basename(index_path)))
+              % (CHECK, len(problems), ", ".join(doc_names), os.path.basename(index_path)))
         for p in problems:
             print("  - %s" % p)
         return 1
 
-    print(sf.green_reach(CHECK, [os.path.basename(doc_path), os.path.basename(index_path)],
+    print(sf.green_reach(CHECK, doc_names + [os.path.basename(index_path)],
                          len(body), len(body),
                          "committed index equals the fresh build; %d codes agree body-to-table"
                          % len(body)))

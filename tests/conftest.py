@@ -7,6 +7,7 @@ artifact prefixes — a new file surviving to session end is a leak and fails th
 import glob
 import os
 import re
+import sys
 import tempfile
 import unittest
 
@@ -14,8 +15,24 @@ import pytest
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
+sys.path.insert(0, os.path.join(ROOT, "guardrails"))
+import specformat as _sf  # noqa: E402
+
+# The spec may be written as a core file plus part files; the core's `## Parts map` names them and
+# their order. Every test that reads the spec reads it through read()/read_flat() here, so this one
+# node is where the parts are joined back into the one document those ~140 tests expect. An empty
+# map (the state today) makes the core the whole document and the text byte-identical to the file.
+SPEC = "PRODUCT_SPEC.md"
+
+
+def spec_paths():
+    """The files the spec is written across: the core first, then the parts its map names."""
+    return _sf.spec_paths([os.path.join(ROOT, SPEC)])
+
 
 def read(rel):
+    if rel == SPEC:
+        return _sf.read_document(spec_paths(), expand=False)[1]
     with open(os.path.join(ROOT, rel), encoding="utf-8") as f:
         return f.read()
 
@@ -105,11 +122,7 @@ def _skill_surface(rel):
 
 def read_all(rel):
     """A skill's whole normative surface (SKILL.md + references/*.md) as one text."""
-    texts = []
-    for r in _skill_surface(rel):
-        with open(os.path.join(ROOT, r), encoding="utf-8") as f:
-            texts.append(f.read())
-    return "\n".join(texts)
+    return "\n".join(read(r) for r in _skill_surface(rel))
 
 
 def read_all_flat(rel):

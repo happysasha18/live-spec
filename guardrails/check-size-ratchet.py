@@ -17,7 +17,7 @@ config's stated reason rather than red-ing on an absent bound. This gate never w
 seeding and lowering the recorded bound are the freeze actor's step, not a side effect of a check.
 
 Usage:
-  check-size-ratchet.py <document.md>
+  check-size-ratchet.py <document.md> [<part.md> ...]
   RATCHET_CONFIG overrides the config path (the suite points it at a fixture bound).
 Exit 0 when the bound is unseeded, or the new bytes-per-criterion is at or below it (printing the reach
 line, INV-269); exit 1 when it is above. Stdlib only.
@@ -43,15 +43,20 @@ def bytes_per_criterion(doc):
 
 
 def main(argv):
-    if len(argv) != 2:
-        print("%s: usage: %s <document.md>" % (CHECK, os.path.basename(argv[0])))
+    if len(argv) < 2:
+        print("%s: usage: %s <document.md> [<part.md> ...]" % (CHECK, os.path.basename(argv[0])))
         return 2
-    path = argv[1]
-    if not os.path.isfile(path):
-        print("%s: cannot read %s — the gate stands on the document file." % (CHECK, path))
+    # The document may arrive as a core plus its parts (specformat's parts map). The ratchet measures
+    # the whole document, so it reads the concatenation; with no parts this is the single file.
+    paths = sf.spec_paths(argv[1:])
+    missing = [p for p in paths if not os.path.isfile(p)]
+    if missing:
+        print("%s: cannot read %s — the gate stands on the document file."
+              % (CHECK, ", ".join(missing)))
         return 1
-    with open(path, encoding="utf-8") as f:
-        doc = sf.parse(f.read())
+    names = [os.path.basename(p) for p in paths]
+    _read, text = sf.read_document(paths, expand=False)
+    doc = sf.parse(text)
 
     try:
         crits = require_nonempty(CHECK, "the document's criteria", doc.criteria)
@@ -72,9 +77,9 @@ def main(argv):
     if bound is None:
         print("%s: OK (bound not yet seeded) — measured %.1f bytes/criterion over %d criteria in %s. "
               "%s. reach: files=[%s, %s]; scanned %d criteria."
-              % (CHECK, bpc, count, os.path.basename(path),
+              % (CHECK, bpc, count, ", ".join(names),
                  cfg.get("reason", "the bound is seeded at the migration-end freeze (INV-264)"),
-                 os.path.basename(path), os.path.basename(CONFIG_PATH), count))
+                 ", ".join(names), os.path.basename(CONFIG_PATH), count))
         return 0
 
     if bpc > bound:
@@ -87,7 +92,7 @@ def main(argv):
     note = "at or below the recorded bound %.1f" % bound
     if bpc < bound:
         note += " — the freeze actor lowers the recorded bound to %.1f at freeze (INV-264 c7)" % bpc
-    print(sf.green_reach(CHECK, [os.path.basename(path), os.path.basename(CONFIG_PATH)],
+    print(sf.green_reach(CHECK, names + [os.path.basename(CONFIG_PATH)],
                          count, count,
                          "%.1f bytes/criterion %s" % (bpc, note)))
     return 0

@@ -30,8 +30,18 @@ The code anchor is one or more `[...]` groups at the line's end; a group holds c
 `T-9`, `E-35`, `A-5`, `ACT-3`, or a range `T-1..T-7`, comma-separated, and may be preceded by a
 `[default]` marker. `[GAP: ...]` is a gap line, never a criterion.
 
+THE PARTS MAP. A document may be written as a CORE file plus PART files. The core carries the
+preamble, the glossary and a `## Parts map` table naming its parts in concatenation order; each part
+carries requirements only. The core is the single source of that order — nothing else lists the
+parts. A core with no map (or with an empty one) IS the whole document, which is the state this
+module ships in: `spec_paths(["PRODUCT_SPEC.md"])` returns exactly `["PRODUCT_SPEC.md"]` and
+`read_document` returns its bytes unchanged, so every reader behaves identically before and after the
+map exists. Readers call `read_document(paths)` rather than opening a path themselves, and the gates
+take a list of paths on the command line so a caller can name core and parts explicitly.
+
 Stdlib only.
 """
+import os
 import re
 
 # A single code token: a letter-run, a dash, a number, with an optional range tail.
@@ -42,6 +52,13 @@ CODE_RE = re.compile(CODE)
 # (or the bare `[default]` marker). `[GAP: ...]` is deliberately NOT an anchor.
 _BRACKET = r"\[[^\]]*\]"
 TRAILING_ANCHOR_RE = re.compile(r"(?:\s*%s)+\s*$" % _BRACKET)
+
+PARTS_MAP_HEAD = "## Parts map"
+# The path in a parts-map row's first cell. The path is READ OUT of the cell rather than required to
+# be the whole of it, so a cell written as a backticked path, a markdown link or a path with a note
+# after it still names its part: a row that silently named nothing would drop a part out of every
+# aggregate reader at once.
+PART_PATH_RE = re.compile(r"[A-Za-z0-9_][A-Za-z0-9_./-]*\.md")
 
 GLOSSARY_HEADS = ("## Glossary additions", "## Glossary")
 REQUIREMENT_RE = re.compile(r"^## Requirement\s+(\d+)\s*:\s*(.*)$")
@@ -325,6 +342,89 @@ def body_codes(doc):
     for c in doc.criteria:
         codes.update(c.codes)
     return codes
+
+
+def parts_map(text):
+    """The part files a core document's `## Parts map` table names, in concatenation order.
+
+    An empty list means what it says: this core is the whole document. The table's first column
+    carries the path, the rest (requirement range, topic) is for the reader; a header row and the
+    `|---|` rule are passed over, and the table ends at the next `## ` heading. The map stands in the
+    core's PREAMBLE, above the body, so the scan stops at the first requirement: a criterion that
+    quotes the heading is prose about the map, never the map."""
+    parts = []
+    in_map = False
+    for line in text.split("\n"):
+        s = line.strip()
+        if REQUIREMENT_RE.match(s):
+            break
+        if s == PARTS_MAP_HEAD:
+            in_map = True
+            continue
+        if not in_map:
+            continue
+        if s.startswith("## "):
+            break
+        if not (s.startswith("|") and s.endswith("|")):
+            continue
+        first = s.strip("|").split("|")[0].strip()
+        if set(first) <= set("-: ") or not first:
+            continue
+        m = PART_PATH_RE.search(first)
+        if m and m.group(0) not in parts:
+            parts.append(m.group(0))
+    return parts
+
+
+def spec_paths(paths, root=None):
+    """The whole file list behind the documents named on a command line, in order, without repeats.
+
+    A named path that is a core carrying a parts map expands to that core followed by its parts,
+    resolved against `root` (default: the directory holding the core). Naming core and parts
+    explicitly is the same list — expansion is idempotent — so a caller may pass either, in either
+    spelling: sameness is decided on the resolved file, not on the string, so `spec/x.md` typed on a
+    command line and the absolute path the map expanded to are ONE file and are read once. Reading a
+    part twice would double every count built over the document, so this is the guard that keeps a
+    hand-typed command line honest. A path that cannot be read is returned as given, so the caller's
+    own missing-file red is what speaks."""
+    out, seen = [], set()
+    for p in paths:
+        for q in _expand(p, root):
+            key = os.path.realpath(q)
+            if key not in seen:
+                seen.add(key)
+                out.append(q)
+    return out
+
+
+def _expand(path, root):
+    try:
+        with open(path, encoding="utf-8") as f:
+            text = f.read()
+    except (OSError, UnicodeDecodeError):
+        return [path]
+    parts = parts_map(text)
+    if not parts:
+        return [path]
+    base = root if root is not None else os.path.dirname(os.path.abspath(path))
+    return [path] + [os.path.join(base, p) for p in parts]
+
+
+def read_document(paths, root=None, expand=True):
+    """`(resolved_paths, text)` for the documents named on a command line: the core and its parts
+    read as ONE text, in map order. With one path and no parts the text is that file's bytes
+    unchanged. Where a part does not end in a newline the join supplies one, so the last line of one
+    part and the first line of the next never fuse into a single line. `expand=False` reads the paths
+    exactly as given — for a caller that has already resolved them through `spec_paths`."""
+    resolved = spec_paths(paths, root) if expand else list(paths)
+    chunks = []
+    for p in resolved:
+        with open(p, encoding="utf-8") as f:
+            t = f.read()
+        if chunks and not chunks[-1].endswith("\n"):
+            chunks.append("\n")
+        chunks.append(t)
+    return resolved, "".join(chunks)
 
 
 def green_reach(check, files, matched, scanned, extra=""):

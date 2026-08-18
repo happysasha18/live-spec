@@ -9,7 +9,7 @@ import subprocess
 import tempfile
 import unittest
 
-from conftest import ROOT
+from conftest import ROOT, spec_paths
 
 GATE = os.path.join(ROOT, "guardrails", "check-index-generated.py")
 FX = os.path.join(ROOT, "tests", "fixtures", "specformat")
@@ -86,9 +86,25 @@ class TestArmedOnTheRealSpec(unittest.TestCase):
     def test_armed_passes_on_the_real_spec(self):
         # Armed at the row-445 conversion delivery (INV-270): the gate runs on the live
         # PRODUCT_SPEC.md and its committed index PRODUCT_SPEC.index.md via the suite (gate b).
-        r = run(os.path.join(ROOT, "PRODUCT_SPEC.md"),
-                os.path.join(ROOT, "PRODUCT_SPEC.index.md"))
+        r = run(*spec_paths(), os.path.join(ROOT, "PRODUCT_SPEC.index.md"))
         self.assertEqual(r.returncode, 0, "the armed index gate red the live spec:\n%s" % r.stdout)
+
+    def test_a_live_part_left_out_of_the_read_reds(self):
+        # The aggregator does not forgive a missing part (INV-259): drop the last part of the live
+        # spec and the codes its criteria carry lose their body home, so the committed table
+        # over-carries them and the gate reds. While the parts map is empty there is no part to
+        # drop — the core IS the whole spec — and this proof skips saying so; it arms itself the
+        # moment the first part lands. The same fault is proven now over fixtures in
+        # tests/test_spec_parts.py, so nothing waits on the move to be tested.
+        paths = spec_paths()
+        if len(paths) < 2:
+            self.skipTest("the parts map is empty — the core is the whole spec, so no part can be "
+                          "left out yet (tests/test_spec_parts.py proves the fault over fixtures)")
+        r = run(*paths[:-1], os.path.join(ROOT, "PRODUCT_SPEC.index.md"))
+        self.assertNotEqual(r.returncode, 0,
+                            "the gate passed a spec read with %s left out — a part can go missing "
+                            "unnoticed:\n%s" % (os.path.basename(paths[-1]), r.stdout))
+        self.assertIn("INV-259", r.stdout)
 
 
 if __name__ == "__main__":
