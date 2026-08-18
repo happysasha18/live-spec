@@ -3,6 +3,7 @@
 PUSH-REVIEW
 
 Range: dc9340a0..175a3c7d
+- f5f6978d The published counts follow the restored mechanism
 - f092fa5 The review record carries both passes
 - d432fca The dedup keeps the mechanism and names the personal profile
 - fa799b8 The skill-creator review of the communicator
