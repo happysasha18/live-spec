@@ -41,7 +41,7 @@ cd live-spec && ./install.sh
 scripts/install-external-skills.sh
 ```
 
-`install.sh` copies the skill folders into `~/.claude/skills/` and copies nothing else. The second command installs one more skill: `product-prover`, the one that reviews your spec. It lives in its own repository, not this one. This line is what puts it on your machine, and it needs network access to do it. Keep the clone. It is your copy of the pack tree. Step 2's setup walk reads from it.
+`install.sh` copies the skill folders into `~/.claude/skills/` and copies nothing else. The second command installs one more skill: `product-prover`, the one that reviews your spec. It lives in its own repository. This line is what puts it on your machine, and it needs network access to do it. Keep the clone. It is your copy of the pack tree. Step 2's setup walk reads from it.
 
 ### Step 2 — attach the pack to a project
 

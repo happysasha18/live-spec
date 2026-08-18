@@ -46,5 +46,22 @@ class TestReadmeNoCommandSurface(unittest.TestCase):
         self.assertIn("There is no CLI. You talk to it", body)
 
 
+class TestReadmeFirstStepInstallsTheProver(unittest.TestCase):
+    """A stranger who obeys the first step ends up with the reviewer the pack pins a version
+    of. `install.sh` skips any skill carrying its own `.git`, and `product-prover` only ever
+    exists as such a clone, so the page must name the script that fetches it — a rehearsal of
+    the stranger walk ended with ten skills and no reviewer when the page did not."""
+
+    def test_step_one_names_the_external_skill_installer(self):
+        body = read_flat("README.md")
+        step_one = body.split("Step 2", 1)[0]
+        self.assertIn("scripts/install-external-skills.sh", step_one,
+                      "the first step must name the script that installs product-prover")
+
+    def test_the_pack_still_needs_the_skill_that_step_installs(self):
+        """If the prover pack ever stops naming it, this step stops being load-bearing."""
+        self.assertIn("product-prover", read_flat("skills/product-prover-pack/SKILL.md"))
+
+
 if __name__ == "__main__":
     unittest.main()
