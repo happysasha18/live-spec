@@ -13,7 +13,15 @@ set -euo pipefail
 
 GUARDRAILS_DIR="$(cd "$(dirname "$0")" && pwd)"
 REPO_ROOT="$(git -C "$GUARDRAILS_DIR" rev-parse --show-toplevel)"
-HOOKS_DIR="$REPO_ROOT/.git/hooks"
+# Worktree-aware: a linked worktree's hooks live in the MAIN checkout's common git dir, not in a
+# per-worktree .git/hooks (a worktree's .git is a file, not a directory, pointing at the common
+# one) — `git rev-parse --git-path hooks` resolves the real, shared hooks directory either way,
+# the same resolver guardrails/check-config-health.sh already uses for the same reason.
+HOOKS_DIR="$(git -C "$REPO_ROOT" rev-parse --git-path hooks)"
+case "$HOOKS_DIR" in
+  /*) : ;;
+  *) HOOKS_DIR="$REPO_ROOT/$HOOKS_DIR" ;;
+esac
 
 if [ ! -d "$HOOKS_DIR" ]; then
   echo "No .git/hooks directory found at $HOOKS_DIR — is $REPO_ROOT a git repo?"

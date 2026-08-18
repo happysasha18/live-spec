@@ -938,6 +938,56 @@ class TestInstallScript(unittest.TestCase):
             # does not arm the fence
             self.assertFalse(os.path.isfile(os.path.join(tmp, ".live-spec-fence")))
 
+    def test_install_resolves_hooks_dir_in_a_linked_worktree(self):
+        """2026-08-18 guard-fast: install.sh hardcoded HOOKS_DIR="$REPO_ROOT/.git/hooks", which
+        assumes .git is a directory. In a linked worktree (this repo is developed across several —
+        see guardrails/README.md) .git is a FILE pointing at the main checkout's common git dir,
+        so the hardcoded path pointed at a directory that does not exist and install.sh reded with
+        "No .git/hooks directory found" — the standard install path (`guardrails/install.sh`,
+        SPEC INV-175's own fix mechanism) was unusable from any worktree. The fix reads the real
+        hooks dir with `git rev-parse --git-path hooks`, the same resolver
+        guardrails/check-config-health.sh already uses. Hooks installed from a linked worktree must
+        land in the MAIN checkout's shared .git/hooks/ — there is only one hooks dir per repository,
+        common to every worktree — and running install.sh from the main checkout afterward must see
+        the same, unchanged files (idempotent, no drift introduced by either install path)."""
+        with tempfile.TemporaryDirectory() as tmp:
+            main = os.path.join(tmp, "main")
+            os.makedirs(main)
+            run(["git", "init", "-q"], cwd=main)
+            run(["git", "config", "user.email", "a@example.com"], cwd=main)
+            run(["git", "config", "user.name", "a"], cwd=main)
+            with open(os.path.join(main, "seed.txt"), "w", encoding="utf-8") as f:
+                f.write("seed\n")
+            run(["git", "add", "-A"], cwd=main)
+            run(["git", "commit", "-q", "-m", "seed"], cwd=main)
+
+            worktree = os.path.join(tmp, "wt")
+            result = run(["git", "worktree", "add", "-q", "-b", "wt-branch", worktree], cwd=main)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            # a worktree's .git is a FILE, not a directory — the case the hardcoded path missed.
+            self.assertTrue(os.path.isfile(os.path.join(worktree, ".git")))
+
+            scratch_guardrails = os.path.join(worktree, "guardrails")
+            shutil.copytree(GUARDRAILS, scratch_guardrails)
+            result = run(["./install.sh"], cwd=scratch_guardrails)
+            self.assertEqual(
+                result.returncode, 0,
+                "install.sh must succeed from a linked worktree, not just the main checkout: "
+                + result.stdout + result.stderr)
+
+            for hook in ("pre-commit", "pre-push", "post-commit"):
+                dest = os.path.join(main, ".git", "hooks", hook)
+                self.assertTrue(os.path.isfile(dest),
+                                "%s not installed into the main checkout's shared hooks dir" % hook)
+                self.assertTrue(os.stat(dest).st_mode & stat.S_IXUSR)
+                with open(os.path.join(scratch_guardrails, hook), encoding="utf-8") as f:
+                    src_body = f.read()
+                with open(dest, encoding="utf-8") as f:
+                    self.assertEqual(f.read(), src_body,
+                                     "%s installed from the worktree does not match its source" % hook)
+                # never written into the worktree's own (nonexistent) .git/hooks
+                self.assertFalse(os.path.exists(os.path.join(worktree, ".git", "hooks", hook)))
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
