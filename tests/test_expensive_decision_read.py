@@ -139,7 +139,10 @@ class TestAgentBirthCarriesTheRead(unittest.TestCase):
 class TestTraceability(unittest.TestCase):
     def test_formal_index_row(self):
         spec = read("PRODUCT_SPEC.md")
-        row = line_with(spec, "| INV-235 |")
+        # the generated index lived a second time under the spec's own trailing "## Reference"
+        # heading until the spec split removed that inline duplicate (ROADMAP row 621);
+        # PRODUCT_SPEC.index.md is its one home now.
+        row = line_with(read("PRODUCT_SPEC.index.md"), "| INV-235 |")
         self.assertIsNotNone(row, "no Formal-index row for INV-235")
         # index now carries locations only (SPEC INV-271) — move the prose check onto the body
         # requirement heading that carries INV-235.

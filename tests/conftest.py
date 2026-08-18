@@ -24,6 +24,22 @@ import specformat as _sf  # noqa: E402
 # node is where the parts are joined back into the one document those ~140 tests expect. An empty
 # map (the state today) makes the core the whole document and the text byte-identical to the file.
 SPEC = "PRODUCT_SPEC.md"
+SPEC_INDEX = "PRODUCT_SPEC.index.md"
+
+# The generated code-to-location table used to be embedded a SECOND time under the spec's own
+# trailing `## Reference` heading — byte-identical to the committed PRODUCT_SPEC.index.md, the
+# same generated artifact in two places (a pure duplicate, confirmed by diff). The spec split
+# deleted that inline copy (ROADMAP row 621): PRODUCT_SPEC.index.md is now the table's one home on
+# disk. A large family of tests still reads the spec as one document carrying its own closing
+# table, so `read()` re-synthesizes the section below rather than sending every one of them to
+# learn a second file exists — the same one-node fix the parts map itself rests on: storage may
+# change shape; the read the node hands back does not, for a caller written before it did.
+_REFERENCE_INTRO = (
+    "## Reference\n\n\n\n\n"
+    "The code-to-location table below is generated output, built from the body criteria by "
+    "`scripts/build-index.py`; no one edits it by hand. Feature codes (`F-...`) live on their "
+    "scenario headings and carry no table row.\n\n"
+)
 
 
 def spec_paths():
@@ -31,9 +47,20 @@ def spec_paths():
     return _sf.spec_paths([os.path.join(ROOT, SPEC)])
 
 
+def _with_reference_tail(text):
+    """`text` plus its generated index table under a trailing `## Reference`, unless `text`
+    already carries that heading itself (the pre-split shape, read straight off disk)."""
+    if "\n## Reference" in text or text.startswith("## Reference"):
+        return text
+    with open(os.path.join(ROOT, SPEC_INDEX), encoding="utf-8") as f:
+        table = f.read()
+    sep = "" if text.endswith("\n\n") else ("\n" if text.endswith("\n") else "\n\n")
+    return text + sep + _REFERENCE_INTRO + table
+
+
 def read(rel):
     if rel == SPEC:
-        return _sf.read_document(spec_paths(), expand=False)[1]
+        return _with_reference_tail(_sf.read_document(spec_paths(), expand=False)[1])
     with open(os.path.join(ROOT, rel), encoding="utf-8") as f:
         return f.read()
 

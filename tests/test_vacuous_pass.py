@@ -202,7 +202,10 @@ class TestTraceability(unittest.TestCase):
         self.assertIn("the default being that empty is a finding", spec)
 
     def test_formal_index_row(self):
-        self.assertIn("| INV-218 |", read("PRODUCT_SPEC.md"))
+        # lived a second time under the spec's own trailing "## Reference" heading until the spec
+        # split removed that inline duplicate (ROADMAP row 621); PRODUCT_SPEC.index.md is its one
+        # home now.
+        self.assertIn("| INV-218 |", read("PRODUCT_SPEC.index.md"))
 
     def test_architecture_owns_the_invariant(self):
         arch = read("ARCHITECTURE.md")

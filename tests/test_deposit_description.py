@@ -134,9 +134,10 @@ class TestDepositDescriptionGate(unittest.TestCase):
 
     def test_formal_index_row(self):
         from conftest import read
-        # the old "## Formal index" section is gone; the generated code-to-location table now
-        # lives under "## Reference" at the very end (SPEC INV-271).
-        index = read("PRODUCT_SPEC.md").split("## Reference", 1)[1]
+        # the old "## Formal index" section is gone; the generated code-to-location table lived
+        # under "## Reference" at the spec's very end (SPEC INV-271) until the spec split removed
+        # that inline duplicate (ROADMAP row 621) — PRODUCT_SPEC.index.md is now its one home.
+        index = read("PRODUCT_SPEC.index.md")
         self.assertRegex(index, r"\|\s*INV-239\s*\|", "the Reference table carries no INV-239 row")
 
     def test_architecture_owns_the_invariant(self):
