@@ -2,7 +2,8 @@
 
 PUSH-REVIEW
 
-Range: 23d2495..c5f69a9b
+Range: ddc3578..8c4496e
+- 8c4496e The catcher ignores the interpreter's own caches, not the suite's writes
 - 905b738 The suite starts from a clean git environment, so a fixture's repo stays its own
 - cfc9758 tests/test_guardrails_unit.py: pass cwd=ROOT at its 7 imported run() call sites
 - eca3979 tests/test_guardrails.py: make run()'s cwd required, close the class structurally
