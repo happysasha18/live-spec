@@ -14,7 +14,7 @@ import subprocess
 import sys
 import unittest
 
-from conftest import ROOT
+from conftest import ROOT, SPEC, read
 SCRIPTS = os.path.join(ROOT, "scripts")
 sys.path.insert(0, SCRIPTS)
 import gate_common  # noqa: E402
@@ -325,7 +325,7 @@ class TestSpecContentRegisterClean(unittest.TestCase):
     just the mechanism."""
 
     def _spec(self):
-        return open(os.path.join(ROOT, "PRODUCT_SPEC.md"), encoding="utf-8").read()
+        return read(SPEC)
 
     def _load_linter(self):
         import importlib.util
@@ -392,17 +392,19 @@ class TestProvenanceOutOfBody(unittest.TestCase):
         # ROADMAP row 315: TEST_MATRIX.md joined scope 2026-07-14 — the matrix carried 17 birth-story
         # cells ("; born of <case> (<date>); never …") swept to docs/lenses.md, keyed by the cell's
         # INV-code, with the M-code noted back at that entry.
-        paths = [os.path.join(ROOT, "PRODUCT_SPEC.md"), os.path.join(ROOT, "TEST_MATRIX.md")]
-        paths += sorted(glob.glob(os.path.join(ROOT, self.SKILL_GLOB)))
-        return paths
+        # Repo-relative NAMES, not paths: each body is read through conftest's read() below, so
+        # the spec arrives whole while every other body is the file it names.
+        rels = [SPEC, "TEST_MATRIX.md"]
+        rels += [os.path.relpath(p, ROOT)
+                 for p in sorted(glob.glob(os.path.join(ROOT, self.SKILL_GLOB)))]
+        return rels
 
     def test_no_provenance_narrative_in_any_body(self):
         lint = self._load_linter()
         offenders = []
-        for path in self._bodies():
-            text = open(path, encoding="utf-8").read()
+        for rel in self._bodies():
+            text = read(rel)
             errs, _ = lint.lint(text)
-            rel = os.path.relpath(path, ROOT)
             offenders += [(rel, ln, snip) for ln, code, snip in errs
                           if code == "provenance-narrative"]
         self.assertEqual(

@@ -31,7 +31,7 @@ import sys
 import tempfile
 import unittest
 
-from conftest import ROOT
+from conftest import ROOT, SPEC, read, spec_paths
 
 GATE = os.path.join(ROOT, "guardrails", "check-criterion-readability.py")
 REAL_CONFIG = os.path.join(ROOT, "guardrails", "criterion-readability.json")
@@ -52,12 +52,17 @@ DIRTY_CRITERION = {
 }
 
 
-def run(doc, config=None, *flags):
+def run_many(docs, config=None, *flags):
+    """The gate over a document held in one or more files — a core and the parts its map names."""
     env = dict(os.environ)
     if config is not None:
         env["CRITERION_READABILITY_CONFIG"] = config
-    return subprocess.run(["python3", GATE, doc] + list(flags),
+    return subprocess.run(["python3", GATE, *docs] + list(flags),
                           capture_output=True, text=True, env=env)
+
+
+def run(doc, config=None, *flags):
+    return run_many([doc], config, *flags)
 
 
 def config_with(tmp, baselines, thresholds=None, name="cfg.json"):
@@ -406,11 +411,10 @@ class TestArmedOnTheRealSpec(unittest.TestCase):
         gate = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(gate)
         cfg = json.load(open(REAL_CONFIG, encoding="utf-8"))
-        with open(os.path.join(ROOT, "PRODUCT_SPEC.md"), encoding="utf-8") as f:
-            doc = sf.parse(f.read())
+        doc = sf.parse(read(SPEC))    # the whole spec: the core and the parts its map names
         counts = dict((arm, len(hits)) for arm, hits in gate.measure(doc, cfg).items())
         above = [arm for arm in ARMS if counts[arm] > cfg["arms"][arm]["baseline"]]
-        r = run(os.path.join(ROOT, "PRODUCT_SPEC.md"), REAL_CONFIG)
+        r = run_many(spec_paths(), REAL_CONFIG)
         if above:
             self.assertNotEqual(r.returncode, 0,
                                 "arms stand above their recorded count and the gate passed: %s\n%s"
@@ -545,8 +549,7 @@ This is a preamble.
         gate = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(gate)
         cfg = json.load(open(REAL_CONFIG, encoding="utf-8"))
-        with open(os.path.join(ROOT, "PRODUCT_SPEC.md"), encoding="utf-8") as f:
-            doc = sf.parse(f.read())
+        doc = sf.parse(read(SPEC))    # the whole spec: the core and the parts its map names
         count = len(gate.measure(doc, cfg)["criterion-load"])
         self.assertEqual(count, cfg["arms"]["criterion-load"]["baseline"],
                          "the recorded criterion-load baseline no longer matches the live document")

@@ -13,7 +13,7 @@ tlvphotos's pinch-zoom policy shipped for the walk alone, 2026-07-12.)
 import os
 import unittest
 
-from conftest import ROOT, external_clone_or_skip, read_flat, read_all, read_all_flat
+from conftest import ROOT, external_clone_or_skip, open_spec, read_all, read_all_flat, read_flat
 
 
 class TestCrossSurfacePolicy(unittest.TestCase):
@@ -37,7 +37,7 @@ class TestCrossSurfacePolicy(unittest.TestCase):
             self.assertIn(needle, spec, needle)
 
     def test_formal_index_row(self):
-        with open(os.path.join(ROOT, "PRODUCT_SPEC.md"), encoding="utf-8") as f:
+        with open_spec() as f:
             for line in f:
                 if line.startswith("| INV-125 |"):
                     self.assertIn("surface-class", read_flat("PRODUCT_SPEC.md").lower())

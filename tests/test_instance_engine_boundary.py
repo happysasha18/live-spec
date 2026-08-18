@@ -6,10 +6,9 @@ record: a reconciliation log citing the engine's own public commits, never a pri
 instance's commit or the instance's own locale label standing as a mechanism name.
 """
 
-import os
 import unittest
 
-from conftest import ROOT, read_flat
+from conftest import open_spec, read_flat
 
 
 class TestInstanceEngineBoundary(unittest.TestCase):
@@ -74,7 +73,7 @@ class TestInstanceEngineBoundary(unittest.TestCase):
             "engine", spec.lower(),
             "INV-119's body criterion doesn't carry the 'engine' phrase",
         )
-        with open(os.path.join(ROOT, "PRODUCT_SPEC.md"), encoding="utf-8") as f:
+        with open_spec() as f:
             for line in f:
                 if line.startswith("| INV-119 |"):
                     return

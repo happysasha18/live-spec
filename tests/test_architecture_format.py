@@ -10,15 +10,14 @@ import os
 import re
 import sys
 
+# _read IS the suite's one reading node: for the spec it returns the core and every part
+# the map names, and for any other file the file itself.
+from conftest import read as _read
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, os.path.join(ROOT, "guardrails"))
 import archformat  # noqa: E402
 import specformat  # noqa: E402
-
-
-def _read(rel):
-    with open(os.path.join(ROOT, rel), encoding="utf-8") as f:
-        return f.read()
 
 
 def _nodes():

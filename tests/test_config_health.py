@@ -14,6 +14,8 @@ import subprocess
 import tempfile
 import unittest
 
+from conftest import SPEC, read
+
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CHECK = os.path.join(REPO, "guardrails", "check-config-health.sh")
 
@@ -497,8 +499,7 @@ class TestPermissionPathHealth(unittest.TestCase):
 
     # Traceability: the law lives in every derivation document, not only in the check.
     def test_spec_states_the_law(self):
-        with open(os.path.join(REPO, "PRODUCT_SPEC.md")) as f:
-            self.assertIn("INV-216", f.read())
+        self.assertIn("INV-216", read(SPEC))
 
     def test_architecture_owns_the_invariant(self):
         with open(os.path.join(REPO, "ARCHITECTURE.md")) as f:

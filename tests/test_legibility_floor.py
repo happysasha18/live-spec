@@ -3,6 +3,8 @@ Landed 2026-07-13."""
 import subprocess, sys
 from pathlib import Path
 
+from conftest import SPEC, read
+
 ROOT = Path(__file__).resolve().parent.parent
 SCRIPT = ROOT / "scripts" / "preshow-legibility-lint.py"
 FIX = ROOT / "tests" / "fixtures"
@@ -34,7 +36,7 @@ def test_contrast_math():
 
 
 def test_spec_clause_and_index():
-    spec = (ROOT / "PRODUCT_SPEC.md").read_text(encoding="utf-8")
+    spec = read(SPEC)     # the whole spec: the core and the parts its map names
     assert "legibility floor" in spec
     assert "[INV-139]" in spec
     assert any(line.startswith("| INV-139 |") for line in spec.splitlines())

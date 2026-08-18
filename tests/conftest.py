@@ -5,9 +5,11 @@ artifact prefixes — a new file surviving to session end is a leak and fails th
 """
 
 import glob
+import io
 import os
 import re
 import subprocess
+import sys
 import tempfile
 import unittest
 
@@ -35,8 +37,51 @@ INHERITED_GIT_ENV = (
 for _inherited in INHERITED_GIT_ENV:
     os.environ.pop(_inherited, None)
 
+sys.path.insert(0, os.path.join(ROOT, "guardrails"))
+import specformat as _sf  # noqa: E402
+
+# The spec may be written as a core file plus part files; the core's `## Parts map` names them and
+# their order. Every test that reads the spec reads it through read()/read_flat() here, so this one
+# node is where the parts are joined back into the one document those ~140 tests expect. An empty
+# map (the state today) makes the core the whole document and the text byte-identical to the file.
+SPEC = "PRODUCT_SPEC.md"
+SPEC_INDEX = "PRODUCT_SPEC.index.md"
+
+# The generated code-to-location table used to be embedded a SECOND time under the spec's own
+# trailing `## Reference` heading — byte-identical to the committed PRODUCT_SPEC.index.md, the
+# same generated artifact in two places (a pure duplicate, confirmed by diff). The spec split
+# deleted that inline copy (ROADMAP row 621): PRODUCT_SPEC.index.md is now the table's one home on
+# disk. A large family of tests still reads the spec as one document carrying its own closing
+# table, so `read()` re-synthesizes the section below rather than sending every one of them to
+# learn a second file exists — the same one-node fix the parts map itself rests on: storage may
+# change shape; the read the node hands back does not, for a caller written before it did.
+_REFERENCE_INTRO = (
+    "## Reference\n\n\n\n\n"
+    "The code-to-location table below is generated output, built from the body criteria by "
+    "`scripts/build-index.py`; no one edits it by hand. Feature codes (`F-...`) live on their "
+    "scenario headings and carry no table row.\n\n"
+)
+
+
+def spec_paths():
+    """The files the spec is written across: the core first, then the parts its map names."""
+    return _sf.spec_paths([os.path.join(ROOT, SPEC)])
+
+
+def _with_reference_tail(text):
+    """`text` plus its generated index table under a trailing `## Reference`, unless `text`
+    already carries that heading itself (the pre-split shape, read straight off disk)."""
+    if "\n## Reference" in text or text.startswith("## Reference"):
+        return text
+    with open(os.path.join(ROOT, SPEC_INDEX), encoding="utf-8") as f:
+        table = f.read()
+    sep = "" if text.endswith("\n\n") else ("\n" if text.endswith("\n") else "\n\n")
+    return text + sep + _REFERENCE_INTRO + table
+
 
 def read(rel):
+    if rel == SPEC:
+        return _with_reference_tail(_sf.read_document(spec_paths(), expand=False)[1])
     with open(os.path.join(ROOT, rel), encoding="utf-8") as f:
         return f.read()
 
@@ -44,6 +89,18 @@ def read(rel):
 def read_flat(rel):
     """The file's text with whitespace collapsed, so wrapped lines match needles."""
     return " ".join(read(rel).split())
+
+
+def open_spec():
+    """The whole spec as a readable text stream, for a test that walks it line by line.
+
+    `with open_spec() as f: for line in f:` reads exactly what `open(PRODUCT_SPEC.md)` used to —
+    each line with its ending — and reads it through read() above, so a test that iterates the spec
+    sees the core AND the parts its map names. A test that opens the path itself would see the core
+    alone the moment a part exists, and would pass while reading a fraction of the document; that is
+    why the path is not spelled out in ~40 test files any more.
+    """
+    return io.StringIO(read(SPEC))
 
 
 _BULLET = re.compile(r"^\s{2,}[-*]\s")
@@ -126,11 +183,7 @@ def _skill_surface(rel):
 
 def read_all(rel):
     """A skill's whole normative surface (SKILL.md + references/*.md) as one text."""
-    texts = []
-    for r in _skill_surface(rel):
-        with open(os.path.join(ROOT, r), encoding="utf-8") as f:
-            texts.append(f.read())
-    return "\n".join(texts)
+    return "\n".join(read(r) for r in _skill_surface(rel))
 
 
 def read_all_flat(rel):

@@ -20,11 +20,10 @@ wording is a conversion leftover; test_spec_criteria_match_the_practiced_convent
 until the spec author reconciles R224, and REPIN-LOG.md carries the defect's story.
 """
 
-import os
 import re
 import unittest
 
-from conftest import ROOT, read, read_flat, read_all_flat
+from conftest import open_spec, read, read_all_flat, read_flat
 
 
 def heading_tag_gaps(spec_text):
@@ -89,7 +88,7 @@ class TestScenarioHeadingTag(unittest.TestCase):
 
     def test_formal_index_row(self):
         # locations only (SPEC INV-271): the row proves INV-132 is carried by a body criterion.
-        with open(os.path.join(ROOT, "PRODUCT_SPEC.md"), encoding="utf-8") as f:
+        with open_spec() as f:
             for line in f:
                 if line.startswith("| INV-132 |"):
                     self.assertRegex(line, r"R\d+\.\d+")

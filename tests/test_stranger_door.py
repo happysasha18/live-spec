@@ -13,6 +13,8 @@ import os
 import re
 from pathlib import Path
 
+from conftest import SPEC, read
+
 REPO = Path(__file__).resolve().parent.parent
 
 
@@ -27,7 +29,7 @@ def _load_monitor():
 # ---- M-288: the stranger arm lives in its prose homes + the templated door ships ----
 
 def test_stranger_arm_in_prose_homes():
-    spec = (REPO / "PRODUCT_SPEC.md").read_text()
+    spec = read(SPEC)     # the whole spec: the core and the parts its map names
     readme = (REPO / "inbox" / "README.md").read_text()
     # the spec inbox-law clause carries the stranger arm and the monitor bridge
     assert "stranger arm" in spec
@@ -48,7 +50,7 @@ def test_wish_issue_template_requests_source():
 
 
 def test_stranger_arm_spec_anchor_and_index():
-    spec = (REPO / "PRODUCT_SPEC.md").read_text()
+    spec = read(SPEC)     # the whole spec: the core and the parts its map names
     # each invariant carries a body clause (the bracketed anchor, alone or grouped with a sibling
     # code) AND a Formal-index row
     body_anchors = {"INV-146": "[INV-146]", "INV-147": "INV-147, INV-67]"}

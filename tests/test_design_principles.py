@@ -15,11 +15,10 @@ The founding check is red-proven against a visual kind-only fixture (a kind with
 no declared design principles goes red), while a non-visual kind with none passes.
 """
 
-import os
 import re
 import unittest
 
-from conftest import ROOT, external_clone_or_skip, read, read_flat, read_all, read_all_flat
+from conftest import external_clone_or_skip, open_spec, read, read_all, read_all_flat, read_flat
 
 KIND = re.compile(r"(?m)^\s*[-*]?\s*`?project\.kind:\s*(.+)$")
 PRINCIPLES = re.compile(r"(?m)^\s*[-*]?\s*`?project\.design-principles:")
@@ -136,7 +135,7 @@ class TestDesignPrinciplesLaw(unittest.TestCase):
             spec.lower(),
         )
         self.assertIn("[INV-136]", spec)
-        with open(os.path.join(ROOT, "PRODUCT_SPEC.md"), encoding="utf-8") as f:
+        with open_spec() as f:
             for line in f:
                 if line.startswith("| INV-136 |"):
                     self.assertIn("design principle", spec.lower())

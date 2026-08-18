@@ -13,17 +13,12 @@ import subprocess
 import tempfile
 import unittest
 
-from conftest import read_flat
+from conftest import read, read_flat
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CHECK = os.path.join(REPO, "guardrails", "check-ci-mirror.sh")
 GATES_YML = os.path.join(REPO, ".github", "workflows", "gates.yml")
 CARVE_JSON = os.path.join(REPO, "guardrails", "ci-mirror.json")
-
-
-def read(rel):
-    with open(os.path.join(REPO, rel)) as f:
-        return f.read()
 
 
 def run_check(env_extra=None):

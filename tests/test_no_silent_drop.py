@@ -9,10 +9,9 @@ cannot justify becomes a question. The rule scopes to substance and leaves line-
 String rows on the law's three homes plus the spec anchor and its index row.
 """
 
-import os
 import unittest
 
-from conftest import ROOT, read_flat
+from conftest import open_spec, read_flat
 
 
 class TestNoSilentDropLaw(unittest.TestCase):
@@ -49,7 +48,7 @@ class TestNoSilentDropLaw(unittest.TestCase):
         self.assertIn("[INV-109]", spec)
         # The generated index carries locations only (SPEC INV-271); the code's prose home is its
         # body criterion, asserted above. Here the index must map the code to at least one location.
-        with open(os.path.join(ROOT, "PRODUCT_SPEC.md"), encoding="utf-8") as f:
+        with open_spec() as f:
             for line in f:
                 if line.startswith("| INV-109 |"):
                     self.assertRegex(line, r"R\d+\.\d+")

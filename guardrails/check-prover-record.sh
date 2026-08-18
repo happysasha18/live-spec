@@ -222,7 +222,10 @@ else
 fi
 printf '  %s\n' "${tracked[@]}"
 
-SPEC_COMMIT=$(git log -1 --format=%H -- PRODUCT_SPEC.md)
+# The spec is ONE document written across the core and, once its parts map names them, the files
+# under spec/. Freshness reads the newest commit touching any of them, so a change landing in a part
+# is not invisible here; naming a path with no commits yet simply contributes nothing.
+SPEC_COMMIT=$(git log -1 --format=%H -- PRODUCT_SPEC.md spec/)
 RECORD_COMMIT=$(git log -1 --format=%H -- "$PROVER_DIR")
 
 if [ -z "$SPEC_COMMIT" ]; then

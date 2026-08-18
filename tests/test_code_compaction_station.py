@@ -8,10 +8,9 @@ test or a lint (the convergence law, rows 216-218 / INV-98). Homes: the mileston
 section + build-pipeline's before-a-MINOR gate.
 """
 
-import os
 import unittest
 
-from conftest import ROOT, read_flat
+from conftest import open_spec, read_flat
 
 
 class TestCodeCompactionStation(unittest.TestCase):
@@ -34,7 +33,7 @@ class TestCodeCompactionStation(unittest.TestCase):
         # INDEX-ROW pattern (RECIPE): the Reference table now carries locations only,
         # no prose. Assert the row's presence here; the "code" prose is asserted
         # against the flattened spec body in test_spec_clause_and_index above.
-        with open(os.path.join(ROOT, "PRODUCT_SPEC.md"), encoding="utf-8") as f:
+        with open_spec() as f:
             for line in f:
                 if line.startswith("| INV-123 |"):
                     self.assertIn("R130.6", line)

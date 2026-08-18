@@ -7,10 +7,9 @@ only when the host's recorded package version is behind the current package VERS
 both homes: the spec's skill-behaviour paragraph and the guide's "When to run this".
 """
 
-import os
 import unittest
 
-from conftest import ROOT, read_flat
+from conftest import open_spec, read_flat
 
 
 class TestCatchupDiscriminator(unittest.TestCase):
@@ -63,7 +62,7 @@ class TestCatchupDiscriminator(unittest.TestCase):
             "the host's recorded pack version is behind the current pack version",
             spec,
         )
-        with open(os.path.join(ROOT, "PRODUCT_SPEC.md"), encoding="utf-8") as f:
+        with open_spec() as f:
             for line in f:
                 if line.startswith("| INV-110 |"):
                     self.assertIn("R185.1", line)

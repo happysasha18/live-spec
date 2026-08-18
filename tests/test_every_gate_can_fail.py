@@ -21,17 +21,12 @@ import subprocess
 import tempfile
 import unittest
 
-from conftest import read_flat
+from conftest import read, read_flat
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CHECK = os.path.join(REPO, "guardrails", "check-every-gate-can-fail.py")
 REGISTRY = os.path.join(REPO, "guardrails", "gate-red-proofs.json")
 PREPUSH = os.path.join(REPO, "guardrails", "pre-push")
-
-
-def read(rel):
-    with open(os.path.join(REPO, rel)) as f:
-        return f.read()
 
 
 def run_check(env_extra=None):

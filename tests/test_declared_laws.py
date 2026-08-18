@@ -7,11 +7,10 @@ one declared-laws home; every new surface's section states its line against each
 every surface and transition per declared law. String rows on the three homes.
 """
 
-import os
 import re
 import unittest
 
-from conftest import ROOT, external_clone_or_skip, read_all_flat, read_flat
+from conftest import external_clone_or_skip, open_spec, read_all_flat, read_flat
 
 
 class TestDeclaredLaws(unittest.TestCase):
@@ -41,7 +40,7 @@ class TestDeclaredLaws(unittest.TestCase):
             "dated exemption", spec,
             "INV-101's body criterion doesn't carry the dated-exemption phrase",
         )
-        with open(os.path.join(ROOT, "PRODUCT_SPEC.md"), encoding="utf-8") as f:
+        with open_spec() as f:
             for line in f:
                 if line.startswith("| INV-101 |"):
                     return
@@ -85,7 +84,7 @@ class TestLawNamesItsNet(unittest.TestCase):
         self.assertIn("INV-150", author)
 
     def test_spec_index_and_ownership(self):
-        with open(os.path.join(ROOT, "PRODUCT_SPEC.md"), encoding="utf-8") as f:
+        with open_spec() as f:
             spec_lines = list(f)
         self.assertTrue(any(l.startswith("| INV-150 |") for l in spec_lines),
                         "INV-150 index row missing")

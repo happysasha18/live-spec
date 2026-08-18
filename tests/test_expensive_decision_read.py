@@ -29,15 +29,14 @@ import os
 import sys
 import unittest
 
+# The suite's one reading node: for the spec it returns the core and every part the map
+# names, and for any other file the file itself. A local reader would have shadowed it.
+from conftest import read
+
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 sys.path.insert(0, os.path.join(REPO, "guardrails"))
 import archformat  # the one node reader every consumer reads through (SPEC INV-280)
-
-
-def read(rel):
-    with open(os.path.join(REPO, rel), encoding="utf-8") as f:
-        return f.read()
 
 
 def line_with(text, phrase):
@@ -140,7 +139,10 @@ class TestAgentBirthCarriesTheRead(unittest.TestCase):
 class TestTraceability(unittest.TestCase):
     def test_formal_index_row(self):
         spec = read("PRODUCT_SPEC.md")
-        row = line_with(spec, "| INV-235 |")
+        # the generated index lived a second time under the spec's own trailing "## Reference"
+        # heading until the spec split removed that inline duplicate (ROADMAP row 621);
+        # PRODUCT_SPEC.index.md is its one home now.
+        row = line_with(read("PRODUCT_SPEC.index.md"), "| INV-235 |")
         self.assertIsNotNone(row, "no Formal-index row for INV-235")
         # index now carries locations only (SPEC INV-271) — move the prose check onto the body
         # requirement heading that carries INV-235.

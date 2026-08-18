@@ -5,13 +5,12 @@ the capture echo posted as a comment on the source Issue at harvest, the Issue c
 its row reaches a terminal exit — extending M-289's no-wish close (a no-wish item is closed
 with a recorded note) to the yes-wish case.
 """
-from pathlib import Path
 
-REPO = Path(__file__).resolve().parent.parent
+from conftest import SPEC, read
 
 
 def test_stranger_yes_wish_echoes_and_closes_source():
-    spec = (REPO / "PRODUCT_SPEC.md").read_text()
+    spec = read(SPEC)     # the whole spec: the core and the parts its map names
     # INV-147's body clause: the captured wish's echo lands as a comment on the source Issue
     # at harvest, and the Issue closes once its row reaches a terminal exit.
     assert "comment on the source Issue" in spec

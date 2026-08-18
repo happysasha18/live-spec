@@ -20,15 +20,10 @@ import unittest
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-from conftest import criterion_with_bullets
+from conftest import criterion_with_bullets, read
 
 sys.path.insert(0, os.path.join(REPO, "guardrails"))
 import archformat  # the one node reader every consumer reads through (SPEC INV-280)
-
-
-def read(rel):
-    with open(os.path.join(REPO, rel), encoding="utf-8") as f:
-        return f.read()
 
 
 def line_with(text, phrase):

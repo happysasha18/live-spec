@@ -1,15 +1,8 @@
 """INV-137 / base rule 25 — the orchestrator reads to decide; discovery reads go to workers.
 Enshrines the read-discipline law across its homes so it cannot silently drift out.
 Landed 2026-07-13."""
-from pathlib import Path
 
-from conftest import read_all
-
-ROOT = Path(__file__).resolve().parent.parent
-
-
-def _read(rel):
-    return (ROOT / rel).read_text(encoding="utf-8")
+from conftest import read as _read, read_all
 
 
 def test_base_rule_states_read_discipline():

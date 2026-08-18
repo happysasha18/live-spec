@@ -23,7 +23,7 @@ import sys
 import tempfile
 import unittest
 
-from conftest import external_clone_or_skip
+from conftest import external_clone_or_skip, read
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 COUNTER = os.path.join(ROOT, "guardrails", "node_growth_counter.py")
@@ -39,11 +39,6 @@ REACHED_CEILING = {
     "skills/build-pipeline/SKILL.md": 3,
 }
 PROPOSED_DEFAULT = 2  # two nodes per code file (the host's word sets it, INV-41)
-
-
-def read(rel):
-    with open(os.path.join(ROOT, rel), encoding="utf-8") as f:
-        return f.read()
 
 
 def run_counter(architecture_path, cap_path):
