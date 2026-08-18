@@ -2,7 +2,8 @@
 
 PUSH-REVIEW
 
-Range: 99e526b9..RANGEPLACEHOLDER
+Range: 99e526b9..81738e6e
+- 81738e6e The record carries the stale pin
 - 225d893f A fixture's pin follows the builder's usage after the split
 Files read: tests/test_text_audit_fixtures.py, scripts/build-index.py
 Findings: the split changed a command's usage line and a fixture still pinned the old one — the detail is below
