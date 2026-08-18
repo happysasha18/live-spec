@@ -5,6 +5,9 @@ PUSH-REVIEW
 Range: ebc4d428..52d31762
 - 52d31762 Raise the ROADMAP.md doc-bound for the queue-bundle cross-references
 - a2956014 ROADMAP rows carry their queue-bundle notes
+
+Range confirmed against `git log --oneline ebc4d428..HEAD` after the doc-bound commit landed:
+two commits, both listed above, base is `origin/main` at push time (`ebc4d428`).
 Files read: ROADMAP.md, guardrails/doc-bounds.json, guardrails/check-doc-bound.py, tests/test_doc_bound.py, docs/prover/README.md
 Checks run: python3 -m pytest tests/test_authority_anchor.py tests/test_doc_bound.py tests/test_doc_rotation.py tests/test_far_tier.py tests/test_landing_next_steps.py tests/test_traceability.py -q — 297 passed; python3 guardrails/check-doc-bound.py — OK; bash guardrails/check-pin-drift.sh — OK, 207 pins + 53 range pins, no drift
 Findings: the delivered work is real and correctly scoped, but it was cherry-picked from a single commit rather than merged from the branch tip, and it grew ROADMAP.md past its declared bound. See findings below for both, plus a serious environment-defect finding.
