@@ -2,7 +2,7 @@
 
 PUSH-REVIEW
 
-Range: 942b8cd2..RANGE9
+Range: 942b8cd2..59da3681
 - beeb46e5 CI runs every gate in one pass instead of stopping at the first failure
 Files read: .github/workflows/gates.yml, guardrails/check-ci-mirror.sh, tests/test_ci_mirror.py, guardrails/pre-push
 Checks run: python3 -m pytest tests/test_ci_mirror.py -q — 13 passed; guardrails/check-ci-mirror.sh — OK (every local pre-push gate is mirrored in CI or a declared carve-out)
