@@ -7,10 +7,9 @@ architecture step (the gate a new node passes). Second home: product-prover, ext
 speculative-node flag — a node with one caller and no promised second is flagged.
 """
 
-import os
 import unittest
 
-from conftest import ROOT, external_clone_or_skip, read_all_flat, read_flat
+from conftest import external_clone_or_skip, open_spec, read_all_flat, read_flat
 
 
 class TestNodeFitnessTest(unittest.TestCase):
@@ -36,7 +35,7 @@ class TestNodeFitnessTest(unittest.TestCase):
             "fitness", spec.lower(),
             "INV-122's body criterion doesn't carry the fitness phrase",
         )
-        with open(os.path.join(ROOT, "PRODUCT_SPEC.md"), encoding="utf-8") as f:
+        with open_spec() as f:
             for line in f:
                 if line.startswith("| INV-122 |"):
                     return

@@ -6,10 +6,9 @@ that never raced a slug had none. The fix mints a stable per-session identity at
 start, independent of the inbox, and the pen tie-break orders on it.
 """
 
-import os
 import unittest
 
-from conftest import ROOT, read_flat
+from conftest import open_spec, read_flat
 
 
 class TestPenTiebreakIdentity(unittest.TestCase):
@@ -40,7 +39,7 @@ class TestPenTiebreakIdentity(unittest.TestCase):
             "session", spec.lower(),
             "INV-117's body criterion doesn't carry the session phrase",
         )
-        with open(os.path.join(ROOT, "PRODUCT_SPEC.md"), encoding="utf-8") as f:
+        with open_spec() as f:
             for line in f:
                 if line.startswith("| INV-117 |"):
                     return

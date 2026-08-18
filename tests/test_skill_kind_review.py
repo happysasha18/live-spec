@@ -7,10 +7,9 @@ the landing record. String rows on the two homes: the spec clause and the pipeli
 table (verify row, skill column).
 """
 
-import os
 import unittest
 
-from conftest import ROOT, read_flat, read_all, read_all_flat
+from conftest import open_spec, read_all, read_all_flat, read_flat
 
 
 class TestSkillKindReview(unittest.TestCase):
@@ -53,7 +52,7 @@ class TestSkillKindReview(unittest.TestCase):
             "skill-creator", spec,
             "INV-99's body criterion doesn't carry the skill-creator phrase",
         )
-        with open(os.path.join(ROOT, "PRODUCT_SPEC.md"), encoding="utf-8") as f:
+        with open_spec() as f:
             for line in f:
                 if line.startswith("| INV-99 |"):
                     return

@@ -14,7 +14,7 @@ import subprocess
 import sys
 import unittest
 
-from conftest import ROOT
+from conftest import ROOT, SPEC, read
 SCRIPTS = os.path.join(ROOT, "scripts")
 sys.path.insert(0, SCRIPTS)
 import gate_common  # noqa: E402
@@ -325,7 +325,7 @@ class TestSpecContentRegisterClean(unittest.TestCase):
     just the mechanism."""
 
     def _spec(self):
-        return open(os.path.join(ROOT, "PRODUCT_SPEC.md"), encoding="utf-8").read()
+        return read(SPEC)
 
     def _load_linter(self):
         import importlib.util
@@ -400,9 +400,11 @@ class TestProvenanceOutOfBody(unittest.TestCase):
         lint = self._load_linter()
         offenders = []
         for path in self._bodies():
-            text = open(path, encoding="utf-8").read()
-            errs, _ = lint.lint(text)
             rel = os.path.relpath(path, ROOT)
+            # Read through the suite's one node: the spec arrives whole — the core and the parts its
+            # map names — rather than as whichever single file the path points at.
+            text = read(rel)
+            errs, _ = lint.lint(text)
             offenders += [(rel, ln, snip) for ln, code, snip in errs
                           if code == "provenance-narrative"]
         self.assertEqual(

@@ -7,10 +7,9 @@ to the attic under a manifest line; and worktree isolation is the default when t
 overlap. String rows on the law's three homes plus the INV-105 anchor and index.
 """
 
-import os
 import unittest
 
-from conftest import ROOT, read_flat
+from conftest import open_spec, read_flat
 
 
 class TestCanonicalStateDirLaw(unittest.TestCase):
@@ -49,7 +48,7 @@ class TestCanonicalStateDirLaw(unittest.TestCase):
         spec = read_flat("PRODUCT_SPEC.md")
         self.assertIn("[INV-105", spec)
         self.assertIn("one canonical state directory named `.live-spec`", spec)
-        with open(os.path.join(ROOT, "PRODUCT_SPEC.md"), encoding="utf-8") as f:
+        with open_spec() as f:
             for line in f:
                 if line.startswith("| INV-105 |"):
                     return

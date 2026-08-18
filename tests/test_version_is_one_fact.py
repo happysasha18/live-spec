@@ -11,6 +11,8 @@ import subprocess
 import sys
 import tempfile
 
+from conftest import SPEC, read
+
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 VERSION = open(os.path.join(REPO, "VERSION"), encoding="utf-8").read().strip()
 
@@ -51,7 +53,7 @@ def test_every_base_reference_equals_pack_version():
 
 
 def test_spec_states_the_law():
-    spec = open(os.path.join(REPO, "PRODUCT_SPEC.md"), encoding="utf-8").read()
+    spec = read(SPEC)
     assert "version is one fact" in spec
     assert "| INV-178 |" in spec
 

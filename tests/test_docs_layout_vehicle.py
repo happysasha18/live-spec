@@ -7,10 +7,9 @@ pack now names that shape so hosts neither skip discipline nor over-apply the ca
 Two homes: the spec's F-catchup vehicle clause and build-pipeline's docs-only/restructure door.
 """
 
-import os
 import unittest
 
-from conftest import ROOT, read_flat
+from conftest import open_spec, read_flat
 
 
 class TestDocsLayoutVehicle(unittest.TestCase):
@@ -45,7 +44,7 @@ class TestDocsLayoutVehicle(unittest.TestCase):
         self.assertIn("[INV-111]", spec)
         # the index row is location-only (SPEC INV-271); the "vehicle" prose lives on the body
         self.assertIn("A same-version docs-layout pass rides one named vehicle", spec)
-        with open(os.path.join(ROOT, "PRODUCT_SPEC.md"), encoding="utf-8") as f:
+        with open_spec() as f:
             for line in f:
                 if line.startswith("| INV-111 |"):
                     return

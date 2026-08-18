@@ -23,6 +23,8 @@ import re
 import subprocess
 import sys
 
+from conftest import SPEC, read
+
 import pytest
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -410,14 +412,14 @@ def test_inv94_no_longer_commands_per_catch_list_growth():
     """INV-83's growth duty is retracted, so INV-94 must not still ORDER each caught phrase to join the
     literal pattern family — an imperative per-catch growth command in both its homes (the prose and the
     Formal index). The judge holds the class; a caught phrase informs it without a standing append duty."""
-    spec = open(os.path.join(REPO, "PRODUCT_SPEC.md"), encoding="utf-8").read()
+    spec = read(SPEC)
     assert "joins the register lint's pattern family" not in spec
     # INV-94's actual subject stays intact.
     assert "No line certifies its own sincerity" in spec
 
 
 def test_growth_duty_retracted_in_the_spec():
-    spec = open(os.path.join(REPO, "PRODUCT_SPEC.md"), encoding="utf-8").read()
+    spec = read(SPEC)
     # INV-83's paragraph no longer commands the list to grow per leak.
     assert "The set grows by one per caught leak" not in spec
     assert "grows by nobody" in spec.lower()

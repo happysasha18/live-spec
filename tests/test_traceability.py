@@ -12,7 +12,7 @@ import re
 import sys
 import unittest
 
-from conftest import ROOT, criterion_with_bullets, read, read_all, read_all_flat, read_flat
+from conftest import ROOT, criterion_with_bullets, open_spec, read, read_all, read_all_flat, read_flat
 
 sys.path.insert(0, os.path.join(ROOT, "guardrails"))
 from specformat import green_reach  # the family's green-reach line (SPEC INV-269)
@@ -1622,7 +1622,7 @@ class TestWorkerContract(unittest.TestCase):
         # -> "## Reference" (the new-format code-to-location table, SPEC INV-271); the presence
         # check now reads the generated table row directly rather than splitting on the old
         # heading text.
-        with open(os.path.join(ROOT, "PRODUCT_SPEC.md"), encoding="utf-8") as fh:
+        with open_spec() as fh:
             rows = [line for line in fh if line.startswith("| INV-70 |")]
         self.assertTrue(rows, "INV-70 missing from the index")
         bp = re.sub(r"\s+", " ", read_all("skills/build-pipeline/SKILL.md"))
@@ -2148,7 +2148,7 @@ class TestProblemLedger(unittest.TestCase):
             self.assertIn(needle, spec, "SPEC INV-71 lost: %s" % needle)
         # RE-PINNED pass-2 (see repin log): the index heading was renamed "Formal index" ->
         # "## Reference" (INV-271); read the generated table row directly instead.
-        with open(os.path.join(ROOT, "PRODUCT_SPEC.md"), encoding="utf-8") as fh:
+        with open_spec() as fh:
             rows = [line for line in fh if line.startswith("| INV-71 |")]
         self.assertTrue(rows, "INV-71 missing from the index")
         comm = re.sub(r"\s+", " ", read(os.path.join("skills", "communicator", "SKILL.md")))

@@ -8,10 +8,9 @@ into the same session mechanically. His 2026-07-10 ~11:00 word queued row 225; l
 rows on the law's two homes plus the spec anchor and its index row.
 """
 
-import os
 import unittest
 
-from conftest import ROOT, read_flat
+from conftest import open_spec, read_flat
 
 
 class TestVoicedFixTripwire(unittest.TestCase):
@@ -46,7 +45,7 @@ class TestVoicedFixTripwire(unittest.TestCase):
         spec = read_flat("PRODUCT_SPEC.md")
         self.assertIn("[INV-104]", spec)
         self.assertIn("touches a spec-backed literal or clause", spec)
-        with open(os.path.join(ROOT, "PRODUCT_SPEC.md"), encoding="utf-8") as f:
+        with open_spec() as f:
             for line in f:
                 if line.startswith("| INV-104 |"):
                     return

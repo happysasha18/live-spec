@@ -12,10 +12,9 @@ movement; the pins-only path is scoped to a boundary shift that leaves the shape
 on the law's two prose homes plus the spec anchor and its index row.
 """
 
-import os
 import unittest
 
-from conftest import ROOT, read_flat
+from conftest import open_spec, read_flat
 
 
 class TestRedesignOwesReworkLaw(unittest.TestCase):
@@ -50,7 +49,7 @@ class TestRedesignOwesReworkLaw(unittest.TestCase):
         spec = read_flat("PRODUCT_SPEC.md")
         self.assertIn("[INV-113]", spec)
         self.assertIn("A deliberate redesign re-shapes the architecture document", spec)
-        with open(os.path.join(ROOT, "PRODUCT_SPEC.md"), encoding="utf-8") as f:
+        with open_spec() as f:
             for line in f:
                 if line.startswith("| INV-113 |"):
                     return

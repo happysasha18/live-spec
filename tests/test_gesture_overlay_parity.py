@@ -11,7 +11,7 @@ import os
 import sys
 import unittest
 
-from conftest import ROOT, criteria_citing, read, read_flat
+from conftest import ROOT, criteria_citing, open_spec, read, read_flat
 
 sys.path.insert(0, os.path.join(ROOT, "guardrails"))
 import archformat  # the one node reader every consumer reads through (SPEC INV-280)
@@ -49,7 +49,7 @@ class TestGestureOverlayParityLens(unittest.TestCase):
         spec = read_flat("PRODUCT_SPEC.md")
         self.assertIn("INV-165", spec)
         self.assertIn("motion-parity lens", spec)
-        with open(os.path.join(ROOT, "PRODUCT_SPEC.md"), encoding="utf-8") as f:
+        with open_spec() as f:
             for line in f:
                 if line.startswith("| INV-165 |") and "R62.1" in line:
                     return

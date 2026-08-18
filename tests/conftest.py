@@ -5,6 +5,7 @@ artifact prefixes — a new file surviving to session end is a leak and fails th
 """
 
 import glob
+import io
 import os
 import re
 import sys
@@ -40,6 +41,18 @@ def read(rel):
 def read_flat(rel):
     """The file's text with whitespace collapsed, so wrapped lines match needles."""
     return " ".join(read(rel).split())
+
+
+def open_spec():
+    """The whole spec as a readable text stream, for a test that walks it line by line.
+
+    `with open_spec() as f: for line in f:` reads exactly what `open(PRODUCT_SPEC.md)` used to —
+    each line with its ending — and reads it through read() above, so a test that iterates the spec
+    sees the core AND the parts its map names. A test that opens the path itself would see the core
+    alone the moment a part exists, and would pass while reading a fraction of the document; that is
+    why the path is not spelled out in ~40 test files any more.
+    """
+    return io.StringIO(read(SPEC))
 
 
 _BULLET = re.compile(r"^\s{2,}[-*]\s")

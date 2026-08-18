@@ -19,7 +19,7 @@ import os
 import re
 import subprocess
 
-from conftest import ROOT
+from conftest import ROOT, SPEC, read
 
 HOOKS = os.path.join(ROOT, "hooks")
 FIXTURES = os.path.join(ROOT, "tests", "hedge_fixtures")
@@ -235,7 +235,7 @@ def test_classified_in_judge_hooks():
 # ---- Traceability: the law stands in every document it is owed in (SPEC INV-238) --------------------
 
 def test_spec_states_the_law():
-    spec = _read(os.path.join(ROOT, "PRODUCT_SPEC.md"))
+    spec = read(SPEC)     # the whole spec: the core and the parts its map names
     # R232.1: subjunctive shall-form ("shall block") replaces the old descriptive sentence, and
     # the anchor now shares one combined bracket with INV-173 rather than standing alone.
     assert "shall* block the stop with a rewrite instruction" in spec
@@ -243,7 +243,7 @@ def test_spec_states_the_law():
 
 
 def test_formal_index_row():
-    spec = _read(os.path.join(ROOT, "PRODUCT_SPEC.md"))
+    spec = read(SPEC)     # the whole spec: the core and the parts its map names
     assert "| INV-238 |" in spec
     # index now carries locations only (SPEC INV-271) — the "hedge gate" prose check moves onto
     # the body requirement heading that carries INV-238.

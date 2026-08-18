@@ -22,6 +22,8 @@ import sys
 import tempfile
 import unittest
 
+from conftest import SPEC, read
+
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CHECK = os.path.join(REPO, "scripts", "check-pack-update.sh")
 
@@ -118,7 +120,7 @@ class TestSpecStatesTheLaw(unittest.TestCase):
         # and the founding-questions.json manifest filename moved to ARCHITECTURE.md's INV-227
         # ownership row (see test_architecture_owns_the_invariant) — the rewrite's document-
         # boundary convention (spec = behaviour, architecture = implementation file).
-        spec = open(os.path.join(REPO, "PRODUCT_SPEC.md"), encoding="utf-8").read()
+        spec = read(SPEC)
         self.assertIn(
             "read the host's recorded `founding.set-version` against the current set", spec
         )
@@ -127,7 +129,7 @@ class TestSpecStatesTheLaw(unittest.TestCase):
         self.assertIn("name each founding question the host has never answered", spec)
 
     def test_formal_index_row(self):
-        spec = open(os.path.join(REPO, "PRODUCT_SPEC.md"), encoding="utf-8").read()
+        spec = read(SPEC)
         self.assertIn("| INV-227 |", spec, "INV-227 has no Reference index row")
         self.assertIn(
             "founding.set-version", spec,
@@ -151,7 +153,7 @@ class TestSpecStatesTheLaw(unittest.TestCase):
         # the SPEC clause claims two guide homes — founding/orient (ADOPT.md) and the catch-up walk's
         # orient phase (MIGRATION.md, the operating guide for A-11). Assert both guides actually carry
         # the step, not just the spec prose (the audit's finding: a claimed home must be wired).
-        spec = open(os.path.join(REPO, "PRODUCT_SPEC.md"), encoding="utf-8").read()
+        spec = read(SPEC)
         self.assertIn("name each question added since", spec,
                       "the spec's catch-up orient phase does not name the never-answered questions")
 

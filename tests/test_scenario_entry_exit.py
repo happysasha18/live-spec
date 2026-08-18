@@ -11,7 +11,7 @@ the composition clause, the entry/exit duty in spec-author, product-prover's sce
 import os
 import unittest
 
-from conftest import ROOT, external_clone_or_skip, read_all_flat, read_flat
+from conftest import ROOT, external_clone_or_skip, open_spec, read_all_flat, read_flat
 
 
 class TestScenarioEntryExit(unittest.TestCase):
@@ -33,7 +33,7 @@ class TestScenarioEntryExit(unittest.TestCase):
         # INDEX-ROW pattern (RECIPE): the Reference table now carries locations only.
         # "entry"/"exit" prose is asserted against the spec body in test_spec_clause_stands
         # (the requirement heading itself: "how it is entered and how it exits").
-        with open(os.path.join(ROOT, "PRODUCT_SPEC.md"), encoding="utf-8") as f:
+        with open_spec() as f:
             for line in f:
                 if line.startswith("| INV-127 |"):
                     self.assertIn("R65.1", line)

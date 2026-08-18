@@ -10,10 +10,9 @@ non-bug will head the queue but not stop the rolling lane. Homes: the priority c
 communicator's capture echo (rule 12). String level, matrix M-274.
 """
 
-import os
 import unittest
 
-from conftest import ROOT, read_flat
+from conftest import open_spec, read_flat
 
 
 class TestCriticalPreemptBound(unittest.TestCase):
@@ -37,7 +36,7 @@ class TestCriticalPreemptBound(unittest.TestCase):
     def test_formal_index_row(self):
         # INDEX-ROW pattern (RECIPE): the Reference table now carries locations only.
         # The "critical" prose is asserted against the flattened spec body above.
-        with open(os.path.join(ROOT, "PRODUCT_SPEC.md"), encoding="utf-8") as f:
+        with open_spec() as f:
             for line in f:
                 if line.startswith("| INV-133 |"):
                     self.assertIn("R38.1", line)

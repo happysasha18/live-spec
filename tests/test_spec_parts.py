@@ -13,6 +13,7 @@ move: a core plus two parts parses, indexes and reads as the one-file document i
 part left out of the map is caught rather than silently dropped (INV-259).
 """
 import os
+import glob
 import subprocess
 import unittest
 
@@ -66,6 +67,29 @@ class TestTheLiveSpecReadsAsOneDocument(unittest.TestCase):
                           "before-the-move state and no longer applies")
         with open(os.path.join(ROOT, SPEC), encoding="utf-8") as f:
             self.assertEqual(read(SPEC), f.read())
+
+
+class TestTheSuiteHasOneReadingNode(unittest.TestCase):
+    def test_no_test_opens_the_spec_by_path(self):
+        """The claim the whole split rests on: the suite reads the spec through ONE node.
+
+        It was not true when that node landed — 44 test files opened
+        `os.path.join(ROOT, "PRODUCT_SPEC.md")` themselves, 43 of them walking it line by line. Each
+        would have kept passing over the CORE ALONE the moment a part existed: green over a fraction
+        of the document, which is worse than red. They read through conftest's read()/read_flat() or
+        open_spec() now, and this holds that door shut — a test that opens the path is named here
+        rather than discovered at the move.
+        """
+        offenders = []
+        for path in sorted(glob.glob(os.path.join(ROOT, "tests", "*.py"))):
+            with open(path, encoding="utf-8") as f:
+                for n, line in enumerate(f, 1):
+                    if "open(" in line and '"%s"' % SPEC in line:
+                        offenders.append("%s:%d" % (os.path.basename(path), n))
+        self.assertEqual(offenders, [],
+                         "a test opens the spec by path instead of reading it through conftest "
+                         "(read/read_flat/open_spec); it would go blind to every part the map "
+                         "names: %s" % ", ".join(offenders))
 
 
 class TestTheMap(unittest.TestCase):

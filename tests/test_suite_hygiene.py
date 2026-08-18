@@ -6,10 +6,9 @@ the machine as it found it, test files are born in a temp home and user-visible 
 a test's workspace. String rows on the law's homes plus the leak check's own presence.
 """
 
-import os
 import unittest
 
-from conftest import ROOT, read_flat
+from conftest import open_spec, read_flat
 
 
 class TestSuiteHygieneLaw(unittest.TestCase):
@@ -44,7 +43,7 @@ class TestSuiteHygieneLaw(unittest.TestCase):
     def test_spec_anchor_and_index(self):
         spec = read_flat("PRODUCT_SPEC.md")
         self.assertIn("[INV-100]", spec)
-        with open(os.path.join(ROOT, "PRODUCT_SPEC.md"), encoding="utf-8") as f:
+        with open_spec() as f:
             for line in f:
                 if line.startswith("| INV-100 |"):
                     self.assertIn("leak", spec)

@@ -8,10 +8,9 @@ asserts a stale independence. Homes: the mid-work re-door clause + Formal index,
 re-fire. String level, matrix M-272.
 """
 
-import os
 import unittest
 
-from conftest import ROOT, read_flat
+from conftest import open_spec, read_flat
 
 
 class TestRedoorIndependenceRebuild(unittest.TestCase):
@@ -34,7 +33,7 @@ class TestRedoorIndependenceRebuild(unittest.TestCase):
             self.assertIn(needle, spec, needle)
 
     def test_formal_index_row(self):
-        with open(os.path.join(ROOT, "PRODUCT_SPEC.md"), encoding="utf-8") as f:
+        with open_spec() as f:
             for line in f:
                 if line.startswith("| INV-131 |"):
                     break

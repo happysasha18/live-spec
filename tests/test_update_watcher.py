@@ -13,6 +13,8 @@ import subprocess
 import tempfile
 import unittest
 
+from conftest import SPEC, read
+
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CHECK = os.path.join(REPO, "scripts", "check-pack-update.sh")
 
@@ -122,7 +124,7 @@ class TestManifestCoversScaffoldKit(unittest.TestCase):
 
 class TestSpecStatesTheLaw(unittest.TestCase):
     def test_spec_block_and_index_row(self):
-        spec = open(os.path.join(REPO, "PRODUCT_SPEC.md"), encoding="utf-8").read()
+        spec = read(SPEC)
         self.assertIn("the check reads vendored pins", spec)
         self.assertIn("| INV-177 |", spec)
 

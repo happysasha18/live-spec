@@ -7,10 +7,9 @@ broke mid-turn until the every-prompt hook line and the after-the-fact suite che
 spec anchor and its index row.
 """
 
-import os
 import unittest
 
-from conftest import ROOT, read_flat
+from conftest import open_spec, read_flat
 
 
 class TestLiveChannelLaw(unittest.TestCase):
@@ -40,7 +39,7 @@ class TestLiveChannelLaw(unittest.TestCase):
         spec = read_flat("PRODUCT_SPEC.md")
         self.assertIn("[INV-108]", spec)
         self.assertIn("live channel", spec)
-        with open(os.path.join(ROOT, "PRODUCT_SPEC.md"), encoding="utf-8") as f:
+        with open_spec() as f:
             for line in f:
                 if line.startswith("| INV-108 |"):
                     self.assertIn("R222.1", line)

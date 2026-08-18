@@ -13,7 +13,7 @@ import os
 import re
 import unittest
 
-from conftest import ROOT, external_clone_or_skip, read_all_flat, read_flat
+from conftest import ROOT, external_clone_or_skip, open_spec, read_all_flat, read_flat
 
 
 class TestClassHunt(unittest.TestCase):
@@ -41,7 +41,7 @@ class TestClassHunt(unittest.TestCase):
     def test_formal_index_row(self):
         # The generated index carries locations only (SPEC INV-271); "class hunt" prose lives in the
         # body criterion (asserted above). Here the index must map INV-124 to at least one location.
-        with open(os.path.join(ROOT, "PRODUCT_SPEC.md"), encoding="utf-8") as f:
+        with open_spec() as f:
             for line in f:
                 if line.startswith("| INV-124 |"):
                     self.assertRegex(line, r"R\d+\.\d+")

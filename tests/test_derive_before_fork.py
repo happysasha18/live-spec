@@ -8,10 +8,9 @@ ask-never-guess and in the spec. (Born of a track-coach session that offered the
 its ARCHITECTURE.md layer split already determined the answer, 2026-07-12.)
 """
 
-import os
 import unittest
 
-from conftest import ROOT, read_flat
+from conftest import open_spec, read_flat
 
 
 class TestDeriveBeforeFork(unittest.TestCase):
@@ -31,7 +30,7 @@ class TestDeriveBeforeFork(unittest.TestCase):
             "fork", spec.lower(),
             "INV-121's body criterion doesn't carry the fork phrase",
         )
-        with open(os.path.join(ROOT, "PRODUCT_SPEC.md"), encoding="utf-8") as f:
+        with open_spec() as f:
             for line in f:
                 if line.startswith("| INV-121 |"):
                     return
