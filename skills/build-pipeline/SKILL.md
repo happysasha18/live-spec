@@ -696,6 +696,11 @@ and why each is a trap (SPEC T-12, T-15, INV-4, INV-5, INV-15).
   id. A third is a spec invariant with no matrix row. The fourth is a ⟨DECIDE⟩ marked resolved that
   still carries the live marker. So drift is caught every commit, continuously, and never waits for
   the next MINOR.
+- **A substantive skill change earns a skill-creator review before it ships (SPEC INV-208, gate s).**
+  A push that meaningfully changes a skill under `skills/` needs a committed record under
+  `docs/skill-review/`. That record names the skill and carries a `SKILL-REVIEW` marker with a
+  `Verdict:` line, at least as new as the skill's own last change. `guardrails/check-skill-review.sh`
+  reds a push that lacks one.
 
 ## How it relates to the other skills
 - `spec-author` — writes/grows the spec (step 1). Public.

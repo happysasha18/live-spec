@@ -309,3 +309,20 @@ def test_matrix_row_covers_the_law():
     matrix = read("TEST_MATRIX.md")
     assert "M-389" in matrix
     assert "INV-208" in matrix
+
+
+def test_build_pipeline_names_the_skill_review_step():
+    """The pipeline's own step list names the skill-creator review by its gate, not just its
+    mechanism (gap found 2026-08-19): a reader walking the pipeline's steps met the check
+    nowhere on that list, only in the separate guardrails machinery."""
+    pipeline = read("skills/build-pipeline/SKILL.md")
+    assert "check-skill-review.sh" in pipeline
+    assert "SPEC INV-208" in pipeline
+
+
+def test_publish_kind_checklist_names_the_skill_review():
+    """The publish skill's kind checklist owes the same naming for kind = skill (2026-08-19)."""
+    publish = read("skills/publish/SKILL.md")
+    assert "| skill |" in publish
+    skill_row = next(l for l in publish.splitlines() if l.startswith("| skill |"))
+    assert "SPEC INV-208" in skill_row

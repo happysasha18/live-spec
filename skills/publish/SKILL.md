@@ -90,7 +90,7 @@ its deliberate program-data and authorship bylines spared by a dated allowlist (
 
 | Kind (SPEC T-16) | The publication additionally owes |
 |---|---|
-| skill | install line(s) that actually run · the commands/invocations, shown as they're typed · when to USE it and when NOT (both, verbatim from the skill's own boundaries) · a one-scenario taste of it working (its eval scenario is the honest source, SPEC E-19) |
+| skill | install line(s) that actually run · the commands/invocations, shown as they're typed · when to USE it and when NOT (both, verbatim from the skill's own boundaries) · a one-scenario taste of it working (its eval scenario is the honest source, SPEC E-19) · a skill-creator review on record for the change (SPEC INV-208, `docs/skill-review/`, gate s) |
 | infra / tool | at least one REAL run: the command and its real output, current version · requirements/platform stated · failure behaviour named (what the user sees when input is wrong) |
 | product (visual) | FRESH screenshots of the shipped version — re-shot at every publish that changes what they show, never reused stale · a start-to-value walkthrough (open → first result) |
 | prose | the reading path (what to read first, how long it takes) · who it's for stated up front |
