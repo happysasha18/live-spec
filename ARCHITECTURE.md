@@ -591,14 +591,19 @@ adapter is the one place the pack updates when a lens moves in a prover release.
 
 ### [node: text-audit]
 
-**responsibility** — the audit-and-fix loop for human-facing texts. It runs the mechanical register lints first, then fresh zero-context cold reads. Each finding is fixed at its source until two consecutive reads come back clean.
+**responsibility** — the audit-and-fix loop for human-facing texts. It runs the mechanical register lints first, then fresh zero-context cold reads. Each finding is fixed at its source until two consecutive reads come back clean. As of 2026-08-18 the loop's own mechanics live in a repository this pack does not own; this pack keeps the pack-side bindings alone.
 
 **owns** — INV-266, INV-267, INV-268 (text-audit is the skill that runs this loop)
 
-**pins** — `skills/text-audit/SKILL.md:1` (frontmatter + when it fires), the mechanical-lint and cold-read-loop sections in the same file
+**pins** — the audit loop's mechanics live in a repository this pack does not own. The pack cannot
+promise a line number there, so its pins stand on the tracked adapter instead. The adapter is the one
+place the pack updates when the loop's own shape moves in a text-audit release.
+- `skills/text-audit-pack/SKILL.md:1` (frontmatter — what the adapter carries, what it does not)
+- `skills/text-audit-pack/SKILL.md:30` (the mechanical lints this pack declares — the register-lint arm)
+- `skills/text-audit-pack/SKILL.md:74` (what a cheap reader means run inside this pack)
 
 **notes** —
-- the tenth working skill, named in the pack's skill roster and the pipeline-roles glossary. Its cold-read comprehension loop is the mechanical-lints-then-panel discipline the format-laws requirements state, homed here.
+- the tenth working skill, named in the pack's skill roster and the pipeline-roles glossary. Its cold-read comprehension loop is the mechanical-lints-then-panel discipline the format-laws requirements state. As of 2026-08-18 the loop's body lives at github.com/happysasha18/text-audit, its own repository with its own version line; this node's home in the pack is the binding page alone, not a body it carries.
 - this node carries the working-skill roster's text-audit member without owning that anchor. The roster entity's home stays base-rulebook.
 
 ### [node: work-board] [target]

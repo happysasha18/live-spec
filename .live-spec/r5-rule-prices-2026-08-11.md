@@ -20,13 +20,15 @@ This shape does not match every skill evenly. Three skills — `product-prover`,
 - **Pinned tests** — a rule's own SPEC codes (`INV-`, `T-`, `E-`, `ACT-`, `M-`, `A-` followed by a number), read out of its body text, searched with `grep -rlF '<code>' tests/` and counted as the union of distinct files any of its codes hit. Nineteen of the 53 rules cite no such code in their own text; for those, the search falls back to the rule's bold lead-in phrase itself (quotation marks and markdown stripped) as the `grep -rlF` pattern, and the exact phrase used is named next to each such row. A rule with no code and a lead-in too generic to search safely ("Purpose", "Entities", "Actors") still ran the same search on that word and returned zero, which the table reports as zero rather than skipping the row.
 - **Price** — body bytes plus pinned-test count, the plan's own starting cost measure (`.live-spec/culling-plan-v3-2026-08-10.md` line 86).
 
-**Totals.** 53 rules found. 43,753 body bytes in all. 314 pinned-test hits in all, summed across rules (a test file pinning more than one rule is counted again for each). Combined price: 44,067.
+**Totals.** 48 rules found (5 retired 2026-08-18, see the dated note below). 39,921 body bytes in all. 314 pinned-test hits in all, summed across rules (a test file pinning more than one rule is counted again for each). Combined price: 40,235.
 
 **Repaired at HEAD.** The pins above were re-derived against commit `a5b94f85b8bd607e0ff462eb9e07e0c96235354d` (2026-08-12): every row's home file, line range, body bytes and pinned-test count were re-measured by the same methods stated above. All 53 rules still exist under their original title and number; 48 of the 53 line ranges had drifted (later edits to the same skill files shifted them), and 3 rows' pinned-test counts moved by one file because `tests/` itself changed since d11331f. No row's price-rank order changed.
 
 **Re-pointed after the spec-author offload (2026-08-17).** Nine sections of `skills/spec-author/SKILL.md` moved word for word into `skills/spec-author/references/`. Seven of this page's spec-author rows — the seven items of the spine — now live in `skills/spec-author/references/the-spine.md`, and the ten that stayed in the body shifted up. Every affected row's home path and line range was re-derived by matching its exact text in the new tree. No rule's text, body-byte count, pinned-test count or price changed, and no row's price-rank order changed: the move was verbatim.
 
 **Re-measured after the build-pipeline prose pass (2026-08-18).** `skills/build-pipeline/SKILL.md` was rewritten sentence by sentence for readability, so all nine build-pipeline rows were re-derived by the methods stated above: the span rule, `len(text.encode("utf-8"))` over that span, and the union of `grep -rlF` hits for the rule's own codes. Two edits moved these numbers, and only the second is that pass. The 2026-08-17 offload into `references/architecture-step-detail.md` and `references/verify-step-detail.md` had already cut item 3 from 5,705 bytes to 4,666 and item 8 from 5,954 to 3,993, and this page was not re-measured then; the 2026-08-18 pass then added 632 bytes across the nine, item 7 falling 12 and the other eight rising. Item 8 also lost `INV-61` from its own span on 2026-08-17, so its code set now carries seven codes rather than eight. Unlike the two notes above, this one changes the price-rank order, because these moves were not verbatim: six rows move. Item 3 takes rank 1 from item 8, which falls to rank 3; item 9 rises from 3 to 2; item 2 rises from 6 to 4; and spec-author's Terms and communicator's removal-accounting rows each fall one place, to 5 and 6. The combined price falls from 46,431 to 44,067. This changes an input the frozen plan reads — `.live-spec/culling-plan-v3-2026-08-10.md`, step R5, whose queue runs most-expensive-first — and this edit leaves that plan untouched.
+
+**Retired after the text-audit extraction (2026-08-18).** text-audit moved to its own repository (github.com/happysasha18/text-audit); `skills/text-audit/SKILL.md` no longer exists in this tree, and the pack keeps only the adapter at `skills/text-audit-pack/SKILL.md`, which carries none of the audit loop's own numbered steps. The five text-audit rows this page priced (old ranks 9, 11, 21, 29, 36 — the loop's five steps) have nothing left in this tree to price or cull, so they are removed rather than repointed; there is no line anywhere in this repository that still carries their text. Every remaining row keeps its own home path, line range, body-byte count and price unchanged by this edit — only the rank numbers shift down to close the five gaps, and the table and per-rule sections below are renumbered 1-48 to match. Totals fall from 53 rules / 43,753 body bytes / 44,067 combined price to 48 rules / 39,921 body bytes / 40,235 combined price; 314 pinned-test hits are unchanged, since none of the five retired rows carried a pinned test. This changes an input the frozen plan reads, the same way the note above does, and this edit leaves that plan untouched.
 
 ## The price table, most expensive first
 
@@ -40,51 +42,46 @@ This shape does not match every skill evenly. Three skills — `product-prover`,
 | 6 | communicator | `skills/communicator/SKILL.md:469-489` | 6. **Account for every removal of substance (SPEC INV-109).** When the movement being reported re... | 2,292 | 7 | 2,299 |
 | 7 | build-pipeline | `skills/build-pipeline/SKILL.md:306-327` | 1. **Spec — invoke `spec-author`.** Write or grow the project `PRODUCT_SPEC.md`: entities, states... | 1,752 | 51 | 1,803 |
 | 8 | build-pipeline | `skills/build-pipeline/SKILL.md:440-458` | 5. **Test spec — invoke `test-author` to derive `TEST_MATRIX.md` from the proven spec through the | 1,473 | 9 | 1,482 |
-| 9 | text-audit | `skills/text-audit/SKILL.md:173-193` | 5. **Read again, and close on two clean rounds.** After the fixes land, hand the text to a fresh ... | 1,473 | 0 | 1,473 |
-| 10 | build-pipeline | `skills/build-pipeline/SKILL.md:464-483` | 7. **Code — implement until green.** Delegate well-scoped, mechanical implementation to a junior | 1,440 | 2 | 1,442 |
-| 11 | text-audit | `skills/text-audit/SKILL.md:152-169` | 3. **The auditor merges the two lists.** The auditor is the session running this skill, and the m... | 1,179 | 0 | 1,179 |
-| 12 | communicator | `skills/communicator/SKILL.md:459-467` | 4. **Run the register lint — a hard BLOCK (SPEC INV-83).** Feed every human-facing | 1,039 | 9 | 1,048 |
-| 13 | spec-author | `skills/spec-author/SKILL.md:193-202` | 1. **Author / grow the relevant requirement** in `PRODUCT_SPEC.md`: find (or open) the requiremen... | 1,044 | 3 | 1,047 |
-| 14 | build-pipeline | `skills/build-pipeline/SKILL.md:427-439` | 4. **Prove the architecture — invoke `product-prover` with the architecture lens** whenever the doc | 1,012 | 28 | 1,040 |
-| 15 | test-author | `skills/test-author/SKILL.md:64-74` | 8. **Close by the mechanical gates, not a hand-walked list.** The coverage checklist the matrix once | 941 | 0 | 941 |
-| 16 | design-reviewer | `skills/design-reviewer/SKILL.md:204-215` | 3. **Every position behaves alike.** The same gesture on the same type in a different slot behave... | 859 | 7 | 866 |
-| 17 | design-reviewer | `skills/design-reviewer/SKILL.md:131-139` | 1. **Enumerate.** Build your own inventory of the elements. Use the prover's Phase 1 extraction h... | 751 | 9 | 760 |
-| 18 | communicator | `skills/communicator/SKILL.md:468-468` | 5. **Legibility floor (a BLOCK, SPEC INV-139).** For any STYLED artifact about to be shown — an H... | 748 | 4 | 752 |
-| 19 | test-author | `skills/test-author/SKILL.md:56-63` | 7. **A norm-pointered clause owes a norm-conformance row.** When a spec clause carries a | 711 | 2 | 713 |
-| 20 | communicator | `skills/communicator/SKILL.md:454-458` | 3. **Run the mechanical check** — feed the drafted prose to `python3 scripts/preshow-lint.py -` a... | 620 | 24 | 644 |
-| 21 | text-audit | `skills/text-audit/SKILL.md:145-151` | 2. **Hand the text to two fresh cold readers.** Both sessions hold zero context on the text's his... | 549 | 0 | 549 |
-| 22 | design-reviewer | `skills/design-reviewer/SKILL.md:148-154` | 4. **Check parity.** For each candidate group, list the declared interactions of each member from... | 537 | 0 | 537 |
-| 23 | design-reviewer | `skills/design-reviewer/SKILL.md:155-162` | 5. **Fire the tight ask.** A divergence becomes a finding only when the signal is strong. Every | 517 | 0 | 517 |
-| 24 | design-reviewer | `skills/design-reviewer/SKILL.md:199-203` | 2. **Every object type behaves alike.** Each kind of thing the gesture acts on — a gallery frame, a | 425 | 1 | 426 |
-| 25 | design-reviewer | `skills/design-reviewer/SKILL.md:195-198` | 1. **Entry mirrors exit.** A layer that opens by a motion from its source closes by the reverse of | 398 | 1 | 399 |
-| 26 | test-author | `skills/test-author/SKILL.md:52-55` | 6. **Matrix-local row ids are legal, spec anchors stay the parent.** One spec fact may project into | 387 | 0 | 387 |
-| 27 | test-author | `skills/test-author/SKILL.md:48-51` | 5. **Name the state space before filling cells.** Axes first: view states (mode, toggles), data | 374 | 0 | 374 |
-| 28 | spec-author | `skills/spec-author/references/the-spine.md:16-19` | 5. **Invariants** — the properties that must hold across *every* reachable state, stated as crite... | 373 | 0 | 373 |
-| 29 | text-audit | `skills/text-audit/SKILL.md:141-144` | 1. **Run the mechanical lints, and fix every hit.** Run every check that a script or a grep can d... | 361 | 0 | 361 |
-| 30 | build-pipeline | `skills/build-pipeline/SKILL.md:459-463` | 6. **Test — with `test-author`, write tests that assert the real shipped artifact.** Render the | 360 | 0 | 360 |
-| 31 | communicator | `skills/communicator/SKILL.md:450-453` | 2. **Pass the draft phrase by phrase through one question:** *does this sentence stand for a read... | 344 | 0 | 344 |
-| 32 | communicator | `skills/communicator/SKILL.md:447-449` | 1. **Re-read the rules above, and the full writing register** — open this file and read the live ... | 340 | 0 | 340 |
-| 33 | spec-author | `skills/spec-author/SKILL.md:210-214` | 5. **Then walk the two layers to the tests** — the architecture doc (nodes owning the spec's facts, | 337 | 0 | 337 |
-| 34 | design-reviewer | `skills/design-reviewer/SKILL.md:140-144` | 2. **Describe by role.** For each element, write its role sentence: "a photo a viewer opens large to | 326 | 1 | 327 |
-| 35 | spec-author | `skills/spec-author/SKILL.md:207-209` | 4. **Hand off to `product-prover` on the whole spec — the delta included.** The prover catches a | 304 | 0 | 304 |
-| 36 | text-audit | `skills/text-audit/SKILL.md:170-172` | 4. **Write each fix from the source.** For a blocking finding, take the fix from the material the... | 270 | 0 | 270 |
-| 37 | spec-author | `skills/spec-author/SKILL.md:203-205` | 2. **Ask, don't silently fill.** When the spec needs a decision only the author can make (a thres... | 250 | 0 | 250 |
-| 38 | spec-author | `skills/spec-author/SKILL.md:94-97` | 5. **The two closing sentences** — non-goals + one success measure (SPEC INV-20, INV-21). | 218 | 31 | 249 |
-| 39 | spec-author | `skills/spec-author/references/the-spine.md:10-11` | 2. **Entities** — the nouns. Each defined in the **glossary**, with its attributes, its unit/vali... | 208 | 0 | 208 |
-| 40 | test-author | `skills/test-author/SKILL.md:41-42` | 1. **Open with the artifact inventory** — every file the user receives, each owning at least one | 197 | 0 | 197 |
-| 41 | test-author | `skills/test-author/SKILL.md:45-46` | 3. **Every row states BOTH sides** — what the fact does, and what it must never do. The never sid... | 186 | 0 | 186 |
-| 42 | spec-author | `skills/spec-author/references/the-spine.md:12-13` | 3. **States & transitions** — every move an entity can make, told as criteria (which action, whic... | 183 | 0 | 183 |
-| 43 | design-reviewer | `skills/design-reviewer/SKILL.md:145-147` | 3. **Propose groups.** Elements whose role sentences match are a candidate same-kind group. The | 180 | 0 | 180 |
-| 44 | test-author | `skills/test-author/SKILL.md:43-44` | 2. **Blocks per architecture node; every spec fact ≥ 1 row.** A fact with no row is a derivation | 170 | 0 | 170 |
-| 45 | spec-author | `skills/spec-author/references/the-spine.md:14-15` | 4. **Actors** — who initiates each significant action (user, role, automated service, external sy... | 168 | 0 | 168 |
-| 46 | spec-author | `skills/spec-author/SKILL.md:92-92` | 3. **The standard-facet sweep** — every facet a spec sentence, decided or `[default]`-tagged (SPE... | 116 | 15 | 131 |
-| 47 | spec-author | `skills/spec-author/SKILL.md:90-90` | 1. **Regression fences** — when the wish touches a live surface (next section; SPEC T-14, INV-19); | 101 | 6 | 107 |
-| 48 | spec-author | `skills/spec-author/SKILL.md:91-91` | 2. **The new behaviour itself** — entities, states, transitions, composed across the canonical axes; | 103 | 0 | 103 |
-| 49 | test-author | `skills/test-author/SKILL.md:47-47` | 4. **Every row pins a LEVEL** — the ladder below. The level is the row's most important judgment. | 100 | 0 | 100 |
-| 50 | spec-author | `skills/spec-author/SKILL.md:93-93` | 4. **The fit walk** — how the feature sits in the person's path, kind-scaled (SPEC INV-29); | 94 | 4 | 98 |
-| 51 | spec-author | `skills/spec-author/references/the-spine.md:20-20` | 6. **Cross-section composition** — the part most specs miss. See the dedicated step below. | 93 | 0 | 93 |
-| 52 | spec-author | `skills/spec-author/references/the-spine.md:9-9` | 1. **Purpose** — why the product exists, in plain words: the opening preamble. | 81 | 0 | 81 |
-| 53 | spec-author | `skills/spec-author/SKILL.md:206-206` | 3. **Run the completeness pass** (below) on the section just written. | 70 | 0 | 70 |
+| 9 | build-pipeline | `skills/build-pipeline/SKILL.md:464-483` | 7. **Code — implement until green.** Delegate well-scoped, mechanical implementation to a junior | 1,440 | 2 | 1,442 |
+| 10 | communicator | `skills/communicator/SKILL.md:459-467` | 4. **Run the register lint — a hard BLOCK (SPEC INV-83).** Feed every human-facing | 1,039 | 9 | 1,048 |
+| 11 | spec-author | `skills/spec-author/SKILL.md:193-202` | 1. **Author / grow the relevant requirement** in `PRODUCT_SPEC.md`: find (or open) the requiremen... | 1,044 | 3 | 1,047 |
+| 12 | build-pipeline | `skills/build-pipeline/SKILL.md:427-439` | 4. **Prove the architecture — invoke `product-prover` with the architecture lens** whenever the doc | 1,012 | 28 | 1,040 |
+| 13 | test-author | `skills/test-author/SKILL.md:64-74` | 8. **Close by the mechanical gates, not a hand-walked list.** The coverage checklist the matrix once | 941 | 0 | 941 |
+| 14 | design-reviewer | `skills/design-reviewer/SKILL.md:204-215` | 3. **Every position behaves alike.** The same gesture on the same type in a different slot behave... | 859 | 7 | 866 |
+| 15 | design-reviewer | `skills/design-reviewer/SKILL.md:131-139` | 1. **Enumerate.** Build your own inventory of the elements. Use the prover's Phase 1 extraction h... | 751 | 9 | 760 |
+| 16 | communicator | `skills/communicator/SKILL.md:468-468` | 5. **Legibility floor (a BLOCK, SPEC INV-139).** For any STYLED artifact about to be shown — an H... | 748 | 4 | 752 |
+| 17 | test-author | `skills/test-author/SKILL.md:56-63` | 7. **A norm-pointered clause owes a norm-conformance row.** When a spec clause carries a | 711 | 2 | 713 |
+| 18 | communicator | `skills/communicator/SKILL.md:454-458` | 3. **Run the mechanical check** — feed the drafted prose to `python3 scripts/preshow-lint.py -` a... | 620 | 24 | 644 |
+| 19 | design-reviewer | `skills/design-reviewer/SKILL.md:148-154` | 4. **Check parity.** For each candidate group, list the declared interactions of each member from... | 537 | 0 | 537 |
+| 20 | design-reviewer | `skills/design-reviewer/SKILL.md:155-162` | 5. **Fire the tight ask.** A divergence becomes a finding only when the signal is strong. Every | 517 | 0 | 517 |
+| 21 | design-reviewer | `skills/design-reviewer/SKILL.md:199-203` | 2. **Every object type behaves alike.** Each kind of thing the gesture acts on — a gallery frame, a | 425 | 1 | 426 |
+| 22 | design-reviewer | `skills/design-reviewer/SKILL.md:195-198` | 1. **Entry mirrors exit.** A layer that opens by a motion from its source closes by the reverse of | 398 | 1 | 399 |
+| 23 | test-author | `skills/test-author/SKILL.md:52-55` | 6. **Matrix-local row ids are legal, spec anchors stay the parent.** One spec fact may project into | 387 | 0 | 387 |
+| 24 | test-author | `skills/test-author/SKILL.md:48-51` | 5. **Name the state space before filling cells.** Axes first: view states (mode, toggles), data | 374 | 0 | 374 |
+| 25 | spec-author | `skills/spec-author/references/the-spine.md:16-19` | 5. **Invariants** — the properties that must hold across *every* reachable state, stated as crite... | 373 | 0 | 373 |
+| 26 | build-pipeline | `skills/build-pipeline/SKILL.md:459-463` | 6. **Test — with `test-author`, write tests that assert the real shipped artifact.** Render the | 360 | 0 | 360 |
+| 27 | communicator | `skills/communicator/SKILL.md:450-453` | 2. **Pass the draft phrase by phrase through one question:** *does this sentence stand for a read... | 344 | 0 | 344 |
+| 28 | communicator | `skills/communicator/SKILL.md:447-449` | 1. **Re-read the rules above, and the full writing register** — open this file and read the live ... | 340 | 0 | 340 |
+| 29 | spec-author | `skills/spec-author/SKILL.md:210-214` | 5. **Then walk the two layers to the tests** — the architecture doc (nodes owning the spec's facts, | 337 | 0 | 337 |
+| 30 | design-reviewer | `skills/design-reviewer/SKILL.md:140-144` | 2. **Describe by role.** For each element, write its role sentence: "a photo a viewer opens large to | 326 | 1 | 327 |
+| 31 | spec-author | `skills/spec-author/SKILL.md:207-209` | 4. **Hand off to `product-prover` on the whole spec — the delta included.** The prover catches a | 304 | 0 | 304 |
+| 32 | spec-author | `skills/spec-author/SKILL.md:203-205` | 2. **Ask, don't silently fill.** When the spec needs a decision only the author can make (a thres... | 250 | 0 | 250 |
+| 33 | spec-author | `skills/spec-author/SKILL.md:94-97` | 5. **The two closing sentences** — non-goals + one success measure (SPEC INV-20, INV-21). | 218 | 31 | 249 |
+| 34 | spec-author | `skills/spec-author/references/the-spine.md:10-11` | 2. **Entities** — the nouns. Each defined in the **glossary**, with its attributes, its unit/vali... | 208 | 0 | 208 |
+| 35 | test-author | `skills/test-author/SKILL.md:41-42` | 1. **Open with the artifact inventory** — every file the user receives, each owning at least one | 197 | 0 | 197 |
+| 36 | test-author | `skills/test-author/SKILL.md:45-46` | 3. **Every row states BOTH sides** — what the fact does, and what it must never do. The never sid... | 186 | 0 | 186 |
+| 37 | spec-author | `skills/spec-author/references/the-spine.md:12-13` | 3. **States & transitions** — every move an entity can make, told as criteria (which action, whic... | 183 | 0 | 183 |
+| 38 | design-reviewer | `skills/design-reviewer/SKILL.md:145-147` | 3. **Propose groups.** Elements whose role sentences match are a candidate same-kind group. The | 180 | 0 | 180 |
+| 39 | test-author | `skills/test-author/SKILL.md:43-44` | 2. **Blocks per architecture node; every spec fact ≥ 1 row.** A fact with no row is a derivation | 170 | 0 | 170 |
+| 40 | spec-author | `skills/spec-author/references/the-spine.md:14-15` | 4. **Actors** — who initiates each significant action (user, role, automated service, external sy... | 168 | 0 | 168 |
+| 41 | spec-author | `skills/spec-author/SKILL.md:92-92` | 3. **The standard-facet sweep** — every facet a spec sentence, decided or `[default]`-tagged (SPE... | 116 | 15 | 131 |
+| 42 | spec-author | `skills/spec-author/SKILL.md:90-90` | 1. **Regression fences** — when the wish touches a live surface (next section; SPEC T-14, INV-19); | 101 | 6 | 107 |
+| 43 | spec-author | `skills/spec-author/SKILL.md:91-91` | 2. **The new behaviour itself** — entities, states, transitions, composed across the canonical axes; | 103 | 0 | 103 |
+| 44 | test-author | `skills/test-author/SKILL.md:47-47` | 4. **Every row pins a LEVEL** — the ladder below. The level is the row's most important judgment. | 100 | 0 | 100 |
+| 45 | spec-author | `skills/spec-author/SKILL.md:93-93` | 4. **The fit walk** — how the feature sits in the person's path, kind-scaled (SPEC INV-29); | 94 | 4 | 98 |
+| 46 | spec-author | `skills/spec-author/references/the-spine.md:20-20` | 6. **Cross-section composition** — the part most specs miss. See the dedicated step below. | 93 | 0 | 93 |
+| 47 | spec-author | `skills/spec-author/references/the-spine.md:9-9` | 1. **Purpose** — why the product exists, in plain words: the opening preamble. | 81 | 0 | 81 |
+| 48 | spec-author | `skills/spec-author/SKILL.md:206-206` | 3. **Run the completeness pass** (below) on the section just written. | 70 | 0 | 70 |
 
 ## Every rule, in full, in the same order
 
@@ -184,19 +181,7 @@ Pinned tests: 9, from `grep -rlF '<code>' tests/` over each of this rule's own c
 
 Price: 1,473 body bytes plus 9 pinned tests = 1,482.
 
-### 9. text-audit — The loop, item 5
-
-Home: `skills/text-audit/SKILL.md:173-193`.
-
-Opening line, quoted in full: "5. **Read again, and close on two clean rounds.** After the fixes land, hand the text to a fresh pair"
-
-Body bytes: 1,473, counted over `skills/text-audit/SKILL.md` lines 173-193 with `len(text.encode('utf-8'))`.
-
-Pinned tests: 0. This rule cites no SPEC code in its own text, so the search fell back to its lead-in phrase: `grep -rlF 'Read again, and close on two clean rounds' tests/`.
-
-Price: 1,473 body bytes plus 0 pinned tests = 1,473.
-
-### 10. build-pipeline — The steps, item 7
+### 9. build-pipeline — The steps, item 7
 
 Home: `skills/build-pipeline/SKILL.md:464-483`.
 
@@ -208,19 +193,7 @@ Pinned tests: 2, from `grep -rlF '<code>' tests/` over each of this rule's own c
 
 Price: 1,440 body bytes plus 2 pinned tests = 1,442.
 
-### 11. text-audit — The loop, item 3
-
-Home: `skills/text-audit/SKILL.md:152-169`.
-
-Opening line, quoted in full: "3. **The auditor merges the two lists.** The auditor is the session running this skill, and the merge"
-
-Body bytes: 1,179, counted over `skills/text-audit/SKILL.md` lines 152-169 with `len(text.encode('utf-8'))`.
-
-Pinned tests: 0. This rule cites no SPEC code in its own text, so the search fell back to its lead-in phrase: `grep -rlF 'The auditor merges the two lists' tests/`.
-
-Price: 1,179 body bytes plus 0 pinned tests = 1,179.
-
-### 12. communicator — The pre-report walk — run before any movement-end or milestone report, and before any surface is shown (SPEC INV-34, INV-83), item 4
+### 10. communicator — The pre-report walk — run before any movement-end or milestone report, and before any surface is shown (SPEC INV-34, INV-83), item 4
 
 Home: `skills/communicator/SKILL.md:459-467`.
 
@@ -232,7 +205,7 @@ Pinned tests: 9, from `grep -rlF '<code>' tests/` over each of this rule's own c
 
 Price: 1,039 body bytes plus 9 pinned tests = 1,048.
 
-### 13. spec-author — How spec-author works, item 1
+### 11. spec-author — How spec-author works, item 1
 
 Home: `skills/spec-author/SKILL.md:193-202`.
 
@@ -244,7 +217,7 @@ Pinned tests: 3, from `grep -rlF '<code>' tests/` over each of this rule's own c
 
 Price: 1,044 body bytes plus 3 pinned tests = 1,047.
 
-### 14. build-pipeline — The steps, item 4
+### 12. build-pipeline — The steps, item 4
 
 Home: `skills/build-pipeline/SKILL.md:427-439`.
 
@@ -256,7 +229,7 @@ Pinned tests: 28, from `grep -rlF '<code>' tests/` over each of this rule's own 
 
 Price: 1,012 body bytes plus 28 pinned tests = 1,040.
 
-### 15. test-author — Deriving the matrix (the pipeline's step 5), item 8
+### 13. test-author — Deriving the matrix (the pipeline's step 5), item 8
 
 Home: `skills/test-author/SKILL.md:64-74`.
 
@@ -268,7 +241,7 @@ Pinned tests: 0. This rule cites no SPEC code in its own text, so the search fel
 
 Price: 941 body bytes plus 0 pinned tests = 941.
 
-### 16. design-reviewer — The standing motion-parity lens (SPEC INV-165), item 3
+### 14. design-reviewer — The standing motion-parity lens (SPEC INV-165), item 3
 
 Home: `skills/design-reviewer/SKILL.md:204-215`.
 
@@ -280,7 +253,7 @@ Pinned tests: 7, from `grep -rlF '<code>' tests/` over each of this rule's own c
 
 Price: 859 body bytes plus 7 pinned tests = 866.
 
-### 17. design-reviewer — The similarity lens — five steps, item 1
+### 15. design-reviewer — The similarity lens — five steps, item 1
 
 Home: `skills/design-reviewer/SKILL.md:131-139`.
 
@@ -292,7 +265,7 @@ Pinned tests: 9, from `grep -rlF '<code>' tests/` over each of this rule's own c
 
 Price: 751 body bytes plus 9 pinned tests = 760.
 
-### 18. communicator — The pre-report walk — run before any movement-end or milestone report, and before any surface is shown (SPEC INV-34, INV-83), item 5
+### 16. communicator — The pre-report walk — run before any movement-end or milestone report, and before any surface is shown (SPEC INV-34, INV-83), item 5
 
 Home: `skills/communicator/SKILL.md:468-468`.
 
@@ -304,7 +277,7 @@ Pinned tests: 4, from `grep -rlF '<code>' tests/` over each of this rule's own c
 
 Price: 748 body bytes plus 4 pinned tests = 752.
 
-### 19. test-author — Deriving the matrix (the pipeline's step 5), item 7
+### 17. test-author — Deriving the matrix (the pipeline's step 5), item 7
 
 Home: `skills/test-author/SKILL.md:56-63`.
 
@@ -316,7 +289,7 @@ Pinned tests: 2, from `grep -rlF '<code>' tests/` over each of this rule's own c
 
 Price: 711 body bytes plus 2 pinned tests = 713.
 
-### 20. communicator — The pre-report walk — run before any movement-end or milestone report, and before any surface is shown (SPEC INV-34, INV-83), item 3
+### 18. communicator — The pre-report walk — run before any movement-end or milestone report, and before any surface is shown (SPEC INV-34, INV-83), item 3
 
 Home: `skills/communicator/SKILL.md:454-458`.
 
@@ -328,19 +301,7 @@ Pinned tests: 24, from `grep -rlF '<code>' tests/` over each of this rule's own 
 
 Price: 620 body bytes plus 24 pinned tests = 644.
 
-### 21. text-audit — The loop, item 2
-
-Home: `skills/text-audit/SKILL.md:145-151`.
-
-Opening line, quoted in full: "2. **Hand the text to two fresh cold readers.** Both sessions hold zero context on the text's history."
-
-Body bytes: 549, counted over `skills/text-audit/SKILL.md` lines 145-151 with `len(text.encode('utf-8'))`.
-
-Pinned tests: 0. This rule cites no SPEC code in its own text, so the search fell back to its lead-in phrase: `grep -rlF 'Hand the text to two fresh cold readers' tests/`.
-
-Price: 549 body bytes plus 0 pinned tests = 549.
-
-### 22. design-reviewer — The similarity lens — five steps, item 4
+### 19. design-reviewer — The similarity lens — five steps, item 4
 
 Home: `skills/design-reviewer/SKILL.md:148-154`.
 
@@ -352,7 +313,7 @@ Pinned tests: 0. This rule cites no SPEC code in its own text, so the search fel
 
 Price: 537 body bytes plus 0 pinned tests = 537.
 
-### 23. design-reviewer — The similarity lens — five steps, item 5
+### 20. design-reviewer — The similarity lens — five steps, item 5
 
 Home: `skills/design-reviewer/SKILL.md:155-162`.
 
@@ -364,7 +325,7 @@ Pinned tests: 0. This rule cites no SPEC code in its own text, so the search fel
 
 Price: 517 body bytes plus 0 pinned tests = 517.
 
-### 24. design-reviewer — The standing motion-parity lens (SPEC INV-165), item 2
+### 21. design-reviewer — The standing motion-parity lens (SPEC INV-165), item 2
 
 Home: `skills/design-reviewer/SKILL.md:199-203`.
 
@@ -376,7 +337,7 @@ Pinned tests: 1. This rule cites no SPEC code in its own text, so the search fel
 
 Price: 425 body bytes plus 1 pinned tests = 426.
 
-### 25. design-reviewer — The standing motion-parity lens (SPEC INV-165), item 1
+### 22. design-reviewer — The standing motion-parity lens (SPEC INV-165), item 1
 
 Home: `skills/design-reviewer/SKILL.md:195-198`.
 
@@ -388,7 +349,7 @@ Pinned tests: 1. This rule cites no SPEC code in its own text, so the search fel
 
 Price: 398 body bytes plus 1 pinned tests = 399.
 
-### 26. test-author — Deriving the matrix (the pipeline's step 5), item 6
+### 23. test-author — Deriving the matrix (the pipeline's step 5), item 6
 
 Home: `skills/test-author/SKILL.md:52-55`.
 
@@ -400,7 +361,7 @@ Pinned tests: 0. This rule cites no SPEC code in its own text, so the search fel
 
 Price: 387 body bytes plus 0 pinned tests = 387.
 
-### 27. test-author — Deriving the matrix (the pipeline's step 5), item 5
+### 24. test-author — Deriving the matrix (the pipeline's step 5), item 5
 
 Home: `skills/test-author/SKILL.md:48-51`.
 
@@ -412,7 +373,7 @@ Pinned tests: 0. This rule cites no SPEC code in its own text, so the search fel
 
 Price: 374 body bytes plus 0 pinned tests = 374.
 
-### 28. spec-author — The spine — what every spec must contain (not its section order), item 5
+### 25. spec-author — The spine — what every spec must contain (not its section order), item 5
 
 Home: `skills/spec-author/references/the-spine.md:16-19`.
 
@@ -424,19 +385,7 @@ Pinned tests: 0. This rule cites no SPEC code in its own text, so the search fel
 
 Price: 373 body bytes plus 0 pinned tests = 373.
 
-### 29. text-audit — The loop, item 1
-
-Home: `skills/text-audit/SKILL.md:141-144`.
-
-Opening line, quoted in full: "1. **Run the mechanical lints, and fix every hit.** Run every check that a script or a grep can decide,"
-
-Body bytes: 361, counted over `skills/text-audit/SKILL.md` lines 141-144 with `len(text.encode('utf-8'))`.
-
-Pinned tests: 0. This rule cites no SPEC code in its own text, so the search fell back to its lead-in phrase: `grep -rlF 'Run the mechanical lints, and fix every hit' tests/`.
-
-Price: 361 body bytes plus 0 pinned tests = 361.
-
-### 30. build-pipeline — The steps, item 6
+### 26. build-pipeline — The steps, item 6
 
 Home: `skills/build-pipeline/SKILL.md:459-463`.
 
@@ -448,7 +397,7 @@ Pinned tests: 0. This rule cites no SPEC code in its own text, so the search fel
 
 Price: 360 body bytes plus 0 pinned tests = 360.
 
-### 31. communicator — The pre-report walk — run before any movement-end or milestone report, and before any surface is shown (SPEC INV-34, INV-83), item 2
+### 27. communicator — The pre-report walk — run before any movement-end or milestone report, and before any surface is shown (SPEC INV-34, INV-83), item 2
 
 Home: `skills/communicator/SKILL.md:450-453`.
 
@@ -460,7 +409,7 @@ Pinned tests: 0. This rule cites no SPEC code in its own text, so the search fel
 
 Price: 344 body bytes plus 0 pinned tests = 344.
 
-### 32. communicator — The pre-report walk — run before any movement-end or milestone report, and before any surface is shown (SPEC INV-34, INV-83), item 1
+### 28. communicator — The pre-report walk — run before any movement-end or milestone report, and before any surface is shown (SPEC INV-34, INV-83), item 1
 
 Home: `skills/communicator/SKILL.md:447-449`.
 
@@ -472,7 +421,7 @@ Pinned tests: 0. This rule cites no SPEC code in its own text, so the search fel
 
 Price: 340 body bytes plus 0 pinned tests = 340.
 
-### 33. spec-author — How spec-author works, item 5
+### 29. spec-author — How spec-author works, item 5
 
 Home: `skills/spec-author/SKILL.md:210-214`.
 
@@ -484,7 +433,7 @@ Pinned tests: 0. This rule cites no SPEC code in its own text, so the search fel
 
 Price: 337 body bytes plus 0 pinned tests = 337.
 
-### 34. design-reviewer — The similarity lens — five steps, item 2
+### 30. design-reviewer — The similarity lens — five steps, item 2
 
 Home: `skills/design-reviewer/SKILL.md:140-144`.
 
@@ -496,7 +445,7 @@ Pinned tests: 1. This rule cites no SPEC code in its own text, so the search fel
 
 Price: 326 body bytes plus 1 pinned tests = 327.
 
-### 35. spec-author — How spec-author works, item 4
+### 31. spec-author — How spec-author works, item 4
 
 Home: `skills/spec-author/SKILL.md:207-209`.
 
@@ -508,19 +457,7 @@ Pinned tests: 0. This rule cites no SPEC code in its own text, so the search fel
 
 Price: 304 body bytes plus 0 pinned tests = 304.
 
-### 36. text-audit — The loop, item 4
-
-Home: `skills/text-audit/SKILL.md:170-172`.
-
-Opening line, quoted in full: "4. **Write each fix from the source.** For a blocking finding, take the fix from the material the text"
-
-Body bytes: 270, counted over `skills/text-audit/SKILL.md` lines 170-172 with `len(text.encode('utf-8'))`.
-
-Pinned tests: 0. This rule cites no SPEC code in its own text, so the search fell back to its lead-in phrase: `grep -rlF 'Write each fix from the source' tests/`.
-
-Price: 270 body bytes plus 0 pinned tests = 270.
-
-### 37. spec-author — How spec-author works, item 2
+### 32. spec-author — How spec-author works, item 2
 
 Home: `skills/spec-author/SKILL.md:203-205`.
 
@@ -532,7 +469,7 @@ Pinned tests: 0. This rule cites no SPEC code in its own text, so the search fel
 
 Price: 250 body bytes plus 0 pinned tests = 250.
 
-### 38. spec-author — The feature delta, assembled — one home for its mandatory parts, item 5
+### 33. spec-author — The feature delta, assembled — one home for its mandatory parts, item 5
 
 Home: `skills/spec-author/SKILL.md:94-97`.
 
@@ -544,7 +481,7 @@ Pinned tests: 31, from `grep -rlF '<code>' tests/` over each of this rule's own 
 
 Price: 218 body bytes plus 31 pinned tests = 249.
 
-### 39. spec-author — The spine — what every spec must contain (not its section order), item 2
+### 34. spec-author — The spine — what every spec must contain (not its section order), item 2
 
 Home: `skills/spec-author/references/the-spine.md:10-11`.
 
@@ -556,7 +493,7 @@ Pinned tests: 0. This rule cites no SPEC code in its own text, so the search fel
 
 Price: 208 body bytes plus 0 pinned tests = 208.
 
-### 40. test-author — Deriving the matrix (the pipeline's step 5), item 1
+### 35. test-author — Deriving the matrix (the pipeline's step 5), item 1
 
 Home: `skills/test-author/SKILL.md:41-42`.
 
@@ -568,7 +505,7 @@ Pinned tests: 0. This rule cites no SPEC code in its own text, so the search fel
 
 Price: 197 body bytes plus 0 pinned tests = 197.
 
-### 41. test-author — Deriving the matrix (the pipeline's step 5), item 3
+### 36. test-author — Deriving the matrix (the pipeline's step 5), item 3
 
 Home: `skills/test-author/SKILL.md:45-46`.
 
@@ -580,7 +517,7 @@ Pinned tests: 0. This rule cites no SPEC code in its own text, so the search fel
 
 Price: 186 body bytes plus 0 pinned tests = 186.
 
-### 42. spec-author — The spine — what every spec must contain (not its section order), item 3
+### 37. spec-author — The spine — what every spec must contain (not its section order), item 3
 
 Home: `skills/spec-author/references/the-spine.md:12-13`.
 
@@ -592,7 +529,7 @@ Pinned tests: 0. This rule cites no SPEC code in its own text, so the search fel
 
 Price: 183 body bytes plus 0 pinned tests = 183.
 
-### 43. design-reviewer — The similarity lens — five steps, item 3
+### 38. design-reviewer — The similarity lens — five steps, item 3
 
 Home: `skills/design-reviewer/SKILL.md:145-147`.
 
@@ -604,7 +541,7 @@ Pinned tests: 0. This rule cites no SPEC code in its own text, so the search fel
 
 Price: 180 body bytes plus 0 pinned tests = 180.
 
-### 44. test-author — Deriving the matrix (the pipeline's step 5), item 2
+### 39. test-author — Deriving the matrix (the pipeline's step 5), item 2
 
 Home: `skills/test-author/SKILL.md:43-44`.
 
@@ -616,7 +553,7 @@ Pinned tests: 0. This rule cites no SPEC code in its own text, so the search fel
 
 Price: 170 body bytes plus 0 pinned tests = 170.
 
-### 45. spec-author — The spine — what every spec must contain (not its section order), item 4
+### 40. spec-author — The spine — what every spec must contain (not its section order), item 4
 
 Home: `skills/spec-author/references/the-spine.md:14-15`.
 
@@ -628,7 +565,7 @@ Pinned tests: 0. This rule cites no SPEC code in its own text, so the search fel
 
 Price: 168 body bytes plus 0 pinned tests = 168.
 
-### 46. spec-author — The feature delta, assembled — one home for its mandatory parts, item 3
+### 41. spec-author — The feature delta, assembled — one home for its mandatory parts, item 3
 
 Home: `skills/spec-author/SKILL.md:92-92`.
 
@@ -640,7 +577,7 @@ Pinned tests: 15, from `grep -rlF '<code>' tests/` over each of this rule's own 
 
 Price: 116 body bytes plus 15 pinned tests = 131.
 
-### 47. spec-author — The feature delta, assembled — one home for its mandatory parts, item 1
+### 42. spec-author — The feature delta, assembled — one home for its mandatory parts, item 1
 
 Home: `skills/spec-author/SKILL.md:90-90`.
 
@@ -652,7 +589,7 @@ Pinned tests: 6, from `grep -rlF '<code>' tests/` over each of this rule's own c
 
 Price: 101 body bytes plus 6 pinned tests = 107.
 
-### 48. spec-author — The feature delta, assembled — one home for its mandatory parts, item 2
+### 43. spec-author — The feature delta, assembled — one home for its mandatory parts, item 2
 
 Home: `skills/spec-author/SKILL.md:91-91`.
 
@@ -664,7 +601,7 @@ Pinned tests: 0. This rule cites no SPEC code in its own text, so the search fel
 
 Price: 103 body bytes plus 0 pinned tests = 103.
 
-### 49. test-author — Deriving the matrix (the pipeline's step 5), item 4
+### 44. test-author — Deriving the matrix (the pipeline's step 5), item 4
 
 Home: `skills/test-author/SKILL.md:47-47`.
 
@@ -676,7 +613,7 @@ Pinned tests: 0. This rule cites no SPEC code in its own text, so the search fel
 
 Price: 100 body bytes plus 0 pinned tests = 100.
 
-### 50. spec-author — The feature delta, assembled — one home for its mandatory parts, item 4
+### 45. spec-author — The feature delta, assembled — one home for its mandatory parts, item 4
 
 Home: `skills/spec-author/SKILL.md:93-93`.
 
@@ -688,7 +625,7 @@ Pinned tests: 4, from `grep -rlF '<code>' tests/` over each of this rule's own c
 
 Price: 94 body bytes plus 4 pinned tests = 98.
 
-### 51. spec-author — The spine — what every spec must contain (not its section order), item 6
+### 46. spec-author — The spine — what every spec must contain (not its section order), item 6
 
 Home: `skills/spec-author/references/the-spine.md:20-20`.
 
@@ -700,7 +637,7 @@ Pinned tests: 0. This rule cites no SPEC code in its own text, so the search fel
 
 Price: 93 body bytes plus 0 pinned tests = 93.
 
-### 52. spec-author — The spine — what every spec must contain (not its section order), item 1
+### 47. spec-author — The spine — what every spec must contain (not its section order), item 1
 
 Home: `skills/spec-author/references/the-spine.md:9-9`.
 
@@ -712,7 +649,7 @@ Pinned tests: 0. This rule cites no SPEC code in its own text, so the search fel
 
 Price: 81 body bytes plus 0 pinned tests = 81.
 
-### 53. spec-author — How spec-author works, item 3
+### 48. spec-author — How spec-author works, item 3
 
 Home: `skills/spec-author/SKILL.md:206-206`.
 
@@ -723,4 +660,3 @@ Body bytes: 70, counted over `skills/spec-author/SKILL.md` lines 206-206 with `l
 Pinned tests: 0. This rule cites no SPEC code in its own text, so the search fell back to its lead-in phrase: `grep -rlF 'Run the completeness pass' tests/`.
 
 Price: 70 body bytes plus 0 pinned tests = 70.
-

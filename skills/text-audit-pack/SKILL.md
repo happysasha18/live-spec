@@ -12,6 +12,21 @@ text-audit is an external skill with its own repository and version line. This p
 live-spec pack. An audit run inside a live-spec project reads the audit skill's own SKILL.md first and
 this page beside it. An audit run anywhere else needs nothing from this page.
 
+## Work that belongs elsewhere
+
+This page binds the external text-audit skill to the pack; it runs no cold read and fixes no line
+itself. Skip it for:
+
+- reading a text as a stranger and fixing what a reader stops on, round by round — that is the
+  external `text-audit` skill's own body, loaded first, not this page;
+- judging whether a spec or architecture document holds together as written — the `product-prover`
+  pass;
+- judging the design behind a proven spec — the `design-reviewer` pass.
+
+This page alone cannot run the audit loop: without the external skill's own SKILL.md loaded beside
+it, its lint table names commands but starts none, and its "cheap reader" definition has no loop to
+apply to. Load both together, the external body first.
+
 ## The mechanical lints this pack declares
 
 `text-audit`'s Step 1 runs every command a host names in `.text-audit/lints.json` before it falls back
