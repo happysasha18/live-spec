@@ -217,19 +217,27 @@ def test_personal_overlay_patterns_load(tmp_path, monkeypatch):
 
 # ---- Wiring: pack installer + judge classification --------------------------------------------------
 
-def test_pack_installer_ships_and_wires_the_arm():
-    """SPEC INV-238: a universal pack hook lives as source in hooks/ and installs via the setup walk,
-    and the installer never copies the personal overlay (hedge-personal.json stays the personal
-    layer's own file, the same carve-out scissors-personal.json gets)."""
+def test_pack_installer_ships_the_arm_unwired():
+    """SPEC INV-238 + Requirement 311: a universal pack hook lives as source in hooks/ and its file is
+    placed by the setup walk. Since 2026-08-17 the installer wires none of the six it ships — the host
+    does, in its own settings.json. The installer never copies the personal overlay (hedge-personal.json
+    stays the personal layer's own file, the same carve-out scissors-personal.json gets)."""
     src = _read(os.path.join(ROOT, "scripts", "install-pack-hooks.sh"))
     assert "hedge-scan.py" in src
-    assert 'wire("Stop", "hedge-scan.py"' in src
+    assert 'wire("Stop", "hedge-scan.py"' not in src
+    assert "wire(" not in src, "the pack installer wires a hook again — all six are opt-in"
     assert "hedge-personal.json" not in src.split("JUDGE_FILES=")[1].split("\n")[0]
 
 
 def test_classified_in_judge_hooks():
+    """The arm is a library entry, off in the pack's default wiring, with its surface and its command
+    form still declared so a host turning it on reads them rather than guessing (Requirement 311)."""
     decl = json.loads(_read(os.path.join(ROOT, "guardrails", "judge-hooks.json")))
-    assert decl.get("wired", {}).get("hedge-scan") == "Stop"
+    assert "hedge-scan" not in decl.get("wired", {})
+    assert "hedge-scan" in decl.get("library", [])
+    assert decl["opt_in_surface"]["hedge-scan"] == "Stop"
+    assert decl["command"]["hedge-scan"] == "python3 ~/.claude/hooks/hedge-scan.py"
+    assert decl["file"]["hedge-scan"] == "hedge-scan.py"
 
 
 # ---- Traceability: the law stands in every document it is owed in (SPEC INV-238) --------------------
