@@ -10,6 +10,11 @@ node, `6d1a2a6` repointed eight references into `guardrails/attic/` and refreshe
 figure, `cbdf3f8` carried an earlier lane's edit in on a merge, and `0ce20c8` refreshed the suite
 size again to the number this pass measured.
 
+**This record was extended twice.** The second extension, at the bottom, covers the three readability
+lanes that rewrote `build-pipeline`, `communicator` and `live-spec-base` and moved 35 architecture
+pins with them. It also carries the honest red: the pin gate's second leg is failing, on rot that
+predates every line of tonight's work.
+
 **This record was extended once.** It first landed at `3b73943` covering `db01da2..75c4377`, and the
 gate was green on it. Two commits then landed in the same branch — `0ce20c8` and `6fa3062` — and
 `0ce20c8` touches `ARCHITECTURE.md`, which reddened the freshness arm again and with it
@@ -17,11 +22,13 @@ gate was green on it. Two commits then landed in the same branch — `0ce20c8` a
 both. I read those two commits myself; what I saw and what I merely accepted is marked as everywhere
 else in this record.
 
-Range: db01da2..6fa3062 (base db01da2, the remote head; 39 commits in the range, listed below;
+Range: db01da2..a5d61a6 (base db01da2, the remote head; 59 commits in the range; the 39 through
+`6fa3062` are listed below, and the 16 of the readability lanes that followed are listed in the
+extension's own section 7, so each block sits beside the reading that covers it;
 `ARCHITECTURE.md` itself is touched by `011158b`, `6d1a2a6`, `cbdf3f8`, the merge `b2ace4f` and
-`0ce20c8`. The coverage this pass actually gives each of the 39 is stated under Findings rather than
-implied by the listing — see the coverage note there, which is the first thing a later auditor should
-read.)
+`0ce20c8`, and by `8a920ee`, `4d3d8fc`, `9c06806` and the merges `bb0f48a` and `a5d61a6`. The
+coverage this pass actually gives each of the 59 is stated under Findings rather than implied by the
+listing — see the coverage note there, which is the first thing a later auditor should read.)
 - 6fa3062 The architecture ceiling pays for two path repoints, and nothing else
 - 0ce20c8 The budget row states the suite size the merged tree collects
 - 3b73943 The prover record covers the spec-author pin repoint, the attic pins and the suite size
@@ -77,7 +84,15 @@ full, `guardrails/node-file-cap.json`, `guardrails/check-prover-record.sh` in fu
 paths; `docs/prover/README.md`; `docs/prover/2026-08-17-slimdown-pin-renumber.md` for the form. For
 the extension: the full diffs of `0ce20c8` and `6fa3062`, `guardrails/doc-bounds.json`'s
 `ARCHITECTURE.md` entry in full including its whole `reason` field, `guardrails/check-doc-bound.py`,
-and `tests/test_doc_bound.py` for its `FOUR_DOCS` list.
+and `tests/test_doc_bound.py` for its `FOUR_DOCS` list. For the second extension: the whole
+`25acaf5..HEAD` diff of `ARCHITECTURE.md`; `skills/live-spec-base/SKILL.md`,
+`skills/build-pipeline/SKILL.md` and `skills/communicator/SKILL.md` at `25acaf5` and at HEAD, at
+every pin line sampled and at the rule headings around them; `skills/build-pipeline/SKILL.md` at
+`d11331f` and `db01da2` in full for the rule positions; `.live-spec/r5-rule-prices-2026-08-11.md`
+(its header, its method section and all nine build-pipeline rows); `guardrails/check-pin-drift.sh` in
+full, including `label_words`, the `FURNITURE` list and both legs' matching loops;
+`.live-spec/culling-plan-v3-2026-08-10.md` at its R5 and queue lines; and the tip commit and diff of
+`morning/2026-08-18-r5-remeasure`.
 
 Checks run: `bash guardrails/check-pin-drift.sh` — exit 0, **207 pins proved** (63 line pins against
 their own line at ±2 tolerance, 138 file-level `:1` pins, 6 unlabelled) plus 53 r5 range pins, with
@@ -89,7 +104,12 @@ same number both times; `git show --stat 37ff032` — nine reference files added
 body; a direct existence check that none of the six parked checks remains at `guardrails/<name>.py`;
 `wc -c ARCHITECTURE.md` — **107774**, and `git show HEAD:ARCHITECTURE.md | wc -c` — 107774, the same;
 `python3 guardrails/check-doc-bound.py` (gate z) — exit 0, "every growable doc sits within its
-declared bound … 5 docs read"; an independent byte-arithmetic reconstruction of the ceiling rise,
+declared bound … 5 docs read", re-run at the final HEAD with `wc -c ARCHITECTURE.md` still **107774**
+and `max_bytes` still 107774; `bash guardrails/check-pin-drift.sh` re-run at the final HEAD — **exit
+1**: first leg green at 207 pins, second leg FAILED on one r5 entry, reported in full in section 9;
+a replica of the r5 leg's matching rule written from the script's own source and validated against
+the real gate at HEAD, then run at `d11331f`, `db01da2` and `25acaf5`; a byte measurement of the nine
+build-pipeline rule bodies at `d11331f` and at HEAD against their recorded prices; an independent byte-arithmetic reconstruction of the ceiling rise,
 computed from the pin lines themselves rather than read off the commit's reason field; and the
 six-pin both-ends read described under Findings.
 
@@ -99,6 +119,10 @@ the old line in the pre-move file and the new line in the file it now names — 
 commit message. What follows separates what I SAW from what I ACCEPTED.
 
 Blocking: none.
+- stands: the r5 leg of `check-pin-drift.sh` reds on one entry, `skills/build-pipeline/SKILL.md:385-403`.
+  It is not blocking and it is not closed. It stands because the rot predates this range — proved at
+  the base commit in section 9 — and because closing it means remeasuring prices that feed a frozen
+  plan, which is the owner's decision. Named here rather than left for him to meet cold.
 
 ## 1. The six spec-author pins — all six SEEN at both ends, all six correct
 
@@ -298,8 +322,14 @@ the permission on top of it rests on the coordinator's word.
 Named plainly, because a record that lists only its successes is a record that hides its shape.
 
 - **Coverage.** This pass is the `M-6`/`INV-116` architecture re-check the gate reddened for. It is
-  NOT a full adversarial read of all 39 commits in `db01da2..6fa3062`. I read `ARCHITECTURE.md` and
-  the files its pins name, plus `0ce20c8` and `6fa3062` in full. The install-road commits
+  NOT a full adversarial read of all 59 commits in `db01da2..a5d61a6`. I read `ARCHITECTURE.md` and
+  the files its pins name, plus `0ce20c8` and `6fa3062` in full, and for the readability lanes the
+  pin diff and twelve sampled pins at both ends — but NOT the prose rewrites themselves. The three
+  skills' bodies were rewritten across sixteen commits and I did not read those rewrites for meaning;
+  I checked only that the pins still land on their labels' material. Whether the shortened sentences
+  preserve every fact is the skill-review gate's question, and the finding counts quoted to me
+  (build-pipeline 211→37, communicator 169→17, live-spec-base 70→20) are **accepted, not seen** — I
+  did not run the readability measure. The install-road commits
   (`bc7b9fe`, `b145cea`, `665e2c1`, `104bc92`),
   the chat-law hook commits (`d48b8a3`, `151130b`, `66635ff`, `01a3c3f`), the census and report
   commits (`966db35`, `c466d3e`, `d85aa28`), the push-chain change `b2ff6e3`, the gate-g locality
@@ -334,9 +364,248 @@ Named plainly, because a record that lists only its successes is a record that h
   gate-a finding is the standing warning that a shape certified on the work road can still be
   rejected by the real gate.
 
+## 7. The readability lanes and their 35 pin repoints — twelve read at both ends, all twelve correct
+
+Sixteen further commits landed after this record's last extension, in three readability lanes that
+rewrote the three big skills for shorter sentences. Splitting long sentences moved lines, so
+`ARCHITECTURE.md`'s pins into those files had to follow.
+
+The 16:
+
+- a5d61a6 Merge branch 'night/2026-08-18-plainer-base' into night/2026-08-18-integration
+- 85772b5 The census records the rulebook at twenty findings
+- 9c06806 The shared rulebook says the same things in shorter sentences
+- bb0f48a Merge branch 'night/2026-08-18-plainer-bp' into night/2026-08-18-integration
+- 4d3d8fc point the communicator pins at the lines the rewrite moved them to
+- 8a920ee The architecture pins follow the lines the rewrite moved
+- 2d870cd record the communicator's byte count after the condition fix
+- 30c642b communicator: put the no-installed-set condition before its instruction
+- caae507 refresh the recorded counts after the last communicator edit
+- d828c81 communicator: keep the date on the client-asset case and clear two pronouns
+- 961f09a build-pipeline: the tripwire list as a list, and the numbers to match
+- 92d3b2f build-pipeline: plainer gates section, and the census record it now measures
+- ae11951 record the communicator's new finding count and the skill line counts
+- 76fe145 communicator: split the long sentences and drop the shouted words
+- 2739420 build-pipeline: shorter sentences and plain words through steps 3 to 9
+- 359cbfe build-pipeline: shorter sentences and plain words through the door steps
+
+**The repoint's size, counted rather than accepted.** The diff `25acaf5..HEAD` over `ARCHITECTURE.md`
+changes 35 pin lines into those three skills: **19 into `live-spec-base`, 10 into `build-pipeline`,
+6 into `communicator`**. I was told "about 10 / 7 / 19"; base and build-pipeline match, and
+communicator is 6 by my count, not 7. Every changed line in that diff is a pin line — I checked that
+no prose, node, owns or notes line moved with them.
+
+**Twelve pins read at both ends, spread across all three skills.** Same method as section 1: the old
+line from `25acaf5`, the new line from the tree, each compared against the pin's own label.
+
+| skill | old → new | label | what stands at the NEW line |
+|---|---|---|---|
+| live-spec-base | 71 → 72 | rules | `## The shared rules` |
+| live-spec-base | 136 → 138 | rule 7 fence, INV-10/INV-11 | `7. **The concurrent-edit fence, before every write and every commit.**` |
+| live-spec-base | 289 → 293 | rule 19, INV-23 workshop-noise | `19. **The problem ledger — workshop noise is owned, never re-suffered.**` |
+| live-spec-base | 564 → 567 | rule 35, INV-302 session extract | `35. **A session's record is read at both ends by an agent that did not live it (SPEC INV-302).**` |
+| live-spec-base | 163 → 165 | rule 7's worker-restore sub-rule, INV-298 | `- **A worker never restores a working tree with a git command (SPEC INV-298).**` |
+| build-pipeline | 205 → 284 | the work-kind table | `## The work-kind table — what the wish builds scales how each step runs (SPEC T-16, INV-22)` |
+| build-pipeline | 487 → 632 | gates | `## Gates worth remembering` |
+| build-pipeline | 318 → 417 | re-carve paragraph, INV-113 | `Re-carving the whole node map is legal. It arrives as a restructure placement's own queue row` |
+| build-pipeline | 91 → 96 | the craft ladder | `**The craft ladder — which craft's standards judge each step (SPEC INV-33).**` |
+| communicator | 291 → 300 | rule 10 — the decision page | `- **Several open picks → ONE interactive decision page.** *(rule 10)*` |
+| communicator | 343 → 351 | rule 11 — the evidence walk | `- **"Did we actually do X?" is answered by walking the evidence…** *(rule 11)*` |
+| communicator | 278 → 287 | rule 7's chat-arm clock sentence | `- Time is a fact like the rest: a human-facing timestamp — the [HH:MM] a reply leads with…` |
+
+**All twelve new targets carry their label's own material, and none is a plausible neighbour.** Two
+are worth naming because their text was itself rewritten and I checked the rewrite rather than the
+line number alone: the work-kind table's heading lost its shouted capitals (`WHAT … HOW` became
+`what … how`) and the craft ladder's sentence was re-broken, but both still say what their label
+names. `check-pin-drift.sh`'s first leg is green over the whole set: **207 pins proved**, 63 line
+pins against their own line, and the reach list names all three rewritten skills.
+
+## 8. The claim that some pins were green while pointing at nothing — CONFIRMED, and worse than stated
+
+This was the claim I was asked to confirm or refute, and it is the most valuable thing in this part.
+I refute the numbers and confirm the substance: the old pins were in worse shape than the summary
+said, not better.
+
+I took every pin in `ARCHITECTURE.md` at `25acaf5` that names one of the three skills — **35 pins** —
+and printed the line each one actually landed on in the file as it then stood.
+
+**Eleven sat on a blank line, not twelve.** The eleven are `live-spec-base` at 71, 136, 247, 289,
+310, 321, 331, 345, 400, 408 and 417. Each is the empty line **exactly one above** its subject's
+first line: 289 is blank and rule 19 opens at 290; 321 is blank and rule 21 opens at 322; 400 is
+blank and rule 26 opens at 401. I verified those three headings by locating them in the old file
+directly.
+
+**Three sat exactly five lines inside their rule, not two.** Rule 31 opens at 449 and its pin read
+454. Rule 32 opens at 515 and its pin read 520. Rule 35 opens at 559 and its pin read 564. All three
+are `+5`, which is too regular to be chance and suggests one authoring pass that measured from the
+wrong end.
+
+**Two more were off by one onto their neighbour's line, which the summary did not mention at all.**
+The pin labelled `rule 7's worker-restore sub-rule, INV-298` read 163, and line 163 is the tail of a
+different sub-rule — `senior's own workers colliding (SPEC ACT-3, INV-11).` The worker-restore
+sub-rule actually opens at 164. And the pin labelled `one row per landing commit` read 164 — the
+worker-restore sub-rule's own line — while `**One row per landing commit.**` opens at 165. So the two
+pins sat on each other's neighbours, each naming a rule one line below where it pointed.
+
+**So at least 16 of the 35 were not on their subject's first line, and all 35 were green.** That
+green is not hearsay: I ran `check-pin-drift.sh` myself in the first pass of this record, at
+`75c4377`, and recorded "207 pins proved" with exit 0. These pins were in the tree then, in exactly
+the state described above.
+
+**Why they passed — the mechanism, read out of the gate.** `check-pin-drift.sh` proves a line pin
+against a window of `±2` lines (`TOL`), and it proves it by looking for any *naming word* of the
+label — a word of four or more characters that is not document furniture (`rule`, `step`, `gate`,
+`line`, `table`, `check`, `node`, `file`, `home`, `section`, …), matched case-insensitively as a
+substring, with a trailing `s` stripped. A blank line one above its heading therefore always passes:
+the heading itself is inside the `±2` window. The `+5` cases are outside that window, and they passed
+for the other reason — a naming word of the label happened to occur in the five-line window anyway.
+The label for rule 31 carries `earned-message`, and its window carries "agent scans for cards and
+reads the owning agent's"; a single common word is enough, because the gate breaks on the first hit.
+
+**The honest reading:** the gate proves that a label's word appears near a line, which is a much
+weaker claim than that the pin points at the right place. It is a rot detector, not an aim detector.
+Tonight's rewrite did not damage these pins; it forced them to be re-aimed, and the re-aiming is what
+put them on their subjects for the first time in a while. That is a real improvement, and it is the
+opposite of what a reader would guess from "the rewrite moved 35 pins".
+
+## 9. THE HONEST RED — the pin gate's second leg is failing, on rot older than tonight
+
+**`bash guardrails/check-pin-drift.sh` exits 1.** Its first leg is green; its second leg is not:
+
+```
+OK (pin drift): 207 pin(s) checked — 63 line pin(s) proved against their own line …
+FAIL (pin drift, r5): skills/build-pipeline/SKILL.md:385-403 — no naming word of the label stands in lines 385-403
+FAILED (pin drift, r5): 53 range pin(s) checked against r5-rule-prices-2026-08-11.md, and the findings above stand.
+```
+
+The second leg checks the 53 range pins in `.live-spec/r5-rule-prices-2026-08-11.md`, the page that
+prices the 53 rules living outside the shared rulebook. **One entry fails.** This section exists so
+the owner meets the red here, with its cause, rather than meeting it cold.
+
+I was given four claims about this red. I checked each. **Three hold in substance, two are wrong in
+their numbers, and one is simply false.**
+
+**(a) The rot predates tonight — TRUE, but not from the date I was told.** I was told the nine
+`build-pipeline` entries had been missing their text by about 21 lines "already on 08-11, before any
+night work". The first half is right and the second half is not. At `d11331f`, the commit that
+created the page on 2026-08-11 at 03:01, I read the file it prices and found all nine ranges
+**exact** — rule 1 at 243, rule 2 at 263, rule 3 at 286, rule 4 at 353, rule 5 at 364, rule 6 at 381,
+rule 7 at 385, rule 8 at 404, rule 9 at 471, each matching its recorded range's first line to the
+line. The page was accurate the day it was written. The rot arrived later, between 2026-08-11 and
+tonight's base.
+
+**And the offset is not "about 21".** At `db01da2` — the base commit, before a single line of
+tonight's work — the nine had drifted by:
+
+| rule | r5 range | actual start at db01da2 | offset |
+|---|---|---|---|
+| 1 | 243-262 | 222 | −21 |
+| 2 | 263-285 | 242 | −21 |
+| 3 | 286-352 | 265 | −21 |
+| 4 | 353-363 | 324 | −29 |
+| 5 | 364-380 | 335 | −29 |
+| 6 | 381-384 | 352 | −29 |
+| 7 | 385-403 | 356 | −29 |
+| 8 | 404-470 | 375 | −29 |
+| 9 | 471-500 | 422 | −49 |
+
+Three at −21, five at −29, one at −49. "About 21 lines" describes only the first three; the median is
+−29 and the worst is −49. The substance of the claim — **the nine entries were already rotten before
+tonight, and nothing tonight caused it** — is confirmed by my own reading, and it is the part that
+matters.
+
+**(b) They passed by coincidence — TRUE, and the range widths are wider than stated.** I was told the
+ranges are 19-67 lines wide. They are **4 to 67**: 20, 23, 67, 11, 17, 4, 19, 67 and 30 lines. Three
+are narrower than the stated floor, and the 4-line one (rule 6) is the narrowest. The coincidence
+mechanism is nonetheless real and is the same one section 8 describes: the r5 leg searches the
+label's naming words anywhere in the pinned span, and the label here is the rule's own opening line,
+whose words — "verify", "commit", "prove", "spec", "architecture" — recur constantly in a file about
+exactly those things. A 67-line window into a build-pipeline body will almost always contain one.
+
+**(c) Nine of nine passed at the base and eight of nine pass now — TRUE, verified by replicating the
+gate.** I could not cut a worktree at the base to run the real script, so I re-implemented the r5
+leg's matching rule in Python directly from the script's own source: `label_words`'s four-character
+minimum, its hyphen and underscore splitting, its furniture list, its trailing-`s` strip, its
+naming-before-furniture preference, and its case-insensitive substring match that stops at the first
+hit. **The replica reproduces the real gate exactly at HEAD** — 53 checked, 1 failure, and the same
+failing entry `skills/build-pipeline/SKILL.md:385-403` — which is what licenses its use on the
+commits I cannot check out. Its verdicts:
+
+| revision | entries checked | failures | build-pipeline entries passing |
+|---|---|---|---|
+| d11331f (page created, 08-11) | 53 | 0 | 9 of 9 |
+| db01da2 (tonight's base) | 53 | 0 | 9 of 9 |
+| 25acaf5 (before the rewrite) | 53 | 0 | 9 of 9 |
+| HEAD (a5d61a6) | 53 | 1 | 8 of 9 |
+
+So the claim holds exactly: **tonight's work did not break the record — it removed the coincidence
+that was hiding rot already there.** The single red is the one entry whose luck ran out. That is a
+gate telling the truth for the first time in a week, and it should be read as a gain.
+
+**(d) A ready remeasure commit is waiting on `morning/2026-08-18-r5-remeasure` — FALSE. I checked and
+it is not there.** The branch exists, but:
+
+- it points at `8a920ee`, "The architecture pins follow the lines the rewrite moved";
+- `git merge-base --is-ancestor` confirms it is **fully contained in HEAD** — 0 commits ahead, 11
+  behind;
+- its tip touches `ARCHITECTURE.md`, `guardrails/rule-census.json` and
+  `skills/build-pipeline/SKILL.md`, and **does not touch the r5 page at all**;
+- `git log --all -- .live-spec/r5-rule-prices-2026-08-11.md` returns five commits across every branch
+  in the repository, the newest being `4d3d8fc`, already merged. **No commit anywhere remeasures the
+  nine build-pipeline rows.**
+
+I am not able to say where the intended commit went. What I can say is that nothing on that branch
+would close this red, and a reader told to look there in the morning will find an ordinary merged
+commit. **This is the one place where what I was told does not survive contact with the repository,
+and I am recording it rather than smoothing it.**
+
+**The reason for deferring the remeasure IS sound, and I verified its premise myself.** A remeasure
+genuinely changes prices and order. Measuring the nine rules' bodies at HEAD against their recorded
+prices:
+
+| rule | recorded bytes | bytes at HEAD | change |
+|---|---|---|---|
+| 8 | 5,954 | 4,042 | −1,912 |
+| 3 | 5,705 | 4,819 | −886 |
+| 9 | 4,028 | 4,217 | +189 |
+| 1 | 1,625 | 1,751 | +126 |
+| 2 | 2,230 | 2,331 | +101 |
+| 7 | 1,452 | 1,439 | −13 |
+| 4 | 1,003 | 1,011 | +8 |
+| 5 | 1,466 | 1,472 | +6 |
+| 6 | 355 | 359 | +4 |
+
+(The same measurement at `d11331f` returns every recorded figure to within a single byte — a
+consistent −1 across all nine, the page's trailing-newline convention — which is what tells me the
+prices were honest when written.)
+
+**The order changes, not just the numbers.** `.live-spec/culling-plan-v3-2026-08-10.md` states at its
+queue line that the queue runs from the most expensive rule first, and names this very page as the
+source of the 53 rules' prices; the r5 page in turn calls that plan "the frozen plan". The old top of
+the build-pipeline queue was rule 8 (5,954), then rule 3 (5,705), then rule 9 (4,028). Remeasured it
+becomes rule 3 (4,819), then rule 9 (4,217), then rule 8 (4,042) — **rule 8 falls from first to
+third**. So a remeasure is a change to the input of a frozen plan, and holding it for the owner's
+word is the right call. That part of the reasoning I confirm.
+
+**One inconsistency the reasoning does not cover, and it is a real one.** `4d3d8fc`, inside this very
+range, **did** edit the r5 page: it repointed six `communicator` entries to new line ranges — 459-479
+became 469-489, 449-457 became 459-467, and four more — while leaving every byte count and every
+price untouched. So a repoint without a reprice is possible, was done tonight, and did not disturb
+the frozen plan. The stated reason for not doing the same for build-pipeline is therefore incomplete
+as given. It is nonetheless defensible on a ground the summary did not state: the communicator rows
+moved because lines **above** them shifted, so their own text and bytes were unchanged, whereas the
+build-pipeline rewrite changed the rules' own text, and the table above shows their bytes moved by up
+to 1,912. Repointing those nine without repricing would leave the range right and the price wrong —
+arguably worse than a clean red. **I record this as my own reading, not as something I was told.**
+
+**Blocking? No — and I want to be exact about why.** This red is a true finding against a page whose
+rot predates this range, it is fully described here, and closing it means editing the input to a
+frozen plan, which is the owner's decision and not this pass's. It stands, named, with its cause,
+its history and its cost measured. What I refuse to do is call it clean.
+
 ## What the gate said
 
-After the extension commit, over `0ce20c8` and `6fa3062` as well:
+After the second extension commit, over all 59 commits of the range:
 
 ```
 $ bash guardrails/check-prover-record.sh
