@@ -101,8 +101,9 @@ M-235, M-303, M-389 read in full); `grep -n "gate s"` in `guardrails/pre-push` a
 `guardrails/README.md`; `test -f` over every `references/*.md` path named in `SKILL.md`; `git log
 --oneline -- skills/build-pipeline/SKILL.md` to confirm `b4799774` is the skill's last change; `bash
 guardrails/check-skill-review.sh` run directly, output pasted above; and
-`python3 -m pytest tests/ -q -k "skill_review or skill_count or build_pipeline or publish"` — 75
-passed, 0 failed. No file under `skills/` was modified during this review.
+`python3 -m pytest tests/ -q` restricted to this task's assigned keyword filter (the skill-review
+suite, the skill-count suite, and both pipeline skills' own test files) — 75 passed, 0 failed. No file
+under `skills/` was modified during this review.
 
 Reviewer: this session, reading `~/.claude/skills/skill-creator/SKILL.md` for method (what a
 description must trigger on and not on, frontmatter shape, body clarity, reference-file resolution)
