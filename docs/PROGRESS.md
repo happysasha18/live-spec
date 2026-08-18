@@ -273,7 +273,7 @@ The fifteen documents carrying the most findings:
 | words | 8,258 | not stated | not stated | set by the subdivision plan |
 | requirements | 0 | 282 | not stated | set by the subdivision plan |
 | acceptance criteria | 0 | 1,372 | not stated | set by the subdivision plan |
-| bytes per criterion | not stated | not stated | 185.4 | falls or holds |
+| bytes per criterion | not stated | not stated | 185.6 | falls or holds |
 | pairs stating one fact twice | 0 | 116 | 119 | falls or holds |
 
 ## Readings run so far

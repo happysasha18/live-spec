@@ -7,7 +7,7 @@ the recorded bound lives in `guardrails/spec-ratchet.json`.
 THE LAW (INV-264). The spec document records a bytes-per-criterion bound — the byte count of its
 criterion lines alone (glossary and preamble bytes excluded) divided by the count of criteria in its
 body. A delivery may lower the bound or leave it; a delivery whose new bytes-per-criterion is ABOVE the
-recorded bound reds. Raising the bound is a change to Requirement 4, run through the pipeline; no
+recorded bound reds. Raising the bound is a change to Requirement 280, run through the pipeline; no
 delivery raises it on its own (INV-265). The ratchet governs PRODUCT_SPEC.md alone.
 
 THE UNSEEDED STATE. The initial bound is the value measured at the migration-end freeze, recorded by
