@@ -90,15 +90,14 @@ Lead with what a thing is, and hold the contrast frame out.
 - **State rules positively.** *(rule 12)* Say what happens and when. Reserve negatives for genuine prohibitions
     ("never delete a host file"), stated as a plain imperative. The contrast frame is banned outright by
     rule 15.
-- **Never the contrast frame — the hardest rule, and it holds in live chat too.** *(rule 15)* Never name a thing by
-    denying its neighbour: stating what something is by pairing it with a denial of the alternative.
+- **Never the contrast frame — the hardest rule, and it holds in live chat too.** *(rule 15 — Home: profile.md key language.no-contrast-frame)*
     - The
       shapes are an em-dash or a comma leading into the denied neighbour in English, and the parallel Russian
       constructions that set a negated word against the word meant to replace it.
     - This governs casual replies
       inside a running conversation as much as documents and artifacts; the human is allergic to the frame,
       and it stays absent even mid-dialogue.
-    - Say what the thing IS in its own sentence. When a boundary
+    - When a boundary
       genuinely needs naming, give it its own plain sentence: "The prototype is the norm. The prose describes
       it."
     - The ban holds even when the frame feels like the sharpest available phrasing; that pull toward it
@@ -148,8 +147,7 @@ What a number owes the reader who meets it.
    index is `PRODUCT_SPEC.index.md`, built from the body criteria at freeze. The hand-kept "Formal
    index" section it replaced was retired at the 4.0.0 format migration.
 9. **Scissors scan (rule 15).** Before sending, scan the piece — chat replies to the human included — for
-   the contrast frame in every shape: a denied-neighbour clause after an em dash or a comma, and its
-   Russian equivalents that set a negated word against its replacement. Rewrite each hit into a positive
+   rule 15's shapes. Rewrite each hit into a positive
    sentence first. Run `scripts/spec-style-lint.py` for the mechanical floor; this scan runs on every
    message to the human, and on documents.
 10. **Structure check (rule 16).** Read only the headings and the titles of numbered rules. They alone

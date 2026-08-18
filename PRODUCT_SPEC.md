@@ -7088,7 +7088,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 ## Requirement 293: A naked internal code in live prose reds
 
-**Context:** The plain-language law asks a human-facing sentence to stand in the product's own words, with an internal handle — a queue row number, a spec code — trailing in parentheses for a reader who wants to follow it. A sentence that leads with a bare handle gives the reader a number he has no way to resolve. The law had no machine and decayed for want of one, so a Stop-hook scan now reads the turn against it and asks for the naming in plain words one message later.
+**Context:** The plain-language law (`hooks/chat-law-hook.sh`) had no machine and decayed for want of one. A sentence that leads with a bare handle gives the reader a number he has no way to resolve, so a Stop-hook scan now reads the turn against the law and asks for the naming in plain words one message later.
 
 **User Story:** As a person reading the seat's replies, I want an internal code left standing outside its anchor flagged, so that the sentence comes back in plain words I can resolve on sight.
 
