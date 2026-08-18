@@ -422,17 +422,19 @@ class TestTheGeneratorWritesAllOrNothing(unittest.TestCase):
 class TestPatternsStopAtTheExternalSkill(unittest.TestCase):
     """A count about THIS tree does not count another repository installed inside it.
 
-    `skills/product-prover/` is an untracked clone of an external canonical repository. Both
-    `skills-lines` measurements expand `skills/*/SKILL.md`, which matched it — so the two
-    figures README.md publishes answered differently depending on whether the reader had run
-    `scripts/install-external-skills.sh`: 5,528 lines bare against 6,365 with the canon
+    `skills/product-prover/` is an untracked clone of an external canonical repository. The
+    now-retired `skills-lines` count once expanded `skills/*/SKILL.md`, which matched it — so
+    the two figures README.md published answered differently depending on whether the reader
+    had run `scripts/install-external-skills.sh`: 5,528 lines bare against 6,365 with the canon
     installed. That was survivable while it was only a developer's local red. Once CI began
     installing the pinned canon before the suite, no single published number could be right
-    in both places and the count became unsatisfiable rather than merely stale.
+    in both places and the count became unsatisfiable rather than merely stale — one of the
+    reasons `skills-lines` was dropped from `guardrails/tree-counts.json` (2026-08-18).
 
-    The fence is the structural probe install.sh, sync-skills.sh, stamp-versions.py and
-    check-config-health.sh already carry, and it lives in the shared expander, so gate ad's
-    drift arm and its published-command arm hold it identically.
+    The fence itself is general-purpose — the structural probe install.sh, sync-skills.sh,
+    stamp-versions.py and check-config-health.sh already carry — and it stays in the shared
+    expander for any future count whose pattern could reach a `skills/*` glob, so gate ad's
+    drift arm and its published-command arm would hold it identically again.
 
     Red first: with the fence removed, `expand_stage` returns the planted external file and
     the first assertion below fails.
@@ -483,24 +485,12 @@ class TestPatternsStopAtTheExternalSkill(unittest.TestCase):
                 gen.expand_stage("probe", ["cat", "skills/external-canon/*.md"], tmp)
             self.assertIn("matches no file", str(caught.exception))
 
-    def test_the_real_tree_reads_the_same_either_way(self):
-        """On this repository the two published figures must not move with the install state."""
-        gen = generator_module()
-        expanded = gen.expand_stage("skills-lines", ["cat", "skills/*/SKILL.md"], ROOT)
-        external = gen.external_skill_roots(ROOT)
-        for path in expanded[1:]:
-            self.assertFalse(
-                any(path.startswith(prefix) for prefix in external),
-                "the published skills-lines measurement reads %s, which belongs to an "
-                "external repository installed under skills/" % path,
-            )
-
 
 class TestTheRealRegistry(unittest.TestCase):
     def test_the_registry_parses_and_declares_the_counts(self):
         data = json.loads(read(REGISTRY))
         self.assertEqual(sorted(data["counts"]),
-                         ["gate-roster", "scaffold-checks", "skills-lines"])
+                         ["gate-roster", "scaffold-checks"])
 
     def test_every_count_carries_its_seven_ground_parts(self):
         data = json.loads(read(REGISTRY))
