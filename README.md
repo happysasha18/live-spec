@@ -2,7 +2,7 @@
 
 **Ten working [Claude Code](https://claude.com/claude-code) skills, plus the one shared rulebook they all load. They turn a wish spoken in passing into a specified, reviewed, tested, committed change. Scripts block the push when the documents and the code disagree.**
 
-*(Claude Code is Anthropic's AI coding agent — an app you install once. This pack is a set of instructions it loads, so you talk to Claude Code and live-spec is what answers.)*
+*(Claude Code is Anthropic's own coding agent, an app you install once. This pack is a set of instructions it loads. You talk to Claude Code, and live-spec is what answers.)*
 
 ---
 
@@ -18,11 +18,11 @@ live-spec closes it. You say the sentence in passing, with nothing to file and n
 
 There are two ways in. Pick one road at step 1, then follow that road's lines wherever the steps below fork. Take the plugin road if you want to use the pack and download nothing you have to keep. Take the clone road if you want the pack's own tree on your disk, to read and to keep.
 
-One thing before you start: the "no CLI" promise above is about everything *after* this section. Step 1's two lines are a one-time setup, typed once into Claude Code. Once they're in, you never type another command — every request from there on is a plain sentence.
+One thing before you start: the "no CLI" promise above is about everything *after* this section. Step 1's two lines are a one-time setup, typed once into Claude Code. Once they're in, you never type another command. Every request from there on is a plain sentence.
 
 ### Step 1 — get the pack onto your machine
 
-The only lines you ever type, in this whole setup, are the two below for whichever road you pick — copy them exactly as shown. Everything after this step, you just say in plain words.
+The only lines you ever type, in this whole setup, are the two below for whichever road you pick. Copy them exactly as shown. Everything after this step, you just say in plain words.
 
 **The plugin road — take this one unless you have a reason not to.** Type two lines into Claude Code:
 
@@ -40,19 +40,19 @@ git clone https://github.com/happysasha18/live-spec.git
 cd live-spec && ./install.sh
 ```
 
-`install.sh` copies the skill folders into `~/.claude/skills/` and copies nothing else. Keep the clone. It is your copy of the pack tree, and step 2's setup walk reads from it.
+`install.sh` copies the skill folders into `~/.claude/skills/` and copies nothing else. Keep the clone. It is your copy of the pack tree. Step 2's setup walk reads from it.
 
 ### Step 2 — attach the pack to a project
 
-Both roads do the same thing here. Open your project (the folder holding what you're building — or an empty folder, for a brand-new one) in Claude Code and say *"attach live-spec to this project"*, or *"found a new project on live-spec"* in an empty directory. The pack locates its own tree and reads yours, asks what it needs to know in plain words, and runs the whole setup walk itself — writing your first spec, and (step 3, next) wiring the push gate. You do not open any of those files yourself.
+Both roads do the same thing here. Open your project in Claude Code — the folder holding what you're building, or an empty folder for a brand-new one. Say *"attach live-spec to this project"*, or *"found a new project on live-spec"* in an empty directory. The pack locates its own tree and reads yours. It asks what it needs to know, in plain words. Then it runs the whole setup walk itself. It writes your first spec. In step 3 next, it wires the push gate too. You do not open any of those files yourself.
 
 ### Step 3 — the push gate
 
-The push gate is a separate step, and it reads the documents step 2 just wrote. **The setup walk installs it too, as part of the one walk from step 2** — the checks, the config, the git hook, all of it. That is the ordinary path, and there is nothing to do here.
+The push gate is a separate step. It reads the documents step 2 just wrote. **The setup walk installs it too, as part of the same walk** — checks, config, git hook, all of it. That is the ordinary path. There is nothing to do here.
 
 After that everything runs in plain words: any wish, *"status"* — where the work stands now and what is next — *"publish"*.
 
-If you're a programmer and want to read or drive those documents yourself, the technical account starts at ["For builders"](#for-builders), below the fold. A technical wish for the pack itself is welcome — [open an Issue](https://github.com/happysasha18/live-spec/issues/new/choose); it lands in the maintainers' inbox and gets routed from there.
+If you're a programmer and want to read or drive those documents yourself, the technical account starts at ["For builders"](#for-builders), below the fold. A technical wish for the pack itself is welcome — [open an Issue](https://github.com/happysasha18/live-spec/issues/new/choose). It lands in the maintainers' inbox. From there, it gets routed.
 
 ---
 
@@ -105,9 +105,9 @@ The full accounts, including the reviews that missed something and said so, live
 
 ## Where the pack stands
 
-Talking to it is the whole job on the customer side: say what you want, read the report, decide what only you can decide. The spec, the architecture document, the test matrix, and the pre-push hook are the agent's own working papers — it writes and keeps all four current on every change, and you never have to open one. A programmer who wants to read or drive those documents directly can, starting at ["For builders"](#for-builders) below.
+Talking to it is the whole job on the customer side: say what you want, read the report, decide what only you can decide. The spec, the architecture document, the test matrix, and the pre-push hook are the agent's own working papers. It writes and keeps all four current on every change. You never have to open one. A programmer who wants to read or drive those documents directly can, starting at ["For builders"](#for-builders) below.
 
-Three projects, one author, no outside adopters yet — small and early, honestly. That is exactly why the checking is built the way it is: with no large user base yet to catch a mistake, the pack has to catch its own, so every gate is proven able to fail before it ships (more on that below), and a change that drifts from its own spec is refused mechanically, not by anyone's good judgment on the day. The one place that isn't independently checked is content judgment itself — *is this the right thing to build* — where the judgment loop is one model reviewing its own work. The version moves fast and the rules will sharpen as more projects run under it.
+Three projects, one author, no outside adopters yet — small and early. That is why the checking is built the way it is. With no large user base yet to catch a mistake, the pack has to catch its own. Every gate is proven able to fail before it ships — more on that below. A change that drifts from its own spec is refused automatically, by the same script, whatever the day. Content judgment — *is this the right thing to build* — has no independent check yet. The loop is one model reviewing its own work. The version moves fast, and the rules will sharpen as more projects run under it.
 
 ---
 
@@ -115,7 +115,7 @@ That's the whole customer-facing story. Everything from here down is technical d
 
 ## For builders
 
-Everything above is the whole job for a customer. What follows is for a programmer who wants to see what the setup walk does, run a piece of it by hand, wire the gate into CI, or drive the documents directly instead of through the agent.
+Everything above is the whole job for a customer. What follows is for a programmer. Maybe you want to see what the setup walk does, or run a piece of it by hand. Maybe you want to wire the gate into CI, or drive the documents directly instead of going through the agent.
 
 ### The technical walk-throughs
 
@@ -123,7 +123,7 @@ Everything above is the whole job for a customer. What follows is for a programm
 
 ### The push gate, by hand
 
-The four checks below are what a host project gets from the scaffold, at `scaffold/guardrails/` in this tree. This repository's own pre-push hook predates the scaffold and runs a larger, differently organized check set of its own, named in [`guardrails/README.md`](guardrails/README.md) — the four are not additionally vendored into this repository's `guardrails/` under these names.
+The four checks below are what a host project gets from the scaffold, at `scaffold/guardrails/` in this tree. This repository's own pre-push hook predates the scaffold, and runs a larger, differently organized check set of its own, named in [`guardrails/README.md`](guardrails/README.md). The four checks above are not additionally vendored into this repository's `guardrails/` under these names.
 
 Three things have to be true before any of it works, and each has one command that says so. `python3 --version` must print 3.9 or newer; install a newer Python if it does not. `git rev-parse --is-inside-work-tree` must print `true` in your project's root; run `git init` there if it does not. And `git rev-parse --verify origin/main` must name a commit. The tests-present check diffs your work against that ref. If the command fails, you name your own base in the config instead, two paragraphs down. It fails on a project with no remote, and on one whose default branch is named otherwise. All of this assumes Claude Code on your machine: the pack is a set of skills it loads, and step 2 happens inside it.
 
@@ -141,9 +141,9 @@ It writes six files into your project's `guardrails/`: the four checks, the shar
 
 That config then needs two things from you. Fill in your paths: the spec, the test matrix, the queue, the tests, and the surface registry. The registry is the table listing every surface the project ships. A surface is one named part a user meets: a screen, a page, a command, a public function. The queue is the dated list of what has been asked of the product and where each ask stands. This repository keeps its own in [`ROADMAP.md`](ROADMAP.md).
 
-Three more fields in that same config decide what the checks can see. The seeded example fills them with values a fresh project rarely matches. `user_facing_globs` names the files whose change demands a test. `rendered_artifacts`, or `render_command` instead, names what the completeness check reads as your shipped output. `surface_discovery_pattern` is the expression that finds surface ids inside that output. Leave the first two as they ship and two of the four checks go red on a path that does not exist. Leave the pattern matching nothing your artifacts contain and the check passes while seeing nothing. That is the one failure that never announces itself — see "Known issues" below for where this repository's own config still ships that way. The setup walk in step 2 fills this config for you from what your project ships; this paragraph is for a programmer editing it by hand instead.
+Three more fields in that same config decide what the checks can see. The seeded example fills them with values a fresh project rarely matches. `user_facing_globs` names the files whose change demands a test. `rendered_artifacts`, or `render_command` instead, names what the completeness check reads as your shipped output. `surface_discovery_pattern` is the expression that finds surface ids inside that output. Leave the first two as they ship and two of the four checks go red on a path that does not exist. Leave the pattern matching nothing your artifacts contain and the check passes while seeing nothing. That is the one failure that never announces itself — see "Known issues" below for where this repository's own config still ships that way. The setup walk in step 2 fills this config for you, from what your project ships. This paragraph is for a programmer editing it by hand instead.
 
-One field more, `base_ref`, decides what the tests-present check compares your work against when `origin/main` does not resolve. That means a project with no remote, or one whose default branch is named otherwise. Set it to your own base branch, `"base_ref": "main"`, and that check has its ground. Leave it out on such a project and the second line of the push gate — `check_tests_present.py` — reds with `no base ref to diff against`. [`scaffold/guardrails/README.md`](scaffold/guardrails/README.md) describes every field one at a time.
+One field more, `base_ref`, decides what the tests-present check compares your work against when `origin/main` does not resolve. That means a project with no remote, or one whose default branch is named otherwise. Set it to your own base branch, `"base_ref": "main"`, and that check has its ground. Leave it out on such a project. The second line of the push gate then reds: `no base ref to diff against`. That line is `check_tests_present.py`. [`scaffold/guardrails/README.md`](scaffold/guardrails/README.md) describes every field one at a time.
 
 Second, empty the config's `waivers` block, so the line reads `"waivers": {}`. It ships holding one example waiver, and that example switches the completeness check off. Every run prints `WAIVED (completeness): no rendered artifact yet — declared 2026-07-10, owner <maintainer>` and exits zero. The line is loud enough. What it says is that someone else's declaration, dated before you arrived, stands where your own would go. Until you empty the block, you run on three checks instead of four.
 
@@ -156,7 +156,7 @@ python3 guardrails/check_traces_to_spec.py || exit 1
 python3 guardrails/check_conflicts.py || exit 1
 ```
 
-Create that file if your project has none, and make it executable with `chmod +x .git/hooks/pre-push`. Run it once by hand with `sh .git/hooks/pre-push`, then `echo $?` to see the exit code. Four lines each opening `OK (` and a `0` mean the gate is live. The same four lines are in your own `guardrails/README.md`, the copy the script just vendored, on either road. Those hook lines take no arguments, so the `--base <ref>` flag the checks accept is for running one by hand. What the hook itself reads is `origin/main`, or the `base_ref` you set in the config. The setup walk writes this same hook file for you; this step is for a programmer who would rather write it themselves, or wire it into CI instead of `.git/hooks/`.
+Create that file if your project has none, and make it executable with `chmod +x .git/hooks/pre-push`. Run it once by hand with `sh .git/hooks/pre-push`, then `echo $?` to see the exit code. Four lines each opening `OK (` and a `0` mean the gate is live. The same four lines are in your own `guardrails/README.md`, the copy the script just vendored, on either road. Those hook lines take no arguments, so the `--base <ref>` flag the checks accept is for running one by hand. What the hook itself reads is `origin/main`, or the `base_ref` you set in the config. The setup walk writes this same hook file for you. This step is for a programmer who would rather write it themselves, or wire the gate into CI in place of `.git/hooks/`.
 
 Two more installers finish the gate the adoption procedure asks for. Both run from your project's root, out of the same pack tree as before:
 
@@ -191,7 +191,7 @@ Work enters the spec before code. A new behaviour arrives as a spec change, gets
 
 ### What's different
 
-**The gates are scripts.** Four checks decide whether a push in your project is allowed. The surface registry is the table listing the surfaces a project ships, `SURFACES.md` here. The first check reads that table both ways round: everything the registry lists is really shipped, and everything shipped is listed. The second: a change to a user-facing file carries a test. The third: every listed surface cites a spec code that exists. The fourth: no code is claimed twice and no surface is registered twice. The four are Python on the pre-push hook, mirrored in [CI](.github/workflows/gates.yml). That is what a host project's own hook runs; this repository's own pre-push hook is older than the scaffold and runs a larger, differently named roster of its own, listed in full in [`guardrails/README.md`](guardrails/README.md). A change that has drifted from its specification is refused. Some other frameworks enforce their specs by asking a model to check. A model having a bad day reports that it checked.
+**The gates are scripts.** Four checks decide whether a push in your project is allowed. The surface registry is the table listing the surfaces a project ships, `SURFACES.md` here. The first check reads that table both ways round: everything the registry lists is really shipped, and everything shipped is listed. The second: a change to a user-facing file carries a test. The third: every listed surface cites a spec code that exists. The fourth: no code is claimed twice and no surface is registered twice. The four are Python on the pre-push hook, mirrored in [CI](.github/workflows/gates.yml). That is what a host project's own hook runs. This repository's own pre-push hook is older than the scaffold. It runs a larger, differently named roster of its own, listed in [`guardrails/README.md`](guardrails/README.md). A change that has drifted from its specification is refused. Some other frameworks enforce their specs by asking a model to check. A model having a bad day reports that it checked.
 
 **It can decline a gate it cannot build honestly, and records the reasoning.** One planned gate was refused. It would have gone red on a session that landed two independent pieces of work one after the other. Those two could have run side by side. The [record of that refusal](docs/prover/2026-07-18-rows386-412-414-lane-open-act.md) gives three reasons. Whether two pieces of work were independent is a senior's read, and a script sees only a diff. The evidence a correct run leaves is destroyed on purpose: a finished lane's branch is torn down when it lands. And the one signal a script could key on would fire on every lawful one-at-a-time run too. So the requirement shipped as a written discipline, held by the session and backed by no script. The rule behind that: a requirement no script can enforce stays a note, and a judgment call is never wired as an automated gate. The records are in [`docs/prover/`](docs/prover/), including the ones where the reviewer missed something and said so.
 
@@ -199,7 +199,9 @@ Work enters the spec before code. A new behaviour arrives as a spec change, gets
 
 ### The gates stabilize first
 
-Only the mechanical gates are genuinely independent — a judgment call from the model reviewing its own work is not, which is why the gates are scripts instead of a model's opinion. The gates stabilize first because each one carries a red-first proof: before a gate existed, someone watched the exact failure it now catches happen for real, on purpose. That is what shows the gate can actually fail, not only pass. Every gate's proof is named in [`guardrails/gate-red-proofs.json`](guardrails/gate-red-proofs.json), and a gate with no proof blocks the push.
+Only the mechanical gates are checked independently. A judgment call — the model reviewing its own work — has no independent check of its own. That is why the gates are built as scripts.
+
+The gates stabilize first. Each one carries a red-first proof. Before a gate existed, someone watched the exact failure it now catches. They watched it happen for real, on purpose — that is what shows the gate can actually fail, not only pass. Every gate's proof is named in [`guardrails/gate-red-proofs.json`](guardrails/gate-red-proofs.json). A gate with no proof blocks the push.
 
 ### The skills
 
@@ -221,7 +223,7 @@ Prior art is credited in full, including what was borrowed and from whom: [surve
 
 **Known issues.** Internal vocabulary still leaks into human-facing text. A register lint — [`scripts/preshow-register-lint.py`](scripts/preshow-register-lint.py) — blocks the leaks it already knows before an artifact is shown, and chat stays the weakest surface. The spec still carries style debt, counted and capped in [`scripts/spec-debt-cap.json`](scripts/spec-debt-cap.json), with the work to clear it dated in the queue, [`ROADMAP.md`](ROADMAP.md). The settings card is the page listing every setting the pack knows, its current value, and one plain line saying how to change it. That card is young and has run on one project. All three are tracked and reviewed at every push.
 
-One more, caught late and not yet in that tracking: this repository's own `guardrails.config.json` still carries the scaffold's placeholder `surface_discovery_pattern` (`<section id="...">`), which matches nothing in plain markdown. The reverse completeness direction — a rendered surface with no registry row — is inert here as a result; the forward direction, every row in [`SURFACES.md`](SURFACES.md) matching real content, is what the push actually enforces. Not yet fixed.
+One more, caught late, sits outside that tracking above. This repository's own `guardrails.config.json` still carries the scaffold's placeholder `surface_discovery_pattern` (`<section id="...">`). That pattern matches nothing in plain markdown. The reverse completeness direction — a rendered surface with no registry row — is inert here as a result. The forward direction is what the push enforces: every row in [`SURFACES.md`](SURFACES.md) matching real content. Not yet fixed.
 
 ---
 
