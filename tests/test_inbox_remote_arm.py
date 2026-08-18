@@ -8,10 +8,9 @@ grant fails honestly: it names the grant it lacks and hands the owner the one ac
 rows on the law's three prose homes plus the spec anchor and its index row.
 """
 
-import os
 import unittest
 
-from conftest import ROOT, read_flat
+from conftest import open_spec, read_flat
 
 
 class TestInboxRemoteArm(unittest.TestCase):
@@ -77,7 +76,7 @@ class TestInboxRemoteArm(unittest.TestCase):
         # inbox-deposit exemption stated anywhere. Left red.
         self.assertIn("holds no bar over the deposit", spec)
         self.assertIn("owe the fence and no re-check record", spec)
-        with open(os.path.join(ROOT, "PRODUCT_SPEC.md"), encoding="utf-8") as f:
+        with open_spec() as f:
             for line in f:
                 if line.startswith("| INV-112 |"):
                     self.assertIn("remote arm", spec)

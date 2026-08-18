@@ -21,15 +21,14 @@ import sys
 import tempfile
 import unittest
 
+# The suite's one reading node: for the spec it returns the core and every part the map
+# names, and for any other file the file itself. A local reader would have shadowed it.
+from conftest import read
+
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 GUARDRAILS = os.path.join(REPO, "guardrails")
 CHECK = os.path.join(GUARDRAILS, "attic", "check-index-prose.py")
 SHAPE = os.path.join(GUARDRAILS, "nonempty_input.py")
-
-
-def read(rel):
-    with open(os.path.join(REPO, rel), encoding="utf-8") as f:
-        return f.read()
 
 
 def run_check(env_extra=None):
@@ -203,7 +202,10 @@ class TestTraceability(unittest.TestCase):
         self.assertIn("the default being that empty is a finding", spec)
 
     def test_formal_index_row(self):
-        self.assertIn("| INV-218 |", read("PRODUCT_SPEC.md"))
+        # lived a second time under the spec's own trailing "## Reference" heading until the spec
+        # split removed that inline duplicate (ROADMAP row 621); PRODUCT_SPEC.index.md is its one
+        # home now.
+        self.assertIn("| INV-218 |", read("PRODUCT_SPEC.index.md"))
 
     def test_architecture_owns_the_invariant(self):
         arch = read("ARCHITECTURE.md")

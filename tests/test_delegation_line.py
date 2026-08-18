@@ -12,7 +12,7 @@ import os
 import re
 import unittest
 
-from conftest import ROOT, read_flat, read_all, read_all_flat
+from conftest import ROOT, open_spec, read_all, read_all_flat, read_flat
 
 LANDED = re.compile(r"\*\*landed (20\d\d-\d\d-\d\d)")
 BINDS_FROM = "2026-07-12"
@@ -62,7 +62,7 @@ class TestDelegationLineLaw(unittest.TestCase):
         spec = read_flat("PRODUCT_SPEC.md")
         self.assertRegex(spec, r"\[INV-103[,\]]")  # bare or compound anchor
         self.assertIn("delegation accounting", spec)
-        with open(os.path.join(ROOT, "PRODUCT_SPEC.md"), encoding="utf-8") as f:
+        with open_spec() as f:
             for line in f:
                 if line.startswith("| INV-103 |"):
                     self.assertIn("R209.1", line)

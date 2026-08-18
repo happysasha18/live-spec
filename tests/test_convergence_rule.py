@@ -8,10 +8,9 @@ the two homes: the spec clause and the base rulebook (the playbook chapter is ma
 verified by deed at its own repo).
 """
 
-import os
 import unittest
 
-from conftest import ROOT, read_flat
+from conftest import open_spec, read_flat
 
 
 class TestConvergenceRule(unittest.TestCase):
@@ -47,7 +46,7 @@ class TestConvergenceRule(unittest.TestCase):
     def test_spec_anchor_index_and_playbook_cite(self):
         spec = read_flat("PRODUCT_SPEC.md")
         self.assertIn("[INV-98]", spec)
-        with open(os.path.join(ROOT, "PRODUCT_SPEC.md"), encoding="utf-8") as f:
+        with open_spec() as f:
             for line in f:
                 if line.startswith("| INV-98 |"):
                     self.assertIn("convergence point", spec)

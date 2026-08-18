@@ -6,11 +6,10 @@ anything whose removal would change the meaning or a reader's understanding. Com
 per-item judgment, kin to the removal-accounting duty (INV-109).
 """
 
-import os
 import re
 import unittest
 
-from conftest import ROOT, criterion_with_bullets, read, read_flat
+from conftest import criterion_with_bullets, open_spec, read, read_flat
 
 
 class TestCompactionDiscipline(unittest.TestCase):
@@ -49,7 +48,7 @@ class TestCompactionDiscipline(unittest.TestCase):
         # to the body criterion that carries the code.
         spec = read_flat("PRODUCT_SPEC.md")
         self.assertIn("redundant information and compact it", spec)
-        with open(os.path.join(ROOT, "PRODUCT_SPEC.md"), encoding="utf-8") as f:
+        with open_spec() as f:
             for line in f:
                 if line.startswith("| INV-115 |") and "INV-115" in line:
                     return
@@ -77,7 +76,7 @@ class TestCompactionIsContinuous(unittest.TestCase):
         # claim is checked against the body requirement's title instead.
         spec = read_flat("PRODUCT_SPEC.md")
         self.assertIn("Requirement 132: Compaction is continuous, a gate on every push", spec)
-        with open(os.path.join(ROOT, "PRODUCT_SPEC.md"), encoding="utf-8") as f:
+        with open_spec() as f:
             for line in f:
                 if line.startswith("| INV-164 |") and "INV-164" in line:
                     return

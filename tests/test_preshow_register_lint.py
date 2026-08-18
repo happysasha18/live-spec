@@ -10,6 +10,8 @@ import os
 import sys
 import importlib.util
 
+from conftest import SPEC, read
+
 import pytest
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -102,9 +104,8 @@ def test_communicator_names_the_lint_as_a_blocking_preshow_step():
 def test_spec_retracts_the_growth_duty_and_names_the_judge():
     """M-197 second leg (INV-83), restated for rows 416+418: the grows-by-one duty is RETRACTED — the
     literal set grows by nobody's duty — and the register judge holds the residual class the list cannot."""
-    path = os.path.join(REPO, "PRODUCT_SPEC.md")
     import re as _re
-    text = _re.sub(r"\s+", " ", open(path, encoding="utf-8").read())
+    text = _re.sub(r"\s+", " ", read(SPEC))     # the core and the parts its map names
     assert "grows by one per caught leak" not in text, "the retracted growth doctrine must be gone (INV-83)"
     assert "grows by nobody's duty" in text, "SPEC must state the list grows by nobody's duty (INV-83)"
     assert "register judge" in text, "SPEC does not name the register judge as the residual's holder (INV-203)"

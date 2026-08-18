@@ -17,12 +17,12 @@ import py_compile
 import re
 from pathlib import Path
 
+# _read IS the suite's one reading node: for the spec it returns the core and every part
+# the map names, and for any other file the file itself.
+from conftest import read as _read
+
 ROOT = Path(__file__).resolve().parent.parent
 TEMPLATE = ROOT / "templates" / "headless_harness.py"
-
-
-def _read(rel):
-    return (ROOT / rel).read_text(encoding="utf-8")
 
 
 def _template():

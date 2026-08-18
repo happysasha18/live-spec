@@ -13,7 +13,7 @@ polaroid room revealed under a soft veil and closed on a hard cut, felt on a rea
 import os
 import unittest
 
-from conftest import ROOT, external_clone_or_skip, read_all_flat, read_flat
+from conftest import ROOT, external_clone_or_skip, open_spec, read_all_flat, read_flat
 
 
 class TestPairedTransition(unittest.TestCase):
@@ -43,7 +43,7 @@ class TestPairedTransition(unittest.TestCase):
         self.assertIn("finding of the same blank-answer class as an unwritten situation", spec)
 
     def test_formal_index_row(self):
-        with open(os.path.join(ROOT, "PRODUCT_SPEC.md"), encoding="utf-8") as f:
+        with open_spec() as f:
             for line in f:
                 if line.startswith("| INV-126 |"):
                     row = line
@@ -93,7 +93,7 @@ class TestPairedTransition(unittest.TestCase):
         spec = read_flat("PRODUCT_SPEC.md")
         for needle in ("same magnitude as the forward move", "a named deliberate asymmetry"):
             self.assertIn(needle, spec, needle)
-        with open(os.path.join(ROOT, "PRODUCT_SPEC.md"), encoding="utf-8") as f:
+        with open_spec() as f:
             for line in f:
                 if line.startswith("| INV-126 |"):
                     row = line
@@ -160,7 +160,7 @@ class TestViewportQuantifierLens(unittest.TestCase):
         for needle in ("every layout guarantee name its viewport quantifier",
                        "on every viewport", "the other bands"):
             self.assertIn(needle, spec, needle)
-        with open(os.path.join(ROOT, "PRODUCT_SPEC.md"), encoding="utf-8") as f:
+        with open_spec() as f:
             for line in f:
                 if line.startswith("| INV-138 |"):
                     row = line
@@ -202,7 +202,7 @@ class TestGeneralSubDomainDuty(unittest.TestCase):
         # R263 context / R263.5: "one named part" replaces the old "a named part" phrasing.
         for needle in ("one named part of its domain", "the remainder"):
             self.assertIn(needle, spec, needle)
-        with open(os.path.join(ROOT, "PRODUCT_SPEC.md"), encoding="utf-8") as f:
+        with open_spec() as f:
             for line in f:
                 if line.startswith("| INV-138 |"):
                     row = line

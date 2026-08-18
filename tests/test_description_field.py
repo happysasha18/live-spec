@@ -223,10 +223,11 @@ class TestDescriptionFieldTraceability(unittest.TestCase):
                       "SPEC lost the description field's authored-home definition")
 
     def test_formal_index_row(self):
-        # The generated index (## Reference) carries locations only (INV-271); the row's presence
-        # proves INV-239 is carried by a body criterion.
-        spec = read("PRODUCT_SPEC.md")
-        index = spec.split("## Reference", 1)[1]
+        # The generated index carries locations only (INV-271); the row's presence proves INV-239
+        # is carried by a body criterion. It lived a second time under the spec's own trailing
+        # "## Reference" heading until the spec split removed that inline duplicate (ROADMAP row
+        # 621); PRODUCT_SPEC.index.md is now its one home.
+        index = read("PRODUCT_SPEC.index.md")
         self.assertRegex(index, r"\|\s*INV-239\s*\|", "the generated index carries no INV-239 row")
 
     def test_architecture_owns_the_invariant(self):
@@ -247,8 +248,7 @@ class TestDescriptionFieldTraceability(unittest.TestCase):
         # second column is location tokens (Rn.k), never prose; and every table code resolves to a body
         # criterion (the symmetry test_formal_index re-proves suite-wide; asserted here for INV-239's
         # own row as this law's worked instance).
-        spec = read("PRODUCT_SPEC.md")
-        index = spec.split("## Reference", 1)[1]
+        index = read("PRODUCT_SPEC.index.md")
         row = next((ln for ln in index.splitlines() if ln.startswith("| INV-239 |")), None)
         self.assertIsNotNone(row, "the generated index carries no INV-239 row")
         locations = row.strip().strip("|").split("|")[1].strip()
@@ -260,8 +260,7 @@ class TestDescriptionFieldTraceability(unittest.TestCase):
                       "the body criterion no longer states INV-239's plain description law")
 
     def test_e35_formal_index_row(self):
-        spec = read("PRODUCT_SPEC.md")
-        index = spec.split("## Reference", 1)[1]
+        index = read("PRODUCT_SPEC.index.md")
         self.assertRegex(index, r"\|\s*E-35\s*\|", "the generated index carries no E-35 row")
 
     def test_architecture_owns_e35_under_base_rulebook(self):

@@ -8,10 +8,9 @@ the date as a plain anchor and drops the name. Personal attribution and candid p
 voice have one home: the local-only diaries (JOURNAL, NEXT_STEPS), which no publish ships.
 """
 
-import os
 import unittest
 
-from conftest import ROOT, read_flat
+from conftest import open_spec, read_flat
 
 HOMES = ("PRODUCT_SPEC.md", "skills/spec-author/SKILL.md", "skills/publish/SKILL.md")
 
@@ -50,7 +49,7 @@ class TestImpersonalShippedDocs(unittest.TestCase):
 
     def test_spec_anchor_and_index(self):
         # the index row is location-only (SPEC INV-271); "impersonal" lives on the body heading
-        with open(os.path.join(ROOT, "PRODUCT_SPEC.md"), encoding="utf-8") as f:
+        with open_spec() as f:
             for line in f:
                 if line.startswith("| INV-118 |"):
                     break

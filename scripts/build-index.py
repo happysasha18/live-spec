@@ -11,9 +11,13 @@ extractor, reading the new format's trailing anchors rather than the old prose s
 After the migration the criteria and the glossary are the authored home of every code's plain
 statement; this generated table carries LOCATIONS ONLY (INV-271).
 
+The document may be written as a core file plus part files (specformat's parts map): every path named
+before the `-o` flag is read as ONE document, in the order given, and the table is built over that
+whole concatenation. With one path and no parts this is the single file, byte for byte.
+
 Usage:
-  build-index.py <document.md>            # print the generated table to stdout
-  build-index.py <document.md> -o <file>  # write the generated table to <file>
+  build-index.py <document.md> [<part.md> ...]            # print the generated table to stdout
+  build-index.py <document.md> [<part.md> ...] -o <file>  # write the generated table to <file>
 Stdlib only.
 """
 import os
@@ -37,28 +41,41 @@ def build(text):
 
 
 def main(argv):
-    if len(argv) not in (2, 4) or (len(argv) == 4 and argv[2] != "-o"):
-        print("%s: usage: %s <document.md> [-o <file>]" % (CHECK, os.path.basename(argv[0])))
+    args = list(argv[1:])
+    out_path = None
+    if "-o" in args:
+        i = args.index("-o")
+        if i != len(args) - 2:
+            print("%s: usage: %s <document.md> [<part.md> ...] [-o <file>]"
+                  % (CHECK, os.path.basename(argv[0])))
+            return 2
+        out_path = args[i + 1]
+        args = args[:i]
+    if not args:
+        print("%s: usage: %s <document.md> [<part.md> ...] [-o <file>]"
+              % (CHECK, os.path.basename(argv[0])))
         return 2
-    path = argv[1]
-    if not os.path.isfile(path):
-        print("%s: cannot read %s — the builder stands on the document file." % (CHECK, path))
+    paths = sf.spec_paths(args)
+    missing = [p for p in paths if not os.path.isfile(p)]
+    if missing:
+        print("%s: cannot read %s — the builder stands on the document file."
+              % (CHECK, ", ".join(missing)))
         return 1
-    with open(path, encoding="utf-8") as f:
-        text = f.read()
+    _read, text = sf.read_document(paths, expand=False)
     try:
         table = build(text)
     except VacuousInputError as e:
         print("%s: %s" % (CHECK, e))
         return 1
-    if len(argv) == 4:
-        if os.path.realpath(argv[3]) == os.path.realpath(path):
+    if out_path is not None:
+        inputs = [os.path.realpath(p) for p in paths]
+        if os.path.realpath(out_path) in inputs:
             print("%s: -o %s is the input document itself — the builder never overwrites its input; "
-                  "write the table elsewhere and splice it under ## Reference." % (CHECK, argv[3]))
+                  "write the table elsewhere and splice it under ## Reference." % (CHECK, out_path))
             return 1
-        with open(argv[3], "w", encoding="utf-8") as f:
+        with open(out_path, "w", encoding="utf-8") as f:
             f.write(table)
-        print("%s: wrote the generated index to %s" % (CHECK, argv[3]))
+        print("%s: wrote the generated index to %s" % (CHECK, out_path))
     else:
         sys.stdout.write(table)
     return 0

@@ -7,11 +7,10 @@ session before the human ever meets it in his mailbox. String rows on the law's 
 INV-106 anchor and index.
 """
 
-import os
 import re
 import unittest
 
-from conftest import ROOT, read_flat
+from conftest import open_spec, read_flat
 
 
 class TestCIVerdictLaw(unittest.TestCase):
@@ -34,7 +33,7 @@ class TestCIVerdictLaw(unittest.TestCase):
             "read the gate's verdict", spec,
             "INV-106's body criterion doesn't carry the verdict phrase",
         )
-        with open(os.path.join(ROOT, "PRODUCT_SPEC.md"), encoding="utf-8") as f:
+        with open_spec() as f:
             for line in f:
                 if line.startswith("| INV-106 |"):
                     return

@@ -17,7 +17,7 @@ its own interpretation. String rows on the law's three homes plus the spec ancho
 import os
 import unittest
 
-from conftest import ROOT, external_clone_or_skip, read_flat
+from conftest import ROOT, external_clone_or_skip, open_spec, read_flat
 
 
 class TestRestructureMergeGateLaw(unittest.TestCase):
@@ -147,7 +147,7 @@ class TestRestructureMergeGateLaw(unittest.TestCase):
         spec = read_flat("PRODUCT_SPEC.md")
         self.assertIn("[INV-114]", spec)
         row = None
-        with open(os.path.join(ROOT, "PRODUCT_SPEC.md"), encoding="utf-8") as f:
+        with open_spec() as f:
             for line in f:
                 if line.startswith("| INV-114 |"):
                     row = line

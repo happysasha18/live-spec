@@ -14,7 +14,7 @@ boundary-health law, product-prover's three-source lens, communicator's capture 
 import os
 import unittest
 
-from conftest import ROOT, external_clone_or_skip, read_all_flat, read_flat
+from conftest import ROOT, external_clone_or_skip, open_spec, read_all_flat, read_flat
 
 
 class TestImpactAnalysisEntry(unittest.TestCase):
@@ -60,7 +60,7 @@ class TestImpactAnalysisEntry(unittest.TestCase):
             "footprint", spec.lower(),
             "INV-128's body criterion doesn't carry the footprint phrase",
         )
-        with open(os.path.join(ROOT, "PRODUCT_SPEC.md"), encoding="utf-8") as f:
+        with open_spec() as f:
             for line in f:
                 if line.startswith("| INV-128 |"):
                     return

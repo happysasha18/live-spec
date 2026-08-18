@@ -7,10 +7,9 @@ landing; a checkpoint whose items all live in git history is stale by definition
 law's two homes (the spec breakpoint clause + base rule 6) plus the spec anchor and its index row.
 """
 
-import os
 import unittest
 
-from conftest import ROOT, read_flat
+from conftest import open_spec, read_flat
 
 
 class TestCheckpointClosesLaw(unittest.TestCase):
@@ -58,7 +57,7 @@ class TestCheckpointClosesLaw(unittest.TestCase):
         # index now carries locations only (SPEC INV-271) — assert the row exists, and move the
         # "landing" prose check onto the body criterion that carries INV-107.
         found_row = False
-        with open(os.path.join(ROOT, "PRODUCT_SPEC.md"), encoding="utf-8") as f:
+        with open_spec() as f:
             for line in f:
                 if line.startswith("| INV-107 |"):
                     found_row = True

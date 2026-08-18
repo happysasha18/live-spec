@@ -13,7 +13,7 @@ import os
 import re
 import unittest
 
-from conftest import ROOT, read_flat
+from conftest import ROOT, open_spec, read_flat
 
 
 def _queue_lines():
@@ -81,7 +81,7 @@ class TestFootprintNoteLaw(unittest.TestCase):
     def test_spec_index_row(self):
         # INDEX-ROW pattern (RECIPE): the Reference table now carries locations only.
         # "footprint" prose is asserted against the spec body in test_law_in_the_spec.
-        with open(os.path.join(ROOT, "PRODUCT_SPEC.md"), encoding="utf-8") as f:
+        with open_spec() as f:
             for line in f:
                 if line.startswith("| INV-134 |"):
                     self.assertIn("R44.1", line)

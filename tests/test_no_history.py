@@ -7,7 +7,7 @@ import os
 import subprocess
 import unittest
 
-from conftest import ROOT
+from conftest import ROOT, spec_paths
 
 GATE = os.path.join(ROOT, "guardrails", "check-no-history.py")
 FX = os.path.join(ROOT, "tests", "fixtures", "specformat")
@@ -48,7 +48,7 @@ class TestArmedOnTheRealSpec(unittest.TestCase):
     def test_armed_passes_on_the_real_spec(self):
         # Armed at the row-445 conversion delivery (INV-270): the gate runs on the live
         # PRODUCT_SPEC.md via the suite (gate b), the INV-239 suite-riding placement.
-        r = run(os.path.join(ROOT, "PRODUCT_SPEC.md"))
+        r = run(*spec_paths())
         self.assertEqual(r.returncode, 0, "the armed gate red the live spec:\n%s" % r.stdout)
 
 

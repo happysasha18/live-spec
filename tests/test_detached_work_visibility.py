@@ -7,10 +7,9 @@ the chat does not stream) expected past ~2 minutes opens with a start line, keep
 clause and the communicator skill.
 """
 
-import os
 import unittest
 
-from conftest import ROOT, read_flat
+from conftest import open_spec, read_flat
 
 
 class TestDetachedWorkVisibility(unittest.TestCase):
@@ -74,7 +73,7 @@ class TestDetachedWorkVisibility(unittest.TestCase):
             "with a done digest",
             spec,
         )
-        with open(os.path.join(ROOT, "PRODUCT_SPEC.md"), encoding="utf-8") as f:
+        with open_spec() as f:
             for line in f:
                 if line.startswith("| INV-35 |"):
                     return

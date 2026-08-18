@@ -24,7 +24,7 @@ behind a requirement is a cold-reader / journal concern; this gate catches the m
 attribution markers.
 
 Usage:
-  check-no-history.py <document.md>
+  check-no-history.py <document.md> [<part.md> ...]
 Exit 0 when the body carries no date or provenance marker (printing the reach line, INV-269); exit 1
 naming each. Stdlib only.
 """
@@ -66,15 +66,20 @@ def _body_lines(doc):
 
 
 def main(argv):
-    if len(argv) != 2:
-        print("%s: usage: %s <document.md>" % (CHECK, os.path.basename(argv[0])))
+    if len(argv) < 2:
+        print("%s: usage: %s <document.md> [<part.md> ...]" % (CHECK, os.path.basename(argv[0])))
         return 2
-    path = argv[1]
-    if not os.path.isfile(path):
-        print("%s: cannot read %s — the gate stands on the document file." % (CHECK, path))
+    # The document may arrive as a core plus its parts (specformat's parts map). The gate
+    # reads the concatenation as ONE document, so a rule that spans core and part is seen once; with
+    # no parts this is the single file, byte for byte.
+    paths = sf.spec_paths(argv[1:])
+    missing = [p for p in paths if not os.path.isfile(p)]
+    if missing:
+        print("%s: cannot read %s — the gate stands on the document file."
+              % (CHECK, ", ".join(missing)))
         return 1
-    with open(path, encoding="utf-8") as f:
-        text = f.read()
+    where = ", ".join(paths)   # what a fault line names: the file, or the files
+    _read, text = sf.read_document(paths, expand=False)
     doc = sf.parse(text)
 
     body = _body_lines(doc)
@@ -98,12 +103,12 @@ def main(argv):
                 break
 
     if problems:
-        print("%s: %d history/provenance marker(s) in %s:" % (CHECK, len(problems), path))
+        print("%s: %d history/provenance marker(s) in %s:" % (CHECK, len(problems), where))
         for p in problems:
             print("  - %s" % p)
         return 1
 
-    print(sf.green_reach(CHECK, [os.path.basename(path)], 0, len(body),
+    print(sf.green_reach(CHECK, [os.path.basename(p) for p in paths], 0, len(body),
                          "no date or provenance marker in the body"))
     return 0
 

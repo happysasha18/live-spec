@@ -14,10 +14,12 @@ import unittest
 from conftest import criterion_with_bullets, read, read_flat
 
 
-def index_of(spec):
-    # the old "## Formal index" section is gone from the new-format spec; the generated
-    # code-to-location table now lives under "## Reference" at the document's end.
-    return spec.split("## Reference", 1)[1]
+def index_of():
+    # the old "## Formal index" section is gone from the new-format spec. The generated
+    # code-to-location table lived under "## Reference" at the document's end until the spec
+    # split removed that inline duplicate (ROADMAP row 621); PRODUCT_SPEC.index.md is now its one
+    # home.
+    return read("PRODUCT_SPEC.index.md")
 
 
 class TestLivingDescriptionLaw(unittest.TestCase):
@@ -47,7 +49,7 @@ class TestLivingDescriptionLaw(unittest.TestCase):
             self.assertIn(phrase, spec, "SPEC INV-240 clause lost the wording: %s" % phrase)
 
     def test_formal_index_row_inv240(self):
-        self.assertRegex(index_of(read("PRODUCT_SPEC.md")), r"\|\s*INV-240\s*\|",
+        self.assertRegex(index_of(), r"\|\s*INV-240\s*\|",
                          "the Formal index carries no INV-240 row")
 
     def test_architecture_owns_the_invariant(self):
@@ -106,7 +108,7 @@ class TestEarnedAutoDeposit(unittest.TestCase):
                       "SPEC lost the deposit-names-references-by-the-pair clause (E-35)")
 
     def test_formal_index_row_t24(self):
-        self.assertRegex(index_of(read("PRODUCT_SPEC.md")), r"\|\s*T-24\s*\|",
+        self.assertRegex(index_of(), r"\|\s*T-24\s*\|",
                          "the Formal index carries no T-24 row")
 
     def test_architecture_owns_the_transition(self):

@@ -8,10 +8,9 @@ the same decision the session takes the recommended option as a `[default]` surf
 decision-page clause + Formal index, and communicator's rule 10. String level, matrix M-271.
 """
 
-import os
 import unittest
 
-from conftest import ROOT, read_flat
+from conftest import open_spec, read_flat
 
 
 class TestWithdrawalConvergence(unittest.TestCase):
@@ -50,7 +49,7 @@ class TestWithdrawalConvergence(unittest.TestCase):
 
     def test_formal_index_row(self):
         row = None
-        with open(os.path.join(ROOT, "PRODUCT_SPEC.md"), encoding="utf-8") as f:
+        with open_spec() as f:
             for line in f:
                 if line.startswith("| INV-130 |"):
                     row = line

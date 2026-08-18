@@ -13,7 +13,7 @@ import os
 import subprocess
 import unittest
 
-from conftest import ROOT
+from conftest import ROOT, spec_paths
 
 GATE = os.path.join(ROOT, "guardrails", "check-requirement-shape.py")
 FX = os.path.join(ROOT, "tests", "fixtures", "specformat")
@@ -78,7 +78,7 @@ class TestArmedOnTheRealSpec(unittest.TestCase):
         # Armed at the row-445 conversion delivery (INV-270): the gate now runs on the live
         # PRODUCT_SPEC.md via the suite (gate b), the same suite-riding placement the INV-239
         # nets take (guardrails/pre-push lines 152-157). It must pass on the root document.
-        r = run(os.path.join(ROOT, "PRODUCT_SPEC.md"))
+        r = run(*spec_paths())
         self.assertEqual(r.returncode, 0, "the armed gate red the live spec:\n%s" % r.stdout)
 
 

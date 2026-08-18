@@ -11,7 +11,7 @@ import subprocess
 import tempfile
 import unittest
 
-from conftest import ROOT
+from conftest import ROOT, spec_paths
 
 GATE = os.path.join(ROOT, "guardrails", "check-size-ratchet.py")
 FX = os.path.join(ROOT, "tests", "fixtures", "specformat")
@@ -19,11 +19,12 @@ MINI = os.path.join(FX, "mini_good.md")
 REAL_CONFIG = os.path.join(ROOT, "guardrails", "spec-ratchet.json")
 
 
-def run(doc, config=None):
+def run(*docs, config=None):
+    """The gate over one or more document paths: a core and, when its map names them, its parts."""
     env = dict(os.environ)
     if config is not None:
         env["RATCHET_CONFIG"] = config
-    return subprocess.run(["python3", GATE, doc], capture_output=True, text=True, env=env)
+    return subprocess.run(["python3", GATE, *docs], capture_output=True, text=True, env=env)
 
 
 class TestSizeRatchetGate(unittest.TestCase):
@@ -47,7 +48,7 @@ class TestSizeRatchetGate(unittest.TestCase):
             cfg = os.path.join(tmp, "unseeded.json")
             json.dump({"bytes_per_criterion": None, "governs": "x",
                        "reason": "not yet seeded — awaiting the migration-end freeze"}, open(cfg, "w"))
-            r = run(MINI, cfg)
+            r = run(MINI, config=cfg)
             self.assertEqual(r.returncode, 0, "the gate red on an unseeded bound:\n%s" % r.stdout)
             self.assertIn("not yet seeded", r.stdout)
             self.assertIn("bytes/criterion", r.stdout)
@@ -56,7 +57,7 @@ class TestSizeRatchetGate(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             cfg = os.path.join(tmp, "high.json")
             json.dump({"bytes_per_criterion": 10000, "governs": "x"}, open(cfg, "w"))
-            r = run(MINI, cfg)
+            r = run(MINI, config=cfg)
             self.assertEqual(r.returncode, 0, "the gate red under a high bound:\n%s" % r.stdout)
             self.assertIn("reach:", r.stdout)
 
@@ -64,7 +65,7 @@ class TestSizeRatchetGate(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             cfg = os.path.join(tmp, "low.json")
             json.dump({"bytes_per_criterion": 20, "governs": "x"}, open(cfg, "w"))
-            r = run(MINI, cfg)
+            r = run(MINI, config=cfg)
             self.assertNotEqual(r.returncode, 0, "passed a document above the bound:\n%s" % r.stdout)
             self.assertIn("above the recorded bound", r.stdout)
 
@@ -79,7 +80,7 @@ class TestArmedOnTheRealSpec(unittest.TestCase):
     def test_armed_passes_on_the_real_spec(self):
         # Armed at the row-445 conversion delivery (INV-270): the seeded ratchet gate runs on the
         # live PRODUCT_SPEC.md with the shipped config via the suite (gate b).
-        r = run(os.path.join(ROOT, "PRODUCT_SPEC.md"), REAL_CONFIG)
+        r = run(*spec_paths(), config=REAL_CONFIG)
         self.assertEqual(r.returncode, 0, "the armed ratchet gate red the live spec:\n%s" % r.stdout)
 
 

@@ -84,7 +84,7 @@ counts back to the config. No run raises a baseline: a raise is a hand edit here
 stated, run through the pipeline, exactly as check-size-ratchet's bound is (INV-265).
 
 Usage:
-  check-criterion-readability.py <document.md> [--rebaseline] [--all]
+  check-criterion-readability.py <document.md> [<part.md> ...] [--rebaseline] [--all]
   CRITERION_READABILITY_CONFIG overrides the config path (the suite points it at a fixture config).
   --rebaseline lowers a fallen baseline and rewrites the config; it never raises one.
   --all prints every offender instead of the config's `report_limit` per arm.
@@ -311,20 +311,20 @@ def measure(doc, cfg):
     return found
 
 
-def _reach_line(path, scanned, bullets, terms):
+def _reach_line(names, scanned, bullets, terms):
     return ("reach: files=[%s, %s]; read the %d acceptance criteria of the body — each numbered "
             "criterion line together with the %d indented bullet lines of the sub-lists under them, "
             "anchors stripped for the prose arms — and the %d glossary terms; the preamble, Context "
             "blocks, and User Story lines are outside this gate's reach"
-            % (os.path.basename(path), os.path.basename(CONFIG_PATH), scanned, bullets, terms))
+            % (names, os.path.basename(CONFIG_PATH), scanned, bullets, terms))
 
 
-def _report(path, arm, findings, limit, show_all):
+def _report(names, arm, findings, limit, show_all):
     lines = []
     shown = findings if show_all else findings[:limit]
     for crit, detail in shown:
         lines.append("      %s:%d R%d.%d — %s"
-                     % (os.path.basename(path), crit.line_no, crit.req_num, crit.number, detail))
+                     % (names, crit.line_no, crit.req_num, crit.number, detail))
     rest = len(findings) - len(shown)
     if rest > 0:
         lines.append("      … and %d more (run with --all to see every one)" % rest)
@@ -335,14 +335,20 @@ def main(argv):
     args = [a for a in argv[1:] if not a.startswith("--")]
     flags = set(a for a in argv[1:] if a.startswith("--"))
     unknown = flags - {"--rebaseline", "--all"}
-    if len(args) != 1 or unknown:
-        print("%s: usage: %s <document.md> [--rebaseline] [--all]"
+    if not args or unknown:
+        print("%s: usage: %s <document.md> [<part.md> ...] [--rebaseline] [--all]"
               % (CHECK, os.path.basename(argv[0])))
         return 2
-    path = args[0]
-    if not os.path.isfile(path):
-        print("%s: cannot read %s — the gate stands on the document file." % (CHECK, path))
+    # The document may arrive as a core plus its parts (specformat's parts map); the gate measures
+    # the concatenation, so the baselines it ratchets count the whole document however it is stored.
+    paths = sf.spec_paths(args)
+    absent = [p for p in paths if not os.path.isfile(p)]
+    if absent:
+        print("%s: cannot read %s — the gate stands on the document file."
+              % (CHECK, ", ".join(absent)))
         return 1
+    path = ", ".join(paths)                                    # what a fault line names
+    names = ", ".join(os.path.basename(p) for p in paths)      # ... and its short form
     if not os.path.isfile(CONFIG_PATH):
         print("%s: no config at %s — the gate cannot read its thresholds or its baselines "
               "(INV-287)." % (CHECK, CONFIG_PATH))
@@ -355,8 +361,8 @@ def main(argv):
               "this one file (INV-287)." % (CHECK, ", ".join(missing)))
         return 1
 
-    with open(path, encoding="utf-8") as f:
-        doc = sf.parse(f.read())
+    _read, text = sf.read_document(paths, expand=False)
+    doc = sf.parse(text)
     try:
         crits = require_nonempty(CHECK, "the document's criteria", doc.criteria)
     except VacuousInputError as e:
@@ -369,14 +375,14 @@ def main(argv):
     show_all = "--all" in flags
     scanned = len(crits)
     bullets = sum(len(c.bullets) for c in crits)
-    reach = _reach_line(path, scanned, bullets, len(doc.glossary_terms))
+    reach = _reach_line(names, scanned, bullets, len(doc.glossary_terms))
 
     unseeded = [name for name in ARMS if cfg["arms"][name].get("baseline") is None]
     if unseeded and "--rebaseline" not in flags:
         print("%s: OK (baselines not yet seeded for %s) — measured %s over %d criteria in %s. %s. %s"
               % (CHECK, ", ".join(unseeded),
                  ", ".join("%s=%d" % (n, counts[n]) for n in ARMS), scanned,
-                 os.path.basename(path),
+                 names,
                  cfg.get("reason", "seed the baselines with --rebaseline (INV-288)"), reach))
         return 0
 
@@ -416,7 +422,7 @@ def main(argv):
             print("  - %s: %d criteria break it, baseline %d — %s"
                   % (name, counts[name], arm["baseline"], arm["reds"]))
             print("    write instead: %s" % arm["fix"])
-            for line in _report(path, name, found[name], limit, show_all):
+            for line in _report(names, name, found[name], limit, show_all):
                 print(line)
         print("  %s" % reach)
         # The gate contract's typed line: one parseable object beside the human lines, `fix` the
@@ -425,7 +431,7 @@ def main(argv):
             "severity": "error",
             "code": "criterion-readability",
             "message": "%s above their recorded count in %s (%s)"
-                       % (", ".join(risen), os.path.basename(path),
+                       % (", ".join(risen), names,
                           ", ".join("%s %d/%d" % (n, counts[n], cfg["arms"][n]["baseline"])
                                     for n in risen)),
             "fix": "Rewrite the criteria this run names until each arm is back at its recorded "
@@ -439,7 +445,7 @@ def main(argv):
     if fallen:
         extra += "; %s fell — run --rebaseline to record the lower count (INV-288)" % \
                  ", ".join(fallen)
-    print(sf.green_reach(CHECK, [os.path.basename(path), os.path.basename(CONFIG_PATH)],
+    print(sf.green_reach(CHECK, [names, os.path.basename(CONFIG_PATH)],
                          sum(counts.values()), scanned, extra))
     print("  %s" % reach)
     return 0

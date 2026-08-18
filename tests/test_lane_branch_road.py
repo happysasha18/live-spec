@@ -30,7 +30,7 @@ import subprocess
 import tempfile
 import unittest
 
-from conftest import ROOT, read_all_flat, read_flat
+from conftest import ROOT, open_spec, read_all_flat, read_flat
 
 
 def _robust_rmtree(path):
@@ -363,7 +363,7 @@ class TestLaneBranchLaw(unittest.TestCase):
         # journal-bound rationale/framing retired at row-445 pass 2: the owning unit's mapping Part 3 maps "every behavioural claim" (rationale outside the contract, the format's no-history law INV-253 sending it to the journal); the behavioural half stays asserted from its own criterion. (build-loop-b mapping — the WHY of host-scoping; the scoping duty itself is asserted above.)
 
     def test_every_new_anchor_carries_an_index_row(self):
-        with open(os.path.join(ROOT, "PRODUCT_SPEC.md"), encoding="utf-8") as fh:
+        with open_spec() as fh:
             index = [line for line in fh if line.startswith("| ")]
         for anchor in ("E-34", "T-23", "INV-198", "INV-199", "INV-200", "INV-201"):
             rows = [line for line in index if line.startswith("| %s |" % anchor)]
@@ -509,7 +509,7 @@ class TestTheLaneOpenActLaw(unittest.TestCase):
         self.assertIn("torn down at each landing", spec)
 
     def test_inv214_carries_one_index_row(self):
-        with open(os.path.join(ROOT, "PRODUCT_SPEC.md"), encoding="utf-8") as fh:
+        with open_spec() as fh:
             index = [line for line in fh if line.startswith("| INV-214 |")]
         self.assertEqual(len(index), 1, "INV-214 owes exactly one Formal index row")
 

@@ -14,7 +14,7 @@ import subprocess
 import tempfile
 import unittest
 
-from conftest import ROOT
+from conftest import ROOT, open_spec
 from test_guardrails import (
     GUARDRAILS,
     gate_machinery_diff,
@@ -713,7 +713,7 @@ class TestSpecStyleLint(unittest.TestCase):
         # regression in the linter OR in the section trips here. Re-aimed at the requirements format
         # (row 445): the old `#### Intake:` scenario became the intake work-kind requirement, and the
         # gold section is that requirement's own block.
-        with open(os.path.join(ROOT, "PRODUCT_SPEC.md"), encoding="utf-8") as f:
+        with open_spec() as f:
             spec = f.read()
         lines = spec.splitlines()
         start = next(i for i, l in enumerate(lines)

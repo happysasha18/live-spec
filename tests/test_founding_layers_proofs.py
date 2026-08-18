@@ -12,11 +12,10 @@ kind (tlvphotos), a prose kind (the promotion campaign) — each with its own la
 kind-only profile that must go red.
 """
 
-import os
 import re
 import unittest
 
-from conftest import ROOT, read, read_flat, read_all_flat
+from conftest import open_spec, read, read_all_flat, read_flat
 
 KIND = re.compile(r"(?m)^\s*[-*]?\s*`?project\.kind:")
 LAYERS = re.compile(r"(?m)^\s*[-*]?\s*`?project\.layers:")
@@ -104,7 +103,7 @@ class TestFoundingLaw(unittest.TestCase):
         self.assertIn("Founding declares the project's concrete layers and proof kinds", spec)
         self.assertIn("[INV-135]", spec)
         row = None
-        with open(os.path.join(ROOT, "PRODUCT_SPEC.md"), encoding="utf-8") as f:
+        with open_spec() as f:
             for line in f:
                 if line.startswith("| INV-135 |"):
                     row = line
