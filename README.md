@@ -223,8 +223,6 @@ Prior art is credited in full, including what was borrowed and from whom: [surve
 
 **Known issues.** Internal vocabulary still leaks into human-facing text. A register lint — [`scripts/preshow-register-lint.py`](scripts/preshow-register-lint.py) — blocks the leaks it already knows before an artifact is shown, and chat stays the weakest surface. The spec still carries style debt, counted and capped in [`scripts/spec-debt-cap.json`](scripts/spec-debt-cap.json), with the work to clear it dated in the queue, [`ROADMAP.md`](ROADMAP.md). The settings card is the page listing every setting the pack knows, its current value, and one plain line saying how to change it. That card is young and has run on one project. All three are tracked and reviewed at every push.
 
-One more, caught late, sits outside that tracking above. This repository's own `guardrails.config.json` still carries the scaffold's placeholder `surface_discovery_pattern` (`<section id="...">`). That pattern matches nothing in plain markdown. The reverse completeness direction — a rendered surface with no registry row — is inert here as a result. The forward direction is what the push enforces: every row in [`SURFACES.md`](SURFACES.md) matching real content. Not yet fixed.
-
 ---
 
 [MIT](LICENSE) © Alexander Abramovich, 2026 · [`VERSION`](VERSION) · [the ideas in five minutes](OVERVIEW.md)
