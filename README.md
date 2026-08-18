@@ -61,14 +61,6 @@ If you're a programmer and want to read or drive those documents yourself, the t
 
 The rules are the part a software house would charge you for: thirty-four shared rules across the skill set, stated once in [`live-spec-base`](skills/live-spec-base/SKILL.md). They cover how a spec gets written so it stays readable. They cover when a question is worth your attention and when it is routine. They cover what a green suite does and does not prove.
 
-(The paragraph right below is a proof, for a programmer who wants to check the pack's own numbers by hand. If that isn't you, skip to "You do not read them" underneath it.)
-
-<!-- generated:count:skills-lines — scripts/gen-tree-counts.py owns the block below -->
-
-Written out, they and the skills carrying them run to 5,924 lines under `skills/`. Of those, 3,771 lines are the skill bodies, and the rest are the reference pages a body loads on demand. Count them yourself with `cat skills/*/SKILL.md skills/*/references/*.md | wc -l` and `cat skills/*/SKILL.md | wc -l`. A push of this repository is refused where either command disagrees with the number printed here. The body figure is what a session pays before it starts work, so it is the figure to hold down. It is held under the figure that includes the references. When it rises, every session that loads a skill pays more to begin.
-
-<!-- /generated:count:skills-lines -->
-
 You do not read them. They run.
 
 The relationship is the one you have with a builder. You do not need to know how; you still decide what. A good contractor does not ask the client to choose the rebar, and does not pick the kitchen either.
