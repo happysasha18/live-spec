@@ -59,7 +59,7 @@
       "total": 1862
     },
     "README.md": {
-      "bytes": 21896,
+      "bytes": 22580,
       "file": "README.md",
       "long": 4,
       "longest": 105,
@@ -122,7 +122,7 @@
       "total": 3
     },
     "docs/PROGRESS.md": {
-      "bytes": 17728,
+      "bytes": 17736,
       "file": "docs/PROGRESS.md",
       "long": 0,
       "longest": 22,
@@ -698,14 +698,14 @@
       "total": 10
     },
     "skills/build-pipeline/SKILL.md": {
-      "bytes": 53492,
+      "bytes": 55468,
       "file": "skills/build-pipeline/SKILL.md",
-      "long": 101,
-      "longest": 198,
-      "reason": "2026-08-17: the skill-creator review of the slimming (docs/skill-review/2026-08-17-build-pipeline-slimdown.md) found two firing conditions had left the body with only their names behind - the audit's high-stakes definition and the node fitness test's three questions. Both return word for word, so this body rises 207 to 211 while references/verify-step-detail.md falls 15 to 13. A gate's trigger belongs where the step is walked.",
+      "long": 4,
+      "longest": 47,
+      "reason": "2026-08-18: the plainer-prose pass rewrote this body sentence by sentence and the count fell 211 to 37. What is left is pinned text: the 4 long sentences are the worker-restore clause, whose wording tests/test_worker_restore.py holds sentence by sentence, and the 33 style findings are capitalised words standing inside phrases the suite asserts word for word.",
       "register": 0,
-      "style": 110,
-      "total": 211
+      "style": 33,
+      "total": 37
     },
     "skills/build-pipeline/references/architecture-step-detail.md": {
       "bytes": 2348,

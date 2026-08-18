@@ -157,12 +157,12 @@ adapter is the one place the pack updates when a lens moves in a prover release.
 - the mid-work re-door is this node's step, and the independence re-check it fires is the lanes node's law
 
 **pins** —
-- `skills/build-pipeline/SKILL.md:107` (step zero: the door + work-kind)
-- `skills/build-pipeline/SKILL.md:91` (the craft ladder — step→craft one home)
-- `skills/build-pipeline/SKILL.md:205` (the work-kind table — per-kind meanings' one home)
-- `skills/build-pipeline/SKILL.md:220` (steps)
-- `skills/build-pipeline/SKILL.md:487` (gates)
-- `skills/build-pipeline/SKILL.md:318` (re-carve paragraph — INV-113 redesign-owes-rework)
+- `skills/build-pipeline/SKILL.md:113` (step zero: the door + work-kind)
+- `skills/build-pipeline/SKILL.md:96` (the craft ladder — step→craft one home)
+- `skills/build-pipeline/SKILL.md:284` (the work-kind table — per-kind meanings' one home)
+- `skills/build-pipeline/SKILL.md:304` (steps)
+- `skills/build-pipeline/SKILL.md:632` (gates)
+- `skills/build-pipeline/SKILL.md:417` (re-carve paragraph — INV-113 redesign-owes-rework)
 - `skills/build-pipeline/references/delegation-protocol.md:71` (the worker-brief register-laws clause — no-scissors + no-dramatization, INV-221)
 - `guardrails/node_growth_counter.py:1` (the node-growth counter, rides the suite not the push chain, INV-233)
 - `guardrails/node-file-cap.json:1` (the nodes-per-file ratchet seeded at the current count, INV-233)
@@ -190,9 +190,9 @@ adapter is the one place the pack updates when a lens moves in a prover release.
 **owns** — T-18, INV-2, INV-39, INV-49, INV-131, E-34, T-23, INV-198, INV-199, INV-200, INV-201, INV-214
 
 **pins** —
-- `skills/build-pipeline/SKILL.md:513` (trains, one pen — the cap, the penless overlap set, the pen-stages, the re-fence after a landing)
-- `skills/build-pipeline/SKILL.md:513` (the graph picks the lane set at queue-take)
-- `skills/build-pipeline/SKILL.md:133` (a mid-work re-door re-runs the independence edges against every rolling lane)
+- `skills/build-pipeline/SKILL.md:661` (trains, one pen — the cap, the penless overlap set, the pen-stages, the re-fence after a landing)
+- `skills/build-pipeline/SKILL.md:661` (the graph picks the lane set at queue-take)
+- `skills/build-pipeline/SKILL.md:153` (a mid-work re-door re-runs the independence edges against every rolling lane)
 - `skills/live-spec-base/SKILL.md:143` (rule 7's lanes sub-rules — three lanes under one pen)
 - `skills/live-spec-base/SKILL.md:164` (one row per landing commit)
 - `scripts/open-lane.sh:1` (the lane-open act's performable form. It carries the row→in-work claim commit on main, the cap refusal, and the lane branch cut into its own worktree, INV-214.)
@@ -512,7 +512,7 @@ adapter is the one place the pack updates when a lens moves in a prover release.
 **pins** —
 - wiring: `skills/live-spec-base/references/settings-ladder.md:60` (defaults table, `design-sync` row)
 - wiring: `skills/communicator/SKILL.md:182` (rule 5's channel line)
-- wiring: `skills/build-pipeline/SKILL.md:449` (the design-sync line in step 9)
+- wiring: `skills/build-pipeline/SKILL.md:590` (the design-sync line in step 9)
 - machine: —
 
 ### [node: skill-evals]

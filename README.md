@@ -130,7 +130,7 @@ The rules are the part a software house would charge you for: thirty-four shared
 
 <!-- generated:count:skills-lines — scripts/gen-tree-counts.py owns the block below -->
 
-Written out, they and the skills carrying them run to 5,761 lines under `skills/`. Of those, 3,606 lines are the skill bodies, and the rest are the reference pages a body loads on demand. Count them yourself with `cat skills/*/SKILL.md skills/*/references/*.md | wc -l` and `cat skills/*/SKILL.md | wc -l`. A push of this repository is refused where either command disagrees with the number printed here. The body figure is what a session pays before it starts work, so it is the figure to hold down. It is held under the figure that includes the references. When it rises, every session that loads a skill pays more to begin.
+Written out, they and the skills carrying them run to 5,914 lines under `skills/`. Of those, 3,759 lines are the skill bodies, and the rest are the reference pages a body loads on demand. Count them yourself with `cat skills/*/SKILL.md skills/*/references/*.md | wc -l` and `cat skills/*/SKILL.md | wc -l`. A push of this repository is refused where either command disagrees with the number printed here. The body figure is what a session pays before it starts work, so it is the figure to hold down. It is held under the figure that includes the references. When it rises, every session that loads a skill pays more to begin.
 
 <!-- /generated:count:skills-lines -->
 
