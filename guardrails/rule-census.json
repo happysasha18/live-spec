@@ -3,7 +3,7 @@
   "cap_rule": "r08",
   "files": {
     "ARCHITECTURE.md": {
-      "bytes": 108339,
+      "bytes": 107774,
       "file": "ARCHITECTURE.md",
       "long": 0,
       "longest": 25,
@@ -86,7 +86,7 @@
       "total": 3
     },
     "TEST_MATRIX.md": {
-      "bytes": 484267,
+      "bytes": 482845,
       "file": "TEST_MATRIX.md",
       "long": 8,
       "longest": 46,
@@ -122,7 +122,7 @@
       "total": 3
     },
     "docs/PROGRESS.md": {
-      "bytes": 17736,
+      "bytes": 16271,
       "file": "docs/PROGRESS.md",
       "long": 0,
       "longest": 22,
@@ -246,6 +246,15 @@
       "register": 0,
       "style": 2,
       "total": 39
+    },
+    "docs/matrix-notes/guardrails.md": {
+      "bytes": 2729,
+      "file": "docs/matrix-notes/guardrails.md",
+      "long": 4,
+      "longest": 48,
+      "register": 0,
+      "style": 0,
+      "total": 4
     },
     "docs/migration-sample/2026-07-20-backdescribe-sample.md": {
       "bytes": 8025,
