@@ -1,6 +1,6 @@
 # PUSH-REVIEW — a false Known Issue leaves README, and gate h goes green
 
-Date: 2026-08-18 late morning. Range: 6152169..HEAD (one content commit + this record).
+Date: 2026-08-18 late morning. Range: 6152169..2344dc8 — the pushed range: the content commit and this record.
 Root: server run on 6152169 failed gate h (the four host checks): the completeness
 check read a surface id "..." out of README's own rendered text and demanded a
 registry row for it.
