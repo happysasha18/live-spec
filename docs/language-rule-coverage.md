@@ -167,7 +167,7 @@ repair the text from those stops rather than from the one sentence in front of y
 
 **Binds.** spec-body · human-prose · chat · artifact
 
-**Status.** held, armed at session-stop-hook, manual.
+**Status.** held, armed at manual.
 
 **Owner.** skill — Whether an ordinary word carries a private meaning here is a reading of what the word does in its sentence.
 
@@ -185,7 +185,7 @@ repair the text from those stops rather than from the one sentence in front of y
 
 **Binds.** spec-body · human-prose · chat · artifact
 
-**Status.** held, armed at session-prompt-hook, manual, session-stop-hook.
+**Status.** held, armed at session-prompt-hook, manual.
 
 **Owner.** skill — A list holds the coinages already met; a word coined tomorrow is caught by a reader who knows the standard word.
 
@@ -327,7 +327,7 @@ repair the text from those stops rather than from the one sentence in front of y
 
 **Binds.** spec-body · human-prose · chat · artifact · commit · worker-brief
 
-**Status.** held, armed at session-stop-hook, session-prompt-hook, manual.
+**Status.** held, armed at session-prompt-hook, manual.
 
 **Owner.** script — The contrast frame is a shape in the punctuation and the words around it, and a script already decides it.
 
@@ -347,7 +347,7 @@ repair the text from those stops rather than from the one sentence in front of y
 
 **Binds.** spec-body · human-prose · chat · artifact
 
-**Status.** held, armed at session-stop-hook, session-prompt-hook, manual.
+**Status.** held, armed at session-prompt-hook, manual.
 
 **Owner.** script — The position of an internal code in a line is decided by where the code sits.
 
@@ -365,7 +365,7 @@ repair the text from those stops rather than from the one sentence in front of y
 
 **Binds.** spec-body · human-prose · chat · artifact · commit · worker-brief
 
-**Status.** held, armed at session-stop-hook.
+**Status.** held, armed at manual.
 
 **Owner.** skill — A grading word standing beside a concrete fact is lawful, and only a reading tells the two apart.
 
@@ -377,13 +377,13 @@ repair the text from those stops rather than from the one sentence in front of y
 
 **Stated before this page, at.** ~/.claude/playbook/personal/profile.md:19, ~/.claude/hooks/scissors-personal.json:1, docs/spec-format.md:36, ~/.claude/skills/text-audit/SKILL.md:229, ~/.claude/skills/communicator/SKILL.md:281
 
-**Notes.** The judge used to hold this class twice in one file, once for chat and once for documents, worded differently and numbered independently; both readers now take the one law text stated here, the chat judge through hooks/register-judge.py and the document lint through scripts/preshow-register-lint.py. The law binds chat, docs, worker reports, and agent-to-agent messages alike.
+**Notes.** The judge used to hold this class twice in one file, once for chat and once for documents, worded differently and numbered independently; both readers now take the one law text stated here, the chat judge through hooks/register-judge.py and the document lint through scripts/preshow-register-lint.py. The law binds chat, docs, worker reports, and agent-to-agent messages alike. On 2026-08-17 the owner unwired the Stop judge; the document lint holds the rule by hand from that day (JOURNAL.md).
 
 ### r13 — a sentence grading the person, or grading the writer's own act
 
 **Binds.** chat · human-prose · artifact · worker-brief
 
-**Status.** held, armed at session-stop-hook, manual.
+**Status.** held, armed at manual.
 
 **Owner.** skill — Whether a sentence grades the person or reports a fact is a reading of the sentence.
 
@@ -401,25 +401,25 @@ repair the text from those stops rather than from the one sentence in front of y
 
 **Binds.** chat · human-prose · artifact · worker-brief
 
-**Status.** held, armed at session-stop-hook.
+**Status.** held, armed at manual.
 
 **Owner.** skill — Whether a sentence advances anything is a reading.
 
 **What catches a break of it.**
 
 - **pattern** — absent.
-- **model** — held. Lives at hooks/register-judge.py via ~/.claude/hooks/register-judge-personal.md:1. Rule text the judging model reads: no sentence that carries no information. This is compaction turned on what he reads: every sentence shown to him advances the finding, the decision, or the action. A sentence that only performs a stance, prefaces or frames without content, restates what he already has, softens, or ceremonially opens or closes is cut before sending.
+- **model** — held. Lives at hooks/register_judge_core.py, scripts/preshow-register-lint.py via hooks/register_judge_core.py. Rule text the judging model reads: no sentence that carries no information. This is compaction turned on what the reader reads: every sentence shown to the reader advances the finding, the decision, or the action. A sentence that only performs a stance, prefaces or frames without content, restates what the reader already holds, softens, or ceremonially opens or closes is cut before sending.
 - **person** — partial. Reads: whether a sentence the judge passed still restates what the reader already holds.
 
 **Stated before this page, at.** ~/.claude/hooks/register-judge-personal.md:1, hooks/register-judge.py:30, hooks/register_judge_core.py:35
 
-**Notes.** This law governs the classes r12, r13, and r15. The two thresholds bind every law the register judge holds: a reply under 120 characters is never judged, and an offence quote under twelve characters is dropped as a hallucination. No prose home states either number, nor that the judge ignores file paths, code, command output, and quoted text. The boundary against r51: a recap of a buried answer repeats words the message already carries, and it carries a fact the reader would otherwise lose, so it informs and this rule does not cut it. What this rule cuts is a sentence carrying no fact at all. The sentences this cuts: one that only performs a stance, a preface, a restatement, a softener, and a ceremonial opening or closing. The test is whether the sentence carries a fact of its own. The list moved here from the rule sentence on 2026-07-28. The session-stop-hook holds this rule and missed one instance on 2026-07-28: an abstract sentence announcing what the next sentence states. The owner caught it. The announcing sentence is the shape the catcher's reach is short on. The owner sharpened the reader test on 2026-07-28: a sentence earns its place by changing what the reader does. A sentence that leaves every action the same is cut or replaced.
+**Notes.** This law governs the classes r12, r13, and r15. The two thresholds bind every law the register judge holds: a reply under 120 characters is never judged, and an offence quote under twelve characters is dropped as a hallucination. No prose home states either number, nor that the judge ignores file paths, code, command output, and quoted text. The boundary against r51: a recap of a buried answer repeats words the message already carries, and it carries a fact the reader would otherwise lose, so it informs and this rule does not cut it. What this rule cuts is a sentence carrying no fact at all. The sentences this cuts: one that only performs a stance, a preface, a restatement, a softener, and a ceremonial opening or closing. The test is whether the sentence carries a fact of its own. The list moved here from the rule sentence on 2026-07-28. The session-stop-hook held this rule until 2026-08-17 and missed one instance on 2026-07-28: an abstract sentence announcing what the next sentence states. The owner caught it. The announcing sentence is the shape the catcher's reach is short on. The owner sharpened the reader test on 2026-07-28: a sentence earns its place by changing what the reader does. A sentence that leaves every action the same is cut or replaced. The owner unwired the Stop judge on 2026-08-17. The law text moved from one host's own words into the pack's, and the document lint now carries it by hand (JOURNAL.md).
 
 ### r15 — a word inflating a statement while adding nothing
 
 **Binds.** spec-body · human-prose · chat · artifact · worker-brief
 
-**Status.** held, armed at session-stop-hook, manual.
+**Status.** held, armed at manual.
 
 **Owner.** skill — Whether deleting a word changes the meaning is a reading.
 
@@ -891,7 +891,7 @@ repair the text from those stops rather than from the one sentence in front of y
 
 **Binds.** chat · human-prose · worker-brief
 
-**Status.** held, armed at session-stop-hook, session-prompt-hook, pre-commit.
+**Status.** held, armed at session-prompt-hook, pre-commit.
 
 **Owner.** skill — Whether the writer could already derive the answer is a reading of what the writer holds.
 
