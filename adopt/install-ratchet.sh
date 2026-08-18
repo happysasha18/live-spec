@@ -56,6 +56,33 @@ if [ ${#DOCS[@]} -eq 0 ]; then
   exit 1
 fi
 
+# A doc named by config or default may still not exist yet — the ordinary state of a fresh project
+# before step 2 (or a by-hand doc write) has created it. That is not breakage, so refuse cleanly here,
+# before step b vendors anything: the style/redundancy lints below expect a real file and traceback on
+# a missing one, and a clean early exit means a re-run after the doc exists starts from nothing rather
+# than picking up a half-vendored tree.
+MISSING_DOCS=()
+for doc in "${DOCS[@]}"; do
+  if [ ! -f "$HOST_ROOT/$doc" ]; then
+    MISSING_DOCS+=("$doc")
+  fi
+done
+if [ ${#MISSING_DOCS[@]} -gt 0 ]; then
+  python3 - "${MISSING_DOCS[@]}" << 'PYEOF'
+import json, sys
+
+missing = sys.argv[1:]
+print(json.dumps({
+    "severity": "error",
+    "code": "ratchet-install",
+    "message": "gated doc(s) not found yet: %s" % ", ".join(missing),
+    "fix": "write the doc first (step 2 does this for you), then re-run adopt/install-ratchet.sh — "
+           "a fresh project has no gated docs until then, so this is expected, not a failure",
+}))
+PYEOF
+  exit 1
+fi
+
 # --- step b: vendor the pack's gate files into the host ------------------------------------------
 VENDOR_FILES=(
   "scripts/spec-style-lint.py"

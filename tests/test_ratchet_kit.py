@@ -199,6 +199,60 @@ class TestRatchetInstall(unittest.TestCase):
             self.assertNotEqual(result.returncode, 0, "lock test must red on a bare cap raise")
 
 
+class TestRatchetMissingDoc(unittest.TestCase):
+    """Defect (2026-08-18 show-rehearsal report): on a fresh project, before step 2 (or a by-hand
+    doc write) has created the gated doc, install-ratchet.sh must refuse with a clean human-readable
+    line and a non-zero exit — never a raw Python traceback. A doc resolved from
+    guardrails.config.json's spec_path but not yet written to disk is the ordinary state of a fresh
+    project, not breakage, so the refusal must say so and must leave nothing vendored.
+    """
+
+    def _init_host(self, tmp):
+        run(["git", "init", "-q"], cwd=tmp)
+        run(["git", "config", "user.email", "a@example.com"], cwd=tmp)
+        run(["git", "config", "user.name", "a"], cwd=tmp)
+
+    def test_doc_named_on_argv_but_absent_fails_cleanly_not_with_a_traceback(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            self._init_host(tmp)
+            result = run(["bash", INSTALL_RATCHET, "PRODUCT_SPEC.md"], cwd=tmp)
+            self.assertNotEqual(result.returncode, 0, "a missing doc must not silently succeed")
+            combined = result.stdout + result.stderr
+            self.assertNotIn("Traceback (most recent call last)", combined,
+                              "must be a clean refusal, not a raw Python traceback")
+            self.assertNotIn("JSONDecodeError", combined)
+            self.assertIn("PRODUCT_SPEC.md", result.stdout)
+            self.assertFalse(os.path.exists(os.path.join(tmp, "scripts", "spec-style-lint.py")),
+                              "a clean refusal must vendor nothing")
+
+    def test_doc_resolved_from_config_but_absent_fails_cleanly(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            self._init_host(tmp)
+            config = {"spec_path": "PRODUCT_SPEC.md"}
+            with open(os.path.join(tmp, "guardrails.config.json"), "w", encoding="utf-8") as f:
+                json.dump(config, f)
+            # No PRODUCT_SPEC.md written — the ordinary state of a fresh project before step 2.
+            result = run(["bash", INSTALL_RATCHET], cwd=tmp)
+            self.assertNotEqual(result.returncode, 0)
+            combined = result.stdout + result.stderr
+            self.assertNotIn("Traceback (most recent call last)", combined)
+            self.assertNotIn("JSONDecodeError", combined)
+            self.assertFalse(os.path.exists(os.path.join(tmp, "scripts", "spec-style-lint.py")))
+
+    def test_doc_present_after_the_fact_installs_cleanly(self):
+        """Proves the refusal is transient, not a permanent block: write the doc and re-run."""
+        with tempfile.TemporaryDirectory() as tmp:
+            self._init_host(tmp)
+            result = run(["bash", INSTALL_RATCHET, "PRODUCT_SPEC.md"], cwd=tmp)
+            self.assertNotEqual(result.returncode, 0)
+
+            with open(os.path.join(tmp, "PRODUCT_SPEC.md"), "w", encoding="utf-8") as f:
+                f.write("# Spec\n\nA plain sentence.\n")
+            result2 = run(["bash", INSTALL_RATCHET, "PRODUCT_SPEC.md"], cwd=tmp)
+            self.assertEqual(result2.returncode, 0, result2.stdout + result2.stderr)
+            self.assertTrue(os.path.isfile(os.path.join(tmp, "scripts", "spec-style-lint.py")))
+
+
 class TestGateRWiring(unittest.TestCase):
     """Defect 1 (2026-07-16 track-coach report,
     inbox/2026-07-16-from-track-coach-install-ratchet-appends-past-exit.md): install-ratchet.sh
