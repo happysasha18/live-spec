@@ -2,16 +2,19 @@
 
 PUSH-REVIEW
 
-Range: ed8e1da0..3b14d744
+Range: ed8e1da0..RANGE9
+- f046fc0a Gate g's CI test checks the guarantee exactly, not the absence of if:
+- 79a9c3c7 The record names the pushed range by its hash
+- 3b14d744 The record's range base follows main to its new head
 - c43b700e Merge origin/main: two hand-kept lists catch up with yesterday's two culls
 - 6f33bc27 The record carries the pin's red canon and the floor decision
 - abd4246d Move the external product-prover pin off a canon that was red since Aug 13
 - 2fefd844 The record names the pushed range by its hash
 - 59da3681 The record carries the CI gate fix that stops turnarounds at the first red
 - beeb46e5 CI runs every gate in one pass instead of stopping at the first failure
-Files read: .github/workflows/gates.yml, guardrails/check-ci-mirror.sh, tests/test_ci_mirror.py, guardrails/pre-push, skills/product-prover-pack/SKILL.md
+Files read: .github/workflows/gates.yml, guardrails/check-ci-mirror.sh, tests/test_ci_mirror.py, guardrails/pre-push, skills/product-prover-pack/SKILL.md, tests/test_guardrails_unit.py
 Checks run: python3 -m pytest tests/test_ci_mirror.py -q — 13 passed; guardrails/check-ci-mirror.sh — OK (every local pre-push gate is mirrored in CI or a declared carve-out); python3 -m pytest tests/test_prover_adapter_contract.py -q — 18 passed, 1 skipped; python3 -m pytest tests/test_config_health.py -q — 33 passed; python3 -m pytest tests/test_readme_stance.py -q — 5 passed; gh api repos/happysasha18/product-prover/commits/main and .../git/refs/tags/v1.3.1, read live, not taken on say-so
-Findings: gates.yml stopped at the first red gate, so one CI run told the owner about one problem at a time, and each round trip cost about nine minutes; the external product-prover pin also named a commit that had been red on its own CI since 2026-08-13, so gate b's proof rested on a canon that could not prove itself; both are set out below
+Findings: gates.yml stopped at the first red gate, so one CI run told the owner about one problem at a time, and each round trip cost about nine minutes; the external product-prover pin also named a commit that had been red on its own CI since 2026-08-13, so gate b's proof rested on a canon that could not prove itself; and one CI test pinned gate g's guarantee by a form (no if: line) rather than the guarantee itself, which the fix's own if: line then reded; all three are set out below
 Blocking: none
 
 The owner's word: a red gate on GitHub should surface every finding in one run, not the first
@@ -87,3 +90,26 @@ mode-name table, the pack paths, the record home and shape, or anything else
 `product-prover-pack/SKILL.md` reads from the prover's own SKILL.md. The floor stays at 1.3.0
 because nothing the pack binds to changed; raising it on the version number alone, with no
 functional reason, would be exactly the mistake the owner warned against.
+
+A third finding, on the CI test suite this time. Adding `if: ${{ !cancelled() }}` to gate g's CI
+step reded `tests/test_guardrails_unit.py::TestThePrePushChainIsTheFastSet::test_the_server_runs_gate_g_on_every_push`:
+`self.assertNotIn("if:", step, ...)`. The law behind that test is real — gate g runs nowhere in
+the local pre-push chain, so the server is the only place it runs at all, and nothing may let it
+be skipped on a real push. Read against that law, the test was pinning the wrong thing: it
+guarded a FORM ("no if: line") rather than the GUARANTEE ("this step cannot be skipped for any
+reason but a cancelled run"). The two came apart the moment gate g's step gained
+`if: ${{ !cancelled() }}` for the same reason every other gate step did: that condition does not
+add a way to skip the step, it removes one — GitHub Actions' implicit `success()` would otherwise
+skip the step the instant an earlier step in the job failed, and `!cancelled()` is precisely what
+takes that skip away. A step with no `if:` and a step reading exactly `if: ${{ !cancelled() }}`
+both run under the same one condition: the run was not cancelled. So the test now accepts both
+shapes and reds on anything else, comparing the `if:` line for exact equality rather than a
+substring. A substring check on `"!cancelled()"` was rejected on purpose: it would pass
+`if: ${{ !cancelled() && github.actor == 'x' }}`, which really does narrow when the step runs and
+really would weaken the guarantee — the failure mode the test exists to catch. The fix is
+recorded plainly as what it is: the measuring stick was made more precise, and the guarantee it
+protects was not touched. Checked for siblings: no other test in
+`TestThePrePushChainIsTheFastSet`, and no other test anywhere in `tests/` or `guardrails/`,
+pins gate g's or any other step's `if:` line by presence/absence the same blunt way (`grep -rn
+'assertNotIn.*"if:"' tests/*.py guardrails/*.py guardrails/*.sh` — one match, the one fixed).
+`python3 -m pytest tests/test_guardrails_unit.py -q` — 41 passed.
