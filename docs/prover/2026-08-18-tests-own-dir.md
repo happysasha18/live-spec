@@ -1,7 +1,17 @@
-# PUSH-REVIEW — a test says out loud which tree it runs in
+# Prover record — 2026-08-18 tests-own-dir
 
-Date: 2026-08-18 evening. Range: 23d2495..c5f69a9b — the pushed range: 5dd7cfb, eca3979, cfc9758 and 905b738,
-the catcher and this record.
+PUSH-REVIEW
+
+Range: 23d2495..c5f69a9b
+- 905b738 The suite starts from a clean git environment, so a fixture's repo stays its own
+- cfc9758 tests/test_guardrails_unit.py: pass cwd=ROOT at its 7 imported run() call sites
+- eca3979 tests/test_guardrails.py: make run()'s cwd required, close the class structurally
+- 5dd7cfb check-tests.sh takes its repo root from the tests dir it was given, not the caller's cwd
+Files read: guardrails/check-tests.sh, guardrails/pre-push, tests/conftest.py, tests/test_guardrails.py, tests/test_guardrails_unit.py, tests/test_doc_findings_bound.py
+Findings: three mechanisms let a test act on the tree it was judging; two were repaired before the one actually firing was found, and each is set out below
+Blocking: none
+
+A test says out loud which tree it runs in.
 Root: every push today was blocked, and none of them by the package under it. A freshly
 built clean branch grew hundreds of commits mid-run — 711, then 403, then 429 — titled
 `fixture`, `skill v1`, `base`, `scratch`, authored by `t <t@t>` and `a <a@example.com>`,
@@ -52,7 +62,7 @@ captured environment passes. The catcher, `TestNoInheritedGitEnvironment`, prove
 mechanism on two scratch repositories rather than describing it, and fails loudly if git
 ever stops behaving this way instead of quietly passing.
 
-Findings:
+The findings in full — one paragraph each:
 - Two honest repairs shipped for a defect neither of them caused. Each was real — an
   ambient repo root and a defaulted working directory are both loaded guns — but the
   thing actually firing was the environment, and it stayed invisible because it only
@@ -67,5 +77,5 @@ Findings:
 - The branch that carried the earlier attempt still holds its fabricated tail. It was
   left alone rather than rewritten; this package was rebuilt clean from main instead.
 
-Blocking:
+Nothing blocks this push:
 - none.
