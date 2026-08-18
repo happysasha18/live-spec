@@ -431,17 +431,9 @@ for skill_path in "$SKILLS_DIR"/*/; do
   [ -d "$skill_path" ] || continue
   skill_name="$(basename "$skill_path")"
 
-  # EXTERNAL SKILLS ARE NOT MIRRORS. product-prover lives in its own canonical
-  # repository and is installed INTO skills/ by scripts/install-external-skills.sh;
-  # the folder on disk here is a gitignored clone of the canon, not a pack copy.
-  # Syncing it would push the installed copy back over the canon and stamp mirror
-  # banners onto a repository that is nobody's mirror. Skip it, always.
-  case "$skill_name" in
-    product-prover)
-      echo "== ${skill_name} == SKIPPED (external skill — its repo is the canon, not a mirror)"
-      continue
-      ;;
-  esac
+  # product-prover moved out to its own canonical repository, installed into
+  # skills/ (gitignored) by scripts/install-external-skills.sh rather than
+  # shipped from here; it is a source now, not something this pack mirrors.
 
   repo="${GITHUB_OWNER}/${skill_name}"
 

@@ -79,13 +79,18 @@ class TestInstallerReadsTheAdapterFloor(unittest.TestCase):
 
 
 class TestMirrorSyncGuard(unittest.TestCase):
-    def test_sync_skips_the_external_skill_always(self):
+    def test_sync_documents_why_it_never_meets_product_prover(self):
+        # The 2026-08-19 cull retired the case-statement skip this test once pinned: the
+        # folder name it matched, skills/product-prover (no -pack suffix), is what the
+        # gitignored external clone lands at, and the loop this runs in walks tracked
+        # skill folders only — that name never appears there to skip. What must survive
+        # is the reason a reader would otherwise have to rediscover by hand.
         text = SYNC.read_text(encoding="utf-8")
-        guard = re.search(
-            r"case \"\$skill_name\" in\s*\n\s*product-prover\)(.*?)continue", text, re.S
+        self.assertIn(
+            "product-prover moved out to its own canonical repository",
+            text,
+            "sync-mirrors no longer says why product-prover is not one of its mirrors",
         )
-        self.assertIsNotNone(guard, "sync-mirrors carries no product-prover skip guard")
-        self.assertIn("SKIPPED", guard.group(1), "the guard skips without saying so")
 
 def _rows_cited_but_absent(message):
     """Queue rows a message names that ROADMAP.md does not carry, in citation order."""
