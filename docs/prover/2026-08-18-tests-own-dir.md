@@ -1,6 +1,6 @@
 # PUSH-REVIEW — a test says out loud which tree it runs in
 
-Date: 2026-08-18 evening. Range: 23d2495..a11f71be — the pushed range: the two fixes,
+Date: 2026-08-18 evening. Range: 23d2495..c5f69a9b — the pushed range: the two fixes,
 the catcher and this record.
 Root: every push today was blocked, and none of them by the package under it. A freshly
 built clean branch grew hundreds of commits mid-run — 711, then 403, then 429 — titled
