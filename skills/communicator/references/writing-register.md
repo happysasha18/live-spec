@@ -90,7 +90,7 @@ Lead with what a thing is, and hold the contrast frame out.
 - **State rules positively.** *(rule 12)* Say what happens and when. Reserve negatives for genuine prohibitions
     ("never delete a host file"), stated as a plain imperative. The contrast frame is banned outright by
     rule 15.
-- **Never the contrast frame — the hardest rule, and it holds in live chat too.** *(rule 15 — Home: profile.md key language.no-contrast-frame)*
+- **Never the contrast frame — the hardest rule, and it holds in live chat too.** *(rule 15 — Home: personal profile `language.no-contrast-frame`)*
     - The
       shapes are an em-dash or a comma leading into the denied neighbour in English, and the parallel Russian
       constructions that set a negated word against the word meant to replace it.

@@ -428,7 +428,10 @@ two loudest rules so a reader meets them even without loading the file:
 
 - **State rules positively** *(rule 12)* — say what happens and when; reserve negatives for genuine
   prohibitions, stated as a plain imperative. The tag counts the register's own rules.
-- **Never the contrast frame** *(rule 15, the hardest, and it holds in live chat too — Home: profile.md key language.no-contrast-frame)*. The linter's scissors check
+- **Never the contrast frame** *(rule 15, the hardest, and it holds in live chat too — Home: personal
+  profile `language.no-contrast-frame`)*. Never name a thing by denying its neighbour (an em-dash or
+  comma leading into the denied alternative, and the parallel Russian shapes). Say what the thing **is**
+  in its own sentence. The linter's scissors check
   holds the floor (`scripts/spec-style-lint.py`), and the scan runs on every message to the human and on documents.
 
 ## The pre-report walk — run before any movement-end or milestone report, and before any surface is shown (SPEC INV-34, INV-83)
