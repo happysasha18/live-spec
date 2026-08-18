@@ -7,8 +7,13 @@ Skill: text-audit-pack
 Date: 2026-08-18
 Reviewer: skill-creator (Anthropic)
 
-Verdict: ALLOW-WITH-NOTE — a genuine, first-time review of a new skill; one non-blocking wording
-observation, no loadability or scoping defect.
+Verdict: ALLOW (second pass, after the fix in 02f63e46 — see "Second pass" below). The first pass's
+ALLOW-WITH-NOTE and its findings stand as read; they are not erased, only closed.
+
+## First pass (2026-08-18, against 34f02abe) — ALLOW-WITH-NOTE
+
+First-pass verdict: ALLOW-WITH-NOTE — a genuine, first-time review of a new skill; one non-blocking
+wording observation, no loadability or scoping defect.
 
 ## What changed
 
@@ -70,3 +75,46 @@ Read the whole file, not the diff — it is new.
 
 No finding blocks. `check-skill-loadability.sh` passes (11 skills, all load, named, versioned,
 negative-scoped) after finding 2's fix; re-run and confirmed green this pass.
+
+## Second pass (2026-08-18, against 02f63e46) — ALLOW
+
+Commit `02f63e46` edited this page again, after the first pass closed, to clear two census-ratchet
+lints my own "Work that belongs elsewhere" section (finding 2, first pass) had tripped: a
+`scripts/spec-style-lint.py` scissors catch, and one sentence over the 25-word cap
+(`scripts/rule-census.py`). Neither lint was live when the first pass ran; both are read here.
+
+What changed, read directly against `git show 02f63e46 -- skills/text-audit-pack/SKILL.md`:
+
+- The first "Work that belongs elsewhere" bullet lost its trailing clause: "...loaded first, not
+  this page;" became "...loaded first;". The struck words named what the bullet is not (this page);
+  the surrounding sentence already carries that meaning without them — the bullet still says the
+  external skill's own body runs the read, "loaded first," inside a list whose own lead-in sentence
+  ("Skip it for:") already scopes every item as something this page does NOT do. Nothing the reader
+  needs is gone.
+- The paragraph "This page alone cannot run the audit loop: without... starts none, and its 'cheap
+  reader' definition has no loop to apply to." (36 words, one sentence) split into three sentences at
+  the same clause boundaries the colon and first "and" already marked: "This page alone cannot run
+  the audit loop." / "Without the external skill's own SKILL.md loaded beside it, its lint table
+  names commands but starts none." / "Its 'cheap reader' definition has no loop to apply to." Every
+  clause survives, in its original order, with its original wording; only the joins between them
+  changed from colon/comma-and to full stops.
+
+Re-read the whole page in full after the edit, not just the diff hunk (the same standard the first
+pass held itself to) — checked for an orphaned fragment or a dropped connective at either cut point.
+Both hold: the first bullet still parses as a complete clause inside its list, and the three-sentence
+version of the second paragraph reads in the same order, making the same three claims, as the
+36-word original. No meaning is lost, softened, or added; only the punctuation carrying it changed.
+
+The five findings of the first pass are untouched by this edit — finding 2's fix (the "Work that
+belongs elsewhere" section itself) is what got rephrased here, not undone, and findings 1, 3, 4, 5 sit
+outside the edited lines entirely (verified: `git show 02f63e46` touches only the two spans above).
+
+Re-ran this pass: `python3 scripts/spec-style-lint.py skills/text-audit-pack/SKILL.md --tier full` —
+OK, no scissors; `python3 scripts/rule-census.py skills/text-audit-pack/SKILL.md` — 6 long sentences
+(the pre-existing debt named nowhere as this page's own, all outside the two edited spans), 0 style,
+matching the file's recorded ceiling exactly; `bash guardrails/check-skill-loadability.sh` — still 11
+skills, all load.
+
+Verdict: ALLOW. Read for this pass: `git show 02f63e46` in full, the complete current text of
+`skills/text-audit-pack/SKILL.md`, and re-confirmed finding 2's section still states what it stated
+in the first pass.
