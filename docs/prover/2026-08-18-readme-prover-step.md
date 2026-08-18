@@ -2,7 +2,8 @@
 
 PUSH-REVIEW
 
-Range: 72f27fb5..RANGEPLACEHOLDER
+Range: 72f27fb5..a759db3f
+- a759db3f The record carries the front door's missing line
 - 221308c README: Step 1 (clone road) installs product-prover too
 Files read: README.md, install.sh, scripts/install-external-skills.sh, skills/product-prover-pack/SKILL.md
 Findings: the front door's first step left a stranger without the reviewer the pack pins a version of — the detail is below
