@@ -47,6 +47,9 @@ sys.path.insert(0, GUARDRAILS)
 import specformat as sf  # noqa: E402
 
 NOT_STATED = "not stated"
+# Table B is a display width, not a threshold anything is checked against — how many of the
+# worst-scoring live documents fit on one screen. Nothing reds if it changes.
+TABLE_B_ROWS_SHOWN = 15
 
 SPEC_PATH = os.path.join(REPO_ROOT, "PRODUCT_SPEC.md")
 RULE_CENSUS_PATH = os.path.join(GUARDRAILS, "rule-census.json")
@@ -307,7 +310,7 @@ def build_table_a(census_files, baseline, reads, live_paths):
 
 
 def build_table_b(census_files, reads):
-    top15 = sorted(census_files.items(), key=lambda kv: -kv[1].get("total", 0))[:15]
+    top15 = sorted(census_files.items(), key=lambda kv: -kv[1].get("total", 0))[:TABLE_B_ROWS_SHOWN]
     rows = []
     for path, v in top15:
         run = readings_for_doc_path(reads, path)
