@@ -603,7 +603,7 @@ place the pack updates when the loop's own shape moves in a text-audit release.
 - `skills/text-audit-pack/SKILL.md:74` (what a cheap reader means run inside this pack)
 
 **notes** —
-- the tenth working skill, named in the pack's skill roster and the pipeline-roles glossary. Its cold-read comprehension loop is the mechanical-lints-then-panel discipline the format-laws requirements state. As of 2026-08-18 the loop's body lives at github.com/happysasha18/text-audit, its own repository with its own version line; this node's home in the pack is the binding page alone, not a body it carries.
+- the tenth working skill, named in the pack's skill roster and the pipeline-roles glossary. Its cold-read comprehension loop is the mechanical-lints-then-panel discipline the format-laws requirements state. As of 2026-08-18 the loop's body lives at github.com/happysasha18/text-audit, its own repository with its own version line. This node's home in the pack is the binding page.
 - this node carries the working-skill roster's text-audit member without owning that anchor. The roster entity's home stays base-rulebook.
 
 ### [node: work-board] [target]

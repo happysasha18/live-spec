@@ -3,7 +3,7 @@
   "cap_rule": "r08",
   "files": {
     "ARCHITECTURE.md": {
-      "bytes": 108130,
+      "bytes": 108862,
       "file": "ARCHITECTURE.md",
       "long": 0,
       "longest": 25,
@@ -1145,7 +1145,7 @@
       "total": 54
     },
     "skills/text-audit-pack/SKILL.md": {
-      "bytes": 5263,
+      "bytes": 6003,
       "file": "skills/text-audit-pack/SKILL.md",
       "long": 6,
       "longest": 58,
