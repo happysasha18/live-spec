@@ -16,6 +16,7 @@ import ast
 import glob
 import os
 import subprocess
+import tempfile
 import unittest
 
 from conftest import ROOT, SPEC, read, spec_paths
@@ -113,11 +114,16 @@ def local_readers(tree):
     repository root, or calls another helper that does — never because of what it is called. Judging
     by name is how a `def flat(rel)` that opens a file stayed invisible to a guard that looked for
     "read" in the name, and how a module's own `def read(rel)` got taken for the node it shadows.
+    A lambda bound to a module-level name is a function like any other and is read the same way.
     """
     defs = {}
     for node in tree.body:
         if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
             defs[node.name] = node
+        elif isinstance(node, ast.Assign) and isinstance(node.value, ast.Lambda):
+            for t in node.targets:
+                if isinstance(t, ast.Name):
+                    defs[t.id] = node.value
     readers, growing = set(), True
     while growing:
         growing = False
@@ -146,6 +152,41 @@ def _anchored_at_root(node):
     return False
 
 
+def _bindings(tree, filename, seen=None):
+    """`(node_names, reader_names)` for one module: which names here ARE the node, and which read a
+    file by themselves.
+
+    Legality follows the import, and an import may take one more hop: `test_formal_index` gets its
+    `read` from `test_traceability`, which got it from conftest. So an import from a SIBLING test
+    module is resolved against that module's own bindings — the node stays the node across the
+    re-export, and a sibling's local opener stays an opener. Without this the re-exported call is
+    neither, which is the same silence a missing rule gives.
+    """
+    seen = seen or set()
+    node_names, readers = set(), local_readers(tree)
+    here = os.path.dirname(os.path.abspath(filename))
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.ImportFrom) or not node.module:
+            continue
+        if node.module == "conftest":
+            for alias in node.names:
+                if alias.name in NODE_READS:
+                    node_names.add(alias.asname or alias.name)
+            continue
+        sibling = os.path.join(here, node.module.split(".")[-1] + ".py")
+        if node.module in seen or not os.path.isfile(sibling):
+            continue
+        with open(sibling, encoding="utf-8") as f:
+            sib_tree = ast.parse(f.read(), sibling)
+        sib_nodes, sib_readers = _bindings(sib_tree, sibling, seen | {node.module})
+        for alias in node.names:
+            if alias.name in sib_nodes:
+                node_names.add(alias.asname or alias.name)
+            elif alias.name in sib_readers:
+                readers.add(alias.asname or alias.name)
+    return node_names, readers
+
+
 def spec_file_reads(source, filename):
     """Every place a test module reads the LIVE spec file, split into node reads and walk-arounds.
 
@@ -172,13 +213,7 @@ def spec_file_reads(source, filename):
     # without touching a call site. But the name alone blesses nothing: `read` is legal here only
     # where it came FROM CONFTEST. Seeding this set with the bare names blessed eleven modules that
     # define their own `def read(rel)` over an `open()`, which is the very shadow being hunted.
-    node_names = set()
-    for node in ast.walk(tree):
-        if isinstance(node, ast.ImportFrom) and node.module == "conftest":
-            for alias in node.names:
-                if alias.name in NODE_READS:
-                    node_names.add(alias.asname or alias.name)
-    readers = local_readers(tree)
+    node_names, readers = _bindings(tree, filename)
 
     # The spec is named by its literal, and also by whatever name is BOUND to that literal —
     # `from conftest import SPEC`, or a module's own `SPEC = "PRODUCT_SPEC.md"`. Once the node
@@ -279,6 +314,8 @@ class TestTheSuiteHasOneReadingNode(unittest.TestCase):
             # judged by its body
             'def flat(rel):\n    with open(os.path.join(ROOT, rel)) as f:\n'
             '        return " ".join(f.read().split())\nx = flat("PRODUCT_SPEC.md")\n',
+            # a reader that is a lambda rather than a def — a function is a function
+            'read = lambda rel: open(os.path.join(ROOT, rel)).read()\nx = read("PRODUCT_SPEC.md")\n',
             # the likeliest NEXT regression: the node exports the name, so the path can be built
             # from the constant and never spell the file at all
             'from conftest import ROOT, SPEC\nx = open(os.path.join(ROOT, SPEC)).read()\n',
@@ -306,6 +343,41 @@ class TestTheSuiteHasOneReadingNode(unittest.TestCase):
             reads, offenders = spec_file_reads(src, "<mention>")
             self.assertEqual((reads, offenders), ([], []),
                              "the guard read a mention as a read of the live spec:\n%s" % src)
+
+    def test_the_guard_follows_a_name_re_exported_by_a_sibling_module(self):
+        """A test may take its reader from another TEST module rather than from conftest.
+
+        `test_formal_index` does exactly that — `from test_traceability import read`, and that
+        module took it from conftest. The name must stay the node across the hop, and a sibling's
+        own opener must stay an opener across the same hop; a rule that resolved neither would call
+        both of them nothing at all, which reads exactly like a clean tree.
+        """
+        with tempfile.TemporaryDirectory(prefix="livespec-test-parts-") as tmp:
+            def write(name, text):
+                p = os.path.join(tmp, name)
+                with open(p, "w", encoding="utf-8") as f:
+                    f.write(text)
+                return p
+
+            write("sib_node.py", "from conftest import read\n")
+            write("sib_own.py",
+                  'def read(rel):\n    with open(os.path.join(ROOT, rel)) as f:\n'
+                  '        return f.read()\n')
+
+            through_node = write("mod_a.py",
+                                 'from sib_node import read\nx = read("PRODUCT_SPEC.md")\n')
+            through_own = write("mod_b.py",
+                                'from sib_own import read\nx = read("PRODUCT_SPEC.md")\n')
+
+            with open(through_node, encoding="utf-8") as f:
+                reads, offenders = spec_file_reads(f.read(), through_node)
+            self.assertEqual((bool(reads), offenders), (True, []),
+                             "the node stopped being the node across a sibling's re-export")
+
+            with open(through_own, encoding="utf-8") as f:
+                reads, offenders = spec_file_reads(f.read(), through_own)
+            self.assertTrue(offenders,
+                            "a sibling module's own opener passed as if it were the node")
 
 
 class TestTheMap(unittest.TestCase):
