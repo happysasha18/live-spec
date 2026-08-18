@@ -2,16 +2,27 @@
 
 PUSH-REVIEW
 
-Range: ebc4d428..10dbb6e1
+Range: 55032d9f..e4c77d08
+- e4c77d08 Merge origin/main (spec split, 55032d9f) into deliver/backlog
+- 9ba13c32 Update the prover record for the doc-bound and style-lint fixes
 - 10dbb6e1 Adjust the ROADMAP.md doc-bound to the final measured size
 - 4137dd72 Reword row 553's bundle note to clear the scissors style rule
+- 0bfe6326 Confirm the prover record's range against the merged head
+- 2146221d Prover record for the ROADMAP queue-bundle package
 - 52d31762 Raise the ROADMAP.md doc-bound for the queue-bundle cross-references
 - a2956014 ROADMAP rows carry their queue-bundle notes
 
-Range confirmed against `git log --oneline ebc4d428..HEAD` after the last fix commit landed:
-four commits, all listed above, base is `origin/main` at push time (`ebc4d428`).
-Files read: ROADMAP.md, guardrails/doc-bounds.json, guardrails/check-doc-bound.py, tests/test_doc_bound.py, scripts/rule-census.py, scripts/spec-style-lint.py, docs/prover/README.md
-Checks run: python3 -m pytest tests/test_authority_anchor.py tests/test_doc_bound.py tests/test_doc_rotation.py tests/test_far_tier.py tests/test_landing_next_steps.py tests/test_traceability.py -q — 297 passed; python3 guardrails/check-doc-bound.py — OK; bash guardrails/check-pin-drift.sh — OK, 207 pins + 53 range pins, no drift; python3 guardrails/check-doc-findings-bound.py — OK, 147 documents, none above its record; python3 scripts/rule-census.py ROADMAP.md — 215 findings, matching the pre-change count
+Range confirmed against `git log --oneline 55032d9f..HEAD` after main moved to 55032d9f under a
+separate spec-split package (PRODUCT_SPEC.md split into a core plus 30 files under spec/) and
+this worktree merged that new origin/main in: eight commits, all listed above, base is
+`origin/main` at push time (`55032d9f`). The merge (e4c77d08) was clean — no conflict markers,
+`ort` strategy auto-resolved the one file both sides touched (guardrails/doc-bounds.json, each
+side raising a different document's bound) — and this package touches no file under spec/ or
+PRODUCT_SPEC.md, so the split itself needed no adaptation here. The merge also pulled in the
+spec-split's own fix to guardrails/check-prover-record.sh, which now reads freshness off
+PRODUCT_SPEC.md plus spec/ together.
+Files read: ROADMAP.md, guardrails/doc-bounds.json, guardrails/check-doc-bound.py, guardrails/check-prover-record.sh, tests/test_doc_bound.py, scripts/rule-census.py, scripts/spec-style-lint.py, docs/prover/README.md
+Checks run: python3 -m pytest tests/test_authority_anchor.py tests/test_doc_bound.py tests/test_doc_rotation.py tests/test_far_tier.py tests/test_landing_next_steps.py tests/test_traceability.py -q — 297 passed (re-run after the merge, unchanged); python3 guardrails/check-doc-bound.py — OK; bash guardrails/check-pin-drift.sh — OK, 207 pins + 53 range pins, no drift; python3 guardrails/check-doc-findings-bound.py — OK, 177 documents, none above its record; python3 scripts/rule-census.py ROADMAP.md — 215 findings, matching the pre-change count
 Findings: the delivered work is real and correctly scoped, but the branch it came from was corrupted, and two point-testing passes turned up real gate misses the branch's own report never mentioned. See findings below.
 Blocking: none
 
@@ -52,6 +63,12 @@ targeted files (authority-anchor, doc-bound, doc-rotation, far-tier, landing-nex
 traceability).
 
 Findings:
+- The spec-split merge (e4c77d08) is content-neutral to this package: it only touches
+  PRODUCT_SPEC.md, PRODUCT_SPEC.index.md, spec/, and the check scripts that read the spec by
+  path. ROADMAP.md and guardrails/doc-bounds.json's ROADMAP.md entry came through untouched by
+  the merge itself (the TEST_MATRIX.md entry in the same file did collide with a separate
+  same-day raise, and git's `ort` strategy reconciled it automatically with no marker left
+  behind — reviewed, not this package's concern, but confirmed clean).
 - Two real gate misses (doc-bound, then doc-findings-bound/scissors) surfaced only by actually
   running the checks, not by reading the branch's report. Both fixes are content-neutral to the
   35 rows' substance: one widens a size ceiling to match real growth, the other rewords one
