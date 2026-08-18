@@ -103,6 +103,31 @@ def test_every_declared_hook_command_matches_the_declaration(tmp_path):
     assert not mismatched, "declared command form not found verbatim: %r" % (mismatched,)
 
 
+def test_every_opt_in_hook_file_lands_unwired(tmp_path):
+    """The six that left the wired list on 2026-08-17 still SHIP (PRODUCT_SPEC.md Requirement 311.3,
+    Requirement 298.7). Two directions, both of which the wired-list tests above stopped covering the
+    moment those six left it: every one of their files is on disk after a fresh install, and not one
+    of them is wired into the fresh settings.json."""
+    home = str(tmp_path / "home")
+    os.makedirs(home)
+    proc = _run_installer(home)
+    assert proc.returncode == 0, proc.stdout + proc.stderr
+
+    decl = _load_decl()
+    installed_dir = os.path.join(home, ".claude", "hooks")
+    settings = _settings(home)
+
+    missing, wired = [], []
+    for stem, surface in sorted(decl["opt_in_surface"].items()):
+        fname = decl["file"][stem]
+        if not os.path.isfile(os.path.join(installed_dir, fname)):
+            missing.append(fname)
+        if any(fname in c for c in _commands_for(settings, surface)):
+            wired.append((stem, surface))
+    assert not missing, "an opt-in hook's file did not land: %r\nstdout:\n%s" % (missing, proc.stdout)
+    assert not wired, "the installer wired an opt-in hook the host never asked for: %r" % (wired,)
+
+
 def test_every_declared_data_file_is_installed_beside_its_hook(tmp_path):
     home = str(tmp_path / "home")
     os.makedirs(home)

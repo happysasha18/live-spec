@@ -3019,8 +3019,10 @@ nothing is lost that a host cannot turn on in one line. Requirement 311 carries 
 
 One step is owed on the machine before this pushes. `hooks/language-laws.json` is generated from the
 rule registry, and the registry changed, so the installed copy at `~/.claude/hooks/` is now the older
-build and gate m reds on it. The owner runs `sh scripts/install-pack-hooks.sh` to refresh it. Until
-then the judges on this machine read the pre-change law text, and no agent may run that installer.
+build and gate m reds on it. The owner runs `sh scripts/install-pack-hooks.sh` to refresh it, and no
+agent may run that installer. Nothing reads the stale copy meanwhile: the two hooks this machine wires
+are the clock and the chat laws, neither of which opens that file, and the document lint imports the
+mechanism out of this repository. The red is the drift itself, not a judge reading old law.
 
 Two smaller repairs rode along. The local-override file carried two entries for hooks whose installed
 copies match this repository exactly, so they bought silence for a difference that no longer exists; both

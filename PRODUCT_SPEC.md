@@ -7240,14 +7240,14 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 **Context:** `guardrails/judge-hooks.json` declares every wired session hook, each with the event it rides. `scripts/install-session-hooks.sh` is the one command a human runs, since the harness classifier blocks an agent's own hand in its configuration. Before this requirement it installed its own two alone; the rest reached a real machine only by hand, so a fresh machine, and any host adopting the pack, got a fifth of the conduct machinery with no sign the rest was missing. The fix generates the installer's own coverage from the declaration and chains to the existing installer that already covered the rest, so the one command reaches every declared hook with its data files.
 
-**User Story:** As a person adopting the pack on a fresh machine, I want the one installer command to wire every session hook the declaration names, so that I get the whole conduct machinery.
+**User Story:** As a person adopting the pack on a fresh machine, I want the one installer command to place every session hook the declaration names. Then no shipped hook is missing from my machine without a sign.
 
 ### Acceptance Criteria
 
 **Case: generated coverage**
 
-1. *when* the human runs the installer, the system *shall* install and wire every hook named in `guardrails/judge-hooks.json`'s wired declaration, and each hook stands under its declared event with its declared command form. [INV-289]
-2. The system *shall* install every data file a wired hook's declaration names, beside that hook. [INV-289]
+1. *when* the human runs the installer, the system *shall* place the file of every hook `guardrails/judge-hooks.json` names and wire every hook in its wired declaration, each under its declared event with its declared command form. [INV-289]
+2. The system *shall* install every data file a hook's declaration names, beside that hook. [INV-289]
 
 **Case: both directions proven mechanically**
 
@@ -7258,6 +7258,10 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 5. *when* the installer runs a second time, the system *shall* change nothing already wired or already installed, recognizing a hook already wired under any command form. [INV-289]
 6. The system *shall* never create, edit, or overwrite a personal overlay file, and *shall* name each one it finds already present. [INV-289]
+
+**Case: the host wires the opt-in six itself**
+
+7. The installer *shall* wire none of the six opt-in hooks, placing their files and leaving each host to add the command it wants. [INV-289, INV-211]
 
 
 ---
@@ -8120,7 +8124,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-208 | R242.1, R242.2, R242.3, R242.4 |
 | INV-209 | R243.1, R243.2, R243.3, R243.4, R243.5, R245.3, R287.3 |
 | INV-210 | R246.1, R246.2, R306.15, R307.13 |
-| INV-211 | R230.9, R232.8, R246.3, R246.4, R292.1, R292.6, R292.7, R292.8, R293.9, R294.4, R294.5, R311.1, R311.2, R311.3, R311.4 |
+| INV-211 | R230.9, R232.8, R246.3, R246.4, R292.1, R292.6, R292.7, R292.8, R293.9, R294.4, R294.5, R298.7, R311.1, R311.2, R311.3, R311.4 |
 | INV-212 | R226.2, R246.5, R246.6, R292.1, R292.5, R306.15, R307.13 |
 | INV-213 | R235.1, R235.2 |
 | INV-214 | R82.4, R91.1, R91.2, R91.3, R91.4, R266.7 |
@@ -8198,7 +8202,7 @@ The code-to-location table below is generated output, built from the body criter
 | INV-286 | R296.1, R296.2, R296.3, R296.4, R296.5, R296.6, R296.7, R296.8, R296.9, R296.10, R296.11, R296.12, R296.13 |
 | INV-287 | R297.1, R297.2, R297.3, R297.4, R297.5, R297.6, R297.7, R297.8, R297.9, R297.10, R297.12 |
 | INV-288 | R297.13, R297.14, R297.15, R297.16, R297.17, R297.18, R302.11 |
-| INV-289 | R298.1, R298.2, R298.3, R298.4, R298.5, R298.6 |
+| INV-289 | R298.1, R298.2, R298.3, R298.4, R298.5, R298.6, R298.7 |
 | INV-290 | R226.7, R226.8, R226.9, R226.10 |
 | INV-291 | R299.1, R299.2, R299.3, R299.4, R299.5, R299.6, R299.7, R299.8, R299.9, R299.10, R299.11, R299.13, R299.14, R299.15 |
 | INV-292 | R300.1, R300.2, R300.3 |

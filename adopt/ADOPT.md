@@ -281,8 +281,10 @@ set backward over the host's existing tree — every gate scans the whole tree, 
 construction (SPEC INV-176), so debt older than the gate surfaces now, at adoption, well before the next touch.
 
 **And install the universal hooks (SPEC INV-173):** `bash <pack>/scripts/install-pack-hooks.sh` puts
-the pack's canonical scan hook onto the machine and wires it; personal patterns stay in the personal
-layer's own overlay file, which the installer never touches.
+the pack's canonical scan hooks onto the machine and wires none of them. Every one is opt-in from
+2026-08-17, so a host adds the command for the ones it wants to its own `~/.claude/settings.json`,
+reading each surface and command form from `guardrails/judge-hooks.json`. Personal patterns stay in the
+personal layer's own overlay file, which the installer never touches.
 
 ---
 

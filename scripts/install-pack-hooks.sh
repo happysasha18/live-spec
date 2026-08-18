@@ -42,7 +42,7 @@ if [ "$DRY_RUN" = "1" ]; then
       echo "DRY-RUN: would copy $DIR/hooks/$f -> $DEST_DIR/$f"
     fi
   done
-  echo "DRY-RUN: would wire nothing into $SETTINGS — these six scans are opt-in since 2026-08-17."
+  echo "DRY-RUN: would wire nothing into $SETTINGS — these six checks are opt-in since 2026-08-17."
   echo "DRY-RUN: scissors-personal.json, hedge-personal.json, and register-judge-personal.md are never touched by this script."
   exit 0
 fi
@@ -58,7 +58,7 @@ for f in $JUDGE_FILES; do
   fi
 done
 
-echo "note: these six scans are opt-in since 2026-08-17 (JOURNAL.md). Their files stand in $DEST_DIR and"
+echo "note: these six checks are opt-in since 2026-08-17 (JOURNAL.md). Their files stand in $DEST_DIR and"
 echo "      this script wires none of them into $SETTINGS. A host that wants one adds its command there"
 echo "      by hand, reading the surface and the command form from guardrails/judge-hooks.json."
 
