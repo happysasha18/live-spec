@@ -2,8 +2,10 @@
 
 PUSH-REVIEW
 
-Range: 2cad4de6..f2df2058
-- f2df2058 The record carries the split and its merge
+Range: ebc4d428..RANGE2
+- cf343a7 Merge origin/main: the skills-lines cull lands under the split
+- 43efc57 The record names the pushed range by its hashes
+- f2df205 The record carries the split and its merge
 - ef4cfdc Merge spec/2026-08-18-split-move into deliver/spec-split
 - 39cdc94 Census re-record after the spec split: 30 spec/*.md entries + shrunk core
 - d79fc33 Spec split, move: 310 requirements out of PRODUCT_SPEC.md into 30 spec/*.md parts
