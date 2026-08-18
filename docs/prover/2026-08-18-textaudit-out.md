@@ -2,11 +2,12 @@
 
 PUSH-REVIEW
 
-Range: 63cfa511..79da8a34
+Range: 63cfa511..8b337fd5
 - 9f11c3a3 The record carries the skill's move to its own home
 - aa923a0a The record names the repairs the gates asked for
 - f1caf3b8 The record names the review's second pass
 - 79da8a34 The record names the ceilings this push removes
+- 8b337fd5 The record names the installer fix this push carries
 - d919396b guardrails/install.sh resolves the hooks dir with git rev-parse
 - 2e2f167 Every invented ceiling goes, and the watcher that enforced them
 - 412ef72 The adapter's review carries its second pass
