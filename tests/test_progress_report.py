@@ -2,19 +2,26 @@
 comparing two days compares numbers rather than layouts. This pins: the script runs and writes the
 page; the page carries its five sections in the stated order; every table carries its stated
 columns; and a number no source provides prints "not stated" rather than a fabricated zero.
+
+The suite never runs the script against its real output path. docs/PROGRESS.md is a PROTECTED
+file: a real run regenerates it deliberately, not as a side effect of the test suite. Every
+invocation below passes --out at a scratch path under a temp dir this test owns, so a full suite
+run reads the tree (cwd stays ROOT, since the script's inputs are ROOT-relative) but writes
+nowhere the working tree can see it, and leaves docs/PROGRESS.md untouched.
 """
 import importlib.util
 import json
 import os
 import re
+import shutil
 import subprocess
 import sys
+import tempfile
 import unittest
 
-from conftest import ROOT, read
+from conftest import ROOT
 
 SCRIPT = os.path.join(ROOT, "scripts", "progress-report.py")
-OUT = os.path.join(ROOT, "docs", "PROGRESS.md")
 BASELINE = os.path.join(ROOT, "guardrails", "progress-baseline.json")
 
 
@@ -23,6 +30,20 @@ def load_progress_report():
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
+
+
+def run_script(out_path):
+    """Runs the generator with cwd at ROOT (its inputs are ROOT-relative) but --out redirected
+    to `out_path`, so nothing under the repository's own tree is written."""
+    return subprocess.run([sys.executable, SCRIPT, "--out", out_path], cwd=ROOT,
+                          capture_output=True, text=True, timeout=180)
+
+
+def run_script_and_read(out_path):
+    proc = run_script(out_path)
+    assert proc.returncode == 0, proc.stdout + proc.stderr
+    with open(out_path, encoding="utf-8") as f:
+        return f.read()
 
 
 def table_after(text, heading, table_caption=None):
@@ -76,11 +97,13 @@ def priority_groups(text):
 
 class TestProgressReportRuns(unittest.TestCase):
     def test_script_runs_and_writes_the_page(self):
-        proc = subprocess.run([sys.executable, SCRIPT], cwd=ROOT,
-                              capture_output=True, text=True, timeout=180)
-        self.assertEqual(proc.returncode, 0, proc.stdout + proc.stderr)
-        self.assertTrue(os.path.isfile(OUT), "the script did not write docs/PROGRESS.md")
-        text = read("docs/PROGRESS.md")
+        with tempfile.TemporaryDirectory() as tmp:
+            out = os.path.join(tmp, "PROGRESS.md")
+            proc = run_script(out)
+            self.assertEqual(proc.returncode, 0, proc.stdout + proc.stderr)
+            self.assertTrue(os.path.isfile(out), "the script did not write its --out path")
+            with open(out, encoding="utf-8") as f:
+                text = f.read()
         self.assertTrue(text.startswith("# Progress — the two promises"))
 
 
@@ -89,10 +112,12 @@ class TestProgressReportShape(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        proc = subprocess.run([sys.executable, SCRIPT], cwd=ROOT,
-                              capture_output=True, text=True, timeout=180)
-        assert proc.returncode == 0, proc.stdout + proc.stderr
-        cls.text = read("docs/PROGRESS.md")
+        cls.tmp = tempfile.mkdtemp()
+        cls.text = run_script_and_read(os.path.join(cls.tmp, "PROGRESS.md"))
+
+    @classmethod
+    def tearDownClass(cls):
+        shutil.rmtree(cls.tmp, ignore_errors=True)
 
     def test_six_sections_present_in_order(self):
         headings = [
@@ -163,13 +188,15 @@ class TestQueueSection(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        proc = subprocess.run([sys.executable, SCRIPT], cwd=ROOT,
-                              capture_output=True, text=True, timeout=180)
-        assert proc.returncode == 0, proc.stdout + proc.stderr
-        cls.text = read("docs/PROGRESS.md")
+        cls.tmp = tempfile.mkdtemp()
+        cls.text = run_script_and_read(os.path.join(cls.tmp, "PROGRESS.md"))
         with open(BASELINE, encoding="utf-8") as f:
             cls.baseline = json.load(f)
         cls.groups = priority_groups(cls.text)
+
+    @classmethod
+    def tearDownClass(cls):
+        shutil.rmtree(cls.tmp, ignore_errors=True)
 
     def test_ten_groups_in_the_plans_order(self):
         self.assertEqual(len(self.groups), 10)
@@ -203,12 +230,14 @@ class TestTargetsAndNoComparison(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        proc = subprocess.run([sys.executable, SCRIPT], cwd=ROOT,
-                              capture_output=True, text=True, timeout=180)
-        assert proc.returncode == 0, proc.stdout + proc.stderr
-        cls.text = read("docs/PROGRESS.md")
+        cls.tmp = tempfile.mkdtemp()
+        cls.text = run_script_and_read(os.path.join(cls.tmp, "PROGRESS.md"))
         with open(BASELINE, encoding="utf-8") as f:
             cls.baseline = json.load(f)
+
+    @classmethod
+    def tearDownClass(cls):
+        shutil.rmtree(cls.tmp, ignore_errors=True)
 
     def test_every_target_column_prints_a_baseline_value(self):
         targets = self.baseline["targets"]
@@ -243,7 +272,6 @@ class TestNotStatedNotZero(unittest.TestCase):
         text = ("# Blind read, 2026-01-01 — a document with no blocking count stated\n\n"
                 "Text read: `PRODUCT_SPEC.md`, a paragraph.\n\n"
                 "This record states no blocking count anywhere in its body.\n")
-        import tempfile
         with tempfile.TemporaryDirectory() as tmp:
             path = os.path.join(tmp, "2026-01-01-read99-no-count.md")
             with open(path, "w", encoding="utf-8") as f:
@@ -255,10 +283,8 @@ class TestNotStatedNotZero(unittest.TestCase):
         """Table C's "lines" row carries no baseline entry for the format-change column (the
         seed file only records bytes, requirements, and acceptance criteria at that date), so
         the live page must print "not stated" there rather than 0."""
-        proc = subprocess.run([sys.executable, SCRIPT], cwd=ROOT,
-                              capture_output=True, text=True, timeout=180)
-        self.assertEqual(proc.returncode, 0, proc.stdout + proc.stderr)
-        text = read("docs/PROGRESS.md")
+        with tempfile.TemporaryDirectory() as tmp:
+            text = run_script_and_read(os.path.join(tmp, "PROGRESS.md"))
         rows = table_after(text, "## Promise two", "| measure |")
         by_measure = {r[0]: r for r in rows[1:]}
         self.assertEqual(by_measure["lines"][2], "not stated")
