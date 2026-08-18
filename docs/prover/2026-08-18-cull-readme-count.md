@@ -2,9 +2,12 @@
 
 PUSH-REVIEW
 
-Range: 2cad4de..14eb889d
+Range: 2cad4de6..14eb889d
 - 14eb889d Merge lane/2026-08-18-cull into deliver/cull
 - 11d9fbfb README stops publishing the skills-lines count
+
+Range confirmed against `git log --oneline 2cad4de6..HEAD` after the merge commit landed: two
+commits, both listed above, base is `origin/main` at push time (`2cad4de6`).
 Files read: README.md, guardrails/tree-counts.json, tests/test_tree_counts.py, guardrails/check-tree-counts.py, guardrails/check-doc-bound.py, scripts/gen-tree-counts.py
 Checks run: python3 -m pytest tests/test_tree_counts.py -q — 43 passed; python3 guardrails/check-tree-counts.py --allow-uncommitted — OK; python3 guardrails/check-doc-bound.py — OK; python3 scripts/gen-tree-counts.py — no diff produced
 Findings: README no longer publishes the skills-lines count; the two remaining published counts (gate-roster, scaffold-checks) still verify. See findings below.
