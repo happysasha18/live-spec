@@ -20,8 +20,8 @@ from conftest import ROOT
 SCRIPT = os.path.join(ROOT, "hooks", "clock-hook.sh")
 
 
-def run(args, cwd=None):
-    return subprocess.run(args, cwd=cwd or ROOT, capture_output=True, text=True)
+def run(args, *, cwd):
+    return subprocess.run(args, cwd=cwd, capture_output=True, text=True)
 
 
 class TestClockHookScript(unittest.TestCase):
@@ -30,7 +30,7 @@ class TestClockHookScript(unittest.TestCase):
         self.assertTrue(os.access(SCRIPT, os.X_OK), "%s is not executable" % SCRIPT)
 
     def test_output_carries_current_machine_time(self):
-        result = run([SCRIPT])
+        result = run([SCRIPT], cwd=ROOT)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         stdout = result.stdout
 
@@ -59,7 +59,7 @@ class TestClockHookScript(unittest.TestCase):
                               % (hour, minute, now.hour, now.minute))
 
     def test_output_carries_the_law(self):
-        result = run([SCRIPT])
+        result = run([SCRIPT], cwd=ROOT)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertIn("[HH:MM]", result.stdout)
         self.assertIn("never a continued or extrapolated stamp", result.stdout)

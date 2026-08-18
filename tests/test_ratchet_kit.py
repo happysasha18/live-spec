@@ -20,12 +20,12 @@ INSTALL_RATCHET = os.path.join(ROOT, "adopt", "install-ratchet.sh")
 INSTALL_SCAFFOLD = os.path.join(ROOT, "adopt", "install-scaffold.sh")
 
 
-def run(args, cwd=None, extra_env=None, input_text=None):
+def run(args, *, cwd, extra_env=None, input_text=None):
     env = dict(os.environ)
     if extra_env:
         env.update(extra_env)
     return subprocess.run(
-        args, cwd=cwd or ROOT, capture_output=True, text=True, env=env, input=input_text,
+        args, cwd=cwd, capture_output=True, text=True, env=env, input=input_text,
     )
 
 
@@ -55,12 +55,12 @@ class TestCanonicalHook(unittest.TestCase):
     def test_hook_skips_quoted_demos(self):
         with tempfile.TemporaryDirectory() as tmp:
             transcript = _write_transcript(tmp, ["the «X — not Y» frame is banned"])
-            result = run(["python3", HOOK], input_text=_stop_payload(transcript))
+            result = run(["python3", HOOK], input_text=_stop_payload(transcript), cwd=ROOT)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             self.assertEqual(result.stdout.strip(), "", "quoted demo must not fire the block")
 
             transcript2 = _write_transcript(tmp, ["this is good — not bad"])
-            result2 = run(["python3", HOOK], input_text=_stop_payload(transcript2))
+            result2 = run(["python3", HOOK], input_text=_stop_payload(transcript2), cwd=ROOT)
             self.assertIn('"decision": "block"', result2.stdout)
 
     def test_hook_reads_personal_overlay(self):
@@ -77,7 +77,7 @@ class TestCanonicalHook(unittest.TestCase):
             result = run(
                 ["python3", HOOK],
                 extra_env={"HOME": home},
-                input_text=_stop_payload(transcript),
+                input_text=_stop_payload(transcript), cwd=ROOT,
             )
             self.assertIn('"decision": "block"', result.stdout)
 
@@ -87,7 +87,7 @@ class TestCanonicalHook(unittest.TestCase):
             result2 = run(
                 ["python3", HOOK],
                 extra_env={"HOME": home2},
-                input_text=_stop_payload(transcript),
+                input_text=_stop_payload(transcript), cwd=ROOT,
             )
             self.assertEqual(result2.returncode, 0)
             self.assertEqual(result2.stdout.strip(), "")
@@ -100,7 +100,7 @@ class TestInstaller(unittest.TestCase):
             os.makedirs(home)
             result = run(
                 ["bash", INSTALL_PACK_HOOKS, "--dry-run"],
-                extra_env={"HOME": home},
+                extra_env={"HOME": home}, cwd=ROOT,
             )
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             self.assertFalse(
@@ -124,7 +124,7 @@ class TestRatchetInstall(unittest.TestCase):
 
     def _measured_style_errors(self, doc_path):
         result = run(["python3", os.path.join(ROOT, "scripts", "spec-style-lint.py"),
-                       "--tier", "universal", doc_path])
+                       "--tier", "universal", doc_path], cwd=ROOT)
         last_line = result.stdout.strip().splitlines()[-1]
         return json.loads(last_line)["errors"]
 
@@ -243,7 +243,7 @@ class TestGateRWiring(unittest.TestCase):
             result = self._install(tmp)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             self.assertIn("wired: guardrails/pre-push gate r", result.stdout)
-            self.assertEqual(run(["bash", "-n", path]).returncode, 0, "must stay valid bash")
+            self.assertEqual(run(["bash", "-n", path], cwd=ROOT).returncode, 0, "must stay valid bash")
             lines = self._lines(path)
             marker_i = self._index(lines, "live-spec:gate-r")
             exit_i = self._index(lines, "exit 0")
@@ -267,7 +267,7 @@ class TestGateRWiring(unittest.TestCase):
             result = self._install(tmp)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             self.assertIn("wired: guardrails/pre-push gate r", result.stdout)
-            self.assertEqual(run(["bash", "-n", path]).returncode, 0, "must stay valid bash")
+            self.assertEqual(run(["bash", "-n", path], cwd=ROOT).returncode, 0, "must stay valid bash")
             lines = self._lines(path)
             marker_i = self._index(lines, "live-spec:gate-r")
             fail_check_i = self._index(lines, 'if [ "$fail" -ne 0 ]; then')
@@ -283,7 +283,7 @@ class TestGateRWiring(unittest.TestCase):
             result = self._install(tmp)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             self.assertIn("wired: guardrails/pre-push gate r", result.stdout)
-            self.assertEqual(run(["bash", "-n", path]).returncode, 0, "must stay valid bash")
+            self.assertEqual(run(["bash", "-n", path], cwd=ROOT).returncode, 0, "must stay valid bash")
             lines = self._lines(path)
             marker_i = self._index(lines, "live-spec:gate-r")
             echo_i = self._index(lines, "echo no exit statement here")
@@ -311,7 +311,7 @@ class TestGateRWiring(unittest.TestCase):
             result = self._install(tmp)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             self.assertIn("repaired: guardrails/pre-push gate r", result.stdout)
-            self.assertEqual(run(["bash", "-n", path]).returncode, 0, "must stay valid bash")
+            self.assertEqual(run(["bash", "-n", path], cwd=ROOT).returncode, 0, "must stay valid bash")
             lines = self._lines(path)
             self.assertEqual(
                 sum(1 for line in lines if "live-spec:gate-r" in line), 1,
@@ -341,7 +341,7 @@ class TestGateRWiring(unittest.TestCase):
             result = self._install(tmp)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             self.assertIn("repaired", result.stdout)
-            self.assertEqual(run(["bash", "-n", path]).returncode, 0, "must stay valid bash")
+            self.assertEqual(run(["bash", "-n", path], cwd=ROOT).returncode, 0, "must stay valid bash")
             lines = self._lines(path)
             self.assertEqual(
                 sum(1 for line in lines if "ratchet caps" in line), 1,

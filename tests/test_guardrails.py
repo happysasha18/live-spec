@@ -21,12 +21,17 @@ from conftest import ROOT
 GUARDRAILS = os.path.join(ROOT, "guardrails")
 
 
-def run(args, cwd=None, extra_env=None):
+def run(args, *, cwd, extra_env=None):
+    """cwd is required, never defaulted: an omitted cwd used to fall back to ROOT, and any
+    caller invoking a script that writes or commits inherited the real, judged tree as its
+    ambient cwd by accident (2026-08-18 polluter incident — hundreds of scratch commits
+    landed on a pushed branch this way). A gate that legitimately judges the real tree still
+    gets it, but every call site now says cwd=ROOT out loud instead of leaving it implicit."""
     env = dict(os.environ)
     if extra_env:
         env.update(extra_env)
     return subprocess.run(
-        args, cwd=cwd or ROOT, capture_output=True, text=True, env=env
+        args, cwd=cwd, capture_output=True, text=True, env=env
     )
 
 
@@ -155,7 +160,7 @@ class TestGateA_ProverRecord(unittest.TestCase):
     def test_real_repo_passes(self):
         if os.environ.get("LIVE_SPEC_SCRATCH"):
             self.skipTest("real-repo state check — meaningless in a git-less scratch copy")
-        result = run([os.path.join(GUARDRAILS, "check-prover-record.sh")])
+        result = run([os.path.join(GUARDRAILS, "check-prover-record.sh")], cwd=ROOT)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertIn("OK (prover record)", result.stdout)
 
@@ -527,7 +532,7 @@ class TestGateE_PrototypeFence(unittest.TestCase):
     def test_real_repo_passes(self):
         if os.environ.get("LIVE_SPEC_SCRATCH"):
             self.skipTest("real-repo state check — meaningless in a git-less scratch copy")
-        result = run([os.path.join(GUARDRAILS, "check-prototype-fence.sh")])
+        result = run([os.path.join(GUARDRAILS, "check-prototype-fence.sh")], cwd=ROOT)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertIn("OK (prototype fence)", result.stdout)
 
@@ -537,7 +542,7 @@ class TestGateE_PrototypeFence(unittest.TestCase):
             self._write(tmp, "prototype/sketch.html", "<html>sketch</html>\n")
             self._write(tmp, "index.html", '<script src="prototype/sketch.html"></script>\n')
             self._commit_all(tmp)
-            result = run([os.path.join(GUARDRAILS, "check-prototype-fence.sh"), tmp])
+            result = run([os.path.join(GUARDRAILS, "check-prototype-fence.sh"), tmp], cwd=ROOT)
             self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
             self.assertIn("FAIL (prototype fence)", result.stdout)
             self.assertIn("index.html", result.stdout)
@@ -550,7 +555,7 @@ class TestGateE_PrototypeFence(unittest.TestCase):
             self._write(tmp, "JOURNAL.md", "Tried prototype/sketch.html today, promising.\n")
             self._write(tmp, "docs/note.md", "See prototype/sketch.html for the sketch.\n")
             self._commit_all(tmp)
-            result = run([os.path.join(GUARDRAILS, "check-prototype-fence.sh"), tmp])
+            result = run([os.path.join(GUARDRAILS, "check-prototype-fence.sh"), tmp], cwd=ROOT)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             self.assertIn("OK (prototype fence)", result.stdout)
 
@@ -560,7 +565,7 @@ class TestGateE_PrototypeFence(unittest.TestCase):
             os.makedirs(os.path.join(tmp, "prototype"), exist_ok=True)
             self._write(tmp, "readme.txt", "ordinary file, nothing fenced here.\n")
             self._commit_all(tmp)
-            result = run([os.path.join(GUARDRAILS, "check-prototype-fence.sh"), tmp])
+            result = run([os.path.join(GUARDRAILS, "check-prototype-fence.sh"), tmp], cwd=ROOT)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             self.assertIn("OK (prototype fence)", result.stdout)
 
@@ -972,12 +977,12 @@ class TestGateG_PinDrift(unittest.TestCase):
         return body.index("20. **Search for a skill before reinventing.** At a project's setup, scan the") + 1
 
     def test_real_repo_passes(self):
-        result = run([self.SCRIPT, os.path.join(ROOT, "ARCHITECTURE.md")])
+        result = run([self.SCRIPT, os.path.join(ROOT, "ARCHITECTURE.md")], cwd=ROOT)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
     def test_green_line_names_the_files_it_read(self):
         """Row 541's third clause: the reach line names the files the gate opened."""
-        result = run([self.SCRIPT, os.path.join(ROOT, "ARCHITECTURE.md")])
+        result = run([self.SCRIPT, os.path.join(ROOT, "ARCHITECTURE.md")], cwd=ROOT)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertIn("reach: files=[", result.stdout)
         self.assertIn("ARCHITECTURE.md", result.stdout)
@@ -987,7 +992,7 @@ class TestGateG_PinDrift(unittest.TestCase):
     def test_missing_file_fails(self):
         with tempfile.TemporaryDirectory() as tmp:
             arch = self._arch(tmp, "`ghost.py:5` (spine)")
-            result = run([self.SCRIPT, arch])
+            result = run([self.SCRIPT, arch], cwd=ROOT)
             self.assertEqual(result.returncode, 1, "missing pinned file must be RED")
             self.assertIn("pinned file missing", result.stdout)
 
@@ -999,7 +1004,7 @@ class TestGateG_PinDrift(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             self._rulebook(tmp)
             arch = self._arch(tmp, "`RULES.md:3` (rule 20, INV-65 — skill search at setup)")
-            result = run([self.SCRIPT, arch])
+            result = run([self.SCRIPT, arch], cwd=ROOT)
             self.assertEqual(result.returncode, 1,
                              "a pin labelled rule 20 sitting on rule 19's line must be RED:\n"
                              + result.stdout)
@@ -1015,7 +1020,7 @@ class TestGateG_PinDrift(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             line = self._rulebook(tmp)
             arch = self._arch(tmp, "`RULES.md:%d` (rule 20 — the totally-invented-thing)" % line)
-            result = run([self.SCRIPT, arch])
+            result = run([self.SCRIPT, arch], cwd=ROOT)
             self.assertEqual(result.returncode, 1,
                              "a fabricated label must red on the right line too:\n" + result.stdout)
             self.assertIn("totally-invented-thing", result.stdout)
@@ -1026,7 +1031,7 @@ class TestGateG_PinDrift(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             line = self._rulebook(tmp)
             arch = self._arch(tmp, "`RULES.md:%d` (rule 20, INV-65 — skill search at setup)" % line)
-            result = run([self.SCRIPT, arch])
+            result = run([self.SCRIPT, arch], cwd=ROOT)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
     def test_a_label_word_seventy_lines_away_reds(self):
@@ -1037,10 +1042,10 @@ class TestGateG_PinDrift(unittest.TestCase):
             with open(target, "w") as f:
                 f.write("\n".join(["# filler"] * 70 + ["def render_widget():", "    pass"]) + "\n")
             arch = self._arch(tmp, "`code.py:2` (render_widget)")
-            far = run([self.SCRIPT, arch])
+            far = run([self.SCRIPT, arch], cwd=ROOT)
             self.assertEqual(far.returncode, 1,
                              "a label seventy lines from the pinned line must be RED:\n" + far.stdout)
-            near = run([self.SCRIPT, self._arch(tmp, "`code.py:71` (render_widget)")])
+            near = run([self.SCRIPT, self._arch(tmp, "`code.py:71` (render_widget)")], cwd=ROOT)
             self.assertEqual(near.returncode, 0, near.stdout + near.stderr)
 
     def test_a_label_the_line_does_not_carry_reds_with_no_strict_flag(self):
@@ -1051,10 +1056,10 @@ class TestGateG_PinDrift(unittest.TestCase):
             with open(target, "w") as f:
                 f.write("\n" * 100)
             arch = self._arch(tmp, "`code.py:50` (nonexistent-symbol)")
-            plain = run([self.SCRIPT, arch])
+            plain = run([self.SCRIPT, arch], cwd=ROOT)
             self.assertEqual(plain.returncode, 1, "a label miss is RED with no flag to pass")
             self.assertIn("nonexistent-symbol", plain.stdout)
-            strict = run([self.SCRIPT, arch, "--strict"])
+            strict = run([self.SCRIPT, arch, "--strict"], cwd=ROOT)
             self.assertEqual(strict.returncode, 1, "--strict is still accepted and still RED")
             self.assertIn("the flag changes nothing", strict.stdout)
 
@@ -1066,9 +1071,9 @@ class TestGateG_PinDrift(unittest.TestCase):
             with open(target, "w") as f:
                 f.write("#!/usr/bin/env bash\n" + "echo filler\n" * 40 +
                         "# the ratchet seeding step\n")
-            ok = run([self.SCRIPT, self._arch(tmp, "`installer.sh:1` (the ratchet seeding)")])
+            ok = run([self.SCRIPT, self._arch(tmp, "`installer.sh:1` (the ratchet seeding)")], cwd=ROOT)
             self.assertEqual(ok.returncode, 0, ok.stdout + ok.stderr)
-            bad = run([self.SCRIPT, self._arch(tmp, "`installer.sh:1` (the telemetry uploader)")])
+            bad = run([self.SCRIPT, self._arch(tmp, "`installer.sh:1` (the telemetry uploader)")], cwd=ROOT)
             self.assertEqual(bad.returncode, 1, "a label the file never carries must be RED")
             self.assertIn("no naming word", bad.stdout)
 
@@ -1083,10 +1088,10 @@ class TestGateG_PinDrift(unittest.TestCase):
                         + "   - filler\n" * 20 +
                         "   - **A worker never restores a working tree with a git command.**\n")
             arch = self._arch(tmp, "`RULES.md:24` (rule 7's worker-restore sub-rule, INV-298)")
-            result = run([self.SCRIPT, arch])
+            result = run([self.SCRIPT, arch], cwd=ROOT)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             drifted = self._arch(tmp, "`RULES.md:3` (rule 7's worker-restore sub-rule, INV-298)")
-            self.assertEqual(run([self.SCRIPT, drifted]).returncode, 1,
+            self.assertEqual(run([self.SCRIPT, drifted], cwd=ROOT).returncode, 1,
                              "the same label on rule 7's opening line carries no evidence")
 
     def test_a_label_of_generic_words_alone_is_proved_by_them(self):
@@ -1097,9 +1102,9 @@ class TestGateG_PinDrift(unittest.TestCase):
             with open(target, "w") as f:
                 f.write("# A skill\n\n" + "prose line\n" * 30 + "## Gates worth remembering\n"
                         + "prose line\n" * 5)
-            ok = run([self.SCRIPT, self._arch(tmp, "`SKILL.md:33` (gates)")])
+            ok = run([self.SCRIPT, self._arch(tmp, "`SKILL.md:33` (gates)")], cwd=ROOT)
             self.assertEqual(ok.returncode, 0, ok.stdout + ok.stderr)
-            bad = run([self.SCRIPT, self._arch(tmp, "`SKILL.md:10` (gates)")])
+            bad = run([self.SCRIPT, self._arch(tmp, "`SKILL.md:10` (gates)")], cwd=ROOT)
             self.assertEqual(bad.returncode, 1, "the same one-word label elsewhere must be RED")
 
     def _assert_counts_close(self, result):
@@ -1117,7 +1122,7 @@ class TestGateG_PinDrift(unittest.TestCase):
     def test_the_green_line_accounts_for_every_pin(self):
         """The counts close: line pins + file-level pins + unlabelled pins = pins checked, and the
         unlabelled ones — proved by existence alone — are named rather than folded in silently."""
-        result = run([self.SCRIPT, os.path.join(ROOT, "ARCHITECTURE.md")])
+        result = run([self.SCRIPT, os.path.join(ROOT, "ARCHITECTURE.md")], cwd=ROOT)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self._assert_counts_close(result)
 
@@ -1135,9 +1140,16 @@ class TestGateG_PinDrift(unittest.TestCase):
         other did not are exactly what separates the two counts."""
         if os.environ.get("LIVE_SPEC_SCRATCH"):
             self.skipTest("machine-local pin behaviour — meaningless in a git-less scratch copy")
-        local = run([self.SCRIPT], extra_env={"CI": "", "HOME": os.path.expanduser("~")})
+        local = run([self.SCRIPT], extra_env={"CI": "", "HOME": os.path.expanduser("~")}, cwd=ROOT)
         self.assertEqual(local.returncode, 0, local.stdout + local.stderr)
-        in_ci = run([self.SCRIPT], extra_env={"CI": "true", "HOME": "/nonexistent-ci-home"})
+        with tempfile.TemporaryDirectory() as clean_home:
+            # A real, empty, writable directory reads as "carries no machine-local pin file" just
+            # as well as a literally nonexistent one — and a literal nonexistent HOME is not safe
+            # here: the pin-drift gate shells out to python3, and this machine's Python falls back
+            # to creating its Library/Caches/com.apple.python state relative to CWD (== ROOT, the
+            # judged tree) when $HOME does not exist, leaking a stray ./nonexistent-ci-home
+            # directory into the real repo (2026-08-18 polluter incident, clue 3).
+            in_ci = run([self.SCRIPT], extra_env={"CI": "true", "HOME": clean_home}, cwd=ROOT)
         self.assertEqual(in_ci.returncode, 0, in_ci.stdout + in_ci.stderr)
         self.assertIn(self.NOTE, in_ci.stdout,
                       "the CI arm carries no HOME, so it must name the pin it stood down on")
@@ -1237,7 +1249,7 @@ class TestGateHygieneContract(unittest.TestCase):
             self._write(tmp, "prototype/sketch.html", "<html>sketch</html>\n")
             self._write(tmp, "index.html", '<script src="prototype/sketch.html"></script>\n')
             self._commit_all(tmp)
-            result = run([os.path.join(GUARDRAILS, "check-prototype-fence.sh"), tmp])
+            result = run([os.path.join(GUARDRAILS, "check-prototype-fence.sh"), tmp], cwd=ROOT)
             self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
             json_line = None
             for line in result.stdout.splitlines():
@@ -1302,9 +1314,15 @@ class TestCIMirror(unittest.TestCase):
         if os.environ.get("LIVE_SPEC_SCRATCH"):
             self.skipTest("machine-local pin behaviour — meaningless in a git-less scratch copy")
         script = os.path.join(GUARDRAILS, "check-pin-drift.sh")
-        for label, env in (("CI", {"CI": "true", "HOME": "/nonexistent-ci-home"}),
-                           ("a fresh machine", {"CI": "", "HOME": "/nonexistent-ci-home"})):
-            result = run([script], extra_env=env)
+        # A real, empty, writable directory — not a literally nonexistent HOME: this gate shells
+        # out to python3, and this machine's Python falls back to creating its own
+        # Library/Caches/com.apple.python state relative to CWD (== ROOT, the judged tree) when
+        # $HOME does not exist on disk, leaking a stray ./nonexistent-ci-home directory into the
+        # real repo (2026-08-18 polluter incident, clue 3). An empty tempdir carries no
+        # machine-local pin file exactly as well, without the leak.
+        for label, home_kind in (("CI", "true"), ("a fresh machine", "")):
+            with tempfile.TemporaryDirectory() as clean_home:
+                result = run([script], extra_env={"CI": home_kind, "HOME": clean_home}, cwd=ROOT)
             self.assertEqual(result.returncode, 0,
                              "a HOME carrying no such file must not red under %s: %s"
                              % (label, result.stdout + result.stderr))
@@ -1324,7 +1342,7 @@ class TestCIMirror(unittest.TestCase):
             with open(arch, "w") as f:
                 f.write("### [node: n]\n\n**responsibility** — r\n\n**owns** — E-1\n\n"
                         "**pins** — `~/.claude/CLAUDE.md:1` (INV-184, the settings ladder)\n")
-            result = run([script, arch], extra_env={"CI": "true", "HOME": home})
+            result = run([script, arch], extra_env={"CI": "true", "HOME": home}, cwd=ROOT)
             self.assertEqual(result.returncode, 1,
                              "a present home file that does not carry its label must stay RED: "
                              + result.stdout + result.stderr)
@@ -1361,7 +1379,7 @@ class TestGateShippedLanguage(unittest.TestCase):
                 "A clean English line.\n"
                 "Alexander wants the card to open calm.\n"
                 "Это требование написано по-русски.\n")
-            result = run(["python3", self.ENGINE, "--root", tmp, path])
+            result = run(["python3", self.ENGINE, "--root", tmp, path], cwd=ROOT)
             self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
             self.assertIn("SKILL.md:2", result.stdout)
             self.assertIn("[owner-name]", result.stdout)
@@ -1373,7 +1391,7 @@ class TestGateShippedLanguage(unittest.TestCase):
             path = self._write(tmp, "README.md",
                 "This feature landed 2026-07-12 after review.\n"
                 "It ships with no personal names and no untranslated text.\n")
-            result = run(["python3", self.ENGINE, "--root", tmp, path])
+            result = run(["python3", self.ENGINE, "--root", tmp, path], cwd=ROOT)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
     def test_deliberate_user_language_region_is_spared(self):
@@ -1384,7 +1402,7 @@ class TestGateShippedLanguage(unittest.TestCase):
                 "Это пример пользовательского текста.\n"
                 "```\n"
                 "After the fence, clean English.\n")
-            result = run(["python3", self.ENGINE, "--root", tmp, path])
+            result = run(["python3", self.ENGINE, "--root", tmp, path], cwd=ROOT)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
     def test_allowlisted_authorship_byline_is_spared(self):
@@ -1394,7 +1412,7 @@ class TestGateShippedLanguage(unittest.TestCase):
             license_path = self._write(tmp, "LICENSE",
                 "Copyright (c) 2026 Alexander Abramovich\n")
             result = run(["python3", self.ENGINE, "--root", tmp,
-                          "--allowlist", allowlist_path, license_path])
+                          "--allowlist", allowlist_path, license_path], cwd=ROOT)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
     def test_gate_wired_into_pre_push_and_ci(self):
@@ -1415,7 +1433,7 @@ class TestGateShippedLanguage(unittest.TestCase):
         offences over the pack's own real shipped set — the wiring runs clean, not red."""
         if os.environ.get("LIVE_SPEC_SCRATCH"):
             self.skipTest("real-tree offence count — meaningless in a git-less scratch copy")
-        result = run(["python3", self.ENGINE, "--root", ROOT])
+        result = run(["python3", self.ENGINE, "--root", ROOT], cwd=ROOT)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertIn('"offences":0', result.stdout.replace(" ", ""))
 
@@ -1433,13 +1451,13 @@ class TestGateShippedLanguage(unittest.TestCase):
                     "commit", "-qm", "seed"], check=True)
             # a local file nobody staged: outside every delivery
             self._write(tmp, "local_note.py", '# \u0441\u0442\u0440\u043e\u043a\u0430 482\n')
-            result = run(["python3", self.ENGINE, "--root", tmp])
+            result = run(["python3", self.ENGINE, "--root", tmp], cwd=ROOT)
             self.assertEqual(result.returncode, 0,
                              "an unstaged local file must stay outside the scan:\n" + result.stdout)
             # the same content, staged for this delivery: read now, one commit before it lands
             self._write(tmp, "fresh.py", '# \u0441\u0442\u0440\u043e\u043a\u0430 482\n')
             sp.run(["git", "-C", tmp, "add", "fresh.py"], check=True)
-            result = run(["python3", self.ENGINE, "--root", tmp])
+            result = run(["python3", self.ENGINE, "--root", tmp], cwd=ROOT)
             self.assertNotEqual(result.returncode, 0,
                                 "a staged shipped file's offence must red:\n" + result.stdout)
             self.assertIn("fresh.py", result.stdout)
@@ -1458,7 +1476,7 @@ class TestGateShippedLanguage(unittest.TestCase):
             doc = self._write(tmp, "SKILL.md",
                 "A clean English line.\n"
                 "Bartholomew asked for the calmer layout.\n")
-            result = run(["python3", self.ENGINE, "--root", tmp, "--allowlist", allow, doc])
+            result = run(["python3", self.ENGINE, "--root", tmp, "--allowlist", allow, doc], cwd=ROOT)
             self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
             self.assertIn("SKILL.md:2", result.stdout)
             self.assertIn("[owner-name]", result.stdout)
@@ -1479,7 +1497,7 @@ class TestGateShippedLanguage(unittest.TestCase):
             doc = self._write(tmp, "SKILL.md",
                 "A clean English line.\n"
                 "Alexander wants the card to open calm.\n")
-            result = run(["python3", self.ENGINE, "--root", tmp, doc])
+            result = run(["python3", self.ENGINE, "--root", tmp, doc], cwd=ROOT)
             self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
             self.assertIn("[owner-name]", result.stdout)
 
@@ -1499,7 +1517,7 @@ class TestGateShippedLanguage(unittest.TestCase):
             doc = self._write(tmp, "PRODUCT_SPEC.md",
                 "The card opens calm.\n"
                 "The lens grew from three items to six on track-coach evidence.\n")
-            r = run(["python3", self.ENGINE, "--root", tmp, "--allowlist", allow, doc])
+            r = run(["python3", self.ENGINE, "--root", tmp, "--allowlist", allow, doc], cwd=ROOT)
             self.assertEqual(r.returncode, 1, r.stdout + r.stderr)
             self.assertIn("PRODUCT_SPEC.md:2", r.stdout)
             self.assertIn("[project-name]", r.stdout)
@@ -1511,7 +1529,7 @@ class TestGateShippedLanguage(unittest.TestCase):
             doc = self._write(tmp, "PRODUCT_SPEC.md",
                 "The card opens calm.\n"
                 "The lens grew from three items to six because a mandate with no checking seam gets skipped.\n")
-            r = run(["python3", self.ENGINE, "--root", tmp, "--allowlist", allow, doc])
+            r = run(["python3", self.ENGINE, "--root", tmp, "--allowlist", allow, doc], cwd=ROOT)
             self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
 
     def test_project_arm_reds_a_project_name_beside_a_date_in_architecture(self):
@@ -1519,7 +1537,7 @@ class TestGateShippedLanguage(unittest.TestCase):
             allow = self._write(tmp, "allow.json", json.dumps(self.PROJECT_ALLOW))
             doc = self._write(tmp, "ARCHITECTURE.md",
                 "| node | a photo kind (tlvphotos) inspect-zoom miss 2026-07-16 | pin |\n")
-            r = run(["python3", self.ENGINE, "--root", tmp, "--allowlist", allow, doc])
+            r = run(["python3", self.ENGINE, "--root", tmp, "--allowlist", allow, doc], cwd=ROOT)
             self.assertEqual(r.returncode, 1, r.stdout + r.stderr)
             self.assertIn("[project-name]", r.stdout)
 
@@ -1531,7 +1549,7 @@ class TestGateShippedLanguage(unittest.TestCase):
             doc = self._write(tmp, "TEST_MATRIX.md",
                 "| M-1 | red-proven against three real hosts as fixtures — a code kind (track-coach), "
                 "a photo kind (tlvphotos), a prose kind | INV-1 | string | `test_promoter_harvest_trio` | BUILT |\n")
-            r = run(["python3", self.ENGINE, "--root", tmp, "--allowlist", allow, doc])
+            r = run(["python3", self.ENGINE, "--root", tmp, "--allowlist", allow, doc], cwd=ROOT)
             self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
 
     def test_matrix_reds_a_dated_incident(self):
@@ -1542,7 +1560,7 @@ class TestGateShippedLanguage(unittest.TestCase):
             doc = self._write(tmp, "TEST_MATRIX.md",
                 "| M-2 | the reversibility half, tlvphotos openable-face miss 2026-07-14 | INV-1 | "
                 "string | `test_x` | BUILT |\n")
-            r = run(["python3", self.ENGINE, "--root", tmp, "--allowlist", allow, doc])
+            r = run(["python3", self.ENGINE, "--root", tmp, "--allowlist", allow, doc], cwd=ROOT)
             self.assertEqual(r.returncode, 1, r.stdout + r.stderr)
             self.assertIn("[project-name]", r.stdout)
 
@@ -1552,7 +1570,7 @@ class TestGateShippedLanguage(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             allow = self._write(tmp, "allow.json", json.dumps(self.PROJECT_ALLOW))
             doc = self._write(tmp, "SKILL.md", "The track-coach widget is the code-kind example.\n")
-            r = run(["python3", self.ENGINE, "--root", tmp, "--allowlist", allow, doc])
+            r = run(["python3", self.ENGINE, "--root", tmp, "--allowlist", allow, doc], cwd=ROOT)
             self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
 
     def test_detector_source_names_no_project(self):
@@ -1575,14 +1593,14 @@ class TestGateShippedLanguage(unittest.TestCase):
                 "Привет <!-- user-language -->\n"
                 "Привет /* user-language */\n"
                 "Привет // user-language\n")
-            result = run(["python3", self.ENGINE, "--root", tmp, path])
+            result = run(["python3", self.ENGINE, "--root", tmp, path], cwd=ROOT)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
     def test_url_fragment_does_not_masquerade_as_the_marker(self):
         with tempfile.TemporaryDirectory() as tmp:
             path = self._write(tmp, "SKILL.md",
                 "see https://user-language.example.com — Привет\n")
-            result = run(["python3", self.ENGINE, "--root", tmp, path])
+            result = run(["python3", self.ENGINE, "--root", tmp, path], cwd=ROOT)
             self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
             self.assertIn("[cyrillic]", result.stdout)
 
@@ -1590,7 +1608,7 @@ class TestGateShippedLanguage(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             path = self._write(tmp, "SKILL.md",
                 "docs//user-language.md — Привет\n")
-            result = run(["python3", self.ENGINE, "--root", tmp, path])
+            result = run(["python3", self.ENGINE, "--root", tmp, path], cwd=ROOT)
             self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
             self.assertIn("[cyrillic]", result.stdout)
 
@@ -1598,7 +1616,7 @@ class TestGateShippedLanguage(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             path = self._write(tmp, "SKILL.md",
                 "Это требование написано по-русски.\n")
-            result = run(["python3", self.ENGINE, "--root", tmp, path])
+            result = run(["python3", self.ENGINE, "--root", tmp, path], cwd=ROOT)
             self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
             self.assertIn("[cyrillic]", result.stdout)
 
@@ -1614,7 +1632,7 @@ class TestScopedReachDeletedFile(unittest.TestCase):
         # the fixture name is assembled at runtime so no test file carries it literally — a
         # by-content grep must find NO owner for a genuinely deleted, unreferenced test file
         ghost = "tests/test_zz_" + "deleted_nonexistent.py"
-        r = run(["bash", self.SCRIPT], extra_env={"REACH_FILES": ghost})
+        r = run(["bash", self.SCRIPT], extra_env={"REACH_FILES": ghost}, cwd=ROOT)
         self.assertEqual(r.returncode, 1, r.stdout + r.stderr)
         self.assertNotIn("SCOPED " + ghost, r.stdout)
 

@@ -7,6 +7,7 @@ artifact prefixes — a new file surviving to session end is a leak and fails th
 import glob
 import os
 import re
+import subprocess
 import tempfile
 import unittest
 
@@ -185,3 +186,45 @@ def suite_leaves_no_trace():
     after = _ours(set(os.listdir(tmp)))
     leaked = sorted(after - before)
     assert not leaked, "the suite leaked temp artifacts (SPEC INV-100): %s" % leaked
+
+
+def _git(*args):
+    """A read-only git call against ROOT, the judged tree itself — never a fixture's scratch
+    copy. Returns None on any git error (e.g. ROOT is not a git checkout at all, a LIVE_SPEC_SCRATCH
+    run), which the caller below treats as "nothing to compare"."""
+    r = subprocess.run(["git", "-C", ROOT] + list(args), capture_output=True, text=True)
+    return r.stdout if r.returncode == 0 else None
+
+
+@pytest.fixture(autouse=True, scope="session")
+def judged_tree_gains_no_commits():
+    """The suite reads the judged tree; it does not write to it (2026-08-18 polluter incident:
+    hundreds of scratch commits with messages lifted from fixture builders — "fixture", "base",
+    "a v1", "skill v1" — landed on a real, pushed branch, and tracked fixture files vanished from
+    the working tree, because a script under test inherited the judged tree as its own ambient cwd
+    instead of an isolated one of its own).
+
+    A session-scoped before/after snapshot of ROOT's HEAD and working-tree status: whatever the
+    run does to its own scratch copies, ROOT's HEAD must not move and its tracked files must not
+    change. This catches the class, not one script — it reds no matter which call site regresses
+    next."""
+    if os.environ.get("LIVE_SPEC_SCRATCH"):
+        yield
+        return
+    head_before = _git("rev-parse", "HEAD")
+    if head_before is None:
+        yield  # ROOT is not a git checkout (e.g. an installed copy) — nothing to compare.
+        return
+    status_before = _git("status", "--porcelain")
+    yield
+    head_after = _git("rev-parse", "HEAD")
+    status_after = _git("status", "--porcelain")
+    assert head_before == head_after, (
+        "the suite left new commits on the judged tree's checked-out branch: HEAD moved from "
+        "%s to %s — a script under test wrote to ROOT instead of a directory of its own"
+        % (head_before, head_after)
+    )
+    assert status_before == status_after, (
+        "the suite changed the judged tree's working-copy state (SPEC INV-100, one layer down):\n"
+        "before:\n%s\nafter:\n%s" % (status_before, status_after)
+    )

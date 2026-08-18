@@ -43,12 +43,12 @@ CONTENT_STDIN = (
 MIXED_STDIN = DELETION_STDIN + CONTENT_STDIN
 
 
-def run(args, cwd=None, extra_env=None, **kwargs):
+def run(args, *, cwd, extra_env=None, **kwargs):
     env = dict(os.environ)
     if extra_env:
         env.update(extra_env)
     return subprocess.run(
-        args, cwd=cwd or ROOT, capture_output=True, text=True, env=env, **kwargs
+        args, cwd=cwd, capture_output=True, text=True, env=env, **kwargs
     )
 
 
@@ -301,7 +301,7 @@ class TestCheckerLogic(unittest.TestCase):
     """The checker in isolation — real subprocess runs against synthetic ref-update input."""
 
     def check(self, lines):
-        return run(["bash", CHECKER], extra_env={"PUSH_REF_LINES": lines})
+        return run(["bash", CHECKER], cwd=ROOT, extra_env={"PUSH_REF_LINES": lines})
 
     def test_all_deletion_lines_exit_0(self):
         r = self.check(DELETION_STDIN)
