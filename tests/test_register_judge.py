@@ -425,8 +425,11 @@ def test_growth_duty_retracted_in_the_spec():
 
 # ---- Wiring: the pack installer ships the judge (SPEC INV-173) --------------------------------------
 
-def test_pack_installer_wires_the_judge_arms():
+def test_pack_installer_ships_the_judge_arms_unwired():
+    """The installer places all three files and wires neither arm: both went opt-in on 2026-08-17
+    (PRODUCT_SPEC.md Requirement 311), so a host adds them to its own settings.json."""
     src = open(os.path.join(SCRIPTS, "install-pack-hooks.sh"), encoding="utf-8").read()
     assert "register-judge-collect.sh" in src
     assert "register-judge-report.sh" in src
     assert "register_judge_core.py" in src
+    assert "wire(" not in src

@@ -14,7 +14,9 @@
 # hand-kept list here), then CHAINS to scripts/install-pack-hooks.sh for the other six. That script
 # already carries its own tests pinned to its literal source (tests/test_register_judge.py,
 # tests/test_hedge_arm.py, tests/test_affirmation_arm.py), so it is chained rather than rewritten — the ONE command below
-# still reaches all eight.
+# still reaches all eight files. Two of the eight are wired: the clock hook and the chat-law hook. The
+# other six went opt-in on the owner's word of 2026-08-17, so their files are placed and a host wires
+# whichever it wants in its own settings.json (JOURNAL.md; PRODUCT_SPEC.md Requirement 311).
 #
 # Run BY THE HUMAN (`sh ~/live-spec/scripts/install-session-hooks.sh`) — the harness classifier blocks
 # an agent's own hand in its configuration, deliberately. Idempotent: re-running changes nothing and
@@ -141,4 +143,4 @@ if os.path.isfile(hook_meter):
           "it stays wrapped, since a hook already wired in any form is left exactly as it stands.")
 PYEOF
 
-echo "Installed. Every window's next prompt and turn carry the pack's declared session hooks."
+echo "Installed. Every window's next prompt carries the two wired hooks; the six opt-in checks are in place and wired by you."

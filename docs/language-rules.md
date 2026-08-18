@@ -91,8 +91,8 @@ Each **catcher** under a rule carries a status of its own.
 
 - `pre-commit` — a gate refuses the commit until the text changes.
 - `pre-push` — a gate refuses the push until the text changes.
-- `session-stop-hook` — the session's reply is held at the end of the turn, and a correction is asked for before the text reaches the reader.
-- `session-prompt-hook` — the verdict on the previous reply is put in front of the session when the person sends their next message.
+- `session-stop-hook` — the session's reply is held at the end of the turn, and a correction is asked for before the text reaches the reader. No rule arms here from 2026-08-17, when the owner unwired the Stop judges.
+- `session-prompt-hook` — the law, or the verdict on the previous reply, is put in front of the session at their next message. The pack wires the reminder half (hooks/chat-law-hook.sh); the verdict half is opt-in from 2026-08-17.
 - `PreToolUse` — the next tool call is denied, so the correction reaches the reader inside the same turn; a rule armed here records it in its notes, since the `armed` field's vocabulary holds no word for the event.
 - `manual` — a person runs the catcher over a file by hand, and nothing runs it on its own.
 - `nowhere` — no catcher runs the rule at any event.

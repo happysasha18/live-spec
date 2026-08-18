@@ -14,8 +14,8 @@
     "armed": {
       "pre-commit": "a gate refuses the commit until the text changes",
       "pre-push": "a gate refuses the push until the text changes",
-      "session-stop-hook": "the session's reply is held at the end of the turn, and a correction is asked for before the text reaches the reader",
-      "session-prompt-hook": "the verdict on the previous reply is put in front of the session when the person sends their next message",
+      "session-stop-hook": "the session's reply is held at the end of the turn, and a correction is asked for before the text reaches the reader. No rule arms here from 2026-08-17, when the owner unwired the Stop judges.",
+      "session-prompt-hook": "the law, or the verdict on the previous reply, is put in front of the session at their next message. The pack wires the reminder half (hooks/chat-law-hook.sh); the verdict half is opt-in from 2026-08-17.",
       "PreToolUse": "the next tool call is denied, so the correction reaches the reader inside the same turn; a rule armed here records it in its notes, since the `armed` field's vocabulary holds no word for the event",
       "manual": "a person runs the catcher over a file by hand, and nothing runs it on its own",
       "nowhere": "no catcher runs the rule at any event"
@@ -256,7 +256,6 @@
         }
       },
       "armed": [
-        "session-stop-hook",
         "manual"
       ],
       "sources": [
@@ -388,8 +387,7 @@
       },
       "armed": [
         "session-prompt-hook",
-        "manual",
-        "session-stop-hook"
+        "manual"
       ],
       "sources": [
         "docs/spec-format.md:21",
@@ -853,7 +851,6 @@
         }
       },
       "armed": [
-        "session-stop-hook",
         "session-prompt-hook",
         "manual"
       ],
@@ -875,7 +872,7 @@
         "~/.claude/skills/spec-author/references/how-it-reads.md:43"
       ],
       "status": "held",
-      "notes": "The package default carries the exception the model judge states. The owner's profile calls the ban permanent with no exception, which is what personal_override records; ~/.claude/playbook/personal/profile.md:18 and ~/.claude/skills/communicator/SKILL.md:434 hold that form. scripts/spec-style-lint.py:126 hard-codes its own exemptions for `X, not only Y` and for an imperative `use A instead of B`; those exemptions must come from this file instead. The modal words never, no, only, and exactly-one are load-bearing and survive, per docs/spec-compaction-protocol.md:75. Positive statement binds every surface, conversation and commit messages and worker briefs included, since each of them is text a reader meets. The surfaces list says so.",
+      "notes": "The package default carries the exception the model judge states. The owner's profile calls the ban permanent with no exception, which is what personal_override records; ~/.claude/playbook/personal/profile.md:18 and ~/.claude/skills/communicator/SKILL.md:434 hold that form. scripts/spec-style-lint.py:126 hard-codes its own exemptions for `X, not only Y` and for an imperative `use A instead of B`; those exemptions must come from this file instead. The modal words never, no, only, and exactly-one are load-bearing and survive, per docs/spec-compaction-protocol.md:75. Positive statement binds every surface, conversation and commit messages and worker briefs included, since each of them is text a reader meets. The surfaces list says so. The Stop-side scissors scan stood down on 2026-08-17; the pattern gate in scripts/spec-style-lint.py and the prompt-hook reminder carry the rule now (JOURNAL.md).",
       "owner": {
         "by": "script",
         "why": "The contrast frame is a shape in the punctuation and the words around it, and a script already decides it."
@@ -920,7 +917,6 @@
         }
       },
       "armed": [
-        "session-stop-hook",
         "session-prompt-hook",
         "manual"
       ],
@@ -941,7 +937,7 @@
         "~/.claude/skills/spec-author/references/glossary.md:48"
       ],
       "status": "held",
-      "notes": "The arm that held this rule in chat is retired to attic/midturn-chat-scan.py. It stood before every tool call in the tree. Its refusal landed on whichever call was in flight, a background worker's included. No field of that event tells the two apart. The law stands, and only its machine is gone. The Stop-side code-anchor scan still holds this rule at the turn's end. The anchor counts come from guardrails/criterion-readability.json and no prose home states them. code-anchor-scan.py:73 also catches a document name run against a number and code-anchor-scan.py:76 a spoken-space or hash variant, neither of which any prose home states. The criterion arm is armed nowhere.",
+      "notes": "The arm that held this rule in chat is retired to attic/midturn-chat-scan.py. It stood before every tool call in the tree. Its refusal landed on whichever call was in flight, a background worker's included. No field of that event tells the two apart. The law stands, and only its machine is gone. The Stop-side code-anchor scan held this rule at the turn's end until 2026-08-17. The owner unwired it, and the pre-show lint and the prompt-hook reminder carry the rule now. The anchor counts come from guardrails/criterion-readability.json and no prose home states them. code-anchor-scan.py:73 also catches a document name run against a number and code-anchor-scan.py:76 a spoken-space or hash variant, neither of which any prose home states. The criterion arm is armed nowhere.",
       "owner": {
         "by": "script",
         "why": "The position of an internal code in a line is decided by where the code sits."
@@ -987,7 +983,7 @@
         }
       },
       "armed": [
-        "session-stop-hook"
+        "manual"
       ],
       "sources": [
         "~/.claude/playbook/personal/profile.md:19",
@@ -997,7 +993,7 @@
         "~/.claude/skills/communicator/SKILL.md:281"
       ],
       "status": "held",
-      "notes": "The judge used to hold this class twice in one file, once for chat and once for documents, worded differently and numbered independently; both readers now take the one law text stated here, the chat judge through hooks/register-judge.py and the document lint through scripts/preshow-register-lint.py. The law binds chat, docs, worker reports, and agent-to-agent messages alike.",
+      "notes": "The judge used to hold this class twice in one file, once for chat and once for documents, worded differently and numbered independently; both readers now take the one law text stated here, the chat judge through hooks/register-judge.py and the document lint through scripts/preshow-register-lint.py. The law binds chat, docs, worker reports, and agent-to-agent messages alike. On 2026-08-17 the owner unwired the Stop judge. The document lint holds the rule from that day. Its judge arm waits on PRESHOW_REGISTER_JUDGE, so what holds it is a person running the lint with that variable set (JOURNAL.md).",
       "owner": {
         "by": "skill",
         "why": "A grading word standing beside a concrete fact is lawful, and only a reading tells the two apart."
@@ -1045,7 +1041,6 @@
         }
       },
       "armed": [
-        "session-stop-hook",
         "manual"
       ],
       "sources": [
@@ -1059,7 +1054,7 @@
         "scripts/preshow-register-lint.py:105"
       ],
       "status": "held",
-      "notes": "The class is split across two checkers by pole: affirmation-scan.py holds the person pole, preshow-register-lint.py holds the self-certification pole. The ten English phrasings live only in the script.",
+      "notes": "The class is split across two checkers by pole: affirmation-scan.py holds the person pole, preshow-register-lint.py holds the self-certification pole. The ten English phrasings live only in the script. The Stop-side affirmation scan stood down on 2026-08-17; scripts/preshow-register-lint.py holds the self-certification pole by hand (JOURNAL.md).",
       "owner": {
         "by": "skill",
         "why": "Whether a sentence grades the person or reports a fact is a reading of the sentence."
@@ -1105,8 +1100,8 @@
         },
         "model": {
           "status": "held",
-          "where": "hooks/register-judge.py via ~/.claude/hooks/register-judge-personal.md:1",
-          "law_text": "no sentence that carries no information. This is compaction turned on what he reads: every sentence shown to him advances the finding, the decision, or the action. A sentence that only performs a stance, prefaces or frames without content, restates what he already has, softens, or ceremonially opens or closes is cut before sending."
+          "where": "hooks/register-judge.py via hooks/register_judge_core.py, scripts/preshow-register-lint.py via hooks/register_judge_core.py",
+          "law_text": "no sentence that carries no information. This is compaction turned on what the reader reads: every sentence shown to the reader advances the finding, the decision, or the action. A sentence that only performs a stance, prefaces or frames without content, restates what the reader already holds, softens, or ceremonially opens or closes is cut before sending."
         },
         "person": {
           "status": "partial",
@@ -1114,7 +1109,7 @@
         }
       },
       "armed": [
-        "session-stop-hook"
+        "manual"
       ],
       "sources": [
         "~/.claude/hooks/register-judge-personal.md:1",
@@ -1122,7 +1117,7 @@
         "hooks/register_judge_core.py:35"
       ],
       "status": "held",
-      "notes": "This law governs the classes r12, r13, and r15. The two thresholds bind every law the register judge holds: a reply under 120 characters is never judged, and an offence quote under twelve characters is dropped as a hallucination. No prose home states either number, nor that the judge ignores file paths, code, command output, and quoted text. The boundary against r51: a recap of a buried answer repeats words the message already carries, and it carries a fact the reader would otherwise lose, so it informs and this rule does not cut it. What this rule cuts is a sentence carrying no fact at all. The sentences this cuts: one that only performs a stance, a preface, a restatement, a softener, and a ceremonial opening or closing. The test is whether the sentence carries a fact of its own. The list moved here from the rule sentence on 2026-07-28. The session-stop-hook holds this rule and missed one instance on 2026-07-28: an abstract sentence announcing what the next sentence states. The owner caught it. The announcing sentence is the shape the catcher's reach is short on. The owner sharpened the reader test on 2026-07-28: a sentence earns its place by changing what the reader does. A sentence that leaves every action the same is cut or replaced.",
+      "notes": "This law governs the classes r12, r13, and r15. The two thresholds bind every law the register judge holds: a reply under 120 characters is never judged, and an offence quote under twelve characters is dropped as a hallucination. No prose home states either number, nor that the judge ignores file paths, code, command output, and quoted text. The boundary against r51: a recap of a buried answer repeats words the message already carries, and it carries a fact the reader would otherwise lose, so it informs and this rule does not cut it. What this rule cuts is a sentence carrying no fact at all. The sentences this cuts: one that only performs a stance, a preface, a restatement, a softener, and a ceremonial opening or closing. The test is whether the sentence carries a fact of its own. The list moved here from the rule sentence on 2026-07-28. The session-stop-hook held this rule until 2026-08-17 and missed one instance on 2026-07-28: an abstract sentence announcing what the next sentence states. The owner caught it. The announcing sentence is the shape the catcher's reach is short on. The owner sharpened the reader test on 2026-07-28: a sentence earns its place by changing what the reader does. A sentence that leaves every action the same is cut or replaced. The owner unwired the Stop judge on 2026-08-17. The law text moved from one host's own words into the pack's, so both readers now take it from the registry. Neither reader runs by itself. The chat judge is opt-in from that day, and the document lint's judge arm waits on PRESHOW_REGISTER_JUDGE. A person running the lint with PRESHOW_REGISTER_JUDGE set is what holds this rule today.",
       "owner": {
         "by": "skill",
         "why": "Whether a sentence advances anything is a reading."
@@ -1227,7 +1222,6 @@
         }
       },
       "armed": [
-        "session-stop-hook",
         "manual"
       ],
       "sources": [
@@ -2708,7 +2702,6 @@
         }
       },
       "armed": [
-        "session-stop-hook",
         "session-prompt-hook",
         "pre-commit"
       ],
@@ -2720,7 +2713,7 @@
         "guardrails/pre-commit:25"
       ],
       "status": "held",
-      "notes": "A marker or a question that cannot name its fact is itself the finding. The eleven English phrasings live only in the script.",
+      "notes": "A marker or a question that cannot name its fact is itself the finding. The eleven English phrasings live only in the script. The Stop-side hedge scan stood down on 2026-08-17; guardrails/check-deferral-marker.py and the prompt-hook reminder carry the rule now (JOURNAL.md).",
       "owner": {
         "by": "skill",
         "why": "Whether the writer could already derive the answer is a reading of what the writer holds."

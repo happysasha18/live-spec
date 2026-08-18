@@ -371,7 +371,7 @@ adapter is the one place the pack updates when a lens moves in a prover release.
 
 **pins** —
 - `guardrails/pre-push:1` (gates)
-- `hooks/hedge-scan.py:1` (the hedge-scan Stop-gate, modeled on the scissors scan, INV-238)
+- `hooks/hedge-scan.py:1` (the hedge-scan Stop-gate, modeled on the scissors scan, opt-in/library, INV-238, INV-211)
 - `guardrails/net_meter.py:1` (the net-liveness meter, INV-202)
 - `guardrails/touchpoints.json:1` (the touchpoint manifest, INV-205)
 - `guardrails/check-touchpoint-kind.py:1` (the touchpoint-kind gate, INV-205)
@@ -395,7 +395,7 @@ adapter is the one place the pack updates when a lens moves in a prover release.
 - `guardrails/check-ci-mirror.sh:1` (the CI-mirror gate, gate u, INV-210)
 - `guardrails/ci-mirror.json:1` (the declared CI carve-out set, INV-210)
 - `guardrails/check-judge-listed.py:1` (the judge-listed gate, gate v, INV-211)
-- `guardrails/judge-hooks.json:1` (the wired-hook declaration, INV-211, INV-289)
+- `guardrails/judge-hooks.json:1` (the wired-hook declaration. Two hooks are wired by default: the clock hook and the chat-law hook. The six background chat checks are opt-in, and a host wires each itself, INV-211, INV-289)
 - `guardrails/check-every-gate-can-fail.py:1` (the meta-gate over the chain, gate w, INV-212)
 - `guardrails/gate-red-proofs.json:1` (the per-gate red-proof registry, INV-212)
 - `guardrails/tree-counts.json:1` (the published tree counts: measurement, ground and page homes per count, INV-305)
@@ -404,8 +404,8 @@ adapter is the one place the pack updates when a lens moves in a prover release.
 - `guardrails/check-hooks-can-fire.py:1` (the hook-side red-proof runner, executes each hook against its own fixture, rides the suite not the push chain, INV-282)
 - `guardrails/hook-red-proofs.json:1` (the per-hook red-proof registry: a fixture per hook plus the declared entries whose output can carry no verdict, each with its reason, INV-282)
 - `guardrails/hook-red-fixtures/scissors-scan/payload.json:1` (the fixture root's shape, one directory per hook under `guardrails/hook-red-fixtures/`, INV-282)
-- `hooks/code-anchor-scan.py:1` (the code-anchor Stop-hook scan, an internal code trails a sentence as a quiet anchor, INV-283)
-- `hooks/affirmation-scan.py:1` (the empty-validation Stop-hook scan, universal tier plus a personal overlay, INV-284)
+- `hooks/code-anchor-scan.py:1` (the code-anchor Stop-hook scan, an internal code trails a sentence as a quiet anchor, opt-in/library, INV-283, INV-211)
+- `hooks/affirmation-scan.py:1` (the empty-validation Stop-hook scan, universal tier plus a personal overlay, opt-in/library, INV-284, INV-211)
 - `guardrails/check-runaway-child.py:1` (the runaway-child Stop-time notice, report-only, INV-213)
 - `guardrails/reap_owned_group.py:1` (the worker-teardown reap + idle-output detection, process-space habit not a push gate, INV-230)
 - `guardrails/attic/check-listener-tripwire.py:1` (the listener tripwire, a deferred-row mechanical revisit trigger, rides the suite not the push chain, INV-231)
@@ -414,10 +414,10 @@ adapter is the one place the pack updates when a lens moves in a prover release.
 - `guardrails/attic/check-description-field.py:1` (the non-empty description-field gate, arms at the back-describe migration, INV-239) [target]
 - `guardrails/check-deposit-description.py:1` (the agent-channel deposit-time description lint, homed beside check-earned-message.py, INV-239) [target]
 - `hooks/register_judge_core.py:1` (the register judge mechanism, INV-203)
-- `hooks/turn_reader.py:1` (the shared full-turn reader five checks read through. Each reads every assistant message shown since the last human turn. The five are the contrast-frame scan, the hedge scan, the register judge, the code-anchor scan, and the empty-validation scan, INV-281.)
+- `hooks/turn_reader.py:1` (the shared full-turn reader five checks read through, none of them wired by default. Each reads every assistant message shown since the last human turn. The five are the contrast-frame scan, the hedge scan, the register judge, the code-anchor scan, and the empty-validation scan, INV-281.)
 - `hooks/register-judge.py:1` (the chat-surface judge, INV-203)
-- `hooks/register-judge-collect.sh:1` (the Stop arm)
-- `hooks/register-judge-report.sh:1` (the UserPromptSubmit arm)
+- `hooks/register-judge-collect.sh:1` (the Stop arm, opt-in/library, INV-211)
+- `hooks/register-judge-report.sh:1` (the UserPromptSubmit arm, opt-in/library, INV-211)
 - `hooks/conduct-judge.py:1` (the conduct judge reading the turn's action trace, INV-241)
 - `hooks/conduct-judge-collect.sh:1` (its Stop arm)
 - `hooks/conduct-judge-report.sh:1` (its UserPromptSubmit arm)
@@ -430,7 +430,7 @@ adapter is the one place the pack updates when a lens moves in a prover release.
 - `guardrails/pre-commit:1` (commit fence)
 - `guardrails/install.sh:1`
 - `hooks/clock-hook.sh:1` (the chat clock's hand)
-- `hooks/scissors-scan.py:1` (the canonical universal scan hook)
+- `hooks/scissors-scan.py:1` (the canonical universal scan hook, opt-in/library, INV-211)
 - `scripts/install-pack-hooks.sh:1` (chained by install-session-hooks.sh, INV-289)
 - `guardrails/check-config-health.sh:1` (INV-175; +skill-copy arm INV-243)
 - `guardrails/check-config-health-perms.py:1` (the dead-permission-path arm, INV-216)
@@ -485,7 +485,7 @@ adapter is the one place the pack updates when a lens moves in a prover release.
 - INV-234: the architecture-budget rule's budget-plus-watcher shape lifted to every growable artifact.
 - INV-236: correcting the two-channel law's refused git-universal premise (the owner's word).
 - INV-236: rides the suite and takes no push-gate letter the way the listener tripwire does [INV-231].
-- INV-238: installs by the setup walk beside the scissors scan [INV-173]. Config-health parity covers it [INV-175], `guardrails/judge-hooks.json` classifies it [INV-211], and the meter reads its runs and fires [INV-202].
+- INV-238: its file is placed by the setup walk beside the scissors scan and the host wires it [INV-173]. Config-health parity covers it [INV-175], `guardrails/judge-hooks.json` classifies it [INV-211], and the meter reads its runs and fires [INV-202].
 - INV-239: both check presence only and ship with this feature's build, target.
 - INV-245: riding gate i's mechanism and known-red proof with no new gate letter. INV-245: ROADMAP 441.
 - INV-246: the mechanical net the lean-orchestrator law lacked, one of the orchestration laws the conduct judge holds [INV-241].
@@ -874,7 +874,7 @@ real number is read.
 
 | Budget | Number | Instrumentation home | Watcher |
 |---|---|---|---|
-| full suite wall-time | ≤ 1780 s on the dev machine [default] (written with no thousands separator, because `check-suite-budget.sh` reads the figure with `grep -oE '≤ *[0-9]+'` and a comma would truncate it) — what it counts: the serial wall-time of one full `python3 -m pytest -q` run at 2,555 tests with the suite-in-suite meta-test firing; the decision it informs: a push may proceed. Derived 2026-08-13 at 03:03 from the seven full runs of the 2026-08-12 evening pass, in the order they were taken: 1,221.81 s, 1,281.39 s, 1,304.65 s, 1,605.37 s, 1,559.15 s, 1,387.88 s and 1,451.77 s. The bound is the slowest of them plus a tenth as headroom, the same slowest-plus-spread method the 2026-08-07 row used when it put 74 s on a 726 s run. Read the spread before the number: the same suite on trees differing by a handful of documents ran 1,221.81 s and 1,605.37 s, a 31% swing, while the code added across the whole pass measures under a second. This budget is reading the machine's load, and it refused three pushes tonight on that reading alone. Queue row 622 asks for a measure that survives a shared machine, and queue row 553 owns the one code term that dominates every run, `tests/test_guardrails.py` at 640.59 s. Until one of them lands, the ceiling sits above the loudest measurement the day produced. The figure it replaces read ≤ 1410 s, derived at 20:08 on 2026-08-12 from four runs of 993.31 s, 1,159.75 s, 1,221.81 s and 1,281.39 s. Before it the row read ≤ 1280 s, derived at 16:00 the same day from runs of 1,159.75 s and 993.31 s. Before it the row read ≤ 800 s, derived on the morning of the same day from runs of 516.86 s, 537.39 s and 726.28 s, and the whole rise sits in one file: `/usr/bin/time -p python3 -m pytest tests/test_guardrails.py -q` measured **640.59 s** at 15:58, against the near-282 s this row claimed for it, so that one file is 55% of every full run. Queue row 553 holds the work that brings it down and now carries the fresh measurement. Direction: re-measured at every landing, and it falls when the suite gets faster. The row it replaces before that read ≤ 605 s at 2,492 tests, derived 2026-08-07 from 473/525/539 s plus that day's 66 s load spread; before it, 474 s at 2,502 tests on the morning of 2026-08-07, one second above its own measurement, which is the headroom that redded a push on a working machine; before it, 470 s at 2,404 tests on 2026-08-06 and 383–405 s at 1,856 tests on 2026-07-24. The meta-test's own file takes 640.59 s of the run as measured on 2026-08-12, so a diff outside the gate-machinery class skips it and runs far shorter. Queue row 553 holds the work that brings this number down by narrowing the meta-test's own run | the pytest tail line in the suite run's log, read by `guardrails/check-suite-budget.sh` on every full gate run and red past the budget naming both figures (M-346, row 361) | `guardrails/check-suite-budget.sh` reds past the budget on every full gate run, naming both figures (M-346) |
+| full suite wall-time | ≤ 1780 s on the dev machine [default] (written with no thousands separator, because `check-suite-budget.sh` reads the figure with `grep -oE '≤ *[0-9]+'` and a comma would truncate it) — what it counts: the serial wall-time of one full `python3 -m pytest -q` run at 2,557 tests with the suite-in-suite meta-test firing; the decision it informs: a push may proceed. Derived 2026-08-13 at 03:03 from the seven full runs of the 2026-08-12 evening pass, in the order they were taken: 1,221.81 s, 1,281.39 s, 1,304.65 s, 1,605.37 s, 1,559.15 s, 1,387.88 s and 1,451.77 s. The bound is the slowest of them plus a tenth as headroom, the same slowest-plus-spread method the 2026-08-07 row used when it put 74 s on a 726 s run. Read the spread before the number: the same suite on trees differing by a handful of documents ran 1,221.81 s and 1,605.37 s, a 31% swing, while the code added across the whole pass measures under a second. This budget is reading the machine's load, and it refused three pushes tonight on that reading alone. Queue row 622 asks for a measure that survives a shared machine, and queue row 553 owns the one code term that dominates every run, `tests/test_guardrails.py` at 640.59 s. Until one of them lands, the ceiling sits above the loudest measurement the day produced. The figure it replaces read ≤ 1410 s, derived at 20:08 on 2026-08-12 from four runs of 993.31 s, 1,159.75 s, 1,221.81 s and 1,281.39 s. Before it the row read ≤ 1280 s, derived at 16:00 the same day from runs of 1,159.75 s and 993.31 s. Before it the row read ≤ 800 s, derived on the morning of the same day from runs of 516.86 s, 537.39 s and 726.28 s, and the whole rise sits in one file: `/usr/bin/time -p python3 -m pytest tests/test_guardrails.py -q` measured **640.59 s** at 15:58, against the near-282 s this row claimed for it, so that one file is 55% of every full run. Queue row 553 holds the work that brings it down and now carries the fresh measurement. Direction: re-measured at every landing, and it falls when the suite gets faster. The row it replaces before that read ≤ 605 s at 2,492 tests, derived 2026-08-07 from 473/525/539 s plus that day's 66 s load spread; before it, 474 s at 2,502 tests on the morning of 2026-08-07, one second above its own measurement, which is the headroom that redded a push on a working machine; before it, 470 s at 2,404 tests on 2026-08-06 and 383–405 s at 1,856 tests on 2026-07-24. The meta-test's own file takes 640.59 s of the run as measured on 2026-08-12, so a diff outside the gate-machinery class skips it and runs far shorter. Queue row 553 holds the work that brings this number down by narrowing the meta-test's own run | the pytest tail line in the suite run's log, read by `guardrails/check-suite-budget.sh` on every full gate run and red past the budget naming both figures (M-346, row 361) | `guardrails/check-suite-budget.sh` reds past the budget on every full gate run, naming both figures (M-346) |
 | skill evals | every per-skill scenario green at each milestone | dated run records in `docs/evals/` | the eval suite reds any red scenario at each milestone run (INV-99) |
 | resume-file form | `NEXT_STEPS.md` is a digest with no redundancy, one live-state block (INV-48; the numeric cap struck on the owner's ~01:10 word, row 576) | the suite's own check and the prose-level census | `test_template_states_the_law` holds the template's statement of the law, and the census record holds the file's prose level (INV-48) |
 | spec prose register | style lint: 0 errors on PRODUCT_SPEC.md | `scripts/spec-style-lint.py` JSON tail | the style-lint gate reds on any error at the pre-show and push gates (INV-83) |

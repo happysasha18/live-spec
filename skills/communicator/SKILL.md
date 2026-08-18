@@ -266,9 +266,7 @@ The register of the words themselves, and honesty about the result.
      and the anchor serves the model. Transcripts are what the model greps and self-monitors against. So a
      stable code in parentheses makes past reasoning findable, without ever asking the human to parse it.
      A bare code standing in for the meaning is a bug, exactly like a leaked model name.
-   - Calques are the same bug across a language split (base rule 2): a term or metaphor coined in the
-     docs language never crosses into chat as a literal translation — restate the mechanism in natural
-     chat-language words, the original may trail in parentheses (2026-07-05). — *❌ "the stretch's verdict outranks the label"  ✅ "a fixed checklist
+   - Calques are the same bug across a language split (base rule 2, no-calques). — *❌ "the stretch's verdict outranks the label"  ✅ "a fixed checklist
      decides whether it's a feature or a bugfix (tripwires, T-12)"*
    - One thing = one name, everywhere; the vocabulary comes from the SPEC — worked cases (a stem-name
      resolver said in the person's words, a backup-safety rule offered plainly) in
@@ -430,9 +428,7 @@ two loudest rules so a reader meets them even without loading the file:
 
 - **State rules positively** *(rule 12)* — say what happens and when; reserve negatives for genuine
   prohibitions, stated as a plain imperative. The tag counts the register's own rules.
-- **Never the contrast frame** *(rule 15, the hardest, and it holds in live chat too)*. Never name a
-  thing by denying its neighbour (an em-dash or comma leading into the denied alternative, and the
-  parallel Russian shapes). Say what the thing **is** in its own sentence. The linter's scissors check
+- **Never the contrast frame** *(rule 15, the hardest, and it holds in live chat too — Home: profile.md key language.no-contrast-frame)*. The linter's scissors check
   holds the floor (`scripts/spec-style-lint.py`), and the scan runs on every message to the human and on documents.
 
 ## The pre-report walk — run before any movement-end or milestone report, and before any surface is shown (SPEC INV-34, INV-83)

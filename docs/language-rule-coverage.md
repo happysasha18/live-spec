@@ -53,8 +53,8 @@ Each **catcher** under a rule carries a status of its own.
 
 - `pre-commit` — a gate refuses the commit until the text changes.
 - `pre-push` — a gate refuses the push until the text changes.
-- `session-stop-hook` — the session's reply is held at the end of the turn, and a correction is asked for before the text reaches the reader.
-- `session-prompt-hook` — the verdict on the previous reply is put in front of the session when the person sends their next message.
+- `session-stop-hook` — the session's reply is held at the end of the turn, and a correction is asked for before the text reaches the reader. No rule arms here from 2026-08-17, when the owner unwired the Stop judges.
+- `session-prompt-hook` — the law, or the verdict on the previous reply, is put in front of the session at their next message. The pack wires the reminder half (hooks/chat-law-hook.sh); the verdict half is opt-in from 2026-08-17.
 - `PreToolUse` — the next tool call is denied, so the correction reaches the reader inside the same turn; a rule armed here records it in its notes, since the `armed` field's vocabulary holds no word for the event.
 - `manual` — a person runs the catcher over a file by hand, and nothing runs it on its own.
 - `nowhere` — no catcher runs the rule at any event.
@@ -167,7 +167,7 @@ repair the text from those stops rather than from the one sentence in front of y
 
 **Binds.** spec-body · human-prose · chat · artifact
 
-**Status.** held, armed at session-stop-hook, manual.
+**Status.** held, armed at manual.
 
 **Owner.** skill — Whether an ordinary word carries a private meaning here is a reading of what the word does in its sentence.
 
@@ -185,7 +185,7 @@ repair the text from those stops rather than from the one sentence in front of y
 
 **Binds.** spec-body · human-prose · chat · artifact
 
-**Status.** held, armed at session-prompt-hook, manual, session-stop-hook.
+**Status.** held, armed at session-prompt-hook, manual.
 
 **Owner.** skill — A list holds the coinages already met; a word coined tomorrow is caught by a reader who knows the standard word.
 
@@ -327,7 +327,7 @@ repair the text from those stops rather than from the one sentence in front of y
 
 **Binds.** spec-body · human-prose · chat · artifact · commit · worker-brief
 
-**Status.** held, armed at session-stop-hook, session-prompt-hook, manual.
+**Status.** held, armed at session-prompt-hook, manual.
 
 **Owner.** script — The contrast frame is a shape in the punctuation and the words around it, and a script already decides it.
 
@@ -341,13 +341,13 @@ repair the text from those stops rather than from the one sentence in front of y
 
 **Stated before this page, at.** ~/.claude/playbook/personal/profile.md:18, hooks/chat-law-hook.sh:8, hooks/scissors-scan.py:27, ~/.claude/hooks/scissors-personal.json:1, docs/spec-style.md:52, docs/spec-style.md:67, scripts/spec-style-lint.py:122, scripts/spec-style-lint.py:206, docs/spec-format.md:36, docs/prose-quality-gate-design.md:19, docs/spec-compaction-protocol.md:75, ~/.claude/skills/communicator/references/writing-register.md:93, ~/.claude/skills/communicator/SKILL.md:434, ~/.claude/skills/text-audit/SKILL.md:226, ~/.claude/skills/spec-author/references/how-it-reads.md:43
 
-**Notes.** The package default carries the exception the model judge states. The owner's profile calls the ban permanent with no exception, which is what personal_override records; ~/.claude/playbook/personal/profile.md:18 and ~/.claude/skills/communicator/SKILL.md:434 hold that form. scripts/spec-style-lint.py:126 hard-codes its own exemptions for `X, not only Y` and for an imperative `use A instead of B`; those exemptions must come from this file instead. The modal words never, no, only, and exactly-one are load-bearing and survive, per docs/spec-compaction-protocol.md:75. Positive statement binds every surface, conversation and commit messages and worker briefs included, since each of them is text a reader meets. The surfaces list says so.
+**Notes.** The package default carries the exception the model judge states. The owner's profile calls the ban permanent with no exception, which is what personal_override records; ~/.claude/playbook/personal/profile.md:18 and ~/.claude/skills/communicator/SKILL.md:434 hold that form. scripts/spec-style-lint.py:126 hard-codes its own exemptions for `X, not only Y` and for an imperative `use A instead of B`; those exemptions must come from this file instead. The modal words never, no, only, and exactly-one are load-bearing and survive, per docs/spec-compaction-protocol.md:75. Positive statement binds every surface, conversation and commit messages and worker briefs included, since each of them is text a reader meets. The surfaces list says so. The Stop-side scissors scan stood down on 2026-08-17; the pattern gate in scripts/spec-style-lint.py and the prompt-hook reminder carry the rule now (JOURNAL.md).
 
 ### r11 — an internal code leading a sentence to the reader
 
 **Binds.** spec-body · human-prose · chat · artifact
 
-**Status.** held, armed at session-stop-hook, session-prompt-hook, manual.
+**Status.** held, armed at session-prompt-hook, manual.
 
 **Owner.** script — The position of an internal code in a line is decided by where the code sits.
 
@@ -359,13 +359,13 @@ repair the text from those stops rather than from the one sentence in front of y
 
 **Stated before this page, at.** hooks/chat-law-hook.sh:8, hooks/code-anchor-scan.py:69, scripts/preshow-lint.py:26, guardrails/criterion-readability.json:110, docs/lenses.md:17, docs/spec-format.md:17, docs/roadmap-format.md:12, docs/architecture-format.md:16, docs/test-matrix-format.md:10, ~/.claude/skills/live-spec-base/SKILL.md:52, ~/.claude/playbook/personal/profile.md:14, ~/.claude/skills/communicator/references/writing-register.md:66, ~/.claude/skills/communicator/SKILL.md:254, ~/.claude/skills/spec-author/references/glossary.md:48
 
-**Notes.** The arm that held this rule in chat is retired to attic/midturn-chat-scan.py. It stood before every tool call in the tree. Its refusal landed on whichever call was in flight, a background worker's included. No field of that event tells the two apart. The law stands, and only its machine is gone. The Stop-side code-anchor scan still holds this rule at the turn's end. The anchor counts come from guardrails/criterion-readability.json and no prose home states them. code-anchor-scan.py:73 also catches a document name run against a number and code-anchor-scan.py:76 a spoken-space or hash variant, neither of which any prose home states. The criterion arm is armed nowhere.
+**Notes.** The arm that held this rule in chat is retired to attic/midturn-chat-scan.py. It stood before every tool call in the tree. Its refusal landed on whichever call was in flight, a background worker's included. No field of that event tells the two apart. The law stands, and only its machine is gone. The Stop-side code-anchor scan held this rule at the turn's end until 2026-08-17. The owner unwired it, and the pre-show lint and the prompt-hook reminder carry the rule now. The anchor counts come from guardrails/criterion-readability.json and no prose home states them. code-anchor-scan.py:73 also catches a document name run against a number and code-anchor-scan.py:76 a spoken-space or hash variant, neither of which any prose home states. The criterion arm is armed nowhere.
 
 ### r12 — a word grading how important or how good a thing is
 
 **Binds.** spec-body · human-prose · chat · artifact · commit · worker-brief
 
-**Status.** held, armed at session-stop-hook.
+**Status.** held, armed at manual.
 
 **Owner.** skill — A grading word standing beside a concrete fact is lawful, and only a reading tells the two apart.
 
@@ -377,13 +377,13 @@ repair the text from those stops rather than from the one sentence in front of y
 
 **Stated before this page, at.** ~/.claude/playbook/personal/profile.md:19, ~/.claude/hooks/scissors-personal.json:1, docs/spec-format.md:36, ~/.claude/skills/text-audit/SKILL.md:229, ~/.claude/skills/communicator/SKILL.md:281
 
-**Notes.** The judge used to hold this class twice in one file, once for chat and once for documents, worded differently and numbered independently; both readers now take the one law text stated here, the chat judge through hooks/register-judge.py and the document lint through scripts/preshow-register-lint.py. The law binds chat, docs, worker reports, and agent-to-agent messages alike.
+**Notes.** The judge used to hold this class twice in one file, once for chat and once for documents, worded differently and numbered independently; both readers now take the one law text stated here, the chat judge through hooks/register-judge.py and the document lint through scripts/preshow-register-lint.py. The law binds chat, docs, worker reports, and agent-to-agent messages alike. On 2026-08-17 the owner unwired the Stop judge. The document lint holds the rule from that day. Its judge arm waits on PRESHOW_REGISTER_JUDGE, so what holds it is a person running the lint with that variable set (JOURNAL.md).
 
 ### r13 — a sentence grading the person, or grading the writer's own act
 
 **Binds.** chat · human-prose · artifact · worker-brief
 
-**Status.** held, armed at session-stop-hook, manual.
+**Status.** held, armed at manual.
 
 **Owner.** skill — Whether a sentence grades the person or reports a fact is a reading of the sentence.
 
@@ -395,31 +395,31 @@ repair the text from those stops rather than from the one sentence in front of y
 
 **Stated before this page, at.** ~/.claude/playbook/personal/profile.md:20, ~/.claude/playbook/personal/profile.md:53, ~/.claude/hooks/register-judge-personal.md:15, hooks/affirmation-scan.py:32, ~/.claude/hooks/affirmation-personal.json:1, ~/.claude/skills/communicator/SKILL.md:213, docs/lenses.md:275, scripts/preshow-register-lint.py:105
 
-**Notes.** The class is split across two checkers by pole: affirmation-scan.py holds the person pole, preshow-register-lint.py holds the self-certification pole. The ten English phrasings live only in the script.
+**Notes.** The class is split across two checkers by pole: affirmation-scan.py holds the person pole, preshow-register-lint.py holds the self-certification pole. The ten English phrasings live only in the script. The Stop-side affirmation scan stood down on 2026-08-17; scripts/preshow-register-lint.py holds the self-certification pole by hand (JOURNAL.md).
 
 ### r14 — a sentence carrying no information
 
 **Binds.** chat · human-prose · artifact · worker-brief
 
-**Status.** held, armed at session-stop-hook.
+**Status.** held, armed at manual.
 
 **Owner.** skill — Whether a sentence advances anything is a reading.
 
 **What catches a break of it.**
 
 - **pattern** — absent.
-- **model** — held. Lives at hooks/register-judge.py via ~/.claude/hooks/register-judge-personal.md:1. Rule text the judging model reads: no sentence that carries no information. This is compaction turned on what he reads: every sentence shown to him advances the finding, the decision, or the action. A sentence that only performs a stance, prefaces or frames without content, restates what he already has, softens, or ceremonially opens or closes is cut before sending.
+- **model** — held. Lives at hooks/register-judge.py via hooks/register_judge_core.py, scripts/preshow-register-lint.py via hooks/register_judge_core.py. Rule text the judging model reads: no sentence that carries no information. This is compaction turned on what the reader reads: every sentence shown to the reader advances the finding, the decision, or the action. A sentence that only performs a stance, prefaces or frames without content, restates what the reader already holds, softens, or ceremonially opens or closes is cut before sending.
 - **person** — partial. Reads: whether a sentence the judge passed still restates what the reader already holds.
 
 **Stated before this page, at.** ~/.claude/hooks/register-judge-personal.md:1, hooks/register-judge.py:30, hooks/register_judge_core.py:35
 
-**Notes.** This law governs the classes r12, r13, and r15. The two thresholds bind every law the register judge holds: a reply under 120 characters is never judged, and an offence quote under twelve characters is dropped as a hallucination. No prose home states either number, nor that the judge ignores file paths, code, command output, and quoted text. The boundary against r51: a recap of a buried answer repeats words the message already carries, and it carries a fact the reader would otherwise lose, so it informs and this rule does not cut it. What this rule cuts is a sentence carrying no fact at all. The sentences this cuts: one that only performs a stance, a preface, a restatement, a softener, and a ceremonial opening or closing. The test is whether the sentence carries a fact of its own. The list moved here from the rule sentence on 2026-07-28. The session-stop-hook holds this rule and missed one instance on 2026-07-28: an abstract sentence announcing what the next sentence states. The owner caught it. The announcing sentence is the shape the catcher's reach is short on. The owner sharpened the reader test on 2026-07-28: a sentence earns its place by changing what the reader does. A sentence that leaves every action the same is cut or replaced.
+**Notes.** This law governs the classes r12, r13, and r15. The two thresholds bind every law the register judge holds: a reply under 120 characters is never judged, and an offence quote under twelve characters is dropped as a hallucination. No prose home states either number, nor that the judge ignores file paths, code, command output, and quoted text. The boundary against r51: a recap of a buried answer repeats words the message already carries, and it carries a fact the reader would otherwise lose, so it informs and this rule does not cut it. What this rule cuts is a sentence carrying no fact at all. The sentences this cuts: one that only performs a stance, a preface, a restatement, a softener, and a ceremonial opening or closing. The test is whether the sentence carries a fact of its own. The list moved here from the rule sentence on 2026-07-28. The session-stop-hook held this rule until 2026-08-17 and missed one instance on 2026-07-28: an abstract sentence announcing what the next sentence states. The owner caught it. The announcing sentence is the shape the catcher's reach is short on. The owner sharpened the reader test on 2026-07-28: a sentence earns its place by changing what the reader does. A sentence that leaves every action the same is cut or replaced. The owner unwired the Stop judge on 2026-08-17. The law text moved from one host's own words into the pack's, so both readers now take it from the registry. Neither reader runs by itself. The chat judge is opt-in from that day, and the document lint's judge arm waits on PRESHOW_REGISTER_JUDGE. A person running the lint with PRESHOW_REGISTER_JUDGE set is what holds this rule today.
 
 ### r15 — a word inflating a statement while adding nothing
 
 **Binds.** spec-body · human-prose · chat · artifact · worker-brief
 
-**Status.** held, armed at session-stop-hook, manual.
+**Status.** held, armed at manual.
 
 **Owner.** skill — Whether deleting a word changes the meaning is a reading.
 
@@ -891,7 +891,7 @@ repair the text from those stops rather than from the one sentence in front of y
 
 **Binds.** chat · human-prose · worker-brief
 
-**Status.** held, armed at session-stop-hook, session-prompt-hook, pre-commit.
+**Status.** held, armed at session-prompt-hook, pre-commit.
 
 **Owner.** skill — Whether the writer could already derive the answer is a reading of what the writer holds.
 
@@ -903,7 +903,7 @@ repair the text from those stops rather than from the one sentence in front of y
 
 **Stated before this page, at.** hooks/hedge-scan.py:7, hooks/hedge-scan.py:48, hooks/chat-law-hook.sh:8, ~/.claude/hooks/hedge-personal.json:1, guardrails/pre-commit:25
 
-**Notes.** A marker or a question that cannot name its fact is itself the finding. The eleven English phrasings live only in the script.
+**Notes.** A marker or a question that cannot name its fact is itself the finding. The eleven English phrasings live only in the script. The Stop-side hedge scan stood down on 2026-08-17; guardrails/check-deferral-marker.py and the prompt-hook reminder carry the rule now (JOURNAL.md).
 
 ### r49 — a mistake expanded into a self-audit paragraph
 

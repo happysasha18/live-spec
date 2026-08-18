@@ -68,6 +68,25 @@ def write_settings(tmpdir, stop, ups, pre=COMPLETE_PRE):
     return path
 
 
+def opted_in_decl(tmpdir):
+    """A declaration for a host that turned the six opt-in scans on.
+
+    The pack's own declaration leaves those six in the library from 2026-08-17 (Requirement 311), so
+    the shipped file wires nothing to Stop. The gate's Stop branch is live code for every host that
+    opts in, so it is proven against a fixture declaration built from the real one: each opt-in hook
+    moves back into `wired` at the surface the declaration itself records. Nothing else changes, so
+    every file under hooks/ stays classified and the honesty arm still reads the real tree."""
+    with open(DECL) as f:
+        decl = json.load(f)
+    for stem, surface in decl["opt_in_surface"].items():
+        decl["wired"][stem] = surface
+        decl["library"].remove(stem)
+    path = os.path.join(tmpdir, "judge-hooks.json")
+    with open(path, "w") as f:
+        json.dump(decl, f)
+    return path
+
+
 class TestJudgeListed(unittest.TestCase):
     def test_gate_ships(self):
         self.assertTrue(os.path.isfile(CHECK))
@@ -79,22 +98,25 @@ class TestJudgeListed(unittest.TestCase):
         self.assertIn("library", data)
 
     def test_real_settings_stands_down_or_passes(self):
-        # on the owner's machine the real settings.json lists every judge (returncode 0);
-        # on a CI checkout with no settings.json the gate stands down by name (returncode 0).
+        # the declaration wires two hooks since 2026-08-17 (Requirement 311): on the owner's machine
+        # the real settings.json lists both (returncode 0); on a CI checkout with no settings.json the
+        # gate stands down by name (returncode 0).
         r = run_check()
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
 
     def test_complete_settings_passes(self):
+        # the opted-in host: every one of the six is wired, and the gate is quiet.
         with tempfile.TemporaryDirectory() as tmp:
             path = write_settings(tmp, COMPLETE_STOP, COMPLETE_UPS)
-            r = run_check({"JUDGE_SETTINGS_JSON": path})
+            r = run_check({"JUDGE_SETTINGS_JSON": path, "JUDGE_HOOKS_JSON": opted_in_decl(tmp)})
             self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
 
     def test_missing_stop_arm_reds(self):
-        # drop register-judge-collect from Stop — the collect judge goes dark
+        # the same opted-in host with register-judge-collect dropped from Stop — the collect judge
+        # goes dark, and the gate must still name it. This is the pair the green case above closes.
         with tempfile.TemporaryDirectory() as tmp:
             path = write_settings(tmp, ["scissors-scan.py"], COMPLETE_UPS)
-            r = run_check({"JUDGE_SETTINGS_JSON": path})
+            r = run_check({"JUDGE_SETTINGS_JSON": path, "JUDGE_HOOKS_JSON": opted_in_decl(tmp)})
             self.assertEqual(r.returncode, 1, r.stdout + r.stderr)
             self.assertIn("register-judge-collect", r.stdout)
             self.assertIn("Stop", r.stdout)

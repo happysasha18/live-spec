@@ -85,12 +85,13 @@ trace. This makes new lines safe to add under an older pack. [E-13]
 
 ## Session hooks
 
-`guardrails/judge-hooks.json` declares every session hook the pack wires live — eight today, each with
-the event it rides, its command form, and the shipped files it reads. The one installer a human runs is
-`scripts/install-session-hooks.sh`: it generates its own two hooks (the wall clock, the chat laws) from
-that declaration, then chains to `scripts/install-pack-hooks.sh` for the other six (the register
-judge's two arms and the four literal Stop scans), so the one command
-reaches full coverage. The human runs it by hand, because the harness deliberately blocks the agent from
+`guardrails/judge-hooks.json` declares every session hook the pack ships — eight today, each with
+the event it rides, its command form, and the shipped files it reads. Two are wired live: the wall
+clock and the chat laws. The other six are opt-in from 2026-08-17: the register judge's two arms and
+the four literal Stop scans. The declaration records the surface each rides, for a host that turns one
+on. The one installer a human runs is `scripts/install-session-hooks.sh`. It generates the two wired
+hooks from that declaration, then chains to `scripts/install-pack-hooks.sh`, which places the other six
+files and wires none. So the one command puts every hook file the declaration lists in place. The human runs it by hand, because the harness deliberately blocks the agent from
 editing its own configuration. Re-running it changes nothing — a hook already wired, in any form, is
 left exactly as it stands, and a personal overlay file (`*-personal.json`/`*-personal.md`, or a host's
 own `hook-meter.py` counter) already on the machine is only ever reported, never touched.

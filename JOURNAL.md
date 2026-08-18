@@ -2987,3 +2987,45 @@ worker transcripts, and 32 into the seat's own across 19. Counting by text searc
 since a transcript of an agent READING about the refusal carries the same words — the reviews of this very
 change added several.
 
+## 2026-08-18 — six background judges go opt-in, and the repository catches up to the machine
+
+On 2026-08-17 the owner unwired six chat checks on his own machine: the contrast-frame scan, the hedge
+scan, the empty-validation scan, the code-anchor scan, and the register judge's collect and report arms.
+His words that day, in this session's window: take the background judging off, and I agree to all of it.
+The files were left in place, byte for byte with their source, so this is a move into the opt-in shelf
+rather than a deletion.
+
+The tree still said otherwise, and said it loudly. Gate v — the check that every judge the pack declares
+wired is really listed in settings.json — was red on this machine, naming all six as dark. A gate red for
+telling the truth is the signal to move the declaration, so the declaration moved. The six are library
+entries now: their files still ship, their surfaces and command forms still stand in
+`guardrails/judge-hooks.json` for a host wiring one back on, and gate v demands none of them.
+
+The rules followed the machinery. Every language rule whose Stop-side catcher was one of the six drops
+that arm and keeps the ones that still run. Two of them had no other catcher. r12 and r14 go to the
+document lint. r14's law had been held in one host's personal overlay and read only by the Stop judge,
+so it is restated in the pack's own words and both readers take it from the registry now.
+
+What that leaves them, said plainly rather than glossed: the lint's own model judge waits on
+PRESHOW_REGISTER_JUDGE, off unless a host sets it. So the catcher of record for both rules is a person
+running `scripts/preshow-register-lint.py` over a file with that variable set. Their `armed` field says `manual`, which is
+what that is. Neither rule is left as a sentence nobody reads, and neither is left with a machine
+either.
+
+What this costs, stated rather than glossed: four literal nets and one model judge no longer read the
+turn on any machine that does not ask for them. The scans still exist and their tests still run, so
+nothing is lost that a host cannot turn on in one line. Requirement 311 carries the standing; Requirements
+230, 232, 293, and 294 each say plainly that their arm binds where the host wired it.
+
+One step is owed on the machine before this pushes. `hooks/language-laws.json` is generated from the
+rule registry, and the registry changed, so the installed copy at `~/.claude/hooks/` is now the older
+build. Gate m reds on it, and so do the two config-health tests that ride the suite. The owner runs `sh scripts/install-pack-hooks.sh` to refresh it, and no
+agent may run that installer. Nothing reads the stale copy meanwhile: the two hooks this machine wires
+are the clock and the chat laws, neither of which opens that file, and the document lint imports the
+mechanism out of this repository. The red is the drift itself, not a judge reading old law.
+
+Two smaller repairs rode along. The local-override file carried two entries for hooks whose installed
+copies match this repository exactly, so they bought silence for a difference that no longer exists; both
+are gone. And Requirement 230 had been restating four language laws in its own words while
+`guardrails/language-rules.json` is their home; it now points at the home instead.
+

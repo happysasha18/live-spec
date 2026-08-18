@@ -116,6 +116,26 @@ def test_runner_is_census_complete_on_the_real_shipped_registry():
     assert ("census %d/%d wired hook(s) classified" % (expected, expected)) in proc.stdout, proc.stdout
 
 
+def test_every_opt_in_hook_is_classified_too():
+    """The census counts the wired list alone, and six hooks left that list on 2026-08-17 when the
+    owner stood them down (PRODUCT_SPEC.md Requirement 311). They still ship, a host still turns them
+    on, and their red proofs still run — so the population this file was written for is asserted here
+    directly rather than lost with the census it fell out of."""
+    decl = json.load(open(os.path.join(REPO_ROOT, "guardrails", "judge-hooks.json")))
+    six = {"scissors-scan", "hedge-scan", "affirmation-scan", "code-anchor-scan",
+           "register-judge-collect", "register-judge-report"}
+    assert set(decl["opt_in_surface"]) == six, (
+        "the opt-in roster moved; this test reads the declaration, so the roster is pinned here too")
+    proofs = json.load(open(os.path.join(REPO_ROOT, "guardrails", "hook-red-proofs.json")))
+    classified = set(proofs.get("proofs", {})) | set(proofs.get("cannot_red", {}))
+    unclassified = []
+    for stem in sorted(decl["opt_in_surface"]):
+        if not any(stem + ext in classified for ext in (".py", ".sh")):
+            unclassified.append(stem)
+    assert not unclassified, (
+        "an opt-in hook carries no red proof and no cannot_red note: %r" % unclassified)
+
+
 def test_runner_reds_on_wired_hook_absent_from_both_maps(tmp_path):
     """Build a temporary registry pair (proofs.json + judge-hooks.json), not the real one: a hook
     judge-hooks.json wires live but hook-red-proofs.json classifies nowhere must red the run by name,
