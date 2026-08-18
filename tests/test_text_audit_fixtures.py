@@ -163,7 +163,7 @@ class TestCleanProseWrongCommand(unittest.TestCase):
 
     def test_the_taught_command_omits_the_flag_the_builder_needs(self):
         builder = read(os.path.join(ROOT, "scripts", "build-index.py"))
-        self.assertIn("build-index.py <document.md> -o <file>", builder,
+        self.assertIn("build-index.py <document.md> [<part.md> ...] -o <file>", builder,
                       "scripts/build-index.py changed the way it takes an output file; re-read the "
                       "fixture's command against the new usage")
         body = read(fixture(self.NAME))
