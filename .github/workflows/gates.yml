@@ -36,8 +36,10 @@ jobs:
           --ref 94d36454d55438951311d302fc86adba33123868
           --expect-commit 94d36454d55438951311d302fc86adba33123868
       - name: test suite (gate b, full — the reach map stays local)
+        if: ${{ !cancelled() }}
         run: python3 -m pytest -q
       - name: gate a — fresh prover record (one record per push, SPEC M-6/INV-116/INV-304)
+        if: ${{ !cancelled() }}
         # LIVE_SPEC_DIFF_BASE lets the script judge the inbox-only carve-out (row 269,
         # SPEC M-6/INV-112): a push whose diff is exactly one new inbox/ file owes no
         # fresh record. The same base carries the range arm, which reads the pushed delta
@@ -48,36 +50,50 @@ jobs:
           LIVE_SPEC_DIFF_BASE: ${{ github.event.before }}
         run: guardrails/check-prover-record.sh --push
       - name: gate d — matrix Reference generated and agrees with the body
+        if: ${{ !cancelled() }}
         run: python3 guardrails/check-matrix-reference.py TEST_MATRIX.md
       - name: gate g — pin drift
+        if: ${{ !cancelled() }}
         run: guardrails/check-pin-drift.sh
       - name: gate f — skill loadability
+        if: ${{ !cancelled() }}
         run: guardrails/check-skill-loadability.sh
       - name: gate e — prototype fence
+        if: ${{ !cancelled() }}
         run: guardrails/check-prototype-fence.sh
       - name: gate i — shipped language (no owner name / stray Cyrillic in the shipped set, SPEC INV-120)
+        if: ${{ !cancelled() }}
         run: guardrails/check-shipped-language.sh
       - name: gate j — no broad browser-kill (cleanup targets the test resource only, SPEC INV-162)
+        if: ${{ !cancelled() }}
         run: guardrails/check-broad-kill.sh
       - name: gate l — muted browser launch (every browser-driving script launches muted, SPEC INV-157)
+        if: ${{ !cancelled() }}
         run: guardrails/check-muted-launch.sh
       - name: gate o — cleanup notice (every cleanup path that ends a process says what it ended, SPEC INV-204)
+        if: ${{ !cancelled() }}
         run: guardrails/check-cleanup-notice.sh
       - name: gate p — touchpoint kind (a surface speaks only the kind its touchpoint affords, SPEC INV-205)
+        if: ${{ !cancelled() }}
         run: python3 guardrails/check-touchpoint-kind.py
       - name: gate q — waiting list (the board loses nothing — no over-cap shown set, no demotion into the void, SPEC INV-206)
+        if: ${{ !cancelled() }}
         run: python3 guardrails/check-board.py
       - name: gate r — authority anchor (a decision recorded as the person's names its exchange, SPEC INV-207)
+        if: ${{ !cancelled() }}
         run: python3 guardrails/check-authority-anchor.py
       - name: gate s — skill review (a substantive skill change carries its skill-creator review record, SPEC INV-208)
+        if: ${{ !cancelled() }}
         # LIVE_SPEC_DIFF_BASE lets the gate read the push range (the same base as gate a); on a PR it
         # is empty and the gate falls back to origin/main.
         env:
           LIVE_SPEC_DIFF_BASE: ${{ github.event.before }}
         run: guardrails/check-skill-review.sh
       - name: gate t — doc rotation (the pack's split-and-rotated docs lose nothing, SPEC INV-209)
+        if: ${{ !cancelled() }}
         run: python3 guardrails/check-doc-rotation.py
       - name: gate h — the four host checks (this repo attached as its own first host, SPEC INV-97)
+        if: ${{ !cancelled() }}
         # The base ladder mirrors gate a: github.event.before on a push, else a fetched origin/main,
         # else HEAD~1 — so the host checks compare against a ref that exists on any CI checkout.
         run: |
@@ -91,6 +107,7 @@ jobs:
             python3 scaffold/guardrails/check_${c}.py --base "$base"
           done
       - name: gate n — the earned message (an agent's inbox deposit names its birth, SPEC INV-189)
+        if: ${{ !cancelled() }}
         run: |
           # Report-only (the owner's word, 2026-08-07 11:19): a deposit never blocks a push;
           # the intake sweep is the judging moment.
@@ -105,14 +122,19 @@ jobs:
       # need no separate CI step here and no ci-mirror carve-out — a suite-riding check carries no gate
       # letter for the mirror to track.
       - name: gate u — CI mirror parity (every local gate is mirrored in CI or a declared carve-out, SPEC INV-210)
+        if: ${{ !cancelled() }}
         run: guardrails/check-ci-mirror.sh
       - name: gate w — every gate can fail (every gate in this chain carries a known-red proof, SPEC INV-212)
+        if: ${{ !cancelled() }}
         run: python3 guardrails/check-every-gate-can-fail.py
       - name: gate x — generated index (committed index equals a fresh build off the body; body and index agree; an empty body reds by name, SPEC INV-258/INV-259/INV-218)
+        if: ${{ !cancelled() }}
         run: python3 guardrails/check-index-generated.py PRODUCT_SPEC.md PRODUCT_SPEC.index.md
       - name: gate y — agent card (a live-spec host tree carries its .live-spec/agent.md card, SPEC INV-219)
+        if: ${{ !cancelled() }}
         run: python3 guardrails/check-agent-card.py
       - name: gate aa — doc findings bound (no live document above its recorded finding count, SPEC INV-301)
+        if: ${{ !cancelled() }}
         # The record arm reads the record against the state the remote already holds (SPEC R302.12).
         # github.event.before is the pre-push SHA on a push; on a PR it is empty and the arm falls back
         # to origin/main, which the fetch-depth-0 checkout above carries.
@@ -120,8 +142,10 @@ jobs:
           LIVE_SPEC_DIFF_BASE: ${{ github.event.before }}
         run: python3 guardrails/check-doc-findings-bound.py
       - name: gate ad — published tree counts (a count this repository publishes about its own tree is built from the tree, SPEC INV-305)
+        if: ${{ !cancelled() }}
         run: python3 guardrails/check-tree-counts.py
       - name: gate ae — named checks (the registry says what each runnable file a skill body names is, SPEC INV-306)
+        if: ${{ !cancelled() }}
         run: python3 guardrails/check-named-checks.py
 
   # After the gates pass on a real push to main, sync the standalone mirror repos from the
