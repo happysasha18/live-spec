@@ -4,6 +4,8 @@ PUSH-REVIEW
 
 Range: 63cfa511..9f11c3a3
 - 9f11c3a3 The record carries the skill's move to its own home
+- 02f63e4 Reviews and pins follow the extraction, and two long sentences come down
+- 80e7f07 The architecture pin and the adapter's own section follow the skill out
 - fe49396 Merge origin/main: the stale usage pin lands under the extraction
 - dc42c6f Merge lane/2026-08-18-textaudit-out: text-audit moves to its own repository
 - 34f02ab text-audit moves to its own repository; a thin adapter and the pack's lint contract stay
