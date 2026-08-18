@@ -20,30 +20,32 @@ This shape does not match every skill evenly. Three skills — `product-prover`,
 - **Pinned tests** — a rule's own SPEC codes (`INV-`, `T-`, `E-`, `ACT-`, `M-`, `A-` followed by a number), read out of its body text, searched with `grep -rlF '<code>' tests/` and counted as the union of distinct files any of its codes hit. Nineteen of the 53 rules cite no such code in their own text; for those, the search falls back to the rule's bold lead-in phrase itself (quotation marks and markdown stripped) as the `grep -rlF` pattern, and the exact phrase used is named next to each such row. A rule with no code and a lead-in too generic to search safely ("Purpose", "Entities", "Actors") still ran the same search on that word and returned zero, which the table reports as zero rather than skipping the row.
 - **Price** — body bytes plus pinned-test count, the plan's own starting cost measure (`.live-spec/culling-plan-v3-2026-08-10.md` line 86).
 
-**Totals.** 53 rules found. 46,121 body bytes in all. 310 pinned-test hits in all, summed across rules (a test file pinning more than one rule is counted again for each). Combined price: 46,431.
+**Totals.** 53 rules found. 43,753 body bytes in all. 314 pinned-test hits in all, summed across rules (a test file pinning more than one rule is counted again for each). Combined price: 44,067.
 
 **Repaired at HEAD.** The pins above were re-derived against commit `a5b94f85b8bd607e0ff462eb9e07e0c96235354d` (2026-08-12): every row's home file, line range, body bytes and pinned-test count were re-measured by the same methods stated above. All 53 rules still exist under their original title and number; 48 of the 53 line ranges had drifted (later edits to the same skill files shifted them), and 3 rows' pinned-test counts moved by one file because `tests/` itself changed since d11331f. No row's price-rank order changed.
 
 **Re-pointed after the spec-author offload (2026-08-17).** Nine sections of `skills/spec-author/SKILL.md` moved word for word into `skills/spec-author/references/`. Seven of this page's spec-author rows — the seven items of the spine — now live in `skills/spec-author/references/the-spine.md`, and the ten that stayed in the body shifted up. Every affected row's home path and line range was re-derived by matching its exact text in the new tree. No rule's text, body-byte count, pinned-test count or price changed, and no row's price-rank order changed: the move was verbatim.
 
+**Re-measured after the build-pipeline prose pass (2026-08-18).** `skills/build-pipeline/SKILL.md` was rewritten sentence by sentence for readability, so all nine build-pipeline rows were re-derived by the methods stated above: the span rule, `len(text.encode("utf-8"))` over that span, and the union of `grep -rlF` hits for the rule's own codes. Two edits moved these numbers, and only the second is that pass. The 2026-08-17 offload into `references/architecture-step-detail.md` and `references/verify-step-detail.md` had already cut item 3 from 5,705 bytes to 4,666 and item 8 from 5,954 to 3,993, and this page was not re-measured then; the 2026-08-18 pass then added 632 bytes across the nine, item 7 falling 12 and the other eight rising. Item 8 also lost `INV-61` from its own span on 2026-08-17, so its code set now carries seven codes rather than eight. Unlike the two notes above, this one changes the price-rank order, because these moves were not verbatim: six rows move. Item 3 takes rank 1 from item 8, which falls to rank 3; item 9 rises from 3 to 2; item 2 rises from 6 to 4; and spec-author's Terms and communicator's removal-accounting rows each fall one place, to 5 and 6. The combined price falls from 46,431 to 44,067. This changes an input the frozen plan reads — `.live-spec/culling-plan-v3-2026-08-10.md`, step R5, whose queue runs most-expensive-first — and this edit leaves that plan untouched.
+
 ## The price table, most expensive first
 
 | # | skill | home file : lines | opening line | body bytes | pinned tests | price |
 |---:|---|---|---|---:|---:|---:|
-| 1 | build-pipeline | `skills/build-pipeline/SKILL.md:404-470` | 8. **Verify by deed.** Run it and see the result with your own eyes. Only call it done/working af... | 5,954 | 32 | 5,986 |
-| 2 | build-pipeline | `skills/build-pipeline/SKILL.md:286-352` | 3. **Architecture — write or update `ARCHITECTURE.md` from the proven spec** (template: | 5,705 | 20 | 5,725 |
-| 3 | build-pipeline | `skills/build-pipeline/SKILL.md:471-500` | 9. **Commit & show.** Commit when green with no regression (unasked) — same or better is enough, ... | 4,028 | 14 | 4,042 |
-| 4 | spec-author | `skills/spec-author/references/the-spine.md:21-50` | 7. **Terms** — every domain term is defined in the glossary, once, under one name. A word of ordi... | 2,286 | 25 | 2,311 |
-| 5 | communicator | `skills/communicator/SKILL.md:469-489` | 6. **Account for every removal of substance (SPEC INV-109).** When the movement being reported re... | 2,292 | 7 | 2,299 |
-| 6 | build-pipeline | `skills/build-pipeline/SKILL.md:263-285` | 2. **Prove — invoke `product-prover`.** The prover only catches a cross-section hole when both si... | 2,230 | 7 | 2,237 |
-| 7 | build-pipeline | `skills/build-pipeline/SKILL.md:243-262` | 1. **Spec — invoke `spec-author`.** Write or grow the project `PRODUCT_SPEC.md`: entities, states... | 1,625 | 49 | 1,674 |
-| 8 | build-pipeline | `skills/build-pipeline/SKILL.md:364-380` | 5. **Test spec — invoke `test-author` to DERIVE `TEST_MATRIX.md` from the proven spec through the... | 1,466 | 10 | 1,476 |
+| 1 | build-pipeline | `skills/build-pipeline/SKILL.md:358-426` | 3. **Architecture — write or update `ARCHITECTURE.md` from the proven spec** (template: | 4,820 | 20 | 4,840 |
+| 2 | build-pipeline | `skills/build-pipeline/SKILL.md:538-593` | 9. **Commit & show.** Commit when green with no regression (unasked). Same or better is enough, and | 4,218 | 15 | 4,233 |
+| 3 | build-pipeline | `skills/build-pipeline/SKILL.md:484-537` | 8. **Verify by deed.** Run it and see the result with your own eyes. Only call it done/working af... | 4,043 | 33 | 4,076 |
+| 4 | build-pipeline | `skills/build-pipeline/SKILL.md:328-357` | 2. **Prove — invoke `product-prover`.** The prover only catches a cross-section hole when both sides | 2,332 | 7 | 2,339 |
+| 5 | spec-author | `skills/spec-author/references/the-spine.md:21-50` | 7. **Terms** — every domain term is defined in the glossary, once, under one name. A word of ordi... | 2,286 | 25 | 2,311 |
+| 6 | communicator | `skills/communicator/SKILL.md:469-489` | 6. **Account for every removal of substance (SPEC INV-109).** When the movement being reported re... | 2,292 | 7 | 2,299 |
+| 7 | build-pipeline | `skills/build-pipeline/SKILL.md:306-327` | 1. **Spec — invoke `spec-author`.** Write or grow the project `PRODUCT_SPEC.md`: entities, states... | 1,752 | 51 | 1,803 |
+| 8 | build-pipeline | `skills/build-pipeline/SKILL.md:440-458` | 5. **Test spec — invoke `test-author` to derive `TEST_MATRIX.md` from the proven spec through the | 1,473 | 9 | 1,482 |
 | 9 | text-audit | `skills/text-audit/SKILL.md:173-193` | 5. **Read again, and close on two clean rounds.** After the fixes land, hand the text to a fresh ... | 1,473 | 0 | 1,473 |
-| 10 | build-pipeline | `skills/build-pipeline/SKILL.md:385-403` | 7. **Code — implement until green.** Delegate well-scoped, mechanical implementation to a junior ... | 1,452 | 2 | 1,454 |
+| 10 | build-pipeline | `skills/build-pipeline/SKILL.md:464-483` | 7. **Code — implement until green.** Delegate well-scoped, mechanical implementation to a junior | 1,440 | 2 | 1,442 |
 | 11 | text-audit | `skills/text-audit/SKILL.md:152-169` | 3. **The auditor merges the two lists.** The auditor is the session running this skill, and the m... | 1,179 | 0 | 1,179 |
 | 12 | communicator | `skills/communicator/SKILL.md:459-467` | 4. **Run the register lint — a hard BLOCK (SPEC INV-83).** Feed every human-facing | 1,039 | 9 | 1,048 |
 | 13 | spec-author | `skills/spec-author/SKILL.md:193-202` | 1. **Author / grow the relevant requirement** in `PRODUCT_SPEC.md`: find (or open) the requiremen... | 1,044 | 3 | 1,047 |
-| 14 | build-pipeline | `skills/build-pipeline/SKILL.md:353-363` | 4. **Prove the architecture — invoke `product-prover` with the architecture lens** whenever the doc | 1,003 | 27 | 1,030 |
+| 14 | build-pipeline | `skills/build-pipeline/SKILL.md:427-439` | 4. **Prove the architecture — invoke `product-prover` with the architecture lens** whenever the doc | 1,012 | 28 | 1,040 |
 | 15 | test-author | `skills/test-author/SKILL.md:64-74` | 8. **Close by the mechanical gates, not a hand-walked list.** The coverage checklist the matrix once | 941 | 0 | 941 |
 | 16 | design-reviewer | `skills/design-reviewer/SKILL.md:204-215` | 3. **Every position behaves alike.** The same gesture on the same type in a different slot behave... | 859 | 7 | 866 |
 | 17 | design-reviewer | `skills/design-reviewer/SKILL.md:131-139` | 1. **Enumerate.** Build your own inventory of the elements. Use the prover's Phase 1 extraction h... | 751 | 9 | 760 |
@@ -59,7 +61,7 @@ This shape does not match every skill evenly. Three skills — `product-prover`,
 | 27 | test-author | `skills/test-author/SKILL.md:48-51` | 5. **Name the state space before filling cells.** Axes first: view states (mode, toggles), data | 374 | 0 | 374 |
 | 28 | spec-author | `skills/spec-author/references/the-spine.md:16-19` | 5. **Invariants** — the properties that must hold across *every* reachable state, stated as crite... | 373 | 0 | 373 |
 | 29 | text-audit | `skills/text-audit/SKILL.md:141-144` | 1. **Run the mechanical lints, and fix every hit.** Run every check that a script or a grep can d... | 361 | 0 | 361 |
-| 30 | build-pipeline | `skills/build-pipeline/SKILL.md:381-384` | 6. **Test — with `test-author`, write tests that assert the REAL shipped artifact.** Render the w... | 355 | 0 | 355 |
+| 30 | build-pipeline | `skills/build-pipeline/SKILL.md:459-463` | 6. **Test — with `test-author`, write tests that assert the real shipped artifact.** Render the | 360 | 0 | 360 |
 | 31 | communicator | `skills/communicator/SKILL.md:450-453` | 2. **Pass the draft phrase by phrase through one question:** *does this sentence stand for a read... | 344 | 0 | 344 |
 | 32 | communicator | `skills/communicator/SKILL.md:447-449` | 1. **Re-read the rules above, and the full writing register** — open this file and read the live ... | 340 | 0 | 340 |
 | 33 | spec-author | `skills/spec-author/SKILL.md:210-214` | 5. **Then walk the two layers to the tests** — the architecture doc (nodes owning the spec's facts, | 337 | 0 | 337 |
@@ -86,43 +88,55 @@ This shape does not match every skill evenly. Three skills — `product-prover`,
 
 ## Every rule, in full, in the same order
 
-### 1. build-pipeline — The steps, item 8
+### 1. build-pipeline — The steps, item 3
 
-Home: `skills/build-pipeline/SKILL.md:404-470`.
-
-Opening line, quoted in full: "8. **Verify by deed.** Run it and see the result with your own eyes. Only call it done/working after that;"
-
-Body bytes: 5,954, counted over `skills/build-pipeline/SKILL.md` lines 404-470 with `len(text.encode('utf-8'))`.
-
-Pinned tests: 32, from `grep -rlF '<code>' tests/` over each of this rule's own codes (INV-23, INV-45, INV-46, INV-61, INV-155, INV-237, INV-298, INV-299), files unioned across codes.
-
-Price: 5,954 body bytes plus 32 pinned tests = 5,986.
-
-### 2. build-pipeline — The steps, item 3
-
-Home: `skills/build-pipeline/SKILL.md:286-352`.
+Home: `skills/build-pipeline/SKILL.md:358-426`.
 
 Opening line, quoted in full: "3. **Architecture — write or update `ARCHITECTURE.md` from the proven spec** (template:"
 
-Body bytes: 5,705, counted over `skills/build-pipeline/SKILL.md` lines 286-352 with `len(text.encode('utf-8'))`.
+Body bytes: 4,820, counted over `skills/build-pipeline/SKILL.md` lines 358-426 with `len(text.encode('utf-8'))`.
 
 Pinned tests: 20, from `grep -rlF '<code>' tests/` over each of this rule's own codes (INV-36, INV-37, INV-41, INV-74, INV-75, INV-113, INV-122), files unioned across codes.
 
-Price: 5,705 body bytes plus 20 pinned tests = 5,725.
+Price: 4,820 body bytes plus 20 pinned tests = 4,840.
 
-### 3. build-pipeline — The steps, item 9
+### 2. build-pipeline — The steps, item 9
 
-Home: `skills/build-pipeline/SKILL.md:471-500`.
+Home: `skills/build-pipeline/SKILL.md:538-593`.
 
-Opening line, quoted in full: "9. **Commit & show.** Commit when green with no regression (unasked) — same or better is enough, never wait for perfect. Where the host has a remote, PUSH accepted work there by rule (SPEC INV-82): every gate the diff reaches ran and passed (the verdict read from the suite log's own line), plus the host's own push lines; the remote is discovered from the tree, and only a host with no remote gets one contextual question at the first push moment (create one — GitHub, GitLab, whatever the human names — or stay local, recorded in the host profile). Every push re-walks the README against the pushed truth — crisp and current, a stale claim fixed before the push (the shopfront law at every-push cadence). After the push the push step reads the remote gate's own verdict (the CI run the push triggered, one `gh run` read), and a red verdict is the pushing session's own immediate bug: fixed and re-pushed the same session before anything else, so the human never meets the red first in a GitHub email; a slow gate is watched to its verdict on the detached-work cadence (SPEC INV-106, INV-35). The human's personally named gates still wait for his word. Bump the version, PATCH by default; the number reports what taking the release costs a host, and the tier is read off that cost — a patch fixes a machine to hold a law already stated (the host does nothing), a minor grows what a host may adopt by re-running its catch-up walk with nothing rewritten, a major forces a host action and ships its dated MIGRATION.md chapter (base rule 32 / SPEC INV-217). The minor-versus-major call is a stated judgment the releasing session makes and names, held by no gate."
+Opening line, quoted in full: "9. **Commit & show.** Commit when green with no regression (unasked). Same or better is enough, and"
 
-Body bytes: 4,028, counted over `skills/build-pipeline/SKILL.md` lines 471-500 with `len(text.encode('utf-8'))`.
+Body bytes: 4,218, counted over `skills/build-pipeline/SKILL.md` lines 538-593 with `len(text.encode('utf-8'))`.
 
-Pinned tests: 14, from `grep -rlF '<code>' tests/` over each of this rule's own codes (E-18, INV-31, INV-35, INV-44, INV-70, INV-82, INV-106, INV-207, INV-217), files unioned across codes.
+Pinned tests: 15, from `grep -rlF '<code>' tests/` over each of this rule's own codes (E-18, INV-31, INV-35, INV-44, INV-70, INV-82, INV-106, INV-207, INV-217), files unioned across codes.
 
-Price: 4,028 body bytes plus 14 pinned tests = 4,042.
+Price: 4,218 body bytes plus 15 pinned tests = 4,233.
 
-### 4. spec-author — The spine — what every spec must contain (not its section order), item 7
+### 3. build-pipeline — The steps, item 8
+
+Home: `skills/build-pipeline/SKILL.md:484-537`.
+
+Opening line, quoted in full: "8. **Verify by deed.** Run it and see the result with your own eyes. Only call it done/working after that;"
+
+Body bytes: 4,043, counted over `skills/build-pipeline/SKILL.md` lines 484-537 with `len(text.encode('utf-8'))`.
+
+Pinned tests: 33, from `grep -rlF '<code>' tests/` over each of this rule's own codes (INV-23, INV-45, INV-46, INV-155, INV-237, INV-298, INV-299), files unioned across codes.
+
+Price: 4,043 body bytes plus 33 pinned tests = 4,076.
+
+### 4. build-pipeline — The steps, item 2
+
+Home: `skills/build-pipeline/SKILL.md:328-357`.
+
+Opening line, quoted in full: "2. **Prove — invoke `product-prover`.** The prover only catches a cross-section hole when both sides"
+
+Body bytes: 2,332, counted over `skills/build-pipeline/SKILL.md` lines 328-357 with `len(text.encode('utf-8'))`.
+
+Pinned tests: 7, from `grep -rlF '<code>' tests/` over each of this rule's own codes (INV-141, INV-142, INV-154), files unioned across codes.
+
+Price: 2,332 body bytes plus 7 pinned tests = 2,339.
+
+### 5. spec-author — The spine — what every spec must contain (not its section order), item 7
 
 Home: `skills/spec-author/references/the-spine.md:21-50`.
 
@@ -134,7 +148,7 @@ Pinned tests: 25, from `grep -rlF '<code>' tests/` over each of this rule's own 
 
 Price: 2,286 body bytes plus 25 pinned tests = 2,311.
 
-### 5. communicator — The pre-report walk — run before any movement-end or milestone report, and before any surface is shown (SPEC INV-34, INV-83), item 6
+### 6. communicator — The pre-report walk — run before any movement-end or milestone report, and before any surface is shown (SPEC INV-34, INV-83), item 6
 
 Home: `skills/communicator/SKILL.md:469-489`.
 
@@ -146,41 +160,29 @@ Pinned tests: 7, from `grep -rlF '<code>' tests/` over each of this rule's own c
 
 Price: 2,292 body bytes plus 7 pinned tests = 2,299.
 
-### 6. build-pipeline — The steps, item 2
-
-Home: `skills/build-pipeline/SKILL.md:263-285`.
-
-Opening line, quoted in full: "2. **Prove — invoke `product-prover`.** The prover only catches a cross-section hole when both sides are"
-
-Body bytes: 2,230, counted over `skills/build-pipeline/SKILL.md` lines 263-285 with `len(text.encode('utf-8'))`.
-
-Pinned tests: 7, from `grep -rlF '<code>' tests/` over each of this rule's own codes (INV-141, INV-142, INV-154), files unioned across codes.
-
-Price: 2,230 body bytes plus 7 pinned tests = 2,237.
-
 ### 7. build-pipeline — The steps, item 1
 
-Home: `skills/build-pipeline/SKILL.md:243-262`.
+Home: `skills/build-pipeline/SKILL.md:306-327`.
 
 Opening line, quoted in full: "1. **Spec — invoke `spec-author`.** Write or grow the project `PRODUCT_SPEC.md`: entities, states, transitions,"
 
-Body bytes: 1,625, counted over `skills/build-pipeline/SKILL.md` lines 243-262 with `len(text.encode('utf-8'))`.
+Body bytes: 1,752, counted over `skills/build-pipeline/SKILL.md` lines 306-327 with `len(text.encode('utf-8'))`.
 
-Pinned tests: 49, from `grep -rlF '<code>' tests/` over each of this rule's own codes (INV-18, INV-19, INV-20, INV-21, INV-29, INV-31, T-13, T-14), files unioned across codes.
+Pinned tests: 51, from `grep -rlF '<code>' tests/` over each of this rule's own codes (INV-18, INV-19, INV-20, INV-21, INV-29, INV-31, T-13, T-14), files unioned across codes.
 
-Price: 1,625 body bytes plus 49 pinned tests = 1,674.
+Price: 1,752 body bytes plus 51 pinned tests = 1,803.
 
 ### 8. build-pipeline — The steps, item 5
 
-Home: `skills/build-pipeline/SKILL.md:364-380`.
+Home: `skills/build-pipeline/SKILL.md:440-458`.
 
-Opening line, quoted in full: "5. **Test spec — invoke `test-author` to DERIVE `TEST_MATRIX.md` from the proven spec through the proven architecture (the method's one home, SPEC E-27).** The"
+Opening line, quoted in full: "5. **Test spec — invoke `test-author` to derive `TEST_MATRIX.md` from the proven spec through the"
 
-Body bytes: 1,466, counted over `skills/build-pipeline/SKILL.md` lines 364-380 with `len(text.encode('utf-8'))`.
+Body bytes: 1,473, counted over `skills/build-pipeline/SKILL.md` lines 440-458 with `len(text.encode('utf-8'))`.
 
-Pinned tests: 10, from `grep -rlF '<code>' tests/` over each of this rule's own codes (E-27, INV-6), files unioned across codes.
+Pinned tests: 9, from `grep -rlF '<code>' tests/` over each of this rule's own codes (E-27, INV-6), files unioned across codes.
 
-Price: 1,466 body bytes plus 10 pinned tests = 1,476.
+Price: 1,473 body bytes plus 9 pinned tests = 1,482.
 
 ### 9. text-audit — The loop, item 5
 
@@ -196,15 +198,15 @@ Price: 1,473 body bytes plus 0 pinned tests = 1,473.
 
 ### 10. build-pipeline — The steps, item 7
 
-Home: `skills/build-pipeline/SKILL.md:385-403`.
+Home: `skills/build-pipeline/SKILL.md:464-483`.
 
-Opening line, quoted in full: "7. **Code — implement until green.** Delegate well-scoped, mechanical implementation to a junior worker"
+Opening line, quoted in full: "7. **Code — implement until green.** Delegate well-scoped, mechanical implementation to a junior"
 
-Body bytes: 1,452, counted over `skills/build-pipeline/SKILL.md` lines 385-403 with `len(text.encode('utf-8'))`.
+Body bytes: 1,440, counted over `skills/build-pipeline/SKILL.md` lines 464-483 with `len(text.encode('utf-8'))`.
 
 Pinned tests: 2, from `grep -rlF '<code>' tests/` over each of this rule's own codes (INV-43, INV-62, INV-63), files unioned across codes.
 
-Price: 1,452 body bytes plus 2 pinned tests = 1,454.
+Price: 1,440 body bytes plus 2 pinned tests = 1,442.
 
 ### 11. text-audit — The loop, item 3
 
@@ -244,15 +246,15 @@ Price: 1,044 body bytes plus 3 pinned tests = 1,047.
 
 ### 14. build-pipeline — The steps, item 4
 
-Home: `skills/build-pipeline/SKILL.md:353-363`.
+Home: `skills/build-pipeline/SKILL.md:427-439`.
 
 Opening line, quoted in full: "4. **Prove the architecture — invoke `product-prover` with the architecture lens** whenever the doc"
 
-Body bytes: 1,003, counted over `skills/build-pipeline/SKILL.md` lines 353-363 with `len(text.encode('utf-8'))`.
+Body bytes: 1,012, counted over `skills/build-pipeline/SKILL.md` lines 427-439 with `len(text.encode('utf-8'))`.
 
-Pinned tests: 27, from `grep -rlF '<code>' tests/` over each of this rule's own codes (INV-41, INV-74, INV-75, INV-116, INV-279, M-1, M-6), files unioned across codes.
+Pinned tests: 28, from `grep -rlF '<code>' tests/` over each of this rule's own codes (INV-41, INV-74, INV-75, INV-116, INV-279, M-1, M-6), files unioned across codes.
 
-Price: 1,003 body bytes plus 27 pinned tests = 1,030.
+Price: 1,012 body bytes plus 28 pinned tests = 1,040.
 
 ### 15. test-author — Deriving the matrix (the pipeline's step 5), item 8
 
@@ -436,15 +438,15 @@ Price: 361 body bytes plus 0 pinned tests = 361.
 
 ### 30. build-pipeline — The steps, item 6
 
-Home: `skills/build-pipeline/SKILL.md:381-384`.
+Home: `skills/build-pipeline/SKILL.md:459-463`.
 
-Opening line, quoted in full: "6. **Test — with `test-author`, write tests that assert the REAL shipped artifact.** Render the widget / produce the file /"
+Opening line, quoted in full: "6. **Test — with `test-author`, write tests that assert the real shipped artifact.** Render the"
 
-Body bytes: 355, counted over `skills/build-pipeline/SKILL.md` lines 381-384 with `len(text.encode('utf-8'))`.
+Body bytes: 360, counted over `skills/build-pipeline/SKILL.md` lines 459-463 with `len(text.encode('utf-8'))`.
 
 Pinned tests: 0. This rule cites no SPEC code in its own text, so the search fell back to its lead-in phrase: `grep -rlF 'Test — with `test-author`, write tests that assert the REAL shipped artifact' tests/`.
 
-Price: 355 body bytes plus 0 pinned tests = 355.
+Price: 360 body bytes plus 0 pinned tests = 360.
 
 ### 31. communicator — The pre-report walk — run before any movement-end or milestone report, and before any surface is shown (SPEC INV-34, INV-83), item 2
 
