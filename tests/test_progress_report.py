@@ -168,7 +168,6 @@ class TestProgressReportShape(unittest.TestCase):
         self.assertEqual(measures, [
             "bytes", "lines", "words", "requirements", "acceptance criteria",
             "bytes per criterion", "pairs stating one fact twice",
-            "share of the byte ceiling used",
         ])
 
     def test_readings_table_has_its_stated_columns(self):
