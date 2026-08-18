@@ -25,9 +25,12 @@ THE SIX SECTIONS, in the fixed order this document always carries:
   5. Readings run so far: one row per file under `docs/language-reads/`.
   6. What no measure here covers: a short, fixed list of the holes, held in this script.
 
-Usage: python3 scripts/progress-report.py
-Writes docs/PROGRESS.md. Stdlib only.
+Usage: python3 scripts/progress-report.py [--out PATH]
+Writes docs/PROGRESS.md, or PATH when --out is given (a test-only escape hatch so the suite can
+point a run at a scratch file instead of the tracked page; the real regeneration road never
+passes it). Stdlib only.
 """
+import argparse
 import datetime
 import glob
 import importlib.util
@@ -500,7 +503,16 @@ def render(now, census_files, cap, cap_rule, spec_measure, baseline, ratchet_bou
     return "\n".join(out).rstrip() + "\n"
 
 
-def main():
+def parse_args(argv):
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--out", default=OUT_PATH,
+                         help="write here instead of docs/PROGRESS.md (test-only; the real "
+                              "regeneration road never passes this)")
+    return parser.parse_args(argv)
+
+
+def main(argv=None):
+    args = parse_args(argv)
     census_files, cap, cap_rule = load_rule_census()
     baseline = load_json(BASELINE_PATH)
     spec_measure = measure_spec()
@@ -517,9 +529,9 @@ def main():
     text = render(now, census_files, cap, cap_rule, spec_measure, baseline,
                    ratchet_bound, max_bytes, redundancy_open, debt_cap, reads, live_paths)
 
-    with open(OUT_PATH, "w", encoding="utf-8") as f:
+    with open(args.out, "w", encoding="utf-8") as f:
         f.write(text)
-    print("progress-report: wrote %s" % OUT_PATH)
+    print("progress-report: wrote %s" % args.out)
     return 0
 
 
