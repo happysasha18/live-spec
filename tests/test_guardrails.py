@@ -383,8 +383,13 @@ class TestGateB_Tests(unittest.TestCase):
         digest = self._skip_if_machinery_unchanged_since_green("test_real_content_passes")
         with tempfile.TemporaryDirectory() as tmp:
             scratch_tests = self._scratch_tests_dir(tmp)
+            # cwd=tmp, not the default ROOT: this script's own subprocess (a nested pytest run
+            # over the WHOLE scratch suite) inherits whatever directory launches it, and every
+            # test that scratch suite runs inherits that in turn. tmp owns nothing this repo
+            # tracks, so a test still relying on ambient cwd rather than its own tmpdir lands
+            # there instead of in the real, judged tree (the class d747bcd fixed, one layer down).
             result = run([os.path.join(GUARDRAILS, "check-tests.sh"), scratch_tests],
-                         extra_env={"LIVE_SPEC_SCRATCH": "1"})
+                         cwd=tmp, extra_env={"LIVE_SPEC_SCRATCH": "1"})
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             self.assertIn("OK (tests)", result.stdout)
         record_green_digest("test_real_content_passes", digest)
@@ -405,11 +410,96 @@ class TestGateB_Tests(unittest.TestCase):
             self.assertNotEqual(content, broken, "fixture edit did not match — test is stale")
             with open(target, "w", encoding="utf-8") as f:
                 f.write(broken)
+            # cwd=tmp — see test_real_content_passes for why the default ROOT is never it.
             result = run([os.path.join(GUARDRAILS, "check-tests.sh"), scratch_tests],
-                         extra_env={"LIVE_SPEC_SCRATCH": "1"})
+                         cwd=tmp, extra_env={"LIVE_SPEC_SCRATCH": "1"})
             self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
             self.assertIn("FAIL (tests)", result.stdout)
         record_green_digest("test_broken_suite_fails", digest)
+
+
+class TestCheckTestsShNeverTrustsTheCallersAmbientCwd(unittest.TestCase):
+    """The mechanism TestGateB_Tests' cwd=tmp fix (above) closes off, proved directly and
+    cheaply against guardrails/check-tests.sh itself, without paying for a full nested suite
+    run: 2026-08-18, three separate incidents in one day found a test running its work in the
+    tree under judgment instead of a directory of its own — a protected page rewritten
+    (d747bcd), tracked fixture files deleted at the repo root, and hundreds of scratch commits
+    landing on a pushed branch. All three share one mechanism — a script or test that trusts
+    whatever directory it happens to be launched from rather than one it owns.
+
+    check-tests.sh's old first line, `REPO_ROOT="$(git rev-parse --show-toplevel ...)"`, reads
+    the LAUNCHING process's ambient cwd — fine for the bare, no-argument call pre-push makes on
+    a real push, wrong the moment a caller (TestGateB_Tests among them) points this script at a
+    SCRATCH tests-dir while its own ambient cwd still sits inside the real, judged repo: the
+    script `cd`s back into that judged repo, and every test the scratch suite runs inherits it
+    as ITS OWN ambient cwd in turn. A scratch test that still writes to a bare relative path
+    lands in the judged repo, not the scratch tree — exactly the class of the second and third
+    incidents above, one layer down from where TestGateB_Tests already runs the real content.
+
+    Reproduced here without a full nested pytest run: a "judged" scratch git repo plays the
+    role of the real, checked-out tree; a one-file scratch tests-dir plays the role of
+    TestGateB_Tests' own scratch copy, and its planted test writes a sentinel at a bare relative
+    path — landing wherever the nested pytest process's actual ambient cwd is. Red-first: this
+    failed before check-tests.sh learned to derive REPO_ROOT from the given tests-dir's own
+    parent instead of the caller's ambient cwd (verified against a checkout of the pre-fix
+    script kept for this proof).
+    """
+
+    def _judged_repo(self, tmp):
+        """A throwaway git repo standing in for the real, checked-out tree a push judges."""
+        repo = os.path.join(tmp, "judged")
+        os.makedirs(repo)
+        run(["git", "init", "-q"], cwd=repo)
+        run(["git", "config", "user.email", "a@example.com"], cwd=repo)
+        run(["git", "config", "user.name", "a"], cwd=repo)
+        with open(os.path.join(repo, "f.txt"), "w", encoding="utf-8") as f:
+            f.write("tracked\n")
+        run(["git", "add", "-A"], cwd=repo)
+        run(["git", "commit", "-q", "-m", "seed"], cwd=repo)
+        return repo
+
+    def _scratch_tests(self, tmp):
+        """A minimal scratch tests-dir: one test that writes a sentinel at a bare relative
+        path — the same shape as any test that assumes its ambient cwd is safe to write in."""
+        tests_dir = os.path.join(tmp, "scratch", "repo", "tests")
+        os.makedirs(tests_dir)
+        with open(os.path.join(tests_dir, "test_sentinel.py"), "w", encoding="utf-8") as f:
+            f.write(
+                "def test_writes_a_sentinel_at_its_ambient_cwd():\n"
+                "    with open('AMBIENT_CWD_SENTINEL', 'w', encoding='utf-8') as fh:\n"
+                "        fh.write('x')\n"
+            )
+        return tests_dir
+
+    def test_a_scratch_run_launched_from_a_judged_repo_never_writes_into_it(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            judged = self._judged_repo(tmp)
+            before_head = run(["git", "rev-parse", "HEAD"], cwd=judged).stdout.strip()
+            scratch_tests = self._scratch_tests(tmp)
+
+            # The exact shape of the old bug: check-tests.sh launched with its OWN ambient cwd
+            # sitting inside a real, judged repo (mirroring what test_guardrails.py's run()
+            # used to do by defaulting to ROOT) — only its argument names the scratch tree.
+            result = subprocess.run(
+                [os.path.join(GUARDRAILS, "check-tests.sh"), scratch_tests],
+                cwd=judged, capture_output=True, text=True,
+                env=dict(os.environ, LIVE_SPEC_SCRATCH="1"),
+            )
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+            after_head = run(["git", "rev-parse", "HEAD"], cwd=judged).stdout.strip()
+            status = run(["git", "status", "--porcelain"], cwd=judged).stdout
+            leaked = os.path.isfile(os.path.join(judged, "AMBIENT_CWD_SENTINEL"))
+            self.assertFalse(
+                leaked,
+                "the scratch suite's nested pytest process inherited the judged repo as its "
+                "ambient cwd, and a planted test wrote into it: check-tests.sh leaked its "
+                "caller's directory into the scratch run instead of using the scratch "
+                "tests-dir's own parent"
+            )
+            self.assertEqual(before_head, after_head,
+                             "the judged repo gained a commit it never asked for")
+            self.assertEqual(status, "", "the judged repo's tree was left dirty:\n%s" % status)
 
 
 class TestGateE_PrototypeFence(unittest.TestCase):

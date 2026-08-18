@@ -21,13 +21,24 @@
 #   for testing this gate against a scratch fixture without touching the real suite)
 #   SCOPED_TEST_FILES (env, optional): newline-separated test file paths — run exactly these
 #   instead of the whole tests-dir.
+#
+# An explicit tests-dir names its OWN repo root as its parent directory, never the ambient
+# cwd's repo (tests/test_guardrails.py::TestGateB_Tests' scratch runs are the caller this
+# protects): a caller that launches this script from inside the real, judged tree while
+# pointing it at a scratch copy elsewhere must not have this script `cd` back into that judged
+# tree and hand it, as the nested pytest process's inherited cwd, to every test the scratch
+# copy runs — the same class of defect d747bcd fixed for docs/PROGRESS.md, one layer down.
 
 set -euo pipefail
 
-REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
+if [ -n "${1:-}" ]; then
+  TESTS_DIR="$1"
+  REPO_ROOT="$(cd "$(dirname "$TESTS_DIR")" && pwd)"
+else
+  REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
+  TESTS_DIR="tests"
+fi
 cd "$REPO_ROOT"
-
-TESTS_DIR="${1:-tests}"
 
 LOG="$(mktemp "${TMPDIR:-/tmp}/livespec-test-suite-log.XXXXXX")"
 cleanup() { rm -f "$LOG"; }
