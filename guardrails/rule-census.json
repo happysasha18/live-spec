@@ -3,7 +3,7 @@
   "cap_rule": "r08",
   "files": {
     "ARCHITECTURE.md": {
-      "bytes": 108339,
+      "bytes": 107774,
       "file": "ARCHITECTURE.md",
       "long": 0,
       "longest": 25,
@@ -49,17 +49,17 @@
       "total": 0
     },
     "PRODUCT_SPEC.md": {
-      "bytes": 703125,
+      "bytes": 50151,
       "file": "PRODUCT_SPEC.md",
-      "long": 1862,
+      "long": 130,
       "longest": 90,
       "reason": "2026-08-06: the work-board requirement (row 166, Requirement 309) took a third widening pass to 99 criteria; the added criteria are single-sentence rules past the 25-word cap, and style and register stand at zero.",
       "register": 0,
       "style": 0,
-      "total": 1862
+      "total": 130
     },
     "README.md": {
-      "bytes": 21896,
+      "bytes": 25877,
       "file": "README.md",
       "long": 4,
       "longest": 105,
@@ -86,7 +86,7 @@
       "total": 3
     },
     "TEST_MATRIX.md": {
-      "bytes": 484267,
+      "bytes": 484397,
       "file": "TEST_MATRIX.md",
       "long": 8,
       "longest": 46,
@@ -122,7 +122,7 @@
       "total": 3
     },
     "docs/PROGRESS.md": {
-      "bytes": 17736,
+      "bytes": 16271,
       "file": "docs/PROGRESS.md",
       "long": 0,
       "longest": 22,
@@ -1188,6 +1188,276 @@
       "register": 0,
       "style": 0,
       "total": 0
+    },
+    "spec/adopt-existing-project.md": {
+      "bytes": 2986,
+      "file": "spec/adopt-existing-project.md",
+      "long": 9,
+      "longest": 44,
+      "register": 0,
+      "style": 0,
+      "total": 9
+    },
+    "spec/agent-birth.md": {
+      "bytes": 2944,
+      "file": "spec/agent-birth.md",
+      "long": 7,
+      "longest": 49,
+      "register": 0,
+      "style": 0,
+      "total": 7
+    },
+    "spec/agent-identity.md": {
+      "bytes": 3521,
+      "file": "spec/agent-identity.md",
+      "long": 10,
+      "longest": 47,
+      "register": 0,
+      "style": 0,
+      "total": 10
+    },
+    "spec/agent-request.md": {
+      "bytes": 4758,
+      "file": "spec/agent-request.md",
+      "long": 12,
+      "longest": 44,
+      "register": 0,
+      "style": 0,
+      "total": 12
+    },
+    "spec/bug-priority-queue.md": {
+      "bytes": 4722,
+      "file": "spec/bug-priority-queue.md",
+      "long": 17,
+      "longest": 55,
+      "register": 0,
+      "style": 0,
+      "total": 17
+    },
+    "spec/customer-feedback.md": {
+      "bytes": 14026,
+      "file": "spec/customer-feedback.md",
+      "long": 40,
+      "longest": 62,
+      "register": 0,
+      "style": 0,
+      "total": 40
+    },
+    "spec/design-spec-review.md": {
+      "bytes": 81121,
+      "file": "spec/design-spec-review.md",
+      "long": 233,
+      "longest": 69,
+      "register": 0,
+      "style": 0,
+      "total": 233
+    },
+    "spec/doc-order-generated.md": {
+      "bytes": 66822,
+      "file": "spec/doc-order-generated.md",
+      "long": 189,
+      "longest": 52,
+      "register": 0,
+      "style": 0,
+      "total": 189
+    },
+    "spec/draft-sandbox.md": {
+      "bytes": 1690,
+      "file": "spec/draft-sandbox.md",
+      "long": 5,
+      "longest": 61,
+      "register": 0,
+      "style": 0,
+      "total": 5
+    },
+    "spec/engine-instance-pair.md": {
+      "bytes": 4083,
+      "file": "spec/engine-instance-pair.md",
+      "long": 12,
+      "longest": 46,
+      "register": 0,
+      "style": 0,
+      "total": 12
+    },
+    "spec/external-publish.md": {
+      "bytes": 1372,
+      "file": "spec/external-publish.md",
+      "long": 4,
+      "longest": 44,
+      "register": 0,
+      "style": 0,
+      "total": 4
+    },
+    "spec/fresh-start.md": {
+      "bytes": 3164,
+      "file": "spec/fresh-start.md",
+      "long": 2,
+      "longest": 34,
+      "register": 0,
+      "style": 0,
+      "total": 2
+    },
+    "spec/guardrails-freshness.md": {
+      "bytes": 86049,
+      "file": "spec/guardrails-freshness.md",
+      "long": 209,
+      "longest": 78,
+      "register": 0,
+      "style": 0,
+      "total": 209
+    },
+    "spec/internal-failure-log.md": {
+      "bytes": 11385,
+      "file": "spec/internal-failure-log.md",
+      "long": 32,
+      "longest": 66,
+      "register": 0,
+      "style": 0,
+      "total": 32
+    },
+    "spec/live-status-reporting.md": {
+      "bytes": 35764,
+      "file": "spec/live-status-reporting.md",
+      "long": 106,
+      "longest": 63,
+      "register": 0,
+      "style": 0,
+      "total": 106
+    },
+    "spec/owner-questions-drafts.md": {
+      "bytes": 16558,
+      "file": "spec/owner-questions-drafts.md",
+      "long": 49,
+      "longest": 57,
+      "register": 0,
+      "style": 0,
+      "total": 49
+    },
+    "spec/pack-upgrade.md": {
+      "bytes": 3055,
+      "file": "spec/pack-upgrade.md",
+      "long": 10,
+      "longest": 46,
+      "register": 0,
+      "style": 0,
+      "total": 10
+    },
+    "spec/parallel-lanes.md": {
+      "bytes": 27407,
+      "file": "spec/parallel-lanes.md",
+      "long": 82,
+      "longest": 69,
+      "register": 0,
+      "style": 0,
+      "total": 82
+    },
+    "spec/product-map.md": {
+      "bytes": 2582,
+      "file": "spec/product-map.md",
+      "long": 9,
+      "longest": 45,
+      "register": 0,
+      "style": 0,
+      "total": 9
+    },
+    "spec/project-setup-tuning.md": {
+      "bytes": 35538,
+      "file": "spec/project-setup-tuning.md",
+      "long": 82,
+      "longest": 56,
+      "register": 0,
+      "style": 0,
+      "total": 82
+    },
+    "spec/public-contract.md": {
+      "bytes": 4101,
+      "file": "spec/public-contract.md",
+      "long": 11,
+      "longest": 42,
+      "register": 0,
+      "style": 0,
+      "total": 11
+    },
+    "spec/public-text-rules.md": {
+      "bytes": 12184,
+      "file": "spec/public-text-rules.md",
+      "long": 38,
+      "longest": 66,
+      "register": 0,
+      "style": 0,
+      "total": 38
+    },
+    "spec/push-gate-milestone-audit.md": {
+      "bytes": 35811,
+      "file": "spec/push-gate-milestone-audit.md",
+      "long": 84,
+      "longest": 52,
+      "register": 0,
+      "style": 0,
+      "total": 84
+    },
+    "spec/queue-intake-priority.md": {
+      "bytes": 60851,
+      "file": "spec/queue-intake-priority.md",
+      "long": 185,
+      "longest": 60,
+      "register": 0,
+      "style": 0,
+      "total": 185
+    },
+    "spec/roles-and-agents.md": {
+      "bytes": 49665,
+      "file": "spec/roles-and-agents.md",
+      "long": 145,
+      "longest": 76,
+      "register": 0,
+      "style": 0,
+      "total": 145
+    },
+    "spec/settings-card.md": {
+      "bytes": 4356,
+      "file": "spec/settings-card.md",
+      "long": 11,
+      "longest": 52,
+      "register": 0,
+      "style": 0,
+      "total": 11
+    },
+    "spec/settings-layers.md": {
+      "bytes": 9802,
+      "file": "spec/settings-layers.md",
+      "long": 26,
+      "longest": 45,
+      "register": 0,
+      "style": 0,
+      "total": 26
+    },
+    "spec/test-honesty.md": {
+      "bytes": 21021,
+      "file": "spec/test-honesty.md",
+      "long": 74,
+      "longest": 59,
+      "register": 0,
+      "style": 0,
+      "total": 74
+    },
+    "spec/wish-intake.md": {
+      "bytes": 1374,
+      "file": "spec/wish-intake.md",
+      "long": 3,
+      "longest": 42,
+      "register": 0,
+      "style": 0,
+      "total": 3
+    },
+    "spec/work-board.md": {
+      "bytes": 19485,
+      "file": "spec/work-board.md",
+      "long": 36,
+      "longest": 46,
+      "register": 0,
+      "style": 0,
+      "total": 36
     },
     "templates/ARCHITECTURE.template.md": {
       "bytes": 12517,
