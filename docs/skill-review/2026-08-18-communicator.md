@@ -1,13 +1,21 @@
 # `SKILL-REVIEW` — communicator, the dedup-into-pointers pass
 
-Skill: communicator. Date: 2026-08-18. Range: 99050f5..HEAD.
+Skill: communicator. Date: 2026-08-18 (first pass), reworked 2026-08-18 (second pass).
+Range: 99050f5..HEAD.
+
+Verdict: ALLOW (second pass, after the fix in d432fca9 — see "Second pass" below). The first pass's
+REJECT and its findings stand as read; they are not erased, only closed.
 
 Commits of the range touching `skills/communicator/`:
 
     99050f5 Dedup surviving chat-law paraphrases into pointers
+    d432fca9 Restore the contrast-frame mechanism and name the personal profile
 
-Verdict: REJECT. One of the four trims silently drops the rule's mechanism instead of pointing at it,
-and both new pointers name a filename two files in this project share without saying which one.
+## First pass (2026-08-18, against 99050f5..HEAD before d432fca9) — REJECT
+
+First-pass verdict: REJECT. One of the four trims silently drops the rule's mechanism instead of
+pointing at it, and both new pointers name a filename two files in this project share without saying
+which one.
 
 ## What changed
 
@@ -69,3 +77,42 @@ Reviewer: read `git show 99050f5` in full, the complete current text of `skills/
 and `skills/communicator/references/writing-register.md`, `skills/live-spec-base/SKILL.md` rule 2,
 `.live-spec/profile.md` in full, and `~/.claude/playbook/personal/profile.md`'s `## Language` section
 directly on disk.
+
+## Second pass (2026-08-18, against d432fca9) — ALLOW
+
+Fix commit `d432fca9` closes both findings from the first pass:
+
+- **Finding 1 closed.** `SKILL.md`'s rule-15 bullet (line ~431) now reads: *"Never the contrast frame
+  (rule 15, ... — Home: personal profile `language.no-contrast-frame`). Never name a thing by denying
+  its neighbour (an em-dash or comma leading into the denied alternative, and the parallel Russian
+  shapes). Say what the thing IS in its own sentence. The linter's scissors check holds the floor..."*
+  — read directly on disk. The mechanism sentence is back verbatim, word-for-word identical to the
+  text that stood before 99050f5 (checked against `git show 99050f5` again). The section's own promise
+  ("a reader meets [these rules] even without loading the file", line 427) now holds again: a reader of
+  SKILL.md alone gets the shapes and the rewrite instruction, not just a pointer.
+- **Finding 2 closed.** Both pointers now read "Home: personal profile `language.no-contrast-frame`"
+  — checked in both `SKILL.md` (line 431) and `writing-register.md` (line 93), identical wording in
+  both files. This matches how the rest of the pack names that file (TEST_MATRIX M-233: "the law's
+  home named (personal profile ...)"), and disambiguates it from `.live-spec/profile.md`, the
+  in-repo host profile confirmed (again, directly, this pass) to carry no `language.*` keys. The key
+  name itself, `language.no-contrast-frame`, is the current one — verified directly against
+  `~/.claude/playbook/personal/profile.md`'s `## Language` section, which is where the law's own text
+  actually lives; M-233's `no-scissors` name is the law's retired name, so it was not copied verbatim,
+  only its "personal profile" framing was.
+
+No new findings on this pass. Checked: neither file gained an orphaned fragment or a grammar break
+from the fix (read both changed regions in full, not just the diff — `git diff HEAD~1` for
+`d432fca9` shows only the two additions, 5 insertions / 2 deletions total across both files); the
+calque pointer (finding 3, first pass) and the no-orphaned-fragments finding (finding 4, first pass)
+were untouched by this fix and still hold as read the first time.
+
+Byte counts (both files, whole-file `wc -c`, at each commit in the range):
+
+| file | before 99050f5 | after 99050f5 (first-pass state) | after d432fca9 (now) |
+|---|---|---|---|
+| `skills/communicator/SKILL.md` | 45,985 | 45,646 | 45,839 |
+| `skills/communicator/references/writing-register.md` | 10,478 | 10,212 | 10,216 |
+
+Verdict: ALLOW. Read for this pass: `git show d432fca9` in full, the complete current text of both
+files, and re-confirmed `.live-spec/profile.md` and `~/.claude/playbook/personal/profile.md` on disk
+unchanged since the first pass.
