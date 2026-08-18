@@ -2,11 +2,14 @@
 
 PUSH-REVIEW
 
-Range: 942b8cd2..59da3681
+Range: 942b8cd2..RANGE9
+- abd4246d Move the external product-prover pin off a canon that was red since Aug 13
+- 2fefd844 The record names the pushed range by its hash
+- 59da3681 The record carries the CI gate fix that stops turnarounds at the first red
 - beeb46e5 CI runs every gate in one pass instead of stopping at the first failure
-Files read: .github/workflows/gates.yml, guardrails/check-ci-mirror.sh, tests/test_ci_mirror.py, guardrails/pre-push
-Checks run: python3 -m pytest tests/test_ci_mirror.py -q — 13 passed; guardrails/check-ci-mirror.sh — OK (every local pre-push gate is mirrored in CI or a declared carve-out)
-Findings: gates.yml stopped at the first red gate, so one CI run told the owner about one problem at a time, and each round trip cost about nine minutes; the fix and its two risks are set out below
+Files read: .github/workflows/gates.yml, guardrails/check-ci-mirror.sh, tests/test_ci_mirror.py, guardrails/pre-push, skills/product-prover-pack/SKILL.md
+Checks run: python3 -m pytest tests/test_ci_mirror.py -q — 13 passed; guardrails/check-ci-mirror.sh — OK (every local pre-push gate is mirrored in CI or a declared carve-out); python3 -m pytest tests/test_prover_adapter_contract.py -q — 18 passed, 1 skipped; python3 -m pytest tests/test_config_health.py -q — 33 passed; python3 -m pytest tests/test_readme_stance.py -q — 5 passed; gh api repos/happysasha18/product-prover/commits/main and .../git/refs/tags/v1.3.1, read live, not taken on say-so
+Findings: gates.yml stopped at the first red gate, so one CI run told the owner about one problem at a time, and each round trip cost about nine minutes; the external product-prover pin also named a commit that had been red on its own CI since 2026-08-13, so gate b's proof rested on a canon that could not prove itself; both are set out below
 Blocking: none
 
 The owner's word: a red gate on GitHub should surface every finding in one run, not the first
@@ -55,3 +58,30 @@ made from this working copy; the coordinator pushes). The claim that the job sti
 a gate failure rests on GitHub Actions' documented step/job-conclusion semantics (a step failure
 without `continue-on-error` fails the job regardless of `if:` conditions on later steps), not on
 an observed red run in this repository's Actions tab.
+
+A second finding, direct consequence of the first: the "install the external product-prover
+canon" step that gate b's proof depends on was pinned, both `--ref` and `--expect-commit`, to
+`94d36454d55438951311d302fc86adba33123868` — a commit of happysasha18/product-prover that had
+been red on its own CI since 2026-08-13 (a stale `-standalone` version-format check in
+`scripts/validate.py`, left behind when 1.3.0 dropped the `-standalone` suffix and the check was
+never updated). Gate b's proof rested on a canon that could not prove itself. The coordinator
+named a replacement hash, `540914da05f77ec1ec98a75d3d9ba61ee5cfd3ab`, and asked that it be
+verified rather than trusted; verifying it (`gh api repos/happysasha18/product-prover/commits/main
+--jq '.sha'` and `gh api repos/happysasha18/product-prover/git/refs/tags/v1.3.1 --jq
+'.object.sha'`, cross-checked against the tag's own commit field) turned up a different hash,
+`540914d740e4f6178d1a69f324c43a0ae871e066` — the two strings diverge at the 8th character. Both
+`main` HEAD and the `v1.3.1` tag agree on `540914d740e4f6178d1a69f324c43a0ae871e066` live from
+the API, so that is the hash both `--ref` and `--expect-commit` now carry, not the one named in
+the message. `grep -rln "94d36454"` over the tree found the pin named nowhere else — one spot,
+now moved.
+
+Whether `skills/product-prover-pack/SKILL.md`'s `requires: product-prover >= 1.3.0` floor should
+rise to `>= 1.3.1`: no. Release 1.3.1's own log (`gh api
+repos/happysasha18/product-prover/compare/v1.3.0...v1.3.1`) shows it fixed the external
+repository's own CI — `scripts/validate.py` accepting a plain semantic version instead of
+demanding the retired `-standalone` suffix, `evals/sample-spec-rubric.json`'s key rename, and
+README/CHANGELOG housekeeping. None of that touches what the pack binding page depends on: the
+mode-name table, the pack paths, the record home and shape, or anything else
+`product-prover-pack/SKILL.md` reads from the prover's own SKILL.md. The floor stays at 1.3.0
+because nothing the pack binds to changed; raising it on the version number alone, with no
+functional reason, would be exactly the mistake the owner warned against.
