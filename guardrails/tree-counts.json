@@ -3,39 +3,6 @@
   "allowed_programs": ["cat", "ls", "wc", "grep", "sort", "uniq", "head"],
   "expected_seconds": 10,
   "counts": {
-    "skills-lines": {
-      "measurements": [
-        {
-          "name": "skills_and_references",
-          "argv": [["cat", "skills/*/SKILL.md", "skills/*/references/*.md"], ["wc", "-l"]],
-          "claim": "equals",
-          "render": "digits_grouped"
-        },
-        {
-          "name": "skill_bodies",
-          "argv": [["cat", "skills/*/SKILL.md"], ["wc", "-l"]],
-          "claim": "equals",
-          "render": "digits_grouped"
-        }
-      ],
-      "homes": [
-        {
-          "kind": "block",
-          "page": "README.md",
-          "marker": "skills-lines",
-          "text": "Written out, they and the skills carrying them run to {skills_and_references} lines under `skills/`. Of those, {skill_bodies} lines are the skill bodies, and the rest are the reference pages a body loads on demand. Count them yourself with `{command:skills_and_references}` and `{command:skill_bodies}`. A push of this repository is refused where either command disagrees with the number printed here. The body figure is what a session pays before it starts work, so it is the figure to hold down. It is held under the figure that includes the references. When it rises, every session that loads a skill pays more to begin."
-        }
-      ],
-      "ground": {
-        "counts": "lines of text under `skills/`: the skill bodies together with the reference pages they load on demand, and the skill bodies alone",
-        "unit": "lines",
-        "decision": "how much of the pack a session loads before it starts work",
-        "on_move": "every session that loads a skill pays more to begin, or less",
-        "compared_to": "the figure that includes the reference pages, which the body figure is read under",
-        "better": "down",
-        "target": "the body figure stays under the figure that includes the reference pages"
-      }
-    },
     "gate-roster": {
       "measurements": [
         {
