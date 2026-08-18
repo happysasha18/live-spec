@@ -2,7 +2,8 @@
 
 PUSH-REVIEW
 
-Range: 1a98b97c..RANGEPLACEHOLDER
+Range: 1a98b97c..266e7e7c
+- 266e7e7c The record carries the ratchet's clean refusal
 - abbb737 adopt/install-ratchet.sh: refuse cleanly when a gated doc doesn't exist yet
 Files read: adopt/install-ratchet.sh, adopt/install-scaffold.sh, guardrails.config.json, tests/test_ratchet_kit.py
 Findings: a rehearsal of tonight's walk caught this on its first minute, and today's repository identity was overwritten by a test fixture — both are set out below
