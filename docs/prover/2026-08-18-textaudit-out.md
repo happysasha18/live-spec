@@ -2,8 +2,9 @@
 
 PUSH-REVIEW
 
-Range: 63cfa511..9f11c3a3
+Range: 63cfa511..aa923a0a
 - 9f11c3a3 The record carries the skill's move to its own home
+- aa923a0a The record names the repairs the gates asked for
 - 02f63e4 Reviews and pins follow the extraction, and two long sentences come down
 - 80e7f07 The architecture pin and the adapter's own section follow the skill out
 - fe49396 Merge origin/main: the stale usage pin lands under the extraction
