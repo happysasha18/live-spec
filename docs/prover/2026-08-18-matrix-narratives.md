@@ -2,7 +2,8 @@
 
 PUSH-REVIEW
 
-Range: 7dbb9f7f..RANGEPLACEHOLDER
+Range: 7dbb9f7f..fa495dc3
+- fa495dc3 The record carries the narratives' move and its merge
 - 256641e The census follows the resolved merge
 - 67c46a5 Merge matrix/2026-08-18-narratives: guardrails incident stories leave the fact cells
 - 71b39c1 Move guardrails-node incident narratives out of TEST_MATRIX.md fact cells
