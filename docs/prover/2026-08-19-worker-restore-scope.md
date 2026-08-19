@@ -2,7 +2,8 @@
 
 PUSH-REVIEW
 
-Range: f6fa13a8..RANGEPLACEHOLDER
+Range: f6fa13a8..0bbcbd58
+- 0bbcbd58 Prover record for the worker-restore-scope range
 - c9672c0b TEST_MATRIX.md gains one row for the worker-restore gate's own-session scoping
 - c9e98308 Worker-restore gate: an unplaceable cwd now checks effective_dir before defaulting to own
 Files read: guardrails/check-worker-restore.py, guardrails/README.md, tests/test_worker_restore.py, ROADMAP.md, TEST_MATRIX.md, docs/test-matrix-format.md, docs/roadmap-format.md, scripts/build-matrix-reference.py, guardrails/check-matrix-reference.py, docs/prover/README.md
