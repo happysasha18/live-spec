@@ -323,6 +323,12 @@ if ! python3 "$GUARDRAILS/check-named-checks.py"; then
 fi
 
 echo ""
+echo "-- gate af: gate device manifest (guardrails/gates-manifest.json joins every gate's script, red proof and CI-mirror status from pre-push, gate-red-proofs.json and ci-mirror.json; it reds where a fresh build differs from the committed file, or where a gates.yml step's law sentence differs from the gate's own, SPEC INV-210/INV-212) --"
+if ! python3 "$GUARDRAILS/check-gates-manifest.py"; then
+  fail=1
+fi
+
+echo ""
 if [ "$fail" -ne 0 ]; then
   echo "PUSH BLOCKED — one or more gates above failed. Fix them and try again."
   exit 1
