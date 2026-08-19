@@ -2,7 +2,8 @@
 
 PUSH-REVIEW
 
-Range: f6fa13a8..RANGEPLACEHOLDER
+Range: f6fa13a8..5e7b3708
+- 5e7b3708 Prover record carries the push gate's two refusals and their repairs
 - 6bd15946 Skip the real-transcript worker-restore check inside a git-less tree
 - aa9a0ff9 Repair the register/style findings the new rows and paragraph added
 - fe78643a Prover record carries the counting-start move and its full 28-finding scope
