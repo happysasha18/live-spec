@@ -1,0 +1,99 @@
+"""Every row identifier in TEST_MATRIX.md and every row number in the ROADMAP system is unique
+across the whole tree, archive included (found 2026-08-19, a same-day merge collision).
+
+Two independent packages each picked their own "next free" TEST_MATRIX id and ROADMAP row number
+off the same shared ancestor, and the merge landed both: `M-547` and `M-548` each named two
+unrelated rows in TEST_MATRIX.md, and ROADMAP row `625` named one live row and one already-rotated
+archive row. Nothing textual conflicted — every line differs, so git merged clean — and
+`guardrails/check-matrix-reference.py` (gate d) passed at "540 of 540 rows scanned", because it
+checks the body against the generated Reference table, never that a row's own id is claimed once.
+No script anywhere held this law; it is stated here for the first time.
+
+This is a TEST under `tests/`, not a new push gate: the coordinator's word (2026-08-19) is that a
+duplicate id is real but rare enough, and cheap enough to repair by hand once caught, that the
+"one generated device home" gate af now demands (SPEC INV-210/INV-212: a manifest entry, a red
+proof, a CI-mirror step) is not owed for it. This test rides the ordinary suite instead.
+
+Red proven 2026-08-19: planting a second `| M-1 |` row in TEST_MATRIX.md made
+`test_every_matrix_id_is_unique` fail, naming `M-1` and both its line numbers; removing the plant
+passed it again. The same proof ran for a planted second `| 1 |` ROADMAP row.
+"""
+import glob
+import os
+import re
+import unittest
+
+from conftest import ROOT
+
+MATRIX = os.path.join(ROOT, "TEST_MATRIX.md")
+ROADMAP = os.path.join(ROOT, "ROADMAP.md")
+ARCHIVE_GLOB = os.path.join(ROOT, "docs", "queue-archive", "rotated-ROADMAP-*.md")
+
+MATRIX_ROW_RE = re.compile(r"(?m)^\|\s*(M-\d+)\s*\|")
+ROADMAP_ROW_RE = re.compile(r"(?m)^\|\s*(\d+)\s*\|")
+
+
+def _read(path):
+    with open(path, encoding="utf-8") as f:
+        return f.read()
+
+
+def _matrix_ids(text):
+    """(id, 1-based line number) for every body row TEST_MATRIX.md carries. The generated
+    `## Reference` table's own rows (`| Anchor | Rows |`) never match this pattern — an anchor
+    reads `INV-###`/`T-#`/etc, never `M-###` — so splitting the file at the heading is not needed."""
+    out = []
+    for lineno, line in enumerate(text.splitlines(), start=1):
+        m = MATRIX_ROW_RE.match(line)
+        if m:
+            out.append((m.group(1), lineno))
+    return out
+
+
+def _roadmap_ids(text, label):
+    """(id, "label:line") for every row line one ROADMAP-shaped document carries."""
+    out = []
+    for lineno, line in enumerate(text.splitlines(), start=1):
+        m = ROADMAP_ROW_RE.match(line)
+        if m:
+            out.append((m.group(1), "%s:%d" % (label, lineno)))
+    return out
+
+
+def _duplicates(pairs):
+    """{id: [locations]} for every id `pairs` names more than once."""
+    seen = {}
+    for ident, where in pairs:
+        seen.setdefault(ident, []).append(where)
+    return {k: v for k, v in seen.items() if len(v) > 1}
+
+
+class TestEveryMatrixRowIdIsUnique(unittest.TestCase):
+    def test_every_matrix_id_is_unique(self):
+        pairs = [("%s:%d" % (os.path.basename(MATRIX), lineno), ident)
+                 for ident, lineno in _matrix_ids(_read(MATRIX))]
+        # swap to (id, where) for _duplicates
+        pairs = [(ident, where) for where, ident in pairs]
+        dupes = _duplicates(pairs)
+        self.assertEqual(
+            dupes, {},
+            "TEST_MATRIX.md carries the same row id more than once — two rows claim one identifier "
+            "and a reader following either citation lands on whichever row sorts first: %s"
+            % dupes)
+
+
+class TestEveryRoadmapRowNumberIsUnique(unittest.TestCase):
+    def test_every_roadmap_row_number_is_unique(self):
+        pairs = _roadmap_ids(_read(ROADMAP), "ROADMAP.md")
+        for path in sorted(glob.glob(ARCHIVE_GLOB)):
+            pairs += _roadmap_ids(_read(path), os.path.basename(path))
+        dupes = _duplicates(pairs)
+        self.assertEqual(
+            dupes, {},
+            "a ROADMAP row number is claimed more than once across the live queue and its archives "
+            "— the nothing-lost, grepable-by-number law (base rule 10) breaks the moment two rows "
+            "answer one grep: %s" % dupes)
+
+
+if __name__ == "__main__":
+    unittest.main()
