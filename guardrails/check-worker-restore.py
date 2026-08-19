@@ -48,16 +48,29 @@ tlvphotos — its own session owns recovery and any repair — and live-spec hol
 Until 2026-08-18 the gate red on all of them alike, so a neighbour's command refused this package's
 own deliveries. The gate now REDS on this project's own sessions and carries a neighbour's finding as
 a notice. The key is the session's own recorded directory, the `cwd` the harness writes on every
-record. A session is a NEIGHBOUR's when that directory exists on disk right now and git reads it as a
-different repository: `git rev-parse --git-common-dir` run beside it answers a shared git directory
-that is not this file's own. Every worktree of this repository answers this repository's one shared
-git directory, so a lane worktree is this project's session wherever on disk it sits. The reading is
-fail-safe in the two cases a reader would ask about: a session whose directory is gone by scan time
-(a throwaway tree, a removed worktree) and a session git cannot place are both read as THIS
-project's and still red, because a gate that fell silent on what it could not place would lose the
-catch it exists for. A neighbour's finding is never dropped — it prints under its own heading with
-session, directory, command and outcome, so the notice this package sent tlvphotos on 2026-08-12 is
-still a notice a reader can write from this output. It reds nothing.
+record, checked first and alone: `git rev-parse --git-common-dir` run beside it answers a shared git
+directory, and a session is a NEIGHBOUR's when that directory exists on disk right now and the answer
+is a different repository from this file's own. Every worktree of this repository answers this
+repository's one shared git directory, so a lane worktree is this project's session wherever on disk
+it sits. The reading is fail-safe in the two cases a reader would ask about: a session whose directory
+is gone by scan time (a throwaway tree, a removed worktree) and a session git cannot place are both
+read as THIS project's and still red, because a gate that fell silent on what it could not place would
+lose the catch it exists for.
+
+The `cwd` is a session-wide field, though, and a session can run more than one command from more than
+one directory once a `cd` moves it — a worker whose recorded `cwd` sits nowhere any repository claims
+(an owner's home directory, say, the launch point rather than a checkout) can still `cd` into a real
+neighbouring project and run a forbidden command there. Since 2026-08-19 that case gets one further
+look, and ONLY that case: when the key itself answers nothing (`cwd` unplaceable), the gate also asks
+where the one command actually ran — `effective_dir`, the directory `classify` already walks any `cd`
+to and already prints as `ran in` — and if THAT directory exists on disk and git places it in a
+different, nameable repository, the command is that neighbour's, not this project's, on the same
+fail-safe terms as the `cwd` check above. A `cwd` the key CAN place is never second-guessed this way,
+and an `effective_dir` that is itself UNKNOWN, gone from disk, unplaceable, or that lands back in this
+project's own repository (a sibling worktree among them) leaves the fail-safe default exactly where it
+stood before: still THIS project's, still red. A neighbour's finding is never dropped — it prints
+under its own heading with session, directory, command and outcome, so the notice this package sent
+tlvphotos on 2026-08-12 is still a notice a reader can write from this output. It reds nothing.
 
 WHAT THE SHELL ANSWERED. Every `tool_use` block carries an `id`, and the shell's answer to that call
 sits in the same file: a later record holding a `tool_result` block whose `tool_use_id` repeats it. A
@@ -160,6 +173,27 @@ guardrails/rule-census.json` in this repository's own tree. A declined attempt r
 so either one turns a finished incident into a red no future run can clear, which is the one thing
 the counting start exists to prevent.
 
+The start moved again on 2026-08-19, from `2026-08-12T06:06:00Z` to `2026-08-18T21:48:00Z`, to carry
+TWENTY-EIGHT recorded findings as history — not the twelve first found. This project's own sessions
+handed a shell a discarding command twelve times on 2026-08-18 alone, across `live-spec-dt/wt`,
+`live-spec-split/wt` (eight of the twelve), `live-spec-morning/wt`, and `live-spec-cull2/wt` (the
+latest, a DECLINED attempt at 2026-08-18T21:47:11Z) — but every one of those twelve is stamped before
+that same latest timestamp, and so is every one of sixteen more the full history read turned up: six
+on 2026-08-13, one on 2026-08-15 (`ran in: UNKNOWN`, the fail-safe default's own proof case, reddening
+exactly as its law says it must), five on 2026-08-17, four more on 2026-08-18 in worktrees never named
+by the first pass. No date sits between the twelve and the sixteen, so a move that carries one group
+carries the other; all twenty-eight stand as history, named in full and recorded in `DECISIONS.md`
+(2026-08-19) and `ROADMAP.md` row 624, one minute past the latest and no further than that requires.
+This move corrects no misread outcome and repairs no habit — it is the same act row 598's finding
+earned, applied at more than twenty times the size, and DECISIONS.md also names the second thing this
+read found: the same red had already surfaced three times since 2026-08-05 in prover records that
+called it "environmental" and moved on, the informal habit that let most of the twenty-eight go
+unrecorded for as long as six days. The habit that produced the findings themselves (a worker hiding a
+file's or the tree's uncommitted state behind a git command to prove a before-and-after, instead of
+reading and holding its bytes) is not fixed by this move and was never going to be: row 624 stays open
+on that, for a hook — already built as a separate package, not yet installed on this machine — that
+refuses the five forms at the moment they reach a shell.
+
 THE STAND-DOWN. When the transcript root does not exist, this host keeps no transcripts where the
 gate looks. The gate stands down, says so by name, and exits 0 — a stated stand-down rather than a
 silent pass. When the root DOES exist but holds no worker-run transcript at all, the layout the gate
@@ -221,7 +255,33 @@ RUN_GLOB = os.path.join("*", "*", "subagents", "agent-*.jsonl")
 # 2026-07-28 — that declined attempt, and one that ran in this repo's own tree on 2026-07-28T21:12:39Z
 # — and a declined attempt reds like any other, so the earlier value turns two finished incidents into
 # a permanent red and the 06:06 start stays.
-COUNTING_FROM = "2026-08-12T06:06:00Z"
+#
+# Moved from 2026-08-12T06:06:00Z to 2026-08-18T21:48:00Z on 2026-08-19, to carry TWENTY-EIGHT
+# findings as history, not twelve. The first pass found twelve — this project's own sessions handed a
+# shell a discarding command twelve times on 2026-08-18, across live-spec-dt/wt, live-spec-split/wt
+# (eight, one a `git stash push -- tests/test_spec_parts.py` run by an agent whose own brief forbade
+# changing files, one minute before a second agent in that same worktree committed real work to that
+# identical file), live-spec-morning/wt, and live-spec-cull2/wt (a DECLINED attempt at
+# 2026-08-18T21:47:11Z — a declined attempt reds like any other). Every one of those twelve is stamped
+# before the latest of them, and a full read of the history since the old start
+# (`--all --counting-from 2026-08-12T06:06:00Z`) found sixteen MORE, every one of them also stamped
+# before that same latest timestamp: six on 2026-08-13, one on 2026-08-15 (`ran in: UNKNOWN` — the one
+# case this file's own `classify` cannot place at all, the fail-safe default's proof case, reddening
+# exactly as its own law requires), five on 2026-08-17, and four more on 2026-08-18 in worktrees the
+# first pass never named. No date separates the twelve from the sixteen — moving the start past the
+# latest of the twelve necessarily moves it past all sixteen too — so the start carries all
+# twenty-eight or none, and it carries all twenty-eight. All twenty-eight are named in full in both of
+# the law's own homes before the start moves past them: DECISIONS.md (2026-08-19) and ROADMAP.md row
+# 624, which also names the second thing this read found — this same red had already surfaced three
+# times since 2026-08-05 in prover records that called it "environmental" and moved on without tracing
+# it, the informal habit that let sixteen of the twenty-eight sit unrecorded. The move does not repair
+# the habit that produced any of them — nothing today stops a worker from handing a shell one of these
+# five forms in the first place, only this gate's after-the-fact transcript read. A hook that refuses
+# the five forms at the moment of handing is built as a separate package but not yet installed on this
+# machine (the owner's own act), and row 624 stays open until it is. The new start is one minute past
+# the latest of the twenty-eight and no further than that — no narrower value exists that carries the
+# twelve without also carrying the sixteen.
+COUNTING_FROM = "2026-08-18T21:48:00Z"
 
 # What the shell did with a command the gate found. All three red; they differ in the recovery they
 # leave, and the findings print in this order — the executed ones first, the ones the transcript
@@ -739,25 +799,48 @@ def own_repo():
     return _OWN_REPO[0]
 
 
-def is_own_session(cwd, cache=None):
+def _cached_git_common_dir(directory, cache):
+    """`_git_common_dir(directory)`, memoized in `cache` (a dict keyed by directory) when given one."""
+    if cache is not None and directory in cache:
+        return cache[directory]
+    result = _git_common_dir(directory)
+    if cache is not None:
+        cache[directory] = result
+    return result
+
+
+def is_own_session(cwd, cache=None, effective_dir=None):
     """True when a session recording `cwd` belongs to THIS project.
 
-    False only for a session the gate can PLACE in another repository: its directory is on disk and
-    git answers a shared git directory that is not this project's. Everything else — an unrecorded
-    cwd, a directory gone by scan time, a directory git cannot place, a gate whose own file sits in
-    no repository — reads True, so narrowing the scope never loses a finding the gate cannot rule
-    out.
+    `cwd` — the session's own recorded directory — is the law's key, checked first and alone: a
+    directory on disk that git answers with a shared git directory other than this project's makes
+    the session a neighbour's, full stop, whatever `effective_dir` says.
+
+    Only when `cwd` itself is UNPLACEABLE (unrecorded, gone from disk, or no repository at all —
+    the key answers nothing) does `effective_dir` get one further look: the directory a single
+    command actually ran in, once `classify` has walked any `cd` in its way. When that directory
+    exists on disk right now and git places it in a different, nameable repository, the command is
+    that neighbour's and the finding is carried as a notice rather than reddening — the case a
+    session recorded from an unplaceable directory (an owner's home directory, say) while a command
+    inside it `cd`ed into a real neighbouring checkout.
+
+    This narrows nothing the key itself decided, and only ever narrows toward NOT calling something
+    foreign that the key could not place: an `effective_dir` that is itself UNKNOWN, gone from disk,
+    unplaceable, or that lands back in this project's own repository leaves the fail-safe default
+    standing exactly as it did before this clause existed — a worker that hid a `cd` behind an
+    unreadable variable, or that never `cd`ed at all, stays caught.
     """
     own = own_repo()
     if own is None or not cwd:
         return True
-    if cache is not None and cwd in cache:
-        return cache[cwd]
-    other = _git_common_dir(cwd)
-    verdict = other is None or other == own
-    if cache is not None:
-        cache[cwd] = verdict
-    return verdict
+    other = _cached_git_common_dir(cwd, cache)
+    if other is not None:
+        return other == own
+    if effective_dir:
+        elsewhere = _cached_git_common_dir(effective_dir, cache)
+        if elsewhere is not None and elsewhere != own:
+            return False
+    return True
 
 
 def _bash_commands(path):
@@ -880,7 +963,7 @@ def scan(paths):
                 "effective_dir": hit.get("effective_dir"),
                 "outcome": outcome,
                 "outcome_detail": detail,
-                "own": is_own_session(cwd, session_cache),
+                "own": is_own_session(cwd, session_cache, hit.get("effective_dir")),
             })
     return findings, commands_read
 

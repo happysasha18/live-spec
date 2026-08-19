@@ -198,6 +198,33 @@ def _repo(tmp_path, name="worktree"):
     return repo
 
 
+def _gate_stands_in_a_repository():
+    """Whether the gate's own copy has a repository to read its project key from.
+
+    Gate b's meta-run copies this tree to a temp directory with no repository beside it (deliberately
+    git-less, tests/test_guardrails.py::TestGateB_Tests._scratch_ignore). There the gate can place no
+    session anywhere, so by design it keeps every finding — including a REAL neighbour's, since there
+    is no "this project" left to compare a session's directory against. The fail-safe itself is proven
+    by `test_a_session_in_no_repository_at_all_still_reds`, which needs no repository."""
+    proc = subprocess.run(["git", "-C", os.path.join(ROOT, "guardrails"),
+                           "rev-parse", "--git-common-dir"], capture_output=True, text=True)
+    return proc.returncode == 0
+
+
+def _skip_unless_gate_has_a_repository():
+    """Skip a test that asserts a clean verdict over the real machine's transcripts: inside gate b's
+    git-less scratch copy, is_own_session's fail-safe reads every session as this project's own,
+    which turns a genuine neighbour's finding (a real other repository's session) into a false red
+    this copy cannot avoid and this test cannot tell apart from a true one (found 2026-08-19, push
+    log: session c3d36407-8158-4c4a-ad85-409cb2c237bc, exhibition-engine-integrate, already carried
+    as a NOTICE in the real tree, reddened only inside the scratch copy)."""
+    if not _gate_stands_in_a_repository():
+        pytest.skip("this tree carries no repository beside the gate (gate b's meta-run copies it to "
+                    "a temp directory), so the gate holds no project key, reads every session as this "
+                    "project's own by design, and a real neighbour's finding reds here though it is "
+                    "not this project's defect")
+
+
 class TestGateRedsOnADiscardingCommand:
 
     def test_the_lived_case_reds_and_names_its_path(self, tmp_path):
@@ -485,6 +512,16 @@ class TestTheGateJudgesThisProjectsOwnSessions:
     The narrowing is fail-safe: a session the gate cannot PLACE in another repository — a directory
     gone by scan time, a directory that is no repository at all — still reds, because row 598's
     catch and row 605's must both survive a change of scope.
+
+    Narrowed again 2026-08-19: `cwd` is a session-WIDE field, and an owner's launch directory (a home
+    directory, unplaceable in any repository) is not itself evidence the command that actually ran
+    belongs to this project — the command may have `cd`ed into a real neighbouring checkout. When
+    `cwd` alone answers nothing, the gate takes one further look at `effective_dir` — the directory
+    `classify` already computed and already prints as `ran in` — and only reads the finding as a
+    neighbour's when THAT places cleanly in a different, nameable repository. The refinement fires
+    only where the `cwd` key was silent; it never overrides a `cwd` the key could place, and an
+    `effective_dir` that is itself UNKNOWN or lands back in this project's own repository (a sibling
+    lane worktree among them) leaves the fail-safe exactly where it stood.
     """
 
     COMMAND = "git checkout -- engine/assets/exhibition.js"
@@ -497,23 +534,13 @@ class TestTheGateJudgesThisProjectsOwnSessions:
         subprocess.run(["git", "init", "-q", str(repo)], check=True, capture_output=True)
         return repo
 
-    @staticmethod
-    def _gate_stands_in_a_repository():
-        """Whether the gate's own copy has a repository to read its project key from.
-
-        Gate b's meta-run copies this tree to a temp directory with no repository beside it. There
-        the gate can place no session anywhere, so by design it keeps every finding and the two
-        neighbour cases below have nothing to read. The fail-safe itself is proven by
-        `test_a_session_in_no_repository_at_all_still_reds`, which needs no repository."""
-        proc = subprocess.run(["git", "-C", os.path.join(ROOT, "guardrails"),
-                               "rev-parse", "--git-common-dir"], capture_output=True, text=True)
-        return proc.returncode == 0
+    _gate_stands_in_a_repository = staticmethod(_gate_stands_in_a_repository)
 
     def _needs_a_repository(self):
-        if not self._gate_stands_in_a_repository():
-            pytest.skip("this tree carries no repository beside the gate (gate b's meta-run copies "
-                        "it to a temp directory), so the gate holds no project key and keeps every "
-                        "finding by design")
+        """The two neighbour-classification cases below have nothing to read without a project key —
+        the shared module-level skip names the same reason `test_the_gate_runs_against_this_machines_
+        own_transcripts` now checks for itself, so the two live under one wording (see that helper)."""
+        _skip_unless_gate_has_a_repository()
 
     @staticmethod
     def _typed_lines(res):
@@ -586,6 +613,69 @@ class TestTheGateJudgesThisProjectsOwnSessions:
                                    answers=["ran"])
         res = _gate("--root", root)
         assert res.returncode == 1, res.stdout
+
+    def test_an_unplaceable_cwd_with_a_neighbours_effective_dir_reds_nothing(self, tmp_path):
+        """The shape that reached this gate on 2026-08-19: the session's recorded `cwd` is the
+        owner's home directory, which no repository claims, but the command itself `cd`ed into a real
+        neighbouring checkout before it ran. `cwd` alone answers nothing, so `effective_dir` gets the
+        one further look the narrowing above describes, and places the command with its own project."""
+        self._needs_a_repository()
+        home = tmp_path / "home"  # unplaceable: exists, but no repository claims it
+        home.mkdir()
+        foreign = self._foreign_repo(tmp_path)
+        root, _ = _transcript_root(
+            tmp_path / "transcripts",
+            ["cd %s && %s" % (foreign, self.COMMAND)],
+            project="-home", session="s-home-cd-foreign", cwd=str(home), answers=["ran"])
+        res = _gate("--root", root)
+        assert res.returncode == 0, (
+            "an unplaceable cwd whose command actually ran in a neighbour's checkout still refused "
+            "this project's delivery:\n%s" % res.stdout)
+        assert "ANOTHER PROJECT'S SESSIONS" in res.stdout, (
+            "the finding was dropped instead of carried as a neighbour's notice:\n%s" % res.stdout)
+        assert str(foreign) in res.stdout
+
+    def test_an_unplaceable_cwd_with_an_unknown_effective_dir_still_reds(self, tmp_path):
+        """The same unplaceable `cwd`, but the command's own `cd` target cannot be read statically
+        (an unassigned variable). `effective_dir` is UNKNOWN, so the one further look finds nothing to
+        narrow with and the fail-safe default stands exactly as before: a worker that hid a `cd`
+        behind an unreadable variable stays caught, never downgraded to a neighbour's."""
+        home = tmp_path / "home"
+        home.mkdir()
+        root, _ = _transcript_root(
+            tmp_path / "transcripts",
+            ['cd "$DIR" && %s' % self.COMMAND],
+            project="-home", session="s-home-cd-unknown", cwd=str(home), answers=["ran"])
+        res = _gate("--root", root)
+        assert res.returncode == 1, (
+            "an unplaceable cwd with an UNKNOWN effective_dir stopped reding — unknown was read as "
+            "foreign, which loses the catch:\n%s" % res.stdout)
+        assert "ANOTHER PROJECT'S SESSIONS" not in res.stdout
+
+    def test_an_unplaceable_cwd_with_effective_dir_in_a_sibling_worktree_still_reds(self, tmp_path):
+        """The trap this narrowing must not fall into: a sibling worktree of THIS project answers
+        this repository's own shared git directory, so a command that `cd`ed there from an unplaceable
+        `cwd` is still this project's own session and still reds, exactly as a lane worktree always
+        has."""
+        self._needs_a_repository()
+        lane = tmp_path / "sibling-lane"
+        subprocess.run(["git", "-C", ROOT, "worktree", "add", "--detach", str(lane)],
+                       check=True, capture_output=True, text=True)
+        try:
+            home = tmp_path / "home"
+            home.mkdir()
+            root, _ = _transcript_root(
+                tmp_path / "transcripts",
+                ["cd %s && %s" % (lane, self.COMMAND)],
+                project="-home", session="s-home-cd-sibling", cwd=str(home), answers=["ran"])
+            res = _gate("--root", root)
+            assert res.returncode == 1, (
+                "a sibling worktree of this project's own repository was read as a neighbour's, "
+                "which is the trap this narrowing must not fall into:\n%s" % res.stdout)
+            assert "ANOTHER PROJECT'S SESSIONS" not in res.stdout
+        finally:
+            subprocess.run(["git", "-C", ROOT, "worktree", "remove", "--force", str(lane)],
+                           capture_output=True, text=True)
 
     def test_every_verdict_says_whose_sessions_it_judged(self, tmp_path):
         """A scope a reader cannot see is a scope that drifts, so both verdicts state it."""
@@ -753,7 +843,14 @@ class TestTheGateIsArmedWhereItSaysItIs:
 
     def test_the_gate_runs_against_this_machines_own_transcripts(self):
         """The real root, the session's own window. A host that keeps no transcripts where the gate
-        looks stands down by name; a host that keeps them gets a verdict over real worker runs."""
+        looks stands down by name; a host that keeps them gets a verdict over real worker runs.
+
+        Needs a repository for the same reason TestTheGateJudgesThisProjectsOwnSessions's neighbour
+        cases do: inside gate b's git-less scratch copy the gate can place no session anywhere, so a
+        real neighbour's finding (a different, unrelated repository's own session) reds here as if it
+        were this project's own, which is not a violation this copy — or this test — can tell from a
+        true one (found 2026-08-19, push log)."""
+        _skip_unless_gate_has_a_repository()
         res = _gate("--since-hours", "24", counting_from=None)
         assert res.returncode == 0, (
             "a worker run since the counting start discarded working-tree changes:\n%s" % res.stdout)
