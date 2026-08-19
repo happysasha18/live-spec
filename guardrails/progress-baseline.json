@@ -122,9 +122,8 @@
       },
       {
         "number": 4,
-        "title": "The text-audit skill and the four documents it points at",
+        "title": "The four documents behind the language rules (text-audit itself moved to its own repository, 2026-08-18 — skills/text-audit-pack/SKILL.md is the thin adapter left behind, measured below among the remaining live documents)",
         "members": [
-          "skills/text-audit/SKILL.md",
           "docs/language-rules.md",
           "docs/spec-style.md",
           "docs/spec-format.md",
@@ -149,12 +148,11 @@
       },
       {
         "number": 7,
-        "title": "The remaining seven skills",
+        "title": "The remaining six skills (product-prover moved to its own repository, 2026-08-13 — skills/product-prover-pack/SKILL.md is the thin adapter left behind, measured below among the remaining live documents)",
         "members": [
           "skills/design-reviewer/SKILL.md",
           "skills/feedback-collector/SKILL.md",
           "skills/feedback-intake/SKILL.md",
-          "skills/product-prover/SKILL.md",
           "skills/publish/SKILL.md",
           "skills/spec-author/SKILL.md",
           "skills/test-author/SKILL.md"

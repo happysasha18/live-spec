@@ -420,7 +420,7 @@ NOTES = [
 "because a style finding is repaired differently from a long sentence. Target: zero.",
 "",
 "**readings** — how many fresh readers have read this file. A reader holds no project access: only the "
-"file and one fixed list of questions, at `skills/text-audit/references/reader-prompt.md`. Each reading "
+"file and one fixed list of questions, at `docs/briefs/reader-prompt.md`. Each reading "
 "writes a dated record under `docs/language-reads/`. Target: the count rises until two readers of one "
 "round agree on nothing.",
 "",
