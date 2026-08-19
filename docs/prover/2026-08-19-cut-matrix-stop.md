@@ -2,8 +2,10 @@
 
 PUSH-REVIEW
 
-Range: 3447b66..e1b57af6 (re-ranged onto the merged origin/main; the row this record covers
-moved from id 625 to id 750 in the merge, and the range below carries both the merge and that move)
+Range: 38a2ae3..e8417655 (re-ranged a second time, origin/main having moved again mid-review;
+the row this record covers moved from id 625 to id 750 in the first re-merge, and the range below
+carries both merges and that move)
+- e8417655 Merge remote-tracking branch 'origin/main' into fix/2026-08-19-cut-matrix
 - e1b57af6 ROADMAP row 750: fix style-lint findings the merge's renumber left in place
 - 7adcfbd9 Merge remote-tracking branch 'origin/main' into fix/2026-08-19-cut-matrix
 - 37f95fcb Merge remote-tracking branch 'origin/main' into fix/2026-08-19-cut-matrix
