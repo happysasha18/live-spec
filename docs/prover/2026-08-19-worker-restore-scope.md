@@ -2,7 +2,8 @@
 
 PUSH-REVIEW
 
-Range: f6fa13a8..RANGEPLACEHOLDER
+Range: f6fa13a8..fe78643a
+- fe78643a Prover record carries the counting-start move and its full 28-finding scope
 - 0b88ffbf Worker-restore counting start moves to 2026-08-18T21:48:00Z, carrying 28 findings
 - 354bbb04 The record names the pushed range by its hash
 - 0bbcbd58 Prover record for the worker-restore-scope range
