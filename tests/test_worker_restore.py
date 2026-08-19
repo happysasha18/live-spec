@@ -485,6 +485,16 @@ class TestTheGateJudgesThisProjectsOwnSessions:
     The narrowing is fail-safe: a session the gate cannot PLACE in another repository — a directory
     gone by scan time, a directory that is no repository at all — still reds, because row 598's
     catch and row 605's must both survive a change of scope.
+
+    Narrowed again 2026-08-19: `cwd` is a session-WIDE field, and an owner's launch directory (a home
+    directory, unplaceable in any repository) is not itself evidence the command that actually ran
+    belongs to this project — the command may have `cd`ed into a real neighbouring checkout. When
+    `cwd` alone answers nothing, the gate takes one further look at `effective_dir` — the directory
+    `classify` already computed and already prints as `ran in` — and only reads the finding as a
+    neighbour's when THAT places cleanly in a different, nameable repository. The refinement fires
+    only where the `cwd` key was silent; it never overrides a `cwd` the key could place, and an
+    `effective_dir` that is itself UNKNOWN or lands back in this project's own repository (a sibling
+    lane worktree among them) leaves the fail-safe exactly where it stood.
     """
 
     COMMAND = "git checkout -- engine/assets/exhibition.js"
@@ -586,6 +596,69 @@ class TestTheGateJudgesThisProjectsOwnSessions:
                                    answers=["ran"])
         res = _gate("--root", root)
         assert res.returncode == 1, res.stdout
+
+    def test_an_unplaceable_cwd_with_a_neighbours_effective_dir_reds_nothing(self, tmp_path):
+        """The shape that reached this gate on 2026-08-19: the session's recorded `cwd` is the
+        owner's home directory, which no repository claims, but the command itself `cd`ed into a real
+        neighbouring checkout before it ran. `cwd` alone answers nothing, so `effective_dir` gets the
+        one further look the narrowing above describes, and places the command with its own project."""
+        self._needs_a_repository()
+        home = tmp_path / "home"  # unplaceable: exists, but no repository claims it
+        home.mkdir()
+        foreign = self._foreign_repo(tmp_path)
+        root, _ = _transcript_root(
+            tmp_path / "transcripts",
+            ["cd %s && %s" % (foreign, self.COMMAND)],
+            project="-home", session="s-home-cd-foreign", cwd=str(home), answers=["ran"])
+        res = _gate("--root", root)
+        assert res.returncode == 0, (
+            "an unplaceable cwd whose command actually ran in a neighbour's checkout still refused "
+            "this project's delivery:\n%s" % res.stdout)
+        assert "ANOTHER PROJECT'S SESSIONS" in res.stdout, (
+            "the finding was dropped instead of carried as a neighbour's notice:\n%s" % res.stdout)
+        assert str(foreign) in res.stdout
+
+    def test_an_unplaceable_cwd_with_an_unknown_effective_dir_still_reds(self, tmp_path):
+        """The same unplaceable `cwd`, but the command's own `cd` target cannot be read statically
+        (an unassigned variable). `effective_dir` is UNKNOWN, so the one further look finds nothing to
+        narrow with and the fail-safe default stands exactly as before: a worker that hid a `cd`
+        behind an unreadable variable stays caught, never downgraded to a neighbour's."""
+        home = tmp_path / "home"
+        home.mkdir()
+        root, _ = _transcript_root(
+            tmp_path / "transcripts",
+            ['cd "$DIR" && %s' % self.COMMAND],
+            project="-home", session="s-home-cd-unknown", cwd=str(home), answers=["ran"])
+        res = _gate("--root", root)
+        assert res.returncode == 1, (
+            "an unplaceable cwd with an UNKNOWN effective_dir stopped reding — unknown was read as "
+            "foreign, which loses the catch:\n%s" % res.stdout)
+        assert "ANOTHER PROJECT'S SESSIONS" not in res.stdout
+
+    def test_an_unplaceable_cwd_with_effective_dir_in_a_sibling_worktree_still_reds(self, tmp_path):
+        """The trap this narrowing must not fall into: a sibling worktree of THIS project answers
+        this repository's own shared git directory, so a command that `cd`ed there from an unplaceable
+        `cwd` is still this project's own session and still reds, exactly as a lane worktree always
+        has."""
+        self._needs_a_repository()
+        lane = tmp_path / "sibling-lane"
+        subprocess.run(["git", "-C", ROOT, "worktree", "add", "--detach", str(lane)],
+                       check=True, capture_output=True, text=True)
+        try:
+            home = tmp_path / "home"
+            home.mkdir()
+            root, _ = _transcript_root(
+                tmp_path / "transcripts",
+                ["cd %s && %s" % (lane, self.COMMAND)],
+                project="-home", session="s-home-cd-sibling", cwd=str(home), answers=["ran"])
+            res = _gate("--root", root)
+            assert res.returncode == 1, (
+                "a sibling worktree of this project's own repository was read as a neighbour's, "
+                "which is the trap this narrowing must not fall into:\n%s" % res.stdout)
+            assert "ANOTHER PROJECT'S SESSIONS" not in res.stdout
+        finally:
+            subprocess.run(["git", "-C", ROOT, "worktree", "remove", "--force", str(lane)],
+                           capture_output=True, text=True)
 
     def test_every_verdict_says_whose_sessions_it_judged(self, tmp_path):
         """A scope a reader cannot see is a scope that drifts, so both verdicts state it."""

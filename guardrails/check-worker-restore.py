@@ -48,16 +48,29 @@ tlvphotos — its own session owns recovery and any repair — and live-spec hol
 Until 2026-08-18 the gate red on all of them alike, so a neighbour's command refused this package's
 own deliveries. The gate now REDS on this project's own sessions and carries a neighbour's finding as
 a notice. The key is the session's own recorded directory, the `cwd` the harness writes on every
-record. A session is a NEIGHBOUR's when that directory exists on disk right now and git reads it as a
-different repository: `git rev-parse --git-common-dir` run beside it answers a shared git directory
-that is not this file's own. Every worktree of this repository answers this repository's one shared
-git directory, so a lane worktree is this project's session wherever on disk it sits. The reading is
-fail-safe in the two cases a reader would ask about: a session whose directory is gone by scan time
-(a throwaway tree, a removed worktree) and a session git cannot place are both read as THIS
-project's and still red, because a gate that fell silent on what it could not place would lose the
-catch it exists for. A neighbour's finding is never dropped — it prints under its own heading with
-session, directory, command and outcome, so the notice this package sent tlvphotos on 2026-08-12 is
-still a notice a reader can write from this output. It reds nothing.
+record, checked first and alone: `git rev-parse --git-common-dir` run beside it answers a shared git
+directory, and a session is a NEIGHBOUR's when that directory exists on disk right now and the answer
+is a different repository from this file's own. Every worktree of this repository answers this
+repository's one shared git directory, so a lane worktree is this project's session wherever on disk
+it sits. The reading is fail-safe in the two cases a reader would ask about: a session whose directory
+is gone by scan time (a throwaway tree, a removed worktree) and a session git cannot place are both
+read as THIS project's and still red, because a gate that fell silent on what it could not place would
+lose the catch it exists for.
+
+The `cwd` is a session-wide field, though, and a session can run more than one command from more than
+one directory once a `cd` moves it — a worker whose recorded `cwd` sits nowhere any repository claims
+(an owner's home directory, say, the launch point rather than a checkout) can still `cd` into a real
+neighbouring project and run a forbidden command there. Since 2026-08-19 that case gets one further
+look, and ONLY that case: when the key itself answers nothing (`cwd` unplaceable), the gate also asks
+where the one command actually ran — `effective_dir`, the directory `classify` already walks any `cd`
+to and already prints as `ran in` — and if THAT directory exists on disk and git places it in a
+different, nameable repository, the command is that neighbour's, not this project's, on the same
+fail-safe terms as the `cwd` check above. A `cwd` the key CAN place is never second-guessed this way,
+and an `effective_dir` that is itself UNKNOWN, gone from disk, unplaceable, or that lands back in this
+project's own repository (a sibling worktree among them) leaves the fail-safe default exactly where it
+stood before: still THIS project's, still red. A neighbour's finding is never dropped — it prints
+under its own heading with session, directory, command and outcome, so the notice this package sent
+tlvphotos on 2026-08-12 is still a notice a reader can write from this output. It reds nothing.
 
 WHAT THE SHELL ANSWERED. Every `tool_use` block carries an `id`, and the shell's answer to that call
 sits in the same file: a later record holding a `tool_result` block whose `tool_use_id` repeats it. A
@@ -739,25 +752,48 @@ def own_repo():
     return _OWN_REPO[0]
 
 
-def is_own_session(cwd, cache=None):
+def _cached_git_common_dir(directory, cache):
+    """`_git_common_dir(directory)`, memoized in `cache` (a dict keyed by directory) when given one."""
+    if cache is not None and directory in cache:
+        return cache[directory]
+    result = _git_common_dir(directory)
+    if cache is not None:
+        cache[directory] = result
+    return result
+
+
+def is_own_session(cwd, cache=None, effective_dir=None):
     """True when a session recording `cwd` belongs to THIS project.
 
-    False only for a session the gate can PLACE in another repository: its directory is on disk and
-    git answers a shared git directory that is not this project's. Everything else — an unrecorded
-    cwd, a directory gone by scan time, a directory git cannot place, a gate whose own file sits in
-    no repository — reads True, so narrowing the scope never loses a finding the gate cannot rule
-    out.
+    `cwd` — the session's own recorded directory — is the law's key, checked first and alone: a
+    directory on disk that git answers with a shared git directory other than this project's makes
+    the session a neighbour's, full stop, whatever `effective_dir` says.
+
+    Only when `cwd` itself is UNPLACEABLE (unrecorded, gone from disk, or no repository at all —
+    the key answers nothing) does `effective_dir` get one further look: the directory a single
+    command actually ran in, once `classify` has walked any `cd` in its way. When that directory
+    exists on disk right now and git places it in a different, nameable repository, the command is
+    that neighbour's and the finding is carried as a notice rather than reddening — the case a
+    session recorded from an unplaceable directory (an owner's home directory, say) while a command
+    inside it `cd`ed into a real neighbouring checkout.
+
+    This narrows nothing the key itself decided, and only ever narrows toward NOT calling something
+    foreign that the key could not place: an `effective_dir` that is itself UNKNOWN, gone from disk,
+    unplaceable, or that lands back in this project's own repository leaves the fail-safe default
+    standing exactly as it did before this clause existed — a worker that hid a `cd` behind an
+    unreadable variable, or that never `cd`ed at all, stays caught.
     """
     own = own_repo()
     if own is None or not cwd:
         return True
-    if cache is not None and cwd in cache:
-        return cache[cwd]
-    other = _git_common_dir(cwd)
-    verdict = other is None or other == own
-    if cache is not None:
-        cache[cwd] = verdict
-    return verdict
+    other = _cached_git_common_dir(cwd, cache)
+    if other is not None:
+        return other == own
+    if effective_dir:
+        elsewhere = _cached_git_common_dir(effective_dir, cache)
+        if elsewhere is not None and elsewhere != own:
+            return False
+    return True
 
 
 def _bash_commands(path):
@@ -880,7 +916,7 @@ def scan(paths):
                 "effective_dir": hit.get("effective_dir"),
                 "outcome": outcome,
                 "outcome_detail": detail,
-                "own": is_own_session(cwd, session_cache),
+                "own": is_own_session(cwd, session_cache, hit.get("effective_dir")),
             })
     return findings, commands_read
 
