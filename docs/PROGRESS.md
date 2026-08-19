@@ -6,7 +6,7 @@ Generated 2026-08-19 by `python3 scripts/progress-report.py`, reading the tree a
 
 Promise one, a reader gets through a document without stopping, measures 4,213 open writing findings across the live set today.
 
-Promise two, the specification stops growing, measures PRODUCT_SPEC.md at 49,381 bytes today.
+Promise two, the specification stops growing, measures PRODUCT_SPEC.md at 48,960 bytes today.
 
 ## The queue, in the plan's order
 
@@ -268,12 +268,12 @@ The fifteen documents carrying the most findings:
 
 | measure | today | at the format change, 2026-07-23 | ceiling | target |
 |---|---|---|---|---|
-| bytes | 49,381 | 590,695 | not stated | under the ceiling |
-| lines | 307 | not stated | not stated | set by the subdivision plan |
-| words | 8,258 | not stated | not stated | set by the subdivision plan |
+| bytes | 48,960 | 590,695 | not stated | under the ceiling |
+| lines | 305 | not stated | not stated | set by the subdivision plan |
+| words | 8,192 | not stated | not stated | set by the subdivision plan |
 | requirements | 0 | 282 | not stated | set by the subdivision plan |
 | acceptance criteria | 0 | 1,372 | not stated | set by the subdivision plan |
-| bytes per criterion | not stated | not stated | 185.6 | falls or holds |
+| bytes per criterion | not stated | not stated | 185.8 | falls or holds |
 | pairs stating one fact twice | 0 | 116 | 119 | falls or holds |
 
 ## Readings run so far
