@@ -64,3 +64,4 @@ fixtures and data beside it, so returning one is a single move. Their lines take
 - `guardrails/release-note-fixtures/` -> `guardrails/attic/release-note-fixtures/` * the three notes that check reads, moved with it so returning it is one move * 2026-08-18
 - `guardrails/check-wrong-referral.py` -> `guardrails/attic/check-wrong-referral.py` * it was built to name a wrong referral — an exchange where the zone a question was referred to refers it back over the same pair — instead of letting the two-crossing cap absorb it; it is wired nowhere, only its suite fixture has ever reached it, and no real wrong referral has been caught by it * 2026-08-18
 - `docs/MEASUREMENTS.html` -> `attic/docs-MEASUREMENTS.html` * a rendered page whose reading is over: its source document stood beside it * 2026-08-19
+- `docs/MEASUREMENTS.html` -> `attic/docs-MEASUREMENTS.html` * a rendered page whose reading is over: its source document stood beside it * 2026-08-19
