@@ -750,6 +750,81 @@ class TestGateStaysSilentOnOrdinaryWork:
         assert res.returncode == 0, res.stdout
 
 
+class TestGitCleanDryRunIsNeverAFinding:
+    """git's own -n / --dry-run guarantee removes nothing, so a `git clean` carrying it is not the
+    discard this gate exists to catch (found 2026-08-19: this gate reddened a sandbox worker's
+    `git clean -fn`, run by the very session building the pre-shell hook against these forms, to
+    PROVE the hook works — the gate caught the letter `-f` and never saw the `-n` beside it that
+    made the run harmless. Confirmed against a real `git clean` run, git 2.50.1: `-n`, `-f -n`,
+    `-n -f`, `--dry-run --force`, `--force --dry-run`, `-fn` and `-nf` all print "Would remove" and
+    delete nothing, whichever position `-n` takes and however many times `-f` also appears).
+
+    Every case here is paired: a dry form passes, and the same flags with the dry marker removed
+    still red — so the fix narrows only the one form it names and nothing else `git clean` was
+    already caught on.
+    """
+
+    DRY_FORMS = [
+        "git clean -n",
+        "git clean --dry-run",
+        "git clean -fn",
+        "git clean -nf",
+        "git clean -xn",
+        "git clean -nx",
+        "git clean -f -n",
+        "git clean -n -f",
+        "git clean --force --dry-run",
+        "git clean --dry-run --force",
+        "git clean -fdxn",
+        "git clean -n -fd",
+    ]
+
+    # The same commands with the dry marker taken out — real forces, paired one for one with the
+    # forms above, so the fix is proven not to have widened past the exact dry spelling.
+    LIVE_TWINS = [
+        "git clean -f",
+        "git clean --force",
+        "git clean -f",
+        "git clean -f",
+        "git clean -x",
+        "git clean -x",
+        "git clean -f",
+        "git clean -f",
+        "git clean --force",
+        "git clean --force",
+        "git clean -fdx",
+        "git clean -fd",
+    ]
+
+    @pytest.mark.parametrize("command", DRY_FORMS)
+    def test_a_dry_run_form_passes(self, tmp_path, command):
+        root, _ = _transcript_root(tmp_path, [command])
+        res = _gate("--root", root)
+        assert res.returncode == 0, "%r reddened though it removes nothing: %s" % (command, res.stdout)
+
+    @pytest.mark.parametrize("command", LIVE_TWINS)
+    def test_the_same_flags_without_the_dry_marker_still_red(self, tmp_path, command):
+        root, _ = _transcript_root(tmp_path, [command])
+        res = _gate("--root", root)
+        assert res.returncode == 1, "%r passed the gate — the -f/-x catch narrowed too far: %s" % (
+            command, res.stdout)
+        assert "git clean" in res.stdout
+
+    def test_dry_run_alone_with_no_force_or_x_still_passes(self, tmp_path):
+        """`git clean -n` alone was never a finding (no -f/-x present); unchanged by this fix."""
+        root, _ = _transcript_root(tmp_path, ["git clean -n"])
+        res = _gate("--root", root)
+        assert res.returncode == 0, res.stdout
+
+    def test_an_abbreviated_long_flag_is_not_trusted(self, tmp_path):
+        """git itself accepts the unambiguous prefix `--dry` for `--dry-run`, but this gate proves
+        only the exact spellings it names — doubt resolves in favour of the finding, so an
+        abbreviation nobody asked it to recognise still reds rather than passing on a guess."""
+        root, _ = _transcript_root(tmp_path, ["git clean -f --dry"])
+        res = _gate("--root", root)
+        assert res.returncode == 1, res.stdout
+
+
 class TestAbsentAndEmptyInputs:
 
     def test_an_absent_transcript_root_stands_down_with_a_reason(self, tmp_path):

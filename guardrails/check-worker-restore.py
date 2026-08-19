@@ -11,8 +11,14 @@ back, it reads that file and holds its bytes. A worker puts a file back by WRITI
 BYTES. A worker runs no command that discards uncommitted work, in any tree: `git checkout --
 <path>`, `git checkout .`, `git restore` outside `--staged`, `git stash` and its `push`, `save`,
 `create` and `store` forms, `git reset` with `--hard`, `--merge` or `--keep`, and `git clean` with
-`-f` or `-x`. Such a command's blast radius is a PATH, so its damage lands on files the worker never
-wrote and its brief never named. This rule binds a worker in every tree, including its own isolated
+`-f` or `-x`. ONE NAMED EXCEPTION (found 2026-08-19, a sandbox worker proving this very rule's own
+hook): a `git clean` that also carries `-n` or `--dry-run`, bare or bundled with `-f`/`-x` in either
+order (`-fn`, `-nf`, ...), removes nothing — git's own guarantee, confirmed against a real run, that
+holds whichever position the flag takes and however many times `-f` also appears — so it is not
+this list's finding; every other member of the list still reds exactly as it did, and a `git clean`
+form this cannot prove dry still reds too. Such a command's blast radius is a PATH, so its damage
+lands on files the worker never wrote and its brief never named. This rule binds a worker in every
+tree, including its own isolated
 worktree, since a worktree shares one repository with the lanes beside it and a worker cannot read
 off its brief what else that repository holds. A worker that holds no saved bytes for a file it
 mutated, or that believes a file needs a git-level restore, HALTS and reports the file and the
@@ -656,6 +662,36 @@ def _dir_after_cd(before, target, separator, errexit):
     return before
 
 
+def _git_clean_dry_run_flag(rest):
+    """The token that makes `git clean`'s own dry-run guarantee stand, or None (found 2026-08-19:
+    this gate reddened a sandbox worker's `git clean -fn`, the probe that PROVED the very hook this
+    package built against these forms — the letter of the rule caught a command that discards
+    nothing, because the rule reads `-f`, never `-n` beside it).
+
+    `-n` and `--dry-run` are git's own promise that nothing is removed, confirmed against a real
+    run (git 2.50.1): `git clean -n -f`, `-f -n`, `--dry-run --force`, `--force --dry-run`, `-fn`
+    and `-nf` all print "Would remove" and delete nothing — whichever position the flag takes, and
+    however many times `-f`/`--force` also appears, the LAST word never overrides an earlier `-n`.
+    So `-n`/`--dry-run` is read here bare, or bundled into a combined single-dash cluster with
+    `-f`/`-x` in either order.
+
+    Only an EXACT `--dry-run` or a single-dash cluster carrying the letter `n` counts — no
+    abbreviation (`--dry`) and no other long option, since git clean's only long flag spelling
+    `n` at all is `--dry-run` itself. A `--` path separator ends the scan, so a literal path never
+    reads as a flag. Doubt resolves in favour of the finding: a form this cannot prove dry falls
+    straight through to the ordinary `-f`/`-x` check below and reds as it always has, narrowing
+    nothing else `git clean` was already caught on.
+    """
+    for a in rest:
+        if a == "--":
+            break
+        if a == "--dry-run":
+            return a
+        if a.startswith("-") and not a.startswith("--") and "n" in a[1:]:
+            return a
+    return None
+
+
 def classify(command, cwd):
     """The discarding invocations in one shell command line, each placed in the directory it
     really ran in.
@@ -734,8 +770,11 @@ def classify(command, cwd):
             if any(a in ("--hard", "--merge", "--keep") for a in rest):
                 hit = {"which": "git reset --hard", "paths": [WHOLE_TREE]}
         elif sub == "clean":
-            # The same act against untracked files: a sibling lane's new file is uncommitted work too.
-            if any(a.startswith("-") and ("f" in a or "x" in a) for a in rest):
+            # The same act against untracked files: a sibling lane's new file is uncommitted work
+            # too — except a run that also carries git's own -n/--dry-run guarantee, which removes
+            # nothing (see _git_clean_dry_run_flag).
+            if (_git_clean_dry_run_flag(rest) is None
+                    and any(a.startswith("-") and ("f" in a or "x" in a) for a in rest)):
                 hit = {"which": "git clean", "paths": _paths_after_double_dash(rest) or [WHOLE_TREE]}
 
         if hit is None:
