@@ -14,6 +14,8 @@ import subprocess
 import tempfile
 import unittest
 
+import yaml
+
 from conftest import ROOT, open_spec
 from test_guardrails import (
     GUARDRAILS,
@@ -142,6 +144,34 @@ class TestPrePush(unittest.TestCase):
 
 
 class TestThePrePushChainIsTheFastSet(unittest.TestCase):
+    @staticmethod
+    def _gates_yml_steps():
+        """The server workflow's step list, read as YAML rather than raw text — so a step's
+        formatting (quoted or bare name, extra whitespace, a wrapped `run:` block) can never break
+        a test that only cares what the step DOES. Before this fix two tests here located a step by
+        `str.index` on an unquoted `name: <text>` substring; 2026-08-19's gates.yml fix (SPEC
+        INV-210/INV-212, quoting every step name so a law sentence's own colon cannot re-break the
+        file's YAML parse) put a `"` right after `name: ` on every step, and both raw-substring
+        tests broke on formatting alone while the workflow itself stayed correct — the exact
+        failure this helper exists to make impossible."""
+        with open(os.path.join(ROOT, ".github", "workflows", "gates.yml"), encoding="utf-8") as f:
+            doc = yaml.safe_load(f)
+        return doc["jobs"]["gates"]["steps"]
+
+    @classmethod
+    def _step_named(cls, needle):
+        """The one step whose `name` contains `needle`, read semantically (case- and
+        whitespace-insensitive to nothing — a step's `name` field IS the parsed string, quotes
+        already stripped by the YAML loader). Fails loudly, naming what was searched for, where no
+        step or more than one step matches — a workflow this test cannot uniquely locate is itself
+        a finding, not a pass."""
+        steps = cls._gates_yml_steps()
+        matches = [s for s in steps if needle in (s.get("name") or "")]
+        assert len(matches) == 1, (
+            "expected exactly one gates.yml step whose name contains %r, found %d: %s"
+            % (needle, len(matches), [s.get("name") for s in matches]))
+        return matches[0]
+
     """The local chain runs the checks that take seconds; the suite is the server's job (2026-08-18).
 
     Measured on this machine: every gate in the chain except gate b finishes inside about two and a
@@ -282,29 +312,24 @@ class TestThePrePushChainIsTheFastSet(unittest.TestCase):
         gate g running on every push; anything else — a narrower or an additional clause — does
         not, and must red here. A substring check for "!cancelled()" would wave through
         `if: ${{ !cancelled() && github.actor == 'x' }}`, so the comparison is exact."""
-        with open(os.path.join(ROOT, ".github", "workflows", "gates.yml"), encoding="utf-8") as f:
-            workflow = f.read()
-        step = workflow[workflow.index("name: gate g"):].split("- name:")[0]
-        self.assertIn("check-pin-drift.sh", step,
+        step = self._step_named("gate g")
+        self.assertIn("check-pin-drift.sh", step.get("run", ""),
                       "the server's gate g step no longer runs the pin-drift check")
-        if_lines = [ln.strip() for ln in step.splitlines() if ln.strip().startswith("if:")]
-        self.assertLessEqual(len(if_lines), 1,
-                             "the server's gate g step carries more than one if: line: %r" % if_lines)
-        if if_lines:
+        raw_if = step.get("if")
+        if_value = "" if raw_if is None else str(raw_if).strip()
+        if if_value:
             self.assertEqual(
-                if_lines[0], "if: ${{ !cancelled() }}",
+                if_value, "${{ !cancelled() }}",
                 "the server's gate g step carries a condition narrower or wider than "
-                "!cancelled() — the guarantee that it runs on every push weakened: %r"
-                % if_lines[0])
+                "!cancelled() — the guarantee that it runs on every push weakened: %r" % if_value)
 
     def test_the_server_still_runs_the_full_suite(self):
-        """The other half of the split, read off the workflow itself."""
-        with open(os.path.join(ROOT, ".github", "workflows", "gates.yml"), encoding="utf-8") as f:
-            workflow = f.read()
-        self.assertIn("name: test suite (gate b, full", workflow,
-                      "the workflow no longer carries gate b's step, so nothing runs the suite")
-        step = workflow[workflow.index("name: test suite (gate b, full"):]
-        self.assertIn("python3 -m pytest -q", step.split("- name:")[0],
+        """The other half of the split, read off the workflow itself — semantically, not by a raw
+        substring on `name: <text>`, so quoting, wrapped whitespace or a reworded but still-full
+        step never breaks this test on formatting alone (SPEC INV-210/INV-212, 2026-08-19: exactly
+        that raw-substring shape broke here the day gates.yml's step names were quoted)."""
+        step = self._step_named("test suite (gate b, full")
+        self.assertIn("python3 -m pytest -q", step.get("run", ""),
                       "the server's gate b step no longer runs the whole suite")
 
 

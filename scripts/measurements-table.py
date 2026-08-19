@@ -48,6 +48,22 @@ import subprocess
 import sys
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+
+# The renderer's mark, read from its one home so a page this script builds and the sweep gate that
+# reads it can never disagree on the wording (same pattern scripts/sweep-rendered.py uses). Before
+# this fix render_html() carried no mark at all, and check-rendered-sweep.py's evidence() fell back
+# to its legacy "source .md stands beside the .html" heuristic — a heuristic gated on `git ls-files`
+# succeeding, which is a strictly weaker guarantee than the mark and the one that let the CI run
+# (`git -C root ls-files -- '*.html' '*.HTML'`) read docs/MEASUREMENTS.html as un-evidenced and the
+# sweep gate pass green with the page standing (2026-08-19, SPEC INV-286).
+try:
+    _spec = importlib.util.spec_from_file_location(
+        "render_doc", os.path.join(SCRIPT_DIR, "render-doc.py"))
+    _rd = importlib.util.module_from_spec(_spec)
+    _spec.loader.exec_module(_rd)
+    GENERATOR = _rd.GENERATOR
+except Exception:                                            # a standalone copy with no renderer
+    GENERATOR = "live-spec render-doc"
 ROOT = os.path.dirname(SCRIPT_DIR)
 GUARDRAILS = os.path.join(ROOT, "guardrails")
 sys.path.insert(0, GUARDRAILS)
@@ -397,6 +413,7 @@ def render_html(rows, today, totals):
         body.append("<tr>%s</tr>" % "".join(cells))
     return """<!doctype html><html lang="en"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="generator" content="%s">
 <title>Measurements — live-spec</title><style>%s</style></head><body>
 <header><h1>Measurements — one row per file, every indicator</h1>
 <p>Generated %s by <code>python3 scripts/measurements-table.py</code>. Hover a column name to read
@@ -404,7 +421,7 @@ what it measures, why, and what it aims at.</p>
 <p>%s</p></header>
 <div class="wrap"><table><thead><tr>%s</tr></thead><tbody>%s</tbody></table></div>
 <footer>%s</footer></body></html>
-""" % (HTML_STYLE, today, html_escape(totals["headline"]), head_cells, "".join(body),
+""" % (GENERATOR, HTML_STYLE, today, html_escape(totals["headline"]), head_cells, "".join(body),
        html_escape(totals["footer"]))
 
 
