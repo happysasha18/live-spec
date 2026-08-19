@@ -53,7 +53,15 @@ from test_traceability import read, expand, ANCHOR_TOKEN  # noqa: E402
 #   INV-287, INV-288 — the criterion-readability word/anchor ceiling family (Requirement 297),
 #   retired 2026-08-19 together with guardrails/check-criterion-readability.py, the same class as
 #   INV-234 and the same reason: the numbers stay empty rather than renumber every law after them.
-EXPECTED_GAPS = {"D": [3, 5, 6], "INV": [234, 287, 288]}
+#   INV-181 — the standalone-mirror release-history stamp (former Requirement 148, sync-mirrors.sh's
+#   `compute_release_history`), retired 2026-08-19 with the mirror road for the same reason: nothing
+#   publishes to a standalone mirror repository any more, so there is no README left to stamp.
+#   INV-303 — the editions/<skill>/ public-edition mechanism (former Requirement 304), retired
+#   2026-08-19 with the mirror road: `editions/` existed only to give a mirror's stranger-reader a
+#   plain-words copy, and with no mirror publishing there is no reader for it to serve. Its last
+#   resident, editions/product-prover/, was already removed as dead weight earlier the same day
+#   (commit 037e2329); this closes the mechanism itself.
+EXPECTED_GAPS = {"D": [3, 5, 6], "INV": [181, 234, 287, 288, 303]}
 
 
 # --------------------------------------------------------------------------- parsers (text-in)

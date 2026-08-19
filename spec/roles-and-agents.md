@@ -230,16 +230,15 @@
 
 1. The base skill *shall* state each shared rule normatively beside the pack's default settings, and every working skill *shall* reference the shared rules rather than restate them. [E-12, E-13]
 2. *when* a working skill states a shared rule in full a second time, the system *shall* read it as drift and fold it back, since a shared rule has one normative home in the base skill. [INV-13]
-3. The pack *shall* treat the package as the source and the standalone repositories as read-only mirrors of it. [D-4]
 
 **Case: a working skill names the base and stands alone**
 
-4. Every working skill *shall* open with one line naming the base skill and the base version it was written against, swept in the same session that bumps the base so the pin never goes stale. [E-12]
-5. The system *shall* keep a working skill usable outside the pack, its opening line reading as plain advice and nothing in its own domain needing the base installed. [E-12]
+3. Every working skill *shall* open with one line naming the base skill and the base version it was written against, swept in the same session that bumps the base so the pin never goes stale. [E-12]
+4. The system *shall* keep a working skill usable outside the pack, its opening line reading as plain advice and nothing in its own domain needing the base installed. [E-12]
 
 **Case: restatements are pruned at milestones**
 
-6. *when* a milestone is reached, the compaction pass *shall* prune restatements older than the base one skill at a time, so no single rewrite is needed. [M-1, INV-13]
+5. *when* a milestone is reached, the compaction pass *shall* prune restatements older than the base one skill at a time, so no single rewrite is needed. [M-1, INV-13]
 
 ---
 

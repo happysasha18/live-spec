@@ -889,38 +889,6 @@
 16. *if* any reading refuses to run, *then* the census *shall* write no record and *shall* name that reading. [INV-301]
    - a live document the census could not read *shall* stop the write the same way.
 
-
-## Requirement 304: A skill's public mirror carries the edition written for a stranger
-
-**Context:** A skill's copy under `skills/` is written for a session that has already loaded this pack. It cites internal codes and points at scripts that travel with the pack. The sync script rebuilds each standalone mirror from the pack and pushes it to a public repository. A stranger reading that mirror needs the method in words that stand on their own.
-
-**User Story:** As a stranger reading a mirror, I want it to carry a public edition, so that every rule stands in plain words.
-
-### Acceptance Criteria
-
-**Case: a skill ships a public edition**
-
-1. A skill *shall* be able to ship a public edition under `editions/<skill>/`. [INV-303]
-   - the edition states the same method, with every internal code resolved into the rule it stands for;
-   - the edition carries whatever the method points at, so a reader needs no file from this pack.
-2. *where* an edition exists, the sync script *shall* rebuild that skill's standalone mirror from it. [INV-303, INV-96]
-3. *while* an edition stands, `skills/<skill>/` *shall* stay the copy a session in this project loads. [INV-303]
-4. *when* the sync publishes an edition, it *shall* print that skill's name and the directory it published. [INV-303, INV-269]
-
-**Case: a skill ships no edition**
-
-5. *where* `editions/<skill>/` is absent, the sync script *shall* rebuild that mirror from `skills/<skill>/`. [INV-303, INV-96]
-6. The pack *shall* stay the one source of both copies, so a hand edit on a mirror is overwritten. [INV-303, INV-96]
-
-**Case: a half-made edition is refused**
-
-7. *if* `editions/<skill>/` holds no `SKILL.md`, *then* the sync script *shall* refuse that skill by name. [INV-303]
-   - the copy step deletes what it replaces, so publishing an empty edition leaves the mirror shipping nothing;
-   - the refusal names the missing file and the two ways out, adding the file or removing the directory.
-8. *when* a skill is refused, the sync *shall* publish no source for it and *shall* leave its mirror as it stands. [INV-303]
-9. *when* a skill is refused, the sync *shall* run on to the remaining mirrors and *shall* record the skip in its summary. [INV-303]
-10. The publish source of one skill *shall* be readable on its own, through a flag that reaches no repository. [INV-303]
-
 ---
 
 ## Requirement 306: A count this repository publishes about its own tree is built from the tree

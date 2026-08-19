@@ -34,8 +34,6 @@ rest for the landing that follows (guardrails).
 
 live-spec is a skill pack: ten working skills plus the one shared rulebook they all load, each of them
 text a model reads. Templates, guardrails, and its own dogfood documents sit beside them in one repo.
-`editions/` holds a skill's public edition: the same method with every internal code resolved into the
-rule it stands for. Where an edition stands, it is what that skill's public mirror ships.
 Everything executes inside an agent session on the host machine.
 The repo is the source of truth, and the installed copies under `~/.claude/skills/` are what a session
 actually loads. Git hooks and CI re-run the same gates, and the human reads rendered pages in a
@@ -520,14 +518,13 @@ adapter is the one place the pack updates when a lens moves in a prover release.
 
 **responsibility** — the publish-quality gate: per-kind publication checklist (its one home) + the target-plugin seam; runs before the human's gate, never instead (row 98)
 
-**owns** — E-20, INV-44, INV-96, INV-119, INV-181, INV-228, INV-303
+**owns** — E-20, INV-44, INV-96, INV-119, INV-228
 
 **pins** —
 - `skills/publish/SKILL.md:1` (frontmatter + when it fires)
 - the kind-checklist table and target-plugin sections in the same file
 - the release-note shape with its optional offers section (INV-228: the shape carries an optional offers section phrased as choices. The publish walk records the offer-or-none decision, consuming the touchpoint-frame classification.)
 - `guardrails/attic/check-release-note.py:1` (the release-note offer report-shape check, report-only, rides the suite not the push chain, INV-228)
-- the mirror sync `scripts/sync-mirrors.sh:1` (publish-source selection · banner · release history · attribution · language scan)
 
 ### [node: test-author]
 

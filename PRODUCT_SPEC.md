@@ -180,7 +180,6 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 - **prototype** — an exploration of an idea kept as a sketch, living fenced off in its own clearly named home such as a `prototype/` folder or branch, so nothing in the shipped product reaches into it.
 - **prover** — the review pass that reads a spec for holes, reasoning in entities, states, transitions, and invariants.
 - **prover record** — one dated file under `docs/prover/` recording one review pass: what was reviewed, the findings, and the verdict. A push carries exactly one, and it is the whole review the push owes. It re-checks the spec and the architecture, and reads the commits being sent for a refusal. The push gate reads that a committed record dated the push's own day exists. It must be at least as new as the documents it covers and as the newest commit in the pushed range. It must name that range, the files read, the checks run, and its findings.
-- **public edition** — a skill's copy for a reader outside this project, held at `editions/<skill>/`. Requirement 304 states what it carries.
 - **publish checklist** — the per-kind walk the publish skill owns, run before any deposit leaves the machine.
 - **publish gate** — the human's own gate over anything irreversible or outward, which the publish checklist runs ahead of.
 - **published contract** — a surface in a producer agent's own spec, paired with a machine-readable artifact at the path the producer's card names, stating the version it was generated under and the moment it was generated, that another agent reads on its own clock.
@@ -229,7 +228,6 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 - **spec-delta** — the set of spec sentences one wish or feature adds or changes, drafted and proven against the whole spec before any test or code is written.
 - **spec-touching delivery** — a delivery whose change set includes the spec document.
 - **staleness bound** — the one number a consumer owns, stating how old a published artifact may be and still carry that consumer's analysis.
-- **standalone mirror** — a public mirror repository the sync script rebuilds at every sync, carrying its own generated banner, release history, and attribution line. Its source is the skill's public edition where one exists, and the pack's own skill folder where none does.
 - **standard facet** — one dimension every visible feature has whether or not anyone names it, such as a viewport band, touch, or an empty state, swept when a feature is specified.
 - **statement validation** — the check a task statement passes before its task enters work: a mechanical floor — name, description, plan and estimate present, an estimate stated, the register check clean — and a clean-context reader's judgment that the statement is understandable.
 - **stateful surface** — a part of a host project that holds state: a screen, a panel, or a saved file the user can change and find again later.

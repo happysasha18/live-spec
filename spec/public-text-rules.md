@@ -67,26 +67,7 @@
 **Case: an offer, never a gate**
 
 2. The system *shall* treat the line as an offer, the publish walk checking for it and proposing it once when absent, the owner's word deciding and a declined offer staying closed. [INV-96, INV-16]
-3. The system *shall* apply the line to each built-with project through its own queue and *shall* stamp it onto each standalone mirror from the live `VERSION` file at every sync, since a hand-written footer on a mirror would carry an invented number and be wiped by the next sync. [INV-96]
-
----
-
-## Requirement 148: Every standalone mirror shows its release history
-
-**Context:** A standalone mirror's README carries a release-history section: one line per shipped version giving the version, its date, and a single story line. The sync script harvests those lines from the pack's git history and writes them fresh at every sync, the same way it stamps the attribution line. The full home of each release's story stays the journal.
-
-**User Story:** As a reader of a mirror, I want a generated release-history section refreshed at every sync, so that the public mirror always shows a current history that never drifts.
-
-### Acceptance Criteria
-
-**Case: the generated history**
-
-1. The system *shall* carry a release-history section on a standalone mirror's README, one line per shipped version giving the version, its date, and a single story line, harvested from the pack's git history and written fresh at every sync. [INV-181]
-2. The system *shall* keep the journal as the one full home of each release's story, the mirror section pointing back to it, and *shall* keep the history on the README alone while the mirror's `SKILL.md` stays free of reader-facing blocks. [INV-181]
-
-**Case: the generated blocks are one pinned kind**
-
-3. The system *shall* read the mirror's generated blocks as one declared kind with three members — the read-only banner at the README's top, this release-history section, and the attribution line — each pinned by a test, and *shall* let the owner's word move the section to a generated changelog file. [INV-181, INV-96]
+3. The system *shall* apply the line to each built-with project through its own queue. [INV-96]
 
 ---
 
