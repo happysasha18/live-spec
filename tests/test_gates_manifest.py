@@ -25,6 +25,8 @@ import subprocess
 import tempfile
 import unittest
 
+import yaml
+
 from conftest import read, read_flat
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -169,6 +171,34 @@ class TestGatesManifest(unittest.TestCase):
         matrix = read("TEST_MATRIX.md")
         self.assertIn("gate af", matrix)
         self.assertIn("gates-manifest.json", matrix)
+
+    def test_gates_yml_still_parses_as_yaml(self):
+        # THE 2026-08-19 HOLE: gate af held gates.yml's step-name TEXT to pre-push's own wording and
+        # never noticed the FILE had stopped being valid YAML. Gate a's law sentence carries its own
+        # colon ("one record per push: the re-check...") and a `- name: <unquoted colon-space>` line
+        # is a YAML mapping-in-a-scalar error — the exact byte-for-byte fix this gate demanded broke
+        # the workflow file it lives in, and the server's job never ran at all
+        # ("This run likely failed because of a workflow file issue"). Every step name is quoted now
+        # (scripts/gen-gates-manifest.py's letter-reader and this gate's law-reader both tolerate the
+        # quotes), and this test is the standing net: a gate that edits a machine-readable file must
+        # prove the file still parses, not merely that its own slice of the text is correct.
+        with open(GATES_YML, encoding="utf-8") as f:
+            doc = yaml.safe_load(f)
+        self.assertIn("jobs", doc)
+        self.assertIn("gates", doc["jobs"])
+        self.assertGreaterEqual(len(doc["jobs"]["gates"]["steps"]), 24)
+
+    def test_a_colon_in_an_unquoted_step_name_reds_the_parse(self):
+        # red-first proof for the test above: an unquoted colon-space inside a step name is not a
+        # hypothetical — it is verbatim the fault that shipped. Reproduced on a fixture copy, never
+        # on the committed file.
+        yml = read(".github/workflows/gates.yml")
+        broken = yml.replace(
+            '- name: "gate a — fresh prover record for today (one record per push: the re-check',
+            '- name: gate a — fresh prover record for today (one record per push: the re-check', 1)
+        self.assertNotEqual(broken, yml, "the fixture edit did not match the real gates.yml text")
+        with self.assertRaises(yaml.YAMLError):
+            yaml.safe_load(broken)
 
     def test_missing_source_reds_by_name_never_a_traceback(self):
         # THE INCIDENT: a tree still catching up to this pack's shape (an older checkout, a
