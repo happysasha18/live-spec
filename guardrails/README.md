@@ -229,14 +229,14 @@ The gate reds on this project's own sessions. The transcript root holds the owne
 A discarding command in one of their sessions is their defect, as row 598 says in words.
 The key is the session's recorded `cwd`: a session belongs to a neighbour when that directory exists
 and git reads it as another repository. A session the gate cannot place elsewhere still reds. Only
-where `cwd` alone answers nothing does the gate take one further look, at `effective_dir` — the
-directory the one command actually ran in, once any `cd` inside it is walked, printed as `ran in`: an
+where `cwd` alone answers nothing does the gate take one further look, at `effective_dir`. This is the
+directory the one command actually ran in, once any `cd` inside it is walked — printed as `ran in`. An
 owner's home directory (unplaceable) whose command `cd`ed into a real neighbouring checkout is that
-neighbour's finding too (row 623). The look never overrides a `cwd` the key could already place, and an
-`effective_dir` that is itself UNKNOWN, unplaceable, or lands back in this project's own repository —
-a sibling lane worktree among them — leaves the session reading as THIS project's, unchanged. A
-neighbour's finding is never dropped — it prints as a notice naming session, directory, command and
-outcome, and reds nothing.
+neighbour's finding too (row 623). The look never overrides a `cwd` the key could already place. An
+`effective_dir` that is itself `UNKNOWN` or unplaceable leaves the session reading as this project's
+own, unchanged. The same holds when it lands back in this project's own repository — a sibling lane
+worktree among them. A neighbour's finding is never dropped — it prints as a notice naming session,
+directory, command and outcome, and reds nothing.
 
 It opens the worker-run transcripts under the harness transcript root (`~/.claude/projects` by
 default, `--root` or `LIVE_SPEC_TRANSCRIPT_ROOT` to move it): the files matching
