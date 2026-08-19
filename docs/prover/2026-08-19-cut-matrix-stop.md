@@ -2,7 +2,8 @@
 
 PUSH-REVIEW
 
-Range: 7ecff93..cf3315b1
+Range: 7ecff93..9ceda62f
+- 9ceda62f Prover record: cut-matrix stopped on a found block risk, not started
 - cf3315b1 ROADMAP row 625: TEST_MATRIX.md's cut is investigated and blueprinted, not started
 Files read: TEST_MATRIX.md, ARCHITECTURE.md, PRODUCT_SPEC.md, PRODUCT_SPEC.index.md, spec/*.md,
 guardrails/specformat.py, scripts/build-index.py, guardrails/check-index-generated.py,
