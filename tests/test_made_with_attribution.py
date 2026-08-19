@@ -58,36 +58,5 @@ class TestMadeWithAttributionLaw(unittest.TestCase):
         self.assertIn("| INV-96 |", spec)
 
 
-class TestMirrorSyncStampsTheLine(unittest.TestCase):
-    """Row 246: a standalone mirror repo is rebuilt from the pack's skill folder on every sync,
-    so the attribution line must be stamped by the sync script itself, from the live VERSION —
-    a hand-written footer on a mirror carries an invented number and is wiped by the next rsync."""
-
-    def test_sync_script_builds_the_line_from_the_live_version(self):
-        script = read("scripts/sync-mirrors.sh")
-        self.assertIn(
-            "made with [live-spec](https://github.com/${GITHUB_OWNER}/live-spec) v${PACK_VERSION}",
-            script,
-            "sync script does not build the attribution line from the pack's VERSION file")
-
-    def test_sync_script_stamps_both_landing_files(self):
-        # INV-96: a skill publication carries the line on its README footer AND in its SKILL.md
-        script = read("scripts/sync-mirrors.sh")
-        for call in ('stamp_attribution "$mirror_dir/README.md"',
-                     'stamp_attribution "$mirror_dir/SKILL.md"'):
-            self.assertIn(call, script, "sync script misses the stamp call: %s" % call)
-
-    def test_script_wording_locksteps_with_the_publish_floor(self):
-        # The wording's one home is the publish floor; the script only APPLIES it. This pin
-        # keeps the two in lockstep — a floor edit that leaves the script behind goes red
-        # (the row-246 prover pass's F2).
-        prefix = "made with [live-spec](https://github.com/happysasha18/live-spec) v"
-        self.assertIn(prefix, read("skills/publish/SKILL.md"),
-                      "the publish floor no longer states the standard line")
-        script = read("scripts/sync-mirrors.sh").replace("${GITHUB_OWNER}", "happysasha18")
-        self.assertIn(prefix, script,
-                      "sync script wording drifted from the publish floor's standard line")
-
-
 if __name__ == "__main__":
     unittest.main()

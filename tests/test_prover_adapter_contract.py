@@ -1,11 +1,10 @@
 """The adapter contract for the external product-prover skill (v5.0.0 decoupling).
 
-Every assertion here reads TRACKED files only — the adapter page, the installer
-script, and the mirror-sync guard — so the module is green on a bare checkout,
-with or without the installed external clone. It is the first live fence on the
-decoupling debt: the vendored prover body left the tree in v5.0.0, and what the
-pack still promises about the external skill is pinned here instead of in tests
-that read the departed body.
+Every assertion here reads TRACKED files only — the adapter page and the installer
+script — so the module is green on a bare checkout, with or without the installed
+external clone. It is the first live fence on the decoupling debt: the vendored
+prover body left the tree in v5.0.0, and what the pack still promises about the
+external skill is pinned here instead of in tests that read the departed body.
 """
 
 import os
@@ -16,7 +15,6 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 ADAPTER = ROOT / "skills" / "product-prover-pack" / "SKILL.md"
 INSTALLER = ROOT / "scripts" / "install-external-skills.sh"
-SYNC = ROOT / "scripts" / "sync-mirrors.sh"
 
 # The one pattern the installer greps the adapter with (install-external-skills.sh,
 # "the version floor, read from the adapter's metadata").
@@ -77,20 +75,6 @@ class TestInstallerReadsTheAdapterFloor(unittest.TestCase):
             len(found), 1, f"installer's pattern finds {len(found)} floors in the adapter"
         )
 
-
-class TestMirrorSyncGuard(unittest.TestCase):
-    def test_sync_documents_why_it_never_meets_product_prover(self):
-        # The 2026-08-19 cull retired the case-statement skip this test once pinned: the
-        # folder name it matched, skills/product-prover (no -pack suffix), is what the
-        # gitignored external clone lands at, and the loop this runs in walks tracked
-        # skill folders only — that name never appears there to skip. What must survive
-        # is the reason a reader would otherwise have to rediscover by hand.
-        text = SYNC.read_text(encoding="utf-8")
-        self.assertIn(
-            "product-prover moved out to its own canonical repository",
-            text,
-            "sync-mirrors no longer says why product-prover is not one of its mirrors",
-        )
 
 def _rows_cited_but_absent(message):
     """Queue rows a message names that ROADMAP.md does not carry, in citation order."""
@@ -246,16 +230,17 @@ class TestTheCIAuthorityModel(unittest.TestCase):
     def _workflow(self):
         """The `gates` JOB's runnable lines, with comments removed.
 
-        Two narrowings, each closing a way a check here could pass over nothing.
-
         Comments come off because the installer step carries a long comment naming the same
         flags the step does; reading the raw file would let every assertion below pass on
         the EXPLANATION after the step itself was deleted.
 
-        And the read is scoped to the `gates` job, not the whole file. `gates.yml` carries a
-        second job (`sync-mirrors`), and a file-wide search would accept an installer step
-        standing in any job printed before the suite — satisfying both the presence check and
-        the ordering check while the job that actually runs the suite installs nothing.
+        The read is also scoped to the `gates` job by name rather than taken as the whole
+        file, on general principle: a file-wide search would accept an installer step
+        standing in ANY job printed before the suite, satisfying both the presence check and
+        the ordering check even where the job that actually runs the suite installs nothing.
+        `gates.yml` carries one job today (the 2026-08-19 mirror-road cull retired the
+        second, `sync-mirrors`), so nothing exercises that narrowing at the moment — but the
+        scoping stays, since a future second job should not silently reopen the gap.
         """
         text = (ROOT.joinpath(*self.WORKFLOW)).read_text(encoding="utf-8")
         lines, taking, job = [], False, None
@@ -269,18 +254,6 @@ class TestTheCIAuthorityModel(unittest.TestCase):
                 lines.append(line)
         assert job is not None, "gates.yml declares no job at all"
         return "\n".join(lines)
-
-    def test_the_workflow_reader_is_scoped_to_the_gates_job(self):
-        """The reader's scope is itself pinned, in both directions."""
-        raw = (ROOT.joinpath(*self.WORKFLOW)).read_text(encoding="utf-8")
-        self.assertIn("sync-mirrors:", raw, "gates.yml is expected to carry a second job")
-        seen = self._workflow()
-        self.assertIn("run: python3 -m pytest -q", seen, "the gates job must survive the reader")
-        self.assertNotIn(
-            "sync standalone mirrors", seen,
-            "the reader leaked a second job's steps: an installer step over there would "
-            "satisfy the ordering check while the gates job installs nothing",
-        )
 
     def test_the_workflow_reader_drops_comments_so_prose_cannot_stand_in_for_a_step(self):
         """The reader's own escape hatch, closed.

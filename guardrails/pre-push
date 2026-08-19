@@ -328,20 +328,5 @@ if [ "$fail" -ne 0 ]; then
   exit 1
 fi
 
-# The gates are green, so this push is about to land — sync the standalone mirror repos
-# from the pack now, so a mirror never drifts behind a shipped pack version again (a mirror
-# was found one version behind on 2026-07-13). This runs ONLY past the blocked-push exit
-# above, so a blocked push never reaches a mirror. It is NON-BLOCKING: a mirror hiccup
-# (gh not authenticated, no network) warns and lets the pack push through — the CI arm and
-# the next push both re-sync. Extends the push gate (SPEC M-6) and the mirror mechanism
-# (scripts/sync-mirrors.sh, SPEC INV-96).
-echo ""
-echo "-- mirror sync (non-blocking) --"
-if "$REPO_ROOT/scripts/sync-mirrors.sh"; then
-  :
-else
-  echo "   warn: mirror sync did not complete (gh auth? network?) — run scripts/sync-mirrors.sh by hand."
-fi
-
 echo "All gates green — push allowed."
 exit 0
