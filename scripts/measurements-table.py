@@ -19,9 +19,25 @@ WHERE EACH NUMBER COMES FROM.
 A cell with no source prints `not measured`. A cell whose indicator does not apply to that file prints
 an em dash.
 
-Usage: python3 scripts/measurements-table.py
-Writes docs/MEASUREMENTS.md. Stdlib only.
+THE HTML PAGE IS BUILT ON REQUEST, NOT ON EVERY RUN (SPEC INV-286). A number-only remeasure — the
+common case, run every time a script or a round finishes — needs no page: the table's own numbers are
+the source of truth, and no one is about to read them off a browser tab. Building `docs/MEASUREMENTS.html`
+unconditionally on every run left a transient render standing after most runs, since most runs serve no
+reading exchange at all: this one page alone carries five separate sweep entries in attic/MANIFEST.md
+(2026-08-04 through 2026-08-19), every other rendered page in the project's history carrying at most two
+— the evidence that this page, uniquely, was being rendered far more often than it was being read. So
+the page is opt-in: pass `--html` when a person is actually about to read the numbers, and the reminder
+to sweep it once that reading closes prints right there. Every other command below writes the `.md`
+alone.
+
+Usage:
+  python3 scripts/measurements-table.py            writes docs/MEASUREMENTS.md only
+  python3 scripts/measurements-table.py --html      also writes docs/MEASUREMENTS.html, the page to
+                                                     read the table on; sweep it once the reading is
+                                                     over (python3 scripts/sweep-rendered.py, SPEC INV-286)
+Stdlib only.
 """
+import argparse
 import datetime
 import glob
 import importlib.util
@@ -298,8 +314,9 @@ def render_md(rows, today):
     heads = [h for _, h, _ in COLUMNS]
     out = ["# Measurements — one row per file, every indicator", "",
            "Generated %s by `python3 scripts/measurements-table.py`. This table is the source of "
-           "truth for where the work stands, and `docs/MEASUREMENTS.html` is the page to read it "
-           "on." % today, "",
+           "truth for where the work stands. Add `--html` to also build `docs/MEASUREMENTS.html`, "
+           "the page to read it on — a transient render, swept once its reading closes (SPEC "
+           "INV-286)." % today, "",
            "| " + " | ".join(heads) + " |",
            "|" + "|".join(["---"] * len(heads)) + "|"]
     for row in rows:
@@ -478,7 +495,17 @@ NOTES = [
 ]
 
 
-def main():
+def parse_args(argv=None):
+    parser = argparse.ArgumentParser(
+        description="build docs/MEASUREMENTS.md; --html also builds the reading page")
+    parser.add_argument("--html", action="store_true",
+                        help="also write docs/MEASUREMENTS.html, the page to read the table on "
+                             "(a transient render, SPEC INV-286 — sweep it once the reading closes)")
+    return parser.parse_args(argv)
+
+
+def main(argv=None):
+    args = parse_args(argv)
     census = load(CENSUS_RECORD).get("files", {})
     baseline = load(BASELINE)
     slug_map = baseline.get("reading_slugs", {})
@@ -525,11 +552,18 @@ def main():
 
     with open(OUT, "w", encoding="utf-8") as f:
         f.write(render_md(rows, today))
-    html_path = OUT.replace(".md", ".html")
-    with open(html_path, "w", encoding="utf-8") as f:
-        f.write(render_html(rows, today, totals))
     print("measurements-table: wrote %s" % OUT)
-    print("measurements-table: wrote %s" % html_path)
+    if args.html:
+        html_path = OUT.replace(".md", ".html")
+        with open(html_path, "w", encoding="utf-8") as f:
+            f.write(render_html(rows, today, totals))
+        print("measurements-table: wrote %s" % html_path)
+        print("measurements-table: %s is a page built for one reading — run "
+              "python3 scripts/sweep-rendered.py once you are done reading it (SPEC INV-286)."
+              % html_path)
+    else:
+        print("measurements-table: docs/MEASUREMENTS.html not built (pass --html to build the "
+              "reading page; the numbers above are already current without it)")
     print(totals["headline"])
 
 

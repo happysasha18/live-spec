@@ -1,6 +1,6 @@
 # Measurements — one row per file, every indicator
 
-Generated 2026-08-19 by `python3 scripts/measurements-table.py`. This table is the source of truth for where the work stands, and `docs/MEASUREMENTS.html` is the page to read it on.
+Generated 2026-08-19 by `python3 scripts/measurements-table.py`. This table is the source of truth for where the work stands. Add `--html` to also build `docs/MEASUREMENTS.html`, the page to read it on — a transient render, swept once its reading closes (SPEC INV-286).
 
 | # | file | state | both stopped | readers ok | find | script ok | est h | cum h | reads | long | style | lines |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
