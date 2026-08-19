@@ -50,7 +50,7 @@ def test_design_principle_and_preshow_wired():
 
 
 def test_matrix_row():
-    matrix = (ROOT / "TEST_MATRIX.md").read_text(encoding="utf-8")
+    matrix = read("TEST_MATRIX.md")
     assert any(l.startswith("| M-") and "INV-139" in l for l in matrix.splitlines())
 
 

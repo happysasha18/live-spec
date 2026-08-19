@@ -269,5 +269,5 @@ def test_architecture_owns_the_invariant():
 
 
 def test_matrix_row_covers_the_law():
-    mat = _read(os.path.join(ROOT, "TEST_MATRIX.md"))
+    mat = read("TEST_MATRIX.md")
     assert "| M-420 |" in mat and "INV-238" in mat
