@@ -95,13 +95,13 @@
       "total": 0
     },
     "TEST_MATRIX.md": {
-      "bytes": 481159,
+      "bytes": 16519,
       "file": "TEST_MATRIX.md",
       "long": 8,
       "longest": 46,
       "register": 0,
-      "style": 68,
-      "total": 76
+      "style": 0,
+      "total": 8
     },
     "adopt/ADOPT.md": {
       "bytes": 22694,
@@ -606,6 +606,213 @@
       "register": 0,
       "style": 3,
       "total": 31
+    },
+    "matrix/attach.md": {
+      "bytes": 20060,
+      "file": "matrix/attach.md",
+      "long": 0,
+      "longest": 0,
+      "register": 0,
+      "style": 3,
+      "total": 3
+    },
+    "matrix/base-rulebook.md": {
+      "bytes": 60159,
+      "file": "matrix/base-rulebook.md",
+      "long": 0,
+      "longest": 0,
+      "register": 0,
+      "style": 10,
+      "total": 10
+    },
+    "matrix/build-pipeline.md": {
+      "bytes": 63997,
+      "file": "matrix/build-pipeline.md",
+      "long": 0,
+      "longest": 0,
+      "register": 0,
+      "style": 3,
+      "total": 3
+    },
+    "matrix/communicator.md": {
+      "bytes": 34662,
+      "file": "matrix/communicator.md",
+      "long": 0,
+      "longest": 0,
+      "register": 0,
+      "style": 5,
+      "total": 5
+    },
+    "matrix/design-reviewer.md": {
+      "bytes": 7232,
+      "file": "matrix/design-reviewer.md",
+      "long": 0,
+      "longest": 0,
+      "register": 0,
+      "style": 3,
+      "total": 3
+    },
+    "matrix/design-sync.md": {
+      "bytes": 818,
+      "file": "matrix/design-sync.md",
+      "long": 0,
+      "longest": 1,
+      "register": 0,
+      "style": 0,
+      "total": 0
+    },
+    "matrix/feedback-collector.md": {
+      "bytes": 2175,
+      "file": "matrix/feedback-collector.md",
+      "long": 0,
+      "longest": 0,
+      "register": 0,
+      "style": 0,
+      "total": 0
+    },
+    "matrix/feedback-intake.md": {
+      "bytes": 1438,
+      "file": "matrix/feedback-intake.md",
+      "long": 0,
+      "longest": 0,
+      "register": 0,
+      "style": 0,
+      "total": 0
+    },
+    "matrix/guardrails.md": {
+      "bytes": 131401,
+      "file": "matrix/guardrails.md",
+      "long": 0,
+      "longest": 0,
+      "register": 0,
+      "style": 16,
+      "total": 16
+    },
+    "matrix/host-contract.md": {
+      "bytes": 4017,
+      "file": "matrix/host-contract.md",
+      "long": 0,
+      "longest": 0,
+      "register": 0,
+      "style": 0,
+      "total": 0
+    },
+    "matrix/inbox.md": {
+      "bytes": 17268,
+      "file": "matrix/inbox.md",
+      "long": 0,
+      "longest": 0,
+      "register": 0,
+      "style": 3,
+      "total": 3
+    },
+    "matrix/onboarding-card.md": {
+      "bytes": 3525,
+      "file": "matrix/onboarding-card.md",
+      "long": 0,
+      "longest": 0,
+      "register": 0,
+      "style": 0,
+      "total": 0
+    },
+    "matrix/package-docs.md": {
+      "bytes": 7062,
+      "file": "matrix/package-docs.md",
+      "long": 0,
+      "longest": 0,
+      "register": 0,
+      "style": 2,
+      "total": 2
+    },
+    "matrix/parallel-lanes.md": {
+      "bytes": 21960,
+      "file": "matrix/parallel-lanes.md",
+      "long": 0,
+      "longest": 0,
+      "register": 0,
+      "style": 9,
+      "total": 9
+    },
+    "matrix/product-prover.md": {
+      "bytes": 11279,
+      "file": "matrix/product-prover.md",
+      "long": 0,
+      "longest": 0,
+      "register": 0,
+      "style": 0,
+      "total": 0
+    },
+    "matrix/publish.md": {
+      "bytes": 6726,
+      "file": "matrix/publish.md",
+      "long": 0,
+      "longest": 0,
+      "register": 0,
+      "style": 0,
+      "total": 0
+    },
+    "matrix/skill-evals.md": {
+      "bytes": 929,
+      "file": "matrix/skill-evals.md",
+      "long": 0,
+      "longest": 0,
+      "register": 0,
+      "style": 1,
+      "total": 1
+    },
+    "matrix/snapshot.md": {
+      "bytes": 968,
+      "file": "matrix/snapshot.md",
+      "long": 0,
+      "longest": 0,
+      "register": 0,
+      "style": 0,
+      "total": 0
+    },
+    "matrix/spec-author.md": {
+      "bytes": 32195,
+      "file": "matrix/spec-author.md",
+      "long": 0,
+      "longest": 0,
+      "register": 0,
+      "style": 3,
+      "total": 3
+    },
+    "matrix/templates.md": {
+      "bytes": 2969,
+      "file": "matrix/templates.md",
+      "long": 0,
+      "longest": 0,
+      "register": 0,
+      "style": 4,
+      "total": 4
+    },
+    "matrix/test-author.md": {
+      "bytes": 15428,
+      "file": "matrix/test-author.md",
+      "long": 0,
+      "longest": 0,
+      "register": 0,
+      "style": 6,
+      "total": 6
+    },
+    "matrix/text-audit.md": {
+      "bytes": 634,
+      "file": "matrix/text-audit.md",
+      "long": 0,
+      "longest": 0,
+      "register": 0,
+      "style": 0,
+      "total": 0
+    },
+    "matrix/work-board.md": {
+      "bytes": 13456,
+      "file": "matrix/work-board.md",
+      "long": 0,
+      "longest": 21,
+      "register": 0,
+      "style": 0,
+      "total": 0
     },
     "scripts/grant-ask.md": {
       "bytes": 685,

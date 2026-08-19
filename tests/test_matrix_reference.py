@@ -17,7 +17,7 @@ import subprocess
 import tempfile
 import unittest
 
-from conftest import ROOT
+from conftest import ROOT, _sf
 
 BUILDER = os.path.join(ROOT, "scripts", "build-matrix-reference.py")
 GATE = os.path.join(ROOT, "guardrails", "check-matrix-reference.py")
@@ -103,10 +103,23 @@ class TestGateReds(unittest.TestCase):
     index, the sibling shape of test_index_generated.py's fault tests."""
 
     def _matrix_parts(self):
-        text = read(MATRIX)
-        self.assertTrue(REFERENCE_SPLIT_RE.search(text),
-                        "the matrix carries no generated ## Reference section")
-        body, _section = split_reference(text)
+        # The real matrix is a core plus the parts its own `## Parts map` names (TEST_MATRIX.md
+        # today), so reading it the way every other caller does means joining core and parts into
+        # one text through the shared spec_paths()/read_document() the gate itself uses. Neither the
+        # core nor a part carries an embedded `## Reference` any more — that section lives once, at
+        # the committed TEST_MATRIX.index.md — so there is nothing left to split off here.
+        #
+        # These red tests write `body` back out as a single, standalone TEST_MATRIX.md with no
+        # sibling parts on disk, so the joined text must carry no `## Parts map` of its own — a
+        # written-back copy that still named `matrix/*.md` would send the gate looking for parts
+        # that were never written beside it. The map, and the preamble bytes it replaces in the
+        # core, are cut out here; the node blocks that follow are unaffected by the cut.
+        _, joined = _sf.read_document([MATRIX])
+        self.assertFalse(REFERENCE_SPLIT_RE.search(joined),
+                         "the joined matrix body still carries an embedded ## Reference section")
+        pm_start = joined.index("## Parts map")
+        node_start = joined.index("### [node:")
+        body = joined[:pm_start] + joined[node_start:]
         index = read(MATRIX_INDEX)
         return body, index
 

@@ -28,15 +28,17 @@ def main():
     spec_rel = gate_lib.require_key(CHECK, config, "spec_path")
     gate_lib.require_path(CHECK, root, spec_rel, "spec")
     matrix_rel = gate_lib.require_key(CHECK, config, "matrix_path")
-    matrix_path = gate_lib.require_path(CHECK, root, matrix_rel, "matrix")
+    gate_lib.require_path(CHECK, root, matrix_rel, "matrix")
     registry_rel = gate_lib.require_key(CHECK, config, "registry_path")
     registry_path = gate_lib.require_path(CHECK, root, registry_rel, "registry")
 
-    # The spec may be written as a core file plus part files (SPEC INV-259): read it as
-    # the one document every other reader in the suite sees — core, parts, and its
-    # generated index — never a single file that may hold only a fraction of it.
+    # The spec, and the matrix alike, may be written as a core file plus part files
+    # (SPEC INV-259): read each as the one document every other reader in the suite
+    # sees — core, parts, and its generated index — never a single file that may hold
+    # only a fraction of it. `read_spec` reads either kind of document; its name is the
+    # first caller it gained, not a limit on what it reads.
     spec = gate_lib.read_spec(CHECK, root, spec_rel)
-    matrix = gate_lib.read_file(matrix_path)
+    matrix = gate_lib.read_spec(CHECK, root, matrix_rel)
 
     # (a) duplicate anchor ids in the spec's index table rows
     index_ids = [m.group(1) for line in spec.splitlines()
