@@ -9,11 +9,10 @@ product-prover's class lens, base rule 14. (Born of the exhibition's pinch-zoom 
 into five live siblings, 2026-07-12.)
 """
 
-import os
 import re
 import unittest
 
-from conftest import ROOT, external_clone_or_skip, open_spec, read_all_flat, read_flat
+from conftest import external_clone_or_skip, open_spec, read, read_all_flat, read_flat
 
 
 class TestClassHunt(unittest.TestCase):
@@ -95,11 +94,10 @@ class TestClassHunt(unittest.TestCase):
         self.assertIn("Each pass records whether that sweep ran", rd)
 
     def test_matrix_row_covers_the_class_hunt(self):
-        with open(os.path.join(ROOT, "TEST_MATRIX.md"), encoding="utf-8") as f:
-            for line in f:
-                if line.startswith("| M-265 |"):
-                    self.assertIn("INV-124", line)
-                    return
+        for line in read("TEST_MATRIX.md").splitlines():
+            if line.startswith("| M-265 |"):
+                self.assertIn("INV-124", line)
+                return
         self.fail("M-265 matrix row missing")
 
 

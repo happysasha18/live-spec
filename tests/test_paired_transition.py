@@ -10,10 +10,9 @@ clause, the facet list in spec-author, product-prover's paired-transition check.
 polaroid room revealed under a soft veil and closed on a hard cut, felt on a real phone, 2026-07-12.)
 """
 
-import os
 import unittest
 
-from conftest import ROOT, external_clone_or_skip, open_spec, read_all_flat, read_flat
+from conftest import external_clone_or_skip, open_spec, read, read_all_flat, read_flat
 
 
 class TestPairedTransition(unittest.TestCase):
@@ -112,11 +111,10 @@ class TestPairedTransition(unittest.TestCase):
         self.assertIn("0.82×", sa)
 
     def test_matrix_row_covers_the_paired_transition_law(self):
-        with open(os.path.join(ROOT, "TEST_MATRIX.md"), encoding="utf-8") as f:
-            for line in f:
-                if line.startswith("| M-267 |"):
-                    self.assertIn("INV-126", line)
-                    return
+        for line in read("TEST_MATRIX.md").splitlines():
+            if line.startswith("| M-267 |"):
+                self.assertIn("INV-126", line)
+                return
         self.fail("M-267 matrix row missing")
 
 
@@ -137,13 +135,12 @@ class TestOrientationFacet(unittest.TestCase):
         for needle in ("orientation / short viewport", "a rotated phone", "width ≤ 640px",
                        "phone is wide and short"):
             self.assertIn(needle, sa, needle)
-        with open(os.path.join(ROOT, "TEST_MATRIX.md"), encoding="utf-8") as f:
-            for line in f:
-                if line.startswith("| M-349 |"):
-                    self.assertIn("INV-18", line)
-                    break
-            else:
-                self.fail("M-349 matrix row missing")
+        for line in read("TEST_MATRIX.md").splitlines():
+            if line.startswith("| M-349 |"):
+                self.assertIn("INV-18", line)
+                break
+        else:
+            self.fail("M-349 matrix row missing")
 
 
 class TestViewportQuantifierLens(unittest.TestCase):
@@ -178,13 +175,12 @@ class TestViewportQuantifierLens(unittest.TestCase):
             self.assertIn(needle, pv, needle)
         dr = read_flat("skills/design-reviewer/SKILL.md")
         self.assertIn("viewport band", dr)
-        with open(os.path.join(ROOT, "TEST_MATRIX.md"), encoding="utf-8") as f:
-            for line in f:
-                if line.startswith("| M-350 |"):
-                    self.assertIn("INV-138", line)
-                    break
-            else:
-                self.fail("M-350 matrix row missing")
+        for line in read("TEST_MATRIX.md").splitlines():
+            if line.startswith("| M-350 |"):
+                self.assertIn("INV-138", line)
+                break
+        else:
+            self.fail("M-350 matrix row missing")
 
 
 class TestGeneralSubDomainDuty(unittest.TestCase):
@@ -216,13 +212,12 @@ class TestGeneralSubDomainDuty(unittest.TestCase):
         pv = read_all_flat("skills/product-prover/SKILL.md")
         for needle in ("a named part of its domain", "the remainder"):
             self.assertIn(needle, pv, needle)
-        with open(os.path.join(ROOT, "TEST_MATRIX.md"), encoding="utf-8") as f:
-            for line in f:
-                if line.startswith("| M-351 |"):
-                    self.assertIn("INV-138", line)
-                    break
-            else:
-                self.fail("M-351 matrix row missing")
+        for line in read("TEST_MATRIX.md").splitlines():
+            if line.startswith("| M-351 |"):
+                self.assertIn("INV-138", line)
+                break
+        else:
+            self.fail("M-351 matrix row missing")
 
 
 if __name__ == "__main__":

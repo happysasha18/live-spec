@@ -144,7 +144,7 @@ class TestSpecStatesTheLaw(unittest.TestCase):
         self.assertIn("INV-227", attach.anchors_expanded, "attach does not own INV-227 in the owns-list")
 
     def test_matrix_row_covers_the_law(self):
-        mat = open(os.path.join(REPO, "TEST_MATRIX.md"), encoding="utf-8").read()
+        mat = read("TEST_MATRIX.md")
         self.assertIn("| M-408 |", mat)
         row = next((l for l in mat.splitlines() if "| M-408 |" in l), "")
         self.assertIn("INV-227", row)

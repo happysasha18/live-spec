@@ -51,7 +51,7 @@ jobs:
         run: guardrails/check-prover-record.sh --push
       - name: "gate d — TEST_MATRIX.md generated Reference agrees with the body (SPEC INV-273/INV-218)"
         if: ${{ !cancelled() }}
-        run: python3 guardrails/check-matrix-reference.py TEST_MATRIX.md
+        run: python3 guardrails/check-matrix-reference.py TEST_MATRIX.md TEST_MATRIX.index.md
       - name: "gate g — pin drift"
         if: ${{ !cancelled() }}
         run: guardrails/check-pin-drift.sh

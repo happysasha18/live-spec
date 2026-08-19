@@ -10,10 +10,9 @@ clause, product-prover's cross-surface-policy lens, build-pipeline's completenes
 tlvphotos's pinch-zoom policy shipped for the walk alone, 2026-07-12.)
 """
 
-import os
 import unittest
 
-from conftest import ROOT, external_clone_or_skip, open_spec, read_all, read_all_flat, read_flat
+from conftest import external_clone_or_skip, open_spec, read, read_all, read_all_flat, read_flat
 
 
 class TestCrossSurfacePolicy(unittest.TestCase):
@@ -71,11 +70,10 @@ class TestCrossSurfacePolicy(unittest.TestCase):
         self.assertIn("scope it to the one member", pv)
 
     def test_matrix_row_covers_the_uniformity_law(self):
-        with open(os.path.join(ROOT, "TEST_MATRIX.md"), encoding="utf-8") as f:
-            for line in f:
-                if line.startswith("| M-266 |"):
-                    self.assertIn("INV-125", line)
-                    return
+        for line in read("TEST_MATRIX.md").splitlines():
+            if line.startswith("| M-266 |"):
+                self.assertIn("INV-125", line)
+                return
         self.fail("M-266 matrix row missing")
 
 

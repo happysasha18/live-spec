@@ -62,10 +62,30 @@ _REFERENCE_INTRO = (
     "scenario headings and carry no table row.\n\n"
 )
 
+# The matrix may be written the same way: a core file plus part files, the core's `## Parts map`
+# naming them and their order. An empty map (the state today) makes the core the whole document and
+# the text byte-identical to the file — TEST_MATRIX.md still carries its own trailing `## Reference`
+# section, so `read()` returns it unchanged; only once a split deletes that inline copy does the
+# synthesis below start doing real work, the same way the spec's already does.
+MATRIX = "TEST_MATRIX.md"
+MATRIX_INDEX = "TEST_MATRIX.index.md"
+
+_MATRIX_REFERENCE_INTRO = (
+    "## Reference\n\n\n\n\n"
+    "The anchor-to-row table below is generated output, built from the body rows by "
+    "`scripts/build-matrix-reference.py`; no one edits it by hand. Each spec anchor a body row "
+    "carries maps to the matrix rows that cover it, ranges and compound anchors expanded.\n\n"
+)
+
 
 def spec_paths():
     """The files the spec is written across: the core first, then the parts its map names."""
     return _sf.spec_paths([os.path.join(ROOT, SPEC)])
+
+
+def matrix_paths():
+    """The files the matrix is written across: the core first, then the parts its map names."""
+    return _sf.spec_paths([os.path.join(ROOT, MATRIX)])
 
 
 def _with_reference_tail(text):
@@ -79,9 +99,22 @@ def _with_reference_tail(text):
     return text + sep + _REFERENCE_INTRO + table
 
 
+def _with_matrix_reference_tail(text):
+    """`text` plus its generated Reference table under a trailing `## Reference`, unless `text`
+    already carries that heading itself (the pre-split shape, read straight off disk)."""
+    if "\n## Reference" in text or text.startswith("## Reference"):
+        return text
+    with open(os.path.join(ROOT, MATRIX_INDEX), encoding="utf-8") as f:
+        table = f.read()
+    sep = "" if text.endswith("\n\n") else ("\n" if text.endswith("\n") else "\n\n")
+    return text + sep + _MATRIX_REFERENCE_INTRO + table
+
+
 def read(rel):
     if rel == SPEC:
         return _with_reference_tail(_sf.read_document(spec_paths(), expand=False)[1])
+    if rel == MATRIX:
+        return _with_matrix_reference_tail(_sf.read_document(matrix_paths(), expand=False)[1])
     with open(os.path.join(ROOT, rel), encoding="utf-8") as f:
         return f.read()
 

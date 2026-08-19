@@ -156,7 +156,7 @@ echo "   (test_architecture_owns_every_anchor_once) — no separate check needed
 
 echo ""
 echo "-- gate d: TEST_MATRIX.md generated Reference agrees with the body (SPEC INV-273/INV-218) --"
-if ! python3 "$GUARDRAILS/check-matrix-reference.py" "$REPO_ROOT/TEST_MATRIX.md"; then
+if ! python3 "$GUARDRAILS/check-matrix-reference.py" "$REPO_ROOT/TEST_MATRIX.md" "$REPO_ROOT/TEST_MATRIX.index.md"; then
   fail=1
 fi
 

@@ -35,13 +35,15 @@ class TestGateD_MatrixReference(unittest.TestCase):
 
     def test_real_matrix_passes(self):
         result = run(["python3", os.path.join(GUARDRAILS, "check-matrix-reference.py"),
-                      os.path.join(ROOT, "TEST_MATRIX.md")], cwd=ROOT)
+                      os.path.join(ROOT, "TEST_MATRIX.md"),
+                      os.path.join(ROOT, "TEST_MATRIX.index.md")], cwd=ROOT)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         self.assertIn("reach:", result.stdout)
 
     def test_missing_file_fails(self):
         result = run(["python3", os.path.join(GUARDRAILS, "check-matrix-reference.py"),
-                      "/nonexistent/TEST_MATRIX.md"], cwd=ROOT)
+                      os.path.join(ROOT, "TEST_MATRIX.md"),
+                      "/nonexistent/TEST_MATRIX.index.md"], cwd=ROOT)
         self.assertEqual(result.returncode, 1)
 
     def test_retired_checkbox_gate_unwired(self):

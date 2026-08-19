@@ -506,8 +506,7 @@ class TestPermissionPathHealth(unittest.TestCase):
             self.assertIn("INV-216", f.read())
 
     def test_matrix_row_covers_the_law(self):
-        with open(os.path.join(REPO, "TEST_MATRIX.md")) as f:
-            self.assertIn("M-397", f.read())
+        self.assertIn("M-397", read("TEST_MATRIX.md"))
 
 
 if __name__ == "__main__":

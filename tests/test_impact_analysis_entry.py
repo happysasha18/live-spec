@@ -11,10 +11,9 @@ boundary-health law, product-prover's three-source lens, communicator's capture 
 2026-07-12.)
 """
 
-import os
 import unittest
 
-from conftest import ROOT, external_clone_or_skip, open_spec, read_all_flat, read_flat
+from conftest import external_clone_or_skip, open_spec, read, read_all_flat, read_flat
 
 
 class TestImpactAnalysisEntry(unittest.TestCase):
@@ -85,11 +84,10 @@ class TestImpactAnalysisEntry(unittest.TestCase):
         self.assertIn("the footprint the three-source read named", cm)
 
     def test_matrix_row_covers_the_entry_station(self):
-        with open(os.path.join(ROOT, "TEST_MATRIX.md"), encoding="utf-8") as f:
-            for line in f:
-                if line.startswith("| M-269 |"):
-                    self.assertIn("INV-128", line)
-                    return
+        for line in read("TEST_MATRIX.md").splitlines():
+            if line.startswith("| M-269 |"):
+                self.assertIn("INV-128", line)
+                return
         self.fail("M-269 matrix row missing")
 
 

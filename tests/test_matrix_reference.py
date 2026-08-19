@@ -1,12 +1,13 @@
 """The generated matrix-Reference gate and its builder (SPEC INV-273, R284; ROADMAP 477).
 
-`scripts/build-matrix-reference.py` builds the `## Reference` section from TEST_MATRIX.md's body rows,
+`scripts/build-matrix-reference.py` builds the Reference table from TEST_MATRIX.md's body rows,
 mapping each row's trailing spec anchors (compound anchors and `T-1..T-7` ranges expand) to the row
-ids that carry them — output only, spliced under `## Reference` by the conversion, never hand-written.
-`guardrails/check-matrix-reference.py` reds a hand edit (drift), a body anchor absent from the committed
-Reference, or a Reference anchor no body row carries, and on green states its reach. The gate arms in
-the conversion delivery, so these tests are green only once TEST_MATRIX.md is converted and the section
-is generated (red-first before then).
+ids that carry them — output only, committed at TEST_MATRIX.index.md, never hand-written.
+`guardrails/check-matrix-reference.py` takes the matrix (a core plus any parts) and the committed
+index as its trailing argument — the sibling shape of `check-index-generated.py` — and reds a hand
+edit (drift), a body anchor absent from the committed Reference, or a Reference anchor no body row
+carries, and on green states its reach. The gate arms in the conversion delivery, so these tests are
+green only once TEST_MATRIX.md is converted and the table is generated (red-first before then).
 
 Zero dependencies beyond the stdlib; run from the repo root: python3 -m pytest -q tests
 """
@@ -21,7 +22,7 @@ from conftest import ROOT
 BUILDER = os.path.join(ROOT, "scripts", "build-matrix-reference.py")
 GATE = os.path.join(ROOT, "guardrails", "check-matrix-reference.py")
 MATRIX = os.path.join(ROOT, "TEST_MATRIX.md")
-REFERENCE_HEAD = "## Reference"
+MATRIX_INDEX = os.path.join(ROOT, "TEST_MATRIX.index.md")
 # A line-anchored `## Reference` heading — never an inline mention in the preamble prose.
 REFERENCE_SPLIT_RE = re.compile(r"(?m)^## Reference *$")
 
@@ -46,11 +47,6 @@ def write(tmp, name, text):
 def read(path):
     with open(path, encoding="utf-8") as f:
         return f.read()
-
-
-def table_lines(section_text):
-    """The markdown table lines (leading `|`) of a committed `## Reference` section."""
-    return "\n".join(l for l in section_text.splitlines() if l.strip().startswith("|"))
 
 
 class TestBuilderShips(unittest.TestCase):
@@ -90,44 +86,45 @@ class TestGateOnRealMatrix(unittest.TestCase):
     """Armed on the converted TEST_MATRIX.md — green with its reach line (R284.5, INV-269)."""
 
     def test_gate_passes_on_the_committed_matrix_with_reach(self):
-        r = run(GATE, MATRIX)
+        r = run(GATE, MATRIX, MATRIX_INDEX)
         self.assertEqual(r.returncode, 0, "the gate red the committed matrix:\n%s" % (r.stdout + r.stderr))
         self.assertIn("reach:", r.stdout)
         self.assertIn("rows scanned", r.stdout)
 
     def test_committed_reference_equals_a_fresh_build(self):
-        text = read(MATRIX)
-        self.assertTrue(REFERENCE_SPLIT_RE.search(text),
-                        "the matrix carries no generated ## Reference section")
-        committed = table_lines(split_reference(text)[1])
+        committed = read(MATRIX_INDEX)
         fresh = run(BUILDER, MATRIX).stdout
         self.assertEqual(committed.strip(), fresh.strip(),
                          "the committed Reference differs from a fresh build — it is generated output")
 
 
 class TestGateReds(unittest.TestCase):
-    """The three faults, each red-proven off a mutated copy of the real matrix."""
+    """The three faults, each red-proven off a mutated copy of the real matrix and its committed
+    index, the sibling shape of test_index_generated.py's fault tests."""
 
     def _matrix_parts(self):
         text = read(MATRIX)
-        self.assertTrue(REFERENCE_SPLIT_RE.search(text))
-        body, section = split_reference(text)
-        return text, body, section
+        self.assertTrue(REFERENCE_SPLIT_RE.search(text),
+                        "the matrix carries no generated ## Reference section")
+        body, _section = split_reference(text)
+        index = read(MATRIX_INDEX)
+        return body, index
 
     def test_reds_a_hand_edited_reference(self):
         # DRIFT (INV-273): a committed Reference with an extra hand-added row differs from a fresh build.
-        text, body, section = self._matrix_parts()
-        drifted = body + REFERENCE_HEAD + section.rstrip() + "\n| ZZ-999 | M-000 |\n"
+        body, index = self._matrix_parts()
+        drifted = index.rstrip() + "\n| ZZ-999 | M-000 |\n"
         with tempfile.TemporaryDirectory() as tmp:
-            m = write(tmp, "TEST_MATRIX.md", drifted)
-            r = run(GATE, m)
+            m = write(tmp, "TEST_MATRIX.md", body)
+            idx = write(tmp, "TEST_MATRIX.index.md", drifted)
+            r = run(GATE, m, idx)
             self.assertNotEqual(r.returncode, 0, "passed a hand-edited Reference:\n%s" % r.stdout)
             self.assertIn("INV-273", r.stdout)
 
     def test_reds_a_body_anchor_missing_from_the_reference(self):
         # a committed Reference with one anchor row deleted — a body anchor the table now misses.
-        text, body, section = self._matrix_parts()
-        lines = section.splitlines()
+        body, index = self._matrix_parts()
+        lines = index.splitlines()
         # drop the first real anchor row of the table (a `| CODE | ... |` line after the separator)
         dropped = None
         out = []
@@ -140,28 +137,30 @@ class TestGateReds(unittest.TestCase):
             out.append(l)
         self.assertIsNotNone(dropped, "found no anchor row to drop")
         anchor = dropped.strip("|").split("|")[0].strip()
-        mutated = body + REFERENCE_HEAD + "\n".join(out)
+        mutated = "\n".join(out)
         with tempfile.TemporaryDirectory() as tmp:
-            m = write(tmp, "TEST_MATRIX.md", mutated)
-            r = run(GATE, m)
+            m = write(tmp, "TEST_MATRIX.md", body)
+            idx = write(tmp, "TEST_MATRIX.index.md", mutated)
+            r = run(GATE, m, idx)
             self.assertNotEqual(r.returncode, 0, "passed a missing body anchor:\n%s" % r.stdout)
             self.assertIn(anchor, r.stdout, "the gate did not name the missing anchor %s" % anchor)
 
     def test_reds_a_reference_anchor_no_body_row_carries(self):
         # a committed Reference with an anchor row for a code no body row carries — an empty home.
-        text, body, section = self._matrix_parts()
-        orphaned = body + REFERENCE_HEAD + section.rstrip() + "\n| INV-9999 | M-000 |\n"
+        body, index = self._matrix_parts()
+        orphaned = index.rstrip() + "\n| INV-9999 | M-000 |\n"
         with tempfile.TemporaryDirectory() as tmp:
-            m = write(tmp, "TEST_MATRIX.md", orphaned)
-            r = run(GATE, m)
+            m = write(tmp, "TEST_MATRIX.md", body)
+            idx = write(tmp, "TEST_MATRIX.index.md", orphaned)
+            r = run(GATE, m, idx)
             self.assertNotEqual(r.returncode, 0, "passed an orphan Reference anchor:\n%s" % r.stdout)
             self.assertIn("INV-9999", r.stdout)
 
     def test_reds_an_empty_body_by_name(self):
         with tempfile.TemporaryDirectory() as tmp:
-            m = write(tmp, "TEST_MATRIX.md",
-                      "# X\n\n## Matrix rows\n\nno rows here\n\n## Reference\n\n| Anchor | Rows |\n|---|---|\n")
-            r = run(GATE, m)
+            m = write(tmp, "TEST_MATRIX.md", "# X\n\n## Matrix rows\n\nno rows here\n")
+            idx = write(tmp, "TEST_MATRIX.index.md", "| Anchor | Rows |\n|---|---|\n")
+            r = run(GATE, m, idx)
             self.assertNotEqual(r.returncode, 0, "passed an empty body:\n%s" % r.stdout)
             self.assertIn("EMPTY", (r.stdout + r.stderr).upper())
 

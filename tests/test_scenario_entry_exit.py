@@ -8,10 +8,9 @@ the composition clause, the entry/exit duty in spec-author, product-prover's sce
 2026-07-09, deferred large theme revived at the next prover-method landing.)
 """
 
-import os
 import unittest
 
-from conftest import ROOT, external_clone_or_skip, open_spec, read_all_flat, read_flat
+from conftest import external_clone_or_skip, open_spec, read, read_all_flat, read_flat
 
 
 class TestScenarioEntryExit(unittest.TestCase):
@@ -51,11 +50,10 @@ class TestScenarioEntryExit(unittest.TestCase):
         self.assertIn("a whole flow's edges", pv)
 
     def test_matrix_row_covers_the_entry_exit_law(self):
-        with open(os.path.join(ROOT, "TEST_MATRIX.md"), encoding="utf-8") as f:
-            for line in f:
-                if line.startswith("| M-268 |"):
-                    self.assertIn("INV-127", line)
-                    return
+        for line in read("TEST_MATRIX.md").splitlines():
+            if line.startswith("| M-268 |"):
+                self.assertIn("INV-127", line)
+                return
         self.fail("M-268 matrix row missing")
 
 

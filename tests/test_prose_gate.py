@@ -426,7 +426,7 @@ class TestProvenanceOutOfBody(unittest.TestCase):
         span ("`- \\``") that desyncs scrub's backtick pairing and can swallow a later parenthetical
         whole, hiding a birth-story from the shaped regex. The substring scan does not depend on that
         pairing, so it still catches the class the shaped check can miss."""
-        text = open(os.path.join(ROOT, "TEST_MATRIX.md"), encoding="utf-8").read()
+        text = read("TEST_MATRIX.md")
         hits = [ln for ln in text.splitlines() if re.search(r"\bborn of\b", ln, re.IGNORECASE)]
         offenders = [ln for ln in hits if "M-191" not in ln]
         self.assertEqual(

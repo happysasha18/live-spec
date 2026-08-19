@@ -73,10 +73,9 @@ class TestGestureOverlayParityLens(unittest.TestCase):
         self.fail("the design-reviewer node does not own INV-165")
 
     def test_matrix_row_present(self):
-        with open(os.path.join(ROOT, "TEST_MATRIX.md"), encoding="utf-8") as f:
-            for line in f:
-                if line.startswith("| M-314 |") and "INV-165" in line:
-                    return
+        for line in read("TEST_MATRIX.md").splitlines():
+            if line.startswith("| M-314 |") and "INV-165" in line:
+                return
         self.fail("M-314 (INV-165) matrix row missing")
 
 

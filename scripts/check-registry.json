@@ -121,7 +121,7 @@
       "kit": "ships",
       "root": "argument",
       "reach": [],
-      "needs": ["guardrails/nonempty_input.py"]
+      "needs": ["guardrails/specformat.py", "guardrails/nonempty_input.py"]
     },
     "scripts/gen-language-consumers.py": {
       "kind": "check",
