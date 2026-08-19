@@ -33,14 +33,40 @@ done
 
 fail=0
 
+# THE READS BELOW ARE THE GATE'S EVIDENCE, AND A BROKEN READ IS NOT EVIDENCE.
+# Each list is built by a shell pipeline. A pipeline can fail outright or be cut off part-way,
+# and a short list looks exactly like a tree that is genuinely missing those gates: the letters
+# the read dropped come back out as "gate X is absent from CI", a verdict about the tree sourced
+# from a read that never finished. `|| true` used to sit at the end of each of these three lines,
+# which suspends this script's own `set -euo pipefail` for exactly that line and hands the empty
+# or short list straight to the comparison below. So each read is now taken with its status:
+# a required list that fails or comes back empty stops the gate by name, and says which file it
+# could not read, instead of blaming whichever gates the failure happened to hide.
+#
+# The carve-out read is the one whose empty answer is real: a repo may declare no carve-outs at
+# all, and `jq` reports that as an empty list on a clean exit. So there the READ must succeed
+# while the RESULT may be empty — an unreadable or malformed ci-mirror.json still stops the gate.
+
 # Local gate letters: the "-- gate X:" markers pre-push echoes before each gate.
-local_letters="$(grep -oE -- '-- gate [a-z]{1,2}:' "$PREPUSH" | grep -oE '[a-z]{1,2}:' | tr -d ':' | sort -u || true)"
+if ! local_letters="$(grep -oE -- '-- gate [a-z]{1,2}:' "$PREPUSH" | grep -oE '[a-z]{1,2}:' | tr -d ':' | sort -u)" \
+   || [ -z "$local_letters" ]; then
+  echo "ci-mirror: the local gate letters could not be read from $PREPUSH — the read failed or came back empty, and this gate does not judge the CI mirror on a list it could not finish reading."
+  exit 1
+fi
 
 # CI gate letters: the "gate X" tokens inside gates.yml step names (a "name:" line).
-ci_letters="$(grep -E 'name:.*gate [a-z]' "$GATES_YML" | grep -oE 'gate [a-z]{1,2}' | grep -oE '[a-z]{1,2}$' | sort -u || true)"
+if ! ci_letters="$(grep -E 'name:.*gate [a-z]' "$GATES_YML" | grep -oE 'gate [a-z]{1,2}' | grep -oE '[a-z]{1,2}$' | sort -u)" \
+   || [ -z "$ci_letters" ]; then
+  echo "ci-mirror: the CI gate letters could not be read from $GATES_YML — the read failed or came back empty, and a mirror that cannot be read is not a mirror that is missing gates."
+  exit 1
+fi
 
 # Declared carve-outs: gates a CI checkout does not re-run, each with its reason.
-carve="$(jq -r '.ci_excluded | keys[]' "$CARVE_JSON" | sort -u || true)"
+# Empty is a real answer here (a repo that carves nothing out); an unreadable file is not.
+if ! carve="$(jq -r '.ci_excluded | keys[]' "$CARVE_JSON" | sort -u)"; then
+  echo "ci-mirror: the declared carve-outs could not be read from $CARVE_JSON — the read failed, and this gate does not judge a carve-out list it could not finish reading."
+  exit 1
+fi
 
 in_set() {  # in_set <letter> <newline-separated set>
   printf '%s\n' $2 | grep -qx "$1"

@@ -9,11 +9,15 @@ invokes and the gate letters gates.yml invokes, subtracts the declared CI carve-
 from CI.
 """
 import os
+import shlex
+import shutil
 import subprocess
 import tempfile
 import unittest
 
 from conftest import read, read_flat
+
+_shq = shlex.quote
 
 REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CHECK = os.path.join(REPO, "guardrails", "check-ci-mirror.sh")
@@ -118,6 +122,89 @@ class TestCiMirror(unittest.TestCase):
 
     def test_matrix_row_covers_the_law(self):
         self.assertIn("INV-210", read("TEST_MATRIX.md"))
+
+
+class TestExtractionFailureIsNeverData(unittest.TestCase):
+    """A failed or partial extraction pipeline must never be judged as complete data.
+
+    The gate reads three lists through shell pipelines: the local gate letters off pre-push, the
+    CI gate letters off gates.yml, and the declared carve-outs off ci-mirror.json. Each read used
+    to end in `|| true`, which suspends the script's own `set -euo pipefail` for exactly that line,
+    so a stage that failed or was cut off mid-stream left a silently empty or short list behind and
+    the comparison ran on it. What came out was not an error but a FALSE RED naming whichever gate
+    letters the broken read happened to drop — a verdict about the tree, sourced from a read that
+    never finished. These three cases are the proven shapes, each pinned by substituting `grep` on
+    PATH so the pipeline breaks while every input file stays intact and readable.
+    """
+
+    @staticmethod
+    def _grep_shim(tmp, pattern, body):
+        """A `grep` on PATH that breaks for one pattern and is the real grep for every other call."""
+        real = shutil.which("grep")
+        path = os.path.join(tmp, "grep")
+        with open(path, "w") as f:
+            f.write(
+                "#!/bin/bash\n"
+                'for a in "$@"; do\n'
+                '  if [[ "$a" == %s ]]; then\n'
+                "%s\n"
+                "  fi\n"
+                "done\n"
+                'exec %s "$@"\n' % (_shq(pattern), body, real)
+            )
+        os.chmod(path, 0o755)
+        return real
+
+    def _run_with_broken_grep(self, pattern, body):
+        with tempfile.TemporaryDirectory() as tmp:
+            self._grep_shim(tmp, pattern, body)
+            return run_check({"PATH": tmp + os.pathsep + os.environ["PATH"]})
+
+    def test_full_stage_failure_is_not_read_as_absence(self):
+        # The gates.yml read fails outright and returns nothing. Every local gate then looks
+        # unmirrored. The gate must say the read failed, not accuse 25 innocent gates.
+        r = self._run_with_broken_grep("name:.*gate [a-z]", "    exit 1")
+        out = r.stdout + r.stderr
+        self.assertNotIn("absent from", out, out)
+        self.assertIn("could not be read", out, out)
+        self.assertNotEqual(r.returncode, 0, out)
+
+    def test_partial_stage_output_is_not_read_as_complete(self):
+        # The same read is cut off mid-stream: it yields every line but the two naming gates d
+        # and e, then fails. The short list must not become the verdict.
+        real = shutil.which("grep")
+        body = '    %s "$@" | %s -vE "gate (d|e) "\n    exit 1' % (real, real)
+        r = self._run_with_broken_grep("name:.*gate [a-z]", body)
+        out = r.stdout + r.stderr
+        self.assertNotIn("gate d runs in", out, out)
+        self.assertNotIn("gate e runs in", out, out)
+        self.assertIn("could not be read", out, out)
+        self.assertNotEqual(r.returncode, 0, out)
+
+    def test_local_letter_read_failure_is_not_read_as_a_stale_carveout(self):
+        # The pre-push read is cut off and loses gate c. Carve-out 'c' then names no local gate
+        # and reads as stale drift — a second false verdict off the same broken pipe.
+        real = shutil.which("grep")
+        body = '    %s "$@" | %s -v -- "-- gate c:"\n    exit 1' % (real, real)
+        r = self._run_with_broken_grep("-- gate [a-z]{1,2}:", body)
+        out = r.stdout + r.stderr
+        self.assertNotIn("names no local pre-push gate", out, out)
+        self.assertIn("could not be read", out, out)
+        self.assertNotEqual(r.returncode, 0, out)
+
+    def test_a_repo_declaring_no_carveouts_is_not_a_failed_read(self):
+        # The intended empty case stays intended: `ci_excluded: {}` is a repo that carves nothing
+        # out, which jq reports as an empty list on a clean exit. That must never read as a broken
+        # pipeline. It may still red for an unmirrored gate — it must not red for the read itself.
+        import json
+        with tempfile.NamedTemporaryFile("w", suffix=".json", delete=False) as f:
+            json.dump({"ci_excluded": {}}, f)
+            fixture = f.name
+        try:
+            r = run_check({"CI_MIRROR_JSON": fixture})
+            self.assertNotIn("could not be read", r.stdout + r.stderr)
+        finally:
+            os.unlink(fixture)
 
 
 if __name__ == "__main__":
