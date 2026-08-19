@@ -59,7 +59,8 @@ picks it up next. Stopping here is the deliverable this pass owed, not a deferra
 asked for the investigation to gate the cut, the investigation found a real design gap the cut would
 otherwise have papered over at day's end on a file every part of the system cites by name, and the
 row now carries that gap named rather than hidden.
-Blocking: none — this pass changes only ROADMAP.md and its own prover record, and the pre-existing
-gate-m hook drift the pre-push dry run shows is environmental (the shared hooks directory, drifted
-by another session's install), not a finding against this diff; the coordinator is already handling
-it through delivery order and guardrails/install.sh was not run here.
+Blocking: none
+This pass changes only ROADMAP.md and its own prover record. The gate-m hook drift the pre-push
+dry run shows is environmental (the shared hooks directory, drifted by another session's install),
+not a finding against this diff; the coordinator is already handling it through delivery order, and
+guardrails/install.sh was not run here.
