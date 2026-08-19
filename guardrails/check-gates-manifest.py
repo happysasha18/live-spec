@@ -193,5 +193,28 @@ def main(argv):
     return 0
 
 
+def _main_guarded(argv):
+    """main(), with any exception this gate's own arms did not anticipate turned into the same
+    typed red line every other fault here prints, rather than a bare traceback. A gate device
+    source can legitimately be missing from a tree still catching up to this pack's latest shape —
+    an older checkout, a neighbour mid-merge — and that is a fault this gate NAMES, never one it
+    crashes on."""
+    try:
+        return main(argv)
+    except Exception as e:  # noqa: BLE001 — the deliberate backstop; every arm above already
+        # raises its own named fault first, so reaching here means something this gate's own code
+        # did not foresee, and the contract still owes one typed line and a non-zero exit for it.
+        print("%s: %s" % (CHECK, e))
+        print(json.dumps({
+            "severity": "error",
+            "code": "gates-manifest",
+            "message": "gate af could not complete: %s" % e,
+            "fix": "run `python3 %s` and `python3 %s` by hand to see the fault directly; if the "
+                   "tree is mid-merge and missing a source this gate reads, finish the merge first."
+                   % (GENERATOR_REL, os.path.relpath(os.path.abspath(__file__))),
+        }))
+        return 1
+
+
 if __name__ == "__main__":
-    sys.exit(main(sys.argv))
+    sys.exit(_main_guarded(sys.argv))

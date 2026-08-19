@@ -170,6 +170,33 @@ class TestGatesManifest(unittest.TestCase):
         self.assertIn("gate af", matrix)
         self.assertIn("gates-manifest.json", matrix)
 
+    def test_missing_source_reds_by_name_never_a_traceback(self):
+        # THE INCIDENT: a tree still catching up to this pack's shape (an older checkout, a
+        # neighbour mid-merge) can legitimately be missing guardrails/pre-push itself under a
+        # --root this gate is pointed at. Before this fix, gen-gates-manifest.py's own `read()`
+        # let a raw FileNotFoundError escape past check-gates-manifest.py's narrower
+        # `except gen.BuildError`, printing a bare Python traceback instead of the gate's own
+        # typed red line — exactly the failure shape a gate must never take (SPEC INV-47
+        # convention 1: one typed line, no half output, and never an unhandled crash).
+        root = tempfile.mkdtemp()
+        os.makedirs(os.path.join(root, "guardrails"))
+        os.makedirs(os.path.join(root, "scripts"))
+        os.makedirs(os.path.join(root, ".github", "workflows"))
+        import shutil
+        shutil.copy(GENERATOR, os.path.join(root, "scripts", "gen-gates-manifest.py"))
+        shutil.copy(os.path.join(REPO, "guardrails", "gate-red-proofs.json"),
+                   os.path.join(root, "guardrails", "gate-red-proofs.json"))
+        shutil.copy(os.path.join(REPO, "guardrails", "ci-mirror.json"),
+                   os.path.join(root, "guardrails", "ci-mirror.json"))
+        shutil.copy(GATES_YML, os.path.join(root, ".github", "workflows", "gates.yml"))
+        # guardrails/pre-push is deliberately absent.
+        r = run_check(root=root)
+        self.assertEqual(r.returncode, 1, r.stdout + r.stderr)
+        self.assertNotIn("Traceback", r.stdout + r.stderr)
+        self.assertIn("cannot read", r.stdout)
+        self.assertIn("pre-push", r.stdout)
+        self.assertIn('"severity": "error"', r.stdout)
+
 
 if __name__ == "__main__":
     unittest.main()

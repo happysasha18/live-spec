@@ -60,8 +60,15 @@ class BuildError(Exception):
 
 
 def read(path):
-    with open(path, encoding="utf-8") as f:
-        return f.read()
+    """A source file's text, or a BuildError naming it — never a raw OSError. A gate device source
+    (pre-push, gates.yml) can legitimately be absent from a tree still catching up to this pack's
+    latest shape (an older checkout, a neighbour mid-merge); that is a fault the caller reports by
+    name, never an unhandled traceback."""
+    try:
+        with open(path, encoding="utf-8") as f:
+            return f.read()
+    except OSError as e:
+        raise BuildError("cannot read %s: %s" % (path, e))
 
 
 def load_json(path):
