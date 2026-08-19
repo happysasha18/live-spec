@@ -198,6 +198,33 @@ def _repo(tmp_path, name="worktree"):
     return repo
 
 
+def _gate_stands_in_a_repository():
+    """Whether the gate's own copy has a repository to read its project key from.
+
+    Gate b's meta-run copies this tree to a temp directory with no repository beside it (deliberately
+    git-less, tests/test_guardrails.py::TestGateB_Tests._scratch_ignore). There the gate can place no
+    session anywhere, so by design it keeps every finding — including a REAL neighbour's, since there
+    is no "this project" left to compare a session's directory against. The fail-safe itself is proven
+    by `test_a_session_in_no_repository_at_all_still_reds`, which needs no repository."""
+    proc = subprocess.run(["git", "-C", os.path.join(ROOT, "guardrails"),
+                           "rev-parse", "--git-common-dir"], capture_output=True, text=True)
+    return proc.returncode == 0
+
+
+def _skip_unless_gate_has_a_repository():
+    """Skip a test that asserts a clean verdict over the real machine's transcripts: inside gate b's
+    git-less scratch copy, is_own_session's fail-safe reads every session as this project's own,
+    which turns a genuine neighbour's finding (a real other repository's session) into a false red
+    this copy cannot avoid and this test cannot tell apart from a true one (found 2026-08-19, push
+    log: session c3d36407-8158-4c4a-ad85-409cb2c237bc, exhibition-engine-integrate, already carried
+    as a NOTICE in the real tree, reddened only inside the scratch copy)."""
+    if not _gate_stands_in_a_repository():
+        pytest.skip("this tree carries no repository beside the gate (gate b's meta-run copies it to "
+                    "a temp directory), so the gate holds no project key, reads every session as this "
+                    "project's own by design, and a real neighbour's finding reds here though it is "
+                    "not this project's defect")
+
+
 class TestGateRedsOnADiscardingCommand:
 
     def test_the_lived_case_reds_and_names_its_path(self, tmp_path):
@@ -507,23 +534,13 @@ class TestTheGateJudgesThisProjectsOwnSessions:
         subprocess.run(["git", "init", "-q", str(repo)], check=True, capture_output=True)
         return repo
 
-    @staticmethod
-    def _gate_stands_in_a_repository():
-        """Whether the gate's own copy has a repository to read its project key from.
-
-        Gate b's meta-run copies this tree to a temp directory with no repository beside it. There
-        the gate can place no session anywhere, so by design it keeps every finding and the two
-        neighbour cases below have nothing to read. The fail-safe itself is proven by
-        `test_a_session_in_no_repository_at_all_still_reds`, which needs no repository."""
-        proc = subprocess.run(["git", "-C", os.path.join(ROOT, "guardrails"),
-                               "rev-parse", "--git-common-dir"], capture_output=True, text=True)
-        return proc.returncode == 0
+    _gate_stands_in_a_repository = staticmethod(_gate_stands_in_a_repository)
 
     def _needs_a_repository(self):
-        if not self._gate_stands_in_a_repository():
-            pytest.skip("this tree carries no repository beside the gate (gate b's meta-run copies "
-                        "it to a temp directory), so the gate holds no project key and keeps every "
-                        "finding by design")
+        """The two neighbour-classification cases below have nothing to read without a project key —
+        the shared module-level skip names the same reason `test_the_gate_runs_against_this_machines_
+        own_transcripts` now checks for itself, so the two live under one wording (see that helper)."""
+        _skip_unless_gate_has_a_repository()
 
     @staticmethod
     def _typed_lines(res):
@@ -826,7 +843,14 @@ class TestTheGateIsArmedWhereItSaysItIs:
 
     def test_the_gate_runs_against_this_machines_own_transcripts(self):
         """The real root, the session's own window. A host that keeps no transcripts where the gate
-        looks stands down by name; a host that keeps them gets a verdict over real worker runs."""
+        looks stands down by name; a host that keeps them gets a verdict over real worker runs.
+
+        Needs a repository for the same reason TestTheGateJudgesThisProjectsOwnSessions's neighbour
+        cases do: inside gate b's git-less scratch copy the gate can place no session anywhere, so a
+        real neighbour's finding (a different, unrelated repository's own session) reds here as if it
+        were this project's own, which is not a violation this copy — or this test — can tell from a
+        true one (found 2026-08-19, push log)."""
+        _skip_unless_gate_has_a_repository()
         res = _gate("--since-hours", "24", counting_from=None)
         assert res.returncode == 0, (
             "a worker run since the counting start discarded working-tree changes:\n%s" % res.stdout)
