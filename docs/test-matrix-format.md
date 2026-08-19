@@ -20,11 +20,14 @@ The matrix is the spec projected into a checkable grid. It is derived from the p
 
 ## Document structure
 
-A matrix document opens with a short preamble, the same shape the family gives it: what the document covers, what the bracket codes are, and how the keywords read. Three parts follow, in this order:
+TEST_MATRIX.md is the matrix's core. The body's other parts live outside it, described below. The core opens with a short preamble, the same shape the family gives it. The preamble states what the document covers, what the bracket codes are, and how the keywords read. Two things follow the preamble, in this order:
 
 1. **The artifact inventory** — a table of every file the reader receives, each entry owning at least one row that asserts it at the rendered level. An artifact that no test renders can ship broken while the suite stays green, so the inventory closes that gap by construction.
-2. **The matrix rows** — the body, grouped into node blocks: one block of rows per architecture node, defined below.
-3. **The generated Reference** — a table a script builds, mapping each spec anchor to the matrix rows that cover it.
+2. **The Parts map** — a table naming every part file the matrix's rows live in, one row per part. Its order is the order a reader should read the parts in. A part is a file under `matrix/`, holding one architecture node's whole block of rows. The map names each part's row count and its topic line, the node's own responsibility line carried over from `ARCHITECTURE.md`. Together they let a reader judge a part's size and purpose before opening it.
+
+The matrix rows — the body, grouped into node blocks — live outside the core, one file per architecture node under `matrix/`, never inside TEST_MATRIX.md. The generated Reference, mapping each spec anchor to the matrix rows that cover it, lives outside the core too, in its own committed file, `TEST_MATRIX.index.md`.
+
+A reader who wants the whole matrix as one document reads it through the shared reader rather than opening TEST_MATRIX.md alone. `guardrails/specformat.py`'s `spec_paths()` and `read_document()` join the core and the parts the Parts map names into one body, in map order. This is the same join the spec's own core and parts already use. A gate or a builder script takes the core, then each part, on its command line, and reads them this way. The test suite goes one step further. `tests/conftest.py`'s `read()` takes that joined body and appends the committed `TEST_MATRIX.index.md` under a synthesized `## Reference` heading. A test that calls `read("TEST_MATRIX.md")` then sees the core, every part, and the Reference, exactly as if the file had never been split.
 
 ## The matrix row is one criterion
 
@@ -42,21 +45,21 @@ A matrix-local row id is legal, and the spec anchor stays the parent. One spec f
 
 ## Node blocks stand as the case grouping
 
-The spec groups its criteria into named cases. The matrix groups its rows into node blocks: one block per architecture node, headed `### [node: <name>]`, and the block heading is the matrix's case grouping. A node the architecture marks `[target]` — promised under an owned queue row, its machinery not yet landed — keeps that mark in its block heading, so the matrix and the architecture read the same. Every architecture node owns at least one block, and every module block owns at least one row that asserts the module at its declared interface.
+The spec groups its criteria into named cases. The matrix groups its rows into node blocks: one block per architecture node, headed `### [node: <name>]`, and the block heading is the matrix's case grouping. Each node block is its own file under `matrix/`, named after the node. Any `[target]` marker is dropped from the filename only, never from the heading text. A node the architecture marks `[target]` — promised under an owned queue row, its machinery not yet landed — keeps that mark in its block heading, so the matrix and the architecture read the same. Every architecture node owns at least one block, and every module block owns at least one row that asserts the module at its declared interface. A new row is written into its node's own part file under `matrix/`, the file the Parts map names for that node, never into TEST_MATRIX.md.
 
 The spec criterion sits inside a requirement that gives it a Context block and a User Story; the matrix row carries neither. The fact's Context and its User Story live once at the spec, and the row inherits them through its trailing anchor. Restating them on the row would give one fact a second home, so the row stands down from carrying them and points at the spec instead.
 
 ## The generated Reference
 
-The matrix carries a `## Reference` section that maps each spec anchor to the matrix rows covering it. A script builds it from the body rows at freeze, reading each row's trailing anchors and its row id, and the section is output only; no one edits it by hand. The builder is a sibling of `scripts/build-index.py`, and the section is the matrix's own generated map, the way the spec's `## Reference` is the spec's code-to-location table. The builder reads a row's anchors the way the suite reads them today: a row may cite several codes, each mapped, and a range anchor of the form `T-1..T-7` expands to its members before mapping.
+The Reference maps each spec anchor to the matrix rows covering it. Its committed home is `TEST_MATRIX.index.md`, a file of its own beside the core, the same home `PRODUCT_SPEC.index.md` gives the spec's own Reference. `scripts/build-matrix-reference.py` builds it from the body rows at freeze. It reads each row's trailing anchors and its row id across the core and every part the Parts map names. The file is output only; no one edits it by hand. The builder is a sibling of `scripts/build-index.py`. The table is the matrix's own generated map, the way the spec's committed index is the spec's code-to-location table. The builder reads a row's anchors the way the suite reads them today: a row may cite several codes, each mapped, and a range anchor of the form `T-1..T-7` expands to its members before mapping.
 
-A gate holds the Reference against drift, a sibling of `guardrails/check-index-generated.py`, and it reds on three faults:
+A gate holds the Reference against drift, `guardrails/check-matrix-reference.py`, a sibling of `guardrails/check-index-generated.py`. It takes the core, then each part, then the committed index path, on its command line, and it reds on three faults:
 
 - the committed Reference differs from a fresh build off the current body — a hand edit, or a body that moved without a rebuild;
 - a spec anchor sits on a body row and is absent from the committed Reference;
 - a spec anchor sits in the committed Reference and is carried by no body row.
 
-The gate stays unarmed until the delivery that converts the matrix to this format, and it arms in that same delivery. When it passes it states its reach on the green line — the files it opened and the rows it matched of the rows it scanned — the reach every gate in this family states.
+When it passes it states its reach on the green line — the files it opened and the rows it matched of the rows it scanned — the reach every gate in this family states.
 
 ## The row lint
 

@@ -464,13 +464,13 @@
       "total": 65
     },
     "docs/test-matrix-format.md": {
-      "bytes": 10829,
+      "bytes": 12738,
       "file": "docs/test-matrix-format.md",
-      "long": 32,
+      "long": 29,
       "longest": 59,
       "register": 0,
       "style": 1,
-      "total": 33
+      "total": 30
     },
     "docs/test-method.md": {
       "bytes": 7940,
