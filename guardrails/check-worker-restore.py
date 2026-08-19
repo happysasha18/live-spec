@@ -173,6 +173,27 @@ guardrails/rule-census.json` in this repository's own tree. A declined attempt r
 so either one turns a finished incident into a red no future run can clear, which is the one thing
 the counting start exists to prevent.
 
+The start moved again on 2026-08-19, from `2026-08-12T06:06:00Z` to `2026-08-18T21:48:00Z`, to carry
+TWENTY-EIGHT recorded findings as history — not the twelve first found. This project's own sessions
+handed a shell a discarding command twelve times on 2026-08-18 alone, across `live-spec-dt/wt`,
+`live-spec-split/wt` (eight of the twelve), `live-spec-morning/wt`, and `live-spec-cull2/wt` (the
+latest, a DECLINED attempt at 2026-08-18T21:47:11Z) — but every one of those twelve is stamped before
+that same latest timestamp, and so is every one of sixteen more the full history read turned up: six
+on 2026-08-13, one on 2026-08-15 (`ran in: UNKNOWN`, the fail-safe default's own proof case, reddening
+exactly as its law says it must), five on 2026-08-17, four more on 2026-08-18 in worktrees never named
+by the first pass. No date sits between the twelve and the sixteen, so a move that carries one group
+carries the other; all twenty-eight stand as history, named in full and recorded in `DECISIONS.md`
+(2026-08-19) and `ROADMAP.md` row 624, one minute past the latest and no further than that requires.
+This move corrects no misread outcome and repairs no habit — it is the same act row 598's finding
+earned, applied at more than twenty times the size, and DECISIONS.md also names the second thing this
+read found: the same red had already surfaced three times since 2026-08-05 in prover records that
+called it "environmental" and moved on, the informal habit that let most of the twenty-eight go
+unrecorded for as long as six days. The habit that produced the findings themselves (a worker hiding a
+file's or the tree's uncommitted state behind a git command to prove a before-and-after, instead of
+reading and holding its bytes) is not fixed by this move and was never going to be: row 624 stays open
+on that, for a hook — already built as a separate package, not yet installed on this machine — that
+refuses the five forms at the moment they reach a shell.
+
 THE STAND-DOWN. When the transcript root does not exist, this host keeps no transcripts where the
 gate looks. The gate stands down, says so by name, and exits 0 — a stated stand-down rather than a
 silent pass. When the root DOES exist but holds no worker-run transcript at all, the layout the gate
@@ -234,7 +255,33 @@ RUN_GLOB = os.path.join("*", "*", "subagents", "agent-*.jsonl")
 # 2026-07-28 — that declined attempt, and one that ran in this repo's own tree on 2026-07-28T21:12:39Z
 # — and a declined attempt reds like any other, so the earlier value turns two finished incidents into
 # a permanent red and the 06:06 start stays.
-COUNTING_FROM = "2026-08-12T06:06:00Z"
+#
+# Moved from 2026-08-12T06:06:00Z to 2026-08-18T21:48:00Z on 2026-08-19, to carry TWENTY-EIGHT
+# findings as history, not twelve. The first pass found twelve — this project's own sessions handed a
+# shell a discarding command twelve times on 2026-08-18, across live-spec-dt/wt, live-spec-split/wt
+# (eight, one a `git stash push -- tests/test_spec_parts.py` run by an agent whose own brief forbade
+# changing files, one minute before a second agent in that same worktree committed real work to that
+# identical file), live-spec-morning/wt, and live-spec-cull2/wt (a DECLINED attempt at
+# 2026-08-18T21:47:11Z — a declined attempt reds like any other). Every one of those twelve is stamped
+# before the latest of them, and a full read of the history since the old start
+# (`--all --counting-from 2026-08-12T06:06:00Z`) found sixteen MORE, every one of them also stamped
+# before that same latest timestamp: six on 2026-08-13, one on 2026-08-15 (`ran in: UNKNOWN` — the one
+# case this file's own `classify` cannot place at all, the fail-safe default's proof case, reddening
+# exactly as its own law requires), five on 2026-08-17, and four more on 2026-08-18 in worktrees the
+# first pass never named. No date separates the twelve from the sixteen — moving the start past the
+# latest of the twelve necessarily moves it past all sixteen too — so the start carries all
+# twenty-eight or none, and it carries all twenty-eight. All twenty-eight are named in full in both of
+# the law's own homes before the start moves past them: DECISIONS.md (2026-08-19) and ROADMAP.md row
+# 624, which also names the second thing this read found — this same red had already surfaced three
+# times since 2026-08-05 in prover records that called it "environmental" and moved on without tracing
+# it, the informal habit that let sixteen of the twenty-eight sit unrecorded. The move does not repair
+# the habit that produced any of them — nothing today stops a worker from handing a shell one of these
+# five forms in the first place, only this gate's after-the-fact transcript read. A hook that refuses
+# the five forms at the moment of handing is built as a separate package but not yet installed on this
+# machine (the owner's own act), and row 624 stays open until it is. The new start is one minute past
+# the latest of the twenty-eight and no further than that — no narrower value exists that carries the
+# twelve without also carrying the sixteen.
+COUNTING_FROM = "2026-08-18T21:48:00Z"
 
 # What the shell did with a command the gate found. All three red; they differ in the recovery they
 # leave, and the findings print in this order — the executed ones first, the ones the transcript

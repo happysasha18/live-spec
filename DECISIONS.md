@@ -659,3 +659,91 @@ outlives the correction.
   `176e927f-4e67-4fa6-887e-86d1d6e5d1e4` at 2026-07-28T21:12:39Z with `git checkout --
   guardrails/rule-census.json` in this repository — so moving the start back would turn two finished
   incidents into a red no future run can clear.
+
+- **The worker-restore gate's counting start moves to 2026-08-18T21:48:00Z, carrying
+  twenty-eight findings as history, not twelve.** 2026-08-19, while reading
+  `guardrails/check-worker-restore.py`'s history past its 2026-08-12T06:06:00Z start.
+  `guardrails/check-worker-restore.py --all --counting-from 2026-08-12T06:06:00Z` found
+  twenty-eight findings this project's own sessions ran since the old start, every one of them
+  stamped before the latest of them (2026-08-18T21:47:11Z) — so any move that carries the
+  twelve findings named below past the start necessarily carries the other sixteen too: there is
+  no date between the earliest and the latest that separates one group from the other. The record
+  below names all twenty-eight rather than the twelve first found, because a silent carry of the
+  rest would repeat, at sixteen times the size, the exact gap row 605 already named once.
+
+  **The twelve, 2026-08-18, four of this repository's own lane worktrees** — `live-spec-dt/wt`
+  (one `git checkout HEAD -- guardrails/doc-bounds.json` at 19:11:13Z, RAN); `live-spec-split/wt`
+  (eight — three `git checkout -- docs/PROGRESS.md`, three bare `git stash -q`, and one
+  `git stash push -q -m "1v-fix"` against the whole tree, between 06:35:15Z and 07:31:30Z, plus one
+  `git stash push -q tests/test_spec_parts.py` at 07:44:14Z); `live-spec-morning/wt` (two
+  `git stash -q` at 05:53:22Z and 05:55:57Z); `live-spec-cull2/wt` (one `git checkout --
+  docs/MEASUREMENTS.md` at 21:47:11Z, DECLINED by the harness — the rule reds on the handing to a
+  shell alone, ROADMAP row 479). Every one is the same shape row 479 already forbids: a worker hid
+  a file's or the tree's uncommitted state with a git command to compare a before-and-after, then
+  restored it with the same class of command, rather than reading and holding the bytes itself.
+
+  The heaviest of the twelve: the `live-spec-split/wt` finding at 07:44:14Z ran `git stash push -q
+  tests/test_spec_parts.py` inside an agent whose own brief forbade it from changing files at all.
+  One minute later, at 2026-08-18T10:45:09+03:00 (commit `56f179a9`, verified by reading
+  `/private/tmp/live-spec-split/wt`'s own `git log` — 82 lines touching that same file), a second
+  agent in that same worktree committed real, hand-written work to that identical file. A
+  badly-timed pop would have overwritten or interleaved with that commit; this time the timing
+  happened to clear, which is luck, not the rule holding.
+
+  **The other sixteen, never before recorded anywhere, by day and worktree:**
+  - 2026-08-13 — six: `/Users/sashaabramovich/live-spec` itself (one, 11:45:18Z);
+    `live-spec-night/wt-packet-b` (one, 19:00:31Z); `live-spec-night-integration/wt-ck2` (one,
+    20:10:03Z); `live-spec-night-integration/wt-integration` (three, 21:02:38Z-21:04:38Z).
+  - 2026-08-15 — one, named separately below.
+  - 2026-08-17 — five: `live-spec-slimdown/wt` (two, 15:33:26Z and 15:54:36Z);
+    `live-spec-integrate-slimdown/wt` (one, 17:41:57Z); `live-spec-night18/wt-d` (one, 19:36:52Z);
+    `live-spec-night18/wt-a2-comm` (one, 23:11:01Z).
+  - 2026-08-18, in worktrees the first pass never named — four: `live-spec-progressfix/wt` (two,
+    05:50:04Z and 05:52:22Z); `live-spec-readme2/wt` (two, 06:00:17Z and 06:01:30Z).
+
+  **The 2026-08-15 finding stands apart from the other twenty-seven and is named on its own.**
+  Session `b9af9566-98e6-41e5-b6be-dba10e984606` handed a shell `git clean -qfd` at
+  2026-08-15T18:54:30Z with `ran in: UNKNOWN (a cd target the gate could not read statically)` —
+  the one case `classify` cannot place at all, not even to a directory that turned out gone or
+  foreign. This is the exact shape the fail-safe default exists for: an unplaceable effective
+  directory reds, unconditionally, because a gate that stayed quiet over what it could not place
+  would lose the catch it exists for (`is_own_session`'s own law, and `classify`'s). It reddened
+  correctly. The counting-start move carries it into history along with the other twenty-seven all
+  the same, and that is worth saying aloud rather than letting it vanish into a round number: the
+  one finding this gate's own design was proudest of catching is carried past exactly like the
+  ones it caught by dumb luck.
+
+  **A second truth this same finding uncovered.** The habit did not surface today; it has stood
+  since at least 2026-08-13, and this exact test —
+  `tests/test_worker_restore.py::TestTheGateIsArmedWhereItSaysItIs::test_the_gate_runs_against_this_machines_own_transcripts`
+  — has repeatedly reddened and been waved past rather than escalated: `docs/prover/2026-08-05-day-of-readability-repairs.md`
+  finding 13 names it and calls it a red belonging to "a concurrent run", not the change under
+  review; `docs/prover/2026-08-14-candidate-repair.md` lists it among seven reds called
+  "environmental" and moves on; `docs/prover/2026-08-17-slimdown-pin-renumber.md` finds it red on a
+  named worker's real commands and writes "stands: it is a true finding … and no edit in this range
+  can clear it" — true on each occasion, and never once carried to an incident record or a
+  counting-start review before this one. That practice — naming a real red, filing it under a word
+  that excuses the range at hand, and moving on without ever tracing it to its source — is what let
+  twenty-seven of these twenty-eight sit unrecorded for up to six days. It stops here: this record
+  does not call the twenty-eight "environmental" or "pre-existing" and leave it there; it names
+  every one, and the fix under way (below) targets the habit rather than the next range's
+  convenience.
+
+  Row 605 already named the smaller-scale version of this same failure: a `ran` discard carried
+  past the counting start on a source comment alone, `guardrails/check-worker-restore.py:197`, is
+  thinner than the gate's own law asks — the start moves forward only with a recorded reason. This
+  time the reason is recorded in both homes the gate names, in full, before the start moves past
+  any of the twenty-eight: here, and at `ROADMAP.md` row 624. The counting start (`COUNTING_FROM`
+  in `guardrails/check-worker-restore.py`) moves from `2026-08-12T06:06:00Z` to
+  `2026-08-18T21:48:00Z`, one minute past the latest of the twenty-eight (the declined
+  `live-spec-cull2/wt` attempt at 21:47:11Z) and no further than that — narrower is impossible, since
+  every one of the sixteen sits before that same latest timestamp.
+
+  This record closes nothing. The habit that produced all twenty-eight — hiding a file with a git
+  command to prove a before-and-after, instead of reading and holding its bytes — is unrepaired by
+  this move alone: nothing today stops a worker from handing a shell one of the five forbidden
+  forms in the first place, only this gate's after-the-fact transcript read. A hook that refuses
+  the five forms at the moment a worker hands them to a shell is built as a separate package, but it
+  is not yet standing on this machine — installing it is the owner's own act. ROADMAP row 624
+  records the event and stays open on exactly that: the row closes when the hook is installed and
+  armed here, not when it merely exists elsewhere.
