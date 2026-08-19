@@ -38,7 +38,7 @@ jobs:
       - name: test suite (gate b, full — the reach map stays local)
         if: ${{ !cancelled() }}
         run: python3 -m pytest -q
-      - name: gate a — fresh prover record (one record per push, SPEC M-6/INV-116/INV-304)
+      - name: gate a — fresh prover record for today (one record per push: the re-check of the spec and the architecture, and the adversarial read of the pushed range, SPEC M-6/INV-116/INV-304)
         if: ${{ !cancelled() }}
         # LIVE_SPEC_DIFF_BASE lets the script judge the inbox-only carve-out (row 269,
         # SPEC M-6/INV-112): a push whose diff is exactly one new inbox/ file owes no
@@ -49,7 +49,7 @@ jobs:
         env:
           LIVE_SPEC_DIFF_BASE: ${{ github.event.before }}
         run: guardrails/check-prover-record.sh --push
-      - name: gate d — matrix Reference generated and agrees with the body
+      - name: gate d — TEST_MATRIX.md generated Reference agrees with the body (SPEC INV-273/INV-218)
         if: ${{ !cancelled() }}
         run: python3 guardrails/check-matrix-reference.py TEST_MATRIX.md
       - name: gate g — pin drift
@@ -61,7 +61,7 @@ jobs:
       - name: gate e — prototype fence
         if: ${{ !cancelled() }}
         run: guardrails/check-prototype-fence.sh
-      - name: gate i — shipped language (no owner name / stray Cyrillic in the shipped set, SPEC INV-120)
+      - name: gate i — shipped-language (no owner name or stray Cyrillic in the shipped set, SPEC INV-120)
         if: ${{ !cancelled() }}
         run: guardrails/check-shipped-language.sh
       - name: gate j — no broad browser-kill (cleanup targets the test resource only, SPEC INV-162)
@@ -89,7 +89,7 @@ jobs:
         env:
           LIVE_SPEC_DIFF_BASE: ${{ github.event.before }}
         run: guardrails/check-skill-review.sh
-      - name: gate t — doc rotation (the pack's split-and-rotated docs lose nothing, SPEC INV-209)
+      - name: gate t — doc rotation (the pack's split-and-rotated docs lose nothing — every rotated row is findable in its archive and every archive is named in a manifest line, SPEC INV-209)
         if: ${{ !cancelled() }}
         run: python3 guardrails/check-doc-rotation.py
       - name: gate h — the four host checks (this repo attached as its own first host, SPEC INV-97)
@@ -127,13 +127,13 @@ jobs:
       - name: gate w — every gate can fail (every gate in this chain carries a known-red proof, SPEC INV-212)
         if: ${{ !cancelled() }}
         run: python3 guardrails/check-every-gate-can-fail.py
-      - name: gate x — generated index (committed index equals a fresh build off the body; body and index agree; an empty body reds by name, SPEC INV-258/INV-259/INV-218)
+      - name: gate x — generated index (the committed index equals a fresh build off the body; body and index agree; an empty body reds by name, SPEC INV-258/INV-259/INV-218)
         if: ${{ !cancelled() }}
         run: python3 guardrails/check-index-generated.py PRODUCT_SPEC.md PRODUCT_SPEC.index.md
       - name: gate y — agent card (a live-spec host tree carries its .live-spec/agent.md card, SPEC INV-219)
         if: ${{ !cancelled() }}
         run: python3 guardrails/check-agent-card.py
-      - name: gate aa — doc findings bound (no live document above its recorded finding count, SPEC INV-301)
+      - name: gate aa — doc findings bound (no live document above its recorded finding count; a cleared document stays at zero, SPEC INV-301)
         if: ${{ !cancelled() }}
         # The record arm reads the record against the state the remote already holds (SPEC R302.12).
         # github.event.before is the pre-push SHA on a push; on a PR it is empty and the arm falls back
@@ -141,9 +141,12 @@ jobs:
         env:
           LIVE_SPEC_DIFF_BASE: ${{ github.event.before }}
         run: python3 guardrails/check-doc-findings-bound.py
-      - name: gate ad — published tree counts (a count this repository publishes about its own tree is built from the tree, SPEC INV-305)
+      - name: gate ad — published tree counts (every count this repository publishes about its own tree matches the tree, and the reproduction command beside it returns the published number, SPEC INV-305)
         if: ${{ !cancelled() }}
         run: python3 guardrails/check-tree-counts.py
       - name: gate ae — named checks (the registry says what each runnable file a skill body names is, SPEC INV-306)
         if: ${{ !cancelled() }}
         run: python3 guardrails/check-named-checks.py
+      - name: gate af — gate device manifest (guardrails/gates-manifest.json joins every gate's script, red proof and CI-mirror status from pre-push, gate-red-proofs.json and ci-mirror.json; it reds where a fresh build differs from the committed file, or where a gates.yml step's law sentence differs from the gate's own, SPEC INV-210/INV-212)
+        if: ${{ !cancelled() }}
+        run: python3 guardrails/check-gates-manifest.py
