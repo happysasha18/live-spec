@@ -67,7 +67,16 @@ GENERATOR_REL = "scripts/gen-gates-manifest.py"
 
 # A gates.yml step name reading `gate X — LAW...` — the shape a mirrored gate's step is held to.
 # `- +` accepts an em dash or a hyphen, matching either house style already in the file.
-CI_STEP_LAW_RE = re.compile(r"- name: gate ([a-z]{1,2}) [—-] (.+)")
+CI_STEP_LAW_RE = re.compile(r'- name: "?gate ([a-z]{1,2}) [—-] (.+)')
+# A gates.yml step name is a YAML scalar value, and a law sentence routinely carries its own
+# colon (gate a's "one record per push: the re-check..." is the one that broke the file on
+# 2026-08-19). A plain YAML scalar cannot carry an unescaped `: ` — it reads as a nested
+# mapping and the whole file stops parsing, exactly what happened here: gate af held the
+# TEXT to its source correctly and never noticed the FILE had stopped being valid YAML. The
+# fix quotes every step name in gates.yml (scripts/gen-gates-manifest.py's own reader does
+# not care either way, since it substring-matches "gate X" inside the line); this pattern
+# accepts an optional leading quote and CI_STEP_LAW below strips a trailing one, so the
+# comparison reads the same law text whether or not the step name is quoted.
 
 
 def load_generator(root):
@@ -112,6 +121,8 @@ def check_ci_text(manifest, gates_yml_text):
     gates = manifest.get("gates", {})
     for m in CI_STEP_LAW_RE.finditer(gates_yml_text):
         letter, ci_law = m.group(1), m.group(2).strip()
+        if ci_law.endswith('"'):
+            ci_law = ci_law[:-1]
         if letter not in gates:
             problems.append(".github/workflows/gates.yml names gate %s, which the manifest does not "
                             "carry — run %s" % (letter, GENERATOR_REL))
