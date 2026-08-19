@@ -62,11 +62,11 @@ _REFERENCE_INTRO = (
     "scenario headings and carry no table row.\n\n"
 )
 
-# The matrix may be written the same way: a core file plus part files, the core's `## Parts map`
-# naming them and their order. An empty map (the state today) makes the core the whole document and
-# the text byte-identical to the file — TEST_MATRIX.md still carries its own trailing `## Reference`
-# section, so `read()` returns it unchanged; only once a split deletes that inline copy does the
-# synthesis below start doing real work, the same way the spec's already does.
+# The matrix is written the same way: a core file plus part files, the core's `## Parts map`
+# naming them and their order (the state today — TEST_MATRIX.md's rows live in matrix/*.md, and the
+# core carries no inline `## Reference` section of its own any more). So `read()` always does real
+# work here: it joins the core and every named part, then appends the committed `TEST_MATRIX.index.md`
+# under a synthesized `## Reference` heading, the same way the spec's own read() does.
 MATRIX = "TEST_MATRIX.md"
 MATRIX_INDEX = "TEST_MATRIX.index.md"
 
