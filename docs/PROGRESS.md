@@ -4,7 +4,7 @@ Generated 2026-08-19 by `python3 scripts/progress-report.py`, reading the tree a
 
 ## Where the two promises stand
 
-Promise one, a reader gets through a document without stopping, measures 4,219 open writing findings across the live set today.
+Promise one, a reader gets through a document without stopping, measures 4,213 open writing findings across the live set today.
 
 Promise two, the specification stops growing, measures PRODUCT_SPEC.md at 49,381 bytes today.
 
@@ -113,14 +113,14 @@ Three members carry no entry in the findings record: `hooks/chat-law-hook.sh` an
 | 48 | `docs/lenses.md` | 39 | no | no | waiting |
 | 49 | `docs/decisions/2026-07-07-morning-round3.md` | 38 | no | no | waiting |
 | 50 | `hooks/conduct-law.md` | 38 | no | no | waiting |
-| 51 | `spec/public-text-rules.md` | 38 | no | no | waiting |
-| 52 | `docs/language-defects.md` | 37 | no | no | waiting |
-| 53 | `docs/spec-compaction-protocol.md` | 36 | no | no | waiting |
-| 54 | `spec/work-board.md` | 36 | no | no | waiting |
-| 55 | `docs/roadmap-format.md` | 33 | no | no | waiting |
-| 56 | `docs/test-matrix-format.md` | 33 | no | no | waiting |
-| 57 | `docs/prose-quality-gate-design.md` | 32 | no | no | waiting |
-| 58 | `spec/internal-failure-log.md` | 32 | no | no | waiting |
+| 51 | `docs/language-defects.md` | 37 | no | no | waiting |
+| 52 | `docs/spec-compaction-protocol.md` | 36 | no | no | waiting |
+| 53 | `spec/work-board.md` | 36 | no | no | waiting |
+| 54 | `docs/roadmap-format.md` | 33 | no | no | waiting |
+| 55 | `docs/test-matrix-format.md` | 33 | no | no | waiting |
+| 56 | `docs/prose-quality-gate-design.md` | 32 | no | no | waiting |
+| 57 | `spec/internal-failure-log.md` | 32 | no | no | waiting |
+| 58 | `spec/public-text-rules.md` | 32 | no | no | waiting |
 | 59 | `docs/decisions/2026-07-06-overnight-decisions.md` | 31 | no | no | waiting |
 | 60 | `inbox/README.md` | 31 | no | no | waiting |
 | 61 | `spec/settings-layers.md` | 26 | no | no | waiting |
@@ -240,7 +240,7 @@ The counts below come from the record `guardrails/rule-census.json`. It states w
 | measure | today | recorded before | target |
 |---|---|---|---|
 | live documents measured | 164 | 108 | all of them |
-| writing findings across all documents | 4,219 | 4,810 | 0 |
+| writing findings across all documents | 4,213 | 4,810 | 0 |
 | documents at zero findings | 17 | 16 | all |
 | documents that passed two consecutive readings with nothing blocking | 0 | not stated | all |
 
