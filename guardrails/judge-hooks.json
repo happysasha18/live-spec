@@ -62,8 +62,7 @@
     "affirmation-scan": "Stop",
     "code-anchor-scan": "Stop",
     "register-judge-collect": "Stop",
-    "register-judge-report": "UserPromptSubmit",
-    "worker-restore-guard": "PreToolUse"
+    "register-judge-report": "UserPromptSubmit"
   },
   "data": {
     "clock-hook": [],

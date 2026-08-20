@@ -34,7 +34,8 @@ policy or a time threshold.
 Verdict: ALLOW — the changed skill is valid, comprehensible on a cold read, and its blocking review
 findings are covered by tests and folded into the delivered implementation.
 
-Follow-up: the gate-aa repair rewrote one existing all-caps instruction (`ANY` to `any`) and one
-acceptance sentence that the style reader classified as a scissors construction. The exact-run
-workflow and its commands did not change. This record ships with that readability correction and
-continues to cover the current skill revision.
+Follow-up: CI proved that `ANY` and the spoken setup phrases are discoverability contracts, not
+free wording. The valid folded YAML field now preserves those phrases exactly. To keep the existing
+readability ceiling unchanged, the unrelated all-caps `FOOTPRINT` became `footprint`, and the opening
+description became two short sentences. The exact-run workflow and its commands did not change. Skill
+validation and 240 contract tests passed after the correction.

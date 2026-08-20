@@ -1,8 +1,7 @@
 ---
 name: build-pipeline
 description: >-
-  Use for a non-trivial feature, bug fix, behaviour change, refactor, documentation-only change,
-  feature removal, or live-spec project setup. A tiny reversible edit and pure research stay outside.
+  Use for non-trivial changes through the full spec-to-ship pipeline. It covers features, bug fixes, behavior changes, refactors, docs-only changes, and removals. Use it as well to set a project up on live-spec, where it reads the tree, picks the setup walk, and runs it. Spoken: attach live-spec to this project, adopt or install live-spec here, onboard this codebase onto live-spec, found a new project on live-spec, update live-spec here. A tiny reversible edit and pure research stay outside the pipeline.
 metadata:
   version: 5.0.0
 ---
@@ -112,7 +111,7 @@ worked as a strong writer. On infra it is worked as a toolsmith. The ladder name
 the kind says what their standards look like in its medium.
 
 ## When to run it — and where each kind of change enters
-- **Step zero, before any tool call: name the door aloud (SPEC T-12, INV-16; base rule 15).**
+- **Step zero, before ANY tool call: name the door aloud (SPEC T-12, INV-16; base rule 15).**
   The human then hears the intake line back as the capture echo (SPEC INV-27, INV-37). The echo names
   heard · door · name · row · place on the map (communicator rule 12, its capture-echo behaviour
   rule).
@@ -132,7 +131,7 @@ the kind says what their standards look like in its medium.
     same-version docs-layout pass rides one sanctioned light vehicle. The pass builds on a clean pushed
     base, and locks the owner's decisions in a checkpoint first. It proves content survived by a
     word-token multiset check and a punctuation multiset check (SPEC INV-111).
-  - **The same line reads the FOOTPRINT — a three-source impact read that decides the route (SPEC INV-128).**
+- **The same line reads the footprint — a three-source impact read that decides the route (SPEC INV-128).**
     Beside the door and the work-kind, read the change against the spec, the architecture and the code
     at once. Name one footprint — **presentation-only** · **single-module** · **cross-cutting**. The
     footprint is spoken in the echo and written in the row's `footprint:` note. See

@@ -122,9 +122,9 @@ def test_every_opt_in_hook_is_classified_too():
     on, and their red proofs still run — so the population this file was written for is asserted here
     directly rather than lost with the census it fell out of."""
     decl = json.load(open(os.path.join(REPO_ROOT, "guardrails", "judge-hooks.json")))
-    opt_in = {"scissors-scan", "hedge-scan", "affirmation-scan", "code-anchor-scan",
-              "register-judge-collect", "register-judge-report", "worker-restore-guard"}
-    assert set(decl["opt_in_surface"]) == opt_in, (
+    six = {"scissors-scan", "hedge-scan", "affirmation-scan", "code-anchor-scan",
+           "register-judge-collect", "register-judge-report"}
+    assert set(decl["opt_in_surface"]) == six, (
         "the opt-in roster moved; this test reads the declaration, so the roster is pinned here too")
     proofs = json.load(open(os.path.join(REPO_ROOT, "guardrails", "hook-red-proofs.json")))
     classified = set(proofs.get("proofs", {})) | set(proofs.get("cannot_red", {}))

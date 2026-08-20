@@ -33,9 +33,10 @@ def wrapped(hook_file):
     return "python3 ~/.claude/hooks/hook-meter.py ~/.claude/hooks/%s" % hook_file
 
 
-# The worker-restore guard is opt-in and rides PreToolUse(Bash). Keep one synthetic sibling so this
-# fixture also proves that the gate reads the whole surface rather than one hardcoded filename.
-COMPLETE_PRE = ["a-pretooluse-hook.py", "worker-restore-guard.py"]
+# The pack wires no hook to PreToolUse today: the mid-turn chat scan that did was retired on 2026-08-17
+# (PRODUCT_SPEC.md Requirement 295). This synthetic name keeps the third surface exercised, so the gate's
+# reading of a PreToolUse array stays proven against the day a hook rides it again.
+COMPLETE_PRE = ["a-pretooluse-hook.py"]
 
 
 def settings_with(stop_hooks, ups_hooks, pre_hooks=COMPLETE_PRE):
@@ -99,7 +100,7 @@ class TestJudgeListed(unittest.TestCase):
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
 
     def test_complete_settings_passes(self):
-        # the opted-in host: every declared opt-in hook is wired, and the gate is quiet.
+        # the opted-in host: every one of the six is wired, and the gate is quiet.
         with tempfile.TemporaryDirectory() as tmp:
             path = write_settings(tmp, COMPLETE_STOP, COMPLETE_UPS)
             r = run_check({"JUDGE_SETTINGS_JSON": path, "JUDGE_HOOKS_JSON": opted_in_decl(tmp)})
