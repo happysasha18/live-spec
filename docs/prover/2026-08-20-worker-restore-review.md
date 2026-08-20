@@ -2,11 +2,10 @@
 
 PUSH-REVIEW
 
-Range: `8d334a15..0ec4822a`
+Range: `2cdeb52d..0ec4822a`
 
 Commits reviewed:
 
-- `a25aea88` Repair worker restore acceptance
 - `0ec4822a` Fix worker restore CI contracts
 
 Files read: `guardrails/check-worker-restore.py`, `hooks/worker-restore-guard.py`,
