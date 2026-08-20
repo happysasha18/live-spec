@@ -20,7 +20,8 @@
     "affirmation-scan",
     "code-anchor-scan",
     "register-judge-collect",
-    "register-judge-report"
+    "register-judge-report",
+    "worker-restore-guard"
   ],
   "file": {
     "clock-hook": "clock-hook.sh",
@@ -30,7 +31,8 @@
     "hedge-scan": "hedge-scan.py",
     "register-judge-collect": "register-judge-collect.sh",
     "affirmation-scan": "affirmation-scan.py",
-    "code-anchor-scan": "code-anchor-scan.py"
+    "code-anchor-scan": "code-anchor-scan.py",
+    "worker-restore-guard": "worker-restore-guard.py"
   },
   "command": {
     "clock-hook": "sh ~/.claude/hooks/clock-hook.sh",
@@ -40,7 +42,8 @@
     "hedge-scan": "python3 ~/.claude/hooks/hedge-scan.py",
     "register-judge-collect": "sh ~/.claude/hooks/register-judge-collect.sh",
     "affirmation-scan": "python3 ~/.claude/hooks/affirmation-scan.py",
-    "code-anchor-scan": "python3 ~/.claude/hooks/code-anchor-scan.py"
+    "code-anchor-scan": "python3 ~/.claude/hooks/code-anchor-scan.py",
+    "worker-restore-guard": "python3 ~/.claude/hooks/worker-restore-guard.py"
   },
   "matcher": {
     "clock-hook": null,
@@ -50,7 +53,8 @@
     "hedge-scan": null,
     "register-judge-collect": null,
     "affirmation-scan": null,
-    "code-anchor-scan": null
+    "code-anchor-scan": null,
+    "worker-restore-guard": "Bash"
   },
   "opt_in_surface": {
     "scissors-scan": "Stop",
@@ -58,7 +62,8 @@
     "affirmation-scan": "Stop",
     "code-anchor-scan": "Stop",
     "register-judge-collect": "Stop",
-    "register-judge-report": "UserPromptSubmit"
+    "register-judge-report": "UserPromptSubmit",
+    "worker-restore-guard": "PreToolUse"
   },
   "data": {
     "clock-hook": [],
@@ -81,7 +86,8 @@
     ],
     "code-anchor-scan": [
       "turn_reader.py"
-    ]
+    ],
+    "worker-restore-guard": []
   },
   "personal_overlay": {
     "register-judge-collect": [

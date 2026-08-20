@@ -17,10 +17,11 @@ next worker touches its files.
 
 Two machines hold it. The clause stands in every home a worker learns its contract from, sentence by
 sentence, so a home that drifts to its own wording or its own command list reds below.
-`guardrails/check-worker-restore.py` reads the worker runs' own transcripts for the command, since
+`guardrails/check-worker-restore.py` reads the exact worker run being accepted for the command, since
 the `git status` a careful worker pastes afterwards reads "clean" in the safe case and the
 destructive one alike — prose cannot separate them, the command can. The gate is armed at the verify
-step of the pipeline skill and once more here, against this machine's own transcript root.
+step of the pipeline skill. This suite uses deterministic fixture runs; the growing personal
+transcript root remains available to the explicit forensic census and never decides a later run.
 """
 import json
 import os
@@ -262,7 +263,10 @@ class TestGateRedsOnADiscardingCommand:
         assert "src/app.js" in res.stdout
         assert str(repo) in res.stdout, "the red names the directory the command really ran in"
 
-    @pytest.mark.parametrize("command", ["command git checkout -- .", "sudo git checkout -- ."])
+    @pytest.mark.parametrize("command", [
+        "command git checkout -- .", "sudo git checkout -- .", "env -- git checkout -- .",
+        "command -- git checkout -- .", "sudo -u root git checkout -- .",
+    ])
     def test_a_wrapper_prefix_does_not_hide_the_command(self, tmp_path, command):
         """`command git` and `sudo git` discard exactly what bare git discards, and both walked
         past the gate until 2026-08-05 because the matcher read only the first word."""
@@ -905,34 +909,17 @@ class TestTheClauseStandsInEveryHome:
 class TestTheGateIsArmedWhereItSaysItIs:
     """The gate declares itself blocking at the verify step, and this is where that is proven.
 
-    Two arms. The pipeline skill's verify step names the command a session runs before it accepts a
-    worker's result. This suite runs the same gate against the machine's own transcript root, so a
-    red reaches a person on the next suite run rather than sitting on disk.
+    The pipeline skill names the exact-run command a session runs before it accepts a worker's
+    result. Fixture tests exercise that command without making suite output depend on a growing,
+    host-personal transcript root.
     """
 
     def test_the_verify_step_names_the_command(self):
         skill = read_flat("skills/build-pipeline/SKILL.md")
-        assert "python3 guardrails/check-worker-restore.py" in skill, (
-            "the verify step never names the gate's command, so nothing runs it")
-        assert "reads its verdict before it accepts the worker's result" in skill
-
-    def test_the_gate_runs_against_this_machines_own_transcripts(self):
-        """The real root, the session's own window. A host that keeps no transcripts where the gate
-        looks stands down by name; a host that keeps them gets a verdict over real worker runs.
-
-        Needs a repository for the same reason TestTheGateJudgesThisProjectsOwnSessions's neighbour
-        cases do: inside gate b's git-less scratch copy the gate can place no session anywhere, so a
-        real neighbour's finding (a different, unrelated repository's own session) reds here as if it
-        were this project's own, which is not a violation this copy — or this test — can tell from a
-        true one (found 2026-08-19, push log)."""
-        _skip_unless_gate_has_a_repository()
-        res = _gate("--since-hours", "24", counting_from=None)
-        assert res.returncode == 0, (
-            "a worker run since the counting start discarded working-tree changes:\n%s" % res.stdout)
-        assert "STAND-DOWN" in res.stdout or "OK (check-worker-restore)" in res.stdout
-        if "OK (check-worker-restore)" in res.stdout:
-            assert "counting start" in res.stdout, (
-                "the verdict never says how much history it read past")
+        assert "python3 guardrails/check-worker-restore.py --run <exact-agent-jsonl>" in skill, (
+            "the verify step never names the exact-run command, so acceptance can drift back to an "
+            "ambient time window")
+        assert "Before accepting that result" in skill
 
     def test_the_counting_start_carries_history_and_reds_what_came_after(self, tmp_path):
         root, _ = _transcript_root(tmp_path, ["git checkout -- engine/assets/exhibition.js"])

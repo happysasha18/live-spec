@@ -239,14 +239,19 @@ own, unchanged. The same holds when it lands back in this project's own reposito
 worktree among them. A neighbour's finding is never dropped — it prints as a notice naming session,
 directory, command and outcome, and reds nothing.
 
-It opens the worker-run transcripts under the harness transcript root (`~/.claude/projects` by
-default, `--root` or `LIVE_SPEC_TRANSCRIPT_ROOT` to move it): the files matching
-`<project-dir>/<session-id>/subagents/agent-*.jsonl`, one per worker run. In each it reads the
-records whose `type` is `assistant` and takes the `input.command` string of every `tool_use` block
-named `Bash`. It reads no prose — a report that merely names a restore is left alone, and only a
-segment whose first word is `git` counts, so the same text quoted inside a `grep` pattern stays
-silent. The default window is the runs touched in the last 24 hours (`--since-hours`, `--all` for
-every run on disk).
+At verify, pass the exact transcript returned for the worker result being accepted:
+`python3 guardrails/check-worker-restore.py --run <agent-*.jsonl>`. This mode opens one file, reads
+every assistant `Bash` tool-use command, and applies no clock window, counting start, or
+own-versus-neighbour downgrade. A missing or empty file reds. A red run never becomes acceptable:
+recovery gives the worker a fresh brief, and the fresh run earns its own verdict.
+
+The root form is a forensic census, not an acceptance verdict. With no `--run`, the check opens the
+worker transcripts under `~/.claude/projects` by default (`--root` or
+`LIVE_SPEC_TRANSCRIPT_ROOT` moves it), matching
+`<project-dir>/<session-id>/subagents/agent-*.jsonl`. `--all` reads every run; otherwise it reads the
+last 24 hours. It keeps old incidents visible and red without blocking unrelated later work through
+a nondeterministic personal time window. Both forms read no prose: quoted examples and reports stay
+silent because only a shell segment whose first word is `git` counts.
 
 Every finding says what the shell did with the command. The `tool_use` block carries an `id`. The
 shell's answer sits in the same transcript as a `tool_result` block repeating it as `tool_use_id`.
@@ -266,14 +271,19 @@ tlvphotos asked for this on 2026-08-12, in
 `inbox/2026-08-12-tlvphotos-reply-worker-restore-finding.md`. It had received a finding that read as
 lost work, when the classifier had declined the command and nothing was lost.
 
-It is BLOCKING and rides the verify step rather than the push chain: a push gate runs long after the
-bytes are gone, while verify is where the orchestrator accepts a worker's result. It is armed in two
-places. `skills/build-pipeline/SKILL.md` step 8 names the command a session runs before it accepts a
-worker's result, and `tests/test_worker_restore.py` runs it against the machine's real transcript
-root so a red reaches a person on the next suite run. When the transcript root does not exist the
-gate stands down by name and exits zero; when the root exists but holds no worker-run transcript, the
-layout it reads has moved and it reds by name through `guardrails/nonempty_input.py` rather than
-reporting clean over nothing (SPEC INV-218).
+The exact-run form is BLOCKING and rides verify rather than the push chain: a push runs long after
+the bytes are gone, while verify is where the orchestrator accepts one worker result. The pipeline
+skill names the command, and deterministic fixture tests prove both red and green. The suite no
+longer scans this machine's growing transcript root. In forensic root mode, an absent root stands
+down by name; a present root holding no worker transcript reds through
+`guardrails/nonempty_input.py` rather than reporting clean over nothing (SPEC INV-218).
+
+`hooks/worker-restore-guard.py` is the earlier arm. It denies the same command class at
+PreToolUse(Bash), before the shell can discard bytes. `scripts/install-worker-restore-guard.sh`
+supports `--dry-run`, copies the hook, wires it once, and self-tests one denied and one allowed form.
+The hook does not guess whether its caller is a worker: the event carries no reliable seat/worker
+identity. Instead it gives the safe rule to every caller — a worker writes only its own saved bytes;
+without them it halts, and the orchestrator owns recovery from the last committed stage.
 
 The gate carries a counting start, `COUNTING_FROM` in its own header (`--counting-from`,
 `LIVE_SPEC_WORKER_RESTORE_FROM`). This machine's transcripts hold worker runs from before the clause

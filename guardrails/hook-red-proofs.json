@@ -43,6 +43,11 @@
    "detect": "nonempty-contains",
    "contains": "Session laws (live-spec)",
    "note": "prints the chat-law reminder line unconditionally on every UserPromptSubmit; a stub payload is enough to fire it. The caught phrase was 'Answer first (live-spec)' until 2026-08-17, when the owner had the hook shrunk from nine lines retelling the seven laws in full to one line naming them and pointing at their texts; 'Session laws (live-spec)' opens that line, so this proof catches the same unconditional fire"
+  },
+  "worker-restore-guard.py": {
+   "fixture": "hook-red-fixtures/worker-restore-guard",
+   "detect": "json-deny",
+   "note": "denies a path checkout at PreToolUse(Bash), before the shell can discard bytes"
   }
  },
  "cannot_red": {

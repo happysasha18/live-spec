@@ -993,4 +993,3 @@
 14. *when* the gate passes, it *shall* print the count of entries read, the count of skill bodies scanned, and the count of command-position paths found. [INV-306, INV-269]
 
 ---
-

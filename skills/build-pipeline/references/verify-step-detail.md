@@ -5,20 +5,18 @@ gate's own reading, and the audit protocol. Every line below reads exactly as it
 
 ## The worker-restore gate at verify (SPEC INV-298; the gate INV-299)
 
-**A session that spawned a worker runs `python3 guardrails/check-worker-restore.py` here, and reads
-its verdict before it accepts the worker's result (SPEC INV-298; the gate INV-299).** The gate reads
-the worker runs' own transcripts for a command that discards uncommitted work, which is the one
-signal that separates a worker that wrote a file's bytes back from a worker that discarded a lane's
-uncommitted work — the `git status` both paste afterwards reads "clean". The gate reads the last 24
-hours; a session whose worker ran earlier than that passes `--since-hours` wide enough to cover the
-run it is accepting. A red names the run, the command and the paths. Where the run is this
-project's, the session recovers the named files from the last committed stage before anything else,
-and the worker's result waits on that. Where the paths belong to another project's tree, the session
-writes what it read into that project's intake folder and touches no file there, since a repo it was
-not assigned to stays read-only (base rule 7). The gate stands down by name on a host that keeps no
-transcripts where it looks, and it carries a counting start so a machine's pre-clause history reds
-nothing. A red naming an empty transcript root says the layout the gate reads has moved: no worker
-discarded anything, and the gate's reach is what the session repairs.
+**Keep the transcript path for every worker result. Before accepting that result, run `python3
+guardrails/check-worker-restore.py --run <exact-agent-jsonl>` and read its verdict (SPEC INV-298; the
+gate INV-299).** The exact path is the `agent-*.jsonl` file for that worker run, not the session root
+and not whichever file is newest. This mode has no clock window, counting start, or project-owner
+downgrade: it judges the result being accepted wherever and whenever it ran.
+
+A red names the run, command, paths, and shell outcome. Reject that result. Recover the named file
+from the last committed stage, give the worker a fresh brief carrying the file's current bytes, and
+check the fresh run by its own path. Never make the original run green: it remains a real finding in
+the forensic census. `python3 guardrails/check-worker-restore.py --all` reads that census when an
+investigation needs it; its time window and counting start describe history and never decide whether
+a later worker result is acceptable. A missing or empty exact run is red because it proves nothing.
 
 ## The audit protocol (SPEC INV-46)
 

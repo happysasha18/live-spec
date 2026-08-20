@@ -141,9 +141,19 @@ known directory gone from disk, or holding no enclosing repository, is not a fin
 effective directory reds, since the gate can place it no better than a record with no timestamp. Each
 finding's report line names the effective directory beside the session's recorded cwd.
 
-WHERE IT RUNS. At the verify step of skills/build-pipeline/SKILL.md, between a worker's result and
-the orchestrator's acceptance of it, and once more in the suite as tests/test_worker_restore.py's
-real-root case. A push gate would run long after the bytes are gone.
+WHERE IT RUNS. At the verify step of skills/build-pipeline/SKILL.md, between one worker's result and
+the orchestrator's acceptance of it, as `--run <exact-agent-jsonl>`. This mode reads one named run,
+wherever and whenever it ran. It uses no time window or counting start and never downgrades the
+explicit run to a neighbour's notice. A red result is rejected. Recovery produces a fresh brief and
+a fresh run, checked by its own path; the original run stays red forever. The suite proves this with
+deterministic fixture transcripts and never scans a growing personal transcript root as a blocking
+test. A push gate would run long after the bytes are gone.
+
+WHAT PREVENTS THE ACT. `hooks/worker-restore-guard.py` reads each Bash call at PreToolUse and denies
+the same five forms before a shell runs them. Its one-shot installer copies and wires it; config
+health checks the installed bytes against this repository. The transcript check remains necessary:
+the static hook states its escapes, a host may not have installed it yet, and a refused attempt is
+still a finding under the worker rule.
 
 THE COUNTING START. This machine's transcripts hold worker runs from before the gate existed, and 81
 of them carry a discarding command. A gate that reds on that history would be turned off on its first
@@ -197,8 +207,9 @@ called it "environmental" and moved on, the informal habit that let most of the 
 unrecorded for as long as six days. The habit that produced the findings themselves (a worker hiding a
 file's or the tree's uncommitted state behind a git command to prove a before-and-after, instead of
 reading and holding its bytes) is not fixed by this move and was never going to be: row 624 stays open
-on that, for a hook — already built as a separate package, not yet installed on this machine — that
-refuses the five forms at the moment they reach a shell.
+on that. The PreToolUse hook now ships in this repository and is installed on this machine; the
+counting start remains unchanged because installation time is not a trustworthy proxy for which
+configuration a long-running or resumed session loaded.
 
 THE STAND-DOWN. When the transcript root does not exist, this host keeps no transcripts where the
 gate looks. The gate stands down, says so by name, and exits 0 — a stated stand-down rather than a
@@ -209,10 +220,14 @@ after that check, and a window holding no worker run is legitimate — a session
 so an empty WINDOW is declared here as a permitted empty set and reports OK naming the window.
 
 Usage:
+  check-worker-restore.py --run PATH
   check-worker-restore.py [--root PATH] [--since-hours H] [--all]
                            [--counting-from YYYY-MM-DD | YYYY-MM-DDTHH:MM:SSZ]
-Exit 0 when no worker run handed a shell a discarding command since the counting start, 1 otherwise,
-whether the shell ran that command or declined it.
+`--run` is the deterministic verify mode: it judges exactly the worker result the orchestrator is
+about to accept, with no clock window, counting start, or own-versus-neighbour downgrade. The root
+mode is the forensic census: it keeps old findings visible and red for investigation, but it is not
+the acceptance verdict for a later, unrelated worker run. Exit 0 when the selected run or census is
+clean, 1 otherwise, whether the shell ran a discarding command or declined it.
 Stdlib only.
 """
 import argparse
@@ -281,10 +296,8 @@ RUN_GLOB = os.path.join("*", "*", "subagents", "agent-*.jsonl")
 # 624, which also names the second thing this read found — this same red had already surfaced three
 # times since 2026-08-05 in prover records that called it "environmental" and moved on without tracing
 # it, the informal habit that let sixteen of the twenty-eight sit unrecorded. The move does not repair
-# the habit that produced any of them — nothing today stops a worker from handing a shell one of these
-# five forms in the first place, only this gate's after-the-fact transcript read. A hook that refuses
-# the five forms at the moment of handing is built as a separate package but not yet installed on this
-# machine (the owner's own act), and row 624 stays open until it is. The new start is one minute past
+# the habit that produced any of them — the transcript read remains after-the-fact. The installed
+# PreToolUse hook now refuses the five forms at the moment of handing. The new start is one minute past
 # the latest of the twenty-eight and no further than that — no narrower value exists that carries the
 # twelve without also carrying the sixteen.
 COUNTING_FROM = "2026-08-18T21:48:00Z"
@@ -438,19 +451,51 @@ def _command_tokens(segment):
     """The segment's words with leading `VAR=value` assignments and pass-through wrappers stripped,
     so the first word left is the program that really ran.
 
-    `command git checkout -- .` and `sudo git checkout -- .` are the bare command's act, and they
-    walked past this gate until 2026-08-05 for want of the strip. A wrapper carrying OPTIONS
-    (`sudo -u someone git …`) is left alone, since stepping over an option that takes a value cannot
-    be done without knowing the wrapper's own grammar, and a wrapper that takes the command as a
-    STRING (`sh -c "git …"`, `xargs git …`) stays out of reach — both are named in the module
-    docstring.
+    Ordinary wrapper options that still lead to a command are stripped too: `env --`, `command --`,
+    and `sudo -u someone` all leave the same git act. A wrapper that takes the command as a STRING
+    (`sh -c "git …"`, `xargs git …`) stays out of reach, as the module docstring states.
     """
     tokens = _tokens(segment)
     while tokens:
-        if _is_assignment(tokens[0]) or os.path.basename(tokens[0]) in WRAPPERS:
+        if _is_assignment(tokens[0]):
             tokens = tokens[1:]
             continue
-        break
+        wrapper = os.path.basename(tokens[0])
+        if wrapper not in WRAPPERS:
+            break
+        tokens = tokens[1:]
+        if wrapper == "command":
+            if tokens and tokens[0] == "--":
+                tokens = tokens[1:]
+            if tokens and tokens[0] == "-p":
+                tokens = tokens[1:]
+        elif wrapper == "env":
+            while tokens:
+                token = tokens[0]
+                if token == "--":
+                    tokens = tokens[1:]
+                    break
+                if token in ("-i", "-0", "--ignore-environment", "--null"):
+                    tokens = tokens[1:]
+                elif token in ("-u", "--unset") and len(tokens) > 1:
+                    tokens = tokens[2:]
+                elif token.startswith("-u") or token.startswith("--unset="):
+                    tokens = tokens[1:]
+                else:
+                    break
+        else:  # sudo
+            while tokens:
+                token = tokens[0]
+                if token == "--":
+                    tokens = tokens[1:]
+                    break
+                if token in ("-u", "-g", "-h", "-p", "-r", "-t", "-C") and len(tokens) > 1:
+                    tokens = tokens[2:]
+                elif token in ("-E", "-H", "-K", "-k", "-n", "-S", "-b", "-v") \
+                        or token.startswith(("--user=", "--group=", "--host=", "--prompt=")):
+                    tokens = tokens[1:]
+                else:
+                    break
     return tokens
 
 
@@ -749,8 +794,12 @@ def classify(command, cwd):
         hit = None
         if sub == "checkout":
             # `git checkout -- <paths>` and `git checkout .` overwrite the working tree from the
-            # index. `git checkout <branch>` moves HEAD and keeps uncommitted work, so it is silent.
-            if "--" in rest or rest[:1] == ["."]:
+            # index. A leading quiet flag changes nothing, and `git checkout HEAD <path>` is the
+            # same path restore without `--`. Branch creation is read out first so its branch and
+            # start-point words are never mistaken for that two-word restore form.
+            branch_creation = any(a in ("-b", "-B", "--orphan") for a in rest)
+            non_flags = [a for a in rest if not a.startswith("-")]
+            if not branch_creation and ("--" in rest or "." in non_flags or len(non_flags) >= 2):
                 hit = {"which": "git checkout --", "paths": _paths_after_double_dash(rest)}
         elif sub == "restore":
             # `git restore --staged <path>` only unstages and leaves the working tree alone; every
@@ -1160,7 +1209,9 @@ def print_neighbours(neighbours):
 
 def main(argv=None):
     parser = argparse.ArgumentParser(description="red when a worker run discarded working-tree changes")
-    parser.add_argument("--root", default=os.environ.get("LIVE_SPEC_TRANSCRIPT_ROOT", DEFAULT_ROOT))
+    scope = parser.add_mutually_exclusive_group()
+    scope.add_argument("--run", help="judge this exact agent-*.jsonl worker run for acceptance")
+    scope.add_argument("--root", default=os.environ.get("LIVE_SPEC_TRANSCRIPT_ROOT", DEFAULT_ROOT))
     parser.add_argument("--since-hours", type=float,
                         default=float(os.environ.get("LIVE_SPEC_WORKER_RESTORE_SINCE_HOURS",
                                                      DEFAULT_SINCE_HOURS)))
@@ -1173,6 +1224,25 @@ def main(argv=None):
                              "of day)")
     args = parser.parse_args(argv)
 
+    exact_run = None
+    if args.run:
+        raw_argv = list(argv) if argv is not None else sys.argv[1:]
+        for ambient in ("--all", "--since-hours", "--counting-from"):
+            if any(item == ambient or item.startswith(ambient + "=") for item in raw_argv):
+                parser.error("argument %s: not allowed with argument --run" % ambient)
+        exact_run = os.path.abspath(os.path.expanduser(args.run))
+        if not os.path.isfile(exact_run):
+            print("%s: cannot read exact worker run %s — --run accepts one existing "
+                  "agent-*.jsonl transcript." % (CHECK, exact_run))
+            return 1
+        if not (os.path.basename(exact_run).startswith("agent-") and exact_run.endswith(".jsonl")):
+            print("%s: exact worker run %s is not named agent-*.jsonl." % (CHECK, exact_run))
+            return 1
+        if os.path.getsize(exact_run) == 0:
+            print("%s: exact worker run %s is empty; a clean verdict over an empty result would "
+                  "accept nothing." % (CHECK, exact_run))
+            return 1
+
     counting_from = args.counting_from.strip()
     if not (_COUNTING_FROM_DATE_RE.match(counting_from)
              or _COUNTING_FROM_TIMESTAMP_RE.match(counting_from)):
@@ -1181,25 +1251,30 @@ def main(argv=None):
               % (CHECK, args.counting_from))
         return 1
 
-    root = os.path.abspath(os.path.expanduser(args.root))
-    if not os.path.isdir(root):
+    root = exact_run or os.path.abspath(os.path.expanduser(args.root))
+    if exact_run is None and not os.path.isdir(root):
         print("%s: STAND-DOWN — the transcript root %s does not exist, so this host keeps no worker-run "
               "transcripts where the gate looks. The check ran nothing and claims nothing; point it at a "
               "real root with --root or LIVE_SPEC_TRANSCRIPT_ROOT (ROADMAP row 479)." % (CHECK, root))
         return 0
 
-    runs = worker_runs(root)
-    try:
-        runs = require_nonempty(CHECK, "the worker-run transcripts under %s" % root, runs)
-    except VacuousInputError as e:
-        print("%s: %s" % (CHECK, e))
-        print("%s: the layout it reads is %s under the transcript root; a root holding none of them "
-              "means the harness moved them, and a clean verdict over zero runs would protect "
-              "nothing." % (CHECK, RUN_GLOB))
-        return 1
+    if exact_run:
+        runs = [exact_run]
+    else:
+        runs = worker_runs(root)
+        try:
+            runs = require_nonempty(CHECK, "the worker-run transcripts under %s" % root, runs)
+        except VacuousInputError as e:
+            print("%s: %s" % (CHECK, e))
+            print("%s: the layout it reads is %s under the transcript root; a root holding none of "
+                  "them means the harness moved them, and a clean verdict over zero runs would "
+                  "protect nothing." % (CHECK, RUN_GLOB))
+            return 1
 
     window = "every worker run on disk"
-    if not args.all:
+    if exact_run:
+        window = "the exact worker run being accepted"
+    elif not args.all:
         cutoff = time.time() - args.since_hours * 3600.0
         kept = []
         for p in runs:
@@ -1214,12 +1289,15 @@ def main(argv=None):
     findings, commands_read = scan(runs)
     # A neighbouring project's session reds nothing here; its findings print below as notices, so
     # the catch survives the narrowing (ROADMAP row 598, and the docstring's WHOSE SESSIONS section).
-    neighbours = [f for f in findings if not f.get("own", True)]
+    neighbours = [] if exact_run else [f for f in findings if not f.get("own", True)]
     history, current = [], []
     for f in findings:
-        if not f.get("own", True):
+        if not exact_run and not f.get("own", True):
             continue
-        (history if is_history(f, counting_from) else current).append(f)
+        if exact_run:
+            current.append(f)
+        else:
+            (history if is_history(f, counting_from) else current).append(f)
 
     if current:
         # Most urgent first: executed, then unanswered, then declined. Python's sort is stable, so
@@ -1248,9 +1326,14 @@ def main(argv=None):
         print("Handing such a command to a shell breaks the rule whether the shell obeyed or refused,")
         print("so every outcome above is a finding; what the outcome tells a reader is how much")
         print("recovery it faces. Outcomes: %s." % outcome_tally(current))
-        print("Reach: %s under %s, %d command line%s read; %s. %s"
-              % (window, root, commands_read, "" if commands_read == 1 else "s",
-                 history_phrase(len(history), counting_from), scope_phrase(neighbours)))
+        if exact_run:
+            print("Reach: %s at %s, %d command line%s read; no time window or counting start "
+                  "applies. The verdict covers this exact worker run wherever it ran."
+                  % (window, root, commands_read, "" if commands_read == 1 else "s"))
+        else:
+            print("Reach: %s under %s, %d command line%s read; %s. %s"
+                  % (window, root, commands_read, "" if commands_read == 1 else "s",
+                     history_phrase(len(history), counting_from), scope_phrase(neighbours)))
         print_neighbours(neighbours)
         first = current[0]
         counts = outcome_counts(current)
@@ -1265,6 +1348,14 @@ def main(argv=None):
                     "and reports when a file needs a git-level restore — the orchestrator owns recovery"),
         }))
         return 1
+
+    if exact_run:
+        print("OK (%s): the exact worker run being accepted handed no shell a discarding command. "
+              "Read %s, taking every assistant record's Bash tool_use command field (%d command "
+              "line%s). No time window or counting start applies; the verdict covers this exact "
+              "worker run wherever it ran (ROADMAP row 479)."
+              % (CHECK, root, commands_read, "" if commands_read == 1 else "s"))
+        return 0
 
     print("OK (%s): no worker run handed a shell a discarding command since %s. Read %s under %s — the "
           "files matching %s, one per worker run — taking every assistant record's Bash tool_use command "

@@ -1,6 +1,8 @@
 ---
 name: build-pipeline
-description: Use to run a non-trivial feature, bug fix, behavior change, refactor, docs-only change, or feature removal through the full spec-to-ship pipeline. Use it as well to set a project up on live-spec, where it reads the tree, picks the setup walk, and runs it. Spoken: attach live-spec to this project, adopt or install live-spec here, onboard this codebase onto live-spec, found a new project on live-spec, update live-spec here. A tiny reversible edit and pure research stay outside the pipeline.
+description: >-
+  Use for a non-trivial feature, bug fix, behaviour change, refactor, documentation-only change,
+  feature removal, or live-spec project setup. A tiny reversible edit and pure research stay outside.
 metadata:
   version: 5.0.0
 ---
@@ -110,7 +112,7 @@ worked as a strong writer. On infra it is worked as a toolsmith. The ladder name
 the kind says what their standards look like in its medium.
 
 ## When to run it — and where each kind of change enters
-- **Step zero, before ANY tool call: name the door aloud (SPEC T-12, INV-16; base rule 15).**
+- **Step zero, before any tool call: name the door aloud (SPEC T-12, INV-16; base rule 15).**
   The human then hears the intake line back as the capture echo (SPEC INV-27, INV-37). The echo names
   heard · door · name · row · place on the map (communicator rule 12, its capture-echo behaviour
   rule).
@@ -491,10 +493,11 @@ INV-30, INV-136, INV-139), and the skill-review duty (SPEC INV-99).
    runs as `python3 -m pytest -q` from the repository root; a host with another runner names its own
    in its profile.
 
-   **A session that spawned a worker runs `python3 guardrails/check-worker-restore.py` here, and reads
-   its verdict before it accepts the worker's result (SPEC INV-298; the gate INV-299)**. See
-   [references/verify-step-detail.md](references/verify-step-detail.md) for what the gate reads, the
-   window it reads, and what a red owes.
+   **Keep the transcript path for every worker result. Before accepting that result, run `python3
+   guardrails/check-worker-restore.py --run <exact-agent-jsonl>` and read its verdict (SPEC INV-298;
+   the gate INV-299).** Check the exact run even when it is old or ran in another repository. The
+   ambient root scan serves forensic census work. See
+   [references/verify-step-detail.md](references/verify-step-detail.md) for recovery and re-briefing.
 
    **Green means zero failures, and a skip-set exactly matching the expected pinned list**. An
    unexpected skip — Chrome absent, a real-data fixture missing — is a failure outright. **If red at a

@@ -140,6 +140,19 @@ class TestSessionHookDirDiff(unittest.TestCase):
             self.assertEqual(r.returncode, 1, r.stdout + r.stderr)
             self.assertIn("register-judge-report.sh", r.stdout)
 
+    def test_a_hook_names_the_installer_that_actually_owns_it(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            home = self._repo_with_hooks(
+                tmp, sources={"worker-restore-guard.py": "print('guard')\n"}, installed={})
+            scripts = os.path.join(tmp, "scripts")
+            os.makedirs(scripts)
+            with open(os.path.join(scripts, "install-worker-restore-guard.sh"), "w") as f:
+                f.write("# installs worker-restore-guard.py\n")
+            r = run_check(tmp, env_extra={"HOME": home})
+            self.assertEqual(r.returncode, 1, r.stdout + r.stderr)
+            self.assertIn("run scripts/install-worker-restore-guard.sh", r.stdout)
+            self.assertNotIn("install-pack-hooks.sh or", r.stdout)
+
     def test_an_installed_only_overlay_with_no_source_stays_silent(self):
         """A personal-layer overlay the pack never ships (installed, no source here) is correctly left
         alone — only a SOURCE hook missing from install is drift."""

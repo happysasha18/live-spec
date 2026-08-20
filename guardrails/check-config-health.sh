@@ -50,13 +50,25 @@ done
 # does not yet prove settings.json still LISTS the Stop/UserPromptSubmit judge entries — that check is
 # harder because settings.json is personal-layer, and it is left for the row 420 gate audit.
 HOOK_SRC_DIR="$REPO_ROOT/hooks"
+hook_install_fix() {
+  hook_name="$1"
+  for installer in "$REPO_ROOT"/scripts/install-*.sh; do
+    [ -f "$installer" ] || continue
+    if grep -Fq "$hook_name" "$installer"; then
+      printf 'run %s' "${installer#"$REPO_ROOT/"}"
+      return
+    fi
+  done
+  printf '%s' 'run the installer that owns this hook'
+}
 if [ -d "$HOOK_SRC_DIR" ]; then
   for src_hook in "$HOOK_SRC_DIR"/*; do
     [ -f "$src_hook" ] || continue
     hname="$(basename "$src_hook")"
     inst_hook="$HOME/.claude/hooks/$hname"
+    install_fix="$(hook_install_fix "$hname")"
     if [ ! -f "$inst_hook" ]; then
-      echo "{\"severity\":\"error\",\"code\":\"config-health\",\"message\":\"installed hook missing: ~/.claude/hooks/$hname (source exists, install missing)\",\"fix\":\"run scripts/install-pack-hooks.sh or scripts/install-session-hooks.sh\"}"
+      echo "{\"severity\":\"error\",\"code\":\"config-health\",\"message\":\"installed hook missing: ~/.claude/hooks/$hname (source exists, install missing)\",\"fix\":\"$install_fix\"}"
       fail=1
     elif ! cmp -s "$src_hook" "$inst_hook"; then
       # A machine may deliberately run a changed copy of a hook — a check switched off for a stated
@@ -81,7 +93,7 @@ PYCHECK
       then
         echo "config-health: declared local override, installed hook differs from source by design: $hname (guardrails/local-overrides.json)"
       else
-        echo "{\"severity\":\"error\",\"code\":\"config-health\",\"message\":\"installed hook drifted from source: $hname\",\"fix\":\"run scripts/install-pack-hooks.sh or scripts/install-session-hooks.sh, or declare the difference in guardrails/local-overrides.json with its reason and the installed file's fingerprint\"}"
+        echo "{\"severity\":\"error\",\"code\":\"config-health\",\"message\":\"installed hook drifted from source: $hname\",\"fix\":\"$install_fix, or declare the difference in guardrails/local-overrides.json with its reason and the installed file's fingerprint\"}"
         fail=1
       fi
     fi
