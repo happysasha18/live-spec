@@ -6,4 +6,3 @@
 | M-088 | Design-sync wiring is live: the `design-sync` switch off-by-default in base defaults, the channel line in communicator (cards after the gate, render stays authority) and in the pipeline's commit-and-show step; never a wired line contradicting the machine's [target] honesty [E-18] | string | `test_designsync_wiring` | *built* |
 
 ---
-
