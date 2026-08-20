@@ -2,11 +2,12 @@
 
 PUSH-REVIEW
 
-Range: `8d334a15..a25aea88`
+Range: `8d334a15..0ec4822a`
 
 Commits reviewed:
 
 - `a25aea88` Repair worker restore acceptance
+- `0ec4822a` Fix worker restore CI contracts
 
 Files read: `guardrails/check-worker-restore.py`, `hooks/worker-restore-guard.py`,
 `scripts/install-worker-restore-guard.sh`, their fixture and tests, the hook manifests, the
@@ -18,8 +19,10 @@ Checks run: 232 focused tests passed; `check-gates-manifest.py`, `check-skill-re
 
 Findings: The review tested ordinary wrapper forms and option-bearing wrappers, incompatible
 exact-run flags, and malformed settings before installation. Those three bypasses or partial-write
-risks were repaired before this reviewed commit. The final tree retains one incident record and no
-intermediate review records. The acceptance path has no time window, retry, or suppression key. The
-pin review found three stale source locations and corrected them to the named skill headings.
+risks were repaired before this reviewed commit. CI then found three pre-existing exact-text and
+opt-in-roster contracts that the first delivery had changed. The correction restores the contracts,
+keeps the frontmatter valid, and leaves the guard a separately installed safety hook rather than
+silently adding it to the generic host setup. The final tree retains one incident record and no
+intermediate review records. The acceptance path has no time window, retry, or suppression key.
 
 Blocking: none.
