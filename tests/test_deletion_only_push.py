@@ -156,6 +156,7 @@ class TestR226DoesNotContradictItself(unittest.TestCase):
         "deletion-only": ("PRODUCT_SPEC.md", r"\n7\. \*when\* every ref-update line"),
         "inbox": ("guardrails/check-prover-record.sh", r"exactly one new inbox/ file"),
         "recordless": (".live-spec/agent.md", r"earns no record"),
+        "case-or-space": ("guardrails/case_or_space_only.py", r"case-or-space carve-out"),
     }
 
     # The files that implement a stand-down criterion 6 must name: gate a's own script, and the

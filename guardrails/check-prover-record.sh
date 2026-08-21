@@ -76,6 +76,10 @@ set -euo pipefail
 REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 cd "$REPO_ROOT"
 
+# Where this script itself lives (never the judged repo's root, which a scratch/fixture run can
+# point elsewhere) — the classifier module it calls (case_or_space_only.py) always ships beside it.
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
 # Two roads (row 571, the cost audit's repair b). The PUSH road (--push; pre-push and CI pass
 # it) keeps the original demand: a record dated today. The default WORK road serves an ordinary
 # suite run: a clean tree after midnight is not a defect, so it also accepts the newest committed
@@ -125,6 +129,19 @@ if [ -n "$DIFF_BASE" ]; then
     echo "  (the remote-deposit shape, SPEC M-6/INV-112); no fresh prover record is owed."
     exit 0
   fi
+fi
+
+# Carve-out (SPEC M-6, R226 criterion 6): a push whose ENTIRE diff is only a change in letter
+# case and/or whitespace changes nothing a reader reads for meaning, so it owes no fresh prover
+# record either. Judged over the same DIFF_BASE this gate already resolved, and — like the
+# recordless-class arm below — never against the HEAD~1 last-resort base, so a multi-commit push
+# can never be waved through on the shape of its last commit alone.
+# STAND-DOWN: case-or-space
+if [ -n "$DIFF_BASE" ] && [ "$DIFF_BASE_LAST_RESORT" -ne 1 ] && \
+   python3 "$SCRIPT_DIR/case_or_space_only.py" "$DIFF_BASE" HEAD; then
+  echo "OK (prover record): stand-down — the pushed diff is only a change in letter case and/or"
+  echo "  whitespace (the case-or-space carve-out); no fresh prover record is owed."
+  exit 0
 fi
 
 shopt -s nullglob

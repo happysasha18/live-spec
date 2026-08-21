@@ -26,6 +26,11 @@
 # A change to the skill's body / instructions / logic leaves a non-stamp changed line, and that is
 # what requires the review.
 #
+# THE CASE-OR-SPACE CARVE-OUT. A per-file check ahead of the stamp scan: a changed file whose two
+# sides are identical once whitespace is stripped and letter case is folded (see
+# guardrails/case_or_space_only.py) contributes nothing to substantive_skills either — a change in
+# case or whitespace changes no instruction the model reads differently, so it owes no review.
+#
 # THE RECORD. For each substantively-changed skill <name>, the gate requires a COMMITTED record
 # under <review-dir> that (1) names the skill, (2) carries the SKILL-REVIEW marker and a Verdict:
 # line, and (3) is FRESH — THAT RECORD'S OWN commit is at least as new as the skill's own last
@@ -42,6 +47,10 @@ set -euo pipefail
 
 REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 cd "$REPO_ROOT"
+
+# Where this script itself lives (never the judged repo's root, which a scratch/fixture run can
+# point elsewhere) — the classifier module it calls (case_or_space_only.py) always ships beside it.
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 REVIEW_DIR="${1:-docs/skill-review}"
 
@@ -74,6 +83,12 @@ changed_files="$(git diff --name-only "$DIFF_BASE" HEAD -- 'skills/' || true)"
 substantive_skills=""
 while IFS= read -r f; do
   [ -z "$f" ] && continue
+  # case-or-space carve-out: a file whose whole change is only a change in letter case and/or
+  # whitespace changes no instruction a model reads differently, so it contributes nothing to
+  # substantive_skills either — the same boundary the prover-record gate stands down for.
+  if python3 "$SCRIPT_DIR/case_or_space_only.py" "$DIFF_BASE" HEAD "$f"; then
+    continue
+  fi
   # the changed content lines for this file (added or removed), minus the +++/--- headers
   diff_body="$(git diff -U0 "$DIFF_BASE" HEAD -- "$f" | grep -E '^[+-]' | grep -Ev '^(\+\+\+|---)' || true)"
   # drop the leading +/-, then strip out stamp lines and blank lines; whatever remains is substance
@@ -95,7 +110,8 @@ done <<< "$changed_files"
 substantive_skills="$(printf '%s' "$substantive_skills" | tr -s ' ' | sed 's/^ //;s/ $//')"
 
 if [ -z "$substantive_skills" ]; then
-  echo "OK (skill review): the push changes no skill body (a pure version-stamp diff owes no review),"
+  echo "OK (skill review): the push changes no skill body — every changed line under skills/ is"
+  echo "  either a machine-stamped version copy or only a change in letter case and/or whitespace,"
   echo "  so the skill-creator-review gate stands down by name (SPEC INV-208)."
   exit 0
 fi

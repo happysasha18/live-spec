@@ -310,6 +310,133 @@ class TestGateA_ProverRecord(unittest.TestCase):
             self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
             self.assertIn("FAIL (prover record)", result.stdout)
 
+    def test_case_or_space_only_push_needs_no_record(self):
+        """A push whose entire diff is only a change in letter case and/or whitespace owes no
+        fresh prover record either (R226 criterion 6, the case-or-space carve-out) — the words
+        read the same, so the gate stands down exactly as it does for an inbox deposit."""
+        with tempfile.TemporaryDirectory() as tmp:
+            self._init_repo(tmp)
+            self._write(tmp, "PRODUCT_SPEC.md", "spec v1\n")
+            self._commit_all(tmp, "spec v1")
+            base = run(["git", "rev-parse", "HEAD"], cwd=tmp).stdout.strip()
+            self._write(tmp, "PRODUCT_SPEC.md", "SPEC   V1\n")
+            self._commit_all(tmp, "case and whitespace change only")
+            result = run(
+                [os.path.join(GUARDRAILS, "check-prover-record.sh"), "docs/prover", "2026-07-05"],
+                cwd=tmp,
+                extra_env={"LIVE_SPEC_DIFF_BASE": base},
+            )
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertIn("case-or-space", result.stdout)
+
+    def test_case_change_plus_real_edit_still_needs_a_record(self):
+        """The boundary holds: a case change riding alongside a genuine content edit is an
+        ordinary push, and still owes its fresh record."""
+        with tempfile.TemporaryDirectory() as tmp:
+            self._init_repo(tmp)
+            self._write(tmp, "PRODUCT_SPEC.md", "spec v1\n")
+            self._commit_all(tmp, "spec v1")
+            base = run(["git", "rev-parse", "HEAD"], cwd=tmp).stdout.strip()
+            self._write(tmp, "PRODUCT_SPEC.md", "SPEC   V2, a real change\n")
+            self._commit_all(tmp, "case change plus a real edit")
+            result = run(
+                [os.path.join(GUARDRAILS, "check-prover-record.sh"), "docs/prover", "2026-07-05"],
+                cwd=tmp,
+                extra_env={"LIVE_SPEC_DIFF_BASE": base},
+            )
+            self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+            self.assertIn("FAIL (prover record)", result.stdout)
+
+    def test_word_glue_join_reds_the_gate(self):
+        """Whitespace runs collapse to ONE space, never to nothing: deleting the space between
+        two words joins them into a different word, which is a real edit, not cosmetic. `call
+        foo bar now` becoming `call foobar now` must still owe a fresh record — a judge that
+        stripped whitespace to nothing instead of collapsing it would have waved this through."""
+        with tempfile.TemporaryDirectory() as tmp:
+            self._init_repo(tmp)
+            self._write(tmp, "PRODUCT_SPEC.md", "call foo bar now\n")
+            self._commit_all(tmp, "spec v1")
+            base = run(["git", "rev-parse", "HEAD"], cwd=tmp).stdout.strip()
+            self._write(tmp, "PRODUCT_SPEC.md", "call foobar now\n")
+            self._commit_all(tmp, "two words glued into one, not a whitespace change")
+            result = run(
+                [os.path.join(GUARDRAILS, "check-prover-record.sh"), "docs/prover", "2026-07-05"],
+                cwd=tmp,
+                extra_env={"LIVE_SPEC_DIFF_BASE": base},
+            )
+            self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+            self.assertIn("FAIL (prover record)", result.stdout)
+
+    def test_rewrapping_and_reindenting_stays_cosmetic(self):
+        """The other side of the same boundary: re-wrapping a line onto two lines and
+        re-indenting it changes only the whitespace between the same words in the same order —
+        the carve-out still stands down, exactly as a pure case change does."""
+        with tempfile.TemporaryDirectory() as tmp:
+            self._init_repo(tmp)
+            self._write(tmp, "PRODUCT_SPEC.md", "call foo bar now\n")
+            self._commit_all(tmp, "spec v1")
+            base = run(["git", "rev-parse", "HEAD"], cwd=tmp).stdout.strip()
+            self._write(tmp, "PRODUCT_SPEC.md", "call foo\n    bar   now\n")
+            self._commit_all(tmp, "re-wrapped and re-indented, same words")
+            result = run(
+                [os.path.join(GUARDRAILS, "check-prover-record.sh"), "docs/prover", "2026-07-05"],
+                cwd=tmp,
+                extra_env={"LIVE_SPEC_DIFF_BASE": base},
+            )
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertIn("case-or-space", result.stdout)
+
+    def test_chmod_only_reds_the_gate(self):
+        """A mode change from 100644 to 100755 with byte-for-byte identical content changes
+        whether the file is executable, not its case or whitespace — the carve-out must not
+        cover it, so the gate must still demand a fresh record (a judge that only diffed the
+        blob text, ignoring the mode, would have waved a bare chmod through as cosmetic)."""
+        with tempfile.TemporaryDirectory() as tmp:
+            self._init_repo(tmp)
+            run(["git", "config", "core.fileMode", "true"], cwd=tmp)
+            path = self._write(tmp, "PRODUCT_SPEC.md", "spec v1\n")
+            self._commit_all(tmp, "spec v1")
+            base = run(["git", "rev-parse", "HEAD"], cwd=tmp).stdout.strip()
+            os.chmod(path, 0o755)
+            run(["git", "add", "-A"], cwd=tmp)
+            # Explicit, so the mode change lands in the index regardless of how this checkout's
+            # git/OS combination would otherwise detect (or fail to detect) the chmod above.
+            run(["git", "update-index", "--chmod=+x", "PRODUCT_SPEC.md"], cwd=tmp)
+            run(["git", "commit", "-q", "-m", "chmod +x, content unchanged"], cwd=tmp)
+            raw = run(["git", "diff", "--raw", base, "HEAD"], cwd=tmp).stdout
+            self.assertIn("100644", raw, raw)
+            self.assertIn("100755", raw, raw)  # sanity: the mode change actually landed
+            result = run(
+                [os.path.join(GUARDRAILS, "check-prover-record.sh"), "docs/prover", "2026-07-05"],
+                cwd=tmp,
+                extra_env={"LIVE_SPEC_DIFF_BASE": base},
+            )
+            self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+            self.assertIn("FAIL (prover record)", result.stdout)
+
+    def test_symlink_target_case_change_reds_the_gate(self):
+        """A symlink's blob holds its target path as text; a target re-cased only in letters
+        would normalize identical to its old target and read as cosmetic if judged as text. A
+        symlink's mode (120000) is never a regular-file mode, so the carve-out must stop cold
+        here regardless of what the target text says — a re-cased target is a different path on
+        a case-sensitive filesystem."""
+        with tempfile.TemporaryDirectory() as tmp:
+            self._init_repo(tmp)
+            os.symlink("TARGET.txt", os.path.join(tmp, "link"))
+            self._write(tmp, "PRODUCT_SPEC.md", "spec v1\n")
+            self._commit_all(tmp, "spec v1 + a symlink")
+            base = run(["git", "rev-parse", "HEAD"], cwd=tmp).stdout.strip()
+            os.remove(os.path.join(tmp, "link"))
+            os.symlink("target.txt", os.path.join(tmp, "link"))
+            self._commit_all(tmp, "symlink target re-cased only")
+            result = run(
+                [os.path.join(GUARDRAILS, "check-prover-record.sh"), "docs/prover", "2026-07-05"],
+                cwd=tmp,
+                extra_env={"LIVE_SPEC_DIFF_BASE": base},
+            )
+            self.assertEqual(result.returncode, 1, result.stdout + result.stderr)
+            self.assertIn("FAIL (prover record)", result.stdout)
+
 
 class TestGateB_Tests(unittest.TestCase):
     """Gate (b): the test suite must be green (also covers gate c, anchor ownership).

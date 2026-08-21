@@ -76,6 +76,15 @@ SKILL_STAMP_ONLY_BASEREF = (
     "---\nname: demo\nmetadata:\n  version: 2.0.0\n---\n\n# demo (`live-spec-base` (v2.0.0))\n\n"
     "Step one: do the thing.\n"
 )
+# SKILL_V1's body, purely re-cased and re-spaced — no word added, removed, or reordered
+SKILL_CASE_ONLY = (
+    "---\nname: demo\nmetadata:\n  version: 1.0.0\n---\n\n# DEMO\n\nSTEP ONE:   do THE thing.\n"
+)
+# the same case/space change, but with a genuine new instruction line added alongside it
+SKILL_CASE_PLUS_SUBSTANCE = (
+    "---\nname: demo\nmetadata:\n  version: 1.0.0\n---\n\n# DEMO\n\nSTEP ONE:   do THE thing.\n"
+    "Step two: do the other thing.\n"
+)
 
 RECORD = (
     "# Skill review — demo\n\nSKILL-REVIEW\n\nSkill: demo\n\n"
@@ -143,6 +152,37 @@ def test_version_stamp_with_baseref_does_not_red():
         _commit_all(tmp, "version bump stamp + baseref")
         r = _run([GATE], cwd=tmp, extra_env={"LIVE_SPEC_DIFF_BASE": base})
         assert r.returncode == 0, r.stdout + r.stderr
+
+
+def test_case_only_change_does_not_red():
+    """A skill body change that is only a change in letter case and/or whitespace — no word
+    added, removed, or reordered — is not a substantive change either (the case-or-space
+    carve-out): the gate passes even with no review record on file."""
+    with tempfile.TemporaryDirectory() as tmp:
+        _init_repo(tmp)
+        _write(tmp, "skills/demo/SKILL.md", SKILL_V1)
+        _commit_all(tmp, "skill v1")
+        base = _head(tmp)
+        _write(tmp, "skills/demo/SKILL.md", SKILL_CASE_ONLY)
+        _commit_all(tmp, "case and whitespace change only")
+        r = _run([GATE], cwd=tmp, extra_env={"LIVE_SPEC_DIFF_BASE": base})
+        assert r.returncode == 0, r.stdout + r.stderr
+
+
+def test_case_change_with_real_edit_still_reds():
+    """The boundary holds: a case/whitespace change riding ALONGSIDE a genuine new instruction
+    line is a substantive change, and owes the review same as any other body change."""
+    with tempfile.TemporaryDirectory() as tmp:
+        _init_repo(tmp)
+        _write(tmp, "skills/demo/SKILL.md", SKILL_V1)
+        _commit_all(tmp, "skill v1")
+        base = _head(tmp)
+        _write(tmp, "skills/demo/SKILL.md", SKILL_CASE_PLUS_SUBSTANCE)
+        _commit_all(tmp, "case change plus a real new instruction, no review")
+        r = _run([GATE], cwd=tmp, extra_env={"LIVE_SPEC_DIFF_BASE": base})
+        assert r.returncode == 1, r.stdout + r.stderr
+        assert "FAIL (skill review)" in r.stdout
+        assert "demo" in r.stdout
 
 
 def test_body_change_with_matching_record_passes():

@@ -115,7 +115,7 @@
 
 **Case: the cheap gates never scope**
 
-6. The system *shall* run the prover-record, ownership, coverage, loadability, and prototype-fence checks at every push that carries content, except a deletion-only push (criterion 7); an inbox-deposit push under inbox/; or a push in the owner's recordless class — docs/prover/, docs/skill-review/, docs/language-reads/. [INV-40]
+6. The system *shall* run the prover-record, ownership, coverage, loadability, and prototype-fence checks at every push that carries content, except a deletion-only push (criterion 7); an inbox-deposit push under inbox/; a push in the owner's recordless class — docs/prover/, docs/skill-review/, docs/language-reads/; or a push whose entire diff is only a change in letter case, in whitespace, or both — the case-or-space carve-out. [INV-40]
 
 **Case: a deletion-only push carries no content**
 
@@ -369,7 +369,8 @@
 **Case: the version-stamp carve-out**
 
 3. *if* a skill diff's only changed lines are the machine-stamped version and base-reference lines, *then* the system *shall* pass it quiet as owing no review. [INV-208, INV-178]
-4. *when* a substantive body change carries no fresh review, the system *shall* red, the review's judgment staying the skill-creator's own. [INV-208]
+4. *if* a skill diff's only changed lines differ by letter case, whitespace, or both, *then* the system *shall* pass it quiet, owing no review. [INV-208]
+5. *when* a substantive body change carries no fresh review, the system *shall* red, the review's judgment staying the skill-creator's own. [INV-208]
 
 ---
 
