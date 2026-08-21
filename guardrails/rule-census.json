@@ -40,7 +40,7 @@
       "total": 8
     },
     "PRODUCT_SPEC.index.md": {
-      "bytes": 27725,
+      "bytes": 27733,
       "file": "PRODUCT_SPEC.index.md",
       "long": 0,
       "longest": 0,
@@ -210,6 +210,15 @@
       "register": 0,
       "style": 32,
       "total": 38
+    },
+    "docs/director/capability-map.md": {
+      "bytes": 12832,
+      "file": "docs/director/capability-map.md",
+      "long": 2,
+      "longest": 39,
+      "register": 0,
+      "style": 16,
+      "total": 18
     },
     "docs/language-defects.md": {
       "bytes": 31404,
@@ -903,8 +912,8 @@
       "long": 10,
       "longest": 61,
       "register": 0,
-      "style": 2,
-      "total": 12
+      "style": 1,
+      "total": 11
     },
     "skills/build-pipeline/references/guardrails-catalog.md": {
       "bytes": 2041,
@@ -1059,6 +1068,15 @@
       "register": 0,
       "style": 0,
       "total": 0
+    },
+    "skills/director/SKILL.md": {
+      "bytes": 16048,
+      "file": "skills/director/SKILL.md",
+      "long": 15,
+      "longest": 57,
+      "register": 0,
+      "style": 22,
+      "total": 37
     },
     "skills/feedback-collector/README.md": {
       "bytes": 2901,
@@ -1406,7 +1424,7 @@
       "total": 2
     },
     "spec/guardrails-freshness.md": {
-      "bytes": 84146,
+      "bytes": 84414,
       "file": "spec/guardrails-freshness.md",
       "long": 209,
       "longest": 78,
