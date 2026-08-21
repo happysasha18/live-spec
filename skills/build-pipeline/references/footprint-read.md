@@ -4,7 +4,7 @@ The full footprint read referenced from `SKILL.md`'s intake line (SPEC INV-128):
 three footprints, how the footprint composes with the door, what a disagreement owes, and the mid-work
 re-classification. Every line below reads exactly as it read in the body.
 
-- **The same line reads the FOOTPRINT — a three-source impact read that decides the route (SPEC INV-128).**
+- **The same line reads the footprint — a three-source impact read that decides the route (SPEC INV-128).**
   Beside the door and the work-kind, read the change against three sources at once: the spec (what
   behaviour changes), the architecture (which module owns it), the code (what actually gets touched). Name
   one footprint — **presentation-only** (touches what the audience meets, nothing behind it) · **single-module**
