@@ -235,7 +235,7 @@ Three members carry no entry in the findings record: `hooks/chat-law-hook.sh` an
 
 ## Promise one — a reader gets through a document without stopping
 
-The counts below come from the record `guardrails/rule-census.json`. It states when each document was last measured.
+The counts below come from the record `guardrails/rule-census.json`, retired 2026-08-21 along with `scripts/rule-census.py` and gate aa (`guardrails/check-doc-findings-bound.py`). The table is frozen at its last measurement below; `scripts/progress-report.py` can no longer regenerate this section until it reads a live source in place of the retired record.
 
 | measure | today | recorded before | target |
 |---|---|---|---|

@@ -22,7 +22,6 @@ reviewer's own, and no test here claims otherwise.
 Zero dependencies beyond the stdlib; run from the repo root:
   python3 -m pytest tests/test_push_review.py -q
 """
-import json
 import os
 import re
 import subprocess
@@ -392,10 +391,6 @@ def test_one_record_and_one_gate_carry_the_push_review():
 
     assert not os.path.isdir(os.path.join(ROOT, "docs", "push-review")), \
         "the second record home still stands"
-
-    with open(os.path.join(ROOT, "guardrails", "gate-red-proofs.json"), encoding="utf-8") as f:
-        reg = json.load(f)
-    assert "ac" not in reg["proofs"], "the retired gate still holds a known-red proof entry"
 
 
 # --- the four documents agree ---

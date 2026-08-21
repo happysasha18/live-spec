@@ -1,9 +1,0 @@
-{
-  "_comment": "The gates a local pre-push runs that a CI checkout legitimately cannot or need not re-run. Every OTHER pre-push gate must appear as a step in .github/workflows/gates.yml, or check-ci-mirror.sh (SPEC INV-210) reds. Each carve-out states why it stays out of CI, so the line is settled and not re-walked. A carve-out naming a letter that is no local gate is itself drift and reds.",
-  "ci_excluded": {
-    "c": "Folded into the test suite: tests/test_traceability.py asserts anchor ownership and runs inside the pytest step (gate b), so this check is already covered in CI.",
-    "k": "The compaction freeze reads a gitignored local baseline (.spec-freeze/) that a fresh CI checkout does not carry.",
-    "m": "config-health compares the installed personal hooks against their source; a CI checkout installs no such hooks by design and the check skips itself by name.",
-    "v": "The judge-listed gate reads the personal-layer ~/.claude/settings.json, absent on a CI checkout; it stands down by name there, exactly as config-health (m) skips."
-  }
-}

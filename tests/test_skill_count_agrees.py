@@ -96,8 +96,8 @@ def working_skill_count(skills_dir=SKILLS_DIR):
 
     And except any external skill installed into the same folder. The count answers "how
     many skills does this pack hold", so a clone of another repository sitting under
-    skills/ is not one of them — the same boundary the census (scripts/rule-census.py), the
-    version stamper and the two sync scripts already hold. Before this fence the number was
+    skills/ is not one of them — the same boundary the version stamper and the two sync
+    scripts already hold. Before this fence the number was
     a property of the READER's machine rather than of the pack: a developer who ran
     scripts/install-external-skills.sh counted eleven where every document says ten, and
     the three checks below reddened on their own machine while staying green in a CI that

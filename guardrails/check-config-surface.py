@@ -34,8 +34,8 @@ REACH (INV-269). This gate opens two files: the host profile named on the comman
 the config) and its config `guardrails/config-surface.json`. Inside the profile it reads three
 records — `project.kind`, `project.layers`, `project.config-surface` — and nothing else.
 
-STANDING. It rides the suite and stays off the push chain, the standing check-wrong-referral.py
-already carries (INV-225): the pack ships no deployed product of its own, so the gate has a host's
+STANDING. It rides the suite and stays off the push chain, the standing suite-riding placement
+INV-225 already carries: the pack ships no deployed product of its own, so the gate has a host's
 profile to read and no push of this repo to block.
 
 Usage:

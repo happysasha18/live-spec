@@ -168,10 +168,8 @@ INV-122). Two nodes whose pins share one file cannot be worked in parallel. That
 mechanical sign of a failed growth answer. It is read as nodes-per-file from each node's `pins` line
 in `ARCHITECTURE.md`.
 
-The number lives in `guardrails/node-file-cap.json`. Its `default` is two nodes per file, and the file
-names each file seeded above that default. Run the counter from the pack's own root: `python3
-guardrails/node_growth_counter.py`. It reds any file whose node count rose past its cap. A file
-sitting at its cap is the file that owes the split proposal (SPEC INV-233).
+Two nodes per file is the default to watch for. A file at or past that count is the file that owes
+the split proposal (SPEC INV-233).
 
 A red marks the increase for attention. The split itself is a design call, and this pass proposes it
 in the same two-objects shape as any finding [SPEC INV-142]. Name the over-grown file. Name the two
@@ -416,6 +414,7 @@ shape.
 > The pack, whole:
 >
 > - **live-spec-base** holds the shared rules and the defaults.
+> - **director** decides whether a message even calls this skill.
 > - **spec-author** writes the spec.
 > - **product-prover** reviews it as written.
 > - **product-prover-pack** binds the external canonical prover to the pack.

@@ -10,12 +10,6 @@
 # (newline-separated test file paths), only those files run — the reach map's SCOPED verdict
 # already proved this set covers the diff.
 #
-# Suite wall-time budget (SPEC INV-41, INV-164, ROADMAP row 361): a green FULL default run (the
-# real tests dir, no SCOPED_TEST_FILES, no LIVE_SPEC_SCRATCH) is followed by
-# guardrails/check-suite-budget.sh reading this run's own captured log — a budget red makes this
-# gate red too. A scoped or scratch run stands the budget check down by name: it is not the run
-# the stated budget describes.
-#
 # Usage: check-tests.sh [tests-dir]
 #   tests-dir defaults to "tests" (relative to the repo root, or an absolute path
 #   for testing this gate against a scratch fixture without touching the real suite)
@@ -71,7 +65,6 @@ if [ -n "${SCOPED_TEST_FILES:-}" ]; then
 
   if [ "$status" -eq 0 ]; then
     echo "OK (tests): scoped suite green ($scoped_count files, reach-scoped per SPEC INV-45)."
-    echo "suite budget: stands down by name (scoped or scratch run)"
     exit 0
   else
     echo "FAIL (tests): scoped suite is not green ($scoped_count files)."
@@ -92,13 +85,5 @@ if [ "$status" -ne 0 ]; then
 fi
 
 echo "OK (tests): suite green ($TESTS_DIR) — also covers anchor ownership (gate c)."
-
-if [ "$TESTS_DIR" = "tests" ] && [ -z "${LIVE_SPEC_SCRATCH:-}" ]; then
-  if ! "$REPO_ROOT/guardrails/check-suite-budget.sh" "$LOG"; then
-    exit 1
-  fi
-else
-  echo "suite budget: stands down by name (scoped or scratch run)"
-fi
 
 exit 0

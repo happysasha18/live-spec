@@ -7,9 +7,7 @@ instead of things you have to remember.
 
 **`pre-push`** — blocks a push unless every gate below holds.
 
-<!-- generated:count:gate-roster — scripts/gen-tree-counts.py owns the block below -->
-
-The push hook runs 29 distinct gate letters today. The roster below is the whole set, one line per gate as `guardrails/pre-push` announces it.
+The push hook runs 22 distinct gate letters today. The roster below is the whole set, one line per gate as `guardrails/pre-push` announces it.
 
 Count them yourself, and list them:
 
@@ -18,14 +16,10 @@ grep -oE -- '-- gate [a-z]{1,2}:' guardrails/pre-push | sort -u | wc -l
 grep -oE -- '-- gate [a-z]{1,2}: [^"]+' guardrails/pre-push | sort -u
 ```
 
-A push of this repository is refused where either command disagrees with what stands here. The count decides how much of the tree a push protects. It also decides how long a push waits. It is read against the gate steps `.github/workflows/gates.yml` mirrors, which `guardrails/check-ci-mirror.sh` holds equal to this roster. The roster holds to no number of its own. A gate is added when a stated law earns one, and dropped when its law goes, so neither direction is better on its own. When the count rises, every push runs one more check and waits for it.
+A push of this repository is refused where the second command disagrees with what stands here. The count decides how much of the tree a push protects. It also decides how long a push waits. A gate is added when a stated law earns one, and dropped when its law goes, so neither direction is better on its own. When the count rises, every push runs one more check and waits for it.
 
 ```
 -- gate a: fresh prover record for today (one record per push: the re-check of the spec and the architecture, and the adversarial read of the pushed range, SPEC M-6/INV-116/INV-304) --
--- gate aa: doc findings bound (no live document above its recorded finding count; a cleared document stays at zero, SPEC INV-301) --
--- gate ad: published tree counts (every count this repository publishes about its own tree matches the tree, and the reproduction command beside it returns the published number, SPEC INV-305) --
--- gate ae: named checks (the registry says what each runnable file a skill body names is, SPEC INV-306) --
--- gate af: gate device manifest (guardrails/gates-manifest.json joins every gate's script, red proof and CI-mirror status from pre-push, gate-red-proofs.json and ci-mirror.json; it reds where a fresh build differs from the committed file, or where a gates.yml step's law sentence differs from the gate's own, SPEC INV-210/INV-212) --
 -- gate b: test suite green (scoped by the diff's reach, SPEC INV-45) --
 -- gate c: every spec anchor owned by exactly one architecture node --
 -- gate d: TEST_MATRIX.md generated Reference agrees with the body (SPEC INV-273/INV-218) --
@@ -45,14 +39,9 @@ A push of this repository is refused where either command disagrees with what st
 -- gate r: authority anchor (a decision recorded as the person's names its exchange, SPEC INV-207) --
 -- gate s: skill review (a substantive skill change carries its skill-creator review record, SPEC INV-208) --
 -- gate t: doc rotation (the pack's split-and-rotated docs lose nothing — every rotated row is findable in its archive and every archive is named in a manifest line, SPEC INV-209) --
--- gate u: CI mirror parity (every local gate is mirrored in CI or a declared carve-out, SPEC INV-210) --
--- gate v: judges listed (every wired chat judge is referenced in the installed settings.json, SPEC INV-211) --
--- gate w: every gate can fail (every gate in this chain carries a known-red proof, SPEC INV-212) --
 -- gate x: generated index (the committed index equals a fresh build off the body; body and index agree; an empty body reds by name, SPEC INV-258/INV-259/INV-218) --
 -- gate y: agent card (a live-spec host tree carries its .live-spec/agent.md card, SPEC INV-219) --
 ```
-
-<!-- /generated:count:gate-roster -->
 
 Each check lives in its own small script so it can be run and tested on its own, pointed at a
 scratch file instead of the real repo.
@@ -64,8 +53,7 @@ Measured on 2026-08-18: the local chain took 144 seconds, and the suite alone ta
 minutes. The server runs that suite on every push, in the `gates.yml` step named
 `test suite (gate b, full — the reach map stays local)`. A second local run bought a slower push and
 no new protection. Set `LIVE_SPEC_PUSH_FULL=1` to run the old chain, gate b included and
-reach-scoped. One thing the fast set gives up: `guardrails/check-suite-budget.sh` rides the suite,
-so a push measures the suite's wall-time only under that flag.
+reach-scoped.
 
 Gate g, pin drift, is the chain's second cost: 56 to 63 seconds of every push. It stays local, since
 pins are repaired because it stands there. It now runs only when the push can move a pin. That means
@@ -125,15 +113,6 @@ behaviour takes more than one line. A gate with no note here runs all the same.
   `check-muted-launch.sh`).
 - **m. Config health.** The installed hooks match their `guardrails/` sources byte-for-byte
   (SPEC `INV-175`, `check-config-health.sh`).
-- **ad. Published tree counts.** `guardrails/tree-counts.json` declares every count this repository
-  publishes about its own tree, the measurement that produces it, and the pages that state it.
-  `check-tree-counts.py` re-measures each declared count against the committed tree and reds a page
-  whose number disagrees (SPEC `INV-305`).
-- **ae. Named checks.** `scripts/check-registry.json` records what each runnable file a skill body
-  names is: its kind, its handle, and which tree it judges. The record also holds whether the file
-  belongs in an adopting project, what it reads on its own, and what it needs. `check-named-checks.py`
-  recomputes every field from the tree and reds a disagreement. It also reds a skill body that names
-  a check measuring this pack's own machinery (SPEC `INV-306`).
 
 **`pre-commit`** — the concurrent-edit fence. It protects against two sessions writing the
 same repo at once. It is **off by default**: if no `.live-spec-fence` file exists at the

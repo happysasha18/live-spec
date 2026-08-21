@@ -315,13 +315,6 @@ def test_gate_mirrored_in_ci():
         "the CI mirror does not run the skill-review gate"
 
 
-# The hardcoded gate-chain-mirror check that once lived here (test_ci_mirror_carries_every_local_gate,
-# a fixed list of four scripts asserted present in gates.yml) retired into the machine on 2026-07-18:
-# gate u (check-ci-mirror.sh, INV-210) machine-checks that every local pre-push gate is mirrored in CI
-# or a declared carve-out, subsuming the fixed list — gates p/q/r/s are none of the carve-outs (c/k/m/v),
-# so gate u already enforces their CI mirroring. See tests/test_ci_mirror.py.
-
-
 # --- traceability across the four documents ---
 
 def test_spec_states_the_law():

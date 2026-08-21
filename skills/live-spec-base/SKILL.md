@@ -1,15 +1,15 @@
 ---
 name: live-spec-base
-description: Load before using any live-spec pack skill: spec-author, product-prover, design-reviewer, build-pipeline, test-author, communicator, feedback-intake, feedback-collector, text-audit, publish. Load it also before briefing a worker that will write files, or to resolve shared rules and settings. It is the one home for the shared rules — thirty-four rules in the body. It is the one home too for the settings ladder, which sits in `references/settings-ladder.md` and is opened when a setting is being resolved.
+description: Load before using any live-spec pack skill: director, spec-author, product-prover, design-reviewer, build-pipeline, test-author, communicator, feedback-intake, feedback-collector, text-audit, publish. Load it also before briefing a worker that will write files, or to resolve shared rules and settings. It is the one home for the shared rules — thirty-four rules in the body. It is the one home too for the settings ladder, which sits in `references/settings-ladder.md` and is opened when a setting is being resolved.
 metadata:
   version: 5.0.0
 ---
 
-# live-spec-base — one rulebook, ten working skills
+# live-spec-base — one rulebook, eleven working skills
 
 The pack's shared working rules live here, once. A working skill opens by naming this base and the
 version it was written against. It then references these rules and elaborates only its own domain.
-The ten working skills are named in the closing roster below. A second full statement of a shared
+The eleven working skills are named in the closing roster below. A second full statement of a shared
 rule inside a working skill is drift (SPEC INV-13). It is a defect to fold at the next milestone,
 never kept for convenience. One rule is carried whole instead by every skill that briefs a worker.
 The worker-restore sub-rule under rule 7 rides each brief in one wording. `tests/test_worker_restore.py`
@@ -23,7 +23,7 @@ This file names paths of two kinds, resolving in two different trees.
 
 **The pack's own machinery** sits in the live-spec repository, whose public home is
 `github.com/happysasha18/live-spec`. Its directories are `guardrails/`, `scripts/`, `tests/`,
-`templates/`, `hooks/`, `adopt/`, and `skills/`. Each of the ten working skills this file names sits
+`templates/`, `hooks/`, `adopt/`, and `skills/`. Each of the eleven working skills this file names sits
 at `skills/<name>/SKILL.md`, beside this one. A path beginning `references/` names a file inside this
 skill's own directory, beside this file, opened on demand at the step that names it.
 
@@ -485,8 +485,7 @@ keeps the number it already carries.
      no artifact, and on which no work of the sender's stands, is dropped; holding it was itself the
      defect [INV-191]. A referral that points at a zone which does not own the question is named as a
      wrong referral. There the exchange loops back over the same pair. The two-crossing cap does not
-     absorb it. `guardrails/attic/check-wrong-referral.py` reds such an exchange on a fixture and rides
-     the suite, staying off the push chain [INV-225, INV-196].
+     absorb it [INV-225, INV-196].
    - **Data never travels as a message, and a contract publishes nothing by default.** A consumer wanting
      numbers reads the neighbour's published artifact [INV-188]. Every field in that artifact leaves the
      producer's tree on the owner's explicit permission, recorded with its date and its author. How a
@@ -608,7 +607,9 @@ Open that module when a setting is being resolved, proposed, or recorded, and no
 it is optional. Nothing in it moved elsewhere: the module is the ladder's one home, read on demand
 rather than carried by every session that touches no setting.
 
-> The pack, whole: **live-spec-base** holds the shared rules and defaults · **spec-author** writes the spec ·
+> The pack, whole: **live-spec-base** holds the shared rules and defaults ·
+> **director** reads the human's message first and decides what it is, before any of the rest ·
+> **spec-author** writes the spec ·
 > **product-prover** reviews it · **product-prover-pack** binds the external prover to the pack ·
 > **design-reviewer** judges the design behind it · **build-pipeline** ships the change ·
 > **test-author** derives the matrix and writes the tests · **communicator** makes the human

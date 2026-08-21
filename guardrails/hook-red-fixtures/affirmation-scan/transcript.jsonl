@@ -1,2 +1,0 @@
-{"type":"user","message":{"role":"user","content":[{"type":"text","text":"I think the bug is in the parser."}]}}
-{"type":"assistant","message":{"role":"assistant","content":[{"type":"text","text":"You're absolutely right, great catch. The bug is in the parser."}]}}

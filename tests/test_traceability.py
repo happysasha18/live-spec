@@ -2755,8 +2755,8 @@ class TestProblemLedger(unittest.TestCase):
         arch = re.sub(r"\s+", " ", read("ARCHITECTURE.md"))
         self.assertIn("| Budget | Number | Instrumentation home | Watcher |", arch,
                       "the pack's own budget table missing the Watcher column")
-        self.assertIn("reds past the budget on every full gate run", arch,
-                      "the suite wall-time row's Watcher cell must name its gate by deed")
+        self.assertIn("the style-lint gate reds on any error at the pre-show and push gates", arch,
+                      "the spec prose register row's Watcher cell must name its gate by deed")
 
     def test_task_list_plain_words(self):
         """Row 144 (M-137, INV-28): the session's task list speaks plain product English,

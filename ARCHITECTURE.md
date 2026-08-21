@@ -32,7 +32,7 @@ rest for the landing that follows (guardrails).
 
 ## The shape at a glance
 
-live-spec is a skill pack: ten working skills plus the one shared rulebook they all load, each of them
+live-spec is a skill pack: eleven working skills plus the one shared rulebook they all load, each of them
 text a model reads. Templates, guardrails, and its own dogfood documents sit beside them in one repo.
 Everything executes inside an agent session on the host machine.
 The repo is the source of truth, and the installed copies under `~/.claude/skills/` are what a session
@@ -162,9 +162,6 @@ adapter is the one place the pack updates when a lens moves in a prover release.
 - `skills/build-pipeline/SKILL.md:635` (gates)
 - `skills/build-pipeline/SKILL.md:417` (re-carve paragraph — INV-113 redesign-owes-rework)
 - `skills/build-pipeline/references/delegation-protocol.md:71` (the worker-brief register-laws clause — no-scissors + no-dramatization, INV-221)
-- `guardrails/node_growth_counter.py:1` (the node-growth counter, rides the suite not the push chain, INV-233)
-- `guardrails/node-file-cap.json:1` (the nodes-per-file ratchet seeded at the current count, INV-233)
-- `tests/test_node_growth.py:1` (the node-growth suite check, rides the suite not the push chain, INV-233)
 - `guardrails/check-tier-refusal.py:1` (the tier-refusal gate. It reads the record's shape and a pattern's evidence. Its `--brief` step turns a matching task away before any model call. It rides the suite, taking no gate letter, INV-300)
 - `guardrails/tier-refusal.json:1` (the instruction, the tier ladder, the promotion threshold and the promoted phrases as data, INV-300)
 - `docs/measure/tier-refusals.md:1` (the refusal record the patterns grow from, INV-300)
@@ -217,7 +214,6 @@ adapter is the one place the pack updates when a lens moves in a prover release.
 - `skills/communicator/SKILL.md:233` (rule 9's outcome-leads line shape)
 - `skills/communicator/SKILL.md:438` (the pre-report walk)
 - `skills/communicator/SKILL.md:287` (rule 7's chat-arm clock sentence)
-- `guardrails/attic/check-far-tier.py --window` (INV-223 — the far-tier report-shape check's fixture)
 - `scripts/sweep-rendered.py:1` (INV-286 — the clearing mechanism and the home rule's one home)
 - `guardrails/check-rendered-sweep.py:1` (INV-286 — the sweep check, report-only against the tree, rides the suite not the push chain)
 - `guardrails.config.json:1` (INV-286 — the homes declared outside the sweep's reach under `rendered_pages.outside_reach`)
@@ -351,17 +347,17 @@ adapter is the one place the pack updates when a lens moves in a prover release.
 - INV-284 (the empty-validation scan, shipped, covered, classified and metered on the same terms as the hedge gate [INV-238])
 - INV-285 (the tool-boundary arm of the chat laws, retired. It stood before every tool call in the tree. Its refusal landed on whichever call was in flight, a background worker's included. No field of that event names whose call it is. The pack's default settings wire no hook to PreToolUse today, and the arm's files rest in `attic/`, ROADMAP 495.)
 - INV-289 (the setup-walk installer generates its coverage from guardrails/judge-hooks.json's file/command/matcher/data/personal_overlay fields and chains to scripts/install-pack-hooks.sh, closing row 495's setup-walk leg; ROADMAP 506)
-- INV-290 (a push carrying deletions alone stands the whole gate chain down. Its script reads git's own ref-update lines fed to the pre-push hook's stdin. It reports whether every one is a pure deletion. `guardrails/pre-push` calls it from the top, before any lettered gate. It takes no gate letter of its own, the way `check-suite-budget.sh` and several INV-230/231/236/242 arms already do, ROADMAP 502.)
+- INV-290 (a push carrying deletions alone stands the whole gate chain down. Its script reads git's own ref-update lines fed to the pre-push hook's stdin. It reports whether every one is a pure deletion. `guardrails/pre-push` calls it from the top, before any lettered gate. It takes no gate letter of its own, the way several INV-230/231/236/242 arms already do, ROADMAP 502.)
 - INV-292 (`guardrails/language-rules.json`, the one home where each rule about this project's own texts sits with its own fields)
 - INV-293 (`scripts/gen-language-consumers.py` writes the consumers. Those are the per-surface law bodies at `hooks/language-laws.json` and the writer's rendering at `docs/language-rules.md`. The third is the maintainer's rendering at `docs/language-rule-coverage.md`, which carries each rule's status, its catchers and their reach. `guardrails/check-language-rules.py` reds a consumer that no longer matches the home, and a pin naming no file. It rides the suite with no push-gate letter.)
 - INV-294 (the catcher record each rule carries, its arming point beside it, and the reason where nothing runs it)
 - INV-295 (the surface list each rule carries, and the personal layer's override of a carve-out with the shipped default kept beside it)
 - INV-296 (these rules stand as relatives and move in one working pass)
 - INV-297 (a reader's finding lands as a named class with its examples under it. The cold reads that produce those findings run at the text-audit node.)
-- INV-301 (the findings ratchet over every live document. `guardrails/check-doc-findings-bound.py` stands as gate aa and reads `guardrails/rule-census.json` as its ceiling. It is the readability sibling of the size ratchet [INV-264], and it holds a cleared document at zero.)
+- INV-301 (the findings ratchet over every live document, held at zero for a cleared document. The readability sibling of the size ratchet [INV-264]. Its mechanical gate — gate aa, with its recorded-ceiling record, retired.)
 - INV-299 (the mechanical arm of the worker-restore rule. It is the gate script pinned below, with its call site inside the pipeline's verify step. Beside it stands the wording check `tests/test_worker_restore.py`, run over the rulebook, the pipeline skill, the delegation protocol, the agent-card template and the lane-opening script. The rule those homes state is the base-rulebook's, stated once in its rule 7.)
-- INV-305 (a count this repository publishes about its own tree. `guardrails/tree-counts.json` is the machine home of every such count. It carries the measurement that produces the count and every page statement of it. `scripts/gen-tree-counts.py` fills the generated blocks. `guardrails/check-tree-counts.py` stands as gate ad over both. Whether a count is worth publishing stays with the person.)
-- INV-306 (the record of what each runnable file the pack ships is. `scripts/check-registry.json` is the machine home of the kind, name, kit, root, reach and needs per file, and `guardrails/check-named-checks.py` stands as gate ae over it. It keeps a check that judges this pack's own documents out of the steps a host project follows. Both files are pinned below.)
+- INV-305 (a count this repository publishes about its own tree. Whether a count is worth publishing stays with the person. Its machine home, its generator and its gate — gate ad, retired.)
+- INV-306 (the record of what each runnable file the pack ships is: its kind, name, kit, root, reach and needs. It kept a check that judged this pack's own documents out of the steps a host project follows. Its record, and its gate — gate ae, retired.)
 - INV-304 (the adversarial review a push carries over the change it sends. It rides the one record a push already owes. `guardrails/check-prover-record.sh` holds it as gate a on the push road, over the record home `docs/prover/`. It holds what a script can hold. The record exists, is committed, and is fresh against the newest commit in the range. It names that range, carries each field with a value, and closes or explains each blocking finding. Whether the review was genuinely adversarial stays outside its reach. The requirement and the script's own header both say so. The second gate that once held this alone rests at `attic/check-push-review.sh`.)
 
 **pins** —
@@ -372,8 +368,6 @@ adapter is the one place the pack updates when a lens moves in a prover release.
 - `guardrails/check-touchpoint-kind.py:1` (the touchpoint-kind gate, INV-205)
 - `guardrails/check-board.py:1` (the waiting-list gate, INV-206)
 - `WAITING.md:1` (the waiting-list board, INV-206)
-- `guardrails/attic/check-far-tier.py:1` (the far-tier report-shape check, report-only, rides the suite not the push chain, INV-222/INV-223)
-- `guardrails/attic/check-wrong-referral.py:1` (the wrong-referral report-shape check, report-only, rides the suite not the push chain, INV-225)
 - `guardrails.config.json:1` (the guardrails config: gated-doc list, ratchet, and the reach map's `reach_classes` — infra/prose/referrer directory classes as host config, INV-224)
 - `guardrails/check-authority-anchor.py:1` (the authority-anchor gate, INV-207)
 - `guardrails/authority-anchor.json:1` (the declared person roster + role forms as data, INV-207)
@@ -385,18 +379,7 @@ adapter is the one place the pack updates when a lens moves in a prover release.
 - `guardrails/check-doc-rotation.py:1` (the doc-rotation gate, gate t, INV-209)
 - `scripts/rotate-doc.py:1` (the rotation mechanism, INV-209)
 - `guardrails/check-matrix-reference.py:1` (the matrix-reference gate, gate d, INV-273)
-- `guardrails/check-ci-mirror.sh:1` (the CI-mirror gate, gate u, INV-210)
-- `guardrails/ci-mirror.json:1` (the declared CI carve-out set, INV-210)
-- `guardrails/check-judge-listed.py:1` (the judge-listed gate, gate v, INV-211)
 - `guardrails/judge-hooks.json:1` (the wired-hook declaration. Two hooks are wired by default: the clock hook and the chat-law hook. The six background chat checks are opt-in, and a host wires each itself, INV-211, INV-289)
-- `guardrails/check-every-gate-can-fail.py:1` (the meta-gate over the chain, gate w, INV-212)
-- `guardrails/gate-red-proofs.json:1` (the per-gate red-proof registry, INV-212)
-- `guardrails/tree-counts.json:1` (the published tree counts: measurement, ground and page homes per count, INV-305)
-- `scripts/gen-tree-counts.py:1` (the generator that fills each marked block from the tree, INV-305)
-- `guardrails/check-tree-counts.py:1` (the published-count gate, gate ad, INV-305)
-- `guardrails/check-hooks-can-fire.py:1` (the hook-side red-proof runner, executes each hook against its own fixture, rides the suite not the push chain, INV-282)
-- `guardrails/hook-red-proofs.json:1` (the per-hook red-proof registry: a fixture per hook plus the declared entries whose output can carry no verdict, each with its reason, INV-282)
-- `guardrails/hook-red-fixtures/scissors-scan/payload.json:1` (the fixture root's shape, one directory per hook under `guardrails/hook-red-fixtures/`, INV-282)
 - `hooks/code-anchor-scan.py:1` (the code-anchor Stop-hook scan, an internal code trails a sentence as a quiet anchor, opt-in/library, INV-283, INV-211)
 - `hooks/affirmation-scan.py:1` (the empty-validation Stop-hook scan, universal tier plus a personal overlay, opt-in/library, INV-284, INV-211)
 - `guardrails/check-runaway-child.py:1` (the runaway-child Stop-time notice, report-only, INV-213)
@@ -404,7 +387,6 @@ adapter is the one place the pack updates when a lens moves in a prover release.
 - `guardrails/attic/check-listener-tripwire.py:1` (the listener tripwire, a deferred-row mechanical revisit trigger, rides the suite not the push chain, INV-231)
 - `guardrails/route_agent_transport.py:1` (the traffic-kind transport router, rides the suite not the push chain, INV-236)
 - `guardrails/check-landing-next-steps.py:1` (the landing-refreshed-map gate, reds a `landed`-flipping commit whose diff omits NEXT_STEPS.md, rides the suite not the push chain, INV-242)
-- `guardrails/attic/check-description-field.py:1` (the non-empty description-field gate, arms at the back-describe migration, INV-239) [target]
 - `guardrails/check-deposit-description.py:1` (the agent-channel deposit-time description lint, homed beside check-earned-message.py, INV-239) [target]
 - `hooks/register_judge_core.py:1` (the register judge mechanism, INV-203)
 - `hooks/turn_reader.py:1` (the shared full-turn reader five checks read through, none of them wired by default. Each reads every assistant message shown since the last human turn. The five are the contrast-frame scan, the hedge scan, the register judge, the code-anchor scan, and the empty-validation scan, INV-281.)
@@ -416,7 +398,6 @@ adapter is the one place the pack updates when a lens moves in a prover release.
 - `hooks/conduct-judge-report.sh:1` (its UserPromptSubmit arm)
 - `hooks/lean-orchestrator-scan.py:1` (the lean-orchestrator arm, a Stop-hook soft signal warning a session that hoards raw file content inline with no worker dispatch, opt-in/library, INV-246)
 - `guardrails/check-push-reach.sh:1` (the reach map's deciding script, gate b's scope: prose stand-down · the scoped middle road · full)
-- `guardrails/check-suite-budget.sh:1` (the suite wall-time budget's net)
 - `guardrails/check-prototype-fence.sh:1` (prototype fence, gate e)
 - `guardrails/check-shipped-language.sh:1` (shipped-language gate, INV-120)
 - `scripts/check-shipped-language.py:1` (its machine)
@@ -428,7 +409,6 @@ adapter is the one place the pack updates when a lens moves in a prover release.
 - `guardrails/check-config-health.sh:1` (INV-175; +skill-copy arm INV-243)
 - `guardrails/check-config-health-perms.py:1` (the dead-permission-path arm, INV-216)
 - `guardrails/nonempty_input.py:1` (the shared non-empty-input shape, INV-218)
-- `guardrails/attic/check-index-prose.py:1` (the retired index-prose gate — check-index-generated.py took over gate x at the row-445 conversion, INV-218)
 - `guardrails/check-agent-card.py:1` (the agent-card gate, gate y, INV-219)
 - `tests/test_guardrails.py:1`
 - `tests/test_traceability.py:1` (the feature-coverage trace, E-29/INV-73)
@@ -448,18 +428,12 @@ adapter is the one place the pack updates when a lens moves in a prover release.
 - `tests/test_language_rules.py:1` (its red proof)
 - `guardrails/check-prover-record.sh:1` (the one review-record gate a push runs, gate a, M-6, INV-116, INV-304)
 - `docs/prover/README.md:1` (the record home and the shape a record carries, INV-304)
-- `guardrails/check-doc-findings-bound.py:1` (the per-document findings ratchet, gate aa, INV-301)
-- `guardrails/rule-census.json:1` (the recorded finding count per live document, the ratchet's ceiling, INV-301)
-- `scripts/rule-census.py:1` (the measure both the report and the gate read through, INV-301)
-- `tests/test_doc_findings_bound.py:1` (its red proof, both directions, INV-301)
 - `guardrails/check-worker-restore.py:1` (the worker-restore gate, blocking, run at the pipeline's verify step and once more in the suite against this machine's own transcript root, INV-299)
 - `tests/test_worker_restore.py:1` (its red proof, and the one-wording check. That check reads the rulebook, the pipeline skill, the delegation protocol, the agent-card template and the lane-opening script, INV-299.)
 - `skills/build-pipeline/references/delegation-protocol.md:49` (the clause in the delegation protocol, INV-299)
 - `scripts/session-extract.py:1` (the session extract's machine, INV-302)
 - `templates/agent.template.md:38` (the clause in the agent card a brief is written from, INV-299)
 - `scripts/open-lane.sh:100` (the clause in the printed brief stub, INV-299)
-- `scripts/check-registry.json:1` (the check registry: kind, name, kit, root, reach and needs per runnable file, INV-306)
-- `guardrails/check-named-checks.py:1` (the check-registry gate, gate ae, INV-306)
 - registry: —
 
 **notes** —
@@ -524,7 +498,6 @@ adapter is the one place the pack updates when a lens moves in a prover release.
 - `skills/publish/SKILL.md:1` (frontmatter + when it fires)
 - the kind-checklist table and target-plugin sections in the same file
 - the release-note shape with its optional offers section (INV-228: the shape carries an optional offers section phrased as choices. The publish walk records the offer-or-none decision, consuming the touchpoint-frame classification.)
-- `guardrails/attic/check-release-note.py:1` (the release-note offer report-shape check, report-only, rides the suite not the push chain, INV-228)
 
 ### [node: test-author]
 
@@ -746,7 +719,7 @@ update rides the landing's own commit. Its published copy sits at one stable lin
 browser, updated from that same source file. The person opens the board from any device, with no
 server of the pack's own.
 
-The named-reference machinery [E-35] runs in two placements the table already names. The two presence gates run client-side at gate time. The non-empty description-field gate `guardrails/attic/check-description-field.py` runs at commit and push time in the repo, with its CI mirror as a second net. The agent-channel deposit-time lint `guardrails/check-deposit-description.py` runs the moment an agent deposits a `from-<agent>` inbox file. That run happens in the depositing session, on the author's own machine [target]. The earned auto-deposit [T-24] and the living-description overwrite [INV-240] are behaviours of the model in the writing session, reading the installed skill text.
+The named-reference machinery [E-35] runs in two placements the table already names. The two presence gates run client-side at gate time. The non-empty description-field gate, dormant until the back-describe migration arms it, retired. The agent-channel deposit-time lint `guardrails/check-deposit-description.py` runs the moment an agent deposits a `from-<agent>` inbox file. That run happens in the depositing session, on the author's own machine [target]. The earned auto-deposit [T-24] and the living-description overwrite [INV-240] are behaviours of the model in the writing session, reading the installed skill text.
 
 ## Footprint and proof by project.kind
 
@@ -869,9 +842,9 @@ real number is read.
 
 | Budget | Number | Instrumentation home | Watcher |
 |---|---|---|---|
-| full suite wall-time | ≤ 1780 s on the dev machine [default] (written with no thousands separator, because `check-suite-budget.sh` reads the figure with `grep -oE '≤ *[0-9]+'` and a comma would truncate it) — what it counts: the serial wall-time of one full `python3 -m pytest -q` run at 2,557 tests with the suite-in-suite meta-test firing; the decision it informs: a push may proceed. Derived 2026-08-13 at 03:03 from the seven full runs of the 2026-08-12 evening pass, in the order they were taken: 1,221.81 s, 1,281.39 s, 1,304.65 s, 1,605.37 s, 1,559.15 s, 1,387.88 s and 1,451.77 s. The bound is the slowest of them plus a tenth as headroom, the same slowest-plus-spread method the 2026-08-07 row used when it put 74 s on a 726 s run. Read the spread before the number: the same suite on trees differing by a handful of documents ran 1,221.81 s and 1,605.37 s, a 31% swing, while the code added across the whole pass measures under a second. This budget is reading the machine's load, and it refused three pushes tonight on that reading alone. Queue row 622 asks for a measure that survives a shared machine, and queue row 553 owns the one code term that dominates every run, `tests/test_guardrails.py` at 640.59 s. Until one of them lands, the ceiling sits above the loudest measurement the day produced. The figure it replaces read ≤ 1410 s, derived at 20:08 on 2026-08-12 from four runs of 993.31 s, 1,159.75 s, 1,221.81 s and 1,281.39 s. Before it the row read ≤ 1280 s, derived at 16:00 the same day from runs of 1,159.75 s and 993.31 s. Before it the row read ≤ 800 s, derived on the morning of the same day from runs of 516.86 s, 537.39 s and 726.28 s, and the whole rise sits in one file: `/usr/bin/time -p python3 -m pytest tests/test_guardrails.py -q` measured **640.59 s** at 15:58, against the near-282 s this row claimed for it, so that one file is 55% of every full run. Queue row 553 holds the work that brings it down and now carries the fresh measurement. Direction: re-measured at every landing, and it falls when the suite gets faster. The row it replaces before that read ≤ 605 s at 2,492 tests, derived 2026-08-07 from 473/525/539 s plus that day's 66 s load spread; before it, 474 s at 2,502 tests on the morning of 2026-08-07, one second above its own measurement, which is the headroom that redded a push on a working machine; before it, 470 s at 2,404 tests on 2026-08-06 and 383–405 s at 1,856 tests on 2026-07-24. The meta-test's own file takes 640.59 s of the run as measured on 2026-08-12, so a diff outside the gate-machinery class skips it and runs far shorter. Queue row 553 holds the work that brings this number down by narrowing the meta-test's own run | the pytest tail line in the suite run's log, read by `guardrails/check-suite-budget.sh` on every full gate run and red past the budget naming both figures (M-346, row 361) | `guardrails/check-suite-budget.sh` reds past the budget on every full gate run, naming both figures (M-346) |
+| full suite wall-time | ≤ 1780 s on the dev machine [default] — what it counts: the serial wall-time of one full `python3 -m pytest -q` run; the decision it informed: a push may proceed. Its mechanical watcher retired, so the figure below stands as a historical snapshot. Last derived 2026-08-13 from the seven full runs of the 2026-08-12 evening pass: 1,221.81 s, 1,281.39 s, 1,304.65 s, 1,605.37 s, 1,559.15 s, 1,387.88 s and 1,451.77 s. Read the spread before the number: the same suite on trees differing by a handful of documents swung 31% between runs, a load signal more than a code signal | the pytest tail line in the suite run's log | retired: `guardrails/check-suite-budget.sh` and its call site in `guardrails/check-tests.sh` are gone; nothing reds past this budget today, and it is read by eye if at all |
 | skill evals | every per-skill scenario green at each milestone | dated run records in `docs/evals/` | the eval suite reds any red scenario at each milestone run (INV-99) |
-| resume-file form | `NEXT_STEPS.md` is a digest with no redundancy, one live-state block (INV-48; the numeric cap struck on the owner's ~01:10 word, row 576) | the suite's own check and the prose-level census | `test_template_states_the_law` holds the template's statement of the law, and the census record holds the file's prose level (INV-48) |
+| resume-file form | `NEXT_STEPS.md` is a digest with no redundancy, one live-state block (INV-48; the numeric cap struck on the owner's ~01:10 word, row 576) | the suite's own check | `test_template_states_the_law` holds the template's statement of the law (INV-48) |
 | spec prose register | style lint: 0 errors on PRODUCT_SPEC.md | `scripts/spec-style-lint.py` JSON tail | the style-lint gate reds on any error at the pre-show and push gates (INV-83) |
 | work board update [target] | ≤ about 5 s from the stage change it records [default], and no stage delayed by its own board update | the page's own build stamp — the time the generator last wrote the page, read off the rendered board | the generator's own suite timing assertion at its landing (ROADMAP row 166); until that landing the budget stands unwatched [target] |
 | settings card render | ≤ 1 s on a pack-sized catalog [default] | the render script's own run, asserted by its matrix row | its matrix-row test (M-206) reds past the 1 s budget, read from the render script's own instrumentation |

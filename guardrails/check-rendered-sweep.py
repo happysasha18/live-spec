@@ -15,9 +15,8 @@ message at the door.
 
 WHERE IT RUNS. The gate rides the SUITE. The push chain's letters run a..z with every one taken,
 and the pack already declares this placement for the checks that arrived after them — the
-named-reference presence nets and `check-wrong-referral.py` both ride the suite.
-A suite-riding check carries no gate letter, so it owes no `gate-red-proofs.json` and no
-`ci-mirror.json` entry, and gate b already blocks a push on a red suite.
+named-reference presence nets ride the suite too.
+A suite-riding check carries no gate letter, and gate b already blocks a push on a red suite.
 
 WHAT IT DOES NOT SEE. The check reads a page's MARK, and never whether the person finished
 reading. A page rendered a minute ago and still open in a browser reds exactly like one that has

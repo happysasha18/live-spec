@@ -1,6 +1,6 @@
 # live-spec
 
-**Ten working [Claude Code](https://claude.com/claude-code) skills, plus the one shared rulebook they all load. They turn a wish spoken in passing into a specified, reviewed, tested, committed change. Scripts block the push when the documents and the code disagree.**
+**Eleven working [Claude Code](https://claude.com/claude-code) skills, plus the one shared rulebook they all load. They turn a wish spoken in passing into a specified, reviewed, tested, committed change. Scripts block the push when the documents and the code disagree.**
 
 *(Claude Code is Anthropic's own coding agent, an app you install once. This pack is a set of instructions it loads. You talk to Claude Code, and live-spec is what answers.)*
 
@@ -194,11 +194,11 @@ Work enters the spec before code. A new behaviour arrives as a spec change, gets
 
 Only the mechanical gates are checked independently. A judgment call — the model reviewing its own work — has no independent check of its own. That is why the gates are built as scripts.
 
-The gates stabilize first. Each one carries a red-first proof. Before a gate existed, someone watched the exact failure it now catches. They watched it happen for real, on purpose — that is what shows the gate can actually fail, not only pass. Every gate's proof is named in [`guardrails/gate-red-proofs.json`](guardrails/gate-red-proofs.json). A gate with no proof blocks the push.
+The gates stabilize first. Each one carries a red-first proof. Before a gate existed, someone watched the exact failure it now catches. They watched it happen for real, on purpose — that is what shows the gate can actually fail, not only pass.
 
 ### The skills
 
-[`live-spec-base`](skills/live-spec-base/) holds the shared rulebook · [`build-pipeline`](skills/build-pipeline/) sequences a change end to end · [`spec-author`](skills/spec-author/) writes the living spec · [`product-prover`](https://github.com/happysasha18/product-prover) reviews it (external skill, own repository) · [`product-prover-pack`](skills/product-prover-pack/) is the adapter that binds that external skill to this pack · [`design-reviewer`](skills/design-reviewer/) asks whether the design itself is right once the spec holds together · [`test-author`](skills/test-author/) derives the matrix and the tests · [`communicator`](skills/communicator/) shows work and asks answerable questions · [`feedback-intake`](skills/feedback-intake/) routes what you hand back · [`feedback-collector`](skills/feedback-collector/) sends upstream notes with your consent · [`text-audit`](https://github.com/happysasha18/text-audit) reads a text as a stranger and fixes where they stop (external skill, own repository) · [`text-audit-pack`](skills/text-audit-pack/) is the adapter that binds that external skill to this pack · [`publish`](skills/publish/) gates anything leaving the machine.
+[`live-spec-base`](skills/live-spec-base/) holds the shared rulebook · [`director`](skills/director/) reads the human's message first and decides what it is · [`build-pipeline`](skills/build-pipeline/) sequences a change end to end · [`spec-author`](skills/spec-author/) writes the living spec · [`product-prover`](https://github.com/happysasha18/product-prover) reviews it (external skill, own repository) · [`product-prover-pack`](skills/product-prover-pack/) is the adapter that binds that external skill to this pack · [`design-reviewer`](skills/design-reviewer/) asks whether the design itself is right once the spec holds together · [`test-author`](skills/test-author/) derives the matrix and the tests · [`communicator`](skills/communicator/) shows work and asks answerable questions · [`feedback-intake`](skills/feedback-intake/) routes what you hand back · [`feedback-collector`](skills/feedback-collector/) sends upstream notes with your consent · [`text-audit`](https://github.com/happysasha18/text-audit) reads a text as a stranger and fixes where they stop (external skill, own repository) · [`text-audit-pack`](skills/text-audit-pack/) is the adapter that binds that external skill to this pack · [`publish`](skills/publish/) gates anything leaving the machine.
 
 ### External skills
 

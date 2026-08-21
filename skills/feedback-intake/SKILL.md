@@ -97,7 +97,8 @@ relayed to a session. No automatic reading, scoring, or aggregation of the ledge
 stays a named target of the measurement family. No new inbox-door mechanics — the inbox is reused
 exactly as it stands.
 
-> The pack, whole: **live-spec-base** holds the shared rules and defaults · **spec-author** writes the spec ·
+> The pack, whole: **live-spec-base** holds the shared rules and defaults · **director** decides
+> whether a message was feedback at all before this skill routes it · **spec-author** writes the spec ·
 > **product-prover** reviews it · **product-prover-pack** binds the external prover to the pack · **design-reviewer** judges the design behind it · **build-pipeline** ships the change · **test-author** derives the matrix
 > and writes the tests · **communicator** makes the human exchange land · **feedback-intake** brings what
 > comes back to its home · **feedback-collector** offers a rare private note up to the authors · **text-audit** reads a text as a stranger and fixes where they stop · **text-audit-pack** binds the external audit skill to the pack · **publish** sees the work out the door, owing its kind's checklist.

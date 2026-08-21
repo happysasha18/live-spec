@@ -7,8 +7,9 @@ order, one row per file, one column per indicator, with every explanation below 
 is the source of truth for where the work stands.
 
 WHERE EACH NUMBER COMES FROM.
-  - the writing-finding columns, the longest sentence, the style column and the byte column read
-    guardrails/rule-census.json, the record scripts/rule-census.py writes;
+  - the writing-finding columns, the longest sentence, the style column and the per-file byte
+    column read "not measured" everywhere: their source, guardrails/rule-census.json (written by
+    scripts/rule-census.py), retired 2026-08-21;
   - the reading columns read the dated records under docs/language-reads/, one file per reading;
   - the agreed-stop column reads the `rounds` block of guardrails/progress-baseline.json, which
     records each round's two readings and the places both readers stopped at;
@@ -85,6 +86,18 @@ STOPS_RE = re.compile(r"Stops:\s*(\d+)\s*[—-]\s*(\d+)\s*blocking")
 def load(path):
     with open(path, encoding="utf-8") as f:
         return json.load(f)
+
+
+def load_census():
+    """The per-file writing-defect record, or an empty one where none ships.
+
+    Retired 2026-08-21 alongside scripts/rule-census.py and gate aa (guardrails/check-doc-findings-
+    bound.py): the census-derived columns below now read "not stated" everywhere, the same fallback
+    they already use for any other file this record carries no entry for.
+    """
+    if not os.path.isfile(CENSUS_RECORD):
+        return {"files": {}}
+    return load(CENSUS_RECORD)
 
 
 def load_module(path, name):
@@ -236,25 +249,30 @@ COLUMNS = [
     ("state", "state", "DONE when both check columns read ok: the script count sits at zero and "
                        "the last two reading rounds each returned zero agreed stops. Every other "
                        "file reads open. This is the only finish line."),
-    ("findings", "find", "How many writing defects a script counts in this file. Three counts "
-                         "added together: prose sentences longer than 25 words, the human-prose "
-                         "cap read out of guardrails/language-rules.json rule r08 and applied to "
-                         "every file, plus every finding of the style check "
-                         "(scripts/spec-style-lint.py --tier full), plus every finding of the "
-                         "register check (scripts/preshow-register-lint.py). Produced by python3 "
-                         "scripts/rule-census.py. Target: zero."),
+    ("findings", "find", "How many writing defects a script counted in this file: prose sentences "
+                         "longer than 25 words, the human-prose cap read out of "
+                         "guardrails/language-rules.json rule r08 and applied to every file, plus "
+                         "every finding of the style check (scripts/spec-style-lint.py --tier "
+                         "full), plus every finding of the register check "
+                         "(scripts/preshow-register-lint.py). Retired 2026-08-21 with "
+                         "scripts/rule-census.py: this column now reads \"not measured\" for "
+                         "every file."),
     ("longest", "long", "Words in the file's longest prose sentence. One long sentence marks the "
                         "paragraph a reader rereads. Target: 25 words. The rule allows a numbered "
                         "acceptance criterion 35, and the counter does not yet make that "
                         "exception, so PRODUCT_SPEC.md counts criteria of 26 to 35 words as "
-                        "findings the rule permits."),
+                        "findings the rule permits. Retired 2026-08-21 with scripts/rule-census.py: "
+                        "this column now reads \"not measured\" for every file."),
     ("style", "style", "Findings of the style check alone (scripts/spec-style-lint.py --tier full). "
-                       "Carried apart because a style finding is repaired differently. Target: zero."),
-    ("measured_clean", "script ok", "Reads ok when the find column sits at zero. A script settles "
-                                    "this column, so it costs a command and no reader. It also "
-                                    "runs as a push check: guardrails/check-doc-findings-bound.py "
-                                    "refuses the push when a file counts more findings than "
-                                    "guardrails/rule-census.json records for it."),
+                       "Carried apart because a style finding is repaired differently. Retired "
+                       "2026-08-21 with scripts/rule-census.py: this column now reads \"not "
+                       "measured\" for every file."),
+    ("measured_clean", "script ok", "Read ok when the find column sat at zero. A script settled "
+                                    "this column, so it cost a command and no reader; it also ran "
+                                    "as a push check, gate aa (guardrails/check-doc-findings-"
+                                    "bound.py), which refused the push when a file counted more "
+                                    "findings than the record kept for it. Both retired "
+                                    "2026-08-21."),
     ("readings", "reads", "How many fresh readers have read this file. A reader holds no project "
                           "access: only the file and one fixed list of questions. Each reading "
                           "writes a dated record under docs/language-reads/."),
@@ -317,7 +335,7 @@ def spec_table():
     s = spec_numbers()
     return ["", "### The specification's own size", "",
             "| indicator | today | target |", "|---|---|---|",
-            "| bytes | %s | under 840,000 |" % fmt(load(CENSUS_RECORD)["files"]
+            "| bytes | %s | under 840,000 |" % fmt(load_census()["files"]
                                                    .get("PRODUCT_SPEC.md", {}).get("bytes")),
             "| requirements | %s | no target |" % fmt(s["requirements"]),
             "| acceptance criteria | %s | no target |" % fmt(s["criteria"]),
@@ -440,10 +458,10 @@ NOTES = [
 "**state** — a file reads `finished` when both checks read ok. Every other file reads `unfinished`. "
 "This is the campaign's only finish line, and the queue advances when a file reaches it.",
 "",
-"**findings** — how many writing defects the script counts. Three counts added together: prose "
-"sentences longer than 25 words, plus the findings of the style check, plus the findings of the "
-"register check. The 25 is the human-prose cap of rule r08 in `guardrails/language-rules.json`, and "
-"the counter applies it to every file. `python3 scripts/rule-census.py`. Target: zero.",
+"**findings** — how many writing defects a script counted: prose sentences longer than 25 words, "
+"plus the findings of the style check, plus the findings of the register check. The 25 was the "
+"human-prose cap of rule r08 in `guardrails/language-rules.json`. Retired 2026-08-21 with "
+"`scripts/rule-census.py`: this column now reads \"not measured\" for every file.",
 "",
 "**longest sentence** — the words in the file's longest prose sentence. One long sentence marks the "
 "paragraph a reader will reread, so it names where to start. Same command. Target: 25 words. The rule "
@@ -463,9 +481,9 @@ NOTES = [
 "text. While this stands above zero the file is repaired and read again. Counted by hand from the two "
 "reading records and stored per round in `guardrails/progress-baseline.json`. Target: zero.",
 "",
-"**script ok** — the findings column at zero. The same number is a push check: "
-"`guardrails/check-doc-findings-bound.py` refuses the push when a file counts more findings than "
-"`guardrails/rule-census.json` records for it.",
+"**script ok** — the findings column at zero. Until 2026-08-21 the same number was also a push "
+"check, gate aa (`guardrails/check-doc-findings-bound.py`), which refused the push when a file "
+"counted more findings than the record kept for it. Both retired.",
 "",
 "**readers ok** — the both-stopped column at zero for two rounds in a row.",
 "",
@@ -523,7 +541,7 @@ def parse_args(argv=None):
 
 def main(argv=None):
     args = parse_args(argv)
-    census = load(CENSUS_RECORD).get("files", {})
+    census = load_census().get("files", {})
     baseline = load(BASELINE)
     slug_map = baseline.get("reading_slugs", {})
     rounds = baseline.get("rounds", {})

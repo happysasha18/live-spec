@@ -11,7 +11,7 @@ multi-agent thread).
 An expensive decision cannot be told from an ordinary one by a machine — no gate reads a decision's
 reversal cost — so this is a STATED DUTY at the named decision points, and this module is the
 traceability proof that those points name the read. No new pre-push gate letter: the duty rides the
-suite here, the way the far-tier and node-growth checks ride the suite and mint no push-gate letter.
+suite here, the way several suite-riding checks mint no push-gate letter.
 
 Red-first: against HEAD 35069ba the spec carries no INV-235, the road pieces are cited nowhere as a
 class, and T-22 names no adversarial read, so every assertion below fails — the red recorded in
@@ -24,7 +24,6 @@ heading, so the needles below match anywhere within that whole requirement's bod
 the next `## Requirement` or `## Reference`), and per-code anchors are checked as bare codes since
 criteria now share one combined `[..]` tag list rather than one bracket per code.
 """
-import json
 import os
 import sys
 import unittest
@@ -167,11 +166,9 @@ class TestTraceability(unittest.TestCase):
         An expensive decision cannot be detected mechanically, so the duty is held by this traceability
         test riding the suite, and the gate chain is untouched. This test is the honesty check on that.
         """
-        proofs = json.loads(read("guardrails/gate-red-proofs.json"))
-        blob = json.dumps(proofs)
-        self.assertNotIn("INV-235", blob,
-                         "INV-235 appears in the gate red-proofs — a push gate was wired where a stated "
-                         "duty was intended")
+        self.assertNotIn("INV-235", read("guardrails/pre-push"),
+                         "INV-235 appears in pre-push — a push gate was wired where a stated duty "
+                         "was intended")
 
 
 if __name__ == "__main__":

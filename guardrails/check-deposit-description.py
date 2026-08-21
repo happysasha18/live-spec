@@ -17,12 +17,11 @@ is undecidable on a translated or reformulated sentence and belongs to the human
 the human sweep reads whether they describe it.
 
 WHERE IT LIVES. This lint RIDES THE SUITE (gate b) and takes NO push-gate letter, the same placement
-check-far-tier.py and check-board.py's own suite test take: its enforcement is a suite test
+`check-board.py`'s own suite test takes: its enforcement is a suite test
 (tests/test_deposit_description.py) that runs it against the REAL inbox and asserts the expected
 result, so a real violation reds the suite and gate b blocks the push. It is NOT wired into the
-pre-push chain directly, so the letter-counting meta-guards (INV-210 CI mirror, INV-212
-every-gate-can-fail) need not see it — a suite-riding check carries no gate letter, and its known-red
-proof is the red-first test the suite runs, not a gate-red-proofs.json entry.
+pre-push chain directly — a suite-riding check carries no gate letter, and its known-red proof is
+the red-first test the suite runs.
 
 WHAT COUNTS AS A DESCRIPTION (presence). The pair travels in full on a code's FIRST mention, and a
 later reference in the same file carries the code alone [INV-28, INV-31]. So the lint reads each

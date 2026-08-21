@@ -191,16 +191,6 @@ class TestGateWiredAsGateD(unittest.TestCase):
         yml = read(os.path.join(ROOT, ".github", "workflows", "gates.yml"))
         self.assertIn("check-matrix-reference.py", yml, "CI mirror missing the matrix-reference gate")
 
-    def test_gate_d_red_proof_registered(self):
-        import json
-        reg = json.loads(read(os.path.join(ROOT, "guardrails", "gate-red-proofs.json")))
-        entry = reg["proofs"].get("d")
-        self.assertIsNotNone(entry, "gate d carries no red proof")
-        self.assertIn("test_matrix_reference.py", entry["proof"],
-                      "gate d's red proof no longer points at test_matrix_reference.py")
-        self.assertEqual(entry["reds"], "check-matrix-reference",
-                         "gate d's reds token no longer names the matrix-reference gate")
-
 
 if __name__ == "__main__":
     unittest.main()

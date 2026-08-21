@@ -119,34 +119,10 @@ jobs:
           fi
       # The named-reference presence nets (SPEC INV-239) take NO push-gate letter: they RIDE THE SUITE
       # (the pytest step, gate b), the same placement the far-tier report-shape check takes, so they
-      # need no separate CI step here and no ci-mirror carve-out — a suite-riding check carries no gate
-      # letter for the mirror to track.
-      - name: "gate u — CI mirror parity (every local gate is mirrored in CI or a declared carve-out, SPEC INV-210)"
-        if: ${{ !cancelled() }}
-        run: guardrails/check-ci-mirror.sh
-      - name: "gate w — every gate can fail (every gate in this chain carries a known-red proof, SPEC INV-212)"
-        if: ${{ !cancelled() }}
-        run: python3 guardrails/check-every-gate-can-fail.py
+      # need no separate CI step here.
       - name: "gate x — generated index (the committed index equals a fresh build off the body; body and index agree; an empty body reds by name, SPEC INV-258/INV-259/INV-218)"
         if: ${{ !cancelled() }}
         run: python3 guardrails/check-index-generated.py PRODUCT_SPEC.md PRODUCT_SPEC.index.md
       - name: "gate y — agent card (a live-spec host tree carries its .live-spec/agent.md card, SPEC INV-219)"
         if: ${{ !cancelled() }}
         run: python3 guardrails/check-agent-card.py
-      - name: "gate aa — doc findings bound (no live document above its recorded finding count; a cleared document stays at zero, SPEC INV-301)"
-        if: ${{ !cancelled() }}
-        # The record arm reads the record against the state the remote already holds (SPEC R302.12).
-        # github.event.before is the pre-push SHA on a push; on a PR it is empty and the arm falls back
-        # to origin/main, which the fetch-depth-0 checkout above carries.
-        env:
-          LIVE_SPEC_DIFF_BASE: ${{ github.event.before }}
-        run: python3 guardrails/check-doc-findings-bound.py
-      - name: "gate ad — published tree counts (every count this repository publishes about its own tree matches the tree, and the reproduction command beside it returns the published number, SPEC INV-305)"
-        if: ${{ !cancelled() }}
-        run: python3 guardrails/check-tree-counts.py
-      - name: "gate ae — named checks (the registry says what each runnable file a skill body names is, SPEC INV-306)"
-        if: ${{ !cancelled() }}
-        run: python3 guardrails/check-named-checks.py
-      - name: "gate af — gate device manifest (guardrails/gates-manifest.json joins every gate's script, red proof and CI-mirror status from pre-push, gate-red-proofs.json and ci-mirror.json; it reds where a fresh build differs from the committed file, or where a gates.yml step's law sentence differs from the gate's own, SPEC INV-210/INV-212)"
-        if: ${{ !cancelled() }}
-        run: python3 guardrails/check-gates-manifest.py

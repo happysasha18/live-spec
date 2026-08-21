@@ -8,18 +8,24 @@ layouts before they compare numbers. This script fixes the shape. It never inven
 cell comes from a live measurement taken this run, or from `guardrails/progress-baseline.json`, a
 small seed file recording what was true at named past moments.
 
-WHAT IT NEVER DOES. It never re-runs the slow per-file census (`scripts/rule-census.py` reading
-every live document against the style and register lints) — that record already lives in
-`guardrails/rule-census.json`, written by a run that already paid that cost, and this script reads
-it rather than paying it again. Where a number has no source — no live measurement and no baseline
-entry — the cell reads "not stated", never a zero standing in for an absence.
+WHAT IT NEVER DOES. It never re-runs a slow per-file census of its own. Until 2026-08-21 the
+per-file writing-defect counts (Table B, and the findings/measured-clean columns of the queue
+section) came from `guardrails/rule-census.json`, written by `scripts/rule-census.py`. Both were
+retired that day alongside gate aa (`guardrails/check-doc-findings-bound.py`) — the same retirement
+`scripts/measurements-table.py` carries. This script no longer reads or imports either: the
+census-sourced cells print "not stated" (the aggregate counts in Table A) or "not measured" (the
+per-document cells in the queue section and Table B, which now lists no documents — nothing is
+left to rank them by), the same fallback they already used for any file the record carried no entry
+for. Where a number has no source — no live measurement and no baseline entry — the cell reads "not
+stated", never a zero standing in for an absence.
 
 THE SIX SECTIONS, in the fixed order this document always carries:
   1. Where the two promises stand — two sentences, one per promise, each carrying one live number.
   2. The queue, in the plan's order — one table per priority group, held in
      `guardrails/progress-baseline.json` rather than re-derived here.
-  3. Promise one (comprehension): Table A, the whole-repository counts; Table B, the fifteen
-     documents carrying the most findings.
+  3. Promise one (comprehension): Table A, the whole-repository counts (three of its four rows
+     now read "not stated" — see WHAT IT NEVER DOES); Table B, once the fifteen documents carrying
+     the most findings, now empty for the same reason.
   4. Promise two (the spec stops growing): Table C, the spec's own size measures against the
      format-change baseline and the target recorded for it.
   5. Readings run so far: one row per file under `docs/language-reads/`.
@@ -52,7 +58,6 @@ NOT_STATED = "not stated"
 TABLE_B_ROWS_SHOWN = 15
 
 SPEC_PATH = os.path.join(REPO_ROOT, "PRODUCT_SPEC.md")
-RULE_CENSUS_PATH = os.path.join(GUARDRAILS, "rule-census.json")
 BASELINE_PATH = os.path.join(GUARDRAILS, "progress-baseline.json")
 SPEC_RATCHET_PATH = os.path.join(GUARDRAILS, "spec-ratchet.json")
 SPEC_DEBT_CAP_PATH = os.path.join(SCRIPT_DIR, "spec-debt-cap.json")
@@ -134,22 +139,6 @@ def measure_redundancy_open():
     except ValueError:
         return None
     return record.get("open")
-
-
-def live_document_paths():
-    """The true live set, from rule-census.py's own file walk — a directory listing, not the slow
-    per-file lint measurement, so this stays cheap to call on every run."""
-    census = load_module(os.path.join(SCRIPT_DIR, "rule-census.py"), "rule_census")
-    return set(census.live_files(REPO_ROOT))
-
-
-# ---------------------------------------------------------------------------------------------
-# The rule-census record (read, not re-measured)
-# ---------------------------------------------------------------------------------------------
-
-def load_rule_census():
-    record = load_json(RULE_CENSUS_PATH)
-    return record.get("files", {}), record.get("cap"), record.get("cap_rule")
 
 
 # ---------------------------------------------------------------------------------------------
@@ -274,18 +263,20 @@ WHAT_NO_MEASURE_COVERS = [
 ]
 
 
-def build_section1(census_files, spec_measure, findings_total):
+def build_section1(spec_measure):
     s1 = ("Promise one, a reader gets through a document without stopping, measures %s open "
-          "writing findings across the live set today." % fmt(findings_total))
+          "writing findings across the live set today." % NOT_STATED)
     s2 = ("Promise two, the specification stops growing, measures PRODUCT_SPEC.md at %s bytes "
           "today." % fmt(spec_measure["bytes"]))
     return s1, s2
 
 
-def build_table_a(census_files, baseline, reads, live_paths):
-    live_count = len(census_files)
-    findings_total = sum(v.get("total", 0) for v in census_files.values())
-    zero_count = sum(1 for v in census_files.values() if v.get("total", 0) == 0)
+def build_table_a(baseline, reads):
+    """Table A. The first three rows once came from `guardrails/rule-census.json`, retired
+    2026-08-21 along with `scripts/rule-census.py` and gate aa: with no live per-file census left
+    to sum, each prints "not stated" rather than the false zero an empty sum would give. The
+    fourth row never depended on the census — it is read straight from the reading records under
+    `docs/language-reads/` — so it keeps reporting a real number."""
     passed_count = documents_passed(reads)
 
     night = baseline.get("findings_2026_07_29_night", {})
@@ -294,37 +285,26 @@ def build_table_a(census_files, baseline, reads, live_paths):
     recorded_zero = night.get("zero_findings_documents")
 
     rows = [
-        ["live documents measured", fmt(live_count), fmt(recorded_docs),
+        ["live documents measured", NOT_STATED, fmt(recorded_docs),
          target_val(baseline, "live documents measured")],
-        ["writing findings across all documents", fmt(findings_total), fmt(recorded_findings),
+        ["writing findings across all documents", NOT_STATED, fmt(recorded_findings),
          target_val(baseline, "writing findings across all documents")],
-        ["documents at zero findings", fmt(zero_count), fmt(recorded_zero),
+        ["documents at zero findings", NOT_STATED, fmt(recorded_zero),
          target_val(baseline, "documents at zero findings")],
         ["documents that passed two consecutive readings with nothing blocking",
          fmt(passed_count), NOT_STATED,
          target_val(baseline, "documents that passed two consecutive readings with nothing "
                     "blocking")],
     ]
-    return rows, {"live_count": live_count, "findings_total": findings_total,
-                  "zero_count": zero_count, "passed_count": passed_count}
+    return rows, {"passed_count": passed_count}
 
 
-def build_table_b(census_files, reads):
-    top15 = sorted(census_files.items(), key=lambda kv: -kv[1].get("total", 0))[:TABLE_B_ROWS_SHOWN]
-    rows = []
-    for path, v in top15:
-        run = readings_for_doc_path(reads, path)
-        passed = "yes" if doc_passed(reads, path) else "no"
-        rows.append([
-            "`%s`" % path,
-            fmt(v.get("total", 0)),
-            fmt(v.get("long", 0)),
-            fmt(v.get("style", 0)),
-            fmt(v.get("longest", 0)),
-            fmt(len(run)),
-            passed,
-        ])
-    return rows
+def build_table_b():
+    """Table B ranked live documents by their census-counted findings. With the census retired
+    2026-08-21 there is nothing left to rank them by, so the table now carries no rows — the same
+    loss `scripts/measurements-table.py`'s "every remaining live document" group took the same
+    day. The header still prints; a reader sees an empty table, not a silently vanished section."""
+    return []
 
 
 def build_table_c(spec_measure, baseline, ratchet_bound, redundancy_open, debt_cap):
@@ -360,44 +340,37 @@ def build_table_c(spec_measure, baseline, ratchet_bound, redundancy_open, debt_c
 
 PRIORITY_NOTE_1 = ("The order below comes from `docs/plans/2026-07-28-two-goals-one-campaign.md`, "
                     "the section \"The order of documents\".")
-PRIORITY_NOTE_2 = ("Three members carry no entry in the findings record: "
-                    "`hooks/chat-law-hook.sh` and two files outside this repository, "
-                    "`~/.claude/CLAUDE.md` and `~/.claude/live-spec/profile.md`. Their findings "
-                    "column reads not measured.")
+PRIORITY_NOTE_2 = ("Every member's findings column reads not measured: the per-file census "
+                    "(`guardrails/rule-census.json`, written by `scripts/rule-census.py`) that "
+                    "used to fill it was retired 2026-08-21 along with gate aa "
+                    "(`guardrails/check-doc-findings-bound.py`). Group ten — every live document "
+                    "the nine named groups leave out, worst first — is empty for the same reason: "
+                    "the census was also this page's only source for which documents are live and "
+                    "how they rank, and no other source stands in for it here.")
 
 
-def resolve_group_ten(used_paths, census_files):
-    """Every live document the nine named groups leave out, worst first. Ties break by path, so
-    two runs over the same census agree on order."""
-    remaining = [p for p in census_files if p not in used_paths]
-    remaining.sort(key=lambda p: (-census_files[p].get("total", 0), p))
-    return remaining
-
-
-def build_priority(baseline, census_files, reads):
-    """The ten groups from `guardrails/progress-baseline.json`'s `priority` block, group ten's
-    members resolved live, and one row per member carrying its findings, its two clean states,
-    and its queue state. The first unfinished row in queue order is "in hand"; every other
-    unfinished row is "waiting"."""
+def build_priority(baseline, reads):
+    """The ten groups from `guardrails/progress-baseline.json`'s `priority` block, and one row per
+    member carrying its findings, its two clean states, and its queue state. Groups one through
+    nine hold the fixed membership the baseline states; group ten held "every live document the
+    nine named groups leave out, worst first", resolved from the per-file census — retired
+    2026-08-21, so group ten now resolves to no members (see PRIORITY_NOTE_2). Every findings and
+    measured-clean cell reads "not measured" for the same reason: no source stands in for the
+    census (see PRIORITY_NOTE_2). The first unfinished row in queue order is "in hand"; every
+    other unfinished row is "waiting"; a "finished" state can only be reached once a live source
+    can call a document's findings clean again."""
     groups_def = baseline.get("priority", {}).get("groups", [])
     fixed = [g for g in groups_def if g.get("number") != 10]
-    used = {p for g in fixed for p in g.get("members", [])}
     ten_def = next((g for g in groups_def if g.get("number") == 10), None)
     ten_title = ten_def["title"] if ten_def else "Every remaining live document, worst first"
-    groups = fixed + [{"number": 10, "title": ten_title,
-                       "members": resolve_group_ten(used, census_files)}]
+    groups = fixed + [{"number": 10, "title": ten_title, "members": []}]
     groups.sort(key=lambda g: g["number"])
 
     flat = [(g["number"], path) for g in groups for path in g["members"]]
 
     rows, in_hand_assigned = [], False
     for idx, (gnum, path) in enumerate(flat, start=1):
-        entry = census_files.get(path)
-        if entry is None:
-            findings, measured_clean = "not measured", "not measured"
-        else:
-            findings = fmt(entry.get("total", 0))
-            measured_clean = "yes" if entry.get("total", 0) == 0 else "no"
+        findings, measured_clean = "not measured", "not measured"
         read_clean = "yes" if doc_passed(reads, path) else "no"
         finished = measured_clean == "yes" and read_clean == "yes"
         if finished:
@@ -441,16 +414,14 @@ def build_section4(reads):
 # Assembly
 # ---------------------------------------------------------------------------------------------
 
-def render(now, census_files, cap, cap_rule, spec_measure, baseline, ratchet_bound,
-           redundancy_open, debt_cap, reads, live_paths):
-    findings_total = sum(v.get("total", 0) for v in census_files.values())
-    s1, s2 = build_section1(census_files, spec_measure, findings_total)
-    table_a, _ = build_table_a(census_files, baseline, reads, live_paths)
-    table_b = build_table_b(census_files, reads)
+def render(now, spec_measure, baseline, ratchet_bound, redundancy_open, debt_cap, reads):
+    s1, s2 = build_section1(spec_measure)
+    table_a, _ = build_table_a(baseline, reads)
+    table_b = build_table_b()
     table_c = build_table_c(spec_measure, baseline, ratchet_bound, redundancy_open,
                              debt_cap)
     table_d = build_section4(reads)
-    priority_groups, priority_rows = build_priority(baseline, census_files, reads)
+    priority_groups, priority_rows = build_priority(baseline, reads)
 
     out = []
     out.append("# Progress — the two promises")
@@ -469,12 +440,15 @@ def render(now, census_files, cap, cap_rule, spec_measure, baseline, ratchet_bou
     out.extend(render_priority_section(priority_groups, priority_rows))
     out.append("## Promise one — a reader gets through a document without stopping")
     out.append("")
-    out.append("The counts below come from the record `guardrails/rule-census.json`. It states "
-                "when each document was last measured.")
+    out.append("The counts below once came from the record `guardrails/rule-census.json`, "
+                "written by `scripts/rule-census.py`. Both were retired 2026-08-21 along with "
+                "gate aa (`guardrails/check-doc-findings-bound.py`); every measure that came from "
+                "them now reads \"not stated\" until a live source replaces the retired record.")
     out.append("")
     out.append(md_table(["measure", "today", "recorded before", "target"], table_a))
     out.append("")
-    out.append("The fifteen documents carrying the most findings:")
+    out.append("The fifteen documents carrying the most findings: none — the source record was "
+                "retired 2026-08-21 (see above).")
     out.append("")
     out.append(md_table(["document", "findings", "of which long sentences", "style",
                           "longest sentence", "readings run", "passed"], table_b))
@@ -507,7 +481,6 @@ def parse_args(argv):
 
 def main(argv=None):
     args = parse_args(argv)
-    census_files, cap, cap_rule = load_rule_census()
     baseline = load_json(BASELINE_PATH)
     spec_measure = measure_spec()
     ratchet_bound = load_json(SPEC_RATCHET_PATH).get("bytes_per_criterion")
@@ -515,11 +488,9 @@ def main(argv=None):
     debt_cap = load_json(SPEC_DEBT_CAP_PATH).get("max_redundancy_open", {}).get(
         "PRODUCT_SPEC.md")
     reads = load_all_reads()
-    live_paths = live_document_paths()
 
     now = datetime.date.today().isoformat()
-    text = render(now, census_files, cap, cap_rule, spec_measure, baseline,
-                   ratchet_bound, redundancy_open, debt_cap, reads, live_paths)
+    text = render(now, spec_measure, baseline, ratchet_bound, redundancy_open, debt_cap, reads)
 
     with open(args.out, "w", encoding="utf-8") as f:
         f.write(text)

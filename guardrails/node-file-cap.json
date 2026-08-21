@@ -1,9 +1,0 @@
-{
-  "_comment": "The nodes-per-file ratchet (SPEC INV-233, ROADMAP row 390). A file's node count is the number of distinct nodes whose ARCHITECTURE.md pins name it — its co-residence, the mechanical face of a node grown past its fitness [INV-122]. `default` is the proposed ceiling of two nodes per code file (the host's word sets it, INV-41); `caps` names the files seeded ABOVE the default at their 2026-07-18 count, the standing debt admitted so the tree lands green while any INCREASE reds. The ratchet points DOWN only: a split lowers a file's count and its cap drops with it, the reached floor pinned in tests/test_node_growth.py REACHED_CEILING. This ratchet rides the suite (tests/test_node_growth.py), not the push chain, the sibling of the prose-debt cap scripts/spec-debt-cap.json. The three seeded files each carry a design-sync and a parallel-lanes wiring pin beside their owner; the standing debt is a MINOR-audit signal, not a per-push red.",
-  "default": 2,
-  "caps": {
-    "skills/live-spec-base/SKILL.md": 3,
-    "skills/communicator/SKILL.md": 3,
-    "skills/build-pipeline/SKILL.md": 3
-  }
-}

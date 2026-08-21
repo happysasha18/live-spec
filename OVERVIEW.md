@@ -84,10 +84,13 @@ An override exists only as a written line in its profile file. Setting one leave
 note, so every divergence stays visible. The session scope is spoken only and dies with the conversation; making
 it permanent is a promotion into a profile, on the human's word.
 
-## Ten working skills, plus the one shared rulebook they all load
+## Eleven working skills, plus the one shared rulebook they all load
 
 - **live-spec-base** — the shared rulebook and the default settings, stated once; on any apparent
   rule conflict, this file wins.
+- **director** — reads the human's message first and decides what they just did with it before
+  anything decides what to do about work; runs in shadow mode today, writing a decision sheet and
+  changing nothing.
 - **spec-author** — writes and grows the living spec, use-case-first and prover-ready.
 - **product-prover** — reviews specs and architecture documents with formal-verification thinking.
 - **product-prover-pack** — the pack adapter for the external canonical product-prover: the pin

@@ -1,2 +1,0 @@
-{"type": "user", "message": {"role": "user", "content": "статус"}}
-{"type": "assistant", "message": {"role": "assistant", "id": "a1", "content": [{"type": "text", "text": "Строки 386 и 412 висят с 18 июля без единого коммита — закрыть или доделать."}]}}

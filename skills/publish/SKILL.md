@@ -118,8 +118,7 @@ The walk above is the shared base; the TARGET adds its own steps and never remov
   a release with no worthwhile next step owes none; what the walk owes is a RECORDED offer-or-none
   decision, so the choice is never silently skipped: the walk offers a next step in a
   `<!-- release-note:offers -->` region or records `<!-- release-note:no-offer -->` for a release that
-  has none, and `guardrails/attic/check-release-note.py` reds a note leaving the decision unrecorded (it rides
-  the suite; the note is a process artifact with no committed file for a push gate to scan). ·
+  has none. ·
   repo description + topics set · third-party dependency licenses
   compatible with the release · the name checked for collisions where it matters (GitHub/PyPI/npm) ·
   a fresh-clone check — install and run from scratch as an outside reader would; do not assume it

@@ -87,8 +87,7 @@ paragraph is the refresh it owed. The release number is decided at campaign clos
 `docs/MEASUREMENTS.md` holds one row per file and one column per indicator, in the reading queue's
 order. Build it with `python3 scripts/measurements-table.py`. A number stated to the person who decides
 what ships names four things. They are what it counts, the decision it informs, the command
-that produced it, and the value it aims at. `guardrails/tree-counts.json` is the home for every count this
-repository publishes about its own tree, re-measured by gate ad on every push.
+that produced it, and the value it aims at.
 
 ## Rules you must not break
 

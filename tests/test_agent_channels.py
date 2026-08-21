@@ -1270,13 +1270,7 @@ class TestWrongReferralNamed(unittest.TestCase, _AnchorHomeMixin):
     """INV-225 (M-406, ROADMAP 388) — a wrong referral is named as the finding, not absorbed by
     the two-crossing cap. A referral names the zone it says owns the question; it is wrong when
     that zone refers it back rather than answering, which crosses the same two agents twice
-    [INV-196]. The escalation names the wrong referral rather than the neutral "could not settle".
-    The checker `guardrails/attic/check-wrong-referral.py` reds a wrong exchange and passes a
-    correct one; it rides the suite, not the push chain (the exchange is a status-report surface
-    with no committed file to gate, INV-83's sibling). It was parked in the attic on 2026-08-18,
-    having caught no real wrong referral, and this suite still drives it there."""
-
-    SCRIPT = os.path.join(ROOT, "guardrails", "attic", "check-wrong-referral.py")
+    [INV-196]. The escalation names the wrong referral rather than the neutral "could not settle"."""
 
     def test_wrong_referral_law_stands(self):
         clause = self.assert_declared("INV-225")
@@ -1306,47 +1300,6 @@ class TestWrongReferralNamed(unittest.TestCase, _AnchorHomeMixin):
     def test_base_rulebook_carries_the_wrong_referral_law(self):
         self.assertIn("named as a wrong referral", read_flat(BASE),
                       "the base rulebook does not carry the wrong-referral law")
-
-    def _run(self, name, text):
-        with tempfile.TemporaryDirectory() as tmp:
-            path = os.path.join(tmp, name)
-            with open(path, "w", encoding="utf-8") as f:
-                f.write(text)
-            return subprocess.run(["python3", self.SCRIPT, path],
-                                  capture_output=True, text=True)
-
-    def test_checker_reds_wrong_referral_passes_correct(self):
-        self.assertTrue(os.path.isfile(self.SCRIPT),
-                        "the wrong-referral checker is absent: "
-                        "guardrails/attic/check-wrong-referral.py")
-        # WRONG: live-spec refers the question to track-coach, which refers it back — a
-        # counter-referral between the same pair, the question crossing the two agents twice.
-        wrong = self._run(
-            "exchange-wrong.md",
-            "<!-- exchange: q-42 -->\n"
-            "Hop: referral from live-spec to track-coach\n"
-            "Hop: referral from track-coach to live-spec\n",
-        )
-        self.assertEqual(wrong.returncode, 1, wrong.stdout + wrong.stderr)
-        self.assertIn("wrong referral", wrong.stdout)
-        self.assertIn("track-coach", wrong.stdout)
-        # CORRECT: the named zone answers — no counter-referral, no cap, nothing named.
-        correct = self._run(
-            "exchange-correct.md",
-            "<!-- exchange: q-43 -->\n"
-            "Hop: referral from live-spec to track-coach\n"
-            "Hop: answer from track-coach\n",
-        )
-        self.assertEqual(correct.returncode, 0, correct.stdout + correct.stderr)
-        # ONWARD to a real third zone that answers is legitimate too — never flagged.
-        onward = self._run(
-            "exchange-onward.md",
-            "<!-- exchange: q-44 -->\n"
-            "Hop: referral from live-spec to track-coach\n"
-            "Hop: referral from track-coach to tlvphotos\n"
-            "Hop: answer from tlvphotos\n",
-        )
-        self.assertEqual(onward.returncode, 0, onward.stdout + onward.stderr)
 
     def test_inv225_index_and_ownership(self):
         self.assert_index_and_ownership("INV-225")
