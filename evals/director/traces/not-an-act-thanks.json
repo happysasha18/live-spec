@@ -1,0 +1,13 @@
+{
+  "id": "case-33",
+  "acts": [],
+  "creates_work": false,
+  "shelves_idea": false,
+  "attaches_to_existing_work": false,
+  "work_items": 0,
+  "dimensions": [],
+  "specialists": [],
+  "reasoning": "«Thanks, that's exactly it.» после уже доставленного и работающего изменения — это «a thumbs-up on something already agreed»; по разделу «Not every message is one of the seven» это разговор, а не один из семи актов, и записывать тут нечего.",
+  "scenario": "not-an-act-thanks",
+  "skill_version": "0.3.0"
+}

@@ -1,0 +1,23 @@
+{
+  "id": "case-29",
+  "acts": [
+    "instruction",
+    "observation",
+    "question"
+  ],
+  "creates_work": true,
+  "shelves_idea": false,
+  "attaches_to_existing_work": false,
+  "work_items": 1,
+  "dimensions": [
+    "quality, safety, regressions",
+    "architecture, data, integrations, operations"
+  ],
+  "specialists": [
+    "Independent verifier",
+    "Test author"
+  ],
+  "reasoning": "Checking bundle bloat/dynamic loading and checking that nothing breaks for users are two facets of one verification result on the same completed modification, so per 'steps toward a single result are not separate work' this is one work item, not two. 'И это прувер тоже должен был бы поймать!' reports a process gap without asking to formally reconfigure anything beyond checking now ('кстати проверь'), so it is read as an observation whose implied repair is already covered by the instructed check, not a second correction. 'Не знаю эт реально или нет' is the person turning a thought over about feasibility — a musing act, not a firm requirement.",
+  "scenario": "mixed-check-now-improve-later",
+  "skill_version": "0.3.0"
+}

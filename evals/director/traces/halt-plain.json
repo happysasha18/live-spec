@@ -1,0 +1,16 @@
+{
+  "id": "case-23",
+  "acts": [
+    "halt",
+    "observation"
+  ],
+  "creates_work": false,
+  "shelves_idea": false,
+  "attaches_to_existing_work": true,
+  "work_items": 0,
+  "dimensions": [],
+  "specialists": [],
+  "reasoning": "Двойное «стоп» посреди уже начатого действия агента — это Halt: «wants something that is running to stop», решает состояние, а не формулировка. Фраза «забыл обнулить контекст» — причина, приложенная к остановке, но инструкция прямо требует не растворять её: «A reason given with a halt is still its own act», поэтому она выделена отдельным актом Observation. Для halt/observation листа решения не бывает («there is no sheet»), поэтому dimensions и specialists пусты, а work_items=0.",
+  "scenario": "halt-plain",
+  "skill_version": "0.3.0"
+}

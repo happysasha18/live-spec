@@ -1,0 +1,16 @@
+{
+  "id": "case-10",
+  "acts": [
+    "observation",
+    "correction"
+  ],
+  "creates_work": false,
+  "shelves_idea": false,
+  "attaches_to_existing_work": true,
+  "work_items": 0,
+  "dimensions": [],
+  "specialists": [],
+  "reasoning": "'98% лимита' — факт; 'аккуратно' меняет ограничение уже идущей длинной задачи (действовать с оглядкой на бюджет сессии) — это 'Correction', которая по правилу присоединяется к идущей работе и не порождает новый пункт. Ни одна из семи областей инструкции не описывает бюджет сессии, поэтому dimensions пуст.",
+  "scenario": "observation-a-warning",
+  "skill_version": "0.3.0"
+}

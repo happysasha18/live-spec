@@ -1,0 +1,21 @@
+{
+  "id": "case-35",
+  "acts": [
+    "observation"
+  ],
+  "creates_work": true,
+  "shelves_idea": false,
+  "attaches_to_existing_work": false,
+  "work_items": 1,
+  "dimensions": [
+    "product value and behaviour",
+    "quality, safety, regressions"
+  ],
+  "specialists": [
+    "Developer",
+    "Test author"
+  ],
+  "reasoning": "Сообщение без слов — вставленный стектрейс сразу после деплоя, за которым человек наблюдал; по правилу «A message with no words... is still an act, and usually an observation», а что с ним делать, ясно из того, чем человек занимался минуту назад. Крах в checkEntitlement сразу после релиза — ремонт следует вне всякого сомнения («Some observations carry their repair with them»), поэтому, как и в примере с серым export-button в самой инструкции, Director вправе сразу считать это принятой работой: dimensions — поведение продукта (сломана проверка прав) и качество/регрессия; specialists — Developer чинит, Test author добавляет регрессионный тест.",
+  "scenario": "not-an-act-a-bare-trace",
+  "skill_version": "0.3.0"
+}

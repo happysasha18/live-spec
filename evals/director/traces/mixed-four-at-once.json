@@ -1,0 +1,19 @@
+{
+  "id": "case-30",
+  "acts": [
+    "question",
+    "instruction",
+    "observation"
+  ],
+  "creates_work": true,
+  "shelves_idea": false,
+  "attaches_to_existing_work": true,
+  "work_items": 2,
+  "dimensions": [
+    "documentation and communication"
+  ],
+  "specialists": [],
+  "reasoning": "'Где был ридми' and 'ты работаешь?' are plain questions. 'Всегда давай ссылку если я забыл' (a standing habit) and 'давай план, замеры по времени, все пиши' (a one-off report) are two separate accepted asks that each stand as their own deliverable someone could want alone, so two work items — the plan/status one again falls under the instruction's explicit 'asked for a plan... it is work like any other,' kept off the communicator. 'Подхвати идею... а пока работай' continues work already running rather than spawning something new, so attaches_to_existing_work is also true alongside the new items; the time-limit sentence is a fact report, logged as an observation.",
+  "scenario": "mixed-four-at-once",
+  "skill_version": "0.3.0"
+}

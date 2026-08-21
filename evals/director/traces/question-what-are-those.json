@@ -1,0 +1,15 @@
+{
+  "id": "case-04",
+  "acts": [
+    "question"
+  ],
+  "creates_work": false,
+  "shelves_idea": false,
+  "attaches_to_existing_work": false,
+  "work_items": 0,
+  "dimensions": [],
+  "specialists": [],
+  "reasoning": "A run of curiosity questions about the visible shells ('what are they, are they just programs, which one') — all seeking information, none asking for something to be done, so this is the 'Question or musing' row and nothing else.",
+  "scenario": "question-what-are-those",
+  "skill_version": "0.3.0"
+}

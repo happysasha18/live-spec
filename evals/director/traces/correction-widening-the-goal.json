@@ -1,0 +1,22 @@
+{
+  "id": "case-19",
+  "acts": [
+    "correction",
+    "observation"
+  ],
+  "creates_work": false,
+  "shelves_idea": false,
+  "attaches_to_existing_work": true,
+  "work_items": 0,
+  "dimensions": [
+    "architecture, data, integrations, operations",
+    "analytics, unknowns, hypotheses, experiments"
+  ],
+  "specialists": [
+    "Architect",
+    "Developer"
+  ],
+  "reasoning": "Требование убрать измерение корпуса правит уже идущую работу (агент как раз измеряет корпус) — Correction без нового work item. Отдельно в реплике есть самостоятельное суждение о продукте («любая статистика по текущему корпусу ложная»), которое по правилу «judgments about the product... cost the most to lose» нельзя растворять в правке — это отдельный акт Observation. Тема — сама аналитика/измерение и устройство системы без опоры на корпус.",
+  "scenario": "correction-widening-the-goal",
+  "skill_version": "0.3.0"
+}

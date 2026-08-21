@@ -1,0 +1,15 @@
+{
+  "id": "case-05",
+  "acts": [
+    "idea"
+  ],
+  "creates_work": false,
+  "shelves_idea": true,
+  "attaches_to_existing_work": false,
+  "work_items": 0,
+  "dimensions": [],
+  "specialists": [],
+  "reasoning": "Names a possibility ('we could also add a date') while, per the situation, nothing related is being built — this matches the instruction's own worked example ('We should probably cache this' is an idea when nothing in that area is being built), so it goes on the idea shelf in the person's own words, not into a task with dimensions or specialists.",
+  "scenario": "idea-add-a-date",
+  "skill_version": "0.3.0"
+}

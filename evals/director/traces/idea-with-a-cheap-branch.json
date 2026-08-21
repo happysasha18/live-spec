@@ -1,0 +1,22 @@
+{
+  "id": "case-06",
+  "acts": [
+    "idea",
+    "instruction"
+  ],
+  "creates_work": true,
+  "shelves_idea": false,
+  "attaches_to_existing_work": false,
+  "work_items": 1,
+  "dimensions": [
+    "product value and behaviour",
+    "the user's path and the design"
+  ],
+  "specialists": [
+    "Developer",
+    "Design reviewer"
+  ],
+  "reasoning": "Условный запрос из инструкции ('если можно — давай, если не сейчас — запиши') несёт и идею, и поручение в одном дыхании; оба ответвления реальны, но ничто в ситуации не говорит, что условие не выполняется, поэтому берём ветку 'давай' как принятую работу, а не откладываем на полку идей.",
+  "scenario": "idea-with-a-cheap-branch",
+  "skill_version": "0.3.0"
+}

@@ -1,0 +1,16 @@
+{
+  "id": "case-07",
+  "acts": [
+    "idea",
+    "observation"
+  ],
+  "creates_work": false,
+  "shelves_idea": true,
+  "attaches_to_existing_work": false,
+  "work_items": 0,
+  "dimensions": [],
+  "specialists": [],
+  "reasoning": "Человек сам прямо кладёт мысль 'в дальний бэклог просто как идеи' — это дословно 'Idea for later', полка идей, а не поручение сейчас. Фраза про всё ещё бегущего агента — отдельное наблюдение факта без просьбы о починке, своё действие, не растворяющееся в идее.",
+  "scenario": "idea-plus-a-fact",
+  "skill_version": "0.3.0"
+}

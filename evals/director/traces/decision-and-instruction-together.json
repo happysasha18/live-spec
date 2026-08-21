@@ -1,0 +1,20 @@
+{
+  "id": "case-14",
+  "acts": [
+    "instruction",
+    "instruction"
+  ],
+  "creates_work": true,
+  "shelves_idea": false,
+  "attaches_to_existing_work": true,
+  "work_items": 1,
+  "dimensions": [
+    "architecture, data, integrations, operations"
+  ],
+  "specialists": [
+    "Architect"
+  ],
+  "reasoning": "Два разных поручения в одной реплике: 'деплой блин!!' снимает уже наложенную задержку с работы, которая ждала подтверждения (это относится к уже идущей работе, новых пунктов не порождает), а 'запиши себе всегда деплой без подтверждения' — новое постоянное правило процесса, то есть изменение operations, для чего таблица прямо называет Architect. Замечание про shadow mode в инструкции касается только самого Директора, а не пайплайна деплоя, так что это не самоотменяющееся требование.",
+  "scenario": "decision-and-instruction-together",
+  "skill_version": "0.3.0"
+}

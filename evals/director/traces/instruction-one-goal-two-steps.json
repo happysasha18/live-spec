@@ -1,0 +1,19 @@
+{
+  "id": "case-21",
+  "acts": [
+    "instruction"
+  ],
+  "creates_work": true,
+  "shelves_idea": false,
+  "attaches_to_existing_work": false,
+  "work_items": 1,
+  "dimensions": [
+    "documentation and communication"
+  ],
+  "specialists": [
+    "Developer"
+  ],
+  "reasoning": "Просьба сохранить уже готовый отчёт в файл и дать путь — это просьба сделать что-то (Instruction: «asks for something to be done»); отдельного файла ещё не существует, значит это новый кусок работы, а не правка того, что уже идёт (work_items=1, attaches_to_existing_work=false). Область — «documentation and communication», потому что создаётся документ для передачи на перепроверку; специалист — Developer, поскольку 'something must be built' и 'the agent itself' его делает.",
+  "scenario": "instruction-one-goal-two-steps",
+  "skill_version": "0.3.0"
+}

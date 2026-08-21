@@ -1,0 +1,16 @@
+{
+  "id": "case-24",
+  "acts": [
+    "halt",
+    "observation"
+  ],
+  "creates_work": false,
+  "shelves_idea": false,
+  "attaches_to_existing_work": true,
+  "work_items": 0,
+  "dimensions": [],
+  "specialists": [],
+  "reasoning": "«Нет стоп» — прямой Halt: человек хочет, чтобы обслуживание машинерии придуманного параметра прекратилось/было заброшено («be abandoned»). Остаток фразы — суждение о продукте («ты тупо жжешь токены... ненужную машинерию вылуманного параметра») — по инструкции такие «judgments about the product» не должны раствориться в соседнем акте, а фиксируются отдельно как Observation. Как и для любого halt, листа решения нет, поэтому dimensions/specialists пусты; работа, которую останавливают, уже шла, значит attaches_to_existing_work=true, а work_items=0.",
+  "scenario": "halt-with-a-reason-worth-keeping",
+  "skill_version": "0.3.0"
+}

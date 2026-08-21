@@ -1,0 +1,22 @@
+{
+  "id": "case-12",
+  "acts": [
+    "observation",
+    "observation"
+  ],
+  "creates_work": true,
+  "shelves_idea": false,
+  "attaches_to_existing_work": false,
+  "work_items": 1,
+  "dimensions": [
+    "the user's path and the design",
+    "quality, safety, regressions"
+  ],
+  "specialists": [
+    "Developer",
+    "Design reviewer"
+  ],
+  "reasoning": "Continuity была заявленным требованием, обсуждённым долго, и её отсутствие в билде — наблюдение с ремонтом вне сомнений (та же логика, что в примере с entitlement). Фраза про 'странно... уровень понимания' — отдельное суждение о продукте, которое инструкция прямо велит не растворять в контексте ('acts не поглощает другой'), поэтому это второй акт того же типа, но не отдельный кусок работы — он идёт как evidence, а не как новая задача.",
+  "scenario": "observation-a-verdict-on-delivered-work",
+  "skill_version": "0.3.0"
+}

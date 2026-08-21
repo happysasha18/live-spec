@@ -1,0 +1,17 @@
+{
+  "id": "case-34",
+  "acts": [
+    "instruction"
+  ],
+  "creates_work": true,
+  "shelves_idea": false,
+  "attaches_to_existing_work": false,
+  "work_items": 1,
+  "dimensions": [],
+  "specialists": [
+    "Developer"
+  ],
+  "reasoning": "Директор сам спросил «build it now, or park it?», и «yeah go ahead» закрывает этот открытый вопрос — по правилу «An answer to the Director's own question is not a new act», отложенная идея становится тем поручением, которым она и должна была стать, то есть instruction, а не новый акт. Так как содержание самой отложенной идеи в данных не передано, назвать конкретные dimensions нельзя не выдумывая факты (правило: называть область, только если в ней действительно что-то меняется); единственное, что следует из самого факта «build it» — потребуется Developer.",
+  "scenario": "not-an-act-answering-the-director",
+  "skill_version": "0.3.0"
+}

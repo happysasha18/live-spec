@@ -1,0 +1,21 @@
+{
+  "id": "case-17",
+  "acts": [
+    "correction"
+  ],
+  "creates_work": false,
+  "shelves_idea": false,
+  "attaches_to_existing_work": true,
+  "work_items": 0,
+  "dimensions": [
+    "product value and behaviour",
+    "architecture, data, integrations, operations"
+  ],
+  "specialists": [
+    "Architect",
+    "Developer"
+  ],
+  "reasoning": "Меняется цель уже идущей реализации (подсчёт пар), а не открывается вторая задача — правило «A correction attaches to work, not a queue», поэтому work_items=0. Новая цель («любая пара картинок в мире») меняет и то, что продукт умеет (product value and behaviour), и способ построения — с перечисления пар на генеративный подход (architecture, data, integrations, operations).",
+  "scenario": "correction-stop-counting-pairs",
+  "skill_version": "0.3.0"
+}

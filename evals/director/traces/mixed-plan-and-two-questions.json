@@ -1,0 +1,19 @@
+{
+  "id": "case-27",
+  "acts": [
+    "instruction",
+    "question",
+    "observation"
+  ],
+  "creates_work": true,
+  "shelves_idea": false,
+  "attaches_to_existing_work": false,
+  "work_items": 1,
+  "dimensions": [
+    "documentation and communication"
+  ],
+  "specialists": [],
+  "reasoning": "The request for a simple in-window text plan with emoji status is exactly the case the instruction calls out by name: 'when someone asks for a plan, a status, a summary or a report, they have asked for something to be made, and it is work like any other' — so it is accepted work, not routed to the communicator (specialists stays empty per that same line). The two 'что делает воркер / что получим на выходе' clauses are genuine questions answered directly, and 'я ему все скопировал и запустил' is a plain fact report, so it is logged as its own observation act rather than folded into the question.",
+  "scenario": "mixed-plan-and-two-questions",
+  "skill_version": "0.3.0"
+}

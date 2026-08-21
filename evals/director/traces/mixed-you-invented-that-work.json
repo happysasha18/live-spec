@@ -1,0 +1,21 @@
+{
+  "id": "case-32",
+  "acts": [
+    "observation",
+    "correction"
+  ],
+  "creates_work": false,
+  "shelves_idea": false,
+  "attaches_to_existing_work": true,
+  "work_items": 0,
+  "dimensions": [
+    "analytics, unknowns, hypotheses, experiments"
+  ],
+  "specialists": [
+    "Developer",
+    "Data and experiment analyst"
+  ],
+  "reasoning": "Сообщение сужает цель уже идущей работы (замеры) до одной вещи и останавливает остальное — это correction, который, по правилу «A correction attaches to work, not to a queue», меняет ту же работу, а не открывает вторую, и поэтому не порождает новых work_items. Фраза «это тоже баг... сработало что-то типа автозаявки» — отдельное наблюдение о поведении агента (No act absorbs another). Оставшаяся после коррекции работа — быстрый замер для проверки гипотезы о сложности переходов — попадает в область «analytics, unknowns, hypotheses, experiments», отсюда специалисты Developer (собрать замер) и Data and experiment analyst (проверка гипотезы).",
+  "scenario": "mixed-you-invented-that-work",
+  "skill_version": "0.3.0"
+}

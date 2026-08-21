@@ -1,0 +1,15 @@
+{
+  "id": "case-16",
+  "acts": [
+    "decision"
+  ],
+  "creates_work": false,
+  "shelves_idea": false,
+  "attaches_to_existing_work": true,
+  "work_items": 0,
+  "dimensions": [],
+  "specialists": [],
+  "reasoning": "Это решение по открытому вопросу («спрашивать перед каждым пушем или нет»), которое применяется к уже идущей работе — точное определение Decision в таблице акта. Пуш и его проверки прямо отнесены к разделу «Work that belongs elsewhere» (guardrails/pre-push и CI), а не к таблице специалистов, поэтому dimensions и specialists пустые.",
+  "scenario": "decision-granting-authority",
+  "skill_version": "0.3.0"
+}

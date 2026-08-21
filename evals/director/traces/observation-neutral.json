@@ -1,0 +1,15 @@
+{
+  "id": "case-09",
+  "acts": [
+    "observation"
+  ],
+  "creates_work": false,
+  "shelves_idea": false,
+  "attaches_to_existing_work": false,
+  "work_items": 0,
+  "dimensions": [],
+  "specialists": [],
+  "reasoning": "Констатация факта о состоянии сессии без просьбы о починке — 'Observation or feedback': записывается как факт, ремонт из него не следует ни при каком прочтении.",
+  "scenario": "observation-neutral",
+  "skill_version": "0.3.0"
+}

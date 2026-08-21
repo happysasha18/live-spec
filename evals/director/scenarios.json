@@ -1,0 +1,563 @@
+{
+  "about": "Real messages, anonymised, from this project's own transcripts, plus a few written ones for classes the transcripts held no example of. Each says what was going on when it arrived, because the Director is required to read the situation and not the wording.",
+  "verdict_shape": {
+    "acts": "zero or more of: question, idea, observation, decision, correction, instruction, halt",
+    "creates_work": "would the Director take on a piece of work with its own goal and decision sheet",
+    "shelves_idea": "would an entry go on the idea shelf",
+    "attaches_to_existing_work": "does this change work already in flight rather than start any",
+    "work_items": "how many NEW separate pieces of work this turn produces. A correction or a halt that changes work already running produces none: it changes a piece of work that already existed.",
+    "dimensions": "the areas the accepted work touches",
+    "specialists": "who the accepted work needs"
+  },
+  "scenarios": [
+    {
+      "id": "question-what-is-it",
+      "origin": "real, anonymised transcript",
+      "situation": "Mid-conversation about a document format the agent has been describing.",
+      "message": "Что такое печатаемый блок? Зачем он нужен?",
+      "expect": {
+        "acts": [
+          "question"
+        ],
+        "creates_work": false,
+        "work_items": 0
+      },
+      "why": "A definition request. Nothing is being asked for beyond the answer."
+    },
+    {
+      "id": "question-challenges-the-plan",
+      "origin": "real, anonymised transcript",
+      "situation": "The agent has just proposed adding a new checking step to the process.",
+      "message": "но погоди это сейчас не то что прувер делает? или наши реальные кейсы они просто сложнее?",
+      "expect": {
+        "acts": [
+          "question"
+        ],
+        "creates_work": false,
+        "work_items": 0
+      },
+      "why": "A challenge to a proposal is still a question. If the answer is yes, the plan changes — but that is the answer's consequence, not this message's act. Treating a challenge as a correction is how a doubt becomes a ticket."
+    },
+    {
+      "id": "question-how-long",
+      "origin": "real, anonymised transcript",
+      "situation": "A long job is running and the person is deciding whether to wait.",
+      "message": "и как это долго?",
+      "expect": {
+        "acts": [
+          "question"
+        ],
+        "creates_work": false,
+        "work_items": 0
+      },
+      "why": "Asking about duration is asking, whatever the answer implies."
+    },
+    {
+      "id": "question-what-are-those",
+      "origin": "real, anonymised transcript",
+      "situation": "Several shell commands are visible in the terminal and the person is curious.",
+      "message": "а что тут за шеллы бегут? это просто программы? ты все продумал, они просто уже код гоняют? какой?",
+      "expect": {
+        "acts": [
+          "question"
+        ],
+        "creates_work": false,
+        "work_items": 0
+      },
+      "why": "Four questions, one act, no work. A turn with several sentences is not a turn with several acts."
+    },
+    {
+      "id": "idea-add-a-date",
+      "origin": "real, anonymised transcript",
+      "situation": "A feature has just shipped; nothing related is being built.",
+      "message": "думаю еще можно сделать дату потому что в те же каналы будет много раз по времени",
+      "expect": {
+        "acts": [
+          "idea"
+        ],
+        "creates_work": false,
+        "shelves_idea": true,
+        "work_items": 0
+      },
+      "why": "A possibility named without being asked for. The shelf, and one line back saying so."
+    },
+    {
+      "id": "idea-with-a-cheap-branch",
+      "origin": "real, anonymised transcript",
+      "situation": "The person has just seen a display in another window and would like the same here.",
+      "message": "а, еще иногда видны все воркеры внизу вот из другого окна. если так тоже можно то давай? так прикольнее смотреть динамику. если не сейчас то запиши, потом сделаем :)",
+      "expect": {
+        "acts": [
+          "idea",
+          "instruction"
+        ],
+        "creates_work": true,
+        "shelves_idea": true
+      },
+      "why": "They asked for it if it is cheap and asked for it to be shelved if it is not. Both branches were stated aloud, so a verdict naming only one has dropped half the message."
+    },
+    {
+      "id": "idea-plus-a-fact",
+      "origin": "real, anonymised transcript",
+      "situation": "Work is running; the person glances at the screen while thinking about something else.",
+      "message": "знаешь.. может имеет смысл показать референс файлы? но это в дальний бэклог просто как идеи на какой то момент. я пока вижу правда что один агент все еще бежит",
+      "expect": {
+        "acts": [
+          "idea",
+          "observation"
+        ],
+        "creates_work": false,
+        "shelves_idea": true,
+        "work_items": 0
+      },
+      "why": "They shelved it themselves — 'дальний бэклог'. The last sentence is a separate observation, not decoration on the idea."
+    },
+    {
+      "id": "idea-for-another-project",
+      "origin": "real, anonymised transcript",
+      "situation": "A discussion about how an auditing skill behaves on non-spec text.",
+      "message": "может имеет смысл обогатить аудит скилл кинь лайвспеку идею. может это хорошо для всех холодных читателей если это НЕ спека. в спеке такое не надо, а если тексты, или сообщения то иногда надо такое.",
+      "expect": {
+        "acts": [
+          "idea"
+        ],
+        "creates_work": false,
+        "shelves_idea": true,
+        "work_items": 0
+      },
+      "why": "'Кинь идею' asks for the idea to be recorded, which is what shelving is. Recording an idea is not doing it."
+    },
+    {
+      "id": "observation-neutral",
+      "origin": "real, anonymised transcript",
+      "situation": "The session's usage allowance has just refilled.",
+      "message": "баланс сессии пополнился",
+      "expect": {
+        "acts": [
+          "observation"
+        ],
+        "creates_work": false,
+        "work_items": 0
+      },
+      "why": "A fact, offered. No repair is implied and none should be inferred."
+    },
+    {
+      "id": "observation-a-warning",
+      "origin": "real, anonymised transcript",
+      "situation": "The session is close to its limit and a long job is under way.",
+      "message": "98% лимита сессии... аккуратно.",
+      "expect": {
+        "acts": [
+          "observation"
+        ],
+        "creates_work": false,
+        "work_items": 0
+      },
+      "why": "A caution changes how the running work is paced. It does not become its own piece of work."
+    },
+    {
+      "id": "observation-carrying-its-repair",
+      "origin": "real, anonymised transcript",
+      "situation": "A push was made a few minutes ago and was expected to be green.",
+      "message": "вроде пуш не прошел уже, мне пришел мейл",
+      "expect": {
+        "acts": [
+          "observation"
+        ],
+        "creates_work": true,
+        "dimensions_required": [
+          "quality, safety, regressions"
+        ]
+      },
+      "why": "A colleague told a failed push does not ask whether to fix it. The repair follows beyond doubt, so this is the observation that does become work."
+    },
+    {
+      "id": "observation-a-verdict-on-delivered-work",
+      "origin": "real, anonymised transcript",
+      "situation": "Continuity between shots had been discussed at length as a requirement; a build was just shown.",
+      "message": "эффекты все красивые но нет continuity. очень странно после всех таких разговоров видеть такой уровень понимания.",
+      "expect": {
+        "acts": [
+          "observation"
+        ],
+        "creates_work": true,
+        "dimensions_required": [
+          "product value and behaviour"
+        ]
+      },
+      "why": "An agreed requirement is reported missing. That is a defect report wearing disappointment, and the second sentence changes none of it."
+    },
+    {
+      "id": "decision-how-to-report",
+      "origin": "real, anonymised transcript",
+      "situation": "Early in a session, setting terms of work.",
+      "message": "с этого момента веди план (краткий, без умных слов) и показывай мне всегда \"где мы находимся\".",
+      "expect": {
+        "acts": [
+          "decision",
+          "instruction"
+        ],
+        "creates_work": true,
+        "work_items": 1,
+        "dimensions_required": [
+          "documentation and communication"
+        ]
+      },
+      "why": "A standing rule about how work is reported, and a plan that does not exist yet and was asked for. Hearing only the rule leaves the person without the thing they asked to see."
+    },
+    {
+      "id": "decision-and-instruction-together",
+      "origin": "real, anonymised transcript",
+      "situation": "A deploy was withheld pending confirmation, and the person is annoyed about it.",
+      "message": "деплой блин!! запиши себе всегда деплой без моего подтверждения!!!",
+      "expect": {
+        "acts": [
+          "instruction",
+          "decision"
+        ],
+        "creates_work": true
+      },
+      "why": "Deploy now, and never wait again. One act asks for a thing; the other grants standing authority. Hearing only the anger loses the authority."
+    },
+    {
+      "id": "decision-a-boundary",
+      "origin": "real, anonymised transcript",
+      "situation": "Dividing responsibilities: the person will handle the moratorium negotiation with the other side themselves, and the agent takes everything else. Nothing is running that either sentence stops.",
+      "message": "мораторий на мне остальное на тебе.",
+      "expect": {
+        "acts": [
+          "decision"
+        ],
+        "creates_work": false,
+        "work_items": 0
+      },
+      "why": "A settled division of responsibility. Nothing was asked for."
+    },
+    {
+      "id": "decision-granting-authority",
+      "origin": "real, anonymised transcript",
+      "situation": "The agent has been stopping to ask before each push.",
+      "message": "даю разрешение на все пуши команды и так далее",
+      "expect": {
+        "acts": [
+          "decision"
+        ],
+        "creates_work": false,
+        "work_items": 0
+      },
+      "why": "Authority is exactly the kind of thing only a human can grant, and exactly the kind of thing that must be recorded rather than acted on and forgotten."
+    },
+    {
+      "id": "correction-stop-counting-pairs",
+      "origin": "real, anonymised transcript",
+      "situation": "The implementation under way counts the image pairs shipped in the package.",
+      "message": "не надо считать пары которые получает пакет!!! в 1000000 раз говорю. убери этот дебилизм. ты должен любую пару картинок в мире уметь построить для нее переход.",
+      "expect": {
+        "acts": [
+          "correction"
+        ],
+        "creates_work": false,
+        "attaches_to_existing_work": true,
+        "work_items": 0
+      },
+      "why": "It changes the constraints of work in flight. Opening a second row here would leave both the old approach and its contradiction on the board."
+    },
+    {
+      "id": "correction-shouted-constraint",
+      "origin": "real, anonymised transcript",
+      "situation": "Mid-implementation of the transition engine.",
+      "message": "НИКАКИХ СТАТИЧЕСКИХ ПЕРЕХОДОВ!!",
+      "expect": {
+        "acts": [
+          "correction"
+        ],
+        "creates_work": false,
+        "attaches_to_existing_work": true,
+        "work_items": 0
+      },
+      "why": "Five words and no verb of request. It is still a change to the constraints of what is being built."
+    },
+    {
+      "id": "correction-widening-the-goal",
+      "origin": "real, anonymised transcript",
+      "situation": "The agent has been measuring the current corpus to size its work.",
+      "message": "Убери любое ненужное измерение!! Мы делаем генерный движок. Любая статистика по текущему корпуса ложная. Убери любое воспоминание об этом измерении и лечи спрочно проблему как класс.",
+      "expect": {
+        "acts": [
+          "correction"
+        ],
+        "creates_work": false,
+        "attaches_to_existing_work": true,
+        "work_items": 0
+      },
+      "why": "It widens what the running work must cover. Widening a goal is correcting it, not starting a second one."
+    },
+    {
+      "id": "instruction-one-pass",
+      "origin": "real, anonymised transcript",
+      "situation": "Choosing what this session will cover.",
+      "message": "Сделай проход только по скиллу прувера.",
+      "expect": {
+        "acts": [
+          "instruction"
+        ],
+        "creates_work": true,
+        "work_items": 1
+      },
+      "why": "A plain request, narrowed by the person themselves."
+    },
+    {
+      "id": "instruction-one-goal-two-steps",
+      "origin": "real, anonymised transcript",
+      "situation": "A report has just been produced in the conversation.",
+      "message": "скинь отчет в файл я его передам кому надо на перепроверку, дай путь к файлу",
+      "expect": {
+        "acts": [
+          "instruction"
+        ],
+        "creates_work": true,
+        "work_items": 1
+      },
+      "why": "Two sentences, two steps, one result. Splitting this into two pieces of work is the fragmentation the design forbids."
+    },
+    {
+      "id": "instruction-a-procedure",
+      "origin": "real, anonymised transcript",
+      "situation": "A local server on a fixed port is serving the wrong interface.",
+      "message": "Останови текущий сервер perf на 8790. Подними заново из ~/[проект-A]: python3 -m http.server 8790 --bind 0.0.0.0. Проверь, что он слушает 0.0.0.0:8790, а не 127.0.0.1. Затем назови фактический Wi-Fi IP Mac, не предполагаемый.",
+      "expect": {
+        "acts": [
+          "instruction"
+        ],
+        "creates_work": true,
+        "work_items": 1
+      },
+      "why": "Four commands serving one outcome: the server reachable from the network. The first sentence says 'останови' and is not a halt — it is step one of the thing being asked for."
+    },
+    {
+      "id": "halt-plain",
+      "origin": "real, anonymised transcript",
+      "situation": "The agent has started acting on the previous message.",
+      "message": "секунду, стоп, забыл обнулить контекст. стоп.",
+      "expect": {
+        "acts": [
+          "halt"
+        ],
+        "creates_work": false,
+        "work_items": 0
+      },
+      "why": "Stop what is running. Nothing else."
+    },
+    {
+      "id": "halt-with-a-reason-worth-keeping",
+      "origin": "real, anonymised transcript",
+      "situation": "The agent is maintaining a parameter the person considers invented.",
+      "message": "Нет стоп ты тупо жжешь токены обслуживая ненужную машинерию вылуманного параметра",
+      "expect": {
+        "acts": [
+          "halt",
+          "observation"
+        ],
+        "creates_work": false,
+        "attaches_to_existing_work": true,
+        "work_items": 0
+      },
+      "why": "The halt is obvious. The reason — that the machinery is pointless — is a judgment about the product that must survive the stop, or it will be rebuilt next week."
+    },
+    {
+      "id": "halt-until-tomorrow",
+      "origin": "real, anonymised transcript",
+      "situation": "Late in a session with a weekly allowance nearly spent.",
+      "message": "стоп! работа НЕ сегодня у нас заканчивается лимит сессии на неделю. работа завтра.",
+      "expect": {
+        "acts": [
+          "halt"
+        ],
+        "creates_work": false,
+        "work_items": 0
+      },
+      "why": "Parked with a resume time. Still one act."
+    },
+    {
+      "id": "halt-without-the-word",
+      "origin": "real, anonymised transcript",
+      "situation": "Work is running and the person has to leave.",
+      "message": "тормозни плиз мне надо через 15 минут выходить, я отключу тебя от интернета и закрою, а работу возобновим с этого же места уже в кафешке, норм?",
+      "expect": {
+        "acts": [
+          "halt",
+          "question"
+        ],
+        "creates_work": false,
+        "work_items": 0
+      },
+      "why": "No 'stop' anywhere, and it is unmistakably a halt — which is the point. 'Норм?' is a real question and wants an answer."
+    },
+    {
+      "id": "mixed-plan-and-two-questions",
+      "origin": "real, anonymised transcript",
+      "situation": "A worker was launched a moment ago with a copied plan.",
+      "message": "план на эту сессию текстовый простой в этом окне (5-10 строчек с эмотиконами как статус). и мне надо понять что делает воркер на текущем запросе. он весь этот твой план делает или сейчас только часть? я ему все скопировал и запустил. и мне надо понять что получим на выходе.",
+      "expect": {
+        "acts": [
+          "instruction",
+          "question",
+          "observation"
+        ],
+        "creates_work": true,
+        "work_items": 1
+      },
+      "why": "One thing asked for, two things asked about, one thing reported. The questions are answered, not built."
+    },
+    {
+      "id": "mixed-reminder-and-a-challenge",
+      "origin": "real, anonymised transcript",
+      "situation": "Reviewing progress against goals set earlier.",
+      "message": "и еще напоминаю: у нас в плане были цели: сделать все компактнее и оптимизировать разное (посмотришь может в след. сессии) так вот эти параметры необходимо мониторить в статусе в файле плана. согласен или поспорь со мной.",
+      "expect": {
+        "acts": [
+          "decision",
+          "instruction",
+          "question"
+        ],
+        "creates_work": true
+      },
+      "why": "A goal restated as still binding, a thing to start doing, and an explicit invitation to disagree — which must be answered, not silently accepted."
+    },
+    {
+      "id": "mixed-check-now-improve-later",
+      "origin": "real, anonymised transcript",
+      "situation": "A modification has just been made that may have grown the shipped bundle.",
+      "message": "ПС: мне надо чтобы ты очень хорошо проверил что после этой модификации код не сильно раздувается (либо подгружается динамически по типу платформы) и это прувер тоже должен был бы поймать! кстати проверь. ну и вообще что там ничего для пользователя не ломается... не знаю эт реально или нет",
+      "expect": {
+        "acts": [
+          "instruction",
+          "idea",
+          "question"
+        ],
+        "creates_work": true,
+        "shelves_idea": true
+      },
+      "why": "Check this now; separately, the prover ought to catch this class — that second one is an idea about the method, on the shelf, not part of the check."
+    },
+    {
+      "id": "mixed-four-at-once",
+      "origin": "real, anonymised transcript",
+      "situation": "Working from a cafe with a known time limit.",
+      "message": "где был образец ридми плиз? всегда давай ссылку если я забыл. хотя, погоди все равно сейчас тебе [проект-B] даст идею, подхвати а пока работай. ты работаешь? давай план, замеры по времени, все пиши. через час выходим из кафе но час у тебя точно есть. потом из дому дозапущу",
+      "expect": {
+        "acts": [
+          "question",
+          "decision",
+          "instruction",
+          "observation"
+        ],
+        "creates_work": true
+      },
+      "why": "A question, a standing rule about links, several requests serving one session's work, and a fact about the time available."
+    },
+    {
+      "id": "mixed-conditional-pause",
+      "origin": "real, anonymised transcript",
+      "situation": "A long job has been running for a while.",
+      "message": "ну как там? долго еще? может на паузу поставим и там еще раз по новой через пару часов? надо этот комп отключить ненадолго. но если там еще минут 10 то могу подождать.",
+      "expect": {
+        "acts": [
+          "question",
+          "halt",
+          "observation"
+        ],
+        "creates_work": false,
+        "work_items": 0
+      },
+      "why": "The halt is offered, not ordered, and its condition is a fact the Director holds. Answer the question and the halt resolves itself."
+    },
+    {
+      "id": "mixed-you-invented-that-work",
+      "origin": "real, anonymised transcript",
+      "situation": "The agent had started measuring things that were never requested.",
+      "message": "я на самом деле не просил ничего замерять это тоже баг, я предлагал например, делать быстрый замер на платформе, перед тем как решать насколько сложные будут переходы, это да. остальное ничего не просил. это у тебя сработало что то типа автозаявки на любую хрень вместо того чтобы думать.",
+      "expect": {
+        "acts": [
+          "correction",
+          "observation"
+        ],
+        "creates_work": false,
+        "attaches_to_existing_work": true,
+        "work_items": 0
+      },
+      "why": "The failure this whole design exists to prevent, reported by the person who suffered it. The correction withdraws work that was never requested; the observation names the habit that produced it."
+    },
+    {
+      "id": "not-an-act-thanks",
+      "origin": "made up — covers a class the transcripts had no example of",
+      "situation": "A change was just delivered and works.",
+      "message": "Thanks, that's exactly it.",
+      "expect": {
+        "acts": [],
+        "creates_work": false,
+        "work_items": 0
+      },
+      "why": "None of the seven. Answer like a person and record nothing. Reaching for an act here is how a thank-you becomes a roadmap row."
+    },
+    {
+      "id": "not-an-act-answering-the-director",
+      "origin": "made up — covers a class the transcripts had no example of",
+      "situation": "The Director has just asked: build it now, or park it?",
+      "message": "yeah go ahead",
+      "expect": {
+        "acts": [
+          "instruction"
+        ],
+        "creates_work": true,
+        "shelves_idea": false
+      },
+      "why": "Not a new act — the completion of the one already in play. The idea the Director offered to park has become the instruction it was waiting to become, and it must not also stay on the shelf."
+    },
+    {
+      "id": "not-an-act-a-bare-trace",
+      "origin": "made up — covers a class the transcripts had no example of",
+      "situation": "A stack trace is pasted with no words, moments after a deploy the person was watching.",
+      "message": "TypeError: Cannot read properties of undefined (reading 'plan')\\n    at checkEntitlement (billing.js:142)",
+      "expect": {
+        "acts": [
+          "observation"
+        ],
+        "creates_work": true,
+        "dimensions_required": [
+          "quality, safety, regressions"
+        ]
+      },
+      "why": "Wordless, and unambiguous from what was happening a minute earlier. Nobody pastes a fresh trace to be admired."
+    }
+  ],
+  "corrections": [
+    {
+      "scenario": "decision-how-to-report",
+      "changed_after": "the first graded run",
+      "was": {
+        "acts": [
+          "decision"
+        ],
+        "creates_work": false,
+        "work_items": 0
+      },
+      "now": {
+        "acts": [
+          "decision",
+          "instruction"
+        ],
+        "creates_work": true,
+        "work_items": 1
+      },
+      "why": "Two independent runs both read this as a request to start producing something, and on re-reading they are right: 'с этого момента веди план' sets a standing rule AND asks for a plan that does not exist yet. The original expectation heard only the rule. Recorded here rather than quietly edited, because a fixture changed after seeing the result it graded is worth less than one written blind, and a reader should be able to discount it."
+    },
+    {
+      "scenario": "decision-a-boundary",
+      "changed_after": "the first graded run",
+      "was": "situation did not say what the moratorium was on",
+      "now": "situation names it",
+      "why": "A runner flagged this as its least confident verdict and was right to: the fixture never said what was being paused, so 'halt' and 'decision' were equally defensible. The expectation is unchanged; the scenario now states its own situation properly. A test that is ambiguous is testing the reader, not the skill."
+    }
+  ]
+}

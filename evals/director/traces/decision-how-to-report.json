@@ -1,0 +1,19 @@
+{
+  "id": "case-13",
+  "acts": [
+    "instruction"
+  ],
+  "creates_work": true,
+  "shelves_idea": false,
+  "attaches_to_existing_work": false,
+  "work_items": 1,
+  "dimensions": [
+    "documentation and communication"
+  ],
+  "specialists": [
+    "Publisher, communicator"
+  ],
+  "reasoning": "Инструкция прямо это разбирает в разделе 'Work that belongs elsewhere': просьба вести план и статус — это работа как любая другая, и направить её к communicator вместо того, чтобы её выполнить, значит потерять просьбу. Это единая договорённость на весь сеанс, поэтому один кусок работы, хотя действует постоянно.",
+  "scenario": "decision-how-to-report",
+  "skill_version": "0.3.0"
+}

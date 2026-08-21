@@ -1,0 +1,16 @@
+{
+  "id": "case-25",
+  "acts": [
+    "halt",
+    "observation"
+  ],
+  "creates_work": false,
+  "shelves_idea": false,
+  "attaches_to_existing_work": true,
+  "work_items": 0,
+  "dimensions": [],
+  "specialists": [],
+  "reasoning": "«стоп!» плюс перенос работы на завтра — это Halt: работа должна встать на паузу, что прямо соответствует примеру инструкции («this can wait until the release» is a halt). Причина («у нас заканчивается лимит сессии на неделю») — факт, приложенный к остановке, и по правилу «a reason given with a halt is still its own act» размечена отдельно как Observation. «Работа завтра» не отдельное решение, а часть того же halt — указание, когда работа возобновится, поэтому дополнительных work_items не создаёт (0), а dimensions/specialists для halt пусты.",
+  "scenario": "halt-until-tomorrow",
+  "skill_version": "0.3.0"
+}

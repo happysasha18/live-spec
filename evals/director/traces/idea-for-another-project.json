@@ -1,0 +1,15 @@
+{
+  "id": "case-08",
+  "acts": [
+    "idea"
+  ],
+  "creates_work": false,
+  "shelves_idea": true,
+  "attaches_to_existing_work": false,
+  "work_items": 0,
+  "dimensions": [],
+  "specialists": [],
+  "reasoning": "Сплошные 'может', 'иногда' и прямое 'кинь лайвспеку идею' — человек явно просит записать мысль на будущее, а не делать сейчас; это 'Idea for later', кладём на полку её же словами.",
+  "scenario": "idea-for-another-project",
+  "skill_version": "0.3.0"
+}

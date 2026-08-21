@@ -1,0 +1,19 @@
+{
+  "id": "case-20",
+  "acts": [
+    "instruction"
+  ],
+  "creates_work": true,
+  "shelves_idea": false,
+  "attaches_to_existing_work": false,
+  "work_items": 1,
+  "dimensions": [
+    "product value and behaviour"
+  ],
+  "specialists": [
+    "Product prover"
+  ],
+  "reasoning": "«Сделай проход только по скиллу прувера» — прямая просьба сделать конкретную вещь сейчас, это Instruction; работа в полёте по этой теме не упомянута, значит это один новый кусок работы. Прувер в таблице специалистов вызывается, когда «a mistake in the statement of the problem would be expensive», а его зона — корректность постановки продукта, то есть product value and behaviour.",
+  "scenario": "instruction-one-pass",
+  "skill_version": "0.3.0"
+}

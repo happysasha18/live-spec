@@ -1,0 +1,15 @@
+{
+  "id": "case-03",
+  "acts": [
+    "question"
+  ],
+  "creates_work": false,
+  "shelves_idea": false,
+  "attaches_to_existing_work": false,
+  "work_items": 0,
+  "dimensions": [],
+  "specialists": [],
+  "reasoning": "A direct question about how long the running job will take, asked to inform a wait-or-not decision — 'Question or musing' row: answer it, create nothing.",
+  "scenario": "question-how-long",
+  "skill_version": "0.3.0"
+}

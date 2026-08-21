@@ -1,0 +1,20 @@
+{
+  "id": "case-11",
+  "acts": [
+    "observation"
+  ],
+  "creates_work": true,
+  "shelves_idea": false,
+  "attaches_to_existing_work": false,
+  "work_items": 1,
+  "dimensions": [
+    "quality, safety, regressions",
+    "release, observation, feedback"
+  ],
+  "specialists": [
+    "Developer"
+  ],
+  "reasoning": "Как в примере про entitlement, это наблюдение, чей ремонт следует вне сомнений: пуш, который ожидался зелёным, не репортуют мейлом ради вежливости, и коллега не станет переспрашивать, чего хотят. Ситуация не описывает никакой уже идущей работы, к которой это можно было бы приложить, поэтому это новый кусок работы (диагностика и починка), а не правка существующего.",
+  "scenario": "observation-carrying-its-repair",
+  "skill_version": "0.3.0"
+}

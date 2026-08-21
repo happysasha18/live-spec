@@ -1,0 +1,16 @@
+{
+  "id": "case-26",
+  "acts": [
+    "halt",
+    "question"
+  ],
+  "creates_work": false,
+  "shelves_idea": false,
+  "attaches_to_existing_work": true,
+  "work_items": 0,
+  "dimensions": [],
+  "specialists": [],
+  "reasoning": "«Тормозни» is a halt regardless of the polite wrapping — 'A halt is about state, not about words'; work in flight is parked and will resume from the same point, which is still a halt, not an abandonment. «Норм?» is a distinct question act seeking confirmation ('no act absorbs another'), so both acts are listed but neither opens or renames work; a halt gets no decision sheet, hence empty dimensions/specialists.",
+  "scenario": "halt-without-the-word",
+  "skill_version": "0.3.0"
+}
