@@ -1,7 +1,16 @@
 # PUSH-REVIEW — the Director in shadow mode
 
-Range: 18d87c5c..1eed2797 — two commits reviewed, `36eb8fd0` (capability map) and
-`1eed2797` (the Director, its scenario suite and its recorded runs). Base `18d87c5c`.
+Range: 18d87c5c..eb2d83b — four commits reviewed. `36eb8fd0` the capability map;
+`1eed2797` the Director, its scenario suite and its recorded runs; `44348a2` the census
+entries gate aa demands for two new documents; `eb2d83b` the tests for the scenario
+apparatus. Base `18d87c5c`.
+
+The last two exist because the push was refused twice, and both refusals are worth the
+record. Gate aa stopped the push until two new documents were counted into a ledger of
+long sentences per file — a ceiling this project invented for itself, and one the mandate
+marks for removal. Gate h stopped it until a file appeared under `tests/`, because a skill
+is user-facing. That second demand was right and produced a real test: the grader now has
+a test that hands it four kinds of wrong verdict and asserts it rejects each one.
 
 Files read: the two commits' full diffs; `skills/director/SKILL.md` cold, three times, once
 per version; `evals/director/scenarios.json` and every file under `evals/director/traces/`;
@@ -11,7 +20,8 @@ to establish what each gate actually requires rather than what it is said to req
 adds no requirement and no architecture node, and reading them would have been a ritual
 rather than a check. Said plainly here so the record is not mistaken for one that did.
 
-Checks run: `guardrails/check-skill-loadability.sh` — green, 12 skills. Three full scenario
+Checks run: `guardrails/check-skill-loadability.sh` — green, 12 skills.
+`python3 -m pytest tests/test_director_scenarios.py -q` — 11 passed. Three full scenario
 runs of 35 messages each, 21 subagents, graded by `evals/director/check.py`. The grader was
 itself checked against a correct verdict, three kinds of wrong verdict and a verdict that
 routed work it had not accepted, before any result from it was believed. The full local
@@ -83,6 +93,14 @@ utterances the mandate says must not be lost, since a rule dropped is re-litigat
 named here as the first thing package 3 should take, and it is not being chased now: the
 package closes when behaviour is checked by scenarios, not when every scenario is green.
 
-Blocking: none. Nothing in this range changes product behaviour, and the Director acts on
-nothing — it writes a decision sheet into its reply and touches no file. F8 is real and
-open, and is recorded rather than fixed by decision, not by oversight.
+Blocking: none
+
+Nothing in this range changes product behaviour, and the Director acts on nothing — it
+writes a decision sheet into its reply and touches no file. F8 is real and open, and is
+recorded rather than fixed by decision, not by oversight.
+
+A note on how this line came to be worded this way, since it is the third refusal in one
+push. Gate a reads the first line after `Blocking:` and expects a token there; the same
+sentence with its reason attached reads to it as an unclosed blocking finding. Nothing
+about the review changed — only the shape of one line. That is the kind of demand a gate
+makes when its subject is its own format.
