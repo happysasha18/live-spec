@@ -14,7 +14,9 @@ and the `footprint` glossary entry), skills/build-pipeline/references/footprint-
 tests/test_impact_analysis_entry.py in full, docs/skill-review/2026-08-20-build-pipeline-worker-restore.md
 (the prior record whose follow-up section names this same rename).
 
-Checks run:
+Checks run: six checks, detailed below — an adversarial read of the diff, a repo-wide grep for
+stray casing, two pytest runs, the doc-findings-bound gate, and the two push gates this record
+exists to satisfy.
 - `git show 528aa8c` — read adversarially: is the casing change complete, or does it leave a
   third dependent copy stranded? The reference file's line 5 obliges it to read word-for-word as
   the SKILL.md body; the changed bullet in both files now matches exactly.
