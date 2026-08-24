@@ -69,6 +69,11 @@ import re
 import subprocess
 import sys
 
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+GUARDRAILS = os.path.join(os.path.dirname(SCRIPT_DIR), "guardrails")
+sys.path.insert(0, GUARDRAILS)
+import specformat as sf  # noqa: E402
+
 CYRILLIC = re.compile(r"[Ѐ-ӿԀ-ԯ]")
 # The owner-name arm inverts to a DECLARED ALPHABET (ROADMAP 417). The shipped set's declared alphabet
 # is ASCII English plus deliberate program strings; content outside it reds — a stray script (the
@@ -83,10 +88,32 @@ CYRILLIC = re.compile(r"[Ѐ-ӿԀ-ԯ]")
 # so this detector's own source names no project, the same discipline the owner-name arm keeps. The
 # STRICT specs red a bare project name; every core spec reds a dated-incident provenance turn — a
 # project name standing within PROJECT_DATE_WINDOW characters of an ISO date.
+#
+# Each of the three is written as a CORE file plus PART files (specformat's Parts map): the core
+# names its parts, and a part carries requirements/nodes/rows only, no `## Parts map` of its own. The
+# project-name rule is a property of the DOCUMENT, not of the one file that happens to open it, so a
+# foreign project name landing in a part — e.g. spec/wish-intake.md, a PRODUCT_SPEC.md part — must red
+# exactly as it would sitting in the core. Matching by basename alone would only ever see the three
+# core filenames and miss every part; `_split_doc_rels` expands each core through
+# specformat.spec_paths so the rel-path SET this arm checks against is the whole document.
 ISO_DATE = re.compile(r"\d{4}-\d{2}-\d{2}")
 STRICT_PROJECT_FILES = ("PRODUCT_SPEC.md", "ARCHITECTURE.md")
 DATED_PROJECT_FILES = ("TEST_MATRIX.md",)
 PROJECT_DATE_WINDOW = 40
+
+
+def _split_doc_rels(root, core_name):
+    """The relative paths (to `root`) of a split document's core file plus every part its own
+    `## Parts map` names — the file-identity set the project-name arm treats as ONE document. A core
+    absent from `root`, or carrying no map, resolves to just `{core_name}` (a repo with no split docs,
+    or a fixture that passes a bare file, behaves exactly as the old basename check did)."""
+    core_path = os.path.join(root, core_name)
+    if not os.path.isfile(core_path):
+        return {core_name}
+    resolved = sf.spec_paths([core_path], root=root)
+    return {os.path.relpath(p, root) for p in resolved}
+
+
 # The marker's openers cover every comment form a marked line can stand in: hash and HTML for
 # prose and scripts, slash-star and double-slash for JavaScript and CSS sources. A host once met
 # a deliberate visitor-facing string in client code that no allowed opener could clear. The
@@ -185,9 +212,11 @@ def scan_file(path, rel, allow):
     name_file_ok = globbed(rel, allow.get("authorship_globs"))
     owner_re = allow.get("_owner_re")
     project_re = allow.get("_project_re")
-    base = os.path.basename(rel)
-    project_strict = base in STRICT_PROJECT_FILES
-    project_dated = base in DATED_PROJECT_FILES
+    # Membership in the split document's WHOLE rel-path set (core + parts), not a basename match —
+    # a part file (e.g. spec/wish-intake.md) is the same document as its core (PRODUCT_SPEC.md) for
+    # this arm's purposes. See `_split_doc_rels`.
+    project_strict = rel in allow.get("_strict_project_rels", ())
+    project_dated = rel in allow.get("_dated_project_rels", ())
     in_user_fence = False
     for i, raw in enumerate(lines, 1):
         if FENCE_USER_OPEN.match(raw):
@@ -222,6 +251,12 @@ def main(argv):
     allow = load_allowlist(a.allowlist or default_allow)
     allow["_owner_re"] = compile_owner(allow)
     allow["_project_re"] = compile_project(allow)
+    # Expand each of the three split documents (core + Parts map) once, so the project-name arm
+    # checks a part file the same as its core rather than missing it under a bare basename match.
+    allow["_strict_project_rels"] = set().union(
+        *(_split_doc_rels(a.root, f) for f in STRICT_PROJECT_FILES))
+    allow["_dated_project_rels"] = set().union(
+        *(_split_doc_rels(a.root, f) for f in DATED_PROJECT_FILES))
 
     if a.files:
         pairs = [(f, os.path.relpath(f, a.root)) for f in a.files]

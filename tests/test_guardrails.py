@@ -1750,6 +1750,46 @@ class TestGateShippedLanguage(unittest.TestCase):
             r = run(["python3", self.ENGINE, "--root", tmp, "--allowlist", allow, doc], cwd=ROOT)
             self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
 
+    def test_project_arm_reds_a_bare_project_name_in_a_part_file(self):
+        # RED-FIRST against the pre-fix basename match: a bare foreign project name living ONLY in a
+        # PRODUCT_SPEC.md part file (never in the core's own bytes) must red exactly as it would
+        # sitting in the core — the project-name rule is a property of the split DOCUMENT, not of the
+        # one file whose name happens to be "PRODUCT_SPEC.md".
+        with tempfile.TemporaryDirectory() as tmp:
+            allow = self._write(tmp, "allow.json", json.dumps(self.PROJECT_ALLOW))
+            self._write(tmp, "PRODUCT_SPEC.md",
+                "# Core\n\nA clean preamble naming no project.\n\n"
+                "## Parts map\n\n"
+                "| Part | Requirements | Topic |\n"
+                "|---|---|---|\n"
+                "| `spec/wish-intake.md` | R1 | Taking in a wish |\n")
+            self._write(tmp, "spec/wish-intake.md",
+                "## Requirement 1: Wish intake\n\n"
+                "The lens grew from three items to six on track-coach evidence.\n")
+            r = run(["python3", self.ENGINE, "--root", tmp, "--allowlist", allow], cwd=ROOT)
+            self.assertEqual(r.returncode, 1, r.stdout + r.stderr)
+            self.assertIn("spec/wish-intake.md", r.stdout)
+            self.assertIn("[project-name]", r.stdout)
+
+    def test_matrix_part_file_reds_a_dated_incident(self):
+        # Same coverage on the TEST_MATRIX.md side (the DATED, not STRICT, arm): a dated-incident
+        # provenance turn living only in a matrix part file must red.
+        with tempfile.TemporaryDirectory() as tmp:
+            allow = self._write(tmp, "allow.json", json.dumps(self.PROJECT_ALLOW))
+            self._write(tmp, "TEST_MATRIX.md",
+                "# Core\n\n"
+                "## Parts map\n\n"
+                "| Part | Rows | Topic |\n"
+                "|---|---|---|\n"
+                "| `matrix/build-pipeline.md` | 1 | Build pipeline |\n")
+            self._write(tmp, "matrix/build-pipeline.md",
+                "| M-2 | the reversibility half, tlvphotos openable-face miss 2026-07-14 | INV-1 | "
+                "string | `test_x` | BUILT |\n")
+            r = run(["python3", self.ENGINE, "--root", tmp, "--allowlist", allow], cwd=ROOT)
+            self.assertEqual(r.returncode, 1, r.stdout + r.stderr)
+            self.assertIn("matrix/build-pipeline.md", r.stdout)
+            self.assertIn("[project-name]", r.stdout)
+
     def test_detector_source_names_no_project(self):
         # the arm's safety win, mirroring the owner-name arm: the shipped detector code carries no
         # foreign project name — the forbidden names live in the (excluded, dated-debt) allowlist data.

@@ -54,8 +54,22 @@ import sys
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 REPO_ROOT = os.path.dirname(SCRIPT_DIR)
+GUARDRAILS = os.path.join(REPO_ROOT, "guardrails")
 sys.path.insert(0, SCRIPT_DIR)
 import gate_common  # noqa: E402  (sibling module in scripts/)
+
+# specformat.py (the core+parts reader) lives in the pack's guardrails/ dir, a sibling of scripts/.
+# This script is ALSO vendored standalone into host repos by adopt/install-ratchet.sh (VENDOR_FILES),
+# which does not vendor guardrails/specformat.py — a host runs the style gate on its own doc, with no
+# core+parts convention assumed. So the import is optional: where specformat IS available (this
+# pack's own checkout), a core file's `## Parts map` is expanded before scanning; where it is not (a
+# vendored host), main() falls back to reading exactly the named file, unchanged from this script's
+# behaviour before the core+parts fix.
+sys.path.insert(0, GUARDRAILS)
+try:
+    import specformat as sf  # noqa: E402
+except ImportError:
+    sf = None
 
 # --- the word sets this lint reads, each from its ONE home ---------------------------------------
 # No word set is written in this file. Each lives in a JSON file that docs/language-rules.md also
@@ -532,7 +546,20 @@ def main(argv):
         sys.stderr.write(str(exc))
         return 2
     gate_like = tier in ("universal", "full")
-    text = sys.stdin.read() if src == "-" else open(src, encoding="utf-8").read()
+    if src == "-":
+        text = sys.stdin.read()
+    elif sf is not None:
+        # Read through the core+parts mechanism (specformat.spec_paths / read_document) rather than
+        # opening `src` directly: a core file carrying a `## Parts map` expands to the core followed
+        # by its parts and the lint below sees the WHOLE document, not just the core's preamble and
+        # glossary. A file with no map (or an ordinary non-core file) is unaffected — expansion is
+        # idempotent by `spec_paths`'s own construction, so this reads exactly the same bytes it
+        # always did.
+        _resolved, text = sf.read_document([src])
+    else:
+        # Vendored standalone (no guardrails/specformat.py alongside) — read exactly the named file,
+        # same as before the core+parts fix.
+        text = open(src, encoding="utf-8").read()
     errors, warnings = lint(text, tier=tier)
 
     waived, stale = [], []
