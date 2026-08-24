@@ -143,3 +143,16 @@ Gate h (`tests-present.missing-test`) correctly flagged 025bb218 for changing
 cells are scanned like prose, and a duplicated cell sentence across two rows surfaces as two
 units (the exact shape `spec-redundancy-precheck.py` now needs to pair a candidate). Ran it —
 4 passed. This closes the gate h finding; nothing else in the delivery changed.
+
+## Addendum 2 — baseline numbers withdrawn
+
+The recorded TEST_MATRIX.md/matrix/*.md baseline entries in scripts/spec-debt-cap.json's
+max_redundancy_open (and the _reason_redundancy_TEST_MATRIX_and_matrix_parts note explaining
+them) are withdrawn on the coordinator's review: nothing in the tree reads those keys as a gate
+today (confirmed again: progress-report.py's debt-cap section and tests/test_convergence_locks.py
+both touch only the PRODUCT_SPEC.md/ARCHITECTURE.md keys), so recording them was exactly the
+"registry entry with no working need" the mandate's principle 10 asks not to create. The actual
+fix — scripts/gate_common.py's segment_units() now scanning table-row cells instead of skipping
+every line starting with "|" — stands; only the unused recorded numbers are removed.
+scripts/spec-debt-cap.json is back to its pre-delivery two-key shape. Verified:
+tests/test_convergence_locks.py, tests/test_prose_gate.py, tests/test_ratchet_kit.py — 58 passed.
