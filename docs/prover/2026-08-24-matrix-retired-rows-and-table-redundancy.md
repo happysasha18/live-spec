@@ -2,7 +2,7 @@
 
 PUSH-REVIEW
 
-Range: 91891a6c..8295415b
+Range: 91891a6c..2325d0e9
 - 025bb218 Redundancy precheck stops skipping table rows outright
 - 8295415b Add tests for gate_common's table-row scanning fix (closes gate h's tests-present finding
   on 025bb218 — see Addendum below)
