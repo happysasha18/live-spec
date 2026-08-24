@@ -9,7 +9,8 @@ Reviewer: skill-creator (Anthropic)
 
 Verdict: ALLOW — two blocking findings from an independent adversarial review, both fixed in this
 same push and verified below; one secondary finding (this record's own absence) closed by writing
-it.
+it; one further stale-count instance in `communicator`'s own README, caught by a second
+independent review pass, folded below.
 
 ## What changed
 
@@ -61,6 +62,17 @@ push, verified below.
    `guardrails/check-skill-review.sh`), a new or substantively-changed skill needs a committed
    review record here before push. None existed for `skills/architect/SKILL.md`. **Folded**: this
    record.
+
+4. **Blocking — a fifth stale-count home missed by finding 1's fix.** `skills/communicator/
+   README.md:10` also stated "the live-spec pack, which ships eleven skills" — a live, current-facing
+   doc, not a dated historical record, so it falls in the same class as finding 1's five homes but
+   sits outside `tests/test_skill_count_agrees.py`'s `HOMES` list, so nothing red-flagged it
+   mechanically. Caught by a second, independent adversarial review pass over the full committed
+   diff. **Folded**: `eleven` → `twelve` at that line. This edit substantively changes the
+   `communicator` skill (a non-stamp content line), so this record also serves as `communicator`'s
+   own INV-208 review: the only change to `skills/communicator/` in this push is this one-word
+   factual correction to its own stated skill count, nothing else in the skill's body/instructions
+   changed.
 
 Other checks run, none of which found anything to fold: frontmatter (`name`, `description`,
 `metadata.version: 5.0.0`) matches sibling skills' shape, and the description states a
