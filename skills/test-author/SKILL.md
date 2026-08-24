@@ -221,7 +221,7 @@ this skill DERIVES what they later enforce).
 
 > The pack, whole: **live-spec-base** holds the shared rules and defaults · **director** decides
 > whether a message even asks this skill to be called · **spec-author** writes the spec ·
-> **product-prover** reviews it · **product-prover-pack** binds the external prover to the pack · **design-reviewer** judges the design behind it · **build-pipeline** ships the change · **test-author** derives the matrix
+> **product-prover** reviews it · **product-prover-pack** binds the external prover to the pack · **design-reviewer** judges the design behind it · **architect** writes and updates the structure that carries a proven spec · **build-pipeline** ships the change · **test-author** derives the matrix
 > and writes the tests · **communicator** makes the human exchange land · **feedback-intake** brings what
 > comes back to its home · **feedback-collector** offers a rare private note up to the authors · **text-audit** reads a text as a stranger and fixes where they stop · **text-audit-pack** binds the external audit skill to the pack · **publish** sees the work out the door, owing its kind's checklist.
 

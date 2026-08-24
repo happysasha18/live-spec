@@ -419,6 +419,7 @@ shape.
 > - **product-prover** reviews it as written.
 > - **product-prover-pack** binds the external canonical prover to the pack.
 > - **design-reviewer** judges the design behind it.
+> - **architect** writes and updates the structure that carries a proven spec.
 > - **build-pipeline** ships the change.
 > - **test-author** derives the matrix and writes the tests.
 > - **communicator** makes the human exchange land.
