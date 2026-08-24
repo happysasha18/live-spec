@@ -1,0 +1,165 @@
+### [node: guardrails] [target]
+
+**responsibility** — mechanical pre-push checks + surface registry + CI mirror
+
+**owns** —
+- E-6 · E-10 · M-5 · INV-17 · INV-24 · INV-45
+- INV-224 (the reach map's directory classes stand as host config, read from the file the pins below name. The pack's own values stand as the default. A host adopts through its own declared project layers, with no vendored-script edit, ROADMAP 380.)
+- INV-47
+- INV-97 (the four host checks' shipping contract; code pin lands with row 241, [target])
+- INV-66 · E-29 · INV-73 · INV-132
+- INV-120 (the shipped-language gate, wired into the pack's own pre-push as gate i and the CI mirror — row 279)
+- INV-245 (the project-name arm on gate i)
+- INV-173 · INV-175 · INV-176 · INV-202 · INV-203
+- INV-205 (the frame's home for its four instance rows 402/403/408/409)
+- INV-206
+- INV-229 (the parked-question default arm on the same waiting-list gate `guardrails/check-board.py`)
+- INV-207, INV-208
+- INV-209 (it composes with the growth law rows 390 and 392 carry. The bound governs what is shown. The archive keeps every row and stays grepable, so a row cited by number stays findable.)
+- INV-210, INV-211, INV-212
+- INV-213 (notice-first through the shared `guardrails/cleanup_notice.py`, whose cleanup-notice shape [ROADMAP 417] sits on the test-author node. It ends no process, so it can never become the broad-sweep footgun it guards.)
+- INV-216 (config-health's arm over a permission path that no longer resolves)
+- INV-218
+- INV-219 (it is the declaration law's mechanical net, the target deferral coming off that law with it)
+- INV-220 (retired: the Stop-hook arm's machinery is gone, its file retired at `attic/answer-first-scan.py`. The answer-first law itself stands untouched, stated in the personal profile and reminded by `hooks/chat-law-hook.sh`.)
+- INV-238 (the machine for the standing no-only-say-hedge behaviour, profile `proactivity.no-only-say-hedge`)
+- INV-230 (the reap and detection arms of the runaway-child class this node owns, a process-space habit at teardown taking no gate letter)
+- INV-231
+- INV-236 (the transport arm of the two-channel law the base-rulebook states)
+- INV-239 (the description-field gate named in the pins below, dormant until the back-describe migration)
+- INV-241 (the net for the orchestration laws that had none)
+- INV-246 (off by default and opt-in. `judge-hooks.json` classifies it as a library entry [INV-211], and the pack's default `settings.json` leaves it unwired. It sits at the orchestration-law family's boundary [INV-241].)
+- INV-242 (`guardrails/check-landing-next-steps.py`)
+- INV-243
+- INV-250..INV-265 (the requirements-format laws and their format-gate family, armed at the row-445 conversion delivery)
+- INV-269 (`gatelib`-shaped reach lines asserted in each gate's own tests)
+- INV-270 (the suite-riding armed tests are the record)
+- INV-271
+- INV-272 (ROADMAP 477)
+- INV-273, INV-274
+- INV-275 (ROADMAP 480) [target]
+- INV-276 [target]
+- INV-277 [target]
+- INV-278 (the architecture-format member: node sections inheriting the family laws from the spec format, defined in `docs/architecture-format.md`, armed at this conversion delivery)
+- INV-279 (the owns-anchor cites and carries no history. A restated law reds, and a sentence the spec lacks moves to the spec. The dated prover-record relocated.)
+- INV-280 (the one-reader law over the node sections)
+- INV-281 (the whole-turn reach shared through `hooks/turn_reader.py`)
+- INV-282 (the hook-side sibling of gate w's registry [INV-212], rides the suite not the push chain, no gate letter)
+- INV-283 (the machine the plain-language anchor law had none of; that law's own home stays communicator)
+- INV-284 (the empty-validation scan, shipped, covered, classified and metered on the same terms as the hedge gate [INV-238])
+- INV-285 (the tool-boundary arm of the chat laws, retired. It stood before every tool call in the tree. Its refusal landed on whichever call was in flight, a background worker's included. No field of that event names whose call it is. The pack's default settings wire no hook to PreToolUse today, and the arm's files rest in `attic/`, ROADMAP 495.)
+- INV-289 (the setup-walk installer generates its coverage from guardrails/judge-hooks.json's file/command/matcher/data/personal_overlay fields and chains to scripts/install-pack-hooks.sh, closing row 495's setup-walk leg; ROADMAP 506)
+- INV-290 (a push carrying deletions alone stands the whole gate chain down. Its script reads git's own ref-update lines fed to the pre-push hook's stdin. It reports whether every one is a pure deletion. `guardrails/pre-push` calls it from the top, before any lettered gate. It takes no gate letter of its own, the way several INV-230/231/236/242 arms already do, ROADMAP 502.)
+- INV-292 (`guardrails/language-rules.json`, the one home where each rule about this project's own texts sits with its own fields)
+- INV-293 (`scripts/gen-language-consumers.py` writes the consumers. Those are the per-surface law bodies at `hooks/language-laws.json` and the writer's rendering at `docs/language-rules.md`. The third is the maintainer's rendering at `docs/language-rule-coverage.md`, which carries each rule's status, its catchers and their reach. `guardrails/check-language-rules.py` reds a consumer that no longer matches the home, and a pin naming no file. It rides the suite with no push-gate letter.)
+- INV-294 (the catcher record each rule carries, its arming point beside it, and the reason where nothing runs it)
+- INV-295 (the surface list each rule carries, and the personal layer's override of a carve-out with the shipped default kept beside it)
+- INV-296 (these rules stand as relatives and move in one working pass)
+- INV-297 (a reader's finding lands as a named class with its examples under it. The cold reads that produce those findings run at the text-audit node.)
+- INV-301 (the findings ratchet over every live document, held at zero for a cleared document. The readability sibling of the size ratchet [INV-264]. Its mechanical gate — gate aa, with its recorded-ceiling record, retired.)
+- INV-299 (the mechanical arm of the worker-restore rule. It is the gate script pinned below, with its call site inside the pipeline's verify step. Beside it stands the wording check `tests/test_worker_restore.py`, run over the rulebook, the pipeline skill, the delegation protocol, the agent-card template and the lane-opening script. The rule those homes state is the base-rulebook's, stated once in its rule 7.)
+- INV-305 (a count this repository publishes about its own tree. Whether a count is worth publishing stays with the person. Its machine home, its generator and its gate — gate ad, retired.)
+- INV-306 (the record of what each runnable file the pack ships is: its kind, name, kit, root, reach and needs. It kept a check that judged this pack's own documents out of the steps a host project follows. Its record, and its gate — gate ae, retired.)
+- INV-304 (the adversarial review a push carries over the change it sends. It rides the one record a push already owes. `guardrails/check-prover-record.sh` holds it as gate a on the push road, over the record home `docs/prover/`. It holds what a script can hold. The record exists, is committed, and is fresh against the newest commit in the range. It names that range, carries each field with a value, and closes or explains each blocking finding. Whether the review was genuinely adversarial stays outside its reach. The requirement and the script's own header both say so. The second gate that once held this alone rests at `attic/check-push-review.sh`.)
+- INV-315 (the architecture-reference gate, gate z, the sibling of the matrix-reference gate INV-273: `scripts/build-architecture-reference.py` builds ARCHITECTURE.index.md from the node sections' owns fields through `guardrails/archformat.py`, SPEC R312)
+
+**pins** —
+- `guardrails/pre-push:1` (gates)
+- `hooks/hedge-scan.py:1` (the hedge-scan Stop-gate, modeled on the scissors scan, opt-in/library, INV-238, INV-211)
+- `guardrails/net_meter.py:1` (the net-liveness meter, INV-202)
+- `guardrails/touchpoints.json:1` (the touchpoint manifest, INV-205)
+- `guardrails/check-touchpoint-kind.py:1` (the touchpoint-kind gate, INV-205)
+- `guardrails/check-board.py:1` (the waiting-list gate, INV-206)
+- `WAITING.md:1` (the waiting-list board, INV-206)
+- `guardrails.config.json:1` (the guardrails config: gated-doc list, ratchet, and the reach map's `reach_classes` — infra/prose/referrer directory classes as host config, INV-224)
+- `guardrails/check-authority-anchor.py:1` (the authority-anchor gate, INV-207)
+- `guardrails/authority-anchor.json:1` (the declared person roster + role forms as data, INV-207)
+- `DECISIONS.md:1` (the read-back / decision-set record, the decision-readback touchpoint surface, INV-207)
+- `templates/DECISIONS.template.md:1` (the shipped read-back template, INV-207)
+- `guardrails/check-skill-review.sh:1` (the skill-review gate, INV-208)
+- `docs/skill-review/README.md:1` (the review-record home, INV-208)
+- `templates/skill-review.template.md:1` (the shipped review record template, INV-208)
+- `guardrails/check-doc-rotation.py:1` (the doc-rotation gate, gate t, INV-209)
+- `scripts/rotate-doc.py:1` (the rotation mechanism, INV-209)
+- `guardrails/check-matrix-reference.py:1` (the matrix-reference gate, gate d, INV-273)
+- `guardrails/check-architecture-reference.py:1` (the architecture-reference gate, gate z, INV-315)
+- `guardrails/judge-hooks.json:1` (the wired-hook declaration. Two hooks are wired by default: the clock hook and the chat-law hook. The six background chat checks are opt-in, and a host wires each itself, INV-211, INV-289)
+- `hooks/code-anchor-scan.py:1` (the code-anchor Stop-hook scan, an internal code trails a sentence as a quiet anchor, opt-in/library, INV-283, INV-211)
+- `hooks/affirmation-scan.py:1` (the empty-validation Stop-hook scan, universal tier plus a personal overlay, opt-in/library, INV-284, INV-211)
+- `guardrails/check-runaway-child.py:1` (the runaway-child Stop-time notice, report-only, INV-213)
+- `guardrails/reap_owned_group.py:1` (the worker-teardown reap + idle-output detection, process-space habit not a push gate, INV-230)
+- `guardrails/attic/check-listener-tripwire.py:1` (the listener tripwire, a deferred-row mechanical revisit trigger, rides the suite not the push chain, INV-231)
+- `guardrails/route_agent_transport.py:1` (the traffic-kind transport router, rides the suite not the push chain, INV-236)
+- `guardrails/check-landing-next-steps.py:1` (the landing-refreshed-map gate, reds a `landed`-flipping commit whose diff omits NEXT_STEPS.md, rides the suite not the push chain, INV-242)
+- `guardrails/check-deposit-description.py:1` (the agent-channel deposit-time description lint, homed beside check-earned-message.py, INV-239) [target]
+- `hooks/register_judge_core.py:1` (the register judge mechanism, INV-203)
+- `hooks/turn_reader.py:1` (the shared full-turn reader five checks read through, none of them wired by default. Each reads every assistant message shown since the last human turn. The five are the contrast-frame scan, the hedge scan, the register judge, the code-anchor scan, and the empty-validation scan, INV-281.)
+- `hooks/register-judge.py:1` (the chat-surface judge, INV-203)
+- `hooks/register-judge-collect.sh:1` (the Stop arm, opt-in/library, INV-211)
+- `hooks/register-judge-report.sh:1` (the UserPromptSubmit arm, opt-in/library, INV-211)
+- `hooks/conduct-judge.py:1` (the conduct judge reading the turn's action trace, INV-241)
+- `hooks/conduct-judge-collect.sh:1` (its Stop arm)
+- `hooks/conduct-judge-report.sh:1` (its UserPromptSubmit arm)
+- `hooks/lean-orchestrator-scan.py:1` (the lean-orchestrator arm, a Stop-hook soft signal warning a session that hoards raw file content inline with no worker dispatch, opt-in/library, INV-246)
+- `guardrails/check-push-reach.sh:1` (the reach map's deciding script, gate b's scope: prose stand-down · the scoped middle road · full)
+- `guardrails/check-prototype-fence.sh:1` (prototype fence, gate e)
+- `guardrails/check-shipped-language.sh:1` (shipped-language gate, INV-120)
+- `scripts/check-shipped-language.py:1` (its machine)
+- `guardrails/pre-commit:1` (commit fence)
+- `guardrails/install.sh:1`
+- `hooks/clock-hook.sh:1` (the chat clock's hand)
+- `hooks/scissors-scan.py:1` (the canonical universal scan hook, opt-in/library, INV-211)
+- `scripts/install-pack-hooks.sh:1` (chained by install-session-hooks.sh, INV-289)
+- `guardrails/check-config-health.sh:1` (INV-175; +skill-copy arm INV-243)
+- `guardrails/check-config-health-perms.py:1` (the dead-permission-path arm, INV-216)
+- `guardrails/nonempty_input.py:1` (the shared non-empty-input shape, INV-218)
+- `guardrails/check-agent-card.py:1` (the agent-card gate, gate y, INV-219)
+- `tests/test_guardrails.py:1`
+- `tests/test_traceability.py:1` (the feature-coverage trace, E-29/INV-73)
+- `guardrails/archformat.py:1` (the node reader every consumer reads through, INV-280)
+- `tests/test_architecture_format.py:1` (the architecture-format checks: node-section shape INV-278, no-restated-law INV-279, one-reader INV-280, riding the suite)
+- `scripts/install-session-hooks.sh:1` (the setup-walk installer, generates its own two hooks from the declaration and chains to install-pack-hooks.sh for the rest, INV-289)
+- `tests/test_install_session_hooks.py:1` (the two-directions coverage proof, INV-289)
+- `.github/workflows/gates.yml:1` (the CI mirror)
+- `guardrails/check-deletion-only-push.sh:1` (the deletion-only push stand-down, INV-290)
+- `tests/test_deletion_only_push.py:1` (its red proof, both directions)
+- `guardrails/language-rules.json:1` (the one home for the language rules, INV-292)
+- `scripts/gen-language-consumers.py:1` (the consumer generator, INV-293)
+- `hooks/language-laws.json:1` (the generated law bodies, one per surface, INV-293)
+- `docs/language-rules.md:1` (the generated writer's rendering, INV-293)
+- `docs/language-rule-coverage.md:1` (the generated maintainer's rendering: each rule's status, its catchers and their reach, INV-293)
+- `guardrails/check-language-rules.py:1` (the gate over the home and its consumers, rides the suite not the push chain, INV-292, INV-294)
+- `tests/test_language_rules.py:1` (its red proof)
+- `guardrails/check-prover-record.sh:1` (the one review-record gate a push runs, gate a, M-6, INV-116, INV-304)
+- `docs/prover/README.md:1` (the record home and the shape a record carries, INV-304)
+- `guardrails/check-worker-restore.py:1` (the worker-restore gate, blocking, run at the pipeline's verify step and once more in the suite against this machine's own transcript root, INV-299)
+- `tests/test_worker_restore.py:1` (its red proof, and the one-wording check. That check reads the rulebook, the pipeline skill, the delegation protocol, the agent-card template and the lane-opening script, INV-299.)
+- `skills/build-pipeline/references/delegation-protocol.md:49` (the clause in the delegation protocol, INV-299)
+- `scripts/session-extract.py:1` (the session extract's machine, INV-302)
+- `templates/agent.template.md:38` (the clause in the agent card a brief is written from, INV-299)
+- `scripts/open-lane.sh:100` (the clause in the printed brief stub, INV-299)
+- registry: —
+
+**notes** —
+- the pack's own gates and opt-in fence are LIVE (hooks installed), together with the chat clock's mechanical hand. The CI mirror is LIVE too (row 14 — `.github/workflows/gates.yml`, the same scripts as a second net). Host-facing checks and the registry are still [target] (row 55).
+- INV-24: the clock law's chat-arm sentence is carried by communicator as wiring. The human-facing timestamp read lives in the communicator skill, and ownership of the clock law stays here.
+- INV-213: the owned-identity discipline the test-author node owns, the browser-kill lesson of row 334.
+- INV-213: live wiring a documented owner-run install step, kept out of any auto-wire into a running session's Stop hook.
+- INV-213: the cleanup-notice and owned-identity disciplines applied to an orphaned worker descendant.
+- INV-216: personal-layer. INV-216: rides gate m's CI carve-out and known-red proof, no new gate letter.
+- INV-216: kin of config-health [INV-175] and the judge-listed gate [INV-211].
+- INV-219: the sibling of the kind-with-no-layers flag.
+- INV-229: an arm extending the existing gate q, no new gate letter.
+- INV-229: it consumes the parked-feedback-question touchpoint classification the touchpoint-kind frame [INV-205] declares.
+- INV-230: safe for that reason under the owned-identity discipline the test-author node owns.
+- INV-230: the idle habit's worker-contract home is the base-rulebook worker contract, carried here as wiring.
+- INV-236: correcting the two-channel law's refused git-universal premise (the owner's word).
+- INV-236: rides the suite and takes no push-gate letter the way the listener tripwire does [INV-231].
+- INV-238: its file is placed by the setup walk beside the scissors scan and the host wires it [INV-173]. Config-health parity covers it [INV-175], `guardrails/judge-hooks.json` classifies it [INV-211], and the meter reads its runs and fires [INV-202].
+- INV-239: both check presence only and ship with this feature's build, target.
+- INV-245: riding gate i's mechanism and known-red proof with no new gate letter. INV-245: ROADMAP 441.
+- INV-246: the mechanical net the lean-orchestrator law lacked, one of the orchestration laws the conduct judge holds [INV-241].
+- INV-246: stands down silently on its own breakage [INV-203], runs/fires read by the net-meter [INV-202].
+- INV-250..INV-265: the shape and word gates are `guardrails/check-requirement-shape.py` [INV-250, INV-251, INV-252, INV-257], `guardrails/check-no-history.py` [INV-253], `guardrails/check-vocabulary.py` [INV-254], `guardrails/check-one-name.py` [INV-255], and `guardrails/check-weak-words.py` [INV-256]. The generated index `guardrails/check-index-generated.py` with `scripts/build-index.py` [INV-258, INV-259] stands as gate x. The delta classifier `guardrails/check-delta-record.py` [INV-260..263] is armed by availability from the conversion-end freeze baseline. The size ratchet `guardrails/check-size-ratchet.py` with `guardrails/spec-ratchet.json` [INV-264, INV-265] is seeded at that freeze.
+- INV-250..INV-265: the shared parser `guardrails/specformat.py` is their one reader.
+- INV-289: `scripts/install-session-hooks.sh` covered its own two alone, while `guardrails/judge-hooks.json` named every wired hook (ROADMAP row 495). `scripts/install-pack-hooks.sh` already covered the rest. The session-hook installer chains to it without rewriting it, since its own literal source is pinned by four other tests.
