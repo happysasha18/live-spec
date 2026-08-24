@@ -53,29 +53,32 @@ class TestConvergenceLocks(unittest.TestCase):
     def test_debt_cap_only_downward(self):
         """M-216: the prose-debt caps ratchet downward only. The zero floors are
         pinned HERE; raising one means editing this test — a deliberate, visible
-        act, never a quiet json touch. PRODUCT_SPEC.md's redundancy cap is a
-        moving ratchet, not a zero floor, so a literal pin here goes stale every
-        time the ratchet legitimately moves down (it did, 121 -> 119, and this
-        test's old 121 pin missed that move). It is enforced live instead, read
-        straight from the json's own recorded cap, in
-        test_live_spec_sits_at_the_clean_floor below — the json's own history
-        comment (scripts/spec-debt-cap.json, "_reason_redundancy_PRODUCT_SPEC")
-        is the deliberate, visible record of each move."""
+        act, never a quiet json touch. Both documents' redundancy caps are moving
+        ratchets, not zero floors (ARCHITECTURE.md's own zero pin was withdrawn
+        2026-08-24, once its Parts map made two honest structural echo classes
+        possible that a monolithic file never had — see scripts/spec-debt-cap.json,
+        "_reason_redundancy_ARCHITECTURE"), so a literal pin here goes stale every
+        time either ratchet legitimately moves (PRODUCT_SPEC.md's did, 121 -> 119
+        -> 116, and this test's old 121 pin already missed one such move). Both
+        are enforced live instead, read straight from the json's own recorded
+        cap, in test_live_spec_sits_at_the_clean_floor below — the json's own
+        history comments ("_reason_redundancy_PRODUCT_SPEC",
+        "_reason_redundancy_ARCHITECTURE") are the deliberate, visible record of
+        each move."""
         cap = json.load(open(DEBT_CAP))
         self.assertLessEqual(cap["max_waivers"], 0,
                              "max_waivers was raised above the reached ratchet value")
-        self.assertLessEqual(cap["max_redundancy_open"]["ARCHITECTURE.md"], 0,
-                             "ARCHITECTURE.md's redundancy cap was raised above the reached floor")
         self.assertLessEqual(cap["max_style_errors"], 0,
                              "max_style_errors was raised above the reached ratchet value")
 
     def test_live_spec_sits_at_the_clean_floor(self):
         """The 2.0 ratchet's live half (M-217): the real PRODUCT_SPEC.md and ARCHITECTURE.md each sit AT
-        the reached-clean floor — the style gate reports zero errors and the redundancy gate reports zero
-        open pairs — so a future edit that reintroduces a shout, a scissors, a second person, or a
-        duplicated sentence reddens HERE instead of fading in silently. The cap file says the ceiling is
-        zero (test_debt_cap_only_downward); this says each document actually reaches it. A deliberate,
-        reviewed regression would have to edit this test, in the same commit, named in the landing."""
+        or under their recorded redundancy floor, and the style gate reports zero errors on both — so a
+        future edit that reintroduces a shout, a scissors, a second person, or a fresh duplicated sentence
+        reddens HERE instead of fading in silently. Both documents are read core+parts (the tool reads
+        assembled text since 2026-08-24; see scripts/spec-debt-cap.json's two "_reason_redundancy_..."
+        comments for how each floor was reached). A deliberate, reviewed regression would have to edit
+        the json floor and this test's understanding of it, in the same commit, named in the landing."""
         import subprocess
 
         def gate_json(script, doc, *extra):
