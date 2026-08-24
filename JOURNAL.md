@@ -3029,7 +3029,7 @@ copies match this repository exactly, so they bought silence for a difference th
 are gone. And Requirement 230 had been restating four language laws in its own words while
 `guardrails/language-rules.json` is their home; it now points at the home instead.
 
-## 2026-08-24 — director: 5.0.0 -> 6.0.0, shadow mode ends
+## 2026-08-24 — director: shadow mode ends (version stays 5.0.0 — one pack fact, INV-178)
 
 Package 3's second slice (the checkpoint mechanism, `scripts/checkpoint.py`, was the first). The
 Director no longer only writes a decision sheet for a human to approve — for accepted work it now

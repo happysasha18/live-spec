@@ -2,7 +2,7 @@
 name: director
 description: Read the human's message before anything acts on it — decide what they did (asked, mused, offered an idea, reported something, decided, corrected running work, instructed, or called a halt), then, only for work that was actually accepted, name what it touches, call the specialists it needs, and carry it through — checkpoint, verify, close, report.
 metadata:
-  version: 6.0.0
+  version: 5.0.0
 ---
 
 # Director
