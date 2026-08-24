@@ -60,7 +60,7 @@ pipeline calls a fixed sequence, and the Director will call the ones a given tas
 | 18 | Product prover | `skills/product-prover-pack/SKILL.md` (7 KB) binding the external `product-prover` skill | mixed | record gated by `guardrails/check-prover-record.sh` |
 | 19 | Analyst of data and experiments | absent | absent | package 4 |
 | 20 | Design reviewer | `skills/design-reviewer/SKILL.md` (28 KB) | prose | advisory by construction; nothing calls it |
-| 21 | Architect | absent as a skill; architecture work is a step inside `build-pipeline` (`references/architecture-step-detail.md`) | prose | extract or keep as a Director-invoked step — decide in package 3 |
+| 21 | Architect | `skills/architect/SKILL.md` (new) | mixed | kept in-repo as its own skill, mirroring `test-author`; the document it produces is checked at the edges by `guardrails/check-architecture-reference.py`, writing it is model judgment |
 | 22 | Test author | `skills/test-author/SKILL.md` (19 KB) | mixed | matrix is really built and really checked |
 | 23 | Developer | absent as a skill; it is the agent itself | — | correct as is |
 | 24 | Independent verifier | `skills/build-pipeline/references/verify-step-detail.md` | prose | package 3 gives it goal and artefacts instead of the executor's self-report |
@@ -162,5 +162,13 @@ rather than treating either alone as current.
 - **Row 29 (parallel lanes)** — unchanged, as predicted: `scripts/open-lane.sh` already ran
   before this package; Director's Execution section now states the independence judgment
   inline instead of leaving it implicit.
-- **Row 21 (architect)** — still open. Deliberately not decided in this slice.
+- **Row 21 (architect)** — resolved. Architect ships as its own standalone in-repo skill,
+  `skills/architect/SKILL.md`, mirroring `test-author` rather than being extracted to a
+  separate repository (that pattern stays reserved for capabilities proven reusable
+  standalone, like `product-prover` and `text-audit`) or kept as a Director-read reference
+  file (that pattern stays for the independent verifier, which is always in service of
+  other work rather than a task a human invokes on its own). `skills/director/SKILL.md`'s
+  specialist table points to it directly. `skills/build-pipeline/SKILL.md` step 3 and its
+  `references/architecture-step-detail.md` are untouched — build-pipeline's own cutover to
+  calling this skill is not part of this slice; no partial migration.
 - **Rows 8, 12–15, 31–36** — untouched by this slice; still read as this map already states.

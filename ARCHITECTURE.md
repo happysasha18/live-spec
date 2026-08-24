@@ -32,7 +32,7 @@ rest for the landing that follows (guardrails).
 
 ## The shape at a glance
 
-live-spec is a skill pack: eleven working skills plus the one shared rulebook they all load, each of them
+live-spec is a skill pack: twelve working skills plus the one shared rulebook they all load, each of them
 text a model reads. Templates, guardrails, and its own dogfood documents sit beside them in one repo.
 Everything executes inside an agent session on the host machine.
 The repo is the source of truth, and the installed copies under `~/.claude/skills/` are what a session

@@ -276,7 +276,7 @@ a task that needs three of these may want them in any sequence, or all at once.
 
 | Specialist | Call when | Where it lives |
 |---|---|---|
-| Architect | boundaries, data, integrations, scale or operations change | inside `skills/build-pipeline`, pending this package's own architect-step decision |
+| Architect | boundaries, data, integrations, scale or operations change | `skills/architect` |
 | Data and experiment analyst | the cause is unknown or a hypothesis needs testing | not yet built — package 4 |
 | Design reviewer | interface, interaction or the coherence of the experience changes | `skills/design-reviewer` |
 | Developer | something must be built | the agent itself |
@@ -286,6 +286,10 @@ a task that needs three of these may want them in any sequence, or all at once.
 | Researcher | project or outside facts are missing | not yet built — package 4 |
 | Spec author | behaviour changes into something the spec does not already describe — not merely when a user would see a difference | `skills/spec-author` |
 | Test author | the evidence and the regressions have to be chosen | `skills/test-author` |
+
+A `skills/…` cell is a standalone skill the Director invokes on its own, callable directly by a
+human too. A `references/…` cell — only the independent verifier carries one — is a reference file
+the Director reads itself; there is no separate skill to invoke.
 
 A specialist gets a brief naming the goal and the primary sources to read — never a pasted
 copy of what the Director already read. What comes back is a short answer with pointers.

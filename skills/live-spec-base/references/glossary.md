@@ -53,7 +53,7 @@ SKILL.md names paths of two kinds, resolving in two different trees.
 
 **The pack's own machinery** sits in the live-spec repository, whose public home is
 `github.com/happysasha18/live-spec`. Its directories are `guardrails/`, `scripts/`, `tests/`,
-`templates/`, `hooks/`, `adopt/`, and `skills/`. Each of the eleven working skills SKILL.md names sits
+`templates/`, `hooks/`, `adopt/`, and `skills/`. Each of the twelve working skills SKILL.md names sits
 at `skills/<name>/SKILL.md`, beside SKILL.md. A path beginning `references/` names a file inside this
 skill's own directory, beside SKILL.md, opened on demand at the step that names it.
 

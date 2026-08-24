@@ -1,15 +1,15 @@
 ---
 name: live-spec-base
-description: Load before using any live-spec pack skill: director, spec-author, product-prover, design-reviewer, build-pipeline, test-author, communicator, feedback-intake, feedback-collector, text-audit, publish. Load it also before briefing a worker that will write files, or to resolve shared rules and settings. It is the one home for the shared rules — thirty-four rules in the body. It carries three on-demand reference modules under `references/` — the glossary, the worked examples, and the settings ladder — each opened only when its own kind of question needs resolving.
+description: Load before using any live-spec pack skill: director, spec-author, product-prover, design-reviewer, architect, build-pipeline, test-author, communicator, feedback-intake, feedback-collector, text-audit, publish. Load it also before briefing a worker that will write files, or to resolve shared rules and settings. It is the one home for the shared rules — thirty-four rules in the body. It carries three on-demand reference modules under `references/` — the glossary, the worked examples, and the settings ladder — each opened only when its own kind of question needs resolving.
 metadata:
   version: 5.0.0
 ---
 
-# live-spec-base — one rulebook, eleven working skills
+# live-spec-base — one rulebook, twelve working skills
 
 The pack's shared working rules live here, once. A working skill opens by naming this base and the
 version it was written against. It then references these rules and elaborates only its own domain.
-The eleven working skills are named in the closing roster below. A second full statement of a shared
+The twelve working skills are named in the closing roster below. A second full statement of a shared
 rule inside a working skill is drift (SPEC INV-13). It is a defect to fold at the next milestone,
 never kept for convenience. One rule is carried whole instead by every skill that briefs a worker.
 The worker-restore sub-rule under rule 7 rides each brief in one wording. `tests/test_worker_restore.py`
@@ -597,7 +597,8 @@ rather than carried by every session that touches no setting.
 > **director** reads the human's message first and decides what it is, before any of the rest ·
 > **spec-author** writes the spec ·
 > **product-prover** reviews it · **product-prover-pack** binds the external prover to the pack ·
-> **design-reviewer** judges the design behind it · **build-pipeline** ships the change ·
+> **design-reviewer** judges the design behind it · **architect** writes or updates the
+> architecture from the proven spec · **build-pipeline** ships the change ·
 > **test-author** derives the matrix and writes the tests · **communicator** makes the human
 > exchange land · **feedback-intake** brings what comes back to its home ·
 > **feedback-collector** offers a rare private note up to the authors ·

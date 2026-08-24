@@ -7,7 +7,7 @@ what should be shown with the eyes, and asking a person to decide in units they 
 model weights, internal ids). `communicator` is the antidote, written as twenty-two rules gathered into
 six areas.
 
-It is the presentation member of the live-spec pack, which ships eleven skills. The four its rules
+It is the presentation member of the live-spec pack, which ships twelve skills. The four its rules
 touch most often:
 
 | skill | job |

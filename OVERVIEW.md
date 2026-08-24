@@ -84,7 +84,7 @@ An override exists only as a written line in its profile file. Setting one leave
 note, so every divergence stays visible. The session scope is spoken only and dies with the conversation; making
 it permanent is a promotion into a profile, on the human's word.
 
-## Eleven working skills, plus the one shared rulebook they all load
+## Twelve working skills, plus the one shared rulebook they all load
 
 - **live-spec-base** — the shared rulebook and the default settings, stated once; on any apparent
   rule conflict, this file wins.
@@ -98,6 +98,8 @@ it permanent is a promotion into a profile, on the human's word.
 - **design-reviewer** — reviews the design itself once the spec is proven: groups the same-kind
   things the text never declared, checks each kind behaves alike, and brings the strongest likely
   difference to the human. It recommends and questions, leaving the landing free.
+- **architect** — writes or updates the architecture from a proven spec: named nodes pinned to
+  shipped code, measurable quality budgets, and the runtime and placement views.
 - **build-pipeline** — sequences the whole arc from wish to shipped, tested, committed change.
 - **test-author** — derives the matrix from the proven spec and writes the tests.
 - **communicator** — shows work plainly and asks only the decisions the human can actually make.
