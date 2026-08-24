@@ -105,6 +105,8 @@ blocking defect.
   false-red on zero nodes or, far worse, silently validate nothing). The Parts map table already lists
   each group's node names explicitly in its own "Nodes" column, which is what the coordinator asked the
   router table be replaced with — that column existed from the first commit and needed no further change.
-Blocking: none. The one open architectural finding above (check-shipped-language.py's STRICT/DATED
-project-file matching) is pre-existing across all three split documents and is reported, not fixed, per
-this delivery's own brief.
+Blocking: none
+
+The one open architectural finding above (check-shipped-language.py's STRICT/DATED project-file
+matching) is pre-existing across all three split documents and is reported, not fixed, per this
+delivery's own brief.
