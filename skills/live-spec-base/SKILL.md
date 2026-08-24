@@ -1,6 +1,6 @@
 ---
 name: live-spec-base
-description: Load before using any live-spec pack skill: director, spec-author, product-prover, design-reviewer, build-pipeline, test-author, communicator, feedback-intake, feedback-collector, text-audit, publish. Load it also before briefing a worker that will write files, or to resolve shared rules and settings. It is the one home for the shared rules — thirty-four rules in the body. It is the one home too for the settings ladder, which sits in `references/settings-ladder.md` and is opened when a setting is being resolved.
+description: Load before using any live-spec pack skill: director, spec-author, product-prover, design-reviewer, build-pipeline, test-author, communicator, feedback-intake, feedback-collector, text-audit, publish. Load it also before briefing a worker that will write files, or to resolve shared rules and settings. It is the one home for the shared rules — thirty-four rules in the body. It carries three on-demand reference modules under `references/` — the glossary, the worked examples, and the settings ladder — each opened only when its own kind of question needs resolving.
 metadata:
   version: 5.0.0
 ---
@@ -17,28 +17,12 @@ reds a home that states it in words of its own (SPEC INV-299). Communicator teac
 plainly; that we speak plainly is this file's sentence. Used standalone, outside the pack, a
 working skill still stands: its pointer here reads as plain advice.
 
-## Where the paths and the codes in this file point
+## Where the paths and the codes point
 
-This file names paths of two kinds, resolving in two different trees.
-
-**The pack's own machinery** sits in the live-spec repository, whose public home is
-`github.com/happysasha18/live-spec`. Its directories are `guardrails/`, `scripts/`, `tests/`,
-`templates/`, `hooks/`, `adopt/`, and `skills/`. Each of the eleven working skills this file names sits
-at `skills/<name>/SKILL.md`, beside this one. A path beginning `references/` names a file inside this
-skill's own directory, beside this file, opened on demand at the step that names it.
-
-**A host's own documents and workspace** sit at the root of whatever project the pack is attached to.
-Those are `PRODUCT_SPEC.md`, `ARCHITECTURE.md`, `ROADMAP.md`, `JOURNAL.md`, `NEXT_STEPS.md`,
-`DECISIONS.md`, `attic/`, `prototype/`, `inbox/`, `outbox/`, `docs/`, and `.live-spec/`. The live-spec
-repository is a host of its own, so on that one machine the two trees are the same directory.
-
-A bracket code such as `INV-4` is a short handle for one rule of the product spec. Its home is
-`PRODUCT_SPEC.md`, where the code trails the line it names. That file's preamble names every letter a
-code can carry and what each stands for, so a code this page never uses decodes there. A roadmap row number, such as row 416, names a line of `ROADMAP.md`. A row that has closed
-rotates to a dated file under `docs/queue-archive/`. So a row cited here may sit there instead. Two
-other bracket marks read as part of the sentence they sit in, and `PRODUCT_SPEC.md` states both.
-`[target]` marks a feature or leg that is promised and not yet built. `[default]` names a value the
-agent set that the person may retune.
+This file names paths in two trees, the pack's own machinery and a host's documents, and two code
+kinds, an `INV-x` code and a roadmap row number. Where each resolves is recorded once, in
+[references/glossary.md](references/glossary.md). Open that module when a path or a code needs
+resolving, and not before.
 
 ## The words this file uses
 
@@ -355,10 +339,11 @@ keeps the number it already carries.
    homes stay the normative homes; the live channel only carries the rule to the moment it is needed.
    Prose in a once-read file loses to mid-turn momentum, and attention alone holds nothing across
    sessions. This rule is the convergence principle's hand for behaviour (rule 22), kin of rule 19's
-   second-occurrence law. Here is the worked proof. The routing rule lived in once-read files since June and
-   broke mid-turn. It broke until the every-prompt hook line and the mechanical after-the-fact check
-   landed (rows 253/254, 2026-07-12). That is the same cure that killed invented clock stamps. The 1.1.0 audit's
-   once-read walk is this law's first sweep.
+   second-occurrence law. The routing rule's worked proof — a once-read home that broke mid-turn since
+   June, closed only when the every-prompt hook line and the mechanical after-the-fact check landed —
+   is written out under rule 23 in [references/worked-examples.md](references/worked-examples.md).
+   That is the same cure that killed invented clock stamps. Open the reference when this rule's
+   mechanism needs the concrete story.
 
 24. **The process stations are kind-abstract; a project declares its concrete layers and proofs (SPEC
    INV-135).** The entry impact read, the footprint categories, and the test ladder are stations the pack
@@ -539,9 +524,10 @@ keeps the number it already carries.
    carriers hold it. A release's adversarial pass — the full re-prove at the release gate [INV-116] — is
    authored by a fresh seat. That seat is a differently-contexted head briefed from the primary sources.
    It is the same freshness the verify audit already demands of its checker (SPEC INV-46).
-   The 2.7.0 release ran its adversarial pass
-   in the context that authored the new lenses. So it
-   never turned a brand-new lens onto the skill body that introduced it. And a newly added lens or rule
+   The 2.7.0 release's own breach of this rule — an adversarial pass run in the context that had
+   authored the new lenses, and so never turned onto the skill body that introduced them — is written
+   out under rule 33 in [references/worked-examples.md](references/worked-examples.md); open it when
+   this rule's failure mode needs a concrete case. And a newly added lens or rule
    is run against the very document that introduces it before release. That is self-application, and
    the release record names the result.
    A release gate may require a dated clean-context review record naming a seat other
@@ -564,9 +550,11 @@ keeps the number it already carries.
    handled is caught before the work restarts. The owner asked the pack to hold it, 2026-07-20.
 
 35. **A session's record is read at both ends by an agent that did not live it (SPEC INV-302).** A session
-   that lived the work reads its own record badly. Worked failure: on 2026-07-28 a session wrote its
-   handover from memory. It named a question as still waiting for the owner, and the owner had answered
-   it earlier that day. So each
+   that lived the work reads its own record badly. This rule's worked failure — a handover written
+   from memory that named a question as still open when the owner had already answered it that day —
+   and the note on the script once used to check a handover's three lines are both written out under
+   rule 35 in [references/worked-examples.md](references/worked-examples.md). Open it when either
+   case needs the concrete story. So each
    end of a session is read by a fresh agent. That agent works from a session extract: the person's own
    turns, each with its timestamp. `scripts/session-extract.py` pulls those turns out of one transcript,
    and its own header names where the transcripts sit and which traps a reader meets there.
@@ -577,9 +565,7 @@ keeps the number it already carries.
    At the open, a fresh agent reads the previous session's extract. It lists every decision the person
    made, each with its timestamp. It compares that list against `DECISIONS.md` and `NEXT_STEPS.md`. A
    decision missing from both goes to the seat before work starts.
-   Both ends stay a discipline the seat holds. A script read the handover's three lines until
-   2026-08-09, and the live-spec pack withdrew that script after finding no error the script had
-   ever caught.
+   Both ends stay a discipline the seat holds.
    A session's opening writes no committed artifact for a script to read. The owner asked for
    this reading as a standing process, 2026-07-28.
 

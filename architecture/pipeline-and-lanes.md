@@ -49,8 +49,8 @@
 - `skills/build-pipeline/SKILL.md:664` (trains, one pen — the cap, the penless overlap set, the pen-stages, the re-fence after a landing)
 - `skills/build-pipeline/SKILL.md:665` (the graph picks the lane set at queue-take)
 - `skills/build-pipeline/SKILL.md:153` (a mid-work re-door re-runs the independence edges against every rolling lane)
-- `skills/live-spec-base/SKILL.md:144` (rule 7's lanes sub-rules — three lanes under one pen)
-- `skills/live-spec-base/SKILL.md:166` (one row per landing commit)
+- `skills/live-spec-base/SKILL.md:128` (rule 7's lanes sub-rules — three lanes under one pen)
+- `skills/live-spec-base/SKILL.md:150` (one row per landing commit)
 - `scripts/open-lane.sh:1` (the lane-open act's performable form. It carries the row→in-work claim commit on main, the cap refusal, and the lane branch cut into its own worktree, INV-214.)
 - the lane-opening script is the first file this node owns of its own. Its law otherwise lives inside the two skills that perform it and its cited pins there. The branch road's carriers land with ROADMAP row 386 [target].
 

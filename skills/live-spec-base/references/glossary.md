@@ -46,3 +46,26 @@ behind the short read given here.
 - **an agent** — defined where the rule that binds it stands, at rule 31.
 - **an agent card** — a host's self-describing file `.live-spec/agent.md`, stating its name, mission,
   zones, published contracts, and inbox address. `templates/agent.template.md` gives its shape.
+
+## Where the paths and the codes point
+
+SKILL.md names paths of two kinds, resolving in two different trees.
+
+**The pack's own machinery** sits in the live-spec repository, whose public home is
+`github.com/happysasha18/live-spec`. Its directories are `guardrails/`, `scripts/`, `tests/`,
+`templates/`, `hooks/`, `adopt/`, and `skills/`. Each of the eleven working skills SKILL.md names sits
+at `skills/<name>/SKILL.md`, beside SKILL.md. A path beginning `references/` names a file inside this
+skill's own directory, beside SKILL.md, opened on demand at the step that names it.
+
+**A host's own documents and workspace** sit at the root of whatever project the pack is attached to.
+Those are `PRODUCT_SPEC.md`, `ARCHITECTURE.md`, `ROADMAP.md`, `JOURNAL.md`, `NEXT_STEPS.md`,
+`DECISIONS.md`, `attic/`, `prototype/`, `inbox/`, `outbox/`, `docs/`, and `.live-spec/`. The live-spec
+repository is a host of its own, so on that one machine the two trees are the same directory.
+
+A bracket code such as `INV-4` is a short handle for one rule of the product spec. Its home is
+`PRODUCT_SPEC.md`, where the code trails the line it names. That file's preamble names every letter a
+code can carry and what each stands for, so a code SKILL.md never uses decodes there. A roadmap row number, such as row 416, names a line of `ROADMAP.md`. A row that has closed
+rotates to a dated file under `docs/queue-archive/`. So a row SKILL.md cites may sit there instead. Two
+other bracket marks read as part of the sentence they sit in, and `PRODUCT_SPEC.md` states both.
+`[target]` marks a feature or leg that is promised and not yet built. `[default]` names a value the
+agent set that the person may retune.
