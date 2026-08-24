@@ -15,7 +15,7 @@ a8cf50e0` (every hunk of both, `--stat` and full diff); `.live-spec/checkpoints/
 in full, and every `.live-spec/checkpoints/*.md` file's `## ` header list (`grep -n "^## "`), to
 independently check the fix's claim about a pre-existing `WATCHED` convention.
 
-Checks run:
+Checks run: two passes, pytest plus hand-run bypass probes each time — full detail below.
 - First pass (against 6ce6fca0 alone, before the fix existed): `python3 -m pytest tests/
   test_checkpoint_mechanism.py -q` — 14 passed, matching the file's 14 `def test_` methods. Hand
   probes against `scripts/checkpoint.py`'s functions (not against the test suite's claims) for:
