@@ -21,6 +21,7 @@ message, so a caller never silently reads a pre-conversion document as if it hel
 
 Stdlib only.
 """
+import os
 import re
 import sys
 
@@ -156,9 +157,23 @@ def parse_nodes(text):
     return nodes
 
 
+def read_architecture(path):
+    """The text at `path`, expanded through a core's `## Parts map` when it carries one — the same
+    core-plus-parts join `guardrails/specformat.py`'s `read_document` gives every other reader (INV-280
+    stays the one node reader for the NODE SHAPE; this is the one join for the FILE SET a caller off the
+    command line names, so `archformat.py`'s own CLI — the pin-drift gate's `--pins` and a plain
+    summary run — sees every node whether ARCHITECTURE.md is one file or a core plus parts). A path
+    carrying no map (a bare single file, or a test fixture) reads back unchanged."""
+    here = os.path.dirname(os.path.abspath(__file__))
+    if here not in sys.path:
+        sys.path.insert(0, here)
+    import specformat as _sf
+    _resolved, text = _sf.read_document([path])
+    return text
+
+
 def _summary(path):
-    with open(path, encoding="utf-8") as f:
-        text = f.read()
+    text = read_architecture(path)
     nodes = parse_nodes(text)
     n_anchor = sum(len(n.anchors) for n in nodes)
     n_pin = sum(len(n.pins) for n in nodes)
@@ -176,8 +191,7 @@ def _emit_pins(path):
     """Print every node pin as `path<TAB>line<TAB>label`, one per line — the pin feed a consumer drives
     off instead of slicing the raw Nodes section itself (the pin-drift check is the first such consumer,
     SPEC INV-280). The label is the pin's parenthetical, empty when the pin trails none."""
-    with open(path, encoding="utf-8") as f:
-        nodes = parse_nodes(f.read())
+    nodes = parse_nodes(read_architecture(path))
     for n in nodes:
         for pin, label in n.pins:
             p, _, line = pin.rpartition(":")
@@ -185,7 +199,6 @@ def _emit_pins(path):
 
 
 if __name__ == "__main__":
-    import os
     default = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
                            "ARCHITECTURE.md")
     args = sys.argv[1:]

@@ -265,7 +265,10 @@ else
   echo "OK (freshness): record commit is not older than the last PRODUCT_SPEC.md commit."
 fi
 
-ARCH_COMMIT=$(git log -1 --format=%H -- ARCHITECTURE.md)
+# The architecture is the same shape as the spec: ONE document written across the core and, once
+# its own Parts map names them, the files under architecture/. Freshness reads the newest commit
+# touching either, the same reasoning as SPEC_COMMIT above.
+ARCH_COMMIT=$(git log -1 --format=%H -- ARCHITECTURE.md architecture/)
 if [ -n "$ARCH_COMMIT" ]; then
   arch_fresh=0
   if [ "$ARCH_COMMIT" = "$RECORD_COMMIT" ]; then

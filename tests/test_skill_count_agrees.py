@@ -15,7 +15,7 @@ import re
 import tempfile
 import unittest
 
-from conftest import ROOT
+from conftest import ROOT, ARCHITECTURE, read as _conftest_read
 
 SKILLS_DIR = os.path.join(ROOT, "skills")
 
@@ -121,8 +121,15 @@ def pack_skill_folders(skills_dir=SKILLS_DIR):
 
 
 def read(rel):
-    with open(os.path.join(ROOT, rel), encoding="utf-8") as fh:
-        return plain(fh.read())
+    # ARCHITECTURE.md is a core plus parts (its own `## Parts map`) — reading it through
+    # conftest's shared reader joins them, the way every other document-aware test does, so a
+    # count sentence living in a part is not silently unseen once it moves off the core.
+    if rel == ARCHITECTURE:
+        text = _conftest_read(rel)
+    else:
+        with open(os.path.join(ROOT, rel), encoding="utf-8") as fh:
+            text = fh.read()
+    return plain(text)
 
 
 # Only a NUMBER standing before the unit is a count. An ordinary word there — "per working skill" —

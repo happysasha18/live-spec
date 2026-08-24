@@ -77,6 +77,14 @@ _MATRIX_REFERENCE_INTRO = (
     "carries maps to the matrix rows that cover it, ranges and compound anchors expanded.\n\n"
 )
 
+# The architecture is written the same way: a core file plus part files under architecture/*.md,
+# the core's `## Parts map` naming them and their order. Unlike the spec and the matrix, its
+# generated index (ARCHITECTURE.index.md, the gate-z anchor table and the node/part router table)
+# is its own separate file rather than an inline `## Reference` section synthesized at read time —
+# so read() here does the core+parts join and nothing more.
+ARCHITECTURE = "ARCHITECTURE.md"
+ARCHITECTURE_INDEX = "ARCHITECTURE.index.md"
+
 
 def spec_paths():
     """The files the spec is written across: the core first, then the parts its map names."""
@@ -86,6 +94,11 @@ def spec_paths():
 def matrix_paths():
     """The files the matrix is written across: the core first, then the parts its map names."""
     return _sf.spec_paths([os.path.join(ROOT, MATRIX)])
+
+
+def architecture_paths():
+    """The files the architecture is written across: the core first, then the parts its map names."""
+    return _sf.spec_paths([os.path.join(ROOT, ARCHITECTURE)])
 
 
 def _with_reference_tail(text):
@@ -115,6 +128,10 @@ def read(rel):
         return _with_reference_tail(_sf.read_document(spec_paths(), expand=False)[1])
     if rel == MATRIX:
         return _with_matrix_reference_tail(_sf.read_document(matrix_paths(), expand=False)[1])
+    if rel == ARCHITECTURE:
+        # No Reference tail is synthesized here: ARCHITECTURE.index.md is its own committed
+        # file (gate z's output), never an inline section of ARCHITECTURE.md itself.
+        return _sf.read_document(architecture_paths(), expand=False)[1]
     with open(os.path.join(ROOT, rel), encoding="utf-8") as f:
         return f.read()
 

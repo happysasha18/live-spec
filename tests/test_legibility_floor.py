@@ -43,7 +43,7 @@ def test_spec_clause_and_index():
 
 
 def test_design_principle_and_preshow_wired():
-    arch = (ROOT / "ARCHITECTURE.md").read_text(encoding="utf-8")
+    arch = read("ARCHITECTURE.md")     # the whole architecture: the core and the parts its map names
     assert "legibility floor" in arch
     comm = (ROOT / "skills" / "communicator" / "SKILL.md").read_text(encoding="utf-8")
     assert "preshow-legibility-lint.py" in comm

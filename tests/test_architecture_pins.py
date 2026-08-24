@@ -13,9 +13,15 @@ with no matching pin edit reds here instead of waiting for the next person who r
 import os
 import re
 
+from conftest import read as _read, ARCHITECTURE as _ARCHITECTURE
+
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 HOOKS_DIR = os.path.join(REPO_ROOT, "hooks")
-ARCHITECTURE_MD = os.path.join(REPO_ROOT, "ARCHITECTURE.md")
+# ARCHITECTURE.md is a core plus parts (its own `## Parts map`); the `hooks/turn_reader.py:1`
+# pin now lives in the guardrails node's part, architecture/guardrails.md. Reading it through
+# conftest.read() (the shared reader every test uses) joins the core and its parts the same
+# way as any other consumer, so this test sees the pin whether the doc is one file or sixteen.
+ARCHITECTURE_MD = _ARCHITECTURE
 
 # Every hook file that imports turn_reader is named in the pin's own prose by a fixed descriptive
 # name — the same names PRODUCT_SPEC.md's R281 sentence uses for the same five scans plus the
@@ -51,8 +57,7 @@ def _turn_reader_pin_parenthetical(architecture_path=ARCHITECTURE_MD):
     """The parenthetical text ARCHITECTURE.md's pins field carries for `hooks/turn_reader.py:1`,
     tolerant of the prose around it: the pins field is one long list for every node, so this walks
     the balanced parentheses that follow that one path rather than matching a fixed line shape."""
-    with open(architecture_path, encoding="utf-8") as f:
-        body = f.read()
+    body = _read(architecture_path)
     marker = "`hooks/turn_reader.py:1` ("
     start = body.find(marker)
     assert start != -1, (

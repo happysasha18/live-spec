@@ -12,6 +12,8 @@ import re
 import unittest
 from pathlib import Path
 
+from conftest import read as _read  # the shared reader: ARCHITECTURE.md as core + parts
+
 ROOT = Path(__file__).resolve().parent.parent
 ADAPTER = ROOT / "skills" / "product-prover-pack" / "SKILL.md"
 INSTALLER = ROOT / "scripts" / "install-external-skills.sh"
@@ -193,7 +195,7 @@ class TestTheArchitectureDoesNotPinIntoAnotherRepository(unittest.TestCase):
 
     def test_no_architecture_pin_points_into_an_external_skill(self):
         roots = self._external_roots()
-        architecture = (ROOT / "ARCHITECTURE.md").read_text(encoding="utf-8")
+        architecture = _read("ARCHITECTURE.md")
         offenders = [
             pin for pin in re.findall(r"^- `([^`]+)`", architecture, re.M)
             if any(pin.startswith(root) for root in roots)

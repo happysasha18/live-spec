@@ -515,8 +515,7 @@ class TestPermissionPathHealth(unittest.TestCase):
         self.assertIn("INV-216", read(SPEC))
 
     def test_architecture_owns_the_invariant(self):
-        with open(os.path.join(REPO, "ARCHITECTURE.md")) as f:
-            self.assertIn("INV-216", f.read())
+        self.assertIn("INV-216", read("ARCHITECTURE.md"))
 
     def test_matrix_row_covers_the_law(self):
         self.assertIn("M-397", read("TEST_MATRIX.md"))

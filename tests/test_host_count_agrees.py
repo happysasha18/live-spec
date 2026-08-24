@@ -8,16 +8,13 @@ count as the authority and asserts the front page states the same one.
 import os
 import re
 
+from conftest import read as _read
+
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 WORDS = {"one": 1, "two": 2, "three": 3, "four": 4, "five": 5, "six": 6}
 ARCH_COUNT = re.compile(r"[Tt]he (one|two|three|four|five|six) real hosts?\b")
 README_COUNT = re.compile(r"(?m)^(One|Two|Three|Four|Five|Six) projects?\b")
-
-
-def _read(rel):
-    with open(os.path.join(ROOT, rel), encoding="utf-8") as fh:
-        return fh.read()
 
 
 def test_the_architecture_states_its_host_count():

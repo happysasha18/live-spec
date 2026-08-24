@@ -65,10 +65,11 @@ PUSH_FULL="${LIVE_SPEC_PUSH_FULL:-}"
 # Gate g, pin drift, is the second cost in the local chain: 56 seconds on 2026-08-18, more than
 # every other fast gate together. It stays — it holds pins repaired BEFORE a push, and it proved
 # sixty-odd re-aimed pins the evening before — but it stops charging a push that cannot have moved
-# a pin. A pin lives in ARCHITECTURE.md or in the r5 rule-price page, and points at a file. So a
-# diff touching none of: ARCHITECTURE.md, .live-spec/r5-rule-prices-2026-08-11.md, skills/ (the r5
-# page pins skill rules), the gate's own two readers, or any file an ARCHITECTURE.md pin names,
-# cannot have moved one.
+# a pin. A pin lives in ARCHITECTURE.md (a core plus its architecture/*.md parts, INV-315's split)
+# or in the r5 rule-price page, and points at a file. So a diff touching none of: ARCHITECTURE.md,
+# architecture/ (a node's pins moved there with its section), .live-spec/r5-rule-prices-2026-08-11.md,
+# skills/ (the r5 page pins skill rules), the gate's own two readers, or any file an ARCHITECTURE.md
+# pin names, cannot have moved one.
 # The diff base is the chain's own, LIVE_SPEC_DIFF_BASE with origin/main as the default, the base
 # gate a and the reach classifier already read. Every unreadable answer runs the gate: no base, no
 # diff, no pin list. The SERVER runs gate g unconditionally (.github/workflows/gates.yml), so the
@@ -91,7 +92,7 @@ gate_g_can_skip() {
   while IFS= read -r f; do
     [ -z "$f" ] && continue
     case "$f" in
-      ARCHITECTURE.md|.live-spec/r5-rule-prices-2026-08-11.md|skills/*) return 1 ;;
+      ARCHITECTURE.md|architecture/*|.live-spec/r5-rule-prices-2026-08-11.md|skills/*) return 1 ;;
       guardrails/check-pin-drift.sh|guardrails/archformat.py) return 1 ;;  # the gate's own reading changed
     esac
     if printf '%s\n' "$targets" | grep -qxF -- "$f"; then

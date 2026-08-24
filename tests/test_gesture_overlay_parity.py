@@ -66,7 +66,7 @@ class TestGestureOverlayParityLens(unittest.TestCase):
         self.assertIn("two producers", skill)
 
     def test_architecture_owns_165_under_design_reviewer(self):
-        nodes = archformat.parse_nodes(_read("ARCHITECTURE.md"))
+        nodes = archformat.parse_nodes(read("ARCHITECTURE.md"))
         design_reviewer = next((n for n in nodes if n.name == "design-reviewer"), None)
         if design_reviewer is not None and "INV-165" in design_reviewer.anchors_expanded:
             return

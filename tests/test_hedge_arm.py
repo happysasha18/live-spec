@@ -259,7 +259,7 @@ def test_formal_index_row():
 
 
 def test_architecture_owns_the_invariant():
-    arch = _read(os.path.join(ROOT, "ARCHITECTURE.md"))
+    arch = read("ARCHITECTURE.md")
     import sys as _sys
     _sys.path.insert(0, os.path.join(ROOT, "guardrails"))
     import archformat as _af

@@ -137,7 +137,7 @@ class TestSpecStatesTheLaw(unittest.TestCase):
         )
 
     def test_architecture_owns_the_invariant(self):
-        arch = open(os.path.join(REPO, "ARCHITECTURE.md"), encoding="utf-8").read()
+        arch = read("ARCHITECTURE.md")
         nodes = archformat.parse_nodes(arch)
         attach = next((n for n in nodes if n.name == "attach"), None)
         self.assertIsNotNone(attach, "ARCHITECTURE.md carries no attach node")

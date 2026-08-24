@@ -105,9 +105,10 @@ def crosscut_landings_union(base, known_nodes):
 def pack_nodes(architecture_path):
     """The pack's own node names, read live from ARCHITECTURE.md's node sections (guardrails/
     archformat.py, SPEC INV-280) — the known vocabulary the cross-cutting-note adapter matches
-    against, rederived every run instead of held as a literal that drifts from the real map."""
-    with open(architecture_path, encoding="utf-8") as f:
-        text = f.read()
+    against, rederived every run instead of held as a literal that drifts from the real map.
+    ARCHITECTURE.md may be a core plus parts (its own `## Parts map`); archformat's own reader
+    expands that the same way its `--pins` CLI does, so this sees every node either way."""
+    text = archformat.read_architecture(architecture_path)
     return [node.name for node in archformat.parse_nodes(text)]
 
 
