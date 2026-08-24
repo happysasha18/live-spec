@@ -2,8 +2,7 @@
   "id": "case-27",
   "acts": [
     "instruction",
-    "question",
-    "observation"
+    "question"
   ],
   "creates_work": true,
   "shelves_idea": false,
@@ -12,8 +11,10 @@
   "dimensions": [
     "documentation and communication"
   ],
-  "specialists": [],
-  "reasoning": "The request for a simple in-window text plan with emoji status is exactly the case the instruction calls out by name: 'when someone asks for a plan, a status, a summary or a report, they have asked for something to be made, and it is work like any other' — so it is accepted work, not routed to the communicator (specialists stays empty per that same line). The two 'что делает воркер / что получим на выходе' clauses are genuine questions answered directly, and 'я ему все скопировал и запустил' is a plain fact report, so it is logged as its own observation act rather than folded into the question.",
+  "specialists": [
+    "Publisher, communicator"
+  ],
+  "reasoning": "The request for a simple 5-10 line emoji-status plan text in this window is a request for a status/report, which the skill explicitly says 'is work like any other' (Work that belongs elsewhere, communicator paragraph) rather than free conversation. The two remaining clauses (whether the worker is doing the whole plan or only part now, and what output will result) are genuine questions about work already in flight, answered directly with no new work or sheet.",
   "scenario": "mixed-plan-and-two-questions",
-  "skill_version": "0.3.0"
+  "skill_version": "5.0.0"
 }

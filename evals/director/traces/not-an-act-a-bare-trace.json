@@ -8,14 +8,16 @@
   "attaches_to_existing_work": false,
   "work_items": 1,
   "dimensions": [
+    "quality, safety, regressions",
     "product value and behaviour",
-    "quality, safety, regressions"
+    "release, observation, feedback"
   ],
   "specialists": [
     "Developer",
-    "Test author"
+    "Test author",
+    "Independent verifier"
   ],
-  "reasoning": "Сообщение без слов — вставленный стектрейс сразу после деплоя, за которым человек наблюдал; по правилу «A message with no words... is still an act, and usually an observation», а что с ним делать, ясно из того, чем человек занимался минуту назад. Крах в checkEntitlement сразу после релиза — ремонт следует вне всякого сомнения («Some observations carry their repair with them»), поэтому, как и в примере с серым export-button в самой инструкции, Director вправе сразу считать это принятой работой: dimensions — поведение продукта (сломана проверка прав) и качество/регрессия; specialists — Developer чинит, Test author добавляет регрессионный тест.",
+  "reasoning": "A wordless pasted stack trace is still an act, usually an observation, and what's wanted is clear from context — a crash appearing right after a deploy the person was watching is exactly the 'production is returning 500s' case where 'the repair follows beyond doubt; nobody reports that to be agreeable,' so the Director acts rather than asking. It opens one new bug-fix task rather than attaching to a prior deploy checkpoint, since nothing indicates that checkpoint is still open.",
   "scenario": "not-an-act-a-bare-trace",
-  "skill_version": "0.3.0"
+  "skill_version": "5.0.0"
 }

@@ -9,7 +9,7 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "Сплошные 'может', 'иногда' и прямое 'кинь лайвспеку идею' — человек явно просит записать мысль на будущее, а не делать сейчас; это 'Idea for later', кладём на полку её же словами.",
+  "reasoning": "The person explicitly frames it as something to hand to the idea shelf (\"кинь лайвспеку идею\") rather than something to do now — textbook 'Idea for later': named possibility, not asked for now, so it goes on the shelf in their own words without a task id or start.",
   "scenario": "idea-for-another-project",
-  "skill_version": "0.3.0"
+  "skill_version": "5.0.0"
 }

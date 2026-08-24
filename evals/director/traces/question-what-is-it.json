@@ -9,7 +9,7 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "Two plain 'what is it / why' questions about a concept the agent already introduced — table row 'Question or musing': the Director answers and engages, it does not write a roadmap row or open a spec.",
+  "reasoning": "Pure request for information ('what is X, why is it needed') mid-explanation — the 'Question or musing' row applies: answer it, write nothing, start nothing.",
   "scenario": "question-what-is-it",
-  "skill_version": "0.3.0"
+  "skill_version": "5.0.0"
 }

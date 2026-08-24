@@ -8,11 +8,9 @@
   "shelves_idea": false,
   "attaches_to_existing_work": true,
   "work_items": 0,
-  "dimensions": [
-    "documentation and communication"
-  ],
+  "dimensions": [],
   "specialists": [],
-  "reasoning": "Reminding of goals already on the plan and then demanding they be tracked in the plan file's status changes the constraints of the status-tracking work already running, so per 'a correction attaches to work, not to a queue' it modifies that work rather than opening a new item — work_items stays 0 even though the sheet still names the touched dimension. 'Согласен или поспорь со мной' explicitly invites the Director's own judgment, which the instruction treats as a real question act requiring an honest answer, not compliance.",
+  "reasoning": "This adds a tracking requirement (monitor compactness/optimization) to the status of an already-existing plan file, which is a correction attaching to work in flight and updates that checkpoint's decision sheet rather than opening new work ('A correction attaches to work, not to a queue'). 'согласен или поспорь со мной' is a genuine invitation for the Director's own judgment and stays a separate question act, answered in the response, not folded into the correction.",
   "scenario": "mixed-reminder-and-a-challenge",
-  "skill_version": "0.3.0"
+  "skill_version": "5.0.0"
 }

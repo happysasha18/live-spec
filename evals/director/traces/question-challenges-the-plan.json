@@ -9,7 +9,7 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "The person is asking whether the just-proposed step duplicates what the prover already does, or whether real cases are harder — a genuine question, not yet work in flight since the step is only proposed, so 'A correction attaches to work, not to a queue' does not apply; per 'do not create work to be safe', this stays a question to be answered, not a correction.",
+  "reasoning": "The agent only just proposed the step; nothing is in flight for this to correct, so per the correction rule ('when no work is in flight yet... decide by whether they are asking for it now') this is a clarifying question about whether the proposal duplicates the prover, not a correction or decision.",
   "scenario": "question-challenges-the-plan",
-  "skill_version": "0.3.0"
+  "skill_version": "5.0.0"
 }

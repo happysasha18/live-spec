@@ -1,8 +1,8 @@
 {
   "id": "case-06",
   "acts": [
-    "idea",
-    "instruction"
+    "instruction",
+    "idea"
   ],
   "creates_work": true,
   "shelves_idea": false,
@@ -10,13 +10,14 @@
   "work_items": 1,
   "dimensions": [
     "product value and behaviour",
-    "the user's path and the design"
+    "the user's path and the design",
+    "architecture, data, integrations, operations"
   ],
   "specialists": [
     "Developer",
     "Design reviewer"
   ],
-  "reasoning": "Условный запрос из инструкции ('если можно — давай, если не сейчас — запиши') несёт и идею, и поручение в одном дыхании; оба ответвления реальны, но ничто в ситуации не говорит, что условие не выполняется, поэтому берём ветку 'давай' как принятую работу, а не откладываем на полку идей.",
+  "reasoning": "This is the conditional-request pattern named in the skill verbatim ('do it if easy, otherwise note it for later') — both branches are real; since the display already exists in another window (situation: 'has just seen a display in another window'), the condition plausibly holds, so the work is taken now rather than shelved, touching the interface (design reviewer) and the data feed needed to surface worker state here (architect-adjacent/dev).",
   "scenario": "idea-with-a-cheap-branch",
-  "skill_version": "0.3.0"
+  "skill_version": "5.0.0"
 }

@@ -10,10 +10,8 @@
   "dimensions": [
     "documentation and communication"
   ],
-  "specialists": [
-    "Publisher, communicator"
-  ],
-  "reasoning": "Инструкция прямо это разбирает в разделе 'Work that belongs elsewhere': просьба вести план и статус — это работа как любая другая, и направить её к communicator вместо того, чтобы её выполнить, значит потерять просьбу. Это единая договорённость на весь сеанс, поэтому один кусок работы, хотя действует постоянно.",
+  "specialists": [],
+  "reasoning": "A direct ask for something to be made going forward — the skill states explicitly that being asked for a plan or a status 'is work like any other,' and warns against routing it to the communicator instead of doing it, so this is accepted work with no external specialist, carried by the Director's own checkpoint discipline.",
   "scenario": "decision-how-to-report",
-  "skill_version": "0.3.0"
+  "skill_version": "5.0.0"
 }

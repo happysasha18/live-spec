@@ -10,7 +10,7 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "«Тормозни» is a halt regardless of the polite wrapping — 'A halt is about state, not about words'; work in flight is parked and will resume from the same point, which is still a halt, not an abandonment. «Норм?» is a distinct question act seeking confirmation ('no act absorbs another'), so both acts are listed but neither opens or renames work; a halt gets no decision sheet, hence empty dimensions/specialists.",
+  "reasoning": "\"Тормозни\" asks running work to pause (halt, per the table: stop or be parked), and \"норм?\" is a genuine request for confirmation of the pause-and-resume plan, its own question act. Per Execution, a halt changes the state of work in flight and produces no new work or sheet; the question gets answered directly.",
   "scenario": "halt-without-the-word",
-  "skill_version": "0.3.0"
+  "skill_version": "5.0.0"
 }

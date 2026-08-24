@@ -2,7 +2,6 @@
   "id": "case-31",
   "acts": [
     "question",
-    "observation",
     "halt"
   ],
   "creates_work": false,
@@ -11,7 +10,7 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "«Как там, долго еще?» — вопрос о статусе (таблица: Question/musing). «Надо этот комп отключить ненадолго» — причина, стоящая рядом с остановкой, но, по правилу «A reason given with a halt is still its own act», это отдельное наблюдение, а не часть halt. Пауза «если не 10 минут» — это halt («A halt is about state, not about words») с двумя условными ветками, обе из которых реальны («A conditional request states both branches, and both are real»); halt меняет состояние уже идущей работы и не порождает новых кусков работы. Halt, question и observation — в списке актов без sheet, поэтому dimensions и specialists пустые.",
+  "reasoning": "This is a conditional halt on work already running: 'A halt is about state, not about words' and the conditional-request rule means both branches are real — pause-and-resume-later if it's long, wait if it's ~10 minutes. A halt 'must not create anything,' so no decision sheet, dimensions, or specialists apply; only the running job's state changes.",
   "scenario": "mixed-conditional-pause",
-  "skill_version": "0.3.0"
+  "skill_version": "5.0.0"
 }

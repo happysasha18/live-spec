@@ -9,7 +9,7 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "A direct question about how long the running job will take, asked to inform a wait-or-not decision — 'Question or musing' row: answer it, create nothing.",
+  "reasoning": "Simple informational question about duration of an already-running job — answer it, nothing recorded, per the Question/musing row.",
   "scenario": "question-how-long",
-  "skill_version": "0.3.0"
+  "skill_version": "5.0.0"
 }

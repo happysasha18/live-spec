@@ -13,7 +13,7 @@
   "specialists": [
     "Product prover"
   ],
-  "reasoning": "«Сделай проход только по скиллу прувера» — прямая просьба сделать конкретную вещь сейчас, это Instruction; работа в полёте по этой теме не упомянута, значит это один новый кусок работы. Прувер в таблице специалистов вызывается, когда «a mistake in the statement of the problem would be expensive», а его зона — корректность постановки продукта, то есть product value and behaviour.",
+  "reasoning": "A request for something to be done now (Instruction row) — scoping this session to only the product-prover pass. Matches the specialist table's Product prover entry ('a mistake in the statement of the problem would be expensive'), which is a product-value concern, so that dimension is genuinely touched.",
   "scenario": "instruction-one-pass",
-  "skill_version": "0.3.0"
+  "skill_version": "5.0.0"
 }

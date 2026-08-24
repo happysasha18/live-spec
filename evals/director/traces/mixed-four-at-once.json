@@ -7,13 +7,15 @@
   ],
   "creates_work": true,
   "shelves_idea": false,
-  "attaches_to_existing_work": true,
-  "work_items": 2,
+  "attaches_to_existing_work": false,
+  "work_items": 1,
   "dimensions": [
     "documentation and communication"
   ],
-  "specialists": [],
-  "reasoning": "'Где был ридми' and 'ты работаешь?' are plain questions. 'Всегда давай ссылку если я забыл' (a standing habit) and 'давай план, замеры по времени, все пиши' (a one-off report) are two separate accepted asks that each stand as their own deliverable someone could want alone, so two work items — the plan/status one again falls under the instruction's explicit 'asked for a plan... it is work like any other,' kept off the communicator. 'Подхвати идею... а пока работай' continues work already running rather than spawning something new, so attaches_to_existing_work is also true alongside the new items; the time-limit sentence is a fact report, logged as an observation.",
+  "specialists": [
+    "Publisher, communicator"
+  ],
+  "reasoning": "The readme link and 'are you working?' are questions answered directly, and the standing preference ('always give me a link') and the not-yet-arrived idea from project-B don't rise to work now. But 'give me a plan, time estimates, write it all' is a request for a status/plan document, which the skill's closing section says explicitly 'is work like any other' — one new deliverable, handled by the communicator. The one-hour constraint is an observation/risk fact, not a separate task.",
   "scenario": "mixed-four-at-once",
-  "skill_version": "0.3.0"
+  "skill_version": "5.0.0"
 }

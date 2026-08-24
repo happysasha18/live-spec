@@ -3,18 +3,13 @@
   "acts": [
     "observation"
   ],
-  "creates_work": true,
+  "creates_work": false,
   "shelves_idea": false,
-  "attaches_to_existing_work": false,
-  "work_items": 1,
-  "dimensions": [
-    "quality, safety, regressions",
-    "release, observation, feedback"
-  ],
-  "specialists": [
-    "Developer"
-  ],
-  "reasoning": "Как в примере про entitlement, это наблюдение, чей ремонт следует вне сомнений: пуш, который ожидался зелёным, не репортуют мейлом ради вежливости, и коллега не станет переспрашивать, чего хотят. Ситуация не описывает никакой уже идущей работы, к которой это можно было бы приложить, поэтому это новый кусок работы (диагностика и починка), а не правка существующего.",
+  "attaches_to_existing_work": true,
+  "work_items": 0,
+  "dimensions": [],
+  "specialists": [],
+  "reasoning": "A failed push a few minutes after it was made is an observation whose repair follows beyond doubt, like the '500s' example — but since the push belongs to work just done and not yet closed (a checkpoint can't close over a failing check), the investigation attaches to that same in-flight work rather than opening a new task.",
   "scenario": "observation-carrying-its-repair",
-  "skill_version": "0.3.0"
+  "skill_version": "5.0.0"
 }

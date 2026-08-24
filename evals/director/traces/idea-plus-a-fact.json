@@ -10,7 +10,7 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "Человек сам прямо кладёт мысль 'в дальний бэклог просто как идеи' — это дословно 'Idea for later', полка идей, а не поручение сейчас. Фраза про всё ещё бегущего агента — отдельное наблюдение факта без просьбы о починке, своё действие, не растворяющееся в идее.",
+  "reasoning": "The reference-files thought is explicitly named 'дальний бэклог просто как идеи' — an unambiguous idea-shelf entry, no task id or estimate. The trailing 'один агент все еще бежит' is a status report with no requested repair (it reads as a neutral aside while thinking, not 'production is down'), so per the observation rule it is recorded as evidence only, not inferred into a repair job.",
   "scenario": "idea-plus-a-fact",
-  "skill_version": "0.3.0"
+  "skill_version": "5.0.0"
 }

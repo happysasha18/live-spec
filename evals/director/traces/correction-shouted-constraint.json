@@ -7,14 +7,9 @@
   "shelves_idea": false,
   "attaches_to_existing_work": true,
   "work_items": 0,
-  "dimensions": [
-    "architecture, data, integrations, operations"
-  ],
-  "specialists": [
-    "Architect",
-    "Developer"
-  ],
-  "reasoning": "Реплика приходит посреди реализации того же движка переходов и меняет его ограничение — это «change that work's goal and replan what is left» из строки Correction, новой работы не создаётся. Запрет статических переходов — это про способ построения (границы/подход), то есть architecture, data, integrations, operations.",
+  "dimensions": [],
+  "specialists": [],
+  "reasoning": "Said mid-implementation of the transition engine, this rules out a design choice (static transitions) in work already in flight, changing its constraints rather than starting anything new — the correction rule applies directly.",
   "scenario": "correction-shouted-constraint",
-  "skill_version": "0.3.0"
+  "skill_version": "5.0.0"
 }

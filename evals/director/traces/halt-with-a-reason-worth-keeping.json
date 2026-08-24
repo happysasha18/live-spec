@@ -10,7 +10,7 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "«Нет стоп» — прямой Halt: человек хочет, чтобы обслуживание машинерии придуманного параметра прекратилось/было заброшено («be abandoned»). Остаток фразы — суждение о продукте («ты тупо жжешь токены... ненужную машинерию вылуманного параметра») — по инструкции такие «judgments about the product» не должны раствориться в соседнем акте, а фиксируются отдельно как Observation. Как и для любого halt, листа решения нет, поэтому dimensions/specialists пусты; работа, которую останавливают, уже шла, значит attaches_to_existing_work=true, а work_items=0.",
+  "reasoning": "A halt is about state, not words: they want the machinery for the parameter to stop running now. The 'burning tokens on an invented parameter' clause is a reason/complaint attached to the halt but remains its own act (observation) per the rule that a reason given with a halt is still its own act. No sheet for a halt.",
   "scenario": "halt-with-a-reason-worth-keeping",
-  "skill_version": "0.3.0"
+  "skill_version": "5.0.0"
 }

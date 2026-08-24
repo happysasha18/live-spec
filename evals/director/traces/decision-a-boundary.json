@@ -5,11 +5,11 @@
   ],
   "creates_work": false,
   "shelves_idea": false,
-  "attaches_to_existing_work": false,
+  "attaches_to_existing_work": true,
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "Ситуация прямо исключает halt ('ничего не идёт, что останавливалось бы'), а фраза не называет ни одной конкретной цели или результата — только распределяет зоны ответственности. По принципу 'не создавай работу для подстраховки' это остаётся решением, которое фиксируется, но не порождает нового куска работы; в инструкции нет разобранного примера ровно на этот случай, так что здесь я больше всего опирался на общий принцип, а не на прямую аналогию.",
+  "reasoning": "This settles an open question of who does what within an already-joint effort — the Decision row: 'settles a choice that was open... apply it to the work already running.' 'The rest' names no new goal or observable outcome, so per 'Do not create work to be safe' nothing new is opened; it only allocates existing/ongoing responsibility.",
   "scenario": "decision-a-boundary",
-  "skill_version": "0.3.0"
+  "skill_version": "5.0.0"
 }

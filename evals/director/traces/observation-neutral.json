@@ -9,7 +9,7 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "Констатация факта о состоянии сессии без просьбы о починке — 'Observation or feedback': записывается как факт, ремонт из него не следует ни при каком прочтении.",
+  "reasoning": "A plain report of a state change with no request attached — an observation recorded as evidence per the table row, not conversation (it is new information) but carrying no repair to infer.",
   "scenario": "observation-neutral",
-  "skill_version": "0.3.0"
+  "skill_version": "5.0.0"
 }

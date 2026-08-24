@@ -10,7 +10,7 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "'98% лимита' — факт; 'аккуратно' меняет ограничение уже идущей длинной задачи (действовать с оглядкой на бюджет сессии) — это 'Correction', которая по правилу присоединяется к идущей работе и не порождает новый пункт. Ни одна из семи областей инструкции не описывает бюджет сессии, поэтому dimensions пуст.",
+  "reasoning": "Reports a fact (98% of limit) and, in the same breath, adjusts a constraint on the long job already running ('carefully') — 'a correction attaches to work, not to a queue,' so it modifies the in-flight job's constraints rather than opening anything new; it names no new goal, so no decision sheet.",
   "scenario": "observation-a-warning",
-  "skill_version": "0.3.0"
+  "skill_version": "5.0.0"
 }

@@ -7,11 +7,13 @@
   "shelves_idea": false,
   "attaches_to_existing_work": false,
   "work_items": 1,
-  "dimensions": [],
+  "dimensions": [
+    "product value and behaviour"
+  ],
   "specialists": [
     "Developer"
   ],
-  "reasoning": "Директор сам спросил «build it now, or park it?», и «yeah go ahead» закрывает этот открытый вопрос — по правилу «An answer to the Director's own question is not a new act», отложенная идея становится тем поручением, которым она и должна была стать, то есть instruction, а не новый акт. Так как содержание самой отложенной идеи в данных не передано, назвать конкретные dimensions нельзя не выдумывая факты (правило: называть область, только если в ней действительно что-то меняется); единственное, что следует из самого факта «build it» — потребуется Developer.",
+  "reasoning": "This answers the Director's own open question ('build it now, or park it?'), so per the rule it is not a new act but the completion of the one already in play: the shelved idea becomes the instruction it was waiting to become, opening one fresh piece of work rather than being re-shelved. With no further detail available on what 'it' is, only the minimal inferable dimension and specialist (something must be built, so Developer) are named.",
   "scenario": "not-an-act-answering-the-director",
-  "skill_version": "0.3.0"
+  "skill_version": "5.0.0"
 }

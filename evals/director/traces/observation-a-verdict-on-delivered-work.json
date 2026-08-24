@@ -1,22 +1,15 @@
 {
   "id": "case-12",
   "acts": [
-    "observation",
     "observation"
   ],
-  "creates_work": true,
+  "creates_work": false,
   "shelves_idea": false,
-  "attaches_to_existing_work": false,
-  "work_items": 1,
-  "dimensions": [
-    "the user's path and the design",
-    "quality, safety, regressions"
-  ],
-  "specialists": [
-    "Developer",
-    "Design reviewer"
-  ],
-  "reasoning": "Continuity была заявленным требованием, обсуждённым долго, и её отсутствие в билде — наблюдение с ремонтом вне сомнений (та же логика, что в примере с entitlement). Фраза про 'странно... уровень понимания' — отдельное суждение о продукте, которое инструкция прямо велит не растворять в контексте ('acts не поглощает другой'), поэтому это второй акт того же типа, но не отдельный кусок работы — он идёт как evidence, а не как новая задача.",
+  "attaches_to_existing_work": true,
+  "work_items": 0,
+  "dimensions": [],
+  "specialists": [],
+  "reasoning": "Continuity was already the stated requirement for the build just shown, so pointing out it's missing doesn't change the goal — it reports a gap between the already-agreed spec and the delivered build, an observation whose repair follows beyond doubt, attaching to the work that produced this build rather than starting a second task.",
   "scenario": "observation-a-verdict-on-delivered-work",
-  "skill_version": "0.3.0"
+  "skill_version": "5.0.0"
 }

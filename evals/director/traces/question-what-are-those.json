@@ -9,7 +9,7 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "A run of curiosity questions about the visible shells ('what are they, are they just programs, which one') — all seeking information, none asking for something to be done, so this is the 'Question or musing' row and nothing else.",
+  "reasoning": "A string of curious questions about what the visible shells are doing — all are requests to know, not requests for anything to change; answer them, nothing opens.",
   "scenario": "question-what-are-those",
-  "skill_version": "0.3.0"
+  "skill_version": "5.0.0"
 }

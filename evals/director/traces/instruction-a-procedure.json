@@ -1,19 +1,20 @@
 {
   "id": "case-22",
   "acts": [
-    "correction"
+    "halt",
+    "instruction"
   ],
   "creates_work": true,
   "shelves_idea": false,
-  "attaches_to_existing_work": true,
-  "work_items": 0,
+  "attaches_to_existing_work": false,
+  "work_items": 1,
   "dimensions": [
     "architecture, data, integrations, operations"
   ],
   "specialists": [
     "Developer"
   ],
-  "reasoning": "Сервер уже поднят и слушает не тот адрес — это работа в процессе, а сообщение меняет её ограничение (bind 0.0.0.0 вместо 127.0.0.1) и просит доделать оставшееся (перезапуск, проверка, реальный IP); по таблице это Correction, и правило «A correction attaches to work, not to a queue» вместе с явной оговоркой из задания («поправка... не порождает ни одного») даёт work_items=0, attaches_to_existing_work=true. Четыре команды ведут к одному результату — правильно настроенному серверу с подтверждённым IP, поэтому это не отдельные куски работы («Steps toward a single result are not separate work»); область — сетевой интерфейс/операции («architecture, data, integrations, operations»), специалист — Developer (задача мелкая и механическая, отдельного Architect не требует).",
+  "reasoning": "\"Останови\" is its own halt clause (no act absorbs another) even though it is instrumental to the follow-on ask; the restart-with-correct-bind, verify, and report-the-real-IP clauses are steps toward one observable outcome (a correctly bound, verified perf server with a confirmed IP), so they form a single instruction, not separate work items. This is an operations/networking fix, calling for a Developer to execute and self-verify per the execution rules.",
   "scenario": "instruction-a-procedure",
-  "skill_version": "0.3.0"
+  "skill_version": "5.0.0"
 }

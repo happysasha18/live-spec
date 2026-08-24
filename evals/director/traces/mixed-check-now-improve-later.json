@@ -2,22 +2,23 @@
   "id": "case-29",
   "acts": [
     "instruction",
-    "observation",
-    "question"
+    "observation"
   ],
   "creates_work": true,
   "shelves_idea": false,
   "attaches_to_existing_work": false,
   "work_items": 1,
   "dimensions": [
+    "architecture, data, integrations, operations",
     "quality, safety, regressions",
-    "architecture, data, integrations, operations"
+    "analytics, unknowns, hypotheses, experiments"
   ],
   "specialists": [
+    "Architect",
     "Independent verifier",
     "Test author"
   ],
-  "reasoning": "Checking bundle bloat/dynamic loading and checking that nothing breaks for users are two facets of one verification result on the same completed modification, so per 'steps toward a single result are not separate work' this is one work item, not two. 'И это прувер тоже должен был бы поймать!' reports a process gap without asking to formally reconfigure anything beyond checking now ('кстати проверь'), so it is read as an observation whose implied repair is already covered by the instructed check, not a second correction. 'Не знаю эт реально или нет' is the person turning a thought over about feasibility — a musing act, not a firm requirement.",
+  "reasoning": "This is one instruction with several steps toward a single result (verify bundle size/dynamic loading, verify the prover would have caught it, verify nothing breaks for users) plus an attached observation about a possible gap in the existing check — 'steps toward a single result are not separate work, however many of them there are.' Since the modification already shipped, there is no open checkpoint for it to attach to, so this opens one new verification task; the closing hedge ('I don't know if it's real') feeds the sheet's Unknown line rather than being a separate act.",
   "scenario": "mixed-check-now-improve-later",
-  "skill_version": "0.3.0"
+  "skill_version": "5.0.0"
 }

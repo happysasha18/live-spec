@@ -11,9 +11,9 @@
     "documentation and communication"
   ],
   "specialists": [
-    "Developer"
+    "Publisher, communicator"
   ],
-  "reasoning": "Просьба сохранить уже готовый отчёт в файл и дать путь — это просьба сделать что-то (Instruction: «asks for something to be done»); отдельного файла ещё не существует, значит это новый кусок работы, а не правка того, что уже идёт (work_items=1, attaches_to_existing_work=false). Область — «documentation and communication», потому что создаётся документ для передачи на перепроверку; специалист — Developer, поскольку 'something must be built' и 'the agent itself' его делает.",
+  "reasoning": "Per 'Work that belongs elsewhere': asking for a report to be produced and handed off is work like any other, not free-form conversation. The accepted goal is to write the already-produced report to a file and return its path, which is the communicator/publisher's job.",
   "scenario": "instruction-one-goal-two-steps",
-  "skill_version": "0.3.0"
+  "skill_version": "5.0.0"
 }

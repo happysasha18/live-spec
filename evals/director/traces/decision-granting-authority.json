@@ -9,7 +9,7 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "Это решение по открытому вопросу («спрашивать перед каждым пушем или нет»), которое применяется к уже идущей работе — точное определение Decision в таблице акта. Пуш и его проверки прямо отнесены к разделу «Work that belongs elsewhere» (guardrails/pre-push и CI), а не к таблице специалистов, поэтому dimensions и specialists пустые.",
+  "reasoning": "Settles the open question of whether the agent must ask before each push (Decision row). It changes how the already-running push workflow operates going forward rather than naming a new goal, so no work is created.",
   "scenario": "decision-granting-authority",
-  "skill_version": "0.3.0"
+  "skill_version": "5.0.0"
 }
