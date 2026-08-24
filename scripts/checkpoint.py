@@ -7,8 +7,12 @@ to. This module makes the format mechanical:
 
   - `read_checkpoint` parses a file into its structural pieces, raising `ValueError` only on
     structural breakage (no `# ` title, no `Status:`/`Owner:` key, a bad `Status:` value, a
-    duplicate section header) — a well-formed file merely missing a *required* section still
-    parses cleanly.
+    duplicate section header, or a `## ` header outside the closed set of recognized section
+    names) — a well-formed file merely missing a *required* section still parses cleanly.
+    The recognized `## ` headers are a closed allowlist — DONE, IN PROGRESS, NEXT, DECISION
+    SHEET, and WATCHED (a pre-existing "workshop noise" ledger convention) — precisely so
+    that unfinished-work text can never hide from validation inside an ad hoc heading nobody
+    checks; an unrecognized header is a parse-time error, not a silently-ignored section.
   - `validate_checkpoint` checks the semantic rules (DONE/IN PROGRESS/NEXT present, DECISION
     SHEET present when director-owned, closed checkpoints carry no open work) and returns a
     list of issue strings.
@@ -28,6 +32,15 @@ from pathlib import Path
 
 REQUIRED_SECTIONS = ("DONE", "IN PROGRESS", "NEXT")
 DIRECTOR_SECTION = "DECISION SHEET"
+
+# WATCHED is the one section name that is neither required nor director-only: a pre-existing
+# "workshop noise" ledger convention already used by worker checkpoints in this project. It
+# stays allowed but, like before, ignored by validate_checkpoint. Together with the required
+# and director sections, this is the CLOSED set of `## ` headers a checkpoint may contain —
+# read_checkpoint rejects any header outside it, so unfinished-work text can never hide inside
+# an ad hoc heading that nothing checks.
+_OTHER_ALLOWED_SECTIONS = ("WATCHED",)
+ALLOWED_SECTIONS = set(REQUIRED_SECTIONS) | {DIRECTOR_SECTION} | set(_OTHER_ALLOWED_SECTIONS)
 
 _EMPTY_PLACEHOLDERS = {"", "none", "-"}
 
@@ -58,10 +71,12 @@ def read_checkpoint(path) -> dict:
     sections (dict of header text -> stripped body text), is_director_owned (bool).
 
     Raises ValueError only on structural breakage: missing `# ` title line, missing
-    Status:/Owner: metadata key, a Status: value that is not open/closed, or a duplicate
-    `## ` section header. A file that is well-formed but simply lacks a required section
-    (DONE/IN PROGRESS/NEXT/DECISION SHEET) still parses — that gap is validate_checkpoint's
-    job to flag, not read_checkpoint's.
+    Status:/Owner: metadata key, a Status: value that is not open/closed, a duplicate
+    `## ` section header, or a `## ` header whose text is not one of the closed set of
+    recognized section names (ALLOWED_SECTIONS: DONE, IN PROGRESS, NEXT, DECISION SHEET,
+    WATCHED) — a checkpoint may not carry a hidden, unchecked section. A file that is
+    well-formed but simply lacks a required section (DONE/IN PROGRESS/NEXT/DECISION SHEET)
+    still parses — that gap is validate_checkpoint's job to flag, not read_checkpoint's.
     """
     text = Path(path).read_text(encoding="utf-8")
     lines = text.splitlines()
@@ -116,6 +131,8 @@ def read_checkpoint(path) -> dict:
         if line.startswith("## "):
             _flush()
             header = line[3:].strip()
+            if header not in ALLOWED_SECTIONS:
+                raise ValueError("unrecognized section header: ## %s" % header)
             body_lines = []
         else:
             if header is not None:

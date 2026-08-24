@@ -157,6 +157,59 @@ def _worker_variant_of_director_fixture():
     return DIRECTOR_MISSING_DECISION_SHEET.replace("Owner: director", "Owner: some-worker")
 
 
+# Regression fixture for the adversarial-review finding on commit 6ce6fca0: an unrecognized
+# `## ` heading used to be silently accepted by read_checkpoint and completely unchecked by
+# validate_checkpoint, so real unfinished-work text could hide inside it and close_checkpoint
+# would succeed anyway. ALLOWED_SECTIONS closes that hole — this header is not in the set, so
+# read_checkpoint itself must now raise ValueError before validate/close ever see the file.
+UNRECOGNIZED_SECTION_HIDES_OPEN_WORK = """\
+# A checkpoint smuggling open work
+Status: open
+Owner: some-worker
+
+## DONE
+
+Shipped the easy part.
+
+## IN PROGRESS
+
+(nothing)
+
+## some ad hoc subheading
+
+Still wiring the retry path — do not close yet!
+
+## NEXT
+
+(nothing)
+"""
+
+# WATCHED stays on the allowlist: a pre-existing "workshop noise" ledger convention already
+# used by worker checkpoints in this project. Ignored by validate_checkpoint, same as before —
+# it just now has to be spelled exactly "WATCHED" rather than being any-old-unrecognized-header.
+VALID_WITH_WATCHED_SECTION = """\
+# A checkpoint with a workshop-noise ledger
+Status: open
+Owner: some-worker
+
+## DONE
+
+Wrote the parser.
+
+## IN PROGRESS
+
+(nothing)
+
+## NEXT
+
+(nothing)
+
+## WATCHED
+
+2026-08-24: noticed the CLI --all glob needs a stable sort; not blocking, just logging it.
+"""
+
+
 class TestReadCheckpoint(unittest.TestCase):
     def setUp(self):
         self._tmpdir = tempfile.TemporaryDirectory()
@@ -229,6 +282,24 @@ class TestReadCheckpoint(unittest.TestCase):
         worker_data = checkpoint.read_checkpoint(worker_path)
         self.assertFalse(worker_data["is_director_owned"])
         self.assertEqual(checkpoint.validate_checkpoint(worker_path), [])
+
+    # Regression (adversarial review of 6ce6fca0): an unrecognized ## header must not be able
+    # to hide real unfinished-work text from validation. read_checkpoint rejects it outright,
+    # at parse time — before validate_checkpoint or close_checkpoint ever get a look at the file.
+    def test_unrecognized_section_header_raises_at_parse_time(self):
+        p = self._write("smuggled.md", UNRECOGNIZED_SECTION_HIDES_OPEN_WORK)
+        with self.assertRaises(ValueError) as ctx:
+            checkpoint.read_checkpoint(p)
+        self.assertIn("some ad hoc subheading", str(ctx.exception))
+
+    # WATCHED is the one non-required, non-director header that stays allowed — a pre-existing
+    # "workshop noise" ledger convention. It parses fine and doesn't block validity.
+    def test_watched_section_remains_allowed(self):
+        p = self._write("watched.md", VALID_WITH_WATCHED_SECTION)
+        data = checkpoint.read_checkpoint(p)  # must not raise
+        self.assertIn("WATCHED", data["sections"])
+        self.assertIn("workshop-noise", data["title"])
+        self.assertEqual(checkpoint.validate_checkpoint(p), [])
 
 
 class TestNewCheckpoint(unittest.TestCase):
