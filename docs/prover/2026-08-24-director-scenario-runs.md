@@ -2,8 +2,11 @@
 
 PUSH-REVIEW (self, ahead of the independent adversarial round)
 
+Range: 23f8304..6f4c1b00 (1 commit: `6f4c1b00` "evals: run director scenarios against the
+acting-mode skill (package 3)")
+
 Scope: `evals/director/traces/*.json` (35 files, all re-stamped `skill_version: 5.0.0`),
-`evals/director/scenarios.json` unchanged (reverted — see below). Nothing committed yet.
+`evals/director/scenarios.json` unchanged (reverted — see below).
 
 ## What this record replaces
 
