@@ -71,6 +71,24 @@ def _is_empty_body(body: str) -> bool:
     return False
 
 
+def _reject_multiline(field_name: str, value: str) -> None:
+    """Raise ValueError if `value` is not exactly one line.
+
+    `title` and `owner` are single-line header fields by the format's own design (`#
+    <title>` is line 1, `Owner: <owner>` is a `Key: value` metadata line) — neither has any
+    legitimate multi-line use. Uses str.splitlines() as the line-boundary primitive, the
+    same one Python itself uses and the same one this module's own parsing relies on, so
+    this check can never disagree with how the file gets re-parsed later: it catches "\\n",
+    a bare "\\r", "\\r\\n", and the handful of other line-boundary characters splitlines()
+    recognizes ("\\v", "\\f", "\\x1c"-"\\x1e", "\\x85", the Unicode line/paragraph
+    separators) that a hand-rolled "\\n" in value check would miss.
+    """
+    if len(value.splitlines()) > 1:
+        raise ValueError(
+            "%s must be a single line (no embedded line break): %r" % (field_name, value)
+        )
+
+
 def _reject_embedded_headers(field_name: str, value: str) -> None:
     """Raise ValueError if `value` contains a line starting with "## ".
 
@@ -101,12 +119,17 @@ def read_checkpoint(path) -> dict:
     sections (dict of header text -> stripped body text), is_director_owned (bool).
 
     Raises ValueError only on structural breakage: missing `# ` title line, missing
-    Status:/Owner: metadata key, a Status: value that is not open/closed, a duplicate
-    `## ` section header, or a `## ` header whose text is not one of the closed set of
-    recognized section names (ALLOWED_SECTIONS: DONE, IN PROGRESS, NEXT, DECISION SHEET,
-    WATCHED) — a checkpoint may not carry a hidden, unchecked section. A file that is
-    well-formed but simply lacks a required section (DONE/IN PROGRESS/NEXT/DECISION SHEET)
-    still parses — that gap is validate_checkpoint's job to flag, not read_checkpoint's.
+    Status:/Owner: metadata key, a duplicate metadata key (a second `Status:` or `Owner:`
+    line would otherwise silently override the first one already read — this is defense in
+    depth: checkpoint files are plain text meant to be hand-editable, not exclusively
+    written through this module's own writers, which independently refuse to produce this
+    shape via new_checkpoint's single-line title/owner check), a Status: value that is not
+    open/closed, a duplicate `## ` section header, or a `## ` header whose text is not one
+    of the closed set of recognized section names (ALLOWED_SECTIONS: DONE, IN PROGRESS,
+    NEXT, DECISION SHEET, WATCHED) — a checkpoint may not carry a hidden, unchecked section.
+    A file that is well-formed but simply lacks a required section
+    (DONE/IN PROGRESS/NEXT/DECISION SHEET) still parses — that gap is validate_checkpoint's
+    job to flag, not read_checkpoint's.
     """
     text = Path(path).read_text(encoding="utf-8")
     lines = text.splitlines()
@@ -126,7 +149,10 @@ def read_checkpoint(path) -> dict:
         if ":" not in line:
             raise ValueError("malformed metadata line (expected 'Key: value'): %r" % line)
         key, _, value = line.partition(":")
-        metadata[key.strip()] = value.strip()
+        key = key.strip()
+        if key in metadata:
+            raise ValueError("duplicate metadata key: %s" % key)
+        metadata[key] = value.strip()
         idx += 1
 
     if "Status" not in metadata:
@@ -240,7 +266,11 @@ def new_checkpoint(path, title: str, owner: str, decision_sheet=None) -> None:
     a decision_sheet for a non-director owner. `decision_sheet` also raises ValueError if it
     contains a line starting with "## " — that would corrupt the file's section structure
     and brick it for every reader in this module (see _reject_embedded_headers); the check
-    runs before anything is written to disk.
+    runs before anything is written to disk. `title` and `owner` each raise ValueError if
+    they are not exactly one line (see _reject_multiline) — both are single-line header
+    fields by the format's own design, and an embedded line break in either would corrupt
+    the file's header (an embedded newline in `owner` in particular can inject a bogus
+    second `Status:`/`Owner:` metadata line, silently overriding the real one on read).
 
     This always creates the file from a blank template: a second call against a path that
     already holds real content overwrites it, on purpose — this is the "start over"
@@ -251,6 +281,9 @@ def new_checkpoint(path, title: str, owner: str, decision_sheet=None) -> None:
         raise ValueError("title must be non-empty")
     if not owner or not owner.strip():
         raise ValueError("owner must be non-empty")
+
+    _reject_multiline("title", title)
+    _reject_multiline("owner", owner)
 
     director_owned = _is_director_owned(owner)
 

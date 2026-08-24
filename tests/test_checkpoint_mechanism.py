@@ -122,6 +122,44 @@ Owner: some-worker
 (nothing)
 """
 
+DUPLICATE_STATUS_KEY = """\
+# Duplicate Status line
+Status: open
+Owner: some-worker
+Status: closed
+
+## DONE
+
+(nothing)
+
+## IN PROGRESS
+
+(nothing)
+
+## NEXT
+
+(nothing)
+"""
+
+DUPLICATE_OWNER_KEY = """\
+# Duplicate Owner line
+Status: open
+Owner: some-worker
+Owner: someone-else
+
+## DONE
+
+(nothing)
+
+## IN PROGRESS
+
+(nothing)
+
+## NEXT
+
+(nothing)
+"""
+
 MISSING_NEXT_SECTION = """\
 # Missing the NEXT section
 Status: open
@@ -304,6 +342,22 @@ class TestReadCheckpoint(unittest.TestCase):
         self.assertIn("workshop-noise", data["title"])
         self.assertEqual(checkpoint.validate_checkpoint(p), [])
 
+    # 31. A duplicate "Status:" line in the metadata block (written directly, bypassing
+    # new_checkpoint, since this is read_checkpoint's own defense-in-depth) must raise,
+    # naming the duplicate key — not silently let the second line override the first.
+    def test_duplicate_status_key_raises(self):
+        p = self._write("dup_status.md", DUPLICATE_STATUS_KEY)
+        with self.assertRaises(ValueError) as ctx:
+            checkpoint.read_checkpoint(p)
+        self.assertIn("Status", str(ctx.exception))
+
+    # 32. Same, for a duplicate "Owner:" line.
+    def test_duplicate_owner_key_raises(self):
+        p = self._write("dup_owner.md", DUPLICATE_OWNER_KEY)
+        with self.assertRaises(ValueError) as ctx:
+            checkpoint.read_checkpoint(p)
+        self.assertIn("Owner", str(ctx.exception))
+
 
 class TestNewCheckpoint(unittest.TestCase):
     def setUp(self):
@@ -359,6 +413,46 @@ class TestNewCheckpoint(unittest.TestCase):
                 p, title="Director's checkpoint", owner="director", decision_sheet=bad_sheet
             )
         self.assertFalse(p.exists())
+
+    # 27. title containing "\n" raises ValueError, file not created.
+    def test_new_checkpoint_rejects_multiline_title(self):
+        p = self.tmp_path / "bad_title.md"
+        with self.assertRaises(ValueError):
+            checkpoint.new_checkpoint(
+                p, title="Bad\ntitle with embedded newline", owner="worker"
+            )
+        self.assertFalse(p.exists())
+
+    # 28. owner containing "\n" raises ValueError, file not created.
+    def test_new_checkpoint_rejects_multiline_owner(self):
+        p = self.tmp_path / "bad_owner.md"
+        with self.assertRaises(ValueError):
+            checkpoint.new_checkpoint(
+                p, title="T", owner="worker\nwith embedded newline"
+            )
+        self.assertFalse(p.exists())
+
+    # 29. The reviewer's exact gap-2 regression: an embedded newline in `owner` that injects
+    # a bogus second "Status:" line must raise at the new_checkpoint call itself, rather than
+    # silently succeeding and later reading back with a corrupted status.
+    def test_new_checkpoint_rejects_status_injection_via_owner(self):
+        p = self.tmp_path / "t3.md"
+        with self.assertRaises(ValueError):
+            checkpoint.new_checkpoint(p, title="T3", owner="worker\nStatus: closed")
+        self.assertFalse(p.exists())
+
+    # 30. Negative control: an ordinary single-line title/owner with unicode and punctuation
+    # (no embedded line break) still works fine.
+    def test_new_checkpoint_accepts_ordinary_unicode_title_and_owner(self):
+        p = self.tmp_path / "unicode.md"
+        checkpoint.new_checkpoint(
+            p, title="Ship the fix — café’s retry path (v2)", owner="worker-☂️-42"
+        )
+        self.assertTrue(p.is_file())
+        data = checkpoint.read_checkpoint(p)
+        self.assertEqual(data["title"], "Ship the fix — café’s retry path (v2)")
+        self.assertEqual(data["owner"], "worker-☂️-42")
+        self.assertEqual(checkpoint.validate_checkpoint(p), [])
 
 
 class TestCloseCheckpoint(unittest.TestCase):
