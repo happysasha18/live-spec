@@ -35,7 +35,11 @@ caution against whole-suite runs; `test_real_repo_passes` on each class was prov
 green in 37.65s (matching the ~56s precedent figure for real subprocess work, not a hang), the prover-record
 one red exactly as expected — a freshness gate correctly reporting no docs/prover/ record yet covers the
 architecture change b344d33c introduced, which this record now closes.
-Findings:
+Findings: six items below — content-preservation and byte-accounting proofs, two real gaps found and
+fixed (understated blast radius on consumers; two infra files not scoped to architecture/), one
+pre-existing gap reported but not fixed (check-shipped-language.py's STRICT/DATED matching, shared with
+the earlier spec/matrix splits), and one process note (the router table's implement-then-withdraw). No
+blocking defect.
 - The split is a pure physical move. Every node's and every trailing section's text was sliced from the
   ORIGINAL ARCHITECTURE.md using guardrails/archformat.py's own `### [node: ...]` and `## ` heading
   boundaries (never a hand-counted line range, since the design predates the actual cut), and every
