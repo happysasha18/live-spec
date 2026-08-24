@@ -128,7 +128,8 @@ open question rather than a clean pass. `build-pipeline` cutover stays blocked o
 `JOURNAL.md`'s own gate quoted above — flagged explicitly in `DIRECTOR_HANDOFF.md` §4
 (outside this repo) rather than silently treated as ready.
 
-## Files read
+Files read: full re-read of the skill, the scenarios, the grader, every trace, and the
+handoff wording that gates cutover — nothing here trusted secondhand.
 
 `skills/director/SKILL.md` (full, current and at `ad851b7d~1` via `git show`),
 `evals/director/scenarios.json` (full, all 35 scenarios + corrections log),
@@ -139,7 +140,8 @@ CLI output alone), all 35 files under `evals/director/traces/` at both HEAD and 
 (superseded) draft and the Opus adversarial review that discarded it, `JOURNAL.md`'s
 2026-08-24 entry for the cutover-gate wording.
 
-## Checks run
+Checks run: grader run against the reverted trace set, apparatus tests re-run fresh, and
+every relevant diff confirmed empty or byte-identical by hand.
 
 `python3 evals/director/check.py --all` on the current (reverted, non-cherry-picked) trace
 set: 19/35, exact failure list matches the item-level analysis in step 6 above.
@@ -150,7 +152,7 @@ well-formedness checks). `git diff origin/main -- evals/director/scenarios.json`
 `git diff ad851b7d~1 HEAD -- skills/director/SKILL.md`: classification section confirmed
 byte-identical, quoted above.
 
-## Findings
+Findings: no blocking implementation defect, and the package-3 completion gate stays open.
 
 No blocking implementation defect — this is a measurement slice, not a code change. The
 finding IS the result: the package-3 "at least as well as shadow" gate is not cleanly met
