@@ -2,8 +2,10 @@
 
 PUSH-REVIEW
 
-Range: 91891a6c..025bb218
+Range: 91891a6c..8295415b
 - 025bb218 Redundancy precheck stops skipping table rows outright
+- 8295415b Add tests for gate_common's table-row scanning fix (closes gate h's tests-present finding
+  on 025bb218 — see Addendum below)
 Files read: matrix/*.md (all 23), TEST_MATRIX.md, TEST_MATRIX.index.md, docs/test-matrix-format.md,
 docs/spec-format.md, guardrails/archformat.py, guardrails/specformat.py, ARCHITECTURE.md,
 architecture/guardrails.md, architecture/pipeline-and-lanes.md, architecture/outward.md,
@@ -132,3 +134,12 @@ touched, so nothing here regresses the format's existing "kept, never deleted" c
 traceability test that enforces it. The stale-spec drift on gate ad/ae (spec/guardrails-freshness.md
 still describing retired gates as wired) is a pre-existing inconsistency, reported per the
 2026-08-24-architecture-split precedent's own practice, not invented a fix for here.
+
+## Addendum — 8295415b
+
+Gate h (`tests-present.missing-test`) correctly flagged 025bb218 for changing
+`scripts/gate_common.py`'s `segment_units()` with no test under `tests/`. Added
+`tests/test_gate_common_table_rows.py`: a delimiter row still yields no units, a data row's
+cells are scanned like prose, and a duplicated cell sentence across two rows surfaces as two
+units (the exact shape `spec-redundancy-precheck.py` now needs to pair a candidate). Ran it —
+4 passed. This closes the gate h finding; nothing else in the delivery changed.
