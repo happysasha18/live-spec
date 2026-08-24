@@ -92,25 +92,51 @@ def exempt_flags(lines):
 _ABBREV = ("e.g.", "i.e.", "etc.", "vs.", "cf.", "al.")
 
 
+# A markdown table delimiter row — `|---|---|`, `|:--|--:|`, with or without leading/trailing pipes.
+# Only dashes, colons, pipes and whitespace: never a data row, which always carries some other
+# character. Skipped outright — it is punctuation, not content, and would otherwise shingle into
+# spurious short-token collisions with every other table's delimiter row.
+TABLE_DELIM_RE = re.compile(r"^\|?\s*:?-+:?\s*(\|\s*:?-+:?\s*)*\|?$")
+
+
+def _sentence_parts(body):
+    """Split scrubbed text into sentence/clause parts, guarding common abbreviations. Shared by a
+    prose line and by a table cell's content, so the two are scanned by the same rule."""
+    guarded = body
+    for a in _ABBREV:
+        guarded = guarded.replace(a, a.replace(".", "\0"))
+    parts = re.split(r"(?<=[.?!;])\s+", guarded)
+    return [p.replace("\0", ".").strip() for p in parts if p.replace("\0", ".").strip()]
+
+
 def segment_units(text):
     """Split the document into content units — sentences and bullet clauses — each with its 1-based
     start line. Returns a list of dicts {line, raw, norm_tokens}. Splits on sentence punctuation and
-    on ';', guarding common abbreviations, and treats each bullet as its own unit."""
+    on ';', guarding common abbreviations, and treats each bullet as its own unit.
+
+    A markdown table row is handled specially rather than skipped outright: a delimiter row
+    (`|---|---|`, ruled punctuation, never prose) is dropped, but a DATA row's cells are scanned —
+    each cell scrubbed and sentence-split on its own, the same as a prose line — so a fact sentence
+    that happens to live inside a table cell (TEST_MATRIX.md's rows, a spec's own tables) is not
+    invisible to the redundancy check. A short cell (an id, a level word, a `*status*` marker) never
+    survives MIN_TOKENS in the caller, so this costs no new false positives on the structural cells."""
     units = []
     for lineno, raw in enumerate(text.splitlines(), 1):
         stripped = raw.strip()
-        if not stripped or stripped.startswith("#") or stripped.startswith("|"):
+        if not stripped or stripped.startswith("#"):
             continue
-        body = scrub(stripped)
-        # protect abbreviations from the sentence splitter
-        guarded = body
-        for a in _ABBREV:
-            guarded = guarded.replace(a, a.replace(".", "\0"))
-        parts = re.split(r"(?<=[.?!;])\s+", guarded)
-        for part in parts:
-            part = part.replace("\0", ".").strip()
-            if part:
-                units.append({"line": lineno, "raw": part})
+        if stripped.startswith("|"):
+            if TABLE_DELIM_RE.match(stripped):
+                continue
+            for cell in stripped.strip("|").split("|"):
+                cell = cell.strip()
+                if not cell:
+                    continue
+                for part in _sentence_parts(scrub(cell)):
+                    units.append({"line": lineno, "raw": part})
+            continue
+        for part in _sentence_parts(scrub(stripped)):
+            units.append({"line": lineno, "raw": part})
     return units
 
 
