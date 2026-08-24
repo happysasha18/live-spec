@@ -939,7 +939,7 @@
 
 **Case: the gate is wired and can fail**
 
-15. The system *shall* run as gate ad on `guardrails/pre-push`, *shall* carry its step in the CI workflow, and *shall* carry a red-first proof. [INV-305, INV-210, INV-212]
+15. Retired: gate ad (`guardrails/check-tree-counts.py`) and `scripts/gen-tree-counts.py` retired; this requirement's acceptance criteria describe the retired mechanism's design and are not currently enforced by any gate. Never re-armed without a fresh decision. [INV-305, INV-210, INV-212]
 
 **Case: honest about its reach**
 
