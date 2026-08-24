@@ -2,7 +2,10 @@
 
 PUSH-REVIEW
 
-Range: 32a3b755..de8600c2
+Range: 32a3b755..253f461d
+- 253f461d tests: pin the architect extraction's structural facts (gate h)
+- 1647df7b prover record: fix Checks-run field shape (gate a)
+- 6f055ce0 prover record: push-review of architect extraction (32a3b755..de8600c2)
 - de8600c2 skill-review: cover communicator's skill-count fix (INV-208)
 - 3cc8b47f architect: extract as standalone skill from build-pipeline (package 3, cap. 21)
 
@@ -24,10 +27,12 @@ OVERVIEW.md, ARCHITECTURE.md, `skills/live-spec-base/SKILL.md` only — not PROD
 `skills/communicator/README.md`, or `skills/live-spec-base/references/glossary.md`, which the
 review below re-checked by hand instead of trusting the test's coverage).
 
-Checks run: eleven checks run — mechanical tests, skill-loadability and skill-review gates, the
+Checks run: thirteen checks run — mechanical tests, skill-loadability and skill-review gates, the
 prover-record gate itself (both plain and `--push` mode), the full reachable guardrails set, a
-`build-pipeline` untouched-diff check, `skills/architect/SKILL.md`'s full-file read, and two
-stale-count greps. All passed or resolved as expected; full detail below.
+`build-pipeline` untouched-diff check, `skills/architect/SKILL.md`'s full-file read, two
+stale-count greps, and (added when the first push attempt failed gates a and h) an adversarial
+check of this record's own two follow-up commits including a live revert-and-restore proof that
+the new test actually bites. All passed or resolved as expected; full detail below.
 - `python3 -m pytest tests/test_skill_count_agrees.py -q` — 13 passed.
 - `python3 -m pytest tests/test_director_scenarios.py -q` — 11 passed.
 - `bash guardrails/check-skill-loadability.sh skills` — `OK (loadability): 13 skill(s) load,
@@ -116,8 +121,35 @@ stale-count greps. All passed or resolved as expected; full detail below.
   is current.
 - `git status --short` in the worktree — clean before this record was written (no stray
   uncommitted changes riding along).
+- This record's own two follow-up commits (`1647df7b`, `253f461d`), added after the push first
+  failed gates a and h, reviewed adversarially rather than assumed correct because they fixed
+  themselves in:
+  - `1647df7b` (this file's `Checks run:` field shape): read `guardrails/check-prover-record.sh`
+    lines 400–413 again to confirm the exact failure mode (`grep -m1 -E "^Checks run:"` finds the
+    line, then strips the field prefix and reds an EMPTY remainder) and that the fix — moving an
+    inline summary onto the field's own line, ahead of the bulleted detail — is the same shape
+    every other field in this record and in `2026-08-24-director-acting.md`'s `Checks run:`
+    already use, not a new convention invented for this fix. Ran
+    `bash guardrails/check-prover-record.sh --push` after committing it: OK, all four arms green.
+  - `253f461d` (`tests/test_architect_extraction.py`, added for gate h): read the new file in
+    full; ran `python3 -m pytest tests/test_architect_extraction.py -q` — 8 passed. Adversarially
+    proved the file is not a vacuous rubber stamp rather than assuming a green run means the test
+    bites: temporarily reverted `skills/director/SKILL.md`'s specialist-table cell back to the
+    pre-extraction placeholder text and reran — `test_specialist_table_names_architect_skill_directly`
+    failed as expected (1 failed, 7 passed), then restored the file byte-for-byte
+    (`git diff --stat skills/director/SKILL.md` empty afterward) and reran clean — 8 passed. Ran
+    `python3 scaffold/guardrails/check_tests_present.py` (the exact gate-h script, read in full
+    beforehand) after the commit: `OK (tests-present): 4 user-facing change(s) travel with 1 test
+    change(s) (base origin/main)`. Also reran the full local suites already covering the touched
+    files to check for a cross-test conflict the new file might introduce:
+    `python3 -m pytest tests/test_architect_extraction.py tests/test_skill_count_agrees.py
+    tests/test_director_scenarios.py -q` — 32 passed. Reran `bash
+    guardrails/check-skill-loadability.sh skills` (`OK`, still 13) and `bash
+    guardrails/check-skill-review.sh` (`OK`, same four skills, same record) to confirm neither
+    follow-up commit touched a skill's substance in a way that would owe a fresh skill-review
+    record of its own — both commits are test/doc plumbing, not skill content.
 
-Findings: no defect found in either reviewed commit. Re-verified, rather than trusted, every
+Findings: no defect found in any reviewed commit. Re-verified, rather than trusted, every
 substantive claim the skill-review record (`docs/skill-review/2026-08-24-architect-extraction.md`)
 makes about its own two blocking findings and their fixes:
 1. The stale-count fix: confirmed all seven now-updated homes (six named in `3cc8b47f`'s message
@@ -136,6 +168,11 @@ makes about its own two blocking findings and their fixes:
    `git show de8600c2` to confirm no other line in `communicator`'s tree changed, backing the
    record's own claim that this one-word fix is the entirety of `communicator`'s INV-208 review
    scope.
+4. The two follow-up commits (`1647df7b`, `253f461d`): both are gate-repair plumbing, not product
+   change — one reshapes this record's own `Checks run:` field to satisfy gate a's parser, the
+   other adds a test file to satisfy gate h. Neither touches `PRODUCT_SPEC.md`, `ARCHITECTURE.md`,
+   or any skill's instructions. Reviewed adversarially in the `Checks run:` entries above rather
+   than accepted as self-evidently fine because a prior agent wrote them for this same push.
 
 One pre-existing, out-of-scope quirk noted but not folded: `PRODUCT_SPEC.md`'s `working skill`
 glossary-entry enumeration (and each skill's own closing "pack, whole" roster block-quote) lists
