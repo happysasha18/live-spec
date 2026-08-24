@@ -25,6 +25,10 @@ from conftest import ROOT, read, read_flat
 ARCHITECT_SKILL = os.path.join("skills", "architect", "SKILL.md")
 DIRECTOR_SKILL = os.path.join("skills", "director", "SKILL.md")
 LIVE_SPEC_BASE_SKILL = os.path.join("skills", "live-spec-base", "SKILL.md")
+COMMUNICATOR_SKILL = os.path.join("skills", "communicator", "SKILL.md")
+DESIGN_REVIEWER_SKILL = os.path.join("skills", "design-reviewer", "SKILL.md")
+FEEDBACK_INTAKE_SKILL = os.path.join("skills", "feedback-intake", "SKILL.md")
+TEST_AUTHOR_SKILL = os.path.join("skills", "test-author", "SKILL.md")
 
 
 class TestArchitectSkillLoads(unittest.TestCase):
@@ -77,6 +81,25 @@ class TestRostersNameArchitect(unittest.TestCase):
         desc = re.search(r"(?m)^description:.*$", front)
         self.assertIsNotNone(desc, "live-spec-base's frontmatter lost its description line")
         self.assertIn("architect", desc.group(0))
+
+    def test_other_working_skills_closing_rosters_name_architect(self):
+        # The extraction's first push updated live-spec-base's own closing roster but missed
+        # the same closing "pack, whole" block quote each other working skill's SKILL.md
+        # independently carries (tests/test_traceability.py::TestPackListParity caught this
+        # via CI's full suite, since the fast local gate does not run it). Pinned here per
+        # skill so a later edit that drops the line from just one of them reds by name.
+        for skill in (COMMUNICATOR_SKILL, FEEDBACK_INTAKE_SKILL, TEST_AUTHOR_SKILL):
+            flat = read_flat(skill)
+            self.assertIn("**architect** writes and updates the structure that carries a "
+                          "proven spec", flat, "%s closing roster lost architect" % skill)
+
+    def test_design_reviewer_closing_roster_names_architect(self):
+        # design-reviewer's roster is a bulleted list rather than a middle-dot line, so it
+        # carries its own bullet rather than the inline phrase the other four skills share.
+        flat = read_flat(DESIGN_REVIEWER_SKILL)
+        self.assertIn("- **architect** writes and updates the structure that carries a "
+                      "proven spec.", flat,
+                      "design-reviewer closing roster lost its architect bullet")
 
 
 if __name__ == "__main__":

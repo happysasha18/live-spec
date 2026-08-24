@@ -10,7 +10,10 @@ Reviewer: skill-creator (Anthropic)
 Verdict: ALLOW — two blocking findings from an independent adversarial review, both fixed in this
 same push and verified below; one secondary finding (this record's own absence) closed by writing
 it; one further stale-count instance in `communicator`'s own README, caught by a second
-independent review pass, folded below.
+independent review pass, folded below; a fifth finding (CI-only, caught by the full suite rather
+than the fast local gate) adds `architect` to four more working skills' own closing "pack, whole"
+rosters, folded below and also serving as the INV-208 review for `communicator`, `design-reviewer`,
+`feedback-intake`, and `test-author`.
 
 ## What changed
 
@@ -73,6 +76,29 @@ push, verified below.
    own INV-208 review: the only change to `skills/communicator/` in this push is this one-word
    factual correction to its own stated skill count, nothing else in the skill's body/instructions
    changed.
+
+5. **Blocking, CI-only — four more closing rosters missed by finding 1's fix.** Finding 1 updated
+   `live-spec-base`'s own closing "pack, whole" roster to name `architect`, but the same closing
+   block quote is independently carried by each other working skill's own `SKILL.md`
+   (`tests/test_traceability.py::TestPackListParity`'s `footer_bodies()` reads every skill whose
+   `SKILL.md` carries either roster heading, not just `live-spec-base`'s). `skills/communicator/
+   SKILL.md`, `skills/feedback-intake/SKILL.md`, and `skills/test-author/SKILL.md`'s closing
+   rosters still omitted `architect` between `design-reviewer` and `build-pipeline`, and
+   `skills/design-reviewer/SKILL.md`'s bulleted roster form still omitted the matching bullet in
+   the same slot — all four missed because this test lives in `tests/test_traceability.py`'s full
+   run, which CI's `pytest -q` covers and the fast local push gate does not (this project's own
+   documented rule: the full suite hangs in this local environment). Caught by CI on
+   `origin/main`'s `12d82f74`, not by an adversarial read here. **Folded**: the same closing-roster
+   line `architect` already carries in `live-spec-base` and in `architect`'s own file, added to
+   each of the four skills in the identical pipeline-order slot; `skills/build-pipeline/`
+   deliberately left untouched (no partial migration). Verified: `python3 -m pytest
+   tests/test_traceability.py -q` — 181 passed, and `tests/test_architect_extraction.py` gained a
+   pinned regression test per skill so a later edit that drops the line from just one of them reds
+   by name (`python3 -m pytest tests/test_architect_extraction.py -q` — 10 passed). Each of the
+   four skills' only change in this push is this one-line factual addition to its own closing
+   roster — nothing else in any of their bodies/instructions changed (`git show b31fc42f --stat`:
+   4 files changed, 4 insertions(+), 3 deletions(-)) — so this finding also serves as each of
+   their own INV-208 review.
 
 Other checks run, none of which found anything to fold: frontmatter (`name`, `description`,
 `metadata.version: 5.0.0`) matches sibling skills' shape, and the description states a
