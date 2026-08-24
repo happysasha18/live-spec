@@ -21,6 +21,8 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 - **announced self-compaction** — the session's own act, said aloud at a safe breakpoint, of pruning its working context while carrying its live lines forward into the summary.
 - **architecture format** — the format-family member the architecture document is written in: a preamble, then a body of node sections, then the architecture's generated tables; it inherits the family's shared laws from the spec format and adds only the architecture-particular rules, its definition at `docs/architecture-format.md`.
 - **architecture node** — one named unit in the architecture document carrying one responsibility and one name, owning the spec facts it implements and pinned to its place in the code.
+- **architecture Reference** — the generated section mapping each spec anchor a node owns to the node names that own it, built by script and output only.
+- **architecture-reference gate** — the mechanical check that reds an architecture Reference differing from a fresh build or disagreeing with the nodes' owns fields.
 - **artifact inventory** — the test matrix's opening section naming every file the reader receives, each carried by at least one row asserting it at the rendered level.
 - **attic** — the host's append-only archive folder (`attic/`). A superseded file moves here with one manifest line and is kept for good.
 - **attribution line** — the single `made with live-spec` line a built-with publication carries on its landing surface, naming the pack version the project runs.
@@ -295,7 +297,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 | `spec/parallel-lanes.md` | R77–R91 | Parallel work lanes |
 | `spec/design-spec-review.md` | R11, R52–R68, R70–R76, R99–R104, R214–R215, R258–R266 | Design and spec review before the build |
 | `spec/test-honesty.md` | R105–R117 | Test honesty |
-| `spec/doc-order-generated.md` | R1, R97, R118–R124, R223–R224, R244–R250, R277–R291, R297 | Order in the project's documents |
+| `spec/doc-order-generated.md` | R1, R97, R118–R124, R223–R224, R244–R250, R277–R291, R297, R312 | Order in the project's documents |
 | `spec/public-text-rules.md` | R144–R151 | Rules for public-facing text |
 | `spec/push-gate-milestone-audit.md` | R125–R128, R130–R142, R303, R305 | Push gates, checkpoints, and full audits at milestones |
 | `spec/guardrails-freshness.md` | R168, R188, R222, R225–R235, R242–R243, R251, R267–R276, R292, R295–R296, R298, R300–R302, R304, R306–R307 | Automatic guardrails and pack freshness |

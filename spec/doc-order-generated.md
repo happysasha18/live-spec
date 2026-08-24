@@ -772,3 +772,26 @@
 3. The node-growth counter's node-name list *shall* re-derive from the node reader, so a renamed node *shall* stay in step across every consumer. [INV-280]
 
 ---
+
+## Requirement 312: The architecture Reference is generated from the nodes, never hand-written
+
+**Context:** A hand-kept ownership view drifts from the nodes it claims to summarize. The architecture Reference is instead built from the nodes the way the matrix's own Reference is: a script reads the committed node sections and produces the map, and no one edits the map by hand.
+
+**User Story:** As a maintainer following a spec anchor into the node that owns it, I want the Reference built from the nodes at freeze, so that it never drifts from the owns fields it maps.
+
+### Acceptance Criteria
+
+**Case: generated output**
+
+1. *when* the architecture is frozen, the system *shall* build the Reference from the node sections, mapping each node's owns field's anchors to the node names that own them. [INV-315]
+2. The Reference *shall* be output only; *if* it is edited by hand, *then* the architecture-reference gate *shall* red. [INV-315]
+
+**Case: body and Reference must agree**
+
+3. *if* the nodes and the committed Reference disagree in either direction — an owns anchor absent from the table, or a table anchor owned by no node — *then* the architecture-reference gate *shall* red. [INV-315]
+
+**Case: reach and arming**
+
+4. The architecture-reference gate *shall* stay unarmed until this delivery, *shall* arm in it, and *shall* state its reach on the green line. [INV-315] [INV-269]
+
+---

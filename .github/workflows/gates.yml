@@ -126,3 +126,6 @@ jobs:
       - name: "gate y — agent card (a live-spec host tree carries its .live-spec/agent.md card, SPEC INV-219)"
         if: ${{ !cancelled() }}
         run: python3 guardrails/check-agent-card.py
+      - name: "gate z — ARCHITECTURE.md generated Reference agrees with the nodes (SPEC INV-315/INV-218)"
+        if: ${{ !cancelled() }}
+        run: python3 guardrails/check-architecture-reference.py ARCHITECTURE.md ARCHITECTURE.index.md

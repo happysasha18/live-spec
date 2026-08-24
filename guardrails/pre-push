@@ -285,6 +285,12 @@ if ! python3 "$GUARDRAILS/check-agent-card.py"; then
 fi
 
 echo ""
+echo "-- gate z: ARCHITECTURE.md generated Reference agrees with the nodes (SPEC INV-315/INV-218) --"
+if ! python3 "$GUARDRAILS/check-architecture-reference.py" "$REPO_ROOT/ARCHITECTURE.md" "$REPO_ROOT/ARCHITECTURE.index.md"; then
+  fail=1
+fi
+
+echo ""
 if [ "$fail" -ne 0 ]; then
   echo "PUSH BLOCKED — one or more gates above failed. Fix them and try again."
   exit 1

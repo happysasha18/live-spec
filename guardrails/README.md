@@ -7,7 +7,7 @@ instead of things you have to remember.
 
 **`pre-push`** — blocks a push unless every gate below holds.
 
-The push hook runs 22 distinct gate letters today. The roster below is the whole set, one line per gate as `guardrails/pre-push` announces it.
+The push hook runs 23 distinct gate letters today. The roster below is the whole set, one line per gate as `guardrails/pre-push` announces it.
 
 Count them yourself, and list them:
 
@@ -41,6 +41,7 @@ A push of this repository is refused where the second command disagrees with wha
 -- gate t: doc rotation (the pack's split-and-rotated docs lose nothing — every rotated row is findable in its archive and every archive is named in a manifest line, SPEC INV-209) --
 -- gate x: generated index (the committed index equals a fresh build off the body; body and index agree; an empty body reds by name, SPEC INV-258/INV-259/INV-218) --
 -- gate y: agent card (a live-spec host tree carries its .live-spec/agent.md card, SPEC INV-219) --
+-- gate z: ARCHITECTURE.md generated Reference agrees with the nodes (SPEC INV-315/INV-218) --
 ```
 
 Each check lives in its own small script so it can be run and tested on its own, pointed at a

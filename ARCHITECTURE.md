@@ -359,6 +359,7 @@ adapter is the one place the pack updates when a lens moves in a prover release.
 - INV-305 (a count this repository publishes about its own tree. Whether a count is worth publishing stays with the person. Its machine home, its generator and its gate — gate ad, retired.)
 - INV-306 (the record of what each runnable file the pack ships is: its kind, name, kit, root, reach and needs. It kept a check that judged this pack's own documents out of the steps a host project follows. Its record, and its gate — gate ae, retired.)
 - INV-304 (the adversarial review a push carries over the change it sends. It rides the one record a push already owes. `guardrails/check-prover-record.sh` holds it as gate a on the push road, over the record home `docs/prover/`. It holds what a script can hold. The record exists, is committed, and is fresh against the newest commit in the range. It names that range, carries each field with a value, and closes or explains each blocking finding. Whether the review was genuinely adversarial stays outside its reach. The requirement and the script's own header both say so. The second gate that once held this alone rests at `attic/check-push-review.sh`.)
+- INV-315 (the architecture-reference gate, gate z, the sibling of the matrix-reference gate INV-273: `scripts/build-architecture-reference.py` builds ARCHITECTURE.index.md from the node sections' owns fields through `guardrails/archformat.py`, SPEC R312)
 
 **pins** —
 - `guardrails/pre-push:1` (gates)
@@ -379,6 +380,7 @@ adapter is the one place the pack updates when a lens moves in a prover release.
 - `guardrails/check-doc-rotation.py:1` (the doc-rotation gate, gate t, INV-209)
 - `scripts/rotate-doc.py:1` (the rotation mechanism, INV-209)
 - `guardrails/check-matrix-reference.py:1` (the matrix-reference gate, gate d, INV-273)
+- `guardrails/check-architecture-reference.py:1` (the architecture-reference gate, gate z, INV-315)
 - `guardrails/judge-hooks.json:1` (the wired-hook declaration. Two hooks are wired by default: the clock hook and the chat-law hook. The six background chat checks are opt-in, and a host wires each itself, INV-211, INV-289)
 - `hooks/code-anchor-scan.py:1` (the code-anchor Stop-hook scan, an internal code trails a sentence as a quiet anchor, opt-in/library, INV-283, INV-211)
 - `hooks/affirmation-scan.py:1` (the empty-validation Stop-hook scan, universal tier plus a personal overlay, opt-in/library, INV-284, INV-211)
