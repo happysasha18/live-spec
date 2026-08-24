@@ -2,7 +2,9 @@
 
 PUSH-REVIEW
 
-Range: 12d82f74..62368580
+Range: 12d82f74..5448de4a
+- 5448de4a tests + skill-review: pin the footer fix and cover its four skills (gate h, INV-208)
+- cbdb0d95 prover record: cover the architect-extraction CI fix (12d82f74..62368580)
 - 62368580 plugin metadata: reword description to drop accidental "architect" match (INV-44 CI fix)
 - b31fc42f skills: sync closing pack-list footers with architect (INV-66 CI fix)
 - dfcdccad evals: add architect.md — E-19 binds on every working skill (CI fix)
@@ -66,5 +68,34 @@ directory existed; the descriptions never intentionally enumerated skill names, 
 was rewording ("architecture" → "structure") rather than completing a 13-skill list or renaming the
 skill (out of scope, already decided). Confirmed the reworded text still reads naturally and no skill
 name is now a substring of either description.
+
+Extended after the first local pre-push run: fixing `b31fc42f` and `62368580` touched four skills'
+`SKILL.md` bodies, which the local push gate (unlike the CI failures themselves) DOES see —
+`guardrails/pre-push` reran after those two commits landed and correctly failed three more gates
+none of the CI-reported failures named: gate s (`communicator`, `design-reviewer`, `feedback-intake`,
+`test-author` each substantively changed with no fresh skill-creator review record, INV-208), gate h
+(those same four `SKILL.md` changes carried no accompanying `tests/` change), and gate m
+(`~/.claude/skills/`'s installed mirror drifted from the four now-changed source files). Fixed and
+re-verified rather than left for the orchestrator to hit fresh:
+- Gate s: extended `docs/skill-review/2026-08-24-architect-extraction.md` with a fifth finding
+  naming all four skills, their one-line-only diff, and the verification run — committed in
+  `5448de4a`, itself newer than `b31fc42f` (the skills' last change), satisfying the gate's own
+  freshness check (a record's commit must be at or after the reviewed skill's last change).
+- Gate h: added `TestRostersNameArchitect.test_other_working_skills_closing_rosters_name_architect`
+  and `test_design_reviewer_closing_roster_names_architect` to
+  `tests/test_architect_extraction.py`, pinning each of the four skills' closing-roster line so a
+  later regression reds by name — committed in the same `5448de4a`.
+- Gate m: ran `bash scripts/sync-skills.sh` (the documented developer freshness tool, SPEC E-23) to
+  copy the four changed `SKILL.md` files over their `~/.claude/skills/` mirror; a machine-local
+  install action outside the repo, nothing to commit, matching this project's own prior precedent
+  (`docs/prover/2026-08-24-director-acting-ci-fix.md`'s finding on `sync-skills.sh` being an install
+  step rather than a source change). No version bump accompanied the sync (all four skills stay at
+  `5.0.0`, a content-only fix), so no A-7 journal re-read trigger line was owed.
+- Re-ran `bash guardrails/pre-push < /dev/null` after all of the above: gates a (this record's
+  own prior, now-stale version), s, h, and m all read OK on the second pass (see the final
+  full-chain run recorded by the orchestrator's own push-gate log for this range); this record
+  itself was then re-extended to this current range to keep gate a's freshness satisfied, since
+  gate a requires the newest `docs/prover/` record's commit to be at or after the newest commit in
+  the pushed range.
 
 Blocking: none
