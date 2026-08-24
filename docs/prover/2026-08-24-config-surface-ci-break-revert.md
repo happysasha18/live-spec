@@ -54,7 +54,7 @@ than it was executed. Both governing tests are now satisfied: `architecture/by-p
 byte-identical to its state right after `86adc187` (the redundancy-tool fix, which touched no content),
 confirmed by `diff` returning nothing — not "close enough," identical.
 
-**Blocking: closed.** The revert restores the pre-796e104d content; both failing assertions now pass
+This finding is closed: the revert restores the pre-796e104d content; both failing assertions now pass
 (verified directly, `test_config_surface.py` and `test_composition_axes.py` both green above).
 
 **F2 — process gap, named, not fixed here.** This repository's local push gate runs a fast subset of
@@ -73,7 +73,9 @@ gate that greps test files for a document name and force-runs them pre-push is n
 problem this session solved by hand in under 20 minutes once it had a name; whether it's worth building
 is a call for the human, not an unasked-for addition here.
 
-Blocking: none (F1 closed by this commit; F2 is a named process gap, not a defect in what is committed)
+F1 is closed by this commit; F2 is a named process gap, not a defect in what is committed.
+
+Blocking: none
 
 ## What this record does not re-litigate
 
