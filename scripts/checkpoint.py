@@ -71,6 +71,29 @@ def _is_empty_body(body: str) -> bool:
     return False
 
 
+def _reject_embedded_headers(field_name: str, value: str) -> None:
+    """Raise ValueError if `value` contains a line starting with "## ".
+
+    Writing such a value into a section body would corrupt the file: the next
+    read_checkpoint call parses that embedded line back as a bogus section header and
+    rejects it under ALLOWED_SECTIONS, permanently bricking the file for every other
+    function in this module (including a later update_checkpoint call — the only way out
+    through this module's own API would be new_checkpoint's blank-template overwrite, which
+    is exactly the "silently clobber DONE" operation callers are meant to avoid). Checked
+    at write time, before anything touches disk, so the bad write never happens.
+
+    Uses the exact same "is this a section-header line" test read_checkpoint's own parser
+    uses — line.startswith("## ") per line of `value.splitlines()`, no stripping first — so
+    the write-side check and the read-side parser can never disagree about what counts.
+    """
+    for line in value.splitlines():
+        if line.startswith("## "):
+            raise ValueError(
+                "%s must not contain a line starting with '## ' (would corrupt the "
+                "checkpoint's section structure): %r" % (field_name, line)
+            )
+
+
 def read_checkpoint(path) -> dict:
     """Parse the checkpoint file at `path` into its structural pieces.
 
@@ -214,7 +237,10 @@ def new_checkpoint(path, title: str, owner: str, decision_sheet=None) -> None:
     DONE/IN PROGRESS/NEXT each get the placeholder "(nothing yet)". If `owner` is
     director-owned and `decision_sheet` is given, it is written verbatim as the DECISION
     SHEET body; director-owned without a decision_sheet raises ValueError, as does passing
-    a decision_sheet for a non-director owner.
+    a decision_sheet for a non-director owner. `decision_sheet` also raises ValueError if it
+    contains a line starting with "## " — that would corrupt the file's section structure
+    and brick it for every reader in this module (see _reject_embedded_headers); the check
+    runs before anything is written to disk.
 
     This always creates the file from a blank template: a second call against a path that
     already holds real content overwrites it, on purpose — this is the "start over"
@@ -238,6 +264,9 @@ def new_checkpoint(path, title: str, owner: str, decision_sheet=None) -> None:
             raise ValueError(
                 "decision_sheet must not be given for a non-director-owned checkpoint"
             )
+
+    if decision_sheet is not None:
+        _reject_embedded_headers("decision_sheet", decision_sheet)
 
     sections = {
         "DONE": "(nothing yet)",
@@ -271,7 +300,13 @@ def update_checkpoint(path, done=None, in_progress=None, next=None, decision_she
         nothing to change is almost certainly a caller bug, not a no-op to accept silently;
       - decision_sheet is given but the checkpoint is not director-owned (mirrors
         new_checkpoint's symmetric rule: a non-director checkpoint never carries a DECISION
-        SHEET section).
+        SHEET section);
+      - any provided value (done/in_progress/next/decision_sheet) contains a line starting
+        with "## " — that would corrupt the file's section structure and brick it for every
+        reader in this module, including a later update_checkpoint call (see
+        _reject_embedded_headers). All provided values are checked, in done/in_progress/
+        next/decision_sheet order, before the file on disk is touched — a call with one bad
+        field and three good ones never produces a partial write.
 
     A missing file raises FileNotFoundError, propagated unchanged from read_checkpoint.
     """
@@ -287,6 +322,15 @@ def update_checkpoint(path, done=None, in_progress=None, next=None, decision_she
         raise ValueError(
             "decision_sheet must not be given for a non-director-owned checkpoint"
         )
+
+    for field_name, value in (
+        ("done", done),
+        ("in_progress", in_progress),
+        ("next", next),
+        ("decision_sheet", decision_sheet),
+    ):
+        if value is not None:
+            _reject_embedded_headers(field_name, value)
 
     sections = dict(data["sections"])  # copy — preserves original section order
     updates = {

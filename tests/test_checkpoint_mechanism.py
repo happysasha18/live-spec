@@ -348,6 +348,18 @@ class TestNewCheckpoint(unittest.TestCase):
                 p, title="Worker", owner="some-worker", decision_sheet="not allowed"
             )
 
+    # 20. decision_sheet containing a "## "-prefixed line (anywhere, not just as the first
+    # line) raises ValueError and the file is not created at all — the write must never
+    # happen, since a written copy would be permanently unreadable by every other function.
+    def test_new_checkpoint_rejects_embedded_header_in_decision_sheet(self):
+        p = self.tmp_path / "director_bricked.md"
+        bad_sheet = "Goal: ship the fix.\n## Blocked on\n- waiting on the retry-path answer"
+        with self.assertRaises(ValueError):
+            checkpoint.new_checkpoint(
+                p, title="Director's checkpoint", owner="director", decision_sheet=bad_sheet
+            )
+        self.assertFalse(p.exists())
+
 
 class TestCloseCheckpoint(unittest.TestCase):
     def setUp(self):
@@ -481,6 +493,61 @@ class TestUpdateCheckpoint(unittest.TestCase):
         self.assertEqual(after["sections"]["NEXT"], "revised next")
         self.assertEqual(checkpoint.validate_checkpoint(p), [])
 
+    # 21. `next` containing a "## "-prefixed line raises ValueError, file left byte-identical.
+    def test_update_rejects_embedded_header_in_next(self):
+        p = self._write("open.md", VALID_OPEN_NON_DIRECTOR)
+        before = p.read_bytes()
+        bad_next = "Still to do:\n## Blocked on\n- waiting on the retry-path answer"
+        with self.assertRaises(ValueError):
+            checkpoint.update_checkpoint(p, next=bad_next)
+        after = p.read_bytes()
+        self.assertEqual(before, after)
+
+    # 22. same, for `done`.
+    def test_update_rejects_embedded_header_in_done(self):
+        p = self._write("open.md", VALID_OPEN_NON_DIRECTOR)
+        before = p.read_bytes()
+        bad_done = "Finished most of it.\n## Caveat\n- one edge case left"
+        with self.assertRaises(ValueError):
+            checkpoint.update_checkpoint(p, done=bad_done)
+        after = p.read_bytes()
+        self.assertEqual(before, after)
+
+    # 23. same, for `in_progress`.
+    def test_update_rejects_embedded_header_in_in_progress(self):
+        p = self._write("open.md", VALID_OPEN_NON_DIRECTOR)
+        before = p.read_bytes()
+        bad_in_progress = "Wiring retries.\n## Note\n- flaky under load"
+        with self.assertRaises(ValueError):
+            checkpoint.update_checkpoint(p, in_progress=bad_in_progress)
+        after = p.read_bytes()
+        self.assertEqual(before, after)
+
+    # 24. same, for `decision_sheet` on a director-owned checkpoint.
+    def test_update_rejects_embedded_header_in_decision_sheet(self):
+        p = self.tmp_path / "director.md"
+        checkpoint.new_checkpoint(
+            p, title="Director's checkpoint", owner="director",
+            decision_sheet="Original decision.",
+        )
+        before = p.read_bytes()
+        bad_sheet = "Revised: ship plan C.\n## Risk\n- untested rollback"
+        with self.assertRaises(ValueError):
+            checkpoint.update_checkpoint(p, decision_sheet=bad_sheet)
+        after = p.read_bytes()
+        self.assertEqual(before, after)
+
+    # 25. Negative control: a body value that merely CONTAINS "## " mid-line (not at the
+    # start of a line) must NOT be rejected — only a line that itself starts with "## " is
+    # the problem, matching read_checkpoint's own per-line startswith("## ") test exactly.
+    def test_update_accepts_mid_line_hash_hash_substring(self):
+        p = self._write("open.md", VALID_OPEN_NON_DIRECTOR)
+        next_value = "see the ## DONE section above for context"
+        checkpoint.update_checkpoint(p, next=next_value)
+        data = checkpoint.read_checkpoint(p)
+        self.assertEqual(data["sections"]["NEXT"], next_value)
+        self.assertEqual(checkpoint.validate_checkpoint(p), [])
+
 
 class TestCli(unittest.TestCase):
     def setUp(self):
@@ -575,6 +642,49 @@ class TestCli(unittest.TestCase):
         self.assertEqual(data["sections"]["IN PROGRESS"], "Still wiring the retry path.")
         # DONE, untouched by the call, must survive
         self.assertEqual(data["sections"]["DONE"], "Wrote the parser.")
+        self.assertEqual(checkpoint.validate_checkpoint(target), [])
+
+    # 26. Reviewer's exact repro, end to end via the CLI: `new` a checkpoint, then attempt
+    # an `update` whose --next carries an embedded "## " line. The CLI call must fail loudly
+    # (non-zero exit, ERROR: in stdout) — and, the actual point of the fix, the file on disk
+    # must still parse cleanly afterward and be completely unchanged, i.e. the fix prevents
+    # the brick, not just makes the failing CLI call itself noisy.
+    def test_cli_update_rejects_embedded_header_and_does_not_brick_file(self):
+        target = self.tmp_path / "cli_bad_next.md"
+        new_result = subprocess.run(
+            [
+                sys.executable,
+                CHECKPOINT_PY,
+                "new",
+                str(target),
+                "--title",
+                "t",
+                "--owner",
+                "director",
+                "--decision-sheet",
+                "Goal: ship the fix.",
+            ],
+            capture_output=True,
+            text=True,
+        )
+        self.assertEqual(new_result.returncode, 0, new_result.stdout + new_result.stderr)
+        before_data = checkpoint.read_checkpoint(target)
+        before_bytes = target.read_bytes()
+
+        bad_next = "Still to do:\n## Blocked on\n- waiting on the retry-path answer"
+        update_result = subprocess.run(
+            [sys.executable, CHECKPOINT_PY, "update", str(target), "--next", bad_next],
+            capture_output=True,
+            text=True,
+        )
+        self.assertNotEqual(update_result.returncode, 0)
+        self.assertIn("ERROR:", update_result.stdout)
+
+        # the fix: the file must still parse cleanly (read_checkpoint called directly, not
+        # via the CLI) and be byte-for-byte unchanged from before the failed CLI call.
+        after_data = checkpoint.read_checkpoint(target)
+        self.assertEqual(after_data, before_data)
+        self.assertEqual(target.read_bytes(), before_bytes)
         self.assertEqual(checkpoint.validate_checkpoint(target), [])
 
 
