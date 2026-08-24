@@ -89,8 +89,8 @@ it permanent is a promotion into a profile, on the human's word.
 - **live-spec-base** — the shared rulebook and the default settings, stated once; on any apparent
   rule conflict, this file wins.
 - **director** — reads the human's message first and decides what they just did with it before
-  anything decides what to do about work; runs in shadow mode today, writing a decision sheet and
-  changing nothing.
+  anything decides what to do about work; for accepted work, writes a decision sheet and carries
+  it through a checkpoint it opens and closes itself.
 - **spec-author** — writes and grows the living spec, use-case-first and prover-ready.
 - **product-prover** — reviews specs and architecture documents with formal-verification thinking.
 - **product-prover-pack** — the pack adapter for the external canonical product-prover: the pin

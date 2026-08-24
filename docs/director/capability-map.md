@@ -136,3 +136,31 @@ Three things the mandate assumed were present and are not:
 One thing the mandate assumed was harder than it is: two canonical documents already have
 generated, push-gated indices. Package 2 extends a working mechanism rather than inventing
 one.
+
+## Package 3 progress (2026-08-24) — rows this map should no longer read as pending
+
+This section is dated status, not a rewrite of the rows above — the rows still name where
+each capability *lives*, which is the point of the map; read them together with this note
+rather than treating either alone as current.
+
+- **Row 27 (checkpoint)** — `runs`. `scripts/checkpoint.py` (writer/reader/validator/CLI).
+  Landed first, on its own, before anything below depended on it.
+- **Rows 9, 10, 11, 28, 30** — the Director no longer only writes a decision sheet for
+  review; `skills/director/SKILL.md` v6.0.0's "Execution" section opens a director-owned
+  checkpoint (row 9's decision sheet is now that checkpoint's DECISION SHEET section,
+  mechanically validated), sends specialists a minimal brief (row 28), rebuilds the plan on
+  a new fact (row 11), and treats a shared canonical document as a serialized convergence
+  point under one integration owner (row 30). Verdict for all four stays **prose** — which
+  specialist to call, when a fact changes the plan, and who holds the pen are still model
+  judgment, same as the mandate says they should be (rule 11) — but the target home in each
+  row is now populated, not empty.
+- **Row 24 (independent verifier)** — the mechanics moved verbatim from
+  `skills/build-pipeline/references/verify-step-detail.md` to
+  `skills/director/references/verify-step-detail.md`, called from Director's Execution
+  section instead of a fixed pipeline stage. Still prose; still real, since the underlying
+  worker-restore gate and audit walk it invokes are code (`guardrails/check-worker-restore.py`).
+- **Row 29 (parallel lanes)** — unchanged, as predicted: `scripts/open-lane.sh` already ran
+  before this package; Director's Execution section now states the independence judgment
+  inline instead of leaving it implicit.
+- **Row 21 (architect)** — still open. Deliberately not decided in this slice.
+- **Rows 8, 12–15, 31–36** — untouched by this slice; still read as this map already states.

@@ -3029,3 +3029,27 @@ copies match this repository exactly, so they bought silence for a difference th
 are gone. And Requirement 230 had been restating four language laws in its own words while
 `guardrails/language-rules.json` is their home; it now points at the home instead.
 
+## 2026-08-24 — director: 5.0.0 -> 6.0.0, shadow mode ends
+
+Package 3's second slice (the checkpoint mechanism, `scripts/checkpoint.py`, was the first). The
+Director no longer only writes a decision sheet for a human to approve — for accepted work it now
+opens a director-owned checkpoint carrying that sheet, sends each specialist a minimal brief instead
+of a pasted copy of its own reading, rewrites the remaining plan when a new fact arrives rather than
+carrying a stale one forward, hands the independent verifier the goal and the artifacts instead of
+trusting the executor's self-report, and closes the checkpoint in the same step the work lands —
+`scripts/checkpoint.py close` refuses to close over content still marked open, so the mechanism itself
+holds the "flip to closed" promise rather than a habit. `skills/director/references/verify-step-detail.md`
+moved verbatim from `skills/build-pipeline`'s copy: same worker-restore gate, same SPEC INV-46 audit
+firing condition, called from a step the Director chooses rather than a fixed pipeline stage.
+
+The "First — what did the human just do?" section, twice adversarially reviewed on 2026-08-21
+(`docs/skill-review/2026-08-21-director-shadow.md`), was not touched — this slice only replaces the
+section that named itself "Shadow mode." `OVERVIEW.md` and `PRODUCT_SPEC.md`'s glossary entry for
+`director` both said "ships in shadow mode, writing a decision sheet and changing nothing"; both now
+say what it actually does.
+
+`build-pipeline` is not removed and does not shrink yet — the mandate is explicit that the cutover
+waits for scenario coverage (`evals/director/scenarios.json`, the recorded transcripts) to confirm the
+acting Director behaves at least as well as the shadow version did on the same messages. That
+comparison is the next slice, tracked in the handoff.
+

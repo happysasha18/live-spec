@@ -1,8 +1,8 @@
 ---
 name: director
-description: Read the human's message before anything acts on it — decide what they did (asked, mused, offered an idea, reported something, decided, corrected running work, instructed, or called a halt), then, only for work that was actually accepted, name what it touches and which specialists it needs. Runs in shadow mode: it writes a decision sheet for review and changes nothing.
+description: Read the human's message before anything acts on it — decide what they did (asked, mused, offered an idea, reported something, decided, corrected running work, instructed, or called a halt), then, only for work that was actually accepted, name what it touches, call the specialists it needs, and carry it through — checkpoint, verify, close, report.
 metadata:
-  version: 5.0.0
+  version: 6.0.0
 ---
 
 # Director
@@ -21,23 +21,6 @@ requested at all.
 > Part of the **live-spec pack**. The shared working rules live once in `live-spec-base`
 > (`skills/live-spec-base/SKILL.md`). This skill does not restate them. Loaded alone, every
 > section below still runs.
-
-## Shadow mode
-
-This version routes and does not act. It reads the message, writes the decision sheet
-below into its reply, and stops. It does not create a roadmap row, edit a document, open a
-branch, call a specialist or touch a file. The existing `build-pipeline` path still does
-the work. The sheet exists so a human can see what the Director *would* have done and say
-whether that was right.
-
-Nothing is written to disk. When a run is being kept as evidence, the person keeping it
-saves the reply under `evals/director/traces/`; the Director does not save it itself.
-Where the sheet names a destination — the idea shelf in `ROADMAP.md`, a decision in
-`DECISIONS.md` — it is naming where the entry *would* go, not writing one.
-
-Shadow mode is a property of this version, not a setting. There is no flag, no config key
-and no environment variable to flip. The version that acts is a different version of this
-file.
 
 ## First — what did the human just do?
 
@@ -222,6 +205,59 @@ For a question, an idea, an observation or a halt there is no sheet. There is a 
 >
 > Nine lines, because the work is small. A cross-cutting feature earns more.
 
+## Execution
+
+This version acts. A question, an idea, an observation or a halt gets no sheet, per above —
+and nothing below applies to it. What follows runs only for work that just earned a
+decision sheet: an instruction, a correction, or the settled half of a conditional.
+
+**Open the checkpoint before the first specialist is called, not after.** Run `python3
+scripts/checkpoint.py new <path> --title "<goal, short>" --owner director --decision-sheet
+"<the decision sheet above, verbatim>"`, `<path>` under `.live-spec/checkpoints/`, named
+for the work, not for the Director. The decision sheet is not duplicated prose — it is the
+checkpoint's DECISION SHEET section, the one place this work's goal, knowns, unknowns and
+risk live while the work is in flight. This is what makes a resumed window real instead of
+a promise: the next agent reads this file, not this conversation.
+
+**A specialist gets a brief, not a copy** — see "The specialists" below for the exact
+shape. This is the whole of delegation. The fixed protocol this replaces
+(`skills/build-pipeline/references/delegation-protocol.md`) carried tier ladders, escrow
+law and a reporting bureaucracy built for one mandatory pipeline; none of that is a
+specialist's job here, and none of it survives the cut into this skill — no bureaucracy
+without a working need this pack still has.
+
+**Independent branches run in parallel through the existing lane mechanism, not a new
+one.** `scripts/open-lane.sh` already opens a worktree-isolated branch under the profile's
+lane cap — `skills/live-spec-base/SKILL.md` rule 7 carries the lane law in full and is not
+repeated here. What this step adds is the judgment: two pieces of accepted work are
+independent when neither depends on the other's output and neither rewrites the same
+section or behaviour. Work that merely shares a canonical document —
+`PRODUCT_SPEC.md`, `ARCHITECTURE.md`, `TEST_MATRIX.md`, `ROADMAP.md` — is not thereby
+dependent; every write to a shared document goes through one integration owner (the
+Director itself, or whichever specialist currently holds the pen) one lane at a time, so
+the document stays a convergence point, not a lock two lanes wait on.
+
+**A new fact can change the remaining graph.** Read a specialist's answer, a failed check,
+or a fact the human adds mid-work against the plan just made — not filed for later. When
+it changes what remains, rewrite the checkpoint's NEXT section to match and add to or cut
+the specialist list; never carry a stale plan forward silently. When it does not change
+anything, say so and continue — replanning on every unremarkable update is its own kind of
+noise.
+
+**The verifier gets the goal and the artifacts, never the executor's self-report.** See
+[references/verify-step-detail.md](references/verify-step-detail.md) for the full
+protocol: when a fresh checker is required (SPEC INV-46) versus when the Director's own
+re-check against the decision sheet's observable outcome is enough, the worker-restore
+gate, and the audit walk. The short version: a check that did not produce the work is
+handed the observable outcome and the paths the work actually touched, and checks the
+claim against them directly.
+
+**Closing the work closes the checkpoint in the same step, never a later one.** Once the
+verifier is satisfied, clear the checkpoint's IN PROGRESS and NEXT sections to reflect what
+actually remains — usually nothing — and run `python3 scripts/checkpoint.py close <path>`.
+It refuses to close over content still marked open, so a checkpoint that will not close is
+telling the truth about work that is not actually finished.
+
 ## The specialists
 
 None is mandatory. The Director calls the ones the work needs, and adds or drops one when
@@ -230,11 +266,11 @@ a task that needs three of these may want them in any sequence, or all at once.
 
 | Specialist | Call when | Where it lives |
 |---|---|---|
-| Architect | boundaries, data, integrations, scale or operations change | inside `skills/build-pipeline` until package 3 |
+| Architect | boundaries, data, integrations, scale or operations change | inside `skills/build-pipeline`, pending this package's own architect-step decision |
 | Data and experiment analyst | the cause is unknown or a hypothesis needs testing | not yet built — package 4 |
 | Design reviewer | interface, interaction or the coherence of the experience changes | `skills/design-reviewer` |
 | Developer | something must be built | the agent itself |
-| Independent verifier | the result needs checking by someone who did not produce it | inside `skills/build-pipeline` until package 3 |
+| Independent verifier | the result needs checking by someone who did not produce it | [references/verify-step-detail.md](references/verify-step-detail.md) |
 | Product prover | a mistake in the statement of the problem would be expensive | `skills/product-prover-pack` |
 | Publisher, communicator | the result ships and has to be explained | `skills/publish`, `skills/communicator` |
 | Researcher | project or outside facts are missing | not yet built — package 4 |
@@ -254,6 +290,11 @@ optional — silent work is indistinguishable from work that was dropped.
 Say it in ordinary words. Not the name of an act, not the name of a dimension, not the
 name of this skill.
 
+For accepted work, the sentence names what actually changed — which document, which check,
+which artifact — not merely that work began. A sentence that only restates intent after
+the fact reads as more work than it reports, and the checkpoint's DONE section is where the
+detail lives for anyone who needs it.
+
 ## Work that belongs elsewhere
 
 Writing the spec, the architecture, the tests or the code: the specialists above. The
@@ -261,8 +302,9 @@ Director decides who is called and stops there.
 
 Running the checks and the push: `guardrails/pre-push` and CI.
 
-Setting a project up on the pack, and the step sequence for a change already classified:
-`skills/build-pipeline`, which still owns execution while the Director is in shadow mode.
+Setting a project up on the pack: `skills/build-pipeline`'s project-setup material, until
+package 6's migrator absorbs it. The step sequence for a change once classified is this
+skill's own job now — `build-pipeline`'s fixed sequence is superseded, not consulted.
 
 How a result is worded for a person: `skills/communicator`. That covers the wording only.
 When someone asks for a plan, a status, a summary or a report, they have asked for
