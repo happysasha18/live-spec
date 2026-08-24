@@ -2,7 +2,8 @@
 
 PUSH-REVIEW
 
-Range: b674b286..0e38cfe7
+Range: b674b286..74de22b3
+- 74de22b3 Fix two push-gate format bugs in the previous commit's own record
 - 0e38cfe7 Revert the by-project-kind.md content edits: CI proved both load-bearing
 
 Files read: the full diff of 0e38cfe7 (`git show 0e38cfe7 --stat` and in full — two files,
@@ -92,3 +93,28 @@ by an independent agent), made because `main` was red on CI at the time of writi
 mechanically-verified byte-identical revert (`diff` confirms it) rather than new authored content. The
 adversarial standard is still applied: the finding above states plainly that the earlier record's
 verification claim was inaccurate, not merely "additional context found."
+
+## Addendum — 74de22b3
+
+The first push attempt with this record (covering only `0e38cfe7`) was itself blocked by two gates,
+both format bugs in the delivery, neither a content or number change:
+
+- **Gate i (shipped-language)** failed on `scripts/spec-debt-cap.json:1`: the `_reason_redundancy_ARCHITECTURE`
+  string carried one stray Cyrillic word, "regламент", typed mid-sentence in otherwise-English prose
+  ("see the regламент note on this"). Fixed by removing the clause entirely (it was a cross-reference
+  that added nothing the surrounding sentence didn't already say). Re-scanned the full diff
+  (`scripts/spec-debt-cap.json`, this file, `architecture/by-project-kind.md`) for any other Cyrillic
+  character — none found. `python3 scripts/check-shipped-language.py` — OK, 0 offences.
+- **Gate a (this same check)** failed on this record's own shape: the F1 finding above originally closed
+  with an inline `**Blocking: closed.**` sentence, a second line matching gate a's `^Blocking:` pattern
+  that its parser read before the real `Blocking: none` field further down — exactly the
+  single-value-per-line requirement this session's own operating notes already name as a repeat trap.
+  Reworded to plain prose with no leading `Blocking:` token; the one real field is unchanged in meaning.
+  `bash guardrails/check-prover-record.sh` — OK after the fix (re-ran directly, not inferred from the
+  push output alone).
+
+`74de22b3`'s diff is exactly those two fixes — confirmed via `git show 74de22b3 --stat`, two files,
+`scripts/spec-debt-cap.json` and this record. `max_redundancy_open.ARCHITECTURE.md` stays `15`;
+`architecture/by-project-kind.md` is untouched by this commit (still byte-identical to `86adc187`, as
+established above). No test suite re-run was needed — neither fix touches code or spec content, only a
+JSON string and this record's own prose.
