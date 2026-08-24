@@ -2,10 +2,11 @@
 
 PUSH-REVIEW
 
-Range: 91891a6c..2325d0e9
+Range: 91891a6c..2325d0e9, base a74f3e5 (origin/main at push time)
 - 025bb218 Redundancy precheck stops skipping table rows outright
 - 8295415b Add tests for gate_common's table-row scanning fix (closes gate h's tests-present finding
   on 025bb218 — see Addendum below)
+- 2325d0e9 Withdraw the unused matrix redundancy baseline numbers (see Addendum 2 below)
 Files read: matrix/*.md (all 23), TEST_MATRIX.md, TEST_MATRIX.index.md, docs/test-matrix-format.md,
 docs/spec-format.md, guardrails/archformat.py, guardrails/specformat.py, ARCHITECTURE.md,
 architecture/guardrails.md, architecture/pipeline-and-lanes.md, architecture/outward.md,
