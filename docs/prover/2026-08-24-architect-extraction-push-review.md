@@ -24,7 +24,10 @@ OVERVIEW.md, ARCHITECTURE.md, `skills/live-spec-base/SKILL.md` only — not PROD
 `skills/communicator/README.md`, or `skills/live-spec-base/references/glossary.md`, which the
 review below re-checked by hand instead of trusting the test's coverage).
 
-Checks run:
+Checks run: eleven checks run — mechanical tests, skill-loadability and skill-review gates, the
+prover-record gate itself (both plain and `--push` mode), the full reachable guardrails set, a
+`build-pipeline` untouched-diff check, `skills/architect/SKILL.md`'s full-file read, and two
+stale-count greps. All passed or resolved as expected; full detail below.
 - `python3 -m pytest tests/test_skill_count_agrees.py -q` — 13 passed.
 - `python3 -m pytest tests/test_director_scenarios.py -q` — 11 passed.
 - `bash guardrails/check-skill-loadability.sh skills` — `OK (loadability): 13 skill(s) load,
