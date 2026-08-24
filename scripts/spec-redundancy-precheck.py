@@ -24,8 +24,23 @@ import os
 import re
 import sys
 
-sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+GUARDRAILS = os.path.join(os.path.dirname(SCRIPT_DIR), "guardrails")
+sys.path.insert(0, SCRIPT_DIR)
 import gate_common  # noqa: E402
+
+# specformat.py (the core+parts reader) lives in the pack's guardrails/ dir, a sibling of scripts/.
+# This script is ALSO vendored standalone into host repos by adopt/install-ratchet.sh (VENDOR_FILES),
+# which does not vendor guardrails/specformat.py — a host runs style/redundancy/freeze gates on its
+# own doc, with no core+parts convention assumed. So the import is optional: where specformat IS
+# available (this pack's own checkout), a core file's `## Parts map` is expanded before scanning;
+# where it is not (a vendored host), main() falls back to reading exactly the named file, unchanged
+# from this script's behaviour before the core+parts fix.
+sys.path.insert(0, GUARDRAILS)
+try:
+    import specformat as sf  # noqa: E402
+except ImportError:
+    sf = None
 
 WAIVER_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "spec-waivers.json")
 
@@ -141,7 +156,20 @@ def main(argv):
         sys.stderr.write("usage: spec-redundancy-precheck.py [--jac F] [--con F] FILE\n")
         return 2
     src = args[0]
-    text = sys.stdin.read() if src == "-" else open(src, encoding="utf-8").read()
+    if src == "-":
+        text = sys.stdin.read()
+    elif sf is not None:
+        # Read through the core+parts mechanism (specformat.spec_paths / read_document) rather than
+        # opening `src` directly: a core file carrying a `## Parts map` expands to the core followed
+        # by its parts and the segmenter below sees the WHOLE document, not just the core's preamble
+        # and glossary. A file with no map (or an ordinary non-core file, e.g. a matrix/*.md part) is
+        # unaffected — expansion is idempotent by `spec_paths`'s own construction, so this reads
+        # exactly the same bytes it always did.
+        _resolved, text = sf.read_document([src])
+    else:
+        # Vendored standalone (no guardrails/specformat.py alongside) — read exactly the named file,
+        # same as before the core+parts fix.
+        text = open(src, encoding="utf-8").read()
     pairs = find_candidates(text, jac, con)
 
     waivers = gate_common.load_waivers(WAIVER_PATH)
