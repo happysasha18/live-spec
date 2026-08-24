@@ -401,29 +401,3 @@
 | T-22 | build-pipeline |
 | T-23 | parallel-lanes |
 | T-24 | base-rulebook |
-
-| Node | Part | Responsibility |
-|---|---|---|
-| attach | `architecture/host-adoption.md` | attaching the pack to a host. That covers the adoption phases, the VCS gate, the attic, and the who-am-I-working-with step. It also covers the skill install, the version record, and the pack update check. The catch-up walk that brings an already-adopted host onto the current pack sits here too. |
-| base-rulebook | `architecture/rules-and-settings.md` | shared working rules stated once + package defaults + the settings ladder |
-| build-pipeline | `architecture/pipeline-and-lanes.md` | the wish lifecycle, walked station by station. The walk runs intake → classify → spec → prove → architecture → prove architecture. It then runs matrix → test → code → verify → commit & show → landed. |
-| communicator | `architecture/exchange.md` | the human-facing exchange. It carries reports, batched questions, decision pages, and done-claim answers. It also carries the capture echo and departures board, the feature map on demand, the pre-report walk, and working narration. |
-| design-reviewer | `architecture/authoring-and-review.md` | the design-review pass |
-| design-sync | `architecture/outward.md` | an optional machine, [target: machine; wiring live]. A landing's declared components sync to the team's design project, human-gated (ROADMAP row 93). The machine's first real run remains. |
-| feedback-collector | `architecture/outward.md` | the outbound feedback arm, the pack's third arrow. On a rare genuinely-strong reaction it offers, with the human's positive consent, to draft a distilled non-public upstream note to the pack's authors. It deposits that note in the gitignored `outbox/` and sends nothing, so delivery stays the human's own step. It is off by default, under the `feedback-upstream` flag. It stands apart from feedback-intake, the inverse arrow, and from the measurement family (ROADMAP row 321). |
-| feedback-intake | `architecture/intake.md` | the intake half of the exchange. It receives anything handed back through three channels and routes each item to the home its law owns. It keeps the feedback ledger's shape and echoes every arrival (row 47). |
-| guardrails | `architecture/guardrails.md` | mechanical pre-push checks + surface registry + CI mirror |
-| host-contract | `architecture/rules-and-settings.md` | the recorded settings instances. Those are this host's profile, the human's personal profile, and the thin loader that boots the personal layer. The agent records sit here too: the self-declaring card in each agent's own tree, found by the pack's live scan. |
-| inbox | `architecture/intake.md` | the parallel-safe intake door for wishes born outside a live-spec session. Its remote arm serves granted seats. Its stranger arm bridges Issues and Discussions into inbox files through a monitor. Two hosts on one repo converge on a single surfacing by a claim on the shared item. |
-| onboarding-card | `architecture/rules-and-settings.md` | the settings card. A build-time renderer parses the base's package-defaults table and the profile files into the card page, per the frozen norm. The card is shown at the end of founding or adoption, and on the standing "what can I customize?" question (F-onboarding). |
-| package-docs | `architecture/host-adoption.md` | live-spec's own host instance (dogfood): spec, queue, journal, resume file, version, records, dev-machine skill sync, its own problem ledger |
-| parallel-lanes | `architecture/pipeline-and-lanes.md` | concurrent work on one repo. The pen serializes every shared-truth write. The cap and the graph pick the lane set. The lane's branch sits in its own worktree. The lane-open act opens each lane, and the integration lands it. |
-| product-prover | `architecture/authoring-and-review.md` | formal review of spec and architecture; executes the push-gate re-check |
-| publish | `architecture/outward.md` | the publish-quality gate: per-kind publication checklist (its one home) + the target-plugin seam; runs before the human's gate, never instead (row 98) |
-| skill-evals | `architecture/tests-and-baseline.md` | behaviour tests for the pack's own skills: per working skill one scenario, red proven bare, re-run at milestones (row 94) |
-| snapshot | `architecture/tests-and-baseline.md` | saved baseline of the last accepted run; declared-scope diff (ROADMAP row 55) |
-| spec-author | `architecture/authoring-and-review.md` | authoring method for a living, use-case-first, prover-ready PRODUCT_SPEC.md |
-| templates | `architecture/host-adoption.md` | the document shapes a host copies at bootstrap; the matrix's generated reference section |
-| test-author | `architecture/tests-and-baseline.md` | the test method's one home. It derives TEST_MATRIX.md from the proven spec through the proven architecture, and it writes the tests. Its parts are the level ladder, real-artifact assertions, red-first proof, the pinned skip-set, and traceability as a standing test (row 163). |
-| text-audit | `architecture/authoring-and-review.md` | the audit-and-fix loop for human-facing texts. It runs the mechanical register lints first, then fresh zero-context cold reads. Each finding is fixed at its source until two consecutive reads come back clean. |
-| work-board | `architecture/exchange.md` | the standing page that shows the whole queue as columns of cards, the work in hand among them. It carries four parts. The page itself. The one source file in the host's tree, holding each task's statement, its validation record, and the craft set. The generator that renders that file with the queue into the page. And the statement-validation check a task passes before it enters work (F-work-board, ROADMAP row 166). |

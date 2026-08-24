@@ -12,39 +12,17 @@ committed Reference, or a Reference anchor owned by no node, and on green states
 
 Zero dependencies beyond the stdlib; run from the repo root: python3 -m pytest -q tests
 """
-import importlib.util
 import os
 import subprocess
 import tempfile
 import unittest
 
-from conftest import ROOT, architecture_paths
+from conftest import ROOT
 
 BUILDER = os.path.join(ROOT, "scripts", "build-architecture-reference.py")
 GATE = os.path.join(ROOT, "guardrails", "check-architecture-reference.py")
 ARCH = os.path.join(ROOT, "ARCHITECTURE.md")
 ARCH_INDEX = os.path.join(ROOT, "ARCHITECTURE.index.md")
-
-# The committed index carries two generated tables, one below the other (SPEC INV-315): the
-# `| Anchor | Nodes |` table first, then this router table. A red-test that mutates "the committed
-# index" must mutate the right table, or its findings land in whichever table happens to sit at the
-# byte offset it assumed — so every mutation below splits on this marker rather than editing raw text.
-ROUTER_HEAD = "| Node | Part | Responsibility |"
-
-
-def split_index(text):
-    """(anchor-table-text, router-table-text), split at the router table's own header line."""
-    idx = text.find(ROUTER_HEAD)
-    if idx == -1:
-        return text, ""
-    return text[:idx], text[idx:]
-
-
-def _load_builder():
-    spec = importlib.util.spec_from_file_location("build_architecture_reference", BUILDER)
-    mod = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(mod)
-    return mod
 
 # A tiny architecture document: two node sections, a compound owns cell and a range owns cell, so the
 # builder's range/compound expansion is exercised the same way test_matrix_reference.py exercises it.
@@ -154,21 +132,18 @@ class TestGateReds(unittest.TestCase):
     index, the sibling shape of test_matrix_reference.py's fault tests."""
 
     def test_reds_a_hand_edited_reference(self):
-        # DRIFT (INV-315): a committed Anchor table with an extra hand-added row differs from a
-        # fresh build. The row is spliced into the ANCHOR table half, ahead of the router table, so
-        # this exercises the anchor-table drift finding rather than the router table's.
-        anchor_part, router_part = split_index(read(ARCH_INDEX))
-        drifted = anchor_part.rstrip() + "\n| ZZ-999 | nowhere |\n\n" + router_part
+        # DRIFT (INV-315): a committed Reference with an extra hand-added row differs from a fresh build.
+        index = read(ARCH_INDEX)
+        drifted = index.rstrip() + "\n| ZZ-999 | nowhere |\n"
         with tempfile.TemporaryDirectory() as tmp:
             idx = write(tmp, "ARCHITECTURE.index.md", drifted)
             r = run(GATE, ARCH, idx)
             self.assertNotEqual(r.returncode, 0, "passed a hand-edited Reference:\n%s" % r.stdout)
             self.assertIn("INV-315", r.stdout)
-            self.assertIn("Anchor table differs", r.stdout)
 
     def test_reds_an_owns_anchor_missing_from_the_reference(self):
-        anchor_part, router_part = split_index(read(ARCH_INDEX))
-        lines = anchor_part.splitlines()
+        index = read(ARCH_INDEX)
+        lines = index.splitlines()
         dropped = None
         out = []
         for l in lines:
@@ -180,7 +155,7 @@ class TestGateReds(unittest.TestCase):
             out.append(l)
         self.assertIsNotNone(dropped, "found no anchor row to drop")
         anchor = dropped.strip("|").split("|")[0].strip()
-        mutated = "\n".join(out) + "\n\n" + router_part
+        mutated = "\n".join(out)
         with tempfile.TemporaryDirectory() as tmp:
             idx = write(tmp, "ARCHITECTURE.index.md", mutated)
             r = run(GATE, ARCH, idx)
@@ -188,63 +163,13 @@ class TestGateReds(unittest.TestCase):
             self.assertIn(anchor, r.stdout, "the gate did not name the missing anchor %s" % anchor)
 
     def test_reds_a_reference_anchor_no_node_owns(self):
-        anchor_part, router_part = split_index(read(ARCH_INDEX))
-        orphaned = anchor_part.rstrip() + "\n| INV-9999 | nowhere |\n\n" + router_part
+        index = read(ARCH_INDEX)
+        orphaned = index.rstrip() + "\n| INV-9999 | nowhere |\n"
         with tempfile.TemporaryDirectory() as tmp:
             idx = write(tmp, "ARCHITECTURE.index.md", orphaned)
             r = run(GATE, ARCH, idx)
             self.assertNotEqual(r.returncode, 0, "passed an orphan Reference anchor:\n%s" % r.stdout)
             self.assertIn("INV-9999", r.stdout)
-
-    def test_reds_a_hand_edited_router_table(self):
-        # DRIFT on the SECOND table (INV-315): a committed router table with an extra hand-added row
-        # differs from a fresh build, distinct from the anchor-table drift case above.
-        anchor_part, router_part = split_index(read(ARCH_INDEX))
-        drifted_router = router_part.rstrip() + "\n| zzz-node | `nowhere.md` | not real |\n"
-        with tempfile.TemporaryDirectory() as tmp:
-            idx = write(tmp, "ARCHITECTURE.index.md", anchor_part + drifted_router)
-            r = run(GATE, ARCH, idx)
-            self.assertNotEqual(r.returncode, 0, "passed a hand-edited router table:\n%s" % r.stdout)
-            self.assertIn("INV-315", r.stdout)
-            self.assertIn("router table differs", r.stdout)
-
-    def test_router_table_names_every_node_its_real_part(self):
-        # A direct check the committed router table's Part column is honest: every node's cell names
-        # the real architecture/*.md file that node's section lives in today (cross-checked against
-        # guardrails/archformat.py's own parse of that file, never against the router table itself).
-        b = _load_builder()
-        import archformat as af
-        anchor_part, router_part = split_index(read(ARCH_INDEX))
-        rows = b.router_table_rows(router_part)
-        paths = architecture_paths()
-        part_of = b.node_to_part(paths)
-        self.assertEqual(set(rows), set(part_of), "the router table's node set differs from the tree's")
-        for name, (part, _resp) in rows.items():
-            full = os.path.join(ROOT, "architecture", os.path.basename(part))
-            self.assertTrue(os.path.isfile(full), "%s: no such part file %s" % (name, part))
-            with open(full, encoding="utf-8") as f:
-                names_in_file = {n.name for n in af.parse_nodes(f.read())}
-            self.assertIn(name, names_in_file,
-                          "router table says %s lives in %s, but that file's own nodes are %s"
-                          % (name, part, sorted(names_in_file)))
-
-    def test_a_node_with_no_matching_part_file_reds(self):
-        # The defensive fault (INV-315): a node the anchor table's own node list carries that the
-        # router build could not place in any of the named files. Exercised directly at the builder's
-        # function level (node_to_part / build_router_table), since the public CLI's spec_paths()
-        # auto-expansion makes this desync unreachable through ordinary argv — spec_paths always
-        # resolves a core's FULL parts map, so a caller cannot name "only some" of a core's parts.
-        b = _load_builder()
-        import archformat as af
-        text = (
-            "# Mini\n\nintro\n\n"
-            "### [node: alpha]\n\n**responsibility** — a\n\n**owns** —\n- E-1\n\n**pins** —\n- `a.py:1`\n\n"
-            "### [node: ghost]\n\n**responsibility** — b\n\n**owns** —\n- E-2\n\n**pins** —\n- `b.py:1`\n"
-        )
-        nodes = af.parse_nodes(text)
-        part_of = {"alpha": "a.md"}  # "ghost" deliberately missing, as a per-file parse never would be
-        router = b.build_router_table(nodes, part_of)
-        self.assertIn("| ghost | `?` |", router, "a node missing from part_of should fall back to '?'")
 
     def test_reds_an_empty_body_by_name(self):
         with tempfile.TemporaryDirectory() as tmp:
