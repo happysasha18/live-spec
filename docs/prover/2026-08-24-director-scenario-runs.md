@@ -159,6 +159,9 @@ finding IS the result: the package-3 "at least as well as shadow" gate is not cl
 by this evidence, for the specific, named reason above (`observation-carrying-its-repair`,
 plus corpus-inherent noise elsewhere), and that is reported rather than closed over.
 
-Blocking: none (for committing this evidence honestly) — but the package-3 completion
-criterion and the build-pipeline cutover gate remain explicitly open, not closed by this
-slice. See handoff §4 for the carried-forward item.
+Blocking: none
+
+This slice's own evidence is committable as-is — nothing here blocks the push. Separately,
+and not a blocking finding of THIS record: the package-3 completion criterion and the
+build-pipeline cutover gate remain open per `JOURNAL.md`'s own gate (quoted above), carried
+forward in `DIRECTOR_HANDOFF.md` §4 rather than closed by this slice.
