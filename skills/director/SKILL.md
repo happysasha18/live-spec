@@ -209,15 +209,25 @@ For a question, an idea, an observation or a halt there is no sheet. There is a 
 
 This version acts. A question, an idea, an observation or a halt gets no sheet, per above —
 and nothing below applies to it. What follows runs only for work that just earned a
-decision sheet: an instruction, a correction, or the settled half of a conditional.
+decision sheet: an instruction, a correction, a decision, or the settled half of a
+conditional.
 
-**Open the checkpoint before the first specialist is called, not after.** Run `python3
+**New work opens a checkpoint before the first specialist is called; work already in
+flight updates the one it already has — never a second `new` on the same work.** An
+instruction naming a goal nothing already covers opens a fresh checkpoint: run `python3
 scripts/checkpoint.py new <path> --title "<goal, short>" --owner director --decision-sheet
 "<the decision sheet above, verbatim>"`, `<path>` under `.live-spec/checkpoints/`, named
-for the work, not for the Director. The decision sheet is not duplicated prose — it is the
-checkpoint's DECISION SHEET section, the one place this work's goal, knowns, unknowns and
-risk live while the work is in flight. This is what makes a resumed window real instead of
-a promise: the next agent reads this file, not this conversation.
+for the work, not for the Director. A correction, or a decision that changes work already
+running, targets a checkpoint that already exists — it never runs `new` again on that
+path, which would either silently overwrite the existing DONE section (`new_checkpoint`
+always writes a blank template) or, at a different path, open the duplicate this file
+elsewhere forbids. It runs `python3 scripts/checkpoint.py update <path> --decision-sheet
+"<the revised sheet>"` (and `--next`/`--in-progress` where those changed too) against the
+SAME path the original instruction opened, so one piece of work keeps one checkpoint for
+its whole life. The decision sheet is not duplicated prose — it is the checkpoint's
+DECISION SHEET section, the one place this work's goal, knowns, unknowns and risk live
+while the work is in flight. This is what makes a resumed window real instead of a
+promise: the next agent reads this file, not this conversation.
 
 **A specialist gets a brief, not a copy** — see "The specialists" below for the exact
 shape. This is the whole of delegation. The fixed protocol this replaces
@@ -239,10 +249,10 @@ the document stays a convergence point, not a lock two lanes wait on.
 
 **A new fact can change the remaining graph.** Read a specialist's answer, a failed check,
 or a fact the human adds mid-work against the plan just made — not filed for later. When
-it changes what remains, rewrite the checkpoint's NEXT section to match and add to or cut
-the specialist list; never carry a stale plan forward silently. When it does not change
-anything, say so and continue — replanning on every unremarkable update is its own kind of
-noise.
+it changes what remains, run `python3 scripts/checkpoint.py update <path> --next "<...>"`
+against this work's own checkpoint and add to or cut the specialist list; never carry a
+stale plan forward silently. When it does not change anything, say so and continue —
+replanning on every unremarkable update is its own kind of noise.
 
 **The verifier gets the goal and the artifacts, never the executor's self-report.** See
 [references/verify-step-detail.md](references/verify-step-detail.md) for the full

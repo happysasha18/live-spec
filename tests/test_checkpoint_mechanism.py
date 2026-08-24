@@ -3,9 +3,12 @@
 Checkpoints used to be pure convention: nothing on disk validated Status/DONE/IN
 PROGRESS/NEXT, they were just habits an agent followed when it remembered to. This suite
 locks the mechanical replacement: scripts/checkpoint.py's read_checkpoint (structural
-parse), validate_checkpoint (semantic rules), new_checkpoint (writer), close_checkpoint
-(the mechanical enforcement of "a landing that ships a checkpoint's items flips that
-checkpoint to its closed state"), and the CLI wrapper around all four.
+parse), validate_checkpoint (semantic rules), new_checkpoint (fresh-file writer),
+update_checkpoint (in-place section rewrite of an existing open checkpoint — the fix for
+the adversarial-review finding that new_checkpoint was the only writer and silently
+overwrote existing content back to a blank template), close_checkpoint (the mechanical
+enforcement of "a landing that ships a checkpoint's items flips that checkpoint to its
+closed state"), and the CLI wrapper around all five.
 
 Every fixture file here is written under a tempfile.TemporaryDirectory() — never into this
 worktree's real (gitignored, ephemeral) .live-spec/checkpoints/.
@@ -385,6 +388,100 @@ class TestCloseCheckpoint(unittest.TestCase):
             checkpoint.close_checkpoint(p)
 
 
+class TestUpdateCheckpoint(unittest.TestCase):
+    """update_checkpoint: the regression lock for the adversarial-review finding that
+    new_checkpoint was the ONLY writer, and a second call against a path already holding
+    real content silently overwrote it back to a blank template — no error, no exists-check,
+    exit 0. update_checkpoint must be able to rewrite one or more sections of an existing
+    open checkpoint in place without ever reproducing that silent-clobber behaviour.
+    """
+
+    def setUp(self):
+        self._tmpdir = tempfile.TemporaryDirectory()
+        self.addCleanup(self._tmpdir.cleanup)
+        self.tmp_path = Path(self._tmpdir.name)
+
+    def _write(self, name, content):
+        p = self.tmp_path / name
+        p.write_text(content, encoding="utf-8")
+        return p
+
+    # 13. update NEXT only: DONE/IN PROGRESS bodies byte-identical before/after, NEXT changed,
+    # result validates clean.
+    def test_update_next_only_leaves_other_sections_untouched(self):
+        p = self._write("open.md", VALID_OPEN_NON_DIRECTOR)
+        before = checkpoint.read_checkpoint(p)
+
+        checkpoint.update_checkpoint(p, next="Ship the retry logic next.")
+
+        after = checkpoint.read_checkpoint(p)
+        self.assertEqual(after["sections"]["DONE"], before["sections"]["DONE"])
+        self.assertEqual(after["sections"]["IN PROGRESS"], before["sections"]["IN PROGRESS"])
+        self.assertEqual(after["sections"]["NEXT"], "Ship the retry logic next.")
+        self.assertEqual(checkpoint.validate_checkpoint(p), [])
+
+    # 14. update DECISION SHEET on a director-owned checkpoint: succeeds, new text lands,
+    # everything else (including the DONE/IN PROGRESS/NEXT placeholders) unchanged.
+    def test_update_decision_sheet_on_director_owned(self):
+        p = self.tmp_path / "director.md"
+        checkpoint.new_checkpoint(
+            p, title="Director's checkpoint", owner="director",
+            decision_sheet="Original decision.",
+        )
+        before = checkpoint.read_checkpoint(p)
+
+        checkpoint.update_checkpoint(p, decision_sheet="Revised decision after correction.")
+
+        after = checkpoint.read_checkpoint(p)
+        self.assertEqual(
+            after["sections"]["DECISION SHEET"], "Revised decision after correction."
+        )
+        self.assertEqual(after["sections"]["DONE"], before["sections"]["DONE"])
+        self.assertEqual(after["sections"]["IN PROGRESS"], before["sections"]["IN PROGRESS"])
+        self.assertEqual(after["sections"]["NEXT"], before["sections"]["NEXT"])
+        self.assertEqual(checkpoint.validate_checkpoint(p), [])
+
+    # 15. decision_sheet on a NON-director-owned checkpoint raises ValueError.
+    def test_update_decision_sheet_on_non_director_raises(self):
+        p = self._write("open.md", VALID_OPEN_NON_DIRECTOR)
+        with self.assertRaises(ValueError):
+            checkpoint.update_checkpoint(p, decision_sheet="not allowed here")
+
+    # 16. all four params None (the defaults) raises ValueError.
+    def test_update_with_nothing_to_update_raises(self):
+        p = self._write("open.md", VALID_OPEN_NON_DIRECTOR)
+        with self.assertRaises(ValueError):
+            checkpoint.update_checkpoint(p)
+
+    # 17. update on a closed checkpoint raises, and does not modify the file.
+    def test_update_on_closed_checkpoint_raises_and_does_not_modify(self):
+        p = self._write("closed.md", VALID_CLOSED)
+        before = p.read_bytes()
+        with self.assertRaises(ValueError):
+            checkpoint.update_checkpoint(p, next="trying to reopen via the back door")
+        after = p.read_bytes()
+        self.assertEqual(before, after)
+
+    # 18. The exact scenario the reviewer found: a checkpoint with real DONE content must
+    # keep that content after an unrelated section is updated — update must never look like
+    # new_checkpoint's silent full-file overwrite.
+    def test_update_never_clobbers_unrelated_completed_work(self):
+        p = self.tmp_path / "worker.md"
+        checkpoint.new_checkpoint(p, title="Worker's checkpoint", owner="some-worker")
+        checkpoint.update_checkpoint(p, done="Finished the hard, easy-to-lose part.")
+        seeded = checkpoint.read_checkpoint(p)
+        self.assertEqual(seeded["sections"]["DONE"], "Finished the hard, easy-to-lose part.")
+
+        checkpoint.update_checkpoint(p, next="revised next")
+
+        after = checkpoint.read_checkpoint(p)
+        self.assertEqual(
+            after["sections"]["DONE"], "Finished the hard, easy-to-lose part."
+        )
+        self.assertEqual(after["sections"]["NEXT"], "revised next")
+        self.assertEqual(checkpoint.validate_checkpoint(p), [])
+
+
 class TestCli(unittest.TestCase):
     def setUp(self):
         self._tmpdir = tempfile.TemporaryDirectory()
@@ -448,6 +545,37 @@ class TestCli(unittest.TestCase):
         )
         self.assertEqual(close_result.returncode, 0, close_result.stdout + close_result.stderr)
         self.assertEqual(checkpoint.read_checkpoint(target)["status"], "closed")
+
+    # 19. CLI smoke test for `update`: write a fixture, update a couple of sections via
+    # subprocess, assert exit 0 and "updated:" in stdout, then confirm the change landed.
+    def test_cli_update(self):
+        target = self._write("cli_update.md", VALID_OPEN_NON_DIRECTOR)
+
+        update_result = subprocess.run(
+            [
+                sys.executable,
+                CHECKPOINT_PY,
+                "update",
+                str(target),
+                "--next",
+                "Ship the retry logic next.",
+                "--in-progress",
+                "Still wiring the retry path.",
+            ],
+            capture_output=True,
+            text=True,
+        )
+        self.assertEqual(
+            update_result.returncode, 0, update_result.stdout + update_result.stderr
+        )
+        self.assertIn("updated:", update_result.stdout)
+
+        data = checkpoint.read_checkpoint(target)
+        self.assertEqual(data["sections"]["NEXT"], "Ship the retry logic next.")
+        self.assertEqual(data["sections"]["IN PROGRESS"], "Still wiring the retry path.")
+        # DONE, untouched by the call, must survive
+        self.assertEqual(data["sections"]["DONE"], "Wrote the parser.")
+        self.assertEqual(checkpoint.validate_checkpoint(target), [])
 
 
 if __name__ == "__main__":

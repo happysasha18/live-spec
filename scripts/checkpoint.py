@@ -16,7 +16,14 @@ to. This module makes the format mechanical:
   - `validate_checkpoint` checks the semantic rules (DONE/IN PROGRESS/NEXT present, DECISION
     SHEET present when director-owned, closed checkpoints carry no open work) and returns a
     list of issue strings.
-  - `new_checkpoint` writes a fresh, valid, open checkpoint.
+  - `new_checkpoint` writes a fresh, valid, open checkpoint. It always creates the file from
+    a blank template — calling it again against an existing path overwrites whatever was
+    there, on purpose (it is the "start over" operation, not the "edit" one).
+  - `update_checkpoint` rewrites one or more section bodies of an EXISTING open checkpoint in
+    place — e.g. revising NEXT and DECISION SHEET when a correction changes work already in
+    flight — without resetting the file to a blank template and without touching any section
+    not named in the call. This is the function `new_checkpoint` is not: `new_checkpoint`
+    always overwrites the whole file, `update_checkpoint` never does.
   - `close_checkpoint` mechanically enforces "a landing that ships a checkpoint's items flips
     that checkpoint to its closed state" — previously just prose nobody checked.
 
@@ -182,6 +189,25 @@ def validate_checkpoint(path) -> list:
     return issues
 
 
+def _serialize_checkpoint(title: str, status: str, owner: str, sections: dict) -> str:
+    """Render a checkpoint's structural pieces back into file text.
+
+    `sections` is an ordered mapping of header text (without "## ") to body text; each is
+    written as "## HEADER" + blank line + body (stripped) + blank line, in `sections`'
+    iteration order — the one normalized layout both `new_checkpoint` (a fresh dict it
+    builds itself) and `update_checkpoint` (the existing file's own section order, read back
+    via read_checkpoint) render through, so the two writers never carry two copies of the
+    same serialization logic.
+    """
+    lines = ["# %s" % title, "Status: %s" % status, "Owner: %s" % owner, ""]
+    for header, body in sections.items():
+        lines.append("## %s" % header)
+        lines.append("")
+        lines.append(body.strip())
+        lines.append("")
+    return "\n".join(lines).rstrip("\n") + "\n"
+
+
 def new_checkpoint(path, title: str, owner: str, decision_sheet=None) -> None:
     """Write a fresh, valid, open checkpoint file to `path`.
 
@@ -189,6 +215,11 @@ def new_checkpoint(path, title: str, owner: str, decision_sheet=None) -> None:
     director-owned and `decision_sheet` is given, it is written verbatim as the DECISION
     SHEET body; director-owned without a decision_sheet raises ValueError, as does passing
     a decision_sheet for a non-director owner.
+
+    This always creates the file from a blank template: a second call against a path that
+    already holds real content overwrites it, on purpose — this is the "start over"
+    operation. To edit one or more sections of an existing open checkpoint without
+    resetting it, use `update_checkpoint` instead.
     """
     if not title or not title.strip():
         raise ValueError("title must be non-empty")
@@ -208,34 +239,70 @@ def new_checkpoint(path, title: str, owner: str, decision_sheet=None) -> None:
                 "decision_sheet must not be given for a non-director-owned checkpoint"
             )
 
-    lines = [
-        "# %s" % title,
-        "Status: open",
-        "Owner: %s" % owner,
-        "",
-        "## DONE",
-        "",
-        "(nothing yet)",
-        "",
-        "## IN PROGRESS",
-        "",
-        "(nothing yet)",
-        "",
-        "## NEXT",
-        "",
-        "(nothing yet)",
-        "",
-    ]
-
+    sections = {
+        "DONE": "(nothing yet)",
+        "IN PROGRESS": "(nothing yet)",
+        "NEXT": "(nothing yet)",
+    }
     if director_owned:
-        lines.append("## %s" % DIRECTOR_SECTION)
-        lines.append("")
-        lines.append(decision_sheet.strip())
-        lines.append("")
+        sections[DIRECTOR_SECTION] = decision_sheet.strip()
 
     out_path = Path(path)
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    out_path.write_text("\n".join(lines).rstrip("\n") + "\n", encoding="utf-8")
+    out_path.write_text(
+        _serialize_checkpoint(title, "open", owner, sections), encoding="utf-8"
+    )
+
+
+def update_checkpoint(path, done=None, in_progress=None, next=None, decision_sheet=None) -> None:
+    """Rewrite one or more section bodies of an EXISTING open checkpoint, in place.
+
+    Unlike `new_checkpoint` (which always overwrites the whole file with a blank template),
+    this touches only the sections named in the call — e.g. revising NEXT and DECISION SHEET
+    when a correction changes work already in flight, without resetting DONE or any other
+    section back to a template and without silently clobbering completed work. A section not
+    named in the call keeps its current body untouched; title, Status:, Owner:, and section
+    order are all preserved.
+
+    Raises ValueError if:
+      - the checkpoint is already closed (updating closed work is out of scope for this
+        function; reopening a closed checkpoint is a separate design question);
+      - all four of done/in_progress/next/decision_sheet are None — calling this with
+        nothing to change is almost certainly a caller bug, not a no-op to accept silently;
+      - decision_sheet is given but the checkpoint is not director-owned (mirrors
+        new_checkpoint's symmetric rule: a non-director checkpoint never carries a DECISION
+        SHEET section).
+
+    A missing file raises FileNotFoundError, propagated unchanged from read_checkpoint.
+    """
+    data = read_checkpoint(path)
+
+    if data["status"] == "closed":
+        raise ValueError("cannot update a closed checkpoint: %s" % path)
+
+    if done is None and in_progress is None and next is None and decision_sheet is None:
+        raise ValueError("update_checkpoint called with nothing to update")
+
+    if decision_sheet is not None and not data["is_director_owned"]:
+        raise ValueError(
+            "decision_sheet must not be given for a non-director-owned checkpoint"
+        )
+
+    sections = dict(data["sections"])  # copy — preserves original section order
+    updates = {
+        "DONE": done,
+        "IN PROGRESS": in_progress,
+        "NEXT": next,
+        DIRECTOR_SECTION: decision_sheet,
+    }
+    for header, value in updates.items():
+        if value is not None:
+            sections[header] = value.strip()
+
+    Path(path).write_text(
+        _serialize_checkpoint(data["title"], data["status"], data["owner"], sections),
+        encoding="utf-8",
+    )
 
 
 def close_checkpoint(path) -> None:
@@ -326,6 +393,22 @@ def _cli_close(args) -> int:
     return 0
 
 
+def _cli_update(args) -> int:
+    try:
+        update_checkpoint(
+            Path(args.path),
+            done=args.done,
+            in_progress=args.in_progress,
+            next=args.next,
+            decision_sheet=args.decision_sheet,
+        )
+    except ValueError as exc:
+        print("ERROR: %s" % exc)
+        return 1
+    print("updated: %s" % args.path)
+    return 0
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(prog="checkpoint.py")
     sub = parser.add_subparsers(dest="command", required=True)
@@ -345,6 +428,16 @@ def main(argv=None) -> int:
     p_close = sub.add_parser("close", help="flip an open checkpoint to closed")
     p_close.add_argument("path")
     p_close.set_defaults(func=_cli_close)
+
+    p_update = sub.add_parser(
+        "update", help="rewrite one or more sections of an existing open checkpoint"
+    )
+    p_update.add_argument("path")
+    p_update.add_argument("--done", default=None)
+    p_update.add_argument("--in-progress", dest="in_progress", default=None)
+    p_update.add_argument("--next", dest="next", default=None)
+    p_update.add_argument("--decision-sheet", dest="decision_sheet", default=None)
+    p_update.set_defaults(func=_cli_update)
 
     args = parser.parse_args(argv)
     if args.command == "validate" and args.path is None and not args.all:
