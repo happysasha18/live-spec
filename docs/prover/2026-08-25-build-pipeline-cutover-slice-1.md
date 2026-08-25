@@ -2,7 +2,8 @@
 
 PUSH-REVIEW
 
-Range: c7708e34..bec35cb8 (3 commits)
+Range: c7708e34..f13390fc (4 commits)
+- f13390fc Fix a broken cross-skill link, add the slice's skill-review record
 - bec35cb8 Fix two blockers from adversarial review of the reference-file move
 - 33799829 Move 4 build-pipeline reference files to skills/director/references/
 - 1da1f587 Move architecture-step-detail.md into skills/architect/references/
@@ -77,5 +78,22 @@ sweep). `docs/director/capability-map.md` row 14's "Lives today in" cell for
 delegation-protocol.md is now stale (names the pre-move path) — a documentation-drift
 papercut noted by round 1, not functional, left for the handoff/capability-map sync
 step that follows this push per the working cycle.
+
+A third, independent skill-quality review (docs/skill-review/2026-08-25-build-pipeline-
+cutover-slice-1.md, standing in for Anthropic's skill-creator review per gate s / SPEC
+INV-208, since this slice's edit is too small to warrant that tool's full eval/iterate
+loop) found one further real, blocking defect neither adversarial round above caught,
+since both were scoped to mechanical correctness (tests, cross-references the movers
+tracked) rather than a fresh reader's pass over the skills' own prose: `skills/build-
+pipeline/SKILL.md:675` still cited `delegation-protocol.md` by its old local path — the
+one cross-reference the crashed mover never reached. Fixed in `f13390fc` (repointed to
+`../director/references/delegation-protocol.md`) and re-verified: `test_traceability.py`,
+`test_worker_restore.py`, `test_no_dramatization_law.py`, `test_delegation_line.py`,
+`test_architect_extraction.py` all pass (336 passed). No test or guardrail catches a
+dangling markdown link of this shape today — this class of bug is caught by review, not
+mechanically, which the skill-review record notes as a real gap worth a future gate,
+not something this slice's scope owes a fix for. That review's three other, non-
+blocking findings (two informational, one already a documented transitional state per
+capability-map.md) are recorded in full in docs/skill-review/, not repeated here.
 
 Blocking: none
