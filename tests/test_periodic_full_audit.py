@@ -52,9 +52,10 @@ def test_matrix_row_for_145():
 
 def test_audit_is_defined_adversarial_by_nature_once():
     """C8: 'audit' is defined once as adversarial by nature (INV-46 clause),
-    and the redundant 'adversarial audit' qualifier is gone from build-pipeline."""
+    and the redundant 'adversarial audit' qualifier is gone from director's verify step
+    (moved there from build-pipeline in the build-pipeline cutover)."""
     spec = _read("PRODUCT_SPEC.md")
     assert "carries an audit — a whole-read that sets out to break the work" in spec
-    pipe = read_all("skills/build-pipeline/SKILL.md")
-    assert "adversarial audit" not in pipe
-    assert "An audit is adversarial by nature" in pipe
+    detail = read_all("skills/director/references/verify-step-detail.md")
+    assert "adversarial audit" not in detail
+    assert "An audit is adversarial by nature" in detail

@@ -45,12 +45,14 @@ red because it proves nothing.
 
 ## The audit protocol, once it has fired
 
-One fresh checker per landing batch covers every claim in the batch — its scope grows with the batch,
-its freshness never shrinks. Brief the checker with the primary sources the landing claims to satisfy
-(spec sentences, requirement codes, the decision sheet's observable outcome) and the artifact paths —
-never the worker's summary, never the Director's own plan. Its opening hypothesis is "tasks completed,
-goal missed." It walks each claimed fact up the ladder exists → substantive → wired → flows, and greps
-for stubs: TODO · FIXME · placeholder · lorem · hardcoded sample · empty function body.
+An audit is adversarial by nature: a whole-read that sets out to break the work, refute its claims,
+and find its holes. One fresh checker per landing batch covers every claim in the batch — its scope
+grows with the batch, its freshness never shrinks. Brief the checker with the primary sources the
+landing claims to satisfy (spec sentences, requirement codes, the decision sheet's observable
+outcome) and the artifact paths — never the worker's summary, never the Director's own plan. Its
+opening hypothesis is "tasks completed, goal missed." It walks each claimed fact up the ladder
+exists → substantive → wired → flows, and greps for stubs: TODO · FIXME · placeholder · lorem ·
+hardcoded sample · empty function body.
 
 Findings become blocking or a recorded pass, never a nod, resolved before the landing closes. The
 checker is itself a worker under the same brief contract as any other (a self-contained brief, a named
