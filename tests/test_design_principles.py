@@ -176,10 +176,12 @@ class TestDesignPrinciplesLaw(unittest.TestCase):
         self.assertIn("adopting project", arch.lower())
 
     def test_verify_feel_pass_reads_design_principles(self):
-        bp = read_all_flat("skills/build-pipeline/SKILL.md")
-        self.assertIn("declared design principle", bp,
-                      "build-pipeline's verify feel pass does not read the declared design principles")
-        self.assertIn("INV-136", bp)
+        # work-kind-table.md (where the verify-by-deed FEEL pass text lives) moved from
+        # build-pipeline/references/ to director/references/ in the build-pipeline cutover.
+        director = read_all_flat("skills/director/SKILL.md")
+        self.assertIn("declared design principle", director,
+                      "director's verify feel pass does not read the declared design principles")
+        self.assertIn("INV-136", director)
 
     def test_spec_author_reads_declared_design_principles(self):
         sa = read_all_flat("skills/spec-author/SKILL.md")

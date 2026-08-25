@@ -193,7 +193,10 @@ class TestRequestClassifierEntryLayer(DocHomeCase):
                             % (kind, kinds))
 
     def _request_kind_rows(self):
-        """The rows of build-pipeline's request-kind table — the home of the closed door set.
+        """The rows of the request-kind table — the home of the closed door set.
+
+        request-kind-table.md moved from build-pipeline/references/ to director/references/ in
+        the build-pipeline cutover, so its rows are read via director's surface now.
 
         Each named kind is checked against the table's kind column. A bare word like "method" or
         "feedback" matches unrelated prose across a large skill surface, so a whole-surface read
@@ -201,7 +204,7 @@ class TestRequestClassifierEntryLayer(DocHomeCase):
         by name."""
         rows = []
         in_table = False
-        for line in read_all("skills/build-pipeline/SKILL.md").splitlines():
+        for line in read_all("skills/director/SKILL.md").splitlines():
             s = line.strip()
             if s.startswith("| Request kind |"):
                 in_table = True
@@ -213,16 +216,18 @@ class TestRequestClassifierEntryLayer(DocHomeCase):
             if set(s) <= set("|-: "):
                 continue
             rows.append([c.strip() for c in s.strip("|").split("|")])
-        self.assertTrue(rows, "build-pipeline states no request-kind table; the closed door set "
+        self.assertTrue(rows, "director states no request-kind table; the closed door set "
                               "has no rows to read")
         return rows
 
     def test_intake_moment_back_check(self):
-        bp = read_all_flat("skills/build-pipeline/SKILL.md")
+        # spec-motion tripwire text lives in request-kind-table.md, moved to director/ in the
+        # build-pipeline cutover.
+        director = read_all_flat("skills/director/SKILL.md")
         # A phrase unique to the new door-step wiring, so this test is genuinely red
         # before the classifier lands (the bare "at intake" already existed elsewhere).
-        self.assertIn("spec-motion tripwire fires", bp)
-        self.assertIn("lifts it to the spec at the door", bp)
+        self.assertIn("spec-motion tripwire fires", director)
+        self.assertIn("lifts it to the spec at the door", director)
 
     def test_inv151_index_and_ownership(self):
         self.index_row("PRODUCT_SPEC.md", "INV-151")
