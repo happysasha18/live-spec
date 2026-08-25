@@ -7,7 +7,7 @@ every request kind has a named entry document and a mandatory back-check.
 |---|---|---|
 | product behaviour | the spec step, flows down | none above it; the fit walk validates against the whole spec (FEATURE-FIT) |
 | a technically-phrased request | the architecture step | the spec-motion tripwire fires **at intake** — a surface / state / unbacked-behaviour trip lifts it to the spec at the door (before the architecture work is built on an unlifted premise), outranking the request's own label (INV-16), and re-fires mid-work |
-| a defect | the matrix step, red-on-bug test | a fixed fact also in spec prose updates the spec sentence the same change; a recurring bug (~30 days, same area) re-doors to feature (INV-104, INV-124) |
+| a defect | the matrix step, red-on-bug test | a fixed fact also in spec prose updates the spec sentence the same change (INV-104); a recurring bug (~30 days, same area, caught by grepping `JOURNAL.md` for the area's name and its dates before taking the bug) re-doors to feature — a repeat means the area is missing an invariant |
 | docs-only | its own light path | the removal accounting (INV-109) + the register lint |
 | a tiny reversible edit | the skip shortcut (code + test) | the spec-backed-literal tripwire (INV-104); anything visual enters at the matrix minimum |
 | a settings / parameter value | the settings ladder (profiles) | check it is genuinely a value — a new RULE is a feature for the spec |
