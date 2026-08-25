@@ -11,9 +11,12 @@ decision.
 Not every landing earns one. It fires when the change is high-stakes AND its only review so far is
 the author's own.
 
-**High-stakes means one of two things.** The delta is surface-sized — a new surface, or a multi-file
+**High-stakes means one of three things.** The delta is surface-sized — a new surface, or a multi-file
 behaviour change. Or the change edits the method itself — a rule whose meaning changed, a new or
-re-scoped invariant. A wording-only edit that changes no rule's meaning is not a method edit.
+re-scoped invariant. Or the change is a behaviour-neutral refactor reshaping many files — no surface
+and no behaviour moved, but the move itself is invisible to every dimension a decision sheet would
+name, so it earns a fresh checker on the same footing as either of the other two. A wording-only edit
+that changes no rule's meaning is not a method edit.
 
 **The author's own review means no independent read has happened.** A differently-contexted head,
 briefed from the primary sources on the "goal missed" hypothesis, is independent. A prover pass run
@@ -21,7 +24,9 @@ in the author's own context never counts as one. Delegation never makes the revi
 — the same head that briefed the worker reading the worker's result is still the author's own review.
 
 Below the bar, the Director's own re-check against the decision sheet's observable outcome is enough.
-Above it, call a fresh checker.
+Above it, call a fresh checker. For a documentation-only change, that re-check has a fixed shape:
+re-read the changed section rendered, plus one grep confirming no other surface still makes the claim
+the edit corrected — not a prose read alone.
 
 ## The worker-restore gate at verify (SPEC INV-298; the gate INV-299)
 

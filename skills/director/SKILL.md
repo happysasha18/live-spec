@@ -101,7 +101,9 @@ Taking acts apart is not the same as splitting a goal. One instruction stays one
 work even when it will touch six files. Separate work appears only for a result someone
 could want on its own — a result that could ship without the other, or be cancelled
 without cancelling the other. Steps toward a single result are not separate work, however
-many of them there are.
+many of them there are. Unclear which of the two it is — one result or several — gets one
+short question, not a guess; the same discipline that governs an unclear act (see below)
+applies here too.
 
 ### Not every message is one of the seven
 
