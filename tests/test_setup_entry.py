@@ -58,7 +58,7 @@ CARD = "skills/build-pipeline/references/project-setup.md"
 START = "adopt/START.md"
 ADOPT = "adopt/ADOPT.md"
 CATCHUP = "MIGRATION.md"
-REQUEST_KINDS = "skills/build-pipeline/references/request-kind-table.md"
+REQUEST_KINDS = "skills/director/references/request-kind-table.md"
 
 # The two ADOPT.md headings the founding walk points at rather than restating (design F8).
 ADOPT_VCS_HEADING = "Phase 0 — Version-control gate first"

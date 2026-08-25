@@ -120,7 +120,7 @@ the kind says what their standards look like in its medium.
     Proposals proceed on the recommended option and are surfaced (SPEC T-15). The door is one of
     feature · bug · refactor · docs-only · skip. The work-kind is one of product · infra · skill ·
     prose — what the wish builds, one kind per wish. The kind scales the form of every step the wish
-    walks (the work-kind table at [references/work-kind-table.md](references/work-kind-table.md);
+    walks (the work-kind table at [../director/references/work-kind-table.md](../director/references/work-kind-table.md);
     SPEC T-16, INV-22).
 
     The same line places the wish on the product's feature map — **changes feature X · a new feature ·
@@ -135,7 +135,7 @@ the kind says what their standards look like in its medium.
     Beside the door and the work-kind, read the change against the spec, the architecture and the code
     at once. Name one footprint — **presentation-only** · **single-module** · **cross-cutting**. The
     footprint is spoken in the echo and written in the row's `footprint:` note. See
-    [references/footprint-read.md](references/footprint-read.md) for the full read: how the footprint
+    [../director/references/footprint-read.md](../director/references/footprint-read.md) for the full read: how the footprint
     composes with the door, and what each footprint grants each step. That page also carries what a
     three-source disagreement owes, and the mid-work re-classification.
   - Tripwires decide by rule, ahead of judgment. Five things trip a wish to the feature door:
@@ -158,7 +158,7 @@ the kind says what their standards look like in its medium.
     integration re-fence [INV-39] still catches the collision at landing; this closes the board's
     observability gap and adds no new net.
   - **A declared mockup-first entry condition is honoured from the row, cancelled only by name (SPEC
-    INV-43).** See [references/mockup-first-entry.md](references/mockup-first-entry.md) for where the
+    INV-43).** See [../director/references/mockup-first-entry.md](../director/references/mockup-first-entry.md) for where the
     condition is written, what cancels it, and the worked case behind it.
   - **One wish = one user story (SPEC T-17):** a wish carrying several distinct things a person will
     do and see splits at intake. Each story takes its own row through the full pipeline. Stages slice
@@ -177,7 +177,7 @@ the kind says what their standards look like in its medium.
   named home and a mandatory back-check. A request the set cannot place is one plain question, never
   an improvised route:
 
-  See [references/request-kind-table.md](references/request-kind-table.md) for the full closed set of
+  See [../director/references/request-kind-table.md](../director/references/request-kind-table.md) for the full closed set of
   request kinds, their entry step, and mandatory back-check. The kinds are: product behaviour · a
   technically-phrased request · a defect · docs-only · a tiny reversible edit · a settings/parameter
   value · an inbox wish · a method/skill change · a sketch · research/a question · a feedback hand-back.
@@ -285,7 +285,7 @@ own door like any other request.
 ## The work-kind table — what the wish builds scales how each step runs (SPEC T-16, INV-22)
 
 The door picks which steps run. The kind picks the form each running step takes. The work-kind table
-at [references/work-kind-table.md](references/work-kind-table.md) is the per-kind meanings' one
+at [../director/references/work-kind-table.md](../director/references/work-kind-table.md) is the per-kind meanings' one
 normative home. That is the one place they are stated, and the spec binds the contract around it.
 
 The contract stands before the table. At landing, every door-granted step has either **APPLIED in its
@@ -296,7 +296,7 @@ ever touches the safety net. That net is the door law and its tripwires, the del
 sentences (fences · facets · non-goals · success measure), and ask-at-intake. A scope cut obeys the
 same law (SPEC T-15).
 
-See [references/work-kind-table.md](references/work-kind-table.md) for the full table of how each
+See [../director/references/work-kind-table.md](../director/references/work-kind-table.md) for the full table of how each
 step takes shape under product / infra / skill / prose. The steps are: 1 spec · 2 prove · 3
 architecture · 4 prove architecture · 5 matrix · 6 test · 7 code · 8 verify by deed · 9 commit & show
 · design-sync/snapshot. That table also carries the verify-by-deed VISITOR WALK and FEEL pass (SPEC

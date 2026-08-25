@@ -236,7 +236,7 @@ keeps the number it already carries.
     refactor · docs-only · skip — in one intake line beside size and priority, before the first line of
     code. The same line names the **work-kind** — product · infra · skill · prose — which is what the
     request builds. The door picks which pipeline steps run, and the kind picks the form each running
-    step takes; the per-kind table's one home is `skills/build-pipeline/SKILL.md`. At landing, every
+    step takes; the per-kind table's one home is `skills/director/references/work-kind-table.md`. At landing, every
     door-granted step has applied or been stood down by name in the report. So every skip is named and
     every kind touches the safety net (SPEC T-16, INV-22).
     Hard tripwires decide, never mood. Five of them send a request to the feature door. The first is a

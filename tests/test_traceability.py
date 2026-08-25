@@ -788,7 +788,8 @@ class TestDoorLawAndPrototype(unittest.TestCase):
         self.assertIn("product · infra · skill · prose", bp,
                       "build-pipeline lost the work-kind vocabulary")
         self.assertIn("The work-kind table", bp,
-                      "build-pipeline lost the per-kind step table (its ONE normative home)")
+                      "build-pipeline lost its pointer to the work-kind table "
+                      "(content's one normative home: skills/director/references/work-kind-table.md)")
         for phrase in ("APPLIED in its kind's form or STOOD DOWN by name",
                        "An unresolved kind scales nothing down"):
             self.assertIn(phrase, bp, "build-pipeline lost the work-kind clause: %s" % phrase)
@@ -2288,9 +2289,12 @@ class TestProblemLedger(unittest.TestCase):
                        "a pointer into a live prototype home would break it"):
             self.assertIn(needle, author, "spec-author missing: %s" % needle)
         pipe = re.sub(r"\s+", " ", read_all(os.path.join("skills", "build-pipeline", "SKILL.md")))
-        for needle in ("plan-vs-prototype diff", "entry: mockup-first",
-                       "only by the human naming it", "OPEN the artifact before building"):
+        for needle in ("plan-vs-prototype diff", "OPEN the artifact before building"):
             self.assertIn(needle, pipe, "build-pipeline missing: %s" % needle)
+        # mockup-first-entry.md moved to director/ in the build-pipeline cutover
+        director = re.sub(r"\s+", " ", read_all(os.path.join("skills", "director", "SKILL.md")))
+        for needle in ("entry: mockup-first", "only by the human naming it"):
+            self.assertIn(needle, director, "director missing: %s" % needle)
         prover = re.sub(r"\s+", " ", read(os.path.join("skills", "product-prover-pack", "SKILL.md")))
         for needle in ("`norm: <path>`", "contradicting its own artifact"):
             self.assertIn(needle, prover, "product-prover missing: %s" % needle)

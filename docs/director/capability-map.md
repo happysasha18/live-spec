@@ -290,3 +290,11 @@ specialist skill's actual current text) lives in this session's research agent o
 yet a committed file — the next session should re-run the same comparison (build-pipeline's
 113-596 against director + spec-author/product-prover-pack/design-reviewer/architect/test-author's
 full bodies) rather than trust a paraphrase, per this map's own §1.2.1 rule.
+
+## 2026-08-25 — four more class-b files given a home
+
+`request-kind-table.md`, `work-kind-table.md`, `footprint-read.md`, and `mockup-first-entry.md`
+moved to `skills/director/references/` (mirroring how the step-1 four moved), closing that part of
+the "no home anywhere in the tree today" gap named just above (lines 265-268) and resolving the
+footprint-scale contradiction at lines 276-279 in `footprint-read.md`'s favor: it now lives under
+`director/`, not on the "no ready home yet" list. All consumers repointed in the same slice.
