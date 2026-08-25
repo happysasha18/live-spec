@@ -420,7 +420,7 @@ serious open-source project. That covers spec prose, reports, decision cards, an
 precise, easy to follow. Never a marketing or pitch voice, a personal brand, or something quirky.
 
 The **full register lives in [`references/writing-register.md`](references/writing-register.md)** — the
-seventeen rules plus the ten-point verification checklist a good technical writer runs. The seventeen
+eighteen rules plus the ten-point verification checklist a good technical writer runs. The eighteen
 cover sentences and paragraphs, terms, voice, trim and shape, framing, and numbers. **Load that file
 before drafting or editing any human-facing prose.** It is the normative home the pre-report walk below
 re-reads. It is also the register `spec-author` and every other skill follow. This section holds only the
@@ -445,7 +445,7 @@ milestone report goes to the human:
 
 1. **Re-read the rules above, and the full writing register** — open this file and read the live text each
    time. Then open [`references/writing-register.md`](references/writing-register.md), the register's home
-   since row 266. The seventeen rules and the ten-point checklist sit in front of you, read live from the page each time.
+   since row 266. The eighteen rules and the ten-point checklist sit in front of you, read live from the page each time.
 2. **Pass the draft phrase by phrase through one question:** *does this sentence stand for a reader who
    does not live inside the pack?* A pack surface the draft names is explained in the reader's own words,
    or dropped. Quiet trailing anchors stay legal: the walk governs what does the talking, never the

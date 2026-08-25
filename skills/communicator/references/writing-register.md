@@ -4,7 +4,7 @@ Everything the pack writes for a human — spec prose, reports, decision cards, 
 register: a native-English technical writer for a serious open-source project. Neutral, precise, easy
 to follow. Never let it read as a marketing or pitch voice, a personal brand, or something quirky. (Defined 2026-07-07 after
 the owner rejected both a "confident product pitch" draft and a persona-flavored one; his words, 2026-07-07:
-write in the language of a native-speaker technical writer for open source, consistent and easy to read.) Seventeen rules:
+write in the language of a native-speaker technical writer for open source, consistent and easy to read.) Eighteen rules:
 
 ## Sentences and paragraphs
 
@@ -51,6 +51,11 @@ Who acts in the sentence, and which words a reader already knows.
       at first use (rule 3); after that it is safe to reuse.
     - The test: would someone outside the project
       recognize this word naturally? If yes, keep it. If it is your own coinage, define it or replace it.
+- **The CHANGELOG speaks to the user; the journal speaks to the builder.** *(rule 18)* Each CHANGELOG
+   entry says what changed for the person using the product, with one concrete example from real
+   output, in outcome terms only. Function names, internal ids, and row numbers live in the journal
+   instead. And no doc pins a drifting version number in prose, since "current version: vX.Y" always
+   goes stale — point at the version's one home (the VERSION file, the frontmatter) or omit it.
 
 ## Trim and shape
 

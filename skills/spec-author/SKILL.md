@@ -152,6 +152,12 @@ reading machinery lands. The quantification questions (analytics tag? how measur
 the facet sweep's batched report. Both bind forward; an adopted feature owes its pair at the first
 landing that touches it. A prototype writes neither — it promises nothing.
 
+## Removing a shipped feature is a change too
+
+The tombstone and the retired matrix rows are already the shared rule (base rule 10). What that rule
+does not name: the owning tests are deleted, and the skill's own SKILL.md / README are swept — all
+in the same session as the removal.
+
 ## The primary unit — one per project type, traced end to end (SPEC E-29, INV-73)
 
 What a primary unit is, which unit each project type carries, the one tag-and-trace mechanic

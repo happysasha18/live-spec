@@ -24,7 +24,7 @@ file under `docs/queue-archive/`, so a number missing from the queue is looked u
 
 **Two numbering systems share the `(rule N)` form.** On the body's page a bare *(rule N)* counts its
 twenty-two rules. Inside the body's section "The writing register", and inside
-[`writing-register.md`](writing-register.md), it counts that register's own seventeen rules. Read the
+[`writing-register.md`](writing-register.md), it counts that register's own eighteen rules. Read the
 tag against the section it stands in.
 
 **Base rules.** A "base rule N" points into `skills/live-spec-base/SKILL.md`; its own frontmatter

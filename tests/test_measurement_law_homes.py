@@ -19,7 +19,7 @@ def test_the_writing_register_states_the_rule():
     assert "(rule 17)" in body
     assert "A number carries four things" in body
     assert "Its method" in body
-    assert "Seventeen rules" in body
+    assert "Eighteen rules" in body
 
 
 def test_the_communicator_body_carries_the_chat_face():
