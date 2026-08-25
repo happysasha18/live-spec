@@ -43,14 +43,16 @@ RULE_NUMBERS = tuple(n for n in range(1, 36) if n != 30)
 # Ratchet, not a target: an earlier session's move brought the body from 620 to 606 lines; this one
 # moved five bare dated citations to docs/lenses.md with no pointer left behind (the one pattern a
 # reverted second-pass attempt proved byte-positive — docs/prover/2026-08-25-live-spec-base-second-pass.md),
-# landing at 602. Still well past skill-creator's <500-line ideal (the number
-# test_communicator_body_thinned.py's IDEAL_MAX_LINES derives from, ~/.claude/skills/skill-creator/SKILL.md).
-# Getting live-spec-base under 500 is a further structural move — grouping or folding rules, the way
-# communicator needed a second pass (row 280) after its first reference-extraction (row 266) still
-# left it at 565 lines. Until that second pass happens here, this threshold holds the line at "no
-# regrowth past where this session left it", with headroom for small, legitimate edits — not "under
-# the ideal".
-CURRENT_MAX_LINES = 608
+# landing at 602. A further session compressed rules 6/14/19/29/31 in place — merging sentences,
+# cutting connective filler, removing one confirmed duplicate (rule 6's leave-word restatement) —
+# landing at 592 (docs/prover/2026-08-25-a7-rule-compression.md). Still well past skill-creator's
+# <500-line ideal (the number test_communicator_body_thinned.py's IDEAL_MAX_LINES derives from,
+# ~/.claude/skills/skill-creator/SKILL.md). Getting live-spec-base under 500 is a further
+# structural move — grouping or folding rules, the way communicator needed a second pass (row 280)
+# after its first reference-extraction (row 266) still left it at 565 lines. Until that second
+# pass happens here, this threshold holds the line at "no regrowth past where this session left
+# it", with headroom for small, legitimate edits — not "under the ideal".
+CURRENT_MAX_LINES = 598
 
 
 class TestLiveSpecBaseBodyThinned(unittest.TestCase):
