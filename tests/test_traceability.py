@@ -3558,3 +3558,29 @@ class TestGroundingLaw(unittest.TestCase):
         ):
             self.assertIn(needle, director, "director SKILL.md missing the grounding law: %s" % needle)
         self.assertIn("test_grounding_law", read("TEST_MATRIX.md"), "M-545 must pin this test")
+
+
+class TestDirectorRedesignGaps(unittest.TestCase):
+    """Three narrow gaps left by director's acts/dimensions redesign, closed 2026-08-25 in
+    director's own vocabulary rather than by porting build-pipeline's old door-language prose."""
+
+    def test_split_count_ambiguity_asks(self):
+        director = read_all_flat("skills/director/SKILL.md")
+        self.assertIn(
+            "Unclear which of the two it is", director,
+            "director lost the ask-at-intake fallback for split-count ambiguity",
+        )
+
+    def test_refactor_is_a_third_high_stakes_trigger(self):
+        detail = read_all_flat("skills/director/references/verify-step-detail.md")
+        self.assertIn("High-stakes means one of three things", detail,
+                      "verify-step-detail lost the third high-stakes condition")
+        self.assertIn("behaviour-neutral refactor reshaping many files", detail,
+                      "verify-step-detail lost the refactor high-stakes trigger")
+
+    def test_docs_only_recheck_has_a_recipe(self):
+        detail = read_all_flat("skills/director/references/verify-step-detail.md")
+        self.assertIn(
+            "re-read the changed section rendered, plus one grep", detail,
+            "verify-step-detail lost the documentation-only re-check recipe",
+        )
