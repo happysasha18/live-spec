@@ -225,8 +225,8 @@ keeps the number it already carries.
     an architecture smell; check the spec, since a spec silent on the broken behaviour is the real
     defect, fixed first so the prover can flag it and the code then lands under it; and escalate to the
     human when the class boundary needs his read, since the agent never guesses the boundary. The full
-    four-move law lives in `skills/build-pipeline/SKILL.md`, under its bug entry, and in the spec at
-    INV-124.
+    four-move law's homes are `skills/director/references/class-hunt.md`,
+    `skills/build-pipeline/SKILL.md`'s bug entry, and the spec at INV-124.
 
     A rule superseded at a broad scope is the same class: its restatements at narrower scopes — a host's
     `CLAUDE.md`, a project's playbook copy, an installed skill — go stale the instant the broad rule
