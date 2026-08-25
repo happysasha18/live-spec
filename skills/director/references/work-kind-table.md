@@ -4,6 +4,14 @@ The per-kind meanings referenced from `SKILL.md`'s "The work-kind table" section
 WHAT the wish builds scales HOW each step runs. The door picks WHICH steps run; this table picks the
 FORM each running step takes.
 
+**The contract stands before the table.** At landing, every step the request's door
+granted has either APPLIED in its kind's form or STOOD DOWN by name in the delivery report — a
+stand-down reads like "design-sync — text product, stands down". A silently skipped step is a defect.
+An unresolved kind scales nothing down: standing a step down requires a named kind, the ask riding the
+row (SPEC INV-12). And no kind ever touches the safety net — the door law and its tripwires, the delta's mandatory
+sentences (fences · facets · non-goals · success measure), and ask-at-intake. A scope cut obeys the
+same law (SPEC T-15).
+
 | Step | product (a user faces it) | infra (tooling for the project) | skill (an agent works by it) | prose (a human reads it) |
 |---|---|---|---|---|
 | 1 spec | full delta: fences, axes, facet sweep over visible surfaces | the tool's contract: inputs → outputs, failure behaviour, where it runs; usually "no visible surface — facets N/A" | the behaviour it must produce: trigger, the correction it makes, when NOT to fire | the reader, the claims, the reading path; visual facets only if it renders |

@@ -19,3 +19,8 @@ INSTANTIATES these checks for its own surfaces; the pipeline REQUIRES the check 
   freelancing mechanically: you cannot ship an unasked, unrecorded behaviour.
 - **Conflicts** — id duplicates, a spec invariant with no matrix row, a ⟨DECIDE⟩ marked RESOLVED but still
   live, a surface named two ways. (This is today's `test_traceability`, widened.)
+- **Reach map** — before any push, every check the diff can reach runs (SPEC INV-45). A prose-only diff
+  runs the doc gates whole and says so; any code, spec, matrix, skill, or test file in the diff means the
+  whole suite. The reach map itself is the `reach_classes` block of `guardrails.config.json`, pairing
+  each file class with the checks it reaches. The pack's suite runs as `python3 -m pytest -q` from the
+  repository root; a host with another runner names its own in its profile.

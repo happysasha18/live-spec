@@ -53,3 +53,13 @@ form (SPEC T-18, INV-39, INV-49, INV-214). Every line below reads exactly as it 
   edit strings while the applier lands the current row under the pen. See
   [drafter-applier-example.md](drafter-applier-example.md) for the drafter's
   self-verify list and the 2026-07-12 worked run [T-18, INV-39, INV-49].
+
+  Re-fire the door mid-work the moment the work is about to create a surface or state its door doesn't
+  grant. Stop, reclassify, and continue by the right door. The re-door sometimes creates a surface or
+  state that did not exist when the lanes opened. In that case the same re-check **re-runs the
+  independence edges against every rolling lane (SPEC INV-131)**. The new surface can collide with a
+  sibling that was independent a moment ago. A new edge pulls the re-doored lane back to serial, waiting
+  behind the lane it now shares a surface with. The board carries a line for that move. That way the
+  departures board never asserts a stale independence after the ground moved. The integration re-fence
+  [INV-39] still catches the collision at landing; this closes the board's observability gap and adds
+  no new net.
