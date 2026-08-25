@@ -2,7 +2,11 @@
 
 PUSH-REVIEW
 
-Range: 8b28a838..bba99eac (1 commit)
+Range: ca6181db..bba99eac (3 commits) — widened to cover the whole reviewed delta since the last
+push, not just this record's own fix, per the gate a self-naming arm (a single record must name
+the base plus every non-exempt commit in the pushed range together)
+- 8875ca80 Give 2 more batch-2b build-pipeline facts a home (slice 2)
+- 6b0cd76f Skill-review record for batch-2b slice 2 (communicator, spec-author)
 - bba99eac Re-point r5 rule-price pins after spec-author's +6 line shift
 
 Files read: full diff of bba99eac (1 file, 15 insertions / 15 deletions); the whole of
