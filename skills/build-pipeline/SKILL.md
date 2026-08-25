@@ -56,3 +56,11 @@ entry stands outside the derivation chain. When the walk finishes, the first wis
   `design-reviewer`), `architect`, and `test-author` as the work needs them.
 - `live-spec-base` — the shared rulebook, the settings ladder, and the glossary every term on this
   page resolves against.
+
+## Work that belongs elsewhere
+
+An accepted change of any kind — spec, architecture, matrix, test, code — routes through
+`director`, not here. This skill runs only at two moments: setting a project up on the pack, and
+the MINOR-bump gate procedure. Everything this page once carried beyond those two — the door, the
+work-kind table, the footprint scale, the request-kind table, the fixed nine-step sequence — is
+`director`'s job now.
