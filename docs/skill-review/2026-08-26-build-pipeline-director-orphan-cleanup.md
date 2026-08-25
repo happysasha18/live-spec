@@ -57,3 +57,31 @@ snapshot dated 2026-08-19, outside today's change) and `docs/director/capability
 flagged in the working handoff as unsynced since the Полоса B п.6 cutover, not this change's
 scope) still cite the pre-move path. Neither touches a skill body, a test, or a guardrail, so
 neither blocks this push; tracked in the handoff for a later docs-sync pass.
+
+## Fast-follow (same push range): the third orphaned test CI caught
+
+The first push (commit `ccb3d9fb`) missed that `tests/test_periodic_full_audit.py::
+test_audit_is_defined_adversarial_by_nature_once` also depended on the deleted
+`build-pipeline/references/verify-step-detail.md` surviving via `read_all`'s glob — it searched
+for the sentence "An audit is adversarial by nature: a whole-read that sets out to break the
+work, refute its claims, and find its holes." CI's full suite caught this; the local targeted
+run (scoped to the files the classification named) did not include this test file.
+
+That exact sentence had quietly dropped out of `director/references/verify-step-detail.md`
+during the Полоса B п.6 rewrite (a real, pre-existing content loss the dead build-pipeline
+duplicate had been silently masking) — not a text this fix invented. Restored it verbatim into
+`director/references/verify-step-detail.md`'s "The audit protocol, once it has fired" section
+(confirmed character-for-character against `git show ccb3d9fb^:skills/build-pipeline/
+references/verify-step-detail.md`, by the second independent reviewer, not taken on the first
+reviewer's word), and redirected the test's read path and docstring from build-pipeline to
+director. A second independent adversarial review (a different fresh reviewer, same instruction
+to find grounds to reject) returned **ALLOW**: diff scope matched exactly what was claimed,
+restoration verified verbatim against the pre-deletion source, line-wrap quality checked, test
+logic verified correct, targeted re-run (342 passed) and both local guardrail scripts
+(pin-drift, skill-loadability) green, and a fresh grep swept for any other place "adversarial
+audit"/"An audit is adversarial by nature" might now collide or duplicate — none found; the
+phrase is defined in exactly one normative place, per INV-46/C8's "once" requirement. One
+non-blocking stylistic nit (`read_all` instead of the more explicit `_read` on a non-SKILL.md
+path — behaviourally identical, matching a nit the first reviewer raised on a different file in
+this same range) was left as-is by design, consistent with the first round's disposition of the
+same nit.
