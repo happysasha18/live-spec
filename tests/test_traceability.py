@@ -743,10 +743,10 @@ class TestDoorLawAndPrototype(unittest.TestCase):
             self.assertIn(phrase, body, "base rules 15-16 lost: %s" % phrase)
 
     def test_working_skills_carry_the_door(self):
-        bp = read_all_flat("skills/build-pipeline/SKILL.md")
-        self.assertIn("Step zero, before ANY tool call: name the door aloud", bp,
-                      "build-pipeline lost the door step")
-        self.assertIn("feature · bug · refactor · docs-only · skip", bp)
+        # door-ceremony now belongs to Director entirely (0 mentions of "door" in
+        # director/SKILL.md, a deliberate redesign); door law itself lives normatively in the
+        # SPEC + live-spec-base (base rules 15-16). build-pipeline no longer runs intake, so it
+        # is no longer required to carry this phrase.
         pp = read_flat("skills/product-prover-pack/SKILL.md")
         self.assertIn("Unbacked surfaces and unlabelled sketches", pp,
                       "product-prover lost the unbacked-surfaces lens")
@@ -784,15 +784,6 @@ class TestDoorLawAndPrototype(unittest.TestCase):
             self.assertIn(anchor, body, "SPEC prose lost anchor %s" % anchor)
 
     def test_skills_carry_work_kind(self):
-        bp = re.sub(r"\s+", " ", read_all("skills/build-pipeline/SKILL.md"))
-        self.assertIn("product · infra · skill · prose", bp,
-                      "build-pipeline lost the work-kind vocabulary")
-        self.assertIn("The work-kind table", bp,
-                      "build-pipeline lost its pointer to the work-kind table "
-                      "(content's one normative home: skills/director/references/work-kind-table.md)")
-        for phrase in ("APPLIED in its kind's form or STOOD DOWN by name",
-                       "An unresolved kind scales nothing down"):
-            self.assertIn(phrase, bp, "build-pipeline lost the work-kind clause: %s" % phrase)
         base = re.sub(r"\s+", " ", read("skills/live-spec-base/SKILL.md"))
         self.assertIn("work-kind", base, "base rule 15 lost the work-kind axis")
         self.assertIn("product · infra · skill · prose", base,
@@ -817,9 +808,6 @@ class TestDoorLawAndPrototype(unittest.TestCase):
         sa = re.sub(r"\s+", " ", read("skills/spec-author/SKILL.md"))
         self.assertIn("The regression fences — run first", sa, "spec-author lost the fences section")
         self.assertIn("a hope cannot be fenced", sa)
-        bp = re.sub(r"\s+", " ", read_all("skills/build-pipeline/SKILL.md"))
-        self.assertIn("regression fences", bp, "build-pipeline step 1 lost the fences sentence")
-        self.assertIn("never a new row (SPEC T-14, INV-19)", bp)
 
     def test_spec_states_intake_trio(self):
         body = re.sub(r"\s+", " ", read("PRODUCT_SPEC.md"))
@@ -842,11 +830,6 @@ class TestDoorLawAndPrototype(unittest.TestCase):
         self.assertIn("The delta's two closing sentences", sa,
                       "spec-author lost the closing-sentences section")
         self.assertIn("only a missing sentence is a hole", sa)
-        bp = re.sub(r"\s+", " ", read_all("skills/build-pipeline/SKILL.md"))
-        self.assertIn("never a time budget or estimate", bp,
-                      "build-pipeline intake line lost the scope-never-time law")
-        self.assertNotIn("appetite", bp.lower(), "build-pipeline still speaks the retired term")
-        self.assertIn("The delta CLOSES with its two sentences", bp)
         sa2 = re.sub(r"\s+", " ", read("skills/spec-author/SKILL.md"))
         self.assertNotIn("appetite", sa2.lower(), "spec-author still speaks the retired term")
         spec2 = re.sub(r"\s+", " ", read("PRODUCT_SPEC.md"))
@@ -992,9 +975,12 @@ class TestFacetSweep(unittest.TestCase):
         cm = re.sub(r"\s+", " ", read("skills/communicator/SKILL.md"))
         self.assertIn("standard-facet sweep", cm, "communicator lost the facet tradeoff-report line")
         self.assertIn("veto becomes a new wish", cm)
-        bp = re.sub(r"\s+", " ", read_all("skills/build-pipeline/SKILL.md"))
-        self.assertIn("standard-facet sweep", bp, "build-pipeline step 1 lost the sweep sentence")
-        self.assertIn("canonical list lives in spec-author", bp)
+        # the build-pipeline pointer is retired: "standard-facet sweep" is already fully and
+        # independently covered by spec-author's own section (checked via `sa` above) and by
+        # communicator's tradeoff-report line (checked via `cm` above); the
+        # "canonical list lives in spec-author" cross-pointer has no surviving equivalent anywhere
+        # and is dropped with it.
+        self.assertIn("standard-facet sweep", sa, "spec-author missing the sweep sentence")
 
 
 if __name__ == "__main__":
@@ -1103,9 +1089,6 @@ class TestDesignSyncWiring(unittest.TestCase):
         self.assertIn("design project", cm, "communicator lost the design-sync channel line")
         self.assertIn("after the human's gate", cm,
                       "communicator's design-sync line lost the gate")
-        bp = re.sub(r"\s+", " ", read_all("skills/build-pipeline/SKILL.md"))
-        self.assertIn("design-sync is ON", bp,
-                      "build-pipeline step 9 lost the design-sync line")
         spec = re.sub(r"\s+", " ", read("PRODUCT_SPEC.md"))
         self.assertIn("[target: the machine; the wiring is live]", spec,
                       "SPEC E-18 lost the honest wired-vs-target split")
@@ -1650,9 +1633,9 @@ class TestWorkerContract(unittest.TestCase):
         rows = [line for line in read("PRODUCT_SPEC.index.md").splitlines()
                if line.startswith("| INV-70 |")]
         self.assertTrue(rows, "INV-70 missing from the index")
-        bp = re.sub(r"\s+", " ", read_all("skills/build-pipeline/SKILL.md"))
-        self.assertIn("tunable parameter", bp,
-                      "build-pipeline lost the parameter-default elaboration (INV-70)")
+        comm = re.sub(r"\s+", " ", read_all("skills/communicator/SKILL.md"))
+        self.assertIn("tunable parameter", comm,
+                      "communicator lost the parameter-default elaboration (INV-70)")
         matrix = read("TEST_MATRIX.md")
         self.assertIn("test_parameter_default", matrix, "M-176 must pin this test (row 172)")
 
@@ -1874,17 +1857,21 @@ class TestMinedGapFolds(unittest.TestCase):
     shipped skill text; the mining map in the private playbook records the same fold by number."""
 
     def test_gap4_recurring_bug_escalates(self):
-        bp = re.sub(r"\s+", " ", read_all("skills/build-pipeline/SKILL.md"))
-        for phrase in ("A RECURRING bug re-doors to feature",
-                       "missing an INVARIANT",
-                       "grep JOURNAL.md for the area's name"):
-            self.assertIn(phrase, bp, "build-pipeline lost the recurring-bug escalation: %s" % phrase)
+        # recurring-bug-redoor moved to director/references/request-kind-table.md in the
+        # build-pipeline cutover
+        rk = re.sub(r"\s+", " ", read_all("skills/director/references/request-kind-table.md"))
+        for phrase in ("re-doors to feature",
+                       "missing an invariant",
+                       "for the area's name and its dates"):
+            self.assertIn(phrase, rk, "request-kind-table lost the recurring-bug escalation: %s" % phrase)
 
     def test_gap10_step5_both_sides(self):
-        bp = re.sub(r"\s+", " ", read_all("skills/build-pipeline/SKILL.md"))
-        self.assertIn("every row states BOTH sides — what the fact DOES and what it must NEVER do", bp,
-                      "build-pipeline step 5 lost the DO+NEVER instruction (INV-6)")
-        self.assertIn("a row without it is a derivation defect", bp)
+        # this fact already lives in test-author/SKILL.md's own matrix-derivation rules
+        ta = re.sub(r"\s+", " ", read_all("skills/test-author/SKILL.md"))
+        self.assertIn("Every row states BOTH sides", ta,
+                      "test-author lost the DO+NEVER instruction (INV-6)")
+        self.assertIn("what the fact does, and what it must never do", ta)
+        self.assertIn("a row without it proves the happy path and nothing else", ta)
 
     def test_gap9_prover_domain_language_lens(self):
         pp = re.sub(r"\s+", " ", read("skills/product-prover-pack/SKILL.md"))
@@ -1902,12 +1889,14 @@ class TestMinedGapFolds(unittest.TestCase):
             self.assertIn(phrase, bp, "director lost the delegation-savings line: %s" % phrase)
 
     def test_gaps5_8_docs_discipline(self):
-        bp = re.sub(r"\s+", " ", read_all("skills/build-pipeline/SKILL.md"))
-        for phrase in ("The CHANGELOG speaks to the USER, the journal to the builder",
+        # CHANGELOG-vs-journal moved to communicator/references/writing-register.md (rule 18)
+        # in the build-pipeline cutover
+        wr = re.sub(r"\s+", " ", read_all("skills/communicator/references/writing-register.md"))
+        for phrase in ("The CHANGELOG speaks to the user; the journal speaks to the builder",
                        "one concrete example from real output",
-                       "Function names, internal ids, and row numbers live in the journal instead",
+                       "Function names, internal ids, and row numbers live in the journal",
                        "no doc pins a drifting version number in prose"):
-            self.assertIn(phrase, bp, "build-pipeline step 9 lost the docs discipline: %s" % phrase)
+            self.assertIn(phrase, wr, "writing-register lost the docs discipline: %s" % phrase)
         sa = re.sub(r"\s+", " ", read_all("skills/spec-author/SKILL.md"))
         self.assertIn("Pinning a drifting version number in prose", sa,
                       "spec-author anti-patterns lost the version-pin entry")
@@ -1977,16 +1966,15 @@ class TestProblemLedger(unittest.TestCase):
         spec = read_flat("PRODUCT_SPEC.md")
         for needle in ("T-17", "INV-26", "closes only whole"):
             self.assertIn(needle, spec)
-        pipeline = read_all_flat(os.path.join("skills", "build-pipeline", "SKILL.md"))
+        # T-17 (one wish = one story) and INV-26 (row closes only whole) now live in director's
+        # own vocabulary (acts, checkpoints) — reworded, not the literal SPEC phrase, in the
+        # build-pipeline cutover.
+        director = read_all_flat(os.path.join("skills", "director", "SKILL.md"))
         for needle in (
-            "One wish = one user story",
-            "SPEC T-17",
-            "A row closes only whole",
-            "SPEC INV-26",
-            "half-done is a status, never a landing",
+            "Taking acts apart is not the same as splitting a goal",
+            "refuses to close over content still marked open",
         ):
-            self.assertIn(needle, pipeline,
-                          "build-pipeline missing: %s" % needle)
+            self.assertIn(needle, director, "director missing: %s" % needle)
         self.assertIn("INV-26", read_flat(os.path.join("templates", "NEXT_STEPS.template.md")))
         self.assertIn("INV-26", read_flat(os.path.join("templates", "ROADMAP.template.md")))
 
@@ -2007,9 +1995,8 @@ class TestProblemLedger(unittest.TestCase):
             "INV-27",
         ):
             self.assertIn(needle, comm, "communicator missing: %s" % needle)
-        pipeline = read_all_flat(os.path.join("skills", "build-pipeline", "SKILL.md"))
-        self.assertIn("capture echo", pipeline,
-                      "build-pipeline step zero must cite the capture echo")
+        self.assertIn("capture echo", comm,
+                      "communicator must cite the capture echo")
         # Row 125 (M-112): the board names ALL NINE pipeline steps — prove
         # architecture and commit & show included; landed is the terminal
         # state, not a step. Lists wrap across lines, so compare flattened.
@@ -2064,17 +2051,16 @@ class TestProblemLedger(unittest.TestCase):
             self.assertIn(needle, author, "spec-author missing: %s" % needle)
         prover = read_flat(os.path.join("skills", "product-prover-pack", "SKILL.md"))
         self.assertIn("FEATURE-FIT", prover, "prover missing its FEATURE-FIT mode")
-        pipeline = read_all_flat(os.path.join("skills", "build-pipeline", "SKILL.md"))
-        self.assertIn("fit walk", pipeline, "pipeline step 1 must cite the fit walk")
+        self.assertIn("fit walk", author, "spec-author must cite the fit walk")
 
     def test_visitor_walk_feel_pass(self):
         """Row 117 (M-115, INV-30): product-kind verify walks the visit and watches the feel."""
         spec = read_flat("PRODUCT_SPEC.md")
         for needle in ("INV-30", "visitor walk", "feel pass"):
             self.assertIn(needle, spec, "SPEC missing: %s" % needle)
-        pipeline = read_all_flat(os.path.join("skills", "build-pipeline", "SKILL.md"))
+        wkt = read_all_flat("skills/director/references/work-kind-table.md")
         for needle in ("VISITOR WALK", "FEEL pass"):
-            self.assertIn(needle, pipeline, "pipeline step-8 missing: %s" % needle)
+            self.assertIn(needle, wkt, "director's work-kind table missing: %s" % needle)
 
     def test_default_expiry_law(self):
         """Rows 118+120 (M-116, INV-31): a taste default is TOLD at landing, never confirmed."""
@@ -2084,8 +2070,8 @@ class TestProblemLedger(unittest.TestCase):
         comm = read_flat(os.path.join("skills", "communicator", "SKILL.md"))
         self.assertIn("unclaimed decision files", comm,
                       "communicator rule 10 missing the resume-sweep of decision answers")
-        pipeline = read_all_flat(os.path.join("skills", "build-pipeline", "SKILL.md"))
-        self.assertIn("open `[default]`s", pipeline, "pipeline step 9 missing the defaults list")
+        comm2 = read_all_flat(os.path.join("skills", "communicator", "SKILL.md"))
+        self.assertIn("open `[default]`s", comm2, "communicator missing the defaults list")
 
     def test_decision_card_consequences(self):
         """Row 119 (M-117, INV-32): a decision card asks in consequences, not mechanisms."""
@@ -2288,9 +2274,11 @@ class TestProblemLedger(unittest.TestCase):
         for needle in ("`norm: <path>`", "docs/norms/", "frozen copy",
                        "a pointer into a live prototype home would break it"):
             self.assertIn(needle, author, "spec-author missing: %s" % needle)
-        pipe = re.sub(r"\s+", " ", read_all(os.path.join("skills", "build-pipeline", "SKILL.md")))
-        for needle in ("plan-vs-prototype diff", "OPEN the artifact before building"):
-            self.assertIn(needle, pipe, "build-pipeline missing: %s" % needle)
+        ta = re.sub(r"\s+", " ", read_all(os.path.join("skills", "test-author", "SKILL.md")))
+        self.assertIn("plan-vs-prototype diff", ta, "test-author missing: plan-vs-prototype diff")
+        bc = re.sub(r"\s+", " ", read_all("skills/director/references/build-craft.md"))
+        self.assertIn("OPEN the artifact before building", bc,
+                      "director/references/build-craft.md missing: OPEN the artifact before building")
         # mockup-first-entry.md moved to director/ in the build-pipeline cutover
         director = re.sub(r"\s+", " ", read_all(os.path.join("skills", "director", "SKILL.md")))
         for needle in ("entry: mockup-first", "only by the human naming it"):
@@ -2318,8 +2306,9 @@ class TestProblemLedger(unittest.TestCase):
                        "shopfront checked — current",
                        "even when the diff never touched a doc"):
             self.assertIn(needle, pub, "publish missing: %s" % needle)
-        pipe = re.sub(r"\s+", " ", read_all(os.path.join("skills", "build-pipeline", "SKILL.md")))
-        self.assertIn("shopfront", pipe, "build-pipeline step 9 missing the shopfront pointer")
+        # the build-pipeline pointer word is retired: spec and pub above already fully and
+        # independently cover this fact (INV-44); build-pipeline only carried a bare pointer
+        # word, no longer needed.
 
     def test_push_gate_reach_law(self):
         """Row 147 (M-142, INV-45): the push gate derives its check-set from a
@@ -2332,9 +2321,9 @@ class TestProblemLedger(unittest.TestCase):
                        "The map is conservative: anything it cannot classify falls to the full run",
                        "every check the diff can reach is green at the tree's head"):
             self.assertIn(needle, spec, "SPEC missing: %s" % needle)
-        pipe = re.sub(r"\s+", " ", read_all(os.path.join("skills", "build-pipeline", "SKILL.md")))
-        self.assertIn("every check the diff can reach", pipe,
-                      "build-pipeline missing the reach sentence")
+        gc = re.sub(r"\s+", " ", read_all("skills/director/references/guardrails-catalog.md"))
+        self.assertIn("every check the diff can reach", gc,
+                      "guardrails-catalog missing the reach sentence")
         self.assertTrue(
             os.path.isfile(os.path.join(ROOT, "guardrails", "check-push-reach.sh")),
             "guardrails/check-push-reach.sh missing")
@@ -2492,10 +2481,12 @@ class TestProblemLedger(unittest.TestCase):
                        "rather than per tiny row",
                        "keep the irreducible core fixed regardless of scale"):
             self.assertIn(needle, spec, "SPEC missing: %s" % needle)
-        pipe = re.sub(r"\s+", " ", read_all(os.path.join("skills", "build-pipeline", "SKILL.md")))
-        for needle in ("scales to the delta", "three-line SHORT-FORM record",
-                       "once per landing batch"):
-            self.assertIn(needle, pipe, "build-pipeline missing: %s" % needle)
+        # re-pinned: "three-line SHORT-FORM record" was never literal here — the real phrase is
+        # "short-form re-check record of three lines", already checked above; the other two
+        # needles survive verbatim in PRODUCT_SPEC.md's own assembled text (the split source at
+        # spec/push-gate-milestone-audit.md, no skill-level home carries them any more)
+        for needle in ("scales to the delta", "once per landing batch"):
+            self.assertIn(needle, spec, "SPEC missing: %s" % needle)
         prof = re.sub(r"\s+", " ", read(os.path.join(".live-spec", "profile.md")))
         self.assertIn("FORM scaled by the delta", prof,
                       "host profile line not reconciled with INV-61")
@@ -2507,10 +2498,10 @@ class TestProblemLedger(unittest.TestCase):
         for needle in ("INV-62", "INV-63", "cheapest judgeable sample",
                        "the five-round trap"):
             self.assertIn(needle, spec, "SPEC missing: %s" % needle)
-        pipe = re.sub(r"\s+", " ", read_all(os.path.join("skills", "build-pipeline", "SKILL.md")))
+        bc = re.sub(r"\s+", " ", read_all("skills/director/references/build-craft.md"))
         for needle in ("build smallest-first", "reopens its SOURCE",
                        "cheapest judgeable sample"):
-            self.assertIn(needle, pipe, "build-pipeline missing: %s" % needle)
+            self.assertIn(needle, bc, "director/references/build-craft.md missing: %s" % needle)
 
     def test_review_provenance_commentable(self):
         """Row 161 (M-163, INV-64): review surfaces carry per-claim provenance and
@@ -2589,10 +2580,11 @@ class TestProblemLedger(unittest.TestCase):
             self.assertIn(needle, spec, "SPEC missing: %s" % needle)
         skill = re.sub(r"\s+", " ", read(os.path.join("skills", "test-author", "SKILL.md")))
         for needle in ("The level ladder", "Red first, proven", "Pin the skip-set",
-                       "Normally invoked by build-pipeline"):
+                       "Normally invoked by director"):
             self.assertIn(needle, skill, "test-author skill missing: %s" % needle)
-        bp = re.sub(r"\s+", " ", read_all(os.path.join("skills", "build-pipeline", "SKILL.md")))
-        self.assertIn("invoke `test-author`", bp, "build-pipeline missing the invoke wiring")
+        director_skill = re.sub(r"\s+", " ", read("skills/director/SKILL.md"))
+        self.assertIn("Test author", director_skill, "director's specialist table missing Test author")
+        self.assertIn("skills/test-author", director_skill, "director's specialist table missing the test-author path")
         readme = re.sub(r"\s+", " ", read("README.md"))
         self.assertIn("test-author", readme, "README missing the new skill")
 
@@ -2665,11 +2657,10 @@ class TestProblemLedger(unittest.TestCase):
                        "carry the re-division through the architecture stage and its re-proof"):
             self.assertIn(needle, spec, "SPEC missing: %s" % needle)
         comm = re.sub(r"\s+", " ", read(os.path.join("skills", "communicator", "SKILL.md")))
-        for needle in ("place on the product's map", "INV-37"):
+        # re-pinned: "place on the map" survives reworded as "place on the product's map"; the
+        # build-pipeline pointer is retired, the fact fully covered here
+        for needle in ("place on the product's map", "changes feature X", "INV-37"):
             self.assertIn(needle, comm, "communicator missing: %s" % needle)
-        pipe = re.sub(r"\s+", " ", read_all(os.path.join("skills", "build-pipeline", "SKILL.md")))
-        for needle in ("place on the map", "changes feature X", "INV-37"):
-            self.assertIn(needle, pipe, "build-pipeline missing: %s" % needle)
 
     def test_feature_map_on_demand(self):
         """Row 133 (M-127, INV-38): the whole feature map is readable on demand —
@@ -2728,10 +2719,13 @@ class TestProblemLedger(unittest.TestCase):
                        "carries neither a named watcher nor that decided sentence, the system *shall* read it as a derivation defect",
                        "set them on the human's word at the surface's first budget landing"):  # re-pinned: "set" -> "set them"
             self.assertIn(needle, spec, "SPEC missing: %s" % needle)
-        pipe = re.sub(r"\s+", " ", read_all(os.path.join("skills", "build-pipeline", "SKILL.md")))
+        # re-pinned: this fact moved home to architect/SKILL.md in the build-pipeline cutover; the
+        # literal "WHAT is measurable comes from the project's KIND" survives reworded there as
+        # "that answer comes from the project's kind"
+        arch_skill = re.sub(r"\s+", " ", read_all(os.path.join("skills", "architect", "SKILL.md")))
         for needle in ("SPEC INV-41", "measurable quality budgets", "instrumentation home",
-                       "WHAT is measurable comes from the project's KIND"):
-            self.assertIn(needle, pipe, "build-pipeline missing: %s" % needle)
+                       "comes from the project's kind"):
+            self.assertIn(needle, arch_skill, "architect missing: %s" % needle)
         author = re.sub(r"\s+", " ", read_all(os.path.join("skills", "spec-author", "SKILL.md")))
         for needle in ("SPEC INV-41", "budget sentence"):
             self.assertIn(needle, author, "spec-author missing: %s" % needle)
@@ -2760,10 +2754,10 @@ class TestProblemLedger(unittest.TestCase):
                       "template budget table missing the Watcher column")
         self.assertIn("names its watcher", template,
                       "template prose missing the watcher instruction")
-        pipe = re.sub(r"\s+", " ", read_all(os.path.join("skills", "build-pipeline", "SKILL.md")))
-        self.assertIn("watcher", pipe,
-                      "build-pipeline's budget instruction missing the watcher duty — the "
-                      "author following the pipeline must state it, or the prover reds later")
+        arch_skill = re.sub(r"\s+", " ", read_all(os.path.join("skills", "architect", "SKILL.md")))
+        self.assertIn("watcher", arch_skill,
+                      "architect's budget instruction missing the watcher duty — the "
+                      "author following architect must state it, or the prover reds later")
         arch = re.sub(r"\s+", " ", read("ARCHITECTURE.md"))
         self.assertIn("| Budget | Number | Instrumentation home | Watcher |", arch,
                       "the pack's own budget table missing the Watcher column")
@@ -3126,10 +3120,13 @@ class TestArchitectureTiers(unittest.TestCase):
         self.assertIn("static-first", tpl, "scaffold lost the static-first + edge-backend blend learning")
 
     def test_build_pipeline_points_at_the_scaffold(self):
-        bp = re.sub(r"\s+", " ", read_all("skills/build-pipeline/SKILL.md"))
-        self.assertIn("Node structure by project.kind", bp,
-                      "build-pipeline step 3 lost the pointer to the per-kind scaffold")
-        self.assertIn("PROPOSES the starting node structure", bp)
+        # re-pinned: build-pipeline no longer carries this pointer; architect/SKILL.md is the
+        # scaffold's own home and carries it directly ("PROPOSES a starting node structure",
+        # not "the" — the real wording)
+        arch = re.sub(r"\s+", " ", read_all("skills/architect/SKILL.md"))
+        self.assertIn("Node structure by project.kind", arch,
+                      "architect lost the pointer to the per-kind scaffold")
+        self.assertIn("PROPOSES a starting node structure", arch)
 
 
 class TestArchitectureViews(unittest.TestCase):
@@ -3167,8 +3164,8 @@ class TestArchitectureViews(unittest.TestCase):
             ("skills/product-prover-pack/SKILL.md", "runtime view"),
             ("skills/product-prover-pack/SKILL.md", "placement"),
             ("skills/product-prover-pack/SKILL.md", "instrumentation home"),
-            ("skills/build-pipeline/SKILL.md", "runtime view"),
-            ("skills/build-pipeline/SKILL.md", "placement view"),
+            ("skills/architect/SKILL.md", "runtime view"),
+            ("skills/architect/SKILL.md", "placement view"),
         ):
             text = re.sub(r"\s+", " ", read(home)).lower()
             self.assertIn(needle.lower(), text,
@@ -3307,9 +3304,9 @@ class TestFieldLessons(unittest.TestCase):
                        "watch the new rows fail",
                        "A batch without a recorded red run is a defect"):
             self.assertIn(needle, ta, "test-author lost the small-fix path: %s" % needle)
-        bp = re.sub(r"\s+", " ", read_all("skills/build-pipeline/SKILL.md"))
-        self.assertIn("test-author's small-fix path", bp,
-                      "build-pipeline's skip sentence lost its pointer at the small-fix path")
+        # the build-pipeline pointer sentence is retired: it was just a router pointer at this
+        # fact, which is already fully and independently covered above (test-author's own text);
+        # Director now calls test-author directly, not through build-pipeline.
         matrix = read("TEST_MATRIX.md")
         self.assertIn("test_small_fix_red_path", matrix, "M-205 must pin this test (row 214)")
 
@@ -3405,13 +3402,13 @@ class TestPushToRemote(unittest.TestCase):
         # discover-first, one contextual question only when no remote
         self.assertIn("git remote -v", spec)
         self.assertIn("first push moment", spec)
-        bp = re.sub(r"\s+", " ", read_all("skills/build-pipeline/SKILL.md"))
-        self.assertIn("PUSH accepted work there by rule", bp)
-        self.assertIn("GitLab", bp)
+        pub = re.sub(r"\s+", " ", read("skills/publish/SKILL.md"))
+        self.assertIn("PUSH accepted work there by rule", pub)
+        self.assertIn("GitLab", pub)
         # his named gates survive the law
-        self.assertIn("personally named gates still wait", bp)
+        self.assertIn("personally named gates still wait", pub)
         # every push re-walks the README (his 2026-07-10 word)
-        self.assertIn("re-walks the README", bp)
+        self.assertIn("re-walks the README", pub)
         spec2 = re.sub(r"\s+", " ", read("PRODUCT_SPEC.md"))
         self.assertIn("re-walk the README", spec2)
         self.assertIn("one question per gap", spec2)  # CANDIDATE REAL DEFECT — genuinely dropped, left red

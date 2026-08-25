@@ -16,12 +16,12 @@
 - the mid-work re-door is this node's step, and the independence re-check it fires is the lanes node's law
 
 **pins** —
-- `skills/build-pipeline/SKILL.md:113` (step zero: the door + work-kind)
-- `skills/build-pipeline/SKILL.md:96` (the craft ladder — step→craft one home)
-- `skills/build-pipeline/SKILL.md:284` (the work-kind table — per-kind meanings' one home)
-- `skills/build-pipeline/SKILL.md:304` (steps)
-- `skills/build-pipeline/SKILL.md:635` (gates)
-- `skills/build-pipeline/SKILL.md:417` (re-carve paragraph — INV-113 redesign-owes-rework)
+- `skills/director/references/work-kind-table.md:4` (the door + work-kind relationship — the door picks WHICH steps run, this table picks the FORM each running step takes)
+- `skills/build-pipeline/SKILL.md:21` (the craft ladder — step→craft one home, Requirement 51 backs it at the SPEC level)
+- `skills/director/references/work-kind-table.md:1` (the work-kind table — per-kind meanings' one home)
+- `skills/director/SKILL.md:210` (steps — the dynamic Execution graph that replaces the old fixed nine-step sequence)
+- `skills/build-pipeline/SKILL.md:45` (gates — the MINOR-bump gate, this node's own remaining "Gates worth remembering" section)
+- `skills/architect/SKILL.md:144` (re-carve paragraph — INV-113 redesign-owes-rework)
 - `skills/director/references/delegation-protocol.md:71` (the worker-brief register-laws clause — no-scissors + no-dramatization, INV-221)
 - `guardrails/check-tier-refusal.py:1` (the tier-refusal gate. It reads the record's shape and a pattern's evidence. Its `--brief` step turns a matching task away before any model call. It rides the suite, taking no gate letter, INV-300)
 - `guardrails/tier-refusal.json:1` (the instruction, the tier ladder, the promotion threshold and the promoted phrases as data, INV-300)
@@ -46,9 +46,9 @@
 **owns** — T-18, INV-2, INV-39, INV-49, INV-131, E-34, T-23, INV-198, INV-199, INV-200, INV-201, INV-214
 
 **pins** —
-- `skills/build-pipeline/SKILL.md:664` (trains, one pen — the cap, the penless overlap set, the pen-stages, the re-fence after a landing)
-- `skills/build-pipeline/SKILL.md:665` (the graph picks the lane set at queue-take)
-- `skills/build-pipeline/SKILL.md:153` (a mid-work re-door re-runs the independence edges against every rolling lane)
+- `skills/director/references/lanes-and-pen.md:7` (trains, one pen — the cap, the penless overlap set, the pen-stages, the re-fence after a landing)
+- `skills/director/references/lanes-and-pen.md:24` (the graph picks the lane set at queue-take)
+- `skills/director/references/lanes-and-pen.md:60` (a mid-work re-door re-runs the independence edges against every rolling lane)
 - `skills/live-spec-base/SKILL.md:128` (rule 7's lanes sub-rules — three lanes under one pen)
 - `skills/live-spec-base/SKILL.md:154` (one row per landing commit)
 - `scripts/open-lane.sh:1` (the lane-open act's performable form. It carries the row→in-work claim commit on main, the cap refusal, and the lane branch cut into its own worktree, INV-214.)

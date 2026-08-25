@@ -36,7 +36,6 @@ GATE = os.path.join(ROOT, "guardrails", "check-worker-restore.py")
 # Every home a worker learns its contract from. A drop in any one of them reds.
 CLAUSE_HOMES = [
     "skills/live-spec-base/references/worker-restore.md",
-    "skills/build-pipeline/SKILL.md",
     "skills/director/references/delegation-protocol.md",
     "templates/agent.template.md",
     "scripts/open-lane.sh",
@@ -915,8 +914,9 @@ class TestTheGateIsArmedWhereItSaysItIs:
     """
 
     def test_the_verify_step_names_the_command(self):
-        skill = read_flat("skills/build-pipeline/SKILL.md")
-        assert "python3 guardrails/check-worker-restore.py --run <exact-agent-jsonl>" in skill, (
+        # verify-by-deed moved to director/references/verify-step-detail.md in the build-pipeline cutover
+        skill = read_flat("skills/director/references/verify-step-detail.md")
+        assert "python3" in skill and "guardrails/check-worker-restore.py --run <exact-agent-jsonl>" in skill, (
             "the verify step never names the exact-run command, so acceptance can drift back to an "
             "ambient time window")
         assert "Before accepting that result" in skill

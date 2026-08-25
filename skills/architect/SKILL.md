@@ -189,10 +189,7 @@ spec behind it routes to `spec-author` first.
 
 Not for judging whether the finished document holds together — that is `product-prover`, run with the
 architecture lens, above. Not for deriving the test matrix from a proven architecture — that is
-`test-author`'s job, which reads this skill's output rather than producing it. Not yet the skill
-`build-pipeline`'s own step 3 calls: that skill still carries its own inline copy of this same method
-and is not cut over to calling this skill — no partial migration, so the two copies stand side by side
-until build-pipeline's own slice lands.
+`test-author`'s job, which reads this skill's output rather than producing it.
 
 > The pack, whole: **live-spec-base** holds the shared rules and defaults · **director** decides
 > whether a message even asks this skill to be called · **spec-author** writes the spec ·

@@ -49,6 +49,19 @@ page into the attic with its dated manifest line and prints what it moved. The d
 that line, so the release says which pages were cleared and where they come back from. A page inside a
 record home is a source artifact and the sweep leaves it standing.
 
+## Reaching the remote — push mechanics (SPEC INV-82, INV-106)
+
+Where the host has a remote, PUSH accepted work there by rule rather than park it locally. The
+remote is discovered from the tree. Only a host with no remote gets one contextual question at
+the first push moment: create one — GitHub, GitLab, whatever the human names — or stay local,
+recorded in the host profile.
+
+Every push re-walks the README against the pushed truth (the shopfront check above). After the
+push, read the remote gate's own verdict: the CI run the push triggered, one `gh run` read. A red
+verdict is the pushing session's own immediate bug, fixed and re-pushed the same session. A slow
+gate is watched to its verdict on the detached-work cadence. The human's personally named gates
+still wait for his word.
+
 ## The kind checklist — what every publication owes (one home: this table)
 
 First, the floor every kind shares.

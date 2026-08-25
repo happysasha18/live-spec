@@ -287,7 +287,7 @@ a task that needs three of these may want them in any sequence, or all at once.
 | Architect | boundaries, data, integrations, scale or operations change | `skills/architect` |
 | Data and experiment analyst | the cause is unknown or a hypothesis needs testing | not yet built — package 4 |
 | Design reviewer | interface, interaction or the coherence of the experience changes | `skills/design-reviewer` |
-| Developer | something must be built | the agent itself |
+| Developer | something must be built | the agent itself; build order and source-reopen discipline: [references/build-craft.md](references/build-craft.md) |
 | Independent verifier | the result needs checking by someone who did not produce it | [references/verify-step-detail.md](references/verify-step-detail.md) |
 | Product prover | a mistake in the statement of the problem would be expensive | `skills/product-prover-pack` |
 | Publisher, communicator | the result ships and has to be explained | `skills/publish`, `skills/communicator` |

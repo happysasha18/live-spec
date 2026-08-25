@@ -32,7 +32,7 @@ and its own test folder.
 Two artifacts, in order. **TEST_MATRIX.md** — the spec projected into a checkable grid: derived from
 the proven spec THROUGH the proven architecture, one block per architecture node, and the spec keeps
 sole authority over what is true. Then **the tests** — one
-owning test per matrix row, asserting the real shipped artifact. build-pipeline keeps the order and
+owning test per matrix row, asserting the real shipped artifact. director keeps the order and
 the gates; product-prover keeps semantic review; the guardrails keep mechanical enforcement. This
 skill owns the JUDGMENT in between: which facts, at which level, asserted how.
 
@@ -58,7 +58,7 @@ skill owns the JUDGMENT in between: which facts, at which level, asserted how.
    STRUCTURE against the frozen norm — every norm section and row name present in the render, no
    invented sections or value formats — at DOM-text level or above; the look itself stays the human's
    eye at the feel gate, and no pixel row claims it. The never side: a render that invents its own
-   structure never ships green. Its sibling half lives in build-pipeline's code step — the norm-open rule
+   structure never ships green. Its sibling half lives in `director/references/build-craft.md` — the norm-open rule
    with the plan-vs-prototype diff line in the delivery report — and a review cites the two halves
    together.
 8. **Close by the mechanical gates, not a hand-walked list.** The coverage checklist the matrix once
@@ -212,10 +212,10 @@ device class; the suite says plainly what it cannot see.
 
 ## Work that belongs elsewhere
 
-Normally invoked by build-pipeline at its matrix and test steps (5–6). Use it directly to derive the
+Normally invoked by director at its matrix and test steps. Use it directly to derive the
 test matrix, to pin test levels, or to rebuild a suite by the method.
 Use it only with a proven spec and architecture; without them the derivation has nothing sound to derive from, and
-"write tests for X" alone routes to build-pipeline (the earlier steps first). Not for reviewing
+"write tests for X" alone routes to director (the earlier steps first). Not for reviewing
 documents (product-prover's job). Not for the mechanical gates themselves (the guardrails' job —
 this skill DERIVES what they later enforce).
 

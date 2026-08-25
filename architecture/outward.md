@@ -18,7 +18,6 @@
 **pins** —
 - wiring: `skills/live-spec-base/references/settings-ladder.md:60` (defaults table, `design-sync` row)
 - wiring: `skills/communicator/SKILL.md:182` (rule 5's channel line)
-- wiring: `skills/build-pipeline/SKILL.md:593` (the design-sync line in step 9)
 - machine: —
 
 ### [node: feedback-collector]

@@ -180,11 +180,11 @@ class TestRequestClassifierEntryLayer(DocHomeCase):
         self.assertIn("matches no kind", clause)
         self.assertIn("one plain question", clause)
 
-    def test_closed_set_at_the_build_pipeline_door(self):
-        bp = read_all_flat("skills/build-pipeline/SKILL.md")
-        self.assertIn("The door set is CLOSED", bp)
-        self.assertIn("highest document in the derivation chain", bp)
-        self.assertIn("one plain question", bp)
+    def test_closed_set_at_the_door(self):
+        rk = read_all_flat("skills/director/references/request-kind-table.md")
+        self.assertIn("The door set is CLOSED", rk)
+        self.assertIn("highest document in the derivation chain", rk)
+        self.assertIn("one plain question", rk)
         kinds = [row[0] for row in self._request_kind_rows()]
         for kind in ("product behaviour", "docs-only", "settings", "inbox wish",
                      "method", "sketch", "research", "feedback"):
@@ -365,8 +365,8 @@ class TestUnificationStatedOnce(DocHomeCase):
         self.index_row("PRODUCT_SPEC.md", "INV-153")
         homes = {
             "the spec's unification clause": self.declaration("PRODUCT_SPEC.md", "INV-153"),
-            "build-pipeline's request-kind prose": self.code_prose(
-                "skills/build-pipeline/SKILL.md", "INV-153"),
+            "director's request-kind prose": self.code_prose(
+                "skills/director/references/request-kind-table.md", "INV-153"),
         }
         for name, text in sorted(homes.items()):
             stated = _counts_before("times", text)

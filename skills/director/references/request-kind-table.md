@@ -1,5 +1,13 @@
 # Request-kind table
 
+## The closed set is closed (SPEC INV-151)
+
+The door set is CLOSED, and a request enters at the highest document in the derivation chain whose
+sentences must change to satisfy it. The chain is spec → architecture → matrix → code → docs. Walk
+it from the top: after this is done, would any sentence in this document read differently? The
+first yes is the entry layer. A request that matches no kind in the closed set below becomes one
+plain question to the human, never a guessed route.
+
 The closed set of request kinds referenced from `SKILL.md`'s "When to run it" section (SPEC INV-151):
 every request kind has a named entry document and a mandatory back-check.
 
@@ -25,3 +33,11 @@ The three setup rows are reached through the routing card,
 picks among them (SPEC INV-307). All three entry documents sit in that resolved pack tree:
 `adopt/ADOPT.md`, `adopt/START.md`, and `MIGRATION.md`. A host project may carry files of the same
 name that mean something else.
+
+## The routing principle, stated four times (SPEC INV-153)
+
+Every incoming thing routes to the home whose declared sentence governs it. A thing that pins to
+no home is itself the finding. This closed set is the request-side statement; the same principle
+is the property net's homeless-item finding (SPEC INV-150), the deferral test's (SPEC INV-152),
+and the earned message's (SPEC INV-189, INV-191). The four are one routing principle stated four
+times (SPEC INV-153).
