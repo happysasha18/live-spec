@@ -2,9 +2,14 @@
 
 PUSH-REVIEW
 
-Range: a8488c13..797028d5 (2 commits)
+Range: a8488c13..6faad09e (5 commits) — widened to cover the local push gate's own fast-follow
+findings (loadability, r5 pin-drift) and their skill-review record update, per the gate a
+self-naming arm (one record names the base plus every non-exempt commit together)
 - f5384b3a Rewrite build-pipeline into a transitional adapter (Полоса B, п.6)
 - 797028d5 Skill-review record for the build-pipeline cutover adapter
+- 25fa1b7c Prover record for the build-pipeline cutover adapter
+- 2e0064e8 Fast-follow: loadability section + r5 pricing retirement for the adapter
+- 6faad09e Widen the build-pipeline cutover skill-review record to cover the fast-follow
 
 Files read: PRODUCT_SPEC.md, ARCHITECTURE.md; full diff of f5384b3a (17 files, 233 insertions,
 889 deletions); the resulting `skills/build-pipeline/SKILL.md` and `README.md` in full (not just
@@ -59,11 +64,32 @@ text) is out of scope — live-spec-base is closed for this cutover per §0.1's 
 and is recorded as known debt in the handoff and in this range's commit message, not silently
 dropped.
 
+The first local push attempt (against 25fa1b7c) itself caught two more real gaps neither the
+orchestrator's self-review nor the independent adversarial review had run locally: gate f
+(loadability) reds — the new short `build-pipeline/SKILL.md` had no "Work that belongs elsewhere"
+section (row 80) — and the r5 leg of gate g (pin drift) reds on nine `.live-spec/
+r5-rule-prices-2026-08-11.md` range pins pricing text from build-pipeline's old fixed nine-step
+sequence, genuinely deleted (not moved) by this same cutover. Both fixed in 2e0064e8: added the
+missing section (names `director` as the sole destination, matching the rest of the page);
+retired the nine r5 rows exactly as this same pricing file's own 2026-08-18 precedent retired
+text-audit's five rows after that extraction — removed rather than repointed, remaining 39 rows
+and per-rule sections renumbered 1-39, totals recomputed by direct arithmetic on the nine removed
+rows' own body-byte/pinned-test/price columns (48->39 rules, 39,921->18,471 bytes, 314->149
+pinned-test hits, 40,235->18,620 price) and cross-checked against the file's own internal
+consistency (price = bytes + pinned-test count, per-row, both before and after). Re-verified
+independently after the fix: `bash guardrails/check-skill-loadability.sh` — OK, 13 skills load;
+`bash guardrails/check-pin-drift.sh` — both legs OK (180 ARCHITECTURE.md pins, 39 r5 range pins);
+the targeted suite unchanged at 348 passed. The second local push attempt (against 2e0064e8) then
+caught gate a and gate s wanting fresher records for the fast-follow commit itself — this range's
+own widening (6faad09e, this record) closes that loop.
+
 Findings: two real classification errors caught and corrected mid-slice (craft ladder, closed-set
 door — both described above), three stale cross-references caught by independent review and fixed
 in this same range (architect, test-author — fixed; live-spec-base rule 14 — recorded as deferred,
-out of scope). No other defect found across three worker-driven fix waves, one orchestrator
-self-review pass, and one independent adversarial review pass.
+out of scope), two real local-push-gate gaps (loadability, r5 pin drift) caught by the push gate
+itself and fixed in the same range. No other defect found across three worker-driven fix waves,
+one orchestrator self-review pass, one independent adversarial review pass, and two local push
+gate attempts.
 
 Known, recorded, deliberately not fixed in this range (§5.6 — stop at the boundary):
 `architecture/pipeline-and-lanes.md`'s `[node: build-pipeline]` responsibility statement and
