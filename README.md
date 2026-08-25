@@ -12,6 +12,14 @@ That is the gap. The spec became the thing your agent builds from, and nothing c
 
 live-spec closes it. You say the sentence in passing, with nothing to file and no form. It gets classified, written into a living spec, reviewed by a formal-verification pass, covered by tests derived from that spec, coded until green, and committed with its documents in one change. A script on the pre-push hook compares the spec to the code that shipped and refuses the push when the two disagree. There is no CLI. You talk to it.
 
+Closing that one gap is only the first step toward the actual goal, still under construction: a
+small, self-running engineering team sitting behind your one conversation. You hand it ideas and
+instructions as they occur to you — a wish, a correction, a stray thought — and it aims to work
+out on its own whether that is a question, a decision, feedback, or new work, assemble whichever
+specialists the change actually needs, do everything that is derivable on its own, and ask you
+only about taste, strategy, authority, and anything irreversible. What ships today is the first
+working piece of that goal.
+
 ---
 
 ## Install

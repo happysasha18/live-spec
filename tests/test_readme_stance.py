@@ -46,6 +46,39 @@ class TestReadmeNoCommandSurface(unittest.TestCase):
         self.assertIn("There is no CLI. You talk to it", body)
 
 
+class TestReadmeTurnkeyGoalParagraph(unittest.TestCase):
+    """The README states the pack's actual end goal, not only the spec-code gap it already
+    closes — the owner asked for this directly, 2026-08-25: a compact autonomous software
+    house (the mandate's own words, `LIVESPEC_DIRECTOR_REBUILD_PLAN.md`) was the pack's whole
+    point and the README never said so. Pins the added paragraph and its explicit
+    still-under-construction framing (a fast reader could otherwise mistake the direction for
+    an already-shipped capability, since the surrounding prose reads as present-tense fact)."""
+
+    def test_turnkey_goal_paragraph_present(self):
+        body = read_flat("README.md")
+        self.assertIn(
+            "a small, self-running engineering team sitting behind your one conversation", body)
+        self.assertIn(
+            "ask you only about taste, strategy, authority, and anything irreversible", body)
+
+    def test_turnkey_goal_paragraph_marked_not_yet_delivered(self):
+        body = read_flat("README.md")
+        self.assertIn("still under construction", body)
+        self.assertIn("What ships today is the first working piece of that goal", body)
+
+    def test_turnkey_goal_paragraph_after_the_spec_code_gap(self):
+        with open(os.path.join(ROOT, "README.md"), encoding="utf-8") as f:
+            text = f.read()
+        gap_idx = text.find("There is no CLI. You talk to it")
+        goal_idx = text.find("self-running engineering team sitting behind your one conversation")
+        self.assertGreater(gap_idx, -1, "the spec-code gap paragraph not found")
+        self.assertGreater(goal_idx, -1, "turnkey goal paragraph not found")
+        self.assertLess(
+            gap_idx, goal_idx,
+            "the turnkey goal paragraph must follow the spec-code gap it builds on",
+        )
+
+
 class TestReadmeFirstStepInstallsTheProver(unittest.TestCase):
     """A stranger who obeys the first step ends up with the reviewer the pack pins a version
     of. `install.sh` skips any skill carrying its own `.git`, and `product-prover` only ever
