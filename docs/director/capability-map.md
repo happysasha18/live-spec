@@ -45,7 +45,7 @@ Read the verdict column strictly:
 |---|---|---|---|---|---|
 | 12 | Compact entry point — project card, active work, indices, nothing else | absent. Today the boot chain is `~/.claude/CLAUDE.md` → `live-spec-base/SKILL.md` (53 KB) → `build-pipeline/SKILL.md` (56 KB) before the first action | absent | project card at `.live-spec/agent.md`, which exists but only declares that the tree is a host | 2 |
 | 13 | Addressable reading of a canonical document | `PRODUCT_SPEC.index.md` and `TEST_MATRIX.index.md`, both rebuilt from the body and gated on push by `guardrails/check-index-generated.py` and `check-matrix-reference.py` | runs — for two documents out of thirteen | same mechanism extended to `ARCHITECTURE.md` (107 KB), then the rest | 2 |
-| 14 | Reader-worker returns pointers, not pasted text | `skills/build-pipeline/references/delegation-protocol.md` | prose | `skills/director/SKILL.md` | 1 |
+| 14 | Reader-worker returns pointers, not pasted text | `skills/director/references/delegation-protocol.md` (moved from `build-pipeline` 2026-08-25, cutover slice 1) | prose | `skills/director/SKILL.md` | 1 |
 | 15 | Assemble a logical view from prefix, requested parts and suffix so old consumers still see one document | absent | absent | reader in `scripts/` | 2 |
 
 ## The specialists
@@ -246,3 +246,47 @@ Not started. Recommended order above is designed so each step alone is independe
 and revertible if a later step turns out wrong — steps 1-2 in particular can land, prove
 green, and be walked away from without committing to steps 3-5 in the same sitting.
 - **Rows 8, 12–15, 31–36** — untouched by this slice; still read as this map already states.
+
+## 2026-08-25 evening — steps 1-2 landed; step 3's own premise checked and found wrong
+
+Steps 1-2 above are done: the 4 reference files moved to `skills/director/references/`, and
+`architecture-step-detail.md` to `skills/architect/references/`, `c6c7b51b` on `origin/main`, CI
+green. Full detail in `docs/prover/2026-08-25-build-pipeline-cutover-slice-1.md` and
+`docs/skill-review/2026-08-25-build-pipeline-cutover-slice-1.md`.
+
+**Step 3's assumption — that lines 113-596 are cleanly "superseded, safe to delete" — does not
+hold on inspection.** A dedicated read (comparing `build-pipeline/SKILL.md`'s full 113-596 range
+against `director/SKILL.md`'s full body plus every specialist skill it delegates to) found:
+only a small slice is genuinely superseded by Director itself (the routing one-liners, and the
+verify-by-deed audit already migrated to `director/references/verify-step-detail.md`); a real
+middle slice duplicates content that already lives in the specialist skills
+(`spec-author`/`product-prover-pack`/`design-reviewer`/`architect`/`test-author`) rather than in
+Director — safe to delete from build-pipeline for that reason, but not because "Director covers
+it"; and a substantial remainder has **no home anywhere in the tree today**: the bug-door class
+hunt (INV-104/124), the five feature-tripwires, the work-kind APPLIED/STOOD-DOWN accounting
+contract, the mockup-first entry condition (INV-43, not even acknowledged on this map's own "no
+ready home" list below), the closed request-kind set with its mandatory back-checks, the entire
+Step 4 (prove-architecture's six checks), the entire Step 7 (code step's smallest-first build,
+norm-pointer building, "a rejected artifact reopens its source"), and the entire Step 9 (commit &
+show — PATCH/MINOR/MAJOR judgment, the CHANGELOG-speaks-to-user-vs-journal-speaks-to-builder
+rule, DECISIONS.md's `[default]`-authorship accounting). Deleting these with no new home would be
+a real, silent loss of load-bearing craft — exactly the failure class the pack's own rule 10 and
+rule 14 exist to catch, applied here to the pack's own body.
+
+Separately, this same read found the **footprint scale is on both sides of this map's own
+contradiction**: this section's step 3 (above) calls it superseded, while the "no ready home yet"
+paragraph three sections up lists `footprint-read.md` as having nowhere to go. `footprint-read.md`
+also documents live mechanical gates (`INV-134`/`INV-135`, `guardrails/crosscut_counter.py`) that
+still run — its prose cannot simply vanish. And `director/references/excuses-table.md` (already
+migrated, step 1) still reads in the old door/tripwire vocabulary ("take the pipeline door you
+were about to skip") — correct today, since build-pipeline still has doors, but due for a rewrite
+the moment step 3 actually retires them, not before.
+
+**Revised step 3: give every genuinely-homeless (class-b) piece a real landing spot — in
+Director's own body, a Director reference file, or the owning specialist skill — before deleting
+anything from `build-pipeline/SKILL.md`.** This is several slices, not one. The full section-by-
+section classification (line ranges, a/b/c verdict, reasoning against director's and every
+specialist skill's actual current text) lives in this session's research agent output only, not
+yet a committed file — the next session should re-run the same comparison (build-pipeline's
+113-596 against director + spec-author/product-prover-pack/design-reviewer/architect/test-author's
+full bodies) rather than trust a paraphrase, per this map's own §1.2.1 rule.
