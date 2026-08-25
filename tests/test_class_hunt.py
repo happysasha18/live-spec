@@ -4,9 +4,10 @@ Four moves, not one: (1) name the defect abstractly and go FIND the un-seen sibl
 same change; (2) check the architecture for a structural cause; (3) check the spec — a spec silent on the
 broken behaviour is the real defect, fixed first so the prover can flag it; (4) escalate to the human when
 the class boundary needs his read. The product-prover carries the class lens for the same questions. The
-four moves are the bug door's close condition. Homes: the F-bug spec clause, build-pipeline's bug entry,
-director's own reference (added during the build-pipeline cutover), product-prover's class lens, base
-rule 14. (Born of the exhibition's pinch-zoom bug — one report turned into five live siblings, 2026-07-12.)
+four moves are the bug door's close condition. Homes: the F-bug spec clause, director's own reference
+(moved there from build-pipeline's former bug entry in the build-pipeline cutover), product-prover's
+class lens, base rule 14. (Born of the exhibition's pinch-zoom bug — one report turned into five live
+siblings, 2026-07-12.)
 """
 
 import re
