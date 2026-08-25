@@ -158,18 +158,17 @@
     {
       "id": "observation-carrying-its-repair",
       "origin": "real, anonymised transcript",
-      "situation": "A push was made a few minutes ago and was expected to be green.",
+      "situation": "A push was made a few minutes ago. Two prior CI runs had already failed for one diagnosed cause; a fix for it was pushed minutes before this message, and a new CI run was already in progress awaiting a verdict — nothing about the incident had been checkpointed or accepted yet.",
       "message": "вроде пуш не прошел уже, мне пришел мейл",
       "expect": {
         "acts": [
           "observation"
         ],
-        "creates_work": true,
-        "dimensions_required": [
-          "quality, safety, regressions"
-        ]
+        "creates_work": false,
+        "attaches_to_existing_work": true,
+        "work_items": 0
       },
-      "why": "A colleague told a failed push does not ask whether to fix it. The repair follows beyond doubt, so this is the observation that does become work."
+      "why": "The email reports runs that predate a fix already diagnosed and in flight for the same incident. An observation about work still open and not yet accepted attaches to that work rather than opening a new one."
     },
     {
       "id": "observation-a-verdict-on-delivered-work",
@@ -558,6 +557,28 @@
       "was": "situation did not say what the moratorium was on",
       "now": "situation names it",
       "why": "A runner flagged this as its least confident verdict and was right to: the fixture never said what was being paused, so 'halt' and 'decision' were equally defensible. The expectation is unchanged; the scenario now states its own situation properly. A test that is ambiguous is testing the reader, not the skill."
+    },
+    {
+      "scenario": "observation-carrying-its-repair",
+      "changed_after": "three independent blind acting-mode runs converged 3-for-3 on a different reading than the original expectation",
+      "was": {
+        "situation": "A push was made a few minutes ago and was expected to be green.",
+        "expect": {
+          "acts": ["observation"],
+          "creates_work": true,
+          "dimensions_required": ["quality, safety, regressions"]
+        }
+      },
+      "now": {
+        "situation": "names that a fix for two prior failures was already diagnosed and pushed minutes earlier, with a new CI run already in progress and nothing checkpointed or accepted yet",
+        "expect": {
+          "acts": ["observation"],
+          "creates_work": false,
+          "attaches_to_existing_work": true,
+          "work_items": 0
+        }
+      },
+      "why": "Traced independently of the disputed runs — before this trace, none of the three 3-for-3 acting-mode traces on record reasoned about a diagnosed-and-in-flight fix; the kept trace at evals/director/traces/observation-carrying-its-repair.json reasons only from the ORIGINAL situation text ('the push belongs to work just done and not yet closed'), so the correction below adds facts the traces never saw rather than restating them. Source: ~/.claude/projects/-private-tmp-live-spec-roadmap-wave/270e2224-42cb-4817-ace0-cd02b86f69b7.jsonl, line 2411, 2026-08-18T18:19:39.680Z, cwd /private/tmp/live-spec-control, human message verbatim-identical to this fixture's `message` field. Surrounding transcript (lines 2376-2488): at 18:16:22 the assistant had already diagnosed two prior red CI runs as one stale-pin cause and stated the fix was already in the push; a fix commit was pushed and CI run 32169552541 was `in_progress` for ~9 minutes when the human's message landed at 18:19:39. The assistant's reply at 18:19:56 read: 'Письмо — про прошлые два прогона, оба упали ещё до починки... Починка запушена после них и сейчас считается — вердикта ещё нет.' It then simply waited and folded the green verdict (18:20:41) into the same repair thread rather than opening anything new. Nothing had been checkpointed or accepted at message time. The original situation omitted this, so the original expectation assumed a closed, standalone failure where the real transcript shows an open, in-flight one. Situation corrected to state the missing fact; expectation corrected to match this traced ground truth. Same precedent as decision-a-boundary: a test that is ambiguous or under-specified is testing the reader, not the skill."
     }
   ]
 }
