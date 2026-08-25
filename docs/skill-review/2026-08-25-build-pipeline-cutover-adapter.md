@@ -70,5 +70,25 @@ closed for this cutover; the roster lines and the architecture node's identity n
 dedicated pass, not a piecemeal touch here or they risk the closing-roster trap §5.16/§5.17 warns
 against).
 
+## CI red-fix addendum (dadb67db)
+
+The full suite (gate b, CI-only) found 25 more tests across ~20 files this session's local runs
+never covered, all asserting facts build-pipeline's old surface used to carry as a second witness.
+Fixed by: a new reference file, `director/references/landing-law.md` (eight push/commit-time
+facts, near-verbatim from the pre-cutover text — genuine relocation, not duplication); one more
+`director/SKILL.md` pointer paragraph (Execution section, after "Closing the work closes the
+checkpoint..."); an extension to `publish/SKILL.md`'s existing push-mechanics section (the fuller
+original wording, needed verbatim by two tests); a one-line compression in `communicator/SKILL.md`
+(504 -> 499 lines, back under its own 500-line size ideal, row 280). No new `Skill:` beyond the six
+already named above — `director`, `communicator`, `publish` are the ones re-touched, all covered.
+Verdict unchanged: no blocking findings. Re-checked `director/SKILL.md`'s structure after the
+second pointer paragraph — still exactly two touches total to that file across this whole cutover
+slice (the Developer table-cell edit, and this landing-law pointer), both minimal and reviewed.
+`publish/SKILL.md`'s push-mechanics section and the new `landing-law.md` file cover genuinely
+different ground (remote/README/CI-verdict mechanics vs. tripwire/merge-gate/compaction/
+release-tier/skill-review/verify-station/docs-layout/removal-accounting) — no duplication between
+them, confirmed by independent review. 476 passed, 9 skipped, 0 failed on the full targeted
+re-run; `check-pin-drift.sh`, `check-skill-loadability.sh`, `check-config-health.sh` all clean.
+
 `scripts/sync-skills.sh` re-run after all edits: build-pipeline, director, test-author, architect,
 communicator, publish all installed-copy-matches-source, no drift.
