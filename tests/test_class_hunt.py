@@ -52,6 +52,23 @@ class TestClassHunt(unittest.TestCase):
         self.assertIn("A confirmed bug drives a class hunt before it closes (SPEC INV-124)", bp)
         self.assertIn("The hunt is four moves:", bp)
 
+    def test_director_has_its_own_home_for_the_hunt(self):
+        """Director's own top-level text carries no door/work-kind vocabulary, so this fact's
+        Director-side home is a reworded reference, not a lift of build-pipeline's prose — see
+        docs/prover/2026-08-25-class-hunt-director-home.md for why a near-verbatim first and
+        second draft were each rejected on review."""
+        director = read_all_flat("skills/director/SKILL.md")
+        self.assertIn("references/class-hunt.md", director)
+        hunt = read_flat("skills/director/references/class-hunt.md")
+        for needle in (
+            "Name the defect's class",
+            "Read the architecture for a structural cause",
+            "Read the spec for the same gap",
+            "Bring the human in where the class boundary is a judgment call",
+            "SPEC INV-26",
+        ):
+            self.assertIn(needle, hunt, needle)
+
     def test_prover_carries_the_class_lens(self):
         # the SPEC INV-124 tie is a pack anchor: since the v5.0.0 externalization the generic
         # prover canon carries no project codes, and the pack adapter binds the class lens to
