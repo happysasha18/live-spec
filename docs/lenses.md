@@ -238,6 +238,29 @@ reader needs. Full record: `docs/prover/2026-07-13-gap2-legibility-floor.md`.
 A real prover walk returned its findings in one undifferentiated list, leaving the human to sort defect
 from recommendation by hand. Full record: `docs/prover/2026-07-13-gap3-finding-kind.md`.
 
+### INV-98 — every process converges on its goal, always    (2026-07-10)
+The owner's word: convergence covers every process and every kind of artifact — there is a goal, and
+we walk toward it, always. Named as the general form of the pack's earlier per-domain convergence
+habits, since a paraphrase or proxy cannot substitute for the goal itself.
+
+### INV-189 — a message earns its passage only where the receiver could not already see it    (2026-08-07)
+The owner's word, 11:19: a request is written down, and nothing stands in the way. The zone's owner is
+presumed competent and informed, so nothing that owner's own instruments already see earns a file.
+
+### INV-237 — the authoring seat's own review is never the adversarial one    (2026-07-18)
+The owner's word, after a fresh web review caught self-referential defects the in-context 2.7.0
+release's own prover pass had missed — the pass never turned onto the skill body that introduced the
+very lenses it ran under.
+
+### INV-247 — a deferred item's state is re-derived before its work resumes    (2026-07-20)
+The owner asked the pack to hold this as a standing rule: a resumed item's problem statement can go
+stale as the code it touches moves on, so the first act of resuming it re-reads the current source
+rather than designing from a stale model.
+
+### INV-302 — a session's record is read at both ends by an agent that did not live it    (2026-07-28)
+The owner asked for this reading as a standing process: the session that lived the work reads its own
+record badly, so a fresh agent reads the handover at open and close instead.
+
 ---
 
 ## Test-craft lens origins (test-author)

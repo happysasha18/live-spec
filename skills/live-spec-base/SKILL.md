@@ -326,9 +326,7 @@ keeps the number it already carries.
    prototype (rule 16) — is legal only when named and bounded by its convergence point. The
    principle's chapter lives in the owner's private playbook repository, in its `PLAYBOOK.md`, which
    a reader outside the project cannot open. The pack's own first
-   teeth are the norm-conformance rows and the convergence-lock tests (rows 216/217). (The
-   owner's word, 2026-07-10: convergence covers every process and every kind of artifact — there
-   is a goal, and we walk toward it, always.)
+   teeth are the norm-conformance rows and the convergence-lock tests (rows 216/217).
 
 23. **A behavioural rule that breaks mid-turn twice earns a live channel (SPEC INV-108).** A standing
    behavioural rule keeps its normative home in a once-read file — the loader, a profile, a skill's
@@ -460,8 +458,7 @@ keeps the number it already carries.
      that owner's own instruments already see earns a file [INV-189]. The mechanical check is
      `guardrails/check-earned-message.py`. It runs at the intake sweep and judges each deposit there;
      the sweep declines an unearned one at the door, so no human reads it. A deposit is recorded on
-     arrival and never blocks a push. (The owner's word, 2026-08-07 11:19: a request is written down,
-     and nothing stands in the way.)
+     arrival and never blocks a push.
    - **A referral travels back to whoever asked.** A question from another agent's zone is answered by
      naming that zone, and the zone's owner receives nothing from a referral. A human asker is answered
      in chat and costs one sentence. An agent asker is answered along the reply road as its message's
@@ -533,8 +530,7 @@ keeps the number it already carries.
    A release gate may require a dated clean-context review record naming a seat other
    than the release's. Whether the review was truly clean-context is a process fact no gate fully sees.
    So the gate checks only that the record exists, is dated to the release, and names a different seat.
-   That is the mechanical floor under a discipline the seat holds. The owner's word, 2026-07-18, after a fresh web
-   review caught self-referential defects the in-context 2.7.0 prover missed.
+   That is the mechanical floor under a discipline the seat holds.
 
 34. **A deferred item's own state is re-derived from the code before its work resumes (SPEC INV-247).** A
    resume file and a queue row record a past moment. The technical problem statement a deferred or
@@ -547,7 +543,7 @@ keeps the number it already carries.
    breakpoint, and the queue-take re-scan re-reads a deferred row's revisit trigger [SPEC INV-129].
    This rule re-reads the item's own internals. So
    a session never designs a fix from a stale model of code that has since moved. And an item already
-   handled is caught before the work restarts. The owner asked the pack to hold it, 2026-07-20.
+   handled is caught before the work restarts.
 
 35. **A session's record is read at both ends by an agent that did not live it (SPEC INV-302).** A session
    that lived the work reads its own record badly. This rule's worked failure — a handover written
@@ -566,8 +562,7 @@ keeps the number it already carries.
    made, each with its timestamp. It compares that list against `DECISIONS.md` and `NEXT_STEPS.md`. A
    decision missing from both goes to the seat before work starts.
    Both ends stay a discipline the seat holds.
-   A session's opening writes no committed artifact for a script to read. The owner asked for
-   this reading as a standing process, 2026-07-28.
+   A session's opening writes no committed artifact for a script to read.
 
 
 ## Work that belongs elsewhere
