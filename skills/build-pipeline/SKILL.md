@@ -605,7 +605,7 @@ pushed. `guardrails/` is a directory of check scripts, and the pack ships one ru
 **Each project instantiates the checks for its own surfaces, and the pipeline requires that the check
 exists and is green**. This is a first-class step, applied across the whole project as a standing part
 of the method. A per-project patch does not satisfy it. See
-[references/guardrails-catalog.md](references/guardrails-catalog.md) for the four mechanical guardrails
+[../director/references/guardrails-catalog.md](../director/references/guardrails-catalog.md) for the four mechanical guardrails
 (Completeness incl. cross-surface policy uniformity SPEC INV-125 · Tests-present · Behaviour-traces-to-spec ·
 Conflicts).
 
@@ -628,7 +628,7 @@ thoughts stand here, so this page alone can fire the tripwire:
 - "asking would bother them";
 - "explaining it would take longer than just doing it myself".
 
-See [references/excuses-table.md](references/excuses-table.md) for the full table of six excuse-thoughts
+See [../director/references/excuses-table.md](../director/references/excuses-table.md) for the full table of six excuse-thoughts
 and why each is a trap (SPEC T-12, T-15, INV-4, INV-5, INV-15).
 
 ## Gates worth remembering
@@ -663,7 +663,7 @@ and why each is a trap (SPEC T-12, T-15, INV-4, INV-5, INV-15).
 - **Trains, one pen (SPEC T-18, INV-39):** one session may roll up to the profile-declared lane cap of
   independent build lanes without asking. The lanes are picked by a dependency graph, and each one is
   opened as an act performed. Every shared-doc edit, the integration, and the closing of a row take
-  the pen one lane at a time. See [references/lanes-and-pen.md](references/lanes-and-pen.md) for the
+  the pen one lane at a time. See [../director/references/lanes-and-pen.md](../director/references/lanes-and-pen.md) for the
   full lane law: the cap and the independence test, the pen-stage rules, and the lane graph with its
   deferred-trigger re-scan. That page also carries the open-lane act and the drafter-applier form
   [T-18, INV-39, INV-49, INV-214].

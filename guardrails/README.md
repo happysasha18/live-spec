@@ -202,7 +202,7 @@ since a worktree shares one repository with the lanes beside it and a worker can
 brief what else that repository holds.
 
 That list is stated in this section, in the gate's own header, and in `skills/live-spec-base/SKILL.md`,
-`skills/build-pipeline/SKILL.md`, `skills/build-pipeline/references/delegation-protocol.md`,
+`skills/build-pipeline/SKILL.md`, `skills/director/references/delegation-protocol.md`,
 `templates/agent.template.md` and `scripts/open-lane.sh`, in one wording, and
 `tests/test_worker_restore.py` reds when two of them differ.
 

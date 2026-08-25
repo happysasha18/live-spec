@@ -27,7 +27,7 @@ recovery: it restores the named file from the last committed stage, hands the wo
 carrying that file's current bytes, and records the halt in the row's delivery report, and the
 halted work resumes under that new brief. The command list above is the one this gate reds on, word
 for word — `guardrails/check-worker-restore.py`, skills/live-spec-base/SKILL.md,
-skills/build-pipeline/SKILL.md, skills/build-pipeline/references/delegation-protocol.md,
+skills/build-pipeline/SKILL.md, skills/director/references/delegation-protocol.md,
 templates/agent.template.md and scripts/open-lane.sh state one list, and tests/test_worker_restore.py
 reds when two of them differ.
 

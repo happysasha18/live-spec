@@ -22,7 +22,7 @@
 - `skills/build-pipeline/SKILL.md:304` (steps)
 - `skills/build-pipeline/SKILL.md:635` (gates)
 - `skills/build-pipeline/SKILL.md:417` (re-carve paragraph — INV-113 redesign-owes-rework)
-- `skills/build-pipeline/references/delegation-protocol.md:71` (the worker-brief register-laws clause — no-scissors + no-dramatization, INV-221)
+- `skills/director/references/delegation-protocol.md:71` (the worker-brief register-laws clause — no-scissors + no-dramatization, INV-221)
 - `guardrails/check-tier-refusal.py:1` (the tier-refusal gate. It reads the record's shape and a pattern's evidence. Its `--brief` step turns a matching task away before any model call. It rides the suite, taking no gate letter, INV-300)
 - `guardrails/tier-refusal.json:1` (the instruction, the tier ladder, the promotion threshold and the promoted phrases as data, INV-300)
 - `docs/measure/tier-refusals.md:1` (the refusal record the patterns grow from, INV-300)

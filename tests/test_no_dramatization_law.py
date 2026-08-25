@@ -75,7 +75,7 @@ def test_worker_brief_carries_the_register_laws():
     """The delegation guidance carries the register laws so a worker's report and agent-to-agent message
     obey them — the one surface the chat/document judges never read (the profile note's 'a worker brief
     carries it beside no-scissors')."""
-    proto = _read("skills/build-pipeline/references/delegation-protocol.md")
+    proto = _read("skills/director/references/delegation-protocol.md")
     low = proto.lower()
     assert "no-scissors" in low
     assert "no-dramatization" in low or "grading the size of a change" in low

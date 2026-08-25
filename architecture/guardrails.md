@@ -134,7 +134,7 @@
 - `docs/prover/README.md:1` (the record home and the shape a record carries, INV-304)
 - `guardrails/check-worker-restore.py:1` (the worker-restore gate, blocking, run at the pipeline's verify step and once more in the suite against this machine's own transcript root, INV-299)
 - `tests/test_worker_restore.py:1` (its red proof, and the one-wording check. That check reads the rulebook, the pipeline skill, the delegation protocol, the agent-card template and the lane-opening script, INV-299.)
-- `skills/build-pipeline/references/delegation-protocol.md:49` (the clause in the delegation protocol, INV-299)
+- `skills/director/references/delegation-protocol.md:49` (the clause in the delegation protocol, INV-299)
 - `scripts/session-extract.py:1` (the session extract's machine, INV-302)
 - `templates/agent.template.md:38` (the clause in the agent card a brief is written from, INV-299)
 - `scripts/open-lane.sh:100` (the clause in the printed brief stub, INV-299)

@@ -872,9 +872,10 @@ class TestDoorLawAndPrototype(unittest.TestCase):
 
     def test_night_batch_skill_rules(self):
         # rows 79/81/82/87: worker briefs, excuses table, two one-liners, decision-file numbering
-        bp = re.sub(r"\s+", " ", read_all("skills/build-pipeline/SKILL.md"))
-        self.assertIn("The brief is self-contained", bp, "build-pipeline lost the worker-brief rule")
-        self.assertIn("The excuses table", bp, "build-pipeline lost the excuses table")
+        # (delegation-protocol.md and excuses-table.md moved to director/ in the build-pipeline cutover)
+        bp = re.sub(r"\s+", " ", read_all("skills/director/SKILL.md"))
+        self.assertIn("The brief is self-contained", bp, "director lost the worker-brief rule")
+        self.assertIn("The excuses table", bp, "director lost the excuses table")
         self.assertIn("Size never picks the door", bp)
         pp = re.sub(r"\s+", " ", read("skills/product-prover-pack/SKILL.md"))
         self.assertIn("Report gaps. Taste is out of scope.", pp, "product-prover lost the anti-taste line")
@@ -1572,7 +1573,8 @@ class TestWorkerContract(unittest.TestCase):
             "carry the clock into the brief",
         ):
             self.assertIn(needle, flat_spec, "SPEC ACT-3 missing: %s" % needle)
-        pipeline = read_all(os.path.join("skills", "build-pipeline", "SKILL.md"))
+        # delegation-protocol.md moved to director/ in the build-pipeline cutover
+        pipeline = read_all(os.path.join("skills", "director", "SKILL.md"))
         flat_pipe = " ".join(pipeline.split())
         for needle in (
             "the worker never hunts context",
@@ -1580,7 +1582,7 @@ class TestWorkerContract(unittest.TestCase):
             "carries the CLOCK",
             "never an invented hour",
         ):
-            self.assertIn(needle, flat_pipe, "build-pipeline missing: %s" % needle)
+            self.assertIn(needle, flat_pipe, "director missing: %s" % needle)
         matrix = read("TEST_MATRIX.md")
         self.assertIn("test_brief_carries_ledger_and_clock", matrix,
                       "M-119 must pin this test (row 123)")
@@ -1594,12 +1596,13 @@ class TestWorkerContract(unittest.TestCase):
                        "escalate one tier with a logged line",
                        "[ACT-3]"):  # "It never retries silently on the same tier, and never skips a rung"
             self.assertIn(phrase, spec, "SPEC ACT-3 lost the worker-contract clause: %s" % phrase)
-        bp = re.sub(r"\s+", " ", read_all("skills/build-pipeline/SKILL.md"))
+        # delegation-protocol.md moved to director/ in the build-pipeline cutover
+        bp = re.sub(r"\s+", " ", read_all("skills/director/SKILL.md"))
         for phrase in ("The worker contract (SPEC ACT-3)",
                        "fence alarms on foreign sessions",
                        "never resolves the settings ladder itself",
                        "escalates exactly ONE tier every time, with a logged line covering the move"):
-            self.assertIn(phrase, bp, "build-pipeline lost the worker-contract elaboration: %s" % phrase)
+            self.assertIn(phrase, bp, "director lost the worker-contract elaboration: %s" % phrase)
 
     def test_routing_rule(self):
         """Row 56 (M-175, INV-69): the model router — a unit of work's tier is PROPOSED
@@ -1616,12 +1619,13 @@ class TestWorkerContract(unittest.TestCase):
         # D-2 is decided, no longer open
         self.assertNotIn("tier routing override | Open decisions", spec,
                          "D-2 still reads as an open override choice — row 56 decides it")
-        bp = re.sub(r"\s+", " ", read_all("skills/build-pipeline/SKILL.md"))
+        # delegation-protocol.md moved to director/ in the build-pipeline cutover
+        bp = re.sub(r"\s+", " ", read_all("skills/director/SKILL.md"))
         for phrase in ("The routing rule (SPEC INV-69)",
                        "propose the cheapest tier that can pass the brief",
                        "economy rung moves the threshold",
                        "proposed tier"):
-            self.assertIn(phrase, bp, "build-pipeline lost the routing-rule elaboration: %s" % phrase)
+            self.assertIn(phrase, bp, "director lost the routing-rule elaboration: %s" % phrase)
         matrix = read("TEST_MATRIX.md")
         self.assertIn("test_routing_rule", matrix, "M-175 must pin this test (row 56)")
 
@@ -1889,11 +1893,12 @@ class TestMinedGapFolds(unittest.TestCase):
             self.assertIn(phrase, pp, "product-prover Phase 4 lost the domain-language lens: %s" % phrase)
 
     def test_gap6_delegation_savings_line(self):
-        bp = re.sub(r"\s+", " ", read_all("skills/build-pipeline/SKILL.md"))
+        # delegation-protocol.md moved to director/ in the build-pipeline cutover
+        bp = re.sub(r"\s+", " ", read_all("skills/director/SKILL.md"))
         for phrase in ("Every delegation reports its saving",
                        "roughly how much senior work it saved",
                        "quietly stopped delegating"):
-            self.assertIn(phrase, bp, "build-pipeline lost the delegation-savings line: %s" % phrase)
+            self.assertIn(phrase, bp, "director lost the delegation-savings line: %s" % phrase)
 
     def test_gaps5_8_docs_discipline(self):
         bp = re.sub(r"\s+", " ", read_all("skills/build-pipeline/SKILL.md"))
@@ -2373,11 +2378,12 @@ class TestProblemLedger(unittest.TestCase):
                        "the landing order declared at claim time, the later lane re-fencing on the new truth",
                        "convergence point", "never a serializing surface"):
             self.assertIn(needle, spec, "SPEC missing: %s" % needle)
-        pipe = re.sub(r"\s+", " ", read_all(os.path.join("skills", "build-pipeline", "SKILL.md")))
+        # lanes-and-pen.md moved to director/ in the build-pipeline cutover
+        pipe = re.sub(r"\s+", " ", read_all(os.path.join("skills", "director", "SKILL.md")))
         for needle in ("Lanes are picked by a graph", "rows ride serial",
                        "DECLARED at claim", "never a serializing surface",
                        "convergence point"):
-            self.assertIn(needle, pipe, "build-pipeline missing: %s" % needle)
+            self.assertIn(needle, pipe, "director missing: %s" % needle)
         # the refuted 'doc region' wording must not survive on M-147, INV-49's own row
         m147 = next((ln for ln in read("TEST_MATRIX.md").splitlines() if ln.startswith("| M-147 |")), "")
         self.assertNotIn("doc region", m147, "M-147 still carries the refuted 'doc region' edge wording")
@@ -2426,10 +2432,11 @@ class TestProblemLedger(unittest.TestCase):
                        "two consecutive unexplained failures",
                        "never inlined file bodies"):
             self.assertIn(needle, spec, "SPEC missing: %s" % needle)
-        pipe = re.sub(r"\s+", " ", read_all(os.path.join("skills", "build-pipeline", "SKILL.md")))
+        # delegation-protocol.md moved to director/ in the build-pipeline cutover
+        pipe = re.sub(r"\s+", " ", read_all(os.path.join("skills", "director", "SKILL.md")))
         for needle in ("READING them in full", "closed HALT list",
                        "~300 lines", "never inlined file bodies"):
-            self.assertIn(needle, pipe, "build-pipeline missing: %s" % needle)
+            self.assertIn(needle, pipe, "director missing: %s" % needle)
 
     def test_limp_never_dams_flow(self):
         """Row 153 (M-155, INV-56): a known owned problem parks; unrelated lanes
@@ -2694,10 +2701,11 @@ class TestProblemLedger(unittest.TestCase):
                        "never cutting a pen-stage mid-edit",
                        "a prover run reading committed law"):
             self.assertIn(needle, spec, "SPEC missing: %s" % needle)
-        pipe = re.sub(r"\s+", " ", read_all(os.path.join("skills", "build-pipeline", "SKILL.md")))
+        # lanes-and-pen.md moved to director/ in the build-pipeline cutover
+        pipe = re.sub(r"\s+", " ", read_all(os.path.join("skills", "director", "SKILL.md")))
         for needle in ("Trains, one pen", "SPEC T-18", "isolated tree",
                        "one more opens only on the human's asked word"):
-            self.assertIn(needle, pipe, "build-pipeline missing: %s" % needle)
+            self.assertIn(needle, pipe, "director missing: %s" % needle)
         base = re.sub(r"\s+", " ", read(os.path.join("skills", "live-spec-base", "SKILL.md")))
         for needle in ("SPEC T-18", "PEN"):
             self.assertIn(needle, base, "base missing: %s" % needle)
@@ -2816,8 +2824,9 @@ class TestProblemLedger(unittest.TestCase):
                        "landed-first winning and the later lanes re-verifying",
                        "half of another train never rides a landing"):
             self.assertIn(needle, spec, "SPEC missing: %s" % needle)
-        pipe = re.sub(r"\s+", " ", read_all(os.path.join("skills", "build-pipeline", "SKILL.md")))
-        self.assertIn("exactly one row's delta", pipe, "build-pipeline missing INV-39's clause")
+        # lanes-and-pen.md moved to director/ in the build-pipeline cutover
+        pipe = re.sub(r"\s+", " ", read_all(os.path.join("skills", "director", "SKILL.md")))
+        self.assertIn("exactly one row's delta", pipe, "director missing INV-39's clause")
 
     def test_install_backup_home(self):
         """Row 122 (M-118): installer backups live outside the live skills dir."""
@@ -3519,7 +3528,8 @@ class TestGroundingLaw(unittest.TestCase):
     """Row 569 (M-545, INV-314): a work block and every line reporting it opens by naming its
     root — the person's dated request, a standing instruction, or a stated reason, never
     machinery — and is accounted against its plan line. Both homes: PRODUCT_SPEC.md's
-    Requirement 310 and skills/build-pipeline/SKILL.md's delegation-accounting section."""
+    Requirement 310 and skills/director/SKILL.md's delegation-accounting section (moved from
+    build-pipeline's delegation-protocol.md reference in the build-pipeline cutover, Package 3)."""
 
     def test_grounding_law(self):
         spec = re.sub(r"\s+", " ", read("PRODUCT_SPEC.md"))
@@ -3535,12 +3545,12 @@ class TestGroundingLaw(unittest.TestCase):
             "[INV-314]",
         ):
             self.assertIn(needle, spec, "SPEC missing the grounding law: %s" % needle)
-        pipeline = re.sub(r"\s+", " ", read_all(os.path.join("skills", "build-pipeline", "SKILL.md")))
+        director = re.sub(r"\s+", " ", read_all(os.path.join("skills", "director", "SKILL.md")))
         for needle in (
             "Each work block in the report opens by naming its root.",
             "The root is the person's dated request, a standing instruction, or a stated reason, "
             "and machinery is never a root.",
             "accounts each block against its announced plan line (SPEC INV-314)",
         ):
-            self.assertIn(needle, pipeline, "build-pipeline SKILL.md missing the grounding law: %s" % needle)
+            self.assertIn(needle, director, "director SKILL.md missing the grounding law: %s" % needle)
         self.assertIn("test_grounding_law", read("TEST_MATRIX.md"), "M-545 must pin this test")

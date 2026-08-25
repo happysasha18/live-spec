@@ -37,7 +37,7 @@ GATE = os.path.join(ROOT, "guardrails", "check-worker-restore.py")
 CLAUSE_HOMES = [
     "skills/live-spec-base/SKILL.md",
     "skills/build-pipeline/SKILL.md",
-    "skills/build-pipeline/references/delegation-protocol.md",
+    "skills/director/references/delegation-protocol.md",
     "templates/agent.template.md",
     "scripts/open-lane.sh",
 ]
