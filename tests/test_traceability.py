@@ -2348,12 +2348,16 @@ class TestProblemLedger(unittest.TestCase):
                        "a differently-contexted head is briefed from the primary sources",
                        "One fresh checker *shall* cover every law in a delivery batch"):
             self.assertIn(needle, spec, "SPEC missing: %s" % needle)
-        pipe = re.sub(r"\s+", " ", read_all(os.path.join("skills", "build-pipeline", "SKILL.md")))
+        # verify-step-detail.md moved to director/ in the build-pipeline cutover; two of the four
+        # needles below were reworded there (never the senior's own plan -> never the Director's
+        # own plan; the REQUIRED clause -> "fires when... high-stakes AND its only review... is
+        # the author's own").
+        pipe = read_flat("skills/director/references/verify-step-detail.md")
         for needle in ("tasks completed, goal missed",
                        "TODO · FIXME · placeholder · lorem · hardcoded sample · empty function body",
-                       "primary sources only: never the worker's summary, never the senior's own plan",
-                       "REQUIRED where the stakes are high and only the author has judged"):
-            self.assertIn(needle, pipe, "build-pipeline missing: %s" % needle)
+                       "never the worker's summary, never the Director's own plan",
+                       "high-stakes AND its only review so far is the author's own"):
+            self.assertIn(needle, pipe, "director verify-step-detail missing: %s" % needle)
 
     def test_lanes_by_graph(self):
         """Row 149 (M-147, INV-49): lanes picked by a dependency graph, integration

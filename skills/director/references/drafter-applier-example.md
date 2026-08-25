@@ -1,7 +1,7 @@
 # The drafter-applier pipeline
 
-The worked form of the standard colliding-rows pattern, referenced from `SKILL.md`'s "Trains, one pen"
-section (SPEC INV-49).
+The worked form of the standard colliding-rows pattern, referenced from
+`references/lanes-and-pen.md`'s "Trains, one pen — the lane law" section (SPEC INV-49).
 
 **The drafter-applier pipeline is the standard colliding-rows form (SPEC INV-49):** on colliding rows
 the penless DRAFT stage overlaps the current landing: a drafter worker at the judgment tier prepares the

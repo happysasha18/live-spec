@@ -9,7 +9,7 @@ import os
 import unittest
 
 from conftest import ROOT, read_flat, read_all, read_all_flat
-HOME = "skills/build-pipeline/SKILL.md"
+HOME = "skills/director/SKILL.md"  # drafter-applier-example.md moved to director/ in the build-pipeline cutover
 
 
 class TestDrafterApplierForm(unittest.TestCase):
