@@ -171,4 +171,78 @@ rather than treating either alone as current.
   specialist table points to it directly. `skills/build-pipeline/SKILL.md` step 3 and its
   `references/architecture-step-detail.md` are untouched — build-pipeline's own cutover to
   calling this skill is not part of this slice; no partial migration.
+
+## 2026-08-25 — cutover slice plan (design only, nothing executed yet)
+
+The scenario gate closed (`docs/prover/2026-08-25-director-scenario-gate-resample.md`),
+unblocking this cutover. Re-verified against the current tree before committing to a plan
+(§1.2.1's own rule: read the real file, don't trust the map's memory of it) — two things the
+"worth extracting" section above didn't yet say plainly:
+
+- `skills/director/SKILL.md` cites `delegation-protocol.md` by its build-pipeline path only
+  to say what it replaces ("none of that survives the cut into this skill") — not a live
+  read. Correction to an earlier draft of this note, which had this backwards.
+- **The real, mechanical dependency is `tests/test_worker_restore.py`'s `CLAUSE_HOMES`
+  list** — five files (`skills/live-spec-base/SKILL.md`, `skills/build-pipeline/SKILL.md`,
+  `skills/build-pipeline/references/delegation-protocol.md`, `templates/agent.template.md`,
+  `scripts/open-lane.sh`) whose worker-restore-clause wording the test asserts is
+  byte-identical, sentence by sentence (`CLAUSE_SENTENCES` in the same file). Moving or
+  deleting `delegation-protocol.md` without updating this list in the SAME commit breaks the
+  test outright — this is not prose to reconcile by judgment, it is a hard mechanical gate.
+  `skills/director/references/verify-step-detail.md` is NOT in this list today; whether it
+  needs to be (or whether Director's own SKILL.md should carry the clause verbatim instead)
+  is an open question this note flags rather than answers — check both against
+  `CLAUSE_SENTENCES` before touching either file.
+- `references/architecture-step-detail.md` (quality budgets, the three-question node
+  fitness test, runtime/placement views) is real architect craft, but `skills/architect/`
+  has no `references/` directory at all — this content is orphaned, not duplicated. Row 21
+  said its own cutover "is not part of this slice"; that debt is still open and blocks a
+  clean `architect` skill exactly as much as it blocks `build-pipeline`'s removal.
+
+**Three reference files have no ready target home yet** — `project-setup.md` (merges into
+the package 6 migrator, not built), `footprint-read.md` and `minor-bump-gate.md` (package 5
+examines these gates on their own merits, not started). The mandate bans partial extraction
+(no forbidden "re-homing under a new name" of superseded logic, no half-cut pipeline), but a
+**short transitional adapter is explicitly sanctioned** ("удаляется или превращается в
+короткий переходный адаптер") — and it is the only honest option while packages 5/6 don't
+exist yet: three real, still-needed capabilities (project setup, footprint reads,
+minor-bump-gate procedure) have nowhere else to live today.
+
+**Slice plan, in dependency order (each its own push per §1.1, not one giant commit):**
+
+1. Move `delegation-protocol.md`, `excuses-table.md`, `lanes-and-pen.md`,
+   `guardrails-catalog.md` to `skills/director/references/` (mirroring how
+   `verify-step-detail.md` already moved there). Repoint every consumer found by a fresh
+   grep, not the list here — `guardrails/README.md` and `skills/director/SKILL.md` cite
+   `delegation-protocol.md`'s old path in prose (safe, not a live dependency — see finding
+   above). **`delegation-protocol.md` specifically also needs `tests/test_worker_restore.py`'s
+   `CLAUSE_HOMES` list updated to its new path in the SAME commit** — the test asserts
+   `CLAUSE_SENTENCES` byte-identical across that closed list; moving the file without
+   updating the list reds the suite outright, not a judgment call.
+2. Move `architecture-step-detail.md` to `skills/architect/references/`, wire
+   `skills/architect/SKILL.md` to read it directly — this closes row 21's deferred debt as
+   its own small slice, before touching build-pipeline's body.
+3. Delete the superseded content from `skills/build-pipeline/SKILL.md`: the door table and
+   tripwires, the work-kind table, the footprint scale, the request-kind table, the fixed
+   step sequence (current lines ~305-596). Director's dynamic graph is the replacement,
+   already shipped.
+4. Rewrite what remains as the short transitional adapter: a page that states plainly
+   `build-pipeline` is no longer the entry point (`skills/director/SKILL.md` is), and parks
+   only `project-setup.md`, `footprint-read.md`, `minor-bump-gate.md` until packages 5/6
+   give them permanent homes. Frontmatter `description` changes so the skill is no longer
+   invoked as a router — only for the setup-walk case its remaining content still serves.
+5. The costly step: every one of the ~40 tests currently asserting build-pipeline's deleted
+   prose needs a per-test decision — retired outright (the behaviour it checked is now
+   Director's, covered by `evals/director/scenarios.json` instead), rewritten to test the
+   adapter's narrower remaining scope, or left alone (a handful test the reference files
+   moving in steps 1-2, which still exist, just elsewhere). This step is what actually
+   determines the slice's size; steps 1-4 are mechanical by comparison. Grep broadly before
+   touching anything (§5.16's own lesson from the architect extraction, which is the same
+   file family this cutover touches again) — TEST_MATRIX.md, ARCHITECTURE.md, adopt/,
+   MIGRATION.md, and every closing-roster the architect extraction already found scattered
+   across 6 files.
+
+Not started. Recommended order above is designed so each step alone is independently safe
+and revertible if a later step turns out wrong — steps 1-2 in particular can land, prove
+green, and be walked away from without committing to steps 3-5 in the same sitting.
 - **Rows 8, 12–15, 31–36** — untouched by this slice; still read as this map already states.
