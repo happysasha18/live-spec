@@ -29,6 +29,21 @@ class TestCodeCompactionStation(unittest.TestCase):
         bp = read_flat("skills/build-pipeline/SKILL.md")
         self.assertIn("code compaction", bp)
 
+    def test_build_pipeline_minor_gate_carries_skill_creator_review(self):
+        # Requirement 130 (SPEC M-1): the milestone/MINOR gate re-runs the skill evals and
+        # walks every skill through skill-creator's craft review — a real gap the eval/iterate
+        # run (Полоса B п.10) found missing from both build-pipeline's own summary bullet and
+        # its reference file; this guards the two staying in sync.
+        bp = read_flat("skills/build-pipeline/SKILL.md")
+        self.assertIn("the skill-creator craft review", bp)
+        detail = read_flat("skills/build-pipeline/references/minor-bump-gate.md")
+        self.assertIn(
+            "re-runs the skill evals and sends every skill in the pack through skill-creator's "
+            "craft review",
+            detail,
+        )
+        self.assertIn("SPEC M-1", detail)
+
     def test_formal_index_row(self):
         # INDEX-ROW pattern (RECIPE): the Reference table now carries locations only,
         # no prose. Assert the row's presence here; the "code" prose is asserted
