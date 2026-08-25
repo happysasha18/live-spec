@@ -256,6 +256,12 @@ against this work's own checkpoint and add to or cut the specialist list; never 
 stale plan forward silently. When it does not change anything, say so and continue —
 replanning on every unremarkable update is its own kind of noise.
 
+**Accepted work that turns out to be a confirmed bug still owes a sweep before it counts as
+finished.** Name the mistake's class and search for its siblings in the same change; a point fix
+that leaves relatives standing stays a status until the sweep lands. See
+[references/class-hunt.md](references/class-hunt.md) for the full four moves, including when the
+class boundary calls for the human's judgment.
+
 **The verifier gets the goal and the artifacts, never the executor's self-report.** See
 [references/verify-step-detail.md](references/verify-step-detail.md) for the full
 protocol: when a fresh checker is required (SPEC INV-46) versus when the Director's own
