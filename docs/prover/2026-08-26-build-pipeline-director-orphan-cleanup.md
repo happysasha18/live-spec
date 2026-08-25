@@ -2,14 +2,17 @@
 
 PUSH-REVIEW
 
-Range: fd177f52..d262c12e (4 commits) — widened to cover the CI red-fix (the first push's local
-gates all passed, but CI's full suite — gate b, never run locally — found a third orphaned test
-the local targeted runs never touched) and its own skill-review update, per the gate a
-self-naming arm (one record names the base plus every non-exempt commit together)
+Range: ba8c6c63..dfebe58c (this push's base..head; the first push already landed fd177f52..5ffa2fa5,
+this is the fast-follow) — widened to cover the CI red-fix (the first push's local gates all
+passed, but CI's full suite — gate b, never run locally — found a third orphaned test the local
+targeted runs never touched) and its own skill-review update, per the gate a self-naming arm (one
+record names the base plus every non-exempt commit together)
 - d262c12e Widen the build-pipeline/director orphan-cleanup skill-review record to cover the CI red-fix
 - d9e77d61 Restore the lost "adversarial by nature" audit definition, redirect the third orphaned test
+Full arc since the original base, for continuity:
 - 5ffa2fa5 Skill-review record for the build-pipeline/director orphan-reference cleanup
 - ccb3d9fb Give drafter-applier-example.md a real home in director/, retire the dead verify-step-detail.md duplicate
+(base: fd177f52)
 Files read: PRODUCT_SPEC.md, ARCHITECTURE.md, guardrails/pre-push, skills/build-pipeline/SKILL.md,
 skills/director/references/lanes-and-pen.md, skills/director/references/drafter-applier-example.md,
 skills/director/references/verify-step-detail.md, tests/test_drafter_applier_form.py,
