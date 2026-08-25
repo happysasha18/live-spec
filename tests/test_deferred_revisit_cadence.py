@@ -45,7 +45,8 @@ class TestDeferredRevisitCadence(unittest.TestCase):
         self.assertIn("Deferred rows are revisited at every queue-take", spec)
 
     def test_build_pipeline_carries_the_queue_take_rescan(self):
-        bp = read_all_flat("skills/build-pipeline/SKILL.md")
+        # lanes-and-pen.md moved to skills/director/references/ in the build-pipeline cutover
+        bp = read_all_flat("skills/director/SKILL.md")
         self.assertIn(
             "re-scans every deferred row's revisit trigger against the current moment (SPEC INV-129)",
             bp,

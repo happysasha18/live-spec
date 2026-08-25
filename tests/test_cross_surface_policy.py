@@ -52,7 +52,8 @@ class TestCrossSurfacePolicy(unittest.TestCase):
         self.assertIn("the preventive twin of the class lens", pv)
 
     def test_build_pipeline_completeness_holds_uniformity(self):
-        bp = read_all_flat("skills/build-pipeline/SKILL.md")
+        # guardrails-catalog.md moved to director/ in the build-pipeline cutover
+        bp = read_all_flat("skills/director/SKILL.md")
         self.assertIn("cross-surface policy uniformity (SPEC INV-125)", bp)
         self.assertIn("EVERY registered sibling root", bp)
 

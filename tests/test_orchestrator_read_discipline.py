@@ -24,7 +24,8 @@ def test_spec_invariant_137_present_and_indexed():
 
 def test_delegation_accounting_names_reads():
     # the discipline is made visible in the landing report's delegation accounting
-    bp = read_all("skills/build-pipeline/SKILL.md")
+    # delegation-protocol.md moved to skills/director/references/ in the build-pipeline cutover
+    bp = read_all("skills/director/SKILL.md")
     assert "reads dispatched" in bp
     assert "INV-137" in bp
 

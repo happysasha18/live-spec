@@ -36,6 +36,10 @@ for skill_dir in "$REPO_SKILLS"/*/; do
     echo "  $name — unchanged ($src_v)"
     continue
   fi
+  # A full remove-then-copy, not an overlay: cp -r alone never removes a file that left the
+  # source (2026-08-25 — 4 reference files moved out of build-pipeline left stale copies
+  # behind, and diff -rq never reached equality, so gate m reds "drifted" right after a sync).
+  rm -rf "$DEST/$name"
   mkdir -p "$DEST/$name"
   cp -r "$skill_dir"/. "$DEST/$name/"
   echo "  $name — synced: ${dst_v:-absent} -> $src_v   (A-7: RE-READ this skill before continuing)"
