@@ -76,7 +76,9 @@ numbers — and that answer comes from the project's kind (SPEC INV-36): a user-
 paint and interaction times ("first image within 2s on a cold visit"); a backend service measures
 latency, throughput, and error rate; a CLI or pipeline measures run time on a typical input and
 per-unit cost; a skill pack measures its evals' pass rate and suite wall-time; prose states honestly
-what carries no number, by name, rather than inventing a vanity metric for it.
+what carries no number, by name, rather than inventing a vanity metric for it. See
+[references/architecture-step-detail.md](references/architecture-step-detail.md) for this passage in
+the words the step first used.
 
 Each budget names its **instrumentation home** — where the real number is measured and where a human
 can read it: an export, a debug view, a report — and its **watcher**: the mechanical check that reds
@@ -106,7 +108,9 @@ a content network, the client browser, an edge worker, an external service — p
 technology choice where one exists, first-class: a node-table column, or its own small table, so a
 reader answers "where does this run" at a glance. It also states where secrets live and which tier holds
 each verdict kept off the client — a secret's place is architecture, not an implementation footnote. A
-single-place project satisfies the duty with one sentence.
+single-place project satisfies the duty with one sentence. See
+[references/architecture-step-detail.md](references/architecture-step-detail.md) for what each view
+walks and states in the words the step first used.
 
 ## The node-fitness test, at every node's birth (SPEC INV-122)
 
@@ -119,7 +123,9 @@ the carve premature; fold it back.
 The test has two homes. Its first is here, at the architecture step, where new abstractions are born and
 a carve that fails it is folded back before it ships. Its second is `product-prover`'s speculative-node
 flag: a node with one caller and no promised second is flagged for the second question's answer — never
-auto-rejected, since the prover's job is to raise the question, not to decide it.
+auto-rejected, since the prover's job is to raise the question, not to decide it. See
+[references/architecture-step-detail.md](references/architecture-step-detail.md) for the test's two
+homes in the words the step first used.
 
 ## Keeping the document honest — iterative, re-carved, or redesigned (SPEC INV-37, INV-113)
 

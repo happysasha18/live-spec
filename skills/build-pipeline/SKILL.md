@@ -385,7 +385,7 @@ INV-30, INV-136, INV-139), and the skill-review duty (SPEC INV-99).
 
    WHAT is measurable comes from the project's KIND (SPEC INV-36). Ask "what does quality mean here,
    in numbers?" before writing any. See
-   [references/architecture-step-detail.md](references/architecture-step-detail.md) for the per-kind
+   [../architect/references/architecture-step-detail.md](../architect/references/architecture-step-detail.md) for the per-kind
    numbers and for the quality that has no honest number.
 
    Each budget is asserted by a matrix-row acceptance, never a hope in prose. A surface with no budget
@@ -395,7 +395,7 @@ INV-30, INV-136, INV-139), and the skill-review duty (SPEC INV-99).
 
    **The doc owes two more views beside the node map (SPEC INV-74, INV-75), scaled by kind:** the
    **runtime view** and the **placement view**. See
-   [references/architecture-step-detail.md](references/architecture-step-detail.md) for what each view
+   [../architect/references/architecture-step-detail.md](../architect/references/architecture-step-detail.md) for what each view
    walks and states.
 
    **The doc is iterative, current only to what's shipped or in flight.** It maps the product as it
@@ -412,7 +412,7 @@ INV-30, INV-136, INV-139), and the skill-review duty (SPEC INV-99).
    shared files? Three yes answers make the node
    right. A single no is a flag to answer — name the plan that turns it to a yes, or fold the carve
    back. Two or more no make it premature. See
-   [references/architecture-step-detail.md](references/architecture-step-detail.md) for the test's two
+   [../architect/references/architecture-step-detail.md](../architect/references/architecture-step-detail.md) for the test's two
    homes and how a carve that fails it is folded back.
 
    Re-carving the whole node map is legal. It arrives as a restructure placement's own queue row (SPEC
