@@ -2,7 +2,11 @@
 
 PUSH-REVIEW
 
-Range: 9132c76e..25ce3d8e (1 commit)
+Range: ff43d281..25ce3d8e (3 commits) — widened to cover the whole reviewed delta since the last
+push, not just this record's own fix, per the gate a self-naming arm (a single record must name
+the base plus every non-exempt commit in the pushed range together)
+- 6a99bf32 Compress rules 6/14/19/29/31 in place (A.7)
+- 99699916 Skill-review record for A.7 rule compression
 - 25ce3d8e Lower the live-spec-base ratchet honestly with A.7's shrink (598)
 
 Files read: full diff of 25ce3d8e (1 file, 10 insertions / 8 deletions);
