@@ -146,7 +146,11 @@ keeps the number it already carries.
      brief's write-set is disjoint from every already-running writer's brief, or gives it an isolated
      worktree at brief-time. The fence stays silent between same-session siblings and cannot catch the
      senior's own workers colliding (SPEC ACT-3, INV-11).
-   - **A worker never restores a working tree with a git command (SPEC INV-298).** Before a worker mutates a file it means to put back, it reads that file and holds its bytes. A worker puts a file back by WRITING ITS OWN SAVED BYTES. A worker runs no command that discards uncommitted work, in any tree: `git checkout -- <path>`, `git checkout .`, `git restore` outside `--staged`, `git stash` and its `push`, `save`, `create` and `store` forms, `git reset` with `--hard`, `--merge` or `--keep`, and `git clean` with `-f` or `-x`. Such a command's blast radius is a PATH, so its damage lands on files the worker never wrote and its brief never named. This rule binds a worker in every tree, including its own isolated worktree, since a worktree shares one repository with the lanes beside it and a worker cannot read off its brief what else that repository holds. A worker that holds no saved bytes for a file it mutated, or that believes a file needs a git-level restore, HALTS and reports the file and the mutation it made, and it writes no further file and runs no further command. The orchestrator owns recovery: it restores the named file from the last committed stage, hands the worker a fresh brief carrying that file's current bytes, and records the halt in the row's delivery report, and the halted work resumes under that new brief. The orchestrator's own half: a finished build stage is committed before the next worker touches its files. `guardrails/check-worker-restore.py` reads the worker runs' transcripts for the command and runs at the verify step.
+   - **A worker never restores a working tree with a git command (SPEC INV-298).** The full rule —
+     what a worker HALTS on, what the orchestrator's recovery half is, and the banned command list —
+     lives in [references/worker-restore.md](references/worker-restore.md), the exact wording every
+     brief this pack composes rides. `guardrails/check-worker-restore.py` reads the worker runs'
+     transcripts for the command and runs at the verify step.
    - **One row per landing commit.** A landing commit carries exactly one row's delta (SPEC INV-39). Its
      gate runs on a tree clean of any other lane's unfinished work.
    - **A prior-context worker.** A background worker from a prior context is a concurrent writer too. It
@@ -550,19 +554,11 @@ keeps the number it already carries.
    from memory that named a question as still open when the owner had already answered it that day —
    and the note on the script once used to check a handover's three lines are both written out under
    rule 35 in [references/worked-examples.md](references/worked-examples.md). Open it when either
-   case needs the concrete story. So each
-   end of a session is read by a fresh agent. That agent works from a session extract: the person's own
-   turns, each with its timestamp. `scripts/session-extract.py` pulls those turns out of one transcript,
-   and its own header names where the transcripts sit and which traps a reader meets there.
-   The extract goes to a scratch directory, since a transcript holds private conversation. At the close,
-   the fresh agent writes the session handover from that extract. The session that lived the work writes
-   no handover of its own. A handover is a file under `docs/handovers/` whose name ends in
-   `-handover.md`. It says where it was read from in three lines: transcript, extract, written by.
-   At the open, a fresh agent reads the previous session's extract. It lists every decision the person
-   made, each with its timestamp. It compares that list against `DECISIONS.md` and `NEXT_STEPS.md`. A
-   decision missing from both goes to the seat before work starts.
-   Both ends stay a discipline the seat holds.
-   A session's opening writes no committed artifact for a script to read.
+   case needs the concrete story. So each end of a session is read by a fresh agent, never the session
+   that lived the work. The mechanism — the session extract, the session handover file's shape, and
+   the open-end's decision cross-check — lives in
+   [references/session-handover.md](references/session-handover.md), read when spawning that fresh
+   agent at either end. Both ends stay a discipline the seat holds.
 
 
 ## Work that belongs elsewhere

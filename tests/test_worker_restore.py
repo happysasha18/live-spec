@@ -35,7 +35,7 @@ GATE = os.path.join(ROOT, "guardrails", "check-worker-restore.py")
 
 # Every home a worker learns its contract from. A drop in any one of them reds.
 CLAUSE_HOMES = [
-    "skills/live-spec-base/SKILL.md",
+    "skills/live-spec-base/references/worker-restore.md",
     "skills/build-pipeline/SKILL.md",
     "skills/director/references/delegation-protocol.md",
     "templates/agent.template.md",
