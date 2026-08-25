@@ -46,8 +46,9 @@ entry stands outside the derivation chain. When the walk finishes, the first wis
 
 - **Before a MINOR (0.x.0) bump:** see
   [references/minor-bump-gate.md](references/minor-bump-gate.md) for the full gate procedure — the
-  3-pass preventive audit, the full design review, the cross-cut counter, and code compaction as a
-  station beside doc compaction — until Package 5 gives this gate its own permanent home.
+  3-pass preventive audit, the full design review, the cross-cut counter, code compaction as a
+  station beside doc compaction, and the skill-creator craft review — until Package 5 gives this
+  gate its own permanent home.
 
 ## How it relates to the other skills
 

@@ -17,3 +17,8 @@ station has a second trigger beyond this gate — the second occurrence of the s
 opens the duplication's own compaction row at that moment (rule 19's owner) as well as at the milestone; the
 row lands through the ordinary pipeline (one row's delta, INV-39; a known duplication never blocks its
 lane, INV-56). The duplication becomes a queued row, held back from an on-the-spot in-place fix.
+
+The gate also **re-runs the skill evals and sends every skill in the pack through skill-creator's
+craft review (SPEC M-1):** each finding either gets folded in or turned away, the
+call recorded and dated, and a skill joining the pack for the first time takes this same walk at
+birth, before it ever reaches its own first gate.
