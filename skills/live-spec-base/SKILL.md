@@ -100,24 +100,22 @@ keeps the number it already carries.
    failed-acceptance escalation is logged, proposed tier → chosen tier → why (SPEC INV-69).
 
 6. **Every long or delegated piece of work keeps a persistent checkpoint.** A file on disk (host home:
-   `.live-spec/checkpoints/`, gitignored and kept inside the repo tree) holds done / in-progress / next,
-   updated as the work runs, so a cut-off resumes from disk. A landing that ships a checkpoint's items flips that checkpoint to its closed state in the same
-   landing, so a returning session never reopens finished work. A checkpoint whose items all live in git
-   history is stale by definition and reads as a resume defect (SPEC INV-107). Red at a pause is never
-   committed. The failing test name and the hypothesis become the top item of `NEXT_STEPS.md`, so the
-   red test is itself the checkpoint. A checkpoint or handoff note that records a live background
-   worker also records three things about it. First, the worker's id, pointing at the worker's own
-   checkpoint file. Second, its briefed write-set. Third, the liveness checks a resuming session runs
-   before touching those files or spawning a sibling. Those checks are the write-set's file times
-   watched over a short window, the worker's heartbeat, and one message to its id. The heartbeat is a
-   fixed-interval touch on the worker's own checkpoint file, ~60 s [default],
-   stale past ~2 min [default]. Such a note never frames the worker's output as finished while the
-   worker may still run (SPEC INV-76). Before a memory wipe, prefer
-   halting the workers or letting them finish, so the next session starts single-writer. Say plainly
-   when a worker dies with a closed window or a sleeping machine. The human's leave-word fires this rule
-   for everything open at once. Every lane goes to its checkpoint, workers are halted or landed, and green
-   is committed. One closing line follows, only when the whole walk holds (SPEC INV-95; the communicator
-   carries the walk).
+   `.live-spec/checkpoints/`, gitignored, inside the repo tree) holds done / in-progress / next, updated
+   as the work runs, so a cut-off resumes from disk. A landing that ships a checkpoint's items flips
+   that checkpoint to its closed state in the same landing, so a returning session never reopens
+   finished work. A checkpoint whose items all live in git history is stale by definition and reads as
+   a resume defect (SPEC INV-107). Red at a pause is never committed: the failing test name and the
+   hypothesis become the top item of `NEXT_STEPS.md`, so the red test is itself the checkpoint. A
+   checkpoint or handoff note that records a live background worker records three things about it: the
+   worker's id (pointing at the worker's own checkpoint file), its briefed write-set, and the liveness
+   checks a resuming session runs before touching those files or spawning a sibling — the write-set's
+   file times watched over a short window, the worker's heartbeat, and one message to its id. The
+   heartbeat is a fixed-interval touch on the worker's own checkpoint file, ~60 s [default], stale past
+   ~2 min [default]. Such a note never frames the worker's output as finished while the worker may
+   still run (SPEC INV-76); before a memory wipe, prefer halting the workers or letting them finish, so
+   the next session starts single-writer, and say plainly when a worker dies with a closed window or a
+   sleeping machine. The human's leave-word extends this rule to every open lane at once (SPEC INV-95;
+   the communicator carries the closing walk).
 
 7. **The concurrent-edit fence, before every write and every commit.** Re-check `git status` and HEAD
    against what you last read. If HEAD moved, or the tree holds changes you did not make, stop, re-read,
@@ -216,25 +214,25 @@ keeps the number it already carries.
     An invented ranking invents its date just as easily.
 
 14. **A found defect is a sample of its class — go find the class, sweep the look-alikes.** A bug, a stale
-    name, a jargon string, a design inconsistency: before calling the fix done, name the pattern behind the
-    instance abstractly. That pattern is the kind of mistake. It is a scope too narrow, a missing guard,
-    or an assumption that holds in one place and fails in the neighbour. Then search the whole repo and every
-    user-facing surface for that kind, and fix all siblings in the same change. The search goes looking
-    for the siblings
-    not yet seen, past the one instance already reported. One instance reported means the whole class is
-    owned, and the human never finds the second instance by eye. A confirmed bug carries three more moves
-    before it closes, which with the class hunt above make the four moves the pipeline names. Check the
-    architecture, since a structural cause updates `ARCHITECTURE.md` and a cluster in one area reads as an
-    architecture smell. Check the spec. A spec silent on the broken behaviour is the real defect, fixed
-    first so the prover can flag it. The code then lands under it. And escalate to
-    the human when the class boundary needs his read, since the agent never guesses the boundary. The
-    full four-move law lives in
-    `skills/build-pipeline/SKILL.md`, under its bug entry, and in the spec at INV-124. A rule superseded at a broad scope is the same class. Its restatements at narrower scopes go stale the
-    instant the broad rule changes: a host's `CLAUDE.md`, a project's playbook copy, an installed skill.
-    So the same change that supersedes the rule sweeps those copies. It never leaves a narrower scope
-    quoting the old rule. Each working skill applies this in its own domain. The
-    pipeline sweeps code and surfaces on every bugfix, and the prover sweeps the document with its class lens before writing a
-    point finding.
+    name, a jargon string, a design inconsistency: before calling the fix done, name the pattern behind
+    the instance abstractly — a scope too narrow, a missing guard, or an assumption that holds in one
+    place and fails in the neighbour. Then search the whole repo and every user-facing surface for that
+    kind, and fix all siblings in the same change: the search goes looking for the siblings not yet
+    seen, past the one instance already reported, since one instance reported means the whole class is
+    owned and the human never finds the second instance by eye. A confirmed bug carries three more moves
+    before it closes, which with the class hunt above make the four moves the pipeline names: check the
+    architecture, since a structural cause updates `ARCHITECTURE.md` and a cluster in one area reads as
+    an architecture smell; check the spec, since a spec silent on the broken behaviour is the real
+    defect, fixed first so the prover can flag it and the code then lands under it; and escalate to the
+    human when the class boundary needs his read, since the agent never guesses the boundary. The full
+    four-move law lives in `skills/build-pipeline/SKILL.md`, under its bug entry, and in the spec at
+    INV-124.
+
+    A rule superseded at a broad scope is the same class: its restatements at narrower scopes — a host's
+    `CLAUDE.md`, a project's playbook copy, an installed skill — go stale the instant the broad rule
+    changes, so the same change that supersedes the rule sweeps those copies and never leaves a
+    narrower scope quoting the old rule. The pipeline sweeps code and surfaces on every bugfix, and the
+    prover sweeps the document with its class lens before writing a point finding.
 
 15. **The door is named before any code.** Every request states its entry point — feature · bug ·
     refactor · docs-only · skip — in one intake line beside size and priority, before the first line of
@@ -279,25 +277,23 @@ keeps the number it already carries.
    half a law.)
 
 19. **The problem ledger — workshop noise is owned, never re-suffered.** Operational noise is written
-   down the moment it fires: a flaky
-   test harness, a missing dependency, an environment error, a tool misbehaving. This is the workshop
-   around the work, and the product's own defect is a bug that takes the bug lane instead.
-   Grep the host's `.live-spec/PROBLEMS.md` for the signature. Not listed → one WATCHED line
-   (signature, date, one line of context) and keep working. That write replaces the silent retry.
-   Listed → the second occurrence gets an owner at that moment: a queue row (OWNED) or the human's dated
-   AGREED NON-PROBLEM. Only the human's word can write the second of those, never the agent's. The agent
-   recommends, writes the recommended
-   owner now, and the ask rides the batched report. A third recurrence arriving unowned is a defect of
-   the method itself, past that day's noise. It goes to the pack's own queue (from a host window: one inbox file).
-   A recurrence on an owned entry appends its date and changes nothing else. The landing that closes an
-   OWNED entry's row flips it to SOLVED (SPEC E-24, INV-23).
+   down the moment it fires: a flaky test harness, a missing dependency, an environment error, a tool
+   misbehaving — this is the workshop around the work, and the product's own defect is a bug that takes
+   the bug lane instead. Grep the host's `.live-spec/PROBLEMS.md` for the signature. Not listed → one
+   WATCHED line (signature, date, one line of context) and keep working; that write replaces the silent
+   retry. Listed → the second occurrence gets an owner at that moment: a queue row (OWNED) or the
+   human's dated AGREED NON-PROBLEM — only the human's word can write the second of those, never the
+   agent's, so the agent recommends, writes the recommended owner now, and the ask rides the batched
+   report. A third recurrence arriving unowned is a defect of the method itself, past that day's noise,
+   and goes to the pack's own queue (from a host window: one inbox file). A recurrence on an owned
+   entry appends its date and changes nothing else; the landing that closes an OWNED entry's row flips
+   it to SOLVED (SPEC E-24, INV-23).
    **A known, owned problem never blocks unrelated work (SPEC INV-56)**. It is parked, held by the
-   ledger line, the owning row, or an
-   expected-red note. Every unrelated lane keeps rolling. Hand-fixing loops cap at the second-occurrence
-   law above. A defect with
-   a named mechanical owner is serviced in BATCH. Instances are fixed silently where the fence catches
-   them, and one ledger append comes at the session's end, with no per-instance ceremony interrupting the
-   work. A new bug still preempts, and this governs only the known, owned problem.
+   ledger line, the owning row, or an expected-red note, and every unrelated lane keeps rolling.
+   Hand-fixing loops cap at the second-occurrence law above. A defect with a named mechanical owner is
+   serviced in BATCH: instances are fixed silently where the fence catches them, and one ledger append
+   comes at the session's end, with no per-instance ceremony interrupting the work. A new bug still
+   preempts, and this governs only the known, owned problem.
 
 20. **Search for a skill before reinventing (SPEC INV-65).** At a project's setup, meaning founding or
    adoption's orient beside the founding questions, scan the installed skills and the catalogs you
@@ -424,82 +420,80 @@ keeps the number it already carries.
    carrying a needs-the-human's-word marker is re-tested by derivability at its first writing and at
    every touch after. Three things carry such a marker: a queue row held for the human's word, a
    `NEXT_STEPS.md` line, and a decision a setup script leaves open. The answer may pin to an existing
-   artifact: a base rule, a spec sentence, the architecture, an approved prototype, or an
-   already-answered decision [INV-59]. Then the item is the seat's. Do it, cite the artifact, and drop
-   the marker [INV-121, INV-143]. It may instead need a fact no artifact holds. Such a fact is a taste,
-   a policy, or an act irreversible outside git (rule 17). It may also be the feel of a real device in
-   the human's own hands. Then it is the human's, and the marker stands. Writing such a marker requires naming that human-only fact; a
-   marker that cannot name it defaults to the seat's and is itself the finding. The posture is rule
-   27's, applied to a backlog item, and it binds the orchestrator seat whatever tier holds it. Rule
-   15's closed door set is its twin [INV-151]. One routing principle covers both: every incoming
-   thing routes to the home whose declared sentence governs it. And a thing that pins to no home is
-   itself the finding [INV-153]. Two arms hold the rule. `guardrails/check-deferral-marker.py` reds a
-   commit where a parked item in the resume file or a decision page names none of the four [INV-155].
-   The deferral line of `hooks/chat-law-hook.sh` re-fires the test the moment a marker is written or
-   an `AskUserQuestion` is opened. It reminds and cannot block (SPEC INV-28).
+   artifact — a base rule, a spec sentence, the architecture, an approved prototype, or an
+   already-answered decision [INV-59] — in which case the item is the seat's: do it, cite the artifact,
+   and drop the marker [INV-121, INV-143]. It may instead need a fact no artifact holds: a taste, a
+   policy, an act irreversible outside git (rule 17), or the feel of a real device in the human's own
+   hands. Then it is the human's, and the marker stands. Writing such a marker requires naming that
+   human-only fact; a marker that cannot name it defaults to the seat's and is itself the finding. The
+   posture is rule 27's, applied to a backlog item, and it binds the orchestrator seat whatever tier
+   holds it; rule 15's closed door set is its twin [INV-151], and one routing principle covers both:
+   every incoming thing routes to the home whose declared sentence governs it, and a thing that pins to
+   no home is itself the finding [INV-153]. Two arms hold the rule: `guardrails/check-deferral-marker.py`
+   reds a commit where a parked item in the resume file or a decision page names none of the four
+   [INV-155], and the deferral line of `hooks/chat-law-hook.sh` re-fires the test the moment a marker is
+   written or an `AskUserQuestion` is opened — it reminds and cannot block (SPEC INV-28).
 31. **Agents talk on exactly two channels, and a message earns its passage (SPEC INV-183, INV-189).**
-   Several agents on one person's projects generate noise the moment they can talk to each other. This
-   rule keeps the channel quiet while the necessary thing still crosses. An agent is a
-   project window carrying its own tree, queue, gates, contracts, a standing mission, and a card of its
-   own. A skill is a capability any window loads, and it dies with the session [E-31, INV-182]. Before
-   acting on anything that might not be its own, an agent scans for cards. It then reads the owning
+   Several agents on one person's projects generate noise the moment they can talk to each other; this
+   rule keeps the channel quiet while the necessary thing still crosses. An agent is a project window
+   carrying its own tree, queue, gates, contracts, a standing mission, and a card of its own — a skill,
+   by contrast, is a capability any window loads, and it dies with the session [E-31, INV-182]. Before
+   acting on anything that might not be its own, an agent scans for cards, then reads the owning
    agent's agent card, the `.live-spec/agent.md` in that agent's own tree [E-32, INV-184]. Then
-   **exactly two channels** carry everything between two agents. The first is the receiver's inbox, for
-   a one-shot request to change something. The second is a published contract, for a recurring read.
-   A reply rides the inbox in the other direction, so the count
-   of two holds. Co-location changes the transport's speed and leaves the contract untouched, and a
-   remote agent reaches the other through git alone [INV-112].
+   **exactly two channels** carry everything between two agents: the receiver's inbox, for a one-shot
+   request to change something, and a published contract, for a recurring read — a reply rides the
+   inbox in the other direction, so the count of two holds. Co-location changes the transport's speed
+   and leaves the contract untouched, and a remote agent reaches the other through git alone [INV-112].
 
    The laws below hold the quiet, and each is a way of routing a thing to the home that governs it [INV-153].
 
    - **A message names the sender's own blocked work, in the message.** The named work is a real row, a
      real failing step, a real thing the sender cannot finish while the receiver's zone stands as it
-     does. A message that cannot name such work is never sent. That rules out curiosity,
-     tidiness, and the thought that a neighbour might want to know. Exactly
-     two situations justify a message. In the first, the sender is blocked by the receiver's zone as it
-     stands. In the second, the sender has hit a fault in that zone and carries the evidence.
-     The zone's owner is presumed competent and informed, so nothing
-     that owner's own instruments already see earns a file [INV-189]. The mechanical check is
-     `guardrails/check-earned-message.py`. It runs at the intake sweep and judges each deposit there;
-     the sweep declines an unearned one at the door, so no human reads it. A deposit is recorded on
-     arrival and never blocks a push.
+     does — a message that cannot name such work is never sent, which rules out curiosity, tidiness,
+     and the thought that a neighbour might want to know. Exactly two situations justify a message: the
+     sender is blocked by the receiver's zone as it stands, or the sender has hit a fault in that zone
+     and carries the evidence. The zone's owner is presumed competent and informed, so nothing that
+     owner's own instruments already see earns a file [INV-189]. The mechanical check is
+     `guardrails/check-earned-message.py`: it runs at the intake sweep and judges each deposit there,
+     declining an unearned one at the door so no human reads it; a deposit is recorded on arrival and
+     never blocks a push.
    - **A referral travels back to whoever asked.** A question from another agent's zone is answered by
-     naming that zone, and the zone's owner receives nothing from a referral. A human asker is answered
-     in chat and costs one sentence. An agent asker is answered along the reply road as its message's
+     naming that zone, and the zone's owner receives nothing from a referral: a human asker is answered
+     in chat and costs one sentence, an agent asker is answered along the reply road as its message's
      terminal state. Forwarding a neighbour's question to the owner of its zone is the defect this law
-     names. The forwarder's own work stands on none of the answer [INV-190]. A question that pins to
+     names — the forwarder's own work stands on none of the answer [INV-190]. A question that pins to
      no artifact, and on which no work of the sender's stands, is dropped; holding it was itself the
      defect [INV-191]. A referral that points at a zone which does not own the question is named as a
-     wrong referral. There the exchange loops back over the same pair. The two-crossing cap does not
-     absorb it [INV-225, INV-196].
-   - **Data never travels as a message, and a contract publishes nothing by default.** A consumer wanting
-     numbers reads the neighbour's published artifact [INV-188]. Every field in that artifact leaves the
-     producer's tree on the owner's explicit permission, recorded with its date and its author. How a
-     neighbour's product happens to be built grants no permission, and a field with no recorded
-     permission stays home. Credentials never cross under any permission [INV-185].
-   - **An agent recognises a neighbour's zone on its own.** An agent may meet a fault or a lack in something
-     another agent's zone owns: a rule of the method, a shape a neighbour ships, a field a contract
-     lacks. It then scans for cards, finds the owner, and takes the channel that fits. The owner
-     naming the road afterwards carries no fact the agent lacked, so his line is an acknowledgement of a
-     thing already done. An agent that waits to be told has made the owner its router [INV-195].
+     wrong referral: there the exchange loops back over the same pair, and the two-crossing cap does
+     not absorb it [INV-225, INV-196].
+   - **Data never travels as a message, and a contract publishes nothing by default.** A consumer
+     wanting numbers reads the neighbour's published artifact [INV-188]; every field in that artifact
+     leaves the producer's tree on the owner's explicit permission, recorded with its date and its
+     author. How a neighbour's product happens to be built grants no permission, and a field with no
+     recorded permission stays home. Credentials never cross under any permission [INV-185].
+   - **An agent recognises a neighbour's zone on its own.** Meeting a fault or a lack in something
+     another agent's zone owns — a rule of the method, a shape a neighbour ships, a field a contract
+     lacks — an agent scans for cards, finds the owner, and takes the channel that fits; the owner
+     naming the road afterwards carries no fact the agent lacked, so it reads as an acknowledgement
+     of a thing already done. An agent that waits to be told has made the owner its router [INV-195].
    - **One question crosses between two agents twice, and the third crossing goes to the owner.** Every
-     hop of a refer-and-re-send loop can pass its own law while the exchange manufactures traffic, so the
-     bound is two, counted by the exchange's identifier. The third crossing is named in the sender's own
-     status report as a zone question the two could not settle. The human-decision withdrawal loop
-     already takes this shape [INV-196, INV-130].
+     hop of a refer-and-re-send loop can pass its own law while the exchange manufactures traffic, so
+     the bound is two, counted by the exchange's identifier, and the third crossing is named in the
+     sender's own status report as a zone question the two could not settle. The human-decision
+     withdrawal loop already takes this shape [INV-196, INV-130].
    - **A concern no agent's zone owns goes to the pack, and the work never stalls on ownership.** A
-     question no work stands on is dropped [INV-191]. A concern is a different thing: real work whose
-     owning zone does not exist yet. It goes to the pack's inbox, and the pack answers who owns it.
-     That owner is an existing agent, a new agent the owner ratifies, or a skill. Zones may overlap and no agent is
-     forced to carve a disjoint one. The work never waits on the answer. An agent meeting an unowned
+     question no work stands on is dropped [INV-191]; a concern is a different thing — real work whose
+     owning zone does not exist yet. It goes to the pack's inbox, and the pack answers who owns it: an
+     existing agent, a new agent the owner ratifies, or a skill (zones may overlap, and no agent is
+     forced to carve a disjoint one). The work never waits on the answer — an agent meeting an unowned
      concern does the reasonable thing now, in whatever tree can hold it, and marks that work
-     provisional. The re-home lands later as ordinary pipeline work, cheap and retroactive, where a stall
-     while ownership is settled is what this rule prevents [INV-197].
-   - **A capability another agent's zone owns is taken through one of the two channels.** Building
-     a local copy of a neighbour's capability is the violation the cards exist to prevent. The
-     copy drifts from its original the day after it is made, and the two owners then answer one question
-     two ways [INV-194]. An agent-initiated message stays a proposal until the owner ratifies it. An
-     owner-initiated message is the one kind that carries the owner's authority. And relaying changes a
+     provisional. The re-home lands later as ordinary pipeline work, cheap and retroactive, where a
+     stall while ownership is settled is what this rule prevents [INV-197].
+   - **A capability another agent's zone owns is taken through one of the two channels.** Building a
+     local copy of a neighbour's capability is the violation the cards exist to prevent: the copy
+     drifts from its original the day after it is made, and the two owners then answer one question two
+     ways [INV-194]. An agent-initiated message stays a proposal until the owner ratifies it; an
+     owner-initiated message is the one kind that carries the owner's authority; and relaying changes a
      message's carrier, while leaving its authority where it started [INV-193].
 
 32. **A release's number answers what taking it costs a host (SPEC INV-217).** The number reports what a

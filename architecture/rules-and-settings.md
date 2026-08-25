@@ -25,7 +25,7 @@
 - `skills/live-spec-base/SKILL.md:281` (rule 19, INV-23 — the workshop-noise law)
 - `skills/live-spec-base/SKILL.md:302` (rule 20, INV-65 — skill search at setup and struggle)
 - `skills/live-spec-base/SKILL.md:313` (rule 21, INV-84 — the clean-writer road)
-- `skills/live-spec-base/SKILL.md:323` (rule 22, INV-98 — the convergence principle)
+- `skills/live-spec-base/SKILL.md:319` (rule 22, INV-98 — the convergence principle)
 - `skills/live-spec-base/SKILL.md:333` (rule 23, INV-108 — the live-channel law)
 - `skills/live-spec-base/references/settings-ladder.md:1` (ladder — the on-demand module beside the rulebook; `skills/live-spec-base/SKILL.md:588` carries the pointer to it)
 - `skills/live-spec-base/references/settings-ladder.md:43` (defaults incl. `budget.pressure` — the economy ladder's setting; the rungs' one home is the SPEC's economy-ladder section)
