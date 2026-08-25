@@ -672,7 +672,7 @@ and why each is a trap (SPEC T-12, T-15, INV-4, INV-5, INV-15).
   Mechanical work is known edit strings, a known command, fan-out fact-gathering, or a report or list
   or dump to produce. It routes to a worker at the cheapest tier that can pass the brief. That routing
   is proposed and logged, and the senior is free to override aloud.
-  See [references/delegation-protocol.md](references/delegation-protocol.md) for the full protocol:
+  See [../director/references/delegation-protocol.md](../director/references/delegation-protocol.md) for the full protocol:
   the routing rule, the brief's three birth laws, and the worker contract. That page also carries the
   cleanup-safety constraint, and the delegation-reporting duty with its per-block root and plan-line
   accounting.
