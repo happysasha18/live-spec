@@ -20,9 +20,11 @@ Verdict: no blocking findings; body/frontmatter coherence checked skill by skill
 
 ## What changed
 
-`build-pipeline/SKILL.md` shrunk from 728 to ~55 lines (transitional adapter: craft ladder +
-setup-walk pointer + MINOR-bump-gate pointer only; frontmatter description rewritten to match).
-`build-pipeline/README.md` rewritten to match the same new scope. New reference file
+`build-pipeline/SKILL.md` shrunk from 728 to ~65 lines (transitional adapter: craft ladder +
+setup-walk pointer + MINOR-bump-gate pointer + "Work that belongs elsewhere" section, added in a
+fast-follow commit once the local push gate's loadability check (gate f, row 80) caught its
+absence; frontmatter description rewritten to match). `build-pipeline/README.md` rewritten to
+match the same new scope. New reference file
 `director/references/build-craft.md` (build-smallest-first, source-reopens, norm-pointered
 building — Step 7 content with no other home). Small additive sections in `publish/SKILL.md`
 (push mechanics) and `communicator/SKILL.md` (defaults-telling). One table-cell edit in
@@ -37,7 +39,9 @@ None blocking. Per-skill check:
   walk + MINOR-bump gate, explicitly says it is not the pipeline's entry point). Body reads
   coherently standalone; no dangling references to the removed door/work-kind/footprint/
   request-kind tables or the old nine-step sequence. Progressive disclosure intact:
-  `project-setup.md` and `minor-bump-gate.md` stay as reference-file pointers, not inlined.
+  `project-setup.md` and `minor-bump-gate.md` stay as reference-file pointers, not inlined. The
+  added "Work that belongs elsewhere" section names `director` as the sole destination for any
+  accepted change, matching the rest of the page; no new dangling reference introduced.
 - **communicator** — the 6-line addition sits inside the existing rule-10 decision-page bullet
   list, matches the surrounding voice ("silence is consent... never re-asked") verbatim in
   register. No frontmatter touch needed; scope (carrying decisions to the human) already covers
