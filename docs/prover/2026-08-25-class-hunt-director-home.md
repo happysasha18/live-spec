@@ -2,9 +2,11 @@
 
 PUSH-REVIEW
 
-Range: 6ff7f9d1..28352591 (2 commits)
+Range: 6ff7f9d1..e963bb8d (3 commits) — widened to cover the tests-present follow-up too, per the
+gate a self-naming arm (one record names the base plus every non-exempt commit together)
 - b056c28a Give the bug class hunt a home in Director (batch-2b 12th item)
 - 28352591 Skill-review record for the class-hunt Director home
+- e963bb8d Add the missing test for class-hunt's Director home
 
 Files read: full diff of b056c28a (2 files, 32 insertions); `skills/director/references/
 class-hunt.md`, `skills/director/SKILL.md` (current state, not just the diff); the source text
@@ -48,6 +50,16 @@ the two files in this range and confirmed dropping the cross-reference resolved 
 for this specific commit, since `class-hunt.md` never claims to be the fact's only home. The rule
 14 cross-reference is deferred to its own fast-follow commit, landing only now that this range is
 itself committed and stable — not before.
+
+The local push gate's `gate h` (tests-present) caught a real gap on the first push attempt: the
+`director/SKILL.md`/`class-hunt.md` commit changed a user-facing skill file with no accompanying
+change under `tests/`. Fixed properly, not just to satisfy the gate: `tests/test_class_hunt.py`
+already lists this fact's homes in its own module docstring, so a new test function,
+`test_director_has_its_own_home_for_the_hunt`, was added there — the same file, same convention
+as the existing `test_build_pipeline_bug_entry_drives_the_hunt` — asserting Director's SKILL.md
+points at `references/class-hunt.md` and that file states all four moves plus the closing
+INV-26 citation. This closes a real traceability gap the docstring's own "Homes:" line would
+otherwise have left silently stale.
 
 Independently: `python3 -m pytest -q tests/test_class_hunt.py tests/test_traceability.py
 tests/test_director_scenarios.py` — 206 passed, 3 skipped (external product-prover canon clone
