@@ -20,7 +20,7 @@ from conftest import open_spec, read_flat
 class TestRedesignOwesReworkLaw(unittest.TestCase):
     HOMES = (
         "PRODUCT_SPEC.md",
-        "skills/build-pipeline/SKILL.md",
+        "skills/architect/SKILL.md",
     )
 
     def test_redesign_owes_rework_in_both_homes(self):
@@ -29,9 +29,9 @@ class TestRedesignOwesReworkLaw(unittest.TestCase):
                 "re-shape the architecture document to the new form and "
                 "re-prove it with the architecture lens in the same movement"
             ),
-            "skills/build-pipeline/SKILL.md": (
+            "skills/architect/SKILL.md": (
                 "re-shaped to the new form and re-proven with the architecture "
-                "lens in the same movement"
+                "lens in that same movement"
             ),
         }
         for home in self.HOMES:

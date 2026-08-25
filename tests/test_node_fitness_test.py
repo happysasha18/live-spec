@@ -14,7 +14,13 @@ from conftest import external_clone_or_skip, open_spec, read_all_flat, read_flat
 
 class TestNodeFitnessTest(unittest.TestCase):
     def test_build_pipeline_carries_the_three_questions(self):
-        bp = read_all_flat("skills/build-pipeline/SKILL.md")
+        # build-pipeline's former architecture-step gate moved to architect's own step
+        # (SKILL.md plus its architecture-step-detail.md reference, read together as the
+        # skill's whole surface). "Can it be tested alone?" carries a capital there, so the
+        # comparison lower-cases both sides, the same pattern
+        # test_architecture_lens_is_six_items in test_traceability.py uses for this exact
+        # kind of register mismatch.
+        bp = read_all_flat("skills/architect/SKILL.md").lower()
         self.assertIn("three-question fitness test", bp)
         self.assertIn("can it be tested alone", bp)
         self.assertIn("worked in parallel without queuing on shared files", bp)

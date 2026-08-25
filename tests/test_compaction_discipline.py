@@ -115,7 +115,7 @@ class TestCompactionIsContinuous(unittest.TestCase):
 
         Pinned to the bullet's own sentence (row 592), not just the invariant code, so
         deleting the bullet while leaving the code behind in a comment fails this test."""
-        pipe = read_flat("skills/build-pipeline/SKILL.md")
+        pipe = read_flat("skills/director/references/landing-law.md")
         self.assertIn("INV-164", pipe)
         self.assertIn("doc- and code-compaction stations run at every push", pipe)
 

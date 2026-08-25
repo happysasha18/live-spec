@@ -326,12 +326,7 @@ How a decision is put to the human so they can answer it.
       Silence is consent from there, and it is never re-asked. Count the withdrawals from the decision archive's
       answered-then-withdrawn log; a later genuine change of mind arrives as a new wish. It never
       reopens the closed decision.
-    - **A landing report tells the taste choices made without asking — the open `[default]`s.** Each
-      is given in plain words with an example and a tweakable mark. No confirmation is requested;
-      silence is consent, never re-asked (SPEC INV-31). The same telling covers a tunable parameter set
-      to a sensible default: a resolution, a batch size, a timeout, a sampling rate. Each is named with
-      what it trades, and tuned together later at most. A knob you can reasonably pick never stalls the
-      work (SPEC INV-70).
+    - **A landing report tells the taste choices made without asking — the open `[default]`s.** Each is given in plain words with an example and a tweakable mark, silence taken as consent, never re-asked (SPEC INV-31). The same telling covers a tunable parameter set to a sensible default — a resolution, a batch size, a timeout — named with what it trades (SPEC INV-70).
 
 - **A taste ask carries the agent's own researched proposal (SPEC INV-60).** *(rule 21)*
     - A genuine taste question never arrives empty-handed: the agent has mined the material first —

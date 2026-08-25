@@ -63,9 +63,9 @@ class TestCleanContextReview(unittest.TestCase):
         self.assertIn("thirty-four rules in the body", base)
 
     def test_build_pipeline_wires_verify_station(self):
-        bp = flat("skills/build-pipeline/SKILL.md")
-        self.assertIn("The authoring seat never certifies its own work adversarially (SPEC INV-237)", bp)
-        self.assertIn("authored by a fresh seat, never the seat that authored the change", bp)
+        law = flat("skills/director/references/landing-law.md")
+        self.assertIn("The authoring seat never certifies its own work adversarially (SPEC INV-237)", law)
+        self.assertIn("authored by a fresh seat, never the seat that authored the change", law)
 
     def test_product_prover_wires_self_application(self):
         # The externalized prover canon states the duty in its own maintainer note; the

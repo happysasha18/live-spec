@@ -14,7 +14,7 @@ from conftest import open_spec, read_flat
 
 
 class TestCIVerdictLaw(unittest.TestCase):
-    HOMES = ("PRODUCT_SPEC.md", "skills/build-pipeline/SKILL.md")
+    HOMES = ("PRODUCT_SPEC.md", "skills/publish/SKILL.md")
 
     def test_verdict_read_in_both_homes(self):
         for home in self.HOMES:

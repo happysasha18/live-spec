@@ -14,7 +14,7 @@ from conftest import open_spec, read_flat
 
 
 class TestVoicedFixTripwire(unittest.TestCase):
-    HOMES = ("PRODUCT_SPEC.md", "skills/build-pipeline/SKILL.md")
+    HOMES = ("PRODUCT_SPEC.md", "skills/director/references/landing-law.md")
 
     def test_tripwire_in_both_homes(self):
         for home in self.HOMES:
@@ -23,16 +23,17 @@ class TestVoicedFixTripwire(unittest.TestCase):
 
     def test_binds_docs_and_test_same_session(self):
         # PRODUCT_SPEC.md's rewritten Requirement 42 states the fact in its own words
-        # ("the documentation update and the red-first test"); the build-pipeline skill keeps
-        # the original phrasing unchanged.
+        # ("the documentation update and the red-first test"); director's landing-law
+        # reference (build-pipeline's cutover replacement home) keeps the original phrasing
+        # unchanged.
         spec = read_flat("PRODUCT_SPEC.md")
         self.assertIn(
             "land the documentation update and the red-first test in the same session",
             spec, "PRODUCT_SPEC.md",
         )
-        skill = read_flat("skills/build-pipeline/SKILL.md")
+        skill = read_flat("skills/director/references/landing-law.md")
         self.assertIn("the docs and the test land in the same session", skill,
-                      "skills/build-pipeline/SKILL.md")
+                      "skills/director/references/landing-law.md")
 
     def test_reads_content_not_diff_size(self):
         for home in self.HOMES:

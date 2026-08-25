@@ -47,9 +47,10 @@ def test_architecture_owns_the_invariant():
 
 
 def test_build_pipeline_release_step_points_to_the_rule():
-    bp = read("skills/build-pipeline/SKILL.md")
-    # the commit & show step routes a releasing session to the tier rule
-    assert "INV-217" in bp
+    # the commit & show step's release-tier pointer moved to director's landing-law
+    # reference, alongside the other facts build-pipeline's fixed steps used to carry.
+    law = read("skills/director/references/landing-law.md")
+    assert "INV-217" in law
 
 
 def test_matrix_row_covers_the_law():

@@ -159,9 +159,9 @@ def test_fixed_point_loop_bounded_and_nonblocking():
         "SPEC lost the standing-recommendation-does-not-advance-the-loop property"
     assert "A round is one prover re-read" in spec, "SPEC lost the round definition"
 
-    pipeline = read("skills/build-pipeline/SKILL.md")
+    pipeline = read("skills/design-reviewer/SKILL.md")
     assert "re-enters the prove step" in pipeline, \
-        "build-pipeline step-2 lost the confirmed-grouping re-entry into the prove step"
+        "design-reviewer's loop step lost the confirmed-grouping re-entry into the prove step"
 
     arch = read("ARCHITECTURE.md")
     assert "re-prove (the loop)" in arch, "ARCHITECTURE lost the design-review re-prove loop seam"

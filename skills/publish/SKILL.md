@@ -56,10 +56,12 @@ remote is discovered from the tree. Only a host with no remote gets one contextu
 the first push moment: create one — GitHub, GitLab, whatever the human names — or stay local,
 recorded in the host profile.
 
-Every push re-walks the README against the pushed truth (the shopfront check above). After the
-push, read the remote gate's own verdict: the CI run the push triggered, one `gh run` read. A red
-verdict is the pushing session's own immediate bug, fixed and re-pushed the same session. A slow
-gate is watched to its verdict on the detached-work cadence. The human's personally named gates
+Every push re-walks the README against the pushed truth, crisp and current, a stale claim fixed
+before the push — the shopfront law at every-push cadence. After the push the push step reads the
+remote gate's own verdict: the CI run the push triggered, one `gh run` read. A red verdict is the
+pushing session's own immediate bug. It is fixed and re-pushed the same session before anything
+else, so the human never meets the red first in a GitHub email. A slow gate is watched to its
+verdict on the detached-work cadence (SPEC INV-106, INV-35). The human's personally named gates
 still wait for his word.
 
 ## The kind checklist — what every publication owes (one home: this table)

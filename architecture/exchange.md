@@ -9,7 +9,7 @@
 **pins** —
 - `skills/communicator/SKILL.md:38` (the rules)
 - `skills/communicator/SKILL.md:300` (rule 10 — the decision page)
-- `skills/communicator/SKILL.md:357` (rule 11 — the evidence walk)
+- `skills/communicator/SKILL.md:350` (rule 11 — the evidence walk)
 - `skills/communicator/SKILL.md:233` (rule 9's outcome-leads line shape)
 - `skills/communicator/SKILL.md:444` (the pre-report walk)
 - `skills/communicator/SKILL.md:287` (rule 7's chat-arm clock sentence)

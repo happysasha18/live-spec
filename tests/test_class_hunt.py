@@ -48,9 +48,17 @@ class TestClassHunt(unittest.TestCase):
         self.fail("INV-124 index row missing")
 
     def test_build_pipeline_bug_entry_drives_the_hunt(self):
-        bp = read_flat("skills/build-pipeline/SKILL.md")
-        self.assertIn("A confirmed bug drives a class hunt before it closes (SPEC INV-124)", bp)
-        self.assertIn("The hunt is four moves:", bp)
+        # build-pipeline's former fixed bug-entry prose moved to director's own class-hunt
+        # reference (see test_director_has_its_own_home_for_the_hunt above for the four-move
+        # needles); this checks the same reference carries the INV-124 tie and the "still owed
+        # before closed" framing in its real wording, not the old build-pipeline phrasing.
+        hunt = read_flat("skills/director/references/class-hunt.md")
+        self.assertIn(
+            "what a confirmed bug still owes once the first fix lands, before the work can be "
+            "called closed (SPEC INV-124)",
+            hunt,
+        )
+        self.assertIn("Name the defect's class, then go looking for its relatives.", hunt)
 
     def test_director_has_its_own_home_for_the_hunt(self):
         """Director's own top-level text carries no door/work-kind vocabulary, so this fact's

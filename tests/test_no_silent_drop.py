@@ -33,10 +33,13 @@ class TestNoSilentDropLaw(unittest.TestCase):
             self.assertIn("cut substance silently", body, home)
 
     def test_build_pipeline_points_at_the_one_home(self):
-        bp = read_flat("skills/build-pipeline/SKILL.md")
-        self.assertIn("(SPEC INV-109)", bp, "build-pipeline lost the INV-109 anchor")
-        self.assertIn("communicator rule 6", bp,
-                      "build-pipeline no longer points at the removal-accounting's one home")
+        # build-pipeline's own pointer moved to director's landing-law reference (R6
+        # compaction cutover); that page now carries the INV-109 anchor and the pointer
+        # at communicator rule 6, the removal-accounting step's one home.
+        law = read_flat("skills/director/references/landing-law.md")
+        self.assertIn("(SPEC INV-109)", law, "landing-law lost the INV-109 anchor")
+        self.assertIn("communicator rule 6", law,
+                      "landing-law no longer points at the removal-accounting's one home")
 
     def test_scope_carveout_in_both_full_homes(self):
         for home in self.HOMES:

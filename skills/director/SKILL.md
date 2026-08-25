@@ -276,6 +276,12 @@ actually remains — usually nothing — and run `python3 scripts/checkpoint.py 
 It refuses to close over content still marked open, so a checkpoint that will not close is
 telling the truth about work that is not actually finished.
 
+**Landing a change owes its own law, regardless of which specialist performed the work.** See
+[references/landing-law.md](references/landing-law.md) for the bug-door tripwire, the
+removal-accounting pointer, the restructure/migration merge gate, the docs-layout vehicle,
+compaction's every-push cadence, the adversarial-review freshness rule, the release-tier
+judgment, and the skill-review gate.
+
 ## The specialists
 
 None is mandatory. The Director calls the ones the work needs, and adds or drops one when

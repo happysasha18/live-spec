@@ -347,10 +347,13 @@ def test_matrix_row_covers_the_law():
 def test_build_pipeline_names_the_skill_review_step():
     """The pipeline's own step list names the skill-creator review by its gate, not just its
     mechanism (gap found 2026-08-19): a reader walking the pipeline's steps met the check
-    nowhere on that list, only in the separate guardrails machinery."""
-    pipeline = read("skills/build-pipeline/SKILL.md")
-    assert "check-skill-review.sh" in pipeline
-    assert "SPEC INV-208" in pipeline
+    nowhere on that list, only in the separate guardrails machinery. Since the build-pipeline
+    cutover this fact's home is director's landing-law reference, pointed to from SKILL.md's
+    Execution section, so a reader following director's own walk still meets the gate named
+    beside its INV-208 anchor."""
+    landing_law = read("skills/director/references/landing-law.md")
+    assert "check-skill-review.sh" in landing_law
+    assert "SPEC INV-208" in landing_law
 
 
 def test_publish_kind_checklist_names_the_skill_review():

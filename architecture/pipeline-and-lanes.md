@@ -16,7 +16,7 @@
 - the mid-work re-door is this node's step, and the independence re-check it fires is the lanes node's law
 
 **pins** —
-- `skills/director/references/work-kind-table.md:4` (the door + work-kind relationship — the door picks WHICH steps run, this table picks the FORM each running step takes)
+- `skills/director/references/work-kind-table.md:4` (the door + work-kind relationship — the door picks which steps run, this table picks the form each running step takes)
 - `skills/build-pipeline/SKILL.md:21` (the craft ladder — step→craft one home, Requirement 51 backs it at the SPEC level)
 - `skills/director/references/work-kind-table.md:1` (the work-kind table — per-kind meanings' one home)
 - `skills/director/SKILL.md:210` (steps — the dynamic Execution graph that replaces the old fixed nine-step sequence)

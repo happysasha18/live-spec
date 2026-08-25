@@ -17,9 +17,11 @@ def test_flaky_test_is_a_defect_spec_states_the_seam():
 
 
 def test_flaky_test_is_a_defect_build_pipeline_green_definition():
-    bp = _read("skills/build-pipeline/SKILL.md")
-    assert "deterministic" in bp
-    assert "INV-155" in bp
+    # build-pipeline's former step-8 green definition moved to test-author's own
+    # determinism rule, its real surviving home (see the sibling test below).
+    ta = _read("skills/test-author/SKILL.md")
+    assert "deterministic" in ta
+    assert "INV-155" in ta
 
 
 def test_flaky_test_is_a_defect_test_author_determinism_rule():

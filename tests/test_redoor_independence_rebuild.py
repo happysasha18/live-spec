@@ -44,7 +44,7 @@ class TestRedoorIndependenceRebuild(unittest.TestCase):
         self.assertIn("the re-door rebuilds the independence graph".lower(), spec.lower())
 
     def test_build_pipeline_carries_the_rebuild(self):
-        bp = read_flat("skills/build-pipeline/SKILL.md")
+        bp = read_flat("skills/director/references/lanes-and-pen.md")
         self.assertIn(
             "re-runs the independence edges against every rolling lane (SPEC INV-131)",
             bp,

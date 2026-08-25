@@ -12,7 +12,7 @@ import unittest
 from conftest import read_flat
 
 ARCH = "ARCHITECTURE.md"
-PIPE = "skills/build-pipeline/SKILL.md"
+PIPE = "skills/architect/SKILL.md"
 APPEND_DUTY = "appends its dated row to"
 
 
