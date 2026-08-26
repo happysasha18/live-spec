@@ -305,7 +305,7 @@ How a decision is put to the human so they can answer it.
       only if it helps. Options are labelled by consequence, never by implementation (SPEC INV-32).
     - The file it saves is named **`<project>-decisions-<YYYY-MM-DD>.json`** — and the day's second and
       later pages append their ordinal (`…-<date>-2.json`), set by the page author from the decision
-      archive. That is the pack's one collision law, base rule 18. So a browser never invents an ugly
+      archive. That is the pack's one collision law. So a browser never invents an ugly
       " (1)" suffix (2026-07-05). The JSON stamps when it
       was answered. Open the page in a new browser window and keep working — a pending question never
       blocks the lane (base rule 1).

@@ -51,7 +51,7 @@ dated clean-context review record naming a seat other than the release's. The me
 checks that the record exists, is release-dated, and names a different seat; the rest is a
 discipline the seat holds.
 
-**The release tier is a stated judgment, held by no gate (base rule 32 / SPEC INV-217).** Bump the
+**The release tier is a stated judgment, held by no gate (SPEC INV-217).** Bump the
 version, PATCH by default. The number reports what taking the release costs a host, and the tier
 is read off that cost. A patch fixes a machine to hold a law already stated, and the host does
 nothing. A minor grows what a host may adopt by re-running its catch-up walk with nothing

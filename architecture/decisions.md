@@ -28,8 +28,8 @@ the spec]. It never moves on a guess, and it never stays wrong in denial while t
 The **cross-cut counter** mechanizes the signal. `guardrails/crosscut_counter.py` reads the closed
 queue's cross-cutting landings. It counts, per unordered node pair, how many cross-cutting changes
 touched both nodes. A pair reaching the threshold, 3 by default and tunable, is flagged for the MINOR
-audit as a boundary-move candidate. That is the mechanized form of "seen twice, own it" (base rule 19)
-applied to boundaries. The flag is an audit signal, never a per-push red. The count is evidence the
+audit as a boundary-move candidate. That is the mechanized form of "seen twice, own it" (the problem
+ledger's second-occurrence law) applied to boundaries. The flag is an audit signal, never a per-push red. The count is evidence the
 MINOR audit weighs. The boundary still moves only through the architecture step and its re-prove
 [INV-37]. This law states the bar and the signal; the counter is the recorded footprints made
 countable.

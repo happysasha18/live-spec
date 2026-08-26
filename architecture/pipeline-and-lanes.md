@@ -30,7 +30,7 @@
 
 **notes** —
 - INV-247: standing beside the queue-take trigger re-scan [INV-129]. That reads whether the row returns, and this reads whether its described internals still hold.
-- INV-247: homing the spec clause and base rule 34. INV-247: ROADMAP 430.
+- INV-247: homing the spec clause (rule 34's informal restatement retired to attic). INV-247: ROADMAP 430.
 - INV-233: three homes with no new home.
 - INV-233: the prover's seventh architecture lens (the growth re-ask, carried by product-prover as wiring).
 - INV-233: the proposed number two nodes per code file set on the host's word [INV-41]. INV-233: ROADMAP 390.

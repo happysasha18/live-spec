@@ -44,7 +44,7 @@ means declaring directories and editing no script.
 ## Where a cleared page goes
 
 Into the **attic** (base rule 10), which already holds every superseded file. Nothing is deleted. The
-name it takes there follows the pack's one collision law in its two moves (base rule 18, SPEC E-9):
+name it takes there follows the pack's one collision law in its two moves (SPEC E-9):
 the source directory prefixes the basename, so `docs/x.html` and `notes/x.html` land apart on the
 first move, and a numeric ordinal before the extension follows while the name is still taken. A page
 cleared from the tree root carries no source directory and keeps its bare name. A second clearing

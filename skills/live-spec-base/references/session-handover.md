@@ -1,4 +1,4 @@
-# Session handover — read at both ends by an agent that did not live it (rule 35, SPEC INV-302)
+# Session handover — read at both ends by an agent that did not live it (SPEC INV-302)
 
 Read this when spawning the fresh agent that reads either end of a session. The rule's worked
 failure and its withdrawn-script note live in

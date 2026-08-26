@@ -8,7 +8,8 @@ owes once the first fix lands, before the work can be called closed (SPEC INV-12
    step over — and use that description to actively search every place
    the same mistake could be hiding, fixing every instance found in this same change. The point is
    turning up the relatives nobody has reported yet, beyond the one that got caught. This is the
-   same duty base rule 14 states; the matrix row and its red-on-bug test are what extend coverage
+   same duty the base rulebook once numbered (now attic, `attic/live-spec-base-unbacked-rules-2026-08-26.md`);
+   the matrix row and its red-on-bug test are what extend coverage
    from the single occurrence to the whole class.
 2. **Read the architecture for a structural cause.** When the mistake traces back to a boundary
    that was drawn poorly, or never drawn at all, or a node quietly owning something it shouldn't,

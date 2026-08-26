@@ -15,27 +15,21 @@
 - INV-225 (the sibling of the far-tier report-shape check)
 - E-35 · INV-240 · T-24
 - INV-298 (the worker-restore rule sits in rule 7 beside the concurrent-edit fence [INV-11], since a discarding command reaches past a brief's write-set. The orchestrator's half sits with it: the restore from the last committed stage and the fresh brief. The halt on the delivery report and the committed stage before the next worker complete that half. The mechanical arm that reads it, `guardrails/check-worker-restore.py`, is the guardrails node's.)
-- INV-302 (the two session steps sit in rule 35 beside the checkpoint and resume rules. Both steps stay a discipline the seat holds; the session extract's machine, `scripts/session-extract.py`, is the guardrails node's.)
+- INV-302 (the two session steps sit beside the checkpoint and resume rules — rule 35's own informal restatement retired to attic, unbacked by an eval fixture or an executable script. Both steps stay a discipline the seat holds; the session extract's machine, `scripts/session-extract.py`, is the guardrails node's.)
 
 **pins** —
 - `skills/live-spec-base/SKILL.md:55` (rules)
-- `skills/live-spec-base/SKILL.md:106` (rule 6 checkpoint incl. INV-107 closing half)
+- `skills/live-spec-base/SKILL.md:104` (rule 6 checkpoint incl. INV-107 closing half)
 - `skills/live-spec-base/SKILL.md:122` (rule 7 fence, INV-10/INV-11)
-- `skills/live-spec-base/SKILL.md:235` (rules 15-16, door + work-kind + prototype)
-- `skills/live-spec-base/SKILL.md:281` (rule 19, INV-23 — the workshop-noise law)
-- `skills/live-spec-base/SKILL.md:302` (rule 20, INV-65 — skill search at setup and struggle)
-- `skills/live-spec-base/SKILL.md:313` (rule 21, INV-84 — the clean-writer road)
-- `skills/live-spec-base/SKILL.md:319` (rule 22, INV-98 — the convergence principle)
-- `skills/live-spec-base/SKILL.md:333` (rule 23, INV-108 — the live-channel law)
-- `skills/live-spec-base/references/settings-ladder.md:1` (ladder — the on-demand module beside the rulebook; `skills/live-spec-base/SKILL.md:588` carries the pointer to it)
+- `skills/live-spec-base/SKILL.md:213` (rule 16, prototype fence)
+- `skills/live-spec-base/SKILL.md:229` (rule 22, INV-98 — the convergence principle)
+- `skills/live-spec-base/references/settings-ladder.md:1` (ladder — the on-demand module beside the rulebook; `skills/live-spec-base/SKILL.md:390` carries the pointer to it)
 - `skills/live-spec-base/references/settings-ladder.md:43` (defaults incl. `budget.pressure` — the economy ladder's setting; the rungs' one home is the SPEC's economy-ladder section)
-- `skills/live-spec-base/SKILL.md:390` (rule 26, INV-136/INV-139 — a project kind declares design principles the verify pass runs; the per-kind table lives in this doc)
-- `skills/live-spec-base/SKILL.md:398` (rule 27, INV-143 — the seat decides what it can decide, surfaces only what it cannot)
-- `skills/live-spec-base/SKILL.md:407` (rule 28, INV-145 — the periodic full audit)
-- `skills/live-spec-base/SKILL.md:504` (rule 32, INV-217 — the release-tier rule, minor/major/patch by the host cost)
-- `skills/live-spec-base/SKILL.md:438` (rule 31, the earned-message law INV-183/INV-189 the named-reference machinery joins. The pair-travels register [E-35], the living-description heal [INV-240], and the earned auto-deposit [T-24] ride this rule's build, ROADMAP 424 [target]. The prover's station stands as their net until they ship, per [INV-150].)
+- `skills/live-spec-base/SKILL.md:283` (rule 26, INV-136/INV-139 — a project kind declares design principles the verify pass runs; the per-kind table lives in this doc)
+- `skills/live-spec-base/SKILL.md:291` (rule 27, INV-143 — the seat decides what it can decide, surfaces only what it cannot)
+- `skills/live-spec-base/SKILL.md:317` (rule 31, the earned-message law INV-183/INV-189 the named-reference machinery joins. The pair-travels register [E-35], the living-description heal [INV-240], and the earned auto-deposit [T-24] ride this rule's build, ROADMAP 424 [target]. The prover's station stands as their net until they ship, per [INV-150].)
 - `skills/live-spec-base/SKILL.md:149` (rule 7's worker-restore sub-rule, INV-298 — the worker holds its own bytes, halts when it holds none, and the orchestrator owns recovery)
-- `skills/live-spec-base/SKILL.md:552` (rule 35, INV-302 — the session extract, the closing step written by a fresh agent, and the opening decision sweep)
+- `attic/live-spec-base-unbacked-rules-2026-08-26.md:1` (rules 11, 14, 15, 18, 19, 20, 21, 23, 28, 32, 33, 34, 35 — cut whole, per PLAN.md step 7: covered by neither an eval fixture nor an executable script. INV-23, INV-65, INV-84, INV-108, INV-145, INV-217, INV-237, INV-247, INV-302 stay owned as formal PRODUCT_SPEC.md requirements; only their informal SKILL.md restatement moved.)
 
 **notes** — INV-11, INV-117, E-31: three of these are read by the parallel-lanes node and stay here, each for a stated reason; INV-225: ROADMAP 388
 

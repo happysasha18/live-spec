@@ -13,8 +13,8 @@ architecture step and its re-prove. Fix holes by the book; record the rest. The 
 **code compaction as a station beside doc compaction (SPEC INV-123):** duplicate logic merges, dead weight
 leaves with its listing (INV-109), a ripened abstraction is extracted only through the three-question
 fitness gate (INV-122), and each pass locks its reached level with a test or lint where newly reached, else the existing suite that holds it green (rows 216-218). The
-station has a second trigger beyond this gate — the second occurrence of the same problem (base rule 19)
-opens the duplication's own compaction row at that moment (rule 19's owner) as well as at the milestone; the
+station has a second trigger beyond this gate — the second occurrence of the same problem
+opens the duplication's own compaction row at that moment (the problem ledger's own owner) as well as at the milestone; the
 row lands through the ordinary pipeline (one row's delta, INV-39; a known duplication never blocks its
 lane, INV-56). The duplication becomes a queued row, held back from an on-the-spot in-place fix.
 
