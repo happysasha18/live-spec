@@ -1,22 +1,18 @@
 {
-  "id": "case-19",
-  "acts": [
-    "correction",
-    "halt"
-  ],
+  "id": "case-B4",
+  "acts": ["correction", "observation"],
   "creates_work": false,
   "shelves_idea": false,
   "attaches_to_existing_work": true,
   "work_items": 0,
   "dimensions": [
-    "architecture, data, integrations, operations",
-    "quality, safety, regressions"
+    "analytics, unknowns, hypotheses, experiments",
+    "quality, safety, regressions",
+    "architecture, data, integrations, operations"
   ],
-  "specialists": [
-    "developer",
-    "architect"
-  ],
-  "reasoning": "'Убери любое воспоминание об этом измерении' wants the running corpus-measuring activity stopped outright (a halt — 'something running should stop running'), while 'лечи проблему как класс' redirects the surrounding implementation's goal toward a generic fix — both attach to the work already in flight, per 'a correction attaches to work, not to a queue,' so no new item opens.",
+  "specialists": ["developer", "product prover"],
+  "reasoning": "The corpus measurement was a technique inside the sizing work, not the work itself, so this is a correction to method ('Telling work in flight to stop one approach and take another is a correction to its method, not a halt') — it attaches to the in-flight work and changes it rather than opening a new item. 'Любая статистика ... ложная' is a judgment about the product that says something new beyond the correction's own goal, so it is kept as its own observation. 'Лечи ... проблему как класс' invokes the sweep obligation, the Product prover's remit.",
   "scenario": "correction-widening-the-goal",
-  "skill_version": "5.0.0"
+  "skill_version": "6.0.0",
+  "note_from_regeneration": "Honest residual failure: fixture wants acts=[correction] only. Two post-fix draws diverged differently (this one invents 'observation'; a third draw invented 'decision' with creates_work/work_items also wrong) — three draws, three different wrong shapes, not a stable convergence. The halt-vs-correction-method fix worked (neither post-fix draw invents 'halt' anymore, the pre-fix failure mode), but the message's density (stop-the-method + a standing product judgment + a sweep obligation, three distinguishable claims) does not reliably compress into exactly one act across draws. Left red rather than forced; see final report."
 }

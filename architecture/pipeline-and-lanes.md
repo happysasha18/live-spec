@@ -19,7 +19,7 @@
 - `skills/director/references/work-kind-table.md:4` (the door + work-kind relationship — the door picks which steps run, this table picks the form each running step takes)
 - `skills/build-pipeline/SKILL.md:21` (the craft ladder — step→craft one home, Requirement 51 backs it at the SPEC level)
 - `skills/director/references/work-kind-table.md:1` (the work-kind table — per-kind meanings' one home)
-- `skills/director/SKILL.md:227` (steps — the dynamic Execution graph that replaces the old fixed nine-step sequence)
+- `skills/director/SKILL.md:250` (steps — the dynamic Execution graph that replaces the old fixed nine-step sequence)
 - `skills/build-pipeline/SKILL.md:45` (gates — the MINOR-bump gate, this node's own remaining "Gates worth remembering" section)
 - `skills/architect/SKILL.md:144` (re-carve paragraph — INV-113 redesign-owes-rework)
 - `skills/director/references/delegation-protocol.md:71` (the worker-brief register-laws clause — no-scissors + no-dramatization, INV-221)
