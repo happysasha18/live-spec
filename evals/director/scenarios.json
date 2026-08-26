@@ -92,9 +92,9 @@
           "instruction"
         ],
         "creates_work": true,
-        "shelves_idea": true
+        "shelves_idea": false
       },
-      "why": "They asked for it if it is cheap and asked for it to be shelved if it is not. Both branches were stated aloud, so a verdict naming only one has dropped half the message."
+      "why": "They asked for it if it is cheap and asked for it to be shelved if it is not. Both branches were stated aloud, so a verdict naming only one has dropped half the message — but only one branch actually fires: reusing an existing display in a second window is the cheap case, so this is taken as work, not shelved. Shelving and taking the work are the two outcomes of the same fork, never both at once."
     },
     {
       "id": "idea-plus-a-fact",
@@ -173,7 +173,7 @@
     {
       "id": "observation-a-verdict-on-delivered-work",
       "origin": "real, anonymised transcript",
-      "situation": "Continuity between shots had been discussed at length as a requirement; a build was just shown.",
+      "situation": "Continuity between shots had been discussed at length as a requirement; a build was just shown, already delivered and accepted — nothing about it is still open or checkpointed as in-flight.",
       "message": "эффекты все красивые но нет continuity. очень странно после всех таких разговоров видеть такой уровень понимания.",
       "expect": {
         "acts": [
@@ -431,13 +431,12 @@
       "expect": {
         "acts": [
           "instruction",
-          "idea",
-          "question"
+          "observation"
         ],
         "creates_work": true,
-        "shelves_idea": true
+        "work_items": 1
       },
-      "why": "Check this now; separately, the prover ought to catch this class — that second one is an idea about the method, on the shelf, not part of the check."
+      "why": "The verification request is one instruction: check the bundle doesn't bloat, check whether the prover would have caught it, check nothing breaks for users — 'кстати проверь' is imperative, asking for the prover-coverage question to be checked now, not shelved as a possibility for later, the same 'several steps toward one result' pattern instruction-a-procedure already establishes. 'И это прувер тоже должен был бы поймать' is a separate judgment about the review process's own coverage — precisely the kind of product judgment 'No act absorbs another' warns gets folded away — so it stands as its own observation alongside the instruction it rides with. The closing hedge, 'не знаю эт реально или нет', doubts the reporter's own claim rather than asking the Director something; it feeds the decision sheet's Unknown line, not a separate question act."
     },
     {
       "id": "mixed-four-at-once",
@@ -564,21 +563,89 @@
       "was": {
         "situation": "A push was made a few minutes ago and was expected to be green.",
         "expect": {
-          "acts": ["observation"],
+          "acts": [
+            "observation"
+          ],
           "creates_work": true,
-          "dimensions_required": ["quality, safety, regressions"]
+          "dimensions_required": [
+            "quality, safety, regressions"
+          ]
         }
       },
       "now": {
         "situation": "names that a fix for two prior failures was already diagnosed and pushed minutes earlier, with a new CI run already in progress and nothing checkpointed or accepted yet",
         "expect": {
-          "acts": ["observation"],
+          "acts": [
+            "observation"
+          ],
           "creates_work": false,
           "attaches_to_existing_work": true,
           "work_items": 0
         }
       },
       "why": "Traced independently of the disputed runs — before this trace, none of the three 3-for-3 acting-mode traces on record reasoned about a diagnosed-and-in-flight fix; the kept trace at evals/director/traces/observation-carrying-its-repair.json reasons only from the ORIGINAL situation text ('the push belongs to work just done and not yet closed'), so the correction below adds facts the traces never saw rather than restating them. Source: ~/.claude/projects/-private-tmp-live-spec-roadmap-wave/270e2224-42cb-4817-ace0-cd02b86f69b7.jsonl, line 2411, 2026-08-18T18:19:39.680Z, cwd /private/tmp/live-spec-control, human message verbatim-identical to this fixture's `message` field. Surrounding transcript (lines 2376-2488): at 18:16:22 the assistant had already diagnosed two prior red CI runs as one stale-pin cause and stated the fix was already in the push; a fix commit was pushed and CI run 32169552541 was `in_progress` for ~9 minutes when the human's message landed at 18:19:39. The assistant's reply at 18:19:56 read: 'Письмо — про прошлые два прогона, оба упали ещё до починки... Починка запушена после них и сейчас считается — вердикта ещё нет.' It then simply waited and folded the green verdict (18:20:41) into the same repair thread rather than opening anything new. Nothing had been checkpointed or accepted at message time. The original situation omitted this, so the original expectation assumed a closed, standalone failure where the real transcript shows an open, in-flight one. Situation corrected to state the missing fact; expectation corrected to match this traced ground truth. Same precedent as decision-a-boundary: a test that is ambiguous or under-specified is testing the reader, not the skill."
+    },
+    {
+      "scenario": "idea-with-a-cheap-branch",
+      "changed_after": "package-2 honest-count pass — the acting-mode trace's own reasoning (evals/director/traces/idea-with-a-cheap-branch.json) resolves the cheap branch as true and takes the work, consistent with the situation ('has just seen a display in another window'), but the expectation asked for shelves_idea:true as well",
+      "was": {
+        "expect": {
+          "acts": [
+            "idea",
+            "instruction"
+          ],
+          "creates_work": true,
+          "shelves_idea": true
+        }
+      },
+      "now": {
+        "expect": {
+          "acts": [
+            "idea",
+            "instruction"
+          ],
+          "creates_work": true,
+          "shelves_idea": false
+        }
+      },
+      "why": "The skill's own conditional-request rule reads: 'take the work if the condition holds, shelf it if it does not' — the two outcomes of one fork, not both at once. The original expectation asked for both simultaneously, which no single resolution of this message can satisfy. Reusing a display that already exists in another window is the cheap branch, so the work is taken and nothing goes on the shelf. This is an expectation fix, not a situation fix: the situation already names the fact ('has just seen a display in another window') that resolves the fork."
+    },
+    {
+      "scenario": "observation-a-verdict-on-delivered-work",
+      "changed_after": "package-2 honest-count pass — the acting-mode trace read the missing-continuity report as attaching to work still in flight (creates_work:false, attaches_to_existing_work:true), reasoning that a just-shown build has an open checkpoint behind it",
+      "was": {
+        "situation": "Continuity between shots had been discussed at length as a requirement; a build was just shown."
+      },
+      "now": {
+        "situation": "Continuity between shots had been discussed at length as a requirement; a build was just shown, already delivered and accepted — nothing about it is still open or checkpointed as in-flight."
+      },
+      "why": "Same shape as observation-carrying-its-repair: 'a build was just shown' does not say whether that build's work is still open or already closed, and the skill routes a defect report differently in each case (attaches vs. opens new work). Read on its own the phrase reads more like a delivered demo than an unresolved incident, so the expectation (creates_work:true, a fresh defect against accepted work) is kept and the situation is the part clarified — matching decision-a-boundary's precedent, not rewriting the verdict to fit a run."
+    },
+    {
+      "scenario": "mixed-check-now-improve-later",
+      "changed_after": "package-2 honest-count pass — two independent blind acting-mode traces (the 24.08 run and a fresh one drawn for this pass) both read this as one instruction plus one observation, no idea and no question, where the fixture expected instruction+idea+question",
+      "was": {
+        "expect": {
+          "acts": [
+            "instruction",
+            "idea",
+            "question"
+          ],
+          "creates_work": true,
+          "shelves_idea": true
+        }
+      },
+      "now": {
+        "expect": {
+          "acts": [
+            "instruction",
+            "observation"
+          ],
+          "creates_work": true,
+          "work_items": 1
+        }
+      },
+      "why": "Re-read against the message text rather than either run alone, then checked against both: 'и это прувер тоже должен был бы поймать! кстати проверь' carries an imperative — проверь, check it — not a shelved possibility for later, so it is not an idea; but 'и это прувер тоже должен был бы поймать' is itself a judgment about the review process's own coverage, exactly the kind of product judgment the skill's 'No act absorbs another' rule warns gets dissolved into a neighbour, so it earns its own observation act rather than being silently folded into the instruction's steps. The closing 'не знаю эт реально или нет' doubts the reporter's own claim rather than asking the Director anything, so it stays out of the acts list as Unknown-line material for the decision sheet, not a question act. This is an expectation fix, revised once already during this same pass after a first draft (instruction-only, no observation) proved narrower than what two separate blind runs actually and independently produced."
     }
   ]
 }

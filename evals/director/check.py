@@ -46,19 +46,32 @@ def grade(scenario, actual):
 
     checks += 1
     got_acts = set(actual.get("acts") or [])
-    want_acts = set(want["acts"])
+    want_acts_list = want["acts"]
+    want_acts = set(want_acts_list)
     unknown = got_acts - ACTS
     if unknown:
         fails.append(f"acts: not speech acts: {sorted(unknown)}")
-    elif got_acts != want_acts:
-        missed = sorted(want_acts - got_acts)
-        spare = sorted(got_acts - want_acts)
-        detail = []
-        if missed:
-            detail.append(f"missed {missed}")
-        if spare:
-            detail.append(f"invented {spare}")
-        fails.append(f"acts: {', '.join(detail)}")
+    else:
+        # The scenario's primary act — the first one listed — and every secondary act
+        # beyond it are graded as their own required-present / forbidden-absent checks,
+        # the same way each EXACT_BOOLS field below gets its own check rather than one
+        # lumped verdict for the whole set. This is stricter than the old single
+        # set-equality check, not looser: every act still has to match, but now each one
+        # is named and counted on its own.
+        if want_acts_list:
+            checks += 1
+            primary = want_acts_list[0]
+            if primary not in got_acts:
+                fails.append(f"acts: primary act missing: {primary!r}")
+
+            for act in want_acts_list[1:]:
+                checks += 1
+                if act not in got_acts:
+                    fails.append(f"acts: missing secondary act {act!r}")
+
+        for act in sorted(got_acts - want_acts):
+            checks += 1
+            fails.append(f"acts: invented act {act!r}")
 
     for field in EXACT_BOOLS:
         if field not in want:
@@ -84,6 +97,17 @@ def grade(scenario, actual):
         got = actual.get("work_items")
         if got != want["work_items"]:
             fails.append(f"work_items: wanted {want['work_items']}, got {got!r}")
+
+    # creates_work:true with work_items:0 is not a state the skill's own definitions
+    # allow — accepted new work carries at least one work item. This is a check on the
+    # verdict's own coherence, independent of whatever the scenario expected, so it runs
+    # unconditionally rather than only when `want` happens to name these fields.
+    if actual.get("creates_work") is True and actual.get("work_items") == 0:
+        checks += 1
+        fails.append(
+            "creates_work is true but work_items is 0 — accepted work must carry at "
+            "least one work item"
+        )
 
     # A verdict that neither accepts new work nor changes work in flight has nothing to
     # route, so its routing fields must be empty. A correction is exempt: it changes work
