@@ -28,7 +28,7 @@ DIRTY=$(git status --porcelain | wc -l | tr -d ' ')
 BEHIND=$(git rev-list --count HEAD..origin/main 2>/dev/null || echo 0)
 AHEAD=$(git rev-list --count origin/main..HEAD 2>/dev/null || echo 0)
 [ "$BEHIND" != "0" ] && warn "отстаём от origin/main на $BEHIND коммитов"
-[ "$AHEAD" != "0" ] && warn "не запушено коммитов: $AHEAD"
+[ "$AHEAD" != "0" ] && warn "не запушено коммитов: $AHEAD (пуш блокируют ворота — см. §Блокеры)"
 [ "$BEHIND" = "0" ] && [ "$AHEAD" = "0" ] && ok "совпадает с origin/main"
 
 # ---------------------------------------------------------------- план
@@ -78,7 +78,14 @@ echo "  версия пака: $(cat VERSION 2>/dev/null || echo '?')"
 if [ -f evals/director/check.py ]; then
   SCORE=$(python3 evals/director/check.py --all 2>/dev/null | tail -1)
   case "$SCORE" in
-    *"of"*) echo "  Director по сценариям: $SCORE" ;;
+    *"of"*)
+      SD=$(git log -1 --format=%ct -- skills/director/SKILL.md 2>/dev/null || echo 0)
+      ED=$(git log -1 --format=%ct -- evals/director/traces 2>/dev/null || echo 0)
+      if [ "$SD" -gt "$ED" ] 2>/dev/null; then
+        echo "  Director по сценариям: $SCORE — ПЕРЕИГРОВКА СТАРЫХ ТРЕЙСОВ, про сегодняшний скилл не говорит"
+      else
+        echo "  Director по сценариям: $SCORE"
+      fi ;;
     *) warn "эвал Director не отвечает" ;;
   esac
 fi
@@ -126,8 +133,8 @@ fi
 # живое состояние протухло
 if [ -f NEXT_STEPS.md ]; then
   NS_D=$(git log -1 --format=%ct -- NEXT_STEPS.md 2>/dev/null || echo 0)
-  NS_AGE=$(( ($(date +%s) - NS_D) / 86400 ))
-  [ "$NS_AGE" -gt 7 ] && { warn "NEXT_STEPS.md не правился $NS_AGE дней"; ALARM=1; }
+  LAST=$(git log -1 --format=%ct)
+  [ "$NS_D" -lt "$LAST" ] && { warn "NEXT_STEPS.md старше последнего коммита дерева на $(( (LAST - NS_D) / 86400 )) дней"; ALARM=1; }
 fi
 
 # работа вне дома — /private/tmp стирается при перезагрузке.
