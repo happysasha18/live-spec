@@ -14,7 +14,7 @@ deployment view (§7). The quality budgets are arc42 quality scenarios (§10).
 
 The agent keeps this doc up to date by assignment. When a wish lands, its new facts go to the node that already
 owns their kind, and the pin is refreshed. A fact with no home yet goes to the node that fits. A large or
-surface-class wish updates the doc before the matrix is touched; a bug or small wish just cites the node it
+surface-class wish updates the doc before TEST_MATRIX.md is touched; a bug or small wish just cites the node it
 lands in. An assignment changes no structure and triggers no re-prove. Only a new node or a new seam
 does, and only then is the doc re-proved. The landing-by-landing history lives in JOURNAL.md; this doc
 states the structure as it stands today. [E-14]
@@ -22,7 +22,7 @@ states the structure as it stands today. [E-14]
 **What "pin" means here.** live-spec is a documentation-and-skills product: its shipped artifact is the
 text. So a pin points to the `file:line` where a node's responsibility is stated or carried. A pin whose
 line reads 1 names the file as a whole. Every pin
-below comes from a grep or read actually run, never from memory. Two nodes carry a [target] mark in their
+below comes from a grep or read actually run, never from memory. Three nodes carry a [target] mark in their
 heading — specified, with some code still ahead. The same mark stands on an anchor, a pin, a
 responsibility, or a table row, and it means the same thing there. A fully-target node keeps its pin
 cell empty until its code lands (snapshot). A partly-live one pins what already ships, and leaves the
@@ -36,7 +36,7 @@ live-spec is a skill pack: twelve working skills plus the one shared rulebook th
 text a model reads. Templates, guardrails, and its own dogfood documents sit beside them in one repo.
 Everything executes inside an agent session on the host machine.
 The repo is the source of truth, and the installed copies under `~/.claude/skills/` are what a session
-actually loads. Git hooks and CI re-run the same gates, and the human reads rendered pages in a
+actually loads. Git hooks and continuous integration (CI) re-run the same gates, and the human reads rendered pages in a
 browser. No server, no runtime of its own.
 
 ## Parts map
