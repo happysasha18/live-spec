@@ -316,56 +316,73 @@ director` is non-empty · tlvphotos works the way it did before the migration.
 
 One line per finding. Don't move it into ROADMAP. Don't fix it without the owner's decision.
 
-- **Machinery inventory, his second question tonight, answered.** All 55 files in `guardrails/`
-  and 37 in `scripts/` checked for what they do and where they're actually called from (the real
-  hook chain, CI, another script, or a test — not guessed from the filename). 89 of 92 are
-  load-bearing — reached from `guardrails/pre-push`'s own lettered gate sequence, from
-  `.github/workflows/gates.yml`, or from a test that exercises them. Only 3 came back with no live
-  caller: `scripts/render-board.sh` (reached only from PLAN.md's own prose — this is the board
-  render step 1 asks for, a thing a person runs by hand, not dead), `scripts/
+- **Adversarial review (Opus), his own request tonight — real regressions caught, fixed, verified.**
+  Found: tonight's 4 test-guard removals were all wrong (see the corrected entry below) and one of
+  them had turned `tests/test_traceability.py` red — reverted. Found and fixed: two real bugs in
+  `scripts/director-wire-report.py` (a false "covered" reading on a multi-line document list, and
+  a field-label mismatch against the skill's own worked example), plus a missing
+  "never wired into pre-push or CI" test. Found and corrected: several wrong numbers and stale
+  line-pins in tonight's own PLAN.md writing (file counts, a decision-sheet line range, a
+  requirement citation, a corrections count) — see the corrected entries below. Found, not tonight's
+  doing: `tests/test_no_history.py`'s clean-corpus fixture pointed at a file step 3 deleted the
+  night before — fixed, repointed to `spec/roles-and-agents.md`, 5 passed. Found, left alone:
+  `tests/test_deletion_only_push.py::test_content_push_falls_through_to_the_ordinary_chain` is a
+  pre-existing flake under load (a 3-second timing window) — not touched, out of scope for tonight,
+  his to decide whether the timeout is worth widening. Everything above is fixed and re-verified by
+  command, not by the review's word alone.
+
+- **Machinery inventory, his second question tonight, answered — corrected after adversarial
+  review caught the first count.** 52 Python/shell files in `guardrails/` and 38 in `scripts/`
+  (90 total; the first pass said 55/37, miscounted) checked for what they do and where they're
+  actually called from — the real hook chain, CI, another script, or a test, not guessed from the
+  filename. 87 of the 90 are load-bearing, reached from `guardrails/pre-push`'s own lettered gate
+  sequence, from `.github/workflows/gates.yml`, or from a test that exercises them. 3 came back
+  with no live caller: `scripts/render-board.sh` (reached only from PLAN.md's own prose — the
+  board render step 1 asks for, a thing a person runs by hand), `scripts/
   install-separator-fence.sh` (its own header calls it a one-time installer, already run), and
   `scripts/apply-criterion-rewrites.py` (genuinely no caller anywhere, no note explaining why —
-  the one real candidate for a closer look, not removed tonight). Honest answer to "why so many
-  scripts and gates": mostly not duplication — the push gate enforces around twenty distinct,
-  separately-named invariants (case-purity, pin drift, prototype fencing, shipped-language,
-  skill-review freshness, and so on), each with its own small checker, and nearly all of them are
-  doing real, distinct work.
-- **Director→pre-push wire: investigated, half built, the live skip stops short of tonight.**
-  Good news first: Director's decision IS already persisted, in an existing home, no new storage
-  needed — every accepted piece of work gets a "decision sheet" (including a "documents that must
-  change" line) written into `.live-spec/checkpoints/*.md` under `## DECISION SHEET`
-  (`skills/director/SKILL.md:205-272`), and `scripts/checkpoint.py` already has a mechanical,
-  closed-set test for "this line says nothing needs to change" (`_is_empty_body()`, line 59) —
-  closed checkpoints keep this section on disk. But gate (a) (`check-prover-record.sh`) demands
-  one review record for the WHOLE pushed range, and its only exceptions are three narrow,
-  named `STAND-DOWN` classes, each cross-checked against `PRODUCT_SPEC.md` R226 criterion 6 and
-  enumerated by `tests/test_deletion_only_push.py` — its own comment history says this exact
-  exception list was already burned once by being too generous (`check-prover-record.sh:145-152`,
-  the `recordless` class). Actually letting Director's decision skip the record would mean a
-  fourth STAND-DOWN class, which means editing `PRODUCT_SPEC.md` itself (one of the two documents
-  gate (a) watches the freshness of) — a spec-level change, not an implementation detail, needing
-  his own word on the requirement text, not a guess at 1 AM. So tonight built only the safe half:
-  `scripts/director-wire-report.py`, a standalone, read-only, informational report — not called
-  from `guardrails/pre-push`, `install.sh`, or CI, never affects any exit code — that finds which
-  commits in the pushed range are covered by a closed, in-range checkpoint whose decision sheet
-  says nothing needs to change, and which aren't. The actual skip stays off. Built, tested (10
-  passed), committed (`42a44eb9`). One more fact this surfaced, worth carrying to the next look
-  at this: `.live-spec/checkpoints/` is gitignored (`.gitignore:1`), so a checkpoint file is never
-  itself part of any commit range — a real run against this repo's own history shows 79 commits,
-  0 covered, every time, because git simply never sees a checkpoint file change. Not a bug in the
-  script (it does exactly what it says); a sign that tying a push to a decision needs the decision
-  to live somewhere git actually tracks, which checkpoints today deliberately don't. Also answered
-  tonight, plainly: how Director's 33/35 score is computed (`evals/director/` — `scenarios.json`
-  holds 35 fixed scenarios, `traces/*.json` hold one recorded live run per scenario, `check.py`
-  does a fast, model-free field-by-field comparison between them) and where it's genuinely fragile
-  — the acceptance command only catches gross failure (a duplicate file, stale traces, a "0 of X"
-  print), not the actual 33-vs-35 count, so a worse score would still pass the same green check;
-  trace generation is a manual, unsynchronized step outside `check.py`, honest only as long as
-  each run stays blind; and the expectations in `scenarios.json` themselves moved during the same
-  cycle that measured against them (8 `corrections` entries). None of that broke tonight; it's
-  worth knowing before trusting the number again next time the skill changes.
+  the one real candidate for a closer look, left alone tonight). Why so many scripts and gates:
+  mostly real work, not duplication — the push gate enforces around twenty separately-named
+  invariants (case-purity, pin drift, prototype fencing, shipped-language, skill-review
+  freshness, and more), each with its own small checker.
+- **Director→pre-push wire: investigated, a read-only report built, the live skip waits for a
+  spec change.** Director's decision is already persisted, in an existing home — every accepted
+  piece of work gets a "decision sheet," including a "documents that must change" line, written
+  into `.live-spec/checkpoints/*.md` under `## DECISION SHEET` (`skills/director/SKILL.md:205-249`)
+  — and `scripts/checkpoint.py` already has a mechanical, closed-set test for "this line says
+  nothing needs to change" (`_is_empty_body()`, line 59); closed checkpoints keep the section on
+  disk. Gate (a) (`check-prover-record.sh`) demands one review record for the whole pushed range,
+  with three named `STAND-DOWN` exceptions cross-checked against Requirement 226
+  (`spec/guardrails-freshness.md:95`, criterion 6 at line 118) and enumerated by
+  `tests/test_deletion_only_push.py` — that same test file's own comments record this exception
+  list being over-widened and reverted at least twice already (`check-prover-record.sh:167-186`,
+  the `recordless` class; and commit `2718c69`, a third exception criterion 6 never named).
+  Letting Director's decision skip the record would need a fourth `STAND-DOWN` class and a new
+  Requirement 226 criterion — a change to the spec text itself, his word on the wording, not built
+  tonight. Built instead: `scripts/director-wire-report.py`, a standalone, read-only report, not
+  called from `guardrails/pre-push`, `install.sh`, or CI and never affecting any exit code, that
+  finds which commits in the pushed range are covered by a closed, in-range checkpoint whose
+  decision sheet says nothing needs to change. The skip stays off. First version had two adversarial-
+  review-caught bugs — a false "covered" reading on an ordinary multi-line document list, and a
+  field label that didn't match the skill's own worked example — both fixed with regression tests
+  proving each case; also added the same "never wired into pre-push or CI" test
+  `test_no_history.py` already carries for its own gate, so that claim is a command now, not
+  prose. Committed. One structural limit surfaces every run against this repo:
+  `.live-spec/checkpoints/` is gitignored (`.gitignore:1`), so a checkpoint file is never itself
+  part of any commit range — the report always shows 0 covered here, correctly, because git never
+  sees a checkpoint file change. A future wire needs the decision to live somewhere git tracks.
+  Also answered tonight, plainly: how Director's 33/35 score is computed (`evals/director/` —
+  `scenarios.json` holds 35 fixed scenarios, `traces/*.json` hold one recorded live run per
+  scenario, `check.py` runs a fast, model-free field-by-field comparison between them) and where
+  it's fragile — the acceptance command only catches gross failure (a duplicate file, stale
+  traces, a "0 of X" print), so a worse score would still pass the same green check; trace
+  generation is a manual, unsynchronized step outside `check.py`, honest only while each run stays
+  blind; and the expectations in `scenarios.json` themselves moved during the same cycle that
+  measured against them (9 `corrections` entries, not 8 — corrected after adversarial review).
+  Nothing here broke tonight; worth knowing before trusting the number again next time the skill
+  changes.
 - **His word tonight, 00:49: three open forks answered.** (1) Ceremony cancellation (the
-  prover/skill-review record on every text edit) — left alone, not decided, not reopened tonight;
+  prover/skill-review record on every text edit) — parked exactly as it stood before tonight;
   his own reason: even a one-word edit ("removing 'не'" <!-- user-language -->) can flip meaning,
   so the "just a text edit" boundary isn't obvious and he won't guess it at this hour. (2) The
   Director→pre-push wire — authorized, build it, everything up to the tlvphotos migration
@@ -465,18 +482,24 @@ One line per finding. Don't move it into ROADMAP. Don't fix it without the owner
   that also counts "the file exists AND the wrapping script exits 0" (no text or content check)
   would roughly double the count toward the original 22 estimate; that widening is a scope call,
   not made tonight.
-- **Step 6, first sub-item done: 4 of the 18 proven-dead guards removed, informational.** Each of
-  the 18 re-measured individually against tonight's tree, not trusted from the 26.08 sample: 13
-  had already been overtaken by other edits since then (the guarded wording changed, so "never
-  changed" no longer holds — no action needed), 1 lived only in a docstring with no assertion
-  behind it, and 4 removed — one whole test function that guarded only that one dead phrase
-  (`test_reconciliation_phrase_in_spec_author`), and three single assert lines pulled out of
-  functions that also guard other, unmeasured sibling phrases (those siblings untouched, per the
-  step's own "sample isn't a verdict on its neighbors"). `python3 -m pytest` on the four touched
-  files: 38 passed. Commit `2c20f2f1`. Remaining under step 6: the 22 "file exists"-shape
-  functions (by eye, not started) · the ceremony cancellation (a gate edit, needs his word,
-  moratorium law 1) · the Director→pre-push wire (also a gate edit, same law, even though
-  Director is now measured — measuring it only cleared the *order*, not the law).
+- **Step 6, first sub-item — already closed before tonight; tonight's attempt at it was wrong and
+  is reverted.** The night before (26.08, commit `c3be01a3`, discovered only after an adversarial
+  review) had already removed 16 of the 18 proven-dead guards and deliberately kept 2 — the
+  footprint-read and adversarial-by-nature guards — because tracing their history past a file move
+  showed real content edits `git log -S` alone can't see, exactly the caveat step 6 already names.
+  Tonight worked from a day-old scratchpad without checking whether this had already happened,
+  re-derived a "18 candidates" list that was 16 items stale, and removed 4 things: those same 2
+  the prior session had already excluded for cause, 1 whole test function
+  (`test_reconciliation_phrase_in_spec_author`) whose deletion turned `tests/test_traceability.py`
+  red (`matrix/publish.md:11` still cited it as the test backing a BUILT row), and 1 measured
+  against `PRODUCT_SPEC.md`, which no longer holds that phrase after the spec split — it moved to
+  `spec/roles-and-agents.md`, where the phrase has 2 real commits, not 1. All 4 restored by
+  `git revert 2c20f2f1` (commit `ca44edd4`); `python3 -m pytest` on the four files plus
+  `test_traceability.py`: 223 passed. Nothing remains to remove under this sub-item — it was
+  already done. Remaining under step 6: the 22 "file exists"-shape functions (looked at, 10 real,
+  none removed — see above) · the ceremony cancellation (a gate edit, needs his word, moratorium
+  law 1) · the Director→pre-push wire's live skip (also a gate edit, plus a spec-level change —
+  see above).
 - **Step 5 closed.** The prover's code mode is on `github.com/happysasha18/product-prover`,
   branch `code-mode-1.4.0`, commit `b71894a` — his word from 26.08 22:59 ("go ahead and push,
   don't wait for me"), received, the push done and personally re-checked (`git ls-remote`
