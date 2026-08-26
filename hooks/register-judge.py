@@ -27,8 +27,6 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import register_judge_core as core  # noqa: E402
 from turn_reader import turn_text  # noqa: E402
 
-MIN_CHARS = 120
-
 
 def chat_law():
     """The chat law body: the universal frame law plus the personal overlay laws, numbered in sequence."""
@@ -46,7 +44,7 @@ def main():
     if payload.get("stop_hook_active"):  # never loop
         sys.exit(0)
     text = turn_text(payload.get("transcript_path", ""))
-    if len(text.strip()) < MIN_CHARS:
+    if not text.strip():  # nothing to judge, the trace-side analogue of an empty tool-use trace
         sys.exit(0)
     offences, error = core.judge(text, chat_law(), surface="one person's working chat")
     if error:

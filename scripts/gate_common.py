@@ -142,12 +142,17 @@ def segment_units(text):
 
 # --- waivers -----------------------------------------------------------------------------------
 WAIVER_FIELDS = ("id", "rule", "file", "snippet", "reason", "owner", "date", "expiry")
-# 30 days kept — ruled 2026-08-15 (decision-dossier-2026-08-15.md, Number 2): no waiver has ever
-# expired and blocked a push (2026-08-07 census: "no trace found"); the dossier named no single
-# recommended replacement, so today's value stands. A durable, recorded override belongs in the
-# settings ladder's package-defaults table (skills/live-spec-base/references/settings-ladder.md),
-# e.g. a gate.max-waiver-days row.
-MAX_WAIVER_DAYS = 30
+# A ceiling on how far out a waiver's own expiry may sit (e.g. "at most 30 days from its date") was
+# removed 2026-08-26: it carried no external source and no incident (the 2026-08-15 dossier's own
+# words: "no waiver has ever expired and blocked a push ... no single recommended replacement, so
+# today's value stands" — a number kept only because nothing better was found, not because it was
+# right). The owner's standing rule forbids exactly that shape: no source, no number. The no-park
+# mechanism this ceiling sat on top of does not need a magnitude to work — every waiver already MUST
+# carry an `expiry` field (WAIVER_FIELDS, checked below), and `waiver_status` already reverts an
+# expired waiver to a hard error rather than letting it fade to silence. That is the real thing being
+# tested; the extra "and it must be short" cap was an invented add-on. A durable per-host ceiling, if
+# one is ever wanted, belongs in the settings ladder's package-defaults table
+# (skills/live-spec-base/references/settings-ladder.md) with a real source cited, not invented here.
 
 
 def _today():
