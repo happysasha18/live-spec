@@ -242,6 +242,7 @@ class TestDeferralJustifiesItself(DocHomeCase):
         """Read inside INV-152's own declaration paragraph; a neighbouring clause states the
         rule again in its own words, so a whole-file read passes off the neighbour."""
         clause = self.declaration("PRODUCT_SPEC.md", "INV-152")
+        self.assertIn("A deferral must justify itself", clause)
         self.assertIn("re-tested for derivability every time it is touched", clause)
         self.assertIn("default a marker that cannot name its human-only fact to the seat's own",
                       clause)

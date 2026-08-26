@@ -67,6 +67,7 @@ class TestImpactAnalysisEntry(unittest.TestCase):
 
     def test_build_pipeline_reads_the_footprint(self):
         bp = read_flat("skills/director/references/footprint-read.md")
+        self.assertIn("The same line reads the footprint", bp)
         self.assertIn("three-source impact read that decides the route (SPEC INV-128)", bp)
 
     def test_architecture_states_boundary_health(self):
