@@ -61,6 +61,14 @@ python3 evals/director/check.py --scenario ONE.json --actual RUN.json
 This costs a model call per scenario, so it is not on the push path and must not be put
 there. It is a professional action, run when the skill changes, the way a review is.
 
+## Bare run
+
+bare run: 2026-08-26 — all 35 traces regenerated against the skill as it stood that day
+(`skill_version: 5.0.0`, commit `70a3d360`), graded with `python3 evals/director/check.py --all`:
+26 of 35 pass. The full per-scenario breakdown, including the eight still-red and their
+individual reasons, is carried in `PLAN.md`'s own record of that run rather than duplicated here —
+one home per fact.
+
 ## What the first run caught
 
 The first run was thrown away. The batches handed each agent the scenario's `id`, and the

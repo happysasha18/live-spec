@@ -1057,17 +1057,39 @@ class TestSkillEvals(unittest.TestCase):
             % (self.WORKING_SKILL_FLOOR, len(skills), skills))
 
     def test_skill_evals_present(self):
+        # A skill's eval is either the flat template (evals/<skill>.md, checked against the
+        # four sections below) or, where the eval outgrew that shape, a directory
+        # (evals/<skill>/) carrying its own README, grader and fixtures — director's is the
+        # first of these (evals/director.md was its dead duplicate, retired 2026-08-26). Both
+        # shapes owe the same thing E-19 actually asks for: a dated record that a real red was
+        # observed, not the specific headings.
         skills = self.working_skills()
         self.assertGreaterEqual(len(skills), self.WORKING_SKILL_FLOOR)
         for s in skills:
-            path = "evals/%s.md" % s
-            self.assertTrue(os.path.exists(os.path.join(ROOT, path)),
-                            "working skill %s has no eval (%s) — E-19 binds" % (s, path))
-            body = read(path)
-            for section in ("## Scenario", "## Criteria", "## The red", "## Re-run"):
-                self.assertIn(section, body, "%s lost its %s section" % (path, section))
-            self.assertRegex(body, r"bare run: \d{4}-\d{2}-\d{2}",
-                             "%s carries no dated bare-run record — red must be PROVEN" % path)
+            flat_path = "evals/%s.md" % s
+            dir_path = "evals/%s" % s
+            flat_exists = os.path.isfile(os.path.join(ROOT, flat_path))
+            dir_exists = os.path.isdir(os.path.join(ROOT, dir_path))
+            self.assertTrue(flat_exists or dir_exists,
+                            "working skill %s has no eval (%s or %s/) — E-19 binds"
+                            % (s, flat_path, dir_path))
+            if flat_exists:
+                body = read(flat_path)
+                for section in ("## Scenario", "## Criteria", "## The red", "## Re-run"):
+                    self.assertIn(section, body, "%s lost its %s section" % (flat_path, section))
+                self.assertRegex(body, r"bare run: \d{4}-\d{2}-\d{2}",
+                                 "%s carries no dated bare-run record — red must be PROVEN" % flat_path)
+            else:
+                readme_path = "%s/README.md" % dir_path
+                self.assertTrue(os.path.isfile(os.path.join(ROOT, readme_path)),
+                                "%s has no README.md" % dir_path)
+                for name in ("check.py", "scenarios.json"):
+                    self.assertTrue(os.path.isfile(os.path.join(ROOT, dir_path, name)),
+                                    "%s/%s missing — a directory-shaped eval still needs its "
+                                    "own fixtures and grader" % (dir_path, name))
+                body = read(readme_path)
+                self.assertRegex(body, r"bare run: \d{4}-\d{2}-\d{2}",
+                                 "%s carries no dated bare-run record — red must be PROVEN" % readme_path)
 
     def test_eval_readme_states_honest_boundary(self):
         body = read_flat("evals/README.md")
