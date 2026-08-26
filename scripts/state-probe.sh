@@ -130,8 +130,19 @@ if [ -f NEXT_STEPS.md ]; then
   [ "$NS_AGE" -gt 7 ] && { warn "NEXT_STEPS.md не правился $NS_AGE дней"; ALARM=1; }
 fi
 
-# рабочее дерево вне дома — /private/tmp стирается при перезагрузке
-git worktree list 2>/dev/null | grep -q "/private/tmp" && { warn "есть рабочее дерево в /private/tmp — стирается при перезагрузке"; ALARM=1; }
+# работа вне дома — /private/tmp стирается при перезагрузке.
+# Ловим и рабочее дерево, и просто оставленный каталог: второе тревога проглядела.
+git worktree list 2>/dev/null | grep -q "/private/tmp" && { warn "рабочее дерево в /private/tmp — стирается при перезагрузке"; ALARM=1; }
+[ -d /private/tmp/ls-director ] && { warn "каталог /private/tmp/ls-director ещё стоит ($(ls /private/tmp/ls-director 2>/dev/null | wc -l | tr -d ' ') файлов) — стирается при перезагрузке"; ALARM=1; }
+
+# чужие рабочие деревья с несмёрженной работой
+git worktree list 2>/dev/null | tail -n +2 | grep -v "/private/tmp" | while read -r wt _ br; do
+  br=$(echo "$br" | tr -d '[]')
+  [ -z "$br" ] && continue
+  n=$(git rev-list --count "main..$br" 2>/dev/null || echo 0)
+  [ "$n" != "0" ] && warn "дерево $(basename "$wt") на ветке $br: $n коммит(ов) не в main"
+done
+git worktree list 2>/dev/null | tail -n +2 | grep -qv "/private/tmp" && ALARM=1
 
 # дрейф хостов
 for h in ~/tlvphotos ~/exhibition-engine ~/promoter ~/promoter-alexander ~/tc-cloud-validate; do
@@ -148,5 +159,9 @@ b "БЛОКЕРЫ"
 if [ -f PLAN.md ]; then
   awk '/^## Блокеры/{f=1;next} /^## /{f=0} f && /^- /' PLAN.md | head -20 | sed 's/^/  /'
 fi
+
+# ---------------------------------------------------------------- следующий ход
+NEXT=$(grep -E "^### \[[ ~]\]" PLAN.md 2>/dev/null | head -1 | sed 's/^### \[.\] //')
+[ -n "$NEXT" ] && printf '\n\033[1mДАЛЬШЕ\033[0m\n  %s\n  (шаг целиком — в PLAN.md)\n' "$NEXT"
 
 printf '\n'
