@@ -404,6 +404,17 @@ One line per finding. Don't move it into ROADMAP. Don't fix it without the owner
   which want the identical pattern collapsed the opposite way; no single rule satisfies both
   without breaking a pass. Full reasoning: `docs/prover/2026-08-26-director-eight-red-scenarios.md`.
   Zero regressions across the full 35 plus the wider director-adjacent suite (324 tests).
+- **Step 6, second sub-item done: the 22 "file exists" functions, looked at by eye, informational.**
+  Under a strict reading (the entire function is presence/absence only — no content read, no
+  subprocess return-code, no stdout check) only 10 exist, not 22: they guard that a shipped data
+  file or a gate's own dependency (`guardrails/one-name-aliases.json`, `guardrails/weak-words.json`,
+  the harness template, the skill-review and push-review record homes, and similar) actually
+  ships, plus 2 that guard a sweep script reaps exactly the stale profile dirs it should and none
+  it shouldn't. Every one of the 10 looks like a real regression guard against a shipped artifact
+  going missing, not machinery guarding itself — none removed, none need removing. A looser reading
+  that also counts "the file exists AND the wrapping script exits 0" (no text or content check)
+  would roughly double the count toward the original 22 estimate; that widening is a scope call,
+  not made tonight.
 - **Step 6, first sub-item done: 4 of the 18 proven-dead guards removed, informational.** Each of
   the 18 re-measured individually against tonight's tree, not trusted from the 26.08 sample: 13
   had already been overtaken by other edits since then (the guarded wording changed, so "never
