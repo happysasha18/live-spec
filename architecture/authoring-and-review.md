@@ -43,9 +43,9 @@
 cannot promise a line number there, so its pins stand on the tracked adapter instead. The
 adapter is the one place the pack updates when a lens moves in a prover release.
 - `skills/product-prover-pack/SKILL.md:15` (mode names — the review modes the pipeline asks for)
-- `skills/product-prover-pack/SKILL.md:90` (unwritten seams — the stress-lens family, INV-72)
+- `skills/product-prover-pack/SKILL.md:103` (unwritten seams — the stress-lens family, INV-72)
 - `.live-spec/profile.md:6` (gate cadence instance)
-- `skills/product-prover-pack/SKILL.md:60` (restructure-merge gate — INV-114 delta-judging)
+- `skills/product-prover-pack/SKILL.md:73` (restructure-merge gate — INV-114 delta-judging)
 
 ### [node: design-reviewer]
 

@@ -312,7 +312,7 @@ a task that needs three of these may want them in any sequence, or all at once.
 | Design reviewer | interface, interaction or the coherence of the experience changes | `skills/design-reviewer` |
 | Developer | something must be built | the agent itself; build order and source-reopen discipline: [references/build-craft.md](references/build-craft.md) |
 | Independent verifier | the result needs checking by someone who did not produce it | [references/verify-step-detail.md](references/verify-step-detail.md) |
-| Product prover | a mistake in the statement of the problem would be expensive | `skills/product-prover-pack` |
+| Product prover | a mistake in the statement of the problem would be expensive, or shipped code needs a class-based defect hunt with no document to check it against | `skills/product-prover-pack` |
 | Publisher, communicator | the result ships and has to be explained | `skills/publish`, `skills/communicator` |
 | Researcher | project or outside facts are missing | not yet built — package 4 |
 | Spec author | behaviour changes into something the spec does not already describe — not merely when a user would see a difference | `skills/spec-author` |

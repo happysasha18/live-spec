@@ -3,7 +3,7 @@ name: product-prover-pack
 description: 'Pack-side bindings for the external product-prover skill inside the live-spec pack. It carries what the prover body no longer does: the pin map from this pack''s PRODUCT_SPEC requirement codes to prover lenses, the pack paths a review reads, the record home and shape the push gate checks, and the mode names the build pipeline uses. Load it whenever product-prover runs inside a live-spec project. It reviews nothing itself.'
 metadata:
   version: 6.0.0
-  requires: product-prover >= 1.3.0 (github.com/happysasha18/product-prover)
+  requires: product-prover >= 1.4.0 (github.com/happysasha18/product-prover)
 ---
 
 # Product Prover — pack bindings
@@ -21,6 +21,19 @@ The build pipeline asks for a mode by machine name, and the prover answers to bo
 | `FULL`        | Full review         |
 | `CROSS-LINK`  | New-surface review  |
 | `FEATURE-FIT` | Feature-fit review  |
+| `CODE-REVIEW` | Code mode           |
+
+## Code mode
+
+The prover's own `reference/code-lenses.md` (v1.4.0+) carries the full procedure. Three of the
+prover's lenses transfer to code with no document as input — class-based defect analysis, closed-set
+completeness, and sibling-defect search — read against the code itself rather than against a spec.
+Director calls this when shipped code needs the same defect hunt a spec review runs, and no document
+governs the surface being checked (see director's specialist table, `skills/director/SKILL.md`).
+Declared cross-cutting laws, lifecycle sweeps, provisional defaults, and three-source disagreement
+stay document-only — code mode does not attempt them, since each needs a stated intent to check the
+code against. A code-mode finding is pinned `file:line`, not to a `PRODUCT_SPEC.md` requirement, so
+the pin map below does not apply to it.
 
 ## Pack paths
 
