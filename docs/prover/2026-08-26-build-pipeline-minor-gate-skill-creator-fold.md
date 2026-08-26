@@ -2,7 +2,10 @@
 
 PUSH-REVIEW
 
-Range: 5e95feac..fe401f1d
+Range: 5e95feac..512d830a (widened to cover the gate-h fast-follow: the pushed range's first
+attempt missed that skills/build-pipeline/SKILL.md is a user-facing file gate h's tests-present
+check tracks, and reds a push that changes it with no change under tests/)
+- 512d830a Add the missing test for build-pipeline's skill-creator gate content (gate h)
 - fe401f1d Skill-review record for the build-pipeline minor-bump-gate skill-creator fold
 - 4616a37d Give build-pipeline's MINOR-bump gate the skill-creator craft review Requirement 130 owes it
 Files read: PRODUCT_SPEC.md (spec/push-gate-milestone-audit.md's Requirement 130), ARCHITECTURE.md,
@@ -59,4 +62,15 @@ prompts, assertions, benchmark.json, static HTML viewers for all three skills) l
 `/private/tmp/ls-director/skill-eval-workspaces/{director,architect,build-pipeline}-workspace/`
 for the owner's own review — not pushed, since they are scratch measurement output, not pack
 content.
+
+Fast-follow (commit 512d830a): the first push attempt reded on gate h (tests-present) —
+`skills/build-pipeline/SKILL.md`'s edit (the "Gates worth remembering" bullet fix) is a
+user-facing skill-file change with no matching change under `tests/`. Added
+`test_build_pipeline_minor_gate_carries_skill_creator_review` to
+`tests/test_code_compaction_station.py`, asserting the skill-creator craft review's presence in
+both the SKILL.md bullet and the reference file's own paragraph (dual-witness, guarding against
+the exact drift the independent reviewer's round-1 BLOCK caught between these two files). Checks
+run: `python3 -m pytest tests/test_code_compaction_station.py -q` — 6 passed;
+`scaffold/guardrails/check_tests_present.py --base origin/main` — OK, 1 user-facing change travels
+with 1 test change.
 Blocking: none
