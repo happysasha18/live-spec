@@ -36,7 +36,7 @@ live-spec is a skill pack: twelve working skills plus the one shared rulebook th
 text a model reads. Templates, guardrails, and its own dogfood documents sit beside them in one repo.
 Everything executes inside an agent session on the host machine.
 The repo is the source of truth, and the installed copies under `~/.claude/skills/` are what a session
-actually loads. Git hooks and CI re-run the same gates, and the human reads rendered pages in a
+actually loads. Git hooks and continuous integration (CI) re-run the same gates, and the human reads rendered pages in a
 browser. No server, no runtime of its own.
 
 ## Parts map

@@ -1,4 +1,4 @@
-# live-spec Roadmap (dated version: 2026-08-13 — updated at every edit; SPEC M-3)
+# live-spec Roadmap (dated version: 2026-08-19 — updated at every edit; SPEC M-3)
 
 The wish queue: the live record of what is asked of the product and where each ask stands. A wish is a
 request for a change the product does not yet carry, and it lands when the delivery that completes it
@@ -10,7 +10,7 @@ keyword form, the no-capitals rule, the trailing code anchor, the no-history law
 gate — live once in `docs/spec-format.md` and hold here unchanged. Its own rules — the row shape, the
 status and class vocabularies, the live-body law, the row lint — are defined in `docs/roadmap-format.md`.
 The class cell names the wish's size, one vocabulary shared with the spec: *bug*, *small*, *surface*,
-or *large*, with a priority mark when it is other than normal. The status cell carries one of *queued*, *ready*,
+or *large*. The wish cell carries a priority mark when the wish's priority is other than normal. The status cell carries one of *queued*, *ready*,
 *in-work*, *deferred*, or *far*, each with its date, a *deferred* row naming its revisit trigger. A row
 reads *ready* once its task statement has passed validation and its wording is frozen. The status cell is the sole authority on a row's current state; the wish and acceptance cells carry
 the ask and its criteria. Pre-conversion prose in those cells keeps its old words verbatim —

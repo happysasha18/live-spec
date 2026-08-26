@@ -8,7 +8,7 @@ Bracket codes like `[E-1]` and `[INV-27]` trail a criterion and point to the rul
 
 The keywords *when*, *while*, *if*, *then*, *where*, and *shall* are set in lowercase italics and carry their standard requirements meaning: *shall* states a duty, *when* and *while* open a situation, *if* and *then* open a condition and its result, and *where* scopes a duty to the setting it holds in.
 
-The foundational nouns of the method — request, pipeline, spec, architecture, invariant, guardrail, suite, session, journal, queue, movement, delivery, delivery report, footprint, profile, and resume file — carry the meanings the base method glossary gives them, at `skills/live-spec-base/references/glossary.md`. The glossary below defines, in one place, every domain noun the twelve assembled sections introduce; a term appears once, under one name, and the criteria use it with that meaning.
+The foundational nouns of the method — request, pipeline, spec, architecture, invariant, guardrail, suite, session, journal, queue, movement, delivery, delivery report, footprint, profile, and resume file — carry the meanings the base method glossary gives them, at `skills/live-spec-base/references/glossary.md`. The glossary below defines, in one place, every domain noun the thirty assembled sections introduce; a term appears once, under one name, and the criteria use it with that meaning.
 
 ## Glossary
 
