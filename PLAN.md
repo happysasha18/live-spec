@@ -328,7 +328,13 @@ One line per finding. Don't move it into ROADMAP. Don't fix it without the owner
   `PLAN.md:307`, `PLAN.md:526`ish, and `scripts/state-probe.sh:159` updated to match; an allowlist
   entry needs `guardrails/shipped-language-allowlist.json` (a gate-config edit, his word makes it
   one, not a guess). Either way, `bash guardrails/check-shipped-language.sh` then `git push`
-  (not summarized — read in full) is what actually closes this.
+  (not summarized — read in full) is what actually closes this. One honest addendum: the two
+  small fixes right after the prover record (this line's own edits) re-dated past it and reopened
+  gate a — the same records-about-records shape `.live-spec/PROBLEMS.md` already names. Not
+  chasing it with a fourth record tonight, for the same reason the prior session stopped chasing a
+  third: gate i already blocks the push regardless, so a fresh gate-a record buys nothing until
+  gate i has his answer. Whoever pushes next writes one record covering everything from
+  `a42c6fd2` forward, once, after gate i is settled — not before.
 - **Adversarial review (Opus), his own request tonight — real regressions caught, fixed, verified.**
   Found: tonight's 4 test-guard removals were all wrong (see the corrected entry below) and one of
   them had turned `tests/test_traceability.py` red — reverted. Found and fixed: two real bugs in
