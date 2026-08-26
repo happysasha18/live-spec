@@ -6,15 +6,6 @@ Turnkey software house. In the owner's own words, 26.08:
 
 > He can come in and dump ideas in any order, and along the way the system already lines everything up beautifully — from a clear spec to the architecture and the test matrix. It knows how to optimize processes, build the right architecture, understand what needs checking on every pass. All of it lightweight (the previous version loaded 42k just from standing up). It knows how to communicate properly.
 
-His words, verbatim:
-
-```user
-«Можно приходить и наваливать в любом порядке идеи, а походу система уже всё красиво
-выстраивает: от понятного спека до архитектуры и матрицы тестов. Умеет оптимизировать процессы,
-правильную архитектуру строить, понимать что необходимо проверять при каждом заходе. Всё такое
-lightweight (прошлая версия «с ноги» загружала 42к). Умеет правильно коммуницировать.»
-```
-
 The user is a single author of a software product who thinks out loud and drives development through agents. He speaks freely, with no command syntax, and isn't required to run the internal machinery himself.
 
 **The tasks below are not the goal.** They are the condition without which the goal can't be reached: working on the project across many sessions in a row without losing the thread. It was lost for a month. A task that doesn't move the project toward the goal doesn't get done.
@@ -75,7 +66,8 @@ instead of that.
 
 ## Fallback when drifted
 
-The owner only has to say **«сверься с планом»** <!-- user-language --> (his own words for "check against the plan") in any window, on any model, with an empty context. That means the session must: run `bash ~/live-spec/scripts/state-probe.sh` · read this file whole · look at `git log --oneline -15` and `git status` · look at what's actually on disk · and report in Canon, giving a separate line to everything that disagrees between the plan, the git history, and the disk. Fix nothing until he answers.
+The owner only has to ask the session to check against the plan, in any window, on any model, with
+an empty context. That means the session must: run `bash ~/live-spec/scripts/state-probe.sh` · read this file whole · look at `git log --oneline -15` and `git status` · look at what's actually on disk · and report in Canon, giving a separate line to everything that disagrees between the plan, the git history, and the disk. Fix nothing until he answers.
 
 The main plan is **always one file: `~/live-spec/PLAN.md`.** Never start a second one.
 
@@ -115,7 +107,10 @@ The main plan is **always one file: `~/live-spec/PLAN.md`.** Never start a secon
 
 8. **Take nothing on faith.** Not a handoff, not a past session, not a document, not its own
    memory. A claim of "done" is checked by a command before anything gets built on it. Proven on
-   this project: a handoff claimed «ВЕСЬ ПЛАН ПОЛНОСТЬЮ ЗАКРЫТ» <!-- user-language --> ("THE WHOLE PLAN IS FULLY CLOSED"), and three of six packages turned out not even started; `evals/director.md` claimed «прогонов не было» <!-- user-language --> ("no runs had happened"), and runs had happened, showing 20 of 35. Where there's nothing to check with, say so to the owner instead of passing someone else's claim along as fact.
+   this project: a handoff claimed the whole plan was fully closed, and three of six packages
+   turned out not even started; `evals/director.md` claimed no runs had happened, and runs had
+   happened, showing 20 of 35. Where there's nothing to check with, say so to the owner instead of
+   passing someone else's claim along as fact.
 9. **Unpushed work doesn't spend the night as a single copy.** The machine has already lost a
    working tree once. If commits haven't reached `origin/main`, a copy goes into a side branch or
    a bundle off the machine, and that happens before the session ends.
@@ -126,7 +121,9 @@ The main plan is **always one file: `~/live-spec/PLAN.md`.** Never start a secon
 11. **The owner's working contract must load — both files:**
     `~/.claude/playbook/personal/profile.md` (90 lines, the personal layer) and
     `.live-spec/profile.md` (the host layer, which wins over the personal one when they resolve).
-    It already records the timestamp rule, the ban on the pattern «х, а не у» <!-- user-language --> ("X, not Y"), «что такое X — моя ошибка» <!-- user-language --> ("what is X — my own mistake"), the orchestrator seat, the mechanics run on sonnet. A session that hasn't loaded it is working wrong.
+    It already records the timestamp rule, the ban on the "X, not Y" contrast frame, the "what is
+    X — my own mistake" reflex, the orchestrator seat, the mechanics run on sonnet. A session that
+    hasn't loaded it is working wrong.
 
 **End of session:** update a step's status (one line) and §Blockers. Write nothing else.
 
@@ -153,7 +150,9 @@ The main plan is **always one file: `~/live-spec/PLAN.md`.** Never start a secon
       Environment traps moved to §Environment, debts moved to §Blockers.
 - [x] The 5 recovered files committed (sitting in unpushed commits).
 
-**Acceptance:** `bash scripts/state-probe.sh` prints «совпадает с origin/main» <!-- user-language --> ("matches origin/main") and «дерево чистое» <!-- user-language --> ("tree is clean") — the script's own output stays in his working language, untouched by this translation — and no line about `/private/tmp` appears in the ALARM section.
+**Acceptance:** `bash scripts/state-probe.sh` confirms it matches `origin/main` and the tree is
+clean (the script's own terminal output stays in his working language, untouched by this
+translation), and no line about `/private/tmp` appears in the ALARM section.
 
 ### [~] 1. Probe and board — the trigger word works
 <!-- check: test -x scripts/render-board.sh -->
@@ -164,7 +163,7 @@ handoff that's always ready · drift catches itself · the board as a feature.
 - The probe already prints state. Bring it to the point where it reads step statuses by running
   the acceptance commands, not by reading a hand-set checkmark.
 - Render the script's output as a page. **View — a pseudo-kanban** (his word, 26.08: the existing
-  sketch `prototype/work-board-sketch.html` is «так себе» <!-- user-language --> ("so-so"), a board with columns is needed).
+  sketch `prototype/work-board-sketch.html` is so-so, a board with columns is needed).
 - **What should sit on each ticket — he already said this specifically, 2–4 weeks ago.** A cheap
   worker does the recon through the transcripts, the result is
   `docs/research/2026-08-26-board-ticket-fields.md`. Don't invent fields again: they're already
@@ -172,7 +171,9 @@ handoff that's always ready · drift catches itself · the board as a feature.
 - Time in replies: `~/.claude/hooks/clock-hook.sh` is set up and works on a manual run, but
   doesn't reach the session. Find out why. Don't set up a new hook.
 
-**Acceptance:** the owner types «продолжай» <!-- user-language --> ("continue" — his own trigger word) in a new session with an empty context and gets the state with no question asked · the board opens · the owner confirms in one line that he sees the time and a clear list.
+**Acceptance:** the owner types his own trigger word for "carry on" in a new session with an empty
+context and gets the state with no question asked · the board opens · the owner confirms in one
+line that he sees the time and a clear list.
 
 ### [~] 2. An honest score for Director, and three missing rules
 <!-- check: test ! -f evals/director.md && test "$(git log -1 --format=%ct -- evals/director/traces)" -ge "$(git log -1 --format=%ct -- skills/director/SKILL.md)" && python3 evals/director/check.py --all 2>/dev/null | tail -1 | grep -qv " 0 of " -->
@@ -188,10 +189,12 @@ the main claim (a question doesn't turn into a task), there isn't a single error
 - Re-record the 35 traces on the current skill.
 - Add to `skills/director/SKILL.md`:
   - **a decision** — this is a standing rule, an authority grant, and a division of
-    responsibility at once («с этого момента», «всегда», «запиши себе» <!-- user-language --> — "from now on," "always," "note this down for yourself"); it travels along with an instruction and gets recorded separately;
+    responsibility at once ("from now on," "always," "note this down for yourself"); it travels
+    along with an instruction and gets recorded separately;
   - **grounds for an act** — its own act only when it states something new, and isn't already
     fully carried by a neighboring act's goal;
-  - **halt** — about the session's own work; «останови сервер» <!-- user-language --> ("stop the server") inside a procedure is an instruction, not a halt;
+  - **halt** — about the session's own work; "stop the server" inside a procedure is an
+    instruction, not a halt;
   - **correction** — changes the goal or constraints enough that the remainder needs replanning.
 - Fix 6 fixtures: `idea-with-a-cheap-branch`, `observation-a-verdict-on-delivered-work`,
   `mixed-plan-and-two-questions`, `mixed-conditional-pause`, `mixed-check-now-improve-later`,
@@ -217,12 +220,15 @@ read Fable's conclusions and said whether he recognizes his month in them.
 
 ### [~] 4. One term, one word
 
-The owner's complaint: «у тебя раз ветка, другой раз рука, третий раз ворктри, и фиг разберёшься; рука ещё и агента означает» <!-- user-language --> ("one time it's a branch, another time it's a hand, a third time it's a worktree, and good luck telling them apart; hand even means an agent too"). The same drift as in the plan and the handoff, just in language.
+The owner's complaint: one time it's a branch, another time it's a hand, a third time it's a
+worktree, and good luck telling them apart — and "hand" even means an agent too. The same drift
+as in the plan and the handoff, just in language.
 
 - Run `text-audit` across every document and skill: collect cases where one thing is named
   differently, and where a word is used with no explanation.
 - Converge to one word per thing. The glossary: `skills/live-spec-base/references/glossary.md`.
-- There's no mechanism for this in chat (the owner turned down hooks as «прописано в трёх местах» <!-- user-language --> — "already written down in three places"); it's held up by law 6.
+- There's no mechanism for this in chat (the owner turned down hooks, since the rule is already
+  written down in three places); it's held up by law 6.
 
 **Acceptance:** the list of mismatches shown to the owner · the convergence done · the owner reads
 any three documents and says whether they got clearer.
@@ -254,7 +260,8 @@ edited for meaning — a blanket removal would have taken those out too.
 - Remove the 18 proven-dead ones, re-measuring each individually before removal (the sample isn't
   a verdict on its neighbors in the same file).
 - 22 functions of the "file exists" shape — look at them by eye.
-- **Don't touch the pre-push check until Director is measured** (the owner's decision, 26.08). It demands a review report on every push, because it doesn't know whether one is needed. Director does know: its decision already carries lines for «что затронуто», «какое доказательство нужно», «какие документы реально меняются» <!-- user-language --> ("what's affected," "what evidence is needed," "which documents actually change"). The wire between its decision and the check has never once been run. Building a second classifier off a path list is forbidden by mandate: the model decides meaning, code decides mechanics. Order: measure Director first, then the wire. If it's unreliable — fix it, don't route around it.
+- **Don't touch the pre-push check until Director is measured** (the owner's decision, 26.08). It demands a review report on every push, because it doesn't know whether one is needed. Director does know: its decision already carries lines for what's affected, what evidence is
+  needed, and which documents actually change. The wire between its decision and the check has never once been run. Building a second classifier off a path list is forbidden by mandate: the model decides meaning, code decides mechanics. Order: measure Director first, then the wire. If it's unreliable — fix it, don't route around it.
 - **The real cost isn't in the tests.** What turned out expensive is the ceremony around a text
   edit: a prover record and a skill-review record on every one. That's what should be cancelled,
   keep the tests.
@@ -343,7 +350,9 @@ One line per finding. Don't move it into ROADMAP. Don't fix it without the owner
   his word. Gates **s** and **h** closed tonight (skill-review for `director`, a test on its four
   terms). Gate **a** is a live race, not a bug: `evals/director/README.md`'s "Bare run" section
   plus `.live-spec/PROBLEMS.md`'s entry "records-about-records recursion... no base case" already
-  name this class and its fix («диапазон из одних записей/ревью/гейт-правок записи не должен» <!-- user-language --> — "a range made only of records/reviews/gate-edits shouldn't itself become a record"); every new edit to `ARCHITECTURE.md` (even a pin shifting by one line) reds gate a again, and record after record doesn't win this race. The last honest record:
+  name this class and its fix (a range made only of records, reviews and gate-edits shouldn't
+  itself owe a record); every new edit to `ARCHITECTURE.md` (even a pin shifting by one line) reds
+  gate a again, and record after record doesn't win this race. The last honest record:
   `docs/prover/2026-08-26-push-readiness-closing-note.md`, covering everything up to commit
   `ff315f9b`; after it, one more edit landed on `architecture/authoring-and-review.md` (wiring
   code mode into Director, commit `c9ca711a`), and gate a is red again. **Tonight's decision:
@@ -379,13 +388,19 @@ One line per finding. Don't move it into ROADMAP. Don't fix it without the owner
   halt itself and drops the observation. The step's acceptance needs his word on every one of the
   fifteen — not decided.
 - **Step 5 closed.** The prover's code mode is on `github.com/happysasha18/product-prover`,
-  branch `code-mode-1.4.0`, commit `b71894a` — his word from 26.08 22:59, «пушь давай, не жди меня» <!-- user-language --> ("go ahead and push, don't wait for me"), received, the push done and personally re-checked (`git ls-remote` matches). Before the push it went through a real skill-creator run (found and fixed a real ambiguity in code mode's closing summary) and a readability read. Adversarial review by Fable/Opus was skipped on his own permission («можешь или нет» <!-- user-language --> — "can you, or not," meaning either is fine) — the finding has already been re-checked twice. An adjacent finding stayed adjacent: `scripts/install-pack-hooks.sh:23-27` has no `*)` branch in its argument parsing (`--dryrun` instead of `--dry-run` silently installs the hooks for real) — not fixed this session (law 5), his word is needed on the finding itself, not on the push.
+  branch `code-mode-1.4.0`, commit `b71894a` — his word from 26.08 22:59 ("go ahead and push,
+  don't wait for me"), received, the push done and personally re-checked (`git ls-remote`
+  matches). Before the push it went through a real skill-creator run (found and fixed a real
+  ambiguity in code mode's closing summary) and a readability read. Adversarial review by
+  Fable/Opus was skipped on his own permission (his call whether it was worth doing) — the
+  finding has already been re-checked twice. An adjacent finding stayed adjacent: `scripts/install-pack-hooks.sh:23-27` has no `*)` branch in its argument parsing (`--dryrun` instead of `--dry-run` silently installs the hooks for real) — not fixed this session (law 5), his word is needed on the finding itself, not on the push.
 - **Which board sketch is approved — a candidate found, the owner's word not checked.**
   `docs/norms/work-board.html` (variant 8) is recorded as a frozen norm
   (`docs/norms/work-board.provenance.md`): approved 06.08 ~20:47, grown out on his own words
   until 21:16. This is the shape of the FULL "Live board" feature (spec `spec/work-board.md`,
   requirement 309: five columns, agent lanes, worker chips, time issued/left) — the very one
-  after which, at 21:17 that same evening, he asked «я вообще не понимаю о чём речь и зачем» <!-- user-language --> ("I genuinely don't understand what this is about or why"), while the 26.08 plan asks only for a light view with columns over the Canon. Today's `scripts/render-board.sh` doesn't build that norm — it renders PLAN.md in 4 columns, using only the fields present in its own data (title, description, status, details), with no workers/lanes/time, which aren't there. Three files `work-board-mockup-2026-08-06*.html` sit outside git (in `.gitignore`), `prototype/work-board-sketch.html` is the older one (variant 2), called "so-so" tonight. Recon: `docs/research/2026-08-26-board-ticket-fields.md`. Needs the owner's word: build requirement 309 later as a separate decision, or leave it a frozen norm with no build.
+  after which, at 21:17 that same evening, he said he genuinely didn't understand what it was
+  about or why, while the 26.08 plan asks only for a light view with columns over the Canon. Today's `scripts/render-board.sh` doesn't build that norm — it renders PLAN.md in 4 columns, using only the fields present in its own data (title, description, status, details), with no workers/lanes/time, which aren't there. Three files `work-board-mockup-2026-08-06*.html` sit outside git (in `.gitignore`), `prototype/work-board-sketch.html` is the older one (variant 2), called "so-so" tonight. Recon: `docs/research/2026-08-26-board-ticket-fields.md`. Needs the owner's word: build requirement 309 later as a separate decision, or leave it a frozen norm with no build.
 - **An unclosed branch `p2-change-classifier`** — the working tree `~/live-spec-p2`, one commit
   not in `main` ("P2 prototype: the change classifier"). Neither the plan nor the alarms knew
   about it. Decide: merge it, drop it, or leave it.
