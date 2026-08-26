@@ -22,6 +22,11 @@ import unittest
 
 from conftest import ROOT, read, read_flat
 
+# Read live rather than pinned literal: a pinned version number makes the suite's green
+# depend on the number being wrong, and correcting it to the truth reds (ROADMAP row 384,
+# the vacuous-pass class tests/test_minor_gate_reconciliations.py's docstring names).
+PACK_VERSION = open(os.path.join(ROOT, "VERSION"), encoding="utf-8").read().strip()
+
 ARCHITECT_SKILL = os.path.join("skills", "architect", "SKILL.md")
 DIRECTOR_SKILL = os.path.join("skills", "director", "SKILL.md")
 LIVE_SPEC_BASE_SKILL = os.path.join("skills", "live-spec-base", "SKILL.md")
@@ -37,7 +42,7 @@ class TestArchitectSkillLoads(unittest.TestCase):
         self.assertTrue(body.startswith("---\n"), "architect's SKILL.md carries no frontmatter")
         front = body.split("---\n", 2)[1]
         self.assertRegex(front, r"(?m)^name:\s*architect\s*$")
-        self.assertRegex(front, r"(?m)^\s*version:\s*5\.0\.0\s*$")
+        self.assertRegex(front, r"(?m)^\s*version:\s*%s\s*$" % re.escape(PACK_VERSION))
 
 class TestDirectorPointsAtTheRealSkill(unittest.TestCase):
     def test_specialist_table_names_architect_skill_directly(self):

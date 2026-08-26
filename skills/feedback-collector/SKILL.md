@@ -2,7 +2,7 @@
 name: feedback-collector
 description: Use, only if enabled, when the user shows a rare, strong reaction (delight or frustration) to offer drafting a private note to the pack's authors. Consent is asked every time, and the skill never sends the note — delivery is the human's own step.
 metadata:
-  version: 5.0.0
+  version: 6.0.0
 ---
 
 # feedback-collector — an occasional note home to the authors
@@ -11,7 +11,7 @@ metadata:
 > one surface = one name · one home per fact · junior/senior split · checkpoints · the concurrent-edit
 > fence · freshness · journal discipline · attic-never-delete · verify by deed · the human's gates · claims
 > need primary sources · fix the class, sweep look-alikes · the door before code · prototype ≠ product) live
-> ONCE in the pack's base skill, `live-spec-base` (v5.0.0), together with the settings ladder — this skill
+> ONCE in the pack's base skill, `live-spec-base` (v6.0.0), together with the settings ladder — this skill
 > references them and elaborates only its own domain. Used standalone, this note is plain advice.
 
 The pack moves feedback in three directions. communicator carries work OUT to the human. feedback-intake

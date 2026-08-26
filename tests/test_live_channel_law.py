@@ -11,9 +11,18 @@ import unittest
 
 from conftest import open_spec, read_flat
 
+# Base rule 23, which restated this law informally in skills/live-spec-base/SKILL.md, was
+# cut whole 2026-08-26 (PLAN.md step 7, commit 0ae778bc): no eval fixture or executable
+# script enforced its exact wording, only this prose-presence check. Moved verbatim to
+# attic/live-spec-base-unbacked-rules-2026-08-26.md; the number is retired, not reused. The
+# fallout sweep that repointed the other seven prose-lock tests in this same situation
+# (commit 59bc66cc) missed this file; this repoints it the same way, same precedent as
+# tests/test_class_hunt.py's rule-14 fix.
+ATTIC_HOME = "attic/live-spec-base-unbacked-rules-2026-08-26.md"
+
 
 class TestLiveChannelLaw(unittest.TestCase):
-    HOMES = ("PRODUCT_SPEC.md", "skills/live-spec-base/SKILL.md")
+    HOMES = ("PRODUCT_SPEC.md", ATTIC_HOME)
 
     def test_law_in_both_homes(self):
         for home in self.HOMES:

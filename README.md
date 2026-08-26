@@ -67,7 +67,7 @@ If you're a programmer and want to read or drive those documents yourself, the t
 
 ## The rules are the product
 
-The rules are the part a software house would charge you for: thirty-four shared rules across the skill set, stated once in [`live-spec-base`](skills/live-spec-base/SKILL.md). They cover how a spec gets written so it stays readable. They cover when a question is worth your attention and when it is routine. They cover what a green suite does and does not prove.
+The rules are the part a software house would charge you for: twenty-one shared rules across the skill set, stated once in [`live-spec-base`](skills/live-spec-base/SKILL.md). They cover how a spec gets written so it stays readable. They cover when a question is worth your attention and when it is routine. They cover what a green suite does and does not prove.
 
 You do not read them. They run.
 

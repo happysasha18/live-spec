@@ -1,4 +1,4 @@
-# live-spec — Product Spec (v5.0.0, 2026-07-23)
+# live-spec — Product Spec (v6.0.0, 2026-07-23)
 
 This document is the living statement of what live-spec is right now. The body is a flat list of requirements, each stating one rule of the method. A requirement carries a Context block, a one-sentence User Story, and acceptance criteria grouped into named cases; a requirement whose heading carries a `[feature: F-...]` tag is a person-facing scenario — what the reader does and what the reader sees. Edit history lives in `JOURNAL.md`; this spec states what is true today.
 

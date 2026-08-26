@@ -34,8 +34,16 @@ def test_base_rule_26_homes_design_principles():
     assert _spelled(rules) in base or "%d rules in the body" % rules in base, (
         "the base description states a rule count other than the %d rules on disk" % rules)
     assert "INV-136, INV-139" in base
-    # the periodic-full-audit rule is base rule 28 (INV-145, Part C); rule 29 is the deferral test
-    assert "28. **A periodic full audit" in base
+    # the periodic-full-audit rule was base rule 28 (INV-145, Part C); it was cut from the
+    # mandatory body 2026-08-26 (PLAN.md step 7, commit 0ae778bc) alongside 12 other rules with
+    # no eval fixture or executable script behind their exact wording, moved whole to
+    # attic/live-spec-base-unbacked-rules-2026-08-26.md, its number retired rather than reused.
+    # This test's fallout sweep (commit 59bc66cc) missed this file; repointed here the same way,
+    # same precedent as tests/test_class_hunt.py's rule-14 fix and
+    # tests/test_live_channel_law.py's rule-23 fix. Rule 29 stayed in the mandatory body, so its
+    # assertion still reads live-spec-base/SKILL.md directly.
+    attic = _read("attic/live-spec-base-unbacked-rules-2026-08-26.md")
+    assert "28. **A periodic full audit" in attic
     assert "29. **A deferral must justify itself" in base
     # README's mirrored rule count is fresh
     readme = _read("README.md")
