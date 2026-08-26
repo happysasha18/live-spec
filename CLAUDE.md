@@ -9,7 +9,7 @@ Do not read the prose in this root to orient yourself. `JOURNAL.md`, `ROADMAP.md
 and their neighbours run to more than a megabyte between them, and none of them says where the work
 stands today. Open one only when a step names it.
 
-If the session has drifted, the owner asks it to check against the plan. That means: run the probe,
-read `PLAN.md` whole, look at `git log --oneline -15`, `git status` and what is on disk, then report
-in `Canon:` and give a separate line to everything that disagrees between the plan, the repository
-and the disk. Change nothing until he answers.
+If the session has drifted, the owner asks it to check against the plan. The recovery procedure is
+`PLAN.md`'s own property, not restated here — see its "Fallback when drifted" section. This file
+only needs to say where to look; two homes stating the same steps is the exact "two homes for one
+fact" drift this project's own rules forbid.
