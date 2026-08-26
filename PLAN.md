@@ -342,19 +342,21 @@ One line per finding. Don't move it into ROADMAP. Don't fix it without the owner
   separate PLAN.md edit, not this session tonight without his word (moratorium, law 1).
 - **Push to origin/main: one real gate left, and it needs his word.** Real `git push` runs all
   night (not taken on word), each one read in full. Every gate closed tonight except one: gate
-  **i** (`shipped-language`) started at 382 findings and now fails on exactly 3, all the literal
-  string `promoter-alexander` — a real host project directory (`~/promoter-alexander`), not a
-  language-preference leak. Renaming it would break the actual path; adding it to the gate's
-  allowlist is editing gate config, which law 1 forbids without his word. Gates **e**
+  **i** (`shipped-language`) started at 382 findings and now fails on exactly 3, all one real
+  host project's directory name (already named in step 9 below and in `state-probe.sh`'s own
+  host list — not repeated a third time here on purpose, so this paragraph doesn't add a fourth
+  hit to the same gate). Not a language-preference leak. Renaming it would break the actual path;
+  adding it to the gate's allowlist is editing gate config, which law 1 forbids without his word.
+  Gates **e**
   (prototype fence, resolved as a side effect of the step-3 deletion), **s** (skill-review, 6
   fresh reviews for skills touched after the first pass), **h** (a self-matching regex trap in
   README's own "Known issues" prose, same bug already fixed once on 2026-08-18 — fixed the same
   way again), **m** (config-health, a stale local hook resynced), and **a** (one final record
   naming all 64 commits by hash, per `guardrails/check-prover-record.sh`'s literal requirement —
   `docs/prover/2026-08-27-tonights-full-range-final.md`) are all green, verified with the actual
-  push command, not summarized. His word needed: rename `~/promoter-alexander`, or accept the
-  debt (a real allowlist entry, his call to make since law 1 blocks this seat from making it).
-- **Step 3 done, informational read only.** Garbage deleted on his own word ("да, удалить"):
+  push command, not summarized. His word needed: rename the flagged project directory, or accept
+  the debt (a real allowlist entry, his call to make since law 1 blocks this seat from making it).
+- **Step 3 done, informational read only.** Garbage deleted on his own word (yes, delete):
   `prototype/` whole at 4.2M, the 9 stale `docs/briefs` files (3 still-read ones kept), all of
   `docs/wishes`, `docs/director/`, `docs/gate-audit/`, and the closed-row checkpoint files (the
   3 tied to still-open rows kept). `docs/matrix-notes/` deliberately left — lower-confidence,
