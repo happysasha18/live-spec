@@ -1562,7 +1562,7 @@ class TestWorkerContract(unittest.TestCase):
             "a strong product manager",
             "QA automation lead",
             "the visitor's own fresh eyes, the builder's own view set aside",
-            "a careful release hand",
+            "a careful release manager",
         ):
             self.assertIn(needle, flat_pipe, "build-pipeline missing: %s" % needle)
         matrix = read("TEST_MATRIX.md")
@@ -2194,7 +2194,7 @@ class TestProblemLedger(unittest.TestCase):
     def test_narration_three_teeth(self):
         """Row 139 (M-124, INV-35 grown): identity — every beat names the wish and
         step in hand; digest — a step's completion is a beat digesting what the
-        step produced (a worker-closed step is the senior's beat); heartbeat — a
+        step produced (a worker-closed step is the seat's beat); heartbeat — a
         beatless stretch past ~10 minutes [default] names what grinds. Both homes carry
         the teeth; digests never speak in counters (INV-28 seam)."""
         spec = re.sub(r"\s+", " ", read("PRODUCT_SPEC.md"))
@@ -2209,7 +2209,7 @@ class TestProblemLedger(unittest.TestCase):
                        # PRODUCT_SPEC.md Requirement 22 criterion 3 confirms it is gone; the fact
                        # survives only in skills/communicator/SKILL.md (checked below), not the spec
                        # itself, so the SPEC-side coverage claim is left red.
-                       "station a delegated worker closed becomes the senior's beat",
+                       "station a delegated worker closed becomes the seat's beat",
                        # re-pinned (row 88, R19.4): "~10 minutes [default]" is now "about 10 minutes
                        # as a default" — the requirement-format's plain-prose default style
                        "owing this heartbeat past a beatless stretch of about 10 minutes as a default",
@@ -2222,7 +2222,7 @@ class TestProblemLedger(unittest.TestCase):
         for needle in ("Identity", "Digest", "Heartbeat",
                        "which wish is in hand and which step it stands at",
                        "digests what the step produced",
-                       "worker-closed step becomes the senior's beat",
+                       "worker-closed step becomes the seat's beat",
                        "beatless stretch past ~10 minutes owes its heartbeat [default]",
                        "never a test count"):
             self.assertIn(needle, comm, "communicator missing: %s" % needle)
@@ -2358,7 +2358,7 @@ class TestProblemLedger(unittest.TestCase):
         # hypothesis/independence/never-summary phrasing loosely reordered).
         for needle in ("INV-46",
                        "opening on the hypothesis that the tasks were done and the goal missed",
-                       "never the worker's summary or the senior's plan",
+                       "never the worker's summary or the seat's plan",
                        "fire the audit mandatory *when* a delivery is high-stakes",
                        # CANDIDATE REAL DEFECT — rules-and-who-applies mapping.md row 58 (R16.3-4)
                        # already compresses "a rule whose meaning changed, a new or re-scoped
@@ -3489,14 +3489,14 @@ class TestBaseRuleDelegation(unittest.TestCase):
 
     def _rule5(self):
         body = read(os.path.join("skills", "live-spec-base", "SKILL.md"))
-        m = re.search(r"(?ms)^5\. \*\*The lead orchestrates.*?(?=^6\. \*\*)", body)
+        m = re.search(r"(?ms)^5\. \*\*The seat orchestrates.*?(?=^6\. \*\*)", body)
         self.assertTrue(m, "base rule 5 heading changed — the delegation statement moved")
         return re.sub(r"\s+", " ", m.group(0))
 
     def test_rule5_states_the_settled_delegation_rule(self):
         r5 = self._rule5()
         for phrase in (
-            "The lead orchestrates; each unit routes to the cheapest tier that passes its brief (SPEC INV-69).",
+            "The seat orchestrates; each unit routes to the cheapest tier that passes its brief (SPEC INV-69).",
             "orchestrates, briefs, and accepts",
             "it does not do the grunt itself",
             "PER UNIT",
@@ -3504,7 +3504,7 @@ class TestBaseRuleDelegation(unittest.TestCase):
             "a judgment step is never routed down",
             "Size is a weak hint only",
             "raw output is evidence",  # base rule 13's delegation face, kept
-            "a worker's green is a lead the lead ACCEPTS by re-checking",
+            "a worker's green is a lead the seat ACCEPTS by re-checking",
             "independent fresh-context checker",
             "(SPEC INV-46)",
             "failed-acceptance escalation is logged, proposed tier → chosen tier → why (SPEC INV-69)",

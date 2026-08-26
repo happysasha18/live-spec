@@ -255,7 +255,7 @@ law and a reporting bureaucracy built for one mandatory pipeline; none of that i
 specialist's job here, and none of it survives the cut into this skill — no bureaucracy
 without a working need this pack still has.
 
-**Independent branches run in parallel through the existing lane mechanism, not a new
+**Independent pieces of work run in parallel through the existing lane mechanism, not a new
 one.** `scripts/open-lane.sh` already opens a worktree-isolated branch under the profile's
 lane cap — `skills/live-spec-base/SKILL.md` rule 7 carries the lane law in full and is not
 repeated here. What this step adds is the judgment: two pieces of accepted work are

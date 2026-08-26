@@ -219,7 +219,7 @@ A floating player was left pressable over a zoom overlay's close, found by hand 
 interactive controls from different layers sharing one region. Full record:
 `docs/prover/2026-07-13-prover-overlap-lens.md`.
 
-### INV-137 — the orchestrator reads to decide; discovery reads go to workers    (2026-07-13)
+### INV-137 — the seat reads to decide; discovery reads go to workers    (2026-07-13)
 Two windows independently filled their own context with reads a worker should have done; the rule was
 stated then only as a buried clause no seat enforced. The landing report's delegation accounting now
 names the reads dispatched. Full record: `docs/prover/2026-07-13-gap0-read-discipline.md`.

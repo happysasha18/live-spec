@@ -90,7 +90,7 @@ The timing question: at which moments the agent shows work, echoes a wish, or na
       in the work's own words. A spec step says what the delta promises; an architecture step, the shape
       and what changed structurally. A tests step says what is now covered; a code step, what now works.
       Two-three plain sentences, never the artifact pasted, never a test count or token tally doing the
-      talking (rule 8's never-list binds digests too). A worker-closed step becomes the senior's beat the moment its result lands.
+      talking (rule 8's never-list binds digests too). A worker-closed step becomes the seat's beat the moment its result lands.
     - **Heartbeat** — a long grind (a big suite, a worker batch, a long render) gets a line naming what
       grinds and roughly why it takes long. A beatless stretch past ~10 minutes owes its heartbeat
       [default]. Now and then it says roughly how much remains, so the human can plan his own time around
@@ -437,7 +437,7 @@ two loudest rules so a reader meets them even without loading the file:
 
 ## The pre-report walk — run before any movement-end or milestone report, and before any surface is shown (SPEC INV-34, INV-83)
 
-The rules above passed their evals and still failed on the senior's own chat. The session-13 closing
+The rules above passed their evals and still failed on the seat's own chat. The session-13 closing
 report led with pack-internal names and loan-translated doc metaphors, and was bounced by its reader. The
 human asked what language this was even written in (2026-07-06). That was the jargon family's fourth
 strike in two days, and the first after the report law landed. Chat has no suite, so the enforcement is a

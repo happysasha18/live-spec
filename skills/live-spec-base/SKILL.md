@@ -28,10 +28,9 @@ resolving, and not before.
 
 Each term this file's rules deal in is defined once, in one module beside this file:
 [references/glossary.md](references/glossary.md). It holds every term from *the pack* to *an agent
-card*, each with the `PRODUCT_SPEC.md` entry that stands behind it.
-
-One term is stated in this file. It stays out of that module, because the rules below use all four of
-its names: the seat, the senior, the orchestrator and the lead. The four names mean the one session.
+card*, each with the `PRODUCT_SPEC.md` entry that stands behind it. That module's entry for **the
+seat** records the senior, the orchestrator, and the lead as the source's other names for the one
+acting session; the rules below use the one name the glossary keeps, the seat.
 
 Open that module when a term is being resolved, and not before.
 
@@ -86,14 +85,14 @@ keeps the number it already carries.
    kept live — a doc superseded or moved gets every inbound reference repointed the same session. Two
    documents claiming authority over one fact is undefined behaviour when they disagree.
 
-5. **The lead orchestrates; each unit routes to the cheapest tier that passes its brief (SPEC INV-69).**
-   The lead — the orchestrator seat, whatever tier holds it — orchestrates, briefs, and accepts the work,
+5. **The seat orchestrates; each unit routes to the cheapest tier that passes its brief (SPEC INV-69).**
+   The seat — whatever tier holds it — orchestrates, briefs, and accepts the work,
    and it does not do the grunt itself. Every unit of work is routed PER UNIT:
    the trigger is judgment against mechanical, and the tier is proposed for that unit. A one-shot with no
    decision goes to haiku, multi-step mechanical work to sonnet, and anything carrying judgment or design
-   to the senior. And a judgment step is never routed down. Size is a weak hint only, never the decider.
+   to the seat. And a judgment step is never routed down. Size is a weak hint only, never the decider.
    The worker pastes raw output (command + exit code + failing lines) as it works. Only raw output is
-   evidence, and the worker's prose is only a lead. So a worker's green is a lead the lead ACCEPTS by
+   evidence, and the worker's prose is only a lead. So a worker's green is a lead the seat ACCEPTS by
    re-checking it, never on trust. A
    large or high-stakes landing earns an independent fresh-context checker beyond that re-check (SPEC
    INV-46). Every override of a proposed tier and every
@@ -135,17 +134,17 @@ keeps the number it already carries.
      worker whose brief names the branch. The act reads the profile cap [E-13] and refuses a lane past it.
      It runs whenever the dependency graph shows two or more independent runnable rows and lanes stand free.
      Going single-file then is recorded on the departures board, the status-report view, as a "serial by the
-     graph" board reason. Judging independence is a senior read no gate can settle, so this stays a
+     graph" board reason. Judging independence is a seat's read no gate can settle, so this stays a
      discipline the session holds (SPEC INV-214, INV-49).
    - **Worktree isolation on overlap.** A later lane's code and tests live in its own isolated copy of the
-     tree until the senior integrates them. So worktree isolation is the default when two lanes' write-sets
+     tree until the seat integrates them. So worktree isolation is the default when two lanes' write-sets
      overlap. A shared file one lane holds open is never written by another (SPEC INV-105).
-   - **Brief-time disjointness** — before spawning another concurrent writer, the senior confirms its
+   - **Brief-time disjointness** — before spawning another concurrent writer, the seat confirms its
      brief's write-set is disjoint from every already-running writer's brief, or gives it an isolated
      worktree at brief-time. The fence stays silent between same-session siblings and cannot catch the
-     senior's own workers colliding (SPEC ACT-3, INV-11).
+     seat's own workers colliding (SPEC ACT-3, INV-11).
    - **A worker never restores a working tree with a git command (SPEC INV-298).** The full rule —
-     what a worker HALTS on, what the orchestrator's recovery half is, and the banned command list —
+     what a worker HALTS on, what the seat's recovery half is, and the banned command list —
      lives in [references/worker-restore.md](references/worker-restore.md), the exact wording every
      brief this pack composes rides. `guardrails/check-worker-restore.py` reads the worker runs'
      transcripts for the command and runs at the verify step.
@@ -335,7 +334,7 @@ keeps the number it already carries.
    lives. The once-read
    homes stay the normative homes; the live channel only carries the rule to the moment it is needed.
    Prose in a once-read file loses to mid-turn momentum, and attention alone holds nothing across
-   sessions. This rule is the convergence principle's hand for behaviour (rule 22), kin of rule 19's
+   sessions. This rule is the convergence principle's application to behaviour (rule 22), kin of rule 19's
    second-occurrence law. The routing rule's worked proof — a once-read home that broke mid-turn since
    June, closed only when the every-prompt hook line and the mechanical after-the-fact check landed —
    is written out under rule 23 in [references/worked-examples.md](references/worked-examples.md).
@@ -362,24 +361,24 @@ keeps the number it already carries.
    station each kind fills with its own layers and proofs is what makes one method fit every window.
    A method written only for code would fit a photo site badly.
 
-25. **The orchestrator reads to decide; discovery reads go to workers (SPEC INV-137).** The lead's context holds only
+25. **The seat reads to decide; discovery reads go to workers (SPEC INV-137).** The seat's context holds only
    what orchestration needs — the human's words, the decisions taken, the distilled results workers hand
-   back, and the few anchors the lead must cite. Reading a file to understand or design it, past a glance, is
-   itself work, so it routes like any work (rule 5). The lead dispatches it to a reader — a search-and-locate
+   back, and the few anchors the seat must cite. Reading a file to understand or design it, past a glance, is
+   itself work, so it routes like any work (rule 5). The seat dispatches it to a reader — a search-and-locate
    pass or a read-and-distill brief — and reads the distillation the worker returns. The raw file bodies
    stay with the worker.
    A glance is bounded. It is one small file, or a handful of targeted lines whose result is itself the
    deliverable (a version string, one clause to quote). Past the glance, dispatch. The duty binds only the reads done to
    discover or understand, where a distillation is the right return. A read to verify a claim or settle a
-   decision stays with the lead. Checking the real artifact and re-reading a primary source are the
-   lead's own hands (rules 11, 13). A dispatched verification returns the raw evidence the lead
-   re-checks (rule 5). The leanness is load-bearing: a lead filling its context with source it could
+   decision stays with the seat. Checking the real artifact and re-reading a primary source are the
+   seat's own hands (rules 11, 13). A dispatched verification returns the raw evidence the seat
+   re-checks (rule 5). The leanness is load-bearing: a seat filling its context with source it could
    have had distilled loses the room to hold the whole arc. Its judgment degrades as the context
    bloats. Workers locate their own anchors from the brief. So the
-   lead never reads a file merely to hand a worker its anchors (rule 5, SPEC INV-69). The brief's own read of
+   seat never reads a file merely to hand a worker its anchors (rule 5, SPEC INV-69). The brief's own read of
    the files it will change (SPEC INV-53) composes with this rule. That read is
    dispatched to the reader whose distillation returns the per-file lines the brief records. For a small
-   edit, it is a decide-read the lead makes directly and keeps bounded. The discipline is held by no
+   edit, it is a decide-read the seat makes directly and keeps bounded. The discipline is held by no
    one's memory but by a record. The delivery report's delegation accounting names the reads dispatched
    beside the work delegated (SPEC INV-103, INV-137). So a session that slid into reading-to-discover
    shows it.
@@ -392,7 +391,7 @@ keeps the number it already carries.
    human's own eye-walk. This rule is the base home the design-principles invariants own; their full
    statement, the per-kind design-principles table, and its starter sets live in `ARCHITECTURE.md`.
 
-27. **The orchestrator decides what it can decide, and surfaces only what it cannot (SPEC INV-143).**
+27. **The seat decides what it can decide, and surfaces only what it cannot (SPEC INV-143).**
    It can decide and report three things. First, a mechanical step. Second, a value a
    proven artifact already determines [INV-121]. Third, a sensible default it can pick and name [INV-70]. It
    surfaces a decision to the human only where the decision genuinely cannot be made without them. Three

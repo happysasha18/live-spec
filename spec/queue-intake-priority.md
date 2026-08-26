@@ -225,7 +225,7 @@
 7. The system *shall* inject through the prompt hook `hooks/chat-law-hook.sh` a reminder of the chat laws into every prompt. [INV-28, INV-69, INV-137]
    - the reminder states the laws in plain words with codes trailing, the narration beats, the say-what-it-is line, and the banned contrast frame;
    - the say-what-it-is line names a thing by its own positive sentence;
-   - the reminder also states the routing line: the orchestrator seat routes work to the cheapest tier the routing rule names, while a worker finds for itself the files and lines its task needs, keeping the orchestrator's context lean;
+   - the reminder also states the routing line: the orchestrator seat routes work to the cheapest tier the routing rule names, while a worker finds for itself the files and lines its task needs, keeping the seat's context lean;
    - the skills and the profile stay the laws' homes.
 8. Before a human-facing artifact is shown, the system *shall* have `scripts/preshow-lint.py` flag any line opening with an internal handle so the agent rewrites it to lead with the outcome, a warning to clear that reads only the shown surface. [INV-28]
 

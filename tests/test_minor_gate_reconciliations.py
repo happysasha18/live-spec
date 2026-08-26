@@ -48,7 +48,7 @@ def test_d1_reading_discipline_composes_with_brief_read():
     # format rewrite dropped the explicit "composes with" prose sentence; the composition is now
     # expressed by co-citing both anchors on the one criterion that states the brief-owed read.
     base = _read("skills/live-spec-base/SKILL.md")
-    assert "lead never reads a file merely to hand a worker its anchors" in base
+    assert "seat never reads a file merely to hand a worker its anchors" in base
     spec = _read("PRODUCT_SPEC.md")
     assert "[INV-53, INV-137]" in spec
     assert "the reader worker whose distillation returns the per-file lines" in spec
@@ -88,7 +88,7 @@ def test_d5_chat_law_hook_carries_reading_discipline():
         "session that only ever sees the hook's line"
     )
     home = _read("skills/live-spec-base/SKILL.md")
-    assert "25. **The orchestrator reads to decide; discovery reads go to workers (SPEC INV-137).**" in home
+    assert "25. **The seat reads to decide; discovery reads go to workers (SPEC INV-137).**" in home
     assert "dispatches it to a reader" in home
 
 

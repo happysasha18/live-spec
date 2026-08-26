@@ -270,7 +270,7 @@
 
 **Case: the three surviving costs hold the cap**
 
-1. The system *shall* hold the cap at its declared value, three by the package default and by the profile line, since the branch road touches none of the three costs that bound it — pen-wait, the rebase-and-re-gate work every landing forces on every rolling lane, and the orchestrator's dividing review attention. [T-18, E-13]
+1. The system *shall* hold the cap at its declared value, three by the package default and by the profile line, since the branch road touches none of the three costs that bound it — pen-wait, the rebase-and-re-gate work every landing forces on every rolling lane, and the seat's dividing review attention. [T-18, E-13]
 2. The system *shall* proceed on this recommendation while the owner's word on raising the cap stays owed, naming the measurement the pack has not taken — pen-wait time per lane and re-fences per landing. [T-18, INV-4]
 
 **Case: the pen arbitrates across sessions**

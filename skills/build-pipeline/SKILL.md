@@ -26,7 +26,7 @@ are judged as the prover's formal-methods reviewer judges them. The **architectu
 a software architect judges it: nodes, seams, one responsibility each. The **matrix** is judged as
 a QA automation lead deriving coverage. The **test** is judged as the same QA engineer writing it.
 The **code** is judged as a senior developer. **Verify** is judged by the visitor's own fresh eyes,
-the builder's own view set aside. **Commit & show** is judged as a careful release hand whose
+the builder's own view set aside. **Commit & show** is judged as a careful release manager whose
 reader is the human.
 
 The craft takes the work-kind's form (SPEC INV-22, INV-33). On a prose product the code step is

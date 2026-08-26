@@ -1,10 +1,10 @@
-"""The senior verifies write-set disjointness at brief-time before spawning a second concurrent writer.
+"""The seat verifies write-set disjointness at brief-time before spawning a second concurrent writer.
 
 The concurrent-edit fence [INV-11] stays silent between same-session sibling workers (fence-benign),
-so the reactive net cannot catch two of the orchestrator's OWN helper workers colliding on a shared
+so the reactive net cannot catch two of the seat's OWN helper workers colliding on a shared
 file. This law puts the check where the silence forces it: at brief-time, before the second concurrent
-writer is spawned, the senior confirms the two briefs' write-sets are disjoint or gives the later worker
-an isolated tree. It extends ACT-3 / INV-11 (a spawn-time obligation on the existing "the senior owns
+writer is spawned, the seat confirms the two briefs' write-sets are disjoint or gives the later worker
+an isolated tree. It extends ACT-3 / INV-11 (a spawn-time obligation on the existing "the seat owns
 the seams" duty), so it homes on the worker contract and adds no new invariant. Born of a real
 two-sibling-worker collision that self-corrected (tlvphotos 2026-07-13).
 """
@@ -16,7 +16,7 @@ from conftest import read_flat, read_all, read_all_flat
 # The shared imperative, punctuation-identical across every home so one needle matches all.
 # N-ary (disjoint from EVERY already-running writer, since T-18 allows up to three lanes), R1 folded.
 IMPERATIVE = (
-    "before spawning another concurrent writer, the senior confirms its brief's write-set is "
+    "before spawning another concurrent writer, the seat confirms its brief's write-set is "
     "disjoint from every already-running writer's brief"
 )
 

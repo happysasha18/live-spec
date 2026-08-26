@@ -37,7 +37,7 @@ Before a wipe, prefer halting the workers or letting them finish, so the next se
 
 ## Verifying a worker's result
 
-A worker's report is a lead. Evidence is raw output: the command, its exit code, and the failing lines, pasted into the checkpoint as the work runs (live-spec-base rule 5). The senior spot-checks by re-running.
+A worker's report is a lead. Evidence is raw output: the command, its exit code, and the failing lines, pasted into the checkpoint as the work runs (live-spec-base rule 5). The seat spot-checks by re-running.
 
 For a delegated or background test run, the verdict lives in the suite log itself. The gate reads the suite log's own tail line, the "N/N green" verdict. A wrapper's exit code reports only that the wrapper finished, and for a background or delegated run it never stands as the verdict (INV-80). A foreground gate reading its own child's exit stays legal. This law was landed the same evening one commit slipped through on a red suite because a command chain read a wrapper's exit code and never read the log (JOURNAL.md, session 30).
 
@@ -45,10 +45,10 @@ When the code step was delegated and the delta is surface-sized, verify also run
 
 ## Git discipline on a shared tree
 
-- Write-ownership stays narrow. A worker writes only the files its brief names; a same-session sibling's briefed files are fence-benign, and the senior who briefed both owns the seams (ACT-3).
+- Write-ownership stays narrow. A worker writes only the files its brief names; a same-session sibling's briefed files are fence-benign, and the seat who briefed both owns the seams (ACT-3).
 - The concurrent-edit fence runs before every write and every commit: re-check `git status` and `HEAD` against what was last read. If `HEAD` moved, or the tree holds changes the session did not make, stop, re-read, then proceed surgically or back off (live-spec-base rule 7, INV-11).
 - A landing commit carries exactly one row's delta, and its gate runs on a tree clean of any other lane's unfinished work, so a stray file from a parallel worker never rides a commit (INV-39).
-- A brief may instead name an isolated copy of the tree (a git worktree). The worker builds and tests there, and its delta reaches the shared tree only through the senior's integration, under the pen (T-18, ACT-3). The pack's first double-lane run built one lane entirely this way (queue rows 135 and 137).
+- A brief may instead name a lane branch — that lane's isolated copy, a git worktree. The worker builds and tests there, and its delta reaches the shared tree only through the seat's integration, under the pen (T-18, ACT-3). The pack's first double-lane run built one lane entirely this way (queue rows 135 and 137).
 
 ## Resume after a pause or wipe
 

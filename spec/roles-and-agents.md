@@ -304,11 +304,11 @@
 
 ---
 
-## Requirement 208: The routing rule proposes the cheapest tier and the senior may overrule
+## Requirement 208: The routing rule proposes the cheapest tier and the seat may overrule
 
 **Context:** Before anyone delegates a unit of work, the routing rule proposes its tier from what the work is, its size only a coarse prior — a judgment step to the seat and never down, a no-decision one-shot to the cheapest worker, a multi-step mechanical brief to the mid worker. The economy rung moves the threshold. The proposal is advisory: the seat may overrule it per wish, and the override rides one logged line reading proposed tier, chosen tier, and why.
 
-**User Story:** As a person paying for the right tier on each unit of work, I want the routing rule to propose the cheapest tier that can pass the brief and the senior's override always logged, so that no tier changes silently and judgment work never routes down.
+**User Story:** As a person paying for the right tier on each unit of work, I want the routing rule to propose the cheapest tier that can pass the brief and the seat's override always logged, so that no tier changes silently and judgment work never routes down.
 
 ### Acceptance Criteria
 
@@ -420,7 +420,7 @@
 
 ## Requirement 213: A worker's green earns a second pair of eyes
 
-**Context:** A worker's report is a lead and never counts as evidence, since the head that made the work is blind to its own gap. So the verify step carries an audit — a whole-read that sets out to break the work: a fresh-context checker briefed with the spec sentences the delivery claims and the artifact paths, never the worker's summary or the senior's plan. It walks each claimed fact up a fixed ladder — that it exists, that it is substantive, that it is wired, and that real values flow end to end — and its findings become rows or red.
+**Context:** A worker's report is a lead and never counts as evidence, since the head that made the work is blind to its own gap. So the verify step carries an audit — a whole-read that sets out to break the work: a fresh-context checker briefed with the spec sentences the delivery claims and the artifact paths, never the worker's summary or the seat's plan. It walks each claimed fact up a fixed ladder — that it exists, that it is substantive, that it is wired, and that real values flow end to end — and its findings become rows or red.
 
 **User Story:** As a person trusting a green suite, I want a high-stakes delivery whose only review is its author's checked by a fresh adversarial reader, so that a green machine that is actually hollow is caught before it is called done.
 
@@ -428,7 +428,7 @@
 
 **Case: the audit walks a fixed ladder from a fresh context**
 
-1. The verify step *shall* brief a fresh-context checker with the delivery's spec sentences and artifact paths, never the worker's summary or the senior's plan, opening on the hypothesis that the tasks were done and the goal missed. [INV-46]
+1. The verify step *shall* brief a fresh-context checker with the delivery's spec sentences and artifact paths, never the worker's summary or the seat's plan, opening on the hypothesis that the tasks were done and the goal missed. [INV-46]
 2. The checker *shall* walk each claimed fact up a fixed ladder — that it exists, that it is substantive against the placeholder-stub list, that it is wired, and that real values flow end to end — its findings becoming rows or red. [INV-46]
 
 **Case: it fires mandatory on a high-stakes author-only delivery**

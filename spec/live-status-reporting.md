@@ -100,7 +100,7 @@
 
 **Case: the delegated beat and the time accounting**
 
-9. *when* a delegated worker closes a station, the system *shall* fold it into the trail, a station a delegated worker closed becomes the senior's beat the moment it lands, the trail the session's time accounting where token and test counts stay bookkeeping. [INV-35, INV-28]
+9. *when* a delegated worker closes a station, the system *shall* fold it into the trail, a station a delegated worker closed becomes the seat's beat the moment it lands, the trail the session's time accounting where token and test counts stay bookkeeping. [INV-35, INV-28]
 
 **Case: the offline window's honest edges**
 

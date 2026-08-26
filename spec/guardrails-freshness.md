@@ -242,7 +242,7 @@
 
 ## Requirement 232: Two Stop-hook soft signals: the hedge gate and the lean-orchestrator arm
 
-**Context:** Two once-read behavioural laws gained a mechanical net. The first: a reply that offers to do a thing the seat could already derive and reverse, holding the offer open for a cue, is an offering-hedge. The second: a session that holds raw file content inline without dispatching a worker leaks the orchestrator's context. Each is a Stop-hook soft signal that reads after the fact and corrects one message later; each is honest that it catches only the frames it lists.
+**Context:** Two once-read behavioural laws gained a mechanical net. The first: a reply that offers to do a thing the seat could already derive and reverse, holding the offer open for a cue, is an offering-hedge. The second: a session that holds raw file content inline without dispatching a worker leaks the seat's context. Each is a Stop-hook soft signal that reads after the fact and corrects one message later; each is honest that it catches only the frames it lists.
 
 **User Story:** As a person relying on the seat to act rather than hedge and to delegate heavy reading, I want each law backed by a cheap literal net, so that a common hedge frame and a pure context-hoard are caught while the class in any phrasing stays with the conduct judge.
 

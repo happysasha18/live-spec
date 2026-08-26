@@ -9,7 +9,7 @@ def test_base_rule_states_read_discipline():
     text = _read("skills/live-spec-base/SKILL.md")
     assert "reads to decide; discovery reads go to workers" in text
     # promoted to its own numbered rule, not a buried clause
-    assert "25. **The orchestrator reads to decide; discovery reads go to workers" in text
+    assert "25. **The seat reads to decide; discovery reads go to workers" in text
     assert "SPEC INV-137" in text
 
 

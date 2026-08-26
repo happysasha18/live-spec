@@ -46,7 +46,7 @@ form (SPEC T-18, INV-39, INV-49, INV-214). Every line below reads exactly as it 
   single-file while independent lanes stand free is a recorded choice: say the "serial by the graph" board
   line and name why (the rows collide, the cap is full, the rows are tiny, or a dependency orders them).
   That recorded reason is a discipline you hold, since no gate can judge whether two rows were independent
-  and owed a parallel lane — that judgment is the graph itself, a senior read (SPEC INV-49, INV-214).
+  and owed a parallel lane — that judgment is the graph itself, a seat's read (SPEC INV-49, INV-214).
 
   **The drafter-applier pipeline is the standard colliding-rows form (SPEC INV-49):** on colliding rows
   the penless DRAFT stage overlaps the current landing, a drafter worker preparing the next row's exact

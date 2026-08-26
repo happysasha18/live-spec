@@ -91,7 +91,7 @@ walk in plain words and points there for the letter of each law.
 - **Enters:** the red tests and the spec sentences they serve.
 - **Produces:** the implementation, driven until the suite is green. Mechanical, well-scoped work
   goes to a cheaper junior worker with a self-contained brief and a persistent checkpoint file;
-  judgment stays with the senior, who verifies the worker's result by deed.
+  judgment stays with the seat, who verifies the worker's result by deed.
 - **Owner:** build-pipeline (step 7), as a senior developer.
 - **Blocks:** green tests are the exit condition; the next station adds eyes.
 
@@ -112,7 +112,7 @@ walk in plain words and points there for the letter of each law.
 - **Enters:** a green tree with no regression.
 - **Produces:** the commit, a patch-level version bump by default, and the docs travelling in the
   same change: the readme, the changelog in the user's terms, the journal entry with the dated why.
-- **Owner:** build-pipeline (step 9), as a careful release hand.
+- **Owner:** build-pipeline (step 9), as a careful release manager.
 - **Blocks:** the concurrent-edit fence runs before the commit — `git status` and HEAD re-checked
   against what was last read. Gates the human personally named wait for the human's word.
 

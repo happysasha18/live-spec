@@ -47,9 +47,11 @@ and 18 the one name-collision law.
 - **Lane** — one build train a session rolls through the pipeline. **Step** — one stage of that walk.
 - **The pen** — the single write-lock a repository holds. One delivery reaches the shared truth at a
   time, and a lane waiting for the pen names the row it waits behind.
-- **Seat** — the one acting orchestrating session. The base skill also calls it the lead, the senior,
-  and the orchestrator, and the four names mean the one session. Rule 5 of the body uses the word in
-  its other sense, the place that session runs from, and defines both values there.
+- **Seat** — the one acting orchestrating session. `references/glossary.md` records the senior, the
+  orchestrator, and the lead as the source's other names for it; the base skill's own rules use the one
+  name, seat. `PRODUCT_SPEC.md`'s glossary also names a **remote seat** — a session sharing no
+  filesystem with the assigned one — a related but separate sense, naming where a session runs rather
+  than which session orchestrates.
 - **Worker** — a delegated agent session the seat briefs for a bounded piece of mechanical work.
 - **Tier** — the model level a unit of work runs at: a one-shot worker, a mechanical worker, or the
   seat for judgment. Haiku and sonnet are the two worker levels, opus is the seat, and Fable is the

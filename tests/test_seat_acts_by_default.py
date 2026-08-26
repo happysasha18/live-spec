@@ -10,7 +10,7 @@ from conftest import read as _read
 def test_base_rule_states_the_default_action_posture():
     text = _read("skills/live-spec-base/SKILL.md")
     # promoted to its own numbered rule, not a buried clause
-    assert "27. **The orchestrator decides what it can decide" in text
+    assert "27. **The seat decides what it can decide" in text
     assert "SPEC INV-143" in text
     # the anti-stall clause is load-bearing
     assert "never parks derivable work" in text
