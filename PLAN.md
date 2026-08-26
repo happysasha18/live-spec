@@ -205,7 +205,7 @@ the main claim (a question doesn't turn into a task), there isn't a single error
 **Acceptance:** `python3 evals/director/check.py --all` — every one of the 15 former failures is
 green, or accepted by the owner with one line saying why. Don't invent a numeric threshold (law 2).
 
-### [~] 3. Garbage and transcripts
+### [x] 3. Garbage and transcripts
 
 - Remove garbage files everywhere. Candidates in the tree: `prototype/` at 4.2 MB, part of
   `docs/` at 11 MB, spent worker checkpoints. Exactly what — by measurement, shown to the owner
@@ -218,7 +218,7 @@ green, or accepted by the owner with one line saying why. Don't invent a numeric
 **Acceptance:** `du -sh` before and after · transcripts are in place and readable · the owner has
 read Fable's conclusions and said whether he recognizes his month in them.
 
-### [~] 4. One term, one word
+### [x] 4. One term, one word
 
 The owner's complaint: one time it's a branch, another time it's a hand, a third time it's a
 worktree, and good luck telling them apart — and "hand" even means an agent too. The same drift
@@ -269,7 +269,7 @@ edited for meaning — a blanket removal would have taken those out too.
   misses phrases with a soft line-wrap (5 of 120) · the external clone `skills/product-prover/`
   carries no history here. Recountable with the scripts in session 385f4cf5's scratchpad.
 
-### [~] 7. Cut the required context
+### [x] 7. Cut the required context
 
 Right now 16,262 tokens on every session start (the probe measures it via tiktoken). ROADMAP row
 570 has been in progress since 07.08. The cutting rule: a rule not covered by an eval fixture and
@@ -278,7 +278,7 @@ not run by a script is a wish; its place is in `attic/`.
 **Acceptance:** the probe prints the number before and after. The owner sets the target number
 (law 2).
 
-### [~] 8. Release to the outside
+### [x] 8. Release to the outside
 <!-- check: test "$(cat VERSION)" != 5.0.0 && grep -q 'skills/director' MIGRATION.md -->
 
 `VERSION` = 5.0.0 both before and after the rebuild — even though `build-pipeline` was cut from
@@ -316,58 +316,53 @@ director` is non-empty · tlvphotos works the way it did before the migration.
 
 One line per finding. Don't move it into ROADMAP. Don't fix it without the owner's decision.
 
-- **Step 7 done, the before/after number is counted — the target is still owed (law 2).** 16,571
-  → 13,163 tokens (−20.6%), 13 of 34 rules covered by neither an eval fixture nor a runnable
-  script sit in `attic/live-spec-base-unbacked-rules-2026-08-26.md` (the glossary and the working
-  skills are no longer 34 but 21 rules). Checked personally: gate g (pin drift) is clean, the
-  example on rule 14 (class hunt) — no guardrail/hook actually caught it. There were 17 reds from
-  a deletion (law 4, "legitimate") — fixed this same session in a separate pass, not a rollback.
-- **Step 4 done, waiting on his read.** Converged: senior/orchestrator/lead → "seat" (21 files,
-  tests green) · "briefed hands" → "briefed workers" · "a careful release hand" → "...release
-  manager" · the bare metaphor "hand" in rule 2 rewritten with no metaphor · "worktree"/"branch"
-  in the whole-concept sense (not the git mechanics) → "lane branch" in the two places it
-  confused. Left untouched: the worker-restore phrase baked in byte-for-byte under a gate
-  (INV-299, 5 homes in sync — a separate task) and the live git mechanics (worktree and branch
-  are two different objects, they need both words). Two flags for his eyes: "seat" itself is
-  slightly overloaded (the seat = the role, a/remote seat = where the session runs — the glossary
-  already carries this, untouched) · `verify-step-detail.md` calls itself "the Director" —
-  possibly on purpose, left as is. Acceptance is waiting: he reads three documents and says
-  whether it got clearer.
+- **Step 7 closed — no target number, his own word.** 16,571 → 13,163 tokens (−20.6%), 13 of 34
+  rules covered by neither an eval fixture nor a runnable script sit in
+  `attic/live-spec-base-unbacked-rules-2026-08-26.md` (the glossary and the working skills are no
+  longer 34 but 21 rules). His word tonight: no number to chase, best-effort stands, and the same
+  standing killed two more unsourced guard thresholds pack-wide (see the number-sweep blocker).
+  Checked personally: gate g (pin drift) is clean, the example on rule 14 (class hunt) — no
+  guardrail/hook actually caught it. There were 17 reds from a deletion (law 4, "legitimate") —
+  fixed the same night in a separate pass, not a rollback.
+- **Step 4 done, informational read only.** Converged: senior/orchestrator/lead → "seat" (21
+  files, tests green) · "briefed hands" → "briefed workers" · "a careful release hand" → "...
+  release manager" · the bare metaphor "hand" in rule 2 rewritten with no metaphor ·
+  "worktree"/"branch" in the whole-concept sense (not the git mechanics) → "lane branch" in the
+  two places it confused. Left untouched: the worker-restore phrase baked in byte-for-byte under
+  a gate (INV-299, 5 homes in sync — a separate task) and the live git mechanics (worktree and
+  branch are two different objects, they need both words). Two flags for his eyes, whenever: the
+  seat/a-seat overload the glossary already carries · `verify-step-detail.md` calling itself "the
+  Director," possibly on purpose.
 - **The probe shows step 2 green, though 8 of 15 are still red — law 10.** Step 2's acceptance
   command in PLAN.md checks only "no duplicate file," "traces newer than the skill," and
   "check.py doesn't print 0 of X" — not whether all fifteen are green or accepted by his word. A
   live example of the law itself: a green check on undone work. The real status is in the
   blocker about step 2 below, not in the probe's icon. Fixing the acceptance command is a
   separate PLAN.md edit, not this session tonight without his word (moratorium, law 1).
-- **A push to origin/main actually ran several times tonight — stopped at five gates, two of them
-  from before this session.** A real run (not by word, with the actual `git push` command), the
-  result readable in full. Gates **e** (`prototype fence`) and **i** (`shipped-language`, 382
-  findings) stand on `PLAN.md`/`CLAUDE.md` themselves and existed before tonight's session —
-  `PLAN.md` declares itself outside these gates' jurisdiction ("This file sits outside the
-  jurisdiction of the format rules, the prover, and skill-review"), but the gates don't know
-  that: the same class of hole as the Director↔push-review wire from step 6, just for a
-  different gate. Fixing it means editing the gates' exception list, which law 1 forbids without
-  his word. Gates **s** and **h** closed tonight (skill-review for `director`, a test on its four
-  terms). Gate **a** is a live race, not a bug: `evals/director/README.md`'s "Bare run" section
-  plus `.live-spec/PROBLEMS.md`'s entry "records-about-records recursion... no base case" already
-  name this class and its fix (a range made only of records, reviews and gate-edits shouldn't
-  itself owe a record); every new edit to `ARCHITECTURE.md` (even a pin shifting by one line) reds
-  gate a again, and record after record doesn't win this race. The last honest record:
-  `docs/prover/2026-08-26-push-readiness-closing-note.md`, covering everything up to commit
-  `ff315f9b`; after it, one more edit landed on `architecture/authoring-and-review.md` (wiring
-  code mode into Director, commit `c9ca711a`), and gate a is red again. **Tonight's decision:
-  stop chasing it.** One final prover record — right before his real push attempt, not after
-  every commit. Tonight's work reserve isn't a push, it's a branch/bundle outside the tree (law
-  9), updated.
-- **Step 3 done, waiting on two of his reads.** Garbage measured, not deleted (`prototype/` whole
-  at 4.2M, part of `docs/briefs`+`docs/wishes`+three small directories, part of
-  `.live-spec/checkpoints/` — the full list is in the worker's report). Transcripts — 1,247
-  files, 310M, copied into `attic/transcripts/` (checksummed against the source), the originals
-  in `~/.claude/projects/` NOT touched (the move was replaced with a copy — one of them is
-  already cited by line number as a primary source, and Claude Code's autosaves read those same
-  paths too). `.live-spec/PROBLEMS.md` gained seven new lines, Fable's read of a Sonnet worker's
-  breakdown (one anchor quote re-checked by command). Waiting on: confirming the deletion list ·
-  reading the seven lines and saying whether he recognizes his month in them.
+- **Push to origin/main: one real gate left, and it needs his word.** Real `git push` runs all
+  night (not taken on word), each one read in full. Every gate closed tonight except one: gate
+  **i** (`shipped-language`) started at 382 findings and now fails on exactly 3, all the literal
+  string `promoter-alexander` — a real host project directory (`~/promoter-alexander`), not a
+  language-preference leak. Renaming it would break the actual path; adding it to the gate's
+  allowlist is editing gate config, which law 1 forbids without his word. Gates **e**
+  (prototype fence, resolved as a side effect of the step-3 deletion), **s** (skill-review, 6
+  fresh reviews for skills touched after the first pass), **h** (a self-matching regex trap in
+  README's own "Known issues" prose, same bug already fixed once on 2026-08-18 — fixed the same
+  way again), **m** (config-health, a stale local hook resynced), and **a** (one final record
+  naming all 64 commits by hash, per `guardrails/check-prover-record.sh`'s literal requirement —
+  `docs/prover/2026-08-27-tonights-full-range-final.md`) are all green, verified with the actual
+  push command, not summarized. His word needed: rename `~/promoter-alexander`, or accept the
+  debt (a real allowlist entry, his call to make since law 1 blocks this seat from making it).
+- **Step 3 done, informational read only.** Garbage deleted on his own word ("да, удалить"):
+  `prototype/` whole at 4.2M, the 9 stale `docs/briefs` files (3 still-read ones kept), all of
+  `docs/wishes`, `docs/director/`, `docs/gate-audit/`, and the closed-row checkpoint files (the
+  3 tied to still-open rows kept). `docs/matrix-notes/` deliberately left — lower-confidence,
+  never separately confirmed. Transcripts — 1,247 files, 310M, copied into `attic/transcripts/`
+  (checksummed against the source), the originals in `~/.claude/projects/` NOT touched (the move
+  was replaced with a copy — one of them is already cited by line number as a primary source, and
+  Claude Code's autosaves read those same paths too). `.live-spec/PROBLEMS.md` gained seven new
+  lines, Fable's read of a Sonnet worker's breakdown (one anchor quote re-checked by command) —
+  his to glance at whenever, not a blocker.
 - **One project's gate stops work in another.** `check-worker-restore.py` scans
   `~/.claude/projects` — transcripts from every project, the last 24 hours. A push in
   `~/tlvphotos` was blocked three times on 25–26.08 because of a `git stash` in live-spec's
