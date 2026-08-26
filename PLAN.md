@@ -360,18 +360,20 @@ One line per finding. Don't move it into ROADMAP. Don't fix it without the owner
   worth knowing before trusting the number again next time the skill changes.
 - **His word tonight, 00:49: three open forks answered.** (1) Ceremony cancellation (the
   prover/skill-review record on every text edit) — left alone, not decided, not reopened tonight;
-  his own reason: even a one-word edit ("removing 'не'") can flip meaning, so the "just a text
-  edit" boundary isn't obvious and he won't guess it at this hour. (2) The Director→pre-push wire —
-  authorized, build it, everything up to the tlvphotos migration (step 9). (3) Standing for
+  his own reason: even a one-word edit ("removing 'не'" <!-- user-language -->) can flip meaning,
+  so the "just a text edit" boundary isn't obvious and he won't guess it at this hour. (2) The
+  Director→pre-push wire — authorized, build it, everything up to the tlvphotos migration
+  (step 9). (3) Standing for
   tonight's session only, not a rewrite of law 1: do everything this session can, adversarial
   review at the end by Opus or Fable, close what can be closed, push and deploy on green, don't
   wait for him and don't ask for his word — he's asleep. Also on his mind, not yet acted on: he
-  doesn't understand how Director actually gets checked/scored ("так много всего") · where the
+  doesn't understand how Director actually gets checked/scored ("так много всего" <!-- user-language -->) · where the
   machinery is more than the job needs, and why there are this many Python scripts and gates ·
   an idea for later — measure how long a tagged task/subtask actually took, to estimate similar
   future work · onboarding as its own feature, explicitly tomorrow, not tonight · he's troubled
   that a fresh session's real load looks bigger than 42k now, maybe specific to this project's own
-  "продолжай лайвспек" boot jumping to ~120k — worth measuring for real, separately from step 7's
+  "продолжай лайвспек" <!-- user-language --> boot jumping to ~120k — worth measuring for real,
+  separately from step 7's
   13,163-token figure, which may not count everything a live session actually pulls in.
 - **Step 7 closed — no target number, his own word.** 16,571 → 13,163 tokens (−20.6%), 13 of 34
   rules covered by neither an eval fixture nor a runnable script sit in
