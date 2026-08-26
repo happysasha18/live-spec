@@ -1,11 +1,11 @@
 #!/bin/bash
 # render-board.sh — renders the plan's Canon (PLAN.md's ten steps, state read the way
 # scripts/state-probe.sh reads it — from acceptance commands, not from a hand-set checkbox)
-# as one self-contained HTML page, а pseudo-kanban with columns.
+# as one self-contained HTML page, a pseudo-kanban with columns.
 #
 # Why: the owner asked four times for "one page I can just look at" instead of asking the
 # agent how things are going. He does not want a separate board feature — the board is a
-# rendering of the same Canon this project already computes (PLAN.md, §"Уже решено"). This
+# rendering of the same Canon this project already computes (PLAN.md, §"Already decided"). This
 # script does not invent a second source of state: every field it draws comes from PLAN.md's
 # own text and from the same check commands state-probe.sh runs.
 #
@@ -39,7 +39,7 @@ out_path = sys.argv[1]
 # ---------------------------------------------------------------- read PLAN.md's steps
 # Same parse shape as state-probe.sh: a step is a "### [mark] N. Title" header, optionally
 # followed by a "<!-- check: CMD -->" comment, then body lines up to the next header or the
-# "## Блокеры" section close.
+# "## Blockers" section close.
 text = open("PLAN.md", encoding="utf-8").read()
 lines = text.splitlines()
 
@@ -69,7 +69,7 @@ for line in lines:
 
 # ---------------------------------------------------------------- split each step's body
 # into a lead description paragraph, a bullet list (its deliverables/details), and the
-# acceptance line ("**Приёмка:**...") — the three things his 2026-08-06 words asked for:
+# acceptance line ("**Acceptance:**...") — the three things his 2026-08-06 words asked for:
 # description, then everything else behind a details toggle.
 def split_body(body_lines):
     desc, bullets, accept = [], [], []
@@ -112,8 +112,8 @@ for s in steps:
         s["done"] = s["mark"] == "x"
 
 # ---------------------------------------------------------------- assign one column each
-# Columns mirror PLAN.md's own mark vocabulary — "не начат / в работе / закрыт / блокер" —
-# plus the same "ДАЛЬШЕ" (next up) rule state-probe.sh uses: the first step that is not done
+# Columns mirror PLAN.md's own mark vocabulary — "not started / in progress / closed / blocked" —
+# plus the same "NEXT" (next up) rule state-probe.sh uses: the first step that is not done
 # and not itself marked blocked is the one step in progress. Only one step is ever "in
 # progress" at a time (his own definition, 2026-08-06 18:34: in-work means "in your pipeline"
 # now, not a pile of maybes).
@@ -130,16 +130,16 @@ for s in steps:
         s["column"] = "backlog"
 
 COLUMNS = [
-    ("backlog", "Не начат", "ждёт очереди"),
-    ("inwork", "В работе", "в пайплайне прямо сейчас"),
-    ("done", "Готово", "проверено командой приёмки"),
-    ("blocked", "Блокер", "ждёт слова владельца"),
+    ("backlog", "Not started", "waiting in queue"),
+    ("inwork", "In progress", "in the pipeline right now"),
+    ("done", "Done", "verified by its acceptance command"),
+    ("blocked", "Blocked", "waiting on the owner's word"),
 ]
 
-# ---------------------------------------------------------------- blockers (§Блокеры)
+# ---------------------------------------------------------------- blockers (§Blockers)
 # Shown once, off to the side — the same list state-probe.sh already prints, not a second
 # board (WAITING.md is its own separate board for a separate thing: what waits on his eyes
-# mid-conversation. PLAN.md's §Блокеры is project-decision blockers; the two stay distinct).
+# mid-conversation. PLAN.md's §Blockers is project-decision blockers; the two stay distinct).
 blockers = []
 in_blockers = False
 for line in lines:
@@ -170,7 +170,7 @@ def esc(s):
 
 def card_html(s):
     chip = ("✅" if s["done"] else "⛔") if s["mark"] in ("x", "!") else ("🔄" if s["column"] == "inwork" else "⬜")
-    verified = "проверено командой" if s["verified"] else "заявлено, без команды приёмки"
+    verified = "verified by command" if s["verified"] else "declared, no acceptance command"
     details = ""
     if s["bullets"]:
         items = "".join("<li>%s</li>" % esc(b) for b in s["bullets"])
@@ -180,7 +180,7 @@ def card_html(s):
     details_block = ""
     if details:
         details_block = (
-            "<details><summary>подробнее</summary>%s</details>" % details
+            "<details><summary>more</summary>%s</details>" % details
         )
     return """
     <div class="card">
@@ -200,7 +200,7 @@ columns_html = ""
 for key, label, sub in COLUMNS:
     cards = "".join(card_html(s) for s in steps if s["column"] == key)
     if not cards:
-        cards = "<p class='empty'>пусто</p>"
+        cards = "<p class='empty'>empty</p>"
     columns_html += """
   <div class="col">
     <h2>%s <span class="count">%d</span></h2>
@@ -212,13 +212,13 @@ blockers_html = ""
 if blockers:
     blockers_html = "<ul>%s</ul>" % "".join("<li>%s</li>" % esc(b) for b in blockers)
 else:
-    blockers_html = "<p class='empty'>блокеров нет</p>"
+    blockers_html = "<p class='empty'>no blockers</p>"
 
 page = """<!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
 <meta charset="utf-8">
-<title>live-spec — доска</title>
+<title>live-spec — board</title>
 <style>
   :root {{ color-scheme: light dark; }}
   body {{ font: 15px/1.5 -apple-system, "Segoe UI", sans-serif; max-width: 1180px;
@@ -253,17 +253,17 @@ page = """<!DOCTYPE html>
 </head>
 <body>
 
-<h1>live-spec — доска</h1>
-<div class="stamp">Обновлено {now} · ветка {branch} · {head_sha} «{head_subj}»{dirty_note}{ahead_note}</div>
+<h1>live-spec — board</h1>
+<div class="stamp">Updated {now} · branch {branch} · {head_sha} "{head_subj}"{dirty_note}{ahead_note}</div>
 
 <div class="board">{columns}</div>
 
 <div class="blockers">
-  <h2>Блокеры</h2>
+  <h2>Blockers</h2>
   {blockers}
 </div>
 
-<div class="git">Страница читает PLAN.md и прогоняет те же команды приёмки, что scripts/state-probe.sh — второго источника состояния нет.</div>
+<div class="git">This page reads PLAN.md and runs the same acceptance commands as scripts/state-probe.sh — there is no second source of state.</div>
 
 </body>
 </html>
@@ -272,8 +272,8 @@ page = """<!DOCTYPE html>
         branch=esc(branch),
         head_sha=esc(head_sha),
         head_subj=esc(head_subj),
-        dirty_note=" · незакоммиченных файлов: %d" % dirty if dirty else " · дерево чистое",
-        ahead_note=" · не запушено: %s" % ahead if ahead != "0" else "",
+        dirty_note=" · uncommitted files: %d" % dirty if dirty else " · tree clean",
+        ahead_note=" · not pushed: %s" % ahead if ahead != "0" else "",
         columns=columns_html,
         blockers=blockers_html,
     )
@@ -281,5 +281,5 @@ page = """<!DOCTYPE html>
 with open(out_path, "w", encoding="utf-8") as f:
     f.write(page)
 
-print("написано: %s (%d шагов, %d блокеров)" % (out_path, len(steps), len(blockers)))
+print("written: %s (%d steps, %d blockers)" % (out_path, len(steps), len(blockers)))
 PYEOF

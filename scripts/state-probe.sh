@@ -1,11 +1,11 @@
 #!/bin/bash
-# state-probe.sh — печатает СЧИТАННОЕ состояние проекта, а не записанное кем-то.
+# state-probe.sh — prints the project's MEASURED state, not something written down by hand.
 #
-# Зачем: возобновление работы между сессиями держалось на прозе, которую надо было правильно
-# записать в конце сессии и правильно прочитать в начале. Ломалось на обоих концах. Здесь
-# состояние вычисляется командами, поэтому оно не может протухнуть.
+# Why: resuming work between sessions used to rest on prose that had to be written correctly at
+# the end of a session and read correctly at the start of the next. It broke on both ends. Here
+# the state is computed by commands, so it cannot go stale.
 #
-# Запуск: bash scripts/state-probe.sh    (первое действие каждой сессии)
+# Run: bash scripts/state-probe.sh    (the first action of every session)
 
 set -uo pipefail
 cd "$(dirname "$0")/.." || exit 1
@@ -18,23 +18,24 @@ bad() { printf '  \033[0;31mX %s\033[0m\n' "$1"; }
 
 printf '\033[1m[%s] live-spec\033[0m  %s\n' "$(date '+%H:%M, %d.%m.%Y')" "$REPO"
 
-# ---------------------------------------------------------------- где мы
-b "ГДЕ МЫ"
+# ---------------------------------------------------------------- where we stand
+b "WHERE WE STAND"
 git fetch origin --quiet 2>/dev/null
 HEAD_SHA=$(git log -1 --format=%h)
-echo "  ветка $(git branch --show-current) · $HEAD_SHA · $(git log -1 --format=%s | cut -c1-60)"
+echo "  branch $(git branch --show-current) · $HEAD_SHA · $(git log -1 --format=%s | cut -c1-60)"
 DIRTY=$(git status --porcelain | wc -l | tr -d ' ')
-[ "$DIRTY" = "0" ] && ok "дерево чистое" || warn "незакоммиченных файлов: $DIRTY"
+[ "$DIRTY" = "0" ] && ok "tree clean" || warn "uncommitted files: $DIRTY"
 BEHIND=$(git rev-list --count HEAD..origin/main 2>/dev/null || echo 0)
 AHEAD=$(git rev-list --count origin/main..HEAD 2>/dev/null || echo 0)
-[ "$BEHIND" != "0" ] && warn "отстаём от origin/main на $BEHIND коммитов"
-[ "$AHEAD" != "0" ] && warn "не запушено коммитов: $AHEAD (пуш блокируют ворота — см. §Блокеры)"
-[ "$BEHIND" = "0" ] && [ "$AHEAD" = "0" ] && ok "совпадает с origin/main"
+[ "$BEHIND" != "0" ] && warn "behind origin/main by $BEHIND commits"
+[ "$AHEAD" != "0" ] && warn "commits not pushed: $AHEAD (push is blocked by gates — see §Blockers)"
+[ "$BEHIND" = "0" ] && [ "$AHEAD" = "0" ] && ok "matches origin/main"
 
-# ---------------------------------------------------------------- план
-# Статус шага берётся из его команды приёмки, а не из галочки, которую поставила рука.
-# Шаг без команды печатается как ЗАЯВЛЕНО — читателю видно, где факт, а где чьё-то слово.
-b "ПЛАН"
+# ---------------------------------------------------------------- plan
+# A step's status comes from its acceptance command, not from a hand-set checkbox.
+# A step with no command prints as DECLARED — the reader can see where the fact ends and
+# someone's word begins.
+b "PLAN"
 rm -f /tmp/probe-next.txt
 if [ -f PLAN.md ]; then
   python3 - <<'PYEOF'
@@ -57,26 +58,26 @@ for s in steps:
     if s["check"]:
         ok = subprocess.run(s["check"], shell=True, capture_output=True).returncode == 0
         icon, colour = ("✅", G) if ok else ("⬜", D)
-        verified = f"{D}проверено{X}"
+        verified = f"{D}verified{X}"
     else:
         ok = s["mark"] == "x"
         icon = {"x": "✅", "~": "🔄", "!": "⛔"}.get(s["mark"], "⬜")
         colour = G if s["mark"] == "x" else (Y if s["mark"] == "~" else (R if s["mark"] == "!" else D))
-        verified = f"{D}заявлено{X}"
+        verified = f"{D}declared{X}"
     tail = ""
     if not ok and not next_shown and s["mark"] != "!":
-        icon, colour, tail, next_shown = "🔄" if s["mark"] == "~" else "⬜", Y, f"  {B}<-- ДАЛЬШЕ{X}", True
+        icon, colour, tail, next_shown = "🔄" if s["mark"] == "~" else "⬜", Y, f"  {B}<-- NEXT{X}", True
     print(f"  {icon} {colour}{s['title']}{X} {verified}{tail}")
     if tail:
         open("/tmp/probe-next.txt", "w", encoding="utf-8").write(s["title"])
 PYEOF
 else
-  bad "PLAN.md отсутствует"
+  bad "PLAN.md is missing"
 fi
 
-# ---------------------------------------------------------------- факты
-b "ФАКТЫ"
-echo "  версия пака: $(cat VERSION 2>/dev/null || echo '?')"
+# ---------------------------------------------------------------- facts
+b "FACTS"
+echo "  pack version: $(cat VERSION 2>/dev/null || echo '?')"
 
 if [ -f evals/director/check.py ]; then
   SCORE=$(python3 evals/director/check.py --all 2>/dev/null | tail -1)
@@ -85,15 +86,15 @@ if [ -f evals/director/check.py ]; then
       SD=$(git log -1 --format=%ct -- skills/director/SKILL.md 2>/dev/null || echo 0)
       ED=$(git log -1 --format=%ct -- evals/director/traces 2>/dev/null || echo 0)
       if [ "$SD" -gt "$ED" ] 2>/dev/null; then
-        echo "  Director по сценариям: $SCORE — ПЕРЕИГРОВКА СТАРЫХ ТРЕЙСОВ, про сегодняшний скилл не говорит"
+        echo "  Director by scenario: $SCORE — REPLAY OF OLD TRACES, says nothing about today's skill"
       else
-        echo "  Director по сценариям: $SCORE"
+        echo "  Director by scenario: $SCORE"
       fi ;;
-    *) warn "эвал Director не отвечает" ;;
+    *) warn "Director eval isn't responding" ;;
   esac
 fi
 
-# обязательный контекст: то, что грузится на каждый заход
+# required context: what loads on every session start
 CTX_BYTES=$(cat skills/live-spec-base/SKILL.md skills/director/SKILL.md 2>/dev/null | wc -c | tr -d ' ')
 CTX_TOK=$(python3 - <<'EOF' 2>/dev/null
 import sys
@@ -109,71 +110,71 @@ except Exception:
 EOF
 )
 if [ -n "$CTX_TOK" ]; then
-  echo "  обязательный контекст: $CTX_TOK токенов (base + director, $CTX_BYTES байт)"
+  echo "  required context: $CTX_TOK tokens (base + director, $CTX_BYTES bytes)"
 else
-  echo "  обязательный контекст: $CTX_BYTES байт (tiktoken недоступен)"
+  echo "  required context: $CTX_BYTES bytes (tiktoken unavailable)"
 fi
 
 CANON=$(cat PRODUCT_SPEC.md ARCHITECTURE.md TEST_MATRIX.md ROADMAP.md spec/* architecture/* matrix/* 2>/dev/null | wc -c | tr -d ' ')
-echo "  канон целиком: $CANON байт"
-echo "  очередь ROADMAP: $(grep -c '^| [0-9]' ROADMAP.md 2>/dev/null || echo '?') строк"
+echo "  full canon: $CANON bytes"
+echo "  ROADMAP queue: $(grep -c '^| [0-9]' ROADMAP.md 2>/dev/null || echo '?') rows"
 
-# ---------------------------------------------------------------- тревога
-b "ТРЕВОГА"
+# ---------------------------------------------------------------- alarm
+b "ALARM"
 ALARM=0
 
-# скилл менялся после последнего прогона эвала — счёт устарел
+# the skill changed after the last eval run — the score is stale
 SKILL_D=$(git log -1 --format=%ct -- skills/director/SKILL.md 2>/dev/null || echo 0)
 EVAL_D=$(git log -1 --format=%ct -- evals/director/traces 2>/dev/null || echo 0)
 if [ "$SKILL_D" -gt "$EVAL_D" ] 2>/dev/null; then
-  warn "скилл director менялся $(date -r "$SKILL_D" '+%d.%m') — эвал гонялся $(date -r "$EVAL_D" '+%d.%m'). Счёт устарел."
+  warn "director skill changed $(date -r "$SKILL_D" '+%d.%m') — eval last ran $(date -r "$EVAL_D" '+%d.%m'). The score is stale."
   ALARM=1
 fi
 
-# один факт — один дом
-[ -f evals/director.md ] && { warn "evals/director.md существует и противоречит evals/director/ — два дома у одного факта"; ALARM=1; }
+# one fact, one home
+[ -f evals/director.md ] && { warn "evals/director.md exists and conflicts with evals/director/ — two homes for one fact"; ALARM=1; }
 
-# живое состояние протухло
+# live state has gone stale
 if [ -f NEXT_STEPS.md ]; then
   NS_D=$(git log -1 --format=%ct -- NEXT_STEPS.md 2>/dev/null || echo 0)
   LAST=$(git log -1 --format=%ct)
-  [ "$NS_D" -lt "$LAST" ] && { warn "NEXT_STEPS.md старше последнего коммита дерева на $(( (LAST - NS_D) / 86400 )) дней"; ALARM=1; }
+  [ "$NS_D" -lt "$LAST" ] && { warn "NEXT_STEPS.md is $(( (LAST - NS_D) / 86400 )) days older than the tree's last commit"; ALARM=1; }
 fi
 
-# работа вне дома — /private/tmp стирается при перезагрузке.
-# Ловим и рабочее дерево, и просто оставленный каталог: второе тревога проглядела.
-git worktree list 2>/dev/null | grep -q "/private/tmp" && { warn "рабочее дерево в /private/tmp — стирается при перезагрузке"; ALARM=1; }
-[ -d /private/tmp/ls-director ] && { warn "каталог /private/tmp/ls-director ещё стоит ($(ls /private/tmp/ls-director 2>/dev/null | wc -l | tr -d ' ') файлов) — стирается при перезагрузке"; ALARM=1; }
+# work outside its home — /private/tmp is wiped on reboot.
+# Catches both a working tree there and a leftover directory: the alarm used to miss the second case.
+git worktree list 2>/dev/null | grep -q "/private/tmp" && { warn "working tree in /private/tmp — wiped on reboot"; ALARM=1; }
+[ -d /private/tmp/ls-director ] && { warn "directory /private/tmp/ls-director still exists ($(ls /private/tmp/ls-director 2>/dev/null | wc -l | tr -d ' ') files) — wiped on reboot"; ALARM=1; }
 
-# чужие рабочие деревья с несмёрженной работой
+# other worktrees carrying unmerged work
 git worktree list 2>/dev/null | tail -n +2 | grep -v "/private/tmp" | while read -r wt _ br; do
   br=$(echo "$br" | tr -d '[]')
   [ -z "$br" ] && continue
   n=$(git rev-list --count "main..$br" 2>/dev/null || echo 0)
-  [ "$n" != "0" ] && warn "дерево $(basename "$wt") на ветке $br: $n коммит(ов) не в main"
+  [ "$n" != "0" ] && warn "tree $(basename "$wt") on branch $br: $n commit(s) not in main"
 done
 git worktree list 2>/dev/null | tail -n +2 | grep -qv "/private/tmp" && ALARM=1
 
-# дрейф хостов
+# host drift
 for h in ~/tlvphotos ~/exhibition-engine ~/promoter ~/promoter-alexander ~/tc-cloud-validate; do
   [ -d "$h/.claude/skills/live-spec-base" ] || continue
   HV=$(grep -m1 'version:' "$h/.claude/skills/live-spec-base/SKILL.md" 2>/dev/null | tr -d ' ' | cut -d: -f2)
   PV=$(cat VERSION 2>/dev/null)
-  [ "$HV" != "$PV" ] && { warn "$(basename "$h"): пак $HV против $PV в паке"; ALARM=1; }
+  [ "$HV" != "$PV" ] && { warn "$(basename "$h"): pack $HV vs $PV in the pack"; ALARM=1; }
 done
 
-[ "$ALARM" = "0" ] && ok "тревог нет"
+[ "$ALARM" = "0" ] && ok "no alarms"
 
-# ---------------------------------------------------------------- блокеры
-b "БЛОКЕРЫ"
+# ---------------------------------------------------------------- blockers
+b "BLOCKERS"
 if [ -f PLAN.md ]; then
   awk '/^## Blockers/{f=1;next} /^## /{f=0} f && /^- /' PLAN.md | head -20 | sed 's/^/  /'
 fi
 
-# ---------------------------------------------------------------- следующий ход
-# Берётся из того же прогона, что напечатал список выше. Раньше читалось из галочки
-# в PLAN.md, и два источника разошлись на одном экране.
+# ---------------------------------------------------------------- next move
+# Taken from the same run that printed the list above. It used to be read from the checkbox
+# in PLAN.md, and the two sources disagreed on the same screen.
 NEXT_TITLE=$(cat /tmp/probe-next.txt 2>/dev/null)
-[ -n "$NEXT_TITLE" ] && printf '\n\033[1mДАЛЬШЕ\033[0m\n  %s\n  (подробности — в PLAN.md)\n' "$NEXT_TITLE"
+[ -n "$NEXT_TITLE" ] && printf '\n\033[1mNEXT\033[0m\n  %s\n  (details — in PLAN.md)\n' "$NEXT_TITLE"
 
 printf '\n'
