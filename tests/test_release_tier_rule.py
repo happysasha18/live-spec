@@ -14,19 +14,29 @@ from conftest import read, read_flat
 
 
 def test_base_rulebook_states_the_release_tier_rule():
-    base = read_flat("skills/live-spec-base/SKILL.md")
-    assert "A release's number answers what taking it costs a host" in base
-    assert "SPEC INV-217" in base
-    # names all three tiers as the guidance a releasing host reads
-    for tier in ("patch", "minor", "major"):
-        assert tier in base.lower()
+    # base rule 32, which restated this three-tier clause, was cut 2026-08-26 (PLAN.md
+    # step 7, commit 0ae778bc, moved to attic/live-spec-base-unbacked-rules-2026-08-26.md):
+    # no eval fixture or executable script enforced its exact wording. TEST_MATRIX.md row
+    # M-398 still cites this function as part of INV-217's owning-test set, so the check
+    # stays under this name, repointed at the SPEC's own three-tier criteria (Requirement
+    # 274) — the fact the base rulebook restatement is now the sole home for, in the wake
+    # of that cut, per the SPEC's own criterion 7 (which still names the base rulebook as
+    # a home, a pointer the rulebook itself no longer answers — see report).
+    spec = read_flat("PRODUCT_SPEC.md")
+    assert "[INV-217]" in spec
+    for tier_fact in ("which the host takes by doing nothing",
+                       "which the host takes by re-running its catch-up walk",
+                       "ship its dated migration chapter"):
+        assert tier_fact in spec
 
 
 def test_base_rule_says_it_is_a_judgment_not_a_gate():
-    base = read_flat("skills/live-spec-base/SKILL.md")
-    # honest: the minor-versus-major call is stated guidance, held by no machine
-    assert "held by no machine" in base
-    assert "stays a stated rule the session holds" in base
+    # base rule 32 also restated this judgment-not-a-gate clause; see the note above.
+    # TEST_MATRIX.md row M-398 still cites this function, so the check stays under this
+    # name, repointed at the SPEC's own statement (Requirement 274, criterion 6).
+    spec = read_flat("PRODUCT_SPEC.md")
+    assert "held by no gate" in spec
+    assert "the releasing session applies and names" in spec
 
 
 def test_spec_states_the_law():

@@ -46,15 +46,18 @@ class ResumeRederive(unittest.TestCase):
         )
 
     def test_inv247_base_rule_states_the_reread(self):
-        skill = read_flat("skills/live-spec-base/SKILL.md")
-        self.assertRegex(
-            skill,
-            r"34\. \*\*A deferred item's own state is re-derived from the code before its work resumes \(SPEC INV-247\)\.\*\*",
-            "base rule 34 does not state the resume re-derivation law",
+        # base rule 34, which restated this law, was cut 2026-08-26 (PLAN.md step 7,
+        # commit 0ae778bc, moved to attic/live-spec-base-unbacked-rules-2026-08-26.md): no
+        # eval fixture or executable script enforced its exact wording. TEST_MATRIX.md row
+        # M-432 still cites this function as part of INV-247's owning-test set, so the
+        # check stays under this name, repointed at the SPEC's own criterion 2 (Requirement
+        # 93), the fact not yet covered by the other checks in this file: the re-read fires
+        # at the same resume moment as the deferral re-test, owing both reads.
+        spec = read_flat("PRODUCT_SPEC.md")
+        self.assertIn(
+            "fire this read at the same resume moment as the deferral re-test", spec,
         )
-        # the description's rule count moved with the added rule
-        self.assertIn("thirty-four rules in the body", skill)
-        self.assertNotIn("thirty-three rules in the body", skill)
+        self.assertIn("owing both reads", spec)
 
     def test_inv247_distinct_from_queue_take_rescan(self):
         """The law must stand beside INV-129, not collapse into it: one reads the returning

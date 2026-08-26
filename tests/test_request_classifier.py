@@ -280,11 +280,16 @@ class TestDeferralJustifiesItself(DocHomeCase):
         self.assertEqual(heads, sorted(set(heads)),
                          "%s numbers its rule heads %s; the numbers climb strictly, a cut rule's "
                          "number stays a hole and is never reused" % (rel, heads))
+        # Recorded cuts: rule 30 (his D2 word 2026-08-11), and rules 11, 14, 15, 18, 19, 20,
+        # 21, 23, 28, 32, 33, 34, 35 — the thirteen rules PLAN.md step 7 cut 2026-08-26
+        # (commit 0ae778bc) for carrying no eval fixture and no executable script, moved to
+        # attic/live-spec-base-unbacked-rules-2026-08-26.md.
+        recorded_holes = {11, 14, 15, 18, 19, 20, 21, 23, 28, 30, 32, 33, 34, 35}
         holes = set(range(1, max(heads) + 1)) - set(heads)
-        self.assertLessEqual(holes, {30},
-                             "%s skips rule numbers %s; the only recorded cut is rule 30 "
-                             "(his D2 word 2026-08-11) — an unrecorded hole is a lost rule"
-                             % (rel, sorted(holes)))
+        self.assertLessEqual(holes, recorded_holes,
+                             "%s skips rule numbers %s; the recorded cuts are %s — an "
+                             "unrecorded hole is a lost rule"
+                             % (rel, sorted(holes), sorted(recorded_holes)))
         rules = len(heads)
 
         desc = _frontmatter_description(rel)

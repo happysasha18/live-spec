@@ -56,11 +56,18 @@ class TestCleanContextReview(unittest.TestCase):
         self.assertIn("The authoring seat does not certify its own work", spec)
 
     def test_base_rule_33_states_it(self):
-        base = flat("skills/live-spec-base/SKILL.md")
-        self.assertIn("33. **The authoring seat does not adversarially certify its own work", base)
-        self.assertIn("SPEC INV-237", base)
-        # the rule-count claim in the description stays in sync
-        self.assertIn("thirty-four rules in the body", base)
+        # base rule 33, which restated this law, was cut 2026-08-26 (PLAN.md step 7,
+        # commit 0ae778bc, moved to attic/live-spec-base-unbacked-rules-2026-08-26.md): no
+        # eval fixture or executable script enforced its exact wording. TEST_MATRIX.md row
+        # M-419 still cites this function as part of INV-237's owning-test set, so the
+        # check stays under this name, repointed at the SPEC glossary's own statement of
+        # the optional clean-context record gate this rule also carried.
+        spec = flat("PRODUCT_SPEC.md")
+        self.assertIn(
+            "which can require a dated clean-context review record naming a seat other "
+            "than the release's",
+            spec,
+        )
 
     def test_build_pipeline_wires_verify_station(self):
         law = flat("skills/director/references/landing-law.md")

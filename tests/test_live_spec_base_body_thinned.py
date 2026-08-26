@@ -16,9 +16,15 @@ This test does NOT re-derive whether a moved chunk reads correctly in its new ho
 body pointer names the right section — that is a one-time human/reviewer judgment already made when
 the text moved. It holds the structural floor after the fact: the reference files exist, the body
 still points at each of them, the moved text's characteristic substrings are actually present in the
-reference files (so a later edit cannot silently empty one), and every one of the 34 numbered rules
-still has its heading in the body (a rule may fold, shrink, or pointer out its illustration, but it
-may never vanish).
+reference files (so a later edit cannot silently empty one), and every one of the numbered rules
+still standing has its heading in the body (a rule may fold, shrink, or pointer out its illustration,
+but it may never vanish once kept).
+
+2026-08-26 (PLAN.md step 7, commit 0ae778bc) cut thirteen more rule numbers whole — 11, 14, 15, 18,
+19, 20, 21, 23, 28, 32, 33, 34, 35 — for carrying no eval fixture and no executable script, moving
+their text to attic/live-spec-base-unbacked-rules-2026-08-26.md; twenty-one rule numbers stand today.
+That cut is a legitimate removal, not the drift this test guards against, so RULE_NUMBERS below
+tracks the current surviving set rather than the historical 34.
 """
 
 import os
@@ -32,13 +38,17 @@ GLOSSARY_REL = os.path.join("skills", "live-spec-base", "references", "glossary.
 EXAMPLES_REL = os.path.join("skills", "live-spec-base", "references", "worked-examples.md")
 SETTINGS_LADDER_REL = os.path.join("skills", "live-spec-base", "references", "settings-ladder.md")
 
-# The 34 rule numbers this rulebook carries today: 1-29 and 31-35: rule 30 was cut whole and its
-# number stays retired (the body's own "## The shared rules" preamble states this). Not derived from
-# the file here on purpose — this is the independent census the description's own rule-count claim
-# is checked against elsewhere (tests/test_minor_gate_reconciliations.py); this test instead asserts
-# each number's heading survives by name, so a silent drop reds even if the total count coincidentally
-# still matches (e.g. two rules merging while a third is cut).
-RULE_NUMBERS = tuple(n for n in range(1, 36) if n != 30)
+# The 21 rule numbers this rulebook carries today. Rule 30 was cut whole (his D2 word
+# 2026-08-11); rules 11, 14, 15, 18, 19, 20, 21, 23, 28, 32, 33, 34, 35 were cut 2026-08-26
+# (PLAN.md step 7, commit 0ae778bc) for carrying no eval fixture and no executable script,
+# moved to attic/live-spec-base-unbacked-rules-2026-08-26.md. Every cut number stays
+# retired, never reused (the body's own "## The shared rules" preamble states this). Not
+# derived from the file here on purpose — this is the independent census the description's
+# own rule-count claim is checked against elsewhere (tests/test_request_classifier.py); this
+# test instead asserts each number's heading survives by name, so a silent drop reds even if
+# the total count coincidentally still matches (e.g. two rules merging while a third is cut).
+RETIRED_RULE_NUMBERS = {11, 14, 15, 18, 19, 20, 21, 23, 28, 30, 32, 33, 34, 35}
+RULE_NUMBERS = tuple(n for n in range(1, 36) if n not in RETIRED_RULE_NUMBERS)
 
 # Ratchet, not a target: an earlier session's move brought the body from 620 to 606 lines; this one
 # moved five bare dated citations to docs/lenses.md with no pointer left behind (the one pattern a
@@ -74,9 +84,14 @@ class TestLiveSpecBaseBodyThinned(unittest.TestCase):
             "live-spec-base lost the heading for rule(s) %r — a rule may fold or pointer its "
             "illustration out, never vanish" % missing,
         )
-        # Rule 30 stays retired; a heading reappearing for it is its own kind of drift, out of this
-        # test's scope, but worth not silently accepting here either.
-        self.assertNotIn(30, found, "rule 30 is retired and should carry no heading of its own")
+        # Every retired number (rule 30's cut plus the thirteen cut 2026-08-26) stays retired;
+        # a heading reappearing for any of them is its own kind of drift, out of this test's
+        # scope, but worth not silently accepting here either.
+        reappeared = found & RETIRED_RULE_NUMBERS
+        self.assertFalse(
+            reappeared,
+            "rule(s) %r are retired and should carry no heading of their own" % sorted(reappeared),
+        )
 
     def test_three_reference_modules_exist_and_body_points_at_each(self):
         flat = read_flat(SKILL_REL)
@@ -116,13 +131,11 @@ class TestLiveSpecBaseBodyThinned(unittest.TestCase):
         ):
             self.assertIn(needle, ex, "worked-examples.md missing a relocated example: %s" % needle)
 
-    def test_body_keeps_the_test_checked_sentence_rule_23_needs(self):
-        # tests/test_live_channel_law.py asserts this exact substring against SKILL.md directly (not
-        # through the reference file); the rule-23 worked-proof move deliberately left it in place.
-        # Restated here so a future edit that moves it out reds close to the cause, not only in the
-        # other test.
-        body = read_flat(SKILL_REL)
-        self.assertIn("the same cure that killed invented clock stamps", body)
+    # base rule 23 (the live-channel law this sentence closed) was cut 2026-08-26 (PLAN.md
+    # step 7, commit 0ae778bc, moved to attic/live-spec-base-unbacked-rules-2026-08-26.md):
+    # no eval fixture or executable script enforced its exact wording, only this prose lock
+    # and its sibling in tests/test_live_channel_law.py (which is now red for the same
+    # reason — out of this task's file scope, flagged in the report rather than fixed here).
 
 
 if __name__ == "__main__":

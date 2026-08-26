@@ -18,10 +18,16 @@ from conftest import external_clone_or_skip, open_spec, read, read_all_flat, rea
 
 class TestClassHunt(unittest.TestCase):
     def test_base_rule_14_goes_and_finds_the_class(self):
-        base = read_flat("skills/live-spec-base/SKILL.md")
-        self.assertIn("go find the class, sweep the look-alikes", base)
-        self.assertIn("the siblings not yet seen", base)
-        self.assertIn("escalate to the human when the class boundary needs his read", base)
+        # base rule 14, which restated this duty, was cut 2026-08-26 (PLAN.md step 7,
+        # commit 0ae778bc, moved to attic/live-spec-base-unbacked-rules-2026-08-26.md): no
+        # eval fixture or executable script enforced its exact wording. TEST_MATRIX.md row
+        # M-265 still cites this function as part of INV-124's owning-test set, so the
+        # check stays under this name, repointed at director's own class-hunt reference,
+        # which carries the same duty (and names the attic move explicitly).
+        hunt = read_flat("skills/director/references/class-hunt.md")
+        self.assertIn("Name the defect's class, then go looking for its relatives", hunt)
+        self.assertIn("turning up the relatives nobody has reported yet", hunt)
+        self.assertIn("Bring the human in where the class boundary is a judgment call", hunt)
 
     def test_spec_clause_stands(self):
         spec = read_flat("PRODUCT_SPEC.md")

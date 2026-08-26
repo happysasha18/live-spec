@@ -734,13 +734,16 @@ class TestDoorLawAndPrototype(unittest.TestCase):
         self.assertIn("no preemption", body)
 
     def test_base_rules_door_and_prototype(self):
+        # rule 15 (the door law) was cut from the base rulebook 2026-08-26 (PLAN.md step 7,
+        # commit 0ae778bc, moved to attic/live-spec-base-unbacked-rules-2026-08-26.md): no
+        # eval fixture or executable script enforced it, only this prose lock. The door law's
+        # normative home stays the SPEC (checked in test_spec_states_door_procedure above);
+        # base rule 16 (the prototype law) was untouched by that cut and still stands.
         body = read("skills/live-spec-base/SKILL.md")
-        self.assertRegex(body, r"(?m)^15\. \*\*The door is named before any code", "base rule 15 missing")
         self.assertRegex(body, r"(?m)^16\. \*\*A prototype stays a sketch", "base rule 16 missing")
         body = re.sub(r"\s+", " ", body)
-        for phrase in ("FEATURE, however casually asked", "re-fires mid-work",
-                       "PROTOTYPE label", "its code holds no rights"):
-            self.assertIn(phrase, body, "base rules 15-16 lost: %s" % phrase)
+        for phrase in ("PROTOTYPE label", "its code holds no rights"):
+            self.assertIn(phrase, body, "base rule 16 lost: %s" % phrase)
 
     def test_working_skills_carry_the_door(self):
         # door-ceremony now belongs to Director entirely (0 mentions of "door" in
@@ -784,10 +787,9 @@ class TestDoorLawAndPrototype(unittest.TestCase):
             self.assertIn(anchor, body, "SPEC prose lost anchor %s" % anchor)
 
     def test_skills_carry_work_kind(self):
-        base = re.sub(r"\s+", " ", read("skills/live-spec-base/SKILL.md"))
-        self.assertIn("work-kind", base, "base rule 15 lost the work-kind axis")
-        self.assertIn("product · infra · skill · prose", base,
-                      "base rule 15 lost the four-kind vocabulary")
+        # base rule 15, which carried the work-kind axis, was cut 2026-08-26 (PLAN.md step
+        # 7, commit 0ae778bc, moved to attic); the work-kind vocabulary's normative home
+        # stays the SPEC (checked in test_spec_states_work_kind above).
         cm = re.sub(r"\s+", " ", read("skills/communicator/SKILL.md"))
         self.assertIn("stood down", cm, "communicator lost the stood-down-steps report line")
 
@@ -1213,16 +1215,10 @@ class TestCollisionLaw(unittest.TestCase):
     ADOPT cite it instead of each speaking half of it."""
 
     def test_collision_law_one_home(self):
-        base = read("skills/live-spec-base/SKILL.md")
-        self.assertRegex(base, r"(?m)^18\. \*\*One name-collision law",
-                         "base rule 18 missing")
-        flat = re.sub(r"\s+", " ", base)
-        for phrase in ("first the semantic mark its home already defines",
-                       "numeric ordinal",
-                       "Never overwrite, never a third scheme",
-                       "a short session token",
-                       "never a lost file"):
-            self.assertIn(phrase, flat, "base rule 18 lost: %s" % phrase)
+        # base rule 18 (the collision law's own stated home) was cut 2026-08-26 (PLAN.md
+        # step 7, commit 0ae778bc, moved to attic): no eval fixture or executable script
+        # enforced its exact wording. The law's actual behaviour still lives, and is still
+        # checked below, in PRODUCT_SPEC.md's two instances (attic, inbox).
         for rel in ("adopt/ADOPT.md", "inbox/README.md"):
             body = re.sub(r"\s+", " ", read(rel))
             self.assertIn("rule 18", body, "%s no longer cites the one collision law" % rel)
@@ -1954,13 +1950,21 @@ class TestProblemLedger(unittest.TestCase):
         self.assertIn("silent retry", low, "ledger template lost the never-a-silent-retry side")
 
     def test_base_rule_problem_ledger(self):
-        base = read("skills/live-spec-base/SKILL.md")
-        # normalize whitespace: the rule's sentences wrap across hard line breaks
-        low = " ".join(base.lower().split())
-        self.assertIn("problem ledger", low, "base skill lost the workshop-noise rule (INV-23)")
-        for phrase in ["watched", "second occurrence", "agreed non-problem",
-                       "defect of the method", "silent retry", "bug lane"]:
-            self.assertIn(phrase, low, "base rule lost its '%s' leg" % phrase)
+        # base rule 19, which restated this workshop-noise clause, was cut 2026-08-26
+        # (PLAN.md step 7, commit 0ae778bc, moved to attic/live-spec-base-unbacked-rules-
+        # 2026-08-26.md): no eval fixture or executable script enforced its exact wording.
+        # TEST_MATRIX.md row M-104 still cites this function as INV-23's owning test, so
+        # the check stays under this name, repointed at INV-23's real remaining homes: the
+        # SPEC criterion (Requirement 154) and the ledger template's own vocabulary.
+        spec = " ".join(read("PRODUCT_SPEC.md").split())
+        self.assertIn("route it to the problem ledger", spec, "SPEC lost the problem-ledger route (INV-23)")
+        self.assertIn("INV-23", spec, "SPEC lost the INV-23 anchor")
+        t = read_flat("templates/PROBLEMS.template.md")
+        for phrase in ["WATCHED", "OWNED", "AGREED NON-PROBLEM", "SOLVED"]:
+            self.assertIn(phrase, t, "problem-ledger template lost its '%s' leg" % phrase)
+        low = t.lower()
+        for phrase in ["second occurrence", "silent retry"]:
+            self.assertIn(phrase, low, "problem-ledger template lost its '%s' leg" % phrase)
 
     def test_done_claim_evidence_walk(self):
         """Row 101 (M-107, INV-25): a done-claim is answered as an evidence walk,
@@ -2465,10 +2469,10 @@ class TestProblemLedger(unittest.TestCase):
         for needle in ("INV-56", "never blocks unrelated work", "serviced in batch",
                        "no per-instance ceremony interrupting the work"):
             self.assertIn(needle, spec, "SPEC missing: %s" % needle)
-        base = re.sub(r"\s+", " ", read(os.path.join("skills", "live-spec-base", "SKILL.md")))
-        for needle in ("never blocks unrelated work", "serviced in BATCH",
-                       "governs only the known, owned problem"):
-            self.assertIn(needle, base, "base missing: %s" % needle)
+        # base rule 19, which restated this batch-servicing clause, was cut 2026-08-26
+        # (PLAN.md step 7, commit 0ae778bc, moved to attic): no eval fixture or executable
+        # script enforced its exact wording. INV-56's normative home stays the SPEC, checked
+        # above.
 
     def test_stretch_end_unmissable(self):
         """Row 154 (M-156, INV-57): the stretch's end is one short final line, last,
@@ -2588,10 +2592,9 @@ class TestProblemLedger(unittest.TestCase):
                        "adopt or reject a found skill by name",
                        "The system *shall* never republish unlicensed text"):
             self.assertIn(needle, spec, "SPEC missing: %s" % needle)
-        base = re.sub(r"\s+", " ", read(os.path.join("skills", "live-spec-base", "SKILL.md")))
-        for needle in ("Search for a skill before reinventing",
-                       "credit the source by name"):
-            self.assertIn(needle, base, "base missing: %s" % needle)
+        # base rule 20, which restated this skill-search clause, was cut 2026-08-26 (PLAN.md
+        # step 7, commit 0ae778bc, moved to attic): no eval fixture or executable script
+        # enforced its exact wording. INV-65's normative home stays the SPEC, checked above.
         adopt = re.sub(r"\s+", " ", read(os.path.join("adopt", "ADOPT.md")))
         self.assertIn("Skill search rides the setup", adopt, "ADOPT.md missing the setup arm")
 
@@ -3443,16 +3446,16 @@ class TestCleanWriterLaw(unittest.TestCase):
     """Row 208 (INV-84): human-facing prose is drafted by a clean writer. String level (M-198)."""
 
     def test_clean_writer_law(self):
+        # base rule 21, which restated this clean-writer clause, was cut 2026-08-26
+        # (PLAN.md step 7, commit 0ae778bc, moved to attic): no eval fixture or executable
+        # script enforced its exact wording. INV-84's normative home stays the SPEC + the
+        # Formal index, both checked below.
         spec = re.sub(r"\s+", " ", read("PRODUCT_SPEC.md"))
         self.assertIn("| INV-84 |", _index_flat(), "Formal index lost INV-84")
         self.assertIn("Human-facing prose is drafted by a clean writer", spec)
         self.assertIn("does not have the package rules loaded", spec)
         self.assertIn("refuse a blanket rewrite of settled text", spec)
-        base = re.sub(r"\s+", " ", read(os.path.join("skills", "live-spec-base", "SKILL.md")))
-        self.assertIn("Human-facing prose is drafted by a clean writer (SPEC INV-84).", base)
-        self.assertIn("do not write the prose yourself", base)
         self.assertIn("bind the road to the section the edit touches", spec)
-        self.assertIn("binds the durable prose", base)
 
 
 class TestPairLaw(unittest.TestCase):
