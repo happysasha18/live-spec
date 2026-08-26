@@ -317,8 +317,9 @@ director` is non-empty · tlvphotos works the way it did before the migration.
 One line per finding. Don't move it into ROADMAP. Don't fix it without the owner's decision.
 
 - **Tonight's session, closed — one real decision left, and it's his.** `bash guardrails/pre-push
-  < /dev/null` run in full just now: every gate passes except gate i, the pre-existing
-  `promoter-alexander` directory-name offense already named below — nothing else. A fresh prover
+  < /dev/null` run in full just now: every gate passes except gate i, the pre-existing host
+  directory-name offense already named below (not repeated here a fourth time on purpose) —
+  nothing else. A fresh prover
   record covering the whole range (`docs/prover/2026-08-27-full-range-post-adversarial-review.md`,
   a42c6fd2..HEAD, 85 commits, superseding the prior "final" one) closed gate a. Not pushed —
   gate i genuinely blocks `git push`, and it's the one item he'd already named as needing his own
