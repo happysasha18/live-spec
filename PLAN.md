@@ -59,7 +59,7 @@ or isn't used at all.
 **This file sits outside the jurisdiction of the format rules, the prover, and skill-review.** It
 doesn't pass through the gates, and it needs no records.
 
-Leads: Sonnet. Owner: Alexander. Start: 26.08.2026.
+Leads: Sonnet. Owner: this project's owner. Start: 26.08.2026.
 
 **The start of every session:** `bash scripts/state-probe.sh`. Don't read the prose in this file
 instead of that.
