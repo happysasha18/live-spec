@@ -8,7 +8,7 @@ Bracket codes like `[E-1]` and `[INV-27]` trail a criterion and point to the rul
 
 The keywords *when*, *while*, *if*, *then*, *where*, and *shall* are set in lowercase italics and carry their standard requirements meaning: *shall* states a duty, *when* and *while* open a situation, *if* and *then* open a condition and its result, and *where* scopes a duty to the setting it holds in.
 
-The foundational nouns of the method — request, pipeline, spec, architecture, invariant, guardrail, suite, session, journal, queue, movement, delivery, delivery report, footprint, profile, and resume file — carry the meanings the base method glossary gives them. The glossary below defines, in one place, every domain noun the twelve assembled sections introduce; a term appears once, under one name, and the criteria use it with that meaning.
+The foundational nouns of the method — request, pipeline, spec, architecture, invariant, guardrail, suite, session, journal, queue, movement, delivery, delivery report, footprint, profile, and resume file — carry the meanings the base method glossary gives them, at `skills/live-spec-base/references/glossary.md`. The glossary below defines, in one place, every domain noun the twelve assembled sections introduce; a term appears once, under one name, and the criteria use it with that meaning.
 
 ## Glossary
 
@@ -297,10 +297,10 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 | `spec/parallel-lanes.md` | R77–R91 | Parallel work lanes |
 | `spec/design-spec-review.md` | R11, R52–R68, R70–R76, R99–R104, R214–R215, R258–R266 | Design and spec review before the build |
 | `spec/test-honesty.md` | R105–R117 | Test honesty |
-| `spec/doc-order-generated.md` | R1, R97, R118–R124, R223–R224, R244–R250, R277–R291, R297, R312 | Order in the project's documents |
-| `spec/public-text-rules.md` | R144–R151 | Rules for public-facing text |
+| `spec/doc-order-generated.md` | R1, R97, R118–R124, R223–R224, R244, R246–R250, R277–R291, R312 | Order in the project's documents |
+| `spec/public-text-rules.md` | R144–R147, R149–R151 | Rules for public-facing text |
 | `spec/push-gate-milestone-audit.md` | R125–R128, R130–R142, R303, R305 | Push gates, checkpoints, and full audits at milestones |
-| `spec/guardrails-freshness.md` | R168, R188, R222, R225–R235, R242–R243, R251, R267–R276, R292, R295–R296, R298, R300–R302, R304, R306–R307 | Automatic guardrails and pack freshness |
+| `spec/guardrails-freshness.md` | R168, R188, R222, R225–R235, R242–R243, R251, R267–R276, R292, R295–R296, R298, R300–R302, R306–R307 | Automatic guardrails and pack freshness |
 | `spec/roles-and-agents.md` | R2, R51, R189–R192, R196, R198–R199, R206–R213, R216–R221 | Roles, workers, and agents inside the system |
 | `spec/settings-layers.md` | R200–R205 | Settings, and who decides what |
 | `spec/project-setup-tuning.md` | R3, R170–R176, R178–R179, R181–R185, R299, R308 | Setting up and tuning a project for its own use |

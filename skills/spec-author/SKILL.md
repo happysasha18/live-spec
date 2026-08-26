@@ -18,7 +18,7 @@ metadata:
 
 spec-author authors and grows a **living spec** — a requirements-genre `PRODUCT_SPEC.md` that says what the product is, what every
 part is allowed to claim, and how the parts compose — *incrementally, as the project develops*. spec-author is the
-front half of a pair: **spec-author writes the spec; [`product-prover`](https://github.com/happysasha18/live-spec/tree/main/skills/product-prover)
+front half of a pair: **spec-author writes the spec; [`product-prover`](https://github.com/happysasha18/product-prover)
 reviews it.** A spec written this way should be one the prover can check: same primitives, surfaces named once,
 cross-links explicit.
 
