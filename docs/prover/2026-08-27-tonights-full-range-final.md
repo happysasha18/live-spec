@@ -2,13 +2,27 @@
 
 PUSH-REVIEW
 
-Range: a42c6fd2..d9e79d4f (64 commits from `origin/main`). This supersedes and absorbs the two
+Range: a42c6fd2..d9e79d4f (64 commits from `origin/main`, listed in full below). This supersedes
+and absorbs the two
 partial records already on file for pieces of this same range
 (`2026-08-26-director-cutover-architecture-catchup.md` covering a42c6fd2..a0da72b2,
 `2026-08-26-push-readiness-closing-note.md` covering the small delta after it) — gate a wants a
 record no older than the day's last `ARCHITECTURE.md`/`PRODUCT_SPEC.md` touch, and the date has
 now rolled to 2026-08-27, so neither earlier record satisfies it regardless of how thorough it
 was. This one closes the whole night in one place instead of adding a fourth partial.
+
+## The 64 commits, named in full (SPEC INV-304) — machine-generated, not hand-typed
+
+Produced by `git log --format=%h a42c6fd..d9e79d4f`, pasted verbatim rather than retyped, since a
+hand-transcribed hash list is exactly the kind of thing that silently drifts:
+
+d9e79d4f 6ea3519c e04b7392 6d9b97d8 c36b8f3f 5dae788d a362af79 905a1e13 76cc497c c3c5514a
+6ff17f9e 2d6c5f0d f616ceb5 46eb0189 33a37b89 c9ca711a ff315f9b 02e70190 f7ec28cb 61a77841
+a0da72b2 8be458c2 452e51e2 455fc40b 024170f8 c73d87cd 88d42577 3dcf7b82 7e3188e8 59bc66cc
+e043a6b4 0ae778bc 630a61cc ce97c11d 9b23940a 4d5360df 18777bec 60cc6704 12e70348 c3be01a3
+613eec82 a716fb52 96652793 cb9b3a4d 55c28708 b0fcc12f 8c09de3d 70a3d360 402d6005 5db30805
+d69bf796 0093cd9e 3245cb9a 2c7a3fb3 4945b5ec 062f17d0 339087cc b3f1008f 256d60c8 6249f2d5
+c3284c8e 1482c6a5 0fd08f22 8f69a7c8
 
 ## What this range is
 
