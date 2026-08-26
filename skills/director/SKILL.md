@@ -58,11 +58,19 @@ condition holds, shelf it if it does not, and say which happened. Picking one br
 dropping the other silently discards an instruction the person gave — even though the
 branch you kept was one of the two they named.
 
+**A decision is a standing rule, not only a single choice.** "From this point on", "always",
+"note this for yourself" settle something with force beyond the message that carried it: a
+standing rule, a grant of authority, a division of responsibility. A decision often rides
+alongside a request in the same turn, but it is not that request's work — it travels with
+the request and gets recorded separately, so the rule survives after that work item closes.
+
 **A correction attaches to work, not to a queue.** When a message changes something
 already in flight, find that work and change it. What was already done stays done. Never
 answer a correction by creating a second row that contradicts the first. When no work is
 in flight yet, the same message is an idea or an instruction — decide which by whether
-they are asking for it now.
+they are asking for it now. A correction is not a decision: a decision settles an open
+choice within work that keeps going as planned; a correction changes that work's goal or
+constraints so the remainder has to be replanned.
 
 **Some observations carry their repair with them.** "Production is returning 500s" is an
 observation whose repair follows beyond doubt; nobody reports that to be agreeable. "The
@@ -73,7 +81,9 @@ wanted. If they would, ask. If they would not, act.
 **A halt is about state, not about words.** Someone can halt work by saying "stop", and
 equally by saying "actually let's ship what we have" or "this can wait until the release".
 What makes it a halt is that something running should stop running. Nothing else about it
-matters.
+matters. A halt is about the session's own work in progress, not about some other system
+that happens to be running: "stop the server" said in the middle of a procedure names a
+step of that procedure — it is an instruction, part of the work, not a halt.
 
 ### One turn, several acts
 
@@ -96,6 +106,13 @@ again next month.
 When you cannot tell whether a clause is its own act or part of the neighbouring one, it
 is its own act. Naming one act too many costs a sentence. Naming one too few loses what
 somebody said.
+
+**Grounds stated with an act carry their own act only when they say something new.** A
+reason given with a halt is a second act when it tells you something the halt's own goal
+does not already carry; when it only restates why the neighbouring act wants what it
+wants, it is not a second act, it is that act's goal in other words. Read the two
+paragraphs together: a clause you cannot place goes to its own act; a clause that is
+plainly redundant with a neighbour's goal does not.
 
 Taking acts apart is not the same as splitting a goal. One instruction stays one piece of
 work even when it will touch six files. Separate work appears only for a result someone
