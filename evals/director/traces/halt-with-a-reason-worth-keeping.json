@@ -1,15 +1,13 @@
 {
-  "id": "case-24",
-  "acts": [
-    "halt"
-  ],
+  "id": "case-A5",
+  "acts": ["halt", "observation"],
   "creates_work": false,
   "shelves_idea": false,
   "attaches_to_existing_work": true,
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "'Нет стоп' targets work currently running (maintaining the parameter) — a halt is about state, not wording. The 'жжешь токены' clause is the halt's own grounds, not a second act, since it only explains why, not new information.",
+  "reasoning": "The message targets work currently running (maintaining the parameter's machinery), so per the Halt row it changes that work's state and creates nothing; the judgment that the parameter is invented/wasteful is a second act under the rule that a product judgment 'says something new even when it doubles as the reason for the neighbouring act,' so it is kept as its own observation. Halts and observations get no decision sheet, so no dimensions or specialists are named.",
   "scenario": "halt-with-a-reason-worth-keeping",
-  "skill_version": "5.0.0"
+  "skill_version": "6.0.0"
 }

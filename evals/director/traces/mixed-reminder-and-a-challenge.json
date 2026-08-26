@@ -1,18 +1,13 @@
 {
-  "id": "case-28",
-  "acts": [
-    "idea",
-    "instruction"
-  ],
+  "id": "case-B7",
+  "acts": ["decision", "instruction", "question"],
   "creates_work": true,
-  "shelves_idea": true,
+  "shelves_idea": false,
   "attaches_to_existing_work": false,
   "work_items": 1,
-  "dimensions": [
-    "documentation and communication"
-  ],
+  "dimensions": ["documentation and communication", "release, observation, feedback"],
   "specialists": [],
-  "reasoning": "'посмотришь может в след. сессии' names the compact/optimize work as not asked for now, so it goes on the idea shelf in his own words. 'эти параметры необходимо мониторить в статусе в файле плана' is a present request for a change — add that tracking to the plan file's status now — the instruction half, answered separately from the deferred idea rather than dropping one branch.",
+  "reasoning": "The skill states directly that reminding a goal already in the plan still stands is 'a decision reaffirmed, not a new idea,' so that clause is not a shelved idea. 'эти параметры необходимо мониторить в статусе в файле плана' is a separate, concrete request for something to be done now (the Instruction row) — it is not absorbed by the reaffirmation per 'No act absorbs another,' since it says something new (add a tracked status field) rather than restating the goal. The closing 'согласен или поспорь со мной' is its own act under 'An invitation to disagree closing out a decision or an instruction is still its own act too.' One small self-contained document change (PLAN.md status) opens one new work item.",
   "scenario": "mixed-reminder-and-a-challenge",
-  "skill_version": "5.0.0"
+  "skill_version": "6.0.0"
 }

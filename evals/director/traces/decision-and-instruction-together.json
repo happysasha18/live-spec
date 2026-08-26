@@ -1,15 +1,13 @@
 {
-  "id": "case-14",
-  "acts": [
-    "decision"
-  ],
-  "creates_work": false,
+  "id": "case-C3",
+  "acts": ["instruction", "decision"],
+  "creates_work": true,
   "shelves_idea": false,
-  "attaches_to_existing_work": true,
-  "work_items": 0,
-  "dimensions": [],
-  "specialists": [],
-  "reasoning": "Two decisions in one breath: 'деплой блин!!' settles the open choice on the deploy already withheld pending confirmation, applying to that work in flight; 'запиши себе всегда... без моего подтверждения' is the standing-rule pattern the skill names verbatim ('note this for yourself', 'always'), recorded separately as a grant of authority, not as new work.",
+  "attaches_to_existing_work": false,
+  "work_items": 1,
+  "dimensions": ["release, observation, feedback"],
+  "specialists": ["Publisher, communicator"],
+  "reasoning": "This mirrors the skill's own example under 'No act absorbs another': 'always deploy without asking, and deploy this one grants authority going forward and asks for today's deploy in the same breath; recording only the standing rule loses the thing they actually wanted done today.' Both the standing-rule decision and today's deploy instruction are named. Since the situation states shipping was never checkpointed as its own work, the instruction opens a fresh checkpoint rather than attaching to existing work, touching only the release dimension and calling the publisher/communicator per the specialists table ('the result ships and has to be explained').",
   "scenario": "decision-and-instruction-together",
-  "skill_version": "5.0.0"
+  "skill_version": "6.0.0"
 }

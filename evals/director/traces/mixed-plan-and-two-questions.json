@@ -1,17 +1,13 @@
 {
-  "id": "case-27",
-  "acts": [
-    "decision",
-    "question",
-    "observation"
-  ],
-  "creates_work": false,
+  "id": "case-B6",
+  "acts": ["instruction", "observation", "question"],
+  "creates_work": true,
   "shelves_idea": false,
   "attaches_to_existing_work": true,
-  "work_items": 0,
-  "dimensions": [],
+  "work_items": 1,
+  "dimensions": ["documentation and communication"],
   "specialists": [],
-  "reasoning": "The plan-format line settles a standing preference for how this session's own status is shown — a decision recorded and applied to work already running, not new work. The two 'мне надо понять' clauses are one question about the worker's current scope and expected output, answered by reading, not by opening work. 'Я ему все скопировал и запустил' reports a fact with no repair implied, so it is recorded as an observation.",
+  "reasoning": "The plan/status request is scoped 'на эту сессию' ('for this session'), and the skill states a request scoped that way 'names no standing rule at all... and stays an instruction' — so it is accepted work, not a decision. The closing section 'Work that belongs elsewhere' says asking for 'a plan, a status, a summary or a report... is work like any other.' The two 'мне надо понять' clauses are one question about the worker's current scope and expected output, attaching to that same in-flight worker. 'Я ему все скопировал и запустил' reports a fact with no repair implied, recorded as an observation.",
   "scenario": "mixed-plan-and-two-questions",
-  "skill_version": "5.0.0"
+  "skill_version": "6.0.0"
 }

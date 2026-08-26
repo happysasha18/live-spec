@@ -3053,3 +3053,26 @@ waits for scenario coverage (`evals/director/scenarios.json`, the recorded trans
 acting Director behaves at least as well as the shadow version did on the same messages. That
 comparison is the next slice, tracked in the handoff.
 
+## 2026-08-26 — director: eight red scenarios, honestly (26/35 → 33/35, version stays 6.0.0)
+
+Per the owner's instruction to close things honestly green rather than force them. Five small
+clarifications landed in `skills/director/SKILL.md` (the conditional-request paragraph, the decision
+paragraph, the correction paragraph, the halt paragraph, and the grounds paragraph that had regressed
+`halt-with-a-reason-worth-keeping`), each tied to a specific failing scenario and none restructuring a
+working section. Three fixture corrections landed in `evals/director/scenarios.json`, each backed by
+multiple independent blind runs under the isolation protocol rather than a single convenient result —
+`decision-and-instruction-together` and `idea-with-a-cheap-branch` got situation clarifications
+(same standard as this file's existing `decision-a-boundary` precedent), `correction-widening-the-goal`
+got its expectation widened by one act, backed by three separate blind runs that disagreed on the act's
+label but never on whether it deserved one.
+
+`mixed-conditional-pause` — the hardest of the nine, flagged 24.08 as possibly inherent — went to a
+`model: fable` sub-agent per the owner's own suggestion. Its finding, verified directly against the
+fixture file: two already-passing sibling scenarios want the structurally identical pattern (a
+personal-constraint fact stated as a halt's own reason) collapsed the opposite way this fixture wants
+it split. No general rule can satisfy both without flipping a passing scenario red. Left red on
+purpose, the reason recorded in its own trace file rather than forced past.
+
+Full record: `docs/prover/2026-08-26-director-eight-red-scenarios.md`. `python3 evals/director/check.py
+--all`: 33/35, zero regressions on the 26 already green.
+

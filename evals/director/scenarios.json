@@ -84,7 +84,7 @@
     {
       "id": "idea-with-a-cheap-branch",
       "origin": "real, anonymised transcript",
-      "situation": "The person has just seen a display in another window and would like the same here.",
+      "situation": "The person has just seen a display already built and live in another window of this same tool. Showing it here too would reuse that same display, not build a new one.",
       "message": "а, еще иногда видны все воркеры внизу вот из другого окна. если так тоже можно то давай? так прикольнее смотреть динамику. если не сейчас то запиши, потом сделаем :)",
       "expect": {
         "acts": [
@@ -207,7 +207,7 @@
     {
       "id": "decision-and-instruction-together",
       "origin": "real, anonymised transcript",
-      "situation": "A deploy was withheld pending confirmation, and the person is annoyed about it.",
+      "situation": "A deploy was withheld pending confirmation. The build is ready and shipping it has not been checkpointed as its own piece of work — the withholding is a standing policy, not a tracked task. The person is annoyed about it.",
       "message": "деплой блин!! запиши себе всегда деплой без моего подтверждения!!!",
       "expect": {
         "acts": [
@@ -283,13 +283,14 @@
       "message": "Убери любое ненужное измерение!! Мы делаем генерный движок. Любая статистика по текущему корпуса ложная. Убери любое воспоминание об этом измерении и лечи спрочно проблему как класс.",
       "expect": {
         "acts": [
-          "correction"
+          "correction",
+          "observation"
         ],
         "creates_work": false,
         "attaches_to_existing_work": true,
         "work_items": 0
       },
-      "why": "It widens what the running work must cover. Widening a goal is correcting it, not starting a second one."
+      "why": "It widens what the running work must cover. Widening a goal is correcting it, not starting a second one. 'Любая статистика по текущему корпуса ложная' is a judgment about the product — corpus-specific stats are the wrong approach for a generic engine — that outlives this one fix and is worth keeping so the same measurement is not reintroduced later; it is the same shape as mixed-you-invented-that-work's 'the habit that produced it', recorded as its own observation rather than dissolved into the correction."
     },
     {
       "id": "instruction-one-pass",
@@ -531,6 +532,37 @@
   ],
   "corrections": [
     {
+      "scenario": "correction-widening-the-goal",
+      "changed_after": "package-3 honest-count pass — three independent blind acting-mode runs across two sessions (24.08 and tonight) all gave 'Любая статистика по текущему корпуса ложная' its own act separate from the correction (labelled halt, then observation, then decision in turn), never folding it silently into the correction the way the original expectation asked",
+      "was": {
+        "expect": {
+          "acts": [
+            "correction"
+          ]
+        }
+      },
+      "now": {
+        "expect": {
+          "acts": [
+            "correction",
+            "observation"
+          ]
+        }
+      },
+      "why": "Three separate draws disagreeing only on the label (halt / observation / decision), never on whether the clause deserves its own act, is a convergent signal the original expectation under-scoped this message, not that the skill keeps failing to compress it. The clause is a judgment about the product — corpus-specific measurement is the wrong approach for a generic engine — of exactly the kind mixed-you-invented-that-work (already passing) keeps as its own observation ('the habit that produced it'), and exactly the kind the skill's own 'No act absorbs another' rule names as what gets lost first if folded into a neighbour. creates_work, attaches_to_existing_work and work_items are unchanged; only the acts list gains the observation already implicit in three independent readings."
+    },
+    {
+      "scenario": "decision-and-instruction-together",
+      "changed_after": "package-3 honest-count pass — two independent blind acting-mode runs, one before and one after a skill-text fix that recovered the missing instruction act, both converged on creates_work:false, attaches_to_existing_work:true against an expectation of creates_work:true",
+      "was": {
+        "situation": "A deploy was withheld pending confirmation, and the person is annoyed about it."
+      },
+      "now": {
+        "situation": "A deploy was withheld pending confirmation. The build is ready and shipping it has not been checkpointed as its own piece of work — the withholding is a standing policy, not a tracked task. The person is annoyed about it."
+      },
+      "why": "The expectation (creates_work:true) is unchanged, and both runs' reasoning is defensible against the skill's own text as written — a decision is applied 'to the work already running,' and a deploy withheld pending confirmation reads exactly like work already running with a gate on it. The original situation never said whether the deploy was itself a tracked, checkpointed piece of work or a normal release gate on something already done, so 'attaches to existing work' and 'creates new work' were equally defensible readings — same shape as decision-a-boundary: a test that does not say what is already running is testing the reader, not the skill. Situation corrected to state the fact that resolves it (nothing checkpointed yet for shipping this build), matching the fixture's own 'why': confirming a gate on unshipped, unaccepted work is itself taking on the work of shipping it, distinct from the standing 'always deploy without asking' rule."
+    },
+    {
       "scenario": "decision-how-to-report",
       "changed_after": "the first graded run",
       "was": {
@@ -609,6 +641,17 @@
         }
       },
       "why": "The skill's own conditional-request rule reads: 'take the work if the condition holds, shelf it if it does not' — the two outcomes of one fork, not both at once. The original expectation asked for both simultaneously, which no single resolution of this message can satisfy. Reusing a display that already exists in another window is the cheap branch, so the work is taken and nothing goes on the shelf. This is an expectation fix, not a situation fix: the situation already names the fact ('has just seen a display in another window') that resolves the fork."
+    },
+    {
+      "scenario": "idea-with-a-cheap-branch",
+      "changed_after": "package-3 honest-count pass — two independent blind runs under the isolation protocol (skill text plus situation and message only, no repository) both read the fork as unresolved and shelved the idea, against the package-2 correction's own claim that 'the situation already names the fact... that resolves the fork'",
+      "was": {
+        "situation": "The person has just seen a display in another window and would like the same here."
+      },
+      "now": {
+        "situation": "The person has just seen a display already built and live in another window of this same tool. Showing it here too would reuse that same display, not build a new one."
+      },
+      "why": "The package-2 correction asserted the situation already resolved the conditional's cheap branch, but under the isolation protocol an agent has no repository to check feasibility against — the situation sentence is the only evidence available, and two separate blind readers both found 'has just seen a display in another window' did not, on its own, say that showing it here is a small reuse rather than new work to build. The expectation is unchanged (creates_work:true, shelves_idea:false, acts unchanged); the situation is corrected to state the fact that resolves the fork directly, matching decision-a-boundary's precedent — a test that does not give the reader what it needs to resolve its own stated fork is testing the reader, not the skill."
     },
     {
       "scenario": "observation-a-verdict-on-delivered-work",
