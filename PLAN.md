@@ -338,4 +338,8 @@ director` непусто · tlvphotos работает как до миграц�
 - Prover- и skill-review-записи коммитятся отдельными коммитами.
 - Реальных хостов пять: `tlvphotos`, `exhibition-engine`, `promoter`, `promoter-alexander`,
   `tc-cloud-validate`. Остальные 46 каталогов — рабочие деревья тех же репозиториев.
-- Спасённые файлы вне гита: `~/live-spec-rescue-2026-08-26/` (133 файла, 2.4 МБ).
+- Спасённые файлы вне гита: `~/live-spec-rescue-2026-08-26/` (133 файла + 309 из `/private/tmp`).
+- **Резерв на 26.08:** `live-spec-backup-2026-08-26.bundle`, 13 МБ, полная история, лежит в трёх
+  местах — `~/Documents/`, `~/OneDrive/`, `~/Google Drive/My Drive/`. Разворот:
+  `git clone <путь к bundle> ~/live-spec-restored`. Сделан через `git bundle`, а не через
+  `git push --no-verify`: мандат запрещает `--no-verify` отдельной строкой.
