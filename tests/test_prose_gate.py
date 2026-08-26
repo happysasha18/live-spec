@@ -211,7 +211,11 @@ class TestWaiverMechanism(unittest.TestCase):
         self.assertIsNone(gate_common.match_waiver("caps-shout", "PRODUCT_SPEC.md", "you know", [w]))
         self.assertIsNone(gate_common.match_waiver("second-person", "OTHER.md", "you know", [w]))
 
-    def test_live_waiver_file_schema_and_bounded_expiry(self):
+    def test_live_waiver_file_schema_and_dated_expiry(self):
+        # No ceiling on how far out an expiry may sit (removed 2026-08-26: an invented cap with no
+        # source, see gate_common.py). What's real: every waiver names an expiry, and that expiry is
+        # a real date on or after the day the waiver was opened — a waiver cannot expire before it
+        # starts.
         path = os.path.join(SCRIPTS, "spec-waivers.json")
         waivers = gate_common.load_waivers(path)
         for w in waivers:
@@ -219,8 +223,7 @@ class TestWaiverMechanism(unittest.TestCase):
                 self.assertTrue(w.get(field), "waiver %s missing %s" % (w.get("id"), field))
             d = datetime.date.fromisoformat(w["date"])
             e = datetime.date.fromisoformat(w["expiry"])
-            self.assertLessEqual((e - d).days, gate_common.MAX_WAIVER_DAYS,
-                                 "waiver %s expiry exceeds %d days" % (w["id"], gate_common.MAX_WAIVER_DAYS))
+            self.assertGreaterEqual(e, d, "waiver %s expires before it starts" % w["id"])
 
 
 class TestDebtRatchet(unittest.TestCase):

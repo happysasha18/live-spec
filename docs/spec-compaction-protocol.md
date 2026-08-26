@@ -20,7 +20,7 @@ compaction machine every project runs; its mechanical parts wire into the push g
   open row by S-0), `[default]` (the human's revisit handle, INV-31), and H3 heading tags
   (`[feature: F-x]` / `[not a scenario]`, INV-132) are frozen verbatim. Heading lines are never rewritten.
 - **0.4 Freeze the literal classes** and diff after each section: numbers with units (lane cap, question
-  cap, round cap, the legibility ratios and sizes, the 30-day waiver expiry); backticked paths and script
+  cap, round cap, the legibility ratios and sizes); backticked paths and script
   names; closed vocabularies (bug/small/surface/large; landed/declined/superseded; the problem-ledger
   statuses; CONVERGES/WAITS/STANDS DOWN); quoted sentinels whose exact string is a legal value
   (INV-20's `"nothing left out" is valid`).
