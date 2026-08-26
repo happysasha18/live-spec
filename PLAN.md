@@ -389,6 +389,18 @@ One line per finding. Don't move it into ROADMAP. Don't fix it without the owner
   which want the identical pattern collapsed the opposite way; no single rule satisfies both
   without breaking a pass. Full reasoning: `docs/prover/2026-08-26-director-eight-red-scenarios.md`.
   Zero regressions across the full 35 plus the wider director-adjacent suite (324 tests).
+- **Step 6, first sub-item done: 4 of the 18 proven-dead guards removed, informational.** Each of
+  the 18 re-measured individually against tonight's tree, not trusted from the 26.08 sample: 13
+  had already been overtaken by other edits since then (the guarded wording changed, so "never
+  changed" no longer holds — no action needed), 1 lived only in a docstring with no assertion
+  behind it, and 4 removed — one whole test function that guarded only that one dead phrase
+  (`test_reconciliation_phrase_in_spec_author`), and three single assert lines pulled out of
+  functions that also guard other, unmeasured sibling phrases (those siblings untouched, per the
+  step's own "sample isn't a verdict on its neighbors"). `python3 -m pytest` on the four touched
+  files: 38 passed. Commit `2c20f2f1`. Remaining under step 6: the 22 "file exists"-shape
+  functions (by eye, not started) · the ceremony cancellation (a gate edit, needs his word,
+  moratorium law 1) · the Director→pre-push wire (also a gate edit, same law, even though
+  Director is now measured — measuring it only cleared the *order*, not the law).
 - **Step 5 closed.** The prover's code mode is on `github.com/happysasha18/product-prover`,
   branch `code-mode-1.4.0`, commit `b71894a` — his word from 26.08 22:59 ("go ahead and push,
   don't wait for me"), received, the push done and personally re-checked (`git ls-remote`
