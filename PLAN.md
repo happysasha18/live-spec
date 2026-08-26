@@ -316,6 +316,34 @@ director` is non-empty · tlvphotos works the way it did before the migration.
 
 One line per finding. Don't move it into ROADMAP. Don't fix it without the owner's decision.
 
+- **Director→pre-push wire: investigated, half built, the live skip stops short of tonight.**
+  Good news first: Director's decision IS already persisted, in an existing home, no new storage
+  needed — every accepted piece of work gets a "decision sheet" (including a "documents that must
+  change" line) written into `.live-spec/checkpoints/*.md` under `## DECISION SHEET`
+  (`skills/director/SKILL.md:205-272`), and `scripts/checkpoint.py` already has a mechanical,
+  closed-set test for "this line says nothing needs to change" (`_is_empty_body()`, line 59) —
+  closed checkpoints keep this section on disk. But gate (a) (`check-prover-record.sh`) demands
+  one review record for the WHOLE pushed range, and its only exceptions are three narrow,
+  named `STAND-DOWN` classes, each cross-checked against `PRODUCT_SPEC.md` R226 criterion 6 and
+  enumerated by `tests/test_deletion_only_push.py` — its own comment history says this exact
+  exception list was already burned once by being too generous (`check-prover-record.sh:145-152`,
+  the `recordless` class). Actually letting Director's decision skip the record would mean a
+  fourth STAND-DOWN class, which means editing `PRODUCT_SPEC.md` itself (one of the two documents
+  gate (a) watches the freshness of) — a spec-level change, not an implementation detail, needing
+  his own word on the requirement text, not a guess at 1 AM. So tonight built only the safe half:
+  `scripts/director-wire-report.py`, a standalone, read-only, informational report — not called
+  from `guardrails/pre-push`, `install.sh`, or CI, never affects any exit code — that finds which
+  commits in the pushed range are covered by a closed, in-range checkpoint whose decision sheet
+  says nothing needs to change, and which aren't. The actual skip stays off. Also answered
+  tonight, plainly: how Director's 33/35 score is computed (`evals/director/` — `scenarios.json`
+  holds 35 fixed scenarios, `traces/*.json` hold one recorded live run per scenario, `check.py`
+  does a fast, model-free field-by-field comparison between them) and where it's genuinely fragile
+  — the acceptance command only catches gross failure (a duplicate file, stale traces, a "0 of X"
+  print), not the actual 33-vs-35 count, so a worse score would still pass the same green check;
+  trace generation is a manual, unsynchronized step outside `check.py`, honest only as long as
+  each run stays blind; and the expectations in `scenarios.json` themselves moved during the same
+  cycle that measured against them (8 `corrections` entries). None of that broke tonight; it's
+  worth knowing before trusting the number again next time the skill changes.
 - **His word tonight, 00:49: three open forks answered.** (1) Ceremony cancellation (the
   prover/skill-review record on every text edit) — left alone, not decided, not reopened tonight;
   his own reason: even a one-word edit ("removing 'не'") can flip meaning, so the "just a text
