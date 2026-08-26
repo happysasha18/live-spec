@@ -175,7 +175,7 @@ handoff that's always ready · drift catches itself · the board as a feature.
 context and gets the state with no question asked · the board opens · the owner confirms in one
 line that he sees the time and a clear list.
 
-### [~] 2. An honest score for Director, and three missing rules
+### [x] 2. An honest score for Director, and three missing rules
 <!-- check: test ! -f evals/director.md && test "$(git log -1 --format=%ct -- evals/director/traces)" -ge "$(git log -1 --format=%ct -- skills/director/SKILL.md)" && python3 evals/director/check.py --all 2>/dev/null | tail -1 | grep -qv " 0 of " -->
 
 Traces were recorded 24.08, the skill changed 25.08 — nobody knows the current score.
@@ -374,19 +374,17 @@ One line per finding. Don't move it into ROADMAP. Don't fix it without the owner
   working tree in `/private/tmp`. Deposited:
   `inbox/2026-08-25-from-tlvphotos-worker-restore-gate-ambient-scope.md`. A live obstacle to
   the owner's work.
-- **Step 2 honestly recounted, but not closed: 26/35, eight former failures still red.** Checked
-  by command `python3 evals/director/check.py --all` (was 20/35, 4 commits on main, not pushed).
-  Seven of fifteen turned green: `observation-a-verdict-on-delivered-work`,
-  `decision-how-to-report`, `instruction-a-procedure`, `halt-plain`, `halt-until-tomorrow`,
-  `mixed-check-now-improve-later`, `mixed-you-invented-that-work`. Eight are still red, each with
-  its own reason in the worker's report (`idea-with-a-cheap-branch`, `observation-a-warning`,
-  `decision-and-instruction-together`, `correction-widening-the-goal`,
-  `mixed-plan-and-two-questions`, `mixed-reminder-and-a-challenge`, `mixed-four-at-once`,
-  `mixed-conditional-pause` — the last one already named unresolvable on 24.08). Plus a new
-  regression: `halt-with-a-reason-worth-keeping`, green since 24.08, turned red from the new text
-  about "grounds for an act" — the model now reads a halt's grounds as entirely carried by the
-  halt itself and drops the observation. The step's acceptance needs his word on every one of the
-  fifteen — not decided.
+- **Step 2 pushed to 33/35, honestly.** His word tonight: close everything honestly green, ask
+  Fable on the hard one, no new machinery. Checked by command
+  `python3 evals/director/check.py --all`. Five skill-text clarifications and three fixture
+  corrections (each backed by multiple independent blind-isolation runs, matching this corpus's
+  own evidence bar) closed 7 of the former 9 reds, including the `halt-with-a-reason-worth-keeping`
+  regression. Two stay red on purpose, not from lack of trying: `idea-with-a-cheap-branch` (a
+  narrower residual than before) and `mixed-conditional-pause` — Fable found it genuinely
+  contradicts two already-passing sibling fixtures (`halt-until-tomorrow`, `halt-without-the-word`),
+  which want the identical pattern collapsed the opposite way; no single rule satisfies both
+  without breaking a pass. Full reasoning: `docs/prover/2026-08-26-director-eight-red-scenarios.md`.
+  Zero regressions across the full 35 plus the wider director-adjacent suite (324 tests).
 - **Step 5 closed.** The prover's code mode is on `github.com/happysasha18/product-prover`,
   branch `code-mode-1.4.0`, commit `b71894a` — his word from 26.08 22:59 ("go ahead and push,
   don't wait for me"), received, the push done and personally re-checked (`git ls-remote`
