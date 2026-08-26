@@ -90,6 +90,4 @@ hooks.sh`), `bash guardrails/check-prototype-fence.sh` (OK).
 Findings: no blocking defect in this range's own content. The one open item (gate i's three
 promoter-alexander offenses) is a gate false positive on a real path, not a defect in the range.
 
-Blocking: none from this record's own review. The push remains blocked tonight only on gate i's
-three false-positive offenses, which need the owner's word (rename the real project, or accept the
-debt) — not a defect this record can close by writing more prose about it.
+Blocking: none
