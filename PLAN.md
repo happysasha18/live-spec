@@ -333,11 +333,12 @@ One line per finding. Don't move it into ROADMAP. Don't fix it without the owner
   branch are two different objects, they need both words). Two flags for his eyes, whenever: the
   seat/a-seat overload the glossary already carries · `verify-step-detail.md` calling itself "the
   Director," possibly on purpose.
-- **The probe shows step 2 green, though 8 of 15 are still red — law 10.** Step 2's acceptance
-  command in PLAN.md checks only "no duplicate file," "traces newer than the skill," and
-  "check.py doesn't print 0 of X" — not whether all fifteen are green or accepted by his word. A
-  live example of the law itself: a green check on undone work. The real status is in the
-  blocker about step 2 below, not in the probe's icon. Fixing the acceptance command is a
+- **Stale law-10 note, kept for the record.** Earlier tonight, when 8 of 15 were still red, this
+  line flagged that step 2's acceptance command only checks "no duplicate file," "traces newer
+  than the skill," and "check.py doesn't print 0 of X" — not whether every scenario is green or
+  accepted. That gap in the check itself is still real (it would go green on a much weaker score
+  than 33/35 too), but the practical worry it named is gone now that the score genuinely is
+  honest. Fixing the acceptance command's own looseness is still a
   separate PLAN.md edit, not this session tonight without his word (moratorium, law 1).
 - **Push to origin/main: one real gate left, and it needs his word.** Real `git push` runs all
   night (not taken on word), each one read in full. Every gate closed tonight except one: gate
