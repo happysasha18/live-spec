@@ -32,17 +32,41 @@ AHEAD=$(git rev-list --count origin/main..HEAD 2>/dev/null || echo 0)
 [ "$BEHIND" = "0" ] && [ "$AHEAD" = "0" ] && ok "совпадает с origin/main"
 
 # ---------------------------------------------------------------- план
+# Статус шага берётся из его команды приёмки, а не из галочки, которую поставила рука.
+# Шаг без команды печатается как ЗАЯВЛЕНО — читателю видно, где факт, а где чьё-то слово.
 b "ПЛАН"
 if [ -f PLAN.md ]; then
-  awk '/^### \[/ {
-    line=$0
-    sub(/^### /,"",line)
-    if (line ~ /^\[x\]/) { printf "  \033[0;32m%s\033[0m\n", line }
-    else if (line ~ /^\[~\]/) { printf "  \033[1;33m%s  <-- СЕЙЧАС\033[0m\n", line }
-    else if (line ~ /^\[!\]/) { printf "  \033[0;31m%s  <-- БЛОКЕР\033[0m\n", line }
-    else { if (!shown) { printf "  \033[1m%s  <-- ДАЛЬШЕ\033[0m\n", line; shown=1 }
-           else printf "  %s\n", line }
-  }' PLAN.md
+  python3 - <<'PYEOF'
+import re, subprocess, sys
+
+G, Y, R, D, B, X = "\033[0;32m", "\033[1;33m", "\033[0;31m", "\033[2m", "\033[1m", "\033[0m"
+steps, cur = [], None
+for line in open("PLAN.md", encoding="utf-8"):
+    m = re.match(r"^### \[(.)\] (.+)$", line.rstrip())
+    if m:
+        cur = {"mark": m.group(1), "title": m.group(2), "check": None}
+        steps.append(cur)
+        continue
+    m = re.match(r"^<!-- check: (.+) -->$", line.strip())
+    if m and cur:
+        cur["check"] = m.group(1)
+
+next_shown = False
+for s in steps:
+    if s["check"]:
+        ok = subprocess.run(s["check"], shell=True, capture_output=True).returncode == 0
+        icon, colour = ("✅", G) if ok else ("⬜", D)
+        verified = f"{D}проверено{X}"
+    else:
+        ok = s["mark"] == "x"
+        icon = {"x": "✅", "~": "🔄", "!": "⛔"}.get(s["mark"], "⬜")
+        colour = G if s["mark"] == "x" else (Y if s["mark"] == "~" else (R if s["mark"] == "!" else D))
+        verified = f"{D}заявлено{X}"
+    tail = ""
+    if not ok and not next_shown and s["mark"] != "!":
+        icon, colour, tail, next_shown = "🔄" if s["mark"] == "~" else "⬜", Y, f"  {B}<-- ДАЛЬШЕ{X}", True
+    print(f"  {icon} {colour}{s['title']}{X} {verified}{tail}")
+PYEOF
 else
   bad "PLAN.md отсутствует"
 fi
