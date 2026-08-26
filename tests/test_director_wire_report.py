@@ -73,6 +73,17 @@ class DirectorWireReportBase(unittest.TestCase):
         checkpoint_mod.close_checkpoint(path)
         return path
 
+    def _write_closed_checkpoint_raw(self, name, decision_sheet):
+        """Like _write_closed_checkpoint, but takes the full DECISION SHEET body verbatim
+        (for shapes _write_closed_checkpoint can't express: multi-line fields, alternate
+        field labels)."""
+        path = os.path.join(self.repo, ".live-spec", "checkpoints", name)
+        checkpoint_mod.new_checkpoint(
+            path, title="Test checkpoint", owner="Director", decision_sheet=decision_sheet
+        )
+        checkpoint_mod.close_checkpoint(path)
+        return path
+
     def _commit_all(self, message):
         _git(["add", "-A"], self.repo)
         _git(["commit", "-q", "-m", message], self.repo)
@@ -178,6 +189,120 @@ class TestExitCodeZeroWhenNothingQualifies(DirectorWireReportBase):
         self.assertEqual(result.returncode, 0, result.stderr)
         uncovered_section = result.stdout.split("Uncovered commits")[1]
         self.assertIn(commit_sha[:12], uncovered_section)
+
+
+class TestMultiLineDocumentsFieldDoesNotFalselyCover(DirectorWireReportBase):
+    """Finding 4: a realistic decision sheet often puts the label alone on its line and the
+    real document list on the lines below it. The old single-line capture saw an empty tail
+    after the em dash and wrongly reported the commit as "covered" — the dangerous direction,
+    since two real documents are actually listed."""
+
+    def test_list_on_following_lines_is_not_treated_as_empty(self):
+        self._write_closed_checkpoint_raw(
+            "multiline.md",
+            "- **Goal** — a test goal\n"
+            "- **Documents that must change** —\n"
+            "  - PRODUCT_SPEC.md\n"
+            "  - ARCHITECTURE.md\n"
+            "- **Evidence** — a passing test",
+        )
+        commit_sha = self._commit_all("add multi-line documents checkpoint")
+
+        result = _run_report(self.repo, diff_base=self.base_sha)
+
+        self.assertEqual(result.returncode, 0, result.stderr)
+        covered_section = result.stdout.split("Covered commits")[1].split("Uncovered commits")[0]
+        uncovered_section = result.stdout.split("Uncovered commits")[1]
+        self.assertNotIn(commit_sha[:12], covered_section)
+        self.assertIn(commit_sha[:12], uncovered_section)
+
+
+class TestShortFormDocumentsLabelRecognized(DirectorWireReportBase):
+    """Finding 5: skills/director/SKILL.md's own worked example writes the field as the short
+    "**Documents**" label, not the long "**Documents that must change**" form the field is
+    defined with elsewhere in the same file. The regex must recognize both as the same
+    field."""
+
+    def test_short_form_label_with_empty_body_covers(self):
+        self._write_closed_checkpoint_raw(
+            "shortform.md", "- **Goal** — a test goal\n- **Documents** — none"
+        )
+        commit_sha = self._commit_all("add short-form documents checkpoint")
+
+        result = _run_report(self.repo, diff_base=self.base_sha)
+
+        self.assertEqual(result.returncode, 0, result.stderr)
+        covered_section = result.stdout.split("Covered commits")[1].split("Uncovered commits")[0]
+        # Before the fix the regex required the literal "Documents that must change" text and
+        # never matched "**Documents**" at all -- the checkpoint would show as carrying no
+        # such line, and the commit would stay uncovered even though the field plainly says
+        # nothing needs to change.
+        self.assertIn(commit_sha[:12], covered_section)
+
+    def test_skill_worked_example_wording_stays_uncovered_known_limitation(self):
+        # The skill's own worked-example body ("none. The spec already says what should
+        # happen") is now correctly RECOGNIZED as the Documents field by the finding-5 fix,
+        # but that exact text does not match _is_empty_body()'s recognized empty forms
+        # ("", "none", "-", "(nothing...)"), so it still reports "uncovered" here -- a known,
+        # separate limitation of _is_empty_body() itself, not something this script owns.
+        self._write_closed_checkpoint_raw(
+            "worked_example.md",
+            "- **Goal** — a test goal\n"
+            "- **Documents** — none. The spec already says what should happen",
+        )
+        commit_sha = self._commit_all("add skill worked-example checkpoint")
+
+        result = _run_report(self.repo, diff_base=self.base_sha)
+
+        self.assertEqual(result.returncode, 0, result.stderr)
+        uncovered_section = result.stdout.split("Uncovered commits")[1]
+        self.assertIn(commit_sha[:12], uncovered_section)
+
+
+class TestLastResortBaseNeverReportsCovered(DirectorWireReportBase):
+    """Finding 8: gate (a) (guardrails/check-prover-record.sh) itself treats the HEAD~1
+    last-resort base as "a base no real push would ever measure against" and never runs any
+    stand-down reasoning against it. This report must hold itself to the same rule."""
+
+    def test_last_resort_treats_covering_checkpoint_as_uncovered(self):
+        self._write_closed_checkpoint("covering.md", "none")
+        commit_sha = self._commit_all("add covering checkpoint")
+
+        # No LIVE_SPEC_DIFF_BASE, and this temp repo has no origin/main remote, so
+        # resolve_diff_base falls back to HEAD~1 -- the last-resort base. HEAD~1 here equals
+        # self.base_sha, the same range TestEmptyDocumentsFieldCovers uses explicitly (and
+        # where the very same checkpoint body DOES cover the commit).
+        result = _run_report(self.repo, diff_base=None)
+
+        self.assertEqual(result.returncode, 0, result.stderr)
+        self.assertIn("[last-resort]", result.stdout)
+        covered_section = result.stdout.split("Covered commits")[1].split("Uncovered commits")[0]
+        uncovered_section = result.stdout.split("Uncovered commits")[1]
+        self.assertNotIn(commit_sha[:12], covered_section)
+        self.assertIn(commit_sha[:12], uncovered_section)
+        self.assertIn("base resolved via HEAD~1 (last resort)", result.stdout)
+
+
+class TestNeverWiredIntoPrePushOrCI(unittest.TestCase):
+    """Finding 6: make the "never wired in" claim in this script's own docstring a checked
+    command, following the same pattern as tests/test_no_history.py's
+    test_gate_not_wired_into_pre_push_or_ci."""
+
+    def test_script_not_wired_into_pre_push_install_or_ci(self):
+        with open(os.path.join(ROOT, "guardrails", "pre-push"), encoding="utf-8") as f:
+            self.assertNotIn("director-wire-report", f.read())
+        with open(os.path.join(ROOT, "guardrails", "install.sh"), encoding="utf-8") as f:
+            self.assertNotIn("director-wire-report", f.read())
+        workflows_dir = os.path.join(ROOT, ".github", "workflows")
+        workflow_files = [
+            os.path.join(workflows_dir, name)
+            for name in os.listdir(workflows_dir)
+            if name.endswith(".yml")
+        ]
+        self.assertTrue(workflow_files, "no .github/workflows/*.yml files found to check")
+        for wf in workflow_files:
+            with open(wf, encoding="utf-8") as f:
+                self.assertNotIn("director-wire-report", f.read())
 
 
 class TestScriptErrorExitCode(unittest.TestCase):

@@ -56,11 +56,24 @@ _ZERO_SHA = "0" * 40
 # SKILL.md): "- **Documents that must change** — <body>". checkpoint.py's own read_checkpoint
 # only splits a checkpoint into its "## " sections — the DECISION SHEET body is free-form prose
 # it never parses further, so this sub-line extraction is this script's own, tolerant of a
-# missing leading "-", missing bold markers, and "-"/":" standing in for the em dash.
+# missing leading "-", missing bold markers, "-"/":" standing in for the em dash, and — because
+# the skill's own worked example (skills/director/SKILL.md:245) writes the field as the short
+# "**Documents**" rather than the long "**Documents that must change**" defined elsewhere in the
+# same file — either form of the label naming the same field.
+#
+# Known limitation, not this script's to fix: the skill's own worked example body reads "none.
+# The spec already says what should happen" — that does not match _is_empty_body()'s recognized
+# empty forms ("", "none", "-", "(nothing...)" exactly), so that literal example still comes back
+# "uncovered" here. _is_empty_body() is scripts/checkpoint.py's own function, reused as-is.
 _DOC_FIELD_RE = re.compile(
-    r"^\s*-?\s*\*{0,2}Documents that must change\*{0,2}\s*(?:[—:-]+)\s*(.*)$",
+    r"^\s*-?\s*\*{0,2}Documents(?: that must change)?\*{0,2}\s*(?:[—:-]+)\s*(.*)$",
     re.IGNORECASE,
 )
+
+# A line starting a new top-level "- **Field**" bullet in the DECISION SHEET section — the
+# boundary that ends a multi-line "Documents..." field body (finding 4: a real decision sheet
+# often puts the label on its own line with the actual list on the lines below it).
+_TOP_LEVEL_BULLET_RE = re.compile(r"^\s*-\s*\*\*")
 
 
 class ReportError(Exception):
@@ -127,12 +140,26 @@ def commits_touching_path(repo_root: Path, diff_base: str, rel_path: Path):
 
 
 def extract_documents_field(decision_sheet_body: str):
-    """Return the "Documents that must change" bullet's body text, or None if the DECISION
-    SHEET body carries no such line at all (distinct from an explicitly empty one)."""
-    for line in decision_sheet_body.splitlines():
+    """Return the "Documents that must change" (or short-form "Documents") bullet's FULL body
+    text, or None if the DECISION SHEET body carries no such line at all (distinct from an
+    explicitly empty one).
+
+    The body is not just whatever follows the label on its own line — a real decision sheet
+    routinely puts the label alone (em dash, nothing after it) and lists the actual documents
+    on the lines below it. The body spans from the label line's tail through every following
+    line up to (but not including) whichever comes first: the next top-level "- **Field**"
+    bullet in the section, or the end of the section text.
+    """
+    lines = decision_sheet_body.splitlines()
+    for i, line in enumerate(lines):
         m = _DOC_FIELD_RE.match(line)
         if m:
-            return m.group(1).strip()
+            body_lines = [m.group(1)]
+            for cont in lines[i + 1 :]:
+                if _TOP_LEVEL_BULLET_RE.match(cont):
+                    break
+                body_lines.append(cont)
+            return "\n".join(body_lines).strip()
     return None
 
 
@@ -231,6 +258,13 @@ def main(argv=None) -> int:
         head_sha = _resolve_sha(repo_root, "HEAD")
         base_sha = _resolve_sha(repo_root, diff_base)
         covering_commits, notes = find_covering_checkpoints(repo_root, diff_base)
+        if is_last_resort:
+            # gate (a) itself (guardrails/check-prover-record.sh) treats the HEAD~1
+            # last-resort base as "a base no real push would ever measure against" and never
+            # runs any of its own stand-down reasoning against it. This report holds itself
+            # to the same rule: nothing counts as "covered" here either when the base is this
+            # unreliable — the "Checkpoints touched in range" notes above stay informational.
+            covering_commits = set()
     except ReportError as exc:
         print("ERROR: %s" % exc, file=sys.stderr)
         return 2
@@ -262,9 +296,18 @@ def main(argv=None) -> int:
             print("  %s" % c[:12])
     else:
         print("  (none)")
+    if is_last_resort:
+        print(
+            "Note: base resolved via HEAD~1 (last resort) — gate (a) itself treats this base "
+            "as unreliable for any stand-down reasoning, so no commit is ever reported "
+            "\"covered\" against it."
+        )
     print()
 
-    print("Uncovered commits (%d) — still require the fresh prover record gate (a) demands:" % len(uncovered))
+    print(
+        "Uncovered commits (%d) — not claimed by any covering checkpoint; the single prover "
+        "record gate (a) demands for this push still needs to account for them:" % len(uncovered)
+    )
     if uncovered:
         for c in uncovered:
             print("  %s" % c[:12])
