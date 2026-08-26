@@ -87,7 +87,7 @@
 `[ ]` не начат · `[~]` в работе · `[x]` закрыт · `[!]` блокер
 
 ### [~] 0. Вернуться домой
-<!-- check: test -f PLAN.md && test -f scripts/state-probe.sh && ! git worktree list | grep -q /private/tmp && test -z "$(git status --porcelain)" -->
+<!-- check: test -f PLAN.md && test -f scripts/state-probe.sh && ! git worktree list | grep -q /private/tmp && test -f attic/DIRECTOR_HANDOFF-2026-08-26.md -->
 
 - [x] `~/live-spec` — живое рабочее дерево на `origin/main` (было: bare-репозиторий, отставший на 443
       коммита, со свалкой файлов от 17.08 сверху).
