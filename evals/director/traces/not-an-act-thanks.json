@@ -7,7 +7,7 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "A thank-you confirming something already delivered is conversation, not one of the seven acts — 'a thank-you... on something already agreed... is conversation. Answer like a person and record nothing.'",
+  "reasoning": "A thank-you confirming something already agreed and delivered is conversation, not one of the seven acts: 'a thank-you, a thumbs-up on something already agreed... these are conversation. Answer like a person and record nothing.'",
   "scenario": "not-an-act-thanks",
   "skill_version": "5.0.0"
 }

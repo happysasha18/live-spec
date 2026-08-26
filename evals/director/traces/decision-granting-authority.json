@@ -5,11 +5,11 @@
   ],
   "creates_work": false,
   "shelves_idea": false,
-  "attaches_to_existing_work": true,
+  "attaches_to_existing_work": false,
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "Settles the open question of whether the agent must ask before each push (Decision row). It changes how the already-running push workflow operates going forward rather than naming a new goal, so no work is created.",
+  "reasoning": "'даю разрешение на все пуши' is a grant of authority that settles standing practice going forward ('a decision is a standing rule... a grant of authority'), not a request for a specific piece of work with its own goal, so no decision sheet or checkpoint is warranted — it is simply recorded.",
   "scenario": "decision-granting-authority",
   "skill_version": "5.0.0"
 }

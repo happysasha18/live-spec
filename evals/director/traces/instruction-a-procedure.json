@@ -1,7 +1,6 @@
 {
   "id": "case-22",
   "acts": [
-    "halt",
     "instruction"
   ],
   "creates_work": true,
@@ -14,7 +13,7 @@
   "specialists": [
     "Developer"
   ],
-  "reasoning": "\"Останови\" is its own halt clause (no act absorbs another) even though it is instrumental to the follow-on ask; the restart-with-correct-bind, verify, and report-the-real-IP clauses are steps toward one observable outcome (a correctly bound, verified perf server with a confirmed IP), so they form a single instruction, not separate work items. This is an operations/networking fix, calling for a Developer to execute and self-verify per the execution rules.",
+  "reasoning": "The sequential imperatives (stop, restart with the correct bind flag, verify the listening address, then report the real IP) ask for something to be done — the Instruction act. It is one result someone could want on its own (the server correctly reachable, with the IP confirmed), so one work item touching operations.",
   "scenario": "instruction-a-procedure",
   "skill_version": "5.0.0"
 }

@@ -7,9 +7,14 @@
   "shelves_idea": false,
   "attaches_to_existing_work": true,
   "work_items": 0,
-  "dimensions": [],
-  "specialists": [],
-  "reasoning": "Said mid-implementation of the transition engine, this rules out a design choice (static transitions) in work already in flight, changing its constraints rather than starting anything new — the correction rule applies directly.",
+  "dimensions": [
+    "product value and behaviour",
+    "architecture, data, integrations, operations"
+  ],
+  "specialists": [
+    "developer"
+  ],
+  "reasoning": "Said mid-implementation of the transition engine, this changes a constraint of work already in flight ('no static transitions'), so it attaches to that work per 'a correction changes that work's goal or constraints so the remainder has to be replanned' rather than opening a parallel task.",
   "scenario": "correction-shouted-constraint",
   "skill_version": "5.0.0"
 }

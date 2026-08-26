@@ -1,8 +1,7 @@
 {
   "id": "case-24",
   "acts": [
-    "halt",
-    "observation"
+    "halt"
   ],
   "creates_work": false,
   "shelves_idea": false,
@@ -10,7 +9,7 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "A halt is about state, not words: they want the machinery for the parameter to stop running now. The 'burning tokens on an invented parameter' clause is a reason/complaint attached to the halt but remains its own act (observation) per the rule that a reason given with a halt is still its own act. No sheet for a halt.",
+  "reasoning": "'Нет стоп' targets work currently running (maintaining the parameter) — a halt is about state, not wording. The 'жжешь токены' clause is the halt's own grounds, not a second act, since it only explains why, not new information.",
   "scenario": "halt-with-a-reason-worth-keeping",
   "skill_version": "5.0.0"
 }

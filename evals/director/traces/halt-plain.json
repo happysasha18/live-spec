@@ -1,8 +1,7 @@
 {
   "id": "case-23",
   "acts": [
-    "halt",
-    "observation"
+    "halt"
   ],
   "creates_work": false,
   "shelves_idea": false,
@@ -10,7 +9,7 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "\"Стоп\" (repeated) is a halt on work the agent already started acting on; \"забыл обнулить контекст\" is a fact reported alongside it and stays its own act per 'no act absorbs another.' Per Execution, a halt changes state and gets no decision sheet.",
+  "reasoning": "Said while the agent has already started acting on the prior message, 'стоп' twice is exactly the halt case: something running should stop running, so the Director changes that work's state and creates nothing; per the rule a halt always yields 0 new work items.",
   "scenario": "halt-plain",
   "skill_version": "5.0.0"
 }

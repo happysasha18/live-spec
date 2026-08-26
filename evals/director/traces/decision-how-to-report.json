@@ -1,6 +1,7 @@
 {
   "id": "case-13",
   "acts": [
+    "decision",
     "instruction"
   ],
   "creates_work": true,
@@ -10,8 +11,10 @@
   "dimensions": [
     "documentation and communication"
   ],
-  "specialists": [],
-  "reasoning": "A direct ask for something to be made going forward — the skill states explicitly that being asked for a plan or a status 'is work like any other,' and warns against routing it to the communicator instead of doing it, so this is accepted work with no external specialist, carried by the Director's own checkpoint discipline.",
+  "specialists": [
+    "communicator"
+  ],
+  "reasoning": "'С этого момента' is the skill's own marker for a standing rule (decision) rather than a one-off request; asking to keep a plan and always show 'where we are' is also itself a request for something to be made, which per the skill's closing note is work routed to the communicator, not free narration.",
   "scenario": "decision-how-to-report",
   "skill_version": "5.0.0"
 }

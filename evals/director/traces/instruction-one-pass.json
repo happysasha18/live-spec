@@ -8,12 +8,13 @@
   "attaches_to_existing_work": false,
   "work_items": 1,
   "dimensions": [
-    "product value and behaviour"
+    "documentation and communication",
+    "quality, safety, regressions"
   ],
   "specialists": [
-    "Product prover"
+    "developer"
   ],
-  "reasoning": "A request for something to be done now (Instruction row) — scoping this session to only the product-prover pass. Matches the specialist table's Product prover entry ('a mistake in the statement of the problem would be expensive'), which is a product-value concern, so that dimension is genuinely touched.",
+  "reasoning": "This asks for something to be done now — a pass limited to the prover skill — with a specific, bounded target, so per 'Instruction: accept the work, state the goal understood, begin' it earns a decision sheet and a fresh checkpoint since nothing already covers exactly this scoped pass.",
   "scenario": "instruction-one-pass",
   "skill_version": "5.0.0"
 }

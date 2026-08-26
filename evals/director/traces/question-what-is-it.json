@@ -9,7 +9,7 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "Pure request for information ('what is X, why is it needed') mid-explanation — the 'Question or musing' row applies: answer it, write nothing, start nothing.",
+  "reasoning": "Pure request to understand a term the agent used mid-explanation — the 'Question or musing' row says to answer it and engage with the thought, not write a roadmap row or open work.",
   "scenario": "question-what-is-it",
   "skill_version": "5.0.0"
 }

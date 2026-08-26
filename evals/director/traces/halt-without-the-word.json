@@ -10,7 +10,7 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "\"Тормозни\" asks running work to pause (halt, per the table: stop or be parked), and \"норм?\" is a genuine request for confirmation of the pause-and-resume plan, its own question act. Per Execution, a halt changes the state of work in flight and produces no new work or sheet; the question gets answered directly.",
+  "reasoning": "'тормозни' pauses work in progress — a halt changing that work's state. 'норм?' is a genuine, separate ask for confirmation of the pause-and-resume-later plan, answered in words per the question act, not turned into a task.",
   "scenario": "halt-without-the-word",
   "skill_version": "5.0.0"
 }

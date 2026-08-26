@@ -10,7 +10,7 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "Reports a fact (98% of limit) and, in the same breath, adjusts a constraint on the long job already running ('carefully') — 'a correction attaches to work, not to a queue,' so it modifies the in-flight job's constraints rather than opening anything new; it names no new goal, so no decision sheet.",
+  "reasoning": "States the 98% fact and in the same breath imposes a caution constraint ('аккуратно') on the long job already under way; per 'a correction attaches to work, not a queue,' this changes the constraints of the running job rather than opening anything new.",
   "scenario": "observation-a-warning",
   "skill_version": "5.0.0"
 }

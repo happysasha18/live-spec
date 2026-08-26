@@ -9,7 +9,7 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "The person explicitly frames it as something to hand to the idea shelf (\"кинь лайвспеку идею\") rather than something to do now — textbook 'Idea for later': named possibility, not asked for now, so it goes on the shelf in their own words without a task id or start.",
+  "reasoning": "The person explicitly says 'throw livespec an idea' — a possibility named for later, not asked for now. Per the Idea act, it goes on the idea shelf in their own words, with no task id, priority or start.",
   "scenario": "idea-for-another-project",
   "skill_version": "5.0.0"
 }

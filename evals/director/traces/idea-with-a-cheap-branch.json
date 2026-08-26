@@ -5,19 +5,18 @@
     "idea"
   ],
   "creates_work": true,
-  "shelves_idea": false,
+  "shelves_idea": true,
   "attaches_to_existing_work": false,
   "work_items": 1,
   "dimensions": [
-    "product value and behaviour",
     "the user's path and the design",
-    "architecture, data, integrations, operations"
+    "product value and behaviour"
   ],
   "specialists": [
-    "Developer",
-    "Design reviewer"
+    "Design reviewer",
+    "Developer"
   ],
-  "reasoning": "This is the conditional-request pattern named in the skill verbatim ('do it if easy, otherwise note it for later') — both branches are real; since the display already exists in another window (situation: 'has just seen a display in another window'), the condition plausibly holds, so the work is taken now rather than shelved, touching the interface (design reviewer) and the data feed needed to surface worker state here (architect-adjacent/dev).",
+  "reasoning": "This is the skill's own conditional-request pattern almost verbatim ('if that's easy, do it; if not, note it for later') — both branches are stated and both real: take the work (showing all workers, mirroring the other window) if it holds, and shelve it as an idea otherwise, reporting which happened.",
   "scenario": "idea-with-a-cheap-branch",
   "skill_version": "5.0.0"
 }

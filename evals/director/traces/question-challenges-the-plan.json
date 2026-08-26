@@ -9,7 +9,7 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "The agent only just proposed the step; nothing is in flight for this to correct, so per the correction rule ('when no work is in flight yet... decide by whether they are asking for it now') this is a clarifying question about whether the proposal duplicates the prover, not a correction or decision.",
+  "reasoning": "The checking step was only just proposed, not yet accepted as work in flight, so this challenge ('isn't this what the prover already does, or are our cases just harder?') is a question testing the proposal, not a correction to running work — per the rule that a correction 'attaches to work,' and none exists yet here.",
   "scenario": "question-challenges-the-plan",
   "skill_version": "5.0.0"
 }

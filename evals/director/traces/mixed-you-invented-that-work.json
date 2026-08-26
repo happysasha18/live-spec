@@ -4,18 +4,18 @@
     "correction",
     "observation"
   ],
-  "creates_work": true,
+  "creates_work": false,
   "shelves_idea": false,
   "attaches_to_existing_work": true,
   "work_items": 0,
   "dimensions": [
-    "analytics, unknowns, hypotheses, experiments",
+    "product value and behaviour",
     "quality, safety, regressions"
   ],
   "specialists": [
-    "Independent verifier"
+    "Developer"
   ],
-  "reasoning": "This changes the goal/constraints of the measuring work already in flight — 'a correction attaches to work, not to a queue' — narrowing scope to only the platform speed-check that precedes deciding transition complexity, and cutting everything else. It also carries an observation/feedback act ('this is you having something like an auto-request... instead of thinking') that is its own act per 'no act absorbs another,' recorded as process feedback rather than spawning separate new work.",
+  "reasoning": "This 'changes the goal or the constraints of work in flight' — narrowing the measuring work back to only the platform quick-measurement before deciding transition complexity and rejecting the rest — so per 'A correction attaches to work, not to a queue' it targets the existing work rather than opening a new task, producing zero new work items even though it requires reverting the unrequested measurements. 'это тоже баг' is its own reported fact, a second act under 'no act absorbs another'.",
   "scenario": "mixed-you-invented-that-work",
   "skill_version": "5.0.0"
 }

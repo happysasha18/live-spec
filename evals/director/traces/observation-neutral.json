@@ -9,7 +9,7 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "A plain report of a state change with no request attached — an observation recorded as evidence per the table row, not conversation (it is new information) but carrying no repair to infer.",
+  "reasoning": "Reports a fact (the session balance refilled) without asking for a repair or anything to be done; per Observation/feedback it is recorded as evidence, since no repair follows from good news.",
   "scenario": "observation-neutral",
   "skill_version": "5.0.0"
 }

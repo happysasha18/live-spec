@@ -9,15 +9,13 @@
   "work_items": 1,
   "dimensions": [
     "quality, safety, regressions",
-    "product value and behaviour",
-    "release, observation, feedback"
+    "architecture, data, integrations, operations"
   ],
   "specialists": [
     "Developer",
-    "Test author",
-    "Independent verifier"
+    "Test author"
   ],
-  "reasoning": "A wordless pasted stack trace is still an act, usually an observation, and what's wanted is clear from context — a crash appearing right after a deploy the person was watching is exactly the 'production is returning 500s' case where 'the repair follows beyond doubt; nobody reports that to be agreeable,' so the Director acts rather than asking. It opens one new bug-fix task rather than attaching to a prior deploy checkpoint, since nothing indicates that checkpoint is still open.",
+  "reasoning": "A wordless pasted stack trace is still an act, usually an observation, and 'what the person wants done with it is often clear from what they were doing a minute earlier' — here, watching a deploy that just threw a TypeError in billing entitlement code is a production defect whose repair follows beyond doubt, like the '500s' example, so it is accepted as a new bug-fix work item needing a developer and a regression test.",
   "scenario": "not-an-act-a-bare-trace",
   "skill_version": "5.0.0"
 }

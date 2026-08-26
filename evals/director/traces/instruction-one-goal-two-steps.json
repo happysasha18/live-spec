@@ -8,12 +8,13 @@
   "attaches_to_existing_work": false,
   "work_items": 1,
   "dimensions": [
-    "documentation and communication"
+    "documentation and communication",
+    "release, observation, feedback"
   ],
   "specialists": [
-    "Publisher, communicator"
+    "communicator"
   ],
-  "reasoning": "Per 'Work that belongs elsewhere': asking for a report to be produced and handed off is work like any other, not free-form conversation. The accepted goal is to write the already-produced report to a file and return its path, which is the communicator/publisher's job.",
+  "reasoning": "Per the skill's own closing rule, 'When someone asks for a plan, a status, a summary or a report, they have asked for something to be made, and it is work like any other' — saving the just-produced report to a file and handing back its path is a concrete, new, observable outcome, so it opens a fresh checkpoint rather than being treated as free conversation.",
   "scenario": "instruction-one-goal-two-steps",
   "skill_version": "5.0.0"
 }

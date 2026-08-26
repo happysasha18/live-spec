@@ -1,8 +1,7 @@
 {
   "id": "case-25",
   "acts": [
-    "halt",
-    "observation"
+    "halt"
   ],
   "creates_work": false,
   "shelves_idea": false,
@@ -10,7 +9,7 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "\"Стоп! работа НЕ сегодня\" halts today's session; the weekly-limit clause is the reason, kept as its own observation act. This is a halt (park work until tomorrow) — per Execution, halts take no decision sheet and just change the state of the running work.",
+  "reasoning": "'стоп! работа НЕ сегодня ... работа завтра' is one halt whose resumption timing is part of the same act, matching the example 'this can wait until the release' — something running is told to stop; nothing is built.",
   "scenario": "halt-until-tomorrow",
   "skill_version": "5.0.0"
 }

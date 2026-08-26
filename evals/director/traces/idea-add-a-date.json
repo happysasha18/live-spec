@@ -9,7 +9,7 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "'думаю еще можно сделать дату' names a possibility, not a request for now, and the situation states nothing related is being built — per the Idea row and the 'idea vs instruction' rule, this goes on the idea shelf in the person's words with no task id or estimate.",
+  "reasoning": "Names a possibility ('думаю еще можно сделать дату') while nothing related is being built — the skill's own example is nearly this sentence: 'We should probably cache this' is an idea when nothing in that area is being built, so this goes on the idea shelf in the person's own words.",
   "scenario": "idea-add-a-date",
   "skill_version": "5.0.0"
 }

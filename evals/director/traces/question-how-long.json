@@ -9,7 +9,7 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "Simple informational question about duration of an already-running job — answer it, nothing recorded, per the Question/musing row.",
+  "reasoning": "A plain request for information to decide whether to keep waiting — the Question/musing row: answer it, do not turn it into work just because answering takes a look at the job's state.",
   "scenario": "question-how-long",
   "skill_version": "5.0.0"
 }

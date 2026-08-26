@@ -2,15 +2,21 @@
   "id": "case-19",
   "acts": [
     "correction",
-    "observation"
+    "halt"
   ],
   "creates_work": false,
   "shelves_idea": false,
   "attaches_to_existing_work": true,
   "work_items": 0,
-  "dimensions": [],
-  "specialists": [],
-  "reasoning": "The claim that current-corpus statistics are misleading is a reason offered alongside the directive and stands as its own act per 'A reason given with a halt is still its own act.' The directive to drop the measurement work changes the goal of the sizing work already running, so per the correction rule it changes that work rather than opening anything new.",
+  "dimensions": [
+    "architecture, data, integrations, operations",
+    "quality, safety, regressions"
+  ],
+  "specialists": [
+    "developer",
+    "architect"
+  ],
+  "reasoning": "'Убери любое воспоминание об этом измерении' wants the running corpus-measuring activity stopped outright (a halt — 'something running should stop running'), while 'лечи проблему как класс' redirects the surrounding implementation's goal toward a generic fix — both attach to the work already in flight, per 'a correction attaches to work, not to a queue,' so no new item opens.",
   "scenario": "correction-widening-the-goal",
   "skill_version": "5.0.0"
 }

@@ -7,13 +7,9 @@
   "shelves_idea": false,
   "attaches_to_existing_work": false,
   "work_items": 1,
-  "dimensions": [
-    "product value and behaviour"
-  ],
-  "specialists": [
-    "Developer"
-  ],
-  "reasoning": "This answers the Director's own open question ('build it now, or park it?'), so per the rule it is not a new act but the completion of the one already in play: the shelved idea becomes the instruction it was waiting to become, opening one fresh piece of work rather than being re-shelved. With no further detail available on what 'it' is, only the minimal inferable dimension and specialist (something must be built, so Developer) are named.",
+  "dimensions": [],
+  "specialists": [],
+  "reasoning": "This is the skill's own worked example verbatim: 'when the Director asked build it now or park it, and the reply is go ahead... the idea just became the instruction it was waiting to become, and the shelf entry becomes the work.' The shelved idea converts into accepted work; its dimensions/specialists were never given in this exchange, so none can be named beyond what the original idea already specified.",
   "scenario": "not-an-act-answering-the-director",
   "skill_version": "5.0.0"
 }

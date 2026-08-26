@@ -10,7 +10,7 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "The reference-files thought is explicitly named 'дальний бэклог просто как идеи' — an unambiguous idea-shelf entry, no task id or estimate. The trailing 'один агент все еще бежит' is a status report with no requested repair (it reads as a neutral aside while thinking, not 'production is down'), so per the observation rule it is recorded as evidence only, not inferred into a repair job.",
+  "reasoning": "The reference-files thought is explicitly deferred ('дальний бэклог просто как идеи') so it goes on the idea shelf verbatim; the note that one agent is still running is a plain fact stated in passing with no repair implied, so it is recorded as an observation, not acted on — per 'No act absorbs another,' both stay separate acts.",
   "scenario": "idea-plus-a-fact",
   "skill_version": "5.0.0"
 }

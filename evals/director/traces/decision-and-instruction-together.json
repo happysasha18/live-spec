@@ -1,17 +1,15 @@
 {
   "id": "case-14",
   "acts": [
-    "instruction"
+    "decision"
   ],
-  "creates_work": true,
+  "creates_work": false,
   "shelves_idea": false,
   "attaches_to_existing_work": true,
-  "work_items": 1,
-  "dimensions": [
-    "release, observation, feedback"
-  ],
+  "work_items": 0,
+  "dimensions": [],
   "specialists": [],
-  "reasoning": "The 'deploy!!' resolves the pending confirmation itself — completing an open exchange, not a new act — while 'always deploy without my confirmation' is a fresh instruction setting a standing policy for the release process going forward, which is new work touching how release proceeds, held by the Director rather than delegated.",
+  "reasoning": "Two decisions in one breath: 'деплой блин!!' settles the open choice on the deploy already withheld pending confirmation, applying to that work in flight; 'запиши себе всегда... без моего подтверждения' is the standing-rule pattern the skill names verbatim ('note this for yourself', 'always'), recorded separately as a grant of authority, not as new work.",
   "scenario": "decision-and-instruction-together",
   "skill_version": "5.0.0"
 }

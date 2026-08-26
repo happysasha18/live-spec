@@ -5,11 +5,11 @@
   ],
   "creates_work": false,
   "shelves_idea": false,
-  "attaches_to_existing_work": true,
+  "attaches_to_existing_work": false,
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "This settles an open question of who does what within an already-joint effort — the Decision row: 'settles a choice that was open... apply it to the work already running.' 'The rest' names no new goal or observable outcome, so per 'Do not create work to be safe' nothing new is opened; it only allocates existing/ongoing responsibility.",
+  "reasoning": "This settles a division of responsibility with standing force ('the moratorium is mine, the rest is yours'), matching the rule that a decision can be 'a division of responsibility.' But the situation states nothing is running for it to apply to, and 'the rest' names no specific goal or observable outcome, so there is no decision sheet to write — it is recorded as a standing rule, not turned into work.",
   "scenario": "decision-a-boundary",
   "skill_version": "5.0.0"
 }

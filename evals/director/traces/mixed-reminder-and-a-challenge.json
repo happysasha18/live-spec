@@ -1,16 +1,18 @@
 {
   "id": "case-28",
   "acts": [
-    "correction",
-    "question"
+    "idea",
+    "instruction"
   ],
-  "creates_work": false,
-  "shelves_idea": false,
-  "attaches_to_existing_work": true,
-  "work_items": 0,
-  "dimensions": [],
+  "creates_work": true,
+  "shelves_idea": true,
+  "attaches_to_existing_work": false,
+  "work_items": 1,
+  "dimensions": [
+    "documentation and communication"
+  ],
   "specialists": [],
-  "reasoning": "This adds a tracking requirement (monitor compactness/optimization) to the status of an already-existing plan file, which is a correction attaching to work in flight and updates that checkpoint's decision sheet rather than opening new work ('A correction attaches to work, not to a queue'). 'согласен или поспорь со мной' is a genuine invitation for the Director's own judgment and stays a separate question act, answered in the response, not folded into the correction.",
+  "reasoning": "'посмотришь может в след. сессии' names the compact/optimize work as not asked for now, so it goes on the idea shelf in his own words. 'эти параметры необходимо мониторить в статусе в файле плана' is a present request for a change — add that tracking to the plan file's status now — the instruction half, answered separately from the deferred idea rather than dropping one branch.",
   "scenario": "mixed-reminder-and-a-challenge",
   "skill_version": "5.0.0"
 }

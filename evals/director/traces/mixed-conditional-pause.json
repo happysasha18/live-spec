@@ -10,7 +10,7 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "This is a conditional halt on work already running: 'A halt is about state, not about words' and the conditional-request rule means both branches are real — pause-and-resume-later if it's long, wait if it's ~10 minutes. A halt 'must not create anything,' so no decision sheet, dimensions, or specialists apply; only the running job's state changes.",
+  "reasoning": "The ETA question is answered directly; the rest is a conditional halt on the running job ('A halt is about state, not about words') — pause and resume later if it's long, otherwise wait — which changes the state of work already in flight rather than creating anything, so per the explicit rule a halt on running work produces zero new work items.",
   "scenario": "mixed-conditional-pause",
   "skill_version": "5.0.0"
 }

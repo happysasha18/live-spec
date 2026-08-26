@@ -1,20 +1,17 @@
 {
   "id": "case-27",
   "acts": [
-    "instruction",
-    "question"
+    "decision",
+    "question",
+    "observation"
   ],
-  "creates_work": true,
+  "creates_work": false,
   "shelves_idea": false,
-  "attaches_to_existing_work": false,
-  "work_items": 1,
-  "dimensions": [
-    "documentation and communication"
-  ],
-  "specialists": [
-    "Publisher, communicator"
-  ],
-  "reasoning": "The request for a simple 5-10 line emoji-status plan text in this window is a request for a status/report, which the skill explicitly says 'is work like any other' (Work that belongs elsewhere, communicator paragraph) rather than free conversation. The two remaining clauses (whether the worker is doing the whole plan or only part now, and what output will result) are genuine questions about work already in flight, answered directly with no new work or sheet.",
+  "attaches_to_existing_work": true,
+  "work_items": 0,
+  "dimensions": [],
+  "specialists": [],
+  "reasoning": "The plan-format line settles a standing preference for how this session's own status is shown — a decision recorded and applied to work already running, not new work. The two 'мне надо понять' clauses are one question about the worker's current scope and expected output, answered by reading, not by opening work. 'Я ему все скопировал и запустил' reports a fact with no repair implied, so it is recorded as an observation.",
   "scenario": "mixed-plan-and-two-questions",
   "skill_version": "5.0.0"
 }

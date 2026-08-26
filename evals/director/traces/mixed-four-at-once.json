@@ -2,20 +2,21 @@
   "id": "case-30",
   "acts": [
     "question",
-    "instruction",
-    "observation"
+    "decision",
+    "instruction"
   ],
   "creates_work": true,
   "shelves_idea": false,
   "attaches_to_existing_work": false,
   "work_items": 1,
   "dimensions": [
-    "documentation and communication"
+    "documentation and communication",
+    "release, observation, feedback"
   ],
   "specialists": [
     "Publisher, communicator"
   ],
-  "reasoning": "The readme link and 'are you working?' are questions answered directly, and the standing preference ('always give me a link') and the not-yet-arrived idea from project-B don't rise to work now. But 'give me a plan, time estimates, write it all' is a request for a status/plan document, which the skill's closing section says explicitly 'is work like any other' — one new deliverable, handled by the communicator. The one-hour constraint is an observation/risk fact, not a separate task.",
+  "reasoning": "'где был образец ридми' is a plain question to answer; 'всегда давай ссылку если я забыл' carries the word 'всегда' and is a standing rule per 'A decision is a standing rule, not only a single choice', recorded separately from any task; 'давай план, замеры по времени, все пиши' is a request for something to be made, which under 'Work that belongs elsewhere' is work like any other, not free narration, so it is accepted as one new deliverable.",
   "scenario": "mixed-four-at-once",
   "skill_version": "5.0.0"
 }
