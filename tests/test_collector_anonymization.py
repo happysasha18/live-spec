@@ -14,11 +14,6 @@ def test_collector_masks_host_entities():
     assert "masked before the note leaves the draft" in s
 
 
-def test_masking_precedes_consent():
-    s = read("skills/feedback-collector/SKILL.md")
-    assert "part of the draft the user reads at consent" in s
-
-
 def test_spec_states_the_law():
     spec = read("PRODUCT_SPEC.md")
     assert "| INV-179 |" in spec

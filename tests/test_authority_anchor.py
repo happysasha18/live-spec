@@ -36,20 +36,6 @@ def _fix(name):
     return os.path.join(FIXTURES, name)
 
 
-# --- the two machines ship ---
-
-def test_gate_ships():
-    assert os.path.isfile(GATE), "guardrails/check-authority-anchor.py missing"
-
-
-def test_config_ships():
-    assert os.path.isfile(CONFIG), "guardrails/authority-anchor.json missing"
-
-
-def test_readback_surface_ships():
-    assert os.path.isfile(os.path.join(ROOT, "DECISIONS.md")), "DECISIONS.md (the read-back) missing"
-
-
 def test_readback_declares_its_touchpoint():
     text = read("DECISIONS.md")
     assert "TOUCHPOINT-KIND: decision-readback" in text, "DECISIONS.md does not declare its touchpoint"

@@ -65,16 +65,6 @@ def _repo(tmp_path, name):
     return root
 
 
-# --- both machines ship ---
-
-def test_gate_ships():
-    assert os.path.isfile(GATE), "guardrails/check-rendered-sweep.py missing"
-
-
-def test_mechanism_ships():
-    assert os.path.isfile(SWEEP), "scripts/sweep-rendered.py missing"
-
-
 # --- the renderer stamps the mark the rule reads [R296.1] ---
 
 def test_the_renderer_stamps_its_mark(tmp_path):

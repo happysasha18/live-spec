@@ -88,12 +88,6 @@ class TestRotationGate(unittest.TestCase):
         import shutil
         shutil.rmtree(self.tmp, ignore_errors=True)
 
-    def test_gate_ships(self):
-        self.assertTrue(os.path.isfile(GATE), "the rotation gate guardrails/check-doc-rotation.py is missing")
-
-    def test_mechanism_ships(self):
-        self.assertTrue(os.path.isfile(ROTATE), "the rotation mechanism scripts/rotate-doc.py is missing")
-
     def test_gate_reds_a_rotation_that_loses_a_row(self):
         # the manifest claims rows 14 and 27 rotated, but the archive holds only 14 — row 27 is
         # present in neither the live file nor the archive: the nothing-lost violation.

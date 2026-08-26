@@ -20,7 +20,6 @@ def run(*args):
 
 class TestOneNameGate(unittest.TestCase):
     def test_gate_ships(self):
-        self.assertTrue(os.path.isfile(GATE))
         self.assertTrue(os.path.isfile(os.path.join(ROOT, "guardrails", "one-name-aliases.json")),
                         "the alias data file does not ship")
 

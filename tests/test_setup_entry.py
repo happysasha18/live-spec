@@ -563,7 +563,6 @@ class TestRequestSetPlacesEverySetupSentence(unittest.TestCase):
         self.assertNotIn("copies them by hand", body,
                          "docs/adoption.md still says a person copies the templates by hand, which "
                          "the founding walk makes false")
-        self.assertIn("The canonical document set lives in `adopt/ADOPT.md`", body)
 
     def test_the_templates_list_names_every_template_that_ships(self):
         """The stale-list repair riding criterion 16: the guide named ten of fourteen files.

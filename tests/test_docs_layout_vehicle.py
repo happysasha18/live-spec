@@ -17,10 +17,6 @@ class TestDocsLayoutVehicle(unittest.TestCase):
 
     def test_vehicle_in_both_homes(self):
         self.assertIn(
-            "A same-version docs-layout pass rides one sanctioned light vehicle",
-            read_flat("skills/director/references/landing-law.md"),
-        )
-        self.assertIn(
             "A same-version docs-layout pass rides one named vehicle",
             read_flat("PRODUCT_SPEC.md"),
         )

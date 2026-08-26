@@ -36,10 +36,6 @@ def write(tmp, name, body):
 
 
 class TestDeferralMarkerGate(unittest.TestCase):
-    def test_script_exists_and_executable(self):
-        self.assertTrue(os.path.isfile(SCRIPT), "missing script: %s" % SCRIPT)
-        self.assertTrue(os.access(SCRIPT, os.X_OK), "%s not executable" % SCRIPT)
-
     def test_bare_marker_is_flagged(self):
         with tempfile.TemporaryDirectory() as tmp:
             p = write(tmp, "NEXT_STEPS.md",

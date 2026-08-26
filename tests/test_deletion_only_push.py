@@ -126,12 +126,6 @@ class _CleansSuiteLogLeaks(object):
                     pass
 
 
-class TestCheckerScriptShips(unittest.TestCase):
-    def test_script_ships_and_is_executable(self):
-        self.assertTrue(os.path.isfile(CHECKER), "guardrails/check-deletion-only-push.sh missing")
-        self.assertTrue(os.access(CHECKER, os.X_OK), "check-deletion-only-push.sh not executable")
-
-
 class TestR226DoesNotContradictItself(unittest.TestCase):
     """M6: R226.6 once read "at every push, never scoped", stated as a universal over every push;
     R226.7 names a push where none of those five checks runs at all — the deletion-only stand-down

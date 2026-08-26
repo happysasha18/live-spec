@@ -21,7 +21,6 @@ def run(*args):
 
 class TestVocabularyGate(unittest.TestCase):
     def test_gate_ships(self):
-        self.assertTrue(os.path.isfile(GATE))
         self.assertTrue(os.path.isfile(os.path.join(ROOT, "guardrails", "spec-coinages.json")),
                         "the coinage data file does not ship")
 

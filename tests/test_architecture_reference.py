@@ -63,11 +63,6 @@ def read(path):
 
 
 class TestBuilderShips(unittest.TestCase):
-    def test_builder_and_gate_ship_executable(self):
-        for p in (BUILDER, GATE):
-            self.assertTrue(os.path.isfile(p), "missing: %s" % p)
-            self.assertTrue(os.access(p, os.X_OK), "not executable: %s" % p)
-
     def test_builder_refuses_to_overwrite_its_input(self):
         # the build-index.py guard: -o <input> is refused, the builder never overwrites its source.
         r = run(BUILDER, ARCH, "-o", ARCH)

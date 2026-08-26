@@ -44,10 +44,6 @@ class _Killpg:
 
 # --- the mechanism ships and reuses the shared cleanup-notice shape ---
 
-def test_module_ships():
-    assert os.path.isfile(MOD), "guardrails/reap_owned_group.py missing"
-
-
 def test_reap_reports_through_the_cleanup_notice_module():
     # the reap reuses the shared notice home (row 417), it mints no second one.
     assert "cleanup_notice" in read("guardrails/reap_owned_group.py")

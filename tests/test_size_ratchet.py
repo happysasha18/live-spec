@@ -28,10 +28,6 @@ def run(*docs, config=None):
 
 
 class TestSizeRatchetGate(unittest.TestCase):
-    def test_gate_and_config_ship(self):
-        self.assertTrue(os.path.isfile(GATE))
-        self.assertTrue(os.path.isfile(REAL_CONFIG), "the ratchet config does not ship")
-
     def test_shipped_config_is_seeded_at_migration_end(self):
         # Seeded at the row-445 migration-end freeze (INV-264 c3): the shipped bound now carries the
         # measured bytes-per-criterion of the requirements-format spec, no longer null.

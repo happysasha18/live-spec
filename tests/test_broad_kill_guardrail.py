@@ -23,10 +23,6 @@ def _run(target=None):
     return subprocess.run(cmd, capture_output=True, text=True)
 
 
-def test_guardrail_ships():
-    assert os.path.isfile(GUARD), "guardrails/check-broad-kill.sh missing"
-
-
 def test_guardrail_passes_the_clean_repo():
     # the pack's own harness kills only by os.killpg on its recorded pid — no pkill/killall of a browser
     # name anywhere — so the real repo is green.

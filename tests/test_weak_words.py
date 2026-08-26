@@ -22,7 +22,6 @@ def run(*args):
 
 class TestWeakWordGate(unittest.TestCase):
     def test_gate_ships(self):
-        self.assertTrue(os.path.isfile(GATE))
         self.assertTrue(os.path.isfile(os.path.join(ROOT, "guardrails", "weak-words.json")),
                         "the weak-word data file does not ship")
 

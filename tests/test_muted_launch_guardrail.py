@@ -36,10 +36,6 @@ def _scan(body, name="probe.py"):
         return _run(p)
 
 
-def test_guardrail_ships():
-    assert os.path.isfile(GUARD), "guardrails/check-muted-launch.sh missing"
-
-
 def test_guardrail_passes_the_clean_repo():
     # the pack's own real launcher is templates/headless_harness.py, which carries --mute-audio —
     # no tracked script drives a browser unmuted, so the real repo is green.

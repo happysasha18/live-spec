@@ -95,10 +95,6 @@ def seed(tmp, mutate):
 
 
 class TestGeneratedArtifacts(unittest.TestCase):
-    def test_scripts_ship(self):
-        self.assertTrue(os.path.isfile(GEN))
-        self.assertTrue(os.path.isfile(GATE))
-
     def test_committed_artifacts_match_a_fresh_generation(self):
         with tempfile.TemporaryDirectory() as tmp:
             r = run(GEN, "--out-dir", tmp)

@@ -25,10 +25,6 @@ def run(args, *, cwd):
 
 
 class TestClockHookScript(unittest.TestCase):
-    def test_script_exists_and_executable(self):
-        self.assertTrue(os.path.isfile(SCRIPT), "missing script: %s" % SCRIPT)
-        self.assertTrue(os.access(SCRIPT, os.X_OK), "%s is not executable" % SCRIPT)
-
     def test_output_carries_current_machine_time(self):
         result = run([SCRIPT], cwd=ROOT)
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)

@@ -36,12 +36,6 @@ def _load():
     return mod
 
 
-# --- the mechanism ships ---
-
-def test_module_ships():
-    assert os.path.isfile(MODULE), "guardrails/route_agent_transport.py missing"
-
-
 # --- a no-answer message takes the git store road, available today ---
 
 def test_no_answer_message_takes_the_store_road():

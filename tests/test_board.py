@@ -32,10 +32,6 @@ def _fix(name):
 
 # --- the board file ships and declares its touchpoint ---
 
-def test_board_ships():
-    assert os.path.isfile(BOARD), "WAITING.md missing at the host root"
-
-
 def test_board_declares_its_touchpoint():
     text = read("WAITING.md")
     assert "TOUCHPOINT-KIND: waiting-list" in text, "the board does not declare its touchpoint kind"
@@ -48,10 +44,6 @@ def test_board_has_the_four_regions():
 
 
 # --- the gate ships and is wired in ---
-
-def test_gate_ships():
-    assert os.path.isfile(GATE), "guardrails/check-board.py missing"
-
 
 def test_gate_wired_into_pre_push():
     pre_push = read("guardrails/pre-push")

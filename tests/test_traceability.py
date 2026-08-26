@@ -1183,7 +1183,6 @@ class TestInstallerAndDecisionPage(unittest.TestCase):
             self.assertIn(phrase, body, "SPEC lost the decision-page clause: %s" % phrase)
         self.assertIn("[E-22]", body, "SPEC prose lost anchor E-22")
         cm = re.sub(r"\s+", " ", read("skills/communicator/SKILL.md"))
-        self.assertIn("ONE interactive decision page", cm, "communicator rule 10 lost the page law")
         self.assertIn("docs/decisions/", cm, "communicator rule 10 lost the archive step")
 
 

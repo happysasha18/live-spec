@@ -37,9 +37,6 @@ def run_check(tree=None):
 
 
 class TestAgentCardGate(unittest.TestCase):
-    def test_gate_ships(self):
-        self.assertTrue(os.path.isfile(CHECK), "the gate is absent: guardrails/check-agent-card.py")
-
     def test_gate_reds_a_cardless_tree(self):
         # A host tree carrying no `.live-spec/agent.md` reds BY NAME (the red proof of gate y).
         with tempfile.TemporaryDirectory() as tmp:
@@ -64,10 +61,6 @@ class TestAgentCardGate(unittest.TestCase):
         r = run_check()
         self.assertEqual(r.returncode, 0,
                          "the pack's own tree must pass (its card is present):\n%s\n%s" % (r.stdout, r.stderr))
-
-    def test_pack_carries_its_own_card(self):
-        self.assertTrue(os.path.isfile(os.path.join(REPO, ".live-spec", "agent.md")),
-                        "the pack, as its own first host, must carry .live-spec/agent.md or the gate reds this push")
 
     def test_gate_wired_into_pre_push(self):
         self.assertIn("check-agent-card.py", read("guardrails/pre-push"))

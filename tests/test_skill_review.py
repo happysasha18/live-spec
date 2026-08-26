@@ -94,10 +94,6 @@ RECORD = (
 
 # --- the gate ships ---
 
-def test_gate_ships():
-    assert os.path.isfile(GATE), "guardrails/check-skill-review.sh missing"
-
-
 def test_review_dir_ships():
     assert os.path.isdir(REVIEW_DIR), "docs/skill-review/ home missing"
 

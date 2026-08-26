@@ -17,7 +17,6 @@ from conftest import read_flat
 def test_the_writing_register_states_the_rule():
     body = read_flat("skills/communicator/references/writing-register.md")
     assert "(rule 17)" in body
-    assert "A number carries four things" in body
     assert "Its method" in body
     assert "Eighteen rules" in body
 

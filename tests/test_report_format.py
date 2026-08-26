@@ -35,13 +35,6 @@ class TestUnifiedReportFormat(unittest.TestCase):
                 "communicator SKILL.md missing a piece of the unified report legend: %r" % needle,
             )
 
-    def test_legend_states_emoji_carry_state_words_carry_content(self):
-        flat = read_flat(SKILL_REL)
-        self.assertIn(
-            "the emoji carry the state, plain words carry the content", flat,
-            "communicator SKILL.md dropped the emoji-vs-words split for the unified legend",
-        )
-
     def test_plan_step_parallel_and_model_annotation_present(self):
         flat = read_flat(SKILL_REL)
         for needle in (

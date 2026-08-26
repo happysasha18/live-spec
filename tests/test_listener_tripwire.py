@@ -28,12 +28,6 @@ def _load():
     return mod
 
 
-# --- the mechanism ships ---
-
-def test_check_ships():
-    assert os.path.isfile(CHECK), "guardrails/attic/check-listener-tripwire.py missing"
-
-
 # --- the pure core: a non-empty socket field fires, an empty one does not ---
 
 def test_nonempty_socket_field_fires():
