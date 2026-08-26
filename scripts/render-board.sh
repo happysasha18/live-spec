@@ -47,7 +47,7 @@ steps = []
 cur = None
 in_steps_section = False
 for line in lines:
-    if line.strip() == "## Шаги":
+    if line.strip() == "## Steps":
         in_steps_section = True
         continue
     if in_steps_section and line.startswith("## "):
@@ -82,9 +82,9 @@ def split_body(body_lines):
             if in_accept:
                 break  # a blank line ends the acceptance paragraph
             continue
-        if s.startswith("**Приёмка:**"):
+        if s.startswith("**Acceptance:**"):
             in_accept = True
-            accept.append(s[len("**Приёмка:**"):].strip())
+            accept.append(s[len("**Acceptance:**"):].strip())
         elif in_accept:
             accept.append(s)
         elif s.startswith("- ") or s.startswith("  - "):
@@ -143,7 +143,7 @@ COLUMNS = [
 blockers = []
 in_blockers = False
 for line in lines:
-    if line.strip() == "## Блокеры":
+    if line.strip() == "## Blockers":
         in_blockers = True
         continue
     if in_blockers and line.startswith("## "):
@@ -176,7 +176,7 @@ def card_html(s):
         items = "".join("<li>%s</li>" % esc(b) for b in s["bullets"])
         details += "<ul>%s</ul>" % items
     if s["accept"]:
-        details += "<p class='accept'><b>Приёмка:</b> %s</p>" % esc(s["accept"])
+        details += "<p class='accept'><b>Acceptance:</b> %s</p>" % esc(s["accept"])
     details_block = ""
     if details:
         details_block = (
