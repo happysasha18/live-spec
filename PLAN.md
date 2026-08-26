@@ -316,6 +316,20 @@ director` is non-empty · tlvphotos works the way it did before the migration.
 
 One line per finding. Don't move it into ROADMAP. Don't fix it without the owner's decision.
 
+- **Machinery inventory, his second question tonight, answered.** All 55 files in `guardrails/`
+  and 37 in `scripts/` checked for what they do and where they're actually called from (the real
+  hook chain, CI, another script, or a test — not guessed from the filename). 89 of 92 are
+  load-bearing — reached from `guardrails/pre-push`'s own lettered gate sequence, from
+  `.github/workflows/gates.yml`, or from a test that exercises them. Only 3 came back with no live
+  caller: `scripts/render-board.sh` (reached only from PLAN.md's own prose — this is the board
+  render step 1 asks for, a thing a person runs by hand, not dead), `scripts/
+  install-separator-fence.sh` (its own header calls it a one-time installer, already run), and
+  `scripts/apply-criterion-rewrites.py` (genuinely no caller anywhere, no note explaining why —
+  the one real candidate for a closer look, not removed tonight). Honest answer to "why so many
+  scripts and gates": mostly not duplication — the push gate enforces around twenty distinct,
+  separately-named invariants (case-purity, pin drift, prototype fencing, shipped-language,
+  skill-review freshness, and so on), each with its own small checker, and nearly all of them are
+  doing real, distinct work.
 - **Director→pre-push wire: investigated, half built, the live skip stops short of tonight.**
   Good news first: Director's decision IS already persisted, in an existing home, no new storage
   needed — every accepted piece of work gets a "decision sheet" (including a "documents that must
