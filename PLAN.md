@@ -353,9 +353,15 @@ One line per finding. Don't move it into ROADMAP. Don't fix it without the owner
   README's own "Known issues" prose, same bug already fixed once on 2026-08-18 — fixed the same
   way again), **m** (config-health, a stale local hook resynced), and **a** (one final record
   naming all 64 commits by hash, per `guardrails/check-prover-record.sh`'s literal requirement —
-  `docs/prover/2026-08-27-tonights-full-range-final.md`) are all green, verified with the actual
-  push command, not summarized. His word needed: rename the flagged project directory, or accept
-  the debt (a real allowlist entry, his call to make since law 1 blocks this seat from making it).
+  `docs/prover/2026-08-27-tonights-full-range-final.md`) went green once, verified with the
+  actual push command, not summarized — then this session's own small fixes after that record
+  (the two offenses it introduced, this line's own edits) re-dated past it and reopened gate a,
+  living proof of the same records-about-records trap `.live-spec/PROBLEMS.md` already names.
+  Stopping here for the night rather than writing a fourth record to chase a third: that trap's
+  real fix is wiring the "a range of pure records/reviews/gate-edits owes no record" rule into
+  `check-prover-record.sh` itself, a design task for a clear morning, not a 00:30 patch. His word
+  needed on two things: rename the flagged project directory (or accept the debt, a real
+  allowlist entry only he can authorize), and, separately, whether that wiring is worth doing.
 - **Step 3 done, informational read only.** Garbage deleted on his own word (yes, delete):
   `prototype/` whole at 4.2M, the 9 stale `docs/briefs` files (3 still-read ones kept), all of
   `docs/wishes`, `docs/director/`, `docs/gate-audit/`, and the closed-row checkpoint files (the
