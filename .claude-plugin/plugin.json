@@ -1,6 +1,6 @@
 {
   "name": "live-spec",
-  "version": "5.0.0",
+  "version": "6.0.0",
   "description": "Living-spec methodology pack: skills and guardrails that take every change through spec, prove, structure, tests, and code with formal-verification thinking.",
   "icon": ".claude-plugin/icon.png",
   "author": {

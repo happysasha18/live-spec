@@ -2,7 +2,7 @@
 name: architect
 description: Use to write or update ARCHITECTURE.md from a proven spec — the node structure a project's kind proposes, file:line pins reconciled with shipped code, measurable quality budgets, the runtime and placement views, and the fitness test every new or carved node must pass. "Here's a proven spec, produce or update the architecture" is a complete task on its own — invoke this skill directly, not only as a step inside a larger pipeline.
 metadata:
-  version: 5.0.0
+  version: 6.0.0
 ---
 
 # architect — from a proven spec to the structure that carries it
@@ -10,7 +10,7 @@ metadata:
 > Part of the **live-spec pack** — the shared working rules (ask-never-guess · plain words, anchors trail ·
 > one surface = one name · one home per fact · junior/senior split · checkpoints · the concurrent-edit
 > fence · freshness · journal discipline · attic-never-delete · verify by deed · the human's gates · claims
-> need primary sources · fix the class, sweep look-alikes · the door before code · prototype ≠ product) live ONCE in the pack's base skill, `live-spec-base` (v5.0.0), together with the
+> need primary sources · fix the class, sweep look-alikes · the door before code · prototype ≠ product) live ONCE in the pack's base skill, `live-spec-base` (v6.0.0), together with the
 > settings ladder — this skill references them and elaborates only its own domain. Used standalone, this
 > note is plain advice.
 

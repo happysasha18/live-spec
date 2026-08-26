@@ -2,7 +2,7 @@
 name: text-audit-pack
 description: 'Pack-side bindings for the external text-audit skill inside the live-spec pack. It carries what the audit body no longer does: the pack''s own mechanical lints (declared in .text-audit/lints.json), the reading-record home, and what a cheap reader means run inside this pack. Load it whenever text-audit runs inside a live-spec project. It audits nothing itself.'
 metadata:
-  version: 5.0.0
+  version: 6.0.0
   requires: text-audit >= 1.0.0 (github.com/happysasha18/text-audit)
 ---
 

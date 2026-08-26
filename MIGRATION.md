@@ -369,3 +369,45 @@ each safe on a half-done state:
    open hole, and the law it held is gate-held (SPEC INV-164). A host that adopted 2.0.0 and quotes
    rule 30 in its own documents re-points those lines to the gate-held law; a host that quotes nothing
    records this step done on read.
+
+### 6.0.0 — 2026-08-26
+
+**Host action: re-run the catch-up walk.** The 6.0.0 major moves the pipeline's entry point off
+`build-pipeline` and onto a new skill, `director`; splits `architect` out as its own skill; and
+retires thirteen base rules that carried no eval fixture and no executable script behind them.
+Four steps, each safe on a half-done state:
+
+1. Install the new skill roster. Run `./install.sh` (or `scripts/sync-skills.sh` for a host still on
+   the older refresh path) to pull `director` and `architect` into the host's installed-skills home
+   alongside the rest of the pack-owned set — the installer's loop over `skills/*/` picks up a new
+   directory with no per-skill wiring needed. Already-done check: `director/SKILL.md` and
+   `architect/SKILL.md` both exist in the host's installed skills and carry `version: 6.0.0`.
+2. Re-point any host wiring that calls `build-pipeline` for an accepted change — a hook, a slash
+   command, a documented "start here" line — to call `director` instead. `build-pipeline` itself
+   still exists and still answers to "attach live-spec to this project" and the MINOR-bump gate
+   procedure; it no longer runs the door, the work-kind table, the footprint scale, the request-kind
+   table, or the fixed nine-step sequence, all of which now live in `director` (its own body, or
+   `skills/director/references/`). A host that vendored a copy of any of those four tables re-points
+   it at the new home or drops the copy in favor of reading `director/SKILL.md` live. Already-done
+   check: the host's own docs name `director`, not `build-pipeline`, as the entry point for ordinary
+   work.
+3. Drop or re-point citations to the thirteen retired base rules. Rules 11, 14, 15, 18, 19, 20, 21,
+   23, 28, 32, 33, 34, and 35 left `skills/live-spec-base/SKILL.md`'s mandatory body on 2026-08-26 —
+   each was audited against the pack's one graded eval fixture (`evals/director/scenarios.json`) and
+   every script under `guardrails/`, `hooks/`, and `tests/`, and none had a mechanism that would
+   actually go red on a real violation, only prose-presence tests that watch a document's wording
+   rather than a behavior. Their numbers are retired, not reused, and their full text — unedited —
+   now lives in `attic/live-spec-base-unbacked-rules-2026-08-26.md`. A host that quotes one of these
+   thirteen rule numbers in its own playbook or `CLAUDE.md` re-points the citation at the attic file
+   (the judgment the rule carried is unchanged, only its standing as an enforced rule); a host that
+   quotes none of them records this step done on read. The twenty-one rules that stayed each kept
+   their number — no rule below 34 was renumbered — but several shifted line position inside
+   `SKILL.md` as the retired rules' text left the file; a host holding its own line-number pins into
+   `skills/live-spec-base/SKILL.md` re-derives them rather than trusting the old numbers.
+4. Fifty-four gate files retired from `guardrails/` and `hooks/` in the same cutover — checks whose
+   only subject was another check, invented numeric ceilings with no incident behind them, and a
+   tool-boundary chat arm that could not prove whose work it stopped. None of these carried a rule
+   that survived step 3 above. A host that named one of these scripts directly in its own CI
+   configuration or pre-push chain (rather than through the pack's `guardrails/pre-push`, which
+   already dropped them) removes that reference; a host that only ever invoked the pack's own
+   `pre-push` entry point records this step done on read.

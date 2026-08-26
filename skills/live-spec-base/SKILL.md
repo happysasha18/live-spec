@@ -2,7 +2,7 @@
 name: live-spec-base
 description: Load before using any live-spec pack skill: director, spec-author, product-prover, design-reviewer, architect, build-pipeline, test-author, communicator, feedback-intake, feedback-collector, text-audit, publish. Load it also before briefing a worker that will write files, or to resolve shared rules and settings. It is the one home for the shared rules — twenty-one rules in the body. It carries three on-demand reference modules under `references/` — the glossary, the worked examples, and the settings ladder — each opened only when its own kind of question needs resolving.
 metadata:
-  version: 5.0.0
+  version: 6.0.0
 ---
 
 # live-spec-base — one rulebook, twelve working skills
