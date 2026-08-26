@@ -348,7 +348,13 @@ One line per finding. Don't move it into ROADMAP. Don't fix it without the owner
   `scripts/director-wire-report.py`, a standalone, read-only, informational report — not called
   from `guardrails/pre-push`, `install.sh`, or CI, never affects any exit code — that finds which
   commits in the pushed range are covered by a closed, in-range checkpoint whose decision sheet
-  says nothing needs to change, and which aren't. The actual skip stays off. Also answered
+  says nothing needs to change, and which aren't. The actual skip stays off. Built, tested (10
+  passed), committed (`42a44eb9`). One more fact this surfaced, worth carrying to the next look
+  at this: `.live-spec/checkpoints/` is gitignored (`.gitignore:1`), so a checkpoint file is never
+  itself part of any commit range — a real run against this repo's own history shows 79 commits,
+  0 covered, every time, because git simply never sees a checkpoint file change. Not a bug in the
+  script (it does exactly what it says); a sign that tying a push to a decision needs the decision
+  to live somewhere git actually tracks, which checkpoints today deliberately don't. Also answered
   tonight, plainly: how Director's 33/35 score is computed (`evals/director/` — `scenarios.json`
   holds 35 fixed scenarios, `traces/*.json` hold one recorded live run per scenario, `check.py`
   does a fast, model-free field-by-field comparison between them) and where it's genuinely fragile
