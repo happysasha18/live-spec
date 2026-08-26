@@ -35,6 +35,7 @@ AHEAD=$(git rev-list --count origin/main..HEAD 2>/dev/null || echo 0)
 # Статус шага берётся из его команды приёмки, а не из галочки, которую поставила рука.
 # Шаг без команды печатается как ЗАЯВЛЕНО — читателю видно, где факт, а где чьё-то слово.
 b "ПЛАН"
+rm -f /tmp/probe-next.txt
 if [ -f PLAN.md ]; then
   python3 - <<'PYEOF'
 import re, subprocess, sys
@@ -66,6 +67,8 @@ for s in steps:
     if not ok and not next_shown and s["mark"] != "!":
         icon, colour, tail, next_shown = "🔄" if s["mark"] == "~" else "⬜", Y, f"  {B}<-- ДАЛЬШЕ{X}", True
     print(f"  {icon} {colour}{s['title']}{X} {verified}{tail}")
+    if tail:
+        open("/tmp/probe-next.txt", "w", encoding="utf-8").write(s["title"])
 PYEOF
 else
   bad "PLAN.md отсутствует"
@@ -168,7 +171,9 @@ if [ -f PLAN.md ]; then
 fi
 
 # ---------------------------------------------------------------- следующий ход
-NEXT=$(grep -E "^### \[[ ~]\]" PLAN.md 2>/dev/null | head -1 | sed 's/^### \[.\] //')
-[ -n "$NEXT" ] && printf '\n\033[1mДАЛЬШЕ\033[0m\n  %s\n  (шаг целиком — в PLAN.md)\n' "$NEXT"
+# Берётся из того же прогона, что напечатал список выше. Раньше читалось из галочки
+# в PLAN.md, и два источника разошлись на одном экране.
+NEXT_TITLE=$(cat /tmp/probe-next.txt 2>/dev/null)
+[ -n "$NEXT_TITLE" ] && printf '\n\033[1mДАЛЬШЕ\033[0m\n  %s\n  (подробности — в PLAN.md)\n' "$NEXT_TITLE"
 
 printf '\n'

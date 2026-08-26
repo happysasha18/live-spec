@@ -75,7 +75,7 @@
 
 `[ ]` не начат · `[~]` в работе · `[x]` закрыт · `[!]` блокер
 
-### [~] 0. Вернуться домой
+### [x] 0. Вернуться домой
 <!-- check: test -f PLAN.md && test -f scripts/state-probe.sh && ! test -d /private/tmp/ls-director && test -f attic/DIRECTOR_HANDOFF-2026-08-26-decisions.md -->
 
 - [x] `~/live-spec` — живое рабочее дерево на `origin/main` (было: bare-репозиторий, отставший на 443
