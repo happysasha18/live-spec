@@ -111,10 +111,6 @@ FIXTURE_NO_KIND = """# Host profile — no kind recorded yet
 
 
 class TestConfigSurfaceCheck(unittest.TestCase):
-    def test_script_exists_and_executable(self):
-        self.assertTrue(os.path.isfile(SCRIPT), "missing script: %s" % SCRIPT)
-        self.assertTrue(os.access(SCRIPT, os.X_OK), "%s not executable" % SCRIPT)
-
     def test_config_ships_beside_the_check(self):
         self.assertTrue(os.path.isfile(CONFIG), "missing config: %s" % CONFIG)
         cfg = json.load(open(CONFIG, encoding="utf-8"))

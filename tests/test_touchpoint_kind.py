@@ -37,10 +37,6 @@ def _fix(name):
 
 # --- the declaration manifest ---
 
-def test_manifest_ships():
-    assert os.path.isfile(MANIFEST), "guardrails/touchpoints.json missing"
-
-
 def test_manifest_is_well_formed():
     data = json.loads(read("guardrails/touchpoints.json"))
     entries = data["touchpoints"] if isinstance(data, dict) else data
@@ -81,10 +77,6 @@ def test_manifest_names_each_instance_row():
 
 
 # --- the gate reds a surface speaking in a kind its touchpoint lacks ---
-
-def test_gate_ships():
-    assert os.path.isfile(GATE), "guardrails/check-touchpoint-kind.py missing"
-
 
 def test_gate_reds_an_interruption_from_an_asynchronous_point():
     # RED-FIRST: a far-tier surfacing (asynchronous, agent-pushed) that raises an interruption.

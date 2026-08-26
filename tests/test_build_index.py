@@ -21,9 +21,6 @@ def run(*args):
 
 
 class TestBuildIndex(unittest.TestCase):
-    def test_builder_ships(self):
-        self.assertTrue(os.path.isfile(BUILDER))
-
     def test_emits_the_code_to_location_table(self):
         r = run(MINI)
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)

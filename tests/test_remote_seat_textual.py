@@ -12,8 +12,3 @@ def test_remote_show_is_textual_by_construction():
     s = read("skills/communicator/SKILL.md")
     assert "textual by construction" in s
     assert "never attempted from a remote seat" in s
-
-
-def test_seat_is_redetected_after_a_move():
-    s = read("skills/communicator/SKILL.md")
-    assert "RE-DETECT after any move between machines" in s

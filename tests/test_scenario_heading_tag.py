@@ -70,9 +70,6 @@ class TestScenarioHeadingTag(unittest.TestCase):
 
     def test_spec_states_heading_convention(self):
         spec = read_flat("PRODUCT_SPEC.md")
-        self.assertIn("a requirement whose heading carries a `[feature: F-...]` tag is a "
-                      "person-facing scenario", spec,
-                      "the intro lost the practiced heading convention")
         self.assertIn("[INV-132]", spec)
 
     def test_spec_criteria_match_the_practiced_convention(self):

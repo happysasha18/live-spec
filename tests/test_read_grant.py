@@ -32,10 +32,6 @@ def _load():
 
 # --- the mechanism ships, beside the push grant ask ---
 
-def test_module_ships():
-    assert os.path.isfile(MOD), "scripts/read-grant.py missing"
-
-
 def test_read_grant_ask_ships():
     # the read-direction sibling of scripts/grant-ask.md.
     assert os.path.isfile(ASK), "scripts/read-grant-ask.md missing"

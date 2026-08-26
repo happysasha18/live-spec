@@ -25,9 +25,6 @@ def run(old, new, rec):
 
 
 class TestDeltaClassifier(unittest.TestCase):
-    def test_gate_ships(self):
-        self.assertTrue(os.path.isfile(GATE))
-
     def test_identity_no_delta_passes_with_reach(self):
         r = subprocess.run(["python3", GATE, CORPUS, CORPUS, fx("rec_empty.json")],
                            capture_output=True, text=True)

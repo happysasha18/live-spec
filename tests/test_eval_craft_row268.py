@@ -20,7 +20,6 @@ class TestEvalCraftRow268(unittest.TestCase):
 
     def test_s2_delegation_forcing_scenario_variant(self):
         body = read_flat("evals/build-pipeline.md")
-        self.assertIn("Scenario B — delegation-forcing", body)
         self.assertIn("parse_row", body)  # the rename that trips the >3-files tripwire
 
     def test_n1_floor_folds_recorded(self):

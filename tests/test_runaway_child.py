@@ -45,10 +45,6 @@ LEAD = _proc(500, 1, 500, 0.1, "claude")
 
 # --- the mechanism ships and reuses the cleanup-notice module ---
 
-def test_check_ships():
-    assert os.path.isfile(CHECK), "guardrails/check-runaway-child.py missing"
-
-
 def test_notice_helper_emits_a_runaway_line():
     # the shared cleanup-notice module carries the runaway report shape: WHAT it is, how much CPU,
     # and the proof the run owns it. Report-only — it names no ended identity.

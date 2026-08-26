@@ -29,9 +29,6 @@ def write(tmp, name, text):
 
 
 class TestIndexGeneratedGate(unittest.TestCase):
-    def test_gate_ships(self):
-        self.assertTrue(os.path.isfile(GATE))
-
     def test_matching_index_passes_with_reach(self):
         r = run(MINI, INDEX)
         self.assertEqual(r.returncode, 0, "the gate red a matching committed index:\n%s" % r.stdout)

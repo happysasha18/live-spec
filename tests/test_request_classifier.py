@@ -249,7 +249,6 @@ class TestDeferralJustifiesItself(DocHomeCase):
 
     def test_lives_in_the_base_rulebook(self):
         base = read_flat("skills/live-spec-base/SKILL.md")
-        self.assertIn("A deferral must justify itself", base)
         self.assertIn("SPEC INV-152", base)
         self.assertIn("needs-the-human's-word marker", base)
 

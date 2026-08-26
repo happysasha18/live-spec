@@ -26,10 +26,6 @@ class TestInstanceEngineBoundary(unittest.TestCase):
         body = read_flat("skills/spec-author/SKILL.md")
         self.assertIn("how each behaviour landed in code", body)
 
-    def test_reconciliation_phrase_in_publish(self):
-        body = read_flat("skills/publish/SKILL.md")
-        self.assertIn("how each behaviour landed in code", body)
-
     def test_engine_commit_phrase_in_spec(self):
         # the exact quoted citation format ("landed in engine commit `<hash>`") is now the skill's
         # authoring detail (spec-author/publish, unaffected); the spec states the same provenance

@@ -52,9 +52,6 @@ Id: tc-2
 
 class TestDepositDescriptionGate(unittest.TestCase):
 
-    def test_gate_ships(self):
-        self.assertTrue(os.path.isfile(GATE), "the gate script does not ship: %s" % GATE)
-
     def test_gate_reds_a_deposit_referencing_a_bare_code(self):
         with tempfile.TemporaryDirectory() as tmp:
             deposit(tmp, "2026-07-20-from-track-coach-bare.md", BARE)

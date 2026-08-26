@@ -35,9 +35,6 @@ class TestSharedShape(unittest.TestCase):
         spec.loader.exec_module(mod)
         return mod
 
-    def test_shape_ships(self):
-        self.assertTrue(os.path.isfile(SHAPE), "the shared shape is absent: guardrails/nonempty_input.py")
-
     def test_shape_reds_by_name_on_empty_input(self):
         mod = self._import_shape()
         with self.assertRaises(mod.VacuousInputError) as cm:

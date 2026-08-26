@@ -104,11 +104,6 @@ def _short(sha):
 
 # --- the gate and its record home ship ---
 
-def test_gate_ships():
-    assert os.path.isfile(GATE), "guardrails/check-prover-record.sh missing"
-    assert os.access(GATE, os.X_OK), "guardrails/check-prover-record.sh is not executable"
-
-
 def test_record_home_ships():
     assert os.path.isdir(RECORD_DIR), "docs/prover/ home missing"
     assert os.path.isfile(os.path.join(RECORD_DIR, "README.md")), \

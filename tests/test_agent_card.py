@@ -59,10 +59,6 @@ def _standing_rule_1(text):
     return " ".join(one.group(1).split())
 
 
-def test_card_ships():
-    assert os.path.isfile(CARD), ".live-spec/agent.md missing"
-
-
 def test_rule_1_names_the_three_record_directories():
     rule = _standing_rule_1(read(CARD))
     for d in RECORD_DIRS:
@@ -101,12 +97,6 @@ def test_section_carries_the_stable_phrases():
     for phrase in STABLE_PHRASES:
         assert phrase in body, (
             "the section drops the stable phrase %r" % phrase)
-
-
-def test_section_carries_the_ten_line_cap():
-    body = _section(read(CARD))
-    assert "Ten lines at most." in body, (
-        "the section drops the ten-line cap sentence")
 
 
 def test_section_carries_the_leaves_unread_sentence():

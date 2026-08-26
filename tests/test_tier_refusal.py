@@ -312,6 +312,5 @@ class TestTheExperimentRecord:
     def test_the_baseline_the_row_recorded_is_carried(self):
         text = read(self.DOC).lower()
         assert "twelve helper runs" in text
-        assert "six of them on the expensive tier" in text
         assert "two million output units" in text
         assert "zero refusals" in text

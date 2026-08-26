@@ -21,10 +21,6 @@ INSTALLER = os.path.join(ROOT, "scripts", "install-session-hooks.sh")
 
 
 class TestChatLawHookScript(unittest.TestCase):
-    def test_script_exists_and_executable(self):
-        self.assertTrue(os.path.isfile(SCRIPT), "missing script: %s" % SCRIPT)
-        self.assertTrue(os.access(SCRIPT, os.X_OK), "%s is not executable" % SCRIPT)
-
     # The hook shrank on 2026-08-17 by the owner's decision: it had been retelling all seven laws in
     # full (~4.5 KB into every prompt) and now speaks one line that NAMES the seven and POINTS at the
     # two files holding their wording. The four tests below follow that decision. Each still proves

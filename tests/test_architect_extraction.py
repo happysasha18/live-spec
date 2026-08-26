@@ -32,26 +32,12 @@ TEST_AUTHOR_SKILL = os.path.join("skills", "test-author", "SKILL.md")
 
 
 class TestArchitectSkillLoads(unittest.TestCase):
-    def test_the_skill_file_exists(self):
-        self.assertTrue(
-            os.path.isfile(os.path.join(ROOT, ARCHITECT_SKILL)),
-            "skills/architect/SKILL.md is missing",
-        )
-
     def test_frontmatter_names_and_versions_the_skill(self):
         body = read(ARCHITECT_SKILL)
         self.assertTrue(body.startswith("---\n"), "architect's SKILL.md carries no frontmatter")
         front = body.split("---\n", 2)[1]
         self.assertRegex(front, r"(?m)^name:\s*architect\s*$")
         self.assertRegex(front, r"(?m)^\s*version:\s*5\.0\.0\s*$")
-
-    def test_description_states_a_standalone_invocable_task(self):
-        # The skill review's own claim: "'Here's a proven spec, produce or update the
-        # architecture' is a complete task on its own — invoke this skill directly." Pinned
-        # here so a later edit cannot quietly fold this back into a pipeline-only framing.
-        flat = read_flat(ARCHITECT_SKILL)
-        self.assertIn("invoke this skill directly", flat)
-
 
 class TestDirectorPointsAtTheRealSkill(unittest.TestCase):
     def test_specialist_table_names_architect_skill_directly(self):

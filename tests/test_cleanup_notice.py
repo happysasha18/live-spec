@@ -38,10 +38,6 @@ def _write(d, name, body):
 
 # --- the shared helper ---
 
-def test_helper_ships():
-    assert os.path.isfile(HELPER), "guardrails/cleanup_notice.py missing"
-
-
 def test_helper_emits_what_and_why():
     # driving the real helper prints one CLEANUP-NOTICE line naming WHAT ended and the owned-via proof.
     r = subprocess.run(
@@ -58,10 +54,6 @@ def test_helper_emits_what_and_why():
 
 
 # --- the gate ---
-
-def test_gate_ships():
-    assert os.path.isfile(GATE), "guardrails/check-cleanup-notice.sh missing"
-
 
 def test_gate_reds_an_ending_without_a_notice():
     # RED-FIRST: a cleanup that reaps a process group but never says what it ended.
