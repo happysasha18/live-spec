@@ -211,8 +211,7 @@ director` is non-empty · tlvphotos works the way it did before the migration.
 
 ### ⬜ The playbook repo earns its keep or gets folded away — id: q-800
 **Group:** Cross-project · **Priority:** normal
-**Source:** owner 2026-08-27 23:47 — "что за плейбук блин надо разгрести его тоже. мне кажется он
-лишний." <!-- user-language -->
+**Source:** owner 2026-08-27 23:47 — "что за плейбук блин надо разгрести его тоже. мне кажется он лишний." <!-- user-language -->
 
 Found tonight, in passing: `~/.claude/personal` and `profile.md`'s real home is a separate repo,
 `~/.claude/playbook`, three weeks behind on commits (last real commit 2026-08-05; a one-line
@@ -1879,6 +1878,22 @@ One line per finding. Don't move it into ROADMAP. Don't fix it without the owner
   readability work make most of what remains open a stale read of files rewritten since. Not
   closed — a real recount would need to re-read the current source against each remaining
   candidate, not this session's guess.
+- **q-576 swept, not closed: real fixes landed, one serious finding needs his word.** Worker
+  finished, 4 commits, verified by hand rather than taken on its word — see
+  `.live-spec/checkpoints/q576-invented-numbers-sweep.md` for the full account. Of the 45: 6
+  removed as dead/invented/stale (including a config that outlived the code that read it), 12
+  really grounded (a judge timeout that was genuinely broken — 25s under its own measured 33s
+  call cost — is fixed and installed live), 27 honestly labeled and left open, not papered over,
+  4 out of this repo's write-scope. **Waiting on him, real question:** six files
+  (`guardrails/check-worker-restore.py`, `check-runaway-child.py`, `reap_owned_group.py`,
+  `language-rules.json`, `progress-baseline.json`, `scripts/spec-redundancy-precheck.py`) cite
+  `decision-dossier-2026-08-15.md` as the ruling behind real thresholds — worker-restore and
+  runaway-child timeouts, redundancy detection, progress estimates. That file does not exist,
+  never did (checked the filesystem and git history in full). The one real 08-15 record,
+  `work/2026-08-15-unowned-numbers.md`, says plainly: "No repair, no deletion, no ruling is made
+  below. This is the list the owner rules on." A citation to a ruling that never happened is
+  standing in for real grounding today. Not re-pointed — this is his call, not a guess this
+  session or the worker should make.
 
 ---
 

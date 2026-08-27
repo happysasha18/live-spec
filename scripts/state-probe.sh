@@ -79,7 +79,7 @@ for t in tasks:
 
 ICON_COLOUR = {"✅": G, "🔄": Y, "⛔": R, "👁️": Y, "⬜": D}
 
-# Ranking eligibility (27.08, his word). "Заблокировано" only means a real, understood cause —
+# Ranking eligibility (27.08, his word). "Blocked" only means a real, understood cause —
 # a flag, like Jira's, not a feeling. That leaves two things that wore the ⛔/⬜ marks without
 # being either "in progress" or "genuinely blocked": a row folded into the task that actually
 # carries the work (covered_by, with no independent reason of its own), and a row he postponed
