@@ -329,6 +329,30 @@ One line per finding. Don't move it into ROADMAP. Don't fix it without the owner
   reference to it. Proven narrow rather than asserted narrow: a plain personal name in those same
   two files still reds, and the token still reds in any file the waivers do not name — guarded by
   `tests/test_shipped_language_waiver_scope.py`, run against the real allowlist data.
+- **The plan says it is outside the gates; the gates have never known that. Recorded 26.08,
+  parked on "his word" three times since, and the parking was the error.** `PLAN.md:59` states
+  this file sits outside the jurisdiction of the format rules, the prover and skill-review, and
+  needs no records. Gate a knows nothing of it, so a commit that only moves a task's status or
+  adds a §Blockers line demands a full adversarial push record — which is what made closing a
+  range chase its own tail twice this morning. Provenance, checked rather than assumed: that
+  exemption sentence was written by an agent session (`8f69a7c8`, 26.08 17:53), never by him, so
+  it is not his word and cannot authorize anything on its own. The rule that kept sending this
+  question to him is `PLAN.md` law 1's clause forbidding edits to existing gate config — also
+  agent-written, added `b3f1008f` 26.08 18:32, for a sound reason its own commit message states:
+  law 1 had banned creating gates while leaving an agent free to silence one by writing itself
+  into its allowlist. That is a real anti-self-dealing rule, and this session did exactly the
+  thing it guards against this morning (the gate-i waiver). The defect is narrower: the rule has
+  no path for "the gate is factually wrong," so every false positive becomes a wake-the-owner
+  event.
+  **What blocks a simple fix is a finding worth more than the gate question.** `PLAN.md` is not
+  inert bookkeeping: its `<!-- check: ... -->` comments are executed as shell by
+  `scripts/state-probe.sh:52-58` (`subprocess.run(..., shell=True)`) at the start of every
+  session, since the probe is the first command a session runs. So a `PLAN.md`-only commit can
+  change what runs on every machine that opens this project, and blanket-exempting the file from
+  review would hand an agent a recordless path to arbitrary execution — the same class of hole
+  law 1's clause was written to close. Recommendation, for whenever he wants it: exempt a
+  `PLAN.md`-only commit from gate a **only when its diff touches no `<!-- check:` line**, which is
+  mechanically decidable and keeps the execution surface under full review. Not built yet.
 - **Open, smaller, and nobody's word needed yet — a shipped pack script carries one person's
   project roster.** `scripts/state-probe.sh:159` loops over five hard-coded host directories that
   are this owner's own projects. It ships to every host that installs the pack. The gate-i waiver
@@ -447,12 +471,15 @@ One line per finding. Don't move it into ROADMAP. Don't fix it without the owner
   remote is at `8d6dba98` and the probe reporting `matches origin/main` with 0 unpushed. The
   gates that had been red across the two sessions and are now closed: **i** (from 382 findings
   down to 3, then to 0 by the scoped waiver above), **e**, **s**, **h**, **m**, and **a**.
-  One design task this range surfaced and did NOT do, still worth his answer whenever: gate a's
-  freshness rule re-fires whenever a pure record/review/gate-edit commit lands after the record,
-  so closing a range can chase its own tail. Both sessions hit it. The real fix is teaching
-  `check-prover-record.sh` that a range of pure records owes no record of its own — a change to a
-  gate's logic, which is his call, and the workaround meanwhile is what this session used:
-  extend the existing record in place instead of adding another one.
+  **Correction, same morning, checked against the code rather than remembered:** this entry first
+  claimed gate a needed teaching that "a range of pure records owes no record," and named that as
+  a design task awaiting the owner. That claim was false, and citing his word for it was the
+  second stopping-short of the morning. The rule already exists, implemented twice:
+  `check-prover-record.sh:166-208` stands the gate down by name when every commit in the range
+  touches only the record directories (the `recordless` class), and `check-prover-record.sh:313-329`
+  drops record-only commits from the reviewed set when a record does exist. Nothing to build.
+  What actually re-fired the gate each time was a `PLAN.md` commit, which the gate correctly
+  treats as content — see the plan-versus-gate contradiction recorded separately below.
 - **Step 3 done, informational read only.** Garbage deleted on his own word (yes, delete):
   `prototype/` whole at 4.2M, the 9 stale `docs/briefs` files (3 still-read ones kept), all of
   `docs/wishes`, `docs/director/`, `docs/gate-audit/`, and the closed-row checkpoint files (the

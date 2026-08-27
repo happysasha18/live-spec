@@ -141,8 +141,18 @@ range above pushed clean to `origin/main` at 09:27 (`a42c6fd2..8d6dba98`, confir
 `PLAN.md` afterwards re-fired gate a's freshness rule against this very record — the tail-chase
 this record already names two sections up, reproduced immediately and on cue. Extended here rather
 than answered with a fourth record, which is the same workaround, now applied twice in one morning
-and therefore worth its own line: the durable fix is teaching `check-prover-record.sh` that a range
-of pure records owes no record, and that is a gate-logic change awaiting the owner's word.
+and therefore worth its own line.
+
+**Correction to the paragraph above, made the same morning after reading the gate rather than
+recalling it:** it claimed the durable fix was teaching `check-prover-record.sh` that a range of
+pure records owes no record, and sent that to the owner as his call. Both halves were wrong. The
+rule is already implemented twice — the `recordless` stand-down at `check-prover-record.sh:166-208`
+for the no-record case, and the reviewed-set filter at `:313-329` that drops record-only commits
+when a record exists. What re-fired the gate was a `PLAN.md` commit each time, which the gate
+correctly counts as content. The real, older contradiction — `PLAN.md:59` declaring itself outside
+these gates while the gates have never known it, and `PLAN.md`'s `<!-- check: -->` comments being
+executed as shell by `scripts/state-probe.sh:52-58` at every session start, which is why that file
+cannot simply be exempted — is recorded in `PLAN.md`'s Blockers with a concrete recommendation.
 
 The post-push delta this postscript covers, named for gate a's range arm: base 8d6dba9, one
 reviewed commit 431fdde (`PLAN.md`: clear the stale push blocker, keep the open design question).
