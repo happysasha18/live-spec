@@ -50,7 +50,12 @@ ARCH="${1:-$(git rev-parse --show-toplevel)/ARCHITECTURE.md}"
 [ "${2:-}" = "--strict" ] && echo "note (pin drift): --strict is the default since row 541; the flag changes nothing."
 ROOT="$(cd "$(dirname "$ARCH")" && pwd)"
 
-TOL=2            # the line-pin tolerance, in lines either side of the pinned line
+# The line-pin tolerance, in lines either side of the pinned line. This one IS a bar — a pin further
+# off than TOL reds the gate — and it has no incident or source behind it (the 2026-08-07 census, row
+# 9, found no trace; the introducing commit 3915e95 carries a subject line and no body). An
+# engineering default, not a policy decision: it names how much a pinned line may shift before the
+# pin counts as stale, and the direction of a wrong value is a noisier gate, not a missed drift.
+TOL=2
 fail=0
 checked=0
 line_pins=0
@@ -66,6 +71,11 @@ FURNITURE=" rule step gate line table check node file home section part item row
 # The label's words of four characters or more, whole and split at hyphens and
 # underscores, printed one per line: the naming words first, then the furniture
 # words, separated by a line reading `--`.
+#
+# The four-character floor is a stop-word heuristic — it drops "the", "a", "of", "and" and the like so
+# a label matches on its naming words. Kin of check-vocabulary.py's own significant-word floor. No
+# source behind the exact 4 (2026-08-07 census, row 10); an engineering default. It cannot hide drift
+# on its own: the FURNITURE list below is what decides which surviving words count as naming.
 label_words() {
   local label="$1" w part naming="" furniture="" bare seen=" "
   for w in $label; do

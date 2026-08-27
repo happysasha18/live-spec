@@ -14,7 +14,7 @@
 - `inbox/README.md:120` (remote arm)
 - `inbox/README.md:125` (stranger arm)
 - `scripts/stranger-wish-monitor.py:1` (the monitor bridge, INV-147)
-- `scripts/stranger-wish-monitor.py:103` (the cross-host claim + arbitration, INV-149)
+- `scripts/stranger-wish-monitor.py:109` (the cross-host claim + arbitration, INV-149)
 - `.github/ISSUE_TEMPLATE/wish.yml:1` (the wish template requesting a source, INV-146)
 - `.github/workflows/stranger-monitor.yml:1` (the package repo's scheduled monitor, INV-148)
 - `scripts/read-grant.py:1` (the read-grant honest-failure check, INV-232)

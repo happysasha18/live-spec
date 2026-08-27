@@ -19,7 +19,11 @@ for skill_md in "$SKILLS_DIR"/*/SKILL.md; do
   count=$((count+1))
   dir_name="$(basename "$(dirname "$skill_md")")"
 
-  # frontmatter block: first line ---, a closing --- within the first 40 lines
+  # frontmatter block: first line ---, a closing --- within the first 40 lines. A parse window over a
+  # YAML header, not a limit on how long frontmatter may be: measured across every shipped SKILL.md
+  # (2026-08-27) the deepest closing --- sits at line 7, so 40 clears the real set many times over.
+  # A skill whose header ran past it would read as unloadable, which is the failing side, not a
+  # silent pass. No source behind the exact 40; an engineering default with wide measured margin.
   if [ "$(head -1 "$skill_md")" != "---" ] || ! sed -n '2,40p' "$skill_md" | grep -q '^---$'; then
     echo "FAIL (loadability): the skill '$dir_name' can't be loaded — it's missing the setup block"
     echo "  every skill needs at the top of its file."; fail=1; continue

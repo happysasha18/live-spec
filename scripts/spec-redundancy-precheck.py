@@ -79,6 +79,10 @@ def _tokens(raw):
 
 
 def _shingles(tokens, n=3):
+    # n=3 is the ordinary shingle width in near-duplicate detection practice, the same external-practice
+    # ground the 2026-08-07 ruling §7 allows for the readability caps — not a figure this project chose.
+    # It is also already named in the file's own header, where JAC is described as the "3-gram shingle
+    # Jaccard threshold", so the two travel together and moving one without the other is meaningless.
     if len(tokens) < n:
         return {tuple(tokens)} if tokens else set()
     return {tuple(tokens[i:i + n]) for i in range(len(tokens) - n + 1)}

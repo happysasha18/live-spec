@@ -221,6 +221,11 @@ def inject_known_row(doc, row_name, keys, values):
     return doc
 
 
+# A display width: past this many characters a project-rules value is cut rather than shown whole on
+# the card. Not a threshold anything is checked against — nothing reds off it, and the underlying
+# entry is unchanged. No source behind the 160 (2026-08-07 census, row 68; the introducing commit
+# 64b0457 never mentions it); a chosen card width, named the way the progress report's table width
+# was named (commit 31d3375, 2026-08-19).
 LONG_VALUE_BOUND = 160
 
 
