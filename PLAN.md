@@ -312,6 +312,28 @@ The owner's decision: after the release. tlvphotos is live, on pack 2.7.0, last 
 - Only then the live host. The other four (`exhibition-engine`, `promoter`, `promoter-alexander`,
   `tc-cloud-validate`) — a separate decision.
 
+**Done 27.08, everything up to the live host** —
+`docs/research/2026-08-27-tlvphotos-migration-dry-run.md` carries the inventory, the exact
+commands, and the proofs. The live project was never written to: its own `git status` is
+byte-identical before and after. The drift inventory is complete; the dry run ran the real
+first action of the 6.0.0 chapter against a copy and touched only the skills directory, never
+the host's own documents; the restore is proved by a checksum manifest of all 9,393 files taken
+before and after, with an empty difference rather than an assurance.
+
+Three findings the real walk has to carry, all named in that file: the host's own record of what
+is installed claims a version two steps ahead of what is actually on its disk, so the walk must
+believe the disk; the host renamed two canonical documents legitimately but never wrote the
+profile line that records the rename, so nothing today tells a tool which file is the spec; and
+`scripts/install-external-skills.sh`, which the release chapter names as a host action, does not
+work against a host at all — it is written for the pack's own layout and fails on a real host
+tree. That last one is a defect in the pack, not in the host, and it blocks the documented path.
+
+The heavy part is stated honestly rather than hidden: the format chapters ask for real authoring
+over the host's own 478 KB spec and 93 KB architecture document. The pack's own migration
+chapter says a host keeps its current spec until it chooses to convert and no gate forces the
+move, so this is deferred work rather than a blocker — and it is the largest single piece of
+debt between the host's version and today's.
+
 **Acceptance:** dry-run green on the copy · restore proven · `ls ~/tlvphotos/.claude/skills | grep
 director` is non-empty · tlvphotos works the way it did before the migration.
 
