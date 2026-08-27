@@ -198,8 +198,13 @@ def check_patterns(patterns, rows, config, columns):
     findings = []
     promotion = config.get("promotion") or {}
     required = promotion.get("refusals_required")
-    min_words = promotion.get("phrase_min_words", 1)
-    max_words = promotion.get("phrase_max_words", 99)
+    # No fallback width. These stood at 1 and 99 — invented magnitudes with no source (the
+    # 2026-08-07 census, row 14, found no trace behind the declared 2-8 either), and they made a
+    # config that omits its bounds pass almost any phrase silently instead of saying so. A width the
+    # config does not declare is a config defect, reported below the way its sibling
+    # `refusals_required` already reports one; there is no width to check until it is declared.
+    min_words = promotion.get("phrase_min_words")
+    max_words = promotion.get("phrase_max_words")
     tiers = config.get("tiers") or []
     id_col, _date_col, task_col, tier_col, _reason_col = columns
     by_id = {row[id_col]: row for row in rows if row[id_col]}
@@ -211,6 +216,17 @@ def check_patterns(patterns, rows, config, columns):
             % (required,),
             "state promotion.refusals_required as a whole number of refusals (row 507 states three)"))
         required = 3
+
+    bounds_declared = (isinstance(min_words, int) and not isinstance(min_words, bool)
+                       and isinstance(max_words, int) and not isinstance(max_words, bool)
+                       and 1 <= min_words <= max_words)
+    if patterns and not bounds_declared:
+        findings.append(_finding(
+            "config-shape",
+            "promotion.phrase_min_words/phrase_max_words read %r and %r, which name no phrase width"
+            % (min_words, max_words),
+            "state both as whole numbers of words, the smaller first; a promoted phrase is checked "
+            "against the width the config declares, and an undeclared width checks nothing"))
 
     seen_phrases = {}
     for pattern in patterns:
@@ -229,7 +245,7 @@ def check_patterns(patterns, rows, config, columns):
                 "the phrase %r is promoted twice" % phrase,
                 "one entry per phrase; merge the two and keep every Id behind it"))
         seen_phrases[phrase] = True
-        if not (min_words <= len(words) <= max_words):
+        if bounds_declared and not (min_words <= len(words) <= max_words):
             findings.append(_finding(
                 "config-shape",
                 "the pattern %r is %d words long, outside the declared %d to %d"

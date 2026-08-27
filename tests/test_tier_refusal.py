@@ -152,6 +152,34 @@ class TestAWellFormedRecordStaysSilent:
         assert "OK (check-tier-refusal)" in res.stdout
 
 
+class TestAnUndeclaredPhraseWidthIsNamedRatherThanInvented:
+    """A config that omits its phrase width used to fall back to an invented 1-to-99, which passed
+    almost any phrase silently. The width is the config's to declare; an absent one is a config
+    defect the gate names, the way it already names an absent `refusals_required`."""
+
+    def _config_without_bounds(self, tmp_path, rows, patterns):
+        config = json.loads(read("guardrails/tier-refusal.json"))
+        config["patterns"] = list(patterns)
+        config["promotion"].pop("phrase_min_words")
+        config["promotion"].pop("phrase_max_words")
+        path = tmp_path / "tier-refusal.json"
+        path.write_text(json.dumps(config), encoding="utf-8")
+        _, record = _write(tmp_path / "rec", rows=rows)
+        return _gate("--config", str(path), "--record", record)
+
+    def test_a_config_with_no_declared_width_reds(self, tmp_path):
+        (tmp_path / "rec").mkdir()
+        res = self._config_without_bounds(tmp_path, AGREEING, [PROMOTED])
+        assert res.returncode == 1, res.stdout
+        assert "name no phrase width" in res.stdout
+
+    def test_the_declared_width_still_bounds_a_promoted_phrase(self, tmp_path):
+        long_phrase = dict(PROMOTED, phrase=" ".join(["word"] * 12))
+        res = _run(tmp_path, rows=AGREEING, patterns=[long_phrase])
+        assert res.returncode == 1, res.stdout
+        assert "outside the declared 2 to 8" in res.stdout
+
+
 class TestABrokenRecordReds:
 
     def test_a_row_with_a_missing_cell_reds(self, tmp_path):
