@@ -175,64 +175,75 @@ director` is non-empty · tlvphotos works the way it did before the migration.
 
 
 ### ⬜ A bad message is caught the moment it's created — id: q-399
-**Group:** Method reliability · **Priority:** critical
+**Group:** Method reliability · **Priority:** normal
 **Source:** incident 2026-07-17 — "a bogus deposit passed the receiving sweep's gate."
+**Covered by:** q-398 — A request meant for another project reaches it automatically. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ Independent work is checked to prove it ran in parallel — id: q-412
-**Group:** Parallel & multi-agent work · **Priority:** critical
+**Group:** Parallel & multi-agent work · **Priority:** normal
 **Source:** owner 2026-07-17 — "guess! nothing!" (three parallel items ran single-file).
+**Covered by:** q-386 — Independent work actually runs in parallel branches, proven live. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ A worker never wipes out someone else's unsaved work — id: q-479
-**Group:** Worker & data safety · **Priority:** critical
+**Group:** Worker & data safety · **Priority:** normal
 **Source:** found 2026-07-23, four separate real occurrences of workers destroying uncommitted work.
+**Covered by:** q-624 — Repeated unsaved-work losses are finally traced, not waved past. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 Note: traces to the same recurring defect family as q-511, q-598, q-605, q-624, q-589, q-586, q-596, q-623 — a worker or session destroying or misreporting work that isn't its own. q-624 found 28 real violations of this still-unenforced rule and may already be the true blocker on this task — worth the owner's word on whether this closes the moment q-624's hook is installed, or whether they are two separate deliverables.
 
 
 ### ⬜ A color-contrast check now looks at the right background — id: q-490
-**Group:** Method reliability · **Priority:** critical
+**Group:** Method reliability · **Priority:** normal
 **Source:** deposit 2026-07-27 — the old check "blocked seven passing rows and let a genuinely failing one through unnamed."
+**Covered by:** q-489 — Every automatic check proves it can actually catch its problem. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 Note: largely fixed already; one known hole remains (bare single-class selectors).
 
 
 ### ⬜ The assistant never puts words in your mouth — id: q-497
-**Group:** Communication & reporting · **Priority:** critical
+**Group:** Communication & reporting · **Priority:** normal
 **Source:** 2026-07-27 ~16:20 — a sibling window dropped delegation for a whole movement over a false attribution.
+**Closes:** q-589, q-550
 
 
 ### ⬜ Every handed-in item is logged automatically — id: q-503
-**Group:** Feedback & measurement · **Priority:** critical
+**Group:** Feedback & measurement · **Priority:** normal
 **Source:** found 2026-07-27 — the feedback ledger went unwritten for ten days despite ten real deposits.
+**Covered by:** q-398 — A request meant for another project reaches it automatically. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ Finished work branches are cleaned up automatically — id: q-504
-**Group:** Parallel & multi-agent work · **Priority:** critical
+**Group:** Parallel & multi-agent work · **Priority:** normal
 **Source:** found 2026-07-27 — the three-lane cap was full of dead, already-merged branches.
+**Covered by:** q-386 — Independent work actually runs in parallel branches, proven live. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ Expensive AI help is used only when truly needed — id: q-507
-**Group:** Budget & economy · **Priority:** critical
+**Group:** Budget & economy · **Priority:** normal
 **Source:** owner 2026-07-27 ~20:31 — "about a fifth of the weekly budget in half a day" on mechanical work.
+**Covered by:** plan-17 — Each session reads only what it needs. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ A near-miss anywhere now warns every other project — id: q-511
-**Group:** Worker & data safety · **Priority:** critical
+**Group:** Worker & data safety · **Priority:** normal
 **Source:** 2026-07-27 evening — a real near-loss of edits in a sibling project, caught only by luck.
+**Covered by:** q-398 — A request meant for another project reaches it automatically. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ Shared displays are checked against what you see — id: q-517
-**Group:** Spec & feature quality · **Priority:** critical
+**Group:** Spec & feature quality · **Priority:** normal
 **Source:** deposit 2026-07-28 — a screen-reader announcement "was wrong in three ways for weeks" though every writer's own rule was obeyed.
+**Covered by:** plan-12 — The spec finally describes what the product does. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ A broken measurement refuses to fake a zero — id: q-525
-**Group:** Method reliability · **Priority:** critical
+**Group:** Method reliability · **Priority:** normal
 **Source:** found 2026-07-28 — 109 tracked documents all carried a false zero count.
+**Covered by:** q-489 — Every automatic check proves it can actually catch its problem. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### 👁️ A cleared mistake stops blocking every future push — id: q-527
-**Group:** Worker & data safety · **Priority:** critical
+**Group:** Worker & data safety · **Priority:** normal
 **Source:** found 2026-07-29; owner's word owed on what counts as "cleared."
 Note: held for Alexander: the row's final shape depends on a policy answer he hasn't given yet — what counts as a cleared mistake. The name describes the problem, not the resolution, because the resolution isn't written anywhere yet.
 
@@ -248,53 +259,60 @@ Note: held for Alexander: the row's final shape depends on a policy answer he ha
 
 
 ### ⬜ A leftover test server stops popping up security warnings — id: q-542
-**Group:** Worker & data safety · **Priority:** critical
+**Group:** Worker & data safety · **Priority:** normal
 **Source:** found 2026-08-05 — servers 8–22 days old repeatedly triggered the owner's connection-approval dialog.
 
 
 ### ⬜ A decision recorded as your word actually quotes you — id: q-550
-**Group:** Method reliability · **Priority:** critical
+**Group:** Method reliability · **Priority:** normal
 **Source:** found 2026-08-06 — a session fabricated an entry under the owner's name that passed the existing check.
+**Covered by:** q-497 — The assistant never puts words in your mouth. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ Editing the spec updates every copy of it automatically — id: q-552
-**Group:** Spec & feature quality · **Priority:** critical
+**Group:** Spec & feature quality · **Priority:** normal
 **Source:** found 2026-08-06 — the same push was refused four times over one edit because two copies disagreed.
+**Covered by:** plan-12 — The spec finally describes what the product does. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ A safety check that only runs here now ships everywhere — id: q-567
-**Group:** Portability · **Priority:** critical
+**Group:** Portability · **Priority:** normal
 **Source:** inbox 2026-08-06 — a host cannot obey a rule that names a script it doesn't have.
+**Covered by:** plan-14 — Every project gets its own status view. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ You're warned before anything can trigger a security popup — id: q-581
-**Group:** Worker & data safety · **Priority:** critical
+**Group:** Worker & data safety · **Priority:** normal
 **Source:** deposit 2026-08-07 — the owner was interrupted twice in one session and said he always presses Deny.
 
 
 ### ⬜ A worker's cleanup step never erases unsaved work — id: q-586
-**Group:** Worker & data safety · **Priority:** critical
+**Group:** Worker & data safety · **Priority:** normal
 **Source:** found 2026-08-09 — a worker discarded uncommitted files through a command the existing guard didn't recognize.
+**Covered by:** q-624 — Repeated unsaved-work losses are finally traced, not waved past. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ A worker's report matches the files it changed — id: q-589
-**Group:** Worker & data safety · **Priority:** critical
+**Group:** Worker & data safety · **Priority:** normal
 **Source:** found 2026-08-12 — a worker's final report quoted facts that matched nothing in the actual tree.
+**Covered by:** q-497 — The assistant never puts words in your mouth. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ Personal settings never leak into a worker's task — id: q-596
-**Group:** Worker & data safety · **Priority:** critical
+**Group:** Worker & data safety · **Priority:** normal
 **Source:** found 2026-08-12 — text from the owner's personal layer surfaced inside four workers' results and cancelled one command.
 
 
 ### ⬜ Repeated unsaved-work losses are finally traced, not waved past — id: q-624
 **Group:** Worker & data safety · **Priority:** critical
 **Source:** found 2026-08-19 — 28 occurrences since 08-13, the same red suite result dismissed as "environmental" three times.
+**Closes:** q-479, q-586, q-605
 
 
 ### 🔄 Say the word, see exactly where things stand — id: plan-1
 **Group:** Board & visibility · **Priority:** normal
 **Source:** PLAN.md step 1, owner 26.08 ("pseudo-kanban").
+**Covered by:** plan-11 — The plan, board and queue become one list. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 Note: sibling of q-166 (Board & visibility) — q-166 is the full standing board with worker lanes and time-in-flight, parked separately by the owner as a bigger, separately-decided feature; this step is the near-term light view over the same Canon.
 
 The probe reads step statuses from acceptance commands; the board renders as a page (pseudo-kanban, per his 26.08 word); ticket-field recon landed in `docs/research/2026-08-26-board-ticket-fields.md`; the clock-hook wiring was investigated (found: safe-mode disables it, not a pack defect). Acceptance: his own trigger word in a new empty-context session gets the state, no question asked; the board opens; he confirms in one line he sees the time and a clear list.
@@ -305,21 +323,25 @@ Full body (rules, acceptance commands, measurements) preserved in git history: `
 ### 🔄 The cost of every extra process step is measured and justified — id: q-568
 **Group:** Budget & economy · **Priority:** normal
 **Source:** owner 2026-08-07, 00:17–01:10.
+**Covered by:** plan-17 — Each session reads only what it needs. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### 🔄 Every new session's starting weight is measured and trimmed — id: q-570
 **Group:** Budget & economy · **Priority:** normal
 **Source:** owner 2026-08-07 00:17.
+**Covered by:** plan-17 — Each session reads only what it needs. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### 🔄 Every made-up number in the system is found and removed — id: q-576
 **Group:** Method reliability · **Priority:** normal
 **Source:** owner 2026-08-07 09:16 (Russian, forceful — "find and root out every invented number").
+**Covered by:** q-489 — Every automatic check proves it can actually catch its problem. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### 🔄 The project's own goals are tracked with real, checkable numbers — id: q-617
 **Group:** Method housekeeping · **Priority:** normal
 **Source:** owner 2026-08-12/13 — goals lived only in memory, not in the plan's own status block.
+**Covered by:** plan-11 — The plan, board and queue become one list. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 Note: names the felt problem accurately, but the row is mid-repair and its final acceptance shape (a kept ledger vs. a live head-block table) wasn't fully settled in the source text.
 
 
@@ -398,6 +420,7 @@ Full body (rules, acceptance commands, measurements) preserved in git history: `
 ### ⬜ Every "done" mark on the board gets checked — id: plan-10
 **Group:** Board & visibility · **Priority:** normal
 **Source:** PLAN.md step 10, measured 27.08 — 4 of 10 steps had no real check.
+**Covered by:** plan-11 — The plan, board and queue become one list. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 Note: sibling of q-166 (Board & visibility) — q-166 is the full standing board with worker lanes and time-in-flight, parked separately by the owner as a bigger, separately-decided feature; this step is the near-term light view over the same Canon.
 
 Measured 27.08. Of the ten steps above, three have a check that runs what their acceptance
@@ -421,8 +444,9 @@ that reads both files and fails on a missing key.
 
 
 ### ⬜ The plan, board and queue become one list — id: plan-11
-**Group:** Board & visibility · **Priority:** normal
+**Group:** Board & visibility · **Priority:** critical
 **Source:** PLAN.md step 11, owner 27.08. (This document is that step's first draft.)
+**Closes:** plan-1, plan-10, q-566, q-481, q-617
 
 His word, 27.08: the plan, the board and the queue are one thing. The plan is its text, the board
 is its showing, the queue is its rows. A second list anywhere is the drift, and today there are two
@@ -443,6 +467,7 @@ carrying a feature and a priority mark, and names the exceptions.
 ### ⬜ The spec finally describes what the product does — id: plan-12
 **Group:** Spec & feature quality · **Priority:** normal
 **Source:** PLAN.md step 12, measured 27.08 — 279 of 308 requirements carry no feature name.
+**Closes:** q-108, q-117, q-118, q-143, q-192, q-436, q-437, q-459, q-517, q-552, q-440, q-486
 
 Measured 27.08. `spec/` holds 308 requirements; 29 carry a feature tag. The seventeen declared
 feature names sit on the seventeen smallest files, and the 279 untagged requirements — the bulk of
@@ -475,6 +500,7 @@ reddens a gate · two parts defining one requirement number redden a gate.
 ### ⬜ You hear only what changes for you — id: plan-13
 **Group:** Communication & reporting · **Priority:** normal
 **Source:** PLAN.md step 13, owner 27.08.
+**Covered by:** plan-16 — Every rule finally lives in exactly one place. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 His word, 27.08: "ты не должен грузить пользователя фигней", and it needs one home rather than
 three. Today the rules about what reaches a person are spread between the communicator skill, the
@@ -491,6 +517,7 @@ second copy of it.
 ### ⬜ Every project gets its own status view — id: plan-14
 **Group:** Cross-project · **Priority:** normal
 **Source:** PLAN.md step 14, checked 27.08 — no host has one today.
+**Closes:** q-221, q-567, q-241, q-509, q-171, q-168
 
 A host inherits skills and gates today. It does not inherit the plan, the computed checks, the
 probe or the board — those live only here, in this repository's own `scripts/`. Checked 27.08:
@@ -522,8 +549,9 @@ no local copy, and it has been idle since 27.07, so nothing of the owner's is in
 
 
 ### ⬜ Every rule finally lives in exactly one place — id: plan-16
-**Group:** Method housekeeping · **Priority:** normal
+**Group:** Method housekeeping · **Priority:** critical
 **Source:** PLAN.md step 16, owner 27.08.
+**Closes:** plan-13, q-119, q-131, q-134, q-141, q-144, q-424, q-484, q-471
 
 His word, 27.08: "надо сделать так чтобы каждому правилу был свой скилл и чтобы все сидело чётко...
 чтобы не было салата". Read by Fable the same afternoon, across every skill, both boot files and
@@ -567,8 +595,9 @@ the home for a rule it has never seen, in a recorded run.
 
 
 ### ⬜ Each session reads only what it needs — id: plan-17
-**Group:** Budget & economy · **Priority:** normal
+**Group:** Budget & economy · **Priority:** critical
 **Source:** PLAN.md step 17, owner 27.08 — "план возможно тоже не надо грузить целиком всегда."
+**Closes:** q-570, q-584, q-568, q-575, q-507, q-457, q-205, q-140
 
 His word, 27.08: "план возможно тоже не надо грузить целиком всегда. есть же доска."
 
@@ -594,79 +623,94 @@ made against a measured before and after, or it is declined with the measurement
 ### ⬜ The board shows everything the team is doing, live — id: q-166
 **Group:** Board & visibility · **Priority:** normal
 **Source:** owner 2026-07-07 ~09:36, widened seven more times through 2026-08-06.
+**Closes:** q-133, q-582, q-583, q-411
 Note: this is the large standing board; plan-1 and plan-10 are the near-term light version of the same idea.
 
 
 ### ⬜ Ask "show me all the features" and get an answer — id: q-133
 **Group:** Board & visibility · **Priority:** normal
 **Source:** owner 2026-07-06 ~15:52.
+**Covered by:** q-166 — The board shows everything the team is doing, live. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 Note: mostly landed (2026-07-06); one leg — it firing on his next real ask — stays open.
 
 
 ### ⬜ Every open task reads clearly on the board — id: q-566
 **Group:** Board & visibility · **Priority:** normal
 **Source:** owner 2026-08-06 ~21:00, on record in DECISIONS.md.
+**Covered by:** plan-11 — The plan, board and queue become one list. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ The status page shows the one thing being finished now — id: q-582
 **Group:** Board & visibility · **Priority:** normal
 **Source:** deposit 2026-08-07 09:54 — owner: "the pack has to learn to help the client focus."
+**Covered by:** q-166 — The board shows everything the team is doing, live. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ Long builds show progress as they happen — id: q-583
 **Group:** Board & visibility · **Priority:** normal
 **Source:** deposit 2026-08-07 09:54 — a four-hour block with no feedback along the way.
+**Covered by:** q-166 — The board shows everything the team is doing, live. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⛔ One view shows who's working on what, everywhere — id: q-411
 **Group:** Board & visibility · **Priority:** normal
 **Source:** owner 2026-07-17 ~15:54, named as far-tier (4.0) himself.
+**Covered by:** q-166 — The board shows everything the team is doing, live. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 Note: deferred by his own placement, not by a problem.
 
 
 ### ⛔ Decisions explain what changes for you — id: q-119
 **Group:** Communication & reporting · **Priority:** normal
 **Source:** owner 2026-07-06 ~10:40 — "what you gave me in the HTML is not!!!"
+**Covered by:** plan-16 — Every rule finally lives in exactly one place. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⛔ Work is narrated out loud as it happens — id: q-131
 **Group:** Communication & reporting · **Priority:** normal
 **Source:** owner 2026-07-06 ~13:57, second ask in one day.
+**Covered by:** plan-16 — Every rule finally lives in exactly one place. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⛔ The reply clock reads the real time automatically — id: q-134
 **Group:** Communication & reporting · **Priority:** normal
 **Source:** 2026-07-06 session 16 — leads still drifted from the wall clock.
+**Covered by:** plan-16 — Every rule finally lives in exactly one place. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⛔ Every chat window follows the same rules automatically — id: q-141
 **Group:** Communication & reporting · **Priority:** normal
 **Source:** owner 2026-07-06 ~20:41 — "can you actually do something about communication??"
+**Covered by:** plan-16 — Every rule finally lives in exactly one place. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⛔ The visible task list speaks plain words, no codes — id: q-144
 **Group:** Communication & reporting · **Priority:** normal
 **Source:** owner 2026-07-06 ~21:22.
+**Covered by:** plan-16 — Every rule finally lives in exactly one place. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ The session always reports what it did, unprompted — id: q-484
 **Group:** Communication & reporting · **Priority:** normal
 **Source:** owner 2026-07-27, three separate asks in one morning.
+**Covered by:** plan-16 — Every rule finally lives in exactly one place. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ New requests say which existing task they match — id: q-486
 **Group:** Communication & reporting · **Priority:** normal
 **Source:** owner 2026-07-27.
+**Covered by:** plan-12 — The spec finally describes what the product does. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ Your text is changed only where you asked — id: q-485
 **Group:** Readability & plain language · **Priority:** normal
 **Source:** owner 2026-07-27.
+**Covered by:** q-458 — The plain-language text checker becomes its own reusable tool. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ A confusing sentence gets fixed at its source — id: q-487
 **Group:** Readability & plain language · **Priority:** normal
 **Source:** owner 2026-07-27 — called "the most valuable of the morning's asks."
+**Covered by:** q-458 — The plain-language text checker becomes its own reusable tool. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ Your edits on a review page save straight to the files — id: q-453
@@ -677,61 +721,73 @@ Note: deferred by his own placement, not by a problem.
 ### ⬜ Reports include a time estimate, and later say how close it was — id: q-471
 **Group:** Communication & reporting · **Priority:** normal
 **Source:** 2026-07-23, widened 2026-07-27 to a kept ledger of promised-vs-actual.
+**Covered by:** plan-16 — Every rule finally lives in exactly one place. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ Projects learn automatically when a new rule applies — id: q-509
 **Group:** Communication & reporting · **Priority:** normal
 **Source:** owner 2026-07-27 ~23:14.
+**Covered by:** plan-14 — Every project gets its own status view. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ Text always names what a group of items actually is — id: q-510
 **Group:** Readability & plain language · **Priority:** normal
 **Source:** owner 2026-07-27 ~23:31 — reading his own "Опора 4" example.
+**Covered by:** q-458 — The plain-language text checker becomes its own reusable tool. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⛔ Every mention of an item includes its plain description — id: q-424
 **Group:** Communication & reporting · **Priority:** normal
 **Source:** owner 2026-07-19.
+**Covered by:** plan-16 — Every rule finally lives in exactly one place. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ The spec reads like a person wrote it — id: q-148
 **Group:** Readability & plain language · **Priority:** normal
 **Source:** owner 2026-07-06 ~23:24, several approved/killed rounds since.
+**Covered by:** q-458 — The plain-language text checker becomes its own reusable tool. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ Text is checked for awkward phrasing before you see it — id: q-170
 **Group:** Readability & plain language · **Priority:** normal
 **Source:** inbox 2026-07-07.
+**Covered by:** q-458 — The plain-language text checker becomes its own reusable tool. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ Text you read is drafted with a clear head first — id: q-208
 **Group:** Readability & plain language · **Priority:** normal
 **Source:** owner 2026-07-10 ~00:53, third onboarding bounce.
+**Covered by:** q-458 — The plain-language text checker becomes its own reusable tool. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ Text rewrites are checked to prove no meaning was lost — id: q-204
 **Group:** Readability & plain language · **Priority:** normal
 **Source:** homeless backlog item, homed 2026-07-10.
+**Covered by:** q-458 — The plain-language text checker becomes its own reusable tool. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ The plain-language text checker becomes its own reusable tool — id: q-458
 **Group:** Readability & plain language · **Priority:** normal
 **Source:** owner 2026-07-22 — "как аудировать тексты — это отдельный скилл."
+**Closes:** q-148, q-170, q-204, q-208, q-460, q-493, q-485, q-487, q-510, q-203, q-381
 
 
 ### ⬜ Old documents are rewritten to read clearly, and stay that way — id: q-460
 **Group:** Readability & plain language · **Priority:** normal
 **Source:** owner 2026-07-22.
+**Covered by:** q-458 — The plain-language text checker becomes its own reusable tool. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ Text never describes a tool as if it were a person — id: q-493
 **Group:** Readability & plain language · **Priority:** normal
 **Source:** deposit 2026-07-27 — owner stopped reading and named the class ("cups do not fluoresce").
+**Covered by:** q-458 — The plain-language text checker becomes its own reusable tool. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⛔ A workflow diagram lives in exactly one place — id: q-381
 **Group:** Readability & plain language · **Priority:** normal
 **Source:** owner 2026-07-17.
+**Covered by:** q-458 — The plain-language text checker becomes its own reusable tool. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ✅ Three small clarity fixes are restored to a rewritten rule — id: q-595
@@ -742,41 +798,49 @@ Note: deferred by his own placement, not by a problem.
 ### ⛔ New features are checked against how people actually use the product — id: q-108
 **Group:** Spec & feature quality · **Priority:** normal
 **Source:** owner 2026-07-06 ~00:25, tlvphoto evidence.
+**Covered by:** plan-12 — The spec finally describes what the product does. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⛔ A finished feature is walked through like a real visitor — id: q-117
 **Group:** Spec & feature quality · **Priority:** normal
 **Source:** inbox 2026-07-06 ~10:10; companion to q-108.
+**Covered by:** plan-12 — The spec finally describes what the product does. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⛔ A default choice gets a human decision within two releases — id: q-118
 **Group:** Spec & feature quality · **Priority:** normal
 **Source:** inbox 2026-07-06 ~10:10.
+**Covered by:** plan-12 — The spec finally describes what the product does. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⛔ New features get measurable speed targets, not just working code — id: q-143
 **Group:** Spec & feature quality · **Priority:** normal
 **Source:** owner 2026-07-06 ~21:03, on a page that loaded slow with no timing plan.
+**Covered by:** plan-12 — The spec finally describes what the product does. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⛔ Every step of a journey states what it needs and leaves behind — id: q-192
 **Group:** Spec & feature quality · **Priority:** normal
 **Source:** owner 2026-07-09 late evening.
+**Covered by:** plan-12 — The spec finally describes what the product does. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⛔ New projects know upfront which variations to design for — id: q-436
 **Group:** Spec & feature quality · **Priority:** normal
 **Source:** tlvphotos inbox 2026-07-20.
+**Covered by:** plan-12 — The spec finally describes what the product does. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ Checking for similar cases happens at every level — id: q-437
 **Group:** Spec & feature quality · **Priority:** normal
 **Source:** tlvphotos inbox 2026-07-20; sibling of q-436.
+**Covered by:** plan-12 — The spec finally describes what the product does. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ A reported bug is checked against the spec before it's fixed — id: q-459
 **Group:** Spec & feature quality · **Priority:** normal
 **Source:** owner 2026-07-22, rotation-bug case.
+**Covered by:** plan-12 — The spec finally describes what the product does. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ✅ The spec rule about exceptions now names them — id: q-609
@@ -792,56 +856,67 @@ Note: deferred by his own placement, not by a problem.
 ### ⬜ A proven method builds thorough tests every time — id: q-163
 **Group:** Testing · **Priority:** normal
 **Source:** inbox from track-coach close, 2026-07-05.
+**Closes:** q-191, q-491, q-554
 
 
 ### ⬜ Test practices are checked against how the industry does it — id: q-191
 **Group:** Testing · **Priority:** normal
 **Source:** owner 2026-07-09 late evening.
+**Covered by:** q-163 — A proven method builds thorough tests every time. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ Test suites follow rules that keep them running fast — id: q-491
 **Group:** Testing · **Priority:** normal
 **Source:** owner 2026-07-27, after a real 572-second suite was cut to 285.
+**Covered by:** q-163 — A proven method builds thorough tests every time. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ Slow tests are rebuilt to prove themselves quickly — id: q-554
 **Group:** Testing · **Priority:** normal
 **Source:** owner 2026-08-06 11:03.
+**Covered by:** q-163 — A proven method builds thorough tests every time. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ Every quality check is tested to prove it actually works — id: q-217
 **Group:** Method reliability · **Priority:** normal
 **Source:** owner 2026-07-10 ~10:22 — "convergence of all processes is needed."
+**Covered by:** q-489 — Every automatic check proves it can actually catch its problem. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ A full audit of a rough day finds what the method missed — id: q-220
 **Group:** Method reliability · **Priority:** normal
 **Source:** owner 2026-07-10 ~10:43.
+**Covered by:** q-489 — Every automatic check proves it can actually catch its problem. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ Documents are automatically re-checked so wording never drifts — id: q-230
 **Group:** Method reliability · **Priority:** normal
 **Source:** owner 2026-07-10 ~11:02.
+**Covered by:** q-489 — Every automatic check proves it can actually catch its problem. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ The method watches its own numbers and improves them on a schedule — id: q-492
 **Group:** Method reliability · **Priority:** normal
 **Source:** owner 2026-07-27.
+**Covered by:** q-489 — Every automatic check proves it can actually catch its problem. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ Every automatic check proves it can actually catch its problem — id: q-489
 **Group:** Method reliability · **Priority:** normal
 **Source:** owner 2026-07-27; partly shipped 2026-07-27.
+**Closes:** q-217, q-492, q-230, q-454, q-455, q-220, q-525, q-490, q-576
 
 
 ### ⬜ Full documents get a periodic deep re-read on a set schedule — id: q-454
 **Group:** Method reliability · **Priority:** normal
 **Source:** owner 2026-07-22.
+**Covered by:** q-489 — Every automatic check proves it can actually catch its problem. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ Past working sessions are mined for lessons never written down — id: q-455
 **Group:** Method reliability · **Priority:** normal
 **Source:** owner 2026-07-22.
+**Covered by:** q-489 — Every automatic check proves it can actually catch its problem. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ✅ A weak test now actually checks what it claims — id: q-592
@@ -882,26 +957,31 @@ Note: deferred by his own placement, not by a problem.
 ### ⬜ The startup file carries only what it truly needs — id: q-205
 **Group:** Method housekeeping · **Priority:** quick win
 **Source:** homeless backlog item, homed 2026-07-10.
+**Covered by:** plan-17 — Each session reads only what it needs. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ A list tracks where handed-in files live, never their contents — id: q-207
 **Group:** Method housekeeping · **Priority:** normal
 **Source:** homeless backlog item, homed 2026-07-10.
+**Covered by:** q-427 — One live list shows every tunable setting. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ Every project setting is catalogued in one place — id: q-229
 **Group:** Method housekeeping · **Priority:** normal
 **Source:** owner 2026-07-10 ~11:00, post-1.0.
+**Covered by:** q-427 — One live list shows every tunable setting. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ Every tool's version number stays in sync automatically — id: q-231
 **Group:** Method housekeeping · **Priority:** normal
 **Source:** owner 2026-07-10 ~11:29.
+**Covered by:** q-427 — One live list shows every tunable setting. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ An approved idea from months ago finally gets built — id: q-238
 **Group:** Method housekeeping · **Priority:** normal
 **Source:** found 2026-07-10 — approved 2026-07-05, never built.
+**Covered by:** q-427 — One live list shows every tunable setting. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ Articles about the method link back to it, and it links back — id: q-243
@@ -912,6 +992,7 @@ Note: deferred by his own placement, not by a problem.
 ### ⬜ One live list shows every tunable setting — id: q-427
 **Group:** Method housekeeping · **Priority:** normal
 **Source:** owner 2026-07-19.
+**Closes:** q-229, q-231, q-207, q-238, q-410
 
 
 ### ✅ A retired rule number is now clearly marked — id: q-590
@@ -932,22 +1013,26 @@ Note: deferred by his own placement, not by a problem.
 ### ⬜ An old file-discarding incident gets its own proper record — id: q-605
 **Group:** Worker & data safety · **Priority:** quick win
 **Source:** found 2026-08-12 push review.
+**Covered by:** q-624 — Repeated unsaved-work losses are finally traced, not waved past. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 Note: the row itself is undecided between "give this incident its own record" and "declare it already covered by row 598/624." The name above describes the felt gap, not a settled deliverable. It also sits inside the same date range q-624's sweep covered (2026-08-13 onward — 07-28 isn't explicitly re-listed there) — worth checking whether this is already folded into q-624's broader finding before both are kept as separate tasks.
 
 
 ### ⬜ Every request is sorted as one-time or standing before it starts — id: q-440
 **Group:** Method housekeeping · **Priority:** normal
 **Source:** owner 2026-07-21, said sharply after a standing ask was treated as one-off.
+**Covered by:** plan-12 — The spec finally describes what the product does. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ Old queued tasks are reviewed and cleared out regularly — id: q-481
 **Group:** Board & visibility · **Priority:** normal
 **Source:** owner 2026-07-23 ~18:18 — "the roadmap is no five-year plan."
+**Covered by:** plan-11 — The plan, board and queue become one list. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ A safety net catches messy chat text automatically — id: q-203
 **Group:** Communication & reporting · **Priority:** normal
 **Source:** homeless backlog item, homed 2026-07-10.
+**Covered by:** q-458 — The plain-language text checker becomes its own reusable tool. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### 👁️ Three wording disagreements in the rulebook need your final call — id: q-536
@@ -965,6 +1050,7 @@ Note: held for Alexander: the row's final shape depends on a policy answer he ha
 ### ⬜ Shared code is checked for leaked personal data — id: q-488
 **Group:** Worker & data safety · **Priority:** normal
 **Source:** owner 2026-07-27 — engines must "contain no personal data at all."
+**Covered by:** q-54 — New projects learn who they're building for. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ✅ A worker's mistake in another project was traced and reported — id: q-598
@@ -980,66 +1066,79 @@ Note: held for Alexander: the row's final shape depends on a policy answer he ha
 ### ⛔ New projects learn who they're building for — id: q-54
 **Group:** Onboarding & founding · **Priority:** normal
 **Source:** owner 2026-07-05.
+**Closes:** q-129, q-190, q-93, q-236, q-488, q-496, q-421, q-400
 
 
 ### ⛔ Every project knows and updates its own kind — id: q-129
 **Group:** Onboarding & founding · **Priority:** normal
 **Source:** owner 2026-07-06 ~13:27.
+**Covered by:** q-54 — New projects learn who they're building for. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⛔ New projects can split public code from private content — id: q-190
 **Group:** Onboarding & founding · **Priority:** normal
 **Source:** owner 2026-07-09 late evening.
+**Covered by:** q-54 — New projects learn who they're building for. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⛔ Design changes sync automatically to visual projects — id: q-93
 **Group:** Onboarding & founding · **Priority:** normal
 **Source:** 2026-07-05.
+**Covered by:** q-54 — New projects learn who they're building for. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ Switches and text can be changed live, without a full rebuild — id: q-496
 **Group:** Product & infrastructure design · **Priority:** normal
 **Source:** owner 2026-07-27 ~15:00 — his own photo site needed a full build just to flip a switch.
+**Covered by:** q-54 — New projects learn who they're building for. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ Every project states which outside services it depends on — id: q-236
 **Group:** Product & infrastructure design · **Priority:** normal
 **Source:** owner 2026-07-10 ~13:48.
+**Covered by:** q-54 — New projects learn who they're building for. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ Design choices are checked against the real technical need — id: q-400
 **Group:** Product & infrastructure design · **Priority:** normal
 **Source:** owner 2026-07-17 afternoon.
+**Covered by:** q-54 — New projects learn who they're building for. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⛔ The product's performance after launch is tracked automatically — id: q-48
 **Group:** Feedback & measurement · **Priority:** normal
 **Source:** owner 2026-07-05.
+**Closes:** q-49, q-96, q-100, q-469
 
 
 ### ⛔ Two versions of a feature can be tried and measured — id: q-49
 **Group:** Feedback & measurement · **Priority:** normal
 **Source:** owner 2026-07-05.
+**Covered by:** q-48 — The product's performance after launch is tracked automatically. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ What people do with the product feeds back into planning — id: q-96
 **Group:** Feedback & measurement · **Priority:** normal
 **Source:** owner 2026-07-05.
+**Covered by:** q-48 — The product's performance after launch is tracked automatically. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⛔ A problem that keeps happening always gets an owner — id: q-100
 **Group:** Feedback & measurement · **Priority:** normal
 **Source:** owner 2026-07-05 ~23:00 — "solved!! Either solve the problem or agree that it isn't one."
+**Covered by:** q-48 — The product's performance after launch is tracked automatically. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ A persistently bad number automatically becomes a task — id: q-469
 **Group:** Feedback & measurement · **Priority:** normal
 **Source:** relayed 2026-07-22 ~19:34.
+**Covered by:** q-48 — The product's performance after launch is tracked automatically. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⛔ The method knows what to trim when money or time run short — id: q-140
 **Group:** Budget & economy · **Priority:** normal
 **Source:** owner 2026-07-06 ~20:23.
+**Covered by:** plan-17 — Each session reads only what it needs. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⛔ One command safely winds down all the work before you leave — id: q-235
@@ -1050,101 +1149,121 @@ Note: held for Alexander: the row's final shape depends on a policy answer he ha
 ### ⬜ Weekly spending is tracked and cheaper workers are used more — id: q-457
 **Group:** Budget & economy · **Priority:** normal
 **Source:** owner 2026-07-22, $6,486/week measured burn.
+**Covered by:** plan-17 — Each session reads only what it needs. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ Tests during work run fast; full proof runs at every release — id: q-575
 **Group:** Budget & economy · **Priority:** normal
 **Source:** cost audit, row 568, owner ~01:10 class ruling.
+**Covered by:** plan-17 — Each session reads only what it needs. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ Sessions save tokens by reading only what they need — id: q-584
 **Group:** Budget & economy · **Priority:** normal
 **Source:** deposit 2026-08-07 14:14 — owner: "work so as to spare the context."
+**Covered by:** plan-17 — Each session reads only what it needs. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ The method still works without git or GitHub — id: q-171
 **Group:** Portability · **Priority:** normal
 **Source:** owner 2026-07-08 ~09:07.
+**Covered by:** plan-14 — Every project gets its own status view. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⛔ The four safety checks are made portable to any project — id: q-241
 **Group:** Portability · **Priority:** normal
 **Source:** relayed 2026-07-10 ~14:22.
+**Covered by:** plan-14 — Every project gets its own status view. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ Your photo site can copy over the new setup on its own — id: q-221
 **Group:** Cross-project · **Priority:** normal
 **Source:** owner 2026-07-10 ~10:43.
+**Covered by:** plan-14 — Every project gets its own status view. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⛔ Handed-in files reach the project even from another machine — id: q-247
 **Group:** Cross-project · **Priority:** normal
 **Source:** owner 2026-07-10.
+**Covered by:** q-398 — A request meant for another project reaches it automatically. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⛔ Strangers can suggest changes through GitHub without special access — id: q-261
 **Group:** Cross-project · **Priority:** normal
 **Source:** split from q-247, 2026-07-12.
+**Covered by:** q-398 — A request meant for another project reaches it automatically. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ The first project sharing data gets its own safety checks — id: q-385
 **Group:** Cross-project · **Priority:** normal
 **Source:** split 2026-07-17.
+**Covered by:** q-398 — A request meant for another project reaches it automatically. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ A request meant for another project reaches it automatically — id: q-398
 **Group:** Cross-project · **Priority:** normal
 **Source:** owner 2026-07-17.
+**Closes:** q-247, q-261, q-511, q-503, q-385, q-399
 
 
 ### ⬜ One window can manage several related projects at once — id: q-421
 **Group:** Cross-project · **Priority:** normal
 **Source:** owner 2026-07-18 ~21:00.
+**Covered by:** q-54 — New projects learn who they're building for. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⛔ The right format shows up whether you're local or remote — id: q-168
 **Group:** Cross-project · **Priority:** normal
 **Source:** owner 2026-07-07 ~10:57.
+**Covered by:** plan-14 — Every project gets its own status view. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ Clear rules for running several workers at once — id: q-206
 **Group:** Parallel & multi-agent work · **Priority:** normal
 **Source:** homeless backlog item, homed 2026-07-10.
+**Covered by:** q-386 — Independent work actually runs in parallel branches, proven live. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ Big builds are planned so pieces can be built in parallel — id: q-215
 **Group:** Parallel & multi-agent work · **Priority:** normal
 **Source:** owner 2026-07-10 ~10:08.
+**Covered by:** q-386 — Independent work actually runs in parallel branches, proven live. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ Several independent workers are managed without stepping on each other — id: q-234
 **Group:** Parallel & multi-agent work · **Priority:** normal
 **Source:** owner 2026-07-10 ~13:06.
+**Covered by:** q-386 — Independent work actually runs in parallel branches, proven live. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ Independent work actually runs in parallel branches, proven live — id: q-386
 **Group:** Parallel & multi-agent work · **Priority:** normal
 **Source:** owner 2026-07-17 ~14:15 — "why do we wait? why is this written nowhere?"
+**Closes:** q-412, q-206, q-215, q-234, q-404, q-396, q-405, q-504
 
 
 ### ⛔ Agents on one machine can talk directly, not just through files — id: q-396
 **Group:** Parallel & multi-agent work · **Priority:** normal
 **Source:** owner 2026-07-17.
+**Covered by:** q-386 — Independent work actually runs in parallel branches, proven live. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ A trial run proves the multi-agent rules actually work — id: q-404
 **Group:** Parallel & multi-agent work · **Priority:** normal
 **Source:** plan section 7, 2026-07-17.
+**Covered by:** q-386 — Independent work actually runs in parallel branches, proven live. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⛔ Instant messaging between agents turns on once the tool supports it — id: q-405
 **Group:** Parallel & multi-agent work · **Priority:** normal
 **Source:** 2026-07-17/18.
+**Covered by:** q-386 — Independent work actually runs in parallel branches, proven live. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ Lessons learned automatically retire once no longer needed — id: q-410
 **Group:** Method housekeeping · **Priority:** normal
 **Source:** owner 2026-07-17 ~15:44.
+**Covered by:** q-427 — One live list shows every tunable setting. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
 ### ⬜ The front page is rewritten to be fully accurate — id: q-501
