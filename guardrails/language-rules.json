@@ -1269,7 +1269,6 @@
       "sources": [
         "~/.claude/playbook/personal/profile.md:13",
         "~/.claude/playbook/personal/profile.md:14",
-        "~/.claude/skills/live-spec-base/SKILL.md:528",
         "scripts/shipped-language-allowlist.json:15",
         "guardrails/pre-push:104"
       ],

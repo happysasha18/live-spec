@@ -11,7 +11,7 @@ from conftest import ROOT, spec_paths
 
 GATE = os.path.join(ROOT, "guardrails", "check-no-history.py")
 FX = os.path.join(ROOT, "tests", "fixtures", "specformat")
-CORPUS = os.path.join(ROOT, "spec", "roles-and-agents.md")
+CORPUS = os.path.join(ROOT, "tests", "fixtures", "specformat", "good_corpus_section.md")
 
 
 def run(*args):

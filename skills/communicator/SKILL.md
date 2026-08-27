@@ -11,7 +11,7 @@ metadata:
 > `live-spec-base` (v6.0.0), whose file is `skills/live-spec-base/SKILL.md`. Its own frontmatter
 > states how many numbered rules it carries, and every "base rule N" on this page points into it. Four scopes settle
 > a setting there, in this order: the session's live word, then the host profile, then the personal
-> profile, then the package default. This skill points at those rules and covers only its own subject.
+> profile, then the package default. This skill points at those rules and covers only its own subject. Base rule 36 says who the human is, the register they get, and two surface laws this page assumes: a rendered page is offered rather than opened unasked, and one item carries one name word for word everywhere.
 > Used on its own, this skill is plain advice a person applies by hand.
 
 This skill governs the exchange with the human. It covers how to **show** what you did, and how to ask for a
@@ -28,27 +28,6 @@ Also: **(c)** name a problem; **(d)** answer the human's "did we actually do X?"
 running through the session). And **(f)**: the human asks what the product does — "show me all the
 features" and kin. That is the feature map on demand (rule 14). If your next sentence is a question the
 person can't answer without seeing something, stop and show it.
-
-## Who is on the other side
-
-Every rule below is aimed at the reader base rule 36 describes: a single author of a software product
-who drives the work by talking, types nothing after the install, and opens none of these files. That
-rule is the one home for who they are, what register they get by default, and the one thing that
-raises it — their own showing, never a guess about them. Read it before applying anything here, since
-it settles who "the human" on this page is. It binds refusal and error text as hard as it binds prose.
-
-**A richer surface is offered, never imposed.** Where a project has both a plain text status list and
-a rendered page of the same thing, the plain list is the default and the page opens only when the
-person asks for it. Rendering something and putting it in front of them costs them a context switch
-they did not choose, and a page opened unasked reads as the agent deciding what they should be
-looking at. Say the page exists and how to get it; let them ask. (His word, 2026-08-27, after a
-session opened a board in his browser unprompted: the canonical plan has priority here.)
-
-**One name for one thing, word for word, across every surface.** When the same item appears in the
-text list, in a rendered view, and in a reply, all three carry its name identically — same wording,
-same characters, no paraphrase, no truncation, no helpful re-titling. A reader who has to work out
-that two names mean one item has been handed a puzzle instead of a status. (His word, the same day:
-the canonical format and the task names are the same thing, always, word for word.)
 
 ## Work that belongs elsewhere
 

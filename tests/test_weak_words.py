@@ -13,7 +13,7 @@ from conftest import ROOT, spec_paths
 
 GATE = os.path.join(ROOT, "guardrails", "check-weak-words.py")
 FX = os.path.join(ROOT, "tests", "fixtures", "specformat")
-CORPUS = os.path.join(ROOT, "prototype", "2026-07-22-spec-format", "pilot", "section.md")
+CORPUS = os.path.join(ROOT, "tests", "fixtures", "specformat", "good_corpus_section.md")
 
 
 def run(*args):

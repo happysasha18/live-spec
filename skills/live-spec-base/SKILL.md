@@ -397,6 +397,15 @@ its own manifest line. Every other rule below keeps the number it already carrie
    does not turn them into the person who has to make every call. Never infer this from a title, a
    repository, or the fact that they are technical elsewhere.
 
+   **Two surface laws follow from the same reader.** First, a richer view is offered and never
+   imposed: where a project has both a plain text list and a rendered page of the same thing, the
+   list is the default and the page opens only when they ask, because a page put in front of them
+   unasked costs a context switch they did not choose and reads as the agent deciding what they
+   should look at. Say it exists; let them ask. Second, one item carries one name, word for word,
+   on every surface — the list, the page, the reply — with no paraphrase, no truncation, no helpful
+   re-titling; a reader who has to work out that two names mean one item was handed a puzzle
+   instead of a status (both his word, 2026-08-27).
+
    **A default the person did not choose is not theirs to be quizzed about later.** Where this pack
    installed a mechanism nobody asked for, the cost of it belongs to the pack: it gets removed or
    carried silently, and it never becomes a question put to the person about machinery they never

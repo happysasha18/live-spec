@@ -447,7 +447,7 @@ repair the text from those stops rather than from the one sentence in front of y
 - **model** — absent.
 - **person** — absent. Reads: whether a pinned chat language still fits the reader.
 
-**Stated before this page, at.** ~/.claude/playbook/personal/profile.md:13, ~/.claude/playbook/personal/profile.md:14, ~/.claude/skills/live-spec-base/SKILL.md:528, scripts/shipped-language-allowlist.json:15, guardrails/pre-push:104
+**Stated before this page, at.** ~/.claude/playbook/personal/profile.md:13, ~/.claude/playbook/personal/profile.md:14, scripts/shipped-language-allowlist.json:15, guardrails/pre-push:104
 
 **Notes.** The package default mirrors the human's language for chat; this host pins English, with a Russian aside answered in Russian. The exemption list lives only as data.
 

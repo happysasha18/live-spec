@@ -13,7 +13,7 @@ from conftest import ROOT
 
 GATE = os.path.join(ROOT, "guardrails", "check-delta-record.py")
 FX = os.path.join(ROOT, "tests", "fixtures", "specformat")
-CORPUS = os.path.join(ROOT, "prototype", "2026-07-22-spec-format", "pilot", "section.md")
+CORPUS = os.path.join(ROOT, "tests", "fixtures", "specformat", "good_corpus_section.md")
 
 
 def fx(name):
