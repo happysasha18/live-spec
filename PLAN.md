@@ -278,6 +278,21 @@ tree over. Every future project meets it again.
 difference, and the same command reds when a file is edited in one place only.
 
 
+
+### ⬜ A project's starting state is saved the moment it joins — id: q-55
+**Group:** Onboarding & founding · **Priority:** normal
+**Source:** restored 27.08 — struck by that morning's provenance purge, then found to be the only owner of five promises the spec still makes (E-6, E-7, E-10, A-6, INV-17).
+
+**What it is.** When a project is taken on, its files are recorded as they were found, tracked in
+version control, so every later change can be compared against how it started.
+
+**Why it matters.** The spec promises this in three separate places, and both migrations queued
+today do it by hand in their own instructions. Nothing in the product does it yet, so each walk
+reinvents it and each one can forget.
+
+**Done when.** Taking on a project saves that baseline without being asked, and a command shows
+the difference between how the project looks now and how it looked when it joined.
+
 ### ⬜ A leftover test server stops popping up security warnings — id: q-542
 **Group:** Worker & data safety · **Priority:** normal
 **Source:** found 2026-08-05 — servers 8–22 days old repeatedly triggered the owner's connection-approval dialog.
