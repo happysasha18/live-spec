@@ -35,10 +35,18 @@ A session edits exactly two things here: a task's status and §Blockers. Nothing
 
 ## Words used here
 
-- **Task** — a numbered item below, ten of them. Days of work.
+- **Task** — an entry in `## Tasks` below. There is no fixed count; the count is
+  `grep -c '— id: ' PLAN.md`.
 - **Item** — a line inside a task.
 - **Canon** — the list of tasks with status marks that `scripts/state-probe.sh` prints. Never typed
   by hand. There is no other Canon.
+- **The five marks, and no others** — ✅ done · 🔄 in hand · ⬜ queued · ⛔ blocked · 👁️ needs his
+  eyes.
+- **Verified / declared** — printed beside a mark, never a sixth mark. Verified: the task has a
+  command in `scripts/plan_checks.py`, the probe ran it, and this is what it returned. Declared: no
+  command exists, so the mark is whatever a session typed by hand. **A declared ✅ is not proof of
+  done — it is a claim, read with the same suspicion as an open task, until it is verified.** Fixing
+  this for every task is plan-10's own job.
 - **Gates** — the checks that run before `git push`. Fail one, and the push is cancelled.
 - **The prover** — the external skill that hunts for defects in a spec. It stays, and gets more
   work.
