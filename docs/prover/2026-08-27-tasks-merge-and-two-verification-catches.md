@@ -79,6 +79,22 @@ incident is why the guard's own real value showed up twice in one afternoon.
   not yet confirmed by him — plan-11's own acceptance still requires the probe and board to prove
   themselves against a fresh session, which has not run yet.
 
+Files read: the full commit range's messages and diffstats (`git log -p cf4366d2..e011a0ea`);
+`PLAN.md`'s current `## Tasks` and `## Blockers` sections in full, after the merge; the three
+folded-task archive text samples pulled for the compression check (q-405, q-490, q-550);
+`hooks/worker-restore-guard.py` and `~/.claude/settings.json`'s hook wiring; today's three earlier
+prover records, superseded by this one.
+
+Checks run: `python3 guardrails/check-doc-rotation.py --doc ROADMAP.md` (OK, independently re-run
+after the parser fix); `python3 -m pytest tests/test_listener_tripwire.py tests/test_traceability.py
+tests/test_communicator_body_thinned.py tests/test_report_format.py tests/test_landing_next_steps.py`
+(219 passed, 1 skipped, independently re-run on the current tree, not taken from a worker's report);
+`bash scripts/state-probe.sh` (re-run after the q-624 and q-405 corrections, confirms the board's
+top matches the file); `python3 -m pytest tests/test_worker_restore_guard.py` (27 passed,
+independently re-run before closing q-624); `bash guardrails/check-shipped-language.sh` and
+`python3 scripts/preshow-register-lint.py PLAN.md` (both OK, re-run after every PLAN.md edit in
+this range).
+
 Findings: no blocking defect in this range's own content beyond what is already named above and
 already fixed or logged. No requirement, criterion, invariant or anchor was touched by anything in
 this range.
