@@ -96,6 +96,18 @@ for icon in CATEGORY_ORDER:
 shown = []
 idx = {icon: 0 for icon in CATEGORY_ORDER}
 budget = TASK_LINE_BUDGET
+
+# Critical first, across every category. A task marked critical was judged to matter now — that
+# judgment outranks which bucket it happens to sit in, so a critical queued task beats a normal
+# blocked one. Within critical, the file's own order stands. Only once every critical is shown
+# does the round-robin below fill what's left, so no single large category crowds the others out.
+for icon in CATEGORY_ORDER:
+    while budget > 0 and idx[icon] < len(buckets[icon]) and \
+            (buckets[icon][idx[icon]]["priority"] or "").strip().lower() == "critical":
+        shown.append(buckets[icon][idx[icon]])
+        idx[icon] += 1
+        budget -= 1
+
 progressed = True
 while budget > 0 and progressed:
     progressed = False
