@@ -135,4 +135,13 @@ ones: this seat held a decision open for a human whose permission to decide it h
 given, and only moved when he asked why nothing had finished. That is recorded in `PLAN.md` as a
 recurring shape to watch, not as a one-off apology.
 
+Postscript, same record extended in place a second time rather than joined by another file: the
+range above pushed clean to `origin/main` at 09:27 (`a42c6fd2..8d6dba98`, confirmed by
+`git ls-remote`, not by the push command's own output alone). Clearing the stale push blocker from
+`PLAN.md` afterwards re-fired gate a's freshness rule against this very record — the tail-chase
+this record already names two sections up, reproduced immediately and on cue. Extended here rather
+than answered with a fourth record, which is the same workaround, now applied twice in one morning
+and therefore worth its own line: the durable fix is teaching `check-prover-record.sh` that a range
+of pure records owes no record, and that is a gate-logic change awaiting the owner's word.
+
 Blocking: none
