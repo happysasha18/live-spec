@@ -591,6 +591,23 @@ One line per finding. Don't move it into ROADMAP. Don't fix it without the owner
   ambiguity in code mode's closing summary) and a readability read. Adversarial review by
   Fable/Opus was skipped on his own permission (his call whether it was worth doing) — the
   finding has already been re-checked twice. An adjacent finding stayed adjacent: `scripts/install-pack-hooks.sh:23-27` has no `*)` branch in its argument parsing (`--dryrun` instead of `--dry-run` silently installs the hooks for real) — not fixed this session (law 5), his word is needed on the finding itself, not on the push.
+- **Settled 27.08 — the board question answered by him directly, so the sketch question is moot.**
+  He looked at the rendered board and said what was wrong with it: the details behind the toggle
+  showed raw markup, one card dumped its whole body onto its face while another did it right,
+  subtasks wanted their own status, and the task names must match the plain list word for word,
+  always. All four are fixed and the last is held by a test rather than by care. Two standing
+  rules came with it and now live in the skill that governs showing work: a rendered page is
+  offered and never opened unasked, with the plain list as the default surface; and one item
+  carries one name across every surface. The older open question below — whether to build the
+  full five-column feature with agent lanes and worker chips — stays exactly as it was, neither
+  reopened nor closed by this, since the light view is what the plan asked for and what he has now
+  reviewed.
+- **The clock reaches sessions again — resolved, no action left.** The cause recorded below was a
+  terminal launched with safe mode on, which disables every hook for the sessions it holds. This
+  session gets its wall-clock stamp on every turn, so the condition is gone. Nothing was built to
+  fix it and nothing should be.
+- **`docs/director/capability-map.md` — gone, the entry is stale.** That whole directory was
+  deleted by step 3's cleanup on his own word. There is nothing left to have drifted.
 - **Which board sketch is approved — a candidate found, the owner's word not checked.**
   `docs/norms/work-board.html` (variant 8) is recorded as a frozen norm
   (`docs/norms/work-board.provenance.md`): approved 06.08 ~20:47, grown out on his own words
@@ -604,7 +621,6 @@ One line per finding. Don't move it into ROADMAP. Don't fix it without the owner
 - **`build-pipeline` is still listed as the pipeline's owner** in `TEST_MATRIX.md`,
   `ARCHITECTURE.md` and its index, `MIGRATION.md`, `skills/spec-author/SKILL.md`, and six closing
   rosters. No gate catches this. A separate design task, not a one-line fix.
-- **`docs/director/capability-map.md` has drifted from the tree.** Blocks nothing.
 - **Global hooks were cut 26.08 at 09:28** from ~10 to 4; the meter `hook-meter.py` was also
   removed. Backup: `~/.claude/settings.json.bak-2026-08-17`. Decide what to bring back.
 - **Why time doesn't reach the session — found, not cleaned up.** `~/.claude/hooks/clock-hook.sh`
