@@ -129,178 +129,14 @@ The main plan is **always one file: `~/live-spec/PLAN.md`.** Never start a secon
 
 ---
 
-## Steps
+## Tasks
 
-`[ ]` not started · `[~]` in progress · `[x]` closed · `[!]` blocked
+One list: the plan's own steps and the former ROADMAP.md queue, merged 27.08 per step 11. Order: critical, then in hand, then the plan's own steps in their existing order, then everything else by group. Marks: ✅ done · 🔄 in hand · ⬜ queued · ⛔ blocked · 👁️ needs his eyes — the same five the Canon report itself uses. Former ROADMAP.md rows are archived verbatim at `docs/queue-archive/rotated-ROADMAP-2026-08-27-merged-into-plan.md`.
 
-### [x] 0. Come home
-
-- [x] `~/live-spec` — a live working tree on `origin/main` (was: a bare repository, 443 commits
-      behind, with a dump of files from 17.08 on top).
-- [x] 133 files outside git checked; 5 turned out unique, returned to the tree.
-- [x] `PLAN.md` and `scripts/state-probe.sh` are in place, the probe runs.
-- [x] `/private/tmp/ls-director` fully removed. 20 files (the eval rig with blind labels, a
-      shadow copy of a skill, push logs) rescued to
-      `~/live-spec-rescue-2026-08-26/from-tmp-ls-director/`.
-- [x] The handoff archived: `attic/DIRECTOR_HANDOFF-2026-08-26.md` (80,670 bytes). Its source sat
-      under the name `/private/tmp/ls-director/CLAUDE.md` — the plan named it by a name that
-      didn't exist, and a cold start tripped over that.
-- [x] Squeezed down to `attic/DIRECTOR_HANDOFF-2026-08-26-decisions.md` (2,997 bytes, was 80,670).
-      Environment traps moved to §Environment, debts moved to §Blockers.
-- [x] The 5 recovered files committed (sitting in unpushed commits).
-
-**Acceptance:** `bash scripts/state-probe.sh` confirms it matches `origin/main` and the tree is
-clean (the script's own terminal output stays in his working language, untouched by this
-translation), and no line about `/private/tmp` appears in the ALARM section.
-
-### [~] 1. Probe and board — the trigger word works
-
-Collapses four of the owner's requests into one artifact: a short TODO in plain product words · a
-handoff that's always ready · drift catches itself · the board as a feature.
-
-- The probe already prints state. Bring it to the point where it reads step statuses by running
-  the acceptance commands, not by reading a hand-set checkmark.
-- Render the script's output as a page. **View — a pseudo-kanban** (his word, 26.08: the existing
-  sketch `prototype/work-board-sketch.html` is so-so, a board with columns is needed).
-- **What should sit on each ticket — he already said this specifically, 2–4 weeks ago.** A cheap
-  worker does the recon through the transcripts, the result is
-  `docs/research/2026-08-26-board-ticket-fields.md`. Don't invent fields again: they're already
-  named in his own words, they need to be found.
-- Time in replies: `~/.claude/hooks/clock-hook.sh` is set up and works on a manual run, but
-  doesn't reach the session. Find out why. Don't set up a new hook.
-
-**Acceptance:** the owner types his own trigger word for "carry on" in a new session with an empty
-context and gets the state with no question asked · the board opens · the owner confirms in one
-line that he sees the time and a clear list.
-
-### [x] 2. An honest score for Director, and three missing rules
-
-Traces were recorded 24.08, the skill changed 25.08 — nobody knows the current score.
-`evals/director.md`, meanwhile, claims "No run has been executed."
-
-Fable's breakdown of the 15 failures: 4 are fixture defects, 3 are unresolvable (they depend on
-world state), 8 are skill defects, 7 of which lose a secondary label while behaving correctly. On
-the main claim (a question doesn't turn into a task), there isn't a single error.
-
-- Delete `evals/director.md`; the one home for the acceptance fact is `evals/director/`.
-- Re-record the 35 traces on the current skill.
-- Add to `skills/director/SKILL.md`:
-  - **a decision** — this is a standing rule, an authority grant, and a division of
-    responsibility at once ("from now on," "always," "note this down for yourself"); it travels
-    along with an instruction and gets recorded separately;
-  - **grounds for an act** — its own act only when it states something new, and isn't already
-    fully carried by a neighboring act's goal;
-  - **halt** — about the session's own work; "stop the server" inside a procedure is an
-    instruction, not a halt;
-  - **correction** — changes the goal or constraints enough that the remainder needs replanning.
-- Fix 6 fixtures: `idea-with-a-cheap-branch`, `observation-a-verdict-on-delivered-work`,
-  `mixed-plan-and-two-questions`, `mixed-conditional-pause`, `mixed-check-now-improve-later`,
-  `mixed-you-invented-that-work`.
-- `check.py`: grade secondary acts as required/forbidden; catch `creates_work: true` when
-  `work_items: 0`.
-
-**Acceptance:** `python3 evals/director/check.py --all` — every one of the 15 former failures is
-green, or accepted by the owner with one line saying why. Don't invent a numeric threshold (law 2).
-
-### [x] 3. Garbage and transcripts
-
-- Remove garbage files everywhere. Candidates in the tree: `prototype/` at 4.2 MB, part of
-  `docs/` at 11 MB, spent worker checkpoints. Exactly what — by measurement, shown to the owner
-  before deletion.
-- Move the transcripts whole into `attic/`, without editing them.
-- **Transcript analysis:** Sonnet workers do the sampling, Fable does the interpretation. The
-  question: what went wrong all month, and what follows from it. The result — lines in the
-  existing problem journal `.live-spec/PROBLEMS.md`. Don't start a new place for it.
-
-**Acceptance:** `du -sh` before and after · transcripts are in place and readable · the owner has
-read Fable's conclusions and said whether he recognizes his month in them.
-
-### [x] 4. One term, one word
-
-The owner's complaint: one time it's a branch, another time it's a hand, a third time it's a
-worktree, and good luck telling them apart — and "hand" even means an agent too. The same drift
-as in the plan and the handoff, just in language.
-
-- Run `text-audit` across every document and skill: collect cases where one thing is named
-  differently, and where a word is used with no explanation.
-- Converge to one word per thing. The glossary: `skills/live-spec-base/references/glossary.md`.
-- There's no mechanism for this in chat (the owner turned down hooks, since the rule is already
-  written down in three places); it's held up by law 6.
-
-**Acceptance:** the list of mismatches shown to the owner · the convergence done · the owner reads
-any three documents and says whether they got clearer.
-
-### [x] 5. The prover on code
-
-The owner's direct request: part of the external prover should work on code too, not only on the
-spec. Identify the portable part (class analysis, set completeness, hunting for related defects),
-and touch up the external prover.
-
-**Acceptance:** the prover finds a defect in real code that the tests missed; the owner confirms
-the finding is real.
-
-### [x] 6. Tearing down machinery — measured, the hypothesis didn't hold
-
-**Measured 26.08, a sample of 120 phrases out of 763, spread evenly across test files.** Checked
-this way: whether the guarded phrase ever changed once across 1,851 commits. If it never changed,
-the test never had a chance to fail.
-
-Result: **18 of 110 measurable ones never once had a chance to fail (16%)**. 84% did change.
-Without two purely mechanical restructuring commits, 53% remain with a genuine content edit.
-
-**Decision: there will be no mass removal of phrase-guard tests.** The hypothesis that they guard
-text and catch nothing was tested and didn't hold. More than half guard wording that really was
-edited for meaning — a blanket removal would have taken those out too.
-
-**What remains from this step:**
-- Remove the 18 proven-dead ones, re-measuring each individually before removal (the sample isn't
-  a verdict on its neighbors in the same file).
-- 22 functions of the "file exists" shape — look at them by eye.
-- **Don't touch the pre-push check until Director is measured** (the owner's decision, 26.08). It demands a review report on every push, because it doesn't know whether one is needed. Director does know: its decision already carries lines for what's affected, what evidence is
-  needed, and which documents actually change. The wire between its decision and the check has never once been run. Building a second classifier off a path list is forbidden by mandate: the model decides meaning, code decides mechanics. Order: measure Director first, then the wire. If it's unreliable — fix it, don't route around it.
-- **The real cost isn't in the tests.** What turned out expensive is the ceremony around a text
-  edit: a prover record and a skill-review record on every one. That's what should be cancelled,
-  keep the tests.
-  **Answered 27.08, against cancelling it, and the answer is his own.** The skill-review check
-  already lets the meaningless edits through: a version stamp the machine wrote, and a change that
-  is only letter case or whitespace, both carved out by name and by test. What is left firing is a
-  real change to a real sentence — and his own reason for parking this stands as the argument
-  against cancelling: removing one word can flip a sentence's meaning, so there is no size below
-  which a text edit is safe by inspection. Nothing to cancel.
-  The cost that was actually felt across these two sessions was a different thing wearing the same
-  coat: a plan edit committed by itself, after the review record, makes the record stale and asks
-  for another. That is the check working correctly on a session that split one piece of work into
-  eight commits. A session that commits its plan edits alongside the work they describe never sees
-  it, and no machinery has to change for that.
-- Caveats on the measurement: `git log -S` can't see history before a file move · the method
-  misses phrases with a soft line-wrap (5 of 120) · the external clone `skills/product-prover/`
-  carries no history here. Recountable with the scripts in session 385f4cf5's scratchpad.
-
-### [x] 7. Cut the required context
-
-Right now 16,262 tokens on every session start (the probe measures it via tiktoken). ROADMAP row
-570 has been in progress since 07.08. The cutting rule: a rule not covered by an eval fixture and
-not run by a script is a wish; its place is in `attic/`.
-
-**Acceptance:** the probe prints the number before and after. The owner sets the target number
-(law 2).
-
-### [x] 8. Release to the outside
-
-`VERSION` = 5.0.0 both before and after the rebuild — even though `build-pipeline` was cut from
-728 to 66 lines, `director` was added, `architect` was carved out, 54 gate files were torn down.
-The last chapter of `MIGRATION.md` is from 13.08, before the rebuild. Hosts have nowhere to
-migrate to.
-
-- Bump VERSION (the skill set changed).
-- A migration chapter for moving onto `director`.
-- Every skill — through the real Anthropic `skill-creator` (the owner's request).
-- A cold read of every canonical document for readability.
-
-**Acceptance:** `cat VERSION` changed · the chapter is in `MIGRATION.md` · a skill-creator report
-for every skill · the owner confirms the documents read well.
-
-### [ ] 9. Migrating tlvphotos — last
+### 🔄 Your photo site's move to new tools begins — id: plan-9
+**Group:** Cross-project · **Priority:** critical
+**Source:** PLAN.md step 9, dated 27.08 — dry-run and inventory done; `scripts/install-external-skills.sh` "does not work against a host at all... it blocks the documented path."
+Note: mapped "in hand" though the step's own checkbox reads not-started — the step's own text says "Done 27.08, everything up to the live host," a contradiction worth the owner's eye.
 
 The owner's decision: after the release. tlvphotos is live, on pack 2.7.0, last touched 26.08.
 
@@ -337,7 +173,232 @@ debt between the host's version and today's.
 **Acceptance:** dry-run green on the copy · restore proven · `ls ~/tlvphotos/.claude/skills | grep
 director` is non-empty · tlvphotos works the way it did before the migration.
 
-### [ ] 10. A step is closed only by a command
+
+### ⬜ A bad message is caught the moment it's created — id: q-399
+**Group:** Method reliability · **Priority:** critical
+**Source:** incident 2026-07-17 — "a bogus deposit passed the receiving sweep's gate."
+
+
+### ⬜ Independent work is checked to prove it ran in parallel — id: q-412
+**Group:** Parallel & multi-agent work · **Priority:** critical
+**Source:** owner 2026-07-17 — "guess! nothing!" (three parallel items ran single-file).
+
+
+### ⬜ A worker never wipes out someone else's unsaved work — id: q-479
+**Group:** Worker & data safety · **Priority:** critical
+**Source:** found 2026-07-23, four separate real occurrences of workers destroying uncommitted work.
+Note: traces to the same recurring defect family as q-511, q-598, q-605, q-624, q-589, q-586, q-596, q-623 — a worker or session destroying or misreporting work that isn't its own. q-624 found 28 real violations of this still-unenforced rule and may already be the true blocker on this task — worth the owner's word on whether this closes the moment q-624's hook is installed, or whether they are two separate deliverables.
+
+
+### ⬜ A color-contrast check now looks at the right background — id: q-490
+**Group:** Method reliability · **Priority:** critical
+**Source:** deposit 2026-07-27 — the old check "blocked seven passing rows and let a genuinely failing one through unnamed."
+Note: largely fixed already; one known hole remains (bare single-class selectors).
+
+
+### ⬜ The assistant never puts words in your mouth — id: q-497
+**Group:** Communication & reporting · **Priority:** critical
+**Source:** 2026-07-27 ~16:20 — a sibling window dropped delegation for a whole movement over a false attribution.
+
+
+### ⬜ Every handed-in item is logged automatically — id: q-503
+**Group:** Feedback & measurement · **Priority:** critical
+**Source:** found 2026-07-27 — the feedback ledger went unwritten for ten days despite ten real deposits.
+
+
+### ⬜ Finished work branches are cleaned up automatically — id: q-504
+**Group:** Parallel & multi-agent work · **Priority:** critical
+**Source:** found 2026-07-27 — the three-lane cap was full of dead, already-merged branches.
+
+
+### ⬜ Expensive AI help is used only when truly needed — id: q-507
+**Group:** Budget & economy · **Priority:** critical
+**Source:** owner 2026-07-27 ~20:31 — "about a fifth of the weekly budget in half a day" on mechanical work.
+
+
+### ⬜ A near-miss anywhere now warns every other project — id: q-511
+**Group:** Worker & data safety · **Priority:** critical
+**Source:** 2026-07-27 evening — a real near-loss of edits in a sibling project, caught only by luck.
+
+
+### ⬜ Shared displays are checked against what you see — id: q-517
+**Group:** Spec & feature quality · **Priority:** critical
+**Source:** deposit 2026-07-28 — a screen-reader announcement "was wrong in three ways for weeks" though every writer's own rule was obeyed.
+
+
+### ⬜ A broken measurement refuses to fake a zero — id: q-525
+**Group:** Method reliability · **Priority:** critical
+**Source:** found 2026-07-28 — 109 tracked documents all carried a false zero count.
+
+
+### 👁️ A cleared mistake stops blocking every future push — id: q-527
+**Group:** Worker & data safety · **Priority:** critical
+**Source:** found 2026-07-29; owner's word owed on what counts as "cleared."
+Note: held for Alexander: the row's final shape depends on a policy answer he hasn't given yet — what counts as a cleared mistake. The name describes the problem, not the resolution, because the resolution isn't written anywhere yet.
+
+
+### ⬜ Trimming a long document never loses what moved — id: q-531
+**Group:** Method reliability · **Priority:** critical
+**Source:** found 2026-07-29, reproduced live at tlvphotos 2026-08-05 — a real document split ran with no proof nothing was lost.
+
+
+### ⬜ The installed copy and the working copy stay in sync — id: q-537
+**Group:** Method housekeeping · **Priority:** critical
+**Source:** found 2026-07-30 — real drift already exists across four hook files and eleven skills.
+
+
+### ⬜ A leftover test server stops popping up security warnings — id: q-542
+**Group:** Worker & data safety · **Priority:** critical
+**Source:** found 2026-08-05 — servers 8–22 days old repeatedly triggered the owner's connection-approval dialog.
+
+
+### ⬜ A decision recorded as your word actually quotes you — id: q-550
+**Group:** Method reliability · **Priority:** critical
+**Source:** found 2026-08-06 — a session fabricated an entry under the owner's name that passed the existing check.
+
+
+### ⬜ Editing the spec updates every copy of it automatically — id: q-552
+**Group:** Spec & feature quality · **Priority:** critical
+**Source:** found 2026-08-06 — the same push was refused four times over one edit because two copies disagreed.
+
+
+### ⬜ A safety check that only runs here now ships everywhere — id: q-567
+**Group:** Portability · **Priority:** critical
+**Source:** inbox 2026-08-06 — a host cannot obey a rule that names a script it doesn't have.
+
+
+### ⬜ You're warned before anything can trigger a security popup — id: q-581
+**Group:** Worker & data safety · **Priority:** critical
+**Source:** deposit 2026-08-07 — the owner was interrupted twice in one session and said he always presses Deny.
+
+
+### ⬜ A worker's cleanup step never erases unsaved work — id: q-586
+**Group:** Worker & data safety · **Priority:** critical
+**Source:** found 2026-08-09 — a worker discarded uncommitted files through a command the existing guard didn't recognize.
+
+
+### ⬜ A worker's report matches the files it changed — id: q-589
+**Group:** Worker & data safety · **Priority:** critical
+**Source:** found 2026-08-12 — a worker's final report quoted facts that matched nothing in the actual tree.
+
+
+### ⬜ Personal settings never leak into a worker's task — id: q-596
+**Group:** Worker & data safety · **Priority:** critical
+**Source:** found 2026-08-12 — text from the owner's personal layer surfaced inside four workers' results and cancelled one command.
+
+
+### ⬜ Repeated unsaved-work losses are finally traced, not waved past — id: q-624
+**Group:** Worker & data safety · **Priority:** critical
+**Source:** found 2026-08-19 — 28 occurrences since 08-13, the same red suite result dismissed as "environmental" three times.
+
+
+### 🔄 Say the word, see exactly where things stand — id: plan-1
+**Group:** Board & visibility · **Priority:** normal
+**Source:** PLAN.md step 1, owner 26.08 ("pseudo-kanban").
+Note: sibling of q-166 (Board & visibility) — q-166 is the full standing board with worker lanes and time-in-flight, parked separately by the owner as a bigger, separately-decided feature; this step is the near-term light view over the same Canon.
+
+The probe reads step statuses from acceptance commands; the board renders as a page (pseudo-kanban, per his 26.08 word); ticket-field recon landed in `docs/research/2026-08-26-board-ticket-fields.md`; the clock-hook wiring was investigated (found: safe-mode disables it, not a pack defect). Acceptance: his own trigger word in a new empty-context session gets the state, no question asked; the board opens; he confirms in one line he sees the time and a clear list.
+
+Full body (rules, acceptance commands, measurements) preserved in git history: `git log -p -- PLAN.md`, the step's own text before the 27.08 task-list merge.
+
+
+### 🔄 The cost of every extra process step is measured and justified — id: q-568
+**Group:** Budget & economy · **Priority:** normal
+**Source:** owner 2026-08-07, 00:17–01:10.
+
+
+### 🔄 Every new session's starting weight is measured and trimmed — id: q-570
+**Group:** Budget & economy · **Priority:** normal
+**Source:** owner 2026-08-07 00:17.
+
+
+### 🔄 Every made-up number in the system is found and removed — id: q-576
+**Group:** Method reliability · **Priority:** normal
+**Source:** owner 2026-08-07 09:16 (Russian, forceful — "find and root out every invented number").
+
+
+### 🔄 The project's own goals are tracked with real, checkable numbers — id: q-617
+**Group:** Method housekeeping · **Priority:** normal
+**Source:** owner 2026-08-12/13 — goals lived only in memory, not in the plan's own status block.
+Note: names the felt problem accurately, but the row is mid-repair and its final acceptance shape (a kept ledger vs. a live head-block table) wasn't fully settled in the source text.
+
+
+### ✅ All project files live in one place again — id: plan-0
+**Group:** Method housekeeping · **Priority:** normal
+**Source:** PLAN.md step 0, 26.08.
+
+`~/live-spec` is a live working tree on `origin/main` again; 133 outside-git files checked, 5 rescued; the 26.08 handoff archived and squeezed. Acceptance: `bash scripts/state-probe.sh` confirms it matches `origin/main`, the tree is clean, and no `/private/tmp` line appears in ALARM.
+
+Full body (rules, acceptance commands, measurements) preserved in git history: `git log -p -- PLAN.md`, the step's own text before the 27.08 task-list merge.
+
+
+### ✅ A question you ask never turns into a task — id: plan-2
+**Group:** Method reliability · **Priority:** normal
+**Source:** PLAN.md step 2, 24–25.08.
+
+`evals/director.md` deleted, `evals/director/` is the one home; 35 traces re-recorded on the current skill; director gained the decision/grounds-for-an-act/halt/correction distinctions; 6 fixtures fixed. Acceptance: `python3 evals/director/check.py --all` — 33 of 35 green, 2 accepted by the owner with a written reason (`docs/prover/2026-08-26-director-eight-red-scenarios.md`).
+
+Full body (rules, acceptance commands, measurements) preserved in git history: `git log -p -- PLAN.md`, the step's own text before the 27.08 task-list merge.
+
+
+### ✅ Old clutter is cleared, past work kept readable — id: plan-3
+**Group:** Method housekeeping · **Priority:** normal
+**Source:** PLAN.md step 3.
+
+`prototype/` (4.2 MB), 11 MB of `docs/`, and spent worker checkpoints removed by measurement, shown to the owner first; 1,247 transcript files copied whole into `attic/transcripts/` (originals in `~/.claude/projects/` untouched); Fable's read of the month landed in `.live-spec/PROBLEMS.md`. Acceptance: `du -sh` before/after; transcripts in place and readable; the owner read Fable's conclusions.
+
+Full body (rules, acceptance commands, measurements) preserved in git history: `git log -p -- PLAN.md`, the step's own text before the 27.08 task-list merge.
+
+
+### ✅ The same thing is always called the same name — id: plan-4
+**Group:** Readability & plain language · **Priority:** normal
+**Source:** PLAN.md step 4 — owner's recurring complaint (branch/hand/worktree).
+
+Ran `text-audit` across every document and skill; converged senior/orchestrator/lead to "seat" (21 files), "briefed hands" to "briefed workers", and more, per the glossary at `skills/live-spec-base/references/glossary.md`. Acceptance: the mismatch list shown to the owner; convergence done; he read three documents and confirmed they read clearer.
+
+Full body (rules, acceptance commands, measurements) preserved in git history: `git log -p -- PLAN.md`, the step's own text before the 27.08 task-list merge.
+
+
+### ✅ The reviewer now catches real bugs in code — id: plan-5
+**Group:** Spec & feature quality · **Priority:** normal
+**Source:** PLAN.md step 5.
+
+The external prover's code mode shipped: `github.com/happysasha18/product-prover`, branch `code-mode-1.4.0`, commit `b71894a`, pushed on the owner's word. Acceptance: the prover found a real defect in real code the tests missed, and the owner confirmed the finding was real.
+
+Full body (rules, acceptance commands, measurements) preserved in git history: `git log -p -- PLAN.md`, the step's own text before the 27.08 task-list merge.
+
+
+### ✅ Checks that catch real mistakes are kept — id: plan-6
+**Group:** Method reliability · **Priority:** normal
+**Source:** PLAN.md step 6, measured 26.08 — removal hypothesis tested and rejected.
+
+Measured 26.08: of 120 sampled phrase-guard tests, 16% never had a chance to fail — decision was against mass removal, since 84% did change and guard real content. The 18 proven-dead ones were already removed the night before (commit `c3be01a3`); the 22 "file exists"-shape functions were reviewed by eye (10 are real regression guards, none removed); the pre-push check and the ceremony-cancellation question both stayed parked on the owner's own word.
+
+Full body (rules, acceptance commands, measurements) preserved in git history: `git log -p -- PLAN.md`, the step's own text before the 27.08 task-list merge.
+
+
+### ✅ Every new session starts up lighter and faster — id: plan-7
+**Group:** Budget & economy · **Priority:** normal
+**Source:** PLAN.md step 7 — 16,571 → 13,163 tokens.
+
+16,571 to 13,163 tokens on session start (−20.6%); 13 of 34 rules with no eval fixture and no runnable script moved to `attic/live-spec-base-unbacked-rules-2026-08-26.md`. Acceptance: the probe prints the number before and after; the owner set no target number (best-effort stands, his own word).
+
+Full body (rules, acceptance commands, measurements) preserved in git history: `git log -p -- PLAN.md`, the step's own text before the 27.08 task-list merge.
+
+
+### ✅ The release is labeled and ready to install — id: plan-8
+**Group:** Method housekeeping · **Priority:** normal
+**Source:** PLAN.md step 8.
+
+VERSION bumped for the changed skill set; a migration chapter for moving onto `director` added to `MIGRATION.md`; every skill passed through the real Anthropic `skill-creator`; a cold read of every canonical document for readability. Acceptance: `cat VERSION` changed; the chapter is in `MIGRATION.md`; a skill-creator report exists for every skill; the owner confirmed the documents read well.
+
+Full body (rules, acceptance commands, measurements) preserved in git history: `git log -p -- PLAN.md`, the step's own text before the 27.08 task-list merge.
+
+
+### ⬜ Every "done" mark on the board gets checked — id: plan-10
+**Group:** Board & visibility · **Priority:** normal
+**Source:** PLAN.md step 10, measured 27.08 — 4 of 10 steps had no real check.
+Note: sibling of q-166 (Board & visibility) — q-166 is the full standing board with worker lanes and time-in-flight, parked separately by the owner as a bigger, separately-decided feature; this step is the near-term light view over the same Canon.
 
 Measured 27.08. Of the ten steps above, three have a check that runs what their acceptance
 actually says. Four — 3, 4, 5, 7 — have no check at all, so the probe and the board show whatever
@@ -358,7 +419,10 @@ it sits inside the instrument that is supposed to catch drift.
 every step heading in `## Steps` has a matching key in `scripts/plan_checks.py`, proved by a test
 that reads both files and fails on a missing key.
 
-### [ ] 11. One queue of work, and the board shows its top
+
+### ⬜ The plan, board and queue become one list — id: plan-11
+**Group:** Board & visibility · **Priority:** normal
+**Source:** PLAN.md step 11, owner 27.08. (This document is that step's first draft.)
 
 His word, 27.08: the plan, the board and the queue are one thing. The plan is its text, the board
 is its showing, the queue is its rows. A second list anywhere is the drift, and today there are two
@@ -375,7 +439,10 @@ here — this file with its steps, and `ROADMAP.md` with its rows.
 archive · `bash scripts/render-board.sh` draws the merged list · a command shows every open row
 carrying a feature and a priority mark, and names the exceptions.
 
-### [ ] 12. The spec describes what the product actually does
+
+### ⬜ The spec finally describes what the product does — id: plan-12
+**Group:** Spec & feature quality · **Priority:** normal
+**Source:** PLAN.md step 12, measured 27.08 — 279 of 308 requirements carry no feature name.
 
 Measured 27.08. `spec/` holds 308 requirements; 29 carry a feature tag. The seventeen declared
 feature names sit on the seventeen smallest files, and the 279 untagged requirements — the bulk of
@@ -404,7 +471,10 @@ has one.
 architecture's coverage table agree, proved by a check · a spec file dropped outside the parts map
 reddens a gate · two parts defining one requirement number redden a gate.
 
-### [ ] 13. You hear only what changes for you
+
+### ⬜ You hear only what changes for you — id: plan-13
+**Group:** Communication & reporting · **Priority:** normal
+**Source:** PLAN.md step 13, owner 27.08.
 
 His word, 27.08: "ты не должен грузить пользователя фигней", and it needs one home rather than
 three. Today the rules about what reaches a person are spread between the communicator skill, the
@@ -417,7 +487,10 @@ inside the workshop.
 **Acceptance:** the rule has one home and the other two places point at it · a check finds no
 second copy of it.
 
-### [ ] 14. Every project gets its own probe and its own board
+
+### ⬜ Every project gets its own status view — id: plan-14
+**Group:** Cross-project · **Priority:** normal
+**Source:** PLAN.md step 14, checked 27.08 — no host has one today.
 
 A host inherits skills and gates today. It does not inherit the plan, the computed checks, the
 probe or the board — those live only here, in this repository's own `scripts/`. Checked 27.08:
@@ -435,7 +508,10 @@ no host has any of them.
 where the work stands, with every mark computed by a command · the probe there lists the host's
 open inbox items.
 
-### [ ] 15. Move promoter onto the current pack
+
+### ⬜ The promoter project is updated to today's tools — id: plan-15
+**Group:** Cross-project · **Priority:** normal
+**Source:** PLAN.md step 15.
 
 Its wish sits in its own inbox. Smaller documents than tlvphotos and a wider version gap: its
 record pins pack 2.4.0, a 3.3.0 note was read and parked in July, and the pack is at 6.0.0. Two
@@ -444,7 +520,10 @@ no local copy, and it has been idle since 27.07, so nothing of the owner's is in
 
 **Acceptance:** the wish's own acceptance lines, run in that tree.
 
-### [ ] 16. Every rule lives in one place
+
+### ⬜ Every rule finally lives in exactly one place — id: plan-16
+**Group:** Method housekeeping · **Priority:** normal
+**Source:** PLAN.md step 16, owner 27.08.
 
 His word, 27.08: "надо сделать так чтобы каждому правилу был свой скилл и чтобы все сидело чётко...
 чтобы не было салата". Read by Fable the same afternoon, across every skill, both boot files and
@@ -486,7 +565,10 @@ carries only the rules its job applies; a gate holds the teeth; everything else 
 ask-never-guess family · the gate reds on a planted second copy and passes the tree · director names
 the home for a rule it has never seen, in a recorded run.
 
-### [ ] 17. A session reads the state, not the whole plan
+
+### ⬜ Each session reads only what it needs — id: plan-17
+**Group:** Budget & economy · **Priority:** normal
+**Source:** PLAN.md step 17, owner 27.08 — "план возможно тоже не надо грузить целиком всегда."
 
 His word, 27.08: "план возможно тоже не надо грузить целиком всегда. есть же доска."
 
@@ -507,6 +589,587 @@ session should take the state, and open the plan itself only at the step it is t
 **Acceptance:** a real session's load is measured and the number is in this file · a session that
 takes a step reads the state and that step, proved by what it opened · the ponytail decision is
 made against a measured before and after, or it is declined with the measurement as the reason.
+
+
+### ⬜ The board shows everything the team is doing, live — id: q-166
+**Group:** Board & visibility · **Priority:** normal
+**Source:** owner 2026-07-07 ~09:36, widened seven more times through 2026-08-06.
+Note: this is the large standing board; plan-1 and plan-10 are the near-term light version of the same idea.
+
+
+### ⬜ Ask "show me all the features" and get an answer — id: q-133
+**Group:** Board & visibility · **Priority:** normal
+**Source:** owner 2026-07-06 ~15:52.
+Note: mostly landed (2026-07-06); one leg — it firing on his next real ask — stays open.
+
+
+### ⬜ Every open task reads clearly on the board — id: q-566
+**Group:** Board & visibility · **Priority:** normal
+**Source:** owner 2026-08-06 ~21:00, on record in DECISIONS.md.
+
+
+### ⬜ The status page shows the one thing being finished now — id: q-582
+**Group:** Board & visibility · **Priority:** normal
+**Source:** deposit 2026-08-07 09:54 — owner: "the pack has to learn to help the client focus."
+
+
+### ⬜ Long builds show progress as they happen — id: q-583
+**Group:** Board & visibility · **Priority:** normal
+**Source:** deposit 2026-08-07 09:54 — a four-hour block with no feedback along the way.
+
+
+### ⛔ One view shows who's working on what, everywhere — id: q-411
+**Group:** Board & visibility · **Priority:** normal
+**Source:** owner 2026-07-17 ~15:54, named as far-tier (4.0) himself.
+Note: deferred by his own placement, not by a problem.
+
+
+### ⛔ Decisions explain what changes for you — id: q-119
+**Group:** Communication & reporting · **Priority:** normal
+**Source:** owner 2026-07-06 ~10:40 — "what you gave me in the HTML is not!!!"
+
+
+### ⛔ Work is narrated out loud as it happens — id: q-131
+**Group:** Communication & reporting · **Priority:** normal
+**Source:** owner 2026-07-06 ~13:57, second ask in one day.
+
+
+### ⛔ The reply clock reads the real time automatically — id: q-134
+**Group:** Communication & reporting · **Priority:** normal
+**Source:** 2026-07-06 session 16 — leads still drifted from the wall clock.
+
+
+### ⛔ Every chat window follows the same rules automatically — id: q-141
+**Group:** Communication & reporting · **Priority:** normal
+**Source:** owner 2026-07-06 ~20:41 — "can you actually do something about communication??"
+
+
+### ⛔ The visible task list speaks plain words, no codes — id: q-144
+**Group:** Communication & reporting · **Priority:** normal
+**Source:** owner 2026-07-06 ~21:22.
+
+
+### ⬜ The session always reports what it did, unprompted — id: q-484
+**Group:** Communication & reporting · **Priority:** normal
+**Source:** owner 2026-07-27, three separate asks in one morning.
+
+
+### ⬜ New requests say which existing task they match — id: q-486
+**Group:** Communication & reporting · **Priority:** normal
+**Source:** owner 2026-07-27.
+
+
+### ⬜ Your text is changed only where you asked — id: q-485
+**Group:** Readability & plain language · **Priority:** normal
+**Source:** owner 2026-07-27.
+
+
+### ⬜ A confusing sentence gets fixed at its source — id: q-487
+**Group:** Readability & plain language · **Priority:** normal
+**Source:** owner 2026-07-27 — called "the most valuable of the morning's asks."
+
+
+### ⬜ Your edits on a review page save straight to the files — id: q-453
+**Group:** Communication & reporting · **Priority:** normal
+**Source:** relayed 2026-07-22.
+
+
+### ⬜ Reports include a time estimate, and later say how close it was — id: q-471
+**Group:** Communication & reporting · **Priority:** normal
+**Source:** 2026-07-23, widened 2026-07-27 to a kept ledger of promised-vs-actual.
+
+
+### ⬜ Projects learn automatically when a new rule applies — id: q-509
+**Group:** Communication & reporting · **Priority:** normal
+**Source:** owner 2026-07-27 ~23:14.
+
+
+### ⬜ Text always names what a group of items actually is — id: q-510
+**Group:** Readability & plain language · **Priority:** normal
+**Source:** owner 2026-07-27 ~23:31 — reading his own "Опора 4" example.
+
+
+### ⛔ Every mention of an item includes its plain description — id: q-424
+**Group:** Communication & reporting · **Priority:** normal
+**Source:** owner 2026-07-19.
+
+
+### ⬜ The spec reads like a person wrote it — id: q-148
+**Group:** Readability & plain language · **Priority:** normal
+**Source:** owner 2026-07-06 ~23:24, several approved/killed rounds since.
+
+
+### ⬜ Text is checked for awkward phrasing before you see it — id: q-170
+**Group:** Readability & plain language · **Priority:** normal
+**Source:** inbox 2026-07-07.
+
+
+### ⬜ Text you read is drafted with a clear head first — id: q-208
+**Group:** Readability & plain language · **Priority:** normal
+**Source:** owner 2026-07-10 ~00:53, third onboarding bounce.
+
+
+### ⬜ Text rewrites are checked to prove no meaning was lost — id: q-204
+**Group:** Readability & plain language · **Priority:** normal
+**Source:** homeless backlog item, homed 2026-07-10.
+
+
+### ⬜ The plain-language text checker becomes its own reusable tool — id: q-458
+**Group:** Readability & plain language · **Priority:** normal
+**Source:** owner 2026-07-22 — "как аудировать тексты — это отдельный скилл."
+
+
+### ⬜ Old documents are rewritten to read clearly, and stay that way — id: q-460
+**Group:** Readability & plain language · **Priority:** normal
+**Source:** owner 2026-07-22.
+
+
+### ⬜ Text never describes a tool as if it were a person — id: q-493
+**Group:** Readability & plain language · **Priority:** normal
+**Source:** deposit 2026-07-27 — owner stopped reading and named the class ("cups do not fluoresce").
+
+
+### ⛔ A workflow diagram lives in exactly one place — id: q-381
+**Group:** Readability & plain language · **Priority:** normal
+**Source:** owner 2026-07-17.
+
+
+### ✅ Three small clarity fixes are restored to a rewritten rule — id: q-595
+**Group:** Readability & plain language · **Priority:** normal
+**Source:** skill-creator review 2026-08-12.
+
+
+### ⛔ New features are checked against how people actually use the product — id: q-108
+**Group:** Spec & feature quality · **Priority:** normal
+**Source:** owner 2026-07-06 ~00:25, tlvphoto evidence.
+
+
+### ⛔ A finished feature is walked through like a real visitor — id: q-117
+**Group:** Spec & feature quality · **Priority:** normal
+**Source:** inbox 2026-07-06 ~10:10; companion to q-108.
+
+
+### ⛔ A default choice gets a human decision within two releases — id: q-118
+**Group:** Spec & feature quality · **Priority:** normal
+**Source:** inbox 2026-07-06 ~10:10.
+
+
+### ⛔ New features get measurable speed targets, not just working code — id: q-143
+**Group:** Spec & feature quality · **Priority:** normal
+**Source:** owner 2026-07-06 ~21:03, on a page that loaded slow with no timing plan.
+
+
+### ⛔ Every step of a journey states what it needs and leaves behind — id: q-192
+**Group:** Spec & feature quality · **Priority:** normal
+**Source:** owner 2026-07-09 late evening.
+
+
+### ⛔ New projects know upfront which variations to design for — id: q-436
+**Group:** Spec & feature quality · **Priority:** normal
+**Source:** tlvphotos inbox 2026-07-20.
+
+
+### ⬜ Checking for similar cases happens at every level — id: q-437
+**Group:** Spec & feature quality · **Priority:** normal
+**Source:** tlvphotos inbox 2026-07-20; sibling of q-436.
+
+
+### ⬜ A reported bug is checked against the spec before it's fixed — id: q-459
+**Group:** Spec & feature quality · **Priority:** normal
+**Source:** owner 2026-07-22, rotation-bug case.
+
+
+### ✅ The spec rule about exceptions now names them — id: q-609
+**Group:** Spec & feature quality · **Priority:** normal
+**Source:** full skill read 2026-08-12.
+
+
+### ✅ The rule about what gets skipped is now plain — id: q-610
+**Group:** Spec & feature quality · **Priority:** normal
+**Source:** full skill read 2026-08-12.
+
+
+### ⬜ A proven method builds thorough tests every time — id: q-163
+**Group:** Testing · **Priority:** normal
+**Source:** inbox from track-coach close, 2026-07-05.
+
+
+### ⬜ Test practices are checked against how the industry does it — id: q-191
+**Group:** Testing · **Priority:** normal
+**Source:** owner 2026-07-09 late evening.
+
+
+### ⬜ Test suites follow rules that keep them running fast — id: q-491
+**Group:** Testing · **Priority:** normal
+**Source:** owner 2026-07-27, after a real 572-second suite was cut to 285.
+
+
+### ⬜ Slow tests are rebuilt to prove themselves quickly — id: q-554
+**Group:** Testing · **Priority:** normal
+**Source:** owner 2026-08-06 11:03.
+
+
+### ⬜ Every quality check is tested to prove it actually works — id: q-217
+**Group:** Method reliability · **Priority:** normal
+**Source:** owner 2026-07-10 ~10:22 — "convergence of all processes is needed."
+
+
+### ⬜ A full audit of a rough day finds what the method missed — id: q-220
+**Group:** Method reliability · **Priority:** normal
+**Source:** owner 2026-07-10 ~10:43.
+
+
+### ⬜ Documents are automatically re-checked so wording never drifts — id: q-230
+**Group:** Method reliability · **Priority:** normal
+**Source:** owner 2026-07-10 ~11:02.
+
+
+### ⬜ The method watches its own numbers and improves them on a schedule — id: q-492
+**Group:** Method reliability · **Priority:** normal
+**Source:** owner 2026-07-27.
+
+
+### ⬜ Every automatic check proves it can actually catch its problem — id: q-489
+**Group:** Method reliability · **Priority:** normal
+**Source:** owner 2026-07-27; partly shipped 2026-07-27.
+
+
+### ⬜ Full documents get a periodic deep re-read on a set schedule — id: q-454
+**Group:** Method reliability · **Priority:** normal
+**Source:** owner 2026-07-22.
+
+
+### ⬜ Past working sessions are mined for lessons never written down — id: q-455
+**Group:** Method reliability · **Priority:** normal
+**Source:** owner 2026-07-22.
+
+
+### ✅ A weak test now actually checks what it claims — id: q-592
+**Group:** Method reliability · **Priority:** quick win
+**Source:** skill-creator review 2026-08-12.
+
+
+### ✅ Sync failures now say exactly what went wrong — id: q-597
+**Group:** Method reliability · **Priority:** normal
+**Source:** found 2026-08-12.
+
+
+### ✅ A silent review step now leaves a written record — id: q-611
+**Group:** Method reliability · **Priority:** normal
+**Source:** full skill read 2026-08-12.
+
+
+### ✅ The reviewer's instructions match what the checker expects — id: q-608
+**Group:** Method reliability · **Priority:** normal
+**Source:** full skill read 2026-08-12.
+
+
+### ✅ Rule-location references are checked and now stay accurate — id: q-588
+**Group:** Method reliability · **Priority:** normal
+**Source:** found 2026-08-11; re-verified 2026-08-12.
+
+
+### ✅ Every safety check's rulebook comes from one generated source — id: q-625
+**Group:** Method reliability · **Priority:** normal
+**Source:** found 2026-08-19.
+
+
+### ✅ A stale reference in the test matrix is corrected — id: q-591
+**Group:** Method reliability · **Priority:** quick win
+**Source:** found 2026-08-12.
+
+
+### ⬜ The startup file carries only what it truly needs — id: q-205
+**Group:** Method housekeeping · **Priority:** quick win
+**Source:** homeless backlog item, homed 2026-07-10.
+
+
+### ⬜ A list tracks where handed-in files live, never their contents — id: q-207
+**Group:** Method housekeeping · **Priority:** normal
+**Source:** homeless backlog item, homed 2026-07-10.
+
+
+### ⬜ Every project setting is catalogued in one place — id: q-229
+**Group:** Method housekeeping · **Priority:** normal
+**Source:** owner 2026-07-10 ~11:00, post-1.0.
+
+
+### ⬜ Every tool's version number stays in sync automatically — id: q-231
+**Group:** Method housekeeping · **Priority:** normal
+**Source:** owner 2026-07-10 ~11:29.
+
+
+### ⬜ An approved idea from months ago finally gets built — id: q-238
+**Group:** Method housekeeping · **Priority:** normal
+**Source:** found 2026-07-10 — approved 2026-07-05, never built.
+
+
+### ⬜ Articles about the method link back to it, and it links back — id: q-243
+**Group:** Docs & outreach · **Priority:** normal
+**Source:** 2026-07-10.
+
+
+### ⬜ One live list shows every tunable setting — id: q-427
+**Group:** Method housekeeping · **Priority:** normal
+**Source:** owner 2026-07-19.
+
+
+### ✅ A retired rule number is now clearly marked — id: q-590
+**Group:** Method housekeeping · **Priority:** normal
+**Source:** skill-creator review 2026-08-12.
+
+
+### ✅ The rule count now lives in exactly one place — id: q-593
+**Group:** Method housekeeping · **Priority:** normal
+**Source:** skill-creator review 2026-08-12 — the count was tracked by hand in four homes, three with no guard.
+
+
+### ✅ A count in the reviewer's instructions now matches what follows — id: q-612
+**Group:** Method housekeeping · **Priority:** quick win
+**Source:** full skill read 2026-08-12.
+
+
+### ⬜ An old file-discarding incident gets its own proper record — id: q-605
+**Group:** Worker & data safety · **Priority:** quick win
+**Source:** found 2026-08-12 push review.
+Note: the row itself is undecided between "give this incident its own record" and "declare it already covered by row 598/624." The name above describes the felt gap, not a settled deliverable. It also sits inside the same date range q-624's sweep covered (2026-08-13 onward — 07-28 isn't explicitly re-listed there) — worth checking whether this is already folded into q-624's broader finding before both are kept as separate tasks.
+
+
+### ⬜ Every request is sorted as one-time or standing before it starts — id: q-440
+**Group:** Method housekeeping · **Priority:** normal
+**Source:** owner 2026-07-21, said sharply after a standing ask was treated as one-off.
+
+
+### ⬜ Old queued tasks are reviewed and cleared out regularly — id: q-481
+**Group:** Board & visibility · **Priority:** normal
+**Source:** owner 2026-07-23 ~18:18 — "the roadmap is no five-year plan."
+
+
+### ⬜ A safety net catches messy chat text automatically — id: q-203
+**Group:** Communication & reporting · **Priority:** normal
+**Source:** homeless backlog item, homed 2026-07-10.
+
+
+### 👁️ Three wording disagreements in the rulebook need your final call — id: q-536
+**Group:** Readability & plain language · **Priority:** normal
+**Source:** found 2026-07-30 across three readability pilots.
+Note: held for Alexander: the row's final shape depends on a policy answer he hasn't given yet. The name describes the problem, not the resolution, because the resolution isn't written anywhere yet.
+
+
+### 👁️ One excuse shouldn't cover every future change — id: q-529
+**Group:** Method reliability · **Priority:** normal
+**Source:** found 2026-07-29 — a written reason licensed every later raise of the same ceiling.
+Note: held for Alexander: the row's final shape depends on a policy answer he hasn't given yet — whether a reason expires. The name describes the problem, not the resolution, because the resolution isn't written anywhere yet.
+
+
+### ⬜ Shared code is checked for leaked personal data — id: q-488
+**Group:** Worker & data safety · **Priority:** normal
+**Source:** owner 2026-07-27 — engines must "contain no personal data at all."
+
+
+### ✅ A worker's mistake in another project was traced and reported — id: q-598
+**Group:** Worker & data safety · **Priority:** normal
+**Source:** found 2026-08-12, tlvphotos.
+
+
+### ✅ A safety check no longer blames the wrong project — id: q-623
+**Group:** Worker & data safety · **Priority:** normal
+**Source:** found 2026-08-19.
+
+
+### ⛔ New projects learn who they're building for — id: q-54
+**Group:** Onboarding & founding · **Priority:** normal
+**Source:** owner 2026-07-05.
+
+
+### ⛔ Every project knows and updates its own kind — id: q-129
+**Group:** Onboarding & founding · **Priority:** normal
+**Source:** owner 2026-07-06 ~13:27.
+
+
+### ⛔ New projects can split public code from private content — id: q-190
+**Group:** Onboarding & founding · **Priority:** normal
+**Source:** owner 2026-07-09 late evening.
+
+
+### ⛔ Design changes sync automatically to visual projects — id: q-93
+**Group:** Onboarding & founding · **Priority:** normal
+**Source:** 2026-07-05.
+
+
+### ⬜ Switches and text can be changed live, without a full rebuild — id: q-496
+**Group:** Product & infrastructure design · **Priority:** normal
+**Source:** owner 2026-07-27 ~15:00 — his own photo site needed a full build just to flip a switch.
+
+
+### ⬜ Every project states which outside services it depends on — id: q-236
+**Group:** Product & infrastructure design · **Priority:** normal
+**Source:** owner 2026-07-10 ~13:48.
+
+
+### ⬜ Design choices are checked against the real technical need — id: q-400
+**Group:** Product & infrastructure design · **Priority:** normal
+**Source:** owner 2026-07-17 afternoon.
+
+
+### ⛔ The product's performance after launch is tracked automatically — id: q-48
+**Group:** Feedback & measurement · **Priority:** normal
+**Source:** owner 2026-07-05.
+
+
+### ⛔ Two versions of a feature can be tried and measured — id: q-49
+**Group:** Feedback & measurement · **Priority:** normal
+**Source:** owner 2026-07-05.
+
+
+### ⬜ What people do with the product feeds back into planning — id: q-96
+**Group:** Feedback & measurement · **Priority:** normal
+**Source:** owner 2026-07-05.
+
+
+### ⛔ A problem that keeps happening always gets an owner — id: q-100
+**Group:** Feedback & measurement · **Priority:** normal
+**Source:** owner 2026-07-05 ~23:00 — "solved!! Either solve the problem or agree that it isn't one."
+
+
+### ⬜ A persistently bad number automatically becomes a task — id: q-469
+**Group:** Feedback & measurement · **Priority:** normal
+**Source:** relayed 2026-07-22 ~19:34.
+
+
+### ⛔ The method knows what to trim when money or time run short — id: q-140
+**Group:** Budget & economy · **Priority:** normal
+**Source:** owner 2026-07-06 ~20:23.
+
+
+### ⛔ One command safely winds down all the work before you leave — id: q-235
+**Group:** Budget & economy · **Priority:** normal
+**Source:** owner 2026-07-10 ~13:30, from a café.
+
+
+### ⬜ Weekly spending is tracked and cheaper workers are used more — id: q-457
+**Group:** Budget & economy · **Priority:** normal
+**Source:** owner 2026-07-22, $6,486/week measured burn.
+
+
+### ⬜ Tests during work run fast; full proof runs at every release — id: q-575
+**Group:** Budget & economy · **Priority:** normal
+**Source:** cost audit, row 568, owner ~01:10 class ruling.
+
+
+### ⬜ Sessions save tokens by reading only what they need — id: q-584
+**Group:** Budget & economy · **Priority:** normal
+**Source:** deposit 2026-08-07 14:14 — owner: "work so as to spare the context."
+
+
+### ⬜ The method still works without git or GitHub — id: q-171
+**Group:** Portability · **Priority:** normal
+**Source:** owner 2026-07-08 ~09:07.
+
+
+### ⛔ The four safety checks are made portable to any project — id: q-241
+**Group:** Portability · **Priority:** normal
+**Source:** relayed 2026-07-10 ~14:22.
+
+
+### ⬜ Your photo site can copy over the new setup on its own — id: q-221
+**Group:** Cross-project · **Priority:** normal
+**Source:** owner 2026-07-10 ~10:43.
+
+
+### ⛔ Handed-in files reach the project even from another machine — id: q-247
+**Group:** Cross-project · **Priority:** normal
+**Source:** owner 2026-07-10.
+
+
+### ⛔ Strangers can suggest changes through GitHub without special access — id: q-261
+**Group:** Cross-project · **Priority:** normal
+**Source:** split from q-247, 2026-07-12.
+
+
+### ⬜ The first project sharing data gets its own safety checks — id: q-385
+**Group:** Cross-project · **Priority:** normal
+**Source:** split 2026-07-17.
+
+
+### ⬜ A request meant for another project reaches it automatically — id: q-398
+**Group:** Cross-project · **Priority:** normal
+**Source:** owner 2026-07-17.
+
+
+### ⬜ One window can manage several related projects at once — id: q-421
+**Group:** Cross-project · **Priority:** normal
+**Source:** owner 2026-07-18 ~21:00.
+
+
+### ⛔ The right format shows up whether you're local or remote — id: q-168
+**Group:** Cross-project · **Priority:** normal
+**Source:** owner 2026-07-07 ~10:57.
+
+
+### ⬜ Clear rules for running several workers at once — id: q-206
+**Group:** Parallel & multi-agent work · **Priority:** normal
+**Source:** homeless backlog item, homed 2026-07-10.
+
+
+### ⬜ Big builds are planned so pieces can be built in parallel — id: q-215
+**Group:** Parallel & multi-agent work · **Priority:** normal
+**Source:** owner 2026-07-10 ~10:08.
+
+
+### ⬜ Several independent workers are managed without stepping on each other — id: q-234
+**Group:** Parallel & multi-agent work · **Priority:** normal
+**Source:** owner 2026-07-10 ~13:06.
+
+
+### ⬜ Independent work actually runs in parallel branches, proven live — id: q-386
+**Group:** Parallel & multi-agent work · **Priority:** normal
+**Source:** owner 2026-07-17 ~14:15 — "why do we wait? why is this written nowhere?"
+
+
+### ⛔ Agents on one machine can talk directly, not just through files — id: q-396
+**Group:** Parallel & multi-agent work · **Priority:** normal
+**Source:** owner 2026-07-17.
+
+
+### ⬜ A trial run proves the multi-agent rules actually work — id: q-404
+**Group:** Parallel & multi-agent work · **Priority:** normal
+**Source:** plan section 7, 2026-07-17.
+
+
+### ⛔ Instant messaging between agents turns on once the tool supports it — id: q-405
+**Group:** Parallel & multi-agent work · **Priority:** normal
+**Source:** 2026-07-17/18.
+
+
+### ⬜ Lessons learned automatically retire once no longer needed — id: q-410
+**Group:** Method housekeeping · **Priority:** normal
+**Source:** owner 2026-07-17 ~15:44.
+
+
+### ⬜ The front page is rewritten to be fully accurate — id: q-501
+**Group:** Docs & outreach · **Priority:** normal
+**Source:** owner 2026-07-27 evening.
+
+
+### ⛔ Learn from other frameworks to improve the method — id: q-44
+**Group:** Research & big questions · **Priority:** normal
+**Source:** owner 2026-07-05.
+
+
+### ⬜ Play with real projects before chasing a release date — id: q-95
+**Group:** Research & big questions · **Priority:** normal
+**Source:** owner 2026-07-05 evening — "this is a marathon not a sprint."
+
+
+### ⛔ Struggling twice triggers a search for an existing fix — id: q-165
+**Group:** Research & big questions · **Priority:** normal
+**Source:** owner 2026-07-07 ~08:28.
+
+
+### ⬜ Check whether any build stages are missing — id: q-193
+**Group:** Research & big questions · **Priority:** normal
+**Source:** owner 2026-07-09 late evening.
 
 ---
 
