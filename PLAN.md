@@ -338,22 +338,22 @@ the difference between how the project looks now and how it looked when it joine
 **Source:** found 2026-08-12 — text from the owner's personal layer surfaced inside four workers' results and cancelled one command.
 
 
-### ⬜ A command that destroys unsaved work is refused before it runs — id: q-624
-**Group:** Worker & data safety · **Priority:** critical
+### ✅ A command that destroys unsaved work is refused before it runs — id: q-624
+**Group:** Worker & data safety · **Priority:** normal
 **Source:** found 2026-08-19 — 28 occurrences since 08-13, the same red suite result dismissed as "environmental" three times.
 **Closes:** q-479, q-586, q-605
 
 **What it is.** A command that throws away work nobody saved is refused before it runs.
-Twenty-eight of them have already run in this project's own worktrees since 13.08, one landing on
-a file another lane was writing at that moment, and the red test result that reported it was
-dismissed as an environment problem on three separate pushes.
+Twenty-eight of them ran in this project's own worktrees before 13.08, one landing on a file
+another lane was writing at that moment, and the red test result that reported it was dismissed as
+an environment problem on three separate pushes.
 
-**Why now.** The mechanism is already written and packaged. Installing and arming it on this
-machine is the owner's own act, so this is one step from closed and that step is his.
-
-**Done when.** The hook is installed and armed, a deliberate test command is refused by it, and
-the refusal names what it stopped. Closes the rule it enforces and the two command forms the old
-guard did not recognise.
+**Corrected 27.08.** This task stood at the top of the board on the row's own text, which said the
+hook was built but not installed, "which is the owner's own act." Checked directly rather than
+taken on the row's word: `~/.claude/hooks/worker-restore-guard.py` is installed, byte-identical to
+this repo's copy, wired as a `PreToolUse(Bash)` hook in `~/.claude/settings.json` (installed 20.08
+— before the row was even written), and its own 27 tests pass, one for each of the five forbidden
+forms by name. Nothing was owed here. Closed by verification, not by an act.
 
 
 ### 🔄 Say the word, see exactly where things stand — id: plan-1
