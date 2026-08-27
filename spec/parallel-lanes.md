@@ -282,7 +282,7 @@
 
 ## Requirement 90: The branch road's machines, and what each one owes
 
-**Context:** The branch road stands on machines. Two are git's own and run today, each guarding a road a session walks by habit; four are the road's build half and stand until the build lands, with the prover's station as their net meanwhile. The road states each machine's boundary rather than hiding it, so it claims no net it does not hold.
+**Context:** The branch road stands on machines. The road states each machine's boundary rather than hiding it, so it claims no net it does not hold.
 
 **User Story:** As a person relying on the branch road, I want each of its machines named with what it owes, so that git's known-edged refusals and the pack's own gates together cover the roads a lane walks.
 

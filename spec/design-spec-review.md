@@ -549,7 +549,7 @@
 
 ## Requirement 102: The fence guardrail's three legs and the header's honesty
 
-**Context:** A guardrails check enforces the one-way fence, and it has three legs. One leg runs live today; two are promised targets. When all three land, the header's honesty rule holds in both directions — the spec never claims what is not built, and the build never contains what the spec does not name.
+**Context:** A guardrails check enforces the one-way fence, and it has three legs. When all three land, the header's honesty rule holds in both directions — the spec never claims what is not built, and the build never contains what the spec does not name.
 
 **User Story:** As a person trusting the fence, I want a mechanical check with three named legs and one honest note of which run today, so that a prod file reaching into a prototype turns red while the promised legs are marked as still owed.
 
