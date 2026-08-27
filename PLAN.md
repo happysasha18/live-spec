@@ -1823,6 +1823,19 @@ One line per finding. Don't move it into ROADMAP. Don't fix it without the owner
   this row's work touching any of them. Left open, unclosed by this session; the "Closes:" line
   itself needs a correction this session has no standing to make (PLAN.md's own rule: a task's
   text changes only with the owner's consent).
+- **q-489 is the same overclaim, one row over.** Its own body carries no acceptance line at all
+  — group/source/"Closes:" and nothing else, so it fails the plan's own bar for ⬜ ("its
+  definition of done is a command, not a sentence"). Its "Closes:" line names nine ids (q-217,
+  q-492, q-230, q-454, q-455, q-220, q-525, q-490, q-576); read all nine — they are nine real,
+  distinct pieces of work (check-quality proofs, a self-improvement schedule, drift re-checks,
+  periodic deep re-reads, mining past sessions for lessons, a rough-day audit, a measurement
+  that refuses to fake a zero, a contrast-check fix that's largely done, and invented numbers),
+  not nine phrasings of one task. Not closing q-489 itself, and not inventing a single
+  acceptance line to paper over nine different ones. `q-576` (invented numbers) is being worked
+  now on its own merit, marked 🔄 by someone before this session and independently real — a
+  sonnet worker is sweeping scripts/config for ungrounded numeric thresholds now; the sample
+  checked by hand first (spec-debt-cap.json, register-lint-floor.json) was well-governed, so
+  this may turn up few or no findings, and the count will be reported honestly either way.
 
 ---
 
