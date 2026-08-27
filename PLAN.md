@@ -277,7 +277,7 @@ Note: largely fixed already; one known hole remains (bare single-class selectors
 **Covered by:** q-489 — Every automatic check proves it can actually catch its problem. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
-### 👁️ A cleared mistake stops blocking every future push — id: q-527
+### ⬜ A cleared mistake stops blocking every future push — id: q-527
 **Group:** Worker & data safety · **Priority:** normal
 **Source:** found 2026-07-29; owner's word owed on what counts as "cleared."
 Note: held for the owner: the row's final shape depends on a policy answer he hasn't given yet — what counts as a cleared mistake. The name describes the problem, not the resolution, because the resolution isn't written anywhere yet.
@@ -1194,13 +1194,13 @@ Note: the row itself is undecided between "give this incident its own record" an
 **Covered by:** q-458 — The plain-language text checker becomes its own reusable tool. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
-### 👁️ Three wording disagreements in the rulebook need your final call — id: q-536
+### ⬜ Three wording disagreements in the rulebook need your final call — id: q-536
 **Group:** Readability & plain language · **Priority:** normal
 **Source:** found 2026-07-30 across three readability pilots.
 Note: held for the owner: the row's final shape depends on a policy answer he hasn't given yet. The name describes the problem, not the resolution, because the resolution isn't written anywhere yet.
 
 
-### 👁️ One excuse shouldn't cover every future change — id: q-529
+### ✅ One excuse shouldn't cover every future change — id: q-529
 **Group:** Method reliability · **Priority:** normal
 **Source:** found 2026-07-29 — a written reason licensed every later raise of the same ceiling.
 Note: held for the owner: the row's final shape depends on a policy answer he hasn't given yet — whether a reason expires. The name describes the problem, not the resolution, because the resolution isn't written anywhere yet.
@@ -1836,6 +1836,31 @@ One line per finding. Don't move it into ROADMAP. Don't fix it without the owner
   sonnet worker is sweeping scripts/config for ungrounded numeric thresholds now; the sample
   checked by hand first (spec-debt-cap.json, register-lint-floor.json) was well-governed, so
   this may turn up few or no findings, and the count will be reported honestly either way.
+- **The sweep landed: 45 ungrounded numeric thresholds, real, not a fishing trip.** Scope:
+  every scripts/guardrails/hooks/templates file plus every JSON config, PLAN.md and prose
+  excluded. 15 constants already properly sourced (the house style, done right, when it's
+  done); 45 bare thresholds with no incident or derivation behind them (mostly judge/lint
+  tuning windows and timeout/retry budgets); 9 genuinely unsure, flagged rather than guessed.
+  Not fixed yet — 45 real judgment calls is its own body of work, continuing.
+- **q-527, q-529, q-536 were never his to decide — his own word tonight, and it checks out.**
+  All three carried `👁️` ("needs his eyes"); all three trace to `Source: found <date>`, not an
+  owner quote — see [[only-his-dated-words-are-law]]. His ruling, verbatim: machinery is this
+  seat's to decide, ask only if he personally set the machinery up himself; recorded properly
+  in `~/.claude/playbook/inbox/2026-08-27-from-live-spec-machinery-deferral.md` (a cross-project
+  file, not an edit — this window doesn't write to the playbook repo directly) rather than a
+  new pack rule, since `profile.md`'s existing `deferral` bullet already covers it and only
+  needed the machinery case named. Re-marked ⬜ (q-527, q-536) — real, unresolved, just not his
+  — and ✅ (q-529): its own root cause traced to `scripts/rule-census.py` /
+  `guardrails/check-doc-findings-bound.py`, both retired since the 2026-07-29 report that found
+  it; the systems that replaced them (`guardrails/check-size-ratchet.py`, `spec-debt-cap.json`)
+  require a human-edited reason alongside every threshold change by construction, so the
+  "a reason survives the raise it excused" bug the report described cannot recur in the current
+  design. q-536's own "three wording disagreements" could not be pinned down to three specific
+  items — the 2026-07-30 readability-pilot findings it points at run to 40+ items across two
+  archived docs, almost all already resolved in a rewrite since, and three weeks of subsequent
+  readability work make most of what remains open a stale read of files rewritten since. Not
+  closed — a real recount would need to re-read the current source against each remaining
+  candidate, not this session's guess.
 
 ---
 
