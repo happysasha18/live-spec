@@ -1,15 +1,24 @@
-"""The board and the Canon name every task the same way, character for character
+"""The board and the Canon name a task the same way, character for character
 (the owner's standing rule: "наш канонический формат и названия тасков — одно и то же,
 дословно всегда").
 
-`scripts/state-probe.sh` prints the plain-text Canon a session opens with. `scripts/
-render-board.sh` renders the same steps as `board.html`. Both parse `### [mark] N. Title`
-headings out of `PLAN.md`, independently, in two different languages (a Python heredoc
-inside a bash script, in each case) — nothing stops the two parses from drifting apart, and
-they briefly did (a divergence closed alongside this test, see PLAN.md step 1). This test
-compares what each script actually PRINTS/RENDERS, not a third reimplementation of the
-parsing regex — a change to either script's parsing shows up here without this test itself
-needing an update.
+`scripts/state-probe.sh` prints the plain-text Canon a session opens with; `scripts/
+render-board.sh` renders every task as `board.html`. Both parse `### <mark> Title — id: <id>`
+headings out of PLAN.md's `## Tasks` section through the one shared parser,
+`scripts/plan_checks.py`'s `parse_tasks()` — but each still turns a task into its own printed
+line independently (a Python heredoc inside a bash script, in each case), and that is where the
+two drifted apart once before (the divergence this test was written to catch, PLAN.md step 1).
+This test compares what each script actually PRINTS/RENDERS, not the shared parser itself.
+
+Since PLAN.md's task-list merge (commit bc6f862b), the probe shows only the top of the list —
+the tasks needing his eyes, in hand, blocked or next up in queue, plus one summary line (the
+Canon report this feeds into chat is capped at seven to ten lines; see CLAUDE.md and
+scripts/state-probe.sh's own comment) — while the board is a page and can render all of them.
+So the two no longer print the SAME SET of titles; what still has to hold is that every title
+the probe DOES print also appears, character for character, on the board — the probe can show
+less, never something different. `tests/test_tasks_parser_finds_every_task.py` covers the
+board's own completeness (every id PLAN.md declares lands on the board) and the probe's
+internal bookkeeping (shown + more-below + done == every declared task).
 
 Runs against a THROWAWAY COPY of the repo in a temp directory, following the pattern in
 tests/test_plan_is_not_executable.py: never touches the real PLAN.md, never mutates the
@@ -33,17 +42,17 @@ NEEDED = ("PLAN.md", "scripts/state-probe.sh", "scripts/render-board.sh", "scrip
 
 _ANSI_RE = re.compile(r"\x1b\[[0-9;]*m")
 
-# state-probe.sh prints one PLAN line per step as:
-#   "  <icon> <title> <verified-or-declared>[  <-- NEXT]"
-# (scripts/state-probe.sh's embedded python: `print(f"  {icon} {colour}{s['title']}{X} "
-#  f"{verified}{tail}")`). The icon is one of a small fixed set and the trailing tag is
-# always "verified" or "declared" — stripping ANSI colour codes first, then peeling those
-# off both ends, leaves exactly the title text.
+# state-probe.sh prints one PLAN line per shown task as:
+#   "  <icon> <title>  (<id>) <verified-or-declared>[  <-- NEXT]"
+# (scripts/state-probe.sh's embedded python: `print(f"  {t['icon']} {colour}{t['title']}{X}  "
+#  f"{D}({t['id']}){X} {verified}{tag}")`). The icon is one of the plan's five marks and the
+# trailing tag is always "verified" or "declared" — stripping ANSI colour codes first, then
+# peeling those off both ends, leaves exactly the title text.
 _PROBE_LINE_RE = re.compile(
-    r"^(?:✅|🔄|⛔|⬜)\s+(.+?)\s+(?:verified|declared)(?:\s*<-- NEXT)?\s*$"
+    r"^(?:✅|🔄|⛔|⬜|👁️)\s+(.+?)\s+\(\S+\)\s+(?:verified|declared)(?:\s*<-- NEXT)?\s*$"
 )
 
-# render-board.sh's card markup: `<div class="handle">N. Title <span class="chip">...`
+# render-board.sh's card markup: `<div class="handle">Title <span class="chip">...`
 _BOARD_HANDLE_RE = re.compile(r'<div class="handle">(.*?)\s*<span class="chip">')
 
 
@@ -99,22 +108,29 @@ class TestBoardTitlesMatchTheCanon(unittest.TestCase):
     def tearDown(self):
         self._tmp.cleanup()
 
-    def test_both_readers_find_the_same_titles(self):
+    def test_every_shown_probe_title_appears_on_the_board(self):
         probe_titles = _probe_titles(self.tmp)
         board_titles = _board_titles(self.tmp)
 
-        self.assertTrue(probe_titles, "the probe printed no step titles — its PLAN-section "
+        self.assertTrue(probe_titles, "the probe printed no task titles — its PLAN-section "
                                        "print shape changed; update _PROBE_LINE_RE")
         self.assertTrue(board_titles, "the board rendered no card titles — its handle markup "
                                        "changed; update _BOARD_HANDLE_RE")
-        self.assertEqual(
-            len(probe_titles), len(board_titles),
-            "the probe and the board found a different NUMBER of step titles: "
-            "%r vs %r" % (probe_titles, board_titles),
+        # The board renders every task PLAN.md declares (checked directly in
+        # test_tasks_parser_finds_every_task.py); the probe only shows its top-of-list
+        # subset. What has to hold here is character-for-character agreement on the ones the
+        # probe DOES show, not equal counts — the probe legitimately shows fewer.
+        board_title_set = set(board_titles)
+        missing = [t for t in probe_titles if t not in board_title_set]
+        self.assertFalse(
+            missing,
+            "the Canon printed a task title the board doesn't carry, character for character: "
+            "%r" % missing,
         )
-        self.assertEqual(
-            sorted(probe_titles), sorted(board_titles),
-            "the Canon and the board disagree on a task's title, character for character",
+        self.assertLessEqual(
+            len(probe_titles), len(board_titles),
+            "the probe printed MORE task lines than the board rendered — it should be showing "
+            "a subset of the full list, not more than it",
         )
 
 

@@ -32,51 +32,104 @@ AHEAD=$(git rev-list --count origin/main..HEAD 2>/dev/null || echo 0)
 [ "$BEHIND" = "0" ] && [ "$AHEAD" = "0" ] && ok "matches origin/main"
 
 # ---------------------------------------------------------------- plan
-# A step's status comes from its acceptance command, not from a hand-set checkbox.
-# A step with no command prints as DECLARED — the reader can see where the fact ends and
-# someone's word begins.
+# A task's status comes from its acceptance command, not from a hand-set mark, wherever a
+# command exists (scripts/plan_checks.py). A task with no command prints as DECLARED — the
+# reader can see where the fact ends and someone's word begins; that is existing, correct
+# behaviour, not a gap to fill.
+#
+# PLAN.md's `## Tasks` section (commit bc6f862b) can hold well over a hundred tasks — this
+# printout is what CLAUDE.md's Canon report carries into chat verbatim, and that report is
+# capped at seven to ten lines (the owner's own repeated words; see ~/.claude/CLAUDE.md). So
+# this prints the top of the list, not all of it: full detail always stays one command away,
+# `bash scripts/render-board.sh`, or PLAN.md itself.
 b "PLAN"
 rm -f /tmp/probe-next.txt
 if [ -f PLAN.md ]; then
   python3 - <<'PYEOF'
-import re, subprocess, sys
+import subprocess, sys
 
 G, Y, R, D, B, X = "\033[0;32m", "\033[1;33m", "\033[0;31m", "\033[2m", "\033[1m", "\033[0m"
 
-# The commands that verify each plan step live in one home, scripts/plan_checks.py: a status
-# board a person edits by hand must not also be an execution surface, and two copies of the
-# map would let this reader and the other disagree about what "done" means for a step.
+# The parser and the acceptance commands live in one home, scripts/plan_checks.py: a status
+# board a person edits by hand must not also be an execution surface, and two copies of either
+# would let this reader and scripts/render-board.sh disagree about what a task is.
 # Both readers cd to the repository root before this block runs, so "scripts" resolves.
 sys.path.insert(0, "scripts")
-from plan_checks import CHECKS
+from plan_checks import parse_tasks
 
-steps, cur = [], None
-for line in open("PLAN.md", encoding="utf-8"):
-    m = re.match(r"^### \[(.)\] (.+)$", line.rstrip())
-    if m:
-        title = m.group(2)
-        num = re.match(r"(\d+)\.", title)
-        cur = {"mark": m.group(1), "title": title, "check": CHECKS.get(num.group(1)) if num else None}
-        steps.append(cur)
-        continue
+text = open("PLAN.md", encoding="utf-8").read()
+tasks = parse_tasks(text)
 
-next_shown = False
-for s in steps:
-    if s["check"]:
-        ok = subprocess.run(s["check"], shell=True, capture_output=True).returncode == 0
-        icon, colour = ("✅", G) if ok else ("⬜", D)
-        verified = f"{D}verified{X}"
+for t in tasks:
+    if t["check"]:
+        ok = subprocess.run(t["check"], shell=True, capture_output=True).returncode == 0
+        # A checked task's real state can outrun or lag the mark a person typed — the command
+        # is the fact. Falling back to the task's own mark rather than a flat "⬜" on failure
+        # (unlike the old x/~/!/space vocabulary) keeps a real distinction: q-... items have no
+        # checks at all, but a checked task like plan-9 can be marked in hand (🔄) and still
+        # fail its command, which is exactly what plan-9's own note in PLAN.md says is true
+        # today.
+        t["icon"] = "✅" if ok else t["mark"]
+        t["verified"] = True
     else:
-        ok = s["mark"] == "x"
-        icon = {"x": "✅", "~": "🔄", "!": "⛔"}.get(s["mark"], "⬜")
-        colour = G if s["mark"] == "x" else (Y if s["mark"] == "~" else (R if s["mark"] == "!" else D))
-        verified = f"{D}declared{X}"
-    tail = ""
-    if not ok and not next_shown and s["mark"] != "!":
-        icon, colour, tail, next_shown = "🔄" if s["mark"] == "~" else "⬜", Y, f"  {B}<-- NEXT{X}", True
-    print(f"  {icon} {colour}{s['title']}{X} {verified}{tail}")
-    if tail:
-        open("/tmp/probe-next.txt", "w", encoding="utf-8").write(s["title"])
+        ok = t["mark"] == "✅"
+        t["icon"] = t["mark"]
+        t["verified"] = False
+    t["ok"] = ok
+
+ICON_COLOUR = {"✅": G, "🔄": Y, "⛔": R, "👁️": Y, "⬜": D}
+
+# Priority order for the budget below: needs-his-eyes (only he can move it), then in hand
+# (already running work), then blocked (worth knowing about), then queued (what's next) —
+# filled round-robin, one category at a time, so a single large category (31 blocked today)
+# cannot eat the whole budget and crowd the others out.
+TASK_LINE_BUDGET = 9  # 9 task lines + 1 summary line = 10, the Canon cap's own top end.
+CATEGORY_ORDER = ["👁️", "🔄", "⛔", "⬜"]
+
+buckets = {icon: [t for t in tasks if t["icon"] == icon] for icon in CATEGORY_ORDER}
+for icon in CATEGORY_ORDER:
+    # Critical priority first; ties keep the file's own order. PLAN.md's "## Tasks" preamble
+    # already lists critical tasks first, so this is a safety net, not the source of the order
+    # (a stable sort changes nothing when the input is already in that order).
+    buckets[icon].sort(key=lambda t: 0 if (t["priority"] or "").strip().lower() == "critical" else 1)
+
+shown = []
+idx = {icon: 0 for icon in CATEGORY_ORDER}
+budget = TASK_LINE_BUDGET
+progressed = True
+while budget > 0 and progressed:
+    progressed = False
+    for icon in CATEGORY_ORDER:
+        if budget <= 0:
+            break
+        i = idx[icon]
+        if i < len(buckets[icon]):
+            shown.append(buckets[icon][i])
+            idx[icon] += 1
+            budget -= 1
+            progressed = True
+
+# NEXT: the first task actually in hand — a task waiting on his eyes can't be advanced without
+# him either, so (like the old rule skipping blocked steps) it doesn't win NEXT.
+next_task = buckets["🔄"][0] if buckets["🔄"] else (buckets["⬜"][0] if buckets["⬜"] else None)
+
+next_title = ""
+for t in shown:
+    tag = ""
+    if next_task is not None and t["id"] == next_task["id"]:
+        tag = f"  {B}<-- NEXT{X}"
+        next_title = t["title"]
+    verified = f"{D}verified{X}" if t["verified"] else f"{D}declared{X}"
+    colour = ICON_COLOUR.get(t["icon"], D)
+    print(f"  {t['icon']} {colour}{t['title']}{X}  {D}({t['id']}){X} {verified}{tag}")
+
+shown_ids = {t["id"] for t in shown}
+done_count = sum(1 for t in tasks if t["icon"] == "✅")
+more_below = sum(1 for t in tasks if t["id"] not in shown_ids and t["icon"] != "✅")
+print(f"  {D}… {more_below} more below · {done_count} done · full list in PLAN.md / board.html{X}")
+
+if next_title:
+    open("/tmp/probe-next.txt", "w", encoding="utf-8").write(next_title)
 PYEOF
 else
   bad "PLAN.md is missing"

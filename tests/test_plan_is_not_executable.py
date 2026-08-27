@@ -92,11 +92,17 @@ class TestNeitherReaderLooksForACommandInThePlan(unittest.TestCase):
 
 class TestTheChecksHaveOneHome(unittest.TestCase):
     def test_both_readers_import_the_shared_map(self):
+        # Both readers import parse_tasks() rather than CHECKS directly since PLAN.md's
+        # task-list merge (commit bc6f862b): parse_tasks() is scripts/plan_checks.py's own
+        # parser for PLAN.md's "## Tasks" section, and it looks up CHECKS internally (each
+        # parsed task's "check" field is CHECKS.get(task id)) — so the check map still has the
+        # one home this test exists to hold, reached through the shared parser instead of a
+        # bare import.
         for reader in READERS:
             self.assertIn(
-                "from plan_checks import CHECKS",
+                "from plan_checks import parse_tasks",
                 (ROOT / reader).read_text(encoding="utf-8"),
-                "%s does not read the checks from their one home" % reader,
+                "%s does not read the plan through the shared parser/checks home" % reader,
             )
 
     def test_no_reader_defines_its_own_copy_of_the_map(self):

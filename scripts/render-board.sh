@@ -1,25 +1,29 @@
 #!/bin/bash
-# render-board.sh — renders the plan's Canon (PLAN.md's ten steps, state read the way
-# scripts/state-probe.sh reads it — from acceptance commands, not from a hand-set checkbox)
+# render-board.sh — renders the plan's Canon (PLAN.md's `## Tasks` section, state read the way
+# scripts/state-probe.sh reads it — from acceptance commands, not from a hand-set mark)
 # as one self-contained HTML page, a pseudo-kanban with columns.
 #
 # Why: the owner asked four times for "one page I can just look at" instead of asking the
 # agent how things are going. He does not want a separate board feature — the board is a
 # rendering of the same Canon this project already computes (PLAN.md, §"Already decided"). This
 # script does not invent a second source of state: every field it draws comes from PLAN.md's
-# own text and from the same check commands state-probe.sh runs.
+# own text and from the same check commands state-probe.sh runs (both live in one home,
+# scripts/plan_checks.py — its parse_tasks() and its CHECKS map).
 #
 # Card fields follow his own words, 2026-08-06 (recon: docs/research/2026-08-26-board-ticket-fields.md):
-#   - a short, sharp handle first (the step title, verbatim from PLAN.md)
+#   - a short, sharp handle first (the task title, verbatim from PLAN.md)
 #   - a description right after it
 #   - everything else behind a collapsible details toggle, never auto-closing
 #   - a status shown as an icon, not a paragraph; "done" as an emoji, to save space
 #   - no legend — the page must read on its own
-#   - no options/choices shown on a card once its step is in progress
-# Fields he asked for that PLAN.md's steps do not carry (branch/worktree, given-vs-actual
-# time, agent name, lanes) are left out rather than invented — those belong to the F-work-board
-# product feature (spec/work-board.md, requirement 309), a separate, larger, still-unbuilt
-# surface for host projects' own task queues, not this project's own ten-step plan.
+#   - no options/choices shown on a card once its task is in progress
+# Since PLAN.md's task-list merge (commit bc6f862b), every task also carries a Group, a
+# Priority and a Source line — shown on every card, and used to cluster cards inside each
+# column (his page, unlike the chat Canon, has the room to show everything; grouping is what
+# keeps "everything" readable). Fields he asked for that no task carries (branch/worktree,
+# given-vs-actual time, agent name, lanes) are left out rather than invented — those belong to
+# the F-work-board product feature (spec/work-board.md, requirement 309), a separate, larger,
+# still-unbuilt surface for host projects' own task queues, not this project's own plan.
 #
 # Usage: bash scripts/render-board.sh [output-file]   (default: board.html at repo root)
 
@@ -36,38 +40,23 @@ from datetime import datetime
 
 out_path = sys.argv[1]
 
-# The commands that verify each plan step live in one home, scripts/plan_checks.py: a status
-# board a person edits by hand must not also be an execution surface, and two copies of the
-# map would let this reader and the other disagree about what "done" means for a step.
+# The parser and the commands that verify each plan task live in one home,
+# scripts/plan_checks.py: a status board a person edits by hand must not also be an execution
+# surface, and two copies of either would let this reader and scripts/state-probe.sh disagree
+# about what a task is or what "done" means for it.
 # Both readers cd to the repository root before this block runs, so "scripts" resolves.
 sys.path.insert(0, "scripts")
-from plan_checks import CHECKS
+from plan_checks import parse_tasks
 
-# ---------------------------------------------------------------- read PLAN.md's steps
-# Same parse shape as state-probe.sh: a step is a "### [mark] N. Title" header, then body
-# lines up to the next header or the "## Blockers" section close.
+# ---------------------------------------------------------------- read PLAN.md's tasks
+# Same parser state-probe.sh uses: parse_tasks() reads the "## Tasks" section, one entry per
+# "### <mark> Title — id: <id>" header, with its Group/Priority/Source lines and the rest of
+# its body (the full original prose and Acceptance line the plan-N tasks still carry).
 text = open("PLAN.md", encoding="utf-8").read()
 lines = text.splitlines()
-
-steps = []
-cur = None
-in_steps_section = False
-for line in lines:
-    if line.strip() == "## Steps":
-        in_steps_section = True
-        continue
-    if in_steps_section and line.startswith("## "):
-        break
-    if not in_steps_section:
-        continue
-    m = re.match(r"^### \[(.)\] (\d+)\. (.+)$", line.rstrip())
-    if m:
-        cur = {"mark": m.group(1), "num": m.group(2), "title": m.group(3),
-               "check": CHECKS.get(m.group(2)), "body": []}
-        steps.append(cur)
-        continue
-    if cur is not None:
-        cur["body"].append(line)
+steps = parse_tasks(text)
+for s in steps:
+    s["num"] = s["id"]
 
 # ---------------------------------------------------------------- split each step's body
 # into its prose paragraphs (in source order), a bullet list (its deliverables/details, each
@@ -108,36 +97,40 @@ def split_body(body_lines):
     return paragraphs, bullets, " ".join(accept)
 
 # ---------------------------------------------------------------- run acceptance commands
-# Exactly state-probe.sh's rule: a step with a command in CHECKS is VERIFIED by running it; a
-# step with none is DECLARED — its mark is the only claim, and the page says so plainly
-# rather than pretending it was measured (law 3: every accepted step has a command and an
-# observable result; a step without one is a wish, not a fact).
+# Exactly state-probe.sh's rule: a task with a command in CHECKS is VERIFIED by running it; a
+# task with none is DECLARED — its mark is the only claim, and the page says so plainly rather
+# than pretending it was measured (law 3: every accepted task has a command and an observable
+# result; a task without one is a wish, not a fact). A checked task that fails its command
+# falls back to its own mark (🔄/⛔/👁️/⬜) rather than a flat "not done" — the new mark
+# vocabulary already distinguishes those states, unlike the plan's old x/~/!/space marks.
 for s in steps:
     paragraphs, bullets, accept = split_body(s["body"])
     s["paragraphs"], s["bullets"], s["accept"] = paragraphs, bullets, accept
     if s["check"]:
         ok = subprocess.run(s["check"], shell=True, capture_output=True).returncode == 0
         s["verified"] = True
-        s["done"] = ok
+        s["icon"] = "✅" if ok else s["mark"]
     else:
+        ok = s["mark"] == "✅"
         s["verified"] = False
-        s["done"] = s["mark"] == "x"
+        s["icon"] = s["mark"]
+    s["done"] = ok
 
 # ---------------------------------------------------------------- assign one column each
-# Columns mirror PLAN.md's own mark vocabulary — "not started / in progress / closed / blocked" —
-# plus the same "NEXT" (next up) rule state-probe.sh uses: the first step that is not done
-# and not itself marked blocked is the one step in progress. Only one step is ever "in
-# progress" at a time (his own definition, 2026-08-06 18:34: in-work means "in your pipeline"
-# now, not a pile of maybes).
-next_assigned = False
+# Same four columns as before the task-list merge. The board can show every task (it is a
+# page, not the chat Canon), so — unlike state-probe.sh, which has to ration lines — a task's
+# own mark decides its column directly: ✅ (or a passing command) is Done; 🔄 is In progress
+# (several can run at once, his own Canon rule: "tasks running side by side show as several
+# 🔄 at once"); ⛔ and 👁️ both land on Blocked — a task needing his eyes can't move without
+# him either, the same "waiting on the owner's word" this column already names; ⬜ is Not
+# started.
 for s in steps:
-    if s["mark"] == "!":
-        s["column"] = "blocked"
-    elif s["done"]:
+    if s["icon"] == "✅":
         s["column"] = "done"
-    elif not next_assigned:
+    elif s["icon"] == "🔄":
         s["column"] = "inwork"
-        next_assigned = True
+    elif s["icon"] in ("⛔", "👁️"):
+        s["column"] = "blocked"
     else:
         s["column"] = "backlog"
 
@@ -246,7 +239,7 @@ def bullet_html(b):
     return "<li class='subtask'><span class='mark'>%s</span> %s</li>" % (mark_icon(b["mark"]), text_html)
 
 def card_html(s):
-    chip = ("✅" if s["done"] else "⛔") if s["mark"] in ("x", "!") else ("🔄" if s["column"] == "inwork" else "⬜")
+    chip = s["icon"]
     verified = "verified by command" if s["verified"] else "declared, no acceptance command"
 
     # Face: title, a short summary (first sentence of the first paragraph, if there is one),
@@ -273,31 +266,57 @@ def card_html(s):
         details_block = (
             "<details><summary>more</summary>%s</details>" % details
         )
+
+    # Every task carries a Group, a Priority and a Source since the task-list merge
+    # (commit bc6f862b) — shown on the card face, not hidden behind "more": the id sits with
+    # them for the rare case two titles are close enough to need it.
+    meta = "%s · %s priority · %s" % (
+        esc(s["group"] or "—"), esc((s["priority"] or "—").lower()), esc(s["id"]),
+    )
+    source_html = "<div class='source'>%s</div>" % render_inline_md(s["source"]) if s["source"] else ""
+
     return """
     <div class="card">
       <div class="handle">%s <span class="chip">%s</span></div>
+      <div class="meta">%s</div>
+      %s
       %s
       <div class="status">%s</div>
       %s
     </div>""" % (
-        esc("%s. %s" % (s["num"], s["title"])),
+        esc(s["title"]),
         chip,
+        meta,
         "<p class='desc'>%s</p>" % summary_html if summary_html else "",
+        source_html,
         esc(verified),
         details_block,
     )
 
+# Cards cluster by the task's own Group field inside each column — a page has the room to
+# show every one of the 160 tasks, and grouping is what keeps that readable (the chat Canon
+# in state-probe.sh instead rations lines; this is the page's own way of handling the same
+# volume). Groups sort alphabetically; cards inside a group keep PLAN.md's own order.
 columns_html = ""
 for key, label, sub in COLUMNS:
-    cards = "".join(card_html(s) for s in steps if s["column"] == key)
-    if not cards:
-        cards = "<p class='empty'>empty</p>"
+    col_steps = [s for s in steps if s["column"] == key]
+    groups = {}
+    for s in col_steps:
+        groups.setdefault(s["group"] or "Ungrouped", []).append(s)
+    if not col_steps:
+        body = "<p class='empty'>empty</p>"
+    else:
+        body = "".join(
+            "<div class='group'><h3>%s <span class='count'>%d</span></h3>%s</div>"
+            % (esc(g), len(groups[g]), "".join(card_html(s) for s in groups[g]))
+            for g in sorted(groups)
+        )
     columns_html += """
   <div class="col">
     <h2>%s <span class="count">%d</span></h2>
     <div class="sub">%s</div>
     %s
-  </div>""" % (esc(label), sum(1 for s in steps if s["column"] == key), esc(sub), cards)
+  </div>""" % (esc(label), len(col_steps), esc(sub), body)
 
 blockers_html = ""
 if blockers:
@@ -333,6 +352,11 @@ page = """<!DOCTYPE html>
   .card {{ border: 1px solid #8883; border-radius: 8px; padding: .6rem .7rem; margin-bottom: .6rem; }}
   .handle {{ font-weight: 700; display: flex; justify-content: space-between; gap: .5rem; }}
   .chip {{ flex: 0 0 auto; }}
+  .meta {{ font-size: .78rem; opacity: .6; margin-top: .15rem; }}
+  .source {{ font-size: .82rem; opacity: .75; margin-top: .3rem; }}
+  .group {{ margin-bottom: .8rem; }}
+  .group h3 {{ font-size: .78rem; margin: 0 0 .35rem; text-transform: uppercase;
+              letter-spacing: .02em; opacity: .55; font-weight: 600; }}
   .desc {{ margin: .35rem 0; opacity: .88; }}
   .status {{ font-size: .8rem; opacity: .65; margin-top: .3rem; }}
   details {{ margin-top: .4rem; font-size: .9rem; }}
