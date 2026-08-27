@@ -144,4 +144,8 @@ than answered with a fourth record, which is the same workaround, now applied tw
 and therefore worth its own line: the durable fix is teaching `check-prover-record.sh` that a range
 of pure records owes no record, and that is a gate-logic change awaiting the owner's word.
 
+The post-push delta this postscript covers, named for gate a's range arm: base 8d6dba9, one
+reviewed commit 431fdde (`PLAN.md`: clear the stale push blocker, keep the open design question).
+It carries no code and no gate change — a plan-record edit only, reviewed by reading its own diff.
+
 Blocking: none
