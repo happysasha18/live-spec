@@ -123,6 +123,14 @@ def _has_table_row(text, n):
     return re.search(r"(?m)^\|\s*%d\s*\|" % n, text) is not None
 
 
+def _split_row(line):
+    """Split a table row on its own unescaped `|` delimiters. A row's free-form prose may carry a
+    literal pipe of its own, written `\\|` so it survives as text rather than opening a new cell;
+    this splits on every `|` that isn't preceded by a backslash, so that escape is honoured the same
+    way here as it is when the row is read as markdown."""
+    return re.split(r"(?<!\\)\|", line)
+
+
 def _status_index(archive_text):
     """The Status column's position, read from the archive table's own header row rather than assumed.
     A legacy archive writes its header as `| # | Wish | Class | Status | Decision |` and the current
@@ -132,7 +140,7 @@ def _status_index(archive_text):
     for line in archive_text.splitlines():
         if not line.startswith("|"):
             continue
-        cells = [c.strip().lower() for c in line.split("|")[1:-1]]
+        cells = [c.strip().lower() for c in _split_row(line)[1:-1]]
         if not cells:
             continue
         for i, c in enumerate(cells):
@@ -155,7 +163,7 @@ def _non_terminal_rows(archive_text):
         if not m:
             continue
         n = int(m.group(1))
-        fields = line.split("|")[1:-1]  # drop the row's bounding empty strings
+        fields = _split_row(line)[1:-1]  # drop the row's bounding empty strings
         status = fields[idx].strip() if len(fields) > idx else ""
         if not TERMINAL_WORD_RE.search(status):
             bad.append((n, status))
