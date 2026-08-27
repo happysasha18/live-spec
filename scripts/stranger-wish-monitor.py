@@ -58,7 +58,13 @@ SURFACED_MARKER = "<!-- live-spec surfaced-gen:"  # a hidden marker comment reco
 CLAIM_MARKER = "<!-- live-spec claim-gen:"  # a hidden marker comment claims a surfacing round (INV-149)
 REPO_ROOT = Path(__file__).resolve().parent.parent
 INBOX = REPO_ROOT / "inbox"
-LOCK_STALE_SECONDS = 3600  # a lock (and a claim) older than this is stolen (a hard-killed run left it behind)
+# A lock (and a claim) older than this is stolen (a hard-killed run left it behind). A staleness
+# window — machinery tuning, kept and marked under the owner-ruled class
+# (docs/audits/2026-08-07-number-rulings.md §3; the same value and role as the harness's
+# OWNERLESS_STALE_AGE in templates/headless_harness.py). No incident or source behind the figure: an
+# engineering default of one hour, far above any real run of this monitor, which is what makes an
+# older lock safe to read as abandoned rather than live.
+LOCK_STALE_SECONDS = 3600
 
 
 # ---- the pure core -------------------------------------------------------------------------
@@ -332,6 +338,10 @@ def _owner_repo() -> tuple[str, str]:
 
 def _fetch_issues():
     items = []
+    # --limit is a fetch cap, not a policy bar: `gh issue list` defaults to 30, which would silently
+    # hide open wishes, so it is raised to a figure far above this door's real traffic. No incident or
+    # source behind the 200 — an engineering default. A repository that ever carries more than 200
+    # open issues would drop the overflow silently, the same gap the discussion arm has below.
     issues = _gh_json(["issue", "list", "--state", "open", "--limit", "200",
                        "--json", "number,title,updatedAt,body"])
     for iss in issues:
@@ -359,6 +369,12 @@ def _fetch_discussions():
     if not _gh_json(["repo", "view", "--json", "hasDiscussionsEnabled"]).get("hasDiscussionsEnabled"):
         return []
     owner, repo = _owner_repo()
+    # first:100 is not a chosen number: 100 is GitHub's own documented maximum page size for a
+    # GraphQL connection, so this asks for the largest page the API will return. Not a threshold —
+    # a platform limit, the kind the owner's rule calls derived rather than invented.
+    # Known gap, stated rather than papered over: neither connection is paginated past that first
+    # page, so a repository with more than 100 open discussions, or a discussion with more than 100
+    # comments, silently drops the remainder. Fixing that needs cursor paging, not a bigger number.
     q = ("query($owner:String!,$repo:String!){repository(owner:$owner,name:$repo){"
          "discussions(first:100,states:OPEN){nodes{number id title body updatedAt "
          "comments(first:100){nodes{body createdAt}}}}}}")
@@ -461,6 +477,7 @@ def _fetch_item_comments(item: dict) -> list[dict]:
     """Re-read the source item's comments (Issue over `gh issue`, Discussion over GraphQL)."""
     if item["kind"] == "discussion":
         owner, repo = _owner_repo()
+        # first:100 — GitHub's documented maximum GraphQL page size, as above; same unpaginated gap.
         q = ("query($owner:String!,$repo:String!,$number:Int!){repository(owner:$owner,name:$repo){"
              "discussion(number:$number){comments(first:100){nodes{body createdAt}}}}}")
         data = _gh_graphql(q, owner=owner, repo=repo, number=item["number"])

@@ -105,7 +105,11 @@ def _config(path, key, shown):
 # leading **bold title** (the title names the rule; the body that follows carries the statement).
 LEAD_MARKERS = re.compile(r"^\s*(?:(?:[-*+>]\s+)|(?:#{1,6}\s+))+")   # real bullet/quote/heading (marker + space), never a **bold** run
 BOLD_TITLE = re.compile(r"^\s*\*\*[^*]+\*\*\.?\s*")          # a leading **bold title** (+ its period)
-NEG_OPENER_WORDS = 12                                        # opening clause window
+# Opening-clause window, in words. No incident or source behind the 12 — an engineering default, not
+# a policy decision (the 2026-08-07 census, row 40, found no trace; the introducing commit d58960b is
+# silent on it). It bounds how much of a block counts as its "opening"; the rule it serves is stated
+# in prose above, and the magnitude is this reading of "opening", not a bar anything is measured to.
+NEG_OPENER_WORDS = 12
 COPULA = {"is", "are", "was", "were", "be", "been", "being"}
 COPULA_NT = {"isn't", "aren't", "wasn't", "weren't"}         # contracted copula-negation
 BECOMING = {"become", "becomes", "make", "makes", "mean", "means", "form", "forms",
@@ -214,6 +218,15 @@ DEF_LEAD = re.compile(
     re.IGNORECASE)
 # a determiner on BOTH sides of the frame: a noun phrase renamed by denying its neighbour. The
 # [^,]{0,60} body forbids crossing a comma, keeping the two determiners in one appositive.
+#
+# On the 60 here and in PARALLEL_PREP and the object window below, unlike DEF_LEAD_WINDOW = 45 further
+# down, which IS sized against a measured corpus example: no source, and no measurement can give it
+# one. Swept over the whole live spec corpus (32 files: every spec/*.md plus PRODUCT_SPEC.md and
+# ARCHITECTURE.md, 2026-08-27), every value from 30 to 150 produces byte-identical lint output — the
+# figure is not load-bearing on any real text this project holds. The constraint that actually does
+# the work is the comma class `[^,]`, which keeps the match inside one appositive; the digits are a
+# belt behind it, bounding catastrophic backtracking rather than deciding a verdict. Kept as-is
+# because nothing measurable argues for another value.
 APPOSITIVE_RENAME = re.compile(
     r"(?<!\w)(?:a|an|the|its|his|her|their|our|my|your)\s+\S[^,]{0,60}?"
     r"(?:rather than|instead of)\s+(?:a|an|the|its|his|her|their|our|my|your)(?!\w)",

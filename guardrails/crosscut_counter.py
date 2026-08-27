@@ -25,7 +25,14 @@ import sys
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import archformat  # the one node reader every consumer reads through (SPEC INV-280)
 
-DEFAULT_THRESHOLD = 3  # a pair cross-cut this many times is a boundary-move candidate; [default], tunable
+# A pair cross-cut this many times is a boundary-move candidate. [default].
+#
+# Tunable per RUN — the second positional argument overrides it; no env var or config file is read.
+# No incident or source behind the 3 (the 2026-08-07 census, row 17, found no trace; the introducing
+# commit 9384863 says "3 by default, tunable" without a reason). It gates nothing: a flagged pair is
+# a candidate surfaced for a person to judge, so the cost of a wrong value is a longer or shorter
+# list to read, never a blocked landing.
+DEFAULT_THRESHOLD = 3
 
 
 def count_pairs(landings, threshold=DEFAULT_THRESHOLD):

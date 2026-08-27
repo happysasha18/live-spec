@@ -48,7 +48,16 @@ import os
 import re
 import sys
 
-CAP = 12  # the shown set's bound: a thirteenth item demotes the oldest shown into the list.
+# The shown set's bound: a thirteenth item demotes the oldest shown into the list.
+#
+# No incident or source behind the 12 — an engineering default, not a policy decision. The
+# 2026-08-07 census (docs/audits/2026-08-07-number-census.md, row 1) found no trace, and the commit
+# that introduced it (607d40a, 2026-07-17) states the value without a reason. It is closer to a
+# display width than to a bar: nothing is lost when it is crossed, because the oldest shown item
+# demotes into the list whole and alive and the list is unbounded (SPEC INV-206). What the number
+# governs is only how much of the board a person meets at once. Duplicated in PRODUCT_SPEC.md and
+# tests/test_board.py, so a change here is a three-file change.
+CAP = 12
 
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DEFAULT_BOARD = os.path.join(REPO_ROOT, "WAITING.md")

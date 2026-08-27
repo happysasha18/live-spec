@@ -29,6 +29,11 @@ class TestBootstrapComplete(unittest.TestCase):
         for doc in DOCS:
             path = os.path.join(ROOT, doc)
             self.assertTrue(os.path.isfile(path), "bootstrap doc missing: %s" % doc)
+            # 100 bytes: a smell test for "an empty shell", not a size standard. Derived from what
+            # the very next test requires — every one of these documents must carry a real first
+            # header line with a version and a date, which runs well under 100 bytes on its own. So a
+            # file clearing this floor holds at least a header plus some body. No incident or source
+            # behind the exact figure; nothing is judged by how far above it a document sits.
             self.assertGreater(os.path.getsize(path), 100, "%s is an empty shell" % doc)
 
     def test_headers_filled_not_placeholders(self):

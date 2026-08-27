@@ -77,8 +77,20 @@ STOPS_ALL_RE = re.compile(r'Stops:\s*(\d+),\s*all blocking')
 FLOOR_SAT_RE = re.compile(r'floor sat at\s+(' + "|".join(WORD_NUMBERS) + r')\s+blocking\s+stops',
                            re.IGNORECASE)
 BACKTICK_RE = re.compile(r'`([^`]+)`')
-READ_TOP_LINES = 20        # how far down a record's blocking count is read from
-READ_PATH_LINES = 25       # how far down a record's real text-read path is read from
+# How far down a reading record each fact is looked for. Both are parse windows over a record's own
+# header block, not thresholds anything is judged against — a record whose fact sits past the window
+# reads as "not stated", never as a failure.
+#
+# Measured against the whole live corpus (30 records in docs/language-reads/, 2026-08-27), the way
+# DEF_LEAD_WINDOW in scripts/spec-style-lint.py is sized against its own corpus rather than picked:
+#   - the blocking-count line first appears by line 12 at the deepest, so 20 clears every record with
+#     eight lines to spare;
+#   - the first backtick-quoted read path first appears by line 25 at the deepest — EXACTLY this
+#     window, with no headroom. A record carrying one more line of preamble than today's deepest would
+#     have its path go silently unread. Left at the measured figure rather than widened to a number
+#     nothing measures, but that zero margin is the thing to fix if a record ever reads as pathless.
+READ_TOP_LINES = 20
+READ_PATH_LINES = 25
 
 
 # ---------------------------------------------------------------------------------------------

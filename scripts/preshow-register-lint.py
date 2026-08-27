@@ -49,6 +49,8 @@ import sys
 # ALL patterns are case-insensitive; \w and \b are Unicode-aware in Python 3, so Cyrillic word
 # boundaries work. A pattern is a SPECIFIC coinage/calque collocation, never a bare industry word.
 _F = re.IGNORECASE | re.UNICODE
+
+OFFENCES_SHOWN = 8   # display width for the judge's offence list; see the print loop for why
 PATTERNS = [
     # ---- English: internal SETTING / MECHANISM names shown raw ---------------------------------
     # source: onboarding mockup jargon strip, «это бред» (2026-07-10 ~00:14)
@@ -288,7 +290,11 @@ def main(argv):
             any_hit = True
             print("PRE-SHOW REGISTER JUDGE (SPEC INV-203): a shown surface leaks the machine dialect the")
             print("literal list does not carry. Say it in the reader's own plain words first. File: %s" % src)
-            for o in offences[:8]:
+            # A display width, not a threshold anything is checked against — how many judge offences
+            # fit one screen before the reader stops reading. Nothing reds off it: the verdict below
+            # is driven by `any_hit`, so a ninth offence still fails the lint, it just is not printed.
+            # Named the way the progress report's table width was named (commit 31d3375, 2026-08-19).
+            for o in offences[:OFFENCES_SHOWN]:
                 print("  · %s" % o.get("quote", "")[:110])
                 print("          ↳ %s" % o.get("why", ""))
     if any_hit:

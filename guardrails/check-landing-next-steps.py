@@ -215,6 +215,12 @@ def _is_relocation(status, commit_day):
         commit = _dt.date.fromisoformat(commit_day)
     except ValueError:
         return False
+    # The day-lag that separates a historical relocation from a fresh landing. No incident or source
+    # behind the 2 — an engineering default, not a policy decision (the 2026-08-07 census, row 7,
+    # found no trace; the commit that introduced it, da6b26c, carries a subject line and no body).
+    # What bounds the risk is the carve above, not this figure: an unparseable or absent date already
+    # reads as a fresh landing, the safe side, so the number can only ever move a dated, already-past
+    # landing out of the refresh duty — never let a fresh one escape it.
     return (commit - landed).days >= 2
 
 

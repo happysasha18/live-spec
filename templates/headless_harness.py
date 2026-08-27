@@ -170,6 +170,13 @@ OWNER_PID_FILE = "OWNER_PID"           # each run records "<chrome pid>\n<boot i
                                        # can tell a crash leftover (owner dead, SAME boot) from a live
                                        # concurrent run (owner alive) and from a prior-boot dir (a
                                        # reboot already killed everything — the pid is meaningless)
+# On every duration and count in this file — the timeouts, retry caps, settle delays, swipe steps and
+# the glut warning below. They are ordinary browser-automation engineering defaults, not policy
+# thresholds: none gates a verdict, none is a bar any work is judged against, and each is a keyword
+# argument a caller overrides per call. They fall under the machinery-tuning class the owner's
+# 2026-08-07 ruling keeps and marks (docs/audits/2026-08-07-number-rulings.md §3, which names this
+# file). No incident or source stands behind any of the magnitudes; where one has a real reason it is
+# written beside it. This note is that mark for all of them, so nothing here reads as grounded policy.
 OWNERLESS_STALE_AGE = 3600             # an ownerless profile dir older than this (seconds) is a killed
                                        # run's leftover, not a live mid-launch sibling — safe to reap [333]
 PROFILE_GLUT_WARN = 50                 # this many of the harness's own dirs still under the temp roots is

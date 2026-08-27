@@ -42,6 +42,10 @@ if [ -n "$REMOTE_FILE" ]; then
   remote="$(cat "$REMOTE_FILE" 2>/dev/null)"
 else
   src="$REMOTE_URL"
+  # --max-time bounds one network read of a VERSION file; a slow or dead remote falls through to the
+  # "skipped — offline or unreachable" road below and never blocks. Machinery tuning, kept and marked
+  # under the owner-ruled class (docs/audits/2026-08-07-number-rulings.md §3, which names this file).
+  # No incident or source behind the 10; it is an ordinary engineering default for a one-line fetch.
   remote="$(curl -fsS --max-time 10 "$REMOTE_URL" 2>/dev/null)"
 fi
 

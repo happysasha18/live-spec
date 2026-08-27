@@ -54,7 +54,15 @@ WAIVER_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "spec-wai
 MIN_TOKENS = 6      # shorter unit must have at least this many content tokens
 JAC = 0.60          # 3-gram shingle Jaccard threshold
 CON = 0.85          # content-token containment threshold (|A∩B| / min(|A|,|B|))
-SHARE_MIN = 3       # inverted-index: only compare pairs sharing at least this many content tokens
+# inverted-index: only compare pairs sharing at least this many content tokens.
+#
+# NOT covered by the 2026-08-15 ruling above, which names only 0.60 / 0.85 / 6. The 2026-08-07 census
+# (row 48) found no trace for this one, and the commit that added it (a5c5956) explains the other
+# three thresholds and not this. It is a SPEED pre-filter, not part of the definition of redundant: a
+# pair below it is never compared, so unlike its three neighbours this figure can only ever hide a
+# pair, never flag one. That asymmetry is the reason to leave it low and the reason a wrong value here
+# is quiet rather than noisy. No source behind the 3 — an engineering default.
+SHARE_MIN = 3
 
 STOP = set("""a an the this that these those and or but nor so yet for of to in on at by with from into
 onto over under as is are was were be been being it its it's they them their there here then than

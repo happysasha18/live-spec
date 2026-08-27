@@ -92,7 +92,12 @@ SOURCE_SUFFIX = ".md"
 ATTIC = "attic"
 MANIFEST = "MANIFEST.md"
 PAGE_SUFFIX = ".html"
-HEAD_BYTES = 4096            # the mark sits in <head>; no page needs more than this read
+# The mark sits in <head>; no page needs more than this read. A read bound on a file, not a bar any
+# page is judged against — machinery tuning, kept and marked under the owner-ruled class
+# (docs/audits/2026-08-07-number-rulings.md §3, which names this file; standing under his 2026-08-07
+# 09:16 word). No incident or source behind the figure itself; it is one filesystem block, the
+# ordinary size for "read the head and stop".
+HEAD_BYTES = 4096
 
 MANIFEST_HEADER = """# The attic manifest
 

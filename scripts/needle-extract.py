@@ -50,6 +50,11 @@ def registry_literals(extra_files):
         for node in ast.walk(tree):
             if isinstance(node, ast.Constant) and isinstance(node.value, str):
                 v = norm(node.value)
+                # >= 8 chars: the floor separating a prose-like check phrase from an identifier or a
+                # fragment. It is the weaker of the two conditions here — the `" " in v` beside it is
+                # what actually requires a phrase, since any two-word string already clears 8 chars
+                # in practice. No incident or source behind the 8 (the 2026-08-07 census, row 67,
+                # found no trace); an engineering default, and a redundant one at that.
                 if len(v) >= 8 and " " in v and "%" not in v and "\\" not in v:
                     lits.add(v)
     return lits

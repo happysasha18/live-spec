@@ -99,6 +99,11 @@ CYRILLIC = re.compile(r"[Ѐ-ӿԀ-ԯ]")
 ISO_DATE = re.compile(r"\d{4}-\d{2}-\d{2}")
 STRICT_PROJECT_FILES = ("PRODUCT_SPEC.md", "ARCHITECTURE.md")
 DATED_PROJECT_FILES = ("TEST_MATRIX.md",)
+# Character proximity window: a project name this close to an ISO date reads as a dated incident
+# mention (allowed) rather than a bare project reference (flagged). No incident or source behind the
+# 40 — an engineering default, not a policy decision (the 2026-08-07 census, row 62, found no trace;
+# the introducing commit 31437f6 is silent on it). It is a reading of "beside", and it only ever
+# EXCUSES a mention: a wrong value lets a bare name pass, it never invents a finding.
 PROJECT_DATE_WINDOW = 40
 
 

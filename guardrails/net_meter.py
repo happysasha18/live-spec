@@ -44,7 +44,14 @@ import subprocess
 import sys
 
 DEFAULT_LOG = os.environ.get("NET_METER_LOG", ".live-spec/net-meter.jsonl")
-DEFAULT_WINDOW = 20  # runs a net must reach before silence reads as retirement; [default], tunable per host
+# Runs a net must reach before its silence reads as a retirement candidate. [default].
+#
+# Truth about the override, in the shape check-runaway-child.py's own note uses: this is tunable per
+# RUN, not per host — `--window N` on the command line is the only override, and no env var or config
+# file is read for it. No incident or source behind the 20 (the 2026-08-07 census, row 18, found no
+# trace). It judges no work and retires nothing: a net over the window with zero fires is only
+# SURFACED for the owner's word, never auto-retired, which is what keeps a wrong value cheap.
+DEFAULT_WINDOW = 20
 
 
 class Report:

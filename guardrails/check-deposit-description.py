@@ -65,7 +65,16 @@ WORD = re.compile(r"[A-Za-z]{2,}")
 # The deposit's own field labels — words that are structure, not a description of a code.
 FIELD_LABEL = re.compile(r"^(from|sender|blocked|lived|fault|need-by|id|re|refs?|subject)$", re.IGNORECASE)
 
-MIN_WORDS = 2  # a first mention carries a description when at least this many plain words stand beside it
+# A first mention carries a description when at least this many plain words stand beside it.
+#
+# The one recorded reason for the 2 is alignment, not measurement: JOURNAL.md 2026-07-17 — "the
+# presence floors of the two nets were aligned to two words" (the 2026-08-07 census, row 5, cites the
+# same line and finds no exchange with the owner behind it). That alignment has since gone stale on
+# one side: the sibling net it was aligned WITH, guardrails/check-description-field.py, no longer
+# exists in the tree, so this floor is now the last survivor of a pair. Kept, because the mechanism
+# does need a magnitude — "a code stands bare" has to say how bare — but its ground is a partner
+# that is gone, not an incident or an outside source.
+MIN_WORDS = 2
 
 
 def _describing_words(line):

@@ -53,6 +53,11 @@ import sys
 
 # The cumulative inline raw-content ceiling, in bytes, above which a dispatch-free session warns. A tunable
 # proxy threshold [SPEC INV-70], not a law — ~50 KB, well past a glance or a single small read.
+#
+# The tunable claim is true and the override is real: load_threshold() below reads `threshold_bytes`
+# from ~/.claude/hooks/lean-orchestrator-personal.json. The MAGNITUDE has no source — INV-70 says only
+# that this is "a tunable parameter, not a law" and never argues for 50 KB, and the 2026-08-07 census
+# (row 81) found no trace. It warns and never blocks, which is what keeps a wrong value cheap.
 DEFAULT_THRESHOLD_BYTES = 50 * 1024
 
 # A Bash command that dumps a file's raw content inline, the same way a Read does. The seat is discouraged

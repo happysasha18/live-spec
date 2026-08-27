@@ -863,6 +863,11 @@ def _git_common_dir(directory):
     if not directory or not os.path.isdir(directory):
         return None
     try:
+        # timeout bounds one local `git rev-parse`; on expiry the SubprocessError below returns None,
+        # which every caller reads as UNPLACEABLE and keeps the finding — the fail-safe side, so this
+        # deadline can never turn a real finding into a pass. Machinery tuning, kept and marked
+        # (docs/audits/2026-08-07-number-rulings.md §3). No source behind the 30; an engineering
+        # default, generous for a local git read that normally answers in milliseconds.
         proc = subprocess.run(["git", "-C", directory, "rev-parse", "--git-common-dir"],
                               capture_output=True, text=True, timeout=30)
     except (OSError, subprocess.SubprocessError):
