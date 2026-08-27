@@ -239,7 +239,7 @@ and touch up the external prover.
 **Acceptance:** the prover finds a defect in real code that the tests missed; the owner confirms
 the finding is real.
 
-### [~] 6. Tearing down machinery — measured, the hypothesis didn't hold
+### [x] 6. Tearing down machinery — measured, the hypothesis didn't hold
 
 **Measured 26.08, a sample of 120 phrases out of 763, spread evenly across test files.** Checked
 this way: whether the guarded phrase ever changed once across 1,851 commits. If it never changed,
@@ -261,6 +261,17 @@ edited for meaning — a blanket removal would have taken those out too.
 - **The real cost isn't in the tests.** What turned out expensive is the ceremony around a text
   edit: a prover record and a skill-review record on every one. That's what should be cancelled,
   keep the tests.
+  **Answered 27.08, against cancelling it, and the answer is his own.** The skill-review check
+  already lets the meaningless edits through: a version stamp the machine wrote, and a change that
+  is only letter case or whitespace, both carved out by name and by test. What is left firing is a
+  real change to a real sentence — and his own reason for parking this stands as the argument
+  against cancelling: removing one word can flip a sentence's meaning, so there is no size below
+  which a text edit is safe by inspection. Nothing to cancel.
+  The cost that was actually felt across these two sessions was a different thing wearing the same
+  coat: a plan edit committed by itself, after the review record, makes the record stale and asks
+  for another. That is the check working correctly on a session that split one piece of work into
+  eight commits. A session that commits its plan edits alongside the work they describe never sees
+  it, and no machinery has to change for that.
 - Caveats on the measurement: `git log -S` can't see history before a file move · the method
   misses phrases with a soft line-wrap (5 of 120) · the external clone `skills/product-prover/`
   carries no history here. Recountable with the scripts in session 385f4cf5's scratchpad.
@@ -605,3 +616,4 @@ One line per finding. Don't move it into ROADMAP. Don't fix it without the owner
   three places — `~/Documents/`, `~/OneDrive/`, `~/Google Drive/My Drive/`. To restore: `git
   clone <path to bundle> ~/live-spec-restored`. Made through `git bundle`, not through `git push
   --no-verify`: the mandate forbids `--no-verify` in its own separate line.
+

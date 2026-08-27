@@ -7,11 +7,18 @@ runs. So a status board could execute arbitrary shell on every machine that open
 Nobody asked for that mechanism, so it was removed at the root rather than fenced: the commands
 moved to `scripts/plan_checks.py`, one home, and both readers import them from there.
 
-These tests hold that removal. The first two are the real guard — they plant a command in the plan
-and prove neither reader runs it. The rest hold the one-home property the fix rests on.
+These tests hold that removal. The planted-command tests run against a THROWAWAY COPY of the repo
+in a temp directory and never touch the real `PLAN.md`. An earlier version of this file edited the
+real plan and restored it in a `finally`; two of those runs overlapped, each took the other's
+half-written file as its "original", and the plan ended up with 722 junk lines appended. A test
+that mutates a file a person owns is a bad test even when its restore is correct, because the
+restore is only correct while nothing else is running.
 """
+import os
 import pathlib
+import shutil
 import subprocess
+import tempfile
 import unittest
 
 from conftest import ROOT
@@ -20,94 +27,102 @@ ROOT = pathlib.Path(ROOT)
 PLAN = ROOT / "PLAN.md"
 READERS = ("scripts/state-probe.sh", "scripts/render-board.sh")
 
+# What a reader needs from the tree to run at all: the plan it reads, the two reader scripts, and
+# the one home the checks now live in.
+NEEDED = ("PLAN.md", "scripts/state-probe.sh", "scripts/render-board.sh", "scripts/plan_checks.py")
 
-class PlantedCommandCase(unittest.TestCase):
-    """Append a check comment to the real plan, run a reader, and see whether it fired.
 
-    The plan is restored in tearDown whatever happens, so a failure here never leaves the owner's
-    own file edited.
-    """
+class TestAPlantedCommandNeverRuns(unittest.TestCase):
+    """Plant a check comment in a COPY of the plan, run a reader there, see whether it fired."""
 
-    reader = None
+    def _plant_and_run(self, reader):
+        with tempfile.TemporaryDirectory() as tmp:
+            tmp = pathlib.Path(tmp)
+            for rel in NEEDED:
+                dst = tmp / rel
+                dst.parent.mkdir(parents=True, exist_ok=True)
+                shutil.copy2(ROOT / rel, dst)
 
-    def _run_with_planted_check(self, reader):
-        canary = pathlib.Path("/tmp/live-spec-plan-canary")
-        if canary.exists():
-            canary.unlink()
-        original = PLAN.read_text(encoding="utf-8")
-        try:
-            PLAN.write_text(
-                original + "\n<!-- check: touch /tmp/live-spec-plan-canary -->\n",
+            canary = tmp / "canary-fired"
+            plan = tmp / "PLAN.md"
+            plan.write_text(
+                plan.read_text(encoding="utf-8")
+                + "\n<!-- check: touch %s -->\n" % canary,
                 encoding="utf-8",
             )
-            subprocess.run(["bash", reader], cwd=str(ROOT), capture_output=True)
-            fired = canary.exists()
-        finally:
-            PLAN.write_text(original, encoding="utf-8")
-            if canary.exists():
-                canary.unlink()
-        return fired
 
+            subprocess.run(
+                ["bash", str(tmp / reader)],
+                cwd=str(tmp),
+                capture_output=True,
+                env={**os.environ, "HOME": str(tmp)},
+            )
+            return canary.exists()
 
-class TestTheProbeRunsNothingFromThePlan(PlantedCommandCase):
-    def test_state_probe_does_not_run_a_command_planted_in_the_plan(self):
+    def test_the_probe_runs_nothing_written_into_the_plan(self):
         self.assertFalse(
-            self._run_with_planted_check("scripts/state-probe.sh"),
-            "the probe ran a command written into PLAN.md — the status board is executable again",
+            self._plant_and_run("scripts/state-probe.sh"),
+            "the probe ran a command written into the plan — the status board is executable again",
         )
 
-    def test_render_board_does_not_run_a_command_planted_in_the_plan(self):
+    def test_the_board_renderer_runs_nothing_written_into_the_plan(self):
         self.assertFalse(
-            self._run_with_planted_check("scripts/render-board.sh"),
-            "the board renderer ran a command written into PLAN.md — the status board is "
+            self._plant_and_run("scripts/render-board.sh"),
+            "the board renderer ran a command written into the plan — the status board is "
             "executable again",
         )
 
 
-class TestNeitherReaderParsesACheckComment(unittest.TestCase):
+class TestNeitherReaderLooksForACommandInThePlan(unittest.TestCase):
     def test_no_reader_carries_the_check_comment_pattern(self):
         for reader in READERS:
-            body = (ROOT / reader).read_text(encoding="utf-8")
             self.assertNotIn(
                 "<!-- check:",
-                body,
+                (ROOT / reader).read_text(encoding="utf-8"),
                 "%s still looks for an execution directive in the plan" % reader,
+            )
+
+    def test_the_plan_itself_carries_no_executable_line(self):
+        for i, line in enumerate(PLAN.read_text(encoding="utf-8").splitlines(), 1):
+            self.assertFalse(
+                line.startswith("<!-- check:"),
+                "PLAN.md:%d is an execution directive; the plan is prose" % i,
             )
 
 
 class TestTheChecksHaveOneHome(unittest.TestCase):
     def test_both_readers_import_the_shared_map(self):
         for reader in READERS:
-            body = (ROOT / reader).read_text(encoding="utf-8")
             self.assertIn(
                 "from plan_checks import CHECKS",
-                body,
+                (ROOT / reader).read_text(encoding="utf-8"),
                 "%s does not read the checks from their one home" % reader,
             )
 
     def test_no_reader_defines_its_own_copy_of_the_map(self):
         for reader in READERS:
-            body = (ROOT / reader).read_text(encoding="utf-8")
             self.assertNotIn(
                 "CHECKS = {",
-                body,
+                (ROOT / reader).read_text(encoding="utf-8"),
                 "%s defines a second copy of the step checks; the two can then disagree about "
                 "what 'done' means for a step" % reader,
             )
 
-    def test_the_one_home_holds_a_command_for_a_real_step(self):
+    def test_every_check_is_cheap_enough_for_the_probe(self):
+        """The probe runs every one of these at the start of every session, so none may run a
+        test suite. A suite in here made the owner's morning command hang."""
         import sys
 
         sys.path.insert(0, str(ROOT / "scripts"))
         from plan_checks import CHECKS
 
         self.assertTrue(CHECKS, "the shared check map is empty")
-        marks = {
-            line.split("]")[0].split("[")[-1]
-            for line in PLAN.read_text(encoding="utf-8").splitlines()
-            if line.startswith("### [")
-        }
-        self.assertTrue(marks, "the plan carries no steps to check")
+        for step, cmd in CHECKS.items():
+            self.assertNotIn(
+                "pytest",
+                cmd,
+                "step %s's check runs a test suite; the probe must stay fast" % step,
+            )
 
 
 if __name__ == "__main__":
