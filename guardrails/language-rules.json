@@ -1072,7 +1072,6 @@
         }
       ],
       "thresholds": {
-        "min_reply_chars_judged": 120,
         "min_quote_chars": 12
       },
       "exceptions": [

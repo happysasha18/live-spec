@@ -133,13 +133,21 @@ def spec_numbers():
         doc = sf.parse(text)
         ratchet = load_module(os.path.join(GUARDRAILS, "check-size-ratchet.py"), "csr")
         crit_bytes, crit_count = ratchet.bytes_per_criterion(doc)
+        # The bound is READ from the live ratchet record, never copied here. A hand-copied bound goes
+        # stale the moment the ratchet moves: this table published 207.2 while the record had moved
+        # through 185.4, 185.6 and 185.8 — the same staleness the 2026-08-07 census called a plain bug
+        # (docs/audits/2026-08-07-number-census.md, rows 53/54), whose recorded fix was to read the
+        # live record itself so the copied number cannot go stale again.
+        with open(os.path.join(GUARDRAILS, "spec-ratchet.json"), encoding="utf-8") as f:
+            bound = json.load(f).get("bytes_per_criterion")
         return {
             "requirements": len(doc.requirements),
             "criteria": len(doc.criteria),
             "per_criterion": round(crit_bytes / crit_count, 1) if crit_count else None,
+            "bound": bound,
         }
     except Exception:
-        return {"requirements": None, "criteria": None, "per_criterion": None}
+        return {"requirements": None, "criteria": None, "per_criterion": None, "bound": None}
 
 
 def repeated_pairs():
@@ -335,11 +343,18 @@ def spec_table():
     s = spec_numbers()
     return ["", "### The specification's own size", "",
             "| indicator | today | target |", "|---|---|---|",
-            "| bytes | %s | under 840,000 |" % fmt(load_census()["files"]
-                                                   .get("PRODUCT_SPEC.md", {}).get("bytes")),
+            # No byte target. The 840,000-byte ceiling this column used to publish belonged to
+            # guardrails/doc-bounds.json and gate z, both "retired whole 2026-08-18 as an unrequested
+            # bound" (guardrails/spec-ratchet.json's own note). The figure outlived its home by nine
+            # days; the size question is the ratchet's below, and the owner's own word on this class
+            # stands at DECISIONS.md 2026-08-07 ~01:10 — no numeric size caps on specifications, the
+            # standard is no redundancy.
+            "| bytes | %s | no target |" % fmt(load_census()["files"]
+                                               .get("PRODUCT_SPEC.md", {}).get("bytes")),
             "| requirements | %s | no target |" % fmt(s["requirements"]),
             "| acceptance criteria | %s | no target |" % fmt(s["criteria"]),
-            "| bytes per criterion | %s | falls or holds, bound 207.2 |" % fmt(s["per_criterion"]),
+            "| bytes per criterion | %s | falls or holds, bound %s |" % (fmt(s["per_criterion"]),
+                                                                        fmt(s["bound"])),
             "| repeated pairs | %s | falls or holds |" % fmt(repeated_pairs()),
             "| lines per part file | %s | 250, once the division lands |" % NOT_MEASURED, ""]
 

@@ -340,7 +340,7 @@ No rule on this page carries a status, and that is deliberate: a rule binds a te
 
 **Exceptions.** the closing recap r51 requires, which carries an answer the reader would otherwise lose inside a long reply.
 
-**Thresholds.** min_reply_chars_judged = 120; min_quote_chars = 12.
+**Thresholds.** min_quote_chars = 12.
 
 ### r15 — a word inflating a statement while adding nothing
 
