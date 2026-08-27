@@ -9,12 +9,14 @@ post-conversion queue classify (SPEC INV-276, ROADMAP row 480):
   - the OLD trigger (pre-conversion body): the diff flips a ROADMAP.md row's Status cell to `landed`
     (case-insensitive) — the landed word lands as a live body status.
   - the NEW trigger (post-conversion live-body law): the diff REMOVES a body row from ROADMAP.md while
-    a docs/queue-archive/*.md diff ADDS that same row number with an archived status containing `landed`
-    (case-insensitive, so the historical bold `**LANDED**` and the new `*landed*` both match) — the row
-    leaves the body for the archive at its closing commit.
+    a docs/queue-archive/*.md diff ADDS that same row number with an archived status whose own HEAD word
+    is `landed` (case-insensitive, so the historical bold `**LANDED**` and the new `*landed*` both match)
+    — the row leaves the body for the archive at its closing commit. The head word decides, not a bare
+    substring: a status's own prose can quote "landed" inside a deferred trigger's Done-when citation
+    without the row itself being landed (row 247, commit bc6f862b, 2026-08-27).
 
 A commit that closes no row, or moves a row out as `declined` / `superseded` / `deferred` (anything
-without the `landed` token in the flipped or archived status), owes nothing here.
+whose status HEAD is not `landed`), owes nothing here.
 
 RANGE. Same base ladder as check-skill-review.sh / check-prover-record.sh: env LIVE_SPEC_DIFF_BASE
 if set (and not the all-zeros sha) and it resolves to a commit; else origin/main if it resolves;
@@ -140,11 +142,25 @@ def _live_status(status):
     return head.startswith(("queued", "ready", "in-work", "deferred", "far"))
 
 
+def _is_landed_status(status):
+    """True when the status cell's own HEAD word (after stripping the leading `*`/`**`) is
+    `landed` — bold `**landed**` historically, `*landed*` the new format, case-insensitive.
+    Not a bare substring test: a row's long status prose can quote the word `landed` inside a
+    deferred trigger's Done-when citation ("one real remote deposit landed") without the row
+    itself being landed, and a naive "landed" in status.lower() reds on that quote (found live in
+    row 247's superseded-move, commit bc6f862b, 2026-08-27). Mirrors _live_status's own head-word
+    check for exactly this false-positive class."""
+    head = status.strip().lstrip("*").strip().lower()
+    return head.startswith("landed")
+
+
 def landed_moves_for_commit(sha, cwd):
     """The set of ROADMAP row numbers this commit MOVES from the body to an archive with a `landed`
     archived status — the new trigger under the live-body law. A number reds here when the commit's
-    ROADMAP.md diff removes its body row and a docs/queue-archive/*.md diff adds that same number with
-    `landed` in its status cell. A row moved out as declined/superseded (no `landed`) owes nothing."""
+    ROADMAP.md diff removes its body row and a docs/queue-archive/*.md diff adds that same number
+    whose status cell's own HEAD word (via _is_landed_status) is `landed`. A row moved out as
+    declined/superseded/deferred (head word anything else) owes nothing, even where its preserved
+    trigger prose happens to quote the word "landed" elsewhere in the cell."""
     r_body = _run(["git", "show", sha, "--", "ROADMAP.md"], cwd=cwd)
     removed = {}
     for raw in r_body.stdout.splitlines():
@@ -169,7 +185,7 @@ def landed_moves_for_commit(sha, cwd):
     flipped = []
     for num in removed:
         status = arch_added.get(num)
-        if status is not None and "landed" in status.lower():
+        if status is not None and _is_landed_status(status):
             if _is_relocation(status, commit_day):
                 continue
             flipped.append(num)

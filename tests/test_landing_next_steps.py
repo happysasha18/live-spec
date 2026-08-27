@@ -277,6 +277,28 @@ def test_new_trigger_declined_move_is_exempt(tmp_path):
     assert r.returncode == 0, r.stdout + r.stderr
 
 
+def test_new_trigger_superseded_move_quoting_landed_is_not_a_flip(tmp_path):
+    # The NEW-trigger sibling of test_live_deferred_status_quoting_landed_is_not_a_flip: a row
+    # moved to the archive as *superseded* (head word), whose PRESERVED status prose still quotes
+    # a deferred trigger's old Done-when citation ("one real remote deposit landed"), is not a
+    # landing move — the archived status's own HEAD word decides, not a bare substring search.
+    # Found live in row 247's rotation, commit bc6f862b, 2026-08-27: the real checker reded on
+    # this exact shape before _is_landed_status replaced the bare "landed" in status.lower() test.
+    repo = _init_repo(tmp_path)
+    _write(repo, "ROADMAP.md", _roadmap_row(7, "*deferred* 2026-07-12"))
+    _write(repo, "NEXT_STEPS.md", "state\n")
+    base = _commit(repo, "base")
+
+    _write(repo, "ROADMAP.md", ROADMAP_HEADER)  # row 7 gone from the body
+    _write_sub(repo, _ARCHIVE, _archive_row(
+        7, "*deferred* 2026-07-12 — revisit trigger: Done-when (c) \"one real remote deposit "
+           "landed\" stays open — superseded 2026-08-27 (rotated into PLAN.md's Tasks list)"))
+    _commit(repo, "rotate row 7 into PLAN.md's Tasks, no NEXT_STEPS touch")
+
+    r = _run_check(repo, base)
+    assert r.returncode == 0, r.stdout + r.stderr
+
+
 # --- the heal road: a missed landing can be healed forward, never by amending history ---
 
 def test_heals_missed_landing_with_later_heal_commit(tmp_path):
