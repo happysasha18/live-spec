@@ -36,6 +36,8 @@
   ],
   "name_waivers": [
     {"file": "*README.md", "snippet": "Alexander Abramovich", "note": "authorship byline — the copyright/attribution line the license names, not a requirement statement", "added": "2026-07-12"},
-    {"file": "guardrails/authority-anchor-fixtures/prose-widened-shapes.txt", "snippet": "Per Alexander", "note": "detector test corpus — the authority-anchor sweep's per-name fixture must carry a roster name to exercise the 'per <name>:' attribution shape (NIT 7, ROADMAP 415), the same self-exclusion class as the register-judge detector vocabulary", "added": "2026-07-17"}
+    {"file": "guardrails/authority-anchor-fixtures/prose-widened-shapes.txt", "snippet": "Per Alexander", "note": "detector test corpus — the authority-anchor sweep's per-name fixture must carry a roster name to exercise the 'per <name>:' attribution shape (NIT 7, ROADMAP 415), the same self-exclusion class as the register-judge detector vocabulary", "added": "2026-07-17"},
+    {"file": "PLAN.md", "snippet": "promoter-alexander", "note": "a real host project's directory name on disk, carried in the plan's host roster. The gate's name arm fires on the '-alexander' segment of a filesystem path, which is the one shape it cannot distinguish from a leaked personal name; renaming the directory would break every real reference to it. Scoped to this exact hyphenated token, so an ordinary personal name in this file still reds.", "added": "2026-08-27"},
+    {"file": "scripts/state-probe.sh", "snippet": "promoter-alexander", "note": "the same real host directory name, in the probe's own host loop. Same reasoning and the same narrow token as the PLAN.md entry. Open question this waiver does not settle, recorded in PLAN.md's Blockers: whether a shipped pack script should carry a hard-coded roster of one person's project directories at all.", "added": "2026-08-27"}
   ]
 }
