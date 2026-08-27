@@ -441,28 +441,18 @@ One line per finding. Don't move it into ROADMAP. Don't fix it without the owner
   than 33/35 too), but the practical worry it named is gone now that the score genuinely is
   honest. Fixing the acceptance command's own looseness is still a
   separate PLAN.md edit, not this session tonight without his word (moratorium, law 1).
-- **Push to origin/main: one real gate left, and it needs his word.** Real `git push` runs all
-  night (not taken on word), each one read in full. Every gate closed tonight except one: gate
-  **i** (`shipped-language`) started at 382 findings and now fails on exactly 3, all one real
-  host project's directory name (already named in step 9 below and in `state-probe.sh`'s own
-  host list — not repeated a third time here on purpose, so this paragraph doesn't add a fourth
-  hit to the same gate). Not a language-preference leak. Renaming it would break the actual path;
-  adding it to the gate's allowlist is editing gate config, which law 1 forbids without his word.
-  Gates **e**
-  (prototype fence, resolved as a side effect of the step-3 deletion), **s** (skill-review, 6
-  fresh reviews for skills touched after the first pass), **h** (a self-matching regex trap in
-  README's own "Known issues" prose, same bug already fixed once on 2026-08-18 — fixed the same
-  way again), **m** (config-health, a stale local hook resynced), and **a** (one final record
-  naming all 64 commits by hash, per `guardrails/check-prover-record.sh`'s literal requirement —
-  `docs/prover/2026-08-27-tonights-full-range-final.md`) went green once, verified with the
-  actual push command, not summarized — then this session's own small fixes after that record
-  (the two offenses it introduced, this line's own edits) re-dated past it and reopened gate a,
-  living proof of the same records-about-records trap `.live-spec/PROBLEMS.md` already names.
-  Stopping here for the night rather than writing a fourth record to chase a third: that trap's
-  real fix is wiring the "a range of pure records/reviews/gate-edits owes no record" rule into
-  `check-prover-record.sh` itself, a design task for a clear morning, not a 00:30 patch. His word
-  needed on two things: rename the flagged project directory (or accept the debt, a real
-  allowlist entry only he can authorize), and, separately, whether that wiring is worth doing.
+- **Push to origin/main: DONE, 27.08 09:27.** `a42c6fd2..8d6dba98`, 91 commits, the whole backlog
+  that had been sitting local since 26.08. Full gate chain read in full rather than summarized:
+  every gate green, then the real `git push`, then `git ls-remote origin main` confirming the
+  remote is at `8d6dba98` and the probe reporting `matches origin/main` with 0 unpushed. The
+  gates that had been red across the two sessions and are now closed: **i** (from 382 findings
+  down to 3, then to 0 by the scoped waiver above), **e**, **s**, **h**, **m**, and **a**.
+  One design task this range surfaced and did NOT do, still worth his answer whenever: gate a's
+  freshness rule re-fires whenever a pure record/review/gate-edit commit lands after the record,
+  so closing a range can chase its own tail. Both sessions hit it. The real fix is teaching
+  `check-prover-record.sh` that a range of pure records owes no record of its own — a change to a
+  gate's logic, which is his call, and the workaround meanwhile is what this session used:
+  extend the existing record in place instead of adding another one.
 - **Step 3 done, informational read only.** Garbage deleted on his own word (yes, delete):
   `prototype/` whole at 4.2M, the 9 stale `docs/briefs` files (3 still-read ones kept), all of
   `docs/wishes`, `docs/director/`, `docs/gate-audit/`, and the closed-row checkpoint files (the
