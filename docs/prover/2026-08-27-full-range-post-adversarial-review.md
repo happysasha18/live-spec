@@ -154,8 +154,13 @@ these gates while the gates have never known it, and `PLAN.md`'s `<!-- check: --
 executed as shell by `scripts/state-probe.sh:52-58` at every session start, which is why that file
 cannot simply be exempted — is recorded in `PLAN.md`'s Blockers with a concrete recommendation.
 
-The post-push delta this postscript covers, named for gate a's range arm: base 8d6dba9, one
-reviewed commit 431fdde (`PLAN.md`: clear the stale push blocker, keep the open design question).
-It carries no code and no gate change — a plan-record edit only, reviewed by reading its own diff.
+The post-push deltas this postscript covers, named for gate a's range arm. First: base 8d6dba9,
+one reviewed commit 431fdde (`PLAN.md`: clear the stale push blocker, keep the open design
+question). Second: base 070ea58, one reviewed commit 3827887 (`PLAN.md` plus this record: correct
+the false claim about gate a, and record the plan-versus-gate contradiction with its provenance).
+Both carry plan and record prose only — no code, no gate config, no test — and each was reviewed
+by reading its own diff before commit. Each of these two entries is itself an instance of the very
+tail-chase described above, which is the honest reason this file has three postscripts rather than
+one clean record.
 
 Blocking: none
