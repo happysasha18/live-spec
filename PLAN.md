@@ -337,7 +337,7 @@ debt between the host's version and today's.
 **Acceptance:** dry-run green on the copy · restore proven · `ls ~/tlvphotos/.claude/skills | grep
 director` is non-empty · tlvphotos works the way it did before the migration.
 
-### [ ] 10. An honest mark on every step
+### [ ] 10. A step is closed only by a command
 
 Measured 27.08. Of the ten steps above, three have a check that runs what their acceptance
 actually says. Four — 3, 4, 5, 7 — have no check at all, so the probe and the board show whatever
@@ -358,7 +358,7 @@ it sits inside the instrument that is supposed to catch drift.
 every step heading in `## Steps` has a matching key in `scripts/plan_checks.py`, proved by a test
 that reads both files and fails on a missing key.
 
-### [ ] 11. One list
+### [ ] 11. One queue of work, and the board shows its top
 
 His word, 27.08: the plan, the board and the queue are one thing. The plan is its text, the board
 is its showing, the queue is its rows. A second list anywhere is the drift, and today there are two
@@ -375,7 +375,7 @@ here — this file with its steps, and `ROADMAP.md` with its rows.
 archive · `bash scripts/render-board.sh` draws the merged list · a command shows every open row
 carrying a feature and a priority mark, and names the exceptions.
 
-### [ ] 12. The product names itself
+### [ ] 12. The spec describes what the product actually does
 
 Measured 27.08. `spec/` holds 308 requirements; 29 carry a feature tag. The seventeen declared
 feature names sit on the seventeen smallest files, and the 279 untagged requirements — the bulk of
@@ -404,7 +404,7 @@ has one.
 architecture's coverage table agree, proved by a check · a spec file dropped outside the parts map
 reddens a gate · two parts defining one requirement number redden a gate.
 
-### [ ] 13. The client hears only what is his
+### [ ] 13. You hear only what changes for you
 
 His word, 27.08: "ты не должен грузить пользователя фигней", and it needs one home rather than
 three. Today the rules about what reaches a person are spread between the communicator skill, the
@@ -417,7 +417,7 @@ inside the workshop.
 **Acceptance:** the rule has one home and the other two places point at it · a check finds no
 second copy of it.
 
-### [ ] 14. The mechanism travels to a host
+### [ ] 14. Every project gets its own probe and its own board
 
 A host inherits skills and gates today. It does not inherit the plan, the computed checks, the
 probe or the board — those live only here, in this repository's own `scripts/`. Checked 27.08:
@@ -435,7 +435,7 @@ no host has any of them.
 where the work stands, with every mark computed by a command · the probe there lists the host's
 open inbox items.
 
-### [ ] 15. promoter
+### [ ] 15. Move promoter onto the current pack
 
 Its wish sits in its own inbox. Smaller documents than tlvphotos and a wider version gap: its
 record pins pack 2.4.0, a 3.3.0 note was read and parked in July, and the pack is at 6.0.0. Two
@@ -443,6 +443,70 @@ canonical documents are absent there entirely. It runs off the machine's global 
 no local copy, and it has been idle since 27.07, so nothing of the owner's is in flight to protect.
 
 **Acceptance:** the wish's own acceptance lines, run in that tree.
+
+### [ ] 16. Every rule lives in one place
+
+His word, 27.08: "надо сделать так чтобы каждому правилу был свой скилл и чтобы все сидело чётко...
+чтобы не было салата". Read by Fable the same afternoon, across every skill, both boot files and
+the profile. What it found:
+
+- **The report he reads every turn has three law-homes, and they disagree.** His boot file carries
+  the Canon — seven to ten lines, five marks, and the sentence that no more marks get invented. The
+  profile carries a different ten-line form with five fixed content points. The showing skill
+  carries a third legend with four marks the Canon never allowed. He has complained nine times that
+  the report is never the same twice; the cause is his own three homes.
+- **The boot file breaks the pack's own boot-file law.** By that law it is a thin loader carrying
+  only what must precede the pack. Since 26.08 it carries eight standing rules, each of which also
+  lives in the profile or the base. The night the contract failed to load, the repair wrote a second
+  copy rather than a loader that cannot fail, so the root cause stands and the copies have already
+  drifted — the finding above is that drift. **That file is his and this plan does not touch it.**
+- Six skills advertise, in their headers, rules that were retired on 26.08.
+- The lane law is stated in full in two homes, under two different names, inside a pack whose own
+  rule forbids two names for one thing.
+- "Ask, never guess" is three separate base rules, one of which says in its own text that it repeats
+  another.
+
+**On the shape of the fix, and this is a disagreement with his own proposal.** A skill per rule
+does not work: the pack holds on the order of a hundred and fifty named rules, a skill is summoned
+by the shape of a task while a rule binds across every task, and a rule-shaped skill would never
+fire at the moment it is needed. The grain that works is already the pack's own law and needs
+teeth rather than re-cutting — the spec owns the law, one statement per rule; a skill owns a job and
+carries only the rules its job applies; a gate holds the teeth; everything else is a pointer.
+
+- Converge each doubled rule to one home, leaving a pointer where the copy stood. The report format
+  goes first: it is the only one that contradicts itself on the surface he reads every turn.
+- A gate that reads prose and reddens a second full statement of a rule that already has a home.
+  The law against it exists today with nothing enforcing it, which is why these sat in tracked files
+  unseen.
+- **Director gains one sentence** so it can name a rule's home itself: the rule enters the one house
+  whose declared sentence it extends, and a rule pinning to no house or to two is itself the finding.
+  Its own reference already carries that routing law; the missing half is naming the single home.
+
+**Acceptance:** a command shows one home per rule for the report format, the lane law and the
+ask-never-guess family · the gate reds on a planted second copy and passes the tree · director names
+the home for a rule it has never seen, in a recorded run.
+
+### [ ] 17. A session reads the state, not the whole plan
+
+His word, 27.08: "план возможно тоже не надо грузить целиком всегда. есть же доска."
+
+His own boot instruction tells every session to read this file whole before starting, and this file
+is around fifty kilobytes. The probe already prints the state, and the board already shows it. So a
+session should take the state, and open the plan itself only at the step it is taking.
+
+- The measurement comes first, because there is none. The number this plan reports for required
+  context counts two skill files. It does not count this plan, the boot file, the memory index, or
+  the references a skill pulls in while it works. Nobody has ever measured a real session's load.
+- Then the reading changes: the state, the step in hand, and the plan whole only when the step
+  itself calls for it.
+- The measurement also decides `ponytail` — a skill he asked about on 27.08, whose independent
+  benchmark measured about a tenth off cost against a claimed fifth, and which pays for that by
+  injecting its ruleset into every session. Installing it before there is a before-number buys a
+  README instead of a result.
+
+**Acceptance:** a real session's load is measured and the number is in this file · a session that
+takes a step reads the state and that step, proved by what it opened · the ponytail decision is
+made against a measured before and after, or it is declined with the measurement as the reason.
 
 ---
 
