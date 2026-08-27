@@ -329,6 +329,27 @@ One line per finding. Don't move it into ROADMAP. Don't fix it without the owner
   reference to it. Proven narrow rather than asserted narrow: a plain personal name in those same
   two files still reds, and the token still reds in any file the waivers do not name — guarded by
   `tests/test_shipped_language_waiver_scope.py`, run against the real allowlist data.
+- **The product speaks to its owner in codes, and the README promises it never will. His own
+  words, 27.08 09:37, after two sessions of this.** He asked what the check is, what it protects
+  and why it exists, and said plainly he is not going to go read the code to find out — then
+  pointed at the README to ask who this pack is built for. The README's answer: a single author
+  who says things in passing, types nothing after setup, opens none of these files, and is asked
+  only about taste, strategy, authority and the irreversible. Measured against that, two separate
+  defects, and the smaller one is mine: this seat reported to him in gate letters, requirement
+  codes and file:line pins for two sessions running. The larger one is the product's: when the
+  push gate refuses, it prints a gate letter and a requirement code as its reason. The person who
+  owns this product hit his own product's refusal and could not tell what it wanted. A refusal
+  message is the one piece of this pack a person is guaranteed to read, and it is written for an
+  agent. Worth fixing at the source rather than translated case by case in chat.
+- **The plan holds live shell commands, and that is the thing to remove.** Prior recommendation
+  here was to carve a gate exception for plan-only commits whose diff touches no `<!-- check: -->`
+  line. That is a patch at the symptom. The root fact is that a status board — the file where a
+  session ticks a task and writes a blocker — can carry commands that run on every machine at
+  every session start. Take the commands out of the plan and put them where the probe's own logic
+  lives, and the plan becomes genuinely inert prose; then it needs no clever exception, because
+  there is nothing left in it worth reviewing before a push. That removes machinery instead of
+  adding a rule to it. Not done — it changes the tool he runs every morning, so it gets shown
+  before it gets built.
 - **The plan says it is outside the gates; the gates have never known that. Recorded 26.08,
   parked on "his word" three times since, and the parking was the error.** `PLAN.md:59` states
   this file sits outside the jurisdiction of the format rules, the prover and skill-review, and
