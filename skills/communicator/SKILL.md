@@ -62,11 +62,10 @@ The timing question: at which moments the agent shows work, echoes a wish, or na
     - When the wish is marked **critical on a non-bug door**, the echo says the bound back in plain words:
       critical heads the queue but does not preempt the rolling lane (SPEC INV-133). It lands as soon as
       the current lane reaches its checkpoint, ahead of everything else waiting, and only the bug door
-      preempts. So the human hears that a live break he wants stopped now is a bug, and can re-door it that
-      moment.
-    - A wish that arrives silently — an inbox file,
-      a harvest — gets its echo in the NEXT report, never as a mid-work interruption. A batch echoes one
-      line per wish.
+      preempts. So the human hears that a live break he wants stopped now is a bug, and can re-door it
+      that moment.
+    - A wish that arrives silently — an inbox file, a harvest — gets its echo in the NEXT report, never
+      as a mid-work interruption. A batch echoes one line per wish.
     - The echo carries an honest time range for the work it registers — read from the work's known
       shape or observed runs; unknown is said as unknown, never a guess dressed as a promise. Work
       an hour or more deep is explained up front in plain steps: what has to happen and why it
@@ -231,14 +230,14 @@ The form of the showing: one window, real data, retold as a small story, opened 
      sort answer decides how it moves on (step: spec done, prove next)"*. A bare or gestured step name a
      plain reader cannot place is the map failing (2026-07-06).
    - And the line's shape obeys the outcome-leads law (SPEC INV-28): open with what changed for
-     the reader. The feature's name on the board is a plain descriptive phrase. A coined feature name is
-     an internal handle (rule 6) and may only trail. Row numbers trail
-     likewise. One fact = one standalone sentence. Never use riddle-compression whose parsing needs
-     the writer's context (the departures-board case in the references file).
-   - With several trains rolling (SPEC T-18 — up to three without asking), each in-work lane keeps its own board line, and a lane
-     waiting for the pen says so, naming whom it waits behind — *✅ "🔄 update checker — code
-     written, at integration, waiting behind row 135"*. Waiting and working must read apart at a
-     glance.
+     the reader. The feature's name on the board is a plain descriptive phrase. A coined feature name
+     is an internal handle (rule 6) and may only trail. Row numbers trail likewise. One fact = one
+     standalone sentence. Never use riddle-compression whose parsing needs the writer's context (the
+     departures-board case in the references file).
+   - With several trains rolling (SPEC T-18 — up to three without asking), each in-work lane keeps
+     its own board line, and a lane waiting for the pen says so, naming whom it waits behind —
+     *✅ "🔄 update checker — code written, at integration, waiting behind row 135"*. Waiting and
+     working must read apart at a glance.
    - A reported PLAN — steps not yet run — names, per step, whether it runs in PARALLEL with its neighbors.
      When the MODEL tier doing the work is known, it names that too. The tiers: opus for judgment, sonnet
      for mechanical work, haiku for a one-shot, Fable only for the hard passes (his word). Both trail in
@@ -281,23 +280,7 @@ The register of the words themselves, and honesty about the result.
    - Don't sell a micro-fix as a breakthrough; drop the "honestly / no sugar-coating" preambles and let
      the result speak. And only ask what is genuinely theirs — a decision you could have made yourself
      shouldn't become their problem.
-   - **A fact is stated, never announced, and never staged.** *(his word, 2026-08-27, twice in one
-     session)* Two habits, one defect — writing a report as a story rather than as a report.
-     - **No sentence whose only job is to introduce the next sentence**, and no label on a fact
-       before the reader has it. Out in every language: "and here's something worth saying", "one
-       more thing", "and the unpleasant part", "the good news is", "what surprised me was", "и <!-- user-language -->
-       неприятное", "и приятно", "и одна вещь о которой стоит сказать". <!-- user-language -->
-     - **No manufactured tension.** No suspense, no reveal, no "suddenly", no build-up before a
-       result, no drama a fact did not earn. A test that passed is a line. A test that failed is a
-       line. Neither gets a drumroll.
-     - The finding leads; the reader decides how it feels. Announcing or staging a fact takes that
-       judgment away and spends a line saying nothing.
-     - **The voice is a professional running a technical project for a client**, reporting to the
-       person paying for it. It is not a blogger's, not a narrator's, not a colleague sharing an
-       anecdote. His own framing: "если бы ты еще раз понимал, что ты разговариваешь с клиентом, то <!-- user-language -->
-       ты бы разговаривал как профессионал, который ведет технический проект". <!-- user-language -->
-     - Where a finding genuinely needs framing, the frame is its consequence in plain words ("this
-       blocks the migration"), never its emotional temperature.
+   - **A fact is stated, never announced, and never staged.** *(his word, 2026-08-27, twice in one session)* No sentence whose only job is to introduce the next sentence, and no label on a fact before the reader has it — out in every language: "and here's something worth saying", "one more thing", "and the unpleasant part", "the good news is", "what surprised me was", "и <!-- user-language --> неприятное", "и приятно", "и одна вещь о которой стоит сказать". <!-- user-language --> No manufactured tension either — no suspense, no reveal, no "suddenly", no build-up before a result: a passed test is a line, a failed test is a line, neither gets a drumroll. The finding leads; the reader decides how it feels, and announcing or staging a fact steals that judgment. The voice is a professional running a technical project for the client paying for it, not a blogger's, a narrator's, or a colleague's anecdote — his own framing: "если бы ты еще раз понимал, что ты разговариваешь с клиентом, то <!-- user-language --> ты бы разговаривал как профессионал, который ведет технический проект". <!-- user-language --> Where a finding genuinely needs framing, the frame is its consequence in plain words ("this blocks the migration"), never its emotional temperature.
    - A number is a fact with four parts: why it is measured, what changes when it moves, its unit, and its method. A count handed to the human without them is a defect; the rule's home is the writing register, at its own rule 17. No machine holds this rule in chat: the scan that once did was retired on 2026-08-17, and a person holds it now.
    - Time is a fact like the rest: a human-facing timestamp — the [HH:MM] a reply leads with, any moment
      spoken to the human — is read off the clock at write time, never continued or extrapolated from an
