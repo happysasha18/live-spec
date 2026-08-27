@@ -107,5 +107,7 @@ def test_matrix_row_covers_the_law():
 # --- the row stays deferred with its mechanical trigger (INV-129), distinct from far (INV-222) ---
 
 def test_roadmap_row_405_carries_the_trigger():
-    roadmap = read("ROADMAP.md")
-    assert "check-listener-tripwire" in roadmap
+    # Row 405's queue home moved into PLAN.md's Tasks section on 2026-08-27 (task q-405); the
+    # ROADMAP.md body was emptied the same day. Read wherever the live task list actually is.
+    plan = read("PLAN.md")
+    assert "check-listener-tripwire" in plan

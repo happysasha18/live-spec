@@ -1363,6 +1363,9 @@ Note: held for the owner: the row's final shape depends on a policy answer he ha
 **Group:** Parallel & multi-agent work · **Priority:** normal
 **Source:** 2026-07-17/18.
 **Covered by:** q-386 — Independent work actually runs in parallel branches, proven live. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
+Stays deferred, not far, by its own mechanical trigger: `guardrails/check-listener-tripwire.py`
+re-scans every queue-take for a session record naming a live listener (INV-129), and re-opens this
+row the day one exists.
 
 
 ### ⬜ Lessons learned automatically retire once no longer needed — id: q-410
@@ -1400,6 +1403,15 @@ Note: held for the owner: the row's final shape depends on a policy answer he ha
 ## Blockers
 
 One line per finding. Don't move it into ROADMAP. Don't fix it without the owner's decision.
+
+- **The merge compressed nine folded tasks past a fact one of them still needs; only that one was
+  caught.** A folded task's body was cut to name/group/source/covered-by, and for nine of the 100
+  folds the archived row's own text names a live script or check that the compressed body dropped —
+  q-405 (fixed above, caught by a test that reads it), q-490, q-550, q-552, q-567, q-586, q-605,
+  q-170, q-396. The other eight carry no test today, so nothing caught them; each still has its full
+  text in `docs/queue-archive/rotated-ROADMAP-2026-08-27-merged-into-plan.md`. Not fixed here — the
+  fold is a reading order, not a loss, and eight is small enough to read and repair by hand rather
+  than build a check for.
 
 - **27.08 afternoon, what this session established and what it left.** Six steps were added on his
   word (10–15) and four things landed: the queue went from 236 rows to 142, with 94 rows archived
