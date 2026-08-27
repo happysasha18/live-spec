@@ -1450,16 +1450,6 @@ mass removal without that measurement is exactly the failure this line exists to
 **Covered by:** q-386 — Independent work actually runs in parallel branches, proven live. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
-### ⛔ Instant messaging between agents turns on once the tool supports it — id: q-405
-**Group:** Parallel & multi-agent work · **Priority:** normal
-**Source:** 2026-07-17/18.
-**Covered by:** q-386 — Independent work actually runs in parallel branches, proven live. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
-**Blocked by:** waiting for agent-to-agent messaging support in the tool itself — not his decision, a real absence.
-Stays deferred, not far, by its own mechanical trigger: `guardrails/check-listener-tripwire.py`
-re-scans every queue-take for a session record naming a live listener (INV-129), and re-opens this
-row the day one exists.
-
-
 ### ⬜ Lessons learned automatically retire once no longer needed — id: q-410
 **Group:** Method housekeeping · **Priority:** normal
 **Source:** owner 2026-07-17 ~15:44.
