@@ -44,10 +44,12 @@ except ImportError:
 
 WAIVER_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "spec-waivers.json")
 
-# 0.60 / 0.85 / 6 kept — ruled 2026-08-15 (decision-dossier-2026-08-15.md, Number 3): matches the
-# design doc's own worked reasoning (docs/prose-quality-gate-design.md), no incident traces either
-# value (2026-08-07 census: "no trace found" x3); the dossier named no single recommended replacement
-# value, so today's values stand. Hand-duplicated in guardrails/language-rules.json
+# 0.60 / 0.85 / 6 kept — NOT ruled. 2026-08-15's survey (work/2026-08-15-unowned-numbers.md, row 3)
+# flagged this and left it explicitly for the owner's word; a later comment here once cited a
+# "decision-dossier-2026-08-15.md" as though a ruling existed — checked in full against the
+# filesystem and git history on 2026-08-28, that file never existed. The values match the design
+# doc's own worked reasoning (docs/prose-quality-gate-design.md); no incident traces either value
+# (2026-08-07 census: "no trace found" x3). Hand-duplicated in guardrails/language-rules.json
 # (thresholds.jaccard_min / containment_min / min_unit_tokens) under the same ruling. A durable,
 # recorded override belongs in the settings ladder's package-defaults table
 # (skills/live-spec-base/references/settings-ladder.md).

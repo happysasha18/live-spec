@@ -246,9 +246,12 @@ from nonempty_input import require_nonempty, VacuousInputError  # noqa: E402
 
 CHECK = "check-worker-restore"
 DEFAULT_ROOT = os.path.join(os.path.expanduser("~"), ".claude", "projects")
-# 24h kept — ruled 2026-08-15 (decision-dossier-2026-08-15.md, Number 1): no incident traces this
-# window either way (2026-08-07 census: "no trace found"); the dossier named no single recommended
-# replacement, so today's value stands. Already env-overridable via
+# 24h kept — NOT ruled. 2026-08-15's survey (work/2026-08-15-unowned-numbers.md, row 1) flagged
+# this and left it explicitly for the owner's word ("no repair, no deletion, no ruling is made");
+# a later comment here once cited a "decision-dossier-2026-08-15.md" as though a ruling existed —
+# checked in full against the filesystem and git history on 2026-08-28, that file never existed.
+# No incident traces this window either way (2026-08-07 census: "no trace found"); today's value
+# stands only because nothing has replaced it, not because it was decided. Already env-overridable via
 # LIVE_SPEC_WORKER_RESTORE_SINCE_HOURS; a durable, recorded override belongs in the settings ladder's
 # package-defaults table (skills/live-spec-base/references/settings-ladder.md).
 DEFAULT_SINCE_HOURS = 24.0

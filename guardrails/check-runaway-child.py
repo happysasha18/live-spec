@@ -49,10 +49,12 @@ REPO_ROOT = os.path.dirname(SCRIPT_DIR)
 sys.path.insert(0, SCRIPT_DIR)
 import cleanup_notice  # noqa: E402  (the shared notice shape, SPEC INV-204)
 
-# A descendant at or above this CPU share is "burning". 50% kept — ruled 2026-08-15
-# (decision-dossier-2026-08-15.md, Number 4): the one incident on record (a suite SIGKILLed mid-run,
-# 2026-08-13/14) does not point at this number specifically; 50% matches the example rules tools like
-# monit commonly show. No single recommended replacement value, so today's value stands. Truth, not
+# A descendant at or above this CPU share is "burning". 50% kept — NOT ruled. 2026-08-15's survey
+# (work/2026-08-15-unowned-numbers.md, row 4) flagged this and left it explicitly for the owner's
+# word; a later comment here once cited a "decision-dossier-2026-08-15.md" as though a ruling
+# existed — checked in full against the filesystem and git history on 2026-08-28, that file never
+# existed. The one incident on record (a suite SIGKILLed mid-run, 2026-08-13/14) does not point at
+# this number specifically; 50% matches the example rules tools like monit commonly show. Truth, not
 # the earlier claim: this is a FIXED default today — no env var or config file is read for it. A host
 # override is queued (not wired yet), and belongs in the settings ladder's package-defaults table
 # (skills/live-spec-base/references/settings-ladder.md) once it exists.
