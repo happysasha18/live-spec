@@ -337,6 +337,113 @@ debt between the host's version and today's.
 **Acceptance:** dry-run green on the copy · restore proven · `ls ~/tlvphotos/.claude/skills | grep
 director` is non-empty · tlvphotos works the way it did before the migration.
 
+### [ ] 10. An honest mark on every step
+
+Measured 27.08. Of the ten steps above, three have a check that runs what their acceptance
+actually says. Four — 3, 4, 5, 7 — have no check at all, so the probe and the board show whatever
+mark a hand typed and call it "declared". Three more run a proxy: step 1's check is "the render
+script exists and is executable", which stays green while the step is honestly open.
+
+A plan whose marks are typed rather than computed is the drift this whole file exists to stop, and
+it sits inside the instrument that is supposed to catch drift.
+
+- Every step in `## Steps` gets an entry in `scripts/plan_checks.py` that runs its own written
+  acceptance.
+- Where an acceptance genuinely cannot be run by a command — it needs the owner's eyes — the step
+  says so in one line, and its mark reads declared rather than verified. The probe already draws
+  that distinction; it just has nothing behind it today.
+- Re-run every check and let the marks fall where they fall, on closed steps too.
+
+**Acceptance:** `bash scripts/state-probe.sh` shows no step whose check is a file-existence test ·
+every step heading in `## Steps` has a matching key in `scripts/plan_checks.py`, proved by a test
+that reads both files and fails on a missing key.
+
+### [ ] 11. One list
+
+His word, 27.08: the plan, the board and the queue are one thing. The plan is its text, the board
+is its showing, the queue is its rows. A second list anywhere is the drift, and today there are two
+here — this file with its steps, and `ROADMAP.md` with its rows.
+
+- `PLAN.md` and `ROADMAP.md` become one list. One home, one set of marks, one reader.
+- Every row names the feature it moves; a row that moves no feature is not a row.
+- A priority mark becomes real. The pack declares the vocabulary — normal, critical, quick win —
+  and 27.08 not one row in the queue carried a mark, so the order of work has been the order rows
+  arrived. Director sets it, per step 12.
+- The board renders the merged list, through the same check table the probe runs.
+
+**Acceptance:** one file holds the list and the other is gone from the tree, findable in the
+archive · `bash scripts/render-board.sh` draws the merged list · a command shows every open row
+carrying a feature and a priority mark, and names the exceptions.
+
+### [ ] 12. The product names itself
+
+Measured 27.08. `spec/` holds 308 requirements; 29 carry a feature tag. The seventeen declared
+feature names sit on the seventeen smallest files, and the 279 untagged requirements — the bulk of
+the product — carry no name at all. Director, which reads everything a person says and decides what
+they did, has no requirement, no feature and no node in the architecture's roster.
+
+Four of the seventeen describe nothing real: a published contract that no agent on this machine has
+ever published, a work board whose own text said nothing of it is built, a product map generated
+from a spec that is nine percent tagged, and a wish-catching feature whose requirement orders the
+opposite of what director's own rules forbid. Five more are second names for something that already
+has one.
+
+- Director gets its requirement and its node.
+- The feature names are rebuilt from what the product gives a person. The fictions go to the attic.
+  The second names converge.
+- **Director ranks.** His word, 27.08: unity is also director's, and it brings together, runs side
+  by side, and ranks. Director forbids itself from ranking today, twice, and nothing else owns the
+  ordering law. The decision sheet gains the line.
+- **Director extends the spec**, and the rules for that get written, because none exist: who may
+  add to the spec, how a spec file is split, how a new part joins the map, and what stops two parts
+  defining the same requirement number. Today the splitting mechanism lives in a comment inside a
+  Python file, the document that claims to define the spec format says nothing about parts, and the
+  skill that writes the spec still names the monolith.
+
+**Acceptance:** a command shows director's requirement and its node · the feature roster and the
+architecture's coverage table agree, proved by a check · a spec file dropped outside the parts map
+reddens a gate · two parts defining one requirement number redden a gate.
+
+### [ ] 13. The client hears only what is his
+
+His word, 27.08: "ты не должен грузить пользователя фигней", and it needs one home rather than
+three. Today the rules about what reaches a person are spread between the communicator skill, the
+personal profile and the session laws.
+
+One rule, in the skill that owns showing work to a person: a person hears what changes for them.
+The workshop's own bookkeeping — records, gate letters, row counts, internal findings — stays
+inside the workshop.
+
+**Acceptance:** the rule has one home and the other two places point at it · a check finds no
+second copy of it.
+
+### [ ] 14. The mechanism travels to a host
+
+A host inherits skills and gates today. It does not inherit the plan, the computed checks, the
+probe or the board — those live only here, in this repository's own `scripts/`. Checked 27.08:
+no host has any of them.
+
+- The trio installs into a host and reads that host's own list, its path named in the host profile
+  the way the spec's name is.
+- The hard-coded roster of five host directories leaves `scripts/state-probe.sh`.
+- The probe prints open inbox items. Measured 27.08: `~/tlvphotos/inbox/` has held six unhandled
+  files since 05.07 while its own ledger claims the next session sees them without reading anything
+  else. A probe that prints them makes the door work without editing any host's own list.
+- First host: tlvphotos.
+
+**Acceptance:** a session opening in a host with an empty context runs that host's probe and gets
+where the work stands, with every mark computed by a command · the probe there lists the host's
+open inbox items.
+
+### [ ] 15. promoter
+
+Its wish sits in its own inbox. Smaller documents than tlvphotos and a wider version gap: its
+record pins pack 2.4.0, a 3.3.0 note was read and parked in July, and the pack is at 6.0.0. Two
+canonical documents are absent there entirely. It runs off the machine's global skill mirror with
+no local copy, and it has been idle since 27.07, so nothing of the owner's is in flight to protect.
+
+**Acceptance:** the wish's own acceptance lines, run in that tree.
+
 ---
 
 ## Blockers
