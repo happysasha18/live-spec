@@ -28,17 +28,7 @@ tests/test_tasks_parser_finds_every_task.py); current ROADMAP.md and one of the 
 archive files (docs/queue-archive/rotated-ROADMAP-2026-08-27-provenance-purge.md) to check where
 row 55 (A-6's owning row) actually landed.
 
-Checks run:
-- `python3 -m pytest tests/test_spec_parts.py tests/test_style_lint_parts.py tests/test_style_lint_tiers.py -q`
-  — 35 passed, 1 skipped (the seven spec-format gates' pytest layer, and the style-lint suite named
-  in 0041c425's own commit message)
-- `bash guardrails/check-shipped-language.sh` — OK, 0 offences
-- `python3 -m pytest tests/test_tasks_parser_finds_every_task.py tests/test_board_matches_the_canon.py tests/test_plan_is_not_executable.py -q`
-  — 12 passed (the tests the PLAN.md task-list/probe/board commits added or touched)
-- `python3 -m pytest tests/test_doc_rotation.py -q` — 31 passed (gate t's own suite, covering the
-  rotation mechanism the ROADMAP purge and the pipe-escaping fix both used)
-- `python3 -m pytest tests/test_traceability.py -q` — 182 passed, 2 failed (see Findings and
-  Blocking below)
+Checks run: `python3 -m pytest tests/test_spec_parts.py tests/test_style_lint_parts.py tests/test_style_lint_tiers.py -q` (35 passed, 1 skipped — the seven spec-format gates' pytest layer, and the style-lint suite 0041c425's own commit message names); `bash guardrails/check-shipped-language.sh` (OK, 0 offences); `python3 -m pytest tests/test_tasks_parser_finds_every_task.py tests/test_board_matches_the_canon.py tests/test_plan_is_not_executable.py -q` (12 passed — the tests the PLAN.md task-list/probe/board commits added or touched); `python3 -m pytest tests/test_doc_rotation.py -q` (31 passed — gate t's own suite, covering the rotation mechanism the ROADMAP purge and the pipe-escaping fix both used); `python3 -m pytest tests/test_traceability.py -q` (182 passed, 2 failed — see Findings and Blocking below).
 
 Findings: the change this record was specifically asked to review is 0041c425, which removes three
 build-status sentences from Context prose (`spec/work-board.md`: "Nothing of this scenario is built
@@ -63,15 +53,4 @@ under the same purge, and no longer anywhere the test reads as "active." Neither
 by the two commits that broke its assumption — this is a real gap left by the ROADMAP retirement,
 not a design choice the commits made on purpose.
 
-Blocking:
-- test_traceability.py::TestQueue.test_roadmap_class_vocabulary and
-  test_traceability.py::TestTargetOwnership.test_targets_owned_by_open_rows are red, caused by
-  `bc6f862b`/`38438eaf`'s ROADMAP.md retirement leaving two tests asserting the old live-ROADMAP
-  shape. stands: out of scope for this pass — the task this record answers for is three named
-  push-gate refusals (this freshness gate, pin drift, and the communicator skill-review gate), not
-  a redesign of the ROADMAP-retirement tests, and closing it correctly needs a decision on where
-  A-6's traceability now lives (PLAN.md's Tasks, or dropped with the row) that this pass has no
-  standing to make. It does not block `guardrails/pre-push` locally: gate b (the full suite) stands
-  down on the local chain by design and runs on the server only (`.github/workflows/gates.yml`,
-  per `guardrails/pre-push`'s own comment at line 54). It will red CI's `python3 -m pytest -q` step
-  on an actual push until it is closed.
+Blocking: - test_traceability.py::TestQueue.test_roadmap_class_vocabulary and test_traceability.py::TestTargetOwnership.test_targets_owned_by_open_rows are red, caused by `bc6f862b`/`38438eaf`'s ROADMAP.md retirement leaving two tests asserting the old live-ROADMAP shape. stands: out of scope for this pass — the task this record answers for is three named push-gate refusals (this freshness gate, pin drift, and the communicator skill-review gate), not a redesign of the ROADMAP-retirement tests, and closing it correctly needs a decision on where A-6's traceability now lives (PLAN.md's Tasks, or dropped with the row) that this pass has no standing to make. It does not block `guardrails/pre-push` locally: gate b (the full suite) stands down on the local chain by design and runs on the server only (`.github/workflows/gates.yml`, per `guardrails/pre-push`'s own comment at line 54). It will red CI's `python3 -m pytest -q` step on an actual push until it is closed.
