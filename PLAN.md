@@ -42,6 +42,13 @@ A session edits exactly two things here: a task's status and §Blockers. Nothing
   by hand. There is no other Canon.
 - **The five marks, and no others** — ✅ done · 🔄 in hand · ⬜ queued · ⛔ blocked · 👁️ needs his
   eyes.
+- **⬜ has a real bar, not a vibe: "queued" means accepted into work.** His word, 27.08. A task
+  earns ⬜ only when its links resolve to something real and its definition of done is a command,
+  not a sentence — the same bar the task shape above already states ("a task pointing at nothing is
+  the finding, not a task ready to hand out"). A task that fails this bar is not ⬜; it is an
+  unformed idea, and that gap is itself the thing to report.
+- **🔄 means a worker has it now**, by the take-or-decline rule in the task shape above — never "a
+  session happened to touch this file recently."
 - **Verified / declared** — printed beside a mark, never a sixth mark. Verified: the task has a
   command in `scripts/plan_checks.py`, the probe ran it, and this is what it returned. Declared: no
   command exists, so the mark is whatever a session typed by hand. **A declared ✅ is not proof of
