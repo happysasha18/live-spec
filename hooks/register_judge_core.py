@@ -32,12 +32,28 @@ import re
 import subprocess
 
 DEFAULT_MODEL = os.environ.get("REGISTER_JUDGE_MODEL", "claude-haiku-4-5-20251001")
-DEFAULT_TIMEOUT_S = float(os.environ.get("REGISTER_JUDGE_TIMEOUT", "25"))
+# Derived from the one measured fact this call has: it costs ~33s, almost all of it the harness's own
+# process start, probed and recorded in hooks/register-judge-collect.sh's header — the same measurement
+# behind the owner's 2026-07-17 ~16:39 word choosing the asynchronous road over a 33-second wait per
+# reply (ROADMAP row 416). This default stood at 25s, BELOW that measured cost, so any caller taking it
+# timed out on a healthy call: the judge's own stand-down road turned a working arm into a silent one.
+# 120s is the deadline the two collect scripts had already each chosen for this same call; it now stands
+# here once, as ~3.6x the measured cost, and they inherit it instead of restating it.
+DEFAULT_TIMEOUT_S = float(os.environ.get("REGISTER_JUDGE_TIMEOUT", "120"))
 
 # A quote shorter than this floor is a hallucination guard: a real offence is a sentence or a bounded
 # span of one, never a lone word like "the" that happens to sit in the text. The model is asked to quote
 # a bounded VERBATIM span (the offending sentence's first QUOTE_SPAN_CHARS) rather than truncate with an
 # ellipsis, so a genuine long offence is matched by its verbatim prefix instead of being dropped.
+#
+# The two magnitudes have no incident or source behind them — engineering defaults, not policy
+# decisions. The 2026-08-07 census (docs/audits/2026-08-07-number-census.md, rows 39 and 85) found no
+# trace for either, and no commit in this file's history explains them. Unlike the reply-length floor
+# that sat beside them — removed 2026-08-26 because an emptiness check needed no magnitude at all —
+# these two mechanisms genuinely need a number: a hallucination guard has to say how short is too
+# short, and a bounded verbatim span has to say how long. So they stand, named for what they are.
+# QUOTE_SPAN_CHARS is interpolated into the prompt below rather than restated there, so the span the
+# model is asked for cannot drift from the span this file believes it asked for.
 MIN_QUOTE_CHARS = 12
 QUOTE_SPAN_CHARS = 80
 
@@ -50,8 +66,8 @@ Each law names a CLASS, so judge by MEANING rather than by matching particular w
 
 Return STRICT JSON, nothing else, no prose, no code fence:
 {{"offences": [{{"quote": "<the offending sentence copied VERBATIM from the text; if it runs longer than
-80 characters, copy only its first 80 characters exactly as written — no ellipsis, no added quotation
-marks, no changed punctuation, so the quote is always an exact span of the text>",
+{span} characters, copy only its first {span} characters exactly as written — no ellipsis, no added
+quotation marks, no changed punctuation, so the quote is always an exact span of the text>",
 "law": <the law number>, "why": "<at most 12 words: what it carries no information toward>"}}]}}
 
 An empty list is the right answer for a clean text, and it is the answer most texts deserve. Judge only
@@ -126,7 +142,8 @@ def load_personal_law(path=None):
 
 
 def build_prompt(text, law_body, surface):
-    return _PROLOGUE.format(surface=surface, law_body=law_body.strip()) + text
+    return _PROLOGUE.format(surface=surface, law_body=law_body.strip(),
+                            span=QUOTE_SPAN_CHARS) + text
 
 
 def judge(text, law_body, surface="one person's working chat", model=None, timeout=None):

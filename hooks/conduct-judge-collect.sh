@@ -37,10 +37,13 @@ ERR="${VERDICT_DIR}/${SESSION}.conduct.err"
 # not own (the register arm's corrected shape). The judge runs to completion first (the pipe blocks the
 # subshell until it exits), THEN the same subshell renames a non-empty verdict into place or clears an
 # empty one. nohup wraps the whole subshell so both the judge and the rename survive the hook's return.
+# The run below sets no REGISTER_JUDGE_TIMEOUT: 120s is now the judge default in
+# hooks/register_judge_core.py, derived there from the ~33s measured above. Restating it here gave one
+# deadline two homes that could drift apart.
 CJ_PAYLOAD="$PAYLOAD" CJ_JUDGE="${HOME}/.claude/hooks/conduct-judge.py" \
 CJ_PART="$PART" CJ_JSON="$JSON" CJ_ERR="$ERR" \
     nohup sh -c '
-        printf "%s" "$CJ_PAYLOAD" | REGISTER_JUDGE_TIMEOUT=120 python3 "$CJ_JUDGE" > "$CJ_PART" 2> "$CJ_ERR"
+        printf "%s" "$CJ_PAYLOAD" | python3 "$CJ_JUDGE" > "$CJ_PART" 2> "$CJ_ERR"
         if [ -s "$CJ_PART" ]; then
             mv "$CJ_PART" "$CJ_JSON"
         else
