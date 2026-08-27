@@ -2,7 +2,7 @@
 
 PUSH-REVIEW
 
-Range: a42c6fd2..ce40bcfe (107 commits from `origin/main`, listed in full below). This supersedes
+Range: a42c6fd2..cb1be67b (109 commits from `origin/main`, listed in full below). This supersedes
 `2026-08-27-tonights-full-range-final.md` (a42c6fd2..d9e79d4f, 64 commits) — the commits since it
 need their own coverage, and gate a wants one record naming the whole range, not a partial plus a
 delta. **This file is extended in place rather than joined by a new record each time**,
@@ -10,11 +10,11 @@ deliberately: the one-record-per-fix habit is the records-about-records trap
 `.live-spec/PROBLEMS.md` already names, and this project has already stopped mid-push over exactly
 it once.
 
-## The 107 commits, named in full (SPEC INV-304) — machine-generated, not hand-typed
+## The 109 commits, named in full (SPEC INV-304) — machine-generated, not hand-typed
 
 Produced by `git log --format=%h a42c6fd..HEAD`, pasted verbatim rather than retyped:
 
-ce40bcfe d1c776e9 19977bba 8a076e76 caf9d901 1f91678a 669b92d0 66df6f83 63f15e3d 72a1b895
+cb1be67b 0176e90c ce40bcfe d1c776e9 19977bba 8a076e76 caf9d901 1f91678a 669b92d0 66df6f83 63f15e3d 72a1b895
 3bb31217 3827887f 070ea587 676b6132 431fddeb 8d6dba98 efaf6a85 8c1c42ed 3a5febf9 14bdd0d2
 2ccae036 f28daaee 7652d362 19d16ace 1be8183b ca44edd4 1939d30b 42a44eb9 1d0ee184 8f978351
 dc4759fd 427f93cd 050a1694 24bea60f 2c20f2f1 e2b04fa6 131ac740 69e242ef 4c402ee4 8e7b19b7
