@@ -209,6 +209,24 @@ debt between the host's version and today's.
 director` is non-empty · tlvphotos works the way it did before the migration.
 
 
+### ⬜ The playbook repo earns its keep or gets folded away — id: q-800
+**Group:** Cross-project · **Priority:** normal
+**Source:** owner 2026-08-27 23:47 — "что за плейбук блин надо разгрести его тоже. мне кажется он
+лишний." <!-- user-language -->
+
+Found tonight, in passing: `~/.claude/personal` and `profile.md`'s real home is a separate repo,
+`~/.claude/playbook`, three weeks behind on commits (last real commit 2026-08-05; a one-line
+`deferral` fix tonight swept in everything sitting uncommitted since, see Blockers). His own
+question stands open: does this repo earn a second home for what could live in one, or fold into
+`~/live-spec` or `~/.claude` directly. Not investigated yet — the answer wants a real look at what
+playbook actually holds (`playbook-repo.md`, `pipeline-package-one-repo.md`,
+`promotion-agent-project.md` name it in other memory, not yet cross-checked against its own
+contents) before a command-based acceptance can be written.
+
+**Acceptance:** not yet stated — first work is naming what playbook holds and why, then this line
+gets a real command.
+
+
 ### ⬜ A bad message is caught the moment it's created — id: q-399
 **Group:** Method reliability · **Priority:** normal
 **Source:** incident 2026-07-17 — "a bogus deposit passed the receiving sweep's gate."
