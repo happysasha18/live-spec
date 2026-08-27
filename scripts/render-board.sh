@@ -70,11 +70,13 @@ for line in lines:
         cur["body"].append(line)
 
 # ---------------------------------------------------------------- split each step's body
-# into a lead description paragraph, a bullet list (its deliverables/details), and the
-# acceptance line ("**Acceptance:**...") — the three things his 2026-08-06 words asked for:
-# description, then everything else behind a details toggle.
+# into its prose paragraphs (in source order), a bullet list (its deliverables/details, each
+# carrying its own checkbox mark when it has one), and the acceptance line
+# ("**Acceptance:**...") — the things his 2026-08-06 words asked for: a short summary up
+# front, then everything else behind a details toggle.
 def split_body(body_lines):
-    desc, bullets, accept = [], [], []
+    paragraphs, bullets, accept = [], [], []
+    cur_para = []
     in_accept = False
     for ln in body_lines:
         s = ln.strip()
@@ -83,19 +85,27 @@ def split_body(body_lines):
         if not s:
             if in_accept:
                 break  # a blank line ends the acceptance paragraph
+            if cur_para:
+                paragraphs.append(" ".join(cur_para))
+                cur_para = []
             continue
         if s.startswith("**Acceptance:**"):
             in_accept = True
             accept.append(s[len("**Acceptance:**"):].strip())
         elif in_accept:
             accept.append(s)
-        elif s.startswith("- ") or s.startswith("  - "):
-            bullets.append(s.lstrip("- ").strip())
-        elif bullets:
-            bullets[-1] = bullets[-1] + " " + s  # a soft-wrapped continuation of the last bullet
-        elif not bullets:
-            desc.append(s)
-    return " ".join(desc), bullets, " ".join(accept)
+        else:
+            bm = re.match(r"^-\s+(?:\[(.)\]\s*)?(.+)$", s)
+            if bm:
+                bullets.append({"mark": bm.group(1), "text": bm.group(2)})
+            elif bullets:
+                # a soft-wrapped continuation of the previous bullet
+                bullets[-1]["text"] += " " + s
+            else:
+                cur_para.append(s)
+    if cur_para:
+        paragraphs.append(" ".join(cur_para))
+    return paragraphs, bullets, " ".join(accept)
 
 # ---------------------------------------------------------------- run acceptance commands
 # Exactly state-probe.sh's rule: a step with a command in CHECKS is VERIFIED by running it; a
@@ -103,8 +113,8 @@ def split_body(body_lines):
 # rather than pretending it was measured (law 3: every accepted step has a command and an
 # observable result; a step without one is a wish, not a fact).
 for s in steps:
-    desc, bullets, accept = split_body(s["body"])
-    s["desc"], s["bullets"], s["accept"] = desc, bullets, accept
+    paragraphs, bullets, accept = split_body(s["body"])
+    s["paragraphs"], s["bullets"], s["accept"] = paragraphs, bullets, accept
     if s["check"]:
         ok = subprocess.run(s["check"], shell=True, capture_output=True).returncode == 0
         s["verified"] = True
@@ -170,15 +180,94 @@ now = datetime.now().strftime("%H:%M, %d.%m.%Y")
 def esc(s):
     return html.escape(s, quote=False)
 
+# ---------------------------------------------------------------- a small, dependency-free
+# Markdown-to-HTML converter for exactly the constructs PLAN.md's step bodies actually use
+# (checked by reading the file, not guessed): **bold** and `inline code`. No italics, no
+# links, no headings, no fenced code blocks appear in any step body or blocker line, so none
+# are handled — this stays a small converter for the plan's own vocabulary, not a general
+# Markdown engine. Bullet lists and `- [x]`/`- [ ]` checkbox items are structural (parsed in
+# split_body) and rendered separately in card_html/bullet_html, not by this function.
+#
+# Inline code is protected before bold is matched (and restored after everything else is
+# escaped) so a bold span that contains code, e.g. "**`x` is stale**", nests correctly instead
+# of one marker eating the other's delimiters.
+_CODE_RE = re.compile(r"`([^`]+?)`")
+_BOLD_RE = re.compile(r"\*\*(.+?)\*\*")
+
+def render_inline_md(text):
+    codes = []
+
+    def stash_code(m):
+        codes.append(m.group(1))
+        return "\x00CODE%d\x00" % (len(codes) - 1)
+
+    tmp = _CODE_RE.sub(stash_code, text)
+    tmp = _BOLD_RE.sub(lambda m: "\x00B\x00" + m.group(1) + "\x00/B\x00", tmp)
+    tmp = esc(tmp)
+    tmp = tmp.replace("\x00B\x00", "<b>").replace("\x00/B\x00", "</b>")
+    for i, code_text in enumerate(codes):
+        tmp = tmp.replace("\x00CODE%d\x00" % i, "<code>%s</code>" % esc(code_text))
+    return tmp
+
+def balance_markup(s):
+    # A summary built by cutting a paragraph short can leave one half of a **bold** or `code`
+    # pair behind. Close it rather than let render_inline_md leave a literal "**" or "`" in the
+    # rendered prose (the owner's complaint in the first place).
+    if s.count("**") % 2 == 1:
+        s += "**"
+    if s.count("`") % 2 == 1:
+        s += "`"
+    return s
+
+def summarize(paragraph, limit=200):
+    """The face of a card gets one short line — his 2026-08-06 words, matched to task 0's
+    shape. Prefer the paragraph's first sentence; fall back to a word-boundary cut."""
+    text = paragraph.strip()
+    if not text:
+        return "", False
+    m = re.search(r"[.!?](?=\s|$)", text)
+    if m and m.end() <= limit:
+        return text[: m.end()], False
+    if len(text) <= limit:
+        return text, False
+    cut = text[:limit].rsplit(" ", 1)[0].rstrip(",;:—-")
+    return (cut or text[:limit]), True
+
+def mark_icon(mark):
+    # Same icon vocabulary as the card's own chip and as state-probe.sh's mark icons — a
+    # subtask's status reads in the same visual language as its parent task's (his complaint:
+    # subtasks should carry their own status, on this board's own terms).
+    return {"x": "✅", "~": "🔄", "!": "⛔"}.get(mark, "⬜")
+
+def bullet_html(b):
+    text_html = render_inline_md(b["text"])
+    if b["mark"] is None:
+        return "<li>%s</li>" % text_html
+    return "<li class='subtask'><span class='mark'>%s</span> %s</li>" % (mark_icon(b["mark"]), text_html)
+
 def card_html(s):
     chip = ("✅" if s["done"] else "⛔") if s["mark"] in ("x", "!") else ("🔄" if s["column"] == "inwork" else "⬜")
     verified = "verified by command" if s["verified"] else "declared, no acceptance command"
+
+    # Face: title, a short summary (first sentence of the first paragraph, if there is one),
+    # then the status line. Everything else — the rest of the prose, the bullets, the
+    # acceptance line — sits behind "more", uniformly, task 0's shape carried to every card.
+    summary_html = ""
+    extra_paragraphs = []
+    if s["paragraphs"]:
+        summary_raw, truncated = summarize(s["paragraphs"][0])
+        summary_html = render_inline_md(balance_markup(summary_raw))
+        if truncated:
+            summary_html += "…"
+        extra_paragraphs = s["paragraphs"][1:]
+
     details = ""
+    for p in extra_paragraphs:
+        details += "<p>%s</p>" % render_inline_md(p)
     if s["bullets"]:
-        items = "".join("<li>%s</li>" % esc(b) for b in s["bullets"])
-        details += "<ul>%s</ul>" % items
+        details += "<ul>%s</ul>" % "".join(bullet_html(b) for b in s["bullets"])
     if s["accept"]:
-        details += "<p class='accept'><b>Acceptance:</b> %s</p>" % esc(s["accept"])
+        details += "<p class='accept'><b>Acceptance:</b> %s</p>" % render_inline_md(s["accept"])
     details_block = ""
     if details:
         details_block = (
@@ -193,7 +282,7 @@ def card_html(s):
     </div>""" % (
         esc("%s. %s" % (s["num"], s["title"])),
         chip,
-        "<p class='desc'>%s</p>" % esc(s["desc"]) if s["desc"] else "",
+        "<p class='desc'>%s</p>" % summary_html if summary_html else "",
         esc(verified),
         details_block,
     )
@@ -212,7 +301,13 @@ for key, label, sub in COLUMNS:
 
 blockers_html = ""
 if blockers:
-    blockers_html = "<ul>%s</ul>" % "".join("<li>%s</li>" % esc(b) for b in blockers)
+    # Each blocker is captured as one line (the same first-line-per-finding convention
+    # state-probe.sh's own printout uses; the full multi-paragraph finding stays in PLAN.md
+    # itself), which can cut a **bold** or `code` span in half — close it before rendering so
+    # no stray marker survives into the page.
+    blockers_html = "<ul>%s</ul>" % "".join(
+        "<li>%s</li>" % render_inline_md(balance_markup(b)) for b in blockers
+    )
 else:
     blockers_html = "<p class='empty'>no blockers</p>"
 
@@ -244,6 +339,9 @@ page = """<!DOCTYPE html>
   summary {{ cursor: pointer; opacity: .7; }}
   details ul {{ margin: .3rem 0; padding-left: 1.1rem; }}
   details li {{ margin: .25rem 0; }}
+  details li.subtask {{ list-style: none; margin-left: -1.1rem; }}
+  details li.subtask .mark {{ margin-right: .3rem; }}
+  code {{ font: 85% ui-monospace, SFMono-Regular, Menlo, monospace; background: #8882; padding: .05rem .3rem; border-radius: 4px; }}
   .accept {{ margin: .4rem 0 0; opacity: .85; }}
   .empty {{ opacity: .5; font-size: .85rem; }}
   .blockers {{ margin-top: 1.6rem; }}
