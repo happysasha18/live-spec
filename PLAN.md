@@ -450,6 +450,25 @@ no local copy, and it has been idle since 27.07, so nothing of the owner's is in
 
 One line per finding. Don't move it into ROADMAP. Don't fix it without the owner's decision.
 
+- **27.08 afternoon, what this session established and what it left.** Six steps were added on his
+  word (10–15) and four things landed: the queue went from 236 rows to 142, with 94 rows archived
+  verbatim as declined because a provenance audit showed they traced to no instruction of his; the
+  build-status sentences left three spec files; the migration wishes for tlvphotos and promoter sit
+  in those hosts' own inboxes; and `spec/work-board.md`'s claim that nothing of the board is built
+  is gone, since a gate, tests, a matrix and a rendered page exist beside it.
+  **Take step 10 before step 9.** Four of the first ten steps carry no acceptance command, so their
+  closed marks rest on a session's word. Running a migration before the marks are computed adds one
+  more "done" nobody can check.
+  **Open, his to answer, small:** three rows still marked held for Alexander carry questions put to
+  him and were kept out of the purge · six rows have no traceable origin, four of them labelled as
+  his word with no quote or date, and he may recall what they were · where `lab/CROSSING-BRIEF.md`
+  belongs in tlvphotos, which he answered in part today — it is spec material, and it went where it
+  went because of the three-week emergency, so the conversion decides its home.
+  **Found and not acted on:** promoter has no push gate wired at all, `core.hooksPath` unset and no
+  hook file, while carrying vendored gate scripts · the seventeen declared feature names cover 29 of
+  308 requirements and four of them describe nothing real, which step 12 takes up · director ranks
+  nothing and nothing else owns the ordering law, which step 12 also takes up.
+
 - **Gate i settled, and the session's own stopping-short corrected (27.08 morning, his word).**
   The night before, this seat held gate i open as "needs his decision" while sitting on his
   explicit standing permission from 00:49 ("push and deploy allowed, don't wait for me, don't ask
