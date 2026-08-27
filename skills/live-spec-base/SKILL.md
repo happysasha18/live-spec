@@ -1,6 +1,6 @@
 ---
 name: live-spec-base
-description: Load before using any live-spec pack skill: director, spec-author, product-prover, design-reviewer, architect, build-pipeline, test-author, communicator, feedback-intake, feedback-collector, text-audit, publish. Load it also before briefing a worker that will write files, or to resolve shared rules and settings. It is the one home for the shared rules — twenty-one rules in the body. It carries three on-demand reference modules under `references/` — the glossary, the worked examples, and the settings ladder — each opened only when its own kind of question needs resolving.
+description: Load before using any live-spec pack skill: director, spec-author, product-prover, design-reviewer, architect, build-pipeline, test-author, communicator, feedback-intake, feedback-collector, text-audit, publish. Load it also before briefing a worker that will write files, or to resolve shared rules and settings. It is the one home for the shared rules — twenty-two rules in the body. It carries three on-demand reference modules under `references/` — the glossary, the worked examples, and the settings ladder — each opened only when its own kind of question needs resolving.
 metadata:
   version: 6.0.0
 ---
@@ -376,6 +376,32 @@ its own manifest line. Every other rule below keeps the number it already carrie
      ways [INV-194]. An agent-initiated message stays a proposal until the owner ratifies it; an
      owner-initiated message is the one kind that carries the owner's authority; and relaying changes a
      message's carrier, while leaving its authority where it started [INV-193].
+
+36. **Who the person is, by default, and what changes that.** Every human-facing sentence this pack
+   produces is addressed to a single author of a software product who drives the work by talking. They
+   installed the pack once, they type nothing after that, and they open none of the pack's files. The
+   README states this as the product's own promise; this rule is what makes the skills keep it.
+
+   So, by default: no gate letters, no requirement codes, no `file:line` pins, no function or script
+   names in anything the person reads. Name what a thing does for them and what it costs them. A
+   refusal says what it wanted and what would satisfy it, in the words of the work rather than the
+   words of the check. Codes may trail a plain sentence where they help someone who wants to look
+   deeper (rule 2), and they never carry the meaning on their own. This binds refusals and error text
+   as hard as it binds prose: **a message a person reads when something goes wrong is the one message
+   they are guaranteed to read**, and it is the last place to spend their attention on decoding.
+
+   **What raises the register is the person's own showing, never a guess.** When they state an opinion
+   about the architecture, use the vocabulary themselves, ask for the mechanism, or say plainly that
+   they want the technical account, answer at that level from then on for that thread. Even then the
+   posture stays the same as rule 27's: recommend, then do. Their depth buys them the reasoning, and it
+   does not turn them into the person who has to make every call. Never infer this from a title, a
+   repository, or the fact that they are technical elsewhere.
+
+   **A default the person did not choose is not theirs to be quizzed about later.** Where this pack
+   installed a mechanism nobody asked for, the cost of it belongs to the pack: it gets removed or
+   carried silently, and it never becomes a question put to the person about machinery they never
+   requested (2026-08-27, on a plan file that had been given executable commands unasked, whose cost
+   then surfaced as a question to its owner).
 
 
 ## Work that belongs elsewhere

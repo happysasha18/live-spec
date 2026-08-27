@@ -42,16 +42,23 @@ if [ -f PLAN.md ]; then
 import re, subprocess, sys
 
 G, Y, R, D, B, X = "\033[0;32m", "\033[1;33m", "\033[0;31m", "\033[2m", "\033[1m", "\033[0m"
+
+# The commands that verify each plan step live in one home, scripts/plan_checks.py: a status
+# board a person edits by hand must not also be an execution surface, and two copies of the
+# map would let this reader and the other disagree about what "done" means for a step.
+# Both readers cd to the repository root before this block runs, so "scripts" resolves.
+sys.path.insert(0, "scripts")
+from plan_checks import CHECKS
+
 steps, cur = [], None
 for line in open("PLAN.md", encoding="utf-8"):
     m = re.match(r"^### \[(.)\] (.+)$", line.rstrip())
     if m:
-        cur = {"mark": m.group(1), "title": m.group(2), "check": None}
+        title = m.group(2)
+        num = re.match(r"(\d+)\.", title)
+        cur = {"mark": m.group(1), "title": title, "check": CHECKS.get(num.group(1)) if num else None}
         steps.append(cur)
         continue
-    m = re.match(r"^<!-- check: (.+) -->$", line.strip())
-    if m and cur:
-        cur["check"] = m.group(1)
 
 next_shown = False
 for s in steps:

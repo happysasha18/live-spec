@@ -36,10 +36,16 @@ from datetime import datetime
 
 out_path = sys.argv[1]
 
+# The commands that verify each plan step live in one home, scripts/plan_checks.py: a status
+# board a person edits by hand must not also be an execution surface, and two copies of the
+# map would let this reader and the other disagree about what "done" means for a step.
+# Both readers cd to the repository root before this block runs, so "scripts" resolves.
+sys.path.insert(0, "scripts")
+from plan_checks import CHECKS
+
 # ---------------------------------------------------------------- read PLAN.md's steps
-# Same parse shape as state-probe.sh: a step is a "### [mark] N. Title" header, optionally
-# followed by a "<!-- check: CMD -->" comment, then body lines up to the next header or the
-# "## Blockers" section close.
+# Same parse shape as state-probe.sh: a step is a "### [mark] N. Title" header, then body
+# lines up to the next header or the "## Blockers" section close.
 text = open("PLAN.md", encoding="utf-8").read()
 lines = text.splitlines()
 
@@ -57,12 +63,8 @@ for line in lines:
     m = re.match(r"^### \[(.)\] (\d+)\. (.+)$", line.rstrip())
     if m:
         cur = {"mark": m.group(1), "num": m.group(2), "title": m.group(3),
-               "check": None, "body": []}
+               "check": CHECKS.get(m.group(2)), "body": []}
         steps.append(cur)
-        continue
-    m = re.match(r"^<!-- check: (.+) -->$", line.strip())
-    if m and cur is not None:
-        cur["check"] = m.group(1)
         continue
     if cur is not None:
         cur["body"].append(line)
@@ -96,7 +98,7 @@ def split_body(body_lines):
     return " ".join(desc), bullets, " ".join(accept)
 
 # ---------------------------------------------------------------- run acceptance commands
-# Exactly state-probe.sh's rule: a step with a check comment is VERIFIED by running it; a
+# Exactly state-probe.sh's rule: a step with a command in CHECKS is VERIFIED by running it; a
 # step with none is DECLARED — its mark is the only claim, and the page says so plainly
 # rather than pretending it was measured (law 3: every accepted step has a command and an
 # observable result; a step without one is a wish, not a fact).

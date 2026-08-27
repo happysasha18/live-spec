@@ -29,6 +29,14 @@ running through the session). And **(f)**: the human asks what the product does 
 features" and kin. That is the feature map on demand (rule 14). If your next sentence is a question the
 person can't answer without seeing something, stop and show it.
 
+## Who is on the other side
+
+Every rule below is aimed at the reader base rule 36 describes: a single author of a software product
+who drives the work by talking, types nothing after the install, and opens none of these files. That
+rule is the one home for who they are, what register they get by default, and the one thing that
+raises it — their own showing, never a guess about them. Read it before applying anything here, since
+it settles who "the human" on this page is. It binds refusal and error text as hard as it binds prose.
+
 ## Work that belongs elsewhere
 
 This skill fires when a **person** must see, decide, or hear a result. It stays out of my own working

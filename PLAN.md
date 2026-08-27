@@ -134,7 +134,6 @@ The main plan is **always one file: `~/live-spec/PLAN.md`.** Never start a secon
 `[ ]` not started · `[~]` in progress · `[x]` closed · `[!]` blocked
 
 ### [x] 0. Come home
-<!-- check: test -f PLAN.md && test -f scripts/state-probe.sh && ! test -d /private/tmp/ls-director && test -f attic/DIRECTOR_HANDOFF-2026-08-26-decisions.md -->
 
 - [x] `~/live-spec` — a live working tree on `origin/main` (was: a bare repository, 443 commits
       behind, with a dump of files from 17.08 on top).
@@ -155,7 +154,6 @@ clean (the script's own terminal output stays in his working language, untouched
 translation), and no line about `/private/tmp` appears in the ALARM section.
 
 ### [~] 1. Probe and board — the trigger word works
-<!-- check: test -x scripts/render-board.sh -->
 
 Collapses four of the owner's requests into one artifact: a short TODO in plain product words · a
 handoff that's always ready · drift catches itself · the board as a feature.
@@ -176,7 +174,6 @@ context and gets the state with no question asked · the board opens · the owne
 line that he sees the time and a clear list.
 
 ### [x] 2. An honest score for Director, and three missing rules
-<!-- check: test ! -f evals/director.md && test "$(git log -1 --format=%ct -- evals/director/traces)" -ge "$(git log -1 --format=%ct -- skills/director/SKILL.md)" && python3 evals/director/check.py --all 2>/dev/null | tail -1 | grep -qv " 0 of " -->
 
 Traces were recorded 24.08, the skill changed 25.08 — nobody knows the current score.
 `evals/director.md`, meanwhile, claims "No run has been executed."
@@ -243,7 +240,6 @@ and touch up the external prover.
 the finding is real.
 
 ### [~] 6. Tearing down machinery — measured, the hypothesis didn't hold
-<!-- check: false -->
 
 **Measured 26.08, a sample of 120 phrases out of 763, spread evenly across test files.** Checked
 this way: whether the guarded phrase ever changed once across 1,851 commits. If it never changed,
@@ -279,7 +275,6 @@ not run by a script is a wish; its place is in `attic/`.
 (law 2).
 
 ### [x] 8. Release to the outside
-<!-- check: test "$(cat VERSION)" != 5.0.0 && grep -q 'skills/director' MIGRATION.md -->
 
 `VERSION` = 5.0.0 both before and after the rebuild — even though `build-pipeline` was cut from
 728 to 66 lines, `director` was added, `architect` was carved out, 54 gate files were torn down.
@@ -295,7 +290,6 @@ migrate to.
 for every skill · the owner confirms the documents read well.
 
 ### [ ] 9. Migrating tlvphotos — last
-<!-- check: ls ~/tlvphotos/.claude/skills 2>/dev/null | grep -q director && test -f ~/tlvphotos/.live-spec/VERSION -->
 
 The owner's decision: after the release. tlvphotos is live, on pack 2.7.0, last touched 26.08.
 
