@@ -506,8 +506,12 @@ the resume word runs the probe, and the probe is how the work is found at all.
 and `bash scripts/render-board.sh` draws every task in the file, both proved by a test that fails
 if either stops finding them. No second list exists anywhere in the tree.
 
-**The shape of a task, added 27.08 on his word.** A worker is handed a task, never a prompt. The
-task carries, by pointer rather than by copy:
+**The shape of a task, added 27.08 on his word.** A worker is handed a task, never a prompt — and
+**a task means its exact entry on the board, letter for letter**, not a paraphrase composed to
+brief a worker. The seat that hands out work pastes the task's own heading and body from `PLAN.md`
+unchanged; a worker's brief and the board's own words are the same text, so what the board says a
+task is and what a worker was actually told to do can never drift apart. The task carries, by
+pointer rather than by copy:
 
 - **Its links.** The task names its feature; the feature names its requirement in the spec; the
   requirement names its node in the architecture; the node names its rows in the test matrix. The
