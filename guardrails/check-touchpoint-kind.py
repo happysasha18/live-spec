@@ -159,12 +159,13 @@ def main(argv):
             violations.extend(scan_surface(path, entry))
 
     if violations:
-        print("FAIL (touchpoint-kind): a surface speaks in a kind its touchpoint lacks (SPEC INV-205):")
+        print("FAIL (touchpoint-kind): a message in the product is written for a moment it isn't shown")
+        print("  at (SPEC INV-205) — an urgent interruption placed somewhere the person won't see it in")
+        print("  time, or a lesson dropped where they can't take it in:")
         for v in violations:
             print("  " + v)
-        print("  Fix: move the line to a touchpoint whose kind affords it — an interruption to a")
-        print("  synchronous point, a teaching line to a point the person opens himself — or drop the")
-        print("  marker if the line only waits. The kinds are declared in guardrails/touchpoints.json.")
+        print("  Fix: ask your agent to move the message to a moment that fits it, or drop it if it")
+        print("  isn't needed there.")
         return 1
 
     print("OK (touchpoint-kind): the manifest is well-formed and every declared surface speaks only "

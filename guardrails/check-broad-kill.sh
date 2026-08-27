@@ -108,16 +108,13 @@ fi
 hits="$(printf '%s' "$hits" | grep -vE '^[[:space:]]*$' || true)"
 
 if [ -n "$hits" ]; then
-  echo "FAIL (broad-kill): a cleanup ends a process by NAME, with no PID or process-group proof of what"
-  echo "it owns (SPEC INV-162):"
+  echo "FAIL (broad-kill): part of this change shuts down a program by matching its NAME, with no proof"
+  echo "  it ends only the copy this run started (SPEC INV-162):"
   printf '%s\n' "$hits" | sed 's/^/  /'
-  echo "  Fix: end only what THIS run provably owns — a recorded PID (kill \$pid), a variable holding one,"
-  echo "  or the process group the run holds (os.killpg(\$pgid, ...)). A shared install path is not safe:"
-  echo "  a kill by ~/.cache/puppeteer or user-data-dir reaches other sessions' live browsers, so the"
-  echo "  recorded process group is the sole target that always stays inside this run (ROADMAP 335). A"
-  echo "  name pattern (pkill/killall chrome, Chrome, crashpad, puppeteer — or Safari, Slack, node)"
-  echo "  cannot tell this run's copy of a program from the human's own, which is how a broad kill once"
-  echo "  closed the human's real browser (row 334, base rule 17)."
+  echo "  A name match can hit someone else's real, running copy of the same program by mistake — that"
+  echo "  already happened once and closed the person's own browser (row 334, base rule 17)."
+  echo "  Fix: ask your agent to make the cleanup track and end only the exact process it started (its"
+  echo "  own recorded process id or process group), never a name pattern."
   exit 1
 fi
 

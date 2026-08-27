@@ -460,16 +460,17 @@ def main(argv):
             print("(DECISIONS.md), where the person strikes what he never said (SPEC INV-207).")
         return 0
 
-    print("FAIL (authority-anchor): a decision, word, or ruling stands recorded AS the person's but")
-    print("names no exchange to check it against (SPEC INV-207, ROADMAP row 415). A human's word is")
-    print("the one claim no gate questions, so an unanchored one is unfalsifiable:")
+    print("FAIL (authority-anchor): something here is written down as the product owner's own word, but")
+    print("  nothing says when or where they actually said it (SPEC INV-207). That person's word is")
+    print("  treated as final by every other check, so one that can't be traced back can never be")
+    print("  verified or corrected:")
     for rel, ln, snip, why in offences:
         print("  %s:%d  [%s]  %s" % (rel, ln, why, snip))
-    print("  Fix: name the exchange it came from — at minimum a real date, in the profile's own style")
-    print("  (\"<person> 2026-07-03, standing\" / \"...2026-07-14, on X: ...\"). If no exchange backs")
-    print("  it, it is the pack's OWN judgment: rewrite it in the pack's voice, challengeable by every")
-    print("  reader. A grant to DECIDE never authorizes recording the decision as the human's; strike")
-    print("  what the person never said on the read-back surface (DECISIONS.md).")
+    print("  Fix: ask your agent to name the real moment it came from — at minimum a real date")
+    print("  (\"<person> 2026-07-03, standing\" / \"...2026-07-14, on X: ...\"). If no such moment")
+    print("  exists, it was the agent's own judgment call — rewrite it as that instead, on the")
+    print("  read-back surface (DECISIONS.md), and never record a decision as the person's own unless")
+    print("  they actually said it.")
     return 1
 
 

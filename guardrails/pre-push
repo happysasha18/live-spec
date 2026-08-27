@@ -293,7 +293,8 @@ fi
 
 echo ""
 if [ "$fail" -ne 0 ]; then
-  echo "PUSH BLOCKED — one or more gates above failed. Fix them and try again."
+  echo "PUSH BLOCKED — something above needs fixing before this can go out. Scroll up for what it"
+  echo "wanted and what would satisfy it, fix it, and push again."
   exit 1
 fi
 

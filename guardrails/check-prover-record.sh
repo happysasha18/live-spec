@@ -209,9 +209,9 @@ if [ ${#candidates[@]} -eq 0 ]; then
     fi
   fi
 
-  echo "FAIL (prover record): no file matching $PROVER_DIR/$TODAY*.md exists."
-  echo "  A fresh whole-spec prover re-check must be recorded before every push (SPEC M-6)."
-  echo "  Fix: run the product-prover pass and save its record as $PROVER_DIR/$TODAY-<slug>.md, then commit it."
+  echo "FAIL (prover record): no file matching $PROVER_DIR/$TODAY*.md exists — this push carries no"
+  echo "  written review of the spec and the architecture. Every push needs one, dated today and committed (SPEC M-6)."
+  echo "  Fix: ask your agent to run the review (the product-prover pass) and commit its record as $PROVER_DIR/$TODAY-<slug>.md."
   exit 1
 fi
 
@@ -226,9 +226,9 @@ for f in "${candidates[@]}"; do
 done
 
 if [ ${#tracked[@]} -eq 0 ]; then
-  echo "FAIL (prover record): found today's prover record(s) but none are committed to git:"
+  echo "FAIL (prover record): today's review record exists on disk but none are committed to git:"
   printf '  %s\n' "${untracked[@]}"
-  echo "  Fix: git add the file(s) and commit before pushing."
+  echo "  Fix: ask your agent to add and commit the file(s) above before pushing."
   exit 1
 fi
 
@@ -257,8 +257,9 @@ else
 
   if [ "$fresh" -ne 1 ]; then
     echo "FAIL (prover record): the newest committed prover record predates the last PRODUCT_SPEC.md change."
+    echo "  The spec changed after that record was written, so the record no longer covers what's being pushed."
     echo "  PRODUCT_SPEC.md last changed in commit $SPEC_COMMIT; newest docs/prover/ commit is $RECORD_COMMIT."
-    echo "  SPEC M-6 wants a re-check record for the PUSHED STATE — re-run the prover pass and commit its record after the SPEC change."
+    echo "  Fix: ask your agent to re-run the review over the current spec and commit a fresh record (SPEC M-6)."
     exit 1
   fi
 
@@ -278,8 +279,9 @@ if [ -n "$ARCH_COMMIT" ]; then
   fi
   if [ "$arch_fresh" -ne 1 ]; then
     echo "FAIL (prover record): the newest committed prover record predates the last ARCHITECTURE.md change."
+    echo "  The architecture changed after that record was written, so the record no longer covers what's being pushed."
     echo "  ARCHITECTURE.md last changed in commit $ARCH_COMMIT; newest docs/prover/ commit is $RECORD_COMMIT."
-    echo "  SPEC M-6/INV-116 wants the prover pass to cover ARCHITECTURE.md too — re-run the prover over the architecture and commit its record."
+    echo "  Fix: ask your agent to re-run the review over the current architecture and commit a fresh record (SPEC M-6/INV-116)."
     exit 1
   fi
   echo "OK (freshness): record commit is not older than the last ARCHITECTURE.md commit."
@@ -332,8 +334,8 @@ fi
 reviewed_count="$(printf '%s\n' $reviewed | grep -c '' || true)"
 NEWEST_REVIEWED="$(head -1 <<<"$(printf '%s\n' $reviewed)")"
 
-FIX_LINE="  Fix: run an adversarial review over the pushed delta — brief the reviewer to find reasons
-  to refuse the change — and carry its findings in the same record, $PROVER_DIR/$TODAY-<slug>.md."
+FIX_LINE="  Fix: ask your agent to read through the actual pushed changes looking for reasons to
+  refuse them, then record what it found in $PROVER_DIR/$TODAY-<slug>.md."
 
 # --- arm: the record is at least as new as the newest commit it must cover ---
 range_fresh=0
@@ -346,8 +348,9 @@ if [ -n "$RECORD_COMMIT" ]; then
 fi
 
 if [ "$range_fresh" -ne 1 ]; then
-  echo "FAIL (prover record): the newest committed record under $PROVER_DIR/ predates the newest commit"
-  echo "  in the pushed range, so it covers a state this push has already left behind (SPEC INV-304)."
+  echo "FAIL (prover record): this change hasn't been reviewed since it was last edited — the newest"
+  echo "  record under $PROVER_DIR/ predates the newest commit in the pushed range, so it covers a"
+  echo "  version already left behind (SPEC INV-304)."
   echo "  newest reviewed commit: $NEWEST_REVIEWED; newest $PROVER_DIR/ commit: ${RECORD_COMMIT:-none}."
   echo "$FIX_LINE"
   exit 1
@@ -376,8 +379,8 @@ for rec in "${tracked[@]}"; do
 done
 
 if [ -z "$matched" ]; then
-  echo "FAIL (prover record): no committed record under $PROVER_DIR/ names the pushed range, so every"
-  echo "  record on file covers some other change (SPEC INV-304)."
+  echo "FAIL (prover record): no committed record under $PROVER_DIR/ names the pushed range — every"
+  echo "  record on file was written about some other change, not this one (SPEC INV-304)."
   echo "  the pushed range is $BASE_SHORT..$(git rev-parse --short=7 HEAD), $reviewed_count commit(s) reviewed.$missing_report"
   echo "$FIX_LINE"
   exit 1
@@ -392,7 +395,7 @@ shape_fail=0
 case "$body" in
   *"PUSH-REVIEW"*) ;;
   *)
-    echo "FAIL (prover record): $matched carries no PUSH-REVIEW marker (SPEC INV-304)."
+    echo "FAIL (prover record): the record isn't written in the shape this gate expects (SPEC INV-304)."
     shape_fail=1
     ;;
 esac
@@ -400,20 +403,22 @@ esac
 for field in "Range" "Files read" "Checks run" "Findings" "Blocking"; do
   line="$(grep -m1 -E "^${field}:" <<<"$body" || true)"
   if [ -z "$line" ]; then
-    echo "FAIL (prover record): $matched carries no \`${field}:\` field, so the record leaves unsaid what"
-    echo "  the review covered (SPEC INV-304)."
+    echo "FAIL (prover record): the review record is missing its \`${field}:\` line, so it doesn't say"
+    echo "  what the review covered there (SPEC INV-304)."
     shape_fail=1
     continue
   fi
   value="$(printf '%s' "$line" | sed -E "s/^${field}:[[:space:]]*//")"
   if [ -z "$value" ]; then
-    echo "FAIL (prover record): $matched carries \`${field}:\` with no value (SPEC INV-304)."
+    echo "FAIL (prover record): the record's \`${field}:\` line is empty — it names the field but says"
+    echo "  nothing under it (SPEC INV-304)."
     shape_fail=1
   fi
 done
 
 if [ "$shape_fail" -ne 0 ]; then
-  echo "  Fix: fill the record's fields — the shape is in $PROVER_DIR/README.md."
+  echo "  Fix: ask your agent to fill in the record's fields — the shape they should follow is"
+  echo "  written out in $PROVER_DIR/README.md."
   exit 1
 fi
 
@@ -430,11 +435,11 @@ if [ "$lower" != "none" ]; then
     offenders="$(printf '%s\n' "$value" | grep -vE 'closed:|stands:' || true)"
   fi
   if [ -n "$offenders" ]; then
-    echo "FAIL (prover record): $matched carries a blocking finding that is neither closed nor explained"
-    echo "  (SPEC INV-304). A blocking finding holds the push until it is closed, or until the record"
-    echo "  states why it stands:"
+    echo "FAIL (prover record): the review found a real problem that is neither closed nor explained yet:"
     printf '  %s\n' "$offenders"
-    echo "  Fix: close the finding and write \`closed: <what changed>\`, or write \`stands: <why>\`."
+    echo "  A blocking finding has to be fixed, or the record has to say why it's being left as-is (SPEC INV-304)."
+    echo "  Fix: ask your agent to either fix the problem and write \`closed: <what changed>\`, or write"
+    echo "  \`stands: <why>\` if it is staying as-is for now."
     exit 1
   fi
 fi

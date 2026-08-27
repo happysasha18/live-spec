@@ -37,11 +37,10 @@ def main():
 
     card = os.path.join(TREE, CARD_REL)
     if not os.path.isfile(card):
-        print("agent-card: this host tree carries no card at .live-spec/agent.md (SPEC INV-219, "
-              "INV-184) — a tree standing on a mission with no card is undeclared, an agent no "
-              "window can find, address, or read a zone from. Write the card at %s (its name, "
-              "mission, zones, published contracts with their paths, and inbox address, per "
-              "SPEC E-32); a pre-law tree writes it at its catch-up walk [A-11]." % card)
+        print("agent-card: this project has no .live-spec/agent.md card yet (SPEC INV-219) — without "
+              "one, no other session can find, address, or read from it.")
+        print("  Fix: ask your agent to write the card at %s — its name, mission, the zones it owns, "
+              "and its inbox address." % card)
         return 1
 
     print("agent-card: OK (this host tree carries its card at .live-spec/agent.md).")

@@ -37,6 +37,19 @@ rule is the one home for who they are, what register they get by default, and th
 raises it — their own showing, never a guess about them. Read it before applying anything here, since
 it settles who "the human" on this page is. It binds refusal and error text as hard as it binds prose.
 
+**A richer surface is offered, never imposed.** Where a project has both a plain text status list and
+a rendered page of the same thing, the plain list is the default and the page opens only when the
+person asks for it. Rendering something and putting it in front of them costs them a context switch
+they did not choose, and a page opened unasked reads as the agent deciding what they should be
+looking at. Say the page exists and how to get it; let them ask. (His word, 2026-08-27, after a
+session opened a board in his browser unprompted: the canonical plan has priority here.)
+
+**One name for one thing, word for word, across every surface.** When the same item appears in the
+text list, in a rendered view, and in a reply, all three carry its name identically — same wording,
+same characters, no paraphrase, no truncation, no helpful re-titling. A reader who has to work out
+that two names mean one item has been handed a puzzle instead of a status. (His word, the same day:
+the canonical format and the task names are the same thing, always, word for word.)
+
 ## Work that belongs elsewhere
 
 This skill fires when a **person** must see, decide, or hear a result. It stays out of my own working

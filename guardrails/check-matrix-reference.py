@@ -83,23 +83,24 @@ def main(argv):
 
     problems = []
     if committed.strip() != fresh.strip():
-        problems.append("the committed Reference differs from a fresh build off the current body — the "
-                        "table is generated output, never hand-kept; rebuild it with "
-                        "scripts/build-matrix-reference.py (INV-273).")
+        problems.append("the summary table doesn't match what a fresh rebuild of the body produces "
+                        "(INV-273).")
     missing = sorted(body - committed_codes, key=sf.code_sort_key)
     if missing:
-        problems.append("%d anchor(s) on a body row are absent from the committed Reference "
+        problems.append("%d requirement(s) covered in the body are missing from the summary table "
                         "(INV-273): %s" % (len(missing), ", ".join(missing)))
     orphan = sorted(committed_codes - body, key=sf.code_sort_key)
     if orphan:
-        problems.append("%d anchor(s) in the committed Reference are carried by no body row — an "
-                        "empty home (INV-273): %s" % (len(orphan), ", ".join(orphan)))
+        problems.append("%d requirement(s) listed in the summary table aren't covered by any row in "
+                        "the body — an empty entry (INV-273): %s" % (len(orphan), ", ".join(orphan)))
 
     if problems:
-        print("%s: %d Reference fault(s) between %s and %s:"
-              % (CHECK, len(problems), ", ".join(doc_names), os.path.basename(index_path)))
+        print("FAIL (matrix reference): the test matrix's summary table no longer matches its own body "
+              "(%s vs %s):" % (", ".join(doc_names), os.path.basename(index_path)))
         for p in problems:
             print("  - %s" % p)
+        print("  Fix: ask your agent to rebuild the table (scripts/build-matrix-reference.py) and "
+              "commit the refreshed version.")
         return 1
 
     n_rows = len(b.parse_rows(text))

@@ -47,9 +47,11 @@ fi
 
 if [ "$code" -ne 0 ]; then
   printf '%s\n' "$out"
-  echo "FAIL (freeze): a guarded doc drifted from its frozen baseline — an anchor vanished or was"
-  echo "  invented, a number/path drifted, or a [target]/[default] marker line changed. Restore the"
-  echo "  law, or (if the change is intended and reviewed) re-freeze in this same commit."
+  echo "FAIL (freeze): the spec, architecture, or test matrix changed something that was supposed to"
+  echo "  stay locked for this session — a citation, a number, a path, or a marker line moved without"
+  echo "  being reviewed."
+  echo "  Fix: put the original text back, or — if the change is intended and was reviewed — ask your"
+  echo "  agent to re-lock the new version in this same commit."
   exit 1
 fi
 

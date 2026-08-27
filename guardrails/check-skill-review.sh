@@ -153,10 +153,10 @@ for name in $substantive_skills; do
   done < <(git ls-files "$REVIEW_DIR" 2>/dev/null)
 
   if [ -z "$matched" ]; then
-    echo "FAIL (skill review): skill '$name' is substantively changed in this push but no committed"
-    echo "  skill-creator review record under $REVIEW_DIR/ names it with a verdict at least as new as"
-    echo "  the skill's own last change — a stale earlier review does not cover a later change"
-    echo "  (SPEC INV-208). skill '$name' last changed in ${skill_commit:-unknown}."
+    echo "FAIL (skill review): the skill '$name' changed in a real way in this push, but nobody has"
+    echo "  reviewed it since — the newest record under $REVIEW_DIR/ is older than the skill's own"
+    echo "  last change, so it doesn't cover what's being pushed now (SPEC INV-208)."
+    echo "  skill '$name' last changed in ${skill_commit:-unknown}."
     fail=1
     continue
   fi
@@ -165,9 +165,9 @@ for name in $substantive_skills; do
 done
 
 if [ "$fail" -ne 0 ]; then
-  echo "  Fix: run Anthropic's skill-creator review over the changed skill, then save its verdict as"
-  echo "  $REVIEW_DIR/$(date +%Y-%m-%d)-<skill>.md (a SKILL-REVIEW record naming the skill and its"
-  echo "  verdict) and commit it before pushing. A pure version-stamp bump is exempt by construction."
+  echo "  Fix: ask your agent to run the skill-creator review over the changed skill and commit its"
+  echo "  verdict as $REVIEW_DIR/$(date +%Y-%m-%d)-<skill>.md before pushing (a version-number-only"
+  echo "  bump is exempt and needs no review)."
   exit 1
 fi
 

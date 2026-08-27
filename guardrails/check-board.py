@@ -164,21 +164,24 @@ def main(argv):
             print("OK (board): no WAITING.md in this tree — the waiting list is not built here, the "
                   "gate stands down by name (INV-206).")
             return 0
-        print("FAIL (board): the board %s does not exist (SPEC INV-206)." % board_path)
+        print("FAIL (board): the waiting-list file %s is missing — there is nothing here to check "
+              "(SPEC INV-206)." % board_path)
         return 1
 
     report_text = read(args.report) if args.report else None
     violations = check_board(read(board_path), report_text)
 
     if violations:
-        print("FAIL (board): the waiting list would lose or misreport what waits for his eyes "
-              "(SPEC INV-206):")
+        print("FAIL (board): the waiting list would lose or misreport something still waiting on the "
+              "product owner's answer (SPEC INV-206):")
         for v in violations:
             print("  " + v)
-        print("  Fix: an item clears only on his acknowledgement; a demoted item moves into the list "
-              "whole and alive; the shown set stays at or under %d; a closing report names every "
-              "still-open item; a parked question ([[park]]) carries the default the work already took "
-              "(a `default:` note). The board lives at WAITING.md." % CAP)
+        print("  An item only clears once that person has actually seen and acknowledged it — nothing "
+              "else should make it disappear.")
+        print("  Fix: ask your agent to keep every demoted item whole and alive in the list, keep the "
+              "shown set at or under %d items, name every still-open item in a closing report, and give "
+              "any parked question ([[park]]) the default the work already took (a `default:` note). "
+              "The list lives at WAITING.md." % CAP)
         return 1
 
     print("OK (board): the waiting list keeps every alive item, demotes nothing into the void, and "

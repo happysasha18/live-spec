@@ -80,7 +80,8 @@ if [ ${#hits[@]} -gt 0 ]; then
   for h in "${hits[@]}"; do
     echo "FAIL (prototype fence): $h"
   done
-  echo "  Fix: a prod file must not reference into a prototype home (SPEC INV-17); promote through the pipeline or remove the reference."
+  echo "  Fix: something meant to ship is pointing at unfinished sketch work — ask your agent to"
+  echo "  finish and promote that piece for real, or remove the reference (SPEC INV-17)."
   echo '{"severity":"error","code":"prototype-fence","message":"a prod file references into a prototype home","fix":"promote through the pipeline or remove the reference (SPEC INV-17)"}'
   exit 1
 fi

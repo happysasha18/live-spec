@@ -21,36 +21,40 @@ for skill_md in "$SKILLS_DIR"/*/SKILL.md; do
 
   # frontmatter block: first line ---, a closing --- within the first 40 lines
   if [ "$(head -1 "$skill_md")" != "---" ] || ! sed -n '2,40p' "$skill_md" | grep -q '^---$'; then
-    echo "FAIL (loadability): $dir_name — no frontmatter block"; fail=1; continue
+    echo "FAIL (loadability): the skill '$dir_name' can't be loaded — it's missing the setup block"
+    echo "  every skill needs at the top of its file."; fail=1; continue
   fi
   fm="$(awk '/^---$/{n++; next} n==1{print} n>=2{exit}' "$skill_md")"
 
   name="$(sed -n 's/^name:[[:space:]]*//p' <<<"$fm" | head -1)"
   if [ -z "$name" ]; then
-    echo "FAIL (loadability): $dir_name — frontmatter has no name:"; fail=1
+    echo "FAIL (loadability): the skill '$dir_name' can't be loaded — its setup block never names it."; fail=1
   elif [ "$name" != "$dir_name" ]; then
-    echo "FAIL (loadability): $dir_name — name '$name' does not match its folder"; fail=1
+    echo "FAIL (loadability): the skill '$dir_name' can't be loaded — name '$name' does not match its folder."; fail=1
   fi
 
   if ! printf '%s\n' "$fm" | grep -q '^description:'; then
-    echo "FAIL (loadability): $dir_name — frontmatter has no description:"; fail=1
+    echo "FAIL (loadability): the skill '$dir_name' can't be loaded — it carries no description, so"
+    echo "  nothing can tell what it's for."; fail=1
   fi
 
   if ! printf '%s\n' "$fm" | grep -Eq '^[[:space:]]+version:[[:space:]]*[0-9]+\.[0-9]+\.[0-9]+'; then
-    echo "FAIL (loadability): $dir_name — no metadata version (M-7)"; fail=1
+    echo "FAIL (loadability): the skill '$dir_name' can't be loaded — it carries no version number (M-7)."; fail=1
   fi
 
   if ! grep -qi 'work that belongs elsewhere' "$skill_md"; then
-    echo "FAIL (loadability): $dir_name — no 'Work that belongs elsewhere' section (row 80)"; fail=1
+    echo "FAIL (loadability): the skill '$dir_name' has no 'Work that belongs elsewhere' section (row 80) —"
+    echo "  it never says what it should NOT be used for."; fail=1
   fi
 done
 
 if [ "$count" -eq 0 ]; then
-  echo "FAIL (loadability): no skills found under $SKILLS_DIR"; exit 1
+  echo "FAIL (loadability): no skills found under $SKILLS_DIR — there is nothing here to check."; exit 1
 fi
 
 if [ "$fail" -ne 0 ]; then
-  echo "  Fix: repair the skill's frontmatter/section; a skill that can't load or scope itself must not ship."
+  echo "  Fix: ask your agent to repair the skill(s) named above — a skill that can't load or say what"
+  echo "  it's not for must not ship."
   exit 1
 fi
 

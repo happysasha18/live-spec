@@ -213,11 +213,13 @@ def main():
                 (rel, n, status[:80]))
 
     if violations:
-        print("FAIL (doc-rotation): a rotation lost content or left no manifest line (SPEC INV-209):")
+        print("FAIL (doc-rotation): moving old content into its archive lost something along the way —")
+        print("  either the content itself or the note that says where to find it (SPEC INV-209).")
+        print("  Without both, that content is effectively gone:")
         for v in violations:
             print("  - " + v)
-        print("  Fix: rotate through scripts/rotate-doc.py, which writes the archive and the manifest")
-        print("  line together; restore any dropped row from git, and name every archive in a manifest.")
+        print("  Fix: ask your agent to redo the move with scripts/rotate-doc.py, which writes the")
+        print("  archive and its manifest line together, and to restore anything dropped from git history.")
         return 1
 
     print("OK (doc-rotation): every rotated row is findable in its archive and every archive is "

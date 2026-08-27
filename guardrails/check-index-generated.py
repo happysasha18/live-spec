@@ -68,25 +68,26 @@ def main(argv):
     problems = []
     # INV-258: drift between the committed table and a fresh build.
     if committed.strip() != fresh.strip():
-        problems.append("the committed index differs from a fresh build off the current body — the "
-                        "table is generated output, never hand-kept; rebuild it with "
-                        "scripts/build-index.py (INV-258).")
+        problems.append("the summary index doesn't match what a fresh rebuild of the body produces "
+                        "(INV-258).")
     # INV-259: body has a code the index misses.
     missing = sorted(body - committed_codes, key=sf.code_sort_key)
     if missing:
-        problems.append("%d code(s) on a body criterion are absent from the committed index "
+        problems.append("%d requirement(s) in the body are missing from the summary index "
                         "(INV-259): %s" % (len(missing), ", ".join(missing)))
     # INV-259: index has a code the body misses.
     orphan = sorted(committed_codes - body, key=sf.code_sort_key)
     if orphan:
-        problems.append("%d code(s) in the committed index are carried by no body criterion — an "
-                        "empty home (INV-259): %s" % (len(orphan), ", ".join(orphan)))
+        problems.append("%d requirement(s) listed in the summary index aren't backed by any criterion "
+                        "in the body — an empty entry (INV-259): %s" % (len(orphan), ", ".join(orphan)))
 
     if problems:
-        print("%s: %d index fault(s) between %s and %s:"
-              % (CHECK, len(problems), ", ".join(doc_names), os.path.basename(index_path)))
+        print("FAIL (index generated): the document's summary index no longer matches its own body "
+              "(%s vs %s):" % (", ".join(doc_names), os.path.basename(index_path)))
         for p in problems:
             print("  - %s" % p)
+        print("  Fix: ask your agent to rebuild the index (scripts/build-index.py) and commit the "
+              "refreshed version.")
         return 1
 
     print(sf.green_reach(CHECK, doc_names + [os.path.basename(index_path)],

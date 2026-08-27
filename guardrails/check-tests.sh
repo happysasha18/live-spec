@@ -67,8 +67,8 @@ if [ -n "${SCOPED_TEST_FILES:-}" ]; then
     echo "OK (tests): scoped suite green ($scoped_count files, reach-scoped per SPEC INV-45)."
     exit 0
   else
-    echo "FAIL (tests): scoped suite is not green ($scoped_count files)."
-    echo "  Fix: run 'python3 -m pytest -q' on the scoped files and repair the failing test(s)."
+    echo "FAIL (tests): the part of the test suite this change touches is not passing ($scoped_count files)."
+    echo "  Fix: ask your agent to run the tests, find what broke, and fix it before pushing again."
     exit 1
   fi
 fi
@@ -79,8 +79,8 @@ status="${PIPESTATUS[0]}"
 set -e
 
 if [ "$status" -ne 0 ]; then
-  echo "FAIL (tests): suite is not green ($TESTS_DIR)."
-  echo "  Fix: run 'python3 -m pytest -q tests' and repair the failing test(s) before pushing."
+  echo "FAIL (tests): the test suite is not passing ($TESTS_DIR)."
+  echo "  Fix: ask your agent to run the tests, find what broke, and fix it before pushing again."
   exit 1
 fi
 

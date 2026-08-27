@@ -87,12 +87,11 @@ fi
 hits="$(printf '%s' "$hits" | grep -vE '^[[:space:]]*$' || true)"
 
 if [ -n "$hits" ]; then
-  echo "FAIL (cleanup-notice): a cleanup path ends a process but says nothing about what it ended"
-  echo "(SPEC INV-204):"
+  echo "FAIL (cleanup-notice): part of this change ends a process during cleanup but never says what it"
+  echo "  ended (SPEC INV-204) — with no record, nobody can check afterward whether it ended the right thing:"
   printf '%s\n' "$hits" | sed 's/^/  /'
-  echo "  Fix: emit the notice at the ending — WHAT was ended and the proof the run owned it (a PID, a"
-  echo "  process group, or a path under the run's own tree) — through the shared helper"
-  echo "  guardrails/cleanup_notice.py, or by printing a CLEANUP-NOTICE line in a vendored standalone."
+  echo "  Fix: ask your agent to print what was ended and the proof it owned it (a process id, a process"
+  echo "  group, or a path inside its own run), using the shared helper guardrails/cleanup_notice.py."
   exit 1
 fi
 

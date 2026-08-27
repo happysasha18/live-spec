@@ -143,10 +143,11 @@ fi
 hits="$(printf '%s' "$hits" | grep -vE '^[[:space:]]*$' || true)"
 
 if [ -n "$hits" ]; then
-  echo "FAIL (muted-launch): a tracked script drives a real headless browser without --mute-audio (SPEC INV-157):"
+  echo "FAIL (muted-launch): part of this change opens a real browser in the background without muting"
+  echo "  it (SPEC INV-157) — it could suddenly play sound nobody asked for:"
   printf '%s\n' "$hits" | sed 's/^/  /'
-  echo "  Fix: add --mute-audio to the browser launch, or adopt the pack's canonical muted harness"
-  echo "  templates/headless_harness.py (INV-158) in place of a hand-rolled or forked launch."
+  echo "  Fix: ask your agent to mute that browser launch, or switch it to the pack's ready-made muted"
+  echo "  setup, templates/headless_harness.py (INV-158)."
   exit 1
 fi
 

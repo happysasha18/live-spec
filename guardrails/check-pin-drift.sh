@@ -110,12 +110,14 @@ while IFS=$'\t' read -r path line label; do
   esac
   checked=$((checked+1))
   if [ ! -f "$full" ]; then
-    echo "FAIL (pin drift): $path:$line — pinned file missing"; fail=1; continue
+    echo "FAIL (pin drift): $path:$line — pinned file missing (the architecture points at a file"
+    echo "  that isn't there anymore)."; fail=1; continue
   fi
   read_files="$read_files$path"$'\n'
   total=$(wc -l < "$full")
   if [ "$line" -gt "$total" ]; then
-    echo "FAIL (pin drift): $path:$line — beyond end of file ($total lines)"; fail=1; continue
+    echo "FAIL (pin drift): $path:$line — beyond end of file ($total lines; the reference points"
+    echo "  past where the file now ends)."; fail=1; continue
   fi
   if [ -z "$label" ]; then
     bare_pins=$((bare_pins+1))
@@ -157,7 +159,8 @@ while IFS=$'\t' read -r path line label; do
 
   if [ "$found" -eq 0 ]; then
     looked="$(printf '%s' "$judged_by" | paste -sd, - | sed 's/,/, /g')"
-    echo "FAIL (pin drift): $path:$line ($label) — no ${kind} of the label stands in $where; looked for [$looked]."
+    echo "FAIL (pin drift): $path:$line ($label) — the code has moved on: no ${kind} of the label"
+    echo "  stands in $where anymore; looked for [$looked]."
     if [ "$line" -gt 1 ]; then
       echo "    line $line reads: $(sed -n "${line}p" "$full" | cut -c1-100)"
     fi
@@ -170,7 +173,8 @@ if [ "$checked" -eq 0 ]; then
 fi
 
 if [ "$fail" -ne 0 ]; then
-  echo "  Fix: re-run the pin's grep and update the path/line, or re-label the pin to name what the line carries (SPEC E-14)."
+  echo "  Fix: ask your agent to find where this description now lives in the code and re-point"
+  echo "  the reference, or reword the description to match what the code actually does (SPEC E-14)."
 fi
 
 reach="$(printf '%s' "$read_files" | sed '/^$/d' | sort -u | paste -sd, - | sed 's/,/, /g')"

@@ -88,23 +88,24 @@ def main(argv):
 
     problems = []
     if committed.strip() != fresh.strip():
-        problems.append("the committed Reference differs from a fresh build off the current node "
-                        "sections — the table is generated output, never hand-kept; rebuild it with "
-                        "scripts/build-architecture-reference.py (INV-315).")
+        problems.append("the summary table doesn't match what a fresh rebuild of the current node "
+                        "sections produces (INV-315).")
     missing = sorted(owned - committed_codes, key=sf.code_sort_key)
     if missing:
-        problems.append("%d anchor(s) on a node's owns field are absent from the committed Reference "
+        problems.append("%d requirement(s) a node claims to own are missing from the summary table "
                         "(INV-315): %s" % (len(missing), ", ".join(missing)))
     orphan = sorted(committed_codes - owned, key=sf.code_sort_key)
     if orphan:
-        problems.append("%d anchor(s) in the committed Reference are owned by no node — an empty home "
-                        "(INV-315): %s" % (len(orphan), ", ".join(orphan)))
+        problems.append("%d requirement(s) listed in the summary table are owned by no node — an "
+                        "empty entry (INV-315): %s" % (len(orphan), ", ".join(orphan)))
 
     if problems:
-        print("%s: %d Reference fault(s) between %s and %s:"
-              % (CHECK, len(problems), ", ".join(doc_names), os.path.basename(index_path)))
+        print("FAIL (architecture reference): the architecture's summary table no longer matches its "
+              "own nodes (%s vs %s):" % (", ".join(doc_names), os.path.basename(index_path)))
         for p in problems:
             print("  - %s" % p)
+        print("  Fix: ask your agent to rebuild the table (scripts/build-architecture-reference.py) "
+              "and commit the refreshed version.")
         return 1
 
     n_nodes = len(nodes)
