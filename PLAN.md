@@ -524,7 +524,22 @@ task carries, by pointer rather than by copy:
 - **Its subtasks, where it has them.** A task too large for one worker is cut into pieces that name
   their own done, and the cut says which pieces may run at the same time. Two pieces run together
   when they write to disjoint files; a piece that needs another's output waits. The board shows
-  that, so the work that can go in parallel is visible without asking.
+  that, so the work that can go in parallel is visible without asking. A subtask carries the same
+  shape as a task — its own links, its own done — it is never a lesser thing.
+- **One worker owns one task, start to close**, subtask or not. Grounded in an incident, not a
+  guess: this same afternoon two workers were briefed onto the same file at once, and one read the
+  other's live edits as a foreign session. The write-set check belongs to whoever hands out the
+  work, before handing it out — a task's files must be disjoint from every task already in hand — a
+  worker never has to guess whether it collides.
+- **A worker reads before it takes.** Given a task, a worker reads it and its links whole and says
+  taken or declined before changing anything — declined when a link points at nothing, or the task
+  turns out to need a decision only the owner can make. Taking it silently and finding the problem
+  mid-work is the failure this line exists to stop.
+- **The worker proves its own done before reporting it**, by the task's own command, and whoever
+  accepts the work runs that command again independently. Both checks stand; neither substitutes
+  for the other — this is the rule behind why four tasks on this page were once marked closed with
+  nothing behind them, and why a worker's "unrelated pre-existing failure" gets checked by a command
+  before it is believed (a live case of this from today: `worker-must-prove-cause-not-assert-unrelated`).
 
 **Why this belongs here.** The failure it answers is the one he named: a session reports a task
 finished, a later session finds half of it undone, and the day goes to working out which half.
@@ -1341,6 +1356,26 @@ Note: held for the owner: the row's final shape depends on a policy answer he ha
 **Covered by:** q-386 — Independent work actually runs in parallel branches, proven live. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
+### ⬜ Every test in the suite is proven to guard something real — id: q-751
+**Group:** Method reliability · **Priority:** normal
+**Source:** owner 27.08 — "непонятно почему так много тестов, тоже надо пересмотреть." <!-- user-language -->
+
+**What it is.** The suite holds 2,426 tests. Nobody has checked how many of them could ever fail —
+whether the thing each one guards has ever actually moved.
+
+**Why now.** Plan-6 already ran this exact measurement on a smaller class, phrase-guard tests, and
+it settled a real question with numbers rather than a guess: a 120-test sample showed 16% could
+never have failed, and 84% guarded real content that changed — the finding was against mass
+removal, because most of the sample earned its place. The same method, run over the whole suite,
+answers the size question honestly instead of by feel.
+
+**Done when.** A sampled measurement, the same shape as plan-6's, reports what share of the suite
+has ever had a chance to fail, and the owner reads the number before anything is cut.
+
+Not a task to prune first and measure after — his own standing law is measure, then decide, and a
+mass removal without that measurement is exactly the failure this line exists to prevent.
+
+
 ### ⬜ Independent work actually runs in parallel branches, proven live — id: q-386
 **Group:** Parallel & multi-agent work · **Priority:** normal
 **Source:** owner 2026-07-17 ~14:15 — "why do we wait? why is this written nowhere?"
@@ -1712,6 +1747,15 @@ One line per finding. Don't move it into ROADMAP. Don't fix it without the owner
   rosters. No gate catches this. A separate design task, not a one-line fix.
 - **Global hooks were cut 26.08 at 09:28** from ~10 to 4; the meter `hook-meter.py` was also
   removed. Backup: `~/.claude/settings.json.bak-2026-08-17`. Decide what to bring back.
+  **The cut was blanket, not a verdict on any one hook** — this line already said so before today,
+  and the meter's own reading from 11.08, taken before the cut, answers the "what to bring back"
+  question with real numbers rather than a guess: `scissors-scan.py` fired 131 times in 3,288 runs
+  and `affirmation-scan.py` 37 times in 2,612 — both caught real things at a real rate, and both are
+  the same shape of check plan-16 is already about to build for the "fact stated, not announced"
+  rule. `hedge-scan.py` fired 4 times in 3,023 runs — under this project's own retirement law (a net
+  silent past its window is a candidate, `.live-spec/r3-rule-fires-2026-08-11.md`), that one is a
+  candidate to stay retired, not to return. Bringing back two of three, on the numbers, is a
+  decision to put to him rather than one this session makes alone.
 - **Why time doesn't reach the session — found, not cleaned up.** `~/.claude/hooks/clock-hook.sh`
   prints the time correctly by hand; but this session's parent process (`PID 12188: claude
   --safe-mode`) sets `CLAUDE_CODE_SAFE_MODE=1` — per `--help`, safe-mode disables every hook,
