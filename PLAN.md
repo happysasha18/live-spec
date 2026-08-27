@@ -245,17 +245,37 @@ Note: largely fixed already; one known hole remains (bare single-class selectors
 ### 👁️ A cleared mistake stops blocking every future push — id: q-527
 **Group:** Worker & data safety · **Priority:** normal
 **Source:** found 2026-07-29; owner's word owed on what counts as "cleared."
-Note: held for Alexander: the row's final shape depends on a policy answer he hasn't given yet — what counts as a cleared mistake. The name describes the problem, not the resolution, because the resolution isn't written anywhere yet.
+Note: held for the owner: the row's final shape depends on a policy answer he hasn't given yet — what counts as a cleared mistake. The name describes the problem, not the resolution, because the resolution isn't written anywhere yet.
 
 
 ### ⬜ Trimming a long document never loses what moved — id: q-531
 **Group:** Method reliability · **Priority:** critical
 **Source:** found 2026-07-29, reproduced live at tlvphotos 2026-08-05 — a real document split ran with no proof nothing was lost.
 
+**What it is.** When a long document is split or restructured, a command proves that
+nothing was lost — every word and every mark accounted for, before and after.
+
+**Why now.** The photo site's spec is 467 KB and its conversion begins within days. Without this,
+"everything moved across" is a claim nobody can check, over a document too large to read.
+
+**Done when.** The check runs on a real split and reports what changed, and a deliberately dropped
+paragraph makes it red.
+
 
 ### ⬜ The installed copy and the working copy stay in sync — id: q-537
 **Group:** Method housekeeping · **Priority:** critical
 **Source:** found 2026-07-30 — real drift already exists across four hook files and eleven skills.
+
+**What it is.** What is installed on this machine and what is in the working tree have
+drifted apart — across four hook files and eleven skills. So a check can pass here and fail in the
+copy that actually runs, and nobody learns which is right.
+
+**Why now.** The photo site's migration sits directly on top of this: its first finding is a host
+whose own record claims a version two releases ahead of what is on its disk. The same defect, one
+tree over. Every future project meets it again.
+
+**Done when.** A command compares the installed set against the working tree and prints an empty
+difference, and the same command reds when a file is edited in one place only.
 
 
 ### ⬜ A leftover test server stops popping up security warnings — id: q-542
@@ -303,10 +323,22 @@ Note: held for Alexander: the row's final shape depends on a policy answer he ha
 **Source:** found 2026-08-12 — text from the owner's personal layer surfaced inside four workers' results and cancelled one command.
 
 
-### ⬜ Repeated unsaved-work losses are finally traced, not waved past — id: q-624
+### ⬜ A command that destroys unsaved work is refused before it runs — id: q-624
 **Group:** Worker & data safety · **Priority:** critical
 **Source:** found 2026-08-19 — 28 occurrences since 08-13, the same red suite result dismissed as "environmental" three times.
 **Closes:** q-479, q-586, q-605
+
+**What it is.** A command that throws away work nobody saved is refused before it runs.
+Twenty-eight of them have already run in this project's own worktrees since 13.08, one landing on
+a file another lane was writing at that moment, and the red test result that reported it was
+dismissed as an environment problem on three separate pushes.
+
+**Why now.** The mechanism is already written and packaged. Installing and arming it on this
+machine is the owner's own act, so this is one step from closed and that step is his.
+
+**Done when.** The hook is installed and armed, a deliberate test command is refused by it, and
+the refusal names what it stopped. Closes the rule it enforces and the two command forms the old
+guard did not recognise.
 
 
 ### 🔄 Say the word, see exactly where things stand — id: plan-1
@@ -448,6 +480,17 @@ that reads both files and fails on a missing key.
 **Source:** PLAN.md step 11, owner 27.08. (This document is that step's first draft.)
 **Closes:** plan-1, plan-10, q-566, q-481, q-617
 
+**What it is.** Today the work lives in one file but is read by two instruments that were
+written for the old shape, and the marks on it are typed by hand rather than computed. This task
+finishes the merge: one list, one reader, and a mark that means something.
+
+**Why now.** Everything else on this page is invisible until it lands. A session that opens with
+the resume word runs the probe, and the probe is how the work is found at all.
+
+**Done when.** `bash scripts/state-probe.sh` names the tasks that matter without being told which,
+and `bash scripts/render-board.sh` draws every task in the file, both proved by a test that fails
+if either stops finding them. No second list exists anywhere in the tree.
+
 His word, 27.08: the plan, the board and the queue are one thing. The plan is its text, the board
 is its showing, the queue is its rows. A second list anywhere is the drift, and today there are two
 here — this file with its steps, and `ROADMAP.md` with its rows.
@@ -502,7 +545,7 @@ reddens a gate · two parts defining one requirement number redden a gate.
 **Source:** PLAN.md step 13, owner 27.08.
 **Covered by:** plan-16 — Every rule finally lives in exactly one place. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
-His word, 27.08: "ты не должен грузить пользователя фигней", and it needs one home rather than
+His word, 27.08: "ты не должен грузить пользователя фигней", and it needs one home rather than <!-- user-language -->
 three. Today the rules about what reaches a person are spread between the communicator skill, the
 personal profile and the session laws.
 
@@ -553,8 +596,19 @@ no local copy, and it has been idle since 27.07, so nothing of the owner's is in
 **Source:** PLAN.md step 16, owner 27.08.
 **Closes:** plan-13, q-119, q-131, q-134, q-141, q-144, q-424, q-484, q-471
 
-His word, 27.08: "надо сделать так чтобы каждому правилу был свой скилл и чтобы все сидело чётко...
-чтобы не было салата". Read by Fable the same afternoon, across every skill, both boot files and
+**What it is.** Every rule is written once, in the one place whose job it is, and a
+check proves no second copy exists. The report read every turn goes first: its format is stated in
+three places today and they disagree, which is why it is never the same twice.
+
+**Why now.** Three homes have already drifted apart in wording, and the drift is felt on the one
+surface read every single turn.
+
+**Done when.** The report format, the parallel-work law and the ask-before-guessing family each
+have exactly one home with pointers where the copies stood; a check reds on a planted second copy;
+and the director names the right home for a rule it has never seen before.
+
+His word, 27.08: "надо сделать так чтобы каждому правилу был свой скилл и чтобы все сидело чётко... <!-- user-language -->
+чтобы не было салата". Read by Fable the same afternoon, across every skill, both boot files and <!-- user-language -->
 the profile. What it found:
 
 - **The report he reads every turn has three law-homes, and they disagree.** His boot file carries
@@ -596,10 +650,22 @@ the home for a rule it has never seen, in a recorded run.
 
 ### ⬜ Each session reads only what it needs — id: plan-17
 **Group:** Budget & economy · **Priority:** critical
-**Source:** PLAN.md step 17, owner 27.08 — "план возможно тоже не надо грузить целиком всегда."
+**Source:** PLAN.md step 17, owner 27.08 — "план возможно тоже не надо грузить целиком всегда." <!-- user-language -->
 **Closes:** q-570, q-584, q-568, q-575, q-507, q-457, q-205, q-140
 
-His word, 27.08: "план возможно тоже не надо грузить целиком всегда. есть же доска."
+**What it is.** A session reads the state and the one task it is taking, instead of
+loading whole documents that run to tens of thousands of words. This applies to every large file,
+the plan included.
+
+**Why now.** The number reported for a session's starting weight counts two files and misses the
+rest, so nobody knows what a session actually loads. That measurement gates the decision on the
+`ponytail` skill as well.
+
+**Done when.** A real session's load is measured and the number stands in this file; a session
+taking a task can show what it opened and it is the state plus that task; the ponytail question is
+answered against a measured before and after.
+
+His word, 27.08: "план возможно тоже не надо грузить целиком всегда. есть же доска." <!-- user-language -->
 
 His own boot instruction tells every session to read this file whole before starting, and this file
 is around fifty kilobytes. The probe already prints the state, and the board already shows it. So a
@@ -732,7 +798,7 @@ Note: deferred by his own placement, not by a problem.
 
 ### ⬜ Text always names what a group of items actually is — id: q-510
 **Group:** Readability & plain language · **Priority:** normal
-**Source:** owner 2026-07-27 ~23:31 — reading his own "Опора 4" example.
+**Source:** owner 2026-07-27 ~23:31 — reading his own "Опора 4" example. <!-- user-language -->
 **Covered by:** q-458 — The plain-language text checker becomes its own reusable tool. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
@@ -768,7 +834,7 @@ Note: deferred by his own placement, not by a problem.
 
 ### ⬜ The plain-language text checker becomes its own reusable tool — id: q-458
 **Group:** Readability & plain language · **Priority:** normal
-**Source:** owner 2026-07-22 — "как аудировать тексты — это отдельный скилл."
+**Source:** owner 2026-07-22 — "как аудировать тексты — это отдельный скилл." <!-- user-language -->
 **Closes:** q-148, q-170, q-204, q-208, q-460, q-493, q-485, q-487, q-510, q-203, q-381
 
 
@@ -813,7 +879,7 @@ Note: deferred by his own placement, not by a problem.
 **Covered by:** plan-12 — The spec finally describes what the product does. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
-### ⛔ New features get measurable speed targets, not just working code — id: q-143
+### ⛔ Every new feature states how fast it must be — id: q-143
 **Group:** Spec & feature quality · **Priority:** normal
 **Source:** owner 2026-07-06 ~21:03, on a page that loaded slow with no timing plan.
 **Covered by:** plan-12 — The spec finally describes what the product does. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
@@ -960,7 +1026,7 @@ Note: deferred by his own placement, not by a problem.
 **Covered by:** plan-17 — Each session reads only what it needs. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
-### ⬜ A list tracks where handed-in files live, never their contents — id: q-207
+### ⬜ A list points at where handed-in files live — id: q-207
 **Group:** Method housekeeping · **Priority:** normal
 **Source:** homeless backlog item, homed 2026-07-10.
 **Covered by:** q-427 — One live list shows every tunable setting. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
@@ -1038,13 +1104,13 @@ Note: the row itself is undecided between "give this incident its own record" an
 ### 👁️ Three wording disagreements in the rulebook need your final call — id: q-536
 **Group:** Readability & plain language · **Priority:** normal
 **Source:** found 2026-07-30 across three readability pilots.
-Note: held for Alexander: the row's final shape depends on a policy answer he hasn't given yet. The name describes the problem, not the resolution, because the resolution isn't written anywhere yet.
+Note: held for the owner: the row's final shape depends on a policy answer he hasn't given yet. The name describes the problem, not the resolution, because the resolution isn't written anywhere yet.
 
 
 ### 👁️ One excuse shouldn't cover every future change — id: q-529
 **Group:** Method reliability · **Priority:** normal
 **Source:** found 2026-07-29 — a written reason licensed every later raise of the same ceiling.
-Note: held for Alexander: the row's final shape depends on a policy answer he hasn't given yet — whether a reason expires. The name describes the problem, not the resolution, because the resolution isn't written anywhere yet.
+Note: held for the owner: the row's final shape depends on a policy answer he hasn't given yet — whether a reason expires. The name describes the problem, not the resolution, because the resolution isn't written anywhere yet.
 
 
 ### ⬜ Shared code is checked for leaked personal data — id: q-488
@@ -1242,7 +1308,7 @@ Note: held for Alexander: the row's final shape depends on a policy answer he ha
 **Closes:** q-412, q-206, q-215, q-234, q-404, q-396, q-405, q-504
 
 
-### ⛔ Agents on one machine can talk directly, not just through files — id: q-396
+### ⛔ Agents on one machine talk to each other directly — id: q-396
 **Group:** Parallel & multi-agent work · **Priority:** normal
 **Source:** owner 2026-07-17.
 **Covered by:** q-386 — Independent work actually runs in parallel branches, proven live. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
@@ -1305,7 +1371,7 @@ One line per finding. Don't move it into ROADMAP. Don't fix it without the owner
   **Take step 10 before step 9.** Four of the first ten steps carry no acceptance command, so their
   closed marks rest on a session's word. Running a migration before the marks are computed adds one
   more "done" nobody can check.
-  **Open, his to answer, small:** three rows still marked held for Alexander carry questions put to
+  **Open, his to answer, small:** three rows still marked held for the owner carry questions put to
   him and were kept out of the purge · six rows have no traceable origin, four of them labelled as
   his word with no quote or date, and he may recall what they were · where `lab/CROSSING-BRIEF.md`
   belongs in tlvphotos, which he answered in part today — it is spec material, and it went where it
