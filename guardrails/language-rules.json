@@ -686,7 +686,7 @@
         "nowhere"
       ],
       "sources": [
-        "ROADMAP.md:171"
+        "PLAN.md"
       ],
       "status": "stated-only",
       "notes": "r58, `a part of a set named by what its members are`, folded into this entry on 2026-07-28 and its id is retired: each entry called itself half of one class, and a reader had to hold the two side by side to see where one ended. The defect has four shapes — pointing at a set without giving it, naming by count (`the three legs`), naming by pointer (the rest, the others, several), and naming by position (the first three, the latter, item four). r58's title named the state a good sentence is in rather than the defect, so this entry's title names the defect.",

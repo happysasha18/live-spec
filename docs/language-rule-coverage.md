@@ -285,7 +285,7 @@ repair the text from those stops rather than from the one sentence in front of y
 - **model** — absent.
 - **person** — partial. Reads: a reference can be phrased any way, so a reading decides whether the set was given; a reading also decides whether a count is a measurement or a pointer, and whether the members a sentence names are the members it means.
 
-**Stated before this page, at.** ROADMAP.md:171
+**Stated before this page, at.** PLAN.md
 
 **Notes.** r58, `a part of a set named by what its members are`, folded into this entry on 2026-07-28 and its id is retired: each entry called itself half of one class, and a reader had to hold the two side by side to see where one ended. The defect has four shapes — pointing at a set without giving it, naming by count (`the three legs`), naming by pointer (the rest, the others, several), and naming by position (the first three, the latter, item four). r58's title named the state a good sentence is in rather than the defect, so this entry's title names the defect.
 
