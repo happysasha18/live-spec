@@ -24,6 +24,15 @@ DRY_RUN=0
 for arg in "$@"; do
   case "$arg" in
     --dry-run) DRY_RUN=1 ;;
+    # An unrecognized argument stops the run. Without this arm a near miss — `--dryrun`,
+    # `--dry_run`, a typo — fell through the case silently and the script installed for real
+    # against the caller's actual home, which is the one outcome --dry-run exists to prevent.
+    *)
+      echo "install-pack-hooks: I don't know the option '$arg', so I stopped before touching" >&2
+      echo "  anything. The only option is --dry-run, which shows what would happen and" >&2
+      echo "  changes nothing. Run it with no options to install for real." >&2
+      exit 2
+      ;;
   esac
 done
 

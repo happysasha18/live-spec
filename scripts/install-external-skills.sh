@@ -28,8 +28,26 @@ REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
 cd "$REPO_ROOT"
 
 PROVER_URL="https://github.com/happysasha18/product-prover.git"
-DEST="skills/product-prover"
-ADAPTER="skills/product-prover-pack/SKILL.md"
+
+# WHERE THE SKILLS LIVE depends on which tree this is run in, and the release chapter names this
+# script as a step a HOST runs. The pack's own tree keeps its skills in skills/; a host that
+# installed the pack keeps them in .claude/skills/. Hardcoding the pack's layout made this script
+# fail on every host with "no version floor found" — the documented upgrade path did not work for
+# the one audience it was written for (found 2026-08-27 by a migration dry-run on a real host).
+if [ -f "skills/product-prover-pack/SKILL.md" ]; then
+  SKILLS_DIR="skills"
+elif [ -f ".claude/skills/product-prover-pack/SKILL.md" ]; then
+  SKILLS_DIR=".claude/skills"
+else
+  echo "install-external-skills: I could not find the pack's skills in this project."
+  echo "  I looked in skills/ (the pack's own tree) and .claude/skills/ (a project that"
+  echo "  installed the pack), for product-prover-pack, which tells me which version of the"
+  echo "  reviewer this project needs."
+  echo "  If this is a project you attached live-spec to, run the setup walk first."
+  exit 1
+fi
+DEST="$SKILLS_DIR/product-prover"
+ADAPTER="$SKILLS_DIR/product-prover-pack/SKILL.md"
 
 REF=""
 EXPECT=""
