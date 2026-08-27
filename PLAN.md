@@ -431,7 +431,7 @@ Full body (rules, acceptance commands, measurements) preserved in git history: `
 **Covered by:** plan-17 — Each session reads only what it needs. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
-### 🔄 Every made-up number in the system is found and removed — id: q-576
+### ✅ Every made-up number in the system is found and removed — id: q-576
 **Group:** Method reliability · **Priority:** normal
 **Source:** owner 2026-08-07 09:16 (Russian, forceful — "find and root out every invented number").
 **Covered by:** q-489 — Every automatic check proves it can actually catch its problem. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
