@@ -491,6 +491,30 @@ the resume word runs the probe, and the probe is how the work is found at all.
 and `bash scripts/render-board.sh` draws every task in the file, both proved by a test that fails
 if either stops finding them. No second list exists anywhere in the tree.
 
+**The shape of a task, added 27.08 on his word.** A worker is handed a task, never a prompt. The
+task carries, by pointer rather than by copy:
+
+- **Its links.** The task names its feature; the feature names its requirement in the spec; the
+  requirement names its node in the architecture; the node names its rows in the test matrix. The
+  brief is derived from those links by following them, so two workers given the same task get the
+  same brief. What a worker needs is opened by the worker, at the line the pointer names — the same
+  reading discipline this plan asks of a session.
+- **What relevance means.** The links a task carries are settled by its own kind. A wording task
+  points at the text and the rule that governs it. A test repair points at the matrix row and the
+  code. A feature points at all four. A task pointing at nothing is the finding, not a task ready
+  to hand out.
+- **Its definition of done** — a command with an observable result, run by whoever accepts the work
+  rather than by whoever did it. This is the half that stops a false "done", and it is the reason
+  four tasks on this page were closed on a session's word with nothing behind them.
+- **Its subtasks, where it has them.** A task too large for one worker is cut into pieces that name
+  their own done, and the cut says which pieces may run at the same time. Two pieces run together
+  when they write to disjoint files; a piece that needs another's output waits. The board shows
+  that, so the work that can go in parallel is visible without asking.
+
+**Why this belongs here.** The failure it answers is the one he named: a session reports a task
+finished, a later session finds half of it undone, and the day goes to working out which half.
+More context in the brief would not have caught that — a command run at acceptance does.
+
 His word, 27.08: the plan, the board and the queue are one thing. The plan is its text, the board
 is its showing, the queue is its rows. A second list anywhere is the drift, and today there are two
 here — this file with its steps, and `ROADMAP.md` with its rows.
