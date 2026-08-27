@@ -2,7 +2,11 @@
 
 PUSH-REVIEW
 
-Range: cf4366d2..01251b9d (14 commits)
+Range: cf4366d2..01251b9d (14 commits), extended below to 4f7b3851 (one more reviewed commit —
+the skill-review record itself pulled the prover record's own freshness bar forward, SPEC
+INV-304's tail-chase; the other two intervening commits, 669d1f2 and a68a937, touch only
+docs/prover/ and need no review of their own).
+- 4f7b385 Skill review: communicator's rule-9 pointer and the new rule-7 sub-rule
 - 01251b9d A task carries its links, its done, and its parallel cut
 - 1eced2b6 The seven top tasks say what, why now, and when they are done
 - 6bfa99b6 The probe leads with what matters now, across every category
@@ -52,5 +56,13 @@ owning row (55) inside ROADMAP.md's active queue; row 55 is confirmed present in
 under the same purge, and no longer anywhere the test reads as "active." Neither test was touched
 by the two commits that broke its assumption — this is a real gap left by the ROADMAP retirement,
 not a design choice the commits made on purpose.
+
+`4f7b3851` adds `docs/skill-review/2026-08-27-communicator-fact-stated-rule9-pointer.md`, this
+push's own skill-creator review of communicator's rule 9/rule 7 changes — read in full before this
+line was written, not merely committed and trusted: it names two real problems (the file 16 lines
+over its ~500-line ideal, and partial overlap between the new sub-rule and the "honestly /
+no sugar-coating" bullet above it) and states plainly that neither is folded in that pass. Adds no
+new risk of its own — a review record naming open problems honestly is the shape gate s exists to
+require, not a defect in itself.
 
 Blocking: - test_traceability.py::TestQueue.test_roadmap_class_vocabulary and test_traceability.py::TestTargetOwnership.test_targets_owned_by_open_rows are red, caused by `bc6f862b`/`38438eaf`'s ROADMAP.md retirement leaving two tests asserting the old live-ROADMAP shape. stands: out of scope for this pass — the task this record answers for is three named push-gate refusals (this freshness gate, pin drift, and the communicator skill-review gate), not a redesign of the ROADMAP-retirement tests, and closing it correctly needs a decision on where A-6's traceability now lives (PLAN.md's Tasks, or dropped with the row) that this pass has no standing to make. It does not block `guardrails/pre-push` locally: gate b (the full suite) stands down on the local chain by design and runs on the server only (`.github/workflows/gates.yml`, per `guardrails/pre-push`'s own comment at line 54). It will red CI's `python3 -m pytest -q` step on an actual push until it is closed.
