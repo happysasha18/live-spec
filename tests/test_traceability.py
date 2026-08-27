@@ -554,23 +554,35 @@ class TestQueue(unittest.TestCase):
         return rows
 
     def test_roadmap_class_vocabulary(self):
-        head = read("ROADMAP.md").splitlines()
-        header = next(l for l in head if "Wish (plain words)" in l)
-        for col in ("Class", "Status", "Decision / acceptance"):
-            self.assertIn(col, header, "queue missing column: %s" % col)
-        rows = self._rows()
-        self.assertGreater(len(rows), 3, "queue parse failure")
-        # A terminally-closed row moves to that month's dated archive under docs/queue-archive/ in the
-        # SAME commit that closes it — the closing-commit law (SPEC INV-276, ROADMAP row 480), not a
-        # milestone batch; the archive dir must exist once one has happened.
-        self.assertTrue(os.path.isdir(os.path.join(ROOT, "docs", "queue-archive")),
-                        "closed rows gone but no queue archive present")
-        # The armed lint forbids *big* and *far* in the class cell; before arming (the pre-conversion
-        # body still carrying them, a declared conversion delta) the vocabulary check tolerates them.
-        allowed = "bug|small|surface|large" if _queue_armed() else "bug|small|surface|large|big|far"
-        pat = re.compile(r"^(%s)( · (critical|quick win))?$" % allowed)
-        bad = [(r[0], r[2]) for r in rows if not pat.match(r[2])]
-        self.assertEqual(bad, [], "class cells outside the four-word vocabulary (+ priority)")
+        # RE-AIMED 2026-08-27: ROADMAP.md's table (Wish (plain words) | Class | Status |
+        # Decision / acceptance) retired the same day its 142 live rows moved into PLAN.md's
+        # `## Tasks` section (commit bc6f862b). A task there is a header block (Group / Priority
+        # / Source / body prose), not a table row — the Class column's size vocabulary
+        # (bug/small/surface/large) has no successor field anywhere in the new shape; Priority
+        # (critical/normal/quick win) is a different axis and does not stand in for it.
+        #
+        # Both halves of that claim are checked live rather than asserted from memory, so this
+        # test still catches a real drift: if ROADMAP.md stops naming its own retirement, or if
+        # PLAN.md's Tasks section grows a Class field, the check below fails loud instead of
+        # skipping past a change that gives it a subject again.
+        body = read("ROADMAP.md")
+        self.assertIn("retired 2026-08-27", body,
+                      "ROADMAP.md no longer states its own retirement — the class-vocabulary "
+                      "check needs re-examining against whatever replaced the table")
+        plan = read("PLAN.md")
+        start = plan.index("\n## Tasks")
+        end = plan.index("\n## Blockers", start)
+        section = plan[start:end]
+        self.assertNotIn("**Class:**", section,
+                         "PLAN.md's Tasks section grew a Class field — the retired "
+                         "class-vocabulary check has a subject again and should be restored, "
+                         "not left skipped")
+        self.skipTest(
+            "no subject: the Class vocabulary (bug/small/surface/large) that ROADMAP.md's table "
+            "carried has no successor in PLAN.md's task shape (Group/Priority/Source/body, no "
+            "size axis) — retired with the table on 27.08 (commit bc6f862b), law 10's own "
+            "warning against a vacuous pass is why this skips rather than passing on an empty set"
+        )
 
     def test_queue_row_lint_fixtures(self):
         # RED-PROOF (run TODAY, independent of arming): each failure mode is named by its row id, and a
@@ -1435,12 +1447,20 @@ class TestTargetOwnership(unittest.TestCase):
     }
 
     def roadmap_rows(self):
+        """Every `q-<N>` task PLAN.md's `## Tasks` section still carries, by its row number,
+        mapped to its status mark — the rows' real home since the 27.08 rotation (commit
+        bc6f862b) moved ROADMAP.md's 142 live rows there, each keeping its old row number as its
+        task id. A row the provenance purge (commit 38438eaf, same day) declined before the
+        rotation ran never got a task at all, so it is simply absent here — the same way a
+        landed ROADMAP row was rotated out of the live table and stopped showing up in the old
+        reader."""
+        body = read("PLAN.md")
+        start = body.index("\n## Tasks")
+        end = body.index("\n## Blockers", start)
+        section = body[start:end]
         rows = {}
-        for line in read("ROADMAP.md").splitlines():
-            if line.startswith("|") and not line.startswith("|---"):
-                cells = [c.strip() for c in line.strip("|").split("|")]
-                if len(cells) == 5 and cells[0].isdigit():
-                    rows[int(cells[0])] = cells[3]
+        for m in re.finditer(r"(?m)^### (\S+) .*?— id: q-(\d+)\s*$", section):
+            rows[int(m.group(2))] = m.group(1)
         return rows
 
     def target_marker_anchors(self):
@@ -1471,26 +1491,28 @@ class TestTargetOwnership(unittest.TestCase):
 
     def test_targets_owned_by_open_rows(self):
         # RE-PINNED pass-2 (see repin log): re-aimed at the body's own-line `[target]` markers
-        # since the index's fact column is gone under the new format (INV-271). Confirmed
-        # against the real doc: only two own-line markers survive (both under Requirement 102,
-        # trailing criteria cited [E-10, E-6] and [INV-17]), so the observed set is
-        # {E-6, E-10, INV-17} — nine of the twelve previously-mapped anchors (E-7, E-18, A-6,
-        # INV-21, INV-185, INV-198, INV-199, INV-201, INV-244) carry no own-line marker
-        # anywhere in the restored body. Left red — the gap is logged, not narrowed away.
+        # since the index's fact column is gone under the new format (INV-271). The observed set
+        # now matches TARGET_ROW_OWNERS exactly (verified live, not asserted from memory).
         marked = self.target_marker_anchors()
         self.assertEqual(marked, set(self.TARGET_ROW_OWNERS),
                          "the [target] map and the body's own-line markers disagree — a new "
                          "target needs its map entry WITH an owning row; a landed one leaves "
                          "both (SPEC S-0). observed markers: %r" % sorted(marked))
+        # RE-PINNED pass-3 (2026-08-27): ROADMAP.md's rows moved into PLAN.md's ## Tasks section
+        # the same day (commit bc6f862b); roadmap_rows() now reads that section. This surfaces a
+        # real, currently-true gap rather than closing it: row 55 (owning E-6, E-7, E-10, A-6,
+        # INV-17) was declined by the provenance purge (commit 38438eaf) BEFORE the rotation ran,
+        # so it never got a `q-55` task at all — those five anchors are orphaned. Left red on
+        # purpose; re-owning them or dropping their [target] tags is the owner's call, not this
+        # test's.
         rows = self.roadmap_rows()
         for anchor, row_no in sorted(self.TARGET_ROW_OWNERS.items()):
             self.assertIn(row_no, rows,
-                          "%s's owning row %d is not in the ACTIVE queue (landed/archived?) — "
-                          "re-own the target or drop its tag" % (anchor, row_no))
-            status = rows[row_no].lstrip("*").strip().lower()
-            self.assertFalse(status.startswith(("landed", "declined", "superseded")),
-                             "%s's owning row %d is terminal (%r) — a target owned by a closed row "
-                             "is an orphan" % (anchor, row_no, rows[row_no][:60]))
+                          "%s's owning row %d carries no open PLAN.md task (declined/never "
+                          "migrated?) — re-own the target or drop its tag" % (anchor, row_no))
+            self.assertNotEqual(rows[row_no], "✅",
+                             "%s's owning row %d is done (✅) — a target owned by a closed task "
+                             "is an orphan" % (anchor, row_no))
 
     def test_target_nodes_pin_honesty(self):
         arch = read("ARCHITECTURE.md")
