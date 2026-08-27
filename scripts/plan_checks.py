@@ -41,15 +41,26 @@ CHECKS = {
 _HEADER_RE = re.compile(r"^### (\S+) (.+?) — id: (\S+)$")
 _GROUP_RE = re.compile(r"^\*\*Group:\*\*\s*(.+?)\s*·\s*\*\*Priority:\*\*\s*(.+)$")
 _SOURCE_RE = re.compile(r"^\*\*Source:\*\*\s*(.+)$")
+_COVERED_BY_RE = re.compile(r"^\*\*Covered by:\*\*\s*(.+)$")
+_DEFERRED_RE = re.compile(r"^\*\*Deferred:\*\*\s*(.+)$")
+_BLOCKED_BY_RE = re.compile(r"^\*\*Blocked by:\*\*\s*(.+)$")
 
 
 def parse_tasks(text):
     """Parse PLAN.md's `## Tasks` section into a list of task dicts, in file order.
 
-    Each dict carries: mark (the emoji as typed), title, id, group, priority, source (each
-    None if that line was missing), check (CHECKS.get(id)), and body — the remaining lines of
-    the task's block (its full original prose and `**Acceptance:**` line, for the `plan-N`
-    tasks that still carry them), for a caller that wants more than the summary fields.
+    Each dict carries: mark (the emoji as typed), title, id, group, priority, source, covered_by,
+    deferred, blocked_by (each None if that line was missing), check (CHECKS.get(id)), and body —
+    the remaining lines of the task's block (its full original prose and `**Acceptance:**` line,
+    for the `plan-N` tasks that still carry them), for a caller that wants more than the summary
+    fields.
+
+    covered_by/deferred/blocked_by (27.08, his word) are what a reader uses to tell a task that
+    only LOOKS idle apart: covered_by names the task that actually carries this work (a fold
+    pointer); deferred names his own decision to postpone it, not an obstacle; blocked_by names
+    a real, understood cause a ⛔ task can't move past on its own. A ⛔ task with none of the
+    three is a mislabel, not a fourth state — see scripts/state-probe.sh's ranking, the one
+    reader that acts on this distinction today.
     """
     tasks = []
     cur = None
@@ -71,6 +82,9 @@ def parse_tasks(text):
                 "group": None,
                 "priority": None,
                 "source": None,
+                "covered_by": None,
+                "deferred": None,
+                "blocked_by": None,
                 "check": CHECKS.get(m.group(3)),
                 "body": [],
             }
@@ -86,6 +100,18 @@ def parse_tasks(text):
         sm = _SOURCE_RE.match(stripped)
         if sm and cur["source"] is None:
             cur["source"] = sm.group(1)
+            continue
+        cbm = _COVERED_BY_RE.match(stripped)
+        if cbm and cur["covered_by"] is None:
+            cur["covered_by"] = cbm.group(1)
+            continue
+        dm = _DEFERRED_RE.match(stripped)
+        if dm and cur["deferred"] is None:
+            cur["deferred"] = dm.group(1)
+            continue
+        bbm = _BLOCKED_BY_RE.match(stripped)
+        if bbm and cur["blocked_by"] is None:
+            cur["blocked_by"] = bbm.group(1)
             continue
         cur["body"].append(line)
     return tasks

@@ -79,14 +79,43 @@ for t in tasks:
 
 ICON_COLOUR = {"✅": G, "🔄": Y, "⛔": R, "👁️": Y, "⬜": D}
 
+# Ranking eligibility (27.08, his word). "Заблокировано" only means a real, understood cause —
+# a flag, like Jira's, not a feeling. That leaves two things that wore the ⛔/⬜ marks without
+# being either "in progress" or "genuinely blocked": a row folded into the task that actually
+# carries the work (covered_by, with no independent reason of its own), and a row he postponed
+# by his own decision (deferred) — neither is blocked, so neither competes for the board's top
+# slots; they drop out of the current set rather than sitting on it under the wrong label. A ⛔
+# with no blocked_by and no covered_by/deferred either is a mislabel, not a fourth state: it
+# ranks where it actually competes (⬜) so the drift is visible, not asserted away. None of this
+# touches 🔄 or 👁️ — a task already in hand or needing his own decision is live regardless of
+# any fold bookkeeping (all three of today's 🔄 tasks carry a covered_by pointer and are still
+# genuinely being worked).
+for t in tasks:
+    t["rank_icon"] = t["icon"]
+    t["excluded"] = False
+    if t["icon"] not in ("⛔", "⬜"):
+        continue
+    if t["deferred"]:
+        t["excluded"] = True
+    elif t["covered_by"] and not t["blocked_by"]:
+        t["excluded"] = True
+    elif t["icon"] == "⛔" and not t["blocked_by"]:
+        t["rank_icon"] = "⬜"
+
+eligible = [t for t in tasks if not t["excluded"]]
+
 # Priority order for the budget below: needs-his-eyes (only he can move it), then in hand
 # (already running work), then blocked (worth knowing about), then queued (what's next) —
-# filled round-robin, one category at a time, so a single large category (31 blocked today)
-# cannot eat the whole budget and crowd the others out.
+# filled round-robin, one category at a time, so a single large category cannot eat the whole
+# budget and crowd the others out. Category order is the one ranking; critical only breaks ties
+# inside its own category (below) and never crosses into a higher one — a cross-category
+# "critical drains first" pass used to sit here and let a critical but unworkable queued task
+# outrank a task the owner already needed to look at. Removed 27.08 on his word: urgency must
+# never outrank whether a task is actually workable now.
 TASK_LINE_BUDGET = 9  # 9 task lines + 1 summary line = 10, the Canon cap's own top end.
 CATEGORY_ORDER = ["👁️", "🔄", "⛔", "⬜"]
 
-buckets = {icon: [t for t in tasks if t["icon"] == icon] for icon in CATEGORY_ORDER}
+buckets = {icon: [t for t in eligible if t["rank_icon"] == icon] for icon in CATEGORY_ORDER}
 for icon in CATEGORY_ORDER:
     # Critical priority first; ties keep the file's own order. PLAN.md's "## Tasks" preamble
     # already lists critical tasks first, so this is a safety net, not the source of the order
@@ -96,17 +125,6 @@ for icon in CATEGORY_ORDER:
 shown = []
 idx = {icon: 0 for icon in CATEGORY_ORDER}
 budget = TASK_LINE_BUDGET
-
-# Critical first, across every category. A task marked critical was judged to matter now — that
-# judgment outranks which bucket it happens to sit in, so a critical queued task beats a normal
-# blocked one. Within critical, the file's own order stands. Only once every critical is shown
-# does the round-robin below fill what's left, so no single large category crowds the others out.
-for icon in CATEGORY_ORDER:
-    while budget > 0 and idx[icon] < len(buckets[icon]) and \
-            (buckets[icon][idx[icon]]["priority"] or "").strip().lower() == "critical":
-        shown.append(buckets[icon][idx[icon]])
-        idx[icon] += 1
-        budget -= 1
 
 progressed = True
 while budget > 0 and progressed:
@@ -133,7 +151,11 @@ for t in shown:
         next_title = t["title"]
     verified = f"{D}verified{X}" if t["verified"] else f"{D}declared{X}"
     colour = ICON_COLOUR.get(t["icon"], D)
-    print(f"  {t['icon']} {colour}{t['title']}{X}  {D}({t['id']}){X} {verified}{tag}")
+    reason = ""
+    if t["icon"] == "⛔" and t["blocked_by"]:
+        r = t["blocked_by"].strip()
+        reason = f" {D}— {r[:39].rstrip() + '…' if len(r) > 40 else r}{X}"
+    print(f"  {t['icon']} {colour}{t['title']}{X}  {D}({t['id']}){X} {verified}{reason}{tag}")
 
 shown_ids = {t["id"] for t in shown}
 done_count = sum(1 for t in tasks if t["icon"] == "✅")
@@ -166,23 +188,38 @@ if [ -f evals/director/check.py ]; then
   esac
 fi
 
-# required context: what loads on every session start
-CTX_BYTES=$(cat skills/live-spec-base/SKILL.md skills/director/SKILL.md 2>/dev/null | wc -c | tr -d ' ')
-CTX_TOK=$(python3 - <<'EOF' 2>/dev/null
+# required context: what actually loads before a session takes its first step —
+# the boot file and profile every session reads, plus base + director (plan-17,
+# q-570/q-584/q-205: the old number counted only the last two and missed the rest).
+CTX_FILES="$HOME/.claude/CLAUDE.md $HOME/.claude/live-spec/profile.md skills/live-spec-base/SKILL.md skills/director/SKILL.md"
+CTX_BYTES=$(cat $CTX_FILES 2>/dev/null | wc -c | tr -d ' ')
+CTX_TOK=$(python3 - "$CTX_FILES" <<'EOF' 2>/dev/null
 import sys
 try:
     import tiktoken
     enc = tiktoken.get_encoding("cl100k_base")
     t = 0
-    for p in ("skills/live-spec-base/SKILL.md", "skills/director/SKILL.md"):
+    for p in sys.argv[1].split():
         t += len(enc.encode(open(p, encoding="utf-8").read()))
     print(t)
 except Exception:
     print("")
 EOF
 )
+PLAN_TOK=$(python3 - <<'EOF' 2>/dev/null
+try:
+    import tiktoken
+    enc = tiktoken.get_encoding("cl100k_base")
+    print(len(enc.encode(open("PLAN.md", encoding="utf-8").read())))
+except Exception:
+    print("")
+EOF
+)
 if [ -n "$CTX_TOK" ]; then
-  echo "  required context: $CTX_TOK tokens (base + director, $CTX_BYTES bytes)"
+  echo "  required context (boot + profile + base + director): $CTX_TOK tokens ($CTX_BYTES bytes)"
+  if [ -n "$PLAN_TOK" ]; then
+    echo "  + PLAN.md whole: $PLAN_TOK tokens — take a step with scripts/plan-step.sh <id> instead"
+  fi
 else
   echo "  required context: $CTX_BYTES bytes (tiktoken unavailable)"
 fi

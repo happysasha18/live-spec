@@ -43,13 +43,14 @@ NEEDED = ("PLAN.md", "scripts/state-probe.sh", "scripts/render-board.sh", "scrip
 _ANSI_RE = re.compile(r"\x1b\[[0-9;]*m")
 
 # state-probe.sh prints one PLAN line per shown task as:
-#   "  <icon> <title>  (<id>) <verified-or-declared>[  <-- NEXT]"
+#   "  <icon> <title>  (<id>) <verified-or-declared>[ — <reason>][  <-- NEXT]"
 # (scripts/state-probe.sh's embedded python: `print(f"  {t['icon']} {colour}{t['title']}{X}  "
-#  f"{D}({t['id']}){X} {verified}{tag}")`). The icon is one of the plan's five marks and the
-# trailing tag is always "verified" or "declared" — stripping ANSI colour codes first, then
-# peeling those off both ends, leaves exactly the title text.
+#  f"{D}({t['id']}){X} {verified}{reason}{tag}")`). The icon is one of the plan's five marks and
+# the trailing tag is always "verified" or "declared", optionally followed by a ranked ⛔ task's
+# own blocked_by reason (27.08) — stripping ANSI colour codes first, then peeling those off both
+# ends, leaves exactly the title text.
 _PROBE_LINE_RE = re.compile(
-    r"^(?:✅|🔄|⛔|⬜|👁️)\s+(.+?)\s+\(\S+\)\s+(?:verified|declared)(?:\s*<-- NEXT)?\s*$"
+    r"^(?:✅|🔄|⛔|⬜|👁️)\s+(.+?)\s+\(\S+\)\s+(?:verified|declared)(?:\s+—\s+.+?)?(?:\s*<-- NEXT)?\s*$"
 )
 
 # render-board.sh's card markup: `<div class="handle">Title <span class="chip">...`

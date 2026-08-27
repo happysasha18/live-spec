@@ -146,14 +146,34 @@ The main plan is **always one file: `~/live-spec/PLAN.md`.** Never start a secon
 
 ## Tasks
 
-One list: the plan's own steps and the former ROADMAP.md queue, merged 27.08 per step 11. Order: critical, then in hand, then the plan's own steps in their existing order, then everything else by group. Marks: ✅ done · 🔄 in hand · ⬜ queued · ⛔ blocked · 👁️ needs his eyes — the same five the Canon report itself uses. Former ROADMAP.md rows are archived verbatim at `docs/queue-archive/rotated-ROADMAP-2026-08-27-merged-into-plan.md`.
+One list: the plan's own steps and the former ROADMAP.md queue, merged 27.08 per step 11. Order: needs his eyes, then in hand, then blocked, then queued; critical heads its own group first and never another's — urgency never outranks whether a task is actually workable now (27.08, his word). Marks: ✅ done · 🔄 in hand · ⬜ queued · ⛔ blocked · 👁️ needs his eyes — the same five the Canon report itself uses. Former ROADMAP.md rows are archived verbatim at `docs/queue-archive/rotated-ROADMAP-2026-08-27-merged-into-plan.md`.
 
-### 🔄 Your photo site's move to new tools begins — id: plan-9
+### ⬜ Your photo site's move to new tools begins — id: plan-9
 **Group:** Cross-project · **Priority:** critical
 **Source:** PLAN.md step 9, dated 27.08 — dry-run and inventory done; `scripts/install-external-skills.sh` "does not work against a host at all... it blocks the documented path."
-Note: mapped "in hand" though the step's own checkbox reads not-started — the step's own text says "Done 27.08, everything up to the live host," a contradiction worth the owner's eye.
+**Deferred:** after the release (his word) — not blocked, his own decision to hold it.
+Note (resolved 27.08): the earlier "in hand" mark disagreed with "everything up to the live host is done" — resolved by re-running the dry run end to end (below). Every action this window can take is finished and proven; what remains is a walk in a `~/tlvphotos` session, which this window does not run. Marked ⬜, waiting on that session and the owner's own "after the release" timing, not 🔄.
 
 The owner's decision: after the release. tlvphotos is live, on pack 2.7.0, last touched 26.08.
+
+**Re-verified 27.08, with the fixed installer:** the 09:49 dry run found `install-external-skills.sh`
+broken against a host layout; it was fixed the same morning (`8a076e76`, 10:31). A second dry run,
+on a fresh throwaway clone, ran both host actions the walk needs — `sync-skills.sh` then the fixed
+`install-external-skills.sh` — back to back. Result: 13 skills refreshed 2.7.0 → 6.0.0 (four new:
+`architect`, `director`, `product-prover-pack`, `text-audit-pack`; six stale reference files
+removed, not nine as the first dry run counted), `director` present, `product-prover` correctly
+swapped for an external clone at floor `1.4.0`. `git status --porcelain` on the copy showed changes
+confined to `.claude/skills/` plus the owner's own pre-existing WIP (`NEXT_STEPS.md`,
+`lab/CROSSING-BRIEF.md`, `lab/CROSSING-HISTORY.md`, `PLAN.md`) — nothing else. The copy was a
+throwaway clone, discarded after; the live host was never touched.
+
+A full, step-by-step walk brief for a `~/tlvphotos` session already sits at
+`~/tlvphotos/inbox/2026-08-27-live-spec-6.0.0-catchup.md`, written and adversarially reviewed
+earlier today. It carries its own rules (never freeze the live tree, touch only
+`.claude/skills/`/`.live-spec/`/`.gitignore`/one `JOURNAL.md` chapter, prove every acceptance with a
+pasted command), its own state file (`.live-spec/adopt/2026-08-27-catchup-6.0.0.md`, created at its
+step 0), and files two follow-up wishes back to this pack's own inbox at its step 8. Nothing further
+is owed from this side until that walk runs and reports back.
 
 - An inventory of the drift: what's renamed (`SPEC.md` instead of `PRODUCT_SPEC.md`,
   `SURFACE_REGISTRY.md`, `VISION.md`, `TASTE.md`, `FEATURE_INVENTORY.md`), what's fallen behind,
@@ -382,13 +402,13 @@ The probe reads step statuses from acceptance commands; the board renders as a p
 Full body (rules, acceptance commands, measurements) preserved in git history: `git log -p -- PLAN.md`, the step's own text before the 27.08 task-list merge.
 
 
-### 🔄 The cost of every extra process step is measured and justified — id: q-568
+### ✅ The cost of every extra process step is measured and justified — id: q-568
 **Group:** Budget & economy · **Priority:** normal
 **Source:** owner 2026-08-07, 00:17–01:10.
 **Covered by:** plan-17 — Each session reads only what it needs. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
-### 🔄 Every new session's starting weight is measured and trimmed — id: q-570
+### ✅ Every new session's starting weight is measured and trimmed — id: q-570
 **Group:** Budget & economy · **Priority:** normal
 **Source:** owner 2026-08-07 00:17.
 **Covered by:** plan-17 — Each session reads only what it needs. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
@@ -721,7 +741,7 @@ ask-never-guess family · the gate reds on a planted second copy and passes the 
 the home for a rule it has never seen, in a recorded run.
 
 
-### ⬜ Each session reads only what it needs — id: plan-17
+### ✅ Each session reads only what it needs — id: plan-17
 **Group:** Budget & economy · **Priority:** critical
 **Source:** PLAN.md step 17, owner 27.08 — "план возможно тоже не надо грузить целиком всегда." <!-- user-language -->
 **Closes:** q-570, q-584, q-568, q-575, q-507, q-457, q-205, q-140
@@ -1093,7 +1113,7 @@ Note: deferred by his own placement, not by a problem.
 **Source:** found 2026-08-12.
 
 
-### ⬜ The startup file carries only what it truly needs — id: q-205
+### ✅ The startup file carries only what it truly needs — id: q-205
 **Group:** Method housekeeping · **Priority:** quick win
 **Source:** homeless backlog item, homed 2026-07-10.
 **Covered by:** plan-17 — Each session reads only what it needs. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
@@ -1202,7 +1222,7 @@ Note: held for the owner: the row's final shape depends on a policy answer he ha
 **Source:** found 2026-08-19.
 
 
-### ⛔ New projects learn who they're building for — id: q-54
+### ⬜ New projects learn who they're building for — id: q-54
 **Group:** Onboarding & founding · **Priority:** normal
 **Source:** owner 2026-07-05.
 **Closes:** q-129, q-190, q-93, q-236, q-488, q-496, q-421, q-400
@@ -1244,7 +1264,7 @@ Note: held for the owner: the row's final shape depends on a policy answer he ha
 **Covered by:** q-54 — New projects learn who they're building for. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
-### ⛔ The product's performance after launch is tracked automatically — id: q-48
+### ⬜ The product's performance after launch is tracked automatically — id: q-48
 **Group:** Feedback & measurement · **Priority:** normal
 **Source:** owner 2026-07-05.
 **Closes:** q-49, q-96, q-100, q-469
@@ -1280,7 +1300,7 @@ Note: held for the owner: the row's final shape depends on a policy answer he ha
 **Covered by:** plan-17 — Each session reads only what it needs. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
-### ⛔ One command safely winds down all the work before you leave — id: q-235
+### ⬜ One command safely winds down all the work before you leave — id: q-235
 **Group:** Budget & economy · **Priority:** normal
 **Source:** owner 2026-07-10 ~13:30, from a café.
 
@@ -1297,7 +1317,7 @@ Note: held for the owner: the row's final shape depends on a policy answer he ha
 **Covered by:** plan-17 — Each session reads only what it needs. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
 
-### ⬜ Sessions save tokens by reading only what they need — id: q-584
+### ✅ Sessions save tokens by reading only what they need — id: q-584
 **Group:** Budget & economy · **Priority:** normal
 **Source:** deposit 2026-08-07 14:14 — owner: "work so as to spare the context."
 **Covered by:** plan-17 — Each session reads only what it needs. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
@@ -1417,6 +1437,7 @@ mass removal without that measurement is exactly the failure this line exists to
 **Group:** Parallel & multi-agent work · **Priority:** normal
 **Source:** 2026-07-17/18.
 **Covered by:** q-386 — Independent work actually runs in parallel branches, proven live. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
+**Blocked by:** waiting for agent-to-agent messaging support in the tool itself — not his decision, a real absence.
 Stays deferred, not far, by its own mechanical trigger: `guardrails/check-listener-tripwire.py`
 re-scans every queue-take for a session record naming a live listener (INV-129), and re-opens this
 row the day one exists.
@@ -1433,7 +1454,7 @@ row the day one exists.
 **Source:** owner 2026-07-27 evening.
 
 
-### ⛔ Learn from other frameworks to improve the method — id: q-44
+### ⬜ Learn from other frameworks to improve the method — id: q-44
 **Group:** Research & big questions · **Priority:** normal
 **Source:** owner 2026-07-05.
 
@@ -1443,7 +1464,7 @@ row the day one exists.
 **Source:** owner 2026-07-05 evening — "this is a marathon not a sprint."
 
 
-### ⛔ Struggling twice triggers a search for an existing fix — id: q-165
+### ⬜ Struggling twice triggers a search for an existing fix — id: q-165
 **Group:** Research & big questions · **Priority:** normal
 **Source:** owner 2026-07-07 ~08:28.
 
@@ -1782,6 +1803,26 @@ One line per finding. Don't move it into ROADMAP. Don't fix it without the owner
   not a pack defect and not a reason to add a hook; the fix is that the owner doesn't start
   live-spec work from under a `--safe-mode` window (or explicitly decides to keep it that way and
   live without a clock in replies).
+- **plan-17 closed: a session's real starting weight, measured; the ponytail question, answered
+  without installing it.** The old "required context" line counted two skill files and missed the
+  boot file and profile that also load every session — real floor is 17,575 tokens (was reported as
+  14,294). On top of that floor, the boot instruction told every session to read `PLAN.md` whole:
+  30,815 tokens, before any task-specific reading starts. `scripts/plan-step.sh <id>` now opens one
+  task's own section (a few hundred tokens) instead, and `live-spec/CLAUDE.md` points there instead
+  of at "read it whole." Ponytail: declined, not deferred. His own source note already carries the
+  numbers — an independent benchmark found it worth about a tenth off cost against a claimed fifth,
+  and it works by injecting its ruleset into every session. That is new fixed weight added to the
+  same floor this item just cut by two-thirds; a benefit smaller than claimed does not clear a cost
+  added to the thing being shrunk.
+  **Found while closing it: the fold overclaimed.** plan-17's own "Closes:" line names eight ids;
+  four are real duplicates of "a session reads only what it needs," including q-568 itself, the
+  00:17–01:10 cost audit this row's own text traces to (q-570, q-584, q-205, q-568), and are closed
+  with it. The other four — q-575 (test tempo), q-507 (expensive AI help used sparingly),
+  q-457 (weekly spend tracked, cheaper workers used more), q-140 (what to trim when money or time
+  run short) — are distinct budget questions the 27.08 relevance pass folded into this row without
+  this row's work touching any of them. Left open, unclosed by this session; the "Closes:" line
+  itself needs a correction this session has no standing to make (PLAN.md's own rule: a task's
+  text changes only with the owner's consent).
 
 ---
 

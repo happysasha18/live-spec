@@ -50,9 +50,9 @@ _DECLARED_HEADER_RE = re.compile(r"^### \S+ .+? — id: (\S+)$")
 # LAST " · " and the closing tag — the lazy .*? backtracks to find that split correctly.
 _BOARD_META_ID_RE = re.compile(r'<div class="meta">.*? · (\S+)</div>')
 
-# state-probe.sh's PLAN line: "  <icon> <title>  (<id>) <verified-or-declared>[  <-- NEXT]"
+# state-probe.sh's PLAN line: "  <icon> <title>  (<id>) <verified-or-declared>[ — <reason>][  <-- NEXT]"
 _PROBE_LINE_RE = re.compile(
-    r"^(?:✅|🔄|⛔|⬜|👁️)\s+.+?\s+\((\S+)\)\s+(?:verified|declared)(?:\s*<-- NEXT)?\s*$"
+    r"^(?:✅|🔄|⛔|⬜|👁️)\s+.+?\s+\((\S+)\)\s+(?:verified|declared)(?:\s+—\s+.+?)?(?:\s*<-- NEXT)?\s*$"
 )
 # state-probe.sh's summary line: "  … N more below · M done · full list in PLAN.md / board.html"
 _PROBE_SUMMARY_RE = re.compile(r"… (\d+) more below · (\d+) done")
