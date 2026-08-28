@@ -491,10 +491,23 @@ class TestGateB_Tests(unittest.TestCase):
 
         Excluded, as before: the pack's own root `.git` — the copy is deliberately git-less, and
         several checks skip themselves by that name — and `__pycache__` anywhere.
+
+        Excluded as of 2026-08-28: `.claude/worktrees`, which holds other sessions' checkouts of
+        this same repository. Git lists none of their files, so no check reading the real tree has
+        ever seen them; the copy has no git to ask, and every check that falls back to walking the
+        filesystem then reads three more copies of the pack's own documents as if they were content
+        of the tree under test. The authority-anchor gate is where it showed — 89 findings, all of
+        them in files git would never have listed, including the deliberately unanchored fixtures
+        that gate ships to prove itself. The copy is meant to read as the real tree reads, and a
+        foreign checkout inside it is the one thing that makes it read otherwise. This holds for
+        any worktree any session opens, not the three that happened to be standing.
         """
         ignored = {n for n in names if n == "__pycache__"}
         if os.path.realpath(directory) == os.path.realpath(ROOT):
             ignored.update(n for n in names if n == ".git")
+        if os.path.basename(directory) == ".claude" and \
+                os.path.realpath(os.path.dirname(directory)) == os.path.realpath(ROOT):
+            ignored.update(n for n in names if n == "worktrees")
         return ignored
 
     def _scratch_tests_dir(self, tmp):
