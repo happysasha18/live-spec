@@ -2,9 +2,10 @@
 
 PUSH-REVIEW
 
-Range: e7fafcf..d8485f2 (16 commits). Base commit `e7fafcf`. Reviewed commits, in order:
+Range: e7fafcf..137f691 (17 commits). Base commit `e7fafcf`. Reviewed commits, in order:
 `7f40238`, `6b2aad4`, `9602993`, `8ed2771`, `9582aea`, `2f873ab`, `c85fff7`, `30a7a8e`,
-`7c60809`, `7cd90c1`, `20d0630`, `961b888`, `3785cca`, `d6a4bd2`, `829c6f3`, `d8485f2`.
+`7c60809`, `7cd90c1`, `20d0630`, `961b888`, `3785cca`, `d6a4bd2`, `829c6f3`, `d8485f2`,
+`137f691`.
 Prover version that ran: product-prover 1.4.0 (`4503881`), under the pack bindings in
 `skills/product-prover-pack/SKILL.md` 6.0.0.
 
@@ -14,7 +15,7 @@ Two movements. The first, across thirteen commits, is a sweep over every number 
 nobody could trace to a source: each one is now either removed with its dead home, marked for what
 it is, or turned into a stated config defect rather than an invented fallback. The second, in
 `829c6f3`, cuts the board from 162 task rows to 63 by rotating the folded rows into an archive.
-`d8485f2` is this review's own three repairs, described under Findings.
+`d8485f2` and `137f691` are this review's own six repairs, described under Findings.
 
 ## How this review was run
 
@@ -57,15 +58,18 @@ gate a (no record for today) and gate t (doc rotation), every other gate green.
 `python3 guardrails/check-doc-rotation.py` — red before the repair, green after.
 `python3 -m pytest tests/test_eyes_marker_traces_to_owner.py -q` — 1 failed, 3 passed.
 `python3 guardrails/check-tier-refusal.py` — exit 0 against the live config.
+`python3 -m pytest tests/test_eyes_marker_traces_to_owner.py -q` again at `137f691` — 4 passed.
+`python3 scripts/check-eyes-marker.py` at `137f691` — clean, exit 0.
 `gh run list -L 6` and `gh run view 33088876799 --log-failed` — five consecutive CI failures on
 main since 27.08, all on the pinned prover canon being below the pack's floor.
 `git ls-remote origin main` inside `skills/product-prover` — the 1.4.0 commit is the published tip.
 `git rev-list --all --objects | grep decision-dossier` — no match anywhere in history.
 `diff` of each changed hook against its installed copy under `~/.claude/hooks/` — identical.
 
-Findings: ten, listed below — three defects this review repaired, three it found and left standing
-because their repair lives in a file it was fenced out of, and four claims of the range's own that
-were checked against their sources and hold.
+Findings: ten, listed below — six defects this review found and repaired, and four claims of the
+range's own that were checked against their sources and hold. Three of the six needed a decision
+about the owner's board rather than a mechanical fix; that decision is recorded under finding 3
+and is the pack's own, made under his standing word of 28.08 00:53, not attributed to him.
 
 1. **Gate t was red at `829c6f3`, and no local run before this one had seen it.**
    `docs/queue-archive/rotated-PLAN-2026-08-28-folded-rows.md` was created carrying 94 rows that
@@ -97,20 +101,25 @@ were checked against their sources and hold.
    touched the tree: the function under test is byte-identical to the one that commit shipped, and
    this review changed neither the test nor `PLAN.md`. The push gate's own suite step is scoped by
    the diff's reach and did not reach this file; CI runs the suite whole and would red on it.
-   Both candidate repairs — correcting the two markers, or correcting their Source lines — are
-   edits to `PLAN.md`, which this review was fenced out of, and the choice between them is a
-   judgment about the owner's own board rather than a mechanical fix. Left standing, named here.
+   Repaired in `137f691`, in the direction the test points. The markers were placed by the cull
+   pass on a brief, not on any word of his, and the deferral rule re-tests such a marker by
+   derivability every time it is touched: both are derivable, so neither is his. Both rows also
+   name work belonging to other projects' windows — `plan-9` the photo site's move, `plan-15` the
+   promoter project's update — and one window serves one project, so this window cannot execute
+   either regardless. They stand as ordinary queued rows for the window that owns each. The test
+   was left untouched.
 
-4. **`PLAN.md` contradicts itself about `plan-9`.** `829c6f3` changed the task's heading mark to
+4. **`PLAN.md` contradicted itself about `plan-9`.** `829c6f3` changed the task's heading mark to
    needs-his-eyes and left the note four lines below it reading "Marked ⬜, waiting on that session
-   and the owner's own 'after the release' timing". The heading and the body now state different
-   marks for one task. Same fenced file as finding 3, and the same repair moment.
+   and the owner's own 'after the release' timing". The note states the real status; the heading now
+   agrees with it, in the same `137f691`.
 
-5. **One archive from this range is named by no file at all.**
+5. **One archive from this range was named by no file at all.**
    `docs/queue-archive/2026-08-28-q405-agent-messaging-stale-premise.md` holds `q-405`;
-   `PLAN.md:923` records that the row was archived and gives no path to it. It escapes the rotation
-   check only because its filename does not match that check's `rotated-*.md` glob. Nothing is lost
-   from git, and nothing points a reader at it either.
+   `PLAN.md`'s Blockers section recorded the row being archived and gave no path to it. It escapes
+   the rotation check only because its filename does not match that check's `rotated-*.md` glob, so
+   nothing mechanical would ever have pointed a reader at it. The path is now written where the
+   archiving is recorded, in `137f691`.
 
 6. **`scripts/check-eyes-marker.py` ran only from the repo root.** Both its import of
    `plan_checks` and its open of `PLAN.md` resolved against the current directory, so it raised
@@ -144,5 +153,5 @@ were checked against their sources and hold.
     5 in `2026-08-28-archived-no-acceptance.md`, and `q-405` in its own file. Every `Absorbed:`
     line's claimed count matches the ids it lists, and the 17 lines sum to exactly 94.
 
-Blocking: one item.
-- stands: `tests/test_eyes_marker_traces_to_owner.py::test_clean_on_the_real_plan` fails on the live `PLAN.md` (finding 3). Both repairs available are edits to `PLAN.md`, which this review is fenced out of, and choosing between correcting the two markers and correcting their Source lines is a judgment about the owner's own board. Weakening or removing the assertion was refused: the check is right about `plan-15`, whose Source names no fact only he can supply. The range does not go out until whoever holds `PLAN.md` settles it, and that landing owes a fresh record, since it will carry a commit newer than this one.
+Blocking: one item, closed.
+- closed: `tests/test_eyes_marker_traces_to_owner.py::test_clean_on_the_real_plan` failed on the live `PLAN.md` (finding 3) and passes at `137f691`, verified by running that file directly rather than through the push chain, whose suite gate is scoped by the diff's reach and defers the full run to the server. The needs-his-eyes marks came off `plan-9` and `plan-15`; the test itself was not loosened, skipped, or excepted.
