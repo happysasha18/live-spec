@@ -4,6 +4,15 @@ His word, verbatim reason: "сообщение между агентами уж�
 — agent-to-agent messaging already works in the harness; wire it up when actually needed, not
 tracked as a pending row until then.
 
+## Index
+
+One line for the archived row, findable by its own number — the pointer a reader who greps the
+live list for that number follows to get here.
+
+| # | Wish (plain words) | Class | Status | Decision / acceptance |
+| --- | --- | --- | --- | --- |
+| 405 | Instant messaging between agents turns on once the tool supports it | archive | declined 2026-08-28 | the blocking premise is stale, on the owner's word of 2026-08-28 00:44; the row's full text stands below |
+
 ## What it was
 
 ```

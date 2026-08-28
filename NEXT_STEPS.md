@@ -35,10 +35,29 @@ shape and no other, so it could not be run on anything in the live tree. It reti
 `attic/rotate-doc.py` rather than learning the board's shape, since a task leaves the board rarely
 and by hand, and building it a road for that journey would be machinery serving itself. What the
 tool guaranteed by construction — the archive and its manifest line written as one act — the
-rotation gate now proves on every push, in both directions, so a hand that writes one half and
-forgets the other is named at the gate.
+rotation gate proves on every push for an archive named `rotated-*.md`, in both directions, so a
+hand that writes one half and forgets the other is named at the gate. That reach is the whole of
+it: the gate reads the archives its own naming convention picks out, and three archives written on
+28.08 under other names sat outside it until they were renamed into the convention. An archive
+named some other way is still invisible to the gate, and the naming is what a hand has to get
+right.
 
 **Owed and unwritten:** a `JOURNAL.md` entry for the prover-description movement (`85b659d1`).
+
+**Red at this pause, and what clears it.** The rotation gate reds until `PLAN.md`'s manifest block
+gains three lines for the archives renamed into the convention on 28.08. `PLAN.md` belongs to
+another lane, so the lines are written out here rather than added:
+
+```
+- rows 44, 95, 165, 193, 243 → docs/queue-archive/rotated-PLAN-2026-08-28-no-acceptance.md
+- rows 596 → docs/queue-archive/rotated-PLAN-2026-08-28-no-reachable-outcome.md
+- rows 405 → docs/queue-archive/rotated-PLAN-2026-08-28-q405-agent-messaging-stale-premise.md
+```
+
+They go inside the existing `<!-- rotated-manifest -->` block. The same section's prose names all
+three archives by their old filenames at lines 1211, 1225 and 1238, and those pointers want
+repointing in the same edit. With the three lines in place the gate returns OK, checked against a
+scratch copy of the plan.
 
 ## Where the numbers live
 

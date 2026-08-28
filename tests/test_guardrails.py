@@ -756,6 +756,11 @@ class TestGateE_PrototypeFence(unittest.TestCase):
             self._write(tmp, "prototype/sketch.html", "<html>sketch</html>\n")
             self._write(tmp, "JOURNAL.md", "Tried prototype/sketch.html today, promising.\n")
             self._write(tmp, "docs/note.md", "See prototype/sketch.html for the sketch.\n")
+            # The live task list is a narrative home too. It was ROADMAP.md when this gate was
+            # written and it is PLAN.md here since the queue retired; a task's own prose naming
+            # the sketch it produced is a mention, never a wiring fault (28.08).
+            self._write(tmp, "PLAN.md", "### A task that produced prototype/sketch.html\n")
+            self._write(tmp, "ROADMAP.md", "| 7 | look at prototype/sketch.html | ... |\n")
             self._commit_all(tmp)
             result = run([os.path.join(GUARDRAILS, "check-prototype-fence.sh"), tmp], cwd=ROOT)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)

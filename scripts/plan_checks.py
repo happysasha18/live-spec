@@ -72,9 +72,15 @@ sys.exit(1 if undrawn or unmarked else 0)
     # The positive arm is there on purpose: a bare "the numbers are absent" would go green on a
     # rulebook that had been deleted.
     "plan-7": "test -f attic/live-spec-base-unbacked-rules-2026-08-26.md && grep -q '^36\\. \\*\\*' skills/live-spec-base/SKILL.md && ! grep -qE '^(11|14|15|18|19|20|21|23|28|30|32|33|34|35)\\. \\*\\*' skills/live-spec-base/SKILL.md",
-    # plan-17: the measured floor stands in the plan, the per-step reader exists, and the project's
-    # own boot file sends a session there rather than at the whole plan.
-    "plan-17": "grep -q '17,575' PLAN.md && test -x scripts/plan-step.sh && grep -q 'plan-step.sh' CLAUDE.md",
+    # plan-17: the per-step reader exists and the project's own boot file sends a session there
+    # rather than at the whole plan. The arm that grepped the plan for the literal token count
+    # `17,575` came off 2026-08-28: the boot files it measures move whenever they are edited, so
+    # that arm redded the moment somebody corrected the plan's number to the measured one — a
+    # check that punishes the repair it is supposed to protect. The number itself is a past
+    # measurement, and the plan says so in its own words ("a past measurement is not a state a
+    # check can re-read"); no bound replaces it, because any bound here would be a threshold
+    # nobody measured.
+    "plan-17": "test -x scripts/plan-step.sh && grep -q 'plan-step.sh' CLAUDE.md",
     # q-458: the audit is its own external skill, installed, with this pack's binding and the lints
     # it declares per text surface.
     "q-458": 'test -d "$HOME/.claude/skills/text-audit" && test -f skills/text-audit-pack/SKILL.md && test -f .text-audit/lints.json',
@@ -105,6 +111,44 @@ sys.exit(1 if undrawn or unmarked else 0)
     # wired as a hook — the row's own "standing here, not merely built".
     "q-624": 'test -f "$HOME/.claude/hooks/worker-restore-guard.py" && cmp -s "$HOME/.claude/hooks/worker-restore-guard.py" hooks/worker-restore-guard.py && grep -q worker-restore-guard "$HOME/.claude/settings.json"',
 }
+
+def reads_outside_the_tree(command):
+    """True when a key reaches for state git does not carry — a path under the person's home.
+
+    Such a key goes red on a fresh clone for a reason about the machine rather than about the
+    project, and a reader who is not told that reads an alarm where there is none. Derived from
+    the command's own text rather than kept as a list of ids, so a key written tomorrow is
+    covered the day it is written.
+    """
+    return "$HOME" in command or "~/" in command
+
+
+def key_failure_note(command, result):
+    """One short line saying why a done task's acceptance command failed.
+
+    Both readers of the plan print this, so the board and the Canon give one account. It carries
+    the command's own first printed line where the command printed one — those messages already
+    name the missing thing and the way to put it back — and it says when the key reached outside
+    the tracked tree.
+    """
+    first = ""
+    for stream in (result.stdout, result.stderr):
+        if not stream:
+            continue
+        text = stream.decode("utf-8", "replace") if isinstance(stream, bytes) else stream
+        for line in text.splitlines():
+            if line.strip():
+                first = line.strip()
+                break
+        if first:
+            break
+    note = "its acceptance command fails"
+    if reads_outside_the_tree(command):
+        note += ", and that command reads this machine rather than the tree"
+    if first:
+        note += " — " + (first[:80].rstrip() + "…" if len(first) > 80 else first)
+    return note
+
 
 # A task header looks like "### <mark emoji> <Task Name> — id: <plan-N|q-N>" — no brackets
 # around the mark, an em dash before "id:". The title is matched non-greedy so a title that

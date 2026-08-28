@@ -117,5 +117,5 @@ def test_row_405_carries_the_trigger_wherever_the_row_now_lives():
     # again can find the mechanical trigger beside the row, rather than re-deriving it from
     # memory. The law itself (INV-231) is guarded by the three tests above, which read the spec,
     # the architecture and the matrix and are untouched by the row's move.
-    archived = read("docs/queue-archive/2026-08-28-q405-agent-messaging-stale-premise.md")
+    archived = read("docs/queue-archive/rotated-PLAN-2026-08-28-q405-agent-messaging-stale-premise.md")
     assert "check-listener-tripwire" in archived

@@ -1,7 +1,6 @@
 {
   "spec_path": "PRODUCT_SPEC.md",
   "matrix_path": "TEST_MATRIX.md",
-  "queue_path": "ROADMAP.md",
   "tests_dir": "tests",
   "user_facing_globs": [
     "skills/**/SKILL.md",

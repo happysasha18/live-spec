@@ -440,3 +440,77 @@ def test_a_plan_task_taken_in_hand_owes_nothing(tmp_path):
 
     r = _run_check(repo, base)
     assert r.returncode == 0, r.stdout + r.stderr
+
+
+# ---------------------------------------------------------------------------
+# The LIVE ARCHIVE trigger (2026-08-28): a done task ROTATED off the board.
+#
+# The arm above sees a mark flip in place. Rotation is the other way a row closes — the block
+# leaves PLAN.md for docs/queue-archive/ and nothing is added to the live list — and the PLAN arm
+# shipped without it on the day rotation became live practice.
+def _plan_archive(rid="plan-11", mark="✅", title="Some task"):
+    return "# Rotated off PLAN.md\n\n### %s %s — id: %s\n\nBody.\n" % (mark, title, rid)
+
+
+def test_a_done_task_rotated_into_the_archive_without_next_steps_reds(tmp_path):
+    repo = _init_repo(tmp_path)
+    _write(repo, "PLAN.md", _plan_task("✅"))
+    _write(repo, "NEXT_STEPS.md", "state\n")
+    base = _commit(repo, "base")
+
+    _write(repo, "PLAN.md", PLAN_HEAD)
+    _write_sub(repo, "docs/queue-archive/rotated-PLAN-2026-08-28-done.md", _plan_archive())
+    _commit(repo, "rotate the done row off the board, no NEXT_STEPS touch")
+
+    r = _run_check(repo, base)
+    out = r.stdout + r.stderr
+    assert r.returncode != 0, out
+    assert "plan-11" in out
+    assert "INV-242" in out
+
+
+def test_a_done_task_rotated_into_the_archive_beside_a_refresh_passes(tmp_path):
+    repo = _init_repo(tmp_path)
+    _write(repo, "PLAN.md", _plan_task("✅"))
+    _write(repo, "NEXT_STEPS.md", "state\n")
+    base = _commit(repo, "base")
+
+    _write(repo, "PLAN.md", PLAN_HEAD)
+    _write_sub(repo, "docs/queue-archive/rotated-PLAN-2026-08-28-done.md", _plan_archive())
+    _write(repo, "NEXT_STEPS.md", "state, refreshed\n")
+    _commit(repo, "rotate the done row off the board with the map refreshed")
+
+    r = _run_check(repo, base)
+    assert r.returncode == 0, r.stdout + r.stderr
+
+
+def test_an_unfinished_task_rotated_into_the_archive_owes_nothing(tmp_path):
+    """The mark a row carries OUT decides. A row archived while still open — folded, declined, put
+    aside — closed nothing, the same carve the ROADMAP arm makes for declined / superseded."""
+    repo = _init_repo(tmp_path)
+    _write(repo, "PLAN.md", _plan_task("⬜"))
+    _write(repo, "NEXT_STEPS.md", "state\n")
+    base = _commit(repo, "base")
+
+    _write(repo, "PLAN.md", PLAN_HEAD)
+    _write_sub(repo, "docs/queue-archive/rotated-PLAN-2026-08-28-open.md",
+               _plan_archive(mark="⬜"))
+    _commit(repo, "archive an open row")
+
+    r = _run_check(repo, base)
+    assert r.returncode == 0, r.stdout + r.stderr
+
+
+def test_a_done_row_deleted_with_no_archive_beside_it_is_not_read_as_a_rotation(tmp_path):
+    """The trigger asks for both halves. A done row simply removed with nothing added under
+    docs/queue-archive/ is the rotation gate's business, not this one's."""
+    repo = _init_repo(tmp_path)
+    _write(repo, "PLAN.md", _plan_task("✅"))
+    _write(repo, "NEXT_STEPS.md", "state\n")
+    base = _commit(repo, "base")
+
+    _write(repo, "PLAN.md", PLAN_HEAD)
+    _commit(repo, "delete the done row outright")
+
+    r = _run_check(repo, base)
+    assert r.returncode == 0, r.stdout + r.stderr

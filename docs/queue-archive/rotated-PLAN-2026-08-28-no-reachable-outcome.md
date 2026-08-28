@@ -13,6 +13,15 @@ Nothing is lost. The row below also stands in full, in its original wording, as 
 where the cause actually lives, it comes back as a task with a definition of done rather than as the
 dated note it is here.
 
+## Index
+
+One line for the archived row, findable by its own number — the pointer a reader who greps the
+live list for that number follows to get here.
+
+| # | Wish (plain words) | Class | Status | Decision / acceptance |
+| --- | --- | --- | --- | --- |
+| 596 | Personal settings never leak into a worker's task | archive | declined 2026-08-28 | the cause lives outside this tree, so no state here could go from undone to done; the row's full text stands under its heading below |
+
 ---
 
 ### ⬜ Personal settings never leak into a worker's task — id: q-596

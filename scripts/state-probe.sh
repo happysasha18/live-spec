@@ -55,25 +55,36 @@ G, Y, R, D, B, X = "\033[0;32m", "\033[1;33m", "\033[0;31m", "\033[2m", "\033[1m
 # would let this reader and scripts/render-board.sh disagree about what a task is.
 # Both readers cd to the repository root before this block runs, so "scripts" resolves.
 sys.path.insert(0, "scripts")
-from plan_checks import parse_tasks
+from plan_checks import key_failure_note, parse_tasks
 
 text = open("PLAN.md", encoding="utf-8").read()
 tasks = parse_tasks(text)
 
 for t in tasks:
     if t["check"]:
-        ok = subprocess.run(t["check"], shell=True, capture_output=True).returncode == 0
+        r = subprocess.run(t["check"], shell=True, capture_output=True)
+        ok = r.returncode == 0
         # A checked task's real state can outrun or lag the mark a person typed — the command
         # is the fact. Falling back to the task's own mark rather than a flat "⬜" on failure
         # (unlike the old x/~/!/space vocabulary) keeps a real distinction: q-... items have no
         # checks at all, but a checked task like plan-9 can be marked in hand (🔄) and still
         # fail its command, which is exactly what plan-9's own note in PLAN.md says is true
         # today.
-        t["icon"] = "✅" if ok else t["mark"]
+        #
+        # A done mark is the one exception, and it is why the keys were written at all: a ✅
+        # whose command fails printed itself back as ✅ and was counted among the done, so the
+        # key could never contradict the mark it was there to test (found by the adversarial
+        # review of 28.08). Such a row now takes the board's own ⛔ and drops out of the done
+        # count, and its note says what the command said.
+        t["failing_key"] = t["mark"] == "✅" and not ok
+        t["icon"] = "⛔" if t["failing_key"] else ("✅" if ok else t["mark"])
+        t["note"] = key_failure_note(t["check"], r) if t["failing_key"] else ""
         t["verified"] = True
     else:
         ok = t["mark"] == "✅"
         t["icon"] = t["mark"]
+        t["failing_key"] = False
+        t["note"] = ""
         t["verified"] = False
     t["ok"] = ok
 
@@ -99,7 +110,7 @@ for t in tasks:
         t["excluded"] = True
     elif t["covered_by"] and not t["blocked_by"]:
         t["excluded"] = True
-    elif t["icon"] == "⛔" and not t["blocked_by"]:
+    elif t["icon"] == "⛔" and not t["blocked_by"] and not t["failing_key"]:
         t["rank_icon"] = "⬜"
 
 eligible = [t for t in tasks if not t["excluded"]]
@@ -152,7 +163,9 @@ for t in shown:
     verified = f"{D}verified{X}" if t["verified"] else f"{D}declared{X}"
     colour = ICON_COLOUR.get(t["icon"], D)
     reason = ""
-    if t["icon"] == "⛔" and t["blocked_by"]:
+    if t["failing_key"]:
+        reason = f" {D}— {t['note']}{X}"
+    elif t["icon"] == "⛔" and t["blocked_by"]:
         r = t["blocked_by"].strip()
         reason = f" {D}— {r[:39].rstrip() + '…' if len(r) > 40 else r}{X}"
     print(f"  {t['icon']} {colour}{t['title']}{X}  {D}({t['id']}){X} {verified}{reason}{tag}")
