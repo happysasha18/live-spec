@@ -78,6 +78,9 @@ ROUTES_AROUND = [
     # The command carried one level down.
     "find . -name '*.py' -exec git checkout HEAD -- {} \\;",
     "find . -type f -execdir git checkout -- {} +",
+    # The second of two -exec clauses: the `;` between them has to stay where it stands, or the
+    # two commands read as one and the destructive half hides behind the harmless one.
+    "find . -exec grep -l TODO {} \\; -exec git checkout -- {} \\;",
     "bash -c 'git checkout -- PRODUCT_SPEC.md'",
     'sh -c "git reset --hard HEAD"',
     # A substitution supplying the repository bytes.
@@ -126,6 +129,7 @@ ALLOWED = [
     "( cd tests && python3 -m pytest -q )",
     "{ git status; git log -1; }",
     "find . -name '*.py' -exec grep -l TODO {} \\;",
+    "find . -exec grep -l TODO {} \\; -exec wc -l {} \\;",
     "bash -c 'grep -q needle haystack.md'",
     "sh -c \"git status\"",
     "python3 -c \"print(open('PRODUCT_SPEC.md').read())\"",

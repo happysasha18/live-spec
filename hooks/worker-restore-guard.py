@@ -232,13 +232,16 @@ def _strip_grouping(tokens):
     `( git checkout -- foo )` and `{ git checkout -- foo; }` run the same command as the bare form,
     and until 2026-08-28 both passed because the first token read as `(` or `{`. A closer on the
     last token comes off with the opener, so `(git checkout .)` names `.` and not `.)`.
+
+    Only the two ends are touched. A bracket or a `;` in the MIDDLE of the tokens is an argument to
+    what is being run — `find … -exec grep {} \; -exec git checkout -- {} \;` needs its first `;`
+    where it stands, or the two commands it separates read as one and the second walks past.
     """
-    tokens = [t for t in tokens if t not in (")", "}", ";", "(", "{")]
     opened = False
     while tokens:
         head = tokens[0]
         trimmed = head.lstrip("({")
-        if trimmed != head:
+        if trimmed != head or head in ("(", "{"):
             opened = True
             tokens = ([trimmed] + tokens[1:]) if trimmed else tokens[1:]
             continue
@@ -246,6 +249,8 @@ def _strip_grouping(tokens):
             tokens = tokens[1:]
             continue
         break
+    if tokens and tokens[-1] in (")", "}", ";"):
+        tokens = tokens[:-1]
     if opened and tokens:
         tokens = tokens[:-1] + [tokens[-1].rstrip(")}")]
     return tokens
