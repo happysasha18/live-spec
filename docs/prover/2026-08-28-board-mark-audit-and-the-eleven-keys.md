@@ -2,8 +2,9 @@
 
 PUSH-REVIEW
 
-Range: d69372c..7ecd89b (3 commits), reviewed as one pass. Base commit `d69372c`, the tip this push
-starts from. Reviewed commits, in order: `f6e889b`, `da51fff`, `7ecd89b`.
+Range: d69372c..67d6a25 (5 commits), reviewed as one pass. Base commit `d69372c`, the tip this push
+starts from. Reviewed commits, in order: `f6e889b`, `da51fff`, `7ecd89b`, `1badfc4` (this record),
+`67d6a25`.
 
 Prover version that ran: product-prover 1.4.2, under the pack bindings in
 `skills/product-prover-pack/SKILL.md` 6.0.0.
@@ -16,7 +17,9 @@ against the tree, corrects the five that did not hold, restores fifteen open row
 done from the archive the 27.08 merge dropped it into, and gives thirteen rows a command in
 `scripts/plan_checks.py` so their marks are computed at every session start instead of typed.
 
-Two files change: `PLAN.md` and `scripts/plan_checks.py`. Nothing else in the tree is touched. A
+Three files change: `PLAN.md`, `scripts/plan_checks.py` and
+`tests/test_tasks_parser_finds_every_task.py`, which gains the two guards finding 11 describes.
+Nothing else in the tree is touched. A
 second session was writing `.github/workflows/gates.yml`, `matrix/product-prover.md` and
 `tests/test_prover_doc_homes.py` at the same time; those are that session's, are not in this range,
 and were not read as part of it beyond establishing that they explain three of the suite's reds.
@@ -156,10 +159,25 @@ that can drift back; a task whose result is prose, a measurement or a decision w
 says instead who read it and where. Without it this audit is a one-time sweep and the thirty-eighth
 unchecked mark is written tomorrow.
 
+**11 — defect, caught by the push gate and repaired here. The command table had no guard of its
+own.** Gate h's tests-present check refused the push: `scripts/plan_checks.py` changed with nothing
+under `tests/`. It was right, and the gap is older than this range — the table has been read by both
+readers and executed by the probe with nothing standing behind it.
+`tests/test_tasks_parser_finds_every_task.py` gains two checks in `67d6a25`, each naming an incident
+rather than a worry. A key outliving its row: plan-1's key survived its task into the 28.08 board
+rotation and ran every morning against a step that no longer existed, until someone removed it by
+hand. A key that writes: `PLAN.md`'s own trap list records `tests/test_guardrails.py` leaving a
+`git stash` unrestored on an interrupt, and the probe is the first command a session runs, before
+anyone has decided anything. The write guard drops single-quoted spans before it looks, because a
+grep's pattern is prose — "run at every push" is a sentence in a skill file, not a command — and it
+is red-proven against `git stash list`, `rm -rf` and `git checkout --`, green against that quoted
+pattern and against `hooks/worker-restore-guard.py`'s own filename.
+
 ## Verdict
 
-The range does what it says. Two defects were found in it by this review and both are repaired in
-it. One of the seven marks the audit brief called wrong is left standing, with the dated word and the
+The range does what it says. Three defects were found in it — two by this review and one by the push
+gate — and all three are repaired in it. One of the seven marks the audit brief called wrong is left
+standing, with the dated word and the
 code that settle it. Three things this range deliberately does not do, each said out loud on the
 board rather than left for a later reader to discover: the fifteen restored acceptance lines are
 still sentences and still fail the plan's own bar, the cost-per-step audit page q-568 asks for does
