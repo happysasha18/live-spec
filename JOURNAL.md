@@ -3125,3 +3125,63 @@ untagged merge commit carrying 1.4.0, so CI was proving a state no release names
 kept deliberately: switching `--ref` to the tag reds the test whose no-tag rule is argued, so the
 release is named in the step name and the comment instead. The floor stays at 1.4.0. `matrix/
 product-prover.md` row M-338 claimed coverage the test no longer gives, and was corrected.
+
+## 2026-08-28 — the rotation gate learns the other direction, and its mechanism retires
+
+Three pieces of the day's leftover work, landed together because they are one subject.
+
+**The gate had one direction only.** `guardrails/check-doc-rotation.py` proved that every row a
+manifest line names is really in its archive, and never the mirror: that every closed row sitting in
+an archive is named by a line. A row can therefore leave the live list, land in an archive some line
+already points at, and be left out of that line — not live, not manifested, and the orphan-archive arm
+stays quiet because the file itself is referenced. The findability promise the whole gate exists to
+keep is per row, so this is the same nothing-lost violation seen from the archive side. The direction
+was written on `night/2026-08-13-ck2-neutral` two weeks ago against the gate as it stood then; the gate
+has since moved its default document to `PLAN.md` and grown an escaped-pipe-aware row splitter, so the
+direction was re-implemented in today's shape rather than merged, and the branch closed at its tip
+`6915ef5e`. Its other three commits carried escaped-pipe repairs to three table splitters, and none of
+them was taken. `guardrails/check-doc-rotation.py` reached the same repair by another road and already
+splits on unescaped pipes only. The `scripts/rotate-doc.py` half went with the tool. The third,
+`tests/test_traceability.py`'s roadmap-body reader, still splits on every pipe — and now reads
+`attic/ROADMAP.md`, a file frozen the day before, over which the suite is green. Repairing a reader of
+a frozen document changes nothing that can go wrong, so it was left as it stands and is recorded here
+rather than carried as an open item.
+
+The live instance the direction was written for was still open: `rotated-ROADMAP-2026-08.md` held row
+558 as declined while the manifest line for that archive named seventeen other rows and never it. That
+line now names it, and the gate reds the shape from here on.
+
+**`scripts/rotate-doc.py` retired to the attic.** It understood one document's table shape and refused
+every other document by name — honest behaviour that became fatal when that document retired the day
+before, since the only file it would accept now sits in `attic/ROADMAP.md`. Teaching it the plan's
+shape would build a road for a journey nobody makes: a task leaves the board rarely, and by hand. What
+the tool guaranteed by construction, the archive and its manifest line written as one act, the gate now
+proves on every push in both directions, so a hand that writes one half and forgets the other is named
+where it happens. Its behaviour tests retired with it — a test of a tool that is gone proves nothing
+about the tree — and a test in their place holds the retirement itself: gone from `scripts/`, present
+in the attic, carrying its manifest line.
+
+**A comment-anchored test, and the class behind it.** `test_the_workflow_reader_drops_comments_so_prose_cannot_stand_in_for_a_step`
+asserted that one particular sentence from a `gates.yml` comment did not survive the workflow reader.
+Rewording that sentence reddened a test about the commit pin while the pin stood still, and a comment
+whose wording drifted out of the assertion would have slipped through unread. It now asserts the
+reader's own property: no comment line survives it, and the gates job carries comments for it to drop.
+The old form caught one line; the new form catches thirty-two, red-proven by keeping the comments.
+
+A sweep of all 208 test files for the same class — every string literal in the suite cross-matched
+against a comment-and-docstring mask of every source file under `guardrails/`, `scripts/`, `hooks/`,
+`.github/`, `scaffold/` and `templates/` — turned up two more and four look-alikes. Repaired: the
+criterion-6 exception map in `tests/test_deletion_only_push.py` proved the case-or-space mechanism
+"exists on disk" by a sentence from that module's docstring, which a gutted classifier judging every
+diff exempt would have satisfied word for word; it now anchors on the judging function itself. The
+stand-down block in the same file was located by the wording of a comment header, so a reword raised
+`ValueError` and reddened two tests about which invariant the block names; it is now located by the
+`# STAND-DOWN:` marker the file itself calls machine-readable, with the walk back over the comment run
+that explains it, which leaves the region unchanged and the anchor real.
+
+Four were judged not the same defect and left alone. The retracted growth duty in
+`scripts/preshow-register-lint.py`, the stated limit in `guardrails/check-prover-record.sh`, and the
+worker-restore command list across its five homes are all cases where the wording IS the contract —
+the last of them by the rulebook's own sentence, which asks that a home stating it in words of its own
+go red. The invariant codes in the harness template's docstring are identifiers, not prose. None of
+these can pass vacuously, because the text they assert on is the thing they are about.
