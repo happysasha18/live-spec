@@ -56,7 +56,7 @@ Files read: `PLAN.md` (whole, both the rules sections and every task block),
 `guardrails/check-prover-record.sh`, `guardrails/judge-hooks.json`,
 `tests/test_compaction_discipline.py`, `matrix/build-pipeline.md`, `live-spec/CLAUDE.md`.
 
-Checks run:
+Checks run: eleven, each with its result below.
 - `bash scripts/state-probe.sh` — the board reads 26 open and 36 done, 62 rows, the marks unchanged
   and the two rows held for his eyes still held for his eyes.
 - `bash scripts/render-board.sh` — 62 steps, 40 blockers, so the page and the list hold the same set.
@@ -81,6 +81,8 @@ Checks run:
   line carries the contrast frame he has banned.
 
 ## Findings
+
+Findings: eight, listed below.
 
 **1. The bar at "Words used here" contradicted two other places in the same file, and this range
 changed a sentence he wrote.** The bar demanded a command of every queued task. Two other passages
