@@ -30,11 +30,20 @@ jobs:
       # the pack's assertions are written against, and --expect-commit verifies the checkout
       # landed there, so a moved tag or branch cannot change what CI proves. Moving the pin
       # is a deliberate pack change; tests/test_prover_adapter_contract.py holds its shape.
-      - name: "install the external product-prover canon (pinned, gate b's evidence)"
+      #
+      # 2026-08-28: moved from 4503881 to efe05fa, which is release v1.4.2. The old pin was
+      # an untagged merge commit carrying version 1.4.0, so CI proved a state no release
+      # names, while the clone on the author's machine had moved to 1.4.2 — and the two
+      # disagreed on the one thing 1.4.2 changed, the frontmatter description. The sha form
+      # stands (a tag can be moved, and the same contract test forbids a tag here); the
+      # release it belongs to is named in this line so a reader need not go and look it up.
+      # The floor in skills/product-prover-pack/SKILL.md stays at 1.4.0: 1.4.1 and 1.4.2
+      # moved the README and the discovery line, and nothing this pack binds to needs them.
+      - name: "install the external product-prover canon (pinned at v1.4.2, gate b's evidence)"
         run: >-
           scripts/install-external-skills.sh
-          --ref 4503881483bb33e760b66fb845ca8d86b6eb11a0
-          --expect-commit 4503881483bb33e760b66fb845ca8d86b6eb11a0
+          --ref efe05faa0f11ceeea0be63f14f5943b0ccf139b4
+          --expect-commit efe05faa0f11ceeea0be63f14f5943b0ccf139b4
       - name: "test suite (gate b, full — the reach map stays local)"
         if: ${{ !cancelled() }}
         run: python3 -m pytest -q

@@ -4,6 +4,12 @@ The frontmatter description carries only the autoload trigger; the prover/design
 boundary is homed in "Work that belongs elsewhere" (the modes paragraph points at it); the
 paired-transition kind-split lives in its lens, and the KIND block stays general.
 Red-proven against the pre-restructure file (HEAD before commit 2cca664)."""
+# The description is discovery metadata, read by the tool that routes a request to the skill
+# and by nothing in this pack. So what this pack has at stake in it is the negative half of
+# rule 4: its own facts — the sibling pass's name, an anchor code — keep their one home in the
+# canon's "Work that belongs elsewhere" section and in this pack's own adapter, and never gain
+# a second one in a line written to be matched against. What the description says beyond that
+# is the canon's own property, held by the canon's own validator and its own release.
 from pathlib import Path
 
 from conftest import external_clone_or_skip
@@ -28,10 +34,22 @@ def _description():
 
 
 def test_description_carries_only_the_trigger():
+    """Only the trigger, stated as the two facts that must stay out of it.
+
+    A third assertion stood here until 2026-08-28: that the description carried the literal
+    phrase "hold together as written". It was written as a stand-in for "the line still says
+    what the skill answers", and it broke the way a stand-in breaks. Release 1.4.2 shortened
+    the description for exactly the discovery reliability the phrase was supposed to stand
+    for, and the phrase left the canon altogether — so the check reddened on the improvement
+    it was meant to protect, while a description carrying that phrase beside every pack fact
+    in the tree would have passed it. It could not distinguish the property either way, which
+    is the vacuous-when-green, red-on-rewording shape this pack forbids. The property it
+    reached for is the canon's, held there by the canon's own validator; the two assertions
+    below are this pack's own, and they still bite.
+    """
     d = _description()
     assert "design-reviewer" not in d, "description carries the sibling pass again — trigger noise"
     assert "INV-141" not in d, "description carries an anchor code — trigger noise"
-    assert "hold together as written" in d, "description lost the question the skill answers"
 
 
 def test_boundary_homed_in_when_not_to_use():
