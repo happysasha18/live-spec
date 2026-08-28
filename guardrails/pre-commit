@@ -22,24 +22,38 @@ set -euo pipefail
 REPO_ROOT="$(git rev-parse --show-toplevel)"
 FENCE_FILE="$REPO_ROOT/.live-spec-fence"
 
+# The two content gates below live in guardrails/ beside this hook, and
+# guardrails/install.sh puts them there whenever it puts this hook in place. Until
+# 2026-08-28 each was wrapped in a file test that skipped it in silence when the script
+# was absent, which is how a repo that had the hook and none of the checks committed as
+# if it were checked (q-567). A missing check now stops the commit and says which one:
+# a commit that only looks checked is worse than one that is refused.
+for check in check-future-times.sh check-deferral-marker.py; do
+  if [ ! -f "$REPO_ROOT/guardrails/$check" ]; then
+    echo "COMMIT BLOCKED — a check this repository commits under is not here."
+    echo "  Missing: guardrails/$check"
+    echo "  Nothing would have checked what it checks, so the commit would only have looked"
+    echo "  checked. Put the checks back beside the hooks with the pack's own installer,"
+    echo "  run from this repository's root:"
+    echo "    bash /path/to/live-spec/guardrails/install.sh"
+    exit 1
+  fi
+done
+
 # INV-24 second arm (row 104): no staged line stamps today with a future time.
-if [ -x "$REPO_ROOT/guardrails/check-future-times.sh" ]; then
-  "$REPO_ROOT/guardrails/check-future-times.sh" || exit 1
-fi
+bash "$REPO_ROOT/guardrails/check-future-times.sh" || exit 1
 
 # INV-152 net: a parked-for-the-human item in the resume file or a decision page must
 # name its human-only fact (taste / policy / irreversible / device-feel), else it is
 # the seat's to do. Scans NEXT_STEPS.md and any docs/decisions/*.md.
-if [ -f "$REPO_ROOT/guardrails/check-deferral-marker.py" ]; then
-  deferral_targets=""
-  [ -f "$REPO_ROOT/NEXT_STEPS.md" ] && deferral_targets="$REPO_ROOT/NEXT_STEPS.md"
-  for d in "$REPO_ROOT"/docs/decisions/*.md; do
-    [ -f "$d" ] && deferral_targets="$deferral_targets $d"
-  done
-  if [ -n "$deferral_targets" ]; then
-    # shellcheck disable=SC2086
-    python3 "$REPO_ROOT/guardrails/check-deferral-marker.py" $deferral_targets || exit 1
-  fi
+deferral_targets=""
+[ -f "$REPO_ROOT/NEXT_STEPS.md" ] && deferral_targets="$REPO_ROOT/NEXT_STEPS.md"
+for d in "$REPO_ROOT"/docs/decisions/*.md; do
+  [ -f "$d" ] && deferral_targets="$deferral_targets $d"
+done
+if [ -n "$deferral_targets" ]; then
+  # shellcheck disable=SC2086
+  python3 "$REPO_ROOT/guardrails/check-deferral-marker.py" $deferral_targets || exit 1
 fi
 
 # INV-175 second arm: on a shared index, a file both staged and carrying unstaged
