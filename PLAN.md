@@ -1167,12 +1167,13 @@ One line per finding. Don't start a second list for them. Don't fix one without 
   that other projects have already copied into themselves, and that is a release decision with a
   version number attached, not a tidy-up. Left as it stands, named here, for the owner.
 
-- **Nothing moves a finished task off the board except a person's own hands.** The tool that used
-  to do it — cut the closed rows out, write them into a dated archive, leave the pointer behind —
-  only understands the table the old queue was written in, and that queue is retired. The two moves
-  made this month were made by hand, and they were correct, but the next one is as easy to get
-  wrong. Teaching the tool the shape the board uses now is half a day's work nobody has asked for;
-  it stays here until someone does.
+- **Nothing moves a finished task off the board except a person's own hands, and that is now the
+  settled answer.** The tool that used to do it only understood the table the old queue was written
+  in, and that queue is retired; it went to the attic on 28.08 rather than being taught a shape
+  nobody travels often. What it used to guarantee by construction — the archive and its pointer
+  written as one act — the push gate now proves instead, in both directions, so a hand that writes
+  one half and forgets the other is stopped at the gate. This line stays only as the record of the
+  decision.
 
 - **Every done mark was re-checked against the tree, 28.08 — five of them did not hold.** Two rows
   are back open: the list of every made-up number, where a sweep ran but the page nobody has read
