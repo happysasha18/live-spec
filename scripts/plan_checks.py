@@ -21,7 +21,9 @@ import re
 
 CHECKS = {
     "plan-0": "test -f PLAN.md && test -f scripts/state-probe.sh && ! test -d /private/tmp/ls-director && test -f attic/DIRECTOR_HANDOFF-2026-08-26-decisions.md",
-    "plan-1": "test -x scripts/render-board.sh",
+    # plan-1's key was removed 2026-08-28 with its task: the board rotation folded plan-1 into
+    # plan-11, and its check ("the render script exists and is executable") was the file-existence
+    # proxy plan-10 names as a defect in its own text. plan-11 gets a key when its acceptance is met.
     "plan-2": 'test ! -f evals/director.md && test "$(git log -1 --format=%ct -- evals/director/traces)" -ge "$(git log -1 --format=%ct -- skills/director/SKILL.md)" && python3 evals/director/check.py --all 2>/dev/null | tail -1 | grep -qv " 0 of "',
     # Step 6 tore machinery down and, more often, proved a piece of it earned its place. What it
     # leaves behind that a command can see: the plan carries no executable line and neither reader
