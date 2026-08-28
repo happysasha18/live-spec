@@ -79,7 +79,7 @@
 - `guardrails/check-skill-review.sh:1` (the skill-review gate, INV-208)
 - `docs/skill-review/README.md:1` (the review-record home, INV-208)
 - `templates/skill-review.template.md:1` (the shipped review record template, INV-208)
-- `guardrails/check-doc-rotation.py:1` (the doc-rotation gate, gate t, and since 2026-08-28 the whole of INV-209's machinery: the mechanism that stood beside it retired to `attic/rotate-doc.py` with the one document shape it could read, and rows move by hand now)
+- `guardrails/check-doc-rotation.py:1` (the doc-rotation gate, gate t, and the whole of INV-209's machinery: rows move by hand and this is what proves the hand lost nothing, the mechanism that stood beside it having retired to `attic/rotate-doc.py` with the one document shape it could read)
 - `guardrails/check-matrix-reference.py:1` (the matrix-reference gate, gate d, INV-273)
 - `guardrails/check-architecture-reference.py:1` (the architecture-reference gate, gate z, INV-315)
 - `guardrails/judge-hooks.json:1` (the wired-hook declaration. Two hooks are wired by default: the clock hook and the chat-law hook. The six background chat checks are opt-in, and a host wires each itself, INV-211, INV-289)
