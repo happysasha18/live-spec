@@ -1,13 +1,16 @@
 """Suite hygiene: the run leaves the machine as it found it (SPEC INV-100, M-236, row 222).
 
-A session-scoped before/after diff of the system temp home, filtered to the suite's own
-artifact prefixes — a new file surviving to session end is a leak and fails the run.
+Every temp artifact the run makes is born under one temp root of the run's own, and the
+session-end check reads that root, filtered to the suite's own artifact prefixes — an
+artifact of this run's surviving to session end is a leak and fails the run.
 """
 
+import atexit
 import glob
 import io
 import os
 import re
+import shutil
 import subprocess
 import sys
 import tempfile
@@ -301,14 +304,52 @@ def _ours(names):
     return {n for n in names if n.startswith(SUITE_TEMP_PREFIXES)}
 
 
+# This run's own temp home, and the one place the leak check below looks.
+#
+# The check used to list the machine's SHARED temp home at session start and fail on any
+# suite-prefixed name that had appeared by session end. That judges a machine-global
+# namespace, not the files this process made — so a SECOND run of this suite anywhere on
+# the machine reddened the first one, and `guardrails/check-tests.sh` mktemps a
+# `livespec-test-suite-log.*` the instant it starts, which is enough on its own. Parallel
+# lanes in one tree are this pack's own working mode, so the collision was routine: several
+# sessions on 2026-08-27 read that red as another session's droppings and moved past it
+# (2026-08-28 adversarial review, finding 1).
+#
+# So the run takes a root of its own and the check ranges over what landed inside it. The
+# root is exported through TMPDIR as well as tempfile's own module state, so a subprocess the
+# suite starts — a nested pytest, check-tests.sh, git — writes its temp files inside this
+# run's root too. Its name carries a suite prefix, so a sibling that sweeps by
+# SUITE_TEMP_PREFIXES (tests/test_deletion_only_push.py after a kill it throws on purpose)
+# still recognises it as suite property.
+RUN_TEMP_ROOT = tempfile.mkdtemp(prefix="livespec-test-run-", dir=tempfile.gettempdir())
+tempfile.tempdir = RUN_TEMP_ROOT
+os.environ["TMPDIR"] = RUN_TEMP_ROOT
+
+
+@atexit.register
+def _drop_empty_run_temp_root():
+    """A process that imports this file and never reaches the session fixture — a
+    collect-only pass, an interpreter that only imports the helpers — leaves the root
+    behind otherwise. Only an EMPTY root goes: anything inside it is evidence, and
+    rmdir refuses a directory that holds any."""
+    try:
+        os.rmdir(RUN_TEMP_ROOT)
+    except OSError:
+        pass
+
+
 @pytest.fixture(autouse=True, scope="session")
 def suite_leaves_no_trace():
-    tmp = tempfile.gettempdir()
-    before = _ours(set(os.listdir(tmp)))
     yield
-    after = _ours(set(os.listdir(tmp)))
-    leaked = sorted(after - before)
-    assert not leaked, "the suite leaked temp artifacts (SPEC INV-100): %s" % leaked
+    leaked = sorted(_ours(set(os.listdir(RUN_TEMP_ROOT))))
+    assert not leaked, (
+        "the suite leaked temp artifacts (SPEC INV-100): %s — left in this run's own temp "
+        "root %s" % (leaked, RUN_TEMP_ROOT)
+    )
+    # Nothing of ours survives, so the root itself goes; pytest's own tmp_path bookkeeping
+    # (`pytest-of-<user>/`) lives inside it and goes with it. On a leak the assert above fires
+    # first and the whole root stays put, named and findable, for whoever reads the failure.
+    shutil.rmtree(RUN_TEMP_ROOT, ignore_errors=True)
 
 
 def _git(*args):
