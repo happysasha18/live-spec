@@ -42,11 +42,16 @@ A session edits exactly two things here: a task's status and §Blockers. Nothing
   by hand. There is no other Canon.
 - **The five marks, and no others** — ✅ done · 🔄 in hand · ⬜ queued · ⛔ blocked · 👁️ needs his
   eyes.
-- **⬜ has a real bar, not a vibe: "queued" means accepted into work.** His word, 27.08. A task
-  earns ⬜ only when its links resolve to something real and its definition of done is a command,
-  not a sentence — the same bar the task shape above already states ("a task pointing at nothing is
-  the finding, not a task ready to hand out"). A task that fails this bar is not ⬜; it is an
-  unformed idea, and that gap is itself the thing to report.
+- **⬜ has a real bar: "queued" means accepted into work.** His word, 27.08. A task earns ⬜ only
+  when its links resolve to something real and its definition of done is written so a reader can
+  tell finished from unfinished without asking anyone. A command carries that wherever a command
+  can decide it, and that is the first thing to try. Where what the task leaves behind is a page, a
+  measurement or a judgement, the definition says so in one line and names who reads it and what
+  would convince them. A task carrying neither is an unformed idea, and that gap is itself the
+  thing to report. (Amended 28.08: the earlier wording demanded a command of every queued task,
+  which the same file already contradicts twice — under the closing rule below, and inside plan-10,
+  both of which provide for a task whose result no command can read. Five open tasks are honestly
+  of that shape.)
 - **🔄 means a worker has it now**, by the take-or-decline rule in the task shape above — never "a
   session happened to touch this file recently."
 - **Verified / declared** — printed beside a mark, never a sixth mark. Verified: the task has a
@@ -210,8 +215,11 @@ chapter says a host keeps its current spec until it chooses to convert and no ga
 move, so this is deferred work rather than a blocker — and it is the largest single piece of
 debt between the host's version and today's.
 
-**Acceptance:** dry-run green on the copy · restore proven · `ls ~/tlvphotos/.claude/skills | grep
-director` is non-empty · tlvphotos works the way it did before the migration.
+**Acceptance:** `ls ~/tlvphotos/.claude/skills | grep -q director && test -f
+~/tlvphotos/.live-spec/VERSION` passes, and that project's own `git status --porcelain` shows
+changes confined to `.claude/skills/`, `.live-spec/`, `.gitignore` and one journal chapter. The dry
+run and the proven restore are already done, above. One leg no command settles: whether the photo
+site still behaves as it did — its own session opens it and looks.
 
 
 ### ⬜ The playbook repo earns its keep or gets folded away — id: q-800
@@ -227,8 +235,10 @@ playbook actually holds (`playbook-repo.md`, `pipeline-package-one-repo.md`,
 `promotion-agent-project.md` name it in other memory, not yet cross-checked against its own
 contents) before a command-based acceptance can be written.
 
-**Acceptance:** not yet stated — first work is naming what playbook holds and why, then this line
-gets a real command.
+**Acceptance:** No command decides this one. The row closes when every file the playbook repository
+holds is set beside the one home it belongs in — this project, `~/.claude`, or nowhere — and each
+one is either moved there or kept where it is with the reason written next to it. What would
+convince a reader: that list, with nothing on it carrying two homes and nothing left unplaced.
 
 
 ### ✅ A color-contrast check now looks at the right background — id: q-490
@@ -251,15 +261,27 @@ it printed a clean pass over a check that never ran.
 **Closes:** q-589, q-550
 **Absorbed:** 2 rows folded here 27.08, rotated off the board 28.08 — q-550, q-589. Full text: `docs/queue-archive/rotated-PLAN-2026-08-28-folded-rows.md`.
 
-**Acceptance:** Done when: the law states where an instruction's authority comes from and how a conflict is spoken, one home; a machine reds a sentence attributing to the person an instruction he did not give; and the deposit sent to the affected window is answered by its resumed delegation
+**Acceptance:** `python3 guardrails/check-authority-anchor.py` reds a planted sentence that credits
+the owner with an instruction no dated exchange stands behind, wherever in the tree that sentence is
+written and not on the decisions page alone, and passes the tree as it stands; one test holds both
+directions. `grep` finds the rule saying where an instruction's authority comes from, and how a
+disagreement over it is spoken, in one file and in no second one. The third leg the row used to
+carry — the message to the window that lost its delegation — is spent: that window answered in
+July, and nothing waits on it.
 
 
 ### ⬜ A cleared mistake stops blocking every future push — id: q-527
 **Group:** Worker & data safety · **Priority:** normal
 **Source:** found 2026-07-29; owner's word owed on what counts as "cleared."
-Note: held for the owner: the row's final shape depends on a policy answer he hasn't given yet — what counts as a cleared mistake. The name describes the problem, not the resolution, because the resolution isn't written anywhere yet.
+Note (28.08): the row no longer waits on him. It waited on a policy answer — what counts as a
+cleared mistake — and that question is machinery, which his word of 27.08 puts on this seat's desk.
+The title still names the problem, because the resolution is not written anywhere yet.
 
-**Acceptance:** Done when: the way out is stated in a requirement, a recorded recovery clears the finding it names, the record of a recovery has one home, and a fixture recovery clears a red that stands without it
+**Acceptance:** `python3 guardrails/check-worker-restore.py` runs clean over a fixture where the
+mistake it names has been made good, and stays red over the same fixture without that repair; one
+test holds both directions, so the way out is proved rather than described. What counts as made good
+is written once, in the requirement the check cites. That definition is this seat's to write, not
+his: his word of 27.08 puts machinery on this desk, and it is machinery.
 
 
 ### ⬜ Trimming a long document never loses what moved — id: q-531
@@ -272,8 +294,11 @@ nothing was lost — every word and every mark accounted for, before and after.
 **Why now.** The photo site's spec is 467 KB and its conversion begins within days. Without this,
 "everything moved across" is a claim nobody can check, over a document too large to read.
 
-**Done when.** The check runs on a real split and reports what changed, and a deliberately dropped
-paragraph makes it red.
+**Done when.** One command takes the document as it stood and the files it became, and prints an
+empty difference over every word and every mark; drop a paragraph on purpose and the same command
+prints that paragraph and exits non-zero. A test in `tests/` runs it both ways, so the red is proved
+rather than assumed, and the command runs for real over the photo site's spec before its conversion
+starts.
 
 
 ### ✅ The installed copy and the working copy stay in sync — id: q-537
@@ -317,8 +342,10 @@ version control, so every later change can be compared against how it started.
 today do it by hand in their own instructions. Nothing in the product does it yet, so each walk
 reinvents it and each one can forget.
 
-**Done when.** Taking on a project saves that baseline without being asked, and a command shows
-the difference between how the project looks now and how it looked when it joined.
+**Done when.** Joining a project makes a first commit of its files exactly as they were found,
+without anyone asking for it, and `git -C <that project> diff <the joining commit> --stat` prints
+how the project has changed since. A test walks the joining step over a throwaway tree and reds when
+that commit is missing.
 
 ### ✅ A safety check that only runs here now ships everywhere — id: q-567
 **Group:** Portability · **Priority:** normal
@@ -341,7 +368,11 @@ anywhere.
 **Source:** deposit 2026-08-07 — the owner was interrupted twice in one session and said he always presses Deny.
 **Absorbed 28.08:** q-542, the leftover test server that kept raising the same dialog — the instance of this class, not a second task. Full text: `docs/queue-archive/rotated-PLAN-2026-08-28-folded-rows.md`. Checked 28.08: nothing in the tree reaps a stale local server or warns before an action can raise one of these dialogs.
 
-**Acceptance:** Done when: the conduct family states the rule and lists the commands known to raise a dialog; a session running one of them shows its announcement line; the deposit is archived with this row named · groups as one queue bundle with rows 582, 583 — three related requests from one day's messages with the tlvphoto project: warn before a dialog pops up, help him stay focused, show early progress on long builds
+**Acceptance:** The commands known to raise one of these dialogs are listed in one place beside the
+rule that governs them, so adding a command adds a case. A test hands a session each command on that
+list and reds unless the warning goes out before the command runs. `grep` finds the rule stated once
+and nowhere twice. The two neighbouring asks from the same day — helping him stay focused, and
+showing early progress on long builds — now sit under the live board row, q-166.
 
 
 ### ✅ A worker's cleanup step never erases unsaved work — id: q-586
@@ -356,13 +387,6 @@ piped or redirected onto it. Sixteen assembled routes had been walking past the 
 words, including the one the refusal itself used to recommend. The refusal now recommends printing
 the saved copy and writing the file deliberately with the file-writing tool — two steps the check
 does allow, checked against the running hook rather than read off its text.
-
-
-### ⬜ Personal settings never leak into a worker's task — id: q-596
-**Group:** Worker & data safety · **Priority:** normal
-**Source:** found 2026-08-12 — text from the owner's personal layer surfaced inside four workers' results and cancelled one command.
-
-**Acceptance:** One-line answer: this repository cannot fix its own cause; the fix belongs to the owner's personal layer, and this row stands as the dated record and evidence of the cost — four workers saw the text, one command was cancelled and retried
 
 
 ### ✅ A command that destroys unsaved work is refused before it runs — id: q-624
@@ -414,7 +438,11 @@ grounded, twenty-seven kept as honest defaults and labelled. What the row asks f
 there is no page listing every number with its home and its verdict, and the owner has read nothing
 of the kind. The sweep's own account sits in a working note that is not part of the project's history.
 
-**Acceptance:** Done when: the classification table stands as a page with every number's home and verdict; every invented number's removal landed or queued as its named batch; he has read the table
+**Acceptance:** No command decides this one. One page in this tree lists every number the product
+carries, each with the file it lives in and a verdict beside it — grounded in something outside,
+kept as an honest default and labelled so, or invented and now gone — and the owner has read that
+page. What would convince him: opening it and finding no number he cannot trace to a source. The
+sweep's own fixes already landed; the page is the part that does not exist.
 
 
 ### ✅ All project files live in one place again — id: plan-0
@@ -513,9 +541,15 @@ it sits inside the instrument that is supposed to catch drift.
   that distinction; it just has nothing behind it today.
 - Re-run every check and let the marks fall where they fall, on closed steps too.
 
-**Acceptance:** `bash scripts/state-probe.sh` shows no step whose check is a file-existence test ·
-every step heading in `## Steps` has a matching key in `scripts/plan_checks.py`, proved by a test
-that reads both files and fails on a missing key.
+**Acceptance:** A test reads `PLAN.md` and `scripts/plan_checks.py` together and fails when a task
+marked done carries neither a command in the checks file nor a line in its own body saying who read
+it and where. The same test fails a command that only asks whether a file exists. `bash
+scripts/state-probe.sh` then shows every done task either verified by its own command or answered by
+a named reading, and none of them verified on a file's mere presence.
+
+(The old wording pointed at a `## Steps` section this file no longer has; the section is `## Tasks`,
+and the aim changed with it — a command belongs to a task whose result can drift back, and the rest
+say in one line who read them.)
 
 
 ### ✅ The plan, board and queue become one list — id: plan-11
@@ -660,9 +694,10 @@ no host has any of them.
   else. A probe that prints them makes the door work without editing any host's own list.
 - First host: tlvphotos.
 
-**Acceptance:** a session opening in a host with an empty context runs that host's probe and gets
-where the work stands, with every mark computed by a command · the probe there lists the host's
-open inbox items.
+**Acceptance:** `bash ~/tlvphotos/scripts/state-probe.sh` prints that project's own tasks with their
+marks, each mark computed by a command of that project's, and lists its unhandled inbox files. In
+this project, `grep` finds no hard-coded list of host directories inside `scripts/state-probe.sh` —
+each host's path comes from its own profile.
 
 
 ### ⬜ The promoter project is updated to today's tools — id: plan-15
@@ -674,7 +709,10 @@ record pins pack 2.4.0, a 3.3.0 note was read and parked in July, and the pack i
 canonical documents are absent there entirely. It runs off the machine's global skill mirror with
 no local copy, and it has been idle since 27.07, so nothing of the owner's is in flight to protect.
 
-**Acceptance:** the wish's own acceptance lines, run in that tree.
+**Acceptance:** `ls ~/promoter/.claude/skills | grep -q director` passes and
+`~/promoter/.live-spec/VERSION` reads the pack's current number, with that project's own `git status
+--porcelain` showing changes confined to its skills and settings directories. The two canonical
+documents absent there exist. The wish's own acceptance lines run green in that tree.
 
 
 ### ⬜ Every rule finally lives in exactly one place — id: plan-16
@@ -781,14 +819,38 @@ made against a measured before and after, or it is declined with the measurement
 Note: this is the large standing board; plan-1 and plan-10 are the near-term light version of the same idea.
 **Absorbed:** 4 rows folded here 27.08, rotated off the board 28.08 — q-133, q-582, q-583, q-411. Full text: `docs/queue-archive/rotated-PLAN-2026-08-28-folded-rows.md`.
 
-**Acceptance:** Done when: the board's form + update moments spec'd (one home); the mockup approved and frozen as the norm; the surface ships with its registry row and rendered-level matrix rows; a session updates it at every station change, checked by his eye over one real stretch. Cheap first leg taken 2026-07-27 (the owner: where did the plans and the progress tables go): the session's own task list is kept live for the whole movement, and the report carries a done / in-work / waiting table, which is the visible half this row owes while the standing surface waits its turn. Widened on the owner's ask of 2026-08-06 that the board show what is running and what was done: the board also carries the record of completed work, a tag per row saying what kind of work it was, the steps inside a row each naming its own outcome, and the name of the worker that ran each step. Widened again on his word of 2026-08-06 ~19:17 (on record in DECISIONS.md): every task carries an understandable name, an understandable description and an understandable plan; approved wording freezes, and the seat speaks it letter for letter at take-up, along the way and at the close; a validation step stands in front of the board, and nothing enters work before it passes. Widened a third time on his word of 2026-08-06 ~19:28 (on record in DECISIONS.md): every task carries the time the seat estimated for it and the time it actually took, the estimate written at take-up and the pair at the close. Widened a fourth time on his word of 2026-08-06 ~20:16 (on record in DECISIONS.md): the board is a kanban over the whole queue — every task done, in progress or queued shows as a card; each card carries the name, the behavior description, the estimate, a tag naming its feature or its cross-module reach, and a plan marking what can run in parallel under the budget; in-work cards name the worker on them, and recurring worker crafts carry stable names and icons. Widened a fifth time on his word of 2026-08-06 ~20:35 (on record in DECISIONS.md): approvals stay rare and transparency is the standing ask; the short name is a super-sharp semantic handle a reader recognizes every time the ticket is referred, then the description of behavior, then the other details; and each task names and links the product-spec part it changes. Widened a sixth time on his word of 2026-08-06 ~20:36 (on record in DECISIONS.md), rejecting the variant-4 tiles as text to crack rather than tasks: a card reads as a task at a glance — authored handle, behavior line, chips, details behind the card; the in-work area splits into lanes for parallel agents; each task's details name its branch and worktree. Widened further on his words of 2026-08-06 ~20:47, ~21:00 and ~21:16 (all on record in DECISIONS.md): the variant-5 form holds with four amendments and the look froze as the norm; the whole backlog becomes readable on the board (row 566 carries that campaign), the done pile folds away, in-card step marks are emoticons, and step comments read plainly; a card's plan is a few deliverables in the agile sense, never an activity log, with one marker per line, no legends and no internal numbering — and the kanban study's five adoptions (an exit rule per column, a blocked mark with its clock, the named commitment point, cycle time and throughput, vertical-slice deliverables) fold into the same requirement. Widened on his words of 2026-08-06 ~21:34 and ~21:35 (on record in DECISIONS.md): the stage ladder gains inception between the backlog and ready — validation is inception's exit, and exploration work is inception's product, never an execution subtask; the columns re-map to backlog, inception, ready, in work, done; subtasks with detail are collapsible; and every new wish is placed into the maintained task graph — its relations, dependencies and parallelism — at arrival, so the seat always plans the best implementation path. Widened on his word of 2026-08-06 ~21:49 (on record in DECISIONS.md): a task in work absorbs new words at any stage — each widening dated, the wording re-validated on change, the count shown on the card; every task offers its dated word-history on demand behind the card; a kanban-tools display study feeds the page's next revision; and the full adversarial review of this specification by a fresh reader stands as inception's next product, ahead of any build. Intake 2026-08-06 — door: feature · kind: product · footprint: cross-cutting (a new surface plus a standing update law every session holds) · map: a new feature beside the departures board (INV-27) · groups as one queue bundle with rows 566 — one visible board showing every queued wish in plain, board-ready language
+**Acceptance:** No command decides this one; his own eye is the check, over one real stretch of
+work. The board closes when every task — done, in work and queued alike — shows as a card carrying a
+short name he recognises every time it comes up, one line of what it does for a person, the time
+estimated against the time it took, the worker on it, and the part of the spec it changes. The
+columns run backlog, inception, ready, in work, done, with in-work split into one lane per worker
+and the done pile folded away. A card's plan is a few deliverables, one marker to a line. The seat
+moves a card at every change of stage and speaks a task's frozen wording letter for letter at
+take-up, along the way and at the close; nothing enters work before its wording passes. New words
+about a task in flight join it dated, and the card shows how many times it has widened.
+
+What would convince him: watching one real stretch on that board and never having to ask what is
+happening.
+
+Where the history is. His first word is 2026-07-07 ~09:36, and it widened eight more times through
+2026-08-06; each widening stands under its own time in `DECISIONS.md`, and the full text of all of
+them stands verbatim as row 166 of
+`docs/queue-archive/rotated-ROADMAP-2026-08-27-merged-into-plan.md`. Compressed into the outcome
+above on 28.08, when the row's acceptance had grown to some 1,500 words of accumulated history and
+nobody could read what it asked for.
+
+The cheap first leg was taken 2026-07-27: the session's own task list stays live for a whole
+movement, and the report carries a done / in-work / waiting table. That is the visible half this row
+owes while the standing board waits its turn.
 
 
 ### ⬜ Your edits on a review page save straight to the files — id: q-453
 **Group:** Communication & reporting · **Priority:** normal
 **Source:** relayed 2026-07-22.
 
-**Acceptance:** Done when a review page's edit lands in the repo file it belongs to, the round-trip is covered by a test, and the shared script ships with the pack
+**Acceptance:** A test edits one line on a rendered review page, runs the save, and finds that
+change byte for byte in the repository file the line came from; the same test reds when the save is
+skipped. The script that carries the round trip ships inside the pack, `test -f` finding it there.
 
 
 ### ✅ The plain-language text checker becomes its own reusable tool — id: q-458
@@ -825,7 +887,11 @@ Note: this is the large standing board; plan-1 and plan-10 are the near-term lig
 **Closes:** q-191, q-491, q-554
 **Absorbed:** 3 rows folded here 27.08, rotated off the board 28.08 — q-191, q-491, q-554. Full text: `docs/queue-archive/rotated-PLAN-2026-08-28-folded-rows.md`.
 
-**Acceptance:** Done when: the skill authored + versioned + loadability-gated; build-pipeline steps 4–5 invoke it by name (one home for the method, pipeline cites); SPEC + matrix + suite cover the wiring; skill-creator walk at birth recorded; first real use on a host recorded
+**Acceptance:** `bash guardrails/check-skill-loadability.sh` passes for the test-author skill, which
+is written and carries its own version. `grep` finds the shipping walk naming that skill at the step
+where tests are derived, and finds the method stated in the skill alone. The matrix carries a row
+for that wiring with a test behind it. The field leg: one host's own test matrix is written by this
+method and sits in that host's tree, `test -f` finding it.
 
 
 ### ⬜ Every automatic check proves it can actually catch its problem — id: q-489
@@ -834,7 +900,17 @@ Note: this is the large standing board; plan-1 and plan-10 are the near-term lig
 **Closes:** q-217, q-492, q-230, q-454, q-455, q-220, q-525, q-490, q-576
 **Absorbed:** 7 rows folded here 27.08, rotated off the board 28.08 — q-525, q-217, q-220, q-230, q-492, q-454, q-455. Full text: `docs/queue-archive/rotated-PLAN-2026-08-28-folded-rows.md`. q-490 was folded here too and stayed on the board: it names a live hole in a shipped check. q-576 stayed on the board as well, from 28.08: it asks for a page of every number in the tree, which this row does not cover.
 
-**Acceptance:** Shipped 2026-07-27: guardrails/hook-red-proofs.json names a fixture per hook and guardrails/check-hooks-can-fire.py runs each real hook against it, failing on any hook that stays silent; every wired hook fires against its own fixture, the census reading the wired declaration as its population, and the collector half is declared unprovable this way with its reason. The run rides the full suite, which is the gate every release passes, so the release-gate leg of the acceptance is discharged by that placement (the architecture states it, no gate letter of its own). Still owed: the caller census as a standing table, the retirement threshold with its declaration, and the reporting shape of a stand-down on a turn record that cannot be read, which today looks the same as a clean turn. Done when each hook owns a red fixture the release gate runs, the census names every caller per hook, the retirement threshold and its declaration stand in one home, and one hook completes the walk — validated, censused, and either kept with its evidence or archived with its line
+**Acceptance, corrected 28.08 — the row stood on machinery that has since been taken out on
+purpose.** The two files its old acceptance called shipped, `guardrails/hook-red-proofs.json` and
+`guardrails/check-hooks-can-fire.py`, are gone from the tree: commit `e61b29b7` removed them as
+checks whose only subject was another check. The caller census and the retirement threshold it still
+asked for are the same shape, and a threshold with no outside source is forbidden here anyway. So
+those legs are struck rather than carried.
+
+What is left is the row's own title, and it is worth keeping. **Acceptance:** every check that ships
+here owns a fixture it reds against without its fix, and the suite runs that fixture; a test walking
+`guardrails/` reds a check that arrives with no such fixture. One check completes the walk end to
+end, so the shape is proved on a real one before it binds the rest.
 
 
 ### ✅ A weak test now actually checks what it claims — id: q-592
@@ -890,7 +966,10 @@ walkthrough carries it. The walkthrough no longer mentions the rule at all, so t
 points a reader at a home that does not hold what it claims. The fix is the one the row already
 names: either the matrix stops naming that home, or the sentence goes back into the file.
 
-**Acceptance:** One-line answer: drop the stale home leg from the row (frozen-doc edit with refreeze), or return one sentence to the file — decide inside the stage-2 batch that touches these homes
+**Acceptance:** `grep` finds the sentence the matrix row names at the home the row names — or the
+row stops naming that home, the frozen document being re-frozen after the edit. Then `python3
+guardrails/check-matrix-reference.py` runs clean over that row, and a test reds when a home the row
+names stops carrying its sentence, so the same pointer cannot go stale a third time.
 
 
 ### ✅ The startup file carries only what it truly needs — id: q-205
@@ -935,9 +1014,18 @@ want of it, and building it would be machinery serving itself.
 ### ⬜ Three wording disagreements in the rulebook need your final call — id: q-536
 **Group:** Readability & plain language · **Priority:** normal
 **Source:** found 2026-07-30 across three readability pilots.
-Note: held for the owner: the row's final shape depends on a policy answer he hasn't given yet. The name describes the problem, not the resolution, because the resolution isn't written anywhere yet.
+Note: the title still says the call is his, and titles change only on his own word. The definition
+of done below says why it is no longer owed.
 
-**Acceptance:** Done when: rule 31's two meanings of "owner" are resolved with one ruling stated in the source, the design-review routing is stated once in the source both skills read, each of the fourteen rule collisions the sweep names is given a stated precedence or is merged into one rule, and the source sweep's N-tagged rows are marked closed against this row
+**Acceptance:** The rulebook carries one meaning for the word its parallel-work rule uses two ways,
+and a check reds a second meaning planted beside it. `grep` finds the design-review routing written
+once, in the file both skills read, and finds no second copy. Each of the fourteen collisions the
+sweep named either carries a stated precedence or has been merged into one rule, counted by a test
+that reads the sweep's own list and reds on any row still uncovered.
+
+Note (28.08): his final call is not owed here after all. His word of 27.08 puts machinery on this
+seat's desk and asks him only about machinery he set up himself; wording inside the rulebook is
+machinery. The seat rules on all three, names the ruling in the source, and reports it.
 
 
 ### ✅ One excuse shouldn't cover every future change — id: q-529
@@ -970,7 +1058,11 @@ from the earlier note.
 **Closes:** q-129, q-190, q-93, q-236, q-488, q-496, q-421, q-400
 **Absorbed:** 8 rows folded here 27.08, rotated off the board 28.08 — q-488, q-129, q-190, q-93, q-496, q-236, q-400, q-421. Full text: `docs/queue-archive/rotated-PLAN-2026-08-28-folded-rows.md`.
 
-**Acceptance:** Done when: ADOPT/bootstrap gains the step with a done-when — MET; profile template exists — MET; first real run recorded — OPEN (the row stays open on its field leg) · groups as one queue bundle with rows 129, 190, 236, 421, 488, 496 — how a project knows what it is: its kind, its engine/instance split, the tech it declares, what it can change without a rebuild, who it is founded for
+**Acceptance:** Two legs already stand: the joining walk carries the step with its own done-when,
+and the profile template exists. The open one is the field leg — one real project's join fills those
+fields in that project's own profile, `grep -q 'project.kind'`, `grep -q 'project.layers'` and
+`grep -q 'project.proofs'` all passing against its `.live-spec/profile.md`, together with the line
+naming who the project is founded for.
 
 
 ### ⬜ The product's performance after launch is tracked automatically — id: q-48
@@ -979,14 +1071,23 @@ from the earlier note.
 **Closes:** q-49, q-96, q-100, q-469
 **Absorbed:** 4 rows folded here 27.08, rotated off the board 28.08 — q-49, q-96, q-100, q-469. Full text: `docs/queue-archive/rotated-PLAN-2026-08-28-folded-rows.md`.
 
-**Acceptance:** Revisit trigger: first host with a live audience; design pairs with row 47 (feedback in → measurement in) · groups as one queue bundle with rows 49, 96 — measuring the product after shipping and running two-variant experiments on it
+**Acceptance:** A host's own status view prints that product's live numbers beside its tasks — how
+the thing is doing since it shipped — fetched by the host's own tooling rather than by a person
+going to look, and a test reds when the fetch is skipped or returns nothing. The same view carries
+the result of a two-variant experiment when one is running.
+
+Its trigger, and the row waits on it: the first host with a live audience worth measuring. The
+design travels with the feedback-in half, which is archived under its own row.
 
 
 ### ⬜ One command safely winds down all the work before you leave — id: q-235
 **Group:** Budget & economy · **Priority:** normal
 **Source:** owner 2026-07-10 ~13:30, from a café.
 
-**Acceptance:** Done when: the command's walk stands in its homes red-proven, and the first real "I'm leaving" reaches the safe stop with the closing line said
+**Acceptance:** One command halts every running worker, writes each one's checkpoint to disk, gets
+what is unpushed off the machine, and prints a single closing line saying what is safe and what is
+still open. A test runs it over a tree holding a live worker and unpushed commits, and reds when any
+one of those four is skipped. Then it runs for real, the first time he says he is leaving.
 
 
 ### ✅ Sessions save tokens by reading only what they need — id: q-584
@@ -1019,8 +1120,10 @@ never have failed, and 84% guarded real content that changed — the finding was
 removal, because most of the sample earned its place. The same method, run over the whole suite,
 answers the size question honestly instead of by feel.
 
-**Done when.** A sampled measurement, the same shape as plan-6's, reports what share of the suite
-has ever had a chance to fail, and the owner reads the number before anything is cut.
+**Done when.** No command decides this one. A sample of the suite is measured the way plan-6
+measured its 120 tests, and the share that could never have failed is written on one page with the
+sample size and the method beside it. The owner reads that number before a single test is cut. What
+would convince him: the number, and being able to see how it was reached.
 
 Not a task to prune first and measure after — his own standing law is measure, then decide, and a
 mass removal without that measurement is exactly the failure this line exists to prevent.
@@ -1032,7 +1135,12 @@ mass removal without that measurement is exactly the failure this line exists to
 **Closes:** q-412, q-206, q-215, q-234, q-404, q-396, q-405, q-504
 **Absorbed:** 7 rows folded here 27.08, rotated off the board 28.08 — q-412, q-504, q-206, q-215, q-234, q-396, q-404. Full text: `docs/queue-archive/rotated-PLAN-2026-08-28-folded-rows.md`. q-396 is archived on his own word of 28.08, not on this fold.
 
-**Acceptance:** Done when: the branch-and-worktree road stands with its merge law, the cap is re-read with his word recorded, the law and the tool agree, red-proven
+**Acceptance:** Opening a lane through `scripts/open-lane.sh` and opening one by hand from the
+written law produce the same claim commit, the same branch and the same worktree, and a test reds
+when the two diverge. The script refuses a lane past the cap its profile declares, and a test reds
+when it lets one through. `grep` finds the merge step described the same way in the law and in the
+script. Then two independent tasks run side by side for real and their branches merge with no repair
+by hand.
 
 
 ### 👁️ The front page is rewritten to be fully accurate — id: q-501
@@ -1041,7 +1149,12 @@ mass removal without that measurement is exactly the failure this line exists to
 
 ---
 
-**Acceptance:** Done when: the eleven corrections land in the draft, the style reading returns zero, the owner's word settles the host count and both sentences move together, a fresh stranger read earns the second paragraph, the replacement lands on the public page with its review record beside it, and the 10 July hole's status (row 545) is stated in the page's own words
+**Acceptance:** No command settles this one; a person reading the page is the check. The eleven
+corrections are in the draft, the plain-language check over it returns no errors, and someone
+meeting the product for the first time reads past the opening paragraph without stopping to ask a
+question. Two things wait on the owner: how many projects the page may claim, and whether the
+July gap is named in the page's own words. Then the new page replaces the old one in public. What
+would convince him: reading it once and finding nothing he would have to correct.
 
 ## Blockers
 
@@ -1077,6 +1190,31 @@ One line per finding. Don't start a second list for them. Don't fix one without 
   because their result is prose or a measurement and no command can read it. **One thing to know:**
   the cost-per-step audit closed on a measurement taken elsewhere, and the page its own acceptance
   asked for — every fixed step with its price and who demanded it — was never written.
+
+- **Every open task now says what finished looks like, and the bar for "queued" was amended to let
+  five of them be honest, 28.08.** The seventeen tasks whose definition of done came back from the
+  archive earlier today were sentences, and this file's own bar said a queued task owes a command.
+  Twenty-one of the twenty-six open tasks now carry one. Five cannot and should not: the live board,
+  the front page, the page of every number in the product, the measurement of how much of the test
+  suite could ever fail, and the question of whether the playbook repository earns its own home.
+  Each of those finishes in something a person reads and judges, and a command over them would only
+  restate the words. So each says in one line that no command decides it, who reads it, and what
+  would convince them. The bar itself was the thing that had to move: two other places in this same
+  file already provided for a task whose result no command can read — the closing rule under "Words
+  used here", and plan-10's own second bullet — so the bar contradicted the file around it. Its new
+  wording asks for a definition a reader can act on, with a command wherever a command can decide.
+  **This changed a sentence he wrote on 27.08**, which is why it is named here rather than left in
+  the diff; if he wants the harder bar back, the five rows above are what it costs. One task also
+  left the board entirely, the personal-settings leak: its own text says this project cannot reach
+  the cause, so nothing here could ever move it from undone to done. It is in
+  `docs/queue-archive/2026-08-28-archived-no-reachable-outcome.md`. Two tasks lost a line saying they
+  waited on his word — what counts as a cleared mistake, and three wording disagreements in the
+  rulebook — because his own word of 27.08 puts machinery on this seat's desk, and both are
+  machinery; the wording row keeps its title, since titles are his. One task's definition of done
+  stood on machinery deliberately removed in `e61b29b7` and was rewritten to the part that still
+  stands. And the live board's definition of done, which had grown to some 1,500 words of
+  accumulated history, is now the outcome it asks for, with every widening still findable under its
+  own time in `DECISIONS.md` and verbatim as row 166 of the merged-queue archive.
 
 - **The board was cut from 162 rows to 63 on 28.08, on his word.** His word that morning, 11:48:
   keep what is needed, archive the rest, only a handful should remain. Ninety-four rows the 27.08
@@ -1532,7 +1670,7 @@ where its pointers moved so one file carries the whole history of what left.
 Rotated closed rows (base rule 10 — nothing lost; the archive keeps every moved row, grepable by number; the live queue below holds live material):
 - rows 14, 27, 33, 42, 43, 62, 63, 67, 101, 121, 172, 189, 194, 196, 200, 201, 202 → docs/queue-archive/rotated-ROADMAP-2026-07-18.md
 - rows 47, 59, 64, 99, 107, 109, 110, 115, 128, 130, 135, 136, 137, 138, 139, 145, 149, 150, 151, 152, 154, 155, 156, 157, 158, 159, 160, 161, 162, 188, 195, 209, 210, 211, 212, 213, 214, 216, 218, 219, 222, 223, 224, 225, 226, 227, 228, 232, 233, 237, 239, 240, 242, 244, 245, 246, 248, 249, 250, 251, 252, 253, 254, 255, 256, 257, 258, 259, 262, 263, 264, 265, 266, 267, 268, 269, 270, 271, 272, 273, 274, 275, 276, 277, 278, 279, 280, 281, 282, 283, 284, 285, 286, 287, 288, 289, 290, 291, 292, 293, 294, 295, 296, 297, 298, 299, 300, 301, 303, 304, 305, 306, 310, 311, 312, 313, 314, 315, 316, 317, 318, 319, 320, 321, 322, 323, 324, 325, 326, 327, 328, 329, 330, 331, 333, 334, 335, 336, 337, 338, 339, 340, 341, 342, 343, 344, 345, 346, 347, 348, 349, 350, 351, 352, 353, 354, 355, 356, 357, 358, 359, 360, 361, 362, 363, 364, 365, 366, 367, 368, 369, 370, 371, 372, 373, 374, 375, 376, 377, 378, 379, 380, 382, 383, 384, 387, 388, 390, 391, 392, 393, 394, 395, 397, 402, 403, 406, 407, 408, 409, 413, 414, 415, 416, 417, 418, 419, 420, 422, 423, 429, 430, 431, 433, 434, 438, 439, 441, 442, 443, 444, 445, 456, 461, 462, 463, 464, 468, 470, 476, 477, 478, 480, 482, 494, 495, 502, 506 → docs/queue-archive/rotated-ROADMAP-2026-07.md
-- rows 522, 549, 555, 556, 557, 565, 569, 571, 572, 573, 574, 577, 602, 618, 619, 626, 700 → docs/queue-archive/rotated-ROADMAP-2026-08.md
+- rows 522, 549, 555, 556, 557, 558, 565, 569, 571, 572, 573, 574, 577, 602, 618, 619, 626, 700 → docs/queue-archive/rotated-ROADMAP-2026-08.md
 - rows 69, 197, 198, 199, 302, 307, 308, 309, 332, 389, 401, 425, 426, 428, 432, 435, 446, 447, 448, 449, 450, 451, 452, 465, 466, 467, 472, 473, 474, 475, 483, 498, 499, 500, 505, 508, 512, 513, 514, 515, 516, 518, 519, 520, 521, 523, 524, 526, 528, 530, 532, 533, 534, 535, 538, 539, 540, 541, 543, 544, 545, 546, 547, 548, 551, 553, 559, 560, 561, 562, 563, 564, 578, 579, 580, 585, 587, 594, 599, 600, 601, 603, 604, 606, 607, 613, 614, 615, 616, 620, 621, 622, 750 → docs/queue-archive/rotated-ROADMAP-2026-08-27-provenance-purge.md
 - rows 44, 48, 49, 54, 93, 95, 96, 100, 108, 117, 118, 119, 129, 131, 133, 134, 140, 141, 143, 144, 148, 163, 165, 166, 168, 170, 171, 190, 191, 192, 193, 203, 204, 205, 206, 207, 208, 215, 217, 220, 221, 229, 230, 231, 234, 235, 236, 238, 241, 243, 247, 261, 381, 385, 386, 396, 398, 399, 400, 404, 405, 410, 411, 412, 421, 424, 427, 436, 437, 440, 453, 454, 455, 457, 458, 459, 460, 469, 471, 479, 481, 484, 485, 486, 487, 488, 489, 490, 491, 492, 493, 496, 497, 501, 503, 504, 507, 509, 510, 511, 517, 525, 527, 529, 531, 536, 537, 542, 550, 552, 554, 566, 567, 568, 570, 575, 576, 581, 582, 583, 584, 586, 588, 589, 590, 591, 592, 593, 595, 596, 597, 598, 605, 608, 609, 610, 611, 612, 617, 623, 624, 625 → docs/queue-archive/rotated-ROADMAP-2026-08-27-merged-into-plan.md
 - rows 49, 93, 96, 100, 108, 117, 118, 119, 129, 131, 133, 134, 140, 141, 143, 144, 148, 168, 170, 171, 190, 191, 192, 203, 204, 206, 207, 208, 215, 217, 220, 221, 229, 230, 231, 234, 236, 238, 241, 247, 261, 381, 385, 396, 399, 400, 404, 410, 411, 412, 421, 424, 436, 437, 440, 454, 455, 457, 459, 460, 469, 471, 479, 481, 484, 485, 486, 487, 488, 491, 492, 493, 496, 503, 504, 507, 509, 510, 511, 517, 525, 542, 550, 552, 554, 566, 575, 582, 583, 589, 605, 617 → docs/queue-archive/rotated-PLAN-2026-08-28-folded-rows.md
