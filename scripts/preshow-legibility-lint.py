@@ -15,29 +15,32 @@ The floors (stated defaults — a host may set its own on its word, INV-70):
 
 What it CAN do (honestly, so no one over-trusts it):
   It reads DECLARED CSS — `<style>` blocks, inline `style="..."` attributes, and any `.css` file passed
-  directly. It resolves one level of CSS custom properties (`var(--name)`), pairs a rule block's own
-  `color` with the same block's `background-color` when both are set. Otherwise it walks the SAME
-  selector's own compound chain for the nearest ancestor that declares a background — `.gg .cap` is
-  paired with `.gg`'s background when `.gg { background: ... }` is in the same stylesheet — falling
-  back to the page background (`body`/`:root`/`html`, else the most common declared background, else
-  white with the assumption NOTED) only for a bare selector with no chain, or a chain that genuinely
-  reaches a body/:root/html marker. A chain that dead-ends without reaching one — the true background
-  sits on a sibling class or in markup this static reader cannot see — is reported UNRESOLVED rather
-  than silently guessed (fix for the 2026-07-27 wrong-background bug: it used to pair every colour
-  with the page background regardless, blocking cards that painted their own light background and
-  missing genuine failures elsewhere that only looked fine against the far-away page colour). It
-  computes the WCAG relative-luminance contrast ratio exactly as the spec defines it, and it converts
-  px / pt / rem / em sizes to pixels.
+  directly. It resolves one level of CSS custom properties (`var(--name)`) and computes the WCAG
+  relative-luminance contrast ratio exactly as the spec defines it, converting px / pt / rem / em to
+  pixels.
+
+  A ratio is only worth as much as the background it was measured against, so a pair is SCORED only
+  where the stylesheet itself determines that background. Three cases determine it. The rule sets a
+  background on itself. An ancestor named in the rule's own compound chain sets one — `.gg .cap` is
+  paired with `.gg`'s background when `.gg { background: ... }` is in the same stylesheet. Or the page
+  element (`body`/`:root`/`html`) sets one and the stylesheet paints no other surface at all, which
+  leaves the page as the only background any text in that file can be sitting on.
+
+  Everything else is reported UNRESOLVED and never scored: a rule that paints itself in a colour this
+  reader cannot pin down, a chain whose ancestors paint nothing while the stylesheet does paint
+  surfaces of its own, and any file whose page element declares no background colour. The measured
+  colour is named in every verdict, so a wrong pairing shows on its face.
 
 What it CANNOT do:
-  It is a PRAGMATIC STATIC FLOOR, not a browser. It does NOT run the full CSS cascade, specificity, inheritance
-  across the DOM tree, media queries, opacity stacking, gradient/image backgrounds, or JS-applied styles. It
-  skips named colors, unresolved variables, and unparseable or relative sizes (%/unitless/calc) rather than
-  GUESS — a skipped declaration is never a hit. It cannot see DOM nesting that isn't expressed as a compound
-  CSS selector (a sibling class that happens to paint the true ancestor in markup) — those pairs are reported
-  UNRESOLVED, not scored. The authoritative check for a real product surface is the BROWSER-COMPUTED assertion
-  in the adopting project's own suite (the verify feel pass, INV-30/INV-136 split); this script is the floor
-  at the pre-show gate for a styled file about to be opened for a human.
+  It is a PRAGMATIC STATIC FLOOR, not a browser. It does NOT run the full CSS cascade, specificity,
+  inheritance across the DOM tree, media queries, opacity stacking, gradient/image backgrounds, or
+  JS-applied styles. It skips named colors, translucent colors, unresolved variables, and unparseable
+  or relative sizes (%/unitless/calc) rather than GUESS — a skipped declaration is never a hit. It
+  cannot see DOM nesting that isn't expressed as a compound CSS selector (a sibling class that happens
+  to paint the true ancestor in markup). The authoritative check for a real product surface is the
+  BROWSER-COMPUTED assertion in the adopting project's own suite (the verify feel pass, INV-30/INV-136
+  split); this script is the floor at the pre-show gate for a styled file about to be opened for a
+  human.
 
 Usage: preshow-legibility-lint.py FILE [FILE ...]      (or: cat file.html | preshow-legibility-lint.py -)
 Exit 0 = clean · exit 1 = at least one hit (low-contrast and/or small-text) · exit 2 = usage error.
@@ -76,11 +79,23 @@ def contrast(rgb1, rgb2):
 
 
 # ---- Colour parsing (hex #rgb/#rrggbb/#rrggbbaa, rgb()/rgba(); named/unparseable -> None) --------
+# A TRANSLUCENT colour is not a colour this reader knows: `rgba(127,127,127,.14)` renders as whatever
+# it is composited over, and the layer beneath it is exactly what a static stylesheet read cannot see.
+# Reading it as its opaque triple invents the number every ratio below then rests on, so it parses to
+# None and the declaration is skipped like a named colour or an unresolved variable.
 def _channel(tok):
     tok = tok.strip()
     if tok.endswith("%"):
         return round(float(tok[:-1]) * 255 / 100)
     return int(round(float(tok)))
+
+
+def _opaque(tok):
+    """True when an alpha component is absent or fully opaque; False when it lets the layer through."""
+    tok = tok.strip()
+    if tok.endswith("%"):
+        return float(tok[:-1]) >= 100.0
+    return float(tok) >= 1.0
 
 
 def parse_color(v):
@@ -92,15 +107,21 @@ def parse_color(v):
         h = m.group(1)
         if len(h) == 3:
             return tuple(int(ch * 2, 16) for ch in h)
-        if len(h) == 4:  # #rgba — ignore alpha
+        if len(h) == 4:  # #rgba
+            if int(h[3] * 2, 16) < 255:
+                return None
             return tuple(int(h[i] * 2, 16) for i in range(3))
-        if len(h) in (6, 8):  # #rrggbb / #rrggbbaa — ignore alpha
+        if len(h) in (6, 8):  # #rrggbb / #rrggbbaa
+            if len(h) == 8 and int(h[6:8], 16) < 255:
+                return None
             return (int(h[0:2], 16), int(h[2:4], 16), int(h[4:6], 16))
         return None
     m = re.match(r"rgba?\(([^)]+)\)$", v, re.I)
     if m:
         parts = [p for p in re.split(r"[,\s/]+", m.group(1).strip()) if p]
         try:
+            if len(parts) > 3 and not _opaque(parts[3]):
+                return None
             return (_channel(parts[0]), _channel(parts[1]), _channel(parts[2]))
         except (ValueError, IndexError):
             return None
@@ -213,8 +234,30 @@ def _collect_blocks(text, is_css_file):
     return blocks, varmap
 
 
+_ROOT_MARKERS = {"body", ":root", "html"}
+
+_NO_PAINT = {"none", "transparent", "inherit", "initial", "unset", "revert"}
+
+
+def _block_paints(block):
+    """True when a block sets a background of its own — whatever colour, resolvable or not.
+
+    Whether a rule paints a surface is a different question from what colour it paints it, and only
+    the first one is always answerable from the text. `background: linear-gradient(...)` and
+    `background: rgba(0,0,0,.4)` both make the rule its own surface while telling this reader nothing
+    about the colour, and both must stop a walk that would otherwise measure against something else.
+    """
+    for prop in ("background-color", "background"):
+        if prop in block["decls"]:
+            value = block["decls"][prop][0].strip().lower()
+            if value and value.split()[0] not in _NO_PAINT:
+                return True
+    return False
+
+
 def _block_bg(block, varmap):
-    """Resolved background colour a block sets on itself, or None."""
+    """Resolved background colour a block sets on itself, or None when it sets none this reader
+    can pin down. `_block_paints` tells the two apart."""
     for prop in ("background-color", "background"):
         if prop in block["decls"]:
             resolved = resolve_var(block["decls"][prop][0], varmap)
@@ -224,49 +267,59 @@ def _block_bg(block, varmap):
     return None
 
 
-_PAGE_SEL = {"body", ":root", "html"}
-
-
 def _selector_tokens(selector):
     return set(re.split(r"[\s,>+~]+", selector.strip()))
 
 
 def _page_background(blocks, varmap):
-    """(rgb, assumed_default) — a body/:root/html bg wins; else the most common; else white (noted)."""
-    prefer = {"body": None, ":root": None, "html": None}
-    counts = {}
+    """The colour the page element itself declares, or None where the stylesheet does not say.
+
+    There is no substitute for a page background the file never states. It belongs to the browser's
+    default and to the viewer's own theme, and standing in the most commonly declared colour, or
+    white, invents the input every ratio in the file then rests on. This used to return that guess
+    and mark only the white one as assumed.
+    """
     for block in blocks:
-        rgb = _block_bg(block, varmap)
-        if rgb is None:
+        for part in block["selector"].split(","):
+            if part.strip() in _ROOT_MARKERS and _block_paints(block):
+                return _block_bg(block, varmap)
+    return None
+
+
+def _paints_its_own_surfaces(blocks):
+    """True when the stylesheet paints a background on anything other than the page element."""
+    for block in blocks:
+        if not _block_paints(block):
             continue
-        counts[rgb] = counts.get(rgb, 0) + 1
-        for tok in _selector_tokens(block["selector"]):
-            if tok in prefer and prefer[tok] is None:
-                prefer[tok] = rgb
-    for tok in ("body", ":root", "html"):
-        if prefer[tok] is not None:
-            return prefer[tok], False
-    if counts:
-        return max(counts, key=counts.get), False
-    return (255, 255, 255), True
+        if all(p.strip() in _ROOT_MARKERS for p in block["selector"].split(",")):
+            continue
+        return True
+    return False
 
 
 def _hex(rgb):
     return "#%02x%02x%02x" % rgb
 
 
-# ---- Ancestor background resolution (fix for the wrong-background bug, 2026-07-27 inbox) ---------
-# The lint used to pair every foreground colour with the PAGE background, never a nearer ancestor
-# that actually paints one — wrong in both directions on a page whose cards paint their own
-# backgrounds (false low-contrast hits on light cards; genuine failures elsewhere waved through
-# because they read fine against the far-away page colour). The fix stays text-only (no browser, no
-# DOM): it walks the SAME selector's own compound chain (`.gg .cap` under `.gg { background:#fff }`)
-# for an ancestor that declares a background, nearest first. A bare selector with no chain at all
-# keeps the old page-background default (there is no contrary information to act on). A selector
-# that DOES carry a chain but dead-ends — no ancestor in it paints, and the chain never reaches a
-# body/:root/html marker — is UNRESOLVED: the true background sits on a sibling class or in markup
-# this static reader cannot see, and it must never be guessed as the page background.
-_ROOT_MARKERS = {"body", ":root", "html"}
+# ---- Background resolution (text-only: no browser, no DOM) --------------------------------------
+# One rule decides every pairing: a pair is measured only against a background the stylesheet
+# DETERMINES, and every other pair is reported for a human eye.
+#
+# The first half of this landed on 2026-07-27, against a lint that paired every foreground colour
+# with the page background and nothing else: it walks the rule's own compound chain (`.gg .cap` under
+# `.gg { background:#fff }`) for the nearest ancestor that paints. What it left behind was the same
+# defect one case narrower. A selector carrying no chain — the common shape, since a class is usually
+# written on its own — still fell back to the page background, so text sitting on a card was scored
+# against the page behind the card, and the verdict was wrong in both directions again: on a dark page
+# with white cards, dark card text was reported unreadable at 2.3:1 while near-white card text passed
+# at 14.6:1 and was in truth invisible at 1.3:1.
+#
+# What a chainless selector determines depends on the rest of the stylesheet. Where the page element
+# is the only thing the file paints, the page background is the only background any of its text can
+# be on — determined, and scored. Where the file paints surfaces of its own, the text may be on any
+# of them, and there is nothing to measure against — UNRESOLVED. The same weighing covers a chain
+# whose ancestors paint nothing: naming `body` as an ancestor says no more about the card in between
+# than naming nothing does, so it is not the stronger evidence it was read as.
 
 
 def _selector_run(selector):
@@ -289,32 +342,46 @@ def _selector_run(selector):
 
 
 def _selector_own_bg(token, blocks, varmap):
-    """First block whose own selector (any comma-alternative) equals `token` exactly and paints."""
+    """(rgb, paints) for the first block whose own selector (any comma-alternative) equals `token`
+    exactly and paints. `paints` says the token is a surface; `rgb` is its colour where there is one."""
     for block in blocks:
         for part in block["selector"].split(","):
-            if part.strip() == token:
-                rgb = _block_bg(block, varmap)
-                if rgb is not None:
-                    return rgb
-    return None
+            if part.strip() == token and _block_paints(block):
+                return _block_bg(block, varmap), True
+    return None, False
 
 
-def _resolve_bg(block, blocks, varmap, page_bg):
-    """Return (rgb, kind) — kind in 'own' / 'ancestor' / 'root' / 'unresolved'."""
-    own = _block_bg(block, varmap)
-    if own is not None:
-        return own, "own"
+# The plain reasons a pair goes unscored, each naming what the stylesheet did not say.
+_WHY_OWN = ("the rule paints its own background in a colour this reader cannot pin down "
+            "(a gradient, an image, a translucent or a named colour)")
+_WHY_ANCESTOR = ("the nearest ancestor in the selector chain that paints does so in a colour this "
+                 "reader cannot pin down")
+_WHY_NO_PAGE = ("the page itself declares no background colour, so the file states nothing to "
+                "measure this text against")
+_WHY_SURFACES = ("the selector names no painting ancestor, and the stylesheet paints surfaces of "
+                 "its own that this text may be sitting on")
+
+
+def _resolve_bg(block, blocks, varmap, page_bg, own_surfaces):
+    """Return (rgb, kind, why) — kind in 'own' / 'ancestor' / 'page' / 'unresolved'.
+    `why` is the plain reason on 'unresolved', None otherwise."""
+    if _block_paints(block):
+        own = _block_bg(block, varmap)
+        return (own, "own", None) if own is not None else (None, "unresolved", _WHY_OWN)
     run = _selector_run(block["selector"])
-    if len(run) <= 1:
-        return page_bg, "root"  # bare selector: no chain to act on, keep the page-background default
-    ancestors = run[:-1]
-    for token in reversed(ancestors):  # nearest ancestor first
-        rgb = _selector_own_bg(token, blocks, varmap)
-        if rgb is not None:
-            return rgb, "ancestor"
-    if ancestors[0] in _ROOT_MARKERS:
-        return page_bg, "root"
-    return None, "unresolved"
+    for token in reversed(run[:-1]):  # nearest ancestor first
+        if token in _ROOT_MARKERS:
+            break  # the page element — weighed below, against what else the stylesheet paints
+        rgb, paints = _selector_own_bg(token, blocks, varmap)
+        if paints:
+            return (rgb, "ancestor", None) if rgb is not None else (None, "unresolved", _WHY_ANCESTOR)
+    if page_bg is None:
+        return None, "unresolved", _WHY_NO_PAGE
+    if len(run) == 1 and run[0] in _ROOT_MARKERS:
+        return page_bg, "page", None  # the rule styles the page element itself
+    if own_surfaces:
+        return None, "unresolved", _WHY_SURFACES
+    return page_bg, "page", None
 
 
 def _is_bold(block):
@@ -336,7 +403,8 @@ def scan(text, is_css_file=False):
     from the stylesheet text — reported for a human to check by eye, never silently paired."""
     starts = _line_starts(text)
     blocks, varmap = _collect_blocks(text, is_css_file)
-    page_bg, assumed = _page_background(blocks, varmap)
+    page_bg = _page_background(blocks, varmap)
+    own_surfaces = _paints_its_own_surfaces(blocks)
     hits = []
     unresolved = []
     for block in blocks:
@@ -347,13 +415,9 @@ def scan(text, is_css_file=False):
             resolved = resolve_var(decls["color"][0], varmap)
             fg = _first_color_token(resolved)
             if fg is not None:
-                bg, bg_kind = _resolve_bg(block, blocks, varmap, page_bg)
+                bg, bg_kind, why = _resolve_bg(block, blocks, varmap, page_bg, own_surfaces)
                 if bg_kind == "unresolved":
-                    detail = (
-                        "background could not be resolved from the stylesheet text (no ancestor in "
-                        "the selector chain paints, and the chain never reaches body/:root/html) — "
-                        "check the real rendered pair by eye"
-                    )
+                    detail = why + " — check the real rendered pair by eye"
                     unresolved.append((_line_of(starts, decls["color"][1]), sel, detail))
                 else:
                     ratio = contrast(fg, bg)
@@ -365,9 +429,8 @@ def scan(text, is_css_file=False):
                     )
                     floor = CONTRAST_LARGE if large else CONTRAST_NORMAL
                     if ratio < floor:
-                        note = " [background assumed #ffffff]" if (bg_kind == "root" and assumed) else ""
-                        detail = "ratio %.1f:1 < %.1f:1 (color %s on %s)%s" % (
-                            ratio, floor, _hex(fg), _hex(bg), note,
+                        detail = "ratio %.1f:1 < %.1f:1 (color %s on %s)" % (
+                            ratio, floor, _hex(fg), _hex(bg),
                         )
                         hits.append((_line_of(starts, decls["color"][1]), "low-contrast", sel, detail))
         # --- size ---

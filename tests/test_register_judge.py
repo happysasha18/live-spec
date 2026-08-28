@@ -386,14 +386,20 @@ def test_document_calque_reds_under_the_judge():
 
 
 def test_document_judge_is_opt_in_and_stands_down(monkeypatch):
-    """Off by default so the suite and push gate stay deterministic; on, it stands down on breakage."""
+    """Off by default so the suite and push gate stay deterministic; on, it stands down on breakage.
+
+    A stand-down says so. An empty offence list from a judge that never ran is not a finding of
+    nothing, and the second return value is what tells the two apart at the verdict line.
+    """
     monkeypatch.delenv("PRESHOW_REGISTER_JUDGE", raising=False)
-    assert lint.judge_document(RU_CALQUE_FIXTURE) == []      # disabled -> empty
+    assert lint.judge_document(RU_CALQUE_FIXTURE) == ([], None)   # never asked -> nothing to report
     monkeypatch.setenv("PRESHOW_REGISTER_JUDGE", "1")
     monkeypatch.setattr(core.subprocess, "run",
                         lambda *a, **k: (_ for _ in ()).throw(FileNotFoundError()))
-    # even enabled, a missing binary stands it down without raising
-    assert lint.judge_document(RU_CALQUE_FIXTURE) == []
+    # even enabled, a missing binary stands it down without raising — and names the stand-down
+    offences, stood_down = lint.judge_document(RU_CALQUE_FIXTURE)
+    assert offences == []
+    assert stood_down, "an asked-for judge that could not run must report itself, not read as clean"
 
 
 def test_document_law_ships():

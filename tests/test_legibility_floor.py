@@ -81,6 +81,56 @@ def test_genuine_failure_under_a_card_is_still_caught():
     )
 
 
+def _unresolved_section(stdout):
+    return stdout.split("UNRESOLVED", 1)[1] if "UNRESOLVED" in stdout else ""
+
+
+def test_chainless_selector_over_a_painted_card_is_not_scored_against_the_page():
+    """The half the 2026-07-27 fix left behind, and the shape a class is usually written in: a
+    selector with no chain at all was still paired with the PAGE background. On a dark page holding
+    a white card, that scored both of the card's own captions against #12131a — reporting the
+    readable one (#4d5156, 8:1 on the card) as a failure at 2.3:1, and passing the invisible one
+    (#e8e4de, 1.3:1 on the card) at 14.6:1. Neither number was ever measured against the surface the
+    text sits on, and neither is determinable from the stylesheet: both belong in UNRESOLVED."""
+    r = _run(FIX / "legibility_chainless.html")
+    for line in r.stdout.splitlines():
+        if ".card-note" in line or ".card-title" in line:
+            assert "low-contrast" not in line, (
+                "a caption on a painted card was scored against the page background: " + r.stdout
+            )
+    section = _unresolved_section(r.stdout)
+    assert ".card-note" in section and ".card-title" in section, (
+        "both captions must be reported as undeterminable, the failing-looking one and the "
+        "passing-looking one alike: " + r.stdout
+    )
+
+
+def test_page_background_is_never_invented_where_the_page_declares_none():
+    """The same guess one layer down. Where no root element declares a background, the lint used to
+    substitute the most commonly declared colour in the file — here #7f7f7f, read off three
+    TRANSLUCENT rules whose rendered colour depends on what is under them — and then scored every
+    rule against it. Two invented inputs, one confident ratio. Nothing in this file determines a
+    background, so nothing in it is scored."""
+    r = _run(FIX / "legibility_no_page_background.html")
+    assert "low-contrast" not in r.stdout, (
+        "a ratio was computed against a background the file never declares: " + r.stdout
+    )
+    assert "body" in _unresolved_section(r.stdout), (
+        "the undeterminable page background must be reported, not substituted: " + r.stdout
+    )
+
+
+def test_translucent_colour_is_not_read_as_its_opaque_triple():
+    """A colour that lets the layer beneath it through is not a colour this reader knows."""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("leg", SCRIPT)
+    mod = importlib.util.module_from_spec(spec); spec.loader.exec_module(mod)
+    assert mod.parse_color("rgba(127,127,127,.14)") is None
+    assert mod.parse_color("#7f7f7f24") is None
+    assert mod.parse_color("rgba(127,127,127,1)") == (127, 127, 127)
+    assert mod.parse_color("#7f7f7f") == (127, 127, 127)
+
+
 def test_unresolvable_background_reported_separately_not_silently_paired():
     """When the painting rule can't be found from the CSS text at all (ancestor class with no
     declared background — the lint can't see what covers it), the pair must be listed as UNRESOLVED,
