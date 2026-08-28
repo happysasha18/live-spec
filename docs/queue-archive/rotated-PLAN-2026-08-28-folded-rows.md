@@ -23,6 +23,106 @@ Four rows the 27.08 pass folded were checked against their fold target on 2026-0
 the board, so they are not in this file: `q-490`, `q-567`, `q-586` and `plan-10`. Each carries, on
 the board, the fact its target does not cover.
 
+## Index
+
+One line per folded row, findable by its own number. `plan-1` and `plan-13` carried no row number
+and stand under their fold headings below.
+
+| # | Wish (plain words) | Class | Status | Decision / acceptance |
+| --- | --- | --- | --- | --- |
+| 399 | A bad message is caught the moment it's created | fold | superseded 2026-08-28 | folded into q-398; the row's full text stands under that heading below |
+| 503 | Every handed-in item is logged automatically | fold | superseded 2026-08-28 | folded into q-398; the row's full text stands under that heading below |
+| 511 | A near-miss anywhere now warns every other project | fold | superseded 2026-08-28 | folded into q-398; the row's full text stands under that heading below |
+| 247 | Handed-in files reach the project even from another machine | fold | superseded 2026-08-28 | folded into q-398; the row's full text stands under that heading below |
+| 261 | Strangers can suggest changes through GitHub without special access | fold | superseded 2026-08-28 | folded into q-398; the row's full text stands under that heading below |
+| 385 | The first project sharing data gets its own safety checks | fold | superseded 2026-08-28 | folded into q-398; the row's full text stands under that heading below |
+| 412 | Independent work is checked to prove it ran in parallel | fold | superseded 2026-08-28 | folded into q-386; the row's full text stands under that heading below |
+| 504 | Finished work branches are cleaned up automatically | fold | superseded 2026-08-28 | folded into q-386; the row's full text stands under that heading below |
+| 206 | Clear rules for running several workers at once | fold | superseded 2026-08-28 | folded into q-386; the row's full text stands under that heading below |
+| 215 | Big builds are planned so pieces can be built in parallel | fold | superseded 2026-08-28 | folded into q-386; the row's full text stands under that heading below |
+| 234 | Several independent workers are managed without stepping on each other | fold | superseded 2026-08-28 | folded into q-386; the row's full text stands under that heading below |
+| 396 | Agents on one machine talk to each other directly | fold | superseded 2026-08-28 | folded into q-386; the row's full text stands under that heading below |
+| 404 | A trial run proves the multi-agent rules actually work | fold | superseded 2026-08-28 | folded into q-386; the row's full text stands under that heading below |
+| 479 | A worker never wipes out someone else's unsaved work | fold | superseded 2026-08-28 | folded into q-624; the row's full text stands under that heading below |
+| 605 | An old file-discarding incident gets its own proper record | fold | superseded 2026-08-28 | folded into q-624; the row's full text stands under that heading below |
+| 507 | Expensive AI help is used only when truly needed | fold | superseded 2026-08-28 | folded into plan-17; the row's full text stands under that heading below |
+| 140 | The method knows what to trim when money or time run short | fold | superseded 2026-08-28 | folded into plan-17; the row's full text stands under that heading below |
+| 457 | Weekly spending is tracked and cheaper workers are used more | fold | superseded 2026-08-28 | folded into plan-17; the row's full text stands under that heading below |
+| 575 | Tests during work run fast; full proof runs at every release | fold | superseded 2026-08-28 | folded into plan-17; the row's full text stands under that heading below |
+| 517 | Shared displays are checked against what you see | fold | superseded 2026-08-28 | folded into plan-12; the row's full text stands under that heading below |
+| 552 | Editing the spec updates every copy of it automatically | fold | superseded 2026-08-28 | folded into plan-12; the row's full text stands under that heading below |
+| 486 | New requests say which existing task they match | fold | superseded 2026-08-28 | folded into plan-12; the row's full text stands under that heading below |
+| 108 | New features are checked against how people actually use the product | fold | superseded 2026-08-28 | folded into plan-12; the row's full text stands under that heading below |
+| 117 | A finished feature is walked through like a real visitor | fold | superseded 2026-08-28 | folded into plan-12; the row's full text stands under that heading below |
+| 118 | A default choice gets a human decision within two releases | fold | superseded 2026-08-28 | folded into plan-12; the row's full text stands under that heading below |
+| 143 | Every new feature states how fast it must be | fold | superseded 2026-08-28 | folded into plan-12; the row's full text stands under that heading below |
+| 192 | Every step of a journey states what it needs and leaves behind | fold | superseded 2026-08-28 | folded into plan-12; the row's full text stands under that heading below |
+| 436 | New projects know upfront which variations to design for | fold | superseded 2026-08-28 | folded into plan-12; the row's full text stands under that heading below |
+| 437 | Checking for similar cases happens at every level | fold | superseded 2026-08-28 | folded into plan-12; the row's full text stands under that heading below |
+| 459 | A reported bug is checked against the spec before it's fixed | fold | superseded 2026-08-28 | folded into plan-12; the row's full text stands under that heading below |
+| 440 | Every request is sorted as one-time or standing before it starts | fold | superseded 2026-08-28 | folded into plan-12; the row's full text stands under that heading below |
+| 525 | A broken measurement refuses to fake a zero | fold | superseded 2026-08-28 | folded into q-489; the row's full text stands under that heading below |
+| 217 | Every quality check is tested to prove it actually works | fold | superseded 2026-08-28 | folded into q-489; the row's full text stands under that heading below |
+| 220 | A full audit of a rough day finds what the method missed | fold | superseded 2026-08-28 | folded into q-489; the row's full text stands under that heading below |
+| 230 | Documents are automatically re-checked so wording never drifts | fold | superseded 2026-08-28 | folded into q-489; the row's full text stands under that heading below |
+| 492 | The method watches its own numbers and improves them on a schedule | fold | superseded 2026-08-28 | folded into q-489; the row's full text stands under that heading below |
+| 454 | Full documents get a periodic deep re-read on a set schedule | fold | superseded 2026-08-28 | folded into q-489; the row's full text stands under that heading below |
+| 455 | Past working sessions are mined for lessons never written down | fold | superseded 2026-08-28 | folded into q-489; the row's full text stands under that heading below |
+| 550 | A decision recorded as your word actually quotes you | fold | superseded 2026-08-28 | folded into q-497; the row's full text stands under that heading below |
+| 589 | A worker's report matches the files it changed | fold | superseded 2026-08-28 | folded into q-497; the row's full text stands under that heading below |
+| 617 | The project's own goals are tracked with real, checkable numbers | fold | superseded 2026-08-28 | folded into plan-11; the row's full text stands under that heading below |
+| 566 | Every open task reads clearly on the board | fold | superseded 2026-08-28 | folded into plan-11; the row's full text stands under that heading below |
+| 481 | Old queued tasks are reviewed and cleared out regularly | fold | superseded 2026-08-28 | folded into plan-11; the row's full text stands under that heading below |
+| 119 | Decisions explain what changes for you | fold | superseded 2026-08-28 | folded into plan-16; the row's full text stands under that heading below |
+| 131 | Work is narrated out loud as it happens | fold | superseded 2026-08-28 | folded into plan-16; the row's full text stands under that heading below |
+| 134 | The reply clock reads the real time automatically | fold | superseded 2026-08-28 | folded into plan-16; the row's full text stands under that heading below |
+| 141 | Every chat window follows the same rules automatically | fold | superseded 2026-08-28 | folded into plan-16; the row's full text stands under that heading below |
+| 144 | The visible task list speaks plain words, no codes | fold | superseded 2026-08-28 | folded into plan-16; the row's full text stands under that heading below |
+| 484 | The session always reports what it did, unprompted | fold | superseded 2026-08-28 | folded into plan-16; the row's full text stands under that heading below |
+| 471 | Reports include a time estimate, and later say how close it was | fold | superseded 2026-08-28 | folded into plan-16; the row's full text stands under that heading below |
+| 424 | Every mention of an item includes its plain description | fold | superseded 2026-08-28 | folded into plan-16; the row's full text stands under that heading below |
+| 133 | Ask "show me all the features" and get an answer | fold | superseded 2026-08-28 | folded into q-166; the row's full text stands under that heading below |
+| 582 | The status page shows the one thing being finished now | fold | superseded 2026-08-28 | folded into q-166; the row's full text stands under that heading below |
+| 583 | Long builds show progress as they happen | fold | superseded 2026-08-28 | folded into q-166; the row's full text stands under that heading below |
+| 411 | One view shows who's working on what, everywhere | fold | superseded 2026-08-28 | folded into q-166; the row's full text stands under that heading below |
+| 485 | Your text is changed only where you asked | fold | superseded 2026-08-28 | folded into q-458; the row's full text stands under that heading below |
+| 487 | A confusing sentence gets fixed at its source | fold | superseded 2026-08-28 | folded into q-458; the row's full text stands under that heading below |
+| 510 | Text always names what a group of items actually is | fold | superseded 2026-08-28 | folded into q-458; the row's full text stands under that heading below |
+| 148 | The spec reads like a person wrote it | fold | superseded 2026-08-28 | folded into q-458; the row's full text stands under that heading below |
+| 170 | Text is checked for awkward phrasing before you see it | fold | superseded 2026-08-28 | folded into q-458; the row's full text stands under that heading below |
+| 208 | Text you read is drafted with a clear head first | fold | superseded 2026-08-28 | folded into q-458; the row's full text stands under that heading below |
+| 204 | Text rewrites are checked to prove no meaning was lost | fold | superseded 2026-08-28 | folded into q-458; the row's full text stands under that heading below |
+| 460 | Old documents are rewritten to read clearly, and stay that way | fold | superseded 2026-08-28 | folded into q-458; the row's full text stands under that heading below |
+| 493 | Text never describes a tool as if it were a person | fold | superseded 2026-08-28 | folded into q-458; the row's full text stands under that heading below |
+| 381 | A workflow diagram lives in exactly one place | fold | superseded 2026-08-28 | folded into q-458; the row's full text stands under that heading below |
+| 203 | A safety net catches messy chat text automatically | fold | superseded 2026-08-28 | folded into q-458; the row's full text stands under that heading below |
+| 509 | Projects learn automatically when a new rule applies | fold | superseded 2026-08-28 | folded into plan-14; the row's full text stands under that heading below |
+| 171 | The method still works without git or GitHub | fold | superseded 2026-08-28 | folded into plan-14; the row's full text stands under that heading below |
+| 241 | The four safety checks are made portable to any project | fold | superseded 2026-08-28 | folded into plan-14; the row's full text stands under that heading below |
+| 221 | Your photo site can copy over the new setup on its own | fold | superseded 2026-08-28 | folded into plan-14; the row's full text stands under that heading below |
+| 168 | The right format shows up whether you're local or remote | fold | superseded 2026-08-28 | folded into plan-14; the row's full text stands under that heading below |
+| 191 | Test practices are checked against how the industry does it | fold | superseded 2026-08-28 | folded into q-163; the row's full text stands under that heading below |
+| 491 | Test suites follow rules that keep them running fast | fold | superseded 2026-08-28 | folded into q-163; the row's full text stands under that heading below |
+| 554 | Slow tests are rebuilt to prove themselves quickly | fold | superseded 2026-08-28 | folded into q-163; the row's full text stands under that heading below |
+| 207 | A list points at where handed-in files live | fold | superseded 2026-08-28 | folded into q-427; the row's full text stands under that heading below |
+| 229 | Every project setting is catalogued in one place | fold | superseded 2026-08-28 | folded into q-427; the row's full text stands under that heading below |
+| 231 | Every tool's version number stays in sync automatically | fold | superseded 2026-08-28 | folded into q-427; the row's full text stands under that heading below |
+| 238 | An approved idea from months ago finally gets built | fold | superseded 2026-08-28 | folded into q-427; the row's full text stands under that heading below |
+| 410 | Lessons learned automatically retire once no longer needed | fold | superseded 2026-08-28 | folded into q-427; the row's full text stands under that heading below |
+| 488 | Shared code is checked for leaked personal data | fold | superseded 2026-08-28 | folded into q-54; the row's full text stands under that heading below |
+| 129 | Every project knows and updates its own kind | fold | superseded 2026-08-28 | folded into q-54; the row's full text stands under that heading below |
+| 190 | New projects can split public code from private content | fold | superseded 2026-08-28 | folded into q-54; the row's full text stands under that heading below |
+| 93 | Design changes sync automatically to visual projects | fold | superseded 2026-08-28 | folded into q-54; the row's full text stands under that heading below |
+| 496 | Switches and text can be changed live, without a full rebuild | fold | superseded 2026-08-28 | folded into q-54; the row's full text stands under that heading below |
+| 236 | Every project states which outside services it depends on | fold | superseded 2026-08-28 | folded into q-54; the row's full text stands under that heading below |
+| 400 | Design choices are checked against the real technical need | fold | superseded 2026-08-28 | folded into q-54; the row's full text stands under that heading below |
+| 421 | One window can manage several related projects at once | fold | superseded 2026-08-28 | folded into q-54; the row's full text stands under that heading below |
+| 49 | Two versions of a feature can be tried and measured | fold | superseded 2026-08-28 | folded into q-48; the row's full text stands under that heading below |
+| 96 | What people do with the product feeds back into planning | fold | superseded 2026-08-28 | folded into q-48; the row's full text stands under that heading below |
+| 100 | A problem that keeps happening always gets an owner | fold | superseded 2026-08-28 | folded into q-48; the row's full text stands under that heading below |
+| 469 | A persistently bad number automatically becomes a task | fold | superseded 2026-08-28 | folded into q-48; the row's full text stands under that heading below |
+| 542 | A leftover test server stops popping up security warnings | fold | superseded 2026-08-28 | folded into q-581; the row's full text stands under that heading below |
+
 
 ---
 

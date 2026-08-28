@@ -18,10 +18,15 @@ re-testing markers by hand.
 
 Run: python3 scripts/check-eyes-marker.py
 """
+import os
 import sys
 
-sys.path.insert(0, "scripts")
-from plan_checks import parse_tasks
+# Resolved from this file's own location, the way every sibling script in scripts/ resolves it: a
+# cwd-relative "scripts" and "PLAN.md" made this script runnable only from the repo root.
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+REPO_ROOT = os.path.dirname(SCRIPT_DIR)
+sys.path.insert(0, SCRIPT_DIR)
+from plan_checks import parse_tasks  # noqa: E402
 
 
 def find_suspect_eyes_markers(text):
@@ -37,7 +42,7 @@ def find_suspect_eyes_markers(text):
 
 
 def main():
-    with open("PLAN.md", encoding="utf-8") as f:
+    with open(os.path.join(REPO_ROOT, "PLAN.md"), encoding="utf-8") as f:
         text = f.read()
     suspects = find_suspect_eyes_markers(text)
     if not suspects:
