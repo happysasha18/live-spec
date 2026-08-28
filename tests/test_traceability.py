@@ -1429,38 +1429,49 @@ class TestTargetOwnership(unittest.TestCase):
     a node carrying [target] names its missing pin with an em-dash, a node whose pins are all real
     carries no tag."""
 
+    # Keyed by the owning task's own id as PLAN.md writes it. Both id shapes the board carries
+    # since the 27.08 merge belong here: a former ROADMAP row keeps its number as `q-<N>`, and
+    # PLAN.md's own steps read `plan-<N>`. Four owners were re-pointed on 2026-08-28 when the
+    # board cut folded their rows into a larger row beside them; each now names the row that
+    # absorbed it, read from the fold archive rather than guessed
+    # (docs/queue-archive/rotated-PLAN-2026-08-28-folded-rows.md).
     TARGET_ROW_OWNERS = {
-        "E-6": 55,    # host-facing gates ride the registry+snapshot family (archived row 3's remainder)
-        "E-7": 55,    # snapshot machinery
-        "E-10": 55,   # surface registry executable form rides the same family
-        "E-18": 93,   # design-sync machine: first real sync on a visual host
-        "INV-17": 55, # build⊆spec honesty legs = the host-facing gate legs
-        "INV-21": 96, # success-measure reading machinery = the feedback family
-        "A-6": 55,    # adoption baseline rides the snapshot
-        "INV-185": 385,  # the contract's three arms ship at a host's first real contract
-        "INV-198": 386,  # config-health asserts the primary tree holds main (git's refusal rests on it)
-        "INV-199": 386,  # the merge-base check ahead of the gate + the stale-lane check
-        "INV-201": 386,  # the adoption gate reading the host's vendored worktree line
-        "INV-244": 437,  # the axes value-space in-between forcing step + the recursive axis-registry similarity sweep
-        "INV-308": 166,  # the work board surface, promised whole and unbuilt
-        "INV-67": 166,   # the board's one-stable-link published page
+        "E-6": "q-55",    # host-facing gates ride the registry+snapshot family (archived row 3's remainder)
+        "E-7": "q-55",    # snapshot machinery
+        "E-10": "q-55",   # surface registry executable form rides the same family
+        "E-18": "q-54",   # design-sync machine; q-93 folded into q-54 on 2026-08-28
+        "INV-17": "q-55", # build⊆spec honesty legs = the host-facing gate legs
+        "INV-21": "q-48", # success-measure reading machinery; q-96 folded into q-48 on 2026-08-28
+        "A-6": "q-55",    # adoption baseline rides the snapshot
+        "INV-185": "q-398",  # the contract's three arms; q-385 folded into q-398 on 2026-08-28
+        "INV-198": "q-386",  # config-health asserts the primary tree holds main (git's refusal rests on it)
+        "INV-199": "q-386",  # the merge-base check ahead of the gate + the stale-lane check
+        "INV-201": "q-386",  # the adoption gate reading the host's vendored worktree line
+        "INV-244": "plan-12",  # the axes value-space step + the recursive axis-registry sweep; q-437 folded into plan-12 on 2026-08-28
+        "INV-308": "q-166",  # the work board surface, promised whole and unbuilt
+        "INV-67": "q-166",   # the board's one-stable-link published page
     }
 
     def roadmap_rows(self):
-        """Every `q-<N>` task PLAN.md's `## Tasks` section still carries, by its row number,
-        mapped to its status mark — the rows' real home since the 27.08 rotation (commit
-        bc6f862b) moved ROADMAP.md's 142 live rows there, each keeping its old row number as its
-        task id. A row the provenance purge (commit 38438eaf, same day) declined before the
-        rotation ran never got a task at all, so it is simply absent here — the same way a
-        landed ROADMAP row was rotated out of the live table and stopped showing up in the old
-        reader."""
+        """Every task PLAN.md's `## Tasks` section still carries, by its own id, mapped to its
+        status mark — the rows' real home since the 27.08 rotation (commit bc6f862b) moved
+        ROADMAP.md's 142 live rows there, each keeping its old row number as a `q-<N>` id. A row
+        the provenance purge (commit 38438eaf, same day) declined before the rotation ran never
+        got a task at all, so it is simply absent here — the same way a landed ROADMAP row was
+        rotated out of the live table and stopped showing up in the old reader.
+
+        Reads BOTH id shapes the section carries. Reading only `q-<N>` was a defect of the same
+        27.08 merge that created the two shapes: PLAN.md's own `plan-<N>` steps were invisible
+        here, so a target whose row was later folded into a `plan-<N>` row read as an orphan
+        with no home to re-own it to. Found 2026-08-28, when the board cut folded q-437 into
+        plan-12."""
         body = read("PLAN.md")
         start = body.index("\n## Tasks")
         end = body.index("\n## Blockers", start)
         section = body[start:end]
         rows = {}
-        for m in re.finditer(r"(?m)^### (\S+) .*?— id: q-(\d+)\s*$", section):
-            rows[int(m.group(2))] = m.group(1)
+        for m in re.finditer(r"(?m)^### (\S+) .*?— id: ((?:q|plan)-\d+)\s*$", section):
+            rows[m.group(2)] = m.group(1)
         return rows
 
     def target_marker_anchors(self):
@@ -1506,13 +1517,14 @@ class TestTargetOwnership(unittest.TestCase):
         # purpose; re-owning them or dropping their [target] tags is the owner's call, not this
         # test's.
         rows = self.roadmap_rows()
-        for anchor, row_no in sorted(self.TARGET_ROW_OWNERS.items()):
-            self.assertIn(row_no, rows,
-                          "%s's owning row %d carries no open PLAN.md task (declined/never "
-                          "migrated?) — re-own the target or drop its tag" % (anchor, row_no))
-            self.assertNotEqual(rows[row_no], "✅",
-                             "%s's owning row %d is done (✅) — a target owned by a closed task "
-                             "is an orphan" % (anchor, row_no))
+        for anchor, task_id in sorted(self.TARGET_ROW_OWNERS.items()):
+            self.assertIn(task_id, rows,
+                          "%s's owning task %s carries no open PLAN.md task (declined, folded "
+                          "away, or never migrated?) — re-own the target to the row that "
+                          "absorbed it, or drop its tag" % (anchor, task_id))
+            self.assertNotEqual(rows[task_id], "✅",
+                             "%s's owning task %s is done (✅) — a target owned by a closed task "
+                             "is an orphan" % (anchor, task_id))
 
     def test_target_nodes_pin_honesty(self):
         arch = read("ARCHITECTURE.md")

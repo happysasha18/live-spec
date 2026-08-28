@@ -106,8 +106,16 @@ def test_matrix_row_covers_the_law():
 
 # --- the row stays deferred with its mechanical trigger (INV-129), distinct from far (INV-222) ---
 
-def test_roadmap_row_405_carries_the_trigger():
-    # Row 405's queue home moved into PLAN.md's Tasks section on 2026-08-27 (task q-405); the
-    # ROADMAP.md body was emptied the same day. Read wherever the live task list actually is.
-    plan = read("PLAN.md")
-    assert "check-listener-tripwire" in plan
+def test_row_405_carries_the_trigger_wherever_the_row_now_lives():
+    # The row's home has moved twice, and this reads wherever it actually is. On 2026-08-27 it
+    # moved from ROADMAP.md into PLAN.md's Tasks section as task q-405. On 2026-08-28 it left the
+    # board on the owner's own word ("сообщение между агентами уже работает в харнессе когда надо
+    # запилим" — agent-to-agent messaging already works in the harness, wire it when needed) and
+    # was archived whole, its text and its trigger with it.
+    #
+    # What still has to hold is what this test always guarded: a session that needs the deferral
+    # again can find the mechanical trigger beside the row, rather than re-deriving it from
+    # memory. The law itself (INV-231) is guarded by the three tests above, which read the spec,
+    # the architecture and the matrix and are untouched by the row's move.
+    archived = read("docs/queue-archive/2026-08-28-q405-agent-messaging-stale-premise.md")
+    assert "check-listener-tripwire" in archived
