@@ -532,15 +532,57 @@ class TestGateB_Tests(unittest.TestCase):
         unpushed gate-machinery commit sits in origin/main..HEAD — every ordinary work run all
         day re-paid the ~2-minute inner suite for the same unchanged bytes. So a green scratch
         run records the machinery's content digest, and the run skips while that digest stands.
-        Conservative teeth kept: no recorded green, an unreadable store, or any changed
-        machinery byte fires the run. Returns the current digest for the green recording."""
+
+        Only the green was ever written, so a run that RED left no trace: the record kept the
+        wins and dropped the losses, which makes its green true by construction. On 2026-08-27
+        one session's run failed here at ~19:30 and another session's passed the same bytes at
+        ~19:34; the surviving green then suppressed the test outright and the red went
+        unexplained (2026-08-28 adversarial review, finding 2).
+
+        So the run's own verdict is recorded either way, in the same store: a run that ends
+        without having recorded ITS OWN green — red, errored — writes the digest under this
+        test's red key, and a red on a digest outranks any green on that digest until a
+        machinery byte actually moves. The green a run records carries a token unique to that
+        run, so a sibling's green passing through the store concurrently can never be read as
+        this run's own.
+
+        The cost of a sticky red is one ~2-minute run, and it falls only where it belongs: an
+        ordinary work run touching no gate machinery is already skipped by reach at
+        `_skip_unless_gate_machinery_diff` above, so what pays is a run that is editing the very
+        machinery whose last verdict was red.
+
+        Conservative teeth kept: no recorded green, an unreadable store, a recorded red, or any
+        changed machinery byte fires the run. Returns the stamp the green recording writes."""
+        import uuid
         digest = machinery_digest()
-        if green_digest_matches(test_name, digest):
+        red_key = test_name + " (last red)"
+        try:
+            with open(_green_digest_store(), encoding="utf-8") as f:
+                stored = json.load(f)
+            green = str(stored.get(test_name) or "")
+            red = stored.get(red_key)
+        except (OSError, ValueError):
+            green, red = "", None
+        if green.startswith(digest + "@") and red != digest:
             self.skipTest(
                 "suite-in-suite meta-test: gate machinery is byte-identical to the state this "
-                "test last verified green (row 573) — skipped; any machinery edit re-fires it"
+                "test last verified green (row 573) — skipped; any machinery edit re-fires it, "
+                "and so does a run of it that ended red"
             )
-        return digest
+        stamp = "%s@%s" % (digest, uuid.uuid4().hex)
+
+        def record_the_verdict():
+            """Runs after the test body either way, which is what lets the store hold a loss.
+
+            The body's last line records the green under this run's own stamp, so that stamp
+            standing in the store is this run's proof that it finished green. Anything else —
+            an assertion, an error, a sibling's green written over ours — is a run that did
+            not green, and the digest goes to the red key."""
+            if not green_digest_matches(test_name, stamp):
+                record_green_digest(red_key, digest)
+
+        self.addCleanup(record_the_verdict)
+        return stamp
 
     def test_real_content_passes(self):
         self._skip_if_inner()
