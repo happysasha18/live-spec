@@ -29,7 +29,7 @@
 **Case: a user-visible folder is never a workspace**
 
 3. The system *shall* never use a user-visible folder — Downloads, Desktop, Documents — as a test's workspace. [INV-100]
-4. The system *shall* fail the run on a surviving file through a session-scoped before-and-after diff of the temp home, the harness's own launch sweep clearing a prior run's litter that its own teardown never reached. [INV-100]
+4. The system *shall* give each run a temp home of its own, *shall* fail the run on an artifact of that run's own surviving in it at session end, and *shall not* judge a run by what any other run left on the machine. The harness's own launch sweep clears a prior run's litter that its own teardown never reached. [INV-100]
 
 ---
 
