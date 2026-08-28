@@ -17,7 +17,7 @@ section, so every archived row stays findable from the one live list.
 
 **What reads the list today.** `bash scripts/state-probe.sh` prints the canon and `bash
 scripts/render-board.sh` draws `board.html` — both off `PLAN.md`, and the board carries every one of
-its 63 tasks. `scripts/open-lane.sh` claims a row by its id (`open-lane.sh plan-11 one-list`), with
+its 62 tasks. `scripts/open-lane.sh` claims a row by its id (`open-lane.sh plan-11 one-list`), with
 its four preconditions unchanged: the primary tree on main, one row's delta staged, the lane cap,
 the fence. `guardrails/check-doc-rotation.py` reads `PLAN.md`'s manifest. The landing gate
 `guardrails/check-landing-next-steps.py` gained the arm that matters now: a commit that marks a task
@@ -37,6 +37,13 @@ and by hand, and building it a road for that journey would be machinery serving 
 tool guaranteed by construction — the archive and its manifest line written as one act — the
 rotation gate now proves on every push, in both directions, so a hand that writes one half and
 forgets the other is named at the gate.
+
+**One question waits on the owner, and only one.** `PLAN.md` lets a session change a task's status
+and §Blockers and nothing else without his say-so; the 28.08 evening pass rewrote what finished
+looks like on twenty-one open tasks and widened the bar for what counts as queued. A sibling session
+in the same range read the rule the other way and stood down on a correction of its own. §Blockers
+carries the question in his own language, first entry. Nothing is reverted while it stands open, and
+no other work waits on his answer.
 
 **Owed and unwritten:** a `JOURNAL.md` entry for the prover-description movement (`85b659d1`).
 

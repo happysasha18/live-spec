@@ -36,7 +36,8 @@ A session edits exactly two things here: a task's status and §Blockers. Nothing
 ## Words used here
 
 - **Task** — an entry in `## Tasks` below. There is no fixed count; the count is
-  `grep -c '— id: ' PLAN.md`.
+  `grep -c '^### .*— id: ' PLAN.md`. (Corrected 28.08: the looser pattern this line used to give
+  matched this very line as well, so the count it printed was always one too many.)
 - **Item** — a line inside a task.
 - **Canon** — the list of tasks with status marks that `scripts/state-probe.sh` prints. Never typed
   by hand. There is no other Canon.
@@ -48,10 +49,10 @@ A session edits exactly two things here: a task's status and §Blockers. Nothing
   can decide it, and that is the first thing to try. Where what the task leaves behind is a page, a
   measurement or a judgement, the definition says so in one line and names who reads it and what
   would convince them. A task carrying neither is an unformed idea, and that gap is itself the
-  thing to report. (Amended 28.08: the earlier wording demanded a command of every queued task,
-  which the same file already contradicts twice — under the closing rule below, and inside plan-10,
-  both of which provide for a task whose result no command can read. Five open tasks are honestly
-  of that shape.)
+  thing to report. (Amended 28.08, and waiting on his word: the earlier wording demanded a command
+  of every queued task, which plan-10's own second bullet already made room to skip where the result
+  needs his eyes. Five open tasks are honestly of that shape. §Blockers carries the full account and
+  what putting the harder wording back would cost.)
 - **🔄 means a worker has it now**, by the take-or-decline rule in the task shape above — never "a
   session happened to touch this file recently."
 - **Verified / declared** — printed beside a mark, never a sixth mark. Verified: the task has a
@@ -215,11 +216,17 @@ chapter says a host keeps its current spec until it chooses to convert and no ga
 move, so this is deferred work rather than a blocker — and it is the largest single piece of
 debt between the host's version and today's.
 
-**Acceptance:** `ls ~/tlvphotos/.claude/skills | grep -q director && test -f
-~/tlvphotos/.live-spec/VERSION` passes, and that project's own `git status --porcelain` shows
-changes confined to `.claude/skills/`, `.live-spec/`, `.gitignore` and one journal chapter. The dry
-run and the proven restore are already done, above. One leg no command settles: whether the photo
-site still behaves as it did — its own session opens it and looks.
+**Acceptance:** `ls ~/tlvphotos/.claude/skills | grep -q director` passes and
+`~/tlvphotos/.live-spec/VERSION` reads the pack's current number — the same test the promoter row
+uses, `test "$(cat ~/tlvphotos/.live-spec/VERSION)" = "$(cat VERSION)"` — with that project's own
+`git status --porcelain` showing changes confined to `.claude/skills/`, `.live-spec/`, `.gitignore`
+and one journal chapter. The dry run and the proven restore are already done, above. One leg no
+command settles: whether the photo site still behaves as it did — its own session opens it and
+looks.
+
+(Corrected 28.08: the old wording only asked that a version file exist, which a one-byte file
+satisfies, so it could have read green over a host still on an old release. The photo site sits on
+2.7.0 against this project's 6.0.0, and the session's own opening report already says so.)
 
 
 ### ⬜ The playbook repo earns its keep or gets folded away — id: q-800
@@ -932,11 +939,23 @@ it. Nothing is left to guard, so the row stays closed and gets no command.
 ### ✅ A silent review step now leaves a written record — id: q-611
 **Group:** Method reliability · **Priority:** normal
 **Source:** full skill read 2026-08-12.
+**Read 28.08, and it holds.** The row asked that a review sweeping a whole class say so in its own
+record. The duty is written where it acts: the review skill states it at
+`~/.claude/skills/product-prover/SKILL.md:916` and its public page names it at
+`README.md:94`, so a standalone reader learns the sweep exists. And a record with a point finding
+and no such line is refused —
+`tests/test_class_hunt.py:167` reds exactly that, green when run 28.08. The two assertions over the
+review skill's own wording sit in the same file at lines 117 and 125; they run in the build service,
+which installs that skill, and skip in a checkout without it.
 
 
 ### ✅ The reviewer's instructions match what the checker expects — id: q-608
 **Group:** Method reliability · **Priority:** normal
 **Source:** full skill read 2026-08-12.
+**Read 28.08, and it holds.** The row asked that the reviewer and the safety check name the same
+filename for a review's record. They do: `skills/product-prover-pack/SKILL.md:55` asks for
+`YYYY-MM-DD-<slug>.md`, and the check's own repair line at
+`guardrails/check-prover-record.sh:214` gives the same string back.
 
 
 ### ✅ Rule-location references are checked and now stay accurate — id: q-588
@@ -1160,6 +1179,39 @@ would convince him: reading it once and finding nothing he would have to correct
 
 One line per finding. Don't start a second list for them. Don't fix one without the owner's decision.
 
+- **This file says a session may change only two things here, and one session went past that on
+  28.08. Does it stand?** The rule at the top of this page lets a session move a task's status
+  and write in this section, and says a task's wording changes only on your explicit say-so. On the
+  evening of 28.08 one session rewrote what finished looks like on twenty-one open tasks, widened
+  the bar for what counts as queued, and cut about 1,500 words of accumulated history out of one
+  task's body. Nothing among the checks watches that rule, so nothing stopped it. Another session
+  working the same evening read the rule the other way and left a correction it judged it had no
+  standing to make, which puts two sessions in open disagreement about what the rule allows. On its
+  own merits the work reads well: the twenty-one definitions came back from the archive where an
+  earlier merge had dropped them, the widened bar lets five honestly unmeasurable tasks stay on the
+  board, and every one of the 1,500 words is still findable under its own date. Two ways to settle
+  it, and either is one line from you: say it stands, and the definitions stay as they are; or say
+  it doesn't, and the twenty-one get rewritten with you reading each one. (This repair pass is under
+  the same rule and touched three lines outside the two it allows: the task-count command, which had
+  been counting its own line; the photo site's finishing test, which asked only that a version file
+  be there and never read it; and two closed rows that now say where their proof was read. Those are
+  in the same question.)
+
+- **Two tasks left the board while a worker still had them, 28.08 — where the work went, and what is
+  left of it.** The morning cut folded four rows into the one-list task and moved them to
+  `docs/queue-archive/rotated-PLAN-2026-08-28-folded-rows.md`; two of the four were marked as being
+  worked at that moment and neither carried a note saying so. Both were read back on 28.08 evening.
+  The first, the light view of where things stand, is finished on this side: the opening report and
+  the board page both draw off this file and a test fails if either stops finding a task. Its last
+  leg is your own look, and that is the same look the full live board already waits on, so it is not
+  lost. The second, the project's goals carried as numbers anyone can re-run, landed on 13.08 as
+  `.live-spec/goals-under-watch-2026-08-13.md` — seven goals, each with the command that measures it
+  and its value that morning. What never ran was the second half of it, a sweep of the older
+  transcripts for goals stated and forgotten; and the page it would have updated belongs to the
+  culling campaign, which is over. So the half that is left has no live home. Nothing is being put
+  back on the board for it. If you want the project's goals under continuous watch as a standing
+  thing, that is its own ask and it comes back as its own task.
+
 - **The method still teaches every new project to keep the queue this one just retired.** The
   skills, the templates and the joining walk all hand a project a separate queue file and describe
   it as the place a wish lands, and four of those sentences say "in this pack", which stopped being
@@ -1200,12 +1252,22 @@ One line per finding. Don't start a second list for them. Don't fix one without 
   suite could ever fail, and the question of whether the playbook repository earns its own home.
   Each of those finishes in something a person reads and judges, and a command over them would only
   restate the words. So each says in one line that no command decides it, who reads it, and what
-  would convince them. The bar itself was the thing that had to move: two other places in this same
-  file already provided for a task whose result no command can read — the closing rule under "Words
-  used here", and plan-10's own second bullet — so the bar contradicted the file around it. Its new
-  wording asks for a definition a reader can act on, with a command wherever a command can decide.
-  **This changed a sentence he wrote on 27.08**, which is why it is named here rather than left in
-  the diff; if he wants the harder bar back, the five rows above are what it costs. One task also
+  would convince them. The bar itself was moved to allow that, and the reason first written down for
+  moving it does not hold. Two passages were named as already providing for the opposite. Only one of
+  them does: plan-10's second bullet, written on 27.08 at 15:07, three hours before the bar, which
+  already made room for a step whose result needs his own eyes. The other, the closing rule under
+  "Words used here", was written by this project at 15:31 on 28.08 — hours after the bar and hours
+  before the amendment. It is this same day's work here, so it stands as no older authority and can
+  carry no weight as a reason. The authorship was named wrongly too. His own refinement on 27.08 was
+  that queued means accepted into work, clear what to do and well formalized; "done is a command" is
+  this project's reading of that phrase, and those are not words he used. So what moved was this
+  project's own formalization.
+  **This is the one thing on this list that waits on him.** The bar now reads: a task is queued when
+  its links point at something real and a reader can tell finished from unfinished without asking
+  anyone, with a command wherever a command can decide. The stricter reading that stood before wants
+  a command from every queued task, and putting it back takes the five rows above off the board as
+  unformed ideas. Either bar is workable; one line from him settles which. Until then the softer one
+  is what the file carries, and the five rows stand. One task also
   left the board entirely, the personal-settings leak: its own text says this project cannot reach
   the cause, so nothing here could ever move it from undone to done. It is in
   `docs/queue-archive/2026-08-28-archived-no-reachable-outcome.md`. Two tasks lost a line saying they
@@ -1583,9 +1645,9 @@ One line per finding. Don't start a second list for them. Don't fix one without 
   this row's work touching any of them. Left open, unclosed by this session; the "Closes:" line
   itself needs a correction this session has no standing to make (PLAN.md's own rule: a task's
   text changes only with the owner's consent).
-- **q-489 is the same overclaim, one row over.** Its own body carries no acceptance line at all
-  — group/source/"Closes:" and nothing else, so it fails the plan's own bar for ⬜ ("its
-  definition of done is a command, not a sentence"). Its "Closes:" line names nine ids (q-217,
+- **q-489 is the same overclaim, one row over.** (It had no definition of done when this was
+  written; it gained one at 18:08 the same day, so that half of the complaint is settled and the
+  sentence saying so is gone.) Its "Closes:" line names nine ids (q-217,
   q-492, q-230, q-454, q-455, q-220, q-525, q-490, q-576); read all nine — they are nine real,
   distinct pieces of work (check-quality proofs, a self-improvement schedule, drift re-checks,
   periodic deep re-reads, mining past sessions for lessons, a rough-day audit, a measurement
