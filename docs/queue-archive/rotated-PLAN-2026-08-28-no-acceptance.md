@@ -34,6 +34,18 @@ Nothing here is a loss. Every one of these also stands in full, in its original 
 44 for `q-44`, and so on. Any of these comes back the day it carries a definition of done a reader
 can act on and something real to point at.
 
+## Index
+
+One line per archived row, findable by its own number. The full entry for each stands below.
+
+| # | Wish (plain words) | Class | Status | Decision / acceptance |
+| --- | --- | --- | --- | --- |
+| 44 | Learn from other frameworks to improve the method | archive | superseded 2026-08-28 | reading with no finish line; the two reports it points at were never turned into asks |
+| 95 | Play with real projects before chasing a release date | archive | superseded 2026-08-28 | the project's own posture, already recorded under what this plan does not reopen |
+| 165 | Struggling twice triggers a search for an existing fix | archive | superseded 2026-08-28 | already law with teeth — the rule of thinking and the class-hunt walk both bind it |
+| 193 | Check whether any build stages are missing | archive | superseded 2026-08-28 | a question whose answer moves with the method; its concrete halves are plan-12 and plan-16 |
+| 243 | Articles about the method link back to it, and it links back | archive | superseded 2026-08-28 | its links point at articles nobody has written; it comes back when there is an article |
+
 Each entry below records what was on the board and why it left.
 
 

@@ -13,6 +13,12 @@ Nothing is lost. The row below also stands in full, in its original wording, as 
 where the cause actually lives, it comes back as a task with a definition of done rather than as the
 dated note it is here.
 
+## Index
+
+| # | Wish (plain words) | Class | Status | Decision / acceptance |
+| --- | --- | --- | --- | --- |
+| 596 | Personal settings never leak into a worker's task | archive | superseded 2026-08-28 | this repository cannot reach the cause, which lives in the owner's personal layer; the row stands as the dated record of a cost already paid |
+
 ---
 
 ### ⬜ Personal settings never leak into a worker's task — id: q-596

@@ -4,6 +4,12 @@ His word, verbatim reason: "сообщение между агентами уж�
 — agent-to-agent messaging already works in the harness; wire it up when actually needed, not
 tracked as a pending row until then.
 
+## Index
+
+| # | Wish (plain words) | Class | Status | Decision / acceptance |
+| --- | --- | --- | --- | --- |
+| 405 | Instant messaging between agents turns on once the tool supports it | archive | declined 2026-08-28 | his word: messaging between agents already works in the harness, so it gets wired up when it is actually needed instead of standing as a blocked row |
+
 ## What it was
 
 ```
