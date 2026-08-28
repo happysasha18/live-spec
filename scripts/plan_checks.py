@@ -48,10 +48,12 @@ CHECKS = {
     "plan-3": 'test -z "$(git ls-files prototype)" && test -d attic/transcripts && test -f .live-spec/PROBLEMS.md',
     # plan-7: the thirteen unbacked rules are in the attic and none of their numbers came back to
     # the rulebook — a retired number stays a hole, never reused.
-    "plan-7": "test -f attic/live-spec-base-unbacked-rules-2026-08-26.md && ! grep -qE '^(11|14|15|18|19|20|21|23|28|30|32|33|34|35)\\. \\*\\*' skills/live-spec-base/SKILL.md",
+    # The positive arm is there on purpose: a bare "the numbers are absent" would go green on a
+    # rulebook that had been deleted.
+    "plan-7": "test -f attic/live-spec-base-unbacked-rules-2026-08-26.md && grep -q '^36\\. \\*\\*' skills/live-spec-base/SKILL.md && ! grep -qE '^(11|14|15|18|19|20|21|23|28|30|32|33|34|35)\\. \\*\\*' skills/live-spec-base/SKILL.md",
     # plan-17: the measured floor stands in the plan, the per-step reader exists, and the project's
     # own boot file sends a session there rather than at the whole plan.
-    "plan-17": "grep -q '17,575' PLAN.md && test -f scripts/plan-step.sh && grep -q 'plan-step.sh' CLAUDE.md",
+    "plan-17": "grep -q '17,575' PLAN.md && test -x scripts/plan-step.sh && grep -q 'plan-step.sh' CLAUDE.md",
     # q-458: the audit is its own external skill, installed, with this pack's binding and the lints
     # it declares per text surface.
     "q-458": 'test -d "$HOME/.claude/skills/text-audit" && test -f skills/text-audit-pack/SKILL.md && test -f .text-audit/lints.json',
