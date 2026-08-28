@@ -2,15 +2,18 @@
 
 PUSH-REVIEW
 
-Range: 1b061a8..0462b69 (6 commits), reviewed as one pass. Base commit `1b061a8`, the tip this push
-starts from. Reviewed commits, in order: `ead4a70`, `e94a238`, `013ec60`, `15407f9`, `aa4fa4a`,
-`0462b69`.
+Range: 1b061a8..221da96 (10 commits), reviewed as one pass. Base commit `1b061a8`, the tip this
+session's work starts from. Reviewed commits, in order: `ead4a70`, `e94a238`, `013ec60`, `15407f9`,
+`aa4fa4a`, `0462b69`, `195c276`, `033783c`, `d940310`, `221da96`.
 
-Three of those are another session's, landing in the same tree while this one worked: `ead4a70`
-(every open task gets a definition of done), `e94a238` (the architecture's pin repointed at the task
-list) and its record `013ec60`. They are read here only as far as this session had to touch them —
-the collision is written up as finding 2 — and their own review is `013ec60`'s record. The three this
-session owns are `15407f9`, `aa4fa4a` and `0462b69`.
+The push this record answers is the tail of that, `d940310..221da96`, because a second session
+pushed the earlier part while this one was still writing. Six of the ten are that session's, landing
+in the same tree as this one worked: `ead4a70` (every open task gets a definition of done),
+`e94a238` (the architecture's pin repointed at the task list), `195c276` (the rotation blocker turned
+into the record of a decision, which is this range's job 3 read from the plan's side), and the three
+record commits `013ec60`, `033783c` and `d940310`. Those are read here only as far as this session
+had to touch them — the collision is written up as finding 2 — and their own review is `013ec60`'s
+record. The four this session owns are `15407f9`, `aa4fa4a`, `0462b69` and `221da96`.
 
 Prover version that ran: product-prover 1.4.2, under the pack bindings in
 `skills/product-prover-pack/SKILL.md` 6.0.0.
@@ -150,10 +153,22 @@ Blocking: none.
 
 ## The suite
 
-`python3 -m pytest -q` over the committed range: 2474 passed, 4 skipped, in 12m54s. Two earlier runs
-during the work reported seven and then six failures with one error. Every one of those failures
-traced to two broken architecture pins — `scripts/rotate-doc.py:1` pointing at the file this range
-moved, and `PLAN.md:152` moved out from under its label by the other session's edit — and both are
-repaired, the first here and the second in `e94a238`. The error was
-`tests/test_worker_restore_run_scope.py`, which passes on its own and passed again in the clean run;
-it is the dirty-tree artifact the plan's own trap list names, raised by two sessions writing one tree.
+Three `python3 -m pytest -q` runs over the day, each after the tree moved.
+
+The first two, mid-work, reported seven and then six failures with one error. Every one of those
+failures traced to two broken architecture pins — `scripts/rotate-doc.py:1` pointing at the file this
+range moved, and `PLAN.md:152` moved out from under its label by the other session's edit — and both
+are repaired, the first here and the second in `e94a238`.
+
+The third, over the committed range: 3 failed, 2471 passed, 4 skipped, 1 error, in 16m17s. Two of the
+three are the record's own absence — gate a's `test_real_repo_passes` and the whole-suite
+`test_real_content_passes` that carries it — and this file, committed, is what closes them. The third,
+`test_no_pin_label_carries_a_date_or_session_or_landed_provenance`, was this range's own doing: the
+architecture pin label rewritten for the retirement carried a calendar date, which the no-history law
+forbids in a pin label. Repaired before the push, and the label now says what the gate owns without
+saying when.
+
+The error is `tests/test_worker_restore_run_scope.py::test_packet_a_does_not_move_the_counting_start_or_add_a_resume_threshold`,
+which has appeared in every full run today and passes on its own (7 passed). It is carried into the
+push chain's own run below rather than waved off here; the verdict line and what the error turned out
+to be are recorded there.
