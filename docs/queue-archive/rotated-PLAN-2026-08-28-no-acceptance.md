@@ -20,6 +20,19 @@ acceptance line rather than as the sentence it is here.
 
 Each entry below records what was on the board and why it left.
 
+## Index
+
+One line per archived row, findable by its own number — the pointer a reader who greps the live
+list for that number follows to get here.
+
+| # | Wish (plain words) | Class | Status | Decision / acceptance |
+| --- | --- | --- | --- | --- |
+| 44 | Learn from other frameworks to improve the method | archive | declined 2026-08-28 | no acceptance line and no dated ask behind it; the row's full text stands under its heading below |
+| 95 | Play with real projects before chasing a release date | archive | declined 2026-08-28 | no acceptance line and no dated ask behind it; the row's full text stands under its heading below |
+| 165 | Struggling twice triggers a search for an existing fix | archive | declined 2026-08-28 | no acceptance line and no dated ask behind it; the row's full text stands under its heading below |
+| 193 | Check whether any build stages are missing | archive | declined 2026-08-28 | no acceptance line and no dated ask behind it; the row's full text stands under its heading below |
+| 243 | Articles about the method link back to it, and it links back | archive | declined 2026-08-28 | no acceptance line and no dated ask behind it; the row's full text stands under its heading below |
+
 
 ---
 
