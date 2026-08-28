@@ -5,18 +5,34 @@ Date: 2026-08-28. His word that morning, 11:48: "оставим то что ну
 needed, archive the rest — only a handful should remain; show me those and take the others off the
 board.)
 
-The criterion, and it is `PLAN.md`'s own: a task earns its queued mark only when its definition of
-done is a command rather than a sentence, and a task that fails that bar is an unformed idea rather
-than work ready to hand out. Each row below fails it three ways at once. It carries no acceptance
-line. Its source names no dated word of the owner's that asks for a thing to be built. And read
-aloud, it states a stance about how to work rather than a deliverable somebody could finish and
-prove. Rows that failed only the first of the three were kept on the board, because his own ask or a
-real incident stands behind them.
+The criterion, and it is `PLAN.md`'s own: a task earns its queued mark only when its links point at
+something real and its definition of done is written so a reader can tell finished from unfinished
+without asking anyone. A task carrying neither is an unformed idea, and that gap is itself the thing
+to report. Each row below fails that bar. Two other things were weighed alongside it, and neither
+was allowed to archive a row on its own: whether its source names a dated word of the owner's asking
+for a thing to be built, and whether, read aloud, it states a stance about how to work in place of a
+deliverable somebody could finish and prove. Rows carrying his own ask or a real incident stayed on
+the board even where their definition of done was thin.
+
+**The criterion was corrected on the evening of 28.08, and all five rows were re-tested against it.**
+As first written this page cited a stricter reading of the same bar — that a queued task owes a
+command — which was the wording in force at 12:00 that day and was widened at 18:08, six hours
+later. The page's own justification therefore stood on a sentence the file no longer carried. The
+bar above is the one that holds today, and it is the softer of the two: it accepts a definition of
+done that no command can read, so long as a reader can act on it. Re-tested against it, every one of
+the five still leaves the board, and each fails on a leg the page already named for it. `q-44` and
+`q-193` have no finishing point at all — one is reading with no end, one is a question whose answer
+moves each time the method does. `q-95` and `q-165` are already stated elsewhere as settled, so
+there is nothing left for a reader to call finished. `q-243` fails the first leg instead of the
+second: its links point at articles that nobody has written, so the thing it would be measured
+against does not exist. None of the five survives, and none comes back on this pass. Whichever way
+the bar itself is settled — the widened wording or the stricter one back — this page's five rows
+read the same, because the harder bar refuses everything the softer one already refused.
 
 Nothing here is a loss. Every one of these also stands in full, in its original wording, in
 `docs/queue-archive/rotated-ROADMAP-2026-08-27-merged-into-plan.md`, under its own row number — row
-44 for `q-44`, and so on. If any of these turns out to matter, it comes back as a task with an
-acceptance line rather than as the sentence it is here.
+44 for `q-44`, and so on. Any of these comes back the day it carries a definition of done a reader
+can act on and something real to point at.
 
 Each entry below records what was on the board and why it left.
 
