@@ -251,22 +251,27 @@ def _judge_enabled():
 
 
 def judge_document(text):
-    """Run the register judge over a shown document (SPEC INV-203). Returns a list of offence dicts, or []
-    when disabled or stood down. The judge NEVER blocks on its own breakage — a missing binary, a timeout,
-    or an unreadable answer returns [] and leaves the literal-list verdict standing."""
+    """Run the register judge over a shown document (SPEC INV-203). Returns (offences, stood_down).
+
+    The judge NEVER blocks on its own breakage — a missing binary, a timeout, or an unreadable answer
+    leaves the literal-list verdict standing. What it must not do is let that breakage read as a clean
+    bill: an empty offence list from a judge that never ran is not a finding of nothing, and the
+    closing verdict below says which of the two it is. `stood_down` is the plain reason, or None when
+    the judge either ran or was never asked to.
+    """
     if not _judge_enabled():
-        return []
+        return [], None
     try:
         hooks_dir = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "hooks")
         sys.path.insert(0, hooks_dir)
         import register_judge_core as core
     except ImportError:
-        return []
+        return [], "the judge's own reader could not be loaded"
     offences, error = core.judge(text, core.DOCUMENT_REGISTER_LAW, surface="a document shown to a human")
     if error:
         sys.stderr.write("preshow register judge stood down: %s\n" % error)
-        return []
-    return offences
+        return [], error
+    return offences, None
 
 
 def main(argv):
@@ -274,6 +279,7 @@ def main(argv):
         sys.stderr.write("usage: preshow-register-lint.py FILE [FILE ...]|-\n")
         return 2
     any_hit = False
+    stood_down = []
     for src in argv[1:]:
         text = sys.stdin.read() if src == "-" else open(src, encoding="utf-8").read()
         hits = scan(text)
@@ -285,7 +291,9 @@ def main(argv):
                 print("  line %d  [%s]  %s" % (line_no, pid, snippet))
                 print("          ↳ source: %s" % source)
         # The judge is the ceiling: it catches the machine-register leak no fixed pattern lists (INV-203).
-        offences = judge_document(text)
+        offences, judge_stood_down = judge_document(text)
+        if judge_stood_down:
+            stood_down.append((src, judge_stood_down))
         if offences:
             any_hit = True
             print("PRE-SHOW REGISTER JUDGE (SPEC INV-203): a shown surface leaks the machine dialect the")
@@ -297,6 +305,11 @@ def main(argv):
             for o in offences[:OFFENCES_SHOWN]:
                 print("  · %s" % o.get("quote", "")[:110])
                 print("          ↳ %s" % o.get("why", ""))
+    for src, reason in stood_down:
+        # The judge was asked to read this file and could not. It still does not block (the literal
+        # list's verdict stands), and it does not get to pass as a clean bill either.
+        print("JUDGE DID NOT RUN (preshow-register): %s — %s. The verdict below covers only the "
+              "literal pattern list; a novel machine-register leak in this file went unread." % (src, reason))
     if any_hit:
         print('{"severity":"error","code":"register-leak","message":"a shown surface carries a coined '
               'metaphor, a calque, or a transliterated pack term","fix":"say it in the reader\'s own '
