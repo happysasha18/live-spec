@@ -20,6 +20,12 @@ post-conversion queue classify (SPEC INV-276, ROADMAP row 480):
     close. The two ROADMAP arms above read commits made while the queue was still a table of its own;
     that file left the tree for attic/ROADMAP.md on 2026-08-28, so a range that reaches back before
     then still classifies, while every close from then on is caught by this arm.
+  - the LIVE ARCHIVE trigger (2026-08-28): the diff REMOVES a ✅ task heading from PLAN.md while a
+    docs/queue-archive/*.md diff ADDS a line naming that same id — the row closes by leaving the
+    board for the archive rather than by a mark flipping in place. The PLAN arm shipped without
+    this half on the very day rotation became live practice, so a done row rotated out closed with
+    no refresh duty. A row rotated off under any other mark left unfinished and owes nothing, the
+    same carve the ROADMAP arm makes for declined / superseded / deferred.
 
 A commit that closes no row, or moves a row out as `declined` / `superseded` / `deferred` (anything
 whose status HEAD is not `landed`), owes nothing here.
@@ -174,6 +180,47 @@ def landed_tasks_for_commit(sha, cwd):
     return sorted(closed)
 
 
+ARCHIVED_ID_RE = re.compile(r"\bid:\s*([A-Za-z][A-Za-z0-9-]*)\b")
+
+
+def plan_moves_for_commit(sha, cwd):
+    """The row ids this commit ROTATES off PLAN.md carrying a done mark, sorted.
+
+    The PLAN arm above reads a mark flipping to ✅ in place. Rotation is the other way a row
+    closes: the task's whole block leaves `PLAN.md` for a file under `docs/queue-archive/`, and
+    nothing is added to the live list at all. The retired ROADMAP body had this arm from the start
+    (landed_moves_for_commit); the PLAN arm shipped without it on 2026-08-28, the same day rotation
+    became the live practice, so a done row rotated out closed with no refresh duty.
+
+    A row's mark is the whole of its state on the board, so the mark it CARRIED OUT decides: a ✅
+    heading removed from PLAN.md whose id an archive diff adds back is a close. A row rotated off
+    under any other mark left the board unfinished — archived, folded, declined — and owes nothing
+    here, the same carve the ROADMAP arm makes for declined / superseded / deferred.
+    """
+    r_plan = _run(["git", "show", sha, "--", "PLAN.md"], cwd=cwd)
+    removed_done = set()
+    for raw in r_plan.stdout.splitlines():
+        if raw.startswith("+++") or raw.startswith("---"):
+            continue
+        if not raw.startswith("-"):
+            continue
+        parsed = parse_plan_heading(raw[1:])
+        if parsed and parsed[1] == DONE_MARK:
+            removed_done.add(parsed[0])
+    if not removed_done:
+        return []
+
+    r_arch = _run(["git", "show", sha, "--", "docs/queue-archive"], cwd=cwd)
+    archived = set()
+    for raw in r_arch.stdout.splitlines():
+        if raw.startswith("+++") or raw.startswith("---"):
+            continue
+        if not raw.startswith("+"):
+            continue
+        archived.update(ARCHIVED_ID_RE.findall(raw[1:]))
+    return sorted(removed_done & archived)
+
+
 def _live_status(status):
     """True when the status cell OPENS with one of the five live closed-vocabulary words — the
     post-conversion form (*queued* / *ready* / *in-work* / *deferred* / *far*). Such a row is live
@@ -320,7 +367,7 @@ def main():
     discharged = set()
     for sha in commits:
         flipped = (sorted(set(landed_rows_for_commit(sha, cwd)) | set(landed_moves_for_commit(sha, cwd)))
-                   + landed_tasks_for_commit(sha, cwd))
+                   + sorted(set(landed_tasks_for_commit(sha, cwd)) | set(plan_moves_for_commit(sha, cwd))))
         per_commit[sha] = flipped
         if flipped and "NEXT_STEPS.md" in commit_files(sha, cwd):
             discharged.update(flipped)
