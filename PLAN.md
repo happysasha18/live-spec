@@ -428,7 +428,7 @@ forms by name. Nothing was owed here. Closed by verification, not by an act.
 **Source:** owner 2026-08-07 00:17.
 **Covered by:** plan-17 — Each session reads only what it needs. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
-**Checked by reading on 28.08.** The measurement it asked for was taken under plan-17 and stands in this file: the fixed weight a session carries is 17,575 tokens, and the plan itself is no longer part of it. No command: a past measurement is not a state a check can re-read.
+**Checked by reading on 28.08.** The measurement it asked for was taken under plan-17 and stands in this file: the fixed weight a session carries measured 17,575 tokens on 27.08, and the plan itself is no longer part of it. The opening report measures the same floor at every start and prints today's figure, 17,676 as of 28.08 evening. No command here: a past measurement is not a state a check can re-read, and a check pinned to the figure itself would red every time the pack grew by a paragraph.
 
 
 ### ⬜ Every made-up number in the system is found and removed — id: q-576
@@ -1192,10 +1192,21 @@ One line per finding. Don't start a second list for them. Don't fix one without 
   board, and every one of the 1,500 words is still findable under its own date. Two ways to settle
   it, and either is one line from you: say it stands, and the definitions stay as they are; or say
   it doesn't, and the twenty-one get rewritten with you reading each one. (This repair pass is under
-  the same rule and touched three lines outside the two it allows: the task-count command, which had
-  been counting its own line; the photo site's finishing test, which asked only that a version file
-  be there and never read it; and two closed rows that now say where their proof was read. Those are
-  in the same question.)
+  the same rule and corrected a handful of lines outside the two it allows, every one of them a
+  statement of fact that had gone wrong: the task-count command, which had been counting its own line;
+  the photo site's finishing test, which asked only that a version file be there and never read it;
+  two closed rows that now say where their proof was read; the session-weight figure, stated in the
+  present tense in two places while the real one had moved; and the list of what has been rotated
+  off, which named none of the three archives written that day. Those are in the same question.)
+
+- **One line in this project's own boot file points a session at a file that no longer sits there,
+  and nobody here writes that file.** The boot file tells a session not to read the root prose to
+  orient itself and names three examples of what to leave alone; one of the three is the old wish
+  queue, which moved to the attic on 28.08. The line still reads true — that file is indeed not
+  where the work stands — but the example is a ghost, and the natural replacement is the
+  architecture document, which is large, sits in the same root, and is exactly the kind of thing a
+  session opens by mistake. Your standing word is that nobody here edits that file, so it is
+  untouched and this is the record. One line from you either way.
 
 - **Two tasks left the board while a worker still had them, 28.08 — where the work went, and what is
   left of it.** The morning cut folded four rows into the one-list task and moved them to
@@ -1270,7 +1281,7 @@ One line per finding. Don't start a second list for them. Don't fix one without 
   is what the file carries, and the five rows stand. One task also
   left the board entirely, the personal-settings leak: its own text says this project cannot reach
   the cause, so nothing here could ever move it from undone to done. It is in
-  `docs/queue-archive/2026-08-28-archived-no-reachable-outcome.md`. Two tasks lost a line saying they
+  `docs/queue-archive/rotated-PLAN-2026-08-28-no-reachable-outcome.md`. Two tasks lost a line saying they
   waited on his word — what counts as a cleared mistake, and three wording disagreements in the
   rulebook — because his own word of 27.08 puts machinery on this seat's desk, and both are
   machinery; the wording row keeps its title, since titles are his. One task's definition of done
@@ -1284,7 +1295,7 @@ One line per finding. Don't start a second list for them. Don't fix one without 
   pass had folded were still standing on the board carrying a `Covered by:` line; they are now off
   it, in `docs/queue-archive/rotated-PLAN-2026-08-28-folded-rows.md`, and every row that absorbed
   them carries one line naming which ones and pointing there. Five more left as stances rather than
-  tasks, in `docs/queue-archive/2026-08-28-archived-no-acceptance.md` with the criterion written
+  tasks, in `docs/queue-archive/rotated-PLAN-2026-08-28-no-acceptance.md` with the criterion written
   out. Three were found already shipped and marked done against the file that ships them: the text
   checker as its own skill, the settings list, and the installed-versus-working-tree check.
   Twenty-six tasks stand open, after the three repairs that landed later that day.
@@ -1297,7 +1308,7 @@ One line per finding. Don't start a second list for them. Don't fix one without 
   is its own. Three were covered after all and are archived: q-550 by q-497, q-170 by q-458, and
   q-552 by the spec split, which removed the second copy of the table that row was about and left
   the gate at `guardrails/pre-push:278` comparing the one that remains. q-405 was archived on his
-  word of 28.08, in `docs/queue-archive/2026-08-28-q405-agent-messaging-stale-premise.md`, and q-396
+  word of 28.08, in `docs/queue-archive/rotated-PLAN-2026-08-28-q405-agent-messaging-stale-premise.md`, and q-396
   goes with it under the same word, since agent-to-agent messaging already works in the harness. q-605's discarded bytes were `guardrails/rule-census.json`, generated output
   of `scripts/rule-census.py`; both were retired and neither is in the tree, so there is nothing
   left to have lost.
@@ -1627,7 +1638,8 @@ One line per finding. Don't start a second list for them. Don't fix one without 
   live without a clock in replies).
 - **plan-17 closed: a session's real starting weight, measured; the ponytail question, answered
   without installing it.** The old "required context" line counted two skill files and missed the
-  boot file and profile that also load every session — real floor is 17,575 tokens (was reported as
+  boot file and profile that also load every session — real floor measured 17,575 tokens on 27.08,
+  and 17,676 on 28.08 as the pack grew; the opening report prints today's figure (was reported as
   14,294). On top of that floor, the boot instruction told every session to read `PLAN.md` whole:
   30,815 tokens, before any task-specific reading starts. `scripts/plan-step.sh <id>` now opens one
   task's own section (a few hundred tokens) instead, and `live-spec/CLAUDE.md` points there instead
@@ -1737,4 +1749,7 @@ Rotated closed rows (base rule 10 — nothing lost; the archive keeps every move
 - rows 69, 197, 198, 199, 302, 307, 308, 309, 332, 389, 401, 425, 426, 428, 432, 435, 446, 447, 448, 449, 450, 451, 452, 465, 466, 467, 472, 473, 474, 475, 483, 498, 499, 500, 505, 508, 512, 513, 514, 515, 516, 518, 519, 520, 521, 523, 524, 526, 528, 530, 532, 533, 534, 535, 538, 539, 540, 541, 543, 544, 545, 546, 547, 548, 551, 553, 559, 560, 561, 562, 563, 564, 578, 579, 580, 585, 587, 594, 599, 600, 601, 603, 604, 606, 607, 613, 614, 615, 616, 620, 621, 622, 750 → docs/queue-archive/rotated-ROADMAP-2026-08-27-provenance-purge.md
 - rows 44, 48, 49, 54, 93, 95, 96, 100, 108, 117, 118, 119, 129, 131, 133, 134, 140, 141, 143, 144, 148, 163, 165, 166, 168, 170, 171, 190, 191, 192, 193, 203, 204, 205, 206, 207, 208, 215, 217, 220, 221, 229, 230, 231, 234, 235, 236, 238, 241, 243, 247, 261, 381, 385, 386, 396, 398, 399, 400, 404, 405, 410, 411, 412, 421, 424, 427, 436, 437, 440, 453, 454, 455, 457, 458, 459, 460, 469, 471, 479, 481, 484, 485, 486, 487, 488, 489, 490, 491, 492, 493, 496, 497, 501, 503, 504, 507, 509, 510, 511, 517, 525, 527, 529, 531, 536, 537, 542, 550, 552, 554, 566, 567, 568, 570, 575, 576, 581, 582, 583, 584, 586, 588, 589, 590, 591, 592, 593, 595, 596, 597, 598, 605, 608, 609, 610, 611, 612, 617, 623, 624, 625 → docs/queue-archive/rotated-ROADMAP-2026-08-27-merged-into-plan.md
 - rows 49, 93, 96, 100, 108, 117, 118, 119, 129, 131, 133, 134, 140, 141, 143, 144, 148, 168, 170, 171, 190, 191, 192, 203, 204, 206, 207, 208, 215, 217, 220, 221, 229, 230, 231, 234, 236, 238, 241, 247, 261, 381, 385, 396, 399, 400, 404, 410, 411, 412, 421, 424, 436, 437, 440, 454, 455, 457, 459, 460, 469, 471, 479, 481, 484, 485, 486, 487, 488, 491, 492, 493, 496, 503, 504, 507, 509, 510, 511, 517, 525, 542, 550, 552, 554, 566, 575, 582, 583, 589, 605, 617 → docs/queue-archive/rotated-PLAN-2026-08-28-folded-rows.md
+- rows 44, 95, 165, 193, 243 → docs/queue-archive/rotated-PLAN-2026-08-28-no-acceptance.md
+- rows 596 → docs/queue-archive/rotated-PLAN-2026-08-28-no-reachable-outcome.md
+- rows 405 → docs/queue-archive/rotated-PLAN-2026-08-28-q405-agent-messaging-stale-premise.md
 <!-- /rotated-manifest -->

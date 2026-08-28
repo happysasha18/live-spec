@@ -38,6 +38,39 @@ tool guaranteed by construction — the archive and its manifest line written as
 rotation gate now proves on every push, in both directions, so a hand that writes one half and
 forgets the other is named at the gate.
 
+**Thirteen tasks closed on 27–28.08 and this file never said so.** The landing gate's board arm,
+run over the whole of that range, named five commits that marked a task done without refreshing
+this file. The gate is right; the record was thin. What those five actually closed, so a session
+arriving cold knows it without reading the diffs:
+
+- **A session's starting weight is measured, and the plan is no longer part of it** — plan-17,
+  q-205, q-568, q-570, q-584, all inside `7f40238c` on 27.08, whose own message spoke only of the
+  blocked-mark work it was bundled with. The fixed floor a session carries measured 17,575 tokens
+  then and 17,676 on 28.08; the opening report measures it live at every start. `bash
+  scripts/plan-step.sh <id>` opens one task's own section, and this project's boot file sends a
+  session there instead of at the whole plan.
+- **A blocked mark now has to name its cause**, same commit. A task wears ⛔ only with a `Covered
+  by:`, `Deferred:` or `Blocked by:` line behind it. Twenty-six of the thirty-one already had one;
+  five that named no reason went back to plain queued, and the opening report prints a blocked
+  task's reason beside it.
+- **The needs-his-eyes marks that were never his** — q-529, in `96029938` on 27.08. His word that
+  night: machinery is this seat's to decide unless he set that machinery up himself. q-529 closed
+  because its cause lived in a rule-census tool retired since 29.07, and the ratchet that replaced
+  it requires a hand-written reason on every change by construction.
+- **Every made-up number in the tree, found** — q-576, in `d6a4bd29` on 28.08. Forty-five
+  ungrounded numeric thresholds swept: eighteen removed, grounded in a real source, or fixed as
+  genuine bugs; twenty-seven left standing and labelled as engineering defaults with no outside
+  source. The row reopened later the same day — the page of every number that its own acceptance
+  asks for was never written — so it is open on the board today for that reason alone.
+- **Three shipped things confirmed against the files that ship them** — q-427, q-458, q-537, in
+  `829c6f39` on 28.08, the commit that cut the board from 162 rows to 63. The settings list is
+  hand-kept and the self-updating half declined; the plain-language text checker is its own
+  installed skill with this pack's binding beside it; the installed-copy comparison runs clean and
+  the hook installer refuses a registration already present.
+- **The three repairs of 28.08** — q-490, q-567, q-586, in `37674df8`. A colour-contrast check that
+  read the wrong background now reads the right one; a safety check that only ran in this tree now
+  ships to every project; and the worker cleanup step that could erase unsaved work no longer can.
+
 **One question waits on the owner, and only one.** `PLAN.md` lets a session change a task's status
 and §Blockers and nothing else without his say-so; the 28.08 evening pass rewrote what finished
 looks like on twenty-one open tasks and widened the bar for what counts as queued. A sibling session
