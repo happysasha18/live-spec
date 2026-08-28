@@ -146,11 +146,15 @@ class TestR226DoesNotContradictItself(unittest.TestCase):
     # proves the mechanism is real. A criterion-6 exception this map cannot resolve is the
     # finding — either the spec names a stand-down nothing implements, or a real stand-down
     # arrived and nobody taught this test about it.
+    #
+    # Each pattern anchors on something the mechanism DOES, never on a sentence describing it.
+    # The case-or-space entry read that module's opening docstring line until 2026-08-28, which a
+    # gutted classifier would have satisfied word for word while judging every diff exempt.
     EXCEPTION_MECHANISMS = {
         "deletion-only": ("PRODUCT_SPEC.md", r"\n7\. \*when\* every ref-update line"),
         "inbox": ("guardrails/check-prover-record.sh", r"exactly one new inbox/ file"),
         "recordless": (".live-spec/agent.md", r"earns no record"),
-        "case-or-space": ("guardrails/case_or_space_only.py", r"case-or-space carve-out"),
+        "case-or-space": ("guardrails/case_or_space_only.py", r"(?m)^def is_case_or_space_only\("),
     }
 
     # The files that implement a stand-down criterion 6 must name: gate a's own script, and the
@@ -270,10 +274,25 @@ class TestPrePushAnchorsOnTheRightInvariant(unittest.TestCase):
     find a law about HTML pages where the reason for their push passing unguarded should be."""
 
     def _standdown_block(self):
+        """The stand-down block, located by its machine-readable marker rather than by prose.
+
+        The block used to be found by the wording of its comment header. That anchor reddened
+        this class whenever someone reworded a sentence nothing depends on, and it would have
+        gone on finding the block after the marker that actually declares it was deleted. The
+        `# STAND-DOWN: <name>` line is the convention the file itself calls machine-readable, and
+        `STAND_DOWN_MARKER` above reads the same line. From it the walk goes back over the
+        contiguous comment run that explains it, since both halves — the prose a maintainer reads
+        and the line a person is shown — are what this class judges.
+        """
         with open(PREPUSH, encoding="utf-8") as f:
             text = f.read()
-        start = text.index("deletion-only stand-down")
-        end = text.index("fail=0", start)
+        marker = re.search(r"(?m)^\s*#\s*STAND-DOWN:\s*deletion-only\s*$", text)
+        self.assertTrue(marker, "guardrails/pre-push declares no deletion-only stand-down marker")
+        head = text[:marker.start()].splitlines(keepends=True)
+        while head and head[-1].lstrip().startswith("#"):
+            head.pop()
+        start = sum(len(line) for line in head)
+        end = text.index("fail=0", marker.start())
         return text[start:end]
 
     def test_standdown_block_names_inv_290_and_no_other_invariant(self):

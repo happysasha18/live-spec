@@ -235,7 +235,7 @@ class TestTheCIAuthorityModel(unittest.TestCase):
 
     WORKFLOW = (".github", "workflows", "gates.yml")
 
-    def _workflow(self):
+    def _workflow(self, drop_comments=True):
         """The `gates` JOB's runnable lines, with comments removed.
 
         Comments come off because the installer step carries a long comment naming the same
@@ -249,6 +249,9 @@ class TestTheCIAuthorityModel(unittest.TestCase):
         `gates.yml` carries one job today (the 2026-08-19 mirror-road cull retired the
         second, `sync-mirrors`), so nothing exercises that narrowing at the moment — but the
         scoping stays, since a future second job should not silently reopen the gap.
+
+        `drop_comments=False` returns the same job region with its comments still in it. Only
+        the test below passes it, to show the reader had comments to drop.
         """
         text = (ROOT.joinpath(*self.WORKFLOW)).read_text(encoding="utf-8")
         lines, taking, job = [], False, None
@@ -258,26 +261,39 @@ class TestTheCIAuthorityModel(unittest.TestCase):
                 job = found.group(1)
                 taking = job == "gates"
                 continue
-            if taking and not line.lstrip().startswith("#"):
+            if taking and not (drop_comments and line.lstrip().startswith("#")):
                 lines.append(line)
         assert job is not None, "gates.yml declares no job at all"
         return "\n".join(lines)
 
+    @staticmethod
+    def _comment_lines(text):
+        return [line for line in text.splitlines() if line.lstrip().startswith("#")]
+
     def test_the_workflow_reader_drops_comments_so_prose_cannot_stand_in_for_a_step(self):
         """The reader's own escape hatch, closed.
 
-        The installer step's comment block names the same flags the step names. If the
-        reader kept it, deleting the step would leave every assertion below still passing
-        on the explanation of the step. This proves the comment is gone and the runnable
-        line is not.
+        The installer step's comments name the same flags the step names. If the reader kept
+        them, deleting the step would leave every assertion below still passing on the
+        explanation of the step.
+
+        What is asserted is the reader's own property — NO comment line survives it — rather
+        than the absence of one particular sentence. A sentence is the wrong anchor here: the
+        wording of a comment is nobody's contract, so rewording it would red a test about the
+        pin while the pin stood still, and a comment whose wording drifted out of the
+        assertion would slip through unread.
         """
-        raw = (ROOT.joinpath(*self.WORKFLOW)).read_text(encoding="utf-8")
-        comment_only = "--ref names the exact commit"
-        self.assertIn(comment_only, raw, "the pin's explanatory comment is expected here")
+        with_comments = self._workflow(drop_comments=False)
+        self.assertTrue(
+            self._comment_lines(with_comments),
+            "the gates job carries no whole-line comment at all, so this check has nothing to "
+            "exercise and would pass on an empty set",
+        )
         seen = self._workflow()
-        self.assertNotIn(
-            comment_only, seen,
-            "a whole-line comment survived the reader: prose could satisfy the pin checks",
+        self.assertEqual(
+            [], self._comment_lines(seen),
+            "comment lines survived the reader, so prose could satisfy the pin checks after "
+            "the step itself was deleted",
         )
         self.assertIn(
             "run: python3 -m pytest -q", seen, "runnable lines must survive the reader"
