@@ -148,7 +148,7 @@ The main plan is **always one file: `~/live-spec/PLAN.md`.** Never start a secon
 
 One list: the plan's own steps and the former ROADMAP.md queue, merged 27.08 per step 11. Order: needs his eyes, then in hand, then blocked, then queued; critical heads its own group first and never another's — urgency never outranks whether a task is actually workable now (27.08, his word). Marks: ✅ done · 🔄 in hand · ⬜ queued · ⛔ blocked · 👁️ needs his eyes — the same five the Canon report itself uses. Former ROADMAP.md rows are archived verbatim at `docs/queue-archive/rotated-ROADMAP-2026-08-27-merged-into-plan.md`.
 
-### 👁️ Your photo site's move to new tools begins — id: plan-9
+### ⬜ Your photo site's move to new tools begins — id: plan-9
 **Group:** Cross-project · **Priority:** critical
 **Source:** PLAN.md step 9, dated 27.08 — dry-run and inventory done; `scripts/install-external-skills.sh` "does not work against a host at all... it blocks the documented path."
 **Deferred:** after the release (his word) — not blocked, his own decision to hold it.
@@ -587,7 +587,7 @@ where the work stands, with every mark computed by a command · the probe there 
 open inbox items.
 
 
-### 👁️ The promoter project is updated to today's tools — id: plan-15
+### ⬜ The promoter project is updated to today's tools — id: plan-15
 **Group:** Cross-project · **Priority:** normal
 **Source:** PLAN.md step 15.
 
@@ -921,8 +921,8 @@ One line per finding. Don't move it into ROADMAP. Don't fix it without the owner
   is its own. Three were covered after all and are archived: q-550 by q-497, q-170 by q-458, and
   q-552 by the spec split, which removed the second copy of the table that row was about and left
   the gate at `guardrails/pre-push:278` comparing the one that remains. q-405 was archived on his
-  word of 28.08 and q-396 goes with it under the same word, since agent-to-agent messaging already
-  works in the harness. q-605's discarded bytes were `guardrails/rule-census.json`, generated output
+  word of 28.08, in `docs/queue-archive/2026-08-28-q405-agent-messaging-stale-premise.md`, and q-396
+  goes with it under the same word, since agent-to-agent messaging already works in the harness. q-605's discarded bytes were `guardrails/rule-census.json`, generated output
   of `scripts/rule-census.py`; both were retired and neither is in the tree, so there is nothing
   left to have lost.
 
