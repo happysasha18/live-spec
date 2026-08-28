@@ -95,6 +95,23 @@ ROUTES_AROUND = [
     # An absolute path with no cwd in the event: the field the hook used to read as permission.
     "git show HEAD:PRODUCT_SPEC.md > /repo/PRODUCT_SPEC.md",
     "git show HEAD:PRODUCT_SPEC.md | tee /anywhere/PRODUCT_SPEC.md",
+    # Five more routes, found by the 2026-08-28 adversarial read of the change above and each
+    # red-proven against the tree that shipped it: the reader that stripped grouping, launchers and
+    # prefix words let every one of these through.
+    #
+    # `eval` is neither a wrapper nor a launcher — its whole argument list is program text.
+    "eval 'git checkout -- PRODUCT_SPEC.md'",
+    'eval "git reset --hard HEAD"',
+    # A shell's short options cluster, so the `-c` it carries is spelled many ways.
+    "bash -lc 'git checkout -- PRODUCT_SPEC.md'",
+    "bash -cx 'git checkout -- PRODUCT_SPEC.md'",
+    "sh --command 'git checkout -- PRODUCT_SPEC.md'",
+    # A single `&` ends a command as surely as `;` does.
+    "echo starting & git checkout -- PRODUCT_SPEC.md",
+    "echo starting |& git checkout -- PRODUCT_SPEC.md",
+    # Process substitution carries the read, and the copy family carries the write.
+    "cp <(git show HEAD:PRODUCT_SPEC.md) PRODUCT_SPEC.md",
+    "tee PRODUCT_SPEC.md < <(git show HEAD:PRODUCT_SPEC.md)",
 ]
 
 ALLOWED = [
@@ -135,6 +152,17 @@ ALLOWED = [
     "python3 -c \"print(open('PRODUCT_SPEC.md').read())\"",
     "xargs -n1 git log -1 --format=%H",
     "echo \"$(git rev-parse HEAD)\" > /tmp/head.txt",
+    # The 2026-08-28 repairs widened what the reader follows, so each widening owes its own
+    # ordinary command back. A shell cluster carrying `c` still runs ordinary work; a background
+    # `&` still separates two harmless commands; `ruby`'s inline-program flags are a tuple now, so
+    # a bare `-` is an argument rather than a match inside a string; and the copy family only ever
+    # reaches the write-target reader behind a repository read.
+    "bash -lc 'python3 -m pytest -q'",
+    "echo starting & echo finished",
+    "git show HEAD:PRODUCT_SPEC.md | ruby -",
+    "cp README.md /tmp/readme-backup.md",
+    "cp /tmp/saved-bytes.md PRODUCT_SPEC.md",
+    "mv scratch-notes.md notes.md",
 ]
 
 

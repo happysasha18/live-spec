@@ -185,6 +185,14 @@ class TestADoneMarkCannotOutliveItsKey(unittest.TestCase):
                                     "than trouble: %r" % line[0])
         self.assertNotIn("✅", line[0])
         self.assertIn("its acceptance command fails", line[0])
+        # And the tag beside the mark has to agree with the mark. The board's own reader stopped
+        # saying "verified" here on 28.08 and the probe did not, so the two readers of one plan
+        # disagreed on the row the whole change is about (found by the adversarial read that
+        # evening).
+        self.assertNotIn("verified", line[0],
+                         "the probe still calls a row verified whose acceptance command fails, "
+                         "while the board does not: %r" % line[0])
+        self.assertIn("marked done", line[0])
 
     def test_the_probe_does_not_count_a_failing_done_mark_among_the_done(self):
         _, r = self._run("scripts/state-probe.sh")

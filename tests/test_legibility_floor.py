@@ -217,3 +217,38 @@ def test_a_fully_measured_clean_page_still_says_so_plainly():
     assert "STOOD DOWN" not in r.stdout, (
         "nothing in this fixture is unreadable, so nothing should stand down: " + r.stdout
     )
+
+
+# ---- The 2026-08-28 adversarial read of the markup-ancestor change ------------------------------
+# Two defects it left behind, each red-proven against the reader that shipped it.
+
+def test_the_more_specific_rule_paints_the_surface_text_sits_on():
+    """`.card` beats `div`, the way a browser resolves it. Taking the first matching rule scored a
+    dark card's caption against a light wrapper and printed a red for a pair nobody can see."""
+    r = _run(FIX / "legibility_specificity.html")
+    assert r.returncode == 0, r.stdout + r.stderr
+    assert "OK (preshow-legibility)" in r.stdout
+    assert "low-contrast" not in r.stdout
+
+
+def test_a_page_that_restates_its_colours_for_dark_keeps_the_unconditional_rule():
+    """The order tie-break the specificity ranking must not lose: two rules with the same selector,
+    the second inside a media query this reader cannot see, and the first is what every viewer gets."""
+    r = _run(FIX / "legibility_green.html")
+    assert r.returncode == 0, r.stdout + r.stderr
+
+
+def test_text_that_fails_at_every_gradient_stop_still_reds():
+    """A gradient is not one colour, so the pair normally goes to the eye. Where the text is under
+    the floor at every stop the file decides it alone, and the ratio printed is the best case."""
+    r = _run(FIX / "legibility_gradient_all_stops_fail.html")
+    assert r.returncode == 1, r.stdout + r.stderr
+    assert "low-contrast" in r.stdout
+    assert "over-gradient" in r.stdout
+
+
+def test_text_that_clears_the_floor_at_one_gradient_stop_goes_to_the_eye():
+    """The other direction, so the arm above cannot grow into a blanket red on gradients."""
+    r = _run(FIX / "legibility_gradient_one_end_only.html")
+    assert r.returncode == 0, r.stdout + r.stderr
+    assert "STOOD DOWN IN PART" in r.stdout

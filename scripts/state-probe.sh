@@ -160,7 +160,13 @@ for t in shown:
     if next_task is not None and t["id"] == next_task["id"]:
         tag = f"  {B}<-- NEXT{X}"
         next_title = t["title"]
-    verified = f"{D}verified{X}" if t["verified"] else f"{D}declared{X}"
+    # A row whose key failed is neither verified nor declared: it is a done mark the command
+    # contradicts. Saying "verified" beside the ⛔ was the last of the three things the failing-key
+    # work set out to stop, and it stayed behind when the other two were fixed (2026-08-28).
+    if t["failing_key"]:
+        verified = f"{D}marked done{X}"
+    else:
+        verified = f"{D}verified{X}" if t["verified"] else f"{D}declared{X}"
     colour = ICON_COLOUR.get(t["icon"], D)
     reason = ""
     if t["failing_key"]:

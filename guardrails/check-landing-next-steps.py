@@ -196,17 +196,29 @@ def plan_moves_for_commit(sha, cwd):
     heading removed from PLAN.md whose id an archive diff adds back is a close. A row rotated off
     under any other mark left the board unfinished — archived, folded, declined — and owes nothing
     here, the same carve the ROADMAP arm makes for declined / superseded / deferred.
+
+    Rotated means GONE from the board, so a heading the same diff adds back is not a rotation at
+    all: every edit to a heading line — a retitle, a typo, a mark change — shows in a diff as one
+    removal and one addition, and reading the removal alone called every such edit a rotation. It
+    then took only an archive line quoting that id, which archive pages routinely carry, to make
+    the gate report a close for a row still sitting on the board. The sibling arm above compares
+    the two sides for exactly this reason; this one does the same (2026-08-28, red-proven by
+    `test_a_retitled_done_row_still_on_the_board_is_no_rotation`).
     """
     r_plan = _run(["git", "show", sha, "--", "PLAN.md"], cwd=cwd)
-    removed_done = set()
+    removed_done, still_there = set(), set()
     for raw in r_plan.stdout.splitlines():
         if raw.startswith("+++") or raw.startswith("---"):
             continue
-        if not raw.startswith("-"):
-            continue
-        parsed = parse_plan_heading(raw[1:])
-        if parsed and parsed[1] == DONE_MARK:
-            removed_done.add(parsed[0])
+        if raw.startswith("+"):
+            parsed = parse_plan_heading(raw[1:])
+            if parsed:
+                still_there.add(parsed[0])
+        elif raw.startswith("-"):
+            parsed = parse_plan_heading(raw[1:])
+            if parsed and parsed[1] == DONE_MARK:
+                removed_done.add(parsed[0])
+    removed_done -= still_there
     if not removed_done:
         return []
 

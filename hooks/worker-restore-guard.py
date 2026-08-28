@@ -36,11 +36,12 @@ bytes land somewhere harmless.  Until 2026-08-28 a missing `cwd` passed every ab
 HOW THE COMMAND IS READ.  Quoted spans and heredoc bodies are data, not shell invocations.
 Segments are split on shell separators outside quotes, and the `|` boundaries are kept so a
 pipeline is judged whole.  Before the program name is read, three kinds of prefix come off: shell
-grouping (`( … )`, `{ …; }`, a leading `!` or `time`), the `command`/`sudo`/`env` wrappers, and the
-launchers that run another program after their own options (`timeout`, `nohup`, `nice`, `ionice`,
-`stdbuf`, `setsid`, `xargs`, `doas`).  Command text a segment carries INSIDE it is judged in its own
-right, to the same depth of nesting: a `$( … )` or back-quoted substitution, a `-c` payload handed
-to a shell, and the command a `find -exec` runs on every file it matches.  A substitution also
+grouping (`( … )`, `{ …; }`, a leading `!`), the `command`/`sudo`/`env` wrappers, and the
+launchers that run another program after their own options (`timeout`, `time`, `nohup`, `nice`,
+`ionice`, `stdbuf`, `setsid`, `xargs`, `doas`).  Command text a segment carries INSIDE it is judged
+in its own right, to the same depth of nesting: a `$( … )`, `<( … )`, `>( … )` or back-quoted
+substitution, the program text a shell is handed on a `-c`-bearing option cluster or that `eval`
+is handed whole, and the command a `find -exec` runs on every file it matches.  A substitution also
 counts as a source, so `printf '%s' "$(git show HEAD:foo)" > foo` is the pair, not two halves.
 Inside a pipeline that reads repository content, a stage that runs an inline program the hook
 cannot parse — `python -c`, `perl -e`, `ruby -e`, `node -e`, `php -r` — is treated as a sink: where
@@ -48,13 +49,19 @@ the bytes go is unreadable, and unreadable is not innocent.
 
 WHAT STAYS OUT OF REACH, stated rather than left to be discovered:
 
-  - THE ACT STAGED ACROSS TWO COMMANDS.  `git show HEAD:foo > /tmp/foo` parks the bytes outside the
-    tree and is allowed, and a later `cp /tmp/foo foo` carries no sign of the repository at all.
-    The hook sees one command per event and cannot join them, and the alternative — refusing every
-    copy onto a tree path — would refuse ordinary work all day to close one route.
+  - THE ACT STAGED ACROSS TWO EVENTS.  `git show HEAD:foo > /tmp/foo` parks the bytes outside the
+    tree and is allowed, and a later `cp /tmp/foo foo` in a SEPARATE event carries no sign of the
+    repository at all.  The hook sees one command per event and cannot join two of them, and the
+    alternative — refusing every copy onto a tree path — would refuse ordinary work all day to
+    close one route.  Both halves inside ONE command are read: the copy family is a write target
+    since 2026-08-28, so `cp <(git show HEAD:foo) foo` is the pair.
   - A COMMAND THE SHELL BUILDS AT RUN TIME.  A verb assembled from variables (`$g checkout -- foo`),
     an alias, a shell function, or a script file whose bytes the hook never sees.  Static text is
     all this reader has.
+  - A WRITER THAT NAMES ITS FILE INSIDE ITS OWN LANGUAGE.  `awk '{print > "foo"}'`, `sed -n 'w foo'`,
+    `ex -sc 'wq! foo'`: the destination is a word in a program this reader does not parse, and the
+    program is not on the inline-program list that would make the stage a sink.  Named here on
+    2026-08-28 rather than left to be discovered.
   - NESTING PAST THREE LEVELS, where the walk stops.
 
 The retrospective check does not close the first of these either: `guardrails/check-worker-restore.py`
@@ -103,7 +110,9 @@ SHELLS = ("sh", "bash", "zsh", "dash", "ksh", "mksh", "busybox")
 # read it, so inside a pipeline that already reads repository content such a stage counts as a sink.
 INLINE_PROGRAM_FLAGS = {
     "python": ("-c",), "python2": ("-c",), "python3": ("-c",),
-    "perl": ("-e", "-E"), "ruby": ("-e"), "node": ("-e", "--eval", "-p", "--print"),
+    # Every value here is a tuple. `ruby` carried a bare string until 2026-08-28, which turned the
+    # membership test into a substring test: `ruby -` and `ruby e` read as inline programs.
+    "perl": ("-e", "-E"), "ruby": ("-e",), "node": ("-e", "--eval", "-p", "--print"),
     "php": ("-r",), "deno": ("eval",), "bun": ("-e",),
 }
 
@@ -179,6 +188,28 @@ def _cut_on_separators(text):
         if ch == "|" and buf and buf[-1] == ">":
             # `>|` is one redirection operator, git's noclobber override, and not a pipe.
             buf.append(ch)
+            i += 1
+            continue
+        if text[i:i + 2] == "|&":
+            # `|&` pipes stdout and stderr together: a pipe, and the segment ends here.
+            out.append(("".join(buf), "|"))
+            buf = []
+            i += 2
+            continue
+        if ch == "&":
+            # A single `&` runs the segment in the background and starts the next command, so it
+            # ends a segment exactly as `;` does. Reading only `&&` left `echo hi & git checkout
+            # -- X` looking like one `echo` (2026-08-28 review of this file's own change).
+            #
+            # Two neighbours are redirection operators rather than separators, and both keep the
+            # `&` inside the segment: `&>` (and `&>>`) sends both streams to a file, and `>&` /
+            # `2>&1` duplicates one stream onto another.
+            if text[i + 1:i + 2] == ">" or (buf and buf[-1] == ">"):
+                buf.append(ch)
+                i += 1
+                continue
+            out.append(("".join(buf), ";"))
+            buf = []
             i += 1
             continue
         if ch in (";", "|", "\n"):
@@ -360,7 +391,10 @@ def _substitutions(text):
             j = text.find("'", i + 1)
             i = n if j == -1 else j + 1
             continue
-        if text.startswith("$(", i):
+        # `$( … )`, and the two process substitutions `<( … )` / `>( … )`. All three hand the
+        # enclosing command the output of a command of their own; the process substitutions were
+        # unread until 2026-08-28, so `cp <(git show HEAD:X) X` passed as an ordinary `cp`.
+        if text.startswith("$(", i) or text[i:i + 2] in ("<(", ">("):
             depth = 1
             j = i + 2
             while j < n and depth:
@@ -409,14 +443,39 @@ def _inline_program_flags(program):
     return INLINE_PROGRAM_FLAGS.get(program, ())
 
 
+def _carries_c(option):
+    """True for a single-dash option cluster that carries the shell's `-c`.
+
+    A shell's short options cluster, so the command a shell is handed rides `-c`, `-lc`, `-cx`,
+    `-ec` and any other spelling that puts a `c` in the cluster. Reading `-c` alone left `bash -lc`
+    — the ordinary login-shell spelling — carrying a whole program the reader never opened
+    (2026-08-28 review of this file's own change).
+    """
+    return (option.startswith("-") and not option.startswith("--")
+            and len(option) > 1 and "c" in option[1:])
+
+
 def _shell_payload(segment):
-    """The `-c` payload a shell in this segment was handed, or None."""
+    """The program text a shell in this segment was handed, or None.
+
+    Two carriers: a shell invoked with a `-c`-bearing option cluster, and `eval`, whose whole
+    argument list is program text the shell runs. `eval` was invisible here until 2026-08-28: it is
+    neither a wrapper (it does not run the next token as a program) nor a launcher, so
+    `eval 'git checkout -- X'` reached the reader as the single word `eval`.
+    """
     tokens = _command_tokens(segment)
-    if not tokens or tokens[0].rsplit("/", 1)[-1] not in SHELLS:
+    if not tokens:
         return None
+    program = tokens[0].rsplit("/", 1)[-1]
     args = tokens[1:]
+    if program == "eval":
+        return " ".join(args) or None
+    if program not in SHELLS:
+        return None
     for index, arg in enumerate(args):
-        if arg == "-c" and index + 1 < len(args):
+        if arg == "--command" and index + 1 < len(args):
+            return args[index + 1]
+        if _carries_c(arg) and index + 1 < len(args):
             return args[index + 1]
     return None
 
@@ -467,6 +526,18 @@ def _word_at(text, i):
     return "".join(out), i
 
 
+def _append_redirect_targets(segment):
+    """Every path this segment APPENDS to with `>>`, read the same quote-aware way.
+
+    The restore rule steps over an append, since it leaves what the file holds in place. A reader
+    with a stricter question — the acceptance table's, where a check may only READ state — needs
+    the appends too, and needs them read as shell rather than grepped: a `>>` inside a quoted span
+    is a grep's pattern, not a redirection, and a raw search flags `grep -q 'a >> b' notes.md`
+    (2026-08-28 review). One walk answers both questions, so there is no second reader to drift.
+    """
+    return _redirect_targets(segment, appending=True)
+
+
 def _truncating_redirect_targets(segment):
     """Every path this segment TRUNCATES with a `>`-style redirect.
 
@@ -474,6 +545,11 @@ def _truncating_redirect_targets(segment):
     content goes. `>>` appends and leaves what the file holds in place, so it is stepped over. A
     file-descriptor duplication (`2>&1`, `>&2`) names no path and is stepped over too.
     """
+    return _redirect_targets(segment, appending=False)
+
+
+def _redirect_targets(segment, appending):
+    """The shared quote-aware walk behind the two readers above."""
     targets = []
     quote = None
     i = 0
@@ -496,10 +572,14 @@ def _truncating_redirect_targets(segment):
             i += 2
             continue
         if ch == ">":
-            if segment[i - 1:i] == ">" or segment[i + 1:i + 2] == ">":
-                i += 2 if segment[i + 1:i + 2] == ">" else 1
+            doubled = segment[i + 1:i + 2] == ">"
+            if segment[i - 1:i] == ">" or (doubled and not appending):
+                i += 2 if doubled else 1
                 continue
-            j = i + 1
+            if appending and not doubled:
+                i += 1
+                continue
+            j = i + (2 if doubled else 1)
             if segment[j:j + 1] in ("|", "&"):
                 j += 1
             word, j = _word_at(segment, j)
@@ -591,6 +671,14 @@ def _write_target(segment, cwd, depth=0):
     candidates = []
     if program in ("tee", "sponge"):
         candidates = [a for a in args if not a.startswith("-")]
+    elif program in ("cp", "mv", "install", "rsync"):
+        # The copy family names its destination as the last path argument. It reached this reader
+        # on 2026-08-28, with the process substitutions: `cp <(git show HEAD:X) X` carries the read
+        # in the substitution and the write in the destination, and neither half is a redirection.
+        # An ordinary copy with no repository read behind it never reaches here — the assembled arm
+        # is the caller's own gate.
+        paths = [a for a in args if not a.startswith("-")]
+        candidates = paths[-1:]
     elif program == "dd":
         candidates = [a.split("=", 1)[1] for a in args if a.startswith("of=")]
     elif program in ("tar", "gtar", "bsdtar"):

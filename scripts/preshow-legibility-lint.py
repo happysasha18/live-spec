@@ -336,6 +336,53 @@ def _block_bg(block, varmap):
     return None
 
 
+def _block_bg_stops(block, varmap):
+    """Every colour stop a gradient background names, in the order written.
+
+    A gradient is not one colour, so `_block_bg` returns None for it and the pair goes to the eye.
+    That is right for text that clears the floor over part of the run and fails over the rest —
+    nothing but a render decides where the text actually sits. It is wrong for text that fails at
+    every stop: that text is under the floor wherever it lands, the file says so on its own, and
+    standing down on it lost a red the reader used to print (2026-08-28 review). The caller uses
+    these stops for that one question and for nothing else.
+    """
+    for prop in ("background-color", "background"):
+        if prop not in block["decls"]:
+            continue
+        resolved = resolve_var(block["decls"][prop][0], varmap)
+        if not resolved or not re.search(r"gradient\s*\(", resolved, re.I):
+            continue
+        stops = []
+        for token in re.findall(r"#[0-9a-fA-F]{3,8}\b|rgba?\([^)]*\)", resolved):
+            rgb = parse_color(token)
+            if rgb is not None:
+                stops.append(rgb)
+        return stops
+    return []
+
+
+def _gradient_worst_ground(node, blocks, varmap, fg):
+    """The stop a gradient-painted `node` is judged against, or None to leave the pair unread.
+
+    Answered only where EVERY stop puts the text under the normal-text floor. The stop returned is
+    then the most favourable one, so the ratio printed is the best case the page can offer and the
+    red is one no render can argue with.
+    """
+    if fg is None:
+        return None
+    for block in blocks:
+        if "inline_at" in block or not _block_paints(block):
+            continue
+        if _selector_weight(block["selector"], node) == (-1, -1, -1):
+            continue
+        stops = _block_bg_stops(block, varmap)
+        if not stops:
+            return None
+        best = max(stops, key=lambda stop: contrast(fg, stop))
+        return best if contrast(fg, best) < CONTRAST_NORMAL else None
+    return None
+
+
 def _selector_tokens(selector):
     return set(re.split(r"[\s,>+~]+", selector.strip()))
 
@@ -527,15 +574,39 @@ def _elements_for(block, elements, by_style_offset):
     return matched or None
 
 
-def _element_paint(element, blocks, varmap):
-    """(rgb, paints) for one element in the markup: its inline background, else the FIRST rule that
-    names it and paints. `paints` says it is a surface; `rgb` is its colour where there is one.
+def _selector_weight(selector, element):
+    """How strongly a selector claims this element: (ids, classes-and-tests, tags).
 
-    First rather than last, the same way `_selector_own_bg` already reads a token's own colour. The
-    cascade says last wins, and this reader does not run the cascade: a media query is invisible to
-    it, so a page that states its light colours and then restates them under
-    `prefers-color-scheme: dark` looks like one surface painted twice. Taking the first keeps the
-    unconditional rule, which is the one every viewer gets.
+    The browser resolves two rules painting one element by specificity, and only then by order.
+    This reader took the first matching rule outright until 2026-08-28, so `div { background: #fff }`
+    written above `.card { background: #111827 }` scored a card's own caption against the page's
+    white — a pair no viewer ever sees, reported as a red that blocks a showing.
+
+    The count is the ordinary one, read off the alternative that actually matches: `#id` parts,
+    then class / attribute / pseudo-class parts, then element names. It is a ranking between rules
+    the reader has already matched, so it needs no more precision than that.
+    """
+    best = (-1, -1, -1)
+    for part in selector.split(","):
+        if not _chain_matches(_selector_run(part), element):
+            continue
+        text = part.strip()
+        ids = text.count("#")
+        classes = text.count(".") + text.count("[") + len(re.findall(r"(?<!:):(?!:)", text))
+        tags = len(re.findall(r"(?:^|[\s>+~])([a-zA-Z][\w-]*)", text))
+        best = max(best, (ids, classes, tags))
+    return best
+
+
+def _element_paint(element, blocks, varmap):
+    """(rgb, paints) for one element in the markup: its inline background, else the rule that
+    claims it most strongly. `paints` says it is a surface; `rgb` is its colour where there is one.
+
+    Specificity first, then document order, and the order tie-break takes the FIRST. That second
+    half is the reason this reader does not simply take the last rule: a media query is invisible
+    to it, so a page that states its light colours and then restates them under
+    `prefers-color-scheme: dark` looks like one surface painted twice, at the same specificity, and
+    the first of the two is the unconditional rule every viewer gets.
     """
     if element.style:
         pseudo = {"decls": {}}
@@ -543,11 +614,18 @@ def _element_paint(element, blocks, varmap):
             pseudo["decls"][prop] = (value, 0)
         if _block_paints(pseudo):
             return _block_bg(pseudo, varmap), True
+    winner = None
+    winning_weight = None
     for block in blocks:
         if "inline_at" in block or not _block_paints(block):
             continue
-        if _selector_matches(block["selector"], element):
-            return _block_bg(block, varmap), True
+        weight = _selector_weight(block["selector"], element)
+        if weight == (-1, -1, -1):
+            continue
+        if winning_weight is None or weight > winning_weight:
+            winner, winning_weight = block, weight
+    if winner is not None:
+        return _block_bg(winner, varmap), True
     return None, False
 
 
@@ -584,9 +662,17 @@ def _resolve_bg_in_markup(block, blocks, varmap, elements, by_style_offset):
     if ground is None:
         # Either nothing in the chain paints at all, or the surface it does sit on is painted in a
         # colour this reader cannot read. The two are different things to tell a person.
-        painted = any(_element_paint(node, blocks, varmap)[1]
-                      for element in targets for node in [element] + list(element.ancestors()))
-        return None, "unresolved", _WHY_MARKUP_OWN if painted else _WHY_MARKUP_BARE
+        painters = [node for element in targets
+                    for node in [element] + list(element.ancestors())
+                    if _element_paint(node, blocks, varmap)[1]]
+        if painters:
+            # One case the file DOES decide: a gradient every stop of which leaves this text under
+            # the floor. Where the stops disagree the pair still goes to the eye.
+            fg = _first_color_token(resolve_var(block["decls"].get("color", (None,))[0], varmap))
+            worst = _gradient_worst_ground(painters[0], blocks, varmap, fg)
+            if worst is not None:
+                return worst, "markup", None
+        return None, "unresolved", _WHY_MARKUP_OWN if painters else _WHY_MARKUP_BARE
     return ground, "markup", None
 
 

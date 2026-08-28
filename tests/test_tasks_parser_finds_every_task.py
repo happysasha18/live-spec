@@ -54,7 +54,13 @@ _BOARD_META_ID_RE = re.compile(r'<div class="meta">.*? · (\S+)</div>')
 
 # state-probe.sh's PLAN line: "  <icon> <title>  (<id>) <verified-or-declared>[ — <reason>][  <-- NEXT]"
 _PROBE_LINE_RE = re.compile(
-    r"^(?:✅|🔄|⛔|⬜|👁️)\s+.+?\s+\((\S+)\)\s+(?:verified|declared)(?:\s+—\s+.+?)?(?:\s*<-- NEXT)?\s*$"
+    # The tag after the id is one of three: `verified` where a command proved the mark, `declared`
+    # where the row carries no command, and `marked done` where the row's own command CONTRADICTS
+    # its done mark. The third joined the other two on 2026-08-28, when the probe stopped calling
+    # such a row verified; reading only the first two dropped every one of those lines from the
+    # count, and the accounting below then reported tasks lost that were sitting on the screen.
+    r"^(?:✅|🔄|⛔|⬜|👁️)\s+.+?\s+\((\S+)\)\s+(?:verified|declared|marked done)"
+    r"(?:\s+—\s+.+?)?(?:\s*<-- NEXT)?\s*$"
 )
 # state-probe.sh's summary line: "  … N more below · M done · full list in PLAN.md / board.html"
 _PROBE_SUMMARY_RE = re.compile(r"… (\d+) more below · (\d+) done")
@@ -262,8 +268,13 @@ class TestTheAcceptanceCommandsStayHonestMachinery(unittest.TestCase):
         for target in self.shell._truncating_redirect_targets(segment):
             if not target.startswith("/dev/"):
                 found.append("a redirect that writes `%s`" % target)
-        if re.search(r"(?<![\w>])>>\s*(?!/dev/)\S", segment):
-            found.append("an append redirect")
+        for target in self.shell._append_redirect_targets(segment):
+            # Read as shell, like every other arm here. This was a raw regex over the segment
+            # until 2026-08-28, so a `>>` inside a quoted span counted: `grep -q 'a >> b' notes.md`
+            # was flagged as writing, which is the very grep-pattern false positive the shell
+            # reader was adopted to end.
+            if not target.startswith("/dev/"):
+                found.append("an append redirect onto `%s`" % target)
         tokens = self.shell._command_tokens(segment)
         if not tokens:
             return found
@@ -340,11 +351,14 @@ class TestTheAcceptanceCommandsStayHonestMachinery(unittest.TestCase):
             )
 
     def test_the_writing_guard_catches_the_forms_that_used_to_walk_through(self):
-        """The guard on the guard: every shape the text search of 2026-08-28 let past.
+        """The guard on the guard: every shape a reading of this table has let past so far.
 
-        Fourteen of these fifteen passed the first version of this check, which cut single-quoted
-        spans out of the command and then searched what was left for nineteen verbs. They are kept
-        here so a future rewrite of the reading cannot lose them again one at a time.
+        Most of these passed the first version of this check, which cut single-quoted spans out of
+        the command and then searched what was left for nineteen verbs. The last group passed the
+        shell reader that replaced it, until the adversarial read of 2026-08-28 evening found them
+        in the reader itself. They are kept here so a future rewrite cannot lose them again one at
+        a time. (The count that stood in this line named fifteen over a list of eighteen; a record
+        of what was proven has to be able to count what it holds.)
         """
         destructive = [
             "bash -c 'rm -rf /tmp/victim'",
@@ -365,12 +379,43 @@ class TestTheAcceptanceCommandsStayHonestMachinery(unittest.TestCase):
             "( cd tests && git checkout -- conftest.py )",
             "timeout 5 git stash",
             "printf x | tee PLAN.md",
+            # Found in the shell reader itself, 2026-08-28 evening, and repaired there so both
+            # readers gained them at once.
+            "eval 'rm -rf /tmp/victim'",
+            "bash -lc 'rm -rf /tmp/victim'",
+            "bash -cx 'git reset --hard'",
+            "echo starting & rm -rf /tmp/victim",
+            "echo starting |& rm -rf /tmp/victim",
+            "cp <(git show HEAD:PLAN.md) PLAN.md",
         ]
         for command in destructive:
             self.assertNotEqual(
                 self._writing_acts(command), [],
                 "the writing guard passes %r, and a check running that would change the tree "
                 "at every session start" % command,
+            )
+
+    def test_the_writing_guard_leaves_a_reading_command_alone(self):
+        """The other direction: a check that only reads must not be named as writing.
+
+        A guard that reds honest work gets switched off, taking the real catches with it. The
+        append arm was a raw regex over the command text until 2026-08-28 evening, so a check
+        greping for the two characters `>>` was called a write.
+        """
+        harmless = [
+            "grep -q 'a >> b' PLAN.md",
+            "grep -q 'rm -rf' docs/language-rules.md",
+            "test -f PLAN.md && grep -c '^### ' PLAN.md",
+            "git log -1 --format=%ct -- PLAN.md",
+            "bash -lc 'grep -q needle PLAN.md'",
+            "python3 scripts/director-wire-report.py >/dev/null 2>&1",
+            "ls ~/tlvphotos/.claude/skills 2>/dev/null | grep -q director",
+        ]
+        for command in harmless:
+            self.assertEqual(
+                self._writing_acts(command), [],
+                "the writing guard calls %r a write, and a guard that reds honest work is a "
+                "guard somebody turns off" % command,
             )
 
     def test_the_writing_guard_leaves_an_ordinary_reading_check_alone(self):

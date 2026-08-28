@@ -1,0 +1,10 @@
+<!-- A card painted dark inside a wrapper painted light. The browser gives the card's caption the
+     card's own colour, because `.card` claims the element more strongly than `div` does. Reading
+     the first matching rule instead scored the caption against the wrapper's white and printed a
+     red no viewer ever sees (2026-08-28). -->
+<html><head><style>
+div { background: #ffffff; }
+.card { background: #111827; }
+.card-caption { color: #e8e4de; font-size: 16px; }
+</style></head>
+<body><div class="card"><span class="card-caption">Caption inside the card</span></div></body></html>

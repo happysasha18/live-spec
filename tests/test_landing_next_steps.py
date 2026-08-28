@@ -514,3 +514,40 @@ def test_a_done_row_deleted_with_no_archive_beside_it_is_not_read_as_a_rotation(
 
     r = _run_check(repo, base)
     assert r.returncode == 0, r.stdout + r.stderr
+
+
+def test_a_retitled_done_row_still_on_the_board_is_no_rotation(tmp_path):
+    """Rotated means gone from the board. Every edit to a heading line shows in a diff as one
+    removal and one addition, so reading the removal alone called a retitle a rotation; an archive
+    page quoting that row's id — which archive pages routinely do — then made the gate report a
+    close for a row still sitting on the board (2026-08-28 adversarial read)."""
+    repo = _init_repo(tmp_path)
+    _write(repo, "PLAN.md", _plan_task("✅", title="Old title"))
+    _write_sub(repo, "docs/queue-archive/rotated-PLAN-2026-08-28-other.md", "# archive\n")
+    _write(repo, "NEXT_STEPS.md", "state\n")
+    base = _commit(repo, "base")
+
+    _write(repo, "PLAN.md", _plan_task("✅", title="New title"))
+    _write_sub(repo, "docs/queue-archive/rotated-PLAN-2026-08-28-other.md",
+               "# archive\n\nCross-reference: the row at ### ⬜ Something — id: plan-11.\n")
+    _commit(repo, "retitle a done row and quote its id in an archive page")
+
+    r = _run_check(repo, base)
+    assert r.returncode == 0, r.stdout + r.stderr
+
+
+def test_a_done_rows_mark_changed_in_place_is_no_rotation(tmp_path):
+    """The same shape with the mark itself moving: a ✅ reopened to ⬜ is a row that stayed."""
+    repo = _init_repo(tmp_path)
+    _write(repo, "PLAN.md", _plan_task("✅"))
+    _write_sub(repo, "docs/queue-archive/rotated-PLAN-2026-08-28-other.md", "# archive\n")
+    _write(repo, "NEXT_STEPS.md", "state\n")
+    base = _commit(repo, "base")
+
+    _write(repo, "PLAN.md", _plan_task("⬜"))
+    _write_sub(repo, "docs/queue-archive/rotated-PLAN-2026-08-28-other.md",
+               "# archive\n\nSee ### ⬜ Some task — id: plan-11.\n")
+    _commit(repo, "reopen the row and mention its id in an archive page")
+
+    r = _run_check(repo, base)
+    assert r.returncode == 0, r.stdout + r.stderr
