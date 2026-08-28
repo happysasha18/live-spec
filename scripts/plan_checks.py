@@ -35,6 +35,52 @@ CHECKS = {
     "plan-6": "! grep -q '^<!-- check:' PLAN.md && ! grep -q '<!-- check:' scripts/state-probe.sh scripts/render-board.sh && test -f tests/test_plan_is_not_executable.py && python3 scripts/director-wire-report.py >/dev/null 2>&1",
     "plan-8": """test "$(cat VERSION)" != 5.0.0 && grep -q 'skills/director' MIGRATION.md""",
     "plan-9": "ls ~/tlvphotos/.claude/skills 2>/dev/null | grep -q director && test -f ~/tlvphotos/.live-spec/VERSION",
+    # --- written 2026-08-28 by plan-10 --------------------------------------------------------
+    # Eleven rows, not thirty-seven. A key is worth its weight only where the row's subject is an
+    # artifact that can drift back: a file, a script, a setting. The rows left without one are the
+    # ones whose result is prose, a measurement, or a decision — a command reading those would only
+    # restate them. Each command below is a grep, a `test`, or one guard that already exists and
+    # was timed under half a second; guardrails/check-pin-drift.sh (37s) is deliberately NOT run
+    # here, so q-588's key reads the gate's own reach instead.
+    #
+    # plan-3: prototype/ holds no tracked file, the transcripts are in the attic, and Fable's read
+    # is where the step put it. (The directory itself survives, holding gitignored board mockups.)
+    "plan-3": 'test -z "$(git ls-files prototype)" && test -d attic/transcripts && test -f .live-spec/PROBLEMS.md',
+    # plan-7: the thirteen unbacked rules are in the attic and none of their numbers came back to
+    # the rulebook — a retired number stays a hole, never reused.
+    "plan-7": "test -f attic/live-spec-base-unbacked-rules-2026-08-26.md && ! grep -qE '^(11|14|15|18|19|20|21|23|28|30|32|33|34|35)\\. \\*\\*' skills/live-spec-base/SKILL.md",
+    # plan-17: the measured floor stands in the plan, the per-step reader exists, and the project's
+    # own boot file sends a session there rather than at the whole plan.
+    "plan-17": "grep -q '17,575' PLAN.md && test -f scripts/plan-step.sh && grep -q 'plan-step.sh' CLAUDE.md",
+    # q-458: the audit is its own external skill, installed, with this pack's binding and the lints
+    # it declares per text surface.
+    "q-458": 'test -d "$HOME/.claude/skills/text-audit" && test -f skills/text-audit-pack/SKILL.md && test -f .text-audit/lints.json',
+    # q-537: both halves. The installed-vs-working comparison runs clean, the hook installer refuses
+    # a registration already present, and the test that proves it is still there.
+    "q-537": "bash guardrails/check-config-health.sh >/dev/null 2>&1 && grep -q 'already wired' scripts/install-session-hooks.sh && grep -q 'test_a_meter_wrapped_existing_entry_is_recognized_not_duplicated' tests/test_install_session_hooks.py",
+    # q-588: the rule-price page still stands and the pin-drift gate still reaches it. Running the
+    # gate itself would cost a session 37 seconds at every start.
+    "q-588": "test -f .live-spec/r5-rule-prices-2026-08-11.md && grep -q 'r5-rule-prices-2026-08-11.md' guardrails/check-pin-drift.sh",
+    # q-590: the rulebook's own head names the retired numbers, so a host reading it sees the holes.
+    "q-590": "grep -q 'Rule 30 went first' skills/live-spec-base/SKILL.md",
+    # q-592: the assertion is pinned to the bullet's own sentence, not to the bare invariant code.
+    "q-592": "grep -q 'doc- and code-compaction stations run at every push' tests/test_compaction_discipline.py",
+    # q-593: the count is derived from the body and asserted against the frontmatter in one home;
+    # of the three copies that carried the literal number, one dropped it outright and two became
+    # pointers at that home.
+    "q-593": "grep -q 'the description of %s says %s rules' tests/test_request_classifier.py && grep -q 'This skill does not restate them' skills/build-pipeline/SKILL.md && grep -q 'states how many numbered rules it carries' skills/communicator/SKILL.md && grep -q 'states how many numbered rules it carries' skills/communicator/references/words.md",
+    # q-595: the three restorations to rule 7 — the lead-in naming the bullets one family, the
+    # pack-wide name for the shared document, and the by-hand route to the lane-opening script.
+    "q-595": "grep -q 'The parallel-lanes rules sit underneath the fence' skills/live-spec-base/SKILL.md && grep -q 'convergence point the pen reconciles' skills/live-spec-base/SKILL.md && grep -q \"The script's own header states what it expects on disk\" skills/live-spec-base/SKILL.md",
+    # q-598: the incident's record stands, and the gate reports each finding's outcome rather than
+    # naming the command alone.
+    "q-598": "grep -q 'step3-grid-derivation.json' DECISIONS.md && grep -q '_outcome_of' guardrails/check-worker-restore.py",
+    # q-623: the gate reads where the command actually ran, and the three fixtures that fence the
+    # narrowing are all present — one that reds nothing, two that still red.
+    "q-623": "grep -q 'effective_dir' guardrails/check-worker-restore.py && grep -q 'test_an_unplaceable_cwd_with_a_neighbours_effective_dir_reds_nothing' tests/test_worker_restore.py && grep -q 'test_an_unplaceable_cwd_with_an_unknown_effective_dir_still_reds' tests/test_worker_restore.py && grep -q 'test_an_unplaceable_cwd_with_effective_dir_in_a_sibling_worktree_still_reds' tests/test_worker_restore.py",
+    # q-624: the guard is installed on this machine, byte-identical to the copy in the tree, and
+    # wired as a hook — the row's own "standing here, not merely built".
+    "q-624": 'test -f "$HOME/.claude/hooks/worker-restore-guard.py" && cmp -s "$HOME/.claude/hooks/worker-restore-guard.py" hooks/worker-restore-guard.py && grep -q worker-restore-guard "$HOME/.claude/settings.json"',
 }
 
 # A task header looks like "### <mark emoji> <Task Name> — id: <plan-N|q-N>" — no brackets
