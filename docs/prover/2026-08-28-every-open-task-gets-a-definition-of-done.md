@@ -2,9 +2,16 @@
 
 PUSH-REVIEW
 
-Range: 1b061a8b..HEAD (2 reviewed commits). Base commit `1b061a8b`, the tip this push starts from.
-Reviewed commits, in order: `ead4a705`, `e94a2383`. This record's own commit carries the record
-alone and names no change of its own.
+Range: 1b061a8b..HEAD (7 reviewed commits). Base commit `1b061a8b`, the tip this push starts from.
+Reviewed commits, in order: `ead4a705`, `e94a2383`, `013ec60f`, `15407f96`, `aa4fa4aa`, `0462b696`,
+`195c276c`.
+
+Four of those are another session's, landing in the same tree while this one worked: `15407f96`,
+`aa4fa4aa` and `0462b696` are its rotation-gate work, and `013ec60f` is this record's own first
+commit. That session's three are reviewed in full in the record beside this one,
+`docs/prover/2026-08-28-rotation-both-directions-and-the-comment-anchored-class.md`, which covers
+the same range from the other side. They are read here only as far as this range had to touch
+them — Finding 8 — and that record is where their own account stands.
 
 Prover version that ran: product-prover 1.4.2, under the pack bindings in
 `skills/product-prover-pack/SKILL.md` 6.0.0.
@@ -156,5 +163,28 @@ check that does not exist yet, which is correct for an open row and would be a l
 No key was added to `scripts/plan_checks.py`, because that file's own header reserves a key for the
 moment a row closes. Anyone reading a row's command as a claim that it already runs has misread it,
 and the rows say "done when" rather than "done".
+
+**8. The sibling session's landing made one line of this file stale, and it is repaired here.**
+While this pass ran, the other session retired `scripts/rotate-doc.py` to the attic and gave the
+doc-rotation gate a second direction, so a closed row sitting in a referenced archive that no
+manifest line names now reds. `PLAN.md`'s §Blockers carried a line saying the rotation tool only
+understood the retired queue's table and that teaching it the board's shape was work nobody had
+asked for, left open until someone did. That question is now answered: the tool is gone and the gate
+proves both halves of a hand-made move. The line is rewritten as the record of the decision,
+`195c276c`, which is why this range holds a seventh commit.
+
+Read across the seam, their change is sound where it touches this one. `attic/MANIFEST.md` gains the
+tombstone line base rule 10 asks for, and the three pointers that named the retired tool as live
+machinery — `architecture/guardrails.md`, `matrix/guardrails.md` and the live-body law in
+`docs/roadmap-format.md` — were repointed in the same landing. **One soft note, not blocking:**
+`docs/roadmap-format.md` lines 71-72 still describe the tool as machinery that will be taught the
+monthly append. Those two lines sit inside a section narrating a one-time conversion delivery that
+already happened, so they read as a record of that delivery rather than as a live pointer. A reader
+skimming for what exists today could still take them the other way. Named for that session, whose
+file it is.
+
+*The archive this range adds, `docs/queue-archive/2026-08-28-archived-no-reachable-outcome.md`, was
+checked against their new direction: it carries no numbered table rows and no manifest line points
+at it, so neither the orphan-archive arm nor the unclaimed-row arm reaches it. Gate t agreed.*
 
 Blocking: none.
