@@ -2,12 +2,12 @@
 
 PUSH-REVIEW
 
-Range: 1b061a8..221da96 (10 commits), reviewed as one pass. Base commit `1b061a8`, the tip this
+Range: 1b061a8..710e05a (12 commits), reviewed as one pass. Base commit `1b061a8`, the tip this
 session's work starts from. Reviewed commits, in order: `ead4a70`, `e94a238`, `013ec60`, `15407f9`,
-`aa4fa4a`, `0462b69`, `195c276`, `033783c`, `d940310`, `221da96`.
+`aa4fa4a`, `0462b69`, `195c276`, `033783c`, `d940310`, `221da96`, `d097e41`, `710e05a`.
 
-The push this record answers is the tail of that, `d940310..221da96`, because a second session
-pushed the earlier part while this one was still writing. Six of the ten are that session's, landing
+The range reached origin in two pushes, `d940310..d097e41` and then `d097e41..710e05a`, because a
+second session pushed the earlier part of the day while this one was still writing. Six of the ten are that session's, landing
 in the same tree as this one worked: `ead4a70` (every open task gets a definition of done),
 `e94a238` (the architecture's pin repointed at the task list), `195c276` (the rotation blocker turned
 into the record of a decision, which is this range's job 3 read from the plan's side), and the three
@@ -140,14 +140,16 @@ suite is green over it. Repairing a reader of a frozen document changes nothing 
 it stands. Recorded here and in the journal rather than left as an open item, because a future session
 finding the un-repaired splitter should be able to see that the omission was decided.
 
-**8 — `docs/roadmap-format.md` still describes the retired tool in the present tense, and that is
-correct.** Two lines in its declared-deltas section say what `scripts/rotate-doc.py` does. They are a
-record of what one completed conversion delivered, in a section whose whole subject is that
-conversion, so they read as history and were left. The one sentence in that file stating current truth
-— the live-body law's parenthesis naming the tool as a reader of the terminal vocabulary — was false
-after the retirement and is corrected. A reader who takes the delta section for current truth would be
-misreading the section rather than the sentence; if that turns out to be a real misreading, the whole
-file is the thing to date, not one clause.
+**8 — `docs/roadmap-format.md` described the retired tool in the present tense in three places, and
+the first judgment on two of them was wrong.** The live-body law's parenthesis naming the tool as a
+reader of the terminal vocabulary states current truth, was false after the retirement, and was
+corrected at once. Two further lines sit in the declared-deltas section, a record of what one
+completed conversion delivered, and were left on the reasoning that the section reads as history. That
+reasoning does not survive contact with the sentences themselves: both are written in the present
+tense and name what the tool does, so a reader meets a live claim whatever the section is about. Both
+are now written as what that delivery did, with the retirement named once. The general shape is worth
+keeping: a section being historical does not make its present-tense sentences historical, and a
+retirement has to sweep the sentences rather than the sections.
 
 Blocking: none.
 
@@ -168,7 +170,14 @@ architecture pin label rewritten for the retirement carried a calendar date, whi
 forbids in a pin label. Repaired before the push, and the label now says what the gate owns without
 saying when.
 
-The error is `tests/test_worker_restore_run_scope.py::test_packet_a_does_not_move_the_counting_start_or_add_a_resume_threshold`,
-which has appeared in every full run today and passes on its own (7 passed). It is carried into the
-push chain's own run below rather than waved off here; the verdict line and what the error turned out
-to be are recorded there.
+A fourth run, over the pushed tree with nothing uncommitted: **2473 passed, 5 skipped, in 13m28s**,
+no failure and no error. The push chain's own run agreed, and its verdict line reads `All gates green
+— push allowed`. CI's run over the same tree reads `2475 passed, 3 skipped, 3 subtests passed in
+513.99s`, conclusion success.
+
+That closes the error the three earlier runs carried,
+`tests/test_worker_restore_run_scope.py::test_packet_a_does_not_move_the_counting_start_or_add_a_resume_threshold`.
+It appeared only while two sessions were writing one tree, never once in CI, and never in a run over a
+clean tree — including the one above, which is the same test file, the same machine, and the same
+suite order. It was the two-writer artifact the plan's trap list names, and the evidence for saying so
+is a clean run rather than the claim that it looked unrelated.
