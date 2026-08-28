@@ -28,8 +28,9 @@ What it CAN do (honestly, so no one over-trusts it):
 
   Everything else is reported UNRESOLVED and never scored: a rule that paints itself in a colour this
   reader cannot pin down, a chain whose ancestors paint nothing while the stylesheet does paint
-  surfaces of its own, and any file whose page element declares no background colour. The measured
-  colour is named in every verdict, so a wrong pairing shows on its face.
+  surfaces of its own, any file whose page element declares no background colour, and text declared
+  in a translucent colour, which renders as whatever it sits over. The measured colour is named in
+  every verdict, so a wrong pairing shows on its face.
 
 What it CANNOT do:
   It is a PRAGMATIC STATIC FLOOR, not a browser. It does NOT run the full CSS cascade, specificity,
@@ -88,6 +89,35 @@ def _channel(tok):
     if tok.endswith("%"):
         return round(float(tok[:-1]) * 255 / 100)
     return int(round(float(tok)))
+
+
+def is_translucent(v):
+    """True when a declared colour carries an alpha that lets the layer beneath it through.
+
+    `parse_color` returns None for such a colour, the same answer it gives a named or unparseable
+    one, and a caller cannot tell the two apart from that. The difference matters at the foreground:
+    text declared in a translucent colour is text this reader must report rather than pass over in
+    silence, and a colour it simply does not know how to read has always been skipped.
+    """
+    if v is None:
+        return False
+    m = re.search(r"#([0-9a-fA-F]{3,8})\b", v)
+    if m:
+        h = m.group(1)
+        if len(h) == 4:
+            return int(h[3] * 2, 16) < 255
+        if len(h) == 8:
+            return int(h[6:8], 16) < 255
+        return False
+    m = re.search(r"rgba?\(([^)]*)\)", v, re.I)
+    if m:
+        parts = [p for p in re.split(r"[,\s/]+", m.group(1).strip()) if p]
+        if len(parts) > 3:
+            try:
+                return not _opaque(parts[3])
+            except ValueError:
+                return False
+    return False
 
 
 def _opaque(tok):
@@ -414,6 +444,17 @@ def scan(text, is_css_file=False):
         if "color" in decls:
             resolved = resolve_var(decls["color"][0], varmap)
             fg = _first_color_token(resolved)
+            if fg is None and is_translucent(resolved):
+                # The text itself is declared translucent, so what it renders as depends on the
+                # layer under it — the one thing a static stylesheet read cannot see. Scoring it as
+                # its opaque triple, which this lint did until 2026-08-28, invents the number.
+                # Dropping it in silence is the same defect the rest of this pass removes, so it is
+                # reported for the eye like any other pair the stylesheet does not determine.
+                unresolved.append((
+                    _line_of(starts, decls["color"][1]), sel,
+                    "the text is declared in a translucent colour, so what it renders as depends on "
+                    "the layer beneath it — check the real rendered pair by eye",
+                ))
             if fg is not None:
                 bg, bg_kind, why = _resolve_bg(block, blocks, varmap, page_bg, own_surfaces)
                 if bg_kind == "unresolved":
@@ -472,8 +513,8 @@ def main(argv):
                 json_hits.append({"line": line_no, "code": code, "selector": snippet, "detail": detail})
             print(json.dumps({"severity": "error", "code": "legibility-floor", "hits": json_hits}))
         if unresolved:
-            print("UNRESOLVED (preshow-legibility): %s — background could not be resolved from the" % label)
-            print("stylesheet text; these pairs do NOT block, but check the real rendered pair by eye:")
+            print("UNRESOLVED (preshow-legibility): %s — the stylesheet text does not determine what" % label)
+            print("this text renders against; these pairs do NOT block, but check them by eye:")
             json_unresolved = []
             for line_no, snippet, detail in unresolved:
                 print("  line %d  [unresolved]  %s" % (line_no, snippet))
