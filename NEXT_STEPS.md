@@ -30,14 +30,15 @@ basename still cover the retired file where it now sits. The templates and the a
 give a host project its own queue; whether a host should get one is a separate question nobody has
 asked yet.
 
-**The one gap this left, recorded in `PLAN.md`'s Blockers.** `scripts/rotate-doc.py` only
-understands the retired table's shape, so nothing moves a finished task off the board except a
-person's own hands. The two moves made this month were made by hand and were correct.
+**The gap this left, closed 2026-08-28.** `scripts/rotate-doc.py` understood the retired table's
+shape and no other, so it could not be run on anything in the live tree. It retired to
+`attic/rotate-doc.py` rather than learning the board's shape, since a task leaves the board rarely
+and by hand, and building it a road for that journey would be machinery serving itself. What the
+tool guaranteed by construction — the archive and its manifest line written as one act — the
+rotation gate now proves on every push, in both directions, so a hand that writes one half and
+forgets the other is named at the gate.
 
-**Owed and unwritten:** a `JOURNAL.md` entry for the prover-description movement (`85b659d1`), and
-`test_the_workflow_reader_drops_comments_so_prose_cannot_stand_in_for_a_step` still anchors on a
-literal comment sentence in `gates.yml`, which is the comment-anchored class this pack has ruled
-against.
+**Owed and unwritten:** a `JOURNAL.md` entry for the prover-description movement (`85b659d1`).
 
 ## Where the numbers live
 

@@ -7,14 +7,18 @@ document rotates out of the live file into a dated archive with a manifest line 
 file keeping only live material and the archive keeping everything, grepable, so a rotated row stays
 findable by its number.
 
-Two machines hold the invariant:
-  - scripts/rotate-doc.py         — the mechanism: moves closed rows to a dated archive, leaves the
-                                    manifest line in the live file.
-  - guardrails/check-doc-rotation.py (gate t) — the net: reds a rotation that DROPS content (a
-                                    manifested row found in neither the live file nor its archive) and a
-                                    rotation with NO manifest (a rotated-* archive no manifest points to).
+One machine holds the invariant: guardrails/check-doc-rotation.py (gate t), the net. It reds a
+rotation that DROPS content (a manifested row found in neither the live file nor its archive), a
+rotation with NO manifest (a rotated-* archive no manifest points to), a row findable both live and
+archived, a row resting in an archive whose status is not terminal, and a terminal row in a
+referenced archive that no manifest line names.
 
-This file is red-first: run it against the pre-delta tree and the gate/mechanism are absent, the
+The mechanism that used to stand beside it, scripts/rotate-doc.py, retired to the attic on
+2026-08-28: it understood one document's table shape and that document is retired, so it could no
+longer be run on anything in the live tree. Rows move by hand now, and the gate is what proves the
+hand lost nothing. Its own tests retired with it — they exercised a tool that is gone.
+
+This file is red-first: run it against the pre-delta tree and the gate is absent, the
 spec/index/architecture/matrix carry no INV-209, and the push chain is unwired.
 """
 import os
@@ -29,7 +33,6 @@ from conftest import read
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 GATE = os.path.join(ROOT, "guardrails", "check-doc-rotation.py")
-ROTATE = os.path.join(ROOT, "scripts", "rotate-doc.py")
 
 
 def run_gate(base, docs, extra=None):
@@ -136,72 +139,69 @@ class TestRotationGate(unittest.TestCase):
         self.assertEqual(p.returncode, 0, "the real tree fails the rotation gate:\n" + p.stdout + p.stderr)
 
 
-class TestMechanism(unittest.TestCase):
+class TestArchiveRowUnclaimed(unittest.TestCase):
+    """Arm (e): a terminal row inside a referenced archive that no manifest line names.
+
+    The gate held one direction only — every row the manifest NAMES is present in its archive — and
+    never the mirror, that every row PRESENT in an archive is named. A row can therefore be moved out
+    of the live list and left out of the manifest line, and nothing says so: it is not live, it is not
+    manifested, and the archive it rests in is referenced, so the orphan-archive arm stays quiet too.
+    The findability promise the whole gate exists to keep is per row, so this is the same nothing-lost
+    violation seen from the archive side.
+
+    RED-PROOF, from the tree itself: docs/queue-archive/rotated-ROADMAP-2026-08.md carried row 558
+    (`declined 2026-08-09`) while the manifest line for that archive named seventeen other rows and
+    never 558, and gate t passed the tree. The fixtures below are the permanent minimal shape of that
+    red.
+    """
+
     def setUp(self):
         import tempfile
-        self.tmp = tempfile.mkdtemp(prefix="rotation-mech-")
+        self.tmp = tempfile.mkdtemp(prefix="rotation-unclaimed-")
 
     def tearDown(self):
         import shutil
         shutil.rmtree(self.tmp, ignore_errors=True)
 
-    def test_rotate_moves_closed_rows_and_leaves_a_manifest(self):
-        live = (
-            "# live-spec Roadmap (dated version: 2026-07-18)\n\n"
-            "The wish queue.\n\n"
-            "| # | Wish (plain words) | Class | Status | Decision / acceptance |\n"
-            "|---|---|---|---|---|\n"
-            "| 14 | closed wish | small | **landed 2026-07-05** | Done when: met |\n"
-            "| 42 | open wish | surface | queued 2026-07-18 | Done when: x |\n"
-        )
-        _write(self.tmp, "ROADMAP.md", live)
-        p = subprocess.run(
-            [sys.executable, ROTATE, "--doc", "ROADMAP.md", "--rows", "14",
-             "--base", self.tmp, "--date", "2026-07-18"],
-            capture_output=True, text=True)
-        self.assertEqual(p.returncode, 0, "rotate-doc.py failed:\n" + p.stdout + p.stderr)
-        new_live = open(os.path.join(self.tmp, "ROADMAP.md"), encoding="utf-8").read()
-        self.assertNotRegex(new_live, r"(?m)^\| 14 \|", "the rotated row is still a live table row")
-        self.assertRegex(new_live, r"(?m)^\| 42 \|", "the live open row was dropped")
-        self.assertIn("rotated-manifest", new_live, "no manifest block left in the live file")
-        self.assertIn("14", new_live, "the manifest does not name the rotated row number")
-        arch = os.path.join(self.tmp, "docs", "queue-archive", "rotated-ROADMAP-2026-07-18.md")
-        self.assertTrue(os.path.isfile(arch), "no archive file written")
-        self.assertRegex(open(arch, encoding="utf-8").read(), r"(?m)^\| 14 \|", "rotated row not in the archive")
+    def test_a_terminal_row_no_manifest_line_names_reds(self):
+        # the manifest names 14 and 27; the archive also holds 33, closed and named nowhere.
+        _write(self.tmp, "ROADMAP.md", _live_doc(MANIFEST))
+        archive = _archive([14, 27]) + \
+            "| 33 | a closed wish nobody wrote down | small | **declined 2026-08-09** | Done: n/a |\n"
+        _write(self.tmp, "rotated-ROADMAP-2026-07-18.md", archive)
+        code, out = run_gate(self.tmp, ["ROADMAP.md"])
+        self.assertNotEqual(code, 0, "an archived row no manifest line names must red:\n" + out)
+        self.assertIn("33", out)
+        self.assertIn("unclaimed", out)
 
-    def test_rotate_halts_on_a_row_that_is_not_closed(self):
-        # safety: a row still open (queued / in-work / deferred / open field leg) is never rotated.
-        live = (
-            "# live-spec Roadmap (dated version: 2026-07-18)\n\n"
-            "| # | Wish (plain words) | Class | Status | Decision / acceptance |\n"
-            "|---|---|---|---|---|\n"
-            "| 42 | open wish | surface | queued 2026-07-18 | Done when: x |\n"
-        )
-        _write(self.tmp, "ROADMAP.md", live)
-        p = subprocess.run(
-            [sys.executable, ROTATE, "--doc", "ROADMAP.md", "--rows", "42",
-             "--base", self.tmp, "--date", "2026-07-18"],
-            capture_output=True, text=True)
-        self.assertNotEqual(p.returncode, 0, "rotating a still-open row must halt, not proceed")
+    def test_an_archive_whose_every_terminal_row_is_named_passes(self):
+        _write(self.tmp, "ROADMAP.md", _live_doc(MANIFEST))
+        _write(self.tmp, "rotated-ROADMAP-2026-07-18.md", _archive([14, 27]))
+        code, out = run_gate(self.tmp, ["ROADMAP.md"])
+        self.assertEqual(code, 0, "an archive whose rows are all named must pass:\n" + out)
 
-    def test_rotate_output_survives_the_gate(self):
-        # the mechanism and the net agree: what rotate-doc.py produces passes check-doc-rotation.py.
-        live = (
-            "# live-spec Roadmap (dated version: 2026-07-18)\n\n"
-            "| # | Wish (plain words) | Class | Status | Decision / acceptance |\n"
-            "|---|---|---|---|---|\n"
-            "| 14 | closed wish | small | **landed 2026-07-05** | Done when: met |\n"
-            "| 27 | closed wish two | small | **landed 2026-07-05** | picked X |\n"
-            "| 42 | open wish | surface | queued 2026-07-18 | Done when: x |\n"
-        )
-        _write(self.tmp, "ROADMAP.md", live)
-        subprocess.run(
-            [sys.executable, ROTATE, "--doc", "ROADMAP.md", "--rows", "14,27",
-             "--base", self.tmp, "--date", "2026-07-18"],
-            capture_output=True, text=True, check=True)
-        code, out = run_gate(self.tmp, ["ROADMAP.md"],
-                             extra=["--archive-glob", "docs/queue-archive/rotated-*.md"])
-        self.assertEqual(code, 0, "rotate-doc.py output failed the gate:\n" + out)
+    def test_an_unnamed_row_that_is_not_terminal_reds_as_the_non_terminal_violation(self):
+        # boundary: a row still open in an archive belongs to arm (d) and is named as such. Arm (e)
+        # must not double-report it, since a row that never closed has no business being named on a
+        # manifest line in the first place.
+        _write(self.tmp, "ROADMAP.md", _live_doc(MANIFEST))
+        archive = _archive([14, 27]) + \
+            "| 33 | a wish still open | small | queued 2026-08-09 | Done: x |\n"
+        _write(self.tmp, "rotated-ROADMAP-2026-07-18.md", archive)
+        code, out = run_gate(self.tmp, ["ROADMAP.md"])
+        self.assertNotEqual(code, 0, "a non-terminal archived row must red:\n" + out)
+        self.assertIn("live queue body", out)
+        self.assertNotIn("unclaimed", out)
+
+    def test_rows_in_an_archive_no_manifest_points_at_red_as_no_manifest_only(self):
+        # boundary: an archive nothing points at is arm (b)'s whole-file violation. Naming each of
+        # its rows unclaimed on top of that would bury the one finding that matters under a row list.
+        _write(self.tmp, "ROADMAP.md", _live_doc(""))
+        _write(self.tmp, "rotated-ROADMAP-2026-07-18.md", _archive([14, 27]))
+        code, out = run_gate(self.tmp, ["ROADMAP.md"])
+        self.assertNotEqual(code, 0, "an orphan archive must red")
+        self.assertIn("no manifest", out)
+        self.assertNotIn("unclaimed", out)
 
 
 MONTH_MANIFEST = (
@@ -360,66 +360,23 @@ class TestNonTerminalArchiveRow(unittest.TestCase):
         self.assertEqual(code, 0, "a terminal word standing anywhere in the cell must pass:\n" + out)
 
 
-class TestClosingCommitMechanism(unittest.TestCase):
-    """Piece 1: scripts/rotate-doc.py --close-row moves ONE row into the month archive, grows the
-    month's single manifest line, and its output survives the gate."""
+def test_the_retired_mechanism_is_gone_and_its_line_is_in_the_attic():
+    """scripts/rotate-doc.py retired 2026-08-28, and nothing silently deleted (base rule 10).
 
-    def setUp(self):
-        import tempfile
-        self.tmp = tempfile.mkdtemp(prefix="rotation-close-")
-
-    def tearDown(self):
-        import shutil
-        shutil.rmtree(self.tmp, ignore_errors=True)
-
-    LIVE = (
-        "# live-spec Roadmap (dated version: 2026-07-23)\n\n"
-        "The wish queue.\n\n"
-        "| # | Wish (plain words) | Class | Status | Decision / acceptance |\n"
-        "|---|---|---|---|---|\n"
-        "| 480 | first closed wish | surface | *landed 2026-07-23* | Done: met |\n"
-        "| 481 | a live open wish | small | *queued 2026-07-23* | Done: x |\n"
-        "| 483 | second closed wish | small | *landed 2026-07-23* | Done: met |\n"
-    )
-
-    def _close(self, rownum):
-        return subprocess.run(
-            [sys.executable, ROTATE, "--doc", "ROADMAP.md", "--close-row", str(rownum),
-             "--month", "2026-07", "--base", self.tmp], capture_output=True, text=True)
-
-    def test_close_row_moves_one_row_and_grows_one_manifest_line(self):
-        _write(self.tmp, "ROADMAP.md", self.LIVE)
-        p = self._close(480)
-        self.assertEqual(p.returncode, 0, p.stdout + p.stderr)
-        p = self._close(483)
-        self.assertEqual(p.returncode, 0, p.stdout + p.stderr)
-        live = open(os.path.join(self.tmp, "ROADMAP.md"), encoding="utf-8").read()
-        self.assertNotRegex(live, r"(?m)^\| 480 \|", "row 480 still a live body row")
-        self.assertNotRegex(live, r"(?m)^\| 483 \|", "row 483 still a live body row")
-        self.assertRegex(live, r"(?m)^\| 481 \|", "the live open row 481 was dropped")
-        # ONE manifest line for the month archive, its row list grown to both rows
-        month_lines = [l for l in live.splitlines()
-                       if "rotated-ROADMAP-2026-07.md" in l and l.strip().startswith("- rows")]
-        self.assertEqual(len(month_lines), 1, "the month archive must own exactly one manifest line: %s" % month_lines)
-        self.assertIn("480", month_lines[0])
-        self.assertIn("483", month_lines[0])
-        arch = open(os.path.join(self.tmp, "docs", "queue-archive", "rotated-ROADMAP-2026-07.md"),
-                    encoding="utf-8").read()
-        self.assertRegex(arch, r"(?m)^\| 480 \|")
-        self.assertRegex(arch, r"(?m)^\| 483 \|")
-
-    def test_close_row_halts_on_an_absent_row(self):
-        _write(self.tmp, "ROADMAP.md", self.LIVE)
-        p = self._close(999)
-        self.assertNotEqual(p.returncode, 0, "closing a row the body does not hold must halt")
-
-    def test_close_row_output_survives_the_gate(self):
-        _write(self.tmp, "ROADMAP.md", self.LIVE)
-        self._close(480)
-        self._close(483)
-        code, out = run_gate(self.tmp, ["ROADMAP.md"],
-                             extra=["--archive-glob", "docs/queue-archive/rotated-*.md"])
-        self.assertEqual(code, 0, "rotate-doc.py --close-row output failed the gate:\n" + out)
+    The tool read one document's table shape and refused every other document by name. That
+    document left the tree, so every invocation it could still be given either names a file that
+    is not there or is refused as out of scope — it cannot be run on the live tree at all. Its
+    behaviour tests retired with it: a test of a tool that is gone proves nothing about the tree.
+    What it promised — that a move writes the archive and the manifest line together — is now
+    promised by the gate instead, which reds either half missing on every push whatever hand made
+    the move.
+    """
+    assert not os.path.exists(os.path.join(ROOT, "scripts", "rotate-doc.py")), \
+        "the retired mechanism is back in scripts/ with no tests covering it"
+    assert os.path.exists(os.path.join(ROOT, "attic", "rotate-doc.py")), \
+        "the retired mechanism is not in the attic — base rule 10 deletes nothing silently"
+    assert "attic/rotate-doc.py" in read("attic/MANIFEST.md"), \
+        "the attic manifest carries no line for the retired mechanism"
 
 
 # --- wired into the push chain, both nets ---

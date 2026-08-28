@@ -38,13 +38,21 @@ joined by `→` (or `->`). This gate reds four violations and passes a clean rot
       on a row that later landed), with the terminal word standing anywhere in the cell, so this reads
       the whole cell rather than its leading word. It names the file and the row number and states that
       a non-terminal row belongs in the live queue body.
+  (e) ARCHIVE ROW UNCLAIMED — the mirror of (a). A row carrying a terminal status sits inside an archive
+      some manifest line already points at, yet no manifest line names that row's own number. The
+      findability promise this gate exists to keep is per row, never per file: a reader greps the live
+      list for a number and must meet a pointer. A row in a referenced archive that no line names is
+      reachable from the live list by nothing, so it is lost in the only way that matters even while its
+      bytes sit on disk. This direction is scoped to archives a manifest already names; an archive no
+      line points at is violation (b)'s territory.
 
 A clean rotation passes: every manifested row is grepable in its archive, no rotated row is still live,
-every rotation archive is referenced by a manifest line, and every row inside an archive carries a
-terminal status. Honest boundary: this reads the manifest's
+every rotation archive is referenced by a manifest line, every row inside an archive carries a terminal
+status, and every terminal row inside a referenced archive is named by a manifest line of its own.
+Honest boundary: this reads the manifest's
 promises against the archives — a structural scan, kin of check-board.py and check-cleanup-notice.sh. The
-judgment of WHICH closed rows are ripe to rotate stays the author's own (scripts/rotate-doc.py performs
-the move; this gate guards that it lost nothing).
+judgment of WHICH closed rows are ripe to move stays the author's own; the move itself is made by hand
+since 2026-08-28, and this gate is what guards that the hand lost nothing.
 
 Usage:
   check-doc-rotation.py                             push mode: scan the repo's PLAN.md + archives.
@@ -71,7 +79,7 @@ ARCHIVE_ROW_RE = re.compile(r"^\|\s*(\d+)\s*\|")
 # The terminal words a row's exit carries, in any case, standing anywhere in the cell: a wish that
 # shipped reads landed, a wish refused reads declined, a wish another row took over reads superseded,
 # and a decision row's exit reads decided (the vocabulary the queue format states in one home,
-# docs/roadmap-format.md, and scripts/rotate-doc.py reads the same list as its closed signals).
+# docs/roadmap-format.md).
 TERMINAL_WORD_RE = re.compile(r"\b(landed|decided|declined|superseded)\b", re.IGNORECASE)
 
 
@@ -154,13 +162,16 @@ def _status_index(archive_text):
     return 3
 
 
-def _non_terminal_rows(archive_text):
-    """[(rownum, status_snippet)] for archive rows whose Status cell carries none of the terminal
-    words. The Status column's index comes from the table's own header. A row's free-form prose
-    occasionally holds a stray literal `|` of its own, ahead of or inside the Status text; the field at
-    that index opens on the Status cell's own text either way, which is where its stated word stands."""
+def _archive_rows(archive_text):
+    """[(rownum, status_snippet, is_terminal)] for every `| n |` row the archive holds.
+
+    The Status column's index comes from the table's own header. A row's free-form prose occasionally
+    holds a stray literal `|` of its own, ahead of or inside the Status text; the field at that index
+    opens on the Status cell's own text either way, which is where its stated word stands. Both
+    archive-side directions read this one pass: (d) wants the rows whose status is NOT terminal, (e)
+    wants the rows whose status IS."""
     idx = _status_index(archive_text)
-    bad = []
+    rows = []
     for line in archive_text.splitlines():
         m = ARCHIVE_ROW_RE.match(line)
         if not m:
@@ -168,9 +179,8 @@ def _non_terminal_rows(archive_text):
         n = int(m.group(1))
         fields = _split_row(line)[1:-1]  # drop the row's bounding empty strings
         status = fields[idx].strip() if len(fields) > idx else ""
-        if not TERMINAL_WORD_RE.search(status):
-            bad.append((n, status))
-    return bad
+        rows.append((n, status, bool(TERMINAL_WORD_RE.search(status))))
+    return rows
 
 
 def main():
@@ -185,6 +195,8 @@ def main():
 
     violations = []
     referenced = set()
+    # archive path, as the manifest wrote it and by basename -> the row numbers claimed there.
+    claimed = {}
 
     for doc in docs:
         doc_path = os.path.join(base, doc)
@@ -195,6 +207,8 @@ def main():
         live_text = _read(doc_path)
         for n, archive in _manifest_entries(live_text):
             referenced.add(os.path.normpath(archive))
+            claimed.setdefault(os.path.normpath(archive), set()).add(n)
+            claimed.setdefault(os.path.basename(archive), set()).add(n)
             arch_path = os.path.join(base, archive)
             if not os.path.isfile(arch_path):
                 violations.append(
@@ -209,19 +223,30 @@ def main():
                     "ambiguous rotation: %s declares row %d rotated yet still carries it as a live "
                     "`| %d |` table row — findable twice, canonical copy unclear" % (doc, n, n))
 
-    # orphan-archive scan: every rotation archive must be pointed to by a manifest line, and every row
-    # inside an archive must carry a terminal status.
+    # orphan-archive scan: every rotation archive must be pointed to by a manifest line, every row
+    # inside an archive must carry a terminal status, and every terminal row inside a referenced
+    # archive must be named by a manifest line of its own.
     for arch_path in sorted(glob.glob(os.path.join(base, args.archive_glob))):
         rel = os.path.normpath(os.path.relpath(arch_path, base))
-        if rel not in referenced and os.path.basename(arch_path) not in {os.path.basename(r) for r in referenced}:
+        base_name = os.path.basename(arch_path)
+        is_referenced = rel in referenced or base_name in {os.path.basename(r) for r in referenced}
+        if not is_referenced:
             violations.append(
                 "no manifest: %s exists but no live manifest line points to it (base rule 10 — a "
                 "superseded portion moved with no manifest line)" % rel)
-        for n, status in _non_terminal_rows(_read(arch_path)):
-            violations.append(
-                "non-terminal row in archive: %s row %d carries Status %r, holding none of landed / "
-                "decided / declined / superseded — a non-terminal row belongs in the live queue body" %
-                (rel, n, status[:80]))
+        claimed_here = claimed.get(rel, set()) | claimed.get(base_name, set())
+        for n, status, terminal in _archive_rows(_read(arch_path)):
+            if not terminal:
+                violations.append(
+                    "non-terminal row in archive: %s row %d carries Status %r, holding none of landed / "
+                    "decided / declined / superseded — a non-terminal row belongs in the live queue body" %
+                    (rel, n, status[:80]))
+            elif is_referenced and n not in claimed_here:
+                violations.append(
+                    "archive row unclaimed: %s row %d carries Status %r, a terminal status, but no "
+                    "manifest line names row %d (base rule 10 — the findability promise is per row: a "
+                    "reader who greps the live list for %d meets no pointer at all)" %
+                    (rel, n, status[:80], n, n))
 
     if violations:
         print("FAIL (doc-rotation): moving old content into its archive lost something along the way —")
@@ -229,8 +254,9 @@ def main():
         print("  Without both, that content is effectively gone:")
         for v in violations:
             print("  - " + v)
-        print("  Fix: ask your agent to redo the move with scripts/rotate-doc.py, which writes the")
-        print("  archive and its manifest line together, and to restore anything dropped from git history.")
+        print("  Fix: write the archive and its manifest line as one act — the live list's line for an")
+        print("  archive names every row that archive holds, and every row it names is really there.")
+        print("  Anything dropped comes back out of git history.")
         return 1
 
     print("OK (doc-rotation): every rotated row is findable in its archive and every archive is "

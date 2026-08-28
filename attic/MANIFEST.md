@@ -51,6 +51,8 @@ base rule 10). Nothing here was deleted; a file that turns out to be needed is m
 - `guardrails/hook-red-fixtures/midturn-chat-scan/` -> `attic/hook-red-fixtures-midturn-chat-scan/` * the red-proof fixture for the retired arm, retired alongside it * 2026-08-17
 - `guardrails/measured-number-fixtures/` -> `attic/measured-number-fixtures/` * the bare-number and measured-number pair the retired arm's measurement tests read; no test opens them once the arm is gone * 2026-08-17
 
+- `scripts/rotate-doc.py` -> `attic/rotate-doc.py` * the tool that moved a document's closed rows into a dated archive and left the manifest line behind. It understood one shape, the wish queue's table, and refused every other document by name rather than guess — honest behaviour that became fatal the moment that document retired on 2026-08-28, since the only file it would accept is now `attic/ROADMAP.md` and there is nothing live for it to move. Teaching it the plan's shape would be building a road for a journey nobody makes: a task leaves `PLAN.md` rarely and by hand. What the tool guaranteed by construction — the archive and its manifest line written as one act — `guardrails/check-doc-rotation.py` now proves on every push instead, in both directions, so a hand that writes one half and forgets the other is named at the gate * 2026-08-28
+
 The checks parked on 2026-08-18 rest in `guardrails/attic/` instead of here. Each keeps its own
 fixtures and data beside it, so returning one is a single move. Their lines take the same form.
 
