@@ -1,6 +1,6 @@
 # Measurements — one row per file, every indicator
 
-Generated 2026-08-21 by `python3 scripts/measurements-table.py`. This table is the source of truth for where the work stands. Add `--html` to also build `docs/MEASUREMENTS.html`, the page to read it on — a transient render, swept once its reading closes (SPEC INV-286).
+Generated 2026-08-28 by `python3 scripts/measurements-table.py`. This table is the source of truth for where the work stands. Add `--html` to also build `docs/MEASUREMENTS.html`, the page to read it on — a transient render, swept once its reading closes (SPEC INV-286).
 
 | # | file | state | both stopped | readers ok | find | script ok | est h | cum h | reads | long | style | lines |
 |---|---|---|---|---|---|---|---|---|---|---|---|---|
@@ -10,43 +10,43 @@ Generated 2026-08-21 by `python3 scripts/measurements-table.py`. This table is t
 | 2 | `~/.claude/CLAUDE.md` | open | — | n/m | n/m | n/m | 2.3 | 5 | 0 | n/m | n/m | n/m |
 | 3 | `~/.claude/live-spec/profile.md` | open | — | n/m | n/m | n/m | 2.3 | 7 | 0 | n/m | n/m | n/m |
 | | **The file every session reads first** ||||||||||||
-| 4 | `NEXT_STEPS.md` | open | — | n/m | n/m | n/m | 2.3 | 9 | 0 | n/m | n/m | 180 |
+| 4 | `NEXT_STEPS.md` | open | — | n/m | n/m | n/m | 2.3 | 9 | 0 | n/m | n/m | 156 |
 | | **The four documents behind the language rules (text-audit itself moved to its own repository, 2026-08-18 — skills/text-audit-pack/SKILL.md is the thin adapter left behind, measured below among the remaining live documents)** ||||||||||||
 | 5 | `docs/language-rules.md` | open | n/m | no | n/m | n/m | 2.3 | 12 | 2 | n/m | n/m | 1,078 |
 | 6 | `docs/spec-style.md` | open | — | n/m | n/m | n/m | 2.3 | 14 | 0 | n/m | n/m | 152 |
 | 7 | `docs/spec-format.md` | open | — | n/m | n/m | n/m | 2.3 | 16 | 0 | n/m | n/m | 76 |
 | 8 | `docs/language-worked-example.md` | open | — | n/m | n/m | n/m | 2.3 | 19 | 0 | n/m | n/m | 636 |
 | | **The three skills loaded in every task run by the method** ||||||||||||
-| 9 | `skills/live-spec-base/SKILL.md` | open | — | n/m | n/m | n/m | 2.3 | 21 | 0 | n/m | n/m | 620 |
-| 10 | `skills/build-pipeline/SKILL.md` | open | — | n/m | n/m | n/m | 2.3 | 23 | 0 | n/m | n/m | 729 |
-| 11 | `skills/communicator/SKILL.md` | open | — | n/m | n/m | n/m | 2.3 | 25 | 0 | n/m | n/m | 497 |
-| | **ROADMAP.md, read whenever a session picks up work** ||||||||||||
-| 12 | `ROADMAP.md` | open | — | n/m | n/m | n/m | 2.3 | 28 | 0 | n/m | n/m | 274 |
+| 9 | `skills/live-spec-base/SKILL.md` | open | — | n/m | n/m | n/m | 2.3 | 21 | 0 | n/m | n/m | 451 |
+| 10 | `skills/build-pipeline/SKILL.md` | open | — | n/m | n/m | n/m | 2.3 | 23 | 0 | n/m | n/m | 68 |
+| 11 | `skills/communicator/SKILL.md` | open | — | n/m | n/m | n/m | 2.3 | 25 | 0 | n/m | n/m | 500 |
+| | **PLAN.md, read whenever a session picks up work** ||||||||||||
+| 12 | `PLAN.md` | open | — | n/m | n/m | n/m | 2.3 | 28 | 0 | n/m | n/m | 1,679 |
 | | **The remaining six skills (product-prover moved to its own repository, 2026-08-13 — skills/product-prover-pack/SKILL.md is the thin adapter left behind, measured below among the remaining live documents)** ||||||||||||
 | 13 | `skills/design-reviewer/SKILL.md` | open | — | n/m | n/m | n/m | 2.3 | 30 | 0 | n/m | n/m | 431 |
 | 14 | `skills/feedback-collector/SKILL.md` | open | — | n/m | n/m | n/m | 2.3 | 32 | 0 | n/m | n/m | 143 |
-| 15 | `skills/feedback-intake/SKILL.md` | open | — | n/m | n/m | n/m | 2.3 | 35 | 0 | n/m | n/m | 104 |
-| 16 | `skills/publish/SKILL.md` | open | — | n/m | n/m | n/m | 2.3 | 37 | 0 | n/m | n/m | 161 |
-| 17 | `skills/spec-author/SKILL.md` | open | — | n/m | n/m | n/m | 2.3 | 39 | 0 | n/m | n/m | 271 |
-| 18 | `skills/test-author/SKILL.md` | open | — | n/m | n/m | n/m | 2.3 | 42 | 0 | n/m | n/m | 230 |
+| 15 | `skills/feedback-intake/SKILL.md` | open | — | n/m | n/m | n/m | 2.3 | 35 | 0 | n/m | n/m | 105 |
+| 16 | `skills/publish/SKILL.md` | open | — | n/m | n/m | n/m | 2.3 | 37 | 0 | n/m | n/m | 175 |
+| 17 | `skills/spec-author/SKILL.md` | open | — | n/m | n/m | n/m | 2.3 | 39 | 0 | n/m | n/m | 277 |
+| 18 | `skills/test-author/SKILL.md` | open | — | n/m | n/m | n/m | 2.3 | 42 | 0 | n/m | n/m | 231 |
 | | **The specification family** ||||||||||||
-| 19 | `PRODUCT_SPEC.md` | open | — | n/m | n/m | n/m | 2.3 | 44 | 0 | n/m | n/m | 305 |
-| 20 | `ARCHITECTURE.md` | open | — | n/m | n/m | n/m | 2.3 | 46 | 0 | n/m | n/m | 917 |
-| 21 | `TEST_MATRIX.md` | open | — | n/m | n/m | n/m | 2.3 | 49 | 0 | n/m | n/m | 159 |
+| 19 | `PRODUCT_SPEC.md` | open | — | n/m | n/m | n/m | 2.3 | 44 | 0 | n/m | n/m | 307 |
+| 20 | `ARCHITECTURE.md` | open | — | n/m | n/m | n/m | 2.3 | 46 | 0 | n/m | n/m | 69 |
+| 21 | `TEST_MATRIX.md` | open | — | n/m | n/m | n/m | 2.3 | 49 | 0 | n/m | n/m | 160 |
 | | **The documents a stranger meets on arrival** ||||||||||||
-| 22 | `README.md` | open | — | n/m | n/m | n/m | 2.3 | 51 | 0 | n/m | n/m | 227 |
-| 23 | `OVERVIEW.md` | open | — | n/m | n/m | n/m | 2.3 | 53 | 0 | n/m | n/m | 123 |
+| 22 | `README.md` | open | — | n/m | n/m | n/m | 2.3 | 51 | 0 | n/m | n/m | 237 |
+| 23 | `OVERVIEW.md` | open | — | n/m | n/m | n/m | 2.3 | 53 | 0 | n/m | n/m | 128 |
 | 24 | `adopt/ADOPT.md` | open | — | n/m | n/m | n/m | 2.3 | 56 | 0 | n/m | n/m | 309 |
 
 ### The specification's own size
 
 | indicator | today | target |
 |---|---|---|
-| bytes | not measured | under 840,000 |
+| bytes | not measured | no target |
 | requirements | 0 | no target |
 | acceptance criteria | 0 | no target |
-| bytes per criterion | not measured | falls or holds, bound 207.2 |
-| repeated pairs | 0 | falls or holds |
+| bytes per criterion | not measured | falls or holds, bound 185.8 |
+| repeated pairs | 116 | falls or holds |
 | lines per part file | not measured | 250, once the division lands |
 
 ## What each column means

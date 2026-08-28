@@ -6,9 +6,13 @@
 # This gate catches STRUCTURAL wiring — a prod file naming/loading a fenced file
 # (e.g. a <script src="prototype/sketch.html">, an import path, a link target) —
 # not narrative mentions. Narrative homes are excluded by list: docs/, attic/,
-# inbox/, JOURNAL.md, ROADMAP.md, NEXT_STEPS.md, and any README.md under
+# inbox/, JOURNAL.md, PLAN.md, ROADMAP.md, NEXT_STEPS.md, and any README.md under
 # guardrails/, plus .live-spec/ (this pack's own working state) — a project can
 # talk ABOUT a prototype in its journal or docs without that being a wiring fault.
+# PLAN.md joined the list on 2026-08-28: it is the live task list here since the
+# queue retired, so a task's own prose naming a sketch it produced redded a fence
+# it never crossed. ROADMAP.md stays on the list — the templates and the adoption
+# walk still give a host project its own queue under that name.
 #
 # Usage: check-prototype-fence.sh [repo-root] [fence-dir-name]
 #   repo-root       defaults to `git rev-parse --show-toplevel`
@@ -52,6 +56,7 @@ scan_files="$(git ls-files | grep -Ev \
   -e "^inbox/" \
   -e "^\.live-spec/" \
   -e "(^|/)JOURNAL\.md\$" \
+  -e "(^|/)PLAN\.md\$" \
   -e "(^|/)ROADMAP\.md\$" \
   -e "(^|/)NEXT_STEPS\.md\$" \
   -e "^guardrails/.*README\.md\$" \
