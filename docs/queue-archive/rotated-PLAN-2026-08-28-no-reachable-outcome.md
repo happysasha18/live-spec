@@ -20,7 +20,7 @@ live list for that number follows to get here.
 
 | # | Wish (plain words) | Class | Status | Decision / acceptance |
 | --- | --- | --- | --- | --- |
-| 596 | Personal settings never leak into a worker's task | archive | declined 2026-08-28 | the cause lives outside this tree, so no state here could go from undone to done; the row's full text stands under its heading below |
+| 596 | Personal settings never leak into a worker's task | archive | declined 2026-08-28 | this repository cannot reach the cause, which lives in the owner's personal layer, so no state here could go from undone to done; the row stands as the dated record of a cost already paid, in full under its heading below |
 
 ---
 

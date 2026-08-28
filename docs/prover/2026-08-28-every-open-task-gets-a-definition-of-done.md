@@ -84,17 +84,38 @@ Checks run: eleven, each with its result below.
 
 Findings: eight, listed below.
 
-**1. The bar at "Words used here" contradicted two other places in the same file, and this range
-changed a sentence he wrote.** The bar demanded a command of every queued task. Two other passages
-already provided for the opposite: the closing rule four bullets below it ("A task whose result is
-prose, a measurement or a decision writes no command and says in one line who read it and where"),
-and plan-10's own second bullet ("Where an acceptance genuinely cannot be run by a command — it
-needs the owner's eyes — the step says so in one line"). A file cannot hold all three. The bar is the
-one that moved, because it is the newest and because the five rows it forbids are honestly of that
-shape. This is a change to his own 27.08 wording, so it is named in §Blockers in plain words rather
-than left to be discovered in a diff, and §Blockers states what the harder bar would cost if he
-wants it back. **Not blocking** — his word of 28.08 00:53 is to carry the plan to the end without
-asking, and the change is visible where he reads.
+**1. The bar at "Words used here" was amended, and the amendment now stands as an open question for
+him.** The bar demanded a command of every queued task, and five open rows finish in something a
+person reads and judges, so the bar was widened to ask for a definition a reader can act on with a
+command wherever a command can decide.
+
+*Corrected 28.08 evening, after an adversarial review of this whole range.* This finding as first
+written argued the amendment from a contradiction and got both the dating and the authorship wrong.
+It named two older passages as already providing for the opposite. Only one of them is older:
+
+- plan-10's second bullet ("Where an acceptance genuinely cannot be run by a command — it needs the
+  owner's eyes — the step says so in one line") — `1e2afe54`, 2026-08-27 15:07, three hours before
+  the bar.
+- the bar itself — `f4bad2f8`, 2026-08-27 18:37.
+- the closing rule under "Words used here" ("A task whose result is prose, a measurement or a
+  decision writes no command and says in one line who read it and where") — `f6e889b4`, 2026-08-28
+  15:31, this same day's work by this pack, hours after the bar.
+- the amendment — `ead4a705`, 2026-08-28 18:08.
+
+So the closing rule is the newest of the four, and the sentence "the bar is the one that moved
+because it is the newest" is inverted. A passage this pack wrote the same afternoon carries no
+authority against a bar set the day before, and it should never have been cited as one. Only
+plan-10's bullet is a genuine pre-existing conflict.
+
+The authorship claim was wrong twice over. `f4bad2f8`'s own commit message records his 27.08 words
+as "принято в работу" <!-- user-language --> — accepted into work, clear what to do, well
+formalized. "Done is a command" is this pack's formalization of that phrase. So the amendment
+changed this pack's own wording, and §Blockers' line "This changed a sentence he wrote on 27.08"
+misnamed the author.
+
+**Now open, and the only thing on the board waiting on him.** §Blockers puts the choice to him in
+one line: keep the widened bar, or restore the stricter one and take the five rows off the board as
+unformed ideas. The work itself stands either way; what he decides is which bar the file carries.
 
 *Second-order note the bar's old wording also earned:* "a command, not a sentence" is itself the
 "X, not Y" contrast frame his own profile bans. The new wording carries no frame.
@@ -186,7 +207,11 @@ skimming for what exists today could still take them the other way. Named for th
 file it is.
 
 *The archive this range adds, `docs/queue-archive/rotated-PLAN-2026-08-28-no-reachable-outcome.md`, was
-checked against their new direction: it carries no numbered table rows and no manifest line points
-at it, so neither the orphan-archive arm nor the unclaimed-row arm reaches it. Gate t agreed.*
+checked against their new direction: it carried no numbered table rows and no manifest line pointed
+at it, so neither the orphan-archive arm nor the unclaimed-row arm reached it. Gate t agreed. That
+was the finding, and it is exactly what the escape was: an archive outside the gate's naming
+convention is an archive the gate cannot see. Repaired later on 28.08 — the file took the
+`rotated-` name, gained its index row, and `PLAN.md`'s manifest block gained the line that names
+row 596. Both arms reach it now.*
 
 Blocking: none.

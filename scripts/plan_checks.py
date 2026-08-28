@@ -55,9 +55,13 @@ sys.exit(1 if undrawn or unmarked else 0)
     # tests/test_plan_is_not_executable.py, and the suite's home is the push gate and CI.
     "plan-6": "! grep -q '^<!-- check:' PLAN.md && ! grep -q '<!-- check:' scripts/state-probe.sh scripts/render-board.sh && test -f tests/test_plan_is_not_executable.py && python3 scripts/director-wire-report.py >/dev/null 2>&1",
     "plan-8": """test "$(cat VERSION)" != 5.0.0 && grep -q 'skills/director' MIGRATION.md""",
-    "plan-9": "ls ~/tlvphotos/.claude/skills 2>/dev/null | grep -q director && test -f ~/tlvphotos/.live-spec/VERSION",
+    # plan-9: the host carries the director skill AND its recorded version equals this pack's own.
+    # Corrected 2026-08-28: the old arm was `test -f` on the host's VERSION, which a one-byte file
+    # satisfies, so it could read green over a host still on an old release. plan-15 already asked
+    # its host for the number; this now asks the same, matching the row's own acceptance.
+    "plan-9": """ls ~/tlvphotos/.claude/skills 2>/dev/null | grep -q director && test "$(cat ~/tlvphotos/.live-spec/VERSION 2>/dev/null)" = "$(cat VERSION)" """,
     # --- written 2026-08-28 by plan-10 --------------------------------------------------------
-    # Eleven rows, not thirty-seven. A key is worth its weight only where the row's subject is an
+    # Thirteen rows, out of thirty-seven. A key is worth its weight only where the row's subject is an
     # artifact that can drift back: a file, a script, a setting. The rows left without one are the
     # ones whose result is prose, a measurement, or a decision — a command reading those would only
     # restate them. Each command below is a grep, a `test`, or one guard that already exists and
@@ -74,12 +78,12 @@ sys.exit(1 if undrawn or unmarked else 0)
     "plan-7": "test -f attic/live-spec-base-unbacked-rules-2026-08-26.md && grep -q '^36\\. \\*\\*' skills/live-spec-base/SKILL.md && ! grep -qE '^(11|14|15|18|19|20|21|23|28|30|32|33|34|35)\\. \\*\\*' skills/live-spec-base/SKILL.md",
     # plan-17: the per-step reader exists and the project's own boot file sends a session there
     # rather than at the whole plan. The arm that grepped the plan for the literal token count
-    # `17,575` came off 2026-08-28: the boot files it measures move whenever they are edited, so
-    # that arm redded the moment somebody corrected the plan's number to the measured one — a
-    # check that punishes the repair it is supposed to protect. The number itself is a past
-    # measurement, and the plan says so in its own words ("a past measurement is not a state a
-    # check can re-read"); no bound replaces it, because any bound here would be a threshold
-    # nobody measured.
+    # `17,575` came off 2026-08-28: the floor moves every time the pack grows a paragraph (17,676
+    # by that evening), so the arm redded the moment somebody corrected the plan's number to the
+    # measured one — a check that punishes the repair it is supposed to protect. The number itself
+    # is a past measurement, and the plan says so in its own words ("a past measurement is not a
+    # state a check can re-read"). No bound replaces it: any bound here would be a threshold
+    # nobody measured, and the opening report already prints today's figure.
     "plan-17": "test -x scripts/plan-step.sh && grep -q 'plan-step.sh' CLAUDE.md",
     # q-458: the audit is its own external skill, installed, with this pack's binding and the lints
     # it declares per text surface.
