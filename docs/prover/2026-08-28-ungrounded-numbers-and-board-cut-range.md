@@ -2,10 +2,15 @@
 
 PUSH-REVIEW
 
-Range: e7fafcf..137f691 (17 commits). Base commit `e7fafcf`. Reviewed commits, in order:
-`7f40238`, `6b2aad4`, `9602993`, `8ed2771`, `9582aea`, `2f873ab`, `c85fff7`, `30a7a8e`,
-`7c60809`, `7cd90c1`, `20d0630`, `961b888`, `3785cca`, `d6a4bd2`, `829c6f3`, `d8485f2`,
-`137f691`.
+Range: e7fafcf..5683773 (18 commits), reviewed as one pass. Base commit `e7fafcf`. Reviewed
+commits, in order: `7f40238`, `6b2aad4`, `9602993`, `8ed2771`, `9582aea`, `2f873ab`, `c85fff7`,
+`30a7a8e`, `7c60809`, `7cd90c1`, `20d0630`, `961b888`, `3785cca`, `d6a4bd2`, `829c6f3`,
+`d8485f2`, `137f691`, `5683773`.
+
+The first seventeen of those went out in one push, landing on the remote at `e067676`. CI reddened
+on that push and its two catches are findings 11 and 12; `5683773` carries their repair. So the
+range this record now sends is `e067676..5683773`, base commit `e067676`, and it is the same review
+continued rather than a second one — one record per push, and one pass over one range.
 Prover version that ran: product-prover 1.4.0 (`4503881`), under the pack bindings in
 `skills/product-prover-pack/SKILL.md` 6.0.0.
 
@@ -15,7 +20,7 @@ Two movements. The first, across thirteen commits, is a sweep over every number 
 nobody could trace to a source: each one is now either removed with its dead home, marked for what
 it is, or turned into a stated config defect rather than an invented fallback. The second, in
 `829c6f3`, cuts the board from 162 task rows to 63 by rotating the folded rows into an archive.
-`d8485f2` and `137f691` are this review's own six repairs, described under Findings.
+`d8485f2`, `137f691` and `5683773` are this review's own eight repairs, described under Findings.
 
 ## How this review was run
 
@@ -25,7 +30,7 @@ the board cut got a second pair of eyes that had not already formed a view of th
 claim the range makes about a cited source was checked against that source rather than taken from
 the commit message.
 
-Range: e7fafcf..d8485f2
+Range: e7fafcf..5683773
 
 Files read: `.github/workflows/gates.yml`, `guardrails/check-prover-record.sh`,
 `guardrails/check-doc-rotation.py`, `guardrails/check-pin-drift.sh`, `guardrails/pre-push`,
@@ -65,9 +70,14 @@ main since 27.08, all on the pinned prover canon being below the pack's floor.
 `git ls-remote origin main` inside `skills/product-prover` — the 1.4.0 commit is the published tip.
 `git rev-list --all --objects | grep decision-dossier` — no match anywhere in history.
 `diff` of each changed hook against its installed copy under `~/.claude/hooks/` — identical.
+`gh run watch 33158890831` on the first push of this range — failure, on two tests neither the
+local chain nor the full local suite of the moment had reached.
+`python3 -m pytest -q`, the whole suite the way CI runs it, at `5683773` — 2429 passed, 4 skipped,
+exit 0, in 9m32s. Run because the push chain's suite gate defers the full run to the server, so a
+green chain says nothing about a test the delta never reached.
 
-Findings: ten, listed below — six defects this review found and repaired, and four claims of the
-range's own that were checked against their sources and hold. Three of the six needed a decision
+Findings: twelve, listed below — eight defects this review found and repaired, and four claims of
+the range's own that were checked against their sources and hold. Three of the eight needed a decision
 about the owner's board rather than a mechanical fix; that decision is recorded under finding 3
 and is the pack's own, made under his standing word of 28.08 00:53, not attributed to him.
 
@@ -92,7 +102,7 @@ and is the pack's own, made under his standing word of 28.08 00:53, not attribut
    1.4.0 tip of the prover repository's own main, confirmed against the remote rather than taken
    from the local clone alone.
 
-3. **The range's own new test fails against the real board, and this one still stands.**
+3. **The range's own new test failed against the real board.**
    `8ed2771` added `tests/test_eyes_marker_traces_to_owner.py`, whose fourth test asserts that no
    task on the live `PLAN.md` carries a needs-his-eyes mark with a Source line that is not the
    owner's word. Two commits later `829c6f3` marked `plan-9` and `plan-15` with that mark; neither
@@ -112,14 +122,14 @@ and is the pack's own, made under his standing word of 28.08 00:53, not attribut
 4. **`PLAN.md` contradicted itself about `plan-9`.** `829c6f3` changed the task's heading mark to
    needs-his-eyes and left the note four lines below it reading "Marked ⬜, waiting on that session
    and the owner's own 'after the release' timing". The note states the real status; the heading now
-   agrees with it, in the same `137f691`.
+   agrees with it, in the same `137f691`, `5683773`.
 
 5. **One archive from this range was named by no file at all.**
    `docs/queue-archive/2026-08-28-q405-agent-messaging-stale-premise.md` holds `q-405`;
    `PLAN.md`'s Blockers section recorded the row being archived and gave no path to it. It escapes
    the rotation check only because its filename does not match that check's `rotated-*.md` glob, so
    nothing mechanical would ever have pointed a reader at it. The path is now written where the
-   archiving is recorded, in `137f691`.
+   archiving is recorded, in `137f691`, `5683773`.
 
 6. **`scripts/check-eyes-marker.py` ran only from the repo root.** Both its import of
    `plan_checks` and its open of `PLAN.md` resolved against the current directory, so it raised
@@ -152,6 +162,30 @@ and is the pack's own, made under his standing word of 28.08 00:53, not attribut
 10. **The board cut loses no row.** 100 task ids left the board. 94 are in the folded-rows archive,
     5 in `2026-08-28-archived-no-acceptance.md`, and `q-405` in its own file. Every `Absorbed:`
     line's claimed count matches the ids it lists, and the 17 lines sum to exactly 94.
+
+11. **Four target owners pointed at rows the cut folded away, and one of them had nowhere to point.**
+    Found by CI on the first push of this range, not by any local run. `PRODUCT_SPEC.md`'s
+    `[target]` markers are mapped to an owning task in `tests/test_traceability.py`, and `829c6f3`
+    folded four of those owners off the board: `E-18` stood on `q-93`, `INV-21` on `q-96`,
+    `INV-185` on `q-385`, `INV-244` on `q-437`. Repaired in `5683773` by re-owning each to the row
+    that absorbed it — `q-54`, `q-48`, `q-398` and `plan-12` — read off the fold archive rather
+    than guessed. No tag was dropped and no assertion loosened; every target still carries an open
+    owner.
+    Behind the fourth sat a defect of the 27.08 merge itself, which is the finding worth keeping.
+    That merge gave the board two id shapes, `q-<N>` and `plan-<N>`, and the ownership map's reader
+    only ever matched `q-<N>`. Half the board was therefore invisible to it, so any target whose row
+    was folded into one of `PLAN.md`'s own steps read as an orphan with no home it could be
+    re-owned to. The reader now matches both, which is what lets `INV-244` name `plan-12` at all.
+
+12. **A test asserted that an archived row was still on the board.**
+    `tests/test_listener_tripwire.py` asserted `PLAN.md` still carries `q-405`'s mechanical revisit
+    trigger. The row left the board on his word of 28.08 and was archived whole, its trigger with
+    it. Repaired in `5683773`: the assertion follows the row to
+    `docs/queue-archive/2026-08-28-q405-agent-messaging-stale-premise.md` and keeps what it always
+    guarded, that a session needing the deferral again finds the trigger beside the row instead of
+    re-deriving it from memory. `INV-231` itself stays guarded by the three tests above it, which
+    read the spec, the architecture and the matrix and are untouched. The test is renamed for where
+    the row now lives, and matrix row M-412's citation of it moves in the same commit.
 
 Blocking: one item, closed.
 - closed: `tests/test_eyes_marker_traces_to_owner.py::test_clean_on_the_real_plan` failed on the live `PLAN.md` (finding 3) and passes at `137f691`, verified by running that file directly rather than through the push chain, whose suite gate is scoped by the diff's reach and defers the full run to the server. The needs-his-eyes marks came off `plan-9` and `plan-15`; the test itself was not loosened, skipped, or excepted.
