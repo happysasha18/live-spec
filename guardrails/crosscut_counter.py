@@ -13,7 +13,7 @@ The flag is an AUDIT SIGNAL, not a per-push red: a boundary moves only through t
 its re-prove (SPEC INV-37), never on a hunch and never on a bare count. So the `__main__` runner exits 0
 always and prints the flagged pairs for the MINOR audit to weigh; it never blocks a push.
 
-Usage:  crosscut_counter.py [ROADMAP.md] [threshold]
+Usage:  crosscut_counter.py [PLAN.md] [threshold]
 """
 
 import glob
@@ -87,15 +87,18 @@ def crosscut_landings_from_roadmap(text, known_nodes):
 
 def crosscut_landings_union(base, known_nodes):
     """The union of the body and the archives: the closed queue's cross-cutting landings now live in
-    docs/queue-archive/*.md as well as (pre-conversion) the ROADMAP.md body. Both are scanned and the
+    docs/queue-archive/*.md as well as (pre-conversion) the queue's own body, ROADMAP.md, which was
+    retired to attic/ROADMAP.md on 2026-08-28 and is absent from the tree from then on. Both are
+    scanned and the
     rows deduped by number, so a row counted in the body is not double-counted after it moves to an
     archive under the live-body law (SPEC INV-276)."""
     import os
     by_row = {}
-    roadmap = os.path.join(base, "ROADMAP.md")
     files = []
-    if os.path.isfile(roadmap):
-        files.append(roadmap)
+    for name in ("ROADMAP.md", "attic/ROADMAP.md"):
+        body = os.path.join(base, name)
+        if os.path.isfile(body):
+            files.append(body)
     files += sorted(glob.glob(os.path.join(base, "docs", "queue-archive", "*.md")))
     anon = 0
     for path in files:
@@ -120,11 +123,11 @@ def pack_nodes(architecture_path):
 
 
 def main(argv):
-    roadmap = argv[1] if len(argv) > 1 else "ROADMAP.md"
+    queue = argv[1] if len(argv) > 1 else "PLAN.md"
     threshold = int(argv[2]) if len(argv) > 2 else DEFAULT_THRESHOLD
     # Read the UNION of the body and the archives, deduped by row number: the closed queue's
     # cross-cutting landings live in docs/queue-archive/*.md as well as (pre-conversion) the body.
-    base = os.path.dirname(os.path.abspath(roadmap)) or "."
+    base = os.path.dirname(os.path.abspath(queue)) or "."
     landings = crosscut_landings_union(base, pack_nodes(os.path.join(base, "ARCHITECTURE.md")))
     ranked = flagged_pairs(landings, threshold)
     if not ranked:

@@ -21,7 +21,7 @@ a removed feature leaves a dated tombstone, and history moves to `JOURNAL.md`.
 ## The pipeline — a wish becomes shipped, tested work
 
 A wish is a request in plain words, thrown at any moment. It becomes one row in the queue,
-`ROADMAP.md`, the moment it is spoken (SPEC E-2). Intake names its **door** aloud — the intake
+`PLAN.md`, the moment it is spoken (SPEC E-2). Intake names its **door** aloud — the intake
 classification that places a wish at one entry point, decided before any code is written and
 independent of the wish's size: feature, bug, refactor, docs-only, skip. Fixed tripwires decide,
 so a casual ask that creates a new surface still enters as a feature (SPEC T-12). A feature walks

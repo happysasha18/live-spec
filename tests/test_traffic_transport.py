@@ -146,11 +146,11 @@ def test_matrix_row_covers_the_law():
 
 def test_roadmap_row_396_landed():
     # Read the UNION of the live queue and its archives: row 396 landed, so pre-conversion it stands in
-    # ROADMAP.md's body and post-conversion its row moves to docs/queue-archive/*.md under the live-body
+    # the queue's own body (now attic/ROADMAP.md) and post-conversion its row moves to docs/queue-archive/*.md under the live-body
     # law (SPEC INV-276, ROADMAP row 480) — its later normalization or archiving cannot red this pin.
     import glob
     import os
-    texts = [read("ROADMAP.md")]
+    texts = [read("attic/ROADMAP.md")]
     for path in sorted(glob.glob(os.path.join(ROOT, "docs", "queue-archive", "*.md"))):
         with open(path, encoding="utf-8") as f:
             texts.append(f.read())

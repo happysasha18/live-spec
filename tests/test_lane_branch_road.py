@@ -388,8 +388,8 @@ class _LaneOpenActRepo(unittest.TestCase):
         self.repo = os.path.join(self.tmp, "repo")
         os.makedirs(self.repo)
         self.run_ok("init", "-q", "-b", "main")
-        self._write("ROADMAP.md", "| 500 | a wish | surface | queued | acc |\n")
-        self.run_ok("add", "ROADMAP.md")
+        self._write("PLAN.md", "## Tasks\n\n### \u2b1c a wish \u2014 id: q-500\n")
+        self.run_ok("add", "PLAN.md")
         self.run_ok("commit", "-qm", "init")
         self.wt = os.path.join(self.tmp, "wts")
         self.profile = os.path.join(self.tmp, "profile.md")
@@ -412,9 +412,9 @@ class _LaneOpenActRepo(unittest.TestCase):
         return out
 
     def stage_flip(self, row):
-        with open(os.path.join(self.repo, "ROADMAP.md"), "a", encoding="utf-8") as fh:
-            fh.write("| %s | flip | surface | in-work | acc |\n" % row)
-        self.run_ok("add", "ROADMAP.md")
+        with open(os.path.join(self.repo, "PLAN.md"), "a", encoding="utf-8") as fh:
+            fh.write("\n### \U0001f504 flip \u2014 id: %s\n" % row)
+        self.run_ok("add", "PLAN.md")
 
     def act(self, row, slug, profile=None):
         env = dict(os.environ)
@@ -438,53 +438,53 @@ class TestTheLaneOpenActByDeed(_LaneOpenActRepo):
     """M-395 (INV-214), by deed."""
 
     def test_the_act_commits_the_claim_to_main_and_cuts_the_lane_worktree(self):
-        self.stage_flip(500)
-        rc, out = self.act(500, "my-slug")
+        self.stage_flip("q-500")
+        rc, out = self.act("q-500", "my-slug")
         self.assertEqual(rc, 0, out)
         # the claim commit is on main and names the row
         self.assertEqual(self.run_ok("rev-parse", "--abbrev-ref", "HEAD").strip(), "main")
-        self.assertIn("row 500", self.run_ok("log", "-1", "--format=%s"))
+        self.assertIn("row q-500", self.run_ok("log", "-1", "--format=%s"))
         # the lane branch exists and is cut from the claim commit (main's tip)
-        self.assertIn("lane/500-my-slug", self.run_ok("branch", "--list", "lane/*"))
-        self.assertEqual(self.run_ok("rev-parse", "lane/500-my-slug").strip(),
+        self.assertIn("lane/q-500-my-slug", self.run_ok("branch", "--list", "lane/*"))
+        self.assertEqual(self.run_ok("rev-parse", "lane/q-500-my-slug").strip(),
                          self.run_ok("rev-parse", "main").strip())
         # the lane has its own worktree
-        self.assertIn("lane/500-my-slug", self.run_ok("worktree", "list"))
+        self.assertIn("lane/q-500-my-slug", self.run_ok("worktree", "list"))
 
     def test_the_act_refuses_a_lane_past_the_profile_cap(self):
         self.write_cap(1)
-        self.run_ok("branch", "lane/499-already")   # one lane already open, cap is one
-        self.stage_flip(500)
-        rc, out = self.act(500, "my-slug")
+        self.run_ok("branch", "lane/q-499-already")   # one lane already open, cap is one
+        self.stage_flip("q-500")
+        rc, out = self.act("q-500", "my-slug")
         self.assertNotEqual(rc, 0)
         self.assertIn("cap reached", out)
-        self.assertNotIn("lane/500-my-slug", self.run_ok("branch", "--list", "lane/*"))
+        self.assertNotIn("lane/q-500-my-slug", self.run_ok("branch", "--list", "lane/*"))
 
     def test_the_cap_defaults_to_three_with_no_profile_line(self):
-        self.run_ok("branch", "lane/1-a")
-        self.run_ok("branch", "lane/2-b")           # two open, a third fits the default of three
-        self.stage_flip(500)
-        rc, out = self.act(500, "my-slug", profile=os.path.join(self.tmp, "absent.md"))
+        self.run_ok("branch", "lane/q-1-a")
+        self.run_ok("branch", "lane/q-2-b")           # two open, a third fits the default of three
+        self.stage_flip("q-500")
+        rc, out = self.act("q-500", "my-slug", profile=os.path.join(self.tmp, "absent.md"))
         self.assertEqual(rc, 0, out)
         self.assertIn("of 3", out)
 
     def test_the_act_refuses_a_claim_carrying_more_than_the_queue_file(self):
-        self.stage_flip(500)
+        self.stage_flip("q-500")
         self._write("other.txt", "x\n")
         self.run_ok("add", "other.txt")
-        rc, out = self.act(500, "my-slug")
+        rc, out = self.act("q-500", "my-slug")
         self.assertNotEqual(rc, 0)
         self.assertIn("one row's delta", out)
 
     def test_the_act_refuses_when_nothing_is_staged(self):
-        rc, out = self.act(500, "my-slug")
+        rc, out = self.act("q-500", "my-slug")
         self.assertNotEqual(rc, 0)
         self.assertIn("stage the row", out)
 
     def test_the_act_refuses_off_main(self):
         self.run_ok("checkout", "-q", "-b", "feature")
-        self.stage_flip(500)
-        rc, out = self.act(500, "my-slug")
+        self.stage_flip("q-500")
+        rc, out = self.act("q-500", "my-slug")
         self.assertNotEqual(rc, 0)
         self.assertIn("on main", out)
 

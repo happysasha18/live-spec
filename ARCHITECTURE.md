@@ -1,8 +1,8 @@
 # live-spec — Architecture
 
 Derived from PRODUCT_SPEC.md. The package version has one home, the VERSION file, and is not pinned
-here where it would read stale (row 265). A row number names the wish queue: an open row stands in
-`ROADMAP.md`, and a closed one in the archive under `docs/queue-archive/`. Last reconciled with the spec: 2026-07-23.
+here where it would read stale (row 265). A row number names the queue of work: an open row stands in
+`PLAN.md`, and a closed one in the archive under `docs/queue-archive/`. Last reconciled with the spec: 2026-07-23.
 
 This is how live-spec is built: the named nodes that the spec's facts live in. One node carries one name
 and one responsibility — the one-surface-one-name rule, applied to structure. The dated record of every

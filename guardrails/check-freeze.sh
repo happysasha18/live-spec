@@ -17,9 +17,10 @@ set -euo pipefail
 REPO_ROOT="${1:-$(git rev-parse --show-toplevel 2>/dev/null || pwd)}"
 cd "$REPO_ROOT"
 
-# The stable-law docs. ROADMAP.md is deliberately excluded: it is a living queue whose rows are
-# added and archived by design, so an anchor-occurrence freeze would fight its natural churn; its
-# language is guarded instead by check-shipped-language.sh (English-only, no verbatim quotes).
+# The stable-law docs. The queue is deliberately excluded — PLAN.md today, ROADMAP.md until it was
+# retired on 2026-08-28: it is a living list whose rows are added and archived by design, so an
+# anchor-occurrence freeze would fight its natural churn; its language is guarded instead by
+# check-shipped-language.sh (English-only, no verbatim quotes).
 DOCS="PRODUCT_SPEC.md ARCHITECTURE.md TEST_MATRIX.md"
 
 # No local baseline at all → nothing to verify against; skip (a fresh clone, or CI).

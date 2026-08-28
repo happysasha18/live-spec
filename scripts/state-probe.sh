@@ -224,9 +224,8 @@ else
   echo "  required context: $CTX_BYTES bytes (tiktoken unavailable)"
 fi
 
-CANON=$(cat PRODUCT_SPEC.md ARCHITECTURE.md TEST_MATRIX.md ROADMAP.md spec/* architecture/* matrix/* 2>/dev/null | wc -c | tr -d ' ')
+CANON=$(cat PRODUCT_SPEC.md ARCHITECTURE.md TEST_MATRIX.md spec/* architecture/* matrix/* 2>/dev/null | wc -c | tr -d ' ')
 echo "  full canon: $CANON bytes"
-echo "  ROADMAP queue: $(grep -c '^| [0-9]' ROADMAP.md 2>/dev/null || echo '?') rows"
 
 # ---------------------------------------------------------------- alarm
 b "ALARM"

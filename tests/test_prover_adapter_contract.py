@@ -79,10 +79,16 @@ class TestInstallerReadsTheAdapterFloor(unittest.TestCase):
 
 
 def _rows_cited_but_absent(message):
-    """Queue rows a message names that ROADMAP.md does not carry, in citation order."""
-    roadmap = (ROOT / "ROADMAP.md").read_text(encoding="utf-8")
+    """Queue rows a message names that this tree does not carry, in citation order. A row is
+    carried when the one list names it by id (`q-166`, `plan-11`) or when an archive under
+    docs/queue-archive/ still holds its `| 166 |` line."""
+    plan = (ROOT / "PLAN.md").read_text(encoding="utf-8")
+    archives = "\n".join(p.read_text(encoding="utf-8")
+                         for p in sorted((ROOT / "docs" / "queue-archive").glob("*.md")))
     cited = re.findall(r"\brows? (\d+)", message)
-    return [n for n in cited if not re.search(r"^\| %s \|" % n, roadmap, re.M)]
+    return [n for n in cited
+            if not re.search(r"id:\s*[a-z]+-%s\b" % n, plan)
+            and not re.search(r"^\| %s \|" % n, archives, re.M)]
 
 
 class TestTheCloneSkipStaysVisibleInCI(unittest.TestCase):
@@ -150,7 +156,7 @@ class TestTheCloneSkipStaysVisibleInCI(unittest.TestCase):
             self.assertEqual([], _rows_cited_but_absent(message))
             self.assertEqual(
                 ["999999"], _rows_cited_but_absent("see ROADMAP row 999999 for the remedy"),
-                "the dangling-row rule must actually catch a row ROADMAP.md does not carry",
+                "the dangling-row rule must actually catch a row this tree does not carry",
             )
         else:
             self.fail("under CI the guard returned a root for a clone that does not exist")

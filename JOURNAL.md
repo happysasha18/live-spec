@@ -3076,3 +3076,52 @@ purpose, the reason recorded in its own trace file rather than forced past.
 Full record: `docs/prover/2026-08-26-director-eight-red-scenarios.md`. `python3 evals/director/check.py
 --all`: 33/35, zero regressions on the 26 already green.
 
+
+## 2026-08-28 — the plan, the board and the queue become one list
+
+The queue had held no rows since 27.08, when its last 142 moved into `PLAN.md`. What kept it alive was
+the machinery. `scripts/open-lane.sh` still told a session to flip a status cell in `ROADMAP.md` and
+stage that file before opening a lane, against a file with no cells left to flip. `guardrails/
+check-doc-rotation.py` read its manifest for the pointers that keep an archived row findable.
+`scripts/state-probe.sh` printed "ROADMAP queue: 0 rows" at every session start. A dozen tests read it
+as their corpus. A list nobody writes to is still a second list while the tools read it.
+
+So the file left the tree for `attic/ROADMAP.md` with its manifest line, and its rotation pointers moved
+whole into `PLAN.md` under "What has been rotated off this list" — the one live list now carries the
+whole record of what has left it, and gate t reads them there. The lane act claims a row by its id
+(`open-lane.sh plan-11 one-list`) with its four refusals unchanged: the primary tree on main, one row's
+delta staged, the lane cap, the fence. No precondition was dropped; each one still maps onto the board's
+shape.
+
+The landing gate is the piece that would have gone quietly vacuous. Both of its triggers read a
+`ROADMAP.md` diff, so from today neither could ever fire again on new work while the gate went on
+printing OK. It gained a third arm that reads what the board actually records — a task heading whose
+mark becomes ✅ — and the arm is red-proven by a fixture that reds a close made without refreshing
+`NEXT_STEPS.md`. The two older arms stay: they still classify history, and a range reaching back before
+today is read correctly by them.
+
+Where the old name stayed, it stayed on purpose. Every `(SPEC INV-x, ROADMAP row N)` citation across the
+tree is provenance for work that shipped, and those rows sit in `docs/queue-archive/`, grepable by
+number. The gate exclusion lists name the file by basename and so still cover it where it now rests. The
+templates and the adoption walk still give a host project a queue of its own; whether a host should get
+one is a separate question, and nobody has asked it.
+
+One gap is left open rather than papered over, and it stands in `PLAN.md`'s Blockers:
+`scripts/rotate-doc.py` understands only the retired table's shape, so nothing moves a finished task off
+the board except a person's hands. Teaching it the plan's shape is work nobody has asked for; guessing
+at it inside a task whose whole point was removing a mechanism would have been the wrong trade.
+
+## 2026-08-28 — the prover description check holds a property, and CI proves the canon that is running
+
+`test_description_carries_only_the_trigger` asserted a literal phrase from the external product-prover
+skill's frontmatter description. The phrase was a proxy for discovery reliability, and version 1.4.2 —
+released the same day, shortening the description for exactly that reliability — dropped it. The test
+reddened on the improvement it existed to protect. The phrase assertion is gone; the two assertions
+that state live-spec's own property, that the sibling pass's name and INV-141 stay out of the
+description, are kept, and the description's existence is still held by name.
+
+The CI pin in `gates.yml` moved from `4503881` to `efe05fa`, the 1.4.2 release. The old pin was an
+untagged merge commit carrying 1.4.0, so CI was proving a state no release names. The bare-SHA form was
+kept deliberately: switching `--ref` to the tag reds the test whose no-tag rule is argued, so the
+release is named in the step name and the comment instead. The floor stays at 1.4.0. `matrix/
+product-prover.md` row M-338 claimed coverage the test no longer gives, and was corrected.

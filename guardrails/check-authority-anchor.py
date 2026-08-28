@@ -115,7 +115,10 @@ SPARED_FILES = ("JOURNAL.md", "MIGRATION.md")
 # The RISKY attribution surfaces: where a decision-as-his first gets written, before it ever reaches a
 # decision record. Scanned in push mode as an ADVISORY report (tight detector), never a hard block —
 # they carry live narration a deterministic gate cannot tell from a live fabrication.
-RISKY_SURFACES = ("NEXT_STEPS.md", "ROADMAP.md")
+# ROADMAP.md stood here until 2026-08-28, when the queue's own file left the tree for attic/, a
+# spared directory. PLAN.md took its place as the live list, and it is where a decision-as-his now
+# first gets written.
+RISKY_SURFACES = ("NEXT_STEPS.md", "PLAN.md")
 
 # The rule-frame exemptions that keep the risky-surface report tight (see the module doc's second act):
 # a copula predicate about authority-in-general ("his word IS the highest authority"), and an

@@ -8,12 +8,18 @@ post-conversion queue classify (SPEC INV-276, ROADMAP row 480):
 
   - the OLD trigger (pre-conversion body): the diff flips a ROADMAP.md row's Status cell to `landed`
     (case-insensitive) — the landed word lands as a live body status.
-  - the NEW trigger (post-conversion live-body law): the diff REMOVES a body row from ROADMAP.md while
+  - the ARCHIVE trigger (the live-body law): the diff REMOVES a body row from ROADMAP.md while
     a docs/queue-archive/*.md diff ADDS that same row number with an archived status whose own HEAD word
     is `landed` (case-insensitive, so the historical bold `**LANDED**` and the new `*landed*` both match)
     — the row leaves the body for the archive at its closing commit. The head word decides, not a bare
     substring: a status's own prose can quote "landed" inside a deferred trigger's Done-when citation
     without the row itself being landed (row 247, commit bc6f862b, 2026-08-27).
+  - the LIVE trigger (the one list, 2026-08-28): the diff flips a PLAN.md task heading's mark to ✅.
+    A task heading reads `### <mark> <title> — id: <id>`, and the mark is the whole of a row's state
+    there, so a heading added with ✅ whose removed counterpart carried another mark is that row's
+    close. The two ROADMAP arms above read commits made while the queue was still a table of its own;
+    that file left the tree for attic/ROADMAP.md on 2026-08-28, so a range that reaches back before
+    then still classifies, while every close from then on is caught by this arm.
 
 A commit that closes no row, or moves a row out as `declined` / `superseded` / `deferred` (anything
 whose status HEAD is not `landed`), owes nothing here.
@@ -131,6 +137,41 @@ def landed_rows_for_commit(sha, cwd):
         if old_status is None or "landed" not in old_status.lower():
             flipped.append(num)
     return sorted(flipped)
+
+
+PLAN_HEADING_RE = re.compile(r"^###\s+(\S+)\s+.*—\s*id:\s*([A-Za-z][A-Za-z0-9-]*)\s*$")
+DONE_MARK = "\u2705"
+
+
+def parse_plan_heading(line):
+    """A PLAN.md task heading -> (row_id, mark), or None when the line is not one. The heading's
+    first token after the hashes is its mark, and its trailing `id:` names the row."""
+    m = PLAN_HEADING_RE.match(line.rstrip())
+    if not m:
+        return None
+    return m.group(2), m.group(1)
+
+
+def landed_tasks_for_commit(sha, cwd):
+    """The row ids this commit marks done on PLAN.md, sorted. A heading added carrying ✅ whose
+    removed counterpart carried another mark (or which had no removed counterpart — a row born
+    done counts too) is a close."""
+    r = _run(["git", "show", sha, "--", "PLAN.md"], cwd=cwd)
+    added, removed = {}, {}
+    for raw in r.stdout.splitlines():
+        if raw.startswith("+++") or raw.startswith("---"):
+            continue
+        if raw.startswith("+"):
+            parsed = parse_plan_heading(raw[1:])
+            if parsed:
+                added[parsed[0]] = parsed[1]
+        elif raw.startswith("-"):
+            parsed = parse_plan_heading(raw[1:])
+            if parsed:
+                removed[parsed[0]] = parsed[1]
+    closed = [rid for rid, mark in added.items()
+              if mark == DONE_MARK and removed.get(rid) != DONE_MARK]
+    return sorted(closed)
 
 
 def _live_status(status):
@@ -278,7 +319,8 @@ def main():
     per_commit = {}
     discharged = set()
     for sha in commits:
-        flipped = sorted(set(landed_rows_for_commit(sha, cwd)) | set(landed_moves_for_commit(sha, cwd)))
+        flipped = (sorted(set(landed_rows_for_commit(sha, cwd)) | set(landed_moves_for_commit(sha, cwd)))
+                   + landed_tasks_for_commit(sha, cwd))
         per_commit[sha] = flipped
         if flipped and "NEXT_STEPS.md" in commit_files(sha, cwd):
             discharged.update(flipped)
@@ -314,7 +356,7 @@ def main():
             record = {
                 "severity": "warn",
                 "code": "landing-next-steps",
-                "message": ("landing commit %s flips ROADMAP row(s) %s to landed without a same-"
+                "message": ("landing commit %s closes row(s) %s without a same-"
                             "commit NEXT_STEPS.md refresh, healed by %s (INV-242)"
                             % (short, nums, healer[:8])),
             }
@@ -324,7 +366,7 @@ def main():
         record = {
             "severity": "error",
             "code": "landing-next-steps",
-            "message": ("landing commit %s flips ROADMAP row(s) %s to landed but does not touch "
+            "message": ("landing commit %s closes row(s) %s but does not touch "
                         "NEXT_STEPS.md (INV-242)" % (short, nums)),
             "fix": "refresh NEXT_STEPS.md in the landing commit",
         }

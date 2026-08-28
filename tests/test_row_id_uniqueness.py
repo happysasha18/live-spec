@@ -26,10 +26,14 @@ import unittest
 from conftest import ROOT
 
 MATRIX = os.path.join(ROOT, "TEST_MATRIX.md")
-ROADMAP = os.path.join(ROOT, "ROADMAP.md")
+PLAN = os.path.join(ROOT, "PLAN.md")
+# The queue was a table of its own until 2026-08-27; the retired file rests in the attic and its
+# rows are read from there, so the archives keep being checked against the body they left.
+ROADMAP = os.path.join(ROOT, "attic", "ROADMAP.md")
 ARCHIVE_GLOB = os.path.join(ROOT, "docs", "queue-archive", "rotated-ROADMAP-*.md")
 
 MATRIX_ROW_RE = re.compile(r"(?m)^\|\s*(M-\d+)\s*\|")
+PLAN_ID_RE = re.compile(r"(?m)^###\s+.*\u2014\s*id:\s*([A-Za-z][A-Za-z0-9-]*)\s*$")
 ROADMAP_ROW_RE = re.compile(r"(?m)^\|\s*(\d+)\s*\|")
 
 
@@ -82,9 +86,32 @@ class TestEveryMatrixRowIdIsUnique(unittest.TestCase):
             % dupes)
 
 
+def _plan_ids(text, label):
+    """(id, "label:line") for every task the one list carries. A task heading reads
+    `### <mark> <title> \u2014 id: <id>`, and the id is what every citation of that row follows."""
+    out = []
+    for lineno, line in enumerate(text.splitlines(), start=1):
+        m = PLAN_ID_RE.match(line)
+        if m:
+            out.append((m.group(1), "%s:%d" % (label, lineno)))
+    return out
+
+
+class TestEveryPlanRowIdIsUnique(unittest.TestCase):
+    def test_every_plan_id_is_unique(self):
+        pairs = _plan_ids(_read(PLAN), "PLAN.md")
+        self.assertGreater(len(pairs), 20, "the one list parsed no tasks — the id scan looked at "
+                                           "nothing and would pass on an empty set")
+        dupes = _duplicates(pairs)
+        self.assertEqual(
+            dupes, {},
+            "the one list claims the same row id more than once \u2014 two tasks answer one "
+            "citation and a reader following it lands on whichever sorts first: %s" % dupes)
+
+
 class TestEveryRoadmapRowNumberIsUnique(unittest.TestCase):
     def test_every_roadmap_row_number_is_unique(self):
-        pairs = _roadmap_ids(_read(ROADMAP), "ROADMAP.md")
+        pairs = _roadmap_ids(_read(ROADMAP), "attic/ROADMAP.md")
         for path in sorted(glob.glob(ARCHIVE_GLOB)):
             pairs += _roadmap_ids(_read(path), os.path.basename(path))
         dupes = _duplicates(pairs)

@@ -23,7 +23,28 @@ CHECKS = {
     "plan-0": "test -f PLAN.md && test -f scripts/state-probe.sh && ! test -d /private/tmp/ls-director && test -f attic/DIRECTOR_HANDOFF-2026-08-26-decisions.md",
     # plan-1's key was removed 2026-08-28 with its task: the board rotation folded plan-1 into
     # plan-11, and its check ("the render script exists and is executable") was the file-existence
-    # proxy plan-10 names as a defect in its own text. plan-11 gets a key when its acceptance is met.
+    # proxy plan-10 names as a defect in its own text.
+    # plan-11: the three arms of its own acceptance. The queue file is gone from the tree and
+    # findable where it was put; every task on the list is drawn on the board, so the page and the
+    # list cannot hold different sets of rows; and every open row carries its group and its
+    # priority, the exceptions printed by id rather than counted.
+    "plan-11": """test ! -e ROADMAP.md && test -f attic/ROADMAP.md && python3 -c "
+import os, sys
+sys.path.insert(0, 'scripts')
+from plan_checks import parse_tasks
+tasks = parse_tasks(open('PLAN.md', encoding='utf-8').read())
+if not os.path.exists('board.html'):
+    print('the board has not been drawn here yet: run bash scripts/render-board.sh')
+    sys.exit(1)
+board = open('board.html', encoding='utf-8').read()
+undrawn = [t['id'] for t in tasks if t['id'] not in board]
+unmarked = [t['id'] for t in tasks if t['mark'] != '✅' and not (t['group'] and t['priority'])]
+if undrawn:
+    print('not drawn on the board: ' + ', '.join(undrawn))
+if unmarked:
+    print('open with no group or no priority: ' + ', '.join(unmarked))
+sys.exit(1 if undrawn or unmarked else 0)
+" """,
     "plan-2": 'test ! -f evals/director.md && test "$(git log -1 --format=%ct -- evals/director/traces)" -ge "$(git log -1 --format=%ct -- skills/director/SKILL.md)" && python3 evals/director/check.py --all 2>/dev/null | tail -1 | grep -qv " 0 of "',
     # Step 6 tore machinery down and, more often, proved a piece of it earned its place. What it
     # leaves behind that a command can see: the plan carries no executable line and neither reader

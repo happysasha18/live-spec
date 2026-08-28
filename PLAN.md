@@ -1,4 +1,4 @@
-# PLAN — the one plan for live-spec
+# PLAN — the one plan for live-spec (2026-08-28)
 
 ## Goal
 
@@ -518,7 +518,7 @@ every step heading in `## Steps` has a matching key in `scripts/plan_checks.py`,
 that reads both files and fails on a missing key.
 
 
-### ⬜ The plan, board and queue become one list — id: plan-11
+### ✅ The plan, board and queue become one list — id: plan-11
 **Group:** Board & visibility · **Priority:** critical
 **Source:** PLAN.md step 11, owner 27.08. (This document is that step's first draft.)
 **Closes:** plan-1, plan-10, q-566, q-481, q-617
@@ -592,6 +592,20 @@ here — this file with its steps, and `ROADMAP.md` with its rows.
 **Acceptance:** one file holds the list and the other is gone from the tree, findable in the
 archive · `bash scripts/render-board.sh` draws the merged list · a command shows every open row
 carrying a feature and a priority mark, and names the exceptions.
+
+**Done 28.08.** The second list is gone. It had held no rows since 27.08, and what kept it alive was
+the machinery: the script that opens a lane, the check that guards nothing is lost when work is
+archived, the state report, and a dozen tests all still read it. Each of those now reads the one
+list. The retired file rests in the attic with a line saying what it was, and the pointers to every
+row ever rotated off moved into this document, so a reader who greps for an old row number meets the
+pointer here and follows it to the archive that holds the row. A lane is now claimed by a task's own
+id — `open-lane.sh plan-11 one-list` — and the four conditions it refuses on are unchanged: the main
+tree, one row's delta staged, the lane cap, the fence. The check that reds a close leaving the resume
+file stale reads the board's own done mark now, proven by a fixture that reds without it. The board
+draws all sixty-three rows, every open one carries its group and its priority, and the command that
+says so names any exception by id rather than counting them. What kept the old name on purpose: every
+citation of the form "row 388" is provenance for work that shipped, and those rows are in the archive,
+findable by number.
 
 
 ### ⬜ The spec finally describes what the product does — id: plan-12
@@ -1031,7 +1045,21 @@ mass removal without that measurement is exactly the failure this line exists to
 
 ## Blockers
 
-One line per finding. Don't move it into ROADMAP. Don't fix it without the owner's decision.
+One line per finding. Don't start a second list for them. Don't fix one without the owner's decision.
+
+- **The method still teaches every new project to keep the queue this one just retired.** The
+  skills, the templates and the joining walk all hand a project a separate queue file and describe
+  it as the place a wish lands, and four of those sentences say "in this pack", which stopped being
+  true here today. Making the method match what this project actually does means rewording text
+  that other projects have already copied into themselves, and that is a release decision with a
+  version number attached, not a tidy-up. Left as it stands, named here, for the owner.
+
+- **Nothing moves a finished task off the board except a person's own hands.** The tool that used
+  to do it — cut the closed rows out, write them into a dated archive, leave the pointer behind —
+  only understands the table the old queue was written in, and that queue is retired. The two moves
+  made this month were made by hand, and they were correct, but the next one is as easy to get
+  wrong. Teaching the tool the shape the board uses now is half a day's work nobody has asked for;
+  it stays here until someone does.
 
 - **Every done mark was re-checked against the tree, 28.08 — five of them did not hold.** Two rows
   are back open: the list of every made-up number, where a sweep ran but the page nobody has read
@@ -1492,3 +1520,20 @@ One line per finding. Don't move it into ROADMAP. Don't fix it without the owner
   clone <path to bundle> ~/live-spec-restored`. Made through `git bundle`, not through `git push
   --no-verify`: the mandate forbids `--no-verify` in its own separate line.
 
+## What has been rotated off this list
+
+Rows leave this list when they close or when the owner takes them off the board, and each one stays
+findable in the archive it moved to. The pointers below are that record: read a row number here and
+the file beside it holds the row's own text, word for word. The list they were rotated from was
+called the roadmap until 27.08; it holds nothing now and rests in the attic, and this section is
+where its pointers moved so one file carries the whole history of what left.
+
+<!-- rotated-manifest -->
+Rotated closed rows (base rule 10 — nothing lost; the archive keeps every moved row, grepable by number; the live queue below holds live material):
+- rows 14, 27, 33, 42, 43, 62, 63, 67, 101, 121, 172, 189, 194, 196, 200, 201, 202 → docs/queue-archive/rotated-ROADMAP-2026-07-18.md
+- rows 47, 59, 64, 99, 107, 109, 110, 115, 128, 130, 135, 136, 137, 138, 139, 145, 149, 150, 151, 152, 154, 155, 156, 157, 158, 159, 160, 161, 162, 188, 195, 209, 210, 211, 212, 213, 214, 216, 218, 219, 222, 223, 224, 225, 226, 227, 228, 232, 233, 237, 239, 240, 242, 244, 245, 246, 248, 249, 250, 251, 252, 253, 254, 255, 256, 257, 258, 259, 262, 263, 264, 265, 266, 267, 268, 269, 270, 271, 272, 273, 274, 275, 276, 277, 278, 279, 280, 281, 282, 283, 284, 285, 286, 287, 288, 289, 290, 291, 292, 293, 294, 295, 296, 297, 298, 299, 300, 301, 303, 304, 305, 306, 310, 311, 312, 313, 314, 315, 316, 317, 318, 319, 320, 321, 322, 323, 324, 325, 326, 327, 328, 329, 330, 331, 333, 334, 335, 336, 337, 338, 339, 340, 341, 342, 343, 344, 345, 346, 347, 348, 349, 350, 351, 352, 353, 354, 355, 356, 357, 358, 359, 360, 361, 362, 363, 364, 365, 366, 367, 368, 369, 370, 371, 372, 373, 374, 375, 376, 377, 378, 379, 380, 382, 383, 384, 387, 388, 390, 391, 392, 393, 394, 395, 397, 402, 403, 406, 407, 408, 409, 413, 414, 415, 416, 417, 418, 419, 420, 422, 423, 429, 430, 431, 433, 434, 438, 439, 441, 442, 443, 444, 445, 456, 461, 462, 463, 464, 468, 470, 476, 477, 478, 480, 482, 494, 495, 502, 506 → docs/queue-archive/rotated-ROADMAP-2026-07.md
+- rows 522, 549, 555, 556, 557, 565, 569, 571, 572, 573, 574, 577, 602, 618, 619, 626, 700 → docs/queue-archive/rotated-ROADMAP-2026-08.md
+- rows 69, 197, 198, 199, 302, 307, 308, 309, 332, 389, 401, 425, 426, 428, 432, 435, 446, 447, 448, 449, 450, 451, 452, 465, 466, 467, 472, 473, 474, 475, 483, 498, 499, 500, 505, 508, 512, 513, 514, 515, 516, 518, 519, 520, 521, 523, 524, 526, 528, 530, 532, 533, 534, 535, 538, 539, 540, 541, 543, 544, 545, 546, 547, 548, 551, 553, 559, 560, 561, 562, 563, 564, 578, 579, 580, 585, 587, 594, 599, 600, 601, 603, 604, 606, 607, 613, 614, 615, 616, 620, 621, 622, 750 → docs/queue-archive/rotated-ROADMAP-2026-08-27-provenance-purge.md
+- rows 44, 48, 49, 54, 93, 95, 96, 100, 108, 117, 118, 119, 129, 131, 133, 134, 140, 141, 143, 144, 148, 163, 165, 166, 168, 170, 171, 190, 191, 192, 193, 203, 204, 205, 206, 207, 208, 215, 217, 220, 221, 229, 230, 231, 234, 235, 236, 238, 241, 243, 247, 261, 381, 385, 386, 396, 398, 399, 400, 404, 405, 410, 411, 412, 421, 424, 427, 436, 437, 440, 453, 454, 455, 457, 458, 459, 460, 469, 471, 479, 481, 484, 485, 486, 487, 488, 489, 490, 491, 492, 493, 496, 497, 501, 503, 504, 507, 509, 510, 511, 517, 525, 527, 529, 531, 536, 537, 542, 550, 552, 554, 566, 567, 568, 570, 575, 576, 581, 582, 583, 584, 586, 588, 589, 590, 591, 592, 593, 595, 596, 597, 598, 605, 608, 609, 610, 611, 612, 617, 623, 624, 625 → docs/queue-archive/rotated-ROADMAP-2026-08-27-merged-into-plan.md
+- rows 49, 93, 96, 100, 108, 117, 118, 119, 129, 131, 133, 134, 140, 141, 143, 144, 148, 168, 170, 171, 190, 191, 192, 203, 204, 206, 207, 208, 215, 217, 220, 221, 229, 230, 231, 234, 236, 238, 241, 247, 261, 381, 385, 396, 399, 400, 404, 410, 411, 412, 421, 424, 436, 437, 440, 454, 455, 457, 459, 460, 469, 471, 479, 481, 484, 485, 486, 487, 488, 491, 492, 493, 496, 503, 504, 507, 509, 510, 511, 517, 525, 542, 550, 552, 554, 566, 575, 582, 583, 589, 605, 617 → docs/queue-archive/rotated-PLAN-2026-08-28-folded-rows.md
+<!-- /rotated-manifest -->

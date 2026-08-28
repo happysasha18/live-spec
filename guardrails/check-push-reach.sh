@@ -15,7 +15,7 @@
 #            Conservative by construction.
 #
 # The prose class is EXPLICIT and narrow — "just .md" is NOT a class: PRODUCT_SPEC.md, TEST_MATRIX.md,
-# ARCHITECTURE.md, ROADMAP.md, JOURNAL.md, NEXT_STEPS.md and every SKILL.md are TESTED documents
+# ARCHITECTURE.md, PLAN.md, JOURNAL.md, NEXT_STEPS.md and every SKILL.md are TESTED documents
 # (string rows read them) and must never be added below.
 #
 # The infra class is EXPLICIT too: guardrails/, scaffold/guardrails/, templates/, scripts/, hooks/,

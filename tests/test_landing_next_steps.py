@@ -386,3 +386,57 @@ def test_one_heal_commit_names_two_missed_landings(tmp_path):
     out = r.stdout + r.stderr
     assert r.returncode == 0, out
     assert out.count('"severity": "warn"') == 2
+
+
+# --- the live arm: PLAN.md is the one list (2026-08-28) ----------------------------------
+
+PLAN_HEAD = "# PLAN\n\n## Tasks\n\n"
+
+
+def _plan_task(mark, rid="plan-11", title="Some task"):
+    return PLAN_HEAD + "### %s %s \u2014 id: %s\n\nBody.\n" % (mark, title, rid)
+
+
+def test_reds_a_plan_task_marked_done_without_next_steps(tmp_path):
+    repo = _init_repo(tmp_path)
+    _write(repo, "PLAN.md", _plan_task("\u2b1c"))
+    _write(repo, "NEXT_STEPS.md", "state\n")
+    base = _commit(repo, "base")
+
+    _write(repo, "PLAN.md", _plan_task("\u2705"))
+    _commit(repo, "close plan-11, no NEXT_STEPS touch")
+
+    r = _run_check(repo, base)
+    out = r.stdout + r.stderr
+    assert r.returncode != 0, out
+    assert "plan-11" in out
+    assert "INV-242" in out
+
+
+def test_passes_a_plan_task_marked_done_beside_a_next_steps_refresh(tmp_path):
+    repo = _init_repo(tmp_path)
+    _write(repo, "PLAN.md", _plan_task("\u2b1c"))
+    _write(repo, "NEXT_STEPS.md", "state\n")
+    base = _commit(repo, "base")
+
+    _write(repo, "PLAN.md", _plan_task("\u2705"))
+    _write(repo, "NEXT_STEPS.md", "state, refreshed\n")
+    _commit(repo, "close plan-11 with the map refreshed")
+
+    r = _run_check(repo, base)
+    assert r.returncode == 0, r.stdout + r.stderr
+
+
+def test_a_plan_task_taken_in_hand_owes_nothing(tmp_path):
+    """Only the done mark is a close. A row moving to in-hand, blocked, or the owner's eyes is
+    still open work, and the resume file owes it nothing."""
+    repo = _init_repo(tmp_path)
+    _write(repo, "PLAN.md", _plan_task("\u2b1c"))
+    _write(repo, "NEXT_STEPS.md", "state\n")
+    base = _commit(repo, "base")
+
+    _write(repo, "PLAN.md", _plan_task("\U0001f504"))
+    _commit(repo, "take plan-11 in hand")
+
+    r = _run_check(repo, base)
+    assert r.returncode == 0, r.stdout + r.stderr

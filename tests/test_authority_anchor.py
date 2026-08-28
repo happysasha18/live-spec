@@ -181,7 +181,7 @@ def test_gate_standing_scan_hard_blocks_records_and_reaches_risky_surfaces():
     assert r.returncode == 0, r.stdout
     src = read("guardrails/check-authority-anchor.py")
     # the risky attribution surfaces are REACHED, not spared
-    assert "NEXT_STEPS.md" in src and "ROADMAP.md" in src, "the risky surfaces must be named"
+    assert "NEXT_STEPS.md" in src and "PLAN.md" in src, "the risky surfaces must be named"
     assert "RISKY_SURFACES" in src, "the gate must declare a risky-surface set it reaches"
     # JOURNAL stays spared (pure history); it is not a live attribution surface
     assert "JOURNAL.md" in src
@@ -193,7 +193,7 @@ def test_push_mode_reports_risky_surface_candidates():
     r = _gate()  # push mode
     assert r.returncode == 0, r.stdout
     assert "[candidate]" in r.stdout and "NOTE (authority-anchor)" in r.stdout, r.stdout
-    assert "NEXT_STEPS.md" in r.stdout or "ROADMAP.md" in r.stdout
+    assert "NEXT_STEPS.md" in r.stdout or "PLAN.md" in r.stdout
 
 
 def test_gate_names_no_person_in_code():

@@ -8,32 +8,37 @@
 # worker brief stub that names the branch the lane rides.
 #
 # Usage:
-#   1. Edit the queue (ROADMAP.md): flip the row's status cell to in-work, and
-#      STAGE only that file  (git add ROADMAP.md).
-#   2. scripts/open-lane.sh <row-number> <slug>
+#   1. Edit the list (PLAN.md): flip the row's mark to 🔄, and STAGE only that
+#      file  (git add PLAN.md).
+#   2. scripts/open-lane.sh <row-id> <slug>        e.g. open-lane.sh plan-11 one-list
 #   3. Delegate the lane to a worker with the Agent tool's isolation: "worktree"
 #      option (it carries no gate), the brief naming the printed branch.
+#
+# A row is one task on that list, and its id — `plan-11`, `q-166` — names it. The rows
+# carried bare numbers while the queue was a table of its own; they moved into the plan on
+# 2026-08-27 and the retired file left the tree on 2026-08-28, so the id is what a lane is
+# named for now (attic/ROADMAP.md, and PLAN.md's rotation pointers).
 #
 # Preconditions it enforces — each a red that stops the act:
 #   - run from the PRIMARY worktree on main, so the claim commit lands where INV-2's
 #     ancestry order can read it (a claim on a lane's own branch sits outside it);
-#   - the row→in-work flip staged, and ONLY the queue file staged, so the claim
+#   - the row→in-work flip staged, and ONLY the list file staged, so the claim
 #     commit carries one row's delta (INV-39);
 #   - the profile cap not exceeded: open lanes + 1 <= lanes.cap (default 3, INV-214/T-18);
 #   - the fence unbroken where it is armed (INV-11);
 #   - the lane branch not already present.
 #
 # Env overrides (for tests and non-default hosts):
-#   LIVE_SPEC_QUEUE       the queue file the claim commit carries      (default ROADMAP.md)
+#   LIVE_SPEC_QUEUE       the list file the claim commit carries       (default PLAN.md)
 #   LIVE_SPEC_PROFILE     the profile the cap is read from             (default ~/.claude/live-spec/profile.md)
 #   LIVE_SPEC_WORKTREES   the base dir the lane worktree is created in (default .claude/worktrees)
 set -euo pipefail
 
 die() { echo "open-lane: $*" >&2; exit 1; }
 
-[ $# -eq 2 ] || die "usage: open-lane.sh <row-number> <slug>"
+[ $# -eq 2 ] || die "usage: open-lane.sh <row-id> <slug>"
 ROW="$1"; SLUG="$2"
-[[ "$ROW" =~ ^[0-9]+$ ]] || die "row must be a number, got '$ROW'"
+[[ "$ROW" =~ ^[a-z][a-z0-9]*-[0-9]+$ ]] || die "row must be a task id from PLAN.md such as plan-11 or q-166, got '$ROW'"
 [[ "$SLUG" =~ ^[a-z0-9]+(-[a-z0-9]+)*$ ]] || die "slug must be kebab-case [a-z0-9-], got '$SLUG'"
 
 ROOT="$(git rev-parse --show-toplevel 2>/dev/null)" || die "not inside a git repo"
@@ -59,8 +64,8 @@ if [ "$((OPEN + 1))" -gt "$CAP" ]; then
   die "cap reached: $OPEN lane(s) already open, cap is $CAP (lanes.cap) — a further lane needs the human's word (INV-214, T-18)"
 fi
 
-# --- the staged claim: exactly the queue file, and something staged (INV-39) ---
-QUEUE_FILE="${LIVE_SPEC_QUEUE:-ROADMAP.md}"
+# --- the staged claim: exactly the list file, and something staged (INV-39) ---
+QUEUE_FILE="${LIVE_SPEC_QUEUE:-PLAN.md}"
 STAGED="$(git diff --cached --name-only)"
 [ -n "$STAGED" ] || die "stage the row→in-work flip in $QUEUE_FILE first, then run open-lane"
 if [ "$STAGED" != "$QUEUE_FILE" ]; then
@@ -93,7 +98,8 @@ Worker brief stub — the lane rides its own branch:
   branch   : $LANE
   worktree : $WT
   row      : $ROW
-Copy this clause into the brief verbatim (ROADMAP row 479):
+Copy this clause into the brief verbatim (row 479, archived at
+docs/queue-archive/rotated-PLAN-2026-08-28-folded-rows.md):
 EOF
 
 cat <<'CLAUSE'

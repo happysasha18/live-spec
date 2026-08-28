@@ -46,6 +46,15 @@ Two paths, one mechanism:
 Only ROADMAP.md's table shape is understood today (a row is a `| n | ... |` line). JOURNAL.md and the
 prose docs rotate by a different unit and are out of scope for this first mechanism; the tool refuses a
 doc whose shape it does not know rather than guess.
+
+WHAT THIS TOOL NO LONGER REACHES (2026-08-28). The document it was written for is retired: the queue's
+last live rows moved into PLAN.md's task list on 2026-08-27 and the file itself left the tree for
+attic/ROADMAP.md the next day. Every archive under docs/queue-archive/ still holds the table shape this
+tool reads and writes, so the archives it made stay readable by it, but there is no live document it can
+rotate from any more. A task leaving PLAN.md today is moved by hand and its pointer written into PLAN.md's
+own rotation manifest, which is where guardrails/check-doc-rotation.py reads it. Teaching this tool the
+plan's heading shape is a piece of work nobody has asked for yet; it stands recorded in PLAN.md's
+Blockers rather than guessed at here.
 """
 import argparse
 import datetime

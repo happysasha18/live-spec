@@ -18,9 +18,9 @@ from conftest import ROOT, open_spec, read_flat
 
 def _queue_lines():
     """Every line of the live queue AND its archives — the union scanned so a landed feature/refactor
-    row holds in both eras: pre-conversion in ROADMAP.md's body, post-conversion moved to
+    row holds in both eras: pre-conversion in the queue's own body, now attic/ROADMAP.md, post-conversion moved to
     docs/queue-archive/*.md under the live-body law (SPEC INV-276, ROADMAP row 480)."""
-    files = [os.path.join(ROOT, "ROADMAP.md")]
+    files = [os.path.join(ROOT, "attic", "ROADMAP.md")]
     files += sorted(glob.glob(os.path.join(ROOT, "docs", "queue-archive", "*.md")))
     for path in files:
         with open(path, encoding="utf-8") as f:

@@ -137,7 +137,7 @@
 - `skills/director/references/delegation-protocol.md:49` (the clause in the delegation protocol, INV-299)
 - `scripts/session-extract.py:1` (the session extract's machine, INV-302)
 - `templates/agent.template.md:38` (the clause in the agent card a brief is written from, INV-299)
-- `scripts/open-lane.sh:100` (the clause in the printed brief stub, INV-299)
+- `scripts/open-lane.sh:106` (the clause in the printed brief stub, INV-299)
 - registry: —
 
 **notes** —

@@ -4,83 +4,40 @@ A digest with no redundancy (SPEC INV-48) — one live-state block, nothing remo
 information. One status block stands here at a time, and every update replaces it. Dated history
 lives in `JOURNAL.md`.
 
-## LIVE STATE (2026-08-13, 03:30)
+## LIVE STATE (2026-08-28, 16:30)
 
 Written for a session starting with clean context.
 
-**The evening pass is pushed.** Root: his word of 2026-08-12 at 18:45, ship what is waiting. His
-word of 23:47 asked for a logical end point in one sitting. The range `4a0b982..13671c2` went to
-`origin/main`, 25 commits. `scripts/sync-mirrors.sh` ran after it and the prover's public mirror
-carries tonight's edition; every other skill reports no mirror repository yet, which is the true
-state.
+**There is one list now, and it is `PLAN.md`.** The wish queue that stood beside it is retired: it
+had held no rows since 27.08, yet the lane-opening script, the rotation gate, the state probe and a
+dozen tests still read it, so a second list went on existing in the machinery after it had stopped
+existing in the work. The file itself now rests at `attic/ROADMAP.md` with its manifest line, and
+its rotation pointers moved whole into `PLAN.md`'s own "What has been rotated off this list"
+section, so every archived row stays findable from the one live list.
 
-**The product-prover skill is finished.** All five findings of its full read are closed, rows 608
-through 612. Row 609 answered that the instance-enumeration law is the author's writing duty, since
-only the author knows whether a member set is closed. Row 610 answered that the cross-link mode skips
-the property analysis of Phase 3, steps 3a through 3d. Row 611 answered that the class lens owes one
-line in every record. The lens left the imaginative-probe list and stands in a tier of its own.
-Requirement 67 now reads three tiers and criterion R67.4 states that line's duty.
+**What reads the list today.** `bash scripts/state-probe.sh` prints the canon and `bash
+scripts/render-board.sh` draws `board.html` — both off `PLAN.md`, and the board carries every one of
+its 63 tasks. `scripts/open-lane.sh` claims a row by its id (`open-lane.sh plan-11 one-list`), with
+its four preconditions unchanged: the primary tree on main, one row's delta staged, the lane cap,
+the fence. `guardrails/check-doc-rotation.py` reads `PLAN.md`'s manifest. The landing gate
+`guardrails/check-landing-next-steps.py` gained the arm that matters now: a commit that marks a task
+done on the board and does not refresh this file reds, red-proven by its own fixture.
 
-**Four review passes shaped how those answers landed, and each one earned its place.** The first
-adversarial read refused the change on six counts. The first readability read found the seams. A sentence had
-been written against the fix's target, with no second reading against the paragraph it lands in. Fable's pair
-then refused it again on two, one of them a requirement's context sentence two lines above the
-criterion the earlier defence had read. skill-creator measured the one line nobody had looked at. The
-skill's frontmatter fires on five of the eight queries it deserves. It stays silent on all
-twenty-four that deserve silence. The public edition's line, which carries stress-test and lint and the skill's own name, now
-stands in both copies. Records: `docs/skill-review/2026-08-12-product-prover-2.md` and
-`docs/prover/2026-08-13-push-range-3.md`.
+**What kept the old name on purpose.** Every `(SPEC INV-x, ROADMAP row N)` citation across the tree
+is provenance — the row number that carried a piece of work — and those rows are in the archive
+under `docs/queue-archive/`, grepable by number. The gate exclusion lists that name `ROADMAP.md` by
+basename still cover the retired file where it now sits. The templates and the adoption walk still
+give a host project its own queue; whether a host should get one is a separate question nobody has
+asked yet.
 
-**Batch 3 opened on base rule 29 and its inventory is written**, at
-`.live-spec/s1-rule-29-2026-08-12.md`. The rule states ten requirements. Four are held by a named
-machine and five by nothing. Those same five are already stated by rules 27, 1 and 17, and by the
-routing principle. Of 2,138 bytes, 52.6% is kinship framing and a retelling of two machines. Those
-machines already live in the spec, the matrix and the gate's own docstring. Step S2 is the next act.
+**The one gap this left, recorded in `PLAN.md`'s Blockers.** `scripts/rotate-doc.py` only
+understands the retired table's shape, so nothing moves a finished task off the board except a
+person's own hands. The two moves made this month were made by hand and were correct.
 
-**Ten queue rows opened, 613 through 622.** They are:
-
-- 613, the two files the install names and never delivers.
-- 614, the author's skill stating no enumerate-or-ride duty.
-- 615, the class line with no reach outside its own test.
-- 616, the status word thirteen live rows carry outside the queue's vocabulary.
-- 617, the campaign's goals with no measured parameters.
-- 618, the prover body at 1,079 lines with no reference directory.
-- 619, the internal copy drifted from its public edition on five points.
-- 620, every skill pinning the base version in prose.
-- 621, a generated table with two homes and no machine between them.
-- 622, the suite budget reading the machine's load.
-
-**Seven things still wait on his word.** Six are in `DECISIONS.md` under the stage-3 heading, each
-with the exact line it would take. They are the class ruling for fifteen silent-rot keeps, and gates
-ae, n, p, o and ab. The seventh is row 536's "owner" ruling, open since 2026-08-05. His «принято» on
-the plan text for row 594 also stands open.
-
-**The suite is green at 2,506 passed.** The wall-time ceiling now reads 1780 s, and the row says why
-in plain words. Seven full runs of this pass measured 1,221.81, 1,281.39, 1,304.65, 1,605.37,
-1,559.15, 1,387.88 and 1,451.77 seconds. That is a 31% swing on trees differing by under a second of
-test time, so the gate is reading the machine's load. It refused three pushes tonight on that
-reading. Row 622 asks for a measure a neighbouring process cannot inflate, and row 553 still owns the
-one file taking 640 s of every run.
-
-**What this pass cost, named so the next session skips it.** Seven gate-chain runs, at 23 to 27
-minutes each. Six refusals: two prose ratchets, one missing test, one drifted pin set, one generated
-table out of step, one published count, and two wall-time ceilings. Every one of them was a
-generated artifact or a measurement catching up after the fact. Rows 600, 621 and 622 hold that class.
-The habit that pays: after any edit moving lines or criteria, run the rebuilds first. They are the
-tree counts, the spec index and its embedded copy, and the census. Then start the chain once.
-
-**Three habits from the earlier pass still hold.** A run whose verdict you grep for must be grepped
-by the string it prints. Here that string is "All gates green — push allowed." A `git push` fires the
-whole chain again. Run `bash guardrails/pre-push` yourself and read its verdict. Then push with
-`--no-verify` on the same unchanged tree. A number written into a document rots between passes, so
-name the command beside it or leave the counting to `git log`.
-
-**The next release earns a major number.** Rule 32's rewrite and
-rule 7's before it reworded rules a host has vendored. Base rule 32 names that as earning a major.
-`MIGRATION.md` owed its chapter, and row 602 held it. Row 602 landed on 2026-08-13 in commit
-`acf0e3c1`. That commit wrote the 5.0.0 chapter and dated the stale rule-30 pointer. It rotated the
-row to `docs/queue-archive/rotated-ROADMAP-2026-08.md`. It did not refresh this file, and this
-paragraph is the refresh it owed. The release number is decided at campaign close.
+**Owed and unwritten:** a `JOURNAL.md` entry for the prover-description movement (`85b659d1`), and
+`test_the_workflow_reader_drops_comments_so_prose_cannot_stand_in_for_a_step` still anchors on a
+literal comment sentence in `gates.yml`, which is the comment-anchored class this pack has ruled
+against.
 
 ## Where the numbers live
 
@@ -109,7 +66,7 @@ commit that changes one on purpose, record the new baseline: `python3 scripts/sp
 
 `bash guardrails/pre-push` runs the whole push gate set, listed in `guardrails/README.md`. New
 requirements, invariants and queue rows take the next identifier above the highest one in use in
-`PRODUCT_SPEC.md`, `TEST_MATRIX.md` and `ROADMAP.md`. Read it before you claim a number.
+`PRODUCT_SPEC.md`, `TEST_MATRIX.md` and `PLAN.md`. Read it before you claim a number.
 
 ## Standing instructions
 

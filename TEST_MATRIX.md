@@ -14,8 +14,9 @@ the generated `## Reference` mapping each spec anchor to the rows that cover it.
 **The bracket codes.** A code anchor — `[INV-x]`, `[T-x]`, `[E-x]`, `[M-x]` — trails at the end of a
 row's fact sentence and points to the rule's home in PRODUCT_SPEC.md; the anchor is the row's parent
 fact, and the generated Reference reads each row's coverage from it. A reader can ignore the anchors; a
-maintainer follows them. A bare pointer like (row 386) or (ROADMAP 388) cites a queue row in
-ROADMAP.md — the movement that carried the work. Short codes M-1..M-7 are the spec's milestone
+maintainer follows them. A bare pointer like (row 386) or (ROADMAP 388) cites a queue row — the movement that carried the
+work. Those rows live on the one list, `PLAN.md`, and in the archive under `docs/queue-archive/`;
+the file that held them until 2026-08-27 rests at `attic/ROADMAP.md`. Short codes M-1..M-7 are the spec's milestone
 anchors; a matrix row id always writes three digits (M-001..).
 
 **How the keywords read.** The keywords *when*, *while*, *if*, *then*, and *shall* are set in lowercase
@@ -94,7 +95,7 @@ by `test_artifact_inventory` — the test parses this table, so adding an entry 
 | The pack's own spec | `PRODUCT_SPEC.md` | flagship doc | `test_artifact_inventory` |
 | The pack's own architecture | `ARCHITECTURE.md` | flagship doc | `test_artifact_inventory` |
 | The pack's own matrix | `TEST_MATRIX.md` | flagship doc | `test_artifact_inventory` |
-| The queue | `ROADMAP.md` | flagship doc | `test_artifact_inventory` |
+| The queue | `PLAN.md` | flagship doc | `test_artifact_inventory` |
 | The journal | `JOURNAL.md` | flagship doc | `test_artifact_inventory` |
 | The resume file | `NEXT_STEPS.md` | flagship doc | `test_artifact_inventory` |
 | Package version | `VERSION` | version home | `test_artifact_inventory` |

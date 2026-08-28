@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 """check-doc-rotation.py — gate t: the pack's append-only working docs are split and rotated, and
-nothing rotated is lost (SPEC INV-209, ROADMAP rows 390 + 392).
+nothing rotated is lost (SPEC INV-209, rows 390 + 392).
 
-ROADMAP.md, JOURNAL.md, PRODUCT_SPEC.md, and TEST_MATRIX.md grow with every landing until a guard's
+PLAN.md, JOURNAL.md, PRODUCT_SPEC.md, and TEST_MATRIX.md grow with every landing until a guard's
 scan and a grep run slow (the owner's word, 2026-07-17 ~18:25). So a fully-closed portion of a growable
 document is rotated out of the live file into a dated archive under docs/queue-archive/, and the live
 file keeps only live material while the archive keeps everything. Base rule 10's superseded-file-moves-
 to-attic-with-a-manifest law, applied to a document's own closed portion: the live file keeps a MANIFEST
-line naming which rows moved and the archive they moved to, so a ROADMAP row — cited by number across the
+line naming which rows moved and the archive they moved to, so a row — cited by number across the
 tree — stays findable. A reader who greps the live file for a rotated row's number meets the manifest
 pointer and follows it to the archived row, which keeps its own `| n |` line so a grep resolves it there.
 
@@ -47,7 +47,10 @@ judgment of WHICH closed rows are ripe to rotate stays the author's own (scripts
 the move; this gate guards that it lost nothing).
 
 Usage:
-  check-doc-rotation.py                             push mode: scan the repo's ROADMAP.md + archives.
+  check-doc-rotation.py                             push mode: scan the repo's PLAN.md + archives.
+                                                    (The live list was ROADMAP.md until 2026-08-27; its
+                                                    rotation pointers moved into PLAN.md with it, and the
+                                                    retired file rests at attic/ROADMAP.md.)
   check-doc-rotation.py --doc FILE [--doc FILE...]  scan the named live docs (relative to --base).
   check-doc-rotation.py --base DIR                  resolve docs/archives under DIR (default: repo root).
   check-doc-rotation.py --archive-glob GLOB         relative glob for orphan-archive scan
@@ -178,7 +181,7 @@ def main():
     args = ap.parse_args()
 
     base = args.base or repo_root()
-    docs = args.doc or ["ROADMAP.md"]
+    docs = args.doc or ["PLAN.md"]
 
     violations = []
     referenced = set()

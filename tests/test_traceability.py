@@ -519,10 +519,12 @@ def queue_row_lint(rows):
 
 
 def _roadmap_body_rows():
-    """Every body data row of ROADMAP.md as a list of stripped cells — 5- and 6-cell alike, so the
-    armed lint sees the sixth drift cell as a fault rather than skipping the row."""
+    """Every body data row of the queue as a list of stripped cells — 5- and 6-cell alike, so the
+    armed lint sees the sixth drift cell as a fault rather than skipping the row. The queue was
+    ROADMAP.md's table until 2026-08-27, and the retired file rests at attic/ROADMAP.md; it is
+    read from there so the retirement is checked against the real bytes rather than remembered."""
     rows = []
-    for line in read("ROADMAP.md").splitlines():
+    for line in read("attic/ROADMAP.md").splitlines():
         if line.startswith("|") and not line.startswith("|---") and "Wish (plain words)" not in line:
             cells = [c.strip() for c in line.strip("|").split("|")]
             if cells and cells[0].isdigit():
@@ -546,7 +548,7 @@ def _queue_armed(rows=None):
 class TestQueue(unittest.TestCase):
     def _rows(self):
         rows = []
-        for line in read("ROADMAP.md").splitlines():
+        for line in read("attic/ROADMAP.md").splitlines():
             if line.startswith("|") and not line.startswith("|---") and "Wish (plain words)" not in line:
                 cells = [c.strip() for c in line.strip("|").split("|")]
                 if len(cells) == 5 and cells[0].isdigit():
@@ -565,10 +567,11 @@ class TestQueue(unittest.TestCase):
         # test still catches a real drift: if ROADMAP.md stops naming its own retirement, or if
         # PLAN.md's Tasks section grows a Class field, the check below fails loud instead of
         # skipping past a change that gives it a subject again.
-        body = read("ROADMAP.md")
+        body = read("attic/ROADMAP.md")
         self.assertIn("retired 2026-08-27", body,
-                      "ROADMAP.md no longer states its own retirement — the class-vocabulary "
-                      "check needs re-examining against whatever replaced the table")
+                      "the retired queue no longer states its own retirement — the "
+                      "class-vocabulary check needs re-examining against whatever replaced "
+                      "the table")
         plan = read("PLAN.md")
         start = plan.index("\n## Tasks")
         end = plan.index("\n## Blockers", start)
@@ -621,29 +624,42 @@ class TestQueue(unittest.TestCase):
                         "the lint did not name the trigger-less deferred row")
 
     def test_queue_row_lint_on_the_real_body(self):
-        # ARMS at the conversion delivery (SPEC INV-277/INV-270, R286.3). Unarmed today: the body is
-        # old-format, so the lint stands down here and its logic is proven by the fixtures above. Once
-        # the conversion moves every closed row to the archive, this runs the lint on the live body and
-        # states its reach on the green line (INV-269).
+        # RE-AIMED 2026-08-28: the five-cell table this lint reads was ROADMAP.md's, and that file
+        # left the tree for attic/ROADMAP.md when its last rows moved into PLAN.md. The lint's own
+        # logic stays proven by the fixtures above; what is checked here is that the subject really
+        # is gone — the retired body holds no data row, and the live list grew no table to replace
+        # it. Either of those coming back fails loud rather than skipping past a change that gives
+        # the lint a subject again (law 10: a vacuous pass is not a pass).
         rows = _roadmap_body_rows()
-        if not _queue_armed(rows):
-            self.assertTrue(
-                any(len(c) > 3 and any(w in c[3].lower()
-                    for w in ("landed", "declined", "superseded")) for c in rows),
-                "queue reads as converted, yet the armed real-body lint did not run — arm the lint")
-            return
-        offenders = queue_row_lint(rows)
-        self.assertEqual(offenders, [], "queue row lint found offending row(s): %s" % "; ".join(offenders))
-        print(green_reach("queue-row-lint", ["ROADMAP.md"], len(rows), len(rows),
-                          "every body row holds five cells and the closed status/class vocabularies"))
+        self.assertEqual(rows, [], "the retired queue body carries table rows again — the row "
+                                   "lint has a subject and should be run on it, not skipped")
+        plan = read("PLAN.md")
+        start = plan.index("\n## Tasks")
+        end = plan.index("\n## Blockers", start)
+        self.assertEqual(
+            [l for l in plan[start:end].splitlines() if re.match(r"^\|\s*\d+\s*\|", l)], [],
+            "PLAN.md's Tasks section grew a numbered table — the retired row lint has a subject "
+            "again and should be restored, not left skipped")
+        self.skipTest(
+            "no subject: the five-cell row shape this lint reads retired with ROADMAP.md's table "
+            "on 2026-08-27; the live list holds task headings, and its own checks are "
+            "scripts/plan_checks.py's acceptance commands")
 
     def test_roadmap_in_work_cap(self):
-        in_work = [r[0] for r in self._rows() if r[3].lower().lstrip("*").startswith("in-work")]
+        # RE-AIMED 2026-08-28: the cap counts what is in hand on the live list. A task there reads
+        # `### <mark> <title> — id: <id>`, and 🔄 is the in-hand mark, so the count comes off the
+        # board a person actually reads instead of the retired table's Status cells.
+        plan = read("PLAN.md")
+        start = plan.index("\n## Tasks")
+        end = plan.index("\n## Blockers", start)
+        in_work = re.findall(r"(?m)^###\s+\U0001f504\s+.*\u2014\s*id:\s*(\S+)\s*$",
+                             plan[start:end])
         self.assertLessEqual(len(in_work), 3,
-                             "more than three rows in-work — the lane cap (SPEC T-18): rows %s" % in_work)
+                             "more than three rows in hand — the lane cap (SPEC T-18): rows %s"
+                             % in_work)
 
     def test_roadmap_header_dated(self):
-        first = read("ROADMAP.md").splitlines()[0]
+        first = read("PLAN.md").splitlines()[0]
         self.assertRegex(first, r"\d{4}-\d{2}-\d{2}", "queue header carries no date (SPEC M-3)")
         spec_first = read("PRODUCT_SPEC.md").splitlines()[0]
         self.assertRegex(spec_first, r"\(v[\d.]+, \d{4}-\d{2}-\d{2}\)", "spec header not versioned+dated")
