@@ -72,9 +72,15 @@ sys.exit(1 if undrawn or unmarked else 0)
     # The positive arm is there on purpose: a bare "the numbers are absent" would go green on a
     # rulebook that had been deleted.
     "plan-7": "test -f attic/live-spec-base-unbacked-rules-2026-08-26.md && grep -q '^36\\. \\*\\*' skills/live-spec-base/SKILL.md && ! grep -qE '^(11|14|15|18|19|20|21|23|28|30|32|33|34|35)\\. \\*\\*' skills/live-spec-base/SKILL.md",
-    # plan-17: the measured floor stands in the plan, the per-step reader exists, and the project's
-    # own boot file sends a session there rather than at the whole plan.
-    "plan-17": "grep -q '17,575' PLAN.md && test -x scripts/plan-step.sh && grep -q 'plan-step.sh' CLAUDE.md",
+    # plan-17: the per-step reader exists and the project's own boot file sends a session there
+    # rather than at the whole plan. The arm that grepped the plan for the literal token count
+    # `17,575` came off 2026-08-28: the boot files it measures move whenever they are edited, so
+    # that arm redded the moment somebody corrected the plan's number to the measured one — a
+    # check that punishes the repair it is supposed to protect. The number itself is a past
+    # measurement, and the plan says so in its own words ("a past measurement is not a state a
+    # check can re-read"); no bound replaces it, because any bound here would be a threshold
+    # nobody measured.
+    "plan-17": "test -x scripts/plan-step.sh && grep -q 'plan-step.sh' CLAUDE.md",
     # q-458: the audit is its own external skill, installed, with this pack's binding and the lints
     # it declares per text surface.
     "q-458": 'test -d "$HOME/.claude/skills/text-audit" && test -f skills/text-audit-pack/SKILL.md && test -f .text-audit/lints.json',

@@ -18,7 +18,11 @@ if [ -z "$START" ]; then
   exit 1
 fi
 
-END=$(awk -v start="$START" 'NR>start && /^### /{print NR; exit}' "$PLAN")
+# A step ends at the next task heading OR at the next section heading. Stopping only at `^### `
+# meant the last task in `## Tasks` ran on into `## Blockers` and everything after it: asking for
+# one step printed 533 of the plan's lines, which is the whole of what this reader exists to
+# avoid (adversarial review, 28.08).
+END=$(awk -v start="$START" 'NR>start && (/^### / || /^## /){print NR; exit}' "$PLAN")
 if [ -z "$END" ]; then
   END=$(wc -l < "$PLAN")
   sed -n "${START},${END}p" "$PLAN"
