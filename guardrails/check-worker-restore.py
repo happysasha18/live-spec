@@ -150,7 +150,14 @@ deterministic fixture transcripts and never scans a growing personal transcript 
 test. A push gate would run long after the bytes are gone.
 
 WHAT PREVENTS THE ACT. `hooks/worker-restore-guard.py` reads each Bash call at PreToolUse and denies
-the same five forms before a shell runs them. Its one-shot installer copies and wires it; config
+the act before a shell runs it. It denies every form this list names, and it reaches further than
+this list does: it holds the whole command line, so it also refuses the same loss ASSEMBLED out of
+stages that each report themselves as a read — a git command that prints repository content
+(`git show <rev>:<path>`, `git cat-file`, `git archive`) whose bytes a redirection or a pipe then
+lands on a path in the working tree. That reach belongs to the hook alone. This gate judges a
+command by the words the six prose homes state, one list, word for word; the hook judges a command
+by where its bytes end up, which is a question only the live command line can answer (PLAN q-586,
+2026-08-28). Its one-shot installer copies and wires it; config
 health checks the installed bytes against this repository. The transcript check remains necessary:
 the static hook states its escapes, a host may not have installed it yet, and a refused attempt is
 still a finding under the worker rule.

@@ -258,8 +258,13 @@ longer scans this machine's growing transcript root. In forensic root mode, an a
 down by name; a present root holding no worker transcript reds through
 `guardrails/nonempty_input.py` rather than reporting clean over nothing (SPEC INV-218).
 
-`hooks/worker-restore-guard.py` is the earlier arm. It denies the same command class at
-PreToolUse(Bash), before the shell can discard bytes. `scripts/install-worker-restore-guard.sh`
+`hooks/worker-restore-guard.py` is the earlier arm. It denies the same act at PreToolUse(Bash),
+before the shell can discard bytes. Standing where it does, it reads the whole command rather than a
+transcript, so it judges the act by where the bytes land: repository content reaching a path in the
+working tree reds whether a git verb writes the tree itself or a redirection or a pipe carries a
+git read onto that path (`git show HEAD:<file> > <file>` and its siblings, PLAN q-586, 2026-08-28).
+The retrospective gate above reads its own named command list and is unchanged by that.
+`scripts/install-worker-restore-guard.sh`
 supports `--dry-run`, copies the hook, wires it once, and self-tests one denied and one allowed form.
 The hook does not guess whether its caller is a worker: the event carries no reliable seat/worker
 identity. Instead it gives the safe rule to every caller — a worker writes only its own saved bytes;
