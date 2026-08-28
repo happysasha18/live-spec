@@ -51,8 +51,8 @@ Range: 1b061a8b..e94a2383
 Files read: `PLAN.md` (whole, both the rules sections and every task block),
 `scripts/plan_checks.py`, `scripts/state-probe.sh`, `skills/live-spec-base/SKILL.md`,
 `docs/queue-archive/rotated-ROADMAP-2026-08-27-merged-into-plan.md` (rows 166, 591, 596 and the
-2026-08-12 review band), `docs/queue-archive/2026-08-28-archived-no-acceptance.md`,
-`docs/queue-archive/2026-08-28-q405-agent-messaging-stale-premise.md`,
+2026-08-12 review band), `docs/queue-archive/rotated-PLAN-2026-08-28-no-acceptance.md`,
+`docs/queue-archive/rotated-PLAN-2026-08-28-q405-agent-messaging-stale-premise.md`,
 `guardrails/check-prover-record.sh`, `guardrails/judge-hooks.json`,
 `tests/test_compaction_discipline.py`, `matrix/build-pipeline.md`, `live-spec/CLAUDE.md`.
 
@@ -153,7 +153,7 @@ says so; changing the title without asking would break a rule to fix a smaller o
 leak, says in its own acceptance that this repository cannot fix its cause and that it stands as a
 dated note. There is no state in this tree that could move from undone to done, so no command and no
 reading could tell the difference. Archived to
-`docs/queue-archive/2026-08-28-archived-no-reachable-outcome.md` with the criterion written out. The
+`docs/queue-archive/rotated-PLAN-2026-08-28-no-reachable-outcome.md` with the criterion written out. The
 narrow criterion was applied on purpose: three other rows were tempting to archive and were kept —
 q-800, whose answer is a decision somebody can still take; q-48, which waits on a world event and
 names it; and q-489 above, whose title outlived its machinery. A row is hard to write, or it is
@@ -206,7 +206,7 @@ already happened, so they read as a record of that delivery rather than as a liv
 skimming for what exists today could still take them the other way. Named for that session, whose
 file it is.
 
-*The archive this range adds, `docs/queue-archive/2026-08-28-archived-no-reachable-outcome.md`, was
+*The archive this range adds, `docs/queue-archive/rotated-PLAN-2026-08-28-no-reachable-outcome.md`, was
 checked against their new direction: it carries no numbered table rows and no manifest line points
 at it, so neither the orphan-archive arm nor the unclaimed-row arm reaches it. Gate t agreed.*
 

@@ -53,7 +53,7 @@ Files read: `.github/workflows/gates.yml`, `guardrails/check-prover-record.sh`,
 `tests/test_tasks_parser_finds_every_task.py`, `PLAN.md`, `ROADMAP.md`, `CLAUDE.md`,
 `architecture/intake.md`, `docs/language-rules.md`,
 `docs/queue-archive/rotated-PLAN-2026-08-28-folded-rows.md`,
-`docs/queue-archive/2026-08-28-archived-no-acceptance.md`,
+`docs/queue-archive/rotated-PLAN-2026-08-28-no-acceptance.md`,
 `docs/queue-archive/rotated-ROADMAP-2026-08-27-merged-into-plan.md`,
 `docs/audits/2026-08-07-number-rulings.md`, `work/2026-08-15-unowned-numbers.md`,
 `skills/product-prover-pack/SKILL.md`, `skills/live-spec-base/SKILL.md`.
@@ -125,7 +125,7 @@ and is the pack's own, made under his standing word of 28.08 00:53, not attribut
    agrees with it, in the same `137f691`, `5683773`.
 
 5. **One archive from this range was named by no file at all.**
-   `docs/queue-archive/2026-08-28-q405-agent-messaging-stale-premise.md` holds `q-405`;
+   `docs/queue-archive/rotated-PLAN-2026-08-28-q405-agent-messaging-stale-premise.md` holds `q-405`;
    `PLAN.md`'s Blockers section recorded the row being archived and gave no path to it. It escapes
    the rotation check only because its filename does not match that check's `rotated-*.md` glob, so
    nothing mechanical would ever have pointed a reader at it. The path is now written where the
@@ -160,7 +160,7 @@ and is the pack's own, made under his standing word of 28.08 00:53, not attribut
    instead of passing almost any phrase silently.
 
 10. **The board cut loses no row.** 100 task ids left the board. 94 are in the folded-rows archive,
-    5 in `2026-08-28-archived-no-acceptance.md`, and `q-405` in its own file. Every `Absorbed:`
+    5 in `rotated-PLAN-2026-08-28-no-acceptance.md`, and `q-405` in its own file. Every `Absorbed:`
     line's claimed count matches the ids it lists, and the 17 lines sum to exactly 94.
 
 11. **Four target owners pointed at rows the cut folded away, and one of them had nowhere to point.**
@@ -181,7 +181,7 @@ and is the pack's own, made under his standing word of 28.08 00:53, not attribut
     `tests/test_listener_tripwire.py` asserted `PLAN.md` still carries `q-405`'s mechanical revisit
     trigger. The row left the board on his word of 28.08 and was archived whole, its trigger with
     it. Repaired in `5683773`: the assertion follows the row to
-    `docs/queue-archive/2026-08-28-q405-agent-messaging-stale-premise.md` and keeps what it always
+    `docs/queue-archive/rotated-PLAN-2026-08-28-q405-agent-messaging-stale-premise.md` and keeps what it always
     guarded, that a session needing the deferral again finds the trigger beside the row instead of
     re-deriving it from memory. `INV-231` itself stays guarded by the three tests above it, which
     read the spec, the architecture and the matrix and are untouched. The test is renamed for where
