@@ -32,6 +32,16 @@ carries: under it, it is this tree; elsewhere, it is another place entirely and 
 nothing.  With no `cwd` in the event an absolute target passes, which is this static reader's
 stated reach, beside `sh -c` and `xargs` below.
 
+One more route stays outside that reach, and it is stated here rather than left to be discovered:
+the act STAGED ACROSS TWO COMMANDS.  `git show HEAD:foo > /tmp/foo` parks the bytes outside the
+tree and is allowed, and a later `cp /tmp/foo foo` carries no sign of the repository at all.  The
+hook sees one command per event and cannot join them, and the alternative — refusing every copy
+onto a tree path — would refuse ordinary work all day to close one route.  The retrospective check
+does not close it either: `guardrails/check-worker-restore.py` reads git verbs, and neither half of
+this route is one.  What stands against it is the worker rule itself, carried word for word in
+every brief this pack composes: a worker writes only bytes it saved itself, and halts otherwise
+(PLAN q-586, 2026-08-28).
+
 Quoted spans and heredoc bodies are data, not shell invocations. Segments are split on shell
 separators outside quotes, and the `|` boundaries are kept so a pipeline is judged whole. The
 ordinary `command`, `sudo`, and `env` wrapper options that still launch a program are transparent.
