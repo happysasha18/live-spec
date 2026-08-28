@@ -226,10 +226,18 @@ contents) before a command-based acceptance can be written.
 gets a real command.
 
 
-### ⬜ A color-contrast check now looks at the right background — id: q-490
+### ✅ A color-contrast check now looks at the right background — id: q-490
 **Group:** Method reliability · **Priority:** normal
 **Source:** deposit 2026-07-27 — the old check "blocked seven passing rows and let a genuinely failing one through unnamed."
 **Checked 28.08, and it stays its own task.** The 27.08 pass folded this into q-489, which states the general law and names no check. This one names a live hole in a check that ships: a selector with no chain is still scored against the page background instead of being reported as unresolvable (`scripts/preshow-legibility-lint.py:309,316`), which is the shape of the failing case the report came from. The check is not a push gate; the communicator runs it before showing a styled artifact (`skills/communicator/SKILL.md:468`).
+
+**Done 28.08.** The check now measures only where the stylesheet actually settles what a piece of
+text sits on. Where it does settle, the contrast is scored and judged as before. Where it leaves the
+background open, the check says so and names the text, instead of scoring it against the page and
+calling the answer a reading. Three more places in the same check that had been guessing the same
+way were repaired with it, so the class is closed rather than the one reported case. The
+plain-language check that runs beside it now says out loud when its judge stood down, where before
+it printed a clean pass over a check that never ran.
 
 
 ### ⬜ The assistant never puts words in your mouth — id: q-497
@@ -297,10 +305,18 @@ reinvents it and each one can forget.
 **Done when.** Taking on a project saves that baseline without being asked, and a command shows
 the difference between how the project looks now and how it looked when it joined.
 
-### ⬜ A safety check that only runs here now ships everywhere — id: q-567
+### ✅ A safety check that only runs here now ships everywhere — id: q-567
 **Group:** Portability · **Priority:** normal
 **Source:** inbox 2026-08-06 — a host cannot obey a rule that names a script it doesn't have.
 **Checked 28.08, and it stays its own task.** The 27.08 pass folded this into plan-14, which ships the plan, the probe and the board to a host and says nothing about the safety checks. Confirmed today: `guardrails/install.sh:26-31` copies three hook files into a host and none of the check scripts those hooks call, and `guardrails/README.md:285` says the structural gates are adapted by hand. So a host still cannot run a check its own session rules name. q-241, the same class stated generally, was folded into plan-14 and is in the archive.
+
+**Done 28.08.** Setting the safety checks up in another project now carries the check scripts the
+hooks call, not the hooks alone. A check that is missing stops the commit and names itself, where
+before the commit went through and the gate quietly did nothing — a project could be working under
+a check that had never been there, with no way to notice. One of the three chains deliberately
+stays home: every gate in the pre-push chain reads a document only this project has, so a copy of
+it elsewhere would refuse every push over files that project does not own. The setup says that out
+loud and points at how to take its shape by hand.
 
 
 ### ⬜ You're warned before anything can trigger a security popup — id: q-581
@@ -309,10 +325,18 @@ the difference between how the project looks now and how it looked when it joine
 **Absorbed 28.08:** q-542, the leftover test server that kept raising the same dialog — the instance of this class, not a second task. Full text: `docs/queue-archive/rotated-PLAN-2026-08-28-folded-rows.md`. Checked 28.08: nothing in the tree reaps a stale local server or warns before an action can raise one of these dialogs.
 
 
-### ⬜ A worker's cleanup step never erases unsaved work — id: q-586
+### ✅ A worker's cleanup step never erases unsaved work — id: q-586
 **Group:** Worker & data safety · **Priority:** normal
 **Source:** found 2026-08-09 — a worker discarded uncommitted files through a command the existing guard didn't recognize.
 **Checked 28.08, and it stays its own task.** The 27.08 pass folded this into q-624, which verified the installed guard and its five named forms. This row is a sixth form the guard does not see: writing a file back out of `git show HEAD:<path>` reports itself as a read and walks past all five (`hooks/worker-restore-guard.py:170-198`). The guard's own refusal message recommends that exact command as the recovery route (`hooks/worker-restore-guard.py:215`), so the hole is not only open, it is signposted.
+
+**Done 28.08.** The refusal now reads the whole command and judges where the bytes end up, rather
+than which word was typed first. Saved content landing on top of a file in the working folder is
+refused the same way whether the version-control command writes the file itself or the content is
+piped or redirected onto it. Sixteen assembled routes had been walking past the old list of five
+words, including the one the refusal itself used to recommend. The refusal now recommends printing
+the saved copy and writing the file deliberately with the file-writing tool — two steps the check
+does allow, checked against the running hook rather than read off its text.
 
 
 ### ⬜ Personal settings never leak into a worker's task — id: q-596
@@ -911,7 +935,7 @@ One line per finding. Don't move it into ROADMAP. Don't fix it without the owner
   tasks, in `docs/queue-archive/2026-08-28-archived-no-acceptance.md` with the criterion written
   out. Three were found already shipped and marked done against the file that ships them: the text
   checker as its own skill, the settings list, and the installed-versus-working-tree check.
-  Twenty-nine tasks stand open.
+  Twenty-six tasks stand open, after the three repairs that landed later that day.
 
 - **The nine compressed folds, resolved.** This line used to record that the 27.08 merge cut nine
   folded bodies past a fact each still needed. All nine were read against their fold target on
@@ -926,11 +950,13 @@ One line per finding. Don't move it into ROADMAP. Don't fix it without the owner
   of `scripts/rule-census.py`; both were retired and neither is in the tree, so there is nothing
   left to have lost.
 
-- **q-586 is the one live defect this cut turned up, and it is not fixed.** The guard that refuses a
-  command destroying unsaved work names five forms. A worker writing a file back out of
-  `git show HEAD:<path>` walks past all five, and that is the command the guard's own refusal text
-  tells the reader to use for recovery (`hooks/worker-restore-guard.py:215`). It already cost two
-  files once, on 2026-08-09. Nobody's word is needed; it is on the board.
+- **q-586, the one live defect this cut turned up, is fixed as of 28.08.** The guard that refuses a
+  command destroying unsaved work used to name five forms, and a worker writing a file back out of
+  `git show HEAD:<path>` walked past all five — the very command the guard's own refusal text told
+  the reader to use for recovery. It had already cost two files once, on 2026-08-09. The guard now
+  judges where the bytes land instead of matching words, so the redirected and piped assemblies are
+  refused with the direct ones, and the refusal recommends printing the saved copy and writing the
+  file with the file-writing tool.
 
 - **27.08 afternoon, what this session established and what it left.** Six steps were added on his
   word (10–15) and four things landed: the queue went from 236 rows to 142, with 94 rows archived
