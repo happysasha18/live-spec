@@ -65,6 +65,9 @@ photo-site row and is correctly red; whole table 0.79s.
 `time bash guardrails/check-config-health.sh` — 0.35s. `time bash guardrails/check-pin-drift.sh` —
 36.7s, which is why it is not a key.
 
+Findings: eleven, listed below — three defects this range carried, all found and repaired inside it,
+and eight readings of what the marks on the board actually stand on.
+
 ## Findings
 
 **1 — defect, found and repaired here. The restored text carried the owner's own name into a
@@ -172,6 +175,18 @@ anyone has decided anything. The write guard drops single-quoted spans before it
 grep's pattern is prose — "run at every push" is a sentence in a skill file, not a command — and it
 is red-proven against `git stash list`, `rm -rf` and `git checkout --`, green against that quoted
 pattern and against `hooks/worker-restore-guard.py`'s own filename.
+
+Blocking: three items, all closed.
+- closed: `tests/test_guardrails.py::TestGateShippedLanguage::test_gate_green_on_the_swept_tree`
+  reddened on this range's own restore (finding 1). Repaired in `da51fff` by making the imported
+  wording read the way the rest of the file reads. No allowlist entry, no exception, no waiver: gate
+  i's reach over the shipped set is exactly what it was.
+- closed: gate h's tests-present check refused the push over `scripts/plan_checks.py` changing with
+  nothing under `tests/` (finding 11). Repaired in `67d6a25` by writing the two guards the table had
+  never had, each red-proven. The gate was not scoped, exempted, or routed around.
+- closed: two keys in this range's own new table would have gone green on a deleted file
+  (finding 2). Repaired in `7ecd89b` before the push, and the remaining eleven re-read for the same
+  hole.
 
 ## Verdict
 
