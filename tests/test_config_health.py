@@ -10,6 +10,7 @@ file both staged and carrying unstaged modifications is a fence stop on the shar
 """
 import json
 import os
+import shutil
 import subprocess
 import tempfile
 import unittest
@@ -373,6 +374,12 @@ class TestStagedVsWorktreeFenceArm(unittest.TestCase):
         subprocess.run(["git", "-C", tmp, "config", "user.name", "t"], check=True)
         gdir = os.path.join(tmp, "guardrails")
         os.makedirs(gdir)
+        # pre-commit stops when a check it calls is absent (q-567), so this fixture carries
+        # the checks the way a real install carries them.
+        for check in ("check-future-times.sh", "check-deferral-marker.py"):
+            dest = os.path.join(gdir, check)
+            shutil.copy(os.path.join(REPO, "guardrails", check), dest)
+            os.chmod(dest, 0o755)
         src = os.path.join(REPO, "guardrails", "pre-commit")
         with open(src) as f:
             body = f.read()

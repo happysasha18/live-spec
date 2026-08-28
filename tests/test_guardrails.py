@@ -35,6 +35,26 @@ def run(args, *, cwd, extra_env=None):
     )
 
 
+#: the scripts guardrails/pre-commit invokes, and the ones guardrails/install.sh therefore
+#: ships wherever it puts that hook (q-567).
+PRE_COMMIT_CHECKS = ("check-future-times.sh", "check-deferral-marker.py")
+
+
+def install_pre_commit_checks(repo_root):
+    """Put pre-commit's own checks where a real install puts them.
+
+    pre-commit stops when one of them is absent, so a fixture that drops the hook into
+    .git/hooks and stands for an installed repo has to carry the checks too — the hook and
+    its checks are one install, never a hook alone (q-567).
+    """
+    gdir = os.path.join(repo_root, "guardrails")
+    os.makedirs(gdir, exist_ok=True)
+    for name in PRE_COMMIT_CHECKS:
+        dest = os.path.join(gdir, name)
+        shutil.copy(os.path.join(GUARDRAILS, name), dest)
+        os.chmod(dest, 0o755)
+
+
 GATE_MACHINERY_PREFIXES = (
     "guardrails/",
     "scaffold/guardrails/",
@@ -708,6 +728,7 @@ class TestPreCommitFence(unittest.TestCase):
         for hook in ("pre-commit", "post-commit"):
             shutil.copy(os.path.join(GUARDRAILS, hook), os.path.join(hooks_dir, hook))
             os.chmod(os.path.join(hooks_dir, hook), 0o755)
+        install_pre_commit_checks(tmp)
         with open(os.path.join(tmp, "f.txt"), "w") as f:
             f.write("hi\n")
         run(["git", "add", "f.txt"], cwd=tmp)
@@ -761,6 +782,7 @@ class TestPostCommitFenceReArm(unittest.TestCase):
         for hook in ("pre-commit", "post-commit"):
             shutil.copy(os.path.join(GUARDRAILS, hook), os.path.join(hooks_dir, hook))
             os.chmod(os.path.join(hooks_dir, hook), 0o755)
+        install_pre_commit_checks(tmp)
         with open(os.path.join(tmp, "f.txt"), "w") as f:
             f.write("hi\n")
         run(["git", "add", "f.txt"], cwd=tmp)
@@ -939,6 +961,7 @@ class TestFenceSessionTokenFallback(unittest.TestCase):
         for hook in ("pre-commit", "post-commit"):
             shutil.copy(os.path.join(GUARDRAILS, hook), os.path.join(hooks_dir, hook))
             os.chmod(os.path.join(hooks_dir, hook), 0o755)
+        install_pre_commit_checks(tmp)
         with open(os.path.join(tmp, "f.txt"), "w") as f:
             f.write("hi\n")
         run(["git", "add", "f.txt"], cwd=tmp)
@@ -1001,6 +1024,7 @@ class TestFenceCorruptedFile(unittest.TestCase):
         for hook in ("pre-commit", "post-commit"):
             shutil.copy(os.path.join(GUARDRAILS, hook), os.path.join(hooks_dir, hook))
             os.chmod(os.path.join(hooks_dir, hook), 0o755)
+        install_pre_commit_checks(tmp)
         with open(os.path.join(tmp, "f.txt"), "w") as f:
             f.write("hi\n")
         run(["git", "add", "f.txt"], cwd=tmp)
@@ -1114,6 +1138,116 @@ class TestInstallScript(unittest.TestCase):
                                      "%s installed from the worktree does not match its source" % hook)
                 # never written into the worktree's own (nonexistent) .git/hooks
                 self.assertFalse(os.path.exists(os.path.join(worktree, ".git", "hooks", hook)))
+
+
+class TestInstalledHooksReachTheirChecks(unittest.TestCase):
+    """q-567: a hook installed without the scripts it calls guards nothing.
+
+    install.sh used to copy three hook files and none of the checks those hooks invoke. Both
+    of pre-commit's content gates were wrapped in a file test, so in a repo that had the hook
+    and not the check they skipped in silence and every commit passed — the repo believed it
+    was checked and nothing had checked it. These tests install into a scratch repo the way a
+    host installs, and assert the installed hook actually reaches its checks.
+    """
+
+    INSTALL = os.path.join(GUARDRAILS, "install.sh")
+
+    def _host_repo(self, tmp):
+        """A repo with no guardrails/ of its own — a host before the pack reaches it."""
+        run(["git", "init", "-q"], cwd=tmp)
+        run(["git", "config", "user.email", "a@example.com"], cwd=tmp)
+        run(["git", "config", "user.name", "a"], cwd=tmp)
+        with open(os.path.join(tmp, "f.txt"), "w", encoding="utf-8") as f:
+            f.write("hi\n")
+        run(["git", "add", "f.txt"], cwd=tmp)
+        run(["git", "commit", "-q", "-m", "init"], cwd=tmp)
+        return run(["bash", self.INSTALL], cwd=tmp)
+
+    def _commit_a_future_stamp(self, tmp):
+        """Stage the one line INV-24's check exists to refuse, and try to commit it.
+
+        The clock is pinned through the check's own CHECK_TODAY / CHECK_NOW overrides, so the
+        line is red whatever time the suite runs at.
+        """
+        with open(os.path.join(tmp, "note.md"), "w", encoding="utf-8") as f:
+            f.write("worked on it 2026-01-01 23:59, wrote this up\n")
+        run(["git", "add", "note.md"], cwd=tmp)
+        return run(["git", "commit", "-q", "-m", "future stamp"], cwd=tmp,
+                   extra_env={"CHECK_TODAY": "2026-01-01", "CHECK_NOW": "00:01"})
+
+    def test_install_ships_the_checks_pre_commit_calls(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            result = self._host_repo(tmp)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
+            for name in PRE_COMMIT_CHECKS:
+                self.assertTrue(
+                    os.path.isfile(os.path.join(tmp, "guardrails", name)),
+                    "install.sh installed pre-commit without %s, the check it calls: %s"
+                    % (name, result.stdout + result.stderr))
+
+            # The same class one step on: pre-commit's refusal, and install.sh's own closing
+            # line, both tell a person to run fence-refresh.sh. A named script nobody has is
+            # the defect over again.
+            self.assertTrue(
+                os.path.isfile(os.path.join(tmp, "guardrails", "fence-refresh.sh")),
+                "the hooks name fence-refresh.sh and it was not installed: "
+                + result.stdout + result.stderr)
+
+    def test_installed_pre_commit_actually_reaches_its_check(self):
+        """The load-bearing one: the gate has to fire, not merely be on disk."""
+        with tempfile.TemporaryDirectory() as tmp:
+            self._host_repo(tmp)
+            result = self._commit_a_future_stamp(tmp)
+            self.assertNotEqual(
+                result.returncode, 0,
+                "the installed pre-commit let a future-stamped line through — its check was "
+                "not reachable, so the gate skipped in silence: " + result.stdout + result.stderr)
+            self.assertIn("COMMIT BLOCKED", result.stdout + result.stderr)
+
+    def test_a_missing_check_stops_the_commit_and_names_itself(self):
+        """A hook that cannot find its check fails loudly. Passing silently is the worse
+        failure: the repo goes on believing it is guarded."""
+        with tempfile.TemporaryDirectory() as tmp:
+            self._host_repo(tmp)
+            os.remove(os.path.join(tmp, "guardrails", "check-future-times.sh"))
+
+            with open(os.path.join(tmp, "ordinary.md"), "w", encoding="utf-8") as f:
+                f.write("nothing wrong with this line\n")
+            run(["git", "add", "ordinary.md"], cwd=tmp)
+            result = run(["git", "commit", "-q", "-m", "ordinary"], cwd=tmp)
+
+            out = result.stdout + result.stderr
+            self.assertNotEqual(result.returncode, 0,
+                                "a missing check passed the commit in silence: " + out)
+            self.assertIn("COMMIT BLOCKED", out)
+            self.assertIn("check-future-times.sh", out,
+                          "the refusal must name the check that is missing: " + out)
+
+    def test_the_push_gate_is_not_shipped_to_a_host(self):
+        """pre-push reads this repository's own spec, architecture, matrix and prover records.
+        Copied into a host it finds none of them and blocks every push forever, which is why
+        guardrails/README.md has a host take its shape by hand instead."""
+        with tempfile.TemporaryDirectory() as tmp:
+            result = self._host_repo(tmp)
+            self.assertFalse(
+                os.path.isfile(os.path.join(tmp, ".git", "hooks", "pre-push")),
+                "the push gate was installed into a repo that has none of the documents it "
+                "reads: " + result.stdout + result.stderr)
+            self.assertIn("push gate", result.stdout,
+                          "install.sh must say what it left out and why: " + result.stdout)
+
+    def test_installing_inside_the_pack_still_ships_all_three_hooks(self):
+        """The pack's own install path is unchanged: source and destination are one tree, so
+        every hook goes in, the push gate among them."""
+        with tempfile.TemporaryDirectory() as tmp:
+            run(["git", "init", "-q"], cwd=tmp)
+            shutil.copytree(GUARDRAILS, os.path.join(tmp, "guardrails"))
+            result = run(["bash", os.path.join(tmp, "guardrails", "install.sh")], cwd=tmp)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            for hook in ("pre-commit", "pre-push", "post-commit"):
+                self.assertTrue(os.path.isfile(os.path.join(tmp, ".git", "hooks", hook)),
+                                "%s not installed" % hook)
 
 
 if __name__ == "__main__":

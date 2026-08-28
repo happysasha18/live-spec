@@ -152,6 +152,19 @@ Safe to re-run any time — it just overwrites with whatever is currently in `gu
 It does **not** create `.live-spec-fence`; the fence stays opt-in until you run
 `guardrails/fence-refresh.sh` yourself.
 
+**The checks travel with the hooks.** Run the same script from a HOST repo's root
+(`bash /path/to/live-spec/guardrails/install.sh`) and it installs `pre-commit` and
+`post-commit` there, together with the files those hooks name: `check-future-times.sh`,
+`check-deferral-marker.py`, and `fence-refresh.sh`, into the host's own `guardrails/`.
+Until 2026-08-28 it copied the hook files alone, and `pre-commit`'s two content gates were
+each wrapped in a file test that skipped in silence when the script was absent — a host
+committed under a gate that was never there and had no way to notice. A missing check now
+stops the commit and names itself (q-567).
+
+`pre-push` is not shipped to a host. Every one of its gates reads a document of this
+repository's own, so a copy of it in a host blocks every push over files that host does not
+have. Take its shape by hand instead — "How a host project adapts the pattern", below.
+
 ## The runaway-child notice — a Stop-time report the owner wires by hand (SPEC INV-213)
 
 `guardrails/check-runaway-child.py` reports a runaway descendant a finished worker left behind: a
