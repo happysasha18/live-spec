@@ -112,6 +112,44 @@ sys.exit(1 if undrawn or unmarked else 0)
     "q-624": 'test -f "$HOME/.claude/hooks/worker-restore-guard.py" && cmp -s "$HOME/.claude/hooks/worker-restore-guard.py" hooks/worker-restore-guard.py && grep -q worker-restore-guard "$HOME/.claude/settings.json"',
 }
 
+def reads_outside_the_tree(command):
+    """True when a key reaches for state git does not carry — a path under the person's home.
+
+    Such a key goes red on a fresh clone for a reason about the machine rather than about the
+    project, and a reader who is not told that reads an alarm where there is none. Derived from
+    the command's own text rather than kept as a list of ids, so a key written tomorrow is
+    covered the day it is written.
+    """
+    return "$HOME" in command or "~/" in command
+
+
+def key_failure_note(command, result):
+    """One short line saying why a done task's acceptance command failed.
+
+    Both readers of the plan print this, so the board and the Canon give one account. It carries
+    the command's own first printed line where the command printed one — those messages already
+    name the missing thing and the way to put it back — and it says when the key reached outside
+    the tracked tree.
+    """
+    first = ""
+    for stream in (result.stdout, result.stderr):
+        if not stream:
+            continue
+        text = stream.decode("utf-8", "replace") if isinstance(stream, bytes) else stream
+        for line in text.splitlines():
+            if line.strip():
+                first = line.strip()
+                break
+        if first:
+            break
+    note = "its acceptance command fails"
+    if reads_outside_the_tree(command):
+        note += ", and that command reads this machine rather than the tree"
+    if first:
+        note += " — " + (first[:80].rstrip() + "…" if len(first) > 80 else first)
+    return note
+
+
 # A task header looks like "### <mark emoji> <Task Name> — id: <plan-N|q-N>" — no brackets
 # around the mark, an em dash before "id:". The title is matched non-greedy so a title that
 # itself contains an em dash still stops at the literal " — id: " that ends the heading.

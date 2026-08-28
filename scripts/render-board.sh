@@ -46,7 +46,7 @@ out_path = sys.argv[1]
 # about what a task is or what "done" means for it.
 # Both readers cd to the repository root before this block runs, so "scripts" resolves.
 sys.path.insert(0, "scripts")
-from plan_checks import parse_tasks
+from plan_checks import key_failure_note, parse_tasks
 
 # ---------------------------------------------------------------- read PLAN.md's tasks
 # Same parser state-probe.sh uses: parse_tasks() reads the "## Tasks" section, one entry per
@@ -103,17 +103,26 @@ def split_body(body_lines):
 # result; a task without one is a wish, not a fact). A checked task that fails its command
 # falls back to its own mark (🔄/⛔/👁️/⬜) rather than a flat "not done" — the new mark
 # vocabulary already distinguishes those states, unlike the plan's old x/~/!/space marks.
+# A done mark is the one exception: a ✅ whose command fails used to print itself back as ✅
+# and land in the Done column, so the key could never contradict the mark it was written to
+# test (adversarial review, 28.08). Such a card now takes the board's own ⛔ and its status
+# line says what the command said.
 for s in steps:
     paragraphs, bullets, accept = split_body(s["body"])
     s["paragraphs"], s["bullets"], s["accept"] = paragraphs, bullets, accept
     if s["check"]:
-        ok = subprocess.run(s["check"], shell=True, capture_output=True).returncode == 0
+        r = subprocess.run(s["check"], shell=True, capture_output=True)
+        ok = r.returncode == 0
         s["verified"] = True
-        s["icon"] = "✅" if ok else s["mark"]
+        s["failing_key"] = s["mark"] == "✅" and not ok
+        s["icon"] = "⛔" if s["failing_key"] else ("✅" if ok else s["mark"])
+        s["note"] = key_failure_note(s["check"], r) if s["failing_key"] else ""
     else:
         ok = s["mark"] == "✅"
         s["verified"] = False
+        s["failing_key"] = False
         s["icon"] = s["mark"]
+        s["note"] = ""
     s["done"] = ok
 
 # ---------------------------------------------------------------- assign one column each
@@ -240,7 +249,12 @@ def bullet_html(b):
 
 def card_html(s):
     chip = s["icon"]
-    verified = "verified by command" if s["verified"] else "declared, no acceptance command"
+    if s["failing_key"]:
+        verified = "marked done in the plan, but %s" % s["note"]
+    elif s["verified"]:
+        verified = "verified by command"
+    else:
+        verified = "declared, no acceptance command"
 
     # Face: title, a short summary (first sentence of the first paragraph, if there is one),
     # then the status line. Everything else — the rest of the prose, the bullets, the
