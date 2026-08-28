@@ -159,5 +159,68 @@ class TestNeitherReaderStopsFindingTheTasks(unittest.TestCase):
         )
 
 
+class TestTheAcceptanceCommandsStayHonestMachinery(unittest.TestCase):
+    """The acceptance-command table is machinery that runs at every session start, everywhere.
+
+    `scripts/plan_checks.py`'s CHECKS map is read by both readers and executed by the probe,
+    which is the first command a session runs on any machine that opens this project. Two
+    properties keep that from turning into a cost nobody asked for, and neither is guarded by
+    the tests above, which look only at what the readers print.
+
+    Both were written 2026-08-28 with plan-10's own thirteen keys, and both name a thing that
+    already happened here. A key outliving its row is the first: plan-1's key survived its task
+    into the 28.08 board rotation and had to be removed by hand, still running every morning
+    against a step that no longer existed. A key that writes is the second: PLAN.md's own trap
+    list records `tests/test_guardrails.py` leaving a `git stash` unrestored on an interrupt,
+    and a resume step that can do the same to a person's uncommitted work would be the worst
+    possible place for it.
+    """
+
+    #: Commands that change the tree, the index, or the machine. A check exists to READ state.
+    #: Each entry is matched as a whole word against the command text.
+    WRITING_WORDS = (
+        "rm", "rmdir", "mv", "cp", "truncate", "tee", "install", "chmod", "chown",
+        "stash", "checkout", "restore", "reset", "clean", "commit", "push", "add",
+        "kill", "pkill", "killall",
+    )
+
+    def setUp(self):
+        import sys
+        sys.path.insert(0, str(ROOT / "scripts"))
+        from plan_checks import CHECKS
+        self.checks = CHECKS
+        self.declared = set(_declared_ids((ROOT / "PLAN.md").read_text(encoding="utf-8")))
+
+    def test_the_fixture_actually_carries_checks(self):
+        # The same guard-on-the-guard the class above keeps: an empty table would pass both
+        # assertions below without reading anything.
+        self.assertGreater(len(self.checks), 0, "scripts/plan_checks.py declares no checks")
+        self.assertGreater(len(self.declared), 0, "PLAN.md's ## Tasks section declares no tasks")
+
+    def test_every_key_names_a_task_the_plan_declares(self):
+        orphans = sorted(set(self.checks) - self.declared)
+        self.assertEqual(
+            orphans, [],
+            "scripts/plan_checks.py runs a command for %s, which PLAN.md's ## Tasks section no "
+            "longer declares — the row was renamed, folded or archived and its command was left "
+            "behind, running at every session start against nothing" % orphans,
+        )
+
+    def test_no_check_can_write_to_the_tree_or_the_machine(self):
+        # A check is mostly greps, and a grep's PATTERN is prose that may legitimately contain
+        # any of these words — "…run at every push" is a sentence in a skill file, not a command.
+        # Patterns in this table are single-quoted, so the quoted spans come out before the
+        # search and what is left is the shell's own words.
+        for task_id, raw in sorted(self.checks.items()):
+            command = re.sub(r"'[^']*'", " ", raw)
+            for word in self.WRITING_WORDS:
+                self.assertIsNone(
+                    re.search(r"(?<![\w./-])%s(?![\w-])" % re.escape(word), command),
+                    "the check for %s runs %r, and a check exists to read state, never to "
+                    "change it — this one runs on every machine that opens this project, "
+                    "before anyone has decided anything" % (task_id, word),
+                )
+
+
 if __name__ == "__main__":
     unittest.main()
