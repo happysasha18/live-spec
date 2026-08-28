@@ -36,4 +36,4 @@
 
 **owns** — S-0, M-3, M-4, D-1, D-2, D-4, D-6, D-7, E-23
 
-**pins** — `PRODUCT_SPEC.md:1`, `PLAN.md:152` (the task list), `JOURNAL.md:1`, `VERSION:1`, `scripts/sync-skills.sh:1` (E-23), `.live-spec/PROBLEMS.md:1` (E-24's dogfood instance; anchor owned by templates)
+**pins** — `PRODUCT_SPEC.md:1`, `PLAN.md:157` (the task list), `JOURNAL.md:1`, `VERSION:1`, `scripts/sync-skills.sh:1` (E-23), `.live-spec/PROBLEMS.md:1` (E-24's dogfood instance; anchor owned by templates)
