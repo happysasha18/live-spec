@@ -161,9 +161,11 @@ each wrapped in a file test that skipped in silence when the script was absent �
 committed under a gate that was never there and had no way to notice. A missing check now
 stops the commit and names itself (q-567).
 
-`pre-push` is not shipped to a host. Every one of its gates reads a document of this
-repository's own, so a copy of it in a host blocks every push over files that host does not
-have. Take its shape by hand instead — "How a host project adapts the pattern", below.
+`pre-push` is not shipped to a host. It cannot travel whole: most of its gates read a document
+of this repository's own, and the chain refuses the push when any gate reds, so a copy of it in
+a host blocks every push over files that host does not have. A few of its gates read only the
+diff and would hold anywhere; a host picks those up by taking the chain's shape by hand — "How a
+host project adapts the pattern", below.
 
 ## The runaway-child notice — a Stop-time report the owner wires by hand (SPEC INV-213)
 

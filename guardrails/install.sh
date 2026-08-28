@@ -21,12 +21,17 @@
 #                 repo. Installed everywhere, with its two checks and with
 #                 fence-refresh.sh, the script its own refusal tells a person to run.
 #   post-commit — pure git, no checks of its own. Installed everywhere.
-#   pre-push    — the live-spec push gate. Every one of its gates reads a document of
-#                 this repository's own (PRODUCT_SPEC.md, ARCHITECTURE.md,
-#                 TEST_MATRIX.md, docs/prover, skills/, scaffold/), so it cannot be
-#                 shipped to a host as it stands. guardrails/README.md, "How a host
-#                 project adapts the pattern", is where a host takes the gate shape by
-#                 hand. Installed only inside the repository that holds it.
+#   pre-push    — the live-spec push gate. It cannot travel whole: most of its gates
+#                 read a document of this repository's own (PRODUCT_SPEC.md,
+#                 ARCHITECTURE.md, TEST_MATRIX.md, docs/prover, skills/, scaffold/),
+#                 and one chain refuses the push when any of them reds, so a copy of it
+#                 in a host would block every push over files that host does not have.
+#                 A few of its gates read only the diff and would hold anywhere
+#                 (check-broad-kill.sh, check-cleanup-notice.sh, check-muted-launch.sh);
+#                 a host picks those up by taking the chain's shape by hand.
+#                 guardrails/README.md, "How a host project adapts the pattern", is
+#                 where that is written. Installed only inside the repository that
+#                 holds it.
 #
 # post-commit (ROADMAP row 572) carries no gate of its own — it only re-arms the
 # concurrent-edit fence on the session's own successful commit, when the fence is
@@ -59,9 +64,19 @@ if [ ! -d "$HOOKS_DIR" ]; then
 fi
 
 DEST_GUARDRAILS="$REPO_ROOT/guardrails"
-# `-ef` compares device and inode, so a symlinked path (on macOS git reports /private/var where
-# the caller said /var) still reads as the one directory it is.
-if [ -d "$DEST_GUARDRAILS" ] && [ "$DEST_GUARDRAILS" -ef "$GUARDRAILS_DIR" ]; then
+
+# The question is whether the destination is the REPOSITORY this guardrails folder belongs to,
+# and the answer is the shared git directory the two resolve to. Comparing the two guardrails
+# paths instead answers a narrower question and gets a linked worktree wrong: a worktree of this
+# same repository has its own guardrails directory at its own inode, so it read as a foreign host
+# — the push gate went unrefreshed in the hooks directory every worktree shares, and the closing
+# message told the reader this repository lacks documents it has. `--git-common-dir` is the one
+# path a repository and all its worktrees agree on, and `pwd -P` settles the symlinked spellings
+# (on macOS git reports /private/var where the caller said /var).
+_common_git_dir() {
+  ( cd "$1" && cd "$(git rev-parse --git-common-dir 2>/dev/null)" && pwd -P )
+}
+if [ "$(_common_git_dir "$GUARDRAILS_DIR")" = "$(_common_git_dir "$REPO_ROOT")" ]; then
   SAME_TREE=1
 else
   SAME_TREE=0

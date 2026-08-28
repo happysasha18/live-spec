@@ -314,9 +314,11 @@ the difference between how the project looks now and how it looked when it joine
 hooks call, not the hooks alone. A check that is missing stops the commit and names itself, where
 before the commit went through and the gate quietly did nothing — a project could be working under
 a check that had never been there, with no way to notice. One of the three chains deliberately
-stays home: every gate in the pre-push chain reads a document only this project has, so a copy of
-it elsewhere would refuse every push over files that project does not own. The setup says that out
-loud and points at how to take its shape by hand.
+stays home: most of the checks in the push chain read a document only this project has, and the
+chain refuses a push when any one of them objects, so a copy of it elsewhere would refuse every
+push over files that project does not own. The setup says that out loud and points at how to take
+the chain's shape by hand, which is where a project picks up the few checks that would have held
+anywhere.
 
 
 ### ⬜ You're warned before anything can trigger a security popup — id: q-581
