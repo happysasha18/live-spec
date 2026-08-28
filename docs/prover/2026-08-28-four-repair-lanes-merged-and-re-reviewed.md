@@ -238,5 +238,7 @@ push; the run before it — taken while this pass was still editing — is not a
 quoted as one, and its one teardown error was the judged-tree fixture correctly catching those very
 edits.
 
-Blocking: none. Nine findings closed in `03acd21` and `c7c4ab6`, three did not reproduce, two stand
-with their reason written above.
+Nine findings are closed in `03acd21` and `c7c4ab6`, three did not reproduce, and two stand with
+their reason written above. Nothing holds this push.
+
+Blocking: none
