@@ -55,6 +55,48 @@ ASSEMBLED = [
     "sudo git show HEAD:PRODUCT_SPEC.md > PRODUCT_SPEC.md",
 ]
 
+# The same destructive acts, reached by a route the guard did not walk until 2026-08-28. Each one
+# passed the q-586 write-target rewrite: shell grouping and the launcher wrappers hid the program
+# name, `find -exec` and a `-c` payload carried the command one level down, a substitution supplied
+# the repository bytes from inside an innocent-looking command, and a missing `cwd` let an absolute
+# path into the tree. None of them is exotic; every one is a shape a shell writes every day.
+ROUTES_AROUND = [
+    # Shell grouping in front of the program name.
+    "( git checkout -- PRODUCT_SPEC.md )",
+    "(git checkout .)",
+    "{ git checkout -- PRODUCT_SPEC.md; }",
+    "! git stash",
+    # Launchers that run another program after their own options.
+    "timeout 30 git checkout -- PRODUCT_SPEC.md",
+    "timeout -s KILL 30 git reset --hard HEAD",
+    "nohup git checkout -- PRODUCT_SPEC.md",
+    "nice git clean -fd",
+    "nice -n 5 git checkout -- PRODUCT_SPEC.md",
+    "stdbuf -o0 git restore PRODUCT_SPEC.md",
+    "setsid git checkout -- PRODUCT_SPEC.md",
+    "xargs -n1 git checkout --",
+    # The command carried one level down.
+    "find . -name '*.py' -exec git checkout HEAD -- {} \\;",
+    "find . -type f -execdir git checkout -- {} +",
+    # The second of two -exec clauses: the `;` between them has to stay where it stands, or the
+    # two commands read as one and the destructive half hides behind the harmless one.
+    "find . -exec grep -l TODO {} \\; -exec git checkout -- {} \\;",
+    "bash -c 'git checkout -- PRODUCT_SPEC.md'",
+    'sh -c "git reset --hard HEAD"',
+    # A substitution supplying the repository bytes.
+    "printf '%s' \"$(git show HEAD:PRODUCT_SPEC.md)\" > PRODUCT_SPEC.md",
+    'echo "$(git show HEAD:PRODUCT_SPEC.md)" > PRODUCT_SPEC.md',
+    "tee PRODUCT_SPEC.md <<< `git show HEAD:PRODUCT_SPEC.md`",
+    # An inline program in a language the guard cannot read, fed repository bytes.
+    "git show HEAD:PRODUCT_SPEC.md | python3 -c \"import sys; "
+    "open('PRODUCT_SPEC.md','w').write(sys.stdin.read())\"",
+    "git show HEAD:PRODUCT_SPEC.md | perl -e 'print'",
+    "git show HEAD:PRODUCT_SPEC.md | sh -c 'cat > PRODUCT_SPEC.md'",
+    # An absolute path with no cwd in the event: the field the hook used to read as permission.
+    "git show HEAD:PRODUCT_SPEC.md > /repo/PRODUCT_SPEC.md",
+    "git show HEAD:PRODUCT_SPEC.md | tee /anywhere/PRODUCT_SPEC.md",
+]
+
 ALLOWED = [
     "git status",
     "git checkout main",
@@ -79,6 +121,20 @@ ALLOWED = [
     "cat /tmp/saved-bytes > PRODUCT_SPEC.md",
     "printf 'x' > PRODUCT_SPEC.md",
     "git status 2>&1 | tee status.txt",
+    # Every prefix the guard now steps over still has to leave ordinary work alone: stepping over
+    # `timeout` to find the program must not turn `timeout 30 pytest` into a refusal.
+    "timeout 30 git status",
+    "nice -n 5 python3 -m pytest -q",
+    "nohup python3 scripts/render-board.sh &",
+    "( cd tests && python3 -m pytest -q )",
+    "{ git status; git log -1; }",
+    "find . -name '*.py' -exec grep -l TODO {} \\;",
+    "find . -exec grep -l TODO {} \\; -exec wc -l {} \\;",
+    "bash -c 'grep -q needle haystack.md'",
+    "sh -c \"git status\"",
+    "python3 -c \"print(open('PRODUCT_SPEC.md').read())\"",
+    "xargs -n1 git log -1 --format=%H",
+    "echo \"$(git rev-parse HEAD)\" > /tmp/head.txt",
 ]
 
 
@@ -136,6 +192,47 @@ def test_a_repository_read_landed_on_a_tree_path_is_denied(command):
     output = json.loads(result.stdout)["hookSpecificOutput"]
     assert output["permissionDecision"] == "deny"
     assert "working tree" in output["permissionDecisionReason"]
+
+
+@pytest.mark.parametrize("command", ROUTES_AROUND)
+def test_a_route_around_the_write_target_rule_is_denied(command):
+    """A shell shape that hides the act is not a different act.
+
+    The write-target rewrite of 2026-08-28 asked the right question and asked it of too little
+    text: it read the first token of a segment as the program, and any shape that puts something
+    else there — a bracket, a launcher, a `-c` payload, a `find -exec` — walked past. Every command
+    here is one of the forms already denied above, wearing one of those shapes.
+    """
+    result = _run(command)
+    assert result.returncode == 0, result.stderr
+    assert result.stdout, "the guard allowed %r" % command
+    output = json.loads(result.stdout)["hookSpecificOutput"]
+    assert output["permissionDecision"] == "deny"
+
+
+def test_the_refusal_names_the_text_the_caller_typed_not_the_nested_command():
+    """A refusal quoting a fragment the caller never wrote is a refusal they cannot act on."""
+    reason = _reason("find . -name '*.py' -exec git checkout HEAD -- {} \\;")
+    assert "find ." in reason and "-exec" in reason
+
+
+def test_a_painted_over_element_elsewhere_in_the_command_does_not_silence_the_guard():
+    """One innocent stage beside a destructive one never turns the pair innocent."""
+    assert _run("git status && ( git checkout -- PRODUCT_SPEC.md )").stdout != ""
+    assert _run("ls -la | grep py; timeout 5 git stash").stdout != ""
+
+
+def test_an_absolute_target_with_no_cwd_is_refused_rather_than_assumed_harmless():
+    """The event's `cwd` places an absolute path. A field it did not carry places nothing.
+
+    With no `cwd` the hook used to pass every absolute target, so the same command that reds when
+    the event is complete went green when it was not.
+    """
+    read = "git show HEAD:PRODUCT_SPEC.md"
+    assert _run("%s > /repo/PRODUCT_SPEC.md" % read).stdout != ""
+    assert _run("%s > /somewhere/else.md" % read).stdout != ""
+    # A discard sink still holds nothing, whatever the event carries.
+    assert _run("%s > /dev/null" % read).stdout == ""
 
 
 def test_the_refusal_recommends_only_routes_it_would_itself_allow():

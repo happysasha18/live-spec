@@ -29,24 +29,38 @@ the pair-question in two shapes.
 WHERE THE BYTES LAND.  A relative target names a file in the tree the command is standing in.  A
 `/dev/...` sink holds nothing.  An absolute target is judged against the `cwd` the hook event
 carries: under it, it is this tree; elsewhere, it is another place entirely and the hook says
-nothing.  With no `cwd` in the event an absolute target passes, which is this static reader's
-stated reach, beside `sh -c` and `xargs` below.
+nothing.  An event carrying no `cwd` places the target nowhere, so an absolute target counts as
+this tree — the hook fails towards refusing, because a missing field is not evidence that the
+bytes land somewhere harmless.  Until 2026-08-28 a missing `cwd` passed every absolute target.
 
-One more route stays outside that reach, and it is stated here rather than left to be discovered:
-the act STAGED ACROSS TWO COMMANDS.  `git show HEAD:foo > /tmp/foo` parks the bytes outside the
-tree and is allowed, and a later `cp /tmp/foo foo` carries no sign of the repository at all.  The
-hook sees one command per event and cannot join them, and the alternative — refusing every copy
-onto a tree path — would refuse ordinary work all day to close one route.  The retrospective check
-does not close it either: `guardrails/check-worker-restore.py` reads git verbs, and neither half of
-this route is one.  What stands against it is the worker rule itself, carried word for word in
-every brief this pack composes: a worker writes only bytes it saved itself, and halts otherwise
-(PLAN q-586, 2026-08-28).
+HOW THE COMMAND IS READ.  Quoted spans and heredoc bodies are data, not shell invocations.
+Segments are split on shell separators outside quotes, and the `|` boundaries are kept so a
+pipeline is judged whole.  Before the program name is read, three kinds of prefix come off: shell
+grouping (`( … )`, `{ …; }`, a leading `!` or `time`), the `command`/`sudo`/`env` wrappers, and the
+launchers that run another program after their own options (`timeout`, `nohup`, `nice`, `ionice`,
+`stdbuf`, `setsid`, `xargs`, `doas`).  Command text a segment carries INSIDE it is judged in its own
+right, to the same depth of nesting: a `$( … )` or back-quoted substitution, a `-c` payload handed
+to a shell, and the command a `find -exec` runs on every file it matches.  A substitution also
+counts as a source, so `printf '%s' "$(git show HEAD:foo)" > foo` is the pair, not two halves.
+Inside a pipeline that reads repository content, a stage that runs an inline program the hook
+cannot parse — `python -c`, `perl -e`, `ruby -e`, `node -e`, `php -r` — is treated as a sink: where
+the bytes go is unreadable, and unreadable is not innocent.
 
-Quoted spans and heredoc bodies are data, not shell invocations. Segments are split on shell
-separators outside quotes, and the `|` boundaries are kept so a pipeline is judged whole. The
-ordinary `command`, `sudo`, and `env` wrapper options that still launch a program are transparent.
-A command hidden in `sh -c` or `xargs` remains outside this static reader's reach, exactly as the
-retrospective check documents.
+WHAT STAYS OUT OF REACH, stated rather than left to be discovered:
+
+  - THE ACT STAGED ACROSS TWO COMMANDS.  `git show HEAD:foo > /tmp/foo` parks the bytes outside the
+    tree and is allowed, and a later `cp /tmp/foo foo` carries no sign of the repository at all.
+    The hook sees one command per event and cannot join them, and the alternative — refusing every
+    copy onto a tree path — would refuse ordinary work all day to close one route.
+  - A COMMAND THE SHELL BUILDS AT RUN TIME.  A verb assembled from variables (`$g checkout -- foo`),
+    an alias, a shell function, or a script file whose bytes the hook never sees.  Static text is
+    all this reader has.
+  - NESTING PAST THREE LEVELS, where the walk stops.
+
+The retrospective check does not close the first of these either: `guardrails/check-worker-restore.py`
+reads git verbs, and neither half of that route is one.  What stands against all three is the worker
+rule itself, carried word for word in every brief this pack composes: a worker writes only bytes it
+saved itself, and halts otherwise (PLAN q-586, 2026-08-28).
 
 Repo home: hooks/worker-restore-guard.py.  Installed copy: ~/.claude/hooks/.  The one-shot installer
 copies and wires it as PreToolUse(Bash).
@@ -60,6 +74,44 @@ import sys
 
 _HEREDOC_OPENER = re.compile(r"(?<!<)<<(?!<)-?\s*(['\"]?)([A-Za-z_][A-Za-z0-9_]*)\1")
 WRAPPERS = ("command", "sudo", "env")
+
+# Programs that run ANOTHER program after their own options. Each entry names the options that take
+# a separate value, so the launched program is found rather than mistaken for an option's argument.
+# Without this, `timeout 30 git checkout -- foo` read as a `timeout` command and passed (2026-08-28).
+LAUNCHERS = {
+    "nohup": (),
+    "setsid": (),
+    "time": (),
+    "stdbuf": ("-i", "-o", "-e", "--input", "--output", "--error"),
+    "nice": ("-n", "--adjustment"),
+    "ionice": ("-c", "-n", "-p", "-P", "-u", "--class", "--classdata", "--pid"),
+    "timeout": ("-s", "--signal", "-k", "--kill-after"),
+    "xargs": ("-n", "-P", "-I", "-i", "-L", "-s", "-E", "-d", "-a", "--max-args", "--max-procs",
+              "--replace", "--max-lines", "--delimiter", "--arg-file"),
+    "doas": ("-u", "-C"),
+}
+
+# `timeout` takes a bare DURATION between its options and the program it runs.
+_DURATION = re.compile(r"^[\d.]+[smhd]?$")
+
+# Shell words that stand in front of a command without being one: grouping, negation, timing.
+_PREFIX_WORDS = ("!", "then", "else", "elif", "do")
+
+SHELLS = ("sh", "bash", "zsh", "dash", "ksh", "mksh", "busybox")
+
+# Interpreters whose `-c`/`-e`/`-r` argument is a whole program in another language. The hook cannot
+# read it, so inside a pipeline that already reads repository content such a stage counts as a sink.
+INLINE_PROGRAM_FLAGS = {
+    "python": ("-c",), "python2": ("-c",), "python3": ("-c",),
+    "perl": ("-e", "-E"), "ruby": ("-e"), "node": ("-e", "--eval", "-p", "--print"),
+    "php": ("-r",), "deno": ("eval",), "bun": ("-e",),
+}
+
+FIND_EXEC_FLAGS = ("-exec", "-execdir", "-ok", "-okdir")
+
+# How deep the walk follows command text carried inside command text. Three levels covers a
+# substitution inside a `-c` payload inside a `find -exec`; past that the docstring concedes the reach.
+MAX_NESTING = 3
 
 # git subcommands that print repository content on stdout.  `show` counts only in its `<rev>:<path>`
 # form, which is the one that prints a FILE out of history; `git show HEAD` prints a commit.
@@ -174,13 +226,65 @@ def _is_assignment(token):
     return bool(name) and all(c.isalnum() or c == "_" for c in name)
 
 
-def _command_tokens(segment):
-    tokens = _tokens(segment)
+def _strip_grouping(tokens):
+    """Drop the shell grouping a command can be wrapped in, so the program name is what is read.
+
+    `( git checkout -- foo )` and `{ git checkout -- foo; }` run the same command as the bare form,
+    and until 2026-08-28 both passed because the first token read as `(` or `{`. A closer on the
+    last token comes off with the opener, so `(git checkout .)` names `.` and not `.)`.
+
+    Only the two ends are touched. A bracket or a `;` in the MIDDLE of the tokens is an argument to
+    what is being run — `find … -exec grep {} \; -exec git checkout -- {} \;` needs its first `;`
+    where it stands, or the two commands it separates read as one and the second walks past.
+    """
+    opened = False
     while tokens:
-        if _is_assignment(tokens[0]):
+        head = tokens[0]
+        trimmed = head.lstrip("({")
+        if trimmed != head or head in ("(", "{"):
+            opened = True
+            tokens = ([trimmed] + tokens[1:]) if trimmed else tokens[1:]
+            continue
+        if head in _PREFIX_WORDS:
             tokens = tokens[1:]
             continue
+        break
+    if tokens and tokens[-1] in (")", "}", ";"):
+        tokens = tokens[:-1]
+    if opened and tokens:
+        tokens = tokens[:-1] + [tokens[-1].rstrip(")}")]
+    return tokens
+
+
+def _strip_launcher_options(name, tokens):
+    """Step over a launcher's own options so the program it launches is the next token."""
+    value_flags = LAUNCHERS[name]
+    while tokens:
+        token = tokens[0]
+        if token == "--":
+            return tokens[1:]
+        if token in value_flags and len(tokens) > 1:
+            tokens = tokens[2:]
+            continue
+        if token.startswith("-") and token != "-":
+            tokens = tokens[1:]
+            continue
+        break
+    if name == "timeout" and tokens and _DURATION.match(tokens[0]):
+        tokens = tokens[1:]
+    return tokens
+
+
+def _command_tokens(segment):
+    tokens = _strip_grouping(_tokens(segment))
+    while tokens:
+        if _is_assignment(tokens[0]):
+            tokens = _strip_grouping(tokens[1:])
+            continue
         wrapper = tokens[0].rsplit("/", 1)[-1]
+        if wrapper in LAUNCHERS:
+            tokens = _strip_grouping(_strip_launcher_options(wrapper, tokens[1:]))
+            continue
         if wrapper not in WRAPPERS:
             break
         tokens = tokens[1:]
@@ -216,6 +320,7 @@ def _command_tokens(segment):
                     tokens = tokens[1:]
                 else:
                     break
+        tokens = _strip_grouping(tokens)
     return tokens
 
 
@@ -234,6 +339,98 @@ def _git_args(segment):
         else:
             break
     return args
+
+
+def _substitutions(text):
+    """The command text inside every `$( … )` and back-quoted span outside single quotes.
+
+    A substitution is a command in its own right, and its output is a SOURCE for whatever encloses
+    it. `printf '%s' "$(git show HEAD:foo.py)" > foo.py` is the same loss as `git show HEAD:foo.py >
+    foo.py`, and until 2026-08-28 it passed because the enclosing command's first token was `printf`.
+    """
+    out = []
+    i = 0
+    n = len(text)
+    while i < n:
+        ch = text[i]
+        if ch == "\\":
+            i += 2
+            continue
+        if ch == "'":
+            j = text.find("'", i + 1)
+            i = n if j == -1 else j + 1
+            continue
+        if text.startswith("$(", i):
+            depth = 1
+            j = i + 2
+            while j < n and depth:
+                if text[j] == "(":
+                    depth += 1
+                elif text[j] == ")":
+                    depth -= 1
+                j += 1
+            out.append(text[i + 2:j - 1] if depth == 0 else text[i + 2:])
+            i = j
+            continue
+        if ch == "`":
+            j = text.find("`", i + 1)
+            if j == -1:
+                break
+            out.append(text[i + 1:j])
+            i = j + 1
+            continue
+        i += 1
+    return out
+
+
+def _find_exec_commands(args):
+    """The commands a `find -exec`/`-execdir`/`-ok`/`-okdir` runs on every file it matches."""
+    out = []
+    i = 0
+    while i < len(args):
+        if args[i] in FIND_EXEC_FLAGS:
+            j = i + 1
+            piece = []
+            while j < len(args) and args[j] not in (";", "+"):
+                piece.append(args[j])
+                j += 1
+            if piece:
+                out.append(" ".join(shlex.quote(p) for p in piece))
+            i = j + 1
+            continue
+        i += 1
+    return out
+
+
+def _inline_program_flags(program):
+    """The options under which `program` takes a whole program as its argument, or ()."""
+    if program in SHELLS:
+        return ("-c",)
+    return INLINE_PROGRAM_FLAGS.get(program, ())
+
+
+def _shell_payload(segment):
+    """The `-c` payload a shell in this segment was handed, or None."""
+    tokens = _command_tokens(segment)
+    if not tokens or tokens[0].rsplit("/", 1)[-1] not in SHELLS:
+        return None
+    args = tokens[1:]
+    for index, arg in enumerate(args):
+        if arg == "-c" and index + 1 < len(args):
+            return args[index + 1]
+    return None
+
+
+def _nested_command_texts(segment):
+    """Command text this segment carries inside it that a shell will run in its own right."""
+    out = list(_substitutions(segment))
+    payload = _shell_payload(segment)
+    if payload:
+        out.append(payload)
+    tokens = _command_tokens(segment)
+    if tokens and tokens[0].rsplit("/", 1)[-1] in ("find", "gfind"):
+        out.extend(_find_exec_commands(tokens[1:]))
+    return out
 
 
 def _word_at(text, i):
@@ -319,7 +516,9 @@ def _lands_in_the_tree(target, cwd):
 
     A relative path is how a command names a file in the tree it is standing in. A `/dev/...` sink
     holds no bytes. An absolute path is this tree's only when the hook event's `cwd` places it
-    there; with no `cwd` to place it, the hook says nothing rather than guessing.
+    there. With no `cwd`, nothing places the path anywhere, and a field the event did not carry is
+    no evidence that the bytes land somewhere harmless — so the target counts as this tree and the
+    write is refused. Until 2026-08-28 a missing `cwd` passed every absolute target instead.
     """
     if not target:
         return False
@@ -329,35 +528,47 @@ def _lands_in_the_tree(target, cwd):
     if not os.path.isabs(expanded):
         return True
     if not cwd:
-        return False
+        return True
     here = os.path.normpath(cwd)
     there = os.path.normpath(expanded)
     return there == here or there.startswith(here + os.sep)
 
 
-def _reads_repository_content(segment):
+def _reads_repository_content(segment, depth=0):
     """True when this segment PRINTS repository content on stdout.
 
     `git show` counts in its `<rev>:<path>` form, which prints a file out of history; `git show
     HEAD` prints a commit and restores nothing. `git cat-file` and `git archive` print object and
-    tree content in every form they have.
+    tree content in every form they have. Command text the segment carries inside it counts too:
+    a substitution's output is the enclosing command's input.
     """
     args = _git_args(segment)
-    if not args:
+    if args:
+        sub, rest = args[0], args[1:]
+        if sub == "show":
+            if any(":" in a for a in rest if not a.startswith("-")):
+                return True
+        elif sub in ("cat-file", "archive"):
+            return True
+    if depth >= MAX_NESTING:
         return False
-    sub, rest = args[0], args[1:]
-    if sub == "show":
-        return any(":" in a for a in rest if not a.startswith("-"))
-    return sub in ("cat-file", "archive")
+    for inner in _nested_command_texts(segment):
+        for stages in _pipelines(inner):
+            if any(_reads_repository_content(stage, depth + 1) for stage in stages):
+                return True
+    return False
 
 
-def _write_target(segment, cwd):
+def _write_target(segment, cwd, depth=0):
     """The tree path this segment lands bytes on, or None.
 
-    Two ways a stage writes a file: a truncating redirection, and a program that reads stdin and
-    writes it out to a path. The second set is the stdin-consuming writers a pipeline realistically
-    ends in — `tee`, `dd of=`, `sponge`, and a `tar` told to extract, which unpacks into whatever
-    directory it is pointed at.
+    Three ways a stage writes a file. A truncating redirection. A program that reads stdin and
+    writes it out to a path — the stdin-consuming writers a pipeline realistically ends in, `tee`,
+    `dd of=`, `sponge`, and a `tar` told to extract, which unpacks into whatever directory it is
+    pointed at. And a program handed a whole program of its own: a shell `-c` payload is read the
+    same way this segment was, and an inline program in another language is unreadable, so it is
+    named as landing on the tree rather than passed as innocent. That last case only ever comes up
+    inside a pipeline that already reads repository content, which is the caller's own gate.
     """
     for target in _truncating_redirect_targets(segment):
         if _lands_in_the_tree(target, cwd):
@@ -367,6 +578,16 @@ def _write_target(segment, cwd):
         return None
     program = tokens[0].rsplit("/", 1)[-1]
     args = tokens[1:]
+    if depth < MAX_NESTING:
+        payload = _shell_payload(segment)
+        if payload is not None:
+            for stages in _pipelines(payload):
+                for stage in stages:
+                    target = _write_target(stage, cwd, depth + 1)
+                    if target:
+                        return target
+        elif any(a in _inline_program_flags(program) for a in args):
+            return WORKING_TREE
     candidates = []
     if program in ("tee", "sponge"):
         candidates = [a for a in args if not a.startswith("-")]
@@ -440,7 +661,13 @@ def matched_form(segment):
     return None
 
 
-def find_forbidden(command, cwd=None):
+def find_forbidden(command, cwd=None, depth=0):
+    """The segment to name in the refusal and the forbidden form it carries, or (None, None).
+
+    Command text nested inside a segment — a substitution, a shell `-c` payload, the command a
+    `find -exec` runs — is walked with the same eye. The refusal names the OUTER segment, the text
+    the caller actually typed, and the form it names is the one found inside.
+    """
     for stages in _pipelines(command):
         for segment in stages:
             form = matched_form(segment)
@@ -449,6 +676,12 @@ def find_forbidden(command, cwd=None):
         form = assembled_form(stages, cwd)
         if form:
             return " | ".join(stages), form
+        if depth < MAX_NESTING:
+            for segment in stages:
+                for inner in _nested_command_texts(segment):
+                    _, inner_form = find_forbidden(inner, cwd, depth + 1)
+                    if inner_form:
+                        return segment, inner_form
     return None, None
 
 
