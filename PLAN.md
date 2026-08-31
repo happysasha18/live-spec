@@ -516,7 +516,7 @@ the chain's shape by hand, which is where a project picks up the few checks that
 anywhere.
 
 
-### ⬜ You're warned before anything can trigger a security popup — id: q-581
+### ✅ You're warned before anything can trigger a security popup — id: q-581
 **Group:** Worker & data safety · **Priority:** normal
 **Source:** deposit 2026-08-07 — the owner was interrupted twice in one session and said he always presses Deny.
 **Absorbed 28.08:** q-542, the leftover test server that kept raising the same dialog — the instance of this class, not a second task. Full text: `docs/queue-archive/rotated-PLAN-2026-08-28-folded-rows.md`. Checked 28.08: nothing in the tree reaps a stale local server or warns before an action can raise one of these dialogs.
@@ -526,6 +526,15 @@ rule that governs them, so adding a command adds a case. A test hands a session 
 list and reds unless the warning goes out before the command runs. `grep` finds the rule stated once
 and nowhere twice. The two neighbouring asks from the same day — helping him stay focused, and
 showing early progress on long builds — now sit under the live board row, q-166.
+
+**Done 01.09.** `hooks/dialog-warning-guard.py` — a `PreToolUse(Bash)` hook naming
+`KNOWN_DIALOG_COMMANDS` (a keychain read, an unrecognized-binary launch, a server bound to every
+interface) beside the one rule governing them, stated once in the module's own docstring. A
+matching command gets `permissionDecision: "ask"` before it runs; anything else, or malformed
+input, passes through untouched. `tests/test_dialog_warning_guard.py` (13 tests) hands the guard
+each listed command and asserts the warning fires, plus an ordinary command passing clean and the
+rule's own `grep`-once check. No stale-server reaper, no general registry — the flat list this
+row's narrowed acceptance asked for.
 
 
 ### ✅ A worker's cleanup step never erases unsaved work — id: q-586
