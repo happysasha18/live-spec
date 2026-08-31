@@ -235,7 +235,7 @@ satisfies, so it could have read green over a host still on an old release. The 
 2.7.0 against this project's 6.0.0, and the session's own opening report already says so.)
 
 
-### ⬜ A new project stops being handed the queue this one retired — id: q-801
+### ✅ A new project stops being handed the queue this one retired — id: q-801
 **Group:** Method · **Priority:** normal
 **Source:** the 28.08 cull retired this project's own wish queue to the attic; the method that
 teaches a new project still hands it one. Raised as a §Blockers finding on 28.08 and put on the
@@ -259,6 +259,19 @@ when the pack stops describing it.
 names a queue file as the place a wish lands, `templates/ROADMAP.template.md` either states what a
 host's queue is for in its own right or is retired with its manifest line, the VERSION bump and the
 `MIGRATION.md` entry both name the change, and the whole suite runs green.
+
+**Done, landed 31.08 as release 6.1.0.** The two questions were answered before the rewording: a
+project joining today starts on one list from its first day, and a project that already keeps a
+separate queue file keeps it and is asked to merge nothing. Both answers are written where a reader
+meets them — the joining walk, the founding walk, and the migration note.
+
+`templates/ROADMAP.template.md` retired to the attic under its manifest line, and
+`templates/PLAN.template.md` takes its place carrying the same row shape, status vocabulary and
+live-body law under the one-list framing. Eleven files that named a queue file as the place a wish
+lands were repointed: the spec-author, design-reviewer, director, live-spec-base, product-prover-pack
+and publish skills with their glossaries and word lists, the joining walk, the founding walk, the
+adoption guide, and the founding test scaffold. `VERSION` moved 6.0.0 → 6.1.0, every skill stamp
+followed it, and `MIGRATION.md` carries the 6.1.0 chapter saying a host owes nothing.
 
 ### 👁️ The playbook repo earns its keep or gets folded away — id: q-800
 **Group:** Cross-project · **Priority:** normal
@@ -457,7 +470,7 @@ wrote it, and a test seeds a wrapped entry and proves only one stays. This row n
 its own, so the mark is computed rather than typed.
 
 
-### ⬜ A project's starting state is saved the moment it joins — id: q-55
+### ✅ A project's starting state is saved the moment it joins — id: q-55
 **Group:** Onboarding & founding · **Priority:** normal
 **Source:** restored 27.08 — struck by that morning's provenance purge, then found to be the only owner of five promises the spec still makes (E-6, E-7, E-10, A-6, INV-17).
 
@@ -472,6 +485,20 @@ reinvents it and each one can forget.
 without anyone asking for it, and `git -C <that project> diff <the joining commit> --stat` prints
 how the project has changed since. A test walks the joining step over a throwaway tree and reds when
 that commit is missing.
+
+**Done, landed 31.08, narrowed first.** A hostile read of the original wording found its stated
+ground false — it cited spec promises that turned out not to say what it claimed — so the row was
+cut back to the one case that is real: a project with nothing in version control loses its starting
+state the moment the method writes its first file. `adopt/record-starting-state.sh` closes that. Run
+from the joining project's own root, it makes the project a repository and commits its files exactly
+as they were found, before any file of this method's lands. A project that already carries history
+is left alone, and running the step twice changes nothing the first run did. It is step two of the
+joining walk's opening phase, so nobody has to remember it.
+
+The test walks a throwaway tree four ways: the files as found are committed, a change made afterwards
+shows up in the diff against that commit, all three of those fail when the step is skipped, and a
+project with its own history gains no commit. What was cut and stays cut is the framework the
+original wording implied around it.
 
 ### ✅ A safety check that only runs here now ships everywhere — id: q-567
 **Group:** Portability · **Priority:** normal
@@ -1358,6 +1385,24 @@ when the two diverge. The script refuses a lane past the cap its profile declare
 when it lets one through. `grep` finds the merge step described the same way in the law and in the
 script. Then two independent tasks run side by side for real and their branches merge with no repair
 by hand.
+
+**Checked 31.08 against a proposal to close this as already answered, and it stays open.** Three of
+the four things this row asks for do hold, each with its own evidence. The cap is enforced and a
+test reds when a lane opens past it. The landing step — rebase onto main's tip, then the gate, then
+fast-forward — is written the same way in the law and in the script, and the phrase is findable in
+both. And work running side by side for real is now proven many times over rather than argued: this
+night alone, three separate lanes built `q-531`, `q-801` and `q-55` in three isolated trees, two
+commits, six commits and one commit, and all three merged into the list with nothing resolved by
+hand, which is only the last of a dozen such merges since 28.08.
+
+What does not hold is the first thing the row asks for. It wants opening a lane by the script and
+opening one by hand from the written law to be proved to end in the same place, with a check that
+goes red the day they drift apart. No such check exists. What exists is a proof that the script
+performs the act correctly and a separate proof that the documents point at the script — neither of
+which would notice the two descriptions parting company. Both descriptions are still live: the
+rulebook states the three steps in its own words beside the script that performs them. So the drift
+this asks to be protected from is possible today and nothing would catch it. The row keeps this one
+leg and nothing else; the other three are closed above.
 
 
 ### 👁️ The front page is rewritten to be fully accurate — id: q-501
