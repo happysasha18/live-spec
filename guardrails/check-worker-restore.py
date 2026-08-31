@@ -162,6 +162,30 @@ health checks the installed bytes against this repository. The transcript check 
 the static hook states its escapes, a host may not have installed it yet, and a refused attempt is
 still a finding under the worker rule.
 
+THE WAY OUT. A transcript stays on disk, so a finding made from one is true forever, and until
+2026-08-31 a finished recovery cleared nothing: the census arm refused every push until its reading
+window rolled past the incident, or until somebody moved the counting start by hand. The census arm
+now asks the repository the command ran in whether the work is back, and carries a finding it answers
+YES to as MADE GOOD — counted and named in the report, reddening nothing. What counts as made good
+is stated once, in SPEC Requirement 301 (INV-299), and this paragraph describes the reading rather
+than restating the law. The question is put fresh on every run, so nothing on disk records that a
+finding was cleared and no reader has to trust such a record: the answer flips the moment the commit
+exists and would flip back if that commit ever left the history.
+
+Three cases can never be answered YES, and each of them keeps reddening as it always did. A command
+whose blast radius names no single file (`git reset --hard`, a bare `git stash`, `git clean -fd
+<dir>`, `git checkout -- .`) discards an unbounded set, and no commit shows an unbounded set is back.
+A finding the gate could not place in a repository on disk has nowhere to put the question. A record
+carrying no timestamp cannot say which commits came after it. The verify arm (`--run`) asks the
+question at all: the run being accepted stays red however the tree moves afterwards, because
+recovery earns a fresh brief and a fresh run, and that run earns its own verdict.
+
+What the answer proves is bounded, and the wording above is the bound: the named path is saved in
+history again, later than the command. It does not prove the exact bytes that were discarded came
+back, and nothing a repository holds could prove that. It is the census arm alone that reads it —
+the arm that blocks pushes long after the bytes are gone — so an over-generous reading costs a
+forensic notice, never an acceptance.
+
 THE COUNTING START. This machine's transcripts hold worker runs from before the gate existed, and 81
 of them carry a discarding command. A gate that reds on that history would be turned off on its first
 run, so the gate carries a start date (COUNTING_FROM below, `--counting-from`, or
@@ -1114,6 +1138,107 @@ def is_history(finding, counting_from):
     return _normalize_stamp(at) < _normalize_stamp(counting_from)
 
 
+def _named_files(finding):
+    """The files this finding's command named, or None when its blast radius names no single file.
+
+    None is the answer for every case SPEC Requirement 301 puts outside the way out: the whole
+    working tree (`git reset --hard`, a bare `git stash`), a directory or `.` (`git clean -fd src`,
+    `git checkout -- .`), an argument that is a revision rather than a path (`git checkout HEAD
+    <path>` names `HEAD` too, and no commit touches it), and a command the gate could not place in a
+    directory that exists on disk right now. Each of those discards a set no commit can show is
+    back, so each keeps reddening exactly as it did before this reading existed.
+    """
+    directory = finding.get("effective_dir")
+    if not directory or not os.path.isdir(directory):
+        return None
+    paths = finding.get("paths") or []
+    if not paths or WHOLE_TREE in paths:
+        return None
+    for p in paths:
+        if not p or p.startswith("-"):
+            return None
+        full = os.path.normpath(os.path.join(directory, os.path.expanduser(p)))
+        if os.path.isdir(full):
+            return None
+    return list(paths)
+
+
+def repair_commit(finding):
+    """The commit that made this finding good, or None when the tree does not show the work back.
+
+    The question SPEC Requirement 301 states, put to the repository the command ran in: does every
+    file the command named carry a commit dated later than the command? A YES means the work at
+    those paths is saved in that repository's history again. The answer is computed fresh on every
+    run and nothing on disk holds it, so it flips the moment such a commit exists and would flip
+    back if the commit ever left the history.
+
+    The record's own stamp is the boundary, normalized to the second the way `is_history` normalizes
+    it and marked UTC, which is the zone the harness writes its timestamps in. Every way of getting
+    no answer — an unstamped record, an unreadable repository, a git that fails or does not return —
+    returns None and leaves the finding red, the same fail-safe side `_git_common_dir` takes.
+    """
+    at = finding.get("at") or ""
+    if len(at) < 10 or not at[:4].isdigit():
+        return None
+    files = _named_files(finding)
+    if not files:
+        return None
+    directory = finding["effective_dir"]
+    since = _normalize_stamp(at) + "Z"
+    newest = None
+    for path in files:
+        try:
+            # The same 30-second bound, for the same reason, as the `git rev-parse` in
+            # `_git_common_dir`: on expiry the SubprocessError below returns None, the finding stays
+            # red, and this deadline can never turn a real finding into a pass.
+            proc = subprocess.run(
+                ["git", "-C", directory, "log", "-1", "--format=%H", "--after=" + since,
+                 "--", path],
+                capture_output=True, text=True, timeout=30)
+        except (OSError, subprocess.SubprocessError):
+            return None
+        if proc.returncode != 0:
+            return None
+        commit = proc.stdout.strip().splitlines()
+        if not commit or not commit[0]:
+            return None
+        newest = commit[0]
+    return newest
+
+
+def repaired_line(f):
+    """The sentence a made-good finding carries in the report, naming what put it right."""
+    return ("%s handed a shell `%s`, and commit %s in %s is dated later than that command — the "
+            "work at %s is saved in that repository's history again, so the finding is MADE GOOD "
+            "and reds nothing (SPEC INV-299)."
+            % (f["agent"], f["command"], f["repaired_by"][:12], f.get("effective_dir"),
+               ", ".join(f["paths"])))
+
+
+def print_repaired(repaired):
+    """The made-good findings, under their own heading. A cleared finding is never dropped in
+    silence: the report keeps the command, the run and the commit that answered for it, so a reader
+    can check the answer for themselves."""
+    if not repaired:
+        return
+    print()
+    print("MADE GOOD — the tree shows the work back, so these red nothing (SPEC INV-299):")
+    for f in repaired:
+        print("  %s: %s" % (CHECK, repaired_line(f)))
+        print("      run     : %s" % f["run"])
+        print("      session : %s   ran in: %s   at: %s"
+              % (f["session"], f.get("effective_dir"), f["at"]))
+
+
+def repaired_phrase(count):
+    """The made-good tally, for the verdict line's reach sentence."""
+    if not count:
+        return "no finding on this root is made good by a later commit"
+    if count == 1:
+        return "1 finding is made good by a later commit and reds nothing"
+    return "%d findings are made good by a later commit and red nothing" % count
+
+
 def finding_line(f):
     """The finding's own sentence, saying what the command was and what the shell did with it.
 
@@ -1320,14 +1445,23 @@ def main(argv=None):
     # A neighbouring project's session reds nothing here; its findings print below as notices, so
     # the catch survives the narrowing (ROADMAP row 598, and the docstring's WHOSE SESSIONS section).
     neighbours = [] if exact_run else [f for f in findings if not f.get("own", True)]
-    history, current = [], []
+    history, repaired, current = [], [], []
     for f in findings:
         if not exact_run and not f.get("own", True):
             continue
         if exact_run:
+            # The verify arm asks the way-out question at all: the run being accepted stays red
+            # however the tree moves afterwards (SPEC Requirement 301, criterion 25).
             current.append(f)
+        elif is_history(f, counting_from):
+            history.append(f)
         else:
-            (history if is_history(f, counting_from) else current).append(f)
+            commit = repair_commit(f)
+            if commit:
+                f["repaired_by"] = commit
+                repaired.append(f)
+            else:
+                current.append(f)
 
     if current:
         # Most urgent first: executed, then unanswered, then declined. Python's sort is stable, so
@@ -1361,9 +1495,11 @@ def main(argv=None):
                   "applies. The verdict covers this exact worker run wherever it ran."
                   % (window, root, commands_read, "" if commands_read == 1 else "s"))
         else:
-            print("Reach: %s under %s, %d command line%s read; %s. %s"
+            print("Reach: %s under %s, %d command line%s read; %s, and %s. %s"
                   % (window, root, commands_read, "" if commands_read == 1 else "s",
-                     history_phrase(len(history), counting_from), scope_phrase(neighbours)))
+                     history_phrase(len(history), counting_from), repaired_phrase(len(repaired)),
+                     scope_phrase(neighbours)))
+        print_repaired(repaired)
         print_neighbours(neighbours)
         first = current[0]
         counts = outcome_counts(current)
@@ -1387,21 +1523,28 @@ def main(argv=None):
               % (CHECK, root, commands_read, "" if commands_read == 1 else "s"))
         return 0
 
-    print("OK (%s): no worker run handed a shell a discarding command since %s. Read %s under %s — the "
+    opening = ("no worker run handed a shell a discarding command since %s" % counting_from
+               if not repaired else
+               "every worker run that handed a shell a discarding command since %s is made good — "
+               "the tree carries the work at every path those commands named, saved later than the "
+               "command itself (SPEC INV-299)" % counting_from)
+    print("OK (%s): %s. Read %s under %s — the "
           "files matching %s, one per worker run — taking every assistant record's Bash tool_use command "
           "field (%d command line%s) and reading each git invocation's subcommand and flags for "
           "git checkout -- and git checkout ., git restore outside --staged, git stash and its push, "
           "save, create and store forms, git reset with --hard, --merge or --keep, and git clean with "
           "-f or -x. Report prose is outside the reach: only a command handed to a shell counts, and a "
           "command that reached one is a finding whether the shell ran it or the harness declined it — "
-          "each finding says which, read from the tool_result that repeats the call's tool_use id. %s "
-          "%s (ROADMAP row 479)."
-          % (CHECK, counting_from, window, root, RUN_GLOB, commands_read,
+          "each finding says which, read from the tool_result that repeats the call's tool_use id. "
+          "%s. %s. %s (ROADMAP row 479)."
+          % (CHECK, opening, window, root, RUN_GLOB, commands_read,
              "" if commands_read == 1 else "s",
              _open_sentence(history_phrase(len(history), counting_from)),
+             _open_sentence(repaired_phrase(len(repaired))),
              scope_phrase(neighbours)))
     if history:
         print("Outcomes across the history: %s." % outcome_tally(history))
+    print_repaired(repaired)
     print_neighbours(neighbours)
     return 0
 

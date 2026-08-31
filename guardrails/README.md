@@ -296,6 +296,15 @@ this machine, with the date each one carries. A finding stamped before the count
 as history: every verdict line counts it and it reds nothing. A finding stamped on or after that date
 reds, and so does a finding whose record carries no timestamp, since the gate cannot place it.
 
+A finding also stops reddening once the tree shows the work back. What counts as made good is stated
+once, in `spec/guardrails-freshness.md` Requirement 301: every file the command named carries, in the
+repository that command ran in, a commit dated later than the command. The census arm asks that of git
+on every run and keeps a made-good finding named in its report beside the commit that answered for it,
+so nothing on disk records a clearing and no reader has to trust such a record. Three shapes can never
+be made good — a command that names no single file, one the gate could not place in a repository, and
+a record with no timestamp — and the verify arm (`--run`) asks the question at all: a red worker run
+stays red for acceptance, and recovery earns a fresh brief and a fresh run.
+
 ## How a host project adapts the pattern
 
 **The ratchet gates (style lint · redundancy · freeze) install themselves in one pass:** run
