@@ -112,6 +112,11 @@ sys.exit(1 if undrawn or unmarked else 0)
     # q-458: the audit is its own external skill, installed, with this pack's binding and the lints
     # it declares per text surface.
     "q-458": 'test -d "$HOME/.claude/skills/text-audit" && test -f skills/text-audit-pack/SKILL.md && test -f .text-audit/lints.json',
+    # q-531: the command stands and both directions run for real — a legitimate split prints an
+    # empty difference, and each thing dropped on purpose prints and reds. The two fixture classes
+    # are executed rather than grepped for (0.5s); the two real splits they sit beside read 800 KB
+    # out of git history and stay in the suite.
+    "q-531": "test -f scripts/nothing-lost.py && python3 tests/test_nothing_lost.py TestALegitimateSplitPrintsNothing TestADroppedThingReds > /dev/null 2>&1",
     # q-537: both halves. The installed-vs-working comparison runs clean, the hook installer refuses
     # a registration already present, and the test that proves it is still there.
     "q-537": "bash guardrails/check-config-health.sh >/dev/null 2>&1 && grep -q 'already wired' scripts/install-session-hooks.sh && grep -q 'test_a_meter_wrapped_existing_entry_is_recognized_not_duplicated' tests/test_install_session_hooks.py",
