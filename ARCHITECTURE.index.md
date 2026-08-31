@@ -59,6 +59,8 @@
 | E-33 | spec-author |
 | E-34 | parallel-lanes |
 | E-35 | base-rulebook |
+| E-36 | director |
+| E-37 | director |
 | INV-1 | build-pipeline |
 | INV-2 | parallel-lanes |
 | INV-3 | build-pipeline |
@@ -369,6 +371,14 @@
 | INV-313 | work-board |
 | INV-314 | communicator |
 | INV-315 | guardrails |
+| INV-316 | director |
+| INV-317 | director |
+| INV-318 | director |
+| INV-319 | director |
+| INV-320 | director |
+| INV-321 | spec-author |
+| INV-322 | guardrails |
+| INV-323 | guardrails |
 | M-1 | build-pipeline |
 | M-2 | base-rulebook |
 | M-3 | package-docs |

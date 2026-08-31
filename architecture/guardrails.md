@@ -33,6 +33,7 @@
 - INV-243
 - INV-250..INV-265 (the requirements-format laws and their format-gate family, armed at the row-445 conversion delivery)
 - INV-269 (`gatelib`-shaped reach lines asserted in each gate's own tests)
+- INV-322, INV-323 (the parts map's own two laws, read by `guardrails/specformat.py` and armed in the three reference gates of the format family: every file among a document's parts is named by its map, and one requirement number is opened once. The drift and orphan-code faults beside them cannot see either — an unnamed part reaches neither the assembled body nor the committed table, and a repeated number leaves both agreeing while one printed location names two places)
 - INV-270 (the suite-riding armed tests are the record)
 - INV-271
 - INV-272 (ROADMAP 477)

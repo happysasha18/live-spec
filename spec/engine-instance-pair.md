@@ -1,4 +1,4 @@
-## Requirement 187: Running an engine and its instance as a pair  [feature: F-pair]
+## Requirement 187: Running an engine and its instance as a pair  [feature: F-attach]
 
 **Context:** When founding takes the engine-and-instance split, the two repos run as a pair. Each repo is a full host with its own spec, queue, journal, and settings folder. No third document spans the pair. A lesson crosses between the two only through the inbox.
 

@@ -1,4 +1,4 @@
-## Requirement 180: The catch-up sequence brings an adopted host onto the current pack  [feature: F-catchup]
+## Requirement 180: The catch-up sequence brings an adopted host onto the current pack  [feature: F-attach]
 
 **Context:** An already-adopted host falls behind the pack as the pack moves. The catch-up sequence brings the host's documents and records onto the current pack. The owner asks in any wording; the version delta decides that catch-up fires, whatever words the ask used. The sequence runs four phases in fixed order.
 

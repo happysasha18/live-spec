@@ -1,4 +1,4 @@
-## Requirement 194: A published contract is read on the reader's own clock  [feature: F-contract]
+## Requirement 194: A published contract is read on the reader's own clock
 
 **Context:** A consumer agent arrives here from the scan holding a producer's card and the path its artifact lives at. A published contract is a surface in the producer's own spec, paired with a machine-readable artifact carrying its own version and generation stamp. The consumer reads it read-only on its own clock, and data past its staleness bound stops the analysis.
 

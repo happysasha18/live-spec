@@ -1,4 +1,4 @@
-## Requirement 177: Adoption runs as an ordered set of phases  [feature: F-adoption]
+## Requirement 177: Adoption runs as an ordered set of phases  [feature: F-attach]
 
 **Context:** Adoption attaches the pack to a project already under way. It runs as a sequence where each phase finishes before the next starts, and it assumes no blank slate. The version-control gate runs first so the whole run stays reversible.
 

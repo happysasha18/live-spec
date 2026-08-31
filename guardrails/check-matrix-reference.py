@@ -1,13 +1,12 @@
 #!/usr/bin/env python3
-"""check-matrix-reference.py — the generated matrix-Reference gate (SPEC INV-273, INV-269).
+"""check-matrix-reference.py — the generated matrix-Reference gate (SPEC INV-273, INV-269, INV-322).
 
-UNARMED until the row-477 conversion delivery converts TEST_MATRIX.md to the format-family member and
-splices in the generated Reference table; it arms in that same delivery (INV-272). The matrix and the
-committed Reference are named on the command line, the sibling shape of the generated-index gate
-(`guardrails/check-index-generated.py`).
+Gate d. The matrix and the committed Reference are named on the command line, the sibling shape of
+the generated-index gate (`guardrails/check-index-generated.py`).
 
 THE LAW: the matrix's Reference maps each spec anchor to the matrix rows covering it, built from the
-body rows at freeze and output only (INV-273). This gate holds three faults:
+body rows at freeze and output only (INV-273). This gate holds four faults, the last of them the
+format family's shared map law (INV-322):
 
   - DRIFT: the committed Reference differs from a fresh build off the current body — a hand edit, or a
     body that moved without a rebuild. Reds, since the Reference is not hand-kept.
@@ -15,6 +14,8 @@ body rows at freeze and output only (INV-273). This gate holds three faults:
     Reference. Reds, naming the anchor.
   - REFERENCE HAS AN ANCHOR NO BODY ROW CARRIES: an anchor in the committed Reference carried by no
     body row — an empty home. Reds, naming the anchor.
+  - A PART THE MAP NAMES NOWHERE: a `.md` file sitting among the parts the core's map lists that no
+    row of that map names. Reds, naming the file.
 
 It declares its expected-non-empty input with the shared guard (INV-218): a body that parses to zero
 converted rows reds by name rather than passing over nothing.
@@ -93,6 +94,15 @@ def main(argv):
     if orphan:
         problems.append("%d requirement(s) listed in the summary table aren't covered by any row in "
                         "the body — an empty entry (INV-273): %s" % (len(orphan), ", ".join(orphan)))
+    # INV-322, the format family's map law: a part file sitting among the named parts that the map
+    # names nowhere. The three faults above read the assembled text, which an unnamed part never
+    # reaches, so they agree with each other about a document short of what the tree holds.
+    unnamed = sf.unnamed_parts(doc_paths[0])
+    if unnamed:
+        problems.append("%d file(s) sit among the document's parts and the parts map names none of "
+                        "them, so nothing reads them (INV-322): %s — add a row for each to the "
+                        "`## Parts map` table, or move the file out of the parts directory."
+                        % (len(unnamed), ", ".join(unnamed)))
 
     if problems:
         print("FAIL (matrix reference): the test matrix's summary table no longer matches its own body "

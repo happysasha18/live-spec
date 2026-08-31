@@ -3,6 +3,7 @@
 Every file that left active use rests here with one line saying what it was (SPEC INV-7, A-4,
 base rule 10). Nothing here was deleted; a file that turns out to be needed is moved back.
 
+- the feature names `F-contract`, `F-work-board`, `F-bootstrap`, `F-adoption`, `F-catchup`, `F-pair` and `F-onboarding` -> `attic/feature-names-retired-2026-08-31.md` * two names stood on requirements the spec itself marks promised, and five were five names for attaching the pack to a project; the requirements all stand, and each name returns when the thing it names is something a person can be given * 2026-08-31
 - `guardrails/check-push-review.sh` -> `attic/check-push-review.sh` * the second review-record gate a push once ran; its arms now stand inside `guardrails/check-prover-record.sh`, which reads the one record a push carries * 2026-08-11
 - `ARCHITECTURE.html` -> `attic/ARCHITECTURE.html` * a rendered page whose reading is over * 2026-07-27
 - `PRODUCT_SPEC.html` -> `attic/PRODUCT_SPEC.html` * a rendered page whose reading is over * 2026-07-27

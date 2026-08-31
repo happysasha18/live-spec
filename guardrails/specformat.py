@@ -39,6 +39,12 @@ module ships in: `spec_paths(["PRODUCT_SPEC.md"])` returns exactly `["PRODUCT_SP
 map exists. Readers call `read_document(paths)` rather than opening a path themselves, and the gates
 take a list of paths on the command line so a caller can name core and parts explicitly.
 
+Two laws hold the map honest, and this module reads both for the gates that arm them. The map names
+every part: a `.md` file sitting among the named parts that no row names is an orphan nobody reads
+(`unnamed_parts`, SPEC INV-322). And one requirement number names one requirement across the whole
+document, so a citation and a generated `R4.1` location resolve to one place
+(`repeated_requirement_numbers`, SPEC INV-323).
+
 Stdlib only.
 """
 import os
@@ -374,6 +380,72 @@ def parts_map(text):
         if m and m.group(0) not in parts:
             parts.append(m.group(0))
     return parts
+
+
+def unnamed_parts(core_path, root=None):
+    """The `.md` files that sit among a core's parts and that the core's map names nowhere.
+
+    A document written as a core plus parts IS the files the map lists, and nothing else. Drop a
+    part file beside the named ones without adding its row, and no reader ever opens it: its
+    requirements stand outside every aggregate the gates build, and the document is silently short
+    of what the tree holds. The index gate's existing orphan-code fault does not see this one — a
+    brand-new part carries codes that are in neither the assembled body nor the committed table, so
+    the two agree about a document with a hole in it.
+
+    The scan reaches only the directories the map itself draws parts from, and never the core's own
+    directory: a core sits beside the whole repository's other documents, and those are nobody's
+    parts. A core with no map is the whole document, so it has no parts directory and this returns
+    nothing.
+
+    Paths come back relative to the core's directory, in sorted order, spelled the way a map row
+    would spell them."""
+    try:
+        with open(core_path, encoding="utf-8") as f:
+            text = f.read()
+    except (OSError, UnicodeDecodeError):
+        return []
+    parts = parts_map(text)
+    if not parts:
+        return []
+    base = root if root is not None else os.path.dirname(os.path.abspath(core_path))
+    named = set()
+    directories = set()
+    for p in parts:
+        full = os.path.join(base, p)
+        named.add(os.path.realpath(full))
+        directories.add(os.path.dirname(os.path.realpath(full)))
+    directories.discard(os.path.dirname(os.path.realpath(core_path)))
+    # The names come back relative to the core's own directory, resolved the same way the entries
+    # are: a tree reached through a symlink (`/var` standing for `/private/var` on a Mac) would
+    # otherwise spell one file two ways and the relative name would climb out of the tree.
+    real_base = os.path.realpath(base)
+    orphans = set()
+    for d in directories:
+        try:
+            entries = os.listdir(d)
+        except OSError:
+            continue
+        for name in entries:
+            if not name.endswith(".md"):
+                continue
+            full = os.path.realpath(os.path.join(d, name))
+            if full in named:
+                continue
+            orphans.add(os.path.relpath(full, real_base))
+    return sorted(orphans)
+
+
+def repeated_requirement_numbers(doc):
+    """`{number: [line numbers]}` for every requirement number more than one requirement claims.
+
+    A requirement number is how a reader, a criterion anchor and the generated code-to-location
+    table all name one place. Let two parts open `## Requirement 4:` and that one name points at two
+    different rules, and the table's `R4.1` stops resolving to a single criterion. Empty when every
+    number is claimed once, which is what the whole document holds today."""
+    seen = {}
+    for r in doc.requirements:
+        seen.setdefault(r.number, []).append(r.line_no)
+    return {n: lines for n, lines in seen.items() if len(lines) > 1}
 
 
 def spec_paths(paths, root=None):

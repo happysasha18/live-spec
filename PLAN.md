@@ -723,6 +723,33 @@ has one.
 architecture's coverage table agree, proved by a check · a spec file dropped outside the parts map
 reddens a gate · two parts defining one requirement number redden a gate.
 
+**What landed, 31.08.** All four acceptance legs are met and the command that proves them runs
+green at every session start. Director has its requirement and its node, and both say plainly what
+stands behind each thing they promise: a command that runs, an instruction a session follows, a page
+drawn when somebody asks, or nothing yet. That last one is the rule the whole task turned on — a rule
+that reads the same whichever of the four is true tells you the product is stronger than it is. The
+seventeen feature names became ten. Two stood on surfaces nobody has built and went to the attic; one
+of them had been reading as covered by borrowing another feature's test. Five names for attaching the
+pack to a project became one. Two the plan had counted as fictions kept their names and had their
+requirements repaired instead, because both name something real once the requirement stops
+overstating: the wish row had ordered every voiced wish into the queue the moment it was spoken, which
+is the opposite of what the reading allows, and the product map had called nine percent of the spec
+the whole product. A name standing on an unbuilt surface now reddens by itself. The rules for writing
+the spec across several files are written where the format is defined, and two holes a person could
+fall into today became gate faults with red proofs: a file dropped beside the parts that the map names
+nowhere, and two parts opening one requirement number. Both were confirmed as real holes first, by
+dropping each into a copy of the tree and watching every check pass over it.
+
+**Two things keep this row open, and both are yours to settle in a line.** First, q-437 — checking
+for similar cases at every level — was folded into this task when the board was cut, and that work is
+untouched. The spec still promises it in its own words, marked as a later increment, and the check
+that keeps a promise honest requires an open task behind it, so ticking this row would leave that
+promise owned by nothing. Give q-437 its own line back, or drop the promise. Second, the ordering
+line the decision sheet was to gain: the ordering law itself now has a home in the spec and a node,
+read off the plan's recorded states, but the sheet's own field would change a skill file, and the
+installed copies of the skills can only be refreshed by a session working outside a worktree. Both
+are named in Blockers below.
+
 
 ### ⬜ Every project gets its own status view — id: plan-14
 **Group:** Cross-project · **Priority:** normal
@@ -1265,6 +1292,17 @@ One line per finding. Don't start a second list for them. Don't fix one without 
   The clean form is the one the profile already uses — the files live in the repository and
   `~/.claude/hooks/` holds symlinks. That edits armed hooks, which law 1 forbids while this plan
   runs, so it is written down and left alone.
+
+- **The decision sheet's own ordering line waits for a session outside a worktree. Open, 31.08.**
+  Your word of 27.08 gives the ordering to the first read: it brings work together, runs it side by
+  side, and ranks it. The law now has a home — the spec states it and the architecture gives it a
+  node, and the order itself is read off the states this page records, by command. What is still
+  missing is the line on the decision sheet itself, the one that says which open piece runs next and
+  why that one. Adding it edits a skill file, and the installed copies of the skills then differ from
+  the source until `scripts/sync-skills.sh` runs. That command writes outside the project's tree,
+  which a lane working in a worktree may not do, and running it while other windows are live would
+  change a skill under a session already reading it. It was written, the suite went red on the drift
+  by name, and it was taken back out. One session working in the main tree closes it in a minute.
 
 - **The amended bar for "queued" stands, and the twenty-one definitions stay as written. Settled
   31.08.** The rule at the top of this page lets a session move a task's status and write in this

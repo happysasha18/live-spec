@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-"""check-index-generated.py — the generated-index gate (SPEC INV-258, INV-259).
+"""check-index-generated.py — the generated-index gate (SPEC INV-258, INV-259, INV-322, INV-323).
 
-UNARMED until the spec-format conversion delivery (INV-270); the document and the committed index are
-named on the command line.
+The document and the committed index are named on the command line. It stands as gate x in
+`guardrails/pre-push` over `PRODUCT_SPEC.md` and its parts.
 
 THE LAW: the code-to-location table is generated from the body criteria at freeze and is output only
-(INV-258). This gate holds three faults:
+(INV-258). This gate holds five faults:
 
   - DRIFT (INV-258): the committed table differs from a fresh build off the current body — a hand edit,
     or a body that moved without a rebuild. Reds, since the table is not hand-kept.
@@ -13,14 +13,24 @@ THE LAW: the code-to-location table is generated from the body criteria at freez
     table. Reds, naming the code.
   - INDEX HAS A CODE THE BODY MISSES (INV-259): a code in the committed table carried by no body
     criterion — an empty home. Reds, naming the code.
+  - A PART THE MAP NAMES NOWHERE (INV-322): a `.md` file sitting among the parts the core's map
+    lists that no row of that map names. Nothing assembles it, so its requirements stand outside the
+    document while its bytes sit in the tree. The three faults above cannot see this one: a
+    brand-new part carries codes that are in neither the assembled body nor the committed table, so
+    body and table agree with each other about a document with a hole in it. Reds, naming the file.
+  - TWO REQUIREMENTS UNDER ONE NUMBER (INV-323): a requirement number opened by more than one
+    requirement. The table's own locations are written `R<requirement>.<criterion>`, so a repeated
+    number makes one location string name two different criteria and the table stops resolving.
+    Reds, naming the number and the lines that claim it.
 
 It declares its expected-non-empty input with the shared guard (INV-218): a body that parses to zero
 coded criteria reds by name rather than passing over nothing.
 
 Usage:
   check-index-generated.py <document.md> [<part.md> ...] <committed-index.md>
-Exit 0 when the committed table equals the fresh build and body and table agree (printing the reach
-line, INV-269); exit 1 naming each fault. Stdlib only.
+Exit 0 when the committed table equals the fresh build, body and table agree, the map names every
+part beside it, and each requirement number is claimed once (printing the reach line, INV-269);
+exit 1 naming each fault. Stdlib only.
 """
 import os
 import sys
@@ -80,6 +90,22 @@ def main(argv):
     if orphan:
         problems.append("%d requirement(s) listed in the summary index aren't backed by any criterion "
                         "in the body — an empty entry (INV-259): %s" % (len(orphan), ", ".join(orphan)))
+    # INV-322: a part file sitting among the named parts that the map names nowhere. The core is the
+    # first path on the command line and the map's one home, so the scan starts there.
+    unnamed = sf.unnamed_parts(doc_paths[0])
+    if unnamed:
+        problems.append("%d file(s) sit among the document's parts and the parts map names none of "
+                        "them, so nothing reads them (INV-322): %s — add a row for each to the "
+                        "`## Parts map` table, or move the file out of the parts directory."
+                        % (len(unnamed), ", ".join(unnamed)))
+    # INV-323: one requirement number, one requirement. Two claimants make one `R<n>.<k>` location
+    # in the table below name two different criteria.
+    repeated = sf.repeated_requirement_numbers(doc)
+    if repeated:
+        said = ", ".join("Requirement %d (lines %s)" % (n, ", ".join(str(l) for l in lines))
+                         for n, lines in sorted(repeated.items()))
+        problems.append("%d requirement number(s) are opened more than once, so the index's own "
+                        "locations name two places at once (INV-323): %s" % (len(repeated), said))
 
     if problems:
         print("FAIL (index generated): the document's summary index no longer matches its own body "
@@ -92,8 +118,9 @@ def main(argv):
 
     print(sf.green_reach(CHECK, doc_names + [os.path.basename(index_path)],
                          len(body), len(body),
-                         "committed index equals the fresh build; %d codes agree body-to-table"
-                         % len(body)))
+                         "committed index equals the fresh build; %d codes agree body-to-table; "
+                         "the map names all %d parts and %d requirement numbers are each claimed once"
+                         % (len(body), len(doc_paths) - 1, len(doc.requirements))))
     return 0
 
 

@@ -12,6 +12,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 ## Glossary
 
+- **act** — what a person did in one message, read as one or more of the seven kinds the first read decides between.
 - **action trace** — the ordered record of which tools the seat called during one turn, read from the tool-use events in the transcript.
 - **activity generation** — the stranger-monitor's dedupe unit: the state of a shown work's outside comments, those not the monitor's own markers; a new outside comment advances the generation, and an item surfaces at most once per generation.
 - **adoption** — attaching the pack to a project already running, run as an ordered set of phases.
@@ -38,6 +39,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 - **capture echo** — the line the sweep posts back on an item's source, naming what was heard, its route, its name, and its row.
 - **card** — one work board row rendered as a task: its echo-name, the line saying what the change does, its chips, and the details layer behind it.
 - **card scan** — the live scan that reads the agent-card files under each of its roots and treats every card it finds as an agent.
+- **carrier** — what makes a rule of this document happen, one of four: a command the machine runs, an instruction a session reads and follows, a surface drawn when somebody asks for it, or nothing yet.
 - **catch-up** — the sequence that brings an already-adopted host onto the pack's current version.
 - **catch-up walk** — the ordered set of steps a session walks to run catch-up on an adopted host.
 - **checkpoint** — a saved point of work that can be resumed from, written under `.live-spec/`. A planned-work checkpoint is one grouped unit of planned work in the resume state, carrying a status the landing that ships its items flips to closed; a worker's checkpoint is the file a worker keeps under `.live-spec/checkpoints/`, holding its resume point and touched on a fixed interval as a heartbeat.
@@ -65,6 +67,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 - **decision archive** — the directory `docs/decisions/` where a decision page is filed once its answer comes back.
 - **decision card** — one question on a decision page, opening with what each option changes for the person and carrying the recommended answer.
 - **decision page** — one surface that carries several open questions to the person together, opening in its own window while the rest of the work continues.
+- **decision sheet** — the written understanding accepted work carries before any working skill is called, held as a section of that work's own checkpoint; the requirement that owns it names the fields it holds.
 - **decision-set record** — the file `DECISIONS.md` that shows the person the decisions the pack believes the person made, each naming the exchange it came from.
 - **declared-laws home** — the one place the spec lists its cross-cutting laws, each carrying its per-surface clause or dated exemption and the net that enforces it.
 - **defect** — a prover finding where a stated invariant is violated, a spec claim is false, or a required invariant is missing; it blocks the design until it is folded.
@@ -103,6 +106,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 - **feedback-intake** — the skill that receives a handed-in item and routes it to the one home its kind owns; the intake half of the exchange, where communicator carries work out and feedback-intake carries what comes back.
 - **field evidence** — a person's reaction to a shipped feature, recorded as one feedback-ledger line that cites the feature's scenario.
 - **finding** — one recorded item a cold reader returns on a section; a note-level finding is recorded and does not stop the section.
+- **first read** — the reading of a person's message that decides which acts it carries, done before anything answers it or changes a file.
 - **fit walk** — the intake interrogation of how a feature sits in the person's path, scaled to the wish's kind.
 - **founding** — the start of a fresh host, where the shaping questions are answered in the new spec's opening and the templates are copied in.
 - **founding-question set** — the versioned set of questions founding asks a host. It grows as the pack learns what a founding host owes; a host records which version it answered.
@@ -121,6 +125,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 - **host** — one project the pack attaches to. Each host holds its own spec, queue, journal, and `.live-spec/` folder.
 - **input-capability axis** — the composition axis for the input a surface is used through, such as touch or a fine pointer. Its values are the input capabilities a device carries, which co-occur on one machine.
 - **installer** — the pack's one install script (`install.sh`). It copies the pack's skills onto a machine and backs up any existing copy first.
+- **idea shelf** — the home an idea named without being asked for is kept in, holding the person's own wording with no identifier, no priority, and no estimate.
 - **instance** — in an engine-and-instance pair, the concrete product a real person uses today. It holds the content and plugs into the engine.
 - **intake** — the pipeline's first station, where a wish already captured as a queue row is classified: the classifier reads its size, priority, door, and work-kind and states them back in one line.
 - **judge** — the named actor a criterion states as deciding one of its evaluative phrases.
@@ -166,6 +171,8 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 - **orient** — adoption's opening phase, in which the system reads every existing document before touching anything and answers the founding questions about what it found; its digest and inventory land in `.live-spec/adopt/`.
 - **outbox** — the gitignored per-host directory `outbox/` that holds an upstream note until the person delivers it; it never rides a push.
 - **pack** — the shipped live-spec method: its skills, its document and suite templates, and its guardrail scripts. It carries a version.
+- **part** — one file of a document's body, standing beside the other parts and read only because the core's parts map names it.
+- **parts map** — the table in a document's core naming its part files in the order they are read; the core is that order's one home, and a document whose map is empty is the core file alone.
 - **pen** — the single write-lock a repository holds, under which one delivery reaches the repository's shared truth at a time.
 - **pen-stage** — one span in which a lane holds the pen for one indivisible piece of shared-truth work, from taking the pen to its landing, never cut mid-edit.
 - **personal profile** — the human's own settings file on the machine, holding their languages, how to address them, what they do, and their own vocabulary. The intake glossary's *profile* is the host's own project settings; this is the machine-wide file the person owns.
@@ -274,6 +281,8 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 | Part | Requirements | Topic |
 |---|---|---|
+| `spec/message-first-read.md` | R313–R315 | Reading what a person just said |
+| `spec/spec-extension.md` | R316–R317 | What this document may claim, and how it is written across files |
 | `spec/wish-intake.md` | R4 | Taking in a wish |
 | `spec/draft-sandbox.md` | R98 | Draft sandbox |
 | `spec/external-publish.md` | R143 | Publishing to the outside |

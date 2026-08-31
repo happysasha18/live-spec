@@ -6,7 +6,8 @@ line, the sibling shape of the matrix-reference gate (`guardrails/check-matrix-r
 and the generated-index gate (`guardrails/check-index-generated.py`, gate x).
 
 THE LAW: the architecture's Reference maps each spec anchor to the node names that own it, built from
-the node sections' owns fields at freeze and output only (INV-315). This gate holds three faults:
+the node sections' owns fields at freeze and output only (INV-315). This gate holds four faults, the
+last of them the format family's shared map law (INV-322):
 
   - DRIFT: the committed Reference differs from a fresh build off the current node sections — a hand
     edit, or nodes that moved without a rebuild. Reds, since the Reference is not hand-kept.
@@ -14,6 +15,8 @@ the node sections' owns fields at freeze and output only (INV-315). This gate ho
     committed Reference. Reds, naming the anchor.
   - THE REFERENCE HAS AN ANCHOR NO NODE OWNS: an anchor in the committed Reference owned by no node — an
     empty home. Reds, naming the anchor.
+  - A PART THE MAP NAMES NOWHERE: a `.md` file sitting among the parts the core's map lists that no
+    row of that map names. Reds, naming the file.
 
 It declares its expected-non-empty input with the shared guard (INV-218): a document that parses to zero
 node sections reds by name rather than passing over nothing.
@@ -98,6 +101,15 @@ def main(argv):
     if orphan:
         problems.append("%d requirement(s) listed in the summary table are owned by no node — an "
                         "empty entry (INV-315): %s" % (len(orphan), ", ".join(orphan)))
+    # INV-322, the format family's map law: a part file sitting among the named parts that the map
+    # names nowhere. The three faults above read the assembled text, which an unnamed part never
+    # reaches, so they agree with each other about a document short of what the tree holds.
+    unnamed = sf.unnamed_parts(doc_paths[0])
+    if unnamed:
+        problems.append("%d file(s) sit among the document's parts and the parts map names none of "
+                        "them, so nothing reads them (INV-322): %s — add a row for each to the "
+                        "`## Parts map` table, or move the file out of the parts directory."
+                        % (len(unnamed), ", ".join(unnamed)))
 
     if problems:
         print("FAIL (architecture reference): the architecture's summary table no longer matches its "

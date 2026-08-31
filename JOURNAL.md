@@ -3240,3 +3240,83 @@ their declared sentences are written there now, and the director's body says to 
 writing a rule down. Run against a rule invented for the test and written nowhere in the tree, it
 named one house; run against a sentence carrying two rules, it returned the finding rather than a
 home. Both runs are in the day's skill-review record.
+## 2026-08-31 — the spec says what stands behind each of its rules, and the first read gets its own home
+
+`plan-12` measured the gap on 27.08: the spec held 308 requirements and 29 of them carried a feature
+name, the seventeen declared names sat on the seventeen smallest files, and the skill that reads
+every message a person sends — deciding whether they asked, mused, offered an idea, reported, decided,
+corrected, instructed or called a halt — had no requirement, no node and no matrix row anywhere. A
+read-only product review on 28.08 found the reason the gap mattered: the chain from a person's message
+to a proven result is real in parts and written-down in others, and the spec read the same either way.
+
+**The rule that came out of it.** A requirement now names what makes it happen. There are four
+answers and the document says which one it has: a command the machine runs, an instruction a session
+reads and follows, a surface drawn when somebody asks for it, or nothing yet. The fourth already had a
+marker; what was missing was the second, and the second is where most of this pack actually lives. A
+rule that reads the same whichever answer stands behind it tells a reader the product is stronger than
+it is, and that is the class of defect this whole task existed to end. Requirement 316 holds the rule;
+`spec-author` owns it.
+
+**The first read.** Requirements 313 to 315 and a `director` node in the architecture. The
+requirements say the seven acts, say that work opens only behind an act that asked for work, say that
+accepted work writes its decision sheet into its own checkpoint before any working skill is called,
+and say which accepted work runs next. They also say, in the spec's own sentences, that nothing on
+this machine puts a message through the reading: the boot file's line is the whole of the door, and
+neither a hook nor a gate watches for a session that skipped it. The arm that does execute is named
+where it is — the checkpoint command refuses a first-read-owned checkpoint with no sheet in it, and
+the opening probe marks the reading's score a replay whenever the recorded runs are older than the
+skill. The idea shelf is Requirement 315 and carries the promised marker, because no file holds one.
+
+**The roster.** Seventeen names became ten. Two stood on requirements that also carried the promised
+marker — a published contract no agent on this machine has ever published, and a work board whose
+page, source file, generator and validation check are all unbuilt. Both went to the attic, and the
+work board's row had been reading as covered by borrowing the capture-echo test that belongs to the
+wish row. Five names described five entry conditions into one procedure, attaching the pack to a
+project, and all five named one architecture node; they converged on `F-attach`, whose row names every
+test that exercised one of the entries, so nothing proven stopped being proven. Two more the plan had
+counted as fictions were repaired at their requirements instead: the wish row had ordered every voiced
+wish into the queue "that same moment", which is the opposite of what the reading forbids, and it
+named a queue file that no longer exists; the product map had promised coverage of the spec's scenario
+sections one to one and called that the whole product. Retiring those two names would have thrown away
+true names for real things, so the requirements were made true instead. One name arrived,
+`F-first-read`.
+
+That class is mechanical now rather than a judgement somebody has to repeat: a requirement carrying a
+feature name and a `[target]` marker at once reds in the coverage check, with its own red proof.
+Requirement 224 changed to match, since it had said the opposite — that a promised scenario keeps its
+tag. Two homes for one fact is undefined behaviour when they disagree, so the older home moved.
+
+**The spec's own shape got its rules.** The spec has been a core file plus part files since the split,
+and the mechanism lived in a comment inside `guardrails/specformat.py` while the document defining the
+format said nothing about parts. Requirement 317 says it: the core's parts map is the one home of the
+parts and their order, a part joins the map in the change that creates it, one requirement number
+opens one requirement across the whole document, and a change to the spec is opened by accepted work
+with a delegated worker writing only the part its brief names. `docs/spec-format.md` carries the same
+four rules for a writer, and `spec-author` stopped naming the monolith.
+
+Two of those rules are now gates rather than hopes, and both were holes a person could fall into
+today. A part file dropped beside the named ones and never added to the map is read by nobody — and
+the faults already standing cannot see it, because its codes reach neither the assembled body nor the
+committed table, so the two agree with each other about a document with a hole in it. Two parts
+opening one requirement number make the generated table's own `R4.1` name two different criteria. Both
+were verified as real gaps first, by dropping each into a copy of the tree and watching every gate go
+green over it. `guardrails/specformat.py` grew the two readers, the three reference gates of the
+format family read them, and `tests/test_spec_parts.py` carries a red proof for each with its clean
+twin beside it.
+
+**The ordering law found a home, and its last inch did not.** The owner's word of 27.08 is that
+bringing work together, running it side by side and ranking it are all the reading's. The skill
+forbade itself from ordering in two places and nothing else owned the law. It is owned now: the spec
+states it, the architecture gives it a node, and the order itself is read off the states the plan
+records, by command rather than by recollection. The one piece still missing is the field on the
+decision sheet naming which open piece runs next and why that one. It was written into the skill, and
+the suite went red by name on the installed copies drifting from the source; refreshing them runs a
+command that writes outside the project's tree, which a lane in a worktree may not do and which would
+change a skill under another live session. So it came back out, and the spec was trimmed to stop
+claiming a field the skill does not carry. Naming it in the plan's blockers is what the honesty rule
+asks for; writing the requirement anyway would have been the very defect this task existed to end.
+
+**What stayed unsaid on purpose.** The plan's states carry no field saying that one piece of work
+waits on another, so nothing orders on such a wait. That is written into Requirement 314's own context
+as a plain sentence rather than as a promise with a marker, because a promise wants an open row to own
+it and no row owns this one.
