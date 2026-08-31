@@ -53,6 +53,12 @@ Checks run: fourteen, each with its result.
 
 1. `python3 -m pytest -q`, the whole suite, alone on the merged tree with no worker active — 12
    failed, 2602 passed, 4 skipped, 1016.96s. The failures are findings 1 and 12 below.
+   Run again after the nine repairs — 6 failed, 2610 passed, 5 skipped, 834.55s. Five of the six are
+   finding 12, and the sixth is the gate's own run of the suite in a scratch copy, which carries the
+   same clone and so inherits the same five; it had been skipping on an unchanged-machinery digest
+   until this range changed the gate machinery. Nothing the range touched is red. One teardown error
+   in the second run belongs to this pass rather than to the code: this record was edited while the
+   suite was reading the tree, and the fixture that watches for a second writer said so.
 2. `bash guardrails/check-pin-drift.sh` before the repair — exit 1, naming
    `scripts/state-probe.sh:195`. After — OK, 180 pins checked, 61 line pins against their own line,
    113 file-level, 6 unlabelled; and OK on the 39 range pins of the rule-prices reader.
