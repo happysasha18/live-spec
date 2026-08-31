@@ -3,13 +3,13 @@ name: build-pipeline
 description: >-
   Use to set a project up on live-spec, where it reads the tree, picks the setup walk, and runs it. Spoken: attach live-spec to this project, adopt or install live-spec here, onboard this codebase onto live-spec, found a new project on live-spec, update live-spec here. Not the pipeline's entry point for an accepted change — `director` is — and retained only for the setup walk and the MINOR-bump gate procedure until Packages 5 and 6 give each its own home.
 metadata:
-  version: 6.0.0
+  version: 6.1.0
 ---
 
 # build-pipeline — setup walk and the MINOR-bump gate
 
 > Part of the **live-spec pack**. The shared working rules, the settings ladder, and the pack's
-> glossary live in `live-spec-base` (v6.0.0). This skill does not restate them. Loaded alone, every
+> glossary live in `live-spec-base` (v6.1.0). This skill does not restate them. Loaded alone, every
 > section below still runs.
 
 **This skill is no longer the pipeline's entry point.** `skills/director/SKILL.md` reads what a

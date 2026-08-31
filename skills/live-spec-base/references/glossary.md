@@ -24,9 +24,9 @@ behind the short read given here.
   clock, and its stop conditions.
 - **a wish** — one request a person voices in plain words, captured as a queue row and carried to a
   recorded terminal state.
-- **a queue row** — one live wish written as exactly five cells of `ROADMAP.md`: its id, the wish,
-  its class, its status, and its acceptance. Its home is `docs/roadmap-format.md`. This file calls it
-  a row.
+- **a queue row** — one live wish written as exactly five cells of the project's one list,
+  `PLAN.md`: its id, the wish, its class, its status, and its acceptance. The row's shape is defined
+  at `docs/roadmap-format.md`. This file calls it a row.
 - **a lane** — one build train a session rolls through the pipeline. A lane branch is that lane's
   isolated copy, a git worktree holding a branch named for its queue row.
 - **the pen** — the single write-lock a repository holds, under which one delivery reaches the
@@ -58,14 +58,15 @@ at `skills/<name>/SKILL.md`, beside SKILL.md. A path beginning `references/` nam
 skill's own directory, beside SKILL.md, opened on demand at the step that names it.
 
 **A host's own documents and workspace** sit at the root of whatever project the pack is attached to.
-Those are `PRODUCT_SPEC.md`, `ARCHITECTURE.md`, `ROADMAP.md`, `JOURNAL.md`, `NEXT_STEPS.md`,
+Those are `PRODUCT_SPEC.md`, `ARCHITECTURE.md`, `PLAN.md`, `JOURNAL.md`, `NEXT_STEPS.md`,
 `DECISIONS.md`, `attic/`, `prototype/`, `inbox/`, `outbox/`, `docs/`, and `.live-spec/`. The live-spec
 repository is a host of its own, so on that one machine the two trees are the same directory.
 
 A bracket code such as `INV-4` is a short handle for one rule of the product spec. Its home is
 `PRODUCT_SPEC.md`, where the code trails the line it names. That file's preamble names every letter a
-code can carry and what each stands for, so a code SKILL.md never uses decodes there. A roadmap row number, such as row 416, names a line of `ROADMAP.md`. A row that has closed
-rotates to a dated file under `docs/queue-archive/`. So a row SKILL.md cites may sit there instead. Two
+code can carry and what each stands for, so a code SKILL.md never uses decodes there. A row number,
+such as row 416, names a line of the project's one list, `PLAN.md`. A row that has closed rotates to
+a dated file under `docs/queue-archive/`. So a row SKILL.md cites may sit there instead. Two
 other bracket marks read as part of the sentence they sit in, and `PRODUCT_SPEC.md` states both.
 `[target]` marks a feature or leg that is promised and not yet built. `[default]` names a value the
 agent set that the person may retune.

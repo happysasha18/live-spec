@@ -2,13 +2,13 @@
 name: architect
 description: Use to write or update ARCHITECTURE.md from a proven spec — the node structure a project's kind proposes, file:line pins reconciled with shipped code, measurable quality budgets, the runtime and placement views, and the fitness test every new or carved node must pass. "Here's a proven spec, produce or update the architecture" is a complete task on its own — invoke this skill directly, not only as a step inside a larger pipeline.
 metadata:
-  version: 6.0.0
+  version: 6.1.0
 ---
 
 # architect — from a proven spec to the structure that carries it
 
 > Part of the **live-spec pack** — the shared working rules live once in the pack's base skill,
-> `live-spec-base` (v6.0.0), together with the
+> `live-spec-base` (v6.1.0), together with the
 > settings ladder — this skill references them and elaborates only its own domain. Used standalone, this
 > note is plain advice.
 

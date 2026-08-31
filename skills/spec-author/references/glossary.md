@@ -5,7 +5,7 @@
 `github.com/happysasha18/live-spec`. So are the design notes this page names by filename under
 `docs/`. An install copies each skill folder into one place, so a path naming another skill points to
 that skill's folder, beside this skill's folder. Every other path belongs to the project the pack is
-attached to, including `PRODUCT_SPEC.md`, `ARCHITECTURE.md`, `ROADMAP.md`, `JOURNAL.md`, and
+attached to, including `PRODUCT_SPEC.md`, `ARCHITECTURE.md`, `PLAN.md`, `JOURNAL.md`, and
 `.live-spec/`.
 
 Run every script named below from the live-spec repository root, as `python3 <path> <arguments>`. Each
@@ -15,8 +15,9 @@ guessed.
 - **Wish** — one request a person voices in plain words, captured as a queue row.
 - **Door** — the intake classification that sends a queued wish to one entry point of the pipeline. Its
   values are feature, bug, refactor, docs-only, and skip. It is decided before any code is written.
-- **Queue row** — one row of the project's queue, `ROADMAP.md` in this pack. A closed row moves to
-  `docs/queue-archive/`, so a row number cited below may sit there rather than in the live queue.
+- **Queue row** — one row of the project's one list, `PLAN.md`, which holds the plan and the queue
+  in one document. A closed row moves to `docs/queue-archive/`, so a row number cited below may sit
+  there rather than in the live list.
 - **Lane** — one build train a session rolls through the pipeline.
 - **Landing** — one piece of work reaching the repository's shared truth as one commit.
 - **Host** — one project the pack attaches to. Each host keeps its own spec, queue, journal, and

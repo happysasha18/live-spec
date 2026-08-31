@@ -2,7 +2,7 @@
 name: live-spec-base
 description: Load before using any live-spec pack skill: director, spec-author, product-prover, design-reviewer, architect, build-pipeline, test-author, communicator, feedback-intake, feedback-collector, text-audit, publish. Load it also before briefing a worker that will write files, or to resolve shared rules and settings. It is the one home for the shared rules — twenty-two rules in the body. It carries three on-demand reference modules under `references/` — the glossary, the worked examples, and the settings ladder — each opened only when its own kind of question needs resolving.
 metadata:
-  version: 6.0.0
+  version: 6.1.0
 ---
 
 # live-spec-base — one rulebook, twelve working skills
@@ -172,7 +172,7 @@ its own manifest line. Every other rule below keeps the number it already carrie
 
 9. **History lives in the journal; docs travel with the change.** The dated reason behind every movement
    goes to `JOURNAL.md` the same session. The prose of `PRODUCT_SPEC.md`, `NEXT_STEPS.md`, and
-   `ROADMAP.md` states only current truth. A shipped
+   `PLAN.md` states only current truth. A shipped
    change updates its `README.md`, `CHANGELOG.md`, and `SKILL.md` before the session ends. **Entries and
    harvested records carry the date and the time of day**. Take a line like "yesterday evening you
    wrote X, so I did Y". It is answerable later only when the record kept the time of day beside the

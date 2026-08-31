@@ -90,7 +90,7 @@ the walk; nothing outside a host's session writes that host's repo.
 
 `templates/` holds fourteen starter files. Six are the canonical document set:
 `PRODUCT_SPEC.template.md`, `ARCHITECTURE.template.md`, `TEST_MATRIX.template.md`,
-`ROADMAP.template.md`, `JOURNAL.template.md`, and `NEXT_STEPS.template.md`. Three land on the
+`PLAN.template.md`, `JOURNAL.template.md`, and `NEXT_STEPS.template.md`. Three land on the
 project's own word: `DECISIONS.template.md`, `PROBLEMS.template.md`, and `KILL_LIST.template.md`.
 The remaining five each carry their own job. `test_scaffold.template.py` is the first runnable
 suite, and `agent.template.md` is the tree's agent card. `profile.template.md` is the shape of a

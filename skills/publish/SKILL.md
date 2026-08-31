@@ -2,13 +2,13 @@
 name: publish
 description: Use before work leaves the machine publicly — a public repo, README push, release, or shared skill — to check it meets publish quality. It finishes before the human's own publish decision and only prepares it.
 metadata:
-  version: 6.0.0
+  version: 6.1.0
 ---
 
 # publish — the work leaves the machine looking like a product
 
 > Part of the **live-spec pack** — the shared working rules live once in the pack's base skill,
-> `live-spec-base` (v6.0.0), together with the
+> `live-spec-base` (v6.1.0), together with the
 > settings ladder — this skill references them and elaborates only its own domain. Used standalone, this
 > note is plain advice.
 

@@ -2,13 +2,13 @@
 name: spec-author
 description: Use to start a new product spec, add a feature to an existing spec, or keep a spec in sync with behavior changes. Setting a project up on live-spec comes earlier, at build-pipeline's setup entry. Documenting already-built code after the fact and a prototype sketch that carries no spec stay outside it.
 metadata:
-  version: 6.0.0
+  version: 6.1.0
 ---
 
 # Spec Author
 
 > Part of the **live-spec pack** — the shared working rules live once in the pack's base skill,
-> `live-spec-base` (v6.0.0), together with the settings ladder — this skill references them and
+> `live-spec-base` (v6.1.0), together with the settings ladder — this skill references them and
 > elaborates only its own domain. That base skill's file is `skills/live-spec-base/SKILL.md`, and
 > its own frontmatter states how many numbered rules it carries. Loaded without it, this page still
 > runs every section below. What it loses is those shared rules and the settings ladder, which live
@@ -105,7 +105,7 @@ behind it has discovered an unwritten promise: reconcile it from the shipped tru
 claim), write it as its own spec fact with its own row, and state it explicitly. If
 the cited neighbour claim is adoption-born and still unverified, its reconciliation runs before it can
 be fenced — a hope cannot be fenced. Name the fences by cited anchor in the wish's queue row, which is
-a row of `ROADMAP.md` in this pack ("fences: …"), so "untouched and still true" stays searchable. A
+a row of the project's one list, `PLAN.md` ("fences: …"), so "untouched and still true" stays searchable. A
 prototype fences nothing — it promises
 nothing.
 
