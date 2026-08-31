@@ -2,7 +2,7 @@
 whole-spec audit forced, so none can silently drift back out. Landed 2026-07-13."""
 import re
 
-from conftest import external_clone_or_skip, read as _read
+from conftest import external_clone_or_skip, read as _read, read_all_flat
 
 
 _ONES = ("zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten",
@@ -74,7 +74,11 @@ def test_d2_finding_kind_names_delta_scoped_exception():
     assert "| INV-114 | How to write findings; Reviewing a rewrite before it merges |" in pack
     # The tracked-file anchors above hold on a bare checkout; only the canon read below needs the clone.
     external_clone_or_skip()
-    prover = " ".join(_read("skills/product-prover/SKILL.md").split())
+    # Release 1.6.0 moved the merge gate's own paragraphs out of the canon's SKILL.md body and
+    # into its reference/review-modes.md, leaving a pointer behind. The routing clause is read
+    # across the skill's whole surface, which is how this pack reads a skill that offloads
+    # set-piece material into its references (conftest's _skill_surface).
+    prover = read_all_flat("skills/product-prover/SKILL.md")
     assert "Pre-existing findings become tracked follow-ups in the same change and never block" in prover
 
 

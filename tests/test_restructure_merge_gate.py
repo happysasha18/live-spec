@@ -17,7 +17,7 @@ its own interpretation. String rows on the law's three homes plus the spec ancho
 import os
 import unittest
 
-from conftest import ROOT, external_clone_or_skip, open_spec, read_flat
+from conftest import ROOT, external_clone_or_skip, open_spec, read_all_flat, read_flat
 
 
 class TestRestructureMergeGateLaw(unittest.TestCase):
@@ -31,6 +31,11 @@ class TestRestructureMergeGateLaw(unittest.TestCase):
     into two tests apiece: the tracked home runs everywhere, unguarded, and only the canon
     read stands behind the guard. A bare checkout now reports the tracked assertions as
     PASSED and the canon assertions as SKIPPED, instead of reporting silence for both.
+
+    The external home names the canon's SKILL.md, and the canon's clauses are read across the
+    whole skill — SKILL.md plus its reference/*.md — because the canon offloads set-piece
+    material there and release 1.6.0 moved the merge gate's mechanics out of the body. The
+    skill is one home for a content-presence check, which is conftest's _skill_surface rule.
     """
 
     TRACKED_HOMES = (
@@ -61,13 +66,19 @@ class TestRestructureMergeGateLaw(unittest.TestCase):
     def test_merge_gate_judges_the_delta_in_the_external_canon(self):
         external_clone_or_skip()
         home = self.EXTERNAL_HOME
-        body = read_flat(home)
-        self.assertIn("merge gate judges the delta", body, home)
+        # The canon's SKILL.md body still names the gate. Release 1.6.0 moved the gate's three
+        # parts, its four blockers and its exception into reference/review-modes.md and left a
+        # pointer in their place, so the body keeps the headline and the surface keeps the
+        # mechanics. Both are asserted: a body that drops the headline hides the gate from a
+        # reader who never opens the reference, and a surface that drops the scopings loses the
+        # law itself.
+        self.assertIn("merge gate judges the delta", read_flat(home), home)
         # the externalized canon states the same two scopings in its own words
-        self.assertIn("blocking set is scoped to the delta", body, home)
+        surface = read_all_flat(home)
+        self.assertIn("blocking set is scoped to the delta", surface, home)
         self.assertIn(
             "The token-identity part applies to a restructure meant to preserve content",
-            body, home,
+            surface, home,
         )
 
     def test_preexisting_findings_route_not_block_in_the_tracked_homes(self):
@@ -88,10 +99,11 @@ class TestRestructureMergeGateLaw(unittest.TestCase):
     def test_preexisting_findings_route_not_block_in_the_external_canon(self):
         external_clone_or_skip()
         home = self.EXTERNAL_HOME
-        # the canon's generic wording of the same routing law
+        # the canon's generic wording of the same routing law, which travelled with the rest of
+        # the merge gate into reference/review-modes.md in release 1.6.0
         self.assertIn(
             "become tracked follow-ups in the same change and never block",
-            read_flat(home), home,
+            read_all_flat(home), home,
         )
 
     def test_say_the_bar_back_duty_in_the_tracked_homes(self):
