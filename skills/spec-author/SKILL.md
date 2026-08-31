@@ -7,14 +7,12 @@ metadata:
 
 # Spec Author
 
-> Part of the **live-spec pack** — the shared working rules (ask-never-guess · plain words, anchors trail ·
-> one surface = one name · one home per fact · junior/senior split · checkpoints · the concurrent-edit
-> fence · freshness · journal discipline · attic-never-delete · verify by deed · the human's gates · claims
-> need primary sources · fix the class, sweep look-alikes · the door before code · prototype ≠ product) live once in the pack's base skill, `live-spec-base` (v6.0.0), together with the
-> settings ladder — this skill references them and elaborates only its own domain. That base skill's
-> file is `skills/live-spec-base/SKILL.md`, and it states each of those rules in full. Loaded without
-> it, this page still runs every section below. What it loses is those shared rules and the settings
-> ladder, which live in that base skill alone.
+> Part of the **live-spec pack** — the shared working rules live once in the pack's base skill,
+> `live-spec-base` (v6.0.0), together with the settings ladder — this skill references them and
+> elaborates only its own domain. That base skill's file is `skills/live-spec-base/SKILL.md`, and
+> its own frontmatter states how many numbered rules it carries. Loaded without it, this page still
+> runs every section below. What it loses is those shared rules and the settings ladder, which live
+> in that base skill alone.
 
 spec-author authors and grows a **living spec** — a requirements-genre `PRODUCT_SPEC.md` that says what the product is, what every
 part is allowed to claim, and how the parts compose — *incrementally, as the project develops*. spec-author is the
@@ -206,9 +204,9 @@ verifiable here, never for the borrowed authority alone.
    github.com/happysasha18/live-spec. A standalone install of this skill reads them from a checkout of
    that repository, taken with `git clone https://github.com/happysasha18/live-spec`. They are
    deliberately not copied into the skill dir: the pack is the source, a copy would fork the truth.)
-2. **Ask, don't silently fill.** When the spec needs a decision only the author can make (a threshold, a
-   policy, desired behavior on an edge), ask the leading question or mark ⟨DECIDE⟩, treating intent as
-something to confirm; never infer it.
+2. **Ask, don't silently fill.** When the spec needs a decision only the author can make — desired
+   behavior on an edge is the spec's own commonest case, and base rule 27 holds the whole set — ask the
+leading question or mark ⟨DECIDE⟩ under base rule 1.
 3. **Run the completeness pass** (below) on the section just written.
 4. **Hand off to `product-prover` on the whole spec — the delta included.** The prover catches a
    cross-section hole only when *both* sides of the seam are in the document; a surface added in

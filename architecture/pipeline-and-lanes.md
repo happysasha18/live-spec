@@ -19,7 +19,7 @@
 - `skills/director/references/work-kind-table.md:4` (the door + work-kind relationship — the door picks which steps run, this table picks the form each running step takes)
 - `skills/build-pipeline/SKILL.md:21` (the craft ladder — step→craft one home, Requirement 51 backs it at the SPEC level)
 - `skills/director/references/work-kind-table.md:1` (the work-kind table — per-kind meanings' one home)
-- `skills/director/SKILL.md:250` (steps — the dynamic Execution graph that replaces the old fixed nine-step sequence)
+- `skills/director/SKILL.md:258` (steps — the dynamic Execution graph that replaces the old fixed nine-step sequence)
 - `skills/build-pipeline/SKILL.md:45` (gates — the MINOR-bump gate, this node's own remaining "Gates worth remembering" section)
 - `skills/architect/SKILL.md:144` (re-carve paragraph — INV-113 redesign-owes-rework)
 - `skills/director/references/delegation-protocol.md:71` (the worker-brief register-laws clause — no-scissors + no-dramatization, INV-221)
@@ -46,10 +46,10 @@
 **owns** — T-18, INV-2, INV-39, INV-49, INV-131, E-34, T-23, INV-198, INV-199, INV-200, INV-201, INV-214
 
 **pins** —
-- `skills/director/references/lanes-and-pen.md:7` (trains, one pen — the cap, the penless overlap set, the pen-stages, the re-fence after a landing)
-- `skills/director/references/lanes-and-pen.md:24` (the graph picks the lane set at queue-take)
-- `skills/director/references/lanes-and-pen.md:60` (a mid-work re-door re-runs the independence edges against every rolling lane)
-- `skills/live-spec-base/SKILL.md:128` (rule 7's lanes sub-rules — three lanes under one pen)
+- `skills/director/references/lanes-and-pen.md:32` (the penless overlap set, the pen-stages, and the re-fence after a landing)
+- `skills/director/references/lanes-and-pen.md:13` (the graph picks the lane set at queue-take)
+- `skills/director/references/lanes-and-pen.md:59` (a mid-work re-door re-runs the independence edges against every rolling lane)
+- `skills/live-spec-base/SKILL.md:128` (rule 7's lanes sub-rules — three lanes under one pen; the cap and the lane-open act have their one home here, and the director's reference points at it rather than restating it)
 - `skills/live-spec-base/SKILL.md:154` (one row per landing commit)
 - `scripts/open-lane.sh:1` (the lane-open act's performable form. It carries the row→in-work claim commit on main, the cap refusal, and the lane branch cut into its own worktree, INV-214.)
 - the lane-opening script is the first file this node owns of its own. Its law otherwise lives inside the two skills that perform it and its cited pins there. The branch road's carriers land with ROADMAP row 386 [target].

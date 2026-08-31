@@ -21,8 +21,8 @@ findable through the generated code-to-location table. Never let a new feature l
 7. **Terms** — every domain term is defined in the glossary, once, under one name. A word of ordinary
    English needs no entry.
 
-Mark anything that needs a human's domain call with **⟨DECIDE⟩** and a one-line question. Never invent
-intent to fill a gap — flag it.
+Mark anything that needs a human's domain call with **⟨DECIDE⟩** and a one-line question. Base rule 1
+carries the law behind that marker, and this line names where a spec applies it.
 
 **Name the future with the [target] tag — it is a tripwire that drives the pipeline.** A surface or phase the
 spec names but does not yet specify for build carries the literal tag `[target]` (the header's

@@ -31,7 +31,7 @@ tag against the section it stands in.
 states how many numbered rules it carries. The ones the body cites are 1 ask never guess, 2 plain words carry the
 meaning, 4 one canonical home per fact, 6 every long or delegated piece of work keeps a checkpoint,
 10 nothing is silently deleted, 13 a claim needs its primary source, 16 a prototype stays a sketch,
-and 18 the one name-collision law.
+and 27 the seat decides what it can decide.
 
 ## The terms
 

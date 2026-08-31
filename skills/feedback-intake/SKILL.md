@@ -7,10 +7,8 @@ metadata:
 
 # feedback-intake — nothing handed in is ever lost
 
-> Part of the **live-spec pack** — the shared working rules (ask-never-guess · plain words, anchors trail ·
-> one surface = one name · one home per fact · junior/senior split · checkpoints · the concurrent-edit
-> fence · freshness · journal discipline · attic-never-delete · verify by deed · the human's gates · claims
-> need primary sources · fix the class, sweep look-alikes · the door before code · prototype ≠ product) live ONCE in the pack's base skill, `live-spec-base` (v6.0.0), together with the
+> Part of the **live-spec pack** — the shared working rules live once in the pack's base skill,
+> `live-spec-base` (v6.0.0), together with the
 > settings ladder — this skill references them and elaborates only its own domain. Used standalone, this
 > note is plain advice.
 
@@ -49,7 +47,7 @@ T-12); this skill only recognizes that an item is wish-shaped and walks it there
 - **A dropped file** — a screenshot, a log, a document: handed over in the conversation, or arriving
   from any outside session through the host's inbox door (one NEW file per item, the wish files' own
   naming and collision law, SPEC E-11). A file arriving with no words gets one plain question about
-  what it means; a guess is never written into the ledger.
+  what it means, base rule 1 applied to a wordless deposit.
 
 ## The routing table — every item takes exactly one route, every route has a home
 

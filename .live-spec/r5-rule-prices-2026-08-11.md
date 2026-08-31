@@ -32,6 +32,8 @@ This shape does not match every skill evenly. Three skills — `product-prover`,
 
 **Retired after the build-pipeline cutover (2026-08-25).** `build-pipeline` is no longer the pack's pipeline entry point — `director` is — and `skills/build-pipeline/SKILL.md` was rewritten from 728 lines into a short transitional adapter (setup walk + MINOR-bump gate + craft ladder). The old fixed nine-step sequence that carried all nine of this page's build-pipeline rows (old ranks 1, 2, 3, 4, 7, 8, 9, 12, 26 — items 1-9 of "The steps") is gone from that file, replaced by Director's dynamic acts/dimensions graph; it was not moved, so there is no line anywhere in this repository that still carries this page's priced text for these nine items (the surviving facts that did find new homes elsewhere in the cutover — the craft ladder, build-smallest-first, the norm-open rule, and others — are new prose in their new homes, not the same span this page priced, so they are not re-pointed either). The nine rows are removed rather than repointed, the same call the note above made for text-audit's five. Every remaining row keeps its own home path, line range, body-byte count and price unchanged by this edit — only the rank numbers shift down to close the nine gaps, and the table and per-rule sections below are renumbered 1-39 to match. Totals fall from 48 rules / 39,921 body bytes / 40,235 combined price to 39 rules / 18,471 body bytes / 18,620 combined price; 149 pinned-test hits remain (314 minus 165 pinned-test hits carried by the nine removed rows). This changes an input the frozen plan reads, the same way the two notes above do, and this edit leaves that plan untouched.
 
+**Repointed after the one-home landing (2026-08-31).** plan-16 cut the enumerated rule list out of six skills' opening blockquotes, which shortened `skills/spec-author/SKILL.md` and `skills/test-author/SKILL.md` by two lines each. Every pin into those two files moves up by two. No priced span changed its own text, so no body-byte count, pinned-test count or price moves, and the ranking is untouched. One exception carries a reworded opening line: spec-author's "Ask, don't silently fill" rule stopped listing what only the author can settle and points at base rule 27 instead, so this page's quoted opening line for that row is updated to what the file now says. Its span, its length and its price are unchanged.
+
 ## The price table, most expensive first
 
 | # | skill | home file : lines | opening line | body bytes | pinned tests | price |
@@ -39,42 +41,42 @@ This shape does not match every skill evenly. Three skills — `product-prover`,
 | 1 | spec-author | `skills/spec-author/references/the-spine.md:21-50` | 7. **Terms** — every domain term is defined in the glossary, once, under one name. A word of ordi... | 2,286 | 25 | 2,311 |
 | 2 | communicator | `skills/communicator/SKILL.md:475-495` | 6. **Account for every removal of substance (SPEC INV-109).** When the movement being reported re... | 2,292 | 7 | 2,299 |
 | 3 | communicator | `skills/communicator/SKILL.md:465-473` | 4. **Run the register lint — a hard BLOCK (SPEC INV-83).** Feed every human-facing | 1,039 | 9 | 1,048 |
-| 4 | spec-author | `skills/spec-author/SKILL.md:199-208` | 1. **Author / grow the relevant requirement** in `PRODUCT_SPEC.md`: find (or open) the requiremen... | 1,044 | 3 | 1,047 |
-| 5 | test-author | `skills/test-author/SKILL.md:64-74` | 8. **Close by the mechanical gates, not a hand-walked list.** The coverage checklist the matrix once | 941 | 0 | 941 |
+| 4 | spec-author | `skills/spec-author/SKILL.md:197-206` | 1. **Author / grow the relevant requirement** in `PRODUCT_SPEC.md`: find (or open) the requiremen... | 1,044 | 3 | 1,047 |
+| 5 | test-author | `skills/test-author/SKILL.md:62-72` | 8. **Close by the mechanical gates, not a hand-walked list.** The coverage checklist the matrix once | 941 | 0 | 941 |
 | 6 | design-reviewer | `skills/design-reviewer/SKILL.md:204-215` | 3. **Every position behaves alike.** The same gesture on the same type in a different slot behave... | 859 | 7 | 866 |
 | 7 | design-reviewer | `skills/design-reviewer/SKILL.md:131-139` | 1. **Enumerate.** Build your own inventory of the elements. Use the prover's Phase 1 extraction h... | 751 | 9 | 760 |
 | 8 | communicator | `skills/communicator/SKILL.md:474-474` | 5. **Legibility floor (a BLOCK, SPEC INV-139).** For any STYLED artifact about to be shown — an H... | 748 | 4 | 752 |
-| 9 | test-author | `skills/test-author/SKILL.md:56-63` | 7. **A norm-pointered clause owes a norm-conformance row.** When a spec clause carries a | 711 | 2 | 713 |
+| 9 | test-author | `skills/test-author/SKILL.md:54-61` | 7. **A norm-pointered clause owes a norm-conformance row.** When a spec clause carries a | 711 | 2 | 713 |
 | 10 | communicator | `skills/communicator/SKILL.md:460-464` | 3. **Run the mechanical check** — feed the drafted prose to `python3 scripts/preshow-lint.py -` a... | 620 | 24 | 644 |
 | 11 | design-reviewer | `skills/design-reviewer/SKILL.md:148-154` | 4. **Check parity.** For each candidate group, list the declared interactions of each member from... | 537 | 0 | 537 |
 | 12 | design-reviewer | `skills/design-reviewer/SKILL.md:155-162` | 5. **Fire the tight ask.** A divergence becomes a finding only when the signal is strong. Every | 517 | 0 | 517 |
 | 13 | design-reviewer | `skills/design-reviewer/SKILL.md:199-203` | 2. **Every object type behaves alike.** Each kind of thing the gesture acts on — a gallery frame, a | 425 | 1 | 426 |
 | 14 | design-reviewer | `skills/design-reviewer/SKILL.md:195-198` | 1. **Entry mirrors exit.** A layer that opens by a motion from its source closes by the reverse of | 398 | 1 | 399 |
-| 15 | test-author | `skills/test-author/SKILL.md:52-55` | 6. **Matrix-local row ids are legal, spec anchors stay the parent.** One spec fact may project into | 387 | 0 | 387 |
-| 16 | test-author | `skills/test-author/SKILL.md:48-51` | 5. **Name the state space before filling cells.** Axes first: view states (mode, toggles), data | 374 | 0 | 374 |
+| 15 | test-author | `skills/test-author/SKILL.md:50-53` | 6. **Matrix-local row ids are legal, spec anchors stay the parent.** One spec fact may project into | 387 | 0 | 387 |
+| 16 | test-author | `skills/test-author/SKILL.md:46-49` | 5. **Name the state space before filling cells.** Axes first: view states (mode, toggles), data | 374 | 0 | 374 |
 | 17 | spec-author | `skills/spec-author/references/the-spine.md:16-19` | 5. **Invariants** — the properties that must hold across *every* reachable state, stated as crite... | 373 | 0 | 373 |
 | 18 | communicator | `skills/communicator/SKILL.md:456-459` | 2. **Pass the draft phrase by phrase through one question:** *does this sentence stand for a read... | 344 | 0 | 344 |
 | 19 | communicator | `skills/communicator/SKILL.md:453-455` | 1. **Re-read the rules above, and the full writing register** — open this file and read the live ... | 340 | 0 | 340 |
-| 20 | spec-author | `skills/spec-author/SKILL.md:216-220` | 5. **Then walk the two layers to the tests** — the architecture doc (nodes owning the spec's facts, | 337 | 0 | 337 |
+| 20 | spec-author | `skills/spec-author/SKILL.md:214-218` | 5. **Then walk the two layers to the tests** — the architecture doc (nodes owning the spec's facts, | 337 | 0 | 337 |
 | 21 | design-reviewer | `skills/design-reviewer/SKILL.md:140-144` | 2. **Describe by role.** For each element, write its role sentence: "a photo a viewer opens large to | 326 | 1 | 327 |
-| 22 | spec-author | `skills/spec-author/SKILL.md:213-215` | 4. **Hand off to `product-prover` on the whole spec — the delta included.** The prover catches a | 304 | 0 | 304 |
-| 23 | spec-author | `skills/spec-author/SKILL.md:209-211` | 2. **Ask, don't silently fill.** When the spec needs a decision only the author can make (a thres... | 250 | 0 | 250 |
-| 24 | spec-author | `skills/spec-author/SKILL.md:94-97` | 5. **The two closing sentences** — non-goals + one success measure (SPEC INV-20, INV-21). | 218 | 31 | 249 |
+| 22 | spec-author | `skills/spec-author/SKILL.md:211-213` | 4. **Hand off to `product-prover` on the whole spec — the delta included.** The prover catches a | 304 | 0 | 304 |
+| 23 | spec-author | `skills/spec-author/SKILL.md:207-209` | 2. **Ask, don't silently fill.** When the spec needs a decision only the author can make — desir... | 250 | 0 | 250 |
+| 24 | spec-author | `skills/spec-author/SKILL.md:92-95` | 5. **The two closing sentences** — non-goals + one success measure (SPEC INV-20, INV-21). | 218 | 31 | 249 |
 | 25 | spec-author | `skills/spec-author/references/the-spine.md:10-11` | 2. **Entities** — the nouns. Each defined in the **glossary**, with its attributes, its unit/vali... | 208 | 0 | 208 |
-| 26 | test-author | `skills/test-author/SKILL.md:41-42` | 1. **Open with the artifact inventory** — every file the user receives, each owning at least one | 197 | 0 | 197 |
-| 27 | test-author | `skills/test-author/SKILL.md:45-46` | 3. **Every row states BOTH sides** — what the fact does, and what it must never do. The never sid... | 186 | 0 | 186 |
+| 26 | test-author | `skills/test-author/SKILL.md:39-40` | 1. **Open with the artifact inventory** — every file the user receives, each owning at least one | 197 | 0 | 197 |
+| 27 | test-author | `skills/test-author/SKILL.md:43-44` | 3. **Every row states BOTH sides** — what the fact does, and what it must never do. The never sid... | 186 | 0 | 186 |
 | 28 | spec-author | `skills/spec-author/references/the-spine.md:12-13` | 3. **States & transitions** — every move an entity can make, told as criteria (which action, whic... | 183 | 0 | 183 |
 | 29 | design-reviewer | `skills/design-reviewer/SKILL.md:145-147` | 3. **Propose groups.** Elements whose role sentences match are a candidate same-kind group. The | 180 | 0 | 180 |
-| 30 | test-author | `skills/test-author/SKILL.md:43-44` | 2. **Blocks per architecture node; every spec fact ≥ 1 row.** A fact with no row is a derivation | 170 | 0 | 170 |
+| 30 | test-author | `skills/test-author/SKILL.md:41-42` | 2. **Blocks per architecture node; every spec fact ≥ 1 row.** A fact with no row is a derivation | 170 | 0 | 170 |
 | 31 | spec-author | `skills/spec-author/references/the-spine.md:14-15` | 4. **Actors** — who initiates each significant action (user, role, automated service, external sy... | 168 | 0 | 168 |
-| 32 | spec-author | `skills/spec-author/SKILL.md:92-92` | 3. **The standard-facet sweep** — every facet a spec sentence, decided or `[default]`-tagged (SPE... | 116 | 15 | 131 |
-| 33 | spec-author | `skills/spec-author/SKILL.md:90-90` | 1. **Regression fences** — when the wish touches a live surface (next section; SPEC T-14, INV-19); | 101 | 6 | 107 |
-| 34 | spec-author | `skills/spec-author/SKILL.md:91-91` | 2. **The new behaviour itself** — entities, states, transitions, composed across the canonical axes; | 103 | 0 | 103 |
-| 35 | test-author | `skills/test-author/SKILL.md:47-47` | 4. **Every row pins a LEVEL** — the ladder below. The level is the row's most important judgment. | 100 | 0 | 100 |
-| 36 | spec-author | `skills/spec-author/SKILL.md:93-93` | 4. **The fit walk** — how the feature sits in the person's path, kind-scaled (SPEC INV-29); | 94 | 4 | 98 |
+| 32 | spec-author | `skills/spec-author/SKILL.md:90-90` | 3. **The standard-facet sweep** — every facet a spec sentence, decided or `[default]`-tagged (SPE... | 116 | 15 | 131 |
+| 33 | spec-author | `skills/spec-author/SKILL.md:88-88` | 1. **Regression fences** — when the wish touches a live surface (next section; SPEC T-14, INV-19); | 101 | 6 | 107 |
+| 34 | spec-author | `skills/spec-author/SKILL.md:89-89` | 2. **The new behaviour itself** — entities, states, transitions, composed across the canonical axes; | 103 | 0 | 103 |
+| 35 | test-author | `skills/test-author/SKILL.md:45-45` | 4. **Every row pins a LEVEL** — the ladder below. The level is the row's most important judgment. | 100 | 0 | 100 |
+| 36 | spec-author | `skills/spec-author/SKILL.md:91-91` | 4. **The fit walk** — how the feature sits in the person's path, kind-scaled (SPEC INV-29); | 94 | 4 | 98 |
 | 37 | spec-author | `skills/spec-author/references/the-spine.md:20-20` | 6. **Cross-section composition** — the part most specs miss. See the dedicated step below. | 93 | 0 | 93 |
 | 38 | spec-author | `skills/spec-author/references/the-spine.md:9-9` | 1. **Purpose** — why the product exists, in plain words: the opening preamble. | 81 | 0 | 81 |
-| 39 | spec-author | `skills/spec-author/SKILL.md:212-212` | 3. **Run the completeness pass** (below) on the section just written. | 70 | 0 | 70 |
+| 39 | spec-author | `skills/spec-author/SKILL.md:210-210` | 3. **Run the completeness pass** (below) on the section just written. | 70 | 0 | 70 |
 
 ## Every rule, in full, in the same order
 
@@ -116,7 +118,7 @@ Price: 1,039 body bytes plus 9 pinned tests = 1,048.
 
 ### 4. spec-author — How spec-author works, item 1
 
-Home: `skills/spec-author/SKILL.md:199-208`.
+Home: `skills/spec-author/SKILL.md:197-206`.
 
 Opening line, quoted in full: "1. **Author / grow the relevant requirement** in `PRODUCT_SPEC.md`: find (or open) the requirement the"
 
@@ -128,7 +130,7 @@ Price: 1,044 body bytes plus 3 pinned tests = 1,047.
 
 ### 5. test-author — Deriving the matrix (the pipeline's step 5), item 8
 
-Home: `skills/test-author/SKILL.md:64-74`.
+Home: `skills/test-author/SKILL.md:62-72`.
 
 Opening line, quoted in full: "8. **Close by the mechanical gates, not a hand-walked list.** The coverage checklist the matrix once"
 
@@ -176,7 +178,7 @@ Price: 748 body bytes plus 4 pinned tests = 752.
 
 ### 9. test-author — Deriving the matrix (the pipeline's step 5), item 7
 
-Home: `skills/test-author/SKILL.md:56-63`.
+Home: `skills/test-author/SKILL.md:54-61`.
 
 Opening line, quoted in full: "7. **A norm-pointered clause owes a norm-conformance row.** When a spec clause carries a"
 
@@ -248,7 +250,7 @@ Price: 398 body bytes plus 1 pinned tests = 399.
 
 ### 15. test-author — Deriving the matrix (the pipeline's step 5), item 6
 
-Home: `skills/test-author/SKILL.md:52-55`.
+Home: `skills/test-author/SKILL.md:50-53`.
 
 Opening line, quoted in full: "6. **Matrix-local row ids are legal, spec anchors stay the parent.** One spec fact may project into"
 
@@ -260,7 +262,7 @@ Price: 387 body bytes plus 0 pinned tests = 387.
 
 ### 16. test-author — Deriving the matrix (the pipeline's step 5), item 5
 
-Home: `skills/test-author/SKILL.md:48-51`.
+Home: `skills/test-author/SKILL.md:46-49`.
 
 Opening line, quoted in full: "5. **Name the state space before filling cells.** Axes first: view states (mode, toggles), data"
 
@@ -308,7 +310,7 @@ Price: 340 body bytes plus 0 pinned tests = 340.
 
 ### 20. spec-author — How spec-author works, item 5
 
-Home: `skills/spec-author/SKILL.md:216-220`.
+Home: `skills/spec-author/SKILL.md:214-218`.
 
 Opening line, quoted in full: "5. **Then walk the two layers to the tests** — the architecture doc (nodes owning the spec's facts,"
 
@@ -332,7 +334,7 @@ Price: 326 body bytes plus 1 pinned tests = 327.
 
 ### 22. spec-author — How spec-author works, item 4
 
-Home: `skills/spec-author/SKILL.md:213-215`.
+Home: `skills/spec-author/SKILL.md:211-213`.
 
 Opening line, quoted in full: "4. **Hand off to `product-prover` on the whole spec — the delta included.** The prover catches a"
 
@@ -344,9 +346,9 @@ Price: 304 body bytes plus 0 pinned tests = 304.
 
 ### 23. spec-author — How spec-author works, item 2
 
-Home: `skills/spec-author/SKILL.md:209-211`.
+Home: `skills/spec-author/SKILL.md:207-209`.
 
-Opening line, quoted in full: "2. **Ask, don't silently fill.** When the spec needs a decision only the author can make (a threshold, a"
+Opening line, quoted in full: "2. **Ask, don't silently fill.** When the spec needs a decision only the author can make — desired"
 
 Body bytes: 250, counted over `skills/spec-author/SKILL.md` lines 209-211 with `len(text.encode('utf-8'))`.
 
@@ -356,7 +358,7 @@ Price: 250 body bytes plus 0 pinned tests = 250.
 
 ### 24. spec-author — The feature delta, assembled — one home for its mandatory parts, item 5
 
-Home: `skills/spec-author/SKILL.md:94-97`.
+Home: `skills/spec-author/SKILL.md:92-95`.
 
 Opening line, quoted in full: "5. **The two closing sentences** — non-goals + one success measure (SPEC INV-20, INV-21)."
 
@@ -380,7 +382,7 @@ Price: 208 body bytes plus 0 pinned tests = 208.
 
 ### 26. test-author — Deriving the matrix (the pipeline's step 5), item 1
 
-Home: `skills/test-author/SKILL.md:41-42`.
+Home: `skills/test-author/SKILL.md:39-40`.
 
 Opening line, quoted in full: "1. **Open with the artifact inventory** — every file the user receives, each owning at least one"
 
@@ -392,7 +394,7 @@ Price: 197 body bytes plus 0 pinned tests = 197.
 
 ### 27. test-author — Deriving the matrix (the pipeline's step 5), item 3
 
-Home: `skills/test-author/SKILL.md:45-46`.
+Home: `skills/test-author/SKILL.md:43-44`.
 
 Opening line, quoted in full: "3. **Every row states BOTH sides** — what the fact does, and what it must never do. The never side is"
 
@@ -428,7 +430,7 @@ Price: 180 body bytes plus 0 pinned tests = 180.
 
 ### 30. test-author — Deriving the matrix (the pipeline's step 5), item 2
 
-Home: `skills/test-author/SKILL.md:43-44`.
+Home: `skills/test-author/SKILL.md:41-42`.
 
 Opening line, quoted in full: "2. **Blocks per architecture node; every spec fact ≥ 1 row.** A fact with no row is a derivation"
 
@@ -452,7 +454,7 @@ Price: 168 body bytes plus 0 pinned tests = 168.
 
 ### 32. spec-author — The feature delta, assembled — one home for its mandatory parts, item 3
 
-Home: `skills/spec-author/SKILL.md:92-92`.
+Home: `skills/spec-author/SKILL.md:90-90`.
 
 Opening line, quoted in full: "3. **The standard-facet sweep** — every facet a spec sentence, decided or `[default]`-tagged (SPEC T-13, INV-18);"
 
@@ -464,7 +466,7 @@ Price: 116 body bytes plus 15 pinned tests = 131.
 
 ### 33. spec-author — The feature delta, assembled — one home for its mandatory parts, item 1
 
-Home: `skills/spec-author/SKILL.md:90-90`.
+Home: `skills/spec-author/SKILL.md:88-88`.
 
 Opening line, quoted in full: "1. **Regression fences** — when the wish touches a live surface (next section; SPEC T-14, INV-19);"
 
@@ -476,7 +478,7 @@ Price: 101 body bytes plus 6 pinned tests = 107.
 
 ### 34. spec-author — The feature delta, assembled — one home for its mandatory parts, item 2
 
-Home: `skills/spec-author/SKILL.md:91-91`.
+Home: `skills/spec-author/SKILL.md:89-89`.
 
 Opening line, quoted in full: "2. **The new behaviour itself** — entities, states, transitions, composed across the canonical axes;"
 
@@ -488,7 +490,7 @@ Price: 103 body bytes plus 0 pinned tests = 103.
 
 ### 35. test-author — Deriving the matrix (the pipeline's step 5), item 4
 
-Home: `skills/test-author/SKILL.md:47-47`.
+Home: `skills/test-author/SKILL.md:45-45`.
 
 Opening line, quoted in full: "4. **Every row pins a LEVEL** — the ladder below. The level is the row's most important judgment."
 
@@ -500,7 +502,7 @@ Price: 100 body bytes plus 0 pinned tests = 100.
 
 ### 36. spec-author — The feature delta, assembled — one home for its mandatory parts, item 4
 
-Home: `skills/spec-author/SKILL.md:93-93`.
+Home: `skills/spec-author/SKILL.md:91-91`.
 
 Opening line, quoted in full: "4. **The fit walk** — how the feature sits in the person's path, kind-scaled (SPEC INV-29);"
 
@@ -536,7 +538,7 @@ Price: 81 body bytes plus 0 pinned tests = 81.
 
 ### 39. spec-author — How spec-author works, item 3
 
-Home: `skills/spec-author/SKILL.md:212-212`.
+Home: `skills/spec-author/SKILL.md:210-210`.
 
 Opening line, quoted in full: "3. **Run the completeness pass** (below) on the section just written."
 

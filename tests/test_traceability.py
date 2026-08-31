@@ -2452,7 +2452,10 @@ class TestProblemLedger(unittest.TestCase):
             self.assertIn(needle, spec, "SPEC missing: %s" % needle)
         # lanes-and-pen.md moved to director/ in the build-pipeline cutover
         pipe = re.sub(r"\s+", " ", read_all(os.path.join("skills", "director", "SKILL.md")))
-        for needle in ("Lanes are picked by a graph", "rows ride serial",
+        # Re-pinned 2026-08-31 (plan-16): the heading now reads "The graph picks the lane set,
+        # never mood" — same rule, worded to match the reference's own title after the lane law
+        # converged to its one home in the base rulebook.
+        for needle in ("The graph picks the lane set", "rows ride serial",
                        "DECLARED at claim", "never a serializing surface",
                        "convergence point"):
             self.assertIn(needle, pipe, "director missing: %s" % needle)
@@ -2774,13 +2777,17 @@ class TestProblemLedger(unittest.TestCase):
                        "never cutting a pen-stage mid-edit",
                        "a prover run reading committed law"):
             self.assertIn(needle, spec, "SPEC missing: %s" % needle)
-        # lanes-and-pen.md moved to director/ in the build-pipeline cutover
+        # lanes-and-pen.md moved to director/ in the build-pipeline cutover.
+        # Re-pinned 2026-08-31 (plan-16, one home per rule): the cap sentence was stated in full in
+        # BOTH the base rulebook and the director's reference. The base is its one home, so the
+        # asked-word needle is checked there now; the director's reference keeps only the half
+        # rule 7 leaves to the seat — the graph and the isolated tree it opens.
         pipe = re.sub(r"\s+", " ", read_all(os.path.join("skills", "director", "SKILL.md")))
-        for needle in ("Trains, one pen", "SPEC T-18", "isolated tree",
-                       "one more opens only on the human's asked word"):
+        for needle in ("Trains, one pen", "SPEC T-18", "isolated tree"):
             self.assertIn(needle, pipe, "director missing: %s" % needle)
         base = re.sub(r"\s+", " ", read(os.path.join("skills", "live-spec-base", "SKILL.md")))
-        for needle in ("SPEC T-18", "PEN"):
+        for needle in ("SPEC T-18", "PEN",
+                       "One more opens only on the human's asked word"):
             self.assertIn(needle, base, "base missing: %s" % needle)
         comm = re.sub(r"\s+", " ", read(os.path.join("skills", "communicator", "SKILL.md")))
         self.assertIn("waiting behind row", comm, "communicator missing the waiting-lane board face")
@@ -2900,9 +2907,16 @@ class TestProblemLedger(unittest.TestCase):
                        "landed-first winning and the later lanes re-verifying",
                        "half of another train never rides a landing"):
             self.assertIn(needle, spec, "SPEC missing: %s" % needle)
-        # lanes-and-pen.md moved to director/ in the build-pipeline cutover
+        # lanes-and-pen.md moved to director/ in the build-pipeline cutover.
+        # Re-pinned 2026-08-31 (plan-16, one home per rule): INV-39's clause stood in full in the
+        # base rule and again in the director's reference. The base is its one home, so the clause
+        # is read there; the director's reference keeps the landing's lane consequences, which are
+        # its own — the archive move and the re-fence the waiting lanes run afterwards.
+        base = re.sub(r"\s+", " ", read(os.path.join("skills", "live-spec-base", "SKILL.md")))
+        self.assertIn("exactly one row's delta", base, "base missing INV-39's clause")
         pipe = re.sub(r"\s+", " ", read_all(os.path.join("skills", "director", "SKILL.md")))
-        self.assertIn("exactly one row's delta", pipe, "director missing INV-39's clause")
+        self.assertIn("waiting lanes re-fence and re-run their gates on the new truth", pipe,
+                      "director missing the landing's own lane consequence")
 
     def test_install_backup_home(self):
         """Row 122 (M-118): installer backups live outside the live skills dir."""

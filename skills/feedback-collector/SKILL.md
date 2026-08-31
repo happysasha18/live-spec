@@ -7,12 +7,9 @@ metadata:
 
 # feedback-collector — an occasional note home to the authors
 
-> Part of the **live-spec pack** — the shared working rules (ask-never-guess · plain words, anchors trail ·
-> one surface = one name · one home per fact · junior/senior split · checkpoints · the concurrent-edit
-> fence · freshness · journal discipline · attic-never-delete · verify by deed · the human's gates · claims
-> need primary sources · fix the class, sweep look-alikes · the door before code · prototype ≠ product) live
-> ONCE in the pack's base skill, `live-spec-base` (v6.0.0), together with the settings ladder — this skill
-> references them and elaborates only its own domain. Used standalone, this note is plain advice.
+> Part of the **live-spec pack** — the shared working rules live once in the pack's base skill,
+> `live-spec-base` (v6.0.0), together with the settings ladder — this skill references them and
+> elaborates only its own domain. Used standalone, this note is plain advice.
 
 The pack moves feedback in three directions. communicator carries work OUT to the human. feedback-intake
 carries what a person hands BACK. This skill carries an occasional note UP — to the people who wrote the

@@ -84,6 +84,15 @@ sys.exit(1 if undrawn or unmarked else 0)
     # is a past measurement, and the plan says so in its own words ("a past measurement is not a
     # state a check can re-read"). No bound replaces it: any bound here would be a threshold
     # nobody measured, and the opening report already prints today's figure.
+    # plan-16: its own acceptance, in one command. The first arm names one home per rule and reds on
+    # a second copy of any of the three; the second arm reads the sentence that lets the director
+    # name the home of a rule it has never seen.
+    # It runs the check directly rather than through the suite: the probe runs every command in
+    # this table at the start of every session, and a suite in here once hung the owner's morning
+    # command (tests/test_plan_is_not_executable.py holds that law).
+    "plan-16": ("python3 tests/test_one_home_per_rule.py > /dev/null"
+                " && grep -q 'the one house whose declared sentence it extends'"
+                " skills/director/SKILL.md"),
     "plan-17": "test -x scripts/plan-step.sh && grep -q 'plan-step.sh' CLAUDE.md",
     # q-458: the audit is its own external skill, installed, with this pack's binding and the lints
     # it declares per text surface.
@@ -168,7 +177,10 @@ _HEADER_RE = re.compile(r"^### (\S+) (.+?) — id: (\S+)$")
 # keeps the one home one home; every comparison downstream then goes on working as written.
 _VARIATION_SELECTORS = "︎️"
 
-# The five marks the plan types, each in the ONE spelling every reader and every renderer uses.
+# The marks the plan types, each in the ONE spelling every reader and every renderer uses. Which
+# marks exist and what each means is not decided here: that has one home, the owner's own
+# ~/.claude/playbook/CLAUDE.md, "How a reply to him looks". This table is that legend in machine
+# form, and a mark added or dropped there is added or dropped here to match.
 # `👁` needs its selector to render as the emoji rather than the monochrome glyph, so the canonical
 # spelling carries it; the rest carry none. A mark typed the other way comes back to its canonical
 # spelling here, and nowhere else has to know that two spellings exist.

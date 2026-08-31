@@ -41,3 +41,28 @@ no home is itself the finding. This closed set is the request-side statement; th
 is the property net's homeless-item finding (SPEC INV-150), the deferral test's (SPEC INV-152),
 and the earned message's (SPEC INV-189, INV-191). The four are one routing principle stated four
 times (SPEC INV-153).
+
+### Naming the home when the incoming thing is a rule
+
+A rule is the one arrival the principle above could not finish routing, because it names the test
+without naming the houses. There are five, and each already declares what it is for:
+
+| House | Its declared sentence | What belongs to it |
+|---|---|---|
+| the spec | a requirement, stated once, with its own code | a law of the product itself — what it does, and what must stay true |
+| the base rulebook | the shared working rules, once | a way of working every skill obeys, whatever the task |
+| a skill | one job, carrying only the rules its job applies | a rule that fires when that job runs and at no other time |
+| a gate, a test, a hook | teeth on a rule already stated somewhere above | nothing of its own; it enforces, and never legislates |
+| a profile | a value that varies by session, host or person | anything true of one person, one repository or one run |
+
+**A rule enters the one house whose declared sentence it extends.** Read the five sentences, ask
+which one the rule is a continuation of, and write it there. Everywhere else that mentions it
+carries a pointer at that house and no second statement of the rule (base rule 4).
+
+A rule that pins to none of the five is the finding, and it is said as one rather than filed
+somewhere plausible: it usually means the rule is a wish with no owner yet, or a value in
+rule's clothing. A rule that pins to two is the same finding from the other side — either it is
+two rules that need separating, or one of the two houses is holding a copy.
+
+The five names are what a rule is tested against, so a rule nobody has seen before still lands:
+it is read for what kind of statement it is, and the house takes it from there.
