@@ -27,7 +27,10 @@ class TestNodeFitnessTest(unittest.TestCase):
 
     def test_prover_flags_the_speculative_node(self):
         external_clone_or_skip()
-        pp = read_flat("skills/product-prover/SKILL.md")
+        # Release 1.6.0 moved the architecture lens out of the canon's SKILL.md body and into
+        # its reference/architecture-lens.md, so the flag is read across the skill's whole
+        # surface — the same whole-surface read the architect assertion above already uses.
+        pp = read_all_flat("skills/product-prover/SKILL.md")
         self.assertIn("one caller and no promised second is flagged", pp)
 
     def test_spec_clause_and_index(self):

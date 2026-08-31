@@ -10,7 +10,7 @@ draws the scoped design review over the delta.
 These tests assert the spec states the law and both skills carry it, so the intake window is
 closed in real text rather than a journal note.
 """
-from conftest import external_clone_or_skip, read
+from conftest import external_clone_or_skip, read, read_all_flat
 
 
 def test_spec_states_the_second_sibling_law():
@@ -35,7 +35,11 @@ def test_prover_skill_asks_the_question_at_intake():
     assert "INV-169" in pack
     # The tracked-adapter anchor above holds on a bare checkout; only the canon read below needs the clone.
     external_clone_or_skip()
-    skill = read("skills/product-prover/SKILL.md")
+    # Release 1.6.0 moved the feature-fit walk out of the canon's SKILL.md body and into its
+    # reference/review-modes.md, so the question is read across the skill's whole surface — the
+    # same one-home reading conftest's _skill_surface describes for a skill that offloads
+    # set-piece material into its references.
+    skill = read_all_flat("skills/product-prover/SKILL.md")
     assert "second member of a kind an existing surface already has" in skill
 
 

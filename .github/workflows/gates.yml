@@ -37,13 +37,26 @@ jobs:
       # disagreed on the one thing 1.4.2 changed, the frontmatter description. The sha form
       # stands (a tag can be moved, and the same contract test forbids a tag here); the
       # release it belongs to is named in this line so a reader need not go and look it up.
-      # The floor in skills/product-prover-pack/SKILL.md stays at 1.4.0: 1.4.1 and 1.4.2
-      # moved the README and the discovery line, and nothing this pack binds to needs them.
-      - name: "install the external product-prover canon (pinned at v1.4.2, gate b's evidence)"
+      # The floor in skills/product-prover-pack/SKILL.md stayed at 1.4.0 then: 1.4.1 and 1.4.2
+      # moved the README and the discovery line, and nothing this pack bound to needed them.
+      #
+      # 2026-08-31: moved from efe05fa to 90d2d5c, which is release v1.6.0. The canon was
+      # released three times in one day — 1.4.3, 1.5.0, 1.6.0 — and the clone on the author's
+      # machine followed while this pin did not, so a local run and a CI run proved two
+      # different canons and five assertions were red locally and green on the server. 1.6.0
+      # split the skill body: the merge gate, the feature-fit walk's second-sibling question
+      # and the architecture lens moved into reference/review-modes.md and
+      # reference/architecture-lens.md. The assertions that quoted those clauses now read the
+      # skill's whole surface (conftest's read_all/read_all_flat), which is how this pack
+      # already reads a skill that offloads set-piece material into its references. Those
+      # whole-surface reads hold on 1.4.2 as well as on 1.6.0, so the floor in
+      # skills/product-prover-pack/SKILL.md stays at 1.4.0: nothing this pack binds to needs
+      # a later release.
+      - name: "install the external product-prover canon (pinned at v1.6.0, gate b's evidence)"
         run: >-
           scripts/install-external-skills.sh
-          --ref efe05faa0f11ceeea0be63f14f5943b0ccf139b4
-          --expect-commit efe05faa0f11ceeea0be63f14f5943b0ccf139b4
+          --ref 90d2d5c897ace1879ca6653c079e86d4119bfa0b
+          --expect-commit 90d2d5c897ace1879ca6653c079e86d4119bfa0b
       - name: "test suite (gate b, full — the reach map stays local)"
         if: ${{ !cancelled() }}
         run: python3 -m pytest -q
