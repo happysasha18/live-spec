@@ -20,9 +20,10 @@ feedback-ledger line. The same commit that lands the route removes the swept fil
 
 ADOPT.md runs as ordered phases; each phase states its own done-condition. In plain terms:
 
-1. **Version control first (Phase 0).** The host becomes a git repo with a `.gitignore`, one
-   baseline commit of the pristine tree, and a recorded decision about a remote. From this point
-   the whole run is reversible.
+1. **Version control first (Phase 0).** The host becomes a git repo with a `.gitignore`, one commit
+   of the pristine tree made by `adopt/record-starting-state.sh` before any pack file lands, and a
+   recorded decision about a remote. From this point the whole run is reversible, and every later
+   change diffs against how the project started.
 2. **Cruft sweep, offered once (Phase 0.5).** Writing the `.gitignore` surfaces regenerable junk
    such as caches and stale exports. The run lists it in groups and deletes only what the human
    approves.
