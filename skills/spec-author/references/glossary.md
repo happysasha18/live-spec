@@ -39,8 +39,8 @@ guessed.
 **The markers this page writes.** `[feature: F-x]` on a requirement heading marks a person-facing
 scenario. `[target]` marks a surface or phase the spec names and does not yet specify for build.
 `[default]` names a value the agent chose that the person may retune. `[GAP: ...]` under a criterion
-records what the source left open. `⟨DECIDE⟩` marks a call only the person can make, and it carries a
-one-line question.
+records what the source left open. `⟨DECIDE⟩` marks a call base rule 1 sends to the person, and it
+carries a one-line question.
 
 **The bracket codes.** `INV-`, `E-`, `T-`, `S-`, `C-`, `M-`, `D-`, `A-`, `B-`, and `ACT-` codes index
 requirements in this pack's own `PRODUCT_SPEC.md`. Its preamble names each letter's kind: `E-` an

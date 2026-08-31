@@ -56,8 +56,8 @@ project under review, including `PRODUCT_SPEC.md`, `ARCHITECTURE.md`, `SURFACES.
   station is station 3.
 - **Lens** — one named check walked over the document, each testing one concern.
 - **Queue row** — one row of the project's queue, `ROADMAP.md` in this pack, holding a parked item.
-- **Taste call** — a choice only the human can make, on taste rather than fact. Base rule 1 lists it
-  beside a threshold and a policy.
+- **Taste call** — a choice only the human can make, on taste rather than fact. Base rule 27 holds
+  the whole set of what the human alone can settle, and a taste call is one of it.
 - **Architecture node** — one named unit in the architecture document. It carries one responsibility,
   owns the spec facts it implements, and pins them to files.
 - **Pins** — the line in a node's own section of `ARCHITECTURE.md` naming the files that node lives

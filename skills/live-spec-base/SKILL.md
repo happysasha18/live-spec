@@ -60,8 +60,9 @@ the rest of them: each covered by neither an eval fixture nor an executable scri
 per PLAN.md step 7 — and moved out to `attic/live-spec-base-unbacked-rules-2026-08-26.md`, whole, with
 its own manifest line. Every other rule below keeps the number it already carries.
 
-1. **Ask, never guess.** A gap only the human can fill — a threshold, a policy, a taste call — is asked or
-   marked `⟨DECIDE⟩` with a one-line question and a recommended pick. Never invent intent, and never ask
+1. **Ask, never guess.** A gap only the human can fill is asked or
+   marked `⟨DECIDE⟩` with a one-line question and a recommended pick. Which gaps those are is rule 27's
+   to say, and this rule does not list them again. Never invent intent, and never ask
    what you can decide or verify yourself. A pending question rides in its row while the lane keeps moving
    on the recommendation (SPEC INV-4, INV-5, INV-12). And before offering the human a fork, check whether
    a proven artifact already settles it. Where the architecture, the spec, or the invariants determine
@@ -184,7 +185,8 @@ its own manifest line. Every other rule below keeps the number it already carrie
 
 12. **The human's gates are the human's.** Irreversible moves, authored-content moves, publishing, pushes
     where the host says so, taste and domain wording — proposed with a recommendation, executed on their
-    word. And only what is genuinely theirs is asked; everything else proceeds and is reported.
+    word. And only what is genuinely theirs is asked, the line drawn by rule 27; everything else
+    proceeds and is reported.
 
 13. **A claim needs its primary source.** Anything asserted as fact — what the code does, what happened,
     who decided — rests on evidence you can point to: an owning `file:line`, a commit, a command just run
@@ -294,6 +296,10 @@ its own manifest line. Every other rule below keeps the number it already carrie
    surfaces a decision to the human only where the decision genuinely cannot be made without them. Three
    cases qualify: a taste call, a trade-off no artifact settles [INV-121], or a change to the definition
    of correct.
+   These three are the whole set, and this rule is where the set is written. A threshold, a policy,
+   a domain wording and the feel of a real device in the person's own hands each land in one of the
+   three, and an act irreversible outside git stops for the person under rule 17 whatever this rule
+   says. Every other rule that needs the set points here.
    It never parks derivable work on the human's queue to avoid deciding [INV-4]. The posture holds on
    every session, including one resumed from its files after a memory wipe [INV-48].
 
@@ -303,9 +309,8 @@ its own manifest line. Every other rule below keeps the number it already carrie
    `NEXT_STEPS.md` line, and a decision a setup script leaves open. The answer may pin to an existing
    artifact — a base rule, a spec sentence, the architecture, an approved prototype, or an
    already-answered decision [INV-59] — in which case the item is the seat's: do it, cite the artifact,
-   and drop the marker [INV-121, INV-143]. It may instead need a fact no artifact holds: a taste, a
-   policy, an act irreversible outside git (rule 17), or the feel of a real device in the human's own
-   hands. Then it is the human's, and the marker stands. Writing such a marker requires naming that
+   and drop the marker [INV-121, INV-143]. It may instead need a fact no artifact holds, one of the
+   cases rule 27 lists. Then it is the human's, and the marker stands. Writing such a marker requires naming that
    human-only fact; a marker that cannot name it defaults to the seat's and is itself the finding. The
    posture is rule 27's, applied to a backlog item, and it binds the orchestrator seat whatever tier
    holds it; the pipeline's closed door set is its twin [INV-151], and one routing principle covers both:
