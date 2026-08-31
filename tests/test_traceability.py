@@ -1463,7 +1463,12 @@ class TestTargetOwnership(unittest.TestCase):
         "INV-198": "q-386",  # config-health asserts the primary tree holds main (git's refusal rests on it)
         "INV-199": "q-386",  # the merge-base check ahead of the gate + the stale-lane check
         "INV-201": "q-386",  # the adoption gate reading the host's vendored worktree line
-        "INV-244": "plan-12",  # the axes value-space step + the recursive axis-registry sweep; q-437 folded into plan-12 on 2026-08-28
+        # Re-pointed 2026-08-31: q-437 was folded into plan-12 on 2026-08-28 and never worked, so
+        # plan-12 closed with this promise still standing. q-437 is back on the board as its own
+        # open row and owns the anchor again. The anchor's other half — the axes value-space
+        # forcing step, q-436's work — is also unbuilt and is written up in PLAN.md's §Blockers;
+        # this map holds one owner per anchor, and the row that is back on the board is the owner.
+        "INV-244": "q-437",  # the recursive axis-registry similarity sweep
         "INV-308": "q-166",  # the work board surface, promised whole and unbuilt
         "INV-67": "q-166",   # the board's one-stable-link published page
     }

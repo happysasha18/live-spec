@@ -9,7 +9,7 @@
 
 **pins** —
 - `skills/director/SKILL.md:25` (the seven acts and the table that decides between them — the first read's one home)
-- `skills/director/SKILL.md:205` (the decision sheet's fields, in the order the sheet writes them)
+- `skills/director/SKILL.md:213` (the decision sheet's fields, in the order the sheet writes them)
 - `skills/director/SKILL.md:38` (the idea act's own row, the line that names the idea shelf)
 - `scripts/checkpoint.py:55` (the one place the checkpoint machinery couples to this node: an owner reading `director` is what makes a decision sheet required at creation and at validation)
 - `evals/director/check.py:1` (the grader that judges a recorded run against its written scenario. It is deterministic and it calls no model; the run it grades is produced elsewhere and stored, so the score speaks about the recorded runs rather than about today's session)
@@ -41,7 +41,7 @@
 - `skills/director/references/work-kind-table.md:4` (the door + work-kind relationship — the door picks which steps run, this table picks the form each running step takes)
 - `skills/build-pipeline/SKILL.md:21` (the craft ladder — step→craft one home, Requirement 51 backs it at the SPEC level)
 - `skills/director/references/work-kind-table.md:1` (the work-kind table — per-kind meanings' one home)
-- `skills/director/SKILL.md:258` (steps — the dynamic Execution graph that replaces the old fixed nine-step sequence)
+- `skills/director/SKILL.md:260` (steps — the dynamic Execution graph that replaces the old fixed nine-step sequence)
 - `skills/build-pipeline/SKILL.md:45` (gates — the MINOR-bump gate, this node's own remaining "Gates worth remembering" section)
 - `skills/architect/SKILL.md:144` (re-carve paragraph — INV-113 redesign-owes-rework)
 - `skills/director/references/delegation-protocol.md:71` (the worker-brief register-laws clause — no-scissors + no-dramatization, INV-221)

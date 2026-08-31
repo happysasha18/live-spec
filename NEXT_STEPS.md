@@ -61,14 +61,22 @@ gate pass over it. The readers live in `guardrails/specformat.py`; `guardrails/c
 carries a red proof for each with its clean twin. The rules for a writer are in `docs/spec-format.md`
 and Requirement 317.
 
-**Two things this task left open, both a line's work for you.** q-437 — checking for similar cases at
-every level — was folded into `plan-12` when the board was cut, and that work is untouched while the
-spec still promises it, so the row stays queued rather than ticked even though its acceptance runs
-green. And the decision sheet's own ordering line: the ordering law has its home in the spec and its
-node now, read off the plan's recorded states by command, but the field on the sheet itself edits a
-skill file, and the installed copies then differ from the source until `scripts/sync-skills.sh` runs
-from outside a worktree. It was written, the suite named the drift, and it came back out. Both stand
-in §Blockers.
+**Both of the things that task left open are closed, and `plan-12` is ticked.** The decision sheet
+has its ordering line — which open piece of accepted work runs next and why that one, read off the
+states the plan records — written from the main tree with `scripts/sync-skills.sh` run in the same
+breath, so ten installed skills match their source and `tests/test_config_health.py` is green.
+Requirement 314 claims the field again. And q-437, checking for similar cases at every level, is back
+on the board as its own open row: it was folded into `plan-12` on 27.08 and never worked, so the
+promise the spec still carries now names an open row instead of a finished one. Its definition of
+done names the command that will decide it. The same promise has a second half, the value-space
+forcing step that was q-436's, and nothing owns that one; it is written up in `PLAN.md`'s §Blockers
+for the owner.
+
+**A ticked task stopped proving itself, and that is in §Blockers too.** "A question you ask never
+turns into a task" asks that the recorded runs of the reading be newer than the skill they grade.
+Commit `98a003b5` edited that skill, and the runs are still 26.08's, so the opening report now prints
+the task with a blocked mark. The behaviour did not regress; the proof lapsed. Re-recording the runs
+is a session's own work against the skill.
 
 **One older question still waits on the owner.** `PLAN.md` lets a session change a task's status
 and §Blockers and nothing else without his say-so; the 28.08 evening pass rewrote what finished

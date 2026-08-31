@@ -40,7 +40,7 @@ No state a plan row records says that one piece of work waits on another, so not
 **Case: the sheet is written before the first working skill is called**
 
 1. *when* work is accepted, the system *shall* write the decision sheet before it calls any working skill. [INV-318]
-   - the sheet holds the goal in the person's words, the outcome observable afterwards, the dimensions the work touches with a reason for each, what is known, what has to be found out, what cannot be undone, the working skills needed, the evidence that shows the goal was reached, and the documents whose sentences change.
+   - the sheet holds the goal in the person's words, the outcome observable afterwards, the dimensions the work touches with a reason for each, what is known, what has to be found out, what cannot be undone, the working skills needed, the evidence that shows the goal was reached, which piece runs next where other accepted work stands open, and the documents whose sentences change.
 2. The system *shall* write the sheet into the work's own checkpoint file and *shall* keep no second copy of it. [INV-318, INV-4]
 3. *while* one piece of work runs, the system *shall* keep it on the one checkpoint it opened and *shall* open no second checkpoint for it. [INV-318]
 

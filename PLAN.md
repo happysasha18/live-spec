@@ -690,11 +690,11 @@ citation of the form "row 388" is provenance for work that shipped, and those ro
 findable by number.
 
 
-### ⬜ The spec finally describes what the product does — id: plan-12
+### ✅ The spec finally describes what the product does — id: plan-12
 **Group:** Spec & feature quality · **Priority:** normal
 **Source:** PLAN.md step 12, measured 27.08 — 279 of 308 requirements carry no feature name.
-**Closes:** q-108, q-117, q-118, q-143, q-192, q-436, q-437, q-459, q-517, q-552, q-440, q-486
-**Absorbed:** 12 rows folded here 27.08, rotated off the board 28.08 — q-517, q-552, q-486, q-108, q-117, q-118, q-143, q-192, q-436, q-437, q-459, q-440. Full text: `docs/queue-archive/rotated-PLAN-2026-08-28-folded-rows.md`.
+**Closes:** q-108, q-117, q-118, q-143, q-192, q-436, q-459, q-517, q-552, q-440, q-486
+**Absorbed:** 12 rows folded here 27.08, rotated off the board 28.08 — q-517, q-552, q-486, q-108, q-117, q-118, q-143, q-192, q-436, q-437, q-459, q-440. Full text: `docs/queue-archive/rotated-PLAN-2026-08-28-folded-rows.md`. One of the twelve came back out on 31.08: q-437 was never worked, so it stands on this board again below and is no longer among the rows this task closes.
 
 Measured 27.08. `spec/` holds 308 requirements; 29 carry a feature tag. The seventeen declared
 feature names sit on the seventeen smallest files, and the 279 untagged requirements — the bulk of
@@ -740,15 +740,43 @@ fall into today became gate faults with red proofs: a file dropped beside the pa
 nowhere, and two parts opening one requirement number. Both were confirmed as real holes first, by
 dropping each into a copy of the tree and watching every check pass over it.
 
-**Two things keep this row open, and both are yours to settle in a line.** First, q-437 — checking
-for similar cases at every level — was folded into this task when the board was cut, and that work is
-untouched. The spec still promises it in its own words, marked as a later increment, and the check
-that keeps a promise honest requires an open task behind it, so ticking this row would leave that
-promise owned by nothing. Give q-437 its own line back, or drop the promise. Second, the ordering
-line the decision sheet was to gain: the ordering law itself now has a home in the spec and a node,
-read off the plan's recorded states, but the sheet's own field would change a skill file, and the
-installed copies of the skills can only be refreshed by a session working outside a worktree. Both
-are named in Blockers below.
+**Both remaining pieces settled 31.08, and the row closes.** The decision sheet has its ordering
+line: it names which open piece of accepted work runs next and why that one, read off the states
+this page records rather than composed from memory. The line went into the reading skill from the
+main tree, the installed copies were refreshed in the same breath, and the health check that reds on
+drift between source and installed runs green. The spec claims the field again in Requirement 314.
+And q-437 — checking for similar cases at every level — has its own line back on this board, below.
+It was folded here on 27.08 and never worked, and the spec still promises it, so the promise now
+names an open row instead of a finished one. What was true of this task is done; what was never
+started is visible as its own row.
+
+
+### ⬜ Checking for similar cases happens at every level — id: q-437
+**Group:** Spec & feature quality · **Priority:** normal
+**Source:** tlvphotos inbox 2026-07-20, with the owner's clarification the same day; sibling of q-436.
+**Reopened 31.08.** Folded into plan-12 on 27.08 and rotated off this board on 28.08 as covered by
+it. plan-12 landed on 31.08 without touching this work. The spec still promises it in its own words,
+kept as a later increment, so a promise nobody is building stands here as its own open row rather
+than inside a task that is otherwise finished. Folded text:
+`docs/queue-archive/rotated-PLAN-2026-08-28-folded-rows.md`. Original wording, as row 437:
+`docs/queue-archive/rotated-ROADMAP-2026-08-27-merged-into-plan.md`.
+
+Asking what else is like this already runs across sibling surfaces. The same reflex belongs one level
+up, over the set of variations a product of this kind is rendered under — a phone's touch against a
+desktop's pointer, a viewport, a language, a connection — and at every level above that. Whenever a
+session adds or derives one of those variations, it walks the whole set the project's kind declares
+and says of each other one whether the surface is already written against it, whether it is being
+added now, or why it is out of scope with the reason. What makes this worth doing is that a
+hand-written list stops at the two obvious cases; the pass is what finds the third.
+
+**Definition of done:** adding or deriving a composition axis runs a bounded pass over the axis set
+the project's kind declares and returns one of three verdicts for every other axis in it — already
+composed against, added now, out of scope with its reason. The duty is written in `spec-author`, the
+prover reads the verdicts as a lens, and the sentence that says the sweep repeats at any level sits
+beside the duty. A reader tells finished from unfinished by one command: `python3 -m pytest -q
+tests/test_composition_axes.py`, extended by the landing with a case that walks a two-axis registry
+and reds when a sibling axis comes back with no verdict. Until that case exists and runs green, this
+row is unfinished.
 
 
 ### ⬜ Every project gets its own status view — id: plan-14
@@ -1293,7 +1321,27 @@ One line per finding. Don't start a second list for them. Don't fix one without 
   `~/.claude/hooks/` holds symlinks. That edits armed hooks, which law 1 forbids while this plan
   runs, so it is written down and left alone.
 
-- **The decision sheet's own ordering line waits for a session outside a worktree. Open, 31.08.**
+- **The reading skill changed and its score did not, so a ticked task stopped proving itself. Found
+  31.08, at the merge.** The task "a question you ask never turns into a task" is ticked, and its
+  acceptance command asks that the recorded runs of the reading be newer than the skill they grade.
+  Commit `98a003b5`, the one-home landing at 13:55 on 31.08, edited the reading skill; the runs are
+  still the ones recorded on 26.08. Closing the decision sheet's ordering line the same day edited it
+  again. Nothing regressed in the behaviour — what lapsed is the proof, and the opening report now
+  prints that task with a blocked mark and says its acceptance command fails. Re-recording the runs
+  is a session's own work against the skill, which no command here can do on its own; until it
+  happens the score printed at every session start says nothing about the skill as it stands, and the
+  report says so in those words.
+
+- **The other half of the same promise has no row. Found 31.08, while giving q-437 its one back.**
+  The spec keeps two things promised under one sentence: the recursive similarity sweep, which is
+  q-437's, and the step that forces an author to name the value in between the two obvious ones on
+  each variation a product is rendered under — a tablet that carries touch and a pointer at once,
+  between a phone and a desktop. That second half was q-436, folded into plan-12 on 27.08 and never
+  worked either. plan-12 has closed. Only one row can own the promise in the map that keeps promises
+  honest, and q-437 owns it, so nothing goes red; the value-space step is simply owned by nobody.
+  Give q-436 its own row back the way q-437 got one, or drop that half of the promise.
+
+- **The decision sheet's own ordering line waits for a session outside a worktree. Closed 31.08.**
   Your word of 27.08 gives the ordering to the first read: it brings work together, runs it side by
   side, and ranks it. The law now has a home — the spec states it and the architecture gives it a
   node, and the order itself is read off the states this page records, by command. What is still
@@ -1302,7 +1350,9 @@ One line per finding. Don't start a second list for them. Don't fix one without 
   the source until `scripts/sync-skills.sh` runs. That command writes outside the project's tree,
   which a lane working in a worktree may not do, and running it while other windows are live would
   change a skill under a session already reading it. It was written, the suite went red on the drift
-  by name, and it was taken back out. One session working in the main tree closes it in a minute.
+  by name, and it was taken back out. A session working in the main tree put it back the same day:
+  the field is on the sheet, `scripts/sync-skills.sh` refreshed ten installed skills, the health
+  check that reds on drift runs green, and the spec claims the field again.
 
 - **The amended bar for "queued" stands, and the twenty-one definitions stay as written. Settled
   31.08.** The rule at the top of this page lets a session move a task's status and write in this

@@ -226,6 +226,8 @@ the work it describes means the work was over-read.
 - **Risk and irreversibility** — anything that cannot be undone, named
 - **Specialists** — who is needed, what each is for, what can run in parallel
 - **Evidence** — what will show the goal was reached, not merely that steps ran
+- **What runs next** — where other accepted work stands open, which piece runs next and why that
+  one, read off the states the plan records rather than composed from memory
 - **Documents that must change** — only those whose sentences actually change
 
 The last line is where ceremony collects. A refactor that changes no behaviour changes no

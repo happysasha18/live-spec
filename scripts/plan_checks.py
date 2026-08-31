@@ -99,7 +99,11 @@ sys.exit(1 if undrawn or unmarked else 0)
     # node. The roster names the first read, and the check that proves roster and coverage table agree
     # now also reds a name standing on a scenario the spec itself marks promised. The two parts-map
     # faults each carry their own red proof, since a fault with no red proof is a claim.
-    "plan-12": "grep -q '^## Requirement 313' spec/message-first-read.md && grep -q '^### .node: director.$' architecture/pipeline-and-lanes.md && grep -q '^| F-first-read | director |' architecture/feature-coverage.md && grep -q 'def test_no_feature_name_stands_on_a_promised_scenario' tests/test_traceability.py && grep -q 'def test_a_part_the_map_never_named_reds_the_index_gate' tests/test_spec_parts.py && grep -q 'def test_two_parts_under_one_number_red_the_index_gate' tests/test_spec_parts.py && python3 guardrails/check-index-generated.py PRODUCT_SPEC.md PRODUCT_SPEC.index.md >/dev/null",
+    # A sixth arm was added at the close on 31.08, for the row's own third bullet: the decision
+    # sheet gains the line that names which open piece runs next. Both sides are read, the skill's
+    # field and the spec's claim on it, because the field came out once already when only one side
+    # could be written from a worktree.
+    "plan-12": "grep -q 'What runs next' skills/director/SKILL.md && grep -q 'which piece runs next where other accepted work stands open' spec/message-first-read.md && grep -q '^## Requirement 313' spec/message-first-read.md && grep -q '^### .node: director.$' architecture/pipeline-and-lanes.md && grep -q '^| F-first-read | director |' architecture/feature-coverage.md && grep -q 'def test_no_feature_name_stands_on_a_promised_scenario' tests/test_traceability.py && grep -q 'def test_a_part_the_map_never_named_reds_the_index_gate' tests/test_spec_parts.py && grep -q 'def test_two_parts_under_one_number_red_the_index_gate' tests/test_spec_parts.py && python3 guardrails/check-index-generated.py PRODUCT_SPEC.md PRODUCT_SPEC.index.md >/dev/null",
     # q-458: the audit is its own external skill, installed, with this pack's binding and the lints
     # it declares per text surface.
     "q-458": 'test -d "$HOME/.claude/skills/text-audit" && test -f skills/text-audit-pack/SKILL.md && test -f .text-audit/lints.json',
