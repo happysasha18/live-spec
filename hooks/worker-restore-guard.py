@@ -35,10 +35,17 @@ bytes land somewhere harmless.  Until 2026-08-28 a missing `cwd` passed every ab
 
 HOW THE COMMAND IS READ.  Quoted spans and heredoc bodies are data, not shell invocations.
 Segments are split on shell separators outside quotes, and the `|` boundaries are kept so a
-pipeline is judged whole.  Before the program name is read, three kinds of prefix come off: shell
-grouping (`( … )`, `{ …; }`, a leading `!`), the `command`/`sudo`/`env` wrappers, and the
-launchers that run another program after their own options (`timeout`, `time`, `nohup`, `nice`,
-`ionice`, `stdbuf`, `setsid`, `xargs`, `doas`).  Command text a segment carries INSIDE it is judged
+pipeline is judged whole.  Before the program name is read, four kinds of prefix come off: shell
+grouping (`( … )`, `{ …; }`, a leading `!`, and the keyword that opens a compound statement — `if`,
+`while`, `until`), a redirection standing where the command word is expected (`> foo git show
+HEAD:foo`), the `command`/`sudo`/`env` wrappers, and the launchers that run another program after
+their own options (`timeout`, `time`, `nohup`, `nice`, `ionice`, `stdbuf`, `setsid`, `xargs`,
+`doas`).  A git invocation then has git's OWN pre-command options stepped over by git's grammar
+rather than by a list of names, so `git --no-pager checkout -- foo` reaches the verb reader as
+`checkout`.  Two facts are read once over the whole command before its pipelines are judged: the
+paths the command EMPTIES, which is what makes a later `>>` onto one of them a restore rather than
+an append, and the paths a redirection elsewhere CAPTURES a pipeline's output to (`exec > foo`,
+`{ … ; } > foo`).  Command text a segment carries INSIDE it is judged
 in its own right, to the same depth of nesting: a `$( … )`, `<( … )`, `>( … )` or back-quoted
 substitution, the program text a shell is handed on a `-c`-bearing option cluster or that `eval`
 is handed whole, and the command a `find -exec` runs on every file it matches.  A substitution also
@@ -101,8 +108,12 @@ LAUNCHERS = {
 # `timeout` takes a bare DURATION between its options and the program it runs.
 _DURATION = re.compile(r"^[\d.]+[smhd]?$")
 
-# Shell words that stand in front of a command without being one: grouping, negation, timing.
-_PREFIX_WORDS = ("!", "then", "else", "elif", "do")
+# Shell words that stand in front of a command without being one: negation, and the keyword that
+# opens or continues a compound statement. The openers (`if`, `while`, `until`, `case`) were missing
+# until the adversarial read of 2026-08-31, so `if git checkout -- foo; then :; fi` reached the verb
+# reader as the word `if` and passed, while `for f in *; do git checkout -- $f; done` was caught only
+# because `do` happened to be on the list. A compound statement's keyword is not the command it runs.
+_PREFIX_WORDS = ("!", "if", "then", "else", "elif", "while", "until", "do")
 
 SHELLS = ("sh", "bash", "zsh", "dash", "ksh", "mksh", "busybox")
 
@@ -306,8 +317,32 @@ def _strip_launcher_options(name, tokens):
     return tokens
 
 
+# A redirection standing where a command word is expected. The shell lets a redirection sit ANYWHERE
+# in a simple command, the front included, so `> foo.py git show HEAD:foo.py` runs `git show` with
+# its output on `foo.py` — and until the adversarial read of 2026-08-31 the program name read as `>`
+# and the read half of the pair went unseen. The write half was found all along; it is the read half
+# this strips back into view.
+_LEADING_REDIRECT = re.compile(r"^(?:[0-9]*(?:>>?\|?|<)|&>>?|<<<)$")
+
+
+def _strip_leading_redirects(tokens):
+    """Drop redirections standing in front of the command word, with the paths they name."""
+    while tokens:
+        head = tokens[0]
+        if _LEADING_REDIRECT.match(head):
+            tokens = tokens[2:] if len(tokens) > 1 else []
+            continue
+        # The glued spelling, `>foo.py cmd`, where the operator and its path are one word.
+        match = re.match(r"^(?:[0-9]*>>?\|?|&>>?|<)(?=\S)", head)
+        if match:
+            tokens = tokens[1:]
+            continue
+        break
+    return tokens
+
+
 def _command_tokens(segment):
-    tokens = _strip_grouping(_tokens(segment))
+    tokens = _strip_leading_redirects(_strip_grouping(_tokens(segment)))
     while tokens:
         if _is_assignment(tokens[0]):
             tokens = _strip_grouping(tokens[1:])
@@ -355,17 +390,34 @@ def _command_tokens(segment):
     return tokens
 
 
+# git's pre-command options that take a SEPARATE value word. Every other pre-command option is a
+# flag of its own, and the walk below steps over any of them without needing to know its name.
+_GIT_VALUE_OPTIONS = ("-C", "-c", "--namespace", "--work-tree", "--git-dir", "--exec-path",
+                      "--super-prefix", "--config-env")
+
+
 def _git_args(segment):
+    """`git`'s arguments with its PRE-COMMAND options stepped over, so `args[0]` is the subcommand.
+
+    The step-over used to name five options and let every other one through, so `git --no-pager
+    checkout -- foo` reached the verb reader as the word `--no-pager` and passed (the adversarial
+    read of 2026-08-31; `--no-pager` is what a script writes to keep git off a tty, and `-P`,
+    `--paginate` and `--literal-pathspecs` are the same shape). A list of option names is the wrong
+    answer to a class git can grow at any release: git's own grammar says the pre-command options
+    all begin with `-` and the FIRST word that does not is the subcommand, so that is what is read.
+    Only the options carrying a separate value word need naming, and those are named above.
+    """
     tokens = _command_tokens(segment)
     if not tokens or tokens[0].rsplit("/", 1)[-1] != "git":
         return None
     args = tokens[1:]
     while args:
-        if args[0] in ("-C", "-c", "--namespace", "--work-tree", "--git-dir") \
-                and len(args) > 1:
+        head = args[0]
+        if head == "--":
+            break
+        if head in _GIT_VALUE_OPTIONS and len(args) > 1:
             args = args[2:]
-        elif args[0].startswith(("--git-dir=", "--work-tree=")) \
-                or (args[0].startswith("-c") and len(args[0]) > 2):
+        elif head.startswith("-") and head != "-":
             args = args[1:]
         else:
             break
@@ -542,10 +594,60 @@ def _truncating_redirect_targets(segment):
     """Every path this segment TRUNCATES with a `>`-style redirect.
 
     `>`, `>|` and `&>` all empty the file before a byte is written, which is where the uncommitted
-    content goes. `>>` appends and leaves what the file holds in place, so it is stepped over. A
-    file-descriptor duplication (`2>&1`, `>&2`) names no path and is stepped over too.
+    content goes. `>>` appends and leaves what the file holds in place, so it is stepped over HERE;
+    `_emptied_paths` below is what stops that step-over from becoming a route, since a command that
+    empties the path itself and then appends to it has destroyed the same bytes. A file-descriptor
+    duplication (`2>&1`, `>&2`) names no path and is stepped over too.
     """
     return _redirect_targets(segment, appending=False)
+
+
+# The verbs by which a shell empties a file it is about to be given new content for. The set is
+# closed the way the git-verb side is closed: emptying a path from a shell is a truncating
+# redirection, a removal, or a truncating program, and there is no fourth spelling. Read by
+# `_emptied_paths`.
+EMPTYING_PROGRAMS = ("rm", "unlink", "truncate", "shred")
+
+
+def _emptied_paths(command, cwd, depth=0):
+    """Every tree path this ONE command empties before anything else it does.
+
+    The reason `>>` is innocent is that the file's own bytes survive it. That reason fails the
+    moment the same command takes them out first: `: > foo && git show HEAD:foo >> foo` empties the
+    path and then lands repository bytes on it, which is the whole act `git checkout -- foo` is
+    refused for, spelled in two segments instead of one. Found by the adversarial read of
+    2026-08-31, which probed the guard's own promise that both halves inside ONE command are read.
+
+    Read over the whole command rather than one pipeline, since `&&`, `;` and `&` all end a pipeline
+    while leaving the two halves inside a single event. Nested command text is walked to the same
+    depth as everything else here.
+    """
+    emptied = set()
+    for stages in _pipelines(command):
+        for segment in stages:
+            for target in _truncating_redirect_targets(segment):
+                if _lands_in_the_tree(target, cwd):
+                    emptied.add(os.path.normpath(os.path.expanduser(target)))
+            tokens = _command_tokens(segment)
+            if tokens and tokens[0].rsplit("/", 1)[-1] in EMPTYING_PROGRAMS:
+                rest = tokens[1:]
+                skip_next = False
+                for arg in rest:
+                    if skip_next:
+                        skip_next = False
+                        continue
+                    if arg in ("-s", "--size"):
+                        # `truncate -s 0 foo`: the size is a number, not a path.
+                        skip_next = True
+                        continue
+                    if arg.startswith("-") or "=" in arg:
+                        continue
+                    if _lands_in_the_tree(arg, cwd):
+                        emptied.add(os.path.normpath(os.path.expanduser(arg)))
+            if depth < MAX_NESTING:
+                for inner in _nested_command_texts(segment):
+                    emptied |= _emptied_paths(inner, cwd, depth + 1)
+    return emptied
 
 
 def _redirect_targets(segment, appending):
@@ -639,10 +741,12 @@ def _reads_repository_content(segment, depth=0):
     return False
 
 
-def _write_target(segment, cwd, depth=0):
+def _write_target(segment, cwd, depth=0, emptied=frozenset()):
     """The tree path this segment lands bytes on, or None.
 
-    Three ways a stage writes a file. A truncating redirection. A program that reads stdin and
+    Four ways a stage writes a file. A truncating redirection. An APPEND onto a path the same
+    command has already emptied, which destroys exactly what a truncating redirection destroys and
+    is why `emptied` is carried here at all. A program that reads stdin and
     writes it out to a path — the stdin-consuming writers a pipeline realistically ends in, `tee`,
     `dd of=`, `sponge`, and a `tar` told to extract, which unpacks into whatever directory it is
     pointed at. And a program handed a whole program of its own: a shell `-c` payload is read the
@@ -652,6 +756,10 @@ def _write_target(segment, cwd, depth=0):
     """
     for target in _truncating_redirect_targets(segment):
         if _lands_in_the_tree(target, cwd):
+            return target
+    for target in _append_redirect_targets(segment):
+        if _lands_in_the_tree(target, cwd) and \
+                os.path.normpath(os.path.expanduser(target)) in emptied:
             return target
     tokens = _command_tokens(segment)
     if not tokens:
@@ -663,7 +771,7 @@ def _write_target(segment, cwd, depth=0):
         if payload is not None:
             for stages in _pipelines(payload):
                 for stage in stages:
-                    target = _write_target(stage, cwd, depth + 1)
+                    target = _write_target(stage, cwd, depth + 1, emptied)
                     if target:
                         return target
         elif any(a in _inline_program_flags(program) for a in args):
@@ -696,20 +804,34 @@ def _write_target(segment, cwd, depth=0):
     return None
 
 
-def assembled_form(stages, cwd):
+def assembled_form(stages, cwd, emptied=frozenset(), captured=()):
     """The name of the act a whole PIPELINE assembles out of harmless-looking stages, or None.
 
     Repository content printed by one stage and landed on a tree path by any stage is the same
     loss `git checkout -- <path>` causes, arrived at by a route no single verb names.
+
+    `captured` carries the paths a redirection ELSEWHERE in the same command has taken this
+    pipeline's stdout to. Two shapes put it there and both are one event: `exec > foo` sets the
+    shell's own output for everything after it, and `{ … ; } > foo` hangs the redirection on a group
+    whose closing `;` ends the pipeline, so the read and the write land in different pipelines of one
+    command. `( … ) > foo` needs no `;` and was caught all along, which is what made the brace form
+    an inconsistency rather than a stated concession (the adversarial read of 2026-08-31).
     """
     if not any(_reads_repository_content(stage) for stage in stages):
         return None
     for stage in stages:
-        target = _write_target(stage, cwd)
+        target = _write_target(stage, cwd, 0, emptied)
         if target:
             return "a read of the repository written over %s" % (
                 target if target == WORKING_TREE else "`%s` in the working tree" % target)
+    for target in captured:
+        return "a read of the repository written over `%s` in the working tree" % target
     return None
+
+
+def _short_flag(token, letter):
+    """True when `token` is a single-dash option cluster carrying `letter` (`-S`, `-SW`, `-Sq`)."""
+    return token.startswith("-") and not token.startswith("--") and letter in token[1:]
 
 
 def matched_form(segment):
@@ -731,7 +853,17 @@ def matched_form(segment):
                for a in rest):
             return "git checkout-index --force"
     elif sub == "restore":
-        if not ("--staged" in rest and "--worktree" not in rest and "-W" not in rest):
+        # git spells the same two destinations long and short: `--staged`/`-S` for the index,
+        # `--worktree`/`-W` for the tree, and a cluster may carry either letter. Reading the long
+        # spelling alone denied `git restore -S foo` — an index-only command that touches no
+        # working-tree byte — and denied `git restore -h` with it (the adversarial read of
+        # 2026-08-31, hit live while doing honest work). A restore is refused when it writes the
+        # TREE: with no destination named git restores the worktree, so that is the default.
+        if any(a in ("-h", "--help") for a in rest):
+            return None
+        staged = any(a == "--staged" or _short_flag(a, "S") for a in rest)
+        worktree = any(a == "--worktree" or _short_flag(a, "W") for a in rest)
+        if worktree or not staged:
             return "git restore of the worktree"
     elif sub == "stash":
         verb = next((a for a in rest if not a.startswith("-")), "")
@@ -749,19 +881,46 @@ def matched_form(segment):
     return None
 
 
+def _captured_stdout_paths(command, cwd):
+    """The tree paths a redirection elsewhere in this command takes another pipeline's output to.
+
+    Two shapes, both inside one event. `exec > foo` re-points the shell's own stdout for everything
+    that follows it. `{ … ; } > foo` hangs the redirection on the group's closing brace, and the `;`
+    the brace form requires is what ends the pipeline, so the read sits in one pipeline and the write
+    in the next. Read here, at the command level, because that is the level the shell reads them at.
+    """
+    captured = []
+    for stages in _pipelines(command):
+        for segment in stages:
+            tokens = _tokens(segment)
+            head = tokens[0] if tokens else ""
+            if head == "exec" or head.startswith("}") or head == "}":
+                for target in _truncating_redirect_targets(segment):
+                    if _lands_in_the_tree(target, cwd) and target not in captured:
+                        captured.append(target)
+    return tuple(captured)
+
+
 def find_forbidden(command, cwd=None, depth=0):
     """The segment to name in the refusal and the forbidden form it carries, or (None, None).
 
     Command text nested inside a segment — a substitution, a shell `-c` payload, the command a
     `find -exec` runs — is walked with the same eye. The refusal names the OUTER segment, the text
     the caller actually typed, and the form it names is the one found inside.
+
+    Two facts are read once over the WHOLE command before its pipelines are judged one by one: the
+    paths the command empties, which is what makes a later append onto one of them a restore, and the
+    paths a redirection elsewhere takes a pipeline's output to. Both are shapes a shell writes inside
+    a single event, and reading them a pipeline at a time is what let them past (2026-08-31).
     """
+    emptied = _emptied_paths(command, cwd)
+    captured = _captured_stdout_paths(command, cwd)
     for stages in _pipelines(command):
         for segment in stages:
             form = matched_form(segment)
             if form:
                 return segment, form
-        form = assembled_form(stages, cwd)
+        form = assembled_form(stages, cwd, emptied, captured)
         if form:
             return " | ".join(stages), form
         if depth < MAX_NESTING:

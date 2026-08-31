@@ -158,6 +158,35 @@ def key_failure_note(command, result):
 # around the mark, an em dash before "id:". The title is matched non-greedy so a title that
 # itself contains an em dash still stops at the literal " — id: " that ends the heading.
 _HEADER_RE = re.compile(r"^### (\S+) (.+?) — id: (\S+)$")
+
+# The variation selectors an emoji may carry. `✅` and `✅️` are one mark on the screen and two
+# different strings to a comparison, and this plan already writes `👁️` with the selector and `✅`
+# without it. Every reader of a mark compares it literally, so a done mark typed with a selector
+# read as done to the eye while no reader agreed — the board would show it done, the done count
+# would not carry it, and the landing gate would ask no resume refresh of the commit that set it
+# (the adversarial read of 2026-08-31). Stripping the selector where the mark is PARSED is what
+# keeps the one home one home; every comparison downstream then goes on working as written.
+_VARIATION_SELECTORS = "︎️"
+
+# The five marks the plan types, each in the ONE spelling every reader and every renderer uses.
+# `👁` needs its selector to render as the emoji rather than the monochrome glyph, so the canonical
+# spelling carries it; the rest carry none. A mark typed the other way comes back to its canonical
+# spelling here, and nowhere else has to know that two spellings exist.
+_CANONICAL_MARKS = {m.strip(_VARIATION_SELECTORS): m for m in ("✅", "🔄", "⬜", "⛔", "👁️")}
+
+
+def normalize_mark(mark):
+    """The canonical spelling of a mark a keyboard can type two ways.
+
+    `✅` and `✅️` are one mark on the screen and two different strings to a comparison. This plan
+    already writes `👁️` with a variation selector and `✅` without one, and every reader of a mark
+    compares it literally, so a done mark typed with the selector read as done to the eye while no
+    reader agreed: the board would show it done, the done count would not carry it, and the landing
+    gate would ask no resume refresh of the commit that set it (the adversarial read of 2026-08-31).
+    """
+    if not mark:
+        return mark
+    return _CANONICAL_MARKS.get(mark.strip(_VARIATION_SELECTORS), mark)
 _GROUP_RE = re.compile(r"^\*\*Group:\*\*\s*(.+?)\s*·\s*\*\*Priority:\*\*\s*(.+)$")
 _SOURCE_RE = re.compile(r"^\*\*Source:\*\*\s*(.+)$")
 _COVERED_BY_RE = re.compile(r"^\*\*Covered by:\*\*\s*(.+)$")
@@ -195,7 +224,7 @@ def parse_tasks(text):
         m = _HEADER_RE.match(line.rstrip())
         if m:
             cur = {
-                "mark": m.group(1),
+                "mark": normalize_mark(m.group(1)),
                 "title": m.group(2),
                 "id": m.group(3),
                 "group": None,

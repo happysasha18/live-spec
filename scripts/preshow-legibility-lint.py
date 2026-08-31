@@ -367,20 +367,33 @@ def _gradient_worst_ground(node, blocks, varmap, fg):
     Answered only where EVERY stop puts the text under the normal-text floor. The stop returned is
     then the most favourable one, so the ratio printed is the best case the page can offer and the
     red is one no render can argue with.
+
+    The painting rule is picked the way `_element_paint` picks it, by specificity with document
+    order as the tie-break. Taking the first matching rule in document order — which this did until
+    the adversarial read of 2026-08-31 — made `div { background: linear-gradient(#fff, #f0f0f0) }`
+    written above `.card { background: linear-gradient(#000, #111) }` score a card's white caption
+    against near-white, a red on a pair no viewer sees. The ranking has to be the same one two lines
+    away, or the two readers of one page disagree about which rule paints it.
     """
     if fg is None:
         return None
+    winner = None
+    winning_weight = None
     for block in blocks:
         if "inline_at" in block or not _block_paints(block):
             continue
-        if _selector_weight(block["selector"], node) == (-1, -1, -1):
+        weight = _selector_weight(block["selector"], node)
+        if weight == (-1, -1, -1):
             continue
-        stops = _block_bg_stops(block, varmap)
-        if not stops:
-            return None
-        best = max(stops, key=lambda stop: contrast(fg, stop))
-        return best if contrast(fg, best) < CONTRAST_NORMAL else None
-    return None
+        if winning_weight is None or weight > winning_weight:
+            winner, winning_weight = block, weight
+    if winner is None:
+        return None
+    stops = _block_bg_stops(winner, varmap)
+    if not stops:
+        return None
+    best = max(stops, key=lambda stop: contrast(fg, stop))
+    return best if contrast(fg, best) < CONTRAST_NORMAL else None
 
 
 def _selector_tokens(selector):
@@ -598,6 +611,46 @@ def _selector_weight(selector, element):
     return best
 
 
+def _selector_undecidable(selector, element):
+    """True when this reader cannot tell whether `selector` names `element`.
+
+    `_token_matches` answers None for a simple selector it does not parse — an attribute test, a
+    `:not(…)`, a `:first-child`. `_selector_weight` folds that None into the same (-1, -1, -1) it
+    gives a selector that plainly does NOT match, so `_element_paint` stepped over such a block and
+    the ancestor walk carried on past the element's own surface to an outer one, scoring the text
+    against a background no viewer sees. That silences a stand-down in both directions: a page whose
+    card is painted `.card[data-theme="light"]` printed "text meets the contrast and size floor"
+    over an unreadable pair, and the mirror case printed a red over a legible one (the adversarial
+    read of 2026-08-31; before the ancestor walk landed, both stood down for the eye).
+
+    A block whose selector is undecidable for an element is neither a painter this reader may use
+    nor one it may step over. Saying so is what returns the pair to the eye.
+    """
+    for part in selector.split(","):
+        run = _selector_run(part)
+        if not run:
+            continue
+        if _chain_matches(run, element):
+            continue  # decided: this alternative names the element
+        nodes = [element] + list(element.ancestors())
+        for token in run:
+            if any(_token_matches(token, node) is None for node in nodes):
+                return True
+    return False
+
+
+def _paint_is_undecidable(element, blocks):
+    """True when some PAINTING block might name this element and the reader cannot tell."""
+    for block in blocks:
+        if "inline_at" in block or not _block_paints(block):
+            continue
+        if _selector_weight(block["selector"], element) != (-1, -1, -1):
+            continue
+        if _selector_undecidable(block["selector"], element):
+            return True
+    return False
+
+
 def _element_paint(element, blocks, varmap):
     """(rgb, paints) for one element in the markup: its inline background, else the rule that
     claims it most strongly. `paints` says it is a surface; `rgb` is its colour where there is one.
@@ -635,6 +688,9 @@ _WHY_MARKUP_SPLIT = ("this rule's text appears on more than one background in th
                      "is no single pair to measure")
 _WHY_MARKUP_BARE = ("nothing from this text up to the page declares a background colour, so the "
                     "file states nothing to measure it against")
+_WHY_MARKUP_UNREADABLE_RULE = ("the surface this text sits on may be painted by a rule this reader "
+                               "cannot match — one carrying an attribute test, a `:not(…)` or a "
+                               "position test — so which colour wins is undecided here")
 
 
 def _resolve_bg_in_markup(block, blocks, varmap, elements, by_style_offset):
@@ -649,6 +705,11 @@ def _resolve_bg_in_markup(block, blocks, varmap, elements, by_style_offset):
     for element in targets:
         found = None
         for node in [element] + list(element.ancestors()):
+            if _paint_is_undecidable(node, blocks):
+                # A painting rule this reader cannot match against this node stops the walk where it
+                # stands. Walking past it would measure the text against some outer surface while the
+                # real one sits unread in between, which is a claim about a pair nobody looked at.
+                return None, "unresolved", _WHY_MARKUP_UNREADABLE_RULE
             rgb, paints = _element_paint(node, blocks, varmap)
             if paints:
                 found = rgb

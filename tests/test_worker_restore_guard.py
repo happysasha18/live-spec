@@ -112,6 +112,35 @@ ROUTES_AROUND = [
     # Process substitution carries the read, and the copy family carries the write.
     "cp <(git show HEAD:PRODUCT_SPEC.md) PRODUCT_SPEC.md",
     "tee PRODUCT_SPEC.md < <(git show HEAD:PRODUCT_SPEC.md)",
+    # Six more routes, found by the adversarial read of 2026-08-31 and each red-proven against the
+    # tree that shipped it. Every one of them destroys the file for real in a scratch repository.
+    #
+    # git's own pre-command options were stepped over by a list of five names, so any other one of
+    # them stood where the subcommand was read. `--no-pager` is what a script writes to keep git off
+    # a tty; the same hole was in guardrails/check-worker-restore.py, so neither arm saw the act.
+    "git --no-pager checkout -- PRODUCT_SPEC.md",
+    "git -P checkout -- PRODUCT_SPEC.md",
+    "git --literal-pathspecs checkout -- PRODUCT_SPEC.md",
+    "git --paginate restore PRODUCT_SPEC.md",
+    "git --no-pager show HEAD:PRODUCT_SPEC.md > PRODUCT_SPEC.md",
+    # A redirection may stand anywhere in a simple command, the front included. The write half was
+    # found all along; the program name read as `>`, so the READ half went unseen.
+    "> PRODUCT_SPEC.md git show HEAD:PRODUCT_SPEC.md",
+    ">PRODUCT_SPEC.md git show HEAD:PRODUCT_SPEC.md",
+    # `exec >` re-points the shell's own output for everything after it, inside one event.
+    "exec > PRODUCT_SPEC.md; git show HEAD:PRODUCT_SPEC.md",
+    # The brace form of a redirected group. `( … ) > f` was caught all along; `{ …; } > f` needs the
+    # `;`, and the `;` ended the pipeline, so the read and the write sat in different pipelines.
+    "{ git show HEAD:PRODUCT_SPEC.md; } > PRODUCT_SPEC.md",
+    # The keyword that OPENS a compound statement was missing where `do` and `then` already stood.
+    "if git checkout -- PRODUCT_SPEC.md; then echo ok; fi",
+    "while ! git checkout -- PRODUCT_SPEC.md; do sleep 1; done",
+    "until git checkout -- PRODUCT_SPEC.md; do sleep 1; done",
+    # An append is innocent because the file's own bytes survive it. The same command emptying the
+    # path first is what takes that reason away.
+    ": > PRODUCT_SPEC.md && git show HEAD:PRODUCT_SPEC.md >> PRODUCT_SPEC.md",
+    "rm PRODUCT_SPEC.md && git show HEAD:PRODUCT_SPEC.md >> PRODUCT_SPEC.md",
+    "truncate -s 0 PRODUCT_SPEC.md; git show HEAD:PRODUCT_SPEC.md >> PRODUCT_SPEC.md",
 ]
 
 ALLOWED = [
@@ -162,6 +191,28 @@ ALLOWED = [
     "git show HEAD:PRODUCT_SPEC.md | ruby -",
     "cp README.md /tmp/readme-backup.md",
     "cp /tmp/saved-bytes.md PRODUCT_SPEC.md",
+    # Each widening of 2026-08-31 owes its own ordinary command back. Stepping over git's whole
+    # pre-command option surface must not swallow a subcommand; a leading redirection must not turn
+    # an honest write into a refusal; the compound-statement keywords must leave ordinary loops
+    # alone; `exec >` and `{ …; } >` outside the tree are nobody's business; and an append onto a
+    # path this command never emptied is still an append.
+    "git --no-pager log --oneline",
+    "git --no-pager status",
+    "git -c core.pager=cat diff HEAD",
+    "> out.txt echo hi",
+    "if python3 -m pytest -q; then echo ok; fi",
+    "while read line; do echo $line; done < notes.md",
+    "until python3 -m pytest -q; do sleep 1; done",
+    # A sink that holds nothing is not the tree, whatever the event carries for `cwd`. An absolute
+    # path is deliberately NOT the ordinary command here: with no `cwd` in the event this corpus
+    # runs without, an absolute target counts as the tree by the design stated in `_lands_in_the_tree`.
+    "exec > /dev/null; git show HEAD:PRODUCT_SPEC.md",
+    "rm scratch.txt && git show HEAD:PRODUCT_SPEC.md >> notes.md",
+    # git's index-only restore, spelled short. `-S` touches no working-tree byte, and reading only
+    # the long spelling denied it — along with the command that just asks for the help text.
+    "git restore -S PRODUCT_SPEC.md",
+    "git restore -h",
+    "git restore --help",
     "mv scratch-notes.md notes.md",
 ]
 

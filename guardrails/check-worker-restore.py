@@ -513,19 +513,30 @@ def _git_args(segment):
     """The arguments of a git invocation, or None when this segment is not one.
 
     A segment is a git invocation only when its first word — past leading `VAR=value` assignments and
-    a `command`, `sudo` or `env` wrapper — is exactly `git`. git's own pre-command options
-    (`-C <path>`, `-c <k=v>`, `--git-dir=…`) are stepped over so the subcommand is the first thing
-    returned.
+    a `command`, `sudo` or `env` wrapper — is exactly `git`. git's own pre-command options are
+    stepped over so the subcommand is the first thing returned.
+
+    The step-over used to name five of those options and let the rest through, so `git --no-pager
+    checkout -- foo` reached the verb reader as the word `--no-pager` and this check reported no
+    violation for a command that destroys the file (the adversarial read of 2026-08-31, which found
+    the same hole in the live hook `hooks/worker-restore-guard.py`). A list of names cannot answer a
+    class git can grow at any release. git's grammar can: the pre-command options all begin with `-`
+    and the first word that does not is the subcommand. Only the options carrying a separate value
+    word need naming, and those are the ones below.
     """
+    value_options = ("-C", "-c", "--namespace", "--work-tree", "--git-dir", "--exec-path",
+                     "--super-prefix", "--config-env")
     tokens = _command_tokens(segment)
     if not tokens or os.path.basename(tokens[0]) != "git":
         return None
     args = tokens[1:]
     while args:
-        if args[0] in ("-C", "-c", "--namespace", "--work-tree", "--git-dir") and len(args) > 1:
+        head = args[0]
+        if head == "--":
+            break
+        if head in value_options and len(args) > 1:
             args = args[2:]
-        elif args[0].startswith("--git-dir=") or args[0].startswith("--work-tree=") \
-                or args[0].startswith("-c") and len(args[0]) > 2:
+        elif head.startswith("-") and head != "-":
             args = args[1:]
         else:
             break
@@ -645,11 +656,15 @@ def _git_dash_c_dir(segment, base, env):
             cur = _resolve_dir(_substitute(a[2:], env), cur)
             i += 1
             continue
-        if a in ("-c", "--namespace", "--work-tree", "--git-dir") and i + 1 < len(args):
+        if a in ("-c", "--namespace", "--work-tree", "--git-dir", "--exec-path",
+                 "--super-prefix", "--config-env") and i + 1 < len(args):
             i += 2
             continue
-        if a.startswith("--git-dir=") or a.startswith("--work-tree=") \
-                or (a.startswith("-c") and len(a) > 2):
+        # Every other pre-command option is a flag of its own, and the walk steps over it without
+        # needing its name — the same reading `_git_args` above takes, for the same reason.
+        if a == "--":
+            break
+        if a.startswith("-") and a != "-":
             i += 1
             continue
         break

@@ -147,6 +147,12 @@ def landed_rows_for_commit(sha, cwd):
 
 PLAN_HEADING_RE = re.compile(r"^###\s+(\S+)\s+.*—\s*id:\s*([A-Za-z][A-Za-z0-9-]*)\s*$")
 DONE_MARK = "\u2705"
+# The variation selectors an emoji may carry. `\u2705` and `\u2705\ufe0f` are one mark on a board and two
+# different strings to the comparison this gate makes, and PLAN.md already writes `\ud83d\udc41\ufe0f` with the
+# selector. A done mark typed with it read as done to the eye while this gate saw another mark
+# entirely and asked its commit for no resume refresh (the adversarial read of 2026-08-31). The mark
+# comes to one spelling where it is PARSED, so every comparison below goes on reading as written.
+VARIATION_SELECTORS = "\ufe0e\ufe0f"
 
 
 def parse_plan_heading(line):
@@ -155,7 +161,7 @@ def parse_plan_heading(line):
     m = PLAN_HEADING_RE.match(line.rstrip())
     if not m:
         return None
-    return m.group(2), m.group(1)
+    return m.group(2), m.group(1).strip(VARIATION_SELECTORS)
 
 
 def landed_tasks_for_commit(sha, cwd):

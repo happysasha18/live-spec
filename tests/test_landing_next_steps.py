@@ -551,3 +551,44 @@ def test_a_done_rows_mark_changed_in_place_is_no_rotation(tmp_path):
 
     r = _run_check(repo, base)
     assert r.returncode == 0, r.stdout + r.stderr
+
+
+# ---- The 2026-08-31 adversarial read: one mark, one spelling --------------------------------
+
+def _load_gate_module():
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "landing_gate", os.path.join(ROOT, "guardrails", "check-landing-next-steps.py"))
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+def test_a_done_mark_carrying_a_variation_selector_is_still_a_done_mark():
+    """`✅` and `✅️` are one mark on the board and two strings to a comparison. Reading the mark as
+    typed let a heading marked done with the selector count as some other mark entirely: the row
+    read done to the eye, and the commit that set it was asked for no resume refresh. PLAN.md
+    already writes `👁️` with a selector, so this is the plan's own spelling, not an exotic one."""
+    gate = _load_gate_module()
+    plain = gate.parse_plan_heading("### ✅ A task — id: q-1")
+    selected = gate.parse_plan_heading("### ✅️ A task — id: q-1")
+    assert plain == ("q-1", gate.DONE_MARK)
+    assert selected == plain, (
+        "the two spellings of one mark have to reach the gate as one mark: %r vs %r"
+        % (selected, plain)
+    )
+
+
+def test_the_boards_own_parser_agrees_with_the_gate_on_that_mark():
+    """The plan has two readers and one vocabulary. A mark normalized in one home and read as typed
+    in the other puts the board and the gate back into disagreement about the same row."""
+    import importlib.util
+    spec = importlib.util.spec_from_file_location(
+        "plan_checks_for_marks", os.path.join(ROOT, "scripts", "plan_checks.py"))
+    plan_checks = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(plan_checks)
+    assert plan_checks.normalize_mark("✅️") == "✅"
+    assert plan_checks.normalize_mark("✅") == "✅"
+    # The eye keeps its selector, since without one it renders as a monochrome glyph.
+    assert plan_checks.normalize_mark("\U0001f441") == "\U0001f441️"
+    assert plan_checks.normalize_mark("\U0001f441️") == "\U0001f441️"

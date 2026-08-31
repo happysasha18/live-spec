@@ -252,3 +252,46 @@ def test_text_that_clears_the_floor_at_one_gradient_stop_goes_to_the_eye():
     r = _run(FIX / "legibility_gradient_one_end_only.html")
     assert r.returncode == 0, r.stdout + r.stderr
     assert "STOOD DOWN IN PART" in r.stdout
+
+
+# ---- The 2026-08-31 adversarial read of the same change -----------------------------------------
+# Three defects the ancestor walk shipped with, each red-proven against the reader that shipped it.
+
+def test_a_painting_rule_the_reader_cannot_match_stops_the_walk():
+    """An attribute test, a `:not(…)` or a `:first-child` on the surface's own rule is a selector
+    this reader does not parse. Folding that into "does not match" let the walk carry on past the
+    card to the page behind it and score the text against a background no viewer sees — here it
+    printed "text meets the contrast and size floor" over near-white text on a white card."""
+    r = _run(FIX / "legibility_unreadable_painter.html")
+    assert r.returncode == 0, r.stdout + r.stderr
+    assert "STOOD DOWN" in r.stdout, (
+        "the surface is painted by a rule this reader cannot read, so the pair belongs to the "
+        "eye and must not be reported as measured: " + r.stdout
+    )
+    assert "OK (preshow-legibility)" not in r.stdout, (
+        "a plain pass here is a claim about a pair this reader never looked at: " + r.stdout
+    )
+    assert "cannot match" in r.stdout, (
+        "the stand-down has to say WHY, and the reason here is the unreadable rule rather than an "
+        "unnameable colour: " + r.stdout
+    )
+
+
+def test_the_same_unreadable_painter_does_not_produce_a_red_either():
+    """The mirror. Light text on a dark card whose rule carries an attribute test was scored
+    against the page's white and redded — a block on a showing for a pair nobody can complain of."""
+    r = _run(FIX / "legibility_unreadable_painter_false_red.html")
+    assert r.returncode == 0, r.stdout + r.stderr
+    assert "low-contrast" not in r.stdout
+    assert "STOOD DOWN" in r.stdout
+
+
+def test_the_gradient_ground_is_ranked_by_specificity_too():
+    """`.card` beats `div` when the surface is a gradient, exactly as it does when the surface is a
+    flat colour. Reading the first matching rule in document order scored white text on a black
+    card against a near-white wrapper gradient and redded it."""
+    r = _run(FIX / "legibility_gradient_specificity.html")
+    assert r.returncode == 0, r.stdout + r.stderr
+    assert "low-contrast" not in r.stdout, (
+        "the card's own gradient is black; white text over it clears the floor: " + r.stdout
+    )

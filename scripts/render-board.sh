@@ -131,8 +131,14 @@ for s in steps:
 # own mark decides its column directly: ✅ (or a passing command) is Done; 🔄 is In progress
 # (several can run at once, his own Canon rule: "tasks running side by side show as several
 # 🔄 at once"); ⛔ and 👁️ both land on Blocked — a task needing his eyes can't move without
-# him either, the same "waiting on the owner's word" this column already names; ⬜ is Not
-# started.
+# him either; ⬜ is Not started.
+#
+# The column's own sub-line used to read "waiting on the owner's word", which was true of every
+# card that landed here until this file gained the failing-key mark: a done row whose acceptance
+# command fails now takes ⛔ too, and nobody is waiting on the owner for that one — the card says
+# the command fails while the heading above it said the owner was holding it up (the adversarial
+# read of 2026-08-31). The sub-line names what the column actually holds, and the card goes on
+# saying which of the two this row is.
 for s in steps:
     if s["icon"] == "✅":
         s["column"] = "done"
@@ -147,7 +153,7 @@ COLUMNS = [
     ("backlog", "Not started", "waiting in queue"),
     ("inwork", "In progress", "in the pipeline right now"),
     ("done", "Done", "verified by its acceptance command"),
-    ("blocked", "Blocked", "waiting on the owner's word"),
+    ("blocked", "Blocked", "cannot move on this side — each card says why"),
 ]
 
 # ---------------------------------------------------------------- blockers (§Blockers)

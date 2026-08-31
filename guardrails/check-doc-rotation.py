@@ -134,6 +134,20 @@ def _has_table_row(text, n):
     return re.search(r"(?m)^\|\s*%d\s*\|" % n, text) is not None
 
 
+# The ambiguous-rotation arm below reads `| n |` and so, since the one-list merge of 2026-08-28,
+# fires on nothing: `PLAN.md` carries `### <mark> <title> — id: q-n` headings and not one table row
+# (the adversarial read of 2026-08-31 found the arm unreachable on the only document this gate
+# scans). Teaching it the heading shape is NOT the repair, and this note is here so the next reader
+# does not spend the hour finding out: run that way, the arm reds on more than forty rows the tree
+# holds on purpose. A manifest names rows by the number the retired queue gave them, and a live
+# heading names a task by its id; after the merge those two are no longer one identity. Some rows
+# were folded INTO a live task and archived under their own old number, and at least one was
+# archived and then reopened the same day. Which of the two copies is canonical for each of them is
+# a question about the list, and the list's own rule about what a session may edit there is itself
+# waiting on the owner. So the narrowness stands, named, rather than closed by a gate that would
+# red the tree on the owner's own arrangement.
+
+
 def _split_row(line):
     """Split a table row on its own unescaped `|` delimiters. A row's free-form prose may carry a
     literal pipe of its own, written `\\|` so it survives as text rather than opening a new cell;
