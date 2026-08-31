@@ -4,9 +4,22 @@ A digest with no redundancy (SPEC INV-48) — one live-state block, nothing remo
 information. One status block stands here at a time, and every update replaces it. Dated history
 lives in `JOURNAL.md`.
 
-## LIVE STATE (2026-08-31, 15:47)
+## LIVE STATE (2026-08-31, 17:57)
 
 Written for a session starting with clean context.
+
+**A worker-restore finding stops blocking every push once the tree shows the work back** (q-527,
+landed 31.08). The check that reads worker transcripts for a command that discards unsaved work made
+findings that were true forever: a finished recovery cleared nothing, and every push after an
+incident waited for the reading window to roll past it or for somebody to move the counting start by
+hand. What counts as made good is now written once, in Requirement 301 — every file the command
+named carries, in the repository that command ran in, a commit dated later than the command. The
+check asks git that question afresh on every run, so nothing on disk records a clearing and the
+answer flips the moment the commit exists; a cleared finding stays named in the report beside the
+commit that answered for it. Three shapes never clear: a command that names no single file, a
+finding the check cannot place in a repository, and a record with no timestamp. The verify arm, the
+one that stands between a worker's result and its acceptance, never puts the question at all. The
+counting start did not move, and no ledger, flag, date or counter was added.
 
 **Every rule the pack states now has one place it lives, and a check keeps it there** (plan-16,
 landed 31.08). Three rules had been written in several places that disagreed: the report Alexander

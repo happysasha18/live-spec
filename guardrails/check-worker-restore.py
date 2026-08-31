@@ -176,9 +176,9 @@ Three cases can never be answered YES, and each of them keeps reddening as it al
 whose blast radius names no single file (`git reset --hard`, a bare `git stash`, `git clean -fd
 <dir>`, `git checkout -- .`) discards an unbounded set, and no commit shows an unbounded set is back.
 A finding the gate could not place in a repository on disk has nowhere to put the question. A record
-carrying no timestamp cannot say which commits came after it. The verify arm (`--run`) asks the
-question at all: the run being accepted stays red however the tree moves afterwards, because
-recovery earns a fresh brief and a fresh run, and that run earns its own verdict.
+carrying no timestamp cannot say which commits came after it. The verify arm (`--run`) never puts
+the question: the run being accepted stays red however the tree moves afterwards, because recovery
+earns a fresh brief and a fresh run, and that run earns its own verdict.
 
 What the answer proves is bounded, and the wording above is the bound: the named path is saved in
 history again, later than the command. It does not prove the exact bytes that were discarded came
@@ -255,10 +255,11 @@ Usage:
   check-worker-restore.py [--root PATH] [--since-hours H] [--all]
                            [--counting-from YYYY-MM-DD | YYYY-MM-DDTHH:MM:SSZ]
 `--run` is the deterministic verify mode: it judges exactly the worker result the orchestrator is
-about to accept, with no clock window, counting start, or own-versus-neighbour downgrade. The root
-mode is the forensic census: it keeps old findings visible and red for investigation, but it is not
-the acceptance verdict for a later, unrelated worker run. Exit 0 when the selected run or census is
-clean, 1 otherwise, whether the shell ran a discarding command or declined it.
+about to accept, with no clock window, counting start, made-good reading, or own-versus-neighbour
+downgrade. The root mode is the forensic census: it keeps old findings visible and red for
+investigation, but it is not the acceptance verdict for a later, unrelated worker run. Exit 0 when
+the selected run or census is clean, 1 otherwise, whether the shell ran a discarding command or
+declined it; a census finding the tree shows made good counts as clean and is named as such.
 Stdlib only.
 """
 import argparse
@@ -1141,12 +1142,15 @@ def is_history(finding, counting_from):
 def _named_files(finding):
     """The files this finding's command named, or None when its blast radius names no single file.
 
-    None is the answer for every case SPEC Requirement 301 puts outside the way out: the whole
-    working tree (`git reset --hard`, a bare `git stash`), a directory or `.` (`git clean -fd src`,
-    `git checkout -- .`), an argument that is a revision rather than a path (`git checkout HEAD
-    <path>` names `HEAD` too, and no commit touches it), and a command the gate could not place in a
-    directory that exists on disk right now. Each of those discards a set no commit can show is
-    back, so each keeps reddening exactly as it did before this reading existed.
+    None is the answer for the cases SPEC Requirement 301 puts outside the way out on the strength
+    of the blast radius alone: the whole working tree (`git reset --hard`, a bare `git stash`), a
+    directory or `.` (`git clean -fd src`, `git checkout -- .`), and a command the gate could not
+    place in a directory that exists on disk right now. Each of those discards a set no commit can
+    show is back, so each keeps reddening exactly as it did before this reading existed.
+
+    A word that is a revision rather than a path — `git checkout HEAD <path>` hands this both — is
+    returned like any other name and answered by git itself in `repair_commit`, where no commit
+    touches `HEAD` and the finding stays red.
     """
     directory = finding.get("effective_dir")
     if not directory or not os.path.isdir(directory):
