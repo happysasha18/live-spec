@@ -1126,7 +1126,7 @@ for that wiring with a test behind it. The field leg: one host's own test matrix
 method and sits in that host's tree, `test -f` finding it.
 
 
-### ⬜ Every automatic check proves it can actually catch its problem — id: q-489
+### ✅ Every automatic check proves it can actually catch its problem — id: q-489
 **Group:** Method reliability · **Priority:** normal
 **Source:** owner 2026-07-27; partly shipped 2026-07-27.
 **Closes:** q-217, q-492, q-230, q-454, q-455, q-220, q-525, q-490, q-576
@@ -1143,6 +1143,18 @@ What is left is the row's own title, and it is worth keeping. **Acceptance:** ev
 here owns a fixture it reds against without its fix, and the suite runs that fixture; a test walking
 `guardrails/` reds a check that arrives with no such fixture. One check completes the walk end to
 end, so the shape is proved on a real one before it binds the rest.
+
+**Done 01.09.** `check-prototype-fence.sh` is the one check that completes the walk end to end: a
+scratch repo with a PROD file wired into the fenced `prototype/` home reds it live, the same repo
+with the reference removed passes it live —
+`tests/test_guardrail_fixture_proofs.py:164` and `:170`. The walk itself lists every `check-*.py` /
+`check-*.sh` shipping directly under `guardrails/` (41 today) and reds any name that owns neither a
+proven fixture nor a place on the named, fixed grandfather list — `tests/test_guardrail_fixture_proofs.py:180`
+holds today's real tree clean. The forward-looking half — a check arriving after this with no fixture
+reds the walk — is proved by planting exactly that in a scratch directory and watching the walk catch
+it: `tests/test_guardrail_fixture_proofs.py:189`, with `:199` as its negative control (the same scratch
+tree, minus the plant, walks clean). Nothing else in `guardrails/` was retrofitted — the acceptance
+asks for one check, not thirty-nine.
 
 
 ### ✅ A weak test now actually checks what it claims — id: q-592
