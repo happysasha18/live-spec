@@ -4,9 +4,53 @@ A digest with no redundancy (SPEC INV-48) — one live-state block, nothing remo
 information. One status block stands here at a time, and every update replaces it. Dated history
 lives in `JOURNAL.md`.
 
-## LIVE STATE (2026-08-31, 23:26)
+## LIVE STATE (2026-09-01, 00:20)
 
-Written for a session starting with clean context. Heals landing bff2715a.
+Written for a session starting with clean context. Heals landing bff2715a's own successor range
+(not yet pushed at write time — see the very next paragraph). Alexander asked this session to stop
+here (context had grown large after a long autonomous run) and clear before continuing — this note
+is written for that fresh session.
+
+**Three rows landed since `bff2715a` pushed, in parallel worktree lanes, merged with no conflicts:**
+`q-581` (a `PreToolUse(Bash)` hook, `hooks/dialog-warning-guard.py`, warns before a command known
+to raise a macOS security dialog — the flat list this row's narrowed acceptance asked for, no
+reaper, no registry), `q-489` (`tests/test_guardrail_fixture_proofs.py`: `check-prototype-fence.sh`
+proven against a live fixture, a walking test that reds a future `guardrails/` check shipped with
+no fixture, proven itself by planting one), and `q-235` (`scripts/wind-down.py`: signals every
+locked worktree's worker unless it's the session's own controlling process, checkpoints, pushes
+only on a green gate, one closing line). Also landed in the same range: three dead rows archived
+(`plan-15`, `q-453`, `q-751` — `docs/queue-archive/rotated-PLAN-2026-08-31-hostile-review-archive.md`),
+`q-48` correctly KEPT rather than archived (it owns spec anchor `INV-21` — archiving it would have
+orphaned that promise), `q-398` narrowed (struck a bare threshold with no outside source), `q-536`
+narrowed to its one real remaining leg (two of three wording disagreements the row named turned out
+already resolved by later skill rewrites — verified directly, not assumed), and `plan-14` checked
+honestly and left open (it's real install-infrastructure work, not a one-lane narrowing — see its
+own `PLAN.md` note for why nothing was built there tonight).
+
+**Two things a fresh clean-tree suite run found that the merge itself introduced, both fixed before
+push:** `scripts/wind-down.py` named "Alexander" in a comment (shipped-language gate, INV-120/245
+— fixed to read impersonally) and signaled a worker process without emitting the project's
+`CLEANUP-NOTICE` line (INV-204 — fixed by wiring `guardrails/cleanup_notice.py` into
+`signal_worker()`). Neither worker's own suite run caught these because each ran in its own
+worktree, where the *other* two lanes' files weren't present yet to interact with — a reminder that
+the merge is genuinely where defects hide, not just where they're found, and a clean full suite on
+the MERGED tree is not optional.
+
+**A lesson for how worker lanes were briefed tonight, worth fixing in the next round's briefs:**
+all three of tonight's worker agents launched their own ~10-12 minute full-suite verification in
+the background and then ended their own turn instead of blocking on it — the orchestrating session
+had to notice, wait for each background run itself, and in two of three cases finish the commit and
+`PLAN.md` closing note by hand (the code itself was already correct and complete in both cases;
+only the "wait, then commit" tail was left undone). Next time: brief a worker explicitly to block on
+its own suite run (e.g. "run it in the foreground, or if backgrounded, poll or wait before ending
+your turn — do not report done until you have the actual pass/fail line").
+
+**One more standing risk, unrelated to tonight, surfaced but not investigated:** two worker agents'
+own full-suite runs reported `57 skipped` where this session's own runs on the same commit range
+consistently show `6 skipped`. Not chased down before the stop — worth checking early next session
+(`python3 -m pytest -q -rs 2>&1 | grep -A1 SKIPPED` on a clean tree, no other pytest running, to see
+which 51 extra tests are skipping and why — likely something environment-specific to a fresh
+worktree checkout rather than a real regression, but unverified).
 
 **Everything unpushed went out.** `16b1a300..bff2715a`, 21 commits, `origin/main` carries it. CI
 run `33436005985` was in progress at push time; check `gh run list --branch main --limit 1` if this
@@ -145,62 +189,62 @@ while workers write the tree reds on files being written, and its reds carry no 
 
 ## Prompt for the next session
 
-**Everything below this line was written 31.08 23:26, after `16b1a300..bff2715a` pushed clean.
-Read `bash scripts/state-probe.sh` and this file's own LIVE STATE section above first — this
-prompt only tells you what to do with what they show you.**
+**Everything below this line was written 2026-09-01 00:20, right after the range this LIVE STATE
+describes pushed clean (CI to be confirmed by you — check `gh run list --branch main --limit 1`
+first thing). Read `bash scripts/state-probe.sh` and this file's own LIVE STATE section above
+first — this prompt only tells you what to do with what they show you. This session was stopped
+deliberately by Alexander (context had grown large after ~2 hours autonomous), not because
+anything is stuck — pick up exactly where this leaves off.**
 
-Do not ask Alexander anything before doing the work below except where a step below itself says
-to ask (`q-54`'s cross-project edit, see LIVE STATE). His standing word for this run (28.08 00:53,
-repeated 31.08 12:12, 18:32, and again 22:07 after checking in mid-session): carry the plan to the
-end, do not ask him, push and deploy are pre-authorized on green. Nothing here overrides that.
+Do not ask Alexander anything before doing the work below. His standing word for this run (28.08
+00:53, repeated 31.08 12:12, 18:32, 22:07, and again ~00:00 confirming "да" to stopping and
+resuming): carry the plan to the end, do not ask him, push and deploy are pre-authorized on green.
 
-**Walk the hostile review's remaining list, one row at a time**, using the checkpoint's buckets
-(`.live-spec/checkpoints/night-run-2026-08-28.md`, "THE HOSTILE REVIEW OF THE REMAINING BOARD")
-AS CORRECTED by this LIVE STATE section above — the checkpoint's own text is not to be trusted
-verbatim where this section says it was wrong:
-- **Archive now, no work:** `plan-15`, `q-453`, `q-48`, `q-751`.
-- **Solid, build as written:** `plan-10`, `q-591`. (`plan-9` stays correctly deferred on his
-  word — do not start it.)
-- **Keep open, build only the one real gap:** `q-386` — NOT moot-close; build only the
-  lane-opening-script-vs-written-law drift check.
-- **Narrow the row's acceptance in `PLAN.md` before dispatching a worker, every time, no
-  exceptions** (the `q-55` failure mode — handing unnarrowed wording to a fresh agent — is what
-  this rule exists to stop, and it recurred once already tonight with `q-802`'s `E-7`
-  reassignment before an adversarial review caught it):
-  - `q-581`, `q-576`, `q-437`, `plan-14`, `q-489`, `q-235` — narrow as the checkpoint already
-    says, then build.
-  - `q-163` — RE-CHECK first: its first acceptance clause may already pass today
-    (`check-skill-loadability.sh`). Confirm before writing a worker brief; the row may be much
-    narrower than scoped, or already half-closeable.
-  - `q-536` — its "his final call is not owed" note has no ruling written anywhere on disk.
-    Write the actual ruling into its source file first; do not dispatch a worker against an
-    unwritten decision.
-  - `q-398` — its acceptance text still contains the forbidden bare threshold ("declared size
-    cap") the checkpoint already said to strike. Edit `PLAN.md`'s own row text to strike it
-    BEFORE dispatching a worker.
-  - `q-54` — nearly done, not a fresh build (see LIVE STATE above): the only missing piece is
-    one line in `~/tlvphotos/.live-spec/profile.md`, another project's tree. This window may
-    only drop a wish file into `~/tlvphotos/inbox/` describing it — never write into that tree
-    directly. `q-802` (new tonight) carries `E-7`; do not fold it back into `q-54`.
+**First, the two open loose ends from the note above, both quick:**
+1. Confirm CI is green on the just-pushed range.
+2. Spend five minutes on the `57 skipped` vs `6 skipped` question (see LIVE STATE) before starting
+   new work — if it's real, it's worth knowing before building on top of it; if it's a worktree
+   quirk, say so and move on.
 
-Work lanes the same way the whole run did: up to three parallel worktree lanes (`Agent` tool,
-`isolation: "worktree"`), each briefed with the row's own (narrowed) acceptance as the definition
-of done, each running its own full suite before reporting, merged by a dedicated merge pass that
-reads both sides on conflict and runs an adversarial re-read of its own merge before pushing —
-this caught real defects every time it ran tonight (most recently, twice, on tonight's own
-target-ownership fix) and should not be skipped as a shortcut.
+**Then walk the remaining hostile-review rows, same method as before** (checkpoint at
+`.live-spec/checkpoints/night-run-2026-08-28.md`, corrections layered by this file's LIVE STATE
+history — read it, not just the checkpoint, before trusting any one row's old bucket):
+- **Solid, build as written:** `plan-10`, `q-591`.
+- **Keep open, build only the one real gap:** `q-386` — the lane-opening-script-vs-written-law
+  drift check, nothing else.
+- **Narrow before build, already narrowed, ready to dispatch:** `q-576` (the sweep already ran;
+  this is publishing its page — small), `q-437` (the one red-proof case named in its own
+  `PLAN.md` text, nothing wider), `q-802` (new: design-sync's declared-scope snapshot machinery,
+  Requirement 247 in `spec/doc-order-generated.md` — its `PLAN.md` row states the exact scope).
+- **`q-536`:** narrowed to its one remaining leg — read the current `q-536` row in `PLAN.md` for
+  the full ruling on the other two (already resolved, don't re-open them). The leg left: check
+  each of communicator's fourteen rule collisions
+  (`~/context-slimdown/reports/communicator-audit-sweep.md`, read-only, another project's tree)
+  against today's `skills/communicator/SKILL.md`, and write a one-line ruling for each into that
+  skill's own text.
+- **`plan-14`:** deliberately NOT narrowed for a worker lane — its own `PLAN.md` row explains why
+  (real install-infrastructure work spanning the pack's install/adopt walk, not a mechanical
+  narrowing). If picked up, it deserves its own dedicated pass, not a shared lane with three other
+  rows.
+- **`q-163`:** stays parked with `plan-9` — do not start it. Its own `PLAN.md` history already
+  notes it may be more than half-done; re-check before ever dispatching a worker on it.
+- **`q-54`:** the wish is already sitting in `~/tlvphotos/inbox/2026-08-31-from-livespec-q54-founding-line.md` — nothing to do here until that project's own session acts on it.
 
-Before dispatching ANY adversarial/prover-record reviewer, remember SPEC INV-237: it must be a
-fresh context that authored none of the change under review — never a fork of the orchestrating
-seat, and never the same agent that wrote the fix. This run needed a second full review round
-tonight because the first review (correctly) caught a defect in the fix, and the fix for that
-defect then needed its own fresh review in turn — expect this to repeat; it is not a sign of
-something wrong, it is the check working.
+**Method, unchanged from the whole run:** up to three parallel worktree lanes (`Agent` tool,
+`isolation: "worktree"`), each briefed with the row's own PLAN.md text pasted verbatim as the
+definition of done — **and explicitly told to BLOCK on its own full-suite run before ending its
+turn, not background it and stop** (see LIVE STATE's note on tonight's briefing gap). Merge by a
+dedicated pass that reads both sides on conflict; run ONE clean full suite on the merged tree with
+NO worker active (a run taken while a worker writes the tree proves nothing); then an adversarial
+re-read from a genuinely fresh context (SPEC INV-237 — never a fork of the orchestrating seat,
+never the agent that wrote the fix) before push. This caught real defects on nearly every merge
+tonight — most recently the shipped-language and cleanup-notice gaps in this very range, introduced
+by the merge itself and invisible to each lane's own isolated suite run. Do not skip it as a
+shortcut, and expect a review's finding to sometimes need its own fresh follow-up review in turn —
+that's the check working, not a sign of trouble.
 
-Three rows wait on Alexander's own read and take no further work: `q-800`, `q-166`, `q-501`. Do
-not build anything for these; they close only when he reads them. `q-802` is not one of these —
-build it as scoped.
+Three rows wait on Alexander's own read and take no further work: `q-800`, `q-166`, `q-501`.
 
-Report to him in the Канон format his own boot file (`~/.claude/CLAUDE.md`) specifies —
+Report in the Канон format his own boot file (`~/.claude/CLAUDE.md`) specifies —
 `bash scripts/state-probe.sh`'s own printed plan, never a hand-typed summary — after every row
 that lands, not only at the end.

@@ -40,7 +40,8 @@ what "unpushed" would mean for it.
 SCOPE, DELIBERATELY NARROW. This command does not delete, prune, or unlock any worktree (removing
 a lock or a tree is a separate, more destructive operation the acceptance never asked for) and it
 is never wired into a hook or gate — it is a standalone command a person or session runs
-deliberately, the first time Alexander says he is leaving (see PLAN.md q-235's own words).
+deliberately, the first time the project's owner says they are leaving (see PLAN.md q-235's own
+words).
 """
 from __future__ import annotations
 
@@ -57,6 +58,9 @@ from pathlib import Path
 _SCRIPTS_DIR = Path(__file__).resolve().parent
 sys.path.insert(0, str(_SCRIPTS_DIR))
 import checkpoint as checkpoint_lib  # scripts/checkpoint.py — the one checkpoint format
+
+sys.path.insert(0, str(_SCRIPTS_DIR.parent / "guardrails"))
+import cleanup_notice  # noqa: E402  (the shared cleanup-notice shape, SPEC INV-204)
 
 SIGNAL_WAIT_SECONDS = 5.0
 SIGNAL_POLL_INTERVAL = 0.2
@@ -186,6 +190,11 @@ def signal_worker(pid, ancestor_pids: set):
     deadline = time.time() + SIGNAL_WAIT_SECONDS
     while time.time() < deadline:
         if not pid_alive(pid):
+            cleanup_notice.cleanup_notice(
+                ended="pid=%d" % pid,
+                what="worker process holding a locked git worktree",
+                owned_via="the worktree's own lock reason named this pid",
+            )
             return "stopped", "pid %d signaled with SIGTERM and exited" % pid
         time.sleep(SIGNAL_POLL_INTERVAL)
     return "still-running", "pid %d did not exit within %.0fs of SIGTERM" % (pid, SIGNAL_WAIT_SECONDS)
