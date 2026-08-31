@@ -33,6 +33,12 @@ whole history. A silent rewording of a task is drift, even when the wording is b
 
 A session edits exactly two things here: a task's status and §Blockers. Nothing else.
 
+**A finished task leaves this board by a person's own hand, and by nothing else.** No script rotates
+a done row off it; the one that used to understand only the shape of the retired queue and went to
+the attic with it on 28.08. What a hand has to write is both halves of the act — the archive page
+and the manifest line that names it — and the push gate proves both directions, so a hand that
+writes one half is stopped there. Settled 31.08; §Blockers carries how it was reached.
+
 ## Words used here
 
 - **Task** — an entry in `## Tasks` below. There is no fixed count; the count is
@@ -228,6 +234,31 @@ looks.
 satisfies, so it could have read green over a host still on an old release. The photo site sits on
 2.7.0 against this project's 6.0.0, and the session's own opening report already says so.)
 
+
+### ⬜ A new project stops being handed the queue this one retired — id: q-801
+**Group:** Method · **Priority:** normal
+**Source:** the 28.08 cull retired this project's own wish queue to the attic; the method that
+teaches a new project still hands it one. Raised as a §Blockers finding on 28.08 and put on the
+board on 31.08, on his word of that day to carry things through rather than park them as questions.
+
+The skills, the templates and the joining walk all give a joining project a separate queue file and
+describe it as the place a wish lands, and four of those sentences say "in this pack", which stopped
+being true here on 28.08. Eleven files carry it today: `skills/spec-author/SKILL.md` and its
+glossary, `skills/design-reviewer/SKILL.md`, `skills/director/SKILL.md`,
+`skills/communicator/references/words.md`, `skills/live-spec-base/SKILL.md` and its glossary,
+`skills/product-prover-pack/SKILL.md`, `templates/ROADMAP.template.md`, `adopt/ADOPT.md` and
+`adopt/START.md`.
+
+This is a change to what the pack ships, so it carries a version number and a migration note for the
+projects that already copied the old text into themselves. Two questions have to be answered before
+the rewording starts, and neither is a tidy-up: whether a host project should still get a queue of
+its own at all now that this one runs on a single list, and what a host that already has one does
+when the pack stops describing it.
+
+**Acceptance:** `git grep -n "in this pack" -- skills/ templates/ adopt/` returns no line that
+names a queue file as the place a wish lands, `templates/ROADMAP.template.md` either states what a
+host's queue is for in its own right or is retired with its manifest line, the VERSION bump and the
+`MIGRATION.md` entry both name the change, and the whole suite runs green.
 
 ### ⬜ The playbook repo earns its keep or gets folded away — id: q-800
 **Group:** Cross-project · **Priority:** normal
@@ -1179,37 +1210,45 @@ would convince him: reading it once and finding nothing he would have to correct
 
 One line per finding. Don't start a second list for them. Don't fix one without the owner's decision.
 
-- **This file says a session may change only two things here, and one session went past that on
-  28.08. Does it stand?** The rule at the top of this page lets a session move a task's status
-  and write in this section, and says a task's wording changes only on your explicit say-so. On the
-  evening of 28.08 one session rewrote what finished looks like on twenty-one open tasks, widened
-  the bar for what counts as queued, and cut about 1,500 words of accumulated history out of one
-  task's body. Nothing among the checks watches that rule, so nothing stopped it. Another session
-  working the same evening read the rule the other way and left a correction it judged it had no
-  standing to make, which puts two sessions in open disagreement about what the rule allows. On its
-  own merits the work reads well: the twenty-one definitions came back from the archive where an
-  earlier merge had dropped them, the widened bar lets five honestly unmeasurable tasks stay on the
-  board, and every one of the 1,500 words is still findable under its own date. Two ways to settle
-  it, and either is one line from you: say it stands, and the definitions stay as they are; or say
-  it doesn't, and the twenty-one get rewritten with you reading each one. (This repair pass is under
-  the same rule and corrected a handful of lines outside the two it allows, every one of them a
-  statement of fact that had gone wrong: the task-count command, which had been counting its own line;
-  the photo site's finishing test, which asked only that a version file be there and never read it;
-  two closed rows that now say where their proof was read; the session-weight figure, stated in the
-  present tense in two places while the real one had moved; and the list of what has been rotated
-  off, which named none of the three archives written that day. Those are in the same question.)
+- **The amended bar for "queued" stands, and the twenty-one definitions stay as written. Settled
+  31.08.** The rule at the top of this page lets a session move a task's status and write in this
+  section, and says a task's wording changes only on the owner's explicit say-so. On the evening of
+  28.08 one session rewrote what finished looks like on twenty-one open tasks, widened the bar for
+  what counts as queued, and cut about 1,500 words of accumulated history out of one task's body.
+  Nothing among the checks watches that rule, so nothing stopped it, and two sessions that evening
+  read the rule opposite ways.
 
-- **One line in this project's own boot file points a session at a file that no longer sits there,
-  and nobody here writes that file.** The boot file tells a session not to read the root prose to
-  orient itself and names three examples of what to leave alone; one of the three is the old wish
-  queue, which moved to the attic on 28.08. The line still reads true — that file is indeed not
-  where the work stands — but the example is a ghost, and the natural replacement is the
-  architecture document, which is large, sits in the same root, and is exactly the kind of thing a
-  session opens by mistake. Your standing word is that nobody here edits that file, so it is
-  untouched and this is the record. One line from you either way.
+  What settles it is the resolution order the owner's own profile states: his live word wins, then
+  the host profile, then this file, then the package defaults. His word of 28.08 00:53 opened that
+  run with "run the plan to the end, ask me nothing, wait for no word of mine", and he said it again
+  on 31.08 12:12. A live instruction to proceed without him outranks a clause in this file that
+  requires him. So the work stands on its own merits: the twenty-one definitions came back from the
+  archive an earlier merge had dropped them into, the widened bar lets five honestly unmeasurable
+  tasks stay on the board, and every one of the 1,500 words is findable under its own date. The
+  handful of factual lines the repair pass corrected outside the two it allows stand with them — the
+  task-count command that had been counting its own line, the photo site's finishing test that asked
+  only that a version file exist and never read it, two closed rows that now say where their proof
+  was read, the session-weight figure stated in the present tense while the real one had moved, and
+  the rotated-off list that named none of the three archives written that day.
 
-- **Two tasks left the board while a worker still had them, 28.08 — where the work went, and what is
-  left of it.** The morning cut folded four rows into the one-list task and moved them to
+  One thing is worth the owner's eye whenever he next reads this page, and it is not a question that
+  holds any work: the consent clause above and a standing "do not ask me" grant collide, and the
+  clause says nothing about which wins. It should name what happens under such a grant, so the next
+  session does not have to derive it the way this one did.
+
+- **The boot file's stale example is repointed. Settled 31.08.** It told a session not to read the
+  root prose to orient itself and named three files to leave alone; one of the three was the old
+  wish queue, which moved to the attic on 28.08. The line stayed true and its example was a ghost.
+  It now names the architecture document instead, which is large, sits in the same root, and is
+  exactly the kind of file a session opens by mistake. Nothing else in that file changed. The
+  standing word that nobody here writes it is about not putting working-mode instructions into it;
+  repointing one filename that has moved is a correction of fact, so it does not reach that rule.
+
+- **The two tasks that left the board while a worker still had them are closed. Settled 31.08, on
+  the evidence written out below.** Neither goes back on the board: the first is finished on this
+  side and waits only on the owner's own look, which the live-board task already carries; the second
+  shipped on 13.08, and what it left undone aimed at a page belonging to a campaign that is over.
+  What happened, in full: the morning cut folded four rows into the one-list task and moved them to
   `docs/queue-archive/rotated-PLAN-2026-08-28-folded-rows.md`; two of the four were marked as being
   worked at that moment and neither carried a note saying so. Both were read back on 28.08 evening.
   The first, the light view of where things stand, is finished on this side: the opening report and
@@ -1223,20 +1262,19 @@ One line per finding. Don't start a second list for them. Don't fix one without 
   back on the board for it. If you want the project's goals under continuous watch as a standing
   thing, that is its own ask and it comes back as its own task.
 
-- **The method still teaches every new project to keep the queue this one just retired.** The
-  skills, the templates and the joining walk all hand a project a separate queue file and describe
-  it as the place a wish lands, and four of those sentences say "in this pack", which stopped being
-  true here today. Making the method match what this project actually does means rewording text
-  that other projects have already copied into themselves, and that is a release decision with a
-  version number attached, not a tidy-up. Left as it stands, named here, for the owner.
+- **The method still teaches every new project to keep the queue this one retired, and it is now a
+  task rather than a finding.** Eleven files across the skills, the templates and the joining walk
+  carry it, and rewording them is a release with a version number and a migration note, not a
+  tidy-up. It went on the board on 31.08 as `q-801`, with what has to be answered before the
+  rewording starts written into the row.
 
-- **Nothing moves a finished task off the board except a person's own hands, and that is now the
-  settled answer.** The tool that used to do it only understood the table the old queue was written
-  in, and that queue is retired; it went to the attic on 28.08 rather than being taught a shape
-  nobody travels often. What it used to guarantee by construction — the archive and its pointer
-  written as one act — the push gate now proves instead, in both directions, so a hand that writes
-  one half and forgets the other is stopped at the gate. This line stays only as the record of the
-  decision.
+- **Nothing moves a finished task off the board except a person's own hands. Settled, and now
+  written into this file's own rules.** The tool that used to do it understood only the table the
+  retired queue was written in, and it went to the attic with that queue on 28.08 rather than being
+  taught a shape nobody travels often. What it guaranteed by construction — the archive and its
+  pointer written as one act — the push gate proves instead, in both directions, so a hand that
+  writes one half is stopped there. The rule was only ever recorded here; on 31.08 it moved up to
+  the rules at the top of this page, where a session reads it without opening §Blockers.
 
 - **Every done mark was re-checked against the tree, 28.08 — five of them did not hold.** Two rows
   are back open: the list of every made-up number, where a sweep ran but the page nobody has read

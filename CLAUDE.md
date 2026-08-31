@@ -9,7 +9,7 @@ doubles a session's starting weight for no reason tied to the step in hand — r
 when the work itself is about the plan's shape (adding a task, resolving §Blockers, the fallback
 below).
 
-Do not read the prose in this root to orient yourself. `JOURNAL.md`, `ROADMAP.md`, `PRODUCT_SPEC.md`
+Do not read the prose in this root to orient yourself. `JOURNAL.md`, `ARCHITECTURE.md`, `PRODUCT_SPEC.md`
 and their neighbours run to more than a megabyte between them, and none of them says where the work
 stands today. Open one only when a step names it.
 
