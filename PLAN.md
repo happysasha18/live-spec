@@ -1289,6 +1289,17 @@ would convince him: reading it once and finding nothing he would have to correct
 
 One line per finding. Don't start a second list for them. Don't fix one without the owner's decision.
 
+- **The format page for a row still calls itself the roadmap, and the roadmap is gone. Raised
+  31.08, in q-801.** The new plan template a founding lands sends its reader to
+  `docs/roadmap-format.md` for the row's shape, and every rule on that page is still exactly
+  right — the row shape, the class and status vocabularies, the live-body law, the row lint.
+  What it says around them is not: it opens by defining "the format the roadmap is written in"
+  and names a document the pack stopped shipping today. Requirement 286 in the spec names the
+  same document as the format family's third member, so the rename is not a page edit alone
+  and was outside this task's own row. Nothing is wrong for a reader who follows the pointer;
+  the cost is one puzzled minute per first reader until the page takes the name of the thing
+  it now describes.
+
 - **This page still holds three copies of the report's own rules, and the lane that converged
   everything else could not touch them. Raised 31.08.** The report he reads every turn had its shape
   written in several places at once, and they disagreed; that is the thing plan-16 closed. Every copy
