@@ -549,9 +549,9 @@
 
 ## Requirement 102: The fence guardrail's three legs and the header's honesty
 
-**Context:** A guardrails check enforces the one-way fence, and it has three legs. When all three land, the header's honesty rule holds in both directions — the spec never claims what is not built, and the build never contains what the spec does not name.
+**Context:** A guardrails check enforces the one-way fence, and it has three legs, all landed (`guardrails/pre-push` gate e for the fence leg, gate h for the other two — `scaffold/guardrails/check_completeness.py` and `check_traces_to_spec.py`, shipped by row 241, commit `f008e5b2`). The header's honesty rule holds in both directions — the spec never claims what is not built, and the build never contains what the spec does not name.
 
-**User Story:** As a person trusting the fence, I want a mechanical check with three named legs and one honest note of which run today, so that a prod file reaching into a prototype turns red while the promised legs are marked as still owed.
+**User Story:** As a person trusting the fence, I want a mechanical check with three named legs, so that a prod file reaching into a prototype turns red, a rendered surface with no registry row (or a registry row with nothing rendered) turns red, and a shipped behaviour with no spec clause turns red.
 
 ### Acceptance Criteria
 
@@ -559,13 +559,10 @@
 
 1. *when* a prod file references anything inside a prototype home, the system *shall* turn the fence leg red. [E-6]
 2. The system *shall* enforce the completeness scan over the surface registry and the behaviour-traces-to-spec check as the two remaining legs. [E-10, E-6]
-   [target]
 
 **Case: the honesty in both directions**
 
 3. *when* all three legs land, the system *shall* hold that the spec never claims what is not built and the build never contains what the spec does not name. [S-0, INV-17]
-4. *while* only the fence leg is enforced, the system *shall* keep the other two legs promised, marked, and owned by their rows. [INV-17]
-   [target]
 
 ---
 

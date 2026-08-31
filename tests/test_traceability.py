@@ -1452,13 +1452,19 @@ class TestTargetOwnership(unittest.TestCase):
     # absorbed it, read from the fold archive rather than guessed
     # (docs/queue-archive/rotated-PLAN-2026-08-28-folded-rows.md).
     TARGET_ROW_OWNERS = {
-        "E-6": "q-55",    # host-facing gates ride the registry+snapshot family (archived row 3's remainder)
-        "E-7": "q-55",    # snapshot machinery
-        "E-10": "q-55",   # surface registry executable form rides the same family
+        # Re-verified 2026-08-31: E-6 (host-facing checks), E-10 (surface-registry completeness) and
+        # INV-17 (the fence's honesty-in-both-directions invariant), as cited at
+        # spec/design-spec-review.md's Requirement 102, are BUILT — `guardrails/pre-push` gate h runs
+        # `scaffold/guardrails/check_completeness.py` and `check_traces_to_spec.py`, shipped whole by
+        # row 241 (commit f008e5b2), well before tonight. A-6 (the adoption-time baseline) is BUILT by
+        # q-55 itself. All four target tags were dropped from the spec text in the same commit as this
+        # map edit, per SPEC S-0 (a satisfied promise leaves both the tag and its map entry). Only
+        # E-7's OTHER meaning — design-sync's still-unbuilt declared-scope snapshot machinery
+        # (spec/doc-order-generated.md Requirement 247) — stays open, re-pointed below to q-54, the
+        # row `q-93` (design-sync) was folded into on 2026-08-28.
+        "E-7": "q-54",    # design-sync's declared-scope snapshot machinery; q-93 folded into q-54 on 2026-08-28
         "E-18": "q-54",   # design-sync machine; q-93 folded into q-54 on 2026-08-28
-        "INV-17": "q-55", # build⊆spec honesty legs = the host-facing gate legs
         "INV-21": "q-48", # success-measure reading machinery; q-96 folded into q-48 on 2026-08-28
-        "A-6": "q-55",    # adoption baseline rides the snapshot
         "INV-185": "q-398",  # the contract's three arms; q-385 folded into q-398 on 2026-08-28
         "INV-198": "q-386",  # config-health asserts the primary tree holds main (git's refusal rests on it)
         "INV-199": "q-386",  # the merge-base check ahead of the gate + the stale-lane check

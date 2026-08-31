@@ -188,7 +188,7 @@ CI green.
 
 **Step 2 — walk the hostile review's remaining list, one row at a time.** The full findings
 are in `.live-spec/checkpoints/night-run-2026-08-28.md` under "THE HOSTILE REVIEW OF THE
-REMAINING BOARD" (31.08 18:34, run because Alexander asked directly whether the board's
+REMAINING BOARD" (2026-08-31 18:34, run because Alexander asked directly whether the board's
 remaining rows were all real or partly junk/unneeded machinery). Its buckets, already
 decided, not to be re-litigated:
 - **Archive now, no work:** `plan-15`, `q-453`, `q-48`, `q-751` — each with its reason
