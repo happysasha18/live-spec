@@ -848,14 +848,14 @@
 
 **Case: a finding the tree shows made good**
 
-21. A finding *shall* count as made good *when* every file its command named carries, in the repository that command ran in, a commit dated later than the command by author date, and each such file still sits in that repository's current HEAD — the work at those paths is saved in that repository's history again, and is there to see now. [INV-299]
+21. A finding *shall* count as made good *when* every file its command named carries, in the repository that command ran in, a commit dated later than the command by author date, and each such file still sits at the tip of that repository's current history — the work at those paths is saved in that repository's history again, and is there to see now. [INV-299]
 22. *when* a finding counts as made good, the census arm *shall* red nothing for it and *shall* keep it named in the report beside the commit that made it good. [INV-299]
 23. *if* a command's blast radius names no single file — the whole working tree, a directory, a path carrying a glob metacharacter or opening git's pathspec-magic prefix, or a path the check cannot place in a repository — *then* that finding *shall* never count as made good, since no commit can show an unbounded set of lost bytes is back. [INV-299]
-   - a path is confirmed as naming exactly one file by asking git, not the filesystem: it *shall* pass only when it names no glob and the repository's own tracked files answer with that one path and no other.
+   - a path is confirmed as naming exactly one file by asking git: it *shall* pass only when it names no glob and the repository's own tracked files answer with that one path and no other.
 24. A finding whose record carries no timestamp *shall* never count as made good, since the check cannot say which commits came after it. [INV-299]
 25. The verify arm *shall* apply none of this, and a worker run it reds *shall* stay red for acceptance however the tree moves afterwards. [INV-299, INV-46]
-26. *if* a later commit only deletes a path the command named, *then* that finding *shall* never count as made good, since the path no longer sits in the repository's current HEAD and the work it named is not there to see. [INV-299]
-27. "Dated later than the command" in criterion 21 *shall* be read from the commit's author date, not its committer date, since `git commit --amend` and a rebase both reset the committer date to the moment they run while leaving the author date unchanged. [INV-299]
+26. *if* a later commit only deletes a path the command named, *then* that finding *shall* never count as made good, since the path no longer stands at the tip of the repository's current history and the work it named is not there to see. [INV-299]
+27. "Dated later than the command" in criterion 21 *shall* be read from the commit's author date, since `git commit --amend` and a rebase both reset the committer date to the moment they run while leaving the author date unchanged. [INV-299]
    - an author date set by hand with `git commit --date` is a bound this requirement cannot close; no fact the repository holds can tell such a date from a genuine one.
 
 
