@@ -3185,3 +3185,58 @@ worker-restore command list across its five homes are all cases where the wordin
 the last of them by the rulebook's own sentence, which asks that a home stating it in words of its own
 go red. The invariant codes in the harness template's docstring are identifiers, not prose. None of
 these can pass vacuously, because the text they assert on is the thing they are about.
+
+## 2026-08-31 — every rule finds one home, and a check keeps it there
+
+The report Alexander reads at the top of every reply had its shape written in three places, and the
+three disagreed. His own boot file gave the Canon: seven to ten lines, five marks, and the sentence
+that no more get invented. His personal profile gave a different ten-line form with five fixed
+content points. This repository's agent card gave the five content points a third time, already
+drifted from the profile on what counts as a real-world unit. He has said nine times that the report
+is never the same twice; the three homes are why.
+
+Two more rules were doubled the same way. The lane law stood in full in the base rulebook and again
+in the director's own reference, under a second name, inside a pack whose rule 3 forbids two names
+for one thing — and that copy's opening line said outright that every line below repeated the body.
+"Ask, never guess" ran across four base rules, one of which said in its own text that it repeated
+another, and across six more statements in the skills. Six skills opened by listing sixteen shared
+rules by nickname, three of them retired on 2026-08-26.
+
+The fix was not a skill per rule, which was the shape first proposed. The pack holds on the order of
+a hundred and fifty named rules; a skill is summoned by the shape of a task while a rule binds across
+every task, so a rule-shaped skill would never fire when it was wanted. The grain that works was
+already the pack's own and only needed teeth: the spec states the law, a skill carries only the rules
+its job applies, a gate holds the teeth, a profile holds what varies by person, and everything else
+is a pointer.
+
+So each doubled rule converged to one home with a pointer where the copy stood. The lane law's home
+is base rule 7; the director's reference keeps the half rule 7 leaves to the seat's judgment — the
+dependency graph, the landing's effect on waiting lanes, the drafter-applier form, the re-door's
+rebuild — and points at the base for the rest. The human-only set's home is base rule 27, which
+gained one sentence saying its three cases are the whole set, so rules 1, 12 and 29 could stop
+listing them differently. The report format's home is Alexander's own file, outside this repository;
+every surface here that restated it now names it, the agent card included, and the scripts that draw
+the board say plainly that they read the legend rather than decide it.
+
+Two things were left standing on purpose. `PLAN.md` still holds three copies — the marks twice and
+the content points once — because this lane was told to leave that page alone apart from its own row
+and the blockers list, so the finding went to the blockers list instead of the file. And the second
+half of the report format's own convergence is Alexander's to make: his profile and his boot file
+still state the length two ways, seven to ten against ten or fewer, and only the window that owns the
+personal layer can settle it.
+
+The check is `tests/test_one_home_per_rule.py`. Each rule declares its home and a few probes taken
+from the rule's own wording; a probe may appear in the home and nowhere else in the reach. A pointer
+names the home rather than quoting the rule, so a pointer passes and a copy reds. It was proved both
+ways: three copies planted into a skill redded all three rules, the same text rewritten as pointers
+passed. Its reach is the surfaces that tell a session how to work, and its blind spot — a copy
+reworded end to end carries no probe — is written into the file, because a verdict without its reach
+is worth nothing. It reads about ninety files and costs about a fifth of a second.
+
+The last piece is the director's. Its own reference already carried the routing law — everything
+goes to the home whose declared sentence governs it, and a thing pinning to no home is the finding —
+but it never said what the homes were, so the law could not be run on a rule. The five houses and
+their declared sentences are written there now, and the director's body says to name the house before
+writing a rule down. Run against a rule invented for the test and written nowhere in the tree, it
+named one house; run against a sentence carrying two rules, it returned the finding rather than a
+home. Both runs are in the day's skill-review record.

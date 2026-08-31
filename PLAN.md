@@ -753,7 +753,7 @@ no local copy, and it has been idle since 27.07, so nothing of the owner's is in
 documents absent there exist. The wish's own acceptance lines run green in that tree.
 
 
-### ⬜ Every rule finally lives in exactly one place — id: plan-16
+### ✅ Every rule finally lives in exactly one place — id: plan-16
 **Group:** Method housekeeping · **Priority:** critical
 **Source:** PLAN.md step 16, owner 27.08.
 **Closes:** plan-13, q-119, q-131, q-134, q-141, q-144, q-424, q-484, q-471
@@ -809,6 +809,18 @@ carries only the rules its job applies; a gate holds the teeth; everything else 
 **Acceptance:** a command shows one home per rule for the report format, the lane law and the
 ask-never-guess family · the gate reds on a planted second copy and passes the tree · director names
 the home for a rule it has never seen, in a recorded run.
+
+**Landed 31.08.** The report's shape now lives only in his own file, and every place that used to
+restate it — the agent card, the showing skill's example line, the eval sheet that graded against a
+mark he never allowed, the three scripts that draw the board — names that home instead. The lane law
+lives once in the rulebook; the director's own page keeps the half the rulebook leaves to judgment
+and points at the rest. The four rules that each said "decide what you can decide" in different words
+now say it once, and the six skills that advertised three rules retired in August advertise them no
+longer. The check is `tests/test_one_home_per_rule.py`: it names one home per rule, reds on a planted
+second copy, and passes on a pointer, both proven by planting one of each. What it reads is stated in
+its own opening — the surfaces that tell a session how to work — and it costs about a fifth of a
+second. Three copies still stand on this page itself; §Blockers says which and why this lane left
+them.
 
 
 ### ✅ Each session reads only what it needs — id: plan-17
@@ -1209,6 +1221,17 @@ would convince him: reading it once and finding nothing he would have to correct
 ## Blockers
 
 One line per finding. Don't start a second list for them. Don't fix one without the owner's decision.
+
+- **This page still holds three copies of the report's own rules, and the lane that converged
+  everything else could not touch them. Raised 31.08.** The report he reads every turn had its shape
+  written in several places at once, and they disagreed; that is the thing plan-16 closed. Every copy
+  outside this page is now a pointer at the one home, and the new check reds if a second one appears
+  on any surface that tells a session how to work. Three copies remain here: the marks and their
+  meanings appear twice, once in the words section and once above the task list, and the five things
+  a message asking his word must carry sit four lines below a sentence saying the format is not
+  repeated here. The lane that did the work was told to leave this page alone apart from its own task
+  and this section, so it left them and wrote this instead. Turning the three into pointers is a
+  ten-minute edit for whoever next has the pen on this file.
 
 - **The amended bar for "queued" stands, and the twenty-one definitions stay as written. Settled
   31.08.** The rule at the top of this page lets a session move a task's status and write in this

@@ -4,9 +4,24 @@ A digest with no redundancy (SPEC INV-48) — one live-state block, nothing remo
 information. One status block stands here at a time, and every update replaces it. Dated history
 lives in `JOURNAL.md`.
 
-## LIVE STATE (2026-08-28, 16:30)
+## LIVE STATE (2026-08-31, 13:55)
 
 Written for a session starting with clean context.
+
+**Every rule the pack states now has one place it lives, and a check keeps it there** (plan-16,
+landed 31.08). Three rules had been written in several places that disagreed: the report Alexander
+reads at the top of every reply, the law about running work in parallel, and the duty to ask rather
+than guess. Each converged to one home, and everywhere a copy used to stand there is a pointer at
+that home. Six skills stopped advertising three rules retired in August. The check is
+`tests/test_one_home_per_rule.py` — it names one home per rule, reds if a second copy appears on any
+surface that tells a session how to work, and passes on a pointer; its reach and its blind spot are
+written in its own opening. Two pieces are deliberately unfinished and both are recorded: `PLAN.md`
+itself still holds three copies (§Blockers says which, and why the lane could not write that page),
+and the report format's own two homes in Alexander's personal layer still state its length two ways
+— seven to ten lines in his boot file against ten or fewer in his profile — which only the window
+that owns that layer can settle. The director can now name the home of a rule it has never seen: the
+five houses and their declared sentences are in its request-kind reference, and two worked runs are
+in `docs/skill-review/2026-08-31-one-home-per-rule.md`.
 
 **There is one list now, and it is `PLAN.md`.** The wish queue that stood beside it is retired: it
 had held no rows since 27.08, yet the lane-opening script, the rotation gate, the state probe and a
