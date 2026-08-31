@@ -18,7 +18,7 @@ it. Prompt (verbatim):
 | Criterion (the skill's promise) | bare | with-skill |
 |---|---|---|
 | Plain product words, no dev jargon walls | MET BARE | GREEN |
-| The map as a map: status icons (✅/🙋/⬜), one substance clause per line (rule 9) | RED — bullet prose, no map, no explicit "what remains" | GREEN — icon map, every line carries substance |
+| The map as a map: status marks from the one legend the owner's own file holds, one substance clause per line (rule 9) | RED — bullet prose, no map, no explicit "what remains" | GREEN — icon map, every line carries substance |
 | The one decision asked cleanly with the recommendation marked (rules 2/7) | MET BARE (recommendation present) | GREEN |
 | No internal bookkeeping doing the talking (rule 8): version numbers / "64 green checks" as message content | RED — "Committed as 0.9.16", "64 green checks" | GREEN at the 2026-07-05 first run — then RED at BOTH 2026-07-06 re-runs (morning: leaked the test count; batch 2: "all 64 checks green, v0.9.16" in the message body). Second recurrence → owned: queue row 126 (rule 8 gains a NEVER-list). GREEN again at the row-126 landing re-run (2026-07-06 13:47, first run under the shipped NEVER-list): "tested clean and saved", numbers only trailing in parens — record `docs/evals/2026-07-06-rows126-128-rerun/` |
 | Retell, don't reference: row numbers trail, never lead | MET BARE | GREEN (rows trail in parens) |

@@ -128,10 +128,11 @@ for s in steps:
 # ---------------------------------------------------------------- assign one column each
 # Same four columns as before the task-list merge. The board can show every task (it is a
 # page, not the chat Canon), so — unlike state-probe.sh, which has to ration lines — a task's
-# own mark decides its column directly: ✅ (or a passing command) is Done; 🔄 is In progress
-# (several can run at once, his own Canon rule: "tasks running side by side show as several
-# 🔄 at once"); ⛔ and 👁️ both land on Blocked — a task needing his eyes can't move without
-# him either; ⬜ is Not started.
+# own mark decides its column directly. What each mark means is not decided here: that has one
+# home, ~/.claude/playbook/CLAUDE.md, "How a reply to him looks", including the rule that two
+# tasks may run side by side. This map is only which column each mark lands in: ✅ (or a passing
+# command) is Done; 🔄 is In progress, several at once; ⛔ and 👁️ both land on Blocked — a task
+# needing his eyes can't move without him either; ⬜ is Not started.
 #
 # The column's own sub-line used to read "waiting on the owner's word", which was true of every
 # card that landed here until this file gained the failing-key mark: a done row whose acceptance

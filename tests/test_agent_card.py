@@ -1,12 +1,16 @@
-"""The card's "How a session speaks to the owner" section carries the owner's dictated format
-(agent card, 2026-08-15): five numbered parts, a ten-line cap, a "leaves unread" consequence for
-breaking the format, and the попугаи word bound to that same format rather than to a looser
-"say it again" reading.
+"""The card's "How a session speaks to the owner" section points at the owner's format and states
+none of it.
 
-The section once read as a plain four-item bullet list (see the parent commit 39e393c) with no
-numbered parts, no recommendation, no irreversibility line, no external-review line, and a
-попугаи line that only asked for a rewording, not a reformulation to this format. This test
-reds against that shape and passes against the current card.
+Until 2026-08-31 this section wrote the format out in full — five numbered parts, a ten-line cap,
+the "leaves unread" consequence, the попугаи word — and this test pinned all of that here. Two
+other homes carried the same format in different words (the owner's boot file and his personal
+profile), and this copy had already drifted from the profile on what counts as a real-world unit.
+plan-16 converged them: the format's one home is `~/.claude/playbook/CLAUDE.md`, section "How a
+reply to him looks", which lives in the owner's personal layer and outside this repository, so
+the suite can check that the card points there and repeats nothing — which is what it now does.
+
+The card's standing rules are untouched: rule 1 is load-bearing for a gate, and its checks below
+stand as they were.
 
 Zero dependencies beyond the stdlib; run from the repo root:
   python3 -m pytest tests/test_agent_card.py -q
@@ -28,12 +32,16 @@ HEADING = "## How a session speaks to the owner"
 RECORD_DIRS = ("docs/prover/", "docs/skill-review/", "docs/language-reads/")
 OUT_OF_CLASS_DIRS = (".live-spec/", "tests/", "guardrails/", ".github/workflows/")
 
-STABLE_PHRASES = (
-    "what it changes",
+# The home the card must name, and the words that would mean it had started stating the format
+# again instead of pointing at it.
+FORMAT_HOME = "~/.claude/playbook/CLAUDE.md"
+FORMAT_HOME_SECTION = "How a reply to him looks"
+RESTATEMENT_PHRASES = (
     "recommendation and its reason",
-    "irreversible",
     "external review's verdict",
-    "real world",
+    "leaves unread",
+    "ten lines at most",
+    "10 lines",
 )
 
 
@@ -85,28 +93,26 @@ def test_rule_1_carries_the_phrase_the_spec_test_resolves():
         "rule 1 drops the phrase R226 criterion 6's mechanism map resolves against")
 
 
-def test_section_carries_the_five_numbered_parts():
+def test_section_names_the_one_home():
     body = _section(read(CARD))
-    for n in range(1, 6):
-        assert re.search(r"^%d\." % n, body, re.M), (
-            "the section carries no numbered part %d" % n)
+    assert FORMAT_HOME in body, (
+        "the section does not name %r, so a reader has nowhere to go for the format"
+        % FORMAT_HOME)
+    assert FORMAT_HOME_SECTION in body, (
+        "the section names the file but not the section %r inside it" % FORMAT_HOME_SECTION)
 
 
-def test_section_carries_the_stable_phrases():
+def test_section_states_no_second_copy_of_the_format():
     body = _section(read(CARD)).lower()
-    for phrase in STABLE_PHRASES:
-        assert phrase in body, (
-            "the section drops the stable phrase %r" % phrase)
+    for phrase in RESTATEMENT_PHRASES:
+        assert phrase not in body, (
+            "the section states the format again (%r) instead of pointing at its one home" % phrase)
+    assert not re.search(r"^\d\.", _section(read(CARD)), re.M), (
+        "the section carries a numbered list again — the format's parts belong to its one home")
 
 
-def test_section_carries_the_leaves_unread_sentence():
-    body = _section(read(CARD))
-    assert "leaves unread" in body, (
-        "the section drops the sentence binding a format break to going unread")
-
-
-def test_section_binds_the_word_to_the_format():
-    body = _section(read(CARD))
-    assert "попугаи" in body, "the section drops the попугаи word"
-    assert "reformulate it to this format" in body, (
-        "the попугаи line no longer binds the word to this format")
+def test_section_says_what_to_do_when_the_home_cannot_be_read():
+    body = _section(read(CARD)).lower()
+    assert "cannot read" in body, (
+        "the section does not say what a session does when the home is unreadable, so a session "
+        "with no access to it would invent a format of its own")

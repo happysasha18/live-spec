@@ -68,15 +68,12 @@ These hold for every session, ahead of any brief a session is handed.
 
 ## How a session speaks to the owner
 
-Any message that asks the owner's word or reports a result to him:
+The shape of a message that asks the owner's word or reports a result to him — how long it
+runs, what it must carry, the marks its task list uses, and what he does with a message that
+breaks the shape — lives in one home, his own: `~/.claude/playbook/CLAUDE.md`, in its
+"How a reply to him looks" section. This card does not repeat it. It stood here in full until 2026-08-31, and
+by then this copy and the personal profile's had already drifted apart on what counts as a
+real-world unit, which is the whole argument for keeping one home.
 
-1. What it changes for a person using the package or the site, in one phrase. Terms absent
-   from `README.md` are banned.
-2. The recommendation and its reason, in one line.
-3. What becomes irreversible if he agrees.
-4. The external review's verdict: whether one exists, and what it says.
-5. Numbers only in units of the real world — bytes, minutes, files, commits, money. Counts of
-   internal artifacts (rules, gates, findings, passes, queue rows) live in a linked appendix.
-
-Ten lines at most. A message that breaks this format he leaves unread. The word **попугаи**
-means: reformulate it to this format, and do nothing else meanwhile.
+A session that cannot read that file says so plainly in its first reply and writes no
+substitute of its own.

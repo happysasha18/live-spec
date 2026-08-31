@@ -38,8 +38,9 @@ AHEAD=$(git rev-list --count origin/main..HEAD 2>/dev/null || echo 0)
 # behaviour, not a gap to fill.
 #
 # PLAN.md's `## Tasks` section (commit bc6f862b) can hold well over a hundred tasks — this
-# printout is what CLAUDE.md's Canon report carries into chat verbatim, and that report is
-# capped at seven to ten lines (the owner's own repeated words; see ~/.claude/CLAUDE.md). So
+# printout is what the Canon report carries into chat verbatim, and that report's length, its
+# marks and its shape have one home: ~/.claude/playbook/CLAUDE.md, "How a reply to him looks".
+# Nothing here restates that law; TASK_LINE_BUDGET below is this script's reading of it. So
 # this prints the top of the list, not all of it: full detail always stays one command away,
 # `bash scripts/render-board.sh`, or PLAN.md itself.
 b "PLAN"
@@ -123,7 +124,9 @@ eligible = [t for t in tasks if not t["excluded"]]
 # "critical drains first" pass used to sit here and let a critical but unworkable queued task
 # outrank a task the owner already needed to look at. Removed 27.08 on his word: urgency must
 # never outrank whether a task is actually workable now.
-TASK_LINE_BUDGET = 9  # 9 task lines + 1 summary line = 10, the Canon cap's own top end.
+# 9 task lines + 1 summary line = 10, the top end of the cap set at the report format's one home
+# (~/.claude/playbook/CLAUDE.md, "How a reply to him looks"). Change it there first.
+TASK_LINE_BUDGET = 9
 CATEGORY_ORDER = ["👁️", "🔄", "⛔", "⬜"]
 
 buckets = {icon: [t for t in eligible if t["rank_icon"] == icon] for icon in CATEGORY_ORDER}
