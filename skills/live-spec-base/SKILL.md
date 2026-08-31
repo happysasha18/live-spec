@@ -207,10 +207,12 @@ its own manifest line. Every other rule below keeps the number it already carrie
     set on the asynchronous touchpoint cadence [INV-205, INV-206]. The person then reads what the pack
     believes they decided, and strikes what they never said.
     The mechanical check `guardrails/check-authority-anchor.py` hard-blocks
-    an unanchored entry on a decision record, and on every other text page the project tracks a
-    sentence crediting a person named in `guardrails/authority-anchor.json` with a decision that names
-    no date. Its own opening states what it leaves out — history files, archives, and the pages it
-    reports instead. It also reports the surfaces that change often, where an attribution first gets
+    an unanchored entry on a decision record, and on every live text page outside the project's
+    history and archive directories a sentence crediting a person named in
+    `guardrails/authority-anchor.json` with a decision that names no date. Its own opening lists what
+    it leaves out, which is most of the tree by count: the dated records, the journal, the archives,
+    the fixtures, and the working notes, each of them narrating what already happened. It also reports
+    the surfaces that change often, where an attribution first gets
     written. But the read-back is the load-bearing defence, turning the person's
     own eye into the check. A text gate alone cannot catch a fabrication that carries a plausible date.
     An invented ranking invents its date just as easily.

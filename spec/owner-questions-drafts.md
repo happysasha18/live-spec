@@ -190,7 +190,8 @@
 
 4. The system *shall* show the person the decision-set record (`DECISIONS.md`), each entry naming its exchange, rendered so the person reads on the person's own clock and strikes what the person never said. [INV-207, INV-205]
 5. *when* a live on-record entry in a decision-record surface carries no exchange, the system *shall* red the authority-anchor gate, a struck entry being skipped. [INV-207]
-6. *when* any other text surface the project tracks credits a person the declared roster names with a decision, word, ruling or instruction naming no exchange, the system *shall* red the authority-anchor gate, *while* the person-agnostic role forms stay a reported candidate on the surfaces an attribution is first written on, since only meaning separates those from the pack's own rule language. [INV-207]
+6. *when* a text surface the project tracks outside its declared spared set — its history, archives, fixtures and working notes — credits a person the declared roster names with a decision, word, ruling or instruction naming no exchange, the system *shall* red the authority-anchor gate, *while* the person-agnostic role forms stay a reported candidate on the surfaces an attribution is first written on, since only meaning separates those from the pack's own rule language. [INV-207]
+   - the gate *shall* state its own reach and the shapes it misses, so a reader takes it for what it holds. [INV-207]
 
 ---
 

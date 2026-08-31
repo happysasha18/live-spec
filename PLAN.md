@@ -321,21 +321,29 @@ July, and nothing waits on it.
 its template, the only two files carrying the marker that put a file under the standing block. A
 sentence crediting the owner with an instruction, planted on an ordinary page, passed without even
 being reported — proven by planting one in the director's own skill file and watching the check exit
-green. It now hard-blocks that sentence on every text file the project tracks, and the same plant
-reds by name. The tree as it stands passes. Both directions are one test,
+green. It now hard-blocks that sentence on the 176 live pages of the tree, and the same plant reds
+by name. The tree as it stands passes. Both directions are one test,
 `test_a_named_attribution_reds_on_any_surface_and_the_tree_as_it_stands_passes`.
 
-**Where the block stops, said plainly.** It reds a sentence that names the person. It does not
-hard-block the same claim where the person appears only as a pronoun or a role — a ruling called his,
-a decision called the owner's. That is a decision this pack recorded in July with its own
-measurement: those words are the pack's own rule language on nearly every page. Counted over this
-tree on 31.08 they stand on twenty-four sentences outside the archives, every one of them
-legitimate, against two for the named form — both of those
-inside dated entries on the decisions page. So the named form is the shape a machine can hold
-anywhere, the role forms stay a reported candidate on the two pages an attribution is first written
-on, and the read-back page, where the person strikes what he never said, stays the defence against a
-fabrication that carries a plausible date. History files, archives and the check's own fixtures are
-outside the reach, as they were before.
+**An adversarial read refused the first build, and it was right.** It planted seven ways of writing
+the same fabrication and the check passed every one: the possessive with a copula after it, the same
+possessive behind a preposition, a word between the name and the verb, "according to". Two causes.
+The name-and-verb pattern demanded the two sit next to each other. And the arm had inherited the
+exemptions written to spare rule language, which are keyed on exactly the shapes a fabrication uses
+once a name is in it. Both fixed; eight of the nine plants now red, the dated one passes, and the
+ninth is recorded below. The read also caught the reach being overstated in four places, one of them
+a *shall* in the spec.
+
+**Where the block stops, said plainly.** It reds a sentence that names the person, on a live page.
+Three things it does not hold. A claim where the person appears only as a pronoun or a role — a
+ruling called his, a decision called the owner's: that is a decision this pack recorded in July with
+its own measurement, since those words are the pack's own rule language, standing on 164 sentences
+of the reached pages against two for the named form, and both of those two are inside dated entries
+on the decisions page. A page in the spared set — the dated records, the journal, the archives, the
+fixtures, the working notes: 1067 of the tree's 1245 text pages, carrying 152 named attributions
+today, every one of them a record of what already happened. And a sentence with no authority word
+beside the name, "the lane order came from him". The read-back page, where the person strikes what
+he never said, stays the defence for all three.
 
 **The rule now says where an instruction's authority comes from and how a conflict is spoken.** Its
 one home is rule 13 in `skills/live-spec-base/SKILL.md`. The attribution half already stood there;

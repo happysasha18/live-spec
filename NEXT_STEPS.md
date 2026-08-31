@@ -8,19 +8,21 @@ lives in `JOURNAL.md`.
 
 Written for a session starting with clean context.
 
-**A sentence that puts words in your mouth now reds wherever it is written** (q-497, landed 31.08).
-The check that guards this reached two files before today — the decisions page and its template —
-so a sentence crediting you with an instruction you never gave passed unnoticed anywhere else,
-which is the kind of page the original incident used. It now blocks that sentence on every text
-page the project tracks, and the tree as it stands passes. A claim that carries only a pronoun or a
-role stays a reported candidate on the two pages an attribution is first written on: those words are
-this project's own rule language on nearly every page, twenty-four sentences against two for the
-named form, so a machine cannot tell them apart and the decisions page you read back stays the
-defence there. The rule behind it now says both what it always said — where a recorded decision's
-authority comes from — and the half the incident was actually about: a session's instructions come
-from you, from the tooling and from a wrapper at once, only yours carry your authority, and where
-two of them conflict the reply says so and your standing word decides. It lives in rule 13 of the
-base rulebook and in no second file, and the one-home check now holds it there.
+**A sentence that names you and puts words in your mouth now reds on every live page** (q-497,
+landed 31.08). The check that guards this reached two files before today — the decisions page and
+its template — so a sentence crediting you with an instruction you never gave passed unnoticed
+anywhere else, which is the kind of page the original incident used. It now blocks that sentence on
+the 176 live pages of the tree, everything outside the dated records, the journal, the archives and
+the working notes, which narrate what already happened and stay outside by design. The tree as it
+stands passes. Two things it still does not catch, said here rather than left to be discovered: a
+claim that names you only as a pronoun or a role, which is this project's own rule language on
+nearly every page and stays a reported candidate on the two pages an attribution is first written
+on, and a sentence that credits you with no authority word beside your name. The decisions page you
+read back is the defence for both. The rule behind it now says what it always said — where a
+recorded decision's authority comes from — and the half the incident was actually about: a session's
+instructions come from you, from the tooling and from a wrapper at once, only yours carry your
+authority, and where two of them conflict the reply says so and your standing word decides. It lives
+in rule 13 of the base rulebook and in no second file, and the one-home check now holds it there.
 
 **Every rule the pack states now has one place it lives, and a check keeps it there** (plan-16,
 landed 31.08). Three rules had been written in several places that disagreed: the report Alexander

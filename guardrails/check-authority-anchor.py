@@ -31,18 +31,25 @@ THE FOUR ACTS the gate serves:
     prose paragraph carrying an authority-claim all count as entries here. This surface is free of the
     rule-language noise below, so the anchor rule is unambiguous and false-positive-free — which is why
     the per-entry rule is applied there and nowhere else.
-  * The NAMED ATTRIBUTION, TREE-WIDE (the second enforced, push-wired HARD block). A decision record is
-    not the only place a session writes something down as the person's word — the founding fabrication
-    was written in the resume file. So the standing scan also reaches EVERY tracked text surface the
-    tree carries, and reds a sentence that credits a person the config ROSTER NAMES with a decision,
-    word, ruling or instruction that names no date. Naming the person is what makes this arm
-    deterministic where the role forms below are not: "<person> asked for X" is an attribution in any
-    context, while "his word settles it" is the pack's own rule language on nearly every page. Measured
-    over this tree 2026-08-31, the roster-named shape stands on exactly two lines outside the spared
-    directories, both inside dated entries on the decision record, and the role forms stand on
-    twenty-four — which is why the reach splits the way it does. A DECISION-RECORD surface is left to
-    the stricter per-entry rule above, and the spared directories below (history, archives, fixtures)
-    stay spared.
+  * The NAMED ATTRIBUTION, ACROSS THE LIVE SURFACES (the second enforced, push-wired HARD block). A
+    decision record is not the only place a session writes something down as the person's word — the
+    founding fabrication was written in the resume file. So the standing scan also reaches every
+    tracked `.md`/`.txt` surface outside SPARED_DIRS/SPARED_FILES below, and reds a sentence that
+    credits a person the config ROSTER NAMES with a decision, word, ruling or instruction that names no
+    date. Naming the person is what makes this arm deterministic where the role forms below are not:
+    "<person> asked for X" is an attribution in any context, while "his word settles it" is the pack's
+    own rule language on nearly every page. Measured over this tree 2026-08-31, across the 176 surfaces
+    this arm reaches, the roster-named shape stands on exactly two lines — both inside dated entries on
+    the decision record — while the role forms stand on 164 under the wide matcher, 125 with the
+    rule frames exempted, and 24 under the tight matcher the advisory pass uses. That is why the reach
+    splits the way it does.
+    WHAT THIS ARM DOES NOT REACH, so nobody reads it for more than it is. A DECISION-RECORD surface,
+    left to the stricter per-entry rule above. The spared set — 1067 of the tree's 1245 tracked text
+    files, 900 of them `docs/`, the rest the journal, the archives, the fixtures, the working notes and
+    the suite — which today carries 152 roster-named unanchored attributions, every one of them a dated
+    record narrating what already happened. And any shape the roster patterns miss: "the lane order came
+    from <person>" carries no authority word beside the name and passes. A text gate holds shapes; the
+    judge and the read-back hold the class.
   * The RISKY-SURFACE FIRST PASS (push-wired, ADVISORY). The founding fabrication was NOT written on a
     decision record — it was written in the resume file and travelled from there into a plan and a chat
     claim. So the standing scan also REACHES the churny surfaces where an attribution first gets
@@ -84,9 +91,10 @@ this code, so the detector names no person.
 
 Usage:
   check-authority-anchor.py                 push mode: HARD-block scan of every DECISION-RECORD
-                                            surface and of every other tracked text surface for a
-                                            roster-named attribution, plus an ADVISORY report over
-                                            the risky attribution surfaces (resume file, plan).
+                                            surface, and of every tracked text surface outside the
+                                            spared set for a roster-named attribution, plus an
+                                            ADVISORY report over the risky attribution surfaces
+                                            (resume file, plan).
   check-authority-anchor.py [--config F] FILE ...
                                             sweep/fixture mode: report each file's unanchored
                                             authority claims (a DECISION-RECORD file uses the strict
@@ -219,19 +227,28 @@ def compile_named(cfg):
     person-agnostic role forms ("his", "the owner's", "he decided") left out — those are the pack's
     own rule language on nearly every page, and only meaning tells them apart from a fabrication. A
     roster name carries no such ambiguity, so it is the shape the gate can hold as a hard block on any
-    surface. Returns None where the host has declared no roster, so the arm stands down by name."""
+    surface. Returns None where the host has declared no roster, so the arm stands down by name.
+
+    The shapes, each one an adversarial read of 2026-08-31 found escaping a narrower first build:
+    `per <name>` and `according to <name>`; `<name>'s [one or two words] <authority-noun>`; and
+    `<name> [one or two words] <authority-verb>`, the word gap carrying "<name> HIMSELF asked",
+    "<name> HAS asked", "<name> LATER decided". The gap is two words on both arms, as the wide
+    matcher's possessive arm already used. This arm takes NO rule-frame exemption — the copula and
+    instrument frames exist to spare the pack's own rule language, which is written in role words, and
+    applying them here would exempt `<name>'s ruling WAS ...` and `ON <name>'s word`, the two shapes a
+    fabricated instruction is most often written in."""
     names = cfg.get("person_names") or []
     nouns = cfg.get("authority_nouns") or []
     verbs = cfg.get("authority_verbs") or []
     if not names or not (nouns or verbs):
         return None
     name_alt = "|".join(re.escape(n) for n in names)
-    pats = [r"\bper\s+(?:%s)\b" % name_alt]
+    pats = [r"\b(?:per|according\s+to)\s+(?:%s)\b" % name_alt]
     if nouns:
         pats.append(r"\b(?:%s)'s\s+(?:\S+\s+){0,2}(?:%s)\b"
                     % (name_alt, "|".join(re.escape(n) for n in nouns)))
     if verbs:
-        pats.append(r"\b(?:%s)\s+(?:%s)\b"
+        pats.append(r"\b(?:%s)\s+(?:\S+\s+){0,2}(?:%s)\b"
                     % (name_alt, "|".join(re.escape(v) for v in verbs)))
     return re.compile("(?:%s)" % "|".join(pats), re.IGNORECASE)
 
@@ -507,7 +524,7 @@ def main(argv):
     if named_re is not None:
         for path, rel in tree_wide:
             named_seen = True
-            for ln, snip, why in scan_prose(path, rel, named_re, waivers, tight=True,
+            for ln, snip, why in scan_prose(path, rel, named_re, waivers, tight=False,
                                             time_anchor=False,
                                             why="a decision credited to a named person names no date"):
                 offences.append((rel, ln, snip, why))
@@ -553,6 +570,9 @@ def main(argv):
     print("  exists, it was the agent's own judgment call — rewrite it as that instead, on the")
     print("  read-back surface (DECISIONS.md), and never record a decision as the person's own unless")
     print("  they actually said it.")
+    print("  The two dials a host owns are in guardrails/authority-anchor.json: `person_names` says")
+    print("  whose word this check guards, and `waivers` exempts a named file-and-snippet pair with a")
+    print("  reason written beside it.")
     return 1
 
 
