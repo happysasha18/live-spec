@@ -332,7 +332,7 @@ is written once, in the requirement the check cites. That definition is this sea
 his: his word of 27.08 puts machinery on this desk, and it is machinery.
 
 
-### ⬜ Trimming a long document never loses what moved — id: q-531
+### ✅ Trimming a long document never loses what moved — id: q-531
 **Group:** Method reliability · **Priority:** critical
 **Source:** found 2026-07-29, reproduced live at tlvphotos 2026-08-05 — a real document split ran with no proof nothing was lost.
 
@@ -347,6 +347,30 @@ empty difference over every word and every mark; drop a paragraph on purpose and
 prints that paragraph and exits non-zero. A test in `tests/` runs it both ways, so the red is proved
 rather than assumed, and the command runs for real over the photo site's spec before its conversion
 starts.
+
+**Done, landed 31.08.** The command is `scripts/nothing-lost.py`, run as
+`python3 scripts/nothing-lost.py --before OLD.md --after new/*.md`; a document already committed
+reaches it through a pipe, `git show REV:OLD.md | ... --before -`. It compares the two sides as
+multisets of blocks — a heading, a paragraph, a list item with its continuations, a table row, a
+fenced code block — each with its whitespace collapsed, so rewrapping and reordering pass and a
+dropped word does not. Whatever the old document carried and no new file accounts for is printed
+whole, with the line it stood on, and the exit code is 1; an accounted-for split prints nothing and
+exits 0. `tests/test_nothing_lost.py` runs both directions: one legitimate split, and nine things
+dropped on purpose one at a time — a paragraph, a sentence off the end of a paragraph, a table row,
+a footnote, a citation, an inline code span, a line inside a code fence, a list item, a heading.
+
+**The real runs.** Two splits this repository already performed are checked in the suite, both at
+the size this exists for. `b344d33c` cut ARCHITECTURE.md into a core and fifteen parts: 594 blocks,
+empty difference, exit 0 — a real split proved lossless after the fact. `d79fc334` moved 310
+requirements out of the 703 KB PRODUCT_SPEC.md into thirty parts and deleted its trailing
+`## Reference` table in the same commit: the command prints that table and nothing above it, so the
+one thing removed is named and the 310 relocated requirements are all accounted for.
+
+**On the photo site's own spec.** Its conversion has not started — `~/tlvphotos/SPEC.md` is still
+one 467 KB file with no parts beside it — so there is no "after" to compare yet. The command was
+run over it as it stands today (691 blocks, read clean), which is the baseline the conversion will
+be checked against; the before-and-after run belongs to the conversion itself, and the command is
+ready for it.
 
 
 ### ✅ The installed copy and the working copy stay in sync — id: q-537
