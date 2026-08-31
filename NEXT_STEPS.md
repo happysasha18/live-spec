@@ -4,103 +4,90 @@ A digest with no redundancy (SPEC INV-48) — one live-state block, nothing remo
 information. One status block stands here at a time, and every update replaces it. Dated history
 lives in `JOURNAL.md`.
 
-## LIVE STATE (2026-08-31, 21:35)
+## LIVE STATE (2026-08-31, 23:26)
 
-Written for a session starting with clean context. Heals landing 16b1a300, heals landing
-6d0257ac, heals landing 8da47015.
+Written for a session starting with clean context. Heals landing bff2715a.
 
-**A hostile read of the remaining board found five rows to archive, one already done, and
-eleven real ones overbuilt or vaguely sourced — asked for by the owner directly** ("из этих
-20 в очереди точно все нужны?"). Full findings, bucket by bucket, are in
-`.live-spec/checkpoints/night-run-2026-08-28.md` under "THE HOSTILE REVIEW OF THE REMAINING
-BOARD". The method it set: narrow a row's acceptance in `PLAN.md` before dispatching a
-worker on it, never hand the original wording to a fresh agent and hope it self-narrows —
-learned from `q-55`, whose original justification cited five spec requirements that turned
-out not to exist, caught only because the review ran before the worker finished.
+**Everything unpushed went out.** `16b1a300..bff2715a`, 21 commits, `origin/main` carries it. CI
+run `33436005985` was in progress at push time; check `gh run list --branch main --limit 1` if this
+note is stale by more than a few minutes.
 
-**Three landed since the last note**: the Director/`q-497`/`q-527` merge (`16b1a300`,
-pushed, CI green — a fresh-context read refused the first build of that merge and found
-nine real defects, all repaired before it went out); then `q-531`, `q-801`, and a narrowed
-`q-55` (locally at `8da47015`, **not yet pushed** — see below).
+**The two real gate failures the 31.08 21:35 note left open are both closed, plus two more the
+full suite surfaced that the same note had missed.**
 
-**`q-531` (critical) — a document split now proves it lost nothing.**
-`scripts/nothing-lost.py` compares a document's before-state against its after-files at
-block granularity (heading, paragraph, list item, table row, code fence, thematic break),
-normalized for whitespace, as a multiset — so reordering across files is fine, a dropped
-block is caught and printed with its content. Proven against two real splits in this
-repo's own history (`ARCHITECTURE.md`'s and `PRODUCT_SPEC.md`'s, the second correctly
-distinguishing an intentionally deleted reference table from a real loss). A `q-531` key
-in `scripts/plan_checks.py` computes the mark. tlvphotos's own conversion has not started
-(`~/tlvphotos/SPEC.md` is still one file) — read-only, not run against it for real yet.
+1. `tests/test_traceability.py::TestTargetOwnership::test_targets_owned_by_open_rows` — closed
+   honestly, not by weakening the test. Of `q-55`'s five orphaned `[target]` anchors: `A-6` is
+   `q-55`'s own landed work. `E-6`, `E-10`, and `INV-17` — Requirement 102's "fence guardrail's
+   two remaining legs" (`spec/design-spec-review.md`) — turned out already BUILT, by row 241
+   (commit `f008e5b2`), well before tonight: `guardrails/pre-push` gate h runs
+   `scaffold/guardrails/check_completeness.py` and `check_traces_to_spec.py`. Their `[target]` tags
+   were simply stale and are now dropped. Only `E-7` (design-sync's declared-scope snapshot
+   machinery, Requirement 247) is genuinely still unbuilt. A first attempt re-pointed it to `q-54`
+   on the theory that `q-93` (design-sync) folded into `q-54` on 2026-08-28 — an adversarial push
+   review (`docs/prover/2026-08-31-target-ownership-correction.md`, finding F4) caught that `q-54`'s
+   own written acceptance never actually names design-sync, which would have silently re-orphaned
+   `E-7` the moment `q-54`'s acceptance gets narrowed (which the hostile review below already
+   flags it for). Archive research settled it: `E-7` was always row 55's own promise, historically
+   (`docs/queue-archive/rotated-ROADMAP-2026-07.md` row 468), never row 93's — restored as its own
+   row, `q-802`, the same way `q-437` was restored earlier tonight. `E-18` (design-sync the feature)
+   stays `q-54`'s, unchanged; a non-blocking note in `docs/prover/2026-08-31-e-7-restored-as-q-802.md`
+   flags that `E-18`'s `q-54` mapping rests on the same unproven fold claim and will need the same
+   fix whenever `q-54` is next closed or narrowed — not done yet, watch for it.
+2. `tests/test_landing_next_steps.py::test_real_repo_range_refreshes_next_steps` — was already clear
+   at session start, confirmed.
+3. **New, found only by running the full suite clean (the prior session's diagnosis had not run it
+   since its last edit):** `guardrails/check-authority-anchor.py`'s date scanner is ISO-only
+   (`\d{4}-\d{2}-\d{2}`); a sentence crediting Alexander in `NEXT_STEPS.md` dated `31.08` rather than
+   `2026-08-31` hard-failed the gate on every surface, not just decision records. Fixed by writing
+   the date in full. **Lesson for whoever writes this file next: dates near a sentence naming
+   Alexander need the full `YYYY-MM-DD` form, not the short `DD.MM` form used everywhere else in
+   this project's prose — the short form reads fine to a person and reds the gate.**
+4. **New:** three same-day `live-spec-base` skill-review records (`instruction-authority`,
+   `gate-clause-reach`, `one-list-for-a-new-project`) each predate the merge commit (`130a67e6`)
+   that actually landed them on `main`, since each was written on its own lane branch before the
+   merge. `guardrails/check-skill-review.sh` wants a record whose own commit is at or after the
+   skill's last change, and none of the three alone qualified — a fourth record
+   (`docs/skill-review/2026-08-31-live-spec-base-merge-lands.md`) ties them together without
+   re-reviewing content already covered. **Lesson: a multi-lane merge into `main` can make every
+   lane's own same-day review look stale by commit-clock, even when nothing about the reviewed
+   content actually changed — check this before assuming a real content gap.**
 
-**`q-801` — release 6.1.0, a new project starts on one list.** Two decisions executed: a
-project founded from now on gets the one-list shape (no legacy queue file); an existing
-host with a separate queue is asked to change nothing. Eleven-plus files repointed,
-`templates/ROADMAP.template.md` retired to `attic/`, `templates/PLAN.template.md` takes
-its place. `VERSION` 6.0.0 → 6.1.0, skill stamps followed, `MIGRATION.md` carries the
-6.1.0 chapter. Gate (s)'s skill-review record and gate (a)'s prover record are both
-written for the range.
+**A hostile read of the remaining board found five rows to archive, one already done, and eleven
+overbuilt — and a second, independent skeptical pass over the same rows (run because Alexander
+asked directly not to trust the first pass blindly) corrected five of its findings.** Full findings
+in `.live-spec/checkpoints/night-run-2026-08-28.md`. The corrections, layered on top of that
+checkpoint's own buckets:
 
-**`q-55` — narrowed, then landed.** The hostile review found its stated justification
-false (E-6, E-7, E-10, A-6, INV-17 don't say what the row claimed). Cut to the one real
-case: a project joining with no git history gets one commit of its files as found, before
-any pack file lands; a project with existing history is untouched, and the step is
-idempotent. `adopt/record-starting-state.sh`, wired into `adopt/ADOPT.md` Phase 0 step 2.
+- **`q-386` is NOT moot-close, contrary to the first pass.** Its own row text (edited 21:14, after
+  the first pass closed) says one leg has no check at all: nothing today proves the lane-opening
+  script and the written law describe parallel-work the same way, so the two could drift apart with
+  nothing to catch it. Build only that one leg; do not close as moot.
+- **`q-54` is nearly done, not a fresh build.** `grep -q 'project.kind'`, `'project.layers'`,
+  `'project.proofs'` already pass against `~/tlvphotos/.live-spec/profile.md` — only the line naming
+  who the project is founded for is missing there. This is a one-line edit in ANOTHER project's
+  tree; this window may only drop a wish into `~/tlvphotos/inbox/`, not write it directly. Not done
+  yet.
+- **`q-163`'s first acceptance clause may already be satisfied** — `test-author` passes
+  `check-skill-loadability.sh` today. Re-check before dispatching a worker on the row as originally
+  scoped; it is likely narrower than the checkpoint's own bucket assumed.
+- **`q-536` rests on an unwritten self-ruling.** Its "his final call is not owed" note has no
+  corresponding text anywhere on disk — write the actual ruling into its source file first; a
+  worker dispatched on the row as currently worded would be proving a decision that was never made.
+- **`q-398`'s acceptance text still contains the forbidden bare threshold** ("the preamble carries
+  its own declared size cap") that the first pass said to strike. The strike itself never landed in
+  `PLAN.md`. Edit the row's own acceptance text before dispatching a worker — handing the
+  un-narrowed wording to a fresh agent is exactly the `q-55` failure mode this whole run keeps
+  citing as the thing not to repeat.
+- The other narrowing calls (`q-581`, `q-576`, `q-437`, `plan-14`, `q-489`, `q-235`) and the
+  solid/archive buckets (`plan-10`, `q-591`, `plan-15`, `q-453`, `q-48`, `q-751`) held up under the
+  second pass; build/archive as the checkpoint already scopes them.
 
-**`q-386` was proposed for closing on tonight's own merge history as proof, and stays
-open.** Three of its four legs hold (the lane cap is enforced and tested; the landing
-sequence is stated identically in the law and the script; independent work running side by
-side and merging with no hand repair happened a dozen times tonight). The fourth does not:
-nothing checks that the lane-opening script and the written law describe the act the same
-way, so the two could drift apart today and nothing would catch it. The row keeps that one
-leg; do not re-propose closing it without building that check.
-
-**Not yet pushed, and two real gate failures are open right now** — this is the first
-thing the next session does:
-1. `tests/test_landing_next_steps.py::test_real_repo_range_refreshes_next_steps` — this
-   very LIVE STATE update is the fix; re-run it after this file is committed in the same
-   commit range and it should clear.
-2. `tests/test_traceability.py::TestTargetOwnership::test_targets_owned_by_open_rows` —
-   **not fixed, and here is real diagnosis, not just the failure.** `q-55` is marked done,
-   but five spec `[target]` anchors (E-6, E-7, E-10, A-6, INV-17) still name it as their
-   owning task. Read `TARGET_ROW_OWNERS` in `tests/test_traceability.py` (~line 1454) and
-   `target_marker_anchors()` beside it: the anchors live in the *assembled* body
-   `conftest.read("PRODUCT_SPEC.md")` returns (8,357 lines), built from `spec/*.md` parts —
-   **not** the 315-line file you see with a plain `cat`, which is only a glossary/index.
-   Checking the raw file directly, the way this session's own hostile-review pass did
-   earlier tonight, makes the anchors look absent when they are not — that pass's claim
-   ("E-6/E-7/E-10/A-6 appear nowhere in PRODUCT_SPEC.md") is itself wrong, caught only now.
-   Use the assembled read, or `bash scripts/plan-step.sh` sibling tooling, never `cat`.
-
-   What each anchor actually is, checked directly: **`A-6`** (`spec/adopt-existing-project.md:25`,
-   "save a first baseline snapshot of the host's artifacts as found, git-tracked, as the
-   diff baseline the snapshot machinery guards") is a real, close match to what `q-55`'s
-   landed work (`adopt/record-starting-state.sh`) actually does — re-owning it to `q-55` and
-   dropping its `[target]` tag as satisfied looks right, but confirm the "diff baseline the
-   snapshot machinery guards" clause isn't citing a *different* baseline system (see next)
-   before doing that. **`E-7`** co-occurs with `A-6` at that same line but its fuller
-   definition (`spec/doc-order-generated.md:301-307`) is about a *different* baseline: a
-   rendered-surface snapshot folder (`.live-spec/snapshot/`) for the design-sync machine,
-   with its own manifest and heavy-byte handling — this looks unrelated to project
-   onboarding and may have been mis-cited onto `q-55` from the start, not something today
-   broke. **`E-10`** (`spec/doc-order-generated.md:360-365`, `spec/work-board.md:24`,
-   `spec/design-spec-review.md:211`) is the surface-registry completeness gate
-   (`SURFACES.md`) — also design-sync territory, not onboarding. **`E-6`**
-   (`spec/design-spec-review.md:560-561`) is the prototype-into-prod fence turning red —
-   also unrelated. **`INV-17`** appears across `spec/draft-sandbox.md`,
-   `spec/design-spec-review.md`, `spec/roles-and-agents.md` as a general
-   spec-claims-only-what's-built invariant, cited too broadly to belong to any one row.
-
-   So the honest read: `A-6` probably is `q-55`'s to close (verify the snapshot-machinery
-   clause first); `E-6`, `E-7`, `E-10` were very likely mis-mapped to `q-55` in
-   `TARGET_ROW_OWNERS` before tonight and belong to whatever row (if any) owns design-sync
-   and the surface registry — check `plan-14`/`q-54` territory; `INV-17` may need to stay
-   generic or get dropped as too broad to own. This is real spec work, not a rubber stamp —
-   read each cited spec line yourself before touching the map. Once resolved:
-   `python3 -m pytest -q` clean, `bash guardrails/pre-push`, push.
+**Not touched, not needed:** no new queue row for the fence's two "remaining legs" — they turned
+out already shipped (see point 1 above). One new row was genuinely needed and added: `q-802`.
 
 **Still owed, unwritten, carried forward from an earlier note:** a `JOURNAL.md` entry for
-the prover-description-test movement (`85b659d1`, from 31.08 morning).
+the prover-description-test movement (`85b659d1`, from 31.08 morning) and for tonight's
+whole `16b1a300..bff2715a` range.
 
 ## Where the numbers live
 
@@ -158,59 +145,62 @@ while workers write the tree reds on files being written, and its reds carry no 
 
 ## Prompt for the next session
 
-**Everything below this line was written 31.08 21:35 for a session resuming after a context
-reset mid-way through the 28.08 night run. Read `bash scripts/state-probe.sh` and this
-file's own LIVE STATE section above first — this prompt only tells you what to do with
-what they show you.**
+**Everything below this line was written 31.08 23:26, after `16b1a300..bff2715a` pushed clean.
+Read `bash scripts/state-probe.sh` and this file's own LIVE STATE section above first — this
+prompt only tells you what to do with what they show you.**
 
-Do not ask Alexander anything before doing the two fixes below. His standing word for this
-run (28.08 00:53, repeated 31.08 12:12 and 18:32): carry the plan to the end, do not ask
-him, push and deploy are pre-authorized on green. Nothing here overrides that.
+Do not ask Alexander anything before doing the work below except where a step below itself says
+to ask (`q-54`'s cross-project edit, see LIVE STATE). His standing word for this run (28.08 00:53,
+repeated 31.08 12:12, 18:32, and again 22:07 after checking in mid-session): carry the plan to the
+end, do not ask him, push and deploy are pre-authorized on green. Nothing here overrides that.
 
-**Step 1 — clear the two real gate failures blocking tonight's unpushed work.**
-1. `tests/test_landing_next_steps.py::test_real_repo_range_refreshes_next_steps` should
-   already be clear, since this file's own edit is the fix (INV-242: a landing commit
-   needs a NEXT_STEPS.md refresh somewhere in its range, and this section is that refresh
-   for commits `16b1a300`/`6d0257ac`/`8da47015`). Confirm it passes; if it doesn't, the fix
-   didn't land in the pushed range and needs redoing.
-2. `tests/test_traceability.py::TestTargetOwnership::test_targets_owned_by_open_rows` is
-   **not fixed** and needs a real look, not a guess: five spec `[target]` anchors (E-6, E-7,
-   E-10, A-6, INV-17) still name the now-done `q-55` as their owner, and the narrowed work
-   that actually landed doesn't address any of them. Read what each anchor promises in
-   `PRODUCT_SPEC.md` (or wherever `grep -rn "\[target\]"` finds them), decide per anchor
-   whether something else already covers it (re-own the tag) or the promise is genuinely
-   dead (drop the tag with a one-line note saying why), and make the test pass honestly —
-   not by weakening it.
+**Walk the hostile review's remaining list, one row at a time**, using the checkpoint's buckets
+(`.live-spec/checkpoints/night-run-2026-08-28.md`, "THE HOSTILE REVIEW OF THE REMAINING BOARD")
+AS CORRECTED by this LIVE STATE section above — the checkpoint's own text is not to be trusted
+verbatim where this section says it was wrong:
+- **Archive now, no work:** `plan-15`, `q-453`, `q-48`, `q-751`.
+- **Solid, build as written:** `plan-10`, `q-591`. (`plan-9` stays correctly deferred on his
+  word — do not start it.)
+- **Keep open, build only the one real gap:** `q-386` — NOT moot-close; build only the
+  lane-opening-script-vs-written-law drift check.
+- **Narrow the row's acceptance in `PLAN.md` before dispatching a worker, every time, no
+  exceptions** (the `q-55` failure mode — handing unnarrowed wording to a fresh agent — is what
+  this rule exists to stop, and it recurred once already tonight with `q-802`'s `E-7`
+  reassignment before an adversarial review caught it):
+  - `q-581`, `q-576`, `q-437`, `plan-14`, `q-489`, `q-235` — narrow as the checkpoint already
+    says, then build.
+  - `q-163` — RE-CHECK first: its first acceptance clause may already pass today
+    (`check-skill-loadability.sh`). Confirm before writing a worker brief; the row may be much
+    narrower than scoped, or already half-closeable.
+  - `q-536` — its "his final call is not owed" note has no ruling written anywhere on disk.
+    Write the actual ruling into its source file first; do not dispatch a worker against an
+    unwritten decision.
+  - `q-398` — its acceptance text still contains the forbidden bare threshold ("declared size
+    cap") the checkpoint already said to strike. Edit `PLAN.md`'s own row text to strike it
+    BEFORE dispatching a worker.
+  - `q-54` — nearly done, not a fresh build (see LIVE STATE above): the only missing piece is
+    one line in `~/tlvphotos/.live-spec/profile.md`, another project's tree. This window may
+    only drop a wish file into `~/tlvphotos/inbox/` describing it — never write into that tree
+    directly. `q-802` (new tonight) carries `E-7`; do not fold it back into `q-54`.
 
-Then: `python3 -m pytest -q` clean (check `ps ax | grep pytest` first — nothing else should
-be running), `bash guardrails/pre-push < /dev/null` reading its verdict line, push, confirm
-CI green.
+Work lanes the same way the whole run did: up to three parallel worktree lanes (`Agent` tool,
+`isolation: "worktree"`), each briefed with the row's own (narrowed) acceptance as the definition
+of done, each running its own full suite before reporting, merged by a dedicated merge pass that
+reads both sides on conflict and runs an adversarial re-read of its own merge before pushing —
+this caught real defects every time it ran tonight (most recently, twice, on tonight's own
+target-ownership fix) and should not be skipped as a shortcut.
 
-**Step 2 — walk the hostile review's remaining list, one row at a time.** The full findings
-are in `.live-spec/checkpoints/night-run-2026-08-28.md` under "THE HOSTILE REVIEW OF THE
-REMAINING BOARD" (2026-08-31 18:34, run because Alexander asked directly whether the board's
-remaining rows were all real or partly junk/unneeded machinery). Its buckets, already
-decided, not to be re-litigated:
-- **Archive now, no work:** `plan-15`, `q-453`, `q-48`, `q-751` — each with its reason
-  already written in the checkpoint.
-- **Solid, build as written:** `plan-10`, `q-591`, `plan-9` (already correctly deferred on
-  his word — do not start it).
-- **Real but overbuilt — narrow the row's acceptance in `PLAN.md` before dispatching a
-  worker on it, every time, no exceptions:** `q-581`, `q-576`, `q-437`, `plan-14`, `q-163`,
-  `q-489`, `q-536`, `q-54`, `q-235`, `q-398`. The checkpoint names exactly how to narrow
-  each. This rule exists because `q-55`'s original wording was handed to a worker before
-  being narrowed and had to be corrected mid-flight — don't repeat that.
+Before dispatching ANY adversarial/prover-record reviewer, remember SPEC INV-237: it must be a
+fresh context that authored none of the change under review — never a fork of the orchestrating
+seat, and never the same agent that wrote the fix. This run needed a second full review round
+tonight because the first review (correctly) caught a defect in the fix, and the fix for that
+defect then needed its own fresh review in turn — expect this to repeat; it is not a sign of
+something wrong, it is the check working.
 
-Work lanes the same way the whole run did: up to three parallel worktree lanes
-(`Agent` tool, `isolation: "worktree"`), each briefed with the row's own (narrowed)
-acceptance as the definition of done, each running its own full suite before reporting,
-merged by a dedicated merge pass that reads both sides on conflict and runs an adversarial
-re-read of its own merge before pushing — that pattern caught real defects every single
-time it ran tonight and should not be skipped as a shortcut.
-
-Three rows wait on Alexander's own read and take no further work: `q-800`, `q-166`,
-`q-501`. Do not build anything for these; they close only when he reads them.
+Three rows wait on Alexander's own read and take no further work: `q-800`, `q-166`, `q-501`. Do
+not build anything for these; they close only when he reads them. `q-802` is not one of these —
+build it as scoped.
 
 Report to him in the Канон format his own boot file (`~/.claude/CLAUDE.md`) specifies —
-`bash scripts/state-probe.sh`'s own printed plan, never a hand-typed summary — after every
-row that lands, not only at the end.
+`bash scripts/state-probe.sh`'s own printed plan, never a hand-typed summary — after every row
+that lands, not only at the end.
