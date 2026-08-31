@@ -202,6 +202,14 @@ implementation and one target test. A cross-cutting feature touches most of the 
 Naming a dimension claims something in it must change; if nothing in it changes, do not
 name it.
 
+**Work that states a rule names the rule's one home before writing a word of it.** A rule enters
+the one house whose declared sentence it extends, and a rule pinning to no house, or to two, is
+itself the finding rather than a thing to file somewhere plausible. The five houses and their
+declared sentences are in
+[references/request-kind-table.md](references/request-kind-table.md), under the routing
+principle. Read them and name the house in the decision sheet's own documents line, so a rule
+this pack has never seen before still lands in one place instead of two.
+
 ## The decision sheet
 
 For accepted work, write this and stop.
