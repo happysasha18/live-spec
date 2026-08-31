@@ -1,13 +1,16 @@
 {
-  "id": "case-A5",
-  "acts": ["halt", "observation"],
+  "id": "r24",
+  "acts": [
+    "halt",
+    "observation"
+  ],
   "creates_work": false,
   "shelves_idea": false,
   "attaches_to_existing_work": true,
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "The message targets work currently running (maintaining the parameter's machinery), so per the Halt row it changes that work's state and creates nothing; the judgment that the parameter is invented/wasteful is a second act under the rule that a product judgment 'says something new even when it doubles as the reason for the neighbouring act,' so it is kept as its own observation. Halts and observations get no decision sheet, so no dimensions or specialists are named.",
+  "reasoning": "The stop tells running work to stop running. The judgment that the parameter is invented and its machinery unneeded says something new even while doubling as the halt's reason, so it is recorded as an observation rather than absorbed. It carries no repair a colleague could act on without asking.",
   "scenario": "halt-with-a-reason-worth-keeping",
   "skill_version": "6.0.0"
 }

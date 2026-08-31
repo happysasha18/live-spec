@@ -1,5 +1,5 @@
 {
-  "id": "case-25",
+  "id": "r25",
   "acts": [
     "halt"
   ],
@@ -9,7 +9,7 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "'стоп! работа НЕ сегодня ... работа завтра' is one halt whose resumption timing is part of the same act, matching the example 'this can wait until the release' — something running is told to stop; nothing is built.",
+  "reasoning": "Something running is being told to stop and be picked up tomorrow. The stated reason restates why the halt wants what it wants, so it is not a second act, and work tomorrow is the halt's own parked state rather than an instruction to schedule anything.",
   "scenario": "halt-until-tomorrow",
-  "skill_version": "5.0.0"
+  "skill_version": "6.0.0"
 }

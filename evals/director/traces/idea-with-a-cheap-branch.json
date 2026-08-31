@@ -1,14 +1,20 @@
 {
-  "id": "case-G1",
-  "acts": ["observation", "instruction", "idea"],
+  "id": "r06",
+  "acts": [
+    "instruction",
+    "idea"
+  ],
   "creates_work": true,
   "shelves_idea": false,
-  "attaches_to_existing_work": true,
+  "attaches_to_existing_work": false,
   "work_items": 1,
-  "dimensions": ["the user's path and the design", "architecture, data, integrations, operations"],
-  "specialists": ["Developer"],
-  "reasoning": "The conditional-request pattern: both the idea-shaped and instruction-shaped branches stay named as acts even though only one becomes the outcome. The situation confirms the display is already built and live elsewhere, so the condition holds and the instruction branch is the outcome (creates_work true, shelves_idea false), reusing the existing display rather than building a new one.",
+  "dimensions": [
+    "the user's path and the design"
+  ],
+  "specialists": [
+    "developer"
+  ],
+  "reasoning": "A conditional request stating both branches. The condition holds: the display already exists and runs in another window of the same tool, so turning it on here is available now, which makes it the instruction branch and not a shelf entry. One small piece of work touching only what the person sees while work runs.",
   "scenario": "idea-with-a-cheap-branch",
-  "skill_version": "6.0.0",
-  "note_from_regeneration": "Honest residual failure: fixture wants acts=[idea, instruction] only, no observation. Two of three post-fix draws (this one and an earlier retest) additionally split the leading clause ('иногда видны все воркеры... из другого окна') into its own observation act, reading it as a fact preceding the request rather than the request's own subject. The mutual-exclusivity fix and the acts-vs-outcome fix both worked (creates_work/shelves_idea now correctly resolve, both idea and instruction are present) — this is a smaller, newer side-effect, plausibly from the 'no act absorbs another' emphasis added elsewhere in the file bleeding into over-splitting a leading descriptive clause. Left red rather than forced with a fourth textual patch risking overfit to one fixture; see final report."
+  "skill_version": "6.0.0"
 }

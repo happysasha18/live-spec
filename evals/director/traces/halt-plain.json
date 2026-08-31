@@ -1,5 +1,5 @@
 {
-  "id": "case-23",
+  "id": "r23",
   "acts": [
     "halt"
   ],
@@ -9,7 +9,7 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "Said while the agent has already started acting on the prior message, 'стоп' twice is exactly the halt case: something running should stop running, so the Director changes that work's state and creates nothing; per the rule a halt always yields 0 new work items.",
+  "reasoning": "Work already running is being stopped: the repeated stop is about state. The clause about forgetting to reset the context is the grounds and says nothing the halt's own goal does not already carry, so it is not a second act.",
   "scenario": "halt-plain",
-  "skill_version": "5.0.0"
+  "skill_version": "6.0.0"
 }

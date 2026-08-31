@@ -1,13 +1,20 @@
 {
-  "id": "case-A8",
-  "acts": ["question", "decision", "instruction", "observation"],
+  "id": "r30",
+  "acts": [
+    "question",
+    "decision",
+    "instruction",
+    "observation"
+  ],
   "creates_work": true,
   "shelves_idea": false,
   "attaches_to_existing_work": false,
   "work_items": 1,
-  "dimensions": ["documentation and communication"],
-  "specialists": ["communicator"],
-  "reasoning": "Two questions get answered, not tasked (readme link, work status). 'всегда давай ссылку' and the project-B idea-catching note are standing rules/decisions per 'always... settle something with force beyond the message' — no work created since the project-B idea hasn't arrived yet ('Do not create work to be safe'). 'а пока работай' reaffirms work already in flight, not a new act. The one new work item is 'давай план, замеры по времени, все пиши' — explicitly covered by the skill's closing rule that a requested plan/status/report 'has been asked for something to be made... routing it to the communicator instead of doing it is how a plain request disappears,' so it touches documentation and communication and calls the communicator specialist. The cafe time limit is a fact reported near the end, kept as its own observation rather than folded into the instruction's risk line.",
+  "dimensions": [
+    "documentation and communication"
+  ],
+  "specialists": [],
+  "reasoning": "Two questions that are answered rather than ticketed, a standing rule to always hand over the link, an instruction to produce a written plan with timings — one new piece of work — and the cafe hour plus resuming from home, which paces the work without changing what it must do.",
   "scenario": "mixed-four-at-once",
   "skill_version": "6.0.0"
 }

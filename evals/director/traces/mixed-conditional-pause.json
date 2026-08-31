@@ -1,14 +1,17 @@
 {
-  "id": "case-D1",
-  "acts": ["question", "halt"],
+  "id": "r31",
+  "acts": [
+    "question",
+    "observation",
+    "halt"
+  ],
   "creates_work": false,
   "shelves_idea": false,
   "attaches_to_existing_work": true,
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "The ETA question is answered directly; the rest is a conditional halt on the running job, resolved by a fact the Director already holds (how much time is left). The personal-constraint fact given as the halt's reason ('надо этот комп отключить ненадолго') only restates why the pause is wanted, so under the grounds rule it is not counted as a separate act.",
+  "reasoning": "A question about how the running job is doing, an observation that the machine has to go off for a while, and a conditional halt resolved by a fact the Director already holds. Either way this is about the state of work already in flight, so nothing new is created.",
   "scenario": "mixed-conditional-pause",
-  "skill_version": "6.0.0",
-  "note_from_regeneration": "Left honestly red per Fable's design review (consulted per the owner's instruction). Verified against the fixture corpus itself: the sibling scenario halt-until-tomorrow (already passing) wants the structurally identical pattern -- a personal-constraint fact stated as a halt's own reason -- collapsed into the halt with NO separate observation, the opposite of what this fixture wants. Any general skill-text rule strong enough to reliably promote the fact here to its own observation act would flip halt-until-tomorrow (and likely halt-without-the-word) red. This is a genuine structural tension inside the fixture corpus, not a textual gap in the skill; forcing a rule or a fixture edit to pass this one case would either contradict an already-correct sibling scenario or be doctrine written for a single fixture. See final report for the full finding."
+  "skill_version": "6.0.0"
 }

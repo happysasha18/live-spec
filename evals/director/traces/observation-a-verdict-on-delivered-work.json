@@ -1,5 +1,5 @@
 {
-  "id": "case-12",
+  "id": "r12",
   "acts": [
     "observation"
   ],
@@ -10,14 +10,16 @@
   "dimensions": [
     "product value and behaviour",
     "the user's path and the design",
-    "quality, safety, regressions"
+    "quality, safety, regressions",
+    "documentation and communication"
   ],
   "specialists": [
+    "spec author",
     "developer",
     "design reviewer",
     "test author"
   ],
-  "reasoning": "Continuity was a stated, heavily-discussed requirement the delivered build fails to meet; per 'some observations carry their own repair,' a stated requirement gone unhonoured is a defect whose fix follows beyond doubt. Since the prior build is already delivered and accepted with nothing in flight, this opens new work rather than correcting a running task.",
+  "reasoning": "A fact reported about a delivered build, and one whose repair follows beyond doubt: continuity was a stated requirement discussed at length, so its absence is a defect rather than a preference. Nothing is in flight or checkpointed, so it opens one new piece of work.",
   "scenario": "observation-a-verdict-on-delivered-work",
-  "skill_version": "5.0.0"
+  "skill_version": "6.0.0"
 }

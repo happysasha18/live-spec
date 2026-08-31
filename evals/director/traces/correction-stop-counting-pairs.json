@@ -1,7 +1,9 @@
 {
-  "id": "case-17",
+  "id": "r17",
   "acts": [
-    "correction"
+    "correction",
+    "observation",
+    "decision"
   ],
   "creates_work": false,
   "shelves_idea": false,
@@ -9,13 +11,15 @@
   "work_items": 0,
   "dimensions": [
     "product value and behaviour",
-    "architecture, data, integrations, operations"
+    "architecture, data, integrations, operations",
+    "quality, safety, regressions"
   ],
   "specialists": [
     "developer",
-    "architect"
+    "test author",
+    "product prover"
   ],
-  "reasoning": "The implementation counting shipped pairs is running work, and this message changes its goal ('any pair in the world must build a transition') rather than starting something new — per 'a correction attaches to work, not to a queue,' it targets the existing checkpoint and replans the remainder, producing 0 new work items.",
+  "reasoning": "The implementation is already in flight counting shipped pairs, so ripping that out changes that work's constraints and goal. Calling the counting idiocy is a judgment that survives after the fix closes, and the restated rule about any pair of pictures in the world reads as a standing rule reaffirmed. No new piece of work.",
   "scenario": "correction-stop-counting-pairs",
-  "skill_version": "5.0.0"
+  "skill_version": "6.0.0"
 }

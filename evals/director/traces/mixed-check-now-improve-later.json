@@ -1,21 +1,25 @@
 {
-  "id": "case-29",
+  "id": "r29",
   "acts": [
-    "instruction",
-    "observation"
+    "question",
+    "observation",
+    "correction",
+    "instruction"
   ],
   "creates_work": true,
   "shelves_idea": false,
-  "attaches_to_existing_work": false,
+  "attaches_to_existing_work": true,
   "work_items": 1,
   "dimensions": [
-    "quality, safety, regressions",
-    "architecture, data, integrations, operations"
+    "architecture, data, integrations, operations",
+    "quality, safety, regressions"
   ],
   "specialists": [
-    "Independent verifier"
+    "product prover",
+    "test author",
+    "independent verifier"
   ],
-  "reasoning": "The core clause ('мне надо чтобы ты очень хорошо проверил') asks for something to be done now — an instruction to verify bundle size/dynamic loading and user-facing breakage on the just-made modification. The prover remark is a second act, an observation with an attached check request ('кстати проверь'), read per 'no act absorbs another' rather than folded silently into the first clause; both point at one verifiable result (this modification is safe), so it is one work item needing a checker who did not produce the change.",
+  "reasoning": "The bundle-size and nothing-breaks demands arrive as a postscript to the modification just made, so they are constraints added to work already in flight. The judgment that the prover should have caught it survives after this modification closes, and the check-it clause turns it into one separate piece of work. The closing doubt about feasibility is answered rather than absorbed.",
   "scenario": "mixed-check-now-improve-later",
-  "skill_version": "5.0.0"
+  "skill_version": "6.0.0"
 }

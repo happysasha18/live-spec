@@ -1,15 +1,19 @@
 {
-  "id": "case-08",
+  "id": "r08",
   "acts": [
-    "idea"
+    "idea",
+    "instruction",
+    "observation"
   ],
-  "creates_work": false,
-  "shelves_idea": true,
+  "creates_work": true,
+  "shelves_idea": false,
   "attaches_to_existing_work": false,
-  "work_items": 0,
-  "dimensions": [],
+  "work_items": 1,
+  "dimensions": [
+    "documentation and communication"
+  ],
   "specialists": [],
-  "reasoning": "The person explicitly says 'throw livespec an idea' — a possibility named for later, not asked for now. Per the Idea act, it goes on the idea shelf in their own words, with no task id, priority or start.",
+  "reasoning": "A hedged possibility about enriching the audit skill sits beside a plain imperative to deliver it, so the idea travels as a note rather than sitting on a local shelf, and that delivery is the one small piece of work. The distinction drawn between cold readers of plain text and a spec is its own judgment, worth keeping after the note is sent.",
   "scenario": "idea-for-another-project",
-  "skill_version": "5.0.0"
+  "skill_version": "6.0.0"
 }

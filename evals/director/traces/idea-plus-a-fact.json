@@ -1,5 +1,5 @@
 {
-  "id": "case-07",
+  "id": "r07",
   "acts": [
     "idea",
     "observation"
@@ -10,7 +10,7 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "The reference-files thought is explicitly deferred ('дальний бэклог просто как идеи') so it goes on the idea shelf verbatim; the note that one agent is still running is a plain fact stated in passing with no repair implied, so it is recorded as an observation, not acted on — per 'No act absorbs another,' both stay separate acts.",
+  "reasoning": "Showing reference files is voiced as a possibility and dispositioned by the person themselves as far backlog, so it goes on the shelf in their own words. The closing note that one agent is still running is a separate act: a fact reported without a request, with the running work behaving as expected.",
   "scenario": "idea-plus-a-fact",
-  "skill_version": "5.0.0"
+  "skill_version": "6.0.0"
 }

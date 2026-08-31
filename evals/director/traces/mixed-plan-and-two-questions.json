@@ -1,13 +1,21 @@
 {
-  "id": "case-B6",
-  "acts": ["instruction", "observation", "question"],
+  "id": "r27",
+  "acts": [
+    "instruction",
+    "question",
+    "observation"
+  ],
   "creates_work": true,
   "shelves_idea": false,
-  "attaches_to_existing_work": true,
+  "attaches_to_existing_work": false,
   "work_items": 1,
-  "dimensions": ["documentation and communication"],
-  "specialists": [],
-  "reasoning": "The plan/status request is scoped 'на эту сессию' ('for this session'), and the skill states a request scoped that way 'names no standing rule at all... and stays an instruction' — so it is accepted work, not a decision. The closing section 'Work that belongs elsewhere' says asking for 'a plan, a status, a summary or a report... is work like any other.' The two 'мне надо понять' clauses are one question about the worker's current scope and expected output, attaching to that same in-flight worker. 'Я ему все скопировал и запустил' reports a fact with no repair implied, recorded as an observation.",
+  "dimensions": [
+    "documentation and communication"
+  ],
+  "specialists": [
+    "communicator"
+  ],
+  "reasoning": "An instruction to produce a short status plan in this window, a question about what the running worker covers and what its output will be, and a report of fact that the plan was copied across and launched. The plan request is a thing to be made, so it earns one sheet; the questions create nothing and nothing changes the worker's goal.",
   "scenario": "mixed-plan-and-two-questions",
   "skill_version": "6.0.0"
 }

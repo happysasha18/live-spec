@@ -1,7 +1,8 @@
 {
-  "id": "case-26",
+  "id": "r26",
   "acts": [
     "halt",
+    "observation",
     "question"
   ],
   "creates_work": false,
@@ -10,7 +11,7 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "'тормозни' pauses work in progress — a halt changing that work's state. 'норм?' is a genuine, separate ask for confirmation of the pause-and-resume-later plan, answered in words per the question act, not turned into a task.",
+  "reasoning": "The core act is a halt: work in flight must stop and be parked rather than abandoned. The surrounding facts — a fifteen-minute window, the network going away, the machine closing — say something new that the halt's goal does not carry. The closing check is an invitation to answer and still its own act.",
   "scenario": "halt-without-the-word",
-  "skill_version": "5.0.0"
+  "skill_version": "6.0.0"
 }

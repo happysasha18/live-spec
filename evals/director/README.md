@@ -46,6 +46,17 @@ By inclusion: dimensions and specialists. A scenario names what must be present 
 must be absent and leaves the rest to judgment, because there is a defensible range there
 and a grader that demanded one exact answer would be measuring conformity, not competence.
 
+As a note, not a failure: an act the scenario did not ask for. The skill sets this price
+itself, in *One turn, several acts* — "Naming one act too many costs a sentence. Naming one
+too few loses what somebody said." A grader charging both the same is grading against a
+cost model the skill does not hold, and it was: six of the nine reds in the 2026-08-26 run
+were scenarios whose every material field was right and whose only defect was one act too
+many. So an extra act is printed beside its scenario and counted in the closing summary,
+where a producer drifting toward over-segmentation stays visible, and it does not redden a
+scenario on its own. Everything else still does, an extra act beside it or not: a missing
+act, a wrong boolean, a wrong `work_items`, a missing or forbidden dimension or specialist,
+and a name that is not a speech act at all.
+
 ## Running it
 
 Produce a verdict per scenario with a fresh agent that holds `skills/director/SKILL.md`
@@ -61,6 +72,11 @@ python3 evals/director/check.py --scenario ONE.json --actual RUN.json
 This costs a model call per scenario, so it is not on the push path and must not be put
 there. It is a professional action, run when the skill changes, the way a review is.
 
+Any change to `skills/director/SKILL.md` re-records all thirty-five scenarios, never a
+subset, because a partial re-record leaves the untouched scenarios certified against a
+skill version that no longer exists. The 2026-08-26 pass re-recorded only the nine reds of
+the day and carried a score of 33 of 35 for days that a full re-record put at 26 of 35.
+
 ## Bare run
 
 bare run: 2026-08-26 — all 35 traces regenerated against the skill as it stood that day
@@ -68,6 +84,15 @@ bare run: 2026-08-26 — all 35 traces regenerated against the skill as it stood
 26 of 35 pass. The full per-scenario breakdown, including the eight still-red and their
 individual reasons, is carried in `PLAN.md`'s own record of that run rather than duplicated here —
 one home per fact.
+
+bare run: 2026-08-31 — all 35 re-recorded against `skill_version: 6.0.0`, one fresh producer
+per scenario under the isolation protocol above, graded once: 34 of 35 pass, and five of those
+named an act the scenario did not ask for. The single red is `idea-for-another-project`, where
+the run read the message's imperative clause as a request to deliver the note now, against a
+fixture that expects it shelved — a disagreement on all three material fields, with the extra
+acts a consequence of it rather than the cause. The skill's text was
+not touched for this run; what changed under it was the grader's cost model for an extra act and
+`observation-carrying-its-repair`'s situation, both described above.
 
 ## What the first run caught
 

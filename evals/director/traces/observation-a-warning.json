@@ -1,13 +1,15 @@
 {
-  "id": "case-A2",
-  "acts": ["observation"],
+  "id": "r10",
+  "acts": [
+    "observation"
+  ],
   "creates_work": false,
   "shelves_idea": false,
   "attaches_to_existing_work": false,
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "The skill names this exact pattern: 'naming that a limit is close, or asking to go carefully, describes the work's state without changing what it must do — no new constraint, no new step, no dropped requirement. That is an observation the work should be paced by, not a correction that reopens its plan.' The message reports session state (98% limit) and asks for care, but does not change the running job's goal or constraints, so it is not a correction, not an instruction, and not a halt — nothing running is being told to stop.",
+  "reasoning": "The skill names this case directly: naming that a limit is close describes the work's state without changing what it must do, so it is an observation the work is paced by. The fact and the caution say the same thing, so the caution is not a second act.",
   "scenario": "observation-a-warning",
   "skill_version": "6.0.0"
 }

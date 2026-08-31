@@ -1,5 +1,5 @@
 {
-  "id": "case-01",
+  "id": "r01",
   "acts": [
     "question"
   ],
@@ -9,7 +9,7 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "Pure request to understand a term the agent used mid-explanation — the 'Question or musing' row says to answer it and engage with the thought, not write a roadmap row or open work.",
+  "reasoning": "The person is asking to understand a term the agent has been using. Both clauses are the same act: one question about the thing just described, not a request that anything be built or changed. Effort spent fetching facts does not convert a question into a task.",
   "scenario": "question-what-is-it",
-  "skill_version": "5.0.0"
+  "skill_version": "6.0.0"
 }
