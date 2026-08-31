@@ -4,7 +4,7 @@ The row's corrected acceptance (PLAN.md, 28.08): every check that ships under `g
 a fixture it reds against without its fix, and the suite runs that fixture; a test walking
 `guardrails/` reds a check that arrives with no such fixture. One check completes the walk end to
 end, so the shape is proved on a real one before it binds the rest — this file does not retrofit
-the other thirty-nine.
+the other forty.
 
 `check-prototype-fence.sh` is that one check: `_prototype_fence_reds_the_bug` plants the exact
 wiring fault the gate exists to catch (a PROD file structurally referencing into the fenced
@@ -14,7 +14,7 @@ reference — the fix — and asserts the same gate passes. Both run live, here,
 The walk itself (`missing_fixture_proofs`) lists every `check-*.py` / `check-*.sh` file directly
 under a `guardrails/` directory (the naming convention every check in this pack follows — verified
 2026-08-31 against `ls guardrails/check-*.{py,sh}`, 41 files) and flags any that is neither in
-PROVEN (owns a live fixture proof, like the one above) nor in GRANDFATHERED (the other 39, named
+PROVEN (owns a live fixture proof, like the one above) nor in GRANDFATHERED (the other 40, named
 here explicitly, out of this row's scope by its own corrected acceptance). GRANDFATHERED is a fixed
 list, not "everything not proven" — a name that is not on it and ships with no proof is exactly the
 class this row exists to catch, so `test_walk_reds_a_new_check_shipped_with_no_fixture` plants one
