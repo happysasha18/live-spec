@@ -260,7 +260,7 @@ names a queue file as the place a wish lands, `templates/ROADMAP.template.md` ei
 host's queue is for in its own right or is retired with its manifest line, the VERSION bump and the
 `MIGRATION.md` entry both name the change, and the whole suite runs green.
 
-### ⬜ The playbook repo earns its keep or gets folded away — id: q-800
+### 👁️ The playbook repo earns its keep or gets folded away — id: q-800
 **Group:** Cross-project · **Priority:** normal
 **Source:** owner 2026-08-27 23:47 — "что за плейбук блин надо разгрести его тоже. мне кажется он лишний." <!-- user-language -->
 
@@ -277,6 +277,16 @@ contents) before a command-based acceptance can be written.
 holds is set beside the one home it belongs in — this project, `~/.claude`, or nowhere — and each
 one is either moved there or kept where it is with the reason written next to it. What would
 convince a reader: that list, with nothing on it carrying two homes and nothing left unplaced.
+
+**The list is written, 31.08: `docs/reports/2026-08-31-playbook-repo.md`.** Every one of the
+forty-two files in that folder is placed. The answer is to keep the repository and narrow it to the
+personal layer: it is the only version history and the only copy off this machine for the two files
+every session reads, and `~/.claude` has no version control of its own. Ten files leave its working
+tree into its own history, two untracked folders go to the trash, and the old working agreement waits
+on plan-16, both to drop three citations that still point at it and to take in two rules of his that
+turn out to live nowhere else. The page also carries the ordered list of commands for the window that
+owns that repository, which this window cannot write to. The row waits on the owner's read of the
+page and on those moves actually running; his read is what closes it.
 
 
 ### ✅ A color-contrast check now looks at the right background — id: q-490
@@ -1209,6 +1219,27 @@ would convince him: reading it once and finding nothing he would have to correct
 ## Blockers
 
 One line per finding. Don't start a second list for them. Don't fix one without the owner's decision.
+
+- **The personal layer's only copy off this machine is 26 days old. Found 31.08, in q-800.** The
+  boot file and the personal profile both live in the private playbook repository, and both were
+  changed there on 27.08. That commit has never been pushed; GitHub still holds the 05.08 version.
+  The whole reason that repository exists is the off-machine copy, and the copy is behind what a
+  session reads today. One `git push` from the window that owns `~/.claude/playbook` fixes it, and
+  this window cannot write there.
+
+- **Two of his rules live only in the retiring playbook document. Found 31.08, in q-800.** Checked
+  against the whole pack and found in no skill: that every plan names the parts it must not touch,
+  which that document calls the cardinal mistake here, and that his "what's the point" or "what a
+  mess" means stop editing and go look at the rendered output. The first was already recorded as
+  unplaced by the mapping pass of 07.07 and never landed. Both belong to plan-16, and the document
+  they sit in cannot retire before that lane takes them.
+
+- **Four personal hook overlays, two arrangements. Found 31.08, in q-800.** The scanners read
+  `~/.claude/hooks/`, where all four overlays sit. Two of them also exist as identical tracked copies
+  in the playbook repository, kept in step by hand, and the other two have no versioned copy at all.
+  The clean form is the one the profile already uses — the files live in the repository and
+  `~/.claude/hooks/` holds symlinks. That edits armed hooks, which law 1 forbids while this plan
+  runs, so it is written down and left alone.
 
 - **The amended bar for "queued" stands, and the twenty-one definitions stay as written. Settled
   31.08.** The rule at the top of this page lets a session move a task's status and write in this
