@@ -560,7 +560,13 @@ Full body (rules, acceptance commands, measurements) preserved in git history: `
 **Group:** Method reliability · **Priority:** normal
 **Source:** PLAN.md step 2, 24–25.08.
 
-`evals/director.md` deleted, `evals/director/` is the one home; 35 traces re-recorded on the current skill; director gained the decision/grounds-for-an-act/halt/correction distinctions; 6 fixtures fixed. Acceptance: `python3 evals/director/check.py --all` — 33 of 35 green, 2 accepted by the owner with a written reason (`docs/prover/2026-08-26-director-eight-red-scenarios.md`).
+`evals/director.md` deleted, `evals/director/` is the one home; director gained the decision/grounds-for-an-act/halt/correction distinctions; 6 fixtures fixed. Acceptance: `python3 evals/director/check.py --all` — 34 of 35 green, one real disagreement open and named.
+
+**Re-measured honestly 31.08, and the stored number was wrong.** The row read "33 of 35, 2 accepted by the owner with a written reason". Both halves were false. The 33 came from the 26.08 pass, which re-drew only the nine scenarios that were red that day and left twenty-six certified against a skill version that had since moved; a full re-draw of all thirty-five against that same 26.08 skill scored 26. And nothing on that record carries the owner's word — the two were set aside by a session, in the session's own judgment, and writing that as his acceptance put words in his mouth.
+
+Two real things came out of the honest re-draw. The skill's own text and the grader disagreed: the text prices naming one act too many at a sentence, while `check.py` failed the whole scenario for it, which is what six of the nine 26.08 reds actually were. The grading now follows the text — an extra act is printed as a note and counted in the summary, a missing act still fails. And `observation-carrying-its-repair` argued against itself, its situation stating no checkpoint existed while its expectation demanded the turn attach to work in flight; the situation was repaired and the expectation left alone.
+
+**The score is 34 of 35, and the one that stands is real.** `idea-for-another-project`: the run reads the message's imperative clause as a request to deliver the note now, the fixture expects it shelved, and they disagree on all three material fields. It is open, and it is nobody's word yet. `evals/director/README.md` now states that any change to `skills/director/SKILL.md` re-records all thirty-five, never a subset, because a subset is how the stale number was made.
 
 Full body (rules, acceptance commands, measurements) preserved in git history: `git log -p -- PLAN.md`, the step's own text before the 27.08 task-list merge.
 
@@ -1819,6 +1825,10 @@ One line per finding. Don't start a second list for them. Don't fix one without 
   which want the identical pattern collapsed the opposite way; no single rule satisfies both
   without breaking a pass. Full reasoning: `docs/prover/2026-08-26-director-eight-red-scenarios.md`.
   Zero regressions across the full 35 plus the wider director-adjacent suite (324 tests).
+  *Corrected 31.08: this note's number was not honest, though the session writing it believed it
+  was. Only the nine reds of the day were re-drawn, so the 33 counted twenty-six scenarios against a
+  skill version that had already moved. The full re-draw and the standing score are on plan-2's own
+  row.*
 - **Step 6, second sub-item done: the 22 "file exists" functions, looked at by eye, informational.**
   Under a strict reading (the entire function is presence/absence only — no content read, no
   subprocess return-code, no stdout check) only 10 exist, not 22: they guard that a shipped data
