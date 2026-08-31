@@ -6,7 +6,8 @@ Range: 7159fed..HEAD. Base commit `7159fed`, the head `origin/main` carries. Eve
 range, in order: `f052ec5`, `4431b7a`, `70bc57e`, `4a90e70`, `69d55c6`, `1cd1617`, `46dd26a`,
 `c62fef2`, `d7b1896`, `1caa5c4`, `664dee9`, `0f3ae08`, `84f522c`, `64fbe3f`, `f6ba125`, `70580bd`,
 `5107567`, `fc828a9`, `2c624c3`, `b8547fc`, `3ea8bbd`, `6452c4c`, `03acd21`, `c7c4ab6`, `ef723ed`,
-`ecb8b81`, `c9f8fd6`, `390dd1d`, and this pass's own repair commit.
+`ecb8b81`, `c9f8fd6`, `390dd1d`, `2540ef8` — the last of those being this pass's own repairs, which
+this record was written about and is extended here to name.
 
 Prover version that ran: product-prover 1.4.2, under the pack bindings in
 `skills/product-prover-pack/SKILL.md` 6.0.0.
