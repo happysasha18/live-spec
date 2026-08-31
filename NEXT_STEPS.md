@@ -4,172 +4,76 @@ A digest with no redundancy (SPEC INV-48) — one live-state block, nothing remo
 information. One status block stands here at a time, and every update replaces it. Dated history
 lives in `JOURNAL.md`.
 
-## LIVE STATE (2026-08-31, 18:28)
+## LIVE STATE (2026-08-31, 21:35)
 
-Written for a session starting with clean context.
+Written for a session starting with clean context. Heals landing 16b1a300, heals landing
+6d0257ac, heals landing 8da47015.
 
-**The director's own score is honest again, and one disagreement is named rather than buried**
-(plan-2, re-measured 31.08). The stored score of 33 of 35 was a partial re-record: on 26.08 only the
-nine scenarios that were red at the time were drawn again, so twenty-six were still being counted
-against a skill version that had since moved. A full re-draw of all thirty-five found two real
-things. Repeated draws of one unchanged skill version disagree with themselves on individual
-scenarios, so a single run is a reading and never a verdict. And the skill's own text and the
-grading disagreed: the text said naming one act too many costs a sentence, while the grading failed
-the whole scenario for it. The grading now follows the text — an extra act alone is reported as a
-note, a missing act still fails — and one scenario whose situation argued against itself was
-repaired at the situation, leaving its expectation untouched. The honest score is 34 of 35. The one
-that stands is `idea-for-another-project`: the skill and the fixture genuinely disagree about
-whether an idea aimed at a different project is an act at all, and that disagreement is open. The
-eval's own README now says a skill change requires re-recording all thirty-five, never a subset,
-because a subset is how the stale number was made. Two graders are in play, so the movement is
-stated twice rather than once: the old grader puts the 26.08 draw at 26 and today's at 30, and the
-new grader puts today's at 34, so four scenarios are real improvement and the rest of the gap is the
-corrected cost model.
+**A hostile read of the remaining board found five rows to archive, one already done, and
+eleven real ones overbuilt or vaguely sourced — asked for by the owner directly** ("из этих
+20 в очереди точно все нужны?"). Full findings, bucket by bucket, are in
+`.live-spec/checkpoints/night-run-2026-08-28.md` under "THE HOSTILE REVIEW OF THE REMAINING
+BOARD". The method it set: narrow a row's acceptance in `PLAN.md` before dispatching a
+worker on it, never hand the original wording to a fresh agent and hope it self-narrows —
+learned from `q-55`, whose original justification cited five spec requirements that turned
+out not to exist, caught only because the review ran before the worker finished.
 
-**An adversarial read with clean context refused this push, and nine findings were repaired before
-it went out.** Two of them were the grading change overreaching. It had been justified on six of
-that day's nine reds when the true number is two, re-derived twice against the run's own recorded
-traces. And it had gone one step too far: a turn the fixture expects to carry no act at all could
-name one and still pass, which is exactly the failure the thank-you case exists to catch. An extra
-act is now forgiven only where some act was expected. Four more were in the way out for a cleared
-mistake, which counted four kinds of non-repair as a repair — a wildcard standing for the whole
-tree, a directory already gone from disk, a commit that deletes the file rather than restoring it,
-and a commit merely amended after the fact. Each now stays blocking, each proved by a test that
-fails against the code as first written. One was the new attribution block reddening a sentence that
-carries its date in the form this project writes dates in; it now reads the whole line. The rest
-were counts and pointers that had drifted at the merge.
+**Three landed since the last note**: the Director/`q-497`/`q-527` merge (`16b1a300`,
+pushed, CI green — a fresh-context read refused the first build of that merge and found
+nine real defects, all repaired before it went out); then `q-531`, `q-801`, and a narrowed
+`q-55` (locally at `8da47015`, **not yet pushed** — see below).
 
-**A worker-restore finding stops blocking every push once the tree shows the work back** (q-527,
-landed 31.08). The check that reads worker transcripts for a command that discards unsaved work made
-findings that were true forever: a finished recovery cleared nothing, and every push after an
-incident waited for the reading window to roll past it or for somebody to move the counting start by
-hand. What counts as made good is now written once, in Requirement 301 — every file the command
-named carries, in the repository that command ran in, a commit dated later than the command. The
-check asks git that question afresh on every run, so nothing on disk records a clearing and the
-answer flips the moment the commit exists; a cleared finding stays named in the report beside the
-commit that answered for it. Three shapes never clear: a command that names no single file, a
-finding the check cannot place in a repository, and a record with no timestamp. The verify arm, the
-one that stands between a worker's result and its acceptance, never puts the question at all. The
-counting start did not move, and no ledger, flag, date or counter was added.
+**`q-531` (critical) — a document split now proves it lost nothing.**
+`scripts/nothing-lost.py` compares a document's before-state against its after-files at
+block granularity (heading, paragraph, list item, table row, code fence, thematic break),
+normalized for whitespace, as a multiset — so reordering across files is fine, a dropped
+block is caught and printed with its content. Proven against two real splits in this
+repo's own history (`ARCHITECTURE.md`'s and `PRODUCT_SPEC.md`'s, the second correctly
+distinguishing an intentionally deleted reference table from a real loss). A `q-531` key
+in `scripts/plan_checks.py` computes the mark. tlvphotos's own conversion has not started
+(`~/tlvphotos/SPEC.md` is still one file) — read-only, not run against it for real yet.
 
-**A sentence that names you and puts words in your mouth now reds on every live page** (q-497,
-landed 31.08). The check that guards this reached two files before today — the decisions page and
-its template — so a sentence crediting you with an instruction you never gave passed unnoticed
-anywhere else, which is the kind of page the original incident used. It now blocks that sentence on
-the 176 live pages of the tree, everything outside the dated records, the journal, the archives and
-the working notes, which narrate what already happened and stay outside by design. The tree as it
-stands passes. Two things it still does not catch, said here rather than left to be discovered: a
-claim that names you only as a pronoun or a role, which is this project's own rule language on
-nearly every page and stays a reported candidate on the two pages an attribution is first written
-on, and a sentence that credits you with no authority word beside your name. The decisions page you
-read back is the defence for both. The rule behind it now says what it always said — where a
-recorded decision's authority comes from — and the half the incident was actually about: a session's
-instructions come from you, from the tooling and from a wrapper at once, only yours carry your
-authority, and where two of them conflict the reply says so and your standing word decides. It lives
-in rule 13 of the base rulebook and in no second file, and the one-home check now holds it there.
+**`q-801` — release 6.1.0, a new project starts on one list.** Two decisions executed: a
+project founded from now on gets the one-list shape (no legacy queue file); an existing
+host with a separate queue is asked to change nothing. Eleven-plus files repointed,
+`templates/ROADMAP.template.md` retired to `attic/`, `templates/PLAN.template.md` takes
+its place. `VERSION` 6.0.0 → 6.1.0, skill stamps followed, `MIGRATION.md` carries the
+6.1.0 chapter. Gate (s)'s skill-review record and gate (a)'s prover record are both
+written for the range.
 
-**Every rule the pack states now has one place it lives, and a check keeps it there** (plan-16,
-landed 31.08). Three rules had been written in several places that disagreed: the report Alexander
-reads at the top of every reply, the law about running work in parallel, and the duty to ask rather
-than guess. Each converged to one home, and everywhere a copy used to stand there is a pointer at
-that home. Six skills stopped advertising three rules retired in August. The check is
-`tests/test_one_home_per_rule.py` — it names one home per rule, reds if a second copy appears on any
-surface that tells a session how to work, and passes on a pointer; its reach and its blind spot are
-written in its own opening. Two pieces are deliberately unfinished and both are recorded: `PLAN.md`
-itself still holds three copies (§Blockers says which, and why the lane could not write that page),
-and the report format's own two homes in Alexander's personal layer still state its length two ways
-— seven to ten lines in his boot file against ten or fewer in his profile — which only the window
-that owns that layer can settle. The director can now name the home of a rule it has never seen: the
-five houses and their declared sentences are in its request-kind reference, and two worked runs are
-in `docs/skill-review/2026-08-31-one-home-per-rule.md`.
+**`q-55` — narrowed, then landed.** The hostile review found its stated justification
+false (E-6, E-7, E-10, A-6, INV-17 don't say what the row claimed). Cut to the one real
+case: a project joining with no git history gets one commit of its files as found, before
+any pack file lands; a project with existing history is untouched, and the step is
+idempotent. `adopt/record-starting-state.sh`, wired into `adopt/ADOPT.md` Phase 0 step 2.
 
-**There is one list now, and it is `PLAN.md`.** The wish queue that stood beside it is retired: it
-had held no rows since 27.08, yet the lane-opening script, the rotation gate, the state probe and a
-dozen tests still read it, so a second list went on existing in the machinery after it had stopped
-existing in the work. The file itself now rests at `attic/ROADMAP.md` with its manifest line, and
-its rotation pointers moved whole into `PLAN.md`'s own "What has been rotated off this list"
-section, so every archived row stays findable from the one live list.
+**`q-386` was proposed for closing on tonight's own merge history as proof, and stays
+open.** Three of its four legs hold (the lane cap is enforced and tested; the landing
+sequence is stated identically in the law and the script; independent work running side by
+side and merging with no hand repair happened a dozen times tonight). The fourth does not:
+nothing checks that the lane-opening script and the written law describe the act the same
+way, so the two could drift apart today and nothing would catch it. The row keeps that one
+leg; do not re-propose closing it without building that check.
 
-**The spec now says what stands behind each rule it states.** Four answers, and a requirement says
-which one it has: a command the machine runs, an instruction a session reads and follows, a surface
-drawn when somebody asks for it, or nothing yet. Requirement 316 holds the rule. The point of it is
-that until now a rule read the same whichever answer was true, so a reader could not tell a law a
-machine holds from one that rests on a session remembering it.
+**Not yet pushed, and two real gate failures are open right now** — this is the first
+thing the next session does:
+1. `tests/test_landing_next_steps.py::test_real_repo_range_refreshes_next_steps` — this
+   very LIVE STATE update is the fix; re-run it after this file is committed in the same
+   commit range and it should clear.
+2. `tests/test_traceability.py::TestTargetOwnership::test_targets_owned_by_open_rows` —
+   **not yet fixed, needs a real decision.** `q-55` is marked done, but five spec `[target]`
+   anchors (E-6, E-7, E-10, A-6, INV-17) still name it as their owning task, and the
+   narrowed `q-55` that actually landed does not address any of them. The test's own
+   comment says these five were declined by the provenance purge (`38438eaf`) before the
+   ROADMAP-to-PLAN rotation ever ran, so they never got a real owning task at all — they've
+   been orphaned all along, just invisible while `q-55` sat open. Two ways out, both
+   requiring a look at what each of the five `[target]` tags actually promises: re-own each
+   to whatever row (if any) now covers it, or drop the tag where the promise is genuinely
+   dead. The test explicitly declines to pick for you. Once resolved: `python3 -m pytest -q`
+   clean, `bash guardrails/pre-push`, push.
 
-**The first read of a message has its own requirements and its own node.** Requirements 313 to 315 in
-`spec/message-first-read.md`, the `director` node in `architecture/pipeline-and-lanes.md`, and its
-rows in `matrix/director.md`. What executes is named where it executes: `scripts/checkpoint.py`
-refuses a first-read-owned checkpoint with no decision sheet in it, and `scripts/state-probe.sh` marks
-the reading's score a replay whenever the recorded runs are older than the skill. What does not
-execute is said plainly in the spec's own sentences — nothing on this machine puts a message through
-the reading, and the boot file's line is the whole of the door. The idea shelf is Requirement 315 and
-carries the promised marker, because nothing in the tree keeps one.
-
-**The roster of feature names went from seventeen to twelve**, and the rule behind it is mechanical:
-a requirement carrying a feature name and a `[target]` marker at once reds in the coverage check.
-`F-contract` and `F-work-board` retired to `attic/feature-names-retired-2026-08-31.md`; the five names
-for attaching the pack to a project converged on `F-attach`; `F-wish` and `F-feature-map` kept their
-names and had their requirements repaired instead, since both name something real once the requirement
-stops overstating it. `F-first-read` is new. Requirement 224 changed with them — it had said a
-promised scenario keeps its tag, which is the opposite of what now holds.
-
-**Two new faults ride the reference gates of the format family.** A `.md` file sitting among a
-document's parts that its parts map names nowhere, and two parts opening one requirement number.
-Both were verified as real holes first, by dropping each into a copy of the tree and watching every
-gate pass over it. The readers live in `guardrails/specformat.py`; `guardrails/check-index-generated.py`,
-`check-matrix-reference.py` and `check-architecture-reference.py` call them; `tests/test_spec_parts.py`
-carries a red proof for each with its clean twin. The rules for a writer are in `docs/spec-format.md`
-and Requirement 317.
-
-**Both of the things that task left open are closed, and `plan-12` is ticked.** The decision sheet
-has its ordering line — which open piece of accepted work runs next and why that one, read off the
-states the plan records — written from the main tree with `scripts/sync-skills.sh` run in the same
-breath, so ten installed skills match their source and `tests/test_config_health.py` is green.
-Requirement 314 claims the field again. And q-437, checking for similar cases at every level, is back
-on the board as its own open row: it was folded into `plan-12` on 27.08 and never worked, so the
-promise the spec still carries now names an open row instead of a finished one. Its definition of
-done names the command that will decide it. The same promise has a second half, the value-space
-forcing step that was q-436's, and nothing owns that one; it is written up in `PLAN.md`'s §Blockers
-for the owner.
-
-**The merge is where the defects were, and two fresh readers found them.** Neither had a part in
-building any of it, and both were briefed to refuse. Five repairs landed. The one-home check could be
-switched off with no red anywhere — its arms run once per rule in a table, so emptying the table gave
-three skipped cases and a clean exit; the floor is named in the file now. The check that keeps a
-feature name off an unbuilt scenario read the promised-marker anywhere in a requirement, so a leg
-still promised inside a scenario the product does give a person read as a promised scenario; fifteen
-of the nineteen markers in the spec are exactly that kind, and it passed today only by luck of
-placement. The proof that the opening probe tells a stale score from a fresh one was five string
-searches over the probe's own source, and survived the comparison being reversed; the branch is lifted
-out and run both ways now. `plan-12`'s acceptance command read three function names out of two test
-files, so the whole stray-part fault could be emptied to a bare return with the command still green;
-it runs the two proofs for real now, in four tenths of a second. And the feature roster went from
-seventeen names to twelve, not ten — the number was wrong in this file, the plan and the journal.
-
-**A line number written in one tree stops being true when another tree inserts lines above it.**
-Sixteen pointers across the project named the wrong line after the merge. One reddened the pin gate;
-the other fifteen passed only because that gate forgives a two-line miss. All sixteen were re-read
-against the files and corrected. Two more sit inside `PLAN.md`, where that page's own rule forbids the
-edit, and they are written up in its §Blockers.
-
-**Three things stand in §Blockers rather than repaired.** The suite is red on five checks because the
-external reviewing skill installed on this machine is three releases ahead of what this project pins;
-the server installs the pinned version and is green, and moving the pin is its own piece of work. The
-idea shelf is promised in the spec and owned by no row, because the check that demands an owner reads
-the marker by the line above it and this one sits under a heading — the same argument that put q-437
-back on the board, applied to the promise this landing made. And "a question you ask never turns into
-a task" is ticked while its acceptance command fails: it asks that the recorded runs of the reading be
-newer than the skill they grade, and commit `98a003b5` edited that skill. The behaviour did not
-regress; the proof lapsed, and re-recording the runs is a session's own work against the skill.
-
-**One older question still waits on the owner.** `PLAN.md` lets a session change a task's status
-and §Blockers and nothing else without his say-so; the 28.08 evening pass rewrote what finished
-looks like on twenty-one open tasks and widened the bar for what counts as queued. A sibling session
-in the same range read the rule the other way and stood down on a correction of its own. §Blockers
-carries the question in his own language, first entry. Nothing is reverted while it stands open, and
-no other work waits on his answer.
-
-**Owed and unwritten:** a `JOURNAL.md` entry for the prover-description movement (`85b659d1`).
+**Still owed, unwritten, carried forward from an earlier note:** a `JOURNAL.md` entry for
+the prover-description-test movement (`85b659d1`, from 31.08 morning).
 
 ## Where the numbers live
 
@@ -227,41 +131,59 @@ while workers write the tree reds on files being written, and its reds carry no 
 
 ## Prompt for the next session
 
-Continue live-spec. Open by asking Alexander in plain Russian what he wants done, using the four
-choices below. Ask before starting any of them. He said on 2026-08-12 at 18:04 that he wants to be
-asked in human language rather than handed a plan.
+**Everything below this line was written 31.08 21:35 for a session resuming after a context
+reset mid-way through the 28.08 night run. Read `bash scripts/state-probe.sh` and this
+file's own LIVE STATE section above first — this prompt only tells you what to do with
+what they show you.**
 
-**First act, and he asked for it by name at 2026-08-12 23:58.** The campaign stated several goals,
-written down across earlier sittings. Find them in the session
-transcripts, since that is where he says they live. Send cheap reader workers at those transcripts
-and read their summaries here, which is his word of 00:03. Derive from them the parameters the campaign is
-actually judged by, then put every one under watch in the plan's status block. Each parameter carries
-the command that measures it, and the pass that rewrites the block runs that command. Today the block
-watches one number, the rulebook's byte count. The second stated goal, making the machinery cheaper,
-is measured by nothing. The full run's budget rose from 800 to 1280 to 1410 seconds inside one day,
-and the only place that noticed is queue row 553. Queue row 617 holds this work.
+Do not ask Alexander anything before doing the two fixes below. His standing word for this
+run (28.08 00:53, repeated 31.08 12:12 and 18:32): carry the plan to the end, do not ask
+him, push and deploy are pre-authorized on green. Nothing here overrides that.
 
-Before asking, do these three reads so the question is informed. Read this whole file. Read
-`.live-spec/culling-plan-v3-2026-08-10.md`, whose head block says where the campaign stands. Read
-`git log --oneline origin/main..HEAD` to see what still stands unpushed, and count it there rather
-than trusting a number written here.
+**Step 1 — clear the two real gate failures blocking tonight's unpushed work.**
+1. `tests/test_landing_next_steps.py::test_real_repo_range_refreshes_next_steps` should
+   already be clear, since this file's own edit is the fix (INV-242: a landing commit
+   needs a NEXT_STEPS.md refresh somewhere in its range, and this section is that refresh
+   for commits `16b1a300`/`6d0257ac`/`8da47015`). Confirm it passes; if it doesn't, the fix
+   didn't land in the pushed range and needs redoing.
+2. `tests/test_traceability.py::TestTargetOwnership::test_targets_owned_by_open_rows` is
+   **not fixed** and needs a real look, not a guess: five spec `[target]` anchors (E-6, E-7,
+   E-10, A-6, INV-17) still name the now-done `q-55` as their owner, and the narrowed work
+   that actually landed doesn't address any of them. Read what each anchor promises in
+   `PRODUCT_SPEC.md` (or wherever `grep -rn "\[target\]"` finds them), decide per anchor
+   whether something else already covers it (re-own the tag) or the promise is genuinely
+   dead (drop the tag with a one-line note saying why), and make the test pass honestly —
+   not by weakening it.
 
-The four choices to put to him:
+Then: `python3 -m pytest -q` clean (check `ps ax | grep pytest` first — nothing else should
+be running), `bash guardrails/pre-push < /dev/null` reading its verdict line, push, confirm
+CI green.
 
-1. **Ship what is waiting.** Whatever `git log --oneline origin/main..HEAD` lists sits unpushed. The walk is a fresh adversarial review record
-   over `origin/main..HEAD`, then one clean full suite alone in the background. Then
-   `bash guardrails/pre-push < /dev/null` in the background, then `git push --no-verify`, then
-   `bash scripts/sync-mirrors.sh`. Budget about 45 minutes. His authorization for the push stands.
-2. **Answer the seven open questions.** Six sit in `DECISIONS.md` under the stage-3 heading, about
-   whether five named gates keep earning their place. The seventh is what "owner" means in base rule 31.
-   It has been open since 2026-08-05, and it keeps the queue's most expensive rule out of the
-   campaign. Each is a policy call only he can make. Answering them unblocks real cutting.
-3. **Run the next shortening batch.** Batch 3 on base rule 29, 2,138 bytes, by the S1-S5 recipe.
-   Where he has answered the "owner" question, rule 31 becomes the batch instead, and its inventory
-   is already written.
-4. **Finish the prover skill's three open findings.** Rows 609, 610 and 611. Each asks a scope
-   question about what the skill owes a verdict for, so each needs a decision before an edit.
+**Step 2 — walk the hostile review's remaining list, one row at a time.** The full findings
+are in `.live-spec/checkpoints/night-run-2026-08-28.md` under "THE HOSTILE REVIEW OF THE
+REMAINING BOARD" (31.08 18:34, run because Alexander asked directly whether the board's
+remaining rows were all real or partly junk/unneeded machinery). Its buckets, already
+decided, not to be re-litigated:
+- **Archive now, no work:** `plan-15`, `q-453`, `q-48`, `q-751` — each with its reason
+  already written in the checkpoint.
+- **Solid, build as written:** `plan-10`, `q-591`, `plan-9` (already correctly deferred on
+  his word — do not start it).
+- **Real but overbuilt — narrow the row's acceptance in `PLAN.md` before dispatching a
+  worker on it, every time, no exceptions:** `q-581`, `q-576`, `q-437`, `plan-14`, `q-163`,
+  `q-489`, `q-536`, `q-54`, `q-235`, `q-398`. The checkpoint names exactly how to narrow
+  each. This rule exists because `q-55`'s original wording was handed to a worker before
+  being narrowed and had to be corrected mid-flight — don't repeat that.
 
-Say the four in two sentences each at most. Recommend one, and say why in one line. Then wait.
+Work lanes the same way the whole run did: up to three parallel worktree lanes
+(`Agent` tool, `isolation: "worktree"`), each briefed with the row's own (narrowed)
+acceptance as the definition of done, each running its own full suite before reporting,
+merged by a dedicated merge pass that reads both sides on conflict and runs an adversarial
+re-read of its own merge before pushing — that pattern caught real defects every single
+time it ran tonight and should not be skipped as a shortcut.
 
-Never open by narrating what a previous session did. He has read the report already.
+Three rows wait on Alexander's own read and take no further work: `q-800`, `q-166`,
+`q-501`. Do not build anything for these; they close only when he reads them.
+
+Report to him in the Канон format his own boot file (`~/.claude/CLAUDE.md`) specifies —
+`bash scripts/state-probe.sh`'s own printed plan, never a hand-typed summary — after every
+row that lands, not only at the end.
