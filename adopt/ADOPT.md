@@ -51,13 +51,13 @@ hard way: the pilot run edited live-spec directly while another session was mid-
 The spec requires version control before the first *landing* (INV-8). In practice, this happens **before
 anything else is touched** — then the whole adopt run is reversible.
 
-1. If the host has no git: `git init`.
-2. Write a `.gitignore` that keeps source + structured data and excludes the virtualenv, caches, and heavy
-   generated/media artifacts. (On the pilot this was ~7.6 GB of media out of a 7.7 GB tree — commit the
-   ~source and exclude the exports.)
-3. Make one **baseline commit** of the pristine original — this is the restore point and the diff baseline
-   (SPEC A-6 / E-7).
-4. **Settle the remote — a named deliverable (SPEC A-5).** By the first landing a
+1. Write a `.gitignore` that keeps source + structured data and excludes the virtualenv, caches, and heavy
+   generated/media artifacts, before step 2 takes the tree as git sees it. (On the pilot: ~7.6 GB of media
+   out of a 7.7 GB tree — commit the source and exclude the exports.)
+2. **Keep the files as they were found, one command (SPEC A-6 / E-7):** `bash <pack>/adopt/record-starting-state.sh`
+   from the host root. A host with no git history becomes a repository and its files are committed as found,
+   before any pack file lands; one that already carries history keeps it. That commit is the restore point.
+3. **Settle the remote — a named deliverable (SPEC A-5).** By the first landing a
    remote (GitHub) either exists or the human has explicitly declined one; record the outcome in the run's
    journal entry. Creating/pushing the remote is the human's gate — offer and follow through, don't do it
    silently and don't let "recommended" quietly become "never happened" (the pilot ended local-only that way).
@@ -69,8 +69,8 @@ anything else is touched** — then the whole adopt run is reversible.
    seat with no grant fails honestly — it names the grant it lacks and hands the owner the one action that
    supplies it. Script that ask with its exact settings path (see the grant-ask template, scripts/grant-ask.md).
 
-Done when: the host is a git repo with a clean baseline commit, heavy artifacts are gitignored, and the
-remote outcome (exists / declined) is recorded.
+Done when: the host is a git repo carrying a commit of its files as they were found, heavy artifacts
+are gitignored, and the remote outcome (exists / declined) is recorded.
 
 ---
 

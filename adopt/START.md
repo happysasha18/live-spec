@@ -25,16 +25,16 @@ own root.
 ## Phase 0 — version control first
 
 Phase 0 of [adopt/ADOPT.md](ADOPT.md) states the version-control gate. It covers the repository, the
-ignore file, one baseline commit, and the remote settled or declined on the record. A founding runs
-it as written there, in the same order and for the same reason: a gate cannot protect files older
-than itself. A fresh tree has nothing to preserve yet, so the baseline commit stands for the empty
-start.
+ignore file, the files-as-found commit that `<pack>/adopt/record-starting-state.sh` makes, and the
+remote settled or declined on the record. A founding runs it as written there, in the same order and
+for the same reason: a gate cannot protect files older than itself. A fresh tree has nothing to
+preserve yet, so that commit stands for the empty start, which the script writes on its own.
 
 Record what this run has closed at `.live-spec/adopt/found.md`, one line per phase with the date, so
 a second run resumes where this one stopped.
 
-Done when the tree is a git repository with one baseline commit and the remote outcome is on the
-record.
+Done when the tree is a git repository with one commit of its files as found, and the remote outcome
+is on the record.
 
 ---
 
