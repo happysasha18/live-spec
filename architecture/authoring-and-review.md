@@ -12,7 +12,7 @@
 - `skills/spec-author/references/the-spine.md:1` (spine)
 - `skills/spec-author/references/the-spine.md:27` ([target] tag tripwire)
 - `skills/spec-author/references/facet-sweep.md:26` (axes composition)
-- `skills/spec-author/SKILL.md:98` (fences)
+- `skills/spec-author/SKILL.md:96` (fences)
 - `skills/spec-author/references/facet-sweep.md:1` (facet sweep — the canonical facet list)
 - `skills/spec-author/references/how-it-reads.md:68` (the enumeration-threshold structure rule, INV-215)
 

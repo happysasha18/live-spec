@@ -2983,17 +2983,36 @@ def _promised_tagged_features(spec_text):
     exist — which is how a promised row came to borrow a neighbour's test and read as covered
     (SPEC INV-132, INV-73). The marker stays; the name waits for the build.
 
-    The scan walks requirement by requirement so a marker deep inside one requirement is read against
-    that requirement's own heading rather than against the file's.
+    The marker is read the way SPEC S-0 writes it and the way this file's other reader of it reads it
+    (TestTargetOwnership.target_marker_anchors): it stands on a line of its own and belongs to the
+    line above it. A marker whose line above is the `## Requirement` heading marks the SCENARIO, and
+    that is the one this reader wants. A marker sitting under a numbered criterion marks that LEG, and
+    a leg still promised inside a scenario the product does give a person takes nothing away from the
+    scenario's name — fifteen of the nineteen markers in the spec today are of that kind, so reading
+    them as scenario-level would push an author into deleting either a true marker or a true name.
+    Prose that merely quotes the marker is not a marker at all, which the own-line reading settles;
+    Requirement 316 quotes it twice while promising nothing.
+
+    Re-pinned 2026-08-31 at the merge review, after the reader as first written read any occurrence
+    anywhere in a requirement's body — its own comment stated that over-reach as if it were the rule.
     """
-    heads = list(re.finditer(r"^## Requirement\s+(\d+)\s*:\s*(.*)$", spec_text, re.M))
+    lines = spec_text.splitlines()
+    head_re = re.compile(r"^## Requirement\s+(\d+)\s*:\s*(.*)$")
     promised = {}
-    for i, m in enumerate(heads):
-        end = heads[i + 1].start() if i + 1 < len(heads) else len(spec_text)
-        block = spec_text[m.start():end]
-        tag = re.search(r"\[feature:\s*(F-[a-z-]+)\]", m.group(0))
-        if tag and "[target]" in block:
-            promised[tag.group(1)] = "Requirement %s: %s" % (m.group(1), m.group(2).strip())
+    for i, line in enumerate(lines):
+        if line.strip() != "[target]":
+            continue
+        j = i - 1
+        while j >= 0 and not lines[j].strip():
+            j -= 1
+        if j < 0:
+            continue
+        head = head_re.match(lines[j])
+        if not head:
+            continue
+        tag = re.search(r"\[feature:\s*(F-[a-z-]+)\]", head.group(0))
+        if tag:
+            promised[tag.group(1)] = "Requirement %s: %s" % (head.group(1), head.group(2).strip())
     return promised
 
 
@@ -3111,9 +3130,26 @@ class TestFeatureCoverage(unittest.TestCase):
                          "a feature name stands on a scenario the spec itself marks as promised: %s"
                          % promised)
 
+    def test_a_leg_promised_inside_a_shipped_scenario_keeps_the_name(self):
+        # The other half of the red proof below, and the case that actually occurs: fifteen of the
+        # nineteen markers in the spec today sit under a criterion, not under a heading. A leg still
+        # promised inside a scenario the product does give a person is not a promised scenario, and
+        # a reader that says otherwise forces an author to delete a true marker or a true name.
+        # Prose quoting the marker is not a marker either — Requirement 316 quotes it twice.
+        spec = ("## Requirement 1: A thing the product does  [feature: F-real]\n\n"
+                "**Context:** a rule with nothing behind it takes the `[target]` marker.\n\n"
+                "1. the system *shall* do it. [INV-1]\n\n"
+                "2. the system *shall* do the rest of it one day. [INV-2]\n"
+                "   [target]\n\n"
+                "## Requirement 2: Machinery behind it\n\n"
+                "1. the system *shall* hold it. [INV-3]\n")
+        self.assertEqual(_promised_tagged_features(spec), {},
+                         "a leg-level marker, or the marker quoted in prose, was read as promising "
+                         "the whole scenario")
+
     def test_a_tagged_scenario_carrying_the_target_marker_is_named(self):
-        # Red proof, on the reader and on the checker both. The reader must find the marker anywhere
-        # in the requirement's own body, and must not read a neighbour's marker as this one's.
+        # Red proof, on the reader and on the checker both. The reader must find the scenario's own
+        # marker — the one standing under the heading — and must not read a neighbour's as this one's.
         spec = ("## Requirement 1: A thing the product does  [feature: F-real]\n\n"
                 "1. the system *shall* do it. [INV-1]\n\n"
                 "## Requirement 2: A thing still promised  [feature: F-promised]\n"

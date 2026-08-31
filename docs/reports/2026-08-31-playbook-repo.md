@@ -22,6 +22,16 @@ The recommendation is to keep the repository and narrow it to the personal layer
 change than folding it away, and it answers the owner's question directly: the second home earns its
 place for two files and for nothing else in there today.
 
+## What has happened since this page was written
+
+All eight steps below ran on 31.08 from the window that owns `~/.claude/playbook`, and everything
+was pushed. That repository now tracks eleven files, reports nothing ahead of its remote, and the
+personal profile's report-format line points at the boot file rather than restating it. The two
+sections below describe the state as it stood when this page was written, and they are kept as
+written so the reasoning behind the answer can still be read. What is left for the owner is the
+answer itself — keep the repository, narrowed to the personal layer — and the two things "What stays
+open" names, neither of which the eight steps touched.
+
 ## One thing to fix first
 
 The last commit, made 27.08, has never been pushed. The copy on GitHub still stands at 05.08. The

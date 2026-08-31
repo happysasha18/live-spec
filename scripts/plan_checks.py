@@ -103,7 +103,12 @@ sys.exit(1 if undrawn or unmarked else 0)
     # sheet gains the line that names which open piece runs next. Both sides are read, the skill's
     # field and the spec's claim on it, because the field came out once already when only one side
     # could be written from a worktree.
-    "plan-12": "grep -q 'What runs next' skills/director/SKILL.md && grep -q 'which piece runs next where other accepted work stands open' spec/message-first-read.md && grep -q '^## Requirement 313' spec/message-first-read.md && grep -q '^### .node: director.$' architecture/pipeline-and-lanes.md && grep -q '^| F-first-read | director |' architecture/feature-coverage.md && grep -q 'def test_no_feature_name_stands_on_a_promised_scenario' tests/test_traceability.py && grep -q 'def test_a_part_the_map_never_named_reds_the_index_gate' tests/test_spec_parts.py && grep -q 'def test_two_parts_under_one_number_red_the_index_gate' tests/test_spec_parts.py && python3 guardrails/check-index-generated.py PRODUCT_SPEC.md PRODUCT_SPEC.index.md >/dev/null",
+    # Re-armed the same day, at the merge review. Three arms had read `def test_<name>` out of a
+    # test file, which decides that a function is NAMED and nothing about what it asserts: the
+    # INV-322 reader could be emptied to `return []`, leaving the gate blind to a stray part, and
+    # this key still exited 0. The proofs run for real now, by direct execution rather than through
+    # a suite, the way plan-16's key already does — 0.4s for both files together.
+    "plan-12": "grep -q 'What runs next' skills/director/SKILL.md && grep -q 'which piece runs next where other accepted work stands open' spec/message-first-read.md && grep -q '^## Requirement 313' spec/message-first-read.md && grep -q '^### .node: director.$' architecture/pipeline-and-lanes.md && grep -q '^| F-first-read | director |' architecture/feature-coverage.md && PYTHONPATH=tests python3 -m unittest -q test_traceability.TestFeatureCoverage > /dev/null 2>&1 && python3 tests/test_spec_parts.py TestTheMapNamesEveryPart TestOneNumberNamesOneRequirement > /dev/null 2>&1 && python3 guardrails/check-index-generated.py PRODUCT_SPEC.md PRODUCT_SPEC.index.md >/dev/null",
     # q-458: the audit is its own external skill, installed, with this pack's binding and the lints
     # it declares per text surface.
     "q-458": 'test -d "$HOME/.claude/skills/text-audit" && test -f skills/text-audit-pack/SKILL.md && test -f .text-audit/lints.json',

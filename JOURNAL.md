@@ -3267,7 +3267,7 @@ where it is — the checkpoint command refuses a first-read-owned checkpoint wit
 the opening probe marks the reading's score a replay whenever the recorded runs are older than the
 skill. The idea shelf is Requirement 315 and carries the promised marker, because no file holds one.
 
-**The roster.** Seventeen names became ten. Two stood on requirements that also carried the promised
+**The roster.** Seventeen names became twelve. Two stood on requirements that also carried the promised
 marker — a published contract no agent on this machine has ever published, and a work board whose
 page, source file, generator and validation check are all unbuilt. Both went to the attic, and the
 work board's row had been reading as covered by borrowing the capture-echo test that belongs to the
@@ -3320,3 +3320,66 @@ asks for; writing the requirement anyway would have been the very defect this ta
 waits on another, so nothing orders on such a wait. That is written into Requirement 314's own context
 as a plain sentence rather than as a promise with a marker, because a promise wants an open row to own
 it and no row owns this one.
+
+## 2026-08-31 — three lanes come together, and the merge is where the defects were
+
+Three lanes had been running in their own trees since the morning: one giving every rule of the pack
+a single place to live, one answering whether the personal playbook repository earns its keep, and one
+making the spec say what the product actually does. Each was green in its own tree. Bringing them onto
+one branch is the pass this entry is about, and most of what it found existed in neither lane's work
+and in neither lane's tree.
+
+**Where the three collided.** Git could not merge three files. Two lanes had appended a dated entry to
+this journal on the same afternoon; both are kept, in landing order. All three had appended findings to
+the plan's blocked list; all are kept. And two lanes had rewritten the resume file's one status block,
+which that file's own rule says every update replaces — so the replacing behaviour is the one that
+stands, with the earlier lane's paragraph carried into the surviving block and the rest of what it had
+kept sent to this journal, which is where that rule sends dated history.
+
+**The class the merge itself created.** A line number written in one tree stops being true when
+another tree inserts lines above it. Both lanes pinned into the reading skill and into the opening
+probe, and both were right where they wrote them. After the merge sixteen pointers across the project
+named the wrong line: the pin-drift gate caught one, and the other fifteen passed only because that
+gate forgives a two-line miss. All sixteen were re-read against the files and corrected. Two more sit
+in the plan's own page, where the rule of that page forbids the edit, and they are written up in its
+blocked list instead.
+
+**What two fresh readers found in the merged result.** Both were briefed to refuse and had no part in
+building any of it. The sharper findings are about the checks the two lanes shipped rather than about
+their prose.
+
+The one-home check could be switched off without a red anywhere: its three arms run once per rule in a
+table, so emptying the table produced no failures at all, just three skipped cases and a clean exit.
+That is the shape this project's own gates already refuse — each declares that its input must not be
+empty and reds by name rather than passing over nothing. The floor is named in the file now and only
+grows.
+
+The check that keeps a feature name off an unbuilt scenario read the promised-marker anywhere inside a
+requirement, so a leg still promised inside a scenario the product does give a person read as a
+promised scenario. Fifteen of the nineteen markers in the spec are of exactly that kind, and the check
+passed today only because none of them happens to sit under a tagged heading. The first author to mark
+a promised leg on a named feature would have been pushed into deleting a true marker or a true name.
+The marker is read the way the spec writes it now — on its own line, belonging to the line above it —
+which is how the project's other reader of the same marker already read it.
+
+The proof that the opening probe still tells a stale score from a fresh one was five string searches
+over the probe's source. Reversing the comparison inside it — a stale score printing bare, a fresh one
+labelled a replay — left every one of those strings standing and every check green. The branch is
+lifted out and run both ways now, found by walking up from the line that prints the label rather than
+by naming the operator, so the test does not quietly become a source check again.
+
+And the plan's own acceptance command for the spec task read three function names out of two test
+files, which decides that a function is named and nothing about what it asserts. The whole
+stray-part fault could be emptied to a bare return and the command still reported the task done. It
+runs the two proofs for real now, by direct execution, in four tenths of a second.
+
+**Two loose ends the lanes could not reach from a worktree.** The decision sheet gained the field
+naming which open piece of accepted work runs next and why that one; writing it makes the installed
+skills differ from their source until a command runs that writes outside the project's tree, which is
+why the lane wrote it and took it back out. From the main tree both halves happen together. And q-437,
+checking for similar cases at every level, is back on the board as its own row: it had been folded into
+the spec task when the board was cut and never worked, so the spec's promise was about to be owned by a
+finished task. The spec task is closed.
+
+**One number was wrong in three live documents.** The feature roster went from seventeen names to
+twelve, not to ten. The attic page's own arithmetic had it right all along.

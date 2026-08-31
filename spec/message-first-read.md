@@ -29,7 +29,7 @@
 
 ## Requirement 314: Accepted work carries a decision sheet a later session picks up
 
-**Context:** Once a message has been read as work, the system writes down what it understood before it calls anyone in. That writing is the decision sheet: the goal in the person's own words, the state the work leaves behind it, what is already known, what has to be found out, what cannot be undone, which working skills are needed, what shows the goal was reached, and which documents change. The sheet lives inside the work's own checkpoint file, so a session starting fresh reads the sheet and the conversation behind it can be gone. One piece of work keeps one checkpoint for its whole life.
+**Context:** Once a message has been read as work, the system writes down what it understood before it calls anyone in. That writing is the decision sheet: the goal in the person's own words, the state the work leaves behind it, the dimensions the work touches, what is already known, what has to be found out, what cannot be undone, which working skills are needed, what shows the goal was reached, which piece runs next where other accepted work stands open, and which documents change. The sheet lives inside the work's own checkpoint file, so a session starting fresh reads the sheet and the conversation behind it can be gone. One piece of work keeps one checkpoint for its whole life.
 
 No state a plan row records says that one piece of work waits on another, so nothing orders on such a wait and nothing claims to.
 

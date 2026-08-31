@@ -159,6 +159,25 @@ REACH = {rel: _flat(rel) for rel in _reach_paths() if rel != SELF}
 
 
 # ---------------------------------------------------------------- the checks
+# The floor, named here because the three checks below cannot name it themselves. They are
+# parametrized over RULES, so an empty table generates no cases at all: pytest reports three SKIPS
+# and this file run on its own exits 0, which is how the whole check disarms without a red anywhere.
+# Dropping one rule from the table narrows the reach the same silent way. This is the shape the
+# gates in guardrails/ already refuse — each declares its expected-non-empty input and reds by name
+# rather than passing over nothing (SPEC INV-218) — and scripts/plan_checks.py's own reader takes
+# the same precaution on its map. The floor only grows: a fourth rule joining the table is welcome,
+# and any of these three leaving it is not.
+FLOOR = ("ask-never-guess", "lane-law", "report-format")
+
+
+def test_the_table_still_names_every_rule_this_check_was_built_for():
+    missing = [rule_id for rule_id in FLOOR if rule_id not in RULES]
+    assert not missing, (
+        "the one-home table no longer names %s, so nothing here checks %s any more; a rule leaves "
+        "this table only when its own convergence is undone, and then this line goes with it"
+        % (", ".join(missing), "them" if len(missing) > 1 else "it"))
+
+
 @pytest.mark.parametrize("rule_id", sorted(RULES))
 def test_the_rule_is_stated_in_one_home_only(rule_id):
     rule = RULES[rule_id]
@@ -209,6 +228,10 @@ if __name__ == "__main__":
     import sys
 
     failures = []
+    try:
+        test_the_table_still_names_every_rule_this_check_was_built_for()
+    except AssertionError as exc:
+        failures.append(str(exc))
     for _rule_id in sorted(RULES):
         for _check in (test_the_rule_is_stated_in_one_home_only,
                        test_the_home_still_states_the_rule,

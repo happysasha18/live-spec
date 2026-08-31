@@ -14,7 +14,7 @@
 - `scripts/checkpoint.py:55` (the one place the checkpoint machinery couples to this node: an owner reading `director` is what makes a decision sheet required at creation and at validation)
 - `evals/director/check.py:1` (the grader that judges a recorded run against its written scenario. It is deterministic and it calls no model; the run it grades is produced elsewhere and stored, so the score speaks about the recorded runs rather than about today's session)
 - `evals/director/scenarios.json:1` (the written scenarios and their expected verdicts — the goal this node's reading is measured against)
-- `scripts/state-probe.sh:195` (the probe's own arm: it prints the score at a session's start and says plainly when the traces are older than the skill, so a replay of old runs is read as saying nothing about the skill as it stands)
+- `scripts/state-probe.sh:204` (the probe's own arm: it prints the score at a session's start and says plainly when the traces are older than the skill, so a replay of old runs is read as saying nothing about the skill as it stands)
 
 **notes** —
 - Nothing on this machine puts a message through this node. The pack ships no hook on message arrival and no gate that reads a transcript for the reading; the door is a sentence in the person's boot file that a session reads and follows. INV-317 is the requirement that states so, and a reader who takes it at its word will find no wire to look for.
@@ -43,7 +43,7 @@
 - `skills/director/references/work-kind-table.md:1` (the work-kind table — per-kind meanings' one home)
 - `skills/director/SKILL.md:260` (steps — the dynamic Execution graph that replaces the old fixed nine-step sequence)
 - `skills/build-pipeline/SKILL.md:45` (gates — the MINOR-bump gate, this node's own remaining "Gates worth remembering" section)
-- `skills/architect/SKILL.md:144` (re-carve paragraph — INV-113 redesign-owes-rework)
+- `skills/architect/SKILL.md:141` (re-carve paragraph — INV-113 redesign-owes-rework)
 - `skills/director/references/delegation-protocol.md:71` (the worker-brief register-laws clause — no-scissors + no-dramatization, INV-221)
 - `guardrails/check-tier-refusal.py:1` (the tier-refusal gate. It reads the record's shape and a pattern's evidence. Its `--brief` step turns a matching task away before any model call. It rides the suite, taking no gate letter, INV-300)
 - `guardrails/tier-refusal.json:1` (the instruction, the tier ladder, the promotion threshold and the promoted phrases as data, INV-300)
@@ -71,8 +71,8 @@
 - `skills/director/references/lanes-and-pen.md:32` (the penless overlap set, the pen-stages, and the re-fence after a landing)
 - `skills/director/references/lanes-and-pen.md:13` (the graph picks the lane set at queue-take)
 - `skills/director/references/lanes-and-pen.md:59` (a mid-work re-door re-runs the independence edges against every rolling lane)
-- `skills/live-spec-base/SKILL.md:128` (rule 7's lanes sub-rules — three lanes under one pen; the cap and the lane-open act have their one home here, and the director's reference points at it rather than restating it)
-- `skills/live-spec-base/SKILL.md:154` (one row per landing commit)
+- `skills/live-spec-base/SKILL.md:129` (rule 7's lanes sub-rules — three lanes under one pen; the cap and the lane-open act have their one home here, and the director's reference points at it rather than restating it)
+- `skills/live-spec-base/SKILL.md:155` (one row per landing commit)
 - `scripts/open-lane.sh:1` (the lane-open act's performable form. It carries the row→in-work claim commit on main, the cap refusal, and the lane branch cut into its own worktree, INV-214.)
 - the lane-opening script is the first file this node owns of its own. Its law otherwise lives inside the two skills that perform it and its cited pins there. The branch road's carriers land with ROADMAP row 386 [target].
 

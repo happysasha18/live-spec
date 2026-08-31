@@ -728,7 +728,7 @@ green at every session start. Director has its requirement and its node, and bot
 stands behind each thing they promise: a command that runs, an instruction a session follows, a page
 drawn when somebody asks, or nothing yet. That last one is the rule the whole task turned on — a rule
 that reads the same whichever of the four is true tells you the product is stronger than it is. The
-seventeen feature names became ten. Two stood on surfaces nobody has built and went to the attic; one
+seventeen feature names became twelve. Two stood on surfaces nobody has built and went to the attic; one
 of them had been reading as covered by borrowing another feature's test. Five names for attaching the
 pack to a project became one. Two the plan had counted as fictions kept their names and had their
 requirements repaired instead, because both name something real once the requirement stops
@@ -773,10 +773,12 @@ hand-written list stops at the two obvious cases; the pass is what finds the thi
 the project's kind declares and returns one of three verdicts for every other axis in it — already
 composed against, added now, out of scope with its reason. The duty is written in `spec-author`, the
 prover reads the verdicts as a lens, and the sentence that says the sweep repeats at any level sits
-beside the duty. A reader tells finished from unfinished by one command: `python3 -m pytest -q
-tests/test_composition_axes.py`, extended by the landing with a case that walks a two-axis registry
-and reds when a sibling axis comes back with no verdict. Until that case exists and runs green, this
-row is unfinished.
+beside the duty. The landing writes the case that decides it, into
+`tests/test_composition_axes.py`: a two-axis registry walked, and a red when a sibling axis comes
+back with no verdict. `python3 -m pytest -q tests/test_composition_axes.py` is green today over
+thirteen cases that all test the axes-declaration law and none of them this, so the command decides
+this row only once that case is in the file. Until then the row is unfinished, and the honest reading
+of the green is that nobody has asked the question yet.
 
 
 ### ⬜ Every project gets its own status view — id: plan-14
@@ -1320,6 +1322,35 @@ One line per finding. Don't start a second list for them. Don't fix one without 
   The clean form is the one the profile already uses — the files live in the repository and
   `~/.claude/hooks/` holds symlinks. That edits armed hooks, which law 1 forbids while this plan
   runs, so it is written down and left alone.
+
+- **The suite is red on five checks because the reviewing skill on this machine is three releases
+  ahead of what this project pins. Found 31.08, at the merge.** The external reviewer lives in its
+  own repository and was released three times today, up to 1.6.0, which reworded two of its rules and
+  moved a third of its body into side files. This project's own build pins it at 1.4.2, installs that
+  version before it runs the checks on the server, and is green there. The copy installed on this
+  machine is 1.6.0, so five checks that quote the older wording fail here and nowhere else. Nothing in
+  the work of today caused them and nothing in this project can repair them: the choice is to move the
+  pin up and reword those five, which is its own piece of work, or to put the local copy back on the
+  pinned version, which would change a repository this window was told not to touch while another may
+  be working in it. Left as it stands, named here, with the server's green as the honest reading.
+
+- **A promise this range added is owned by nobody, and the check that would demand an owner cannot
+  see it. Found 31.08, in the merge review.** The idea shelf — where a possibility named in passing is
+  kept in the person's own words — is written into the spec and marked as not built, correctly, since
+  no file holds one. The check that makes every such promise name an open task reads the marker by the
+  line above it, and this marker sits under a heading rather than under a numbered line, so the check
+  never sees it and asks for no owner. It is the same argument that put q-437 back on the board an hour
+  earlier, applied to the promise the same landing created. Two ways out, and both are yours: give the
+  idea shelf its own row, or teach the check to read a heading-level marker, which would then demand
+  that row anyway.
+
+- **The plan's own page carries two stale pointers into files that moved. Found 31.08, in the merge
+  review.** Two lines here name a line number inside the rulebook and inside the reading skill, and
+  both moved when those files were edited today. The pointers are off by two and by eight. They are
+  left alone because the rule at the top of this page lets a session change a task's status and this
+  section and nothing else, and neither line is either of those. Whoever next has the pen on this page
+  can correct both in a minute; the same fifteen pointers elsewhere in the project were corrected
+  today, and only these two were out of reach.
 
 - **The reading skill changed and its score did not, so a ticked task stopped proving itself. Found
   31.08, at the merge.** The task "a question you ask never turns into a task" is ticked, and its

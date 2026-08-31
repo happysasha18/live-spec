@@ -4,7 +4,7 @@ A digest with no redundancy (SPEC INV-48) — one live-state block, nothing remo
 information. One status block stands here at a time, and every update replaces it. Dated history
 lives in `JOURNAL.md`.
 
-## LIVE STATE (2026-08-31, 15:13)
+## LIVE STATE (2026-08-31, 15:47)
 
 Written for a session starting with clean context.
 
@@ -45,7 +45,7 @@ execute is said plainly in the spec's own sentences — nothing on this machine 
 the reading, and the boot file's line is the whole of the door. The idea shelf is Requirement 315 and
 carries the promised marker, because nothing in the tree keeps one.
 
-**The roster of feature names went from seventeen to ten**, and the rule behind it is mechanical:
+**The roster of feature names went from seventeen to twelve**, and the rule behind it is mechanical:
 a requirement carrying a feature name and a `[target]` marker at once reds in the coverage check.
 `F-contract` and `F-work-board` retired to `attic/feature-names-retired-2026-08-31.md`; the five names
 for attaching the pack to a project converged on `F-attach`; `F-wish` and `F-feature-map` kept their
@@ -72,11 +72,35 @@ done names the command that will decide it. The same promise has a second half, 
 forcing step that was q-436's, and nothing owns that one; it is written up in `PLAN.md`'s §Blockers
 for the owner.
 
-**A ticked task stopped proving itself, and that is in §Blockers too.** "A question you ask never
-turns into a task" asks that the recorded runs of the reading be newer than the skill they grade.
-Commit `98a003b5` edited that skill, and the runs are still 26.08's, so the opening report now prints
-the task with a blocked mark. The behaviour did not regress; the proof lapsed. Re-recording the runs
-is a session's own work against the skill.
+**The merge is where the defects were, and two fresh readers found them.** Neither had a part in
+building any of it, and both were briefed to refuse. Five repairs landed. The one-home check could be
+switched off with no red anywhere — its arms run once per rule in a table, so emptying the table gave
+three skipped cases and a clean exit; the floor is named in the file now. The check that keeps a
+feature name off an unbuilt scenario read the promised-marker anywhere in a requirement, so a leg
+still promised inside a scenario the product does give a person read as a promised scenario; fifteen
+of the nineteen markers in the spec are exactly that kind, and it passed today only by luck of
+placement. The proof that the opening probe tells a stale score from a fresh one was five string
+searches over the probe's own source, and survived the comparison being reversed; the branch is lifted
+out and run both ways now. `plan-12`'s acceptance command read three function names out of two test
+files, so the whole stray-part fault could be emptied to a bare return with the command still green;
+it runs the two proofs for real now, in four tenths of a second. And the feature roster went from
+seventeen names to twelve, not ten — the number was wrong in this file, the plan and the journal.
+
+**A line number written in one tree stops being true when another tree inserts lines above it.**
+Sixteen pointers across the project named the wrong line after the merge. One reddened the pin gate;
+the other fifteen passed only because that gate forgives a two-line miss. All sixteen were re-read
+against the files and corrected. Two more sit inside `PLAN.md`, where that page's own rule forbids the
+edit, and they are written up in its §Blockers.
+
+**Three things stand in §Blockers rather than repaired.** The suite is red on five checks because the
+external reviewing skill installed on this machine is three releases ahead of what this project pins;
+the server installs the pinned version and is green, and moving the pin is its own piece of work. The
+idea shelf is promised in the spec and owned by no row, because the check that demands an owner reads
+the marker by the line above it and this one sits under a heading — the same argument that put q-437
+back on the board, applied to the promise this landing made. And "a question you ask never turns into
+a task" is ticked while its acceptance command fails: it asks that the recorded runs of the reading be
+newer than the skill they grade, and commit `98a003b5` edited that skill. The behaviour did not
+regress; the proof lapsed, and re-recording the runs is a session's own work against the skill.
 
 **One older question still waits on the owner.** `PLAN.md` lets a session change a task's status
 and §Blockers and nothing else without his say-so; the 28.08 evening pass rewrote what finished

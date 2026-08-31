@@ -56,6 +56,44 @@ class TestTheReplayMarker(unittest.TestCase):
         self.assertIn("says nothing about today's skill", text,
                       "the replay marker no longer says what a stale score is worth")
 
+    def test_the_label_follows_the_comparison_and_not_the_text_around_it(self):
+        """The branch itself, run both ways.
+
+        Every other check in this class reads the probe's source, and source is what a defect leaves
+        standing: reversing the comparison keeps both commit-time reads, both marker strings and the
+        `$SCORE` line exactly where they are, so a stale score would print bare and a fresh one would
+        print as a replay with nothing here going red. So this one lifts the branch out of the script
+        and runs it, once with the skill newer than the runs and once the other way. The block is
+        found by walking up from the line that prints the marker to the `if` that guards it, which
+        keeps this test from naming the operator and re-becoming a source check.
+        """
+        lines = probe_text().splitlines()
+        marker = [i for i, l in enumerate(lines) if "REPLAY OF OLD TRACES" in l]
+        self.assertEqual(len(marker), 1, "the replay marker is written in %d places" % len(marker))
+        start = next(i for i in range(marker[0], -1, -1) if lines[i].lstrip().startswith("if "))
+        end = next(i for i in range(marker[0], len(lines))
+                   if lines[i].strip() == "fi" or lines[i].strip().startswith("fi "))
+        block_lines = lines[start:end + 1]
+        # the branch closes inside a `case` arm, so its `fi` carries the arm's `;;` — that belongs
+        # to the enclosing statement, which is not what this test is running
+        block_lines[-1] = block_lines[-1].split(";;")[0]
+        block = "\n".join(block_lines)
+
+        def run(skill_time, traces_time):
+            script = 'SCORE="33 of 35 recorded runs pass"\nSD=%d\nED=%d\n%s\n' % (
+                skill_time, traces_time, block)
+            return subprocess.run(["bash", "-c", script],
+                                  capture_output=True, text=True).stdout
+
+        stale = run(200, 100)
+        fresh = run(100, 200)
+        self.assertIn("REPLAY OF OLD TRACES", stale,
+                      "runs older than the skill printed without the replay label")
+        self.assertNotIn("REPLAY OF OLD TRACES", fresh,
+                         "runs newer than the skill were labelled a replay, so the label says "
+                         "nothing about whether the score is worth reading")
+        self.assertIn("33 of 35", fresh, "the score itself stopped reaching the person")
+
     def test_the_replay_wording_reaches_the_person_beside_the_number(self):
         # The marker rides the same line as the score. Split across two lines it could be printed
         # and scrolled past while the bare number stood in the person's Canon.
@@ -83,6 +121,16 @@ class TestTheOneArmThatExecutes(unittest.TestCase):
         self.assertTrue(os.path.isdir(traces), "the recorded runs are gone")
         self.assertTrue([f for f in os.listdir(traces) if f.endswith(".json")],
                         "no run is recorded, so the score the probe prints stands on nothing")
+        # The name says EACH scenario, and the count is what makes that true. The grader already
+        # says how many scenarios it found no run for, on the same line the probe reads for the
+        # score; without this the file could hold one run out of thirty-five and still pass here
+        # while the probe went on printing a number the person would read as a measurement.
+        result = subprocess.run(["python3", os.path.join(ROOT, "evals", "director", "check.py"),
+                                 "--all"], capture_output=True, text=True, cwd=ROOT)
+        last = result.stdout.strip().splitlines()[-1]
+        self.assertNotIn("no run", last,
+                         "a written scenario has no recorded run behind it, so the score speaks "
+                         "for fewer scenarios than the number suggests: %s" % last)
 
 
 if __name__ == "__main__":
