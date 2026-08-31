@@ -528,9 +528,15 @@ class TestTheLaneOpenActLaw(unittest.TestCase):
         base = read_flat("skills/live-spec-base/SKILL.md")
         self.assertIn("The lane-open act", base)
         self.assertIn("`lanes.cap`", base)   # the cap row in the package defaults
-        # lanes-and-pen.md moved to skills/director/references/ in the build-pipeline cutover
+        self.assertIn("scripts/open-lane.sh", base)
+        # lanes-and-pen.md moved to skills/director/references/ in the build-pipeline cutover.
+        # Re-pinned 2026-08-31 (plan-16, one home per rule): the act's own steps were written out
+        # twice, in the base rule and again in the director's reference. The base is the act's one
+        # home and now carries the whole assertion above. What the director owes is the judgment
+        # rule 7 hands it — perform the act rather than fall back to single-file — and that is what
+        # the needle below reads.
         pipe = read_all_flat("skills/director/SKILL.md")
-        self.assertIn("Opening a lane is an act you PERFORM", pipe)
+        self.assertIn("do not fall back to single-file while independent lanes stand free", pipe)
 
     def test_architecture_owns_inv214(self):
         arch = read_flat("ARCHITECTURE.md")
