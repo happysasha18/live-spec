@@ -2,13 +2,13 @@
 name: communicator
 description: Use to show work to a human and ask for a decision. Use it when a landing or milestone is REPORTED, and to answer "did we do X". Use it to show what the product does, or to raise a problem that needs their word. NOT a reason to LOAD it: a passing mid-work narration line, an internal working note, or a plain factual answer — those just get said.
 metadata:
-  version: 6.0.0
+  version: 6.1.0
 ---
 
 # communicator — show the work, ask decisions the human can actually make
 
 > Part of the **live-spec pack**. The shared working rules live once in the pack's base skill,
-> `live-spec-base` (v6.0.0), whose file is `skills/live-spec-base/SKILL.md`. Its own frontmatter
+> `live-spec-base` (v6.1.0), whose file is `skills/live-spec-base/SKILL.md`. Its own frontmatter
 > states how many numbered rules it carries, and every "base rule N" on this page points into it. Four scopes settle
 > a setting there, in this order: the session's live word, then the host profile, then the personal
 > profile, then the package default. This skill points at those rules and covers only its own subject. Base rule 36 says who the human is, the register they get, and two surface laws this page assumes: a rendered page is offered rather than opened unasked, and one item carries one name word for word everywhere.

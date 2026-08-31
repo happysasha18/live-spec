@@ -2,13 +2,13 @@
 name: test-author
 description: Use to derive a test matrix and write tests from a proven spec and architecture. Not a substitute for reviewing the spec itself.
 metadata:
-  version: 6.0.0
+  version: 6.1.0
 ---
 
 # test-author — from a proven spec to tests that would have caught the bug
 
 > Part of the **live-spec pack** — the shared working rules live once in the pack's base skill,
-> `live-spec-base` (v6.0.0), together with the
+> `live-spec-base` (v6.1.0), together with the
 > settings ladder — this skill references them and elaborates only its own domain. Used standalone, this
 > note is plain advice.
 

@@ -2,7 +2,7 @@
 name: product-prover-pack
 description: 'Pack-side bindings for the external product-prover skill inside the live-spec pack. It carries what the prover body no longer does: the pin map from this pack''s PRODUCT_SPEC requirement codes to prover lenses, the pack paths a review reads, the record home and shape the push gate checks, and the mode names the build pipeline uses. Load it whenever product-prover runs inside a live-spec project. It reviews nothing itself.'
 metadata:
-  version: 6.0.0
+  version: 6.1.0
   requires: product-prover >= 1.4.0 (github.com/happysasha18/product-prover)
 ---
 
@@ -44,7 +44,7 @@ Where the prover speaks of the reviewed project's documents, this pack keeps the
 - the architecture under review — `ARCHITECTURE.md`
 - the build walk's stations — `docs/pipeline.md`
 - lens histories — `docs/lenses.md`
-- the queue — `ROADMAP.md`
+- the one list, holding the plan and the queue in one document — `PLAN.md`
 
 `base rule n` names a numbered rule in `skills/live-spec-base/SKILL.md`. `P9` is the architecture
 principle that every cross-cutting law owes a test row on each surface it governs, carried in
@@ -95,7 +95,7 @@ change and lands as one.
 
 ## The pack's lens bindings
 
-This page is written against `live-spec-base` (v6.0.0). The bindings below are the pack-side review
+This page is written against `live-spec-base` (v6.1.0). The bindings below are the pack-side review
 duties a live-spec project adds to the external prover's own lenses. The prover's body states the
 general method; each line here is the pack's concrete pin of one duty, read beside the body on every
 review run inside a live-spec project.

@@ -462,7 +462,7 @@ class TestArtifacts(unittest.TestCase):
                          "the adapter's canonical repository moved or vanished")
 
     def test_templates_ship(self):
-        for name in ("PRODUCT_SPEC", "ARCHITECTURE", "TEST_MATRIX", "ROADMAP", "JOURNAL", "NEXT_STEPS"):
+        for name in ("PRODUCT_SPEC", "ARCHITECTURE", "TEST_MATRIX", "PLAN", "JOURNAL", "NEXT_STEPS"):
             rel = "templates/%s.template.md" % name
             full = os.path.join(ROOT, rel)
             self.assertTrue(os.path.isfile(full), "missing template: %s" % rel)
@@ -1277,9 +1277,9 @@ class TestDeclineListsAbsorbed(unittest.TestCase):
                        "return it to the queue as its own row",
                        "superseded wish never dies by pointer"):
             self.assertIn(phrase, spec, "SPEC lost the decline-lists-absorbed clause: %s" % phrase)
-        tpl = re.sub(r"\s+", " ", read("templates/ROADMAP.template.md"))
+        tpl = re.sub(r"\s+", " ", read("templates/PLAN.template.md"))
         self.assertIn("never dies by pointer", tpl,
-                      "ROADMAP template lost the decline-lists-absorbed rule")
+                      "PLAN template lost the decline-lists-absorbed rule")
 
 
 def _pack_list_gaps(skill_names, spec_body, footer_bodies, readme_body, overview_body=None):
@@ -1720,7 +1720,7 @@ class TestBootstrapScaffold(unittest.TestCase):
     def _bootstrap(self, tmp, fill=True):
         import shutil
         os.makedirs(os.path.join(tmp, "tests"))
-        for name in ("PRODUCT_SPEC", "ARCHITECTURE", "TEST_MATRIX", "ROADMAP", "JOURNAL", "NEXT_STEPS"):
+        for name in ("PRODUCT_SPEC", "ARCHITECTURE", "TEST_MATRIX", "PLAN", "JOURNAL", "NEXT_STEPS"):
             src = os.path.join(ROOT, "templates", "%s.template.md" % name)
             with open(src, encoding="utf-8") as f:
                 body = f.read()
@@ -2056,7 +2056,7 @@ class TestProblemLedger(unittest.TestCase):
         ):
             self.assertIn(needle, director, "director missing: %s" % needle)
         self.assertIn("INV-26", read_flat(os.path.join("templates", "NEXT_STEPS.template.md")))
-        self.assertIn("INV-26", read_flat(os.path.join("templates", "ROADMAP.template.md")))
+        self.assertIn("INV-26", read_flat(os.path.join("templates", "PLAN.template.md")))
 
     def test_capture_echo_and_board(self):
         """Row 105 (M-111/M-112, INV-27): every intake is echoed back in one sentence;

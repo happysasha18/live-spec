@@ -471,7 +471,7 @@ class TestFoundingWalk(unittest.TestCase):
         unconditional = {lands: t for t, lands, when in rows if when.lower() == "always"}
         self.assertEqual(
             set(unconditional),
-            {"PRODUCT_SPEC.md", "ARCHITECTURE.md", "TEST_MATRIX.md", "ROADMAP.md", "JOURNAL.md",
+            {"PRODUCT_SPEC.md", "ARCHITECTURE.md", "TEST_MATRIX.md", "PLAN.md", "JOURNAL.md",
              "NEXT_STEPS.md", "tests/test_scaffold.py", ".live-spec/agent.md"},
             "the eight unconditional destinations moved")
 
@@ -623,7 +623,7 @@ class TestAFoundingRuns(unittest.TestCase):
             report = found(project, resolved, name="demo")
             self.assertEqual(report["commits"], 1,
                              "the founded tree holds %d commits" % report["commits"])
-            for doc in ("PRODUCT_SPEC.md", "ARCHITECTURE.md", "TEST_MATRIX.md", "ROADMAP.md",
+            for doc in ("PRODUCT_SPEC.md", "ARCHITECTURE.md", "TEST_MATRIX.md", "PLAN.md",
                         "JOURNAL.md", "NEXT_STEPS.md"):
                 path = os.path.join(project, doc)
                 self.assertTrue(os.path.isfile(path), "%s did not land" % doc)
@@ -670,11 +670,11 @@ class TestAFoundingRuns(unittest.TestCase):
     def test_a_missing_template_fails_by_name(self):
         """Criterion 22 [B-1]."""
         with tempfile.TemporaryDirectory() as tmp:
-            home, project, _pack = build_fixture(tmp, drop="ROADMAP.template.md")
+            home, project, _pack = build_fixture(tmp, drop="PLAN.template.md")
             _number, resolved = resolve_pack_tree(project, home)
             with self.assertRaises(SetupError) as caught:
                 found(project, resolved, name="demo")
-            self.assertIn("ROADMAP.template.md", str(caught.exception),
+            self.assertIn("PLAN.template.md", str(caught.exception),
                           "the run failed without naming the template it lacked")
             self.assertFalse(os.path.exists(os.path.join(project, "PRODUCT_SPEC.md")),
                              "the run copied documents before it checked its sources")

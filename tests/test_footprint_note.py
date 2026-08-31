@@ -88,10 +88,10 @@ class TestFootprintNoteLaw(unittest.TestCase):
                     return
         self.fail("INV-134 Formal-index row missing")
 
-    def test_roadmap_template_carries_the_footprint_field(self):
-        tmpl = read_flat("templates/ROADMAP.template.md")
+    def test_plan_template_carries_the_footprint_field(self):
+        tmpl = read_flat("templates/PLAN.template.md")
         self.assertIn("footprint", tmpl.lower(),
-                      "the ROADMAP row template does not name the footprint field")
+                      "the PLAN row template does not name the footprint field")
         for fp in ("presentation-only", "single-module", "cross-cutting"):
             self.assertIn(fp, tmpl, "template lost the footprint value: %s" % fp)
 

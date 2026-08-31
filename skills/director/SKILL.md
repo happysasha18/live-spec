@@ -2,7 +2,7 @@
 name: director
 description: Read the human's message before anything acts on it — decide what they did (asked, mused, offered an idea, reported something, decided, corrected running work, instructed, or called a halt), then, only for work that was actually accepted, name what it touches, call the specialists it needs, and carry it through — checkpoint, verify, close, report.
 metadata:
-  version: 6.0.0
+  version: 6.1.0
 ---
 
 # Director
@@ -294,7 +294,7 @@ lane cap — `skills/live-spec-base/SKILL.md` rule 7 carries the lane law in ful
 repeated here. What this step adds is the judgment: two pieces of accepted work are
 independent when neither depends on the other's output and neither rewrites the same
 section or behaviour. Work that merely shares a canonical document —
-`PRODUCT_SPEC.md`, `ARCHITECTURE.md`, `TEST_MATRIX.md`, `ROADMAP.md` — is not thereby
+`PRODUCT_SPEC.md`, `ARCHITECTURE.md`, `TEST_MATRIX.md`, `PLAN.md` — is not thereby
 dependent; every write to a shared document goes through one integration owner (the
 Director itself, or whichever specialist currently holds the pen) one lane at a time, so
 the document stays a convergence point, not a lock two lanes wait on.

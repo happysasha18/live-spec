@@ -19,8 +19,9 @@ the project spec, `PRODUCT_SPEC.md`. The letter before the number names the kind
 `INV-` an invariant, `T-` a transition, `M-` a rhythm rule, `A-` an adoption step, `B-` a bootstrap
 step, `ACT-` an actor, `C-` a composition-axis rule, `D-` a recorded decision, `S-` a header rule, and
 `F-` a feature. `PRODUCT_SPEC.index.md` maps each code to the requirements that carry it. A row number
-points into the project queue, `ROADMAP.md`. A row that has reached a terminal state moves to a dated
-file under `docs/queue-archive/`, so a number missing from the queue is looked up there.
+points into the project's one list, `PLAN.md`, which holds the plan and the queue in one document. A
+row that has reached a terminal state moves to a dated file under `docs/queue-archive/`, so a number
+missing from the list is looked up there.
 
 **Two numbering systems share the `(rule N)` form.** On the body's page a bare *(rule N)* counts its
 twenty-two rules. Inside the body's section "The writing register", and inside

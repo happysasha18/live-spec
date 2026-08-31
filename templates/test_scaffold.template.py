@@ -16,7 +16,7 @@ import unittest
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-DOCS = ("PRODUCT_SPEC.md", "ARCHITECTURE.md", "TEST_MATRIX.md", "ROADMAP.md", "JOURNAL.md", "NEXT_STEPS.md")
+DOCS = ("PRODUCT_SPEC.md", "ARCHITECTURE.md", "TEST_MATRIX.md", "PLAN.md", "JOURNAL.md", "NEXT_STEPS.md")
 
 
 def read(rel):
@@ -56,9 +56,9 @@ class TestBootstrapComplete(unittest.TestCase):
         self.assertIn("How coverage is held", matrix,
                       "TEST_MATRIX lost the mechanical-close teaching (E-15, row 477)")
 
-    def test_queue_is_a_table(self):
-        body = read("ROADMAP.md")
-        self.assertIn("| # |", body, "ROADMAP lost its queue table header")
+    def test_the_list_is_a_table(self):
+        body = read("PLAN.md")
+        self.assertIn("| # |", body, "PLAN lost its table header")
 
     def test_next_steps_single_live_state(self):
         blocks = re.findall(r"(?im)^#+ .*live state", read("NEXT_STEPS.md"))

@@ -2,13 +2,13 @@
 name: feedback-intake
 description: Use whenever feedback arrives — a comment, answer, file, or reaction from a person, a file appearing in inbox/ (whoever put it there, person or agent), an inbox sweep, or an append to the feedback ledger FEEDBACK.md — and route it to where it belongs.
 metadata:
-  version: 6.0.0
+  version: 6.1.0
 ---
 
 # feedback-intake — nothing handed in is ever lost
 
 > Part of the **live-spec pack** — the shared working rules live once in the pack's base skill,
-> `live-spec-base` (v6.0.0), together with the
+> `live-spec-base` (v6.1.0), together with the
 > settings ladder — this skill references them and elaborates only its own domain. Used standalone, this
 > note is plain advice.
 

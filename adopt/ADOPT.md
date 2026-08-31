@@ -22,7 +22,9 @@ The one normative list of the documents a live-spec host carries; every other gu
   (`spec.file: SPEC.md`); every pack guide reads "PRODUCT_SPEC.md" as that file.
 - `ARCHITECTURE.md` — the named nodes and seams; every spec fact has an owning node.
 - `TEST_MATRIX.md` — derived through the architecture, one pinned-level row per spec fact.
-- `ROADMAP.md` — the queue; one wish, one row.
+- `PLAN.md` — the one list: what is asked of the product and where each ask stands, the plan and
+  the queue in one document; one wish, one row. A host that already carries a separate queue file
+  keeps it, and nothing here asks for that file to be merged.
 - `JOURNAL.md` — dated history with the why.
 - `NEXT_STEPS.md` — the one resume file a cold session reads.
 - `SURFACES.md` — or an equivalent executable gate test (E-10); doc form is the fallback.
@@ -188,7 +190,7 @@ Turn what exists into the canonical set — **keeping original claims, marking t
   just confirm structure and fill the two things hosts usually lack: the **surface registry** (Phase 2) and
   the **test matrix** (Phase 5).
 - existing tests → matrix rows citing them at their real level.
-- an existing roadmap/TODO → queue rows in `ROADMAP.md`.
+- an existing roadmap/TODO → queue rows in `PLAN.md`.
 
 **Provenance (SPEC C-1).** Mark each document `native-live-spec` (authored in the method) or
 `re-engineered-from-existing`. A re-engineered claim is **unverified until reconciled** — pinned to
@@ -202,7 +204,7 @@ and the human decides per surface: **promote** (it enters at the spec step as a 
 **quarantine** (moved into a prototype home and labelled, SPEC E-17) · **attic** (A-4). No unbacked
 surface is silently registered as product.
 
-Done when: the canonical doc set exists (SPEC/ROADMAP/JOURNAL/NEXT_STEPS + registry + matrix), every claim
+Done when: the canonical doc set exists (SPEC/PLAN/JOURNAL/NEXT_STEPS + registry + matrix), every claim
 is marked native or unverified, and every unbacked live surface carries its verdict.
 
 ---

@@ -411,3 +411,36 @@ Four steps, each safe on a half-done state:
    configuration or pre-push chain (rather than through the pack's `guardrails/pre-push`, which
    already dropped them) removes that reference; a host that only ever invoked the pack's own
    `pre-push` entry point records this step done on read.
+
+### 6.1.0 — 2026-08-31
+
+**No host action.** The 6.1.0 minor changes what the pack teaches a project it is being attached to
+for the first time. It rewrites nothing an adopted host already carries, so a host takes it by
+re-running its catch-up walk and finding this chapter already satisfied (INV-217).
+
+Two questions stood behind the change, and both are answered here.
+
+**Does a project joining the pack still get a queue file of its own?** No. This repository merged its
+own wish queue into `PLAN.md` on 2026-08-28 and has run on one list since: the plan, the board and
+the queue are one document, and the second list stopped existing in the machinery on the day it
+stopped existing in the work. A project founded after that date carries no legacy queue to preserve,
+so the founding walk was still handing a fresh tree the two-file shape this repository had just left
+as the worse one. `adopt/START.md` now lands `templates/PLAN.template.md` as the host's `PLAN.md`,
+`adopt/ADOPT.md`'s canonical document set names that one list in place of `ROADMAP.md`, and the
+skills that named a queue file as the place a wish lands — spec-author and its glossary,
+design-reviewer, director, communicator's word list, live-spec-base and its glossary, and
+product-prover-pack's path map — name the one list instead.
+
+`templates/ROADMAP.template.md` retires to `attic/ROADMAP.template.md` under its manifest line. The
+row shape, the class and status vocabularies, the live-body law and the acceptance cell all carry
+over into `templates/PLAN.template.md` unchanged, and `docs/roadmap-format.md` stays their one home,
+so nothing a host reads about how a row is written has moved.
+
+**What does a host that already carries a separate queue file do?** Nothing. This is a change to what
+the pack teaches at onboarding from this point forward, and it forces no migration on a tree that
+already stands. Each adopted host runs its own version of the pack and decides its own timing, under
+the standing boundary that nothing outside a host's own session writes that host's repo (INV-10). A
+host running a separate queue is not asked to merge it, and a host that wants the one-list shape
+takes it as its own row through its own pipeline. Both shapes are readable by the pack's skills: the
+sentences repointed above name the one list, and a host whose queue lives under its own filename is
+already covered by the host-profile line that records it.

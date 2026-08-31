@@ -60,7 +60,7 @@ reported done and skipped.
 | `PRODUCT_SPEC.template.md` | `PRODUCT_SPEC.md` | always |
 | `ARCHITECTURE.template.md` | `ARCHITECTURE.md` | always |
 | `TEST_MATRIX.template.md` | `TEST_MATRIX.md` | always |
-| `ROADMAP.template.md` | `ROADMAP.md` | always |
+| `PLAN.template.md` | `PLAN.md` | always |
 | `JOURNAL.template.md` | `JOURNAL.md` | always |
 | `NEXT_STEPS.template.md` | `NEXT_STEPS.md` | always |
 | `test_scaffold.template.py` | `tests/test_scaffold.py` | always |

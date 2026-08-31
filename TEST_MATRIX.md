@@ -53,7 +53,7 @@ by `test_artifact_inventory` — the test parses this table, so adding an entry 
 | Spec template | `templates/PRODUCT_SPEC.template.md` | shipped text | `test_artifact_inventory` |
 | Architecture template | `templates/ARCHITECTURE.template.md` | shipped text | `test_artifact_inventory` |
 | Matrix template | `templates/TEST_MATRIX.template.md` | shipped text | `test_artifact_inventory` |
-| Roadmap template | `templates/ROADMAP.template.md` | shipped text | `test_artifact_inventory` |
+| Plan template | `templates/PLAN.template.md` | shipped text | `test_artifact_inventory` |
 | Agent card template | `templates/agent.template.md` | shipped text | `test_artifact_inventory` |
 | Journal template | `templates/JOURNAL.template.md` | shipped text | `test_artifact_inventory` |
 | Next-steps template | `templates/NEXT_STEPS.template.md` | shipped text | `test_artifact_inventory` |

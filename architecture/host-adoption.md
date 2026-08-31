@@ -9,11 +9,11 @@
 - INV-307 (the spoken setup entry. One skill description carries the sentences. The routing card resolves the pack's own tree and picks the walk. `adopt/START.md` is the founding walk. The description field is carried by build-pipeline as wiring; ownership stays here beside A-0 and E-21.)
 
 **pins** —
-- `adopt/ADOPT.md:47` (VCS gate first)
-- `adopt/ADOPT.md:199` (unbacked-surface verdict)
-- `adopt/ADOPT.md:210` (attic)
-- `adopt/ADOPT.md:289` (attach record)
-- `adopt/ADOPT.md:88` (B-3 — who am I working with, first step of orient)
+- `adopt/ADOPT.md:49` (VCS gate first)
+- `adopt/ADOPT.md:201` (unbacked-surface verdict)
+- `adopt/ADOPT.md:212` (attic)
+- `adopt/ADOPT.md:291` (attach record)
+- `adopt/ADOPT.md:90` (B-3 — who am I working with, first step of orient)
 - `adopt/START.md:1` (B-1 — the founding walk)
 - `skills/build-pipeline/references/project-setup.md:1` (INV-307 — the setup routing card)
 - `MIGRATION.md:1` (A-11 — the catch-up walk's operating guide)
@@ -28,7 +28,7 @@
 
 **owns** — E-3, E-5, INV-6, B-1, E-24, INV-48, E-26
 
-**pins** — `templates/TEST_MATRIX.template.md:52` (coverage validation), `templates/ROADMAP.template.md:1`, `templates/PRODUCT_SPEC.template.md:126` (index), `templates/PROBLEMS.template.md:1` (E-24 — the ledger's shape)
+**pins** — `templates/TEST_MATRIX.template.md:52` (coverage validation), `templates/PLAN.template.md:1`, `templates/PRODUCT_SPEC.template.md:126` (index), `templates/PROBLEMS.template.md:1` (E-24 — the ledger's shape)
 
 ### [node: package-docs]
 
