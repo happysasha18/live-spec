@@ -1,4 +1,5 @@
-"""One spec, written across a core and its parts (the parts map, SPEC INV-250, INV-258, INV-259).
+"""One spec, written across a core and its parts (the parts map, SPEC INV-250, INV-258, INV-259,
+INV-322, INV-323).
 
 The spec is ONE document. It may be STORED as a core file plus part files: the core carries the
 preamble, the glossary and a `## Parts map` table naming its parts in concatenation order, and each
@@ -6,11 +7,14 @@ part carries requirements only. `guardrails/specformat.py` is the single reader 
 gate, the index builder and the suite's own `conftest.read()` go through it — so a consumer never
 learns whether the spec is one file or thirty.
 
-The map is EMPTY today: the core is the whole spec, and these proofs hold the identity that makes the
-move safe — an empty map reads back the file's own bytes, and every consumer behaves as before. The
-fixtures below carry a populated map, so the aggregating behaviour is proven now rather than at the
-move: a core plus two parts parses, indexes and reads as the one-file document it was cut from, and a
-part left out of the map is caught rather than silently dropped (INV-259).
+The map is POPULATED today: `PRODUCT_SPEC.md` is the core and `spec/` holds its parts. The proofs
+below hold the identities that make the split safe. An empty map still reads back the file's own
+bytes, so a host that never split behaves as before. A core plus two parts parses, indexes and reads
+as the one-file document it was cut from. And three ways of losing a rule are each caught rather than
+passed over: a part dropped OUT of the map, whose codes the committed table then over-carries
+(INV-259); a part file that was never IN the map, which body and table agree about because neither
+has ever seen it (INV-322); and two parts opening one requirement number, which makes the generated
+table's own location name two places at once (INV-323).
 """
 import ast
 import glob
@@ -652,6 +656,148 @@ class TestAPartLeftOutIsCaught(unittest.TestCase):
         r = run(BUILDER, CORE_ABSENT)
         self.assertNotEqual(r.returncode, 0, r.stdout)
         self.assertIn("cannot read", r.stdout)
+
+
+def _tree_with_core_and_parts(tmp, part_bodies, named=None):
+    """A miniature core-plus-parts tree in `tmp`, shaped the way the real spec is shaped.
+
+    The core sits at the tree's root and the parts sit in `parts/` under it, because the map law
+    reaches the directories the map draws parts FROM and never the core's own — a core stands beside
+    a repository's other documents, and those belong to nobody's map. `part_bodies` is
+    `{filename: text}` written into `parts/`; `named` is the subset the map's table names, defaulting
+    to all of them. Returns the core's path.
+    """
+    parts_dir = os.path.join(tmp, "parts")
+    os.makedirs(parts_dir, exist_ok=True)
+    for name, body in part_bodies.items():
+        with open(os.path.join(parts_dir, name), "w", encoding="utf-8") as f:
+            f.write(body)
+    rows = "\n".join("| `parts/%s` | R? | a part |" % n
+                     for n in (part_bodies if named is None else named))
+    core = os.path.join(tmp, "core.md")
+    with open(core, "w", encoding="utf-8") as f:
+        f.write("# Mini spec\n\nThis is a preamble. Bracket codes like `INV-1` trail each "
+                "criterion.\n\n## Parts map\n\n| Part | Requirements | Topic |\n|---|---|---|\n"
+                + rows + "\n\n## Glossary\n\n- **widget** — one unit the product shows.\n")
+    return core
+
+
+def _one_requirement(number, code):
+    return ("## Requirement %d: A widget shows on its panel\n\n"
+            "**Context:** The product shows widgets. A person opens a panel. The widget appears.\n\n"
+            "**User Story:** As a person opening a panel, I want its widget to show, so that I see "
+            "what the panel holds.\n\n"
+            "### Acceptance Criteria\n\n**Case: the widget shows**\n\n"
+            "1. *when* a panel opens, the system *shall* show its widget. [%s]\n" % (number, code))
+
+
+class TestTheMapNamesEveryPart(unittest.TestCase):
+    """Risk 2 of the split, the one the orphan-code fault cannot see: a part file that was never
+    added to the map at all. Its codes are in neither the assembled body nor the committed table, so
+    body and table agree with each other while the document is short of what the tree holds
+    (SPEC INV-322)."""
+
+    def test_the_live_spec_has_no_part_the_map_names_nowhere(self):
+        self.assertEqual(sf.unnamed_parts(os.path.join(ROOT, SPEC)), [],
+                         "a file sits among the spec's parts that the parts map names nowhere")
+
+    def test_a_core_with_no_map_owns_no_parts_directory(self):
+        # An empty map means this core IS the whole document, so there is no parts directory to
+        # police and no file in the repository beside it is anybody's orphan.
+        self.assertEqual(sf.unnamed_parts(MINI), [])
+
+    def test_a_file_dropped_beside_the_parts_is_named(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            core = _tree_with_core_and_parts(
+                tmp,
+                {"a.md": _one_requirement(1, "INV-1"), "stowaway.md": _one_requirement(9, "INV-9")},
+                named=["a.md"])
+            self.assertEqual(sf.unnamed_parts(core), [os.path.join("parts", "stowaway.md")])
+
+    def test_a_part_the_map_never_named_reds_the_index_gate(self):
+        # The red proof for the gate itself, run as a subprocess the way the push runs it.
+        with tempfile.TemporaryDirectory() as tmp:
+            core = _tree_with_core_and_parts(
+                tmp,
+                {"a.md": _one_requirement(1, "INV-1"), "stowaway.md": _one_requirement(9, "INV-9")},
+                named=["a.md"])
+            index = os.path.join(tmp, "index.md")
+            with open(index, "w", encoding="utf-8") as f:
+                f.write(run(BUILDER, core).stdout)
+            r = run(INDEX_GATE, core, index)
+            self.assertNotEqual(r.returncode, 0,
+                                "a part the map never named passed unnoticed:\n%s" % r.stdout)
+            self.assertIn("INV-322", r.stdout)
+            self.assertIn("stowaway.md", r.stdout,
+                          "the gate does not name the file nothing reads")
+
+    def test_the_same_tree_with_every_part_named_passes(self):
+        # The never-side's twin: the fault fires on the orphan and on nothing else.
+        with tempfile.TemporaryDirectory() as tmp:
+            core = _tree_with_core_and_parts(
+                tmp,
+                {"a.md": _one_requirement(1, "INV-1"), "b.md": _one_requirement(2, "INV-2")})
+            index = os.path.join(tmp, "index.md")
+            with open(index, "w", encoding="utf-8") as f:
+                f.write(run(BUILDER, core).stdout)
+            r = run(INDEX_GATE, core, index)
+            self.assertEqual(r.returncode, 0, "a whole document red:\n%s" % r.stdout)
+
+    def test_the_sibling_reference_gates_carry_the_same_law(self):
+        # The map is the format family's, so the fault is the family's: the matrix's reference gate
+        # and the architecture's read the same helper rather than each growing its own.
+        for name in ("check-matrix-reference.py", "check-architecture-reference.py"):
+            with open(os.path.join(ROOT, "guardrails", name), encoding="utf-8") as f:
+                body = f.read()
+            self.assertIn("sf.unnamed_parts(doc_paths[0])", body,
+                          "%s does not read the family's map law" % name)
+            self.assertIn("INV-322", body, "%s names no anchor for the map law" % name)
+
+
+class TestOneNumberNamesOneRequirement(unittest.TestCase):
+    """A requirement number is how a reader, an anchor and the generated table all name one place.
+    Two parts opening the same number make the table's `R4.1` point at two criteria (SPEC INV-323)."""
+
+    def test_the_live_spec_claims_each_number_once(self):
+        _paths, text = sf.read_document([os.path.join(ROOT, SPEC)])
+        self.assertEqual(sf.repeated_requirement_numbers(sf.parse(text)), {},
+                         "two requirements in the spec open under one number")
+
+    def test_two_parts_under_one_number_are_named_with_their_lines(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            core = _tree_with_core_and_parts(
+                tmp,
+                {"a.md": _one_requirement(4, "INV-1"), "b.md": _one_requirement(4, "INV-2")})
+            _paths, text = sf.read_document([core])
+            repeated = sf.repeated_requirement_numbers(sf.parse(text))
+            self.assertEqual(sorted(repeated), [4])
+            self.assertEqual(len(repeated[4]), 2, "both claimants are not reported")
+
+    def test_two_parts_under_one_number_red_the_index_gate(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            core = _tree_with_core_and_parts(
+                tmp,
+                {"a.md": _one_requirement(4, "INV-1"), "b.md": _one_requirement(4, "INV-2")})
+            index = os.path.join(tmp, "index.md")
+            with open(index, "w", encoding="utf-8") as f:
+                f.write(run(BUILDER, core).stdout)
+            r = run(INDEX_GATE, core, index)
+            self.assertNotEqual(r.returncode, 0,
+                                "two parts under one number passed unnoticed:\n%s" % r.stdout)
+            self.assertIn("INV-323", r.stdout)
+            self.assertIn("Requirement 4", r.stdout,
+                          "the gate does not name the number claimed twice")
+
+    def test_distinct_numbers_in_the_same_tree_pass(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            core = _tree_with_core_and_parts(
+                tmp,
+                {"a.md": _one_requirement(4, "INV-1"), "b.md": _one_requirement(5, "INV-2")})
+            index = os.path.join(tmp, "index.md")
+            with open(index, "w", encoding="utf-8") as f:
+                f.write(run(BUILDER, core).stdout)
+            r = run(INDEX_GATE, core, index)
+            self.assertEqual(r.returncode, 0, "a well-numbered document red:\n%s" % r.stdout)
 
 
 class TestFreshnessSeesTheParts(unittest.TestCase):

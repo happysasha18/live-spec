@@ -1,4 +1,4 @@
-## Requirement 169: Bootstrapping a fresh host  [feature: F-bootstrap]
+## Requirement 169: Bootstrapping a fresh host  [feature: F-attach]
 
 **Context:** A fresh host starts from the templates the pack ships. The system copies the document set and the suite scaffold, then the first request enters the queue and runs through the ordinary pipeline. The scaffold's green is the starting floor the first delivery builds on.
 

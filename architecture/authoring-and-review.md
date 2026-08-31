@@ -6,6 +6,7 @@
 - E-4 · C-1 · T-13 · INV-18 · INV-29 · INV-50 · T-14 · INV-19 · INV-20 · INV-21 · INV-101 · INV-118 · INV-126 · INV-127 · INV-138 · INV-226 · INV-244
 - INV-248 (the lens carried by product-prover)
 - INV-150 · INV-167 · INV-168 · E-33 · INV-185 · INV-186 · INV-187 · INV-215
+- INV-321 (a criterion names what makes it happen: a command, a session following an instruction, a surface drawn on request, or nothing yet. It is a law of authoring, so it sits with the author's node; the `[target]` marker it leans on is this node's already)
 
 **pins** —
 - `skills/spec-author/references/the-spine.md:1` (spine)

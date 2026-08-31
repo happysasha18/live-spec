@@ -43,7 +43,7 @@
 
 ### [node: onboarding-card]
 
-**responsibility** — the settings card. A build-time renderer parses the base's package-defaults table and the profile files into the card page, per the frozen norm. The card is shown at the end of founding or adoption, and on the standing "what can I customize?" question (F-onboarding).
+**responsibility** — the settings card. A build-time renderer parses the base's package-defaults table and the profile files into the card page, per the frozen norm. The card is shown at the end of founding or adoption, and on the standing "what can I customize?" question (F-attach).
 
 **owns** — INV-87, INV-88
 

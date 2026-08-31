@@ -18,15 +18,19 @@ class TestCatchupWalk(unittest.TestCase):
 
     def test_catchup_walk(self):
         # RE-PINNED pass-2 (see repin log): the pass-2 restore moved every pilot-unit feature
-        # tag (F-bootstrap, F-adoption, F-catchup, F-onboarding, F-pair) onto its own-line
-        # "[feature: F-...]" heading tag instead of citing it inline in the User Story — the
-        # convention is applied consistently across all five, not just this one. F-catchup now
-        # sits on Requirement 180's H2 heading; A-11 stays inline in the User Story/criteria.
+        # tag onto its own-line "[feature: F-...]" heading tag instead of citing it inline in the
+        # User Story — the convention is applied consistently across all five, not just this one.
+        # RE-PINNED again by plan-12: those five headings had carried five names for one thing a
+        # person is given — the pack attached to a project, whether the project is empty, already
+        # running, already attached and moving to a newer pack, or an engine and its instance, and
+        # whether or not the settings card closed the walk. They converged on F-attach. This walk
+        # is one entry into it, and the requirement below is still its own home; A-11 stays inline
+        # in the User Story and the criteria.
         spec = read_flat("PRODUCT_SPEC.md")
         # the spec side: the scenario and its anchors exist
         self.assertIn(
             "## Requirement 180: The catch-up sequence brings an adopted host onto the current pack"
-            " [feature: F-catchup]",
+            " [feature: F-attach]",
             spec,
         )
         for anchor in ("[A-11]", "[INV-89]", "[INV-90]", "[INV-91]"):

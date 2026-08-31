@@ -2955,11 +2955,38 @@ class TestClockDiscipline(unittest.TestCase):
             "future-dated stamps — the invented-time family (INV-24): %s" % offenders)
 
 
-def _feature_coverage_gaps(tags, rows, real_nodes, real_test_defs):
+def _promised_tagged_features(spec_text):
+    """{F-id: requirement title} for every tagged requirement that also carries a `[target]` marker.
+
+    A feature name says the product gives a person this thing. A `[target]` marker says the thing is
+    specified and not built. A requirement carrying both tells a reader one and shows the other, and
+    the coverage table then has to name an implementer node and a test for a surface that does not
+    exist — which is how a promised row came to borrow a neighbour's test and read as covered
+    (SPEC INV-132, INV-73). The marker stays; the name waits for the build.
+
+    The scan walks requirement by requirement so a marker deep inside one requirement is read against
+    that requirement's own heading rather than against the file's.
+    """
+    heads = list(re.finditer(r"^## Requirement\s+(\d+)\s*:\s*(.*)$", spec_text, re.M))
+    promised = {}
+    for i, m in enumerate(heads):
+        end = heads[i + 1].start() if i + 1 < len(heads) else len(spec_text)
+        block = spec_text[m.start():end]
+        tag = re.search(r"\[feature:\s*(F-[a-z-]+)\]", m.group(0))
+        if tag and "[target]" in block:
+            promised[tag.group(1)] = "Requirement %s: %s" % (m.group(1), m.group(2).strip())
+    return promised
+
+
+def _feature_coverage_gaps(tags, rows, real_nodes, real_test_defs, promised=None):
     """Pure two-way checker for the feature-coverage trace (SPEC INV-73). tags = {F-id: heading} tagged
     in the spec; rows = coverage table rows [{feature, nodes, tests}]; real_nodes = node-name stems;
-    real_test_defs = existing test fn names. Returns a list of gap strings — empty means clean."""
+    real_test_defs = existing test fn names; promised = {F-id: heading} for tagged requirements that
+    also carry a `[target]` marker. Returns a list of gap strings — empty means clean."""
     gaps = []
+    for fid in sorted(promised or {}):
+        gaps.append("feature name on a promised scenario: %s carries a [target] marker (%s)"
+                    % (fid, (promised or {})[fid]))
     tag_ids = set(tags)
     row_ids = [r["feature"] for r in rows]
     for fid in sorted(tag_ids - set(row_ids)):
@@ -2995,6 +3022,7 @@ class TestFeatureCoverage(unittest.TestCase):
     # each carrying its `[feature: F-x]` tag (the wave's F6 pass tagged all sixteen features). Each
     # value is a distinctive fragment of one heading that feature owns today.
     SCENARIOS = {
+        "F-first-read": "What a person just said is read before anything acts on it",
         "F-wish": "A wish is captured as a queue row that is never lost",
         "F-prototype": "A prototype is a fenced sketch that carries its label",
         "F-publish": "A publish owes the reader what the artifact's kind owes",
@@ -3002,8 +3030,7 @@ class TestFeatureCoverage(unittest.TestCase):
         "F-feature-map": "Reading the whole product map on demand",
         "F-bug": "A bug preempts the lane, and rolling features park",
         "F-problem-ledger": "The problem ledger holds the workshop's own noise",
-        "F-bootstrap": "Bootstrapping a fresh host",
-        "F-adoption": "Adoption runs as an ordered set of phases",
+        "F-attach": "Bootstrapping a fresh host",
     }
 
     def feature_tags(self):
@@ -3053,8 +3080,46 @@ class TestFeatureCoverage(unittest.TestCase):
 
     def test_feature_coverage_two_way(self):
         gaps = _feature_coverage_gaps(self.feature_tags(), self.coverage_rows(),
-                                      self.real_nodes(), self.real_test_defs())
+                                      self.real_nodes(), self.real_test_defs(),
+                                      _promised_tagged_features(read("PRODUCT_SPEC.md")))
         self.assertEqual(gaps, [], "feature-coverage trace broke: %s" % gaps)
+
+    def test_no_feature_name_stands_on_a_promised_scenario(self):
+        # The roster names what the product gives a person today (SPEC INV-132). A scenario still
+        # promised keeps its [target] marker and waits for its name.
+        promised = _promised_tagged_features(read("PRODUCT_SPEC.md"))
+        self.assertEqual(promised, {},
+                         "a feature name stands on a scenario the spec itself marks as promised: %s"
+                         % promised)
+
+    def test_a_tagged_scenario_carrying_the_target_marker_is_named(self):
+        # Red proof, on the reader and on the checker both. The reader must find the marker anywhere
+        # in the requirement's own body, and must not read a neighbour's marker as this one's.
+        spec = ("## Requirement 1: A thing the product does  [feature: F-real]\n\n"
+                "1. the system *shall* do it. [INV-1]\n\n"
+                "## Requirement 2: A thing still promised  [feature: F-promised]\n"
+                "   [target]\n\n"
+                "1. the system *shall* do it one day. [INV-2]\n\n"
+                "## Requirement 3: Machinery behind it\n\n"
+                "1. the system *shall* hold it. [INV-3]\n")
+        promised = _promised_tagged_features(spec)
+        self.assertEqual(sorted(promised), ["F-promised"],
+                         "the reader did not name exactly the promised tagged scenario: %s"
+                         % promised)
+        gaps = _feature_coverage_gaps({"F-promised": "x"},
+                                      [{"feature": "F-promised", "nodes": ["build-pipeline"],
+                                        "tests": ["test_feature_coverage_two_way"]}],
+                                      self.real_nodes(), self.real_test_defs(), promised)
+        self.assertTrue(any("promised scenario" in g and "F-promised" in g for g in gaps),
+                        "a promised scenario passed the coverage check on a borrowed test: %s"
+                        % gaps)
+        self.assertEqual(
+            _feature_coverage_gaps({"F-real": "x"},
+                                   [{"feature": "F-real", "nodes": ["build-pipeline"],
+                                     "tests": ["test_feature_coverage_two_way"]}],
+                                   self.real_nodes(), self.real_test_defs(),
+                                   {}), [],
+            "the new fault reds a scenario that carries no marker")
 
     def test_spec_and_spec_author_carry_the_format(self):
         spec = re.sub(r"\s+", " ", read("PRODUCT_SPEC.md"))
@@ -3522,12 +3587,15 @@ class TestPairLaw(unittest.TestCase):
         spec = re.sub(r"\s+", " ", read("PRODUCT_SPEC.md"))
         self.assertIn("| INV-86 |", _index_flat(), "Formal index lost INV-86")
         self.assertIn("no third document *shall* span the pair", spec)
-        # RE-PINNED pass-2 (see repin log): pass-2 moved F-pair back onto its own-line H2 heading
-        # tag ("## Requirement 187: ... [feature: F-pair]") rather than an inline User Story
-        # bracket — the same pattern the pass-2 restore applied to every pilot-unit feature tag
-        # (F-catchup and siblings, see test_catchup_walk.py).
+        # RE-PINNED pass-2 (see repin log): pass-2 moved the tag back onto its own-line H2 heading
+        # ("## Requirement 187: ... [feature: F-...]") rather than an inline User Story bracket —
+        # the same pattern the pass-2 restore applied to every pilot-unit feature tag
+        # (see test_catchup_walk.py). RE-PINNED again by plan-12: the pair is one of five entry
+        # conditions into attaching the pack to a project, and the five carried five names for the
+        # one thing a person is given, so they converged on F-attach. The heading is what is pinned
+        # here; which of the five entries a reader arrived through is the requirement's own subject.
         self.assertIn(
-            "Requirement 187: Running an engine and its instance as a pair [feature: F-pair]",
+            "Requirement 187: Running an engine and its instance as a pair [feature: F-attach]",
             spec,
         )
         self.assertIn("wishes and lessons cross the seam", spec)

@@ -223,12 +223,12 @@
 **Case: the trace maps each unit both ways**
 
 1. The system *shall* map each declared unit to the node that implements it and a test that exercises it in one coverage table in the architecture. [E-29]
-2. *when* the feature-coverage check runs, the system *shall* fail the push *if* a tagged unit resolves to no real implementer node or no real test, and *shall* fail it *if* a promised unit carries no tag. [INV-73]
+2. *when* the feature-coverage check runs, the system *shall* fail the push *if* a tagged unit resolves to no real implementer node or no real test, and *shall* fail it *if* a tagged unit carries a `[target]` marker. [INV-73]
 
 **Case: every heading declares its status**
 
-3. The system *shall* have a person-facing scenario carry its feature tag on the requirement heading, and *shall* leave a machinery or reference requirement's heading untagged. [INV-132]
-4. *when* a promised scenario's requirement heading carries no feature tag, the system *shall* red it in the feature-coverage trace, a promised leg not yet built taking a `[target]` marker on its own line. [INV-132]
+3. The system *shall* have a person-facing scenario the product performs today carry its feature tag on the requirement heading, and *shall* leave a machinery requirement's heading and a promised scenario's heading untagged. [INV-132]
+4. *while* a scenario stands promised, the system *shall* keep it out of the coverage table and *shall* mark it with a `[target]` marker on its own line, and *shall* give it its feature tag in the same change that lands its build. [INV-132]
 
 ---
 

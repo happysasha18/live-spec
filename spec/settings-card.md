@@ -1,4 +1,4 @@
-## Requirement 186: The settings card shows at setup and answers the standing question  [feature: F-onboarding]
+## Requirement 186: The settings card shows at setup and answers the standing question  [feature: F-attach]
 
 **Context:** At the end of founding, and again at the end of adoption's orient, the system renders the settings card. The human reaches it twice — here at setup without asking, and any later time by asking. The card shows what the pack has set up and what is the human's to change, and asks nothing.
 

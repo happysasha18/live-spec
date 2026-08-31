@@ -12,6 +12,20 @@ Each requirement has three parts, in this order:
 2. **User Story** — one sentence: as a person in a named position, I want one thing, so that one stated benefit follows.
 3. **Acceptance Criteria** — the behaviour, grouped into named cases. A case is one bold line naming a situation, followed by two to six numbered criteria. Every criterion sits in exactly one case, and the numbering runs continuously through the requirement.
 
+## One document, written across a core and its parts
+
+A spec outgrows one file long before it stops growing. It then becomes a **core** file and a set of **part** files. The core carries the preamble, the glossary, and a `## Parts map` table; each part carries requirements and nothing else. The map is the one home of the parts and their order — no other file lists them — and every reader assembles the document as the core followed by the parts the map names, in the order it names them. A core whose map is empty is the whole document, so a project that never split reads exactly as it did before.
+
+The architecture and the test matrix are written in this format and split the same way, so the rules below are the family's rather than the spec's alone.
+
+**The map names every part.** A `.md` file sitting among the named parts that no row of the map names is read by nobody: nothing assembles it, its requirements stand outside every count and every check, and the document is quietly shorter than the tree. Nothing else catches this. A gate comparing the assembled body against the generated code-to-location table sees a file neither of them has ever opened, so the two agree with each other about a document with a hole in it. `guardrails/check-index-generated.py` reds and names the file; the matrix's and the architecture's own reference gates carry the same check.
+
+**A part joins the map in the change that creates it.** The row carries the part's path, the requirements it holds, and its topic. Splitting an existing part means moving whole requirements between files and editing the two rows; a requirement's number, its criteria and its anchors travel unchanged, because which file the bytes sit in is not a fact about the document.
+
+**One requirement number names one requirement.** A number is how a reader, a criterion's anchor, and the generated table all name one place, and the table writes its locations as `R<requirement>.<criterion>`. Two parts opening `## Requirement 4:` make one location name two different criteria, and every citation of that number stops resolving. The same gate reds, naming the number and the lines that opened it.
+
+**Who opens a change.** A change to the spec is opened by work a person accepted, the same door every other change comes through. A delegated worker writes only the part its brief names, so two workers cannot write one document at once by writing two files.
+
 ## The criterion form
 
 One criterion carries one trigger and one response. The keywords *when*, *while*, *if*, *then*, and *shall* are set in lowercase italics; no word in the document is written in all capitals. The code anchor — `[INV-x]`, `[T-x]`, `[E-x]`, `[M-x]` — trails at the line's end and points to the rule's home in the project spec. A reader can ignore the anchors; a maintainer follows them.

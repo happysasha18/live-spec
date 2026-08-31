@@ -25,7 +25,7 @@
 
 ### [node: work-board] [target]
 
-**responsibility** — the standing page that shows the whole queue as columns of cards, the work in hand among them. It carries four parts. The page itself. The one source file in the host's tree, holding each task's statement, its validation record, and the craft set. The generator that renders that file with the queue into the page. And the statement-validation check a task passes before it enters work (F-work-board, ROADMAP row 166).
+**responsibility** — the standing page that shows the whole queue as columns of cards, the work in hand among them. It carries four parts. The page itself. The one source file in the host's tree, holding each task's statement, its validation record, and the craft set. The generator that renders that file with the queue into the page. And the statement-validation check a task passes before it enters work (Requirement 309, ROADMAP row 166; the surface is specified and unbuilt, so it carries no feature name yet).
 
 **owns** — INV-308, INV-309, INV-310, INV-311, INV-312, INV-313
 
