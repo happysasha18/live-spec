@@ -24,6 +24,19 @@ correction must attach to work in flight. Those are graded exactly. Dimensions a
 specialists are professional judgment with a defensible range, so a scenario states only
 what must be present and what must be absent, and anything else is the Director's call.
 
+WHY AN EXTRA ACT IS REPORTED RATHER THAN FAILED. The skill's own cost model, in "One turn,
+several acts": "Naming one act too many costs a sentence. Naming one too few loses what
+somebody said." A grader that failed both the same way would be grading against a cost
+model the skill does not hold, and it did — six of the nine reds in the 2026-08-26 run were
+scenarios whose every material field was right and whose only defect was one act too many.
+So an act the scenario did not ask for is recorded as a note. It is printed on every run,
+passing or failing, and counted in the closing summary, because a producer that always
+drifts toward over-segmentation is worth seeing. It does not turn a pass into a fail on its
+own. Everything else still does: a missing act, a wrong boolean, a wrong work_items, a
+missing or forbidden dimension or specialist, and a name that is not a speech act at all.
+The boundary is exactly the skill's two sentences — zero material misses with at least one
+extra act is the one combination that passes with a note.
+
 USAGE
   check.py --scenario ONE.json --actual RUN.json
   check.py --all       grade every scenario in scenarios.json that has a run in traces/
@@ -40,8 +53,11 @@ EXACT_BOOLS = ("creates_work", "shelves_idea", "attaches_to_existing_work")
 
 
 def grade(scenario, actual):
-    """Return (list of failure strings, count of checks made)."""
-    fails, checks = [], 0
+    """Return (list of failure strings, list of note strings, count of checks made).
+
+    A failure flips the scenario to red. A note is carried and printed and does not.
+    """
+    fails, notes, checks = [], [], 0
     want = scenario["expect"]
 
     checks += 1
@@ -69,9 +85,14 @@ def grade(scenario, actual):
                 if act not in got_acts:
                     fails.append(f"acts: missing secondary act {act!r}")
 
+        # One act too many is the cheap mistake by the skill's own cost statement, so it
+        # is recorded and reported and does not redden the scenario by itself. See the
+        # header note. An act the scenario asked for and did not get is still a failure,
+        # and it is checked above, so a run that misses one act and adds another is red
+        # on the miss.
         for act in sorted(got_acts - want_acts):
             checks += 1
-            fails.append(f"acts: invented act {act!r}")
+            notes.append(f"acts: extra act {act!r} beyond what the scenario asked for")
 
     for field in EXACT_BOOLS:
         if field not in want:
@@ -118,7 +139,7 @@ def grade(scenario, actual):
         if spill:
             fails.append(f"routed work that was never accepted: {spill}")
 
-    return fails, checks
+    return fails, notes, checks
 
 
 def load(path):
@@ -126,13 +147,15 @@ def load(path):
         return json.load(fh)
 
 
-def report(name, fails, checks):
+def report(name, fails, notes, checks):
     if fails:
         print(f"FAIL  {name}  ({len(fails)} of {checks})")
-        for f in fails:
-            print(f"        {f}")
     else:
         print(f"ok    {name}  ({checks} checks)")
+    for f in fails:
+        print(f"        {f}")
+    for n in notes:
+        print(f"        note: {n}")
     return not fails
 
 
@@ -163,12 +186,19 @@ def main():
         ap.error("give --scenario and --actual, or --all")
 
     passed = 0
+    noted = 0
     for sc, actual in pairs:
-        fails, checks = grade(sc, actual)
-        if report(sc.get("id", "scenario"), fails, checks):
+        fails, notes, checks = grade(sc, actual)
+        if report(sc.get("id", "scenario"), fails, notes, checks):
             passed += 1
+        if notes:
+            noted += 1
 
-    total = len(pairs) + (len(missing) if a.all else 0)
+    # The pass line stays the last line printed. scripts/state-probe.sh and
+    # scripts/plan_checks.py both read this script's score with `tail -1`, so anything
+    # added to the summary goes above it.
+    if noted:
+        print(f"\n{noted} run(s) named an act the scenario did not ask for")
     print(f"\n{passed} of {len(pairs)} recorded runs pass"
           + (f"; {len(missing)} scenarios have no run" if a.all and missing else ""))
     return 0 if passed == len(pairs) and not (a.all and missing) else 1

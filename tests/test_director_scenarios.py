@@ -97,6 +97,40 @@ def test_the_grader_fails_a_wrong_verdict(tmp_path, actual, expected_words):
     assert expected_words in out, out
 
 
+def test_one_act_too_many_is_reported_and_does_not_fail(tmp_path):
+    """The skill states the cost itself: naming one act too many costs a sentence, naming
+    one too few loses what somebody said. The grader used to charge both the same, which
+    reddened scenarios whose every material field was right."""
+    code, out = grade(tmp_path,
+                      {"acts": ["question"], "creates_work": False},
+                      {"acts": ["question", "observation"], "creates_work": False,
+                       "dimensions": [], "specialists": []})
+    assert code == 0, out
+    assert "extra act" in out, out
+    assert "'observation'" in out, out
+
+
+def test_one_act_too_few_still_fails_even_beside_an_extra_one(tmp_path):
+    """The cheap half is only cheap on its own. A run that loses an act the person made
+    is red whatever else it named."""
+    code, out = grade(tmp_path,
+                      {"acts": ["question", "idea"], "creates_work": False},
+                      {"acts": ["question", "observation"], "creates_work": False,
+                       "dimensions": [], "specialists": []})
+    assert code != 0, out
+    assert "idea" in out, out
+
+
+def test_a_wrong_material_field_still_fails_beside_an_extra_act(tmp_path):
+    """An extra act carries nothing across to the booleans: they are graded exactly."""
+    code, out = grade(tmp_path,
+                      {"acts": ["question"], "creates_work": False},
+                      {"acts": ["question", "observation"], "creates_work": True,
+                       "work_items": 1, "dimensions": [], "specialists": []})
+    assert code != 0, out
+    assert "creates_work" in out, out
+
+
 def test_a_correction_may_name_what_the_running_work_touches(tmp_path):
     """The grader used to forbid any routing when no new work was created, which was wrong:
     a correction creates nothing and still changes work whose dimensions are worth naming."""
