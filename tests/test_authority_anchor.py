@@ -13,11 +13,14 @@ Two machines hold the rule:
     believes he made, so he strikes what he never said (a struck line retracted, kept with its note);
   * the gate `guardrails/check-authority-anchor.py` reads the decision set: in a declared
     `DECISION-RECORD` surface every live on-record entry carries its date, a struck entry skipped, so
-    an unanchored one reds. Its standing scan is the decision-record surface (false-positive-free by
-    construction); the spec, base rulebook, and roadmap take the one-time first sweep.
+    an unanchored one reds. Its standing scan hard-blocks two things — every declared decision record,
+    per entry, and every other tracked text surface in the tree for a decision credited to a person the
+    roster names with no date. The person-agnostic role forms ("his word", "the owner's ruling") stay
+    advisory on the churny surfaces, since they are the pack's own rule language on nearly every page.
 
 The fabricated lane-ranking is the corpus's first fixture.
 """
+import json
 import os
 import subprocess
 
@@ -185,6 +188,43 @@ def test_gate_standing_scan_hard_blocks_records_and_reaches_risky_surfaces():
     assert "RISKY_SURFACES" in src, "the gate must declare a risky-surface set it reaches"
     # JOURNAL stays spared (pure history); it is not a live attribution surface
     assert "JOURNAL.md" in src
+
+
+def test_a_named_attribution_reds_on_any_surface_and_the_tree_as_it_stands_passes(tmp_path):
+    """Both directions of q-497's first leg, in one test.
+
+    RED: a sentence crediting a person the roster names with an instruction no date stands behind reds
+    in push mode wherever it is written — here on an ordinary spec page, which carries no
+    `DECISION-RECORD` marker and is not the read-back page. Before this arm the same plant passed
+    silently: the standing hard block reached declared decision records only, so the two surfaces it
+    reached in this tree were the read-back page and its template, and a fabrication written anywhere
+    else — which is where the founding one was written — never reached a red.
+
+    GREEN: the same sentence naming its exchange passes, and the tree as it stands passes, so the arm
+    reds a fabrication rather than the pack's own pages."""
+    assert _gate().returncode == 0, "the tree as it stands must pass push mode"
+
+    root = str(tmp_path)
+    os.mkdir(os.path.join(root, "spec"))
+    plant = os.path.join(root, "spec", "queue-order.md")
+    person = json.loads(read("guardrails/authority-anchor.json"))["person_names"][0]
+
+    def write(sentence):
+        with open(plant, "w", encoding="utf-8") as f:
+            f.write("# Queue order\n\n%s\n" % sentence)
+        subprocess.run(["git", "-C", root, "add", "-A"], check=True,
+                       capture_output=True)
+
+    subprocess.run(["git", "init", "-q", root], check=True, capture_output=True)
+
+    write("%s asked for the release lane to run before the communication lane." % person)
+    r = _gate("--root", root)
+    assert r.returncode == 1, "a named attribution with no date must red on an ordinary surface\n" + r.stdout
+    assert "spec/queue-order.md" in r.stdout, r.stdout
+
+    write("%s 2026-07-03 asked for the release lane to run before the communication lane." % person)
+    r = _gate("--root", root)
+    assert r.returncode == 0, "the same attribution naming its exchange must pass\n" + r.stdout
 
 
 def test_push_mode_reports_risky_surface_candidates():

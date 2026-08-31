@@ -20,7 +20,7 @@ was caught (he read the resume file and recognised nothing). This gate exists to
 attribution from ever reaching that surface unnoticed, and to reach the churny surfaces where an
 attribution first gets written. It does not stand in for the read-back.
 
-THE THREE ACTS the gate serves:
+THE FOUR ACTS the gate serves:
 
   * The DECISION-SET RECORD (the enforced, push-wired HARD block). A file that declares itself a
     decision record with a `DECISION-RECORD` marker line (the touchpoint-kind gate's self-declaration
@@ -30,7 +30,19 @@ THE THREE ACTS the gate serves:
     since the person has already reached in and struck it. A bullet, a wrapped multi-line entry, or a
     prose paragraph carrying an authority-claim all count as entries here. This surface is free of the
     rule-language noise below, so the anchor rule is unambiguous and false-positive-free — which is why
-    it, and it alone, is the standing gate's HARD block.
+    the per-entry rule is applied there and nowhere else.
+  * The NAMED ATTRIBUTION, TREE-WIDE (the second enforced, push-wired HARD block). A decision record is
+    not the only place a session writes something down as the person's word — the founding fabrication
+    was written in the resume file. So the standing scan also reaches EVERY tracked text surface the
+    tree carries, and reds a sentence that credits a person the config ROSTER NAMES with a decision,
+    word, ruling or instruction that names no date. Naming the person is what makes this arm
+    deterministic where the role forms below are not: "<person> asked for X" is an attribution in any
+    context, while "his word settles it" is the pack's own rule language on nearly every page. Measured
+    over this tree 2026-08-31, the roster-named shape stands on exactly two lines outside the spared
+    directories, both inside dated entries on the decision record, and the role forms stand on
+    twenty-four — which is why the reach splits the way it does. A DECISION-RECORD surface is left to
+    the stricter per-entry rule above, and the spared directories below (history, archives, fixtures)
+    stay spared.
   * The RISKY-SURFACE FIRST PASS (push-wired, ADVISORY). The founding fabrication was NOT written on a
     decision record — it was written in the resume file and travelled from there into a plan and a chat
     claim. So the standing scan also REACHES the churny surfaces where an attribution first gets
@@ -65,14 +77,16 @@ THE ANCHOR. A claim passes when its sentence carries a REAL calendar date token 
 an existing day — 2026-13-45 does not parse and does not satisfy the anchor). A bare time (~15:37)
 alone is not enough on a decision record — the exchange's WHEN is a day; on the risky-surface first
 pass, where the day is fixed by the file's own dated context, a same-day time counts as a pointer a
-reader can follow. The profile's own style is the target shape: "<person> 2026-07-03, standing" /
+reader can follow, and on the tree-wide named scan, where an arbitrary surface fixes no day, it does
+not. The profile's own style is the target shape: "<person> 2026-07-03, standing" /
 "<person> 2026-07-14, on the passivity finding: ...". The person names live in the config data, never in
 this code, so the detector names no person.
 
 Usage:
   check-authority-anchor.py                 push mode: HARD-block scan of every DECISION-RECORD
-                                            surface, plus an ADVISORY report over the risky
-                                            attribution surfaces (resume file, roadmap).
+                                            surface and of every other tracked text surface for a
+                                            roster-named attribution, plus an ADVISORY report over
+                                            the risky attribution surfaces (resume file, plan).
   check-authority-anchor.py [--config F] FILE ...
                                             sweep/fixture mode: report each file's unanchored
                                             authority claims (a DECISION-RECORD file uses the strict
@@ -199,6 +213,29 @@ def compile_claim(cfg, risky=False):
     return re.compile("(?:%s)" % "|".join(pats), re.IGNORECASE)
 
 
+def compile_named(cfg):
+    """The matcher for the TREE-WIDE hard arm: an authority claim whose possessor or subject is a
+    person the config roster NAMES. It is the same three shapes as the wide matcher, with the
+    person-agnostic role forms ("his", "the owner's", "he decided") left out — those are the pack's
+    own rule language on nearly every page, and only meaning tells them apart from a fabrication. A
+    roster name carries no such ambiguity, so it is the shape the gate can hold as a hard block on any
+    surface. Returns None where the host has declared no roster, so the arm stands down by name."""
+    names = cfg.get("person_names") or []
+    nouns = cfg.get("authority_nouns") or []
+    verbs = cfg.get("authority_verbs") or []
+    if not names or not (nouns or verbs):
+        return None
+    name_alt = "|".join(re.escape(n) for n in names)
+    pats = [r"\bper\s+(?:%s)\b" % name_alt]
+    if nouns:
+        pats.append(r"\b(?:%s)'s\s+(?:\S+\s+){0,2}(?:%s)\b"
+                    % (name_alt, "|".join(re.escape(n) for n in nouns)))
+    if verbs:
+        pats.append(r"\b(?:%s)\s+(?:%s)\b"
+                    % (name_alt, "|".join(re.escape(v) for v in verbs)))
+    return re.compile("(?:%s)" % "|".join(pats), re.IGNORECASE)
+
+
 def is_rule_frame(sentence, mstart):
     """True when the matched authority-claim reads as the pack's own RULE language rather than a
     recorded decision — a copula predicate about authority-in-general, or the possessor sitting behind
@@ -300,10 +337,18 @@ def scan_record(path, rel, claim_re, waivers):
         yield (ln, snip, why)
 
 
-def scan_prose(path, rel, claim_re, waivers, tight=False):
+def scan_prose(path, rel, claim_re, waivers, tight=False, time_anchor=None,
+               why="authority claim names no date"):
     """Free prose. In the WIDE sweep (tight=False, arg mode) report every authority-claim sentence
     naming no date — the triage list wants recall. In the TIGHT risky-surface pass (tight=True) exempt
-    the rule-frame forms and count a same-day time as an anchor, so the advisory report stays readable."""
+    the rule-frame forms and count a same-day time as an anchor, so the advisory report stays readable.
+
+    `time_anchor` defaults to `tight` and splits that second exemption out for the tree-wide named arm,
+    which exempts the rule frames but does NOT take a bare time as an anchor: a same-day time points at
+    a day only where the file's own dated context fixes the day, which the resume file and the plan do
+    and an arbitrary surface does not."""
+    if time_anchor is None:
+        time_anchor = tight
     try:
         lines = open(path, encoding="utf-8").read().splitlines()
     except (UnicodeDecodeError, OSError):
@@ -315,12 +360,14 @@ def scan_prose(path, rel, claim_re, waivers, tight=False):
             m = claim_re.search(sent)
             if not m or valid_date_in(sent):
                 continue
-            if tight and (TIME.search(sent) or is_rule_frame(sent, m.start())):
+            if time_anchor and TIME.search(sent):
+                continue
+            if tight and is_rule_frame(sent, m.start()):
                 continue
             snip = sent.strip()[:120]
             if waived(rel, snip, waivers):
                 continue
-            yield (i, snip, "authority claim names no date")
+            yield (i, snip, why)
 
 
 def record_surfaces(root):
@@ -333,6 +380,24 @@ def record_surfaces(root):
                 yield (p, r)
         except (UnicodeDecodeError, OSError):
             continue
+
+
+def named_surfaces(root):
+    """Every tracked text surface the TREE-WIDE named arm reaches: not spared, and not a declared
+    DECISION-RECORD surface, since a record is held by the stricter per-entry rule and a live claim
+    inside a dated entry there would otherwise be read a second time, line by line, and mis-red."""
+    for r in _tracked(root):
+        if not r.endswith(TEXT_EXT) or is_spared(r):
+            continue
+        p = os.path.join(root, r)
+        if not os.path.isfile(p):
+            continue
+        try:
+            if is_record(open(p, encoding="utf-8").read()):
+                continue
+        except (UnicodeDecodeError, OSError):
+            continue
+        yield (p, r)
 
 
 def risky_surfaces(root):
@@ -417,9 +482,11 @@ def main(argv):
     if a.files:
         enforced = [(f, os.path.relpath(f, a.root)) for f in a.files]
         advisory = []
+        tree_wide = []
     else:
         enforced = list(record_surfaces(a.root))
         advisory = list(risky_surfaces(a.root))
+        tree_wide = list(named_surfaces(a.root))
 
     offences = []
     for path, rel in enforced:
@@ -433,6 +500,17 @@ def main(argv):
             gen = scan_prose(path, rel, claim_re, waivers, tight=False)
         for ln, snip, why in gen:
             offences.append((rel, ln, snip, why))
+
+    # --- ENFORCED tree-wide: a roster-NAMED attribution, on any surface (a hard block) ---
+    named_re = compile_named(cfg)
+    named_seen = False
+    if named_re is not None:
+        for path, rel in tree_wide:
+            named_seen = True
+            for ln, snip, why in scan_prose(path, rel, named_re, waivers, tight=True,
+                                            time_anchor=False,
+                                            why="a decision credited to a named person names no date"):
+                offences.append((rel, ln, snip, why))
 
     # --- ADVISORY first pass: the risky attribution surfaces (reported, never fails the push) ---
     risky_re = compile_claim(cfg, risky=True) or claim_re
@@ -453,12 +531,13 @@ def main(argv):
         print("  decision from rule language on these surfaces.")
 
     if not offences:
-        if not enforced:
-            print("OK (authority-anchor): no DECISION-RECORD surface in the tree yet — the standing "
-                  "hard gate stands down by name (SPEC INV-207).")
+        if not enforced and not named_seen:
+            print("OK (authority-anchor): no DECISION-RECORD surface in the tree yet, and no person "
+                  "roster to scan for — the standing hard gate stands down by name (SPEC INV-207).")
         else:
-            print("OK (authority-anchor): every live entry on a decision record names a real date, so no "
-                  "attribution stands with NO anchor to check. The gate catches the unanchored case; a")
+            print("OK (authority-anchor): every live entry on a decision record names a real date, and "
+                  "nowhere else in the tree is a decision credited to a named person with no date, so no")
+            print("attribution stands with NO anchor to check. The gate catches the unanchored case; a")
             print("fabrication carrying a plausible date only PARSES here and is caught by the read-back")
             print("(DECISIONS.md), where the person strikes what he never said (SPEC INV-207).")
         return 0
