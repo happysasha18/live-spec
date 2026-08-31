@@ -4,9 +4,24 @@ A digest with no redundancy (SPEC INV-48) — one live-state block, nothing remo
 information. One status block stands here at a time, and every update replaces it. Dated history
 lives in `JOURNAL.md`.
 
-## LIVE STATE (2026-08-31, 17:57)
+## LIVE STATE (2026-08-31, 18:28)
 
 Written for a session starting with clean context.
+
+**The director's own score is honest again, and one disagreement is named rather than buried**
+(plan-2, re-measured 31.08). The stored score of 33 of 35 was a partial re-record: on 26.08 only the
+nine scenarios that were red at the time were drawn again, so twenty-six were still being counted
+against a skill version that had since moved. A full re-draw of all thirty-five found two real
+things. Repeated draws of one unchanged skill version disagree with themselves on individual
+scenarios, so a single run is a reading and never a verdict. And the skill's own text and the
+grading disagreed: the text said naming one act too many costs a sentence, while the grading failed
+the whole scenario for it. The grading now follows the text — an extra act alone is reported as a
+note, a missing act still fails — and one scenario whose situation argued against itself was
+repaired at the situation, leaving its expectation untouched. The honest score is 34 of 35. The one
+that stands is `idea-for-another-project`: the skill and the fixture genuinely disagree about
+whether an idea aimed at a different project is an act at all, and that disagreement is open. The
+eval's own README now says a skill change requires re-recording all thirty-five, never a subset,
+because a subset is how the stale number was made.
 
 **A worker-restore finding stops blocking every push once the tree shows the work back** (q-527,
 landed 31.08). The check that reads worker transcripts for a command that discards unsaved work made
@@ -20,6 +35,22 @@ commit that answered for it. Three shapes never clear: a command that names no s
 finding the check cannot place in a repository, and a record with no timestamp. The verify arm, the
 one that stands between a worker's result and its acceptance, never puts the question at all. The
 counting start did not move, and no ledger, flag, date or counter was added.
+
+**A sentence that names you and puts words in your mouth now reds on every live page** (q-497,
+landed 31.08). The check that guards this reached two files before today — the decisions page and
+its template — so a sentence crediting you with an instruction you never gave passed unnoticed
+anywhere else, which is the kind of page the original incident used. It now blocks that sentence on
+the 176 live pages of the tree, everything outside the dated records, the journal, the archives and
+the working notes, which narrate what already happened and stay outside by design. The tree as it
+stands passes. Two things it still does not catch, said here rather than left to be discovered: a
+claim that names you only as a pronoun or a role, which is this project's own rule language on
+nearly every page and stays a reported candidate on the two pages an attribution is first written
+on, and a sentence that credits you with no authority word beside your name. The decisions page you
+read back is the defence for both. The rule behind it now says what it always said — where a
+recorded decision's authority comes from — and the half the incident was actually about: a session's
+instructions come from you, from the tooling and from a wrapper at once, only yours carry your
+authority, and where two of them conflict the reply says so and your standing word decides. It lives
+in rule 13 of the base rulebook and in no second file, and the one-home check now holds it there.
 
 **Every rule the pack states now has one place it lives, and a check keeps it there** (plan-16,
 landed 31.08). Three rules had been written in several places that disagreed: the report Alexander

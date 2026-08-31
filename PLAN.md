@@ -303,7 +303,7 @@ plain-language check that runs beside it now says out loud when its judge stood 
 it printed a clean pass over a check that never ran.
 
 
-### ⬜ The assistant never puts words in your mouth — id: q-497
+### ✅ The assistant never puts words in your mouth — id: q-497
 **Group:** Communication & reporting · **Priority:** normal
 **Source:** 2026-07-27 ~16:20 — a sibling window dropped delegation for a whole movement over a false attribution.
 **Closes:** q-589, q-550
@@ -316,6 +316,47 @@ directions. `grep` finds the rule saying where an instruction's authority comes 
 disagreement over it is spoken, in one file and in no second one. The third leg the row used to
 carry — the message to the window that lost its delegation — is spent: that window answered in
 July, and nothing waits on it.
+
+**Landed 31.08.** The check reached two surfaces in this tree before today: the decisions page and
+its template, the only two files carrying the marker that put a file under the standing block. A
+sentence crediting the owner with an instruction, planted on an ordinary page, passed without even
+being reported — proven by planting one in the director's own skill file and watching the check exit
+green. It now hard-blocks that sentence on the 176 live pages of the tree, and the same plant reds
+by name. The tree as it stands passes. Both directions are one test,
+`test_a_named_attribution_reds_on_any_surface_and_the_tree_as_it_stands_passes`.
+
+**An adversarial read refused the first build, and it was right.** It planted seven ways of writing
+the same fabrication and the check passed every one: the possessive with a copula after it, the same
+possessive behind a preposition, a word between the name and the verb, "according to". Two causes.
+The name-and-verb pattern demanded the two sit next to each other. And the arm had inherited the
+exemptions written to spare rule language, which are keyed on exactly the shapes a fabrication uses
+once a name is in it. Both fixed; eight of the nine plants now red, the dated one passes, and the
+ninth is recorded below. The read also caught the reach being overstated in four places, one of them
+a *shall* in the spec.
+
+**Where the block stops, said plainly.** It reds a sentence that names the person, on a live page.
+Three things it does not hold. A claim where the person appears only as a pronoun or a role — a
+ruling called his, a decision called the owner's: that is a decision this pack recorded in July with
+its own measurement, since those words are the pack's own rule language, standing on 164 sentences
+of the reached pages against two for the named form, and both of those two are inside dated entries
+on the decisions page. A page in the spared set — the dated records, the journal, the archives, the
+fixtures, the working notes: 1067 of the tree's 1245 text pages, carrying 152 named attributions
+today, every one of them a record of what already happened. And a sentence with no authority word
+beside the name, "the lane order came from him". The read-back page, where the person strikes what
+he never said, stays the defence for all three.
+
+**The rule now says where an instruction's authority comes from and how a conflict is spoken.** Its
+one home is rule 13 in `skills/live-spec-base/SKILL.md`. The attribution half already stood there;
+the half the founding incident was actually about was nowhere — that the session's instructions
+arrive from the person, from the tooling and from a wrapper at once, that only the person's own
+messages and profile carry the person's authority, and that where a tooling line and the person's
+standing word conflict the reply states both and the standing word decides. `grep` finds it in that
+file and in no second one, and `tests/test_one_home_per_rule.py` now names it as its fourth rule, so
+a second copy reds: proven by planting one in the director's skill file. A clean-context review of
+the rulebook edit caught the first draft telling the founding incident wrong — as a relay between
+two windows, when it was one window handing back a line from its own instructions — and the
+correction landed before the record was written:
+`docs/skill-review/2026-08-31-live-spec-base-instruction-authority.md`.
 
 
 ### ✅ A cleared mistake stops blocking every future push — id: q-527

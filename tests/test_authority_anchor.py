@@ -13,11 +13,14 @@ Two machines hold the rule:
     believes he made, so he strikes what he never said (a struck line retracted, kept with its note);
   * the gate `guardrails/check-authority-anchor.py` reads the decision set: in a declared
     `DECISION-RECORD` surface every live on-record entry carries its date, a struck entry skipped, so
-    an unanchored one reds. Its standing scan is the decision-record surface (false-positive-free by
-    construction); the spec, base rulebook, and roadmap take the one-time first sweep.
+    an unanchored one reds. Its standing scan hard-blocks two things — every declared decision record,
+    per entry, and every other tracked text surface in the tree for a decision credited to a person the
+    roster names with no date. The person-agnostic role forms ("his word", "the owner's ruling") stay
+    advisory on the churny surfaces, since they are the pack's own rule language on nearly every page.
 
 The fabricated lane-ranking is the corpus's first fixture.
 """
+import json
 import os
 import subprocess
 
@@ -185,6 +188,94 @@ def test_gate_standing_scan_hard_blocks_records_and_reaches_risky_surfaces():
     assert "RISKY_SURFACES" in src, "the gate must declare a risky-surface set it reaches"
     # JOURNAL stays spared (pure history); it is not a live attribution surface
     assert "JOURNAL.md" in src
+
+
+def test_a_named_attribution_reds_on_any_surface_and_the_tree_as_it_stands_passes(tmp_path):
+    """Both directions of q-497's first leg, in one test.
+
+    RED: a sentence crediting a person the roster names with an instruction no date stands behind reds
+    in push mode wherever it is written — here on an ordinary spec page, which carries no
+    `DECISION-RECORD` marker and is not the read-back page. Before this arm the same plant passed
+    silently: the standing hard block reached declared decision records only, so the two surfaces it
+    reached in this tree were the read-back page and its template, and a fabrication written anywhere
+    else — which is where the founding one was written — never reached a red.
+
+    GREEN: the same sentence naming its exchange passes, and the tree as it stands passes, so the arm
+    reds a fabrication rather than the pack's own pages.
+
+    The eight red plants are the shapes an adversarial read of 2026-08-31 planted against the first
+    build of this arm, which passed seven of them. Two causes, both closed: the name-and-verb pattern
+    demanded the two words sit adjacent, and the arm inherited the copula and instrument exemptions,
+    which are keyed on exactly the shapes a fabricated instruction is written in once a name is in it.
+    Each plant stays here so neither can come back unnoticed."""
+    assert _gate().returncode == 0, "the tree as it stands must pass push mode"
+
+    root = str(tmp_path)
+    os.mkdir(os.path.join(root, "spec"))
+    plant = os.path.join(root, "spec", "queue-order.md")
+    person = json.loads(read("guardrails/authority-anchor.json"))["person_names"][0]
+
+    def write(sentence):
+        with open(plant, "w", encoding="utf-8") as f:
+            f.write("# Queue order\n\n%s\n" % sentence)
+        subprocess.run(["git", "-C", root, "add", "-A"], check=True,
+                       capture_output=True)
+
+    subprocess.run(["git", "init", "-q", root], check=True, capture_output=True)
+
+    reds = [
+        "%s asked for the release lane to run before the communication lane.",
+        "%s's ruling was that the release lane runs first.",
+        "Decided on %s's instruction: the communication lane is dropped.",
+        "The cap of three was set by %s's ruling.",
+        "According to %s, the cap is three.",
+        "%s himself asked for the second lane to be cut.",
+        "%s has asked for the release lane to run first.",
+        "%s later decided the release lane goes first.",
+    ]
+    for shape in reds:
+        sentence = shape % person
+        write(sentence)
+        r = _gate("--root", root)
+        assert r.returncode == 1, (
+            "this attribution names no exchange and must red on an ordinary surface: %r\n%s"
+            % (sentence, r.stdout))
+        assert "spec/queue-order.md" in r.stdout, r.stdout
+
+    write("%s 2026-07-03 asked for the release lane to run before the communication lane." % person)
+    r = _gate("--root", root)
+    assert r.returncode == 0, "the same attribution naming its exchange must pass\n" + r.stdout
+
+
+def test_the_reach_the_named_arm_does_not_cover_is_written_down(tmp_path):
+    """The other half of an honest verdict: what the arm does NOT hold, held as a test so the
+    documentation cannot drift away from it.
+
+    A page in the spared set passes, and a sentence crediting the person with no authority word beside
+    the name passes. Both are recorded escapes: the spared set is history, and a bare-name source form
+    carries nothing a pattern can key on. The gate's own opening says both, and this test reds if that
+    sentence is ever deleted as though the hole had closed."""
+    root = str(tmp_path)
+    os.mkdir(os.path.join(root, "docs"))
+    person = json.loads(read("guardrails/authority-anchor.json"))["person_names"][0]
+    with open(os.path.join(root, "docs", "record.md"), "w", encoding="utf-8") as f:
+        f.write("# Record\n\n%s asked for the release lane to run first.\n" % person)
+    os.mkdir(os.path.join(root, "spec"))
+    with open(os.path.join(root, "spec", "order.md"), "w", encoding="utf-8") as f:
+        f.write("# Order\n\nThe lane order came from %s.\n" % person)
+    subprocess.run(["git", "init", "-q", root], check=True, capture_output=True)
+    subprocess.run(["git", "-C", root, "add", "-A"], check=True, capture_output=True)
+
+    r = _gate("--root", root)
+    assert r.returncode == 0, (
+        "these two are the arm's recorded escapes and must stay green until the arm really covers "
+        "them; a red here means the gate changed and its own opening is now wrong\n" + r.stdout)
+
+    src = read("guardrails/check-authority-anchor.py")
+    assert "WHAT THIS ARM DOES NOT REACH" in src, \
+        "the gate no longer states its own reach, so a reader takes it for more than it holds"
+    assert "came\n    from <person>" in src or "came from <person>" in src, \
+        "the bare-name escape is no longer named in the gate's own opening"
 
 
 def test_push_mode_reports_risky_surface_candidates():

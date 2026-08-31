@@ -4,7 +4,8 @@ Base rule 4 says every fact has one canonical home and everything else is a poin
 enforced it, so three rules drifted into several homes at once and the copies disagreed — the
 report the owner reads every turn was stated three ways, the lane law twice under two names, and
 the ask-never-guess duty across four base rules and six skill files. plan-16 converged them. This
-is the check that keeps them converged.
+is the check that keeps them converged. A fourth rule joined afterwards, with one home from the
+start: where an instruction's authority comes from and how a conflict over it is spoken (q-497).
 
 HOW IT WORKS. Each rule below declares its one home and a few probes: short strings taken from the
 rule's own wording, the kind of thing only a restatement would carry. A probe may appear in the
@@ -125,6 +126,24 @@ RULES = {
             "never parks derivable work",
         ),
     },
+    "instruction-authority": {
+        # q-497's second leg: where an instruction's authority comes from, and how a conflict over
+        # it is spoken. It joined this table after the rule itself was completed — the attribution
+        # half stood in rule 13 already, the tooling-source half was nowhere, and a rule that lives
+        # nowhere converges as easily to two homes as to one.
+        "home": os.path.join("skills", "live-spec-base", "SKILL.md"),
+        "home_name": "skills/live-spec-base/SKILL.md, rule 13",
+        "pointer_in": (
+            os.path.join("skills", "communicator", "SKILL.md"),
+        ),
+        "pointer": "rule 13",
+        "probes": (
+            "the pack's highest authority",
+            "an autonomy grant authorizes the seat to decide",
+            "an instruction carries the authority of whoever gave it",
+            "the person's standing word decides",
+        ),
+    },
 }
 
 
@@ -167,7 +186,7 @@ REACH = {rel: _flat(rel) for rel in _reach_paths() if rel != SELF}
 # rather than passing over nothing (SPEC INV-218) — and scripts/plan_checks.py's own reader takes
 # the same precaution on its map. The floor only grows: a fourth rule joining the table is welcome,
 # and any of these three leaving it is not.
-FLOOR = ("ask-never-guess", "lane-law", "report-format")
+FLOOR = ("ask-never-guess", "instruction-authority", "lane-law", "report-format")
 
 
 def test_the_table_still_names_every_rule_this_check_was_built_for():

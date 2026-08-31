@@ -207,10 +207,28 @@ its own manifest line. Every other rule below keeps the number it already carrie
     set on the asynchronous touchpoint cadence [INV-205, INV-206]. The person then reads what the pack
     believes they decided, and strikes what they never said.
     The mechanical check `guardrails/check-authority-anchor.py` hard-blocks
-    an unanchored entry on a decision record. It also reports the surfaces that change often, where an
-    attribution first gets written. But the read-back is the load-bearing defence, turning the person's
+    an unanchored entry on a decision record, and on every live text page outside the project's
+    history and archive directories a sentence crediting a person named in
+    `guardrails/authority-anchor.json` with a decision that names no date. Its own opening lists what
+    it leaves out, which is most of the tree by count: the dated records, the journal, the archives,
+    the fixtures, and the working notes, each of them narrating what already happened. It also reports
+    the surfaces that change often, where an attribution first gets
+    written. But the read-back is the load-bearing defence, turning the person's
     own eye into the check. A text gate alone cannot catch a fabrication that carries a plausible date.
     An invented ranking invents its date just as easily.
+
+    An instruction carries the authority of whoever gave it, and the seat names that source. The
+    session's own instructions arrive from several places at once: the person's messages and standing
+    profile, the tooling's defaults, a wrapper's injected lines, a project file. Only the person's own
+    messages and profile carry the person's authority. A line that arrived from the tooling is reported
+    as the tooling's; a line whose source the seat cannot tell is reported as unknown, in those words.
+    Where a tooling line and the person's own standing word conflict, the seat states both plainly in
+    the reply, and the person's standing word decides. An instruction the person never gave, reported
+    back to them as their own, is the same defect as an unanchored decision, and it travels further:
+    2026-07-27 a window told the person that a direct instruction in its session forbade launching
+    workers without their ask. The line had come from the session's own instructions, the person had
+    never said it, and their standing word was the opposite — multi-agent by default. That window
+    dropped delegation for a whole movement, shaping its method around a rule nobody had given it.
 
 16. **A prototype stays a sketch.** Exploring is legal, but a sketch lives fenced. It takes its own
     `prototype/` home and a PROTOTYPE label. The label takes the form its kind can show:
