@@ -6,10 +6,10 @@ lives in `JOURNAL.md`.
 
 ## LIVE STATE (2026-09-01, 00:20)
 
-Written for a session starting with clean context. Heals landing bff2715a's own successor range
-(not yet pushed at write time — see the very next paragraph). Alexander asked this session to stop
-here (context had grown large after a long autonomous run) and clear before continuing — this note
-is written for that fresh session.
+Written for a session starting with clean context. Heals landing d470d2be, heals landing dbf0fc01,
+heals landing 1bdd55c1. Alexander, 2026-09-01 ~00:05, on this window's context size: asked the
+session to merge, push, and stop here so context can clear before continuing — this note is
+written for that fresh session.
 
 **Three rows landed since `bff2715a` pushed, in parallel worktree lanes, merged with no conflicts:**
 `q-581` (a `PreToolUse(Bash)` hook, `hooks/dialog-warning-guard.py`, warns before a command known
