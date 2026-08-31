@@ -17,7 +17,7 @@ by it. Prompt (verbatim):
 |---|---|---|
 | The door named aloud BEFORE any file touch (T-12; bug → matrix → test → code entry, not the full walk) | RED — no door step; plan opened with reproduce-then-code framing | GREEN — step 1 names door=bug · kind=product · priority · size, enters at the bug door |
 | The work-kind named at intake (T-16) | RED — absent | GREEN — kind called (product: the CSV is the user's artifact) |
-| Fix the class, sweep look-alikes (base rule 14) | MET BARE — loader-fed run swept sibling write paths | GREEN |
+| Fix the class, sweep look-alikes (the base's rule of thinking; the walk is director's class-hunt reference) | MET BARE — loader-fed run swept sibling write paths | GREEN |
 | Red-on-bug test BEFORE code (step 6) | MET BARE | GREEN |
 | A pending human question never parks the lane (INV-4): recommend + batch + proceed | FLOOR ROSE 2026-07-12 (row 268/N1) to MET BARE — the loader-fed bare arm now proceeds on a stated default ("I'd default to auto-creating the dir") and does not park; the original 2026-07-05 red was "I'd stop and ask rather than guess", the 2026-07-10 red "decides silently, no report". The skill's marginal value now sits in the structural layer (door/kind/guardrails), not this floor. | GREEN — question batched with class findings, decided once, `[default]`-tagged, told at landing, never asked |
 | Guardrails run named before done (pipeline teeth) | RED — absent | GREEN — pre-push check named as a step |
