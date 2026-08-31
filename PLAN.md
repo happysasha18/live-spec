@@ -303,7 +303,7 @@ plain-language check that runs beside it now says out loud when its judge stood 
 it printed a clean pass over a check that never ran.
 
 
-### ⬜ The assistant never puts words in your mouth — id: q-497
+### ✅ The assistant never puts words in your mouth — id: q-497
 **Group:** Communication & reporting · **Priority:** normal
 **Source:** 2026-07-27 ~16:20 — a sibling window dropped delegation for a whole movement over a false attribution.
 **Closes:** q-589, q-550
@@ -316,6 +316,39 @@ directions. `grep` finds the rule saying where an instruction's authority comes 
 disagreement over it is spoken, in one file and in no second one. The third leg the row used to
 carry — the message to the window that lost its delegation — is spent: that window answered in
 July, and nothing waits on it.
+
+**Landed 31.08.** The check reached two surfaces in this tree before today: the decisions page and
+its template, the only two files carrying the marker that put a file under the standing block. A
+sentence crediting the owner with an instruction, planted on an ordinary page, passed without even
+being reported — proven by planting one in the director's own skill file and watching the check exit
+green. It now hard-blocks that sentence on every text file the project tracks, and the same plant
+reds by name. The tree as it stands passes. Both directions are one test,
+`test_a_named_attribution_reds_on_any_surface_and_the_tree_as_it_stands_passes`.
+
+**Where the block stops, said plainly.** It reds a sentence that names the person. It does not
+hard-block the same claim where the person appears only as a pronoun or a role — a ruling called his,
+a decision called the owner's. That is a decision this pack recorded in July with its own
+measurement: those words are the pack's own rule language on nearly every page. Counted over this
+tree on 31.08 they stand on twenty-four sentences outside the archives, every one of them
+legitimate, against two for the named form — both of those
+inside dated entries on the decisions page. So the named form is the shape a machine can hold
+anywhere, the role forms stay a reported candidate on the two pages an attribution is first written
+on, and the read-back page, where the person strikes what he never said, stays the defence against a
+fabrication that carries a plausible date. History files, archives and the check's own fixtures are
+outside the reach, as they were before.
+
+**The rule now says where an instruction's authority comes from and how a conflict is spoken.** Its
+one home is rule 13 in `skills/live-spec-base/SKILL.md`. The attribution half already stood there;
+the half the founding incident was actually about was nowhere — that the session's instructions
+arrive from the person, from the tooling and from a wrapper at once, that only the person's own
+messages and profile carry the person's authority, and that where a tooling line and the person's
+standing word conflict the reply states both and the standing word decides. `grep` finds it in that
+file and in no second one, and `tests/test_one_home_per_rule.py` now names it as its fourth rule, so
+a second copy reds: proven by planting one in the director's skill file. A clean-context review of
+the rulebook edit caught the first draft telling the founding incident wrong — as a relay between
+two windows, when it was one window handing back a line from its own instructions — and the
+correction landed before the record was written:
+`docs/skill-review/2026-08-31-live-spec-base-instruction-authority.md`.
 
 
 ### ⬜ A cleared mistake stops blocking every future push — id: q-527
