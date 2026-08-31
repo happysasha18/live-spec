@@ -1,5 +1,5 @@
 {
-  "id": "case-05",
+  "id": "r05",
   "acts": [
     "idea"
   ],
@@ -9,7 +9,7 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "Names a possibility ('думаю еще можно сделать дату') while nothing related is being built — the skill's own example is nearly this sentence: 'We should probably cache this' is an idea when nothing in that area is being built, so this goes on the idea shelf in the person's own words.",
+  "reasoning": "A possibility the person is not asking for now, with nothing related being built. The reason clause only restates why the idea wants what it wants, so it is not a second act. The idea gets a shelf entry in their words.",
   "scenario": "idea-add-a-date",
-  "skill_version": "5.0.0"
+  "skill_version": "6.0.0"
 }

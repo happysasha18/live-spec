@@ -1,5 +1,5 @@
 {
-  "id": "case-11",
+  "id": "r11",
   "acts": [
     "observation"
   ],
@@ -9,7 +9,7 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "Reports a new fact (an email suggesting the push failed) mid-work, against the plan just made for the fix and its awaited CI verdict; per 'a new fact can change the remaining graph,' this attaches to that work rather than starting anything separate.",
+  "reasoning": "A fact received out of band about work already in flight with an open checkpoint awaiting exactly that verdict. It carries no repair of its own to infer: the repair is the running work, so this is a new fact read against the existing plan rather than a new piece of work.",
   "scenario": "observation-carrying-its-repair",
-  "skill_version": "5.0.0"
+  "skill_version": "6.0.0"
 }

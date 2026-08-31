@@ -1,5 +1,5 @@
 {
-  "id": "case-21",
+  "id": "r21",
   "acts": [
     "instruction"
   ],
@@ -8,13 +8,10 @@
   "attaches_to_existing_work": false,
   "work_items": 1,
   "dimensions": [
-    "documentation and communication",
-    "release, observation, feedback"
+    "documentation and communication"
   ],
-  "specialists": [
-    "communicator"
-  ],
-  "reasoning": "Per the skill's own closing rule, 'When someone asks for a plan, a status, a summary or a report, they have asked for something to be made, and it is work like any other' — saving the just-produced report to a file and handing back its path is a concrete, new, observable outcome, so it opens a fresh checkpoint rather than being treated as free conversation.",
+  "specialists": [],
+  "reasoning": "A request to write the report just produced into a file and hand back its path. The clause about passing it on states why the file is wanted, so it is the instruction's own goal in other words rather than a second act.",
   "scenario": "instruction-one-goal-two-steps",
-  "skill_version": "5.0.0"
+  "skill_version": "6.0.0"
 }

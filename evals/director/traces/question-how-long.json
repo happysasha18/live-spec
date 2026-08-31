@@ -1,5 +1,5 @@
 {
-  "id": "case-03",
+  "id": "r03",
   "acts": [
     "question"
   ],
@@ -9,7 +9,7 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "A plain request for information to decide whether to keep waiting — the Question/musing row: answer it, do not turn it into work just because answering takes a look at the job's state.",
+  "reasoning": "The person asks how long the running job will take so they can decide whether to wait. Fetching facts to answer is reading, not work. Nothing in flight has its goal or constraints changed.",
   "scenario": "question-how-long",
-  "skill_version": "5.0.0"
+  "skill_version": "6.0.0"
 }

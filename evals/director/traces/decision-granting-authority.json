@@ -1,15 +1,15 @@
 {
-  "id": "case-16",
+  "id": "r16",
   "acts": [
     "decision"
   ],
   "creates_work": false,
-  "shelves_idea": false,
-  "attaches_to_existing_work": false,
+  "shelves_idea": true,
+  "attaches_to_existing_work": true,
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "'даю разрешение на все пуши' is a grant of authority that settles standing practice going forward ('a decision is a standing rule... a grant of authority'), not a request for a specific piece of work with its own goal, so no decision sheet or checkpoint is warranted — it is simply recorded.",
+  "reasoning": "A grant of authority covering all pushes and commands from here on settles something with force beyond this turn, which is a decision rather than an instruction to do anything now. It is recorded as a standing rule and applied to the work already running; no new goal is named.",
   "scenario": "decision-granting-authority",
-  "skill_version": "5.0.0"
+  "skill_version": "6.0.0"
 }

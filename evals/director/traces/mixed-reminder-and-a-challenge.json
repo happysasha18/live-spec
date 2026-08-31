@@ -1,13 +1,23 @@
 {
-  "id": "case-B7",
-  "acts": ["decision", "instruction", "question"],
+  "id": "r28",
+  "acts": [
+    "decision",
+    "idea",
+    "instruction",
+    "question"
+  ],
   "creates_work": true,
-  "shelves_idea": false,
+  "shelves_idea": true,
   "attaches_to_existing_work": false,
   "work_items": 1,
-  "dimensions": ["documentation and communication", "release, observation, feedback"],
-  "specialists": [],
-  "reasoning": "The skill states directly that reminding a goal already in the plan still stands is 'a decision reaffirmed, not a new idea,' so that clause is not a shelved idea. 'эти параметры необходимо мониторить в статусе в файле плана' is a separate, concrete request for something to be done now (the Instruction row) — it is not absorbed by the reaffirmation per 'No act absorbs another,' since it says something new (add a tracked status field) rather than restating the goal. The closing 'согласен или поспорь со мной' is its own act under 'An invitation to disagree closing out a decision or an instruction is still its own act too.' One small self-contained document change (PLAN.md status) opens one new work item.",
+  "dimensions": [
+    "documentation and communication",
+    "analytics, unknowns, hypotheses, experiments"
+  ],
+  "specialists": [
+    "developer"
+  ],
+  "reasoning": "The goals already in the plan are reaffirmed, the optimization pass itself is parked for a later session, the demand that those parameters be monitored in the plan file's status stands as a standing rule, and the closing invitation to disagree is its own act. Only the last demand is doable now, so it is the one new piece of work.",
   "scenario": "mixed-reminder-and-a-challenge",
   "skill_version": "6.0.0"
 }

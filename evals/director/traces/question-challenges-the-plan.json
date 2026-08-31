@@ -1,5 +1,5 @@
 {
-  "id": "case-02",
+  "id": "r02",
   "acts": [
     "question"
   ],
@@ -9,7 +9,7 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "The checking step was only just proposed, not yet accepted as work in flight, so this challenge ('isn't this what the prover already does, or are our cases just harder?') is a question testing the proposal, not a correction to running work — per the rule that a correction 'attaches to work,' and none exists yet here.",
+  "reasoning": "Two questions in one breath about the agent's own just-made proposal. The opening hold is conversational, not a halt: nothing is running that should stop, and the proposed step was never accepted work, so there is no work in flight for a correction to attach to.",
   "scenario": "question-challenges-the-plan",
-  "skill_version": "5.0.0"
+  "skill_version": "6.0.0"
 }

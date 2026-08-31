@@ -1,5 +1,5 @@
 {
-  "id": "case-35",
+  "id": "r35",
   "acts": [
     "observation"
   ],
@@ -8,14 +8,14 @@
   "attaches_to_existing_work": false,
   "work_items": 1,
   "dimensions": [
-    "quality, safety, regressions",
-    "architecture, data, integrations, operations"
+    "product value and behaviour",
+    "quality, safety, regressions"
   ],
   "specialists": [
-    "Developer",
-    "Test author"
+    "developer",
+    "test author"
   ],
-  "reasoning": "A wordless pasted stack trace is still an act, usually an observation, and 'what the person wants done with it is often clear from what they were doing a minute earlier' — here, watching a deploy that just threw a TypeError in billing entitlement code is a production defect whose repair follows beyond doubt, like the '500s' example, so it is accepted as a new bug-fix work item needing a developer and a regression test.",
+  "reasoning": "A wordless paste is still an act, and a stack trace is an observation; what was wanted is read off what the person was doing a minute earlier. Entitlement checking is throwing in production right after a deploy they were watching, so the repair follows beyond doubt and it opens one piece of work.",
   "scenario": "not-an-act-a-bare-trace",
-  "skill_version": "5.0.0"
+  "skill_version": "6.0.0"
 }

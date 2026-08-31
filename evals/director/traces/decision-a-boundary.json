@@ -1,5 +1,5 @@
 {
-  "id": "case-15",
+  "id": "r15",
   "acts": [
     "decision"
   ],
@@ -9,7 +9,7 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "This settles a division of responsibility with standing force ('the moratorium is mine, the rest is yours'), matching the rule that a decision can be 'a division of responsibility.' But the situation states nothing is running for it to apply to, and 'the rest' names no specific goal or observable outcome, so there is no decision sheet to write — it is recorded as a standing rule, not turned into work.",
+  "reasoning": "A division of responsibility is a standing rule with force beyond this message. The two halves are one division, not two acts, and neither half names a goal to pursue now. Nothing is in flight for it to correct or halt.",
   "scenario": "decision-a-boundary",
-  "skill_version": "5.0.0"
+  "skill_version": "6.0.0"
 }

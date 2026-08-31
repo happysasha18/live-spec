@@ -1,5 +1,5 @@
 {
-  "id": "case-32",
+  "id": "r32",
   "acts": [
     "correction",
     "observation"
@@ -8,14 +8,9 @@
   "shelves_idea": false,
   "attaches_to_existing_work": true,
   "work_items": 0,
-  "dimensions": [
-    "product value and behaviour",
-    "quality, safety, regressions"
-  ],
-  "specialists": [
-    "Developer"
-  ],
-  "reasoning": "This 'changes the goal or the constraints of work in flight' — narrowing the measuring work back to only the platform quick-measurement before deciding transition complexity and rejecting the rest — so per 'A correction attaches to work, not to a queue' it targets the existing work rather than opening a new task, producing zero new work items even though it requires reverting the unrequested measurements. 'это тоже баг' is its own reported fact, a second act under 'no act absorbs another'.",
+  "dimensions": [],
+  "specialists": [],
+  "reasoning": "The constraints of measuring already under way are changed: nothing was asked for beyond one narrow case, so the rest stops and the remainder is replanned against its existing checkpoint. The judgment that opening a request for any stray thing instead of thinking is a defect is worth keeping after this work closes, so it is its own observation.",
   "scenario": "mixed-you-invented-that-work",
-  "skill_version": "5.0.0"
+  "skill_version": "6.0.0"
 }

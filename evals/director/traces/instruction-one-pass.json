@@ -1,5 +1,5 @@
 {
-  "id": "case-20",
+  "id": "r20",
   "acts": [
     "instruction"
   ],
@@ -8,13 +8,14 @@
   "attaches_to_existing_work": false,
   "work_items": 1,
   "dimensions": [
-    "documentation and communication",
-    "quality, safety, regressions"
+    "quality, safety, regressions",
+    "documentation and communication"
   ],
   "specialists": [
-    "developer"
+    "developer",
+    "independent verifier"
   ],
-  "reasoning": "This asks for something to be done now — a pass limited to the prover skill — with a specific, bounded target, so per 'Instruction: accept the work, state the goal understood, begin' it earns a decision sheet and a fresh checkpoint since nothing already covers exactly this scoped pass.",
+  "reasoning": "A request for something to be done now. The word only is a scope on that same request rather than a second act or a correction, since nothing is in flight yet and a request scoped to this session names no standing rule.",
   "scenario": "instruction-one-pass",
-  "skill_version": "5.0.0"
+  "skill_version": "6.0.0"
 }

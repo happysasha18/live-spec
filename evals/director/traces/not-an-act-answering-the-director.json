@@ -1,5 +1,5 @@
 {
-  "id": "case-34",
+  "id": "r34",
   "acts": [
     "instruction"
   ],
@@ -9,7 +9,7 @@
   "work_items": 1,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "This is the skill's own worked example verbatim: 'when the Director asked build it now or park it, and the reply is go ahead... the idea just became the instruction it was waiting to become, and the shelf entry becomes the work.' The shelved idea converts into accepted work; its dimensions/specialists were never given in this exchange, so none can be named beyond what the original idea already specified.",
+  "reasoning": "A reply to the Director's own still-open question, so nothing new was said: the act already in play was completed and the shelved idea became the instruction it was waiting to become. Scored as one act producing one new piece of work rather than a correction. The case names no content, so dimensions and specialists stay empty rather than be guessed.",
   "scenario": "not-an-act-answering-the-director",
-  "skill_version": "5.0.0"
+  "skill_version": "6.0.0"
 }

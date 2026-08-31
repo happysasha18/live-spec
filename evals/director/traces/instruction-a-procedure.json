@@ -1,5 +1,5 @@
 {
-  "id": "case-22",
+  "id": "r22",
   "acts": [
     "instruction"
   ],
@@ -13,7 +13,7 @@
   "specialists": [
     "Developer"
   ],
-  "reasoning": "The sequential imperatives (stop, restart with the correct bind flag, verify the listening address, then report the real IP) ask for something to be done — the Instruction act. It is one result someone could want on its own (the server correctly reachable, with the IP confirmed), so one work item touching operations.",
+  "reasoning": "Every clause is imperative and part of one procedure. Stopping the server here is a step of that procedure, not a halt of the session's own work in flight. The bind check and the address are evidence for the single result.",
   "scenario": "instruction-a-procedure",
-  "skill_version": "5.0.0"
+  "skill_version": "6.0.0"
 }

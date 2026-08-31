@@ -1,5 +1,5 @@
 {
-  "id": "case-04",
+  "id": "r04",
   "acts": [
     "question"
   ],
@@ -9,7 +9,7 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "Curiosity about what's on screen, phrased as a string of questions — 'The Director may read... in order to answer. What it may not do is turn the question into a task because answering it took effort.'",
+  "reasoning": "Every clause is a question about what is already running. Nothing is asked for and nothing in flight is redirected, so this is answered rather than accepted.",
   "scenario": "question-what-are-those",
-  "skill_version": "5.0.0"
+  "skill_version": "6.0.0"
 }

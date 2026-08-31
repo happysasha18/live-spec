@@ -1,5 +1,5 @@
 {
-  "id": "case-18",
+  "id": "r18",
   "acts": [
     "correction"
   ],
@@ -9,12 +9,13 @@
   "work_items": 0,
   "dimensions": [
     "product value and behaviour",
-    "architecture, data, integrations, operations"
+    "the user's path and the design"
   ],
   "specialists": [
-    "developer"
+    "Developer",
+    "Design reviewer"
   ],
-  "reasoning": "Said mid-implementation of the transition engine, this changes a constraint of work already in flight ('no static transitions'), so it attaches to that work per 'a correction changes that work's goal or constraints so the remainder has to be replanned' rather than opening a parallel task.",
+  "reasoning": "Said mid-build, this changes a constraint on work already in flight, so the remainder has to be replanned. It is not a halt — the engine keeps running toward the same goal — and not a standing rule, since it is scoped to the thing being built.",
   "scenario": "correction-shouted-constraint",
-  "skill_version": "5.0.0"
+  "skill_version": "6.0.0"
 }

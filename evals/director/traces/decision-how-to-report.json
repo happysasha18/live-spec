@@ -1,5 +1,5 @@
 {
-  "id": "case-13",
+  "id": "r13",
   "acts": [
     "decision",
     "instruction"
@@ -11,10 +11,8 @@
   "dimensions": [
     "documentation and communication"
   ],
-  "specialists": [
-    "communicator"
-  ],
-  "reasoning": "'С этого момента' is the skill's own marker for a standing rule (decision) rather than a one-off request; asking to keep a plan and always show 'where we are' is also itself a request for something to be made, which per the skill's closing note is work routed to the communicator, not free narration.",
+  "specialists": [],
+  "reasoning": "A standing rule about how this session works, recorded separately so it outlives whatever work runs next. It does not absorb the demand riding with it: the person asked for a plan to exist and be shown now, which is work like any other. One new piece of work, nothing in flight to attach to.",
   "scenario": "decision-how-to-report",
-  "skill_version": "5.0.0"
+  "skill_version": "6.0.0"
 }
