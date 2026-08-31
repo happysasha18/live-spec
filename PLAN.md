@@ -919,20 +919,15 @@ marks, each mark computed by a command of that project's, and lists its unhandle
 this project, `grep` finds no hard-coded list of host directories inside `scripts/state-probe.sh` —
 each host's path comes from its own profile.
 
-
-### ⬜ The promoter project is updated to today's tools — id: plan-15
-**Group:** Cross-project · **Priority:** normal
-**Source:** PLAN.md step 15.
-
-Its wish sits in its own inbox. Smaller documents than tlvphotos and a wider version gap: its
-record pins pack 2.4.0, a 3.3.0 note was read and parked in July, and the pack is at 6.0.0. Two
-canonical documents are absent there entirely. It runs off the machine's global skill mirror with
-no local copy, and it has been idle since 27.07, so nothing of the owner's is in flight to protect.
-
-**Acceptance:** `ls ~/promoter/.claude/skills | grep -q director` passes and
-`~/promoter/.live-spec/VERSION` reads the pack's current number, with that project's own `git status
---porcelain` showing changes confined to its skills and settings directories. The two canonical
-documents absent there exist. The wish's own acceptance lines run green in that tree.
+**Checked 31.08 before dispatching a worker, and this one does not narrow into a safe single-lane
+task tonight.** A host inherits skills and gates through the pack's own install/adopt walk today;
+the plan/probe/board trio does not, because no template of it exists to install — this row asks for
+that template to be built (the trio's scripts made host-path-generic, wired into the install walk,
+proven against a real host). That is core install-infrastructure work, not a mechanical narrowing,
+and rushing it in one late-night worker lane risks a bad wiring choice in the one walk every future
+adoption depends on. Left open, not built tonight; the row's own acceptance stands unchanged.
+`~/tlvphotos/inbox/2026-08-31-from-livespec-q54-founding-line.md` carries a smaller, unrelated
+tlvphotos wish (`q-54`) — not this row's.
 
 
 ### ✅ Every rule finally lives in exactly one place — id: plan-16
@@ -1074,15 +1069,6 @@ nobody could read what it asked for.
 The cheap first leg was taken 2026-07-27: the session's own task list stays live for a whole
 movement, and the report carries a done / in-work / waiting table. That is the visible half this row
 owes while the standing board waits its turn.
-
-
-### ⬜ Your edits on a review page save straight to the files — id: q-453
-**Group:** Communication & reporting · **Priority:** normal
-**Source:** relayed 2026-07-22.
-
-**Acceptance:** A test edits one line on a rendered review page, runs the save, and finds that
-change byte for byte in the repository file the line came from; the same test reds when the save is
-skipped. The script that carries the round trip ships inside the pack, `test -f` finding it there.
 
 
 ### ✅ The plain-language text checker becomes its own reusable tool — id: q-458
@@ -1271,6 +1257,31 @@ Note (28.08): his final call is not owed here after all. His word of 27.08 puts 
 seat's desk and asks him only about machinery he set up himself; wording inside the rulebook is
 machinery. The seat rules on all three, names the ruling in the source, and reports it.
 
+**Two of the three legs ruled 31.08, checked against today's actual text rather than the 07-30
+finding's word.** The pack has been rewritten several times since 07-30 (row 445's 4.0.0 landing,
+`plan-16`'s one-home-per-rule, several audience/readability passes), and two of the three
+disagreements no longer exist in the current source:
+- **Rule 31's "owner" ambiguity is gone.** Read `skills/live-spec-base/SKILL.md` rule 31 in full:
+  every use of "owner"/"owning agent" in the rule now means the zone-owning AGENT, consistently,
+  including the clause the finding cited as the person-meaning one — "the third crossing" clause no
+  longer uses the word "owner" at all; it now reads "named in the sender's own status report as a
+  zone question the two could not settle." Ruling: no second meaning stands; nothing to merge or
+  precedence, the ambiguity was already written out. No new check needed — there is no live
+  ambiguity for one to guard against regressing without an incident showing it recurred.
+- **The design-review routing conflict is gone.** `skills/text-audit-pack/SKILL.md:24` names
+  `design-reviewer` as the pass that judges design; `grep -rn "design review" skills/*/SKILL.md`
+  finds every other mention (`design-reviewer`, `product-prover`, `build-pipeline`) consistent with
+  that — `product-prover`'s own body routes ITS full-review mode INTO the design review, it never
+  claims to run the design review itself. Ruling: one routing stands, stated once; nothing to merge.
+- **The third leg — communicator's fourteen rule collisions
+  (`~/context-slimdown/reports/communicator-audit-sweep.md`, read-only reference in another
+  project's tree) — is unchecked against today's `skills/communicator/SKILL.md` and is the row's
+  only remaining acceptance.** Narrowed acceptance for what's left: each of the fourteen collisions
+  the sweep named is checked against the current communicator body — closed already by a later
+  rewrite, or given a stated precedence, or merged into one rule — and a one-line ruling for each is
+  written into `skills/communicator/SKILL.md`'s own text (not a separate document) so a future
+  reader meets it where the rule lives.
+
 
 ### ✅ One excuse shouldn't cover every future change — id: q-529
 **Group:** Method reliability · **Priority:** normal
@@ -1352,6 +1363,12 @@ the result of a two-variant experiment when one is running.
 Its trigger, and the row waits on it: the first host with a live audience worth measuring. The
 design travels with the feedback-in half, which is archived under its own row.
 
+**Deferred, not archived, 31.08.** The hostile review of the remaining board called for archiving
+this row alongside three others, but this one owns a live spec anchor, `INV-21` (checked against
+`tests/test_traceability.py`'s `TARGET_ROW_OWNERS`) — taking it off the board would orphan that
+promise the exact way tonight's target-ownership correction exists to prevent. It stays, deferred
+on its own stated trigger, the same shape as `plan-9`.
+
 
 ### ⬜ One command safely winds down all the work before you leave — id: q-235
 **Group:** Budget & economy · **Priority:** normal
@@ -1377,29 +1394,13 @@ one of those four is skipped. Then it runs for real, the first time he says he i
 **Closes:** q-247, q-261, q-511, q-503, q-385, q-399
 **Absorbed:** 6 rows folded here 27.08, rotated off the board 28.08 — q-399, q-503, q-511, q-247, q-261, q-385. Full text: `docs/queue-archive/rotated-PLAN-2026-08-28-folded-rows.md`.
 
-**Acceptance:** Done when: the vendored UserPromptSubmit hook injects the routing preamble in adopted projects, red-proven on a fixture prompt naming a foreign zone (T-24: the fixture deposit lands in the fixture tree with the one-line notice); the no-rewrite clause stands in the spec beside INV-190; the adoption gate reds a pack-loaded fixture carrying no hook; the preamble carries its own declared size cap.
+**Narrowed 31.08 — struck the bare threshold.** The original acceptance's last clause, "the preamble
+carries its own declared size cap," is a threshold with no outside source (an incident or a real
+measured cost), which the standing rule forbids inventing. Struck; the other three legs stand as
+the row's whole acceptance.
 
+**Acceptance:** Done when: the vendored UserPromptSubmit hook injects the routing preamble in adopted projects, red-proven on a fixture prompt naming a foreign zone (T-24: the fixture deposit lands in the fixture tree with the one-line notice); the no-rewrite clause stands in the spec beside INV-190; the adoption gate reds a pack-loaded fixture carrying no hook.
 
-### ⬜ Every test in the suite is proven to guard something real — id: q-751
-**Group:** Method reliability · **Priority:** normal
-**Source:** owner 27.08 — "непонятно почему так много тестов, тоже надо пересмотреть." <!-- user-language -->
-
-**What it is.** The suite holds 2,426 tests. Nobody has checked how many of them could ever fail —
-whether the thing each one guards has ever actually moved.
-
-**Why now.** Plan-6 already ran this exact measurement on a smaller class, phrase-guard tests, and
-it settled a real question with numbers rather than a guess: a 120-test sample showed 16% could
-never have failed, and 84% guarded real content that changed — the finding was against mass
-removal, because most of the sample earned its place. The same method, run over the whole suite,
-answers the size question honestly instead of by feel.
-
-**Done when.** No command decides this one. A sample of the suite is measured the way plan-6
-measured its 120 tests, and the share that could never have failed is written on one page with the
-sample size and the method beside it. The owner reads that number before a single test is cut. What
-would convince him: the number, and being able to see how it was reached.
-
-Not a task to prune first and measure after — his own standing law is measure, then decide, and a
-mass removal without that measurement is exactly the failure this line exists to prevent.
 
 
 ### ⬜ Independent work actually runs in parallel branches, proven live — id: q-386
@@ -2142,4 +2143,5 @@ Rotated closed rows (base rule 10 — nothing lost; the archive keeps every move
 - rows 44, 95, 165, 193, 243 → docs/queue-archive/rotated-PLAN-2026-08-28-no-acceptance.md
 - rows 596 → docs/queue-archive/rotated-PLAN-2026-08-28-no-reachable-outcome.md
 - rows 405 → docs/queue-archive/rotated-PLAN-2026-08-28-q405-agent-messaging-stale-premise.md
+- rows 453, 751 → docs/queue-archive/rotated-PLAN-2026-08-31-hostile-review-archive.md
 <!-- /rotated-manifest -->
