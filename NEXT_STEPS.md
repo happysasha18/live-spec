@@ -61,16 +61,43 @@ thing the next session does:
    very LIVE STATE update is the fix; re-run it after this file is committed in the same
    commit range and it should clear.
 2. `tests/test_traceability.py::TestTargetOwnership::test_targets_owned_by_open_rows` —
-   **not yet fixed, needs a real decision.** `q-55` is marked done, but five spec `[target]`
-   anchors (E-6, E-7, E-10, A-6, INV-17) still name it as their owning task, and the
-   narrowed `q-55` that actually landed does not address any of them. The test's own
-   comment says these five were declined by the provenance purge (`38438eaf`) before the
-   ROADMAP-to-PLAN rotation ever ran, so they never got a real owning task at all — they've
-   been orphaned all along, just invisible while `q-55` sat open. Two ways out, both
-   requiring a look at what each of the five `[target]` tags actually promises: re-own each
-   to whatever row (if any) now covers it, or drop the tag where the promise is genuinely
-   dead. The test explicitly declines to pick for you. Once resolved: `python3 -m pytest -q`
-   clean, `bash guardrails/pre-push`, push.
+   **not fixed, and here is real diagnosis, not just the failure.** `q-55` is marked done,
+   but five spec `[target]` anchors (E-6, E-7, E-10, A-6, INV-17) still name it as their
+   owning task. Read `TARGET_ROW_OWNERS` in `tests/test_traceability.py` (~line 1454) and
+   `target_marker_anchors()` beside it: the anchors live in the *assembled* body
+   `conftest.read("PRODUCT_SPEC.md")` returns (8,357 lines), built from `spec/*.md` parts —
+   **not** the 315-line file you see with a plain `cat`, which is only a glossary/index.
+   Checking the raw file directly, the way this session's own hostile-review pass did
+   earlier tonight, makes the anchors look absent when they are not — that pass's claim
+   ("E-6/E-7/E-10/A-6 appear nowhere in PRODUCT_SPEC.md") is itself wrong, caught only now.
+   Use the assembled read, or `bash scripts/plan-step.sh` sibling tooling, never `cat`.
+
+   What each anchor actually is, checked directly: **`A-6`** (`spec/adopt-existing-project.md:25`,
+   "save a first baseline snapshot of the host's artifacts as found, git-tracked, as the
+   diff baseline the snapshot machinery guards") is a real, close match to what `q-55`'s
+   landed work (`adopt/record-starting-state.sh`) actually does — re-owning it to `q-55` and
+   dropping its `[target]` tag as satisfied looks right, but confirm the "diff baseline the
+   snapshot machinery guards" clause isn't citing a *different* baseline system (see next)
+   before doing that. **`E-7`** co-occurs with `A-6` at that same line but its fuller
+   definition (`spec/doc-order-generated.md:301-307`) is about a *different* baseline: a
+   rendered-surface snapshot folder (`.live-spec/snapshot/`) for the design-sync machine,
+   with its own manifest and heavy-byte handling — this looks unrelated to project
+   onboarding and may have been mis-cited onto `q-55` from the start, not something today
+   broke. **`E-10`** (`spec/doc-order-generated.md:360-365`, `spec/work-board.md:24`,
+   `spec/design-spec-review.md:211`) is the surface-registry completeness gate
+   (`SURFACES.md`) — also design-sync territory, not onboarding. **`E-6`**
+   (`spec/design-spec-review.md:560-561`) is the prototype-into-prod fence turning red —
+   also unrelated. **`INV-17`** appears across `spec/draft-sandbox.md`,
+   `spec/design-spec-review.md`, `spec/roles-and-agents.md` as a general
+   spec-claims-only-what's-built invariant, cited too broadly to belong to any one row.
+
+   So the honest read: `A-6` probably is `q-55`'s to close (verify the snapshot-machinery
+   clause first); `E-6`, `E-7`, `E-10` were very likely mis-mapped to `q-55` in
+   `TARGET_ROW_OWNERS` before tonight and belong to whatever row (if any) owns design-sync
+   and the surface registry — check `plan-14`/`q-54` territory; `INV-17` may need to stay
+   generic or get dropped as too broad to own. This is real spec work, not a rubber stamp —
+   read each cited spec line yourself before touching the map. Once resolved:
+   `python3 -m pytest -q` clean, `bash guardrails/pre-push`, push.
 
 **Still owed, unwritten, carried forward from an earlier note:** a `JOURNAL.md` entry for
 the prover-description-test movement (`85b659d1`, from 31.08 morning).
