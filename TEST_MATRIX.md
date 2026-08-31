@@ -148,7 +148,7 @@ by `test_artifact_inventory` — the test parses this table, so adding an entry 
 | `matrix/inbox.md` | 14 | the parallel-safe intake door for wishes born outside a live-spec session. Its remote arm serves granted seats. Its stranger arm bridges Issues and Discussions into inbox files through a monitor. Two hosts on one repo converge on a single surfacing by a claim on the shared item. |
 | `matrix/host-contract.md` | 4 | the recorded settings instances. Those are this host's profile, the human's personal profile, and the thin loader that boots the personal layer. The agent records sit here too: the self-declaring card in each agent's own tree, found by the pack's live scan. |
 | `matrix/package-docs.md` | 16 | live-spec's own host instance (dogfood): spec, queue, journal, resume file, version, records, dev-machine skill sync, its own problem ledger |
-| `matrix/guardrails.md` | 123 | mechanical pre-push checks + surface registry + CI mirror |
+| `matrix/guardrails.md` | 125 | mechanical pre-push checks + surface registry + CI mirror |
 | `matrix/text-audit.md` | 1 | the audit-and-fix loop for human-facing texts. It runs the mechanical register lints first, then fresh zero-context cold reads. Each finding is fixed at its source until two consecutive reads come back clean. |
 | `matrix/snapshot.md` | 3 | saved baseline of the last accepted run; declared-scope diff (ROADMAP row 55) |
 | `matrix/design-sync.md` | 2 | an optional machine, [target: machine; wiring live]. A landing's declared components sync to the team's design project, human-gated (ROADMAP row 93). The machine's first real run remains. |

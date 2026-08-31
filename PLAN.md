@@ -318,7 +318,7 @@ carry — the message to the window that lost its delegation — is spent: that 
 July, and nothing waits on it.
 
 
-### ⬜ A cleared mistake stops blocking every future push — id: q-527
+### ✅ A cleared mistake stops blocking every future push — id: q-527
 **Group:** Worker & data safety · **Priority:** normal
 **Source:** found 2026-07-29; owner's word owed on what counts as "cleared."
 Note (28.08): the row no longer waits on him. It waited on a policy answer — what counts as a
@@ -330,6 +330,19 @@ mistake it names has been made good, and stays red over the same fixture without
 test holds both directions, so the way out is proved rather than described. What counts as made good
 is written once, in the requirement the check cites. That definition is this seat's to write, not
 his: his word of 27.08 puts machinery on this desk, and it is machinery.
+
+**Done 31.08.** A mistake is made good when every file the command named carries, in the repository
+that command ran in, a commit dated later than the command — the work at those paths is saved in
+that repository's history again. The definition is written once, in `spec/guardrails-freshness.md`
+Requirement 301 (criteria 21–25), the requirement that already owns this check. The check asks git
+that question afresh on every run, so nothing on disk records a clearing and the answer flips the
+moment the commit exists; a made-good finding stays named in the report beside the commit that
+answered for it, so nothing is dropped in silence. Three shapes can never be made good — a command
+that names no single file, one the check could not place in a repository, and a record with no
+timestamp — and the verify arm (`--run`) never puts the question, so a red worker run stays red for
+acceptance. `tests/test_worker_restore_made_good.py` holds both directions over one fixture
+repository, running the row's own command with nothing between the two readings but the commit.
+The counting start did not move, and no ledger, flag, date or counter was added.
 
 
 ### ⬜ Trimming a long document never loses what moved — id: q-531

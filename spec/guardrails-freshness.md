@@ -804,7 +804,7 @@
 
 ## Requirement 301: A worker restores a file it mutated by writing its own saved bytes
 
-**Context:** A worker writes the files its brief names, and the pack's own red-first method has it mutate a shipped artifact to prove a row red. A git command that discards uncommitted work is a different act: its blast radius is a path, so it lands on files the worker never wrote and its brief never named, and the `git status` a careful worker pastes afterwards reads clean in the safe case and the destructive one alike. So a worker holds the bytes it is about to overwrite and puts them back itself, and a worker holding none halts for the orchestrator. The orchestrator owns recovery, and the last committed stage is what a repair reads from.
+**Context:** A worker writes the files its brief names, and the pack's own red-first method has it mutate a shipped artifact to prove a row red. A git command that discards uncommitted work is a different act: its blast radius is a path, so it lands on files the worker never wrote and its brief never named, and the `git status` a careful worker pastes afterwards reads clean in the safe case and the destructive one alike. So a worker holds the bytes it is about to overwrite and puts them back itself, and a worker holding none halts for the orchestrator. The orchestrator owns recovery, and the last committed stage is what a repair reads from. The census arm of the mechanical check reads records that stay on disk, so a finding it makes is true forever and a finished recovery used to clear nothing: every push after an incident waited for the reading window to roll past it. What counts as made good is stated once, below, and it is a question put to the repository the command ran in, answered afresh on every run, so nothing records that a finding was cleared and no reader has to trust such a record.
 
 **User Story:** As a person whose session holds uncommitted work, I want a worker to put back only what it wrote, so that my unsaved edits survive another lane's repair.
 
@@ -845,6 +845,14 @@
 18. *when* the transcript root does not exist, the check *shall* stand down by name and *shall* say what it read nothing of. [INV-299, INV-218]
 19. *if* the transcript root exists and holds no worker-run transcript, *then* the check *shall* red by name. [INV-299, INV-218]
 20. Each run *shall* state its reach: the transcript root, the file pattern it matched, the window it read, and the count of command lines it took. [INV-269]
+
+**Case: a finding the tree shows made good**
+
+21. A finding *shall* count as made good *when* every file its command named carries, in the repository that command ran in, a commit dated later than the command — the work at those paths is saved in that repository's history again. [INV-299]
+22. *when* a finding counts as made good, the census arm *shall* red nothing for it and *shall* keep it named in the report beside the commit that made it good. [INV-299]
+23. *if* a command's blast radius names no single file — the whole working tree, a directory, or a path the check cannot place in a repository — *then* that finding *shall* never count as made good, since no commit can show an unbounded set of lost bytes is back. [INV-299]
+24. A finding whose record carries no timestamp *shall* never count as made good, since the check cannot say which commits came after it. [INV-299]
+25. The verify arm *shall* apply none of this, and a worker run it reds *shall* stay red for acceptance however the tree moves afterwards. [INV-299, INV-46]
 
 
 ## Requirement 302: A document repaired to zero stays at zero, and every other count moves down alone
