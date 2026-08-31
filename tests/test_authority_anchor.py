@@ -247,6 +247,75 @@ def test_a_named_attribution_reds_on_any_surface_and_the_tree_as_it_stands_passe
     assert r.returncode == 0, "the same attribution naming its exchange must pass\n" + r.stdout
 
 
+def test_a_date_stamped_at_the_head_of_the_line_anchors_the_claim_on_it(tmp_path):
+    """An attribution that carries its date in a leading stamp passes, and one carrying no date at all
+    still reds.
+
+    RED BEFORE THE FIX: the arm split each line into sentences on `:` before looking for a date, so a
+    leading `2026-08-31:` stamp was severed from the sentence it dated and the claim reddened with its
+    date standing two words to the left. `DECISIONS.md` writes its own entries in exactly that form, so
+    the first live page to carry a dated named attribution would have blocked the push.
+
+    The date must still be a real calendar date and must still stand on the line, which is what keeps
+    this narrower than the advisory pass's bare-time exemption."""
+    root = str(tmp_path)
+    os.mkdir(os.path.join(root, "spec"))
+    plant = os.path.join(root, "spec", "queue-order.md")
+    person = json.loads(read("guardrails/authority-anchor.json"))["person_names"][0]
+
+    def write(line):
+        with open(plant, "w", encoding="utf-8") as f:
+            f.write("# Queue order\n\n%s\n" % line)
+        subprocess.run(["git", "-C", root, "add", "-A"], check=True, capture_output=True)
+
+    subprocess.run(["git", "init", "-q", root], check=True, capture_output=True)
+
+    for line in ["2026-07-03: %s asked for the release lane to run first." % person,
+                 "**2026-07-03**: %s decided the release lane runs first." % person]:
+        write(line)
+        r = _gate("--root", root)
+        assert r.returncode == 0, (
+            "the date stands on this line, so the claim is anchored and must pass: %r\n%s"
+            % (line, r.stdout))
+
+    write("%s asked for the release lane to run first." % person)
+    r = _gate("--root", root)
+    assert r.returncode == 1, (
+        "no date stands anywhere on this line, so the claim must still red\n" + r.stdout)
+
+
+def test_the_two_honest_sentences_this_arm_still_reds_stay_named(tmp_path):
+    """The arm reds two shapes a person could write honestly, and both stay red on purpose.
+
+    A year-less date is not a date a reader can resolve on its own, and no deterministic matcher reads
+    a denial. Each costs a writer one edit and neither lets a fabrication through, which is why the
+    anchor is not widened to take them. This test reds if either quietly starts passing, so the choice
+    stays a choice rather than drifting into a silent hole, and the gate's own opening says both."""
+    root = str(tmp_path)
+    os.mkdir(os.path.join(root, "spec"))
+    plant = os.path.join(root, "spec", "queue-order.md")
+    person = json.loads(read("guardrails/authority-anchor.json"))["person_names"][0]
+
+    def write(line):
+        with open(plant, "w", encoding="utf-8") as f:
+            f.write("# Queue order\n\n%s\n" % line)
+        subprocess.run(["git", "-C", root, "add", "-A"], check=True, capture_output=True)
+
+    subprocess.run(["git", "init", "-q", root], check=True, capture_output=True)
+
+    for line in ["%s asked for the release lane to run first on 03.07." % person,
+                 "This is not %s's word, it is the session's own call." % person]:
+        write(line)
+        r = _gate("--root", root)
+        assert r.returncode == 1, (
+            "this shape reds on purpose and its reason is written in the gate's opening: %r\n%s"
+            % (line, r.stdout))
+
+    source = read("guardrails/check-authority-anchor.py")
+    assert "TWO WAYS THIS ARM REDS AN HONEST SENTENCE" in source, (
+        "the gate's opening must keep naming the two honest sentences it reds")
+
+
 def test_the_reach_the_named_arm_does_not_cover_is_written_down(tmp_path):
     """The other half of an honest verdict: what the arm does NOT hold, held as a test so the
     documentation cannot drift away from it.

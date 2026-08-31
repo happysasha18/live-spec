@@ -38,24 +38,34 @@ system that treats most messages as work is the system being replaced.
 
 ### What the expected verdicts grade, and how
 
-Exactly: the acts, whether work is created, whether an idea is shelved, whether the turn
-attaches to work already running, and how many separate pieces of work the turn produces.
-These are the mandate's claims, and they are either met or not.
+Exactly: whether work is created, whether an idea is shelved, whether the turn attaches to
+work already running, and how many separate pieces of work the turn produces. These are the
+mandate's claims, and they are either met or not. Every act a scenario expects is graded
+exactly the same way — each one has to show up, or the scenario is red.
 
 By inclusion: dimensions and specialists. A scenario names what must be present and what
 must be absent and leaves the rest to judgment, because there is a defensible range there
 and a grader that demanded one exact answer would be measuring conformity, not competence.
 
-As a note, not a failure: an act the scenario did not ask for. The skill sets this price
-itself, in *One turn, several acts* — "Naming one act too many costs a sentence. Naming one
-too few loses what somebody said." A grader charging both the same is grading against a
-cost model the skill does not hold, and it was: six of the nine reds in the 2026-08-26 run
-were scenarios whose every material field was right and whose only defect was one act too
-many. So an extra act is printed beside its scenario and counted in the closing summary,
-where a producer drifting toward over-segmentation stays visible, and it does not redden a
-scenario on its own. Everything else still does, an extra act beside it or not: a missing
-act, a wrong boolean, a wrong `work_items`, a missing or forbidden dimension or specialist,
-and a name that is not a speech act at all.
+As a note, not a failure, but only when the scenario expects a real act: an extra act beside
+one or more expected ones. The skill sets this price itself, in *One turn, several acts* —
+"Naming one act too many costs a sentence. Naming one too few loses what somebody said."
+That passage prices splitting one real act that happened into two, and a grader charging
+that the same as a missed act was grading against a cost model the skill does not hold, and
+it was: two of the nine reds in the 2026-08-26 run were scenarios whose every material field
+was right and whose only defect was one act too many beside a real one (re-derived directly
+against that commit's traces). So an extra act beside an expected one is printed beside its
+scenario and counted in the closing summary, where a producer drifting toward
+over-segmentation stays visible, and it does not redden a scenario on its own.
+
+When a scenario expects no act at all, an extra one is a different mistake, priced in the
+skill's own *Not every message is one of the seven* — "Reaching for one of the seven acts
+here is how a thank-you becomes a roadmap row." That is not a real act split in two; it is
+an act invented where none happened, and it fails.
+
+Everything else still fails, an extra act beside a real one or not: a missing act, a wrong
+boolean, a wrong `work_items`, a missing or forbidden dimension or specialist, an act named
+where the scenario expects none, and a name that is not a speech act at all.
 
 ## Running it
 
@@ -81,18 +91,20 @@ the day and carried a score of 33 of 35 for days that a full re-record put at 26
 
 bare run: 2026-08-26 — all 35 traces regenerated against the skill as it stood that day
 (`skill_version: 5.0.0`, commit `70a3d360`), graded with `python3 evals/director/check.py --all`:
-26 of 35 pass. The full per-scenario breakdown, including the eight still-red and their
+26 of 35 pass. The full per-scenario breakdown, including the nine still-red and their
 individual reasons, is carried in `PLAN.md`'s own record of that run rather than duplicated here —
 one home per fact.
 
 bare run: 2026-08-31 — all 35 re-recorded against `skill_version: 6.0.0`, one fresh producer
-per scenario under the isolation protocol above, graded once: 34 of 35 pass, and five of those
-named an act the scenario did not ask for. The single red is `idea-for-another-project`, where
-the run read the message's imperative clause as a request to deliver the note now, against a
-fixture that expects it shelved — a disagreement on all three material fields, with the extra
-acts a consequence of it rather than the cause. The skill's text was
-not touched for this run; what changed under it was the grader's cost model for an extra act and
-`observation-carrying-its-repair`'s situation, both described above.
+per scenario under the isolation protocol above, graded once: 34 of 35 pass. Five runs in
+total named an act the scenario did not ask for — four of the 34 passing runs, plus the one
+red run below, whose own failure is a material field rather than the extra act. The single
+red is `idea-for-another-project`, where the run read the message's imperative clause as a
+request to deliver the note now, against a fixture that expects it shelved — a disagreement
+on all three material fields, with the extra acts a consequence of it rather than the cause.
+The skill's text was not touched for this run; what changed under it was the grader's cost
+model for an extra act and `observation-carrying-its-repair`'s situation, both described
+above.
 
 ## What the first run caught
 

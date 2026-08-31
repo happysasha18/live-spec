@@ -181,6 +181,112 @@ def test_an_unstamped_record_is_never_made_good(tmp_path):
     assert "MADE GOOD" not in result.stdout
 
 
+def test_a_glob_pathspec_is_never_made_good(tmp_path):
+    """A glob is not a file name. `_named_files` used to reject only a leading `-`, the whole-tree
+    marker, and a path the filesystem calls a directory right now — a glob is none of those, and git
+    then reads it as a pattern that can match more than the one file it appears to name. Each of
+    these four forms discards the whole working tree, or close to it, and a real commit dated after
+    the incident (touching one unrelated file) must not be read as proof any of them came back
+    (SPEC Requirement 301 criterion 23)."""
+    for command in ("git checkout -- '*'", "git checkout -- '*.md'", "git restore '**'",
+                    "git checkout -- ':/'"):
+        label = command.replace(" ", "-").replace("/", "-").replace("'", "").replace(":", "")
+        repo = _project(tmp_path / label)
+        root, _ = _transcripts(tmp_path / label, repo, command)
+        _repair(repo)
+        result = _acceptance(repo, root)
+        assert result.returncode == 1, (
+            "`%s` cleared on a commit that names no single file:\n%s" % (command, result.stdout))
+        assert "MADE GOOD" not in result.stdout
+
+
+def test_a_directory_removed_after_the_incident_is_never_made_good(tmp_path):
+    """`os.path.isdir` answers what the filesystem holds right now, not what the command's blast
+    radius named. A directory `git clean -fd` removed can go on being absent from disk forever while
+    a later commit still touches a file under it — staged straight into the index and committed
+    without ever being checked out, exactly as a sibling worktree sharing this repository's history
+    would leave it. `gone` itself is never the path any commit carries; only `gone/a.txt` is, so
+    asking git whether `gone` names exactly one tracked file must answer no (SPEC Requirement 301
+    criterion 23)."""
+    repo = _project(tmp_path)
+    (repo / "gone").mkdir()
+    (repo / "gone" / "a.txt").write_text("will be removed after the incident\n", encoding="utf-8")
+    _commit(repo, "add gone/", BEFORE_INCIDENT)
+    shutil.rmtree(str(repo / "gone"))
+
+    root, _ = _transcripts(tmp_path, repo, "git clean -fd gone")
+
+    blob = subprocess.run(["git", "-C", str(repo), "hash-object", "-w", "--stdin"],
+                          input="restored, staged without ever being checked out\n",
+                          check=True, capture_output=True, text=True).stdout.strip()
+    subprocess.run(["git", "-C", str(repo), "update-index", "--add", "--cacheinfo",
+                    "100644", blob, "gone/a.txt"], check=True, capture_output=True)
+    _commit(repo, "restore gone/a.txt", AFTER_INCIDENT)
+
+    result = _acceptance(repo, root)
+    assert result.returncode == 1, (
+        "`git clean -fd gone` cleared on a directory the filesystem no longer shows:\n%s"
+        % result.stdout)
+    assert "MADE GOOD" not in result.stdout
+
+
+def test_a_later_commit_that_deletes_the_named_path_is_never_made_good(tmp_path):
+    """`git log --after -- path` matches a commit that REMOVES the path just as readily as one that
+    restores it. The work is back only if the path still sits in the repository's current HEAD, not
+    merely somewhere in its history (SPEC Requirement 301 criterion 26)."""
+    repo = _project(tmp_path)
+    (repo / "del.md").write_text("will be deleted, not restored\n", encoding="utf-8")
+    _commit(repo, "add del.md", BEFORE_INCIDENT)
+
+    root, _ = _transcripts(tmp_path, repo, "git checkout -- del.md")
+
+    (repo / "del.md").unlink()
+    _commit(repo, "delete del.md", AFTER_INCIDENT)
+
+    result = _acceptance(repo, root)
+    assert result.returncode == 1, (
+        "a commit that deletes del.md cleared the finding:\n%s" % result.stdout)
+    assert "MADE GOOD" not in result.stdout
+
+
+def test_an_amended_pre_incident_commit_is_never_made_good(tmp_path):
+    """`--after` filters on COMMITTER date, and `git commit --amend` resets the committer date to
+    the moment it runs while leaving the author date untouched. A pre-incident commit amended after
+    the incident — with no content change, so nothing was actually repaired — must not be read as a
+    repair merely because its committer date moved (SPEC Requirement 301 criterion 27)."""
+    repo = _project(tmp_path)
+    root, _ = _transcripts(tmp_path, repo, "git checkout -- %s" % DISCARDED)
+
+    env = dict(os.environ)
+    env.update({
+        "GIT_AUTHOR_NAME": "fixture", "GIT_COMMITTER_NAME": "fixture",
+        "GIT_AUTHOR_EMAIL": "fixture@example.invalid",
+        "GIT_COMMITTER_EMAIL": "fixture@example.invalid",
+    })
+    subprocess.run(["git", "-C", str(repo), "commit", "--amend", "-q", "--no-edit"],
+                   check=True, capture_output=True, env=env)
+
+    result = _acceptance(repo, root)
+    assert result.returncode == 1, (
+        "amending a pre-incident commit's committer date cleared the finding:\n%s" % result.stdout)
+    assert "MADE GOOD" not in result.stdout
+
+
+def test_a_multi_file_command_naming_a_glob_is_never_made_good_on_one_real_repair(tmp_path):
+    """A command that names one real path alongside a glob is still an unbounded blast radius as a
+    whole. Before the fix, the glob's own git-log query matched the sibling's genuine repair commit —
+    since a glob matches whatever else changed — and the pair cleared together even though only the
+    one named file was ever actually put back (SPEC Requirement 301 criterion 23)."""
+    repo = _project(tmp_path)
+    root, _ = _transcripts(tmp_path, repo, "git checkout -- %s '*'" % DISCARDED)
+    _repair(repo)
+    result = _acceptance(repo, root)
+    assert result.returncode == 1, (
+        "the glob piggybacked on the one real repair and cleared the whole command:\n%s"
+        % result.stdout)
+    assert "MADE GOOD" not in result.stdout
+
+
 def test_the_verify_arm_stays_red_after_the_repair(tmp_path):
     """The way out is the census arm's alone. A worker run the verify arm reds stays red for
     acceptance however the tree moves afterwards (SPEC Requirement 301, criterion 25)."""

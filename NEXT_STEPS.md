@@ -21,7 +21,23 @@ repaired at the situation, leaving its expectation untouched. The honest score i
 that stands is `idea-for-another-project`: the skill and the fixture genuinely disagree about
 whether an idea aimed at a different project is an act at all, and that disagreement is open. The
 eval's own README now says a skill change requires re-recording all thirty-five, never a subset,
-because a subset is how the stale number was made.
+because a subset is how the stale number was made. Two graders are in play, so the movement is
+stated twice rather than once: the old grader puts the 26.08 draw at 26 and today's at 30, and the
+new grader puts today's at 34, so four scenarios are real improvement and the rest of the gap is the
+corrected cost model.
+
+**An adversarial read with clean context refused this push, and nine findings were repaired before
+it went out.** Two of them were the grading change overreaching. It had been justified on six of
+that day's nine reds when the true number is two, re-derived twice against the run's own recorded
+traces. And it had gone one step too far: a turn the fixture expects to carry no act at all could
+name one and still pass, which is exactly the failure the thank-you case exists to catch. An extra
+act is now forgiven only where some act was expected. Four more were in the way out for a cleared
+mistake, which counted four kinds of non-repair as a repair — a wildcard standing for the whole
+tree, a directory already gone from disk, a commit that deletes the file rather than restoring it,
+and a commit merely amended after the fact. Each now stays blocking, each proved by a test that
+fails against the code as first written. One was the new attribution block reddening a sentence that
+carries its date in the form this project writes dates in; it now reads the whole line. The rest
+were counts and pointers that had drifted at the merge.
 
 **A worker-restore finding stops blocking every push once the tree shows the work back** (q-527,
 landed 31.08). The check that reads worker transcripts for a command that discards unsaved work made

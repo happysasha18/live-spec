@@ -298,12 +298,18 @@ reds, and so does a finding whose record carries no timestamp, since the gate ca
 
 A finding also stops reddening once the tree shows the work back. What counts as made good is stated
 once, in `spec/guardrails-freshness.md` Requirement 301: every file the command named carries, in the
-repository that command ran in, a commit dated later than the command. The census arm asks that of git
-on every run and keeps a made-good finding named in its report beside the commit that answered for it,
-so nothing on disk records a clearing and no reader has to trust such a record. Three shapes can never
-be made good — a command that names no single file, one the gate could not place in a repository, and
-a record with no timestamp — and the verify arm (`--run`) never puts the question: a red worker run
-stays red for acceptance, and recovery earns a fresh brief and a fresh run.
+repository that command ran in, a commit dated later than the command by author date, and that file
+still sits in the repository's current HEAD. The census arm asks that of git on every run and keeps a
+made-good finding named in its report beside the commit that answered for it, so nothing on disk
+records a clearing and no reader has to trust such a record. Four shapes can never be made good — a
+command that names no single file (including one that names a glob or a directory, since git is asked
+whether the path resolves to exactly itself, never to a filesystem guess), one the gate could not
+place in a repository, a record with no timestamp, and a path a later commit only deleted — and the
+verify arm (`--run`) never puts the question: a red worker run stays red for acceptance, and recovery
+earns a fresh brief and a fresh run. Author date is read rather than committer date because `git
+commit --amend` and a rebase both reset the committer date without touching the author date; author
+date itself stays a residual bound, since `git commit --date` sets it by hand and no repository fact
+can tell such a date from a real one.
 
 ## How a host project adapts the pattern
 

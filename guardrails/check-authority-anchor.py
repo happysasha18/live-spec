@@ -38,18 +38,29 @@ THE FOUR ACTS the gate serves:
     credits a person the config ROSTER NAMES with a decision, word, ruling or instruction that names no
     date. Naming the person is what makes this arm deterministic where the role forms below are not:
     "<person> asked for X" is an attribution in any context, while "his word settles it" is the pack's
-    own rule language on nearly every page. Measured over this tree 2026-08-31, across the 176 surfaces
-    this arm reaches, the roster-named shape stands on exactly two lines — both inside dated entries on
-    the decision record — while the role forms stand on 164 under the wide matcher, 125 with the
-    rule frames exempted, and 24 under the tight matcher the advisory pass uses. That is why the reach
-    splits the way it does.
+    own rule language on nearly every page. Measured 2026-08-31 with the gate's own compile_named,
+    compile_claim, is_rule_frame and sentence splitting, over the tree's 176 named_surfaces (this arm's
+    own reach — the roster-named shape's two live hits sit only on the two declared decision-record
+    surfaces, which named_surfaces excludes, so they are outside this 176-surface count): the
+    roster-named shape stands on exactly two lines, both inside dated entries on the decision record,
+    while the role forms — compile_claim, sentence-split, counted regardless of date — stand on 191
+    under the wide matcher, 148 with the rule frames exempted, and 30 under the tight matcher with the
+    rule frames exempted (compile_claim(risky=True) plus is_rule_frame — the exact construction the
+    advisory pass runs). That is why the reach splits the way it does.
     WHAT THIS ARM DOES NOT REACH, so nobody reads it for more than it is. A DECISION-RECORD surface,
-    left to the stricter per-entry rule above. The spared set — 1067 of the tree's 1245 tracked text
-    files, 900 of them `docs/`, the rest the journal, the archives, the fixtures, the working notes and
-    the suite — which today carries 152 roster-named unanchored attributions, every one of them a dated
+    left to the stricter per-entry rule above. The spared set (measured 2026-08-31 with `_tracked` and
+    `is_spared`) — 1069 of the tree's 1247 tracked text files, 902 of them `docs/`, the rest the
+    journal, the archives, the fixtures, the working notes and the suite — which today carries 152
+    roster-named unanchored attributions, every one of them a dated
     record narrating what already happened. And any shape the roster patterns miss: "the lane order came
     from <person>" carries no authority word beside the name and passes. A text gate holds shapes; the
     judge and the read-back hold the class.
+    TWO WAYS THIS ARM REDS AN HONEST SENTENCE, left standing on 2026-08-31 with the reason. Both cost a
+    writer one edit and neither lets a fabrication through, which is why the anchor is not widened to
+    take them. First, a year-less date: "<person> asked for X on 31.08" reds, because a day and a month
+    with no year is not a date a reader can resolve on its own, and the writer spells the year. Second,
+    a denial: "this is not <person>'s word, it is the session's own call" reds, because no deterministic
+    matcher reads negation. The waiver list in the config is the documented way past either.
   * The RISKY-SURFACE FIRST PASS (push-wired, ADVISORY). The founding fabrication was NOT written on a
     decision record — it was written in the resume file and travelled from there into a plan and a chat
     claim. So the standing scan also REACHES the churny surfaces where an attribution first gets
@@ -355,7 +366,7 @@ def scan_record(path, rel, claim_re, waivers):
 
 
 def scan_prose(path, rel, claim_re, waivers, tight=False, time_anchor=None,
-               why="authority claim names no date"):
+               line_anchor=False, why="authority claim names no date"):
     """Free prose. In the WIDE sweep (tight=False, arg mode) report every authority-claim sentence
     naming no date — the triage list wants recall. In the TIGHT risky-surface pass (tight=True) exempt
     the rule-frame forms and count a same-day time as an anchor, so the advisory report stays readable.
@@ -363,7 +374,22 @@ def scan_prose(path, rel, claim_re, waivers, tight=False, time_anchor=None,
     `time_anchor` defaults to `tight` and splits that second exemption out for the tree-wide named arm,
     which exempts the rule frames but does NOT take a bare time as an anchor: a same-day time points at
     a day only where the file's own dated context fixes the day, which the resume file and the plan do
-    and an arbitrary surface does not."""
+    and an arbitrary surface does not.
+
+    `line_anchor` widens the date's scope from the sentence to the whole LINE, and the tree-wide named
+    arm is the one caller that asks for it. `SENT_SPLIT` breaks on `:`, so a leading date stamp is
+    severed from the sentence it dates, and `2026-08-31: <name> asked for X` — the form `DECISIONS.md`
+    writes its own entries in — reddened while carrying its date in plain sight two words to the left.
+    The line is the unit a reader reads, so a real date standing on it is a date they can go to and
+    check, which is the whole of what this gate asks for. It stays strictly narrower than the time
+    exemption above: the date must be a real calendar date, and it must be on the line, so a claim
+    carrying no date anywhere still reds.
+
+    What it costs, said plainly: a line carrying a date and two sentences exempts BOTH, so an undated
+    attribution riding beside a dated one on one line passes. That is the price of reading the line
+    rather than the fragment, and the line is still the span a person's eye takes in at once, so the
+    date is in front of whoever reads the claim.
+    """
     if time_anchor is None:
         time_anchor = tight
     try:
@@ -371,11 +397,14 @@ def scan_prose(path, rel, claim_re, waivers, tight=False, time_anchor=None,
     except (UnicodeDecodeError, OSError):
         return
     for i, raw in enumerate(lines, 1):
+        line_dated = line_anchor and valid_date_in(raw)
         for sent in SENT_SPLIT.split(raw):
             if STRIKETHROUGH.search(sent):
                 continue
             m = claim_re.search(sent)
             if not m or valid_date_in(sent):
+                continue
+            if line_dated:
                 continue
             if time_anchor and TIME.search(sent):
                 continue
@@ -525,7 +554,7 @@ def main(argv):
         for path, rel in tree_wide:
             named_seen = True
             for ln, snip, why in scan_prose(path, rel, named_re, waivers, tight=False,
-                                            time_anchor=False,
+                                            time_anchor=False, line_anchor=True,
                                             why="a decision credited to a named person names no date"):
                 offences.append((rel, ln, snip, why))
 

@@ -172,19 +172,27 @@ than restating the law. The question is put fresh on every run, so nothing on di
 finding was cleared and no reader has to trust such a record: the answer flips the moment the commit
 exists and would flip back if that commit ever left the history.
 
-Three cases can never be answered YES, and each of them keeps reddening as it always did. A command
-whose blast radius names no single file (`git reset --hard`, a bare `git stash`, `git clean -fd
-<dir>`, `git checkout -- .`) discards an unbounded set, and no commit shows an unbounded set is back.
-A finding the gate could not place in a repository on disk has nowhere to put the question. A record
-carrying no timestamp cannot say which commits came after it. The verify arm (`--run`) never puts
-the question: the run being accepted stays red however the tree moves afterwards, because recovery
-earns a fresh brief and a fresh run, and that run earns its own verdict.
+Four cases can never be answered YES, and each of them keeps reddening as it always did. A command
+whose blast radius names no single file — the whole working tree, a directory (`git clean -fd
+<dir>`, `git checkout -- .`), or a path carrying a glob metacharacter (`*`, `?`, `[`) or opening
+git's pathspec-magic prefix (a leading `:`) — discards a set no commit can show is back: a glob can
+match more than the one path it appears to name, and a directory resolves, when asked, to its own
+contents rather than to itself. A finding the gate could not place in a repository on disk has
+nowhere to put the question. A record carrying no timestamp cannot say which commits came after it.
+A path a later commit only DELETES is not back either: the question also asks whether the path still
+sits in the repository's current HEAD, not merely somewhere in its history. The verify arm (`--run`)
+never puts the question: the run being accepted stays red however the tree moves afterwards, because
+recovery earns a fresh brief and a fresh run, and that run earns its own verdict.
 
 What the answer proves is bounded, and the wording above is the bound: the named path is saved in
-history again, later than the command. It does not prove the exact bytes that were discarded came
-back, and nothing a repository holds could prove that. It is the census arm alone that reads it —
-the arm that blocks pushes long after the bytes are gone — so an over-generous reading costs a
-forensic notice, never an acceptance.
+history again, later than the command, and sits in HEAD now. It does not prove the exact bytes that
+were discarded came back, and nothing a repository holds could prove that. "Later than the command"
+reads the commit's AUTHOR date, which survives `git commit --amend` and a rebase — both reset the
+committer date to the moment they run but leave the author date as it was — yet author date remains
+a bound this cannot close: `git commit --date` sets it by hand, and no fact the repository holds can
+tell such a date from a real one. It is the census arm alone that reads it — the arm that blocks
+pushes long after the bytes are gone — so an over-generous reading costs a forensic notice, never an
+acceptance.
 
 THE COUNTING START. This machine's transcripts hold worker runs from before the gate existed, and 81
 of them carry a discarding command. A gate that reds on that history would be turned off on its first
@@ -271,6 +279,7 @@ import shlex
 import subprocess
 import sys
 import time
+from datetime import datetime, timezone
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, SCRIPT_DIR)
@@ -363,6 +372,11 @@ WRAPPERS = ("command", "sudo", "env")
 _HEREDOC_OPENER = re.compile(r"(?<!<)<<(?!<)-?\s*(['\"]?)([A-Za-z_][A-Za-z0-9_]*)\1")
 
 WHOLE_TREE = "the whole working tree"
+
+# A glob metacharacter git's pathspec grammar treats specially, or the leading `:` that opens
+# git's own pathspec-magic prefix (`:/`, `:(exclude)...`). Either turns a "path" into a pattern
+# that can match more than the one file it appears to name (SPEC Requirement 301 criterion 23).
+_PATHSPEC_GLOB = re.compile(r"[*?\[]")
 
 # A counting-start value: a plain date, or an ISO timestamp that adds a time of day.
 _COUNTING_FROM_DATE_RE = re.compile(r"^\d{4}-\d{2}-\d{2}$")
@@ -1144,9 +1158,17 @@ def _named_files(finding):
 
     None is the answer for the cases SPEC Requirement 301 puts outside the way out on the strength
     of the blast radius alone: the whole working tree (`git reset --hard`, a bare `git stash`), a
-    directory or `.` (`git clean -fd src`, `git checkout -- .`), and a command the gate could not
-    place in a directory that exists on disk right now. Each of those discards a set no commit can
-    show is back, so each keeps reddening exactly as it did before this reading existed.
+    command the gate could not place in a directory that exists on disk right now, a path carrying a
+    glob metacharacter (`*`, `?`, `[`) or opening git's pathspec-magic prefix (a leading `:`) — since
+    a pattern can match more than the file it appears to name and git is never asked to resolve it —
+    and a path git itself does not answer as exactly one tracked file: a directory (`git clean -fd
+    src`, `git checkout -- .`) resolves to that directory's own contents, not to the path itself, so
+    the equality check below fails it the same way. Each of those discards a set no commit can show
+    is back, so each keeps reddening exactly as it did before this reading existed.
+
+    Whether the path still exists NOW is a separate question, asked in `repair_commit` against HEAD
+    — this function answers only the shape of the blast radius, not whether a later commit went on
+    to delete what it named.
 
     A word that is a revision rather than a path — `git checkout HEAD <path>` hands this both — is
     returned like any other name and answered by git itself in `repair_commit`, where no commit
@@ -1158,28 +1180,78 @@ def _named_files(finding):
     paths = finding.get("paths") or []
     if not paths or WHOLE_TREE in paths:
         return None
+    out = []
     for p in paths:
         if not p or p.startswith("-"):
             return None
-        full = os.path.normpath(os.path.join(directory, os.path.expanduser(p)))
-        if os.path.isdir(full):
+        if p.startswith(":") or _PATHSPEC_GLOB.search(p):
             return None
-    return list(paths)
+        normalized = os.path.normpath(p)
+        try:
+            # The same 30-second bound, for the same reason, as the `git rev-parse` in
+            # `_git_common_dir`: on expiry the SubprocessError below returns None, the finding stays
+            # red, and this deadline can never turn a real finding into a pass.
+            proc = subprocess.run(["git", "-C", directory, "ls-files", "--", p],
+                                  capture_output=True, text=True, timeout=30)
+        except (OSError, subprocess.SubprocessError):
+            return None
+        if proc.returncode != 0:
+            return None
+        lines = [line for line in proc.stdout.splitlines() if line]
+        if len(lines) != 1 or os.path.normpath(lines[0]) != normalized:
+            return None
+        out.append(p)
+    return out
+
+
+def _author_utc_stamp(iso_value):
+    """`iso_value` (one of git's `%aI` strict-ISO-8601 author dates, carrying its own author's
+    offset) converted to a UTC stamp normalized the same way `_normalize_stamp` reads a harness
+    timestamp, so the two compare as plain text regardless of which offset the commit itself
+    carries. A naive text truncation of `%aI` would compare a commit authored in another timezone
+    against the wrong clock; converting to UTC first is what makes the comparison true.
+
+    None when `iso_value` cannot be parsed as an aware timestamp — the fail-safe side, same as
+    every other unreadable answer in this file.
+    """
+    try:
+        value = iso_value.strip()
+        if value.endswith("Z"):
+            value = value[:-1] + "+00:00"
+        parsed = datetime.fromisoformat(value)
+        if parsed.tzinfo is None:
+            return None
+        parsed = parsed.astimezone(timezone.utc)
+    except (ValueError, AttributeError):
+        return None
+    return _normalize_stamp(parsed.strftime("%Y-%m-%dT%H:%M:%S"))
 
 
 def repair_commit(finding):
     """The commit that made this finding good, or None when the tree does not show the work back.
 
     The question SPEC Requirement 301 states, put to the repository the command ran in: does every
-    file the command named carry a commit dated later than the command? A YES means the work at
-    those paths is saved in that repository's history again. The answer is computed fresh on every
-    run and nothing on disk holds it, so it flips the moment such a commit exists and would flip
-    back if the commit ever left the history.
+    file the command named carry a commit dated later than the command, and does that file still sit
+    in the repository's current HEAD? A YES to both means the work at those paths is saved in that
+    repository's history again, and is there to see now. The answer is computed fresh on every run
+    and nothing on disk holds it, so it flips the moment such a commit exists and would flip back if
+    the commit ever left the history or a later commit deleted the path.
+
+    "Dated later" reads the commit's AUTHOR date, not its committer date: `git commit --amend` and a
+    rebase both reset the committer date to the moment they run but leave the author date exactly as
+    it was, so a committer-date read would clear a finding on a pre-incident commit that was never
+    touched to repair anything. Comparing every candidate in Python (`git log --format="%H %aI"`,
+    no `--after`) rather than leaning on git's own `--after` is what makes reading the author date
+    possible: `--after` filters on committer date only. Author date remains a bound this cannot
+    close — `git commit --date` sets it by hand, and no fact the repository holds can tell such a
+    date from a real one.
 
     The record's own stamp is the boundary, normalized to the second the way `is_history` normalizes
-    it and marked UTC, which is the zone the harness writes its timestamps in. Every way of getting
-    no answer — an unstamped record, an unreadable repository, a git that fails or does not return —
-    returns None and leaves the finding red, the same fail-safe side `_git_common_dir` takes.
+    it. Both it and every author date read here are converted to UTC before comparison (`_normalize_
+    stamp`, `_author_utc_stamp`), since the harness always writes UTC but a commit's author date
+    carries whatever offset its author's clock had. Every way of getting no answer — an unstamped
+    record, an unreadable repository, a git that fails or does not return — returns None and leaves
+    the finding red, the same fail-safe side `_git_common_dir` takes.
     """
     at = finding.get("at") or ""
     if len(at) < 10 or not at[:4].isdigit():
@@ -1188,7 +1260,7 @@ def repair_commit(finding):
     if not files:
         return None
     directory = finding["effective_dir"]
-    since = _normalize_stamp(at) + "Z"
+    since = _normalize_stamp(at)
     newest = None
     for path in files:
         try:
@@ -1196,25 +1268,44 @@ def repair_commit(finding):
             # `_git_common_dir`: on expiry the SubprocessError below returns None, the finding stays
             # red, and this deadline can never turn a real finding into a pass.
             proc = subprocess.run(
-                ["git", "-C", directory, "log", "-1", "--format=%H", "--after=" + since,
-                 "--", path],
+                ["git", "-C", directory, "log", "--format=%H %aI", "--", path],
                 capture_output=True, text=True, timeout=30)
         except (OSError, subprocess.SubprocessError):
             return None
         if proc.returncode != 0:
             return None
-        commit = proc.stdout.strip().splitlines()
-        if not commit or not commit[0]:
+        found = None
+        for line in proc.stdout.splitlines():
+            line = line.strip()
+            if not line or " " not in line:
+                continue
+            commit_hash, author_iso = line.split(" ", 1)
+            stamp = _author_utc_stamp(author_iso)
+            if stamp is not None and stamp > since:
+                found = commit_hash
+                break  # `git log` lists newest first; the first qualifying line is enough.
+        if not found:
             return None
-        newest = commit[0]
+        try:
+            # The work is back only if the path is still there NOW — a later commit that only
+            # deletes it proves nothing (SPEC Requirement 301 criterion 26). Same 30-second bound
+            # and same fail-safe side as every other subprocess call in this file.
+            head_proc = subprocess.run(
+                ["git", "-C", directory, "cat-file", "-e", "HEAD:" + path],
+                capture_output=True, text=True, timeout=30)
+        except (OSError, subprocess.SubprocessError):
+            return None
+        if head_proc.returncode != 0:
+            return None
+        newest = found
     return newest
 
 
 def repaired_line(f):
     """The sentence a made-good finding carries in the report, naming what put it right."""
-    return ("%s handed a shell `%s`, and commit %s in %s is dated later than that command — the "
-            "work at %s is saved in that repository's history again, so the finding is MADE GOOD "
-            "and reds nothing (SPEC INV-299)."
+    return ("%s handed a shell `%s`, and commit %s in %s is dated later than that command by "
+            "author date and still sits in HEAD — the work at %s is saved in that repository's "
+            "history again, so the finding is MADE GOOD and reds nothing (SPEC INV-299)."
             % (f["agent"], f["command"], f["repaired_by"][:12], f.get("effective_dir"),
                ", ".join(f["paths"])))
 
@@ -1531,7 +1622,8 @@ def main(argv=None):
                if not repaired else
                "every worker run that handed a shell a discarding command since %s is made good — "
                "the tree carries the work at every path those commands named, saved later than the "
-               "command itself (SPEC INV-299)" % counting_from)
+               "command itself by author date and still sitting in HEAD (SPEC INV-299)"
+               % counting_from)
     print("OK (%s): %s. Read %s under %s — the "
           "files matching %s, one per worker run — taking every assistant record's Bash tool_use command "
           "field (%d command line%s) and reading each git invocation's subcommand and flags for "

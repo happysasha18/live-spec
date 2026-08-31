@@ -121,6 +121,22 @@ def test_one_act_too_few_still_fails_even_beside_an_extra_one(tmp_path):
     assert "idea" in out, out
 
 
+def test_an_act_named_on_a_zero_act_scenario_fails(tmp_path):
+    """A scenario with an empty expected acts list is claiming the turn is conversation,
+    not one of the seven (SKILL.md's "Not every message is one of the seven"). Naming an
+    act there is not the cheap one-too-many mistake the note exists for — that mistake
+    prices splitting a real act that happened, and this turn carried none — so it must
+    fail, not note. Without this test, the grader could pass a verdict that names an act
+    on the suite's thank-you scenario and never notice."""
+    code, out = grade(tmp_path,
+                      {"acts": [], "creates_work": False},
+                      {"acts": ["instruction"], "creates_work": False,
+                       "dimensions": [], "specialists": []})
+    assert code != 0, out
+    assert "'instruction'" in out, out
+    assert "no act at all" in out, out
+
+
 def test_a_wrong_material_field_still_fails_beside_an_extra_act(tmp_path):
     """An extra act carries nothing across to the booleans: they are graded exactly."""
     code, out = grade(tmp_path,

@@ -18,24 +18,39 @@ THE THREE PARTS, KEPT APART ON PURPOSE.
 Keeping the producer out of this script is the point. A grader that also produces the
 answer grades itself.
 
-WHY THE FIELDS ARE GRADED DIFFERENTLY. The acts and the four booleans are the claim the
-mandate makes: a question must not become work, an idea must not become an instruction, a
-correction must attach to work in flight. Those are graded exactly. Dimensions and
-specialists are professional judgment with a defensible range, so a scenario states only
-what must be present and what must be absent, and anything else is the Director's call.
+WHY THE FIELDS ARE GRADED DIFFERENTLY. The four booleans are the claim the mandate makes: a
+question must not become work, an idea must not become an instruction, a correction must
+attach to work in flight. Those are graded exactly. The acts a scenario names as expected
+are graded exactly too — every one of them has to show up, or the scenario is red.
+Dimensions and specialists are professional judgment with a defensible range, so a scenario
+states only what must be present and what must be absent, and anything else is the
+Director's call.
 
-WHY AN EXTRA ACT IS REPORTED RATHER THAN FAILED. The skill's own cost model, in "One turn,
-several acts": "Naming one act too many costs a sentence. Naming one too few loses what
-somebody said." A grader that failed both the same way would be grading against a cost
-model the skill does not hold, and it did — six of the nine reds in the 2026-08-26 run were
-scenarios whose every material field was right and whose only defect was one act too many.
-So an act the scenario did not ask for is recorded as a note. It is printed on every run,
-passing or failing, and counted in the closing summary, because a producer that always
-drifts toward over-segmentation is worth seeing. It does not turn a pass into a fail on its
-own. Everything else still does: a missing act, a wrong boolean, a wrong work_items, a
-missing or forbidden dimension or specialist, and a name that is not a speech act at all.
-The boundary is exactly the skill's two sentences — zero material misses with at least one
-extra act is the one combination that passes with a note.
+WHY AN ACT BEYOND THE EXPECTED SET IS SOMETIMES A NOTE AND SOMETIMES A FAIL. These are two
+different mistakes with two different prices in the skill, and the scenario's own expected
+acts list says which one applies.
+
+When the scenario expects one or more real acts, an extra one beside them is the cheap
+mistake priced in "One turn, several acts" (SKILL.md, ~lines 126-128): "When you cannot tell
+whether a clause is its own act or part of the neighbouring one, it is its own act. Naming
+one act too many costs a sentence. Naming one too few loses what somebody said." That
+passage prices splitting ONE REAL ACT that happened into two — a turn that did carry
+something is over-segmented. So it is recorded as a note rather than failed: two of the nine
+reds in the 2026-08-26 run were scenarios whose every material field was right and whose
+only defect was this kind of extra act (re-derived directly against that commit's traces;
+an earlier count of six here over-counted the same run under a different check).
+
+When the scenario expects NO acts at all, an extra one is a different mistake with its own
+section, "Not every message is one of the seven" (SKILL.md, ~lines 148-152): "A greeting, a
+thank-you, a thumbs-up on something already agreed ... Reaching for one of the seven acts
+here is how a thank-you becomes a roadmap row." That is not one real act split in two — it
+is an act invented on a turn that carried none — so it fails.
+
+The note is printed on every run, passing or failing, and counted in the closing summary,
+because a producer that always drifts toward over-segmentation is worth seeing. It does not
+turn a pass into a fail on its own. Everything else still does: a missing act, a wrong
+boolean, a wrong work_items, a missing or forbidden dimension or specialist, an act named on
+a turn the scenario expects to carry none, and a name that is not a speech act at all.
 
 USAGE
   check.py --scenario ONE.json --actual RUN.json
@@ -67,32 +82,41 @@ def grade(scenario, actual):
     unknown = got_acts - ACTS
     if unknown:
         fails.append(f"acts: not speech acts: {sorted(unknown)}")
-    else:
+    elif want_acts_list:
         # The scenario's primary act — the first one listed — and every secondary act
-        # beyond it are graded as their own required-present / forbidden-absent checks,
-        # the same way each EXACT_BOOLS field below gets its own check rather than one
-        # lumped verdict for the whole set. This is stricter than the old single
-        # set-equality check, not looser: every act still has to match, but now each one
-        # is named and counted on its own.
-        if want_acts_list:
+        # beyond it are graded as their own required-present checks, the same way each
+        # EXACT_BOOLS field below gets its own check rather than one lumped verdict for
+        # the whole set: every expected act is named and counted on its own.
+        checks += 1
+        primary = want_acts_list[0]
+        if primary not in got_acts:
+            fails.append(f"acts: primary act missing: {primary!r}")
+
+        for act in want_acts_list[1:]:
             checks += 1
-            primary = want_acts_list[0]
-            if primary not in got_acts:
-                fails.append(f"acts: primary act missing: {primary!r}")
+            if act not in got_acts:
+                fails.append(f"acts: missing secondary act {act!r}")
 
-            for act in want_acts_list[1:]:
-                checks += 1
-                if act not in got_acts:
-                    fails.append(f"acts: missing secondary act {act!r}")
-
-        # One act too many is the cheap mistake by the skill's own cost statement, so it
-        # is recorded and reported and does not redden the scenario by itself. See the
+        # One act too many, beside at least one real act the scenario did ask for, is the
+        # cheap mistake by the skill's own cost statement ("One turn, several acts"), so
+        # it is recorded and reported and does not redden the scenario by itself. See the
         # header note. An act the scenario asked for and did not get is still a failure,
         # and it is checked above, so a run that misses one act and adds another is red
         # on the miss.
         for act in sorted(got_acts - want_acts):
             checks += 1
             notes.append(f"acts: extra act {act!r} beyond what the scenario asked for")
+    else:
+        # The scenario expects no acts at all — the turn is conversation by the skill's
+        # own rule ("Not every message is one of the seven"). Naming an act here is not
+        # the cheap "one too many" mistake priced above, which prices splitting ONE REAL
+        # ACT that happened; this is inventing an act on a turn that carried none, so it
+        # fails rather than notes. See the header.
+        for act in sorted(got_acts):
+            checks += 1
+            fails.append(
+                f"acts: named {act!r} on a turn the scenario expects to carry no act at all"
+            )
 
     for field in EXACT_BOOLS:
         if field not in want:
@@ -194,13 +218,17 @@ def main():
         if notes:
             noted += 1
 
-    # The pass line stays the last line printed. scripts/state-probe.sh and
-    # scripts/plan_checks.py both read this script's score with `tail -1`, so anything
-    # added to the summary goes above it.
+    # The pass line stays the last line printed, and the note count lives ON it rather
+    # than on a line above: scripts/state-probe.sh and scripts/plan_checks.py both read
+    # this script's score with `tail -1`, so a line above the last is invisible to both.
+    # plan_checks.py also greps this line for the literal phrase " 0 of ", so that
+    # phrasing stays intact at the start of the line.
+    line = f"{passed} of {len(pairs)} recorded runs pass"
+    if a.all and missing:
+        line += f"; {len(missing)} scenarios have no run"
     if noted:
-        print(f"\n{noted} run(s) named an act the scenario did not ask for")
-    print(f"\n{passed} of {len(pairs)} recorded runs pass"
-          + (f"; {len(missing)} scenarios have no run" if a.all and missing else ""))
+        line += f"; {noted} named an act the scenario did not ask for"
+    print(f"\n{line}")
     return 0 if passed == len(pairs) and not (a.all and missing) else 1
 
 
