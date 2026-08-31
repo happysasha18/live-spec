@@ -4,10 +4,10 @@ PUSH-REVIEW
 
 Range: 57ec6d85..HEAD. Base commit `57ec6d85`, the head `origin/main` carries. Every commit in the
 range, in order: `1d64b25c`, `b59e6cd9`, `cf594500`, `55cd491d`, `98a003b5`, `b8fce842`, `a0e90df1`,
-`3596533a`, `30ec1256`, `c32cb024`, `ad2dbb55`, `a82c15ae`, `df3f1019`, `02a04e80`, plus the repair
-commit this record ships in, which names it below. Fourteen commits at the time of writing: seven
-from the one-home lane, one from the playbook lane, two from the spec lane, three merge commits and
-the follow-up landing that closed the two loose ends.
+`3596533a`, `30ec1256`, `c32cb024`, `ad2dbb55`, `a82c15ae`, `df3f1019`, `02a04e80`, `219ce1da`.
+Fifteen commits: seven from the one-home lane, one from the playbook lane, two from the spec lane,
+three merge commits, the follow-up landing that closed the two loose ends, and the repair commit this
+record ships alongside, which carries the nine repairs named below.
 
 Prover version that ran: product-prover 1.6.0 as installed on this machine, under the pack bindings
 in `skills/product-prover-pack/SKILL.md` 6.0.0. The project pins 1.4.2 for the server; the gap is
