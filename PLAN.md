@@ -1353,7 +1353,7 @@ Its trigger, and the row waits on it: the first host with a live audience worth 
 design travels with the feedback-in half, which is archived under its own row.
 
 
-### ⬜ One command safely winds down all the work before you leave — id: q-235
+### ✅ One command safely winds down all the work before you leave — id: q-235
 **Group:** Budget & economy · **Priority:** normal
 **Source:** owner 2026-07-10 ~13:30, from a café.
 
@@ -1361,6 +1361,21 @@ design travels with the feedback-in half, which is archived under its own row.
 what is unpushed off the machine, and prints a single closing line saying what is safe and what is
 still open. A test runs it over a tree holding a live worker and unpushed commits, and reds when any
 one of those four is skipped. Then it runs for real, the first time he says he is leaving.
+
+**Landed 01.09.** `scripts/wind-down.py` reads every locked worktree off `git worktree list
+--porcelain` (this project's existing worker-worktree lock, not a new registry), SIGTERMs the pid
+its lock names unless that pid is the session's own controlling process, writes or updates a
+checkpoint for it in the existing `.live-spec/checkpoints/*.md` format (`scripts/checkpoint.py`),
+pushes the current branch only when `guardrails/pre-push` exits green (a missing or red gate
+withholds the push rather than bypassing it), and prints one `WIND-DOWN:` line naming what is safe
+and what is still open. Proven by `tests/test_wind_down.py` over a throwaway fixture tree carrying
+a live worker (a real signaled process) and an unpushed commit —
+`TestGreenPath::test_1_live_worker_is_actually_halted` through `test_4_prints_exactly_one_closing_line`
+red if any one of the four is skipped, `TestRedGatePath::test_gate_red_withholds_the_push_and_reports_open`
+proves a red gate withholds the push instead of bypassing it, and
+`TestSelfGuard::test_own_controlling_process_is_left_running_and_reported_open` proves the command
+never signals its own controlling process. Not wired into any hook or gate — a person or session
+runs it deliberately: `python3 scripts/wind-down.py`.
 
 
 ### ✅ Sessions save tokens by reading only what they need — id: q-584
