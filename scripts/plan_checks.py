@@ -85,6 +85,12 @@ sys.exit(1 if undrawn or unmarked else 0)
     # state a check can re-read"). No bound replaces it: any bound here would be a threshold
     # nobody measured, and the opening report already prints today's figure.
     "plan-17": "test -x scripts/plan-step.sh && grep -q 'plan-step.sh' CLAUDE.md",
+    # plan-12: the row's four acceptance legs, one arm each, and a fifth that runs the gate itself
+    # rather than reading only the source that carries it. The first read has its requirement and its
+    # node. The roster names the first read, and the check that proves roster and coverage table agree
+    # now also reds a name standing on a scenario the spec itself marks promised. The two parts-map
+    # faults each carry their own red proof, since a fault with no red proof is a claim.
+    "plan-12": "grep -q '^## Requirement 313' spec/message-first-read.md && grep -q '^### .node: director.$' architecture/pipeline-and-lanes.md && grep -q '^| F-first-read | director |' architecture/feature-coverage.md && grep -q 'def test_no_feature_name_stands_on_a_promised_scenario' tests/test_traceability.py && grep -q 'def test_a_part_the_map_never_named_reds_the_index_gate' tests/test_spec_parts.py && grep -q 'def test_two_parts_under_one_number_red_the_index_gate' tests/test_spec_parts.py && python3 guardrails/check-index-generated.py PRODUCT_SPEC.md PRODUCT_SPEC.index.md >/dev/null",
     # q-458: the audit is its own external skill, installed, with this pack's binding and the lints
     # it declares per text surface.
     "q-458": 'test -d "$HOME/.claude/skills/text-audit" && test -f skills/text-audit-pack/SKILL.md && test -f .text-audit/lints.json',
