@@ -2,9 +2,8 @@
 
 PUSH-REVIEW
 
-Range: 4881623..f97da1c (1 commit reviewed, plus this record's own commit). Base commit `4881623`,
-the head `origin/main` carries after the merged run went out earlier today. Reviewed commit:
-`f97da1c`.
+Range: 4881623..f53242d. Base commit `4881623`, the head `origin/main` carries after the merged run
+went out earlier today. Reviewed commits: `f97da1c` and `f53242d`.
 
 Prover version that ran: product-prover 1.4.2, under the pack bindings in
 `skills/product-prover-pack/SKILL.md` 6.0.0.
@@ -51,7 +50,7 @@ Checks run: seven, each with its result.
    than a number recalled from the finding it replaces.
 7. `python3 -m pytest -q`, the whole suite — recorded in the delivery report for this push.
 
-Findings: four.
+Findings: five.
 
 **1. The settled bar rests on an authority a reader can go and check.** The entry does not assert
 that the owner approved the twenty-one rewritten definitions; it says his standing instruction to
@@ -77,5 +76,13 @@ any rewording starts — whether a host project should still get a queue of its 
 that already has one does when the pack stops describing it. Those are named in the row, so the
 task does not arrive at a later session as a rewording job with a hidden decision inside it.
 **Nothing to repair.**
+
+**5. The architecture's line pin at the plan's task list went stale, and the suite caught it.** The
+rule moved up into `PLAN.md`'s own rules pushed the `## Tasks` heading from line 157 to 164, past
+the two-line tolerance a line pin allows, and `guardrails/check-pin-drift.sh` redded on it along
+with four tests that read that gate. The pin carries the same label and now names the line the
+heading sits on. Worth writing down because the gate did exactly what it exists for: a document
+edit moved a line another document points at, and the pointer was told before anything shipped.
+**Closed in `f53242d`.**
 
 Blocking: none
