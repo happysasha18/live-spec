@@ -1460,9 +1460,14 @@ class TestTargetOwnership(unittest.TestCase):
         # q-55 itself. All four target tags were dropped from the spec text in the same commit as this
         # map edit, per SPEC S-0 (a satisfied promise leaves both the tag and its map entry). Only
         # E-7's OTHER meaning — design-sync's still-unbuilt declared-scope snapshot machinery
-        # (spec/doc-order-generated.md Requirement 247) — stays open, re-pointed below to q-54, the
-        # row `q-93` (design-sync) was folded into on 2026-08-28.
-        "E-7": "q-54",    # design-sync's declared-scope snapshot machinery; q-93 folded into q-54 on 2026-08-28
+        # (spec/doc-order-generated.md Requirement 247) — stays open. First re-pointed to q-54 on
+        # the theory q-93 (design-sync) folded into it, but q-54's own written acceptance never
+        # named design-sync — that would have silently re-orphaned this anchor the moment q-54's
+        # acceptance gets narrowed (docs/prover/2026-08-31-target-ownership-correction.md, finding
+        # F4). Historically this was always row 55's own promise (docs/queue-archive/rotated-
+        # ROADMAP-2026-07.md row 468, 2026-07-23 audit), restored 31.08 as its own row, q-802, the
+        # same way q-437 was restored — an anchor whose owning row closed without building it.
+        "E-7": "q-802",
         "E-18": "q-54",   # design-sync machine; q-93 folded into q-54 on 2026-08-28
         "INV-21": "q-48", # success-measure reading machinery; q-96 folded into q-48 on 2026-08-28
         "INV-185": "q-398",  # the contract's three arms; q-385 folded into q-398 on 2026-08-28

@@ -1296,6 +1296,35 @@ from the earlier note.
 **Source:** found 2026-08-19.
 
 
+### ⬜ Design-sync's own snapshot keeps its baseline honest — id: q-802
+**Group:** Method reliability · **Priority:** normal
+**Source:** the spec's own promise, standing since row 55's 2026-07-23 landing-time audit
+(`docs/queue-archive/rotated-ROADMAP-2026-07.md` row 468: "E-6, E-7, E-10, INV-17, A-6 → row 55").
+Restored 31.08, the same way `q-437` was restored 31.08: a spec anchor whose owning row closed
+without building it.
+
+**Why this is its own row, not `q-54`'s.** `q-55` (design-sync's snapshot machinery was always
+this row's, historically, alongside four other anchors) closed 31.08 narrowed to one real case — a
+joining project's starting-state commit — which builds `A-6` but never touched `E-7`'s other,
+larger promise. A same-day correction first re-pointed `E-7` to `q-54` on the theory that `q-93`
+(design-sync) folded into it, but `q-54`'s own written acceptance names only onboarding-profile
+fields and has never once named design-sync or a snapshot — re-owning it there would have silently
+reproduced the exact defect this correction exists to fix (caught by the adversarial push review of
+`16b1a300..HEAD`, `docs/prover/2026-08-31-target-ownership-correction.md`, finding F4). `E-18`
+(design-sync the feature) stays `q-54`'s, unchanged, since that pairing predates tonight and nothing
+here disturbs it.
+
+**Acceptance:** `spec/doc-order-generated.md`'s Requirement 247 states the promise — the snapshot
+folder `.live-spec/snapshot/` kept git-tracked with one manifest line per surface, the baseline
+advancing only at a delivery and only for the surfaces that delivery declared, and a heavy-byte
+surface's rendered content held outside git with only its manifest line and hash tracked. Landing
+this row means: `.live-spec/snapshot/` exists with that manifest shape, a test walks a fixture
+delivery through one baseline advance and shows an undeclared surface's old baseline untouched, and
+`E-7`'s `[target]` tag in `spec/doc-order-generated.md` drops once the criterion holds. Until then
+the row is unbuilt, honestly — no design-sync work has started, since `q-54`'s own history shows
+`q-93` was blocked before the 27.08 fold ever reached it.
+
+
 ### ⬜ New projects learn who they're building for — id: q-54
 **Group:** Onboarding & founding · **Priority:** normal
 **Source:** owner 2026-07-05.
