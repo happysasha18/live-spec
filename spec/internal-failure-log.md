@@ -18,7 +18,7 @@
 
 ---
 
-## Requirement 163: The ledger walk and its two-strikes ladder  [feature: F-problem-ledger] [default]
+## Requirement 163: The ledger walk and its two-strikes ladder  [feature: F-problem-ledger]
 
 **Context:** The moment noise fires mid-work, the session greps the ledger for the signature, and what the grep returns decides the next move. The walk climbs a fixed ladder from a first sighting to a method defect.
 
