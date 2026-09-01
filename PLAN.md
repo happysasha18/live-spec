@@ -1098,11 +1098,15 @@ takes a step reads the state and that step, proved by what it opened · the pony
 made against a measured before and after, or it is declined with the measurement as the reason.
 
 
-### 👁️ The board shows everything the team is doing, live — id: q-166
+### ⬜ The board shows everything the team is doing, live — id: q-166
 **Group:** Board & visibility · **Priority:** normal
 **Source:** owner 2026-07-07 ~09:36, widened seven more times through 2026-08-06.
 **Closes:** q-133, q-582, q-583, q-411
 Note: this is the large standing board; plan-1 and plan-10 are the near-term light version of the same idea.
+**Re-marked ⬜, 2026-09-01.** Was 👁️. Nothing past the cheap first leg is built — no card shape, no
+columns, no worker lanes — so there is nothing yet for his eye to check against the acceptance
+below. 👁️ names the acceptance method for when the board exists; it does not belong on a row that
+still has to be built.
 **Absorbed:** 4 rows folded here 27.08, rotated off the board 28.08 — q-133, q-582, q-583, q-411. Full text: `docs/queue-archive/rotated-PLAN-2026-08-28-folded-rows.md`.
 
 **Acceptance:** No command decides this one; his own eye is the check, over one real stretch of
