@@ -3470,3 +3470,28 @@ product-prover-pack -> product-prover-pack (6.1.0 -> 6.1.0, prose only). spec-au
 q-803's own citation sweep landed and drifted four more: communicator -> communicator, live-spec-base
 -> live-spec-base, publish -> publish, text-audit-pack -> text-audit-pack (all 6.1.0 -> 6.1.0, prose
 only). `scripts/sync-skills.sh` ran a second time the same night to close it.
+
+## 2026-09-02 — the quiet-tree full suite finds two real prose regressions from tonight's own lanes
+
+`python3 -m pytest -q` alone, after all eight rows closed: 5 failed, 2735 passed, 4 skipped — not the
+green the night owed. Three of the five were `INV-242`'s own already-known warn-then-error pattern
+(a landing that closes a row without touching `NEXT_STEPS.md` in the same commit, healed forward by
+the next `NEXT_STEPS.md` update, the same shape this file's own 2026-09-01 16:46 entry already
+records for seven earlier commits) — healed by this note. The other two were real:
+
+- `spec/success-measure-feed.md`'s new Requirement 318 (q-48) pushed `PRODUCT_SPEC.md`'s bytes-per-
+  criterion to 185.9 against the recorded 185.8 bound (INV-264/265, the ratchet only moves down).
+  Three criteria (1, 2, 3, 6, 9, 10) tightened without losing a clause; re-measured at 185.8, at the
+  bound.
+- `architecture/guardrails.md`'s new q-48/q-804 prose used "PLAN q-48" / "PLAN q-804" as a citation —
+  `spec-style-lint.py` reads the bare word "PLAN" in caps as a shout, three hits. Reworded to
+  "PLAN.md's q-48/q-804 row," the citation shape every other node on this page already uses.
+  Fixing that also surfaced a second, real one: q-804's own new prose at line 149 restated the exact
+  phrase "primary-tree-holds-main arm" that its own pin list at line 115 already carries — one
+  containment-1.00 redundant pair over `ARCHITECTURE.md`'s 15-pair floor (confirmed against the
+  pre-session baseline commit `534cb16b` via a scratch worktree: 15 open there, 16 after tonight's
+  edits, back to 15 once line 149 pointed at the pin instead of repeating it).
+
+Both indexes (`PRODUCT_SPEC.index.md`, `ARCHITECTURE.index.md`) regenerated after the edits; both
+came back byte-identical to what was already committed, since neither trim touched a requirement or
+node id.
