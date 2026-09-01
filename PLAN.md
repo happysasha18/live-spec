@@ -1356,6 +1356,33 @@ the row is unbuilt, honestly — no design-sync work has started, since `q-54`'s
 `q-93` was blocked before the 27.08 fold ever reached it.
 
 
+### ⬜ A skill's rule states itself; the journal carries who said it and when — id: q-803
+**Group:** Method housekeeping · **Priority:** normal
+**Source:** owner 2026-09-01 13:15 — "какая нафиг разница? ты видел что в спеках пишут 'его слова'
+или 'не его слова'? это может где-то в журнале если надо, это бред... это мусор в самой спеке!"
+Raised against one fresh instance (`skills/live-spec-base/SKILL.md:150`, "his word, 2026-09-01",
+added earlier the same session), but the pattern is not that one instance — a sweep found it
+already standing pack-wide: 31 hits for "his word" / "owner's word" across `skills/*/SKILL.md` and
+`skills/*/references/*.md` (`communicator/SKILL.md` alone carries a whole subsection, "### Honoring
+his word"). `JOURNAL.md` already exists as the dated-provenance record, and every `PLAN.md` row
+already carries its own `**Source:**` line for the same reason — a `SKILL.md` rule inlining the
+same citation duplicates a job two other documents already do, in the one document meant to be read
+purely operationally.
+
+**Not every hit is the same defect.** Some name "his word" as a live piece of runtime behaviour a
+rule describes — "blocked on his word alone" (`communicator/SKILL.md:114`) is not a citation of
+where the rule came from, it is the rule itself, naming an actor. The sweep has to tell those apart
+from an inline provenance citation ("his word, DATE", "(SPEC INV-N; his word DATE)") before
+stripping anything.
+
+**Acceptance:** every inline provenance citation is out of `skills/*/SKILL.md` and
+`skills/*/references/*.md` rule prose; `grep -rn "his word\|owner's word" skills/*/SKILL.md
+skills/*/references/*.md` returns only the behavioural-actor sense, none of it citing a date as the
+rule's own source. Each citation removed has its provenance already sitting in `JOURNAL.md` at that
+rule's landing commit, or gets one line added there before the citation comes out of the skill file
+— nothing is quietly de-sourced, it moves to the document built to hold it.
+
+
 ### ⬜ New projects learn who they're building for — id: q-54
 **Group:** Onboarding & founding · **Priority:** normal
 **Source:** owner 2026-07-05.
