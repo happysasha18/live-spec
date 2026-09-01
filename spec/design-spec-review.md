@@ -870,18 +870,16 @@
 **Case: an axis carries its own value space**
 
 11. The system *shall* read an axis's value space as a domain the same completeness reaches, and *shall* model the input-capability values as combinable capabilities a surface answers for in combination, since touch, a fine pointer, hover, and a keyboard co-occur on one machine. [INV-244, INV-138, INV-226]
-12. The system *shall* owe and answer the two elementary poles — touch and a fine pointer — up front, and *shall* carry the co-occurrence answer, hover present alongside touch, in with the later step that forces the author to answer for the in-between. [INV-244]
-    [GAP: the source answers the two elementary poles up front but defers the co-occurrence value — one device carrying touch and hover at once — to a later forcing step, naming no interim answer or default; a surface's behaviour when both are present is unstated today, so a test author cannot pin the tablet-with-hover-and-touch case.]
+12. The system *shall* owe and answer the two elementary poles — touch and a fine pointer — up front, and *shall* carry the co-occurrence answer in with the value-space forcing step. [INV-244]
 13. The system *shall* leave the refinement values past the elementary poles — a stylus, a keyboard-only reach, a device an advanced user registers — to the human's taste, entering later, decided or marked a default when they do. [INV-244, INV-30, INV-31]
 
 **Case: the rule binds forward**
 
 14. The system *shall* have a surface authored after this rule read its axis set from the kind from the first draft, and a surface that predates it carry the read at the first landing that touches it, staying uncovered on the axis until that landing arrives. [INV-244, INV-159]
 
-**Case: the value-space machinery is promised**
+**Case: the value-space in-between forcing step**
 
-15. The system *shall* keep the value-space in-between forcing step promised as a later increment. [INV-244]
-    [target]
+15. The system *shall* run the value-space in-between forcing step: the facet sweep names the value where an axis's two poles hold at once, decided or `[default]`-tagged, and a blank one reads as the same blank-answer class. [INV-244, INV-72]
 
 ---
 

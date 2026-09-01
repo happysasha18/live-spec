@@ -48,6 +48,18 @@ a clean sweep. The same asking-what-else-is-like-this reflex that already runs a
 runs one level up over this set too, and it repeats at every level above that: a hand-written list stops
 at the two obvious cases, the pass is what finds the third.
 
+**Naming the value in between two poles owes its own sentence (SPEC INV-244).** An axis whose value
+space is modeled as combinable capabilities — the elementary poles owed and answered up front, per
+the axis's own duty — is not finished once each pole is answered alone. The values co-occur on one
+real device, and the case where both poles hold at once is a value in its own right, not a blend the
+two poles' separate answers already cover: a tablet carries touch and a fine pointer's hover together,
+and a surface answered only for "touch alone" and "a fine pointer alone" still leaves that device's
+behaviour unstated. Composing the axis names the co-occurrence value the same way it names each
+pole — a decided sentence, or the recommended default carrying the `[default]` tag — before the axis
+counts as covered. The refinement values past the two poles — a stylus, a keyboard-only reach, a
+device the person registers — stay the human's taste and enter later; this duty reaches only the
+co-occurrence of the poles already owed, not those.
+
 - **the viewport bands** — width and height both run in bands (narrow, wide, short, tall, and the
   bands a future device adds), so every layout-bearing feature ends the sweep with a decided or
   `[default]` sentence per band its layout law names or excludes, and a law scoped to one band answers

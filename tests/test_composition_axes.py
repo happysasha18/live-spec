@@ -212,5 +212,45 @@ class TestAxisVerdictSweep(unittest.TestCase):
         self.assertIn("viewport-tier", reason)
 
 
+def cooccurrence_value_named(poles_answered, cooccurrence_answer):
+    """The value-space in-between forcing step SPEC INV-244 owes (q-436): once an axis's two
+    elementary poles (touch, a fine pointer) are each answered, the value where both poles hold at
+    once — a tablet's touch alongside its hover — needs its own named answer, decided or
+    `[default]`-tagged, distinct from either pole answered alone. An axis with both poles answered
+    but no co-occurrence answer is the same blank-answer class the axis-verdict sweep (q-437)
+    already reports. Returns (ok, reason)."""
+    if not poles_answered:
+        return True, "the elementary poles are not both answered yet — co-occurrence not owed yet"
+    if not cooccurrence_answer:
+        return False, "both elementary poles are answered but the co-occurrence value carries no answer"
+    return True, "the co-occurrence value carries a named answer"
+
+
+class TestCooccurrenceValueForcingStep(unittest.TestCase):
+    """SPEC INV-244's value-space in-between forcing step (q-436): once touch and a fine pointer
+    are both answered, the tablet-with-touch-and-hover case still needs its own named answer. A
+    blank co-occurrence answer reds the same way a blank axis verdict does (q-437) — one shared
+    blank-answer class, proven here on its own case."""
+
+    def test_blank_cooccurrence_value_reds(self):
+        ok, reason = cooccurrence_value_named(poles_answered=True, cooccurrence_answer=None)
+        self.assertFalse(ok,
+                          "an axis with both elementary poles answered but no co-occurrence value "
+                          "must be flagged, never pass silently")
+        self.assertIn("co-occurrence", reason)
+
+    def test_poles_unanswered_does_not_yet_owe_cooccurrence(self):
+        ok, reason = cooccurrence_value_named(poles_answered=False, cooccurrence_answer=None)
+        self.assertTrue(ok, "the co-occurrence value is not owed before its two poles are answered: "
+                             + reason)
+
+    def test_named_cooccurrence_value_passes(self):
+        ok, reason = cooccurrence_value_named(
+            poles_answered=True,
+            cooccurrence_answer="a tablet with touch and hover both present gets the touch layout `[default]`",
+        )
+        self.assertTrue(ok, "a named co-occurrence value must pass: " + reason)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

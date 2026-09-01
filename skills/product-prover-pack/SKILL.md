@@ -111,6 +111,11 @@ review run inside a live-spec project.
   for every other axis in it — already composed against, added now, or out of scope with its reason.
   The review reads those verdicts as a lens: a sibling axis carrying no verdict is a finding, of the
   blank-answer class, and an "out of scope" verdict with no stated reason is the same finding.
+- **The co-occurrence value lens (SPEC INV-244).** Where an axis models its value space as combinable
+  capabilities, spec-author's facet sweep names the value where the two elementary poles hold at once,
+  beside each pole's own answer. The review reads that co-occurrence sentence the same way it reads an
+  axis verdict: an axis with both elementary poles answered but no named co-occurrence value is a
+  finding, of the same blank-answer class the axis-verdict sweep already reports.
 - **Domain language on every user-facing surface.** The review holds every user-facing string to one
   bar: read them as the user would; a leaked internal word is a finding.
 - **The architecture lens, seven items.** Beside spec-fact ownership and named seams, the review checks

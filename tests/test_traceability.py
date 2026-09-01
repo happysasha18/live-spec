@@ -1481,14 +1481,13 @@ class TestTargetOwnership(unittest.TestCase):
         "INV-198": "q-804",  # config-health asserts the primary tree holds main (git's refusal rests on it)
         "INV-199": "q-804",  # the merge-base check ahead of the gate + the stale-lane check
         "INV-201": "q-804",  # the adoption gate reading the host's vendored worktree line
-        # Re-pointed 2026-08-31, then again 2026-09-01: q-437 was folded into plan-12 on
-        # 2026-08-28 and never worked, so plan-12 closed with this promise still standing. q-437
-        # came back as its own open row and owned the anchor. q-437 then built and closed its own
-        # half 2026-09-01 (the recursive axis-registry similarity sweep); the criterion's other
-        # half, the value-space in-between forcing step, was q-436's and stayed unbuilt — this map
-        # holds one owner per anchor, so q-436 is back on the board (mirroring q-437's own 31.08
-        # repair) and takes the anchor now that q-437's half is done.
-        "INV-244": "q-436",  # the value-space in-between forcing step
+        # INV-244's own [target] tag and this entry dropped together 2026-09-01, per the rule
+        # stated at the top of this map (a satisfied promise leaves both): q-437 built and closed
+        # its half (the recursive axis-registry similarity sweep) 2026-09-01, and q-436 built and
+        # closed the other half (the value-space in-between forcing step) the same day —
+        # skills/spec-author/references/facet-sweep.md now carries the co-occurrence duty beside
+        # q-437's axis-verdict sweep, and skills/product-prover-pack/SKILL.md reads an unnamed
+        # co-occurrence value as the same blank-answer class.
         "INV-308": "q-166",  # the work board surface, promised whole and unbuilt
         "INV-67": "q-166",   # the board's one-stable-link published page
     }

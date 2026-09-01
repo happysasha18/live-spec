@@ -283,6 +283,11 @@ for command in m.ALSO_DISCARDING:
     # q-437: the duty's two homes carry their text, and the sibling-axis-verdict case (the row's
     # own definition of done) runs clean.
     "q-437": "grep -q 'INV-244' skills/spec-author/references/facet-sweep.md && grep -q 'blank-answer' skills/product-prover-pack/SKILL.md && PYTHONPATH=tests python3 -m unittest -q test_composition_axes.TestAxisVerdictSweep >/dev/null 2>&1",
+    # q-436: the sibling half of q-437's promise. The duty's two homes carry their text, the spec
+    # names the built step and drops its old "promised as a later increment" line, and the row's
+    # own definition-of-done case (a poles-answered axis with no named co-occurrence value reds)
+    # runs clean.
+    "q-436": "grep -q 'value-space in-between forcing step:' spec/design-spec-review.md && ! grep -q 'promised as a later increment' spec/design-spec-review.md && grep -q 'co-occurrence value lens' skills/product-prover-pack/SKILL.md && grep -q 'Naming the value in between two poles' skills/spec-author/references/facet-sweep.md && PYTHONPATH=tests python3 -m unittest -q test_composition_axes.TestCooccurrenceValueForcingStep >/dev/null 2>&1",
     # q-591: the matrix reference checker runs clean over the corrected row, and the renamed test
     # it now cites runs clean too.
     "q-591": "python3 guardrails/check-matrix-reference.py TEST_MATRIX.md TEST_MATRIX.index.md >/dev/null 2>&1 && python3 tests/test_compaction_discipline.py >/dev/null 2>&1",

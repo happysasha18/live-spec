@@ -977,7 +977,7 @@ two-axis registry walked, a red when a sibling axis comes back with no verdict.
 among them.
 
 
-### 🔄 New projects know upfront which variations to design for — id: q-436
+### ✅ New projects know upfront which variations to design for — id: q-436
 **Group:** Spec & feature quality · **Priority:** normal
 **Source:** tlvphotos inbox 2026-07-20; sibling of q-437.
 
@@ -996,6 +996,24 @@ elementary poles a composition axis owes — a device carrying both capabilities
 tablet's touch alongside its fine pointer — lands beside the two-poles duty `q-437` already wrote
 into `skills/spec-author/references/facet-sweep.md`, and the prover reads a co-occurrence value
 left unnamed as the same blank-answer class the sibling sweep already reports.
+
+**Done 2026-09-01.** The duty is written into `skills/spec-author/references/facet-sweep.md`
+(SPEC INV-244), beside q-437's axis-verdict duty: an axis whose value space is modeled as
+combinable capabilities owes the value where its two elementary poles hold at once — a tablet's
+touch alongside its hover — its own decided or `[default]`-tagged sentence, distinct from either
+pole's own answer, before the axis counts as covered. `skills/product-prover-pack/SKILL.md` reads
+that co-occurrence sentence as a lens beside the axis-verdict one: an axis with both poles answered
+but no named co-occurrence value is a finding of the same blank-answer class the axis-verdict sweep
+already reports. `spec/design-spec-review.md` Requirement 265 criterion 15 now names the built step
+in place of the old "promised as a later increment" line and drops its `[target]` mark, and
+criterion 12 points at that step instead of "the later step"; its GAP line is gone with it.
+`tests/test_traceability.py`'s target-ownership map drops the `INV-244: q-436` entry the same
+commit, per SPEC S-0 (a satisfied promise leaves both the tag and its map entry).
+`tests/test_composition_axes.py` carries the new case, mirroring q-437's own: a poles-answered axis
+with no named co-occurrence value reds, one with a named value passes, and an axis whose poles are
+not yet both answered does not yet owe the co-occurrence value.
+`python3 -m pytest -q tests/test_composition_axes.py tests/test_traceability.py tests/test_size_ratchet.py`
+is green.
 
 
 ### ⬜ Every project gets its own status view — id: plan-14
@@ -1964,14 +1982,18 @@ One line per finding. Don't start a second list for them. Don't fix one without 
   happens the score printed at every session start says nothing about the skill as it stands, and the
   report says so in those words.
 
-- **The other half of the same promise has no row. Found 31.08, while giving q-437 its one back.**
-  The spec keeps two things promised under one sentence: the recursive similarity sweep, which is
-  q-437's, and the step that forces an author to name the value in between the two obvious ones on
-  each variation a product is rendered under — a tablet that carries touch and a pointer at once,
-  between a phone and a desktop. That second half was q-436, folded into plan-12 on 27.08 and never
-  worked either. plan-12 has closed. Only one row can own the promise in the map that keeps promises
-  honest, and q-437 owns it, so nothing goes red; the value-space step is simply owned by nobody.
-  Give q-436 its own row back the way q-437 got one, or drop that half of the promise.
+- **The other half of the same promise has no row. Found 31.08, while giving q-437 its one back;
+  closed 2026-09-01.** The spec keeps two things promised under one sentence: the recursive
+  similarity sweep, which is q-437's, and the step that forces an author to name the value in
+  between the two obvious ones on each variation a product is rendered under — a tablet that
+  carries touch and a pointer at once, between a phone and a desktop. That second half was q-436,
+  folded into plan-12 on 27.08 and never worked either. plan-12 has closed. Only one row can own
+  the promise in the map that keeps promises honest, and q-437 owns it, so nothing goes red; the
+  value-space step is simply owned by nobody. q-436 got its own row back, and it built and closed
+  the value-space half 2026-09-01: the duty is written into `skills/spec-author/references/facet-sweep.md`
+  beside q-437's, `skills/product-prover-pack/SKILL.md` reads a co-occurrence value left unnamed as
+  the same blank-answer class, and `spec/design-spec-review.md` Requirement 265 criterion 15 names
+  the built step in place of the old "promised as a later increment" line.
 
 - **The decision sheet's own ordering line waits for a session outside a worktree. Closed 31.08.**
   Your word of 27.08 gives the ordering to the first read: it brings work together, runs it side by
