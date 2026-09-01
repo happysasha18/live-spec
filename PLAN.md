@@ -1569,7 +1569,7 @@ rule's landing commit, or gets one line added there before the citation comes ou
 — nothing is quietly de-sourced, it moves to the document built to hold it.
 
 
-### 🔄 New projects learn who they're building for — id: q-54
+### ⬜ New projects learn who they're building for — id: q-54
 **Group:** Onboarding & founding · **Priority:** normal
 **Source:** owner 2026-07-05.
 **Closes:** q-129, q-190, q-93, q-236, q-488, q-496, q-421, q-400
@@ -1580,6 +1580,22 @@ and the profile template exists. The open one is the field leg — one real proj
 fields in that project's own profile, `grep -q 'project.kind'`, `grep -q 'project.layers'` and
 `grep -q 'project.proofs'` all passing against its `.live-spec/profile.md`, together with the line
 naming who the project is founded for.
+
+**Checked 2026-09-02, worktree `lane/q-54-founding-line-live-spec`.** `~/live-spec/.live-spec/profile.md`
+(this pack's own profile) already passes all three `grep -q` conditions but was not used as the
+field-leg host: this repo is the pack's own birthplace and never went through the joining walk as a
+new project (recorded on the `project.kind` line, 2026-07-06), so it does not stand in for "one real
+project's join" — that reading was already settled the same way twice before tonight, first in the
+31.08 night-run checkpoint (`NEXT_STEPS.md` line ~291, "this is a one-line edit in ANOTHER project's
+tree") and again in the wish this window filed the same night,
+`~/tlvphotos/inbox/2026-08-31-from-livespec-q54-founding-line.md`. The real host is tlvphotos:
+`grep -q 'project.kind'`, `'project.layers'` and `'project.proofs'` already pass against
+`~/tlvphotos/.live-spec/profile.md`; only the founded-for line is still missing there (confirmed
+2026-09-02: `grep -in "founded\|audience\|built for" ~/tlvphotos/.live-spec/profile.md` finds
+nothing). This window may only drop a wish into `~/tlvphotos/inbox/`, never write another project's
+tree directly (`other-projects` line, this pack's own profile) — the wish already sits there, unacted
+on. **Still open** until that project's own session adds the line and this row's grep is re-run
+against its file.
 
 
 ### ⬜ The product's performance after launch is tracked automatically — id: q-48
