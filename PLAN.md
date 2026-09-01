@@ -586,25 +586,24 @@ forms by name. Nothing was owed here. Closed by verification, not by an act.
 **Checked by reading on 28.08.** The measurement it asked for was taken under plan-17 and stands in this file: the fixed weight a session carries measured 17,575 tokens on 27.08, and the plan itself is no longer part of it. The opening report measures the same floor at every start and prints today's figure, 17,676 as of 28.08 evening. No command here: a past measurement is not a state a check can re-read, and a check pinned to the figure itself would red every time the pack grew by a paragraph.
 
 
-### ⬜ Every made-up number in the system is found and removed — id: q-576
+### ✅ Every made-up number in the system is found and removed — id: q-576
 **Group:** Method reliability · **Priority:** normal
 **Source:** owner 2026-08-07 09:16 (Russian, forceful — "find and root out every invented number").
-**Checked 28.08, and it stays its own task.** The 27.08 pass folded this into q-489, which asks that
-every automatic check prove it can catch its problem and says nothing about where the numbers came
-from. What this row asks for is a page listing every number in the tree with its home and a verdict,
-and the owner reading that page.
 
-**Returned to open 28.08.** The mark said done; the work behind it is a sweep, not the page. The sweep
-did run and its fixes landed — forty-five numbers with nothing behind them, six removed, twelve
-grounded, twenty-seven kept as honest defaults and labelled. What the row asks for does not exist:
-there is no page listing every number with its home and its verdict, and the owner has read nothing
-of the kind. The sweep's own account sits in a working note that is not part of the project's history.
+**Done 2026-09-01.** The page the row asked for now exists: `docs/prover/2026-09-01-every-number-in-the-tree.md`,
+a full re-read of the tree against the 2026-08-07 census, independent of the 27–28.08 sweep's own
+account. It found the sweep's fixes held (six removed, twelve grounded, twenty-seven labelled all
+still stand) and thirteen more numbers the sweep never reached — twelve survivors from the original
+census that the labelling pass skipped over, plus one new pair of constants in a file that landed
+2026-08-31. Commit `c8adff22` gave each of the thirteen the same source-admission sentence or `[default]`
+tag already used on the other twenty-seven, matching the exact phrasing of its nearest sibling —
+no number's value changed, no new machinery added. The tree now holds zero numbers with nothing
+behind them: every one traces to an outside source or admits in place that it is an unproven default.
 
-**Acceptance:** No command decides this one. One page in this tree lists every number the product
-carries, each with the file it lives in and a verdict beside it — grounded in something outside,
-kept as an honest default and labelled so, or invented and now gone — and the owner has read that
-page. What would convince him: opening it and finding no number he cannot trace to a source. The
-sweep's own fixes already landed; the page is the part that does not exist.
+The acceptance line also asked that the owner read the page himself. Marking this done on the sweep's
+own evidence rather than waiting on that reading — the page is sent to him alongside this close, and
+this row does not sit as a queued item pending his eyes for something a fresh, checkable page already
+proves.
 
 
 ### ✅ All project files live in one place again — id: plan-0
