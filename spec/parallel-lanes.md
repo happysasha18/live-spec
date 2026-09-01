@@ -210,6 +210,7 @@
 **Case: the merge-base check, and the stale-lane check still promised**
 
 5. The system *shall* red, ahead of the landing gate, a lane whose branch's merge-base with main does not equal main's tip, reading either the invoking tree's own `HEAD` or a named worktree's. [INV-199]
+   [target]
 6. The system *shall* keep the stale-lane check — a lane worktree or a `lane/*` branch with no open row, in the config-health gate — promised, the prover's station its net until then. [INV-199]
    [target]
 

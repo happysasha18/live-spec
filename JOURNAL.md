@@ -3537,3 +3537,9 @@ count: 557, all unique).
 The two arms this note restores `[target]` on stay exactly as built — real, working, tested code.
 What's still missing is wiring them into their real walk, genuine undone work belonging to `q-804`
 itself; left named and open rather than built here at 2am under review pressure.
+
+**A late follow-up from the same review caught one more of the same shape.** INV-199's own
+criterion 5 (the merge-base check) still read as performed law, no `[target]`, while
+`guardrails/check-merge-base.sh` has the identical problem as `check-worktree-line.sh` above —
+real, tested, and called nowhere real. Restored `[target]` there too; `INV-199` already had a
+`TARGET_ROW_OWNERS` entry from its criterion 6, so no new map line was needed.
