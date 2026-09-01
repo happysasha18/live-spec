@@ -149,10 +149,49 @@ still needs its own dedicated pass. `q-54`'s field leg — the wish already sits
 `~/tlvphotos/inbox/2026-08-31-from-livespec-q54-founding-line.md`, nothing to do here until that
 session acts on it.
 
-**Suite state, checked writing this note:** `python3 -m pytest -q tests/test_landing_next_steps.py`
-— confirm green after this commit lands (it was the one red test; this note's heal citations are
-what clears it). Run the full suite before trusting anything else about the tree's state; this note
-does not claim one clean full run on its own.
+**Suite state — the one row this note was asked to fix is green; the full suite is not, and that
+is real, unfinished fallout from today's parallel-work incident, not touched by this note.**
+`tests/test_landing_next_steps.py` (28/28) is green after the heal commits above land. A full
+`python3 -m pytest -q` run on the merged tree (`2026-09-01 16:47`–`17:16`, `0:28:37`) came back
+**30 failed, 2676 passed, 5 skipped** — worse than the `6 skipped` the prior LIVE STATE flagged as
+worth checking (now `5`; still unexplained, still open). Four failing threads got far enough into
+diagnosis here to hand off with a real lead; the other ~20 did not, and are listed by file so the
+next session triages from a fresh run rather than this note's memory:
+
+- **`TestGateG_PinDrift`** (`tests/test_guardrails.py`, most of that class): `ARCHITECTURE.md`'s
+  line-pins into `skills/live-spec-base/SKILL.md` and `skills/communicator/SKILL.md` now point at
+  the wrong lines — both files had content added or reworded today (the concurrency rule at
+  `skills/live-spec-base/SKILL.md:150`, `q-536`'s fourteen rulings in `skills/communicator/SKILL.md`)
+  and shifted every line number below the edit. The pins were never re-run against the new line
+  numbers. Fix is mechanical (re-pin against current line numbers) but real and not yet done.
+- **`test_config_health.py::TestConfigHealth::test_this_repo_installed_hooks_match_source`**: two
+  concrete drifts — `q-398`'s new `hooks/routing-preamble-hook.sh` exists in source but was never
+  installed to `~/.claude/hooks/` (`scripts/install-session-hooks.sh` not run since it landed), and
+  the installed `communicator` skill copy has drifted from source (`scripts/sync-skills.sh` not run
+  since `q-536`'s edit). Both fixes are named in the test's own error output.
+- **`test_traceability.py::TestTargetOwnership::test_targets_owned_by_open_rows`**: `INV-185`'s
+  `[target]` tag is owned by `q-398`, which this range marked done (✅) — the same orphaned-target
+  shape as `q-55`'s `E-6`/`E-7`/`E-10`/`INV-17` from the 31.08 note above, not caught before `q-398`
+  landed. Needs the same treatment: find where `INV-185`'s promise actually lives now, re-own or
+  drop the tag.
+- **`test_tasks_parser_finds_every_task.py::...test_every_key_names_a_task_the_plan_declares`**:
+  `scripts/plan_checks.py` still runs a command keyed to `plan-3`, which `PLAN.md`'s `## Tasks`
+  section no longer declares — an orphaned `CHECKS` entry from a row renamed, folded, or archived
+  during today's reconciliation churn, left behind.
+
+**Not diagnosed, left for a fresh triage pass — re-run `python3 -m pytest -q` and read each
+failure fresh rather than trusting this list to still be current:** `test_agent_channels.py` (2),
+`test_authority_anchor.py` (3), `test_class_hunt.py` (1), `test_communicator_body_thinned.py` (1),
+`test_convergence_locks.py` (1), `test_guardrails.py` — `TestGateA_ProverRecord`,
+`TestGateB_Tests`, `TestGateShippedLanguage`, `TestCIMirror` (4 more, beyond the Gate G class
+above), `test_index_generated.py` (1), `test_language_rules.py` (1),
+`test_plan_done_marks_are_backed.py` (1), `test_plan_is_not_executable.py` (1),
+`test_scenario_heading_tag.py` (1). Several of these read like the same root cause as the four
+diagnosed above (content moved today, a reference or an installed copy did not follow) rather than
+30 independent defects, but that is a guess, not verified — check before assuming.
+
+**Before landing anything else on this tree:** this suite state, not this note's own commit, is
+the real blocker. Do not push believing the tree is green; it is not.
 
 **Three rows landed since `bff2715a` pushed, in parallel worktree lanes, merged with no conflicts:**
 `q-581` (a `PreToolUse(Bash)` hook, `hooks/dialog-warning-guard.py`, warns before a command known
