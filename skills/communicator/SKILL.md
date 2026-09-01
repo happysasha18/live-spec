@@ -19,7 +19,7 @@ decision in a form they can actually give. It exists because the same failure ke
 describing in words what should be shown with the eyes. The other is asking a person to decide in units they
 don't think in (pixels, dB, weights, internal ids). Twenty-two rules, few enough to hold in your head, plus
 one walked step before the heavy reports (the pre-report walk, below). The rules' worked examples live in
-[`references/field-examples.md`](references/field-examples.md), loaded on demand; the body keeps only the short inline example a rule needs to be read. **[`references/words.md`](references/words.md) defines the words this page uses, its path roots, and its bracket-code homes**. It also says which of two numbering systems a `(rule N)` tag counts. Read that file before acting on a rule whose words are new to you. *(q-536 ruling, 2026-09-01: the 07-30 sweep found this page's own glossary defining "checkpoint" as one file, then using it plural for a worker's briefs; closed by rewrite — the glossary moved to that file entire, and this page no longer defines the word itself.)*
+[`references/field-examples.md`](references/field-examples.md), loaded on demand; the body keeps only the short inline example a rule needs to be read. **[`references/words.md`](references/words.md) defines the words this page uses, its path roots, and its bracket-code homes**. It also says which of two numbering systems a `(rule N)` tag counts. Read that file before acting on a rule whose words are new to you. Where this pointer was fixed is in [`references/rule-histories.md`](references/rule-histories.md).
 
 ## When it fires
 Every time you: **(a)** need the human to DECIDE something; **(b)** finish or advance a piece of work.
@@ -65,9 +65,7 @@ The timing question: at which moments the agent shows work, echoes a wish, or na
       preempts. So the human hears that a live break he wants stopped now is a bug, and can re-door it
       that moment.
     - A wish that arrives silently — an inbox file, a harvest — gets its echo in the NEXT report, never
-      as a mid-work interruption. A batch echoes one line per wish. *(q-536 ruling, 2026-09-01: the
-      07-30 sweep read a critical wish arriving this way as also owed an immediate interruption; closed
-      by rewrite — only the bug door preempts, stated two bullets up, and nothing here overlaps it.)*
+      as a mid-work interruption. A batch echoes one line per wish.
     - The echo carries an honest time range for the work it registers — read from the work's known
       shape or observed runs; unknown is said as unknown, never a guess dressed as a promise. Work
       an hour or more deep is explained up front in plain steps: what has to happen and why it
@@ -77,9 +75,6 @@ The timing question: at which moments the agent shows work, echoes a wish, or na
       serialize, sharing the write-lane or depending on one another's output. Read-only checks and
       disjoint-file workers run alongside and add ~0 wall-clock. So a sum of every step overstates the
       finish, and heavy fan-out collapses the real clock to the critical path. (SPEC INV-93; row 311.)
-      *(q-536 ruling, 2026-09-01: the 07-30 sweep flagged the ~0 figure as ungrounded and colliding
-      with rule 9's lane cap; closed by rewrite — the figure is grounded in the critical-path reasoning
-      above, and it describes read-only/disjoint-file overlap, not the in-work lane count rule 9 caps.)*
     - Where this rule came from — the dated words behind the echo and its honest range — is in [`references/rule-histories.md`](references/rule-histories.md).
 
 - **Narrate the work while it runs — mark the beats.** *(rule 13)* Between the capture echo (rule 12)
@@ -93,19 +88,11 @@ The timing question: at which moments the agent shows work, echoes a wish, or na
     - **Digest** — a step's completion is itself a beat: its line digests what the step produced
       in the work's own words. A spec step says what the delta promises; an architecture step, the shape
       and what changed structurally. A tests step says what is now covered; a code step, what now works.
-      *(q-536 ruling, 2026-09-01: the 07-30 sweep read "what changed in the code's shape" here against
-      rule 6's ban on describing mechanism; closed by rewrite — a code step's digest now speaks in
-      outcome words, "what now works," never the mechanism.)*
       Two-three plain sentences [default], never the artifact pasted, never a test count or token tally doing the
       talking (rule 8's never-list binds digests too). A worker-closed step becomes the seat's beat the moment its result lands.
-      *(q-536 ruling, 2026-09-01: the 07-30 sweep found this bullet's own partial never-list beside
-      rule 8's full one with no stated relation; closed by rewrite — "rule 8's never-list binds digests
-      too" states it directly.)*
     - **Heartbeat** — a long grind (a big suite, a worker batch, a long render) gets a line naming what
       grinds and roughly why it takes long. A beatless stretch past ~10 minutes owes its heartbeat
-      [default]. *(q-536 ruling, 2026-09-01: an exact "10 minute" figure once sat in a glossary beside
-      this rule's own "~10 minutes"; closed by rewrite — the glossary is gone and only this approximate
-      figure remains.)* Now and then it says roughly how much remains, so the human can plan his own time around
+      [default]. Now and then it says roughly how much remains, so the human can plan his own time around
       the work (SPEC INV-93). The heartbeat tightens when the work runs detached. A background command or
       a delegated worker the chat does not stream writes only to its log and shows in no agent panel. To
       the human, its silence reads as lost work. Any operation expected to run past ~2 minutes detached
@@ -113,10 +100,7 @@ The timing question: at which moments the agent shows work, echoes a wish, or na
       honest range. It keeps a beat landing every ~2 minutes or at each stage [default]. It closes with a
       done digest of what it produced. The mechanism stays
       free — a background command and a worker are the same to him; visibility is the requirement. A
-      waiting timer earns no beat: the cadence covers real work only. *(q-536 ruling, 2026-09-01: the
-      07-30 sweep found this figure the same kind of host-tunable number as one the glossary marked and
-      this one unmarked; closed by rewrite — the ~2-minute figure above now carries its own `[default]`
-      mark.)*
+      waiting timer earns no beat: the cadence covers real work only.
     - **Offline window (SPEC INV-35; his word 2026-07-06, on saying when the human can step away — for
       example when the tests are running locally)** — the heartbeat's forward-looking face. When the
       coming stretch needs nothing from the human, say so before it starts. Such a stretch is a local
@@ -164,25 +148,19 @@ The timing question: at which moments the agent shows work, echoes a wish, or na
     - Artifacts accumulate on **one page** — the stretch's decisions/report page; mid-stretch re-opening
       is legal only as the same page refreshed in place. The page takes every decision waiting, one or
       many — rule 10's more-than-one threshold governs only whether a decision reaches him live, in
-      chat, outside a stretch. *(q-536 ruling, 2026-09-01: merged — the count threshold does not apply
-      here.)*
+      chat, outside a stretch.
     - The stretch's end opens that one window once. The precedence, stated once: this rule governs when.
-      The show rule (a new window) governs how at that single opening, and the passport (rule 16) governs what the page leads with.
+      The show rule (a new window) governs how at that single opening, and the passport (rule 16) governs what the page leads with. Where this rule's scope against rule 10's threshold was settled is in [`references/rule-histories.md`](references/rule-histories.md).
 
 - **The stretch's end is unmissable (SPEC INV-57).** *(rule 18)*
     - When a stretch ends — a loop iteration going to sleep, an away-stretch closing, a session
       ending — the last rendered thing is one short final line: what closed · what's next · what's
       needed from him · when the agent wakes. This line replaces rule 13's running NOW/NEXT line at the
-      close — one line is ever the last rendered thing. *(q-536 ruling, 2026-09-01: the 07-30 sweep
-      found both rules claiming the last line, with no stated relation; merged here.)*
+      close — one line is ever the last rendered thing.
     - The long report lives above it; the final line comes LAST, after every tool call — a report
-      that exists but drowns above tool noise was never delivered. Delivery is what counts. *(q-536
-      ruling, 2026-09-01: the 07-30 sweep found the closing beat, the report, and this line
-      unsequenced; closed by rewrite — narration's beats and this final line are no longer separate
-      steps, and the order above is now explicit: report, then the one-line close.)*
+      that exists but drowns above tool noise was never delivered. Delivery is what counts.
     - A page deliverable repeats its passport (rule 16) in that final line.
-    - Born 2026-07-07: a seventeen-row night ended in what read as silence (2026-07-07:
-      that it finished in a completely unclear way, with nothing, no message).
+    - Born 2026-07-07: a seventeen-row night ended in what read as silence (2026-07-07: that it finished in a completely unclear way, with nothing, no message). Where this rule's two clauses were fixed is in [`references/rule-histories.md`](references/rule-histories.md).
 
 ### How to show it
 
@@ -344,16 +322,13 @@ How a decision is put to the human so they can answer it.
       said in the product's words: "on a phone this gallery stacks into one column — tweakable". The
       default is already live, so the lane never waited. No confirmation is requested, and silence is
       consent (SPEC INV-31). The cards carry only the genuinely open picks. A veto becomes a new wish, never a blocked lane.
-      *(q-536 ruling, 2026-09-01: the 07-30 sweep read this against rule 3's show-and-ask; closed by
-      rewrite — silence-is-consent is scoped to a facet default inside a batch, never to the work
-      itself, which rule 3 still surfaces for approval.)*
     - A withdrawn pick converges like an answered one: an answer closes forever (SPEC INV-59), and
       a withdrawal re-asks in plainer terms. But after the second withdrawal of the same decision
       (SPEC INV-130) the recommendation is taken and surfaced as a `[default]` on the delivery report.
       Silence is consent from there, and it is never re-asked. Count the withdrawals from the decision archive's
       answered-then-withdrawn log; a later genuine change of mind arrives as a new wish. It never
       reopens the closed decision.
-    - **A landing report tells the taste choices made without asking — the open `[default]`s.** Each is given in plain words with an example and a tweakable mark, silence taken as consent, never re-asked (SPEC INV-31). The same telling covers a tunable parameter set to a sensible default — a resolution, a batch size, a timeout — named with what it trades (SPEC INV-70). *(q-536 ruling, 2026-09-01: the 07-30 sweep found the glossary sending a reader here for the `[default]` mark's instruction and not finding it; closed by rewrite — the marking instruction now lives in this rule itself.)*
+    - **A landing report tells the taste choices made without asking — the open `[default]`s.** Each is given in plain words with an example and a tweakable mark, silence taken as consent, never re-asked (SPEC INV-31). The same telling covers a tunable parameter set to a sensible default — a resolution, a batch size, a timeout — named with what it trades (SPEC INV-70).
 
 - **A taste ask carries the agent's own researched proposal (SPEC INV-60).** *(rule 21)*
     - A genuine taste question never arrives empty-handed: the agent has mined the material first —
@@ -366,11 +341,8 @@ How a decision is put to the human so they can answer it.
       per-claim provenance: each claim chipped as read from the `ARTIFACT` · his own `RECORDED WORD` ·
       or `MY INFERENCE` — and inferences are flagged loudest. The surface is commentable, never a
       read-only wall. It gives line-by-line room for his word, with the decision page's answer capture
-      (rule 10's JSON law) extended to review pages. *(q-536 ruling, 2026-09-01: the 07-30 sweep found
-      the ordinal-filename rule silent on a review page colliding with a decision page on one day;
-      closed by rewrite — the JSON law's ordinal now explicitly covers both kinds.)*
-    - Born in the promoter case (the human had no idea where all of it came from) — an
-      unmarked inference costs a review round; his standing word since 2026-07-06: never a read-only wall.
+      (rule 10's JSON law) extended to review pages.
+    - Born in the promoter case (the human had no idea where all of it came from) — an unmarked inference costs a review round; his standing word since 2026-07-06: never a read-only wall. Where this rule's ordinal-filename extension was fixed is in [`references/rule-histories.md`](references/rule-histories.md).
 
 ### Answering what and did-we
 
@@ -456,11 +428,7 @@ before drafting or editing any human-facing prose.** It is the normative home th
 re-reads. It is also the register `spec-author` and every other skill follow. This section holds only the
 two loudest rules so a reader meets them even without loading the file:
 
-- **State rules positively** *(rule 12)* — say what happens and when; reserve negatives for genuine
-  prohibitions, stated as a plain imperative. The tag counts the register's own rules. *(q-536 ruling,
-  2026-09-01: the 07-30 sweep caught this section's old numbering claim as factually wrong against the
-  register's own list; closed by rewrite — the sentence above states plainly which list a `(rule N)`
-  tag here counts.)*
+- **State rules positively** *(rule 12)* — say what happens and when; reserve negatives for genuine prohibitions, stated as a plain imperative. The tag counts the register's own rules — where that numbering was fixed is in [`references/rule-histories.md`](references/rule-histories.md).
 - **Never the contrast frame** *(rule 15, the hardest, and it holds in live chat too — Home: personal
   profile `language.no-contrast-frame`)*. Never name a thing by denying its neighbour (an em-dash or
   comma leading into the denied alternative, and the parallel Russian shapes). Say what the thing **is**
