@@ -1763,7 +1763,7 @@ before anything else ran, and `git status` on the tracked files confirmed nothin
 three legs stood already, so the row closes.
 
 
-### ⬜ The parallel-lanes machinery still netted by git and the prover ships for real — id: q-804
+### 🔄 The parallel-lanes machinery still netted by git and the prover ships for real — id: q-804
 **Group:** Parallel & multi-agent work · **Priority:** normal
 **Source:** found 2026-09-01, closing q-386 — three promises row 386 carried from its own first
 writing, never folded in from elsewhere, orphaned the moment q-386 closed on its own four-leg
