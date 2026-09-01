@@ -1488,14 +1488,9 @@ class TestTargetOwnership(unittest.TestCase):
         # shipped (`guardrails/check-merge-base.sh`); the criterion was split so its still-open half
         # keeps the tag, and INV-199 keeps its row here.
         "INV-199": "q-804",  # the stale-lane check — a lane/* branch or worktree with no open row
-        # Re-pointed 2026-08-31, then again 2026-09-01: q-437 was folded into plan-12 on
-        # 2026-08-28 and never worked, so plan-12 closed with this promise still standing. q-437
-        # came back as its own open row and owned the anchor. q-437 then built and closed its own
-        # half 2026-09-01 (the recursive axis-registry similarity sweep); the criterion's other
-        # half, the value-space in-between forcing step, was q-436's and stayed unbuilt — this map
-        # holds one owner per anchor, so q-436 is back on the board (mirroring q-437's own 31.08
-        # repair) and takes the anchor now that q-437's half is done.
-        "INV-244": "q-436",  # the value-space in-between forcing step
+        # INV-244's own [target] tag and this entry dropped together 2026-09-01, when q-436 landed
+        # (this lane forked before that landing, so its own copy of this map still carried the
+        # stale placeholder entry through the rebase — removed here, matching main's real state).
         "INV-308": "q-166",  # the work board surface, promised whole and unbuilt
         "INV-67": "q-166",   # the board's one-stable-link published page
     }
