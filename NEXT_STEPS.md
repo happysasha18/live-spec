@@ -315,6 +315,28 @@ out already shipped (see point 1 above). One new row was genuinely needed and ad
 the prover-description-test movement (`85b659d1`, from 31.08 morning) and for tonight's
 whole `16b1a300..bff2715a` range.
 
+**Tail-end cleanup, after this note's own suite state above was written. Heals landing
+0a9a431a** (the plan-3 header-restoration finding closed above without a same-commit touch
+here — see the `test_tasks_parser_finds_every_task.py` entry in the diagnosed list). Five
+more real fixes landed on top of the suite state this note already describes as red:
+`check-shipped-language.sh` is clean again (`5c8ebb87`) — `scripts/plan_checks.py:32`'s real
+Cyrillic grep string allowlisted, three direct owner quotes in `PLAN.md` marked
+`<!-- user-language -->`, and one bare-name mention reworded impersonal. The external
+`product-prover` repo's README lost a sentence `test_class_hunt.py::test_readme_names_the_
+class_lens` requires ("the class lens stands beside them...") in tonight's short-form
+rewrite — restored, version bumped to 1.6.2. `TestGateA_ProverRecord::test_real_repo_passes`
+was stale against `0a9a431a`, which reopened three targets as fresh rows — `q-385` (`INV-185`,
+the contract's three arms), `q-804` (`INV-198`/`199`/`201`, the parallel-lanes machinery
+`q-386` never built), `q-436` (`INV-244`'s still-open half, now that `q-437` closed its own) —
+and narrowed criterion 15; a fresh adversarial record
+(`docs/prover/2026-09-01-three-targets-reopened-and-criterion-15-narrowed.md`) covers the
+current spec and the pushed range. `TestGateG_PinDrift` broke a second time tonight — `084c3eb4`
+(the communicator body trim) shifted lines past the nine pins `6ea75939` had just re-pointed —
+five pins re-pointed again by their own naming words (`16d59df9`): rule 10, rule 11, rule 9's
+outcome-leads line, rule 5's channel line, and the r5 range pin for "Run the mechanical check."
+Not re-verified here: the ~20 other failures this note's suite-state section lists as
+undiagnosed: a fresh `python3 -m pytest -q` run is still owed before this tree is called green.
+
 ## Where the numbers live
 
 `docs/MEASUREMENTS.md` holds one row per file and one column per indicator, in the reading queue's
