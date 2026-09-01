@@ -244,6 +244,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 - **stranger** — a contributor with no push rights and no per-repository grant for a repository; a stranger's message enters through an Issue or Discussion opened on the repository's public tracker, which the monitor bridges into the inbox.
 - **stranger-wish monitor** — the scheduled process that converts each open stranger Issue or Discussion into one committed inbox file.
 - **success measure** — one written way, with a number where one exists, to notice a feature worked for its person, written in the feature's spec-delta.
+- **success-measure feed** — the small JSON file a host's own fetch tooling writes: a generation timestamp, the fetch's own source in plain words, a list of named metrics, and, where a two-variant experiment is running, its own named block of exactly two variants. `scripts/check-success-measure-feed.py` is its one reader.
 - **suite-honesty class** — the class of invariants that keep a green suite meaningful — each naming the net that enforces it — so a passing suite proves the behaviour it claims.
 - **surface registry** — one host-authored list of every user-facing surface the product carries, read by a completeness net.
 - **target tag** — the marker `[target]` a spec line carries on a line of its own to mark a feature or leg that is promised but not yet built.
@@ -287,6 +288,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 | `spec/draft-sandbox.md` | R98 | Draft sandbox |
 | `spec/external-publish.md` | R143 | Publishing to the outside |
 | `spec/customer-feedback.md` | R152–R158 | Feedback from the customer |
+| `spec/success-measure-feed.md` | R318 | A host's fetched success-measure feed |
 | `spec/product-map.md` | R159 | Product map on request |
 | `spec/bug-priority-queue.md` | R160–R161 | A bug jumps the queue |
 | `spec/internal-failure-log.md` | R162–R167 | Log of internal failures |

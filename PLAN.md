@@ -1598,7 +1598,7 @@ on. **Still open** until that project's own session adds the line and this row's
 against its file.
 
 
-### 🔄 The product's performance after launch is tracked automatically — id: q-48
+### ⬜ The product's performance after launch is tracked automatically — id: q-48
 **Group:** Feedback & measurement · **Priority:** normal
 **Source:** owner 2026-07-05.
 **Closes:** q-49, q-96, q-100, q-469
@@ -1647,6 +1647,40 @@ un-designed machinery this tree forbids building on spec.
 owner `tests/test_traceability.py`'s `TARGET_ROW_OWNERS` checks against — closing it here would
 orphan that promise. Still ⬜, not archived, not deferred on an unfired trigger: the trigger is
 spent, and what is left is real, scoped work.
+
+**Partially landed 02.09.** The pack-side contract this row's own remaining work named is now
+authored, proven, and built. `spec-author`'s discipline ran first: `spec/success-measure-feed.md`
+(Requirement 318) states the automatic-fetch shape — a JSON feed any host's own fetch tooling
+writes, carrying a generation timestamp, its source in plain words, one or more named metrics, and,
+where a two-variant experiment is running, its own block of exactly two variants — new invariant
+`INV-324`. A self-run product-prover pass (`skills/product-prover-pack/SKILL.md`'s pack bindings)
+checked the delta before any code: the pack-to-host split Requirement 267 already draws is cited
+rather than restated, so no cross-cutting fact repeats; the neighbouring field-evidence route
+(Requirement 154, clause 4) stays the human-triggered half, untouched, so the seam between the two
+routes carries no blank answer; and every duty names its carrier (Requirement 316) — the two clauses
+naming a host's own job (9 and 10) are written as a decided scope split rather than a `[target]`
+promise, since nothing pack-side was ever going to perform them. `INV-21`'s own `[target]` tag stands
+exactly where it stood: the reading machinery it promises is now real on the pack side alone, and the
+host-side leg below is what keeps it open.
+
+The machine: `scripts/check-success-measure-feed.py` reads a feed and reds a skipped fetch (no file),
+an empty fetch (no metrics), a stale feed, and a malformed feed or two-variant experiment block —
+proven both ways by `tests/test_success_measure_feed.py`'s twelve cases (red-proven live: each fault
+case asserts its own red before the pass case is trusted). Traced at `architecture/guardrails.md`
+(`INV-324`'s owns entry and the script's pin) and `matrix/guardrails.md`'s row `M-621`. Commands:
+`python3 -m pytest -q tests/test_success_measure_feed.py` (12 passed) and
+`python3 -m pytest -q tests/test_traceability.py tests/test_architecture_format.py
+tests/test_index_generated.py tests/test_architecture_reference.py tests/test_matrix_reference.py
+tests/test_scenario_heading_tag.py` (all green) prove the delta lands clean against the rest of the
+spec, the architecture, and the matrix.
+
+**What stays open, and whose it is.** Two legs of Requirement 318 name a host's own job and build
+nothing here on purpose: writing the fetch tooling itself against a real source (a host's own
+analytics account), and wiring a host's own status view to run the checker and print what it
+confirms beside its tasks, unasked. That wiring is `~/tlvphotos`'s own job — GA4 property `544252011`
+and `~/tlvphotos/scripts/ga_report.py` already exist there — for a session inside that project's own
+window, once it reads this contract. This window does not do that part; it is out of reach for this
+worktree the same way it was for q-163's field leg. The row stays open until that session runs.
 
 
 ### ✅ One command safely winds down all the work before you leave — id: q-235

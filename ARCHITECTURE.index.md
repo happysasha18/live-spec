@@ -379,6 +379,7 @@
 | INV-321 | spec-author |
 | INV-322 | guardrails |
 | INV-323 | guardrails |
+| INV-324 | guardrails |
 | M-1 | build-pipeline |
 | M-2 | base-rulebook |
 | M-3 | package-docs |
