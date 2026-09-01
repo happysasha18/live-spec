@@ -240,8 +240,27 @@ class TestTheAcceptanceCommandsStayHonestMachinery(unittest.TestCase):
     #: nothing at all instead of seeing it and standing down. So the payload is judged by hand,
     #: once, and pinned by hash — any edit to that command reds this test and asks for the
     #: judgement again (2026-08-28).
+    #:
+    #: plan-10's second pass (2026-09-01) added five more, each for the same reason: the row's own
+    #: acceptance is proven by a specific pytest-style test function or method that takes no
+    #: repository state as an argument beyond a scratch directory, and calling it directly is
+    #: cheaper and more honest than re-deriving its assertions in shell. Each payload was read by
+    #: hand before being pinned: every one imports a named test module from `tests/`, calls one or
+    #: more of its own functions with nothing but a `tempfile.TemporaryDirectory()` (cleaned up in
+    #: the same command, never left behind), and writes nothing under this repository's own tree.
+    #: q-490 calls every `test_*` function in `tests/test_legibility_floor.py` (none take
+    #: arguments). q-497 calls one `test_authority_anchor.py` function. q-527 calls one
+    #: `test_worker_restore_made_good.py` function. q-581 calls `test_dialog_warning_guard.py`'s
+    #: own functions over its own `KNOWN_EXAMPLES`/`ORDINARY` lists, read from the module itself,
+    #: not retyped here. q-586 instantiates one `test_worker_restore.py` class and calls its
+    #: methods over its own `DISCARDING`/`ALSO_DISCARDING` lists, same reason.
     JUDGED_BY_HAND = {
         "plan-11": "247911fbb4cced36d84b17491ca9c44ddd032d1707e33b3ac007b871c7608389",
+        "q-490": "02244009b044657f265468334bb7c179090898dd78ef3d4767b5d6615bdfa506",
+        "q-497": "a08acac50d8a277eee4202614b8140b76ffa4cb75c0b59e4365b91739c16624a",
+        "q-527": "1c84c8e5a9271225666cfe832690345752a4b6cf25b30815193684286fd9794b",
+        "q-581": "59fce43e95d4d4ae51534ed5c41d81d9d634555a27ac4ac416c6c79f5ce17ce3",
+        "q-586": "25b2c366f1344f69057673bcc5a229410f688fc51951eea4f09313973bf8d3bf",
     }
 
     def setUp(self):

@@ -605,6 +605,14 @@ own evidence rather than waiting on that reading — the page is sent to him alo
 this row does not sit as a queued item pending his eyes for something a fresh, checkable page already
 proves.
 
+**Checked by reading on 01.09.** `docs/prover/2026-09-01-every-number-in-the-tree.md` and commit
+`c8adff22` both stand in the tree, dated as claimed. The commit's own diff touches exactly the
+thirteen files the page names, and two spot-read (`scripts/wind-down.py`'s new constants,
+`skills/communicator/SKILL.md`'s digest-length line) each carry the claimed source-admission
+comment or `[default]` tag. No command: what this row closes on is a prose finding and a one-time
+repair, and a check pinned to "zero ungrounded numbers" would re-open the moment the next honest
+sweep finds one, which is not this row's own drift to catch.
+
 
 ### ✅ All project files live in one place again — id: plan-0
 **Group:** Method housekeeping · **Priority:** normal

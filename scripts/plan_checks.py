@@ -20,7 +20,16 @@ cannot disagree about what a task's mark, group, priority or source is.
 import re
 
 CHECKS = {
-    "plan-0": "test -f PLAN.md && test -f scripts/state-probe.sh && ! test -d /private/tmp/ls-director && test -f attic/DIRECTOR_HANDOFF-2026-08-26-decisions.md",
+    # plan-0: corrected 2026-09-01 — the old arm was four bare `test -f`/`test -d` clauses, the
+    # exact file-existence proxy plan-10's own text names as a defect. The row's own acceptance
+    # ("state-probe.sh confirms it matches origin/main, the tree is clean") cannot be read as
+    # "zero commits ahead of origin/main" — that is the tree's ordinary working state, not a
+    # defect, and a check demanding it would red on every session carrying unpushed work. What the
+    # row actually left behind that stays true across ordinary work: this tree tracks
+    # `origin/main` as its upstream, its tracked files carry no uncommitted changes, the stray
+    # `/private/tmp/ls-director` directory the migration cleared stays gone, and the archived
+    # handoff carries its own real content, not just a path that resolves.
+    "plan-0": 'test "$(git rev-parse --abbrev-ref --symbolic-full-name @{u} 2>/dev/null)" = "origin/main" && test -z "$(git status --porcelain --untracked-files=no)" && ! test -d /private/tmp/ls-director && grep -q "Владелец подтвердил" attic/DIRECTOR_HANDOFF-2026-08-26-decisions.md',
     # plan-1's key was removed 2026-08-28 with its task: the board rotation folded plan-1 into
     # plan-11, and its check ("the render script exists and is executable") was the file-existence
     # proxy plan-10 names as a defect in its own text.
@@ -109,9 +118,12 @@ sys.exit(1 if undrawn or unmarked else 0)
     # this key still exited 0. The proofs run for real now, by direct execution rather than through
     # a suite, the way plan-16's key already does — 0.4s for both files together.
     "plan-12": "grep -q 'What runs next' skills/director/SKILL.md && grep -q 'which piece runs next where other accepted work stands open' spec/message-first-read.md && grep -q '^## Requirement 313' spec/message-first-read.md && grep -q '^### .node: director.$' architecture/pipeline-and-lanes.md && grep -q '^| F-first-read | director |' architecture/feature-coverage.md && PYTHONPATH=tests python3 -m unittest -q test_traceability.TestFeatureCoverage > /dev/null 2>&1 && python3 tests/test_spec_parts.py TestTheMapNamesEveryPart TestOneNumberNamesOneRequirement > /dev/null 2>&1 && python3 guardrails/check-index-generated.py PRODUCT_SPEC.md PRODUCT_SPEC.index.md >/dev/null",
-    # q-458: the audit is its own external skill, installed, with this pack's binding and the lints
-    # it declares per text surface.
-    "q-458": 'test -d "$HOME/.claude/skills/text-audit" && test -f skills/text-audit-pack/SKILL.md && test -f .text-audit/lints.json',
+    # q-458: corrected 2026-09-01 — the old arm was three bare `test -f`/`test -d` clauses, the
+    # exact file-existence proxy plan-10's own text names as a defect. Now reads the substance:
+    # the external skill is installed with real content (not an empty directory), the pack's own
+    # binding names the dependency, and the declared lint list carries exactly the six commands
+    # the row's own text counts, including the two it names by name.
+    "q-458": """test -f "$HOME/.claude/skills/text-audit/SKILL.md" && grep -q 'text-audit >= ' skills/text-audit-pack/SKILL.md && test "$(grep -c '"command"' .text-audit/lints.json)" = "6" && grep -q 'spec-style-lint.py' .text-audit/lints.json && grep -q 'preshow-register-lint.py' .text-audit/lints.json""",
     # q-531: the command stands and both directions run for real — a legitimate split prints an
     # empty difference, and each thing dropped on purpose prints and reds. The two fixture classes
     # are executed rather than grepped for (0.5s); the two real splits they sit beside read 800 KB
@@ -143,6 +155,112 @@ sys.exit(1 if undrawn or unmarked else 0)
     # q-624: the guard is installed on this machine, byte-identical to the copy in the tree, and
     # wired as a hook — the row's own "standing here, not merely built".
     "q-624": 'test -f "$HOME/.claude/hooks/worker-restore-guard.py" && cmp -s "$HOME/.claude/hooks/worker-restore-guard.py" hooks/worker-restore-guard.py && grep -q worker-restore-guard "$HOME/.claude/settings.json"',
+    # --- written 2026-09-01 by plan-10's second pass: fourteen rows the first pass left declared
+    # but neither backed by a command nor read and dated. Each command below reads the row's own
+    # acceptance, not merely a path's presence.
+    #
+    # q-801: the retired template stays retired (not merely present somewhere), the file it was
+    # replaced with exists, the manifest names the move, three of the eleven repointed files carry
+    # the converged sentence, and the migration chapter both exists and names the queue question
+    # it answers.
+    "q-801": ('test -f attic/ROADMAP.template.md && test ! -f templates/ROADMAP.template.md'
+              ' && test -f templates/PLAN.template.md && grep -q "ROADMAP.template.md" attic/MANIFEST.md'
+              ' && grep -q "the plan and the queue in one document" skills/design-reviewer/SKILL.md'
+              ' && grep -q "the plan and the queue in one document" skills/communicator/references/words.md'
+              ' && grep -q "the plan and the queue in one document" skills/product-prover-pack/SKILL.md'
+              ' && grep -q "^### 6.1.0" MIGRATION.md'
+              ' && grep -q "queue file as the place a wish lands" MIGRATION.md'),
+    # q-490: the dedicated suite for the chainless-selector fix runs clean (22 tests, incl. the
+    # named regression case), and the neighbouring register lint states out loud when its own
+    # judge stands down rather than printing a clean pass over a check that never ran.
+    "q-490": """PYTHONPATH=tests python3 -c "
+import test_legibility_floor as m
+[f() for n, f in vars(m).items() if n.startswith('test_') and callable(f)]
+" >/dev/null 2>&1 && grep -q 'judge stood down' scripts/preshow-register-lint.py""",
+    # q-497: the gate itself runs clean on the tree as it stands, the test proving both directions
+    # in one holds, the rule the row wrote (instruction authority) stands in its one home, and the
+    # one-home-per-rule suite that would catch a second copy passes.
+    "q-497": ("""python3 guardrails/check-authority-anchor.py >/dev/null 2>&1 && PYTHONPATH=tests python3 -c "
+import tempfile, pathlib
+import test_authority_anchor as m
+d = tempfile.TemporaryDirectory()
+m.test_a_named_attribution_reds_on_any_surface_and_the_tree_as_it_stands_passes(pathlib.Path(d.name))
+d.cleanup()
+" >/dev/null 2>&1 && grep -q 'A claim needs its primary source' skills/live-spec-base/SKILL.md && python3 tests/test_one_home_per_rule.py >/dev/null 2>&1"""),
+    # q-527: the definition of "made good" the row asked be written once stands in the requirement
+    # it cites, and the test proving both directions over one fixture repository — red without the
+    # repair, clean with it, nothing else changed between the two readings — passes. Run directly
+    # (not through pytest) since the probe runs every key in this table on every session start, and
+    # a suite in here once hung the owner's morning command (see the module's own docstring).
+    "q-527": """grep -q '^21\\. A finding \\*shall\\* count as made good' spec/guardrails-freshness.md && PYTHONPATH=tests python3 -c "
+import tempfile, pathlib
+import test_worker_restore_made_good as m
+d = tempfile.TemporaryDirectory()
+m.test_the_repair_clears_the_finding_and_its_absence_keeps_it_red(pathlib.Path(d.name))
+d.cleanup()
+" >/dev/null 2>&1""",
+    # q-55: the joining script is executable and named as step two of the attach walk's own text,
+    # and its four-way suite (committed as found, a later change diffs against that commit, all
+    # three fail when the step is skipped, a project with its own history gains no commit) passes,
+    # run directly rather than through pytest (the module already carries its own `__main__`).
+    "q-55": "python3 tests/test_starting_state.py >/dev/null 2>&1 && test -x adopt/record-starting-state.sh && grep -q '2\\. \\*\\*Keep the files as they were found' adopt/ADOPT.md",
+    # q-567: the install script ships the check scripts a host's hooks call (not the hooks alone),
+    # proven by the two tests that plant a scratch repo and watch a missing check stop the commit
+    # rather than passing silently, run through `unittest` rather than pytest, and the README
+    # states by hand how a host takes the one chain that cannot travel whole.
+    "q-567": "PYTHONPATH=tests python3 -m unittest -q test_guardrails.TestInstalledHooksReachTheirChecks >/dev/null 2>&1 && grep -q 'adapted by hand' guardrails/README.md",
+    # q-581: the guard's own test functions, called directly against the module's own command list
+    # (every listed command warns, an ordinary command passes clean, malformed input stands down),
+    # and the flat list the row's narrowed acceptance asked for is the mechanism actually wired.
+    "q-581": """PYTHONPATH=tests python3 -c "
+import test_dialog_warning_guard as m
+for name, command in m.KNOWN_EXAMPLES:
+    m.test_each_listed_command_is_warned_before_it_runs(name, command)
+for command in m.ORDINARY:
+    m.test_ordinary_commands_pass_silently(command)
+m.test_malformed_input_stands_down_rather_than_guessing()
+" >/dev/null 2>&1 && grep -q 'KNOWN_DIALOG_COMMANDS' hooks/dialog-warning-guard.py""",
+    # q-586: the class of the fix — judging where the bytes end up rather than which word came
+    # first — is proven by calling the test class's own methods directly against every named and
+    # every assembled discarding form and watching all of them red, and the refusal's own
+    # recommended route no longer points at the command that used to slip past it.
+    "q-586": """PYTHONPATH=tests python3 -c "
+import tempfile, pathlib
+import test_worker_restore as m
+inst = m.TestGateRedsOnADiscardingCommand()
+d = tempfile.TemporaryDirectory(); inst.test_the_lived_case_reds_and_names_its_path(pathlib.Path(d.name)); d.cleanup()
+for which, command in sorted(m.DISCARDING.items()):
+    d = tempfile.TemporaryDirectory(); inst.test_each_named_command_reds(pathlib.Path(d.name), which, command); d.cleanup()
+for command in m.ALSO_DISCARDING:
+    d = tempfile.TemporaryDirectory(); inst.test_the_other_forms_the_prose_names_red_too(pathlib.Path(d.name), command); d.cleanup()
+" >/dev/null 2>&1 && grep -q 'write the file deliberately' hooks/worker-restore-guard.py""",
+    # q-489: the one check the row's acceptance asked be proven end to end, plus the walk over
+    # every check in guardrails/ and its forward-looking arm (a check arriving with no fixture
+    # reds the walk), all five fixture-proof tests, run directly (the module carries its own
+    # `__main__`) rather than through pytest.
+    "q-489": "python3 tests/test_guardrail_fixture_proofs.py >/dev/null 2>&1",
+    # q-597: the commit the row cites for the removal is real, and none of the mirror-sync
+    # machinery (the script itself, the three tests that guarded it) is in the tree to guard.
+    "q-597": "git cat-file -e 7b2980df 2>/dev/null && test ! -f scripts/sync-mirrors.sh && test ! -f tests/test_mirror_editions.py && test ! -f tests/test_mirror_autosync.py && test ! -f tests/test_mirror_release_history.py",
+    # q-625: the commit the row cites for the removal is real, and neither the generated rulebook
+    # nor the check that read it is in the tree to guard.
+    "q-625": "git cat-file -e e61b29b7 2>/dev/null && test ! -f guardrails/hook-red-proofs.json && test ! -f guardrails/check-hooks-can-fire.py",
+    # q-427: the settings ladder's package-defaults table carries exactly the eighteen rows the
+    # row's own closing text counts — a script reads the table between its own header and its own
+    # end, not a grep for the word "setting".
+    "q-427": "test -f skills/live-spec-base/references/settings-ladder.md && "
+             "test \"$(grep -c '^| `' skills/live-spec-base/references/settings-ladder.md)\" = \"18\"",
+    # q-529: the two pieces of machinery the row names (the generated rulebook and the gate that
+    # read it, already retired for q-625 above) stay out of the tree, and the check that stands in
+    # their place for a still-live ceiling (the spec size ratchet) states in its own text that it
+    # never writes its own config — only a hand edit, carrying a fresh reason, raises it — matching
+    # the architecture and matrix pages that record the old mechanism as retired rather than silently
+    # dropped.
+    "q-529": 'test ! -f scripts/rule-census.py && test ! -f guardrails/check-doc-findings-bound.py && test ! -f guardrails/rule-census.json && grep -q "This gate never writes the config" guardrails/check-size-ratchet.py && grep -q "M-479.*retired" matrix/guardrails.md',
+    # q-235: the command's own six-test suite (each of the four acceptance legs red if skipped,
+    # the red-gate path withholds the push instead of bypassing it, the command's own controlling
+    # process is never signalled) runs clean.
+    "q-235": "python3 tests/test_wind_down.py >/dev/null 2>&1",
 }
 
 def reads_outside_the_tree(command):
