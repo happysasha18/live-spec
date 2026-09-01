@@ -1853,6 +1853,33 @@ already named in Requirement 86; and an adoption-gate arm redding a host project
 carry no vendored worktree line. Until then git's refusal and the prover's own reading stand as the
 net, unchanged from what the spec already says.
 
+**Worked 2026-09-01, and two of the three close; the row stays open on the third's own residual.**
+All three named arms shipped as real scripts, each red-proven on a hermetic scratch repo (plants the
+violation, reds; removes it, passes) rather than asserted from prose: `guardrails/check-config-health.sh`
+gained a primary-tree-holds-main arm reading git's own shared `worktree list` rather than the invoking
+tree's branch; `guardrails/check-merge-base.sh` reds a lane whose merge-base with main is not main's
+own tip, callable against `HEAD` or a named worktree path, ahead of the landing gate; and
+`guardrails/check-worktree-line.sh` reds a host tree whose `CLAUDE.md` carries no line naming a
+worktree and citing INV-105, run at the adoption/catch-up walk rather than wired into every push
+(this pack's own tree is itself an adopted host with no such line yet — Requirement 88 criterion 3
+leaves that write shut until the pack's own owner speaks, so wiring the gate into this repo's own
+push chain would red it ahead of that word, which is not this row's call to make). Twelve new tests
+in `tests/test_lane_net_arms.py` plus six added to `tests/test_guardrail_fixture_proofs.py`'s own
+PROVEN walk cover all three, and the full suite runs green.
+
+INV-198's and INV-201's promises are now whole: their spec criteria dropped the "promised... until
+it ships" framing for the built behaviour, their `[target]` lines are gone, and their
+`TARGET_ROW_OWNERS` map entries dropped with them (`spec/parallel-lanes.md` Requirement 85 criterion
+5, Requirement 88 criterion 4/former-6). INV-199's own criterion bundled two checks from its first
+writing — the merge-base check (built, above) and the stale-lane check, "a lane worktree or a
+`lane/*` branch with no open row" in the config-health gate. Only the merge-base half is this row's
+own three-arm acceptance; the stale-lane half was never one of the three arms asked for here ("beside
+the stale-lane check already named in Requirement 86" names it as context, not as this row's own
+work), and no fourth check was built to close it — inventing one would be machinery past what this
+row's own acceptance names. Requirement 86 was split into criterion 5 (the merge-base check, built)
+and a new criterion 6 (the stale-lane check, still `[target]`), so INV-199 keeps its map entry and
+this row stays open on that one residual rather than closing on a narrowed reading of its own anchor.
+
 
 ### ✅ The front page is rewritten to be fully accurate — id: q-501
 **Group:** Docs & outreach · **Priority:** normal

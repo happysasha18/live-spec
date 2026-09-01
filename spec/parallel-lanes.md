@@ -183,10 +183,9 @@
 3. The system *shall* keep every document on the pen's list under the pen even under branches, since two lanes drafting deltas on two branches would each prove against a spec the other is about to move and no suite reads a proof. [INV-198, E-34, INV-101]
 4. The system *shall* keep the shared tree clean of every lane's unfinished work, turning the one-row landing commit's precondition from a discipline into a structure. [INV-198, INV-39]
 
-**Case: the config-health net is promised**
+**Case: the config-health check**
 
-5. The system *shall* keep the config-health check on the primary tree holding main promised, git's refusal the net until it ships. [INV-198]
-   [target]
+5. The system *shall* red a primary tree that does not hold main in the config-health check, reading the primary tree's own checked-out branch off git's shared worktree metadata rather than the invoking tree's. [INV-198]
 
 ---
 
@@ -208,9 +207,10 @@
 3. *when* a lane lands, the system *shall* remove its branch and worktree, and *shall* keep both on a parked lane with the board saying which. [INV-199, T-9, INV-27]
 4. The system *shall* refuse teardown on a worktree holding uncommitted work and read that refusal as a finding, and *shall* red a lane worktree or a lane branch with no open row in the config-health gate. [INV-199, INV-150]
 
-**Case: the pre-gate checks are promised**
+**Case: the merge-base check, and the stale-lane check still promised**
 
-5. The system *shall* keep the merge-base check ahead of the gate and the stale-lane check promised, the prover's station their net until then. [INV-199]
+5. The system *shall* red, ahead of the landing gate, a lane whose branch's merge-base with main does not equal main's tip, reading either the invoking tree's own `HEAD` or a named worktree's. [INV-199]
+6. The system *shall* keep the stale-lane check — a lane worktree or a `lane/*` branch with no open row, in the config-health gate — promised, the prover's station its net until then. [INV-199]
    [target]
 
 ---
@@ -250,13 +250,8 @@
 **Case: the line records the host owner's word**
 
 3. *when* the host owner's word for the host's tree is spoken, the system *shall* write the vendored line recording that word, and *shall* leave the session lane shut until the pack's own owner gives the word for the pack's line. [INV-201, INV-152, INV-4]
-4. The system *shall* red a host whose project instructions carry no worktree line at the adoption gate, a mechanical gate the prover's station stands as until the build lands. [INV-201, INV-150]
+4. The system *shall* red a host whose project instructions carry no worktree line at the adoption gate, a mechanical gate read at the adoption/catch-up walk rather than wired into every push. [INV-201, INV-150]
 5. The system *shall* require no vendored line for a worker lane, since the subagent's isolation option carries no gate. [INV-201, E-34]
-
-**Case: the adoption gate is promised**
-
-6. The system *shall* keep the adoption gate for the host's worktree line promised, the prover's station its net until then. [INV-201]
-   [target]
 
 ---
 

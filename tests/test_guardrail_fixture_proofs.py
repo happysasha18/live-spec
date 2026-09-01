@@ -79,10 +79,94 @@ def prototype_fence_passes_the_fix():
         return result.returncode == 0 and "OK (prototype fence)" in result.stdout
 
 
+def _run_worktree_line(host):
+    return subprocess.run(
+        [os.path.join(GUARDRAILS, "check-worktree-line.sh"), host],
+        cwd=ROOT, capture_output=True, text=True,
+    )
+
+
+def worktree_line_reds_the_bug():
+    """The bug: a host's project instructions carry no vendored worktree line citing the
+    isolation law's write-set condition (SPEC INV-201, PLAN q-804). Returns True when the gate
+    reds it."""
+    with tempfile.TemporaryDirectory() as tmp:
+        _write(tmp, "CLAUDE.md", "# a host project\n\nSome other instructions entirely.\n")
+        result = _run_worktree_line(tmp)
+        return result.returncode != 0 and '"code":"worktree-line"' in result.stdout
+
+
+def worktree_line_passes_the_fix():
+    """The same fixture, fixed: the host's CLAUDE.md carries a line naming a worktree and
+    citing INV-105. Returns True when the gate passes it."""
+    with tempfile.TemporaryDirectory() as tmp:
+        _write(
+            tmp, "CLAUDE.md",
+            "# a host project\n\n"
+            "Two lanes with overlapping write-sets get worktree isolation (SPEC INV-105).\n",
+        )
+        result = _run_worktree_line(tmp)
+        return result.returncode == 0 and "worktree-line: OK" in result.stdout
+
+
+def _git_two_worktree_scratch(tmp):
+    """A primary tree plus one lane worktree, both committed once — the shape the merge-base
+    check reads (SPEC INV-199, PLAN q-804). Returns (primary_dir, lane_dir)."""
+    primary = os.path.join(tmp, "primary")
+    lane = os.path.join(tmp, "lane")
+    os.makedirs(primary)
+    env = dict(os.environ)
+    env.update({
+        "GIT_AUTHOR_NAME": "livespec-test", "GIT_AUTHOR_EMAIL": "livespec-test@example.invalid",
+        "GIT_COMMITTER_NAME": "livespec-test", "GIT_COMMITTER_EMAIL": "livespec-test@example.invalid",
+    })
+    subprocess.run(["git", "init", "-q", "-b", "main"], cwd=primary, env=env, capture_output=True, text=True)
+    subprocess.run(["git", "commit", "-q", "--allow-empty", "-m", "init"], cwd=primary, env=env,
+                    capture_output=True, text=True)
+    subprocess.run(["git", "worktree", "add", "-q", "-b", "lane/x", lane], cwd=primary, env=env,
+                    capture_output=True, text=True)
+    subprocess.run(["git", "commit", "-q", "--allow-empty", "-m", "lane work"], cwd=lane, env=env,
+                    capture_output=True, text=True)
+    return primary, lane, env
+
+
+def _run_merge_base(cwd):
+    return subprocess.run(
+        [os.path.join(GUARDRAILS, "check-merge-base.sh")], cwd=cwd, capture_output=True, text=True,
+    )
+
+
+def merge_base_reds_the_bug():
+    """The bug: main moved under a lane that never rebased (SPEC INV-199, PLAN q-804). Returns
+    True when the gate reds it."""
+    with tempfile.TemporaryDirectory() as tmp:
+        primary, lane, env = _git_two_worktree_scratch(tmp)
+        subprocess.run(["git", "commit", "-q", "--allow-empty", "-m", "main moved"], cwd=primary,
+                        env=env, capture_output=True, text=True)
+        result = _run_merge_base(lane)
+        return result.returncode != 0 and '"code":"merge-base"' in result.stdout
+
+
+def merge_base_passes_the_fix():
+    """The same fixture, fixed: the lane rebases onto main's new tip. Returns True when the gate
+    passes it."""
+    with tempfile.TemporaryDirectory() as tmp:
+        primary, lane, env = _git_two_worktree_scratch(tmp)
+        subprocess.run(["git", "commit", "-q", "--allow-empty", "-m", "main moved"], cwd=primary,
+                        env=env, capture_output=True, text=True)
+        subprocess.run(["git", "rebase", "main"], cwd=lane, env=env, capture_output=True, text=True)
+        result = _run_merge_base(lane)
+        return result.returncode == 0 and "merge-base: OK" in result.stdout
+
+
 #: Checks that own a live fixture proof, run by this suite — the shape q-489 asks every check to
-#: carry eventually. check-prototype-fence.sh is the one check that completes the walk end to end.
+#: carry eventually. check-prototype-fence.sh is the one check that completes the walk end to end;
+#: check-merge-base.sh and check-worktree-line.sh (PLAN q-804) are the next two, shipped with the
+#: fixture proof from the start rather than grandfathered in unproven.
 PROVEN = {
     "check-prototype-fence.sh": (prototype_fence_reds_the_bug, prototype_fence_passes_the_fix),
+    "check-merge-base.sh": (merge_base_reds_the_bug, merge_base_passes_the_fix),
+    "check-worktree-line.sh": (worktree_line_reds_the_bug, worktree_line_passes_the_fix),
 }
 
 #: Every other check-*.py / check-*.sh shipping in guardrails/ on 2026-08-31, when this row's
@@ -171,6 +255,30 @@ class TestOneCheckCompletesTheWalk(unittest.TestCase):
         self.assertTrue(
             prototype_fence_passes_the_fix(),
             "check-prototype-fence.sh must pass the same fixture once the reference is gone",
+        )
+
+    def test_merge_base_reds_without_its_fix(self):
+        self.assertTrue(
+            merge_base_reds_the_bug(),
+            "check-merge-base.sh must red a lane whose branch has not rebased onto main's tip",
+        )
+
+    def test_merge_base_passes_with_its_fix(self):
+        self.assertTrue(
+            merge_base_passes_the_fix(),
+            "check-merge-base.sh must pass the same lane once it has rebased onto main's tip",
+        )
+
+    def test_worktree_line_reds_without_its_fix(self):
+        self.assertTrue(
+            worktree_line_reds_the_bug(),
+            "check-worktree-line.sh must red a host whose CLAUDE.md carries no worktree line",
+        )
+
+    def test_worktree_line_passes_with_its_fix(self):
+        self.assertTrue(
+            worktree_line_passes_the_fix(),
+            "check-worktree-line.sh must pass the same host once the line is vendored in",
         )
 
 

@@ -112,7 +112,9 @@
 - `hooks/clock-hook.sh:1` (the chat clock's hand)
 - `hooks/scissors-scan.py:1` (the canonical universal scan hook, opt-in/library, INV-211)
 - `scripts/install-pack-hooks.sh:1` (chained by install-session-hooks.sh, INV-289)
-- `guardrails/check-config-health.sh:1` (INV-175; +skill-copy arm INV-243)
+- `guardrails/check-config-health.sh:1` (INV-175; +skill-copy arm INV-243; +primary-tree-holds-main arm INV-198)
+- `guardrails/check-merge-base.sh:1` (the merge-base check ahead of the landing gate, INV-199)
+- `guardrails/check-worktree-line.sh:1` (the adoption gate for a host's vendored worktree line, INV-201)
 - `guardrails/check-config-health-perms.py:1` (the dead-permission-path arm, INV-216)
 - `guardrails/nonempty_input.py:1` (the shared non-empty-input shape, INV-218)
 - `guardrails/check-agent-card.py:1` (the agent-card gate, gate y, INV-219)
@@ -140,9 +142,11 @@
 - `scripts/session-extract.py:1` (the session extract's machine, INV-302)
 - `templates/agent.template.md:38` (the clause in the agent card a brief is written from, INV-299)
 - `scripts/open-lane.sh:106` (the clause in the printed brief stub, INV-299)
+- `tests/test_lane_net_arms.py:1` (the by-deed red proof for the three arms above: INV-198, INV-199, INV-201, PLAN q-804)
 - registry: —
 
 **notes** —
+- INV-198, INV-199, INV-201 (owned by parallel-lanes, the predicates' own home): this node runs three of their checks — `guardrails/check-config-health.sh`'s primary-tree-holds-main arm, `guardrails/check-merge-base.sh` ahead of the landing gate, and `guardrails/check-worktree-line.sh` at the adoption gate — PLAN q-804. INV-199's own stale-lane check (a `lane/*` branch or worktree with no open queue row) stays unbuilt, its own open row.
 - the pack's own gates and opt-in fence are LIVE (hooks installed), together with the chat clock's mechanical hand. The CI mirror is LIVE too (row 14 — `.github/workflows/gates.yml`, the same scripts as a second net). Host-facing checks and the registry are still [target] (row 55).
 - INV-24: the clock law's chat-arm sentence is carried by communicator as wiring. The human-facing timestamp read lives in the communicator skill, and ownership of the clock law stays here.
 - INV-213: the owned-identity discipline the test-author node owns, the browser-kill lesson of row 334.

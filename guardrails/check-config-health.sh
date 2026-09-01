@@ -145,6 +145,27 @@ if [ -f "$PERMS" ]; then
   fi
 fi
 
+# INV-198 (PLAN q-804): git's own refusal of another worktree's checkout/force/push against a
+# checked-out branch is the net the branch road leans on, and that refusal fires only for a branch
+# a tree actually holds checked out — a primary tree drifted onto some other branch (or a detached
+# HEAD) leaves `main` free for any lane to move, with nothing refusing it. This arm reads git's own
+# worktree list — shared metadata every worktree in the repo can see — rather than the invoking
+# tree's own branch, so it reads the PRIMARY tree's checkout correctly however this script is
+# invoked. `git worktree list` lists the primary worktree first, always (git's own documented
+# order): SPEC spec/parallel-lanes.md Requirement 85 criterion 5.
+PRIMARY_BLOCK="$(git worktree list --porcelain 2>/dev/null | awk '/^worktree /{n++} n==1')"
+if [ -n "$PRIMARY_BLOCK" ]; then
+  PRIMARY_PATH="$(printf '%s\n' "$PRIMARY_BLOCK" | sed -n 's/^worktree //p')"
+  PRIMARY_BRANCH="$(printf '%s\n' "$PRIMARY_BLOCK" | sed -n 's#^branch refs/heads/##p')"
+  if [ -z "$PRIMARY_BRANCH" ]; then
+    echo "{\"severity\":\"error\",\"code\":\"config-health\",\"message\":\"primary tree ($PRIMARY_PATH) holds no branch checked out (detached HEAD) — git's own worktree refusal (INV-198) rests on the primary tree holding main\",\"fix\":\"checkout main in the primary tree\"}"
+    fail=1
+  elif [ "$PRIMARY_BRANCH" != "main" ]; then
+    echo "{\"severity\":\"error\",\"code\":\"config-health\",\"message\":\"primary tree ($PRIMARY_PATH) holds '$PRIMARY_BRANCH' instead of main — git's own worktree refusal (INV-198) rests on the primary tree holding main\",\"fix\":\"checkout main in the primary tree\"}"
+    fail=1
+  fi
+fi
+
 if [ "$fail" -eq 0 ]; then
   echo "config-health: OK (installed hooks match their sources)"
 fi
