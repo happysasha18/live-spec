@@ -106,6 +106,11 @@ review run inside a live-spec project.
   answer. The headline of this duty is the unwritten seam.
 - **Entry symmetry (SPEC INV-50).** A conditionally-entered face with no deliberate re-entry path is a
   finding, and a written one-way counts as an answer.
+- **The axis-verdict sweep (SPEC INV-244).** Where a delta adds or derives a composition axis,
+  spec-author's bounded pass over the kind's declared set has already written one of three verdicts
+  for every other axis in it — already composed against, added now, or out of scope with its reason.
+  The review reads those verdicts as a lens: a sibling axis carrying no verdict is a finding, of the
+  blank-answer class, and an "out of scope" verdict with no stated reason is the same finding.
 - **Domain language on every user-facing surface.** The review holds every user-facing string to one
   bar: read them as the user would; a leaked internal word is a finding.
 - **The architecture lens, seven items.** Beside spec-fact ownership and named seams, the review checks

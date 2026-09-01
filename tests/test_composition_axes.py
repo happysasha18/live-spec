@@ -178,5 +178,39 @@ class TestCompositionAxesLaw(unittest.TestCase):
         self.assertIn("INV-244", row)
 
 
+def axis_verdict_sweep(axis_set, added_axis, verdicts):
+    """The bounded pass SPEC INV-244 owes (q-437): adding or deriving one composition axis walks
+    every OTHER axis already in the kind's declared set and demands one of three verdicts for
+    each — already composed against, added now, or out of scope (with its stated reason). A
+    sibling axis absent from `verdicts` is the pass left unfinished, not a clean sweep, and it
+    reds. Returns (ok, reason)."""
+    THREE_VERDICTS = ("already composed against", "added now", "out of scope")
+    for sibling in axis_set:
+        if sibling == added_axis:
+            continue
+        if sibling not in verdicts:
+            return False, "sibling axis '%s' carries no verdict" % sibling
+        verdict = verdicts[sibling]
+        kind = verdict[0] if isinstance(verdict, tuple) else verdict
+        if kind not in THREE_VERDICTS:
+            return False, "sibling axis '%s' carries an unrecognized verdict '%s'" % (sibling, kind)
+        if kind == "out of scope" and not (isinstance(verdict, tuple) and verdict[1]):
+            return False, "sibling axis '%s' is out of scope with no stated reason" % sibling
+    return True, "every sibling axis in the set carries a verdict"
+
+
+class TestAxisVerdictSweep(unittest.TestCase):
+    """SPEC INV-244's bounded pass, proven directly (q-437): walked on a two-axis registry, it
+    must return a verdict for every axis beside the one just added. A sibling axis that comes
+    back with no verdict is the honest reading that nobody has asked the question yet, and it
+    reds rather than passing silently."""
+
+    def test_sibling_axis_with_no_verdict_reds(self):
+        registry = ("input-capability", "viewport-tier")
+        ok, reason = axis_verdict_sweep(registry, "input-capability", verdicts={})
+        self.assertFalse(ok, "a sibling axis carrying no verdict must be flagged, never pass silently")
+        self.assertIn("viewport-tier", reason)
+
+
 if __name__ == "__main__":
     unittest.main(verbosity=2)

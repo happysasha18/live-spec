@@ -39,6 +39,15 @@ or owing a delivery road a later row lands (a platform split, a lazy load) — s
 separability is a decided sentence beside the axis's behaviour, read by the prover's
 delivery-separability lens.
 
+**Adding or deriving one axis owes the whole set a verdict (SPEC INV-244).** An axis is not only read
+at composing time; a wish can also add a new composition axis to the kind's own declared set, or
+derive one that belongs there. Either time, the session runs a bounded pass over every other axis
+already in that set and returns one of three verdicts for each — already composed against, added now,
+or out of scope with its stated reason; a sibling axis with no verdict is the pass left unfinished, not
+a clean sweep. The same asking-what-else-is-like-this reflex that already runs across sibling surfaces
+runs one level up over this set too, and it repeats at every level above that: a hand-written list stops
+at the two obvious cases, the pass is what finds the third.
+
 - **the viewport bands** — width and height both run in bands (narrow, wide, short, tall, and the
   bands a future device adds), so every layout-bearing feature ends the sweep with a decided or
   `[default]` sentence per band its layout law names or excludes, and a law scoped to one band answers

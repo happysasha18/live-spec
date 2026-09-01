@@ -893,7 +893,7 @@ names an open row instead of a finished one. What was true of this task is done;
 started is visible as its own row.
 
 
-### ⬜ Checking for similar cases happens at every level — id: q-437
+### ✅ Checking for similar cases happens at every level — id: q-437
 **Group:** Spec & feature quality · **Priority:** normal
 **Source:** tlvphotos inbox 2026-07-20, with the owner's clarification the same day; sibling of q-436.
 **Reopened 31.08.** Folded into plan-12 on 27.08 and rotated off this board on 28.08 as covered by
@@ -921,6 +921,14 @@ back with no verdict. `python3 -m pytest -q tests/test_composition_axes.py` is g
 thirteen cases that all test the axes-declaration law and none of them this, so the command decides
 this row only once that case is in the file. Until then the row is unfinished, and the honest reading
 of the green is that nobody has asked the question yet.
+
+**Done 2026-09-01.** The duty is written into `skills/spec-author/references/facet-sweep.md` (SPEC
+INV-244), the bounded pass and the "repeats at any level" sentence beside it. `skills/product-prover-pack/SKILL.md`
+reads the verdicts as a lens: a sibling axis with no verdict, or an "out of scope" verdict with no
+stated reason, is a blank-answer finding. `tests/test_composition_axes.py` carries the case: a
+two-axis registry walked, a red when a sibling axis comes back with no verdict.
+`python3 -m pytest -q tests/test_composition_axes.py` is green, fourteen of fourteen, this case
+among them.
 
 
 ### ⬜ Every project gets its own status view — id: plan-14
