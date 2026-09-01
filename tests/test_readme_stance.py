@@ -10,6 +10,7 @@ live-spec, when BMAD…" critique block, before "## Known issues".
 """
 
 import os
+import re
 import unittest
 
 from conftest import ROOT, read_flat
@@ -94,6 +95,66 @@ class TestReadmeFirstStepInstallsTheProver(unittest.TestCase):
     def test_the_pack_still_needs_the_skill_that_step_installs(self):
         """If the prover pack ever stops naming it, this step stops being load-bearing."""
         self.assertIn("product-prover", read_flat("skills/product-prover-pack/SKILL.md"))
+
+
+class TestReadmeKnownIssuesNoFalseDiscoveryPatternClaim(unittest.TestCase):
+    """The Known-issues section has three times carried the false claim that this repo's own
+    `surface_discovery_pattern` cannot match plain markdown and that `check_completeness.py`
+    silently passes as a result. Both halves are false — the pattern is deliberately armed
+    (`tests/test_four_checks_contract.py::test_own_attach_arms_the_discovery_pattern` locks it
+    catching) and a live plant of `<section id="...">` still reds the check
+    (`completeness.rendered-but-unregistered`). Debunked once, 2026-08-18
+    (`docs/prover/2026-08-18-readme-false-known-issue.md`), the claim regenerated via a later
+    cold-read pass and survived a 2026-08-27 fix that only reworded around the check's own
+    substring scan without removing the false substance, then closed again 2026-09-01 (q-501,
+    commit e3b745b1).
+
+    Each reappearance traces to the same source, not three unrelated bugs: `text-audit`'s
+    fresh-reader design (attic/inbox-2026-08-05-from-promoter-readme-replacement-returns-corrected.md,
+    "How the draft was worked") runs a reader with no memory of prior findings by design, so the
+    same first-glance oddity — an HTML-tag regex sitting over markdown files — reads as a bug to
+    every reader meeting it cold, however many times an earlier reader's conclusion was refuted.
+    That design is not what is broken here and stays untouched. This test is the guard the design
+    itself cannot provide: it fails the suite if the substance returns under any rewording, so a
+    fourth reappearance is caught here instead of needing a fourth manual read-and-fix. Mirrors
+    SURFACES.md's own precedent for this shape of problem — pin the content that must (not) be
+    present and let a rewrite that breaks it turn red — rather than adding new machinery."""
+
+    # Either half of the false claim, phrased loosely enough to survive a paraphrase: the pattern
+    # keyed to a negative-match/inert verdict, or the completeness check keyed to a silent-pass
+    # verdict. `re.S` lets the co-occurrence span a wrapped sentence.
+    FALSE_CLAIM_SIGNATURES = [
+        re.compile(r"(?:surface_)?discovery[ _]pattern.{0,220}"
+                   r"(?:matches? nothing|can(?:not|['’]t) match|is inert)", re.S | re.I),
+        re.compile(r"(?:matches? nothing|can(?:not|['’]t) match|is inert).{0,220}"
+                   r"(?:surface_)?discovery[ _]pattern", re.S | re.I),
+        re.compile(r"check_completeness\.py.{0,220}"
+                   r"(?:silently pass|passes? (?:clean )?while seeing (?:no|nothing))", re.S | re.I),
+        re.compile(r"(?:silently pass|passes? (?:clean )?while seeing (?:no|nothing)).{0,220}"
+                   r"check_completeness\.py", re.S | re.I),
+    ]
+
+    def _known_issues_section(self):
+        with open(os.path.join(ROOT, "README.md"), encoding="utf-8") as f:
+            text = f.read()
+        start = text.find("**Known issues.**")
+        self.assertGreater(start, -1, "Known issues section not found")
+        end = text.find("\n---", start)
+        section = text[start:end] if end != -1 else text[start:]
+        return " ".join(section.split())
+
+    def test_known_issues_carries_no_false_discovery_pattern_claim(self):
+        section = self._known_issues_section()
+        for pattern in self.FALSE_CLAIM_SIGNATURES:
+            match = pattern.search(section)
+            self.assertIsNone(
+                match,
+                "Known issues section regenerated the debunked claim that the discovery "
+                "pattern can't match markdown, or that check_completeness.py silently "
+                "passes as a result (matched %r) -- both are false; see "
+                "docs/prover/2026-08-18-readme-false-known-issue.md and q-501's 2026-09-01 "
+                "entry in PLAN.md" % (match.group(0) if match else None,),
+            )
 
 
 if __name__ == "__main__":
