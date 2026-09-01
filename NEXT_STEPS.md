@@ -11,7 +11,10 @@ Written for a session starting with clean context, covering everything that land
 b9708261, heals landing 7e3f32e1, heals landing 4f86dfd9, heals landing 24152152, heals landing
 2858c023, heals landing e3b745b1 — seven commits in that range closed rows without touching this
 file (`tests/test_landing_next_steps.py::test_real_repo_range_refreshes_next_steps` red on exactly
-those seven), all healed forward here rather than rewritten into history.
+those seven), all healed forward here rather than rewritten into history — two of the seven
+(`4f86dfd9`, `e3b745b1`) needed a second heal commit because the first one's message wrapped the
+heal phrase across a line break and missed the checker's own regex; this line is that second
+commit's own NEXT_STEPS.md touch.
 
 **Verification and board hygiene.** `plan-10` (`bf319751`, `a488854f`, `b9708261`) built the
 instrument first — a checker reading `PLAN.md` and `scripts/plan_checks.py` together that fails a
