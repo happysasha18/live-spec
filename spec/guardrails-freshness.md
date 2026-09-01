@@ -446,25 +446,25 @@
 
 ---
 
-## Requirement 268: Adoption wires the ratchet gates in one pass, seeded at the host's current size
+## Requirement 268: Adoption wires the style gate in one pass, holding the host to no seeded count
 
-**Context:** The compaction and register gates a machine can run reach a host through one installable kit rather than prose the host re-implements. The pack vendors the style lint, the redundancy precheck, the freeze tool, and their shared library into the host's tree, each vendored copy carrying a source pin so a later update check can tell a current copy from a stale one. The kit seeds the host's debt caps at the host's current measured size, so the gate is green the moment it lands and every later push may only hold or shrink the debt.
+**Context:** The compaction and register gates a machine can run reach a host through one installable kit rather than prose the host re-implements. The pack vendors the style lint, the near-duplicate reading, the freeze tool, and their shared library into the host's tree, each vendored copy carrying a source pin so a later update check can tell a current copy from a stale one. The gate the installer wires holds the host to zero findings of a kind the lint can name at a line. It writes down no count of the host's own documents: a bound seeded at whatever a document happened to measure reds a delivery that improves it, so a host carrying a finding it is not ready to fix waives that finding by rule, file and text, with an expiry date.
 
-**User Story:** As a person adopting the pack, I want the ratchet gates vendored, seeded, guard-tested, and wired into the push gate in one pass, so that adoption demands no re-compaction and the ratchet points down from the first landing.
+**User Story:** As a person adopting the pack, I want the style gate vendored, pinned and wired into the push gate in one pass, so that adoption demands no re-implementation and every red the gate raises names one thing to fix.
 
 ### Acceptance Criteria
 
 **Case: vendor the kit with source pins**
 
-1. *when* adoption runs, the system *shall* vendor the style lint, the redundancy precheck, the freeze tool, and their shared library into the host's tree. [INV-172, A-7]
+1. *when* adoption runs, the system *shall* vendor the style lint, the near-duplicate reading, the freeze tool, and their shared library into the host's tree. [INV-172, A-7]
    - each vendored copy carries a source pin: the pack version and the content hash it came from;
    - a later update check reads that source pin.
-2. The system *shall* merge the ratchet manifest across installer runs, so a prior install's keys survive a later run of the other kit. [INV-172]
+2. The system *shall* merge the source-pin manifest across installer runs, so a prior install's keys survive a later run of the other kit. [INV-172]
 
-**Case: seed the caps and pin them**
+**Case: no count is seeded at adoption**
 
-3. *when* the installer runs the gates over the host's declared doc set, the system *shall* write the cap file at the counts it finds, so the gate is green the moment it lands and every later push may only hold or shrink the debt, demanding no re-compaction at adoption. [INV-172]
-4. The system *shall* pin the seeded caps with a generated guard test, so lowering the cap file is an ordinary edit while raising it demands editing the test. [INV-172, INV-98]
+3. *when* the installer runs the gates over the host's declared doc set, the system *shall* print what it reads and *shall* record no measured count, so nothing the host writes later is held against the size the host happened to have at adoption. [INV-172]
+4. The system *shall* leave a host's standing debt to the named-finding waiver, each waiver carrying its rule, its file, its text and its expiry, so every carried defect stands named on its own line with the date it runs out. [INV-172, INV-98]
 
 **Case: wire the push gate red-first**
 
@@ -557,7 +557,7 @@
 
 **Case: an over-big backlog and the catch-up run**
 
-2. *when* the found backlog is too big to fold at once, the system *shall* absorb it by the seeding law, seeding the cap at the current size so it ratchets down. [INV-176, INV-172]
+2. *when* the found backlog is too big to fold at once, the system *shall* carry it as named waivers, one per finding with its own expiry, and *shall* seed no cap at the current size. [INV-176, INV-172]
 3. *when* adoption or a catch-up walk runs, the system *shall* run the pack's current gate set backward over the host's existing tree the same way. [INV-176, A-11]
 
 ---

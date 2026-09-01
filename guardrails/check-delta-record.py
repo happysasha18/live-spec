@@ -72,7 +72,7 @@ def _code_texts(doc):
     (specformat.normalize_criterion over c.body). The code is keyed separately, so the anchor is not
     part of the sentence a diff or a survival match reads: the same sentence under a different code
     survives, exactly as INV-262's full-sentence match intends. BYTES stay on the full criterion line
-    (c.text), the ratchet-and-budget unit (INV-263/INV-264)."""
+    (c.text), the delivery-growth unit (INV-263)."""
     out = {}
     for c in doc.criteria:
         entry = {"norm": sf.normalize_criterion(c.body), "raw": c.text, "bytes": sf.criterion_bytes(c.text)}

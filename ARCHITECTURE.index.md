@@ -322,8 +322,6 @@
 | INV-261 | guardrails |
 | INV-262 | guardrails |
 | INV-263 | guardrails |
-| INV-264 | guardrails |
-| INV-265 | guardrails |
 | INV-266 | text-audit |
 | INV-267 | text-audit |
 | INV-268 | text-audit |

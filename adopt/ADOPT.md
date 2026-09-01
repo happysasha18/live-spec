@@ -268,16 +268,18 @@ remaining manual steps the installer prints: fill the real paths in the config, 
 prove one red-first (plant a fake registry row, watch `check_completeness.py` red, remove it), and add
 the four check lines to the host's pre-push hook. Config-only attach runs about fifteen minutes.
 
-**Then wire the ratchet gates, seeded at the host's current size (SPEC INV-172).** One pass, from the
-host root: `bash <pack>/adopt/install-ratchet.sh [--tier universal] [DOC...]`. It vendors the style
-lint, the redundancy precheck, the freeze tool, and their shared library into the host's tree (each
+**Then wire the style gate (SPEC INV-172).** One pass, from the host root:
+`bash <pack>/adopt/install-style-gates.sh [--tier universal] [DOC...]`. It vendors the style lint,
+the near-duplicate reading, the freeze tool, and their shared library into the host's tree (each
 copy pinned in `scripts/ratchet-manifest.json` — pack version + content hash, so the update check can
-tell current from stale), measures the host's gated docs as they stand today, writes the debt caps at
-those counts, and generates `tests/test_ratchet_lock.py`. The gate is green the moment it lands — no
-re-compaction is demanded — and from then on the debt may only hold or shrink; raising a cap demands
-editing the guard test, deliberate and visible. Wire the printed gate line into the host's pre-push.
-Prove it red-first the way the four project-side checks are proven: plant one register defect in a
-gated doc, watch the lock test red, remove it. The universal tier binds every host; the full
+tell current from stale), reads the host's gated docs once and prints what it finds, and wires the
+gate into the host's pre-push. It writes no count down. Until 2026-09-02 it also seeded a debt cap at
+whatever the host's documents measured that day and generated a lock test to pin it; a bound of that
+shape reds a delivery that improves the document, so the whole class was cut. A host carrying a
+finding it is not ready to fix writes that one finding into `scripts/spec-waivers.json` — by rule,
+file, text and expiry — so the debt stands named and dated rather than summed into a number.
+Prove the gate red-first the way the four project-side checks are proven: plant one register defect in
+a gated doc, watch the gate red, remove it. The universal tier binds every host; the full
 pack-register tier is the host's own opt-in (SPEC INV-166). The same pass runs the pack's current gate
 set backward over the host's existing tree — every gate scans the whole tree, retroactive by
 construction (SPEC INV-176), so debt older than the gate surfaces now, at adoption, well before the next touch.

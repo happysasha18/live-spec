@@ -1831,12 +1831,12 @@ before anything else ran, and `git status` on the tracked files confirmed nothin
 three legs stood already, so the row closes.
 
 
-### 🔄 No document ceiling gates a push on an invented number — id: q-805
+### ✅ No document ceiling gates a push on an invented number — id: q-805
 **Group:** Method reliability · **Priority:** critical
-**Source:** owner, 2026-09-02 ~01:30–01:43, live in chat — "все цифры с потолка уходят. все
-инструменты их обслуживающие тоже уходят... больше не значит хуже. больше значит надо измерить и
-поговорить и решить это ок или нет... не каждое изменение надо обговаривать тоже... поспорь с собой
-и реши плиз."
+**Source:** owner, 2026-09-02, live in chat: every number pulled from the air goes, and so does every
+tool that exists to serve one; more is not worse, more means measure it, talk about it and decide
+whether it is fine; not every change needs talking about either; argue it through and decide. His own
+words stand verbatim in JOURNAL.md's entry for that date.
 
 **What it is.** This session's own quiet-tree suite run tonight forced a real edit for no real
 reason: `spec/success-measure-feed.md`'s criteria were shortened, not because the shorter wording
@@ -1869,6 +1869,56 @@ exists. Every generated index/reference touched (`PRODUCT_SPEC.index.md`, `TEST_
 `ARCHITECTURE.index.md` if it cites any of this) is rebuilt by its own generator, verified against
 its own gate, not hand-edited. A fresh `python3 -m pytest -q` on the merged result is `0 failed, 0
 errors`.
+
+**Landed 2026-09-02**, on branch `lane/q-805-cut-invented-number-ratchets`. Four mechanisms out
+whole: the size ratchet (`guardrails/check-size-ratchet.py`, `guardrails/spec-ratchet.json`,
+`tests/test_size_ratchet.py`, Requirement 280, `TEST_MATRIX` row M-442); the per-document redundancy
+ceiling (the `red["open"] <= doc_floor` half of
+`tests/test_convergence_locks.py::test_live_spec_sits_at_the_clean_floor`, and
+`scripts/spec-debt-cap.json`'s `max_redundancy_open` block); and the host kit's cap-seeding half.
+INV-264 and INV-265 stay empty numbers, pinned with their reason in `tests/test_formal_index.py`'s
+`EXPECTED_GAPS`, the shape INV-234, INV-287/288, INV-181 and INV-303 already set; M-442 goes whole,
+the way M-464/M-474/M-475 went on 2026-08-19 when their own invariants retired.
+
+`adopt/install-ratchet.sh` was the pack's only road to vendoring the style lint into a host, so
+cutting it whole would have left adopters with no mechanical defect check at all. It ships as
+`adopt/install-style-gates.sh`: same vendored set, same merged source pins (the manifest keeps its
+filename, since adopted hosts' update checks read it by that name), same push-gate wiring — now also
+repairing a block still calling the lock test it no longer generates — and it seeds no count. Standing
+host debt is carried as named waivers in `scripts/spec-waivers.json`, one finding each with its own
+expiry. Requirement 268 and Requirement 272 criterion 2 say that now, and `tests/test_ratchet_kit.py`
+is `tests/test_style_gate_kit.py`, asserting the cap file and the lock test are never written.
+
+Decided and kept, with the reason. `guardrails/check-language-rules.py`'s reasonless-rule cap
+(`MAX_REASONLESS = 4`, reading three tonight) fails on one describable defect named by rule id, and
+no path exists where improving the source trips it — deleting a rule only lowers the count, which is
+exactly what the size ratchet could not say. The r08/r11 threshold arm the row asked about went on
+2026-08-19; `scripts/rule-census.py`, `guardrails/rule-census.json` and
+`tests/test_rule_census_ratchet.py` went on 2026-08-21 — nothing was left of either to cut.
+`guardrails/check-freeze.sh` measures no aggregate and holds nothing against a recorded count: it
+answers whether a citation, number, path or marker line moved unmeant, so it stands, with a line in
+its own header saying why. `scripts/spec-redundancy-precheck.py` stays whole and runnable as a
+reading. `scripts/register-lint-floor.json` was read and left: it holds the lint's own pattern set,
+never a document, and reds a deleted catcher.
+
+`spec/success-measure-feed.md` criteria 1, 2, 3, 6, 9 and 10 are byte-identical to their pre-shave
+state (`diff <(git show 49b4813f^:spec/success-measure-feed.md) spec/success-measure-feed.md` is
+empty). All three generated consumers were rebuilt by their own generators and pass their own gates
+(`check-index-generated`, `check-matrix-reference`, `check-architecture-reference` all OK);
+`docs/PROGRESS.md` and `docs/MEASUREMENTS.md` were regenerated too, Table C losing the "ceiling"
+column whose only two filled cells were the bounds this row removed. Green:
+`python3 -m pytest -q tests/test_traceability.py tests/test_formal_index.py
+tests/test_index_generated.py tests/test_matrix_reference.py tests/test_architecture_reference.py
+tests/test_convergence_locks.py tests/test_progress_report.py tests/test_style_gate_kit.py
+tests/test_update_watcher.py tests/test_scaffold_install.py tests/test_style_lint_parts.py
+tests/test_redundancy_precheck_parts.py tests/test_prose_gate.py
+tests/test_guardrail_fixture_proofs.py tests/test_vacuous_pass.py tests/test_language_rules.py
+tests/test_declared_laws.py tests/test_architecture_pins.py tests/test_delta_classifier.py
+tests/test_requirement_shape.py tests/test_agent_channels.py
+tests/test_plan_done_marks_are_backed.py tests/test_installed_copy_staleness_class.py
+tests/test_retroactive_gate.py tests/test_gate_common_table_rows.py tests/test_doc_rotation.py`.
+`skills/spec-author/references/change-record.md` changed, so gate s wants a fresh
+`docs/skill-review/` record before this branch pushes.
 
 
 ### ⬜ The parallel-lanes machinery still netted by git and the prover ships for real — id: q-804

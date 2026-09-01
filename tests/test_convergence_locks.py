@@ -2,9 +2,13 @@
 
 Three locks the audit found attention-held, now each held by a test:
 frozen norms are content-fingerprinted; the register lint's pattern set only
-grows; the debt cap only ratchets downward. Changing any guarded value is
-LEGAL only as a deliberate, visible edit to its manifest/floor — in the same
-commit, named in the landing.
+grows; the debt cap sits at zero for style errors and stale waivers. Changing
+any guarded value is LEGAL only as a deliberate, visible edit to its
+manifest/floor — in the same commit, named in the landing.
+
+Each floor here names one specific thing that must not be present. None is a
+count carried over from what the document last measured: the one lock of that
+shape, the per-document redundancy-pair ceiling, was cut 2026-09-02.
 """
 import hashlib
 import importlib.util
@@ -51,20 +55,20 @@ class TestConvergenceLocks(unittest.TestCase):
             "(%d < %d) — patterns are never removed, the set only grows" % (count, floor))
 
     def test_debt_cap_only_downward(self):
-        """M-216: the prose-debt caps ratchet downward only. The zero floors are
+        """M-216: the prose-debt caps ratchet downward only. Both are zero floors,
         pinned HERE; raising one means editing this test — a deliberate, visible
-        act, never a quiet json touch. Both documents' redundancy caps are moving
-        ratchets, not zero floors (ARCHITECTURE.md's own zero pin was withdrawn
-        2026-08-24, once its Parts map made two honest structural echo classes
-        possible that a monolithic file never had — see scripts/spec-debt-cap.json,
-        "_reason_redundancy_ARCHITECTURE"), so a literal pin here goes stale every
-        time either ratchet legitimately moves (PRODUCT_SPEC.md's did, 121 -> 119
-        -> 116, and this test's old 121 pin already missed one such move). Both
-        are enforced live instead, read straight from the json's own recorded
-        cap, in test_live_spec_sits_at_the_clean_floor below — the json's own
-        history comments ("_reason_redundancy_PRODUCT_SPEC",
-        "_reason_redundancy_ARCHITECTURE") are the deliberate, visible record of
-        each move."""
+        act, never a quiet json touch. Each names one specific thing a document
+        must not carry: a style error the lint can point at by line, and a waiver
+        standing over a finding that is gone. Neither is a bound seeded from what
+        the document happened to measure before.
+
+        The redundancy cap that used to sit beside them was exactly such a bound
+        — a per-document count of fuzzy-matched near-duplicate pairs, seeded at
+        whatever the last measurement read (PRODUCT_SPEC.md's ran 121 -> 119 ->
+        116, ARCHITECTURE.md's 0 -> 15). It was cut 2026-09-02 with the rest of
+        the invented-ceiling family, on the owner's word. The reading itself
+        stays: scripts/spec-redundancy-precheck.py still prints its candidate
+        pairs for a person to judge, and holds nothing against them."""
         cap = json.load(open(DEBT_CAP))
         self.assertLessEqual(cap["max_waivers"], 0,
                              "max_waivers was raised above the reached ratchet value")
@@ -72,13 +76,17 @@ class TestConvergenceLocks(unittest.TestCase):
                              "max_style_errors was raised above the reached ratchet value")
 
     def test_live_spec_sits_at_the_clean_floor(self):
-        """The 2.0 ratchet's live half (M-217): the real PRODUCT_SPEC.md and ARCHITECTURE.md each sit AT
-        or under their recorded redundancy floor, and the style gate reports zero errors on both — so a
-        future edit that reintroduces a shout, a scissors, a second person, or a fresh duplicated sentence
-        reddens HERE instead of fading in silently. Both documents are read core+parts (the tool reads
-        assembled text since 2026-08-24; see scripts/spec-debt-cap.json's two "_reason_redundancy_..."
-        comments for how each floor was reached). A deliberate, reviewed regression would have to edit
-        the json floor and this test's understanding of it, in the same commit, named in the landing."""
+        """The 2.0 ratchet's live half (M-217): the style gate reports zero errors on the real
+        PRODUCT_SPEC.md and ARCHITECTURE.md, and no waiver stands over a finding that is gone — so a
+        future edit that reintroduces a shout, a scissors, or a second person reddens HERE instead of
+        fading in silently. Each failure names the line and the construction; the floor is zero
+        because the rule is "never write this", not "do not write more of it than last time".
+
+        The redundancy half of this assertion — each document at or under a recorded count of
+        near-duplicate pairs — was cut 2026-09-02: that count was seeded from the document's own past
+        state, so a delivery that genuinely improved the document could still red on it. The reading
+        remains available by hand (`python3 scripts/spec-redundancy-precheck.py PRODUCT_SPEC.md`) and
+        gates nothing."""
         import subprocess
 
         def gate_json(script, doc, *extra):
@@ -92,7 +100,6 @@ class TestConvergenceLocks(unittest.TestCase):
                     return json.loads(line)
             raise AssertionError("no JSON summary from %s:\n%s" % (script, r.stdout))
 
-        cap = json.load(open(DEBT_CAP))
         for doc in ("PRODUCT_SPEC.md", "ARCHITECTURE.md"):
             style = gate_json("spec-style-lint.py", doc, "--gate")
             self.assertEqual(
@@ -100,12 +107,6 @@ class TestConvergenceLocks(unittest.TestCase):
                 "%s re-grew a register defect: %d style errors (floor 0)" % (doc, style["errors"]))
             self.assertEqual(style["stale"], 0,
                              "a stale waiver lingers in scripts/spec-waivers.json — remove it")
-            red = gate_json("spec-redundancy-precheck.py", doc)
-            doc_floor = cap["max_redundancy_open"][doc]
-            self.assertLessEqual(
-                red["open"], doc_floor,
-                "%s re-grew redundancy: %d open pairs (floor %d)"
-                % (doc, red["open"], doc_floor))
 
 
 if __name__ == "__main__":

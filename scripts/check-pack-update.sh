@@ -97,16 +97,16 @@ if pinned and _v(pinned) and _v(pack_now) and _v(pinned) < _v(pack_now):
         print("    stale vs current pack: %s" % rel)
     if not stale:
         print("    (no vendored file differs from the local pack copy — the pin alone is old)")
-    # Name the road per stale kit (2026-07-16 fix): a scaffold-only host was pointed at the ratchet
-    # installer, which doesn't touch scaffold/guardrails/ at all. Manifest keys tell the kits apart —
+    # Name the road per stale kit (2026-07-16 fix): a scaffold-only host was pointed at the
+    # style-gate installer, which doesn't touch scaffold/guardrails/ at all. Manifest keys tell the kits apart —
     # install-scaffold.sh always pins under the pack-relative scaffold/guardrails/<name> prefix;
-    # install-ratchet.sh's own vendor set never uses that prefix.
+    # install-style-gates.sh's own vendor set never uses that prefix.
     scaffold_stale = [rel for rel in stale if rel.startswith("scaffold/guardrails/")]
-    ratchet_stale = [rel for rel in stale if not rel.startswith("scaffold/guardrails/")]
+    style_gate_stale = [rel for rel in stale if not rel.startswith("scaffold/guardrails/")]
     if scaffold_stale:
         print("  re-install road: bash <pack>/adopt/install-scaffold.sh --force  (re-vendoring the scaffold checks)")
-    if ratchet_stale or not stale:
-        print("  re-install road: bash <pack>/adopt/install-ratchet.sh --force  (re-seeding caps is explicit, never silent)")
+    if style_gate_stale or not stale:
+        print("  re-install road: bash <pack>/adopt/install-style-gates.sh --force  (a re-vendor is explicit, never silent)")
 PYEOF
   fi
 }

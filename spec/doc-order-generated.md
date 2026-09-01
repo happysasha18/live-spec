@@ -492,33 +492,6 @@
 
 ---
 
-## Requirement 280: A document's bytes-per-criterion may only fall
-
-**Context:** The spec grows one delivery at a time, and prose can bloat while the rule count holds. To hold the density, the spec document records a bytes-per-criterion bound — its size ratchet — and the ratchet gate holds that bound. A delivery may push the bound down or leave it, and may not push it up; raising the bound is itself a change to this requirement and takes the same route through the pipeline. The ratchet governs the spec document alone, and the other documents keep their flat byte bound.
-
-**User Story:** As a person who owns the spec's readability over time, I want the spec document's bytes-per-criterion bound to move only down, so that no single delivery is free to bloat the prose.
-
-### Acceptance Criteria
-
-**Case: the recorded bound**
-
-1. The spec document `PRODUCT_SPEC.md` *shall* record a bytes-per-criterion bound, measured as the byte count of its criterion lines alone — glossary and preamble bytes excluded — divided by the count of criteria in its body. [INV-264]
-2. The recorded bound *shall* live in the file `guardrails/spec-ratchet.json`. [INV-264]
-3. The initial bound *shall* be the value measured at the migration-end freeze, recorded by the freeze actor. [INV-264]
-4. The ratchet *shall* govern `PRODUCT_SPEC.md` only; `ROADMAP.md`, `TEST_MATRIX.md`, and `JOURNAL.md` *shall* keep their flat document byte bound. [INV-264]
-
-**Case: the ratchet moves only down**
-
-5. *when* a delivery freezes the spec document, the system *shall* compute the new bytes-per-criterion and *shall* require it to be at or below the recorded bound. [INV-264]
-6. *if* a delivery's new bytes-per-criterion is above the recorded bound, *then* the ratchet gate *shall* red. [INV-264]
-7. *when* a delivery's new bytes-per-criterion is below the recorded bound, the system *shall* lower the recorded bound to the new value. [INV-264]
-
-**Case: raising the bound is a spec change**
-
-8. The system *shall* raise the recorded bytes-per-criterion bound only through a change to this requirement, run through this same pipeline; no delivery *shall* raise the bound on its own. [INV-265]
-
----
-
 ## Requirement 281: A changed section passes the mechanical lints, then the cold readers
 
 **Context:** A section ships once it survives two layers, an author's own read of it settling nothing. First the mechanical lints run — free scripts a machine runs on every push. Then a panel of cold readers, each reading with zero project context, reads the changed section; a blocking finding is fixed as it is found, and the section passes only after two reads in a row return zero blocking findings. A reader finding that names a source hole becomes a queue row, so the hole is tracked and not lost.

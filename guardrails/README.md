@@ -313,11 +313,12 @@ can tell such a date from a real one.
 
 ## How a host project adapts the pattern
 
-**The ratchet gates (style lint · redundancy · freeze) install themselves in one pass:** run
-`bash <pack>/adopt/install-ratchet.sh` from the host root (SPEC INV-172). It vendors the scripts
-with a source-pin manifest, seeds the host's debt caps at the sizes measured that moment — green
-at once, shrinking-only from then on — and generates the guard test. The section below covers the
-structural gates, which are adapted by hand.
+**The style gate (style lint · near-duplicate reading · freeze) installs itself in one pass:** run
+`bash <pack>/adopt/install-style-gates.sh` from the host root (SPEC INV-172). It vendors the scripts
+with a source-pin manifest, reads the host's declared docs once and prints what it finds, and wires
+the gate. It seeds no cap: a standing finding is carried as a named waiver in
+`scripts/spec-waivers.json`, with its own expiry. The section below covers the structural gates,
+which are adapted by hand.
 
 The gate shape (fresh review · green tests · ownership · full coverage · prototype fence ·
 loadability · pin drift · host checks · shipped language · no broad kill · freeze · muted launch ·
@@ -345,7 +346,8 @@ so they travel with the repo — is meant to hold for any host.
 
 A gate born from a stated law scans the WHOLE tracked tree, retroactive by construction (SPEC
 INV-176) — never only the diff. Pre-gate debt surfaces the day the gate lands; a backlog too
-large to fold at once is absorbed by seeding the cap at the current size (SPEC INV-172).
+large to fold at once is carried as named waivers, one per finding with its own expiry, never
+absorbed into a cap seeded at the current size (SPEC INV-172).
 
 Every gate script authored or next touched in this directory obeys three conventions (the
 neighbours' CLI lesson, adopted from OpenSpec's gate contract — provenance and the full

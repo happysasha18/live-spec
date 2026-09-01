@@ -262,16 +262,33 @@ for command in m.ALSO_DISCARDING:
     "q-427": "test -f skills/live-spec-base/references/settings-ladder.md && "
              "test \"$(grep -c '^| `' skills/live-spec-base/references/settings-ladder.md)\" = \"18\"",
     # q-529: the two pieces of machinery the row names (the generated rulebook and the gate that
-    # read it, already retired for q-625 above) stay out of the tree, and the check that stands in
-    # their place for a still-live ceiling (the spec size ratchet) states in its own text that it
-    # never writes its own config — only a hand edit, carrying a fresh reason, raises it — matching
-    # the architecture and matrix pages that record the old mechanism as retired rather than silently
-    # dropped.
-    "q-529": 'test ! -f scripts/rule-census.py && test ! -f guardrails/check-doc-findings-bound.py && test ! -f guardrails/rule-census.json && grep -q "This gate never writes the config" guardrails/check-size-ratchet.py && grep -q "M-479.*retired" matrix/guardrails.md',
+    # read it, already retired for q-625 above) stay out of the tree, and the matrix page records
+    # the old mechanism as retired rather than silently dropped. The clause that used to sit here
+    # too — the spec size ratchet stating it never writes its own config — went with that gate on
+    # 2026-09-02 (q-805): no ceiling seeded from a document's own past state is left to check.
+    "q-529": 'test ! -f scripts/rule-census.py && test ! -f guardrails/check-doc-findings-bound.py && test ! -f guardrails/rule-census.json && test ! -f guardrails/check-size-ratchet.py && grep -q "M-479.*retired" matrix/guardrails.md',
     # q-235: the command's own six-test suite (each of the four acceptance legs red if skipped,
     # the red-gate path withholds the push instead of bypassing it, the command's own controlling
     # process is never signalled) runs clean.
     "q-235": "python3 tests/test_wind_down.py >/dev/null 2>&1",
+    # q-805: the row's own acceptance, read as four facts rather than four absent files. (1) No gate
+    # in the tree compares a document against a bound seeded from its own past state: the size
+    # ratchet's three files are gone, the empty numbers they left are pinned with their reason, and
+    # scripts/spec-debt-cap.json carries no per-document redundancy ceiling. (2) The near-duplicate
+    # reading survives as a reading — the script still runs and still prints its JSON summary over
+    # the live spec. (3) The host kit vendors the style lint under a name that seeds nothing, and
+    # nothing in it writes a lock test. (4) The prose shaved to satisfy the retired ratchet is back,
+    # byte for byte, against the commit before the shave.
+    "q-805": (
+        'test ! -f guardrails/check-size-ratchet.py && test ! -f guardrails/spec-ratchet.json && '
+        'grep -q "264, 265" tests/test_formal_index.py && '
+        'python3 -c "import json,sys; sys.exit(0 if \'max_redundancy_open\' not in '
+        'json.load(open(\'scripts/spec-debt-cap.json\')) else 1)" && '
+        'python3 scripts/spec-redundancy-precheck.py PRODUCT_SPEC.md | grep -q \'"open"\' && '
+        'test ! -f adopt/install-ratchet.sh && '
+        '! grep -q LOCK_TEST_TEMPLATE adopt/install-style-gates.sh && '
+        'git show 49b4813f^:spec/success-measure-feed.md | diff -q - spec/success-measure-feed.md'
+    ),
     # --- written 2026-09-01, closing the second round of gaps test_plan_done_marks_are_backed.py
     # found: five more rows landed ✅ tonight with no command and no named reading. Each below
     # reads the row's own stated acceptance, run directly rather than through pytest (the modules

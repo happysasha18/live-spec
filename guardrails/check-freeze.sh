@@ -10,9 +10,14 @@
 # The baseline lives in .spec-freeze/ — a LOCAL, regenerable working artifact (gitignored), blessed
 # per session with `python3 scripts/spec-freeze.py --freeze <docs> --compaction`. So a fresh
 # checkout with no baseline SKIPS this check with a note rather than blocking; the PERMANENT,
-# CI-run locks are the live style/redundancy ratchet (tests/test_convergence_locks.py) and the
-# shipped-language gate (check-shipped-language.sh). Within a working session, with the baseline
-# present, this blocks a drift before it reaches the remote.
+# CI-run locks are the live style floor (tests/test_convergence_locks.py) and the shipped-language
+# gate (check-shipped-language.sh). Within a working session, with the baseline present, this blocks
+# a drift before it reaches the remote.
+#
+# This check is not a size ceiling and never was: it answers "did a citation, a number, a path or a
+# marker line change without anyone meaning it," not "is this document too big." It measures no
+# aggregate and holds nothing against a count recorded from a past state, so the 2026-09-02 cut of
+# that whole class left it standing.
 set -euo pipefail
 REPO_ROOT="${1:-$(git rev-parse --show-toplevel 2>/dev/null || pwd)}"
 cd "$REPO_ROOT"

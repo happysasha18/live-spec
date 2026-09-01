@@ -42,7 +42,8 @@ The owner's word on the plan comes before any file moves. A walk that finds noth
 1. Run the pack's current gate set backward over the host's existing tree. That set is the chain
    the host's `.git/hooks/pre-push` runs. Every gate scans the whole tree, retroactive by
    construction (SPEC INV-176). A gate the pack gained since the host adopted finds the older debt
-   now. An oversized backlog is absorbed by re-seeding the ratchet caps (SPEC INV-172).
+   now. An oversized backlog is carried as named waivers, one per finding with its own expiry,
+   never absorbed into a cap seeded at the tree's current size (SPEC INV-172).
 2. Run the host's own gates, including the test suite where one exists. A red gate is the walk's own open defect: the walk stays open until the gates read green, and the checkpoint carries the red state across sessions.
 3. Re-record the installed-set record in the current format.
 4. Land one journal chapter in the host: what moved, why, the provenance, and any finding held for the owner.
@@ -118,10 +119,14 @@ host writes, and no adoption or catch-up step. A host adopts it the ordinary way
 The major number marks two things a host inherits automatically by adopting, and it breaks nothing:
 
 1. **The compaction ratchet on the host's own push gate.** A host that runs the pack's guardrails now
-   carries the reached-clean floor: the register lint at zero, the redundancy gate at zero, the debt cap
-   that only ratchets down (`scripts/spec-debt-cap.json`), and the compaction freeze
+   carries the reached-clean floor: the register lint at zero, no stale waiver left standing, the debt
+   cap at zero for both (`scripts/spec-debt-cap.json`), and the compaction freeze
    (`guardrails/check-freeze.sh`, pre-push gate k, which skips itself where no local baseline exists). A
    host's documents can get cleaner from here, never worse — the recurrence-stop for document bloat.
+   *(2026-09-02 note: this chapter shipped a third floor beside those, a per-document ceiling on
+   near-duplicate sentence pairs seeded at whatever each document last measured. It was cut on the
+   owner's word, with every gate of that shape. The near-duplicate reading itself stays, as a
+   measurement a person reads. A host that carries the old `max_redundancy_open` key may delete it.)*
 2. **The method rule (SPEC INV-164): a quality a machine can verify is enforced by a gate**, held by
    no pass's attention; compaction runs at every push, above the milestone whole-read. *(2026-08-13
    note: the numbered rulebook slot that once carried this rule was cut whole on 2026-08-12 and its
@@ -137,8 +142,8 @@ new push gates, new capabilities — all backward-compatible: nothing a host alr
 in a breaking way, no surface a host depends on is renamed or removed, and no earlier adoption step
 changes. A host takes the release the ordinary way: pull the pack, run `scripts/sync-skills.sh`, and
 run the catch-up walk above (INV-91), which re-vendors the pack files, runs the current gate set
-backward over the host's tree (INV-176), re-seeds the ratchet caps for any older debt the new gates
-surface (INV-172), and rides the new founding questions to the owner. The tier is MINOR by rule 32 /
+backward over the host's tree (INV-176), names the older debt the new gates surface so it can be fixed
+or waived one finding at a time (INV-172), and rides the new founding questions to the owner. The tier is MINOR by rule 32 /
 SPEC INV-217: the host re-runs its walk and rewrites nothing it holds. What the walk brings in, grouped:
 
 1. **Register enforcement gains a model above the literal list (INV-203; INV-83 retracted its growth duty).**
@@ -288,11 +293,13 @@ What the release carries, grouped:
    by hand. `guardrails/check-index-generated.py` keeps it honest: it reds if the committed table drifts
    from a fresh build, or if a code and its table row disagree.
 
-3. **Spec changes carry a delta record, and a size ratchet holds the document.** Every touched code names
-   one of four kinds — new, sharpen, retire, or scenario-only — and `guardrails/check-delta-record.py`
-   reds where the record and the actual diff disagree (SPEC INV-260). A bytes-per-criterion ratchet holds
-   the size: `guardrails/check-size-ratchet.py` seeds at the value the conversion lands on (209.0 bytes
-   per criterion for the pack's own spec) and only ever tightens from there.
+3. **Spec changes carry a delta record.** Every touched code names one of four kinds — new, sharpen,
+   retire, or scenario-only — and `guardrails/check-delta-record.py` reds where the record and the actual
+   diff disagree (SPEC INV-260). *(2026-09-02 note: this chapter also shipped a bytes-per-criterion size
+   ratchet, seeded at the value the conversion landed on. It was cut on the owner's word: a delivery that
+   cut two whole requirements out of the pack's own spec raised the average and reddened the gate, because
+   the criteria removed ran shorter than the rest. Nothing replaces it — the figure is still measured and
+   printed, and held against nothing. A converting host installs no such gate.)*
 
 4. **A comprehension gate guards every converted or new section.** The mechanical lints run first — the
    vocabulary check, the one-name check, the style lint, and the weak-word check. Then a panel of fresh
@@ -328,7 +335,7 @@ end to end and records every edit past a plain concatenation (`prototype/2026-07
 The host repository named tlvphotos converts first, on the owner's word; other hosts follow on the same word.
 
 The host's own format gates — requirement-shape, vocabulary, one-name, weak-words, no-history, the
-generated index, the size ratchet, and the delta classifier — arm when the host's converted spec lands
+generated index, and the delta classifier — arm when the host's converted spec lands
 (SPEC INV-270); until then they stand dormant and red nothing. The installed-set record reads the pack
 version from the version lines the installed skills carry, so a host records 4.0.0 once its conversion
 lands behind the owner's gate.

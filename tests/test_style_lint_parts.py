@@ -16,7 +16,7 @@ gate:
   2. A file with no Parts map (an ordinary part file, or any file with no such section) is read
      exactly as before — byte for byte, same errors/warnings, same JSON summary — since expansion is
      idempotent by `spec_paths()`'s own construction.
-  3. The vendored-standalone deployment (adopt/install-ratchet.sh's VENDOR_FILES, which ships this
+  3. The vendored-standalone deployment (adopt/install-style-gates.sh's VENDOR_FILES, which ships this
      script + spec-style-lint.json + gate_common.py + guardrails/spec-coinages.json into a host repo
      WITHOUT guardrails/specformat.py) still runs with no core+parts convention assumed — the import
      stays optional and a missing specformat falls back to the old direct-file read, unchanged.
@@ -125,7 +125,7 @@ class TestFileWithoutPartsMapIsUnchanged(unittest.TestCase):
 
 
 class TestVendoredStandaloneFallback(unittest.TestCase):
-    """adopt/install-ratchet.sh vendors this script (plus spec-style-lint.json, gate_common.py, and
+    """adopt/install-style-gates.sh vendors this script (plus spec-style-lint.json, gate_common.py, and
     guardrails/spec-coinages.json — the word list it needs to even import) into a host repo, but
     guardrails/specformat.py is NOT one of its VENDOR_FILES. Locks that the core+parts import stays
     optional: run from a copy with the same shape and no specformat.py, the script must still behave

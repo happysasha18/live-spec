@@ -5,7 +5,7 @@ host's guardrails/, seeds the host's guardrails config from the example (never c
 and writes or MERGES the one ratchet manifest (scripts/ratchet-manifest.json) — pinning each vendored
 check under its pack-relative source path so the daily update check resolves it against the pack and can
 tell a current copy from a stale one. A host that already ran the ratchet installer keeps its ratchet
-entries untouched. Mirrors the shape of TestRatchetInstall in test_ratchet_kit.py.
+entries untouched. Mirrors the shape of TestStyleGatesInstall in test_style_gate_kit.py.
 """
 import hashlib
 import json
@@ -101,7 +101,7 @@ class TestScaffoldInstall(unittest.TestCase):
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             manifest = json.load(open(os.path.join(tmp, "scripts", "ratchet-manifest.json")))
 
-            # ratchet kit entries + seeded + tier survive untouched
+            # the other kit's entries survive untouched, a legacy `seeded` block included
             self.assertEqual(manifest["vendored"]["scripts/spec-style-lint.py"], "a" * 64)
             self.assertEqual(manifest["vendored"]["guardrails/check-freeze.sh"], "b" * 64)
             self.assertEqual(manifest["seeded"], {"style_errors": 3, "redundancy_open": 1})

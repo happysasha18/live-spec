@@ -121,7 +121,7 @@ class TestFileWithoutPartsMapIsUnchanged(unittest.TestCase):
 
 
 class TestVendoredStandaloneFallback(unittest.TestCase):
-    """adopt/install-ratchet.sh vendors this script alone (plus gate_common.py) into a host repo —
+    """adopt/install-style-gates.sh vendors this script alone (plus gate_common.py) into a host repo —
     guardrails/specformat.py is NOT one of its VENDOR_FILES. Locks that the core+parts import stays
     optional: run from a copy with no sibling guardrails/ dir at all, the script must still behave
     exactly as it did before the core+parts fix (read the named file directly), not crash."""

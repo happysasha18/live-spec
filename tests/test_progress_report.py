@@ -162,8 +162,11 @@ class TestProgressReportShape(unittest.TestCase):
 
     def test_table_c_has_its_stated_columns(self):
         rows = table_after(self.text, "## Promise two", "| measure |")
+        # The "ceiling" column between the format-change reading and the target went with the two
+        # bounds that filled it — the size ratchet's recorded bytes-per-criterion and the redundancy
+        # cap — cut 2026-09-02. Every other cell in it already read "not stated".
         self.assertEqual(rows[0], ["measure", "today", "at the format change, 2026-07-23",
-                                    "ceiling", "target"])
+                                    "target"])
         measures = [r[0] for r in rows[1:]]
         self.assertEqual(measures, [
             "bytes", "lines", "words", "requirements", "acceptance criteria",

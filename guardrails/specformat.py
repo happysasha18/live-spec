@@ -2,8 +2,8 @@
 """specformat.py — the shared parser for the requirements format (SPEC INV-250..271).
 
 One home for reading the format `docs/spec-format.md` defines, so the
-seven format gates (check-requirement-shape, check-vocabulary, check-one-name, check-weak-words,
-check-no-history, check-index-generated + build-index, check-delta-record, check-size-ratchet) parse
+format gates (check-requirement-shape, check-vocabulary, check-one-name, check-weak-words,
+check-no-history, check-index-generated + build-index, check-delta-record) parse
 the document the same way. A gate that re-implements the parse drifts from its siblings; this module
 is the one reader they all import (the sibling of nonempty_input.py, imported via a sys.path insert of
 the guardrails dir).
@@ -296,8 +296,18 @@ def normalize_criterion(text):
 
 
 def criterion_bytes(text):
-    """The UTF-8 byte length of a criterion's full line text (the ratchet and budget unit)."""
+    """The UTF-8 byte length of a criterion's full line text (the delta record's byte unit)."""
     return len(text.encode("utf-8"))
+
+
+def bytes_per_criterion(doc):
+    """(total criterion bytes, criterion count) for a parsed document — the density measurement the
+    progress report and the measurements table print. It is a reading only: nothing compares it to a
+    bound. The gate that once did, `check-size-ratchet.py`, was cut on 2026-09-02 with the rest of
+    the invented-ceiling family, since a real structural cut raises the average as often as bloat
+    does (the 2026-08-19 incident, docs/prover/2026-08-19-invented-numbers-out.md finding 9)."""
+    crits = doc.criteria
+    return sum(criterion_bytes(c.text) for c in crits), len(crits)
 
 
 def code_sort_key(code):

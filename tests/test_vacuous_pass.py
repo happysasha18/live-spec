@@ -8,7 +8,7 @@ from the prose entirely, and the scan compared zero against zero and reported cl
 The law (sibling of the unexpected-skip law INV-155): a check DECLARES the input set it
 expects to be non-empty, and an empty set REDS BY NAME rather than passing silently. This
 movement builds the shared shape (`guardrails/nonempty_input.py`), which check-matrix-reference.py
-and check-size-ratchet.py both apply it to today.
+applies today.
 
 Every check here asserts the SHIPPED files on disk, never a source fragment or a memory of one.
 """

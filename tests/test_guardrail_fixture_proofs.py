@@ -206,7 +206,6 @@ GRANDFATHERED = frozenset({
     "check-requirement-shape.py",
     "check-runaway-child.py",
     "check-shipped-language.sh",
-    "check-size-ratchet.py",
     "check-skill-loadability.sh",
     "check-skill-review.sh",
     "check-tests.sh",

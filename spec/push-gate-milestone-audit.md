@@ -200,7 +200,8 @@
 
 **Case: the reached-clean floor at every push**
 
-1. *when* a push runs, the system *shall* hold it to the reached-clean floor: the register lint at zero errors, the redundancy gate at zero open pairs, and the debt cap ratcheting down only, each asserted against the live document. [INV-164, INV-83, INV-98]
+1. *when* a push runs, the system *shall* hold it to the reached-clean floor: the register lint at zero errors, no waiver left standing stale, and the debt cap at zero for each of those two, each asserted against the live document. [INV-164, INV-83, INV-98]
+   - the near-duplicate-sentence reading runs beside the floor as a measurement a person reads, and holds the document against no count of its own.
 2. The system *shall* run the milestone whole-read above the gate as the deep periodic audit, so the two stations layer rather than duplicate. [INV-164]
 
 **Case: a check is not born from checkability**

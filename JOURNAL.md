@@ -3543,3 +3543,61 @@ criterion 5 (the merge-base check) still read as performed law, no `[target]`, w
 `guardrails/check-merge-base.sh` has the identical problem as `check-worktree-line.sh` above —
 real, tested, and called nowhere real. Restored `[target]` there too; `INV-199` already had a
 `TARGET_ROW_OWNERS` entry from its criterion 6, so no new map line was needed.
+
+## 2026-09-02 — every ceiling seeded from a document's own past state comes out
+
+The owner's word tonight, live in chat: "все цифры с потолка уходят. все инструменты их обслуживающие
+тоже уходят... больше не значит хуже. больше значит надо измерить и поговорить и решить это ок или
+нет." What went is a class, not a list: any check that fails a document because an aggregate over the
+whole document — an average, a total of fuzzy-matched pairs, a byte count — crossed a bound that was
+itself seeded from whatever the document last happened to measure.
+
+The class was already proven perverse once. On 2026-08-19, retiring two whole requirements out of
+`PRODUCT_SPEC.md` made the document smaller and made the size ratchet red, because the criteria
+removed ran shorter than the spec's average line, so the average rose. That night's fix raised the
+bound and wrote a paragraph explaining why — the ritual this cut ends. The whole record is
+`docs/prover/2026-08-19-invented-numbers-out.md`, finding 9. The same gate reddened again this
+session, which is what put the row on the board: `spec/success-measure-feed.md`'s criteria were
+shortened for no reason but the average. Their fuller wording is back, byte-identical to what stood
+before the shave.
+
+Four mechanisms went whole. The size ratchet `guardrails/check-size-ratchet.py`, its record
+`guardrails/spec-ratchet.json` and `tests/test_size_ratchet.py`; Requirement 280 with it, leaving
+INV-264 and INV-265 as empty numbers pinned in `tests/test_formal_index.py`'s `EXPECTED_GAPS` with
+their reason, the shape three earlier retirements already used. `TEST_MATRIX`'s M-442 goes whole
+alongside them, the way M-464, M-474 and M-475 went when their own invariants retired — a row is
+marked *retired* when the law it names outlives its gate, and deleted when the law itself is gone.
+The per-document redundancy ceiling comes out of `tests/test_convergence_locks.py` and
+`scripts/spec-debt-cap.json`. And `adopt/install-ratchet.sh`, whose whole second half measured a
+host's documents on adoption day and generated a test to pin those two counts forever after.
+
+What stays, and why each one is a different thing. `scripts/spec-style-lint.py`'s shout, scissors and
+jargon arms fail a document for one named construction at one line, and the count they compare against
+is zero, because the rule is "never write this" and not "do not write more of it than last time" —
+the same shape as `check-requirement-shape.py`, `check-vocabulary.py` and `check-one-name.py`, all
+untouched. `scripts/spec-redundancy-precheck.py` stays whole and runnable; it prints its candidate
+near-duplicate pairs for a person to read and holds no document to a count. `guardrails/check-freeze.sh`
+stays: it answers whether a citation, a number, a path or a marker line moved without anyone meaning
+it, which is drift, not size. `guardrails/check-language-rules.py`'s reasonless-rule cap stays too,
+and it is worth saying why, since it is the one number here that looks like the others: a rule that
+states no reason for having no catcher is a specific, describable defect the gate names by id, and
+there is no path where improving the source trips it — deleting a rule only lowers the count. The
+tree reads three against a cap of four tonight. The r08/r11 threshold arm the row also asked about
+went on 2026-08-19; `scripts/rule-census.py`, `guardrails/rule-census.json` and
+`tests/test_rule_census_ratchet.py` went on 2026-08-21. Nothing was left of either to cut.
+
+The host kit needed a decision rather than a deletion. `adopt/install-ratchet.sh` was the only road a
+host had to the style lint at all, so cutting it whole would have left every adopter with no
+mechanical defect check to replace what it took away. It ships instead as
+`adopt/install-style-gates.sh`: the same files vendored, the same source pins merged into the same
+manifest — the filename `scripts/ratchet-manifest.json` stays, since every already-adopted host's
+update check reads it by that name and renaming it would break a live road to fix nothing — and the
+same careful push-gate wiring, which now also repairs a block still calling the lock test the
+installer no longer writes. It seeds nothing. A host carrying a finding it is not ready to fix writes
+that one finding into `scripts/spec-waivers.json` by rule, file, text and expiry, so the debt stands
+named and dated on its own line. Requirement 268 and Requirement 272's second criterion say that now.
+
+The bytes-per-criterion figure itself survives as a reading. `guardrails/specformat.py` grew the four
+lines that count it, since two report generators wanted it and the gate they used to import it from
+is gone; `docs/PROGRESS.md` and `docs/MEASUREMENTS.md` print it with no target beside it, and Table
+C lost its "ceiling" column, whose only two filled cells were the two bounds this cut removed.

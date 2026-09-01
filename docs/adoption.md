@@ -116,9 +116,9 @@ also writes `scripts/ratchet-manifest.json`, creating a `scripts/` folder in the
 (SPEC INV-97, INV-177).
 
 Two installers follow it, both named by ADOPT.md at the end of Phase 5.
-`bash <pack>/adopt/install-ratchet.sh [DOC...]` vendors the style, redundancy and freeze gates. It
-seeds the debt caps at the host's size today and generates `tests/test_ratchet_lock.py`
-(SPEC INV-172). `bash <pack>/scripts/install-pack-hooks.sh` installs the pack's canonical scan
+`bash <pack>/adopt/install-style-gates.sh [DOC...]` vendors the style lint, the near-duplicate
+reading and the freeze tool, prints what they read over the host's docs, and wires the gate. It
+writes no count down (SPEC INV-172). `bash <pack>/scripts/install-pack-hooks.sh` installs the pack's canonical scan
 hooks on the machine, idempotently, leaving the personal overlay files alone (SPEC INV-173). A host
 that stops after the first installer carries less gate than the procedure asks for.
 

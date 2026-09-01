@@ -144,8 +144,9 @@ stranger reading it — an insider term with no gloss, dropped as if the reader 
 register lint (a check for tone pitched at the wrong reader) —
 [`scripts/preshow-register-lint.py`](scripts/preshow-register-lint.py) — blocks the leaks it
 already knows before an artifact is shown, and chat stays the weakest surface. The spec still
-carries style debt, counted and capped in [`scripts/spec-debt-cap.json`](scripts/spec-debt-cap.json),
-with the work to clear it dated in the queue, [`PLAN.md`](PLAN.md). The settings card is the page
+carries style debt, held at zero for the defects the lint names by line
+([`scripts/spec-debt-cap.json`](scripts/spec-debt-cap.json)), with the work to clear the rest dated in
+the queue, [`PLAN.md`](PLAN.md). The settings card is the page
 listing every setting the pack knows, its current value, and one plain line saying how to change
 it. That card is new, and not yet tested by much real use. All three are tracked and reviewed at
 every push. Release history: [`VERSION`](VERSION).

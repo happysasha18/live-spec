@@ -59,7 +59,7 @@ sys.path.insert(0, SCRIPT_DIR)
 import gate_common  # noqa: E402  (sibling module in scripts/)
 
 # specformat.py (the core+parts reader) lives in the pack's guardrails/ dir, a sibling of scripts/.
-# This script is ALSO vendored standalone into host repos by adopt/install-ratchet.sh (VENDOR_FILES),
+# This script is ALSO vendored standalone into host repos by adopt/install-style-gates.sh (VENDOR_FILES),
 # which does not vendor guardrails/specformat.py — a host runs the style gate on its own doc, with no
 # core+parts convention assumed. So the import is optional: where specformat IS available (this
 # pack's own checkout), a core file's `## Parts map` is expanded before scanning; where it is not (a

@@ -110,7 +110,7 @@ on, and the first delivery ships its own first real test beside it.
 
 Run the three installers from the resolved pack tree, in the order the section "Installing the
 gates" in [adopt/ADOPT.md](ADOPT.md) gives. Follow the manual steps that section lists. They put the
-project-side checks, the ratchet gates, and the machine's own hooks in place.
+project-side checks, the style gate, and the machine's own hooks in place.
 
 The first of those installers, `<pack>/adopt/install-scaffold.sh`, seeds `guardrails.config.json`
 where the project carries none. Once that config exists, create the surface registry at the path the

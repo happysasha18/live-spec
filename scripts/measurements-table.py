@@ -13,8 +13,8 @@ WHERE EACH NUMBER COMES FROM.
   - the reading columns read the dated records under docs/language-reads/, one file per reading;
   - the agreed-stop column reads the `rounds` block of guardrails/progress-baseline.json, which
     records each round's two readings and the places both readers stopped at;
-  - the specification columns read PRODUCT_SPEC.md directly, counting the way
-    guardrails/check-size-ratchet.py counts;
+  - the specification columns read PRODUCT_SPEC.md directly through guardrails/specformat.py, the
+    format's one shared reader;
   - the repeated-pair column runs scripts/spec-redundancy-precheck.py.
 
 A cell with no source prints `not measured`. A cell whose indicator does not apply to that file prints
@@ -100,13 +100,6 @@ def load_census():
     return load(CENSUS_RECORD)
 
 
-def load_module(path, name):
-    spec = importlib.util.spec_from_file_location(name, path)
-    mod = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(mod)
-    return mod
-
-
 def readings_by_slug():
     """One entry per reading record: its date, its number, and the blocking count it states."""
     out = {}
@@ -126,28 +119,21 @@ def readings_by_slug():
 
 
 def spec_numbers():
-    """The specification's own counts, taken the way the size gate takes them."""
+    """The specification's own counts, read through the format's one shared parser. Every figure
+    here is a reading a person compares against the last one; none is held against a bound. The
+    bytes-per-criterion bound this function used to publish went with its gate on 2026-09-02."""
     try:
         import specformat as sf
         text = open(SPEC, encoding="utf-8").read()
         doc = sf.parse(text)
-        ratchet = load_module(os.path.join(GUARDRAILS, "check-size-ratchet.py"), "csr")
-        crit_bytes, crit_count = ratchet.bytes_per_criterion(doc)
-        # The bound is READ from the live ratchet record, never copied here. A hand-copied bound goes
-        # stale the moment the ratchet moves: this table published 207.2 while the record had moved
-        # through 185.4, 185.6 and 185.8 — the same staleness the 2026-08-07 census called a plain bug
-        # (docs/audits/2026-08-07-number-census.md, rows 53/54), whose recorded fix was to read the
-        # live record itself so the copied number cannot go stale again.
-        with open(os.path.join(GUARDRAILS, "spec-ratchet.json"), encoding="utf-8") as f:
-            bound = json.load(f).get("bytes_per_criterion")
+        crit_bytes, crit_count = sf.bytes_per_criterion(doc)
         return {
             "requirements": len(doc.requirements),
             "criteria": len(doc.criteria),
             "per_criterion": round(crit_bytes / crit_count, 1) if crit_count else None,
-            "bound": bound,
         }
     except Exception:
-        return {"requirements": None, "criteria": None, "per_criterion": None, "bound": None}
+        return {"requirements": None, "criteria": None, "per_criterion": None}
 
 
 def repeated_pairs():
@@ -344,17 +330,16 @@ def spec_table():
     return ["", "### The specification's own size", "",
             "| indicator | today | target |", "|---|---|---|",
             # No byte target. The 840,000-byte ceiling this column used to publish belonged to
-            # guardrails/doc-bounds.json and gate z, both "retired whole 2026-08-18 as an unrequested
-            # bound" (guardrails/spec-ratchet.json's own note). The figure outlived its home by nine
-            # days; the size question is the ratchet's below, and the owner's own word on this class
-            # stands at DECISIONS.md 2026-08-07 ~01:10 — no numeric size caps on specifications, the
-            # standard is no redundancy.
+            # guardrails/doc-bounds.json and gate z, retired whole 2026-08-18 as an unrequested
+            # bound. The owner's own word on this class stands at DECISIONS.md 2026-08-07 ~01:10 —
+            # no numeric size caps on specifications, the standard is no redundancy — and was
+            # widened on 2026-09-02 to every ceiling seeded from a document's own past state, which
+            # took the bytes-per-criterion bound this table used to print in the column below.
             "| bytes | %s | no target |" % fmt(load_census()["files"]
                                                .get("PRODUCT_SPEC.md", {}).get("bytes")),
             "| requirements | %s | no target |" % fmt(s["requirements"]),
             "| acceptance criteria | %s | no target |" % fmt(s["criteria"]),
-            "| bytes per criterion | %s | falls or holds, bound %s |" % (fmt(s["per_criterion"]),
-                                                                        fmt(s["bound"])),
+            "| bytes per criterion | %s | no target |" % fmt(s["per_criterion"]),
             "| repeated pairs | %s | falls or holds |" % fmt(repeated_pairs()),
             "| lines per part file | %s | 250, once the division lands |" % NOT_MEASURED, ""]
 
@@ -507,12 +492,14 @@ NOTES = [
 "`docs/plans/2026-07-29-specification-subdivision.md`.",
 "",
 "**requirements**, **criteria** — the specification's numbered requirements and their acceptance "
-"criteria, counted the way `guardrails/check-size-ratchet.py` counts them. They are the inputs to the "
-"density column.",
+"criteria, read through `guardrails/specformat.py`, the format's one shared parser. They are the "
+"inputs to the density column.",
 "",
 "**bytes per criterion** — the bytes of the criterion lines divided by the number of criteria. It "
-"separates growth by addition from growth by wordiness. A delivery may lower it or leave it; raising "
-"it needs a written reason in `guardrails/spec-ratchet.json`. Target: it falls or holds.",
+"separates growth by addition from growth by wordiness, and it is a reading to compare against the "
+"last one, held against no bound: the gate that once held it reddened a delivery that cut whole "
+"requirements out of the document, because the criteria it cut ran shorter than the rest and the "
+"average rose. No target.",
 "",
 "**repeated pairs** — pairs of sentences whose wording overlaps enough for a pattern to catch them, "
 "from `python3 scripts/spec-redundancy-precheck.py PRODUCT_SPEC.md`. A pattern catches only wording "

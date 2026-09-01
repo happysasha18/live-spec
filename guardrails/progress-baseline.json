@@ -64,14 +64,14 @@
       "set_on": "2026-07-29"
     },
     "bytes per criterion": {
-      "value": "falls or holds",
-      "source": "guardrails/spec-ratchet.json, the never-raises law: 'A delivery may lower it or leave it; no delivery may raise it (raising is a change to Requirement 4, INV-265).'",
-      "set_on": "2026-07-29"
+      "value": "no target",
+      "source": "No live source. The never-raises law this line used to cite lived in guardrails/spec-ratchet.json, retired 2026-09-02 with guardrails/check-size-ratchet.py: the bound was seeded from what the document's own past state measured, and on 2026-08-19 it reddened a delivery that cut two whole requirements out of the spec, because the criteria removed ran shorter than the rest and the average rose while the document shrank. The figure is still measured and printed; nothing holds it to anything.",
+      "set_on": "2026-09-02"
     },
     "pairs stating one fact twice": {
-      "value": "falls or holds",
-      "source": "scripts/spec-debt-cap.json, _reason_redundancy_PRODUCT_SPEC, the never-raises note: 'A later delivery may lower this floor or leave it, never raise it without the same justification.'",
-      "set_on": "2026-07-29"
+      "value": "no target",
+      "source": "No live source. The never-raises note this line used to cite lived in scripts/spec-debt-cap.json's max_redundancy_open block, removed 2026-09-02 with the test half that read it: a per-document count of fuzzy-matched near-duplicate pairs, seeded at whatever the last measurement read. scripts/spec-redundancy-precheck.py still prints its candidate pairs for a person to judge.",
+      "set_on": "2026-09-02"
     },
     "requirements": {
       "value": "set by the subdivision plan",

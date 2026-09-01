@@ -41,14 +41,15 @@ class TestUpdateWatcherManifestArm(unittest.TestCase):
             self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
             self.assertIn("VENDORED GATES PINNED TO 0.0.1", r.stdout)
             self.assertIn("stale vs current pack: scripts/gate_common.py", r.stdout)
-            self.assertIn("install-ratchet.sh --force", r.stdout)
+            self.assertIn("install-style-gates.sh --force", r.stdout)
             self.assertNotIn("install-scaffold.sh --force", r.stdout,
-                              "a ratchet-only stale key must not propose the scaffold road")
+                              "a style-gate-only stale key must not propose the scaffold road")
             self.assertIn("PROPOSAL ONLY", r.stdout)
 
     def test_stale_scaffold_key_proposes_the_scaffold_reinstall_road(self):
         # Defect 3 (2026-07-16 fix): the road named must match the kit that is actually stale — a
-        # scaffold-only host was pointed at install-ratchet.sh, which never touches scaffold/guardrails/.
+        # scaffold-only host was pointed at the style-gate installer, which never touches
+        # scaffold/guardrails/.
         with tempfile.TemporaryDirectory() as tmp:
             man = os.path.join(tmp, "ratchet-manifest.json")
             json.dump({"pack_version": "0.0.1",
@@ -58,8 +59,8 @@ class TestUpdateWatcherManifestArm(unittest.TestCase):
             self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
             self.assertIn("stale vs current pack: scaffold/guardrails/gate_lib.py", r.stdout)
             self.assertIn("install-scaffold.sh --force", r.stdout)
-            self.assertNotIn("install-ratchet.sh --force", r.stdout,
-                              "a scaffold-only stale key must not propose the ratchet road")
+            self.assertNotIn("install-style-gates.sh --force", r.stdout,
+                              "a scaffold-only stale key must not propose the style-gate road")
 
     def test_mixed_stale_keys_propose_both_reinstall_roads(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -70,7 +71,7 @@ class TestUpdateWatcherManifestArm(unittest.TestCase):
                       open(man, "w"))
             r = run_check(tmp, manifest=man)
             self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
-            self.assertIn("install-ratchet.sh --force", r.stdout)
+            self.assertIn("install-style-gates.sh --force", r.stdout)
             self.assertIn("install-scaffold.sh --force", r.stdout)
 
     def test_current_pin_stays_silent_on_vendored_files(self):
@@ -115,7 +116,7 @@ class TestManifestCoversScaffoldKit(unittest.TestCase):
             open(doc, "w").write("A plain sentence.\n")
             os.makedirs(os.path.join(tmp, "scaffold", "guardrails"))
             open(os.path.join(tmp, "scaffold", "guardrails", "gate_lib.py"), "w").write("# lib\n")
-            r = subprocess.run(["bash", os.path.join(REPO, "adopt", "install-ratchet.sh"), "DOC.md"],
+            r = subprocess.run(["bash", os.path.join(REPO, "adopt", "install-style-gates.sh"), "DOC.md"],
                                cwd=tmp, capture_output=True, text=True)
             self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
             man = json.load(open(os.path.join(tmp, "scripts", "ratchet-manifest.json")))

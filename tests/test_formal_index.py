@@ -61,7 +61,13 @@ from test_traceability import read, expand, ANCHOR_TOKEN  # noqa: E402
 #   plain-words copy, and with no mirror publishing there is no reader for it to serve. Its last
 #   resident, editions/product-prover/, was already removed as dead weight earlier the same day
 #   (commit 037e2329); this closes the mechanism itself.
-EXPECTED_GAPS = {"D": [3, 5, 6], "INV": [181, 234, 287, 288, 303]}
+#   INV-264, INV-265 — the bytes-per-criterion size ratchet (former Requirement 280), retired
+#   2026-09-02 together with guardrails/check-size-ratchet.py and guardrails/spec-ratchet.json. It
+#   held the spec against a bound seeded from what the document's own past state happened to
+#   measure, and on 2026-08-19 it reddened a delivery that cut two whole requirements out of the
+#   document: the criteria removed ran shorter than the rest, so the average rose while the document
+#   shrank. The same class as INV-234 and INV-287/INV-288, and the same reason for the empty numbers.
+EXPECTED_GAPS = {"D": [3, 5, 6], "INV": [181, 234, 264, 265, 287, 288, 303]}
 
 
 # --------------------------------------------------------------------------- parsers (text-in)

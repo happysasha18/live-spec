@@ -39,7 +39,6 @@ passes it). Stdlib only.
 import argparse
 import datetime
 import glob
-import importlib.util
 import json
 import os
 import re
@@ -59,10 +58,7 @@ TABLE_B_ROWS_SHOWN = 15
 
 SPEC_PATH = os.path.join(REPO_ROOT, "PRODUCT_SPEC.md")
 BASELINE_PATH = os.path.join(GUARDRAILS, "progress-baseline.json")
-SPEC_RATCHET_PATH = os.path.join(GUARDRAILS, "spec-ratchet.json")
-SPEC_DEBT_CAP_PATH = os.path.join(SCRIPT_DIR, "spec-debt-cap.json")
 REDUNDANCY_SCRIPT = os.path.join(SCRIPT_DIR, "spec-redundancy-precheck.py")
-SIZE_RATCHET_SCRIPT = os.path.join(GUARDRAILS, "check-size-ratchet.py")
 READS_DIR = os.path.join(REPO_ROOT, "docs", "language-reads")
 OUT_PATH = os.path.join(REPO_ROOT, "docs", "PROGRESS.md")
 
@@ -102,15 +98,6 @@ def load_json(path):
         return json.load(f)
 
 
-def load_module(path, name):
-    """Import a hyphenated script file as a module, the way check-doc-findings-bound.py does, so
-    this report reuses the gate's own counting instead of re-implementing it."""
-    spec = importlib.util.spec_from_file_location(name, path)
-    module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
-    return module
-
-
 def read_text(path):
     with open(path, encoding="utf-8") as f:
         return f.read()
@@ -121,13 +108,13 @@ def read_text(path):
 # ---------------------------------------------------------------------------------------------
 
 def measure_spec():
-    """PRODUCT_SPEC.md's own size, counted the way check-size-ratchet.py counts a document: bytes,
-    lines, words directly; requirements and criteria through specformat.parse, the one shared
-    reader the format's seven gates already use."""
+    """PRODUCT_SPEC.md's own size: bytes, lines, words directly; requirements, criteria and
+    criterion bytes through specformat, the one shared reader the format's gates already use. Each
+    is a reading printed for a person, held against no bound — the ratchet that once held the
+    density figure was cut 2026-09-02 with the rest of the invented-ceiling family."""
     text = read_text(SPEC_PATH)
     doc = sf.parse(text)
-    ratchet = load_module(SIZE_RATCHET_SCRIPT, "check_size_ratchet")
-    crit_bytes, crit_count = ratchet.bytes_per_criterion(doc)
+    crit_bytes, crit_count = sf.bytes_per_criterion(doc)
     return {
         "bytes": len(text.encode("utf-8")),
         "lines": len(text.split("\n")),
@@ -319,7 +306,7 @@ def build_table_b():
     return []
 
 
-def build_table_c(spec_measure, baseline, ratchet_bound, redundancy_open, debt_cap):
+def build_table_c(spec_measure, baseline, redundancy_open):
     fc = baseline.get("format_change_2026_07_23", {})
     fc_bytes = fc.get("bytes")
     fc_req = fc.get("requirements")
@@ -328,20 +315,20 @@ def build_table_c(spec_measure, baseline, ratchet_bound, redundancy_open, debt_c
         "before_format_change", {}).get("value")
 
     rows = [
-        ["bytes", fmt(spec_measure["bytes"]), fmt(fc_bytes), NOT_STATED,
+        ["bytes", fmt(spec_measure["bytes"]), fmt(fc_bytes),
          target_val(baseline, "bytes")],
-        ["lines", fmt(spec_measure["lines"]), NOT_STATED, NOT_STATED,
+        ["lines", fmt(spec_measure["lines"]), NOT_STATED,
          target_val(baseline, "lines")],
-        ["words", fmt(spec_measure["words"]), NOT_STATED, NOT_STATED,
+        ["words", fmt(spec_measure["words"]), NOT_STATED,
          target_val(baseline, "words")],
-        ["requirements", fmt(spec_measure["requirements"]), fmt(fc_req), NOT_STATED,
+        ["requirements", fmt(spec_measure["requirements"]), fmt(fc_req),
          target_val(baseline, "requirements")],
-        ["acceptance criteria", fmt(spec_measure["acceptance_criteria"]), fmt(fc_ac), NOT_STATED,
+        ["acceptance criteria", fmt(spec_measure["acceptance_criteria"]), fmt(fc_ac),
          target_val(baseline, "acceptance criteria")],
         ["bytes per criterion", fmt(spec_measure["bytes_per_criterion"], decimals=1), NOT_STATED,
-         fmt(ratchet_bound, decimals=1), target_val(baseline, "bytes per criterion")],
+         target_val(baseline, "bytes per criterion")],
         ["pairs stating one fact twice", fmt(redundancy_open), fmt(fc_redundancy),
-         fmt(debt_cap), target_val(baseline, "pairs stating one fact twice")],
+         target_val(baseline, "pairs stating one fact twice")],
     ]
     return rows
 
@@ -426,12 +413,11 @@ def build_section4(reads):
 # Assembly
 # ---------------------------------------------------------------------------------------------
 
-def render(now, spec_measure, baseline, ratchet_bound, redundancy_open, debt_cap, reads):
+def render(now, spec_measure, baseline, redundancy_open, reads):
     s1, s2 = build_section1(spec_measure)
     table_a, _ = build_table_a(baseline, reads)
     table_b = build_table_b()
-    table_c = build_table_c(spec_measure, baseline, ratchet_bound, redundancy_open,
-                             debt_cap)
+    table_c = build_table_c(spec_measure, baseline, redundancy_open)
     table_d = build_section4(reads)
     priority_groups, priority_rows = build_priority(baseline, reads)
 
@@ -467,7 +453,7 @@ def render(now, spec_measure, baseline, ratchet_bound, redundancy_open, debt_cap
     out.append("")
     out.append("## Promise two — the specification stops growing")
     out.append("")
-    out.append(md_table(["measure", "today", "at the format change, 2026-07-23", "ceiling",
+    out.append(md_table(["measure", "today", "at the format change, 2026-07-23",
                           "target"], table_c))
     out.append("")
     out.append("## Readings run so far")
@@ -495,14 +481,11 @@ def main(argv=None):
     args = parse_args(argv)
     baseline = load_json(BASELINE_PATH)
     spec_measure = measure_spec()
-    ratchet_bound = load_json(SPEC_RATCHET_PATH).get("bytes_per_criterion")
     redundancy_open = measure_redundancy_open()
-    debt_cap = load_json(SPEC_DEBT_CAP_PATH).get("max_redundancy_open", {}).get(
-        "PRODUCT_SPEC.md")
     reads = load_all_reads()
 
     now = datetime.date.today().isoformat()
-    text = render(now, spec_measure, baseline, ratchet_bound, redundancy_open, debt_cap, reads)
+    text = render(now, spec_measure, baseline, redundancy_open, reads)
 
     with open(args.out, "w", encoding="utf-8") as f:
         f.write(text)

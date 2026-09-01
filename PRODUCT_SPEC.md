@@ -33,7 +33,6 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 - **board row** — one line of the work board standing for one task, live while in hand and kept once it closes.
 - **breakpoint** — a point where a movement ends and session memory can be wiped with no loss, its live state replaced, a dated journal entry added, and the work committed.
 - **brief** — the written instruction set a worker runs from, carrying its files, its steps, its clock, and its stop conditions.
-- **bytes-per-criterion** — the byte count of a document's criterion lines alone, glossary and preamble bytes excluded, divided by the count of criteria in its body.
 - **cadence** — the one number a producer owns, stating how often it regenerates its published artifact.
 - **capability** — one thing a window can do; a capability holding durable state, a standing mission, and a zone of its own is an agent, and a capability living wholly inside one session is a skill.
 - **capture echo** — the line the sweep posts back on an item's source, naming what was heard, its route, its name, and its row.
@@ -228,7 +227,6 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 - **show rule** — how a rendered artifact is opened for the person: a new browser window on a local seat, its own channel on a remote seat.
 - **signature** — one entry in the problem ledger: a short greppable plain phrase that names a recurring operational problem, carrying its dated occurrences and one status.
 - **size** — the wish's extent, named by one word from a four-word vocabulary: bug, small, surface, or large. A surface-sized wish is a new surface or a multi-file behaviour change. A bug-sized wish is the bug door itself, one call stated once for both axes. The size word is what the row's class column carries, the priority mark standing on the row beside it. The word surface elsewhere stays the common noun for a screen a person sees, and the word bug elsewhere stays the common noun for a defect.
-- **size ratchet** — the recorded bytes-per-criterion bound of the spec document, which a delivery may lower and never raises on its own.
 - **skill eval** — one recorded scenario per working skill: a case where a bare session errs and the skill's text corrects it, proven red without the skill.
 - **skill-creator** — the skill-making skill that reviews each skill file's craft, apart from the evals that test each skill's behaviour.
 - **slot** — the reference point, the measure, or the reason a weak word opens and its criterion must fill.

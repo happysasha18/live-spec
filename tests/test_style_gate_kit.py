@@ -1,10 +1,19 @@
-"""tests/test_ratchet_kit.py — the turnkey ratchet-adoption kit (SPEC INV-172) and the canonical
-hook home (SPEC INV-173).
+"""tests/test_style_gate_kit.py — the turnkey style-gate adoption kit (SPEC INV-172) and the
+canonical hook home (SPEC INV-173).
 
 Two things under test: hooks/scissors-scan.py (the pack's own copy of the scissors Stop-hook,
-universal tier only, with a personal-overlay hook and a quoted-demo skip) and adopt/install-ratchet.sh
-(vendors the style/redundancy/freeze gates into a host repo and seeds a debt cap the host's own
-CURRENT size, generating a lock test that only ever tightens).
+universal tier only, with a personal-overlay hook and a quoted-demo skip) and
+adopt/install-style-gates.sh (vendors the style lint, the near-duplicate reading, the freeze tool
+and their shared library into a host repo, pins each vendored copy's source, and wires the style
+gate into the host's push gate).
+
+The installer used to do one more thing, and this file used to hold it under test: measure the
+host's documents at adoption time, write those counts into scripts/spec-debt-cap.json as caps, and
+generate tests/test_ratchet_lock.py to pin them. That was a bound seeded from whatever the host's
+documents happened to measure that day, and a bound of that shape reds a delivery that improves the
+document — proven on the pack's own copy 2026-08-19. The whole class was cut 2026-09-02; the tests
+below assert the installer writes neither the cap file nor the lock test, and repairs a push gate
+still calling the one it used to generate.
 """
 import hashlib
 import json
@@ -16,7 +25,7 @@ import unittest
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 HOOK = os.path.join(ROOT, "hooks", "scissors-scan.py")
 INSTALL_PACK_HOOKS = os.path.join(ROOT, "scripts", "install-pack-hooks.sh")
-INSTALL_RATCHET = os.path.join(ROOT, "adopt", "install-ratchet.sh")
+INSTALL_STYLE_GATES = os.path.join(ROOT, "adopt", "install-style-gates.sh")
 INSTALL_SCAFFOLD = os.path.join(ROOT, "adopt", "install-scaffold.sh")
 
 
@@ -108,7 +117,7 @@ class TestInstaller(unittest.TestCase):
             )
 
 
-class TestRatchetInstall(unittest.TestCase):
+class TestStyleGatesInstall(unittest.TestCase):
     VENDOR_FILES = (
         "scripts/spec-style-lint.py",
         "scripts/spec-redundancy-precheck.py",
@@ -138,14 +147,14 @@ class TestRatchetInstall(unittest.TestCase):
             )
         return doc
 
-    def test_ratchet_install_seeds_at_current_size(self):
+    def test_install_vendors_the_gate_files_and_pins_each_source(self):
         with tempfile.TemporaryDirectory() as tmp:
             self._init_host(tmp)
             doc = self._write_doc(tmp)
-            expected = self._measured_style_errors(doc)
-            self.assertGreater(expected, 0, "fixture doc must trip at least one style error")
+            self.assertGreater(self._measured_style_errors(doc), 0,
+                               "fixture doc must trip at least one style error")
 
-            result = run(["bash", INSTALL_RATCHET, "DOC.md"], cwd=tmp)
+            result = run(["bash", INSTALL_STYLE_GATES, "DOC.md"], cwd=tmp)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
             for rel in self.VENDOR_FILES:
@@ -160,48 +169,46 @@ class TestRatchetInstall(unittest.TestCase):
                 actual_sha = hashlib.sha256(open(os.path.join(tmp, rel), "rb").read()).hexdigest()
                 self.assertEqual(manifest["vendored"][rel], actual_sha)
 
-            cap_path = os.path.join(tmp, "scripts", "spec-debt-cap.json")
-            self.assertTrue(os.path.isfile(cap_path))
-            cap = json.load(open(cap_path, encoding="utf-8"))
-            self.assertEqual(cap["max_style_errors"], expected)
-
-            lock_test = os.path.join(tmp, "tests", "test_ratchet_lock.py")
-            self.assertTrue(os.path.isfile(lock_test))
-
-            result2 = run(["python3", "-m", "pytest", "-q", "tests/test_ratchet_lock.py"], cwd=tmp)
-            self.assertEqual(result2.returncode, 0, result2.stdout + result2.stderr)
-
-    def test_ratchet_lock_reds_on_growth(self):
-        with tempfile.TemporaryDirectory() as tmp:
-            self._init_host(tmp)
-            doc = self._write_doc(tmp)
-            run(["bash", INSTALL_RATCHET, "DOC.md"], cwd=tmp)
-
-            with open(doc, "a", encoding="utf-8") as f:
-                f.write("\nOne more line, good — not bad quality.\n")
-
-            result = run(["python3", "-m", "pytest", "-q", "tests/test_ratchet_lock.py"], cwd=tmp)
-            self.assertNotEqual(result.returncode, 0, "lock test must red on doc growth")
-
-    def test_ratchet_lock_reds_on_cap_raise(self):
+    def test_install_seeds_no_ceiling_and_generates_no_lock_test(self):
+        """The cut of 2026-09-02, held by a test: adoption reads the host's documents and prints
+        what it finds, and writes down no count for anything to be held against later."""
         with tempfile.TemporaryDirectory() as tmp:
             self._init_host(tmp)
             self._write_doc(tmp)
-            run(["bash", INSTALL_RATCHET, "DOC.md"], cwd=tmp)
+            result = run(["bash", INSTALL_STYLE_GATES, "DOC.md"], cwd=tmp)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
 
-            cap_path = os.path.join(tmp, "scripts", "spec-debt-cap.json")
-            cap = json.load(open(cap_path, encoding="utf-8"))
-            cap["max_style_errors"] = cap["max_style_errors"] + 5
-            with open(cap_path, "w", encoding="utf-8") as f:
-                json.dump(cap, f)
+            self.assertFalse(os.path.exists(os.path.join(tmp, "scripts", "spec-debt-cap.json")),
+                             "adoption must seed no debt cap at the host's current size")
+            self.assertFalse(os.path.exists(os.path.join(tmp, "tests", "test_ratchet_lock.py")),
+                             "adoption must generate no lock test pinning a seeded count")
 
-            result = run(["python3", "-m", "pytest", "-q", "tests/test_ratchet_lock.py"], cwd=tmp)
-            self.assertNotEqual(result.returncode, 0, "lock test must red on a bare cap raise")
+            manifest = json.load(
+                open(os.path.join(tmp, "scripts", "ratchet-manifest.json"), encoding="utf-8"))
+            self.assertNotIn("seeded", manifest,
+                             "the manifest must record no measured size for anything to hold to")
+
+    def test_a_prior_install_s_seeded_counts_are_dropped_from_the_manifest(self):
+        """A host that ran the retired ratchet kit carries a `seeded` block naming two counts. A
+        re-run clears it, so no later reader mistakes a record of one day's size for a live bound."""
+        with tempfile.TemporaryDirectory() as tmp:
+            self._init_host(tmp)
+            self._write_doc(tmp)
+            os.makedirs(os.path.join(tmp, "scripts"))
+            json.dump({"pack_version": "0.0.1", "vendored": {},
+                       "seeded": {"style_errors": 12, "redundancy_open": 40}},
+                      open(os.path.join(tmp, "scripts", "ratchet-manifest.json"), "w"))
+
+            result = run(["bash", INSTALL_STYLE_GATES, "DOC.md"], cwd=tmp)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            manifest = json.load(
+                open(os.path.join(tmp, "scripts", "ratchet-manifest.json"), encoding="utf-8"))
+            self.assertNotIn("seeded", manifest)
 
 
-class TestRatchetMissingDoc(unittest.TestCase):
+class TestStyleGatesMissingDoc(unittest.TestCase):
     """Defect (2026-08-18 show-rehearsal report): on a fresh project, before step 2 (or a by-hand
-    doc write) has created the gated doc, install-ratchet.sh must refuse with a clean human-readable
+    doc write) has created the gated doc, the installer must refuse with a clean human-readable
     line and a non-zero exit — never a raw Python traceback. A doc resolved from
     guardrails.config.json's spec_path but not yet written to disk is the ordinary state of a fresh
     project, not breakage, so the refusal must say so and must leave nothing vendored.
@@ -215,7 +222,7 @@ class TestRatchetMissingDoc(unittest.TestCase):
     def test_doc_named_on_argv_but_absent_fails_cleanly_not_with_a_traceback(self):
         with tempfile.TemporaryDirectory() as tmp:
             self._init_host(tmp)
-            result = run(["bash", INSTALL_RATCHET, "PRODUCT_SPEC.md"], cwd=tmp)
+            result = run(["bash", INSTALL_STYLE_GATES, "PRODUCT_SPEC.md"], cwd=tmp)
             self.assertNotEqual(result.returncode, 0, "a missing doc must not silently succeed")
             combined = result.stdout + result.stderr
             self.assertNotIn("Traceback (most recent call last)", combined,
@@ -232,7 +239,7 @@ class TestRatchetMissingDoc(unittest.TestCase):
             with open(os.path.join(tmp, "guardrails.config.json"), "w", encoding="utf-8") as f:
                 json.dump(config, f)
             # No PRODUCT_SPEC.md written — the ordinary state of a fresh project before step 2.
-            result = run(["bash", INSTALL_RATCHET], cwd=tmp)
+            result = run(["bash", INSTALL_STYLE_GATES], cwd=tmp)
             self.assertNotEqual(result.returncode, 0)
             combined = result.stdout + result.stderr
             self.assertNotIn("Traceback (most recent call last)", combined)
@@ -243,24 +250,25 @@ class TestRatchetMissingDoc(unittest.TestCase):
         """Proves the refusal is transient, not a permanent block: write the doc and re-run."""
         with tempfile.TemporaryDirectory() as tmp:
             self._init_host(tmp)
-            result = run(["bash", INSTALL_RATCHET, "PRODUCT_SPEC.md"], cwd=tmp)
+            result = run(["bash", INSTALL_STYLE_GATES, "PRODUCT_SPEC.md"], cwd=tmp)
             self.assertNotEqual(result.returncode, 0)
 
             with open(os.path.join(tmp, "PRODUCT_SPEC.md"), "w", encoding="utf-8") as f:
                 f.write("# Spec\n\nA plain sentence.\n")
-            result2 = run(["bash", INSTALL_RATCHET, "PRODUCT_SPEC.md"], cwd=tmp)
+            result2 = run(["bash", INSTALL_STYLE_GATES, "PRODUCT_SPEC.md"], cwd=tmp)
             self.assertEqual(result2.returncode, 0, result2.stdout + result2.stderr)
             self.assertTrue(os.path.isfile(os.path.join(tmp, "scripts", "spec-style-lint.py")))
 
 
 class TestGateRWiring(unittest.TestCase):
     """Defect 1 (2026-07-16 track-coach report,
-    inbox/2026-07-16-from-track-coach-install-ratchet-appends-past-exit.md): install-ratchet.sh
-    step f must not blind-append the gate-r block past a host pre-push's terminating exit — that
+    inbox/2026-07-16-from-track-coach-install-ratchet-appends-past-exit.md): the installer's wiring
+    step must not blind-append the gate-r block past a host pre-push's terminating exit — that
     lands the block as dead code while the installer still reports "wired". The insertion ladder:
     before a trailing fail-check if one is found; else above a trailing bare exit; else append (the
     plain-EOF case); manual recipe when no safe anchor is found. Idempotency keys off a stable
-    marker, repairing a marker (or drifted label) caught in a dead position.
+    marker, repairing a marker (or drifted label) caught in a dead position — and, since 2026-09-02,
+    repairing a live block that still calls the retired lock test.
     """
 
     def _init_host(self, tmp):
@@ -279,7 +287,7 @@ class TestGateRWiring(unittest.TestCase):
         doc = os.path.join(tmp, "DOC.md")
         if not os.path.isfile(doc):
             open(doc, "w", encoding="utf-8").write("# Doc\n\nA plain sentence.\n")
-        return run(["bash", INSTALL_RATCHET, "DOC.md"], cwd=tmp)
+        return run(["bash", INSTALL_STYLE_GATES, "DOC.md"], cwd=tmp)
 
     def _lines(self, path):
         return open(path, encoding="utf-8").read().splitlines()
@@ -398,10 +406,46 @@ class TestGateRWiring(unittest.TestCase):
             self.assertEqual(run(["bash", "-n", path], cwd=ROOT).returncode, 0, "must stay valid bash")
             lines = self._lines(path)
             self.assertEqual(
-                sum(1 for line in lines if "ratchet caps" in line), 1,
+                sum(1 for line in lines if "live-spec:gate-r" in line), 1,
                 "repair of a drifted label must not leave a duplicate block")
+            self.assertEqual(
+                sum(1 for line in lines if "ratchet caps" in line), 0,
+                "the drifted old block must be gone, not left standing beside the new one")
 
     def test_e_marker_in_live_position_stays_already_wired_and_unchanged(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            self._init_host(tmp)
+            body = (
+                "#!/bin/sh\n"
+                "fail=0\n"
+                "\n"
+                "# live-spec:gate-r\n"
+                'echo ""\n'
+                'echo "-- gate r — style gate --"\n'
+                "for doc in DOC.md; do\n"
+                '  if ! python3 scripts/spec-style-lint.py --tier universal "$doc"; then\n'
+                "    fail=1\n"
+                "  fi\n"
+                "done\n"
+                "\n"
+                'if [ "$fail" -ne 0 ]; then\n'
+                "  exit 1\n"
+                "fi\n"
+                "exit 0\n"
+            )
+            path = self._write_pre_push(tmp, body)
+            before = open(path, encoding="utf-8").read()
+            result = self._install(tmp)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertIn("already wired: guardrails/pre-push gate r", result.stdout)
+            after = open(path, encoding="utf-8").read()
+            self.assertEqual(before, after, "an already-live wiring must not be touched")
+
+    def test_e2_a_live_block_calling_the_retired_lock_test_is_replaced(self):
+        """A host adopted under the retired ratchet kit carries a live gate-r block running
+        tests/test_ratchet_lock.py — a file this installer no longer writes. Re-running must replace
+        that block rather than report it already wired and leave the host pushing against a test
+        that is not there."""
         with tempfile.TemporaryDirectory() as tmp:
             self._init_host(tmp)
             body = (
@@ -421,12 +465,15 @@ class TestGateRWiring(unittest.TestCase):
                 "exit 0\n"
             )
             path = self._write_pre_push(tmp, body)
-            before = open(path, encoding="utf-8").read()
             result = self._install(tmp)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-            self.assertIn("already wired: guardrails/pre-push gate r", result.stdout)
-            after = open(path, encoding="utf-8").read()
-            self.assertEqual(before, after, "an already-live wiring must not be touched")
+            self.assertIn("repaired: guardrails/pre-push gate r", result.stdout)
+            self.assertEqual(run(["bash", "-n", path], cwd=ROOT).returncode, 0, "must stay valid bash")
+            text = open(path, encoding="utf-8").read()
+            self.assertNotIn("test_ratchet_lock", text,
+                             "the retired lock test must no longer be called")
+            self.assertIn("spec-style-lint.py", text)
+            self.assertEqual(text.count("live-spec:gate-r"), 1)
 
     def test_f_ambiguous_tail_prints_manual_recipe_and_does_not_touch_the_file(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -448,11 +495,10 @@ class TestGateRWiring(unittest.TestCase):
             self.assertEqual(before, after, "an ambiguous tail must never be blind-appended")
 
 
-class TestRatchetManifestMerge(unittest.TestCase):
-    """Defect 2 (2026-07-16 fix): install-ratchet.sh must MERGE the manifest, not rebuild it from
-    scratch — a prior scaffold install's keys survive a later ratchet run, and a stale
-    host-relative scaffold key an old ratchet run wrote gets deduped (mirrors install-scaffold.sh's
-    own dedupe).
+class TestManifestMerge(unittest.TestCase):
+    """Defect 2 (2026-07-16 fix): the installer must MERGE the manifest, not rebuild it from
+    scratch — a prior scaffold install's keys survive a later run, and a stale host-relative
+    scaffold key an old run wrote gets deduped (mirrors install-scaffold.sh's own dedupe).
     """
 
     SCAFFOLD_NAMES = ("check_completeness.py", "check_tests_present.py",
@@ -463,7 +509,7 @@ class TestRatchetManifestMerge(unittest.TestCase):
         run(["git", "config", "user.email", "a@example.com"], cwd=tmp)
         run(["git", "config", "user.name", "a"], cwd=tmp)
 
-    def test_scaffold_keys_survive_a_later_ratchet_install(self):
+    def test_scaffold_keys_survive_a_later_style_gate_install(self):
         with tempfile.TemporaryDirectory() as tmp:
             self._init_host(tmp)
             open(os.path.join(tmp, "DOC.md"), "w", encoding="utf-8").write(
@@ -472,21 +518,21 @@ class TestRatchetManifestMerge(unittest.TestCase):
             r1 = run(["bash", INSTALL_SCAFFOLD], cwd=tmp)
             self.assertEqual(r1.returncode, 0, r1.stdout + r1.stderr)
 
-            r2 = run(["bash", INSTALL_RATCHET, "DOC.md"], cwd=tmp)
+            r2 = run(["bash", INSTALL_STYLE_GATES, "DOC.md"], cwd=tmp)
             self.assertEqual(r2.returncode, 0, r2.stdout + r2.stderr)
 
             manifest = json.load(
                 open(os.path.join(tmp, "scripts", "ratchet-manifest.json"), encoding="utf-8"))
             for name in self.SCAFFOLD_NAMES:
                 key = "scaffold/guardrails/%s" % name
-                self.assertIn(key, manifest["vendored"], "ratchet run dropped scaffold key %s" % key)
+                self.assertIn(key, manifest["vendored"], "the style-gate run dropped scaffold key %s" % key)
                 pack_src = os.path.join(ROOT, key)
                 self.assertEqual(
                     manifest["vendored"][key],
                     hashlib.sha256(open(pack_src, "rb").read()).hexdigest(),
                     "scaffold key %s must still resolve against the pack" % key)
 
-    def test_stale_host_relative_scaffold_key_deduped_on_ratchet_run(self):
+    def test_stale_host_relative_scaffold_key_deduped_on_reinstall(self):
         with tempfile.TemporaryDirectory() as tmp:
             self._init_host(tmp)
             open(os.path.join(tmp, "DOC.md"), "w", encoding="utf-8").write(
@@ -496,7 +542,7 @@ class TestRatchetManifestMerge(unittest.TestCase):
                      "vendored": {"guardrails/gate_lib.py": "c" * 64}}
             json.dump(prior, open(os.path.join(tmp, "scripts", "ratchet-manifest.json"), "w"))
 
-            result = run(["bash", INSTALL_RATCHET, "DOC.md"], cwd=tmp)
+            result = run(["bash", INSTALL_STYLE_GATES, "DOC.md"], cwd=tmp)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             manifest = json.load(
                 open(os.path.join(tmp, "scripts", "ratchet-manifest.json"), encoding="utf-8"))

@@ -20,7 +20,7 @@
 - `install.sh:1` (E-21 — the installer itself)
 - `scripts/check-pack-update.sh:1` (E-25 — the update check + the founding arm, INV-227)
 - `scripts/founding-questions.json:1` (INV-227 — the versioned founding-question set)
-- `adopt/install-ratchet.sh:1` (INV-172 — the ratchet kit installer)
+- `adopt/install-style-gates.sh:1` (INV-172 — the style-gate kit installer)
 
 ### [node: templates]
 

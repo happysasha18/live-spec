@@ -22,9 +22,10 @@ sentence no longer survives anywhere in the new document. The delivery's measure
 (excluding sharpen deltas and glossary additions) stays within the sum of the byte counts of its declared
 new criteria.
 
-Beside the per-delivery record, the whole spec holds a **bytes-per-criterion ratchet**: the byte count of
-its criterion lines alone, divided by the count of criteria, recorded in `guardrails/spec-ratchet.json` and
-held by `guardrails/check-size-ratchet.py`. A delivery may lower the bound or leave it; a delivery whose new
-bytes-per-criterion rises above the recorded bound reds. Raising the bound is a change to the spec's own
-size requirement, run through the pipeline, never a side effect of a landing.
+The spec's **bytes-per-criterion** figure — the byte count of its criterion lines alone, divided by the
+count of criteria — is still measured and printed, in `docs/MEASUREMENTS.md` and `docs/PROGRESS.md`. It is
+a reading to compare against the last one, and no gate holds it against a bound. The gate that once did
+retired 2026-09-02: it reddened a delivery for cutting two whole requirements out of the document, because
+the criteria removed ran shorter than the rest and the average rose while the document shrank. A document
+that has genuinely outgrown one file is split, the road `skill-creator` already carries.
 
