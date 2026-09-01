@@ -216,6 +216,10 @@
 19. the system *shall* let two agents' zones overlap, each card recording what its own agent claims and two cards claiming one area both standing, and *shall* force no agent to carve a disjoint zone. [INV-197, INV-225]
 20. the system *shall* build no uniqueness check over zone claims, the wrong referral alone earning a name. [INV-225]
 
+**Case: the referral is spoken, never rewritten**
+
+21. *when* a vendored UserPromptSubmit hook injects the routing preamble reminding the session of the referral duty above, the system *shall* only inject that reminder and *shall* never rewrite, redirect, or silently resend the person's own message to carry it to the other zone — the referral named in criteria 1–3 above stays a spoken answer in chat or on the reply road, not an edit made to what the person typed. [INV-190]
+
 ---
 
 ## Requirement 198: The shared rules live once in the base skill

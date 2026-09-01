@@ -1623,6 +1623,17 @@ the row's whole acceptance.
 
 **Acceptance:** Done when: the vendored UserPromptSubmit hook injects the routing preamble in adopted projects, red-proven on a fixture prompt naming a foreign zone (T-24: the fixture deposit lands in the fixture tree with the one-line notice); the no-rewrite clause stands in the spec beside INV-190; the adoption gate reds a pack-loaded fixture carrying no hook.
 
+**Done 2026-09-01.** `hooks/routing-preamble-hook.sh` is the new vendored UserPromptSubmit hook —
+sibling in shape to `hooks/chat-law-hook.sh`, wired the same way through `guardrails/judge-hooks.json`
+and installed by `scripts/install-session-hooks.sh`. It injects one line naming the zone-referral law
+(spec/roles-and-agents.md, Requirement 196 [INV-190]) ahead of every prompt. The no-rewrite clause
+landed beside INV-190 as Requirement 196 criterion 21: the hook only reminds, never rewrites,
+redirects, or resends the person's own message. `tests/test_routing_preamble_hook.py` is the new
+fixture suite: it red-proves the preamble reaches context ahead of a fixture prompt naming a foreign
+zone, proves the installer wires the hook alongside its siblings, and proves the adoption gate —
+`guardrails/check-config-health.sh`'s session-hook directory-diff arm — reds a pack-loaded fixture
+project carrying the hook's source with no installed copy, then passes once installed. All 8 tests
+pass.
 
 
 ### ✅ Independent work actually runs in parallel branches, proven live — id: q-386

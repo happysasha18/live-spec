@@ -9,14 +9,15 @@
 # 2026-07-27 verifying row 495's setup-walk leg). The mid-turn PreToolUse scan stood in that list
 # until it was retired on 2026-08-17.
 #
-# The fix: this script now GENERATES its own two hooks' installation from guardrails/judge-hooks.json
+# The fix: this script now GENERATES its own hooks' installation from guardrails/judge-hooks.json
 # (command form + data files, so the declaration stays the one home for what is wired — never a second
 # hand-kept list here), then CHAINS to scripts/install-pack-hooks.sh for the other six. That script
 # already carries its own tests pinned to its literal source (tests/test_register_judge.py,
 # tests/test_hedge_arm.py, tests/test_affirmation_arm.py), so it is chained rather than rewritten — the ONE command below
-# still reaches all eight files. Two of the eight are wired: the clock hook and the chat-law hook. The
-# other six went opt-in on the owner's word of 2026-08-17, so their files are placed and a host wires
-# whichever it wants in its own settings.json (JOURNAL.md; PRODUCT_SPEC.md Requirement 311).
+# still reaches all nine files. Three of the nine are wired: the clock hook, the chat-law hook, and
+# the routing-preamble hook (q-398). The other six went opt-in on the owner's word of 2026-08-17, so
+# their files are placed and a host wires whichever it wants in its own settings.json (JOURNAL.md;
+# PRODUCT_SPEC.md Requirement 311).
 #
 # Run BY THE HUMAN (`sh ~/live-spec/scripts/install-session-hooks.sh`) — the harness classifier blocks
 # an agent's own hand in its configuration, deliberately. Idempotent: re-running changes nothing and
@@ -44,7 +45,8 @@ decl_path, hooks_src, dest_dir, settings_path = sys.argv[1:5]
 with open(decl_path, encoding="utf-8") as f:
     decl = json.load(f)
 
-OWN = ["clock-hook", "chat-law-hook"]  # this script's own two; the other six chain to install-pack-hooks.sh
+OWN = ["clock-hook", "chat-law-hook", "routing-preamble-hook"]  # this script's own three (clock-hook.sh,
+# chat-law-hook.sh, routing-preamble-hook.sh — rows 134/141/q-398); the other six chain to install-pack-hooks.sh
 
 
 def _same(a, b):
@@ -143,4 +145,4 @@ if os.path.isfile(hook_meter):
           "it stays wrapped, since a hook already wired in any form is left exactly as it stands.")
 PYEOF
 
-echo "Installed. Every window's next prompt carries the two wired hooks; the six opt-in checks are in place and wired by you."
+echo "Installed. Every window's next prompt carries the three wired hooks; the six opt-in checks are in place and wired by you."

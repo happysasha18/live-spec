@@ -3,7 +3,8 @@
   "_installer_fields_comment": "ROADMAP row 506: 'file'/'command'/'matcher'/'data'/'personal_overlay' let the setup walk GENERATE its coverage from this declaration instead of hand-keeping a second list that drifts. 'file' is the repo hooks/ basename (the wired key carries no extension). 'command' is the plain invocation form the entry takes in a host's ~/.claude/settings.json — read from this host's own file on 2026-07-27, when all eight were wired. For the two wired hooks it is what this host carries; for the six opt-in hooks it is what a host writes when turning one on — for a hook this host also wraps in the personal, unshipped counter ~/.claude/hooks/hook-meter.py, 'command' still states the PLAIN form, since hook-meter.py is the personal layer's own instrument (its docstring says so) and is never installed or assumed by the pack; an installer detects a hook already wired in ANY form (plain or meter-wrapped) by the hook's filename appearing in the existing command string, so a host's own meter-wrapped entry is left exactly as it stands, never re-written to the plain form. 'matcher' names the PreToolUse/Stop matcher the entry takes, null where none (every one of the eight the file describes, read the same day). The 'file', 'command', 'matcher' and 'data' maps describe the six opt-in hooks too, since scripts/install-pack-hooks.sh still SHIPS their files: a host wiring one back on reads its surface and command form here rather than guessing them. 'data' lists the shipped hooks/ files a hook reads at runtime beside its own file (turn_reader.py, register_judge_core.py, register-judge.py), installed alongside it. 'opt_in_surface' names the settings.json surface each of the six hooks that LEFT the wired list on 2026-08-17 rides when a host turns it on. The library's other opt-in entries (the conduct-judge arms, the lean-orchestrator net) never rode a wired surface and carry no entry here. It carries what 'wired' used to carry for them, so the declaration still answers \"which array does this go in\" for a hook the default wiring leaves off (PRODUCT_SPEC.md Requirement 311). 'personal_overlay' names the optional per-hook file pattern that lives ONLY on a host's machine (never shipped, never created or overwritten by an installer, reported by name when present) — this is distinct from hook-meter.py, which is a cross-cutting personal wrapper rather than one hook's own overlay.",
   "wired": {
     "clock-hook": "UserPromptSubmit",
-    "chat-law-hook": "UserPromptSubmit"
+    "chat-law-hook": "UserPromptSubmit",
+    "routing-preamble-hook": "UserPromptSubmit"
   },
   "library": [
     "language-laws",
@@ -26,6 +27,7 @@
   "file": {
     "clock-hook": "clock-hook.sh",
     "chat-law-hook": "chat-law-hook.sh",
+    "routing-preamble-hook": "routing-preamble-hook.sh",
     "register-judge-report": "register-judge-report.sh",
     "scissors-scan": "scissors-scan.py",
     "hedge-scan": "hedge-scan.py",
@@ -37,6 +39,7 @@
   "command": {
     "clock-hook": "sh ~/.claude/hooks/clock-hook.sh",
     "chat-law-hook": "sh ~/.claude/hooks/chat-law-hook.sh",
+    "routing-preamble-hook": "sh ~/.claude/hooks/routing-preamble-hook.sh",
     "register-judge-report": "sh ~/.claude/hooks/register-judge-report.sh",
     "scissors-scan": "python3 ~/.claude/hooks/scissors-scan.py",
     "hedge-scan": "python3 ~/.claude/hooks/hedge-scan.py",
@@ -48,6 +51,7 @@
   "matcher": {
     "clock-hook": null,
     "chat-law-hook": null,
+    "routing-preamble-hook": null,
     "register-judge-report": null,
     "scissors-scan": null,
     "hedge-scan": null,
@@ -67,6 +71,7 @@
   "data": {
     "clock-hook": [],
     "chat-law-hook": [],
+    "routing-preamble-hook": [],
     "register-judge-report": [],
     "scissors-scan": [
       "turn_reader.py"
