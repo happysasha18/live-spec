@@ -1569,7 +1569,7 @@ rule's landing commit, or gets one line added there before the citation comes ou
 — nothing is quietly de-sourced, it moves to the document built to hold it.
 
 
-### ⬜ New projects learn who they're building for — id: q-54
+### 🔄 New projects learn who they're building for — id: q-54
 **Group:** Onboarding & founding · **Priority:** normal
 **Source:** owner 2026-07-05.
 **Closes:** q-129, q-190, q-93, q-236, q-488, q-496, q-421, q-400
