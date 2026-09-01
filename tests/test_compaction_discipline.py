@@ -110,14 +110,20 @@ class TestCompactionIsContinuous(unittest.TestCase):
         self.assertIn("The script's own header states what it expects on disk", body,
                        "row 595's restored pointer sentence is missing")
 
-    def test_build_pipeline_carries_compaction_every_pass(self):
-        """Baked into build-pipeline: compaction is a station run every pass (SPEC INV-164).
+    def test_landing_law_carries_compaction_every_pass(self):
+        """Compaction is a station run every pass (SPEC INV-164), a build-pipeline-owned fact
+        (ARCHITECTURE.md) carried in director's landing-law reference rather than in
+        build-pipeline/SKILL.md — the file states its own reason: these ex-pipeline-step facts
+        "hold regardless of which specialist or gate performs the step, so they moved here
+        rather than into any one specialist's own file." (q-591, 2026-09-01: renamed off
+        test_build_pipeline_carries_compaction_every_pass, whose name pointed a reader at the
+        wrong file once the sentence moved.)
 
         Pinned to the bullet's own sentence (row 592), not just the invariant code, so
         deleting the bullet while leaving the code behind in a comment fails this test."""
-        pipe = read_flat("skills/director/references/landing-law.md")
-        self.assertIn("INV-164", pipe)
-        self.assertIn("doc- and code-compaction stations run at every push", pipe)
+        law = read_flat("skills/director/references/landing-law.md")
+        self.assertIn("INV-164", law)
+        self.assertIn("doc- and code-compaction stations run at every push", law)
 
 
 if __name__ == "__main__":

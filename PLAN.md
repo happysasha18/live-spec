@@ -1260,7 +1260,7 @@ them — commit `e61b29b7`, which names it in its own message. Nothing is left t
 stays closed and gets no command: there is no artifact for a command to read.
 
 
-### ⬜ A stale reference in the test matrix is corrected — id: q-591
+### ✅ A stale reference in the test matrix is corrected — id: q-591
 **Group:** Method reliability · **Priority:** quick win
 **Source:** found 2026-08-12.
 
@@ -1275,6 +1275,19 @@ names: either the matrix stops naming that home, or the sentence goes back into 
 row stops naming that home, the frozen document being re-frozen after the edit. Then `python3
 guardrails/check-matrix-reference.py` runs clean over that row, and a test reds when a home the row
 names stops carrying its sentence, so the same pointer cannot go stale a third time.
+
+**Done 2026-09-01.** ARCHITECTURE.md (`architecture/pipeline-and-lanes.md`) still lists INV-164 under
+build-pipeline's own `owns`, and `skills/director/references/landing-law.md` states in its own words
+why the sentence sits there rather than in `skills/build-pipeline/SKILL.md` — these ex-pipeline-step
+facts "hold regardless of which specialist or gate performs the step." Ownership never moved, so the
+row stayed in `matrix/build-pipeline.md`; only its proof's name was stale. Corrected in place, the
+same repair shape as 12.08: `matrix/build-pipeline.md`'s M-313 row now cites
+`test_landing_law_carries_compaction_every_pass`, and `tests/test_compaction_discipline.py` renamed
+the test off `test_build_pipeline_carries_compaction_every_pass` to match the file it actually reads
+(`skills/director/references/landing-law.md`) — the `test_<home>_carries_<fact>` naming this suite
+already uses elsewhere (`test_base_rulebook_carries_no_generator_rule` and its kin). `python3
+guardrails/check-matrix-reference.py TEST_MATRIX.md TEST_MATRIX.index.md` runs clean (552 of 552 rows
+matched), and `python3 -m pytest tests/test_compaction_discipline.py` passes (11/11).
 
 
 ### ✅ The startup file carries only what it truly needs — id: q-205
