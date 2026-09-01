@@ -32,7 +32,8 @@
   "cyrillic_waivers": [
     {"file": "hooks/register_judge_core.py", "snippet": "«X, а не Y»", "note": "deliberate program string — the universal chat law names the Russian banned frame it forbids, the detector-vocabulary self-exclusion class", "added": "2026-07-17"},
     {"file": "hooks/register_judge_core.py", "snippet": "«сильная мысль»", "note": "deliberate program string — the grading-worth chat law names the Russian graded-worth phrases it forbids so the judge catches them in Russian chat, the same detector-vocabulary self-exclusion class as «X, а не Y»", "added": "2026-07-19"},
-    {"file": "hooks/register_judge_core.py", "snippet": "«развилки»", "note": "deliberate program string — the unglossed-term chat law names the Russian jargon term it uses as the worked example of a coined term shown without a plain gloss, the detector-vocabulary self-exclusion class", "added": "2026-07-19"}
+    {"file": "hooks/register_judge_core.py", "snippet": "«развилки»", "note": "deliberate program string — the unglossed-term chat law names the Russian jargon term it uses as the worked example of a coined term shown without a plain gloss, the detector-vocabulary self-exclusion class", "added": "2026-07-19"},
+    {"file": "scripts/plan_checks.py", "snippet": "\"plan-0\": 'test \"$(git rev-parse --abbrev-ref --symbolic-full-name @{u} 2>/dev/null)\" = \"origin/main\"", "note": "deliberate program string — plan-0's own check command greps the owner's real Cyrillic confirmation phrase (\"Владелец подтвердил\") out of the archived handoff to verify real content; rewording the grep pattern would break the check, the same self-exclusion class as register_judge_core.py's detector-vocabulary strings", "added": "2026-09-01"}
   ],
   "name_waivers": [
     {"file": "*README.md", "snippet": "Alexander Abramovich", "note": "authorship byline — the copyright/attribution line the license names, not a requirement statement", "added": "2026-07-12"},

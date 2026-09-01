@@ -301,7 +301,7 @@ turn out to live nowhere else. The page also carries the ordered list of command
 owns that repository, which this window cannot write to. The row waits on the owner's read of the
 page and on those moves actually running; his read is what closes it.
 
-**Checked by reading on 01.09.** His own word this session, "разрешаю," is the read that was waited on. The
+**Checked by reading on 01.09.** His own word this session, "разрешаю," is the read that was waited on. The <!-- user-language -->
 window that owns `~/.claude/playbook` re-checked the tree against the report and found the ordered
 list already run and pushed on 31.08, commits `803924a`, `380d33b`, `3108b92`, `c648cf5`
 (`0a79f35` followed, unrelated — a plan-16 fix to the profile's report-format line). Nine dead
@@ -672,7 +672,7 @@ agrees with its fixture. Three others disagree, none of them named before today:
 `correction-widening-the-goal` (the run tags the standing judgment about corpus statistics a
 decision; the fixture calls it an observation, the same shape as `mixed-you-invented-that-work`'s
 "habit that produced it"), `mixed-plan-and-two-questions` (the run reads the whole turn as report
-plus two questions; the fixture reads "план на эту сессию текстовый простой... 5-10 строчек" as
+plus two questions; the fixture reads "план на эту сессию текстовый простой... 5-10 строчек" as <!-- user-language -->
 a live instruction setting this session's report format, not a description of something already
 true), and `mixed-conditional-pause` (the run names the halt and the question; the fixture also
 wants the remaining-time estimate itself named as an observation, since the halt's own condition
@@ -1544,8 +1544,8 @@ together (confirmed nothing else in `spec/*.md` still cites `E-7` under a `[targ
 
 ### ⬜ A skill's rule states itself; the journal carries who said it and when — id: q-803
 **Group:** Method housekeeping · **Priority:** normal
-**Source:** owner 2026-09-01 13:15 — "какая нафиг разница? ты видел что в спеках пишут 'его слова'
-или 'не его слова'? это может где-то в журнале если надо, это бред... это мусор в самой спеке!"
+**Source:** owner 2026-09-01 13:15 — "какая нафиг разница? ты видел что в спеках пишут 'его слова' <!-- user-language -->
+или 'не его слова'? это может где-то в журнале если надо, это бред... это мусор в самой спеке!" <!-- user-language -->
 Raised against one fresh instance (`skills/live-spec-base/SKILL.md:150`, "his word, 2026-09-01",
 added earlier the same session), but the pattern is not that one instance — a sweep found it
 already standing pack-wide: 31 hits for "his word" / "owner's word" across `skills/*/SKILL.md` and
@@ -1596,7 +1596,7 @@ the result of a two-variant experiment when one is running.
 **The trigger fired 24.07, and the row sat stale since — corrected 01.09.** The row's own text
 called this "deferred on its own stated trigger: the first host with a live audience worth
 measuring," as if that had not happened yet. It had, over a month before this correction:
-Alexander posted tlvphotos.com into three Russian Telegram groups on 24.07; sessions that day hit
+the owner posted tlvphotos.com into three Russian Telegram groups on 24.07; sessions that day hit
 21 against a 4–12 baseline, with 24 total campaign-labelled sessions over the following four days
 (`~/tlvphotos/inbox/handled/2026-07-27-from-promoter-ga-campaign-numbers.md`). GA4 property
 `544252011` is live and already read by `~/tlvphotos/scripts/ga_report.py`, and that same file
