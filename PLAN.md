@@ -1560,7 +1560,7 @@ commit, per the suite's own rule that a satisfied promise leaves both the tag an
 together (confirmed nothing else in `spec/*.md` still cites `E-7` under a `[target]` marker).
 
 
-### ⬜ A skill's rule states itself; the journal carries who said it and when — id: q-803
+### 🔄 A skill's rule states itself; the journal carries who said it and when — id: q-803
 **Group:** Method housekeeping · **Priority:** normal
 **Source:** owner 2026-09-01 13:15 — "какая нафиг разница? ты видел что в спеках пишут 'его слова' <!-- user-language -->
 или 'не его слова'? это может где-то в журнале если надо, это бред... это мусор в самой спеке!" <!-- user-language -->
