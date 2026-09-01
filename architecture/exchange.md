@@ -8,9 +8,9 @@
 
 **pins** —
 - `skills/communicator/SKILL.md:38` (the rules)
-- `skills/communicator/SKILL.md:322` (rule 10 — the decision page)
-- `skills/communicator/SKILL.md:379` (rule 11 — the evidence walk)
-- `skills/communicator/SKILL.md:256` (rule 9's outcome-leads line shape)
+- `skills/communicator/SKILL.md:300` (rule 10 — the decision page)
+- `skills/communicator/SKILL.md:351` (rule 11 — the evidence walk)
+- `skills/communicator/SKILL.md:234` (rule 9's outcome-leads line shape)
 - `skills/communicator/SKILL.md:470` (the pre-report walk)
 - `skills/communicator/SKILL.md:287` (rule 7's chat-arm clock sentence)
 - `scripts/sweep-rendered.py:1` (INV-286 — the clearing mechanism and the home rule's one home)

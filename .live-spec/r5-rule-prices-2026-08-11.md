@@ -47,7 +47,7 @@ This shape does not match every skill evenly. Three skills — `product-prover`,
 | 7 | design-reviewer | `skills/design-reviewer/SKILL.md:131-139` | 1. **Enumerate.** Build your own inventory of the elements. Use the prover's Phase 1 extraction h... | 751 | 9 | 760 |
 | 8 | communicator | `skills/communicator/SKILL.md:474-474` | 5. **Legibility floor (a BLOCK, SPEC INV-139).** For any STYLED artifact about to be shown — an H... | 748 | 4 | 752 |
 | 9 | test-author | `skills/test-author/SKILL.md:54-61` | 7. **A norm-pointered clause owes a norm-conformance row.** When a spec clause carries a | 711 | 2 | 713 |
-| 10 | communicator | `skills/communicator/SKILL.md:486-490` | 3. **Run the mechanical check** — feed the drafted prose to `python3 scripts/preshow-lint.py -` a... | 620 | 24 | 644 |
+| 10 | communicator | `skills/communicator/SKILL.md:454-458` | 3. **Run the mechanical check** — feed the drafted prose to `python3 scripts/preshow-lint.py -` a... | 620 | 24 | 644 |
 | 11 | design-reviewer | `skills/design-reviewer/SKILL.md:148-154` | 4. **Check parity.** For each candidate group, list the declared interactions of each member from... | 537 | 0 | 537 |
 | 12 | design-reviewer | `skills/design-reviewer/SKILL.md:155-162` | 5. **Fire the tight ask.** A divergence becomes a finding only when the signal is strong. Every | 517 | 0 | 517 |
 | 13 | design-reviewer | `skills/design-reviewer/SKILL.md:199-203` | 2. **Every object type behaves alike.** Each kind of thing the gesture acts on — a gallery frame, a | 425 | 1 | 426 |
@@ -190,7 +190,7 @@ Price: 711 body bytes plus 2 pinned tests = 713.
 
 ### 10. communicator — The pre-report walk — run before any movement-end or milestone report, and before any surface is shown (SPEC INV-34, INV-83), item 3
 
-Home: `skills/communicator/SKILL.md:486-490`.
+Home: `skills/communicator/SKILL.md:454-458`.
 
 Opening line, quoted in full: "3. **Run the mechanical check** — feed the drafted prose to `python3 scripts/preshow-lint.py -` and clear"
 
