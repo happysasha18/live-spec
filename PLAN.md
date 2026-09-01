@@ -1126,6 +1126,18 @@ Note: this is the large standing board; plan-1 and plan-10 are the near-term lig
 columns, no worker lanes — so there is nothing yet for his eye to check against the acceptance
 below. 👁️ names the acceptance method for when the board exists; it does not belong on a row that
 still has to be built.
+
+**What already exists and answers his daily ask, found 2026-09-01.** `board.html` +
+`scripts/render-board.sh`, built 31.08, already give him the thing he asked for four times —
+"one page I can just look at instead of asking the agent." It renders `PLAN.md`'s own Canon
+(the same parser and check commands `state-probe.sh` uses, one source of state) as a pseudo-kanban
+with columns, cards, group/priority/source. It is not this row. `render-board.sh`'s own header
+says so: worker lanes, given-vs-actual time, and per-agent attribution are deliberately left out
+of it, named as belonging to a separate, larger, still-unbuilt product feature
+(`spec/work-board.md`, Requirement 309) for a HOST project's own task queue, not this project's
+own plan page. Nobody has asked for that larger feature again since 08-06. If his daily need is
+already met by `board.html`, this row's remaining scope is that separate, optional feature, not
+a gap in what he sees today.
 **Absorbed:** 4 rows folded here 27.08, rotated off the board 28.08 — q-133, q-582, q-583, q-411. Full text: `docs/queue-archive/rotated-PLAN-2026-08-28-folded-rows.md`.
 
 **Acceptance:** No command decides this one; his own eye is the check, over one real stretch of
