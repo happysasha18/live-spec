@@ -3397,3 +3397,16 @@ whole physical tree until it lands before a second writer starts on that path.
 
 live-spec-base -> live-spec-base (6.1.0 -> 6.1.0, prose only, no version bump for a rule addition to
 an existing numbered rule). `scripts/sync-skills.sh` ran; six skills re-synced clean.
+
+## 2026-09-01 — plan-2 re-recorded, q-437 lands, sync catches up
+
+Two board rows closed this session. plan-2: all thirty-five director scenarios re-drawn fresh
+(skills/director/SKILL.md changed 31.08, after the last full draw, so the row's own freshness rule
+had gone stale and reddened honestly). Score 32 of 35; the one disagreement named 31.08 now agrees,
+three different close calls surfaced instead, named in the row rather than forced to match. q-437:
+spec-author owes the whole declared axis set a verdict when one is added or derived; product-prover
+reads the verdicts as a lens; tests/test_composition_axes.py proves a blank sibling reds.
+
+spec-author -> spec-author, product-prover-pack -> product-prover-pack (6.1.0 -> 6.1.0, prose only).
+`scripts/sync-skills.sh` ran a second time this session after q-437's edits landed; the first sync
+predated them and left the installed copies drifted, which q-537's own gate caught immediately.
