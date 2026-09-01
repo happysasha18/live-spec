@@ -77,7 +77,5 @@ clean-context agent is raised every time the method asks for one. Four such asks
 review, a cold reading, a release re-prove, and a deep spec-and-architecture audit. Economy is bought
 from pace, from batching, and from a cheaper tier on mechanical work. It is never bought from a
 dropped check. The full never-bend list this rule joins lives in the economy-ladder section of
-`PRODUCT_SPEC.md` (SPEC INV-40, R220). The owner's word, 2026-08-05 at 22:52: quality never suffers,
-whatever else does. At 22:12 he had named the smaller plan. He asked that a fresh worker the method
-needs be raised on it all the same.
+`PRODUCT_SPEC.md` (SPEC INV-40, R220).
 

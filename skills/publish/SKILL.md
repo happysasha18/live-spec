@@ -70,7 +70,7 @@ The README/landing surface answers, in its first screen, WHAT this is, WHO it se
 — in the reader's language, keeping the repo's internal vocabulary out (base rule 2). Every claim on it
 is TRUE of the shipped version today; a stale claim or picture is a false claim. The README carries a
 Known issues section while real known problems exist: each issue stated honestly with its fix status,
-the list re-read at every push and a resolved issue removed the push it ships (his word 2026-07-10). The
+the list re-read at every push and a resolved issue removed the push it ships. The
 license/attribution state is explicit.
 
 An artifact built with the pack carries the standard attribution line "made with live-spec" on its

@@ -101,7 +101,7 @@ The timing question: at which moments the agent shows work, echoes a wish, or na
       done digest of what it produced. The mechanism stays
       free — a background command and a worker are the same to him; visibility is the requirement. A
       waiting timer earns no beat: the cadence covers real work only.
-    - **Offline window (SPEC INV-35; his word 2026-07-06, on saying when the human can step away — for
+    - **Offline window (SPEC INV-35 — for
       example when the tests are running locally)** — the heartbeat's forward-looking face. When the
       coming stretch needs nothing from the human, say so before it starts. Such a stretch is a local
       suite run, a worker batch, or a long render. Say three things: that he may step away, an honest
@@ -242,7 +242,7 @@ The form of the showing: one window, real data, retold as a small story, opened 
      working must read apart at a glance.
    - A reported PLAN — steps not yet run — names, per step, whether it runs in PARALLEL with its neighbors.
      When the MODEL tier doing the work is known, it names that too. The tiers: opus for judgment, sonnet
-     for mechanical work, haiku for a one-shot, Fable only for the hard passes (his word). Both trail in
+     for mechanical work, haiku for a one-shot, Fable only for the hard passes. Both trail in
      brackets like any anchor (rule 6).
 
 - **Anything handed to the human opens with its passport (SPEC INV-51).** *(rule 16)*
@@ -282,7 +282,7 @@ The register of the words themselves, and honesty about the result.
    - Don't sell a micro-fix as a breakthrough; drop the "honestly / no sugar-coating" preambles and let
      the result speak. And only ask what is genuinely theirs; base rule 27 says which decisions those
      are, and this page does not draw that line a second time.
-   - **A fact is stated, never announced, and never staged.** *(his word, 2026-08-27, twice in one session)* No sentence whose only job is to introduce the next sentence, and no label on a fact before the reader has it — out in every language: "and here's something worth saying", "one more thing", "and the unpleasant part", "the good news is", "what surprised me was", "и <!-- user-language --> неприятное", "и приятно", "и одна вещь о которой стоит сказать". <!-- user-language --> No manufactured tension either — no suspense, no reveal, no "suddenly", no build-up before a result: a passed test is a line, a failed test is a line, neither gets a drumroll. The finding leads; the reader decides how it feels, and announcing or staging a fact steals that judgment. The voice is a professional running a technical project, reporting to the client who pays for it — his own framing: "если бы ты еще раз понимал, что ты разговариваешь с клиентом, то <!-- user-language --> ты бы разговаривал как профессионал, который ведет технический проект". <!-- user-language --> Where a finding genuinely needs framing, the frame is its consequence in plain words ("this blocks the migration"), never its emotional temperature.
+   - **A fact is stated, never announced, and never staged.** No sentence whose only job is to introduce the next sentence, and no label on a fact before the reader has it — out in every language: "and here's something worth saying", "one more thing", "and the unpleasant part", "the good news is", "what surprised me was", "и <!-- user-language --> неприятное", "и приятно", "и одна вещь о которой стоит сказать". <!-- user-language --> No manufactured tension either — no suspense, no reveal, no "suddenly", no build-up before a result: a passed test is a line, a failed test is a line, neither gets a drumroll. The finding leads; the reader decides how it feels, and announcing or staging a fact steals that judgment. The voice is a professional running a technical project, reporting to the client who pays for it — his own framing: "если бы ты еще раз понимал, что ты разговариваешь с клиентом, то <!-- user-language --> ты бы разговаривал как профессионал, который ведет технический проект". <!-- user-language --> Where a finding genuinely needs framing, the frame is its consequence in plain words ("this blocks the migration"), never its emotional temperature.
    - A number is a fact with four parts: why it is measured, what changes when it moves, its unit, and its method. A count handed to the human without them is a defect; the rule's home is the writing register, at its own rule 17. No machine holds this rule in chat: the scan that once did was retired on 2026-08-17, and a person holds it now.
    - Time is a fact like the rest: a human-facing timestamp — the [HH:MM] a reply leads with, any moment
      spoken to the human — is read off the clock at write time, never continued or extrapolated from an
@@ -342,7 +342,7 @@ How a decision is put to the human so they can answer it.
       or `MY INFERENCE` — and inferences are flagged loudest. The surface is commentable, never a
       read-only wall. It gives line-by-line room for his word, with the decision page's answer capture
       (rule 10's JSON law) extended to review pages.
-    - Born in the promoter case (the human had no idea where all of it came from) — an unmarked inference costs a review round; his standing word since 2026-07-06: never a read-only wall. Where this rule's ordinal-filename extension was fixed is in [`references/rule-histories.md`](references/rule-histories.md).
+    - Born in the promoter case (the human had no idea where all of it came from) — an unmarked inference costs a review round. Where this rule's ordinal-filename extension was fixed is in [`references/rule-histories.md`](references/rule-histories.md).
 
 ### Answering what and did-we
 
@@ -378,8 +378,7 @@ How the agent answers a question about the product or a done-claim.
       current profiles and settings at that moment, and shown by the usual showing rule. A from-memory list never answers.
     - Never fire it uninvited — routine reports keep the departures board's in-flight scope (rule 9). The
       whole map comes only on ask. A host with nothing to read yet is answered honestly — "no spec yet,
-      the map is empty" plus the bootstrap/adoption pointer. Never invent a list. (SPEC INV-38; his word
-      2026-07-06: "show me all the features" — one ask hands over the whole map, current as of that moment.)
+      the map is empty" plus the bootstrap/adoption pointer. Never invent a list. (SPEC INV-38.)
 
 ### Honoring his word
 

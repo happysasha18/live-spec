@@ -3420,10 +3420,48 @@ had drifted from source after q-536's rulings landed. `scripts/install-session-h
 
 communicator -> communicator (6.1.0 -> 6.1.0, prose only).
 
+## 2026-07-07 — the writing register is defined, after two rejected drafts
+
+The pack's one voice for everything written to a human — spec prose, reports, decision cards,
+READMEs — settled this session. Alexander rejected two earlier attempts: a "confident product
+pitch" draft and a persona-flavored one. His words, 2026-07-07: write in the language of a
+native-speaker technical writer for open source, consistent and easy to read.
+`skills/communicator/references/writing-register.md`'s eighteen rules follow from that line.
+
+## 2026-08-18 — text-audit-pack states what a cheap reader means run inside this pack
+
+Rule 74ef247 first split a text-audit reading round into one strong and one cheap reader. Run
+inside this pack, that split needed one more line: what counts as cheap here. The owner's word on
+2026-08-18 settled it — a cheap reader is a reader carrying none of this pack's own skills or
+rules (no `live-spec-base`, no working skill, no base rule, nothing this pack would hand a worker
+starting ordinary pipeline work). A fresh session that still carries the pack's skills or rules
+does not count as cheap by this pack's own accounting, whatever budget tier ran it, and a reading
+run under one does not count toward the two clean rounds the comprehension gate closes on.
+
+## 2026-08-27 — a fact is stated, never announced, and never staged (communicator rule 7)
+
+Landed in two steps, `d4a2aa09` then `1eced2b6` (`docs/skill-review/2026-08-27-communicator-fact-stated-rule9-pointer.md`).
+Alexander's own words, twice in one session: the reporting voice is a professional running a
+technical project, reporting to the client who pays for it — если бы ты еще раз понимал, что ты
+разговариваешь с клиентом, то ты бы разговаривал как профессионал, который ведет технический
+проект. The new sub-rule under rule 7 bans introduction-only sentences ("one more thing", "и
+приятно"), manufactured tension before a result, and self-certification ("we say so plainly"); the
+finding leads and the reader judges how it lands.
+
+## 2026-08-27 — rule 36 names who the pack writes for, and two surface laws follow (live-spec-base)
+
+See `docs/skill-review/2026-08-27-audience-rule-live-spec-base.md`. The push gate's refusals had
+printed gate letters and requirement codes at the pack's own owner, who could not tell what they
+wanted — the plain-language promise, made only in the README, was broken where it mattered most.
+Rule 36 states the reader plainly, and his word that day settled two surface laws that follow from
+it: a richer view (a rendered page beside a plain list) is offered, never imposed — the list stays
+default until asked; and one item carries one name, word for word, on every surface, because a
+reader working out that two names mean one item was handed a puzzle instead of a status.
+
 ## 2026-09-02 — the overnight lanes' skill edits catch up to the installed copies
 
-q-436's `product-prover-pack` edit and (pending) q-803's citation sweep across several skill files
-both left the installed mirror drifted from source mid-run, which q-537's own gate caught in
+q-436's `product-prover-pack` edit and q-803's citation sweep across several skill files both left
+the installed mirror drifted from source mid-run, which q-537's own gate caught in
 `state-probe.sh` immediately after the first merge. `scripts/sync-skills.sh` ran once to close it.
 
 product-prover-pack -> product-prover-pack (6.1.0 -> 6.1.0, prose only). spec-author -> spec-author

@@ -297,6 +297,12 @@ for command in m.ALSO_DISCARDING:
     # q-386: the law's own bullet and the script's live run converge, proven to actually catch
     # drift (the row's closing paragraph), not merely pass today.
     "q-386": "python3 tests/test_lane_open_act_convergence.py >/dev/null 2>&1 && grep -q 'The lane-open act' skills/live-spec-base/SKILL.md",
+    # q-803: the row's own acceptance grep, run for real rather than by eye — every "his word" /
+    # "owner's word" hit left in skill rule prose pairs with no date, which is what makes it the
+    # behavioural-actor sense and not a citation (test_no_inline_provenance_citation.py). The one
+    # exemption (rule-histories.md, the document already built to hold this skill's dated origin
+    # notes) still declares its own purpose, so the exemption stays warranted.
+    "q-803": "python3 tests/test_no_inline_provenance_citation.py >/dev/null 2>&1",
 }
 
 def reads_outside_the_tree(command):

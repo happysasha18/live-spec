@@ -106,11 +106,3 @@ The attic is append-only and keeps what it holds for good, which is base rule 10
 oversight here. Re-rendering one document and sweeping repeatedly leaves a numbered series in the
 attic. Bounding or rotating the attic is a separate question about the attic itself, and it belongs
 to whoever opens it.
-
----
-
-The law comes from the owner's word, 2026-07-27:
-
-> always clean up after yourself, write it into the skill, and clear the whole accumulated history of
-> those files too, maybe when a version goes out; into the trash, so it can come back if it turns out
-> to be needed.

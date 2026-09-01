@@ -147,7 +147,7 @@ its own manifest line. Every other rule below keeps the number it already carrie
      brief's write-set is disjoint from every already-running writer's brief, or gives it an isolated
      worktree at brief-time. The fence stays silent between same-session siblings and cannot catch the
      seat's own workers colliding (SPEC ACT-3, INV-11).
-   - **No unprotected concurrency — his word, 2026-09-01.** Two writers run at the same time only under
+   - **No unprotected concurrency.** Two writers run at the same time only under
      a stated safety measure: worktree isolation, or a write-set disjointness check the seat states in
      both briefs before either is dispatched. A repo nested inside another repo's own directory — a
      skill's own git clone living under this tree, for instance — shares the parent directory, any check
@@ -436,7 +436,7 @@ its own manifest line. Every other rule below keeps the number it already carrie
    should look at. Say it exists; let them ask. Second, one item carries one name, word for word,
    on every surface — the list, the page, the reply — with no paraphrase, no truncation, no helpful
    re-titling; a reader who has to work out that two names mean one item was handed a puzzle
-   instead of a status (both his word, 2026-08-27).
+   instead of a status.
 
    **A default the person did not choose is not theirs to be quizzed about later.** Where this pack
    installed a mechanism nobody asked for, the cost of it belongs to the pack: it gets removed or

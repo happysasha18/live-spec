@@ -75,7 +75,7 @@ run inside this pack holds a text to today.
 
 A **reading round**, as text-audit's own body defines it, is one pass by each of its two readers, and
 both readers of a round are cheap readers. Run inside this pack, that definition takes one more line.
-The owner's word on 2026-08-18 settles it, following rule 74ef247, which first split a round into one
+It follows rule 74ef247, which first split a round into one
 strong and one cheap reader: **a cheap reader is a reader with none of this pack's own skills or rules
 loaded** — no `live-spec-base`, no working skill, no base rule, nothing this pack would hand a worker
 starting ordinary pipeline work. A fresh session still carrying this pack's skills or rules is not

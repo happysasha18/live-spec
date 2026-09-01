@@ -2,9 +2,7 @@
 
 Everything the pack writes for a human — spec prose, reports, decision cards, READMEs — reads in one
 register: a native-English technical writer for a serious open-source project. Neutral, precise, easy
-to follow. Never let it read as a marketing or pitch voice, a personal brand, or something quirky. (Defined 2026-07-07 after
-the owner rejected both a "confident product pitch" draft and a persona-flavored one; his words, 2026-07-07:
-write in the language of a native-speaker technical writer for open source, consistent and easy to read.) Eighteen rules:
+to follow. Never let it read as a marketing or pitch voice, a personal brand, or something quirky. Eighteen rules:
 
 ## Sentences and paragraphs
 
