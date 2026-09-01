@@ -1457,7 +1457,7 @@ from the earlier note.
 **Source:** found 2026-08-19.
 
 
-### ⬜ Design-sync's own snapshot keeps its baseline honest — id: q-802
+### ✅ Design-sync's own snapshot keeps its baseline honest — id: q-802
 **Group:** Method reliability · **Priority:** normal
 **Source:** the spec's own promise, standing since row 55's 2026-07-23 landing-time audit
 (`docs/queue-archive/rotated-ROADMAP-2026-07.md` row 468: "E-6, E-7, E-10, INV-17, A-6 → row 55").
@@ -1484,6 +1484,26 @@ delivery through one baseline advance and shows an undeclared surface's old base
 `E-7`'s `[target]` tag in `spec/doc-order-generated.md` drops once the criterion holds. Until then
 the row is unbuilt, honestly — no design-sync work has started, since `q-54`'s own history shows
 `q-93` was blocked before the 27.08 fold ever reached it.
+
+**Done 2026-09-01.** `.live-spec/snapshot/` now exists, git-tracked: `MANIFEST.md` carries one line
+per surface (name, baseline delivery id, content hash, and how its bytes are held), and
+`baseline.py` is the one function, `advance_baseline`, that ever rewrites a line — it moves a
+surface's baseline only for the surfaces the delivery it's called with actually declares, leaving
+every other surface's line untouched byte-for-byte. A heavy-byte surface's rendered bytes go under
+`blobs/` (added to `.gitignore`), the manifest keeping only that surface's line and its hash under
+git; a light surface's bytes are tracked inline as `<surface>.snap`. No surface has synced yet —
+design-sync itself (`E-18`) is still `q-54`'s open work — so the manifest opens with an empty
+ledger, in the same shape `advance_baseline` writes. The fixture test,
+`tests/test_snapshot_baseline.py`, walks a delivery that declares one surface through one advance
+and proves the asymmetry: the declared surface's baseline and hash move, an untouched surface's
+manifest line — and its `.snap` file's bytes and mtime — come back identical, and a declared
+heavy surface's bytes land only under `blobs/` with no `.snap` file written for it. Passing:
+`python3 -m pytest tests/test_snapshot_baseline.py -v` (3 passed). `spec/doc-order-generated.md`
+Requirement 1's criterion 4 no longer names `E-7` or the snapshot machinery — it now marks only the
+design-sync machine (`E-18`) as planned — so the `[target]` tag it carries no longer marks `E-7`;
+`tests/test_traceability.py`'s `TARGET_ROW_OWNERS` map drops its `"E-7": "q-802"` entry in the same
+commit, per the suite's own rule that a satisfied promise leaves both the tag and its map entry
+together (confirmed nothing else in `spec/*.md` still cites `E-7` under a `[target]` marker).
 
 
 ### ⬜ A skill's rule states itself; the journal carries who said it and when — id: q-803
@@ -1694,6 +1714,32 @@ meeting the product for the first time reads past the opening paragraph without 
 question. Two things wait on the owner: how many projects the page may claim, and whether the
 July gap is named in the page's own words. Then the new page replaces the old one in public. What
 would convince him: reading it once and finding nothing he would have to correct.
+
+**One false claim closed 2026-09-01; the row stays open.** A recon pass reported this row blocked
+on a live bug: `guardrails.config.json`'s `surface_discovery_pattern` (an HTML `<section id="...">`
+regex) supposedly can never match `README.md`/`OVERVIEW.md` (plain markdown), so
+`check_completeness.py` always found zero and still claimed a clean sweep every run. Checked before
+fixing, per standing practice: that claim is false, and it is the second time it has been false.
+The pattern was deliberately armed 2026-07-11 after a real planted-surface incident
+(`docs/prover/2026-07-10-external-push-probe.md`), `tests/test_four_checks_contract.py::test_own_attach_arms_the_discovery_pattern`
+locks it set and catching, and a live reproduction just now — planting
+`<section id="phantom-surface">` in a scratch copy of this repo's real README and config — still
+reds with `completeness.rendered-but-unregistered`, exactly as designed. Neither
+`guardrails.config.json` nor `check_completeness.py` needed a change; both are correct and untouched.
+
+The real defect was in the front page itself: README's own "Known issues" section carried this
+exact false claim (declared false once already, 2026-08-18,
+`docs/prover/2026-08-18-readme-false-known-issue.md`, and removed) — it had regenerated via a later
+cold-read pass (2026-08-26) and survived a follow-up fix (2026-08-27) that patched only the
+self-matching syntax trap, not the substance. Removed the false paragraph again and replaced the
+now-dangling "see Known issues below" pointer with an accurate citation to the real 2026-07-10
+incident and its lock test. Re-verified green after: `check_completeness.py` — OK, 4 registered
+surfaces, nothing unregistered; `scripts/preshow-register-lint.py README.md` — clean;
+`tests/test_four_checks_contract.py` and `tests/test_scaffold_guardrails.py` — all passing.
+
+This closes one accuracy defect on the front page but not the row: the eleven corrections, the
+owner's calls on project count and the July gap, and the first-time-reader read-through are
+untouched by this pass and still wait on him.
 
 ## Blockers
 
