@@ -173,8 +173,12 @@ sys.exit(1 if undrawn or unmarked else 0)
     # q-802: the fixture suite proving the snapshot's advance-on-delivery asymmetry runs clean,
     # Requirement 1's criterion 4 no longer names E-7 (only the still-planned design-sync machine,
     # E-18), and the snapshot machinery itself — the manifest and the one function that writes it
-    # — is really on disk.
-    "q-802": ('python3 -m pytest tests/test_snapshot_baseline.py -q >/dev/null 2>&1'
+    # — is really on disk. Corrected 2026-09-01: the original arm ran `python3 -m pytest`, the
+    # exact shape tests/test_plan_is_not_executable.py forbids in this table (the probe runs every
+    # key here at every session start, and a suite once hung the owner's morning command). The
+    # module carries its own `__main__`, so it runs directly instead, the way q-55/q-489/q-235 and
+    # the rows below already do.
+    "q-802": ('python3 tests/test_snapshot_baseline.py >/dev/null 2>&1'
               ' && grep -qF "The system *shall* mark as planned the design-sync machine. [E-18]" spec/doc-order-generated.md'
               ' && test -f .live-spec/snapshot/MANIFEST.md && test -f .live-spec/snapshot/baseline.py'),
     # q-490: the dedicated suite for the chainless-selector fix runs clean (22 tests, incl. the
@@ -268,6 +272,26 @@ for command in m.ALSO_DISCARDING:
     # the red-gate path withholds the push instead of bypassing it, the command's own controlling
     # process is never signalled) runs clean.
     "q-235": "python3 tests/test_wind_down.py >/dev/null 2>&1",
+    # --- written 2026-09-01, closing the second round of gaps test_plan_done_marks_are_backed.py
+    # found: five more rows landed ✅ tonight with no command and no named reading. Each below
+    # reads the row's own stated acceptance, run directly rather than through pytest (the modules
+    # carry their own `__main__`), matching the rest of this table.
+    #
+    # plan-10: its own acceptance, run against itself — the same test this table's whole second
+    # pass exists to satisfy.
+    "plan-10": "python3 tests/test_plan_done_marks_are_backed.py >/dev/null 2>&1",
+    # q-437: the duty's two homes carry their text, and the sibling-axis-verdict case (the row's
+    # own definition of done) runs clean.
+    "q-437": "grep -q 'INV-244' skills/spec-author/references/facet-sweep.md && grep -q 'blank-answer' skills/product-prover-pack/SKILL.md && PYTHONPATH=tests python3 -m unittest -q test_composition_axes.TestAxisVerdictSweep >/dev/null 2>&1",
+    # q-591: the matrix reference checker runs clean over the corrected row, and the renamed test
+    # it now cites runs clean too.
+    "q-591": "python3 guardrails/check-matrix-reference.py TEST_MATRIX.md TEST_MATRIX.index.md >/dev/null 2>&1 && python3 tests/test_compaction_discipline.py >/dev/null 2>&1",
+    # q-398: the vendored hook is in the tree, executable, and its fixture suite (the red-proof on
+    # a foreign-zone prompt, the installer wiring, the adoption gate) runs clean.
+    "q-398": "test -x hooks/routing-preamble-hook.sh && python3 tests/test_routing_preamble_hook.py >/dev/null 2>&1",
+    # q-386: the law's own bullet and the script's live run converge, proven to actually catch
+    # drift (the row's closing paragraph), not merely pass today.
+    "q-386": "python3 tests/test_lane_open_act_convergence.py >/dev/null 2>&1 && grep -q 'The lane-open act' skills/live-spec-base/SKILL.md",
 }
 
 def reads_outside_the_tree(command):
