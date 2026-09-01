@@ -180,7 +180,7 @@
 
 **Case: the crossing bound**
 
-7. the system *shall* let one question cross between the same two agents at most twice, counted by the message identifier, and *shall* send the third crossing to the owner. [INV-196, INV-192, INV-27, INV-130] [default]
+7. the system *shall* let one question cross between the same two agents at most twice, counted by the message identifier, and *shall* send the third crossing to the owner. [default] [INV-196, INV-192, INV-27, INV-130]
    - the sender's status report names the third crossing as a zone question the two could not settle;
    - this is the shape the human-decision withdrawal loop already takes.
 8. neither agent *shall* reopen the count by rewording the question. [INV-196]
