@@ -1836,7 +1836,7 @@ carry no vendored worktree line. Until then git's refusal and the prover's own r
 net, unchanged from what the spec already says.
 
 
-### 👁️ The front page is rewritten to be fully accurate — id: q-501
+### 🔄 The front page is rewritten to be fully accurate — id: q-501
 **Group:** Docs & outreach · **Priority:** normal
 **Source:** owner 2026-07-27 evening.
 
