@@ -977,7 +977,7 @@ two-axis registry walked, a red when a sibling axis comes back with no verdict.
 among them.
 
 
-### ⬜ New projects know upfront which variations to design for — id: q-436
+### 🔄 New projects know upfront which variations to design for — id: q-436
 **Group:** Spec & feature quality · **Priority:** normal
 **Source:** tlvphotos inbox 2026-07-20; sibling of q-437.
 
