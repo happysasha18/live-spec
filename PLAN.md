@@ -1409,6 +1409,29 @@ disagreements no longer exist in the current source:
   written into `skills/communicator/SKILL.md`'s own text (not a separate document) so a future
   reader meets it where the rule lives.
 
+**Done 2026-09-01.** The third leg's fourteen collisions (the sweep's section 3c, N17–N30), each
+checked against today's `skills/communicator/SKILL.md` and ruled beside the rule it concerns
+(`grep -n "q-536 ruling" skills/communicator/SKILL.md` finds all fourteen):
+1. NOW/NEXT line vs the stretch's closing final line (N17) — merged.
+2. closing beat / report / final line sequencing (N18) — closed-by-rewrite.
+3. rule 17's stretch page vs rule 10's >1-decision threshold (N19) — merged.
+4. a critical wish's inbox arrival vs "never an interruption" (N20) — closed-by-rewrite.
+5. rule 3's show-and-ask vs rule 10's silence-is-consent (N21) — closed-by-rewrite.
+6. the ungrounded "~0 wall-clock" figure vs rule 9's lane cap (N22) — closed-by-rewrite.
+7. the decision-file ordinal vs a same-day review page (N23) — closed-by-rewrite.
+8. the digest's partial never-list vs rule 8's full one (N24) — closed-by-rewrite.
+9. the writing register's wrong reused-numbers claim (N25) — closed-by-rewrite.
+10. the glossary's "checkpoint" singular vs plural use (N26) — closed-by-rewrite.
+11. the glossary pointing to rule 10 for the `[default]` mark, absent there (N27) — closed-by-rewrite.
+12. the unmarked ~2-minute heartbeat figure vs the glossary's tunable-figure claim (N28) — closed-by-rewrite.
+13. the glossary's exact "10 minute" vs rule 13's "~10 minutes" (N29) — closed-by-rewrite.
+14. the digest's mechanism language vs rule 6's mechanism ban (N30) — closed-by-rewrite.
+
+Twelve of the fourteen were already resolved by rewrites since 07-30 (the glossary section that
+carried several of the old collisions no longer exists in `SKILL.md` at all, moved whole to
+`references/words.md`); two (N17, N19) needed one sentence each, added now. All three legs of q-536
+are closed.
+
 
 ### ✅ One excuse shouldn't cover every future change — id: q-529
 **Group:** Method reliability · **Priority:** normal
