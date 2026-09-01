@@ -12,7 +12,7 @@
 - `adopt/ADOPT.md:49` (VCS gate first)
 - `adopt/ADOPT.md:201` (unbacked-surface verdict)
 - `adopt/ADOPT.md:212` (attic)
-- `adopt/ADOPT.md:291` (attach record)
+- `adopt/ADOPT.md:295` (attach record)
 - `adopt/ADOPT.md:90` (B-3 — who am I working with, first step of orient)
 - `adopt/START.md:1` (B-1 — the founding walk)
 - `skills/build-pipeline/references/project-setup.md:1` (INV-307 — the setup routing card)
