@@ -38,15 +38,15 @@
 
 **Case: the whole queue stands in columns**
 
-20. The system *shall* show the whole queue on the board in columns, one column per recorded state. [INV-308] [default]
+20. The system *shall* show the whole queue on the board in columns, one column per recorded state. [default] [INV-308]
    - the columns are awaiting validation, ready, in work, and done.
 21. The system *shall* state on the page, under each column, the one condition a card meets to leave that column. [INV-308]
 22. The system *shall* stand every row it shows in exactly one column, dropping none, an open row's column read off the status its queue row records. [INV-308, INV-277]
    - awaiting validation reads off *queued*, ready off *ready*, and in work off *in-work*.
 23. The system *shall* keep the far tier off the board, standing it down by name and opening its rows only on the person's request, as the runnable report does. [INV-308, INV-222, INV-223]
-24. The system *shall* collapse the *queued* rows standing below the runnable head into a stated count that opens on the person's act, and *shall* drop none in silence. [INV-308] [default]
+24. The system *shall* collapse the *queued* rows standing below the runnable head into a stated count that opens on the person's act, and *shall* drop none in silence. [default] [INV-308]
    - the retunable value is how many *queued* rows stand visible at the head before the rest collapse.
-25. The system *shall* show the *deferred* rows as a stated count alone, each row's revisit trigger standing behind an expand. [INV-308, INV-222] [default]
+25. The system *shall* show the *deferred* rows as a stated count alone, each row's revisit trigger standing behind an expand. [default] [INV-308, INV-222]
 26. The system *shall* place a parked row in the in-work column and *shall* leave its parked mark to the preemption case below. [INV-308, T-9]
 27. The system *shall* split the in-work column into lanes, one lane for each build lane the lane cap allows. [INV-308, T-18]
 28. The system *shall* show a lane holding no row as free. [INV-308, T-18]
@@ -54,7 +54,7 @@
 
 **Case: a card reads as a task at a glance**
 
-30. The system *shall* order a card's reading: the echo-name first as the recognition hook, then the description of the behaviour, then the chips. It *shall* hold every other detail behind the card in a details layer. [INV-308, INV-28] [default]
+30. The system *shall* order a card's reading: the echo-name first as the recognition hook, then the description of the behaviour, then the chips. It *shall* hold every other detail behind the card in a details layer. [default] [INV-308, INV-28]
    - the echo-name runs three to five plain words.
 31. The system *shall* expand every count and reference in a card's details into plain words an outside reader follows, a bare number standing as a defect. [INV-308, INV-28]
 32. The system *shall* show a placement tag, as a chip on every board row, read from the queue row's own map and footprint notes. [INV-308, INV-37, INV-128]
@@ -74,20 +74,20 @@
 42. The system *shall* keep a task's statement and its validation record in the work board's own source file, keyed by the queue row's id, the queue row keeping its five cells. [INV-309, INV-277]
 43. The system *shall* have the plan list the deliverables in the order they run, each a slice of the change that shows value on its own and can be tested on its own. [INV-309]
 44. The system *shall* hold an activity that carries value only alongside others — writing the tests, say — outside a plan's deliverables. [INV-309]
-45. The system *shall* keep a plan's deliverables to a handful. [INV-309] [default]
+45. The system *shall* keep a plan's deliverables to a handful. [default] [INV-309]
    - the retunable value is the most deliverables one plan holds, standing at five.
 46. The system *shall* read the plan's parallel mark as the plan's expectation, the take-up lane decision deciding what actually runs together, and *shall* record a divergence plainly in the delivery report's trail. [INV-309, INV-49]
-47. The system *shall* bound the deliverables running together inside one task by the same lane cap that bounds build lanes. [INV-309, T-18] [default]
+47. The system *shall* bound the deliverables running together inside one task by the same lane cap that bounds build lanes. [default] [INV-309, T-18]
 48. The system *shall* read the statement's estimate as the one estimate every other surface cites — the capture echo's range, the board row, and the settling at the close. [INV-309, INV-93]
 49. The system *shall* let no task enter work before its statement passes validation's mechanical floor — echo-name, description, plan and estimate each present, an estimate stated, and the register check clean. [INV-309]
 50. The system *shall* put every statement before a clean-context reader that carries no project vocabulary and answers three questions from the statement alone — what is to be done, why, and how long — and a question the reader cannot answer fails the statement. [INV-309]
 51. The system *shall* hold every outcome comment the board shows to the same plain reading the statement meets, judged by that same reader. [INV-309]
 52. The system *shall* have that same reader pass the echo-name test — shown the echo-name alone later, it names which change the task is — a name it cannot place failing the statement. [INV-309, INV-28]
 53. *when* a statement fails validation, the system *shall* have it rewritten and validated again, its task staying out of work until it passes. [INV-309]
-54. The system *shall* read a passed validation as approval, since routing every statement to the person would stall the granted autonomy. [INV-309] [default]
+54. The system *shall* read a passed validation as approval, since routing every statement to the person would stall the granted autonomy. [default] [INV-309]
 55. *when* a task's statement passes validation, the system *shall* set its queue row's status to *ready*, dated like every other status. [INV-309, INV-277]
 56. The system *shall* read that passing as the task's commitment point, the moment the pack takes the task on and stands behind delivering it. [INV-309]
-57. The system *shall* hold the gate-and-reader approval as the standing road and the person's word on a single task as the exception, that standing policy recorded in `DECISIONS.md`. [INV-309] [default]
+57. The system *shall* hold the gate-and-reader approval as the standing road and the person's word on a single task as the exception, that standing policy recorded in `DECISIONS.md`. [default] [INV-309]
 
 **Case: approved wording freezes**
 
@@ -102,17 +102,17 @@
 63. *when* a task is taken up, the system *shall* write its statement's estimate on its board row. [INV-310, INV-93]
 64. *when* a task closes, the system *shall* stand the actual beside that estimate on the same row. [INV-310, INV-93]
 65. The system *shall* extend the landing's own settling of estimate against actual onto the work board. [INV-310, INV-93]
-66. The system *shall* stand each closed task's end-to-end time beside that pair, from its statement passing validation to its close, read off the board's own stamps. [INV-310, INV-93] [default]
-67. The system *shall* show how many tasks closed on the day the page is read, counted off those same stamps. [INV-310] [default]
+66. The system *shall* stand each closed task's end-to-end time beside that pair, from its statement passing validation to its close, read off the board's own stamps. [default] [INV-310, INV-93]
+67. The system *shall* show how many tasks closed on the day the page is read, counted off those same stamps. [default] [INV-310]
    - the retunable value is the stretch the count covers, standing at one day.
 
 **Case: a closed task keeps its row**
 
 68. The system *shall* keep every closed task's row on the work board rather than clear it. [INV-311]
-69. The system *shall* render each closed task in the done column as one line — state mark, echo-name, time pair — the rest behind a fold the person opens. [INV-311, INV-28] [default]
-70. The system *shall* read the done column from the month's archive file under `docs/queue-archive/`, the current month standing by default and an older month opening on the person's ask. [INV-311, INV-276] [default]
+69. The system *shall* render each closed task in the done column as one line — state mark, echo-name, time pair — the rest behind a fold the person opens. [default] [INV-311, INV-28]
+70. The system *shall* read the done column from the month's archive file under `docs/queue-archive/`, the current month standing by default and an older month opening on the person's ask. [default] [INV-311, INV-276]
 71. The system *shall* show each closed row's own terminal state — landed, declined, superseded, or decided — so a declined row shows as declined. [INV-311, INV-276]
-72. The system *shall* tag each closed row with its door — feature, bug, refactor, docs-only, or skip — read from the archived row's own intake note. [INV-311, INV-134] [default]
+72. The system *shall* tag each closed row with its door — feature, bug, refactor, docs-only, or skip — read from the archived row's own intake note. [default] [INV-311, INV-134]
    - the door is the default axis here; the person may prefer the work-kind axis — product, infra, skill, or prose — in its place.
 73. The system *shall* extend the delivery report to carry a trail over the plan's steps — each step's outcome, the worker tier or role that ran it, and the step's share of the task's time. [INV-311, INV-103]
 74. The system *shall* draw a closed row's step trail from that delivery report. [INV-311, INV-103]
@@ -131,7 +131,7 @@
    - Reader stands for the reader worker, Drafter the product-manager craft, Reviewer the formal-reviewer role, Builder the developer craft, Checker the quality-assurance craft.
    - the board's Reviewer names the proving craft, and the design-review role keeps its name.
 81. The system *shall* stand a muted note of that worker's tier beside the craft name. [INV-308, INV-69]
-82. The system *shall* take the starter crafts as the Reader, the Drafter, the Reviewer, the Builder, and the Checker. [INV-308] [default]
+82. The system *shall* take the starter crafts as the Reader, the Drafter, the Reviewer, the Builder, and the Checker. [default] [INV-308]
 83. The system *shall* hold a worker's identity at its craft name, its icon, and its tier note, and *shall* take a fuller personality only on the person's word. [INV-308]
 84. *when* a step's record names no craft, the system *shall* show that step with its craft unnamed rather than guess one. [INV-308]
 85. The system *shall* keep which worker runs which task readable at one glance across the whole in-work column. [INV-308]
@@ -142,20 +142,20 @@
 87. The system *shall* update it at a landing, and at every state that waits on the person. [INV-312, INV-71]
 88. *while* a stretch runs long with no stage change, the system *shall* refresh the work board's stamp on the same heartbeat the chat's narration already carries, so a quiet stretch reads apart from a stalled one. [INV-312, INV-35, INV-71]
 89. The system *shall* carry the work board file's update inside the landing's own commit. [INV-312]
-90. The system *shall* complete a work board update within about five seconds of the stage change it records, and *shall* never delay that stage. [INV-312] [default]
+90. The system *shall* complete a work board update within about five seconds of the stage change it records, and *shall* never delay that stage. [default] [INV-312]
    - the generator's own suite timing assertion watches this number once the generator ships.
 
 **Case: the work board reads on any screen**
 
-91. The system *shall* lay the work board out in one column on a narrow screen, the work in hand at the top. [INV-313] [default]
+91. The system *shall* lay the work board out in one column on a narrow screen, the work in hand at the top. [default] [INV-313]
 92. The system *shall* make every control reachable by touch and *shall* hide nothing behind a hover. [INV-313]
-93. The system *shall* keep the work board reachable by keyboard and readable at the contrast the pack's pages hold. [INV-313] [default]
+93. The system *shall* keep the work board reachable by keyboard and readable at the contrast the pack's pages hold. [default] [INV-313]
 
 **Case: the empty work board and the stale work board**
 
 94. *when* no work is in hand, the system *shall* say so and show the queue's head in its place. [INV-313]
 95. The system *shall* stamp the work board with the time it last updated, so a reader judges its freshness. [INV-313]
-96. The system *shall* have an open page re-read itself about every five seconds. [INV-313] [default]
+96. The system *shall* have an open page re-read itself about every five seconds. [default] [INV-313]
 
 **Case: what the work board is not, and how its working shows**
 

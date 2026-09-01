@@ -82,7 +82,7 @@
 
 **Case: two rules keep it parked**
 
-2. The system *shall* cap hand-fixing loops at the two-strikes law, the second occurrence buying an owner rather than another hand-pass. [INV-56] [default]
+2. The system *shall* cap hand-fixing loops at the two-strikes law, the second occurrence buying an owner rather than another hand-pass. [default] [INV-56]
 3. *when* a defect has a named mechanical owner, the system *shall* service its instances in batch, with no per-instance ceremony interrupting the work or the human reading it. [INV-56]
    - the fence fixes them silently wherever it catches them, then appends one ledger line at the session's end.
 
