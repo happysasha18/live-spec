@@ -78,7 +78,8 @@ stopped being read, and a spec no one reads stops doing its job.
   filename rule, a collision law, three header fields, and four body parts belongs in a bulleted list —
   the human language was already right, and the one remaining fix was reading efficiency.
 - **A preamble and a glossary open the doc.** Open the spec with a short preamble: what the document covers
-  in two or three sentences, what the bracket codes are (each letter's kind, taken from the list under
+  in two or three sentences (no incident or source behind the 2-3 — an engineering default, not a policy
+  decision), what the bracket codes are (each letter's kind, taken from the list under
   "The bracket codes" above — and that a reader can ignore them while a maintainer follows
   them), how the keywords *shall*, *when*, *while*, *if*, and *then* read, and that **edit history lives in
   the JOURNAL, apart from the spec itself.** A **glossary** follows, before the first requirement: every
@@ -93,7 +94,8 @@ stopped being read, and a spec no one reads stops doing its job.
   one-line "superseded by §X" pointer when the old shape still needs explaining — but the prose reads as
   today's truth.
 - **Layer overview up front.** If the spec stacks layers (a credibility floor, then features on top), open
-  with a 3–5 line "how the layers stack" map so a reader always knows where they are.
+  with a 3–5 line "how the layers stack" map (no incident or source behind the 3–5 — an engineering
+  default, not a policy decision) so a reader always knows where they are.
 - **Readable-first beats terse.** Clipped machine-fragment prose gets rejected by humans as hard as a wall of
   fluff does. Err toward a sentence that *reads well*; keep the structure, lose the jargon. Terseness is not
   the goal. The goal is a headline the eye lands on, then detail it can drill into.

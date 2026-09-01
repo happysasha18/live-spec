@@ -18,7 +18,7 @@
 
 ---
 
-## Requirement 163: The ledger walk and its two-strikes ladder  [feature: F-problem-ledger]
+## Requirement 163: The ledger walk and its two-strikes ladder  [feature: F-problem-ledger] [default]
 
 **Context:** The moment noise fires mid-work, the session greps the ledger for the signature, and what the grep returns decides the next move. The walk climbs a fixed ladder from a first sighting to a method defect.
 
@@ -82,7 +82,7 @@
 
 **Case: two rules keep it parked**
 
-2. The system *shall* cap hand-fixing loops at the two-strikes law, the second occurrence buying an owner rather than another hand-pass. [INV-56]
+2. The system *shall* cap hand-fixing loops at the two-strikes law, the second occurrence buying an owner rather than another hand-pass. [INV-56] [default]
 3. *when* a defect has a named mechanical owner, the system *shall* service its instances in batch, with no per-instance ceremony interrupting the work or the human reading it. [INV-56]
    - the fence fixes them silently wherever it catches them, then appends one ledger line at the session's end.
 

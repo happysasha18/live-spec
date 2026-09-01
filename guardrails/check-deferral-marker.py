@@ -127,7 +127,8 @@ def _negated(text, start):
     A token window, not a fixed character count: "not currently owner-reserved" and
     "is not yet his to correct" both negate across filler a 9-char look-back would miss.
     Bounded to the last four words so an incidental negator far away cannot silence a
-    real park.
+    real park. No source behind the exact 4 (2026-08-07 census, row 10); an engineering
+    default, not a policy decision.
     """
     words = re.findall(r"\S+", text[:start])[-4:]
     return bool(NEGATORS.search(" ".join(words)))

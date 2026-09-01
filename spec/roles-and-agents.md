@@ -156,7 +156,7 @@
 
 ## Requirement 196: A misdirected question is referred back, and no refer-and-resend loop runs on
 
-**Context:** A question can land on an agent that does not own it. The answer is a referral: the question lives in another agent's zone, so it goes back to whoever asked. Every message carries an identifier and a stated need-by and reaches a terminal state, and one question crosses between the same two agents at most twice before the third crossing goes to the owner.
+**Context:** A question can land on an agent that does not own it. The answer is a referral: the question lives in another agent's zone, so it goes back to whoever asked. Every message carries an identifier and a stated need-by and reaches a terminal state, and one question crosses between the same two agents at most twice before the third crossing goes to the owner. [default]
 
 **User Story:** As an agent handed a question from another agent's zone, I want to refer it back to whoever asked and let no refer-and-resend loop run on, so that a misdirected question reaches its owner without manufacturing traffic.
 
@@ -180,7 +180,7 @@
 
 **Case: the crossing bound**
 
-7. the system *shall* let one question cross between the same two agents at most twice, counted by the message identifier, and *shall* send the third crossing to the owner. [INV-196, INV-192, INV-27, INV-130]
+7. the system *shall* let one question cross between the same two agents at most twice, counted by the message identifier, and *shall* send the third crossing to the owner. [INV-196, INV-192, INV-27, INV-130] [default]
    - the sender's status report names the third crossing as a zone question the two could not settle;
    - this is the shape the human-decision withdrawal loop already takes.
 8. neither agent *shall* reopen the count by rewording the question. [INV-196]

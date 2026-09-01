@@ -53,7 +53,7 @@
 13. *if* a host has no readable `founding.set-version`, *then* the founding arm *shall* name every founding question as potentially owed. [INV-227, INV-91]
 14. The system *shall* surface a never-answered founding question for the owner to answer at catch-up, *shall* answer none on the host's behalf, since the duty binds forward, and *shall* home the recorded set version in the host profile and the agent card among the questions. [INV-227, INV-159, E-16, E-32, INV-184]
 
-## Requirement 222: A behavioural rule that breaks twice earns a live channel
+## Requirement 222: A behavioural rule that breaks twice earns a live channel [default]
 
 **Context:** A standing behavioural rule keeps its normative home in a once-read file — the loader, a profile, a skill's text. Prose in a once-read file loses to mid-turn momentum, and attention alone holds nothing across sessions. So a rule that breaks mid-turn a second time despite that home earns a live channel at that same moment, and the pick is recorded where the rule lives.
 

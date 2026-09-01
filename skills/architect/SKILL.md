@@ -116,7 +116,8 @@ Every new or carved node answers three questions at the moment it is proposed. C
 Does a real second place need it? Can it and its neighbour be worked in parallel without queuing on
 shared files? Three yes answers make the node right. A single no is a flag to answer, not a rejection —
 name the plan that turns it to a yes, or fold the carve back into its caller. Two or more no answers make
-the carve premature; fold it back.
+the carve premature; fold it back. No incident or source behind the 2 — an engineering default, not a
+policy decision.
 
 The test has two homes. Its first is here, at the architecture step, where new abstractions are born and
 a carve that fails it is folded back before it ships. Its second is `product-prover`'s speculative-node

@@ -62,6 +62,7 @@ import checkpoint as checkpoint_lib  # scripts/checkpoint.py — the one checkpo
 sys.path.insert(0, str(_SCRIPTS_DIR.parent / "guardrails"))
 import cleanup_notice  # noqa: E402  (the shared cleanup-notice shape, SPEC INV-204)
 
+# No incident or source behind either figure below; engineering defaults, not policy decisions.
 SIGNAL_WAIT_SECONDS = 5.0
 SIGNAL_POLL_INTERVAL = 0.2
 

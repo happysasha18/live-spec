@@ -88,7 +88,7 @@ The timing question: at which moments the agent shows work, echoes a wish, or na
     - **Digest** — a step's completion is itself a beat: its line digests what the step produced
       in the work's own words. A spec step says what the delta promises; an architecture step, the shape
       and what changed structurally. A tests step says what is now covered; a code step, what now works.
-      Two-three plain sentences, never the artifact pasted, never a test count or token tally doing the
+      Two-three plain sentences [default], never the artifact pasted, never a test count or token tally doing the
       talking (rule 8's never-list binds digests too). A worker-closed step becomes the seat's beat the moment its result lands.
     - **Heartbeat** — a long grind (a big suite, a worker batch, a long render) gets a line naming what
       grinds and roughly why it takes long. A beatless stretch past ~10 minutes owes its heartbeat

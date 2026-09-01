@@ -61,6 +61,8 @@ def _uses(body_words, term):
     `founding-question set` by the body's `founding`, `question`, and `set`. A fully-orphaned entry —
     a term none of whose distinctive words appear — reds. The contiguous-phrase subtlety is the
     cold-reader panel's, not this lint's (INV-254)."""
+    # No source behind the exact 3 (2026-08-07 census, row 15); an engineering default, not a
+    # policy decision.
     words = [w for w in _norm_words(term) if len(w) >= 3] or _norm_words(term)
     return all(w in body_words for w in words)
 

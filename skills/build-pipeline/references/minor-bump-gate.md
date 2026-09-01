@@ -5,7 +5,8 @@ The full gate procedure referenced from `SKILL.md`'s "Gates worth remembering" s
 **Before a MINOR (0.x.0) bump:** the 3-pass preventive audit — product-prover on the whole spec + a matrix
 audit + a surface-composition check. The full **design review** runs here too, beside the
 surface-composition check (SPEC INV-141): the whole element inventory, every proposed same-kind grouping,
-its likely divergences echoed as at most three asks — recommendations and questions only, never a block. The gate also runs the **cross-cut counter** (`guardrails/crosscut_counter.py`,
+its likely divergences echoed as at most three asks (no incident or source behind the 3; an engineering
+default, not a policy decision) — recommendations and questions only, never a block. The gate also runs the **cross-cut counter** (`guardrails/crosscut_counter.py`,
 SPEC INV-128 boundary-health, INV-37): it counts the closed queue's cross-cutting landings per node pair,
 and a pair reaching the threshold (3 by default) is flagged as a boundary-move candidate for the audit to
 weigh — the flag is a signal, never a push-blocking red, and a boundary still moves only through the

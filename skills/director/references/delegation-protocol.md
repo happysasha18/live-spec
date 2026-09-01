@@ -29,7 +29,7 @@ the brief means deciding something first, that decision is the seat's and happen
 READING them in full — three recorded lines per file (current state · what changes · what must survive),
 every step back-referencing its spec sentence, every technical claim citing a source (a file:line, a
 command's output), never memory of a file. The brief carries the closed HALT list — ambiguous requirement
-· two consecutive unexplained failures of one command · missing config/dependency · acceptance impossible
+· two consecutive unexplained failures of one command [default] · missing config/dependency · acceptance impossible
 as briefed — stop WITH evidence, otherwise run to completion (the seat's escalation ladder is a separate
 move, after a failed acceptance). And the brief is SIZED — its text within ~300 lines, at most ~8 files to
 edit [default], the work splitting above either — passing PATHS, never inlined file bodies. See the private
