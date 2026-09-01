@@ -700,10 +700,21 @@ VERSION bumped for the changed skill set; a migration chapter for moving onto `d
 Full body (rules, acceptance commands, measurements) preserved in git history: `git log -p -- PLAN.md`, the step's own text before the 27.08 task-list merge.
 
 
-### ⬜ Every "done" mark on the board gets checked — id: plan-10
+### ✅ Every "done" mark on the board gets checked — id: plan-10
 **Group:** Board & visibility · **Priority:** normal
 **Source:** PLAN.md step 10, measured 27.08 — 4 of 10 steps had no real check.
 **Checked 28.08, and it stays its own task.** The 27.08 pass folded this into plan-11, whose acceptance covers the merged list and its reader and says nothing about computing the marks. This row's acceptance is its own, and §Blockers already says to take it before the photo site's move.
+
+**Done 2026-09-01.** `tests/test_plan_done_marks_are_backed.py` is the test the row asked for — it
+reads `PLAN.md` and `scripts/plan_checks.py` together and fails a done task that has neither a real
+command nor a named reading, and fails a command that only checks a file's bare presence. It found
+17 gaps the first time it ran: 15 done tasks with nothing behind them, 2 verified only by presence.
+Fourteen (q-801, q-490, q-497, q-527, q-55, q-567, q-581, q-586, q-489, q-597, q-625, q-427, q-529,
+q-235) got real command checks in `scripts/plan_checks.py`. Two proxy checks (`plan-0`, `q-458`)
+were rewritten to check actual content instead of presence. One (`q-576`) needed only its closing
+line reconciled to the established "Checked by reading on DD.MM" phrasing, after an independent
+re-verification held. None of the sixteen turned out false on live re-check. `python3 -m pytest -q
+tests/test_plan_done_marks_are_backed.py` passes, 5 of 5.
 
 Measured 27.08. Of the ten steps above, three have a check that runs what their acceptance
 actually says. Four — 3, 4, 5, 7 — have no check at all, so the probe and the board show whatever
