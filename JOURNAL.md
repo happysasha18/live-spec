@@ -3410,3 +3410,12 @@ reads the verdicts as a lens; tests/test_composition_axes.py proves a blank sibl
 spec-author -> spec-author, product-prover-pack -> product-prover-pack (6.1.0 -> 6.1.0, prose only).
 `scripts/sync-skills.sh` ran a second time this session after q-437's edits landed; the first sync
 predated them and left the installed copies drifted, which q-537's own gate caught immediately.
+
+## 2026-09-01 — the routing hook installs, communicator's copy catches up
+
+Two of the 30 red tests from tonight's full-suite run: q-398's new routing-preamble hook had
+never been installed (source existed, install missing), and communicator's installed skill copy
+had drifted from source after q-536's rulings landed. `scripts/install-session-hooks.sh` and
+`scripts/sync-skills.sh` both ran; `tests/test_config_health.py` is green.
+
+communicator -> communicator (6.1.0 -> 6.1.0, prose only).
