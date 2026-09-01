@@ -3466,3 +3466,7 @@ the installed mirror drifted from source mid-run, which q-537's own gate caught 
 
 product-prover-pack -> product-prover-pack (6.1.0 -> 6.1.0, prose only). spec-author -> spec-author
 (6.1.0 -> 6.1.0, prose only).
+
+q-803's own citation sweep landed and drifted four more: communicator -> communicator, live-spec-base
+-> live-spec-base, publish -> publish, text-audit-pack -> text-audit-pack (all 6.1.0 -> 6.1.0, prose
+only). `scripts/sync-skills.sh` ran a second time the same night to close it.
