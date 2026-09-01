@@ -1598,7 +1598,7 @@ on. **Still open** until that project's own session adds the line and this row's
 against its file.
 
 
-### ⬜ The product's performance after launch is tracked automatically — id: q-48
+### 🔄 The product's performance after launch is tracked automatically — id: q-48
 **Group:** Feedback & measurement · **Priority:** normal
 **Source:** owner 2026-07-05.
 **Closes:** q-49, q-96, q-100, q-469
