@@ -1831,6 +1831,46 @@ before anything else ran, and `git status` on the tracked files confirmed nothin
 three legs stood already, so the row closes.
 
 
+### 🔄 No document ceiling gates a push on an invented number — id: q-805
+**Group:** Method reliability · **Priority:** critical
+**Source:** owner, 2026-09-02 ~01:30–01:43, live in chat — "все цифры с потолка уходят. все
+инструменты их обслуживающие тоже уходят... больше не значит хуже. больше значит надо измерить и
+поговорить и решить это ок или нет... не каждое изменение надо обговаривать тоже... поспорь с собой
+и реши плиз."
+
+**What it is.** This session's own quiet-tree suite run tonight forced a real edit for no real
+reason: `spec/success-measure-feed.md`'s criteria were shortened, not because the shorter wording
+was clearer, but because `guardrails/check-size-ratchet.py`'s bytes-per-criterion average had
+crossed its recorded bound. `docs/prover/2026-08-19-invented-numbers-out.md` already caught this
+exact mechanism behaving perversely once before: removing Requirement 297 shrank the document but
+RAISED the average (its criteria ran shorter than the rest), and the fix that night was to raise
+the bound to match rather than question the metric. Growth in a document is not itself a defect —
+when a spec or skill genuinely outgrows one file, this pack's own `skill-creator` skill already
+carries the real, human-designed answer (split into parts), which is the tool this class of gate
+was inventing a worse, mechanical substitute for.
+
+**Definition of done.** Every push-time or suite-time gate that fails a document for exceeding an
+aggregate statistic seeded from whatever its own past state happened to measure — not from a named,
+describable defect — is gone, along with the tooling that exists only to serve it:
+`guardrails/check-size-ratchet.py`, `guardrails/spec-ratchet.json`, `tests/test_size_ratchet.py`,
+Requirement 280 (`INV-264`, `INV-265`) in `spec/doc-order-generated.md`, its `TEST_MATRIX.md` row
+(`M-442`); the redundancy-pair CEILING in `tests/test_convergence_locks.py` and
+`scripts/spec-debt-cap.json`'s `max_redundancy_open` bounds (the underlying near-duplicate-sentence
+DETECTOR, `scripts/spec-redundancy-precheck.py`, may stay as a measurement a person reads — never
+wired back in as a pass/fail gate); `adopt/install-ratchet.sh` and whatever it vendors into a host
+repo, plus its own tests. Also decide, on the same reasoning, `guardrails/check-language-rules.py`'s
+r08/r11 "ratchet" arm and `tests/test_rule_census_ratchet.py`: if either fails a document for
+exceeding an aggregate count seeded from its own past state rather than flagging a named instance,
+it goes the same way; if it flags a specific, describable rule violation each time (the same shape
+as the shout/scissors register lint, which stays), it is not this row's target and is named as kept,
+with the reason. My own tonight's byte-shaved wording in `spec/success-measure-feed.md` is restored
+to its original, fuller phrasing in the same pass — the only reason it was shortened no longer
+exists. Every generated index/reference touched (`PRODUCT_SPEC.index.md`, `TEST_MATRIX.index.md`,
+`ARCHITECTURE.index.md` if it cites any of this) is rebuilt by its own generator, verified against
+its own gate, not hand-edited. A fresh `python3 -m pytest -q` on the merged result is `0 failed, 0
+errors`.
+
+
 ### 🔄 The parallel-lanes machinery still netted by git and the prover ships for real — id: q-804
 **Group:** Parallel & multi-agent work · **Priority:** normal
 **Source:** found 2026-09-01, closing q-386 — three promises row 386 carried from its own first
