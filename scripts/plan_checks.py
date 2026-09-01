@@ -170,6 +170,13 @@ sys.exit(1 if undrawn or unmarked else 0)
               ' && grep -q "the plan and the queue in one document" skills/product-prover-pack/SKILL.md'
               ' && grep -q "^### 6.1.0" MIGRATION.md'
               ' && grep -q "queue file as the place a wish lands" MIGRATION.md'),
+    # q-802: the fixture suite proving the snapshot's advance-on-delivery asymmetry runs clean,
+    # Requirement 1's criterion 4 no longer names E-7 (only the still-planned design-sync machine,
+    # E-18), and the snapshot machinery itself — the manifest and the one function that writes it
+    # — is really on disk.
+    "q-802": ('python3 -m pytest tests/test_snapshot_baseline.py -q >/dev/null 2>&1'
+              ' && grep -qF "The system *shall* mark as planned the design-sync machine. [E-18]" spec/doc-order-generated.md'
+              ' && test -f .live-spec/snapshot/MANIFEST.md && test -f .live-spec/snapshot/baseline.py'),
     # q-490: the dedicated suite for the chainless-selector fix runs clean (22 tests, incl. the
     # named regression case), and the neighbouring register lint states out loud when its own
     # judge stands down rather than printing a clean pass over a check that never ran.

@@ -1,5 +1,9 @@
 .live-spec/checkpoints/
 
+# a heavy-byte surface's rendered bytes (SPEC E-7, doc-order-generated.md Requirement 247,
+# criterion 4) live outside git; only its manifest line and hash travel under git
+.live-spec/snapshot/blobs/
+
 # outbox/ holds private upstream notes (feedback-collector) — never tracked, never pushed
 outbox/
 .live-spec-fence

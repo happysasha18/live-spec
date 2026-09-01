@@ -14,7 +14,7 @@
 **Case: the suite ties each tag to its building row**
 
 3. The system *shall* tie each target tag to the queue row that builds it, that row still open and awaiting its landing, and *shall* red the suite *if* that row ships with the tag still on, *if* the tag vanishes, or *if* the tag was never named. [S-0]
-4. The system *shall* mark as planned the design-sync machine and its declared-scope snapshot machinery. [E-7, E-18]
+4. The system *shall* mark as planned the design-sync machine. [E-18]
    [target]
 
 ---

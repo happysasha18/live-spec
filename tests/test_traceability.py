@@ -1458,16 +1458,15 @@ class TestTargetOwnership(unittest.TestCase):
         # `scaffold/guardrails/check_completeness.py` and `check_traces_to_spec.py`, shipped whole by
         # row 241 (commit f008e5b2), well before tonight. A-6 (the adoption-time baseline) is BUILT by
         # q-55 itself. All four target tags were dropped from the spec text in the same commit as this
-        # map edit, per SPEC S-0 (a satisfied promise leaves both the tag and its map entry). Only
-        # E-7's OTHER meaning — design-sync's still-unbuilt declared-scope snapshot machinery
-        # (spec/doc-order-generated.md Requirement 247) — stays open. First re-pointed to q-54 on
-        # the theory q-93 (design-sync) folded into it, but q-54's own written acceptance never
-        # named design-sync — that would have silently re-orphaned this anchor the moment q-54's
-        # acceptance gets narrowed (docs/prover/2026-08-31-target-ownership-correction.md, finding
-        # F4). Historically this was always row 55's own promise (docs/queue-archive/rotated-
-        # ROADMAP-2026-07.md row 468, 2026-07-23 audit), restored 31.08 as its own row, q-802, the
-        # same way q-437 was restored — an anchor whose owning row closed without building it.
-        "E-7": "q-802",
+        # map edit, per SPEC S-0 (a satisfied promise leaves both the tag and its map entry).
+        # E-7's OTHER meaning — design-sync's declared-scope snapshot machinery (spec/doc-order-
+        # generated.md Requirement 247) — is now BUILT too, by q-802 (2026-09-01): `.live-spec/
+        # snapshot/` carries the git-tracked manifest, `baseline.py` advances a surface's baseline
+        # only at a delivery and only for the surfaces that delivery declared, and a heavy-byte
+        # surface keeps only its manifest line and hash under git. The E-7 tag and this entry drop
+        # together, same commit, per the rule stated two lines up. E-7's shared criterion line used
+        # to also carry E-18 (design-sync the machine, still unbuilt, q-54's row) — that line now
+        # names only E-18, so E-18 keeps its own tag and entry below.
         "E-18": "q-54",   # design-sync machine; q-93 folded into q-54 on 2026-08-28
         "INV-21": "q-48", # success-measure reading machinery; q-96 folded into q-48 on 2026-08-28
         "INV-185": "q-398",  # the contract's three arms; q-385 folded into q-398 on 2026-08-28
@@ -2684,6 +2683,31 @@ class TestProblemLedger(unittest.TestCase):
         self.assertIn("skills/test-author", director_skill, "director's specialist table missing the test-author path")
         readme = re.sub(r"\s+", " ", read("README.md"))
         self.assertIn("test-author", readme, "README missing the new skill")
+
+    def test_director_names_test_author_at_the_derivation_step(self):
+        """Row 163 (M-620, E-27): the shipping walk names test-author at the exact
+        step where the evidence and the regressions are chosen — the Director's
+        specialist table — never merely somewhere in the file; and the method
+        itself stays test-author's own, never restated beside the call."""
+        director_skill = read_flat(os.path.join("skills", "director", "SKILL.md"))
+        # the exact table row pairing the call condition with the skill path — not
+        # "Test author" and "skills/test-author" occurring anywhere in the file,
+        # which an unrelated mention would also satisfy
+        self.assertIn(
+            "| Test author | the evidence and the regressions have to be chosen | `skills/test-author` |",
+            director_skill,
+            "director's specialist table does not pair test-author with the test-derivation "
+            "call condition and its path in one row (red proven against a mutated copy of "
+            "skills/director/SKILL.md with this row deleted; restored after)",
+        )
+        # the method itself (level ladder, red-first proof, pinned skip-set) lives once,
+        # in test-author's own skill, never duplicated into the table that only calls it
+        for needle in ("level ladder", "red-first", "skip-set"):
+            self.assertNotIn(needle, director_skill,
+                             "director restates test-author's own method instead of calling it: %s" % needle)
+        skill = read_flat(os.path.join("skills", "test-author", "SKILL.md"))
+        for needle in ("The level ladder", "Red first, proven", "Pin the skip-set"):
+            self.assertIn(needle, skill, "test-author skill missing its own stated method: %s" % needle)
 
     def test_showing_seat(self):
         """Row 168 (M-170, INV-67): the showing channel matches the session's seat —
