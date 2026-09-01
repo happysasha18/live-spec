@@ -218,7 +218,7 @@
 
 **Case: the referral is spoken, never rewritten**
 
-21. *when* a vendored UserPromptSubmit hook injects the routing preamble reminding the session of the referral duty above, the system *shall* only inject that reminder and *shall* never rewrite, redirect, or silently resend the person's own message to carry it to the other zone — the referral named in criteria 1–3 above stays a spoken answer in chat or on the reply road, not an edit made to what the person typed. [INV-190]
+21. *when* a vendored UserPromptSubmit hook injects the routing preamble reminding the session of the referral duty above, the system *shall* only inject that reminder and *shall* never rewrite, redirect, or silently resend the person's own message to carry it to the other zone. The referral named in criteria 1–3 above stays a spoken answer, given in chat or on the reply road. [INV-190]
 
 ---
 
