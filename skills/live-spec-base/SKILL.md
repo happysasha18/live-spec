@@ -147,6 +147,15 @@ its own manifest line. Every other rule below keeps the number it already carrie
      brief's write-set is disjoint from every already-running writer's brief, or gives it an isolated
      worktree at brief-time. The fence stays silent between same-session siblings and cannot catch the
      seat's own workers colliding (SPEC ACT-3, INV-11).
+   - **No unprotected concurrency — his word, 2026-09-01.** Two writers run at the same time only under
+     a stated safety measure: worktree isolation, or a write-set disjointness check the seat states in
+     both briefs before either is dispatched. A repo nested inside another repo's own directory — a
+     skill's own git clone living under this tree, for instance — shares the parent directory, any check
+     that walks the whole tree, and ordinary disk contention; judge it by the same bar as sharing a tree,
+     checked by path. A push anywhere in flight holds its whole physical tree until it lands, before the
+     seat starts a second writer on that path. Sequencing is the default; parallelism is the exception
+     that states its own proof at brief-time. This class of self-collision has cost real token spend more
+     than once, on the owner's own account of past sessions.
    - **A worker never restores a working tree with a git command (SPEC INV-298).** The full rule —
      what a worker HALTS on, what the seat's recovery half is, and the banned command list —
      lives in [references/worker-restore.md](references/worker-restore.md), the exact wording every

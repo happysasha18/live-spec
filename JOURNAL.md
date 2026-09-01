@@ -3383,3 +3383,17 @@ finished task. The spec task is closed.
 
 **One number was wrong in three live documents.** The feature roster went from seventeen names to
 twelve, not to ten. The attic page's own arithmetic had it right all along.
+
+## 2026-09-01 — concurrency without a stated safety measure gets its own rule
+
+His word, 10:37: past sessions ran work in parallel around a push without worktree isolation or a
+stated disjointness check, more than once, and burned real tokens on the collision. The existing
+brief-time-disjointness rule (`skills/live-spec-base/SKILL.md` rule 7) covered lane-opened work but
+left ad-hoc concurrent worker dispatch, and a repo nested inside this tree's own directory, unnamed.
+A new bullet under rule 7 states it plainly: two writers run at once only under worktree isolation or
+a disjointness check stated at brief-time; a nested repo (a skill's own git clone under this tree)
+counts as sharing the tree, judged by path, not by its own remote URL; a push in flight holds its
+whole physical tree until it lands before a second writer starts on that path.
+
+live-spec-base -> live-spec-base (6.1.0 -> 6.1.0, prose only, no version bump for a rule addition to
+an existing numbered rule). `scripts/sync-skills.sh` ran; six skills re-synced clean.
