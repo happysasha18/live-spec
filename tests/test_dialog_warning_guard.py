@@ -102,6 +102,8 @@ def test_a_non_bash_tool_is_ignored():
 
 def test_the_rule_sentence_lives_in_exactly_one_file_in_the_tree():
     """PLAN q-581's own acceptance: grep finds the rule stated once and nowhere twice."""
+    if os.environ.get("LIVE_SPEC_SCRATCH"):
+        pytest.skip("scratch copy carries no .git for `git grep` to root itself against")
     proc = subprocess.run(
         ["git", "-C", ROOT, "grep", "--untracked", "-l", "-F", guard.RULE],
         capture_output=True, text=True,
