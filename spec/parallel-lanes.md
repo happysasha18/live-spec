@@ -251,6 +251,7 @@
 
 3. *when* the host owner's word for the host's tree is spoken, the system *shall* write the vendored line recording that word, and *shall* leave the session lane shut until the pack's own owner gives the word for the pack's line. [INV-201, INV-152, INV-4]
 4. The system *shall* red a host whose project instructions carry no worktree line at the adoption gate, a mechanical gate read at the adoption/catch-up walk rather than wired into every push. [INV-201, INV-150]
+   [target]
 5. The system *shall* require no vendored line for a worker lane, since the subagent's isolation option carries no gate. [INV-201, E-34]
 
 ---

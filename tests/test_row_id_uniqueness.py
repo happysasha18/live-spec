@@ -21,9 +21,13 @@ passed it again. The same proof ran for a planted second `| 1 |` ROADMAP row.
 import glob
 import os
 import re
+import sys
 import unittest
 
 from conftest import ROOT
+
+sys.path.insert(0, os.path.join(ROOT, "guardrails"))
+import specformat as sf  # noqa: E402
 
 MATRIX = os.path.join(ROOT, "TEST_MATRIX.md")
 PLAN = os.path.join(ROOT, "PLAN.md")
@@ -74,16 +78,28 @@ def _duplicates(pairs):
 
 class TestEveryMatrixRowIdIsUnique(unittest.TestCase):
     def test_every_matrix_id_is_unique(self):
+        # Corrected 2026-09-02 (hostile review, docs/prover/2026-09-02-overnight-run-hostile-review.md,
+        # finding 4): every M-### row moved from TEST_MATRIX.md's own body into matrix/*.md parts at
+        # 35bc12e8, and this test still read only the bare core file — zero rows scanned, silently
+        # passing, ever since. That is exactly how the M-621 collision between q-48 and q-804 reached
+        # a merge tonight uncaught. Read the assembled document (core + every part) the way the real
+        # gates do, through the shared parser, and refuse to pass on an empty scan.
+        _, joined = sf.read_document(sf.spec_paths([MATRIX]))
         pairs = [("%s:%d" % (os.path.basename(MATRIX), lineno), ident)
-                 for ident, lineno in _matrix_ids(_read(MATRIX))]
+                 for ident, lineno in _matrix_ids(joined)]
+        self.assertGreater(
+            len(pairs), 50,
+            "the matrix id scan found %d rows — TEST_MATRIX.md's parts map is empty, unreadable, or "
+            "this test regressed to reading the bare core file again; either way the scan looked at "
+            "nothing and would pass on an empty set" % len(pairs))
         # swap to (id, where) for _duplicates
         pairs = [(ident, where) for where, ident in pairs]
         dupes = _duplicates(pairs)
         self.assertEqual(
             dupes, {},
-            "TEST_MATRIX.md carries the same row id more than once — two rows claim one identifier "
-            "and a reader following either citation lands on whichever row sorts first: %s"
-            % dupes)
+            "TEST_MATRIX.md (core + parts) carries the same row id more than once — two rows claim "
+            "one identifier and a reader following either citation lands on whichever row sorts "
+            "first: %s" % dupes)
 
 
 def _plan_ids(text, label):

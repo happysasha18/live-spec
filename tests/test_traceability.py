@@ -1478,16 +1478,25 @@ class TestTargetOwnership(unittest.TestCase):
         # folded in from elsewhere), and q-386 closed 2026-09-01 on its own four-leg acceptance
         # without touching them — orphaned the same way q-385 was. q-804 is the fresh row that
         # takes them, sourced straight from spec/parallel-lanes.md's own still-promised text.
-        # q-804 then built two of the three whole (2026-09-01): the config-health arm (INV-198)
-        # and the adoption gate (INV-201) each shipped a real script with a live fixture proof
-        # (guardrails/check-config-health.sh's primary-tree arm, guardrails/check-worktree-line.sh),
-        # so both target tags dropped from the spec text in the same commit as this map edit, per
-        # SPEC S-0 (a satisfied promise leaves both the tag and its map entry). INV-199's own
-        # criterion bundled TWO checks — the merge-base check ahead of the gate, and the stale-lane
-        # check (a `lane/*` branch or worktree with no open queue row). Only the merge-base half
-        # shipped (`guardrails/check-merge-base.sh`); the criterion was split so its still-open half
-        # keeps the tag, and INV-199 keeps its row here.
+        # q-804 built the config-health arm (INV-198) whole (2026-09-01) — a real script with a live
+        # fixture proof, AND a real caller (guardrails/pre-push:241) — so its target tag dropped from
+        # the spec text in the same commit as this map edit, per SPEC S-0 (a satisfied promise leaves
+        # both the tag and its map entry). INV-199's own criterion bundled TWO checks — the merge-base
+        # check ahead of the gate, and the stale-lane check (a `lane/*` branch or worktree with no
+        # open queue row). Only the merge-base half shipped (`guardrails/check-merge-base.sh`); the
+        # criterion was split so its still-open half keeps the tag, and INV-199 keeps its row here.
+        # A 2026-09-02 hostile review (docs/prover/2026-09-02-overnight-run-hostile-review.md, finding
+        # 2) found `check-merge-base.sh` and `check-worktree-line.sh` both real and individually
+        # tested, but neither actually called anywhere outside its own test — the landing walk names
+        # no merge-base call, and the adoption/catch-up walk names no worktree-line call. INV-201's
+        # own target tag, dropped the same night on the strength of the script existing, is restored:
+        # a script with no real caller does not keep a promise whose own wording is "read at the
+        # adoption/catch-up walk." INV-199 was never dropped, so it needed no restoring, but the same
+        # finding applies to it too — read this entry as "the merge-base HALF exists and is tested,
+        # not yet called by the real landing walk," which is exactly what "keeps the tag" already said.
         "INV-199": "q-804",  # the stale-lane check — a lane/* branch or worktree with no open row
+        "INV-201": "q-804",  # the adoption-gate script exists and is tested; not yet called anywhere
+        "INV-150": "q-804",  # cited in the same bracket as INV-201's restored [target] line above
         # INV-244's own [target] tag and this entry dropped together 2026-09-01, when q-436 landed
         # (this lane forked before that landing, so its own copy of this map still carried the
         # stale placeholder entry through the rebase — removed here, matching main's real state).

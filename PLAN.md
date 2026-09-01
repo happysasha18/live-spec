@@ -1871,7 +1871,7 @@ its own gate, not hand-edited. A fresh `python3 -m pytest -q` on the merged resu
 errors`.
 
 
-### 🔄 The parallel-lanes machinery still netted by git and the prover ships for real — id: q-804
+### ⬜ The parallel-lanes machinery still netted by git and the prover ships for real — id: q-804
 **Group:** Parallel & multi-agent work · **Priority:** normal
 **Source:** found 2026-09-01, closing q-386 — three promises row 386 carried from its own first
 writing, never folded in from elsewhere, orphaned the moment q-386 closed on its own four-leg
@@ -1919,6 +1919,21 @@ work), and no fourth check was built to close it — inventing one would be mach
 row's own acceptance names. Requirement 86 was split into criterion 5 (the merge-base check, built)
 and a new criterion 6 (the stale-lane check, still `[target]`), so INV-199 keeps its map entry and
 this row stays open on that one residual rather than closing on a narrowed reading of its own anchor.
+
+**Corrected 2026-09-02, a hostile review's finding 2
+(`docs/prover/2026-09-02-overnight-run-hostile-review.md`).** "Built and red-proven" turned out not
+to mean "actually invoked anywhere real" for two of the three scripts. `guardrails/check-merge-base.sh`
+and `guardrails/check-worktree-line.sh` both pass their own fixture tests, but a full-tree grep finds
+no caller for either outside those tests — the landing walk (`open-lane.sh`,
+`director/references/lanes-and-pen.md`) names no merge-base call, and the adoption/catch-up walk
+(`adopt/ADOPT.md`, `START.md`, `MIGRATION.md`) names no worktree-line call. INV-201's `[target]` tag,
+dropped the night this row first closed on the strength of the script existing, is restored — a
+script nothing calls does not keep a promise worded "read at the adoption/catch-up walk." Mark
+returned to ⬜: no lane is open on this row right now, and calling either script from its real walk is
+genuinely undone work. What's actually true tonight: `INV-198` (config-health) is
+genuinely wired into `guardrails/pre-push` and stays closed; `INV-199` and `INV-201` each have a real,
+tested script with no real caller, and both need that wiring — plus INV-199's still-unbuilt stale-lane
+half — before this row closes for real.
 
 
 ### ✅ The front page is rewritten to be fully accurate — id: q-501

@@ -3495,3 +3495,45 @@ records for seven earlier commits) — healed by this note. The other two were r
 Both indexes (`PRODUCT_SPEC.index.md`, `ARCHITECTURE.index.md`) regenerated after the edits; both
 came back byte-identical to what was already committed, since neither trim touched a requirement or
 node id.
+
+## 2026-09-02 — a hostile review of the whole overnight range finds two real blocking defects
+
+`docs/prover/2026-09-02-overnight-run-hostile-review.md` (fresh Opus context, no prior turn in this
+session) found six real findings against `534cb16b..55d2bebf`, two blocking the push. Fixed here:
+
+- **The INV-242 heal in `667ac780` never actually healed anything.** `check-landing-next-steps.py`
+  demands the literal phrase `heals landing <shortsha>` in the commit message; `667ac780`'s message
+  named the three shas only in `NEXT_STEPS.md`'s own body, which the checker never reads. Second time
+  this exact shape has happened in one range (`29faa996` re-healed two earlier ones the same way).
+  This commit's own message carries the literal phrase for all three: `heals landing b5914865`,
+  `heals landing beaf953d`, `heals landing d0bbc72b`.
+- **`q-804`'s `INV-201` (adoption-gate) target tag was dropped on the strength of a script existing,
+  when the actual bar is something calling it.** `guardrails/check-worktree-line.sh` and
+  `guardrails/check-merge-base.sh` both pass real fixture tests, but neither has a caller anywhere
+  outside its own test — the landing walk never calls the merge-base check, the adoption/catch-up
+  walk never calls the worktree-line check. Restored `INV-201`'s `[target]` line in
+  `spec/parallel-lanes.md`, restored `"INV-201": "q-804"` (and its co-cited `"INV-150": "q-804"`) in
+  `tests/test_traceability.py`'s `TARGET_ROW_OWNERS`, corrected `architecture/guardrails.md`'s claim
+  that the node "runs three of their checks" to say plainly that only the config-health arm has a
+  real caller (`guardrails/pre-push` gate m), and returned `q-804`'s own `PLAN.md` mark from 🔄 to ⬜
+  — no lane is open on it, and wiring either script into its real walk stays genuinely undone.
+
+Also fixed, real though smaller: `NEXT_STEPS.md`'s "Prompt for the next session" claimed the range
+"closed all eight" of the prompt's own rows, directly contradicting its own LIVE STATE section sixty
+lines above (three closed, two honest partials, one returned to queue, two deliberately untouched) —
+corrected. The row-count citation on `q-803` (31 hits) was the owner's original 13:15 sweep, stale by
+the time work actually ran (20, matching what the row's own 11+7+2 breakdown sums to) — corrected to
+name that explicitly rather than silently swap the number.
+
+**`tests/test_row_id_uniqueness.py::test_every_matrix_id_is_unique` was vacuous, and that is why
+tonight's `M-621` collision (`q-48`/`q-804` independently claiming the same matrix row) reached a
+merge uncaught.** Every `M-###` row moved out of `TEST_MATRIX.md`'s own body into `matrix/*.md` parts
+at `35bc12e8`; this test still read only the bare core file, scanned zero rows, and passed on the
+empty set — silently, forever, since that commit. Its sibling (`test_every_plan_id_is_unique`)
+already carried a non-empty guard; this one didn't. Fixed: reads the assembled core+parts document
+through `specformat.py` the way the real gates do, and refuses to pass under 50 rows scanned (real
+count: 557, all unique).
+
+The two arms this note restores `[target]` on stay exactly as built — real, working, tested code.
+What's still missing is wiring them into their real walk, genuine undone work belonging to `q-804`
+itself; left named and open rather than built here at 2am under review pressure.

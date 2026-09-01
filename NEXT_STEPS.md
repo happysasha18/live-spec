@@ -32,7 +32,9 @@ tonight; two stayed correctly untouched.
   that. The July gap resolved for him as a verified fact (the 10 July hole, fixed 07-11, still armed —
   proven by planting a real unregistered surface). First-time-reader pass: six
   independent fresh-context cold reads, converged.
-- **`q-803` (`d0bbc72b`) — closed ✅.** 31 inline "his word"/"owner's word" citations swept: 11
+- **`q-803` (`d0bbc72b`) — closed ✅.** The row's own text cited 31 hits from the owner's original
+  13:15 sweep; by the time work actually ran the real count had moved to 20 (11+7+2 below), which is
+  what got processed — 11
   removed as citations (4 needed a fresh `JOURNAL.md` entry first, since the fact lived nowhere
   else; 7 already had one), 7 left as genuine behavioural-actor sense (no date attached, describing
   a live rule rather than citing a source), 2 exempted (`communicator/references/rule-histories.md`
@@ -176,11 +178,11 @@ whatever's missing, and commit. Never run a destructive git command on a dead wo
 ## Prompt for the next session
 
 **Everything below this line was written 2026-09-02 01:25, right after tonight's overnight run
-(`534cb16b..49b4813f`) closed all eight of the prompt's own rows and fixed the two prose
-regressions the quiet-tree suite caught. A second full-suite run and the push are still owed as
-this is written — check `bash scripts/state-probe.sh` and this file's own LIVE STATE section above
-first; if both already show green and pushed, this prompt is stale and you're likely looking at a
-later state than the one this was written against.**
+(`534cb16b..49b4813f`) moved six of the prompt's own eight rows (three closed, two honest partials,
+one returned to the queue) and fixed the two prose regressions the quiet-tree suite caught. A second
+full-suite run and the push are still owed as this is written — check `bash scripts/state-probe.sh`
+and this file's own LIVE STATE section above first; if both already show green and pushed, this
+prompt is stale and you're likely looking at a later state than the one this was written against.**
 
 Do not ask Alexander anything before doing the work below unless it's genuinely his — a taste call,
 a policy question, or an act irreversible outside git. His standing word already covers pushing
