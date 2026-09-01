@@ -4,12 +4,152 @@ A digest with no redundancy (SPEC INV-48) — one live-state block, nothing remo
 information. One status block stands here at a time, and every update replaces it. Dated history
 lives in `JOURNAL.md`.
 
-## LIVE STATE (2026-09-01, 00:20)
+## LIVE STATE (2026-09-01, 16:46)
 
-Written for a session starting with clean context. Heals landing d470d2be, heals landing dbf0fc01,
-heals landing 1bdd55c1. Alexander, 2026-09-01 ~00:05, on this window's context size: asked the
-session to merge, push, and stop here so context can clear before continuing — this note is
-written for that fresh session.
+Written for a session starting with clean context, covering everything that landed in
+`11987b80..HEAD` (this morning's push through this note). Heals landing 62394f45, heals landing
+b9708261, heals landing 7e3f32e1, heals landing 4f86dfd9, heals landing 24152152, heals landing
+2858c023, heals landing e3b745b1 — seven commits in that range closed rows without touching this
+file (`tests/test_landing_next_steps.py::test_real_repo_range_refreshes_next_steps` red on exactly
+those seven), all healed forward here rather than rewritten into history.
+
+**Verification and board hygiene.** `plan-10` (`bf319751`, `a488854f`, `b9708261`) built the
+instrument first — a checker reading `PLAN.md` and `scripts/plan_checks.py` together that fails a
+done mark backed by neither a real command nor a named reading — then used it: sixteen previously
+bare ✅ marks (`q-801`, `q-490`, `q-497`, `q-527`, `q-55`, `q-567`, `q-581`, `q-586`, `q-489`,
+`q-597`, `q-625`, `q-427`, `q-529`, `q-235`, `plan-0`, `q-458`) now carry a real check or a dated
+reading; none turned out false on re-verification. `q-437` (`7e3f32e1`) made the axis-verdict sweep
+`spec-author`/`product-prover-pack` already ran for sibling axes run at every composition level, not
+just siblings, red-proven by `tests/test_composition_axes.py`. `plan-2` (`14808ef2`, `3147d6e2`) redrew
+all thirty-five director-specialist traces fresh (the freshness rule fired because `skills/director/
+SKILL.md` changed 31.08): 32 of 35 hold, one prior disagreement resolved, three new close calls
+named rather than forced to match. `q-591` (`4f86dfd9`) fixed one stale matrix citation — M-313 now
+points at the requirement that actually moved. `q-386` (`67bd98d1`) closed its one real remaining
+leg: `tests/test_lane_open_act_convergence.py` reads `skills/live-spec-base/SKILL.md` rule 7's
+lane-open bullet live at run time and checks a real `open-lane.sh` run against it, red-proven by
+mutating the law's branch pattern on a throwaway copy and watching it catch the drift.
+
+**New rule, and the row that follows from it.** Alexander, 2026-09-01 10:37: parallel work without
+worktree isolation or a stated disjointness check has cost real tokens more than once. `5aacf3aa`
+added "No unprotected concurrency" beside rule 7's existing brief-time-disjointness bullet in
+`skills/live-spec-base/SKILL.md:150` — two writers run at once only under a stated safety measure,
+and a repo nested inside another repo's own directory (a skill's own git clone under this tree)
+counts as sharing the tree, judged by path. `q-803` (`3d4b8ae4`) was filed, not built: his own
+objection to one inline "his word, DATE" citation in that same rule's prose swept to 31 hits for
+"his word"/"owner's word" across `skills/*/SKILL.md` and `references/*.md` pack-wide — provenance
+belongs in `JOURNAL.md` and each row's own `**Source:**` line, not restated in the rule text a
+session executes. Acceptance written; the sweep and strip itself is still open.
+
+**Numbers and citations.** `q-576` (`c8adff22`, `62394f45`) finished the number-provenance sweep:
+`docs/prover/2026-09-01-every-number-in-the-tree.md` re-read the whole tree independent of the
+27–28.08 pass and found thirteen more numbers with nothing behind them — twelve census survivors
+the labelling pass had skipped, one new constant pair from a file that landed 31.08 — all now carry
+the same source-admission every other number in the tree already does. Zero ungrounded numbers
+left as of that read.
+
+**Board-status corrections — real work found already done, or found not yet started.** `q-166`
+(`d673c75c`, `adceb60b`) was re-marked ⬜ from 👁️ (nothing built yet for his eye to check), then
+found that `board.html` + `render-board.sh` (built 31.08) already answer the daily ask he's repeated
+four times — "one page to look at instead of asking the agent." What's left of the row is a
+separate, larger, optional feature (worker lanes, per-agent time — `spec/work-board.md` Requirement
+309, for a host project's own task queue), not a gap in what he sees today; nobody has asked for
+that larger feature since 08-06. `q-800` (`2858c023`) closed: the playbook repo's own ordered
+command list from `docs/reports/2026-08-31-playbook-repo.md` was already run and pushed there on
+31.08 (`803924a`, `380d33b`, `3108b92`, `c648cf5`); nothing new to move today. One loose end from
+that report stays open and untouched by this row: `plan-16` landed 31.08 without folding
+`PLAYBOOK.md`'s two orphan rules into the pack, so those citations still stand — already tracked in
+`PLAN.md`'s own Blockers section. `q-163` (`24152152`, and its matrix row re-committed for real in
+`287e019c` — see the incident note below) partially landed: the pack side already stood
+(`skills/test-author/SKILL.md` v6.1.0, `check-skill-loadability.sh` passing, the Director's
+specialist table naming it), and what was missing — `matrix/test-author.md`'s row `M-620` proving
+that wiring rather than leaving it prose, backed by
+`tests/test_traceability.py::TestProblemLedger::test_director_names_test_author_at_the_derivation_step`
+— now exists, red-proven live by deleting the specialist-table row from a working copy and watching
+it fail. What's left is the field leg: one real host's own test matrix, written by this method,
+landing in that host's tree (`~/tlvphotos`, candidate) — needs a session inside that project's own
+window, not this one. `q-48` (`c30491b9`) corrected a month-stale framing: the row called itself
+"deferred, trigger not yet fired" when the trigger — Alexander posting tlvphotos.com into three
+Telegram groups — fired 24.07, GA4 property 544252011 has been live since, and
+`~/tlvphotos/scripts/ga_report.py` already reports real numbers by hand
+(`~/tlvphotos/inbox/handled/2026-07-27-from-promoter-ga-campaign-numbers.md`). What's actually built:
+the human-triggered half (`FEEDBACK.md`'s field-evidence route, `INV-21`). What's still open,
+pack-side: the automatic-fetch contract itself needs its own spec delta through `spec-author` before
+code — no generic fetch interface exists yet to build against. What's separately open, host-side,
+out of this window's tree: wiring tlvphotos's own status view to `ga_report.py` and Cloudflare,
+which waits on the pack-side contract existing first.
+
+**New builds.** `q-398` (`e2a0e8c4`) shipped a vendored routing-preamble hook that reaches an
+adopted host project automatically, red-proven. `q-802` (`67f9ce6e`) built design-sync's snapshot
+machinery: `.live-spec/snapshot/MANIFEST.md` carries one line per surface (baseline delivery id,
+content hash, storage form), `baseline.py`'s `advance_baseline` moves a baseline only for the
+surfaces a delivery actually declares, proven by `tests/test_snapshot_baseline.py` walking a
+fixture delivery and checking an undeclared surface's line, bytes and mtime come back untouched.
+`spec/doc-order-generated.md`'s Requirement 1 no longer cites `E-7` under `[target]`; the still-open
+`E-18` (design-sync the feature) stays `q-54`'s.
+
+**q-501 and the guard against its own recurrence.** `q-501` (`e3b745b1`) fixed the front page's
+real Known-Issues defect: README's "Known issues" section carried a false claim (`surface_discovery_
+pattern` supposedly can't match markdown, so `check_completeness.py` silently passes) that had
+already been declared false once (2026-08-18), regenerated via a later cold-read pass (2026-08-26),
+and survived a follow-up that patched only the syntax trap, not the substance, on 2026-08-27 — this
+is its third appearance. Verified live before fixing: the pattern and the completeness check are
+both correct and armed, proven by planting a real unregistered surface in a scratch copy and
+watching it red. `cf244b5b` then added the guard against a fourth return:
+`TestReadmeKnownIssuesNoFalseDiscoveryPatternClaim` in `tests/test_readme_stance.py` scans README's
+Known Issues section for either half of the claim under paraphrase (not a brittle exact match) and
+runs on every push via gate b — verified red against both historical wordings and a third invented
+paraphrase, green on the real restored README. `q-501` itself stays 👁️: the row's other open
+pieces (project count, the July gap, a full first-time-reader pass) are untouched.
+
+**Cull.** One dead file removed, evidence-based, not by volume:
+`attic/inbox-2026-08-05-from-tlvphotos-rotation-gate-reads-only-numbered-rows.md`
+(`caa7f6a7`) — its own fix landed the same day 27 days ago, confirmed still live in
+`scripts/check-shipped-language.py`, and grepped clean of every other citation. Everything else in
+`attic/` and `docs/queue-archive/`/`docs/handovers/`/`docs/prover/` was checked and left alone —
+each is either still cited by a live document, or its retention was already an owner's call this
+pass had no standing to reopen (`docs/handovers/`, declined 2026-08-27 as queue row 524).
+
+**README.md: a rewrite is in progress, uncommitted as of this note.** `git status` shows README.md
+modified against `e3b745b1` (the last commit that touched it) — a working copy that reflows the
+opening section's prose and cuts roughly a hundred lines net. Not this session's to finish or
+judge; check `git log -1 -- README.md` and `git diff README.md` before touching that file, since it
+may already be committed by the time you read this.
+
+**The parallel-work incident, stated plainly for the next session.** Today's session ran unusually
+heavy parallel worker load directly on this shared primary tree — not worktree-isolated — and it
+got genuinely messy at points. The pre-commit worker-restore guard caught several stale-stage races
+and blocked unsafe commits; it worked as designed and nothing was lost. But three pieces of
+already-verified work got reverted to uncommitted working-tree state by a recovery commit
+(`54bde341`, reverting three files a different concurrent worker's `q-398` commit had accidentally
+swept in) and were never re-committed in that session's own churn: `q-163`'s `M-620` matrix row,
+`q-536`'s fourteen communicator rulings, and `q-386`'s convergence test. The main seat found this
+and re-committed all three cleanly afterward, with no content changes from what each row's own
+worker originally wrote and verified — `287e019c`, `1280cd99`, `67bd98d1`. This is exactly the class
+of incident the new "no unprotected concurrency" rule (`5aacf3aa`, above) exists to prevent going
+forward: sequencing is the default now, parallelism the exception that states its own proof at
+brief-time.
+
+**What's still genuinely open on the board.** `q-803` — the strip itself (31 pack-wide "his word"
+citations out of `skills/*/SKILL.md` and `references/*.md`), acceptance written, not yet swept.
+`q-163`'s host leg — a real host's own test-matrix row written by the test-author method, landing
+in that host's tree; candidate `~/tlvphotos`, needs a session in that project's own window. `q-48`'s
+two remaining legs — pack-side, the automatic-fetch spec delta through `spec-author`, not yet
+authored; host-side, wiring tlvphotos's status view to `ga_report.py`, waiting on the pack-side leg
+first. The bigger `work-board`/Requirement 309 feature (worker lanes, per-agent time, on a host's
+own task queue) — real, scoped, not asked for again since 08-06, deliberately not folded into
+`q-166`'s now-closed daily-need scope. `plan-9` — tlvphotos's own move to new tools, deferred on
+Alexander's own word until after the release, not blocked; the walk brief already sits at
+`~/tlvphotos/inbox/2026-08-27-live-spec-6.0.0-catchup.md` waiting for that project's own session.
+`plan-14` — a host's own status-view/plan/probe/board template, deliberately held back from a
+worker lane 31.08 as real install-infrastructure work, not a mechanical narrowing; still true today,
+still needs its own dedicated pass. `q-54`'s field leg — the wish already sits in
+`~/tlvphotos/inbox/2026-08-31-from-livespec-q54-founding-line.md`, nothing to do here until that
+session acts on it.
+
+**Suite state, checked writing this note:** `python3 -m pytest -q tests/test_landing_next_steps.py`
+— confirm green after this commit lands (it was the one red test; this note's heal citations are
+what clears it). Run the full suite before trusting anything else about the tree's state; this note
+does not claim one clean full run on its own.
 
 **Three rows landed since `bff2715a` pushed, in parallel worktree lanes, merged with no conflicts:**
 `q-581` (a `PreToolUse(Bash)` hook, `hooks/dialog-warning-guard.py`, warns before a command known
