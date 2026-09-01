@@ -3419,3 +3419,12 @@ had drifted from source after q-536's rulings landed. `scripts/install-session-h
 `scripts/sync-skills.sh` both ran; `tests/test_config_health.py` is green.
 
 communicator -> communicator (6.1.0 -> 6.1.0, prose only).
+
+## 2026-09-02 — the overnight lanes' skill edits catch up to the installed copies
+
+q-436's `product-prover-pack` edit and (pending) q-803's citation sweep across several skill files
+both left the installed mirror drifted from source mid-run, which q-537's own gate caught in
+`state-probe.sh` immediately after the first merge. `scripts/sync-skills.sh` ran once to close it.
+
+product-prover-pack -> product-prover-pack (6.1.0 -> 6.1.0, prose only). spec-author -> spec-author
+(6.1.0 -> 6.1.0, prose only).
