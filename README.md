@@ -3,7 +3,8 @@
 Twelve working [Claude Code](https://claude.com/claude-code) skills, plus the one shared rulebook
 they all load, that turn a wish spoken in passing into a specified, reviewed, tested, committed
 change. Claude Code is Anthropic's own coding agent, an app you install once; this pack is a set
-of instructions it loads. You talk to Claude Code, and live-spec is what answers.
+of instructions it loads. You talk to Claude Code, and live-spec is what answers. Each skill is a
+packaged set of instructions for one part of the work.
 
 ## What you get
 
@@ -16,9 +17,10 @@ That is the gap. The spec became the thing your agent builds from, and nothing c
 itself.
 
 live-spec closes it. You say the sentence in passing, with nothing to file and no form. It gets
-classified, written into a living spec, reviewed by a formal-verification pass, covered by tests
-derived from that spec, coded until green, and committed with its documents in one change. A
-script on the pre-push hook compares the spec to the code that shipped and refuses the push when
+classified, written into a living spec, reviewed by a formal-verification pass — an automated,
+structured read of the spec itself that hunts for exactly this kind of gap, an unstated case nobody
+decided — covered by tests derived from that spec, coded until green, and committed with its documents in one change.
+A script on the pre-push hook compares the spec to the code that shipped and refuses the push when
 the two disagree. There is no CLI. You talk to it.
 
 Closing that one gap is only the first step toward the actual goal, still under construction: a
@@ -31,18 +33,18 @@ working piece of that goal.
 
 ## What it missed
 
-Real accounts, not a hypothetical: one check hunts dead ends — a state a user can enter and cannot
-leave. It ran clean on a screen with a trap door shown only on a first visit, no way back to it
-afterwards, because the check tested each state for an exit and never asked whether a page you
-leave can be reached again. That was the method's own fault, and it became a new rule
-([`docs/lenses.md`](docs/lenses.md)).
+Real accounts: one of the formal-verification pass's own rules checks that every screen or step a
+user can reach has a way out — no dead ends. It passed a design that let a first-time visitor into
+a one-off screen with nothing on it ever pointing back out again, because having a way out and
+being reachable again later are two different questions, and no rule asked the second one yet.
+That gap became a new rule ([`docs/lenses.md`](docs/lenses.md)).
 
-A test once asserted that near-silent audio tracks are hidden from a view. The spec required the
-opposite — those tracks stay visible, with their names. The test was green for a month while the
-product did the wrong thing.
+A test once asserted that near-silent audio tracks are hidden from the list a listener browses
+them in. The spec required the opposite — those tracks stay visible, with their names. The test
+was green for a month while the product did the wrong thing.
 
-And a scroll that satisfies its motion contract exactly can still feel cheap, which no rubric will
-catch honestly.
+And a scroll that satisfies its motion spec exactly — every number in it met — can still feel
+cheap to the person using it, which no rubric will catch honestly.
 
 > **A spec owns what a project can write down and test. Feel belongs to the owner's eye.**
 
@@ -54,10 +56,12 @@ records: [`docs/prover/`](docs/prover/).
 Work enters a living spec, `PRODUCT_SPEC.md`, before any code: a wish becomes a spec delta, a
 formal-verification review folds in what it missed, an architecture document maps it to real code,
 a test matrix derives from the proven spec, then the code gets written until the suite is green.
-Four scripted checks sit on the pre-push hook: a change without a test, an empty surface, a
-behaviour without a spec sentence, or a duplicated anchor all turn the push red. The rules behind
-every station — twenty-two shared rules across the skill set — are stated once, in
-[`live-spec-base`](skills/live-spec-base/SKILL.md). You do not read them; they run.
+Four scripted checks sit on the pre-push hook and turn it red: a change with no test behind it, a
+piece of content the spec promises that came out missing or blank, a behaviour with no spec
+sentence backing it, and two different things sharing one name. The rules behind every step of
+this pipeline — twenty-two shared rules across the skill set — are stated once, in
+[`live-spec-base`](skills/live-spec-base/SKILL.md). You do not read them yourself; the agent loads
+them and follows them on every turn, automatically.
 
 The full station-by-station walk, the spec's own format, and what each gate checks and why:
 **[the pipeline, station by station →](docs/pipeline.md)** · [the ideas in five minutes
@@ -91,11 +95,11 @@ the gates go red and stop the push.
 
 ## Where the pack stands
 
-Three projects, one author, no outside adopters yet — small and early. Every gate is proven able
-to fail before it ships: someone watched the exact failure it now catches happen for real, on
-purpose, before the gate existed. A change that drifts from its own spec is refused automatically,
-by the same script, whatever the day. Content judgment — *is this the right thing to build* — has
-no independent check yet. The loop is one model reviewing its own work.
+One author, no outside adopters yet — small and early. Every gate earns its place before it ships:
+someone watched the exact mistake it now catches happen for real, on purpose, then built the gate
+and confirmed it catches that same mistake. A change that drifts from its own spec is refused
+automatically, by the same script, whatever the day. Content judgment — *is this the right thing to
+build* — has no independent check yet. The loop is one model reviewing its own work.
 
 ## Install
 
@@ -135,14 +139,16 @@ piece of the setup by hand: the full technical walk-through is
 and [`docs/architecture-format.md`](docs/architecture-format.md). A technical wish for the pack
 itself is welcome — [open an Issue](https://github.com/happysasha18/live-spec/issues/new/choose).
 
-**Known issues.** Internal vocabulary still leaks into human-facing text. A register lint —
+**Known issues.** Words meant for the people building this pack still leak into text meant for a
+stranger reading it — an insider term with no gloss, dropped as if the reader already knew it. A
+register lint (a check for tone pitched at the wrong reader) —
 [`scripts/preshow-register-lint.py`](scripts/preshow-register-lint.py) — blocks the leaks it
 already knows before an artifact is shown, and chat stays the weakest surface. The spec still
 carries style debt, counted and capped in [`scripts/spec-debt-cap.json`](scripts/spec-debt-cap.json),
 with the work to clear it dated in the queue, [`PLAN.md`](PLAN.md). The settings card is the page
 listing every setting the pack knows, its current value, and one plain line saying how to change
-it. That card is young and has run on one project. All three are tracked and reviewed at every
-push. Release history: [`VERSION`](VERSION).
+it. That card is new, and not yet tested by much real use. All three are tracked and reviewed at
+every push. Release history: [`VERSION`](VERSION).
 
 Prior art is credited in full, including what was borrowed and from whom:
 [survey](docs/prior-art-frameworks.md) · [originality audit](docs/research/2026-07-10-originality-audit.md)

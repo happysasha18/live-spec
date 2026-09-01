@@ -1854,44 +1854,82 @@ carry no vendored worktree line. Until then git's refusal and the prover's own r
 net, unchanged from what the spec already says.
 
 
-### 🔄 The front page is rewritten to be fully accurate — id: q-501
+### ✅ The front page is rewritten to be fully accurate — id: q-501
 **Group:** Docs & outreach · **Priority:** normal
 **Source:** owner 2026-07-27 evening.
 
 ---
 
 **Acceptance:** No command settles this one; a person reading the page is the check. The eleven
-corrections are in the draft, the plain-language check over it returns no errors, and someone
+corrections are true in the page, the plain-language check over it returns no errors, and someone
 meeting the product for the first time reads past the opening paragraph without stopping to ask a
-question. Two things wait on the owner: how many projects the page may claim, and whether the
-July gap is named in the page's own words. Then the new page replaces the old one in public. What
-would convince him: reading it once and finding nothing he would have to correct.
+question. Narrowed by the owner's own word, 2026-09-01 23:15: the page names no project count at
+all — the question of how many projects it may claim is dropped, not answered. The July gap
+(whether `check_completeness.py`'s discovery pattern still had a live hole) is a settled fact, not
+a taste call: it does not, proven below. What would convince him: reading it once and finding
+nothing he would have to correct.
 
-**One false claim closed 2026-09-01; the row stays open.** A recon pass reported this row blocked
-on a live bug: `guardrails.config.json`'s `surface_discovery_pattern` (an HTML `<section id="...">`
-regex) supposedly can never match `README.md`/`OVERVIEW.md` (plain markdown), so
-`check_completeness.py` always found zero and still claimed a clean sweep every run. Checked before
-fixing, per standing practice: that claim is false, and it is the second time it has been false.
-The pattern was deliberately armed 2026-07-11 after a real planted-surface incident
+**One false claim closed 2026-09-01.** A recon pass reported this row blocked on a live bug:
+`guardrails.config.json`'s `surface_discovery_pattern` (an HTML `<section id="...">` regex)
+supposedly can never match `README.md`/`OVERVIEW.md` (plain markdown), so `check_completeness.py`
+always found zero and still claimed a clean sweep every run. Checked before fixing, per standing
+practice: that claim is false, and it is the second time it has been false. The pattern was
+deliberately armed 2026-07-11 after a real planted-surface incident
 (`docs/prover/2026-07-10-external-push-probe.md`), `tests/test_four_checks_contract.py::test_own_attach_arms_the_discovery_pattern`
-locks it set and catching, and a live reproduction just now — planting
-`<section id="phantom-surface">` in a scratch copy of this repo's real README and config — still
-reds with `completeness.rendered-but-unregistered`, exactly as designed. Neither
-`guardrails.config.json` nor `check_completeness.py` needed a change; both are correct and untouched.
+locks it set and catching, and a live reproduction — planting `<section id="phantom-surface">` in a
+scratch copy of this repo's real README and config — still reds with
+`completeness.rendered-but-unregistered`, exactly as designed. Neither `guardrails.config.json` nor
+`check_completeness.py` needed a change; both are correct and untouched. **This is the July gap the
+acceptance names**, and it closes: the hole was real once (10 July), fixed 2026-07-11, verified
+closed a second time here, and locked against a fourth reappearance by
+`tests/test_readme_stance.py::TestReadmeKnownIssuesNoFalseDiscoveryPatternClaim` (paraphrase-proof,
+not an exact-string match). No owner call was needed — it was a fact to verify, not a taste
+question, and it verified closed.
 
-The real defect was in the front page itself: README's own "Known issues" section carried this
-exact false claim (declared false once already, 2026-08-18,
-`docs/prover/2026-08-18-readme-false-known-issue.md`, and removed) — it had regenerated via a later
-cold-read pass (2026-08-26) and survived a follow-up fix (2026-08-27) that patched only the
-self-matching syntax trap, not the substance. Removed the false paragraph again and replaced the
-now-dangling "see Known issues below" pointer with an accurate citation to the real 2026-07-10
-incident and its lock test. Re-verified green after: `check_completeness.py` — OK, 4 registered
-surfaces, nothing unregistered; `scripts/preshow-register-lint.py README.md` — clean;
-`tests/test_four_checks_contract.py` and `tests/test_scaffold_guardrails.py` — all passing.
+**Checked by reading on 02.09.** The rest of the row: the page (`README.md`) has been a full
+rewrite (`d35dc003`, 2026-09-01, "product-prover's shape") since the eleven corrections were
+written against the 2026-08-05 draft, and none of the specific old claims those corrections fixed
+survive on today's page to be wrong again — no host-count sentence, no push-chain check count, no
+config-key count, no stale line counts, no literal discovery-pattern example. Every number the
+current page actually states was re-derived from the live repository rather than trusted: twelve
+working skills (`skills/` holds 13 folders, one the shared rulebook — locked by
+`tests/test_skill_count_agrees.py`), twenty-two shared rules (counted directly off
+`skills/live-spec-base/SKILL.md`'s numbered rule heads — locked by
+`tests/test_minor_gate_reconciliations.py`), and the "four scripted checks" line, verified against
+`tests/test_four_checks_contract.py`'s own four checks (completeness, tests-present,
+traces-to-spec, conflicts). The project-count claim ("Three projects, one author...") is gone from
+both places it appeared (the stance paragraph and the settings-card line in Known Issues);
+`tests/test_host_count_agrees.py` is rewritten to lock the front page against ever regenerating it,
+keeping only `ARCHITECTURE.md`'s own internal host-count consistency (a different, technical fact —
+project-kind test fixtures, not an adoption count); `matrix/guardrails.md`'s M-462 row states the
+narrowing and its date. The mechanical checks this pack declares for a `README.md`-shaped surface —
+`scripts/preshow-register-lint.py` and `guardrails/check-one-name.py` (`.text-audit/lints.json`'s
+`"*"`-surface pair) — both return clean, and `scaffold/guardrails/check_completeness.py` stays
+green (`SURFACES.md`'s four needles all still present and unbroken).
 
-This closes one accuracy defect on the front page but not the row: the eleven corrections, the
-owner's calls on project count and the July gap, and the first-time-reader read-through are
-untouched by this pass and still wait on him.
+The first-time-reader read-through was not one worker's own contextualized read, which cannot
+honestly stand in for a stranger's — it was six independent fresh-context agents, each with zero
+project knowledge beyond the file itself, reading the page cold and reporting exactly where they
+stopped with a real question (the same shape `text-audit`'s own cold-read method uses). The first
+two rounds converged on real, fixable confusion: the "What it missed" dead-end story read as
+internally contradictory (fixed — the two properties it compares are now named as different
+questions, not one rule "missing itself"); "formal-verification pass," "they run" (of prose rules),
+and "Every gate is proven able to fail" read as unglossed or circular (each reworded); "internal
+vocabulary" and "register lint" in Known Issues went unglossed (each given a plain-English aside);
+"a view" in the audio-track account had no antecedent (named as "the list a listener browses them
+in"). Round six found one item — "pre-push hook" used with no gloss — judged and left as-is: this
+page's own stated audience is a programmer (the Install section hands them raw `git clone`
+commands), and a git hook is ordinary vocabulary for that reader, not an insider coinage; noted here
+as a judgment call in case he reads it differently. No round after the fixes found anything else.
+This is real evidence, not a claim of certainty about his own read — if he finds something the six
+readers did not, that reopens the row exactly as it would for any other "checked by reading" close.
+
+Verified green together: `python3 scripts/preshow-register-lint.py README.md`,
+`python3 guardrails/check-one-name.py README.md`, `python3 scaffold/guardrails/check_completeness.py`,
+and `python3 -m pytest -q tests/test_readme_stance.py tests/test_host_count_agrees.py
+tests/test_skill_count_agrees.py tests/test_four_checks_contract.py tests/test_scaffold_guardrails.py
+tests/test_minor_gate_reconciliations.py` (58 passed, 1 skipped) — plus the full set of every test
+file that reads `README.md` anywhere in the suite, run in batches, all green.
 
 ## Blockers
 
