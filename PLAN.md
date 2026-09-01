@@ -301,7 +301,7 @@ turn out to live nowhere else. The page also carries the ordered list of command
 owns that repository, which this window cannot write to. The row waits on the owner's read of the
 page and on those moves actually running; his read is what closes it.
 
-**Done 2026-09-01.** His own word this session, "разрешаю," is the read that was waited on. The
+**Checked by reading on 01.09.** His own word this session, "разрешаю," is the read that was waited on. The
 window that owns `~/.claude/playbook` re-checked the tree against the report and found the ordered
 list already run and pushed on 31.08, commits `803924a`, `380d33b`, `3108b92`, `c648cf5`
 (`0a79f35` followed, unrelated — a plan-16 fix to the profile's report-format line). Nine dead
@@ -686,6 +686,9 @@ overstate a regression — one of the four scenarios this row's own history call
 partial or stale draw never exercised. The right reading is that today is the first fully fresh
 score since 31.08's skill change, not a step down from a number that was already computed against
 older code.
+
+
+### ✅ Old clutter is cleared, past work kept readable — id: plan-3
 **Group:** Method housekeeping · **Priority:** normal
 **Source:** PLAN.md step 3.
 
@@ -972,6 +975,27 @@ stated reason, is a blank-answer finding. `tests/test_composition_axes.py` carri
 two-axis registry walked, a red when a sibling axis comes back with no verdict.
 `python3 -m pytest -q tests/test_composition_axes.py` is green, fourteen of fourteen, this case
 among them.
+
+
+### ⬜ New projects know upfront which variations to design for — id: q-436
+**Group:** Spec & feature quality · **Priority:** normal
+**Source:** tlvphotos inbox 2026-07-20; sibling of q-437.
+
+**Reopened 2026-09-01.** Folded into plan-12 on 27.08, rotated off this board on 28.08, and never
+worked. `spec/design-spec-review.md` Requirement 265 criterion 15 kept two things promised under
+one sentence: the recursive axis-registry similarity sweep (q-437's) and the value-space
+in-between forcing step (this row's) — a tablet's "hover-with-touch" answer, the co-occurrence
+case between the two elementary poles a variation is authored against. Found 31.08, while giving
+q-437 its row back (this file's own §Blockers, "The other half of the same promise has no row"):
+only one row can own the anchor, q-437 owned it, and this half was owned by nobody. q-437 built
+and closed its own half 2026-09-01, so criterion 15 now names only this row's half, and this row
+takes the anchor back. Original wording, as row 436: `docs/queue-archive/rotated-PLAN-2026-08-28-folded-rows.md`.
+
+**Definition of done:** the step that forces an author to name the value in between the two
+elementary poles a composition axis owes — a device carrying both capabilities at once, such as a
+tablet's touch alongside its fine pointer — lands beside the two-poles duty `q-437` already wrote
+into `skills/spec-author/references/facet-sweep.md`, and the prover reads a co-occurrence value
+left unnamed as the same blank-answer class the sibling sweep already reports.
 
 
 ### ⬜ Every project gets its own status view — id: plan-14
@@ -1421,7 +1445,7 @@ disagreements no longer exist in the current source:
   written into `skills/communicator/SKILL.md`'s own text (not a separate document) so a future
   reader meets it where the rule lives.
 
-**Done 2026-09-01.** The third leg's fourteen collisions (the sweep's section 3c, N17–N30), each
+**Checked by reading on 01.09.** The third leg's fourteen collisions (the sweep's section 3c, N17–N30), each
 checked against today's `skills/communicator/SKILL.md` and ruled beside the rule it concerns
 (`grep -n "q-536 ruling" skills/communicator/SKILL.md` finds all fourteen):
 1. NOW/NEXT line vs the stretch's closing final line (N17) — merged.
@@ -1668,6 +1692,31 @@ project carrying the hook's source with no installed copy, then passes once inst
 pass.
 
 
+### ⬜ The contract's mechanical arms ship when a host declares its first contract — id: q-385
+**Group:** Cross-project · **Priority:** normal
+**Source:** split 2026-07-17.
+
+**Reopened 2026-09-01.** Folded into q-398 on 27.08 ("Covered by: q-398 — A request meant for
+another project reaches it automatically") and rotated off this board on 28.08. q-398 landed
+2026-09-01 doing only its own stated acceptance — the routing-preamble hook (INV-190) — and never
+touched this row's own promise, the same shape q-437 was found in on 31.08. The spec still carries
+this as a deferred item in its own words: `spec/public-contract.md`, Requirement 194 criterion 15,
+"the gate that reds a default-deny violation on the producer's suite *shall* stay promised until a
+host's first real contract" [INV-185] [target]. A promise nobody is building stands here as its own
+open row rather than inside a task that closed without it. Original wording, as row 385:
+`docs/queue-archive/rotated-ROADMAP-2026-08-27-merged-into-plan.md`.
+
+**Definition of done:** three arms, red-proven against a real producer and consumer — a
+producer-side gate reading the card's declared contracts and redding a published field with no
+dated permission record [INV-185]; a consumer-side freshness check redding an artifact past the
+consumer's declared staleness bound before any analysis [INV-187]; and a compatibility test redding
+when the pinned version and the artifact's version diverge [INV-187]. The permission record's own
+format lands with them, one home in the producer's tree.
+
+**Revisit trigger, carried from the original row:** the first host declaring a contract in its
+card. No host has declared one yet, so this stays queued rather than in hand.
+
+
 ### ✅ Independent work actually runs in parallel branches, proven live — id: q-386
 **Group:** Parallel & multi-agent work · **Priority:** normal
 **Source:** owner 2026-07-17 ~14:15 — "why do we wait? why is this written nowhere?"
@@ -1712,6 +1761,29 @@ actually catch drift, not just pass today: the law's own branch pattern was muta
 branch-naming line was mutated the same way and the test reddened again; both mutations were reverted
 before anything else ran, and `git status` on the tracked files confirmed nothing else moved. The other
 three legs stood already, so the row closes.
+
+
+### ⬜ The parallel-lanes machinery still netted by git and the prover ships for real — id: q-804
+**Group:** Parallel & multi-agent work · **Priority:** normal
+**Source:** found 2026-09-01, closing q-386 — three promises row 386 carried from its own first
+writing, never folded in from elsewhere, orphaned the moment q-386 closed on its own four-leg
+acceptance without touching them.
+
+`spec/parallel-lanes.md` still promises, each on its own `[target]` line: a config-health check that
+the primary tree holds `main`, git's own refusal the net until it ships [INV-198]; the merge-base
+check that stands ahead of the landing gate plus the stale-lane check, the prover's station their net
+until then [INV-199]; and the adoption gate for a host's vendored worktree line, the prover's station
+its net until the build lands [INV-201]. None of the three shipped with q-386's own close — its
+"Done 2026-09-01" paragraph proves only the lane-open-act convergence, its one remaining leg. A
+promise nobody is building stands here as its own open row rather than inside a task that closed
+without it, the same repair shape as q-385 and q-436 above.
+
+**Definition of done:** three arms, each red-proven — a config-health arm reading the primary tree's
+checked-out branch and redding a `main` other than the one held; a merge-base arm ahead of the
+landing gate redding a lane whose branch has not rebased onto main's tip, beside the stale-lane check
+already named in Requirement 86; and an adoption-gate arm redding a host project whose instructions
+carry no vendored worktree line. Until then git's refusal and the prover's own reading stand as the
+net, unchanged from what the spec already says.
 
 
 ### 👁️ The front page is rewritten to be fully accurate — id: q-501

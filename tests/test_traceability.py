@@ -1469,16 +1469,26 @@ class TestTargetOwnership(unittest.TestCase):
         # names only E-18, so E-18 keeps its own tag and entry below.
         "E-18": "q-54",   # design-sync machine; q-93 folded into q-54 on 2026-08-28
         "INV-21": "q-48", # success-measure reading machinery; q-96 folded into q-48 on 2026-08-28
-        "INV-185": "q-398",  # the contract's three arms; q-385 folded into q-398 on 2026-08-28
-        "INV-198": "q-386",  # config-health asserts the primary tree holds main (git's refusal rests on it)
-        "INV-199": "q-386",  # the merge-base check ahead of the gate + the stale-lane check
-        "INV-201": "q-386",  # the adoption gate reading the host's vendored worktree line
-        # Re-pointed 2026-08-31: q-437 was folded into plan-12 on 2026-08-28 and never worked, so
-        # plan-12 closed with this promise still standing. q-437 is back on the board as its own
-        # open row and owns the anchor again. The anchor's other half — the axes value-space
-        # forcing step, q-436's work — is also unbuilt and is written up in PLAN.md's §Blockers;
-        # this map holds one owner per anchor, and the row that is back on the board is the owner.
-        "INV-244": "q-437",  # the recursive axis-registry similarity sweep
+        # Re-pointed 2026-09-01: q-385 was folded into q-398 on 2026-08-28 and never worked — q-398
+        # landed 2026-09-01 doing only its own stated acceptance (the routing-preamble hook, INV-190)
+        # and never touched this row's promise. q-385 is back on the board as its own open row and
+        # owns the anchor again, the same repair shape as q-437's 2026-08-31 re-pointing above.
+        "INV-185": "q-385",  # the contract's three arms, still deferred to a host's first real contract
+        # Re-pointed 2026-09-01: these three carried on row 386 from its own first writing (never
+        # folded in from elsewhere), and q-386 closed 2026-09-01 on its own four-leg acceptance
+        # without touching them — orphaned the same way q-385 was. q-804 is the fresh row that
+        # takes them, sourced straight from spec/parallel-lanes.md's own still-promised text.
+        "INV-198": "q-804",  # config-health asserts the primary tree holds main (git's refusal rests on it)
+        "INV-199": "q-804",  # the merge-base check ahead of the gate + the stale-lane check
+        "INV-201": "q-804",  # the adoption gate reading the host's vendored worktree line
+        # Re-pointed 2026-08-31, then again 2026-09-01: q-437 was folded into plan-12 on
+        # 2026-08-28 and never worked, so plan-12 closed with this promise still standing. q-437
+        # came back as its own open row and owned the anchor. q-437 then built and closed its own
+        # half 2026-09-01 (the recursive axis-registry similarity sweep); the criterion's other
+        # half, the value-space in-between forcing step, was q-436's and stayed unbuilt — this map
+        # holds one owner per anchor, so q-436 is back on the board (mirroring q-437's own 31.08
+        # repair) and takes the anchor now that q-437's half is done.
+        "INV-244": "q-436",  # the value-space in-between forcing step
         "INV-308": "q-166",  # the work board surface, promised whole and unbuilt
         "INV-67": "q-166",   # the board's one-stable-link published page
     }

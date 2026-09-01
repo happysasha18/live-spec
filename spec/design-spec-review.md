@@ -880,7 +880,7 @@
 
 **Case: the value-space machinery is promised**
 
-15. The system *shall* keep the value-space in-between forcing step and the recursive axis-registry similarity sweep promised as later increments. [INV-244]
+15. The system *shall* keep the value-space in-between forcing step promised as a later increment. [INV-244]
     [target]
 
 ---
