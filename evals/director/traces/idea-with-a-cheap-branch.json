@@ -1,20 +1,13 @@
 {
-  "id": "r06",
-  "acts": [
-    "instruction",
-    "idea"
-  ],
+  "id": "idea-with-a-cheap-branch",
+  "acts": ["instruction", "idea"],
   "creates_work": true,
   "shelves_idea": false,
-  "attaches_to_existing_work": false,
+  "attaches_to_existing_work": true,
   "work_items": 1,
-  "dimensions": [
-    "the user's path and the design"
-  ],
-  "specialists": [
-    "developer"
-  ],
-  "reasoning": "A conditional request stating both branches. The condition holds: the display already exists and runs in another window of the same tool, so turning it on here is available now, which makes it the instruction branch and not a shelf entry. One small piece of work touching only what the person sees while work runs.",
+  "dimensions": ["the user's path and the design"],
+  "specialists": ["Developer"],
+  "reasoning": "This is a conditional request stating both branches: 'if that's possible too, let's do it' (instruction) and 'if not now, note it for later' (idea). The condition resolves in favor of the instruction branch — the worker display already exists, built and live in another window of this same tool, so making it visible here reuses that same display rather than building a new one. Per the conditional-request rule, only one branch is recorded as the outcome, so the idea branch is not also shelved. Because the work is reuse of an existing display rather than a fresh build, it attaches to that existing work as one small piece of work touching the user's path and design.",
   "scenario": "idea-with-a-cheap-branch",
-  "skill_version": "6.0.0"
+  "skill_version": "6.1.0"
 }

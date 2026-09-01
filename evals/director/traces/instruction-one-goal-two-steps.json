@@ -1,17 +1,13 @@
 {
-  "id": "r21",
-  "acts": [
-    "instruction"
-  ],
+  "id": "instruction-one-goal-two-steps",
+  "acts": ["instruction"],
   "creates_work": true,
   "shelves_idea": false,
   "attaches_to_existing_work": false,
   "work_items": 1,
-  "dimensions": [
-    "documentation and communication"
-  ],
+  "dimensions": ["documentation and communication"],
   "specialists": [],
-  "reasoning": "A request to write the report just produced into a file and hand back its path. The clause about passing it on states why the file is wanted, so it is the instruction's own goal in other words rather than a second act.",
+  "reasoning": "One instruction: put the already-produced report into a file and hand back its path. The middle clause about passing it to someone else for recheck restates why they want the file, not a new judgment or fact, so it is not a separate act. Writing the file and reporting its path are two steps toward the single result of a handoff-ready file, not two pieces of work, so this is a real but small task the Director does directly, needing no specialist.",
   "scenario": "instruction-one-goal-two-steps",
-  "skill_version": "6.0.0"
+  "skill_version": "6.1.0"
 }

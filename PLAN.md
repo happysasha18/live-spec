@@ -641,8 +641,32 @@ Two real things came out of the honest re-draw. The skill's own text and the gra
 
 Full body (rules, acceptance commands, measurements) preserved in git history: `git log -p -- PLAN.md`, the step's own text before the 27.08 task-list merge.
 
+**Re-recorded 2026-09-01, all thirty-five, none reused.** `skills/director/SKILL.md` changed 31.08,
+after the traces above were drawn, so the freshness rule this row's own text set ("any change to
+`skills/director/SKILL.md` re-records all thirty-five, never a subset") applied and the previous
+✅ did not hold — the computed check read the traces as stale and reddened, honestly, until this
+re-draw. Thirty-five fresh agents, each holding only the skill and one scenario, no access to the
+expected verdict.
 
-### ✅ Old clutter is cleared, past work kept readable — id: plan-3
+Score: 32 of 35. `idea-for-another-project`, the one disagreement the 31.08 record named, now
+agrees with its fixture. Three others disagree, none of them named before today:
+`correction-widening-the-goal` (the run tags the standing judgment about corpus statistics a
+decision; the fixture calls it an observation, the same shape as `mixed-you-invented-that-work`'s
+"habit that produced it"), `mixed-plan-and-two-questions` (the run reads the whole turn as report
+plus two questions; the fixture reads "план на эту сессию текстовый простой... 5-10 строчек" as
+a live instruction setting this session's report format, not a description of something already
+true), and `mixed-conditional-pause` (the run names the halt and the question; the fixture also
+wants the remaining-time estimate itself named as an observation, since the halt's own condition
+rests on it). Named, not fixed — a fixture is one committee's reading, and a producer disagreeing
+on a genuinely close call is not automatically wrong. Whether any of the three should move stays
+open.
+
+Naming the movement honestly, in the terms this row already set: comparing 34 against 32 would
+overstate a regression — one of the four scenarios this row's own history called unstable
+(`idea-for-another-project`) resolved, while three different close calls surfaced that a prior
+partial or stale draw never exercised. The right reading is that today is the first fully fresh
+score since 31.08's skill change, not a step down from a number that was already computed against
+older code.
 **Group:** Method housekeeping · **Priority:** normal
 **Source:** PLAN.md step 3.
 

@@ -1,21 +1,13 @@
 {
-  "id": "r27",
-  "acts": [
-    "instruction",
-    "question",
-    "observation"
-  ],
-  "creates_work": true,
+  "id": "mixed-plan-and-two-questions",
+  "acts": ["observation", "question", "question"],
+  "creates_work": false,
   "shelves_idea": false,
   "attaches_to_existing_work": false,
-  "work_items": 1,
-  "dimensions": [
-    "documentation and communication"
-  ],
-  "specialists": [
-    "communicator"
-  ],
-  "reasoning": "An instruction to produce a short status plan in this window, a question about what the running worker covers and what its output will be, and a report of fact that the plan was copied across and launched. The plan request is a thing to be made, so it earns one sheet; the questions create nothing and nothing changes the worker's goal.",
+  "work_items": 0,
+  "dimensions": [],
+  "specialists": [],
+  "reasoning": "The person reports two facts without asking for a repair (the plan format is plain text with emoji status lines; they copied the plan and launched the worker) and then asks two genuine questions: whether the worker is executing the whole plan or only part of it right now, and what the run will produce as output. Nothing here asks for something to be built, changed, or stopped, so no checkpoint or specialist is warranted; the correct response is to answer both questions from what is known about the running worker, not to open work.",
   "scenario": "mixed-plan-and-two-questions",
-  "skill_version": "6.0.0"
+  "skill_version": "6.1.0"
 }

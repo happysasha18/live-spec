@@ -1,21 +1,13 @@
 {
-  "id": "r14",
-  "acts": [
-    "instruction",
-    "decision"
-  ],
+  "id": "decision-and-instruction-together",
+  "acts": ["decision", "instruction"],
   "creates_work": true,
   "shelves_idea": false,
   "attaches_to_existing_work": false,
   "work_items": 1,
-  "dimensions": [
-    "release, observation, feedback",
-    "documentation and communication"
-  ],
-  "specialists": [
-    "publisher, communicator"
-  ],
-  "reasoning": "One turn carrying two acts: a standing rule granting authority going forward, recorded separately so it survives, plus a demand for today's deploy right now. The withholding was a standing policy rather than tracked work, so nothing is in flight to attach to and shipping this build is one new piece of work.",
+  "dimensions": ["release, observation, feedback"],
+  "specialists": ["Publisher", "communicator"],
+  "reasoning": "The message carries two acts in one breath: a standing decision granting authority to deploy without confirmation from now on, and an instruction to deploy this ready build today — the standing rule does not absorb today's demand, and both stay named. The deploy was never checkpointed as its own work (withholding was a standing policy, not a tracked task), so the instruction opens one new piece of work in the release dimension, calling the publisher and communicator to ship it and report back. The decision is recorded separately as a standing rule so it survives after this deploy closes.",
   "scenario": "decision-and-instruction-together",
-  "skill_version": "6.0.0"
+  "skill_version": "6.1.0"
 }

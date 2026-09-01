@@ -1,25 +1,13 @@
 {
-  "id": "r12",
-  "acts": [
-    "observation"
-  ],
+  "id": "observation-a-verdict-on-delivered-work",
+  "acts": ["observation", "observation"],
   "creates_work": true,
   "shelves_idea": false,
   "attaches_to_existing_work": false,
   "work_items": 1,
-  "dimensions": [
-    "product value and behaviour",
-    "the user's path and the design",
-    "quality, safety, regressions",
-    "documentation and communication"
-  ],
-  "specialists": [
-    "spec author",
-    "developer",
-    "design reviewer",
-    "test author"
-  ],
-  "reasoning": "A fact reported about a delivered build, and one whose repair follows beyond doubt: continuity was a stated requirement discussed at length, so its absence is a defect rather than a preference. Nothing is in flight or checkpointed, so it opens one new piece of work.",
+  "dimensions": ["product value and behaviour", "the user's path and the design", "quality, safety, regressions"],
+  "specialists": ["Developer", "Design reviewer", "Test author"],
+  "reasoning": "The build is already delivered and accepted with nothing in flight, so this cannot be a correction to running work; it is an observation. Continuity was a stated requirement discussed at length and the shown build lacks it, so the repair follows beyond doubt (the export-button case) and one new defect fix is accepted. The second sentence is a separate observation, a judgment about the gap between what was discussed and what shipped, kept as its own act rather than folded into the first.",
   "scenario": "observation-a-verdict-on-delivered-work",
-  "skill_version": "6.0.0"
+  "skill_version": "6.1.0"
 }

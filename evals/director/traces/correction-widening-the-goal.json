@@ -1,24 +1,13 @@
 {
-  "id": "r19",
-  "acts": [
-    "correction",
-    "observation"
-  ],
+  "id": "correction-widening-the-goal",
+  "acts": ["correction", "decision"],
   "creates_work": false,
   "shelves_idea": false,
   "attaches_to_existing_work": true,
   "work_items": 0,
-  "dimensions": [
-    "product value and behaviour",
-    "analytics, unknowns, hypotheses, experiments",
-    "quality, safety, regressions",
-    "documentation and communication"
-  ],
-  "specialists": [
-    "developer",
-    "product prover"
-  ],
-  "reasoning": "The measuring is running right now, so dropping it, erasing its traces and treating the mistake as a class is a correction to work in flight. The judgment carrying it — a generic engine makes any statistic over the current corpus false — is worth keeping after the work closes, so it stands as its own observation.",
+  "dimensions": [],
+  "specialists": [],
+  "reasoning": "The corpus-measurement work is already running, and this message changes its goal rather than opening anything new: stop measuring the current corpus and instead prove the fix by construction, fixing the problem as a class — 'a correction attaches to work, not to a queue,' so the existing checkpoint's plan gets replanned in place, not duplicated. The claim that any statistic on the current corpus is false for a generic engine is a standing judgment, not merely the correction's goal restated — it holds beyond this one measurement task, so it is named as its own decision alongside the correction. Nothing here is a new, separate piece of work someone could want on its own; creates_work stays false and work_items stays 0.",
   "scenario": "correction-widening-the-goal",
-  "skill_version": "6.0.0"
+  "skill_version": "6.1.0"
 }

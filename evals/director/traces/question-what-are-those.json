@@ -1,15 +1,13 @@
 {
-  "id": "r04",
-  "acts": [
-    "question"
-  ],
+  "id": "question-what-are-those",
+  "acts": ["question"],
   "creates_work": false,
   "shelves_idea": false,
   "attaches_to_existing_work": false,
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "Every clause is a question about what is already running. Nothing is asked for and nothing in flight is redirected, so this is answered rather than accepted.",
+  "reasoning": "The person is curious about shell commands visible in the terminal and asks what they are, whether they are just programs, and what code is running — a single question act, wants to know something rather than asking for anything to be done. The answer is a plain explanation, not a decision sheet; nothing here is work, so no checkpoint opens and no specialist is called.",
   "scenario": "question-what-are-those",
-  "skill_version": "6.0.0"
+  "skill_version": "6.1.0"
 }

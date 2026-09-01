@@ -1,17 +1,13 @@
 {
-  "id": "r26",
-  "acts": [
-    "halt",
-    "observation",
-    "question"
-  ],
+  "id": "halt-without-the-word",
+  "acts": ["halt", "question"],
   "creates_work": false,
   "shelves_idea": false,
-  "attaches_to_existing_work": true,
+  "attaches_to_existing_work": false,
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "The core act is a halt: work in flight must stop and be parked rather than abandoned. The surrounding facts — a fifteen-minute window, the network going away, the machine closing — say something new that the halt's goal does not carry. The closing check is an invitation to answer and still its own act.",
+  "reasoning": "A halt is about state, not about words: \"тормозни\" carries no literal stop/halt token, but something running is being told to pause because the person is about to lose connectivity, so the running work's state changes to paused, nothing new opens. The closing \"норм?\" is a genuine invitation to confirm the plan and is its own act, a question, answered directly rather than folded into the halt. No dimensions or specialists apply since no work was accepted.",
   "scenario": "halt-without-the-word",
-  "skill_version": "6.0.0"
+  "skill_version": "6.1.0"
 }

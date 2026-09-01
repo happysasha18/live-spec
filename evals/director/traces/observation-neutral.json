@@ -1,15 +1,13 @@
 {
-  "id": "r09",
-  "acts": [
-    "observation"
-  ],
+  "id": "observation-neutral",
+  "acts": ["observation"],
   "creates_work": false,
   "shelves_idea": false,
   "attaches_to_existing_work": false,
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "A fact about the session's state with nothing asked for and no repair following from it. A note about the limit changes no goal and no constraint, so it attaches to nothing and opens nothing.",
+  "reasoning": "The message reports a fact about session state — the usage allowance refreshed — without asking for anything. It is an observation, but the competent-colleague test finds no repair follows beyond doubt: nothing is broken or wasteful, so no defect or task is implied. It creates no work, attaches to nothing already running, and shelves no idea; it is simply noted.",
   "scenario": "observation-neutral",
-  "skill_version": "6.0.0"
+  "skill_version": "6.1.0"
 }

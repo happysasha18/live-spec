@@ -1,16 +1,13 @@
 {
-  "id": "r32",
-  "acts": [
-    "correction",
-    "observation"
-  ],
+  "id": "mixed-you-invented-that-work",
+  "acts": ["correction", "observation"],
   "creates_work": false,
   "shelves_idea": false,
   "attaches_to_existing_work": true,
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "The constraints of measuring already under way are changed: nothing was asked for beyond one narrow case, so the rest stops and the remainder is replanned against its existing checkpoint. The judgment that opening a request for any stray thing instead of thinking is a defect is worth keeping after this work closes, so it is its own observation.",
+  "reasoning": "This is a correction to the measuring work already in flight: it narrows that work's goal back to the one thing actually proposed — a quick platform-speed check before deciding how complex the transitions should be — and discards everything else as never requested. It also carries an observation naming the defect's mechanism, an 'auto-request' reflex that fired instead of thinking, which is feedback about the agent's own behavior rather than a request for a new deliverable. Nothing here asks for new work; it attaches to and cuts down work already running, so no new work item is created.",
   "scenario": "mixed-you-invented-that-work",
-  "skill_version": "6.0.0"
+  "skill_version": "6.1.0"
 }

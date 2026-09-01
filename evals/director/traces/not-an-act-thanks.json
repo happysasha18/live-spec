@@ -1,5 +1,5 @@
 {
-  "id": "r33",
+  "id": "not-an-act-thanks",
   "acts": [],
   "creates_work": false,
   "shelves_idea": false,
@@ -7,7 +7,7 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "A thumbs-up on something already delivered and agreed, adding no new fact, no request, no correction. The skill names this as conversation rather than one of the seven acts. Reaching for an act here is how a thank-you becomes a roadmap row.",
+  "reasoning": "This is a thank-you confirming a change already delivered and working, which the skill names directly as conversation: 'a greeting, a thank-you, a thumbs-up on something already agreed... these are conversation. Answer like a person and record nothing.' It reports no new fact and asks for nothing, so none of the seven acts applies and no dimension or specialist is touched.",
   "scenario": "not-an-act-thanks",
-  "skill_version": "6.0.0"
+  "skill_version": "6.1.0"
 }

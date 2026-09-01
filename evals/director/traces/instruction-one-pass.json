@@ -1,21 +1,13 @@
 {
-  "id": "r20",
-  "acts": [
-    "instruction"
-  ],
+  "id": "instruction-one-pass",
+  "acts": ["instruction"],
   "creates_work": true,
   "shelves_idea": false,
   "attaches_to_existing_work": false,
   "work_items": 1,
-  "dimensions": [
-    "quality, safety, regressions",
-    "documentation and communication"
-  ],
-  "specialists": [
-    "developer",
-    "independent verifier"
-  ],
-  "reasoning": "A request for something to be done now. The word only is a scope on that same request rather than a second act or a correction, since nothing is in flight yet and a request scoped to this session names no standing rule.",
+  "dimensions": ["documentation and communication"],
+  "specialists": [],
+  "reasoning": "The person is asking for something to be done now — a review pass, scoped only to the product-prover skill — so this is an instruction, not an idea or a musing. It opens one new piece of work rather than attaching to something already running: nothing in the message points at existing work in flight, only a scope for what this session covers. The pass touches the prover skill's own instructions, so it touches documentation and communication; no specialist in the table maps to reviewing a skill's own content, so none is named.",
   "scenario": "instruction-one-pass",
-  "skill_version": "6.0.0"
+  "skill_version": "6.1.0"
 }

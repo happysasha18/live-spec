@@ -1,15 +1,13 @@
 {
-  "id": "r25",
-  "acts": [
-    "halt"
-  ],
+  "id": "halt-until-tomorrow",
+  "acts": ["halt"],
   "creates_work": false,
   "shelves_idea": false,
   "attaches_to_existing_work": true,
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "Something running is being told to stop and be picked up tomorrow. The stated reason restates why the halt wants what it wants, so it is not a second act, and work tomorrow is the halt's own parked state rather than an instruction to schedule anything.",
+  "reasoning": "The person says стоп to the session's own work in progress because the weekly allowance runs out today, so this is a halt: something running must stop. The weekly-limit reason and 'work tomorrow' restate why to stop now and when it resumes — the halt's own goal in other words, not a second act. A halt changes the state of work already running; it creates nothing, so no checkpoint, dimension or specialist applies.",
   "scenario": "halt-until-tomorrow",
-  "skill_version": "6.0.0"
+  "skill_version": "6.1.0"
 }

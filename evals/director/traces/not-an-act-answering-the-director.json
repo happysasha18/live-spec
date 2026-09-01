@@ -1,15 +1,13 @@
 {
-  "id": "r34",
-  "acts": [
-    "instruction"
-  ],
+  "id": "not-an-act-answering-the-director",
+  "acts": ["instruction"],
   "creates_work": true,
   "shelves_idea": false,
   "attaches_to_existing_work": false,
   "work_items": 1,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "A reply to the Director's own still-open question, so nothing new was said: the act already in play was completed and the shelved idea became the instruction it was waiting to become. Scored as one act producing one new piece of work rather than a correction. The case names no content, so dimensions and specialists stay empty rather than be guessed.",
+  "reasoning": "The Director's own question 'build it now, or park it?' was still open, and 'yeah go ahead' answers it rather than saying something new: per the skill, this is one act, not two — the idea just became the instruction it was waiting to become, and the shelf entry becomes the work. It creates work (build it, not park it), so shelves_idea is false. No checkpoint for this idea is described as already running, so this opens new work rather than attaching to work in flight. The situation names no content for 'it', so dimensions and specialists cannot be named without inventing them from nothing, which the skill forbids.",
   "scenario": "not-an-act-answering-the-director",
-  "skill_version": "6.0.0"
+  "skill_version": "6.1.0"
 }

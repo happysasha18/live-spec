@@ -1,25 +1,11 @@
 {
-  "id": "r29",
-  "acts": [
-    "question",
-    "observation",
-    "correction",
-    "instruction"
-  ],
+  "id": "mixed-check-now-improve-later",
+  "acts": ["instruction", "observation"],
   "creates_work": true,
   "shelves_idea": false,
-  "attaches_to_existing_work": true,
+  "attaches_to_existing_work": false,
   "work_items": 1,
-  "dimensions": [
-    "architecture, data, integrations, operations",
-    "quality, safety, regressions"
-  ],
-  "specialists": [
-    "product prover",
-    "test author",
-    "independent verifier"
-  ],
-  "reasoning": "The bundle-size and nothing-breaks demands arrive as a postscript to the modification just made, so they are constraints added to work already in flight. The judgment that the prover should have caught it survives after this modification closes, and the check-it clause turns it into one separate piece of work. The closing doubt about feasibility is answered rather than absorbed.",
-  "scenario": "mixed-check-now-improve-later",
-  "skill_version": "6.0.0"
+  "dimensions": ["architecture, data, integrations, operations", "quality, safety, regressions"],
+  "specialists": ["Product prover", "Independent verifier"],
+  "reasoning": "The core act is an instruction: verify the recent modification does not bloat the shipped bundle (or confirm the growth is justified by per-platform dynamic loading) and that nothing breaks for the user — a check asked for now, not deferred. Riding alongside it is an observation carrying its own judgment: the prover should already catch this class of issue, which is worth recording even though it also supplies the reason for 'кстати проверь.' Both checks (bloat/dynamic-loading and general regressions) are steps toward one result — a verdict on whether this modification is safe — so this is one work item, not several, and 'не знаю эт реально или нет' is a hedge on that same instruction, not a new act. Product prover is named directly by the prover-coverage question, and an independent verifier is needed because the check cannot be the executor's own self-report on its own change."
 }

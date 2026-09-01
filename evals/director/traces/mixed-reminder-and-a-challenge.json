@@ -1,23 +1,13 @@
 {
-  "id": "r28",
-  "acts": [
-    "decision",
-    "idea",
-    "instruction",
-    "question"
-  ],
+  "id": "mixed-reminder-and-a-challenge",
+  "acts": ["decision", "idea", "instruction", "question"],
   "creates_work": true,
   "shelves_idea": true,
   "attaches_to_existing_work": false,
   "work_items": 1,
-  "dimensions": [
-    "documentation and communication",
-    "analytics, unknowns, hypotheses, experiments"
-  ],
-  "specialists": [
-    "developer"
-  ],
-  "reasoning": "The goals already in the plan are reaffirmed, the optimization pass itself is parked for a later session, the demand that those parameters be monitored in the plan file's status stands as a standing rule, and the closing invitation to disagree is its own act. Only the last demand is doable now, so it is the one new piece of work.",
+  "dimensions": ["documentation and communication"],
+  "specialists": [],
+  "reasoning": "Four acts in one turn: reminding that compactness and optimization were already plan goals is a decision reaffirmed, not a new idea; deferring the actual look at those goals to next session puts that work on the idea shelf; asking that these two parameters now be monitored in the plan file's status is a fresh instruction, since nothing already running tracks them; and 'agree or argue with me' is its own question, not absorbed by the instruction it closes. The instruction is one deliverable — instrument status tracking for the two named goals in the plan document — so it opens new work rather than attaching to anything in flight, touching only the plan's status document, a task the Director carries out directly without a specialist.",
   "scenario": "mixed-reminder-and-a-challenge",
-  "skill_version": "6.0.0"
+  "skill_version": "6.1.0"
 }

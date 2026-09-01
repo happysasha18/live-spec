@@ -1,15 +1,13 @@
 {
-  "id": "r03",
-  "acts": [
-    "question"
-  ],
+  "id": "question-how-long",
+  "acts": ["question"],
   "creates_work": false,
   "shelves_idea": false,
   "attaches_to_existing_work": false,
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "The person asks how long the running job will take so they can decide whether to wait. Fetching facts to answer is reading, not work. Nothing in flight has its goal or constraints changed.",
+  "reasoning": "The person is asking a plain question about how long the running job will take, to decide whether to wait — this is a question, not a request for anything new. Answering it may take reading (checking the job's progress or history) but reading to answer a question is not work; nothing is built, corrected, or filed.",
   "scenario": "question-how-long",
-  "skill_version": "6.0.0"
+  "skill_version": "6.1.0"
 }

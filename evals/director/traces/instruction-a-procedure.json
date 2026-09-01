@@ -1,19 +1,13 @@
 {
-  "id": "r22",
-  "acts": [
-    "instruction"
-  ],
+  "id": "instruction-a-procedure",
+  "acts": ["instruction"],
   "creates_work": true,
   "shelves_idea": false,
   "attaches_to_existing_work": false,
   "work_items": 1,
-  "dimensions": [
-    "architecture, data, integrations, operations"
-  ],
-  "specialists": [
-    "Developer"
-  ],
-  "reasoning": "Every clause is imperative and part of one procedure. Stopping the server here is a step of that procedure, not a halt of the session's own work in flight. The bind check and the address are evidence for the single result.",
+  "dimensions": ["architecture, data, integrations, operations"],
+  "specialists": [],
+  "reasoning": "This is a single instruction: stopping the old server is the opening step of the restart procedure it asks for, not a halt on its own, since the halt rule reserves that act for stopping something mid-flight rather than starting a fix. Stop, rebind to 0.0.0.0, verify the bind, and report the real Wi-Fi IP are steps toward one result -- the perf server correctly reachable on the network -- so it is one work item, not several. It touches operations only (server configuration and reachability); nothing about product behaviour, the user's path, or documents changes, and the steps are simple enough execution that no named specialist is needed.",
   "scenario": "instruction-a-procedure",
-  "skill_version": "6.0.0"
+  "skill_version": "6.1.0"
 }

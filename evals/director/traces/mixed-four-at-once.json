@@ -1,20 +1,13 @@
 {
-  "id": "r30",
-  "acts": [
-    "question",
-    "decision",
-    "instruction",
-    "observation"
-  ],
+  "id": "mixed-four-at-once",
+  "acts": ["question", "decision", "instruction", "instruction", "question", "instruction", "observation", "observation"],
   "creates_work": true,
   "shelves_idea": false,
   "attaches_to_existing_work": false,
   "work_items": 1,
-  "dimensions": [
-    "documentation and communication"
-  ],
+  "dimensions": ["documentation and communication"],
   "specialists": [],
-  "reasoning": "Two questions that are answered rather than ticketed, a standing rule to always hand over the link, an instruction to produce a written plan with timings — one new piece of work — and the cafe hour plus resuming from home, which paces the work without changing what it must do.",
+  "reasoning": "The turn mixes four act types in one breath: a question about where the README sample was, a standing decision to always hand him a link when he forgets, an instruction to catch and fold in an idea project-B is about to send, and a second question asking whether work is running — none of these open new work. The one instruction that is accepted now is 'давай план, замеры по времени, все пиши', paced by the observation that the cafe window closes in an hour (context for the work, not a correction to it). No idea gets shelved, since project-B's idea has no content yet to file or start on; the plan-with-timing deliverable is documentation and communication the Director writes itself, so no specialist is named.",
   "scenario": "mixed-four-at-once",
-  "skill_version": "6.0.0"
+  "skill_version": "6.1.0"
 }

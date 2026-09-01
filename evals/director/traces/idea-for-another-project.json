@@ -1,19 +1,13 @@
 {
-  "id": "r08",
-  "acts": [
-    "idea",
-    "instruction",
-    "observation"
-  ],
-  "creates_work": true,
-  "shelves_idea": false,
+  "id": "idea-for-another-project",
+  "acts": ["idea"],
+  "creates_work": false,
+  "shelves_idea": true,
   "attaches_to_existing_work": false,
-  "work_items": 1,
-  "dimensions": [
-    "documentation and communication"
-  ],
+  "work_items": 0,
+  "dimensions": [],
   "specialists": [],
-  "reasoning": "A hedged possibility about enriching the audit skill sits beside a plain imperative to deliver it, so the idea travels as a note rather than sitting on a local shelf, and that delivery is the one small piece of work. The distinction drawn between cold readers of plain text and a spec is its own judgment, worth keeping after the note is sent.",
+  "reasoning": "The person names a possibility — enriching the text-audit skill to flag things in non-spec text (articles, messages) that a spec rightly skips — using musing language ('может имеет смысл') and explicitly frames it as something to hand off ('кинь лайвспеку идею'), not something to do now. That is the idea act: it goes on the idea shelf in the person's own words, and nothing is opened, built, or attached to work already in flight.",
   "scenario": "idea-for-another-project",
-  "skill_version": "6.0.0"
+  "skill_version": "6.1.0"
 }

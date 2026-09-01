@@ -1,15 +1,13 @@
 {
-  "id": "r16",
-  "acts": [
-    "decision"
-  ],
+  "id": "decision-granting-authority",
+  "acts": ["decision"],
   "creates_work": false,
-  "shelves_idea": true,
+  "shelves_idea": false,
   "attaches_to_existing_work": true,
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "A grant of authority covering all pushes and commands from here on settles something with force beyond this turn, which is a decision rather than an instruction to do anything now. It is recorded as a standing rule and applied to the work already running; no new goal is named.",
+  "reasoning": "This settles a standing rule with force beyond the message that carried it — a grant of authority to stop asking before pushes and commands going forward, the same kind of act the skill names explicitly under 'a decision is a standing rule, not only a single choice.' It carries no request for a specific result right now, so it opens no checkpoint and calls no specialist; it is recorded and applied to the push-approval behavior already running, not filed as new work.",
   "scenario": "decision-granting-authority",
-  "skill_version": "6.0.0"
+  "skill_version": "6.1.0"
 }

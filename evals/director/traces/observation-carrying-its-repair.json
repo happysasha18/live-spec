@@ -1,15 +1,13 @@
 {
-  "id": "r11",
-  "acts": [
-    "observation"
-  ],
+  "id": "observation-carrying-its-repair",
+  "acts": ["observation"],
   "creates_work": false,
   "shelves_idea": false,
   "attaches_to_existing_work": true,
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "A fact received out of band about work already in flight with an open checkpoint awaiting exactly that verdict. It carries no repair of its own to infer: the repair is the running work, so this is a new fact read against the existing plan rather than a new piece of work.",
+  "reasoning": "This reports a fact (a possible new CI failure, signalled by an email) about work that is already in flight: the checkpoint opened to repair the diagnosed cause of the two prior failures still has its own CI run in progress awaiting a verdict. It is a new fact that may change the remaining graph of that open checkpoint, not a fresh piece of work — the Director reads it against the checkpoint already running, verifies the actual CI status rather than trusting the tentative report, and updates that checkpoint's plan if the run did fail again.",
   "scenario": "observation-carrying-its-repair",
-  "skill_version": "6.0.0"
+  "skill_version": "6.1.0"
 }

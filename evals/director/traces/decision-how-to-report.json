@@ -1,18 +1,13 @@
 {
-  "id": "r13",
-  "acts": [
-    "decision",
-    "instruction"
-  ],
+  "id": "decision-how-to-report",
+  "acts": ["decision", "instruction"],
   "creates_work": true,
   "shelves_idea": false,
   "attaches_to_existing_work": false,
   "work_items": 1,
-  "dimensions": [
-    "documentation and communication"
-  ],
+  "dimensions": ["documentation and communication"],
   "specialists": [],
-  "reasoning": "A standing rule about how this session works, recorded separately so it outlives whatever work runs next. It does not absorb the demand riding with it: the person asked for a plan to exist and be shown now, which is work like any other. One new piece of work, nothing in flight to attach to.",
+  "reasoning": "\"С этого момента\" marks a standing rule, not a single choice — it settles how every future reply gets reported, the same kind of force as \"from this point on\" in the skill's own decision rule, so it is recorded as a decision that outlives this one message. It rides alongside a concrete ask to actually keep a plan and always show where things stand, and the skill is explicit that asking for a plan or a status is work like any other rather than mere wording, so that half is an instruction and one new work item: establish and maintain the plan-and-status practice. It touches documentation and communication only — no product behaviour, architecture, or data changes — and needs no specialist, since keeping the plan current is the Director's own checkpoint bookkeeping, not delegated work.",
   "scenario": "decision-how-to-report",
-  "skill_version": "6.0.0"
+  "skill_version": "6.1.0"
 }

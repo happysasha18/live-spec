@@ -1,15 +1,13 @@
 {
-  "id": "r23",
-  "acts": [
-    "halt"
-  ],
+  "id": "halt-plain",
+  "acts": ["halt"],
   "creates_work": false,
   "shelves_idea": false,
-  "attaches_to_existing_work": true,
+  "attaches_to_existing_work": false,
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "Work already running is being stopped: the repeated stop is about state. The clause about forgetting to reset the context is the grounds and says nothing the halt's own goal does not already carry, so it is not a second act.",
+  "reasoning": "The agent had already started acting on the previous message, and this message says 'стоп' twice — something running is being told to stop, which is a halt about state, not wording. The clause 'забыл обнулить контекст' gives the reason for the halt but states no fact or goal beyond it, so it is not a separate act, just the halt's own grounds. A halt changes the state of the work in progress; it creates nothing, shelves no idea, and is not a correction that attaches to and replans that work.",
   "scenario": "halt-plain",
-  "skill_version": "6.0.0"
+  "skill_version": "6.1.0"
 }

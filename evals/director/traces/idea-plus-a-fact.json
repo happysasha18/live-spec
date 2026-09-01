@@ -1,16 +1,13 @@
 {
-  "id": "r07",
-  "acts": [
-    "idea",
-    "observation"
-  ],
+  "id": "idea-plus-a-fact",
+  "acts": ["idea", "observation"],
   "creates_work": false,
   "shelves_idea": true,
   "attaches_to_existing_work": false,
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "Showing reference files is voiced as a possibility and dispositioned by the person themselves as far backlog, so it goes on the shelf in their own words. The closing note that one agent is still running is a separate act: a fact reported without a request, with the running work behaving as expected.",
+  "reasoning": "Showing reference files is named explicitly as 'дальний бэклог' and 'просто как идеи' — the person is not asking for it now, so it goes on the idea shelf in their own words rather than becoming a task with an id or estimate. The second clause just reports what they currently see (an agent still running), a fact about state with no repair implied, so it is an observation recorded as evidence, not a defect to fix. Neither clause is an instruction or correction to work in flight, so nothing is created or attached.",
   "scenario": "idea-plus-a-fact",
-  "skill_version": "6.0.0"
+  "skill_version": "6.1.0"
 }

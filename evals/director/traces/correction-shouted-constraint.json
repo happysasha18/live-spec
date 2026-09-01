@@ -1,21 +1,13 @@
 {
-  "id": "r18",
-  "acts": [
-    "correction"
-  ],
+  "id": "correction-shouted-constraint",
+  "acts": ["correction"],
   "creates_work": false,
   "shelves_idea": false,
   "attaches_to_existing_work": true,
   "work_items": 0,
-  "dimensions": [
-    "product value and behaviour",
-    "the user's path and the design"
-  ],
-  "specialists": [
-    "Developer",
-    "Design reviewer"
-  ],
-  "reasoning": "Said mid-build, this changes a constraint on work already in flight, so the remainder has to be replanned. It is not a halt — the engine keeps running toward the same goal — and not a standing rule, since it is scoped to the thing being built.",
+  "dimensions": [],
+  "specialists": [],
+  "reasoning": "The transition engine is already mid-implementation, and this message bans one technique inside that work — static transitions — without stopping the engine itself; per the skill, telling work in flight to drop one approach for another is a correction to its method, not a halt. A correction attaches to the work already running: the existing checkpoint's goal and remaining plan change to exclude static transitions, so nothing new opens and no second row is created alongside it.",
   "scenario": "correction-shouted-constraint",
-  "skill_version": "6.0.0"
+  "skill_version": "6.1.0"
 }

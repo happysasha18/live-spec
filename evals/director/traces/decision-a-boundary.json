@@ -1,15 +1,13 @@
 {
-  "id": "r15",
-  "acts": [
-    "decision"
-  ],
+  "id": "decision-a-boundary",
+  "acts": ["decision"],
   "creates_work": false,
   "shelves_idea": false,
   "attaches_to_existing_work": false,
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "A division of responsibility is a standing rule with force beyond this message. The two halves are one division, not two acts, and neither half names a goal to pursue now. Nothing is in flight for it to correct or halt.",
+  "reasoning": "This settles a standing division of responsibility going forward, not a single open choice within work already running and not a request for a specific deliverable — it is the kind of decision that carries force beyond the message that stated it. Nothing is running for it to attach to or correct, and it names no task the Director should begin, so no work is created and nothing is shelved as an idea.",
   "scenario": "decision-a-boundary",
-  "skill_version": "6.0.0"
+  "skill_version": "6.1.0"
 }

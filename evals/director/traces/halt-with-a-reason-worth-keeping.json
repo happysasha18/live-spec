@@ -1,16 +1,13 @@
 {
-  "id": "r24",
-  "acts": [
-    "halt",
-    "observation"
-  ],
+  "id": "halt-with-a-reason-worth-keeping",
+  "acts": ["halt", "observation"],
   "creates_work": false,
   "shelves_idea": false,
   "attaches_to_existing_work": true,
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "The stop tells running work to stop running. The judgment that the parameter is invented and its machinery unneeded says something new even while doubling as the halt's reason, so it is recorded as an observation rather than absorbed. It carries no repair a colleague could act on without asking.",
+  "reasoning": "The person wants the running work stopped now — servicing this parameter's machinery — so that is a halt: it changes the state of work already in flight and creates nothing. The grounds he gives, that the parameter is invented and the machinery unneeded, is a judgment about the product that says something new beyond the halt's own goal, so it stands as its own act, an observation worth keeping after the halt closes. Nothing new is created; the existing work's state changes to stopped.",
   "scenario": "halt-with-a-reason-worth-keeping",
-  "skill_version": "6.0.0"
+  "skill_version": "6.1.0"
 }

@@ -1,15 +1,13 @@
 {
-  "id": "r05",
-  "acts": [
-    "idea"
-  ],
+  "id": "idea-add-a-date",
+  "acts": ["idea"],
   "creates_work": false,
   "shelves_idea": true,
   "attaches_to_existing_work": false,
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "A possibility the person is not asking for now, with nothing related being built. The reason clause only restates why the idea wants what it wants, so it is not a second act. The idea gets a shelf entry in their words.",
+  "reasoning": "The person names a possibility for later ('думаю еще можно сделать дату') rather than asking for it now, and the situation states nothing related is being built, so there is no work in flight for this to attach to or correct. It goes on the idea shelf in their own words; no task id, priority, or specialist gets attached.",
   "scenario": "idea-add-a-date",
-  "skill_version": "6.0.0"
+  "skill_version": "6.1.0"
 }

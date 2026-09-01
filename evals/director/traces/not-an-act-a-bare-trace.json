@@ -1,21 +1,13 @@
 {
-  "id": "r35",
-  "acts": [
-    "observation"
-  ],
+  "id": "not-an-act-a-bare-trace",
+  "acts": ["observation"],
   "creates_work": true,
   "shelves_idea": false,
   "attaches_to_existing_work": false,
   "work_items": 1,
-  "dimensions": [
-    "product value and behaviour",
-    "quality, safety, regressions"
-  ],
-  "specialists": [
-    "developer",
-    "test author"
-  ],
-  "reasoning": "A wordless paste is still an act, and a stack trace is an observation; what was wanted is read off what the person was doing a minute earlier. Entitlement checking is throwing in production right after a deploy they were watching, so the repair follows beyond doubt and it opens one piece of work.",
+  "dimensions": ["product value and behaviour", "quality, safety, regressions"],
+  "specialists": ["Developer", "Test author"],
+  "reasoning": "A message with no words is still an act, and here the situation surrounding it — pasted moments after a deploy the person was watching — makes the repair follow beyond doubt, the same test as 'production is returning 500s': nobody pastes a crash right after their own deploy to be agreeable. It is an observation, not an instruction, but no clarifying question is needed, so it creates one piece of work: fix the TypeError in checkEntitlement (billing.js:142). It touches product behaviour, since entitlement checks are broken, and quality/regressions, since this is a production crash the deploy just introduced.",
   "scenario": "not-an-act-a-bare-trace",
-  "skill_version": "6.0.0"
+  "skill_version": "6.1.0"
 }

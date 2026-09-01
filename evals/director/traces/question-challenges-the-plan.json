@@ -1,15 +1,13 @@
 {
-  "id": "r02",
-  "acts": [
-    "question"
-  ],
+  "id": "question-challenges-the-plan",
+  "acts": ["question"],
   "creates_work": false,
   "shelves_idea": false,
   "attaches_to_existing_work": false,
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "Two questions in one breath about the agent's own just-made proposal. The opening hold is conversational, not a halt: nothing is running that should stop, and the proposed step was never accepted work, so there is no work in flight for a correction to attach to.",
+  "reasoning": "The person is asking whether the newly proposed checking step duplicates what the prover already does, or whether the real cases are genuinely harder than what the prover covers — a question wanting to know something, not a request to act. Per the skill, a question gets answered by engaging with the comparison, not turned into a roadmap row or new work; the two clauses are alternative hypotheses within one question, not separate acts.",
   "scenario": "question-challenges-the-plan",
-  "skill_version": "6.0.0"
+  "skill_version": "6.1.0"
 }
