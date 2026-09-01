@@ -273,7 +273,7 @@ and publish skills with their glossaries and word lists, the joining walk, the f
 adoption guide, and the founding test scaffold. `VERSION` moved 6.0.0 → 6.1.0, every skill stamp
 followed it, and `MIGRATION.md` carries the 6.1.0 chapter saying a host owes nothing.
 
-### 👁️ The playbook repo earns its keep or gets folded away — id: q-800
+### ✅ The playbook repo earns its keep or gets folded away — id: q-800
 **Group:** Cross-project · **Priority:** normal
 **Source:** owner 2026-08-27 23:47 — "что за плейбук блин надо разгрести его тоже. мне кажется он лишний." <!-- user-language -->
 
@@ -300,6 +300,25 @@ on plan-16, both to drop three citations that still point at it and to take in t
 turn out to live nowhere else. The page also carries the ordered list of commands for the window that
 owns that repository, which this window cannot write to. The row waits on the owner's read of the
 page and on those moves actually running; his read is what closes it.
+
+**Done 2026-09-01.** His own word this session, "разрешаю," is the read that was waited on. The
+window that owns `~/.claude/playbook` re-checked the tree against the report and found the ordered
+list already run and pushed on 31.08, commits `803924a`, `380d33b`, `3108b92`, `c648cf5`
+(`0a79f35` followed, unrelated — a plan-16 fix to the profile's report-format line). Nine dead
+files and one stray backup left the working tree for git history; `PLAYBOOK.html` and
+`row52/attic/skills-bak/` went to the trash; `profile-history.md` gained the version history and
+off-machine copy its own third line had always pointed at but git never held; the `cost-levers`
+line got the script's full path; the README was rewritten for the narrowed repository. Nothing was
+left to move, and nothing further was committed today — the tree matches the report exactly, and
+`git status` there is clean against `origin/main`.
+
+One piece named in the report stays open, and plan-16's landing did not close it: the two rules
+that live only in `PLAYBOOK.md` — naming what a plan must not touch, and reading "what's the
+point"/"what a mess" as a stop-and-look signal — did not enter any skill when plan-16 landed 31.08,
+and the three citations at `skills/live-spec-base/SKILL.md:266`,
+`skills/director/references/delegation-protocol.md:36`, and `tests/test_convergence_rule.py:57`
+still point at that document. This is already carried in this file's own Blockers section and is
+not this row's to fix — it waits on whoever next holds the pen on the rule-homes lane.
 
 
 ### ✅ A color-contrast check now looks at the right background — id: q-490
@@ -1174,6 +1193,26 @@ where tests are derived, and finds the method stated in the skill alone. The mat
 for that wiring with a test behind it. The field leg: one host's own test matrix is written by this
 method and sits in that host's tree, `test -f` finding it.
 
+**Partially landed 2026-09-01.** The pack side already stood before today: `skills/test-author/SKILL.md`
+(v6.1.0) ships, `bash guardrails/check-skill-loadability.sh` passes it, and the Director's specialist
+table already named it (`skills/director/SKILL.md:352`) at the step where "the evidence and the
+regressions have to be chosen." What was missing — the matrix row proving that wiring rather than
+leaving it as prose — is now built: `matrix/test-author.md`'s new row `M-620` states the fact (the
+specialist table pairs `Test author` with that exact call condition and `skills/test-author` in one
+row, and the method itself — level ladder, red-first proof, pinned skip-set — stays test-author's own
+and is never restated beside the call), and its owning test,
+`tests/test_traceability.py::TestProblemLedger::test_director_names_test_author_at_the_derivation_step`,
+runs green today and was red-proven live: the specialist-table row was deleted from a working copy of
+`skills/director/SKILL.md`, the test reran and failed on the exact assertion, and the file was restored
+before anything else touched it. Command: `python3 -m pytest -q tests/test_traceability.py -k
+test_director_names_test_author_at_the_derivation_step`.
+
+One leg stays open and is not this session's to close: the row's field half asks for one real host's
+own test matrix, written by this method, landing in that host's own tree — `test -f` finding it there.
+That requires a session inside that host's own project window (a candidate: `~/tlvphotos`, which
+already runs on this pack); this window only reads other projects, so the leg is named here rather
+than attempted. The row stays open until that session runs.
+
 
 ### ✅ Every automatic check proves it can actually catch its problem — id: q-489
 **Group:** Method reliability · **Priority:** normal
@@ -1329,7 +1368,7 @@ want of it, and building it would be machinery serving itself.
 **Checked by reading on 28.08.** The lead-in that makes the count read right is recorded at `docs/skill-review/2026-08-12-product-prover.md:26-29`. No command: the sentence lives in the reviewer's own repository.
 
 
-### ⬜ Three wording disagreements in the rulebook need your final call — id: q-536
+### ✅ Three wording disagreements in the rulebook need your final call — id: q-536
 **Group:** Readability & plain language · **Priority:** normal
 **Source:** found 2026-07-30 across three readability pilots.
 Note: the title still says the call is his, and titles change only on his own word. The definition
@@ -1475,14 +1514,44 @@ the thing is doing since it shipped — fetched by the host's own tooling rather
 going to look, and a test reds when the fetch is skipped or returns nothing. The same view carries
 the result of a two-variant experiment when one is running.
 
-Its trigger, and the row waits on it: the first host with a live audience worth measuring. The
-design travels with the feedback-in half, which is archived under its own row.
+**The trigger fired 24.07, and the row sat stale since — corrected 01.09.** The row's own text
+called this "deferred on its own stated trigger: the first host with a live audience worth
+measuring," as if that had not happened yet. It had, over a month before this correction:
+Alexander posted tlvphotos.com into three Russian Telegram groups on 24.07; sessions that day hit
+21 against a 4–12 baseline, with 24 total campaign-labelled sessions over the following four days
+(`~/tlvphotos/inbox/handled/2026-07-27-from-promoter-ga-campaign-numbers.md`). GA4 property
+`544252011` is live and already read by `~/tlvphotos/scripts/ga_report.py`, and that same file
+already reports organic-search visitors averaging 8.5 minutes on site against 23–70 seconds for
+the campaign traffic. A live audience worth measuring exists and has been measured by hand for
+weeks; the row's own text just never caught up to that fact until now.
 
-**Deferred, not archived, 31.08.** The hostile review of the remaining board called for archiving
-this row alongside three others, but this one owns a live spec anchor, `INV-21` (checked against
-`tests/test_traceability.py`'s `TARGET_ROW_OWNERS`) — taking it off the board would orphan that
-promise the exact way tonight's target-ownership correction exists to prevent. It stays, deferred
-on its own stated trigger, the same shape as `plan-9`.
+**What the pack side owns, checked 01.09 against `INV-21`'s own requirement text**
+(`spec/design-spec-review.md` Requirement 76, case "the reading machinery is promised" — "the
+system *shall* keep the success-measure reading machinery promised under its own queue row").
+One slice of it is genuinely built: the field-evidence route (`spec/customer-feedback.md`
+Requirement 154, clause 4, `[INV-21]`) lands a person's reaction to a shipped feature as one dated
+line in `FEEDBACK.md`, citing the feature's scenario — the human-triggered half of the promise,
+shipped and traced. What is not built, and has no design authored yet, is the automatic half this
+row's own acceptance names: fetch-by-the-host's-own-tooling, a status view that prints live
+numbers unasked, and a test that reds when that fetch is skipped or empty. No spec chapter defines
+that mechanism's shape yet (no measurement-plugin contract, no generic fetch interface) — it is a
+feature that still needs its own spec-authored delta before code, the same as any other row here,
+not something a single pass can freehand into existence without risking exactly the kind of
+un-designed machinery this tree forbids building on spec.
+
+**The remaining legs, split the way `q-163` splits its own method-versus-field halves:**
+- **Pack-side (this row's own remaining work):** author the spec delta for the automatic-fetch
+  contract — a generic interface a host's status-view tooling implements, and the red-when-empty
+  test `INV-21` already promises — through `spec-author`, then build and trace it here.
+- **Host-side, out of this window's tree:** wire tlvphotos's own status view to `ga_report.py`
+  and Cloudflare so it prints live numbers beside its tasks without a person going to look — that
+  wiring is `~/tlvphotos`'s own job, for a session inside that project's own window, once the
+  pack-side contract above exists for it to implement against.
+
+`INV-21`'s `[target]` tag stays live in `spec/design-spec-review.md`, so this row stays the open
+owner `tests/test_traceability.py`'s `TARGET_ROW_OWNERS` checks against — closing it here would
+orphan that promise. Still ⬜, not archived, not deferred on an unfired trigger: the trigger is
+spent, and what is left is real, scoped work.
 
 
 ### ✅ One command safely winds down all the work before you leave — id: q-235
@@ -1533,7 +1602,7 @@ the row's whole acceptance.
 
 
 
-### ⬜ Independent work actually runs in parallel branches, proven live — id: q-386
+### ✅ Independent work actually runs in parallel branches, proven live — id: q-386
 **Group:** Parallel & multi-agent work · **Priority:** normal
 **Source:** owner 2026-07-17 ~14:15 — "why do we wait? why is this written nowhere?"
 **Closes:** q-412, q-206, q-215, q-234, q-404, q-396, q-405, q-504
@@ -1563,6 +1632,20 @@ which would notice the two descriptions parting company. Both descriptions are s
 rulebook states the three steps in its own words beside the script that performs them. So the drift
 this asks to be protected from is possible today and nothing would catch it. The row keeps this one
 leg and nothing else; the other three are closed above.
+
+**Done 2026-09-01.** `tests/test_lane_open_act_convergence.py` reads `skills/live-spec-base/SKILL.md`
+rule 7's "The lane-open act" bullet live at run time — never a copy of its wording kept in the test —
+and builds what a real run of `scripts/open-lane.sh` is checked against straight out of that text: the
+branch-name pattern the law states (`lane/<row>-<slug>`), instantiated for the run's own row and slug,
+and the First/committed-to-main, Second/cut-into-its-own-worktree, Third/handed-to-a-worker order the
+law names. The script runs for real on a hermetic repo (the same harness M-395's by-deed tests already
+use), and the branch it actually cuts, the commit it actually lands, and the order its own printed
+account reports are each checked against what the law's live text just said they should be. Proven to
+actually catch drift, not just pass today: the law's own branch pattern was mutated on a throwaway copy
+(`lane/<row>-<slug>` swapped to `lane/<slug>-<row>`) and the test reddened; separately, the script's
+branch-naming line was mutated the same way and the test reddened again; both mutations were reverted
+before anything else ran, and `git status` on the tracked files confirmed nothing else moved. The other
+three legs stood already, so the row closes.
 
 
 ### 👁️ The front page is rewritten to be fully accurate — id: q-501

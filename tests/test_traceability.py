@@ -2685,6 +2685,31 @@ class TestProblemLedger(unittest.TestCase):
         readme = re.sub(r"\s+", " ", read("README.md"))
         self.assertIn("test-author", readme, "README missing the new skill")
 
+    def test_director_names_test_author_at_the_derivation_step(self):
+        """Row 163 (M-620, E-27): the shipping walk names test-author at the exact
+        step where the evidence and the regressions are chosen — the Director's
+        specialist table — never merely somewhere in the file; and the method
+        itself stays test-author's own, never restated beside the call."""
+        director_skill = read_flat(os.path.join("skills", "director", "SKILL.md"))
+        # the exact table row pairing the call condition with the skill path — not
+        # "Test author" and "skills/test-author" occurring anywhere in the file,
+        # which an unrelated mention would also satisfy
+        self.assertIn(
+            "| Test author | the evidence and the regressions have to be chosen | `skills/test-author` |",
+            director_skill,
+            "director's specialist table does not pair test-author with the test-derivation "
+            "call condition and its path in one row (red proven against a mutated copy of "
+            "skills/director/SKILL.md with this row deleted; restored after)",
+        )
+        # the method itself (level ladder, red-first proof, pinned skip-set) lives once,
+        # in test-author's own skill, never duplicated into the table that only calls it
+        for needle in ("level ladder", "red-first", "skip-set"):
+            self.assertNotIn(needle, director_skill,
+                             "director restates test-author's own method instead of calling it: %s" % needle)
+        skill = read_flat(os.path.join("skills", "test-author", "SKILL.md"))
+        for needle in ("The level ladder", "Red first, proven", "Pin the skip-set"):
+            self.assertIn(needle, skill, "test-author skill missing its own stated method: %s" % needle)
+
     def test_showing_seat(self):
         """Row 168 (M-170, INV-67): the showing channel matches the session's seat —
         local window vs remote artifact page, detected and said."""
