@@ -3601,3 +3601,15 @@ The bytes-per-criterion figure itself survives as a reading. `guardrails/specfor
 lines that count it, since two report generators wanted it and the gate they used to import it from
 is gone; `docs/PROGRESS.md` and `docs/MEASUREMENTS.md` print it with no target beside it, and Table
 C lost its "ceiling" column, whose only two filled cells were the two bounds this cut removed.
+
+spec-author -> spec-author (6.1.0 -> 6.1.0, prose only). `scripts/sync-skills.sh` ran a third time
+the same night, closing q-537's own drift from `change-record.md`'s rewrite above.
+
+## 2026-09-02 — a fresh review clears the five skills tonight's edits touched
+
+`docs/skill-review/2026-09-02-overnight-run-five-skills.md`: `live-spec-base`, `product-prover-pack`,
+`publish`, `spec-author`, `text-audit-pack` — every rule reads complete after its citation came out
+(the fact already stands in `JOURNAL.md`/`DECISIONS.md`), the two new q-436 lenses match each other
+exactly, and `change-record.md`'s rewrite states what the tree now actually holds. One note kept for
+a later pass: two of the five files grew tonight with no fresh size reading against their own
+documented ideal.
