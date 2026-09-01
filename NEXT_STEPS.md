@@ -141,7 +141,7 @@ authored; host-side, wiring tlvphotos's status view to `ga_report.py`, waiting o
 first. The bigger `work-board`/Requirement 309 feature (worker lanes, per-agent time, on a host's
 own task queue) — real, scoped, not asked for again since 08-06, deliberately not folded into
 `q-166`'s now-closed daily-need scope. `plan-9` — tlvphotos's own move to new tools, deferred on
-Alexander's own word until after the release, not blocked; the walk brief already sits at
+Alexander's own word, 2026-08-27, until after the release, not blocked; the walk brief already sits at
 `~/tlvphotos/inbox/2026-08-27-live-spec-6.0.0-catchup.md` waiting for that project's own session.
 `plan-14` — a host's own status-view/plan/probe/board template, deliberately held back from a
 worker lane 31.08 as real install-infrastructure work, not a mechanical narrowing; still true today,
