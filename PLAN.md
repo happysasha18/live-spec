@@ -188,6 +188,47 @@ answer to "what breaks if this is gone", and the ones that answer "nothing" are 
 skill-creator runs over each skill this touches, as he asked. Measured by the same line
 `scripts/state-probe.sh` already prints, before and after.
 
+**The four-document cut, closed.** `skills/live-spec-base/SKILL.md` carries 22,683 bytes today
+(from 40,443), background moved whole to `references/rule-origins.md` (6,539 bytes, opened only to
+dispute or amend a rule — no rule restated there, rule 4's own ban). Two rules genuinely lost in the
+first pass are back (rule 6's worker-liveness apparatus, rule 7's single pen), landed
+`f6668634`. A second, independent hostile reading (`.live-spec/checkpoints/q809-rule-loss-verdicts.md`)
+checked fifteen more claimed losses against the live tree and found four more real: rules 6, 7, 9
+and 31 each dropped one load-bearing clause the first cut's own tests never happened to catch. All
+four landed, verbatim, in `33ee1b38` — checked again tonight (02.09 ~22:35) by direct grep against
+the live file, not assumed from the commit message. Total: 63.5 KB of 80 KB, a fifth off — the
+quarter he asked for is not reached, and `.live-spec/checkpoints/q809-startup-weight.md` says why:
+the boot file is his and untouched by his own earlier word, and Director's own cut was measured
+against its 35-scenario eval and reverted (a 3.7 KB saving against an unresolved score question the
+eval's own producer-variance can't currently distinguish).
+
+**The second half, decided: DECISIONS.md earns its place; it does not fold into JOURNAL.md.**
+`.live-spec/checkpoints/q809-standing-files-census.md` censused every standing document in the
+tree first — root-level and `.live-spec/` core — and found zero with no real consumer; nothing
+there was ever a candidate to cut. DECISIONS.md was the one real question, and the census answers
+it rather than leaving it open: 50% of its 56 entries already have a paraphrased echo in
+JOURNAL.md's session narrative (expected cross-referencing, not duplication — rule 4 governs where
+a fact's canonical statement lives, not whether a decision is ever mentioned elsewhere), and the
+other half are chat rulings a session's own write-up never carried. More load-bearing than the
+overlap: DECISIONS.md is the one file `guardrails/check-authority-anchor.py` — a wired push gate —
+scans by name for a dated-exchange shape before it lets a push through; it holds a **Struck**
+section (he can retract an entry with one line, leaving the record) and an **Open** section
+(questions still awaiting his word) that JOURNAL.md's append-only, rotating narrative has no
+mechanism for at all. Folding it would mean rewriting a live push gate, inventing a retract
+mechanism inside a rotating log, and re-pointing six other named consumers — real engineering cost
+to buy back a redundancy that is mostly expected cross-reference, not duplication. Kept, with the
+reason on record here rather than left as an open question.
+
+**Remaining before this row closes:** the director eval's 35-scenario re-record (needed regardless,
+since `skills/director/SKILL.md` changed twice tonight under q-810 and its own new argue-first
+rule — `plan-2`'s own check reads its result); a lightweight skill-creator structural pass over
+`director` and `live-spec-base` (both under 500 lines, frontmatter and progressive-disclosure
+pattern already match the tool's own guidance — no defect found; the tool's heavier
+benchmark-and-browser-review loop is built for skills with a gradeable file output, which neither
+of these prose/procedure skills has, so it was not run, on the same "don't serve machinery nobody
+needs" reasoning as the rest of this row); and a final re-measure against `state-probe.sh`'s own
+line once both land.
+
 ### ✅ A task that turns out not to be done says so, instead of pretending it is blocked — id: q-807
 **Group:** Board & visibility · **Priority:** critical
 **Source:** owner 2026-09-02 14:50 — the blocked mark is reserved for work that genuinely cannot

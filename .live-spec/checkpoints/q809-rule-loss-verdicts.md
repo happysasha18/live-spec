@@ -1,5 +1,12 @@
 # q-809 — second reading of the claimed rule loss
 
+**RESOLVED, checked 2026-09-02 ~22:35.** All four genuine-loss defects this file names (rules 6, 7,
+9, 31) already carry their exact replacement sentence, verbatim, in the live
+`skills/live-spec-base/SKILL.md` — landed in commit `33ee1b38` ("Four rules restored, rule 10
+repaired against its own spec"), which post-dates this analysis. Verified by direct grep against
+the live file, not assumed from the commit message. This file's analysis stands as the record of
+why; no further action owed against it.
+
 Date: 2026-09-02. Independent re-read of `docs/prover/2026-09-02-full-range-review.md` finding F2,
 which lists fifteen sentences of the old rulebook (`411a353`) said to survive in neither the new
 `skills/live-spec-base/SKILL.md` body nor `references/rule-origins.md`.
