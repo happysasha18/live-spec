@@ -165,6 +165,41 @@ The main plan is **always one file: `~/live-spec/PLAN.md`.** Never start a secon
 
 One list: the plan's own steps and the former ROADMAP.md queue, merged 27.08 per step 11. Order: needs his eyes, then in hand, then blocked, then queued; critical heads its own group first and never another's — urgency never outranks whether a task is actually workable now (27.08, his word). Marks: ✅ done · 🔄 in hand · ⬜ queued · ⛔ blocked · 👁️ needs his eyes — the same five the Canon report itself uses. Former ROADMAP.md rows are archived verbatim at `docs/queue-archive/rotated-ROADMAP-2026-08-27-merged-into-plan.md`.
 
+### ⬜ A task that turns out not to be done says so, instead of pretending it is blocked — id: q-807
+**Group:** Board & visibility · **Priority:** critical
+**Source:** owner 2026-09-02 14:50, in chat: "blocked is not 'reopened' не надо абьюзить статусы
+либо не по назначению, либо свои выдумывать."
+
+**What is wrong today.** `scripts/state-probe.sh` shows a task whose acceptance command has stopped
+passing with the blocked mark ⛔. Two different things then wear one mark: work that genuinely
+cannot move (an outside dependency, a technical limit, one action only the owner can take), and
+work that was called finished and turned out not to be. A reader cannot tell them apart, and the
+second one is not blocked at all — nothing is standing in its way.
+
+**Definition of done:** the blocked mark carries only work that genuinely cannot proceed. A task
+whose own check has stopped passing returns to the queue, or to in-hand if someone picks it up,
+and carries a plain note saying its proof stopped holding and when — never a status it does not
+mean. `scripts/state-probe.sh` and `scripts/render-board.sh` agree on this, and a test reds if a
+failing check ever paints the blocked mark again.
+
+### ⬜ A person who did not build this can read the task list and understand it — id: q-808
+**Group:** Board & visibility · **Priority:** critical
+**Source:** owner 2026-09-02 14:50, in chat: "я понимаю таких треть. это плохо надо понять что надо
+пофиксить в промптах или чето такое." Measured live in the same exchange: of the task lines shown
+to him, he could follow about one in three.
+
+**What is wrong today.** Task titles and group names are written in the vocabulary of whoever did
+the work. `scripts/state-probe.sh` and `scripts/render-board.sh` print those strings as they stand,
+so the list a person reads is an engineering worklog rather than a status report. The goal
+statement at the top of this very file already asks for the opposite ("It knows how to communicate
+properly"), and nothing in the tree carries that promise today.
+
+**Definition of done:** a person outside the work reads the open task list and can say, for each
+line, what it would give them and what state it is in — checked by asking a reader who did not
+write the tasks, not by a session judging its own prose. The fix lands where titles are written,
+so new tasks come out readable, rather than as a translation layer bolted on at display time. The
+three earlier breaks of this same rule are on record; this row is the one that repairs the source.
+
 ### ✅ The turnkey product contract is proven complete before any code starts — id: q-806
 **Group:** Turnkey productization · **Priority:** critical
 **Source:** owner 2026-09-01 23:xx, `.live-spec/next-phase-prompt-turnkey-productization.md`; begun
