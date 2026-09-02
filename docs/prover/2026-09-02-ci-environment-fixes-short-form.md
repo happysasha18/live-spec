@@ -2,14 +2,17 @@
 
 PUSH-REVIEW
 
-Range: effa3ecc..df5ff7d3
+Range: effa3ecc..10b2a208
+- 10b2a208 Ignore __pycache__/*.pyc; add safe.directory to INV-198's worktree reads
 - df5ff7d3 docs/prover: short-form record for the CI-environment fixes, extend the full-push-range record's Range to include them
 - 34f41718 Fix two CI-only environment defects gate b's server-side run surfaced
-Files read: guardrails/check-config-health.sh (the whole INV-198 arm and its new scoping),
-tests/test_lane_net_arms.py, tests/test_routing_preamble_hook.py, tests/test_config_health.py,
-tests/test_wind_down.py, spec/parallel-lanes.md Requirement 85 criterion 5, the CI failure log
-itself (https://github.com/happysasha18/live-spec/actions/runs/33578188215)
-Checks run: `python3 -m pytest -q tests/test_lane_net_arms.py tests/test_routing_preamble_hook.py tests/test_config_health.py` — 54 passed. `python3 -m pytest -q tests/test_wind_down.py` under `GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null` (the closest local reproduction of a runner with no git identity of its own) — 6 passed. A live scratch repo built with `git init -q -b master` (single worktree) against `guardrails/check-config-health.sh` directly — passes clean, matching the CI failure log's own "holds 'master' instead of main" case. A second scratch repo with a real second worktree and a deliberately drifted primary branch against the same script — still reds with the same message shape. Full local suite once more after both fixes: `python3 -m pytest -q` — 2737 passed, 4 skipped, 0 failed (the one `error` that run showed was this commit's own changes reading as still uncommitted at the time it ran, resolved by this commit landing).
+Files read: guardrails/check-config-health.sh (the whole INV-198 arm and its new scoping and, in
+10b2a208, its new `safe.directory` reads), tests/test_lane_net_arms.py,
+tests/test_routing_preamble_hook.py, tests/test_config_health.py, tests/test_wind_down.py,
+.gitignore, tests/test_dialog_warning_guard.py, spec/parallel-lanes.md Requirement 85 criterion 5,
+both CI failure logs (https://github.com/happysasha18/live-spec/actions/runs/33578188215,
+https://github.com/happysasha18/live-spec/actions/runs/33581346738)
+Checks run: `python3 -m pytest -q tests/test_lane_net_arms.py tests/test_routing_preamble_hook.py tests/test_config_health.py` — 54 passed. `python3 -m pytest -q tests/test_wind_down.py` under `GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null` (the closest local reproduction of a runner with no git identity of its own) — 6 passed. A live scratch repo built with `git init -q -b master` (single worktree) against `guardrails/check-config-health.sh` directly — passes clean, matching the CI failure log's own "holds 'master' instead of main" case. A second scratch repo with a real second worktree and a deliberately drifted primary branch against the same script — still reds with the same message shape. `bash -n guardrails/check-config-health.sh` after the `safe.directory` addition. A manual reproduction of a stray `.pyc` colliding with `tests/test_dialog_warning_guard.py`'s own one-file-in-the-tree proof, cleared by the new `.gitignore` line. Full local suite twice more (once before 10b2a208, once after): `python3 -m pytest -q` — 2737 passed, 4 skipped, 0 failed both times.
 Findings: `effa3ecc` passed every local gate and a full local suite run, then failed CI's gate b
 (24 failed) on two root causes invisible on a machine whose own ambient git config happened to
 already answer both gaps. (1) `q-804`'s new config-health INV-198 arm checked any git repo the
@@ -26,4 +29,23 @@ shape where a lane could move main out from under the primary, the entire concer
 for); the wind-down fixture now sets an explicit `GIT_AUTHOR_NAME`/`GIT_AUTHOR_EMAIL`/
 `GIT_COMMITTER_NAME`/`GIT_COMMITTER_EMAIL`, the same pattern this project's other hermetic git
 fixtures already use (`tests/test_lane_branch_road.py`'s `_git()`).
+
+The second CI run (33581346738, on `e567c5f9`) confirmed both fixes above worked — neither failure
+signature recurred — but 3 of `test_lane_net_arms.py::TestConfigHealthPrimaryTreeArm`'s own tests
+(`test_a_detached_primary_tree_reds`, `test_primary_tree_drifted_off_main_reds`,
+`test_the_read_is_of_the_primary_tree_not_the_invoking_one`) still failed, all with the same shape:
+the arm read zero worktrees and stood itself down instead of reddening a deliberately drifted or
+detached primary tree. Checked against the FIRST CI run's own log and confirmed these 3 failures
+were present there too, before this range's scoping fix ever landed — a separate, pre-existing gap
+in `q-804`'s original INV-198 arm that simply had no CI run to surface it until tonight.
+`10b2a208` adds `-c safe.directory='*'` to both `git worktree list --porcelain` reads in this arm:
+git's own "detected dubious ownership" refusal empties that command's stdout on a container/CI
+runner where the process's detected user differs from the scratch repo's owner, and this arm's own
+`2>/dev/null` would swallow that refusal's message and read as "no second worktree" — matching the
+failure shape exactly. This is not confirmed against the actual CI runner (no shell access to it);
+it is the best-supported hypothesis after ruling out pytest ordering, git-version `--porcelain`
+format differences, and fixture-state leakage, and it is a narrow, well-understood mitigation for
+exactly this failure class rather than a guess pulled from nowhere. The next CI run is the real
+proof; if the 3 failures persist, this hypothesis is wrong and needs to be dropped, not patched
+further.
 Blocking: none
