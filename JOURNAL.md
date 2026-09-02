@@ -3729,3 +3729,28 @@ Neither defect showed on any local `pre-push` run tonight, on any of the four fu
 before this one, or on any of the three review rounds' own targeted test runs — all ran on the one
 machine that happened to already answer both gaps. The server was the first environment that
 couldn't.
+
+## 2026-09-02 — a row's own definition of done stops naming his eye as the only check (q-810)
+
+His word tonight, on why the live board (q-166) needed his eye at all: a task closes when the
+seat carries it to a shown result, not when he personally watches it; a shown result he doesn't
+like becomes a new task, not a reopening of the one that shipped. `skills/director/SKILL.md`
+states that once, next to the existing closing-checkpoint paragraph — a row's "needs his eye"
+gate is now reserved for a taste call, an undecided trade-off, or a change to the definition of
+correct (rule 12/27's own three cases), never for verifying an ordinary delivered result. An
+action genuinely irreversible outside git still stops for his word before it runs, unchanged.
+
+`q-166` closed under the new rule the same night: its own acceptance line read "his own eye is
+the check," and its remaining scope — worker lanes, given-vs-actual time, per-agent attribution —
+had no real ask behind it since 08-06 while `board.html` already answers the daily need. Closing
+it orphaned two `[target]` promises in `spec/work-board.md` (`INV-308`, `INV-67`); they moved to
+a fresh row, `q-811`, the same repair shape q-385 and q-804 already used for a promise a closed
+row stopped carrying.
+
+Two live drifts this surfaced and fixed along the way: `tests/test_traceability.py`'s in-work cap
+test hard-coded the lane cap at three, stale since the profile raised it to ten on his word the
+same day — it now reads `lanes.cap` from the profile live, the way `scripts/open-lane.sh` already
+does. And editing `director/SKILL.md` drifted the installed copy from source
+(`guardrails/check-config-health.sh` caught it); `scripts/sync-skills.sh` re-synced it. The
+35-scenario director eval and a version bump are held for one combined pass once tonight's other
+skill edits (q-809) land too, rather than re-running the full eval twice for one night's work.
