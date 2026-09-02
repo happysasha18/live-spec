@@ -1,0 +1,9 @@
+{
+  "scenario": "close-a-redefinition-the-person-himself-ordered",
+  "label": "KD",
+  "closes": true,
+  "reason_kind": "ordinary delivered result",
+  "reasoning": "The definition of correct did change here, but the person is the one who changed it: the accepted instruction was to make an extra act fail the scenario, so the four runs that now read red are the instruction working, not a question it left open. That makes this \"an ordinary buildable result a command, a test, or a plain read already confirms was delivered\" — the unit tests pass and the re-grade is the plain read confirming the observable outcome. \"A shown result closes the work; the human's own eye is never the gate on an ordinary delivery,\" and the three cases reserved for him — a taste call, a trade-off no artifact settles, a change to the definition of correct — are cases where he has not yet ruled, not cases where his own ruling is being carried out. The score moving 30 to 26 is a new fact I read against the plan, and it changes nothing that remains, so I \"say so and continue\" rather than replan. So I show the result plainly — 26 of 35, and the four runs whose every material field is right yet now fail — and close the checkpoint in the same step; if he disagrees with the shown result afterward, \"that disagreement is a new fact, not a reopening of the one that shipped.\"",
+  "skill_sha256": "e477026949fbd7312a0827f7181b4fdd8e6d54f6d726042b47d2ab2d205f68b8",
+  "recorded": "2026-09-02"
+}

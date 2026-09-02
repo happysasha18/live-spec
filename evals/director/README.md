@@ -67,6 +67,34 @@ Everything else still fails, an extra act beside a real one or not: a missing ac
 boolean, a wrong `work_items`, a missing or forbidden dimension or specialist, an act named
 where the scenario expects none, and a name that is not a speech act at all.
 
+## The second, smaller eval in this directory
+
+`scenarios.json` and its thirty-five traces test the first stage only: a message arrives and the
+Director decides which of the seven acts it carries. `closing-scenarios.json` tests what happens
+after that, and the two must not be read as one score. Eight of its nine fixtures start where the
+other set stops — work was accepted, built and verified — and ask the one question left: does the
+Director close it now, or hold it and put a question to the person first. The rule they test landed
+2026-09-02 with `PLAN.md`'s q-810: a shown, ordinary delivered result closes the checkpoint in the
+same step, and the wait for the person is reserved for a taste call, a trade-off no artifact
+settles, a change to the definition of correct, or an action irreversible outside git, which stops
+before it runs. The ninth fixture sits at the opposite end of the same skill, the moment the
+decision sheet is written: a request that contradicts a decision already on record, where the rule
+landed the same night has the Director say so before the checkpoint opens rather than build it
+silently, and proceed on the person's word once they have heard it. Both are the same question
+asked twice — when does the Director act on its own, and when does it speak. Same
+method as the larger set and the same three parts kept apart — fixtures here, one fresh producer
+per scenario holding the skill and nothing else, opaque two-letter labels, and a grader that had no
+part in producing the verdicts. What differs is where the grading lives: nine recorded runs and two
+graded fields do not earn a second `check.py`, so the comparison sits in
+`tests/test_director_scenarios.py` and runs with the suite. Recorded runs are in `closing-traces/`,
+the run record and its score are in the fixture file itself, and the suite reds when the Director's
+own text has changed since the runs were recorded. That last pin reads the skill's content rather
+than its declared version: the Director's text moved three times on the day these fixtures were
+written and its declared version moved none of them, so a version pin would have read fresh across
+every edit it exists to catch — and a stale score that reads as a fresh one is the failure this
+directory already has on record. The first recording of the closing runs was thrown out under that
+same pin when the skill changed an hour later, and the whole set was recorded again.
+
 ## Running it
 
 Produce a verdict per scenario with a fresh agent that holds `skills/director/SKILL.md`

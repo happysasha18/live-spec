@@ -1,0 +1,9 @@
+{
+  "scenario": "ask-whether-the-shorter-skill-ships",
+  "label": "VN",
+  "closes": false,
+  "reason_kind": "trade-off no artifact settles",
+  "reasoning": "The skill closes work on \"a shown result\" whenever the outcome is \"an ordinary buildable result a command, a test, or a plain read already confirms was delivered\" — and here nothing confirms delivery. The stated goal was a cut that costs nothing, and the eval's own record says a single run carries about two scenarios of producer variance, so 30 versus 29 neither confirms nor denies the goal; the observable outcome the sheet would have named is unreachable from this artifact. That puts the choice squarely in one of the three cases the same rule reserves for the person: \"a trade-off no artifact settles\" — 3.7 KB off the pack's front door weighed against a possible capability loss the measurement cannot see. It is not a taste call and not irreversible (both versions sit on disk, neither committed), so the hold costs one question rather than a rerun. And per the Execution section, this is the moment to say plainly that the eval as run cannot decide it, rather than pick a version silently: \"Silent agreement is its own kind of failure.\" Ask one short question in his terms — keep the smaller file, or keep the one we have — and close on his word.",
+  "skill_sha256": "e477026949fbd7312a0827f7181b4fdd8e6d54f6d726042b47d2ab2d205f68b8",
+  "recorded": "2026-09-02"
+}

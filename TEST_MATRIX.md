@@ -134,7 +134,7 @@ by `test_artifact_inventory` — the test parses this table, so adding an entry 
 
 | Part | Rows | Topic |
 |---|---|---|
-| `matrix/director.md` | 8 | the first read of a person's message: which of the seven acts it carries, the door that opens work only behind an act that asked for it, the decision sheet inside that work's own checkpoint, which accepted work runs next, and the idea shelf that is specified and unbuilt |
+| `matrix/director.md` | 10 | the first read of a person's message: which of the seven acts it carries, the door that opens work only behind an act that asked for it, the decision sheet inside that work's own checkpoint and the disagreement voiced as it is written, which accepted work runs next, whether a delivered result closes there or waits for the person, and the idea shelf that is specified and unbuilt |
 | `matrix/base-rulebook.md` | 66 | shared working rules stated once + package defaults + the settings ladder |
 | `matrix/spec-author.md` | 32 | authoring method for a living, use-case-first, prover-ready PRODUCT_SPEC.md |
 | `matrix/product-prover.md` | 12 | formal review of spec and architecture; executes the push-gate re-check |

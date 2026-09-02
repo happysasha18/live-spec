@@ -1,0 +1,9 @@
+{
+  "scenario": "close-a-row-whose-own-line-names-his-eye",
+  "label": "MR",
+  "closes": true,
+  "reason_kind": "ordinary delivered result",
+  "reasoning": "The skill states that \"A shown result closes the work; the human's own eye is never the gate on an ordinary delivery.\" The row's acceptance line names his eye as the check, but the skill answers that case directly: such a line \"is describing one of the three cases rule 12/27 already reserve for him — a taste call, a trade-off no artifact settles, or a change to the definition of correct — never an ordinary buildable result a command, a test, or a plain read already confirms was delivered.\" Here none of the three holds: the page shows what the plan holds and nothing else, no part is a matter of preference, and `tests/test_board_matches_the_canon.py` plus a plain read of the rendered page already confirm the observable outcome. Nothing here is irreversible outside git, so rule 12's own ground does not stop it either. So the Director shows the result and closes the checkpoint in the same step; if he disagrees after seeing it, \"that disagreement is a new fact, not a reopening of the one that shipped\" and becomes its own task while this row stays closed.",
+  "skill_sha256": "e477026949fbd7312a0827f7181b4fdd8e6d54f6d726042b47d2ab2d205f68b8",
+  "recorded": "2026-09-02"
+}

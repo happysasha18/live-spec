@@ -1,0 +1,9 @@
+{
+  "scenario": "close-on-a-plain-read-with-no-command",
+  "label": "ZT",
+  "closes": true,
+  "reason_kind": "ordinary delivered result",
+  "reasoning": "The skill states that \"a shown result closes the work; the human's own eye is never the gate on an ordinary delivery\" — once the observable outcome is confirmed, the Director shows the result and closes the checkpoint in the same step. The absence of a command that judges prose does not create a gate: the rule names \"a command, a test, or a plain read\" as equally sufficient, and the Director's read-back of the paragraph against the files it describes is exactly that plain read of the decision sheet's observable outcome. This is not one of the three cases reserved for him — no taste call is open (the README's own voice was left alone and nobody has raised a question about the wording), no trade-off an artifact cannot settle, no change to the definition of correct. Nor is it irreversible: a paragraph in a README is undoable in git, so rule 12's own ground does not stop this before it runs. Leaving the row open to wait for him to look at what was already shown and bless it is precisely the failure the rule forbids. If he disagrees with the wording later, \"that disagreement is a new fact, not a reopening of the one that shipped\" — it becomes its own task and this row stays closed.",
+  "skill_sha256": "e477026949fbd7312a0827f7181b4fdd8e6d54f6d726042b47d2ab2d205f68b8",
+  "recorded": "2026-09-02"
+}

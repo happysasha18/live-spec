@@ -1,0 +1,9 @@
+{
+  "scenario": "close-a-mechanical-title-rewrite",
+  "label": "QX",
+  "closes": true,
+  "reason_kind": "ordinary delivered result",
+  "reasoning": "The skill states that \"a shown result closes the work; the human's own eye is never the gate on an ordinary delivery\" — once the verifier confirms the observable outcome, the Director shows the result and closes the checkpoint in the same step. Here the observable outcome named by the accepted instruction is met and independently confirmable: eleven titles read as plain sentences in PLAN.md, plan_checks.py exits 0 naming each rewritten row, and the board page regenerated with the new titles. This is exactly \"an ordinary buildable result a command, a test, or a plain read already confirms was delivered\", not one of the three cases rule 12/27 reserve for him — no taste call is open because no wording was contested, no trade-off is unsettled by an artifact, and the definition of correct is unchanged. Holding the row open so he can look at what was already shown is the failure the skill names: it \"never leaves a row open to wait for the human to look at what was already shown and bless it\". The hour where he is changes nothing, and nothing here is irreversible outside git, so rule 12's own ground is untouched. If he dislikes the new wording later, that disagreement is a new fact and becomes its own task carrying his correction; the closed row stays closed.",
+  "skill_sha256": "e477026949fbd7312a0827f7181b4fdd8e6d54f6d726042b47d2ab2d205f68b8",
+  "recorded": "2026-09-02"
+}

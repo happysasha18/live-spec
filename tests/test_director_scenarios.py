@@ -8,7 +8,18 @@ with the fixtures they claim to answer, and that the grader actually fails a wro
 The last one is the load-bearing test here. A grader that always passes is worse than no
 grader, because it produces a number that reads like evidence. So this file hands check.py
 a correct verdict and four kinds of wrong one, and asserts it can tell them apart.
+
+The closing suite at the foot of this file is the one exception to apparatus-only. It grades
+a second, much smaller fixture set — `closing-scenarios.json`, nine situations asking when the
+Director acts on its own and when it speaks: eight where the work is already built and the only
+question left is whether it closes, one at the other end where the request itself is wrong — and
+nine recorded runs are too few to earn a grader of their own. Comparing two graded
+fields across nine files is a deterministic read that calls no model, so it runs here with the
+rest of the suite rather than as a second `check.py` nobody would remember to call. The
+separation that matters is kept: a producer that wrote one of those runs had no part in grading
+it.
 """
+import hashlib
 import json
 import os
 import subprocess
@@ -20,6 +31,10 @@ REPO = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 EVAL = os.path.join(REPO, "evals", "director")
 CHECK = os.path.join(EVAL, "check.py")
 ACTS = {"question", "idea", "observation", "decision", "correction", "instruction", "halt"}
+CLOSING = os.path.join(EVAL, "closing-scenarios.json")
+CLOSING_TRACES = os.path.join(EVAL, "closing-traces")
+REASONS = {"ordinary delivered result", "taste call", "trade-off no artifact settles",
+           "change to the definition of correct", "irreversible action"}
 
 
 @pytest.fixture(scope="module")
@@ -165,3 +180,117 @@ def test_fixtures_changed_after_grading_are_declared(book):
     for c in book.get("corrections", []):
         assert c.get("scenario") and c.get("why")
         assert any(s["id"] == c["scenario"] for s in book["scenarios"])
+
+
+# --- the closing suite: does accepted, built work close, or does it wait for the person? ---
+
+
+@pytest.fixture(scope="module")
+def closing():
+    with open(CLOSING, encoding="utf-8") as fh:
+        return json.load(fh)
+
+
+def closing_grade(closing):
+    """Grade every recorded run against the scenario it answers.
+
+    Two stages share the file. A closing scenario grades `closes` exactly — it is the rule's
+    own claim — and `reason_kind` by inclusion against the scenario's accepted_reasons, because
+    one fork can be described defensibly by two of the reserved cases and the rule turns on
+    which side of the gate the work sits, not on the label. An acceptance scenario grades
+    `voices_a_disagreement` exactly, and a run that voiced one owes the flaw it would name;
+    whether the flaw named is the right one is judgment, recorded beside the run rather than
+    machine-graded. Returns the ids that failed, each with its reason.
+    """
+    red = []
+    for sc in closing["scenarios"]:
+        path = os.path.join(CLOSING_TRACES, sc["id"] + ".json")
+        assert os.path.isfile(path), f"{sc['id']} has no recorded run"
+        with open(path, encoding="utf-8") as fh:
+            run = json.load(fh)
+        expect = sc["expect"]
+        if "closes" in expect:
+            if run["closes"] is not expect["closes"]:
+                red.append(f"{sc['id']}: closes={run['closes']}, expected {expect['closes']}")
+            elif run["reason_kind"] not in expect["accepted_reasons"]:
+                red.append(f"{sc['id']}: reason {run['reason_kind']!r} is not one of "
+                           f"{expect['accepted_reasons']}")
+        else:
+            said = run["voices_a_disagreement"]
+            if said is not expect["voices_a_disagreement"]:
+                red.append(f"{sc['id']}: voices_a_disagreement={said}, expected "
+                           f"{expect['voices_a_disagreement']}")
+            elif said and not (run.get("flaw") or "").strip():
+                red.append(f"{sc['id']}: says it disagrees and names nothing")
+    return red
+
+
+def test_the_closing_suite_tests_both_outcomes(closing):
+    """A closing eval whose scenarios all close, or all wait, is testing one half of a gate.
+    The rule it checks has two sides and both have to be represented."""
+    for sc in closing["scenarios"]:
+        for field in ("id", "label", "origin", "situation", "delivered_state", "expect", "why"):
+            assert sc.get(field), f"{sc.get('id')} has no {field}"
+        bad = set(sc["expect"].get("accepted_reasons", [])) - REASONS
+        assert not bad, f"{sc['id']} accepts reasons that are not the skill's: {bad}"
+    graded = [s for s in closing["scenarios"] if "closes" in s["expect"]]
+    closes = [s for s in graded if s["expect"]["closes"]]
+    waits = [s for s in graded if not s["expect"]["closes"]]
+    assert len(closes) >= 2 and len(waits) >= 2, "the closing suite has stopped testing both sides"
+
+
+def test_every_closing_verdict_matches_its_scenario(closing):
+    """The grade itself. A recorded run is a fresh producer's own verdict, written without
+    sight of the expectation; this is the independent half."""
+    red = closing_grade(closing)
+    declared = closing["recorded_run"]["red"]
+    assert red == declared, (
+        "the recorded runs no longer grade as the run record says.\n"
+        f"  graded red: {red}\n  record says: {declared}"
+    )
+    total = len(closing["scenarios"])
+    assert closing["recorded_run"]["score"] == f"{total - len(red)} of {total}", \
+        "the run record's score disagrees with the grade"
+
+
+def test_the_closing_grader_fails_a_wrong_verdict(closing):
+    """A grader that always passes produces a number that reads like evidence and is not.
+    One scenario is flipped in memory and must go red on both graded fields."""
+    for sc in closing["scenarios"]:
+        one = json.loads(json.dumps(sc))
+        key = "closes" if "closes" in one["expect"] else "voices_a_disagreement"
+        one["expect"][key] = not one["expect"][key]
+        assert closing_grade({"scenarios": [one]}), \
+            f"the closing grader passed an inverted expectation on {sc['id']}"
+        one["expect"][key] = not one["expect"][key]
+        if key == "closes":
+            one["expect"]["accepted_reasons"] = ["irreversible action"] \
+                if "irreversible action" not in one["expect"]["accepted_reasons"] else ["taste call"]
+            assert closing_grade({"scenarios": [one]}), \
+                f"the closing grader passed a wrong reason on {sc['id']}"
+
+
+def test_closing_runs_were_recorded_against_the_skill_as_it_stands(closing):
+    """A run recorded against an earlier skill says nothing about the skill as it stands
+    (SPEC INV-317), and the 2026-08-26 pass is on record for what a stale score reads like.
+
+    The pin is the skill's content, not its declared version: the paragraph these runs test was
+    added on 2026-09-02 without the version moving, so a version pin would have read fresh across
+    the exact edit it exists to catch. Nine runs is a cheap re-record, so this reds rather than
+    warns — the same discipline this directory's README already states for the larger set.
+    """
+    path = os.path.join(REPO, "skills", "director", "SKILL.md")
+    with open(path, "rb") as fh:
+        live = hashlib.sha256(fh.read()).hexdigest()
+    assert closing["recorded_run"]["skill_sha256"] == live, (
+        "skills/director/SKILL.md has changed since these runs were recorded, so they say nothing "
+        "about the skill as it stands. Re-record the nine closing runs (one fresh producer each, "
+        "holding only the skill and one scenario) and update recorded_run in closing-scenarios.json."
+    )
+
+
+def test_closing_fixtures_changed_after_grading_are_declared(closing):
+    """Same admission as the older suite keeps, for the same reason."""
+    for c in closing.get("corrections", []):
+        assert c.get("scenario") and c.get("why")
+        assert any(s["id"] == c["scenario"] for s in closing["scenarios"])

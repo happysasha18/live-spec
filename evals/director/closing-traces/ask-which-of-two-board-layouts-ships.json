@@ -1,0 +1,9 @@
+{
+  "scenario": "ask-which-of-two-board-layouts-ships",
+  "label": "HB",
+  "closes": false,
+  "reason_kind": "trade-off no artifact settles",
+  "reasoning": "The skill's rule is that \"a shown result closes the work; the human's own eye is never the gate on an ordinary delivery\" — but it names three cases reserved for him, and this is the second of them: \"a trade-off no artifact settles.\" Both layouts render from the same PLAN.md, pass tests/test_board_matches_the_canon.py and show every declared row, so the test proves correctness and proves nothing about which is easier to scan; \"nothing in the tree measures\" the thing the person actually asked for. Only one can ship, and the choice between a single ranked column and four columns by state is a real trade-off between ranking and grouping that no earlier decision settles, so closing on my own pick would be picking for him with no artifact behind it. This is not the ordinary case the rule protects — \"an ordinary buildable result a command, a test, or a plain read already confirms was delivered\" — because no command, test or read here confirms the goal was reached. So I hold, show both, and put one short question in his own terms about which board he wants, per the skill's own \"ask one short question only when guessing wrong would change the result.\"",
+  "skill_sha256": "e477026949fbd7312a0827f7181b4fdd8e6d54f6d726042b47d2ab2d205f68b8",
+  "recorded": "2026-09-02"
+}
