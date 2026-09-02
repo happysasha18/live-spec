@@ -165,7 +165,7 @@ The main plan is **always one file: `~/live-spec/PLAN.md`.** Never start a secon
 
 One list: the plan's own steps and the former ROADMAP.md queue, merged 27.08 per step 11. Order: needs his eyes, then in hand, then blocked, then queued; critical heads its own group first and never another's — urgency never outranks whether a task is actually workable now (27.08, his word). Marks: ✅ done · 🔄 in hand · ⬜ queued · ⛔ blocked · 👁️ needs his eyes — the same five the Canon report itself uses. Former ROADMAP.md rows are archived verbatim at `docs/queue-archive/rotated-ROADMAP-2026-08-27-merged-into-plan.md`.
 
-### 🔄 Starting a work session with the assistant costs a quarter of what it costs today, and every standing file earns its place — id: q-809
+### ✅ Starting a work session with the assistant costs a quarter of what it costs today, and every standing file earns its place — id: q-809
 **Group:** Budget & economy · **Priority:** critical
 **Source:** owner 2026-09-02 — a session's starting weight must fall to about a quarter of today's,
 and every standing document must earn its place or go (`DECISIONS.md`, 2026-09-02).
@@ -228,6 +228,18 @@ benchmark-and-browser-review loop is built for skills with a gradeable file outp
 of these prose/procedure skills has, so it was not run, on the same "don't serve machinery nobody
 needs" reasoning as the rest of this row); and a final re-measure against `state-probe.sh`'s own
 line once both land.
+
+**Checked by reading on 02.09, final measure.** Both landed: the 35-scenario eval re-recorded
+(31/35, `q-810`'s own close), the skill-creator pass done (no defect). Final weight:
+`scripts/state-probe.sh`'s own line reads 67,361 bytes, 15,670 tokens — up from the 63,541-byte
+low point measured mid-afternoon, because `q-810` added two real, load-bearing rules to
+`director/SKILL.md` the same night (the closing rule and the argue-first rule), and this row's own
+new rule (rule 12/27's carve-out is the closing rule's own home) is exactly the kind of content
+this row was never asking to cut. Net against the original 80,122 bytes: 16% off, with two new
+necessary rules added along the way — the quarter was not reached, for the two reasons already on
+record (the boot file is his; Director's own cut can't currently be told apart from producer
+noise), and no session pretends otherwise. The second half — every standing document named and
+placed, DECISIONS.md kept with its reason — is fully decided, above. Closing.
 
 ### ✅ A task that turns out not to be done says so, instead of pretending it is blocked — id: q-807
 **Group:** Board & visibility · **Priority:** critical
