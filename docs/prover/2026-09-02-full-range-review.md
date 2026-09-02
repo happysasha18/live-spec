@@ -13,7 +13,10 @@ the whole of `411a353..de25754`. Two records already cover parts of it —
 repeated here. What is read here instead: whether the fixes committed against them hold, and the
 eleven commits neither of them opened.
 
-Range: 411a353..de25754
+Range: 411a353..581243c, extended in the adjudication below to the two commits that answer this
+review. The two later shas are listed here so one record names the whole pushed range.
+- 581243c The earned-message test pinned the wording that caused a real refusal
+- 33ee1b3 Four rules restored, rule 10 repaired against its own spec, and three code defects
 - de25754 The done line names a real transition, and the board's done column drops its total
 - bb59f35 No running total of finished work; the rows closed since the last push speak for themselves
 - b36ed9d q-807's own acceptance was too brittle to survive the next edit
