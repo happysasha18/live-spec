@@ -26,10 +26,16 @@ CHECKS = {
     # "zero commits ahead of origin/main" — that is the tree's ordinary working state, not a
     # defect, and a check demanding it would red on every session carrying unpushed work. What the
     # row actually left behind that stays true across ordinary work: this tree tracks
-    # `origin/main` as its upstream, its tracked files carry no uncommitted changes, the stray
-    # `/private/tmp/ls-director` directory the migration cleared stays gone, and the archived
-    # handoff carries its own real content, not just a path that resolves.
-    "plan-0": 'test "$(git rev-parse --abbrev-ref --symbolic-full-name @{u} 2>/dev/null)" = "origin/main" && test -z "$(git status --porcelain --untracked-files=no)" && ! test -d /private/tmp/ls-director && grep -q "Владелец подтвердил" attic/DIRECTOR_HANDOFF-2026-08-26-decisions.md',
+    # `origin/main` as its upstream, the stray `/private/tmp/ls-director` directory the migration
+    # cleared stays gone, and the archived handoff carries its own real content, not just a path
+    # that resolves.
+    #
+    # A fourth clause, `git status --porcelain` empty, was dropped 2026-09-02. It repeated the
+    # same defect the paragraph above names one step over: it red on every session that had edits
+    # in hand, so the row reported itself unfinished all day for a reason the row is not about.
+    # The row's own "the tree is clean" means this is a real git tree with no project files left
+    # outside it — the 133 outside-git files it checked — and says nothing about uncommitted work.
+    "plan-0": 'test "$(git rev-parse --abbrev-ref --symbolic-full-name @{u} 2>/dev/null)" = "origin/main" && ! test -d /private/tmp/ls-director && grep -q "Владелец подтвердил" attic/DIRECTOR_HANDOFF-2026-08-26-decisions.md',
     # plan-1's key was removed 2026-08-28 with its task: the board rotation folded plan-1 into
     # plan-11, and its check ("the render script exists and is executable") was the file-existence
     # proxy plan-10 names as a defect in its own text.

@@ -165,7 +165,7 @@ The main plan is **always one file: `~/live-spec/PLAN.md`.** Never start a secon
 
 One list: the plan's own steps and the former ROADMAP.md queue, merged 27.08 per step 11. Order: needs his eyes, then in hand, then blocked, then queued; critical heads its own group first and never another's — urgency never outranks whether a task is actually workable now (27.08, his word). Marks: ✅ done · 🔄 in hand · ⬜ queued · ⛔ blocked · 👁️ needs his eyes — the same five the Canon report itself uses. Former ROADMAP.md rows are archived verbatim at `docs/queue-archive/rotated-ROADMAP-2026-08-27-merged-into-plan.md`.
 
-### ⬜ Starting a session costs a quarter of what it costs today, and every standing file earns its place — id: q-809
+### 🔄 Starting a session costs a quarter of what it costs today, and every standing file earns its place — id: q-809
 **Group:** Budget & economy · **Priority:** critical
 **Source:** owner 2026-09-02, in chat: "80кб много. можно удешевить? раза в 4?" and, on the files
 themselves, "зачем decision если есть доска и journal? нам точно все файлы нужны?... я понимаю что
