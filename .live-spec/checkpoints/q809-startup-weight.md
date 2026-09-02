@@ -11,11 +11,11 @@
 | file | before | after this pass |
 |---|---|---|
 | `~/.claude/CLAUDE.md` | 4386 | 4386 — untouched, he owns it ("CLAUDEmd не трогай, это другой пишут", 26.08) |
-| `~/.claude/live-spec/profile.md` | 9680 | ~10600 — two of his new standing lines added, one dead script citation corrected |
-| `skills/live-spec-base/SKILL.md` | 40443 | ~16500 |
-| `skills/director/SKILL.md` | 25613 | 21900 |
+| `~/.claude/live-spec/profile.md` | 9680 | 10859 — two of his new standing lines added, one dead script citation corrected |
+| `skills/live-spec-base/SKILL.md` | 40443 | 22683, with 6539 more in `references/rule-origins.md` |
+| `skills/director/SKILL.md` | 25613 | 25613 — cut to 21900, then reverted on the eval, below |
 
-Total ~53.4 KB, a third off. The quarter is not reached; the reason is director, below.
+Total 63.5 KB, a fifth off. The quarter is not reached; the reason is director, below.
 
 ## Method
 
@@ -52,10 +52,18 @@ codes, and the citation, history, justification and worked example move to `refe
 
 ## Why the quarter is not reached
 
-Director's own body is now the largest of the four. Its weight is the act classification — the seven
-acts and the disambiguation rules under them — which the eval already scores at 32 of 35. Cutting it
-without a recorded run is cutting the pack's front door blind. The re-record in step 5 is what says
-whether a shorter classification text holds; the answer decides whether the quarter is reachable.
+Director's body is the largest of the four, and its weight is the act classification. The cut to
+21,900 bytes was measured against the eval and reverted: same producers, same hour, the skill as it
+stands scores 30 of 35 and the cut scores 29 — inside what the method can see, so the cut is
+uncertified either way, and 3.7 KB is a small saving to buy with an unresolved question at the
+pack's front door. Commit 43d5f388 carries the run and the revert.
+
+The blocker is the measurement, not the effort. One bare run carries about two scenarios of
+producer variance (established the same afternoon, recorded in `evals/director/README.md`), so a
+cut of a few kilobytes moves the score by less than the method can resolve. Reaching the quarter
+would mean taking director to about 5 KB, which is a rewrite of the door rather than a trim, and it
+needs a check that can see a small change first — more fixtures, or a grader that scores per act
+instead of per scenario.
 
 ## His words this session, carried into the work
 
