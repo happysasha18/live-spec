@@ -1,5 +1,14 @@
 .live-spec/checkpoints/
 
+# Python's own compiled bytecode cache. Never tracked, but present on disk the moment anything
+# imports a .py file — `git grep --untracked` (tests/test_dialog_warning_guard.py's own
+# one-file-in-the-tree proof, PLAN q-581) picks up an untracked file's bytes even when git
+# otherwise ignores the path by convention, so a stray .pyc embedding the same string constant as
+# its source module reads as a second copy of the rule. Reproduced live on CI, 2026-09-02: this
+# line was simply missing.
+__pycache__/
+*.pyc
+
 # a heavy-byte surface's rendered bytes (SPEC E-7, doc-order-generated.md Requirement 247,
 # criterion 4) live outside git; only its manifest line and hash travel under git
 .live-spec/snapshot/blobs/

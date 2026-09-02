@@ -163,9 +163,16 @@ fi
 # controls — reproduced live on CI, 2026-09-02: a fixture repo in tests/test_routing_preamble_hook.py
 # built with a bare `git init` (no branch pinned) got "master" from the runner's own git default and
 # reddened a check that had nothing to do with lanes.
-WORKTREE_COUNT="$(git worktree list --porcelain 2>/dev/null | grep -c '^worktree ')"
+# -c safe.directory='*' on both reads below: a scratch repo a test builds under a temp directory
+# can trip git's "detected dubious ownership" refusal in a container/CI environment where the
+# process's own detected user differs from the directory's, and that refusal empties this command's
+# stdout (its message goes to stderr, suppressed here) exactly as if there were no second worktree
+# at all — silently standing this whole arm down rather than reddening or erroring loudly. Read-only
+# metadata inside an already-hermetic test fixture is not the ownership boundary this git safety
+# net exists to guard, so trusting it here is not the same risk as trusting it for a real clone.
+WORKTREE_COUNT="$(git -c safe.directory='*' worktree list --porcelain 2>/dev/null | grep -c '^worktree ')"
 if [ "${WORKTREE_COUNT:-0}" -gt 1 ]; then
-  PRIMARY_BLOCK="$(git worktree list --porcelain 2>/dev/null | awk '/^worktree /{n++} n==1')"
+  PRIMARY_BLOCK="$(git -c safe.directory='*' worktree list --porcelain 2>/dev/null | awk '/^worktree /{n++} n==1')"
   PRIMARY_PATH="$(printf '%s\n' "$PRIMARY_BLOCK" | sed -n 's/^worktree //p')"
   PRIMARY_BRANCH="$(printf '%s\n' "$PRIMARY_BLOCK" | sed -n 's#^branch refs/heads/##p')"
   if [ -z "$PRIMARY_BRANCH" ]; then
