@@ -2,17 +2,22 @@
 
 PUSH-REVIEW
 
-This record covers the entire range this push sends, `11987b8..84e0bf95` — 78 commits, two
-sessions' work across 2026-09-01 and 2026-09-02, extended once (2026-09-02, after this record's
-own first write) to add `84e0bf95`, the commit fixing this same record's own three blocking
-findings — verified real, verified fixed, detailed in
-`docs/prover/2026-09-02-full-range-fixes-short-form.md`, itself exempt from needing its own name
-here since it touches only `docs/prover/`. It exists because gate a
-(`guardrails/check-prover-record.sh`, SPEC M-6/INV-116/INV-304) holds one record per push whose
-own `Range:` field names the base and every reviewed commit, and no record on file named the
-whole of it. The three records this range already carries each named a shorter head.
+This record covers the entire range this push sends, `11987b8..34f41718` — 79 commits, two
+sessions' work across 2026-09-01 and 2026-09-02, extended twice after its own first write: to add
+`84e0bf95`, the commit fixing this same record's own three blocking findings (detailed in
+`docs/prover/2026-09-02-full-range-fixes-short-form.md`); then to add `34f41718`, the commit fixing
+two real, CI-environment-only defects the server's own first run of this pushed range found —
+`effa3ecc` passed every local gate and every local full-suite run, then failed CI's gate b (24
+failed) on two root causes neither visible on a machine that already answered both gaps by its own
+ambient git config (detailed in `docs/prover/2026-09-02-ci-environment-fixes-short-form.md`). Both
+follow-up records are exempt from needing their own name here, touching only `docs/prover/`. It
+exists because gate a (`guardrails/check-prover-record.sh`, SPEC M-6/INV-116/INV-304) holds one
+record per push whose own `Range:` field names the base and every reviewed commit, and no record on
+file named the whole of it. The three records this range already carries each named a shorter head.
 
-Range: 11987b8..84e0bf95
+Range: 11987b8..34f41718
+- 34f41718 Fix two CI-only environment defects gate b's server-side run surfaced
+- effa3ecc docs/prover: extend the full-push-range record's Range to include 84e0bf95, close all three blocking findings against the actual re-verified fixes
 - 84e0bf95 Fix the whole-push-range review's three blocking findings and one stale pointer
 - bc073fdb docs/prover: short-form record for the second review's fixes — small delta, every change verified against a real finding, two new tests red-proven by actual revert-and-rerun
 - 2d7f42ab Fix the second review's one blocking and five real findings
