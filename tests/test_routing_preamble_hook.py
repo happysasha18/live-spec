@@ -130,7 +130,15 @@ class TestAdoptionGateRedsAFixtureCarryingNoHook(unittest.TestCase):
     the hook installed passes."""
 
     def _fixture_repo(self, tmp, install_hook):
-        subprocess.run(["git", "init", "-q", tmp], check=True)
+        # Branch pinned explicitly to "main": this project's own INV-198 config-health arm
+        # (PLAN q-804) now reds a checked-out branch that isn't "main" wherever the script runs,
+        # and a bare `git init` defaults to whatever the host machine's own git config says —
+        # "main" here, "master" on a CI runner with an older default, reproducibly redding this
+        # fixture there alone (found live on CI, 2026-09-02). This fixture is a scratch host
+        # standing in for a real adopted project, which this pack's own convention always names
+        # "main" (see guardrails/pre-push, scripts/open-lane.sh) — pinning it here matches that
+        # reality rather than leaving it to the ambient default.
+        subprocess.run(["git", "init", "-q", "-b", "main", tmp], check=True)
         gdir = os.path.join(tmp, "guardrails")
         os.makedirs(gdir)
         for name in ("pre-commit", "pre-push"):

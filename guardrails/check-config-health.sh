@@ -153,8 +153,19 @@ fi
 # tree's own branch, so it reads the PRIMARY tree's checkout correctly however this script is
 # invoked. `git worktree list` lists the primary worktree first, always (git's own documented
 # order): SPEC spec/parallel-lanes.md Requirement 85 criterion 5.
-PRIMARY_BLOCK="$(git worktree list --porcelain 2>/dev/null | awk '/^worktree /{n++} n==1')"
-if [ -n "$PRIMARY_BLOCK" ]; then
+#
+# Scoped to a repo that actually HAS a lane (more than one worktree): the whole concern is a lane
+# worktree moving `main` out from under the primary while a live lane exists, so a lone,
+# single-worktree repo has nothing for this arm to protect against — its own branch name is not
+# this arm's business. Without this scoping, any scratch git repo an unrelated test builds for its
+# own purpose (never touching lanes) reds here the moment its own default branch isn't literally
+# "main", which depends only on the machine's own git version/config, not on anything this project
+# controls — reproduced live on CI, 2026-09-02: a fixture repo in tests/test_routing_preamble_hook.py
+# built with a bare `git init` (no branch pinned) got "master" from the runner's own git default and
+# reddened a check that had nothing to do with lanes.
+WORKTREE_COUNT="$(git worktree list --porcelain 2>/dev/null | grep -c '^worktree ')"
+if [ "${WORKTREE_COUNT:-0}" -gt 1 ]; then
+  PRIMARY_BLOCK="$(git worktree list --porcelain 2>/dev/null | awk '/^worktree /{n++} n==1')"
   PRIMARY_PATH="$(printf '%s\n' "$PRIMARY_BLOCK" | sed -n 's/^worktree //p')"
   PRIMARY_BRANCH="$(printf '%s\n' "$PRIMARY_BLOCK" | sed -n 's#^branch refs/heads/##p')"
   if [ -z "$PRIMARY_BRANCH" ]; then

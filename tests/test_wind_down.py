@@ -41,7 +41,18 @@ import checkpoint  # noqa: E402  (scripts/checkpoint.py)
 
 
 def git(repo, *args):
-    return subprocess.run(["git", "-C", str(repo)] + list(args), capture_output=True, text=True)
+    # An explicit identity, never the machine's own global config: a commit here has no author to
+    # inherit on a fresh CI runner (no ~/.gitconfig at all), where `git commit` fails outright
+    # (exit 128, "Please tell me who you are") — reproduced live on CI, 2026-09-02, six tests deep
+    # into this fixture. A dev machine with its own global user.name/user.email masked the gap.
+    env = dict(os.environ)
+    env.update({
+        "GIT_AUTHOR_NAME": "livespec-test",
+        "GIT_AUTHOR_EMAIL": "livespec-test@example.invalid",
+        "GIT_COMMITTER_NAME": "livespec-test",
+        "GIT_COMMITTER_EMAIL": "livespec-test@example.invalid",
+    })
+    return subprocess.run(["git", "-C", str(repo)] + list(args), capture_output=True, text=True, env=env)
 
 
 GREEN_GATE = "#!/bin/bash\nexit 0\n"

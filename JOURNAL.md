@@ -3695,3 +3695,37 @@ pin drift, config health, skill review, compaction freeze, `INV-242` healing, `[
 duplicate ids, the director evals, installed-skill parity, the routing-preamble hook — was already
 green and stayed green. The suite was the one real gap, and it is the one that actually exercises
 the whole merged tree at once regardless of which commit introduced what.
+
+## 2026-09-02 — pushed, and the server's own suite found two real environment-shaped defects
+
+`effa3ecc` pushed clean past every local gate — the first push this range reached. CI (`gates.yml`,
+a genuinely different machine) then failed gate b: 24 failed, 2713 passed. Both root causes real,
+both this session's own tonight work, neither visible locally because the local machine's own git
+config happened to already answer what CI's fresh runner does not.
+
+- `q-804`'s new config-health arm (INV-198, "the primary tree holds main") checked ANY git repo the
+  script ran inside, not only one with an actual lane to protect — so any unrelated test's own
+  scratch repo, built with a bare `git init` and no branch pinned, reddened the moment its default
+  branch read whatever the HOST MACHINE's own git version/config produces: "main" locally, "master"
+  on the CI runner. Eighteen failures across `test_config_health.py`, `test_routing_preamble_hook.py`,
+  and this arm's own tests in `test_lane_net_arms.py` trace to this one gap. Scoped the arm to a
+  repository actually holding more than one worktree — the only shape where a lane could move main
+  out from under the primary, which is the entire concern INV-198 exists for; a lone scratch repo
+  has no lane and was never this arm's business. `spec/parallel-lanes.md` Requirement 85 criterion 5
+  reworded to say so. Verified both directions live: a single-worktree "master" repo now passes
+  clean; a real two-worktree repo with a drifted primary still reds exactly as designed.
+- `tests/test_wind_down.py`'s own `git()` fixture helper committed with no explicit author identity,
+  inheriting whatever the running machine's global `~/.gitconfig` happened to hold — real on a dev
+  machine, absent on a fresh CI runner, where `git commit` fails outright (exit 128, "Please tell me
+  who you are"). Six direct failures, plus one cascading `test_worker_restore_run_scope.py` error
+  reading leaked `livespec-test-wind-down-*` temp directories the aborted `setUp()` never got to
+  clean up. Fixed the same way this project's own hermetic git fixtures already do it elsewhere
+  (`tests/test_lane_branch_road.py`'s `_git()`): explicit `GIT_AUTHOR_NAME`/`GIT_AUTHOR_EMAIL`/
+  `GIT_COMMITTER_NAME`/`GIT_COMMITTER_EMAIL` on every call, verified by running the whole file with
+  `GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null` — the closest local reproduction of a
+  runner with no git identity of its own — green.
+
+Neither defect showed on any local `pre-push` run tonight, on any of the four full-suite passes
+before this one, or on any of the three review rounds' own targeted test runs — all ran on the one
+machine that happened to already answer both gaps. The server was the first environment that
+couldn't.

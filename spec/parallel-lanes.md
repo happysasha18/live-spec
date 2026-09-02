@@ -185,7 +185,7 @@
 
 **Case: the config-health check**
 
-5. The system *shall* red a primary tree that does not hold main in the config-health check, reading the primary tree's own checked-out branch off git's shared worktree metadata rather than the invoking tree's. [INV-198]
+5. *when* a repository holds more than one worktree, the system *shall* red a primary tree that does not hold main in the config-health check, reading the primary tree's own checked-out branch off git's shared worktree metadata rather than the invoking tree's; a single-worktree repository has no lane to protect against and is not this arm's concern. [INV-198]
 
 ---
 
