@@ -1,13 +1,15 @@
 {
   "id": "idea-add-a-date",
-  "acts": ["idea"],
+  "acts": [
+    "idea"
+  ],
   "creates_work": false,
   "shelves_idea": true,
   "attaches_to_existing_work": false,
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "The person names a possibility for later ('думаю еще можно сделать дату') rather than asking for it now, and the situation states nothing related is being built, so there is no work in flight for this to attach to or correct. It goes on the idea shelf in their own words; no task id, priority, or specialist gets attached.",
+  "reasoning": "The message opens with \"думаю\" (\"I think\") and names a possibility — adding a date — rather than asking for it now. The situation states a feature just shipped and nothing related is being built, so there is no work in flight for this to attach to as a correction or decision. This matches the table's 'Idea for later': names a possibility they are not asking for now, so the Director puts it on the idea shelf in their own words and says so in one line, without giving it a task id, priority, or estimate, and without starting it. The clause about the same channels recurring over time is the reason for the idea, not a second act — it only restates why the idea is worth having, per 'Grounds stated with an act carry their own act only when they say something new.' Since no work is accepted, there is no decision sheet, no dimensions, and no specialists to name.",
   "scenario": "idea-add-a-date",
   "skill_version": "6.1.0"
 }

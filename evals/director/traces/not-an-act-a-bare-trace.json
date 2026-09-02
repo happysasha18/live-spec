@@ -1,13 +1,21 @@
 {
   "id": "not-an-act-a-bare-trace",
-  "acts": ["observation"],
+  "acts": [
+    "observation"
+  ],
   "creates_work": true,
   "shelves_idea": false,
   "attaches_to_existing_work": false,
   "work_items": 1,
-  "dimensions": ["product value and behaviour", "quality, safety, regressions"],
-  "specialists": ["Developer", "Test author"],
-  "reasoning": "A message with no words is still an act, and here the situation surrounding it — pasted moments after a deploy the person was watching — makes the repair follow beyond doubt, the same test as 'production is returning 500s': nobody pastes a crash right after their own deploy to be agreeable. It is an observation, not an instruction, but no clarifying question is needed, so it creates one piece of work: fix the TypeError in checkEntitlement (billing.js:142). It touches product behaviour, since entitlement checks are broken, and quality/regressions, since this is a production crash the deploy just introduced.",
+  "dimensions": [
+    "quality, safety, regressions",
+    "release, observation, feedback"
+  ],
+  "specialists": [
+    "developer",
+    "test author"
+  ],
+  "reasoning": "A message with no words, like a pasted stack trace, is still an act and usually an observation; what the person wants done with it is often clear from what they were doing a minute earlier. Here the person was watching a deploy, and moments later a TypeError surfaces in checkEntitlement — the same class as 'Production is returning 500s' in the doc's own list: an observation whose repair follows beyond doubt, since nobody pastes a crashing entitlement check to be agreeable. That makes it work the Director accepts, not an idea to shelve and not a question to ask. There is no work described as already in flight for this to attach to (the deploy itself isn't a checkpointed task here), so this opens one new piece of work: fix the crash. It touches quality/regressions (a production crash in a billing check) and release/observation/feedback (surfaced right after watching a deploy, which is exactly the moment the landing law's bug-door tripwire cares about). A developer fixes the null-safety bug in checkEntitlement; a test author adds the regression test that fails on today's code and passes after — no spec author, since this is code disagreeing with already-intended behaviour, not a change to what's specified.",
   "scenario": "not-an-act-a-bare-trace",
   "skill_version": "6.1.0"
 }

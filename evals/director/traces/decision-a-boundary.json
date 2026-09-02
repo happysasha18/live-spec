@@ -1,13 +1,15 @@
 {
   "id": "decision-a-boundary",
-  "acts": ["decision"],
+  "acts": [
+    "decision"
+  ],
   "creates_work": false,
   "shelves_idea": false,
   "attaches_to_existing_work": false,
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "This settles a standing division of responsibility going forward, not a single open choice within work already running and not a request for a specific deliverable — it is the kind of decision that carries force beyond the message that stated it. Nothing is running for it to attach to or correct, and it names no task the Director should begin, so no work is created and nothing is shelved as an idea.",
+  "reasoning": "The skill names \"a division of responsibility\" explicitly as one form a decision takes, alongside a standing rule or a grant of authority. 'Мораторий на мне, остальное на тебе' splits who owns what going forward - the person keeps the moratorium negotiation, the agent owns everything else - without asking for any specific result to be produced right now. The situation states nothing is currently running, so there is no work in flight for this to attach to or correct, and no goal is named that would earn a decision sheet or a checkpoint. It is recorded as a standing division of labor, not turned into a task.",
   "scenario": "decision-a-boundary",
   "skill_version": "6.1.0"
 }

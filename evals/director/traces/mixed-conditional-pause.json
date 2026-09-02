@@ -1,13 +1,16 @@
 {
   "id": "mixed-conditional-pause",
-  "acts": ["question", "halt"],
+  "acts": [
+    "question",
+    "halt"
+  ],
   "creates_work": false,
   "shelves_idea": false,
   "attaches_to_existing_work": true,
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "The person opens with a status question (how's it going, how much longer), then gives a conditional halt on the job already running: pause it and rerun from scratch in a couple hours if it needs a while longer, or let it keep running if only about ten minutes remain. A halt is about the running work's state, not about creating anything, and here the branch that actually applies turns on a fact only the status answer settles, so the right move is to answer the question first and then pause or not accordingly — nothing here opens a new task or shelves an idea for later.",
+  "reasoning": "Two acts in one turn. \"ну как там? долго еще?\" is a genuine question about the running job's status, answered by checking and reporting, not by opening work. The rest is a halt about the session's own work in flight: a halt is about state, not words, and can be voiced as 'let's pause it' just as well as 'stop' — here the person wants the running job parked ('на паузу поставим... через пару часов') because they need to shut the computer down, with the explicit fallback that if only ~10 minutes remain they'll wait instead. That is the conditional-request pattern: both branches are named and real, but the outcome is exclusive — pause-and-resume-later if the remaining time is long, or no halt at all (just wait) if it is short — decided by the true remaining time, which the question above surfaces. The reason given ('надо комп отключить') only restates why the halt is wanted, so it is not a separate act. Per the Halt row, this changes the state of work already running and creates nothing: no new goal, no decision sheet, no specialists, no dimensions — it attaches entirely to the job already in flight.",
   "scenario": "mixed-conditional-pause",
   "skill_version": "6.1.0"
 }

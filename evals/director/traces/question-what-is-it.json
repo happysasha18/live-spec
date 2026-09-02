@@ -1,13 +1,15 @@
 {
   "id": "question-what-is-it",
-  "acts": ["question"],
+  "acts": [
+    "question"
+  ],
   "creates_work": false,
   "shelves_idea": false,
   "attaches_to_existing_work": false,
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "The person is asking what a term the agent already introduced means and why it exists — a question, not a request for anything to be built or changed. Answering it may take a good explanation, but per the skill a question creates nothing and changes no document; fetching facts to answer is reading, not work.",
+  "reasoning": "The person is asking what a 'printable block' is and why it exists, mid-conversation while the agent is describing a document format. This is the plain 'Question or musing' act: the person wants to know something. The Director's own table says the response is to answer the question and engage with the thought, and explicitly must not 'write a roadmap row, open a spec, start work.' Nothing here reports a fact beyond doubt requiring repair (the 'observations carry their own repair' rule doesn't apply — this is a request for explanation, not a report of a defect), and nothing changes work already in flight, since the situation only describes ongoing explanation, not a task being executed. So no work is created, nothing is shelved as an idea, no existing work is touched, and no specialists or dimensions are engaged — the Director just answers.",
   "scenario": "question-what-is-it",
   "skill_version": "6.1.0"
 }

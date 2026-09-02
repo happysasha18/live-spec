@@ -1,13 +1,16 @@
 {
   "id": "halt-with-a-reason-worth-keeping",
-  "acts": ["halt", "observation"],
+  "acts": [
+    "halt",
+    "observation"
+  ],
   "creates_work": false,
   "shelves_idea": false,
   "attaches_to_existing_work": true,
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "The person wants the running work stopped now — servicing this parameter's machinery — so that is a halt: it changes the state of work already in flight and creates nothing. The grounds he gives, that the parameter is invented and the machinery unneeded, is a judgment about the product that says something new beyond the halt's own goal, so it stands as its own act, an observation worth keeping after the halt closes. Nothing new is created; the existing work's state changes to stopped.",
+  "reasoning": "The message says 'стоп' about something the agent is currently doing — maintaining the parameter — so per the table a halt is 'about state, not about words': something running should stop. That the person also calls the parameter 'ненужную машинерию вылуманного параметра' (unneeded machinery, an invented parameter) is a judgment about the product that the halt rule names explicitly ('broken, wasteful or invented') as worth keeping as its own act even while it doubles as the halt's reason, so it is recorded as a second act, an observation, not folded into the halt. A halt gets no decision sheet and the Execution section states plainly that nothing in it applies to a halt, so no checkpoint opens, no dimensions are named, and no specialist is called — the Director just changes the state of the work already running (stops serving/maintaining the parameter) and says so. Per the base instructions a halt that changes work already in flight produces zero new work items, because it changes work that already existed rather than starting anything.",
   "scenario": "halt-with-a-reason-worth-keeping",
   "skill_version": "6.1.0"
 }

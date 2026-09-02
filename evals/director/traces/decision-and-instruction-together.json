@@ -1,13 +1,20 @@
 {
   "id": "decision-and-instruction-together",
-  "acts": ["decision", "instruction"],
+  "acts": [
+    "instruction",
+    "decision"
+  ],
   "creates_work": true,
   "shelves_idea": false,
   "attaches_to_existing_work": false,
   "work_items": 1,
-  "dimensions": ["release, observation, feedback"],
-  "specialists": ["Publisher", "communicator"],
-  "reasoning": "The message carries two acts in one breath: a standing decision granting authority to deploy without confirmation from now on, and an instruction to deploy this ready build today — the standing rule does not absorb today's demand, and both stay named. The deploy was never checkpointed as its own work (withholding was a standing policy, not a tracked task), so the instruction opens one new piece of work in the release dimension, calling the publisher and communicator to ship it and report back. The decision is recorded separately as a standing rule so it survives after this deploy closes.",
+  "dimensions": [
+    "release, observation, feedback"
+  ],
+  "specialists": [
+    "Publisher, communicator"
+  ],
+  "reasoning": "This is the pack's own worked example almost verbatim: 'always deploy without asking, and deploy this one' grants authority going forward and asks for today's deploy in the same breath — recording only the standing rule loses the thing they actually wanted done today. So both acts stay named: an instruction (ship the ready build now) and a decision, since 'always' and 'запиши себе' (note this for yourself) mark a standing rule with force beyond this message, not a one-time ask. The withholding was a standing policy rather than tracked work, and the situation states shipping this build has not been checkpointed as its own piece of work, so the instruction opens new work (a fresh checkpoint) rather than attaching to something already in flight — creates_work is true, attaches_to_existing_work is false, and this turn produces exactly one new work item (the deploy). The decision itself is recorded and applied going forward, not booked as a separate work item with its own decision sheet. The frustrated 'блин!!' is tone reinforcing the instruction's urgency, not a fact that says something new, so it is not counted as a further observation act. The work touches release (shipping the build) and the specialist needed is the one the table names for a result that ships and must be explained: Publisher, communicator.",
   "scenario": "decision-and-instruction-together",
   "skill_version": "6.1.0"
 }

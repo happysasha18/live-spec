@@ -1,13 +1,15 @@
 {
   "id": "halt-until-tomorrow",
-  "acts": ["halt"],
+  "acts": [
+    "halt"
+  ],
   "creates_work": false,
   "shelves_idea": false,
   "attaches_to_existing_work": true,
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "The person says стоп to the session's own work in progress because the weekly allowance runs out today, so this is a halt: something running must stop. The weekly-limit reason and 'work tomorrow' restate why to stop now and when it resumes — the halt's own goal in other words, not a second act. A halt changes the state of work already running; it creates nothing, so no checkpoint, dimension or specialist applies.",
+  "reasoning": "\"стоп! работа НЕ сегодня\" is a halt: something running late in the session should stop now, per the halt row (\"wants something that is running to stop, be parked or be abandoned\"). The named reason — the weekly session allowance is running out — only justifies the halt without adding a new fact beyond what the halt's own goal already carries, so it is not a second act ('grounds stated with an act carry their own act only when they say something new'). \"работа завтра\" states that this is a park, not an abandonment, and names when it resumes — still the halt's own state, not a standing rule ('from now on') and not a fresh instruction, so it stays inside the same act. A halt changes the state of work already in flight and creates nothing per the execution rules, so no decision sheet, no dimensions, and no specialists are called.",
   "scenario": "halt-until-tomorrow",
   "skill_version": "6.1.0"
 }

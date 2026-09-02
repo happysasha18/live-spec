@@ -1,13 +1,20 @@
 {
   "id": "mixed-reminder-and-a-challenge",
-  "acts": ["decision", "idea", "instruction", "question"],
-  "creates_work": true,
+  "acts": [
+    "decision",
+    "idea",
+    "question"
+  ],
+  "creates_work": false,
   "shelves_idea": true,
-  "attaches_to_existing_work": false,
-  "work_items": 1,
-  "dimensions": ["documentation and communication"],
+  "attaches_to_existing_work": true,
+  "work_items": 0,
+  "dimensions": [
+    "documentation and communication",
+    "analytics, unknowns, hypotheses, experiments"
+  ],
   "specialists": [],
-  "reasoning": "Four acts in one turn: reminding that compactness and optimization were already plan goals is a decision reaffirmed, not a new idea; deferring the actual look at those goals to next session puts that work on the idea shelf; asking that these two parameters now be monitored in the plan file's status is a fresh instruction, since nothing already running tracks them; and 'agree or argue with me' is its own question, not absorbed by the instruction it closes. The instruction is one deliverable — instrument status tracking for the two named goals in the plan document — so it opens new work rather than attaching to anything in flight, touching only the plan's status document, a task the Director carries out directly without a specialist.",
+  "reasoning": "The message reaffirms goals already recorded in the plan (\"у нас в плане были цели\") and extends that standing rule by saying these parameters now must be monitored in the plan file's status going forward — this is 'A decision is a standing rule, not only a single choice... reminding that a goal already in the plan still stands is the same kind of act — a decision reaffirmed, not a new idea.' A decision is recorded and 'applied to the work already running' (the plan/status file the situation says is already being reviewed), so it attaches to existing work rather than opening a new checkpoint, and produces no new work item, by the same logic the spec gives corrections and halts that change work already in flight. The parenthetical 'посмотришь может в след. сессии' names a possibility (reviewing/doing the optimization work) not being asked for now, which is textbook Idea for later: 'names a possibility they are not asking for now... put it on the idea shelf.' Finally 'согласен или поспорь со мной' is its own act under the rule that 'an invitation to disagree closing out a decision or an instruction is still its own act too... answering only the decision leaves the invitation unanswered' — it is a genuine question, not rhetorical, since the skill treats it as needing an answer. Because nothing here is new work, no specialist from the table is called; the Director itself records the decision and updates the plan document, touching documentation/communication and the monitoring-of-metrics dimension (analytics, unknowns, hypotheses, experiments) without naming dimensions that nothing changes.",
   "scenario": "mixed-reminder-and-a-challenge",
   "skill_version": "6.1.0"
 }

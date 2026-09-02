@@ -1,13 +1,19 @@
 {
   "id": "instruction-a-procedure",
-  "acts": ["instruction"],
+  "acts": [
+    "instruction"
+  ],
   "creates_work": true,
   "shelves_idea": false,
   "attaches_to_existing_work": false,
   "work_items": 1,
-  "dimensions": ["architecture, data, integrations, operations"],
-  "specialists": [],
-  "reasoning": "This is a single instruction: stopping the old server is the opening step of the restart procedure it asks for, not a halt on its own, since the halt rule reserves that act for stopping something mid-flight rather than starting a fix. Stop, rebind to 0.0.0.0, verify the bind, and report the real Wi-Fi IP are steps toward one result -- the perf server correctly reachable on the network -- so it is one work item, not several. It touches operations only (server configuration and reachability); nothing about product behaviour, the user's path, or documents changes, and the steps are simple enough execution that no named specialist is needed.",
+  "dimensions": [
+    "architecture, data, integrations, operations"
+  ],
+  "specialists": [
+    "Developer"
+  ],
+  "reasoning": "The skill's own halt rule is explicit on this exact shape: \"stop the server\" said in the middle of a procedure names a step of that procedure — it is an instruction, part of the work, not a halt. Here the stop is the first step of one procedure (stop, restart with the correct --bind flag, verify the listening address, report the actual Wi-Fi IP) aimed at a single observable outcome: the perf server correctly bound to 0.0.0.0:8790 with the real IP confirmed. These are steps toward one result, not several results someone could want independently, so it is one instruction and one work item, not a halt, correction, or bundle of separate acts. The situation names a wrong-interface bug already known and its fix already stated by the person, so there is no unknown to research and no spec/behaviour claim to document — this is operational execution (server configuration), so it touches the operations dimension and needs only a developer to run and verify the commands; no design, spec, or test-author work is implicated.",
   "scenario": "instruction-a-procedure",
   "skill_version": "6.1.0"
 }

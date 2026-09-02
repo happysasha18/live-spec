@@ -1,13 +1,23 @@
 {
   "id": "observation-a-verdict-on-delivered-work",
-  "acts": ["observation", "observation"],
+  "acts": [
+    "observation"
+  ],
   "creates_work": true,
   "shelves_idea": false,
   "attaches_to_existing_work": false,
   "work_items": 1,
-  "dimensions": ["product value and behaviour", "the user's path and the design", "quality, safety, regressions"],
-  "specialists": ["Developer", "Design reviewer", "Test author"],
-  "reasoning": "The build is already delivered and accepted with nothing in flight, so this cannot be a correction to running work; it is an observation. Continuity was a stated requirement discussed at length and the shown build lacks it, so the repair follows beyond doubt (the export-button case) and one new defect fix is accepted. The second sentence is a separate observation, a judgment about the gap between what was discussed and what shipped, kept as its own act rather than folded into the first.",
+  "dimensions": [
+    "product value and behaviour",
+    "the user's path and the design",
+    "quality, safety, regressions"
+  ],
+  "specialists": [
+    "Developer",
+    "Design reviewer",
+    "Test author"
+  ],
+  "reasoning": "The message reports a fact about the delivered build — effects look good but continuity between shots is missing — without explicitly asking for a repair, which by the table is an observation. But the situation says continuity was discussed at length as a requirement, so this is the case the skill calls out: 'some observations carry their repair with them' — like 'production is returning 500s,' nobody reports a stated requirement's absence to be agreeable; a competent colleague would not need to ask what was wanted, so the repair follows beyond doubt and the observation creates work, per the free-plan-export worked example. Because the situation states nothing about this is currently open or checkpointed as in-flight, this is not a correction to work already running (correction attaches to work, not a queue) — it opens new work rather than attaching to anything existing. The sharp 'странно... уровень понимания' clause is the grounds for the same complaint, not a new fact, so it stays inside this one act rather than forking a second one. Dimensions: product behaviour (a stated requirement isn't honoured), the user's path and design (continuity between shots is an interaction/coherence property), and quality (it shipped without meeting a known requirement). Specialists: a developer to build continuity into the effect, a design reviewer since interaction coherence between shots is exactly its remit, and a test author to fix evidence that continuity holds so this can't regress silently again.",
   "scenario": "observation-a-verdict-on-delivered-work",
   "skill_version": "6.1.0"
 }

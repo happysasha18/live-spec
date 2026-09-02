@@ -1,13 +1,15 @@
 {
   "id": "question-challenges-the-plan",
-  "acts": ["question"],
+  "acts": [
+    "question"
+  ],
   "creates_work": false,
   "shelves_idea": false,
   "attaches_to_existing_work": false,
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "The person is asking whether the newly proposed checking step duplicates what the prover already does, or whether the real cases are genuinely harder than what the prover covers — a question wanting to know something, not a request to act. Per the skill, a question gets answered by engaging with the comparison, not turned into a roadmap row or new work; the two clauses are alternative hypotheses within one question, not separate acts.",
+  "reasoning": "The agent had only proposed a new checking step; nothing was yet accepted as work. The human's message asks whether that proposed step duplicates what the product prover already does, or whether the real cases are genuinely more complex than the prover handles. This is a question wanting to know something, not an instruction, correction, or idea: per the table, the Director's job here is to answer the question, not to 'write a roadmap row, open a spec, start work.' Nothing running is being told to stop (no halt), no goal or constraint of in-flight work is being changed (no correction, since the step was only proposed, not yet work in flight), and no possibility for later is being named (no idea). The right response is to answer directly - checking whether the proposed step overlaps the product-prover skill's coverage - and only if that answer shows a genuine gap does any new work get considered; asking it is itself the cheap, correct move under 'Do not create work to be safe.'",
   "scenario": "question-challenges-the-plan",
   "skill_version": "6.1.0"
 }

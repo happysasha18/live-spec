@@ -1,13 +1,15 @@
 {
   "id": "observation-a-warning",
-  "acts": ["observation"],
+  "acts": [
+    "observation"
+  ],
   "creates_work": false,
   "shelves_idea": false,
   "attaches_to_existing_work": false,
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "Naming that the session is near its limit and asking to go carefully describes the running work's state without changing what it must do — no new constraint, no dropped requirement, no new step. The skill names this exact case: a caution is an observation the work should be paced by, not a correction that reopens its plan, so nothing is written to the checkpoint and no new work opens.",
+  "reasoning": "This is the message the skill names directly: 'naming that a limit is close, or asking to go carefully, describes the work's state without changing what it must do — no new constraint, no new step, no dropped requirement. That is an observation the work should be paced by, not a correction that reopens its plan.' The person is not changing the running job's goal or constraints, so it is not a correction and does not reopen or replan the work in flight. It is not an idea (nothing possible-later is being named) and not an instruction (nothing new is being asked for). It gets recorded as the pacing context for the work already running, with a plain acknowledgement, and nothing else changes.",
   "scenario": "observation-a-warning",
   "skill_version": "6.1.0"
 }

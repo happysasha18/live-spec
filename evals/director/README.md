@@ -106,6 +106,29 @@ The skill's text was not touched for this run; what changed under it was the gra
 model for an extra act and `observation-carrying-its-repair`'s situation, both described
 above.
 
+bare run: 2026-09-02 — two full re-records on the same afternoon, one producer per scenario under
+the isolation protocol above, opaque labels. The pair was run as a control, because a change to
+`skills/director/SKILL.md` had cut it from 25,613 to 21,900 bytes and the question was whether the
+cut cost anything. Same producers, same hour, the only difference the skill text:
+
+| skill text | score |
+|---|---|
+| the skill as it stands (25,613 bytes) | 30 of 35, 2 extra acts |
+| the same skill cut to 21,900 bytes | 29 of 35, 4 extra acts |
+
+The cut was reverted. One scenario is inside what this method can see, so the run does not certify
+the cut either way, and 3.7 KB is a small saving to take on an unresolved question at the pack's
+front door.
+
+**What the pair established about the method itself.** While the second run was still finishing,
+its partial trace set graded 32, then 31, then 30 as the last producers landed. Nothing about the
+grader changed between those readings — the grader is deterministic on a fixed trace set, and was
+re-checked to be so. What moved was the trace set. So a single bare run's score carries about two
+scenarios of producer variance, and a score quoted to the scenario reads more precisely than the
+method can support. Two scores from separate runs are comparable when they differ by more than
+that, and a change worth a re-record should be large enough to clear it. Grade only a complete
+trace set: a partial one reports a number that is still moving.
+
 ## What the first run caught
 
 The first run was thrown away. The batches handed each agent the scenario's `id`, and the

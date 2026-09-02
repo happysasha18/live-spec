@@ -1,13 +1,20 @@
 {
   "id": "idea-with-a-cheap-branch",
-  "acts": ["instruction", "idea"],
+  "acts": [
+    "instruction",
+    "idea"
+  ],
   "creates_work": true,
   "shelves_idea": false,
-  "attaches_to_existing_work": true,
+  "attaches_to_existing_work": false,
   "work_items": 1,
-  "dimensions": ["the user's path and the design"],
-  "specialists": ["Developer"],
-  "reasoning": "This is a conditional request stating both branches: 'if that's possible too, let's do it' (instruction) and 'if not now, note it for later' (idea). The condition resolves in favor of the instruction branch — the worker display already exists, built and live in another window of this same tool, so making it visible here reuses that same display rather than building a new one. Per the conditional-request rule, only one branch is recorded as the outcome, so the idea branch is not also shelved. Because the work is reuse of an existing display rather than a fresh build, it attaches to that existing work as one small piece of work touching the user's path and design.",
+  "dimensions": [
+    "the user's path and the design"
+  ],
+  "specialists": [
+    "Developer"
+  ],
+  "reasoning": "This is a conditional request: 'if that's possible, let's do it now; if not now, note it for later' names both an instruction-shaped branch and an idea-shaped branch in the same breath, so both stay named as acts, but the outcome is exclusive — the condition either holds or it does not. The situation says the display is already built and live in another window, and showing it here would only reuse that same display, not build a new one — so the condition ('if that's possible too') holds and is cheap to satisfy. Per the conditional-request rule, that means the work is taken now, not shelved: creates_work is true and shelves_idea is false, never both. 'so прикольнее смотреть динамику' just restates why he wants it and carries no new information, so it is not a separate act. This is new work (wiring the existing display into this window) rather than a change to work already in flight, so attaches_to_existing_work is false and it counts as one new work item. It touches the user's path and the design — an interface/visibility change — and needs a developer to wire the existing display in; no spec, architecture or test-author work is implied by reusing an already-built component.",
   "scenario": "idea-with-a-cheap-branch",
   "skill_version": "6.1.0"
 }

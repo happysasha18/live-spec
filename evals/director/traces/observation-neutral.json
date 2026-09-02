@@ -1,13 +1,15 @@
 {
   "id": "observation-neutral",
-  "acts": ["observation"],
+  "acts": [
+    "observation"
+  ],
   "creates_work": false,
   "shelves_idea": false,
   "attaches_to_existing_work": false,
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "The message reports a fact about session state — the usage allowance refreshed — without asking for anything. It is an observation, but the competent-colleague test finds no repair follows beyond doubt: nothing is broken or wasteful, so no defect or task is implied. It creates no work, attaches to nothing already running, and shelves no idea; it is simply noted.",
+  "reasoning": "The message reports a fact (session usage allowance refilled) that was not already known, so per the conversation-vs-act rule it is not mere pleasantry to be discarded — it is an observation, to be recorded as evidence. Nothing about it asks for a repair or names a possibility for later, and the situation gives no sign that any work is currently in flight for it to attach to or correct. The competent-colleague test for an observation whose repair follows beyond doubt does not apply here: nothing is broken or wasteful, so no repair follows and no work is created. It touches no dimension and needs no specialist — the Director just answers/acknowledges it and moves on.",
   "scenario": "observation-neutral",
   "skill_version": "6.1.0"
 }

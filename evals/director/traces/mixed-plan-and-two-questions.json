@@ -1,13 +1,16 @@
 {
   "id": "mixed-plan-and-two-questions",
-  "acts": ["observation", "question", "question"],
+  "acts": [
+    "observation",
+    "question"
+  ],
   "creates_work": false,
   "shelves_idea": false,
   "attaches_to_existing_work": false,
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "The person reports two facts without asking for a repair (the plan format is plain text with emoji status lines; they copied the plan and launched the worker) and then asks two genuine questions: whether the worker is executing the whole plan or only part of it right now, and what the run will produce as output. Nothing here asks for something to be built, changed, or stopped, so no checkpoint or specialist is warranted; the correct response is to answer both questions from what is known about the running worker, not to open work.",
+  "reasoning": "The message reports two facts without asking for a repair — the plan for this session is plain text with 5-10 emoji-status lines, and the human already copied it to a worker and launched it (the situation confirms the worker was 'launched a moment ago with a copied plan'); the 'for this session' scoping means this names no standing rule, so it stays a plain observation rather than a decision. The rest is genuine questions — what the worker is doing right now, whether it's running the whole plan or only part, and what the output will be. Per the Director's table, a question gets answered and an observation gets recorded as evidence; neither writes a roadmap row or opens a sheet. Nothing here asks for something to be done, changes the goal or constraints of the running worker, or halts it, so no work is created and the work already in flight is not altered, only inquired about — the Director answers from what it can read (the plan/checkpoint state) without calling any specialist.",
   "scenario": "mixed-plan-and-two-questions",
   "skill_version": "6.1.0"
 }

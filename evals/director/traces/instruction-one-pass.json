@@ -1,13 +1,17 @@
 {
   "id": "instruction-one-pass",
-  "acts": ["instruction"],
+  "acts": [
+    "instruction"
+  ],
   "creates_work": true,
   "shelves_idea": false,
   "attaches_to_existing_work": false,
   "work_items": 1,
-  "dimensions": ["documentation and communication"],
+  "dimensions": [
+    "documentation and communication"
+  ],
   "specialists": [],
-  "reasoning": "The person is asking for something to be done now — a review pass, scoped only to the product-prover skill — so this is an instruction, not an idea or a musing. It opens one new piece of work rather than attaching to something already running: nothing in the message points at existing work in flight, only a scope for what this session covers. The pass touches the prover skill's own instructions, so it touches documentation and communication; no specialist in the table maps to reviewing a skill's own content, so none is named.",
+  "reasoning": "The imperative \"Сделай проход только по скиллу прувера\" (\"Do a pass, only over the prover skill\") asks for something to be done now, not a possibility for later — that makes it an Instruction under the Director's table: 'asks for something to be done' -> 'accept the work, state the goal understood, begin'. The situation is framed as 'choosing what this session will cover', so no work on the prover skill is already in flight for this to attach to or correct; it is a fresh scope decision that starts a new, bounded piece of work (a review pass limited to one named skill), so it earns a decision sheet rather than a sentence. The word 'только' (only) is itself part of the instruction: it fixes the boundary of the work (this skill, not the others) so the goal understood must preserve that limit rather than being read as a larger programme. The work is a pass over a skill's own document, which lands under documentation and communication (the skill's declared sentence is what changes or is checked), not under product behaviour, since nothing about shipped product code is named. No specialist in the Director's table is a clean fit for reviewing a pack skill's own text (the table's specialists review product specs, code, or interfaces, not the pack's own skill documents), so none is named; the Director would carry out or scope the pass itself.",
   "scenario": "instruction-one-pass",
   "skill_version": "6.1.0"
 }

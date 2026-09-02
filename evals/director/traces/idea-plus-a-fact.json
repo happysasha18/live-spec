@@ -1,13 +1,16 @@
 {
   "id": "idea-plus-a-fact",
-  "acts": ["idea", "observation"],
+  "acts": [
+    "idea",
+    "observation"
+  ],
   "creates_work": false,
   "shelves_idea": true,
   "attaches_to_existing_work": false,
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "Showing reference files is named explicitly as 'дальний бэклог' and 'просто как идеи' — the person is not asking for it now, so it goes on the idea shelf in their own words rather than becoming a task with an id or estimate. The second clause just reports what they currently see (an agent still running), a fact about state with no repair implied, so it is an observation recorded as evidence, not a defect to fix. Neither clause is an instruction or correction to work in flight, so nothing is created or attached.",
+  "reasoning": "The person names a possibility (\"может имеет смысл показать референс файлы\") but explicitly marks it as not for now — \"но это в дальний бэклог просто как идеи на какой то момент\" — which is exactly the Director's Idea-for-later case: a possibility they are not asking for now, so it goes on the idea shelf in their own words rather than becoming a task with an id, priority or estimate. The second clause, \"я пока вижу правда что один агент все еще бежит\", is a report of what they currently observe, given while glancing at the screen mid-thought; nothing about it names a problem or asks for a repair, and the situation gives no sign a competent colleague would need to ask what was wanted, so it is recorded as an observation and not treated as a correction or instruction to the running work. Neither act asks for anything now, so no decision sheet is written, no dimensions or specialists are named, and no checkpoint work opens; the running agent continues untouched.",
   "scenario": "idea-plus-a-fact",
   "skill_version": "6.1.0"
 }

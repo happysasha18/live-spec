@@ -1,13 +1,21 @@
 {
   "id": "correction-stop-counting-pairs",
-  "acts": ["correction"],
+  "acts": [
+    "correction"
+  ],
   "creates_work": false,
   "shelves_idea": false,
   "attaches_to_existing_work": true,
   "work_items": 0,
-  "dimensions": [],
-  "specialists": [],
-  "reasoning": "The pair-counting implementation is work already in flight, and this message changes its goal and constraints: the package must not be scoped by the pairs it ships, it must build a crossing for any pair of pictures in the world. Per the skill's own rule, a correction attaches to work, not to a queue — it redirects the implementation already running rather than opening a second row beside it. It is also a correction to method rather than a halt: the work keeps running toward the same crossing/transition goal, only the counted, package-scoped approach has to go.",
+  "dimensions": [
+    "product value and behaviour",
+    "architecture, data, integrations, operations"
+  ],
+  "specialists": [
+    "developer",
+    "test author"
+  ],
+  "reasoning": "The situation names work already in flight — an implementation that counts the image pairs the package ships. The message changes that work's constraint: stop counting pairs, and instead handle any pair of pictures at all. Per the Director's table, this is a correction — it 'changes the goal or the constraints of work in flight' — and 'a correction attaches to work, not to a queue': the Director finds the counting implementation and changes it rather than opening a new task beside it. The angry framing ('в 1000000 раз говорю', 'дебилизм') is the correction's own imperative ('убери') restated with force, not a separate judgment worth keeping past this act — it says nothing the correction's goal does not already carry, so it stays inside the one act rather than becoming a second observation. Because a correction to work already running produces no new item, work_items is 0, creates_work is false, and attaches_to_existing_work is true. The corrected goal touches product behaviour (the engine must compose a transition for any pair, not a fixed shipped set) and the architecture of how pairs are produced (moving off a counted/gated set to on-demand construction for an arbitrary pair). A developer changes the implementation to match; a test author is needed because the evidence for 'any pair in the world' is a different kind of check than counting a shipped set — no spec author or architect is called since this enforces a design already settled, not a new one.",
   "scenario": "correction-stop-counting-pairs",
   "skill_version": "6.1.0"
 }

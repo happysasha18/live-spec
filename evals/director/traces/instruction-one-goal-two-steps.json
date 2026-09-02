@@ -1,13 +1,17 @@
 {
   "id": "instruction-one-goal-two-steps",
-  "acts": ["instruction"],
+  "acts": [
+    "instruction"
+  ],
   "creates_work": true,
   "shelves_idea": false,
   "attaches_to_existing_work": false,
   "work_items": 1,
-  "dimensions": ["documentation and communication"],
+  "dimensions": [
+    "documentation and communication"
+  ],
   "specialists": [],
-  "reasoning": "One instruction: put the already-produced report into a file and hand back its path. The middle clause about passing it to someone else for recheck restates why they want the file, not a new judgment or fact, so it is not a separate act. Writing the file and reporting its path are two steps toward the single result of a handoff-ready file, not two pieces of work, so this is a real but small task the Director does directly, needing no specialist.",
+  "reasoning": "The person asks for something to be done now: save the report just produced into a file and hand back its path, so it can be passed to someone else for re-checking. That is an instruction, not a question or musing — per the table, the Director's job is to accept the work, state the goal understood, and begin. It is new, self-contained work rather than a correction or decision on work in flight: nothing about the report's own content or goal is being changed, only a delivery step is being requested. Per 'Work that belongs elsewhere', a request that a result be made and handed off is work like any other and must not be brushed aside. The goal is small — persist existing content to a file and report the path — so it earns a decision sheet sized to that: no risk, no unknowns worth naming, and no specialist is needed since this is direct execution, not building, spec, or design work. It touches documentation and communication because it produces an artifact meant for another person to read and act on.",
   "scenario": "instruction-one-goal-two-steps",
   "skill_version": "6.1.0"
 }

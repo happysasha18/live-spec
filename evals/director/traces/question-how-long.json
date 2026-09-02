@@ -1,13 +1,15 @@
 {
   "id": "question-how-long",
-  "acts": ["question"],
+  "acts": [
+    "question"
+  ],
   "creates_work": false,
   "shelves_idea": false,
   "attaches_to_existing_work": false,
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "The person is asking a plain question about how long the running job will take, to decide whether to wait — this is a question, not a request for anything new. Answering it may take reading (checking the job's progress or history) but reading to answer a question is not work; nothing is built, corrected, or filed.",
+  "reasoning": "\"и как это долго?\" (\"and how long is this?\") asks about the duration of a job already running, in a situation where the person is deciding whether to wait. Per the Director's table, this is a Question: the person wants to know something. The Director answers it directly — it does not write a roadmap row, open a spec, or start work. It also does not change the running job's goal or constraints (no correction), and it is not a standing rule (no decision), so nothing attaches to the work in flight beyond giving an answer; asking how long something will take does not alter what that work must do.",
   "scenario": "question-how-long",
   "skill_version": "6.1.0"
 }

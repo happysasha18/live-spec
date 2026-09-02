@@ -1,13 +1,16 @@
 {
   "id": "halt-without-the-word",
-  "acts": ["halt", "question"],
+  "acts": [
+    "halt",
+    "question"
+  ],
   "creates_work": false,
   "shelves_idea": false,
-  "attaches_to_existing_work": false,
+  "attaches_to_existing_work": true,
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "A halt is about state, not about words: \"тормозни\" carries no literal stop/halt token, but something running is being told to pause because the person is about to lose connectivity, so the running work's state changes to paused, nothing new opens. The closing \"норм?\" is a genuine invitation to confirm the plan and is its own act, a question, answered directly rather than folded into the halt. No dimensions or specialists apply since no work was accepted.",
+  "reasoning": "The person wants the work that is currently running to stop running — that is a halt by the skill's own test ('someone can halt work by saying \"stop\"... What makes it a halt is that something running should stop running'), and it is about the session's own work in progress, matching the halt row exactly. The reason given (leaving in 15 minutes, going offline, closing the session) is the halt's own goal in other words, not a new act, per 'when it only restates why the neighbouring act wants what it wants, it is not a second act.' The closing 'норм?' is a genuine check on whether pausing now and resuming from the same place later will actually work — an invitation to confirm attached to the halt, and 'an invitation to disagree closing out a decision or an instruction is still its own act too,' so it is answered directly rather than folded into the halt. A halt changes the state of work already in flight and must not create anything, so creates_work is false, no dimensions or specialists apply (there is no decision sheet for a halt), and work_items is 0 because a halt that changes work already running produces no new work, per the explicit rule in the task description.",
   "scenario": "halt-without-the-word",
   "skill_version": "6.1.0"
 }

@@ -1,13 +1,21 @@
 {
   "id": "mixed-four-at-once",
-  "acts": ["question", "decision", "instruction", "instruction", "question", "instruction", "observation", "observation"],
+  "acts": [
+    "question",
+    "decision",
+    "instruction"
+  ],
   "creates_work": true,
   "shelves_idea": false,
-  "attaches_to_existing_work": false,
+  "attaches_to_existing_work": true,
   "work_items": 1,
-  "dimensions": ["documentation and communication"],
-  "specialists": [],
-  "reasoning": "The turn mixes four act types in one breath: a question about where the README sample was, a standing decision to always hand him a link when he forgets, an instruction to catch and fold in an idea project-B is about to send, and a second question asking whether work is running — none of these open new work. The one instruction that is accepted now is 'давай план, замеры по времени, все пиши', paced by the observation that the cafe window closes in an hour (context for the work, not a correction to it). No idea gets shelved, since project-B's idea has no content yet to file or start on; the plan-with-timing deliverable is documentation and communication the Director writes itself, so no specialist is named.",
+  "dimensions": [
+    "documentation and communication"
+  ],
+  "specialists": [
+    "communicator"
+  ],
+  "reasoning": "\"где был образец ридми плиз?\" is a plain question and gets answered, no work opened. \"всегда давай ссылку если я забыл\" carries the standing-rule marker 'всегда' ('always'), matching the skill's own test for a decision that settles something beyond this one message, so it is recorded as a standing rule, not a task. The clause about [проект-B] handing over an idea, paired with 'подхвати а пока работай', tells the agent to keep doing what it is already doing; the idea itself has not arrived yet so there is nothing to create work for now, and 'работай' is a continuation of work already in flight, not a new item - this is why attaches_to_existing_work is true. 'ты работаешь?' is a second, separate question checking status. 'давай план, замеры по времени, все пиши' asks for a plan and a time-boxed write-up to be produced; per the skill's own 'Work that belongs elsewhere' note, a requested plan, status or report 'has asked for something to be made, and it is work like any other', so this is the one new work item this turn produces, scoped by the one-hour cafe deadline named in the same breath. That deadline and the closing note about resuming from home are read as known/risk facts bounding this same plan request, not separate acts, since neither asks for anything beyond what the plan instruction already asked for.",
   "scenario": "mixed-four-at-once",
   "skill_version": "6.1.0"
 }

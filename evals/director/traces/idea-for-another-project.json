@@ -1,13 +1,15 @@
 {
   "id": "idea-for-another-project",
-  "acts": ["idea"],
+  "acts": [
+    "idea"
+  ],
   "creates_work": false,
   "shelves_idea": true,
   "attaches_to_existing_work": false,
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "The person names a possibility — enriching the text-audit skill to flag things in non-spec text (articles, messages) that a spec rightly skips — using musing language ('может имеет смысл') and explicitly frames it as something to hand off ('кинь лайвспеку идею'), not something to do now. That is the idea act: it goes on the idea shelf in the person's own words, and nothing is opened, built, or attached to work already in flight.",
+  "reasoning": "The person explicitly frames this as something to hand off, not build now: \"кинь лайвспеку идею\" (throw livespec an idea), and hedges with \"может имеет смысл\" (maybe it makes sense). This matches the Idea row exactly: 'names a possibility they are not asking for now' — the Director's job is to 'put it on the idea shelf, in their own words, and say so in one line', not give it a task id or start it. The rest of the message (the NOT-spec vs texts/messages distinction) is the shape of the idea itself, not a separate act — it explains what the possible enrichment would do, not a new fact or request on its own. Nothing here is asked for now, so creates_work is false and no dimensions or specialists apply.",
   "scenario": "idea-for-another-project",
   "skill_version": "6.1.0"
 }

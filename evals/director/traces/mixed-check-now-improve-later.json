@@ -1,11 +1,25 @@
 {
   "id": "mixed-check-now-improve-later",
-  "acts": ["instruction", "observation"],
+  "acts": [
+    "instruction",
+    "observation"
+  ],
   "creates_work": true,
   "shelves_idea": false,
   "attaches_to_existing_work": false,
   "work_items": 1,
-  "dimensions": ["architecture, data, integrations, operations", "quality, safety, regressions"],
-  "specialists": ["Product prover", "Independent verifier"],
-  "reasoning": "The core act is an instruction: verify the recent modification does not bloat the shipped bundle (or confirm the growth is justified by per-platform dynamic loading) and that nothing breaks for the user — a check asked for now, not deferred. Riding alongside it is an observation carrying its own judgment: the prover should already catch this class of issue, which is worth recording even though it also supplies the reason for 'кстати проверь.' Both checks (bloat/dynamic-loading and general regressions) are steps toward one result — a verdict on whether this modification is safe — so this is one work item, not several, and 'не знаю эт реально или нет' is a hedge on that same instruction, not a new act. Product prover is named directly by the prover-coverage question, and an independent verifier is needed because the check cannot be the executor's own self-report on its own change."
+  "dimensions": [
+    "quality, safety, regressions",
+    "architecture, data, integrations, operations",
+    "product value and behaviour"
+  ],
+  "specialists": [
+    "Independent verifier",
+    "Product prover",
+    "Test author",
+    "Architect"
+  ],
+  "reasoning": "The core of the turn is an instruction: 'проверь очень хорошо' asks for something to be done now, not shelved, so it is accepted work with a goal ('accept the work, state the goal understood, begin'). Riding alongside it is a judgment about the pack's own tooling — 'это прувер тоже должен был бы поймать' — which the skill says stays its own act even while doubling as grounds for the neighbouring instruction: 'A judgment about the product ... says something new even when it doubles as the reason for the neighbouring act.' The check-the-modification request and the check-the-prover request are not two separate pieces of work: they are exactly the doctrine in 'Accepted work that turns out to be a confirmed bug still owes a sweep before it counts as finished' — verify the defect, then verify the gate that should have caught its class — so they land as one work item with the sweep folded in. Nothing here is deferred ('for later'), so shelves_idea is false; the modification itself is described as already made, so this is new verification work rather than a correction to work still in flight. Bundle size / dynamic-loading-by-platform touches build and architecture concerns, 'nothing breaks for the user' touches product behaviour and regressions, and the prover-coverage question calls for the independent verifier and product-prover specialists plus a test author to pick the evidence (bundle-size delta, regression checks) that would show the goal was actually reached.",
+  "scenario": "mixed-check-now-improve-later",
+  "skill_version": "6.1.0"
 }
