@@ -554,6 +554,30 @@ the one slot nothing questions. That is the defect this surface exists to catch.
   still stops for your word before it runs, never only after it is shown (rule 12/17) — this
   decision is about when a built, reversible result counts as done, not about that gate.
 
+- 2026-09-02 ~22:05 — the Director states its own disagreement with a request before executing
+  it, as a step inside accepting work, not only as background personality. Your words in chat:
+  "ты всегда можешь спорить если не согласен. не надо тупо делать потому что потом еще не
+  поймешь что сделал и результат не порадует." and, catching that this session had just treated
+  that remark as a passing reminder instead of running it through the same process a feature
+  request gets: "ты сам по моей идее использования этого скилла лайвспек ты сам сейчас должен
+  был бы понять что это фича... понять куда вписать, посмотреть влияет ли на архитектуру, добавить
+  тест." In English: you can always argue if you disagree — don't just blindly execute, or you
+  won't understand later what you did and the result won't satisfy. And: by my own idea of how
+  this pack works, you should have recognized that remark itself as a feature, worked out where
+  it belongs, checked whether it touches the architecture, and added a test. Consequence:
+  `director/SKILL.md`'s Execution section states the rule at the acceptance step itself — writing
+  a decision sheet is also the one moment to weigh whether the request is right, and a flaw the
+  Director can see gets stated before the checkpoint opens, not folded silently into how the work
+  gets built. This was already a personal standing rule (`~/.claude/CLAUDE.md`); what changed is
+  that it now rides inside the Director's own procedure rather than only the personal layer. No
+  architecture-level entities, states or transitions change — this is a procedural rule about how
+  the Director's own step runs, the same shape as rule 12/27's existing taste-and-trade-off carve-
+  outs, not a new node. A test lands with `q-810`'s own closing-rule eval (in flight the same
+  night), which already needed a scenario distinguishing an ordinary delivery from a genuine fork
+  the human owns — a scenario where the request itself is flawed extends that same set rather than
+  standing up a second harness. No new PLAN.md row opened for this, on your own word the same
+  exchange ("сейчас не надо по новой").
+
 ## Open — carried, awaiting your word
 <!-- record:open -->
 These are open questions the pack carries with a recommendation. They moved here from the old spec
