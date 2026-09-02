@@ -3666,3 +3666,32 @@ fixed here:
   calling the retired lock test — that no criterion in `spec/guardrails-freshness.md`'s Requirement
   268 actually carried. Added criterion 7, naming both halves: the replacement and the file cleanup
   above. `TEST_MATRIX.index.md` and `PRODUCT_SPEC.index.md` regenerated after.
+
+## 2026-09-02 — a whole-push-range record finds the real gate: the suite itself, plus one old debt
+
+`docs/prover/2026-09-02-full-push-range.md` — a fresh context read the entire pushed range
+(`11987b8..1f82fb2`, 73 commits: tonight's own work already covered by the three records above, plus
+48 older commits from 2026-08-31/09-01 that had per-landing records but no single record naming the
+whole push, SPEC INV-304). Three blocking findings, all real, all fixed here:
+
+- `python3 -m pytest -q` on the actually-merged tree — never run start to finish since `q-805`
+  landed — was red on two counts, not zero. `architecture/guardrails.md` had picked up four literal
+  `2026-09-02` dates inside its `owns`/`notes` fields, tripping the no-history law (`INV-279`/R290.4-5:
+  a node field states current fact, never when it changed — `JOURNAL.md` holds when). All four
+  reworded to drop the date without losing the fact. `scripts/plan_checks.py`'s new `q-805` command
+  chains a `python3 -c` one-liner and a `spec-redundancy-precheck.py` call the shell-reading test
+  can't statically clear — read both by hand (the inline script only does `json.load`+`sys.exit`, the
+  precheck script has no write call anywhere, confirmed by grep), pinned in `JUDGED_BY_HAND` by hash.
+- The older range's own fresh read found one real, if non-gate-blocking, violation: `caa7f6a7`
+  deleted `attic/inbox-2026-08-05-from-tlvphotos-rotation-gate-reads-only-numbered-rows.md` outright,
+  against the attic's own append-only law (`spec/project-setup-tuning.md` R179.2, base rule 10) —
+  `attic/MANIFEST.md` never stopped listing it as present. Restored byte-for-byte from `caa7f6a7^`
+  (confirmed by `diff`, empty). A second, smaller stale-pointer find in the same pass —
+  `matrix/snapshot.md`'s `M-063` still credited "row 55" and `*todo*` for machinery `q-802` actually
+  built 2026-09-01 — corrected to cite `tests/test_snapshot_baseline.py` and `*built*`.
+
+Every other gate the whole-range record checked fresh — index/matrix/architecture generation,
+pin drift, config health, skill review, compaction freeze, `INV-242` healing, `[target]` coupling,
+duplicate ids, the director evals, installed-skill parity, the routing-preamble hook — was already
+green and stayed green. The suite was the one real gap, and it is the one that actually exercises
+the whole merged tree at once regardless of which commit introduced what.

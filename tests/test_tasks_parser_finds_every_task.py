@@ -261,6 +261,12 @@ class TestTheAcceptanceCommandsStayHonestMachinery(unittest.TestCase):
         "q-527": "1c84c8e5a9271225666cfe832690345752a4b6cf25b30815193684286fd9794b",
         "q-581": "59fce43e95d4d4ae51534ed5c41d81d9d634555a27ac4ac416c6c79f5ce17ce3",
         "q-586": "25b2c366f1344f69057673bcc5a229410f688fc51951eea4f09313973bf8d3bf",
+        #: q-805 (2026-09-02) chains file-absence tests, greps, `git show ... | diff`, and one
+        #: `python3 -c` one-liner and one `spec-redundancy-precheck.py` call, each read by hand:
+        #: the inline script only does `json.load(open(...))` and `sys.exit`, no write; the
+        #: precheck script (checked directly: no `open(..., "w")`, no `.write()` beyond a usage
+        #: line to stderr) only prints candidate pairs, piped into `grep -q`, itself read-only.
+        "q-805": "8836192e163c090fe1ffaea0fb99252de290be066ecc2fa0f1a03aae02753c9d",
     }
 
     def setUp(self):
