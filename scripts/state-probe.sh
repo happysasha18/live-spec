@@ -246,8 +246,8 @@ else
   echo "  required context: $CTX_BYTES bytes (tiktoken unavailable)"
 fi
 
-CANON=$(cat PRODUCT_SPEC.md ARCHITECTURE.md TEST_MATRIX.md spec/* architecture/* matrix/* 2>/dev/null | wc -c | tr -d ' ')
-echo "  full canon: $CANON bytes"
+SPEC_CORPUS=$(cat PRODUCT_SPEC.md ARCHITECTURE.md TEST_MATRIX.md spec/* architecture/* matrix/* 2>/dev/null | wc -c | tr -d ' ')
+echo "  full spec/architecture/matrix corpus: $SPEC_CORPUS bytes"
 
 # ---------------------------------------------------------------- alarm
 b "ALARM"
