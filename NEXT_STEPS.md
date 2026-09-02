@@ -4,7 +4,7 @@ A digest with no redundancy (SPEC INV-48) — one live-state block, nothing remo
 information. One status block stands here at a time, and every update replaces it. Dated history
 lives in `JOURNAL.md`.
 
-## LIVE STATE (2026-09-02, 22:45)
+## LIVE STATE (2026-09-02, 23:35)
 
 Written for a session starting with clean context, covering the night run in `9a300f9e..5fcf2326`
 (this file's own last refresh, `4b898f65`, sat un-updated through that whole range — heals landing
@@ -25,10 +25,10 @@ session had just done real director-level work on that question but treated his 
   one moment to weigh whether the request itself is right; a flaw the Director can see gets voiced
   before the checkpoint opens, not folded silently into how the work gets built.
 
-Both landed with `DECISIONS.md` entries naming the dated exchange. A closing-rule eval (4-5 fresh
-scenarios distinguishing an ordinary delivery, a genuine taste fork, and a flawed request) is in
-flight under `evals/director/closing-scenarios.json`, separate from the existing 35-scenario
-act-classification harness — check its own worker's report before assuming it landed.
+Both landed with `DECISIONS.md` entries naming the dated exchange. The closing-rule eval landed
+too (`3458c213`): 9 of 9 fresh producer runs under `evals/director/closing-scenarios.json`,
+separate from the existing 35-scenario act-classification harness (that one re-recorded
+separately, 31/35, `fa4607c9`). Both are real, both are green.
 
 **`q-166` closed under the new rule; `q-811` opened to carry what it didn't finish.** The daily
 need (`board.html`) already ships; the larger unbuilt feature (worker lanes, given-vs-actual time,
