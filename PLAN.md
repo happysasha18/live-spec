@@ -293,7 +293,7 @@ row are untouched. The rest already read as plain outcome sentences and were lef
 session's own reading; the outside reader the definition of done asks for still has to run, and the
 row stays open until it does.
 
-### 🔄 A finished task is shown and closed; a complaint about it becomes new work, not a stuck one — id: q-810
+### ✅ A finished task is shown and closed; a complaint about it becomes new work, not a stuck one — id: q-810
 **Group:** Method reliability · **Priority:** critical
 **Source:** owner 2026-09-02 ~21:31 — no row's own definition of done should name his eye as the
 gate that keeps it open; the seat carries accepted work to a shown result and closes it there
@@ -316,6 +316,22 @@ scenario(s) proving the Director closes a "shown, ordinary" result without waiti
 verdict, and does NOT close a genuine taste/irreversible fork without one; `evals/director/check.py`
 scores them; the full 35(+)-scenario re-record runs clean and the traceability test suite stays
 green. Landed 2026-09-02 as the same commit that closes `q-166` under this rule.
+
+**Checked by reading on 02.09.** `director/SKILL.md` carries both rules named above (the closing rule and,
+found the same night the seat was itself caught treating his very next remark as a passing aside
+instead of running it through the same process, the argue-before-executing rule — folded here
+rather than a second row, on his own word). Nine fresh producer runs (`evals/director/closing-scenarios.json`,
+`evals/director/closing-traces/`) prove the closing rule: 9 of 9, covering an ordinary delivery, a
+taste fork, an undecided trade-off, a change to the definition of correct the person himself
+ordered versus one still genuinely open, an irreversible release, and the argue-first case. One
+deliberate deviation from this row's own text: grading rides `tests/test_director_scenarios.py`
+directly rather than a second `evals/director/check.py`-shaped grader, since nine files and two
+graded fields is a deterministic read a dedicated script would be machinery for. The separate
+35-scenario act-classification harness (a different layer — what the Director calls a message,
+not when it closes work) was re-recorded the same night against both skill edits: 31 of 35,
+against a 30/35 baseline before either edit, inside the harness's own stated producer-variance
+line — `docs/prover/`-style detail lives with the dispatching worker's own report, not repeated
+here. Both traces sets and the matrix rows (`M-627`, `M-628`) are committed and green.
 
 ### ✅ The turnkey product contract is proven complete before any code starts — id: q-806
 **Group:** Turnkey productization · **Priority:** critical
