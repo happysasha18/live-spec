@@ -2024,7 +2024,7 @@ tests/test_retroactive_gate.py tests/test_gate_common_table_rows.py tests/test_d
 `docs/skill-review/` record before this branch pushes.
 
 
-### ⬜ The parallel-lanes machinery still netted by git and the prover ships for real — id: q-804
+### 🔄 The parallel-lanes machinery still netted by git and the prover ships for real — id: q-804
 **Group:** Parallel & multi-agent work · **Priority:** normal
 **Source:** found 2026-09-01, closing q-386 — three promises row 386 carried from its own first
 writing, never folded in from elsewhere, orphaned the moment q-386 closed on its own four-leg
