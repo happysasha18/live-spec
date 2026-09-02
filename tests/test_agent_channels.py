@@ -229,8 +229,18 @@ class TestEarnedMessage(unittest.TestCase, _AnchorHomeMixin):
         # audited rest rationale). Behavioural half asserted above/below from its own criterion.
 
     def test_base_rulebook_carries_the_earned_message_law(self):
-        self.assertIn("names the sender's own blocked work", read_flat(BASE),
-                      "the base rulebook does not carry the earned-message law")
+        # The law is that a message names the ground that earned it, or is not sent. It has more
+        # than one ground: spec/agent-request.md:25 recognises three, and
+        # guardrails/check-earned-message.py records the July 2026 incident where a gate demanding
+        # blocked work of everything refused the first real deposit — a fault message from a
+        # neighbouring project. So this asserts the law and the ground, and leaves the sentence
+        # free to name the other grounds; pinning the old exclusive wording would have held the
+        # rulebook at the shape that caused that refusal.
+        body = read_flat(BASE)
+        self.assertIn("the sender's own blocked work", body,
+                      "the base rulebook does not carry the earned-message law's first ground")
+        self.assertIn("or is never sent", body,
+                      "the base rulebook states the ground without the law it serves")
 
     def test_inv189_index_and_ownership(self):
         self.assert_index_and_ownership("INV-189")
