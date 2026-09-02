@@ -75,10 +75,12 @@ for t in tasks:
         # A done mark is the one exception, and it is why the keys were written at all: a ✅
         # whose command fails printed itself back as ✅ and was counted among the done, so the
         # key could never contradict the mark it was there to test (found by the adversarial
-        # review of 28.08). Such a row now takes the board's own ⛔ and drops out of the done
-        # count, and its note says what the command said.
+        # review of 28.08). Such a row drops out of the done count and goes back on the queue
+        # as ⬜, with its note saying what the command said. It wore ⛔ until 02.09, when he
+        # named the confusion: a task that turns out not to be done is back in work, and
+        # blocked is a different state — a real outside cause, held in blocked_by.
         t["failing_key"] = t["mark"] == "✅" and not ok
-        t["icon"] = "⛔" if t["failing_key"] else ("✅" if ok else t["mark"])
+        t["icon"] = "⬜" if t["failing_key"] else ("✅" if ok else t["mark"])
         t["note"] = key_failure_note(t["check"], r) if t["failing_key"] else ""
         t["verified"] = True
     else:
@@ -111,7 +113,7 @@ for t in tasks:
         t["excluded"] = True
     elif t["covered_by"] and not t["blocked_by"]:
         t["excluded"] = True
-    elif t["icon"] == "⛔" and not t["blocked_by"] and not t["failing_key"]:
+    elif t["icon"] == "⛔" and not t["blocked_by"]:
         t["rank_icon"] = "⬜"
 
 eligible = [t for t in tasks if not t["excluded"]]

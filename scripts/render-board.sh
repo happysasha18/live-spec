@@ -105,8 +105,10 @@ def split_body(body_lines):
 # vocabulary already distinguishes those states, unlike the plan's old x/~/!/space marks.
 # A done mark is the one exception: a ✅ whose command fails used to print itself back as ✅
 # and land in the Done column, so the key could never contradict the mark it was written to
-# test (adversarial review, 28.08). Such a card now takes the board's own ⛔ and its status
-# line says what the command said.
+# test (adversarial review, 28.08). Such a card now goes back to Not started and its status
+# line says what the command said. It landed in Blocked until 02.09, when he named the
+# confusion: a task that turns out not to be done is back in work, and blocked is a different
+# state — a real outside cause, held in blocked_by.
 for s in steps:
     paragraphs, bullets, accept = split_body(s["body"])
     s["paragraphs"], s["bullets"], s["accept"] = paragraphs, bullets, accept
@@ -115,7 +117,7 @@ for s in steps:
         ok = r.returncode == 0
         s["verified"] = True
         s["failing_key"] = s["mark"] == "✅" and not ok
-        s["icon"] = "⛔" if s["failing_key"] else ("✅" if ok else s["mark"])
+        s["icon"] = "⬜" if s["failing_key"] else ("✅" if ok else s["mark"])
         s["note"] = key_failure_note(s["check"], r) if s["failing_key"] else ""
     else:
         ok = s["mark"] == "✅"
@@ -134,12 +136,9 @@ for s in steps:
 # command) is Done; 🔄 is In progress, several at once; ⛔ and 👁️ both land on Blocked — a task
 # needing his eyes can't move without him either; ⬜ is Not started.
 #
-# The column's own sub-line used to read "waiting on the owner's word", which was true of every
-# card that landed here until this file gained the failing-key mark: a done row whose acceptance
-# command fails now takes ⛔ too, and nobody is waiting on the owner for that one — the card says
-# the command fails while the heading above it said the owner was holding it up (the adversarial
-# read of 2026-08-31). The sub-line names what the column actually holds, and the card goes on
-# saying which of the two this row is.
+# The column's own sub-line used to read "waiting on the owner's word", which named only half of
+# what the column holds (the adversarial read of 2026-08-31). It names what the column actually
+# holds, and each card goes on saying which case it is.
 for s in steps:
     if s["icon"] == "✅":
         s["column"] = "done"

@@ -181,9 +181,14 @@ class TestADoneMarkCannotOutliveItsKey(unittest.TestCase):
         _, r = self._run("scripts/state-probe.sh")
         line = [ln for ln in r.stdout.splitlines() if "plan-0" in ln]
         self.assertTrue(line, "the probe printed no line for the task:\n%s" % r.stdout)
-        self.assertIn("⛔", line[0], "a ✅ whose command fails still reads as something other "
-                                    "than trouble: %r" % line[0])
+        # ⬜, back on the queue: the row is not done, and it is not blocked either. It read ⛔
+        # until 02.09, when he named the two as different states — blocked is an outside cause
+        # held in blocked_by, and a failing acceptance means the work is simply back in hand.
+        self.assertIn("⬜", line[0], "a ✅ whose command fails still reads as something other "
+                                    "than unfinished: %r" % line[0])
         self.assertNotIn("✅", line[0])
+        self.assertNotIn("⛔", line[0], "a row that is merely unfinished is drawn as blocked, "
+                                       "which reserves that mark for a real outside cause: %r" % line[0])
         self.assertIn("its acceptance command fails", line[0])
         # And the tag beside the mark has to agree with the mark. The board's own reader stopped
         # saying "verified" here on 28.08 and the probe did not, so the two readers of one plan
@@ -206,7 +211,9 @@ class TestADoneMarkCannotOutliveItsKey(unittest.TestCase):
         page = (tmp / "board.html").read_text(encoding="utf-8")
         self.assertNotIn('<span class="chip">✅</span>', page,
                          "a ✅ whose command fails still wears the done chip:\n%s" % r.stdout)
-        self.assertIn('<span class="chip">⛔</span>', page)
+        self.assertIn('<span class="chip">⬜</span>', page)
+        self.assertNotIn('<span class="chip">⛔</span>', page,
+                         "a row that is merely unfinished is drawn as blocked")
         self.assertIn("marked done in the plan, but its acceptance command fails", page)
 
 
