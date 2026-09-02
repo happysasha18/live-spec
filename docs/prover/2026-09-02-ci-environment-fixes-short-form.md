@@ -2,19 +2,21 @@
 
 PUSH-REVIEW
 
-Range: effa3ecc..9b06b553
+Range: effa3ecc..3c442a8b
+- 3c442a8b Fix the real CI-only defect: the CI carve-out was silencing INV-198 entirely
 - 9b06b553 Fix third CI-only defect: INV-198's worktree read reds loudly instead of standing down
 - 323dc6a3 docs/prover: extend the CI-fixes record to cover 10b2a208, name the open hypothesis honestly
 - 10b2a208 Ignore __pycache__/*.pyc; add safe.directory to INV-198's worktree reads
 - df5ff7d3 docs/prover: short-form record for the CI-environment fixes, extend the full-push-range record's Range to include them
 - 34f41718 Fix two CI-only environment defects gate b's server-side run surfaced
-Files read: guardrails/check-config-health.sh (the whole INV-198 arm, its scoping, its
-`safe.directory` reads, and now its `mktemp`-captured error path), tests/test_lane_net_arms.py,
-tests/test_routing_preamble_hook.py, tests/test_config_health.py, tests/test_wind_down.py,
-.gitignore, tests/test_dialog_warning_guard.py, spec/parallel-lanes.md Requirement 85 criterion 5,
-matrix/parallel-lanes.md row M-624, both CI failure logs
-(https://github.com/happysasha18/live-spec/actions/runs/33578188215,
-https://github.com/happysasha18/live-spec/actions/runs/33581346738)
+Files read: guardrails/check-config-health.sh (the whole file end to end, including its top-of-script
+CI carve-out — the actual defect — and the INV-198 arm, its scoping, its `safe.directory` reads, and
+its `mktemp`-captured error path), tests/test_lane_net_arms.py, tests/test_routing_preamble_hook.py,
+tests/test_config_health.py, tests/test_wind_down.py, .gitignore, tests/test_dialog_warning_guard.py,
+spec/parallel-lanes.md Requirement 85 criterion 5, matrix/parallel-lanes.md row M-624, all three CI
+run logs (https://github.com/happysasha18/live-spec/actions/runs/33578188215,
+https://github.com/happysasha18/live-spec/actions/runs/33581346738,
+https://github.com/happysasha18/live-spec/actions/runs/33599366999)
 Checks run: `python3 -m pytest -q tests/test_lane_net_arms.py tests/test_routing_preamble_hook.py tests/test_config_health.py` — 54 passed. `python3 -m pytest -q tests/test_wind_down.py` under `GIT_CONFIG_GLOBAL=/dev/null GIT_CONFIG_SYSTEM=/dev/null` (the closest local reproduction of a runner with no git identity of its own) — 6 passed. A live scratch repo built with `git init -q -b master` (single worktree) against `guardrails/check-config-health.sh` directly — passes clean, matching the CI failure log's own "holds 'master' instead of main" case. A second scratch repo with a real second worktree and a deliberately drifted primary branch against the same script — still reds with the same message shape. `bash -n guardrails/check-config-health.sh` after the `safe.directory` addition. A manual reproduction of a stray `.pyc` colliding with `tests/test_dialog_warning_guard.py`'s own one-file-in-the-tree proof, cleared by the new `.gitignore` line. Mutation proof of the loud-failure fix in `9b06b553`: a fake `git` wrapper on `PATH` that fails only the `worktree list` subcommand with git's own "detected dubious ownership" message, run against `check-config-health.sh` — with `9b06b553` reverted (the prior `2>/dev/null`, silent-stand-down shape) the new test reds; with the fix applied, it passes and the arm's JSON names `worktree list failed` and quotes git's stderr. Full local suite three times across this range (before 10b2a208, after it, after 9b06b553): `python3 -m pytest -q` — 2737 passed, 4 skipped, 0 failed; then 2736 passed, 6 skipped, 0 failed twice more (the skip count shift is an unrelated environment-dependent skip elsewhere in the suite, not this range's own tests).
 Findings: `effa3ecc` passed every local gate and a full local suite run, then failed CI's gate b
 (24 failed) on two root causes invisible on a machine whose own ambient git config happened to
@@ -52,17 +54,39 @@ exactly this failure class rather than a guess pulled from nowhere. The next CI 
 proof; if the 3 failures persist, this hypothesis is wrong and needs to be dropped, not patched
 further.
 
-Neither `10b2a208` nor `323dc6a3` has been pushed or run on CI yet — both land in this same range,
-alongside a third fix (`9b06b553`) found while re-reading the arm before that push: the same
-`git worktree list` read the `safe.directory` hypothesis targets was also swallowing ANY read
-failure through its `2>/dev/null`, not only the dubious-ownership case, and reading the resulting
-empty output as "no second worktree" — standing the whole INV-198 arm down silently instead of
-reddening. This is exactly the shape the 3 still-failing tests need to distinguish from a genuine
-"only one worktree" state: if `safe.directory` does not fully clear the dubious-ownership refusal
-on the actual CI runner (untested — no shell access to it), the arm would previously have kept
-standing down silently and the 3 tests would keep failing with no diagnostic. `9b06b553` makes that
-read fail loudly by name instead, captured via `mktemp` rather than `2>/dev/null`, so the next CI
-run either passes clean or, if it still fails, names the real git error instead of leaving the
-prior "stood down with no clue why" shape. Proven locally by mutation only (see Checks run above);
-this is not yet confirmed against the actual CI runner, and this push is that confirmation.
+`10b2a208`, `323dc6a3` and `9b06b553` went out together as this session's third push (run
+33599366999, on `9b073411`). It failed gate b again — but this time all four
+`TestConfigHealthPrimaryTreeArm` tests came back with a clean `returncode == 0`, including
+`test_a_failed_worktree_list_read_reds_loudly_instead_of_standing_down`, the test built
+specifically to force `git worktree list` to fail. That result rules out the dubious-ownership
+hypothesis outright: if the read had failed for any reason, `9b06b553`'s own loud-failure path
+would have reddened it, and it did not. Both `safe.directory` and the loud-failure fallback sit
+inside the INV-198 arm — and the arm was never being reached at all.
+
+The real cause, found by reading the script's own top rather than guessing again:
+`check-config-health.sh` opens with `if [ "$GITHUB_ACTIONS" = true ] || [ "$CI" = true ]; then
+echo skip; exit 0; fi`, written for the installed-hooks/skills/perms checks that are genuinely
+meaningless on a CI checkout. The INV-198 worktree arm was added later, further down the same
+script, after that unconditional `exit 0`. On the real GitHub runner, `GITHUB_ACTIONS=true` is
+always set, so the whole script — INV-198 arm included — exits before doing anything, on every
+invocation, including the ones this arm's own tests spawn as subprocesses (they inherit the
+runner's environment and never override it). Locally the same carve-out never fired, because a
+dev machine has neither variable set, so the arm ran and every test passed — the exact shape of a
+gap invisible on the machine that wrote it. This was true from the moment `q-804` first added the
+arm; the `safe.directory` and loud-failure work earlier in this range was real, correct code that
+could never execute on CI, chasing a symptom (silent stand-down) that had a completely different
+cause (never reached) than the one hypothesized (swallowed git error).
+
+`3c442a8b` scopes the carve-out to just the hooks/skills/perms sections; INV-198 now runs in every
+environment. Reproduced and fixed locally: `GITHUB_ACTIONS=true python3 -m pytest -q
+tests/test_lane_net_arms.py tests/test_config_health.py` — 47 passed, including all four tests
+that were CI-only failures before (they now fail the same way locally under the same env var, and
+pass with the fix). Mutation proof: a hermetic two-worktree scratch repo with the primary tree
+checked out to `other-branch`, run under `GITHUB_ACTIONS=true` against the pre-`3c442a8b` script —
+exits 0 silently; against the fixed script — reds with the primary-tree-drifted message naming
+`other-branch`. Full local suite clean twice more: `GITHUB_ACTIONS=true python3 -m pytest -q` —
+2738 passed, 4 skipped, 0 failed; plain `python3 -m pytest -q` — 2736 passed, 6 skipped, 0 failed.
+Neither `safe.directory` nor the loud-failure fallback from the earlier two commits in this range
+is wrong or harmful — both are kept as real defensive improvements for whatever git failure mode
+they were written for — but neither one is the fix; this commit is.
 Blocking: none
