@@ -47,7 +47,7 @@ b "PLAN"
 rm -f /tmp/probe-next.txt
 if [ -f PLAN.md ]; then
   python3 - <<'PYEOF'
-import subprocess, sys
+import re, subprocess, sys
 
 G, Y, R, D, B, X = "\033[0;32m", "\033[1;33m", "\033[0;31m", "\033[2m", "\033[1m", "\033[0m"
 
@@ -115,9 +115,30 @@ ICON_COLOUR = {"✅": G, "🔄": Y, "🔁": Y, "⛔": R, "👁️": Y, "⬜": D}
 # touches 🔄 or 👁️ — a task already in hand or needing his own decision is live regardless of
 # any fold bookkeeping (all three of today's 🔄 tasks carry a covered_by pointer and are still
 # genuinely being worked).
+# Finished work earns a line of its own while it is still fresh. A running total of everything
+# ever done only grows and answers nothing without a window nobody agreed on (his word, 02.09:
+# "это число будет только расти... это за месяц? с начала проекта?"), so the count is gone and the
+# rows themselves stand instead. The window is the last push, a line git already draws and the one
+# he cuts his own work by: a row closed since `origin/main` shows its own ✅ line and drops off
+# once the push lands. Read from the plan's own diff, so it names rows a session deliberately
+# closed; a row that went green because its command started passing on its own leaves no trace
+# here and shows only by leaving the open list.
+closed_since_push = set()
+_d = subprocess.run(["git", "diff", "origin/main...HEAD", "--", "PLAN.md"],
+                    capture_output=True, text=True)
+if _d.returncode == 0:
+    for line in _d.stdout.splitlines():
+        m = re.match(r"^\+### ✅ .*— id: (\S+)\s*$", line)
+        if m:
+            closed_since_push.add(m.group(1))
+
 for t in tasks:
     t["rank_icon"] = t["icon"]
     t["excluded"] = False
+    if t["icon"] == "✅":
+        # Only the freshly closed ones compete for a line; the rest of the done pile stays off.
+        t["excluded"] = t["id"] not in closed_since_push
+        continue
     if t["icon"] not in ("⛔", "⬜"):
         continue
     if t["deferred"]:
@@ -142,7 +163,7 @@ eligible = [t for t in tasks if not t["excluded"]]
 # 9 task lines + 1 summary line = 10, the top end of the cap set at the report format's one home
 # (~/.claude/playbook/CLAUDE.md, "How a reply to him looks"). Change it there first.
 TASK_LINE_BUDGET = 9
-CATEGORY_ORDER = ["👁️", "🔄", "🔁", "⛔", "⬜"]
+CATEGORY_ORDER = ["✅", "👁️", "🔄", "🔁", "⛔", "⬜"]
 
 buckets = {icon: [t for t in eligible if t["rank_icon"] == icon] for icon in CATEGORY_ORDER}
 for icon in CATEGORY_ORDER:
@@ -206,12 +227,12 @@ for t in shown:
     print(f"  {D}{t['id'].ljust(id_width)}{X} {t['icon']} {colour}{t['title']}{X}  {verified}{reason}{tag}")
 
 shown_ids = {t["id"] for t in shown}
-done_count = sum(1 for t in tasks if t["icon"] == "✅")
-open_count = len(tasks) - done_count
+open_count = sum(1 for t in tasks if t["icon"] != "✅")
 more_below = sum(1 for t in tasks if t["id"] not in shown_ids and t["icon"] != "✅")
-# He does not count done tasks by default (his word, 02.09) — a done total told him nothing
-# about what is left. The open count leads; done trails, kept only as the secondary figure.
-print(f"  {D}… {open_count} open · {more_below} more below · {done_count} done · full list in PLAN.md / board.html{X}")
+# The count of finished work is gone (his word, 02.09): a running total only grows, and it needs a
+# window nobody agreed on to mean anything. What is left is the work still open, and the rows
+# closed since the last push stand above as their own lines.
+print(f"  {D}… {open_count} open · {more_below} more below · full list in PLAN.md / board.html{X}")
 
 if next_title:
     open("/tmp/probe-next.txt", "w", encoding="utf-8").write(next_title)

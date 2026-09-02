@@ -23,9 +23,9 @@
 7. The system *shall* have every reader of the queue read its rows through the one parser in `scripts/plan_checks.py`, so the list a session prints and the page a person opens hold the same rows. [E-3]
 8. The system *shall* draw the queue as a page when somebody runs `bash scripts/render-board.sh`, and *shall* claim no redrawing of that page when a row's state changes. [E-3, INV-321]
 9. The system *shall* let a row's mark be written by whoever edits the queue, and *shall* claim no check that reads a closing row's own acceptance before that mark changes. [INV-1, INV-321]
-10. *when* a row marked done fails its acceptance command, the system *shall* read its status as reopened, distinct from blocked — a real cause outside the row, held in its own `blocked_by` — and from queued, which never started; the owner named this fourth case on 2026-09-02, a row once closed and closed no longer. [INV-321]
+10. *when* a row marked done fails its acceptance command, the system *shall* read its status as reopened: a row that was closed and is closed no longer. Blocked stands for a cause outside the row, held in its own `blocked_by`, and queued stands for work that never started; each of the three names its own case. [INV-321]
 11. The system *shall* draw a reopened row, on `scripts/render-board.sh`'s page, in the in-progress column, since the work behind it is live again. [INV-321]
-12. *when* a row is shaped like both — marked done, failing its acceptance command, and carrying its own `blocked_by` cause — the system *shall* read it as blocked and *shall* state both facts beside it: the cause it names, and that the command meant to prove it done is failing. Blocked wins because the row names an obstacle outside itself and reopened names none; drawing it reopened would rank it as live work and drop the reason it cannot move. [INV-321]
-13. *when* a reopened row's acceptance command passes again, the system *shall* read its status as done, on that command alone and with no further mark from a person, so a row leaves the reopened state by the same evidence that put it there. [INV-321]
+12. *when* a row is marked done, fails its acceptance command, and carries its own `blocked_by` cause, the system *shall* read it as blocked and *shall* state both facts beside it: the cause it names, and that the command meant to prove it done is failing. [INV-321]
+13. *when* a reopened row's acceptance command passes again, the system *shall* read its status as done, on that command alone and with no further mark from a person. [INV-321]
 
 ---

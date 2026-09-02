@@ -437,9 +437,9 @@ page = """<!DOCTYPE html>
 with open(out_path, "w", encoding="utf-8") as f:
     f.write(page)
 
-# He does not count done tasks by default (his word, 02.09) — a total that folds in the done
-# rows told him nothing about what is left. Open leads; done trails as the secondary figure.
+# No running total of finished work (his word, 02.09): a count of everything ever done only grows,
+# and it needs a window nobody agreed on to mean anything. The page still holds every closed card in
+# its own column, where each one says what it was; this line reports only what is still open.
 _open_steps = sum(1 for s in steps if s["icon"] != "✅")
-_done_steps = len(steps) - _open_steps
-print("written: %s (%d open, %d done, %d blockers)" % (out_path, _open_steps, _done_steps, len(blockers)))
+print("written: %s (%d open, %d blockers)" % (out_path, _open_steps, len(blockers)))
 PYEOF

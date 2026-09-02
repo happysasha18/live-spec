@@ -209,18 +209,17 @@ class TestADoneMarkCannotOutliveItsKey(unittest.TestCase):
         self.assertLess(line[0].index("🔁"), line[0].index("A task whose key cannot hold"),
                         "the state mark must print before the title: %r" % line[0])
 
-    def test_the_probe_does_not_count_a_failing_done_mark_among_the_done(self):
+    def test_the_probe_counts_a_failing_done_mark_among_the_open(self):
         _, r = self._run("scripts/state-probe.sh")
         summary = [ln for ln in r.stdout.splitlines() if "more below ·" in ln]
         self.assertTrue(summary, "the probe printed no summary line:\n%s" % r.stdout)
-        self.assertIn("0 done", summary[0],
-                      "a ✅ whose command fails is still counted as done: %r" % summary[0])
-        # He does not count done tasks by default (his word, 02.09) — the open count leads the
-        # line, the done count only trails it.
         self.assertIn("1 open", summary[0],
                       "the reopened row does not count as open work: %r" % summary[0])
-        self.assertLess(summary[0].index("open"), summary[0].index("done"),
-                        "the open count must lead the done count, not trail it: %r" % summary[0])
+        # No figure for finished work at all since 02.09, on his word: a running total only grows,
+        # and it needs a window nobody agreed on to mean anything. The rows closed since the last
+        # push carry that news themselves, as their own lines above.
+        self.assertNotIn("done", summary[0],
+                         "the summary line carries a count of finished work again: %r" % summary[0])
 
     def test_the_board_does_not_draw_a_failing_done_mark_as_done(self):
         tmp, r = self._run("scripts/render-board.sh")
