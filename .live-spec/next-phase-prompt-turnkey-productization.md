@@ -92,3 +92,17 @@ B. Детерминированные тесты state machine. Получают
 
 Меня не спрашивай ни о чём, там всё закрыто. Работай очень осторожно, чтобы воркеры друг другу не
 давили ворктрисы. Ты только оркестратор.
+
+## Addendum, 2026-09-02 09:12 — how the product-contract step is produced
+
+Verbatim: «это сделай и сам в отдельном, и фейблом отдельно и потом дай фейблу все скомпоновать».
+
+The product-contract step (the first item under "Serial, CI-green packages") is drafted twice,
+independently, before it goes to product-prover:
+1. The orchestrating session itself drafts the contract in its own file.
+2. A separate Fable agent drafts the same contract independently, from this same prompt, with no
+   sight of draft 1.
+3. Fable is then handed both drafts and composes the one contract that goes to product-prover.
+
+Still gated on the precondition above — this fires only once the current PLAN.md is verified
+genuinely closed, not before.

@@ -1,5 +1,5 @@
 # q-806: turnkey product contract proven before code
-Status: open
+Status: closed
 Owner: director
 
 ## DONE
@@ -8,14 +8,15 @@ Owner: director
 - product-prover pass 1 (this session): 3 defects, folded.
 - product-prover pass 2 (Fable, independent): 12 defects + 3 recommendations, all folded (F1-F15).
 - Live bug found and fixed along the way: checkpoints were gitignored, never reaching git (`ba7bc8e4`).
+- Resume mechanism verified live, 13:09: a genuinely fresh session, isolated worktree, given only "продолжай", correctly found and resumed q-806 using state-probe.sh + plan-step.sh + this checkpoint alone -- no spoken handoff needed. One authoring lesson found (not a mechanism flaw): this checkpoint's own NEXT list had mixed a real next action with an unrelated meta-test note, which is exactly the ambiguity that makes a NEXT list unclear -- fixed by keeping NEXT to only the ticket's own next actions.
 
 ## IN PROGRESS
 
-Nothing actively running. Contract text is stable pending nothing further known.
+(nothing yet)
 
 ## NEXT
 
-1) Confirm the contract reads clean end to end (no stray contradictions from the fold). 2) Close this ticket ✅ once confirmed. 3) Open q-807 (or next id) for package 2, the vertical path: ticket -> worker -> independent acceptance -> delivery -> done -> resume. 4) Separately: verify a clean/fresh worker can resume real work from state-probe.sh + PLAN.md + a checkpoint alone, no spoken handoff (owner's ask, 13:04) -- run this AS a real test in an isolated worktree, not the main tree.
+(nothing yet)
 
 ## DECISION SHEET
 

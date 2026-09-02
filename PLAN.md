@@ -165,7 +165,7 @@ The main plan is **always one file: `~/live-spec/PLAN.md`.** Never start a secon
 
 One list: the plan's own steps and the former ROADMAP.md queue, merged 27.08 per step 11. Order: needs his eyes, then in hand, then blocked, then queued; critical heads its own group first and never another's — urgency never outranks whether a task is actually workable now (27.08, his word). Marks: ✅ done · 🔄 in hand · ⬜ queued · ⛔ blocked · 👁️ needs his eyes — the same five the Canon report itself uses. Former ROADMAP.md rows are archived verbatim at `docs/queue-archive/rotated-ROADMAP-2026-08-27-merged-into-plan.md`.
 
-### 🔄 The turnkey product contract is proven complete before any code starts — id: q-806
+### ✅ The turnkey product contract is proven complete before any code starts — id: q-806
 **Group:** Turnkey productization · **Priority:** critical
 **Source:** owner 2026-09-01 23:xx, `.live-spec/next-phase-prompt-turnkey-productization.md`; begun
 2026-09-02 once q-805 and the night's CI work closed.
@@ -181,10 +181,17 @@ closes.
 product-prover passes (`docs/prover/2026-09-02-turnkey-contract-review.md`,
 `docs/prover/2026-09-02-turnkey-contract-review-fable.md`); fifteen of Fable's findings plus three
 of this session's own folded in place, including a real live bug the review surfaced and fixed
-(`.gitignore` was silently dropping every checkpoint from git — `ba7bc8e4`). Open: the owner's word
-on whether a ticket carries a time estimate — his answer, 13:04: yes, but only once real duration
-statistics exist to back it, never a guessed number; this becomes its own small ticket once
-package 2 has produced a few closed tickets to measure, not before.
+(`.gitignore` was silently dropping every checkpoint from git — `ba7bc8e4`). The estimate question
+answered, 13:04: yes, but only once real duration statistics exist to back it, never a guessed
+number — its own small ticket once package 2 has produced a few closed tickets to measure, not
+before.
+
+**Closed 2026-09-02 13:11.** The resume mechanism itself verified live first: a genuinely fresh
+session, an isolated worktree, given only "продолжай," correctly found and resumed this exact
+ticket using `state-probe.sh` + `plan-step.sh` + this ticket's own checkpoint alone — no spoken
+handoff. One authoring lesson surfaced, not a mechanism flaw: the checkpoint's own `NEXT` list had
+mixed a real next action with an unrelated note, which a fresh reader couldn't tell apart — fixed
+by keeping `NEXT` to only the ticket's own next step.
 
 ### ⬜ Your photo site's move to new tools begins — id: plan-9
 **Group:** Cross-project · **Priority:** critical
