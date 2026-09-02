@@ -343,12 +343,16 @@ for key, label, sub in COLUMNS:
             % (esc(g), len(groups[g]), "".join(card_html(s) for s in groups[g]))
             for g in sorted(groups)
         )
+    # The done column carries no figure of its own: a count of everything ever finished only grows,
+    # and it needs a window nobody agreed on to mean anything (the owner's word, in DECISIONS.md).
+    # The other columns keep theirs, since each answers how much work stands in that state now.
+    head_count = "" if key == "done" else ' <span class="count">%d</span>' % len(col_steps)
     columns_html += """
   <div class="col">
-    <h2>%s <span class="count">%d</span></h2>
+    <h2>%s%s</h2>
     <div class="sub">%s</div>
     %s
-  </div>""" % (esc(label), len(col_steps), esc(sub), body)
+  </div>""" % (esc(label), head_count, esc(sub), body)
 
 blockers_html = ""
 if blockers:

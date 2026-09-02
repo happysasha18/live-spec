@@ -116,21 +116,29 @@ ICON_COLOUR = {"✅": G, "🔄": Y, "🔁": Y, "⛔": R, "👁️": Y, "⬜": D}
 # any fold bookkeeping (all three of today's 🔄 tasks carry a covered_by pointer and are still
 # genuinely being worked).
 # Finished work earns a line of its own while it is still fresh. A running total of everything
-# ever done only grows and answers nothing without a window nobody agreed on (his word, 02.09:
-# "это число будет только расти... это за месяц? с начала проекта?"), so the count is gone and the
+# ever done only grows, and it answers nothing without a window nobody agreed on — this month, this
+# project, this year (the owner's word, recorded in DECISIONS.md). So the count is gone and the
 # rows themselves stand instead. The window is the last push, a line git already draws and the one
 # he cuts his own work by: a row closed since `origin/main` shows its own ✅ line and drops off
 # once the push lands. Read from the plan's own diff, so it names rows a session deliberately
 # closed; a row that went green because its command started passing on its own leaves no trace
 # here and shows only by leaving the open list.
+# The set is a real transition, read by comparing the plan against its own state at the branch's
+# upstream: a row done now that the upstream did not have done. An earlier arm read the plan's diff
+# for added done headings, which also caught a title edit on a row that had been closed for weeks
+# and showed it again as just finished (product-prover, 02.09, finding F1). The upstream comes from
+# the branch itself, so a lane branch reads against its own remote; where no upstream is reachable
+# — a fresh clone, no remote — the set stays empty and the account simply carries no done lines,
+# rather than inventing them (finding F2).
 closed_since_push = set()
-_d = subprocess.run(["git", "diff", "origin/main...HEAD", "--", "PLAN.md"],
-                    capture_output=True, text=True)
-if _d.returncode == 0:
-    for line in _d.stdout.splitlines():
-        m = re.match(r"^\+### ✅ .*— id: (\S+)\s*$", line)
-        if m:
-            closed_since_push.add(m.group(1))
+_up = subprocess.run(["git", "rev-parse", "--abbrev-ref", "--symbolic-full-name", "@{u}"],
+                     capture_output=True, text=True)
+_upstream = _up.stdout.strip() if _up.returncode == 0 else ""
+if _upstream:
+    _base = subprocess.run(["git", "show", "%s:PLAN.md" % _upstream], capture_output=True, text=True)
+    if _base.returncode == 0:
+        _done_at_push = {b["id"] for b in parse_tasks(_base.stdout) if b["mark"] == "✅"}
+        closed_since_push = {t["id"] for t in tasks if t["icon"] == "✅"} - _done_at_push
 
 for t in tasks:
     t["rank_icon"] = t["icon"]
@@ -163,7 +171,7 @@ eligible = [t for t in tasks if not t["excluded"]]
 # 9 task lines + 1 summary line = 10, the top end of the cap set at the report format's one home
 # (~/.claude/playbook/CLAUDE.md, "How a reply to him looks"). Change it there first.
 TASK_LINE_BUDGET = 9
-CATEGORY_ORDER = ["✅", "👁️", "🔄", "🔁", "⛔", "⬜"]
+CATEGORY_ORDER = ["👁️", "✅", "🔄", "🔁", "⛔", "⬜"]
 
 buckets = {icon: [t for t in eligible if t["rank_icon"] == icon] for icon in CATEGORY_ORDER}
 for icon in CATEGORY_ORDER:
@@ -176,17 +184,23 @@ shown = []
 idx = {icon: 0 for icon in CATEGORY_ORDER}
 budget = TASK_LINE_BUDGET
 
+# The budget rations OPEN work, which is what the line count exists to protect. A row closed since
+# the last push rides on top of it: that line is news, it clears itself at the next push, and
+# charging it against the budget pushed a row of open work below the fold for it. So a done line
+# costs nothing here, and the list runs past the budget only while closed work is waiting to be
+# pushed — which is itself worth seeing.
 progressed = True
 while budget > 0 and progressed:
     progressed = False
     for icon in CATEGORY_ORDER:
-        if budget <= 0:
-            break
+        if budget <= 0 and icon != "✅":
+            continue
         i = idx[icon]
         if i < len(buckets[icon]):
             shown.append(buckets[icon][i])
             idx[icon] += 1
-            budget -= 1
+            if icon != "✅":
+                budget -= 1
             progressed = True
 
 # NEXT: the first task actually in hand — a task waiting on his eyes can't be advanced without

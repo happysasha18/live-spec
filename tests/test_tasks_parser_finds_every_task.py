@@ -178,6 +178,24 @@ class TestNeitherReaderStopsFindingTheTasks(unittest.TestCase):
             "the open count (%d) is outside what PLAN.md declares (%d rows)"
             % (open_count, len(self.declared)),
         )
+        # Every printed row is a row PLAN.md declares, and each appears once. The summary line
+        # stopped carrying a done figure on 02.09, so the old exact accounting — shown +
+        # more-below + done == declared — has no done term to close it any more. What the output
+        # still proves is stated here in full, so the narrowing is visible rather than silent: the
+        # printed ids are declared ids, none repeats, the open arithmetic closes, and the rows
+        # printed as done cannot outnumber the rows that are not open.
+        printed_ids = [m.group(1) for m in shown]
+        self.assertEqual(len(printed_ids), len(set(printed_ids)),
+                         "the probe printed a row twice: %s" % printed_ids)
+        undeclared = [i for i in printed_ids if i not in self.declared]
+        self.assertEqual(undeclared, [],
+                         "the probe printed rows PLAN.md does not declare: %s" % undeclared)
+        printed_done = len([m for m in shown if m.group(2) == "✅"])
+        self.assertLessEqual(
+            printed_done, len(self.declared) - open_count,
+            "the probe printed %d done rows, more than the %d rows that are not open"
+            % (printed_done, len(self.declared) - open_count),
+        )
 
 
 def _shell_reader():
