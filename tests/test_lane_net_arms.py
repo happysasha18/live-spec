@@ -36,8 +36,8 @@ class TestConfigHealthPrimaryTreeArm(_ProbeRepo):
     main free for any lane to move, with nothing refusing it; this arm is the check.
     """
 
-    def run_config_health(self, cwd):
-        return subprocess.run([CONFIG_HEALTH], cwd=cwd, capture_output=True, text=True)
+    def run_config_health(self, cwd, env=None):
+        return subprocess.run([CONFIG_HEALTH], cwd=cwd, capture_output=True, text=True, env=env)
 
     def test_primary_tree_on_main_passes(self):
         result = self.run_config_health(self.main_tree)
@@ -74,6 +74,29 @@ class TestConfigHealthPrimaryTreeArm(_ProbeRepo):
             "and red — it did not, so it is reading the wrong tree's checkout",
         )
         self.assertIn("other-branch", result_from_lane.stdout)
+
+    def test_the_arm_still_fires_under_a_ci_environment(self):
+        """The script's own top-of-file carve-out (`if GITHUB_ACTIONS/CI = true; then skip;
+        exit 0; fi`) exists for the installed-hooks/skills/perms checks, which are genuinely
+        meaningless on a CI checkout. It used to sit ahead of the INV-198 worktree arm too,
+        so on the real GitHub runner — where GITHUB_ACTIONS is always set — the whole script
+        exited before the arm ever ran, and every test in this class passed locally (a dev
+        machine never sets that variable) while failing on CI, silently, with a clean exit
+        code (2026-09-02: all four of this class's own tests came back green on a real CI run
+        that had a deliberately drifted primary tree). This plants that exact condition and
+        runs the check with GITHUB_ACTIONS set, so the arm's CI-reachability is never again
+        provable only by a hypothesis about a real runner nobody here has a shell on."""
+        self.run_ok(self.main_tree, "checkout", "-q", "-b", "other-branch")
+        env = dict(os.environ)
+        env["GITHUB_ACTIONS"] = "true"
+        result = self.run_config_health(self.main_tree, env=env)
+        self.assertNotEqual(
+            result.returncode, 0,
+            "the arm passed a drifted primary tree under a CI environment — it is not being "
+            "reached, the exact shape that let this bug hide on every dev machine",
+        )
+        self.assertIn('"code":"config-health"', result.stdout)
+        self.assertIn("other-branch", result.stdout)
 
     def test_a_failed_worktree_list_read_reds_loudly_instead_of_standing_down(self):
         """`git worktree list` can fail for reasons this project's own machine never hits locally
