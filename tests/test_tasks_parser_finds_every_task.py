@@ -52,18 +52,23 @@ _DECLARED_HEADER_RE = re.compile(r"^### \S+ .+? — id: (\S+)$")
 # LAST " · " and the closing tag — the lazy .*? backtracks to find that split correctly.
 _BOARD_META_ID_RE = re.compile(r'<div class="meta">.*? · (\S+)</div>')
 
-# state-probe.sh's PLAN line: "  <icon> <title>  (<id>) <verified-or-declared>[ — <reason>][  <-- NEXT]"
+# state-probe.sh's PLAN line: "  <id> <icon> <title>  <verified-or-declared>[ — <reason>][  <-- NEXT]"
+# The id leads the line, padded to the widest id PLAN.md declares, ahead of its state mark and
+# its title (his word, 02.09 — it used to trail at the end in parentheses).
 _PROBE_LINE_RE = re.compile(
-    # The tag after the id is one of three: `verified` where a command proved the mark, `declared`
-    # where the row carries no command, and `marked done` where the row's own command CONTRADICTS
-    # its done mark. The third joined the other two on 2026-08-28, when the probe stopped calling
-    # such a row verified; reading only the first two dropped every one of those lines from the
-    # count, and the accounting below then reported tasks lost that were sitting on the screen.
-    r"^(?:✅|🔄|⛔|⬜|👁️)\s+.+?\s+\((\S+)\)\s+(?:verified|declared|marked done)"
+    # The tag after the title is one of three: `verified` where a command proved the mark,
+    # `declared` where the row carries no command, and `marked done` where the row's own command
+    # CONTRADICTS its done mark. The third joined the other two on 2026-08-28, when the probe
+    # stopped calling such a row verified; reading only the first two dropped every one of those
+    # lines from the count, and the accounting below then reported tasks lost that were sitting
+    # on the screen.
+    r"^(\S+)\s+(?:✅|🔄|🔁|⛔|⬜|👁️)\s+.+?\s+(?:verified|declared|marked done)"
     r"(?:\s+—\s+.+?)?(?:\s*<-- NEXT)?\s*$"
 )
-# state-probe.sh's summary line: "  … N more below · M done · full list in PLAN.md / board.html"
-_PROBE_SUMMARY_RE = re.compile(r"… (\d+) more below · (\d+) done")
+# state-probe.sh's summary line: "  … N open · M more below · D done · full list in PLAN.md / board.html"
+# The open count leads (rows not done); the done count trails as the secondary figure — he does
+# not count done tasks by default (his word, 02.09).
+_PROBE_SUMMARY_RE = re.compile(r"… (\d+) open · (\d+) more below · (\d+) done")
 
 
 def _declared_ids(plan_text):
@@ -156,14 +161,19 @@ class TestNeitherReaderStopsFindingTheTasks(unittest.TestCase):
         m = _PROBE_SUMMARY_RE.search(plain)
         self.assertIsNotNone(
             m, "the probe printed no summary line — a person can no longer see how much is "
-               "left below or how much is done",
+               "open, how much is left below, or how much is done",
         )
-        more_below, done = int(m.group(1)), int(m.group(2))
+        open_count, more_below, done = int(m.group(1)), int(m.group(2)), int(m.group(3))
         self.assertEqual(
             len(shown_ids) + more_below + done, len(self.declared),
             "shown (%d) + more-below (%d) + done (%d) = %d, but PLAN.md declares %d tasks — "
             "the probe silently lost or double-counted some"
             % (len(shown_ids), more_below, done, len(shown_ids) + more_below + done, len(self.declared)),
+        )
+        self.assertEqual(
+            open_count, len(self.declared) - done,
+            "the printed open count (%d) does not equal declared tasks minus done (%d) — the "
+            "open count no longer counts every row not done" % (open_count, len(self.declared) - done),
         )
 
 

@@ -75,12 +75,14 @@ for t in tasks:
         # A done mark is the one exception, and it is why the keys were written at all: a ✅
         # whose command fails printed itself back as ✅ and was counted among the done, so the
         # key could never contradict the mark it was there to test (found by the adversarial
-        # review of 28.08). Such a row drops out of the done count and goes back on the queue
-        # as ⬜, with its note saying what the command said. It wore ⛔ until 02.09, when he
-        # named the confusion: a task that turns out not to be done is back in work, and
-        # blocked is a different state — a real outside cause, held in blocked_by.
+        # review of 28.08). Such a row drops out of the done count. It wore ⛔ until 02.09, when
+        # he named the confusion: a task that turns out not to be done is back in work, and
+        # blocked is a different state — a real outside cause, held in blocked_by. It then wore
+        # ⬜ (queued) for the rest of that same day, until he named a third confusion: queued
+        # means never started, and this row was done and is done no longer — reopened, its own
+        # state, marked 🔁.
         t["failing_key"] = t["mark"] == "✅" and not ok
-        t["icon"] = "⬜" if t["failing_key"] else ("✅" if ok else t["mark"])
+        t["icon"] = "🔁" if t["failing_key"] else ("✅" if ok else t["mark"])
         t["note"] = key_failure_note(t["check"], r) if t["failing_key"] else ""
         t["verified"] = True
     else:
@@ -91,7 +93,7 @@ for t in tasks:
         t["verified"] = False
     t["ok"] = ok
 
-ICON_COLOUR = {"✅": G, "🔄": Y, "⛔": R, "👁️": Y, "⬜": D}
+ICON_COLOUR = {"✅": G, "🔄": Y, "🔁": Y, "⛔": R, "👁️": Y, "⬜": D}
 
 # Ranking eligibility (27.08, his word). "Blocked" only means a real, understood cause —
 # a flag, like Jira's, not a feeling. That leaves two things that wore the ⛔/⬜ marks without
@@ -119,7 +121,9 @@ for t in tasks:
 eligible = [t for t in tasks if not t["excluded"]]
 
 # Priority order for the budget below: needs-his-eyes (only he can move it), then in hand
-# (already running work), then blocked (worth knowing about), then queued (what's next) —
+# (already running work), then reopened (was done and is done no longer — outranked by work
+# already running, but ahead of a real outside blocker and of work never started, added
+# 02.09 on his word), then blocked (worth knowing about), then queued (what's next) —
 # filled round-robin, one category at a time, so a single large category cannot eat the whole
 # budget and crowd the others out. Category order is the one ranking; critical only breaks ties
 # inside its own category (below) and never crosses into a higher one — a cross-category
@@ -129,7 +133,7 @@ eligible = [t for t in tasks if not t["excluded"]]
 # 9 task lines + 1 summary line = 10, the top end of the cap set at the report format's one home
 # (~/.claude/playbook/CLAUDE.md, "How a reply to him looks"). Change it there first.
 TASK_LINE_BUDGET = 9
-CATEGORY_ORDER = ["👁️", "🔄", "⛔", "⬜"]
+CATEGORY_ORDER = ["👁️", "🔄", "🔁", "⛔", "⬜"]
 
 buckets = {icon: [t for t in eligible if t["rank_icon"] == icon] for icon in CATEGORY_ORDER}
 for icon in CATEGORY_ORDER:
@@ -159,6 +163,11 @@ while budget > 0 and progressed:
 # him either, so (like the old rule skipping blocked steps) it doesn't win NEXT.
 next_task = buckets["🔄"][0] if buckets["🔄"] else (buckets["⬜"][0] if buckets["⬜"] else None)
 
+# His word, 02.09: the row's own id leads its printed line, ahead of the mark and the title —
+# it used to trail at the end in parentheses. Padded to the widest id PLAN.md declares, so the
+# mark that follows still lands in one column down the printed list.
+id_width = max((len(t["id"]) for t in tasks), default=0)
+
 next_title = ""
 for t in shown:
     tag = ""
@@ -179,12 +188,15 @@ for t in shown:
     elif t["icon"] == "⛔" and t["blocked_by"]:
         r = t["blocked_by"].strip()
         reason = f" {D}— {r[:39].rstrip() + '…' if len(r) > 40 else r}{X}"
-    print(f"  {t['icon']} {colour}{t['title']}{X}  {D}({t['id']}){X} {verified}{reason}{tag}")
+    print(f"  {D}{t['id'].ljust(id_width)}{X} {t['icon']} {colour}{t['title']}{X}  {verified}{reason}{tag}")
 
 shown_ids = {t["id"] for t in shown}
 done_count = sum(1 for t in tasks if t["icon"] == "✅")
+open_count = len(tasks) - done_count
 more_below = sum(1 for t in tasks if t["id"] not in shown_ids and t["icon"] != "✅")
-print(f"  {D}… {more_below} more below · {done_count} done · full list in PLAN.md / board.html{X}")
+# He does not count done tasks by default (his word, 02.09) — a done total told him nothing
+# about what is left. The open count leads; done trails, kept only as the secondary figure.
+print(f"  {D}… {open_count} open · {more_below} more below · {done_count} done · full list in PLAN.md / board.html{X}")
 
 if next_title:
     open("/tmp/probe-next.txt", "w", encoding="utf-8").write(next_title)

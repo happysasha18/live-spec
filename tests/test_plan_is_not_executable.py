@@ -181,14 +181,18 @@ class TestADoneMarkCannotOutliveItsKey(unittest.TestCase):
         _, r = self._run("scripts/state-probe.sh")
         line = [ln for ln in r.stdout.splitlines() if "plan-0" in ln]
         self.assertTrue(line, "the probe printed no line for the task:\n%s" % r.stdout)
-        # ⬜, back on the queue: the row is not done, and it is not blocked either. It read ⛔
-        # until 02.09, when he named the two as different states — blocked is an outside cause
-        # held in blocked_by, and a failing acceptance means the work is simply back in hand.
-        self.assertIn("⬜", line[0], "a ✅ whose command fails still reads as something other "
-                                    "than unfinished: %r" % line[0])
+        # 🔁, reopened: the row was done and is done no longer, and that is neither blocked nor
+        # queued. It read ⛔ until 02.09, when he named blocked and back-in-work as different
+        # states — blocked is an outside cause held in blocked_by. It then read ⬜ for the rest
+        # of that same day, until he named a third state: queued means never started, and this
+        # row was done once — reopened is its own mark.
+        self.assertIn("🔁", line[0], "a ✅ whose command fails still reads as something other "
+                                    "than reopened: %r" % line[0])
         self.assertNotIn("✅", line[0])
         self.assertNotIn("⛔", line[0], "a row that is merely unfinished is drawn as blocked, "
                                        "which reserves that mark for a real outside cause: %r" % line[0])
+        self.assertNotIn("⬜", line[0], "a reopened row is drawn as queued, which reserves that "
+                                       "mark for work that never started: %r" % line[0])
         self.assertIn("its acceptance command fails", line[0])
         # And the tag beside the mark has to agree with the mark. The board's own reader stopped
         # saying "verified" here on 28.08 and the probe did not, so the two readers of one plan
@@ -198,6 +202,12 @@ class TestADoneMarkCannotOutliveItsKey(unittest.TestCase):
                          "the probe still calls a row verified whose acceptance command fails, "
                          "while the board does not: %r" % line[0])
         self.assertIn("marked done", line[0])
+        # The row's own id leads its line, ahead of the mark and the title (his word, 02.09) —
+        # it used to trail at the end in parentheses.
+        self.assertLess(line[0].index("plan-0"), line[0].index("🔁"),
+                        "the row's id must print before its state mark: %r" % line[0])
+        self.assertLess(line[0].index("🔁"), line[0].index("A task whose key cannot hold"),
+                        "the state mark must print before the title: %r" % line[0])
 
     def test_the_probe_does_not_count_a_failing_done_mark_among_the_done(self):
         _, r = self._run("scripts/state-probe.sh")
@@ -205,15 +215,24 @@ class TestADoneMarkCannotOutliveItsKey(unittest.TestCase):
         self.assertTrue(summary, "the probe printed no summary line:\n%s" % r.stdout)
         self.assertIn("0 done", summary[0],
                       "a ✅ whose command fails is still counted as done: %r" % summary[0])
+        # He does not count done tasks by default (his word, 02.09) — the open count leads the
+        # line, the done count only trails it.
+        self.assertIn("1 open", summary[0],
+                      "the reopened row does not count as open work: %r" % summary[0])
+        self.assertLess(summary[0].index("open"), summary[0].index("done"),
+                        "the open count must lead the done count, not trail it: %r" % summary[0])
 
     def test_the_board_does_not_draw_a_failing_done_mark_as_done(self):
         tmp, r = self._run("scripts/render-board.sh")
         page = (tmp / "board.html").read_text(encoding="utf-8")
         self.assertNotIn('<span class="chip">✅</span>', page,
                          "a ✅ whose command fails still wears the done chip:\n%s" % r.stdout)
-        self.assertIn('<span class="chip">⬜</span>', page)
+        self.assertIn('<span class="chip">🔁</span>', page)
         self.assertNotIn('<span class="chip">⛔</span>', page,
                          "a row that is merely unfinished is drawn as blocked")
+        self.assertNotIn('<span class="chip">⬜</span>', page,
+                         "a reopened row is drawn as queued, which reserves that mark for work "
+                         "that never started")
         self.assertIn("marked done in the plan, but its acceptance command fails", page)
 
 

@@ -105,10 +105,12 @@ def split_body(body_lines):
 # vocabulary already distinguishes those states, unlike the plan's old x/~/!/space marks.
 # A done mark is the one exception: a ✅ whose command fails used to print itself back as ✅
 # and land in the Done column, so the key could never contradict the mark it was written to
-# test (adversarial review, 28.08). Such a card now goes back to Not started and its status
-# line says what the command said. It landed in Blocked until 02.09, when he named the
-# confusion: a task that turns out not to be done is back in work, and blocked is a different
-# state — a real outside cause, held in blocked_by.
+# test (adversarial review, 28.08). Such a card no longer counts as done. It landed in Blocked
+# until 02.09, when he named the confusion: a task that turns out not to be done is back in
+# work, and blocked is a different state — a real outside cause, held in blocked_by. It then
+# went to Not started for the rest of that same day, until he named a third confusion: not
+# started means never begun, and this row was done and is done no longer — reopened, its own
+# state, marked 🔁, drawn below in the in-progress column since the work is live again.
 for s in steps:
     paragraphs, bullets, accept = split_body(s["body"])
     s["paragraphs"], s["bullets"], s["accept"] = paragraphs, bullets, accept
@@ -117,7 +119,7 @@ for s in steps:
         ok = r.returncode == 0
         s["verified"] = True
         s["failing_key"] = s["mark"] == "✅" and not ok
-        s["icon"] = "⬜" if s["failing_key"] else ("✅" if ok else s["mark"])
+        s["icon"] = "🔁" if s["failing_key"] else ("✅" if ok else s["mark"])
         s["note"] = key_failure_note(s["check"], r) if s["failing_key"] else ""
     else:
         ok = s["mark"] == "✅"
@@ -138,11 +140,13 @@ for s in steps:
 #
 # The column's own sub-line used to read "waiting on the owner's word", which named only half of
 # what the column holds (the adversarial read of 2026-08-31). It names what the column actually
-# holds, and each card goes on saying which case it is.
+# holds, and each card goes on saying which case it is. A reopened card (🔁) joins 🔄 in
+# In progress: the work behind it is live again, not waiting to start and not blocked on
+# anything outside it.
 for s in steps:
     if s["icon"] == "✅":
         s["column"] = "done"
-    elif s["icon"] == "🔄":
+    elif s["icon"] in ("🔄", "🔁"):
         s["column"] = "inwork"
     elif s["icon"] in ("⛔", "👁️"):
         s["column"] = "blocked"
@@ -425,5 +429,9 @@ page = """<!DOCTYPE html>
 with open(out_path, "w", encoding="utf-8") as f:
     f.write(page)
 
-print("written: %s (%d steps, %d blockers)" % (out_path, len(steps), len(blockers)))
+# He does not count done tasks by default (his word, 02.09) — a total that folds in the done
+# rows told him nothing about what is left. Open leads; done trails as the secondary figure.
+_open_steps = sum(1 for s in steps if s["icon"] != "✅")
+_done_steps = len(steps) - _open_steps
+print("written: %s (%d open, %d done, %d blockers)" % (out_path, _open_steps, _done_steps, len(blockers)))
 PYEOF
