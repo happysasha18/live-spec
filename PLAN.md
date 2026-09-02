@@ -234,6 +234,14 @@ write the tasks, not by a session judging its own prose. The fix lands where tit
 so new tasks come out readable, rather than as a translation layer bolted on at display time. The
 three earlier breaks of this same rule are on record; this row is the one that repairs the source.
 
+**Worked 02.09.** A cold-read pass over every `### ` title and `**Group:**` line in this file: all
+open rows (⬜/🔄) checked one by one against the definition of done above, plus a sample of rows
+closed 2026-09-01/02. Four titles failed the test on internal jargon a non-builder can't parse —
+`q-802`, `q-804`, `q-385`, `q-805` — rewritten in place; the mark and the `— id:` suffix on every
+row are untouched. The rest already read as plain outcome sentences and were left alone. This is a
+session's own reading; the outside reader the definition of done asks for still has to run, and the
+row stays open until it does.
+
 ### 🔄 A finished task is shown and closed; a complaint about it becomes new work, not a stuck one — id: q-810
 **Group:** Method reliability · **Priority:** critical
 **Source:** owner 2026-09-02 ~21:31 — no row's own definition of done should name his eye as the
@@ -1678,7 +1686,7 @@ from the earlier note.
 **Source:** found 2026-08-19.
 
 
-### ✅ Design-sync's own snapshot keeps its baseline honest — id: q-802
+### ✅ The record of what changed never marks untouched work as changed — id: q-802
 **Group:** Method reliability · **Priority:** normal
 **Source:** the spec's own promise, standing since row 55's 2026-07-23 landing-time audit
 (`docs/queue-archive/rotated-ROADMAP-2026-07.md` row 468: "E-6, E-7, E-10, INV-17, A-6 → row 55").
@@ -1927,7 +1935,7 @@ project carrying the hook's source with no installed copy, then passes once inst
 pass.
 
 
-### ⬜ The contract's mechanical arms ship when a host declares its first contract — id: q-385
+### ⬜ A broken promise between two projects is caught automatically — id: q-385
 **Group:** Cross-project · **Priority:** normal
 **Source:** split 2026-07-17.
 
@@ -1998,7 +2006,7 @@ before anything else ran, and `git status` on the tracked files confirmed nothin
 three legs stood already, so the row closes.
 
 
-### ✅ No document ceiling gates a push on an invented number — id: q-805
+### ✅ A document's length never blocks a push over a made-up number — id: q-805
 **Group:** Method reliability · **Priority:** critical
 **Source:** owner, 2026-09-02, live in chat: every number pulled from the air goes, and so does every
 tool that exists to serve one; more is not worse, more means measure it, talk about it and decide
@@ -2088,7 +2096,7 @@ tests/test_retroactive_gate.py tests/test_gate_common_table_rows.py tests/test_d
 `docs/skill-review/` record before this branch pushes.
 
 
-### 🔄 The parallel-lanes machinery still netted by git and the prover ships for real — id: q-804
+### 🔄 Automatic checks catch problems in parallel work before anyone has to look for them — id: q-804
 **Group:** Parallel & multi-agent work · **Priority:** normal
 **Source:** found 2026-09-01, closing q-386 — three promises row 386 carried from its own first
 writing, never folded in from elsewhere, orphaned the moment q-386 closed on its own four-leg
