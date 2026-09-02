@@ -256,6 +256,18 @@ resume), `string` for the rest.
   wherever it's promised, including the spec text once package 2 lands. A generated page a person
   opens on request is not a "server," so this does not reopen the no-server rule above; it reopens
   only the earlier draft's mistaken retirement of `Requirement 309` itself (see §9).
+  **Added to this same future scope, owner's word 2026-09-02 13:14:** the board and the Canon
+  should make it visible which open tickets can run side by side without colliding, and name a
+  worktree for each so a session doesn't have to work that out by hand every time. This is not a
+  new stored field to keep in sync by hand — it's the same judgment
+  `skills/director/SKILL.md`'s Execution section already states in prose ("independent when
+  neither depends on the other's output and neither rewrites the same section or behaviour"),
+  computed live from the context pointers package 2 puts on every ticket, the same way
+  `state-probe.sh` already computes a done mark's real status from its command rather than
+  trusting the stored character. Two open tickets whose pointer sets don't overlap render as a
+  pair (with a suggested `lane/<id>` name apiece); an overlap renders as a warning, never a
+  silent grouping. This needs package 2's pointers to exist to be real rather than guessed from
+  prose, so it lands with the board work, not before it.
 - No inbox for the owner's thoughts, no idea shelf. "Keep this for later" is T1; everything else is
   the transcript. *(Scope: the cross-agent `inbox/` door of `matrix/inbox.md` is neither created
   nor retired here.)*
