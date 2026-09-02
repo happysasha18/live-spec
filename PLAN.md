@@ -216,7 +216,7 @@ neither can reach ⛔ for it; `tests/test_plan_is_not_executable.py::TestADoneMa
 asserts the row reads unfinished and that the blocked mark is absent, on the probe and on the board.
 Three rows carried the mark live at the time of writing.
 
-### ⬜ A person who did not build this can read the task list and understand it — id: q-808
+### 🔄 A person who did not build this can read the task list and understand it — id: q-808
 **Group:** Board & visibility · **Priority:** critical
 **Source:** owner 2026-09-02 14:50 — the task list must read in language a person outside the work
 can follow (`DECISIONS.md`, 2026-09-02 14:50). Measured live in the same exchange: of the task
