@@ -167,9 +167,8 @@ One list: the plan's own steps and the former ROADMAP.md queue, merged 27.08 per
 
 ### 🔄 Starting a session costs a quarter of what it costs today, and every standing file earns its place — id: q-809
 **Group:** Budget & economy · **Priority:** critical
-**Source:** owner 2026-09-02, in chat: "80кб много. можно удешевить? раза в 4?" and, on the files
-themselves, "зачем decision если есть доска и journal? нам точно все файлы нужны?... я понимаю что
-куча твоей бухгалтерии внутренняя но и она если избыточна то надо чинить."
+**Source:** owner 2026-09-02 — a session's starting weight must fall to about a quarter of today's,
+and every standing document must earn its place or go (`DECISIONS.md`, 2026-09-02).
 
 **Where it stands today.** Every session starts by loading four documents before it does anything:
 the boot file, the personal profile, the shared rulebook, and the reading skill — 80 KB between
@@ -189,10 +188,10 @@ answer to "what breaks if this is gone", and the ones that answer "nothing" are 
 skill-creator runs over each skill this touches, as he asked. Measured by the same line
 `scripts/state-probe.sh` already prints, before and after.
 
-### ⬜ A task that turns out not to be done says so, instead of pretending it is blocked — id: q-807
+### ✅ A task that turns out not to be done says so, instead of pretending it is blocked — id: q-807
 **Group:** Board & visibility · **Priority:** critical
-**Source:** owner 2026-09-02 14:50, in chat: "blocked is not 'reopened' не надо абьюзить статусы
-либо не по назначению, либо свои выдумывать."
+**Source:** owner 2026-09-02 14:50 — the blocked mark is reserved for work that genuinely cannot
+proceed, never a stand-in for a status abused or invented (`DECISIONS.md`, 2026-09-02 14:50).
 
 **What is wrong today.** `scripts/state-probe.sh` shows a task whose acceptance command has stopped
 passing with the blocked mark ⛔. Two different things then wear one mark: work that genuinely
@@ -201,16 +200,27 @@ work that was called finished and turned out not to be. A reader cannot tell the
 second one is not blocked at all — nothing is standing in its way.
 
 **Definition of done:** the blocked mark carries only work that genuinely cannot proceed. A task
-whose own check has stopped passing returns to the queue, or to in-hand if someone picks it up,
-and carries a plain note saying its proof stopped holding and when — never a status it does not
-mean. `scripts/state-probe.sh` and `scripts/render-board.sh` agree on this, and a test reds if a
-failing check ever paints the blocked mark again.
+whose own check has stopped passing takes the reopened mark and carries a plain note saying its
+proof stopped holding — never a status it does not mean. `scripts/state-probe.sh` and
+`scripts/render-board.sh` agree on this, and a test reds if a failing check ever paints the blocked
+mark again.
+
+*Amended 2026-09-02.* Two clauses of the original wording changed, both agent-authored. "Returns to
+the queue, or to in-hand" became the reopened mark, on his own later word the same day that a row
+which was done and is done no longer is neither queued nor in hand but its own state. And "and
+when" was dropped: nothing records when a check last passed, so the only way to say when a proof
+stopped holding is to start keeping that history — machinery with no incident behind it.
+
+**Checked by reading on 02.09.** Both readers map a failing acceptance on a done row to 🔁 and
+neither can reach ⛔ for it; `tests/test_plan_is_not_executable.py::TestADoneMarkCannotOutliveItsKey`
+asserts the row reads unfinished and that the blocked mark is absent, on the probe and on the board.
+Three rows carried the mark live at the time of writing.
 
 ### ⬜ A person who did not build this can read the task list and understand it — id: q-808
 **Group:** Board & visibility · **Priority:** critical
-**Source:** owner 2026-09-02 14:50, in chat: "я понимаю таких треть. это плохо надо понять что надо
-пофиксить в промптах или чето такое." Measured live in the same exchange: of the task lines shown
-to him, he could follow about one in three.
+**Source:** owner 2026-09-02 14:50 — the task list must read in language a person outside the work
+can follow (`DECISIONS.md`, 2026-09-02 14:50). Measured live in the same exchange: of the task
+lines shown to him, he could follow about one in three.
 
 **What is wrong today.** Task titles and group names are written in the vocabulary of whoever did
 the work. `scripts/state-probe.sh` and `scripts/render-board.sh` print those strings as they stand,
@@ -245,8 +255,14 @@ answered, 13:04: yes, but only once real duration statistics exist to back it, n
 number — its own small ticket once package 2 has produced a few closed tickets to measure, not
 before.
 
+**Checked by reading on 02.09.** The row's proof is two committed product-prover records,
+`docs/prover/2026-09-02-turnkey-contract-review.md` and its Fable counterpart, read against
+`.live-spec/turnkey-contract-composed.md`, plus the live resume run below. The phrase was missing
+until 02.09 17:02, so `tests/test_plan_done_marks_are_backed.py` counted this row as closed on
+nobody's reading — the reading had happened and only its name was absent.
+
 **Closed 2026-09-02 13:11.** The resume mechanism itself verified live first: a genuinely fresh
-session, an isolated worktree, given only "продолжай," correctly found and resumed this exact
+session, an isolated worktree, given only "continue," correctly found and resumed this exact
 ticket using `state-probe.sh` + `plan-step.sh` + this ticket's own checkpoint alone — no spoken
 handoff. One authoring lesson surfaced, not a mechanism flaw: the checkpoint's own `NEXT` list had
 mixed a real next action with an unrelated note, which a fresh reader couldn't tell apart — fixed

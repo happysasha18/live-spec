@@ -508,6 +508,34 @@ the one slot nothing questions. That is the defect this surface exists to catch.
   new instance removes it on sight rather than filing it for later, the same standing habit as a
   confirmed-bug class sweep (base rule 14).
 
+- 2026-09-02 — starting a session should cost about a quarter of what it costs today, and every
+  standing document either earns its place or goes. Your words in chat: "80кб много. можно
+  удешевить? раза в 4?" In English: 80 KB is a lot. Can it be made cheaper — four times over? And,
+  on the files themselves: "зачем decision если есть доска и journal? нам точно все файлы
+  нужны?... я понимаю что куча твоей бухгалтерии внутренняя но и она если избыточна то надо
+  чинить." In English: why do we need a decisions file if there's the board and the journal? Do we
+  really need all these files?... I understand there's a pile of your internal bookkeeping, but
+  even that needs fixing if it's excessive. Consequence: PLAN.md q-809 states the requirement
+  impersonally and points here; its definition of done is the four starting documents cut to about
+  a quarter of today's 80 KB with no rule lost, and every standing document in the tree named with
+  a one-line answer to "what breaks if this is gone."
+
+- 2026-09-02 14:50 — the blocked mark is reserved for work that genuinely cannot proceed; it is
+  never a stand-in for a task whose own check quietly stopped passing. Your words in chat: "blocked
+  is not 'reopened' не надо абьюзить статусы либо не по назначению, либо свои выдумывать." In
+  English: blocked is not "reopened" — don't abuse statuses, neither off-label nor inventing your
+  own. Consequence: PLAN.md q-807 states the requirement impersonally and points here; a task whose
+  acceptance check has stopped passing returns to the queue (or to in-hand if someone picks it up)
+  with a plain note, never the blocked mark.
+
+- 2026-09-02 14:50 — the task list must read in language a person outside the work can follow.
+  Your words in chat: "я понимаю таких треть. это плохо надо понять что надо пофиксить в промптах
+  или чето такое." In English: I understand about a third of these. That's bad — need to figure
+  out what needs fixing, in the prompts or something like that. Measured live in the same exchange:
+  of the task lines shown, about one in three were understandable. Consequence: PLAN.md q-808
+  states the requirement impersonally and points here; a reader outside the work must be able to
+  say, for each task line, what it gives them and what state it is in.
+
 ## Open — carried, awaiting your word
 <!-- record:open -->
 These are open questions the pack carries with a recommendation. They moved here from the old spec

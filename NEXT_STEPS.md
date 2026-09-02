@@ -4,141 +4,79 @@ A digest with no redundancy (SPEC INV-48) — one live-state block, nothing remo
 information. One status block stands here at a time, and every update replaces it. Dated history
 lives in `JOURNAL.md`.
 
-## LIVE STATE (2026-09-02, 01:25)
+## LIVE STATE (2026-09-02, 16:57)
 
-Written for a session starting with clean context, covering the whole overnight run in
-`534cb16b..49b4813f` — from the prompt-authoring session's own closing commit through this note.
-Heals landing b5914865 (q-436), landing beaf953d (q-501), landing d0bbc72b (q-803) — three commits
-in that range closed rows without touching this file
-(`tests/test_landing_next_steps.py::test_real_repo_range_refreshes_next_steps` red on exactly those
-three), the same shape this file's own prior entries already record for seven earlier commits; the
-overnight prompt itself asked for exactly this: one honest pass at the end, covering the whole night.
+Written for a session starting with clean context, covering the afternoon run in
+`9bede805..HEAD`. The whole run served one row, `q-809`, plus four standing changes the owner
+made to how the plan reports itself back to him. Heals landing `4b898f65` (q-806), which closed a
+row without touching this file — `guardrails/check-landing-next-steps.py` reds on that commit
+(INV-242), the same shape three earlier commits in this range already carry.
 
-**Scope and outcome, against the prompt's own eight rows.** `.live-spec/overnight-prompt-2026-09-01.md`
-named `q-803`, `q-54`, `q-163`, `q-48`, `q-385`, `q-804`, `q-436`, `q-501`. Six actually moved
-tonight; two stayed correctly untouched.
+**`q-809` — the weight a session loads. Honest partial, stays open.** Measured by the probe's own
+line: 80,122 bytes before, 63,541 after, 18,501 tokens to 14,793. He asked for about a quarter of
+the original and it is not reached. The three parts of the answer:
 
-- **`q-436` (`b5914865`) — closed ✅.** The value-space in-between forcing step lands beside q-437's
-  already-built two-poles duty in `skills/spec-author/references/facet-sweep.md`, and
-  `skills/product-prover-pack/SKILL.md` reads an unnamed co-occurrence value as the same
-  blank-answer class q-437's own sweep already reports. Requirement 265 criterion 15 rewritten to
-  describe the built step; `TARGET_ROW_OWNERS["INV-244"]` entry dropped with its tag, same commit.
-  Proof: `tests/test_composition_axes.py`'s new `TestCooccurrenceValueForcingStep`.
-- **`q-501` (`beaf953d`) — closed, `Checked by reading on 02.09.`** The eleven historical
-  corrections were mostly moot — README had already been rewritten once since the 08-05 draft they
-  were written against — so each surviving claim was re-derived fresh against the live repo instead
-  of trusted from the old draft. Tonight's narrowing (his word, 2026-09-01 23:15) dropped the
-  project-count claim from the page entirely; `tests/test_host_count_agrees.py` rewritten to lock
-  that. The July gap resolved for him as a verified fact (the 10 July hole, fixed 07-11, still armed —
-  proven by planting a real unregistered surface). First-time-reader pass: six
-  independent fresh-context cold reads, converged.
-- **`q-803` (`d0bbc72b`) — closed ✅.** The row's own text cited 31 hits from the owner's original
-  13:15 sweep; by the time work actually ran the real count had moved to 20 (11+7+2 below), which is
-  what got processed — 11
-  removed as citations (4 needed a fresh `JOURNAL.md` entry first, since the fact lived nowhere
-  else; 7 already had one), 7 left as genuine behavioural-actor sense (no date attached, describing
-  a live rule rather than citing a source), 2 exempted (`communicator/references/rule-histories.md`
-  is itself the document built to hold this skill's dated citations — stripping there would just
-  delete the fact instead of moving it), 1 stripped with no citation possible (no date was ever
-  attached to it).
-  `tests/test_no_inline_provenance_citation.py` is the new lock.
-- **`q-48` (`68539f6e`) — honest partial, stays ⬜.** The pack-side automatic-fetch success-measure
-  contract is real: `spec/success-measure-feed.md` (Requirement 318, `INV-324`) plus
-  `scripts/check-success-measure-feed.py` and 12 fixture cases. `INV-21`'s `[target]` tag stays live
-  on purpose — a host's own fetch tooling and status-view wiring (clauses 9–10) are `~/tlvphotos`'s
-  own job, out of this window's reach, named plainly in the row.
-- **`q-804` (`f69f0340`, `1c1d0800`) — honest partial, stays 🔄.** Two of the three lane-net arms
-  ship for real and red-proven by deed: the config-health primary-tree-holds-main arm (`INV-198`)
-  and the adoption-gate vendored-worktree-line arm (`INV-201`) — both `[target]` tags dropped with
-  their map entries. The third (`INV-199`'s stale-lane half — a `lane/*` branch or worktree with no
-  open queue row) stays unbuilt; the merge-base half of `INV-199` did ship. **This row's first
-  worker process died mid-task, silently** — no crash report, just gone from the agent list with
-  real, correct, uncommitted work sitting in its worktree. A second worker recovered it: verified
-  the dead worker's scripts by hand (fresh scratch repos, planted each violating condition against
-  each script directly, watched it red then green) rather than trusting them, then committed as-is.
-  A real row-id collision surfaced at merge (`q-804` and the already-landed `q-48` had independently
-  picked matrix row `M-621`) — renumbered `q-804`'s three rows to `M-624`/`M-625`/`M-626`.
-- **`q-54` — stays ⬜, correctly, and now says why in its own text.** Its remaining field leg needs
-  a line added to `~/tlvphotos/.live-spec/profile.md`, which this window cannot write (audit-only on
-  other projects). A wish naming exactly this has sat unhandled in that project's own inbox since
-  31.08 (`2026-08-31-from-livespec-q54-founding-line.md`) — checked live tonight, still there,
-  nothing has changed. live-spec's own profile was considered as a stand-in and rejected: it's the
-  pack's own birthplace, never onboarded through the joining walk this row is actually about.
-- **`q-163`, `q-385` — deliberately untouched, both correctly.** `q-163`'s host-side leg has the
-  same shape as `q-48`'s and `q-54`'s — out of this window's reach, already honestly partial from
-  01.09. `q-385` carries its own unfired revisit trigger in its own text ("the first host declaring
-  a contract in its card. No host has declared one yet, so this stays queued rather than in hand")
-  — building its three arms tonight would have been exactly the un-triggered machinery this pack's
-  own standing rule forbids inventing. Flagged to Alexander as a real disagreement with the prompt's
-  own scoping before starting; held.
+- **The rulebook, 40,443 to 22,683 (`f6668634`).** Each of the twenty-two shared rules is now one
+  instruction with its SPEC codes and the check that reads it; the sub-laws under rules 6, 7, 13
+  and 31 are one line each. Citations, histories, justifications and worked examples moved to
+  `skills/live-spec-base/references/rule-origins.md`, 6,539 bytes, which holds background only —
+  a rule restated there would be the second home rule 4 and INV-13 forbid, and
+  `tests/test_one_home_per_rule.py` holds that line. Two rules were genuinely lost in the first
+  pass and restored: rule 6's worker-liveness apparatus (worker id, briefed write-set, liveness
+  checks, the ~60 s heartbeat, INV-76, the leave-word extension INV-95) and rule 7's single pen
+  with INV-49. 44 tests went red across the pass; the pin sweep in `architecture/*.md` closed the
+  rest.
+- **Director, cut and reverted (`43d5f388`).** It went 25,613 to 21,900, then back. Two full
+  re-records of the 35-scenario eval ran the same afternoon, one producer per scenario, opaque
+  labels: the skill as it stands scores 30 of 35, the cut scores 29. One scenario is inside what
+  the method can see, so 3.7 KB was not worth an unresolved question at the pack's front door.
+- **The boot file, untouched.** 4,386 bytes, his own by his word of 26.08.
 
-**A real, unrelated side effect caught mid-run.** `q-537`'s own gate (installed skill copies vs.
-source) went ⛔ twice tonight — once after `q-436`'s skill edits landed, once after `q-803`'s. Not a
-bug in either row: any skill-file edit drifts the installed mirror at `~/.claude/skills` until
-`scripts/sync-skills.sh` runs. Ran twice (`f79e74b9`, `1467f480`); `guardrails/check-config-health.sh`
-clean after each.
+**What blocks the rest, and it is the measurement.** While the second re-record was still
+finishing, its partial trace set graded 32, then 31, then 30 as the last producers landed — the
+grader unchanged and re-checked as deterministic on a fixed set. So one bare run carries about two
+scenarios of producer variance. `evals/director/README.md` now says that, says to compare only
+differences larger than it, and says to grade a complete trace set. Reaching the quarter means
+taking director to about 5 KB, which is a rewrite of the door, and it needs a check that can see a
+small change first: more fixtures, or a grader that scores per act instead of per scenario.
 
-**The quiet-tree suite, run once, alone, after all six rows merged.** First pass: `python3 -m
-pytest -q` — 5 failed, 2735 passed, 4 skipped. Three were the `INV-242` warn-then-heal pattern this
-note already closes above. The other two were real, both from tonight's own prose, both fixed and
-re-verified (`49b4813f`):
-- `PRODUCT_SPEC.md`'s bytes-per-criterion hit 185.9 against the recorded 185.8 ratchet bound
-  (`INV-264`/`265`) — `q-48`'s new Requirement 318 added criteria whose average byte length pulled
-  the whole document's ratio up. Six of its ten criteria tightened, no clause lost; re-measured
-  exactly at 185.8.
-- `ARCHITECTURE.md` re-grew a register defect the convergence lock (`M-217`) exists to catch: `q-48`
-  and `q-804`'s new prose cited the plan by a bare, capitalized word `spec-style-lint.py` reads as a
-  shout. Reworded to cite `PLAN.md`'s own row by number, matching every other citation
-  on the page. Fixing that surfaced a second, real finding: `q-804`'s own new prose at one line
-  restated a phrase its own pin list two lines away already carried verbatim — one redundant pair
-  over the page's 15-pair floor, confirmed against the pre-session baseline commit (`534cb16b`, via
-  a scratch worktree: 15 open there, 16 after tonight, 15 again once the restatement pointed at the
-  pin instead of repeating it).
-- Both `PRODUCT_SPEC.index.md` and `ARCHITECTURE.index.md` regenerated after each fix; both came
-  back byte-identical to what was already committed — neither trim touched a requirement or node id.
+**His four standing changes, all landed.** From two messages, 02.09:
 
-**A second full-suite run is still owed after this commit lands**, to confirm the fixes above hold
-together on a genuinely quiet tree with nothing else mid-flight. Not run yet as this note is
-written; whoever reads this next should confirm `python3 -m pytest -q` is clean before trusting the
-range green, per this project's own rule against reporting a red suite as basically done.
+- Blocked and reopened are two states (`37c40c7e`, then `72a52a4b`). A done row whose acceptance
+  command fails wore ⛔ since 28.08, which spent the blocked mark on a row nothing outside holds
+  up. It went to ⬜ on his first correction, then to its own mark 🔁 on his second. Blocked keeps
+  its meaning, a real outside cause in `blocked_by`; queued keeps its own, never started. Written
+  into `spec/wish-intake.md` Requirement 4 clauses 10-11 (INV-321).
+- Done tasks are not counted by default; the summary line leads with the open count.
+- Every printed row opens with its own id, padded to the widest id in the plan.
+  Both in `spec/message-first-read.md` Requirement 314 clauses 7-9 (INV-319).
+- Up to ten lanes in parallel, each with its own worktree and a clean merge, and sonnet workers by
+  default with a stronger tier as the justified exception. Both recorded in the personal profile.
 
-**No new queue row opened for anything found tonight.** Every real finding (the size-ratchet trim,
-the shout/redundancy fix, the `q-537` syncs, the `M-621` renumber) was a direct repair of tonight's
-own work, already folded into the row it belongs to above.
+**The standing-file census (`c6ffc709`).** Every standing document in the tree has a script, test,
+skill or hook that reads it by name — none answers "nothing breaks". His own named question,
+whether `DECISIONS.md` still earns its place beside the journal: it does. 26 of its 56 entries
+appear nowhere in `JOURNAL.md`; it holds his words verbatim, a retraction section and an
+open-questions section the journal has none of; and `guardrails/check-authority-anchor.py` reads it
+by name as a push gate. Of the 34 dated one-off notes in `.live-spec/` that no script reads, 26 are
+cited by the prover records under `docs/`, so removing them would leave a review pointing at
+nothing; the other 8 are gone. `docs/` itself, 941 files and 12 MB, was flagged and not censused.
 
-**Saved for a later session:** `.live-spec/next-phase-prompt-turnkey-productization.md`
-(`b29231a3`) — his own words, the next LiveSpec phase (a product contract for a Director-led turnkey
-workflow, reviewed by product-prover before any code). Explicitly deferred: work through it only
-after this note's own suite is confirmed green and either a fresh session picks it up on his word, or
-morning arrives with everything green and no further word from him.
+**`plan-0` reads green again.** Its acceptance held a fourth clause, an empty `git status
+--porcelain`, so a finished row reported itself unfinished on any session that had edits in hand.
 
-**Update, same night, 02:30–03:10 — his live word to cut every invented-number ceiling, and what
-that took.** Said live in chat, filed as a queued row after the fact: "все цифры с потолка уходят. все
-инструменты их обслуживающие тоже уходят... больше не значит хуже. больше значит надо измерить и
-поговорить и решить это ок или нет." Filed as `q-805` and closed ✅ (`51d2d402`) — full detail in
-`JOURNAL.md`'s matching entry. Two rounds of fresh-context hostile review followed, since the push
-gate demands a review no older than the spec's own last change and `q-805` changed it twice more
-after the first overnight review:
+## Open, for the next session
 
-- Round 1 (`docs/prover/2026-09-02-overnight-run-hostile-review.md`) found two blocking defects in
-  the original 8-row range (a heal-phrase format miss, a prematurely-dropped `[target]` tag) and
-  three smaller ones — all fixed (`bf426ec4`, `4805cec5`).
-- `q-805` landed, plus two skill-review records covering nine skills' worth of accumulated
-  unreviewed changes — the gate checks against `origin/main`, the last real push, so it covered
-  weeks of debt from before this session as well as tonight's own work. A pin-drift fix and a
-  compaction-freeze re-lock followed.
-- Round 2 (`docs/prover/2026-09-02-q805-and-followups-review.md`) reviewed everything since round 1.
-  One blocking finding (this same heal-phrase class, third time — `q-805`'s own landing commit) and
-  five real, smaller ones: the host kit repaired the push-gate wiring but left an adopted host's
-  leftover ratchet-lock test and seeded cap file in place (fixed, with two new red-proven tests);
-  the kept `check-language-rules.py` reasonless-rule cap had drifted stale by one and was re-seeded
-  from a live count (4→3); one dangling reference to the renamed installer in a worked-example doc;
-  two skill-review records with real coverage-claim errors (a missed third file, a wrong
-  cross-reference) corrected in place; and `M-327`'s own matrix row claimed a repair behavior no
-  spec criterion actually carried — widened (`Requirement 268` gained criterion 7).
+1. Two push gates are red, neither from this run. The shipped-language gate names Cyrillic a
+   previous session pasted into `PLAN.md`'s q-809, q-807 and q-808 source lines; his words belong
+   in `DECISIONS.md` and the row states the requirement impersonally. The prover-record gate wants
+   a review record newer than the last `PRODUCT_SPEC.md` change. Both had lanes running at the time
+   this note was written; check them before assuming.
+2. `q-806` is marked done with neither an acceptance command nor a reading line, so
+   `tests/test_plan_done_marks_are_backed.py` is red on it.
+3. The director cut is available if a sharper check ever lands: the run and its numbers are in
+   `evals/director/README.md`, the reverted text in `43d5f388`'s parent.
 
-This commit's own message carries the third heal phrase. A third full-suite run is still owed
-before this range can be trusted green.
 
 ## Where the numbers live
 
