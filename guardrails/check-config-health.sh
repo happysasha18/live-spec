@@ -11,11 +11,20 @@
 
 set -euo pipefail
 
-if [ "${GITHUB_ACTIONS:-}" = "true" ] || [ "${CI:-}" = "true" ]; then
-  echo "config-health: skip (CI checkout installs no local hooks by design)"
-  exit 0
-fi
+fail=0
 
+# The installed-hooks/skills/perms checks below only make sense on a working machine that
+# actually installs local hooks — a CI checkout carries none by design. This carve-out used to
+# `exit 0` the WHOLE script, which silently disabled every arm added below it too, INV-198's
+# worktree arm included: it never ran on the real CI runner, where GITHUB_ACTIONS is always set,
+# which is exactly the environment this arm's own tests run under (2026-09-02 — 3, then 4, of
+# INV-198's own tests kept failing on CI, always with the arm reading as a clean pass, because it
+# was never reached at all; the `safe.directory` and loud-failure fixes earlier in this range
+# both landed after this exit and so could never have mattered). The carve-out is now scoped to
+# just the sections it was meant for; INV-198 below runs in every environment, CI included.
+if [ "${GITHUB_ACTIONS:-}" = "true" ] || [ "${CI:-}" = "true" ]; then
+  echo "config-health(hooks/skills/perms): skip (CI checkout installs no local hooks by design)"
+else
 REPO_ROOT="$(git rev-parse --show-toplevel)"
 HOOKS_DIR="$(git -C "$REPO_ROOT" rev-parse --git-path hooks)"
 case "$HOOKS_DIR" in
@@ -23,7 +32,6 @@ case "$HOOKS_DIR" in
   *) HOOKS_DIR="$REPO_ROOT/$HOOKS_DIR" ;;
 esac
 
-fail=0
 for name in pre-commit pre-push; do
   src="$REPO_ROOT/guardrails/$name"
   [ -f "$src" ] || continue
@@ -144,6 +152,8 @@ if [ -f "$PERMS" ]; then
     fail=1
   fi
 fi
+
+fi # end: hooks/skills/perms checks (skipped on CI, see the carve-out above)
 
 # INV-198 (PLAN q-804): git's own refusal of another worktree's checkout/force/push against a
 # checked-out branch is the net the branch road leans on, and that refusal fires only for a branch
