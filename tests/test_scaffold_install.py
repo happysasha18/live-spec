@@ -35,10 +35,23 @@ def run(args, cwd=None, extra_env=None):
     return subprocess.run(args, cwd=cwd or ROOT, capture_output=True, text=True, env=env)
 
 
-def _init_host(tmp):
+#: The one line the adoption gate reads (SPEC INV-201): a host's project instructions name a
+#: worktree and CITE the isolation law's write-set condition rather than restating it.
+WORKTREE_LINE = ("Two lanes whose write-sets overlap each get their own worktree "
+                 "(SPEC INV-105).\n")
+
+
+def _init_host(tmp, worktree_line=True):
     run(["git", "init", "-q"], cwd=tmp)
     run(["git", "config", "user.email", "a@example.com"], cwd=tmp)
     run(["git", "config", "user.name", "a"], cwd=tmp)
+    # A host being adopted carries its own project instructions, and since 2026-09-02 the
+    # installer's last step is the adoption gate that reads them (SPEC INV-201, Requirement 88
+    # criterion 4). A host built without the line reds there, which is what
+    # TestAdoptionGateWorktreeLine below proves; every other test here wants a host that passes it.
+    if worktree_line:
+        with open(os.path.join(tmp, "CLAUDE.md"), "w", encoding="utf-8") as fh:
+            fh.write("# a host project\n\n" + WORKTREE_LINE)
 
 
 def _sha(path):
@@ -173,6 +186,53 @@ class TestScaffoldInstall(unittest.TestCase):
             self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
             self.assertIn("VENDORED GATES PINNED", r.stdout)
             self.assertIn("stale vs current pack: scaffold/guardrails/check_conflicts.py", r.stdout)
+
+
+class TestAdoptionGateWorktreeLine(unittest.TestCase):
+    """SPEC INV-201, spec/parallel-lanes.md Requirement 88 criterion 4: "red a host whose project
+    instructions carry no worktree line at the adoption gate, a mechanical gate read at the
+    adoption/catch-up walk rather than wired into every push."
+
+    `guardrails/check-worktree-line.sh` performs that read and owns its own fixture proof. What
+    this class proves is the half a fixture proof cannot: that the ADOPTION WALK actually calls it.
+    A 2026-09-02 hostile review found the script real, tested, and invoked nowhere — so the test is
+    written against the walk's own command (adopt/install-scaffold.sh, the "Installing the gates"
+    step ADOPT.md names and the --force re-install road the catch-up walk re-runs), not against the
+    check, and it mutates the HOST rather than the script: no line, the walk reds; line, it passes.
+    """
+
+    def test_the_adoption_walk_reds_a_host_with_no_worktree_line(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            _init_host(tmp, worktree_line=False)
+            result = run(["bash", INSTALL_SCAFFOLD], cwd=tmp)
+            self.assertNotEqual(
+                result.returncode, 0,
+                "the adoption walk passed a host carrying no worktree line — the gate is not "
+                "being called from the walk:\n" + result.stdout + result.stderr)
+            self.assertIn('"code":"worktree-line"', result.stdout)
+            self.assertIn("INV-201", result.stdout)
+
+    def test_the_same_host_passes_once_the_line_is_vendored_in(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            _init_host(tmp, worktree_line=False)
+            self.assertNotEqual(run(["bash", INSTALL_SCAFFOLD], cwd=tmp).returncode, 0)
+
+            with open(os.path.join(tmp, "CLAUDE.md"), "w", encoding="utf-8") as fh:
+                fh.write("# a host project\n\n" + WORKTREE_LINE)
+            result = run(["bash", INSTALL_SCAFFOLD], cwd=tmp)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertIn("worktree-line: OK", result.stdout)
+
+    def test_the_gate_runs_after_the_vendoring_so_a_red_costs_the_line_not_the_install(self):
+        """A gate that aborted the installer before it vendored anything would make a host pay for
+        the missing line with a half-installed kit."""
+        with tempfile.TemporaryDirectory() as tmp:
+            _init_host(tmp, worktree_line=False)
+            run(["bash", INSTALL_SCAFFOLD], cwd=tmp)
+            for name in SCAFFOLD_CODE:
+                self.assertTrue(os.path.isfile(os.path.join(tmp, "guardrails", name)),
+                                "the red left the host without guardrails/%s" % name)
+            self.assertTrue(os.path.isfile(os.path.join(tmp, "scripts", "ratchet-manifest.json")))
 
 
 if __name__ == "__main__":

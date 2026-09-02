@@ -128,5 +128,7 @@ cat <<EOF
 Delegate with the Agent tool's isolation: "worktree" option (no gate), or point a
 worker at $WT. The brief must name the branch $LANE. The lane's delta reaches main
 only through integration under the pen: rebase onto main's tip, gate on the rebased
-tree, fast-forward (T-23, INV-199).
+tree, fast-forward (T-23, INV-199). That walk has its own act, the counterpart to
+this one — rebase in $WT, then from the primary tree on main:
+  scripts/land-lane.sh $ROW $SLUG
 EOF

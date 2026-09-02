@@ -207,12 +207,10 @@
 3. *when* a lane lands, the system *shall* remove its branch and worktree, and *shall* keep both on a parked lane with the board saying which. [INV-199, T-9, INV-27]
 4. The system *shall* refuse teardown on a worktree holding uncommitted work and read that refusal as a finding, and *shall* red a lane worktree or a lane branch with no open row in the config-health gate. [INV-199, INV-150]
 
-**Case: the merge-base check, and the stale-lane check still promised**
+**Case: the merge-base check and the stale-lane check**
 
-5. The system *shall* red, ahead of the landing gate, a lane whose branch's merge-base with main does not equal main's tip, reading either the invoking tree's own `HEAD` or a named worktree's. [INV-199]
-   [target]
-6. The system *shall* keep the stale-lane check — a lane worktree or a `lane/*` branch with no open row, in the config-health gate — promised, the prover's station its net until then. [INV-199]
-   [target]
+5. The system *shall* red, ahead of the landing gate, a lane whose branch's merge-base with main does not equal main's tip, reading either the invoking tree's own `HEAD` or a named worktree's, and *shall* run that check from the landing act itself, before the gate reads the tree. [INV-199]
+6. The system *shall* red, in the config-health gate, a lane worktree or a `lane/*` branch whose row is closed or missing from the list, reading the rows off the primary tree's own list file so the answer does not depend on which tree asked, and standing down by name where the repository carries no list file for a lane to be stale against. [INV-199]
 
 ---
 
@@ -251,8 +249,7 @@
 **Case: the line records the host owner's word**
 
 3. *when* the host owner's word for the host's tree is spoken, the system *shall* write the vendored line recording that word, and *shall* leave the session lane shut until the pack's own owner gives the word for the pack's line. [INV-201, INV-152, INV-4]
-4. The system *shall* red a host whose project instructions carry no worktree line at the adoption gate, a mechanical gate read at the adoption/catch-up walk rather than wired into every push. [INV-201, INV-150]
-   [target]
+4. The system *shall* red a host whose project instructions carry no worktree line at the adoption gate, a mechanical gate the adoption and catch-up walks read as the closing step of their own gate-installing command rather than one wired into every push. [INV-201, INV-150]
 5. The system *shall* require no vendored line for a worker lane, since the subagent's isolation option carries no gate. [INV-201, E-34]
 
 ---

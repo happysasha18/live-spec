@@ -546,6 +546,11 @@ class TestManifestMerge(unittest.TestCase):
         run(["git", "init", "-q"], cwd=tmp)
         run(["git", "config", "user.email", "a@example.com"], cwd=tmp)
         run(["git", "config", "user.name", "a"], cwd=tmp)
+        # The scaffold installer's last step is the adoption gate on the host's project
+        # instructions (SPEC INV-201), so a host built for it carries the line that gate reads.
+        with open(os.path.join(tmp, "CLAUDE.md"), "w", encoding="utf-8") as fh:
+            fh.write("# a host project\n\nTwo lanes whose write-sets overlap each get their own "
+                     "worktree (SPEC INV-105).\n")
 
     def test_scaffold_keys_survive_a_later_style_gate_install(self):
         with tempfile.TemporaryDirectory() as tmp:

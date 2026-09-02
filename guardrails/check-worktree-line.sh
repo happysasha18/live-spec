@@ -16,6 +16,13 @@
 # it does not police the line's exact wording, since criteria 1-3 (what the line says, where it is
 # scoped, when it is written) are their own still-open promise, not this gate's.
 #
+# Its caller is adopt/install-scaffold.sh, the walk's own gate-installing command, which closes on
+# this gate after everything is vendored (adopt/ADOPT.md, "Installing the gates"); the catch-up walk
+# re-runs that same command with --force (MIGRATION.md Phase 4). That caller is the whole point:
+# this script passed its own fixture tests for a night while a full-tree grep found nothing invoking
+# it, which is a check that exists rather than a promise that is kept
+# (docs/prover/2026-09-02-overnight-run-hostile-review.md, finding 2).
+#
 # This gate is the adoption/catch-up walk's own step (attach's job, per the seam
 # "isolation default -> the host's instructions"), not a standing arm of guardrails/pre-push: this
 # pack's own tree is itself an adopted host and carries no such line yet, since Requirement 88

@@ -1499,16 +1499,18 @@ class TestTargetOwnership(unittest.TestCase):
         # criterion was split so its still-open half keeps the tag, and INV-199 keeps its row here.
         # A 2026-09-02 hostile review (docs/prover/2026-09-02-overnight-run-hostile-review.md, finding
         # 2) found `check-merge-base.sh` and `check-worktree-line.sh` both real and individually
-        # tested, but neither actually called anywhere outside its own test — the landing walk names
-        # no merge-base call, and the adoption/catch-up walk names no worktree-line call. INV-201's
-        # own target tag, dropped the same night on the strength of the script existing, is restored:
-        # a script with no real caller does not keep a promise whose own wording is "read at the
-        # adoption/catch-up walk." INV-199 was never dropped, so it needed no restoring, but the same
-        # finding applies to it too — read this entry as "the merge-base HALF exists and is tested,
-        # not yet called by the real landing walk," which is exactly what "keeps the tag" already said.
-        "INV-199": "q-804",  # the stale-lane check — a lane/* branch or worktree with no open row
-        "INV-201": "q-804",  # the adoption-gate script exists and is tested; not yet called anywhere
-        "INV-150": "q-804",  # cited in the same bracket as INV-201's restored [target] line above
+        # tested, but neither actually called anywhere outside its own test — the landing walk named
+        # no merge-base call, and the adoption/catch-up walk named no worktree-line call. INV-201's
+        # own target tag was restored on that finding, and INV-199 kept the tag it had never lost.
+        # Both are gone again, and this time on callers rather than on scripts: the landing act
+        # `scripts/land-lane.sh` runs the merge-base check ahead of the gate it performs, the
+        # adoption walk's own gate-installing command `adopt/install-scaffold.sh` closes on the
+        # worktree-line gate, and INV-199's remaining half — the stale-lane check — is an arm of
+        # `guardrails/check-config-health.sh`, which `guardrails/pre-push` already runs as gate m.
+        # Each is proven by mutating the WORLD rather than the script (an unrebased lane through the
+        # real landing walk, a host with no line through the real adoption walk, a lane branch whose
+        # row is closed through the real gate), so a caller that quietly stopped calling reds.
+        # INV-150 rode INV-201's bracket and drops with it.
         # INV-244's own [target] tag and this entry dropped together 2026-09-01, when q-436 landed
         # (this lane forked before that landing, so its own copy of this map still carried the
         # stale placeholder entry through the rebase — removed here, matching main's real state).

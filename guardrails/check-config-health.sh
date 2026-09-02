@@ -189,15 +189,103 @@ WORKTREE_LIST_ERR="$(mktemp)"
 if WORKTREE_LIST_OUT="$(git -c safe.directory='*' worktree list --porcelain 2>"$WORKTREE_LIST_ERR")"; then
   rm -f "$WORKTREE_LIST_ERR"
   WORKTREE_COUNT="$(printf '%s\n' "$WORKTREE_LIST_OUT" | grep -c '^worktree ')"
+  PRIMARY_BLOCK="$(printf '%s\n' "$WORKTREE_LIST_OUT" | awk '/^worktree /{n++} n==1')"
+  PRIMARY_PATH="$(printf '%s\n' "$PRIMARY_BLOCK" | sed -n 's/^worktree //p')"
   if [ "${WORKTREE_COUNT:-0}" -gt 1 ]; then
-    PRIMARY_BLOCK="$(printf '%s\n' "$WORKTREE_LIST_OUT" | awk '/^worktree /{n++} n==1')"
-    PRIMARY_PATH="$(printf '%s\n' "$PRIMARY_BLOCK" | sed -n 's/^worktree //p')"
     PRIMARY_BRANCH="$(printf '%s\n' "$PRIMARY_BLOCK" | sed -n 's#^branch refs/heads/##p')"
     if [ -z "$PRIMARY_BRANCH" ]; then
       echo "{\"severity\":\"error\",\"code\":\"config-health\",\"message\":\"primary tree ($PRIMARY_PATH) holds no branch checked out (detached HEAD) — git's own worktree refusal (INV-198) rests on the primary tree holding main\",\"fix\":\"checkout main in the primary tree\"}"
       fail=1
     elif [ "$PRIMARY_BRANCH" != "main" ]; then
       echo "{\"severity\":\"error\",\"code\":\"config-health\",\"message\":\"primary tree ($PRIMARY_PATH) holds '$PRIMARY_BRANCH' instead of main — git's own worktree refusal (INV-198) rests on the primary tree holding main\",\"fix\":\"checkout main in the primary tree\"}"
+      fail=1
+    fi
+  fi
+
+  # INV-199 (PLAN q-804): the stale-lane check — "a lane worktree or a `lane/*` branch with no open
+  # row, in the config-health gate" (spec/parallel-lanes.md Requirement 86, criteria 4 and 6). A
+  # lane's branch and worktree come down at its landing; one still standing with no open row on the
+  # list is either a landing that never finished its teardown or a lane nobody is working, and
+  # either way the next reader of `git branch --list 'lane/*'` — the lane cap in open-lane.sh above
+  # all — counts it as a live lane and turns away work that should have been let through.
+  #
+  # The rows are read from the PRIMARY tree's list file, off the same shared worktree metadata the
+  # arm above reads, so the answer does not depend on which tree invoked this script.
+  #
+  # It stands down BY NAME on a repository that carries no list file at all: a scratch repo built
+  # by some unrelated test, or a host that has not adopted the list, has no rows for a lane to be
+  # stale against, and a check that reds there would be reading its own absence as a violation.
+  QUEUE_FILE="${LIVE_SPEC_QUEUE:-PLAN.md}"
+  LANE_BRANCHES="$(git -c safe.directory='*' for-each-ref --format='%(refname:short)' refs/heads/lane 2>/dev/null || true)"
+  LANE_WORKTREES="$(printf '%s\n' "$WORKTREE_LIST_OUT" | sed -n 's/^worktree //p' | grep -E '/lane-[^/]*$' || true)"
+  if [ -n "$LANE_BRANCHES$LANE_WORKTREES" ]; then
+    if [ ! -f "$PRIMARY_PATH/$QUEUE_FILE" ]; then
+      echo "config-health(stale-lane): stand down by name — the primary tree ($PRIMARY_PATH) carries no $QUEUE_FILE, so there are no rows to read a lane against"
+    elif ! python3 - "$PRIMARY_PATH/$QUEUE_FILE" "$LANE_BRANCHES" "$LANE_WORKTREES" <<'PYSTALE'
+import json, os, re, sys
+
+queue_path, branches_blob, worktrees_blob = sys.argv[1], sys.argv[2], sys.argv[3]
+
+# The list's own row heading, the shape scripts/plan_checks.py parses:
+#   "### <mark> <Task Name> — id: <plan-N|q-N>"
+HEADER = re.compile(r"^### (\S+) (.+?) — id: (\S+)$", re.M)
+VARIATION_SELECTORS = "︎️"
+# A lane is named for its row: lane/<row>-<slug>, worktree lane-<row>-<slug>. A row id is a word
+# and a number joined by a dash, so the row is the first two dash-separated tokens.
+ROW = re.compile(r"^([a-z][a-z0-9]*-[0-9]+)(?:-|$)")
+
+with open(queue_path, encoding="utf-8") as fh:
+    body = fh.read()
+marks = {m.group(3): m.group(1).strip(VARIATION_SELECTORS) for m in HEADER.finditer(body)}
+
+lanes = []
+for name in branches_blob.split():
+    lanes.append((name, name[len("lane/"):] if name.startswith("lane/") else name))
+for path in worktrees_blob.split("\n"):
+    path = path.strip()
+    if not path:
+        continue
+    base = os.path.basename(path)
+    lanes.append((path, base[len("lane-"):] if base.startswith("lane-") else base))
+
+fail = 0
+seen = set()
+for label, tail in lanes:
+    if label in seen:
+        continue
+    seen.add(label)
+    m = ROW.match(tail)
+    if not m:
+        print(json.dumps({
+            "severity": "error", "code": "config-health",
+            "message": "lane '%s' names no row: a lane is named lane/<row>-<slug> for the row it "
+                       "carries, and this one carries no readable row id (SPEC INV-199)" % label,
+            "fix": "rename the lane for its row, or tear it down: git worktree remove <path> && git branch -d <branch>",
+        }, separators=(",", ":"), ensure_ascii=False))
+        fail = 1
+        continue
+    row = m.group(1)
+    mark = marks.get(row)
+    if mark is None:
+        print(json.dumps({
+            "severity": "error", "code": "config-health",
+            "message": "stale lane '%s': %s carries no row %s at all, so this lane's branch or "
+                       "worktree stands with no open row (SPEC INV-199)" % (label, os.path.basename(queue_path), row),
+            "fix": "tear the lane down (git worktree remove <path> && git branch -d lane/%s-<slug>), or open the row it carries" % row,
+        }, separators=(",", ":"), ensure_ascii=False))
+        fail = 1
+    elif mark == "✅":
+        print(json.dumps({
+            "severity": "error", "code": "config-health",
+            "message": "stale lane '%s': row %s is done (%s) and the lane's branch or worktree is "
+                       "still standing — a landed lane comes down at its landing (SPEC INV-199)" % (label, row, mark),
+            "fix": "tear the lane down: scripts/land-lane.sh finishes it, or git worktree remove <path> && git branch -d lane/%s-<slug>" % row,
+        }, separators=(",", ":"), ensure_ascii=False))
+        fail = 1
+
+sys.exit(fail)
+PYSTALE
+    then
       fail=1
     fi
   fi

@@ -20,12 +20,13 @@ import tempfile
 import unittest
 
 from conftest import ROOT
-from test_lane_branch_road import _ProbeRepo, _git
+from test_lane_branch_road import _ProbeRepo, _git, _robust_rmtree
 
 GUARDRAILS = os.path.join(ROOT, "guardrails")
 CONFIG_HEALTH = os.path.join(GUARDRAILS, "check-config-health.sh")
 MERGE_BASE = os.path.join(GUARDRAILS, "check-merge-base.sh")
 WORKTREE_LINE = os.path.join(GUARDRAILS, "check-worktree-line.sh")
+LAND_LANE = os.path.join(ROOT, "scripts", "land-lane.sh")
 
 
 class TestConfigHealthPrimaryTreeArm(_ProbeRepo):
@@ -219,6 +220,181 @@ class TestWorktreeLineArm(unittest.TestCase):
                 fh.write("# a host project\n\nUse a worktree for isolated work.\n")
             result = self.run_worktree_line(tmp)
             self.assertNotEqual(result.returncode, 0)
+
+
+class TestTheLandingWalkRunsTheMergeBaseCheck(_ProbeRepo):
+    """SPEC Requirement 86 criteria 1 and 2 (INV-199), the half a fixture proof cannot reach.
+
+    The class above proves `check-merge-base.sh` itself reds an unrebased lane. A 2026-09-02
+    hostile review (docs/prover/2026-09-02-overnight-run-hostile-review.md, finding 2) found that
+    proof standing beside a full-tree grep with no caller for the script anywhere: the landing walk
+    was written down in three places and performed by none, so nothing ever ran it. These tests are
+    written against the walk — `scripts/land-lane.sh`, the counterpart to the lane-open act — and
+    they mutate the LANE rather than the script: main moves under a lane that never rebased, the
+    walk must red before it advances main; the lane rebases, the same walk must land it.
+    """
+
+    LANE_ROW = "q-999"
+    LANE_SLUG = "landing-probe"
+    LANE_BRANCH = "lane/q-999-landing-probe"
+
+    def setUp(self):
+        super().setUp()
+        # _ProbeRepo's own lane is `lane/x`, which names no row. The landing act is addressed by
+        # row and slug, so this probe gets a second, properly named lane cut from main's tip.
+        self.landing_tree = os.path.join(self.tmp, "landing")
+        self.run_ok(self.main_tree, "worktree", "add", "-q", self.landing_tree,
+                    "-b", self.LANE_BRANCH, "main")
+        self.commit(self.landing_tree, "lane-work", "the lane's delta\n", "the lane's own commit")
+        self.lane_work_sha = self.rev("HEAD", self.landing_tree)
+
+    def land(self):
+        env = dict(os.environ)
+        env.update({
+            "GIT_CONFIG_GLOBAL": os.devnull, "GIT_CONFIG_SYSTEM": os.devnull,
+            "GIT_AUTHOR_NAME": "livespec-test", "GIT_AUTHOR_EMAIL": "livespec-test@example.invalid",
+            "GIT_COMMITTER_NAME": "livespec-test", "GIT_COMMITTER_EMAIL": "livespec-test@example.invalid",
+            "GIT_TERMINAL_PROMPT": "0",
+        })
+        return subprocess.run([LAND_LANE, self.LANE_ROW, self.LANE_SLUG], cwd=self.main_tree,
+                              capture_output=True, text=True, env=env)
+
+    def test_the_walk_reds_a_lane_that_never_rebased_and_leaves_main_where_it_was(self):
+        self.commit(self.main_tree, "h", "three\n", "another lane lands, main moves")
+        main_before = self.rev("main", self.main_tree)
+
+        result = self.land()
+
+        self.assertNotEqual(result.returncode, 0,
+                            "the landing walk ran a lane that never rebased onto main's tip")
+        self.assertIn('"code":"merge-base"', result.stdout,
+                      "the walk did not run the merge-base check at all — its output carries no "
+                      "merge-base verdict:\n" + result.stdout + result.stderr)
+        self.assertEqual(self.rev("main", self.main_tree), main_before,
+                         "main moved even though the check ahead of the gate reddened")
+
+    def test_the_same_lane_rebased_lands_and_the_walk_tears_it_down(self):
+        self.commit(self.main_tree, "h", "three\n", "another lane lands, main moves")
+        self.run_ok(self.landing_tree, "rebase", "main")
+        rebased_tip = self.rev("HEAD", self.landing_tree)
+
+        result = self.land()
+
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("merge-base: OK", result.stdout)
+        self.assertEqual(self.rev("main", self.main_tree), rebased_tip,
+                         "main did not fast-forward onto the rebased lane")
+        self.assertNotIn(self.LANE_BRANCH, self.run_ok(self.main_tree, "branch", "--list", "lane/*"),
+                         "the landed lane's branch was left standing (Requirement 86 criterion 3)")
+        self.assertFalse(os.path.isdir(self.landing_tree),
+                         "the landed lane's worktree was left standing")
+
+    def test_the_check_runs_before_the_gate_not_after_it(self):
+        """Requirement 86 criterion 2's whole point is that the gate never READS a stale tree, so
+        the order matters, not merely the presence of both. The lane tree here carries a gate chain
+        that writes a marker file when it runs; on an unrebased lane that marker must never appear."""
+        gate_dir = os.path.join(self.landing_tree, "guardrails")
+        os.makedirs(gate_dir, exist_ok=True)
+        marker = os.path.join(self.tmp, "the-gate-ran")
+        gate = os.path.join(gate_dir, "pre-push")
+        with open(gate, "w", encoding="utf-8") as fh:
+            fh.write("#!/bin/sh\ntouch %s\nexit 0\n" % marker)
+        os.chmod(gate, 0o755)
+        self.run_ok(self.landing_tree, "add", "-A")
+        self.run_ok(self.landing_tree, "commit", "-qm", "the lane's own gate chain")
+
+        self.commit(self.main_tree, "h", "three\n", "another lane lands, main moves")
+        result = self.land()
+
+        self.assertNotEqual(result.returncode, 0)
+        self.assertFalse(os.path.exists(marker),
+                         "the landing gate ran on a lane that had not rebased — the check is "
+                         "standing beside the gate rather than ahead of it")
+
+
+class TestStaleLaneArm(unittest.TestCase):
+    """SPEC Requirement 86 criteria 4 and 6 (INV-199): "red a lane worktree or a `lane/*` branch
+    with no open row in the config-health gate."
+
+    This is the residual q-804 carried after its first night — the merge-base half of INV-199's own
+    criterion shipped, the stale-lane half was never built. Proven the way every other arm here is:
+    plant the condition on a real repo with a real list file, run the shipped gate, read its verdict.
+
+    It builds its own probe rather than riding `_ProbeRepo`, whose lane is named `lane/x`: that name
+    carries no row id at all, which is its own violation of this arm, and it would red every test
+    in this class for the wrong reason.
+    """
+
+    OPEN_ROW = "### 🔄 A row that is open — id: q-999\n**Group:** probe · **Priority:** normal\n"
+    DONE_ROW = "### ✅ A row that is done — id: q-999\n**Group:** probe · **Priority:** normal\n"
+
+    def setUp(self):
+        self.tmp = tempfile.mkdtemp(prefix="livespec-test-stale-lane-")
+        self.addCleanup(_robust_rmtree, self.tmp)
+        self.main_tree = os.path.join(self.tmp, "primary")
+        self.lane_tree = os.path.join(self.tmp, "lane-q-999-probe")
+        os.makedirs(self.main_tree)
+        self.run_ok(self.main_tree, "init", "-q", "-b", "main")
+        self.run_ok(self.main_tree, "commit", "-q", "--allow-empty", "-m", "init")
+        self.run_ok(self.main_tree, "worktree", "add", "-q", self.lane_tree, "-b", "lane/q-999-probe")
+        _, listing = _git(self.main_tree, "branch", "--list", "lane/*")
+        self.assertIn("lane/q-999-probe", listing, "probe did not build: no lane branch to read")
+
+    def run_ok(self, cwd, *args):
+        rc, out = _git(cwd, *args)
+        self.assertEqual(rc, 0, "probe setup failed: git %s -> %s" % (" ".join(args), out))
+        return out
+
+    def write_queue(self, body):
+        with open(os.path.join(self.main_tree, "PLAN.md"), "w", encoding="utf-8") as fh:
+            fh.write("# The list\n\n## Tasks\n\n" + body)
+
+    def run_config_health(self, cwd=None):
+        return subprocess.run([CONFIG_HEALTH], cwd=cwd or self.main_tree,
+                              capture_output=True, text=True)
+
+    def test_a_lane_branch_with_no_row_at_all_reds(self):
+        self.write_queue("### 🔄 Some other row — id: q-1\n")
+        result = self.run_config_health()
+        self.assertNotEqual(result.returncode, 0, "the gate passed a lane with no row on the list")
+        self.assertIn('"code":"config-health"', result.stdout)
+        self.assertIn("stale lane", result.stdout)
+        self.assertIn("q-999", result.stdout)
+        self.assertIn("INV-199", result.stdout)
+
+    def test_a_lane_whose_row_is_done_reds(self):
+        self.write_queue(self.DONE_ROW)
+        result = self.run_config_health()
+        self.assertNotEqual(result.returncode, 0,
+                            "the gate passed a lane still standing after its row closed")
+        self.assertIn("stale lane", result.stdout)
+        self.assertIn("q-999", result.stdout)
+
+    def test_the_same_lane_with_an_open_row_passes(self):
+        self.write_queue(self.OPEN_ROW)
+        result = self.run_config_health()
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertNotIn("stale lane", result.stdout)
+
+    def test_the_row_is_read_from_the_primary_tree_however_the_gate_is_invoked(self):
+        """Same shape as the INV-198 arm above: the answer must not depend on which worktree ran
+        the check, so the rows come off the primary tree's list."""
+        self.write_queue(self.OPEN_ROW)
+        self.assertEqual(self.run_config_health(self.lane_tree).returncode, 0)
+
+        self.write_queue(self.DONE_ROW)
+        result = self.run_config_health(self.lane_tree)
+        self.assertNotEqual(result.returncode, 0,
+                            "invoked from a lane worktree the arm read some other tree's rows")
+        self.assertIn("stale lane", result.stdout)
+
+    def test_a_repo_with_no_list_file_stands_down_by_name(self):
+        """A scratch repo an unrelated test builds has no rows for a lane to be stale against, and
+        a check that read its own absence as a violation would red every such repo (the exact shape
+        that reddened the INV-198 arm on CI, 2026-09-02)."""
+        result = self.run_config_health()
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+        self.assertIn("stand down by name", result.stdout)
 
 
 if __name__ == "__main__":

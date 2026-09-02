@@ -268,6 +268,15 @@ remaining manual steps the installer prints: fill the real paths in the config, 
 prove one red-first (plant a fake registry row, watch `check_completeness.py` red, remove it), and add
 the four check lines to the host's pre-push hook. Config-only attach runs about fifteen minutes.
 
+**The scaffold installer closes on the adoption gate (SPEC INV-201).** Its last step runs
+`<pack>/guardrails/check-worktree-line.sh` against the host root and reds a host whose project
+instructions carry no worktree line — one line in the host's `CLAUDE.md` that names a worktree and
+**cites** the isolation law's write-set condition (INV-105) rather than restating it, so the law and
+the worktree tool fire on one condition with no second home for it. The gate runs after everything
+is vendored, so a red costs the host the line and not the install: write the line, run the installer
+again. It is read here, at the walk, and nowhere else — a host's every push is not the moment to ask
+this, and the line records the host owner's own word (Requirement 88 criteria 3 and 4).
+
 **Then wire the style gate (SPEC INV-172).** One pass, from the host root:
 `bash <pack>/adopt/install-style-gates.sh [--tier universal] [DOC...]`. It vendors the style lint,
 the near-duplicate reading, the freeze tool, and their shared library into the host's tree (each

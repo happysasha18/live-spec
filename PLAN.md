@@ -2274,6 +2274,31 @@ genuinely wired into `guardrails/pre-push` and stays closed; `INV-199` and `INV-
 tested script with no real caller, and both need that wiring — plus INV-199's still-unbuilt stale-lane
 half — before this row closes for real.
 
+**Worked 2026-09-02 on lane `lane/q-804-wire-lane-net-arms`: all three now have real callers, each
+proven by mutating the world rather than the script.** The lesson the correction above records — a
+fixture proof says the script works, never that anything runs it — set the shape of every proof
+here: the test drives the REAL walk and mutates what the walk reads, so a caller that quietly stops
+calling reds. (1) The merge-base check's caller is `scripts/land-lane.sh`, the landing act and the
+counterpart to `open-lane.sh`: the walk Requirement 86 names was written in three places and
+performed by none, which is why the check had nowhere to be called from. It runs the check first,
+then the rebased tree's own gate chain, then the fast-forward, then a non-forcing teardown whose
+refusal is reported as a finding. An unrebased lane driven through it reds with main unmoved and the
+lane's gate never reached; rebased, the same act lands and tears the lane down. (2) The worktree-line
+gate's caller is `adopt/install-scaffold.sh`, the adoption walk's own gate-installing command
+(`adopt/ADOPT.md`, "Installing the gates"; the catch-up walk re-runs it with `--force`,
+`MIGRATION.md` Phase 4). It runs last, so a red costs the host the line and not the install — and it
+is NOT wired into this repo's own push chain, exactly as criterion 3 requires. (3) The stale-lane
+check is a new arm of `guardrails/check-config-health.sh`, which is where Requirement 86 criteria 4
+and 6 put it by name and which `guardrails/pre-push` already runs as gate m; that placement needed no
+carve-out, since nothing about it waits on the pack owner's word the way the pack's own vendored line
+does. It reads the rows off the primary tree's list through git's shared worktree metadata, and
+stands down by name on a repository with no list file so an unrelated scratch repo is never redded
+for having no rows. Nine new tests across `tests/test_lane_net_arms.py` and
+`tests/test_scaffold_install.py`; `spec/parallel-lanes.md` Requirement 86 criteria 5/6 and
+Requirement 88 criterion 4 dropped their `[target]` tags and `TARGET_ROW_OWNERS` dropped `INV-199`,
+`INV-201` and `INV-150` with them; `matrix/parallel-lanes.md` gained M-627 and M-376/M-625/M-626 were
+corrected. Left for the mark: the orchestrator re-runs these red-proofs before flipping the row.
+
 
 ### ✅ The front page is rewritten to be fully accurate — id: q-501
 **Group:** Docs & outreach · **Priority:** normal
@@ -3007,6 +3032,19 @@ One line per finding. Don't start a second list for them. Don't fix one without 
   call: the false citations replaced with an honest pointer to the one real record from that day
   (`work/2026-08-15-unowned-numbers.md`), the actual values left untouched. No open question here
   — remaining work is the 27 real numbers, and each already carries its own honest label.
+
+- **The check that nothing calls is a class, not two instances. Found 02.09, working q-804.** That
+  row exists because two shipped checks passed their own fixture tests while a full-tree grep found
+  nothing invoking either one; q-804 gives all three of its arms real callers. A sweep for the same
+  shape across the rest of `guardrails/` finds five more scripts referenced only from prose or from
+  their own data file, with no executable caller anywhere: `check-delta-record.py`,
+  `check-deposit-description.py`, `check-landing-next-steps.py`, `check-tier-refusal.py`, and
+  `check-config-surface.py`. One of them is admitted in writing already —
+  `guardrails/language-rules.json` says of `check-no-history.py`, "check-no-history.py is armed
+  nowhere." Each may be right on its own reading; what is not right is that nothing in the tree
+  tells a reader which checks are armed and which merely exist, so the same discovery costs a
+  hostile review its time again each pass. Reported, not fixed: naming the armed set, or arming
+  these, is its own piece of work and the priority is the owner's call.
 
 ---
 

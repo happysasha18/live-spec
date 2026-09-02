@@ -9,9 +9,13 @@
 #
 # It runs ahead of the landing gate, not inside the general push chain: a lane's own branch is
 # penless traffic that never pushes (the base-rulebook worker contract), and outside a landing this
-# predicate answers a question nobody is asking, so nothing wires it into guardrails/pre-push. The
-# orchestrator runs it by hand (or a future land-lane.sh runs it) immediately before the gate, on
-# whichever tree is about to integrate.
+# predicate answers a question nobody is asking, so nothing wires it into guardrails/pre-push.
+#
+# Its caller is scripts/land-lane.sh, the landing act — it runs this check first, and refuses to
+# reach the gate or move main when it reds. That caller is the whole point: this script passed its
+# own fixture tests for a night while a full-tree grep found nothing invoking it, which is a check
+# that exists rather than a promise that is kept (docs/prover/2026-09-02-overnight-run-hostile-review.md,
+# finding 2). It stays runnable by hand on whichever tree is about to integrate.
 #
 # Usage:
 #   check-merge-base.sh                 # HEAD of the current worktree, against local 'main'

@@ -131,6 +131,25 @@ echo "       python3 guardrails/check_conflicts.py"
 echo "  3. prove one red-first: plant a fake registry row, watch check_completeness.py red, remove it"
 echo "  4. add the four check lines to your pre-push hook (guardrails/README.md, step 5 — the copy just vendored)"
 
+# --- step e: the adoption gate — the host's vendored worktree line (SPEC INV-201) ----------------
+# Requirement 88 criterion 4 names a mechanical gate "read at the adoption/catch-up walk rather than
+# wired into every push", and this walk is where it is read: this command is the adoption walk's own
+# gate-installing step (adopt/ADOPT.md, "Installing the gates"), and the catch-up walk re-runs it
+# with --force as the re-install road check-pack-update.sh names. So the gate reds HERE, once, at
+# the walk — not on the host's every push, and never in this pack's own push chain, where
+# criterion 3 leaves the pack's own line shut until the pack's owner gives the word.
+#
+# It runs last, after everything is vendored, so a red costs the host the line and not the install.
+echo ""
+echo "-- the adoption gate: the host's vendored worktree line (SPEC INV-201) --"
+if ! "$PACK_ROOT/guardrails/check-worktree-line.sh" "$HOST_ROOT"; then
+  echo ""
+  echo "adoption gate red: the scaffold is vendored, but this host's project instructions carry no"
+  echo "  worktree line. Vendor one line into CLAUDE.md that CITES the isolation law's write-set"
+  echo "  condition (INV-105) rather than restating it, then run this installer again."
+  exit 1
+fi
+
 python3 - "${#VENDOR_CODE[@]}" "$CONFIG_SEEDED" << 'PYEOF'
 import json, sys
 print(json.dumps({
