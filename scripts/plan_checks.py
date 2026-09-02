@@ -36,13 +36,14 @@ CHECKS = {
     # The row's own "the tree is clean" means this is a real git tree with no project files left
     # outside it — the 133 outside-git files it checked — and says nothing about uncommitted work.
     "plan-0": 'test "$(git rev-parse --abbrev-ref --symbolic-full-name @{u} 2>/dev/null)" = "origin/main" && ! test -d /private/tmp/ls-director && grep -q "Владелец подтвердил" attic/DIRECTOR_HANDOFF-2026-08-26-decisions.md',
-    # q-807: the two readers of the plan agree that a done row whose acceptance command fails
-    # takes the reopened mark, and that neither can reach the blocked mark for it. Anchored on the
-    # mapping line itself in each reader rather than on a comment, so a reader that drops the rule
-    # reds here. The suite holds the behaviour end to end
-    # (tests/test_plan_is_not_executable.py::TestADoneMarkCannotOutliveItsKey); a check the probe
-    # runs at every session start stays cheap, so it reads the code instead of running that suite.
-    "q-807": 'grep -q \'"🔁" if t\\["failing_key"\\]\' scripts/state-probe.sh && grep -q \'"🔁" if s\\["failing_key"\\]\' scripts/render-board.sh && ! grep -q \'"⛔" if t\\["failing_key"\\]\' scripts/state-probe.sh && ! grep -q \'"⛔" if s\\["failing_key"\\]\' scripts/render-board.sh',
+    # q-807: both readers of the plan assign the reopened mark themselves, and in both the
+    # blocked branch is guarded by the row's own blocked_by — so a merely-unfinished row cannot be
+    # painted blocked again. Anchored on the assignment and on the guard, the two smallest things
+    # that must survive any rewording of these blocks; an earlier arm pinned one exact expression
+    # and reddened the same afternoon the expression was extended (02.09); the greps are fixed-string, since a bracket in a pattern is a character class. The end-to-end proof is
+    # tests/test_plan_is_not_executable.py::TestADoneMarkCannotOutliveItsKey; a check the probe runs
+    # at every session start stays cheap, so it reads the code instead of running that suite.
+    "q-807": 'grep -qF \'["icon"] = "🔁"\' scripts/state-probe.sh && grep -qF \'["icon"] = "🔁"\' scripts/render-board.sh && grep -qF \'failing_key"] and t["blocked_by"]\' scripts/state-probe.sh && grep -qF \'failing_key"] and s["blocked_by"]\' scripts/render-board.sh',
     # plan-1's key was removed 2026-08-28 with its task: the board rotation folded plan-1 into
     # plan-11, and its check ("the render script exists and is executable") was the file-existence
     # proxy plan-10 names as a defect in its own text.
