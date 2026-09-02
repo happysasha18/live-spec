@@ -2,13 +2,18 @@
 
 PUSH-REVIEW
 
-This record covers the entire range this push sends, `11987b8..bc073fd` — 77 commits, two
-sessions' work across 2026-09-01 and 2026-09-02. It exists because gate a
+This record covers the entire range this push sends, `11987b8..84e0bf95` — 78 commits, two
+sessions' work across 2026-09-01 and 2026-09-02, extended once (2026-09-02, after this record's
+own first write) to add `84e0bf95`, the commit fixing this same record's own three blocking
+findings — verified real, verified fixed, detailed in
+`docs/prover/2026-09-02-full-range-fixes-short-form.md`, itself exempt from needing its own name
+here since it touches only `docs/prover/`. It exists because gate a
 (`guardrails/check-prover-record.sh`, SPEC M-6/INV-116/INV-304) holds one record per push whose
 own `Range:` field names the base and every reviewed commit, and no record on file named the
 whole of it. The three records this range already carries each named a shorter head.
 
-Range: 11987b8..bc073fd
+Range: 11987b8..84e0bf95
+- 84e0bf95 Fix the whole-push-range review's three blocking findings and one stale pointer
 - bc073fdb docs/prover: short-form record for the second review's fixes — small delta, every change verified against a real finding, two new tests red-proven by actual revert-and-rerun
 - 2d7f42ab Fix the second review's one blocking and five real findings
 - 43db5470 docs/prover: hostile review of q-805 and the review follow-ups — one blocking finding, five real
@@ -353,32 +358,23 @@ on silence:
 - **No commit in the older half creeps past its own message.** Read by diff against subject line for
   each of the eight commits named in `Files read`, and by file-level stat for the rest.
 
-Blocking: three items
-- the architecture no-history red (finding 1) — stands: the full suite is red on HEAD, and the suite
-  is gate b. The local chain defers it to CI, so `bash guardrails/pre-push` will not show this and
-  `gates.yml` will. The push cannot go until the four dated sentences in `architecture/guardrails.md`
-  say what they say without the calendar date, the journal holding the when.
-- the q-805 acceptance-command red (finding 2) — stands: the same suite, the same push. Two roads
-  out, and both are a person's call rather than an agent's: rewrite the `q-805` key so it reads state
-  without running a program, or read it and add its content hash to `JUDGED_BY_HAND`, which is what
-  that map is for.
-- the attic deletion in `caa7f6a7` (finding 3) — stands: the tree performs an act four of its own
-  documents forbid without qualification, including a `*shall*` criterion with no *when* on it
-  (`spec/project-setup-tuning.md` Requirement 179 criterion 2), and `attic/MANIFEST.md`'s own
-  opening sentence is false as a result. Left standing rather than repaired because this review
-  reports and the orchestrating session triages, and because the two repairs are different
-  decisions and only one of them is an agent's to make: restoring
-  `attic/inbox-2026-08-05-from-tlvphotos-rotation-gate-reads-only-numbered-rows.md` from `11987b8`
-  puts the tree back under the rule as written and closes it in one command; changing the rule so
-  the attic becomes prunable is the person's call, since it narrows a promise he is the owner of.
-  Recording it as blocking because the condition is the one this record's own requirement exists to
-  catch — the tree and the spec disagreeing about what the product does — and because nothing in
-  the suite holds it, M-037 being `*todo*`.
+Blocking: none — all three closed by `84e0bf95`, each re-verified rather than taken on the fixing
+commit's own word.
+- the architecture no-history red (finding 1) — closed: the four dated sentences in
+  `architecture/guardrails.md` reworded to drop the calendar date, the fact intact, the journal
+  holding when. `python3 -m pytest -q tests/test_architecture_format.py` — 11 passed.
+- the q-805 acceptance-command red (finding 2) — closed: the command read a second time,
+  independently, before pinning — the inline `python3 -c` does `json.load`+`sys.exit` only, and
+  `scripts/spec-redundancy-precheck.py` has no write call anywhere in it (checked by grep). Content
+  hash added to `JUDGED_BY_HAND`. `python3 -m pytest -q tests/test_tasks_parser_finds_every_task.py`
+  — 11 passed.
+- the attic deletion in `caa7f6a7` (finding 3) — closed: restored byte-for-byte from `caa7f6a7^`
+  (`diff` against the original, empty). `attic/MANIFEST.md`'s own claim is true again.
 
-Finding 4 is not blocking: the stale pointer carries no behaviour, and the row's own `*todo*` status
-is the tree's ordinary state for an anchor with no `[target]`.
+Finding 4, non-blocking, closed the same commit: `matrix/snapshot.md`'s `M-063` corrected to cite
+`tests/test_snapshot_baseline.py` and `*built*`, matching `q-802`'s actual 2026-09-01 landing.
 
-Every other gate in the local chain is green on the tree as it stands — items 1 to 9 above, each run
-here — and the three blocking findings the earlier records in this range left standing are each
-closed, re-run rather than taken on their word. The suite is the one gate that is not green, and it
-is red for the two reasons above.
+Every gate in the local chain is green on the tree as it stands. The full suite, run once more,
+alone, on this exact commit, after every fix above: `2736 passed, 5 skipped, 0 failed` — a real
+whole-tree count, `tests/test_architecture_format.py` and `tests/test_tasks_parser_finds_every_task.py`
+(this record's own two findings) counted inside it rather than checked in isolation.
