@@ -112,6 +112,34 @@ workflow, reviewed by product-prover before any code). Explicitly deferred: work
 after this note's own suite is confirmed green and either a fresh session picks it up on his word, or
 morning arrives with everything green and no further word from him.
 
+**Update, same night, 02:30–03:10 — his live word to cut every invented-number ceiling, and what
+that took.** Said live in chat, filed as a queued row after the fact: "все цифры с потолка уходят. все
+инструменты их обслуживающие тоже уходят... больше не значит хуже. больше значит надо измерить и
+поговорить и решить это ок или нет." Filed as `q-805` and closed ✅ (`51d2d402`) — full detail in
+`JOURNAL.md`'s matching entry. Two rounds of fresh-context hostile review followed, since the push
+gate demands a review no older than the spec's own last change and `q-805` changed it twice more
+after the first overnight review:
+
+- Round 1 (`docs/prover/2026-09-02-overnight-run-hostile-review.md`) found two blocking defects in
+  the original 8-row range (a heal-phrase format miss, a prematurely-dropped `[target]` tag) and
+  three smaller ones — all fixed (`bf426ec4`, `4805cec5`).
+- `q-805` landed, plus two skill-review records covering nine skills' worth of accumulated
+  unreviewed changes — the gate checks against `origin/main`, the last real push, so it covered
+  weeks of debt from before this session as well as tonight's own work. A pin-drift fix and a
+  compaction-freeze re-lock followed.
+- Round 2 (`docs/prover/2026-09-02-q805-and-followups-review.md`) reviewed everything since round 1.
+  One blocking finding (this same heal-phrase class, third time — `q-805`'s own landing commit) and
+  five real, smaller ones: the host kit repaired the push-gate wiring but left an adopted host's
+  leftover ratchet-lock test and seeded cap file in place (fixed, with two new red-proven tests);
+  the kept `check-language-rules.py` reasonless-rule cap had drifted stale by one and was re-seeded
+  from a live count (4→3); one dangling reference to the renamed installer in a worked-example doc;
+  two skill-review records with real coverage-claim errors (a missed third file, a wrong
+  cross-reference) corrected in place; and `M-327`'s own matrix row claimed a repair behavior no
+  spec criterion actually carried — widened (`Requirement 268` gained criterion 7).
+
+This commit's own message carries the third heal phrase. A third full-suite run is still owed
+before this range can be trusted green.
+
 ## Where the numbers live
 
 `docs/MEASUREMENTS.md` holds one row per file and one column per indicator, in the reading queue's

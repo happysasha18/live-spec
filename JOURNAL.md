@@ -3613,3 +3613,56 @@ the same night, closing q-537's own drift from `change-record.md`'s rewrite abov
 exactly, and `change-record.md`'s rewrite states what the tree now actually holds. One note kept for
 a later pass: two of the five files grew tonight with no fresh size reading against their own
 documented ideal.
+
+## 2026-09-02 — his word to cut every invented-number ceiling, filed and closed as q-805
+
+Live in chat, not through a queued row at first: "все цифры с потолка уходят. все инструменты их
+обслуживающие тоже уходят... больше не значит хуже. больше значит надо измерить и поговорить и
+решить это ок или нет." Filed as `q-805`, dispatched to its own lane, closed ✅ (`51d2d402`):
+`guardrails/check-size-ratchet.py` and its config/test gone whole; `Requirement 280` retired from
+`spec/doc-order-generated.md` (`INV-264`/`INV-265` left as recorded gaps, the same shape three
+earlier retirements used); the redundancy-pair ceiling out of `tests/test_convergence_locks.py`;
+`adopt/install-ratchet.sh` replaced by a seed-nothing `adopt/install-style-gates.sh`; the
+byte-shaved wording in `spec/success-measure-feed.md` restored to its original, fuller form —
+`git show 49b4813f^:spec/success-measure-feed.md` diffs empty against it. Kept, with reasons: the
+style lint's shout/scissors/jargon arms (a named defect at zero, not an aggregate), the
+near-duplicate detector as a plain reading, `guardrails/check-freeze.sh` (drift detection, not
+size), and `check-language-rules.py`'s reasonless-rule cap (a named rule id against a real count).
+
+**Two fresh-context reviews followed, since the push gate demands one no older than the spec's own
+last change and this row changed it twice more after the overnight review already covered.**
+
+`docs/prover/2026-09-02-overnight-run-hostile-review.md` — the first, covering the original 8-row
+range plus its own two follow-ups. Two blocking findings, both fixed (`bf426ec4`): the INV-242 heal
+in `667ac780` used the wrong phrasing (named the shas in `NEXT_STEPS.md`'s body instead of the
+commit message); `q-804`'s `INV-201` target tag was dropped on a script existing rather than
+anything calling it. Three smaller ones fixed the same commit; a same-shape twin on `INV-199`
+caught right after and fixed too (`4805cec5`).
+
+`docs/prover/2026-09-02-q805-and-followups-review.md` — the second, scoped to everything after the
+first. One blocking finding, the same heal-phrase class a third time, this row's own landing commit
+(`51d2d402`) — this commit's own message carries `heals landing 51d2d402`. Five smaller, real, all
+fixed here:
+- The host kit repaired the push-gate wiring on a re-run but left an already-adopted host's
+  leftover `tests/test_ratchet_lock.py` and seeded `max_redundancy_open` key sitting in its tree,
+  still collected by that host's own pytest. `adopt/install-style-gates.sh` now removes both on a
+  re-run; two new red-proven tests cover it (`test_a_prior_install_s_leftover_lock_test_and_seeded_cap_are_removed`,
+  `test_no_leftover_files_is_a_silent_no_op`). `MIGRATION.md`'s own note, which told a host to
+  delete the key by hand — leaving the still-present generated test reading a key that's gone, a
+  `KeyError` — corrected to say the installer handles it.
+- `check-language-rules.py`'s reasonless-rule cap had drifted stale: seeded at 4 over 53 rules on
+  2026-07-28, one paid off since, the live count 3 over 64 rules. Re-seeded to 3, the exact
+  maintenance its own header already asks for ("lower the cap with the run's own count").
+- `docs/language-worked-example.md:20` named the retired `adopt/install-ratchet.sh` in the page's
+  own live prose (not one of its quoted before/after drafts, which stay untouched on purpose) —
+  repointed to `install-style-gates.sh`.
+- Both skill-review records carried a real coverage error: the five-skill record named two of
+  `spec-author`'s three changed reference files, missing `how-it-reads.md` (same
+  no-incident-behind-the-number annotation pattern as `architect`/`build-pipeline`/`director`,
+  added here); the four-skill record claimed `communicator/references/writing-register.md` was
+  "already reviewed" in the five-skill record, which never named it — reviewed here instead, where
+  it belongs (one citation stripped, the fact survives in this file's own 2026-07-07 entry).
+- `matrix/attach.md`'s `M-327` claimed a repair behavior — replacing a live-position block still
+  calling the retired lock test — that no criterion in `spec/guardrails-freshness.md`'s Requirement
+  268 actually carried. Added criterion 7, naming both halves: the replacement and the file cleanup
+  above. `TEST_MATRIX.index.md` and `PRODUCT_SPEC.index.md` regenerated after.

@@ -17,8 +17,8 @@ page's own assertion. The first draft carries the defects on purpose.
 ## The subject
 
 The drafts describe how a host project installs the pack's checks and what each installed check
-refuses. The facts come from `adopt/install-scaffold.sh`, `adopt/install-ratchet.sh`, the four checks
-under `scaffold/guardrails/`, and `guardrails.config.json`.
+refuses. The facts come from `adopt/install-scaffold.sh`, `adopt/install-style-gates.sh`, the four
+checks under `scaffold/guardrails/`, and `guardrails.config.json`.
 
 ## The draft as it first stood
 

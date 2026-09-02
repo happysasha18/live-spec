@@ -472,6 +472,7 @@
    - verifies the block is reachable before reporting the gate wired;
    - follows the four project-side checks' shipping contract — config-driven, standard-library only, one JSON line per red — and their red-first attachment proof.
 6. *when* a re-run finds a block stranded past a terminating exit, the system *shall* repair it by moving it to the safe anchor. [INV-172]
+7. *when* a re-run finds a live-position block still calling a lock test a retired earlier kit generated, the system *shall* replace it with the current recipe, and *shall* remove that retired kit's own leftover generated test file and seeded cap key from the host's tree. [INV-172]
 
 ---
 

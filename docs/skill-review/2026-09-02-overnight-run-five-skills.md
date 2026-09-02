@@ -36,7 +36,10 @@ between two answered poles, a genuinely different gap.
 Known-issues re-read rule. Rule reads complete without it; the fact already lives in `JOURNAL.md`.
 
 **`spec-author/references/change-record.md` (q-805), `spec-author/references/facet-sweep.md`
-(q-436).** Two unrelated changes to two different reference files under the same skill, both real:
+(q-436), `spec-author/references/how-it-reads.md`.** Three unrelated changes to three different
+reference files under the same skill — this record originally named two and missed the third,
+corrected here (found in review, `docs/prover/2026-09-02-q805-and-followups-review.md`, finding 5).
+All three real:
 
 1. `change-record.md` drops the retired size-ratchet's own description and states current truth in
    its place — the figure is still measured and printed, no gate holds it to a bound, and a
@@ -50,6 +53,12 @@ Known-issues re-read rule. Rule reads complete without it; the fact already live
    author's and reviewer's sides of one contract). Read in context: doesn't restate the two-poles
    duty above it, correctly scopes itself to "reaches only the co-occurrence of the poles already
    owed, not [refinement values]," avoiding scope creep into taste-level axis values.
+3. `how-it-reads.md` gets the same annotation the four-more-pre-existing-skills record describes
+   for `architect`/`build-pipeline`/`director` — two existing numeric defaults (a preamble's
+   "two or three sentences," a layer-overview's "3–5 line" map) each get one clause naming them
+   "no incident or source behind [the number] — an engineering default, not a policy decision."
+   Same honest-labeling pattern, same holding: neither number changed, each site still parses as a
+   complete instruction after the clause.
 
 **`text-audit-pack/SKILL.md` (q-803).** One inline citation, `"The owner's word on 2026-08-18
 settles it, "`, removed from the cheap-reader definition. Reads complete without it: "It follows

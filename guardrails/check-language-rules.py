@@ -70,7 +70,11 @@ CHECK = "check-language-rules"
 # rules the day it lands: the count may fall and never rise. One more reasonless rule reds and names
 # every rule in the state, and the verdict line names them whatever the count reads, so the debt is
 # visible on every run. Lower the cap with the run's own count when the debt is paid.
-MAX_REASONLESS = 4
+# Lowered 2026-09-02: one of the four was paid off since 2026-07-28 (r43, r44, r52 remain, measured
+# live against 64 rules, up from 53) — found stale in review
+# (docs/prover/2026-09-02-q805-and-followups-review.md, finding 3), re-seeded rather than left to
+# drift as the exact kind of ceiling this repository spent tonight cutting elsewhere.
+MAX_REASONLESS = 3
 
 
 def _load_generator():

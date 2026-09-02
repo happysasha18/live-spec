@@ -365,6 +365,33 @@ else
   echo "  python3 scripts/spec-style-lint.py --tier $TIER <doc> || fail=1"
 fi
 
+# --- step d2: remove the retired ratchet's own leftover files ---------------------------------------
+# Repairing the pre-push block above (step d) stops CALLING the retired lock test, but a host that
+# ran the old ratchet kit before 2026-09-02 still HOLDS the generated test file and its seeded caps —
+# both still collected by the host's own pytest, still enforcing the ceiling this kit no longer seeds.
+# Deleting the generated test is safe: it is this installer's own past output, never hand-edited law.
+# Stripping just the `max_redundancy_open` key from spec-debt-cap.json (not the whole file, which may
+# carry other, unrelated fields) avoids the KeyError a host hits deleting the key by hand while the
+# generated test still reads it (found in review, docs/prover/2026-09-02-q805-and-followups-review.md).
+if [ -f "$HOST_ROOT/tests/test_ratchet_lock.py" ]; then
+  rm -f "$HOST_ROOT/tests/test_ratchet_lock.py"
+  echo "removed: tests/test_ratchet_lock.py (this installer's own past output, retired 2026-09-02)"
+fi
+if [ -f "$HOST_ROOT/scripts/spec-debt-cap.json" ]; then
+  python3 - "$HOST_ROOT/scripts/spec-debt-cap.json" << 'PYEOF'
+import json, sys
+path = sys.argv[1]
+with open(path, encoding="utf-8") as f:
+    data = json.load(f)
+if "max_redundancy_open" in data:
+    del data["max_redundancy_open"]
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=2, sort_keys=True)
+        f.write("\n")
+    print("stripped max_redundancy_open from scripts/spec-debt-cap.json")
+PYEOF
+fi
+
 # --- step e: read the host's documents once, and say what stands -----------------------------------
 # A reading, not a seed. Nothing is written down and nothing is held against these numbers; they are
 # printed so the person adopting sees what the gate will say before their next push, and can clear a

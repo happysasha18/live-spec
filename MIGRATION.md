@@ -126,7 +126,10 @@ The major number marks two things a host inherits automatically by adopting, and
    *(2026-09-02 note: this chapter shipped a third floor beside those, a per-document ceiling on
    near-duplicate sentence pairs seeded at whatever each document last measured. It was cut on the
    owner's word, with every gate of that shape. The near-duplicate reading itself stays, as a
-   measurement a person reads. A host that carries the old `max_redundancy_open` key may delete it.)*
+   measurement a person reads. A host that carries the old `max_redundancy_open` key and generated
+   `tests/test_ratchet_lock.py` has both removed automatically the next time it runs
+   `adopt/install-style-gates.sh` — deleting the key by hand first leaves the still-present generated
+   test reading a key that is gone, a `KeyError`.)*
 2. **The method rule (SPEC INV-164): a quality a machine can verify is enforced by a gate**, held by
    no pass's attention; compaction runs at every push, above the milestone whole-read. *(2026-08-13
    note: the numbered rulebook slot that once carried this rule was cut whole on 2026-08-12 and its
