@@ -10,8 +10,10 @@
   "dimensions": [
     "documentation and communication"
   ],
-  "specialists": [],
-  "reasoning": "The person asks for something to be done now: save the report just produced into a file and hand back its path, so it can be passed to someone else for re-checking. That is an instruction, not a question or musing — per the table, the Director's job is to accept the work, state the goal understood, and begin. It is new, self-contained work rather than a correction or decision on work in flight: nothing about the report's own content or goal is being changed, only a delivery step is being requested. Per 'Work that belongs elsewhere', a request that a result be made and handed off is work like any other and must not be brushed aside. The goal is small — persist existing content to a file and report the path — so it earns a decision sheet sized to that: no risk, no unknowns worth naming, and no specialist is needed since this is direct execution, not building, spec, or design work. It touches documentation and communication because it produces an artifact meant for another person to read and act on.",
+  "specialists": [
+    "Developer"
+  ],
+  "reasoning": "He is asking for something to be done now: put the report that already exists into a file and hand back the path. That is an instruction, and it is accepted as one piece of work — the file and its path are one result, not two, since neither could ship or be cancelled without the other. The clause about passing it on for re-checking is not a second act: it only restates why he wants a file, and adds nothing the instruction's own goal does not already carry; likewise 'give me the path' is the same deliverable, not a separate question. Nothing was already in flight that this changes, so it is not a correction, and it names no standing rule, so it is not a decision. What the work touches is documentation and communication only — the report's content is already settled, so no product behaviour, architecture, quality or release sentence changes. It needs the developer, which is the agent itself writing the file; no spec author (nothing behavioural changes), no test author (there is no regression to choose), no communicator (the wording is already done and he asked for no rewrite), and no independent verifier (the observable outcome — a readable file at a named path — is confirmed by a plain read).",
   "scenario": "instruction-one-goal-two-steps",
   "skill_version": "6.1.0"
 }

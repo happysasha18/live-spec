@@ -2,19 +2,19 @@
   "id": "mixed-reminder-and-a-challenge",
   "acts": [
     "decision",
-    "idea",
     "question"
   ],
-  "creates_work": false,
-  "shelves_idea": true,
-  "attaches_to_existing_work": true,
-  "work_items": 0,
+  "creates_work": true,
+  "shelves_idea": false,
+  "attaches_to_existing_work": false,
+  "work_items": 1,
   "dimensions": [
-    "documentation and communication",
-    "analytics, unknowns, hypotheses, experiments"
+    "documentation and communication"
   ],
-  "specialists": [],
-  "reasoning": "The message reaffirms goals already recorded in the plan (\"у нас в плане были цели\") and extends that standing rule by saying these parameters now must be monitored in the plan file's status going forward — this is 'A decision is a standing rule, not only a single choice... reminding that a goal already in the plan still stands is the same kind of act — a decision reaffirmed, not a new idea.' A decision is recorded and 'applied to the work already running' (the plan/status file the situation says is already being reviewed), so it attaches to existing work rather than opening a new checkpoint, and produces no new work item, by the same logic the spec gives corrections and halts that change work already in flight. The parenthetical 'посмотришь может в след. сессии' names a possibility (reviewing/doing the optimization work) not being asked for now, which is textbook Idea for later: 'names a possibility they are not asking for now... put it on the idea shelf.' Finally 'согласен или поспорь со мной' is its own act under the rule that 'an invitation to disagree closing out a decision or an instruction is still its own act too... answering only the decision leaves the invitation unanswered' — it is a genuine question, not rhetorical, since the skill treats it as needing an answer. Because nothing here is new work, no specialist from the table is called; the Director itself records the decision and updates the plan document, touching documentation/communication and the monitoring-of-metrics dimension (analytics, unknowns, hypotheses, experiments) without naming dimensions that nothing changes.",
+  "specialists": [
+    "Developer"
+  ],
+  "reasoning": "Reminding that goals already written in the plan still stand is a decision reaffirmed, not a new idea, so nothing goes on the idea shelf; the parenthetical only says when to look at those goals, and no work on compacting or optimizing starts now. The sentence that the parameters must be monitored in the plan file's status is the same act with force beyond this message: a standing rule about how status is written from here on, and applying it changes one document, so it is one piece of work, not several, and it starts nothing that was already in flight. 'Agree or argue with me' is its own act and stays named: it asks for a judgment, and the answer given before the work begins is that 'compactness' and 'various optimization' name no measurement yet, so a status row for them would carry a number with no source behind it; the goals have to say what they count before the status can show it. Only the plan file's own sentences change, so documentation and communication is the single dimension, and the only hand needed is the one that edits the plan and whatever prints its status.",
   "scenario": "mixed-reminder-and-a-challenge",
   "skill_version": "6.1.0"
 }

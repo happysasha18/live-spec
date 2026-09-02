@@ -7,9 +7,13 @@
   "shelves_idea": false,
   "attaches_to_existing_work": false,
   "work_items": 1,
-  "dimensions": [],
-  "specialists": [],
-  "reasoning": "This is a reply to the Director's own open question ('build it now, or park it?'), so per the skill it is not a new act on its own: 'the idea just became the instruction it was waiting to become, and the shelf entry becomes the work. Treat the exchange as one act, not two.' 'Yeah go ahead' resolves the branch toward building now, so the previously-shelved idea is accepted as work — an instruction, not a fresh idea or a decision about work already running, since nothing was in flight yet, only shelved and pending this answer. That makes it one new piece of work, not an attachment to something already running. The situation given names no content for 'it' beyond the shelved idea, so dimensions and specialists cannot be named without guessing what the work actually touches; a decision sheet would need that fact filled in before specialists are called.",
+  "dimensions": [
+    "product value and behaviour"
+  ],
+  "specialists": [
+    "Developer"
+  ],
+  "reasoning": "This is an answer to the Director's own open question, so nothing new was said and the exchange is one act, not two: the idea that was waiting on 'build it now, or park it?' just became the instruction it was waiting to become, and the shelf entry becomes the work. So the act is an instruction, not a fresh idea and not a decision riding alongside one. Because the answer took the build branch, the shelf entry is not shelved as well — the condition was answered once. Nothing was already in flight for it, so this opens one new piece of work with its own checkpoint and decision sheet rather than attaching to something running. What it touches, on what the question itself carries: something gets built, so product value and behaviour changes, and the developer is the specialist that needs. No other dimension is named, because naming one claims something in it must change and nothing in this turn says anything else does.",
   "scenario": "not-an-act-answering-the-director",
   "skill_version": "6.1.0"
 }

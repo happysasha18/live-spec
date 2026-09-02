@@ -3,19 +3,18 @@
   "acts": [
     "question",
     "decision",
-    "instruction"
+    "instruction",
+    "observation"
   ],
   "creates_work": true,
   "shelves_idea": false,
-  "attaches_to_existing_work": true,
+  "attaches_to_existing_work": false,
   "work_items": 1,
   "dimensions": [
     "documentation and communication"
   ],
-  "specialists": [
-    "communicator"
-  ],
-  "reasoning": "\"где был образец ридми плиз?\" is a plain question and gets answered, no work opened. \"всегда давай ссылку если я забыл\" carries the standing-rule marker 'всегда' ('always'), matching the skill's own test for a decision that settles something beyond this one message, so it is recorded as a standing rule, not a task. The clause about [проект-B] handing over an idea, paired with 'подхвати а пока работай', tells the agent to keep doing what it is already doing; the idea itself has not arrived yet so there is nothing to create work for now, and 'работай' is a continuation of work already in flight, not a new item - this is why attaches_to_existing_work is true. 'ты работаешь?' is a second, separate question checking status. 'давай план, замеры по времени, все пиши' asks for a plan and a time-boxed write-up to be produced; per the skill's own 'Work that belongs elsewhere' note, a requested plan, status or report 'has asked for something to be made, and it is work like any other', so this is the one new work item this turn produces, scoped by the one-hour cafe deadline named in the same breath. That deadline and the closing note about resuming from home are read as known/risk facts bounding this same plan request, not separate acts, since neither asks for anything beyond what the plan instruction already asked for.",
+  "specialists": [],
+  "reasoning": "The turn carries several acts and they must be listed before anything acts on any of them. Two questions: where the README sample was, and whether I am working — both answered, neither creates work. One standing rule: always hand him the link when he has forgotten it — that is a decision with force beyond this message, recorded separately from any work item. Two instruction-shaped clauses: pick up the idea project-B is about to hand over, and produce a plan with time estimates, everything written down. Only the second is buildable now — the project-B idea does not exist yet, so there is nothing to open a sheet on and nothing to shelf in his own words either; it is an instruction noted, waiting for its content. Two observations pace the work rather than change it: the hour before leaving the cafe, and that he will re-launch from home afterwards — naming that a limit is close describes the work's state without changing what it must do, so neither is a correction. 'Погоди' retracts nothing that is running; he says keep working in the same breath, so there is no halt. That leaves exactly one new piece of work: the written plan with time measurements. Asking for a plan is asking for something to be made, so it is work like any other and the Director does it rather than routing it to the communicator. It touches documentation and communication only — no behaviour, no architecture, no tests change. No specialist is needed: the plan is read off the states the plan file already records and written by the Director itself, and its hour budget must land inside the hour he named, with the rest carried over for the run from home.",
   "scenario": "mixed-four-at-once",
   "skill_version": "6.1.0"
 }

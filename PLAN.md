@@ -1438,30 +1438,30 @@ live over one real stretch of work, the same way q-166's own acceptance read bef
 **Source:** owner 2026-09-02 ~22:15, verbatim brief (Russian original kept whole — a compressed
 paraphrase would be the exact drift this row exists to prevent):
 
-> После закрытия текущего бэклога: доказать и, где нужно, минимально починить реальный маршрут
-> Director. Не проектировать новую систему и не добавлять хуки на каждое сообщение, сервер доски,
-> event log, второй план, новые реестры или новые статусы. Использовать существующие PLAN,
-> checkpoint, state-probe, product-prover, test-author и TEST_MATRIX. Сначала проверить фактическое
-> поведение, а не текст инструкций.
+> После закрытия текущего бэклога: доказать и, где нужно, минимально починить реальный маршрут  <!-- user-language -->
+> Director. Не проектировать новую систему и не добавлять хуки на каждое сообщение, сервер доски,  <!-- user-language -->
+> event log, второй план, новые реестры или новые статусы. Использовать существующие PLAN,  <!-- user-language -->
+> checkpoint, state-probe, product-prover, test-author и TEST_MATRIX. Сначала проверить фактическое  <!-- user-language -->
+> поведение, а не текст инструкций.  <!-- user-language -->
 >
-> Нужен один воспроизводимый сквозной сценарий на временной копии LiveSpec-хоста:
-> 1. Нетехнический владелец пишет свободное рабочее сообщение.
-> 2. Director правильно отличает его от вопроса, болтовни и команды остановиться.
-> 3. Для принятой работы создаётся ровно одна задача с понятным контекстом и своим DOD; для вопроса
->    и stop не создаётся ничего.
-> 4. Рабочий берёт именно эту задачу, выполняет её и сохраняет понятное состояние.
-> 5. Задача может стать ✅ только после её DOD и зелёной нужной проверки.
-> 6. Новая сессия читает существующее состояние и продолжает ту же работу, не создавая дубль и не
->    выбирая случайную середину плана.
+> Нужен один воспроизводимый сквозной сценарий на временной копии LiveSpec-хоста:  <!-- user-language -->
+> 1. Нетехнический владелец пишет свободное рабочее сообщение.  <!-- user-language -->
+> 2. Director правильно отличает его от вопроса, болтовни и команды остановиться.  <!-- user-language -->
+> 3. Для принятой работы создаётся ровно одна задача с понятным контекстом и своим DOD; для вопроса  <!-- user-language -->
+>    и stop не создаётся ничего.  <!-- user-language -->
+> 4. Рабочий берёт именно эту задачу, выполняет её и сохраняет понятное состояние.  <!-- user-language -->
+> 5. Задача может стать ✅ только после её DOD и зелёной нужной проверки.  <!-- user-language -->
+> 6. Новая сессия читает существующее состояние и продолжает ту же работу, не создавая дубль и не  <!-- user-language -->
+>    выбирая случайную середину плана.  <!-- user-language -->
 >
-> Проверить также два реальных сложных случая: пользователь дополняет или исправляет уже идущую
-> работу — обновляется она, без второй задачи; пользователь говорит «давай накидывать идеи» — это
-> один shaping-контекст, а не россыпь задач; после решения остаются только принятые реальные задачи.
+> Проверить также два реальных сложных случая: пользователь дополняет или исправляет уже идущую  <!-- user-language -->
+> работу — обновляется она, без второй задачи; пользователь говорит «давай накидывать идеи» — это  <!-- user-language -->
+> один shaping-контекст, а не россыпь задач; после решения остаются только принятые реальные задачи.  <!-- user-language -->
 >
-> Product-prover должен проверить сам продуктовый контракт этого маршрута; test-author — добавить
-> ровно нужные строки в TEST_MATRIX и тесты. Детерминированно проверять последствия маршрутизации;
-> живые модельные примеры запускать только при изменении Director, а не на каждый push и не на
-> каждое сообщение.
+> Product-prover должен проверить сам продуктовый контракт этого маршрута; test-author — добавить  <!-- user-language -->
+> ровно нужные строки в TEST_MATRIX и тесты. Детерминированно проверять последствия маршрутизации;  <!-- user-language -->
+> живые модельные примеры запускать только при изменении Director, а не на каждый push и не на  <!-- user-language -->
+> каждое сообщение.  <!-- user-language -->
 
 **Definition of done**, his own six clauses plus the two named hard cases:
 1. The end-to-end scenario above passes reproducibly on a clean temporary copy of a host running
@@ -1473,7 +1473,7 @@ paraphrase would be the exact drift this row exists to prevent):
    required check hasn't passed cannot be marked done.
 3. The two named hard cases are proven, not merely asserted: a correction/addition to work already
    running updates that same work rather than opening a second task; an "idea-shaping" turn (his
-   own example, "давай накидывать идеи") produces no task per idea voiced, only the real task(s)
+   own example, "давай накидывать идеи" <!-- user-language --> ) produces no task per idea voiced, only the real task(s)
    actually decided on once the shaping settles.
 4. `spec` → `architecture` → `TEST_MATRIX.md` → `tests` carry this route's contract, connected —
    product-prover reviews the contract itself before code, test-author adds exactly the rows and

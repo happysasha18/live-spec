@@ -1,25 +1,28 @@
 {
   "id": "mixed-check-now-improve-later",
   "acts": [
+    "correction",
+    "observation",
     "instruction",
-    "observation"
+    "question"
   ],
   "creates_work": true,
   "shelves_idea": false,
-  "attaches_to_existing_work": false,
+  "attaches_to_existing_work": true,
   "work_items": 1,
   "dimensions": [
-    "quality, safety, regressions",
+    "product value and behaviour",
     "architecture, data, integrations, operations",
-    "product value and behaviour"
+    "quality, safety, regressions"
   ],
   "specialists": [
+    "Architect",
+    "Developer",
     "Independent verifier",
     "Product prover",
-    "Test author",
-    "Architect"
+    "Test author"
   ],
-  "reasoning": "The core of the turn is an instruction: 'проверь очень хорошо' asks for something to be done now, not shelved, so it is accepted work with a goal ('accept the work, state the goal understood, begin'). Riding alongside it is a judgment about the pack's own tooling — 'это прувер тоже должен был бы поймать' — which the skill says stays its own act even while doubling as grounds for the neighbouring instruction: 'A judgment about the product ... says something new even when it doubles as the reason for the neighbouring act.' The check-the-modification request and the check-the-prover request are not two separate pieces of work: they are exactly the doctrine in 'Accepted work that turns out to be a confirmed bug still owes a sweep before it counts as finished' — verify the defect, then verify the gate that should have caught its class — so they land as one work item with the sweep folded in. Nothing here is deferred ('for later'), so shelves_idea is false; the modification itself is described as already made, so this is new verification work rather than a correction to work still in flight. Bundle size / dynamic-loading-by-platform touches build and architecture concerns, 'nothing breaks for the user' touches product behaviour and regressions, and the prover-coverage question calls for the independent verifier and product-prover specialists plus a test author to pick the evidence (bundle-size delta, regression checks) that would show the goal was actually reached.",
+  "reasoning": "Four acts in one turn, read to the end before deciding any of them. The demand that the code not bloat much after this modification (or load dynamically by platform type) and that nothing break for the user lands on a modification already in flight: it adds constraints the remainder has to satisfy, so it is a correction that changes that work's goal and replans what is left, not a second row beside it — no new work item from it. The judgment that the prover should have caught this is its own act: a judgment about the product, worth keeping after the neighbouring act closes, so it does not dissolve into the correction as mere grounds. The 'кстати проверь' on the prover is an instruction with a result someone could want on its own — the prover's blind spot to shipped-size growth could be closed or cancelled without touching the modification — so it is the one new piece of work with its own goal and decision sheet. The closing 'не знаю эт реально или нет' is a musing on feasibility, answered in words, not a branch that shelves anything; nothing here goes on the idea shelf. The accepted work touches product value and behaviour (nothing the user sees may break), architecture, data, integrations and operations (the shipped bundle and platform-conditional loading are packaging boundaries), and quality, safety, regressions (the missing check is a regression gap in the prover). Independent verifier because he asked for a good check and the check may not come from whoever made the modification; product prover because the named gap is its own; test author to choose the evidence — a size and no-break regression that fails on today's code; developer to build whatever the check turns up; architect if the answer is a platform-conditional split.",
   "scenario": "mixed-check-now-improve-later",
   "skill_version": "6.1.0"
 }

@@ -1,7 +1,9 @@
 {
   "id": "correction-stop-counting-pairs",
   "acts": [
-    "correction"
+    "correction",
+    "observation",
+    "decision"
   ],
   "creates_work": false,
   "shelves_idea": false,
@@ -9,13 +11,17 @@
   "work_items": 0,
   "dimensions": [
     "product value and behaviour",
-    "architecture, data, integrations, operations"
+    "architecture, data, integrations, operations",
+    "quality, safety, regressions",
+    "documentation and communication"
   ],
   "specialists": [
-    "developer",
-    "test author"
+    "Developer",
+    "Spec author",
+    "Test author",
+    "Product prover"
   ],
-  "reasoning": "The situation names work already in flight — an implementation that counts the image pairs the package ships. The message changes that work's constraint: stop counting pairs, and instead handle any pair of pictures at all. Per the Director's table, this is a correction — it 'changes the goal or the constraints of work in flight' — and 'a correction attaches to work, not to a queue': the Director finds the counting implementation and changes it rather than opening a new task beside it. The angry framing ('в 1000000 раз говорю', 'дебилизм') is the correction's own imperative ('убери') restated with force, not a separate judgment worth keeping past this act — it says nothing the correction's goal does not already carry, so it stays inside the one act rather than becoming a second observation. Because a correction to work already running produces no new item, work_items is 0, creates_work is false, and attaches_to_existing_work is true. The corrected goal touches product behaviour (the engine must compose a transition for any pair, not a fixed shipped set) and the architecture of how pairs are produced (moving off a counted/gated set to on-demand construction for an arbitrary pair). A developer changes the implementation to match; a test author is needed because the evidence for 'any pair in the world' is a different kind of check than counting a shipped set — no spec author or architect is called since this enforces a design already settled, not a new one.",
+  "reasoning": "The turn carries three acts and no new work. The core act is a correction: an implementation is in flight that counts the image pairs the package ships, and he changes that work's constraints — the count comes out and the remaining plan is replanned around it. That attaches to the checkpoint the running work already has; it never opens a second row beside it. The complaint is its own act, an observation: 'in 1000000 words I am telling you' plus the judgment that the counting is nonsense says something the correction's goal does not carry — this exact demand has been made and lost repeatedly, which is a fact about the work worth keeping after this row closes. The last clause is a decision, not a restatement of the correction: 'you must be able to build a transition for any pair of images in the world' is a standing rule with force beyond this message, and it gets recorded separately so it outlives the work item that provoked it — otherwise it comes back a 1000001st time. Because a correction and a decision both earn a decision sheet, the accepted work has dimensions and specialists even though it produces no new item. It touches product behaviour (the engine's promise changes from a counted corpus to any pair), architecture and data (the counting sits in the package build path and comes out at the root, not per call site), quality and regressions (a check that an arbitrary pair builds a transition, so the class cannot return silently), and documentation (the standing rule needs one home whose declared sentence it extends, or it will not survive this row). Specialists: developer to strip the count and make the path generic; spec author because the rule about any pair is not written where it binds today; test author for the evidence that an arbitrary pair builds; product prover for the class hunt over the siblings of this mistake — any other place the package measures the corpus it received — since a point fix that leaves relatives standing is what made him say this again.",
   "scenario": "correction-stop-counting-pairs",
   "skill_version": "6.1.0"
 }

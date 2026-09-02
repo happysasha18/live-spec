@@ -1,8 +1,7 @@
 {
   "id": "halt-plain",
   "acts": [
-    "halt",
-    "observation"
+    "halt"
   ],
   "creates_work": false,
   "shelves_idea": false,
@@ -10,7 +9,7 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "The person says \"стоп\" twice and 'секунду' (wait a second) about work the agent has already started acting on - this is a halt: something running should stop, per the table's 'wants something that is running to stop... change the state of that work / must not create anything'. The clause 'забыл обнулить контекст' (forgot to reset context) states the reason for stopping, and per 'No act absorbs another... A reason given with a halt is still its own act,' it is counted separately as an observation - it reports a fact about the situation (context wasn't reset) without itself demanding a specific repair in imperative form, so it is recorded as evidence rather than turned into a new instruction. Neither act creates work: the halt only changes the state of the work already in flight, and the observation's repair does not follow beyond doubt (whether/how to reset context, and what to do afterward, is not stated), so nothing is inferred beyond noting it.",
+  "reasoning": "Something is running and he wants it to stop running — that is the whole of a halt, and it is about this session's own work in flight, not some other system. The halt changes the state of the work already started on the previous message; it creates nothing, so there is no decision sheet, no dimensions and no specialists. The clause 'forgot to reset the context' is grounds stated with the halt: it only says why he wants the stop, carries no judgment about the product and nothing worth keeping after the act closes, so it is the halt's goal in other words rather than a second act. He asks for no reset and no re-run here, so reading one in would be inventing an instruction he did not give.",
   "scenario": "halt-plain",
   "skill_version": "6.1.0"
 }

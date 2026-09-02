@@ -1,15 +1,20 @@
 {
   "id": "idea-for-another-project",
   "acts": [
-    "idea"
+    "idea",
+    "instruction"
   ],
-  "creates_work": false,
-  "shelves_idea": true,
+  "creates_work": true,
+  "shelves_idea": false,
   "attaches_to_existing_work": false,
-  "work_items": 0,
-  "dimensions": [],
-  "specialists": [],
-  "reasoning": "The person explicitly frames this as something to hand off, not build now: \"кинь лайвспеку идею\" (throw livespec an idea), and hedges with \"может имеет смысл\" (maybe it makes sense). This matches the Idea row exactly: 'names a possibility they are not asking for now' — the Director's job is to 'put it on the idea shelf, in their own words, and say so in one line', not give it a task id or start it. The rest of the message (the NOT-spec vs texts/messages distinction) is the shape of the idea itself, not a separate act — it explains what the possible enrichment would do, not a new fact or request on its own. Nothing here is asked for now, so creates_work is false and no dimensions or specialists apply.",
+  "work_items": 1,
+  "dimensions": [
+    "documentation and communication"
+  ],
+  "specialists": [
+    "Communicator"
+  ],
+  "reasoning": "Two acts in one turn. First an idea: enrich the audit skill so it does for ordinary texts and messages what a spec does not need — the person is turning over a possibility, not asking for the audit skill to be changed here and now, and the clause about cold readers and specs is the idea's own reason, already in the air from the discussion, so it is not a third act. Second an instruction, said plainly: send that idea to live-spec. That asks for something to be done now, and it is one small piece of work with its own result — a note in live-spec's inbox, in his own words. Because he named where the idea goes, no entry goes on this session's idea shelf; the shelf that matters is live-spec's, and putting it there is the work itself, so marking both would file the same thought twice. Nothing is in flight for this to correct. The work touches documentation and communication only — it changes no behaviour, no architecture, no test; whether the audit skill actually changes is live-spec's call, not work accepted here. What it needs is the wording of the note for a reader who was not in this conversation, which is the communicator's job.",
   "scenario": "idea-for-another-project",
   "skill_version": "6.1.0"
 }

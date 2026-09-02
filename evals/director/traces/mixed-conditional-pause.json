@@ -2,6 +2,7 @@
   "id": "mixed-conditional-pause",
   "acts": [
     "question",
+    "observation",
     "halt"
   ],
   "creates_work": false,
@@ -10,7 +11,7 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "Two acts in one turn. \"ну как там? долго еще?\" is a genuine question about the running job's status, answered by checking and reporting, not by opening work. The rest is a halt about the session's own work in flight: a halt is about state, not words, and can be voiced as 'let's pause it' just as well as 'stop' — here the person wants the running job parked ('на паузу поставим... через пару часов') because they need to shut the computer down, with the explicit fallback that if only ~10 minutes remain they'll wait instead. That is the conditional-request pattern: both branches are named and real, but the outcome is exclusive — pause-and-resume-later if the remaining time is long, or no halt at all (just wait) if it is short — decided by the true remaining time, which the question above surfaces. The reason given ('надо комп отключить') only restates why the halt is wanted, so it is not a separate act. Per the Halt row, this changes the state of work already running and creates nothing: no new goal, no decision sheet, no specialists, no dimensions — it attaches entirely to the job already in flight.",
+  "reasoning": "Three acts in one turn, and reading to the end matters. First a question — how is it going, how much longer — which is answered from the state of the running job; fetching that state is reading, not work, and the effort of answering never turns a question into a task. Second an observation: the machine has to be switched off for a while. That is a fact the session did not have and it reaches past this one job, so it is its own act and gets recorded as evidence rather than dissolved into the neighbouring clause's justification. Third a conditional halt, and both branches are real and already answered by him: if roughly ten minutes remain he waits and nothing changes; if longer, the running job is parked and picked up again in a couple of hours. Either way the outcome is a state change on work already in flight, so nothing new is opened — a halt changes the state of that work and creates nothing, and there is no decision sheet behind it, only a sentence. Nothing here is an idea for the shelf: the conditional is wait-or-pause, not build-or-park, so no shelf entry and no second row. With no work accepted, no dimensions are named and no specialist is called.",
   "scenario": "mixed-conditional-pause",
   "skill_version": "6.1.0"
 }

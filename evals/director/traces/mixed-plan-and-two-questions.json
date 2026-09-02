@@ -1,16 +1,21 @@
 {
   "id": "mixed-plan-and-two-questions",
   "acts": [
-    "observation",
-    "question"
+    "instruction",
+    "question",
+    "observation"
   ],
-  "creates_work": false,
+  "creates_work": true,
   "shelves_idea": false,
   "attaches_to_existing_work": false,
-  "work_items": 0,
-  "dimensions": [],
-  "specialists": [],
-  "reasoning": "The message reports two facts without asking for a repair — the plan for this session is plain text with 5-10 emoji-status lines, and the human already copied it to a worker and launched it (the situation confirms the worker was 'launched a moment ago with a copied plan'); the 'for this session' scoping means this names no standing rule, so it stays a plain observation rather than a decision. The rest is genuine questions — what the worker is doing right now, whether it's running the whole plan or only part, and what the output will be. Per the Director's table, a question gets answered and an observation gets recorded as evidence; neither writes a roadmap row or opens a sheet. Nothing here asks for something to be done, changes the goal or constraints of the running worker, or halts it, so no work is created and the work already in flight is not altered, only inquired about — the Director answers from what it can read (the plan/checkpoint state) without calling any specialist.",
+  "work_items": 1,
+  "dimensions": [
+    "documentation and communication"
+  ],
+  "specialists": [
+    "communicator"
+  ],
+  "reasoning": "Three acts in one turn. The opening clause asks for the session plan as plain text in this window, 5-10 lines with status icons: someone asking for a plan, a status or a report has asked for something to be made, so it is work like any other and gets a decision sheet. It is scoped to this session, so it names no standing rule and stays an instruction rather than a decision. Then two questions -- what is the worker doing on the current request, is it running the whole plan or a part, and what comes out at the end -- which are answered from what is already known or read, never turned into tasks because answering takes reading. The line saying he copied everything across and launched it is an observation: a fact reported before the questions, its own act, and nothing in it asks for a repair or changes the running worker's goal or constraints, so it corrects nothing in flight. One new piece of work, touching only how the state is written for a person; the communicator is what that wording needs, and the plan itself is produced here rather than handed off, so the request does not disappear into a routing step.",
   "scenario": "mixed-plan-and-two-questions",
   "skill_version": "6.1.0"
 }

@@ -7,7 +7,7 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "This is a thank-you confirming a change already delivered and working, said right after that delivery. The Director's own text under 'Not every message is one of the seven' names exactly this: 'a thank-you, a thumbs-up on something already agreed... these are conversation. Answer like a person and record nothing.' It carries no new fact, asks nothing, and settles no open choice, so none of the seven acts apply and nothing is created, shelved, or attached to work in flight.",
+  "reasoning": "This is a thank-you and a thumbs-up on something already agreed, which the skill names as conversation rather than one of the seven acts: answer like a person and record nothing. It adds no fact that was not already known — the change was delivered and works, and confirming that adds nothing new; it is not an observation because nothing is reported, not an instruction because nothing is asked for, and not a decision because no open choice is settled. Nor does it reopen or change anything: a shown result already closed that work, and the person's eye was never the gate on it. Reaching for an act here is exactly how a thank-you becomes a roadmap row, and creating work to be safe is the expensive direction, not the safe one. No work is accepted, so there is no decision sheet, no dimension to name and no specialist to call.",
   "scenario": "not-an-act-thanks",
   "skill_version": "6.1.0"
 }

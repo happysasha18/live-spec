@@ -9,13 +9,15 @@
   "work_items": 0,
   "dimensions": [
     "product value and behaviour",
-    "architecture, data, integrations, operations"
+    "the user's path and the design",
+    "quality, safety, regressions"
   ],
   "specialists": [
+    "Design reviewer",
     "Developer",
-    "Architect"
+    "Test author"
   ],
-  "reasoning": "This lands mid-implementation of the transition engine, and it forbids the approach that implementation is currently taking rather than reporting a fact or naming a future possibility. Per the skill: 'Telling work in flight to stop one approach and take another is a correction to its method, not a halt either — the work keeps running toward the same goal, only how it gets there changes.' There is no 'from now on' or 'always' language, so this is not a standing rule/decision either — it is scoped to the transition engine work underway. As a correction it attaches to the existing checkpoint for the transition engine rather than opening new work: 'A correction attaches to work, not to a queue. When a message changes something already in flight, find that work and change it... never answer a correction by creating a second row.' It touches product behaviour (what the transitions must be) and architecture (how the engine computes them, since ruling out static transitions forces a different mechanism), so the developer continues building under the new constraint and the architect is pulled in given the boundary/mechanism shift the constraint implies.",
+  "reasoning": "The transition engine is being built right now, and this message changes a constraint on that work: whatever the engine produces must move, never sit still. That is a correction — it attaches to the work already in flight, so its goal and the remainder of its plan get replanned on the checkpoint that work already has, and no second row opens beside it. It is one act: there is a single clause, with no separate grounds saying anything the constraint does not already carry, and nothing here reads as a standing rule beyond this piece of work — mid-implementation of exactly this thing, the absolute wording is the constraint on it, not a rule that outlives it. The corrected work touches product value and behaviour (what a transition does changes), the user's path and the design (the experience of moving between states is the thing being judged), and quality (something has to catch a static transition before it ships). It needs the developer to rebuild the engine to that constraint, the design reviewer because the coherence of the motion is what is being corrected, and the test author to choose the evidence that no static transition survives.",
   "scenario": "correction-shouted-constraint",
   "skill_version": "6.1.0"
 }

@@ -1,24 +1,28 @@
 {
   "id": "correction-widening-the-goal",
   "acts": [
+    "correction",
+    "decision",
     "observation",
-    "correction"
+    "instruction"
   ],
-  "creates_work": false,
+  "creates_work": true,
   "shelves_idea": false,
   "attaches_to_existing_work": true,
-  "work_items": 0,
+  "work_items": 1,
   "dimensions": [
-    "architecture, data, integrations, operations",
+    "product value and behaviour",
+    "quality, safety, regressions",
     "analytics, unknowns, hypotheses, experiments",
-    "quality, safety, regressions"
+    "documentation and communication"
   ],
   "specialists": [
     "Developer",
-    "Architect",
-    "Product prover"
+    "Product prover",
+    "Test author",
+    "Independent verifier"
   ],
-  "reasoning": "The situation states the agent was already measuring the current corpus to size its work — that is work in flight. The message changes that work's goal ('remove any unnecessary measurement... remove any memory of this measurement') and its method ('treat the problem firmly as a class'), which is exactly a correction: 'When a message changes something already in flight, find that work and change it... change that work's goal and replan what is left.' Per the rule that a correction changing work already running produces no new work item, work_items is 0, creates_work is false, and attaches_to_existing_work is true. The clause 'any statistics on the current corpus is false' is a judgment about the product/method that is worth keeping beyond this one correction — per 'a judgment about the product... says something new even when it doubles as the reason for the neighbouring act' — so it is named as its own observation act rather than absorbed into the correction. Dimensions: the corrected work concerns the generic engine's data/measurement approach (architecture, data), the statistics/measurement itself (analytics, hypotheses), and the shift to a class-based root-cause fix rather than a point fix (quality, regressions). Specialists: a developer removes the invalid measurement and implements the corrected approach; an architect is relevant because the correction concerns how the engine relates to corpus data (a boundary/data question per the specialist table); a product prover fits 'shipped code needs a class-based defect hunt with no document to check it against,' which matches 'лечи спрочно проблему как класс.'",
+  "reasoning": "Four acts in one turn, and no act absorbs another. \"Убери любое ненужное измерение\" lands on work already in flight — the agent is measuring the corpus right now to size itself — so it is a correction: that work's constraints change and its remainder is replanned, and it opens nothing new. The same clause's «любое» carries force past this message — never size work by measuring the corpus again — which is a standing rule, a decision recorded separately so it survives after this work item closes. \"Любая статистика по текущему корпусу ложная\" is a judgment about the product, not merely the reason for the neighbouring act: it says something new and is worth keeping after the act closes, so it is its own observation (\"мы делаем генерный движок\" is the ground it rests on and adds nothing beyond it). \"Убери любое воспоминание об этом измерении\" plus \"лечи срочно проблему как класс\" is one instruction and one new piece of work: the purge is the point fix and the class cure is its sweep, and under the class-hunt rule a point fix that leaves relatives standing is not finished — the sweep is part of the same work, not a second result someone could ship or cancel on its own. Dimensions: product behaviour, because a generic engine must not be shaped by the current corpus; analytics, because the measurement itself is what is being torn out; documentation, because \"любое воспоминание\" means every place the measurement was written down; quality, because the fix has to hold as a class rather than at one site. Specialists: developer to remove it, product prover for the class-based defect hunt with no document to check against, test author for the guard that fails if a corpus statistic returns, independent verifier because \"nothing remains anywhere\" is an absence claim the executor's own report cannot settle. No spec author — the spec already says the engine is generic; the work disagreed with it.",
   "scenario": "correction-widening-the-goal",
   "skill_version": "6.1.0"
 }

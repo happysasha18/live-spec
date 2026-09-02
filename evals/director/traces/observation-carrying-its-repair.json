@@ -7,15 +7,9 @@
   "shelves_idea": false,
   "attaches_to_existing_work": true,
   "work_items": 0,
-  "dimensions": [
-    "quality, safety, regressions",
-    "release, observation, feedback"
-  ],
-  "specialists": [
-    "independent verifier",
-    "developer"
-  ],
-  "reasoning": "The person is reporting a fact — the push seems to have failed again, per an email notification — not asking for anything new. Per the table, an observation is 'reports a fact... without asking for a repair', and the Director's job is to 'record it as evidence.' Here the fact lands squarely on work already in flight: a checkpoint for repairing a diagnosed CI failure is still open, with a fix just pushed and a run awaiting verdict. This is exactly the situation the 'new fact can change the remaining graph' rule addresses: a failed check or a fact the human adds mid-work is read against the plan just made, not filed for later — the Director checks the actual CI status (reading, not new work), and if the run did fail again, updates the existing checkpoint's NEXT and specialist list rather than opening a second one. Per 'A correction attaches to work, not to a queue,' since work is already running, this cannot become a new task even though its content ('failed again') is the kind of thing that would otherwise look actionable. No new goal is stated, so it is not an instruction or correction in its own right — it is the fact that will drive the next step of the same open work. Hence zero new work items; the open repair checkpoint's own specialists (developer to re-diagnose, an independent verifier to confirm the run's actual state before assuming the email is current) carry it forward.",
+  "dimensions": [],
+  "specialists": [],
+  "reasoning": "One act: he reports a fact he just learned - a mail arrived and it looks to him like the push did not pass. The second clause is the grounds for the first, not a second act: the mail says nothing the observation's own content does not already carry. He asks for no repair, and none needs inferring, because the repair is already in hand: the diagnosed cause is a piece of work with its own open checkpoint, its fix pushed minutes ago and its CI verdict still pending. So this is a new fact arriving mid-work, read against the plan already made and recorded on that work's existing checkpoint - never a second row alongside it, and never a new row for a failure the running work already exists to fix. It is not a correction either: nothing about the work's goal or constraints changed. What the fact does not yet settle is which run the mail is about - the two runs that already failed, or the one still in flight - and finding that out is reading, not work; a mail from an older run changes nothing and the work continues, while a fresh red means the remaining plan on that same checkpoint gets replanned. He hears back in one sentence which of the two it was.",
   "scenario": "observation-carrying-its-repair",
   "skill_version": "6.1.0"
 }

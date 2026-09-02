@@ -7,9 +7,12 @@
   "shelves_idea": false,
   "attaches_to_existing_work": true,
   "work_items": 0,
-  "dimensions": [],
+  "dimensions": [
+    "documentation and communication",
+    "release, observation, feedback"
+  ],
   "specialists": [],
-  "reasoning": "This is the standing-rule form of a decision the skill calls out explicitly: 'From this point on', 'always' language that settles something with force beyond the message that carried it — here a blanket grant of authority to push and run commands without stopping to ask. It is the same shape as the skill's own example, 'always deploy without asking', minus a same-turn instruction half; there is no 'and do this one now' clause, so nothing new to build is asked for. Per the decision row, the Director records the decision and applies it to the work already running (the push that was being held up for approval) rather than opening any new task — a decision is not a piece of work with its own goal and decision sheet, so no dimensions or specialists are named and no work item is created.",
+  "reasoning": "One act, and it is a decision in the skill's sense: not a single choice but a standing rule with force beyond the message that carried it — a grant of authority, covering all the team's pushes and, by 'и так далее', the same class of stops beyond pushes. It is not an instruction, because nothing was asked to be done today; there is no demand for one particular push riding alongside the grant, so nothing is lost by recording only the rule. It is not a correction either: the work in flight keeps its goal and its plan, only the gate in front of its release step goes away, so nothing has to be replanned. The Director records the decision and applies it to the work already running — the push proceeds without asking — which is why no new piece of work opens and no new checkpoint is created; the running work's own checkpoint absorbs the change. The two dimensions named are the ones where something actually changes: release, because the release step no longer stops for his word, and documentation, because a standing rule has to be written into the one house whose declared sentence it extends, or it dies with this turn. No specialist is needed — recording a grant of authority and dropping a gate is the Director's own step. Rule 12's own ground is untouched: an action genuinely irreversible outside git still stops for his word.",
   "scenario": "decision-granting-authority",
   "skill_version": "6.1.0"
 }

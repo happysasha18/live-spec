@@ -7,14 +7,15 @@
   "creates_work": true,
   "shelves_idea": false,
   "attaches_to_existing_work": false,
-  "work_items": 1,
+  "work_items": 2,
   "dimensions": [
-    "release, observation, feedback"
+    "release, observation, feedback",
+    "documentation and communication"
   ],
   "specialists": [
     "Publisher, communicator"
   ],
-  "reasoning": "This is the pack's own worked example almost verbatim: 'always deploy without asking, and deploy this one' grants authority going forward and asks for today's deploy in the same breath — recording only the standing rule loses the thing they actually wanted done today. So both acts stay named: an instruction (ship the ready build now) and a decision, since 'always' and 'запиши себе' (note this for yourself) mark a standing rule with force beyond this message, not a one-time ask. The withholding was a standing policy rather than tracked work, and the situation states shipping this build has not been checkpointed as its own piece of work, so the instruction opens new work (a fresh checkpoint) rather than attaching to something already in flight — creates_work is true, attaches_to_existing_work is false, and this turn produces exactly one new work item (the deploy). The decision itself is recorded and applied going forward, not booked as a separate work item with its own decision sheet. The frustrated 'блин!!' is tone reinforcing the instruction's urgency, not a fact that says something new, so it is not counted as a further observation act. The work touches release (shipping the build) and the specialist needed is the one the table names for a result that ships and must be explained: Publisher, communicator.",
+  "reasoning": "Two acts, and no act absorbs the other. 'Деплой блин' is an instruction: the build is ready, shipping it is not checkpointed as anything, so it is new work with its own goal — the build is live. 'Запиши себе всегда деплой без моего подтверждения' is a decision in the skill's own sense: 'always' plus 'note this for yourself' settles a standing rule and a grant of authority that outlives today's deploy, and this is the case the skill spells out — recording only the standing rule loses the thing he actually wanted done today. The curse is tone, not a third act; it reports nothing new. Nothing was in flight for either to attach to — the withholding was a standing policy, not a tracked task — so the correction path does not apply and the decision earns its own home rather than a change to running work. Hence two separate pieces of work: either could ship or be cancelled without the other. The rule needs its one home named before a word of it is written, which is why documentation is touched; the deploy itself touches release. No spec author (behaviour is unchanged), no test author (no new evidence to choose), no verifier beyond the Director's own re-check that the build is actually live. One thing gets said before the sheet becomes a checkpoint: a blanket grant collides with the standing ground that a genuinely irreversible action outside git still stops for his word, so I state that and then proceed on his word either way.",
   "scenario": "decision-and-instruction-together",
   "skill_version": "6.1.0"
 }

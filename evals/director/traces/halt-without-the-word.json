@@ -2,6 +2,7 @@
   "id": "halt-without-the-word",
   "acts": [
     "halt",
+    "observation",
     "question"
   ],
   "creates_work": false,
@@ -10,7 +11,7 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "The person wants the work that is currently running to stop running — that is a halt by the skill's own test ('someone can halt work by saying \"stop\"... What makes it a halt is that something running should stop running'), and it is about the session's own work in progress, matching the halt row exactly. The reason given (leaving in 15 minutes, going offline, closing the session) is the halt's own goal in other words, not a new act, per 'when it only restates why the neighbouring act wants what it wants, it is not a second act.' The closing 'норм?' is a genuine check on whether pausing now and resuming from the same place later will actually work — an invitation to confirm attached to the halt, and 'an invitation to disagree closing out a decision or an instruction is still its own act too,' so it is answered directly rather than folded into the halt. A halt changes the state of work already in flight and must not create anything, so creates_work is false, no dimensions or specialists apply (there is no decision sheet for a halt), and work_items is 0 because a halt that changes work already running produces no new work, per the explicit rule in the task description.",
+  "reasoning": "Three acts in one turn. The halt is the spine: work is running and he wants it stopped now, parked rather than abandoned — 'we pick it up from the same place in the cafe' says what kind of halt it is, so it is the halt's own goal in other words, not a second act. A halt changes the state of work that already exists and creates nothing, so no new piece of work and no decision sheet: the running work's own checkpoint gets its IN PROGRESS and NEXT brought up to what actually remains, so the next window resumes from the file rather than from this conversation. Second act: he reports facts the halt's goal does not carry — fifteen minutes, the internet cut, the machine closed. That is an observation the work must be paced by, and it is what makes the difference between parking tidily and being killed mid-write. Third act: 'норм?' invites disagreement in the same breath, and answering only the halt leaves it unanswered — he gets a plain yes or, if a lane is mid-write and fifteen minutes is not enough, that said out loud now. No work was accepted, so nothing is named under what it touches and no specialist is called.",
   "scenario": "halt-without-the-word",
   "skill_version": "6.1.0"
 }

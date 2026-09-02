@@ -8,10 +8,14 @@
   "attaches_to_existing_work": false,
   "work_items": 1,
   "dimensions": [
+    "product value and behaviour",
     "documentation and communication"
   ],
-  "specialists": [],
-  "reasoning": "The imperative \"Сделай проход только по скиллу прувера\" (\"Do a pass, only over the prover skill\") asks for something to be done now, not a possibility for later — that makes it an Instruction under the Director's table: 'asks for something to be done' -> 'accept the work, state the goal understood, begin'. The situation is framed as 'choosing what this session will cover', so no work on the prover skill is already in flight for this to attach to or correct; it is a fresh scope decision that starts a new, bounded piece of work (a review pass limited to one named skill), so it earns a decision sheet rather than a sentence. The word 'только' (only) is itself part of the instruction: it fixes the boundary of the work (this skill, not the others) so the goal understood must preserve that limit rather than being read as a larger programme. The work is a pass over a skill's own document, which lands under documentation and communication (the skill's declared sentence is what changes or is checked), not under product behaviour, since nothing about shipped product code is named. No specialist in the Director's table is a clean fit for reviewing a pack skill's own text (the table's specialists review product specs, code, or interfaces, not the pack's own skill documents), so none is named; the Director would carry out or scope the pass itself.",
+  "specialists": [
+    "Developer",
+    "Independent verifier"
+  ],
+  "reasoning": "The person is asking for something to be done now — make a pass over the prover's skill — so this is an instruction, and it is accepted as work. The word 'only' is not a second act: nothing is in flight for it to halt or correct, and it says nothing the instruction's own goal does not already carry — it is the scope of the one thing asked for, not a separate clause. So one act, one new piece of work: a pass over one skill is a single result someone could want on its own, however many places inside that skill it touches. It touches documentation and communication, because the skill body is the text that changes; and product value and behaviour, because that body is what the prover actually does when it runs, so revising it revises the behaviour. Nothing changes in architecture, in the user's path, in analytics, or in release, so those are not named. Specialists: a developer, because the pass ends in edits to the skill, and an independent verifier, because a review's own findings should be checked against the skill by someone who did not write them. No spec author unless the pass turns up behaviour the spec does not already describe, and no test author — there is no regression to choose evidence for yet.",
   "scenario": "instruction-one-pass",
   "skill_version": "6.1.0"
 }

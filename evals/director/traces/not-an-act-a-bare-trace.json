@@ -8,14 +8,14 @@
   "attaches_to_existing_work": false,
   "work_items": 1,
   "dimensions": [
-    "quality, safety, regressions",
-    "release, observation, feedback"
+    "product value and behaviour",
+    "quality, safety, regressions"
   ],
   "specialists": [
-    "developer",
-    "test author"
+    "Developer",
+    "Test author"
   ],
-  "reasoning": "A message with no words, like a pasted stack trace, is still an act and usually an observation; what the person wants done with it is often clear from what they were doing a minute earlier. Here the person was watching a deploy, and moments later a TypeError surfaces in checkEntitlement — the same class as 'Production is returning 500s' in the doc's own list: an observation whose repair follows beyond doubt, since nobody pastes a crashing entitlement check to be agreeable. That makes it work the Director accepts, not an idea to shelve and not a question to ask. There is no work described as already in flight for this to attach to (the deploy itself isn't a checkpointed task here), so this opens one new piece of work: fix the crash. It touches quality/regressions (a production crash in a billing check) and release/observation/feedback (surfaced right after watching a deploy, which is exactly the moment the landing law's bug-door tripwire cares about). A developer fixes the null-safety bug in checkEntitlement; a test author adds the regression test that fails on today's code and passes after — no spec author, since this is code disagreeing with already-intended behaviour, not a change to what's specified.",
+  "reasoning": "A message with no words is still an act, and a pasted stack trace is an observation. What the person wants done with it is read from what they were doing a minute earlier: they were watching a deploy, and this crash landed moments after it. That is the kind of observation that carries its repair with it — a competent colleague would not need to ask what was wanted, the way nobody reports production 500s to be agreeable. So it is one observation that is accepted as one new piece of work: get the entitlement check to stop crashing on the deployed code. Nothing was already in flight for it to attach to, and nothing here is a possibility named for later, so the shelf stays empty. The work touches product value and behaviour, because billing entitlement is not being decided at all right now, and quality, safety and regressions, because it shipped through a deploy with no check that would have caught it. Architecture and operations are not named: which is wrong — the plan lookup or the object feeding it — is unknown, and naming a dimension claims something in it must change. It needs a developer to find and fix the cause, and a test author to choose the regression that fails on today's code and passes after. No spec author, because the entitlement behaviour is not changing into something new; the code disagrees with what is already meant to happen.",
   "scenario": "not-an-act-a-bare-trace",
   "skill_version": "6.1.0"
 }

@@ -9,7 +9,7 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "\"и как это долго?\" (\"and how long is this?\") asks about the duration of a job already running, in a situation where the person is deciding whether to wait. Per the Director's table, this is a Question: the person wants to know something. The Director answers it directly — it does not write a roadmap row, open a spec, or start work. It also does not change the running job's goal or constraints (no correction), and it is not a standing rule (no decision), so nothing attaches to the work in flight beyond giving an answer; asking how long something will take does not alter what that work must do.",
+  "reasoning": "One turn, one act: the person wants to know how long the running job will take. Nothing in the sentence asks for anything to be done, changes the goal or constraints of the work in flight, or tells anything running to stop — so it is neither instruction, correction nor halt, and no second act hides in it. Answering may take reading — checking elapsed time, the job's own progress, what a comparable run took — and the skill is explicit that fetching facts to answer is reading, not work; turning the question into a task because the answer took effort is the failure this step exists to prevent. Since no work was accepted, the dimensions and specialists lists stay empty and there is no decision sheet, only a sentence back with the estimate and what it rests on, so the person can decide whether to wait.",
   "scenario": "question-how-long",
   "skill_version": "6.1.0"
 }

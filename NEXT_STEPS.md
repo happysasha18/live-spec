@@ -4,13 +4,93 @@ A digest with no redundancy (SPEC INV-48) — one live-state block, nothing remo
 information. One status block stands here at a time, and every update replaces it. Dated history
 lives in `JOURNAL.md`.
 
-## LIVE STATE (2026-09-02, 16:57)
+## LIVE STATE (2026-09-02, 22:45)
 
-Written for a session starting with clean context, covering the afternoon run in
-`9bede805..HEAD`. The whole run served one row, `q-809`, plus four standing changes the owner
-made to how the plan reports itself back to him. Heals landing `4b898f65` (q-806), which closed a
-row without touching this file — `guardrails/check-landing-next-steps.py` reds on that commit
-(INV-242), the same shape three earlier commits in this range already carry.
+Written for a session starting with clean context, covering the night run in `9a300f9e..5fcf2326`
+(this file's own last refresh, `4b898f65`, sat un-updated through that whole range — heals landing
+`9a300f9e` (q-166) and `871e234a` (q-808), both of which closed a row without touching this file,
+INV-242, the same shape prior ranges already carried).
+
+**Two new standing rules, his own word, both in `skills/director/SKILL.md`.** He asked why a task
+(`q-166`) should ever sit open on nothing but his own eye watching it, then, catching that this
+session had just done real director-level work on that question but treated his very next remark
+("you can always argue if you disagree") as a passing aside instead of the same kind of thing:
+- **A shown result closes the work.** Writing the decision sheet already earned the right to
+  close a row once the result is delivered and shown; a row's own "needs his eye" gate is now
+  reserved for a taste call, an undecided trade-off, or a change to the definition of correct
+  (rule 12/27's own three cases) — never for verifying an ordinary delivery a command or a plain
+  read already confirms. His later disagreement opens a new task; it never reopens the one that
+  shipped.
+- **The Director states disagreement before executing.** Writing the decision sheet is also the
+  one moment to weigh whether the request itself is right; a flaw the Director can see gets voiced
+  before the checkpoint opens, not folded silently into how the work gets built.
+
+Both landed with `DECISIONS.md` entries naming the dated exchange. A closing-rule eval (4-5 fresh
+scenarios distinguishing an ordinary delivery, a genuine taste fork, and a flawed request) is in
+flight under `evals/director/closing-scenarios.json`, separate from the existing 35-scenario
+act-classification harness — check its own worker's report before assuming it landed.
+
+**`q-166` closed under the new rule; `q-811` opened to carry what it didn't finish.** The daily
+need (`board.html`) already ships; the larger unbuilt feature (worker lanes, given-vs-actual time,
+per-agent attribution) had no real ask behind it since 08-06, so it moved to its own row, `q-811`,
+rather than staying open on a gate the new rule just removed — the same repair shape `q-385`/`q-804`
+already used for a promise a closed row stopped carrying (two `[target]` tags, `INV-308`/`INV-67`,
+re-pointed in `tests/test_traceability.py`'s `TARGET_ROW_OWNERS`).
+
+**`q-808` closed on a real outside-reader check**, not a session judging its own prose: a fresh
+agent holding only `PLAN.md`'s open task headers read each cold; 8 of 11 held, 3 (`q-809`, `plan-9`,
+`q-163`) were genuinely liable to mislead and got minimal title fixes in place.
+
+**`q-812` opened, queued behind this range** — his own brief, kept verbatim in the row: prove the
+Director's real route end to end (free message in → correct classification → exactly one task with
+its own DOD → a worker executing it → a DOD-and-check-gated close → a fresh session resuming
+without duplicating or guessing), on the actual mechanism (`PLAN.md`, `checkpoint.py`,
+`state-probe.sh`, product-prover, test-author, `TEST_MATRIX.md`), no new machinery. Starts only
+after this range's own open rows close.
+
+**`q-809`, still open, two of its four remaining legs closed tonight:**
+- The rulebook cut (`f6668634`, 40,443→22,683 bytes) and its own second-reading hostile review
+  (four more genuine losses across rules 6/7/9/31) both landed *before* this session started
+  (`33ee1b38`) — this session found the loss-verdicts checkpoint stale and marked it resolved
+  after verifying the fix by direct grep, not from the commit message alone.
+- **Decided: `DECISIONS.md` keeps its place**, not folded into `JOURNAL.md` — a wired push gate
+  (`guardrails/check-authority-anchor.py`) reads it by name for a dated-exchange shape, it holds a
+  retract mechanism and an open-questions section the journal has neither, and the 50% content
+  overlap with the journal is expected cross-reference, not duplication. (This mirrors a verdict
+  the 16:57 range had *already* reached under `c6ffc709` — this session re-derived it independently
+  before finding that note here; same answer, worth reading this file before re-deriving next time.)
+- Still open: the 35-scenario director eval re-record (mandatory — the skill changed twice
+  tonight; in flight, its own worker briefed), a lightweight skill-creator structural pass (done,
+  no defect — both files already fit the tool's own progressive-disclosure pattern; its heavier
+  benchmark-and-browser loop was skipped as disproportionate for a prose skill with no gradeable
+  file output), and a final re-measure once both land. The quarter he asked for was never reached
+  and won't be tonight either — `.live-spec/checkpoints/q809-startup-weight.md` says why (the boot
+  file is his; director's own cut was reverted against an eval that can't yet resolve a 3.7 KB
+  question).
+
+**`q-804`, in flight, not yet merged.** All three arms (merge-base caller via a new
+`scripts/land-lane.sh`, worktree-line caller in `adopt/install-scaffold.sh`'s closing step, and a
+new stale-lane arm in `guardrails/check-config-health.sh`) are built and hand-proven by its own
+worker; a full-suite confirmation was outstanding as this was written, and nothing is committed on
+its lane branch yet. Its own worker also found a real sibling-class finding: several guardrail
+scripts (`check-delta-record.py`, `check-deposit-description.py`, `check-landing-next-steps.py`,
+`check-tier-refusal.py`, `check-config-surface.py`) have tests but no real caller anywhere in the
+tree — reported, not fixed, per this row's own scope.
+
+**Two process lessons from this session, worth carrying forward:**
+- A worktree created fresh by `git worktree add` does not carry `skills/product-prover/`'s or
+  `skills/text-audit/`'s own nested external-skill clones (untracked, gitignored) — a full suite
+  run there shows ~50 unrelated failures, all the same "external clone … not installed" message.
+  Not a regression; filter on that string or copy the two clones in for a clean read.
+- Running the full suite inside an isolated worktree can leave `docs/MEASUREMENTS.md` mutated as a
+  side effect (some test writes it without cleaning up) — a real, separate bug, not this session's
+  own work. If it shows modified and you didn't touch it: `git show HEAD:docs/MEASUREMENTS.md`,
+  write those exact bytes back with the file-writing tool, never `git checkout` it (the
+  worker-restore guard here refuses that command and says the same).
+- Do not land a commit to the primary tree while a full-suite run against that same tree is still
+  in flight — this session did exactly that once tonight and its own suite run caught it
+  (`test_worker_restore_run_scope` reds on a HEAD that moved mid-run). Land, then run the suite
+  clean with nothing else committing meanwhile.
 
 **`q-809` — the weight a session loads. Honest partial, stays open.** Measured by the probe's own
 line: 80,122 bytes before, 63,541 after, 18,501 tokens to 14,793. He asked for about a quarter of

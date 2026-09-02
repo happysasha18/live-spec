@@ -1,15 +1,18 @@
 {
   "id": "decision-how-to-report",
   "acts": [
-    "decision"
+    "decision",
+    "instruction"
   ],
-  "creates_work": false,
+  "creates_work": true,
   "shelves_idea": false,
   "attaches_to_existing_work": false,
-  "work_items": 0,
-  "dimensions": [],
+  "work_items": 1,
+  "dimensions": [
+    "documentation and communication"
+  ],
   "specialists": [],
-  "reasoning": "The phrase \"с этого момента\" (\"from this moment on\") matches the skill's own markers for a standing rule — 'From this point on', 'always' — that settle something with force beyond the message itself, here a standing mode of operation (keep a short plan, always show where things stand) rather than a one-time ask. The situation says this arrives early in a session with no work yet running, so there is nothing in flight for a decision to attach to and apply itself against. Per 'A decision is a standing rule, not only a single choice', it is recorded separately from any work item — it travels with future requests rather than being one itself. Nothing here names a goal, an observable outcome, or a deliverable with its own decision sheet, so no work item opens and no dimension is claimed; it is simply recorded as a standing rule going forward.",
+  "reasoning": "Two acts in one turn. \"С этого момента\" and \"всегда\" settle a standing rule about how every future reply looks — a short plan, plain words, and where we stand shown each time — and that rule is recorded so it survives after any one task closes. But a standing rule for every future case does not absorb the demand for this one now: the plan does not exist yet, and the skill is explicit that when someone asks for a plan or a status they have asked for something to be made, and that it is work like any other. So the instruction half is accepted as one piece of work: write the short plan and show where we stand. One result, not two — the \"where we are\" view is that plan read back, not something that could ship or be cancelled on its own. Nothing is in flight this early in the session, so nothing is corrected and nothing is shelved. The only dimension the work genuinely touches is documentation and communication: a document is created and the shape of every report to him changes. No specialist is called — no behaviour, boundary, interface, evidence or outside fact changes, and routing a plan request to the communicator is exactly how a plain request disappears; the Director writes it and shows it itself.",
   "scenario": "decision-how-to-report",
   "skill_version": "6.1.0"
 }
