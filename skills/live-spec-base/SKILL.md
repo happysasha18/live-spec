@@ -126,8 +126,9 @@ its own manifest line. Every other rule below keeps the number it already carrie
    The parallel-lanes rules sit underneath the fence.
    - Lanes roll unasked up to the profile cap (`lanes.cap`, default three [E-13]) (SPEC T-18).
      One more opens only on the human's asked word. Every write to a document the lanes share
-     serializes under the single PEN, one lane at a time. That document is a convergence point the
-     pen reconciles at integration, so sharing it never makes the lanes wait on each other.
+     serializes under the single PEN, one lane at a time.
+     That document is a convergence point the pen reconciles at integration, so sharing it never
+     makes the lanes wait on each other.
      Co-location alone never pulls two rows into one lane (SPEC INV-49).
    - **The lane-open act.** The session opens a lane by running `scripts/open-lane.sh`.
      The script's own header states what it expects on disk. First, the row→in-work flip is

@@ -118,8 +118,16 @@ for s in steps:
         r = subprocess.run(s["check"], shell=True, capture_output=True)
         ok = r.returncode == 0
         s["verified"] = True
+        # A row can be shaped like both: done-marked, its command failing, and carrying a real
+        # `Blocked by:` cause of its own. Blocked wins there, because the row names an obstacle
+        # outside the work and reopened names none (product-prover, 02.09, finding F1).
         s["failing_key"] = s["mark"] == "✅" and not ok
-        s["icon"] = "🔁" if s["failing_key"] else ("✅" if ok else s["mark"])
+        if s["failing_key"] and s["blocked_by"]:
+            s["icon"] = "⛔"
+        elif s["failing_key"]:
+            s["icon"] = "🔁"
+        else:
+            s["icon"] = "✅" if ok else s["mark"]
         s["note"] = key_failure_note(s["check"], r) if s["failing_key"] else ""
     else:
         ok = s["mark"] == "✅"

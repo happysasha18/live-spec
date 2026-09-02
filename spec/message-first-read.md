@@ -56,6 +56,7 @@ The owner named three refinements to the printed account of open work on 2026-09
 6. *when* several pieces of accepted work stand open at once, the system *shall* name which one runs next, read by `scripts/state-probe.sh` from the states the plan records rather than composed from memory. [INV-319]
 7. The system *shall* order the open work by the states the plan records — what needs the person's eyes, what is in hand, what is reopened, what is blocked, what is queued, and what stands critical inside each — and *shall* claim no ordering read from anywhere else. [INV-319]
 8. The system *shall* lead the printed account of open work with a count of the rows not done, and *shall* keep a count of the rows done only as a trailing, secondary figure, never the leading one. [INV-319]
+   - the count of rows not done covers every row the plan holds that is not done, a row the person postponed and a row folded into another among them. Those two drop out of the ranking above, which decides what runs next; they stay in this count, which answers how much work is left. [INV-319]
 9. The system *shall* print each shown row's own id before its state mark and its title, padded to the width of the longest id `PLAN.md` declares, so the state marks form one readable column down the printed list. [INV-319]
 
 ---

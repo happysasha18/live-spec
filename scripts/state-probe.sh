@@ -81,8 +81,17 @@ for t in tasks:
         # ⬜ (queued) for the rest of that same day, until he named a third confusion: queued
         # means never started, and this row was done and is done no longer — reopened, its own
         # state, marked 🔁.
+        # A row can be shaped like both: done-marked, its command failing, and carrying a real
+        # `Blocked by:` cause of its own. Blocked wins there, because the row names an obstacle
+        # outside the work and reopened names none — drawing it reopened would rank it as live and
+        # drop the reason it cannot move (product-prover, 02.09, finding F1).
         t["failing_key"] = t["mark"] == "✅" and not ok
-        t["icon"] = "🔁" if t["failing_key"] else ("✅" if ok else t["mark"])
+        if t["failing_key"] and t["blocked_by"]:
+            t["icon"] = "⛔"
+        elif t["failing_key"]:
+            t["icon"] = "🔁"
+        else:
+            t["icon"] = "✅" if ok else t["mark"]
         t["note"] = key_failure_note(t["check"], r) if t["failing_key"] else ""
         t["verified"] = True
     else:
@@ -183,7 +192,13 @@ for t in shown:
         verified = f"{D}verified{X}" if t["verified"] else f"{D}declared{X}"
     colour = ICON_COLOUR.get(t["icon"], D)
     reason = ""
-    if t["failing_key"]:
+    if t["failing_key"] and t["blocked_by"]:
+        # Both facts, because either alone misleads: the row is blocked, and the command that
+        # would prove it done is failing.
+        r = t["blocked_by"].strip()
+        r = r[:39].rstrip() + "…" if len(r) > 40 else r
+        reason = f" {D}— {r}; {t['note']}{X}"
+    elif t["failing_key"]:
         reason = f" {D}— {t['note']}{X}"
     elif t["icon"] == "⛔" and t["blocked_by"]:
         r = t["blocked_by"].strip()
