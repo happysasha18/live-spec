@@ -649,14 +649,26 @@ class TestQueue(unittest.TestCase):
         # RE-AIMED 2026-08-28: the cap counts what is in hand on the live list. A task there reads
         # `### <mark> <title> — id: <id>`, and 🔄 is the in-hand mark, so the count comes off the
         # board a person actually reads instead of the retired table's Status cells.
+        # RE-AIMED 2026-09-02: the cap itself is a settings-ladder value (SPEC T-18, E-13), package
+        # default three, raised by the profile — `scripts/open-lane.sh` already reads it live
+        # from `lanes.cap` rather than hard-coding it, and this test hard-coded the old default,
+        # which went stale the moment the profile raised the cap to ten (his word, 2026-09-02).
+        # Read it the same way the script does, so the two never drift apart again.
+        profile_path = os.environ.get(
+            "LIVE_SPEC_PROFILE", os.path.expanduser("~/.claude/live-spec/profile.md"))
+        cap = 3
+        if os.path.isfile(profile_path):
+            m = re.search(r"lanes\.cap:\s*(\d+)", open(profile_path).read())
+            if m:
+                cap = int(m.group(1))
         plan = read("PLAN.md")
         start = plan.index("\n## Tasks")
         end = plan.index("\n## Blockers", start)
         in_work = re.findall(r"(?m)^###\s+\U0001f504\s+.*\u2014\s*id:\s*(\S+)\s*$",
                              plan[start:end])
-        self.assertLessEqual(len(in_work), 3,
-                             "more than three rows in hand — the lane cap (SPEC T-18): rows %s"
-                             % in_work)
+        self.assertLessEqual(len(in_work), cap,
+                             "more than %d rows in hand — the lane cap (SPEC T-18, E-13), "
+                             "read from %s: rows %s" % (cap, profile_path, in_work))
 
     def test_roadmap_header_dated(self):
         first = read("PLAN.md").splitlines()[0]
@@ -1500,8 +1512,11 @@ class TestTargetOwnership(unittest.TestCase):
         # INV-244's own [target] tag and this entry dropped together 2026-09-01, when q-436 landed
         # (this lane forked before that landing, so its own copy of this map still carried the
         # stale placeholder entry through the rebase — removed here, matching main's real state).
-        "INV-308": "q-166",  # the work board surface, promised whole and unbuilt
-        "INV-67": "q-166",   # the board's one-stable-link published page
+        # Re-pointed 2026-09-02: q-166 closed on its cheap leg (board.html) alone; the larger
+        # feature these two anchors promise was never built and would have orphaned when q-166
+        # closed, so it moved to its own fresh row, q-811, the same repair shape as q-385/q-804.
+        "INV-308": "q-811",  # the work board surface, promised whole and unbuilt
+        "INV-67": "q-811",   # the board's one-stable-link published page
     }
 
     def roadmap_rows(self):
