@@ -2296,7 +2296,7 @@ stands down by name on a repository with no list file so an unrelated scratch re
 for having no rows. Nine new tests across `tests/test_lane_net_arms.py` and
 `tests/test_scaffold_install.py`; `spec/parallel-lanes.md` Requirement 86 criteria 5/6 and
 Requirement 88 criterion 4 dropped their `[target]` tags and `TARGET_ROW_OWNERS` dropped `INV-199`,
-`INV-201` and `INV-150` with them; `matrix/parallel-lanes.md` gained M-627 and M-376/M-625/M-626 were
+`INV-201` and `INV-150` with them; `matrix/parallel-lanes.md` gained M-629 and M-376/M-625/M-626 were
 corrected. Left for the mark: the orchestrator re-runs these red-proofs before flipping the row.
 
 
