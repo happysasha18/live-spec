@@ -165,7 +165,7 @@ The main plan is **always one file: `~/live-spec/PLAN.md`.** Never start a secon
 
 One list: the plan's own steps and the former ROADMAP.md queue, merged 27.08 per step 11. Order: needs his eyes, then in hand, then blocked, then queued; critical heads its own group first and never another's — urgency never outranks whether a task is actually workable now (27.08, his word). Marks: ✅ done · 🔄 in hand · ⬜ queued · ⛔ blocked · 👁️ needs his eyes — the same five the Canon report itself uses. Former ROADMAP.md rows are archived verbatim at `docs/queue-archive/rotated-ROADMAP-2026-08-27-merged-into-plan.md`.
 
-### 🔄 Starting a session costs a quarter of what it costs today, and every standing file earns its place — id: q-809
+### 🔄 Starting a work session with the assistant costs a quarter of what it costs today, and every standing file earns its place — id: q-809
 **Group:** Budget & economy · **Priority:** critical
 **Source:** owner 2026-09-02 — a session's starting weight must fall to about a quarter of today's,
 and every standing document must earn its place or go (`DECISIONS.md`, 2026-09-02).
@@ -216,7 +216,7 @@ neither can reach ⛔ for it; `tests/test_plan_is_not_executable.py::TestADoneMa
 asserts the row reads unfinished and that the blocked mark is absent, on the probe and on the board.
 Three rows carried the mark live at the time of writing.
 
-### 🔄 A person who did not build this can read the task list and understand it — id: q-808
+### ✅ A person who did not build this can read the task list and understand it — id: q-808
 **Group:** Board & visibility · **Priority:** critical
 **Source:** owner 2026-09-02 14:50 — the task list must read in language a person outside the work
 can follow (`DECISIONS.md`, 2026-09-02 14:50). Measured live in the same exchange: of the task
@@ -233,6 +233,16 @@ line, what it would give them and what state it is in — checked by asking a re
 write the tasks, not by a session judging its own prose. The fix lands where titles are written,
 so new tasks come out readable, rather than as a translation layer bolted on at display time. The
 three earlier breaks of this same rule are on record; this row is the one that repairs the source.
+
+**Checked by reading on 02.09, an outside reader.** A fresh agent holding only `PLAN.md`'s open task
+headers — no other project context — read each title cold, wrote a guess of what it gives a
+person and what state it's in, then checked that guess against the body. Of 11 open headers, 8
+read accurately on the title alone; 3 (`q-809`, `plan-9`, `q-163`) were flagged as genuinely
+liable to mislead a non-builder (an undefined "session," "new tools" reading as a product change
+rather than an internal version catch-up, "thorough tests" not signalling this is a method for an
+AI assistant to write them). All three rewritten in place the same session; marks and id suffixes
+untouched. The four titles `q-808` itself already rewrote (`q-802`, `q-804`, `q-385`, `q-805`)
+both read cleanly to this same outside reader, confirming that repair held.
 
 **Worked 02.09.** A cold-read pass over every `### ` title and `**Group:**` line in this file: all
 open rows (⬜/🔄) checked one by one against the definition of done above, plus a sample of rows
@@ -300,7 +310,7 @@ handoff. One authoring lesson surfaced, not a mechanism flaw: the checkpoint's o
 mixed a real next action with an unrelated note, which a fresh reader couldn't tell apart — fixed
 by keeping `NEXT` to only the ticket's own next step.
 
-### ⬜ Your photo site's move to new tools begins — id: plan-9
+### ⬜ Your photo site catches up its internal toolkit to the newer version — id: plan-9
 **Group:** Cross-project · **Priority:** critical
 **Source:** PLAN.md step 9, dated 27.08 — dry-run and inventory done; `scripts/install-external-skills.sh` "does not work against a host at all... it blocks the documented path."
 **Deferred:** after the release (his word) — not blocked, his own decision to hold it.
@@ -1382,6 +1392,69 @@ task, one lane per worker, given-vs-actual time, per-agent attribution, one publ
 live over one real stretch of work, the same way q-166's own acceptance read before this split.
 
 
+### ⬜ The Director's real route is proven end to end, on the actual mechanism, not the instructions — id: q-812
+**Group:** Method reliability · **Priority:** critical
+**Source:** owner 2026-09-02 ~22:15, verbatim brief (Russian original kept whole — a compressed
+paraphrase would be the exact drift this row exists to prevent):
+
+> После закрытия текущего бэклога: доказать и, где нужно, минимально починить реальный маршрут
+> Director. Не проектировать новую систему и не добавлять хуки на каждое сообщение, сервер доски,
+> event log, второй план, новые реестры или новые статусы. Использовать существующие PLAN,
+> checkpoint, state-probe, product-prover, test-author и TEST_MATRIX. Сначала проверить фактическое
+> поведение, а не текст инструкций.
+>
+> Нужен один воспроизводимый сквозной сценарий на временной копии LiveSpec-хоста:
+> 1. Нетехнический владелец пишет свободное рабочее сообщение.
+> 2. Director правильно отличает его от вопроса, болтовни и команды остановиться.
+> 3. Для принятой работы создаётся ровно одна задача с понятным контекстом и своим DOD; для вопроса
+>    и stop не создаётся ничего.
+> 4. Рабочий берёт именно эту задачу, выполняет её и сохраняет понятное состояние.
+> 5. Задача может стать ✅ только после её DOD и зелёной нужной проверки.
+> 6. Новая сессия читает существующее состояние и продолжает ту же работу, не создавая дубль и не
+>    выбирая случайную середину плана.
+>
+> Проверить также два реальных сложных случая: пользователь дополняет или исправляет уже идущую
+> работу — обновляется она, без второй задачи; пользователь говорит «давай накидывать идеи» — это
+> один shaping-контекст, а не россыпь задач; после решения остаются только принятые реальные задачи.
+>
+> Product-prover должен проверить сам продуктовый контракт этого маршрута; test-author — добавить
+> ровно нужные строки в TEST_MATRIX и тесты. Детерминированно проверять последствия маршрутизации;
+> живые модельные примеры запускать только при изменении Director, а не на каждый push и не на
+> каждое сообщение.
+
+**Definition of done**, his own six clauses plus the two named hard cases:
+1. The end-to-end scenario above passes reproducibly on a clean temporary copy of a host running
+   this pack — no new hook, board server, event log, second plan, registry or status invented to
+   make it pass; only `PLAN.md`, `scripts/checkpoint.py`, `scripts/state-probe.sh`,
+   `product-prover`, `test-author` and `TEST_MATRIX.md`, as they exist.
+2. The negative cases go red on purpose: a question creates no task, a halt creates no task, a
+   second message about work already in flight creates no duplicate task, and a task whose DOD or
+   required check hasn't passed cannot be marked done.
+3. The two named hard cases are proven, not merely asserted: a correction/addition to work already
+   running updates that same work rather than opening a second task; an "idea-shaping" turn (his
+   own example, "давай накидывать идеи") produces no task per idea voiced, only the real task(s)
+   actually decided on once the shaping settles.
+4. `spec` → `architecture` → `TEST_MATRIX.md` → `tests` carry this route's contract, connected —
+   product-prover reviews the contract itself before code, test-author adds exactly the rows and
+   tests the proof needs, no more.
+5. The check this proof runs is deterministic given a scripted routing outcome; a real model
+   producer (a fresh, isolated read of `director/SKILL.md`) runs only when `director/SKILL.md`
+   itself changes, matching how `evals/director/` already gates on the skill's own mtime — not on
+   every push, not on every message.
+6. Full suite green, the result committed and pushed.
+7. A short report, in plain words, at the end: what is now proven, and what was deliberately left
+   undone.
+
+**Sequencing, his own word:** starts only after tonight's current backlog closes — not before.
+
+**Acceptance:** the scenario script and its fixtures exist under `tests/` (or a dedicated
+`evals/`-adjacent home matching this pack's existing convention for a scripted, non-model-dependent
+proof), running green in the full suite; `TEST_MATRIX.md` carries a row citing it; the negative
+cases and the two hard cases each have their own red-then-green proof in the same file or a sibling
+one; a product-prover record reviews the route's own contract; `PLAN.md` and `DECISIONS.md` both
+name this row as its home once closed.
+
+
 ### ✅ The plain-language text checker becomes its own reusable tool — id: q-458
 **Group:** Readability & plain language · **Priority:** normal
 **Source:** owner 2026-07-22 — "как аудировать тексты — это отдельный скилл." <!-- user-language -->
@@ -1410,7 +1483,7 @@ live over one real stretch of work, the same way q-166's own acceptance read bef
 **Checked by reading on 28.08.** The reviewer now says which part it skips, at `skills/product-prover/SKILL.md:352`, and the decision behind it at `docs/skill-review/2026-08-12-product-prover-2.md:68`. No command: the sentence lives in the reviewer's own repository.
 
 
-### ⬜ A proven method builds thorough tests every time — id: q-163
+### ⬜ A proven method has the assistant write thorough tests every time — id: q-163
 **Group:** Testing · **Priority:** normal
 **Source:** inbox from track-coach close, 2026-07-05.
 **Closes:** q-191, q-491, q-554

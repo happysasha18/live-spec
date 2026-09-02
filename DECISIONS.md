@@ -578,6 +578,17 @@ the one slot nothing questions. That is the defect this surface exists to catch.
   standing up a second harness. No new PLAN.md row opened for this, on your own word the same
   exchange ("сейчас не надо по новой").
 
+- 2026-09-02 ~22:15 — after tonight's backlog closes, the Director's real route (a free message in
+  → the right classification → exactly one task with its own DOD → a worker executing it → a DOD-
+  and-check-gated close → a fresh session resuming without duplicating or guessing) gets proven end
+  to end on the actual mechanism, on a temporary host copy — no new hook, board server, event log,
+  second plan, registry or status invented to do it; only `PLAN.md`, `checkpoint.py`,
+  `state-probe.sh`, product-prover, test-author and `TEST_MATRIX.md` as they stand. Your words in
+  chat, kept whole in `PLAN.md` q-812 rather than paraphrased here (a compressed version of this
+  exact brief is the drift the row itself exists to catch). Consequence: `PLAN.md` gains q-812,
+  queued behind tonight's open rows, with product-prover reviewing the route's own contract and
+  test-author adding exactly the matrix rows and tests the proof needs — no more.
+
 ## Open — carried, awaiting your word
 <!-- record:open -->
 These are open questions the pack carries with a recommendation. They moved here from the old spec
