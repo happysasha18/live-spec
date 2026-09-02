@@ -69,11 +69,8 @@ convergence-lock tests (rows 216/217).
 
 ### 24. The process stations are kind-abstract; a project declares its concrete layers and proofs
 
-Worked example: the three footprints generalize past code. A presentation-only change touches what
-the audience meets and nothing behind it; a single-module change stays inside one owned layer; a
-cross-cutting change moves a shared law or several layers at once. A method written only for code
-would fit a photo site badly — the reason the stations stay abstract while each kind fills its own
-concrete layers and proofs.
+Its worked cases live together in [worked-examples.md](worked-examples.md), the one home the
+rule's own line points at.
 
 ### 25. The seat reads to decide; discovery reads go to workers
 

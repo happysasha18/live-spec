@@ -198,6 +198,51 @@ class TestNeitherReaderStopsFindingTheTasks(unittest.TestCase):
         )
 
 
+class TestADoneLineNamesARealClose(unittest.TestCase):
+    """Every done line the probe prints stands for a row this branch actually closed.
+
+    The fixture the other probe tests use is a throwaway copy with no `.git`, so the arm that
+    reads the branch's upstream cannot run there and every assertion about done lines passes
+    vacuously — printed_done is structurally zero (product-prover, 2026-09-02, finding 8). This
+    one runs the probe in the real repository and re-derives the set independently: a printed
+    done line is owed only where the row's hand mark is done now and was not done at the
+    upstream. Where no upstream is reachable, no done line is owed at all.
+    """
+
+    def test_every_printed_done_row_flipped_since_the_upstream(self):
+        import subprocess
+        r = subprocess.run(["bash", str(ROOT / "scripts" / "state-probe.sh")],
+                           cwd=str(ROOT), capture_output=True, text=True)
+        plain = _ANSI_RE.sub("", r.stdout)
+        printed_done = {
+            m.group(1) for line in plain.splitlines()
+            if (m := _PROBE_LINE_RE.match(line.strip())) and m.group(2) == "✅"
+        }
+
+        up = subprocess.run(["git", "rev-parse", "--abbrev-ref", "--symbolic-full-name", "@{u}"],
+                            cwd=str(ROOT), capture_output=True, text=True)
+        if up.returncode != 0 or not up.stdout.strip():
+            self.assertEqual(printed_done, set(),
+                             "no upstream is reachable, so no done line is owed: %s" % printed_done)
+            return
+        base = subprocess.run(["git", "show", "%s:PLAN.md" % up.stdout.strip()],
+                              cwd=str(ROOT), capture_output=True, text=True)
+        self.assertEqual(base.returncode, 0, "could not read PLAN.md at the upstream")
+
+        import sys
+        sys.path.insert(0, str(ROOT / "scripts"))
+        from plan_checks import parse_tasks
+        done_at_push = {t["id"] for t in parse_tasks(base.stdout) if t["mark"] == "✅"}
+        done_now = {t["id"] for t in parse_tasks((ROOT / "PLAN.md").read_text(encoding="utf-8"))
+                    if t["mark"] == "✅"}
+        owed = done_now - done_at_push
+
+        stale = sorted(printed_done - owed)
+        self.assertEqual(stale, [],
+                         "the probe printed a done line for a row that did not close on this "
+                         "branch: %s" % stale)
+
+
 def _shell_reader():
     """The one in-repo reader of shell text, borrowed from the worker-restore guard.
 

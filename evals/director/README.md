@@ -116,9 +116,14 @@ cut cost anything. Same producers, same hour, the only difference the skill text
 | the skill as it stands (25,613 bytes) | 30 of 35, 2 extra acts |
 | the same skill cut to 21,900 bytes | 29 of 35, 4 extra acts |
 
-The cut was reverted. One scenario is inside what this method can see, so the run does not certify
-the cut either way, and 3.7 KB is a small saving to take on an unresolved question at the pack's
-front door.
+The cut was withdrawn before it was committed, so no change to the skill reaches git from this
+pair: the traces below are recorded against the skill as it already stood. One scenario is inside
+what this method can see, so the run does not certify the cut either way, and 3.7 KB is a small
+saving to take on an unresolved question at the pack's front door.
+
+The 34-of-35 line above and the 30-of-35 line here read the same skill text and are not comparable
+with each other: they were produced on different days by different producers, which is the whole
+point of the paragraph below.
 
 **What the pair established about the method itself.** While the second run was still finishing,
 its partial trace set graded 32, then 31, then 30 as the last producers landed. Nothing about the

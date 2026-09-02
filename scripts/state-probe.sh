@@ -138,7 +138,13 @@ if _upstream:
     _base = subprocess.run(["git", "show", "%s:PLAN.md" % _upstream], capture_output=True, text=True)
     if _base.returncode == 0:
         _done_at_push = {b["id"] for b in parse_tasks(_base.stdout) if b["mark"] == "✅"}
-        closed_since_push = {t["id"] for t in tasks if t["icon"] == "✅"} - _done_at_push
+        # Both sides read the hand mark, so the comparison is like for like; the icon rides
+        # along so a row whose mark says done while its command fails stays out (it is
+        # reopened, not freshly closed). Comparing icon-now against mark-at-the-upstream
+        # printed a done line for a row whose mark never moved, and pushing could not clear
+        # it (product-prover, 02.09, finding 3).
+        closed_since_push = {t["id"] for t in tasks
+                             if t["mark"] == "✅" and t["icon"] == "✅"} - _done_at_push
 
 for t in tasks:
     t["rank_icon"] = t["icon"]
@@ -147,7 +153,7 @@ for t in tasks:
         # Only the freshly closed ones compete for a line; the rest of the done pile stays off.
         t["excluded"] = t["id"] not in closed_since_push
         continue
-    if t["icon"] not in ("⛔", "⬜"):
+    if t["icon"] not in ("⛔", "🔁", "⬜"):
         continue
     if t["deferred"]:
         t["excluded"] = True
@@ -190,7 +196,8 @@ budget = TASK_LINE_BUDGET
 # costs nothing here, and the list runs past the budget only while closed work is waiting to be
 # pushed — which is itself worth seeing.
 progressed = True
-while budget > 0 and progressed:
+_done_left = lambda: idx["✅"] < len(buckets["✅"])
+while (budget > 0 or _done_left()) and progressed:
     progressed = False
     for icon in CATEGORY_ORDER:
         if budget <= 0 and icon != "✅":

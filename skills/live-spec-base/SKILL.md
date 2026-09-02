@@ -82,8 +82,8 @@ its own manifest line. Every other rule below keeps the number it already carrie
 3. **One surface = one name, everywhere.** One thing, one name; two names for it breaks every
    cross-check that assumes one. — `guardrails/check-one-name.py`.
 
-4. **One canonical home per fact.** One canonical home per fact; repoint every reference the same
-   session a doc moves or is superseded. — `check-doc-rotation.py`.
+4. **One canonical home per fact.** Repoint every reference the same session a doc moves or is
+   superseded. — `check-doc-rotation.py`.
 
 5. **The seat orchestrates; each unit routes to the cheapest tier that passes its brief (SPEC
    INV-69).** The seat — whatever tier holds it — orchestrates, briefs, and accepts the work, and
@@ -100,7 +100,8 @@ its own manifest line. Every other rule below keeps the number it already carrie
    file (done / in-progress / next) in `.live-spec/checkpoints/`; updated as the work runs, so a
    cut-off resumes from disk. A landing that ships a checkpoint's items flips that checkpoint to
    its closed state in the same landing, so a returning session never reopens finished work. Red at
-   a pause is itself the checkpoint.
+   a pause is never committed: the failing test's name and the hypothesis top the resume file,
+   and that entry is the checkpoint (SPEC INV-95, T-9).
 
    - A checkpoint whose items all live in git history is stale by definition and reads as a resume
      defect (SPEC INV-107).
@@ -115,6 +116,8 @@ its own manifest line. Every other rule below keeps the number it already carrie
      single-writer; say plainly when a worker dies with a closed window or a sleeping machine.
    - The human's leave-word extends this rule to every open lane at once (SPEC INV-95; communicator
      carries the closing walk).
+   - A fresh agent reading either end of a session — its open or its close — follows the wording
+     in [references/session-handover.md](references/session-handover.md) (SPEC INV-302).
 
    — `scripts/checkpoint.py`.
 
@@ -150,6 +153,8 @@ its own manifest line. Every other rule below keeps the number it already carrie
      foreign writer until verified by rule 6's resume checks — the write-set's file times, the
      heartbeat, and one message to its id — before a second worker starts on a shared tree, or
      until the first replies that it halted (SPEC INV-76).
+   - A push in flight holds its whole physical tree until it lands; no second writer starts on
+     that path meanwhile (SPEC INV-11, ACT-3).
    - A tied concurrent claim breaks on each session's stable identity (SPEC INV-117).
 
    — `guardrails/check-worker-restore.py`, `scripts/open-lane.sh`.
@@ -160,11 +165,13 @@ its own manifest line. Every other rule below keeps the number it already carrie
 
 9. **History lives in the journal; docs travel with the change.** Log every movement's dated reason
    in `JOURNAL.md` the same session; keep spec, next-steps, and plan stating only current truth,
-   each entry dated and timed. — prose-only, no dedicated check.
+   each entry dated and timed. A shipped change carries its own `CHANGELOG` entry and re-walks
+   the README against the pushed truth (SPEC INV-44). — prose-only, no dedicated check.
 
 10. **Nothing is silently deleted.** Move a superseded file to the attic with a manifest line;
-    tombstone a removed feature; get human approval first except for regenerable junk (SPEC INV-7,
-    A-4, A-9). — `guardrails/check-board.py`, `check-doc-rotation.py`.
+    tombstone a removed feature; at adoption, list what the cruft sweep would delete and delete
+    only on the human's approval (SPEC INV-7, A-4, A-9). — `guardrails/check-board.py`,
+    `check-doc-rotation.py`.
 
 12. **The human's gates are the human's.** Propose irreversible moves, authored-content moves,
     publishing, gated pushes, and taste or domain wording with a recommendation; execute only on
@@ -207,7 +214,8 @@ its own manifest line. Every other rule below keeps the number it already carrie
     (SPEC INV-135).** The entry impact read, the footprint categories, and the test ladder are
     stations the pack states once, and the stations are kind-abstract. Each project kind declares
     its concrete layers and its concrete proof kinds at founding, recorded beside `project.kind`
-    (SPEC INV-36) as one `project.layers` line and one `project.proofs` line. —
+    (SPEC INV-36) as one `project.layers` line and one `project.proofs` line. Worked out for
+    three kinds in [references/worked-examples.md](references/worked-examples.md). —
     `tests/test_founding_layers_proofs.py`.
 
 25. **The seat reads to decide; discovery reads go to workers (SPEC INV-137).** Keep the seat's
@@ -250,8 +258,8 @@ its own manifest line. Every other rule below keeps the number it already carrie
     for an owning agent card, the `.live-spec/agent.md` in that agent's own tree (SPEC E-32,
     INV-184). Each law below routes a thing to the home that governs it (SPEC INV-153).
 
-    - A message names the sender's own blocked work, in the message, or is never sent (SPEC
-      INV-189).
+    - A message names the ground that earned it — the sender's own blocked work, or a fault it
+      lived in that zone carried with its evidence — or is never sent (SPEC INV-189).
     - A referral travels back to whoever asked; forwarding to the zone's own owner is the defect
       (SPEC INV-190). A question that pins to no artifact is dropped (SPEC INV-191), and a referral
       to a zone that does not own the question is named as a wrong referral (SPEC INV-225).

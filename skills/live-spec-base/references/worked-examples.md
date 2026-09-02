@@ -4,6 +4,12 @@ The one home for the worked cases the base rulebook's rules point at. Each secti
 as it read in the rulebook body. Open a section when the rule that names it is being applied and the
 case behind it is wanted, and not before.
 
+Four sections carry a rule number that was retired on 2026-08-26, when the rules covered by neither
+an eval fixture nor an executable script were cut whole to
+`attic/live-spec-base-unbacked-rules-2026-08-26.md`. Their headings say so. They stay here because
+the case each records still happened, and the retired rule they belonged to is readable in the
+attic beside its manifest line.
+
 ## The rule of thinking — the guard that was a list of patterns
 
 Its own worked failure: the guard holding this pack's register laws was built as a list of literal
@@ -21,6 +27,12 @@ landed (rows 253/254, 2026-07-12). The 1.1.0 audit's
 once-read walk is this law's first sweep.
 
 ## Rule 24 — the per-kind layers and proofs
+
+The three footprints generalize past code. A presentation-only change touches what the audience
+meets and nothing behind it; a single-module change stays inside one owned layer; a cross-cutting
+change moves a shared law or several layers at once. A method written only for code would fit a
+photo site badly — the reason the stations stay abstract while each kind fills its own concrete
+layers and proofs.
 
 A codebase splits frontend, backend and store; a photo
 site content, rendering engine and deployment. A promotion campaign splits message, channels and
