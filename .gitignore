@@ -1,4 +1,4 @@
-.live-spec/checkpoints/
+.live-spec/checkpoints/wind-down-*.md
 
 # Python's own compiled bytecode cache. Never tracked, but present on disk the moment anything
 # imports a .py file — `git grep --untracked` (tests/test_dialog_warning_guard.py's own
