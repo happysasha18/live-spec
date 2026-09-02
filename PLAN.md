@@ -234,6 +234,30 @@ write the tasks, not by a session judging its own prose. The fix lands where tit
 so new tasks come out readable, rather than as a translation layer bolted on at display time. The
 three earlier breaks of this same rule are on record; this row is the one that repairs the source.
 
+### 🔄 A finished task is shown and closed; a complaint about it becomes new work, not a stuck one — id: q-810
+**Group:** Method reliability · **Priority:** critical
+**Source:** owner 2026-09-02 ~21:31 — no row's own definition of done should name his eye as the
+gate that keeps it open; the seat carries accepted work to a shown result and closes it there
+(`DECISIONS.md`, 2026-09-02).
+
+**What was wrong.** `q-166`'s own acceptance line read "No command decides this one; his own eye
+is the check" — a row that, by its own words, could never close without him personally watching a
+stretch of work. That is one instance of a wider gap: nothing in `director/SKILL.md` said, in one
+place, who actually accepts a delivered result, so a task's own author could write "needs his
+eye" into a definition of done for ordinary buildable work that a command or a plain read already
+settles, and the row would sit open forever on a check nobody was ever going to run.
+
+**Definition of done:** `skills/director/SKILL.md` states the rule once — the Director shows a
+delivered result and closes the checkpoint in the same step; a row's "needs his eye" gate is
+reserved for the three cases rule 12/27 already name (a taste call, a trade-off no artifact
+settles, a change to the definition of correct), never for verifying an ordinary delivered
+result; a later disagreement opens a new task rather than reopening the closed one; a genuinely
+irreversible action still stops for his word before it runs, unchanged. `evals/director/` gains
+scenario(s) proving the Director closes a "shown, ordinary" result without waiting on a human
+verdict, and does NOT close a genuine taste/irreversible fork without one; `evals/director/check.py`
+scores them; the full 35(+)-scenario re-record runs clean and the traceability test suite stays
+green. Landed 2026-09-02 as the same commit that closes `q-166` under this rule.
+
 ### ✅ The turnkey product contract is proven complete before any code starts — id: q-806
 **Group:** Turnkey productization · **Priority:** critical
 **Source:** owner 2026-09-01 23:xx, `.live-spec/next-phase-prompt-turnkey-productization.md`; begun
@@ -1262,7 +1286,7 @@ takes a step reads the state and that step, proved by what it opened · the pony
 made against a measured before and after, or it is declined with the measurement as the reason.
 
 
-### ⬜ The board shows everything the team is doing, live — id: q-166
+### ✅ The board shows everything the team is doing, live — id: q-166
 **Group:** Board & visibility · **Priority:** normal
 **Source:** owner 2026-07-07 ~09:36, widened seven more times through 2026-08-06.
 **Closes:** q-133, q-582, q-583, q-411
@@ -1271,6 +1295,18 @@ Note: this is the large standing board; plan-1 and plan-10 are the near-term lig
 columns, no worker lanes — so there is nothing yet for his eye to check against the acceptance
 below. 👁️ names the acceptance method for when the board exists; it does not belong on a row that
 still has to be built.
+
+**Closed 2026-09-02, judged not needed beyond what already shipped.** His own question tonight —
+why does the live board need his eye at all — landed on q-810's new rule: a row's own definition
+of done never names his eye as the only check on an ordinary delivered result (`DECISIONS.md`,
+2026-09-02). Read against that rule, this row's remaining scope (worker lanes, given-vs-actual
+time, per-agent attribution — the paragraph above already named it a separate, larger,
+still-unbuilt feature) has had no real ask behind it since 08-06, and `board.html` already ships
+the thing he asked for four times: one page to look at instead of asking the agent. Building the
+larger feature now, with nobody currently wanting it, is exactly the "don't serve machinery
+nobody needs" standing rule. The idea stays on the shelf, named here, and returns as its own new
+task if he asks for it again — worker lanes, given-vs-actual time, per-agent attribution, one
+kanban column per stage, all in `spec/work-board.md` Requirement 309 already, unbuilt.
 
 **What already exists and answers his daily ask, found 2026-09-01.** `board.html` +
 `scripts/render-board.sh`, built 31.08, already give him the thing he asked for four times —

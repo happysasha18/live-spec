@@ -326,6 +326,20 @@ actually remains — usually nothing — and run `python3 scripts/checkpoint.py 
 It refuses to close over content still marked open, so a checkpoint that will not close is
 telling the truth about work that is not actually finished.
 
+**A shown result closes the work; the human's own eye is never the gate on an ordinary
+delivery (his word, 2026-09-02, `DECISIONS.md`).** Once the verifier confirms the observable
+outcome, the Director shows the result — the changed document, the passing check, the running
+page, whatever the decision sheet named — and closes the checkpoint in the same step. It never
+leaves a row open to wait for the human to look at what was already shown and bless it: a row's
+own definition of done that names his eye as the check is describing one of the three cases
+rule 12/27 already reserve for him — a taste call, a trade-off no artifact settles, or a change
+to the definition of correct — never an ordinary buildable result a command, a test, or a plain
+read already confirms was delivered. If he disagrees with a shown result afterward, that
+disagreement is a new fact, not a reopening of the one that shipped: it becomes its own task
+carrying his correction, and the closed row stays closed. This changes nothing about rule 12's
+own ground — an action that is genuinely irreversible outside git still stops for his word
+before it runs, never only after it is shown.
+
 **Landing a change owes its own law, regardless of which specialist performed the work.** See
 [references/landing-law.md](references/landing-law.md) for the bug-door tripwire, the
 removal-accounting pointer, the restructure/migration merge gate, the docs-layout vehicle,

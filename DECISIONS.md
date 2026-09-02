@@ -536,6 +536,24 @@ the one slot nothing questions. That is the defect this surface exists to catch.
   states the requirement impersonally and points here; a reader outside the work must be able to
   say, for each task line, what it gives them and what state it is in.
 
+- 2026-09-02 ~21:31 — a task closes when the seat carries it to a shown result, not when your eye
+  approves it; a shown result you don't like becomes a new task, never a block on the one that
+  shipped. Your words in chat: "доска вживую зачем мой глаз... если у тебя есть задача, то ты ее
+  работаешь, если задача непонятна, тогда ты ее обсуждаешь. если ты ее взял в работу тогда ты
+  доводишь до того чтобы показать и это 'сделано', если не понравится тогда будет новая задача."
+  In English: why does the live board need my eye... if you have a task, you work it; if a task is
+  unclear, you discuss it; once you've taken it into work you carry it through to showing it, and
+  that is done — if it isn't liked, that becomes a new task. Consequence: PLAN.md gains q-810 —
+  `director/SKILL.md` states that a shown, ordinary delivered result closes the checkpoint in the
+  same step, and a row's own "needs his eye" gate is reserved for a taste call, a trade-off no
+  artifact settles, or a change to the definition of correct, never for verifying a delivery a
+  command or a plain read already confirms. `q-166`'s own acceptance line named his eye as the only
+  check on an otherwise-ordinary result; closed under this rule the same night, on the reasoning
+  that its remaining scope was never actually asked for again after 08-06 and the daily need it
+  answers already ships. Carried forward unchanged: an action genuinely irreversible outside git
+  still stops for your word before it runs, never only after it is shown (rule 12/17) — this
+  decision is about when a built, reversible result counts as done, not about that gate.
+
 ## Open — carried, awaiting your word
 <!-- record:open -->
 These are open questions the pack carries with a recommendation. They moved here from the old spec
