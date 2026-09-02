@@ -165,23 +165,37 @@ fi
 # reddened a check that had nothing to do with lanes.
 # -c safe.directory='*' on both reads below: a scratch repo a test builds under a temp directory
 # can trip git's "detected dubious ownership" refusal in a container/CI environment where the
-# process's own detected user differs from the directory's, and that refusal empties this command's
-# stdout (its message goes to stderr, suppressed here) exactly as if there were no second worktree
-# at all — silently standing this whole arm down rather than reddening or erroring loudly. Read-only
-# metadata inside an already-hermetic test fixture is not the ownership boundary this git safety
-# net exists to guard, so trusting it here is not the same risk as trusting it for a real clone.
-WORKTREE_COUNT="$(git -c safe.directory='*' worktree list --porcelain 2>/dev/null | grep -c '^worktree ')"
-if [ "${WORKTREE_COUNT:-0}" -gt 1 ]; then
-  PRIMARY_BLOCK="$(git -c safe.directory='*' worktree list --porcelain 2>/dev/null | awk '/^worktree /{n++} n==1')"
-  PRIMARY_PATH="$(printf '%s\n' "$PRIMARY_BLOCK" | sed -n 's/^worktree //p')"
-  PRIMARY_BRANCH="$(printf '%s\n' "$PRIMARY_BLOCK" | sed -n 's#^branch refs/heads/##p')"
-  if [ -z "$PRIMARY_BRANCH" ]; then
-    echo "{\"severity\":\"error\",\"code\":\"config-health\",\"message\":\"primary tree ($PRIMARY_PATH) holds no branch checked out (detached HEAD) — git's own worktree refusal (INV-198) rests on the primary tree holding main\",\"fix\":\"checkout main in the primary tree\"}"
-    fail=1
-  elif [ "$PRIMARY_BRANCH" != "main" ]; then
-    echo "{\"severity\":\"error\",\"code\":\"config-health\",\"message\":\"primary tree ($PRIMARY_PATH) holds '$PRIMARY_BRANCH' instead of main — git's own worktree refusal (INV-198) rests on the primary tree holding main\",\"fix\":\"checkout main in the primary tree\"}"
-    fail=1
+# process's own detected user differs from the directory's. Read-only metadata inside an
+# already-hermetic test fixture is not the ownership boundary this git safety net exists to
+# guard, so trusting it here is not the same risk as trusting it for a real clone.
+#
+# The read is also never allowed to fail silently: `git worktree list` erroring for ANY reason
+# (dubious ownership despite the flag above, a corrupt worktree admin file, anything else) used
+# to leave WORKTREE_COUNT empty via the suppressed `2>/dev/null`, standing this whole arm down as
+# if there were only one worktree — exactly the shape 3 of this arm's own tests failed under on
+# CI, 2026-09-02, with no diagnostic naming why. A failed read now reds by name with git's own
+# stderr, so this arm never mistakes "I could not check" for "there is nothing to check."
+WORKTREE_LIST_ERR="$(mktemp)"
+if WORKTREE_LIST_OUT="$(git -c safe.directory='*' worktree list --porcelain 2>"$WORKTREE_LIST_ERR")"; then
+  rm -f "$WORKTREE_LIST_ERR"
+  WORKTREE_COUNT="$(printf '%s\n' "$WORKTREE_LIST_OUT" | grep -c '^worktree ')"
+  if [ "${WORKTREE_COUNT:-0}" -gt 1 ]; then
+    PRIMARY_BLOCK="$(printf '%s\n' "$WORKTREE_LIST_OUT" | awk '/^worktree /{n++} n==1')"
+    PRIMARY_PATH="$(printf '%s\n' "$PRIMARY_BLOCK" | sed -n 's/^worktree //p')"
+    PRIMARY_BRANCH="$(printf '%s\n' "$PRIMARY_BLOCK" | sed -n 's#^branch refs/heads/##p')"
+    if [ -z "$PRIMARY_BRANCH" ]; then
+      echo "{\"severity\":\"error\",\"code\":\"config-health\",\"message\":\"primary tree ($PRIMARY_PATH) holds no branch checked out (detached HEAD) — git's own worktree refusal (INV-198) rests on the primary tree holding main\",\"fix\":\"checkout main in the primary tree\"}"
+      fail=1
+    elif [ "$PRIMARY_BRANCH" != "main" ]; then
+      echo "{\"severity\":\"error\",\"code\":\"config-health\",\"message\":\"primary tree ($PRIMARY_PATH) holds '$PRIMARY_BRANCH' instead of main — git's own worktree refusal (INV-198) rests on the primary tree holding main\",\"fix\":\"checkout main in the primary tree\"}"
+      fail=1
+    fi
   fi
+else
+  GIT_ERR="$(tr '\n' ' ' < "$WORKTREE_LIST_ERR" | sed 's/"/\\"/g')"
+  rm -f "$WORKTREE_LIST_ERR"
+  echo "{\"severity\":\"error\",\"code\":\"config-health\",\"message\":\"git worktree list failed, INV-198's primary-tree-holds-main arm cannot read shared worktree metadata: $GIT_ERR\",\"fix\":\"investigate the git failure directly\"}"
+  fail=1
 fi
 
 if [ "$fail" -eq 0 ]; then

@@ -14,6 +14,7 @@ assertion against the script's source text standing in for actually running it.
 """
 
 import os
+import shutil
 import subprocess
 import tempfile
 import unittest
@@ -73,6 +74,39 @@ class TestConfigHealthPrimaryTreeArm(_ProbeRepo):
             "and red — it did not, so it is reading the wrong tree's checkout",
         )
         self.assertIn("other-branch", result_from_lane.stdout)
+
+    def test_a_failed_worktree_list_read_reds_loudly_instead_of_standing_down(self):
+        """`git worktree list` can fail for reasons this project's own machine never hits locally
+        — a container/CI runner's "detected dubious ownership" refusal chief among them (3 of
+        this class's own tests failed on CI, 2026-09-02, with no diagnostic naming why). The arm
+        must red with git's own error rather than reading zero worktrees and passing silently, so
+        this plants a git wrapper that fails only the `worktree list` subcommand and confirms the
+        arm reds with that failure named, never mistaking "could not check" for "nothing to
+        check."""
+        real_git = shutil.which("git")
+        fake_bin = os.path.join(self.tmp, "fake-git-bin")
+        os.makedirs(fake_bin, exist_ok=True)
+        fake_git = os.path.join(fake_bin, "git")
+        with open(fake_git, "w") as f:
+            f.write(
+                "#!/bin/sh\n"
+                'case " $* " in\n'
+                '  *" worktree list "*)\n'
+                '    echo "fatal: detected dubious ownership in repository at '"'"'$PWD'"'"'" >&2\n'
+                "    exit 128\n"
+                "    ;;\n"
+                "esac\n"
+                f'exec "{real_git}" "$@"\n'
+            )
+        os.chmod(fake_git, 0o755)
+        env = dict(os.environ)
+        env["PATH"] = fake_bin + os.pathsep + env["PATH"]
+
+        result = subprocess.run([CONFIG_HEALTH], cwd=self.main_tree, capture_output=True, text=True, env=env)
+        self.assertNotEqual(result.returncode, 0, "the arm passed even though git worktree list itself failed")
+        self.assertIn('"code":"config-health"', result.stdout)
+        self.assertIn("worktree list failed", result.stdout)
+        self.assertIn("dubious ownership", result.stdout)
 
 
 class TestMergeBaseArm(_ProbeRepo):
