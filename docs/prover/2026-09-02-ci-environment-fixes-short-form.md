@@ -2,7 +2,8 @@
 
 PUSH-REVIEW
 
-Range: effa3ecc..3c442a8b
+Range: effa3ecc..8a1efd1c
+- 8a1efd1c tests: prove INV-198's arm survives a CI environment, not just a hypothesis
 - 3c442a8b Fix the real CI-only defect: the CI carve-out was silencing INV-198 entirely
 - 9b06b553 Fix third CI-only defect: INV-198's worktree read reds loudly instead of standing down
 - 323dc6a3 docs/prover: extend the CI-fixes record to cover 10b2a208, name the open hypothesis honestly
@@ -88,5 +89,14 @@ exits 0 silently; against the fixed script — reds with the primary-tree-drifte
 2738 passed, 4 skipped, 0 failed; plain `python3 -m pytest -q` — 2736 passed, 6 skipped, 0 failed.
 Neither `safe.directory` nor the loud-failure fallback from the earlier two commits in this range
 is wrong or harmful — both are kept as real defensive improvements for whatever git failure mode
-they were written for — but neither one is the fix; this commit is.
+they were written for — but neither one is the fix; `3c442a8b` is.
+
+`8a1efd1c`: gate h (tests-present) correctly blocked `3c442a8b` on its own — a user-facing script
+change with no test change — and the fix is also the real closure of the actual gap: every existing
+test in `TestConfigHealthPrimaryTreeArm` ran with no `GITHUB_ACTIONS`/`CI` env set, which is exactly
+why the carve-out bug passed locally on every run before tonight. Added
+`test_the_arm_still_fires_under_a_ci_environment`, planting a drifted primary tree and running the
+check with `GITHUB_ACTIONS=true`. Red-proven against the pre-`3c442a8b` script (mutation: copied the
+prior shape back in, ran the new test alone — fails with `0 == 0`); green against the fix. Full
+local suite clean once more, both env shapes, after this test landed.
 Blocking: none
