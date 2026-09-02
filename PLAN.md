@@ -165,6 +165,30 @@ The main plan is **always one file: `~/live-spec/PLAN.md`.** Never start a secon
 
 One list: the plan's own steps and the former ROADMAP.md queue, merged 27.08 per step 11. Order: needs his eyes, then in hand, then blocked, then queued; critical heads its own group first and never another's — urgency never outranks whether a task is actually workable now (27.08, his word). Marks: ✅ done · 🔄 in hand · ⬜ queued · ⛔ blocked · 👁️ needs his eyes — the same five the Canon report itself uses. Former ROADMAP.md rows are archived verbatim at `docs/queue-archive/rotated-ROADMAP-2026-08-27-merged-into-plan.md`.
 
+### ⬜ Starting a session costs a quarter of what it costs today, and every standing file earns its place — id: q-809
+**Group:** Budget & economy · **Priority:** critical
+**Source:** owner 2026-09-02, in chat: "80кб много. можно удешевить? раза в 4?" and, on the files
+themselves, "зачем decision если есть доска и journal? нам точно все файлы нужны?... я понимаю что
+куча твоей бухгалтерии внутренняя но и она если избыточна то надо чинить."
+
+**Where it stands today.** Every session starts by loading four documents before it does anything:
+the boot file, the personal profile, the shared rulebook, and the reading skill — 80 KB between
+them, about 18,500 tokens. The shared rulebook alone is 40 KB of that, more than the other three
+together. He asked for roughly a quarter of the current weight.
+
+**The second half, same pass:** whether every standing document still earns its place. The
+decisions page and the journal both hold "what happened and what was settled, appended, never
+rewritten"; the decisions page exists so a session cannot quietly claim he decided something he
+never did, and a check reads it by name — so folding it into the journal is a real change with a
+real check to move, not a rename. Judge it, decide it, and say which way and why.
+
+**Definition of done:** the four documents a session loads at start weigh about a quarter of
+today's 80 KB, with no rule lost — each rule either still stated or shown to be already stated
+somewhere the session reads anyway. Every standing document in the tree is named with a one-line
+answer to "what breaks if this is gone", and the ones that answer "nothing" are gone. The Anthropic
+skill-creator runs over each skill this touches, as he asked. Measured by the same line
+`scripts/state-probe.sh` already prints, before and after.
+
 ### ⬜ A task that turns out not to be done says so, instead of pretending it is blocked — id: q-807
 **Group:** Board & visibility · **Priority:** critical
 **Source:** owner 2026-09-02 14:50, in chat: "blocked is not 'reopened' не надо абьюзить статусы
