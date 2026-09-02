@@ -327,7 +327,7 @@ It refuses to close over content still marked open, so a checkpoint that will no
 telling the truth about work that is not actually finished.
 
 **A shown result closes the work; the human's own eye is never the gate on an ordinary
-delivery (his word, 2026-09-02, `DECISIONS.md`).** Once the verifier confirms the observable
+delivery.** Once the verifier confirms the observable
 outcome, the Director shows the result — the changed document, the passing check, the running
 page, whatever the decision sheet named — and closes the checkpoint in the same step. It never
 leaves a row open to wait for the human to look at what was already shown and bless it: a row's
