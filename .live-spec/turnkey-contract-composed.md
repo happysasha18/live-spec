@@ -41,6 +41,15 @@ blocked, the reason. No estimate, no priority beyond the existing `critical`. It
 `git log PLAN.md`, as the plan already rules — no inline log *(derived: closed tasks keep the
 history paragraphs they have; new tickets are not written that way)*.
 
+**The ticket is the unit — the owner's word, 2026-09-02 14:24.** Its `<title>` must say plainly
+what the work is about, on its own, with no lookup required — descriptive prose, never a
+paraphrase-proof code standing in for meaning. Anyone talking about a ticket, in chat or in a
+report, leads with that title; the `id` trails in parentheses for the record, the same shape this
+project's own plain-language rule already asks of every technical term. This is also the DOD's
+own reading test: a ticket whose title, goal and outcome are legible on their own is auditable by
+a person who has never opened the pointers behind it; one that reads as a code plus a link is not
+yet a real unit, whatever box its DOD checks off.
+
 **Context pointer.** One exact address into a document that exists: a spec code (`R-nnn`,
 `INV-nnn`, `E-nnn`, `T-nnn`), an architecture node name, a matrix row id, a `path:line`, a test
 name, a commit hash. Never a pasted copy. A ticket lists every pointer this work needs and no

@@ -482,6 +482,32 @@ the one slot nothing questions. That is the defect this surface exists to catch.
   exceptional tasks only, maximum context hygiene («фиксируй форму работы…»). Push completed
   22:15, 34 commits e82da27..dfa9f57, first push under the one-record rule.
 
+- 2026-09-02 ~14:24 — a fact rendered on a status surface (board, Canon, or any future one) that
+  can be derived from what already exists is always computed live at read time, never stored as
+  its own hand-set field. Answering the coordinator's own concrete case — whether "these two
+  tickets can run in parallel" should be a field on a ticket. Your words in chat: "параллелности
+  принял но надо записат что это must parameter calculated in real time или чето такое?" In
+  English: accepted the parallelism point, but this needs writing down as a parameter that must be
+  calculated in real time, or something like that. Consequence: no surface stores a fact another
+  file already carries the raw material for; it reads that raw material and computes the fact each
+  time, the way `state-probe.sh` already computes a done mark's real status from its acceptance
+  command rather than trusting the stored ✅. The turnkey contract's parallel-visibility note
+  (`.live-spec/turnkey-contract-composed.md` §8) already follows this; this entry makes it a
+  standing rule for whatever comes after that too.
+
+- 2026-09-02 ~14:24 — an invented number (a ceiling, a count, a cap seeded from nothing but a
+  document's own past state) is removed the moment it's found, on sight, and no new one is ever
+  added — a standing rule, not a one-time cleanup. Extending q-805's same-day cleanup
+  (`51d2d402`, closed on his live word "все цифры с потолка уходят") from an event into a
+  permanent law. Your words in chat: "про числа с потолка наверное надо тоже вписать чтобы
+  искоренять если найдем и не добавлять?" In English: about invented-from-nowhere numbers,
+  probably also need to write down: eradicate on sight if found, and don't add new ones.
+  Consequence: `guardrails/check-size-ratchet.py`'s whole class (any check failing a document
+  against a bound seeded from that document's own past measurement) stays retired for good, never
+  reintroduced by a future session solving a future problem the same way; a session that finds a
+  new instance removes it on sight rather than filing it for later, the same standing habit as a
+  confirmed-bug class sweep (base rule 14).
+
 ## Open — carried, awaiting your word
 <!-- record:open -->
 These are open questions the pack carries with a recommendation. They moved here from the old spec
