@@ -2210,7 +2210,7 @@ tests/test_retroactive_gate.py tests/test_gate_common_table_rows.py tests/test_d
 `docs/skill-review/` record before this branch pushes.
 
 
-### 🔄 Automatic checks catch problems in parallel work before anyone has to look for them — id: q-804
+### ✅ Automatic checks catch problems in parallel work before anyone has to look for them — id: q-804
 **Group:** Parallel & multi-agent work · **Priority:** normal
 **Source:** found 2026-09-01, closing q-386 — three promises row 386 carried from its own first
 writing, never folded in from elsewhere, orphaned the moment q-386 closed on its own four-leg
@@ -2297,7 +2297,14 @@ for having no rows. Nine new tests across `tests/test_lane_net_arms.py` and
 `tests/test_scaffold_install.py`; `spec/parallel-lanes.md` Requirement 86 criteria 5/6 and
 Requirement 88 criterion 4 dropped their `[target]` tags and `TARGET_ROW_OWNERS` dropped `INV-199`,
 `INV-201` and `INV-150` with them; `matrix/parallel-lanes.md` gained M-629 and M-376/M-625/M-626 were
-corrected. Left for the mark: the orchestrator re-runs these red-proofs before flipping the row.
+corrected.
+
+**Checked by reading on 02.09, orchestrator re-verification.** Rebased onto main's tip twice
+(once to fix a real M-627/M-628 matrix-row id collision with `q-810`'s own concurrent work,
+independently picked by two lanes), all 32 of `tests/test_lane_net_arms.py` and
+`tests/test_scaffold_install.py`'s own mutation-proof tests re-run green on the merged tree —
+not trusted from the worker's own report — and `guardrails/check-config-health.sh` spot-checked
+live against the real repo with no lane open, clean. Full suite green before landing.
 
 
 ### ✅ The front page is rewritten to be fully accurate — id: q-501
