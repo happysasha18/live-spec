@@ -1596,7 +1596,7 @@ into a done mark, per this row's own new rule: a shown result closes the work, a
 disagreement opens new work rather than reopening this one.
 
 
-### ⬜ The Director's real route is proven end to end, on the actual mechanism, not the instructions — id: q-812
+### 🔄 The Director's real route is proven end to end, on the actual mechanism, not the instructions — id: q-812
 **Group:** Method reliability · **Priority:** critical
 **Source:** owner 2026-09-02 ~22:15, verbatim brief (Russian original kept whole — a compressed
 paraphrase would be the exact drift this row exists to prevent):
