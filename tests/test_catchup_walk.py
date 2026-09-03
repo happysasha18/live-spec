@@ -282,5 +282,27 @@ class TestCatchupVersionChain(unittest.TestCase):
             )
 
 
+class TestCatchupWalkVendorsTheStatusView(unittest.TestCase):
+    """PLAN.md plan-14. `adopt/install-status-view.sh` was a founding-only step
+    (`adopt/ADOPT.md`) — an already-adopted host running catch-up never got it, so the tool
+    only ever reached a freshly founded host. Phase 4 gained a step re-running it the same
+    unconditional, non-clobbering way `install-scaffold.sh --force` already runs there,
+    right beside it."""
+
+    def test_install_status_view_runs_in_phase_4(self):
+        mig = read_flat("MIGRATION.md")
+        self.assertIn("adopt/install-status-view.sh", mig)
+        phase4 = mig[mig.index("Phase 4 — verify"):]
+        self.assertIn(
+            "adopt/install-status-view.sh", phase4,
+            "install-status-view.sh must run inside Phase 4, not only in ADOPT.md's founding walk",
+        )
+        self.assertLess(
+            phase4.index("install-scaffold.sh --force"),
+            phase4.index("install-status-view.sh"),
+            "the status-view re-vendor step should sit right after the gate-scaffold one it mirrors",
+        )
+
+
 if __name__ == "__main__":
     unittest.main()

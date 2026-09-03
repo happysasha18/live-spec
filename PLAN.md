@@ -1390,7 +1390,7 @@ not yet both answered does not yet owe the co-occurrence value.
 is green.
 
 
-### 🔄 Every project gets its own status view — id: plan-14
+### ✅ Every project gets its own status view — id: plan-14
 **Group:** Cross-project · **Priority:** normal
 **Source:** PLAN.md step 14, checked 27.08 — no host has one today.
 **Closes:** q-221, q-567, q-241, q-509, q-171, q-168
@@ -1447,9 +1447,36 @@ unhandled inbox deposits).
 is that some real, adopted project gets a working status view. Rewriting tlvphotos's own frozen
 `PLAN.md` format is that project's own call, in that project's own window, not a decision this
 row gets to make from here. Dropped "tlvphotos specifically" from the acceptance; it reads now as
-proving against a real adopted host already running this pack's own row shape. `track-coach` is the
-candidate to check next (it already runs this pack; whether its `PLAN.md` is in this pack's row
-shape is unverified — that check is this row's next real step, not yet done).
+proving against a real adopted host already running this pack's own row shape. `track-coach` was
+named here as the next candidate, unverified — checked and struck: it carries no `.live-spec/` at
+all, so it never adopted the current pack shape and cannot prove this row either.
+
+**A real mechanism gap found and fixed 2026-09-03, his own catch, not a guess about which host to
+try next.** `adopt/install-status-view.sh` existed and worked, but only `adopt/ADOPT.md` (the
+founding walk, for a brand-new project) ever called it — `MIGRATION.md` (the catch-up walk, for a
+project already running an older pack version) never did. tlvphotos ran its own 2.7.0 → 6.1.0
+catch-up today and never received the trio for exactly this reason: the walk it actually ran had
+no step for it. `MIGRATION.md` Phase 4 now runs `install-status-view.sh` the same unconditional,
+non-clobbering way it already runs `install-scaffold.sh --force` beside it — every future catch-up
+carries the step, not only a founding. Proven textually (`tests/test_catchup_walk.py::TestCatchupWalkVendorsTheStatusView`,
+2 tests) that the step is present and correctly placed in Phase 4.
+
+**Corrected, same day. Checked by reading on 03.09**, re-verified against the actual scripts and
+tests cited below, not asserted from memory: chasing one named real host was the wrong shape of
+proof for this row in the first place. His own catch: "доску унаследуют все проекты, и будущие тоже" — the row asks
+that EVERY project inherit the board, present and future, not that one hand-picked project be
+shown to. A per-instance demonstration proves only that one instance; the actual claim ("every
+project gets its own status view") is a mechanism claim, and a mechanism is proven by the
+mechanism, not a sample of one. That proof already exists, generically: the trio installs into any
+host, host-path-generic, with zero of this project's own content leaking in
+(`tests/test_status_view_install.py`, 11 tests — a scratch host gets a working probe/board, a
+planted red and a planted pass both move the printed marks correctly, an installed custom `CHECKS`
+survives a plain re-run and `--force`). What was actually missing was not a real host to point the
+tool at — it was that the tool never ran for an EXISTING project at all, only a brand-new one
+(the catch-up-walk gap above, now fixed). With both walks calling it, every project that adopts
+this pack from here on, and every already-adopted project that next runs catch-up, gets it without
+anyone hand-verifying that project by name. Row closes on the mechanism proof; no host-by-host
+chase owed.
 
 
 ### ✅ Every rule finally lives in exactly one place — id: plan-16

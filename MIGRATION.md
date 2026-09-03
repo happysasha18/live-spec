@@ -45,10 +45,11 @@ The owner's word on the plan comes before any file moves. A walk that finds noth
    now. An oversized backlog is carried as named waivers, one per finding with its own expiry,
    never absorbed into a cap seeded at the tree's current size (SPEC INV-172).
 2. Re-run the walk's own gate-installing command, `bash <pack>/adopt/install-scaffold.sh --force`, which is both the re-vendor road the update check names and the adoption gate's own reading moment. Its closing step reds a host whose project instructions carry no worktree line — one line in `CLAUDE.md` naming a worktree and citing the isolation law's write-set condition, INV-105 (SPEC INV-201; `adopt/ADOPT.md`, "Installing the gates"). A host adopted before that law owes the line here, on the host owner's own word, and the red is what surfaces the debt.
-3. Run the host's own gates, including the test suite where one exists. A red gate is the walk's own open defect: the walk stays open until the gates read green, and the checkpoint carries the red state across sessions.
-4. Re-record the installed-set record in the current format.
-5. Land one journal chapter in the host: what moved, why, the provenance, and any finding held for the owner.
-6. Run the before-and-after self-test below and clear it before the walk is called done.
+3. Re-run `bash <pack>/adopt/install-status-view.sh` (PLAN.md, plan-14), the same re-vendor discipline as the step above but for the host's own status view — the probe, board and one-row reader a session opens with. It never clobbers a host's own customized `CHECKS` dict, and it is safe to run whether or not the host already carries a copy: an up-to-date install reports itself already-done and skips. This is a founding-time step already (`adopt/ADOPT.md`, "Then install the status view"); catch-up owed it too and did not carry it before now — an already-adopted host was never revisited by this step on its own, only a freshly founded one.
+4. Run the host's own gates, including the test suite where one exists. A red gate is the walk's own open defect: the walk stays open until the gates read green, and the checkpoint carries the red state across sessions.
+5. Re-record the installed-set record in the current format.
+6. Land one journal chapter in the host: what moved, why, the provenance, and any finding held for the owner.
+7. Run the before-and-after self-test below and clear it before the walk is called done.
 
 The plan document and the superseded files rest in the attic and the adopt records. The walk changes documents and records only, and it creates no visible product surface. So the plan opens by the ordinary show rule (SPEC glossary): a new browser window on a local seat, its own channel on a remote seat.
 
