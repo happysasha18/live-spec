@@ -769,6 +769,15 @@ each listed command and asserts the warning fires, plus an ordinary command pass
 rule's own `grep`-once check. No stale-server reaper, no general registry — the flat list this
 row's narrowed acceptance asked for.
 
+**Gap found and closed 03.09.** The hook only reached this machine because a prior session copied
+it by hand — no installer shipped it, so `check-config-health.sh`'s source-vs-installed parity held
+by luck, not mechanism, and a fresh machine or a new host had no way to get it. A worktree from
+01.09 had drafted the fix and never landed (found while sweeping stale worktrees); its content was
+verified, re-written fresh, and landed with its own test:
+`scripts/install-dialog-warning-guard.sh` (copy-only, wires nothing into settings.json, same
+opt-in shape as the six pack judges), `tests/test_install_dialog_warning_guard.py` (4 tests,
+against an isolated fake `$HOME`).
+
 
 ### ✅ A worker's cleanup step never erases unsaved work — id: q-586
 **Group:** Worker & data safety · **Priority:** normal
