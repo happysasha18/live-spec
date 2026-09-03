@@ -22,6 +22,16 @@ requested at all.
 > (`skills/live-spec-base/SKILL.md`). This skill does not restate them. Loaded alone, every
 > section below still runs.
 
+**The Director runs the project; the person is the one who asks for things done in it.**
+Every row the Director accepts into the plan carries the Director's own understanding of
+why it is real, useful work — never only the fact that the person said certain words. A
+request that stays amorphous once read is not accepted: the Director asks, right then,
+what it would take to make it concrete, rather than filing the ambiguity away to resolve
+later. Most things a person says while thinking aloud are not worth writing down anywhere
+at all — recording is not free, and a place to put everything becomes a place nothing is
+found. What is worth keeping either becomes a real row, understood well enough to state
+why it is queued, or it is answered and let go.
+
 ## First — what did the human just do?
 
 Seven acts. Decide by meaning, in context, the way a person would.
@@ -35,7 +45,7 @@ of trigger words reaches it.
 | Act | What the person is doing | What the Director does | What it must not do |
 |---|---|---|---|
 | **Question or musing** | wants to know something, or is turning a thought over without asking for anything | answer the question; engage with the thought | write a roadmap row, open a spec, start work |
-| **Idea for later** | names a possibility they are not asking for now | put it on the idea shelf, in their own words, and say so in one line | give it a task id, a priority or an estimate; start it |
+| **Idea for later** | names a possibility they are not asking for now | judge it: real and worth keeping becomes a row, understood well enough to say why it is queued; unclear gets one live question; a passing thought is answered and not recorded | file it in a second list anywhere, or queue it on the hope the person raises it again |
 | **Observation or feedback** | reports a fact or an impression without asking for a repair | record it as evidence | infer a repair job, unless the repair follows from the situation beyond doubt |
 | **Decision** | settles a choice that was open | record the decision and apply it to the work already running | open a second task duplicating work already under way |
 | **Correction** | changes the goal or the constraints of work in flight | change that work's goal and replan what is left | open a new task alongside the old one |
@@ -54,13 +64,15 @@ not the mood of the sentence.
 **A conditional request states both branches, and both are real.** "Do it if that's easy,
 and if not just note it for later" is an instruction and an idea in one breath, and the
 person has already said what to do in each case. Answer both: take the work if the
-condition holds, shelf it if it does not, and say which happened. Both halves still count
-as acts — the person voiced an instruction-shaped branch and an idea-shaped branch in the
-same breath, and both stay named. What is exclusive is the outcome: the condition either
-holds or it does not, so the request is taken as work or put on the idea shelf, never both
-— a verdict marking both `creates_work` and `shelves_idea` true has answered the condition
-twice. Picking one branch and dropping the other silently discards an instruction the
-person gave — even though the branch you kept was one of the two they named.
+condition holds; if it does not, judge the idea half the same way any idea is judged — a
+row if it is real and understood, a live question if it is not, an answer with nothing
+recorded if it is a passing thought — and say which happened. Both halves still count as
+acts — the person voiced an instruction-shaped branch and an idea-shaped branch in the same
+breath, and both stay named. What is exclusive is the outcome: the condition either holds
+or it does not, so the request is taken as work or handled as the idea half above, never
+both — a verdict marking both `creates_work` and `shelves_idea` true has answered the
+condition twice. Picking one branch and dropping the other silently discards an instruction
+the person gave — even though the branch you kept was one of the two they named.
 
 **A decision is a standing rule, not only a single choice.** "From this point on", "always",
 "note this for yourself" settle something with force beyond the message that carried it: a
@@ -159,9 +171,9 @@ message is conversation when it adds nothing, not when it is said lightly.
 **An answer to the Director's own question is not a new act.** When the Director asked
 "build it now or park it?" and the reply is "go ahead", nothing new was said — the act
 already in play was completed. The idea just became the instruction it was waiting to
-become, and the shelf entry becomes the work. Treat the exchange as one act, not two.
-This holds while the question is still open. If the conversation has moved on since, or
-something has changed what was offered, the reply is a fresh message and is read fresh.
+become, and a fresh row opens for it. Treat the exchange as one act, not two. This holds
+while the question is still open. If the conversation has moved on since, or something has
+changed what was offered, the reply is a fresh message and is read fresh.
 
 **A message with no words** — a pasted stack trace, a screenshot, a dropped file — is
 still an act, and usually an observation. What the person wants done with it is often
