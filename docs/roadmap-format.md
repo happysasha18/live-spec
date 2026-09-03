@@ -1,28 +1,28 @@
 # The roadmap format — definition
 
-This page defines the format the roadmap is written in. The roadmap is a member of the same format family as the spec, and this page states only what is particular to the roadmap. The shared family laws live once in `docs/spec-format.md`, and this page inherits them by reference rather than restating them.
+This page defines the format a project's plan/queue is written in — the shape `templates/PLAN.template.md` hands a newly founded project. The queue is a member of the same format family as the spec, and this page states only what is particular to it. The shared family laws live once in `docs/spec-format.md`, and this page inherits them by reference rather than restating them.
 
-## What the roadmap inherits from the family
+## What the queue inherits from the family
 
-The roadmap is written in the requirements genre `docs/spec-format.md` defines, and every law that page states holds here unchanged:
+The queue is written in the requirements genre `docs/spec-format.md` defines, and every law that page states holds here unchanged:
 
-- the closed-vocabulary glossary, so every domain noun the roadmap uses carries one glossary entry under one name;
+- the closed-vocabulary glossary, so every domain noun the queue uses carries one glossary entry under one name;
 - the keyword form, so the keywords *when*, *while*, *if*, *then*, and *shall* are set in lowercase italics;
 - the no-capitals rule, so no word stands in all capitals outside a code anchor;
 - the trailing code anchor, so a code points to its home at the line's end and a reader may ignore it;
 - the no-history law, so the record of finished work — its dates, its delivery reports, the reasons behind past choices — lives in the archive and the journal, and the body states only the live queue;
-- the generated-section gating, so a section a script builds is output only and a gate reds a hand edit of it (to red is to fail the suite), where the roadmap carries such a section;
+- the generated-section gating, so a section a script builds is output only and a gate reds a hand edit of it (to red is to fail the suite), where the queue carries such a section;
 - the comprehension gate, so a changed section clears the mechanical lints and then a panel of cold readers, passing only after two consecutive reads return zero blocking findings.
 
-A reader who needs any of these consults `docs/spec-format.md`. The rest of this page adds the parts the roadmap carries that the spec does not.
+A reader who needs any of these consults `docs/spec-format.md`. The rest of this page adds the parts the queue carries that the spec does not.
 
-## What the roadmap is
+## What the queue is
 
-The roadmap is the wish queue: the live record of what is asked of the product and where each ask stands. A wish is a request for a change the product does not yet carry, and a wish lands when the delivery that completes it ships. Intake is continuous, a wish entering the moment it is spoken; execution runs at most the lane cap of independent landings at once — three by default, so up to three rows may read *in-work* — and a landing finishes before a colliding next starts; two landings collide when they rewrite one clause or one behaviour's rule. The spec keeps sole authority over what is true of the product, and the roadmap holds the asks. Its reading job: a stranger reads the body and knows the live work state on the first pass.
+The queue is the live record of what is asked of the product and where each ask stands. A wish is a request for a change the product does not yet carry, and a wish lands when the delivery that completes it ships. Intake is continuous, a wish entering the moment it is spoken; execution runs at most the lane cap of independent landings at once — three by default, so up to three rows may read *in-work* — and a landing finishes before a colliding next starts; two landings collide when they rewrite one clause or one behaviour's rule. The spec keeps sole authority over what is true of the product, and the queue holds the asks. Its reading job: a stranger reads the body and knows the live work state on the first pass.
 
 ## Document structure
 
-A roadmap document opens with a short preamble, the same shape the family gives it: what the document covers, what the bracket codes are, and how the keywords read. The body follows — one table, its header `| # | Wish (plain words) | Class | Status | Decision / acceptance |`, one row per live wish, the rows standing in ascending id order with a new wish appending at the tail. A rotated-manifest block sits above the body, one line per monthly archive file naming the rows moved and the file that received them; the rotation script maintains it and a gate cross-checks it against the archive.
+A queue document opens with a short preamble, the same shape the family gives it: what the document covers, what the bracket codes are, and how the keywords read. The body follows — one table, its header `| # | Wish (plain words) | Class | Status | Decision / acceptance |`, one row per live wish, the rows standing in ascending id order with a new wish appending at the tail. A rotated-manifest block sits above the body, one line per monthly archive file naming the rows moved and the file that received them; the rotation script maintains it and a gate cross-checks it against the archive.
 
 ## The live-body law
 
@@ -36,7 +36,7 @@ The status vocabulary is closed — five words, each set in lowercase italics an
 
 - *queued* — the wish is accepted and waiting its turn. Its task statement has not passed validation yet.
 - *ready* — the wish's task statement has passed validation and its wording is frozen, so the row may be taken up as it stands. The row keeps this status until a session claims it, when it reads *in-work*.
-- *in-work* — the wish is claimed by a session. A landing that leaves any leg open keeps its row live with the open leg named, since a row closes only whole; the row reads *in-work* while a session still drives the open leg, and *deferred* on a named trigger when that leg waits on an outside event. A stale claim is re-read at queue-take — the moment a session takes its next wish from the queue: an *in-work* row with no commit citing it for seven days joins the staleness review list for the human's word. The mechanical sweep behind that list is promised under ROADMAP row 481; until it lands, the taking session runs the re-read itself.
+- *in-work* — the wish is claimed by a session. A landing that leaves any leg open keeps its row live with the open leg named, since a row closes only whole; the row reads *in-work* while a session still drives the open leg, and *deferred* on a named trigger when that leg waits on an outside event. A stale claim is re-read at queue-take — the moment a session takes its next wish from the queue: an *in-work* row with no commit citing it for seven days joins the staleness review list for the human's word. The mechanical sweep behind that list has not been built yet; until it lands, the taking session runs the re-read itself.
 - *deferred* — the wish is parked on a named revisit trigger, the trigger written in the status cell and re-read at queue-take and at the next milestone review — the whole-project re-check the pack runs at each version milestone.
 - *far* — the wish is parked with no near trigger, re-read at the milestone reviews.
 
@@ -46,9 +46,9 @@ Anything else a row needs to say about its state lives in the wish cell or the a
 
 The class vocabulary is closed and held by a lint, one vocabulary shared with the spec. The class cell carries exactly one of four words: *bug* — something shipped is wrong, and it cuts the queue ahead of any size — or one of the three sizes *small*, *surface*, and *large*, whose meanings live in the spec glossary's size entry.
 
-## The roadmap row
+## The queue row
 
-One roadmap row is one live wish, exactly five cells, matching the header: the id, the wish, the class, the status, and the acceptance.
+One queue row is one live wish, exactly five cells, matching the header: the id, the wish, the class, the status, and the acceptance.
 
 The wish cell carries the ask in plain words, its provenance, and the intake notes. The provenance is whose word asked for the wish and the date — a queue's load-bearing fact, carried on the row because an unfinished ask's origin governs how it is handled. The intake notes are the wish's door (feature · bug · refactor · docs-only · skip), its kind (product · infra · skill · prose), its footprint, its placement on the architecture map, and an entry condition where one was declared. A priority mark rides the intake notes when the wish's priority is other than normal — a critical bug lands before everything, and a quick win may bubble up between landings with the jump named in its row.
 
@@ -68,9 +68,9 @@ One delivery converts the whole roadmap to this format, and everything that read
 - **The statuses lowercase and lose their decoration** as a declared delta, each free-form status becoming one of the four closed words with its date.
 - **The sixth drift cell is removed** as a declared delta: the newest rows drifted into a sixth cell holding a bare dash, and the conversion returns every row to the five the header declares.
 - **The two class values outside the vocabulary move** as declared deltas: a class reading *big* reads *large*, and the one row carrying *far* in its class cell moves that word to its status cell, the moved *far* displacing the free-form status that stood there (row 411 resolves to *far 2026-07-17*).
-- **The rotation machinery learns the monthly append** as a named delta: the archive file is named by year and month (`rotated-ROADMAP-YYYY-MM.md`), and `guardrails/check-doc-rotation.py` reads one manifest line whose row-set grows across commits. That delivery taught the same append to the rotation tool `scripts/rotate-doc.py`, which has since retired to `attic/rotate-doc.py` along with the live document it read; a row moves by hand now, and the gate is what proves the move lost nothing. The one-time converter and its content-preservation proof live under `prototype/2026-07-23-roadmap-format/`, the matrix conversion's own precedent.
+- **The rotation machinery learns the monthly append** as a named delta: the archive file is named by year and month (`rotated-ROADMAP-YYYY-MM.md`), and `guardrails/check-doc-rotation.py` reads one manifest line whose row-set grows across commits. That delivery taught the same append to the rotation tool `scripts/rotate-doc.py`, which has since retired to `attic/rotate-doc.py` along with the live document it read; a row moves by hand now, and the gate is what proves the move lost nothing. The one-time converter and its content-preservation proof lived under `prototype/2026-07-23-roadmap-format/`, the matrix conversion's own precedent, deleted whole in the 26.08 approved prototype cleanup (`61a77841`) once its reading was over.
 - **Every parsing consumer is repointed** in the same delivery. `guardrails/check-doc-rotation.py` keeps cross-checking the rotated-manifest against the archive, continuing to prove nothing was lost as rows move. `guardrails/check-landing-next-steps.py` re-keys from "a Status cell flipped to landed" to "a body row moved to the archive whose archived status reads *landed*" — the gate reads the moved row's status from the archive side of the diff, a row moving out as *declined* or *superseded* owing no refresh — and it still reds a landing commit that leaves `NEXT_STEPS.md` untouched. `tests/test_delegation_line.py` reads landed rows and their delivery reports from the archive, its non-empty-input guard counting archive rows scanned. The in-work lane-cap check in the traceability suite reads the status through the new lowercase-italic form. `guardrails/crosscut_counter.py` keeps grepping the cells for `footprint: cross-cutting`, reading the footprint from the wish cell's intake notes.
 
 ## The comprehension gate
 
-A changed roadmap section clears the comprehension gate the family defines, stated once in `docs/spec-format.md`: the mechanical lints first, then a panel of cold readers, passing only after two consecutive reads return zero blocking findings. The roadmap adds the row lint above to that first layer, running beside the family's vocabulary, one-name, weak-word, and style lints. The conversion's cold reads cover the preamble and this definition page and a sample of body rows, never all of them.
+A changed queue section clears the comprehension gate the family defines, stated once in `docs/spec-format.md`: the mechanical lints first, then a panel of cold readers, passing only after two consecutive reads return zero blocking findings. The queue adds the row lint above to that first layer, running beside the family's vocabulary, one-name, weak-word, and style lints. The conversion's cold reads cover the preamble and this definition page and a sample of body rows, never all of them.

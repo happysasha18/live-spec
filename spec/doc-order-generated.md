@@ -611,7 +611,7 @@
 
 ## Requirement 286: The queue is a family member written as live wish rows
 
-**Context:** ROADMAP.md is the format family's third member, joining after the spec and the matrix. The page `docs/roadmap-format.md` defines the member — the inherited laws and the queue-particular additions — and this requirement binds that definition, putting the queue's shape under the gates that hold the family.
+**Context:** The queue — the plan/wish-list `templates/PLAN.template.md` hands a project at founding — is the format family's third member, joining after the spec and the matrix. The page `docs/roadmap-format.md` defines the member — the inherited laws and the queue-particular additions — and this requirement binds that definition, putting the queue's shape under the gates that hold the family.
 
 **User Story:** As a maintainer working the queue, I want its format governed by the family's laws and gates, so that reading and holding it costs what the other family documents cost.
 
