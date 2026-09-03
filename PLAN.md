@@ -1463,7 +1463,7 @@ carries the step, not only a founding. Proven textually (`tests/test_catchup_wal
 
 **Corrected, same day. Checked by reading on 03.09**, re-verified against the actual scripts and
 tests cited below, not asserted from memory: chasing one named real host was the wrong shape of
-proof for this row in the first place. His own catch: "доску унаследуют все проекты, и будущие тоже" — the row asks
+proof for this row in the first place. His own catch: "доску унаследуют все проекты, и будущие тоже" <!-- user-language --> — the row asks
 that EVERY project inherit the board, present and future, not that one hand-picked project be
 shown to. A per-instance demonstration proves only that one instance; the actual claim ("every
 project gets its own status view") is a mechanism claim, and a mechanism is proven by the
