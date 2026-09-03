@@ -1470,32 +1470,35 @@ task, one lane per worker, given-vs-actual time, per-agent attribution, one publ
 live over one real stretch of work, the same way q-166's own acceptance read before this split.
 
 
-### 🔄 A queued row always carries a real reason to stay open; an idea gets its own shelf — id: q-813
+### 🔄 A queued row always carries a real reason to stay open; the Director owns why — id: q-813
 **Group:** Board & visibility · **Priority:** critical
-**Source:** owner 2026-09-03 ~10:08 — a task never sits open with no real reason; either a
-checkable cause keeps it queued, or it was an idea and belongs on a shelf, not dressed as a task
-(`DECISIONS.md`, 2026-09-03).
+**Source:** owner 2026-09-03 ~10:08, corrected ~10:20 — a task never sits open with no real
+reason the Director itself understands; an amorphous ask is never accepted; no second list, ever,
+not even a shelf (`DECISIONS.md`, 2026-09-03, two entries).
 
-**What was wrong.** `q-811`'s own text admits nobody has asked for its feature again since
-08-06, and its "revisit trigger" — "a real ask for it" — is not a checkable external fact, it
-requires him to personally re-raise it, which is circular. That is an idea, not queued work, and
-it was sitting in `## Tasks` with a mark, a group, a priority — every visual signal of a real row —
-which is exactly why it read as confusing rather than as the shelved thought it actually is. The
-mechanism to hold an idea properly was already specced and never built:
-`spec/message-first-read.md` Requirement 315 (`E-37`, `INV-320`) names an idea shelf holding a
-person's own wording, no identifier, no priority, no estimate — its own text admits "no file holds
-it, no command writes to it, and no test reads it."
+**What was wrong, twice.** First: `q-811`'s own text admits nobody has asked for its feature again
+since 08-06, and its "revisit trigger" — "a real ask for it" — is not a checkable external fact, it
+requires him to personally re-raise it, which is circular. That is an idea, not queued work.
+Second, caught only after this row's first draft briefed a worker to build it: the fix drafted was
+a new file, `IDEA_SHELF.md` — a second list beside `PLAN.md`, exactly what this file's own "One
+plan" section already forbids ("no task list anywhere else... a felt need for another plan is a
+sign that a task belongs here, not that a new file should exist"). His correction went further:
+every condition for a row rests on the Director's own understanding of the project, never on the
+person's words alone; an amorphous request gets a live question, not a filed placeholder; most
+things said in passing are not worth recording anywhere.
 
-**Definition of done:** `IDEA_SHELF.md` exists at repo root, append-only, each entry dated and
-quoted verbatim, no identifier/priority/estimate; `director/SKILL.md`'s idea-act handling writes to
-it and says so in one line, closing Requirement 315's `[target]` tag for real. `PLAN.md` states the
-real bar for a row staying in `## Tasks`: an active reason — in hand, or queued behind a named,
-checkable trigger — never a hope that circumstances change. Every currently open row is swept
-against that bar; `q-811` moves to the shelf (its own approved spec chapter, `spec/work-board.md`
-Requirement 309, retired to `attic/` with a manifest line rather than silently dropped — a
-prototype/declined design holds no rights, per rule 16's own spirit, and a fresh design
-conversation is how it comes back, not a git resurrection); any other row the sweep finds
-ambiguous is reported, not decided unilaterally. Full suite green.
+**Definition of done:** `skills/director/SKILL.md`'s idea-act handling states the real outcome —
+real and understood becomes a row with its own stated reason; unclear gets one live question; a
+passing thought is answered and nothing is recorded — landed. `q-811` leaves `## Tasks` (no shelf
+to move it to); its own approved spec chapter, `spec/work-board.md` Requirement 309, retires to
+`attic/` with a manifest line, history preserved the ordinary way (`docs/queue-archive/` plus the
+manifest), not a new mechanism — a design nobody is building holds no rights, and a fresh
+conversation is how it comes back, never a git resurrection. `spec/message-first-read.md`
+Requirement 315 (the idea shelf itself, `E-37`, `INV-320`) retires the same way, since the
+mechanism it specifies is exactly what the correction forbids — its `[target]` tag drops along
+with it rather than closing on a build that should never happen. Every other currently open row is
+swept against the real bar (in hand, or a named checkable trigger); anything ambiguous is
+reported, not decided unilaterally. Full suite green.
 
 
 ### ⬜ The Director's real route is proven end to end, on the actual mechanism, not the instructions — id: q-812

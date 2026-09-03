@@ -607,6 +607,34 @@ the one slot nothing questions. That is the defect this surface exists to catch.
   resurrection. Every other open row gets swept against the same bar; anything ambiguous is
   reported, not decided unilaterally.
 
+- 2026-09-03 ~10:20 — corrects the entry above. No idea shelf, no second list of any kind, ever —
+  a felt need for one is a task that belongs in `PLAN.md` itself, exactly what this file's own "One
+  plan" section already says and this session violated by briefing a worker to build a separate
+  `IDEA_SHELF.md` before catching the mistake. Every condition for accepting or holding a row rests
+  on the Director's own understanding of the project, never on the person's words alone; an
+  amorphous request is never accepted, and gets one live question instead of a filed placeholder;
+  most things said in passing are not worth recording anywhere at all. Your words in chat: "все
+  условия всегда основываются на твоем понимании как вести проект и у тебя должно быть понимание
+  для каждого таска который ты принял... если что-то аморфное то не принимаешь, может записать
+  куда-то но тоже не все надо записывать потому что это мусорка. не уверен, спроси в моменте. не
+  надо ничего декларировать как ждущего за редкими исключениями... проект ведешь ты, а пользователь
+  он просто заказчик... ты ничего не строишь помимо доски или в обход доски... idea shelf это либо
+  часть плана либо это не записывается." In English: every condition always rests on your own
+  understanding of how to run the project, and you must understand every task you've accepted; if
+  something is amorphous, don't accept it — maybe note it somewhere, but not everything needs
+  noting, that's just trash; if unsure, ask in the moment; don't declare things as waiting except
+  rare exceptions; you run the project, the person is just the client; you build nothing beside or
+  around the plan; the idea shelf is either part of the plan or it isn't recorded. Asked directly
+  whether any section for not-yet-real-but-worth-remembering ideas should exist in `PLAN.md` at
+  all; his answer: no such section, full stop. Consequence: `skills/director/SKILL.md` rewrites the
+  "Idea for later" act's outcome — real and understood becomes a row with its own stated reason;
+  unclear gets a live question; a passing thought is answered and nothing is recorded. `q-811`
+  still leaves `## Tasks` and `spec/work-board.md` Requirement 309 still retires, on the same
+  reasoning as before, now without a shelf to move the idea to — its history is preserved the way
+  every declined row already is, `docs/queue-archive/` plus the `attic/` manifest, not a new
+  mechanism. `spec/message-first-read.md` Requirement 315 (the idea shelf itself) retires the same
+  way, since the mechanism it specifies is exactly what this correction forbids.
+
 ## Open — carried, awaiting your word
 <!-- record:open -->
 These are open questions the pack carries with a recommendation. They moved here from the old spec
