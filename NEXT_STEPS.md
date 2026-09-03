@@ -4,95 +4,68 @@ A digest with no redundancy (SPEC INV-48) — one live-state block, nothing remo
 information. One status block stands here at a time, and every update replaces it. Dated history
 lives in `JOURNAL.md`.
 
-## LIVE STATE (2026-09-03, 15:32)
+## LIVE STATE (2026-09-03, 19:26)
 
-**The plan is closed except onboarding, his own ask tonight.** Only `q-54` (onboarding, left
-alone on purpose) stays open by choice; `q-48` and `q-385` stay open on their own real triggers
-(below). Everything else that was open when this ask landed is now `✅`.
+**Pushed. `origin/main` is `45a470b9`, 70 commits, all gates green.** Everything the 15:32 write
+below left open for this session is now closed:
 
-heals landing 1450e1be
+- **Director eval, full re-record (both sets), done.** 31 of 36 act-classification scenarios pass
+  (was 30/35 on the same skill text before today's edits); 7 of 9 closing scenarios pass. Two
+  closing reds are real, not noise — both are cases where the Director should have said `closes:
+  false` (a taste call; a change to the definition of correct) and said `true` instead, the same
+  over-correction class as the work-board finding below. Not fixed this session — recorded here so
+  the next skill edit to `skills/director/SKILL.md` reads this before touching the closing rule
+  again.
+- **The comprehensive adversarial review of the whole pushed range, done.**
+  `docs/prover/2026-09-03-full-range-adversarial-review.md` — one non-blocking finding (q-813 and
+  q-815's closing notes overstated the suite as green at close time; corrected in place, citing the
+  review, in the same commit that restored q-813's other over-retirement below).
+- **`q-811`'s retirement did NOT need his word after all — re-tested by derivability and reversed.**
+  The session that closed `q-813` retired `spec/work-board.md` Requirement 309 (99 criteria, an
+  approved sketch) whole, past what the owner had already settled the morning before: his
+  2026-09-02 12:46 word, on record at `.live-spec/turnkey-contract-composed.md:305`, kept R309 and
+  deferred it to build after package 2 — never retired it. That word already answered the question
+  q-813 left open; asking again would have been the same mistake `q-813`'s own text names (an
+  amorphous marker treated as needing his word when an artifact already settles it). Restored
+  (minus the one piece his same word did retire — the ~5s auto-refresh heartbeat, which stays cut)
+  and requeued as `q-816`, carrying a real checkable trigger (package 2 closing) in place of
+  `q-811`'s uncheckable "a real ask for it." Two follow-on findings from the restoration's own
+  review (`docs/prover/2026-09-03-work-board-restoration-review.md`): 32 stale pointers naming the
+  closed `q-166` instead of `q-816`, fixed the same session; one real scope gap
+  (`spec/live-status-reporting.md` R310 criterion 10 promises something `q-816`'s own acceptance
+  cannot reach) recorded as a `PLAN.md` Blockers entry for the owner's decision, not fixed
+  unilaterally.
+- **Full suite green on the quiet, fully merged tree**, twice in a row (2790 passed, 5 skipped, 0
+  failed, both runs ~24 min) — pushed on that certification, per standing word.
 
-**Closed this session, each independently re-verified on the merged tree, never taken on a
-worker's own report alone:**
-- `q-163` — the field leg. tlvphotos's own `TEST_MATRIX.md` carries the derived section; checked
-  read-only against the live 1325-line file, not just the inbox report claiming it.
-- `q-814` — the skill-review gate's byte-identical-vendor-sync carve-out, and the migration-wish
-  rollback check's known-difference-list fix for a test-runner-rewritten tracked file. Built in a
-  lane, rebased, re-run against the real diff, landed.
-- `q-815` — the worker-restore gate's `own_repo()` read its identity off `SCRIPT_DIR` (wherever
-  the `.py` file physically sits), right only inside its own checkout; fixed to `os.getcwd()`, the
-  repo the check is actually invoked from, so a downstream host reusing the file unchanged is no
-  longer scoped to live-spec's own repo. No new config.
-- `plan-14` — the real gap: `adopt/install-status-view.sh` ran only at founding (`ADOPT.md`),
-  never at catch-up (`MIGRATION.md`), so an already-adopted host running catch-up (tlvphotos,
-  today, 2.7.0 → 6.1.0) never got the board. Fixed: `MIGRATION.md` Phase 4 now runs it too,
-  non-clobbering, beside `install-scaffold.sh --force`. His own correction, mid-session: don't
-  chase one named host to prove a mechanism claim — the generic scratch-host proof
-  (`tests/test_status_view_install.py`) already covers every host, present and future; no
-  host-by-host demonstration was ever owed.
+**The push gate itself needed three follow-on records before it would pass** (SPEC INV-304, "one
+record per push, naming the pushed range by commit"): a scoped record for the work-board
+restoration's touch on `PRODUCT_SPEC.md`, one for a mechanical rename's touch on `ARCHITECTURE.md`,
+and finally `docs/prover/2026-09-03-push-review.md` — the one record every earlier record's own
+commit had itself left uncovered, since each new record commit becomes the newest commit in the
+range. Worth a look before the next push: every one of these was a real, correctly-firing gate, not
+a false positive, but four sequential records to land one already-fully-reviewed range suggests the
+gate's own UX could tighten — nothing to fix tonight, just flagging the pattern.
 
-**Two things this session got wrong and corrected, worth carrying forward as working habits, not
-just facts:**
-- Raised `q-815`'s scan-scope approach and `plan-14`'s acceptance wording as questions needing his
-  word, with a rendered decision page and all. Both were derivable without asking — the standing
-  "no new machinery without an incident" rule already answered `q-815`, and rewriting tlvphotos's
-  own format was never this row's call either way, so there was no real fork in `plan-14` to
-  raise. Neither should have gone to him as a question.
-- Named `track-coach` as `plan-14`'s next proving host from stale `PLAN.md` prose, unverified — it
-  carries no `.live-spec/` at all. Checking a name before repeating it would have caught this
-  before he had to.
-
-**Two pre-existing gate gaps found and fixed along the way, neither caused by this session, both
-blocking every landing regardless of content:** `skills/director/SKILL.md`'s "no idea shelf" edit
-(`614cc25e`, landed earlier the same night) had no covering skill-review record — reviewed by hand,
-no findings (`docs/skill-review/2026-09-03-director-runs-the-project.md`). One Cyrillic offence
-already sitting committed in `PLAN.md` (`3b5beee0`, 12:47 — an unmarked literal quote of
-tlvphotos's own heading notation) — marked as a quote.
-
-Also added, asked for directly: a "Who this is for" section in `README.md`, grounded in what the
-page already claimed elsewhere rather than a new claim (pinned in `tests/test_readme_stance.py`).
-
-**This session's own last clean full-suite run:** 2788 passed, 2 failed, 1 error, 4 skipped. Both
-failures and the error are the same pre-existing debt named below (director eval staleness and its
-nested-suite cascade; the error didn't reproduce on retry — the same induced-flake class noted
-below under "A worker process can die silently"). No open lane remains; `git worktree list` shows
-only the primary tree.
-
-**Carried forward unchanged from the 12:50 write, still genuinely open:**
-- **One taste call needs his word, not folded into any done mark** (`q-813`'s own closing
-  paragraph in `PLAN.md`). Retiring `spec/work-board.md` Requirement 309 (99 approved acceptance
-  criteria, an approved August sketch) was a reading of his "no shelf" correction, never his own
-  sentence, and it collides with his 2026-09-02 12:46 word scheduling those same rows to build
-  after package 2. Fully reversible — the approved sketch stands at `docs/norms/work-board.html`,
-  the retired text is whole in the attic — but never put to him before this session acted.
-- **The director eval re-record (36 + 9 scenarios) is still deliberately held, not forgotten.**
-  `skills/director/SKILL.md` changed three times now across tonight and this session (closing
-  rule + argue-first, "no idea shelf", nothing since) with no re-record. Do this first, before
-  anything else touches that file — `evals/director/README.md` has the methodology.
-- **A genuinely comprehensive adversarial prover review of the whole pushed range is still owed,
-  not satisfied by name.** `docs/prover/2026-09-03-q812-director-route-contract.md` mechanically
-  satisfies the dated-record push gate, but it only reviewed `q-812`'s own contract — not the
-  adversarial read of the whole range (63 commits and rising) this pack's own method calls for
-  before a push. Don't mistake the gate passing for the review having happened.
-- **His two corrections from earlier tonight are load-bearing rules now**, in
-  `skills/director/SKILL.md`: the Director runs the project (every accepted row needs the
-  Director's own understanding of why it's real work, never only that words were said; nothing
-  gets built beside `PLAN.md`, no second list ever); a shown result closes the work (the "needs
-  his eye" gate is reserved for taste, an undecided trade-off, or a definition-of-correct change —
-  never for verifying an ordinary delivery a command already confirms).
+**Two live findings recorded in `PLAN.md`'s Blockers, neither fixed, both correctly left
+for a person:** the R310/`q-816` scope gap above, and the pre-existing five-check reviewing-skill
+version mismatch (local install 1.6.0 vs. this project's pin 1.4.2) from the 31.08 write below,
+still unresolved and still not this session's to fix.
 
 ## Open, for the next session
 
-1. **The director eval re-record (36 + 9 scenarios)** — do this first, before anything else that
-   might touch `skills/director/SKILL.md`.
-2. **A comprehensive adversarial prover review of the whole pushed range** — see LIVE STATE.
-3. **`q-811`'s retirement (inside `q-813`) needs his word** — see LIVE STATE; raise it directly
-   the first time you talk to him if he hasn't already answered.
-4. Once the above settle: full suite green one more time on a quiet tree (no lane running), push.
-   His standing word already covers pushing once the suite is confirmed green.
-5. **Not open, correctly so, no action needed unless he raises it:** `q-54` (onboarding, left
-   alone on his own word), `q-48` (host-side leg is tlvphotos's own window's job), `q-385` (its
-   own revisit trigger — a host declaring a real contract — hasn't fired).
+1. **Two closing-scenario reds in the director eval need a look before the closing rule in
+   `skills/director/SKILL.md` is touched again** — see LIVE STATE. Not urgent; nothing depends on
+   them today.
+2. **The R310/`q-816` scope gap is a `PLAN.md` Blockers entry waiting on his policy call** (widen
+   `q-816`'s acceptance, or give the criterion its own row — neither reading is derivable from an
+   artifact already on file) — see LIVE STATE.
+3. **The five-check reviewing-skill version mismatch (local 1.6.0 vs. this project's pin 1.4.2)
+   is still open**, carried forward from 31.08 — the server stays the honest green reading.
+4. **Not open, correctly so, no action needed unless he raises it:** `q-54` (onboarding, left
+   alone on his own word), `q-48` (host-side leg is tlvphotos's own window's job, a wish already
+   sitting in its inbox since 02.09), `q-385` (its own revisit trigger — a host declaring a real
+   contract — hasn't fired), `q-816` (queued, waiting on package 2 to close).
 
 
 ## Where the numbers live
@@ -160,31 +133,23 @@ whatever's missing, and commit. Never run a destructive git command on a dead wo
 
 ## Prompt for the next session
 
-**Everything below this line was rewritten 2026-09-03 15:32, this session's own close.** Check
+**Everything below this line was rewritten 2026-09-03 19:26, this session's own close.** Check
 `bash scripts/state-probe.sh` and this file's own LIVE STATE section above first; if things have
 moved further since this was written, trust what you observe over this prompt.
 
 Do not ask Alexander anything before doing the work below unless it's genuinely his — a taste
-call, a policy question, or an act irreversible outside git. Re-test that before asking: this
-session raised two things as questions that turned out derivable from standing rules already in
-hand — check whether the answer is actually already written down before treating anything as his.
-His standing word already covers pushing once the suite is confirmed green.
+call, a policy question, or an act irreversible outside git. Re-test that before asking: two things
+raised as questions to him earlier tonight turned out derivable from standing rules or his own
+already-recorded word — check whether the answer is actually already written down before treating
+anything as his.
 
-**Do these two in order, both before pushing:** re-record the director eval (36-scenario +
-9-scenario closing, together, one pass — `evals/director/README.md` has the methodology), since
-`skills/director/SKILL.md` has changed three times now with no re-record. Then run one genuinely
-comprehensive adversarial prover review over the whole pushed range (`docs/prover/README.md` has
-the record shape) — `docs/prover/2026-09-03-q812-director-route-contract.md` already satisfies the
-push gate's dated-record check by name, but it only reviewed `q-812`'s own contract; do not
-mistake that gate passing for the real review having happened. Then a final full-suite run on a
-quiet tree, then push.
-
-**One taste call needs his word before anything more is built on top of it** — raise it directly
-the first time you talk to him, don't bury it in a status line: retiring `spec/work-board.md`
-Requirement 309 (99 approved criteria, an approved August sketch) was a reading of his "no shelf"
-correction, not his own sentence, and it collides with his 2026-09-02 12:46 word scheduling those
-same rows to build after package 2. Fully reversible; named in `PLAN.md` q-813's own closing
-paragraph.
+**Everything the 15:32 write left as this session's own work is done and pushed**: the director
+eval, the range-wide adversarial review, the work-board restoration (re-tested by derivability
+rather than asked, per his own 2026-09-02 12:46 word already on record), and the push itself —
+`origin/main` is `45a470b9`. Nothing here is blocking. The three genuinely open items are listed
+above under "Open, for the next session," and none of them needs a session's first move — they wait
+on his own decision (the R310/q-816 scope gap), on a look at the eval's own text (the two closing
+reds), or on nothing this project controls (the reviewing-skill pin).
 
 **The plan is closed except onboarding** (`q-54`, left alone on his own word) — `q-48` and `q-385`
 stay open on their own real, unfired triggers, not on anyone's word. Nothing else to decide there.
