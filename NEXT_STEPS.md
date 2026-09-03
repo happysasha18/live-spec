@@ -78,35 +78,39 @@ Russian document in a completely different format, not this pack's row shape at 
 his own word since 26.08. A policy call: amend the acceptance to prove against any compatible
 host, or tlvphotos's frozen format changes first. Neither is this row's call alone.
 
-**`q-812` is in flight with a live background worker, not yet landed — check before doing
-anything else.** His own capstone ask for tonight: prove the Director's whole task lifecycle
-(accept → one row + one checkpoint → work → DOD-gated close → resume without duplicating) end to
-end on a scripted, deterministic scratch-host harness, using only existing mechanism — explicitly
-no new hook, board server, event log, second plan, registry or status. Full brief:
-`.live-spec/checkpoints/q812-director-route-end-to-end.md`, which also carries the live worker's
-id, its briefed write-set (`.claude/worktrees/lane-q-812-director-route-end-to-end`, branch
-`lane/q-812-director-route-end-to-end`), and the exact liveness checks to run before assuming it
-died or spawning a second worker on the same lane. **Do this first**, per rule 7: check the
-worktree's file mtimes, `git log` on its branch, and message the worker id before touching that
-lane or its files.
+**`q-812` closed and independently re-verified before this session ended.** His own capstone ask
+for tonight: prove the Director's whole task lifecycle (accept → one row + one checkpoint → work
+→ DOD-gated close → resume without duplicating) end to end, using only existing mechanism — no new
+hook, board server, event log, second plan, registry or status, and none was built.
+`docs/prover/2026-09-03-q812-director-route-contract.md` reviewed the contract first: two of three
+named guarantees were proof gaps already covered by spec, one (one piece of work keeps one
+checkpoint) was a genuine hole, closed with two sentences on `spec/message-first-read.md`
+Requirement 314 after finding `checkpoint.py new` silently overwrites rather than refuses a second
+checkpoint. `tests/test_director_route_end_to_end.py` (11 tests) proves all six clauses on a real
+disposable host, no model call. `skills/director/SKILL.md` was NOT touched by this row.
 
-**The director eval re-record is deliberately held, not forgotten.** `skills/director/SKILL.md`
-changed twice tonight (the closing rule + argue-first rule, then the "no idea shelf" correction).
-Both `evals/director/scenarios.json`'s 35-scenario harness and the 9-scenario closing harness are
-stale against the live file (`tests/test_director_scenarios.py` reds on this by design — it is
-supposed to). Re-record BOTH together, once, only after `q-812`'s own work — which may touch
-`skills/director/SKILL.md` again — has actually landed. Re-running now would mean doing it twice.
+**The director eval re-record is still deliberately held, not forgotten — now it can actually
+run.** `skills/director/SKILL.md` changed twice tonight before `q-812` (the closing rule +
+argue-first rule, then the "no idea shelf" correction) and was untouched by `q-812` itself, so
+nothing further should move it before the re-record runs. Both `evals/director/scenarios.json`'s
+now-36-scenario harness (one new idea-shaping scenario landed with `q-812`, graded fresh; the other
+35 stay pinned stale) and the 9-scenario closing harness are stale against the live file
+(`tests/test_director_scenarios.py` reds on this by design). **Do this first, before anything else
+that might touch `director/SKILL.md` again** — re-record both together, one pass.
 
 ## Open, for the next session
 
-1. **`q-812` may still be running in its own lane** — check its checkpoint's own liveness
-   instructions before anything else (see the LIVE STATE section above).
-2. **The director eval re-record (35 + 9 scenarios)** is held until `q-812` lands, since that work
-   may touch `skills/director/SKILL.md` again. Do both in one pass once it's settled, not before.
-3. **The prover-record push gate wants a review dated today** — no `docs/prover/2026-09-03*.md`
-   exists yet. Once `q-812` lands and the eval re-record is done, run one comprehensive adversarial
-   prover review over the whole night's range before pushing — don't run it earlier and have it go
-   stale as more commits land.
+1. **`q-812` closed already** (see the LIVE STATE section above) — nothing to resume there.
+2. **The director eval re-record (36 + 9 scenarios)** — do this first, before anything else that
+   might touch `skills/director/SKILL.md` again.
+3. **A genuinely comprehensive adversarial prover review of the whole night's pushed range is
+   still owed, not just satisfied by name.** `docs/prover/2026-09-03-q812-director-route-contract.md`
+   exists and mechanically satisfies `guardrails/check-prover-record.sh`'s dated-record check, but
+   it is a narrow feature-fit review of `q-812`'s own contract, not the adversarial read of the
+   whole 46-plus-commit range this file's own README describes ("every commit between the remote's
+   head and the local head... briefed to find reasons the change should be refused"). Do not treat
+   the gate passing as the review having happened — run the real one, covering the whole range,
+   before push.
 4. **`q-811`'s retirement (inside `q-813`) needs his word** — see the LIVE STATE section's own
    paragraph on this; say so plainly the first time you talk to him if he hasn't already answered.
 5. **`plan-14`'s host-acceptance wording needs his word** — amend to any compatible host, or wait
@@ -182,33 +186,24 @@ whatever's missing, and commit. Never run a destructive git command on a dead wo
 
 ## Prompt for the next session
 
-**Everything below this line was written 2026-09-03 ~12:00, at his own request to end this session
-while `q-812` still had a live worker in its own lane** (context was full; he asked for the next
-session to open with "покажи план, продолжай"). Check `bash scripts/state-probe.sh` and this file's
-own LIVE STATE section above first — if things have moved since this was written, trust what you
-observe over this prompt.
-
-**First, before anything else: find out whether `q-812`'s worker is still running, died, or
-finished.** Its own checkpoint, `.live-spec/checkpoints/q812-director-route-end-to-end.md`, names
-the worker id, its briefed write-set (a lane worktree + branch), and the exact liveness checks to
-run — file mtimes, `git log` on the lane branch, a message to the worker id. Never assume it died
-from a process list alone (rule 6/7), and never spawn a second worker on that same lane before
-checking. If it finished (real new commits on its own branch, or it answered a status message):
-rebase the lane onto main's current tip, re-verify independently on the rebased tree (don't take
-its own report on faith), integrate through `scripts/land-lane.sh`, then close `q-812` in `PLAN.md`
-with your own re-verification named. If it's still genuinely working, let it finish rather than
-interrupting or duplicating its work.
+**Everything below this line was written 2026-09-03 ~12:50, at his own request to end this
+session** (context was full; he asked for the next session to open with "покажи план, продолжай").
+`q-812` landed and was independently re-verified before this session actually ended — check `bash
+scripts/state-probe.sh` and this file's own LIVE STATE section above first; if things have moved
+further since this was written, trust what you observe over this prompt.
 
 Do not ask Alexander anything before doing the work below unless it's genuinely his — a taste call,
 a policy question, or an act irreversible outside git. His standing word already covers pushing
 once the suite is confirmed green.
 
-**Once `q-812` lands:** re-record the director eval (35-scenario + 9-scenario closing, together,
-one pass — `evals/director/README.md` has the methodology) since `skills/director/SKILL.md` may
-have changed again inside `q-812`'s own work. Then run one comprehensive adversarial prover review
-over the whole night's range (`docs/prover/README.md` has the record shape) before pushing — this
-review has been deliberately held rather than run early and gone stale as more commits landed.
-Then a final full-suite run on a quiet tree, then push.
+**Do these two in order, both before pushing:** re-record the director eval (36-scenario +
+9-scenario closing, together, one pass — `evals/director/README.md` has the methodology), since
+`skills/director/SKILL.md` changed twice before `q-812` and stayed untouched by it — this is the
+last chance to do it once rather than twice. Then run one genuinely comprehensive adversarial
+prover review over the whole night's pushed range (`docs/prover/README.md` has the record shape) —
+`docs/prover/2026-09-03-q812-director-route-contract.md` already satisfies the push gate's dated-
+record check by name, but it only reviewed `q-812`'s own contract; do not mistake that gate passing
+for the real review having happened. Then a final full-suite run on a quiet tree, then push.
 
 **Two taste/policy calls from tonight need his word before anything more is built on top of them**
 — say so plainly the first time you talk to him, don't bury them in a status line:
