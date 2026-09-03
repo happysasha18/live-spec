@@ -3454,6 +3454,17 @@ One line per finding. Don't start a second list for them. Don't fix one without 
   the one stale "armed nowhere" note), or adding a direct line for the ones that deserve one, is its
   own piece of work and the priority is the owner's call.
 
+- **A criterion added beside the work-board restoration promises a switch its owning row's own
+  acceptance cannot reach. Found 03.09, in `docs/prover/2026-09-03-work-board-restoration-review.md`
+  finding F2, from commit `061d1294`.** That commit added criterion 10 to
+  `spec/live-status-reporting.md` Requirement 310: once the work board ships, the announcement home
+  for a work block moves from the written plan page to the board's own per-task plan. `q-816` owns
+  the anchor this criterion carries, but its acceptance reads "unchanged from `spec/work-board.md`
+  Requirement 309's own criteria, minus the retired heartbeat clauses above" — one file, not the two
+  the promise now spans. Closing `q-816` on its own stated words leaves criterion 10's switch
+  unmade. Two ways out, and both are yours: widen `q-816`'s acceptance to name R310 criterion 10, or
+  give the criterion its own row.
+
 ---
 
 ## Environment — known traps
