@@ -6,9 +6,15 @@ substantive reading already happened across four records committed earlier today
 their index, carrying the base commit and every reviewed commit by hash so the push gate can see
 the whole range answered by name, not scattered across files each covering only its own slice.
 
-Range: origin/main (f217a318) .. HEAD (5f9f99e0), 72 commits total. Every commit below outside the
+Range: origin/main (f217a318) .. HEAD (3517832d), 74 commits total. Every commit below outside the
 docs/prover/ directory is a reviewed commit; the docs/prover/-only commits (92b46c02, 1b3cae3d,
-47a8209a, and this file's own commit) carry no change of their own to review.
+47a8209a, and this file's own commits) carry no change of their own to review.
+
+Two commits land after the list below and after this file's first version: 45a470b9 (fixing this
+file's own `Blocking:` line so the gate's exact-match parser reads it — a docs/prover/-only commit,
+self-exempt) and 3517832d (`NEXT_STEPS.md`'s rewrite for session close, folding this session's real
+end state into the single live-state block SPEC INV-48 requires, and fixing one deferral-marker
+lint offence along the way — read in full below).
 
 ```
 5f9f99e0 Prover record for the tip commit (push gate INV-304)
