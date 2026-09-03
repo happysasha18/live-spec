@@ -465,7 +465,7 @@ off-by-one in the migration wish's rollback-proof known-difference count) — fi
 below rather than fixed inline here, since neither blocked this walk and both need their own care.
 
 
-### 🔄 A host refreshing its skills from the pack isn't taxed for a review the pack already did — id: q-814
+### ✅ A host refreshing its skills from the pack isn't taxed for a review the pack already did — id: q-814
 **Group:** Method reliability · **Priority:** normal
 **Source:** `inbox/2026-09-03-from-tlvphotos-catchup-6.1.0-findings.md` — a real host walk (tlvphotos,
 2.7.0 → 6.1.0) hit both findings below live and worked around them; reported back, not blocking.
@@ -494,6 +494,35 @@ byte-identical vendor sync does not); the migration wish template's step 0/9 ord
 known-difference list is corrected so a tracked-file-rewriting test runner doesn't false-positive
 the rollback proof. `inbox/2026-09-03-from-tlvphotos-catchup-6.1.0-findings.md` moves to
 `inbox/handled/` once both land.
+
+**Closed 2026-09-03.** Both findings landed in the lane worktree `lane/q-814-sync-review-carveout`.
+
+Finding 1: `guardrails/check-skill-review.sh` gained a `find_covering_record()` helper and a byte-
+identical carve-out — when no direct review record covers a skill's latest change, the gate now
+walks each changed file's own git history for an earlier commit with the same blob content that
+already carried a covering record, and stands down only when every changed file clears that. A
+genuinely new file among them still reds exactly as before. Proven red-then-green against a saved
+copy of the pre-fix script (a vendor sync restoring already-reviewed content failed there, passes
+now); the regression guard — a hand-edit to content never reviewed anywhere in history — still reds
+both before and after. Tests: `tests/test_skill_review.py::test_vendor_sync_of_previously_reviewed_content_needs_no_new_record`
+and `::test_hand_edit_to_never_reviewed_content_still_reds_with_carveout_present`
+(`python3 -m pytest tests/test_skill_review.py -q` — 24 passed).
+
+Finding 2: `MIGRATION.md`'s before-and-after self-test (INV-92) now names a tracked file the host's
+own test runner rewrites on every run (a timings or cache artifact, `tests/suite_timings.json` the
+case found) as an accounted-for difference by name, alongside the existing plan-item classes — it
+owes no separate plan item and never needs re-discovering per host. Tests:
+`tests/test_catchup_walk.py::test_a_test_runner_rewritten_tracked_file_is_a_named_known_difference`
+and `::test_test_runner_rewritten_tracked_file_no_longer_false_positives_the_rollback_check`, the
+second a behavioural fixture (a scratch git repo, a tracked file a stand-in suite rewrites) proving
+the fingerprint delta is real, then that the guide's own text now accounts for exactly that file
+(`python3 -m pytest tests/test_catchup_walk.py -q` — 14 passed).
+
+`inbox/2026-09-03-from-tlvphotos-catchup-6.1.0-findings.md` moved to `inbox/handled/` with a closing
+note. Full suite: `python3 -m pytest -q` — 2731 passed, 55 skipped, 4 failed, none touching either
+finding (pre-existing: a stale `skills/director/SKILL.md` hash against its recorded closing-eval
+runs, a nested run of the same; Cyrillic already on `PLAN.md:1361`; historical landing commits
+before this row missing a same-commit `NEXT_STEPS.md` touch) — carried as-is, not this row's job.
 
 
 ### 🔄 The worker-restore gate never blocks a push over an unrelated project's history — id: q-815

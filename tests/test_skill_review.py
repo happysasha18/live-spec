@@ -195,6 +195,48 @@ def test_body_change_with_matching_record_passes():
         assert r.returncode == 0, r.stdout + r.stderr
 
 
+def test_vendor_sync_of_previously_reviewed_content_needs_no_new_record():
+    """THE BYTE-IDENTICAL CARVE-OUT (PLAN q-814, from tlvphotos' 2.7.0 -> 6.1.0 catch-up finding):
+    a host's vendor sync (sync-skills.sh) can land content the pack already reviewed once, at an
+    earlier commit in this repo's own history — the exact same bytes, at the exact same path,
+    reintroduced verbatim by an unedited sync, not a fresh edit. Reproduced here: SKILL_V1 is
+    reviewed, the skill then diverges (a hand-edit, unreviewed), and a sync restores SKILL_V1's
+    exact bytes with no new record — the gate passes, since SKILL_V1's content was already
+    reviewed. Confirmed red against the pre-carve-out gate (2026-09-03, same fixture, no such
+    path existed): the push failed with no way to satisfy it short of a fresh, redundant record."""
+    with tempfile.TemporaryDirectory() as tmp:
+        _init_repo(tmp)
+        _write(tmp, "skills/demo/SKILL.md", SKILL_V1)
+        _write(tmp, "docs/skill-review/2026-07-17-demo.md", RECORD)
+        _commit_all(tmp, "skill v1 + its review")
+        _write(tmp, "skills/demo/SKILL.md", SKILL_BODY_CHANGED)
+        _commit_all(tmp, "hand edit, diverged, no review")
+        base = _head(tmp)
+        _write(tmp, "skills/demo/SKILL.md", SKILL_V1)
+        _commit_all(tmp, "vendor sync restores the reviewed v1 content byte-for-byte")
+        r = _run([GATE], cwd=tmp, extra_env={"LIVE_SPEC_DIFF_BASE": base})
+        assert r.returncode == 0, r.stdout + r.stderr
+        assert "byte-" in r.stdout and "identical" in r.stdout
+
+
+def test_hand_edit_to_never_reviewed_content_still_reds_with_carveout_present():
+    """The carve-out's boundary (the regression guard the row demands): a hand-edit that lands
+    content NEVER reviewed anywhere in this repo's history still demands a fresh record, even
+    though the skill DOES carry an earlier review — for different content. The carve-out matches
+    on exact byte content only, never on 'this skill was reviewed once, so anything goes'."""
+    with tempfile.TemporaryDirectory() as tmp:
+        _init_repo(tmp)
+        _write(tmp, "skills/demo/SKILL.md", SKILL_V1)
+        _write(tmp, "docs/skill-review/2026-07-17-demo.md", RECORD)
+        _commit_all(tmp, "skill v1 + its review")
+        base = _head(tmp)
+        _write(tmp, "skills/demo/SKILL.md", SKILL_BODY_CHANGED)
+        _commit_all(tmp, "hand edit to brand-new content, no review")
+        r = _run([GATE], cwd=tmp, extra_env={"LIVE_SPEC_DIFF_BASE": base})
+        assert r.returncode == 1, r.stdout + r.stderr
+        assert "FAIL (skill review)" in r.stdout
+
+
 def test_stale_record_does_not_cover_a_later_change():
     """A review committed BEFORE the last skill change is stale — it does not cover a change
     made after it, exactly as the prover-record gate refuses a record older than its spec."""

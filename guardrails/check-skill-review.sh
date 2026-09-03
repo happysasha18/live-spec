@@ -31,6 +31,18 @@
 # guardrails/case_or_space_only.py) contributes nothing to substantive_skills either — a change in
 # case or whitespace changes no instruction the model reads differently, so it owes no review.
 #
+# THE BYTE-IDENTICAL CARVE-OUT (a host's own vendor-sync, PLAN q-814). A host that refreshes its
+# skills from the pack byte-for-byte (sync-skills.sh) can land content that is new to the HOST's own
+# last commit but not new to this repo's history — the exact same bytes, at the exact same path,
+# were committed once before and already carry a covering review record. Re-landing reviewed content
+# verbatim is not a fresh edit, so it owes no fresh review. Checked per changed file, after the
+# ordinary record search above finds nothing: for each substantively-changed file under the skill,
+# the gate walks that file's own commit history (`git log -- <path>`) for an EARLIER commit whose
+# blob hash equals the file's current blob hash, and asks whether THAT commit already had a covering
+# record (the same name+marker+verdict+freshness match, freshness measured against that earlier
+# commit). The skill is satisfied only when EVERY one of its changed files clears this — one
+# genuinely new file among them still owes the review, exactly as today.
+#
 # THE RECORD. For each substantively-changed skill <name>, the gate requires a COMMITTED record
 # under <review-dir> that (1) names the skill, (2) carries the SKILL-REVIEW marker and a Verdict:
 # line, and (3) is FRESH — THAT RECORD'S OWN commit is at least as new as the skill's own last
@@ -116,22 +128,20 @@ if [ -z "$substantive_skills" ]; then
   exit 0
 fi
 
-fail=0
-for name in $substantive_skills; do
-  skill_commit="$(git log -1 --format=%H -- "skills/$name" 2>/dev/null || true)"
-
-  # Find a COMMITTED record that names this skill, carries the marker, carries a verdict, AND is
-  # itself fresh enough — its own commit is at or after the skill's last change. Checking the whole
-  # review dir's newest commit here (its earlier shape) let an unrelated same-day record elsewhere
-  # under docs/skill-review/ wave through a match on a different, stale record for THIS skill: the
-  # loop below took the first name+marker+verdict hit in `git ls-files` order (oldest-dated file
-  # first, since filenames sort lexically), and the directory-wide freshness check then compared
-  # against a commit that record never carried. Two records for 'live-spec-base' — 2026-07-17 and a
-  # same-day-as-the-skill-change 2026-08-09 one — reproduced exactly this: the gate matched the
-  # 2026-07-17 record and called it fresh off the directory's unrelated last commit (finding 7,
-  # docs/prover/2026-08-09-the-culling-first-day.md). Each candidate's OWN commit is checked now, and
-  # the loop keeps looking past a stale match instead of stopping on the first name hit.
-  matched=""
+# Find a COMMITTED record that names $2, carries the marker, carries a verdict, AND is itself fresh
+# enough — its own commit is at or after $1 (the commit whose change it must cover). Checking the
+# whole review dir's newest commit here (an earlier shape of this gate) let an unrelated same-day
+# record elsewhere under docs/skill-review/ wave through a match on a different, stale record for
+# THIS skill: the loop below took the first name+marker+verdict hit in `git ls-files` order
+# (oldest-dated file first, since filenames sort lexically), and the directory-wide freshness check
+# then compared against a commit that record never carried. Two records for 'live-spec-base' —
+# 2026-07-17 and a same-day-as-the-skill-change 2026-08-09 one — reproduced exactly this: the gate
+# matched the 2026-07-17 record and called it fresh off the directory's unrelated last commit
+# (finding 7, docs/prover/2026-08-09-the-culling-first-day.md). Each candidate's OWN commit is
+# checked, and the loop keeps looking past a stale match instead of stopping on the first name hit.
+# Echoes the matched record's path and returns 0 when found; returns 1 with no output otherwise.
+find_covering_record() {
+  local covers_commit="$1" name="$2" rec body rec_commit
   while IFS= read -r rec; do
     [ -z "$rec" ] && continue
     case "$(basename "$rec")" in README.md) continue ;; esac   # the home doc is not a record
@@ -144,15 +154,60 @@ for name in $substantive_skills; do
     grep -qw "$name" <<<"$body" || continue
 
     rec_commit="$(git log -1 --format=%H -- "$rec" 2>/dev/null || true)"
-    if [ -n "$skill_commit" ] && [ -n "$rec_commit" ] && [ "$rec_commit" != "$skill_commit" ] && \
-       ! git merge-base --is-ancestor "$skill_commit" "$rec_commit" 2>/dev/null; then
-      continue   # this record predates the skill's last change — keep looking for a fresher one
+    if [ -n "$covers_commit" ] && [ -n "$rec_commit" ] && [ "$rec_commit" != "$covers_commit" ] && \
+       ! git merge-base --is-ancestor "$covers_commit" "$rec_commit" 2>/dev/null; then
+      continue   # this record predates the commit it would need to cover — keep looking
     fi
-    matched="$rec"
-    break
+    printf '%s\n' "$rec"
+    return 0
   done < <(git ls-files "$REVIEW_DIR" 2>/dev/null)
+  return 1
+}
+
+fail=0
+for name in $substantive_skills; do
+  skill_commit="$(git log -1 --format=%H -- "skills/$name" 2>/dev/null || true)"
+
+  matched="$(find_covering_record "$skill_commit" "$name" || true)"
 
   if [ -z "$matched" ]; then
+    # THE BYTE-IDENTICAL CARVE-OUT (see the header comment). No direct record covers today's
+    # change — before failing, ask whether every changed file's CONTENT was already reviewed once,
+    # earlier in this repo's own history, at the same path.
+    carveout_ok=1
+    changed_under_skill="$(git diff --name-only "$DIFF_BASE" HEAD -- "skills/$name" || true)"
+    if [ -z "$changed_under_skill" ]; then
+      carveout_ok=0   # nothing to carve out over ($name only entered $substantive_skills with a
+    fi                # real changed file, but stay honest rather than assume that here)
+    while IFS= read -r f; do
+      [ -z "$f" ] && continue
+      cur_blob="$(git rev-parse "HEAD:$f" 2>/dev/null || true)"
+      if [ -z "$cur_blob" ]; then
+        carveout_ok=0; break   # deleted at HEAD, or unreadable — no content to match
+      fi
+      file_covered=0
+      while IFS= read -r old_commit; do
+        [ -z "$old_commit" ] && continue
+        [ "$old_commit" = "$skill_commit" ] && continue   # this change itself, not an earlier state
+        old_blob="$(git rev-parse "${old_commit}:$f" 2>/dev/null || true)"
+        [ -n "$old_blob" ] && [ "$old_blob" = "$cur_blob" ] || continue
+        if find_covering_record "$old_commit" "$name" >/dev/null; then
+          file_covered=1
+          break
+        fi
+      done < <(git log --format=%H -- "$f" 2>/dev/null)
+      if [ "$file_covered" -eq 0 ]; then
+        carveout_ok=0; break
+      fi
+    done <<< "$changed_under_skill"
+
+    if [ "$carveout_ok" -eq 1 ]; then
+      echo "OK (skill review): skill '$name' changed, but every changed file's content is byte-"
+      echo "  identical to an earlier commit whose content already carries a covering review record"
+      echo "  — a vendor re-sync of already-reviewed content, not a new edit, owes no fresh record."
+      continue
+    fi
+
     echo "FAIL (skill review): the skill '$name' changed in a real way in this push, but nobody has"
     echo "  reviewed it since — the newest record under $REVIEW_DIR/ is older than the skill's own"
     echo "  last change, so it doesn't cover what's being pushed now (SPEC INV-208)."

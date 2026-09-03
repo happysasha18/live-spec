@@ -6,8 +6,11 @@ the pre-rewrite guides on 2026-07-10 (the old MIGRATION.md was a single rename n
 non-idempotent `git mv` step and no walk at all).
 """
 
+import hashlib
 import os
 import re
+import subprocess
+import tempfile
 import unittest
 
 from conftest import read, read_all_flat, read_flat
@@ -153,6 +156,78 @@ class TestCatchupSelfTest(unittest.TestCase):
         self.assertIn("at least as green as before", mig)
         self.assertIn("restore point", mig)
         self.assertIn("restore command", mig)
+
+    def test_a_test_runner_rewritten_tracked_file_is_a_named_known_difference(self):
+        """PLAN q-814, from the tlvphotos 2.7.0 -> 6.1.0 catch-up finding: the walk's own step 0
+        fingerprints tracked content, but a host whose test suite rewrites a tracked file mid-walk
+        (a timings or cache artifact, `tests/suite_timings.json` the case found) always shows that
+        file as a difference at the rollback check — a false positive, not specific to tlvphotos,
+        for any host whose test runner rewrites a tracked file. The guide now names that file class
+        as an accounted-for difference by name, not by a plan item."""
+        mig = read_flat("MIGRATION.md")
+        self.assertIn("test runner rewrites", mig)
+        self.assertIn("suite_timings.json", mig)
+        self.assertIn("known, non-leak side effect", mig)
+        # the named class sits in the same accounting paragraph as the plan-item classes, not off
+        # on its own — a reader meets it as one more way a difference is accounted for
+        para_start = mig.index("Every difference must be accounted for")
+        para = mig[para_start:para_start + 900]
+        self.assertIn("test runner rewrites", para)
+
+    def test_test_runner_rewritten_tracked_file_no_longer_false_positives_the_rollback_check(self):
+        """Behavioural proof, not string-only: a scratch repo models the walk's own fingerprint
+        mechanism (`git ls-files -z | xargs shasum`) over a tracked file a 'before' suite run
+        rewrites, exactly the tlvphotos shape (`tests/suite_timings.json`). The fingerprint delta
+        this produces is real (first assertion) — the bug is not imagined. The guide's own known-
+        difference sentence is what now waves that exact delta through the accounting rule instead
+        of blocking the verify phase (second part): the same file name the fixture's diff names is
+        the one the guide's text accounts for by name."""
+
+        def _fingerprint(repo):
+            out = subprocess.run(
+                ["git", "ls-files"], cwd=repo, capture_output=True, text=True, check=True
+            ).stdout.splitlines()
+            digest = {}
+            for relpath in out:
+                with open(os.path.join(repo, relpath), "rb") as f:
+                    digest[relpath] = hashlib.sha256(f.read()).hexdigest()
+            return digest
+
+        with tempfile.TemporaryDirectory() as tmp:
+            subprocess.run(["git", "init", "-q"], cwd=tmp, check=True)
+            subprocess.run(["git", "config", "user.email", "a@example.com"], cwd=tmp, check=True)
+            subprocess.run(["git", "config", "user.name", "a"], cwd=tmp, check=True)
+            timings_path = os.path.join(tmp, "tests", "suite_timings.json")
+            os.makedirs(os.path.dirname(timings_path), exist_ok=True)
+            with open(timings_path, "w", encoding="utf-8") as f:
+                f.write('{"run": 1, "seconds": 12.3}\n')
+            subprocess.run(["git", "add", "-A"], cwd=tmp, check=True)
+            subprocess.run(["git", "commit", "-q", "-m", "before-walk baseline"], cwd=tmp, check=True)
+
+            # step 0: the pre-walk fingerprint, taken exactly as found
+            before = _fingerprint(tmp)
+
+            # the "before" suite runs mid-walk and rewrites its own timings file, as a real test
+            # runner does — nothing else in the tree changes
+            with open(timings_path, "w", encoding="utf-8") as f:
+                f.write('{"run": 2, "seconds": 11.9}\n')
+            subprocess.run(["git", "add", "-A"], cwd=tmp, check=True)
+            subprocess.run(["git", "commit", "-q", "-m", "suite run rewrote its timings file"], cwd=tmp,
+                            check=True)
+
+            # step 9: the post-walk fingerprint the rollback check compares against
+            after = _fingerprint(tmp)
+
+            diffed = {p for p in before if before.get(p) != after.get(p)}
+            self.assertEqual(diffed, {"tests/suite_timings.json"},
+                              "the fixture must reproduce exactly the one difference the finding "
+                              "names — proof the bug is real, not the fix itself")
+
+            # the fix: the guide's own accounting rule now names this exact file class, so a walk
+            # applying it waves this diff through instead of blocking the verify phase on it
+            mig = read_flat("MIGRATION.md")
+            self.assertIn("suite_timings.json", mig)
+            self.assertIn("test runner rewrites", mig)
 
 
 class TestCatchupVersionChain(unittest.TestCase):
