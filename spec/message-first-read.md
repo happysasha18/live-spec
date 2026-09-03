@@ -60,4 +60,9 @@ The printed account of open work reads at a glance: a row whose own name comes f
 9. The system *shall* print each shown row's own id before its state mark and its title, padded to the width of the longest id `PLAN.md` declares, so the state marks form one readable column down the printed list. [INV-319]
 10. The system *shall* give a row closed since the last push its own line in that account, under the done state, and *shall* drop the line once the push lands — so what was just finished reads in the same words as the work still open, and leaves on its own. [INV-319]
 
+**Case: what holds one piece of work to one checkpoint**
+
+11. The system *shall* hold the one-checkpoint rule above as the reading skill's own text, which a session reads and follows, and *shall* claim no check that counts a piece of work's checkpoints or refuses a second one. [INV-318, INV-317]
+12. The checkpoint command *shall* carry the mechanical half of that rule. Its update operation edits the sections of a checkpoint already on disk, in place, leaving every section it was not asked to change as it found it, so a correction to work already running lands on that work's own file. Its create operation writes a blank template over whatever its path already holds, so a second create against one piece of work overwrites that work's own record. [INV-318]
+
 ---

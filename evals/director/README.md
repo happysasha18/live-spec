@@ -22,18 +22,20 @@ learned the hard way — see *What the first run caught*, below.
 
 ## The fixtures
 
-Thirty-five messages. Thirty-two are real, taken verbatim from this project's own
+Thirty-six messages. Thirty-two are real, taken verbatim from this project's own
 transcripts and anonymised: typos, shouting and swearing intact, because a Director that
-only works on tidy sentences does not work. Three are written, covering classes the
-transcripts held no example of — a thank-you, an answer to a question the Director itself
-asked, and a pasted stack trace with no words around it.
+only works on tidy sentences does not work. Four are written, covering classes the
+transcripts held no single example of — a thank-you, an answer to a question the Director
+itself asked, a pasted stack trace with no words around it, and the shaping turn added
+2026-09-03 for `PLAN.md`'s q-812, where the person invites ideas, names four possibilities
+and settles one of them in the same breath.
 
 Each fixture carries a `situation`. This is not padding. The skill's central claim is that
 the same sentence is an idea, a correction or part of an instruction depending on what was
 happening when it arrived, so a fixture without its situation would be testing the one
 thing the skill says cannot be read: the wording alone.
 
-Twenty-two of the thirty-five must produce no work at all. That ratio is the point. A
+Twenty-two of the thirty-six must produce no work at all. That ratio is the point. A
 system that treats most messages as work is the system being replaced.
 
 ### What the expected verdicts grade, and how
@@ -69,7 +71,7 @@ where the scenario expects none, and a name that is not a speech act at all.
 
 ## The second, smaller eval in this directory
 
-`scenarios.json` and its thirty-five traces test the first stage only: a message arrives and the
+`scenarios.json` and its thirty-six traces test the first stage only: a message arrives and the
 Director decides which of the seven acts it carries. `closing-scenarios.json` tests what happens
 after that, and the two must not be read as one score. Eight of its nine fixtures start where the
 other set stops — work was accepted, built and verified — and ask the one question left: does the
@@ -110,10 +112,15 @@ python3 evals/director/check.py --scenario ONE.json --actual RUN.json
 This costs a model call per scenario, so it is not on the push path and must not be put
 there. It is a professional action, run when the skill changes, the way a review is.
 
-Any change to `skills/director/SKILL.md` re-records all thirty-five scenarios, never a
+Any change to `skills/director/SKILL.md` re-records all thirty-six scenarios, never a
 subset, because a partial re-record leaves the untouched scenarios certified against a
 skill version that no longer exists. The 2026-08-26 pass re-recorded only the nine reds of
 the day and carried a score of 33 of 35 for days that a full re-record put at 26 of 35.
+
+A scenario added while the skill's own text stands still is the one case that takes a single
+run: its run is the only one missing, and the thirty-five already on file were recorded
+against the same bytes the new one was. The rule above binds a change to the skill, and this
+is a change to the fixtures.
 
 ## Bare run
 
@@ -161,6 +168,23 @@ scenarios of producer variance, and a score quoted to the scenario reads more pr
 method can support. Two scores from separate runs are comparable when they differ by more than
 that, and a change worth a re-record should be large enough to clear it. Grade only a complete
 trace set: a partial one reports a number that is still moving.
+
+single-scenario run: 2026-09-03 — `idea-shaping-then-one-decided`, the shaping turn `PLAN.md`'s
+q-812 asked for, recorded by one fresh producer under the isolation protocol above: it held the
+skill's text and the scenario's situation and message, was handed the opaque label TK, read no other
+file, and never saw the expected verdict. The run passes its fixture. The set grades 32 of 36,
+against 31 of 35 before it, so the one added pass is the whole of the difference — and that number
+is a mixed reading rather than a score for today's skill: `skills/director/SKILL.md` changed at
+10:28 the same morning, the idea shelf coming out of it, so the other thirty-five runs are stale
+under this directory's own freshness pin and the probe already prints them as a replay. The full
+re-record is held on purpose, so one pass covers the whole night's edits to that file. This run is
+the only one on file recorded against the text as it stands.
+
+The producer's verdict disagreed with the fixture author's expectation on one field: it read the
+three unchosen possibilities as answered and let go rather than shelved, quoting the skill's rewritten
+idea rule back. The fixture grades neither answer. Where the shelf stood that morning and stands no
+longer, a fixture forcing one of the two would be grading the version of the rule its author happened
+to read.
 
 ## What the first run caught
 

@@ -128,6 +128,21 @@
       "why": "'Кинь идею' asks for the idea to be recorded, which is what shelving is. Recording an idea is not doing it."
     },
     {
+      "id": "idea-shaping-then-one-decided",
+      "origin": "written, on the owner's own recurring opener — the transcripts hold the phrase and no single turn that carries the whole shape",
+      "situation": "Nothing is being built at that moment. The previous piece of work closed about an hour ago and its checkpoint is shut. The person opens a fresh exchange with no work in flight.",
+      "message": "давай накидывать идеи. можно сделать чтобы борда сама открывалась после пуша. еще думаю про телеграм-бота который утром скидывает канон. может темная тема для страницы. или вообще выкинуть html и печатать прямо в терминал. ладно, из этого делаем сейчас только автооткрытие борды после пуша, остальное просто держим в голове.",
+      "expect": {
+        "acts": [
+          "idea",
+          "instruction"
+        ],
+        "creates_work": true,
+        "work_items": 1
+      },
+      "why": "The graded claim is the one the owner made when he asked for this scenario: an invitation to throw ideas around is one shaping context, and it produces no task per possibility voiced — only what the person actually settles on becomes work. Four possibilities are named and the last clause picks exactly one to do now, so the turn produces one work item, not four and not zero. Both acts are required: dropping 'idea' reads the whole turn as one instruction and loses three things the person said, and dropping 'instruction' loses the thing they asked for. `shelves_idea` is deliberately left ungraded — whether the three unchosen possibilities are worth a shelf entry or are answered and let go is judgment inside the skill's own range ('a passing thought is answered and not recorded'), and the fixture would be forcing an answer the rule does not give."
+    },
+    {
       "id": "observation-neutral",
       "origin": "real, anonymised transcript",
       "situation": "The session's usage allowance has just refilled.",

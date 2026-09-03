@@ -1,0 +1,22 @@
+{
+  "id": "idea-shaping-then-one-decided",
+  "acts": [
+    "idea",
+    "instruction"
+  ],
+  "creates_work": true,
+  "shelves_idea": false,
+  "attaches_to_existing_work": false,
+  "work_items": 1,
+  "dimensions": [
+    "product value and behaviour",
+    "architecture, data, integrations, operations"
+  ],
+  "specialists": [
+    "developer",
+    "test author"
+  ],
+  "reasoning": "The turn opens as thinking aloud — four possibilities floated (board opens itself after a push, a morning Telegram bot for the canon, a dark theme, dropping HTML for terminal output) — and closes by picking exactly one to do now. So two kinds of act: ideas, and one instruction. Nothing was in flight, so nothing attaches to running work; the chosen item is new work with its own goal, one result someone could want on its own, hence one work item and one checkpoint. The remaining three are not shelved: the person said to hold them in mind, which is precisely the 'queue it on the hope they raise it again' the skill forbids, and none of them arrives concrete enough to write a row that states why it is queued — the last one (throw out HTML) would also overturn something already built, so if it ever comes back it needs his word, not a filed entry. They get answered in the reply and left there. The accepted work changes what happens on push (operations) and what the person experiences after it (behaviour); it needs someone to build it and someone to pin the evidence that a push actually opens the board.",
+  "scenario": "idea-shaping-then-one-decided",
+  "skill_version": "6.1.0"
+}
