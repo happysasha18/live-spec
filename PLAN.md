@@ -1356,16 +1356,21 @@ planted red and a planted pass both move the printed marks correctly, and an ins
 `CHECKS` dict survives a plain re-run and `--force`. Re-verified independently on the merged tree,
 not taken on the worker's own report.
 
-The row's own acceptance names `~/tlvphotos` specifically as the first host, and that leg does not
+The row's own acceptance named `~/tlvphotos` specifically as the first host, and that leg does not
 hold today: tlvphotos' real `PLAN.md` is not this pack's row format at all — a hand-frozen Russian
-document, `## S-NN · Title · Д` headings, its own six-mark vocabulary, frozen by his own word since
+document, `## S-NN · Title · Д` headings <!-- user-language --> , its own six-mark vocabulary, frozen by his own word since
 26.08 — neither `## Tasks` nor the template's own table shape. The installed probe correctly says
 so rather than printing an empty list; the git-state and inbox halves of the probe DO work against
 the real host (confirmed live: it reads that project's own branch/upstream and lists its six
-unhandled inbox deposits). **Open, needing his word:** either the acceptance is amended to prove
-against a real host whose plan is already in this pack's own row shape (not tlvphotos specifically),
-or tlvphotos's frozen format itself is the thing that has to change first — not this row's call to
-make unilaterally, since it touches a document he froze on purpose.
+unhandled inbox deposits).
+
+**Amended 2026-09-03.** Naming tlvphotos specifically was never the point of this row — the point
+is that some real, adopted project gets a working status view. Rewriting tlvphotos's own frozen
+`PLAN.md` format is that project's own call, in that project's own window, not a decision this
+row gets to make from here. Dropped "tlvphotos specifically" from the acceptance; it reads now as
+proving against a real adopted host already running this pack's own row shape. `track-coach` is the
+candidate to check next (it already runs this pack; whether its `PLAN.md` is in this pack's row
+shape is unverified — that check is this row's next real step, not yet done).
 
 
 ### ✅ Every rule finally lives in exactly one place — id: plan-16
