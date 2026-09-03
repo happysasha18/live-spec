@@ -146,6 +146,11 @@ its own manifest line. Every other rule below keeps the number it already carrie
      isolated worktree at brief-time (SPEC ACT-3, INV-11).
    - A worker never restores a tree with git; wording in
      [references/worker-restore.md](references/worker-restore.md) (SPEC INV-298).
+   - **A role-profile layer, when the project carries a design charter.** A worker's brief for a
+     project holding a design charter or design language of its own adds a short role-profile
+     layer — a craftsman identity, the charter as sole naming source, an interdict to escalate
+     taste calls rather than decide them — on top of the functional brief, never instead of it
+     (tlvphotos A/B, 2026-08-08).
    - **One row per landing commit.** A landing commit carries exactly one row's delta (SPEC
      INV-39).
    - **A prior-context worker.** A background worker from a prior context is a concurrent writer

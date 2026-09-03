@@ -29,6 +29,15 @@ they disagree — the reason a second home is never tolerated even briefly.
 History: this class of self-collision — two writers running unprotected on the same physical tree
 — has cost real token spend more than once, on the owner's own account of past sessions.
 
+Citation (2026-08-08), role-profile sub-rule: a blind A/B in tlvphotos gave the same mechanical
+task to two identical-tier workers — one briefed with a short (~25-line) role profile (a craftsman
+identity, the project's own design charter as sole naming source, causal chains for each rule, an
+escalation interdict for taste questions) plus the charter, the other in plain engineering words.
+Neither knew of the other, and a third, fresh agent judged the two patches unlabeled. The profiled
+arm won on all three pre-registered criteria: vocabulary fidelity, truth of the documentation it
+wrote, and integration quality. Full record: `inbox/handled/2026-08-08-profile-briefed-worker-ab-result.md` (harvested from
+PLAN.md's Blockers 2026-09-03).
+
 ### 9. History lives in the journal; docs travel with the change
 
 Citation (2026-07-05): a record is answerable later — "yesterday evening you wrote X, so I did Y"

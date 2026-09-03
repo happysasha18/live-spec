@@ -47,8 +47,8 @@ writes one half is stopped there. Settled 31.08; §Blockers carries how it was r
 - **Item** — a line inside a task.
 - **Canon** — the list of tasks with status marks that `scripts/state-probe.sh` prints. Never typed
   by hand. There is no other Canon.
-- **The five marks, and no others** — ✅ done · 🔄 in hand · ⬜ queued · ⛔ blocked · 👁️ needs his
-  eyes.
+- **The marks** — the one home is `~/.claude/playbook/CLAUDE.md`, section "How a reply to him
+  looks": ✅ done · 🔄 in hand · 🔁 reopened · ⬜ queued · ⛔ blocked · 👁️ needs his eyes.
 - **⬜ has a real bar: "queued" means accepted into work.** His word, 27.08. A task earns ⬜ only
   when its links resolve to something real and its definition of done is written so a reader can
   tell finished from unfinished without asking anyone. A command carries that wherever a command
@@ -130,10 +130,9 @@ The main plan is **always one file: `~/live-spec/PLAN.md`.** Never start a secon
    looks." It isn't repeated here: two copies would drift apart, which is the very defect of "two
    homes for one fact."
 
-   The full report form, for wherever his word is needed — 10 lines or fewer, his own word from
-   14.08 12:08: what changes for the person · the recommendation and its reason · what becomes
-   irreversible · the verdict of outside review · numbers only in real-world units, counts of
-   internal things go in an appendix.
+   The full report form, for wherever his word is needed, has its own one home too —
+   `~/.claude/playbook/personal/profile.md`, section "Owner reports" (his own word from 14.08
+   12:08). Not repeated here, for the same reason.
 
    Sonnet keeps `TodoWrite` in sync with these steps, so the list stays visible in the interface.
 
@@ -163,7 +162,7 @@ The main plan is **always one file: `~/live-spec/PLAN.md`.** Never start a secon
 
 ## Tasks
 
-One list: the plan's own steps and the former ROADMAP.md queue, merged 27.08 per step 11. Order: needs his eyes, then in hand, then blocked, then queued; critical heads its own group first and never another's — urgency never outranks whether a task is actually workable now (27.08, his word). Marks: ✅ done · 🔄 in hand · ⬜ queued · ⛔ blocked · 👁️ needs his eyes — the same five the Canon report itself uses. Former ROADMAP.md rows are archived verbatim at `docs/queue-archive/rotated-ROADMAP-2026-08-27-merged-into-plan.md`.
+One list: the plan's own steps and the former ROADMAP.md queue, merged 27.08 per step 11. Order: needs his eyes, then in hand, then blocked, then queued; critical heads its own group first and never another's — urgency never outranks whether a task is actually workable now (27.08, his word). Marks: see "Words used here" above — the one live copy in this page, itself pointing at `~/.claude/playbook/CLAUDE.md`. Former ROADMAP.md rows are archived verbatim at `docs/queue-archive/rotated-ROADMAP-2026-08-27-merged-into-plan.md`.
 
 ### ✅ Starting a work session with the assistant costs a quarter of what it costs today, and every standing file earns its place — id: q-809
 **Group:** Budget & economy · **Priority:** critical
@@ -2347,7 +2346,7 @@ runs it deliberately: `python3 scripts/wind-down.py`.
 **Source:** deposit 2026-08-07 14:14 — owner: "work so as to spare the context."
 **Covered by:** plan-17 — Each session reads only what it needs. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
 
-**Checked by reading on 28.08.** The thrift discipline is a rule of the rulebook now, at `skills/live-spec-base/SKILL.md:261`. No command of its own: plan-17 carries the command for this family.
+**Checked by reading on 28.08.** The thrift discipline is a rule of the rulebook now, at `skills/live-spec-base/SKILL.md:226`. No command of its own: plan-17 carries the command for this family.
 
 
 ### ✅ A request meant for another project reaches it automatically — id: q-398
@@ -2759,15 +2758,17 @@ One line per finding. Don't start a second list for them. Don't fix one without 
   it now describes.
 
 - **This page still holds three copies of the report's own rules, and the lane that converged
-  everything else could not touch them. Raised 31.08.** The report he reads every turn had its shape
-  written in several places at once, and they disagreed; that is the thing plan-16 closed. Every copy
-  outside this page is now a pointer at the one home, and the new check reds if a second one appears
-  on any surface that tells a session how to work. Three copies remain here: the marks and their
-  meanings appear twice, once in the words section and once above the task list, and the five things
-  a message asking his word must carry sit four lines below a sentence saying the format is not
-  repeated here. The lane that did the work was told to leave this page alone apart from its own task
-  and this section, so it left them and wrote this instead. Turning the three into pointers is a
-  ten-minute edit for whoever next has the pen on this file.
+  everything else could not touch them. Raised 31.08; closed 2026-09-03.** The report he reads every
+  turn had its shape written in several places at once, and they disagreed; that is the thing plan-16
+  closed. Every copy outside this page is now a pointer at the one home, and the new check reds if a
+  second one appears on any surface that tells a session how to work. Three copies stood here: the
+  marks and their meanings appeared twice, once in the words section and once above the task list, and
+  the five things a message asking his word must carry sat four lines below a sentence saying the
+  format is not repeated here. Fixed: the marks now live once, in "Words used here," citing
+  `~/.claude/playbook/CLAUDE.md`; the task-list line now points at that one copy instead of restating
+  it; the five things now point at their own real one home, `~/.claude/playbook/personal/profile.md`,
+  section "Owner reports" — not `~/.claude/playbook/CLAUDE.md` as first assumed, which holds only the
+  Canon format, never the five-line report shape.
 
 - **The personal layer's only copy off this machine was 26 days old. Found 31.08, in q-800; closed
   the same day.** The boot file and the personal profile both live in the private playbook
@@ -2804,12 +2805,18 @@ One line per finding. Don't start a second list for them. Don't fix one without 
   be working in it. Left as it stands, named here, with the server's green as the honest reading.
 
 - **A role-profile brief layer for workers was proposed and never entered the pack. Found 03.09, in
-  `inbox/2026-08-08-profile-briefed-worker-ab-result.md`.** A blind A/B from tlvphotos (08.08) gave
-  the same mechanical task to a worker briefed with a short role profile plus the project's design
-  charter and to a worker briefed in plain engineering words; a blind judge found the profiled arm
-  won on vocabulary, documentation truth, and integration. The finding proposed the profile as a
-  standard brief layer wherever a project holds a design language. No skill (`live-spec-base`,
-  `build-pipeline`, `director`) states this as a rule, and no PLAN/JOURNAL/DECISIONS entry adopts it.
+  `inbox/2026-08-08-profile-briefed-worker-ab-result.md`; closed the same day.** A blind A/B from
+  tlvphotos (08.08) gave the same mechanical task to a worker briefed with a short role profile plus
+  the project's design charter and to a worker briefed in plain engineering words; a blind judge
+  found the profiled arm won on vocabulary, documentation truth, and integration. The rule now lives
+  in `skills/live-spec-base/SKILL.md` rule 7, as a sub-rule beside the worker-restore clause: a
+  worker's brief for a project holding a design charter or design language of its own adds a short
+  role-profile layer — identity, the charter as sole naming source, an escalation interdict for
+  taste calls — on top of the functional brief, never instead of it. Citation and full incident
+  record: `skills/live-spec-base/references/rule-origins.md` under rule 7. `director`'s own text
+  ("A specialist gets a brief, not a copy") already points at the base rulebook for the shape of a
+  brief and needed no change. The finding moved to
+  `inbox/handled/2026-08-08-profile-briefed-worker-ab-result.md`.
 
 - **The rule that a human verdict is a movement end, written into resume files the same minute, was
   proposed and never entered the pack. Found 03.09, in `inbox/2026-08-08-verdict-lands-same-minute.md`.**
@@ -2828,33 +2835,35 @@ One line per finding. Don't start a second list for them. Don't fix one without 
   names it still blocks nothing on a host that has never run that installer.
 
 - **A promise this range added is owned by nobody, and the check that would demand an owner cannot
-  see it. Found 31.08, in the merge review.** The idea shelf — where a possibility named in passing is
-  kept in the person's own words — is written into the spec and marked as not built, correctly, since
-  no file holds one. The check that makes every such promise name an open task reads the marker by the
-  line above it, and this marker sits under a heading rather than under a numbered line, so the check
-  never sees it and asks for no owner. It is the same argument that put q-437 back on the board an hour
-  earlier, applied to the promise the same landing created. Two ways out, and both are yours: give the
-  idea shelf its own row, or teach the check to read a heading-level marker, which would then demand
-  that row anyway.
+  see it. Found 31.08, in the merge review; resolved 2026-09-03, in q-813 — the mechanism it named is
+  gone, not merely fixed.** The idea shelf — where a possibility named in passing is kept in the
+  person's own words — was written into the spec and marked as not built, correctly, since no file
+  held one. The check that makes every such promise name an open task read the marker by the line
+  above it, and that marker sat under a heading rather than under a numbered line, so the check never
+  saw it and asked for no owner. His own correction on 2026-09-03 forbade the mechanism outright — no
+  second list, ever, not even a shelf — so q-813 retired Requirement 315 (the idea shelf itself, `E-37`,
+  `INV-320`) whole: `grep -c "Requirement 315" spec/message-first-read.md` now reads 0, and the
+  retired text sits at `attic/spec-message-first-read-R315.md`. There is no longer a promise for the
+  ownership check to miss.
 
 - **The plan's own page carries two stale pointers into files that moved. Found 31.08, in the merge
-  review.** Two lines here name a line number inside the rulebook and inside the reading skill, and
-  both moved when those files were edited today. The pointers are off by two and by eight. They are
-  left alone because the rule at the top of this page lets a session change a task's status and this
-  section and nothing else, and neither line is either of those. Whoever next has the pen on this page
-  can correct both in a minute; the same fifteen pointers elsewhere in the project were corrected
-  today, and only these two were out of reach.
+  review; closed 2026-09-03.** Two lines here name a line number inside the rulebook and inside the
+  reading skill, and both moved when those files were edited 31.08 (off by two and by eight that day;
+  further edits since had widened both gaps by the time this closed). Fixed by checking each file's
+  current content against its own citing sentence: the thrift-discipline rule (q-584) now sits at
+  `skills/live-spec-base/SKILL.md:226`, not `:261`; the decision-sheet section (q-816's own citation)
+  now spans `skills/director/SKILL.md:225-271`, not `:205-249`. Both corrected in place.
 
 - **The reading skill changed and its score did not, so a ticked task stopped proving itself. Found
-  31.08, at the merge.** The task "a question you ask never turns into a task" is ticked, and its
-  acceptance command asks that the recorded runs of the reading be newer than the skill they grade.
-  Commit `98a003b5`, the one-home landing at 13:55 on 31.08, edited the reading skill; the runs are
-  still the ones recorded on 26.08. Closing the decision sheet's ordering line the same day edited it
-  again. Nothing regressed in the behaviour — what lapsed is the proof, and the opening report now
-  prints that task with a blocked mark and says its acceptance command fails. Re-recording the runs
-  is a session's own work against the skill, which no command here can do on its own; until it
-  happens the score printed at every session start says nothing about the skill as it stands, and the
-  report says so in those words.
+  31.08, at the merge; resolved 2026-09-03.** The task "a question you ask never turns into a task" is
+  ticked, and its acceptance command asks that the recorded runs of the reading be newer than the
+  skill they grade. Commit `98a003b5`, the one-home landing at 13:55 on 31.08, edited the reading
+  skill; the runs stayed the ones recorded on 26.08, and further edits to the skill kept the gap open
+  through today. `evals/director/traces` was fully re-recorded today (commit `56611b76`, "Director
+  eval: full re-record of both sets against today's skill edits") after every `skills/director/SKILL.md`
+  edit made today: `test "$(git log -1 --format=%ct -- evals/director/traces)" -ge "$(git log -1
+  --format=%ct -- skills/director/SKILL.md)" && echo FRESH || echo STALE` prints `FRESH`. The score
+  printed at every session start proves the skill as it stands again.
 
 - **The other half of the same promise has no row. Found 31.08, while giving q-437 its one back;
   closed 2026-09-01.** The spec keeps two things promised under one sentence: the recursive
@@ -3146,7 +3155,7 @@ One line per finding. Don't start a second list for them. Don't fix one without 
 - **Director→pre-push wire: investigated, a read-only report built, the live skip waits for a
   spec change.** Director's decision is already persisted, in an existing home — every accepted
   piece of work gets a "decision sheet," including a "documents that must change" line, written
-  into `.live-spec/checkpoints/*.md` under `## DECISION SHEET` (`skills/director/SKILL.md:205-249`)
+  into `.live-spec/checkpoints/*.md` under `## DECISION SHEET` (`skills/director/SKILL.md:225-271`)
   — and `scripts/checkpoint.py` already has a mechanical, closed-set test for "this line says
   nothing needs to change" (`_is_empty_body()`, line 59); closed checkpoints keep the section on
   disk. Gate (a) (`check-prover-record.sh`) demands one review record for the whole pushed range,

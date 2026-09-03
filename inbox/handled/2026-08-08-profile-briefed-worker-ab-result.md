@@ -32,3 +32,17 @@ ignores antialiasing).
 
 Full record: ~/tlvphotos/docs/research/2026-08-08-luthier-ab.md (the losing patch is kept
 beside it verbatim).
+
+---
+
+**Handled 2026-09-03.** Reading 1 landed: `skills/live-spec-base/SKILL.md` rule 7 gained a
+sub-rule, beside the worker-restore clause — a worker's brief for a project holding a design
+charter or design language of its own adds a short role-profile layer (identity, the charter as
+sole naming source, an escalation interdict for taste calls) on top of the functional brief, never
+instead of it. Citation and this finding's own summary now live in
+`skills/live-spec-base/references/rule-origins.md` under rule 7. `skills/director/SKILL.md`'s
+"A specialist gets a brief, not a copy" already pointed at the base rulebook for the shape of a
+brief and needed no change. Readings 2 and 3 (double-blind arms as a bug-finding instrument; a
+blind-judge step as the only thing that caught a false-but-green documentation claim) are left as
+findings, not rules — no incident since has asked the pack to act on either. See PLAN.md's own
+Blockers entry for the closing note.
