@@ -379,7 +379,7 @@ handoff. One authoring lesson surfaced, not a mechanism flaw: the checkpoint's o
 mixed a real next action with an unrelated note, which a fresh reader couldn't tell apart — fixed
 by keeping `NEXT` to only the ticket's own next step.
 
-### ⬜ Your photo site catches up its internal toolkit to the newer version — id: plan-9
+### ✅ Your photo site catches up its internal toolkit to the newer version — id: plan-9
 **Group:** Cross-project · **Priority:** critical
 **Source:** PLAN.md step 9, dated 27.08 — dry-run and inventory done; `scripts/install-external-skills.sh` "does not work against a host at all... it blocks the documented path."
 **Deferred:** after the release (his word) — not blocked, his own decision to hold it.
@@ -447,6 +447,53 @@ looks.
 (Corrected 28.08: the old wording only asked that a version file exist, which a one-byte file
 satisfies, so it could have read green over a host still on an old release. The photo site sits on
 2.7.0 against this project's 6.0.0, and the session's own opening report already says so.)
+
+**Closed 2026-09-03, verified read-only against the real host.** A `~/tlvphotos` session ran the
+full walk (`~/tlvphotos/.live-spec/adopt/2026-09-03-catchup-6.1.0.md`), catching up 2.7.0 → 6.1.0
+in one pass rather than stopping at 6.0.0, and reported back via
+`inbox/2026-09-03-from-tlvphotos-catchup-6.1.0-findings.md`. Checked directly, not taken on the
+report's word: `ls ~/tlvphotos/.claude/skills | grep -q director` passes; the pack version this
+row's own acceptance names a bare `.live-spec/VERSION` file for does not exist there — the real,
+already-established convention (the same one `scripts/state-probe.sh`'s own host-drift check at
+line ~360 already uses) reads it from the installed skill's own frontmatter instead, and that
+reads `6.1.0`, matching this pack exactly; `state-probe.sh`'s own tlvphotos drift warning no
+longer fires. `git status --porcelain` on the host shows only `.live-spec/adopt/...` and
+`tests/suite_timings.json` dirty (the latter a known, reported side effect of running that
+project's own test suite mid-walk, not a leak) — that project's own tree, not touched from here.
+Two real pack-tooling defects came back with the report (a skill-review gate carve-out gap, and an
+off-by-one in the migration wish's rollback-proof known-difference count) — filed as their own row
+below rather than fixed inline here, since neither blocked this walk and both need their own care.
+
+
+### ⬜ A host refreshing its skills from the pack isn't taxed for a review the pack already did — id: q-814
+**Group:** Method reliability · **Priority:** normal
+**Source:** `inbox/2026-09-03-from-tlvphotos-catchup-6.1.0-findings.md` — a real host walk (tlvphotos,
+2.7.0 → 6.1.0) hit both findings below live and worked around them; reported back, not blocking.
+
+**Finding 1 — the skill-review gate has no carve-out for an unedited vendor refresh.**
+`sync-skills.sh` replaces a host's skill bodies byte-for-byte from the pack, and every one of those
+changes is already reviewed on the pack's own side (`docs/skill-review/`). The host's own
+`check-skill-review.sh` (a vendored copy of this pack's own gate) still demands a fresh review
+record per skill, as if a human had hand-edited it there — no path recognizes "this file is
+byte-identical to a pack commit the pack already reviewed." tlvphotos worked around it by writing
+13 short host-side records, each quoting the pack's own verdict — legitimate, but a tax on every
+future sync. A carve-out (accept the review as satisfied when the synced file's hash matches a
+commit `docs/skill-review/` already covers) removes the tax without weakening the gate against an
+actual hand-edit.
+
+**Finding 2 — the migration wish's rollback-proof expects five differences; a real run shows six.**
+The wish's own step 0 fingerprints tracked content before running the "before" suite, so a tracked
+file the suite itself rewrites (this host's `tests/suite_timings.json`) always shows as a
+difference at the rollback check — a systematic gap for any host whose test runner rewrites a
+tracked file, not specific to tlvphotos. Either reorder step 0 (suite before fingerprint) or add
+the file class to the known-difference list explicitly.
+
+**Definition of done:** `guardrails/check-skill-review.sh` gains the byte-identical-to-a-reviewed-
+pack-commit carve-out, proven red-then-green (a hand-edited skill still demands a review; a
+byte-identical vendor sync does not); the migration wish template's step 0/9 ordering or
+known-difference list is corrected so a tracked-file-rewriting test runner doesn't false-positive
+the rollback proof. `inbox/2026-09-03-from-tlvphotos-catchup-6.1.0-findings.md` moves to
+`inbox/handled/` once both land.
 
 
 ### ✅ A new project stops being handed the queue this one retired — id: q-801
