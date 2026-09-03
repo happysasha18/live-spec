@@ -96,11 +96,11 @@ ALSO_DISCARDING = [
 FIXTURE_COUNTING_FROM = "2026-07-01"
 
 
-def _gate(*args, counting_from=FIXTURE_COUNTING_FROM):
+def _gate(*args, counting_from=FIXTURE_COUNTING_FROM, cwd=None):
     argv = list(args)
     if counting_from and "--counting-from" not in argv:
         argv += ["--counting-from", counting_from]
-    return subprocess.run(["python3", GATE, *argv], capture_output=True, text=True)
+    return subprocess.run(["python3", GATE, *argv], capture_output=True, text=True, cwd=cwd)
 
 
 def _run_record(command, agent="a1234567890abcdef", session="s-0001",
@@ -691,6 +691,54 @@ class TestTheGateJudgesThisProjectsOwnSessions:
         assert red.returncode == 1, red.stdout
         assert "this project's own sessions" in red.stdout
 
+
+class TestOwnRepoFollowsThePushingHostNotWhereTheFileLives:
+    """Ambient scope, ROADMAP row 815 (inbox/2026-08-25-from-tlvphotos-worker-restore-gate-
+    ambient-scope.md). `own_repo()` used to answer "whichever repository this .py file physically
+    sits in" — right while the gate scans from inside its own checkout, wrong the moment a
+    downstream project reuses the file unchanged: tlvphotos's push was blocked by a discard command
+    found in an unrelated live-spec development worktree, while a real discard in tlvphotos's own
+    history would have been waved through as a neighbour's. "Own" now answers the repository the
+    check is actually invoked FROM (its process cwd, the pushing host) rather than wherever the
+    script file happens to live — proved here by literally running THIS repo's own copy of the gate
+    (GATE, unmoved) with its subprocess `cwd` set to a DIFFERENT real repository, the shape a
+    downstream project's reuse produces.
+    """
+
+    COMMAND = "git checkout -- engine/assets/exhibition.js"
+
+    @staticmethod
+    def _host_repo(tmp_path):
+        host = tmp_path / "pushing-host"
+        host.mkdir()
+        subprocess.run(["git", "init", "-q", str(host)], check=True, capture_output=True)
+        return host
+
+    def test_a_discard_where_the_scripts_own_file_lives_no_longer_blocks_a_different_pushing_host(
+            self, tmp_path):
+        # Needs ROOT to be a real, git-placeable repository distinct from the host: gate b's
+        # meta-run copies this tree to a git-less scratch copy (test_worker_restore.py's own
+        # _gate_stands_in_a_repository), where ROOT is UNPLACEABLE and the fail-safe reads an
+        # unplaceable cwd as this project's own — the same reason TestTheGateJudgesThisProjectsOwn
+        # Sessions above skips itself for its own two analogous cases.
+        _skip_unless_gate_has_a_repository()
+        host = self._host_repo(tmp_path)
+        root, _ = _transcript_root(tmp_path / "transcripts", [self.COMMAND],
+                                   project="-elsewhere", session="s-elsewhere", cwd=ROOT,
+                                   answers=["ran"])
+        res = _gate("--root", root, cwd=str(host))
+        assert res.returncode == 0, (
+            "a discard recorded against the repository the script file itself lives in still "
+            "blocked a different pushing host's push:\n%s" % res.stdout)
+
+    def test_the_same_discard_in_the_pushing_hosts_own_history_still_blocks(self, tmp_path):
+        host = self._host_repo(tmp_path)
+        root, _ = _transcript_root(tmp_path / "transcripts", [self.COMMAND],
+                                   project="-host", session="s-host", cwd=str(host),
+                                   answers=["ran"])
+        res = _gate("--root", root, cwd=str(host))
+        assert res.returncode == 1, (
+            "a discard in the pushing host's own history stopped blocking:\n%s" % res.stdout)
 
 class TestGateStaysSilentOnOrdinaryWork:
 

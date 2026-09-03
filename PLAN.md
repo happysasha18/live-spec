@@ -525,7 +525,7 @@ runs, a nested run of the same; Cyrillic already on `PLAN.md:1361`; historical l
 before this row missing a same-commit `NEXT_STEPS.md` touch) — carried as-is, not this row's job.
 
 
-### 🔄 The worker-restore gate never blocks a push over an unrelated project's history — id: q-815
+### ✅ The worker-restore gate never blocks a push over an unrelated project's history — id: q-815
 **Group:** Method reliability · **Priority:** normal
 **Source:** `inbox/2026-08-25-from-tlvphotos-worker-restore-gate-ambient-scope.md` — found still
 open 03.09 while sweeping old inbox items; no PLAN/JOURNAL/DECISIONS entry or code change
@@ -548,6 +548,54 @@ approach before it's built.
 red-then-green (a discard in an unrelated project's history no longer blocks; a discard in the
 host's own history still does). `inbox/2026-08-25-from-tlvphotos-worker-restore-gate-ambient-scope.md`
 moves to `inbox/handled/` once it lands.
+
+**Checked by reading on 03.09.** No CHECKS entry: the row's own proof is a pytest node
+(`tests/test_worker_restore.py::TestOwnRepoFollowsThePushingHostNotWhereTheFileLives`), and this
+table's own precedent (see the `plan-0`/other entries above naming "run directly rather than
+through pytest") is that `state-probe.sh` runs every CHECKS command on every session start, so a
+pytest-backed row would tax every future session's boot for one row's own proof. The real suite run
+below is the check.
+
+**Done.** The real design call was smaller than it looked: the gate already carried the right
+mechanism (`own_repo()`/`is_own_session()` in `guardrails/check-worker-restore.py`, landed
+2026-08-18/19) — it already read a session's `cwd` against a shared git-common-dir to decide
+"own" versus "neighbour," a notion the pushing repo's own identity, not a per-host allowlist.
+The bug was where that identity came from: `own_repo()` read it off `SCRIPT_DIR`, wherever the
+`.py` file itself physically sits, which is right only while the gate scans from inside its own
+checkout. The moment a downstream project reuses the file unchanged — tlvphotos importing the
+live-spec pack's copy, exactly the inbox report — `own_repo()` answers live-spec's repository
+instead of tlvphotos's, so a discard in an unrelated live-spec development worktree blocked
+tlvphotos's own clean push while a real discard in tlvphotos's own history would have been waved
+through as a neighbour's. Fixed by reading `own_repo()` off `os.getcwd()` instead — every
+documented invocation already runs the check as `python3 guardrails/check-worker-restore.py` from
+the repo root being pushed, so the process's own working directory already answers "the real repo
+root the check is running against," and `_git_common_dir` collapses a lane worktree to the primary
+repo's identity exactly as it already did for a session's own `cwd`. No new config, no per-host
+allowlist, no change to `DEFAULT_ROOT` or the `--root`/`LIVE_SPEC_TRANSCRIPT_ROOT` override, which
+still scan exactly what they named before.
+
+Proved red-then-green in `tests/test_worker_restore.py::TestOwnRepoFollowsThePushingHostNotWhereTheFileLives`:
+a fixture with two fake transcript trees — one whose recorded session sits in this repository (the
+"unrelated" tree from a different pushing host's own point of view), one whose recorded session
+sits in a freshly `git init`-ed temp repo standing in for the real pushing host — each carrying a
+`git checkout --` discard, the gate itself invoked with its own subprocess `cwd` set to that temp
+host repo. Before the fix both cases inverted: the host's own discard read as a neighbour's notice
+and did not block, the discard in this repository blocked regardless of which repo was actually
+being pushed — reproduced and confirmed red for that reason before any code changed. After the
+fix: the discard in this repository no longer blocks the temp host's push
+(`test_a_discard_where_the_scripts_own_file_lives_no_longer_blocks_a_different_pushing_host`), and
+the discard in the host's own history still blocks exactly as before
+(`test_the_same_discard_in_the_pushing_hosts_own_history_still_blocks`). The whole existing
+`--root`/neighbour-classification suite in `TestTheGateJudgesThisProjectsOwnSessions` (which already
+exercises the explicit override across a dozen shapes) still passes unchanged, proving the override
+itself was never touched.
+
+`python3 -m pytest -q tests/test_worker_restore.py tests/test_worker_restore_made_good.py tests/test_worker_restore_guard.py tests/test_worker_restore_run_scope.py tests/test_install_worker_restore_guard.py`
+— 288 passed. Full suite (`python3 -m pytest -q`) run clean from this worktree's root; see the
+session's own report for its tally.
+
+`inbox/2026-08-25-from-tlvphotos-worker-restore-gate-ambient-scope.md` moved to
+`inbox/handled/2026-08-25-from-tlvphotos-worker-restore-gate-ambient-scope.md`.
 
 
 ### ✅ A new project stops being handed the queue this one retired — id: q-801

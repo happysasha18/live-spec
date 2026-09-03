@@ -950,9 +950,26 @@ _OWN_REPO = []
 
 
 def own_repo():
-    """This project's own shared git directory, read once beside this file."""
+    """The PUSHING HOST's own shared git directory, read once from the process's own working
+    directory — not from wherever this .py file happens to sit on disk (row 815).
+
+    Every documented invocation (guardrails/README.md, the delegation protocol, this file's own
+    header) runs the check as `python3 guardrails/check-worker-restore.py` FROM the repo root being
+    pushed, so `os.getcwd()` at scan time already answers "the real repo root the check is running
+    against" (`git rev-parse --git-common-dir` collapses a lane worktree to the primary repo's
+    identity exactly as it already does for a session's own `cwd`, so this stays consistent with
+    that reading rather than adding a second rule).
+
+    Before this reading, the key was `SCRIPT_DIR` (this file's own directory) instead. That is right
+    only while the file is scanned from inside its own checkout; a downstream project that reuses
+    this exact file unchanged (tlvphotos importing the live-spec pack's copy — inbox/2026-08-25-
+    from-tlvphotos-worker-restore-gate-ambient-scope.md) inherited THIS repository as "own" instead
+    of its own, so a discard in an unrelated live-spec development worktree blocked tlvphotos's own
+    clean push while a real discard in tlvphotos's own history would have been waved through as a
+    neighbour's. `os.getcwd()` carries no such assumption about where the file lives.
+    """
     if not _OWN_REPO:
-        _OWN_REPO.append(_git_common_dir(SCRIPT_DIR))
+        _OWN_REPO.append(_git_common_dir(os.getcwd()))
     return _OWN_REPO[0]
 
 
