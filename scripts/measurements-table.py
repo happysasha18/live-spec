@@ -587,13 +587,15 @@ def main(argv=None):
                       est["rounds_expected"], day)),
     }
 
+    md_text = render_md(rows, today)
     with open(OUT, "w", encoding="utf-8") as f:
-        f.write(render_md(rows, today))
+        f.write(md_text)
     print("measurements-table: wrote %s" % OUT)
     if args.html:
+        html_text = render_html(rows, today, totals)
         html_path = OUT.replace(".md", ".html")
         with open(html_path, "w", encoding="utf-8") as f:
-            f.write(render_html(rows, today, totals))
+            f.write(html_text)
         print("measurements-table: wrote %s" % html_path)
         print("measurements-table: %s is a page built for one reading — run "
               "python3 scripts/sweep-rendered.py once you are done reading it (SPEC INV-286)."
