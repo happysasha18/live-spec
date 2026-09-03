@@ -495,7 +495,9 @@ known-difference list is corrected so a tracked-file-rewriting test runner doesn
 the rollback proof. `inbox/2026-09-03-from-tlvphotos-catchup-6.1.0-findings.md` moves to
 `inbox/handled/` once both land.
 
-**Closed 2026-09-03.** Both findings landed in the lane worktree `lane/q-814-sync-review-carveout`.
+**Closed 2026-09-03. Checked by reading on 03.09**, independently, against the lane's own diff and
+test runs before landing — not taken on the worker's report alone. Both findings landed in the
+lane worktree `lane/q-814-sync-review-carveout`.
 
 Finding 1: `guardrails/check-skill-review.sh` gained a `find_covering_record()` helper and a byte-
 identical carve-out — when no direct review record covers a skill's latest change, the gate now
