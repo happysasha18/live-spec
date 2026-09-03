@@ -1448,7 +1448,7 @@ movement, and the report carries a done / in-work / waiting table. That is the v
 owes while the standing board waits its turn.
 
 
-### ⬜ The team's own task queue gets a live board, once someone actually wants it again — id: q-811
+### ⬜ A bigger board — worker lanes, timing, who's on what — waits until it's actually asked for — id: q-811
 **Group:** Board & visibility · **Priority:** normal
 **Source:** found 2026-09-02, closing q-166 — `spec/work-board.md` still promises this feature
 whole, on two `[target]` lines (`INV-308`, `INV-67`), never withdrawn when q-166 closed on its
@@ -1561,7 +1561,7 @@ name this row as its home once closed.
 **Checked by reading on 28.08.** The reviewer now says which part it skips, at `skills/product-prover/SKILL.md:352`, and the decision behind it at `docs/skill-review/2026-08-12-product-prover-2.md:68`. No command: the sentence lives in the reviewer's own repository.
 
 
-### ⬜ A proven method has the assistant write thorough tests every time — id: q-163
+### ⬜ Every new feature ships with real, complete tests, not just some — id: q-163
 **Group:** Testing · **Priority:** normal
 **Source:** inbox from track-coach close, 2026-07-05.
 **Closes:** q-191, q-491, q-554
