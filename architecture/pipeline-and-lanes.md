@@ -68,7 +68,7 @@
 - `skills/director/references/lanes-and-pen.md:32` (the penless overlap set, the pen-stages, and the re-fence after a landing)
 - `skills/director/references/lanes-and-pen.md:13` (the graph picks the lane set at queue-take)
 - `skills/director/references/lanes-and-pen.md:59` (a mid-work re-door re-runs the independence edges against every rolling lane)
-- `skills/live-spec-base/SKILL.md:130` (rule 7's lanes sub-rules — three lanes under one pen; the cap and the lane-open act have their one home here, and the director's reference points at it rather than restating it)
+- `skills/live-spec-base/SKILL.md:135` (rule 7's lanes sub-rules — three lanes under one pen; the cap and the lane-open act have their one home here, and the director's reference points at it rather than restating it)
 - `skills/live-spec-base/SKILL.md:154` (one row per landing commit)
 - `scripts/open-lane.sh:1` (the lane-open act's performable form. It carries the row→in-work claim commit on main, the cap refusal, and the lane branch cut into its own worktree, INV-214.)
 - `scripts/land-lane.sh:1` (the lane-landing act, the counterpart at the other end. It carries the merge-base check ahead of the gate, the gate on the rebased tree, the fast-forward, and the non-forcing teardown, INV-199.)

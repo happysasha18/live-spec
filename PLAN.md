@@ -2763,7 +2763,7 @@ One line per finding. Don't start a second list for them. Don't fix one without 
   citations found in the same page while reading it closely were fixed alongside, same class of
   defect: a stale "ROADMAP row 481" pointer (that row was absorbed into plan-11 in 28.08's cull
   without the sweep it promised ever being built) and a pointer to `prototype/2026-07-23-roadmap-format/`,
-  deleted whole in `61a77841`. Landed in `b886c944` (docs/roadmap-format.md,
+  deleted whole in `61a77841`. Landed in `d2d57d24` (docs/roadmap-format.md,
   spec/doc-order-generated.md), full suite green after: 2738 passed, 57 skipped, 0 failed.
 
 - **This page still holds three copies of the report's own rules, and the lane that converged

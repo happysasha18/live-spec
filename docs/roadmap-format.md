@@ -1,4 +1,4 @@
-# The roadmap format — definition
+# The queue format — definition
 
 This page defines the format a project's plan/queue is written in — the shape `templates/PLAN.template.md` hands a newly founded project. The queue is a member of the same format family as the spec, and this page states only what is particular to it. The shared family laws live once in `docs/spec-format.md`, and this page inherits them by reference rather than restating them.
 
