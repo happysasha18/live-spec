@@ -1230,7 +1230,7 @@ not yet both answered does not yet owe the co-occurrence value.
 is green.
 
 
-### ⬜ Every project gets its own status view — id: plan-14
+### 🔄 Every project gets its own status view — id: plan-14
 **Group:** Cross-project · **Priority:** normal
 **Source:** PLAN.md step 14, checked 27.08 — no host has one today.
 **Closes:** q-221, q-567, q-241, q-509, q-171, q-168
