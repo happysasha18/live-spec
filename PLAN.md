@@ -465,7 +465,7 @@ off-by-one in the migration wish's rollback-proof known-difference count) — fi
 below rather than fixed inline here, since neither blocked this walk and both need their own care.
 
 
-### ⬜ A host refreshing its skills from the pack isn't taxed for a review the pack already did — id: q-814
+### 🔄 A host refreshing its skills from the pack isn't taxed for a review the pack already did — id: q-814
 **Group:** Method reliability · **Priority:** normal
 **Source:** `inbox/2026-09-03-from-tlvphotos-catchup-6.1.0-findings.md` — a real host walk (tlvphotos,
 2.7.0 → 6.1.0) hit both findings below live and worked around them; reported back, not blocking.
