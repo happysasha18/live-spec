@@ -3093,8 +3093,25 @@ One line per finding. Don't start a second list for them. Don't fix one without 
   `guardrails/language-rules.json` says of `check-no-history.py`, "check-no-history.py is armed
   nowhere." Each may be right on its own reading; what is not right is that nothing in the tree
   tells a reader which checks are armed and which merely exist, so the same discovery costs a
-  hostile review its time again each pass. Reported, not fixed: naming the armed set, or arming
-  these, is its own piece of work and the priority is the owner's call.
+  hostile review its time again each pass.
+
+  **Corrected 03.09, re-checked before trusting the class as reported.** "No executable caller
+  anywhere" overstates all five, and the `check-no-history.py` quote does too. Each of
+  `check-delta-record.py`, `check-deposit-description.py`, `check-landing-next-steps.py`,
+  `check-tier-refusal.py`, `check-config-surface.py` and `check-no-history.py` has its own
+  dedicated test file, and at least one test per file runs the check against the real shipped data
+  rather than only a synthetic fixture (`test_the_shipped_record_and_patterns_pass` for
+  `check-tier-refusal.py`; `test_real_repo_range_refreshes_next_steps` for
+  `check-landing-next-steps.py`, which reddened for real tonight on this session's own two landing
+  commits; `test_armed_passes_on_the_real_spec` for `check-no-history.py`, whose own comment names
+  the exact mechanism — "armed at the row-445 conversion delivery (INV-270): the gate runs on the
+  live PRODUCT_SPEC.md via the suite (gate b)"). So `guardrails/language-rules.json`'s own "armed
+  nowhere" note is itself stale, contradicted by a test already committed beside it. The real,
+  narrower gap across all six: none has a direct standalone line inside `guardrails/pre-push` —
+  each runs only through pytest, gate b, on every push, which is genuinely armed, just indirectly.
+  Reported, not fixed: naming the armed set precisely (direct gate line vs. suite-only, and fixing
+  the one stale "armed nowhere" note), or adding a direct line for the ones that deserve one, is its
+  own piece of work and the priority is the owner's call.
 
 ---
 
