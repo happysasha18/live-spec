@@ -1470,6 +1470,34 @@ task, one lane per worker, given-vs-actual time, per-agent attribution, one publ
 live over one real stretch of work, the same way q-166's own acceptance read before this split.
 
 
+### ⬜ A queued row always carries a real reason to stay open; an idea gets its own shelf — id: q-813
+**Group:** Board & visibility · **Priority:** critical
+**Source:** owner 2026-09-03 ~10:08 — a task never sits open with no real reason; either a
+checkable cause keeps it queued, or it was an idea and belongs on a shelf, not dressed as a task
+(`DECISIONS.md`, 2026-09-03).
+
+**What was wrong.** `q-811`'s own text admits nobody has asked for its feature again since
+08-06, and its "revisit trigger" — "a real ask for it" — is not a checkable external fact, it
+requires him to personally re-raise it, which is circular. That is an idea, not queued work, and
+it was sitting in `## Tasks` with a mark, a group, a priority — every visual signal of a real row —
+which is exactly why it read as confusing rather than as the shelved thought it actually is. The
+mechanism to hold an idea properly was already specced and never built:
+`spec/message-first-read.md` Requirement 315 (`E-37`, `INV-320`) names an idea shelf holding a
+person's own wording, no identifier, no priority, no estimate — its own text admits "no file holds
+it, no command writes to it, and no test reads it."
+
+**Definition of done:** `IDEA_SHELF.md` exists at repo root, append-only, each entry dated and
+quoted verbatim, no identifier/priority/estimate; `director/SKILL.md`'s idea-act handling writes to
+it and says so in one line, closing Requirement 315's `[target]` tag for real. `PLAN.md` states the
+real bar for a row staying in `## Tasks`: an active reason — in hand, or queued behind a named,
+checkable trigger — never a hope that circumstances change. Every currently open row is swept
+against that bar; `q-811` moves to the shelf (its own approved spec chapter, `spec/work-board.md`
+Requirement 309, retired to `attic/` with a manifest line rather than silently dropped — a
+prototype/declined design holds no rights, per rule 16's own spirit, and a fresh design
+conversation is how it comes back, not a git resurrection); any other row the sweep finds
+ambiguous is reported, not decided unilaterally. Full suite green.
+
+
 ### ⬜ The Director's real route is proven end to end, on the actual mechanism, not the instructions — id: q-812
 **Group:** Method reliability · **Priority:** critical
 **Source:** owner 2026-09-02 ~22:15, verbatim brief (Russian original kept whole — a compressed

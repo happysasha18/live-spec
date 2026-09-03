@@ -589,6 +589,24 @@ the one slot nothing questions. That is the defect this surface exists to catch.
   queued behind tonight's open rows, with product-prover reviewing the route's own contract and
   test-author adding exactly the matrix rows and tests the proof needs — no more.
 
+- 2026-09-03 ~10:08 — a queued row in `## Tasks` stays there only for a real, checkable reason —
+  actively worked, or blocked on a named external trigger a person could verify fired — never a
+  hope that circumstances change; anything else is an idea and belongs on its own shelf, not
+  dressed as a task. Your words in chat: "я не хочу чтобы таски без причины просто там ждали. либо
+  мы держим потому что есть причина либо это была идея такая... типа в ящик... давай подумай как
+  это оформить в спеке." In English: I don't want tasks sitting there with no reason. Either we
+  hold it because there's a reason, or it was an idea — into a box, so to speak. Think about how to
+  formalize this in the spec. You also named who this is for as the thing that should set my state
+  of mind doing it — a person who dumps thoughts and wants the system to sort real work from
+  passing ideas on its own (this file's own opening goal). Consequence: `PLAN.md` gains q-813 —
+  the already-specced, never-built idea shelf (`spec/message-first-read.md` Requirement 315,
+  `E-37`, `INV-320`) gets built for real; `q-811`, whose own "revisit trigger" was never checkable
+  ("a real ask for it" requires you personally to re-raise it), moves there, and its approved spec
+  chapter (`spec/work-board.md` Requirement 309) retires to `attic/` with a manifest line — a
+  design nobody is building holds no rights, and comes back by a fresh conversation, not a git
+  resurrection. Every other open row gets swept against the same bar; anything ambiguous is
+  reported, not decided unilaterally.
+
 ## Open — carried, awaiting your word
 <!-- record:open -->
 These are open questions the pack carries with a recommendation. They moved here from the old spec
