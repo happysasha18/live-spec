@@ -1514,18 +1514,20 @@ class TestTargetOwnership(unittest.TestCase):
         # INV-244's own [target] tag and this entry dropped together 2026-09-01, when q-436 landed
         # (this lane forked before that landing, so its own copy of this map still carried the
         # stale placeholder entry through the rebase — removed here, matching main's real state).
-        # Dropped 2026-09-03, under q-813: INV-308 and INV-67 were re-pointed to q-811 on 09-02
-        # when q-166 closed on its cheap leg alone. q-811 itself came off the board the next day —
-        # its only reason to stay queued was that the owner might ask for the board again, which is
-        # not a checkable trigger — and `spec/work-board.md` Requirement 309, the chapter that
-        # carried the two anchors and their one `[target]` line, retired to
-        # `attic/spec-work-board-R309.md` with it. So the promise is WITHDRAWN rather than orphaned:
-        # no body line carries either marker any more, and a map entry for a marker that no longer
-        # exists is itself the red this test names. The approved sketch stays readable at
-        # `docs/norms/work-board.html`; a fresh design conversation is how the board comes back.
-        # Requirement 315 (the idea shelf) retired in the same commit and left no entry to drop:
-        # its only `[target]` sat on the requirement's own heading line, which carries no trailing
-        # anchor bracket, so `target_marker_anchors()` never saw it and this map never tracked it.
+        # Briefly dropped 2026-09-03 under q-813 (re-pointed to q-811, then q-811 itself came off
+        # the board on an uncheckable trigger, and `spec/work-board.md` Requirement 309 retired with
+        # it) — corrected the same day: q-813's own closing note flagged that the retirement went
+        # past the owner's already-recorded 2026-09-02 12:46 word
+        # (`.live-spec/turnkey-contract-composed.md:305`), which keeps Requirement 309 and schedules
+        # it to build after package 2. Requirement 309 is restored, and its two `[target]` anchors
+        # are re-pointed to `q-816` — a fresh row carrying a real, checkable trigger (package 2
+        # closing) rather than q-811's "a real ask for it".
+        "INV-308": "q-816",  # the work board surface, kept and deferred until after package 2
+        "INV-67": "q-816",   # the board's one-stable-link published page
+        # Requirement 315 (the idea shelf) stays retired: the owner's correction forbids the
+        # mechanism itself, unrelated to the R309/turnkey-contract collision above. Its only
+        # `[target]` sat on the requirement's own heading line, which carries no trailing anchor
+        # bracket, so `target_marker_anchors()` never saw it and this map never tracked it.
     }
 
     def roadmap_rows(self):

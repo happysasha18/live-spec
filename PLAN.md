@@ -593,8 +593,13 @@ exercises the explicit override across a dozen shapes) still passes unchanged, p
 itself was never touched.
 
 `python3 -m pytest -q tests/test_worker_restore.py tests/test_worker_restore_made_good.py tests/test_worker_restore_guard.py tests/test_worker_restore_run_scope.py tests/test_install_worker_restore_guard.py`
-— 288 passed. Full suite (`python3 -m pytest -q`) run clean from this worktree's root; see the
-session's own report for its tally.
+— 288 passed. Full suite (`python3 -m pytest -q`), none of it touching this row's own change: the
+same pre-existing count `q-814` already named a few rows up (a stale `skills/director/SKILL.md`
+hash against its recorded closing-eval runs, invalidated by `614cc25e`, plus a nested run of the
+same) — carried as-is, not this row's job. **Correction, 2026-09-03:** this line originally read
+"run clean," which was false at the commit it named — `docs/prover/2026-09-03-full-range-
+adversarial-review.md` finding F1 caught it, re-running the failing test directly against this
+row's own closing commit and reproducing the red.
 
 `inbox/2026-08-25-from-tlvphotos-worker-restore-gate-ambient-scope.md` moved to
 `inbox/handled/2026-08-25-from-tlvphotos-worker-restore-gate-ambient-scope.md`.
@@ -1691,8 +1696,15 @@ reported, not decided unilaterally. Full suite green.
 his own quoted words sourced from `docs/handovers/2026-08-06-evening-work-board-handover.md`, not
 paraphrased), two `attic/MANIFEST.md` lines, both generated indexes and the matrix reference
 rebuilt by their own scripts. Full suite re-verified independently on the merged tree after
-integration, not taken on the worker's own report. Sweep confirmed: 8 open rows, all active or
-behind a named external trigger, none idea-shaped, none ambiguous.
+integration, not taken on the worker's own report — none of it touching this row's own change: the
+same pre-existing count `q-814` names a few rows up (a stale `skills/director/SKILL.md` hash against
+its recorded closing-eval runs, invalidated by this row's own `614cc25e`, plus a nested run of the
+same) — carried as-is, not this row's job. Sweep confirmed: 8 open rows, all active or behind a
+named external trigger, none idea-shaped, none ambiguous. **Correction, 2026-09-03:** the
+Definition of done above and this paragraph originally said "Full suite green" unqualified, written
+after `614cc25e` — this row's own lane produced the very edit that staled the closing-eval hash, so
+the DOD's own "green" was false when written. `docs/prover/2026-09-03-full-range-adversarial-
+review.md` finding F1 caught it.
 
 **One judgment call in this close was mine, not his, and stays open for his word.** Retiring
 Requirement 309 — 99 approved acceptance criteria, an approved sketch he signed off in August —
@@ -1705,6 +1717,16 @@ approved sketch stands untouched at `docs/norms/work-board.html`, the retired te
 `attic/`, and reverting is a plain git operation — but this is named plainly rather than folded
 into a done mark, per this row's own new rule: a shown result closes the work, and a later
 disagreement opens new work rather than reopening this one.
+
+**Resolved 2026-09-03, same day.** No new decision was needed: his word was already on record before
+this row ran, at `.live-spec/turnkey-contract-composed.md:305`, 2026-09-02 12:46, kept and deferred
+until after package 2 — never retired. Requirement 309 (all but the one piece his own 12:46 word did
+retire, the periodic ~5-second auto-refresh heartbeat — ex-criteria 88, 90, 96, and the matching
+halves of matrix facts M-540/M-542) and `matrix/work-board.md`'s remaining rows are restored to
+`spec/work-board.md` and `matrix/work-board.md`, both generated indexes and the matrix reference
+rebuilt again by their own scripts. The row that keeps it open is `q-816`, carrying the checkable
+trigger the contract itself names — package 2 closing — in place of `q-811`'s uncheckable "a real
+ask for it."
 
 
 ### ✅ The Director's real route is proven end to end, on the actual mechanism, not the instructions — id: q-812
@@ -2688,6 +2710,33 @@ and `python3 -m pytest -q tests/test_readme_stance.py tests/test_host_count_agre
 tests/test_skill_count_agrees.py tests/test_four_checks_contract.py tests/test_scaffold_guardrails.py
 tests/test_minor_gate_reconciliations.py` (58 passed, 1 skipped) — plus the full set of every test
 file that reads `README.md` anywhere in the suite, run in batches, all green.
+
+### ⬜ The work board — worker lanes, timing, who's on what — builds once package 2 gives it a real trigger — id: q-816
+**Group:** Board & visibility · **Priority:** normal
+**Source:** restored 2026-09-03, correcting q-813 — `spec/work-board.md` Requirement 309 was
+retired that same evening past what the owner had already settled the morning before:
+`.live-spec/turnkey-contract-composed.md:305` records his 2026-09-02 12:46 word keeping
+Requirement 309 and the rest of `matrix/work-board.md`, scheduled to build after package 2, never
+retired. q-813's own closing text named the collision and left it open for his word; his word was
+already on record, so no new decision was needed to restore this row.
+
+**What it is.** `spec/work-board.md` Requirement 309 describes a kanban-style task queue for a
+HOST project's own work — worker lanes, given-vs-actual time per task, per-agent attribution, one
+stable published link — built on top of the same Canon `board.html` already renders for this
+project's own plan. One piece of it stays retired on the owner's own same-12:46 word
+(`.live-spec/turnkey-contract-composed.md:304`): the periodic ~5-second auto-refresh heartbeat
+(former criteria 88, 90, 96, and the matching halves of matrix facts M-540/M-542) — that piece is
+the one the contract calls "the one piece actually cut," and it stays cut here too.
+
+**Revisit trigger:** package 2 (the vertical path) closes, per `.live-spec/turnkey-contract-composed.md:305`
+and q-806's own acceptance ("Package 2 ... does not start before this closes"). Until then this
+stays queued rather than in hand — building it now, ahead of the schedule his own word already set,
+is the same "don't serve machinery nobody needs" reasoning the contract itself argues from, just
+pointed the other way: not never, but not yet.
+
+**Acceptance:** unchanged from `spec/work-board.md` Requirement 309's own criteria, minus the
+retired heartbeat clauses above — a card per task, one lane per worker, given-vs-actual time,
+per-agent attribution, one published link — proven live over one real stretch of work.
 
 ## Blockers
 

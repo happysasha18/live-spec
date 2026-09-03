@@ -85,23 +85,17 @@ fixtures and data beside it, so returning one is a single move. Their lines take
   which this repository's tree does not have today and may want if that race is ever actually hit
   * 2026-09-03
 
-- `spec/work-board.md` (the whole part file: Requirement 309 and its ninety-nine acceptance
-  criteria) and `matrix/work-board.md` (its twenty-six matrix rows, every one *todo*) ->
-  `attic/spec-work-board-R309.md` and `attic/matrix-work-board-R309.md` * the standing work board
-  for a host's own queue — columns of cards, worker lanes, an estimate beside an actual on every
-  row, one published link. Specified whole across nine of the owner's turns on 2026-08-06, its form
-  approved and frozen the same evening, and never built. Nobody asked for it again after that
-  evening, and `board.html` has answered his daily "what is happening" since 2026-08-31. Its queue
-  row, `q-811`, kept it alive on the trigger "a real ask for it", which asks the owner to raise the
-  subject again and so is nothing an outside reader can check; that row came off `PLAN.md` the same
-  day (`docs/queue-archive/rotated-PLAN-2026-09-03-q811-declined.md`), and a chapter promising work
-  nobody is doing had nothing left holding it up. Its two `[target]` anchors, `INV-308` and
-  `INV-67`, are withdrawn rather than re-owned, and `INV-308`–`INV-313` and their numbers stay
-  empty in `tests/test_formal_index.py`'s pinned gaps. The approved form is untouched at
-  `docs/norms/work-board.html` and `docs/norms/work-board.provenance.md`, and every word the owner
-  gave that evening, with its time, at
-  `docs/handovers/2026-08-06-evening-work-board-handover.md`. It comes back through a fresh design
-  conversation and a new row, never by restoring these two files * 2026-09-03
+- **Moved back 2026-09-03, same day.** `spec/work-board.md` and `matrix/work-board.md` sat here
+  briefly as `attic/spec-work-board-R309.md` and `attic/matrix-work-board-R309.md`, retired under
+  q-813 on the reading that nobody had asked for the feature since 2026-08-06. That retirement went
+  past the owner's own already-recorded word: `.live-spec/turnkey-contract-composed.md:305` records
+  2026-09-02 12:46, keeping Requirement 309 and the rest of `matrix/work-board.md` and scheduling
+  them to build after package 2 — never retiring them. Both files are restored to their live
+  homes, minus the one piece his own word did retire that same 12:46 (`turnkey-contract-
+  composed.md:304`): the periodic ~5-second auto-refresh heartbeat, ex-criteria 88/90/96 of
+  Requirement 309 and the matching halves of matrix facts M-540/M-542. `q-816` carries the
+  deferred-build row now, with package 2 closing as its checkable trigger, in place of `q-811`'s
+  uncheckable "a real ask for it" * 2026-09-03
 - `spec/message-first-read.md` Requirement 315 with its five acceptance criteria (the requirement
   alone, excerpted from a part file that keeps its other two requirements) ->
   `attic/spec-message-first-read-R315.md` * the idea shelf: a home an idea named in passing was to

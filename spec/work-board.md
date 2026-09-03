@@ -140,28 +140,24 @@
 
 86. The system *shall* update the work board at every pipeline stage change, at take-up, and at a worker's spawn and finish. [INV-312, INV-71]
 87. The system *shall* update it at a landing, and at every state that waits on the person. [INV-312, INV-71]
-88. *while* a stretch runs long with no stage change, the system *shall* refresh the work board's stamp on the same heartbeat the chat's narration already carries, so a quiet stretch reads apart from a stalled one. [INV-312, INV-35, INV-71]
-89. The system *shall* carry the work board file's update inside the landing's own commit. [INV-312]
-90. The system *shall* complete a work board update within about five seconds of the stage change it records, and *shall* never delay that stage. [default] [INV-312]
-   - the generator's own suite timing assertion watches this number once the generator ships.
+88. The system *shall* carry the work board file's update inside the landing's own commit. [INV-312]
 
 **Case: the work board reads on any screen**
 
-91. The system *shall* lay the work board out in one column on a narrow screen, the work in hand at the top. [default] [INV-313]
-92. The system *shall* make every control reachable by touch and *shall* hide nothing behind a hover. [INV-313]
-93. The system *shall* keep the work board reachable by keyboard and readable at the contrast the pack's pages hold. [default] [INV-313]
+89. The system *shall* lay the work board out in one column on a narrow screen, the work in hand at the top. [default] [INV-313]
+90. The system *shall* make every control reachable by touch and *shall* hide nothing behind a hover. [INV-313]
+91. The system *shall* keep the work board reachable by keyboard and readable at the contrast the pack's pages hold. [default] [INV-313]
 
 **Case: the empty work board and the stale work board**
 
-94. *when* no work is in hand, the system *shall* say so and show the queue's head in its place. [INV-313]
-95. The system *shall* stamp the work board with the time it last updated, so a reader judges its freshness. [INV-313]
-96. The system *shall* have an open page re-read itself about every five seconds. [default] [INV-313]
+92. *when* no work is in hand, the system *shall* say so and show the queue's head in its place. [INV-313]
+93. The system *shall* stamp the work board with the time it last updated, so a reader judges its freshness. [INV-313]
 
 **Case: what the work board is not, and how its working shows**
 
-97. The system *shall* merge no other project's work into a host's work board. [INV-308]
-98. The system *shall* write on the work board no history the journal already owns. [INV-308]
-99. The system *shall* count the work board working *when* the person answers four questions from the page alone over one real working stretch. The four are what is now being done, who runs what, what was done, and how long each took against its estimate. [INV-308]
+94. The system *shall* merge no other project's work into a host's work board. [INV-308]
+95. The system *shall* write on the work board no history the journal already owns. [INV-308]
+96. The system *shall* count the work board working *when* the person answers four questions from the page alone over one real working stretch. The four are what is now being done, who runs what, what was done, and how long each took against its estimate. [INV-308]
 
 ---
 

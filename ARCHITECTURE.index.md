@@ -360,6 +360,12 @@
 | INV-305 | guardrails |
 | INV-306 | guardrails |
 | INV-307 | attach |
+| INV-308 | work-board |
+| INV-309 | work-board |
+| INV-310 | work-board |
+| INV-311 | work-board |
+| INV-312 | work-board |
+| INV-313 | work-board |
 | INV-314 | communicator |
 | INV-315 | guardrails |
 | INV-316 | director |

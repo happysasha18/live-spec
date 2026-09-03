@@ -46,7 +46,7 @@ browser. No server, no runtime of its own.
 | `architecture/rules-and-settings.md` | base-rulebook, host-contract, onboarding-card | shared rules stated once, the settings ladder, the recorded host/personal settings instances, and the rendered settings card |
 | `architecture/authoring-and-review.md` | spec-author, product-prover, design-reviewer, text-audit | authoring the spec, formal spec/architecture review, the design-review pass, and the human-facing text audit loop |
 | `architecture/pipeline-and-lanes.md` | director, build-pipeline, parallel-lanes | the first read of a person's message, the wish lifecycle walked station by station, and concurrent work on one repo under the pen |
-| `architecture/exchange.md` | communicator | the human-facing exchange |
+| `architecture/exchange.md` | communicator, work-board | the human-facing exchange, and the standing work-board page that shows the whole queue |
 | `architecture/host-adoption.md` | attach, templates, package-docs | attaching the pack to a host, the document shapes a host copies at bootstrap, and live-spec's own dogfood host instance |
 | `architecture/intake.md` | inbox, feedback-intake | the parallel-safe wish-intake door and the handed-in feedback intake, each routing items to their homes |
 | `architecture/guardrails.md` | guardrails | mechanical pre-push checks, surface registry, and the CI mirror |
