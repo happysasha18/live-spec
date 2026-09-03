@@ -1,16 +1,23 @@
 {
   "id": "mixed-you-invented-that-work",
   "acts": [
+    "correction",
     "observation",
-    "correction"
+    "observation"
   ],
   "creates_work": false,
   "shelves_idea": false,
   "attaches_to_existing_work": true,
   "work_items": 0,
-  "dimensions": [],
-  "specialists": [],
-  "reasoning": "The measuring work is already in flight (per the situation), and the message changes its goal and constraints rather than asking for something new, which the skill's table defines as a Correction — 'changes the goal or the constraints of work in flight' — governed by 'A correction attaches to work, not to a queue... find that work and change it. What was already done stays done.' The person narrows the legitimate scope down to one thing ('делать быстрый замер на платформе, перед тем как решать насколько сложные будут переходы, это да') and withdraws everything else ('остальное ничего не просил'), so the existing measuring work's goal shrinks rather than a new row opening; no new decision sheet is warranted and work_items is 0. Riding alongside that correction is a second act: calling the over-measuring 'тоже баг' and diagnosing it as 'автозаявка на любую хрень вместо того чтобы думать' is a judgment about the process that 'says something new' per 'Grounds stated with an act carry their own act only when they say something new' — it is worth keeping as evidence even though it also motivates the correction, so per the Observation row it gets recorded as evidence rather than absorbed into the correction or spun into its own repair task ('must not... infer a repair job, unless the repair follows from the situation beyond doubt' — here the situation's own repair is exactly the correction already named, not a separate fix). No idea, decision, instruction, question or halt is present: nothing conditional or forward-standing is stated, and the request is to shrink running work, not stop it outright or start something new, so no dimensions or specialists apply since no new work is created.",
+  "dimensions": [
+    "the user's path and the design",
+    "analytics, unknowns, hypotheses, experiments"
+  ],
+  "specialists": [
+    "Developer",
+    "Data and experiment analyst"
+  ],
+  "reasoning": "The core act is a correction: the person is narrowing the constraints of work already in flight (the transitions/measurement effort) from 'measure whatever' down to the one thing actually asked for -- a quick platform measurement before deciding how complex transitions should be. Per 'A correction attaches to work, not to a queue,' this retargets the existing checkpoint rather than opening a new one, so work_items is 0 and attaches_to_existing_work is true even though the correction itself is accepted work that gets a (revised) decision sheet. Two more acts ride along and are not absorbed into the correction: 'это тоже баг' names the unrequested measuring as a defect, and the closing line diagnoses the mechanism ('автозаявка на любую хрень вместо того чтобы думать') -- both are judgments about the process that 'say something new' beyond the correction's own goal, per 'Grounds stated with an act carry their own act only when they say something new,' and are worth keeping as evidence rather than dissolved into context. The surviving scope (a quick measurement on the platform to inform transition-complexity decisions) touches the experiment/hypothesis dimension and the design decision it feeds; Developer would run the measurement and the Data/experiment analyst (per the specialists table, 'the cause is unknown or a hypothesis needs testing') would interpret it against the complexity question.",
   "scenario": "mixed-you-invented-that-work",
   "skill_version": "6.1.0"
 }

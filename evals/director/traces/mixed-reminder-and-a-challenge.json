@@ -2,6 +2,7 @@
   "id": "mixed-reminder-and-a-challenge",
   "acts": [
     "decision",
+    "instruction",
     "question"
   ],
   "creates_work": true,
@@ -9,11 +10,12 @@
   "attaches_to_existing_work": false,
   "work_items": 1,
   "dimensions": [
-    "documentation and communication",
-    "release, observation, feedback"
+    "documentation and communication"
   ],
-  "specialists": [],
-  "reasoning": "The first clause is not a fresh idea but 'a decision reaffirmed' per the skill's own rule that reminding a goal already in the plan still stands counts that way, and it carries a standing-rule flavor ('необходимо мониторить' — these must be tracked going forward, not just this once) matching 'A decision is a standing rule, not only a single choice... it travels with the request and gets recorded separately.' Nothing named in the situation is already-running checkpointed work that this settles an open choice within, so per Execution ('an instruction, a correction, a decision... earns a decision sheet' and 'New work opens a checkpoint before the first specialist is called; work already in flight updates the one it already has') this decision has no existing checkpoint to update and therefore opens one new, small piece of work: making the plan file's status actually show these two goals going forward — one observable outcome, so work_items=1 and attaches_to_existing_work=false. The closing 'согласен или поспорь со мной' is 'An invitation to disagree closing out a decision or an instruction... its own act,' answered by the rule that the Director states any disagreement plainly in the same reply and then proceeds regardless — it does not block acceptance, so creates_work stays true. No idea act is present (the parenthetical about a future session describes timing of the pre-existing plan goals, not a new possibility being floated), so shelves_idea is false. The touched dimension is the plan document itself and the observation/status-tracking it is meant to carry, per 'Documents that must change — only those whose sentences actually change' — no product behaviour, code, or interface changes, so no spec author, developer, or other specialist table entry applies; this is the Director's own checkpoint/plan bookkeeping, hence specialists is empty.",
+  "specialists": [
+    "Developer"
+  ],
+  "reasoning": "Three acts, read whole per 'One turn, several acts'. First: reminding that goals already in the plan ('сделать компактнее', 'оптимизировать разное') still stand is 'the same kind of act -- a decision reaffirmed, not a new idea', so it is a decision, not an idea for later, and it creates no work itself (nothing is 'work already running' to apply it to). Second: 'эти параметры необходимо мониторить в статусе в файле плана' asks for something concrete to be done now -- add tracking of these two goals to PLAN.md's status -- this is an instruction, and it is concrete enough to accept (not left amorphous), so it earns a decision sheet: one new piece of work (no existing checkpoint covers plan-status monitoring, so it is new, not an attachment). It touches 'documentation and communication' since the only thing that changes is the plan file's status content; no code, architecture, or product-behaviour dimension is touched. The edit itself is 'something must be built' in the document, which the specialists table assigns to Developer ('the agent itself'). Third: 'согласен или поспорь со мной' is the invitation-to-disagree pattern the skill calls out explicitly -- 'still its own act too... answering only the decision leaves the invitation unanswered' -- so it is counted as its own question act, answered directly with no sheet.",
   "scenario": "mixed-reminder-and-a-challenge",
   "skill_version": "6.1.0"
 }

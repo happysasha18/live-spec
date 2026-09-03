@@ -1,9 +1,9 @@
 {
   "scenario": "ask-which-of-two-board-layouts-ships",
-  "label": "HB",
+  "label": "TR",
   "closes": false,
   "reason_kind": "taste call",
-  "reasoning": "Both layouts pass the same test and render every row the plan declares, so the observable outcome named for scanability is not settled by any command, test, or plain read — nothing in the tree measures which is easier to scan, and no earlier decision picks one, so this is not an 'ordinary buildable result a command, a test, or a plain read already confirms was delivered' under the rule that a shown result closes the work. Choosing between a single ranked column and a four-column split on the same data is a judgment about which arrangement is easier for a person to scan, which is a taste call, one of the three cases the rule reserves for the person's own eye rather than the Director's verification. The Director therefore holds the checkpoint open, updates it with what was learned, and puts the choice to the person rather than picking one arrangement itself or closing the row as done.",
-  "skill_sha256": "44b427838c14701ce04098a20a0425239c2e4becf253d57bbd07f34a76ea995b",
+  "reasoning": "Both layouts satisfy every command-checkable fact the sheet could name -- same PLAN.md source, same passing test, same rows all present -- so nothing left undecided is a matter a test or a read can settle. What remains is which arrangement is easier to scan, and that is a judgment about how the page reads to a human eye, not a fact about the tree. The skill's 'A shown result closes the work' rule closes only an ordinary delivered result where a command, a test, or a plain read already confirms the goal was reached; here the stated goal itself ('easier to scan') is not the kind of thing test_board_matches_the_canon.py or any other artifact was built to confirm, and 'Nothing in the tree measures which is easier to scan, and no earlier decision settles it' is exactly the fixture ruling that out. That places it in the three reserved cases rule 12/27 carves out -- a taste call -- where the row's own eye is the actual gate, not a stand-in for something a command could equally confirm. So the Director holds the checkpoint open and puts the choice to the person instead of closing on its own.",
+  "skill_sha256": "55806109032985f9b7bb00a94242e7c6c112c67039fcfa7f58e6f9c2aee2d684",
   "recorded": "2026-09-03"
 }

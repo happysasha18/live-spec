@@ -1,6 +1,7 @@
 {
   "id": "question-what-is-it",
   "acts": [
+    "question",
     "question"
   ],
   "creates_work": false,
@@ -9,7 +10,7 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "The message asks two plain questions about a term the agent itself has been using mid-explanation ('what is the printable block? why is it needed?') — this is squarely the 'Question or musing' row: the person wants to know something, so the Director answers the question and engages with the thought, and must not write a roadmap row, open a spec, or start work. Nothing here settles an open choice (not a decision), changes goal or constraints of work in flight (not a correction, and there is no stated work in flight in this scenario), names a possibility not being asked for now (not an idea), reports a fact or impression (not an observation), asks for something to be built (not an instruction), or wants something running to stop (not a halt). Because it is a pure question, per 'For a question, an idea, an observation or a halt there is no sheet' there is no decision sheet, no dimensions, no specialists, and no checkpoint — only a sentence answering it.",
+  "reasoning": "Per the acts table, this is 'Question or musing' -- the person wants to know something about a term the agent has been using (\"печатаемый блок\") and its purpose. The two clauses ('what is it' / 'why is it needed') are read under 'One turn, several acts': each asks for a different thing (definition vs. rationale), so per 'grounds stated with an act carry their own act only when they say something new' the second clause is not redundant restatement of the first and both are listed as question acts. The 'What the Director does' column for this act is only to 'answer the question; engage with the thought,' and explicitly 'must not write a roadmap row, open a spec, start work.' There is no work in flight this message changes (no correction, no decision, no instruction), so it neither creates new work nor attaches to existing work nor shelves an idea -- it is answered and the turn produces zero work items, no dimensions, and no specialists, consistent with 'A question creates nothing and changes no document.'",
   "scenario": "question-what-is-it",
   "skill_version": "6.1.0"
 }

@@ -9,13 +9,14 @@
   "work_items": 1,
   "dimensions": [
     "product value and behaviour",
-    "quality, safety, regressions"
+    "quality, safety, regressions",
+    "release, observation, feedback"
   ],
   "specialists": [
     "Developer",
     "Test author"
   ],
-  "reasoning": "A wordless paste is still an act, and per the skill 'usually an observation' whose intent is read from what the person was doing a minute earlier — here, watching a deploy, then a TypeError surfaces in checkEntitlement immediately after. This matches the rule that 'some observations carry their repair with them': like 'Production is returning 500s,' a crash in the entitlement check right after the deploy that caused it is not offered to be agreeable, and no competent colleague would need to ask what was wanted, so the repair follows beyond doubt and the observation is accepted as work with its own decision sheet, exactly as the free-plan-export worked example shows. Nothing in the scenario names an already-open piece of work this trace belongs to, so it is new work, not a correction attaching to work in flight, giving work_items 1 and attaches_to_existing_work false; there is no idea in this turn, so shelves_idea is false. It touches product behaviour (entitlement checking is broken) and quality/regressions (a deploy just introduced a crash), and, mirroring the worked example's 'developer; test author for the regression test — no spec author, the spec is right and the code disagrees with it,' the accepted work calls the Developer to fix it and the Test author to pin the regression.",
+  "reasoning": "Per 'A message with no words', a pasted stack trace with nothing said is still an act, usually an observation, and here what's wanted is clear from what the person was doing a minute earlier (watching a deploy) -- so no clarifying question is needed. Per 'Some observations carry their repair with them', this reads like the given example 'Production is returning 500s': a crash in checkEntitlement (billing.js:142) appearing the moment a deploy lands is a defect whose repair follows beyond doubt, not a preference a colleague would need to ask about -- so it is accepted work (creates_work=true), one item, not attached to any already-open checkpoint since none is established as in flight. It touches product behaviour (entitlement checking is broken), quality/regressions (a production crash needs a fix and a regression test), and release/observation/feedback (the report is tied directly to the just-watched deploy). Following the skill's own worked sheet for a comparably sized bug, it calls a developer to fix it and a test author for the regression test -- no spec author, since nothing suggests the spec's stated behaviour is wrong, only the code.",
   "scenario": "not-an-act-a-bare-trace",
   "skill_version": "6.1.0"
 }

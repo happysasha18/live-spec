@@ -1,9 +1,9 @@
 {
   "scenario": "close-on-a-plain-read-with-no-command",
-  "label": "ZT",
+  "label": "VM",
   "closes": true,
   "reason_kind": "ordinary delivered result",
-  "reasoning": "The work is a plain buildable result: an instruction was accepted, the paragraph was written, and the Director itself re-checked the observable outcome (every fact in the paragraph true of the files on disk) — this is exactly the Director's own re-check standing in for a fresh checker per the verify-step rule, and it is enough. Per the rule on closing, \"a shown result closes the work; the human's own eye is never the gate on an ordinary delivery\" — the checkpoint closes once the verifier (here, the Director's own check) confirms the observable outcome, and the result is shown in the same step. There is no taste call (the README's own voice was explicitly not changed), no trade-off left unsettled, no change to the definition of correct, and nothing irreversible in adding a documentation paragraph — none of the three reserved cases for holding open for his word apply, so none of the other reason kinds fit. Waiting on the person here would be treating his eye as the check for an ordinary delivery the read-back already confirmed, which the rule forbids; if he later disagrees with the wording, that becomes a new task carrying his correction, and this closed row stays closed.",
-  "skill_sha256": "44b427838c14701ce04098a20a0425239c2e4becf253d57bbd07f34a76ea995b",
+  "reasoning": "The paragraph is a buildable result confirmed by a plain read: the Director read it back against the files it describes and every fact checks out. Under 'A shown result closes the work,' this is exactly what closes immediately once verified -- the human's own eye is never the gate on an ordinary delivery. None of the reserved cases apply: no taste is being judged (the wording itself isn't in question, and 'nobody has raised a question about the wording' forecloses that), no trade-off is left for an artifact to settle, no definition of correct changed, and adding a documentation paragraph is trivially reversible in git, so rule 12's irreversible-action carve-out doesn't trigger either. Since none of the three reserved cases (or the irreversible-action case) hold, the row cannot be held open by naming 'his own eye' as the gate -- the checkpoint closes now.",
+  "skill_sha256": "55806109032985f9b7bb00a94242e7c6c112c67039fcfa7f58e6f9c2aee2d684",
   "recorded": "2026-09-03"
 }

@@ -2,7 +2,6 @@
   "id": "mixed-plan-and-two-questions",
   "acts": [
     "instruction",
-    "observation",
     "question"
   ],
   "creates_work": true,
@@ -12,8 +11,10 @@
   "dimensions": [
     "documentation and communication"
   ],
-  "specialists": [],
-  "reasoning": "The opening clause asks for a plan/status to be shown here as plain text, 5-10 lines, with emoji status; it is explicitly scoped 'на эту сессию' (for this session), and the skill's rule on decisions says a request scoped this way 'names no standing rule at all, however close it sounds to one, and stays an instruction' — so this is an Instruction, not a Decision. Per 'Work that belongs elsewhere,' asking for a plan, a status, a summary or a report 'is work like any other,' so this instruction creates one new work item: producing that plain-text status display, touching only the documentation and communication dimension. It attaches to no existing work — it does not change the goal or constraints of the worker already running, it is a separate deliverable the Director itself assembles from plan state, so no specialist from the table is clearly needed (the communicator entry covers wording an already-shipped result, and the same section warns that 'routing it to the communicator instead of doing it is how a plain request disappears'). The clause 'я ему все скопировал и запустил' reports a new fact about what was already done (the whole plan was copied to the worker and it is running) without asking for a repair, which the acts table records as an Observation kept as evidence. The remaining clauses — wanting to understand what the worker is doing now, whether it is running the whole plan or only part, and what the output will be — are a Question: per 'A question creates nothing and changes no document... The Director may read... in order to answer,' this is answered by reading the existing checkpoint/plan state, not by opening any new work item.",
+  "specialists": [
+    "Publisher, communicator"
+  ],
+  "reasoning": "Two acts, read whole turn per 'One turn, several acts'. First: 'план на эту сессию текстовый простой в этом окне (5-10 строчек с эмотиконами как статус)' is a concrete ask for how status is shown going forward in this window -- an Instruction, not a Decision, because it is explicitly scoped 'на эту сессию' ('for this session'), and the rule states a request scoped this way 'names no standing rule at all... and stays an instruction' even though it echoes the already-standing Канон format. It is real, concrete work (a stated goal and observable outcome -- future status text follows this shape), so it earns a (small) decision sheet rather than being waved off as musing. Per 'Work that belongs elsewhere': a request for a plan/status/report 'is work like any other,' routed to the communicator for wording -- hence dimension 'documentation and communication' and specialist 'Publisher, communicator.' Second, 'я ему все скопировал и запустил' does not get its own act: it only restates the grounds for the question that follows (why he wants to know what's running now), matching 'when it only restates why the neighbouring act wants what it wants, it is not a second act.' The remainder -- 'что делает воркер', 'весь план или часть', 'что получим на выходе' -- is one Question: he wants to know the worker's current scope and expected output. Per 'Then, only for work that was accepted,' a question creates nothing; the Director may read the worker's checkpoint/plan state to answer, but answering it is not itself a new work item, so it attaches to nothing and opens no row. Total: 1 new work item (the format instruction), no idea shelved, nothing attaches to work already in flight (the launched worker's own plan is untouched by this turn).",
   "scenario": "mixed-plan-and-two-questions",
   "skill_version": "6.1.0"
 }

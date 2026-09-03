@@ -1,8 +1,8 @@
 {
   "id": "decision-and-instruction-together",
   "acts": [
-    "decision",
-    "instruction"
+    "instruction",
+    "decision"
   ],
   "creates_work": true,
   "shelves_idea": false,
@@ -14,7 +14,7 @@
   "specialists": [
     "Publisher, communicator"
   ],
-  "reasoning": "The message is word-for-word the pack's own worked case under 'No act absorbs another': 'always deploy without asking, and deploy this one' grants standing authority going forward and asks for today's deploy in the same breath, so both are named rather than one absorbing the other. The 'always' clause is a decision under 'A decision is a standing rule, not only a single choice' — it settles a policy (no more confirmation gate before deploy) that survives beyond this message and, per that same rule, 'travels with the request and gets recorded separately' rather than becoming the work item itself. The 'деплой блин!!' clause is the instruction: shipping the already-ready build is work with its own goal, and since the withholding was only a standing policy and shipping had never been checkpointed as its own task, this is new work rather than a correction or decision applied to a running task — so attaches_to_existing_work is false and exactly one new work item (ship the build) is produced. The annoyance ('блин', repeated '!!') adds no new fact beyond the instruction's own goal, so per 'Grounds stated with an act carry their own act only when they say something new' it is not a further act. No idea is voiced, so shelves_idea is false. The work touches the release dimension (shipping the build) under 'Dimensions touched', and the specialists table calls for Publisher/communicator: 'the result ships and has to be explained.'",
+  "reasoning": "This message is close to the skill's own worked example under 'No act absorbs another': 'always deploy without asking, and deploy this one' grants authority going forward and asks for today's deploy in the same breath. The Russian message does the same -- 'деплой блин!!' demands the withheld build ship now (an instruction), and 'запиши себе всегда деплой без моего подтверждения' settles a standing rule beyond this message, matching 'A decision is a standing rule, not only a single choice' ('note this for yourself... always' settles force beyond the message that carried it). Per that section, the decision 'travels with the request and gets recorded separately, so the rule survives after that work item closes' -- it is not itself a second piece of engineering work, so it doesn't add a work item. Because the fixture states the withholding was 'a standing policy, not a tracked task' rather than tracked work, there is no existing checkpoint for either the instruction or the decision to attach to or correct, so attaches_to_existing_work is false and the instruction opens fresh work per Execution's 'New work opens a checkpoint before the first specialist is called.' Dimensions touch only release ('release, observation, feedback' from the dimensions list), since shipping the already-ready build is what changes. Specialists: the Publisher/communicator row applies directly -- 'the result ships and has to be explained.'",
   "scenario": "decision-and-instruction-together",
   "skill_version": "6.1.0"
 }

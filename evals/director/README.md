@@ -218,6 +218,34 @@ where the fixture expects it closed); `close-a-redefinition-the-person-himself-o
 treats a person-ordered redefinition of what correct means as itself one of the three reserved cases,
 not as the fork the rule closes over once the person, not an open question, made the call).
 
+bare run: 2026-09-03 (night) — a full re-record of both sets, triggered by the same night's follow-on
+commit `85ddbda0` ("Adopt: a verdict on shown work is a movement end for its artifact"), which added a
+paragraph on top of the afternoon's already-recorded text: for the three taste-call cases rule 12/27
+reserve for him, his verdict on the shown artifact is itself that artifact's movement end, and belongs
+in the resume files in the same minute rather than after the conversation it triggers runs on. Skill as
+it stands: `skill_version: 6.1.0`, commit `85ddbda0`, `skill_sha256`
+`55806109032985f9b7bb00a94242e7c6c112c67039fcfa7f58e6f9c2aee2d684`. One fresh producer per scenario
+under the isolation protocol above — opaque two-letter labels, no producer given another's fixture or
+the expected verdict, all forty-five run in one pass.
+
+The thirty-six-scenario set, graded with `python3 evals/director/check.py --all`: 34 of 36 pass,
+against 31 of 36 in the last full re-record before it (2026-09-03 afternoon, commit `614cc25e`). Two
+runs named an act the scenario did not ask for (`idea-with-a-cheap-branch`, `correction-stop-counting-
+pairs`), both notes rather than fails under the extra-act cost model. The two reds: `decision-how-to-
+report` (missing the secondary `instruction` act — "с этого момента веди план (краткий, без умных слов)
+и показывай мне всегда «где мы находимся»" read as one standing decision alone, not decision-plus-a-plan
+that does not yet exist and was asked for); `mixed-plan-and-two-questions` (missing the secondary
+`observation` act — "я ему все скопировал и запустил" read as grounds for the question that follows
+rather than as its own reported fact).
+
+The nine-scenario closing set, graded with `python3 -m pytest -q tests/test_director_scenarios.py`
+(`recorded_run.skill_sha256` re-pinned to tonight's file): 9 of 9 pass — the first clean pass this set
+has on record. Both scenarios red in the afternoon run (`close-a-row-whose-own-line-names-his-eye`,
+`close-a-redefinition-the-person-himself-ordered`) passed this time: the added paragraph does not touch
+the closing rule or the disagreement rule those two scenarios exercise, so this reads as the producer
+variance the 2026-09-02 control pair already put on record clearing on this draw, not as the new
+paragraph fixing anything.
+
 ## What the first run caught
 
 The first run was thrown away. The batches handed each agent the scenario's `id`, and the

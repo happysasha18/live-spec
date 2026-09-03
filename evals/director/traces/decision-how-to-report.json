@@ -3,15 +3,13 @@
   "acts": [
     "decision"
   ],
-  "creates_work": true,
+  "creates_work": false,
   "shelves_idea": false,
   "attaches_to_existing_work": false,
-  "work_items": 1,
-  "dimensions": [
-    "documentation and communication"
-  ],
+  "work_items": 0,
+  "dimensions": [],
   "specialists": [],
-  "reasoning": "The phrase \"с этого момента\" (\"from this point on\") is exactly the marker the skill names under \"A decision is a standing rule, not only a single choice\" -- alongside \"always\" and \"note this for yourself\" -- so this message settles a standing rule (keep the plan brief and jargon-free, always surface \"where we are\") rather than asking for a one-off task; it is a decision, not an instruction, and a decision is not scoped to this session the way \"just this once\" would be. Per the Act table a decision's normal handling is to \"record the decision and apply it to the work already running,\" but the situation states this arrives early in the session with nothing yet in flight, so there is no existing work to attach it to or replan. The Execution section lists decisions among the acts that earn a decision sheet and checkpoint (\"an instruction, a correction, a decision, or the settled half of a conditional\"), and the checkpoint rule is explicit that \"New work opens a checkpoint before the first specialist is called; work already in flight updates the one it already has\" -- with no prior checkpoint to update, this decision opens its own, making it one new piece of work rather than zero. The only dimension it genuinely touches is documentation and communication, since it governs how the plan is recorded and how status is shown, not product behaviour, architecture, or quality. No row in the specialists table matches keeping the plan document or reporting status back to the human -- that is the Director's own checkpoint-keeping duty described throughout the Execution section, not delegated work -- so no specialist is called.",
+  "reasoning": "The phrasing 'с этого момента' ('from this point on') and 'всегда' ('always') are the exact markers the skill names under 'A decision is a standing rule, not only a single choice': they settle something with force beyond the message itself -- here, a standing convention for how the Director tracks and reports work, comparable to the skill's own example 'note this for yourself'. Per the acts table, a decision 'record[s] the decision and applies it to the work already running' rather than opening new work, and per Execution, a decision only updates a checkpoint that 'changes work already running.' The fixture states this is early in the session, 'setting terms of work' -- no work is yet in flight for the rule to attach to, so nothing gets replanned or updated. Both clauses ('веди план' and 'показывай... где мы находимся') read as one bundled statement of the same standing rule rather than two separable, independently-cancelable results (per the 'taking acts apart is not splitting a goal' guidance), so this is one act, not two. It is not an idea (it is being settled now, not floated for later), not an instruction with its own observable outcome (no concrete goal/result is named beyond the format of future work itself), and not a correction or halt (nothing in flight is being redirected or stopped). Because no work is created or attached, no dimensions or specialists apply -- 'How a result is worded for a person' stays the communicator's province going forward, but establishing that convention itself is the decision, not a build task needing a decision sheet.",
   "scenario": "decision-how-to-report",
   "skill_version": "6.1.0"
 }

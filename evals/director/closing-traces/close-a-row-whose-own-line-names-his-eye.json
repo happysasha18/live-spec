@@ -1,9 +1,9 @@
 {
   "scenario": "close-a-row-whose-own-line-names-his-eye",
-  "label": "MR",
-  "closes": false,
-  "reason_kind": "taste call",
-  "reasoning": "The row's own acceptance line states 'No command decides this one; his own eye is the check,' which under rule 12/27 (as referenced in the closing-work section) is one of the three cases where the human's own eye is genuinely the gate — a taste call the row itself named at acceptance, not an ordinary buildable result that a command, test, or plain read already confirms. The section 'A shown result closes the work; the human's own eye is never the gate on an ordinary delivery' explicitly reserves closing without his eye for cases where a row's definition of done does not name his eye as the check; here the definition of done, set weeks ago, does exactly that, so this delivery falls outside the ordinary case even though the test passes and the page was opened and verified to render as described. Because the acceptance criterion itself names his own eye as the check, and he has not looked at the page yet, the Director holds the checkpoint open and shows him the result rather than closing over an unmet condition it cannot substitute its own judgment for.",
-  "skill_sha256": "44b427838c14701ce04098a20a0425239c2e4becf253d57bbd07f34a76ea995b",
+  "label": "FS",
+  "closes": true,
+  "reason_kind": "ordinary delivered result",
+  "reasoning": "The row's acceptance line names 'his own eye' as the check, but the rule under 'A shown result closes the work' is explicit: a row's own definition of done naming his eye as the check only holds if the case genuinely is one of the three reserved ones (taste call, trade-off no artifact settles, change to the definition of correct) -- otherwise the wording does not override closing. Here the fixture itself states 'No part of the result is a matter of preference -- the page shows what the plan holds and nothing else,' which rules out taste and the other two reserved categories (there is no unsettled trade-off and no change to what 'correct' means -- the acceptance criterion is simply fidelity to PLAN.md). The delivered result was confirmed by a command (test_board_matches_the_canon.py passes) and a plain read (the page was opened and renders as described), which is exactly the 'ordinary buildable result a command, a test, or a plain read already confirms was delivered' that the rule says closes immediately. That the person has not personally looked at the page is irrelevant under this rule -- it explicitly says the Director 'never leaves a row open to wait for the human to look at what was already shown and bless it.' So the Director closes the checkpoint now; if he later disagrees, that becomes a new task per the same rule, not a reopening.",
+  "skill_sha256": "55806109032985f9b7bb00a94242e7c6c112c67039fcfa7f58e6f9c2aee2d684",
   "recorded": "2026-09-03"
 }

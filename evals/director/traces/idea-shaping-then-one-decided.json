@@ -2,10 +2,12 @@
   "id": "idea-shaping-then-one-decided",
   "acts": [
     "idea",
+    "idea",
+    "idea",
     "instruction"
   ],
   "creates_work": true,
-  "shelves_idea": false,
+  "shelves_idea": true,
   "attaches_to_existing_work": false,
   "work_items": 1,
   "dimensions": [
@@ -16,7 +18,7 @@
     "Developer",
     "Test author"
   ],
-  "reasoning": "Reading the whole turn per 'One turn, several acts': four candidate possibilities are floated (auto-open board on push, a telegram bot for the canon, a dark theme, printing to terminal instead of html), then the person closes by explicitly choosing one to build now and saying the rest are just held in mind. Per 'An idea is not an instruction,' the same words are an idea only while nothing is being asked for now — 'из этого делаем сейчас только автооткрытие борды' asks for that one thing now, so it is not filed as an idea first and then promoted; it is accepted directly as an instruction, and since the situation states nothing is in flight and the last checkpoint is closed, this is new work, not a correction to something running ('A correction attaches to work... When no work is in flight yet, the same message is an idea or an instruction'). The other three stay ideas, but the person's own 'остальное просто держим в голове' (just hold the rest in mind) answers the Director's own judgment call in 'Idea for later' before it needs asking: nothing here is filed as understood-and-queued, so per 'a passing thought is answered and not recorded' and 'Most things a person says while thinking aloud are not worth writing down anywhere at all,' none of the three get shelved as rows — shelves_idea is false. One new checkpoint is opened for the accepted instruction (work_items=1), touching product behaviour (the board gains a new automatic action) and architecture/integrations/operations (the action must hook into the push flow itself); per 'The specialists,' a Developer is needed because something must be built, and a Test author to choose the evidence that the auto-open actually happens after a push, mirroring the worked example's own scale of a small, cleanly-bounded change.",
+  "reasoning": "Per 'One turn, several acts', the turn is read whole and every act named separately: the telegram-bot-for-canon, dark-theme, and terminal-instead-of-html mentions are three distinct idea acts (no act absorbs another), and the closing clause upgrades the board-auto-open-after-push idea into an instruction ('делаем сейчас только X') rather than double-counting it as idea-plus-instruction, matching how a resolved idea 'just became the instruction it was waiting to become'. Since nothing is in flight (checkpoint closed an hour ago, fresh exchange), this is an idea/instruction split, not a correction, so attaches_to_existing_work is false and creates_work/work_items reflect one new piece of work. The other three ideas are named with enough content to state why they'd be queued (a concrete goal each), and the person's own 'держим в голове' is exactly the disposition the 'Idea for later' row assigns to a real, worth-keeping idea not asked for now -- so they shelve rather than vanish as passing thoughts. The single accepted instruction (auto-open the board after push) touches product behaviour (new behavior after push) and the operations/integration dimension (it has to hook into the push mechanism), per the 'what does it touch?' dimensions list; per the specialists table, a Developer builds it and a Test author supplies the evidence line the decision sheet requires, mirroring the worked example's sizing for a small, well-understood change.",
   "scenario": "idea-shaping-then-one-decided",
   "skill_version": "6.1.0"
 }
