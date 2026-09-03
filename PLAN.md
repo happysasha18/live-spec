@@ -1470,7 +1470,7 @@ task, one lane per worker, given-vs-actual time, per-agent attribution, one publ
 live over one real stretch of work, the same way q-166's own acceptance read before this split.
 
 
-### ⬜ A queued row always carries a real reason to stay open; an idea gets its own shelf — id: q-813
+### 🔄 A queued row always carries a real reason to stay open; an idea gets its own shelf — id: q-813
 **Group:** Board & visibility · **Priority:** critical
 **Source:** owner 2026-09-03 ~10:08 — a task never sits open with no real reason; either a
 checkable cause keeps it queued, or it was an idea and belongs on a shelf, not dressed as a task
