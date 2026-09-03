@@ -34,6 +34,6 @@ Two names left this table rather than standing on nothing. The published contrac
 consumer and no artifact anywhere on this machine, and its own requirement holds its enforcing gate
 promised until a first contract arrives; the requirement stands with its `[target]` marker and takes
 its name back when a host publishes one. The work board's page, source file, generator and validation
-check are specified and none is built, and its row here had been naming the capture-echo test that
-belongs to F-wish; the requirement stands with its `[target]` marker, its whole matrix block reads
-*todo*, and the name returns with the build.
+check were specified and none was built, and its row here had been naming the capture-echo test that
+belongs to F-wish; that requirement retired on 2026-09-03 with the queue row that carried it, so the
+name has nothing left to return to and the retired text rests at `attic/spec-work-board-R309.md`.

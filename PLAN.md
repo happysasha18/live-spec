@@ -1520,28 +1520,6 @@ movement, and the report carries a done / in-work / waiting table. That is the v
 owes while the standing board waits its turn.
 
 
-### ⬜ A bigger board — worker lanes, timing, who's on what — waits until it's actually asked for — id: q-811
-**Group:** Board & visibility · **Priority:** normal
-**Source:** found 2026-09-02, closing q-166 — `spec/work-board.md` still promises this feature
-whole, on two `[target]` lines (`INV-308`, `INV-67`), never withdrawn when q-166 closed on its
-cheap leg alone. A promise nobody is building stands here as its own open row rather than inside
-a task that closed without it, the same repair shape as q-385 and q-804 above.
-
-**What it is.** `spec/work-board.md` Requirement 309 describes a kanban-style task queue for a
-HOST project's own work — worker lanes, given-vs-actual time per task, per-agent attribution, one
-stable published link — built on top of the same Canon `board.html` already renders for this
-project's own plan. `q-166` closed on the cheap leg only (`board.html`, already shipping); this
-row carries the larger feature's own unbuilt promise so it isn't silently orphaned.
-
-**Revisit trigger:** a real ask for it, since the last one was 2026-08-06 and none has come since.
-Until then this stays queued rather than in hand — building it now, with nobody asking, is the
-"don't serve machinery nobody needs" standing rule, the same reasoning q-166's own close names.
-
-**Acceptance:** unchanged from `spec/work-board.md` Requirement 309's own criteria — a card per
-task, one lane per worker, given-vs-actual time, per-agent attribution, one published link — proven
-live over one real stretch of work, the same way q-166's own acceptance read before this split.
-
-
 ### 🔄 A queued row always carries a real reason to stay open; the Director owns why — id: q-813
 **Group:** Board & visibility · **Priority:** critical
 **Source:** owner 2026-09-03 ~10:08, corrected ~10:20 — a task never sits open with no real
@@ -3284,4 +3262,5 @@ Rotated closed rows (base rule 10 — nothing lost; the archive keeps every move
 - rows 596 → docs/queue-archive/rotated-PLAN-2026-08-28-no-reachable-outcome.md
 - rows 405 → docs/queue-archive/rotated-PLAN-2026-08-28-q405-agent-messaging-stale-premise.md
 - rows 453, 751 → docs/queue-archive/rotated-PLAN-2026-08-31-hostile-review-archive.md
+- rows 811 → docs/queue-archive/rotated-PLAN-2026-09-03-q811-declined.md
 <!-- /rotated-manifest -->

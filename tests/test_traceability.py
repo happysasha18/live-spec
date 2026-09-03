@@ -1514,11 +1514,18 @@ class TestTargetOwnership(unittest.TestCase):
         # INV-244's own [target] tag and this entry dropped together 2026-09-01, when q-436 landed
         # (this lane forked before that landing, so its own copy of this map still carried the
         # stale placeholder entry through the rebase — removed here, matching main's real state).
-        # Re-pointed 2026-09-02: q-166 closed on its cheap leg (board.html) alone; the larger
-        # feature these two anchors promise was never built and would have orphaned when q-166
-        # closed, so it moved to its own fresh row, q-811, the same repair shape as q-385/q-804.
-        "INV-308": "q-811",  # the work board surface, promised whole and unbuilt
-        "INV-67": "q-811",   # the board's one-stable-link published page
+        # Dropped 2026-09-03, under q-813: INV-308 and INV-67 were re-pointed to q-811 on 09-02
+        # when q-166 closed on its cheap leg alone. q-811 itself came off the board the next day —
+        # its only reason to stay queued was that the owner might ask for the board again, which is
+        # not a checkable trigger — and `spec/work-board.md` Requirement 309, the chapter that
+        # carried the two anchors and their one `[target]` line, retired to
+        # `attic/spec-work-board-R309.md` with it. So the promise is WITHDRAWN rather than orphaned:
+        # no body line carries either marker any more, and a map entry for a marker that no longer
+        # exists is itself the red this test names. The approved sketch stays readable at
+        # `docs/norms/work-board.html`; a fresh design conversation is how the board comes back.
+        # Requirement 315 (the idea shelf) retired in the same commit and left no entry to drop:
+        # its only `[target]` sat on the requirement's own heading line, which carries no trailing
+        # anchor bracket, so `target_marker_anchors()` never saw it and this map never tracked it.
     }
 
     def roadmap_rows(self):

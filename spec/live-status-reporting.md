@@ -464,9 +464,8 @@
 
 **Case: the plan is the account**
 
-9. The system *shall* keep each task's plan as the home a block is announced against. [INV-314, INV-308]
-10. That home *shall* be the work board's per-task plan once the board ships, and the written plan page until then. [INV-314, INV-308]
-11. The system *shall* account each block against its plan line in the delivery report. [INV-314, INV-103]
+9. The system *shall* keep each task's plan as the home a block is announced against, and that home *shall* be the written plan page. [INV-314]
+10. The system *shall* account each block against its plan line in the delivery report. [INV-314, INV-103]
 
 ---
 

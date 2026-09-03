@@ -61,25 +61,3 @@ The printed account of open work reads at a glance: a row whose own name comes f
 10. The system *shall* give a row closed since the last push its own line in that account, under the done state, and *shall* drop the line once the push lands — so what was just finished reads in the same words as the work still open, and leaves on its own. [INV-319]
 
 ---
-
-## Requirement 315: An idea named in passing is kept in the person's own words
-   [target]
-
-**Context:** In the middle of a conversation about something else, a person names a possibility they are not asking for now. The reading calls that an idea, and an idea earns a home of its own and no task: it is kept in the person's own wording, with no identifier, no priority, and no estimate, and one line comes back saying it was kept. Days later the person asks what they proposed and the wording comes back as they said it. The home this requirement names stands nowhere in the tree: no file holds it, no command writes to it, and no test reads it, so an idea said aloud lives as long as the conversation and no longer.
-
-**User Story:** As a person who thinks aloud while working on something else, I want a passing idea kept in my own words, so that I find it again days later without its having become work.
-
-### Acceptance Criteria
-
-**Case: an idea is kept, and never started**
-
-1. *when* the act is an idea for later, the system *shall* keep the person's own wording on the idea shelf and *shall* say in one line that it was kept. [E-37]
-2. The system *shall* give a kept idea no identifier, no priority, and no estimate, and *shall* never start work on it. [E-37]
-3. *when* the person later asks what they proposed, the system *shall* give back the kept wording as it was said. [INV-320]
-
-**Case: the shelf and the work are one fork**
-
-4. *when* one message both names an idea and asks for work, the system *shall* take the work and shelve the idea as two separate outcomes. [E-37, INV-316]
-5. The system *shall* never place one item on the shelf and into the work at once. [E-37, INV-320]
-
----

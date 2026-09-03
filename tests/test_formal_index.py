@@ -67,7 +67,19 @@ from test_traceability import read, expand, ANCHOR_TOKEN  # noqa: E402
 #   measure, and on 2026-08-19 it reddened a delivery that cut two whole requirements out of the
 #   document: the criteria removed ran shorter than the rest, so the average rose while the document
 #   shrank. The same class as INV-234 and INV-287/INV-288, and the same reason for the empty numbers.
-EXPECTED_GAPS = {"D": [3, 5, 6], "INV": [181, 234, 264, 265, 287, 288, 303]}
+#   INV-308 … INV-313 — the work board family (former Requirement 309), retired 2026-09-03 under
+#   q-813 together with the queue row that carried it, q-811. The board was specified whole and
+#   never built, and the only thing keeping its row open was that the owner might ask for it again
+#   — not a checkable trigger. The chapter rests at `attic/spec-work-board-R309.md` and its matrix
+#   block at `attic/matrix-work-board-R309.md`; the approved sketch stays at
+#   `docs/norms/work-board.html`. Same class as INV-234 and INV-287/INV-288, same reason for the
+#   empty numbers: a retired law keeps its number so an older citation still means what it said.
+#   INV-320 — the idea shelf (former Requirement 315), retired in the same commit. The owner's word
+#   of 2026-09-03 forbids the mechanism itself: no second list beside `PLAN.md`, not even a shelf,
+#   so the promise is withdrawn rather than waiting to be built. E-37 retired with it and leaves no
+#   gap, being the last E number.
+EXPECTED_GAPS = {"D": [3, 5, 6],
+                 "INV": [181, 234, 264, 265, 287, 288, 303, 308, 309, 310, 311, 312, 313, 320]}
 
 
 # --------------------------------------------------------------------------- parsers (text-in)

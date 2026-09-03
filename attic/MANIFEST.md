@@ -84,3 +84,35 @@ fixtures and data beside it, so returning one is a single move. Their lines take
   unasked): a noclobber lock file serializing two concurrent `pre-push` chains against a race,
   which this repository's tree does not have today and may want if that race is ever actually hit
   * 2026-09-03
+
+- `spec/work-board.md` (the whole part file: Requirement 309 and its ninety-nine acceptance
+  criteria) and `matrix/work-board.md` (its twenty-six matrix rows, every one *todo*) ->
+  `attic/spec-work-board-R309.md` and `attic/matrix-work-board-R309.md` * the standing work board
+  for a host's own queue — columns of cards, worker lanes, an estimate beside an actual on every
+  row, one published link. Specified whole across nine of the owner's turns on 2026-08-06, its form
+  approved and frozen the same evening, and never built. Nobody asked for it again after that
+  evening, and `board.html` has answered his daily "what is happening" since 2026-08-31. Its queue
+  row, `q-811`, kept it alive on the trigger "a real ask for it", which asks the owner to raise the
+  subject again and so is nothing an outside reader can check; that row came off `PLAN.md` the same
+  day (`docs/queue-archive/rotated-PLAN-2026-09-03-q811-declined.md`), and a chapter promising work
+  nobody is doing had nothing left holding it up. Its two `[target]` anchors, `INV-308` and
+  `INV-67`, are withdrawn rather than re-owned, and `INV-308`–`INV-313` and their numbers stay
+  empty in `tests/test_formal_index.py`'s pinned gaps. The approved form is untouched at
+  `docs/norms/work-board.html` and `docs/norms/work-board.provenance.md`, and every word the owner
+  gave that evening, with its time, at
+  `docs/handovers/2026-08-06-evening-work-board-handover.md`. It comes back through a fresh design
+  conversation and a new row, never by restoring these two files * 2026-09-03
+- `spec/message-first-read.md` Requirement 315 with its five acceptance criteria (the requirement
+  alone, excerpted from a part file that keeps its other two requirements) ->
+  `attic/spec-message-first-read-R315.md` * the idea shelf: a home an idea named in passing was to
+  be kept in, in the person's own wording, with no identifier, no priority and no estimate. It was
+  marked promised from the day it was written and its own Context admitted the home stood nowhere
+  in the tree. Retired on the owner's word of 2026-09-03 ~10:20, which forbids the mechanism
+  itself rather than deferring it: "idea shelf это либо часть плана либо это не записывается" — no
+  second list beside `PLAN.md`, not even a shelf, and asked directly whether such a section should
+  exist inside `PLAN.md` he answered no (`DECISIONS.md`, 2026-09-03). What replaces it is a
+  judgement rather than a place: `skills/director/SKILL.md` has the Director weigh an idea — real
+  and understood well enough to say why it is queued becomes an ordinary row, unclear draws one
+  live question, and a passing thought is answered with nothing recorded. `E-37` and `INV-320`
+  are withdrawn with it, `INV-320`'s number left empty in the pinned gaps, and the two matrix rows
+  that named its landing, `M-610` and `M-611`, are gone from `matrix/director.md` * 2026-09-03

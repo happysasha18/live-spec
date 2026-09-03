@@ -30,19 +30,16 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 - **base skill** — the pack skill that holds the shared rulebook and the default settings, stated once, so every working skill points at one home rather than restating them.
 - **beat** — one narration line marking one unit of the work's progress; a stretch with no beat is beatless, and the heartbeat line covers it.
 - **blocking finding** — a finding that a criterion cannot be understood or acted on as written; it stops the section from passing.
-- **board row** — one line of the work board standing for one task, live while in hand and kept once it closes.
 - **breakpoint** — a point where a movement ends and session memory can be wiped with no loss, its live state replaced, a dated journal entry added, and the work committed.
 - **brief** — the written instruction set a worker runs from, carrying its files, its steps, its clock, and its stop conditions.
 - **cadence** — the one number a producer owns, stating how often it regenerates its published artifact.
 - **capability** — one thing a window can do; a capability holding durable state, a standing mission, and a zone of its own is an agent, and a capability living wholly inside one session is a skill.
 - **capture echo** — the line the sweep posts back on an item's source, naming what was heard, its route, its name, and its row.
-- **card** — one work board row rendered as a task: its echo-name, the line saying what the change does, its chips, and the details layer behind it.
 - **card scan** — the live scan that reads the agent-card files under each of its roots and treats every card it finds as an agent.
 - **carrier** — what makes a rule of this document happen, one of four: a command the machine runs, an instruction a session reads and follows, a surface drawn when somebody asks for it, or nothing yet.
 - **catch-up** — the sequence that brings an already-adopted host onto the pack's current version.
 - **catch-up walk** — the ordered set of steps a session walks to run catch-up on an adopted host.
 - **checkpoint** — a saved point of work that can be resumed from, written under `.live-spec/`. A planned-work checkpoint is one grouped unit of planned work in the resume state, carrying a status the landing that ships its items flips to closed; a worker's checkpoint is the file a worker keeps under `.live-spec/checkpoints/`, holding its resume point and touched on a fixed interval as a heartbeat.
-- **chip** — one short labelled fact standing on a card, such as its estimate, its placement tag, or its state.
 - **class hunt** — the search a confirmed bug drives before it closes: name the defect abstractly, find every sibling of that kind, and fix them in one change.
 - **closed vocabulary** — the rule that every domain noun in the document holds exactly one glossary entry.
 - **cold reader** — a fresh reader who reads a changed section with zero project context.
@@ -58,7 +55,6 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 - **content contract** — the engine's public list naming every place a concrete instance plugs in. Each entry has a handle and a test proving the engine works without that instance's value.
 - **conversion delivery** — the one delivery that converts the whole spec document to the requirements format; every gate this section names arms in it.
 - **coverage validation** — the checklist that closes the matrix derivation, walked to confirm every spec anchor, artifact, and node carries the rows it owes.
-- **craft name** — the display name a running step's worker is shown by on the work board, standing with the craft's icon; the fixed set of craft names and icons lives in the work board's source file.
 - **crafts** — the professions a project's own work already draws on, such as a product manager, an architect, a test engineer, or a senior developer, matched against the project's kind when the fit list is proposed.
 - **criteria set** — the set of criteria a spec document holds at one moment, each keyed by its code and its criterion text.
 - **criterion** — one numbered line stating one rule — a single situation with the duty that holds in it — with its code anchor trailing at the line's end.
@@ -88,7 +84,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 - **Done-when** — the written acceptance a queue row or one of its legs carries, naming the observable state that closes it.
 - **door** — the intake classification that places a queued wish at one entry point of the pipeline, one of feature, bug, refactor, docs-only, or skip, decided before any code is written and kept separate from the wish's size. A request that never becomes a queued wish — an ask merely to see or try a thing — takes a separate entry lane, the labelled-sketch door, held outside this five-way set.
 - **earned message** — one file a sender agent deposits in a receiver agent's inbox, naming the sender's own work that earned it.
-- **echo-name** — the short name the capture echo posts back on an item's source, so the person can find the row the item became; the same name is the task's own short name on the work board's card.
+- **echo-name** — the short name the capture echo posts back on an item's source, so the person can find the row the item became.
 - **economy ladder** — the setting `budget.pressure`, whose three rungs — full, lean, and tight — name what rigor a tight budget may shed.
 - **engine** — in an engine-and-instance pair, the generic reusable mechanism. It ships as its own host, public by default, tested on its own generic fixtures.
 - **entity** — a numbered part of the product a code can name, as against a rule of behaviour.
@@ -124,7 +120,6 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 - **host** — one project the pack attaches to. Each host holds its own spec, queue, journal, and `.live-spec/` folder.
 - **input-capability axis** — the composition axis for the input a surface is used through, such as touch or a fine pointer. Its values are the input capabilities a device carries, which co-occur on one machine.
 - **installer** — the pack's one install script (`install.sh`). It copies the pack's skills onto a machine and backs up any existing copy first.
-- **idea shelf** — the home an idea named without being asked for is kept in, holding the person's own wording with no identifier, no priority, and no estimate.
 - **instance** — in an engine-and-instance pair, the concrete product a real person uses today. It holds the content and plugs into the engine.
 - **intake** — the pipeline's first station, where a wish already captured as a queue row is classified: the classifier reads its size, priority, door, and work-kind and states them back in one line.
 - **judge** — the named actor a criterion states as deciding one of its evaluative phrases.
@@ -267,7 +262,6 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 - **watch-level** — a law's status when the design review is its named net: the law is watched and recommended rather than blocked, until the author's own declaration moves it to a blocking net.
 - **weak word** — a relational word — proportional, larger, sufficient, fast, and their kind — that opens a slot for a reference point, a measure, or a reason.
 - **wish** — one request a person voices in plain words, of any size and at any moment, captured as a queue row and carried to a recorded terminal state.
-- **work board** — the standing page of the working picture, one source file in the host's tree published at one stable link. It shows the whole queue in columns, one column per recorded state, each row rendered as a card.
 - **work-kind** — the intake axis naming what a wish produces, one of product, infra, skill, or prose, which scales how much machinery each pipeline step spends.
 - **worker** — a delegated agent session the seat briefs for a bounded piece of mechanical work, narrowed to the files its brief names.
 - **working skill** — a pack skill that elaborates one domain of the pipeline and opens by naming the base skill and the base version it was written against; the pack's working skills are spec-author, product-prover, product-prover-pack (the pack adapter binding the external canonical product-prover; it reviews nothing itself), design-reviewer, architect (writes or updates the architecture from a proven spec), build-pipeline, test-author, communicator, publish, text-audit (the audit-and-fix loop for human-facing texts, which runs mechanical lints and then fresh zero-context cold reads and fixes each finding at its source until two reads come back clean in a row), text-audit-pack (the pack adapter binding the external canonical text-audit; it audits nothing itself), feedback-intake, feedback-collector, and director (the first reader of a human message, deciding what it is before anything decides what to do about it; for accepted work, writes a decision sheet and carries it through a checkpoint it opens and closes itself).
@@ -280,7 +274,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 
 | Part | Requirements | Topic |
 |---|---|---|
-| `spec/message-first-read.md` | R313–R315 | Reading what a person just said |
+| `spec/message-first-read.md` | R313–R314 | Reading what a person just said |
 | `spec/spec-extension.md` | R316–R317 | What this document may claim, and how it is written across files |
 | `spec/wish-intake.md` | R4 | Taking in a wish |
 | `spec/draft-sandbox.md` | R98 | Draft sandbox |
@@ -299,7 +293,6 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 | `spec/public-contract.md` | R194 | The public contract between the system's parts |
 | `spec/agent-request.md` | R195 | A request between agents |
 | `spec/agent-birth.md` | R197 | A new agent is born |
-| `spec/work-board.md` | R309 | Work board |
 | `spec/queue-intake-priority.md` | R5–R6, R9–R10, R12–R17, R37–R50, R92–R96, R252–R256 | Queue: intake, classification, and priority |
 | `spec/owner-questions-drafts.md` | R7–R8, R31–R36, R69, R238, R241 | Questions for the owner and draft edits |
 | `spec/live-status-reporting.md` | R18–R30, R129, R236–R237, R239–R240, R257, R293–R294, R310–R311 | Live status, and how the system talks to the customer |

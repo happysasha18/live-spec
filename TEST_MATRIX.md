@@ -134,7 +134,7 @@ by `test_artifact_inventory` — the test parses this table, so adding an entry 
 
 | Part | Rows | Topic |
 |---|---|---|
-| `matrix/director.md` | 10 | the first read of a person's message: which of the seven acts it carries, the door that opens work only behind an act that asked for it, the decision sheet inside that work's own checkpoint and the disagreement voiced as it is written, which accepted work runs next, whether a delivered result closes there or waits for the person, and the idea shelf that is specified and unbuilt |
+| `matrix/director.md` | 8 | the first read of a person's message: which of the seven acts it carries, the door that opens work only behind an act that asked for it, the decision sheet inside that work's own checkpoint and the disagreement voiced as it is written, which accepted work runs next, and whether a delivered result closes there or waits for the person |
 | `matrix/base-rulebook.md` | 66 | shared working rules stated once + package defaults + the settings ladder |
 | `matrix/spec-author.md` | 32 | authoring method for a living, use-case-first, prover-ready PRODUCT_SPEC.md |
 | `matrix/product-prover.md` | 12 | formal review of spec and architecture; executes the push-gate re-check |
@@ -157,4 +157,3 @@ by `test_artifact_inventory` — the test parses this table, so adding an entry 
 | `matrix/feedback-collector.md` | 4 | the outbound feedback arm, the pack's third arrow. On a rare genuinely-strong reaction it offers, with the human's positive consent, to draft a distilled non-public upstream note to the pack's authors. It deposits that note in the gitignored `outbox/` and sends nothing, so delivery stays the human's own step. It is off by default, under the `feedback-upstream` flag. It stands apart from feedback-intake, the inverse arrow, and from the measurement family (ROADMAP row 321). |
 | `matrix/onboarding-card.md` | 8 | the settings card. A build-time renderer parses the base's package-defaults table and the profile files into the card page, per the frozen norm. The card is shown at the end of founding or adoption, and on the standing "what can I customize?" question (F-attach). |
 | `matrix/design-reviewer.md` | 7 | the design-review pass |
-| `matrix/work-board.md` | 26 | the standing page that shows the whole queue as columns of cards, the work in hand among them. It carries four parts. The page itself. The one source file in the host's tree, holding each task's statement, its validation record, and the craft set. The generator that renders that file with the queue into the page. And the statement-validation check a task passes before it enters work (Requirement 309, ROADMAP row 166; the surface is specified and unbuilt, so it carries no feature name yet). |

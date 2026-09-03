@@ -60,7 +60,6 @@
 | E-34 | parallel-lanes |
 | E-35 | base-rulebook |
 | E-36 | director |
-| E-37 | director |
 | INV-1 | build-pipeline |
 | INV-2 | parallel-lanes |
 | INV-3 | build-pipeline |
@@ -361,19 +360,12 @@
 | INV-305 | guardrails |
 | INV-306 | guardrails |
 | INV-307 | attach |
-| INV-308 | work-board |
-| INV-309 | work-board |
-| INV-310 | work-board |
-| INV-311 | work-board |
-| INV-312 | work-board |
-| INV-313 | work-board |
 | INV-314 | communicator |
 | INV-315 | guardrails |
 | INV-316 | director |
 | INV-317 | director |
 | INV-318 | director |
 | INV-319 | director |
-| INV-320 | director |
 | INV-321 | spec-author |
 | INV-322 | guardrails |
 | INV-323 | guardrails |
