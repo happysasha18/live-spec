@@ -1344,6 +1344,29 @@ adoption depends on. Left open, not built tonight; the row's own acceptance stan
 `~/tlvphotos/inbox/2026-08-31-from-livespec-q54-founding-line.md` carries a smaller, unrelated
 tlvphotos wish (`q-54`) — not this row's.
 
+**Worked 2026-09-03, honestly partial — not marked done.** `scripts/plan_checks.py` split into a
+generic core (`scripts/plan_checks_core.py`, no `CHECKS` baked into `parse_tasks`) and this
+project's own thin wrapper; a new installer, `adopt/install-status-view.sh`, vendors
+`scaffold/status-view/{state-probe.sh,plan_checks.py}` into a host following the exact pattern
+`install-scaffold.sh` already sets, non-clobbering a host's own customized checks; the hard-coded
+five-host roster left `scripts/state-probe.sh` for a `hosts.watch:` profile line; both readers now
+print unhandled `inbox/` files. Proven generic by `tests/test_status_view_install.py` (11 tests):
+a scratch host gets a working probe/board with zero of this project's own task ids reaching it, a
+planted red and a planted pass both move the printed marks correctly, and an installed custom
+`CHECKS` dict survives a plain re-run and `--force`. Re-verified independently on the merged tree,
+not taken on the worker's own report.
+
+The row's own acceptance names `~/tlvphotos` specifically as the first host, and that leg does not
+hold today: tlvphotos' real `PLAN.md` is not this pack's row format at all — a hand-frozen Russian
+document, `## S-NN · Title · Д` headings, its own six-mark vocabulary, frozen by his own word since
+26.08 — neither `## Tasks` nor the template's own table shape. The installed probe correctly says
+so rather than printing an empty list; the git-state and inbox halves of the probe DO work against
+the real host (confirmed live: it reads that project's own branch/upstream and lists its six
+unhandled inbox deposits). **Open, needing his word:** either the acceptance is amended to prove
+against a real host whose plan is already in this pack's own row shape (not tlvphotos specifically),
+or tlvphotos's frozen format itself is the thing that has to change first — not this row's call to
+make unilaterally, since it touches a document he froze on purpose.
+
 
 ### ✅ Every rule finally lives in exactly one place — id: plan-16
 **Group:** Method housekeeping · **Priority:** critical
