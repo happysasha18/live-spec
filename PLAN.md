@@ -2734,9 +2734,14 @@ stays queued rather than in hand — building it now, ahead of the schedule his 
 is the same "don't serve machinery nobody needs" reasoning the contract itself argues from, just
 pointed the other way: not never, but not yet.
 
-**Acceptance:** unchanged from `spec/work-board.md` Requirement 309's own criteria, minus the
-retired heartbeat clauses above — a card per task, one lane per worker, given-vs-actual time,
-per-agent attribution, one published link — proven live over one real stretch of work.
+**Acceptance:** `spec/work-board.md` Requirement 309's own criteria, minus the retired heartbeat
+clauses above — a card per task, one lane per worker, given-vs-actual time, per-agent attribution,
+one published link — proven live over one real stretch of work; **and**
+`spec/live-status-reporting.md` Requirement 310 criterion 10 — once the board ships, a work block's
+announcement home moves from the written plan page to the board's own per-task plan. His word,
+2026-09-03: one row, not two, for one feature that happens to span two requirement files —
+splitting it is fragmentation with no benefit. `docs/prover/2026-09-03-work-board-restoration-review.md`
+finding F2 is closed by this widened wording, not by a second row.
 
 ## Blockers
 
@@ -3454,16 +3459,14 @@ One line per finding. Don't start a second list for them. Don't fix one without 
   the one stale "armed nowhere" note), or adding a direct line for the ones that deserve one, is its
   own piece of work and the priority is the owner's call.
 
-- **A criterion added beside the work-board restoration promises a switch its owning row's own
-  acceptance cannot reach. Found 03.09, in `docs/prover/2026-09-03-work-board-restoration-review.md`
-  finding F2, from commit `061d1294`.** That commit added criterion 10 to
-  `spec/live-status-reporting.md` Requirement 310: once the work board ships, the announcement home
-  for a work block moves from the written plan page to the board's own per-task plan. `q-816` owns
-  the anchor this criterion carries, but its acceptance reads "unchanged from `spec/work-board.md`
-  Requirement 309's own criteria, minus the retired heartbeat clauses above" — one file, not the two
-  the promise now spans. Closing `q-816` on its own stated words leaves criterion 10's switch
-  unmade. Two ways out, and both are yours: widen `q-816`'s acceptance to name R310 criterion 10, or
-  give the criterion its own row.
+- **A criterion added beside the work-board restoration promised a switch its owning row's own
+  acceptance could not reach. Found 03.09, in `docs/prover/2026-09-03-work-board-restoration-review.md`
+  finding F2, from commit `061d1294`; closed the same day, his word.** That commit added criterion
+  10 to `spec/live-status-reporting.md` Requirement 310: once the work board ships, the announcement
+  home for a work block moves from the written plan page to the board's own per-task plan. Two ways
+  out were named, both his: widen `q-816`'s acceptance, or give the criterion its own row. His word:
+  a second row for one feature that happens to span two requirement files is fragmentation with no
+  benefit. `q-816`'s acceptance now names R310 criterion 10 beside R309's own criteria.
 
 ---
 
