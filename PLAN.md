@@ -2747,15 +2747,24 @@ finding F2 is closed by this widened wording, not by a second row.
 One line per finding. Don't start a second list for them. Don't fix one without the owner's decision.
 
 - **The format page for a row still calls itself the roadmap, and the roadmap is gone. Raised
-  31.08, in q-801.** The new plan template a founding lands sends its reader to
-  `docs/roadmap-format.md` for the row's shape, and every rule on that page is still exactly
-  right — the row shape, the class and status vocabularies, the live-body law, the row lint.
-  What it says around them is not: it opens by defining "the format the roadmap is written in"
-  and names a document the pack stopped shipping today. Requirement 286 in the spec names the
-  same document as the format family's third member, so the rename is not a page edit alone
-  and was outside this task's own row. Nothing is wrong for a reader who follows the pointer;
-  the cost is one puzzled minute per first reader until the page takes the name of the thing
-  it now describes.
+  31.08, in q-801; closed 03.09.** Checked rather than assumed: `docs/roadmap-format.md`'s row
+  shape and vocabularies are not stale. They match, cell for cell, what `templates/PLAN.template.md`
+  hands a newly founded project (confirmed against `adopt/START.md`'s file-copy table) — a
+  five-cell table, the *queued/ready/in-work/deferred/far* and *bug/small/surface/large*
+  vocabularies, the live-body law, the row lint. This project's own current `PLAN.md` uses a
+  different, heading-based format instead (`### <icon> title — id:`, `**Group:**/**Priority:**`),
+  which is a separate, already-decided fact from plan-11, not a defect this page has. The only
+  real problem was the page's own self-description: it opened by defining "the format the roadmap
+  is written in" and Requirement 286 in `spec/doc-order-generated.md` (not `design-spec-review.md`)
+  named `ROADMAP.md` as the format family's third member — both stale since plan-11 retired that
+  file. Fixed as a naming fix, no substance changed: `docs/roadmap-format.md` now names itself the
+  format "a project's plan/queue is written in" and speaks of "the queue" throughout rather than
+  "the roadmap," and Requirement 286's Context sentence no longer names the retired file. Two dead
+  citations found in the same page while reading it closely were fixed alongside, same class of
+  defect: a stale "ROADMAP row 481" pointer (that row was absorbed into plan-11 in 28.08's cull
+  without the sweep it promised ever being built) and a pointer to `prototype/2026-07-23-roadmap-format/`,
+  deleted whole in `61a77841`. Landed in `b886c944` (docs/roadmap-format.md,
+  spec/doc-order-generated.md), full suite green after: 2738 passed, 57 skipped, 0 failed.
 
 - **This page still holds three copies of the report's own rules, and the lane that converged
   everything else could not touch them. Raised 31.08; closed 2026-09-03.** The report he reads every
