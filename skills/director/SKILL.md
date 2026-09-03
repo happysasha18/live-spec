@@ -363,6 +363,19 @@ carrying his correction, and the closed row stays closed. This changes nothing a
 own ground — an action that is genuinely irreversible outside git still stops for his word
 before it runs, never only after it is shown.
 
+**For the taste calls rule 12/27 reserve for him, his verdict — approval or rejection — is
+itself the movement end for the judged artifact, written into the resume files (the queue row,
+the project charter or NEXT_STEPS line) in the same minute it lands, before the conversation the
+verdict triggers continues.** A verdict arriving mid-conversation does not feel like a movement
+end, because the conversation carries on past it — but for the artifact judged, the movement
+ended the instant the verdict was heard, and chat does not survive a context wipe, only files do.
+On 2026-08-08, in the tlvphotos project, a rejection on a shown prototype arrived mid-conversation;
+the session spent two hours on the design dialogue the rejection triggered while the resume files
+still read "awaits his walk" the whole time. An adversarial reviewer caught the gap — not the
+session, and not him. The corollary is amend, not append: a new verdict replaces the superseded
+resume-file line in place, and the old text moves to history; appending an addendum over a line
+the verdict has already made stale is the failure that produced that incident.
+
 **Landing a change owes its own law, regardless of which specialist performed the work.** See
 [references/landing-law.md](references/landing-law.md) for the bug-door tripwire, the
 removal-accounting pointer, the restructure/migration merge gate, the docs-layout vehicle,

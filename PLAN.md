@@ -2827,6 +2827,12 @@ One line per finding. Don't start a second list for them. Don't fix one without 
   spec line in this pack; tlvphotos fixed its own charter and memory, but the pack-wide rule was
   never written.
 
+  **Resolved 03.09.** The rule now lives in `skills/director/SKILL.md`'s closing-work section,
+  directly under "A shown result closes the work" — the paragraph beginning "For the taste calls
+  rule 12/27 reserve for him, his verdict... is itself the movement end for the judged artifact,"
+  citing the 2026-08-08 tlvphotos incident by date, with the amend-in-place corollary stated in the
+  same paragraph. `inbox/2026-08-08-verdict-lands-same-minute.md` moved to `inbox/handled/`.
+
 - **`scripts/preshow-register-lint.py` still ships to no host tree; `guardrails/spec-coinages.json`
   now does. Found 03.09, in `inbox/2026-08-12-preshow-lint-script-missing.md`.** tlvphotos reported
   both files named by its session law (the preshow register check, the coinage list) missing from its
