@@ -8,7 +8,24 @@ Owner: director
 
 ## IN PROGRESS
 
-(nothing yet)
+A worker is live in this row's own lane, briefed with the decision sheet below verbatim plus
+`PLAN.md` q-812's own body, `spec/message-first-read.md` R313/R314, `spec/wish-intake.md` R4,
+`evals/director/README.md`, and `tests/test_status_view_install.py` as its fixture pattern.
+
+- **Worker id (Agent-tool subagent):** `a7b13b8d7f9ca3103` — resume by sending it a message with
+  this id/name if this session's own memory is wiped before it reports.
+- **Briefed write-set (this lane's own worktree only):** `.claude/worktrees/lane-q-812-director-route-end-to-end/`
+  — branch `lane/q-812-director-route-end-to-end`, cut from commit `09bbd39a`. The worker was told
+  explicitly not to touch the primary tree or any other worktree, and not to run
+  `scripts/land-lane.sh` itself (the orchestrator integrates).
+- **Started:** 2026-09-03 ~11:47. Given the scope (four internal phases: product-prover pass,
+  test-author derivation, the scripted mechanical harness, one new eval scenario), expect 45-90
+  minutes based on tonight's comparable q-813/q-804 runtimes.
+- **Liveness check for a resuming session (rule 6):** `ls -la .claude/worktrees/lane-q-812-director-route-end-to-end`
+  (file mtimes moving = alive), `git -C .claude/worktrees/lane-q-812-director-route-end-to-end log --oneline -3`
+  (new commits = it landed something), and a message to worker id `a7b13b8d7f9ca3103` asking for
+  status — never assume it died from the process list alone, and never spawn a second worker on
+  this same lane before checking.
 
 ## NEXT
 
