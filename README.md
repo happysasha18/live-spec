@@ -6,6 +6,13 @@ change. Claude Code is Anthropic's own coding agent, an app you install once; th
 of instructions it loads. You talk to Claude Code, and live-spec is what answers. Each skill is a
 packaged set of instructions for one part of the work.
 
+## Who this is for
+
+Whoever owns a real project running behind Claude Code and wants what ships to match what was
+decided, without personally reading every diff to check. You say what changed in your own words;
+live-spec turns that into the spec, the tests, and the code, and blocks the push the moment any
+two of those three disagree with each other.
+
 ## What you get
 
 You tell your agent *"the report page needs a date filter"* and four minutes later it is written,

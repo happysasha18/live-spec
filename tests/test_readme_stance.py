@@ -97,6 +97,33 @@ class TestReadmeFirstStepInstallsTheProver(unittest.TestCase):
         self.assertIn("product-prover", read_flat("skills/product-prover-pack/SKILL.md"))
 
 
+class TestReadmeWhoThisIsForParagraph(unittest.TestCase):
+    """The README never named who it's for — "you" ran through the whole page with no reader
+    stated (Alexander, 2026-09-03: asked directly for a persona after the audience question kept
+    coming back undefined). Pins the added section and its placement before the value-prop
+    section it grounds."""
+
+    def test_who_this_is_for_paragraph_present(self):
+        body = read_flat("README.md")
+        self.assertIn(
+            "Whoever owns a real project running behind Claude Code and wants what ships to match "
+            "what was decided", body)
+        self.assertIn(
+            "live-spec turns that into the spec, the tests, and the code", body)
+
+    def test_who_this_is_for_before_what_you_get(self):
+        with open(os.path.join(ROOT, "README.md"), encoding="utf-8") as f:
+            text = f.read()
+        who_idx = text.find("Who this is for")
+        what_idx = text.find("## What you get")
+        self.assertGreater(who_idx, -1, "Who-this-is-for section not found")
+        self.assertGreater(what_idx, -1, "What-you-get section not found")
+        self.assertLess(
+            who_idx, what_idx,
+            "the persona section must sit before the value-prop section it grounds",
+        )
+
+
 class TestReadmeKnownIssuesNoFalseDiscoveryPatternClaim(unittest.TestCase):
     """The Known-issues section has three times carried the false claim that this repo's own
     `surface_discovery_pattern` cannot match plain markdown and that `check_completeness.py`
