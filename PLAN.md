@@ -1596,7 +1596,7 @@ into a done mark, per this row's own new rule: a shown result closes the work, a
 disagreement opens new work rather than reopening this one.
 
 
-### 🔄 The Director's real route is proven end to end, on the actual mechanism, not the instructions — id: q-812
+### ✅ The Director's real route is proven end to end, on the actual mechanism, not the instructions — id: q-812
 **Group:** Method reliability · **Priority:** critical
 **Source:** owner 2026-09-02 ~22:15, verbatim brief (Russian original kept whole — a compressed
 paraphrase would be the exact drift this row exists to prevent):
@@ -1657,6 +1657,32 @@ proof), running green in the full suite; `TEST_MATRIX.md` carries a row citing i
 cases and the two hard cases each have their own red-then-green proof in the same file or a sibling
 one; a product-prover record reviews the route's own contract; `PLAN.md` and `DECISIONS.md` both
 name this row as its home once closed.
+
+**Checked by reading on 03.09, independently re-verified.** `docs/prover/2026-09-03-q812-director-route-contract.md`
+reviewed the contract first, as asked: two of the three named guarantees (the DOD-gate and
+resume-without-duplication) were already covered by `spec/wish-intake.md` Requirement 4 and
+`spec/message-first-read.md` Requirement 314, proof gaps rather than spec gaps; the third — that
+one piece of work keeps one checkpoint — was a genuine, verified hole (nothing counted or enforced
+it, and `checkpoint.py new` was found to silently overwrite a live checkpoint rather than refuse a
+second one, correcting this row's own original assumption). Two sentences added to Requirement 314
+(criteria 11-12) state who holds that rule and what the checkpoint command actually does.
+
+`tests/test_director_route_end_to_end.py` (11 tests) proves all six numbered clauses on a real,
+disposable host built by this pack's own installer — no model call, every proof by planting a real
+mutation in the mechanism and watching the reading break, never by reading the code and asserting.
+One new eval scenario (`idea-shaping-then-one-decided`) extends the existing `evals/director/`
+harness for the idea-shaping hard case, graded on a genuinely fresh, isolated producer run — 32 of
+36 scenarios pass, the one new pass being the only change; the other 35 stay pinned stale against
+this morning's director/SKILL.md edit, on record, re-record deliberately held rather than run twice.
+Four new `TEST_MATRIX.md` rows (M-630 through M-633) trace each proof to its owning requirement
+criteria. `director/SKILL.md` itself was not touched by this row.
+
+Independently re-verified on the merged tree, not taken on the worker's own report: full targeted
+suite green; the DOD-gate mutation planted by hand a second time (the exact `failing_key` removal
+described in the worker's own transcript), confirmed red, confirmed restored to green. One real,
+named gap left open rather than silently closed: nothing in the contract requires a row's mark and
+its checkpoint's own status to agree, and building an enforcer for that would be new machinery this
+row explicitly forbids — recorded in the prover record for a future decision, not acted on here.
 
 
 ### ✅ The plain-language text checker becomes its own reusable tool — id: q-458
