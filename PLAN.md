@@ -496,7 +496,7 @@ the rollback proof. `inbox/2026-09-03-from-tlvphotos-catchup-6.1.0-findings.md` 
 `inbox/handled/` once both land.
 
 
-### ⬜ The worker-restore gate never blocks a push over an unrelated project's history — id: q-815
+### 🔄 The worker-restore gate never blocks a push over an unrelated project's history — id: q-815
 **Group:** Method reliability · **Priority:** normal
 **Source:** `inbox/2026-08-25-from-tlvphotos-worker-restore-gate-ambient-scope.md` — found still
 open 03.09 while sweeping old inbox items; no PLAN/JOURNAL/DECISIONS entry or code change
