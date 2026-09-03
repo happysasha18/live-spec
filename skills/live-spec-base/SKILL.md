@@ -1,6 +1,6 @@
 ---
 name: live-spec-base
-description: Load before using any live-spec pack skill: director, spec-author, product-prover, design-reviewer, architect, build-pipeline, test-author, communicator, feedback-intake, feedback-collector, text-audit, publish. Load it also before briefing a worker that will write files, or to resolve shared rules and settings. It is the one home for the shared rules — twenty-two rules in the body, each stated as one instruction. It carries on-demand reference modules under `references/` — the glossary, the worked examples, the settings ladder, the worker-restore wording, the session handover, and rule-origins, which holds each rule's citation, history, justification, and worked example — each opened only when its own kind of question needs resolving.
+description: Load before using any live-spec pack skill: director, spec-author, product-prover, design-reviewer, architect, build-pipeline, test-author, communicator, feedback-intake, feedback-collector, text-audit, publish. Load it also before briefing a worker that will write files, or to resolve shared rules and settings. It is the one home for the shared rules — twenty-three rules in the body, each stated as one instruction. It carries on-demand reference modules under `references/` — the glossary, the worked examples, the settings ladder, the worker-restore wording, the session handover, and rule-origins, which holds each rule's citation, history, justification, and worked example — each opened only when its own kind of question needs resolving.
 metadata:
   version: 6.1.0
 ---
@@ -212,7 +212,10 @@ its own manifest line. Every other rule below keeps the number it already carrie
     never replaces the goal. A reached level locks by a mechanism, because attention alone holds
     nothing across sessions. A deliberately divergent stretch — exploration, a labelled prototype
     (rule 16) — is legal only when named and bounded by its convergence point. The principle's
-    fuller chapter lives in the owner's private playbook repository, in its `PLAYBOOK.md`. —
+    fuller chapter lives in the owner's private playbook repository, in its `PLAYBOOK.md`, whose own
+    operational trigger is this: when the owner questions a change — "what's the point" or "what a
+    mess" — a proxy has replaced the goal; stop editing and read the rendered output itself (playbook
+    `PLAYBOOK.md`, 2026-06-21 s14). —
     `tests/test_convergence_rule.py`.
 
 24. **The process stations are kind-abstract; a project declares its concrete layers and proofs
@@ -288,6 +291,12 @@ its own manifest line. Every other rule below keeps the number it already carrie
     reader: no gate letters, requirement codes, file:line pins, or script names in what they read.
     Deepen the register only when they show that depth themselves. Offer a richer view; never
     impose it. One item, one name, on every surface. — `guardrails/check-language-rules.py`.
+
+37. **Every plan names what it must not touch.** Before acting, state what already works and stays
+    out of scope — the parts this change deliberately leaves alone — and confirm the blast radius
+    with the owner when it is unclear; then touch only what the task needs. Touching more than the
+    task asks, and breaking a working thing by it, is the mistake this rule exists to stop (playbook
+    `PLAYBOOK.md`, 2026-06-20). — prose-only, no dedicated check.
 
 
 ## Work that belongs elsewhere

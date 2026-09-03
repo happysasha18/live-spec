@@ -2776,15 +2776,16 @@ One line per finding. Don't start a second list for them. Don't fix one without 
   05.08 version while sessions read something newer. The window that owns `~/.claude/playbook` has
   since pushed; that repository now reports nothing ahead of its remote.
 
-- **Two of his rules live only in the retiring playbook document. Found 31.08, in q-800; still open
-  after plan-16 landed.** Checked
-  against the whole pack and found in no skill: that every plan names the parts it must not touch,
-  which that document calls the cardinal mistake here, and that his "what's the point" or "what a
-  mess" means stop editing and go look at the rendered output. The first was already recorded as
-  unplaced by the mapping pass of 07.07 and never landed. Both belong to plan-16, and the document
-  they sit in cannot retire before that lane takes them. plan-16 landed on 31.08 giving each rule of
-  the pack one home; neither of these two entered the pack in that landing, so the finding stands as
-  written and the document still cannot retire.
+- **Two of his rules live only in the retiring playbook document. Found 31.08, in q-800; closed
+  03.09.** Checked against the whole pack and found in no skill: that every plan names the parts it
+  must not touch, which that document calls the cardinal sin (not "the cardinal mistake" as first
+  written here — the playbook's own word for it, `PLAYBOOK.md` "Plan first", is corrected on
+  landing), and that his "what's the point" or "what a mess" means stop editing and go look at the
+  rendered output. Both now have one home in the pack: the first is
+  `skills/live-spec-base/SKILL.md` rule 37; the second is folded into rule 22 (convergence), which
+  already pointed at this same playbook chapter as the principle's fuller telling. Citations for
+  both live in `skills/live-spec-base/references/rule-origins.md`. Neither rule is stated only in
+  the playbook document any longer.
 
 - **Four personal hook overlays, two arrangements. Found 31.08, in q-800.** The scanners read
   `~/.claude/hooks/`, where all four overlays sit. Two of them also exist as identical tracked copies

@@ -76,6 +76,21 @@ test, a lint floor that only grows, or a cap that only ratchets down.
 History: the pack's own first teeth for the rule were the norm-conformance rows and the
 convergence-lock tests (rows 216/217).
 
+Citation (playbook, 2026-06-21 s14), the rendered-output trigger: "'What's the point? / what a
+mess?' means stop coding and read the rendered data." Twice in one playbook session this turned a
+cosmetic rename into the real fix — an empty-artifact card that should not fire, and a three-system
+label where the headline was worse than trusting the input. Migrated from the retiring playbook
+document per PLAN.md's Blockers finding (31.08, q-800; closed 03.09) — the one piece of the
+convergence chapter plan-16 (31.08) left unmoved.
+
+### 37. Every plan names what it must not touch
+
+Citation (playbook, 2026-06-20, `PLAYBOOK.md` "Plan first"): "Every plan names the components I
+must not touch... This rule exists because I kept breaking working things by editing more than I
+was asked to. That is the cardinal sin here." Migrated from the retiring playbook document per
+PLAN.md's Blockers finding (31.08, q-800; closed 03.09) — the other piece plan-16 (31.08) left
+unmoved when it gave every other rule of the pack one home.
+
 ### 24. The process stations are kind-abstract; a project declares its concrete layers and proofs
 
 Its worked cases live together in [worked-examples.md](worked-examples.md), the one home the
