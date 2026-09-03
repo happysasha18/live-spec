@@ -4,28 +4,35 @@ A digest with no redundancy (SPEC INV-48) — one live-state block, nothing remo
 information. One status block stands here at a time, and every update replaces it. Dated history
 lives in `JOURNAL.md`.
 
-## LIVE STATE (2026-09-03, 14:25)
+## LIVE STATE (2026-09-03, 14:34)
 
 Session continues past the 12:50 write above — not a fresh-context resume, this update is this
-same session's own. Heals two landing commits that closed a row without touching this file in the
-same commit (INV-242): `73be8ad5` (q-163), `29a4e047` (q-814).
+same session's own. Heals three landing commits that closed a row without touching this file in
+the same commit (INV-242): `73be8ad5` (q-163), `29a4e047` (q-814), `8e3a4a70` (q-815).
+
+heals landing 73be8ad5
+heals landing 29a4e047
+heals landing 8e3a4a70
 
 **Closed since the 12:50 write, each independently re-verified, never taken on a worker's own
 report alone:** `q-163` (the field leg — tlvphotos's own `TEST_MATRIX.md` carries the derived
 section, checked read-only against the live 1325-line file, not just the report claiming it);
 `q-814` (both findings from tlvphotos's catch-up walk — the skill-review gate's byte-identical
 carve-out, and the migration-wish rollback check's known-difference-list fix for a test-runner-
-rewritten tracked file — built in a lane, rebased, independently re-run, landed).
+rewritten tracked file); `q-815` (the worker-restore gate's `own_repo()` read its identity off
+`SCRIPT_DIR` — wherever the `.py` file physically sits — right only inside its own checkout;
+fixed to read `os.getcwd()`, the repo the check is actually invoked from, so a downstream host
+reusing the file unchanged is no longer scoped to live-spec's own repo). All three built in a
+lane, rebased, independently re-run against the real diff, landed by fast-forward.
 
 **Two policy calls this session decided itself rather than asking, on re-examination they were
 derivable, not real forks:** `q-815`'s scan-scope approach (the pushing host's own git identity,
 not a new per-host allowlist — the standing "no new machinery without an incident" rule already
-answers it) and `plan-14`'s acceptance (dropped "tlvphotos specifically" — rewriting tlvphotos's
-own frozen format was never this row's call to make from here either way, so there was no real
-fork to raise). `plan-14`'s acceptance is amended in `PLAN.md`; the row itself stays open,
-`track-coach` named as the next unverified candidate host. `q-815` is in a lane
-(`lane/q-815-scope-by-worktree`), a worker's built it, not yet independently re-verified or landed
-by this seat — check that lane's own state before starting anything new on this row.
+answers it — the worker found a more precise root cause than the brief guessed, `own_repo()`'s
+own key, not `DEFAULT_ROOT`) and `plan-14`'s acceptance (dropped "tlvphotos specifically" —
+rewriting tlvphotos's own frozen format was never this row's call to make from here either way,
+so there was no real fork to raise). `plan-14`'s acceptance is amended in `PLAN.md`; the row
+itself stays open, `track-coach` named as the next unverified candidate host.
 
 **One pre-existing gate gap found and fixed along the way, unrelated to any row's own ask:**
 `skills/director/SKILL.md` changed (`614cc25e`, "no idea shelf, no second list") with no covering
@@ -140,9 +147,8 @@ that might touch `director/SKILL.md` again** — re-record both together, one pa
    before push.
 4. **`q-811`'s retirement (inside `q-813`) needs his word** — see the LIVE STATE section's own
    paragraph on this; say so plainly the first time you talk to him if he hasn't already answered.
-5. **`q-815`** — check `lane/q-815-scope-by-worktree`'s own state before starting anything: a
-   worker built it, this seat had not independently re-verified or landed it as of this write.
-   `plan-14` and `q-814` are done, not policy calls anymore — see the LIVE STATE section.
+5. **`q-815` is done**, landed and verified — see the LIVE STATE section. No open lane remains;
+   `git worktree list` should show only the primary tree.
 6. Once the above settle: full suite green one more time on a quiet tree (no lane running), push.
    His standing word already covers pushing once the suite is confirmed green.
 
