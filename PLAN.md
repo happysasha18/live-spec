@@ -2980,9 +2980,15 @@ One line per finding. Don't start a second list for them. Don't fix one without 
   requirement 309: five columns, agent lanes, worker chips, time issued/left) — the very one
   after which, at 21:17 that same evening, he said he genuinely didn't understand what it was
   about or why, while the 26.08 plan asks only for a light view with columns over the Canon. Today's `scripts/render-board.sh` doesn't build that norm — it renders PLAN.md in 4 columns, using only the fields present in its own data (title, description, status, details), with no workers/lanes/time, which aren't there. Three files `work-board-mockup-2026-08-06*.html` sit outside git (in `.gitignore`), `prototype/work-board-sketch.html` is the older one (variant 2), called "so-so" tonight. Recon: `docs/research/2026-08-26-board-ticket-fields.md`. Needs the owner's word: build requirement 309 later as a separate decision, or leave it a frozen norm with no build.
-- **An unclosed branch `p2-change-classifier`** — the working tree `~/live-spec-p2`, one commit
-  not in `main` ("P2 prototype: the change classifier"). Neither the plan nor the alarms knew
-  about it. Decide: merge it, drop it, or leave it.
+- **The unclosed branch `p2-change-classifier`, declined 03.09.** Builds a second file-path-based
+  classifier for the push gate's own review-scope decision — exactly what this file's own "Already
+  decided" section forbids ("building a second classifier by file path is forbidden — the model
+  decides meaning, code decides mechanics"). Archived whole rather than merged:
+  `attic/prototypes/2026-08-13-p2-change-classifier.patch`, manifest line in `attic/MANIFEST.md`.
+  One separable idea inside it (a noclobber lock serializing two concurrent `pre-push` chains) is
+  not itself forbidden and stays on the shelf, unbuilt, until that race is actually hit. Six other
+  stale, fully-merged worktree directories (five `agent-*`, none carrying a commit not already in
+  `main`) swept the same pass — pure litter, no content lost.
 - **`build-pipeline` is still listed as the pipeline's owner** in `TEST_MATRIX.md`,
   `ARCHITECTURE.md` and its index, `MIGRATION.md`, `skills/spec-author/SKILL.md`, and six closing
   rosters. No gate catches this. A separate design task, not a one-line fix.

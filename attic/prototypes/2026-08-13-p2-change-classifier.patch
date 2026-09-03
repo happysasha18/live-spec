@@ -1,0 +1,454 @@
+From 23a1fb658bdbea8c411fc7411eb98ec426963e0a Mon Sep 17 00:00:00 2001
+From: alexander-abramovich <alexander.abramovich.18@gmail.com>
+Date: Thu, 13 Aug 2026 16:18:25 +0300
+Subject: [PATCH] P2 prototype: the change classifier names its verdict, and
+ one orchestrator runs the chain
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+The reach map answered an exit code and nothing else, so the push gate knew how wide
+to run but nobody could see WHY, and nothing said what review the change owed. This
+prototype adds both, and keeps every existing output line byte-identical so the tools
+that parse them are untouched.
+
+The classifier now answers four verdicts in words, on lines beginning VERDICT:
+
+  CROSS-CUTTING  a changed file is a declared cross-cut surface. Asked FIRST, ahead of
+                 every class, and wins outright — a surface a change to which reaches
+                 everything is not classified further. Review: fresh-record.
+  UNSURE         a changed file sits in two classes at once (a duplicated mapping the
+                 config must fix) or in none. Full path, and the review is computed
+                 from review_policy.unsure against the whole changed set.
+  LOCAL-PROSE    the exit-0 path. Review: lints-only.
+  LOCAL-SCOPED   the exit-2 path. Review: riders-only.
+
+Exit codes 0/2/1 are unchanged, as is every SCOPED and OK (reach) line gate b parses.
+
+The surfaces and the review answers are DECLARED in guardrails.config.json under two
+new objects, cross_cut and review_policy, and read from there — the shell holds no
+rider list to drift. One config reader serves all three lists: it walks a nested key
+path and expands an "@key" entry to the config's own top-level key of that name, so
+user_facing_globs is referenced once rather than copied into a second place.
+
+guardrails/pre-push takes a chain lock before any gate runs. Two chains deciding on
+one tree can each read a state the other is mid-way through changing. The lock is a
+noclobber file, so the create is atomic and the loser never mistakes the race for a
+win; a crashed chain leaves the file behind, so the holder is checked for life and a
+dead pid is recovered out loud rather than blocking every future push on a corpse.
+A trap releases the lock on every ordinary exit path.
+
+Four nets hold the declarations honest: the class lists carry no path written into two
+of them, every cross-cut trigger is a real path in the tree, review_policy answers
+exactly the four verdicts with allowed words and no dangling "@" reference, and the
+two shell scripts hand-list no trigger. That last net forbids the LIST SHAPE — an
+array, a case pattern, or two triggers enumerated on one line — not the mention, since
+pre-push legitimately passes PRODUCT_SPEC.md and TEST_MATRIX.md to gates as arguments.
+
+Prototype only: no rebuilds map (the rebuild commands stay in guardrails/README.md),
+and nothing is wired into the gate chain's decisions yet.
+
+Co-Authored-By: Claude Fable 5 <noreply@anthropic.com>
+---
+ guardrails.config.json         |  29 ++++++++
+ guardrails/check-push-reach.sh | 106 ++++++++++++++++++++++++--
+ guardrails/pre-push            |  25 +++++++
+ tests/test_guardrails.py       | 132 +++++++++++++++++++++++++++++++++
+ 4 files changed, 284 insertions(+), 8 deletions(-)
+
+diff --git a/guardrails.config.json b/guardrails.config.json
+index 75b0c1ab..13ad00b7 100644
+--- a/guardrails.config.json
++++ b/guardrails.config.json
+@@ -62,5 +62,34 @@
+       "hooks",
+       "adopt"
+     ]
++  },
++  "cross_cut": {
++    "_comment": "The surfaces a change to which reaches everything. A changed file named here is not classified further: the classifier answers CROSS-CUTTING and the push takes the full path, whatever else the diff holds. Declared here, in the config, so the classifier reads the list and never carries it as a rider list in shell.",
++    "trigger_files": [
++      "PRODUCT_SPEC.md",
++      "TEST_MATRIX.md",
++      "ARCHITECTURE.md",
++      "skills/live-spec-base/SKILL.md",
++      "guardrails/pre-push"
++    ],
++    "run": {
++      "tests": "full",
++      "gates": "all",
++      "review": "fresh-record"
++    }
++  },
++  "review_policy": {
++    "_comment": "What review a change of each class owes. The four keys are the classifier's four verdicts. Under `unsure` the answer defaults to riders-only and rises to fresh-record when the diff touches one of the named surfaces; an entry of the form \"@key\" names this config's OWN top-level key of that name, so a list already declared here is referenced once rather than copied into a second place to drift.",
++    "prose_only": "lints-only",
++    "scoped": "riders-only",
++    "cross_cutting": "fresh-record",
++    "unsure": {
++      "default": "riders-only",
++      "fresh_record_when_touching": [
++        "@user_facing_globs",
++        "ARCHITECTURE.md",
++        "DECISIONS.md"
++      ]
++    }
+   }
+ }
+diff --git a/guardrails/check-push-reach.sh b/guardrails/check-push-reach.sh
+index 15358b52..2f6c74a8 100755
+--- a/guardrails/check-push-reach.sh
++++ b/guardrails/check-push-reach.sh
+@@ -27,8 +27,20 @@
+ # rider. A changed infra file that no test names (directly or via a referrer) is not
+ # safely scopable, so the whole diff falls back to FULL — the conservative teeth this road keeps.
+ #
++# Beside the exit code the script names its verdict in words, on a line beginning VERDICT, and says
++# what review that verdict asks for. Four verdicts, in the order the classifier asks them:
++#   CROSS-CUTTING  a changed file is a declared cross-cut surface (guardrails.config.json
++#                  cross_cut.trigger_files) — asked FIRST, wins outright, review: fresh-record.
++#   UNSURE         a changed file sits in two classes at once, or in none — full path, and the
++#                  review is computed from review_policy.unsure against the whole changed set.
++#   LOCAL-PROSE    the exit-0 path — review: lints-only.
++#   LOCAL-SCOPED   the exit-2 path — review: riders-only.
++# The VERDICT lines are additions beside the existing output, never a replacement: the `SCOPED
++# <path>` lines and the `OK (reach):` lines other tools parse are untouched.
++#
+ # Usage: check-push-reach.sh [base-ref]      (default base: origin/main)
+ #   REACH_FILES (tests only): newline-separated file list replaces the git diff.
++#   REACH_CONFIG (tests only): overrides the config path.
+ 
+ set -euo pipefail
+ REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || pwd)"
+@@ -48,27 +60,63 @@ BASE="${1:-origin/main}"
+ # falls to FULL — never a false-green scope on a missing or empty config.
+ CONFIG="${REACH_CONFIG:-$REPO_ROOT/guardrails.config.json}"
+ 
+-reach_class() {
+-  # $1 = key under reach_classes; prints its values newline-separated, empty when the config or
+-  # the key is absent or unreadable (which lands on the conservative floor above).
+-  python3 - "$CONFIG" "$1" <<'PY' 2>/dev/null || true
++config_list() {
++  # $@ = a nested key path from the config root; prints the list it lands on, newline-separated.
++  # One reader serves every list this script takes from the host: the reach classes, the cross-cut
++  # surfaces, and the review policy's own lists — a new config list needs no new helper here.
++  # An entry of the form "@key" is replaced by the values of the config's OWN top-level key of
++  # that name, so a list the config already declares is NAMED once and referenced, never copied
++  # into a second place to drift out of step with the first.
++  # Empty output when the config, any key on the path, or the value's list-ness is absent or
++  # unreadable — which lands on the conservative floor above, never on a false-green scope.
++  python3 - "$CONFIG" "$@" <<'PY' 2>/dev/null || true
+ import json, sys
+ try:
+     with open(sys.argv[1]) as f:
+         cfg = json.load(f)
+ except Exception:
+     sys.exit(0)
+-for v in cfg.get("reach_classes", {}).get(sys.argv[2], []):
+-    print(v)
++cur = cfg
++for k in sys.argv[2:]:
++    if not isinstance(cur, dict):
++        sys.exit(0)
++    cur = cur.get(k)
++    if cur is None:
++        sys.exit(0)
++if not isinstance(cur, list):
++    sys.exit(0)
++for v in cur:
++    if isinstance(v, str) and v.startswith("@"):
++        ref = cfg.get(v[1:])
++        if isinstance(ref, list):
++            for w in ref:
++                print(w)
++    else:
++        print(v)
+ PY
+ }
+ 
++reach_class() {
++  # $1 = key under reach_classes; prints its values newline-separated, empty when the config or
++  # the key is absent or unreadable (which lands on the conservative floor above).
++  config_list reach_classes "$1"
++}
++
+ PROSE_FILES=(); while IFS= read -r x; do [ -n "$x" ] && PROSE_FILES+=("$x"); done < <(reach_class prose_files)
+ PROSE_DIRS=();  while IFS= read -r x; do [ -n "$x" ] && PROSE_DIRS+=("$x");  done < <(reach_class prose_dirs)
+ INFRA_DIRS=();  while IFS= read -r x; do [ -n "$x" ] && INFRA_DIRS+=("$x");  done < <(reach_class infra_dirs)
+ INFRA_FILES=(); while IFS= read -r x; do [ -n "$x" ] && INFRA_FILES+=("$x"); done < <(reach_class infra_files)
+ INFRA_GLOBS=(); while IFS= read -r x; do [ -n "$x" ] && INFRA_GLOBS+=("$x"); done < <(reach_class infra_globs)
+ 
++# The cross-cut surfaces and the review policy's fresh-record surfaces are host config too, read
++# from the same one home as the classes above. Absent config leaves both lists empty: no file is
++# then a declared cross-cut surface and every UNSURE verdict asks for riders only — the reach
++# verdict itself is unaffected, so the conservative floor above still decides the exit code.
++CROSS_CUT_TRIGGERS=(); while IFS= read -r x; do [ -n "$x" ] && CROSS_CUT_TRIGGERS+=("$x"); done \
++  < <(config_list cross_cut trigger_files)
++FRESH_RECORD_WHEN=(); while IFS= read -r x; do [ -n "$x" ] && FRESH_RECORD_WHEN+=("$x"); done \
++  < <(config_list review_policy unsure fresh_record_when_touching)
++
+ if [ -n "${REACH_FILES:-}" ]; then
+   files="$REACH_FILES"
+ else
+@@ -94,18 +142,56 @@ matches_infra() {
+   return 1
+ }
+ 
++matches_cross_cut() {
++  # A declared cross-cut surface, matched as a literal path. This class is checked FIRST and wins
++  # outright: a cross-cut surface may well also sit inside an infra directory (guardrails/pre-push
++  # does), and that is no contradiction — the cross-cut declaration is the stronger statement about
++  # the same file, so precedence settles it and no disjointness is owed between the two.
++  local f="$1" p
++  for p in "${CROSS_CUT_TRIGGERS[@]:-}"; do [ -z "$p" ] && continue; [ "$f" = "$p" ] && return 0; done
++  return 1
++}
++
++review_line() {
++  # The review an UNSURE verdict asks for (guardrails.config.json review_policy.unsure): a fresh
++  # record when the diff touches one of the declared surfaces, riders only otherwise. Reads the
++  # whole changed set, not the one file that raised the verdict — the question "what must be
++  # re-reviewed" is asked of the push, not of a single path.
++  local f p
++  while IFS= read -r f; do
++    [ -z "$f" ] && continue
++    for p in "${FRESH_RECORD_WHEN[@]:-}"; do
++      [ -z "$p" ] && continue
++      case "$f" in $p) echo "review: fresh-record ($f)"; return 0 ;; esac
++    done
++  done <<< "$files"
++  echo "review: riders-only"
++}
++
+ seen=0
+ full=0
+ infra_files=()
+ while IFS= read -r f; do
+   [ -z "$f" ] && continue
+   seen=$((seen + 1))
+-  if matches_prose "$f"; then
++  if matches_cross_cut "$f"; then
++    # FIRST question, ahead of every class: is this file a surface a change to which reaches
++    # everything? A declared cross-cut surface ends the classification on the spot — nothing later
++    # in the diff can soften a verdict that already says "full path".
++    echo "VERDICT CROSS-CUTTING: '$f' is a declared cross-cut surface — full path (per guardrails.config.json cross_cut); review: fresh-record"
++    exit 1
++  elif matches_prose "$f" && matches_infra "$f"; then
++    # A file the config sorts into two classes at once. The classifier does not pick a winner
++    # between them — a duplicated mapping is the config's defect to fix, and until it is fixed the
++    # honest answer is that this diff's reach is unknown.
++    echo "VERDICT UNSURE: '$f' matches two classes (prose and infra) — duplicated mapping, full path"
++    full=1
++  elif matches_prose "$f"; then
+     continue
+   elif matches_infra "$f"; then
+     infra_files+=("$f")
+   else
+-    echo "reach: '$f' is outside the prose/infra classes — FULL suite."
++    echo "VERDICT UNSURE: '$f' is outside every declared class — full path"
+     full=1
+   fi
+ done <<< "$files"
+@@ -116,11 +202,14 @@ if [ "$seen" -eq 0 ]; then
+ fi
+ 
+ if [ "$full" -ne 0 ]; then
++  # one review line for the push, printed once past the loop however many files raised UNSURE
++  review_line
+   exit 1
+ fi
+ 
+ if [ "${#infra_files[@]}" -eq 0 ]; then
+   echo "OK (reach): prose-only diff — the suite's checks read none of the changed files."
++  echo "VERDICT LOCAL-PROSE: every changed file is declared prose — review: lints-only"
+   exit 0
+ fi
+ 
+@@ -217,4 +306,5 @@ printf '%s\n' "$sorted_scoped" | while IFS= read -r t; do
+ done
+ count="$(printf '%s\n' "$sorted_scoped" | grep -c .)"
+ echo "OK (reach): infra-class diff — scoped to $count test files (each names a changed file; + the traceability net), SPEC INV-45"
++echo "VERDICT LOCAL-SCOPED: every changed file is declared prose or infra — review: riders-only"
+ exit 2
+diff --git a/guardrails/pre-push b/guardrails/pre-push
+index b7d5f601..f257f10a 100755
+--- a/guardrails/pre-push
++++ b/guardrails/pre-push
+@@ -13,6 +13,31 @@ REPO_ROOT="$(git rev-parse --show-toplevel)"
+ cd "$REPO_ROOT"
+ GUARDRAILS="$REPO_ROOT/guardrails"
+ 
++# -- one orchestrator runs the deciding chain --
++# Two gate chains running at once decide on the same tree and can each read a state the other is
++# mid-way through changing, so the chain takes a lock before any gate below runs. The lock is a
++# file created with noclobber, which is atomic: whichever chain wins the create holds it, and the
++# loser never mistakes the race for a win. A crashed or killed chain leaves the file behind, so the
++# holder is checked for life before its claim is honoured — a dead pid means the lock is stale and
++# this chain recovers it out loud rather than blocking every future push on a corpse. The trap
++# releases the lock on every ordinary exit path, including the deletion-only stand-down below and
++# every blocked-gate exit.
++CHAIN_LOCK="$GUARDRAILS/.chain-lock"
++acquire_lock() {
++  if ( set -o noclobber; echo "$$ $(date '+%Y-%m-%d %H:%M:%S')" > "$CHAIN_LOCK" ) 2>/dev/null; then return 0; fi
++  holder_pid="$(cut -d' ' -f1 "$CHAIN_LOCK" 2>/dev/null)"
++  holder_ts="$(cut -d' ' -f2- "$CHAIN_LOCK" 2>/dev/null)"
++  if [ -n "$holder_pid" ] && kill -0 "$holder_pid" 2>/dev/null; then
++    echo "BLOCK (chain-lock): a gate chain is live (pid $holder_pid, started $holder_ts) — one orchestrator runs the deciding chain. Wait for it, or if that pid is not a chain, remove $CHAIN_LOCK by hand and rerun."
++    exit 1
++  fi
++  echo "chain-lock: stale lock (pid $holder_pid dead, started $holder_ts) — recovering, taking over."
++  rm -f "$CHAIN_LOCK"
++  ( set -o noclobber; echo "$$ $(date '+%Y-%m-%d %H:%M:%S')" > "$CHAIN_LOCK" ) 2>/dev/null || { echo "BLOCK (chain-lock): lost the takeover race to another chain — rerun."; exit 1; }
++}
++acquire_lock
++trap 'rm -f "$CHAIN_LOCK"' EXIT INT TERM
++
+ # -- deletion-only stand-down (SPEC INV-290, ROADMAP row 502) --
+ # git feeds this hook one ref-update line per pushed ref on stdin (githooks(5)); read it ONCE, here,
+ # before any gate below can touch stdin — a manual invocation for testing leaves stdin as a tty and
+diff --git a/tests/test_guardrails.py b/tests/test_guardrails.py
+index 4e24f101..b43b8220 100644
+--- a/tests/test_guardrails.py
++++ b/tests/test_guardrails.py
+@@ -1491,6 +1491,138 @@ class TestScopedReachHygiene(unittest.TestCase):
+                 "pinning the synthetic file's name into ALWAYS_SCOPED must close the violation",
+             )
+ 
++    # --- the change classifier's declarations (guardrails.config.json cross_cut, review_policy) ---
++    # The classifier answers four verdicts and says what review each owes. Both the cross-cut
++    # surfaces and the review answers are DECLARED in the config and read from there; these nets
++    # hold the declarations honest, so the shell never grows a second copy to drift.
++
++    REVIEW_ANSWERS = {"lints-only", "riders-only", "fresh-record"}
++    REVIEW_CLASS_KEYS = {"prose_only", "scoped", "cross_cutting", "unsure"}
++
++    _ARRAY_ASSIGN = re.compile(r"\b[A-Za-z_][A-Za-z0-9_]*=\(")
++
++    @staticmethod
++    def _config():
++        with open(os.path.join(ROOT, "guardrails.config.json"), encoding="utf-8") as f:
++            return json.load(f)
++
++    def test_reach_classes_pairwise_disjoint(self):
++        """A path declared in two class lists at once is a duplicated mapping: the classifier
++        cannot say which class the file belongs to, and answers UNSURE at push time. This net
++        catches that same defect statically, in the config, before a push ever meets it.
++
++        Membership here is LITERAL — the entries as written in the lists — not class matching. A
++        cross-cut surface may legitimately sit inside an infra directory (guardrails/pre-push
++        does), and that is no duplicated mapping: cross_cut is asked first and wins outright, so
++        precedence already settles which class the file takes. What must never happen is one path
++        WRITTEN INTO two lists, where no precedence rule applies and the answer is genuinely
++        undetermined."""
++        cfg = self._config()
++        rc = cfg["reach_classes"]
++        prose = set(rc.get("prose_files", [])) | set(rc.get("prose_dirs", []))
++        infra = (set(rc.get("infra_files", [])) | set(rc.get("infra_dirs", []))
++                 | set(rc.get("infra_globs", [])))
++        self.assertEqual(
++            prose & infra, set(),
++            "path(s) written into both the prose and the infra class lists: %s"
++            % sorted(prose & infra))
++        triggers = cfg["cross_cut"]["trigger_files"]
++        self.assertTrue(triggers, "cross_cut.trigger_files must name at least one surface")
++        doubled = [t for t in triggers if t in prose or t in infra]
++        self.assertEqual(
++            doubled, [],
++            "cross-cut trigger(s) also written into a prose/infra class list: %s" % doubled)
++
++    def test_cross_cut_triggers_exist(self):
++        """Every declared cross-cut surface is a real path in this tree. A trigger naming a file
++        that has since been renamed or removed silently stops triggering: the diff that touches
++        its successor then classifies as something narrower and takes a narrower path than it
++        owes — a false green nobody sees, because the trigger reds nothing when it misses."""
++        triggers = self._config()["cross_cut"]["trigger_files"]
++        missing = [t for t in triggers if not os.path.exists(os.path.join(ROOT, t))]
++        self.assertEqual(
++            missing, [],
++            "cross_cut.trigger_files names path(s) absent from the tree: %s" % missing)
++
++    def test_review_policy_complete(self):
++        """review_policy answers the review question for each of the classifier's four verdicts,
++        and answers with a word from the allowed set. An "@key" entry names this config's own
++        top-level key rather than copying its values, so the reference must resolve: a dangling
++        one expands to nothing and quietly narrows the surfaces that lift an UNSURE verdict to a
++        fresh record."""
++        cfg = self._config()
++        rp = cfg["review_policy"]
++        declared = {k for k in rp if not k.startswith("_")}
++        self.assertEqual(
++            declared, self.REVIEW_CLASS_KEYS,
++            "review_policy must answer exactly the four verdict classes, got: %s"
++            % sorted(declared))
++        for key in ("prose_only", "scoped", "cross_cutting"):
++            self.assertIn(
++                rp[key], self.REVIEW_ANSWERS,
++                "review_policy.%s = %r is outside the allowed answers %s"
++                % (key, rp[key], sorted(self.REVIEW_ANSWERS)))
++        unsure = rp["unsure"]
++        self.assertIn(
++            unsure["default"], self.REVIEW_ANSWERS,
++            "review_policy.unsure.default = %r is outside the allowed answers %s"
++            % (unsure["default"], sorted(self.REVIEW_ANSWERS)))
++        dangling = [v for v in unsure["fresh_record_when_touching"]
++                    if isinstance(v, str) and v.startswith("@") and v[1:] not in cfg]
++        self.assertEqual(
++            dangling, [],
++            "'@' reference(s) naming no top-level config key: %s" % dangling)
++
++    @staticmethod
++    def _strip_comment_lines(text):
++        """Blank every whole-line shell comment, keeping the line count so a reported line number
++        stays the file's own. Comment prose is free to NAME a cross-cut surface — the header of
++        check-push-reach.sh names three, to explain what the class holds — because prose is not a
++        list the code reads."""
++        return "\n".join("" if line.lstrip().startswith("#") else line
++                         for line in text.split("\n"))
++
++    def test_no_manual_rider_lists_in_shell(self):
++        """The cross-cut surfaces live in guardrails.config.json and the shell reads them from
++        there. A second copy hand-written into a script is the drift this net exists to stop: the
++        config gains a surface, the script's own list does not, and the script goes on classifying
++        by a list that is quietly one behind.
++
++        What is forbidden is the LIST SHAPE, not the mention. A script may legitimately hand one
++        of these paths to a gate as an argument — guardrails/pre-push passes PRODUCT_SPEC.md to
++        the generated-index gate and TEST_MATRIX.md to the matrix-reference gate, and neither is a
++        rider list. A hand-written list takes one of three shapes, and all three red here: a shell
++        array holding a trigger, a case pattern naming one, or two distinct triggers enumerated on
++        a single line. A script's own path is exempt throughout — pre-push naming itself is not a
++        copy of anything."""
++        triggers = self._config()["cross_cut"]["trigger_files"]
++        violations = []
++        for rel in ("guardrails/pre-push", "guardrails/check-push-reach.sh"):
++            with open(os.path.join(ROOT, rel), encoding="utf-8") as f:
++                code = self._strip_comment_lines(f.read())
++            forbidden = [t for t in triggers if t != rel]
++
++            for n, line in enumerate(code.split("\n"), 1):
++                stripped = line.strip()
++                hits = sorted(t for t in forbidden if t in line)
++                if len(hits) >= 2:
++                    violations.append("%s:%d enumerates %s" % (rel, n, hits))
++                if re.match(r"^[^\s()#][^()]*\)$", stripped):   # a bare case-pattern label
++                    for t in forbidden:
++                        if t in stripped:
++                            violations.append("%s:%d case pattern names %r" % (rel, n, t))
++
++            for m in self._ARRAY_ASSIGN.finditer(code):
++                body = self._call_args(code, m.end() - 1)
++                for t in forbidden:
++                    if t in body:
++                        violations.append("%s: array assignment holds %r" % (rel, t))
++
++        self.assertEqual(
++            violations, [],
++            "cross-cut trigger(s) hand-listed in shell instead of read from "
++            "guardrails.config.json: %s" % violations)
++
+ 
+ class TestGateMachineryReach(unittest.TestCase):
+     """Row 362 arm 2 (M-345): the gate-machinery classifier that decides whether the
+-- 
+2.50.1 (Apple Git-155)
+
