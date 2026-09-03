@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # adopt/install-style-gates.sh — the turnkey style-gate adoption kit (SPEC INV-172).
 #
-# Run from a HOST repo root. Vendors the pack's style lint, near-duplicate reading, freeze tool and
-# their shared library into the host, pins each vendored copy's source in scripts/ratchet-manifest.json
-# so the update check can tell a current copy from a stale one, and wires the style gate into the
-# host's push gate.
+# Run from a HOST repo root. Vendors the pack's style lint, near-duplicate reading, freeze tool,
+# pre-show register lint and their shared library into the host, pins each vendored copy's source in
+# scripts/ratchet-manifest.json so the update check can tell a current copy from a stale one, and
+# wires the style gate into the host's push gate.
 #
 # WHAT THIS INSTALLER DOES NOT DO, and why. Until 2026-09-02 this script also measured the host's
 # documents at adoption time, wrote those two counts into scripts/spec-debt-cap.json as caps, and
@@ -103,6 +103,7 @@ VENDOR_FILES=(
   "scripts/gate_common.py"
   "guardrails/check-freeze.sh"
   "guardrails/spec-coinages.json"
+  "scripts/preshow-register-lint.py"
 )
 
 for rel in "${VENDOR_FILES[@]}"; do
@@ -140,6 +141,7 @@ VENDOR_FILES = [
     "scripts/gate_common.py",
     "guardrails/check-freeze.sh",
     "guardrails/spec-coinages.json",
+    "scripts/preshow-register-lint.py",
 ]
 
 

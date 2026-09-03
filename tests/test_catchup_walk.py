@@ -304,5 +304,28 @@ class TestCatchupWalkVendorsTheStatusView(unittest.TestCase):
         )
 
 
+class TestCatchupWalkVendorsTheStyleGateKit(unittest.TestCase):
+    """PLAN.md, the preshow-lint-script-missing finding (`inbox/2026-08-12-preshow-lint-script-missing.md`).
+    `adopt/install-style-gates.sh` was a founding-only step (`adopt/ADOPT.md`, "Then wire the style
+    gate") — an already-adopted host running catch-up never re-ran it, so a file the kit later grew
+    (`scripts/preshow-register-lint.py`, added to VENDOR_FILES beside `guardrails/spec-coinages.json`)
+    only ever reached a freshly founded host. Phase 4 now runs it the same unconditional,
+    non-clobbering way `install-status-view.sh` already runs there, right beside it."""
+
+    def test_install_style_gates_runs_in_phase_4(self):
+        mig = read_flat("MIGRATION.md")
+        self.assertIn("adopt/install-style-gates.sh --force", mig)
+        phase4 = mig[mig.index("Phase 4 — verify"):]
+        self.assertIn(
+            "adopt/install-style-gates.sh --force", phase4,
+            "install-style-gates.sh must run inside Phase 4, not only in ADOPT.md's founding walk",
+        )
+        self.assertLess(
+            phase4.index("install-status-view.sh"),
+            phase4.index("install-style-gates.sh --force"),
+            "the style-gate re-vendor step should sit right after the status-view one it mirrors",
+        )
+
+
 if __name__ == "__main__":
     unittest.main()

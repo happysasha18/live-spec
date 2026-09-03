@@ -124,6 +124,7 @@ class TestStyleGatesInstall(unittest.TestCase):
         "scripts/spec-freeze.py",
         "scripts/gate_common.py",
         "guardrails/check-freeze.sh",
+        "scripts/preshow-register-lint.py",
     )
 
     def _init_host(self, tmp):

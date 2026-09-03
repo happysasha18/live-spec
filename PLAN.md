@@ -2850,6 +2850,18 @@ One line per finding. Don't start a second list for them. Don't fix one without 
   into a host at adopt time; no installer vendors `scripts/preshow-register-lint.py`, so the law that
   names it still blocks nothing on a host that has never run that installer.
 
+  **Resolved 03.09, same day.** `scripts/preshow-register-lint.py` joined
+  `adopt/install-style-gates.sh`'s `VENDOR_FILES` right beside `guardrails/spec-coinages.json`, same
+  copy mechanism, same manifest pin, same `--force` idempotency — proven by
+  `tests/test_style_gate_kit.py::TestStyleGatesInstall::test_install_vendors_the_gate_files_and_pins_each_source`,
+  whose `VENDOR_FILES` tuple now names it too. A second gap surfaced checking both walks per this row's
+  own ask: `install-style-gates.sh` was a founding-only step (`adopt/ADOPT.md`) that the catch-up walk
+  (`MIGRATION.md` Phase 4) never re-ran, the identical shape plan-14 found and fixed for
+  `install-status-view.sh` hours earlier — so an already-adopted host would still never receive either
+  vendored file. Phase 4 now re-runs `install-style-gates.sh --force` beside `install-status-view.sh`,
+  proven by `tests/test_catchup_walk.py::TestCatchupWalkVendorsTheStyleGateKit`. The inbox report moves
+  to `inbox/handled/`.
+
 - **A promise this range added is owned by nobody, and the check that would demand an owner cannot
   see it. Found 31.08, in the merge review; resolved 2026-09-03, in q-813 — the mechanism it named is
   gone, not merely fixed.** The idea shelf — where a possibility named in passing is kept in the
