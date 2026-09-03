@@ -1520,7 +1520,7 @@ movement, and the report carries a done / in-work / waiting table. That is the v
 owes while the standing board waits its turn.
 
 
-### 🔄 A queued row always carries a real reason to stay open; the Director owns why — id: q-813
+### ✅ A queued row always carries a real reason to stay open; the Director owns why — id: q-813
 **Group:** Board & visibility · **Priority:** critical
 **Source:** owner 2026-09-03 ~10:08, corrected ~10:20 — a task never sits open with no real
 reason the Director itself understands; an amorphous ask is never accepted; no second list, ever,
@@ -1549,6 +1549,28 @@ mechanism it specifies is exactly what the correction forbids — its `[target]`
 with it rather than closing on a build that should never happen. Every other currently open row is
 swept against the real bar (in hand, or a named checkable trigger); anything ambiguous is
 reported, not decided unilaterally. Full suite green.
+
+**Checked by reading on 03.09.** Landed whole: `spec/message-first-read.md` Requirement 315 retired
+(`attic/spec-message-first-read-R315.md`), `spec/work-board.md` Requirement 309 retired
+(`attic/spec-work-board-R309.md` + `attic/matrix-work-board-R309.md`), `q-811` rotated off
+`## Tasks` through the real archive mechanism (`docs/queue-archive/rotated-PLAN-2026-09-03-q811-declined.md`,
+his own quoted words sourced from `docs/handovers/2026-08-06-evening-work-board-handover.md`, not
+paraphrased), two `attic/MANIFEST.md` lines, both generated indexes and the matrix reference
+rebuilt by their own scripts. Full suite re-verified independently on the merged tree after
+integration, not taken on the worker's own report. Sweep confirmed: 8 open rows, all active or
+behind a named external trigger, none idea-shaped, none ambiguous.
+
+**One judgment call in this close was mine, not his, and stays open for his word.** Retiring
+Requirement 309 — 99 approved acceptance criteria, an approved sketch he signed off in August —
+was this session's own reading of "no shelf" as "no reason to keep an unbuilt, unwanted promise
+alive either," never a sentence he said. It also collides with his own prior word:
+`.live-spec/turnkey-contract-composed.md:305` records 2026-09-02 12:46, scheduling
+`matrix/work-board.md`'s remaining rows to build after package 2. Tonight's retirement supersedes
+that schedule by one day, without his having weighed in on the collision. Nothing is lost — the
+approved sketch stands untouched at `docs/norms/work-board.html`, the retired text sits whole in
+`attic/`, and reverting is a plain git operation — but this is named plainly rather than folded
+into a done mark, per this row's own new rule: a shown result closes the work, and a later
+disagreement opens new work rather than reopening this one.
 
 
 ### ⬜ The Director's real route is proven end to end, on the actual mechanism, not the instructions — id: q-812
