@@ -186,6 +186,38 @@ idea rule back. The fixture grades neither answer. Where the shelf stood that mo
 longer, a fixture forcing one of the two would be grading the version of the rule its author happened
 to read.
 
+bare run: 2026-09-03 (afternoon) — a full re-record of both sets, triggered by today's changes to
+`skills/director/SKILL.md`: the idea-shelf mechanism added then retired, "the Director runs the
+project" rule, and the disagreement-before-executing rule carried further than the single-scenario
+run above had seen. Skill as it stands: `skill_version: 6.1.0`, commit `614cc25e`, `skill_sha256`
+`44b427838c14701ce04098a20a0425239c2e4becf253d57bbd07f34a76ea995b`. One fresh producer per scenario
+under the isolation protocol above — opaque two-letter labels, no producer given another's fixture
+or the expected verdict, all forty-five run in one afternoon.
+
+The thirty-six-scenario set, graded with `python3 evals/director/check.py --all`: 31 of 36 pass,
+against 30 of 35 in the last full re-record before it (2026-09-02, the skill as it stood that
+afternoon). Three runs named an act the scenario did not ask for, against two in that prior run.
+The five reds: `idea-plus-a-fact` (wanted `shelves_idea: true`, got `false` — the run read the
+person's own "дальний бэклог" hedge as too unspecified to keep rather than as the reason that keeps
+it); `decision-how-to-report` (missing the secondary `instruction` act — "веди план и показывай мне
+где мы находимся" read as a standing decision alone, not decision-plus-today's-own-request);
+`mixed-reminder-and-a-challenge` (the same miss — the reminder to monitor two goals read as decision
+alone, not decision-plus-instruction); `mixed-conditional-pause` (missing the `observation` act —
+"надо этот комп отключить ненадолго" folded into the halt's own grounds instead of standing as its
+own fact); `not-an-act-answering-the-director` ("yeah go ahead" graded as a decision reaffirming the
+open choice rather than the instruction the skill's own rule says it becomes — "the idea just became
+the instruction it was waiting to become" — so the primary act itself disagrees with the fixture,
+with an extra `decision` beside the miss).
+
+The nine-scenario closing set, graded with `python3 -m pytest -q tests/test_director_scenarios.py`
+(`recorded_run.skill_sha256` in `closing-scenarios.json` re-pinned to today's file): 7 of 9 pass. Two
+reds, both a disagreement on the boolean itself rather than a wording gap: `close-a-row-whose-own-
+line-names-his-eye` (the run reads the row's own stale "his own eye is the check" acceptance line as
+still binding, not as exactly the wording the closing rule refuses, and holds the checkpoint open
+where the fixture expects it closed); `close-a-redefinition-the-person-himself-ordered` (the run
+treats a person-ordered redefinition of what correct means as itself one of the three reserved cases,
+not as the fork the rule closes over once the person, not an open question, made the call).
+
 ## What the first run caught
 
 The first run was thrown away. The batches handed each agent the scenario's `id`, and the

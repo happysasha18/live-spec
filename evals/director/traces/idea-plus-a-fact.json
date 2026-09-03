@@ -5,12 +5,12 @@
     "observation"
   ],
   "creates_work": false,
-  "shelves_idea": true,
+  "shelves_idea": false,
   "attaches_to_existing_work": false,
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "Two acts. Showing reference files opens as a musing but the person settles it in the same breath — far backlog, just ideas for some point — so they are not asking for it now: an idea for later, which goes on the idea shelf in their own words, with no task id, priority or estimate. The closing clause, that one agent is still running, says something new that the idea's own goal does not carry, so by the rule that an unplaceable clause keeps its own act it stands as an observation: a report of the work's state with no repair asked for and none that follows beyond doubt. It is not a halt — nothing is asked to stop — and not a correction, since describing that work is still in flight changes no goal or constraint of it. No work was accepted, so there is no decision sheet, no dimensions and no specialists; the person hears back one sentence that the reference-files idea is on the shelf and that yes, one agent is still running.",
+  "reasoning": "The first clause floats a possibility (\"может имеет смысл показать референс файлы?\") and the person immediately marks it themselves as \"дальний бэклог просто как идеи на какой-то момент\" — an explicit signal that this is not being asked for now, which the table's Idea-for-later row governs; per that row an idea is judged, not automatically kept, and the vague, hedged, unspecified content (which reference files, shown where, for what purpose) gives the Director nothing to understand well enough to state why it would be queued, so it falls to \"a passing thought is answered and not recorded\" rather than becoming a row or earning a live question — reinforced by the situation itself (a glance at the screen while thinking about something else) and by the general rule that \"most things a person says while thinking aloud are not worth writing down anywhere at all.\" The second clause, \"я пока вижу правда что один агент все еще бежит,\" reports a status fact without asking for any repair, matching \"Observation or feedback... record it as evidence\" — nothing here meets the \"repair follows beyond doubt\" bar from the observations rule, so it is not treated as a correction to the running work and does not reopen or alter any checkpoint. Per \"No act absorbs another,\" both clauses are named as separate acts even though neither produces work: no decision sheet is written, no checkpoint opened or updated, and nothing attaches to the agent currently running.",
   "scenario": "idea-plus-a-fact",
   "skill_version": "6.1.0"
 }

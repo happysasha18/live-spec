@@ -8,14 +8,12 @@
   "attaches_to_existing_work": false,
   "work_items": 1,
   "dimensions": [
-    "product value and behaviour",
-    "documentation and communication"
+    "quality, safety, regressions"
   ],
   "specialists": [
-    "Developer",
-    "Independent verifier"
+    "Product prover"
   ],
-  "reasoning": "The person is asking for something to be done now — make a pass over the prover's skill — so this is an instruction, and it is accepted as work. The word 'only' is not a second act: nothing is in flight for it to halt or correct, and it says nothing the instruction's own goal does not already carry — it is the scope of the one thing asked for, not a separate clause. So one act, one new piece of work: a pass over one skill is a single result someone could want on its own, however many places inside that skill it touches. It touches documentation and communication, because the skill body is the text that changes; and product value and behaviour, because that body is what the prover actually does when it runs, so revising it revises the behaviour. Nothing changes in architecture, in the user's path, in analytics, or in release, so those are not named. Specialists: a developer, because the pass ends in edits to the skill, and an independent verifier, because a review's own findings should be checked against the skill by someone who did not write them. No spec author unless the pass turns up behaviour the spec does not already describe, and no test author — there is no regression to choose evidence for yet.",
+  "reasoning": "The message names an action to be done now ('Сделай' — 'do'), not a musing or a possibility for later, so per the Act table it is an Instruction: 'asks for something to be done' and the Director's response is to 'accept the work, state the goal understood, begin.' The situation frames this as scoping what the session covers, and nothing in the scenario shows a piece of work already in flight for the Director to attach this to, so it is new work rather than a correction or decision applied to a running task — hence attaches_to_existing_work is false and work_items is 1. The goal is concrete enough to accept without a clarifying question: run a review pass using only the product-prover skill, excluding other specialists. Per the specialists table, Product prover is called for exactly this — 'a mistake in the statement of the problem would be expensive, or shipped code needs a class-based defect hunt with no document to check it against' — and the work it does (checking whether a spec or document holds together, finding gaps) touches the 'quality, safety, regressions' dimension, since it is a check for correctness and defects rather than a change to behaviour, the user's path, or architecture itself. No idea, question, observation, decision, correction, or halt is present in this single-act message.",
   "scenario": "instruction-one-pass",
   "skill_version": "6.1.0"
 }

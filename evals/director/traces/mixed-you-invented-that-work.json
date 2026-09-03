@@ -1,9 +1,8 @@
 {
   "id": "mixed-you-invented-that-work",
   "acts": [
-    "halt",
-    "correction",
-    "observation"
+    "observation",
+    "correction"
   ],
   "creates_work": false,
   "shelves_idea": false,
@@ -11,7 +10,7 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "Three acts in one turn. The halt: measuring is running and he never asked for it, so it stops — a halt changes the state of running work and creates nothing. The correction: he draws a boundary the halt alone does not carry — a quick measurement on the platform, taken before deciding how complex the transitions will be, is the one he did voice and it stands; that narrows the constraints of work already in flight rather than opening anything new. The observation: he names a defect in how the intake behaves — an auto-ticket fires on any stray remark instead of thinking — and a judgment about the product is its own act even when it doubles as the reason for the halt, because it is worth keeping after this work closes. No new piece of work follows: a halt and a correction change work that already existed, so there is nothing accepted whose dimensions or specialists could be named, and answering an accusation of inventing work by inventing a task for it would repeat the exact mistake he reported.",
+  "reasoning": "The measuring work is already in flight (per the situation), and the message changes its goal and constraints rather than asking for something new, which the skill's table defines as a Correction — 'changes the goal or the constraints of work in flight' — governed by 'A correction attaches to work, not to a queue... find that work and change it. What was already done stays done.' The person narrows the legitimate scope down to one thing ('делать быстрый замер на платформе, перед тем как решать насколько сложные будут переходы, это да') and withdraws everything else ('остальное ничего не просил'), so the existing measuring work's goal shrinks rather than a new row opening; no new decision sheet is warranted and work_items is 0. Riding alongside that correction is a second act: calling the over-measuring 'тоже баг' and diagnosing it as 'автозаявка на любую хрень вместо того чтобы думать' is a judgment about the process that 'says something new' per 'Grounds stated with an act carry their own act only when they say something new' — it is worth keeping as evidence even though it also motivates the correction, so per the Observation row it gets recorded as evidence rather than absorbed into the correction or spun into its own repair task ('must not... infer a repair job, unless the repair follows from the situation beyond doubt' — here the situation's own repair is exactly the correction already named, not a separate fix). No idea, decision, instruction, question or halt is present: nothing conditional or forward-standing is stated, and the request is to shrink running work, not stop it outright or start something new, so no dimensions or specialists apply since no new work is created.",
   "scenario": "mixed-you-invented-that-work",
   "skill_version": "6.1.0"
 }

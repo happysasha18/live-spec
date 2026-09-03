@@ -1,21 +1,20 @@
 {
   "id": "decision-and-instruction-together",
   "acts": [
-    "instruction",
-    "decision"
+    "decision",
+    "instruction"
   ],
   "creates_work": true,
   "shelves_idea": false,
   "attaches_to_existing_work": false,
-  "work_items": 2,
+  "work_items": 1,
   "dimensions": [
-    "release, observation, feedback",
-    "documentation and communication"
+    "release, observation, feedback"
   ],
   "specialists": [
     "Publisher, communicator"
   ],
-  "reasoning": "Two acts, and no act absorbs the other. 'Деплой блин' is an instruction: the build is ready, shipping it is not checkpointed as anything, so it is new work with its own goal — the build is live. 'Запиши себе всегда деплой без моего подтверждения' is a decision in the skill's own sense: 'always' plus 'note this for yourself' settles a standing rule and a grant of authority that outlives today's deploy, and this is the case the skill spells out — recording only the standing rule loses the thing he actually wanted done today. The curse is tone, not a third act; it reports nothing new. Nothing was in flight for either to attach to — the withholding was a standing policy, not a tracked task — so the correction path does not apply and the decision earns its own home rather than a change to running work. Hence two separate pieces of work: either could ship or be cancelled without the other. The rule needs its one home named before a word of it is written, which is why documentation is touched; the deploy itself touches release. No spec author (behaviour is unchanged), no test author (no new evidence to choose), no verifier beyond the Director's own re-check that the build is actually live. One thing gets said before the sheet becomes a checkpoint: a blanket grant collides with the standing ground that a genuinely irreversible action outside git still stops for his word, so I state that and then proceed on his word either way.",
+  "reasoning": "The message is word-for-word the pack's own worked case under 'No act absorbs another': 'always deploy without asking, and deploy this one' grants standing authority going forward and asks for today's deploy in the same breath, so both are named rather than one absorbing the other. The 'always' clause is a decision under 'A decision is a standing rule, not only a single choice' — it settles a policy (no more confirmation gate before deploy) that survives beyond this message and, per that same rule, 'travels with the request and gets recorded separately' rather than becoming the work item itself. The 'деплой блин!!' clause is the instruction: shipping the already-ready build is work with its own goal, and since the withholding was only a standing policy and shipping had never been checkpointed as its own task, this is new work rather than a correction or decision applied to a running task — so attaches_to_existing_work is false and exactly one new work item (ship the build) is produced. The annoyance ('блин', repeated '!!') adds no new fact beyond the instruction's own goal, so per 'Grounds stated with an act carry their own act only when they say something new' it is not a further act. No idea is voiced, so shelves_idea is false. The work touches the release dimension (shipping the build) under 'Dimensions touched', and the specialists table calls for Publisher/communicator: 'the result ships and has to be explained.'",
   "scenario": "decision-and-instruction-together",
   "skill_version": "6.1.0"
 }

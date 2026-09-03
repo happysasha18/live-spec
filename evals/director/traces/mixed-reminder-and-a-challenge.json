@@ -9,12 +9,11 @@
   "attaches_to_existing_work": false,
   "work_items": 1,
   "dimensions": [
-    "documentation and communication"
+    "documentation and communication",
+    "release, observation, feedback"
   ],
-  "specialists": [
-    "Developer"
-  ],
-  "reasoning": "Reminding that goals already written in the plan still stand is a decision reaffirmed, not a new idea, so nothing goes on the idea shelf; the parenthetical only says when to look at those goals, and no work on compacting or optimizing starts now. The sentence that the parameters must be monitored in the plan file's status is the same act with force beyond this message: a standing rule about how status is written from here on, and applying it changes one document, so it is one piece of work, not several, and it starts nothing that was already in flight. 'Agree or argue with me' is its own act and stays named: it asks for a judgment, and the answer given before the work begins is that 'compactness' and 'various optimization' name no measurement yet, so a status row for them would carry a number with no source behind it; the goals have to say what they count before the status can show it. Only the plan file's own sentences change, so documentation and communication is the single dimension, and the only hand needed is the one that edits the plan and whatever prints its status.",
+  "specialists": [],
+  "reasoning": "The first clause is not a fresh idea but 'a decision reaffirmed' per the skill's own rule that reminding a goal already in the plan still stands counts that way, and it carries a standing-rule flavor ('необходимо мониторить' — these must be tracked going forward, not just this once) matching 'A decision is a standing rule, not only a single choice... it travels with the request and gets recorded separately.' Nothing named in the situation is already-running checkpointed work that this settles an open choice within, so per Execution ('an instruction, a correction, a decision... earns a decision sheet' and 'New work opens a checkpoint before the first specialist is called; work already in flight updates the one it already has') this decision has no existing checkpoint to update and therefore opens one new, small piece of work: making the plan file's status actually show these two goals going forward — one observable outcome, so work_items=1 and attaches_to_existing_work=false. The closing 'согласен или поспорь со мной' is 'An invitation to disagree closing out a decision or an instruction... its own act,' answered by the rule that the Director states any disagreement plainly in the same reply and then proceeds regardless — it does not block acceptance, so creates_work stays true. No idea act is present (the parenthetical about a future session describes timing of the pre-existing plan goals, not a new possibility being floated), so shelves_idea is false. The touched dimension is the plan document itself and the observation/status-tracking it is meant to carry, per 'Documents that must change — only those whose sentences actually change' — no product behaviour, code, or interface changes, so no spec author, developer, or other specialist table entry applies; this is the Director's own checkpoint/plan bookkeeping, hence specialists is empty.",
   "scenario": "mixed-reminder-and-a-challenge",
   "skill_version": "6.1.0"
 }

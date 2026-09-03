@@ -2,7 +2,6 @@
   "id": "halt-without-the-word",
   "acts": [
     "halt",
-    "observation",
     "question"
   ],
   "creates_work": false,
@@ -11,7 +10,7 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "Three acts in one turn. The halt is the spine: work is running and he wants it stopped now, parked rather than abandoned — 'we pick it up from the same place in the cafe' says what kind of halt it is, so it is the halt's own goal in other words, not a second act. A halt changes the state of work that already exists and creates nothing, so no new piece of work and no decision sheet: the running work's own checkpoint gets its IN PROGRESS and NEXT brought up to what actually remains, so the next window resumes from the file rather than from this conversation. Second act: he reports facts the halt's goal does not carry — fifteen minutes, the internet cut, the machine closed. That is an observation the work must be paced by, and it is what makes the difference between parking tidily and being killed mid-write. Third act: 'норм?' invites disagreement in the same breath, and answering only the halt leaves it unanswered — he gets a plain yes or, if a lane is mid-write and fifteen minutes is not enough, that said out loud now. No work was accepted, so nothing is named under what it touches and no specialist is called.",
+  "reasoning": "The core of the message is a halt: something running should stop, be parked, and picked up again later at the same point — per the table's definition ('wants something that is running to stop, be parked or be abandoned') and the rule that 'a halt is about the session's own work in progress' and 'about state, not about words,' since here it is phrased as a request rather than the bare word 'stop.' The Director's response to a halt is to change the state of that work, never to create anything, so creates_work is false, work_items is 0, and no dimensions or specialists apply (the sheet-and-specialist machinery runs only for accepted instructions, corrections, decisions, or the settled half of a conditional, none of which occurred). Because a halt changes the state of work already in flight rather than starting anything new, attaches_to_existing_work is true. The closing 'норм?' is its own act under 'No act absorbs another': it is a real question asking the Director to confirm the pause-and-resume plan is acceptable, not merely restating the halt's own goal, so per 'when you cannot tell whether a clause is its own act or part of the neighbouring one, it is its own act,' it is named as a question and answered directly rather than folded into the halt. No idea was voiced, so shelves_idea is false.",
   "scenario": "halt-without-the-word",
   "skill_version": "6.1.0"
 }

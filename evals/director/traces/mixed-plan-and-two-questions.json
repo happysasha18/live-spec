@@ -2,8 +2,8 @@
   "id": "mixed-plan-and-two-questions",
   "acts": [
     "instruction",
-    "question",
-    "observation"
+    "observation",
+    "question"
   ],
   "creates_work": true,
   "shelves_idea": false,
@@ -12,10 +12,8 @@
   "dimensions": [
     "documentation and communication"
   ],
-  "specialists": [
-    "communicator"
-  ],
-  "reasoning": "Three acts in one turn. The opening clause asks for the session plan as plain text in this window, 5-10 lines with status icons: someone asking for a plan, a status or a report has asked for something to be made, so it is work like any other and gets a decision sheet. It is scoped to this session, so it names no standing rule and stays an instruction rather than a decision. Then two questions -- what is the worker doing on the current request, is it running the whole plan or a part, and what comes out at the end -- which are answered from what is already known or read, never turned into tasks because answering takes reading. The line saying he copied everything across and launched it is an observation: a fact reported before the questions, its own act, and nothing in it asks for a repair or changes the running worker's goal or constraints, so it corrects nothing in flight. One new piece of work, touching only how the state is written for a person; the communicator is what that wording needs, and the plan itself is produced here rather than handed off, so the request does not disappear into a routing step.",
+  "specialists": [],
+  "reasoning": "The opening clause asks for a plan/status to be shown here as plain text, 5-10 lines, with emoji status; it is explicitly scoped 'на эту сессию' (for this session), and the skill's rule on decisions says a request scoped this way 'names no standing rule at all, however close it sounds to one, and stays an instruction' — so this is an Instruction, not a Decision. Per 'Work that belongs elsewhere,' asking for a plan, a status, a summary or a report 'is work like any other,' so this instruction creates one new work item: producing that plain-text status display, touching only the documentation and communication dimension. It attaches to no existing work — it does not change the goal or constraints of the worker already running, it is a separate deliverable the Director itself assembles from plan state, so no specialist from the table is clearly needed (the communicator entry covers wording an already-shipped result, and the same section warns that 'routing it to the communicator instead of doing it is how a plain request disappears'). The clause 'я ему все скопировал и запустил' reports a new fact about what was already done (the whole plan was copied to the worker and it is running) without asking for a repair, which the acts table records as an Observation kept as evidence. The remaining clauses — wanting to understand what the worker is doing now, whether it is running the whole plan or only part, and what the output will be — are a Question: per 'A question creates nothing and changes no document... The Director may read... in order to answer,' this is answered by reading the existing checkpoint/plan state, not by opening any new work item.",
   "scenario": "mixed-plan-and-two-questions",
   "skill_version": "6.1.0"
 }

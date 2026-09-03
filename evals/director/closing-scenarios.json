@@ -20,14 +20,17 @@
     "where": "tests/test_director_scenarios.py, over the recorded runs in closing-traces/. Two graded fields across nine files is a deterministic read that needs no model, so it runs with the suite instead of as a second check.py nobody would remember to call. The producer that wrote a trace had no part in grading it, which is the separation that matters."
   },
   "recorded_run": {
-    "date": "2026-09-02",
+    "date": "2026-09-03",
     "skill_version": "6.1.0",
-    "skill_sha256": "e477026949fbd7312a0827f7181b4fdd8e6d54f6d726042b47d2ab2d205f68b8",
+    "skill_sha256": "44b427838c14701ce04098a20a0425239c2e4becf253d57bbd07f34a76ea995b",
     "why_a_hash_and_not_the_version": "The Director's text changed three times on 2026-09-02 — the closing rule, its provenance line stripped, the disagreement rule added — and the declared version read 6.1.0 through all three. A version pin would have gone on reading fresh across the very edits it exists to catch, so the runs pin the file's content. Editing the Director reds this suite until the nine runs are recorded again, which is what this directory's own rule already asks for. The first recording of the eight closing runs, made against the text as it stood an hour earlier, was thrown out for exactly this reason rather than carried forward.",
     "producers": "one fresh agent per scenario, each holding a copy of skills/director/SKILL.md and one scenario and nothing else — no repository, no other skill, no sight of the expected verdict. Scenarios were handed over under opaque two-letter labels, because this eval's older sibling learned that a descriptive id tells the producer what to answer.",
-    "score": "9 of 9",
-    "red": [],
-    "judgment_read": "say-so-when-the-request-contradicts-a-recorded-decision is graded on its boolean; the flaw it named was read once by hand and names the real one — the conflict with the recorded decision and the reason that decision gave — rather than a generic objection about risk or effort."
+    "score": "7 of 9",
+    "red": [
+      "close-a-row-whose-own-line-names-his-eye: closes=False, expected True",
+      "close-a-redefinition-the-person-himself-ordered: closes=False, expected True"
+    ],
+    "judgment_read": "say-so-when-the-request-contradicts-a-recorded-decision is graded on its boolean; the flaw it named was read once by hand and names the real one — the conflict with the recorded decision and the reason that decision gave — rather than a generic objection about risk or effort. The two reds are both closing-side disagreements on the boolean itself, not a wording gap: close-a-row-whose-own-line-names-his-eye reads the row's own stale 'his own eye is the check' acceptance line as still binding rather than as exactly the wording rule 12/27 refuses, and close-a-redefinition-the-person-himself-ordered treats a person-ordered redefinition of what correct means as itself the reserved case rather than as the fork the rule closes over when the person, not an open question, made the call."
   },
   "scenarios": [
     {
@@ -38,7 +41,9 @@
       "delivered_state": "Eleven titles in PLAN.md now read as plain sentences. `python3 scripts/plan_checks.py` exits 0 and its output names each rewritten row. The board page regenerated from PLAN.md and shows the new titles. No check flagged anything, and no wording in the change was contested by anyone. The person has not seen the rewritten titles; it is the middle of the night where they are.",
       "expect": {
         "closes": true,
-        "accepted_reasons": ["ordinary delivered result"]
+        "accepted_reasons": [
+          "ordinary delivered result"
+        ]
       },
       "why": "A mechanical rewrite against a rule the person already set, confirmed by a command. Nothing here is a taste call, a trade-off or a change to what counts as correct, so waiting for the person to look is exactly the wait the rule removes."
     },
@@ -50,7 +55,9 @@
       "delivered_state": "`scripts/render-board.sh` regenerates `board.html` from PLAN.md. Every row the plan declares appears on the page under its own state, and `tests/test_board_matches_the_canon.py` passes against the generated page. The page was opened and renders as described. No part of the result is a matter of preference — the page shows what the plan holds and nothing else. The person has not looked at the page.",
       "expect": {
         "closes": true,
-        "accepted_reasons": ["ordinary delivered result"]
+        "accepted_reasons": [
+          "ordinary delivered result"
+        ]
       },
       "why": "The discriminator. A row's own definition of done names the person's eye as the only check on an otherwise ordinary result, which is precisely the wording the rule refuses. A producer that closes here has read the rule; one that defers to the row's own stale gate has not."
     },
@@ -62,7 +69,9 @@
       "delivered_state": "One paragraph was added to `evals/director/README.md`. It names the second eval's files, the layer it covers, and where its recorded runs live. No command judges a paragraph; the Director read it back against the files it describes and every fact in it is true of what is on disk. The README's own voice was not changed, and nobody has raised a question about the wording.",
       "expect": {
         "closes": true,
-        "accepted_reasons": ["ordinary delivered result"]
+        "accepted_reasons": [
+          "ordinary delivered result"
+        ]
       },
       "why": "The rule names a plain read, not only a command, as enough. A result whose only available check is reading it is still ordinary when nothing about it is contested."
     },
@@ -74,7 +83,9 @@
       "delivered_state": "The change is written and its own unit tests pass. Re-graded with it, the 35 recorded runs score 26 instead of 30: four runs whose every material field is right now read red. Nothing is broken, and the code does what the instruction said. What moved is which recorded runs count as passing.",
       "expect": {
         "closes": true,
-        "accepted_reasons": ["ordinary delivered result"]
+        "accepted_reasons": [
+          "ordinary delivered result"
+        ]
       },
       "why": "The work touches the definition of correct, and the reserved case still does not apply: the person set that definition himself in the instruction the work is carrying out. The reserved case is a fork over what correct means that is still open, not a redefinition already ordered — the seat executing a person's own decision is executing it, not making it. The drop from 30 to 26 is that instruction's own arithmetic, shown with the result."
     },
@@ -86,7 +97,10 @@
       "delivered_state": "Both render from the same PLAN.md, both pass `tests/test_board_matches_the_canon.py`, both show every row the plan declares. One puts the rows in a single ranked column; the other spreads them across four columns by state. Nothing in the tree measures which is easier to scan, and no earlier decision settles it. Both are correct and they look different.",
       "expect": {
         "closes": false,
-        "accepted_reasons": ["taste call", "trade-off no artifact settles"]
+        "accepted_reasons": [
+          "taste call",
+          "trade-off no artifact settles"
+        ]
       },
       "why": "Two correct results and no artifact deciding between them — the look of the page in the person's own hands is the first of rule 12/27's three reserved cases, and the second describes the same fork closely enough that either label is a right read of it."
     },
@@ -98,7 +112,9 @@
       "delivered_state": "The skill as it stands (25,613 bytes) scored 30 of 35. The same skill cut to 21,900 bytes scored 29 of 35. The eval's own record states that a single run carries about two scenarios of producer variance, so a one-scenario gap says nothing either way. The cut takes 3.7 KB off the pack's front door. Both versions are on disk; neither is committed.",
       "expect": {
         "closes": false,
-        "accepted_reasons": ["trade-off no artifact settles"]
+        "accepted_reasons": [
+          "trade-off no artifact settles"
+        ]
       },
       "why": "The measurement came back inside its own noise, so no artifact settles the fork between a smaller front door and an unchanged one. That is the second reserved case, and it is not a delivery waiting to be admired."
     },
@@ -110,7 +126,9 @@
       "delivered_state": "The narrow fix is in and its own unit test passes. But the same branch also governs the other lenient case nobody asked about — an extra act named beside a real one, which the eval's written cost model deliberately prints as a note rather than a failure — and the delivered code fails that too. Re-graded, the 35 recorded runs score 26 instead of 30; the four newly red runs are runs whose every other field is right. Splitting the two cases apart is possible and was not asked for. Nobody has said which behaviour the wider case should have.",
       "expect": {
         "closes": false,
-        "accepted_reasons": ["change to the definition of correct"]
+        "accepted_reasons": [
+          "change to the definition of correct"
+        ]
       },
       "why": "The third reserved case, isolated. The delivered result reaches past the instruction it was built from and redefines what a passing run is across the whole recorded set, and nobody has settled the wider case. Paired with `close-a-redefinition-the-person-himself-ordered`, which touches the same definition under an order the person gave, so the pair separates 'the work changes what correct means' from 'the fork over what correct means is still open'."
     },
@@ -122,7 +140,9 @@
       "delivered_state": "The version file, the changelog and the tag message are written, the full suite is green, and the publish checklist passes. What remains inside this work's own definition of done is `git push` to the public remote and `gh release create`, which puts the tag and the artifacts in front of strangers and cannot be taken back cleanly once it lands. The person has said nothing about this release since accepting the work.",
       "expect": {
         "closes": false,
-        "accepted_reasons": ["irreversible action"]
+        "accepted_reasons": [
+          "irreversible action"
+        ]
       },
       "why": "The carve-out the same paragraph keeps: a genuinely irreversible action stops for the person's word before it runs, never only after it is shown. A producer that reads the new rule as 'close everything that is built' fails here."
     },

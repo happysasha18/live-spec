@@ -2,7 +2,6 @@
   "id": "mixed-conditional-pause",
   "acts": [
     "question",
-    "observation",
     "halt"
   ],
   "creates_work": false,
@@ -11,7 +10,7 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "Three acts in one turn, and reading to the end matters. First a question — how is it going, how much longer — which is answered from the state of the running job; fetching that state is reading, not work, and the effort of answering never turns a question into a task. Second an observation: the machine has to be switched off for a while. That is a fact the session did not have and it reaches past this one job, so it is its own act and gets recorded as evidence rather than dissolved into the neighbouring clause's justification. Third a conditional halt, and both branches are real and already answered by him: if roughly ten minutes remain he waits and nothing changes; if longer, the running job is parked and picked up again in a couple of hours. Either way the outcome is a state change on work already in flight, so nothing new is opened — a halt changes the state of that work and creates nothing, and there is no decision sheet behind it, only a sentence. Nothing here is an idea for the shelf: the conditional is wait-or-pause, not build-or-park, so no shelf entry and no second row. With no work accepted, no dimensions are named and no specialist is called.",
+  "reasoning": "The turn carries a question ('как там? долго еще?', wanting to know status) and a halt, per the table's definition that a halt is about state, not wording — 'A halt is about state, not about words... What makes it a halt is that something running should stop running.' The pause-and-restart-later proposal is conditional on the job not being nearly done ('но если там еще минут 10 то могу подождать'), which mirrors the conditional-request rule ('A conditional request states both branches, and both are real... Answer both... What is exclusive is the outcome: the condition either holds or it does not'): if the remaining time is long, the work is paused (a halt); if the job is ~10 minutes from done, nothing changes and it is left to finish, so no halt actually fires. The stated reason ('надо этот комп отключить ненадолго') is the halt's own goal restated, not a new act, per 'when it only restates why the neighbouring act wants what it wants, it is not a second act.' A halt 'changes the state of that work' and per the execution section's own instruction, 'a correction or halt that changes work already running produces none' — it creates no new checkpoint or decision sheet, so creates_work is false, work_items is 0, and dimensions/specialists stay empty since no work is created. It attaches to the already-running job rather than starting anything new, so attaches_to_existing_work is true. There is no idea act here — the '...через пару часов' clause names how the halted work resumes, not a possibility being floated for later consideration — so shelves_idea is false.",
   "scenario": "mixed-conditional-pause",
   "skill_version": "6.1.0"
 }

@@ -1,14 +1,12 @@
 {
   "id": "mixed-check-now-improve-later",
   "acts": [
-    "correction",
-    "observation",
     "instruction",
-    "question"
+    "observation"
   ],
   "creates_work": true,
   "shelves_idea": false,
-  "attaches_to_existing_work": true,
+  "attaches_to_existing_work": false,
   "work_items": 1,
   "dimensions": [
     "product value and behaviour",
@@ -17,12 +15,11 @@
   ],
   "specialists": [
     "Architect",
-    "Developer",
     "Independent verifier",
     "Product prover",
     "Test author"
   ],
-  "reasoning": "Four acts in one turn, read to the end before deciding any of them. The demand that the code not bloat much after this modification (or load dynamically by platform type) and that nothing break for the user lands on a modification already in flight: it adds constraints the remainder has to satisfy, so it is a correction that changes that work's goal and replans what is left, not a second row beside it — no new work item from it. The judgment that the prover should have caught this is its own act: a judgment about the product, worth keeping after the neighbouring act closes, so it does not dissolve into the correction as mere grounds. The 'кстати проверь' on the prover is an instruction with a result someone could want on its own — the prover's blind spot to shipped-size growth could be closed or cancelled without touching the modification — so it is the one new piece of work with its own goal and decision sheet. The closing 'не знаю эт реально или нет' is a musing on feasibility, answered in words, not a branch that shelves anything; nothing here goes on the idea shelf. The accepted work touches product value and behaviour (nothing the user sees may break), architecture, data, integrations and operations (the shipped bundle and platform-conditional loading are packaging boundaries), and quality, safety, regressions (the missing check is a regression gap in the prover). Independent verifier because he asked for a good check and the check may not come from whoever made the modification; product prover because the named gap is its own; test author to choose the evidence — a size and no-break regression that fails on today's code; developer to build whatever the check turns up; architect if the answer is a platform-conditional split.",
+  "reasoning": "The core of the message is an instruction: 'мне надо чтобы ты очень хорошо проверил...' asks for something to be done now (verify the modification didn't bloat the bundle or should load dynamically by platform, verify the prover would catch this class of issue, verify nothing breaks for the user) -- per the Act table, 'Instruction: asks for something to be done' -> accept the work, state the goal, begin. The trailing hedge 'не знаю эт реально или нет' is grounds restating why the check is wanted (uncertainty), not new information, so per 'Grounds stated with an act carry their own act only when they say something new' it does not become a separate question act. The clause 'это прувер тоже должен был бы поймать!' is different: it is a judgment about the product's own verification process (that product-prover currently fails to catch bundle-bloat/platform-loading regressions), which 'says something new even when it doubles as the reason for the neighbouring act' and is 'worth keeping after the act closes' -- so it is recorded as its own observation act, per the Observation row ('reports a fact or an impression... record it as evidence'), riding alongside the instruction rather than inside it. Per 'Taking acts apart is not the same as splitting a goal,' the three things asked to be checked (bloat/dynamic loading, prover coverage, general user-facing breakage) are steps toward one result someone could want on its own -- confirmation the modification is safe to ship -- so this is one piece of work, not several: work_items = 1, and the observation does not itself create a second item. Because the modification 'has just been made' (a completed action) and nothing here changes that modification's goal or constraints, this is new verification work rather than a correction to work in flight, so attaches_to_existing_work is false. The work touches product behaviour (nothing must break for the user), architecture/operations (bundle size and platform-conditional dynamic loading are a packaging/build concern), and quality/regressions (verifying no shipped regression and that the safety net -- product-prover -- would have caught it), matching the worked example's own pairing of product behaviour with quality when 'it shipped without a test that would have caught it.' From the specialists table: Product prover is called directly because the message asks whether the prover 'should have caught this' -- 'shipped code needs a class-based defect hunt with no document to check it against'; Architect because operations/packaging change is in question; Independent verifier because the observable outcome (no bloat, nothing broken) needs checking by someone who did not produce the modification, never the executor's self-report; and Test author because the decision sheet's Evidence line needs a concrete check (e.g. a bundle-size measure) chosen, not just an impression.",
   "scenario": "mixed-check-now-improve-later",
   "skill_version": "6.1.0"
 }

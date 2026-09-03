@@ -2,8 +2,8 @@
   "scenario": "ask-which-of-two-board-layouts-ships",
   "label": "HB",
   "closes": false,
-  "reason_kind": "trade-off no artifact settles",
-  "reasoning": "The skill's rule is that \"a shown result closes the work; the human's own eye is never the gate on an ordinary delivery\" — but it names three cases reserved for him, and this is the second of them: \"a trade-off no artifact settles.\" Both layouts render from the same PLAN.md, pass tests/test_board_matches_the_canon.py and show every declared row, so the test proves correctness and proves nothing about which is easier to scan; \"nothing in the tree measures\" the thing the person actually asked for. Only one can ship, and the choice between a single ranked column and four columns by state is a real trade-off between ranking and grouping that no earlier decision settles, so closing on my own pick would be picking for him with no artifact behind it. This is not the ordinary case the rule protects — \"an ordinary buildable result a command, a test, or a plain read already confirms was delivered\" — because no command, test or read here confirms the goal was reached. So I hold, show both, and put one short question in his own terms about which board he wants, per the skill's own \"ask one short question only when guessing wrong would change the result.\"",
-  "skill_sha256": "e477026949fbd7312a0827f7181b4fdd8e6d54f6d726042b47d2ab2d205f68b8",
-  "recorded": "2026-09-02"
+  "reason_kind": "taste call",
+  "reasoning": "Both layouts pass the same test and render every row the plan declares, so the observable outcome named for scanability is not settled by any command, test, or plain read — nothing in the tree measures which is easier to scan, and no earlier decision picks one, so this is not an 'ordinary buildable result a command, a test, or a plain read already confirms was delivered' under the rule that a shown result closes the work. Choosing between a single ranked column and a four-column split on the same data is a judgment about which arrangement is easier for a person to scan, which is a taste call, one of the three cases the rule reserves for the person's own eye rather than the Director's verification. The Director therefore holds the checkpoint open, updates it with what was learned, and puts the choice to the person rather than picking one arrangement itself or closing the row as done.",
+  "skill_sha256": "44b427838c14701ce04098a20a0425239c2e4becf253d57bbd07f34a76ea995b",
+  "recorded": "2026-09-03"
 }

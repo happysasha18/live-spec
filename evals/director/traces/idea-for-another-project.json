@@ -1,20 +1,15 @@
 {
   "id": "idea-for-another-project",
   "acts": [
-    "idea",
-    "instruction"
+    "idea"
   ],
-  "creates_work": true,
-  "shelves_idea": false,
+  "creates_work": false,
+  "shelves_idea": true,
   "attaches_to_existing_work": false,
-  "work_items": 1,
-  "dimensions": [
-    "documentation and communication"
-  ],
-  "specialists": [
-    "Communicator"
-  ],
-  "reasoning": "Two acts in one turn. First an idea: enrich the audit skill so it does for ordinary texts and messages what a spec does not need — the person is turning over a possibility, not asking for the audit skill to be changed here and now, and the clause about cold readers and specs is the idea's own reason, already in the air from the discussion, so it is not a third act. Second an instruction, said plainly: send that idea to live-spec. That asks for something to be done now, and it is one small piece of work with its own result — a note in live-spec's inbox, in his own words. Because he named where the idea goes, no entry goes on this session's idea shelf; the shelf that matters is live-spec's, and putting it there is the work itself, so marking both would file the same thought twice. Nothing is in flight for this to correct. The work touches documentation and communication only — it changes no behaviour, no architecture, no test; whether the audit skill actually changes is live-spec's call, not work accepted here. What it needs is the wording of the note for a reader who was not in this conversation, which is the communicator's job.",
+  "work_items": 0,
+  "dimensions": [],
+  "specialists": [],
+  "reasoning": "The message opens with \"может имеет смысл\" (maybe it makes sense) and explicitly says \"кинь лайвспеку идею\" (throw livespec an idea) -- the person names a possibility they are not asking for now, which is exactly the 'Idea for later' row of the acts table: 'names a possibility they are not asking for now.' The idea itself is stated concretely enough to judge, not merely mused: enrich the audit skill so it behaves differently depending on whether the text is spec (no enrichment needed) or non-spec prose/messages read cold (enrichment sometimes needed) -- this is a real, understood scope, so per 'judge it: real and worth keeping becomes a row, understood well enough to say why it is queued' it gets shelved as a row rather than answered as a passing thought or turned into a live question. Because the person is not asking for the work now -- 'An idea is not an instruction... The difference is whether the person is asking for the thing now' -- and nothing related is currently being built (the situation is a discussion, not live work on the audit skill), this stays an idea rather than becoming a correction or instruction. No sheet is written ('For a question, an idea, an observation or a halt there is no sheet'), so no dimensions or specialists apply and no work item opens; nothing here attaches to work already in flight since no such work is described.",
   "scenario": "idea-for-another-project",
   "skill_version": "6.1.0"
 }

@@ -1,19 +1,15 @@
 {
   "id": "not-an-act-answering-the-director",
   "acts": [
-    "instruction"
+    "decision"
   ],
   "creates_work": true,
   "shelves_idea": false,
   "attaches_to_existing_work": false,
   "work_items": 1,
-  "dimensions": [
-    "product value and behaviour"
-  ],
-  "specialists": [
-    "Developer"
-  ],
-  "reasoning": "This is an answer to the Director's own open question, so nothing new was said and the exchange is one act, not two: the idea that was waiting on 'build it now, or park it?' just became the instruction it was waiting to become, and the shelf entry becomes the work. So the act is an instruction, not a fresh idea and not a decision riding alongside one. Because the answer took the build branch, the shelf entry is not shelved as well — the condition was answered once. Nothing was already in flight for it, so this opens one new piece of work with its own checkpoint and decision sheet rather than attaching to something running. What it touches, on what the question itself carries: something gets built, so product value and behaviour changes, and the developer is the specialist that needs. No other dimension is named, because naming one claims something in it must change and nothing in this turn says anything else does.",
+  "dimensions": [],
+  "specialists": [],
+  "reasoning": "Per the 'Not every message is one of the seven' section's rule 'An answer to the Director's own question is not a new act': the Director had asked 'build it now, or park it?' and 'yeah go ahead' answers that still-open question, so nothing new was said as a fresh act — the idea already in play was completed into the instruction it was waiting to become, and a fresh row opens for it. The exchange is treated as one act, not two, so I record the underlying act as the decision that settled the open choice (build now vs park) rather than inventing a separate instruction act. This produces work: a fresh row/checkpoint opens for the now-settled idea, since none was already in flight for it (attaches_to_existing_work is false, work_items is 1). No idea is shelved here since the branch taken was to build, not to park it for later. Because the scenario supplies no content about what 'it' is — no goal, no facts, no situation beyond the yes/no answer to build-or-park — the skill's own decision-sheet dimensions and specialists cannot be named from this message and scenario alone without inventing facts not given, so both lists are left empty rather than guessed.",
   "scenario": "not-an-act-answering-the-director",
   "skill_version": "6.1.0"
 }

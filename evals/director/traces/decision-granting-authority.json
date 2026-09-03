@@ -5,14 +5,11 @@
   ],
   "creates_work": false,
   "shelves_idea": false,
-  "attaches_to_existing_work": true,
+  "attaches_to_existing_work": false,
   "work_items": 0,
-  "dimensions": [
-    "documentation and communication",
-    "release, observation, feedback"
-  ],
+  "dimensions": [],
   "specialists": [],
-  "reasoning": "One act, and it is a decision in the skill's sense: not a single choice but a standing rule with force beyond the message that carried it — a grant of authority, covering all the team's pushes and, by 'и так далее', the same class of stops beyond pushes. It is not an instruction, because nothing was asked to be done today; there is no demand for one particular push riding alongside the grant, so nothing is lost by recording only the rule. It is not a correction either: the work in flight keeps its goal and its plan, only the gate in front of its release step goes away, so nothing has to be replanned. The Director records the decision and applies it to the work already running — the push proceeds without asking — which is why no new piece of work opens and no new checkpoint is created; the running work's own checkpoint absorbs the change. The two dimensions named are the ones where something actually changes: release, because the release step no longer stops for his word, and documentation, because a standing rule has to be written into the one house whose declared sentence it extends, or it dies with this turn. No specialist is needed — recording a grant of authority and dropping a gate is the Director's own step. Rule 12's own ground is untouched: an action genuinely irreversible outside git still stops for his word.",
+  "reasoning": "The message grants blanket permission for all future pushes rather than asking for anything to be done now, which matches the skill's definition of a decision under 'A decision is a standing rule, not only a single choice': phrases carrying force beyond the message that carried them -- here a grant of authority going forward, removing the need to stop and ask before each push -- are recorded as a standing rule and, per that same rule, travel with any co-occurring request but are 'recorded separately' rather than becoming that request's work. Because the message contains no accompanying instruction to push something now (unlike the skill's own example, 'always deploy without asking, and deploy this one,' which bundles a standing rule with a live request), there is no goal to write a decision sheet for, so creates_work is false and work_items is 0. It is also not a correction: no work in flight is having its goal or constraints changed -- the situation only describes a recurring pattern (stopping to ask before each push), not a specific piece of open work whose plan must be replanned -- so attaches_to_existing_work is false. There is no idea act present, so shelves_idea is false. With no work created, dimensions and specialists are both empty per the skill's own rule that a sheet, and the dimensions/specialists lines within it, exist only for accepted work.",
   "scenario": "decision-granting-authority",
   "skill_version": "6.1.0"
 }

@@ -7,17 +7,9 @@
   "shelves_idea": false,
   "attaches_to_existing_work": true,
   "work_items": 0,
-  "dimensions": [
-    "product value and behaviour",
-    "the user's path and the design",
-    "quality, safety, regressions"
-  ],
-  "specialists": [
-    "Design reviewer",
-    "Developer",
-    "Test author"
-  ],
-  "reasoning": "The transition engine is being built right now, and this message changes a constraint on that work: whatever the engine produces must move, never sit still. That is a correction — it attaches to the work already in flight, so its goal and the remainder of its plan get replanned on the checkpoint that work already has, and no second row opens beside it. It is one act: there is a single clause, with no separate grounds saying anything the constraint does not already carry, and nothing here reads as a standing rule beyond this piece of work — mid-implementation of exactly this thing, the absolute wording is the constraint on it, not a rule that outlives it. The corrected work touches product value and behaviour (what a transition does changes), the user's path and the design (the experience of moving between states is the thing being judged), and quality (something has to catch a static transition before it ships). It needs the developer to rebuild the engine to that constraint, the design reviewer because the coherence of the motion is what is being corrected, and the test author to choose the evidence that no static transition survives.",
+  "dimensions": [],
+  "specialists": [],
+  "reasoning": "The session is mid-implementation of the transition engine, and the message forbids one specific approach — static transitions — within that same work; per 'A correction attaches to work, not to a queue,' when a message changes something already in flight the Director finds that work and changes it rather than opening a new row, and per 'Telling work in flight to stop one approach and take another is a correction to its method, not a halt either — the work keeps running toward the same goal, only how it gets there changes,' this is not a halt despite its forceful, all-caps phrasing since nothing about the act is decided by wording or tone. It is also not a decision, since it does not settle an open choice within work proceeding as planned — it narrows what the work may produce, which is exactly what a correction does: 'changes that work's goal or constraints so the remainder has to be replanned.' Because no new result is being asked for that could ship or be cancelled independently of the transition engine already under way, work_items is 0 and creates_work is false; the Director's response under 'A new fact can change the remaining graph' is to update the existing checkpoint's NEXT section and replan the remaining specialist list against the standing checkpoint, not to write a fresh decision sheet — so dimensions and specialists stay empty per the instruction to leave them empty when no work is created.",
   "scenario": "correction-shouted-constraint",
   "skill_version": "6.1.0"
 }

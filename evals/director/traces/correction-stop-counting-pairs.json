@@ -2,26 +2,15 @@
   "id": "correction-stop-counting-pairs",
   "acts": [
     "correction",
-    "observation",
     "decision"
   ],
   "creates_work": false,
   "shelves_idea": false,
   "attaches_to_existing_work": true,
   "work_items": 0,
-  "dimensions": [
-    "product value and behaviour",
-    "architecture, data, integrations, operations",
-    "quality, safety, regressions",
-    "documentation and communication"
-  ],
-  "specialists": [
-    "Developer",
-    "Spec author",
-    "Test author",
-    "Product prover"
-  ],
-  "reasoning": "The turn carries three acts and no new work. The core act is a correction: an implementation is in flight that counts the image pairs the package ships, and he changes that work's constraints — the count comes out and the remaining plan is replanned around it. That attaches to the checkpoint the running work already has; it never opens a second row beside it. The complaint is its own act, an observation: 'in 1000000 words I am telling you' plus the judgment that the counting is nonsense says something the correction's goal does not carry — this exact demand has been made and lost repeatedly, which is a fact about the work worth keeping after this row closes. The last clause is a decision, not a restatement of the correction: 'you must be able to build a transition for any pair of images in the world' is a standing rule with force beyond this message, and it gets recorded separately so it outlives the work item that provoked it — otherwise it comes back a 1000001st time. Because a correction and a decision both earn a decision sheet, the accepted work has dimensions and specialists even though it produces no new item. It touches product behaviour (the engine's promise changes from a counted corpus to any pair), architecture and data (the counting sits in the package build path and comes out at the root, not per call site), quality and regressions (a check that an arbitrary pair builds a transition, so the class cannot return silently), and documentation (the standing rule needs one home whose declared sentence it extends, or it will not survive this row). Specialists: developer to strip the count and make the path generic; spec author because the rule about any pair is not written where it binds today; test author for the evidence that an arbitrary pair builds; product prover for the class hunt over the siblings of this mistake — any other place the package measures the corpus it received — since a point fix that leaves relatives standing is what made him say this again.",
+  "dimensions": [],
+  "specialists": [],
+  "reasoning": "The situation names work already in flight (counting shipped pairs), and the message's core clause \"не надо считать пары которые получает пакет\" changes that work's goal/constraint, which is exactly a correction under 'A correction attaches to work, not to a queue... find that work and change it' — it targets the existing checkpoint rather than opening a new one, per the Execution section's rule that 'a correction, or a decision that changes work already running, targets a checkpoint that already exists.' The closing clause \"ты должен любую пару картинок в мире уметь построить для нее переход\" is not merely the correction's reason restated — per 'Grounds stated with an act carry their own act only when they say something new,' this states a standing capability requirement extending beyond this one fix ('любую пару... в мире'), matching 'A decision is a standing rule, not only a single choice'; the phrase 'в 1000000 раз говорю' marks it as a rule already on record being reaffirmed, which the skill treats as 'a decision reaffirmed, not a new idea,' also folded into the same existing checkpoint rather than a new one. Since both acts change work already running rather than open a new piece of work, work_items is 0 per its own definition ('a correction or halt that changes work already running produces none'), creates_work is false, and attaches_to_existing_work is true; with no new work created, dimensions and specialists stay empty per the schema's own instruction.",
   "scenario": "correction-stop-counting-pairs",
   "skill_version": "6.1.0"
 }

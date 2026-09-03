@@ -1,8 +1,7 @@
 {
   "id": "decision-how-to-report",
   "acts": [
-    "decision",
-    "instruction"
+    "decision"
   ],
   "creates_work": true,
   "shelves_idea": false,
@@ -12,7 +11,7 @@
     "documentation and communication"
   ],
   "specialists": [],
-  "reasoning": "Two acts in one turn. \"С этого момента\" and \"всегда\" settle a standing rule about how every future reply looks — a short plan, plain words, and where we stand shown each time — and that rule is recorded so it survives after any one task closes. But a standing rule for every future case does not absorb the demand for this one now: the plan does not exist yet, and the skill is explicit that when someone asks for a plan or a status they have asked for something to be made, and that it is work like any other. So the instruction half is accepted as one piece of work: write the short plan and show where we stand. One result, not two — the \"where we are\" view is that plan read back, not something that could ship or be cancelled on its own. Nothing is in flight this early in the session, so nothing is corrected and nothing is shelved. The only dimension the work genuinely touches is documentation and communication: a document is created and the shape of every report to him changes. No specialist is called — no behaviour, boundary, interface, evidence or outside fact changes, and routing a plan request to the communicator is exactly how a plain request disappears; the Director writes it and shows it itself.",
+  "reasoning": "The phrase \"с этого момента\" (\"from this point on\") is exactly the marker the skill names under \"A decision is a standing rule, not only a single choice\" -- alongside \"always\" and \"note this for yourself\" -- so this message settles a standing rule (keep the plan brief and jargon-free, always surface \"where we are\") rather than asking for a one-off task; it is a decision, not an instruction, and a decision is not scoped to this session the way \"just this once\" would be. Per the Act table a decision's normal handling is to \"record the decision and apply it to the work already running,\" but the situation states this arrives early in the session with nothing yet in flight, so there is no existing work to attach it to or replan. The Execution section lists decisions among the acts that earn a decision sheet and checkpoint (\"an instruction, a correction, a decision, or the settled half of a conditional\"), and the checkpoint rule is explicit that \"New work opens a checkpoint before the first specialist is called; work already in flight updates the one it already has\" -- with no prior checkpoint to update, this decision opens its own, making it one new piece of work rather than zero. The only dimension it genuinely touches is documentation and communication, since it governs how the plan is recorded and how status is shown, not product behaviour, architecture, or quality. No row in the specialists table matches keeping the plan document or reporting status back to the human -- that is the Director's own checkpoint-keeping duty described throughout the Execution section, not delegated work -- so no specialist is called.",
   "scenario": "decision-how-to-report",
   "skill_version": "6.1.0"
 }
