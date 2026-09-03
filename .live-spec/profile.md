@@ -85,3 +85,11 @@ SPEC E-13). Every line here is a recorded override, never a silent divergence (S
   2026-07-10 ~02:09, this window teaches and supervises — prepares briefs he hands over, reviews
   artifacts, directs — and still never writes their trees; the audit-only line above keeps standing
   for everything else. Recorded 2026-07-10 ~09:19 from his word of that night.
+
+- `hosts.watch: ~/tlvphotos ~/exhibition-engine ~/promoter ~/promoter-alexander ~/tc-cloud-validate` —
+  the projects this repository's own probe checks for a stale copy of the pack (the drift warning in
+  `scripts/state-probe.sh`'s ALARM section). The five paths stood written into that script until
+  2026-09-03, when plan-14 made the status view installable and the script had to stop carrying one
+  machine's list of neighbours. They are recorded here because the watch is this repository's own job
+  as the pack's home: a project that merely installs the status view watches nobody and needs no such
+  line. A path this machine does not carry is passed over in silence.

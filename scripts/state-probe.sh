@@ -56,51 +56,16 @@ G, Y, R, D, B, X = "\033[0;32m", "\033[1;33m", "\033[0;31m", "\033[2m", "\033[1m
 # would let this reader and scripts/render-board.sh disagree about what a task is.
 # Both readers cd to the repository root before this block runs, so "scripts" resolves.
 sys.path.insert(0, "scripts")
-from plan_checks import key_failure_note, parse_tasks
+from plan_checks import evaluate, parse_tasks
 
 text = open("PLAN.md", encoding="utf-8").read()
 tasks = parse_tasks(text)
 
-for t in tasks:
-    if t["check"]:
-        r = subprocess.run(t["check"], shell=True, capture_output=True)
-        ok = r.returncode == 0
-        # A checked task's real state can outrun or lag the mark a person typed — the command
-        # is the fact. Falling back to the task's own mark rather than a flat "⬜" on failure
-        # (unlike the old x/~/!/space vocabulary) keeps a real distinction: q-... items have no
-        # checks at all, but a checked task like plan-9 can be marked in hand (🔄) and still
-        # fail its command, which is exactly what plan-9's own note in PLAN.md says is true
-        # today.
-        #
-        # A done mark is the one exception, and it is why the keys were written at all: a ✅
-        # whose command fails printed itself back as ✅ and was counted among the done, so the
-        # key could never contradict the mark it was there to test (found by the adversarial
-        # review of 28.08). Such a row drops out of the done count. It wore ⛔ until 02.09, when
-        # he named the confusion: a task that turns out not to be done is back in work, and
-        # blocked is a different state — a real outside cause, held in blocked_by. It then wore
-        # ⬜ (queued) for the rest of that same day, until he named a third confusion: queued
-        # means never started, and this row was done and is done no longer — reopened, its own
-        # state, marked 🔁.
-        # A row can be shaped like both: done-marked, its command failing, and carrying a real
-        # `Blocked by:` cause of its own. Blocked wins there, because the row names an obstacle
-        # outside the work and reopened names none — drawing it reopened would rank it as live and
-        # drop the reason it cannot move (product-prover, 02.09, finding F1).
-        t["failing_key"] = t["mark"] == "✅" and not ok
-        if t["failing_key"] and t["blocked_by"]:
-            t["icon"] = "⛔"
-        elif t["failing_key"]:
-            t["icon"] = "🔁"
-        else:
-            t["icon"] = "✅" if ok else t["mark"]
-        t["note"] = key_failure_note(t["check"], r) if t["failing_key"] else ""
-        t["verified"] = True
-    else:
-        ok = t["mark"] == "✅"
-        t["icon"] = t["mark"]
-        t["failing_key"] = False
-        t["note"] = ""
-        t["verified"] = False
-    t["ok"] = ok
+# What each row's state really is — its command run, its icon and its note decided — is one
+# computation every reader of a plan needs and none of them may decide differently, so it lives
+# with the parser in scripts/plan_checks_core.py and both readers here call it. The two used to
+# carry their own copy of it, which is exactly how they drifted apart before.
+evaluate(tasks)
 
 ICON_COLOUR = {"✅": G, "🔄": Y, "🔁": Y, "⛔": R, "👁️": Y, "⬜": D}
 
@@ -356,8 +321,15 @@ git worktree list 2>/dev/null | tail -n +2 | grep -v "/private/tmp" | while read
 done
 git worktree list 2>/dev/null | tail -n +2 | grep -qv "/private/tmp" && ALARM=1
 
-# host drift
-for h in ~/tlvphotos ~/exhibition-engine ~/promoter ~/promoter-alexander ~/tc-cloud-validate; do
+# host drift — the projects THIS pack watches for a stale copy of itself.
+# The five paths used to stand written into this line, so the pack's own probe carried a list of
+# somebody's machine (plan-14). They come from this repository's own profile now, the settings
+# ladder's own place for a project-level override: one `hosts.watch:` line naming the paths,
+# space-separated, `~` allowed. No line, no watch — which is the right answer for every project
+# that is not this one, and the reason a host installing the status view inherits none of this.
+HOSTS=$(sed -n 's/^- `hosts\.watch: *\([^`]*\)`.*$/\1/p' .live-spec/profile.md 2>/dev/null | head -1)
+for h in $HOSTS; do
+  h="${h/#\~/$HOME}"
   [ -d "$h/.claude/skills/live-spec-base" ] || continue
   HV=$(grep -m1 'version:' "$h/.claude/skills/live-spec-base/SKILL.md" 2>/dev/null | tr -d ' ' | cut -d: -f2)
   PV=$(cat VERSION 2>/dev/null)
@@ -365,6 +337,26 @@ for h in ~/tlvphotos ~/exhibition-engine ~/promoter ~/promoter-alexander ~/tc-cl
 done
 
 [ "$ALARM" = "0" ] && ok "no alarms"
+
+# ---------------------------------------------------------------- inbox
+# What came in through the door and nobody has taken yet. The sweep REMOVES a file when it harvests
+# it, so a file still standing here is an unhandled item — no second ledger to keep in step.
+# A name ending `.draft` is a deposit mid-write (SPEC INV-249) and is passed over, exactly as the
+# sweep passes over it, and README.md is the folder's own instructions rather than an item.
+# Added 2026-09-03 (plan-14): six deposits sat unread in a host's inbox for eight weeks while its own
+# ledger claimed a session sees them. A probe that prints them makes the door work.
+if [ -d inbox ]; then
+  b "INBOX"
+  INBOX_N=0
+  for f in inbox/*; do
+    base=$(basename "$f")
+    case "$base" in *.draft|README.md|'*') continue ;; esac
+    [ -f "$f" ] || continue
+    warn "$base"
+    INBOX_N=$((INBOX_N + 1))
+  done
+  [ "$INBOX_N" = "0" ] && ok "nothing unhandled"
+fi
 
 # ---------------------------------------------------------------- blockers
 b "BLOCKERS"

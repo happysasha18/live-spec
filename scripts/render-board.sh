@@ -33,6 +33,7 @@ OUT="${1:-board.html}"
 
 python3 - "$OUT" <<'PYEOF'
 import html
+import os
 import re
 import subprocess
 import sys
@@ -46,7 +47,7 @@ out_path = sys.argv[1]
 # about what a task is or what "done" means for it.
 # Both readers cd to the repository root before this block runs, so "scripts" resolves.
 sys.path.insert(0, "scripts")
-from plan_checks import key_failure_note, parse_tasks
+from plan_checks import evaluate, parse_tasks
 
 # ---------------------------------------------------------------- read PLAN.md's tasks
 # Same parser state-probe.sh uses: parse_tasks() reads the "## Tasks" section, one entry per
@@ -114,28 +115,11 @@ def split_body(body_lines):
 for s in steps:
     paragraphs, bullets, accept = split_body(s["body"])
     s["paragraphs"], s["bullets"], s["accept"] = paragraphs, bullets, accept
-    if s["check"]:
-        r = subprocess.run(s["check"], shell=True, capture_output=True)
-        ok = r.returncode == 0
-        s["verified"] = True
-        # A row can be shaped like both: done-marked, its command failing, and carrying a real
-        # `Blocked by:` cause of its own. Blocked wins there, because the row names an obstacle
-        # outside the work and reopened names none (product-prover, 02.09, finding F1).
-        s["failing_key"] = s["mark"] == "✅" and not ok
-        if s["failing_key"] and s["blocked_by"]:
-            s["icon"] = "⛔"
-        elif s["failing_key"]:
-            s["icon"] = "🔁"
-        else:
-            s["icon"] = "✅" if ok else s["mark"]
-        s["note"] = key_failure_note(s["check"], r) if s["failing_key"] else ""
-    else:
-        ok = s["mark"] == "✅"
-        s["verified"] = False
-        s["failing_key"] = False
-        s["icon"] = s["mark"]
-        s["note"] = ""
-    s["done"] = ok
+# The state itself is decided in one home for every reader of a plan — plan_checks_core's
+# evaluate(), reached through scripts/plan_checks.py so this project's own commands ride along.
+# This page and scripts/state-probe.sh each used to carry their own copy of it, which is exactly
+# how they drifted apart before.
+evaluate(steps)
 
 # ---------------------------------------------------------------- assign one column each
 # Same four columns as before the task-list merge. The board can show every task (it is a
@@ -187,6 +171,11 @@ for line in lines:
 def git(*args):
     r = subprocess.run(["git", *args], capture_output=True, text=True)
     return r.stdout.strip()
+
+# The project's own name, so the page a host installs is that host's page and not this one's.
+# Taken from the repository's own directory, the one name every project already has and nobody has
+# to write down; a worktree is named for its lane, which is exactly what its own board should say.
+project = os.path.basename(os.path.abspath("."))
 
 head_sha = git("log", "-1", "--format=%h")
 head_subj = git("log", "-1", "--format=%s")
@@ -370,7 +359,7 @@ page = """<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<title>live-spec — board</title>
+<title>{project} — board</title>
 <style>
   :root {{ color-scheme: light dark; }}
   body {{ font: 15px/1.5 -apple-system, "Segoe UI", sans-serif; max-width: 1180px;
@@ -413,7 +402,7 @@ page = """<!DOCTYPE html>
 </head>
 <body>
 
-<h1>live-spec — board</h1>
+<h1>{project} — board</h1>
 <div class="stamp">Updated {now} · branch {branch} · {head_sha} "{head_subj}"{dirty_note}{ahead_note}</div>
 
 <div class="board">{columns}</div>
@@ -429,6 +418,7 @@ page = """<!DOCTYPE html>
 </html>
 """.format(
         now=now,
+        project=esc(project),
         branch=esc(branch),
         head_sha=esc(head_sha),
         head_subj=esc(head_subj),

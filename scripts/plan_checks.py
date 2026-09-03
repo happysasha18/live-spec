@@ -1,5 +1,4 @@
-"""The commands that verify each plan task, in one home, plus the one parser for PLAN.md's
-`## Tasks` section that both readers share.
+"""THIS PROJECT'S OWN commands that verify each plan task, in one home.
 
 A status board a person edits by hand must not also be an execution surface. `PLAN.md`
 therefore holds only prose, and the commands that decide whether a task is really done live
@@ -9,15 +8,27 @@ title edits, unlike the title text. A task with no entry here falls back to the 
 typed in the plan (✅ · 🔄 · ⬜ · ⛔ · 👁️). A task with no check is reported DECLARED, not
 invented — that is existing, correct behaviour, not a gap to fill.
 
-Both readers of the plan import this module: `scripts/state-probe.sh` (the Canon a session
-prints at its start) and `scripts/render-board.sh` (the same Canon as a page). Parsing PLAN.md's
-`## Tasks` section lives here too, in `parse_tasks`, for the same reason the checks do: two
-independent parses of the same heading shape already drifted apart once (the divergence
-`tests/test_board_matches_the_canon.py` was written to catch) — one home means the two callers
-cannot disagree about what a task's mark, group, priority or source is.
+**Every command below names this project's own files, and belongs to this project alone.** How a
+plan is PARSED, how a mark is spelled, and how a row's state is computed from its command are a
+different thing entirely — they hold for any project, and they live in `scripts/plan_checks_core.py`,
+which this module imports and re-exports. That split is what lets a host install the probe and the
+board (`adopt/install-status-view.sh`) and write its own commands in its own copy of this file,
+instead of inheriting the table below.
+
+The readers of the plan import this module rather than the core: `scripts/state-probe.sh` (the
+Canon a session prints at its start), `scripts/render-board.sh` (the same Canon as a page) and
+`scripts/check-eyes-marker.py`. They get `parse_tasks` with this project's own commands already
+attached, so no reader has to know the check map exists — one home means two callers cannot
+disagree about what a task's mark, group, priority or source is.
 """
 
-import re
+from plan_checks_core import (  # noqa: F401  (re-exported for this module's own callers)
+    evaluate,
+    key_failure_note,
+    normalize_mark,
+    reads_outside_the_tree,
+)
+from plan_checks_core import parse_tasks as _parse_tasks
 
 CHECKS = {
     # plan-0: corrected 2026-09-01 — the old arm was four bare `test -f`/`test -d` clauses, the
@@ -36,14 +47,20 @@ CHECKS = {
     # The row's own "the tree is clean" means this is a real git tree with no project files left
     # outside it — the 133 outside-git files it checked — and says nothing about uncommitted work.
     "plan-0": 'test "$(git rev-parse --abbrev-ref --symbolic-full-name @{u} 2>/dev/null)" = "origin/main" && ! test -d /private/tmp/ls-director && grep -q "Владелец подтвердил" attic/DIRECTOR_HANDOFF-2026-08-26-decisions.md',
-    # q-807: both readers of the plan assign the reopened mark themselves, and in both the
-    # blocked branch is guarded by the row's own blocked_by — so a merely-unfinished row cannot be
-    # painted blocked again. Anchored on the assignment and on the guard, the two smallest things
-    # that must survive any rewording of these blocks; an earlier arm pinned one exact expression
-    # and reddened the same afternoon the expression was extended (02.09); the greps are fixed-string, since a bracket in a pattern is a character class. The end-to-end proof is
+    # q-807: the reopened mark is assigned once, and the blocked branch beside it is guarded by the
+    # row's own blocked_by — so a merely-unfinished row cannot be painted blocked again. Anchored on
+    # the assignment and on the guard, the two smallest things that must survive any rewording of
+    # that block; an earlier arm pinned one exact expression and reddened the same afternoon the
+    # expression was extended (02.09); the greps are fixed-string, since a bracket in a pattern is a
+    # character class.
+    # Re-pointed 2026-09-03 (plan-14): until then this read the same two expressions out of BOTH
+    # readers, because both carried their own copy of the state computation. The copies are gone —
+    # `evaluate()` in scripts/plan_checks_core.py is the one home, and the status view a host installs
+    # runs that same function — so the first two arms read the one home and the last two prove both
+    # readers still go through it rather than growing a copy back. The end-to-end proof is
     # tests/test_plan_is_not_executable.py::TestADoneMarkCannotOutliveItsKey; a check the probe runs
     # at every session start stays cheap, so it reads the code instead of running that suite.
-    "q-807": 'grep -qF \'["icon"] = "🔁"\' scripts/state-probe.sh && grep -qF \'["icon"] = "🔁"\' scripts/render-board.sh && grep -qF \'failing_key"] and t["blocked_by"]\' scripts/state-probe.sh && grep -qF \'failing_key"] and s["blocked_by"]\' scripts/render-board.sh',
+    "q-807": 'grep -qF \'["icon"] = "🔁"\' scripts/plan_checks_core.py && grep -qF \'failing_key"] and t["blocked_by"]\' scripts/plan_checks_core.py && grep -qF \'evaluate(\' scripts/state-probe.sh && grep -qF \'evaluate(\' scripts/render-board.sh',
     # plan-1's key was removed 2026-08-28 with its task: the board rotation folded plan-1 into
     # plan-11, and its check ("the render script exists and is executable") was the file-existence
     # proxy plan-10 names as a defect in its own text.
@@ -336,153 +353,13 @@ for command in m.ALSO_DISCARDING:
     "q-803": "python3 tests/test_no_inline_provenance_citation.py >/dev/null 2>&1",
 }
 
-def reads_outside_the_tree(command):
-    """True when a key reaches for state git does not carry — a path under the person's home.
-
-    Such a key goes red on a fresh clone for a reason about the machine rather than about the
-    project, and a reader who is not told that reads an alarm where there is none. Derived from
-    the command's own text rather than kept as a list of ids, so a key written tomorrow is
-    covered the day it is written.
-    """
-    return "$HOME" in command or "~/" in command
-
-
-def key_failure_note(command, result):
-    """One short line saying why a done task's acceptance command failed.
-
-    Both readers of the plan print this, so the board and the Canon give one account. It carries
-    the command's own first printed line where the command printed one — those messages already
-    name the missing thing and the way to put it back — and it says when the key reached outside
-    the tracked tree.
-    """
-    first = ""
-    for stream in (result.stdout, result.stderr):
-        if not stream:
-            continue
-        text = stream.decode("utf-8", "replace") if isinstance(stream, bytes) else stream
-        for line in text.splitlines():
-            if line.strip():
-                first = line.strip()
-                break
-        if first:
-            break
-    note = "its acceptance command fails"
-    if reads_outside_the_tree(command):
-        note += ", and that command reads this machine rather than the tree"
-    if first:
-        note += " — " + (first[:80].rstrip() + "…" if len(first) > 80 else first)
-    return note
-
-
-# A task header looks like "### <mark emoji> <Task Name> — id: <plan-N|q-N>" — no brackets
-# around the mark, an em dash before "id:". The title is matched non-greedy so a title that
-# itself contains an em dash still stops at the literal " — id: " that ends the heading.
-_HEADER_RE = re.compile(r"^### (\S+) (.+?) — id: (\S+)$")
-
-# The variation selectors an emoji may carry. `✅` and `✅️` are one mark on the screen and two
-# different strings to a comparison, and this plan already writes `👁️` with the selector and `✅`
-# without it. Every reader of a mark compares it literally, so a done mark typed with a selector
-# read as done to the eye while no reader agreed — the board would show it done, the done count
-# would not carry it, and the landing gate would ask no resume refresh of the commit that set it
-# (the adversarial read of 2026-08-31). Stripping the selector where the mark is PARSED is what
-# keeps the one home one home; every comparison downstream then goes on working as written.
-_VARIATION_SELECTORS = "︎️"
-
-# The marks the plan types, each in the ONE spelling every reader and every renderer uses. Which
-# marks exist and what each means is not decided here: that has one home, the owner's own
-# ~/.claude/playbook/CLAUDE.md, "How a reply to him looks". This table is that legend in machine
-# form, and a mark added or dropped there is added or dropped here to match.
-# `👁` needs its selector to render as the emoji rather than the monochrome glyph, so the canonical
-# spelling carries it; the rest carry none. A mark typed the other way comes back to its canonical
-# spelling here, and nowhere else has to know that two spellings exist.
-_CANONICAL_MARKS = {m.strip(_VARIATION_SELECTORS): m for m in ("✅", "🔄", "⬜", "⛔", "👁️")}
-
-
-def normalize_mark(mark):
-    """The canonical spelling of a mark a keyboard can type two ways.
-
-    `✅` and `✅️` are one mark on the screen and two different strings to a comparison. This plan
-    already writes `👁️` with a variation selector and `✅` without one, and every reader of a mark
-    compares it literally, so a done mark typed with the selector read as done to the eye while no
-    reader agreed: the board would show it done, the done count would not carry it, and the landing
-    gate would ask no resume refresh of the commit that set it (the adversarial read of 2026-08-31).
-    """
-    if not mark:
-        return mark
-    return _CANONICAL_MARKS.get(mark.strip(_VARIATION_SELECTORS), mark)
-_GROUP_RE = re.compile(r"^\*\*Group:\*\*\s*(.+?)\s*·\s*\*\*Priority:\*\*\s*(.+)$")
-_SOURCE_RE = re.compile(r"^\*\*Source:\*\*\s*(.+)$")
-_COVERED_BY_RE = re.compile(r"^\*\*Covered by:\*\*\s*(.+)$")
-_DEFERRED_RE = re.compile(r"^\*\*Deferred:\*\*\s*(.+)$")
-_BLOCKED_BY_RE = re.compile(r"^\*\*Blocked by:\*\*\s*(.+)$")
-
 
 def parse_tasks(text):
-    """Parse PLAN.md's `## Tasks` section into a list of task dicts, in file order.
+    """PLAN.md's rows, with THIS project's own acceptance command attached to each.
 
-    Each dict carries: mark (the emoji as typed), title, id, group, priority, source, covered_by,
-    deferred, blocked_by (each None if that line was missing), check (CHECKS.get(id)), and body —
-    the remaining lines of the task's block (its full original prose and `**Acceptance:**` line,
-    for the `plan-N` tasks that still carry them), for a caller that wants more than the summary
-    fields.
-
-    covered_by/deferred/blocked_by (27.08, his word) are what a reader uses to tell a task that
-    only LOOKS idle apart: covered_by names the task that actually carries this work (a fold
-    pointer); deferred names his own decision to postpone it, not an obstacle; blocked_by names
-    a real, understood cause a ⛔ task can't move past on its own. A ⛔ task with none of the
-    three is a mislabel, not a fourth state — see scripts/state-probe.sh's ranking, the one
-    reader that acts on this distinction today.
+    The parsing itself is `plan_checks_core.parse_tasks`, which any project's copy of the status
+    view runs; this wrapper is the one place this project's `CHECKS` meets it. `CHECKS` is read at
+    call time rather than bound here, so a caller that edits the map (the fixtures in
+    `tests/test_plan_is_not_executable.py` do) is honoured.
     """
-    tasks = []
-    cur = None
-    in_section = False
-    for line in text.splitlines():
-        if line.strip() == "## Tasks":
-            in_section = True
-            continue
-        if in_section and line.startswith("## "):
-            break
-        if not in_section:
-            continue
-        m = _HEADER_RE.match(line.rstrip())
-        if m:
-            cur = {
-                "mark": normalize_mark(m.group(1)),
-                "title": m.group(2),
-                "id": m.group(3),
-                "group": None,
-                "priority": None,
-                "source": None,
-                "covered_by": None,
-                "deferred": None,
-                "blocked_by": None,
-                "check": CHECKS.get(m.group(3)),
-                "body": [],
-            }
-            tasks.append(cur)
-            continue
-        if cur is None:
-            continue
-        stripped = line.strip()
-        gm = _GROUP_RE.match(stripped)
-        if gm and cur["group"] is None:
-            cur["group"], cur["priority"] = gm.group(1), gm.group(2)
-            continue
-        sm = _SOURCE_RE.match(stripped)
-        if sm and cur["source"] is None:
-            cur["source"] = sm.group(1)
-            continue
-        cbm = _COVERED_BY_RE.match(stripped)
-        if cbm and cur["covered_by"] is None:
-            cur["covered_by"] = cbm.group(1)
-            continue
-        dm = _DEFERRED_RE.match(stripped)
-        if dm and cur["deferred"] is None:
-            cur["deferred"] = dm.group(1)
-            continue
-        bbm = _BLOCKED_BY_RE.match(stripped)
-        if bbm and cur["blocked_by"] is None:
-            cur["blocked_by"] = bbm.group(1)
-            continue
-        cur["body"].append(line)
-    return tasks
+    return _parse_tasks(text, CHECKS)

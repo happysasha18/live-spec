@@ -37,8 +37,10 @@ from conftest import ROOT
 ROOT = pathlib.Path(ROOT)
 
 # What a reader needs from the tree to run at all: the plan it reads, the two reader scripts,
-# and the one home the acceptance-command map now lives in (scripts/plan_checks.py).
-NEEDED = ("PLAN.md", "scripts/state-probe.sh", "scripts/render-board.sh", "scripts/plan_checks.py")
+# the one home the acceptance-command map lives in (scripts/plan_checks.py), and the generic
+# parser/state core both readers reach through it (scripts/plan_checks_core.py).
+NEEDED = ("PLAN.md", "scripts/state-probe.sh", "scripts/render-board.sh",
+          "scripts/plan_checks.py", "scripts/plan_checks_core.py")
 
 _ANSI_RE = re.compile(r"\x1b\[[0-9;]*m")
 

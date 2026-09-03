@@ -293,6 +293,23 @@ pack-register tier is the host's own opt-in (SPEC INV-166). The same pass runs t
 set backward over the host's existing tree — every gate scans the whole tree, retroactive by
 construction (SPEC INV-176), so debt older than the gate surfaces now, at adoption, well before the next touch.
 
+**Then install the status view (PLAN.md, plan-14).** One pass, from the host root:
+`bash <pack>/adopt/install-status-view.sh`. It vendors the three readers of the host's own plan —
+`scripts/state-probe.sh`, which prints where the project stands and what is unhandled in `inbox/` and
+is the first command of every session; `scripts/render-board.sh`, which draws the same state as a
+page; and `scripts/plan-step.sh`, which prints one row on its own — together with
+`scripts/plan_checks_core.py`, the one home for how a plan is parsed, how a mark is spelled, and how
+a row's state is computed from the command that proves it. Each copy is pinned in
+`scripts/ratchet-manifest.json` — pack version + content hash, so the update check can tell current
+from stale. Both plan shapes are read: the `## Tasks` headings this pack's own plan uses, and the
+`## The body` table `templates/PLAN.template.md` lands at a founding. The host's own acceptance
+commands go in `scripts/plan_checks.py`, seeded empty on the first install and never clobbered after
+— a row with no command of its own reads DECLARED, which is the honest state and not a gap. **No
+command of this pack's travels with the readers**: every one of them names this pack's own files, so
+a host writes its own, row by row, and proves one red-first the way the four project-side checks are
+proven — point a row's command at something untrue, watch its mark flip to reopened in the probe, put
+it back.
+
 **And install the universal hooks (SPEC INV-173):** `bash <pack>/scripts/install-pack-hooks.sh` puts
 the pack's canonical scan hooks onto the machine and wires none of them. Every one is opt-in from
 2026-08-17, so a host adds the command for the ones it wants to its own `~/.claude/settings.json`,

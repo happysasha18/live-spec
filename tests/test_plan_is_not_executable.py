@@ -30,7 +30,8 @@ READERS = ("scripts/state-probe.sh", "scripts/render-board.sh")
 
 # What a reader needs from the tree to run at all: the plan it reads, the two reader scripts, and
 # the one home the checks now live in.
-NEEDED = ("PLAN.md", "scripts/state-probe.sh", "scripts/render-board.sh", "scripts/plan_checks.py")
+NEEDED = ("PLAN.md", "scripts/state-probe.sh", "scripts/render-board.sh",
+          "scripts/plan_checks.py", "scripts/plan_checks_core.py")
 
 
 class TestAPlantedCommandNeverRuns(unittest.TestCase):

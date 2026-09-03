@@ -37,7 +37,8 @@ from conftest import ROOT
 
 ROOT = pathlib.Path(ROOT)
 
-NEEDED = ("PLAN.md", "scripts/state-probe.sh", "scripts/render-board.sh", "scripts/plan_checks.py")
+NEEDED = ("PLAN.md", "scripts/state-probe.sh", "scripts/render-board.sh",
+          "scripts/plan_checks.py", "scripts/plan_checks_core.py")
 
 _ANSI_RE = re.compile(r"\x1b\[[0-9;]*m")
 

@@ -13,6 +13,18 @@ DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 PLAN="$DIR/PLAN.md"
 
 START=$(grep -n "^### .*— id: $ID\$" "$PLAN" | head -1 | cut -d: -f1)
+
+# A plan written in the table shape templates/PLAN.template.md lands (one markdown row per wish,
+# under `## The body`) holds a whole row on one line, so there is nothing to bound: print that line
+# and stop. Same reader, both plan shapes — scripts/plan_checks_core.py reads both too.
+if [ -z "$START" ]; then
+  ROW=$(grep -n "^| *$ID *|" "$PLAN" | head -1 | cut -d: -f1)
+  if [ -n "$ROW" ]; then
+    sed -n "${ROW}p" "$PLAN"
+    exit 0
+  fi
+fi
+
 if [ -z "$START" ]; then
   echo "no task with id: $ID" >&2
   exit 1
