@@ -496,6 +496,31 @@ the rollback proof. `inbox/2026-09-03-from-tlvphotos-catchup-6.1.0-findings.md` 
 `inbox/handled/` once both land.
 
 
+### ⬜ The worker-restore gate never blocks a push over an unrelated project's history — id: q-815
+**Group:** Method reliability · **Priority:** normal
+**Source:** `inbox/2026-08-25-from-tlvphotos-worker-restore-gate-ambient-scope.md` — found still
+open 03.09 while sweeping old inbox items; no PLAN/JOURNAL/DECISIONS entry or code change
+addresses this specific complaint, confirmed by search.
+
+**What was wrong.** `guardrails/check-worker-restore.py`'s `DEFAULT_ROOT` is
+`~/.claude/projects` — every project's transcripts on the machine, not just the host doing the
+push. tlvphotos was blocked twice pushing its own clean, ready commits by discard commands found
+in an unrelated project's transcript. The gate's own code already marks the 24-hour counting
+window as deliberately left "for the owner's word... no repair, no deletion, no ruling is made" —
+this is the same shape of open decision, on the scan root instead of the window, never named as
+its own item until now.
+
+**The real design call, not yet made:** how "belongs to this host" is decided when the gate scans
+for a discard — by the invoking tree's own worktree/repo ownership, an explicit per-host
+allowlist, or something else. A taste/policy call, not a mechanical fix — needs his word on the
+approach before it's built.
+
+**Definition of done:** the gate's scan scopes to the pushing host's own transcripts, proven
+red-then-green (a discard in an unrelated project's history no longer blocks; a discard in the
+host's own history still does). `inbox/2026-08-25-from-tlvphotos-worker-restore-gate-ambient-scope.md`
+moves to `inbox/handled/` once it lands.
+
+
 ### ✅ A new project stops being handed the queue this one retired — id: q-801
 **Group:** Method · **Priority:** normal
 **Source:** the 28.08 cull retired this project's own wish queue to the attic; the method that
