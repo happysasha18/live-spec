@@ -4,158 +4,117 @@ A digest with no redundancy (SPEC INV-48) — one live-state block, nothing remo
 information. One status block stands here at a time, and every update replaces it. Dated history
 lives in `JOURNAL.md`.
 
-## LIVE STATE (2026-09-02, 23:35)
+## LIVE STATE (2026-09-03, 12:00)
 
-Written for a session starting with clean context, covering the night run in `9a300f9e..5fcf2326`
-(this file's own last refresh, `4b898f65`, sat un-updated through that whole range — heals landing
-`9a300f9e` (q-166) and `871e234a` (q-808), both of which closed a row without touching this file,
-INV-242, the same shape prior ranges already carried).
+Written for a session starting with clean context, covering the whole night run
+`78368cca..7d7f689c` (44 commits). Heals five landing commits that closed a row without touching
+this file in the same commit (INV-242): `3e4777e0` (q-804), `68fee57f` (q-810), `4e17c268` (q-809),
+`4fc05b6c` (plan-9), `899c4ee1` (q-813).
 
-**Two new standing rules, his own word, both in `skills/director/SKILL.md`.** He asked why a task
-(`q-166`) should ever sit open on nothing but his own eye watching it, then, catching that this
-session had just done real director-level work on that question but treated his very next remark
-("you can always argue if you disagree") as a passing aside instead of the same kind of thing:
-- **A shown result closes the work.** Writing the decision sheet already earned the right to
-  close a row once the result is delivered and shown; a row's own "needs his eye" gate is now
-  reserved for a taste call, an undecided trade-off, or a change to the definition of correct
-  (rule 12/27's own three cases) — never for verifying an ordinary delivery a command or a plain
-  read already confirms. His later disagreement opens a new task; it never reopens the one that
-  shipped.
-- **The Director states disagreement before executing.** Writing the decision sheet is also the
-  one moment to weigh whether the request itself is right; a flaw the Director can see gets voiced
-  before the checkpoint opens, not folded silently into how the work gets built.
+**Closed tonight, each independently re-verified on the merged tree, never taken on a worker's own
+report alone:** `q-166` (the live board — `board.html` already gives him the daily need; the
+larger feature moved to its own row rather than staying open on a gate that no longer applies),
+`q-808` (task titles checked by a real outside cold-reader, three genuinely unclear ones fixed),
+`q-810` (a shown, ordinary result closes the work; a Director that sees a flaw in a request says so
+before executing — both proven by real fresh-producer runs, 9/9 and the 35-scenario harness at
+31/35), `q-809` (the four boot documents cut from 80KB to 67KB, honestly short of the quarter he
+asked for, with the reason on record), `q-804` (the three parallel-lane safety-net arms — merge-base
+check, worktree-line check, stale-lane check — wired to real callers and proven by mutating the
+world, not just their own fixtures), `q-813` (the idea-shelf spec, promised since before this pack's
+6.1.0 release and never built, retired outright rather than built, per his own correction below),
+`plan-9` (tlvphotos ran its own real catch-up walk 2.7.0 → 6.1.0 and reported back; verified
+directly against the live host, not on the report's word alone).
 
-Both landed with `DECISIONS.md` entries naming the dated exchange. The closing-rule eval landed
-too (`3458c213`): 9 of 9 fresh producer runs under `evals/director/closing-scenarios.json`,
-separate from the existing 35-scenario act-classification harness (that one re-recorded
-separately, 31/35, `fa4607c9`). Both are real, both are green.
+**His two corrections tonight, both now load-bearing rules, not just chat guidance:**
+- **The Director runs the project; the person is its client, not its manager.** Every accepted
+  row needs the Director's own understanding of why it is real work — never only that certain
+  words were said. An amorphous ask draws a live question, not a filed placeholder. Most things
+  said in passing are not worth recording anywhere. Nothing gets built beside or around `PLAN.md`
+  — no second list, ever, not even a shelf: this session drafted `IDEA_SHELF.md` as a separate
+  file, caught the mistake against `PLAN.md`'s own pre-existing "One plan" rule, and corrected
+  before it landed. `skills/director/SKILL.md` states both corrections now (search "The Director
+  runs the project"). `DECISIONS.md`'s last two entries carry his exact words.
+- **A shown result closes the work.** From earlier the same night: a row's "needs his eye" gate is
+  reserved for a taste call, an undecided trade-off, or a change to the definition of correct —
+  never for verifying an ordinary delivery a command or a plain read already confirms. A later
+  disagreement opens a new task rather than reopening the closed one.
 
-**`q-166` closed under the new rule; `q-811` opened to carry what it didn't finish.** The daily
-need (`board.html`) already ships; the larger unbuilt feature (worker lanes, given-vs-actual time,
-per-agent attribution) had no real ask behind it since 08-06, so it moved to its own row, `q-811`,
-rather than staying open on a gate the new rule just removed — the same repair shape `q-385`/`q-804`
-already used for a promise a closed row stopped carrying (two `[target]` tags, `INV-308`/`INV-67`,
-re-pointed in `tests/test_traceability.py`'s `TARGET_ROW_OWNERS`).
+**One taste call from tonight genuinely still needs his word, named plainly rather than folded
+into a done mark (`q-813`'s own closing paragraph in `PLAN.md`).** Retiring `spec/work-board.md`
+Requirement 309 — 99 approved acceptance criteria, an approved sketch he signed off in August — was
+this session's own reading of "no shelf," never a sentence he said, and it collides with his own
+2026-09-02 12:46 word (`.live-spec/turnkey-contract-composed.md:305`) scheduling those same matrix
+rows to build after package 2. Nothing is lost — the approved sketch stands at
+`docs/norms/work-board.html`, the retired text is whole in `attic/spec-work-board-R309.md` and
+`attic/matrix-work-board-R309.md`, reverting is a plain git operation — but the collision was never
+put to him before this session acted, and it should be the first thing a fresh session mentions if
+he hasn't already weighed in during the intervening conversation.
 
-**`q-808` closed on a real outside-reader check**, not a session judging its own prose: a fresh
-agent holding only `PLAN.md`'s open task headers read each cold; 8 of 11 held, 3 (`q-809`, `plan-9`,
-`q-163`) were genuinely liable to mislead and got minimal title fixes in place.
+**Three real bugs found and fixed along the way, none part of any row's own ask:**
+- `scripts/measurements-table.py` opened its output file for writing (truncating it) before
+  computing the content to write — any exception mid-render left `docs/MEASUREMENTS.md` empty.
+  Hit repeatedly tonight across different worktrees running the full suite. Fixed: compute first,
+  write once content exists, matching every other generator script in this tree.
+- Three `ARCHITECTURE.md` pins into `skills/director/SKILL.md` drifted when tonight's two new
+  rules shifted line numbers; re-pointed at their actual headings.
+- Six stale git worktrees/branches swept: one real orphaned fix recovered and landed (the
+  dialog-warning-guard installer, `q-581`), one prototype declined as forbidden by this file's own
+  "Already decided" section (a second file-path classifier) and archived rather than merged or
+  silently dropped, four pure litter (no commit not already in `main`) removed.
 
-**`q-812` opened, queued behind this range** — his own brief, kept verbatim in the row: prove the
-Director's real route end to end (free message in → correct classification → exactly one task with
-its own DOD → a worker executing it → a DOD-and-check-gated close → a fresh session resuming
-without duplicating or guessing), on the actual mechanism (`PLAN.md`, `checkpoint.py`,
-`state-probe.sh`, product-prover, test-author, `TEST_MATRIX.md`), no new machinery. Starts only
-after this range's own open rows close.
+**Two real findings came back from tlvphotos's own catch-up walk, filed as their own rows rather
+than fixed inline:** `q-814` (a host refreshing its skills from the pack pays a review tax for
+changes the pack already reviewed — needs a carve-out) and `q-815` (the worker-restore gate's scan
+root is every project on the machine, not just the pushing host — a real cross-project scoping gap,
+its fix is a taste/policy call needing his word on the approach). A related old inbox item
+(`inbox/2026-08-25-from-tlvphotos-worker-restore-gate-ambient-scope.md`) turned out to be the same
+unresolved question, never previously named as its own row — swept into `q-815`.
 
-**`q-809`, still open, two of its four remaining legs closed tonight:**
-- The rulebook cut (`f6668634`, 40,443→22,683 bytes) and its own second-reading hostile review
-  (four more genuine losses across rules 6/7/9/31) both landed *before* this session started
-  (`33ee1b38`) — this session found the loss-verdicts checkpoint stale and marked it resolved
-  after verifying the fix by direct grep, not from the commit message alone.
-- **Decided: `DECISIONS.md` keeps its place**, not folded into `JOURNAL.md` — a wired push gate
-  (`guardrails/check-authority-anchor.py`) reads it by name for a dated-exchange shape, it holds a
-  retract mechanism and an open-questions section the journal has neither, and the 50% content
-  overlap with the journal is expected cross-reference, not duplication. (This mirrors a verdict
-  the 16:57 range had *already* reached under `c6ffc709` — this session re-derived it independently
-  before finding that note here; same answer, worth reading this file before re-deriving next time.)
-- Still open: the 35-scenario director eval re-record (mandatory — the skill changed twice
-  tonight; in flight, its own worker briefed), a lightweight skill-creator structural pass (done,
-  no defect — both files already fit the tool's own progressive-disclosure pattern; its heavier
-  benchmark-and-browser loop was skipped as disproportionate for a prose skill with no gradeable
-  file output), and a final re-measure once both land. The quarter he asked for was never reached
-  and won't be tonight either — `.live-spec/checkpoints/q809-startup-weight.md` says why (the boot
-  file is his; director's own cut was reverted against an eval that can't yet resolve a 3.7 KB
-  question).
+**`plan-14`, honestly partial, not marked done.** The generic engineering (an installable, host-
+path-generic plan/probe/board trio, 11 tests proving zero of this project's own content leaks into
+a fresh host) is real and independently re-verified. The row's own acceptance names `~/tlvphotos`
+specifically as the first host, and that leg does not hold: tlvphotos's real plan is a hand-frozen
+Russian document in a completely different format, not this pack's row shape at all — frozen by
+his own word since 26.08. A policy call: amend the acceptance to prove against any compatible
+host, or tlvphotos's frozen format changes first. Neither is this row's call alone.
 
-**`q-804`, in flight, not yet merged.** All three arms (merge-base caller via a new
-`scripts/land-lane.sh`, worktree-line caller in `adopt/install-scaffold.sh`'s closing step, and a
-new stale-lane arm in `guardrails/check-config-health.sh`) are built and hand-proven by its own
-worker; a full-suite confirmation was outstanding as this was written, and nothing is committed on
-its lane branch yet. Its own worker also found a real sibling-class finding: several guardrail
-scripts (`check-delta-record.py`, `check-deposit-description.py`, `check-landing-next-steps.py`,
-`check-tier-refusal.py`, `check-config-surface.py`) have tests but no real caller anywhere in the
-tree — reported, not fixed, per this row's own scope.
+**`q-812` is in flight with a live background worker, not yet landed — check before doing
+anything else.** His own capstone ask for tonight: prove the Director's whole task lifecycle
+(accept → one row + one checkpoint → work → DOD-gated close → resume without duplicating) end to
+end on a scripted, deterministic scratch-host harness, using only existing mechanism — explicitly
+no new hook, board server, event log, second plan, registry or status. Full brief:
+`.live-spec/checkpoints/q812-director-route-end-to-end.md`, which also carries the live worker's
+id, its briefed write-set (`.claude/worktrees/lane-q-812-director-route-end-to-end`, branch
+`lane/q-812-director-route-end-to-end`), and the exact liveness checks to run before assuming it
+died or spawning a second worker on the same lane. **Do this first**, per rule 7: check the
+worktree's file mtimes, `git log` on its branch, and message the worker id before touching that
+lane or its files.
 
-**Two process lessons from this session, worth carrying forward:**
-- A worktree created fresh by `git worktree add` does not carry `skills/product-prover/`'s or
-  `skills/text-audit/`'s own nested external-skill clones (untracked, gitignored) — a full suite
-  run there shows ~50 unrelated failures, all the same "external clone … not installed" message.
-  Not a regression; filter on that string or copy the two clones in for a clean read.
-- Running the full suite inside an isolated worktree can leave `docs/MEASUREMENTS.md` mutated as a
-  side effect (some test writes it without cleaning up) — a real, separate bug, not this session's
-  own work. If it shows modified and you didn't touch it: `git show HEAD:docs/MEASUREMENTS.md`,
-  write those exact bytes back with the file-writing tool, never `git checkout` it (the
-  worker-restore guard here refuses that command and says the same).
-- Do not land a commit to the primary tree while a full-suite run against that same tree is still
-  in flight — this session did exactly that once tonight and its own suite run caught it
-  (`test_worker_restore_run_scope` reds on a HEAD that moved mid-run). Land, then run the suite
-  clean with nothing else committing meanwhile.
-
-**`q-809` — the weight a session loads. Honest partial, stays open.** Measured by the probe's own
-line: 80,122 bytes before, 63,541 after, 18,501 tokens to 14,793. He asked for about a quarter of
-the original and it is not reached. The three parts of the answer:
-
-- **The rulebook, 40,443 to 22,683 (`f6668634`).** Each of the twenty-two shared rules is now one
-  instruction with its SPEC codes and the check that reads it; the sub-laws under rules 6, 7, 13
-  and 31 are one line each. Citations, histories, justifications and worked examples moved to
-  `skills/live-spec-base/references/rule-origins.md`, 6,539 bytes, which holds background only —
-  a rule restated there would be the second home rule 4 and INV-13 forbid, and
-  `tests/test_one_home_per_rule.py` holds that line. Two rules were genuinely lost in the first
-  pass and restored: rule 6's worker-liveness apparatus (worker id, briefed write-set, liveness
-  checks, the ~60 s heartbeat, INV-76, the leave-word extension INV-95) and rule 7's single pen
-  with INV-49. 44 tests went red across the pass; the pin sweep in `architecture/*.md` closed the
-  rest.
-- **Director, cut and reverted (`43d5f388`).** It went 25,613 to 21,900, then back. Two full
-  re-records of the 35-scenario eval ran the same afternoon, one producer per scenario, opaque
-  labels: the skill as it stands scores 30 of 35, the cut scores 29. One scenario is inside what
-  the method can see, so 3.7 KB was not worth an unresolved question at the pack's front door.
-- **The boot file, untouched.** 4,386 bytes, his own by his word of 26.08.
-
-**What blocks the rest, and it is the measurement.** While the second re-record was still
-finishing, its partial trace set graded 32, then 31, then 30 as the last producers landed — the
-grader unchanged and re-checked as deterministic on a fixed set. So one bare run carries about two
-scenarios of producer variance. `evals/director/README.md` now says that, says to compare only
-differences larger than it, and says to grade a complete trace set. Reaching the quarter means
-taking director to about 5 KB, which is a rewrite of the door, and it needs a check that can see a
-small change first: more fixtures, or a grader that scores per act instead of per scenario.
-
-**His four standing changes, all landed.** From two messages, 02.09:
-
-- Blocked and reopened are two states (`37c40c7e`, then `72a52a4b`). A done row whose acceptance
-  command fails wore ⛔ since 28.08, which spent the blocked mark on a row nothing outside holds
-  up. It went to ⬜ on his first correction, then to its own mark 🔁 on his second. Blocked keeps
-  its meaning, a real outside cause in `blocked_by`; queued keeps its own, never started. Written
-  into `spec/wish-intake.md` Requirement 4 clauses 10-11 (INV-321).
-- Done tasks are not counted by default; the summary line leads with the open count.
-- Every printed row opens with its own id, padded to the widest id in the plan.
-  Both in `spec/message-first-read.md` Requirement 314 clauses 7-9 (INV-319).
-- Up to ten lanes in parallel, each with its own worktree and a clean merge, and sonnet workers by
-  default with a stronger tier as the justified exception. Both recorded in the personal profile.
-
-**The standing-file census (`c6ffc709`).** Every standing document in the tree has a script, test,
-skill or hook that reads it by name — none answers "nothing breaks". His own named question,
-whether `DECISIONS.md` still earns its place beside the journal: it does. 26 of its 56 entries
-appear nowhere in `JOURNAL.md`; it holds his words verbatim, a retraction section and an
-open-questions section the journal has none of; and `guardrails/check-authority-anchor.py` reads it
-by name as a push gate. Of the 34 dated one-off notes in `.live-spec/` that no script reads, 26 are
-cited by the prover records under `docs/`, so removing them would leave a review pointing at
-nothing; the other 8 are gone. `docs/` itself, 941 files and 12 MB, was flagged and not censused.
-
-**`plan-0` reads green again.** Its acceptance held a fourth clause, an empty `git status
---porcelain`, so a finished row reported itself unfinished on any session that had edits in hand.
+**The director eval re-record is deliberately held, not forgotten.** `skills/director/SKILL.md`
+changed twice tonight (the closing rule + argue-first rule, then the "no idea shelf" correction).
+Both `evals/director/scenarios.json`'s 35-scenario harness and the 9-scenario closing harness are
+stale against the live file (`tests/test_director_scenarios.py` reds on this by design — it is
+supposed to). Re-record BOTH together, once, only after `q-812`'s own work — which may touch
+`skills/director/SKILL.md` again — has actually landed. Re-running now would mean doing it twice.
 
 ## Open, for the next session
 
-1. Two push gates are red, neither from this run. The shipped-language gate names Cyrillic a
-   previous session pasted into `PLAN.md`'s q-809, q-807 and q-808 source lines; his words belong
-   in `DECISIONS.md` and the row states the requirement impersonally. The prover-record gate wants
-   a review record newer than the last `PRODUCT_SPEC.md` change. Both had lanes running at the time
-   this note was written; check them before assuming.
-2. `q-806` is marked done with neither an acceptance command nor a reading line, so
-   `tests/test_plan_done_marks_are_backed.py` is red on it.
-3. The director cut is available if a sharper check ever lands: the run and its numbers are in
-   `evals/director/README.md`, the reverted text in `43d5f388`'s parent.
+1. **`q-812` may still be running in its own lane** — check its checkpoint's own liveness
+   instructions before anything else (see the LIVE STATE section above).
+2. **The director eval re-record (35 + 9 scenarios)** is held until `q-812` lands, since that work
+   may touch `skills/director/SKILL.md` again. Do both in one pass once it's settled, not before.
+3. **The prover-record push gate wants a review dated today** — no `docs/prover/2026-09-03*.md`
+   exists yet. Once `q-812` lands and the eval re-record is done, run one comprehensive adversarial
+   prover review over the whole night's range before pushing — don't run it earlier and have it go
+   stale as more commits land.
+4. **`q-811`'s retirement (inside `q-813`) needs his word** — see the LIVE STATE section's own
+   paragraph on this; say so plainly the first time you talk to him if he hasn't already answered.
+5. **`plan-14`'s host-acceptance wording needs his word** — amend to any compatible host, or wait
+   for tlvphotos's own format to change.
+6. **`q-814` and `q-815`** each need his word on approach (a gate carve-out design; a scan-scoping
+   policy) before either can be built — do not decide these unilaterally.
+7. Once all of the above settle: full suite green one more time on a quiet tree (no lane running),
+   push. His standing word already covers pushing once the suite is confirmed green.
 
 
 ## Where the numbers live
@@ -223,46 +182,66 @@ whatever's missing, and commit. Never run a destructive git command on a dead wo
 
 ## Prompt for the next session
 
-**Everything below this line was written 2026-09-02 01:25, right after tonight's overnight run
-(`534cb16b..49b4813f`) moved six of the prompt's own eight rows (three closed, two honest partials,
-one returned to the queue) and fixed the two prose regressions the quiet-tree suite caught. A second
-full-suite run and the push are still owed as this is written — check `bash scripts/state-probe.sh`
-and this file's own LIVE STATE section above first; if both already show green and pushed, this
-prompt is stale and you're likely looking at a later state than the one this was written against.**
+**Everything below this line was written 2026-09-03 ~12:00, at his own request to end this session
+while `q-812` still had a live worker in its own lane** (context was full; he asked for the next
+session to open with "покажи план, продолжай"). Check `bash scripts/state-probe.sh` and this file's
+own LIVE STATE section above first — if things have moved since this was written, trust what you
+observe over this prompt.
+
+**First, before anything else: find out whether `q-812`'s worker is still running, died, or
+finished.** Its own checkpoint, `.live-spec/checkpoints/q812-director-route-end-to-end.md`, names
+the worker id, its briefed write-set (a lane worktree + branch), and the exact liveness checks to
+run — file mtimes, `git log` on the lane branch, a message to the worker id. Never assume it died
+from a process list alone (rule 6/7), and never spawn a second worker on that same lane before
+checking. If it finished (real new commits on its own branch, or it answered a status message):
+rebase the lane onto main's current tip, re-verify independently on the rebased tree (don't take
+its own report on faith), integrate through `scripts/land-lane.sh`, then close `q-812` in `PLAN.md`
+with your own re-verification named. If it's still genuinely working, let it finish rather than
+interrupting or duplicating its work.
 
 Do not ask Alexander anything before doing the work below unless it's genuinely his — a taste call,
 a policy question, or an act irreversible outside git. His standing word already covers pushing
-tonight's range once the suite is confirmed green.
+once the suite is confirmed green.
 
-**If the suite and push aren't done yet:** finish that first — `python3 -m pytest -q` alone on a
-quiet tree, `0 failed, 0 errors`, then push, per the LIVE STATE section above.
+**Once `q-812` lands:** re-record the director eval (35-scenario + 9-scenario closing, together,
+one pass — `evals/director/README.md` has the methodology) since `skills/director/SKILL.md` may
+have changed again inside `q-812`'s own work. Then run one comprehensive adversarial prover review
+over the whole night's range (`docs/prover/README.md` has the record shape) before pushing — this
+review has been deliberately held rather than run early and gone stale as more commits landed.
+Then a final full-suite run on a quiet tree, then push.
 
-**If everything above is already green and pushed**, the next real work is the saved productization
-phase: `.live-spec/next-phase-prompt-turnkey-productization.md`. Read it whole before starting — it
-carries its own precondition (verify the current PLAN.md's state against the real repo, nothing
-taken on faith) and its own five serial CI-green packages. Do not start it opportunistically; it
-was deliberately deferred to either his own word or a morning check with nothing further from him.
+**Two taste/policy calls from tonight need his word before anything more is built on top of them**
+— say so plainly the first time you talk to him, don't bury them in a status line:
+1. A taste call: retiring `spec/work-board.md` Requirement 309 (99 approved criteria, an approved
+   August sketch) was this session's own reading of his "no shelf" correction, not his own
+   sentence, and it collides with his 2026-09-02 12:46 word scheduling those same rows to build
+   after package 2. Fully reversible; named in `PLAN.md` q-813's own closing paragraph and above.
+2. A policy call: `plan-14`'s acceptance names tlvphotos specifically as the first proving host,
+   and tlvphotos's real plan format turned out completely incompatible (frozen by his own word) —
+   change the acceptance, or change tlvphotos's format first.
 
-**Still open on the board, each correctly left that way — do not start any of these without a real
-reason to revisit:**
-- `q-166` — a taste call: its own acceptance names his eye over one real stretch of work as the
-  check, no command decides it.
-- `plan-14` — real install-infrastructure work spanning the pack's install/adopt walk; a wrong
-  wiring choice here is hard to unwind once every future adoption depends on it.
-- `plan-9` — held by his own prior word.
-- `q-163`, `q-48`, `q-54` — each has a real remaining leg that only a `~/tlvphotos` session can
-  close (this window is read-only there beyond one inbox wish).
-- `q-385` — its own revisit trigger (a host declaring its first real contract) hasn't fired.
+**Two more policy calls on approach, not urgent, no active work until he answers:** `q-814` (a
+skill-review gate carve-out for byte-identical vendor syncs) and `q-815` (scoping the worker-restore
+gate's scan root to the pushing host, not every project on the machine).
 
-**Method, proven again tonight, unchanged:** up to three parallel worktree lanes (`Agent` tool),
-each briefed with the row's own `PLAN.md` text pasted verbatim, the worker-restore rule copied
-verbatim, and told explicitly not to rebase/merge/push — the orchestrator integrates. Merge one row
-at a time, rebase onto main's tip first, re-verify from the merged tree, then clean up the lane.
-Watch for two real collision classes that showed up tonight even with worktree isolation: two lanes
-independently picking the same next-free matrix row id (check `grep -rhoE "^\| M-[0-9]+"
-matrix/*.md` before trusting a new row number), and a lane forked before an earlier lane's own
-landing carrying a now-stale copy of a shared map entry (`tests/test_traceability.py`'s
-`TARGET_ROW_OWNERS`, most often) through its own rebase.
+**Still open, correctly so, no action needed unless he raises it:** `q-163`, `q-48`, `q-54` — each
+has a real remaining leg only a `~/tlvphotos` session can close (this window is read-only there
+beyond dropping an inbox wish, already done for all three). `q-385` — its own revisit trigger (a
+host declaring its first real contract) hasn't fired. `q-811` no longer exists as a row (retired
+into `docs/queue-archive/`, see judgment call 1 above).
+
+**Method, proven again tonight:** up to ten parallel worktree lanes (`Agent` tool, his own raised
+cap), each briefed with the row's own `PLAN.md` text pasted verbatim, the worker-restore rule
+copied verbatim, and told explicitly not to rebase/merge/push — the orchestrator integrates. Merge
+one row at a time, rebase onto main's tip first, re-verify independently from the merged tree, then
+clean up the lane. Watch for two real collision classes that showed up tonight even with worktree
+isolation: two lanes independently picking the same next-free matrix row id (check `grep -rhoE
+"^\| M-[0-9]+" matrix/*.md` before trusting a new row number), and a lane forked before an earlier
+lane's own landing carrying a now-stale copy of a shared map entry (`tests/test_traceability.py`'s
+`TARGET_ROW_OWNERS`, most often) through its own rebase. Also watch for: running the full suite
+inside one lane while committing to another moves that lane's own tree mid-run and reds a
+completely unrelated test (`test_worker_restore_run_scope`) — happened twice tonight, both
+self-caught; run one lane's full suite at a time with nothing else committing to it meanwhile.
 
 Report in the Канон format his own boot file (`~/.claude/CLAUDE.md`) specifies —
 `bash scripts/state-probe.sh`'s own printed plan, never a hand-typed summary — after every row
