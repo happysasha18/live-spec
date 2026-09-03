@@ -2559,6 +2559,30 @@ One line per finding. Don't start a second list for them. Don't fix one without 
   pinned version, which would change a repository this window was told not to touch while another may
   be working in it. Left as it stands, named here, with the server's green as the honest reading.
 
+- **A role-profile brief layer for workers was proposed and never entered the pack. Found 03.09, in
+  `inbox/2026-08-08-profile-briefed-worker-ab-result.md`.** A blind A/B from tlvphotos (08.08) gave
+  the same mechanical task to a worker briefed with a short role profile plus the project's design
+  charter and to a worker briefed in plain engineering words; a blind judge found the profiled arm
+  won on vocabulary, documentation truth, and integration. The finding proposed the profile as a
+  standard brief layer wherever a project holds a design language. No skill (`live-spec-base`,
+  `build-pipeline`, `director`) states this as a rule, and no PLAN/JOURNAL/DECISIONS entry adopts it.
+
+- **The rule that a human verdict is a movement end, written into resume files the same minute, was
+  proposed and never entered the pack. Found 03.09, in `inbox/2026-08-08-verdict-lands-same-minute.md`.**
+  From tlvphotos (08.08): a rejection arrived mid-conversation, the session spent two hours on the
+  design dialogue it triggered, and the resume files still said "awaits his walk" until an adversarial
+  reviewer caught the gap. The proposed rule — a verdict on shown work ends the judged artifact's
+  movement on the spot, amending the resume files in place rather than appending — names no skill or
+  spec line in this pack; tlvphotos fixed its own charter and memory, but the pack-wide rule was
+  never written.
+
+- **`scripts/preshow-register-lint.py` still ships to no host tree; `guardrails/spec-coinages.json`
+  now does. Found 03.09, in `inbox/2026-08-12-preshow-lint-script-missing.md`.** tlvphotos reported
+  both files named by its session law (the preshow register check, the coinage list) missing from its
+  own tree. `adopt/install-style-gates.sh` (added 02.09) now vendors `guardrails/spec-coinages.json`
+  into a host at adopt time; no installer vendors `scripts/preshow-register-lint.py`, so the law that
+  names it still blocks nothing on a host that has never run that installer.
+
 - **A promise this range added is owned by nobody, and the check that would demand an owner cannot
   see it. Found 31.08, in the merge review.** The idea shelf — where a possibility named in passing is
   kept in the person's own words — is written into the spec and marked as not built, correctly, since
