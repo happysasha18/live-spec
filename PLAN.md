@@ -1713,7 +1713,7 @@ row explicitly forbids — recorded in the prover record for a future decision, 
 **Checked by reading on 28.08.** The reviewer now says which part it skips, at `skills/product-prover/SKILL.md:352`, and the decision behind it at `docs/skill-review/2026-08-12-product-prover-2.md:68`. No command: the sentence lives in the reviewer's own repository.
 
 
-### ⬜ Every new feature ships with real, complete tests, not just some — id: q-163
+### ✅ Every new feature ships with real, complete tests, not just some — id: q-163
 **Group:** Testing · **Priority:** normal
 **Source:** inbox from track-coach close, 2026-07-05.
 **Closes:** q-191, q-491, q-554
@@ -1739,11 +1739,16 @@ runs green today and was red-proven live: the specialist-table row was deleted f
 before anything else touched it. Command: `python3 -m pytest -q tests/test_traceability.py -k
 test_director_names_test_author_at_the_derivation_step`.
 
-One leg stays open and is not this session's to close: the row's field half asks for one real host's
-own test matrix, written by this method, landing in that host's own tree — `test -f` finding it there.
-That requires a session inside that host's own project window (a candidate: `~/tlvphotos`, which
-already runs on this pack); this window only reads other projects, so the leg is named here rather
-than attempted. The row stays open until that session runs.
+**Field leg landed 2026-09-03.** Reported by `inbox/2026-09-03-from-tlvphotos-q163-field-leg-landed.md`.
+**Checked by reading on 03.09**, independently, read-only, against the live file the report names:
+`~/tlvphotos/TEST_MATRIX.md` (1325 lines) carries the derived section — "The crossing, the standing
+work and the darkroom", derived by this pack's `test-author` method from that project's own spec
+slice, citing this row and its own plan row S-55 by name in the section's own heading. `test -f
+~/tlvphotos/TEST_MATRIX.md` finds it; the section holds real rows in the file's existing Fact /
+Positive / Negative / Level / Status shape, most naming a real test as `file:line «row name»` in
+`~/exhibition-engine/tests/`, the rest saying NO TEST rather than staying silent — the row's own
+acceptance question ("does every row say whether it's tested") is answered for every row, not just
+the ones that pass. Both legs of the row's acceptance now hold.
 
 
 ### ✅ Every automatic check proves it can actually catch its problem — id: q-489
