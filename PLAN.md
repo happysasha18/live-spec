@@ -553,6 +553,41 @@ something the next reply says, with its reason.
 **Links:** `scripts/state-probe.sh` (the ranking block), `spec/live-status-reporting.md`,
 `skills/live-spec-base/SKILL.md`.
 
+### ⬜ A session starts light — id: q-822
+**Group:** Pack quality · **Priority:** normal
+**Source:** owner 2026-09-04 14:30, in his own words: he would like nothing over about 20 kilobytes
+to load unless it is needed, and the rest to come on request. Asked the same hour to treat that
+number as a direction rather than a bound — whether it lands at 18 or 25 is worth discussing, and it
+is not written into any rule.
+
+**What it is, measured today.** Every session opens by loading 81,534 bytes: the boot file 5,386,
+the person's own profile 10,859, the shared rulebook 31,995, the director 33,294. The probe prints
+the same figure at every start.
+
+**The shape of the work, and why it is believed to fit.** A skill's body carries the instruction and
+a pointer; the explanation behind each rule moves into a module opened when a hard case arrives.
+The rulebook's 26 rules take 25,631 bytes and their instruction lines alone take 1,748, so the
+compression is real and large. The same shape applies to the director.
+
+**What stops a cut, and it is not a byte count.** This pack has already measured what compression
+costs. On 2026-09-02 the director was cut from 25,613 to 21,900 bytes and re-recorded by the same
+producers in the same hour: 29 of 35 against 30, with twice as many runs naming an act nobody asked
+for. The cut was withdrawn. On 2026-09-04 the reverse — four paragraphs added — turned three failing
+correction scenarios green. So the scenarios are the stop sign and the number is the direction.
+
+**The gap this row has to close first.** The director has its own scenario set to check a cut
+against. The rulebook has none, so cutting it today would be cutting against nothing. Either the
+rulebook earns a measurement of its own, or it is cut last, after the skills that have one.
+
+**Done when:** the required-context figure the probe prints has come down toward the owner's
+direction, and every cut that got it there was re-recorded against the director's scenarios with the
+result holding; and the rulebook was cut only after a measurement existed to check it against. The
+figure a session reads at its start is the reading that decides this, and it is printed by
+`bash scripts/state-probe.sh`.
+
+**Links:** `skills/live-spec-base/SKILL.md`, `skills/director/SKILL.md`,
+`~/.claude/live-spec/profile.md`, `~/.claude/CLAUDE.md`, `evals/director/README.md`.
+
 ### ⬜ The rulebook stops using words it never explains — id: q-823
 **Group:** Pack quality · **Priority:** normal
 **Source:** the readability pass run over `skills/live-spec-base/SKILL.md` on 2026-09-04 under q-817.

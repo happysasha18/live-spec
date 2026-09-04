@@ -4,42 +4,53 @@ A digest with no redundancy (SPEC INV-48) — one live-state block, nothing remo
 information. One status block stands here at a time, and every update replaces it. Dated history
 lives in `JOURNAL.md`.
 
-## LIVE STATE (2026-09-04, 04:20)
+## LIVE STATE (2026-09-04, 15:18)
 
-**The night's subject: the second queue is gone, and the rules a person reads are written where every
-project inherits them.** He opened with three questions — where the blockers on his board came from,
-why agreed things keep breaking, what to do. The answers turned into the work below. Nothing here is
-pushed yet; the push waits on the prover record for this range and one clean suite.
+**The day's subject: five open rows closed, and the checks that were supposed to prove them made to
+actually reach something.** The board he handed this session had five rows on it, one critical. All
+five are closed. Two of the day's own repairs were the same shape — a check that passed on the words
+about a thing rather than on the thing — and a third of that shape came back from the prover before
+the push and was fixed too.
 
 **What changed, in the order it matters.**
-- `PLAN.md`'s 765-line findings log is retired to `docs/queue-archive/2026-09-04-findings-log-retired.md`.
-  47 of its 59 entries had been raised by the project's own reviews. Its cause was two layers deep:
-  the plan's own laws told a session to write a line there and stop, and `spec/design-spec-review.md`
-  Requirement 60 told the push gate to queue every recommendation. Both are rewritten. The prose that
-  sessions actually read — `skills/design-reviewer`, the external prover's installed copy, the
-  director's idea-for-later row — now says the same thing.
-- The rulebook gained rules 38 (the shape of a reply and the fixed order the rows print in) and 39
-  (nothing new is built to serve the process itself), and rule 36 now states who the person is
-  outright. Every project inherits them.
-- The board is six open rows; closed rows moved to `docs/queue-archive/2026-09-04-closed-rows.md` and
-  the plan fell from 74,000 tokens to about 11,000. Three rows left the board on his word or their own
-  unfired triggers; a fourth went back to the project that owns it.
-- Every skill has its first skill-creator record. Four installed skills failed Anthropic's own
-  validator, the shared rulebook among them; three are fixed here and the fourth is another project's.
 
-**The one thing to read before anything else.** `q-820`, opened tonight and critical: the director's
-own scenarios re-recorded at 30 of 36 and 7 of 9, and four of the six main-set reds are the same
-shape — a correction read as new work, opening a row beside the one that should have been replanned.
-That is the failure he names most often. The same row carries the second half: three recordings read
-31, then 34, then 30, so the eval cannot today tell a real regression from its own spread.
+- **A correction replans work; it never opens a row (q-820).** The director's own scenarios had four
+  failures of one shape: a message correcting work already running came back as new work, with a row
+  opening beside the one that should have been replanned. That is the failure the owner has named
+  more than any other. The skill was where it went wrong, and it now says in the numbers a verdict
+  carries that replanning produces zero new pieces of work. Both scenario sets were recorded twice
+  against the fixed text by fresh producers: 34 of 36 then 32 of 36 on the thirty-six, 8 of 9 both
+  times on the closing nine. All four correction scenarios pass on both. The eval's README now states
+  what a run reports and what it does not — a scenario counts as failing when it fails on two
+  separate recordings, and a score is never quoted as the result of a change.
+- **One status renderer for every project (q-818).** The pack's own copy and the shipped copy had
+  forked, so a fix to one never reached the other. They are one file now, made project-generic, with
+  a project's own facts arriving through its own extras file at one fixed place. A new check opens a
+  host's vendored copy and the pack's own file and compares their bytes.
+- **What a priority means is written down, and the next move follows it (q-819).** Two words, in
+  order, each with one sentence, in the plan itself; one reader carries the statement; the renderer
+  ranks by it and prints beside the next move the word it won on. A plan that states no list gets no
+  invented order and is told so.
+- **Every skill is measured with the tool's own verdict quoted (q-817).** The gate proved a record
+  existed and never proved the tool produced it. It now demands the validator's quoted output and
+  re-runs the validator to compare. Sixteen records cover all fourteen skills.
+- **A project's live numbers print beside its rows (q-48).** The shared renderer reads a project's
+  own feed through the pack's checker and prints only what it confirms; a refused fetch says so in
+  place of the numbers. The refresh cadence comes from the feed itself, so the pack invented no
+  bound. One leg is left and it is a host's own — the script that fills a feed from a real analytics
+  account; a note carrying the shape went to the photo site's inbox.
 
-**Open for his word, one item.** When three rows left the board, four promises in the spec lost their
-owning row, and `spec/doc-order-generated.md` Requirement 1 gained a criterion letting such a promise
-tie to the archive record instead. The cold review called that widening a gate to pass one's own case,
-which rule 39 forbids. It was kept, on the reasoning that the onboarding row returns by his own word
-and the other two carry triggers he set himself. If he disagrees, the criterion comes out and those
-four promises leave the spec with their rows.
+**Two things the day found and did not close.**
 
-**Where the work stands.** Suite: 2782 passing, and the remaining reds are this session's own tail —
-the prover record for the range, and the installed-copy sync after the last skill edits. Two
-adversarial reviews ran, one cold and one steered; their findings are folded except the one above.
+- **q-823** — four fresh readers, two rounds of two, stopped inside the same eleven rules of the
+  rulebook, every stop a term it uses and never explains. Three places both first-round readers hit
+  are repaired. The rest is content work, with all twelve findings named on the row.
+- **q-822** — a session opens by loading 81,534 bytes, and the owner wants that down. The shape of
+  the work is measured: the rulebook's 26 rules take 25,631 bytes and their instruction lines alone
+  take 1,748. The stop sign is the eval rather than the byte count, because this pack has already
+  measured what compression costs.
+
+**The one thing to read before anything else.** The prover's record for this range,
+`docs/prover/2026-09-04-status-renderer-priority-and-feed-delta.md`. It found the day's own new
+check reaching nothing on either pole, which is the same defect class the day spent itself
+repairing. That is fixed here, and the record stays as the reason.
