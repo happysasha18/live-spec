@@ -12,7 +12,10 @@
 # plan is parsed, how a mark is spelled and how a row's state is computed from the command that proves
 # it. It does NOT get one command of this pack's own: those name this pack's files and belong to it
 # alone. The host's `scripts/plan_checks.py` arrives with an empty map and is the host's to fill, row
-# by row, exactly the way the pack filled its own.
+# by row, exactly the way the pack filled its own. It also gets `guardrails/check-status-view-drift.py`,
+# the gate that reds when a vendored copy drifts from this pack, and an empty `scripts/state-probe-
+# extras.sh` where it carries none — the hook `state-probe.sh` sources for this project's own facts,
+# printed under their own heading, so the shared renderer never has to name this project by name.
 #
 # The manifest keys are the pack-relative source paths, so the update watcher resolves each key against
 # the pack checkout to read the current source and diff its hash. The host's own `plan_checks.py` is
@@ -44,6 +47,7 @@ VENDOR=(
   "scripts/render-board.sh|scripts/render-board.sh"
   "scripts/plan-step.sh|scripts/plan-step.sh"
   "scripts/plan_checks_core.py|scripts/plan_checks_core.py"
+  "guardrails/check-status-view-drift.py|guardrails/check-status-view-drift.py"
 )
 
 for pair in "${VENDOR[@]}"; do
@@ -71,6 +75,15 @@ else
   cp "$PACK_ROOT/scaffold/status-view/plan_checks.py" "$HOST_ROOT/scripts/plan_checks.py"
   echo "seeded: scripts/plan_checks.py (an empty command map — every row reads DECLARED until you fill it)"
   CHECKS_SEEDED=1
+fi
+
+# Same rule again: a project's own facts (the pack's FACTS block among them) print through this
+# hook under their own heading; a host that already filled it keeps every fact it wrote.
+if [ -f "$HOST_ROOT/scripts/state-probe-extras.sh" ]; then
+  echo "skip (exists, keep your facts): scripts/state-probe-extras.sh"
+else
+  : > "$HOST_ROOT/scripts/state-probe-extras.sh"
+  echo "seeded: scripts/state-probe-extras.sh (empty — add this project's own facts under their own heading)"
 fi
 
 # --- step c: write or MERGE the one manifest, pinning the vendored readers against the pack --------

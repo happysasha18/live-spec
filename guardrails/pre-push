@@ -243,6 +243,12 @@ if ! "$GUARDRAILS/check-config-health.sh"; then
 fi
 
 echo ""
+echo "-- gate ag: status-view drift (a host's vendored pack files match the pack, SPEC INV-325) --"
+if ! python3 "$GUARDRAILS/check-status-view-drift.py"; then
+  fail=1
+fi
+
+echo ""
 echo "-- gate k: compaction freeze (guarded docs' anchor map / markers / numbers unchanged, 2.0) --"
 if ! "$GUARDRAILS/check-freeze.sh"; then
   fail=1

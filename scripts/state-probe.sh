@@ -1,11 +1,19 @@
 #!/bin/bash
-# state-probe.sh — prints the project's MEASURED state, not something written down by hand.
+# state-probe.sh — prints this project's MEASURED state, not something written down by hand.
 #
 # Why: resuming work between sessions used to rest on prose that had to be written correctly at
 # the end of a session and read correctly at the start of the next. It broke on both ends. Here
 # the state is computed by commands, so it cannot go stale.
 #
+# What it reads: git, PLAN.md, the acceptance commands in scripts/plan_checks.py, inbox/, and — if
+# the host wrote one — its own scripts/state-probe-extras.sh (see the FACTS/extras note below). It
+# carries no knowledge of any other project beyond that one optional file.
+#
 # Run: bash scripts/state-probe.sh    (the first action of every session)
+#
+# Installed by live-spec's adopt/install-status-view.sh. Its source is the pack's own
+# scaffold/status-view/state-probe.sh, pinned in scripts/ratchet-manifest.json — local edits are
+# reported as drift by the update check, so grow this file by growing the pack's copy.
 
 set -uo pipefail
 cd "$(dirname "$0")/.." || exit 1
@@ -16,20 +24,26 @@ ok() { printf '  \033[0;32m%s\033[0m\n' "$1"; }
 warn() { printf '  \033[0;33m! %s\033[0m\n' "$1"; }
 bad() { printf '  \033[0;31mX %s\033[0m\n' "$1"; }
 
-printf '\033[1m[%s] live-spec\033[0m  %s\n' "$(date '+%H:%M, %d.%m.%Y')" "$REPO"
+printf '\033[1m[%s] %s\033[0m  %s\n' "$(date '+%H:%M, %d.%m.%Y')" "$(basename "$REPO")" "$REPO"
 
 # ---------------------------------------------------------------- where we stand
 b "WHERE WE STAND"
-git fetch origin --quiet 2>/dev/null
-HEAD_SHA=$(git log -1 --format=%h)
-echo "  branch $(git branch --show-current) · $HEAD_SHA · $(git log -1 --format=%s | cut -c1-60)"
+git fetch --quiet 2>/dev/null
+echo "  branch $(git branch --show-current) · $(git log -1 --format=%h) · $(git log -1 --format=%s | cut -c1-60)"
 DIRTY=$(git status --porcelain | wc -l | tr -d ' ')
 [ "$DIRTY" = "0" ] && ok "tree clean" || warn "uncommitted files: $DIRTY"
-BEHIND=$(git rev-list --count HEAD..origin/main 2>/dev/null || echo 0)
-AHEAD=$(git rev-list --count origin/main..HEAD 2>/dev/null || echo 0)
-[ "$BEHIND" != "0" ] && warn "behind origin/main by $BEHIND commits"
-[ "$AHEAD" != "0" ] && warn "commits not pushed: $AHEAD"
-[ "$BEHIND" = "0" ] && [ "$AHEAD" = "0" ] && ok "matches origin/main"
+# Against the branch's OWN upstream, whatever it is — a project need not call its trunk `main`, and
+# a lane branch reads against its own remote rather than against somebody else's trunk.
+UPSTREAM=$(git rev-parse --abbrev-ref --symbolic-full-name '@{u}' 2>/dev/null || true)
+if [ -n "$UPSTREAM" ]; then
+  BEHIND=$(git rev-list --count "HEAD..$UPSTREAM" 2>/dev/null || echo 0)
+  AHEAD=$(git rev-list --count "$UPSTREAM..HEAD" 2>/dev/null || echo 0)
+  [ "$BEHIND" != "0" ] && warn "behind $UPSTREAM by $BEHIND commits"
+  [ "$AHEAD" != "0" ] && warn "commits not pushed: $AHEAD"
+  [ "$BEHIND" = "0" ] && [ "$AHEAD" = "0" ] && ok "matches $UPSTREAM"
+else
+  warn "this branch tracks no remote branch"
+fi
 
 # ---------------------------------------------------------------- plan
 # A task's status comes from its acceptance command, not from a hand-set mark, wherever a
@@ -37,12 +51,9 @@ AHEAD=$(git rev-list --count origin/main..HEAD 2>/dev/null || echo 0)
 # reader can see where the fact ends and someone's word begins; that is existing, correct
 # behaviour, not a gap to fill.
 #
-# PLAN.md's `## Tasks` section (commit bc6f862b) can hold well over a hundred tasks — this
-# printout is what the Canon report carries into chat verbatim, and that report's length, its
-# marks and its shape have one home: ~/.claude/playbook/CLAUDE.md, "How a reply to him looks".
-# Nothing here restates that law; TASK_LINE_BUDGET below is this script's reading of it. So
-# this prints the top of the list, not all of it: full detail always stays one command away,
-# `bash scripts/render-board.sh`, or PLAN.md itself.
+# PLAN.md's `## Tasks` section can hold well over a hundred tasks — this printout is what a
+# report carries into chat verbatim, so it prints the top of the list, not all of it: full detail
+# always stays one command away, `bash scripts/render-board.sh`, or PLAN.md itself.
 b "PLAN"
 rm -f /tmp/probe-next.txt
 if [ -f PLAN.md ]; then
@@ -69,32 +80,29 @@ evaluate(tasks)
 
 ICON_COLOUR = {"✅": G, "🔄": Y, "🔁": Y, "⛔": R, "⬜": D}
 
-# Ranking eligibility (27.08, his word; ⛔ narrowed and 👁️ retired 2026-09-04). "Blocked" only
-# means a real, understood outside cause — an expired key, a dead credential, a service that is
-# down — never merely waiting on something or on a person's word (that is a question asked in the
-# reply, never a task state). That leaves two things that wore the ⛔/⬜ marks without being either
-# "in progress" or "genuinely blocked": a row folded into the task that actually carries the work
-# (covered_by, with no independent reason of its own), and a row he postponed by his own decision
-# (deferred) — neither is blocked, so neither competes for the board's top slots; they drop out of
-# the current set rather than sitting on it under the wrong label. A ⛔ with no blocked_by and no
-# covered_by/deferred either is a mislabel, not a fourth state: it ranks where it actually competes
-# (⬜) so the drift is visible, not asserted away. None of this touches 🔄 — a task already in hand
-# is live regardless of any fold bookkeeping.
+# Ranking eligibility. "Blocked" only means a real, understood outside cause — an expired key, a
+# dead credential, a service that is down — never merely waiting on something or on a person's
+# word (that is a question asked in the reply, never a task state). That leaves two things that
+# wore the ⛔/⬜ marks without being either "in progress" or "genuinely blocked": a row folded into
+# the task that actually carries the work (covered_by, with no independent reason of its own), and
+# a row postponed by its own owner's decision (deferred) — neither is blocked, so neither competes
+# for the board's top slots; they drop out of the current set rather than sitting on it under the
+# wrong label. A ⛔ with no blocked_by and no covered_by/deferred either is a mislabel, not a fourth
+# state: it ranks where it actually competes (⬜) so the drift is visible, not asserted away. None
+# of this touches 🔄 — a task already in hand is live regardless of any fold bookkeeping.
 # Finished work earns a line of its own while it is still fresh. A running total of everything
 # ever done only grows, and it answers nothing without a window nobody agreed on — this month, this
-# project, this year (the owner's word, recorded in DECISIONS.md). So the count is gone and the
-# rows themselves stand instead. The window is the last push, a line git already draws and the one
-# he cuts his own work by: a row closed since `origin/main` shows its own ✅ line and drops off
-# once the push lands. Read from the plan's own diff, so it names rows a session deliberately
-# closed; a row that went green because its command started passing on its own leaves no trace
-# here and shows only by leaving the open list.
+# project, this year. So the count is gone and the rows themselves stand instead. The window is the
+# last push, a line git already draws and the one work is cut by: a row closed since `origin/main`
+# shows its own ✅ line and drops off once the push lands. Read from the plan's own diff, so it
+# names rows a session deliberately closed; a row that went green because its command started
+# passing on its own leaves no trace here and shows only by leaving the open list.
 # The set is a real transition, read by comparing the plan against its own state at the branch's
 # upstream: a row done now that the upstream did not have done. An earlier arm read the plan's diff
 # for added done headings, which also caught a title edit on a row that had been closed for weeks
-# and showed it again as just finished (product-prover, 02.09, finding F1). The upstream comes from
-# the branch itself, so a lane branch reads against its own remote; where no upstream is reachable
-# — a fresh clone, no remote — the set stays empty and the account simply carries no done lines,
-# rather than inventing them (finding F2).
+# and showed it again as just finished. The upstream comes from the branch itself, so a lane branch
+# reads against its own remote; where no upstream is reachable — a fresh clone, no remote — the set
+# stays empty and the account simply carries no done lines, rather than inventing them.
 closed_since_push = set()
 _up = subprocess.run(["git", "rev-parse", "--abbrev-ref", "--symbolic-full-name", "@{u}"],
                      capture_output=True, text=True)
@@ -107,7 +115,7 @@ if _upstream:
         # along so a row whose mark says done while its command fails stays out (it is
         # reopened, not freshly closed). Comparing icon-now against mark-at-the-upstream
         # printed a done line for a row whose mark never moved, and pushing could not clear
-        # it (product-prover, 02.09, finding 3).
+        # it.
         closed_since_push = {t["id"] for t in tasks
                              if t["mark"] == "✅" and t["icon"] == "✅"} - _done_at_push
 
@@ -132,21 +140,14 @@ eligible = [t for t in tasks if not t["excluded"]]
 # Priority order for the budget below: in hand (already running work) first, then blocked (worth
 # knowing about — something outside has stopped it and only a person can unstick it), then
 # reopened (was done and is done no longer — outranked by work already running and by a real
-# outside blocker, but ahead of work never started), then queued (what's next) — the order is
-# rule 38 of the rulebook (skills/live-spec-base/SKILL.md), which is this order's one home; see
-# CATEGORY_ORDER below for its machine reading. Filled round-robin, one category at a time, so a
-# single large category cannot eat the whole budget and crowd the others out. Category order is the one
-# ranking; critical only breaks ties inside its own category (below) and never crosses into a
-# higher one — a cross-category "critical drains first" pass used to sit here and let a critical
-# but unworkable queued task outrank a task the owner already needed to look at. Removed 27.08 on
-# his word: urgency must never outrank whether a task is actually workable now.
-# The category that used to rank ahead of "in hand" — needs-his-eyes — retired 2026-09-04, his
-# standing word: needing a person's word is a question asked in the reply, never a task state.
-# 9 task lines + 1 summary line = 10, the top end of the cap set at the report format's one home
-# (~/.claude/playbook/CLAUDE.md, "How a reply to him looks"). Change it there first.
+# outside blocker, but ahead of work never started), then queued (what's next). Filled
+# round-robin, one category at a time, so a single large category cannot eat the whole budget and
+# crowd the others out. Category order is the one ranking; critical only breaks ties inside its
+# own category (below) and never crosses into a higher one.
+# 9 task lines + 1 summary line = 10, the top end of the cap set at the report format's home.
 TASK_LINE_BUDGET = 9
-# The order is the rulebook's rule 38, and this line is its one machine reading: closed since the
-# last push, in hand, blocked (only a person can unstick it), reopened, queued.
+# The order: closed since the last push, in hand, blocked (only a person can unstick it),
+# reopened, queued.
 CATEGORY_ORDER = ["✅", "🔄", "⛔", "🔁", "⬜"]
 
 buckets = {icon: [t for t in eligible if t["rank_icon"] == icon] for icon in CATEGORY_ORDER}
@@ -184,9 +185,8 @@ while (budget > 0 or _done_left()) and progressed:
 # without clearing its outside cause first, so it doesn't win NEXT either.
 next_task = buckets["🔄"][0] if buckets["🔄"] else (buckets["⬜"][0] if buckets["⬜"] else None)
 
-# His word, 02.09: the row's own id leads its printed line, ahead of the mark and the title —
-# it used to trail at the end in parentheses. Padded to the widest id PLAN.md declares, so the
-# mark that follows still lands in one column down the printed list.
+# The row's own id leads its printed line, ahead of the mark and the title. Padded to the widest
+# id PLAN.md declares, so the mark that follows still lands in one column down the printed list.
 id_width = max((len(t["id"]) for t in tasks), default=0)
 
 next_title = ""
@@ -196,9 +196,7 @@ for t in shown:
         tag = f"  {B}<-- NEXT{X}"
         next_title = t["title"]
     # A row whose key failed is neither verified nor declared: it is a done mark the command
-    # contradicts. Saying "verified" beside a row like that was the last of the three things the
-    # failing-key work set out to stop, and it stayed behind when the other two were fixed
-    # (2026-08-28).
+    # contradicts. Saying "verified" beside a row like that would misstate it.
     if t["failing_key"]:
         verified = f"{D}marked done{X}"
     else:
@@ -221,9 +219,9 @@ for t in shown:
 shown_ids = {t["id"] for t in shown}
 open_count = sum(1 for t in tasks if t["icon"] != "✅")
 more_below = sum(1 for t in tasks if t["id"] not in shown_ids and t["icon"] != "✅")
-# The count of finished work is gone (his word, 02.09): a running total only grows, and it needs a
-# window nobody agreed on to mean anything. What is left is the work still open, and the rows
-# closed since the last push stand above as their own lines.
+# The count of finished work is gone: a running total only grows, and it needs a window nobody
+# agreed on to mean anything. What is left is the work still open, and the rows closed since the
+# last push stand above as their own lines.
 print(f"  {D}… {open_count} open · {more_below} more below · full list in PLAN.md / board.html{X}")
 
 if next_title:
@@ -232,64 +230,6 @@ PYEOF
 else
   bad "PLAN.md is missing"
 fi
-
-# ---------------------------------------------------------------- facts
-b "FACTS"
-echo "  pack version: $(cat VERSION 2>/dev/null || echo '?')"
-
-if [ -f evals/director/check.py ]; then
-  SCORE=$(python3 evals/director/check.py --all 2>/dev/null | tail -1)
-  case "$SCORE" in
-    *"of"*)
-      SD=$(git log -1 --format=%ct -- skills/director/SKILL.md 2>/dev/null || echo 0)
-      ED=$(git log -1 --format=%ct -- evals/director/traces 2>/dev/null || echo 0)
-      if [ "$SD" -gt "$ED" ] 2>/dev/null; then
-        echo "  Director by scenario: $SCORE — REPLAY OF OLD TRACES, says nothing about today's skill"
-      else
-        echo "  Director by scenario: $SCORE"
-      fi ;;
-    *) warn "Director eval isn't responding" ;;
-  esac
-fi
-
-# required context: what actually loads before a session takes its first step —
-# the boot file and profile every session reads, plus base + director (plan-17,
-# q-570/q-584/q-205: the old number counted only the last two and missed the rest).
-CTX_FILES="$HOME/.claude/CLAUDE.md $HOME/.claude/live-spec/profile.md skills/live-spec-base/SKILL.md skills/director/SKILL.md"
-CTX_BYTES=$(cat $CTX_FILES 2>/dev/null | wc -c | tr -d ' ')
-CTX_TOK=$(python3 - "$CTX_FILES" <<'EOF' 2>/dev/null
-import sys
-try:
-    import tiktoken
-    enc = tiktoken.get_encoding("cl100k_base")
-    t = 0
-    for p in sys.argv[1].split():
-        t += len(enc.encode(open(p, encoding="utf-8").read()))
-    print(t)
-except Exception:
-    print("")
-EOF
-)
-PLAN_TOK=$(python3 - <<'EOF' 2>/dev/null
-try:
-    import tiktoken
-    enc = tiktoken.get_encoding("cl100k_base")
-    print(len(enc.encode(open("PLAN.md", encoding="utf-8").read())))
-except Exception:
-    print("")
-EOF
-)
-if [ -n "$CTX_TOK" ]; then
-  echo "  required context (boot + profile + base + director): $CTX_TOK tokens ($CTX_BYTES bytes)"
-  if [ -n "$PLAN_TOK" ]; then
-    echo "  + PLAN.md whole: $PLAN_TOK tokens — take a step with scripts/plan-step.sh <id> instead"
-  fi
-else
-  echo "  required context: $CTX_BYTES bytes (tiktoken unavailable)"
-fi
-
-SPEC_CORPUS=$(cat PRODUCT_SPEC.md ARCHITECTURE.md TEST_MATRIX.md spec/* architecture/* matrix/* 2>/dev/null | wc -c | tr -d ' ')
-echo "  full spec/architecture/matrix corpus: $SPEC_CORPUS bytes"
 
 # ---------------------------------------------------------------- alarm
 b "ALARM"
@@ -327,12 +267,10 @@ git worktree list 2>/dev/null | tail -n +2 | grep -v "/private/tmp" | while read
 done
 git worktree list 2>/dev/null | tail -n +2 | grep -qv "/private/tmp" && ALARM=1
 
-# host drift — the projects THIS pack watches for a stale copy of itself.
-# The five paths used to stand written into this line, so the pack's own probe carried a list of
-# somebody's machine (plan-14). They come from this repository's own profile now, the settings
-# ladder's own place for a project-level override: one `hosts.watch:` line naming the paths,
-# space-separated, `~` allowed. No line, no watch — which is the right answer for every project
-# that is not this one, and the reason a host installing the status view inherits none of this.
+# host drift — the projects THIS repo watches for a stale copy of itself, read from this
+# repository's own profile, the settings ladder's own place for a project-level override: one
+# `hosts.watch:` line naming the paths, space-separated, `~` allowed. No line, no watch — which is
+# the right answer for every project that does not keep such a line.
 HOSTS=$(sed -n 's/^- `hosts\.watch: *\([^`]*\)`.*$/\1/p' .live-spec/profile.md 2>/dev/null | head -1)
 for h in $HOSTS; do
   h="${h/#\~/$HOME}"
@@ -347,10 +285,8 @@ done
 # ---------------------------------------------------------------- inbox
 # What came in through the door and nobody has taken yet. The sweep REMOVES a file when it harvests
 # it, so a file still standing here is an unhandled item — no second ledger to keep in step.
-# A name ending `.draft` is a deposit mid-write (SPEC INV-249) and is passed over, exactly as the
-# sweep passes over it, and README.md is the folder's own instructions rather than an item.
-# Added 2026-09-03 (plan-14): six deposits sat unread in a host's inbox for eight weeks while its own
-# ledger claimed a session sees them. A probe that prints them makes the door work.
+# A name ending `.draft` is a deposit mid-write and is passed over, exactly as the sweep passes over
+# it, and README.md is the folder's own instructions rather than an item.
 if [ -d inbox ]; then
   b "INBOX"
   INBOX_N=0
@@ -362,6 +298,17 @@ if [ -d inbox ]; then
     INBOX_N=$((INBOX_N + 1))
   done
   [ "$INBOX_N" = "0" ] && ok "nothing unhandled"
+fi
+
+# ---------------------------------------------------------------- extras
+# A project's own facts — the pack's own FACTS block among them — print here, under their own
+# heading, from the project's own file. This renderer stays generic so one copy serves every
+# project; a project that wants more than git/PLAN.md/inbox says so in its own extras file rather
+# than in this shared script.
+if [ -f "$REPO/scripts/state-probe-extras.sh" ]; then
+  # A project's own facts, printed under its own heading by the project's own file. The renderer
+  # itself stays generic so one copy serves every project.
+  . "$REPO/scripts/state-probe-extras.sh"
 fi
 
 # ---------------------------------------------------------------- next move

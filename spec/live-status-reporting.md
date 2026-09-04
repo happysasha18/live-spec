@@ -495,4 +495,51 @@
 4. The system *shall* state each hook's surface and command form in the wired-hook declaration, so a host wiring one reads them. [INV-211, INV-70]
 5. The system *shall* record the owner's word and its date in JOURNAL.md. [INV-220]
 
+---
+
+## Requirement 319: One status renderer ships from the pack, and a host's copy stays byte-identical to it
+
+**Context:** The pack ships a status renderer to every joined project, and until now the pack's own
+copy and the shipped copy had forked: the shipped `scaffold/status-view/state-probe.sh` was a thin
+cut of the pack's own `scripts/state-probe.sh`, so a fix to one never reached the other and a
+person read a different-shaped list in each project. This requirement makes the two one file: the
+pack's full renderer ships from `scaffold/status-view/`, made project-generic — it prints a
+project's own basename rather than the literal pack name, and reads the branch's own upstream
+(`@{u}`) rather than a hardcoded trunk — and the pack's own `scripts/state-probe.sh` is a
+byte-for-byte copy of that shipped source. Whatever names the pack's own files or measures the
+pack's own machinery — its version, its director eval score, its required-context token count, its
+spec corpus size — leaves the shared renderer and prints instead from a project's own
+`scripts/state-probe-extras.sh`, sourced near the renderer's end under that file's own heading, so
+one shared copy still carries every project's own facts without naming any one of them. The
+existing update check already watches a vendored copy's pinned hash for staleness against the pack
+(Requirement 188's ratchet-manifest watch, INV-177); this requirement adds the one thing that watch
+does not do — read a host's actual vendored bytes against the pack's actual current bytes, rather
+than trust either file's recorded hash — and proves the result at a host's own push.
+
+**User Story:** As a person who reads a status list in more than one project, I want one renderer to
+own its shape and a mechanical check to red the moment a host's copy drifts from it, so that a fix
+to the renderer always reaches every project and a silent fork is never the reason two projects
+read differently.
+
+### Acceptance Criteria
+
+**Case: one renderer, made generic**
+
+1. The system *shall* ship `scaffold/status-view/state-probe.sh` as the pack's own full renderer, printing each project's own basename in its header line and comparing against the branch's own upstream (`@{u}`). [INV-325]
+2. The system *shall* keep `scripts/state-probe.sh`, the pack's own copy, byte-identical to `scaffold/status-view/state-probe.sh`. [INV-325]
+
+**Case: a project's own facts arrive through its own file**
+
+3. The system *shall* have the renderer source a project's own `scripts/state-probe-extras.sh` when it exists, near the renderer's end and before its closing NEXT line, printing that project's own facts under that file's own heading. [INV-325]
+4. The system *shall* carry the pack's own facts — its version, its director eval score, its required-context token count, and its spec/architecture corpus size — in the pack's own `scripts/state-probe-extras.sh`, so no fact naming the pack's own files or machinery stands in the shared renderer. [INV-325]
+5. *when* a host carries no extras file, the system *shall* print no extras section rather than fail. [INV-325]
+
+**Case: the drift check reads each file's own bytes**
+
+6. The system *shall* have `guardrails/check-status-view-drift.py` read a host's `scripts/ratchet-manifest.json`, and for every pinned entry whose source resolves to a real file inside the pack, open both that pack file and the host's own vendored copy and compare their bytes directly. [INV-325, INV-177]
+7. The system *shall* never trust the manifest's own recorded hash and *shall* never trust a claim about a file it has not itself read. [INV-325]
+8. *when* a host's vendored copy differs from the pack's current copy, the system *shall* red, naming the drifted file and the re-install road. [INV-325]
+9. *when* a host carries no ratchet manifest, or the pack is not reachable from this machine, the system *shall* stand down with one line naming why, and *shall* exit clean. [INV-325]
+10. The system *shall* run this check in the pack's own push gate, and *shall* vendor it to every host `adopt/install-status-view.sh` installs, alongside an empty `scripts/state-probe-extras.sh` seeded only where the host carries none. [INV-325]
+
 

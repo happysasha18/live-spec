@@ -12,7 +12,7 @@
 - `scripts/checkpoint.py:55` (the one place the checkpoint machinery couples to this node: an owner reading `director` is what makes a decision sheet required at creation and at validation)
 - `evals/director/check.py:1` (the grader that judges a recorded run against its written scenario. It is deterministic and it calls no model; the run it grades is produced elsewhere and stored, so the score speaks about the recorded runs rather than about today's session)
 - `evals/director/scenarios.json:1` (the written scenarios and their expected verdicts — the goal this node's reading is measured against)
-- `scripts/state-probe.sh:245` (the probe's own arm: it prints the score at a session's start and says plainly when the traces are older than the skill, so a replay of old runs is read as saying nothing about the skill as it stands)
+- `scripts/state-probe-extras.sh:18` (the probe's own arm: it prints the score at a session's start and says plainly when the traces are older than the skill, so a replay of old runs is read as saying nothing about the skill as it stands — the pack's own facts, moved here by row q-818 so the shared renderer stays generic, INV-325)
 
 **notes** —
 - Nothing on this machine puts a message through this node. The pack ships no hook on message arrival and no gate that reads a transcript for the reading; the door is a sentence in the person's boot file that a session reads and follows. INV-317 is the requirement that states so, and a reader who takes it at its word will find no wire to look for.
