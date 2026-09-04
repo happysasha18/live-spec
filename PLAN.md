@@ -579,7 +579,7 @@ carries no such quoted verdict; and the size of the rulebook and of `skills/dire
 **Links:** `guardrails/check-skill-review.sh`, `skills/director/references/landing-law.md` (the rule
 itself), `spec/design-spec-review.md` (INV-208's home), every directory under `skills/`.
 
-### ⬜ The product's performance after launch is tracked automatically — id: q-48
+### ✅ The product's performance after launch is tracked automatically — id: q-48
 **Group:** Feedback & measurement · **Priority:** normal
 **Source:** owner 2026-07-05.
 **Closes:** q-49, q-96, q-100, q-469
@@ -654,6 +654,35 @@ case asserts its own red before the pass case is trusted). Traced at `architectu
 tests/test_index_generated.py tests/test_architecture_reference.py tests/test_matrix_reference.py
 tests/test_scenario_heading_tag.py` (all green) prove the delta lands clean against the rest of the
 spec, the architecture, and the matrix.
+
+**Done on the pack's side 2026-09-04.** The half this row still owed was the printing: numbers
+arriving beside the rows without a person going to look. With one renderer shipping to every
+project (q-818), that half stopped being each host's own job and became the pack's. The shared
+renderer now reads a project's own `.live-spec/success-measure-feed.json` through the pack's one
+checker and prints, under its own heading between the rows and the alarms, each confirmed metric,
+the two-variant experiment where one is carried, and the fetch's own source in plain words. A fetch
+the checker refuses — skipped, empty, stale, or malformed — prints the checker's own line in place
+of the numbers, so an empty fetch is visible rather than silent. A project with no feed prints no
+such section.
+
+One thing had to be settled to do it without inventing a number: how old is too old. The pack
+chose nothing. A feed may now state `stale_after_hours` itself, and the renderer asks the checker
+for the feed's own cadence — the tooling that writes a feed is the thing that knows how often it
+runs. A feed stating no cadence has its age reported and judged against no bound. Requirement 318
+gained clauses for the field, for the two ways a caller may name the bound, and for the printing
+itself; clause 10 changed from leaving the printing to each host to giving it to the shared
+renderer.
+
+Five cases in `tests/test_success_measure_view.py` run the real renderer against a fixture project:
+numbers printed, experiment printed, empty fetch named, a feed past its own cadence named, no feed
+and no section. Six more in `tests/test_success_measure_feed.py` cover the cadence arm, each fault
+shown red before its pass.
+
+**What is left, and whose it is.** One leg: writing the fetch tooling that fills a feed from a real
+analytics account. That is each host's own job. For the photo site it means one script writing this
+file from the numbers `~/tlvphotos/scripts/ga_report.py` already reads, and it belongs to a session
+in that project's own window; a note went to its inbox on 2026-09-04. Nothing pack-side waits on it,
+and this row's own acceptance no longer does either.
 
 **What stays open, and whose it is.** Two legs of Requirement 318 name a host's own job and build
 nothing here on purpose: writing the fetch tooling itself against a real source (a host's own

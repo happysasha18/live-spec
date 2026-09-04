@@ -105,10 +105,32 @@ def check(feed_path, staleness_hours):
 
     now = datetime.datetime.now(datetime.timezone.utc)
     age_hours = (now - generated_at).total_seconds() / 3600.0
-    if age_hours > staleness_hours:
-        return fail("stale",
-                     "%s was generated %.1fh ago, past the %gh staleness bound"
-                     % (feed_path, age_hours, staleness_hours))
+
+    # The bound belongs to whoever owns the fetch. A caller may name it outright, or pass the
+    # literal "from-feed" and let the feed state its own: the tooling that writes a feed is the
+    # thing that knows how often it refreshes, and no bound the pack chose for it would mean
+    # anything. A feed that states no cadence gets no invented one — the staleness arm stands
+    # down by name and every other arm still runs (PLAN q-48).
+    if staleness_hours is None:
+        stated = feed.get("stale_after_hours")
+        if stated is None:
+            stale_note = "; the feed states no refresh cadence, so its age is reported and not judged"
+        elif not isinstance(stated, (int, float)) or isinstance(stated, bool) or stated <= 0:
+            return fail("malformed",
+                        "%s's stale_after_hours must be a positive number, got %r"
+                        % (feed_path, stated))
+        elif age_hours > stated:
+            return fail("stale",
+                        "%s was generated %.1fh ago, past the %gh cadence the feed itself states"
+                        % (feed_path, age_hours, stated))
+        else:
+            stale_note = ""
+    else:
+        stale_note = ""
+        if age_hours > staleness_hours:
+            return fail("stale",
+                        "%s was generated %.1fh ago, past the %gh staleness bound"
+                        % (feed_path, age_hours, staleness_hours))
 
     experiment = feed.get("experiment")
     exp_note = ""
@@ -128,18 +150,20 @@ def check(feed_path, staleness_hours):
                              % feed_path)
         exp_note = ", experiment %r with %d variants" % (experiment.get("name"), len(variants))
 
-    return ok("%s: %d metric(s) from %r, generated_at %.1fh old%s"
-              % (feed_path, len(feed["metrics"]), source, age_hours, exp_note))
+    return ok("%s: %d metric(s) from %r, generated_at %.1fh old%s%s"
+              % (feed_path, len(feed["metrics"]), source, age_hours, exp_note, stale_note))
 
 
 def main(argv):
     if len(argv) != 3:
-        print("usage: %s <feed.json> <staleness-hours>" % os.path.basename(argv[0]))
+        print("usage: %s <feed.json> <staleness-hours|from-feed>" % os.path.basename(argv[0]))
         return 2
+    if argv[2] == "from-feed":
+        return check(argv[1], None)
     try:
         staleness_hours = float(argv[2])
     except ValueError:
-        print("staleness-hours must be a number, got %r" % argv[2])
+        print("staleness-hours must be a number or the word from-feed, got %r" % argv[2])
         return 2
     return check(argv[1], staleness_hours)
 

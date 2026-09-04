@@ -281,6 +281,43 @@ if [ -f "$REPO/scripts/state-probe-extras.sh" ]; then
   . "$REPO/scripts/state-probe-extras.sh"
 fi
 
+# ---------------------------------------------------------------- since it shipped
+# A project's live numbers, printed beside its rows without a person going to look (PLAN q-48,
+# SPEC Requirement 318). The project's own fetch tooling writes .live-spec/success-measure-feed.json
+# from its own analytics account; this renderer reads it through the pack's one checker and prints
+# only what that checker confirms. A project with no feed prints nothing here.
+#
+# The checker is asked for the feed's own refresh cadence rather than a bound this script chose:
+# the tooling that writes a feed is the thing that knows how often it runs. A feed stating no
+# cadence has its age reported and left unjudged.
+FEED="$REPO/.live-spec/success-measure-feed.json"
+CHECKER="$REPO/scripts/check-success-measure-feed.py"
+if [ -f "$FEED" ] && [ -f "$CHECKER" ]; then
+  b "SINCE IT SHIPPED"
+  if FEED_OUT=$(python3 "$CHECKER" "$FEED" from-feed 2>&1); then
+    python3 - "$FEED" <<'FEEDEOF'
+import json, sys
+feed = json.load(open(sys.argv[1], encoding="utf-8"))
+D, X = "\033[2m", "\033[0m"
+for m in feed.get("metrics", []):
+    print("  %s: %s %s" % (m.get("label"), m.get("value"), m.get("unit")))
+exp = feed.get("experiment")
+if isinstance(exp, dict):
+    print("  %sexperiment %s%s" % (D, exp.get("name"), X))
+    for v in exp.get("variants", []):
+        parts = ", ".join("%s %s %s" % (n.get("label"), n.get("value"), n.get("unit"))
+                          for n in v.get("metrics", []))
+        print("    %s%s — %s%s" % (D, v.get("label"), parts, X))
+print("  %s%s%s" % (D, feed.get("source", ""), X))
+FEEDEOF
+  else
+    # A fetch that was skipped, came back empty, went stale past the cadence the feed itself
+    # states, or wrote a malformed feed says so here rather than printing numbers nobody can
+    # trust. The checker's own line is carried over as it stands.
+    warn "$(printf '%s' "$FEED_OUT" | head -1)"
+  fi
+fi
+
 # ---------------------------------------------------------------- alarm
 b "ALARM"
 ALARM=0

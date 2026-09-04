@@ -144,3 +144,65 @@ class TestSuccessMeasureFeed(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)
+
+
+class TheFeedStatesItsOwnRefreshCadence(unittest.TestCase):
+    """The bound belongs to whoever owns the fetch (PLAN q-48).
+
+    A status view that prints a feed has to know when the numbers went stale, and no bound the
+    pack chose for a host would mean anything — the tooling that writes a feed is the thing that
+    knows how often it runs. So a caller may pass the word `from-feed` and let the feed state its
+    own `stale_after_hours`. A feed that states none gets no invented one: the staleness arm
+    stands down by name and every other arm still runs.
+    """
+
+    def _feed(self, age_hours, cadence=None):
+        now = datetime.datetime.now(datetime.timezone.utc)
+        body = {
+            "generated_at": (now - datetime.timedelta(hours=age_hours)).isoformat(),
+            "source": "a fixture",
+            "metrics": [{"label": "visitors", "value": 21, "unit": "sessions"}],
+        }
+        if cadence is not None:
+            body["stale_after_hours"] = cadence
+        path = os.path.join(self.tmp, "feed.json")
+        with open(path, "w", encoding="utf-8") as fh:
+            json.dump(body, fh)
+        return path
+
+    def setUp(self):
+        self.tmp = tempfile.mkdtemp(prefix="livespec-feed-cadence-")
+
+    def _run(self, path, bound):
+        return subprocess.run(["python3", SCRIPT, path, bound],
+                              capture_output=True, text=True)
+
+    def test_past_the_cadence_the_feed_itself_states_reds(self):
+        r = self._run(self._feed(48, 24), "from-feed")
+        self.assertEqual(r.returncode, 1, r.stdout)
+        self.assertIn("cadence the feed itself states", r.stdout)
+
+    def test_inside_the_cadence_the_feed_itself_states_passes(self):
+        r = self._run(self._feed(2, 24), "from-feed")
+        self.assertEqual(r.returncode, 0, r.stdout)
+
+    def test_a_feed_stating_no_cadence_has_its_age_reported_and_not_judged(self):
+        r = self._run(self._feed(500), "from-feed")
+        self.assertEqual(r.returncode, 0, r.stdout)
+        self.assertIn("states no refresh cadence", r.stdout)
+        self.assertIn("500.0h old", r.stdout)
+
+    def test_a_cadence_that_is_not_a_positive_number_reds(self):
+        for bad in ("soon", 0, -3, True):
+            r = self._run(self._feed(2, bad), "from-feed")
+            self.assertEqual(r.returncode, 1, "%r should red: %s" % (bad, r.stdout))
+            self.assertIn("must be a positive number", r.stdout)
+
+    def test_a_caller_that_names_its_own_bound_still_works(self):
+        self.assertEqual(self._run(self._feed(2), "24").returncode, 0)
+        self.assertEqual(self._run(self._feed(48), "24").returncode, 1)
+
+    def test_a_bound_that_is_neither_a_number_nor_the_word_is_refused(self):
+        r = self._run(self._feed(2), "whenever")
+        self.assertEqual(r.returncode, 2, r.stdout)
+        self.assertIn("from-feed", r.stdout)

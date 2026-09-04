@@ -164,6 +164,10 @@ sys.exit(1 if undrawn or unmarked else 0)
     # are executed rather than grepped for (0.5s); the two real splits they sit beside read 800 KB
     # out of git history and stay in the suite.
     "q-531": "test -f scripts/nothing-lost.py && python3 tests/test_nothing_lost.py TestALegitimateSplitPrintsNothing TestADroppedThingReds > /dev/null 2>&1",
+    # q-48, the pack side: the shared renderer prints a project's live numbers through the pack's
+    # one checker, and the checker takes the refresh cadence from the feed rather than from a
+    # number this tree chose. The host leg — writing the fetch tooling — is another window's job.
+    "q-48": "grep -q 'SINCE IT SHIPPED' scaffold/status-view/state-probe.sh && grep -q 'from-feed' scripts/check-success-measure-feed.py && test -f tests/test_success_measure_view.py",
     # q-818: one renderer ships from the pack, the pack's own copy is byte-identical to it, and the
     # drift check reads the two files. cmp costs nothing; the check's own red-proof lives in
     # tests/test_status_view_drift.py rather than being re-run at every session start.
@@ -334,7 +338,14 @@ for command in m.ALSO_DISCARDING:
         'python3 scripts/spec-redundancy-precheck.py PRODUCT_SPEC.md | grep -q \'"open"\' && '
         'test ! -f adopt/install-ratchet.sh && '
         '! grep -q LOCK_TEST_TEMPLATE adopt/install-style-gates.sh && '
-        'git show 49b4813f^:spec/success-measure-feed.md | diff -q - spec/success-measure-feed.md'
+        # The criteria the retired size ratchet forced short still carry their restored, longer
+        # wording. This clause used to compare the whole file against 49b4813f^, which read as a
+        # freeze on a live spec chapter: q-48 added three real criteria to it on 2026-09-04 and the
+        # row went red over an addition it has no quarrel with. What the row actually promises is
+        # that the shortening was undone and stayed undone, so the clause reads the restored
+        # sentences themselves.
+        'grep -q "carrying a label, a value, and a unit" spec/success-measure-feed.md && '
+        'grep -q "each variant its own label and its own non-empty metrics list" spec/success-measure-feed.md'
     ),
     # --- written 2026-09-01, closing the second round of gaps test_plan_done_marks_are_backed.py
     # found: five more rows landed ✅ tonight with no command and no named reading. Each below
