@@ -7,12 +7,9 @@
   "shelves_idea": false,
   "attaches_to_existing_work": true,
   "work_items": 0,
-  "dimensions": [
-    "quality, safety, regressions",
-    "release, observation, feedback"
-  ],
+  "dimensions": [],
   "specialists": [],
-  "reasoning": "The message reports a fact (an email arrived suggesting the push failed) without asking for anything -- this is the 'Observation or feedback' act: 'reports a fact or an impression without asking for a repair.' It is not beyond-doubt the way 'production is returning 500s' is: the situation states a new CI run is still in progress awaiting a verdict, so the human's hedged claim ('вроде... уже') conflicts with the known state and a competent colleague would check the actual CI status before treating it as settled -- per 'Some observations carry their repair with them,' an uncertain signal like this gets checked, not acted on blind. Because a checkpoint is already open for the diagnosed CI-fix work awaiting exactly this verdict, this is squarely the Execution section's 'A new fact can change the remaining graph': the fact is read against the plan for the work already running, not filed as a new item -- 'record it as evidence' and check it against the open checkpoint, updating that checkpoint only if it changes the remaining graph. It therefore attaches to existing work rather than creating any; no new goal or constraint was stated, so it is not a correction, and nothing here is an idea, decision, instruction, or halt. No specialist call is warranted for this turn -- verifying the claim against the live CI status is the Director's own reading, and the in-flight CI run already serves as the check on the fix itself.",
+  "reasoning": "The message reports a fact ('seems like the push already failed, I got an email') without asking for anything. It is not a correction: nothing about the goal or constraints of the open repair work is being changed. Per 'Some observations carry their repair with them': the repair (check the actual CI state and continue the diagnosis already under way) follows beyond doubt, but it is the existing work's repair, not a new one — this is exactly the Execution-section case 'A new fact can change the remaining graph', updating the existing checkpoint rather than opening a second one. Since no new piece of work is created, it earns no decision sheet, hence no new dimensions or specialists are named here — those already live on the open checkpoint's own sheet.",
   "scenario": "observation-carrying-its-repair",
   "skill_version": "6.1.0"
 }

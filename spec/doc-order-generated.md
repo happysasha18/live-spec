@@ -1,6 +1,6 @@
 ## Requirement 1: The spec keeps what is built apart from what is planned
 
-**Context:** The spec states what is built and working today apart from what is only planned, and it keeps a reader from mistaking one for the other. A planned feature carries the target tag on a line of its own, and the tag never spreads to the section around it. The suite ties each target tag to the queue row that builds it — a row still open, awaiting its landing — so the marker is enforced by the suite.
+**Context:** The spec states what is built and working today apart from what is only planned, and it keeps a reader from mistaking one for the other. A planned feature carries the target tag on a line of its own, and the tag never spreads to the section around it. The suite ties each target tag to the queue row that builds it — a row still open, awaiting its landing — so the marker is enforced by the suite. The design-sync machine stays promised in Requirement 318's own words and carries no target tag of its own, since no queue row builds it and the owner opens that row himself when he wants it.
 
 **User Story:** As a reader of the spec, I want a planned feature marked by a target tag the suite enforces, so that I never mistake a promised surface for a working one.
 
@@ -15,7 +15,6 @@
 
 3. The system *shall* tie each target tag to the queue row that builds it, that row still open and awaiting its landing, and *shall* red the suite *if* that row ships with the tag still on, *if* the tag vanishes, or *if* the tag was never named. [S-0]
 4. The system *shall* mark as planned the design-sync machine. [E-18]
-   [target]
 
 ---
 

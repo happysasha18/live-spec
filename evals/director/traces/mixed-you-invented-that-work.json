@@ -2,22 +2,22 @@
   "id": "mixed-you-invented-that-work",
   "acts": [
     "correction",
-    "observation",
     "observation"
   ],
   "creates_work": false,
   "shelves_idea": false,
   "attaches_to_existing_work": true,
-  "work_items": 0,
+  "work_items": 1,
   "dimensions": [
-    "the user's path and the design",
-    "analytics, unknowns, hypotheses, experiments"
+    "product value and behaviour",
+    "quality, safety, regressions"
   ],
   "specialists": [
     "Developer",
-    "Data and experiment analyst"
+    "Product prover",
+    "Test author"
   ],
-  "reasoning": "The core act is a correction: the person is narrowing the constraints of work already in flight (the transitions/measurement effort) from 'measure whatever' down to the one thing actually asked for -- a quick platform measurement before deciding how complex transitions should be. Per 'A correction attaches to work, not to a queue,' this retargets the existing checkpoint rather than opening a new one, so work_items is 0 and attaches_to_existing_work is true even though the correction itself is accepted work that gets a (revised) decision sheet. Two more acts ride along and are not absorbed into the correction: 'это тоже баг' names the unrequested measuring as a defect, and the closing line diagnoses the mechanism ('автозаявка на любую хрень вместо того чтобы думать') -- both are judgments about the process that 'say something new' beyond the correction's own goal, per 'Grounds stated with an act carry their own act only when they say something new,' and are worth keeping as evidence rather than dissolved into context. The surviving scope (a quick measurement on the platform to inform transition-complexity decisions) touches the experiment/hypothesis dimension and the design decision it feeds; Developer would run the measurement and the Data/experiment analyst (per the specialists table, 'the cause is unknown or a hypothesis needs testing') would interpret it against the complexity question.",
+  "reasoning": "The core act is a correction: work already in flight (the unrequested measuring) has its goal narrowed to keep only the one piece the person actually proposed. Per 'A correction attaches to work, not to a queue': this attaches_to_existing_work=true, creates_work=false, work_items=1 (the same in-flight work, replanned to its confirmed scope). 'Это тоже баг' and the diagnosis that this was an 'autozayavka on any garbage instead of thinking' are judgments about the product/process that say something new even though they double as the correction's reason, so they are recorded as an observation. Because the correction is a confirmed bug (an agent-side pattern of inventing unrequested work), it owes a class-hunt sweep, pulling in Product prover alongside Developer and Test author. Dimensions: product behaviour and quality/regressions.",
   "scenario": "mixed-you-invented-that-work",
   "skill_version": "6.1.0"
 }

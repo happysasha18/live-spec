@@ -37,26 +37,37 @@ import re
 import subprocess
 
 # The variation selectors an emoji may carry. `✅` and `✅️` are one mark on the screen and two
-# different strings to a comparison, and a plan may write `👁️` with the selector and `✅` without
-# it. Every reader of a mark compares it literally, so a done mark typed with a selector read as
-# done to the eye while no reader agreed — the board would show it done and the landing gate would
-# ask no resume refresh of the commit that set it (the adversarial read of 2026-08-31). Stripping
-# the selector where the mark is PARSED is what keeps the one home one home; every comparison
-# downstream then goes on working as written.
+# different strings to a comparison, and a plan may write one mark with the selector and another
+# without it. Every reader of a mark compares it literally, so a done mark typed with a selector
+# read as done to the eye while no reader agreed — the board would show it done and the landing
+# gate would ask no resume refresh of the commit that set it (the adversarial read of 2026-08-31).
+# Stripping the selector where the mark is PARSED is what keeps the one home one home; every
+# comparison downstream then goes on working as written.
 _VARIATION_SELECTORS = "︎️"
 
-# The marks a plan types, each in the ONE spelling every reader and every renderer uses.
-# `👁` needs its selector to render as the emoji rather than the monochrome glyph, so the canonical
-# spelling carries it; the rest carry none. A mark typed the other way comes back to its canonical
-# spelling here, and nowhere else has to know that two spellings exist.
-_CANONICAL_MARKS = {m.strip(_VARIATION_SELECTORS): m for m in ("✅", "🔄", "⬜", "⛔", "👁️")}
+# The marks a plan types, each in the ONE spelling every reader and every renderer uses. A mark
+# typed the other way comes back to its canonical spelling here, and nowhere else has to know that
+# two spellings exist. 🔁 (reopened) is never typed — evaluate() below is its only source — so it
+# carries no entry here.
+_CANONICAL_MARKS = {m.strip(_VARIATION_SELECTORS): m for m in ("✅", "🔄", "⬜", "⛔")}
+
+# 👁️ ("needs his eyes") retired 2026-09-04, his standing word: needing to consult a person is not
+# a task state — it is a question asked in the reply. A row still wearing 👁️ is a defect, not a
+# fourth state; it reads as ⬜ queued rather than falling through every mark comparison downstream
+# and disappearing from the board unexplained. ⛔ ("blocked") stays, narrowed the same day: it
+# names only a real outside thing stopping the work — an expired key, a dead credential, a
+# service that is down — never waiting on someone or on a decision.
+_RETIRED_MARKS = {m.strip(_VARIATION_SELECTORS) for m in ("👁️",)}
 
 
 def normalize_mark(mark):
-    """The canonical spelling of a mark a keyboard can type two ways."""
+    """The canonical spelling of a mark a keyboard can type two ways, or ⬜ for a retired one."""
     if not mark:
         return mark
-    return _CANONICAL_MARKS.get(mark.strip(_VARIATION_SELECTORS), mark)
+    stripped = mark.strip(_VARIATION_SELECTORS)
+    if stripped in _RETIRED_MARKS:
+        return "⬜"
+    return _CANONICAL_MARKS.get(stripped, mark)
 
 
 def reads_outside_the_tree(command):
@@ -256,7 +267,10 @@ def parse_tasks(text, checks=None):
     covered_by/deferred/blocked_by are what a reader uses to tell a row that only LOOKS idle apart:
     covered_by names the row that actually carries this work (a fold pointer); deferred names a
     decision to postpone it, not an obstacle; blocked_by names a real, understood cause a ⛔ row
-    cannot move past on its own. A ⛔ row with none of the three is a mislabel, not a fourth state.
+    cannot move past on its own — narrowed 2026-09-04, his standing word: ⛔ names only an outside
+    thing stopped the work (an expired key, a dead credential, a service that is down), never
+    waiting on someone or on a decision, which is a question asked in the reply, not a task state.
+    A ⛔ row with none of the three is a mislabel, not a fourth state.
     """
     lines = _section(text, "## Tasks")
     if lines is not None:

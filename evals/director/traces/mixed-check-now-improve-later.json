@@ -2,22 +2,21 @@
   "id": "mixed-check-now-improve-later",
   "acts": [
     "instruction",
-    "observation"
+    "idea"
   ],
   "creates_work": true,
-  "shelves_idea": false,
+  "shelves_idea": true,
   "attaches_to_existing_work": false,
   "work_items": 1,
   "dimensions": [
-    "quality, safety, regressions",
-    "architecture, data, integrations, operations"
+    "architecture, data, integrations, operations",
+    "quality, safety, regressions"
   ],
   "specialists": [
-    "Independent verifier",
     "Product prover",
-    "Test author"
+    "Independent verifier"
   ],
-  "reasoning": "Reading the whole turn per 'One turn, several acts': the person asks for something to be done -- thoroughly check that the modification did not bloat the bundle (or is covered by per-platform dynamic loading) and that nothing breaks for the user -- a single Instruction act (one result: 'this change is safe'), even though it names several facets, per 'Taking acts apart is not the same as splitting a goal.' Embedded in the same breath is a second, distinct act: the judgment that the existing prover 'should have caught this too' is an Observation carrying something new (a claimed gap in the verification machinery) per 'Grounds stated with an act carry their own act only when they say something new' and the note that product/process judgments are the ones most often lost. The closing hedge ('не знаю эт реально или нет') restates the instruction's own motivation rather than adding a new ask, so it is not a separate act. Nothing here references or modifies the goal/constraints of work already in flight, so this reads as new work (Instruction, not Correction) -- one accepted work item: an audit/verification pass. It touches quality/safety/regressions (checking for breakage) and architecture/data/integrations/operations (bundle size, platform-conditional loading). Specialists: Independent verifier fits directly ('the result needs checking by someone who did not produce it'); Product prover fits the class-based defect hunt on shipped code with no document to check against; Test author fits because the person is effectively asking whether the right evidence/regression checks exist, which is exactly what the observation about the prover's gap raises.",
+  "reasoning": "The core of the message is an Instruction: check the modification doesn't bloat the bundle and that nothing breaks for users. These are steps toward one result, not separate work, so work_items=1. Nothing shows this attaches to work already in flight — the modification is already made — so it opens new work. The clause 'и это прувер тоже должен был бы поймать!' is a judgment about the product that says something new (a gap in the prover's coverage) and reads as 'names a possibility they are not asking for now' — an Idea for later, since 'кстати проверь' asks only to check/confirm the claim now, not to fix the prover. Per the current idea rule this is worth raising and gets a live question rather than being built or filed on the Director's own word, hence shelves_idea=true. The check itself matches the Product prover's call condition (class-based defect hunt with no governing document) and the Independent verifier's condition (checking a result someone else produced). Dimensions: architecture/operations (bundle size, dynamic loading) and quality/safety/regressions.",
   "scenario": "mixed-check-now-improve-later",
   "skill_version": "6.1.0"
 }

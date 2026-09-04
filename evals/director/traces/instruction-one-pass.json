@@ -8,12 +8,10 @@
   "attaches_to_existing_work": false,
   "work_items": 1,
   "dimensions": [
-    "quality, safety, regressions"
+    "documentation and communication"
   ],
-  "specialists": [
-    "Product prover"
-  ],
-  "reasoning": "The message asks for something to be done now -- 'do a pass, only via the prover skill' -- which is the Instruction row: 'asks for something to be done' -> 'accept the work, state the goal understood, begin.' The word 'only' scopes which specialist runs (product-prover alone, excluding others the table lists), but it does not carry 'from this point on' or 'always' force, so per the rule 'A request scoped to this one time... names no standing rule at all... and stays an instruction,' it is not read as a separate standing Decision -- it is one instruction, one act. Nothing in the message reports a fact, muses, offers an unrequested possibility, or asks to stop anything running, so no other of the seven acts is present. Since this names a goal (a product-prover pass) that nothing already in flight is described as covering, it opens new work rather than attaching to or correcting an existing checkpoint -- one new work item. The specialist named by the work itself is Product prover (skills/product-prover-pack), called per its row for a defect/gap hunt against a document or the statement of a problem, which lands in the 'quality, safety, regressions' dimension -- the review is a formal-verification-style defect hunt, not itself a change to product behaviour, the user's path, or documentation content.",
+  "specialists": [],
+  "reasoning": "The message asks for something to be done now, with the person actively scoping the work ('only'), matching the Instruction row. Nothing references work already running to correct or decide on, so this is read as a fresh instruction. It is one instruction, hence one work item. The goal is to review/pass over a skill's text, which is a document, so the dimension touched is documentation and communication; per 'Naming a dimension claims something in it must change,' no other dimension is named. No specialist in the table maps cleanly onto 'pass over a skill's own text' (skill review is the Director's own execution-law concern, not a delegable specialist), so specialists is empty.",
   "scenario": "instruction-one-pass",
   "skill_version": "6.1.0"
 }

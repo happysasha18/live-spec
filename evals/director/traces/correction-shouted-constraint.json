@@ -9,13 +9,13 @@
   "work_items": 0,
   "dimensions": [
     "product value and behaviour",
-    "architecture, data, integrations, operations"
+    "the user's path and the design"
   ],
   "specialists": [
     "Developer",
-    "Architect"
+    "Design reviewer"
   ],
-  "reasoning": "The situation states work on the transition engine is already in flight, and the message bans one approach (static transitions) within that ongoing build. Per the table, a Correction 'changes the goal or the constraints of work in flight'; per the dedicated rule, 'A correction attaches to work, not to a queue... find that work and change it,' so this is not new work but a change to the existing checkpoint's goal/constraints, requiring the remainder to be replanned. It is explicitly not a Halt: the skill states 'Telling work in flight to stop one approach and take another is a correction to its method, not a halt... a halt stops the work itself, not a technique inside it' -- banning static transitions is exactly banning a technique, leaving the engine's overall goal intact. It is also not a Decision, since the message carries no standing-rule language ('from now on', 'always') and instead reshapes the constraints of the specific work underway ('A correction is not a decision: a decision settles an open choice... a correction changes that work's goal or constraints'). No second act is present -- no separate question, idea, or observation is voiced alongside the correction. Because it only changes work already running, work_items is 0 per 'a correction... that only changes work already running still produces 0 new items.' The corrected work touches product behaviour (what the transitions must do) and likely architecture/data (how the engine computes transitions, since banning a static approach reshapes the underlying mechanism), so the Developer (something must be built/changed) and Architect (boundaries/data of the engine change) are the specialists the corrected work needs.",
+  "reasoning": "The situation (mid-implementation of the transition engine) plus the message (a constraint about how transitions must behave) match the Correction row: 'changes the goal or the constraints of work in flight.' Per 'A correction attaches to work, not to a queue', this finds the transition-engine work already in flight and changes its constraint, so it attaches to that existing checkpoint. Tone/shouting does not change the act — what makes this a correction is that it changes an in-flight goal's constraint, not that it was shouted; it is not a halt, since the work keeps running toward the same goal, only a constraint on its output changes. Because it changes what the transition engine must produce, it touches product value and behaviour and the user's path and design, calling for the Developer to replan and continue, and the Design reviewer since the correction is about the coherence of the experience.",
   "scenario": "correction-shouted-constraint",
   "skill_version": "6.1.0"
 }

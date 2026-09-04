@@ -9,15 +9,13 @@
   "work_items": 1,
   "dimensions": [
     "product value and behaviour",
-    "the user's path and the design",
     "quality, safety, regressions"
   ],
   "specialists": [
     "Developer",
-    "Test author",
-    "Design reviewer"
+    "Test author"
   ],
-  "reasoning": "The whole turn is one act, read under 'Some observations carry their repair with them': continuity was discussed at length and settled as a requirement, so a shipped build lacking it is a defect whose repair follows beyond doubt, exactly the free-plan-export worked example ('A sheet at the size the work deserves') rather than a bare 'record it as evidence' observation. The second clause ('очень странно... видеть такой уровень понимания') restates the same judgment -- that a settled requirement was not honoured -- rather than adding a new fact, so per 'Grounds stated with an act carry their own act only when they say something new' it is not a second act. Because the situation states the build 'was just shown, already delivered and accepted -- nothing about it is still open or checkpointed as in-flight,' this cannot be a correction (correction attaches to work in flight); it falls squarely under the rule 'A shown result closes the work... If he disagrees with a shown result afterward, that disagreement is a new fact, not a reopening of the one that shipped: it becomes its own task carrying his correction, and the closed row stays closed.' So one new work item opens rather than reopening/attaching to the closed build. Dimensions: product behaviour (a stated requirement -- continuity -- is not met), the user's path and design (continuity across shots is exactly the 'coherence of the experience' the design reviewer is called for), and quality/regressions (it shipped without a check that would have caught the missing continuity, mirroring the worked example's quality line). Specialists follow the worked-example pattern: Developer to fix it, Test author to add the regression check, and Design reviewer for the coherence-of-experience judgment -- no spec author, since continuity was already a settled, discussed requirement rather than an undocumented behavior.",
+  "reasoning": "This is an Observation whose repair follows beyond doubt: continuity 'had been discussed at length as a requirement,' so a delivered build lacking it is a stated requirement gone unmet, the same shape as the worked example under 'A sheet at the size the work deserves'. The second clause restates why the gap is surprising rather than naming a new, separately actionable fact, so it is that same observation's grounds, not a second act. Because the work was already delivered and accepted, this cannot be a correction — there is no open checkpoint to attach to. It matches 'A shown result closes the work' directly: 'If he disagrees with a shown result afterward, that disagreement is a new fact... it becomes its own task carrying his correction, and the closed row stays closed.' So this observation creates one new work item. Dimensions and specialists mirror the worked example: product behaviour and quality; Developer and Test author, no spec author since the requirement was already established.",
   "scenario": "observation-a-verdict-on-delivered-work",
   "skill_version": "6.1.0"
 }

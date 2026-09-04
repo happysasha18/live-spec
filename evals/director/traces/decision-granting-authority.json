@@ -5,11 +5,11 @@
   ],
   "creates_work": false,
   "shelves_idea": false,
-  "attaches_to_existing_work": true,
+  "attaches_to_existing_work": false,
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "This matches the skill's 'A decision is a standing rule, not only a single choice' rule almost verbatim: phrases like 'from this point on' or 'note this for yourself' grant standing authority beyond the single message. Here the person grants blanket permission for pushes and commands going forward, ending the pattern of asking before each push -- a grant of authority, not a request for a specific action now. Per the acts table, a Decision means 'record the decision and apply it to the work already running,' never 'open a second task duplicating work already under way,' so no new work item or decision sheet is warranted (the Execution section's checkpoint/dimensions/specialists machinery is for instructions, corrections, and settled conditionals that carry their own goal -- a bare standing-rule grant has no observable outcome of its own to write a sheet for). It attaches to the ongoing push-gating behavior described in the situation rather than starting anything, so attaches_to_existing_work is true and work_items is 0. No idea-shelf entry applies since nothing here is a possibility 'not asked for now.' No dimensions or specialists are named because this is a process/authority decision about how the Director operates, not product, architecture, quality, or release work whose sentences actually change.",
+  "reasoning": "This is the skill's own example of the standing-rule kind of decision: a grant of authority removing the stop-and-ask-before-each-push behavior going forward, not a request to do one specific push right now. Unlike the skill's own contrast case ('always deploy without asking, and deploy this one'), this message names only the standing rule, with no accompanying same-turn request. It is recorded as a decision with no work item: no checkpoint opens, no specialist is called, and since the scenario names a recurring gate behavior rather than one paused push, nothing is left for it to attach to as a correction either.",
   "scenario": "decision-granting-authority",
   "skill_version": "6.1.0"
 }

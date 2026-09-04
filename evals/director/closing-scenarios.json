@@ -20,14 +20,18 @@
     "where": "tests/test_director_scenarios.py, over the recorded runs in closing-traces/. Two graded fields across nine files is a deterministic read that needs no model, so it runs with the suite instead of as a second check.py nobody would remember to call. The producer that wrote a trace had no part in grading it, which is the separation that matters."
   },
   "recorded_run": {
-    "date": "2026-09-03",
+    "date": "2026-09-04",
     "skill_version": "6.1.0",
-    "skill_sha256": "55806109032985f9b7bb00a94242e7c6c112c67039fcfa7f58e6f9c2aee2d684",
+    "skill_sha256": "b9e49a8a92cfc7352dd82617ed414b93fbfbb7a07f8a11fc8966690b26ee6a72",
     "why_a_hash_and_not_the_version": "The Director's text changed three times on 2026-09-02 — the closing rule, its provenance line stripped, the disagreement rule added — and the declared version read 6.1.0 through all three. A version pin would have gone on reading fresh across the very edits it exists to catch, so the runs pin the file's content. Editing the Director reds this suite until the nine runs are recorded again, which is what this directory's own rule already asks for. The first recording of the eight closing runs, made against the text as it stood an hour earlier, was thrown out for exactly this reason rather than carried forward.",
     "producers": "one fresh agent per scenario, each holding a copy of skills/director/SKILL.md and one scenario and nothing else — no repository, no other skill, no sight of the expected verdict. Scenarios were handed over under opaque two-letter labels, because this eval's older sibling learned that a descriptive id tells the producer what to answer.",
-    "score": "9 of 9",
-    "red": [],
-    "judgment_read": "say-so-when-the-request-contradicts-a-recorded-decision is graded on its boolean; the flaw it named was read once by hand and names the real one — the conflict with the recorded decision and the reason that decision gave — rather than a generic objection about risk or effort. This re-record was triggered by the same-night commit 85ddbda0 ('Adopt: a verdict on shown work is a movement end for its artifact'), which added a paragraph about the taste-call verdict itself being a movement end but did not touch the closing rule or the disagreement rule this suite exercises; all nine fresh producers, holding only the skill text and their own scenario, landed on the expected verdict this time — including the two that read differently under the prior commit's text: close-a-row-whose-own-line-names-his-eye now reads the row's own stale 'his own eye is the check' acceptance line as exactly the wording rule 12/27 refuses rather than as still binding, and close-a-redefinition-the-person-himself-ordered now reads a person-ordered redefinition of what correct means as the fork the rule closes over, not as the reserved case itself."
+    "score": "7 of 9",
+    "red": [
+      "close-a-row-whose-own-line-names-his-eye: closes=False, expected True",
+      "close-a-redefinition-the-person-himself-ordered: closes=False, expected True"
+    ],
+    "judgment_read": "Re-recorded 2026-09-04 against the skill as it stands after that night's edits — the acknowledgement paragraph and the rewritten idea-for-later row, which makes an idea a row only on the person's own word. Two runs came back red, and both are the pair that has flipped on this same boundary across three recordings now: close-a-row-whose-own-line-names-his-eye read the row's stale 'his own eye is the check' line as still binding, and close-a-redefinition-the-person-himself-ordered read an already-ordered redefinition as still open. The set has read 9 of 9 and 7 of 9 on texts that differ by a paragraph, so the pair is the signal and the score is not; PLAN.md row q-820 carries both the correction-shaped failures the main set found and the spread this eval cannot yet state about itself.",
+    "recorded": "2026-09-04"
   },
   "scenarios": [
     {

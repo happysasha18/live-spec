@@ -370,7 +370,7 @@
 
 1. *when* a push runs on the flagship repository, the system *shall* run the concurrent-edit fence and a fresh prover pass over the spec and the architecture, landing the record in `docs/prover/` before the push. [M-6, INV-11, INV-116]
    - a record predating the last architecture change is as stale as one predating the last spec change.
-2. The system *shall* fold defect findings before pushing, a fold produced by the gate's own pass shipping with the same record and a fold that edits beyond the sections its own finding named re-triggering the gate, the rest becoming queue rows. [M-6]
+2. The system *shall* fold defect findings before pushing, a fold produced by the gate's own pass shipping with the same record and a fold that edits beyond the sections its own finding named re-triggering the gate, the rest standing in the review record and becoming no rows. [M-6]
 
 **Case: the inbox-only carve-out**
 

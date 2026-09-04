@@ -574,7 +574,7 @@ class TestQueue(unittest.TestCase):
                       "the table")
         plan = read("PLAN.md")
         start = plan.index("\n## Tasks")
-        end = plan.index("\n## Blockers", start)
+        end = plan.index("\n## Environment", start)
         section = plan[start:end]
         self.assertNotIn("**Class:**", section,
                          "PLAN.md's Tasks section grew a Class field — the retired "
@@ -635,7 +635,7 @@ class TestQueue(unittest.TestCase):
                                    "lint has a subject and should be run on it, not skipped")
         plan = read("PLAN.md")
         start = plan.index("\n## Tasks")
-        end = plan.index("\n## Blockers", start)
+        end = plan.index("\n## Environment", start)
         self.assertEqual(
             [l for l in plan[start:end].splitlines() if re.match(r"^\|\s*\d+\s*\|", l)], [],
             "PLAN.md's Tasks section grew a numbered table — the retired row lint has a subject "
@@ -663,7 +663,7 @@ class TestQueue(unittest.TestCase):
                 cap = int(m.group(1))
         plan = read("PLAN.md")
         start = plan.index("\n## Tasks")
-        end = plan.index("\n## Blockers", start)
+        end = plan.index("\n## Environment", start)
         in_work = re.findall(r"(?m)^###\s+\U0001f504\s+.*\u2014\s*id:\s*(\S+)\s*$",
                              plan[start:end])
         self.assertLessEqual(len(in_work), cap,
@@ -1477,14 +1477,20 @@ class TestTargetOwnership(unittest.TestCase):
         # only at a delivery and only for the surfaces that delivery declared, and a heavy-byte
         # surface keeps only its manifest line and hash under git. The E-7 tag and this entry drop
         # together, same commit, per the rule stated two lines up. E-7's shared criterion line used
-        # to also carry E-18 (design-sync the machine, still unbuilt, q-54's row) — that line now
-        # names only E-18, so E-18 keeps its own tag and entry below.
-        "E-18": "q-54",   # design-sync machine; q-93 folded into q-54 on 2026-08-28
+        # to also carry E-18 (design-sync the machine, still unbuilt) — that line now names only
+        # E-18, whose own `[target]` marker came off on 2026-09-04 with the row that carried it:
+        # the owner cleared the onboarding row (q-54) on his own word and raises it again himself,
+        # so nothing here builds the design-sync machine. The promise stays written in
+        # spec/doc-order-generated.md Requirement 318's own words; E-18 has no entry in this map
+        # and no own-line marker for it to own.
         "INV-21": "q-48", # success-measure reading machinery; q-96 folded into q-48 on 2026-08-28
         # Re-pointed 2026-09-01: q-385 was folded into q-398 on 2026-08-28 and never worked — q-398
         # landed 2026-09-01 doing only its own stated acceptance (the routing-preamble hook, INV-190)
         # and never touched this row's promise. q-385 is back on the board as its own open row and
         # owns the anchor again, the same repair shape as q-437's 2026-08-31 re-pointing above.
+        # Still that row's on 2026-09-04: q-385 stands in PLAN.md as a deferred row parked on its
+        # own named revisit trigger (the first host declaring a contract in its card), which is where
+        # spec/queue-intake-priority.md R5 criterion 3 puts a row that is due back.
         "INV-185": "q-385",  # the contract's three arms, still deferred to a host's first real contract
         # Re-pointed 2026-09-01: these three carried on row 386 from its own first writing (never
         # folded in from elsewhere), and q-386 closed 2026-09-01 on its own four-leg acceptance
@@ -1545,7 +1551,7 @@ class TestTargetOwnership(unittest.TestCase):
         plan-12."""
         body = read("PLAN.md")
         start = body.index("\n## Tasks")
-        end = body.index("\n## Blockers", start)
+        end = body.index("\n## Environment", start)
         section = body[start:end]
         rows = {}
         for m in re.finditer(r"(?m)^### (\S+) .*?— id: ((?:q|plan)-\d+)\s*$", section):

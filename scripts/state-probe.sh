@@ -28,7 +28,7 @@ DIRTY=$(git status --porcelain | wc -l | tr -d ' ')
 BEHIND=$(git rev-list --count HEAD..origin/main 2>/dev/null || echo 0)
 AHEAD=$(git rev-list --count origin/main..HEAD 2>/dev/null || echo 0)
 [ "$BEHIND" != "0" ] && warn "behind origin/main by $BEHIND commits"
-[ "$AHEAD" != "0" ] && warn "commits not pushed: $AHEAD (push is blocked by gates — see §Blockers)"
+[ "$AHEAD" != "0" ] && warn "commits not pushed: $AHEAD"
 [ "$BEHIND" = "0" ] && [ "$AHEAD" = "0" ] && ok "matches origin/main"
 
 # ---------------------------------------------------------------- plan
@@ -67,19 +67,19 @@ tasks = parse_tasks(text)
 # carry their own copy of it, which is exactly how they drifted apart before.
 evaluate(tasks)
 
-ICON_COLOUR = {"✅": G, "🔄": Y, "🔁": Y, "⛔": R, "👁️": Y, "⬜": D}
+ICON_COLOUR = {"✅": G, "🔄": Y, "🔁": Y, "⛔": R, "⬜": D}
 
-# Ranking eligibility (27.08, his word). "Blocked" only means a real, understood cause —
-# a flag, like Jira's, not a feeling. That leaves two things that wore the ⛔/⬜ marks without
-# being either "in progress" or "genuinely blocked": a row folded into the task that actually
-# carries the work (covered_by, with no independent reason of its own), and a row he postponed
-# by his own decision (deferred) — neither is blocked, so neither competes for the board's top
-# slots; they drop out of the current set rather than sitting on it under the wrong label. A ⛔
-# with no blocked_by and no covered_by/deferred either is a mislabel, not a fourth state: it
-# ranks where it actually competes (⬜) so the drift is visible, not asserted away. None of this
-# touches 🔄 or 👁️ — a task already in hand or needing his own decision is live regardless of
-# any fold bookkeeping (all three of today's 🔄 tasks carry a covered_by pointer and are still
-# genuinely being worked).
+# Ranking eligibility (27.08, his word; ⛔ narrowed and 👁️ retired 2026-09-04). "Blocked" only
+# means a real, understood outside cause — an expired key, a dead credential, a service that is
+# down — never merely waiting on something or on a person's word (that is a question asked in the
+# reply, never a task state). That leaves two things that wore the ⛔/⬜ marks without being either
+# "in progress" or "genuinely blocked": a row folded into the task that actually carries the work
+# (covered_by, with no independent reason of its own), and a row he postponed by his own decision
+# (deferred) — neither is blocked, so neither competes for the board's top slots; they drop out of
+# the current set rather than sitting on it under the wrong label. A ⛔ with no blocked_by and no
+# covered_by/deferred either is a mislabel, not a fourth state: it ranks where it actually competes
+# (⬜) so the drift is visible, not asserted away. None of this touches 🔄 — a task already in hand
+# is live regardless of any fold bookkeeping.
 # Finished work earns a line of its own while it is still fresh. A running total of everything
 # ever done only grows, and it answers nothing without a window nobody agreed on — this month, this
 # project, this year (the owner's word, recorded in DECISIONS.md). So the count is gone and the
@@ -129,20 +129,25 @@ for t in tasks:
 
 eligible = [t for t in tasks if not t["excluded"]]
 
-# Priority order for the budget below: needs-his-eyes (only he can move it), then in hand
-# (already running work), then reopened (was done and is done no longer — outranked by work
-# already running, but ahead of a real outside blocker and of work never started, added
-# 02.09 on his word), then blocked (worth knowing about), then queued (what's next) —
-# filled round-robin, one category at a time, so a single large category cannot eat the whole
-# budget and crowd the others out. Category order is the one ranking; critical only breaks ties
-# inside its own category (below) and never crosses into a higher one — a cross-category
-# "critical drains first" pass used to sit here and let a critical but unworkable queued task
-# outrank a task the owner already needed to look at. Removed 27.08 on his word: urgency must
-# never outrank whether a task is actually workable now.
+# Priority order for the budget below: in hand (already running work) first, then blocked (worth
+# knowing about — something outside has stopped it and only a person can unstick it), then
+# reopened (was done and is done no longer — outranked by work already running and by a real
+# outside blocker, but ahead of work never started), then queued (what's next) — the order is
+# rule 38 of the rulebook (skills/live-spec-base/SKILL.md), which is this order's one home; see
+# CATEGORY_ORDER below for its machine reading. Filled round-robin, one category at a time, so a
+# single large category cannot eat the whole budget and crowd the others out. Category order is the one
+# ranking; critical only breaks ties inside its own category (below) and never crosses into a
+# higher one — a cross-category "critical drains first" pass used to sit here and let a critical
+# but unworkable queued task outrank a task the owner already needed to look at. Removed 27.08 on
+# his word: urgency must never outrank whether a task is actually workable now.
+# The category that used to rank ahead of "in hand" — needs-his-eyes — retired 2026-09-04, his
+# standing word: needing a person's word is a question asked in the reply, never a task state.
 # 9 task lines + 1 summary line = 10, the top end of the cap set at the report format's one home
 # (~/.claude/playbook/CLAUDE.md, "How a reply to him looks"). Change it there first.
 TASK_LINE_BUDGET = 9
-CATEGORY_ORDER = ["👁️", "✅", "🔄", "🔁", "⛔", "⬜"]
+# The order is the rulebook's rule 38, and this line is its one machine reading: closed since the
+# last push, in hand, blocked (only a person can unstick it), reopened, queued.
+CATEGORY_ORDER = ["✅", "🔄", "⛔", "🔁", "⬜"]
 
 buckets = {icon: [t for t in eligible if t["rank_icon"] == icon] for icon in CATEGORY_ORDER}
 for icon in CATEGORY_ORDER:
@@ -175,8 +180,8 @@ while (budget > 0 or _done_left()) and progressed:
                 budget -= 1
             progressed = True
 
-# NEXT: the first task actually in hand — a task waiting on his eyes can't be advanced without
-# him either, so (like the old rule skipping blocked steps) it doesn't win NEXT.
+# NEXT: the first task actually in hand, else the first queued — a blocked task can't be advanced
+# without clearing its outside cause first, so it doesn't win NEXT either.
 next_task = buckets["🔄"][0] if buckets["🔄"] else (buckets["⬜"][0] if buckets["⬜"] else None)
 
 # His word, 02.09: the row's own id leads its printed line, ahead of the mark and the title —
@@ -191,8 +196,9 @@ for t in shown:
         tag = f"  {B}<-- NEXT{X}"
         next_title = t["title"]
     # A row whose key failed is neither verified nor declared: it is a done mark the command
-    # contradicts. Saying "verified" beside the ⛔ was the last of the three things the failing-key
-    # work set out to stop, and it stayed behind when the other two were fixed (2026-08-28).
+    # contradicts. Saying "verified" beside a row like that was the last of the three things the
+    # failing-key work set out to stop, and it stayed behind when the other two were fixed
+    # (2026-08-28).
     if t["failing_key"]:
         verified = f"{D}marked done{X}"
     else:
@@ -356,12 +362,6 @@ if [ -d inbox ]; then
     INBOX_N=$((INBOX_N + 1))
   done
   [ "$INBOX_N" = "0" ] && ok "nothing unhandled"
-fi
-
-# ---------------------------------------------------------------- blockers
-b "BLOCKERS"
-if [ -f PLAN.md ]; then
-  awk '/^## Blockers/{f=1;next} /^## /{f=0} f && /^- /' PLAN.md | head -20 | sed 's/^/  /'
 fi
 
 # ---------------------------------------------------------------- next move

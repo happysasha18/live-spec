@@ -9,7 +9,7 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "The message reports a fact about the environment's state (the session's usage allowance refilled) without asking for anything -- it fits 'Observation or feedback: reports a fact or an impression without asking for a repair.' It is not conversation under 'Not every message is one of the seven' because it does convey new information (a state change), so it clears the 'reports nothing new' bar for being dismissed as small talk -- but a bare status fact carries no defect or problem, so the 'must not' clause applies: 'infer a repair job, unless the repair follows from the situation beyond doubt.' Nothing here states that queued work should now resume, so no repair or resumption is beyond doubt from the words alone; the Director records it as evidence and answers in kind, per 'record it as evidence.' No sheet is written (only accepted work gets one), so no dimensions or specialists apply, and work_items is 0.",
+  "reasoning": "Per the acts table, this is 'Observation or feedback': the person 'reports a fact or an impression without asking for a repair.' Nothing is broken or wrong, so it does not meet the 'Some observations carry their repair with them' test — a balance refilling is neutral state information nobody would need to ask what to do about. The Director's job for an observation is only to 'record it as evidence,' never to infer a repair job. It is not conversation (it does add new information), but it is also not a question, idea, decision, correction, instruction, or halt. Since no work is accepted, there is no decision sheet, no dimensions, no specialists, and no checkpoint.",
   "scenario": "observation-neutral",
   "skill_version": "6.1.0"
 }

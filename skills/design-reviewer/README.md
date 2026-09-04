@@ -32,7 +32,7 @@ A finding names two concrete objects, each with the spec sentence it comes from,
 >
 > **Recommended default:** treat the cover as the same kind as a portrait — one full-screen behaviour for every image a visitor looks at closely — unless you decide the cover is meant to stay flat.
 
-Every finding is a recommendation or a question. It never blocks a landing. A finding you can defend on the spec text alone arrives as a recommendation that queues for a taste call; a finding whose answer lives only in your own intent arrives as a single question, carried with both objects in hand and a default already proposed, so answering it comes down to a single decision.
+Every finding is a recommendation or a question. It never blocks a landing. A finding you can defend on the spec text alone arrives as a recommendation, written into the review record and ending there — it becomes work only when you write it onto the plan in your own words; a finding whose answer lives only in your own intent arrives as a single question, carried with both objects in hand and a default already proposed, so answering it comes down to a single decision.
 
 ---
 

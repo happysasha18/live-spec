@@ -3754,3 +3754,44 @@ does. And editing `director/SKILL.md` drifted the installed copy from source
 (`guardrails/check-config-health.sh` caught it); `scripts/sync-skills.sh` re-synced it. The
 35-scenario director eval and a version bump are held for one combined pass once tonight's other
 skill edits (q-809) land too, rather than re-running the full eval twice for one night's work.
+
+## 2026-09-04 — the second queue is gone, and the marks the person reads are his own
+
+The owner opened the night with three questions: where the blockers on his board came from, why
+agreed things keep breaking, and what to do about it. Three cheap readers answered the first two
+against the transcripts and the tree, and the answers turned into the night's work.
+
+**Where the work came from.** `PLAN.md` carried a `## Blockers` section of 765 lines and 59
+findings; 47 of the 59 had been raised by the project's own reviews rather than by him, and 36 were
+already closed while the probe printed the section's first twenty lines regardless of state. Its
+source was two layers deep: the plan's own laws told a session to write a line there and stop, and
+under that, `spec/design-spec-review.md` required the push gate to queue every recommendation a
+review produced. The section is retired to `docs/queue-archive/2026-09-04-findings-log-retired.md`,
+the plan's laws now say a finding is fixed on the step in hand, becomes a row in the owner's own
+words, or is dropped, and Requirement 60 was rewritten so a recommendation lives in the review
+record and becomes work only when the owner writes it onto the plan.
+
+**Why the agreements broke.** All five he named were prose with nothing running behind them, and
+fourteen scripts that once checked such things had been stood down on 2026-08-17 and left in place,
+so every side believed they still ran. The reply shape, the fixed order of the rows, who the person
+is, and the ban on the phrases that grade a result while reporting it are now stated in the pack's
+own rulebook as rules 36 and 38, where every project inherits them; the owner citations behind them
+live in `references/rule-origins.md`, since a test refuses provenance inside rule prose.
+
+**What "done" was worth.** Of 73 closed rows, 46 carry a command the probe re-runs every session and
+45 of those pass. The other 27 had never been re-checked since closing; five readers took them in
+parallel and 25 held. Two had rotten evidence — one grep naming a file whose content had moved, one
+citation naming a rule that was never the rule it claimed — and both are repaired in place. No
+duplicate implementation was found in the tree.
+
+**The board.** Four rows stand open. The onboarding row left on his word, to be raised again by him;
+two more left because their own triggers had not fired, and the promises they carried are tied to the
+archive record by a new spec clause rather than to a row that does not exist. The photo site's
+catch-up row left because its acceptance command reached into another project's tree — work this
+window can neither do nor prove. Closed rows moved to `docs/queue-archive/2026-09-04-closed-rows.md`
+and the plan fell from 74,000 tokens to 11,000.
+
+**What the skill tool found.** Anthropic's own validator had never been run over this pack. Four
+installed skills failed it: the shared rulebook every session loads, the reports skill, the external
+prover, and another project's skill. Three are fixed here, the fourth reported. Eleven skills have
+their first review record; the two edited tonight are being re-recorded against their final text.

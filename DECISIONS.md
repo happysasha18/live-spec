@@ -50,6 +50,32 @@ the one slot nothing questions. That is the defect this surface exists to catch.
 
 ## On record
 <!-- record:on -->
+- 2026-09-04 02:01 — four rulings on how a reply reaches him, and where they live. Your words in
+  chat: «еще чтобы перестал открывать хтмл файлы... дифолт канон и все»; «"Как разговаривать:" я
+  думал это ты у себя пропишешь и тогда все проекты это получат»; «если глобально известен кластер
+  (например: даркрум для фотосайта) то можно его написать перед двоеточием»; «убрать этот дешевый
+  драматизм... это как будто джун юлит». Consequence: (1) no browser window opens on its own — the
+  reply carries the answer, and a rendered page is made only when he asks for one by name; recorded
+  as a host override on this repo's own profile. (2) The shape of a reply — the time, the status list
+  printed by the script rather than typed, and which row the reply belongs to — moves into the pack
+  so every project inherits it, instead of living only in his personal file. (3) A row's title may
+  carry a known cluster before a colon ("Darkroom: ...") when the cluster is already a real thing in
+  that project; sections on the board stay unbuilt until he names groups. (4) The connective phrases
+  that grade a result while reporting it — "exactly where you said", "just as we planned" — carry no
+  information and stop.
+- 2026-09-04 01:17 — there are no blocked tasks and no tasks that wait on your word. Your words in
+  chat: не должно быть блокеров или "моего слова". либо задача берется в очередь и тогда все понятно
+  (мы говорили о ссылках на все спеки в контексте задачи), либо задачи нет. In English: no blockers
+  and no "my word"; either a task is queued and then everything about it is clear — with links to
+  every spec it touches — or the task does not exist. Consequence: the status vocabulary drops from
+  six marks to five (done, in hand, reopened, queued, blocked); the mark for "needs his eyes" is
+  retired, and "blocked" is kept with a narrowed meaning by his own correction eight minutes later
+  (02:25 entry below): blocked means something outside the work has stopped it. This sentence read
+  "four marks" and named blocked as retired until 03:40, which is what the first draft of the
+  ruling recorded before the correction arrived from the plan, the probe, the board renderer and their tests; a queued row names every
+  spec chapter it touches by link; a finding that cannot meet that bar is answered and dropped
+  instead of written down. Same exchange: the onboarding row left the board on your word — you will
+  raise it again yourself.
 - 2026-08-17 ~23:30 — the short chat-law reminder is the shipped norm for every host, not a
   personal overlay on your machine. Answering the coordinator's direct question — should the short
   form be the norm for everyone who installs the pack, or only on your own machine. Your words in

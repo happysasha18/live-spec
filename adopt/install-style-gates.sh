@@ -229,14 +229,16 @@ PYEOF
 # to the safe anchor, not left dead.
 PRE_PUSH="$HOST_ROOT/guardrails/pre-push"
 if [ -f "$PRE_PUSH" ]; then
-  GATE_R_STATUS="$(python3 - "$PRE_PUSH" "$TIER" "${DOCS[@]}" << 'PYEOF'
+  GATE_STYLE_STATUS="$(python3 - "$PRE_PUSH" "$TIER" "${DOCS[@]}" << 'PYEOF'
 import re
 import sys
 
 path, tier = sys.argv[1], sys.argv[2]
 docs = sys.argv[3:]
-MARKER = "# live-spec:gate-r"
-LABEL_RE = re.compile(r"gate\s*r\W{0,3}(ratchet caps|style gate)", re.IGNORECASE)
+MARKER = "# live-spec:gate-v"
+# Tolerant of both the current letter and the r-lettered block every host adopted before this fix
+# (r collided with the authority-anchor gate the pack itself already runs there, SPEC INV-207).
+LABEL_RE = re.compile(r"gate\s*[rv]\W{0,3}(ratchet caps|style gate)", re.IGNORECASE)
 FAIL_CHECK_RE = re.compile(r'^if\s*\[\s*"\$fail"\s*-ne\s*0\s*\]\s*;\s*then\b')
 TOPLEVEL_EXIT_RE = re.compile(r'^exit\s+\d+\s*;?\s*(#.*)?$')
 
@@ -244,7 +246,7 @@ BLOCK_LINES = [
     "",
     MARKER,
     'echo ""',
-    'echo "-- gate r — style gate --"',
+    'echo "-- gate v: style gate --"',
     "for doc in %s; do" % " ".join(docs),
     '  if ! python3 scripts/spec-style-lint.py --tier %s "$doc"; then' % tier,
     "    fail=1",
@@ -318,10 +320,15 @@ try:
 
     if existing is not None:
         start, end = block_bounds(lines, existing)
-        # A block installed by the retired ratchet kit runs a lock test this installer no longer
-        # writes. It is replaced wherever it stands, live position or dead, so no host is left
-        # pushing against a test file that is not there.
-        stale = any("test_ratchet_lock" in lines[i] for i in range(start, end))
+        # Stale covers two hosts, both replaced wherever they stand, live position or dead: a block
+        # installed by the retired ratchet kit, still running a lock test this installer no longer
+        # writes; and a block installed under the old letter r, which collided with the pack's own
+        # authority-anchor gate and used a dash where the chain's own checks read a colon — carried
+        # forward under the current marker, no host is left pushing against either.
+        stale = (
+            not any(lines[i].strip() == MARKER for i in range(start, end))
+            or any("test_ratchet_lock" in lines[i] for i in range(start, end))
+        )
         dead = any(TOPLEVEL_EXIT_RE.match(lines[i]) for i in range(start))
         if not dead and not stale:
             print("already-wired")
@@ -345,25 +352,25 @@ except Exception:
     print("manual")
 PYEOF
 )"
-  case "$GATE_R_STATUS" in
+  case "$GATE_STYLE_STATUS" in
     wired)
-      echo "wired: guardrails/pre-push gate r — style gate"
+      echo "wired: guardrails/pre-push gate v — style gate"
       ;;
     already-wired)
-      echo "already wired: guardrails/pre-push gate r — style gate"
+      echo "already wired: guardrails/pre-push gate v — style gate"
       ;;
     repaired)
-      echo "repaired: guardrails/pre-push gate r — style gate (was dead past a terminating exit, or ran the retired lock test; moved to a safe anchor)"
+      echo "repaired: guardrails/pre-push gate v — style gate (was dead past a terminating exit, ran the retired lock test, or carried the old letter r; moved to a safe anchor)"
       ;;
     manual|*)
       echo "guardrails/pre-push has no safe wiring point (an unclear tail) — add this recipe by hand:"
-      echo "  echo \"-- gate r — style gate --\""
+      echo "  echo \"-- gate v: style gate --\""
       echo "  python3 scripts/spec-style-lint.py --tier $TIER <doc> || fail=1"
       ;;
   esac
 else
   echo "no guardrails/pre-push found — add this recipe to your own push gate:"
-  echo "  echo \"-- gate r — style gate --\""
+  echo "  echo \"-- gate v: style gate --\""
   echo "  python3 scripts/spec-style-lint.py --tier $TIER <doc> || fail=1"
 fi
 

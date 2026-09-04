@@ -49,7 +49,7 @@ _ANSI_RE = re.compile(r"\x1b\[[0-9;]*m")
 # (scripts/state-probe.sh's embedded python: `print(f"  {D}{t['id'].ljust(id_width)}{X} "
 #  f"{t['icon']} {colour}{t['title']}{X}  {verified}{reason}{tag}")`). The id leads the line
 # (his word, 02.09 — it used to trail at the end in parentheses), then the icon — one of the
-# plan's six marks — then the title. The trailing tag is one of THREE — "verified", "declared",
+# plan's five marks — then the title. The trailing tag is one of THREE — "verified", "declared",
 # or "marked done" — optionally followed by a ranked ⛔ task's own blocked_by reason (27.08) or
 # a failing key's own note (28.08); stripping ANSI colour codes first, then peeling those off
 # both ends, leaves exactly the title text.
@@ -62,7 +62,7 @@ _ANSI_RE = re.compile(r"\x1b\[[0-9;]*m")
 # was not, which is one vocabulary written in two homes and only one of them corrected (the
 # adversarial read of 2026-08-31).
 _PROBE_LINE_RE = re.compile(
-    r"^\S+\s+(?:✅|🔄|🔁|⛔|⬜|👁️)\s+(.+?)\s+(?:verified|declared|marked done)"
+    r"^\S+\s+(?:✅|🔄|🔁|⛔|⬜)\s+(.+?)\s+(?:verified|declared|marked done)"
     r"(?:\s+—\s+.+?)?(?:\s*<-- NEXT)?\s*$"
 )
 

@@ -1,7 +1,6 @@
 {
   "id": "idea-with-a-cheap-branch",
   "acts": [
-    "observation",
     "instruction",
     "idea"
   ],
@@ -10,12 +9,13 @@
   "attaches_to_existing_work": false,
   "work_items": 1,
   "dimensions": [
+    "product value and behaviour",
     "the user's path and the design"
   ],
   "specialists": [
     "Developer"
   ],
-  "reasoning": "This is the skill's named case: 'A conditional request states both branches, and both are real' -- 'если так тоже можно то давай... если не сейчас то запиши' is an instruction-shaped branch and an idea-shaped branch in one breath, and both stay named as acts even though only one outcome is taken ('never both -- a verdict marking both creates_work and shelves_idea true has answered the condition twice'). The situation states the worker display is 'already built and live in another window' and showing it here 'would reuse that same display, not build a new one' -- so the condition ('if that's possible') resolves cheap/easy, and per 'take the work if the condition holds' the instruction branch is accepted, leaving the idea branch (note for later) moot rather than separately shelved. The opening clause naming what's seen in the other window is kept as its own 'observation' act per 'A fact reported before a request is still its own act' / 'when you cannot tell whether a clause is its own act... it is its own act' -- it tells the Director something (the reference display exists) beyond just restating the instruction's goal. The reason 'так прикольнее смотреть динамику' is not a fourth act since it only restates why the instruction wants what it wants. This is one new piece of work (no existing checkpoint covers a worker-dynamics display in this window), touching only 'the user's path and the design' since it reuses an existing built display rather than new architecture, data or product behaviour -- so the only specialist the decision sheet needs is Developer to wire the existing display in; no Architect (no new boundary/integration), no Design reviewer (the interaction pattern is already proven elsewhere in the tool).",
+  "reasoning": "This is 'A conditional request states both branches, and both are real': the instruction-shaped branch (do it if it's possible) and the idea-shaped branch (if not now, note it for later), said in the same breath. Per the skill, 'take the work if the condition holds; if it does not, judge the idea half' and 'the condition either holds or it does not... never both.' The scenario states the condition is trivially satisfied: the worker display 'is already built and live in another window of this same tool. Showing it here too would reuse that same display, not build a new one' — so the feasibility branch holds and this is cheap. That makes it accepted work now, not a shelved idea, while both acts still 'stay named.' It is new work, not a correction, so attaches_to_existing_work=false and work_items=1. The work touches the user's path and design and product value/behaviour, but since it explicitly reuses an already-built display rather than designing a new one, only a Developer is needed to wire it in.",
   "scenario": "idea-with-a-cheap-branch",
   "skill_version": "6.1.0"
 }

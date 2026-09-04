@@ -110,3 +110,10 @@ fixtures and data beside it, so returning one is a single move. Their lines take
   live question, and a passing thought is answered with nothing recorded. `E-37` and `INV-320`
   are withdrawn with it, `INV-320`'s number left empty in the pinned gaps, and the two matrix rows
   that named its landing, `M-610` and `M-611`, are gone from `matrix/director.md` * 2026-09-03
+- `scripts/check-eyes-marker.py` -> `attic/check-eyes-marker.py` * the advisory check that flagged
+  a 👁️ task whose own Source line was not his word, retired alongside the mark it read: the 👁️
+  status was retired on 2026-09-04 (`normalize_mark` now maps it to ⬜), so no task can ever carry
+  it again and the check has nothing left to catch * 2026-09-04
+- `tests/test_eyes_marker_traces_to_owner.py` -> `attic/test_eyes_marker_traces_to_owner.py` * the
+  pin for `check-eyes-marker.py`'s logic, retired alongside it for the same reason: the 👁️ mark it
+  tested for is gone * 2026-09-04

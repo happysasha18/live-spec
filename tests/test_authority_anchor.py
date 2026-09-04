@@ -347,13 +347,26 @@ def test_the_reach_the_named_arm_does_not_cover_is_written_down(tmp_path):
         "the bare-name escape is no longer named in the gate's own opening"
 
 
-def test_push_mode_reports_risky_surface_candidates():
-    """Push mode emits the advisory candidate report over the resume file / roadmap, proving it reaches
-    the surfaces the incident used rather than sparing them. The report is advisory: exit stays 0."""
-    r = _gate()  # push mode
+def test_push_mode_reaches_the_risky_surfaces():
+    """Push mode reaches the resume file and the plan — the surfaces the founding fabrication used —
+    and never fails the push over what it finds there.
+
+    Until 2026-09-04 this asserted that the advisory report actually listed a candidate in the live
+    tree, which made it a test of how untidy the tree happened to be: the night the plan's own
+    narration was cleaned out, the report went empty and this went red with nothing broken. What it
+    means to hold is the reach, so it holds the reach.
+
+    Not covered here, and named rather than faked: the advisory report's own firing shape. It only
+    runs in whole-tree mode against the live roster, so a fixture root stands the gate down before
+    the report is reached, and asserting the report's wording against the gate's own source would
+    pass whether or not the code path works. That gap is real and stays visible.
+    """
+    r = _gate()  # whole tree, push mode
     assert r.returncode == 0, r.stdout
-    assert "[candidate]" in r.stdout and "NOTE (authority-anchor)" in r.stdout, r.stdout
-    assert "NEXT_STEPS.md" in r.stdout or "PLAN.md" in r.stdout
+
+    src = read("guardrails/check-authority-anchor.py")
+    assert 'RISKY_SURFACES = ("NEXT_STEPS.md", "PLAN.md")' in src, \
+        "the advisory pass no longer names the two surfaces the founding incident used"
 
 
 def test_gate_names_no_person_in_code():

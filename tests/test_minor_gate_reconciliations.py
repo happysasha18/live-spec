@@ -69,7 +69,10 @@ def test_d2_finding_kind_names_delta_scoped_exception():
     # pin map carries the INV-114 anchor for the rewrite-gate home.
     spec = _read("PRODUCT_SPEC.md")
     assert "a delta-scoped gate meets a pre-existing defect outside the delta" in spec
-    assert "queue it by that law rather than block the merge it did not create" in spec
+    assert (
+        "write it into the review record the way a recommendation is written, "
+        "and *shall* let the merge stand"
+    ) in spec
     pack = _read("skills/product-prover-pack/SKILL.md")
     assert "| INV-114 | How to write findings; Reviewing a rewrite before it merges |" in pack
     # The tracked-file anchors above hold on a bare checkout; only the canon read below needs the clone.

@@ -180,21 +180,26 @@
 
 ## Requirement 60: The prover labels each finding a defect or a recommendation
 
-**Context:** Every prover finding carries its kind, so the human knows at a glance what the finding asks of them. A defect blocks and the design becomes buildable only once it is folded; a recommendation does not block and queues for a taste call. The kind is derivable from the finding's own ground.
+**Context:** Every prover finding carries its kind, so the human knows at a glance what the finding asks of them. A defect blocks, and the design becomes buildable only once it is folded. A recommendation asks for nothing and starts nothing: it is written into the review record and ends there, and the record is where it stays readable. It becomes work only when the human writes it onto the plan in the human's own words, because a review that opens rows of its own fills the human's list with work nobody asked for. A pre-existing defect that a delta-scoped gate meets outside its delta takes that same recording path: making it block would park a merge on breakage it did not cause, which is the failure the delta-scoped gate exists to prevent, and the record is what now keeps such a finding visible. The kind is derivable from the finding's own ground.
 
-**User Story:** As a person reading prover findings, I want each labelled a defect or a recommendation, so that I sort what blocks from what queues at the point of report rather than by hand.
+**User Story:** As a person reading prover findings, I want a defect to block and a recommendation to end in the record, so that a review never puts work on my list that I never asked for.
 
 ### Acceptance Criteria
 
-**Case: the two kinds and their verdicts**
+**Case: the two kinds and where each ends**
 
 1. The system *shall* label a finding a defect *when* it names a violated invariant, a false spec claim, or a missing required invariant, blocking until it is folded. [INV-140]
-2. The system *shall* label a finding a recommendation *when* nothing stated is broken and nothing required is missing, queuing it for a taste call with an optional now-or-later grade. [INV-140]
+2. The system *shall* label a finding a recommendation *when* nothing stated is broken and nothing required is missing, writing it into the review record and taking no further step on it. [INV-140]
+3. The system *shall* open no row, no task, and no follow-up for a recommendation, and *shall* have a recommendation become work only *when* the human writes it onto the plan in the human's own words. [INV-140]
 
-**Case: the gate folds and queues**
+**Case: the record holds what does not block**
 
-3. The system *shall* have the push gate fold every defect and queue every recommendation, deriving the kind from the finding's own ground. [INV-140, M-6]
-4. *when* a delta-scoped gate meets a pre-existing defect outside the delta, the system *shall* queue it by that law rather than block the merge it did not create. [INV-140, INV-114]
+4. The system *shall* have the review record carry every recommendation with the ground it was derived from, so a recommendation nobody turned into work stays readable where it was written. [INV-140, INV-156]
+
+**Case: the gate folds, and stops there**
+
+5. The system *shall* have the push gate fold every defect and leave every recommendation standing in the review record, deriving the kind from the finding's own ground. [INV-140, M-6]
+6. *when* a delta-scoped gate meets a pre-existing defect outside the delta, the system *shall* write it into the review record the way a recommendation is written, and *shall* let the merge stand. [INV-140, INV-114]
 
 ---
 
@@ -373,7 +378,7 @@
 **Case: what advances the loop**
 
 1. The system *shall* advance the loop only on a human-accepted declaration — a class sentence over a grouping or a decided sentence over a difference — re-reading the changed part and the re-partitioned elements in the next round. [INV-154, INV-125, INV-59]
-2. The system *shall* not advance the loop on a confident finding queued as a recommendation or a likely finding riding as a question, since neither re-reads the spec on its own. [INV-154, INV-142]
+2. The system *shall* not advance the loop on a confident finding recorded as a recommendation or a likely finding riding as a question, since neither re-reads the spec on its own. [INV-154, INV-142]
 
 **Case: the loop rests with a named reason**
 

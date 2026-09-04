@@ -1,24 +1,22 @@
 {
   "id": "correction-widening-the-goal",
   "acts": [
-    "correction",
-    "observation"
+    "observation",
+    "correction"
   ],
   "creates_work": false,
   "shelves_idea": false,
   "attaches_to_existing_work": true,
-  "work_items": 0,
+  "work_items": 1,
   "dimensions": [
-    "product value and behaviour",
-    "architecture, data, integrations, operations",
+    "analytics, unknowns, hypotheses, experiments",
     "quality, safety, regressions"
   ],
   "specialists": [
     "Developer",
-    "Product prover",
-    "Architect"
+    "Product prover"
   ],
-  "reasoning": "The whole turn targets the one task already running (measuring the corpus to size the work), so per 'A correction attaches to work, not to a queue' this is read as a correction, not a fresh instruction: 'find that work and change it... never answer a correction by creating a second row.' The imperative to stop the measurement, erase its record, and instead fix the problem 'as a class' is telling work in flight to drop one approach (corpus measurement) for another (prove by construction / class-wide fix) toward the same underlying need -- per the halt section, 'Telling work in flight to stop one approach and take another is a correction to its method, not a halt.' Separately, 'любая статистика по текущему корпусу ложная' (with 'мы делаем генерный движок' as its grounding premise) is a judgment about the product -- that the whole measurement approach is invalid for this class of engine -- which per 'Grounds stated with an act carry their own act only when they say something new' and 'A judgment about the product... says something new even when it doubles as the reason for the neighbouring act' stands as its own observation, worth keeping past the correction itself. Because this changes the goal/constraints of already-running work rather than opening a new result someone could want on its own, creates_work is false and work_items is 0; the decision sheet for the existing checkpoint gets replanned instead. The corrected work touches product behaviour (a generic engine must not depend on one corpus's stats), architecture/data (the sizing method's dependence on corpus data is exactly what's being ruled out), and quality/regressions (the 'fix as a class' framing invokes the pack's sweep-for-siblings discipline). Specialists: a developer to remove the invalidated measurement and its artifacts, the product prover for the class-based defect hunt the message explicitly calls for ('needs a class-based defect hunt with no document to check it against'), and the architect since the correction bears on whether the design may depend on corpus-specific data at all.",
+  "reasoning": "The situation names work already in flight — measuring the current corpus to size its task. The message does two things: 'Любая статистика по текущему корпуса ложная' is a judgment about the product worth keeping as its own observation, its repair following beyond doubt. 'Убери любое ненужное измерение... лечи спрочно проблему как класс' changes the goal and method of the corpus-measurement work already running — a correction under 'A correction attaches to work, not to a queue.' So attaches_to_existing_work is true and no new checkpoint opens (work_items = 1, the corpus-measurement work itself, replanned). 'Мы делаем генерный движок' is grounds redundant with the observation's own point, not a separate act. The instruction to fix the problem as a class invokes the skill's own sweep obligation, pulling in Product prover alongside Developer. Dimensions touched are the measurement/hypothesis work itself and the defect-class sweep.",
   "scenario": "correction-widening-the-goal",
   "skill_version": "6.1.0"
 }

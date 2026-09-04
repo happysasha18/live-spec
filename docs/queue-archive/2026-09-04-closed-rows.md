@@ -1,0 +1,2370 @@
+# Closed rows, moved off the plan page on 2026-09-04
+
+Every row here is finished. They left the plan page so the board reads as one screen. The
+acceptance commands that keep re-proving them live in `scripts/plan_checks.py`, keyed by row id,
+and still run on every session's probe.
+
+The rows are kept as they stood on the plan page, with two additions made here and named as such:
+each row carries a line recording the reading of 2026-09-04, and one row's evidence pointer was
+repointed the same night at the file its content had moved to. Nothing else was rewritten.
+
+---
+
+### ✅ Starting a work session with the assistant costs a quarter of what it costs today, and every standing file earns its place — id: q-809
+**Group:** Budget & economy · **Priority:** critical
+**Source:** owner 2026-09-02 — a session's starting weight must fall to about a quarter of today's,
+and every standing document must earn its place or go (`DECISIONS.md`, 2026-09-02).
+
+**Where it stands today.** Every session starts by loading four documents before it does anything:
+the boot file, the personal profile, the shared rulebook, and the reading skill — 80 KB between
+them, about 18,500 tokens. The shared rulebook alone is 40 KB of that, more than the other three
+together. He asked for roughly a quarter of the current weight.
+
+**The second half, same pass:** whether every standing document still earns its place. The
+decisions page and the journal both hold "what happened and what was settled, appended, never
+rewritten"; the decisions page exists so a session cannot quietly claim he decided something he
+never did, and a check reads it by name — so folding it into the journal is a real change with a
+real check to move, not a rename. Judge it, decide it, and say which way and why.
+
+**Definition of done:** the four documents a session loads at start weigh about a quarter of
+today's 80 KB, with no rule lost — each rule either still stated or shown to be already stated
+somewhere the session reads anyway. Every standing document in the tree is named with a one-line
+answer to "what breaks if this is gone", and the ones that answer "nothing" are gone. The Anthropic
+skill-creator runs over each skill this touches, as he asked. Measured by the same line
+`scripts/state-probe.sh` already prints, before and after.
+
+**The four-document cut, closed.** `skills/live-spec-base/SKILL.md` carries 22,683 bytes today
+(from 40,443), background moved whole to `references/rule-origins.md` (6,539 bytes, opened only to
+dispute or amend a rule — no rule restated there, rule 4's own ban). Two rules genuinely lost in the
+first pass are back (rule 6's worker-liveness apparatus, rule 7's single pen), landed
+`f6668634`. A second, independent hostile reading (`.live-spec/checkpoints/q809-rule-loss-verdicts.md`)
+checked fifteen more claimed losses against the live tree and found four more real: rules 6, 7, 9
+and 31 each dropped one load-bearing clause the first cut's own tests never happened to catch. All
+four landed, verbatim, in `33ee1b38` — checked again tonight (02.09 ~22:35) by direct grep against
+the live file, not assumed from the commit message. Total: 63.5 KB of 80 KB, a fifth off — the
+quarter he asked for is not reached, and `.live-spec/checkpoints/q809-startup-weight.md` says why:
+the boot file is his and untouched by his own earlier word, and Director's own cut was measured
+against its 35-scenario eval and reverted (a 3.7 KB saving against an unresolved score question the
+eval's own producer-variance can't currently distinguish).
+
+**The second half, decided: DECISIONS.md earns its place; it does not fold into JOURNAL.md.**
+`.live-spec/checkpoints/q809-standing-files-census.md` censused every standing document in the
+tree first — root-level and `.live-spec/` core — and found zero with no real consumer; nothing
+there was ever a candidate to cut. DECISIONS.md was the one real question, and the census answers
+it rather than leaving it open: 50% of its 56 entries already have a paraphrased echo in
+JOURNAL.md's session narrative (expected cross-referencing, not duplication — rule 4 governs where
+a fact's canonical statement lives, not whether a decision is ever mentioned elsewhere), and the
+other half are chat rulings a session's own write-up never carried. More load-bearing than the
+overlap: DECISIONS.md is the one file `guardrails/check-authority-anchor.py` — a wired push gate —
+scans by name for a dated-exchange shape before it lets a push through; it holds a **Struck**
+section (he can retract an entry with one line, leaving the record) and an **Open** section
+(questions still awaiting his word) that JOURNAL.md's append-only, rotating narrative has no
+mechanism for at all. Folding it would mean rewriting a live push gate, inventing a retract
+mechanism inside a rotating log, and re-pointing six other named consumers — real engineering cost
+to buy back a redundancy that is mostly expected cross-reference, not duplication. Kept, with the
+reason on record here rather than left as an open question.
+
+**Remaining before this row closes:** the director eval's 35-scenario re-record (needed regardless,
+since `skills/director/SKILL.md` changed twice tonight under q-810 and its own new argue-first
+rule — `plan-2`'s own check reads its result); a lightweight skill-creator structural pass over
+`director` and `live-spec-base` (both under 500 lines, frontmatter and progressive-disclosure
+pattern already match the tool's own guidance — no defect found; the tool's heavier
+benchmark-and-browser-review loop is built for skills with a gradeable file output, which neither
+of these prose/procedure skills has, so it was not run, on the same "don't serve machinery nobody
+needs" reasoning as the rest of this row); and a final re-measure against `state-probe.sh`'s own
+line once both land.
+
+**Checked by reading on 02.09, final measure.** Both landed: the 35-scenario eval re-recorded
+(31/35, `q-810`'s own close), the skill-creator pass done (no defect). Final weight:
+`scripts/state-probe.sh`'s own line reads 67,361 bytes, 15,670 tokens — up from the 63,541-byte
+low point measured mid-afternoon, because `q-810` added two real, load-bearing rules to
+`director/SKILL.md` the same night (the closing rule and the argue-first rule), and this row's own
+new rule (rule 12/27's carve-out is the closing rule's own home) is exactly the kind of content
+this row was never asking to cut. Net against the original 80,122 bytes: 16% off, with two new
+necessary rules added along the way — the quarter was not reached, for the two reasons already on
+record (the boot file is his; Director's own cut can't currently be told apart from producer
+noise), and no session pretends otherwise. The second half — every standing document named and
+placed, DECISIONS.md kept with its reason — is fully decided, above. Closing.
+
+**Checked by reading on 04.09** (five readers, one pass over every done row with no acceptance command): holds — the four-document cut and the kept decisions page both match the tree.
+
+### ✅ A task that turns out not to be done says so, instead of pretending it is blocked — id: q-807
+**Group:** Board & visibility · **Priority:** critical
+**Source:** owner 2026-09-02 14:50 — the blocked mark is reserved for work that genuinely cannot
+proceed, never a stand-in for a status abused or invented (`DECISIONS.md`, 2026-09-02 14:50).
+
+**What is wrong today.** `scripts/state-probe.sh` shows a task whose acceptance command has stopped
+passing with the blocked mark ⛔. Two different things then wear one mark: work that genuinely
+cannot move (an outside dependency, a technical limit, one action only the owner can take), and
+work that was called finished and turned out not to be. A reader cannot tell them apart, and the
+second one is not blocked at all — nothing is standing in its way.
+
+**Definition of done:** the blocked mark carries only work that genuinely cannot proceed. A task
+whose own check has stopped passing takes the reopened mark and carries a plain note saying its
+proof stopped holding — never a status it does not mean. `scripts/state-probe.sh` and
+`scripts/render-board.sh` agree on this, and a test reds if a failing check ever paints the blocked
+mark again.
+
+*Amended 2026-09-02.* Two clauses of the original wording changed, both agent-authored. "Returns to
+the queue, or to in-hand" became the reopened mark, on his own later word the same day that a row
+which was done and is done no longer is neither queued nor in hand but its own state. And "and
+when" was dropped: nothing records when a check last passed, so the only way to say when a proof
+stopped holding is to start keeping that history — machinery with no incident behind it.
+
+**Checked by reading on 02.09.** Both readers map a failing acceptance on a done row to 🔁 and
+neither can reach ⛔ for it; `tests/test_plan_is_not_executable.py::TestADoneMarkCannotOutliveItsKey`
+asserts the row reads unfinished and that the blocked mark is absent, on the probe and on the board.
+Three rows carried the mark live at the time of writing.
+
+### ✅ A person who did not build this can read the task list and understand it — id: q-808
+**Group:** Board & visibility · **Priority:** critical
+**Source:** owner 2026-09-02 14:50 — the task list must read in language a person outside the work
+can follow (`DECISIONS.md`, 2026-09-02 14:50). Measured live in the same exchange: of the task
+lines shown to him, he could follow about one in three.
+
+**What is wrong today.** Task titles and group names are written in the vocabulary of whoever did
+the work. `scripts/state-probe.sh` and `scripts/render-board.sh` print those strings as they stand,
+so the list a person reads is an engineering worklog rather than a status report. The goal
+statement at the top of this very file already asks for the opposite ("It knows how to communicate
+properly"), and nothing in the tree carries that promise today.
+
+**Definition of done:** a person outside the work reads the open task list and can say, for each
+line, what it would give them and what state it is in — checked by asking a reader who did not
+write the tasks, not by a session judging its own prose. The fix lands where titles are written,
+so new tasks come out readable, rather than as a translation layer bolted on at display time. The
+three earlier breaks of this same rule are on record; this row is the one that repairs the source.
+
+**Checked by reading on 02.09, an outside reader.** A fresh agent holding only `PLAN.md`'s open task
+headers — no other project context — read each title cold, wrote a guess of what it gives a
+person and what state it's in, then checked that guess against the body. Of 11 open headers, 8
+read accurately on the title alone; 3 (`q-809`, `plan-9`, `q-163`) were flagged as genuinely
+liable to mislead a non-builder (an undefined "session," "new tools" reading as a product change
+rather than an internal version catch-up, "thorough tests" not signalling this is a method for an
+AI assistant to write them). All three rewritten in place the same session; marks and id suffixes
+untouched. The four titles `q-808` itself already rewrote (`q-802`, `q-804`, `q-385`, `q-805`)
+both read cleanly to this same outside reader, confirming that repair held.
+
+**Worked 02.09.** A cold-read pass over every `### ` title and `**Group:**` line in this file: all
+open rows (⬜/🔄) checked one by one against the definition of done above, plus a sample of rows
+closed 2026-09-01/02. Four titles failed the test on internal jargon a non-builder can't parse —
+`q-802`, `q-804`, `q-385`, `q-805` — rewritten in place; the mark and the `— id:` suffix on every
+row are untouched. The rest already read as plain outcome sentences and were left alone. This is a
+session's own reading; the outside reader the definition of done asks for still has to run, and the
+row stays open until it does.
+
+**Checked by reading on 04.09** (five readers, one pass over every done row with no acceptance command): holds — all seven rewritten titles read plainly on the board today.
+
+### ✅ A finished task is shown and closed; a complaint about it becomes new work, not a stuck one — id: q-810
+**Group:** Method reliability · **Priority:** critical
+**Source:** owner 2026-09-02 ~21:31 — no row's own definition of done should name his eye as the
+gate that keeps it open; the seat carries accepted work to a shown result and closes it there
+(`DECISIONS.md`, 2026-09-02).
+
+**What was wrong.** `q-166`'s own acceptance line read "No command decides this one; his own eye
+is the check" — a row that, by its own words, could never close without him personally watching a
+stretch of work. That is one instance of a wider gap: nothing in `director/SKILL.md` said, in one
+place, who actually accepts a delivered result, so a task's own author could write "needs his
+eye" into a definition of done for ordinary buildable work that a command or a plain read already
+settles, and the row would sit open forever on a check nobody was ever going to run.
+
+**Definition of done:** `skills/director/SKILL.md` states the rule once — the Director shows a
+delivered result and closes the checkpoint in the same step; a row's "needs his eye" gate is
+reserved for the three cases rule 12/27 already name (a taste call, a trade-off no artifact
+settles, a change to the definition of correct), never for verifying an ordinary delivered
+result; a later disagreement opens a new task rather than reopening the closed one; a genuinely
+irreversible action still stops for his word before it runs, unchanged. `evals/director/` gains
+scenario(s) proving the Director closes a "shown, ordinary" result without waiting on a human
+verdict, and does NOT close a genuine taste/irreversible fork without one; `evals/director/check.py`
+scores them; the full 35(+)-scenario re-record runs clean and the traceability test suite stays
+green. Landed 2026-09-02 as the same commit that closes `q-166` under this rule.
+
+**Checked by reading on 02.09.** `director/SKILL.md` carries both rules named above (the closing rule and,
+found the same night the seat was itself caught treating his very next remark as a passing aside
+instead of running it through the same process, the argue-before-executing rule — folded here
+rather than a second row, on his own word). Nine fresh producer runs (`evals/director/closing-scenarios.json`,
+`evals/director/closing-traces/`) prove the closing rule: 9 of 9, covering an ordinary delivery, a
+taste fork, an undecided trade-off, a change to the definition of correct the person himself
+ordered versus one still genuinely open, an irreversible release, and the argue-first case. One
+deliberate deviation from this row's own text: grading rides `tests/test_director_scenarios.py`
+directly rather than a second `evals/director/check.py`-shaped grader, since nine files and two
+graded fields is a deterministic read a dedicated script would be machinery for. The separate
+35-scenario act-classification harness (a different layer — what the Director calls a message,
+not when it closes work) was re-recorded the same night against both skill edits: 31 of 35,
+against a 30/35 baseline before either edit, inside the harness's own stated producer-variance
+line — `docs/prover/`-style detail lives with the dispatching worker's own report, not repeated
+here. Both traces sets and the matrix rows (`M-627`, `M-628`) are committed and green.
+
+**Checked by reading on 04.09** (five readers, one pass over every done row with no acceptance command): holds — the closing and argue-first rules stand in the director skill, 20 tests pass.
+
+### ✅ The turnkey product contract is proven complete before any code starts — id: q-806
+**Group:** Turnkey productization · **Priority:** critical
+**Source:** owner 2026-09-01 23:xx, `.live-spec/next-phase-prompt-turnkey-productization.md`; begun
+2026-09-02 once q-805 and the night's CI work closed.
+
+**Acceptance:** A short product contract — Director/ticket/checkpoint state machine, four statuses,
+DOD, the strict responsibility split, the two Director-proof kinds — exists at
+`.live-spec/turnkey-contract-composed.md`, reviewed by product-prover twice (this session, and
+independently by Fable per the owner's routing word) with every defect folded, and the one
+remaining owner-only question answered. Package 2 (the vertical path) does not start before this
+closes.
+
+**Worked 2026-09-02.** Two independent drafts (this session's, Fable's) composed into one; two
+product-prover passes (`docs/prover/2026-09-02-turnkey-contract-review.md`,
+`docs/prover/2026-09-02-turnkey-contract-review-fable.md`); fifteen of Fable's findings plus three
+of this session's own folded in place, including a real live bug the review surfaced and fixed
+(`.gitignore` was silently dropping every checkpoint from git — `ba7bc8e4`). The estimate question
+answered, 13:04: yes, but only once real duration statistics exist to back it, never a guessed
+number — its own small ticket once package 2 has produced a few closed tickets to measure, not
+before.
+
+**Checked by reading on 02.09.** The row's proof is two committed product-prover records,
+`docs/prover/2026-09-02-turnkey-contract-review.md` and its Fable counterpart, read against
+`.live-spec/turnkey-contract-composed.md`, plus the live resume run below. The phrase was missing
+until 02.09 17:02, so `tests/test_plan_done_marks_are_backed.py` counted this row as closed on
+nobody's reading — the reading had happened and only its name was absent.
+
+**Closed 2026-09-02 13:11.** The resume mechanism itself verified live first: a genuinely fresh
+session, an isolated worktree, given only "continue," correctly found and resumed this exact
+ticket using `state-probe.sh` + `plan-step.sh` + this ticket's own checkpoint alone — no spoken
+handoff. One authoring lesson surfaced, not a mechanism flaw: the checkpoint's own `NEXT` list had
+mixed a real next action with an unrelated note, which a fresh reader couldn't tell apart — fixed
+by keeping `NEXT` to only the ticket's own next step.
+
+**Checked by reading on 04.09** (five readers, one pass over every done row with no acceptance command): holds — the contract file and both reviews exist; the cited bug fix is in the tree.
+
+**plan-9 is not here.** Its row left the board on 2026-09-04 rather than closing; the record is
+in `2026-09-04-rows-taken-off-the-board.md`, and the work belongs to another project's window.
+
+### ✅ A host refreshing its skills from the pack isn't taxed for a review the pack already did — id: q-814
+**Group:** Method reliability · **Priority:** normal
+**Source:** `inbox/2026-09-03-from-tlvphotos-catchup-6.1.0-findings.md` — a real host walk (tlvphotos,
+2.7.0 → 6.1.0) hit both findings below live and worked around them; reported back, not blocking.
+
+**Finding 1 — the skill-review gate has no carve-out for an unedited vendor refresh.**
+`sync-skills.sh` replaces a host's skill bodies byte-for-byte from the pack, and every one of those
+changes is already reviewed on the pack's own side (`docs/skill-review/`). The host's own
+`check-skill-review.sh` (a vendored copy of this pack's own gate) still demands a fresh review
+record per skill, as if a human had hand-edited it there — no path recognizes "this file is
+byte-identical to a pack commit the pack already reviewed." tlvphotos worked around it by writing
+13 short host-side records, each quoting the pack's own verdict — legitimate, but a tax on every
+future sync. A carve-out (accept the review as satisfied when the synced file's hash matches a
+commit `docs/skill-review/` already covers) removes the tax without weakening the gate against an
+actual hand-edit.
+
+**Finding 2 — the migration wish's rollback-proof expects five differences; a real run shows six.**
+The wish's own step 0 fingerprints tracked content before running the "before" suite, so a tracked
+file the suite itself rewrites (this host's `tests/suite_timings.json`) always shows as a
+difference at the rollback check — a systematic gap for any host whose test runner rewrites a
+tracked file, not specific to tlvphotos. Either reorder step 0 (suite before fingerprint) or add
+the file class to the known-difference list explicitly.
+
+**Definition of done:** `guardrails/check-skill-review.sh` gains the byte-identical-to-a-reviewed-
+pack-commit carve-out, proven red-then-green (a hand-edited skill still demands a review; a
+byte-identical vendor sync does not); the migration wish template's step 0/9 ordering or
+known-difference list is corrected so a tracked-file-rewriting test runner doesn't false-positive
+the rollback proof. `inbox/2026-09-03-from-tlvphotos-catchup-6.1.0-findings.md` moves to
+`inbox/handled/` once both land.
+
+**Closed 2026-09-03. Checked by reading on 03.09**, independently, against the lane's own diff and
+test runs before landing — not taken on the worker's report alone. Both findings landed in the
+lane worktree `lane/q-814-sync-review-carveout`.
+
+Finding 1: `guardrails/check-skill-review.sh` gained a `find_covering_record()` helper and a byte-
+identical carve-out — when no direct review record covers a skill's latest change, the gate now
+walks each changed file's own git history for an earlier commit with the same blob content that
+already carried a covering record, and stands down only when every changed file clears that. A
+genuinely new file among them still reds exactly as before. Proven red-then-green against a saved
+copy of the pre-fix script (a vendor sync restoring already-reviewed content failed there, passes
+now); the regression guard — a hand-edit to content never reviewed anywhere in history — still reds
+both before and after. Tests: `tests/test_skill_review.py::test_vendor_sync_of_previously_reviewed_content_needs_no_new_record`
+and `::test_hand_edit_to_never_reviewed_content_still_reds_with_carveout_present`
+(`python3 -m pytest tests/test_skill_review.py -q` — 24 passed).
+
+Finding 2: `MIGRATION.md`'s before-and-after self-test (INV-92) now names a tracked file the host's
+own test runner rewrites on every run (a timings or cache artifact, `tests/suite_timings.json` the
+case found) as an accounted-for difference by name, alongside the existing plan-item classes — it
+owes no separate plan item and never needs re-discovering per host. Tests:
+`tests/test_catchup_walk.py::test_a_test_runner_rewritten_tracked_file_is_a_named_known_difference`
+and `::test_test_runner_rewritten_tracked_file_no_longer_false_positives_the_rollback_check`, the
+second a behavioural fixture (a scratch git repo, a tracked file a stand-in suite rewrites) proving
+the fingerprint delta is real, then that the guide's own text now accounts for exactly that file
+(`python3 -m pytest tests/test_catchup_walk.py -q` — 14 passed).
+
+`inbox/2026-09-03-from-tlvphotos-catchup-6.1.0-findings.md` moved to `inbox/handled/` with a closing
+note. Full suite: `python3 -m pytest -q` — 2731 passed, 55 skipped, 4 failed, none touching either
+finding (pre-existing: a stale `skills/director/SKILL.md` hash against its recorded closing-eval
+runs, a nested run of the same; Cyrillic already on `PLAN.md:1361`; historical landing commits
+before this row missing a same-commit `NEXT_STEPS.md` touch) — carried as-is, not this row's job.
+
+**Checked by reading on 04.09** (five readers, one pass over every done row with no acceptance command): holds — the covering-record lookup and its invariant text are present, 40 tests pass.
+
+### ✅ The worker-restore gate never blocks a push over an unrelated project's history — id: q-815
+**Group:** Method reliability · **Priority:** normal
+**Source:** `inbox/2026-08-25-from-tlvphotos-worker-restore-gate-ambient-scope.md` — found still
+open 03.09 while sweeping old inbox items; no PLAN/JOURNAL/DECISIONS entry or code change
+addresses this specific complaint, confirmed by search.
+
+**What was wrong.** `guardrails/check-worker-restore.py`'s `DEFAULT_ROOT` is
+`~/.claude/projects` — every project's transcripts on the machine, not just the host doing the
+push. tlvphotos was blocked twice pushing its own clean, ready commits by discard commands found
+in an unrelated project's transcript. The gate's own code already marks the 24-hour counting
+window as deliberately left "for the owner's word... no repair, no deletion, no ruling is made" —
+this is the same shape of open decision, on the scan root instead of the window, never named as
+its own item until now.
+
+**The real design call, not yet made:** how "belongs to this host" is decided when the gate scans
+for a discard — by the invoking tree's own worktree/repo ownership, an explicit per-host
+allowlist, or something else. A taste/policy call, not a mechanical fix — needs his word on the
+approach before it's built.
+
+**Definition of done:** the gate's scan scopes to the pushing host's own transcripts, proven
+red-then-green (a discard in an unrelated project's history no longer blocks; a discard in the
+host's own history still does). `inbox/2026-08-25-from-tlvphotos-worker-restore-gate-ambient-scope.md`
+moves to `inbox/handled/` once it lands.
+
+**Checked by reading on 03.09.** No CHECKS entry: the row's own proof is a pytest node
+(`tests/test_worker_restore.py::TestOwnRepoFollowsThePushingHostNotWhereTheFileLives`), and this
+table's own precedent (see the `plan-0`/other entries above naming "run directly rather than
+through pytest") is that `state-probe.sh` runs every CHECKS command on every session start, so a
+pytest-backed row would tax every future session's boot for one row's own proof. The real suite run
+below is the check.
+
+**Done.** The real design call was smaller than it looked: the gate already carried the right
+mechanism (`own_repo()`/`is_own_session()` in `guardrails/check-worker-restore.py`, landed
+2026-08-18/19) — it already read a session's `cwd` against a shared git-common-dir to decide
+"own" versus "neighbour," a notion the pushing repo's own identity, not a per-host allowlist.
+The bug was where that identity came from: `own_repo()` read it off `SCRIPT_DIR`, wherever the
+`.py` file itself physically sits, which is right only while the gate scans from inside its own
+checkout. The moment a downstream project reuses the file unchanged — tlvphotos importing the
+live-spec pack's copy, exactly the inbox report — `own_repo()` answers live-spec's repository
+instead of tlvphotos's, so a discard in an unrelated live-spec development worktree blocked
+tlvphotos's own clean push while a real discard in tlvphotos's own history would have been waved
+through as a neighbour's. Fixed by reading `own_repo()` off `os.getcwd()` instead — every
+documented invocation already runs the check as `python3 guardrails/check-worker-restore.py` from
+the repo root being pushed, so the process's own working directory already answers "the real repo
+root the check is running against," and `_git_common_dir` collapses a lane worktree to the primary
+repo's identity exactly as it already did for a session's own `cwd`. No new config, no per-host
+allowlist, no change to `DEFAULT_ROOT` or the `--root`/`LIVE_SPEC_TRANSCRIPT_ROOT` override, which
+still scan exactly what they named before.
+
+Proved red-then-green in `tests/test_worker_restore.py::TestOwnRepoFollowsThePushingHostNotWhereTheFileLives`:
+a fixture with two fake transcript trees — one whose recorded session sits in this repository (the
+"unrelated" tree from a different pushing host's own point of view), one whose recorded session
+sits in a freshly `git init`-ed temp repo standing in for the real pushing host — each carrying a
+`git checkout --` discard, the gate itself invoked with its own subprocess `cwd` set to that temp
+host repo. Before the fix both cases inverted: the host's own discard read as a neighbour's notice
+and did not block, the discard in this repository blocked regardless of which repo was actually
+being pushed — reproduced and confirmed red for that reason before any code changed. After the
+fix: the discard in this repository no longer blocks the temp host's push
+(`test_a_discard_where_the_scripts_own_file_lives_no_longer_blocks_a_different_pushing_host`), and
+the discard in the host's own history still blocks exactly as before
+(`test_the_same_discard_in_the_pushing_hosts_own_history_still_blocks`). The whole existing
+`--root`/neighbour-classification suite in `TestTheGateJudgesThisProjectsOwnSessions` (which already
+exercises the explicit override across a dozen shapes) still passes unchanged, proving the override
+itself was never touched.
+
+`python3 -m pytest -q tests/test_worker_restore.py tests/test_worker_restore_made_good.py tests/test_worker_restore_guard.py tests/test_worker_restore_run_scope.py tests/test_install_worker_restore_guard.py`
+— 288 passed. Full suite (`python3 -m pytest -q`), none of it touching this row's own change: the
+same pre-existing count `q-814` already named a few rows up (a stale `skills/director/SKILL.md`
+hash against its recorded closing-eval runs, invalidated by `614cc25e`, plus a nested run of the
+same) — carried as-is, not this row's job. **Correction, 2026-09-03:** this line originally read
+"run clean," which was false at the commit it named — `docs/prover/2026-09-03-full-range-
+adversarial-review.md` finding F1 caught it, re-running the failing test directly against this
+row's own closing commit and reproducing the red.
+
+`inbox/2026-08-25-from-tlvphotos-worker-restore-gate-ambient-scope.md` moved to
+`inbox/handled/2026-08-25-from-tlvphotos-worker-restore-gate-ambient-scope.md`.
+
+**Checked by reading on 04.09** (five readers, one pass over every done row with no acceptance command): holds — the scope fix reads the pushing host, not the file location, 127 tests pass.
+
+### ✅ A new project stops being handed the queue this one retired — id: q-801
+**Group:** Method · **Priority:** normal
+**Source:** the 28.08 cull retired this project's own wish queue to the attic; the method that
+teaches a new project still hands it one. Raised as a the retired findings log finding on 28.08 and put on the
+board on 31.08, on his word of that day to carry things through rather than park them as questions.
+
+The skills, the templates and the joining walk all give a joining project a separate queue file and
+describe it as the place a wish lands, and four of those sentences say "in this pack", which stopped
+being true here on 28.08. Eleven files carry it today: `skills/spec-author/SKILL.md` and its
+glossary, `skills/design-reviewer/SKILL.md`, `skills/director/SKILL.md`,
+`skills/communicator/references/words.md`, `skills/live-spec-base/SKILL.md` and its glossary,
+`skills/product-prover-pack/SKILL.md`, `templates/ROADMAP.template.md`, `adopt/ADOPT.md` and
+`adopt/START.md`.
+
+This is a change to what the pack ships, so it carries a version number and a migration note for the
+projects that already copied the old text into themselves. Two questions have to be answered before
+the rewording starts, and neither is a tidy-up: whether a host project should still get a queue of
+its own at all now that this one runs on a single list, and what a host that already has one does
+when the pack stops describing it.
+
+**Acceptance:** `git grep -n "in this pack" -- skills/ templates/ adopt/` returns no line that
+names a queue file as the place a wish lands, `templates/ROADMAP.template.md` either states what a
+host's queue is for in its own right or is retired with its manifest line, the VERSION bump and the
+`MIGRATION.md` entry both name the change, and the whole suite runs green.
+
+**Done, landed 31.08 as release 6.1.0.** The two questions were answered before the rewording: a
+project joining today starts on one list from its first day, and a project that already keeps a
+separate queue file keeps it and is asked to merge nothing. Both answers are written where a reader
+meets them — the joining walk, the founding walk, and the migration note.
+
+`templates/ROADMAP.template.md` retired to the attic under its manifest line, and
+`templates/PLAN.template.md` takes its place carrying the same row shape, status vocabulary and
+live-body law under the one-list framing. Eleven files that named a queue file as the place a wish
+lands were repointed: the spec-author, design-reviewer, director, live-spec-base, product-prover-pack
+and publish skills with their glossaries and word lists, the joining walk, the founding walk, the
+adoption guide, and the founding test scaffold. `VERSION` moved 6.0.0 → 6.1.0, every skill stamp
+followed it, and `MIGRATION.md` carries the 6.1.0 chapter saying a host owes nothing.
+
+### ✅ The playbook repo earns its keep or gets folded away — id: q-800
+**Group:** Cross-project · **Priority:** normal
+**Source:** owner 2026-08-27 23:47 — "что за плейбук блин надо разгрести его тоже. мне кажется он лишний." <!-- user-language -->
+
+Found tonight, in passing: `~/.claude/personal` and `profile.md`'s real home is a separate repo,
+`~/.claude/playbook`, three weeks behind on commits (last real commit 2026-08-05; a one-line
+`deferral` fix tonight swept in everything sitting uncommitted since, see the retired findings log). His own
+question stands open: does this repo earn a second home for what could live in one, or fold into
+`~/live-spec` or `~/.claude` directly. Not investigated yet — the answer wants a real look at what
+playbook actually holds (`playbook-repo.md`, `pipeline-package-one-repo.md`,
+`promotion-agent-project.md` name it in other memory, not yet cross-checked against its own
+contents) before a command-based acceptance can be written.
+
+**Acceptance:** No command decides this one. The row closes when every file the playbook repository
+holds is set beside the one home it belongs in — this project, `~/.claude`, or nowhere — and each
+one is either moved there or kept where it is with the reason written next to it. What would
+convince a reader: that list, with nothing on it carrying two homes and nothing left unplaced.
+
+**The list is written, 31.08: `docs/reports/2026-08-31-playbook-repo.md`.** Every one of the
+forty-two files in that folder is placed. The answer is to keep the repository and narrow it to the
+personal layer: it is the only version history and the only copy off this machine for the two files
+every session reads, and `~/.claude` has no version control of its own. Ten files leave its working
+tree into its own history, two untracked folders go to the trash, and the old working agreement waits
+on plan-16, both to drop three citations that still point at it and to take in two rules of his that
+turn out to live nowhere else. The page also carries the ordered list of commands for the window that
+owns that repository, which this window cannot write to. The row waits on the owner's read of the
+page and on those moves actually running; his read is what closes it.
+
+**Checked by reading on 01.09.** His own word this session, "разрешаю," is the read that was waited on. The <!-- user-language -->
+window that owns `~/.claude/playbook` re-checked the tree against the report and found the ordered
+list already run and pushed on 31.08, commits `803924a`, `380d33b`, `3108b92`, `c648cf5`
+(`0a79f35` followed, unrelated — a plan-16 fix to the profile's report-format line). Nine dead
+files and one stray backup left the working tree for git history; `PLAYBOOK.html` and
+`row52/attic/skills-bak/` went to the trash; `profile-history.md` gained the version history and
+off-machine copy its own third line had always pointed at but git never held; the `cost-levers`
+line got the script's full path; the README was rewritten for the narrowed repository. Nothing was
+left to move, and nothing further was committed today — the tree matches the report exactly, and
+`git status` there is clean against `origin/main`.
+
+One piece named in the report stays open, and plan-16's landing did not close it: the two rules
+that live only in `PLAYBOOK.md` — naming what a plan must not touch, and reading "what's the
+point"/"what a mess" as a stop-and-look signal — did not enter any skill when plan-16 landed 31.08,
+and the three citations at `skills/live-spec-base/SKILL.md:266`,
+`skills/director/references/delegation-protocol.md:36`, and `tests/test_convergence_rule.py:57`
+still point at that document. This is already carried in the retired findings log and is
+not this row's to fix — it waits on whoever next holds the pen on the rule-homes lane.
+
+**Checked by reading on 04.09** (five readers, one pass over every done row with no acceptance command): holds in this tree; the repository move itself is another window’s to confirm.
+
+### ✅ A color-contrast check now looks at the right background — id: q-490
+**Group:** Method reliability · **Priority:** normal
+**Source:** deposit 2026-07-27 — the old check "blocked seven passing rows and let a genuinely failing one through unnamed."
+**Checked 28.08, and it stays its own task.** The 27.08 pass folded this into q-489, which states the general law and names no check. This one names a live hole in a check that ships: a selector with no chain is still scored against the page background instead of being reported as unresolvable (`scripts/preshow-legibility-lint.py:309,316`), which is the shape of the failing case the report came from. The check is not a push gate; the communicator runs it before showing a styled artifact (`skills/communicator/SKILL.md:468`).
+
+**Done 28.08.** The check now measures only where the stylesheet actually settles what a piece of
+text sits on. Where it does settle, the contrast is scored and judged as before. Where it leaves the
+background open, the check says so and names the text, instead of scoring it against the page and
+calling the answer a reading. Three more places in the same check that had been guessing the same
+way were repaired with it, so the class is closed rather than the one reported case. The
+plain-language check that runs beside it now says out loud when its judge stood down, where before
+it printed a clean pass over a check that never ran.
+
+
+### ✅ The assistant never puts words in your mouth — id: q-497
+**Group:** Communication & reporting · **Priority:** normal
+**Source:** 2026-07-27 ~16:20 — a sibling window dropped delegation for a whole movement over a false attribution.
+**Closes:** q-589, q-550
+**Absorbed:** 2 rows folded here 27.08, rotated off the board 28.08 — q-550, q-589. Full text: `docs/queue-archive/rotated-PLAN-2026-08-28-folded-rows.md`.
+
+**Acceptance:** `python3 guardrails/check-authority-anchor.py` reds a planted sentence that credits
+the owner with an instruction no dated exchange stands behind, wherever in the tree that sentence is
+written and not on the decisions page alone, and passes the tree as it stands; one test holds both
+directions. `grep` finds the rule saying where an instruction's authority comes from, and how a
+disagreement over it is spoken, in one file and in no second one. The third leg the row used to
+carry — the message to the window that lost its delegation — is spent: that window answered in
+July, and nothing waits on it.
+
+**Landed 31.08.** The check reached two surfaces in this tree before today: the decisions page and
+its template, the only two files carrying the marker that put a file under the standing block. A
+sentence crediting the owner with an instruction, planted on an ordinary page, passed without even
+being reported — proven by planting one in the director's own skill file and watching the check exit
+green. It now hard-blocks that sentence on the 176 live pages of the tree, and the same plant reds
+by name. The tree as it stands passes. Both directions are one test,
+`test_a_named_attribution_reds_on_any_surface_and_the_tree_as_it_stands_passes`.
+
+**An adversarial read refused the first build, and it was right.** It planted seven ways of writing
+the same fabrication and the check passed every one: the possessive with a copula after it, the same
+possessive behind a preposition, a word between the name and the verb, "according to". Two causes.
+The name-and-verb pattern demanded the two sit next to each other. And the arm had inherited the
+exemptions written to spare rule language, which are keyed on exactly the shapes a fabrication uses
+once a name is in it. Both fixed; eight of the nine plants now red, the dated one passes, and the
+ninth is recorded below. The read also caught the reach being overstated in four places, one of them
+a *shall* in the spec.
+
+**Where the block stops, said plainly.** It reds a sentence that names the person, on a live page.
+Three things it does not hold. A claim where the person appears only as a pronoun or a role — a
+ruling called his, a decision called the owner's: that is a decision this pack recorded in July with
+its own measurement, since those words are the pack's own rule language, standing on 164 sentences
+of the reached pages against two for the named form, and both of those two are inside dated entries
+on the decisions page. A page in the spared set — the dated records, the journal, the archives, the
+fixtures, the working notes: 1067 of the tree's 1245 text pages, carrying 152 named attributions
+today, every one of them a record of what already happened. And a sentence with no authority word
+beside the name, "the lane order came from him". The read-back page, where the person strikes what
+he never said, stays the defence for all three.
+
+**The rule now says where an instruction's authority comes from and how a conflict is spoken.** Its
+one home is rule 13 in `skills/live-spec-base/SKILL.md`. The attribution half already stood there;
+the half the founding incident was actually about was nowhere — that the session's instructions
+arrive from the person, from the tooling and from a wrapper at once, that only the person's own
+messages and profile carry the person's authority, and that where a tooling line and the person's
+standing word conflict the reply states both and the standing word decides. `grep` finds it in that
+file and in no second one, and `tests/test_one_home_per_rule.py` now names it as its fourth rule, so
+a second copy reds: proven by planting one in the director's skill file. A clean-context review of
+the rulebook edit caught the first draft telling the founding incident wrong — as a relay between
+two windows, when it was one window handing back a line from its own instructions — and the
+correction landed before the record was written:
+`docs/skill-review/2026-08-31-live-spec-base-instruction-authority.md`.
+
+
+### ✅ A cleared mistake stops blocking every future push — id: q-527
+**Group:** Worker & data safety · **Priority:** normal
+**Source:** found 2026-07-29; owner's word owed on what counts as "cleared."
+Note (28.08): the row no longer waits on him. It waited on a policy answer — what counts as a
+cleared mistake — and that question is machinery, which his word of 27.08 puts on this seat's desk.
+The title still names the problem, because the resolution is not written anywhere yet.
+
+**Acceptance:** `python3 guardrails/check-worker-restore.py` runs clean over a fixture where the
+mistake it names has been made good, and stays red over the same fixture without that repair; one
+test holds both directions, so the way out is proved rather than described. What counts as made good
+is written once, in the requirement the check cites. That definition is this seat's to write, not
+his: his word of 27.08 puts machinery on this desk, and it is machinery.
+
+**Done 31.08.** A mistake is made good when every file the command named carries, in the repository
+that command ran in, a commit dated later than the command — the work at those paths is saved in
+that repository's history again. The definition is written once, in `spec/guardrails-freshness.md`
+Requirement 301 (criteria 21–25), the requirement that already owns this check. The check asks git
+that question afresh on every run, so nothing on disk records a clearing and the answer flips the
+moment the commit exists; a made-good finding stays named in the report beside the commit that
+answered for it, so nothing is dropped in silence. Three shapes can never be made good — a command
+that names no single file, one the check could not place in a repository, and a record with no
+timestamp — and the verify arm (`--run`) never puts the question, so a red worker run stays red for
+acceptance. `tests/test_worker_restore_made_good.py` holds both directions over one fixture
+repository, running the row's own command with nothing between the two readings but the commit.
+The counting start did not move, and no ledger, flag, date or counter was added.
+
+
+### ✅ Trimming a long document never loses what moved — id: q-531
+**Group:** Method reliability · **Priority:** critical
+**Source:** found 2026-07-29, reproduced live at tlvphotos 2026-08-05 — a real document split ran with no proof nothing was lost.
+
+**What it is.** When a long document is split or restructured, a command proves that
+nothing was lost — every word and every mark accounted for, before and after.
+
+**Why now.** The photo site's spec is 467 KB and its conversion begins within days. Without this,
+"everything moved across" is a claim nobody can check, over a document too large to read.
+
+**Done when.** One command takes the document as it stood and the files it became, and prints an
+empty difference over every word and every mark; drop a paragraph on purpose and the same command
+prints that paragraph and exits non-zero. A test in `tests/` runs it both ways, so the red is proved
+rather than assumed, and the command runs for real over the photo site's spec before its conversion
+starts.
+
+**Done, landed 31.08.** The command is `scripts/nothing-lost.py`, run as
+`python3 scripts/nothing-lost.py --before OLD.md --after new/*.md`; a document already committed
+reaches it through a pipe, `git show REV:OLD.md | ... --before -`. It compares the two sides as
+multisets of blocks — a heading, a paragraph, a list item with its continuations, a table row, a
+fenced code block — each with its whitespace collapsed, so rewrapping and reordering pass and a
+dropped word does not. Whatever the old document carried and no new file accounts for is printed
+whole, with the line it stood on, and the exit code is 1; an accounted-for split prints nothing and
+exits 0. `tests/test_nothing_lost.py` runs both directions: one legitimate split, and nine things
+dropped on purpose one at a time — a paragraph, a sentence off the end of a paragraph, a table row,
+a footnote, a citation, an inline code span, a line inside a code fence, a list item, a heading.
+
+**The real runs.** Two splits this repository already performed are checked in the suite, both at
+the size this exists for. `b344d33c` cut ARCHITECTURE.md into a core and fifteen parts: 594 blocks,
+empty difference, exit 0 — a real split proved lossless after the fact. `d79fc334` moved 310
+requirements out of the 703 KB PRODUCT_SPEC.md into thirty parts and deleted its trailing
+`## Reference` table in the same commit: the command prints that table and nothing above it, so the
+one thing removed is named and the 310 relocated requirements are all accounted for.
+
+**On the photo site's own spec.** Its conversion has not started — `~/tlvphotos/SPEC.md` is still
+one 467 KB file with no parts beside it — so there is no "after" to compare yet. The command was
+run over it as it stands today (691 blocks, read clean), which is the baseline the conversion will
+be checked against; the before-and-after run belongs to the conversion itself, and the command is
+ready for it.
+
+
+### ✅ The installed copy and the working copy stay in sync — id: q-537
+**Group:** Method housekeeping · **Priority:** critical
+**Source:** found 2026-07-30 — real drift already exists across four hook files and eleven skills.
+
+**What it is.** What is installed on this machine and what is in the working tree have
+drifted apart — across four hook files and eleven skills. So a check can pass here and fail in the
+copy that actually runs, and nobody learns which is right.
+
+**Why now.** The photo site's migration sits directly on top of this: its first finding is a host
+whose own record claims a version two releases ahead of what is on its disk. The same defect, one
+tree over. Every future project meets it again.
+
+**Done when.** A command compares the installed set against the working tree and prints an empty
+difference, and the same command reds when a file is edited in one place only.
+
+**Done, found shipped 28.08.** That command exists and blocks a push: `guardrails/check-config-health.sh`
+runs as gate m (`guardrails/pre-push:240-241`). It byte-compares the two git hook files, diffs every
+file under `hooks/` against the installed copies, and walks every pack skill directory against its
+installed twin, naming a missing or drifted file. `scripts/sync-skills.sh` is the repair half. Two
+things it deliberately does not read, both recorded in the script's own text: a skill that carries
+its own history is left to `scripts/install-external-skills.sh`, and whether the machine's settings
+file still lists the judge entries. A host's own version drift belongs to plan-14, not here.
+
+**Re-checked 28.08, both halves.** The comparison had been reporting a real difference until earlier
+today; it was repaired, and it now runs clean. The second half this row asked for is standing too:
+setting the hooks up refuses to register one that is already wired, in whatever form the machine
+wrote it, and a test seeds a wrapped entry and proves only one stays. This row now has a command of
+its own, so the mark is computed rather than typed.
+
+
+### ✅ A project's starting state is saved the moment it joins — id: q-55
+**Group:** Onboarding & founding · **Priority:** normal
+**Source:** restored 27.08 — struck by that morning's provenance purge, then found to be the only owner of five promises the spec still makes (E-6, E-7, E-10, A-6, INV-17).
+
+**What it is.** When a project is taken on, its files are recorded as they were found, tracked in
+version control, so every later change can be compared against how it started.
+
+**Why it matters.** The spec promises this in three separate places, and both migrations queued
+today do it by hand in their own instructions. Nothing in the product does it yet, so each walk
+reinvents it and each one can forget.
+
+**Done when.** Joining a project makes a first commit of its files exactly as they were found,
+without anyone asking for it, and `git -C <that project> diff <the joining commit> --stat` prints
+how the project has changed since. A test walks the joining step over a throwaway tree and reds when
+that commit is missing.
+
+**Done, landed 31.08, narrowed first.** A hostile read of the original wording found its stated
+ground false — it cited spec promises that turned out not to say what it claimed — so the row was
+cut back to the one case that is real: a project with nothing in version control loses its starting
+state the moment the method writes its first file. `adopt/record-starting-state.sh` closes that. Run
+from the joining project's own root, it makes the project a repository and commits its files exactly
+as they were found, before any file of this method's lands. A project that already carries history
+is left alone, and running the step twice changes nothing the first run did. It is step two of the
+joining walk's opening phase, so nobody has to remember it.
+
+The test walks a throwaway tree four ways: the files as found are committed, a change made afterwards
+shows up in the diff against that commit, all three of those fail when the step is skipped, and a
+project with its own history gains no commit. What was cut and stays cut is the framework the
+original wording implied around it.
+
+### ✅ A safety check that only runs here now ships everywhere — id: q-567
+**Group:** Portability · **Priority:** normal
+**Source:** inbox 2026-08-06 — a host cannot obey a rule that names a script it doesn't have.
+**Checked 28.08, and it stays its own task.** The 27.08 pass folded this into plan-14, which ships the plan, the probe and the board to a host and says nothing about the safety checks. Confirmed today: `guardrails/install.sh:26-31` copies three hook files into a host and none of the check scripts those hooks call, and `guardrails/README.md:285` says the structural gates are adapted by hand. So a host still cannot run a check its own session rules name. q-241, the same class stated generally, was folded into plan-14 and is in the archive.
+
+**Done 28.08.** Setting the safety checks up in another project now carries the check scripts the
+hooks call, not the hooks alone. A check that is missing stops the commit and names itself, where
+before the commit went through and the gate quietly did nothing — a project could be working under
+a check that had never been there, with no way to notice. One of the three chains deliberately
+stays home: most of the checks in the push chain read a document only this project has, and the
+chain refuses a push when any one of them objects, so a copy of it elsewhere would refuse every
+push over files that project does not own. The setup says that out loud and points at how to take
+the chain's shape by hand, which is where a project picks up the few checks that would have held
+anywhere.
+
+
+### ✅ You're warned before anything can trigger a security popup — id: q-581
+**Group:** Worker & data safety · **Priority:** normal
+**Source:** deposit 2026-08-07 — the owner was interrupted twice in one session and said he always presses Deny.
+**Absorbed 28.08:** q-542, the leftover test server that kept raising the same dialog — the instance of this class, not a second task. Full text: `docs/queue-archive/rotated-PLAN-2026-08-28-folded-rows.md`. Checked 28.08: nothing in the tree reaps a stale local server or warns before an action can raise one of these dialogs.
+
+**Acceptance:** The commands known to raise one of these dialogs are listed in one place beside the
+rule that governs them, so adding a command adds a case. A test hands a session each command on that
+list and reds unless the warning goes out before the command runs. `grep` finds the rule stated once
+and nowhere twice. The two neighbouring asks from the same day — helping him stay focused, and
+showing early progress on long builds — now sit under the live board row, q-166.
+
+**Done 01.09.** `hooks/dialog-warning-guard.py` — a `PreToolUse(Bash)` hook naming
+`KNOWN_DIALOG_COMMANDS` (a keychain read, an unrecognized-binary launch, a server bound to every
+interface) beside the one rule governing them, stated once in the module's own docstring. A
+matching command gets `permissionDecision: "ask"` before it runs; anything else, or malformed
+input, passes through untouched. `tests/test_dialog_warning_guard.py` (13 tests) hands the guard
+each listed command and asserts the warning fires, plus an ordinary command passing clean and the
+rule's own `grep`-once check. No stale-server reaper, no general registry — the flat list this
+row's narrowed acceptance asked for.
+
+**Gap found and closed 03.09.** The hook only reached this machine because a prior session copied
+it by hand — no installer shipped it, so `check-config-health.sh`'s source-vs-installed parity held
+by luck, not mechanism, and a fresh machine or a new host had no way to get it. A worktree from
+01.09 had drafted the fix and never landed (found while sweeping stale worktrees); its content was
+verified, re-written fresh, and landed with its own test:
+`scripts/install-dialog-warning-guard.sh` (copy-only, wires nothing into settings.json, same
+opt-in shape as the six pack judges), `tests/test_install_dialog_warning_guard.py` (4 tests,
+against an isolated fake `$HOME`).
+
+
+### ✅ A worker's cleanup step never erases unsaved work — id: q-586
+**Group:** Worker & data safety · **Priority:** normal
+**Source:** found 2026-08-09 — a worker discarded uncommitted files through a command the existing guard didn't recognize.
+**Checked 28.08, and it stays its own task.** The 27.08 pass folded this into q-624, which verified the installed guard and its five named forms. This row is a sixth form the guard does not see: writing a file back out of `git show HEAD:<path>` reports itself as a read and walks past all five (`hooks/worker-restore-guard.py:170-198`). The guard's own refusal message recommends that exact command as the recovery route (`hooks/worker-restore-guard.py:215`), so the hole is not only open, it is signposted.
+
+**Done 28.08.** The refusal now reads the whole command and judges where the bytes end up, rather
+than which word was typed first. Saved content landing on top of a file in the working folder is
+refused the same way whether the version-control command writes the file itself or the content is
+piped or redirected onto it. Sixteen assembled routes had been walking past the old list of five
+words, including the one the refusal itself used to recommend. The refusal now recommends printing
+the saved copy and writing the file deliberately with the file-writing tool — two steps the check
+does allow, checked against the running hook rather than read off its text.
+
+
+### ✅ A command that destroys unsaved work is refused before it runs — id: q-624
+**Group:** Worker & data safety · **Priority:** normal
+**Source:** found 2026-08-19 — 28 occurrences since 08-13, the same red suite result dismissed as "environmental" three times.
+**Closes:** q-479, q-586, q-605
+**Absorbed:** 2 rows folded here 27.08, rotated off the board 28.08 — q-479, q-605. Full text: `docs/queue-archive/rotated-PLAN-2026-08-28-folded-rows.md`. q-586 was folded here too and stayed on the board: the guard does not recognise the command that caused it.
+
+**What it is.** A command that throws away work nobody saved is refused before it runs.
+Twenty-eight of them ran in this project's own worktrees before 13.08, one landing on a file
+another lane was writing at that moment, and the red test result that reported it was dismissed as
+an environment problem on three separate pushes.
+
+**Corrected 27.08.** This task stood at the top of the board on the row's own text, which said the
+hook was built but not installed, "which is the owner's own act." Checked directly rather than
+taken on the row's word: `~/.claude/hooks/worker-restore-guard.py` is installed, byte-identical to
+this repo's copy, wired as a `PreToolUse(Bash)` hook in `~/.claude/settings.json` (installed 20.08
+— before the row was even written), and its own 27 tests pass, one for each of the five forbidden
+forms by name. Nothing was owed here. Closed by verification, not by an act.
+
+
+### ✅ The cost of every extra process step is measured and justified — id: q-568
+**Group:** Budget & economy · **Priority:** normal
+**Source:** owner 2026-08-07, 00:17–01:10.
+**Covered by:** plan-17 — Each session reads only what it needs. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
+
+**Checked by reading on 28.08, and one half of it was never done.** What closed this row is plan-17's measurement of what a session really carries, which answered the question underneath it. What its own acceptance asked for — a page listing every fixed step with its price, the rule demanding it and who wrote that rule, read by the owner — was never produced, and nothing in the tree stands in for it. Left closed, because the substance was answered elsewhere; recorded here so nobody reads the mark as proof the page exists.
+
+**Checked by reading on 04.09** (five readers, one pass over every done row with no acceptance command): holds — the row itself records that the acceptance page was never made, and it is not there.
+
+### ✅ Every new session's starting weight is measured and trimmed — id: q-570
+**Group:** Budget & economy · **Priority:** normal
+**Source:** owner 2026-08-07 00:17.
+**Covered by:** plan-17 — Each session reads only what it needs. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
+
+**Checked by reading on 28.08.** The measurement it asked for was taken under plan-17 and stands in this file: the fixed weight a session carries measured 17,575 tokens on 27.08, and the plan itself is no longer part of it. The opening report measures the same floor at every start and prints today's figure, 17,676 as of 28.08 evening. No command here: a past measurement is not a state a check can re-read, and a check pinned to the figure itself would red every time the pack grew by a paragraph.
+
+**Checked by reading on 04.09** (five readers, one pass over every done row with no acceptance command): holds — the probe prints the live starting weight today.
+
+### ✅ Every made-up number in the system is found and removed — id: q-576
+**Group:** Method reliability · **Priority:** normal
+**Source:** owner 2026-08-07 09:16 (Russian, forceful — "find and root out every invented number").
+
+**Done 2026-09-01.** The page the row asked for now exists: `docs/prover/2026-09-01-every-number-in-the-tree.md`,
+a full re-read of the tree against the 2026-08-07 census, independent of the 27–28.08 sweep's own
+account. It found the sweep's fixes held (six removed, twelve grounded, twenty-seven labelled all
+still stand) and thirteen more numbers the sweep never reached — twelve survivors from the original
+census that the labelling pass skipped over, plus one new pair of constants in a file that landed
+2026-08-31. Commit `c8adff22` gave each of the thirteen the same source-admission sentence or `[default]`
+tag already used on the other twenty-seven, matching the exact phrasing of its nearest sibling —
+no number's value changed, no new machinery added. The tree now holds zero numbers with nothing
+behind them: every one traces to an outside source or admits in place that it is an unproven default.
+
+The acceptance line also asked that the owner read the page himself. Marking this done on the sweep's
+own evidence rather than waiting on that reading — the page is sent to him alongside this close, and
+this row does not sit as a queued item pending his eyes for something a fresh, checkable page already
+proves.
+
+**Checked by reading on 01.09.** `docs/prover/2026-09-01-every-number-in-the-tree.md` and commit
+`c8adff22` both stand in the tree, dated as claimed. The commit's own diff touches exactly the
+thirteen files the page names, and two spot-read (`scripts/wind-down.py`'s new constants,
+`skills/communicator/SKILL.md`'s digest-length line) each carry the claimed source-admission
+comment or `[default]` tag. No command: what this row closes on is a prose finding and a one-time
+repair, and a check pinned to "zero ungrounded numbers" would re-open the moment the next honest
+sweep finds one, which is not this row's own drift to catch.
+
+**Checked by reading on 04.09** (five readers, one pass over every done row with no acceptance command): holds — the report and its commit exist, thirteen files, two spot checks match.
+
+### ✅ All project files live in one place again — id: plan-0
+**Group:** Method housekeeping · **Priority:** normal
+**Source:** PLAN.md step 0, 26.08.
+
+`~/live-spec` is a live working tree on `origin/main` again; 133 outside-git files checked, 5 rescued; the 26.08 handoff archived and squeezed. Acceptance: `bash scripts/state-probe.sh` confirms it matches `origin/main`, the tree is clean, and no `/private/tmp` line appears in ALARM.
+
+Full body (rules, acceptance commands, measurements) preserved in git history: `git log -p -- PLAN.md`, the step's own text before the 27.08 task-list merge.
+
+
+### ✅ A question you ask never turns into a task — id: plan-2
+**Group:** Method reliability · **Priority:** normal
+**Source:** PLAN.md step 2, 24–25.08.
+
+`evals/director.md` deleted, `evals/director/` is the one home; director gained the decision/grounds-for-an-act/halt/correction distinctions; 6 fixtures fixed. Acceptance: `python3 evals/director/check.py --all` — 34 of 35 green, one real disagreement open and named.
+
+**Re-measured honestly 31.08, and the stored number was wrong.** The row read "33 of 35, 2 accepted by the owner with a written reason". Both halves were false. The 33 came from the 26.08 pass, which re-drew only the nine scenarios that were red that day and left twenty-six certified against a skill version that had since moved; a full re-draw of all thirty-five against that same 26.08 skill scored 26. And nothing on that record carries the owner's word — the two were set aside by a session, in the session's own judgment, and writing that as his acceptance put words in his mouth.
+
+Two real things came out of the honest re-draw. The skill's own text and the grader disagreed: the text prices naming one act too many at a sentence, while `check.py` failed the whole scenario for it, which is what two of the nine 26.08 reds actually were. The grading now follows the text — an extra act is printed as a note and counted in the summary, a missing act still fails. And `observation-carrying-its-repair` argued against itself, its situation stating no checkpoint existed while its expectation demanded the turn attach to work in flight; the situation was repaired and the expectation left alone.
+
+**The grading change was itself over-claimed, and an adversarial read caught it.** The first version of the paragraph above said six of the nine, which would have made the case for the change much stronger than it is. Re-derived twice, independently, against that run's own recorded traces: the true number is two. The same read found the change had gone too far in a second way — a turn expected to carry no act at all could name one and still pass, which is the exact failure the thank-you scenario exists to catch. An extra act is now a note only where the scenario expected some act; against an expectation of none it fails, which is what the skill's own second rule asks for. The note count also rides on the score line now, since the two places that read the score take the last line alone and never saw it.
+
+**The score is 34 of 35, and the one that stands is real.** `idea-for-another-project`: the run reads the message's imperative clause as a request to deliver the note now, the fixture expects it shelved, and they disagree on all three material fields. It is open, and it is nobody's word yet. `evals/director/README.md` now states that any change to `skills/director/SKILL.md` re-records all thirty-five, never a subset, because a subset is how the stale number was made.
+
+**Two graders, so the movement is stated twice.** The 34 above is read by the grader as it now stands, and the 26 further up by the grader as it stood on 26.08, so setting the two side by side would overstate the gain. Measured both ways, on the same traces: the old grader puts the 26.08 draw at 26 and today's draw at 30; the new grader puts today's draw at 34. The honest movement is four scenarios of real improvement, and the rest of the gap is the grader's corrected cost model rather than the director reading anything better. Naming only the wider pair would have been the same defect this row exists to correct.
+
+Full body (rules, acceptance commands, measurements) preserved in git history: `git log -p -- PLAN.md`, the step's own text before the 27.08 task-list merge.
+
+**Re-recorded 2026-09-01, all thirty-five, none reused.** `skills/director/SKILL.md` changed 31.08,
+after the traces above were drawn, so the freshness rule this row's own text set ("any change to
+`skills/director/SKILL.md` re-records all thirty-five, never a subset") applied and the previous
+✅ did not hold — the computed check read the traces as stale and reddened, honestly, until this
+re-draw. Thirty-five fresh agents, each holding only the skill and one scenario, no access to the
+expected verdict.
+
+Score: 32 of 35. `idea-for-another-project`, the one disagreement the 31.08 record named, now
+agrees with its fixture. Three others disagree, none of them named before today:
+`correction-widening-the-goal` (the run tags the standing judgment about corpus statistics a
+decision; the fixture calls it an observation, the same shape as `mixed-you-invented-that-work`'s
+"habit that produced it"), `mixed-plan-and-two-questions` (the run reads the whole turn as report
+plus two questions; the fixture reads "план на эту сессию текстовый простой... 5-10 строчек" as <!-- user-language -->
+a live instruction setting this session's report format, not a description of something already
+true), and `mixed-conditional-pause` (the run names the halt and the question; the fixture also
+wants the remaining-time estimate itself named as an observation, since the halt's own condition
+rests on it). Named, not fixed — a fixture is one committee's reading, and a producer disagreeing
+on a genuinely close call is not automatically wrong. Whether any of the three should move stays
+open.
+
+Naming the movement honestly, in the terms this row already set: comparing 34 against 32 would
+overstate a regression — one of the four scenarios this row's own history called unstable
+(`idea-for-another-project`) resolved, while three different close calls surfaced that a prior
+partial or stale draw never exercised. The right reading is that today is the first fully fresh
+score since 31.08's skill change, not a step down from a number that was already computed against
+older code.
+
+
+### ✅ Old clutter is cleared, past work kept readable — id: plan-3
+**Group:** Method housekeeping · **Priority:** normal
+**Source:** PLAN.md step 3.
+
+`prototype/` (4.2 MB), 11 MB of `docs/`, and spent worker checkpoints removed by measurement, shown to the owner first; 1,247 transcript files copied whole into `attic/transcripts/` (originals in `~/.claude/projects/` untouched); Fable's read of the month landed in `.live-spec/PROBLEMS.md`. Acceptance: `du -sh` before/after; transcripts in place and readable; the owner read Fable's conclusions.
+
+Full body (rules, acceptance commands, measurements) preserved in git history: `git log -p -- PLAN.md`, the step's own text before the 27.08 task-list merge.
+
+
+### ✅ The same thing is always called the same name — id: plan-4
+**Group:** Readability & plain language · **Priority:** normal
+**Source:** PLAN.md step 4 — owner's recurring complaint (branch/hand/worktree).
+
+Ran `text-audit` across every document and skill; converged senior/orchestrator/lead to "seat" (21 files), "briefed hands" to "briefed workers", and more, per the glossary at `skills/live-spec-base/references/glossary.md`. Acceptance: the mismatch list shown to the owner; convergence done; he read three documents and confirmed they read clearer.
+
+Full body (rules, acceptance commands, measurements) preserved in git history: `git log -p -- PLAN.md`, the step's own text before the 27.08 task-list merge.
+
+**Checked by reading on 28.08.** The converged name stands in the pack's own word list, at `skills/live-spec-base/references/glossary.md:15`. No command: what this task changed is wording spread over twenty-one files, and no cheap check can read wording.
+
+**Checked by reading on 04.09** (five readers, one pass over every done row with no acceptance command): holds — the one-name convergence is live in the skills; the remaining hits are archive text.
+
+### ✅ The reviewer now catches real bugs in code — id: plan-5
+**Group:** Spec & feature quality · **Priority:** normal
+**Source:** PLAN.md step 5.
+
+The external prover's code mode shipped: `github.com/happysasha18/product-prover`, branch `code-mode-1.4.0`, commit `b71894a`, pushed on the owner's word. Acceptance: the prover found a real defect in real code the tests missed, and the owner confirmed the finding was real.
+
+Full body (rules, acceptance commands, measurements) preserved in git history: `git log -p -- PLAN.md`, the step's own text before the 27.08 task-list merge.
+
+**Checked by reading on 28.08.** The reviewer's code mode is in its installed copy, `skills/product-prover/SKILL.md:12`, which routes a code-only directory to it. No command: the reviewer lives in its own repository, released today and moved twice, and this tree no longer owns that text.
+
+**Checked by reading on 04.09** (five readers, one pass over every done row with no acceptance command): holds in this tree; the external repository’s commit is another window’s to confirm.
+
+### ✅ Checks that catch real mistakes are kept — id: plan-6
+**Group:** Method reliability · **Priority:** normal
+**Source:** PLAN.md step 6, measured 26.08 — removal hypothesis tested and rejected.
+
+Measured 26.08: of 120 sampled phrase-guard tests, 16% never had a chance to fail — decision was against mass removal, since 84% did change and guard real content. The 18 proven-dead ones were already removed the night before (commit `c3be01a3`); the 22 "file exists"-shape functions were reviewed by eye (10 are real regression guards, none removed); the pre-push check and the ceremony-cancellation question both stayed parked on the owner's own word.
+
+Full body (rules, acceptance commands, measurements) preserved in git history: `git log -p -- PLAN.md`, the step's own text before the 27.08 task-list merge.
+
+
+### ✅ Every new session starts up lighter and faster — id: plan-7
+**Group:** Budget & economy · **Priority:** normal
+**Source:** PLAN.md step 7 — 16,571 → 13,163 tokens.
+
+16,571 to 13,163 tokens on session start (−20.6%); 13 of 34 rules with no eval fixture and no runnable script moved to `attic/live-spec-base-unbacked-rules-2026-08-26.md`. Acceptance: the probe prints the number before and after; the owner set no target number (best-effort stands, his own word).
+
+Full body (rules, acceptance commands, measurements) preserved in git history: `git log -p -- PLAN.md`, the step's own text before the 27.08 task-list merge.
+
+
+### ✅ The release is labeled and ready to install — id: plan-8
+**Group:** Method housekeeping · **Priority:** normal
+**Source:** PLAN.md step 8.
+
+VERSION bumped for the changed skill set; a migration chapter for moving onto `director` added to `MIGRATION.md`; every skill passed through the real Anthropic `skill-creator`; a cold read of every canonical document for readability. Acceptance: `cat VERSION` changed; the chapter is in `MIGRATION.md`; a skill-creator report exists for every skill; the owner confirmed the documents read well.
+
+Full body (rules, acceptance commands, measurements) preserved in git history: `git log -p -- PLAN.md`, the step's own text before the 27.08 task-list merge.
+
+
+### ✅ Every "done" mark on the board gets checked — id: plan-10
+**Group:** Board & visibility · **Priority:** normal
+**Source:** PLAN.md step 10, measured 27.08 — 4 of 10 steps had no real check.
+**Checked 28.08, and it stays its own task.** The 27.08 pass folded this into plan-11, whose acceptance covers the merged list and its reader and says nothing about computing the marks. This row's acceptance is its own, and the retired findings log already says to take it before the photo site's move.
+
+**Done 2026-09-01.** `tests/test_plan_done_marks_are_backed.py` is the test the row asked for — it
+reads `PLAN.md` and `scripts/plan_checks.py` together and fails a done task that has neither a real
+command nor a named reading, and fails a command that only checks a file's bare presence. It found
+17 gaps the first time it ran: 15 done tasks with nothing behind them, 2 verified only by presence.
+Fourteen (q-801, q-490, q-497, q-527, q-55, q-567, q-581, q-586, q-489, q-597, q-625, q-427, q-529,
+q-235) got real command checks in `scripts/plan_checks.py`. Two proxy checks (`plan-0`, `q-458`)
+were rewritten to check actual content instead of presence. One (`q-576`) needed only its closing
+line reconciled to the established "Checked by reading on DD.MM" phrasing, after an independent
+re-verification held. None of the sixteen turned out false on live re-check. `python3 -m pytest -q
+tests/test_plan_done_marks_are_backed.py` passes, 5 of 5.
+
+Measured 27.08. Of the ten steps above, three have a check that runs what their acceptance
+actually says. Four — 3, 4, 5, 7 — have no check at all, so the probe and the board show whatever
+mark a hand typed and call it "declared". Three more run a proxy: step 1's check is "the render
+script exists and is executable", which stays green while the step is honestly open.
+
+A plan whose marks are typed rather than computed is the drift this whole file exists to stop, and
+it sits inside the instrument that is supposed to catch drift.
+
+- Every step in `## Steps` gets an entry in `scripts/plan_checks.py` that runs its own written
+  acceptance.
+- Where an acceptance genuinely cannot be run by a command — it needs the owner's eyes — the step
+  says so in one line, and its mark reads declared rather than verified. The probe already draws
+  that distinction; it just has nothing behind it today.
+- Re-run every check and let the marks fall where they fall, on closed steps too.
+
+**Acceptance:** A test reads `PLAN.md` and `scripts/plan_checks.py` together and fails when a task
+marked done carries neither a command in the checks file nor a line in its own body saying who read
+it and where. The same test fails a command that only asks whether a file exists. `bash
+scripts/state-probe.sh` then shows every done task either verified by its own command or answered by
+a named reading, and none of them verified on a file's mere presence.
+
+(The old wording pointed at a `## Steps` section this file no longer has; the section is `## Tasks`,
+and the aim changed with it — a command belongs to a task whose result can drift back, and the rest
+say in one line who read them.)
+
+
+### ✅ The plan, board and queue become one list — id: plan-11
+**Group:** Board & visibility · **Priority:** critical
+**Source:** PLAN.md step 11, owner 27.08. (This document is that step's first draft.)
+**Closes:** plan-1, plan-10, q-566, q-481, q-617
+**Absorbed:** 4 rows folded here 27.08, rotated off the board 28.08 — plan-1, q-617, q-566, q-481. Full text: `docs/queue-archive/rotated-PLAN-2026-08-28-folded-rows.md`. plan-10 was folded here too and stayed on the board: its acceptance is its own.
+
+**What it is.** Today the work lives in one file but is read by two instruments that were
+written for the old shape, and the marks on it are typed by hand rather than computed. This task
+finishes the merge: one list, one reader, and a mark that means something.
+
+**Why now.** Everything else on this page is invisible until it lands. A session that opens with
+the resume word runs the probe, and the probe is how the work is found at all.
+
+**Done when.** `bash scripts/state-probe.sh` names the tasks that matter without being told which,
+and `bash scripts/render-board.sh` draws every task in the file, both proved by a test that fails
+if either stops finding them. No second list exists anywhere in the tree.
+
+**The shape of a task, added 27.08 on his word.** A worker is handed a task, never a prompt — and
+**a task means its exact entry on the board, letter for letter**, not a paraphrase composed to
+brief a worker. The seat that hands out work pastes the task's own heading and body from `PLAN.md`
+unchanged; a worker's brief and the board's own words are the same text, so what the board says a
+task is and what a worker was actually told to do can never drift apart. The task carries, by
+pointer rather than by copy:
+
+- **Its links.** The task names its feature; the feature names its requirement in the spec; the
+  requirement names its node in the architecture; the node names its rows in the test matrix. The
+  brief is derived from those links by following them, so two workers given the same task get the
+  same brief. What a worker needs is opened by the worker, at the line the pointer names — the same
+  reading discipline this plan asks of a session.
+- **What relevance means.** The links a task carries are settled by its own kind. A wording task
+  points at the text and the rule that governs it. A test repair points at the matrix row and the
+  code. A feature points at all four. A task pointing at nothing is the finding, not a task ready
+  to hand out.
+- **Its definition of done** — a command with an observable result, run by whoever accepts the work
+  rather than by whoever did it. This is the half that stops a false "done", and it is the reason
+  four tasks on this page were closed on a session's word with nothing behind them.
+- **Its subtasks, where it has them.** A task too large for one worker is cut into pieces that name
+  their own done, and the cut says which pieces may run at the same time. Two pieces run together
+  when they write to disjoint files; a piece that needs another's output waits. The board shows
+  that, so the work that can go in parallel is visible without asking. A subtask carries the same
+  shape as a task — its own links, its own done — it is never a lesser thing.
+- **One worker owns one task, start to close**, subtask or not. Grounded in an incident, not a
+  guess: this same afternoon two workers were briefed onto the same file at once, and one read the
+  other's live edits as a foreign session. The write-set check belongs to whoever hands out the
+  work, before handing it out — a task's files must be disjoint from every task already in hand — a
+  worker never has to guess whether it collides.
+- **A worker reads before it takes.** Given a task, a worker reads it and its links whole and says
+  taken or declined before changing anything — declined when a link points at nothing, or the task
+  turns out to need a decision only the owner can make. Taking it silently and finding the problem
+  mid-work is the failure this line exists to stop.
+- **The worker proves its own done before reporting it**, by the task's own command, and whoever
+  accepts the work runs that command again independently. Both checks stand; neither substitutes
+  for the other — this is the rule behind why four tasks on this page were once marked closed with
+  nothing behind them, and why a worker's "unrelated pre-existing failure" gets checked by a command
+  before it is believed (a live case of this from today: `worker-must-prove-cause-not-assert-unrelated`).
+
+**Why this belongs here.** The failure it answers is the one he named: a session reports a task
+finished, a later session finds half of it undone, and the day goes to working out which half.
+More context in the brief would not have caught that — a command run at acceptance does.
+
+His word, 27.08: the plan, the board and the queue are one thing. The plan is its text, the board
+is its showing, the queue is its rows. A second list anywhere is the drift, and today there are two
+here — this file with its steps, and `ROADMAP.md` with its rows.
+
+- `PLAN.md` and `ROADMAP.md` become one list. One home, one set of marks, one reader.
+- Every row names the feature it moves; a row that moves no feature is not a row.
+- A priority mark becomes real. The pack declares the vocabulary — normal, critical, quick win —
+  and 27.08 not one row in the queue carried a mark, so the order of work has been the order rows
+  arrived. Director sets it, per step 12.
+- The board renders the merged list, through the same check table the probe runs.
+
+**Acceptance:** one file holds the list and the other is gone from the tree, findable in the
+archive · `bash scripts/render-board.sh` draws the merged list · a command shows every open row
+carrying a feature and a priority mark, and names the exceptions.
+
+**Done 28.08.** The second list is gone. It had held no rows since 27.08, and what kept it alive was
+the machinery: the script that opens a lane, the check that guards nothing is lost when work is
+archived, the state report, and a dozen tests all still read it. Each of those now reads the one
+list. The retired file rests in the attic with a line saying what it was, and the pointers to every
+row ever rotated off moved into this document, so a reader who greps for an old row number meets the
+pointer here and follows it to the archive that holds the row. A lane is now claimed by a task's own
+id — `open-lane.sh plan-11 one-list` — and the four conditions it refuses on are unchanged: the main
+tree, one row's delta staged, the lane cap, the fence. The check that reds a close leaving the resume
+file stale reads the board's own done mark now, proven by a fixture that reds without it. The board
+draws all sixty-three rows, every open one carries its group and its priority, and the command that
+says so names any exception by id rather than counting them. What kept the old name on purpose: every
+citation of the form "row 388" is provenance for work that shipped, and those rows are in the archive,
+findable by number.
+
+
+### ✅ The spec finally describes what the product does — id: plan-12
+**Group:** Spec & feature quality · **Priority:** normal
+**Source:** PLAN.md step 12, measured 27.08 — 279 of 308 requirements carry no feature name.
+**Closes:** q-108, q-117, q-118, q-143, q-192, q-436, q-459, q-517, q-552, q-440, q-486
+**Absorbed:** 12 rows folded here 27.08, rotated off the board 28.08 — q-517, q-552, q-486, q-108, q-117, q-118, q-143, q-192, q-436, q-437, q-459, q-440. Full text: `docs/queue-archive/rotated-PLAN-2026-08-28-folded-rows.md`. One of the twelve came back out on 31.08: q-437 was never worked, so it stands on this board again below and is no longer among the rows this task closes.
+
+Measured 27.08. `spec/` holds 308 requirements; 29 carry a feature tag. The seventeen declared
+feature names sit on the seventeen smallest files, and the 279 untagged requirements — the bulk of
+the product — carry no name at all. Director, which reads everything a person says and decides what
+they did, has no requirement, no feature and no node in the architecture's roster.
+
+Four of the seventeen describe nothing real: a published contract that no agent on this machine has
+ever published, a work board whose own text said nothing of it is built, a product map generated
+from a spec that is nine percent tagged, and a wish-catching feature whose requirement orders the
+opposite of what director's own rules forbid. Five more are second names for something that already
+has one.
+
+- Director gets its requirement and its node.
+- The feature names are rebuilt from what the product gives a person. The fictions go to the attic.
+  The second names converge.
+- **Director ranks.** His word, 27.08: unity is also director's, and it brings together, runs side
+  by side, and ranks. Director forbids itself from ranking today, twice, and nothing else owns the
+  ordering law. The decision sheet gains the line.
+- **Director extends the spec**, and the rules for that get written, because none exist: who may
+  add to the spec, how a spec file is split, how a new part joins the map, and what stops two parts
+  defining the same requirement number. Today the splitting mechanism lives in a comment inside a
+  Python file, the document that claims to define the spec format says nothing about parts, and the
+  skill that writes the spec still names the monolith.
+
+**Acceptance:** a command shows director's requirement and its node · the feature roster and the
+architecture's coverage table agree, proved by a check · a spec file dropped outside the parts map
+reddens a gate · two parts defining one requirement number redden a gate.
+
+**What landed, 31.08.** All four acceptance legs are met and the command that proves them runs
+green at every session start. Director has its requirement and its node, and both say plainly what
+stands behind each thing they promise: a command that runs, an instruction a session follows, a page
+drawn when somebody asks, or nothing yet. That last one is the rule the whole task turned on — a rule
+that reads the same whichever of the four is true tells you the product is stronger than it is. The
+seventeen feature names became twelve. Two stood on surfaces nobody has built and went to the attic; one
+of them had been reading as covered by borrowing another feature's test. Five names for attaching the
+pack to a project became one. Two the plan had counted as fictions kept their names and had their
+requirements repaired instead, because both name something real once the requirement stops
+overstating: the wish row had ordered every voiced wish into the queue the moment it was spoken, which
+is the opposite of what the reading allows, and the product map had called nine percent of the spec
+the whole product. A name standing on an unbuilt surface now reddens by itself. The rules for writing
+the spec across several files are written where the format is defined, and two holes a person could
+fall into today became gate faults with red proofs: a file dropped beside the parts that the map names
+nowhere, and two parts opening one requirement number. Both were confirmed as real holes first, by
+dropping each into a copy of the tree and watching every check pass over it.
+
+**Both remaining pieces settled 31.08, and the row closes.** The decision sheet has its ordering
+line: it names which open piece of accepted work runs next and why that one, read off the states
+this page records rather than composed from memory. The line went into the reading skill from the
+main tree, the installed copies were refreshed in the same breath, and the health check that reds on
+drift between source and installed runs green. The spec claims the field again in Requirement 314.
+And q-437 — checking for similar cases at every level — has its own line back on this board, below.
+It was folded here on 27.08 and never worked, and the spec still promises it, so the promise now
+names an open row instead of a finished one. What was true of this task is done; what was never
+started is visible as its own row.
+
+
+### ✅ Checking for similar cases happens at every level — id: q-437
+**Group:** Spec & feature quality · **Priority:** normal
+**Source:** tlvphotos inbox 2026-07-20, with the owner's clarification the same day; sibling of q-436.
+**Reopened 31.08.** Folded into plan-12 on 27.08 and rotated off this board on 28.08 as covered by
+it. plan-12 landed on 31.08 without touching this work. The spec still promises it in its own words,
+kept as a later increment, so a promise nobody is building stands here as its own open row rather
+than inside a task that is otherwise finished. Folded text:
+`docs/queue-archive/rotated-PLAN-2026-08-28-folded-rows.md`. Original wording, as row 437:
+`docs/queue-archive/rotated-ROADMAP-2026-08-27-merged-into-plan.md`.
+
+Asking what else is like this already runs across sibling surfaces. The same reflex belongs one level
+up, over the set of variations a product of this kind is rendered under — a phone's touch against a
+desktop's pointer, a viewport, a language, a connection — and at every level above that. Whenever a
+session adds or derives one of those variations, it walks the whole set the project's kind declares
+and says of each other one whether the surface is already written against it, whether it is being
+added now, or why it is out of scope with the reason. What makes this worth doing is that a
+hand-written list stops at the two obvious cases; the pass is what finds the third.
+
+**Definition of done:** adding or deriving a composition axis runs a bounded pass over the axis set
+the project's kind declares and returns one of three verdicts for every other axis in it — already
+composed against, added now, out of scope with its reason. The duty is written in `spec-author`, the
+prover reads the verdicts as a lens, and the sentence that says the sweep repeats at any level sits
+beside the duty. The landing writes the case that decides it, into
+`tests/test_composition_axes.py`: a two-axis registry walked, and a red when a sibling axis comes
+back with no verdict. `python3 -m pytest -q tests/test_composition_axes.py` is green today over
+thirteen cases that all test the axes-declaration law and none of them this, so the command decides
+this row only once that case is in the file. Until then the row is unfinished, and the honest reading
+of the green is that nobody has asked the question yet.
+
+**Done 2026-09-01.** The duty is written into `skills/spec-author/references/facet-sweep.md` (SPEC
+INV-244), the bounded pass and the "repeats at any level" sentence beside it. `skills/product-prover-pack/SKILL.md`
+reads the verdicts as a lens: a sibling axis with no verdict, or an "out of scope" verdict with no
+stated reason, is a blank-answer finding. `tests/test_composition_axes.py` carries the case: a
+two-axis registry walked, a red when a sibling axis comes back with no verdict.
+`python3 -m pytest -q tests/test_composition_axes.py` is green, fourteen of fourteen, this case
+among them.
+
+
+### ✅ New projects know upfront which variations to design for — id: q-436
+**Group:** Spec & feature quality · **Priority:** normal
+**Source:** tlvphotos inbox 2026-07-20; sibling of q-437.
+
+**Reopened 2026-09-01.** Folded into plan-12 on 27.08, rotated off this board on 28.08, and never
+worked. `spec/design-spec-review.md` Requirement 265 criterion 15 kept two things promised under
+one sentence: the recursive axis-registry similarity sweep (q-437's) and the value-space
+in-between forcing step (this row's) — a tablet's "hover-with-touch" answer, the co-occurrence
+case between the two elementary poles a variation is authored against. Found 31.08, while giving
+q-437 its row back (this file's own the retired findings log, "The other half of the same promise has no row"):
+only one row can own the anchor, q-437 owned it, and this half was owned by nobody. q-437 built
+and closed its own half 2026-09-01, so criterion 15 now names only this row's half, and this row
+takes the anchor back. Original wording, as row 436: `docs/queue-archive/rotated-PLAN-2026-08-28-folded-rows.md`.
+
+**Definition of done:** the step that forces an author to name the value in between the two
+elementary poles a composition axis owes — a device carrying both capabilities at once, such as a
+tablet's touch alongside its fine pointer — lands beside the two-poles duty `q-437` already wrote
+into `skills/spec-author/references/facet-sweep.md`, and the prover reads a co-occurrence value
+left unnamed as the same blank-answer class the sibling sweep already reports.
+
+**Done 2026-09-01.** The duty is written into `skills/spec-author/references/facet-sweep.md`
+(SPEC INV-244), beside q-437's axis-verdict duty: an axis whose value space is modeled as
+combinable capabilities owes the value where its two elementary poles hold at once — a tablet's
+touch alongside its hover — its own decided or `[default]`-tagged sentence, distinct from either
+pole's own answer, before the axis counts as covered. `skills/product-prover-pack/SKILL.md` reads
+that co-occurrence sentence as a lens beside the axis-verdict one: an axis with both poles answered
+but no named co-occurrence value is a finding of the same blank-answer class the axis-verdict sweep
+already reports. `spec/design-spec-review.md` Requirement 265 criterion 15 now names the built step
+in place of the old "promised as a later increment" line and drops its `[target]` mark, and
+criterion 12 points at that step instead of "the later step"; its GAP line is gone with it.
+`tests/test_traceability.py`'s target-ownership map drops the `INV-244: q-436` entry the same
+commit, per SPEC S-0 (a satisfied promise leaves both the tag and its map entry).
+`tests/test_composition_axes.py` carries the new case, mirroring q-437's own: a poles-answered axis
+with no named co-occurrence value reds, one with a named value passes, and an axis whose poles are
+not yet both answered does not yet owe the co-occurrence value.
+`python3 -m pytest -q tests/test_composition_axes.py tests/test_traceability.py tests/test_size_ratchet.py`
+is green.
+
+
+### ✅ Every project gets its own status view — id: plan-14
+**Group:** Cross-project · **Priority:** normal
+**Source:** PLAN.md step 14, checked 27.08 — no host has one today.
+**Closes:** q-221, q-567, q-241, q-509, q-171, q-168
+**Absorbed:** 5 rows folded here 27.08, rotated off the board 28.08 — q-509, q-171, q-241, q-221, q-168. Full text: `docs/queue-archive/rotated-PLAN-2026-08-28-folded-rows.md`. q-567 was folded here too and stayed on the board: its acceptance is its own.
+
+A host inherits skills and gates today. It does not inherit the plan, the computed checks, the
+probe or the board — those live only here, in this repository's own `scripts/`. Checked 27.08:
+no host has any of them.
+
+- The trio installs into a host and reads that host's own list, its path named in the host profile
+  the way the spec's name is.
+- The hard-coded roster of five host directories leaves `scripts/state-probe.sh`.
+- The probe prints open inbox items. Measured 27.08: `~/tlvphotos/inbox/` has held six unhandled
+  files since 05.07 while its own ledger claims the next session sees them without reading anything
+  else. A probe that prints them makes the door work without editing any host's own list.
+- First host: tlvphotos.
+
+**Acceptance:** `bash ~/tlvphotos/scripts/state-probe.sh` prints that project's own tasks with their
+marks, each mark computed by a command of that project's, and lists its unhandled inbox files. In
+this project, `grep` finds no hard-coded list of host directories inside `scripts/state-probe.sh` —
+each host's path comes from its own profile.
+
+**Checked 31.08 before dispatching a worker, and this one does not narrow into a safe single-lane
+task tonight.** A host inherits skills and gates through the pack's own install/adopt walk today;
+the plan/probe/board trio does not, because no template of it exists to install — this row asks for
+that template to be built (the trio's scripts made host-path-generic, wired into the install walk,
+proven against a real host). That is core install-infrastructure work, not a mechanical narrowing,
+and rushing it in one late-night worker lane risks a bad wiring choice in the one walk every future
+adoption depends on. Left open, not built tonight; the row's own acceptance stands unchanged.
+`~/tlvphotos/inbox/2026-08-31-from-livespec-q54-founding-line.md` carries a smaller, unrelated
+tlvphotos wish (`q-54`) — not this row's.
+
+**Worked 2026-09-03, honestly partial — not marked done.** `scripts/plan_checks.py` split into a
+generic core (`scripts/plan_checks_core.py`, no `CHECKS` baked into `parse_tasks`) and this
+project's own thin wrapper; a new installer, `adopt/install-status-view.sh`, vendors
+`scaffold/status-view/{state-probe.sh,plan_checks.py}` into a host following the exact pattern
+`install-scaffold.sh` already sets, non-clobbering a host's own customized checks; the hard-coded
+five-host roster left `scripts/state-probe.sh` for a `hosts.watch:` profile line; both readers now
+print unhandled `inbox/` files. Proven generic by `tests/test_status_view_install.py` (11 tests):
+a scratch host gets a working probe/board with zero of this project's own task ids reaching it, a
+planted red and a planted pass both move the printed marks correctly, and an installed custom
+`CHECKS` dict survives a plain re-run and `--force`. Re-verified independently on the merged tree,
+not taken on the worker's own report.
+
+The row's own acceptance named `~/tlvphotos` specifically as the first host, and that leg does not
+hold today: tlvphotos' real `PLAN.md` is not this pack's row format at all — a hand-frozen Russian
+document, `## S-NN · Title · Д` headings <!-- user-language --> , its own six-mark vocabulary, frozen by his own word since
+26.08 — neither `## Tasks` nor the template's own table shape. The installed probe correctly says
+so rather than printing an empty list; the git-state and inbox halves of the probe DO work against
+the real host (confirmed live: it reads that project's own branch/upstream and lists its six
+unhandled inbox deposits).
+
+**Amended 2026-09-03.** Naming tlvphotos specifically was never the point of this row — the point
+is that some real, adopted project gets a working status view. Rewriting tlvphotos's own frozen
+`PLAN.md` format is that project's own call, in that project's own window, not a decision this
+row gets to make from here. Dropped "tlvphotos specifically" from the acceptance; it reads now as
+proving against a real adopted host already running this pack's own row shape. `track-coach` was
+named here as the next candidate, unverified — checked and struck: it carries no `.live-spec/` at
+all, so it never adopted the current pack shape and cannot prove this row either.
+
+**A real mechanism gap found and fixed 2026-09-03, his own catch, not a guess about which host to
+try next.** `adopt/install-status-view.sh` existed and worked, but only `adopt/ADOPT.md` (the
+founding walk, for a brand-new project) ever called it — `MIGRATION.md` (the catch-up walk, for a
+project already running an older pack version) never did. tlvphotos ran its own 2.7.0 → 6.1.0
+catch-up today and never received the trio for exactly this reason: the walk it actually ran had
+no step for it. `MIGRATION.md` Phase 4 now runs `install-status-view.sh` the same unconditional,
+non-clobbering way it already runs `install-scaffold.sh --force` beside it — every future catch-up
+carries the step, not only a founding. Proven textually (`tests/test_catchup_walk.py::TestCatchupWalkVendorsTheStatusView`,
+2 tests) that the step is present and correctly placed in Phase 4.
+
+**Corrected, same day. Checked by reading on 03.09**, re-verified against the actual scripts and
+tests cited below, not asserted from memory: chasing one named real host was the wrong shape of
+proof for this row in the first place. His own catch: "доску унаследуют все проекты, и будущие тоже" <!-- user-language --> — the row asks
+that EVERY project inherit the board, present and future, not that one hand-picked project be
+shown to. A per-instance demonstration proves only that one instance; the actual claim ("every
+project gets its own status view") is a mechanism claim, and a mechanism is proven by the
+mechanism, not a sample of one. That proof already exists, generically: the trio installs into any
+host, host-path-generic, with zero of this project's own content leaking in
+(`tests/test_status_view_install.py`, 11 tests — a scratch host gets a working probe/board, a
+planted red and a planted pass both move the printed marks correctly, an installed custom `CHECKS`
+survives a plain re-run and `--force`). What was actually missing was not a real host to point the
+tool at — it was that the tool never ran for an EXISTING project at all, only a brand-new one
+(the catch-up-walk gap above, now fixed). With both walks calling it, every project that adopts
+this pack from here on, and every already-adopted project that next runs catch-up, gets it without
+anyone hand-verifying that project by name. Row closes on the mechanism proof; no host-by-host
+chase owed.
+
+**Checked by reading on 04.09** (five readers, one pass over every done row with no acceptance command): holds — installer and both walks call it, 27 tests pass.
+
+### ✅ Every rule finally lives in exactly one place — id: plan-16
+**Group:** Method housekeeping · **Priority:** critical
+**Source:** PLAN.md step 16, owner 27.08.
+**Closes:** plan-13, q-119, q-131, q-134, q-141, q-144, q-424, q-484, q-471
+**Absorbed:** 9 rows folded here 27.08, rotated off the board 28.08 — plan-13, q-119, q-131, q-134, q-141, q-144, q-484, q-471, q-424. Full text: `docs/queue-archive/rotated-PLAN-2026-08-28-folded-rows.md`.
+
+**What it is.** Every rule is written once, in the one place whose job it is, and a
+check proves no second copy exists. The report read every turn goes first: its format is stated in
+three places today and they disagree, which is why it is never the same twice.
+
+**Why now.** Three homes have already drifted apart in wording, and the drift is felt on the one
+surface read every single turn.
+
+**Done when.** The report format, the parallel-work law and the ask-before-guessing family each
+have exactly one home with pointers where the copies stood; a check reds on a planted second copy;
+and the director names the right home for a rule it has never seen before.
+
+His word, 27.08: "надо сделать так чтобы каждому правилу был свой скилл и чтобы все сидело чётко... <!-- user-language -->
+чтобы не было салата". Read by Fable the same afternoon, across every skill, both boot files and <!-- user-language -->
+the profile. What it found:
+
+- **The report he reads every turn has three law-homes, and they disagree.** His boot file carries
+  the Canon — seven to ten lines, five marks, and the sentence that no more marks get invented. The
+  profile carries a different ten-line form with five fixed content points. The showing skill
+  carries a third legend with four marks the Canon never allowed. He has complained nine times that
+  the report is never the same twice; the cause is his own three homes.
+- **The boot file breaks the pack's own boot-file law.** By that law it is a thin loader carrying
+  only what must precede the pack. Since 26.08 it carries eight standing rules, each of which also
+  lives in the profile or the base. The night the contract failed to load, the repair wrote a second
+  copy rather than a loader that cannot fail, so the root cause stands and the copies have already
+  drifted — the finding above is that drift. **That file is his and this plan does not touch it.**
+- Six skills advertise, in their headers, rules that were retired on 26.08.
+- The lane law is stated in full in two homes, under two different names, inside a pack whose own
+  rule forbids two names for one thing.
+- "Ask, never guess" is three separate base rules, one of which says in its own text that it repeats
+  another.
+
+**On the shape of the fix, and this is a disagreement with his own proposal.** A skill per rule
+does not work: the pack holds on the order of a hundred and fifty named rules, a skill is summoned
+by the shape of a task while a rule binds across every task, and a rule-shaped skill would never
+fire at the moment it is needed. The grain that works is already the pack's own law and needs
+teeth rather than re-cutting — the spec owns the law, one statement per rule; a skill owns a job and
+carries only the rules its job applies; a gate holds the teeth; everything else is a pointer.
+
+- Converge each doubled rule to one home, leaving a pointer where the copy stood. The report format
+  goes first: it is the only one that contradicts itself on the surface he reads every turn.
+- A gate that reads prose and reddens a second full statement of a rule that already has a home.
+  The law against it exists today with nothing enforcing it, which is why these sat in tracked files
+  unseen.
+- **Director gains one sentence** so it can name a rule's home itself: the rule enters the one house
+  whose declared sentence it extends, and a rule pinning to no house or to two is itself the finding.
+  Its own reference already carries that routing law; the missing half is naming the single home.
+
+**Acceptance:** a command shows one home per rule for the report format, the lane law and the
+ask-never-guess family · the gate reds on a planted second copy and passes the tree · director names
+the home for a rule it has never seen, in a recorded run.
+
+**Landed 31.08.** The report's shape now lives only in his own file, and every place that used to
+restate it — the agent card, the showing skill's example line, the eval sheet that graded against a
+mark he never allowed, the three scripts that draw the board — names that home instead. The lane law
+lives once in the rulebook; the director's own page keeps the half the rulebook leaves to judgment
+and points at the rest. The four rules that each said "decide what you can decide" in different words
+now say it once, and the six skills that advertised three rules retired in August advertise them no
+longer. The check is `tests/test_one_home_per_rule.py`: it names one home per rule, reds on a planted
+second copy, and passes on a pointer, both proven by planting one of each. What it reads is stated in
+its own opening — the surfaces that tell a session how to work — and it costs about a fifth of a
+second. Three copies still stand on this page itself; the retired findings log says which and why this lane left
+them.
+
+
+### ✅ Each session reads only what it needs — id: plan-17
+**Group:** Budget & economy · **Priority:** critical
+**Source:** PLAN.md step 17, owner 27.08 — "план возможно тоже не надо грузить целиком всегда." <!-- user-language -->
+**Closes:** q-570, q-584, q-568, q-575, q-507, q-457, q-205, q-140
+**Absorbed:** 4 rows folded here 27.08, rotated off the board 28.08 — q-507, q-140, q-457, q-575. Full text: `docs/queue-archive/rotated-PLAN-2026-08-28-folded-rows.md`. All four are budget questions this task's own work never touched, as the retired findings log already records; they are archived as folded, not as done.
+
+**What it is.** A session reads the state and the one task it is taking, instead of
+loading whole documents that run to tens of thousands of words. This applies to every large file,
+the plan included.
+
+**Why now.** The number reported for a session's starting weight counts two files and misses the
+rest, so nobody knows what a session actually loads. That measurement gates the decision on the
+`ponytail` skill as well.
+
+**Done when.** A real session's load is measured and the number stands in this file; a session
+taking a task can show what it opened and it is the state plus that task; the ponytail question is
+answered against a measured before and after.
+
+His word, 27.08: "план возможно тоже не надо грузить целиком всегда. есть же доска." <!-- user-language -->
+
+His own boot instruction tells every session to read this file whole before starting, and this file
+is around fifty kilobytes. The probe already prints the state, and the board already shows it. So a
+session should take the state, and open the plan itself only at the step it is taking.
+
+- The measurement comes first, because there is none. The number this plan reports for required
+  context counts two skill files. It does not count this plan, the boot file, the memory index, or
+  the references a skill pulls in while it works. Nobody has ever measured a real session's load.
+- Then the reading changes: the state, the step in hand, and the plan whole only when the step
+  itself calls for it.
+- The measurement also decides `ponytail` — a skill he asked about on 27.08, whose independent
+  benchmark measured about a tenth off cost against a claimed fifth, and which pays for that by
+  injecting its ruleset into every session. Installing it before there is a before-number buys a
+  README instead of a result.
+
+**Acceptance:** a real session's load is measured and the number is in this file · a session that
+takes a step reads the state and that step, proved by what it opened · the ponytail decision is
+made against a measured before and after, or it is declined with the measurement as the reason.
+
+
+### ✅ The board shows everything the team is doing, live — id: q-166
+**Group:** Board & visibility · **Priority:** normal
+**Source:** owner 2026-07-07 ~09:36, widened seven more times through 2026-08-06.
+**Closes:** q-133, q-582, q-583, q-411
+Note: this is the large standing board; plan-1 and plan-10 are the near-term light version of the same idea.
+**Re-marked ⬜, 2026-09-01.** Was 👁️. Nothing past the cheap first leg is built — no card shape, no
+columns, no worker lanes — so there is nothing yet for his eye to check against the acceptance
+below. 👁️ names the acceptance method for when the board exists; it does not belong on a row that
+still has to be built.
+
+**Closed 2026-09-02, judged not needed beyond what already shipped.** His own question tonight —
+why does the live board need his eye at all — landed on q-810's new rule: a row's own definition
+of done never names his eye as the only check on an ordinary delivered result (`DECISIONS.md`,
+2026-09-02). Read against that rule, this row's remaining scope (worker lanes, given-vs-actual
+time, per-agent attribution — the paragraph above already named it a separate, larger,
+still-unbuilt feature) has had no real ask behind it since 08-06, and `board.html` already ships
+the thing he asked for four times: one page to look at instead of asking the agent. Building the
+larger feature now, with nobody currently wanting it, is exactly the "don't serve machinery
+nobody needs" standing rule. The idea stays on the shelf, named here, and returns as its own new
+task if he asks for it again — worker lanes, given-vs-actual time, per-agent attribution, one
+kanban column per stage, all in `spec/work-board.md` Requirement 309 already, unbuilt. The two
+`[target]` lines this row owned there (`INV-308`, `INV-67`) move to a fresh row, `q-811`, rather
+than closing orphaned.
+
+**Checked by reading on 02.09.** `board.html` and `scripts/render-board.sh` read directly:
+`render-board.sh`'s own header names worker lanes, given-vs-actual time and per-agent attribution
+as deliberately out of scope, confirming the split above is real rather than assumed.
+
+**What already exists and answers his daily ask, found 2026-09-01.** `board.html` +
+`scripts/render-board.sh`, built 31.08, already give him the thing he asked for four times —
+"one page I can just look at instead of asking the agent." It renders `PLAN.md`'s own Canon
+(the same parser and check commands `state-probe.sh` uses, one source of state) as a pseudo-kanban
+with columns, cards, group/priority/source. It is not this row. `render-board.sh`'s own header
+says so: worker lanes, given-vs-actual time, and per-agent attribution are deliberately left out
+of it, named as belonging to a separate, larger, still-unbuilt product feature
+(`spec/work-board.md`, Requirement 309) for a HOST project's own task queue, not this project's
+own plan page. Nobody has asked for that larger feature again since 08-06. If his daily need is
+already met by `board.html`, this row's remaining scope is that separate, optional feature, not
+a gap in what he sees today.
+**Absorbed:** 4 rows folded here 27.08, rotated off the board 28.08 — q-133, q-582, q-583, q-411. Full text: `docs/queue-archive/rotated-PLAN-2026-08-28-folded-rows.md`.
+
+**Acceptance:** No command decides this one; his own eye is the check, over one real stretch of
+work. The board closes when every task — done, in work and queued alike — shows as a card carrying a
+short name he recognises every time it comes up, one line of what it does for a person, the time
+estimated against the time it took, the worker on it, and the part of the spec it changes. The
+columns run backlog, inception, ready, in work, done, with in-work split into one lane per worker
+and the done pile folded away. A card's plan is a few deliverables, one marker to a line. The seat
+moves a card at every change of stage and speaks a task's frozen wording letter for letter at
+take-up, along the way and at the close; nothing enters work before its wording passes. New words
+about a task in flight join it dated, and the card shows how many times it has widened.
+
+What would convince him: watching one real stretch on that board and never having to ask what is
+happening.
+
+Where the history is. His first word is 2026-07-07 ~09:36, and it widened eight more times through
+2026-08-06; each widening stands under its own time in `DECISIONS.md`, and the full text of all of
+them stands verbatim as row 166 of
+`docs/queue-archive/rotated-ROADMAP-2026-08-27-merged-into-plan.md`. Compressed into the outcome
+above on 28.08, when the row's acceptance had grown to some 1,500 words of accumulated history and
+nobody could read what it asked for.
+
+The cheap first leg was taken 2026-07-27: the session's own task list stays live for a whole
+movement, and the report carries a done / in-work / waiting table. That is the visible half this row
+owes while the standing board waits its turn.
+
+**Checked by reading on 04.09** (five readers, one pass over every done row with no acceptance command): holds — the board page and its renderer answer the ask from one shared state source.
+
+### ✅ A queued row always carries a real reason to stay open; the Director owns why — id: q-813
+**Group:** Board & visibility · **Priority:** critical
+**Source:** owner 2026-09-03 ~10:08, corrected ~10:20 — a task never sits open with no real
+reason the Director itself understands; an amorphous ask is never accepted; no second list, ever,
+not even a shelf (`DECISIONS.md`, 2026-09-03, two entries).
+
+**What was wrong, twice.** First: `q-811`'s own text admits nobody has asked for its feature again
+since 08-06, and its "revisit trigger" — "a real ask for it" — is not a checkable external fact, it
+requires him to personally re-raise it, which is circular. That is an idea, not queued work.
+Second, caught only after this row's first draft briefed a worker to build it: the fix drafted was
+a new file, `IDEA_SHELF.md` — a second list beside `PLAN.md`, exactly what this file's own "One
+plan" section already forbids ("no task list anywhere else... a felt need for another plan is a
+sign that a task belongs here, not that a new file should exist"). His correction went further:
+every condition for a row rests on the Director's own understanding of the project, never on the
+person's words alone; an amorphous request gets a live question, not a filed placeholder; most
+things said in passing are not worth recording anywhere.
+
+**Definition of done:** `skills/director/SKILL.md`'s idea-act handling states the real outcome —
+real and understood becomes a row with its own stated reason; unclear gets one live question; a
+passing thought is answered and nothing is recorded — landed. `q-811` leaves `## Tasks` (no shelf
+to move it to); its own approved spec chapter, `spec/work-board.md` Requirement 309, retires to
+`attic/` with a manifest line, history preserved the ordinary way (`docs/queue-archive/` plus the
+manifest), not a new mechanism — a design nobody is building holds no rights, and a fresh
+conversation is how it comes back, never a git resurrection. `spec/message-first-read.md`
+Requirement 315 (the idea shelf itself, `E-37`, `INV-320`) retires the same way, since the
+mechanism it specifies is exactly what the correction forbids — its `[target]` tag drops along
+with it rather than closing on a build that should never happen. Every other currently open row is
+swept against the real bar (in hand, or a named checkable trigger); anything ambiguous is
+reported, not decided unilaterally. Full suite green.
+
+**Checked by reading on 03.09.** Landed whole: `spec/message-first-read.md` Requirement 315 retired
+(`attic/spec-message-first-read-R315.md`), `spec/work-board.md` Requirement 309 retired
+(`attic/spec-work-board-R309.md` + `attic/matrix-work-board-R309.md`), `q-811` rotated off
+`## Tasks` through the real archive mechanism (`docs/queue-archive/rotated-PLAN-2026-09-03-q811-declined.md`,
+his own quoted words sourced from `docs/handovers/2026-08-06-evening-work-board-handover.md`, not
+paraphrased), two `attic/MANIFEST.md` lines, both generated indexes and the matrix reference
+rebuilt by their own scripts. Full suite re-verified independently on the merged tree after
+integration, not taken on the worker's own report — none of it touching this row's own change: the
+same pre-existing count `q-814` names a few rows up (a stale `skills/director/SKILL.md` hash against
+its recorded closing-eval runs, invalidated by this row's own `614cc25e`, plus a nested run of the
+same) — carried as-is, not this row's job. Sweep confirmed: 8 open rows, all active or behind a
+named external trigger, none idea-shaped, none ambiguous. **Correction, 2026-09-03:** the
+Definition of done above and this paragraph originally said "Full suite green" unqualified, written
+after `614cc25e` — this row's own lane produced the very edit that staled the closing-eval hash, so
+the DOD's own "green" was false when written. `docs/prover/2026-09-03-full-range-adversarial-
+review.md` finding F1 caught it.
+
+**One judgment call in this close was mine, not his, and stays open for his word.** Retiring
+Requirement 309 — 99 approved acceptance criteria, an approved sketch he signed off in August —
+was this session's own reading of "no shelf" as "no reason to keep an unbuilt, unwanted promise
+alive either," never a sentence he said. It also collides with his own prior word:
+`.live-spec/turnkey-contract-composed.md:305` records 2026-09-02 12:46, scheduling
+`matrix/work-board.md`'s remaining rows to build after package 2. Tonight's retirement supersedes
+that schedule by one day, without his having weighed in on the collision. Nothing is lost — the
+approved sketch stands untouched at `docs/norms/work-board.html`, the retired text sits whole in
+`attic/`, and reverting is a plain git operation — but this is named plainly rather than folded
+into a done mark, per this row's own new rule: a shown result closes the work, and a later
+disagreement opens new work rather than reopening this one.
+
+**Resolved 2026-09-03, same day.** No new decision was needed: his word was already on record before
+this row ran, at `.live-spec/turnkey-contract-composed.md:305`, 2026-09-02 12:46, kept and deferred
+until after package 2 — never retired. Requirement 309 (all but the one piece his own 12:46 word did
+retire, the periodic ~5-second auto-refresh heartbeat — ex-criteria 88, 90, 96, and the matching
+halves of matrix facts M-540/M-542) and `matrix/work-board.md`'s remaining rows are restored to
+`spec/work-board.md` and `matrix/work-board.md`, both generated indexes and the matrix reference
+rebuilt again by their own scripts. The row that keeps it open is `q-816`, carrying the checkable
+trigger the contract itself names — package 2 closing — in place of `q-811`'s uncheckable "a real
+ask for it."
+
+**Checked by reading on 04.09** (five readers, one pass over every done row with no acceptance command): holds — the retired requirement stayed retired and the restored one is on record.
+
+### ✅ The Director's real route is proven end to end, on the actual mechanism, not the instructions — id: q-812
+**Group:** Method reliability · **Priority:** critical
+**Source:** owner 2026-09-02 ~22:15, verbatim brief (Russian original kept whole — a compressed
+paraphrase would be the exact drift this row exists to prevent):
+
+> После закрытия текущего бэклога: доказать и, где нужно, минимально починить реальный маршрут  <!-- user-language -->
+> Director. Не проектировать новую систему и не добавлять хуки на каждое сообщение, сервер доски,  <!-- user-language -->
+> event log, второй план, новые реестры или новые статусы. Использовать существующие PLAN,  <!-- user-language -->
+> checkpoint, state-probe, product-prover, test-author и TEST_MATRIX. Сначала проверить фактическое  <!-- user-language -->
+> поведение, а не текст инструкций.  <!-- user-language -->
+>
+> Нужен один воспроизводимый сквозной сценарий на временной копии LiveSpec-хоста:  <!-- user-language -->
+> 1. Нетехнический владелец пишет свободное рабочее сообщение.  <!-- user-language -->
+> 2. Director правильно отличает его от вопроса, болтовни и команды остановиться.  <!-- user-language -->
+> 3. Для принятой работы создаётся ровно одна задача с понятным контекстом и своим DOD; для вопроса  <!-- user-language -->
+>    и stop не создаётся ничего.  <!-- user-language -->
+> 4. Рабочий берёт именно эту задачу, выполняет её и сохраняет понятное состояние.  <!-- user-language -->
+> 5. Задача может стать ✅ только после её DOD и зелёной нужной проверки.  <!-- user-language -->
+> 6. Новая сессия читает существующее состояние и продолжает ту же работу, не создавая дубль и не  <!-- user-language -->
+>    выбирая случайную середину плана.  <!-- user-language -->
+>
+> Проверить также два реальных сложных случая: пользователь дополняет или исправляет уже идущую  <!-- user-language -->
+> работу — обновляется она, без второй задачи; пользователь говорит «давай накидывать идеи» — это  <!-- user-language -->
+> один shaping-контекст, а не россыпь задач; после решения остаются только принятые реальные задачи.  <!-- user-language -->
+>
+> Product-prover должен проверить сам продуктовый контракт этого маршрута; test-author — добавить  <!-- user-language -->
+> ровно нужные строки в TEST_MATRIX и тесты. Детерминированно проверять последствия маршрутизации;  <!-- user-language -->
+> живые модельные примеры запускать только при изменении Director, а не на каждый push и не на  <!-- user-language -->
+> каждое сообщение.  <!-- user-language -->
+
+**Definition of done**, his own six clauses plus the two named hard cases:
+1. The end-to-end scenario above passes reproducibly on a clean temporary copy of a host running
+   this pack — no new hook, board server, event log, second plan, registry or status invented to
+   make it pass; only `PLAN.md`, `scripts/checkpoint.py`, `scripts/state-probe.sh`,
+   `product-prover`, `test-author` and `TEST_MATRIX.md`, as they exist.
+2. The negative cases go red on purpose: a question creates no task, a halt creates no task, a
+   second message about work already in flight creates no duplicate task, and a task whose DOD or
+   required check hasn't passed cannot be marked done.
+3. The two named hard cases are proven, not merely asserted: a correction/addition to work already
+   running updates that same work rather than opening a second task; an "idea-shaping" turn (his
+   own example, "давай накидывать идеи" <!-- user-language --> ) produces no task per idea voiced, only the real task(s)
+   actually decided on once the shaping settles.
+4. `spec` → `architecture` → `TEST_MATRIX.md` → `tests` carry this route's contract, connected —
+   product-prover reviews the contract itself before code, test-author adds exactly the rows and
+   tests the proof needs, no more.
+5. The check this proof runs is deterministic given a scripted routing outcome; a real model
+   producer (a fresh, isolated read of `director/SKILL.md`) runs only when `director/SKILL.md`
+   itself changes, matching how `evals/director/` already gates on the skill's own mtime — not on
+   every push, not on every message.
+6. Full suite green, the result committed and pushed.
+7. A short report, in plain words, at the end: what is now proven, and what was deliberately left
+   undone.
+
+**Sequencing, his own word:** starts only after tonight's current backlog closes — not before.
+
+**Acceptance:** the scenario script and its fixtures exist under `tests/` (or a dedicated
+`evals/`-adjacent home matching this pack's existing convention for a scripted, non-model-dependent
+proof), running green in the full suite; `TEST_MATRIX.md` carries a row citing it; the negative
+cases and the two hard cases each have their own red-then-green proof in the same file or a sibling
+one; a product-prover record reviews the route's own contract; `PLAN.md` and `DECISIONS.md` both
+name this row as its home once closed.
+
+**Checked by reading on 03.09, independently re-verified.** `docs/prover/2026-09-03-q812-director-route-contract.md`
+reviewed the contract first, as asked: two of the three named guarantees (the DOD-gate and
+resume-without-duplication) were already covered by `spec/wish-intake.md` Requirement 4 and
+`spec/message-first-read.md` Requirement 314, proof gaps rather than spec gaps; the third — that
+one piece of work keeps one checkpoint — was a genuine, verified hole (nothing counted or enforced
+it, and `checkpoint.py new` was found to silently overwrite a live checkpoint rather than refuse a
+second one, correcting this row's own original assumption). Two sentences added to Requirement 314
+(criteria 11-12) state who holds that rule and what the checkpoint command actually does.
+
+`tests/test_director_route_end_to_end.py` (11 tests) proves all six numbered clauses on a real,
+disposable host built by this pack's own installer — no model call, every proof by planting a real
+mutation in the mechanism and watching the reading break, never by reading the code and asserting.
+One new eval scenario (`idea-shaping-then-one-decided`) extends the existing `evals/director/`
+harness for the idea-shaping hard case, graded on a genuinely fresh, isolated producer run — 32 of
+36 scenarios pass, the one new pass being the only change; the other 35 stay pinned stale against
+this morning's director/SKILL.md edit, on record, re-record deliberately held rather than run twice.
+Four new `TEST_MATRIX.md` rows (M-630 through M-633) trace each proof to its owning requirement
+criteria. `director/SKILL.md` itself was not touched by this row.
+
+Independently re-verified on the merged tree, not taken on the worker's own report: full targeted
+suite green; the DOD-gate mutation planted by hand a second time (the exact `failing_key` removal
+described in the worker's own transcript), confirmed red, confirmed restored to green. One real,
+named gap left open rather than silently closed: nothing in the contract requires a row's mark and
+its checkpoint's own status to agree, and building an enforcer for that would be new machinery this
+row explicitly forbids — recorded in the prover record for a future decision, not acted on here.
+
+**Checked by reading on 04.09** (five readers, one pass over every done row with no acceptance command): holds — 11 tests pass and the matrix rows are present.
+
+### ✅ The plain-language text checker becomes its own reusable tool — id: q-458
+**Group:** Readability & plain language · **Priority:** normal
+**Source:** owner 2026-07-22 — "как аудировать тексты — это отдельный скилл." <!-- user-language -->
+**Closes:** q-148, q-170, q-204, q-208, q-460, q-493, q-485, q-487, q-510, q-203, q-381
+**Absorbed:** 11 rows folded here 27.08, rotated off the board 28.08 — q-485, q-487, q-510, q-148, q-170, q-208, q-204, q-460, q-493, q-381, q-203. Full text: `docs/queue-archive/rotated-PLAN-2026-08-28-folded-rows.md`.
+
+**Done, found shipped 28.08.** His ask was that auditing texts become its own skill. It is one: `text-audit` is installed as an external skill of its own, this pack binds to it through `skills/text-audit-pack/SKILL.md`, and `.text-audit/lints.json` declares the six mechanical lints the audit runs per text surface — the awkward-phrasing detector q-170 asked for among them (`scripts/spec-style-lint.py`, `scripts/preshow-register-lint.py`). No push gate forces an audit, by the pack's own decision (`guardrails/language-rules.json:2871`: the loop is run by a person or a model, and no script decides whether it ran).
+
+
+### ✅ Three small clarity fixes are restored to a rewritten rule — id: q-595
+**Group:** Readability & plain language · **Priority:** normal
+**Source:** skill-creator review 2026-08-12.
+
+
+### ✅ The spec rule about exceptions now names them — id: q-609
+**Group:** Spec & feature quality · **Priority:** normal
+**Source:** full skill read 2026-08-12.
+
+**Checked by reading on 28.08.** The answer stands in the review record that settled it, `docs/skill-review/2026-08-12-product-prover-2.md:31` — the duty belongs to whoever writes the spec, and the reviewer says so by name. No command: the sentence it names lives in the reviewer's own repository.
+
+**Checked by reading on 04.09** (five readers, one pass over every done row with no acceptance command): holds — the invariant is owned by one skill only.
+
+### ✅ The rule about what gets skipped is now plain — id: q-610
+**Group:** Spec & feature quality · **Priority:** normal
+**Source:** full skill read 2026-08-12.
+
+**Checked by reading on 28.08.** The reviewer now says which part it skips, at `skills/product-prover/SKILL.md:352`, and the decision behind it at `docs/skill-review/2026-08-12-product-prover-2.md:68`. No command: the sentence lives in the reviewer's own repository.
+
+**Checked by reading on 04.09** (five readers, one pass over every done row with no acceptance command): holds; its evidence pointer went stale when the text moved to another file (04.09).
+
+### ✅ Every new feature ships with real, complete tests, not just some — id: q-163
+**Group:** Testing · **Priority:** normal
+**Source:** inbox from track-coach close, 2026-07-05.
+**Closes:** q-191, q-491, q-554
+**Absorbed:** 3 rows folded here 27.08, rotated off the board 28.08 — q-191, q-491, q-554. Full text: `docs/queue-archive/rotated-PLAN-2026-08-28-folded-rows.md`.
+
+**Acceptance:** `bash guardrails/check-skill-loadability.sh` passes for the test-author skill, which
+is written and carries its own version. `grep` finds the shipping walk naming that skill at the step
+where tests are derived, and finds the method stated in the skill alone. The matrix carries a row
+for that wiring with a test behind it. The field leg: one host's own test matrix is written by this
+method and sits in that host's tree, `test -f` finding it.
+
+**Partially landed 2026-09-01.** The pack side already stood before today: `skills/test-author/SKILL.md`
+(v6.1.0) ships, `bash guardrails/check-skill-loadability.sh` passes it, and the Director's specialist
+table already named it (`skills/director/SKILL.md:352`) at the step where "the evidence and the
+regressions have to be chosen." What was missing — the matrix row proving that wiring rather than
+leaving it as prose — is now built: `matrix/test-author.md`'s new row `M-620` states the fact (the
+specialist table pairs `Test author` with that exact call condition and `skills/test-author` in one
+row, and the method itself — level ladder, red-first proof, pinned skip-set — stays test-author's own
+and is never restated beside the call), and its owning test,
+`tests/test_traceability.py::TestProblemLedger::test_director_names_test_author_at_the_derivation_step`,
+runs green today and was red-proven live: the specialist-table row was deleted from a working copy of
+`skills/director/SKILL.md`, the test reran and failed on the exact assertion, and the file was restored
+before anything else touched it. Command: `python3 -m pytest -q tests/test_traceability.py -k
+test_director_names_test_author_at_the_derivation_step`.
+
+**Field leg landed 2026-09-03.** Reported by `inbox/2026-09-03-from-tlvphotos-q163-field-leg-landed.md`.
+**Checked by reading on 03.09**, independently, read-only, against the live file the report names:
+`~/tlvphotos/TEST_MATRIX.md` (1325 lines) carries the derived section — "The crossing, the standing
+work and the darkroom", derived by this pack's `test-author` method from that project's own spec
+slice, citing this row and its own plan row S-55 by name in the section's own heading. `test -f
+~/tlvphotos/TEST_MATRIX.md` finds it; the section holds real rows in the file's existing Fact /
+Positive / Negative / Level / Status shape, most naming a real test as `file:line «row name»` in
+`~/exhibition-engine/tests/`, the rest saying NO TEST rather than staying silent — the row's own
+acceptance question ("does every row say whether it's tested") is answered for every row, not just
+the ones that pass. Both legs of the row's acceptance now hold.
+
+**Checked by reading on 04.09** (five readers, one pass over every done row with no acceptance command): holds — pack wiring green and the field leg is present in the host project.
+
+### ✅ Every automatic check proves it can actually catch its problem — id: q-489
+**Group:** Method reliability · **Priority:** normal
+**Source:** owner 2026-07-27; partly shipped 2026-07-27.
+**Closes:** q-217, q-492, q-230, q-454, q-455, q-220, q-525, q-490, q-576
+**Absorbed:** 7 rows folded here 27.08, rotated off the board 28.08 — q-525, q-217, q-220, q-230, q-492, q-454, q-455. Full text: `docs/queue-archive/rotated-PLAN-2026-08-28-folded-rows.md`. q-490 was folded here too and stayed on the board: it names a live hole in a shipped check. q-576 stayed on the board as well, from 28.08: it asks for a page of every number in the tree, which this row does not cover.
+
+**Acceptance, corrected 28.08 — the row stood on machinery that has since been taken out on
+purpose.** The two files its old acceptance called shipped, `guardrails/hook-red-proofs.json` and
+`guardrails/check-hooks-can-fire.py`, are gone from the tree: commit `e61b29b7` removed them as
+checks whose only subject was another check. The caller census and the retirement threshold it still
+asked for are the same shape, and a threshold with no outside source is forbidden here anyway. So
+those legs are struck rather than carried.
+
+What is left is the row's own title, and it is worth keeping. **Acceptance:** every check that ships
+here owns a fixture it reds against without its fix, and the suite runs that fixture; a test walking
+`guardrails/` reds a check that arrives with no such fixture. One check completes the walk end to
+end, so the shape is proved on a real one before it binds the rest.
+
+**Done 01.09.** `check-prototype-fence.sh` is the one check that completes the walk end to end: a
+scratch repo with a PROD file wired into the fenced `prototype/` home reds it live, the same repo
+with the reference removed passes it live —
+`tests/test_guardrail_fixture_proofs.py:164` and `:170`. The walk itself lists every `check-*.py` /
+`check-*.sh` shipping directly under `guardrails/` (41 today) and reds any name that owns neither a
+proven fixture nor a place on the named, fixed grandfather list — `tests/test_guardrail_fixture_proofs.py:180`
+holds today's real tree clean. The forward-looking half — a check arriving after this with no fixture
+reds the walk — is proved by planting exactly that in a scratch directory and watching the walk catch
+it: `tests/test_guardrail_fixture_proofs.py:189`, with `:199` as its negative control (the same scratch
+tree, minus the plant, walks clean). Nothing else in `guardrails/` was retrofitted — the acceptance
+asks for one check, not thirty-nine.
+
+
+### ✅ A weak test now actually checks what it claims — id: q-592
+**Group:** Method reliability · **Priority:** quick win
+**Source:** skill-creator review 2026-08-12.
+
+
+### ✅ Sync failures now say exactly what went wrong — id: q-597
+**Group:** Method reliability · **Priority:** normal
+**Source:** found 2026-08-12.
+
+**The work shipped; its subject was removed afterwards, 28.08 note.** The copy-out step learned to
+tell a missing credential, a network failure and a missing tool apart from a repository that simply
+is not there, and two tests held it. On 19.08 the whole copy-out step was removed, because no
+repository it aimed at had ever existed — commit `7b2980df`, which names the tests it retired with
+it. Nothing is left to guard, so the row stays closed and gets no command.
+
+
+### ✅ A silent review step now leaves a written record — id: q-611
+**Group:** Method reliability · **Priority:** normal
+**Source:** full skill read 2026-08-12.
+**Read 28.08, and it holds.** The row asked that a review sweeping a whole class say so in its own
+record. The duty is written where it acts: the review skill states it at
+`~/.claude/skills/product-prover/SKILL.md:916` and its public page names it at
+`README.md:94`, so a standalone reader learns the sweep exists. And a record with a point finding
+and no such line is refused —
+`tests/test_class_hunt.py:167` reds exactly that, green when run 28.08. The two assertions over the
+review skill's own wording sit in the same file at lines 117 and 125; they run in the build service,
+which installs that skill, and skip in a checkout without it.
+
+**Checked by reading on 04.09** (five readers, one pass over every done row with no acceptance command): holds — the rule text stands in both homes it names, 15 tests pass.
+
+### ✅ The reviewer's instructions match what the checker expects — id: q-608
+**Group:** Method reliability · **Priority:** normal
+**Source:** full skill read 2026-08-12.
+**Read 28.08, and it holds.** The row asked that the reviewer and the safety check name the same
+filename for a review's record. They do: `skills/product-prover-pack/SKILL.md:55` asks for
+`YYYY-MM-DD-<slug>.md`, and the check's own repair line at
+`guardrails/check-prover-record.sh:214` gives the same string back.
+
+**Checked by reading on 04.09** (five readers, one pass over every done row with no acceptance command): holds — skill and checker state the same filename pattern.
+
+### ✅ Rule-location references are checked and now stay accurate — id: q-588
+**Group:** Method reliability · **Priority:** normal
+**Source:** found 2026-08-11; re-verified 2026-08-12.
+
+
+### ✅ Every safety check's rulebook comes from one generated source — id: q-625
+**Group:** Method reliability · **Priority:** normal
+**Source:** found 2026-08-19.
+
+**The work shipped; its subject was removed afterwards, 28.08 note.** The generated rulebook, the
+script that built it and the check that read it all landed on 19.08. Two days later, on 21.08, a
+deliberate cut removed twelve checks whose only subject was another check, and this one went with
+them — commit `e61b29b7`, which names it in its own message. Nothing is left to guard, so the row
+stays closed and gets no command: there is no artifact for a command to read.
+
+
+### ✅ A stale reference in the test matrix is corrected — id: q-591
+**Group:** Method reliability · **Priority:** quick win
+**Source:** found 2026-08-12.
+
+**Returned to open 28.08 — the same reference went stale again.** The correction of 12.08 held at the
+time. Since then the rule this row is about moved out of the shipping walkthrough and into the
+director's own reference, and the test matrix still names its proof by a name that says the
+walkthrough carries it. The walkthrough no longer mentions the rule at all, so the matrix once more
+points a reader at a home that does not hold what it claims. The fix is the one the row already
+names: either the matrix stops naming that home, or the sentence goes back into the file.
+
+**Acceptance:** `grep` finds the sentence the matrix row names at the home the row names — or the
+row stops naming that home, the frozen document being re-frozen after the edit. Then `python3
+guardrails/check-matrix-reference.py` runs clean over that row, and a test reds when a home the row
+names stops carrying its sentence, so the same pointer cannot go stale a third time.
+
+**Done 2026-09-01.** ARCHITECTURE.md (`architecture/pipeline-and-lanes.md`) still lists INV-164 under
+build-pipeline's own `owns`, and `skills/director/references/landing-law.md` states in its own words
+why the sentence sits there rather than in `skills/build-pipeline/SKILL.md` — these ex-pipeline-step
+facts "hold regardless of which specialist or gate performs the step." Ownership never moved, so the
+row stayed in `matrix/build-pipeline.md`; only its proof's name was stale. Corrected in place, the
+same repair shape as 12.08: `matrix/build-pipeline.md`'s M-313 row now cites
+`test_landing_law_carries_compaction_every_pass`, and `tests/test_compaction_discipline.py` renamed
+the test off `test_build_pipeline_carries_compaction_every_pass` to match the file it actually reads
+(`skills/director/references/landing-law.md`) — the `test_<home>_carries_<fact>` naming this suite
+already uses elsewhere (`test_base_rulebook_carries_no_generator_rule` and its kin). `python3
+guardrails/check-matrix-reference.py TEST_MATRIX.md TEST_MATRIX.index.md` runs clean (552 of 552 rows
+matched), and `python3 -m pytest tests/test_compaction_discipline.py` passes (11/11).
+
+
+### ✅ The startup file carries only what it truly needs — id: q-205
+**Group:** Method housekeeping · **Priority:** quick win
+**Source:** homeless backlog item, homed 2026-07-10.
+**Covered by:** plan-17 — Each session reads only what it needs. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
+
+**Checked by reading on 28.08.** The startup file carries the standing rules, the shape of a reply, and the pointers to where the rest loads — nothing that could sit elsewhere. No command: that file is the owner's own, and this project neither reads nor writes it on a schedule.
+
+**Checked by reading on 04.09** (five readers, one pass over every done row with no acceptance command): holds — the boot file matches what the row claims.
+
+### ✅ One live list shows every tunable setting — id: q-427
+**Group:** Method housekeeping · **Priority:** normal
+**Source:** owner 2026-07-19.
+**Closes:** q-229, q-231, q-207, q-238, q-410
+**Absorbed:** 5 rows folded here 27.08, rotated off the board 28.08 — q-207, q-229, q-231, q-238, q-410. Full text: `docs/queue-archive/rotated-PLAN-2026-08-28-folded-rows.md`.
+
+**Done, found shipped 28.08.** The list exists and is the one home: `skills/live-spec-base/references/settings-ladder.md` holds the package-defaults table — eighteen settings, each with its default, the scope that may override it, and whether it shows on the settings card. It is written and kept by hand; no script generates or audits it, and none is being built, because nothing has yet gone wrong for want of one.
+
+**What this row settled, said plainly, 28.08.** The ask had two halves: one list of every setting, and
+that list keeping itself current in a live settings window. The hand-kept list is accepted as the
+answer to the first half. The self-updating half is declined, not deferred — nothing has drifted for
+want of it, and building it would be machinery serving itself.
+
+
+### ✅ A retired rule number is now clearly marked — id: q-590
+**Group:** Method housekeeping · **Priority:** normal
+**Source:** skill-creator review 2026-08-12.
+
+
+### ✅ The rule count now lives in exactly one place — id: q-593
+**Group:** Method housekeeping · **Priority:** normal
+**Source:** skill-creator review 2026-08-12 — the count was tracked by hand in four homes, three with no guard.
+
+
+### ✅ A count in the reviewer's instructions now matches what follows — id: q-612
+**Group:** Method housekeeping · **Priority:** quick win
+**Source:** full skill read 2026-08-12.
+
+**Checked by reading on 28.08.** The lead-in that makes the count read right is recorded at `docs/skill-review/2026-08-12-product-prover.md:26-29`. No command: the sentence lives in the reviewer's own repository.
+
+**Checked by reading on 04.09** (five readers, one pass over every done row with no acceptance command): holds — the review record and the corrected wording are both live.
+
+### ✅ Three wording disagreements in the rulebook need your final call — id: q-536
+**Group:** Readability & plain language · **Priority:** normal
+**Source:** found 2026-07-30 across three readability pilots.
+Note: the title still says the call is his, and titles change only on his own word. The definition
+of done below says why it is no longer owed.
+
+**Acceptance:** The rulebook carries one meaning for the word its parallel-work rule uses two ways,
+and a check reds a second meaning planted beside it. `grep` finds the design-review routing written
+once, in the file both skills read, and finds no second copy. Each of the fourteen collisions the
+sweep named either carries a stated precedence or has been merged into one rule, counted by a test
+that reads the sweep's own list and reds on any row still uncovered.
+
+Note (28.08): his final call is not owed here after all. His word of 27.08 puts machinery on this
+seat's desk and asks him only about machinery he set up himself; wording inside the rulebook is
+machinery. The seat rules on all three, names the ruling in the source, and reports it.
+
+**Two of the three legs ruled 31.08, checked against today's actual text rather than the 07-30
+finding's word.** The pack has been rewritten several times since 07-30 (row 445's 4.0.0 landing,
+`plan-16`'s one-home-per-rule, several audience/readability passes), and two of the three
+disagreements no longer exist in the current source:
+- **Rule 31's "owner" ambiguity is gone.** Read `skills/live-spec-base/SKILL.md` rule 31 in full:
+  every use of "owner"/"owning agent" in the rule now means the zone-owning AGENT, consistently,
+  including the clause the finding cited as the person-meaning one — "the third crossing" clause no
+  longer uses the word "owner" at all; it now reads "named in the sender's own status report as a
+  zone question the two could not settle." Ruling: no second meaning stands; nothing to merge or
+  precedence, the ambiguity was already written out. No new check needed — there is no live
+  ambiguity for one to guard against regressing without an incident showing it recurred.
+- **The design-review routing conflict is gone.** `skills/text-audit-pack/SKILL.md:24` names
+  `design-reviewer` as the pass that judges design; `grep -rn "design review" skills/*/SKILL.md`
+  finds every other mention (`design-reviewer`, `product-prover`, `build-pipeline`) consistent with
+  that — `product-prover`'s own body routes ITS full-review mode INTO the design review, it never
+  claims to run the design review itself. Ruling: one routing stands, stated once; nothing to merge.
+- **The third leg — communicator's fourteen rule collisions
+  (`~/context-slimdown/reports/communicator-audit-sweep.md`, read-only reference in another
+  project's tree) — is unchecked against today's `skills/communicator/SKILL.md` and is the row's
+  only remaining acceptance.** Narrowed acceptance for what's left: each of the fourteen collisions
+  the sweep named is checked against the current communicator body — closed already by a later
+  rewrite, or given a stated precedence, or merged into one rule — and a one-line ruling for each is
+  written into `skills/communicator/SKILL.md`'s own text (not a separate document) so a future
+  reader meets it where the rule lives.
+
+**Checked by reading on 01.09.** The third leg's fourteen collisions (the sweep's section 3c, N17–N30), each
+checked against today's `skills/communicator/SKILL.md` and ruled beside the rule it concerns
+(`grep -c "q-536 ruling" skills/communicator/references/rule-histories.md` finds them —
+the rulings moved there from `SKILL.md` on 01.09 in the size pass, `084c3eb4`, leaving pointer
+sentences behind; this line named the old home until 04.09):
+1. NOW/NEXT line vs the stretch's closing final line (N17) — merged.
+2. closing beat / report / final line sequencing (N18) — closed-by-rewrite.
+3. rule 17's stretch page vs rule 10's >1-decision threshold (N19) — merged.
+4. a critical wish's inbox arrival vs "never an interruption" (N20) — closed-by-rewrite.
+5. rule 3's show-and-ask vs rule 10's silence-is-consent (N21) — closed-by-rewrite.
+6. the ungrounded "~0 wall-clock" figure vs rule 9's lane cap (N22) — closed-by-rewrite.
+7. the decision-file ordinal vs a same-day review page (N23) — closed-by-rewrite.
+8. the digest's partial never-list vs rule 8's full one (N24) — closed-by-rewrite.
+9. the writing register's wrong reused-numbers claim (N25) — closed-by-rewrite.
+10. the glossary's "checkpoint" singular vs plural use (N26) — closed-by-rewrite.
+11. the glossary pointing to rule 10 for the `[default]` mark, absent there (N27) — closed-by-rewrite.
+12. the unmarked ~2-minute heartbeat figure vs the glossary's tunable-figure claim (N28) — closed-by-rewrite.
+13. the glossary's exact "10 minute" vs rule 13's "~10 minutes" (N29) — closed-by-rewrite.
+14. the digest's mechanism language vs rule 6's mechanism ban (N30) — closed-by-rewrite.
+
+Twelve of the fourteen were already resolved by rewrites since 07-30 (the glossary section that
+carried several of the old collisions no longer exists in `SKILL.md` at all, moved whole to
+`references/words.md`); two (N17, N19) needed one sentence each, added now. All three legs of q-536
+are closed.
+
+**Checked by reading on 04.09** (five readers, one pass over every done row with no acceptance command): partly stale — the rulings moved to another file on 01.09 and the row’s own grep named the old home; repointed 04.09, the rulings themselves are all there.
+
+### ✅ One excuse shouldn't cover every future change — id: q-529
+**Group:** Method reliability · **Priority:** normal
+**Source:** found 2026-07-29 — a written reason licensed every later raise of the same ceiling.
+
+**Why this is closed, and why the line above it is gone, 28.08.** The row used to carry a note saying
+it waited on the owner's answer about whether a written reason expires. His word of 27.08 took that
+question off his desk: machinery is this seat's call, and he is asked only about machinery he set up
+himself. The note contradicted his own ruling and was stale, so it goes. What closes the row is that
+the two pieces of machinery the 2026-07-29 report described are both retired and out of the tree, and
+the ceiling check that replaced them never writes the file that holds the reason — so a reason cannot
+copy itself forward onto a raise it never justified. Re-checked against the tree on 28.08, not taken
+from the earlier note.
+
+
+### ✅ A worker's mistake in another project was traced and reported — id: q-598
+**Group:** Worker & data safety · **Priority:** normal
+**Source:** found 2026-08-12, tlvphotos.
+
+
+### ✅ A safety check no longer blames the wrong project — id: q-623
+**Group:** Worker & data safety · **Priority:** normal
+**Source:** found 2026-08-19.
+
+
+### ✅ The record of what changed never marks untouched work as changed — id: q-802
+**Group:** Method reliability · **Priority:** normal
+**Source:** the spec's own promise, standing since row 55's 2026-07-23 landing-time audit
+(`docs/queue-archive/rotated-ROADMAP-2026-07.md` row 468: "E-6, E-7, E-10, INV-17, A-6 → row 55").
+Restored 31.08, the same way `q-437` was restored 31.08: a spec anchor whose owning row closed
+without building it.
+
+**Why this is its own row, not `q-54`'s.** `q-55` (design-sync's snapshot machinery was always
+this row's, historically, alongside four other anchors) closed 31.08 narrowed to one real case — a
+joining project's starting-state commit — which builds `A-6` but never touched `E-7`'s other,
+larger promise. A same-day correction first re-pointed `E-7` to `q-54` on the theory that `q-93`
+(design-sync) folded into it, but `q-54`'s own written acceptance names only onboarding-profile
+fields and has never once named design-sync or a snapshot — re-owning it there would have silently
+reproduced the exact defect this correction exists to fix (caught by the adversarial push review of
+`16b1a300..HEAD`, `docs/prover/2026-08-31-target-ownership-correction.md`, finding F4). `E-18`
+(design-sync the feature) stays `q-54`'s, unchanged, since that pairing predates tonight and nothing
+here disturbs it.
+
+**Acceptance:** `spec/doc-order-generated.md`'s Requirement 247 states the promise — the snapshot
+folder `.live-spec/snapshot/` kept git-tracked with one manifest line per surface, the baseline
+advancing only at a delivery and only for the surfaces that delivery declared, and a heavy-byte
+surface's rendered content held outside git with only its manifest line and hash tracked. Landing
+this row means: `.live-spec/snapshot/` exists with that manifest shape, a test walks a fixture
+delivery through one baseline advance and shows an undeclared surface's old baseline untouched, and
+`E-7`'s `[target]` tag in `spec/doc-order-generated.md` drops once the criterion holds. Until then
+the row is unbuilt, honestly — no design-sync work has started, since `q-54`'s own history shows
+`q-93` was blocked before the 27.08 fold ever reached it.
+
+**Done 2026-09-01.** `.live-spec/snapshot/` now exists, git-tracked: `MANIFEST.md` carries one line
+per surface (name, baseline delivery id, content hash, and how its bytes are held), and
+`baseline.py` is the one function, `advance_baseline`, that ever rewrites a line — it moves a
+surface's baseline only for the surfaces the delivery it's called with actually declares, leaving
+every other surface's line untouched byte-for-byte. A heavy-byte surface's rendered bytes go under
+`blobs/` (added to `.gitignore`), the manifest keeping only that surface's line and its hash under
+git; a light surface's bytes are tracked inline as `<surface>.snap`. No surface has synced yet —
+design-sync itself (`E-18`) is still `q-54`'s open work — so the manifest opens with an empty
+ledger, in the same shape `advance_baseline` writes. The fixture test,
+`tests/test_snapshot_baseline.py`, walks a delivery that declares one surface through one advance
+and proves the asymmetry: the declared surface's baseline and hash move, an untouched surface's
+manifest line — and its `.snap` file's bytes and mtime — come back identical, and a declared
+heavy surface's bytes land only under `blobs/` with no `.snap` file written for it. Passing:
+`python3 -m pytest tests/test_snapshot_baseline.py -v` (3 passed). `spec/doc-order-generated.md`
+Requirement 1's criterion 4 no longer names `E-7` or the snapshot machinery — it now marks only the
+design-sync machine (`E-18`) as planned — so the `[target]` tag it carries no longer marks `E-7`;
+`tests/test_traceability.py`'s `TARGET_ROW_OWNERS` map drops its `"E-7": "q-802"` entry in the same
+commit, per the suite's own rule that a satisfied promise leaves both the tag and its map entry
+together (confirmed nothing else in `spec/*.md` still cites `E-7` under a `[target]` marker).
+
+
+### ✅ A skill's rule states itself; the journal carries who said it and when — id: q-803
+**Group:** Method housekeeping · **Priority:** normal
+**Source:** owner 2026-09-01 13:15 — "какая нафиг разница? ты видел что в спеках пишут 'его слова' <!-- user-language -->
+или 'не его слова'? это может где-то в журнале если надо, это бред... это мусор в самой спеке!" <!-- user-language -->
+Raised against one fresh instance (`skills/live-spec-base/SKILL.md:150`, "his word, 2026-09-01",
+added earlier the same session), but the pattern is not that one instance — a sweep found it
+already standing pack-wide: 31 hits for "his word" / "owner's word" across `skills/*/SKILL.md` and
+`skills/*/references/*.md` (`communicator/SKILL.md` alone carries a whole subsection, "### Honoring
+his word"). `JOURNAL.md` already exists as the dated-provenance record, and every `PLAN.md` row
+already carries its own `**Source:**` line for the same reason — a `SKILL.md` rule inlining the
+same citation duplicates a job two other documents already do, in the one document meant to be read
+purely operationally.
+
+**Not every hit is the same defect.** Some name "his word" as a live piece of runtime behaviour a
+rule describes — "blocked on his word alone" (`communicator/SKILL.md:114`) is not a citation of
+where the rule came from, it is the rule itself, naming an actor. The sweep has to tell those apart
+from an inline provenance citation ("his word, DATE", "(SPEC INV-N; his word DATE)") before
+stripping anything.
+
+**Acceptance:** every inline provenance citation is out of `skills/*/SKILL.md` and
+`skills/*/references/*.md` rule prose; `grep -rn "his word\|owner's word" skills/*/SKILL.md
+skills/*/references/*.md` returns only the behavioural-actor sense, none of it citing a date as the
+rule's own source. Each citation removed has its provenance already sitting in `JOURNAL.md` at that
+rule's landing commit, or gets one line added there before the citation comes out of the skill file
+— nothing is quietly de-sourced, it moves to the document built to hold it.
+
+
+### ✅ One command safely winds down all the work before you leave — id: q-235
+**Group:** Budget & economy · **Priority:** normal
+**Source:** owner 2026-07-10 ~13:30, from a café.
+
+**Acceptance:** One command halts every running worker, writes each one's checkpoint to disk, gets
+what is unpushed off the machine, and prints a single closing line saying what is safe and what is
+still open. A test runs it over a tree holding a live worker and unpushed commits, and reds when any
+one of those four is skipped. Then it runs for real, the first time he says he is leaving.
+
+**Landed 01.09.** `scripts/wind-down.py` reads every locked worktree off `git worktree list
+--porcelain` (this project's existing worker-worktree lock, not a new registry), SIGTERMs the pid
+its lock names unless that pid is the session's own controlling process, writes or updates a
+checkpoint for it in the existing `.live-spec/checkpoints/*.md` format (`scripts/checkpoint.py`),
+pushes the current branch only when `guardrails/pre-push` exits green (a missing or red gate
+withholds the push rather than bypassing it), and prints one `WIND-DOWN:` line naming what is safe
+and what is still open. Proven by `tests/test_wind_down.py` over a throwaway fixture tree carrying
+a live worker (a real signaled process) and an unpushed commit —
+`TestGreenPath::test_1_live_worker_is_actually_halted` through `test_4_prints_exactly_one_closing_line`
+red if any one of the four is skipped, `TestRedGatePath::test_gate_red_withholds_the_push_and_reports_open`
+proves a red gate withholds the push instead of bypassing it, and
+`TestSelfGuard::test_own_controlling_process_is_left_running_and_reported_open` proves the command
+never signals its own controlling process. Not wired into any hook or gate — a person or session
+runs it deliberately: `python3 scripts/wind-down.py`.
+
+
+### ✅ Sessions save tokens by reading only what they need — id: q-584
+**Group:** Budget & economy · **Priority:** normal
+**Source:** deposit 2026-08-07 14:14 — owner: "work so as to spare the context."
+**Covered by:** plan-17 — Each session reads only what it needs. Folded 27.08 by the relevance pass; kept whole so nothing is lost.
+
+**Checked by reading on 28.08.** The thrift discipline is a rule of the rulebook now, at `skills/live-spec-base/SKILL.md:226`. No command of its own: plan-17 carries the command for this family.
+
+**Checked by reading on 04.09** (five readers, one pass over every done row with no acceptance command): evidence wrong — the rule line it cites was never the thrift rule; the budget claim itself is proven under plan-17. Left as done on that ground, with the wrong citation named here.
+
+### ✅ A request meant for another project reaches it automatically — id: q-398
+**Group:** Cross-project · **Priority:** normal
+**Source:** owner 2026-07-17.
+**Closes:** q-247, q-261, q-511, q-503, q-385, q-399
+**Absorbed:** 6 rows folded here 27.08, rotated off the board 28.08 — q-399, q-503, q-511, q-247, q-261, q-385. Full text: `docs/queue-archive/rotated-PLAN-2026-08-28-folded-rows.md`.
+
+**Narrowed 31.08 — struck the bare threshold.** The original acceptance's last clause, "the preamble
+carries its own declared size cap," is a threshold with no outside source (an incident or a real
+measured cost), which the standing rule forbids inventing. Struck; the other three legs stand as
+the row's whole acceptance.
+
+**Acceptance:** Done when: the vendored UserPromptSubmit hook injects the routing preamble in adopted projects, red-proven on a fixture prompt naming a foreign zone (T-24: the fixture deposit lands in the fixture tree with the one-line notice); the no-rewrite clause stands in the spec beside INV-190; the adoption gate reds a pack-loaded fixture carrying no hook.
+
+**Done 2026-09-01.** `hooks/routing-preamble-hook.sh` is the new vendored UserPromptSubmit hook —
+sibling in shape to `hooks/chat-law-hook.sh`, wired the same way through `guardrails/judge-hooks.json`
+and installed by `scripts/install-session-hooks.sh`. It injects one line naming the zone-referral law
+(spec/roles-and-agents.md, Requirement 196 [INV-190]) ahead of every prompt. The no-rewrite clause
+landed beside INV-190 as Requirement 196 criterion 21: the hook only reminds, never rewrites,
+redirects, or resends the person's own message. `tests/test_routing_preamble_hook.py` is the new
+fixture suite: it red-proves the preamble reaches context ahead of a fixture prompt naming a foreign
+zone, proves the installer wires the hook alongside its siblings, and proves the adoption gate —
+`guardrails/check-config-health.sh`'s session-hook directory-diff arm — reds a pack-loaded fixture
+project carrying the hook's source with no installed copy, then passes once installed. All 8 tests
+pass.
+
+
+### ✅ Independent work actually runs in parallel branches, proven live — id: q-386
+**Group:** Parallel & multi-agent work · **Priority:** normal
+**Source:** owner 2026-07-17 ~14:15 — "why do we wait? why is this written nowhere?"
+**Closes:** q-412, q-206, q-215, q-234, q-404, q-396, q-405, q-504
+**Absorbed:** 7 rows folded here 27.08, rotated off the board 28.08 — q-412, q-504, q-206, q-215, q-234, q-396, q-404. Full text: `docs/queue-archive/rotated-PLAN-2026-08-28-folded-rows.md`. q-396 is archived on his own word of 28.08, not on this fold.
+
+**Acceptance:** Opening a lane through `scripts/open-lane.sh` and opening one by hand from the
+written law produce the same claim commit, the same branch and the same worktree, and a test reds
+when the two diverge. The script refuses a lane past the cap its profile declares, and a test reds
+when it lets one through. `grep` finds the merge step described the same way in the law and in the
+script. Then two independent tasks run side by side for real and their branches merge with no repair
+by hand.
+
+**Checked 31.08 against a proposal to close this as already answered, and it stays open.** Three of
+the four things this row asks for do hold, each with its own evidence. The cap is enforced and a
+test reds when a lane opens past it. The landing step — rebase onto main's tip, then the gate, then
+fast-forward — is written the same way in the law and in the script, and the phrase is findable in
+both. And work running side by side for real is now proven many times over rather than argued: this
+night alone, three separate lanes built `q-531`, `q-801` and `q-55` in three isolated trees, two
+commits, six commits and one commit, and all three merged into the list with nothing resolved by
+hand, which is only the last of a dozen such merges since 28.08.
+
+What does not hold is the first thing the row asks for. It wants opening a lane by the script and
+opening one by hand from the written law to be proved to end in the same place, with a check that
+goes red the day they drift apart. No such check exists. What exists is a proof that the script
+performs the act correctly and a separate proof that the documents point at the script — neither of
+which would notice the two descriptions parting company. Both descriptions are still live: the
+rulebook states the three steps in its own words beside the script that performs them. So the drift
+this asks to be protected from is possible today and nothing would catch it. The row keeps this one
+leg and nothing else; the other three are closed above.
+
+**Done 2026-09-01.** `tests/test_lane_open_act_convergence.py` reads `skills/live-spec-base/SKILL.md`
+rule 7's "The lane-open act" bullet live at run time — never a copy of its wording kept in the test —
+and builds what a real run of `scripts/open-lane.sh` is checked against straight out of that text: the
+branch-name pattern the law states (`lane/<row>-<slug>`), instantiated for the run's own row and slug,
+and the First/committed-to-main, Second/cut-into-its-own-worktree, Third/handed-to-a-worker order the
+law names. The script runs for real on a hermetic repo (the same harness M-395's by-deed tests already
+use), and the branch it actually cuts, the commit it actually lands, and the order its own printed
+account reports are each checked against what the law's live text just said they should be. Proven to
+actually catch drift, not just pass today: the law's own branch pattern was mutated on a throwaway copy
+(`lane/<row>-<slug>` swapped to `lane/<slug>-<row>`) and the test reddened; separately, the script's
+branch-naming line was mutated the same way and the test reddened again; both mutations were reverted
+before anything else ran, and `git status` on the tracked files confirmed nothing else moved. The other
+three legs stood already, so the row closes.
+
+
+### ✅ A document's length never blocks a push over a made-up number — id: q-805
+**Group:** Method reliability · **Priority:** critical
+**Source:** owner, 2026-09-02, live in chat: every number pulled from the air goes, and so does every
+tool that exists to serve one; more is not worse, more means measure it, talk about it and decide
+whether it is fine; not every change needs talking about either; argue it through and decide. His own
+words stand verbatim in JOURNAL.md's entry for that date.
+
+**What it is.** This session's own quiet-tree suite run tonight forced a real edit for no real
+reason: `spec/success-measure-feed.md`'s criteria were shortened, not because the shorter wording
+was clearer, but because `guardrails/check-size-ratchet.py`'s bytes-per-criterion average had
+crossed its recorded bound. `docs/prover/2026-08-19-invented-numbers-out.md` already caught this
+exact mechanism behaving perversely once before: removing Requirement 297 shrank the document but
+RAISED the average (its criteria ran shorter than the rest), and the fix that night was to raise
+the bound to match rather than question the metric. Growth in a document is not itself a defect —
+when a spec or skill genuinely outgrows one file, this pack's own `skill-creator` skill already
+carries the real, human-designed answer (split into parts), which is the tool this class of gate
+was inventing a worse, mechanical substitute for.
+
+**Definition of done.** Every push-time or suite-time gate that fails a document for exceeding an
+aggregate statistic seeded from whatever its own past state happened to measure — not from a named,
+describable defect — is gone, along with the tooling that exists only to serve it:
+`guardrails/check-size-ratchet.py`, `guardrails/spec-ratchet.json`, `tests/test_size_ratchet.py`,
+Requirement 280 (`INV-264`, `INV-265`) in `spec/doc-order-generated.md`, its `TEST_MATRIX.md` row
+(`M-442`); the redundancy-pair CEILING in `tests/test_convergence_locks.py` and
+`scripts/spec-debt-cap.json`'s `max_redundancy_open` bounds (the underlying near-duplicate-sentence
+DETECTOR, `scripts/spec-redundancy-precheck.py`, may stay as a measurement a person reads — never
+wired back in as a pass/fail gate); `adopt/install-ratchet.sh` and whatever it vendors into a host
+repo, plus its own tests. Also decide, on the same reasoning, `guardrails/check-language-rules.py`'s
+r08/r11 "ratchet" arm and `tests/test_rule_census_ratchet.py`: if either fails a document for
+exceeding an aggregate count seeded from its own past state rather than flagging a named instance,
+it goes the same way; if it flags a specific, describable rule violation each time (the same shape
+as the shout/scissors register lint, which stays), it is not this row's target and is named as kept,
+with the reason. My own tonight's byte-shaved wording in `spec/success-measure-feed.md` is restored
+to its original, fuller phrasing in the same pass — the only reason it was shortened no longer
+exists. Every generated index/reference touched (`PRODUCT_SPEC.index.md`, `TEST_MATRIX.index.md`,
+`ARCHITECTURE.index.md` if it cites any of this) is rebuilt by its own generator, verified against
+its own gate, not hand-edited. A fresh `python3 -m pytest -q` on the merged result is `0 failed, 0
+errors`.
+
+**Landed 2026-09-02**, on branch `lane/q-805-cut-invented-number-ratchets`. Four mechanisms out
+whole: the size ratchet (`guardrails/check-size-ratchet.py`, `guardrails/spec-ratchet.json`,
+`tests/test_size_ratchet.py`, Requirement 280, `TEST_MATRIX` row M-442); the per-document redundancy
+ceiling (the `red["open"] <= doc_floor` half of
+`tests/test_convergence_locks.py::test_live_spec_sits_at_the_clean_floor`, and
+`scripts/spec-debt-cap.json`'s `max_redundancy_open` block); and the host kit's cap-seeding half.
+INV-264 and INV-265 stay empty numbers, pinned with their reason in `tests/test_formal_index.py`'s
+`EXPECTED_GAPS`, the shape INV-234, INV-287/288, INV-181 and INV-303 already set; M-442 goes whole,
+the way M-464/M-474/M-475 went on 2026-08-19 when their own invariants retired.
+
+`adopt/install-ratchet.sh` was the pack's only road to vendoring the style lint into a host, so
+cutting it whole would have left adopters with no mechanical defect check at all. It ships as
+`adopt/install-style-gates.sh`: same vendored set, same merged source pins (the manifest keeps its
+filename, since adopted hosts' update checks read it by that name), same push-gate wiring — now also
+repairing a block still calling the lock test it no longer generates — and it seeds no count. Standing
+host debt is carried as named waivers in `scripts/spec-waivers.json`, one finding each with its own
+expiry. Requirement 268 and Requirement 272 criterion 2 say that now, and `tests/test_ratchet_kit.py`
+is `tests/test_style_gate_kit.py`, asserting the cap file and the lock test are never written.
+
+Decided and kept, with the reason. `guardrails/check-language-rules.py`'s reasonless-rule cap
+(`MAX_REASONLESS = 4`, reading three tonight) fails on one describable defect named by rule id, and
+no path exists where improving the source trips it — deleting a rule only lowers the count, which is
+exactly what the size ratchet could not say. The r08/r11 threshold arm the row asked about went on
+2026-08-19; `scripts/rule-census.py`, `guardrails/rule-census.json` and
+`tests/test_rule_census_ratchet.py` went on 2026-08-21 — nothing was left of either to cut.
+`guardrails/check-freeze.sh` measures no aggregate and holds nothing against a recorded count: it
+answers whether a citation, number, path or marker line moved unmeant, so it stands, with a line in
+its own header saying why. `scripts/spec-redundancy-precheck.py` stays whole and runnable as a
+reading. `scripts/register-lint-floor.json` was read and left: it holds the lint's own pattern set,
+never a document, and reds a deleted catcher.
+
+`spec/success-measure-feed.md` criteria 1, 2, 3, 6, 9 and 10 are byte-identical to their pre-shave
+state (`diff <(git show 49b4813f^:spec/success-measure-feed.md) spec/success-measure-feed.md` is
+empty). All three generated consumers were rebuilt by their own generators and pass their own gates
+(`check-index-generated`, `check-matrix-reference`, `check-architecture-reference` all OK);
+`docs/PROGRESS.md` and `docs/MEASUREMENTS.md` were regenerated too, Table C losing the "ceiling"
+column whose only two filled cells were the bounds this row removed. Green:
+`python3 -m pytest -q tests/test_traceability.py tests/test_formal_index.py
+tests/test_index_generated.py tests/test_matrix_reference.py tests/test_architecture_reference.py
+tests/test_convergence_locks.py tests/test_progress_report.py tests/test_style_gate_kit.py
+tests/test_update_watcher.py tests/test_scaffold_install.py tests/test_style_lint_parts.py
+tests/test_redundancy_precheck_parts.py tests/test_prose_gate.py
+tests/test_guardrail_fixture_proofs.py tests/test_vacuous_pass.py tests/test_language_rules.py
+tests/test_declared_laws.py tests/test_architecture_pins.py tests/test_delta_classifier.py
+tests/test_requirement_shape.py tests/test_agent_channels.py
+tests/test_plan_done_marks_are_backed.py tests/test_installed_copy_staleness_class.py
+tests/test_retroactive_gate.py tests/test_gate_common_table_rows.py tests/test_doc_rotation.py`.
+`skills/spec-author/references/change-record.md` changed, so gate s wants a fresh
+`docs/skill-review/` record before this branch pushes.
+
+
+### ✅ Automatic checks catch problems in parallel work before anyone has to look for them — id: q-804
+**Group:** Parallel & multi-agent work · **Priority:** normal
+**Source:** found 2026-09-01, closing q-386 — three promises row 386 carried from its own first
+writing, never folded in from elsewhere, orphaned the moment q-386 closed on its own four-leg
+acceptance without touching them.
+
+`spec/parallel-lanes.md` still promises, each on its own `[target]` line: a config-health check that
+the primary tree holds `main`, git's own refusal the net until it ships [INV-198]; the merge-base
+check that stands ahead of the landing gate plus the stale-lane check, the prover's station their net
+until then [INV-199]; and the adoption gate for a host's vendored worktree line, the prover's station
+its net until the build lands [INV-201]. None of the three shipped with q-386's own close — its
+"Done 2026-09-01" paragraph proves only the lane-open-act convergence, its one remaining leg. A
+promise nobody is building stands here as its own open row rather than inside a task that closed
+without it, the same repair shape as q-385 and q-436 above.
+
+**Definition of done:** three arms, each red-proven — a config-health arm reading the primary tree's
+checked-out branch and redding a `main` other than the one held; a merge-base arm ahead of the
+landing gate redding a lane whose branch has not rebased onto main's tip, beside the stale-lane check
+already named in Requirement 86; and an adoption-gate arm redding a host project whose instructions
+carry no vendored worktree line. Until then git's refusal and the prover's own reading stand as the
+net, unchanged from what the spec already says.
+
+**Worked 2026-09-01, and two of the three close; the row stays open on the third's own residual.**
+All three named arms shipped as real scripts, each red-proven on a hermetic scratch repo (plants the
+violation, reds; removes it, passes) rather than asserted from prose: `guardrails/check-config-health.sh`
+gained a primary-tree-holds-main arm reading git's own shared `worktree list` rather than the invoking
+tree's branch; `guardrails/check-merge-base.sh` reds a lane whose merge-base with main is not main's
+own tip, callable against `HEAD` or a named worktree path, ahead of the landing gate; and
+`guardrails/check-worktree-line.sh` reds a host tree whose `CLAUDE.md` carries no line naming a
+worktree and citing INV-105, run at the adoption/catch-up walk rather than wired into every push
+(this pack's own tree is itself an adopted host with no such line yet — Requirement 88 criterion 3
+leaves that write shut until the pack's own owner speaks, so wiring the gate into this repo's own
+push chain would red it ahead of that word, which is not this row's call to make). Twelve new tests
+in `tests/test_lane_net_arms.py` plus six added to `tests/test_guardrail_fixture_proofs.py`'s own
+PROVEN walk cover all three, and the full suite runs green.
+
+INV-198's and INV-201's promises are now whole: their spec criteria dropped the "promised... until
+it ships" framing for the built behaviour, their `[target]` lines are gone, and their
+`TARGET_ROW_OWNERS` map entries dropped with them (`spec/parallel-lanes.md` Requirement 85 criterion
+5, Requirement 88 criterion 4/former-6). INV-199's own criterion bundled two checks from its first
+writing — the merge-base check (built, above) and the stale-lane check, "a lane worktree or a
+`lane/*` branch with no open row" in the config-health gate. Only the merge-base half is this row's
+own three-arm acceptance; the stale-lane half was never one of the three arms asked for here ("beside
+the stale-lane check already named in Requirement 86" names it as context, not as this row's own
+work), and no fourth check was built to close it — inventing one would be machinery past what this
+row's own acceptance names. Requirement 86 was split into criterion 5 (the merge-base check, built)
+and a new criterion 6 (the stale-lane check, still `[target]`), so INV-199 keeps its map entry and
+this row stays open on that one residual rather than closing on a narrowed reading of its own anchor.
+
+**Corrected 2026-09-02, a hostile review's finding 2
+(`docs/prover/2026-09-02-overnight-run-hostile-review.md`).** "Built and red-proven" turned out not
+to mean "actually invoked anywhere real" for two of the three scripts. `guardrails/check-merge-base.sh`
+and `guardrails/check-worktree-line.sh` both pass their own fixture tests, but a full-tree grep finds
+no caller for either outside those tests — the landing walk (`open-lane.sh`,
+`director/references/lanes-and-pen.md`) names no merge-base call, and the adoption/catch-up walk
+(`adopt/ADOPT.md`, `START.md`, `MIGRATION.md`) names no worktree-line call. INV-201's `[target]` tag,
+dropped the night this row first closed on the strength of the script existing, is restored — a
+script nothing calls does not keep a promise worded "read at the adoption/catch-up walk." Mark
+returned to ⬜: no lane is open on this row right now, and calling either script from its real walk is
+genuinely undone work. What's actually true tonight: `INV-198` (config-health) is
+genuinely wired into `guardrails/pre-push` and stays closed; `INV-199` and `INV-201` each have a real,
+tested script with no real caller, and both need that wiring — plus INV-199's still-unbuilt stale-lane
+half — before this row closes for real.
+
+**Worked 2026-09-02 on lane `lane/q-804-wire-lane-net-arms`: all three now have real callers, each
+proven by mutating the world rather than the script.** The lesson the correction above records — a
+fixture proof says the script works, never that anything runs it — set the shape of every proof
+here: the test drives the REAL walk and mutates what the walk reads, so a caller that quietly stops
+calling reds. (1) The merge-base check's caller is `scripts/land-lane.sh`, the landing act and the
+counterpart to `open-lane.sh`: the walk Requirement 86 names was written in three places and
+performed by none, which is why the check had nowhere to be called from. It runs the check first,
+then the rebased tree's own gate chain, then the fast-forward, then a non-forcing teardown whose
+refusal is reported as a finding. An unrebased lane driven through it reds with main unmoved and the
+lane's gate never reached; rebased, the same act lands and tears the lane down. (2) The worktree-line
+gate's caller is `adopt/install-scaffold.sh`, the adoption walk's own gate-installing command
+(`adopt/ADOPT.md`, "Installing the gates"; the catch-up walk re-runs it with `--force`,
+`MIGRATION.md` Phase 4). It runs last, so a red costs the host the line and not the install — and it
+is NOT wired into this repo's own push chain, exactly as criterion 3 requires. (3) The stale-lane
+check is a new arm of `guardrails/check-config-health.sh`, which is where Requirement 86 criteria 4
+and 6 put it by name and which `guardrails/pre-push` already runs as gate m; that placement needed no
+carve-out, since nothing about it waits on the pack owner's word the way the pack's own vendored line
+does. It reads the rows off the primary tree's list through git's shared worktree metadata, and
+stands down by name on a repository with no list file so an unrelated scratch repo is never redded
+for having no rows. Nine new tests across `tests/test_lane_net_arms.py` and
+`tests/test_scaffold_install.py`; `spec/parallel-lanes.md` Requirement 86 criteria 5/6 and
+Requirement 88 criterion 4 dropped their `[target]` tags and `TARGET_ROW_OWNERS` dropped `INV-199`,
+`INV-201` and `INV-150` with them; `matrix/parallel-lanes.md` gained M-629 and M-376/M-625/M-626 were
+corrected.
+
+**Checked by reading on 02.09, orchestrator re-verification.** Rebased onto main's tip twice
+(once to fix a real M-627/M-628 matrix-row id collision with `q-810`'s own concurrent work,
+independently picked by two lanes), all 32 of `tests/test_lane_net_arms.py` and
+`tests/test_scaffold_install.py`'s own mutation-proof tests re-run green on the merged tree —
+not trusted from the worker's own report — and `guardrails/check-config-health.sh` spot-checked
+live against the real repo with no lane open, clean. Full suite green before landing.
+
+**Checked by reading on 04.09** (five readers, one pass over every done row with no acceptance command): holds — all three arms exist and are wired, 32 tests pass.
+
+### ✅ The front page is rewritten to be fully accurate — id: q-501
+**Group:** Docs & outreach · **Priority:** normal
+**Source:** owner 2026-07-27 evening.
+
+---
+
+**Acceptance:** No command settles this one; a person reading the page is the check. The eleven
+corrections are true in the page, the plain-language check over it returns no errors, and someone
+meeting the product for the first time reads past the opening paragraph without stopping to ask a
+question. Narrowed by the owner's own word, 2026-09-01 23:15: the page names no project count at
+all — the question of how many projects it may claim is dropped, not answered. The July gap
+(whether `check_completeness.py`'s discovery pattern still had a live hole) is a settled fact, not
+a taste call: it does not, proven below. What would convince him: reading it once and finding
+nothing he would have to correct.
+
+**One false claim closed 2026-09-01.** A recon pass reported this row blocked on a live bug:
+`guardrails.config.json`'s `surface_discovery_pattern` (an HTML `<section id="...">` regex)
+supposedly can never match `README.md`/`OVERVIEW.md` (plain markdown), so `check_completeness.py`
+always found zero and still claimed a clean sweep every run. Checked before fixing, per standing
+practice: that claim is false, and it is the second time it has been false. The pattern was
+deliberately armed 2026-07-11 after a real planted-surface incident
+(`docs/prover/2026-07-10-external-push-probe.md`), `tests/test_four_checks_contract.py::test_own_attach_arms_the_discovery_pattern`
+locks it set and catching, and a live reproduction — planting `<section id="phantom-surface">` in a
+scratch copy of this repo's real README and config — still reds with
+`completeness.rendered-but-unregistered`, exactly as designed. Neither `guardrails.config.json` nor
+`check_completeness.py` needed a change; both are correct and untouched. **This is the July gap the
+acceptance names**, and it closes: the hole was real once (10 July), fixed 2026-07-11, verified
+closed a second time here, and locked against a fourth reappearance by
+`tests/test_readme_stance.py::TestReadmeKnownIssuesNoFalseDiscoveryPatternClaim` (paraphrase-proof,
+not an exact-string match). No owner call was needed — it was a fact to verify, not a taste
+question, and it verified closed.
+
+**Checked by reading on 02.09.** The rest of the row: the page (`README.md`) has been a full
+rewrite (`d35dc003`, 2026-09-01, "product-prover's shape") since the eleven corrections were
+written against the 2026-08-05 draft, and none of the specific old claims those corrections fixed
+survive on today's page to be wrong again — no host-count sentence, no push-chain check count, no
+config-key count, no stale line counts, no literal discovery-pattern example. Every number the
+current page actually states was re-derived from the live repository rather than trusted: twelve
+working skills (`skills/` holds 13 folders, one the shared rulebook — locked by
+`tests/test_skill_count_agrees.py`), twenty-two shared rules (counted directly off
+`skills/live-spec-base/SKILL.md`'s numbered rule heads — locked by
+`tests/test_minor_gate_reconciliations.py`), and the "four scripted checks" line, verified against
+`tests/test_four_checks_contract.py`'s own four checks (completeness, tests-present,
+traces-to-spec, conflicts). The project-count claim ("Three projects, one author...") is gone from
+both places it appeared (the stance paragraph and the settings-card line in Known Issues);
+`tests/test_host_count_agrees.py` is rewritten to lock the front page against ever regenerating it,
+keeping only `ARCHITECTURE.md`'s own internal host-count consistency (a different, technical fact —
+project-kind test fixtures, not an adoption count); `matrix/guardrails.md`'s M-462 row states the
+narrowing and its date. The mechanical checks this pack declares for a `README.md`-shaped surface —
+`scripts/preshow-register-lint.py` and `guardrails/check-one-name.py` (`.text-audit/lints.json`'s
+`"*"`-surface pair) — both return clean, and `scaffold/guardrails/check_completeness.py` stays
+green (`SURFACES.md`'s four needles all still present and unbroken).
+
+The first-time-reader read-through was not one worker's own contextualized read, which cannot
+honestly stand in for a stranger's — it was six independent fresh-context agents, each with zero
+project knowledge beyond the file itself, reading the page cold and reporting exactly where they
+stopped with a real question (the same shape `text-audit`'s own cold-read method uses). The first
+two rounds converged on real, fixable confusion: the "What it missed" dead-end story read as
+internally contradictory (fixed — the two properties it compares are now named as different
+questions, not one rule "missing itself"); "formal-verification pass," "they run" (of prose rules),
+and "Every gate is proven able to fail" read as unglossed or circular (each reworded); "internal
+vocabulary" and "register lint" in Known Issues went unglossed (each given a plain-English aside);
+"a view" in the audio-track account had no antecedent (named as "the list a listener browses them
+in"). Round six found one item — "pre-push hook" used with no gloss — judged and left as-is: this
+page's own stated audience is a programmer (the Install section hands them raw `git clone`
+commands), and a git hook is ordinary vocabulary for that reader, not an insider coinage; noted here
+as a judgment call in case he reads it differently. No round after the fixes found anything else.
+This is real evidence, not a claim of certainty about his own read — if he finds something the six
+readers did not, that reopens the row exactly as it would for any other "checked by reading" close.
+
+Verified green together: `python3 scripts/preshow-register-lint.py README.md`,
+`python3 guardrails/check-one-name.py README.md`, `python3 scaffold/guardrails/check_completeness.py`,
+and `python3 -m pytest -q tests/test_readme_stance.py tests/test_host_count_agrees.py
+tests/test_skill_count_agrees.py tests/test_four_checks_contract.py tests/test_scaffold_guardrails.py
+tests/test_minor_gate_reconciliations.py` (58 passed, 1 skipped) — plus the full set of every test
+file that reads `README.md` anywhere in the suite, run in batches, all green.
+
+**Checked by reading on 04.09** (five readers, one pass over every done row with no acceptance command): holds — the readme carries no false claim; all three mechanical checks pass.
+

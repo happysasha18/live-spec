@@ -1,9 +1,9 @@
 {
   "scenario": "ask-whether-the-shorter-skill-ships",
-  "label": "LP",
+  "label": "VN",
   "closes": false,
   "reason_kind": "trade-off no artifact settles",
-  "reasoning": "The rule 'A shown result closes the work' closes ordinary work the instant 'a command, a test, or a plain read already confirms was delivered.' Here the goal was to see whether the skill could be cut 'without costing anything,' and the eval was supposed to be that confirming test. But the eval itself reports that a single run carries about two scenarios of producer variance, and the observed gap between the two versions (30/35 vs 29/35) is only one scenario -- by the eval's own record that gap 'says nothing either way.' So the test did not actually confirm the observable outcome (no cost); it left open whether the 3.7KB saved is bought with a real quality loss or with nothing at all, and no artifact on hand settles that. That is exactly the second reserved case the Execution section names alongside taste calls, changes to the definition of correct, and irreversible actions: 'a trade-off no artifact settles.' Because this is one of the three (four) reserved cases, the row's own delivered numbers cannot be treated as an ordinary buildable result that closes on its own -- the Director must hold the checkpoint open and put the trade-off to the person rather than closing it unilaterally.",
-  "skill_sha256": "55806109032985f9b7bb00a94242e7c6c112c67039fcfa7f58e6f9c2aee2d684",
-  "recorded": "2026-09-03"
+  "reasoning": "The eval was run to serve as the artifact that would prove the cut safe, but its own record says a one-scenario gap is inside producer variance (~2 scenarios) — the check did not actually settle whether the shorter skill costs anything. Closing here would mean the Director choosing, on its own, to trade 3.7KB of front-door length against an unproven and possibly real quality loss with no artifact able to confirm which version is truly as good. An ordinary delivered result closes automatically only when a command, test, or plain read already confirms delivery; here the test explicitly disclaims that power over a gap this size. This lands in the trade-off-no-artifact-settles bucket rule 12/27 reserve for the human — the Director shows both scores and the variance caveat and holds the checkpoint open for his word.",
+  "skill_sha256": "b9e49a8a92cfc7352dd82617ed414b93fbfbb7a07f8a11fc8966690b26ee6a72",
+  "recorded": "2026-09-04"
 }

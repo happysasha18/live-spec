@@ -228,7 +228,9 @@ it stands: `skill_version: 6.1.0`, commit `85ddbda0`, `skill_sha256`
 under the isolation protocol above — opaque two-letter labels, no producer given another's fixture or
 the expected verdict, all forty-five run in one pass.
 
-The thirty-six-scenario set, graded with `python3 evals/director/check.py --all`: 34 of 36 pass,
+**Re-recorded 2026-09-04 against the skill as it stands after that night's edits, `skill_sha256` `b9e49a8a92cfc7352dd82617ed414b93fbfbb7a07f8a11fc8966690b26ee6a72`: 30 of 36 on the main set and 7 of 9 on the closing set.** Six main-set reds, and four of them are one shape: a correction read as new work, opening a row where the scenario asks for the running work to be replanned. Two closing-set reds flipped back to deferring to a row's own stale gate. Read the three recorded runs together before drawing a line through them — 31 of 36, then 34, then 30, on a skill whose text moved a little between each — the spread is wider than most of the differences anyone reads into a single run. What the number can carry is a shape that repeats across runs, and the correction shape is one.
+
+The thirty-six-scenario set, graded with `python3 evals/director/check.py --all`, on the 2026-09-03 night run: 34 of 36 pass,
 against 31 of 36 in the last full re-record before it (2026-09-03 afternoon, commit `614cc25e`). Two
 runs named an act the scenario did not ask for (`idea-with-a-cheap-branch`, `correction-stop-counting-
 pairs`), both notes rather than fails under the extra-act cost model. The two reds: `decision-how-to-

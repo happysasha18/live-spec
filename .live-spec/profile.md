@@ -3,6 +3,12 @@
 Overrides for this repo only; they beat the personal profile and the package defaults (settings ladder,
 SPEC E-13). Every line here is a recorded override, never a silent divergence (SPEC INV-14).
 
+- `show.default: the reply itself — no browser window opens unless the person asks for one` — his
+  word, 2026-09-04 02:01: the status list in the reply replaced what he used to open a page to read,
+  and a window opening on its own now interrupts him. A rendered page is made when he asks for it by
+  name, and never as the default way to answer a long question. This overrides the personal profile's
+  own show line for this repo.
+
 - `prover.cadence: a re-check before EVERY push, record in docs/prover/ — rigor whole, FORM scaled by the delta (SPEC INV-61): small deltas ride the three-line short form, surface/structural deltas the full walk` — this repo is
   public and the method's own flagship; tightened from the package default (before MINOR bumps) on
   Alexander's explicit word, 2026-07-04. This line and the push gate [M-6] are one fact; M-6 is its

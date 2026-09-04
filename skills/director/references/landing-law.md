@@ -51,6 +51,13 @@ dated clean-context review record naming a seat other than the release's. The me
 checks that the record exists, is release-dated, and names a different seat; the rest is a
 discipline the seat holds.
 
+**At least one adversarial pass runs with no steer.** A reviewer told what to
+look for finds what it was told; the failures nobody has named yet are found only by a reader given
+the artifact and nothing else. So where a release or a movement runs an adversarial pass, one of
+them is opened cold: the tree, the change, and the question "what is wrong here", with no digest of
+what anyone already suspects. A steered pass may run alongside it, and its findings are read as
+answers to the steer rather than as coverage.
+
 **The release tier is a stated judgment, held by no gate (SPEC INV-217).** Bump the
 version, PATCH by default. The number reports what taking the release costs a host, and the tier
 is read off that cost. A patch fixes a machine to hold a law already stated, and the host does

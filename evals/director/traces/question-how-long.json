@@ -9,7 +9,7 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "This is a single clause with no hidden clauses to unpack: the person wants to know how long the running job will take, in order to decide whether to wait. Per the acts table, this is a 'Question or musing' -- 'wants to know something' -- and the Director's job is only to answer it, never to 'write a roadmap row, open a spec, start work.' The section 'Then, only for work that was accepted' states plainly: 'A question creates nothing and changes no document... What it may not do is turn the question into a task because answering it took effort.' Since nothing is being asked for and nothing about the in-flight job's goal or constraints is being changed, it does not attach to existing work either -- it is asked about that work, not a correction or decision touching it. No decision sheet is written; per 'For a question... there is no sheet. There is a sentence.'",
+  "reasoning": "The person is asking about a long job already running — someone deciding whether to wait, not asking for anything to be built or changed. This is a 'Question or musing': 'wants to know something ... answer the question; engage with the thought' and the Director must not 'write a roadmap row, open a spec, start work.' It does not touch the running work's goal or constraints (no correction), nor does it stop anything (no halt: 'What makes it a halt is that something running should stop running' — this message asks for information, not for the job to stop). No decision sheet, no specialists, no dimensions, and no work item is created.",
   "scenario": "question-how-long",
   "skill_version": "6.1.0"
 }

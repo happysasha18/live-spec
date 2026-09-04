@@ -86,9 +86,12 @@ class TestRestructureMergeGateLaw(unittest.TestCase):
             body = read_flat(home)
             if home == "PRODUCT_SPEC.md":
                 # R184.3: "queue rows"/"same landing"/"never block" become singular/"delivery"/
-                # "not block on it" under the shall-subjunctive requirements-format rewrite.
+                # "not block on it" under the shall-subjunctive requirements-format rewrite. R60's
+                # rewrite then moved the routing verb again: a pre-existing finding is no longer
+                # "route[d]" anywhere, it is written into the review record, same as a
+                # recommendation (INV-140).
                 self.assertIn(
-                    "route it to a queue row in the same delivery", body, home
+                    "state it in the review record of the same delivery", body, home
                 )
                 self.assertIn("shall* not block on it", body, home)
             else:

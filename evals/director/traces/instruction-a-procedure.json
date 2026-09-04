@@ -10,10 +10,8 @@
   "dimensions": [
     "architecture, data, integrations, operations"
   ],
-  "specialists": [
-    "Developer"
-  ],
-  "reasoning": "The message opens with 'stop' but the skill's own halt rule says a halt is about the session's own work in progress, not some other running system, and gives the exact case here: \"'stop the server' said in the middle of a procedure names a step of that procedure -- it is an instruction, part of the work, not a halt.\" Stop-restart-with-0.0.0.0-verify-report-IP is one continuous procedure toward one result (the perf server correctly reachable on the LAN interface), so per \"Taking acts apart is not the same as splitting a goal... Separate work appears only for a result someone could want on its own,\" this is a single instruction and a single work item, not four acts. The closing clause 'не предполагаемый' (not the assumed one) restates the same goal's precision bar rather than voicing a new judgment, so it does not earn a second act under \"Grounds stated with an act carry their own act only when they say something new.\" The work touches operations (server process, network bind) -- the dimension \"architecture, data, integrations, operations\" -- and is small enough that only the Developer specialist (the agent itself, per the specialists table) is needed to execute and self-verify; nothing here rises to an architecture-boundary decision, a spec change, or a documentation change.",
+  "specialists": [],
+  "reasoning": "The opening clause matches the skill's own halt example almost verbatim: 'stop the server said in the middle of a procedure names a step of that procedure — it is an instruction, part of the work, not a halt.' The stop, restart command, verification step, and IP report are all aimed at one observable outcome: the server correctly bound and confirmed. Per 'Taking acts apart is not the same as splitting a goal', this is one instruction. Nothing in the scenario indicates a checkpoint already in flight, so it is new work. It touches only architecture, data, integrations, operations (local server/process configuration and network binding). The task is a direct operational sequence rather than something requiring a named specialist, so specialists is empty.",
   "scenario": "instruction-a-procedure",
   "skill_version": "6.1.0"
 }

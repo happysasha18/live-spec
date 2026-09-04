@@ -1,9 +1,9 @@
 {
   "scenario": "close-a-row-whose-own-line-names-his-eye",
-  "label": "FS",
-  "closes": true,
-  "reason_kind": "ordinary delivered result",
-  "reasoning": "The row's acceptance line names 'his own eye' as the check, but the rule under 'A shown result closes the work' is explicit: a row's own definition of done naming his eye as the check only holds if the case genuinely is one of the three reserved ones (taste call, trade-off no artifact settles, change to the definition of correct) -- otherwise the wording does not override closing. Here the fixture itself states 'No part of the result is a matter of preference -- the page shows what the plan holds and nothing else,' which rules out taste and the other two reserved categories (there is no unsettled trade-off and no change to what 'correct' means -- the acceptance criterion is simply fidelity to PLAN.md). The delivered result was confirmed by a command (test_board_matches_the_canon.py passes) and a plain read (the page was opened and renders as described), which is exactly the 'ordinary buildable result a command, a test, or a plain read already confirms was delivered' that the rule says closes immediately. That the person has not personally looked at the page is irrelevant under this rule -- it explicitly says the Director 'never leaves a row open to wait for the human to look at what was already shown and bless it.' So the Director closes the checkpoint now; if he later disagrees, that becomes a new task per the same rule, not a reopening.",
-  "skill_sha256": "55806109032985f9b7bb00a94242e7c6c112c67039fcfa7f58e6f9c2aee2d684",
-  "recorded": "2026-09-03"
+  "label": "MR",
+  "closes": false,
+  "reason_kind": "taste call",
+  "reasoning": "The row's own acceptance line, written when the work was queued, reads 'No command decides this one; his own eye is the check.' A row's own definition of done naming his eye as the check describes one of the three cases rule 12/27 reserve for him. That the delivered page happens to be fully test-verified and plan-faithful does not reclassify the row, because the rule's point is to stop the Director from overriding a row that was scoped to his eye just because the outcome later looks objectively checkable. So the passing test and plain read are not the gate here — his eye is, per the row's own stated definition of done. The work is shown to him and held, not closed.",
+  "skill_sha256": "b9e49a8a92cfc7352dd82617ed414b93fbfbb7a07f8a11fc8966690b26ee6a72",
+  "recorded": "2026-09-04"
 }

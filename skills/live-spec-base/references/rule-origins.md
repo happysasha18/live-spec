@@ -140,3 +140,33 @@ must not touch... This rule exists because I kept breaking working things by edi
 was asked to. That is the cardinal sin here." Migrated from the retiring playbook document per
 PLAN.md's Blockers finding (31.08, q-800; closed 03.09) — the other piece plan-16 (31.08) left
 unmoved when it gave every other rule of the pack one home.
+
+## Rule 38 — the shape of a reply, and the order the rows are printed in
+
+Entered 2026-09-04 on the pack's own repository, after a session opened three replies in a row with
+the row list retyped and reordered to suit the sentence that followed, and after the owner read a
+board where the row being edited stood last while nothing was working the rows above it. He asked
+for the order to be written down rather than explained to him. The correction that followed the
+first draft is part of the rule: several rows stand in hand at once whenever lanes run in parallel,
+so a single "next" is a claim the list should not make. The clause allowing a cluster name before a
+colon replaced a proposal to add sections to the board — sections are machinery, and a name everyone
+in the project already uses is not.
+
+## Rule 36 — who the person is
+
+Sharpened 2026-09-04. The rule had said a session should write for a non-technical reader and deepen
+the register when that reader showed depth. Three things were missing, and each had cost the owner a
+complaint the same night: who the reader actually is (the one who commissioned the work, riding
+rather than driving), that a project's README names who its PRODUCT is for and never who the session
+is speaking to, and that a result is reported flat — the connective phrases that grade the work while
+reporting it read as a person covering themselves.
+
+## Rule 39 — nothing new is built to serve the process itself
+
+Entered 2026-09-04, and it is the oldest of the owner's own standing rules to reach this file: he had
+said it nine times across two weeks before it was written down anywhere the pack could read. The
+night it entered, this tree had just answered a failing check by widening it — a spec criterion added
+so a promise with no owner could pass a gate that existed to catch exactly that. The rule names that
+move as the same failure as inventing a threshold: both add machinery to explain away a fact rather
+than change the fact. Its "downwards only" clause comes from the same source, and from a year of
+thresholds that grew every time work pressed against them.

@@ -65,9 +65,32 @@ def is_bare_existence_proxy(command):
     return bool(clauses) and all(_BARE_EXISTENCE_CLAUSE_RE.match(c) for c in clauses)
 
 
+# A closed row's own record moved off the plan page on 2026-09-04 so the board reads as one
+# screen; the plan keeps the heading and points at the archive. Both files are read here, so a
+# done row is still backed by the same evidence it always was, wherever that evidence now sits.
+_CLOSED_ARCHIVE = ROOT / "docs/queue-archive/2026-09-04-closed-rows.md"
+
+
 def _done_tasks():
-    text = (ROOT / "PLAN.md").read_text(encoding="utf-8")
-    return [t for t in parse_tasks(text) if t["mark"] == "✅"]
+    """Every done row, with its body, whichever of the two files now carries it.
+
+    The parser reads one "## Tasks" section per document, so the two are parsed separately and
+    merged by id: the plan holds the heading, the archive holds the record.
+    """
+    rows = {}
+    for path in (ROOT / "PLAN.md", _CLOSED_ARCHIVE):
+        if not path.exists():
+            continue
+        text = path.read_text(encoding="utf-8")
+        if path is _CLOSED_ARCHIVE:
+            text = "## Tasks\n" + text
+        for t in parse_tasks(text):
+            if t["mark"] != "✅":
+                continue
+            # A row already seen from the plan is the stub; the archive's copy carries the body.
+            if t["id"] not in rows or len(t["body"]) > len(rows[t["id"]]["body"]):
+                rows[t["id"]] = t
+    return list(rows.values())
 
 
 class TestEveryDoneMarkIsBackedByACommandOrANamedReading(unittest.TestCase):

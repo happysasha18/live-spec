@@ -10,12 +10,11 @@
   "attaches_to_existing_work": false,
   "work_items": 1,
   "dimensions": [
-    "documentation and communication"
+    "documentation and communication",
+    "release, observation, feedback"
   ],
-  "specialists": [
-    "Developer"
-  ],
-  "reasoning": "Three acts, read whole per 'One turn, several acts'. First: reminding that goals already in the plan ('сделать компактнее', 'оптимизировать разное') still stand is 'the same kind of act -- a decision reaffirmed, not a new idea', so it is a decision, not an idea for later, and it creates no work itself (nothing is 'work already running' to apply it to). Second: 'эти параметры необходимо мониторить в статусе в файле плана' asks for something concrete to be done now -- add tracking of these two goals to PLAN.md's status -- this is an instruction, and it is concrete enough to accept (not left amorphous), so it earns a decision sheet: one new piece of work (no existing checkpoint covers plan-status monitoring, so it is new, not an attachment). It touches 'documentation and communication' since the only thing that changes is the plan file's status content; no code, architecture, or product-behaviour dimension is touched. The edit itself is 'something must be built' in the document, which the specialists table assigns to Developer ('the agent itself'). Third: 'согласен или поспорь со мной' is the invitation-to-disagree pattern the skill calls out explicitly -- 'still its own act too... answering only the decision leaves the invitation unanswered' -- so it is counted as its own question act, answered directly with no sheet.",
+  "specialists": [],
+  "reasoning": "Three things are said. (1) Reminding that goals already sit in the plan — per 'Reminding that a goal already in the plan still stands is the same kind of act — a decision reaffirmed, not a new idea' — is a decision, recorded and applied to work already running, not a fresh row on its own. (2) 'эти параметры необходимо мониторить в статусе в файле плана' is a distinct ask stated now: add ongoing status-monitoring of these two goal-parameters to PLAN.md's status — an Instruction, and new work since nothing shows an existing checkpoint already tracking this. (3) 'согласен или поспорь со мной' is the case the skill names directly: an invitation to disagree is its own act (question), requiring the Director to actually agree or argue. No idea is being floated or shelved. The one accepted work item is a document-only change touching documentation/communication and release/observation/feedback, needing no specialist.",
   "scenario": "mixed-reminder-and-a-challenge",
   "skill_version": "6.1.0"
 }

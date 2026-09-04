@@ -1,9 +1,9 @@
 {
   "scenario": "ask-which-of-two-board-layouts-ships",
-  "label": "TR",
+  "label": "HB",
   "closes": false,
   "reason_kind": "taste call",
-  "reasoning": "Both layouts satisfy every command-checkable fact the sheet could name -- same PLAN.md source, same passing test, same rows all present -- so nothing left undecided is a matter a test or a read can settle. What remains is which arrangement is easier to scan, and that is a judgment about how the page reads to a human eye, not a fact about the tree. The skill's 'A shown result closes the work' rule closes only an ordinary delivered result where a command, a test, or a plain read already confirms the goal was reached; here the stated goal itself ('easier to scan') is not the kind of thing test_board_matches_the_canon.py or any other artifact was built to confirm, and 'Nothing in the tree measures which is easier to scan, and no earlier decision settles it' is exactly the fixture ruling that out. That places it in the three reserved cases rule 12/27 carves out -- a taste call -- where the row's own eye is the actual gate, not a stand-in for something a command could equally confirm. So the Director holds the checkpoint open and puts the choice to the person instead of closing on its own.",
-  "skill_sha256": "55806109032985f9b7bb00a94242e7c6c112c67039fcfa7f58e6f9c2aee2d684",
-  "recorded": "2026-09-03"
+  "reasoning": "Both layouts are correct and pass the same test; nothing in the tree measures 'easier to scan' and no earlier decision settles it. Per 'A shown result closes the work; the human's own eye is never the gate on an ordinary delivery,' the Director only shows-and-closes when a command, a test, or a plain read already confirms the outcome — here the observable outcome has no artifact that settles which layout achieves it. This is one of the three reserved cases: a taste call, a trade-off no artifact settles, or a change to the definition of correct. Choosing between a single ranked column and a four-column layout, with no measurement to arbitrate, is a taste call about the experience — so the Director holds and asks rather than closing unilaterally.",
+  "skill_sha256": "b9e49a8a92cfc7352dd82617ed414b93fbfbb7a07f8a11fc8966690b26ee6a72",
+  "recorded": "2026-09-04"
 }

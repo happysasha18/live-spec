@@ -4,20 +4,17 @@
     "question",
     "decision",
     "instruction",
-    "question",
-    "instruction",
-    "observation",
     "observation"
   ],
   "creates_work": true,
   "shelves_idea": false,
   "attaches_to_existing_work": false,
-  "work_items": 1,
+  "work_items": 2,
   "dimensions": [
     "documentation and communication"
   ],
   "specialists": [],
-  "reasoning": "Reading the whole turn per 'One turn, several acts': (1) 'где был образец ридми' is a question, answered, no row. (2) 'всегда давай ссылку если я забыл' uses 'always' -- per 'A decision is a standing rule, not only a single choice', this is a standing rule recorded separately, not a task with its own sheet. (3) 'тебе [проект-B] даст идею, подхвати а пока работай' is an instruction, but its content is not yet known -- the idea hasn't arrived -- so per 'A request that stays amorphous once read is not accepted', there is nothing concrete to sheet yet; it is noted but produces no work item now, and 'а пока работай' only reaffirms continuing whatever is already running rather than naming a new goal, so it doesn't attach to or change existing work's goal/constraints either. (4) 'ты работаешь?' is a second, distinct question -- per 'No act absorbs another' it doesn't merge into the surrounding instructions. (5) 'давай план, замеры по времени, все пиши' is a clear, concrete instruction: the skill's own closing section says a request for a plan/status/report 'has asked for something to be made, and it is work like any other' -- this is the one accepted work item, touching documentation and communication (producing the plan/report itself), and per that same section it is the Director's own reporting job rather than something to hand to the communicator (which only covers wording of an existing result), so no specialist from the table is named. (6) 'через час выходим... но час у тебя точно есть' names a time limit without changing what the work must do -- per 'A correction is not a caution either', this is an observation the work should be paced by, not a correction. (7) 'потом из дому дозапущу' reports the human's own future action, a second observation, recorded as context, not work.",
+  "reasoning": "Six clauses, read to the end per 'One turn, several acts'. (1) 'где был образец ридми плиз?' is a Question. (2) 'всегда давай ссылку если I забыл' carries 'всегда', a Decision — a standing rule, recorded not built. (3) 'сейчас тебе [проект-Б] даст идею, подхвати а пока работай' is imperative, directing action on an idea about to arrive — an Instruction scoped to this occurrence, not a standing rule; its dimensions/specialists are Unknown pending that fact, so none are named for it specifically. (4) 'ты работаешь?' is a second, distinct Question. (5) 'давай план, замеры по времени, все пиши' is a second Instruction — per 'Work that belongs elsewhere,' asking for a plan/status is work like any other, touching documentation and communication. (6) 'через час выходим... но час у тебя точно есть' matches the skill's own pacing example almost verbatim — an Observation, not a correction. Two results a person could want independently (the plan document; the project-B idea taken up) make work_items = 2. Neither attaches to work already described as running, so both open fresh.",
   "scenario": "mixed-four-at-once",
   "skill_version": "6.1.0"
 }

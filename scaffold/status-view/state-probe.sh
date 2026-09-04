@@ -68,7 +68,7 @@ if not tasks:
           "\n  PLAN.template.md lands.%s" % (D, X))
     sys.exit(0)
 
-ICON_COLOUR = {"✅": G, "🔄": Y, "🔁": Y, "⛔": R, "👁️": Y, "⬜": D}
+ICON_COLOUR = {"✅": G, "🔄": Y, "🔁": Y, "⛔": R, "⬜": D}
 
 # Every row still open, plus every row whose done mark its own command contradicts. Finished work
 # stays off: the plan itself holds it, and a list of everything ever done answers nothing.

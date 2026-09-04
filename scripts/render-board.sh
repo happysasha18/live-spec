@@ -102,8 +102,8 @@ def split_body(body_lines):
 # task with none is DECLARED — its mark is the only claim, and the page says so plainly rather
 # than pretending it was measured (law 3: every accepted task has a command and an observable
 # result; a task without one is a wish, not a fact). A checked task that fails its command
-# falls back to its own mark (🔄/⛔/👁️/⬜) rather than a flat "not done" — the new mark
-# vocabulary already distinguishes those states, unlike the plan's old x/~/!/space marks.
+# falls back to its own mark (🔄/⛔/⬜) rather than a flat "not done" — the mark vocabulary
+# already distinguishes those states, unlike the plan's old x/~/!/space marks.
 # A done mark is the one exception: a ✅ whose command fails used to print itself back as ✅
 # and land in the Done column, so the key could never contradict the mark it was written to
 # test (adversarial review, 28.08). Such a card no longer counts as done. It landed in Blocked
@@ -111,7 +111,10 @@ def split_body(body_lines):
 # work, and blocked is a different state — a real outside cause, held in blocked_by. It then
 # went to Not started for the rest of that same day, until he named a third confusion: not
 # started means never begun, and this row was done and is done no longer — reopened, its own
-# state, marked 🔁, drawn below in the in-progress column since the work is live again.
+# state, marked 🔁, drawn below in the in-progress column since the work is live again. (👁️
+# "needs his eyes" retired 2026-09-04, his standing word: needing a person's word is a question
+# asked in the reply, never a task state; ⛔ "blocked" stays, narrowed the same day to a real
+# outside cause — an expired key, a dead credential, a service that is down.)
 for s in steps:
     paragraphs, bullets, accept = split_body(s["body"])
     s["paragraphs"], s["bullets"], s["accept"] = paragraphs, bullets, accept
@@ -122,13 +125,13 @@ for s in steps:
 evaluate(steps)
 
 # ---------------------------------------------------------------- assign one column each
-# Same four columns as before the task-list merge. The board can show every task (it is a
+# Same four columns as before the task-list merge (Blocked narrowed, not retired, 2026-09-04 —
+# 👁️ dropped out of it, ⛔ stays for a real outside cause). The board can show every task (it is a
 # page, not the chat Canon), so — unlike state-probe.sh, which has to ration lines — a task's
 # own mark decides its column directly. What each mark means is not decided here: that has one
 # home, ~/.claude/playbook/CLAUDE.md, "How a reply to him looks", including the rule that two
 # tasks may run side by side. This map is only which column each mark lands in: ✅ (or a passing
-# command) is Done; 🔄 is In progress, several at once; ⛔ and 👁️ both land on Blocked — a task
-# needing his eyes can't move without him either; ⬜ is Not started.
+# command) is Done; 🔄 is In progress, several at once; ⛔ lands on Blocked; ⬜ is Not started.
 #
 # The column's own sub-line used to read "waiting on the owner's word", which named only half of
 # what the column holds (the adversarial read of 2026-08-31). It names what the column actually
@@ -140,7 +143,7 @@ for s in steps:
         s["column"] = "done"
     elif s["icon"] in ("🔄", "🔁"):
         s["column"] = "inwork"
-    elif s["icon"] in ("⛔", "👁️"):
+    elif s["icon"] == "⛔":
         s["column"] = "blocked"
     else:
         s["column"] = "backlog"
@@ -149,23 +152,8 @@ COLUMNS = [
     ("backlog", "Not started", "waiting in queue"),
     ("inwork", "In progress", "in the pipeline right now"),
     ("done", "Done", "verified by its acceptance command"),
-    ("blocked", "Blocked", "cannot move on this side — each card says why"),
+    ("blocked", "Blocked", "a real outside cause stops it — each card says why"),
 ]
-
-# ---------------------------------------------------------------- blockers (§Blockers)
-# Shown once, off to the side — the same list state-probe.sh already prints, not a second
-# board (WAITING.md is its own separate board for a separate thing: what waits on his eyes
-# mid-conversation. PLAN.md's §Blockers is project-decision blockers; the two stay distinct).
-blockers = []
-in_blockers = False
-for line in lines:
-    if line.strip() == "## Blockers":
-        in_blockers = True
-        continue
-    if in_blockers and line.startswith("## "):
-        break
-    if in_blockers and line.strip().startswith("- **"):
-        blockers.append(line.strip()[2:])
 
 # ---------------------------------------------------------------- git state (same facts state-probe.sh shows)
 def git(*args):
@@ -343,18 +331,6 @@ for key, label, sub in COLUMNS:
     %s
   </div>""" % (esc(label), head_count, esc(sub), body)
 
-blockers_html = ""
-if blockers:
-    # Each blocker is captured as one line (the same first-line-per-finding convention
-    # state-probe.sh's own printout uses; the full multi-paragraph finding stays in PLAN.md
-    # itself), which can cut a **bold** or `code` span in half — close it before rendering so
-    # no stray marker survives into the page.
-    blockers_html = "<ul>%s</ul>" % "".join(
-        "<li>%s</li>" % render_inline_md(balance_markup(b)) for b in blockers
-    )
-else:
-    blockers_html = "<p class='empty'>no blockers</p>"
-
 page = """<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -393,10 +369,6 @@ page = """<!DOCTYPE html>
   code {{ font: 85% ui-monospace, SFMono-Regular, Menlo, monospace; background: #8882; padding: .05rem .3rem; border-radius: 4px; }}
   .accept {{ margin: .4rem 0 0; opacity: .85; }}
   .empty {{ opacity: .5; font-size: .85rem; }}
-  .blockers {{ margin-top: 1.6rem; }}
-  .blockers h2 {{ font-size: .95rem; }}
-  .blockers ul {{ padding-left: 1.2rem; }}
-  .blockers li {{ margin: .35rem 0; }}
   .git {{ font-size: .82rem; opacity: .65; margin-top: 1.6rem; }}
 </style>
 </head>
@@ -406,11 +378,6 @@ page = """<!DOCTYPE html>
 <div class="stamp">Updated {now} · branch {branch} · {head_sha} "{head_subj}"{dirty_note}{ahead_note}</div>
 
 <div class="board">{columns}</div>
-
-<div class="blockers">
-  <h2>Blockers</h2>
-  {blockers}
-</div>
 
 <div class="git">This page reads PLAN.md and runs the same acceptance commands as scripts/state-probe.sh — there is no second source of state.</div>
 
@@ -425,7 +392,6 @@ page = """<!DOCTYPE html>
         dirty_note=" · uncommitted files: %d" % dirty if dirty else " · tree clean",
         ahead_note=" · not pushed: %s" % ahead if ahead != "0" else "",
         columns=columns_html,
-        blockers=blockers_html,
     )
 
 with open(out_path, "w", encoding="utf-8") as f:
@@ -435,5 +401,5 @@ with open(out_path, "w", encoding="utf-8") as f:
 # and it needs a window nobody agreed on to mean anything. The page still holds every closed card in
 # its own column, where each one says what it was; this line reports only what is still open.
 _open_steps = sum(1 for s in steps if s["icon"] != "✅")
-print("written: %s (%d open, %d blockers)" % (out_path, _open_steps, len(blockers)))
+print("written: %s (%d open)" % (out_path, _open_steps))
 PYEOF

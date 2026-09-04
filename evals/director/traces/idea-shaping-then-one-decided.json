@@ -2,8 +2,6 @@
   "id": "idea-shaping-then-one-decided",
   "acts": [
     "idea",
-    "idea",
-    "idea",
     "instruction"
   ],
   "creates_work": true,
@@ -11,14 +9,12 @@
   "attaches_to_existing_work": false,
   "work_items": 1,
   "dimensions": [
-    "product value and behaviour",
     "architecture, data, integrations, operations"
   ],
   "specialists": [
-    "Developer",
-    "Test author"
+    "Developer"
   ],
-  "reasoning": "Per 'One turn, several acts', the turn is read whole and every act named separately: the telegram-bot-for-canon, dark-theme, and terminal-instead-of-html mentions are three distinct idea acts (no act absorbs another), and the closing clause upgrades the board-auto-open-after-push idea into an instruction ('делаем сейчас только X') rather than double-counting it as idea-plus-instruction, matching how a resolved idea 'just became the instruction it was waiting to become'. Since nothing is in flight (checkpoint closed an hour ago, fresh exchange), this is an idea/instruction split, not a correction, so attaches_to_existing_work is false and creates_work/work_items reflect one new piece of work. The other three ideas are named with enough content to state why they'd be queued (a concrete goal each), and the person's own 'держим в голове' is exactly the disposition the 'Idea for later' row assigns to a real, worth-keeping idea not asked for now -- so they shelve rather than vanish as passing thoughts. The single accepted instruction (auto-open the board after push) touches product behaviour (new behavior after push) and the operations/integration dimension (it has to hook into the push mechanism), per the 'what does it touch?' dimensions list; per the specialists table, a Developer builds it and a Test author supplies the evidence line the decision sheet requires, mirroring the worked example's sizing for a small, well-understood change.",
+  "reasoning": "The turn opens with an explicit invitation to brainstorm ('давай накидывать идеи') and lists four possibilities. Per 'One turn, several acts', each named possibility is its own act, but the closing sentence resolves them: 'из этого делаем сейчас только автооткрытие борды после пуша, остальное просто держим в голове' names the thing being asked for now — matching 'An idea is not an instruction... The difference is whether the person is asking for the thing now' — so the board item converts to an instruction in the same breath ('The idea just became the instruction it was waiting to become'). Since nothing is in flight, this is new work, not an attachment. The other three possibilities stay ideas: the person's own word explicitly declines to queue them ('держим в голове'), pre-emptively giving the answer the Director's own live question would otherwise seek — that word is no, landing them in the 'passing thought is answered and not recorded' outcome even though the idea rule nominally requires a live question first; here the person has already answered it unprompted. The accepted work — opening the board automatically after a push — is small tooling integrated into the push flow, touching 'architecture, data, integrations, operations' and needing only a Developer.",
   "scenario": "idea-shaping-then-one-decided",
   "skill_version": "6.1.0"
 }

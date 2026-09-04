@@ -1,6 +1,6 @@
 ---
 name: live-spec-base
-description: Load before using any live-spec pack skill: director, spec-author, product-prover, design-reviewer, architect, build-pipeline, test-author, communicator, feedback-intake, feedback-collector, text-audit, publish. Load it also before briefing a worker that will write files, or to resolve shared rules and settings. It is the one home for the shared rules — twenty-three rules in the body, each stated as one instruction. It carries on-demand reference modules under `references/` — the glossary, the worked examples, the settings ladder, the worker-restore wording, the session handover, and rule-origins, which holds each rule's citation, history, justification, and worked example — each opened only when its own kind of question needs resolving.
+description: "Load before using any live-spec pack skill: director, spec-author, product-prover, design-reviewer, architect, build-pipeline, test-author, communicator, feedback-intake, feedback-collector, text-audit, publish. Load it also before briefing a worker that will write files, or to resolve shared rules and settings. It is the one home for the shared rules — twenty-five rules in the body, each stated as one instruction. It carries on-demand reference modules under `references/` — the glossary, the worked examples, the settings ladder, the worker-restore wording, the session handover, and rule-origins, which holds each rule's citation, history, justification, and worked example — each opened only when its own kind of question needs resolving."
 metadata:
   version: 6.1.0
 ---
@@ -147,6 +147,12 @@ its own manifest line. Every other rule below keeps the number it already carrie
    - **Worktree isolation on overlap.** So worktree isolation is the default when two lanes'
      write-sets overlap. A shared file one lane holds open is never written by another (SPEC
      INV-105).
+   - **A worker may open workers of its own** when its piece is large enough to split, unless the
+     person has said otherwise. The same conditions bind the nested lane as the first: it carries
+     its own row from the board, its own worktree where write-sets overlap, and a merge known to be
+     clean before it opens. A nested worker reports through the one that opened it, and that one
+     answers for the result — a report passed upward unread is how a session comes to believe work
+     that never ran.
    - **Brief-time disjointness** — before spawning another concurrent writer, the seat confirms its
      brief's write-set is disjoint from every already-running writer's brief, or gives it an
      isolated worktree at brief-time (SPEC ACT-3, INV-11).
@@ -289,10 +295,29 @@ its own manifest line. Every other rule below keeps the number it already carrie
 
     — `guardrails/check-earned-message.py`.
 
-36. **Who the person is, by default, and what changes that.** Write by default for a non-technical
-    reader: no gate letters, requirement codes, file:line pins, or script names in what they read.
-    Deepen the register only when they show that depth themselves. Offer a richer view; never
-    impose it. One item, one name, on every surface. — `guardrails/check-language-rules.py`.
+36. **Who the person is, by default, and what changes that.** The person owns the project and
+    asked for an outcome. They are not the one driving the work: the pack drives, and they ride and
+    say where to go. Assume they cannot read the code, do not know the pack's own machinery, and
+    should never have to — what reaches them is the outcome, in the words they would use for it.
+    They are the one who decides what is worth building and whether what came back is right, and
+    that is the only judgement the work ever waits on. This person stays the same whatever the project
+    is: the one who commissioned it. A project's README names who its PRODUCT is built for, which is
+    a different person and a different question — it shapes what gets built and how the product
+    speaks to its own users, and it never changes who the session is talking to. Write by
+    default for a non-technical reader: no gate letters, requirement codes, file:line pins, or
+    script names in what they read. Deepen the register when they ask for the technical detail, or
+    when they named the technical choice themselves. Offer a richer view; never impose it. One
+    item, one name, on every surface.
+
+    Three things never reach them. "Blocked" for work that is merely waiting: blocked means
+    something outside the work has stopped it — an expired key, a dead credential, a service that
+    is down — and nothing else. A task whose content is getting the person's word: what needs their
+    judgement is asked as a question in the reply, and it is never a task and never a status. An
+    invented status: the marks are the five in the plan's own list, and a session adds none.
+
+    Report a result flat. The connective phrases that grade the work while reporting it — "exactly
+    where you said", "just as we planned", "as expected" — carry no information and read as a person
+    covering themselves; say what happened and stop.
 
 37. **Every plan names what it must not touch.** Before acting, state what already works and stays
     out of scope — the parts this change deliberately leaves alone — and confirm the blast radius
@@ -300,6 +325,51 @@ its own manifest line. Every other rule below keeps the number it already carrie
     task asks, and breaking a working thing by it, is the mistake this rule exists to stop (playbook
     `PLAYBOOK.md`, 2026-06-20). — prose-only, no dedicated check.
 
+
+38. **The shape of a reply, and the order the rows are printed in.** Every reply opens with the
+    time, then the project's own list of open rows with their marks, printed by the status script
+    and carried over as printed — never retyped, never reordered to suit the sentence that follows.
+    Then the reply says which row it belongs to, or says it belongs to none. The order of the list
+    is fixed so it never moves under the person: rows closed since the last push first, and they
+    leave the list once that push lands; then the rows in hand; then the blocked ones, since
+    something outside has stopped them and only a person can unstick it; then the ones that came
+    back because their check stopped passing; then the queue. Inside a group, the project's own
+    priority leads, and equal priority keeps the order the rows were added. Several rows stand in
+    hand at once whenever lanes run in parallel, and the list shows every one of them; the next
+    move is the topmost row nobody is working yet. Taking another row in parallel changes nothing
+    about the order and is said as plainly as any other work starting. What is said with its reason
+    is a change to the order itself — a row overtaking another, or the topmost free row becoming a
+    different one because a priority moved.
+
+    The list carries no sections. Where a project already has a cluster of work everybody names the
+    same way, and that name is one to three plain words a person would recognise on sight — a
+    feature's own name, a release, a surface — the row's title may carry it before a colon
+    (`Darkroom: the room remembers the last print`). A cluster invented for the sake of grouping is
+    the failure this allowance exists to avoid: no name that obvious, no prefix.
+
+    This shape reaches the workers too. A brief opens with the time and names the row, or the group
+    of rows, the work belongs to, and a worker's report comes back naming the same row. Rows on the
+    board are the one language every side of the work speaks: a brief that names no row is work
+    nobody asked for, and that is the check the brief has to pass before it is sent.
+
+    A brief that ends in a long run says how to wait for it. A command past the shell's own
+    foreground limit is moved to the background, and a background result reaches the session that
+    opened the worker rather than the worker itself — so a worker that waits for one ends its turn
+    and the work stops there, finished but unreported. Arming a watcher on the run does the same
+    thing, and is the shape workers reach for first. **A worker waits by polling and by nothing
+    else**: a loop that sleeps under the foreground limit, checks the run's own output for a line
+    that only appears at its end, and repeats until it does. The brief says so in those words. This
+    cost four stalled lanes in one night before it was written down.
+
+39. **Nothing new is built to serve the process itself.** No new gate, hook, configuration,
+   counter, threshold, registry or exception list enters the tree without an outside source or an
+   incident that already happened; a number pulled from the air is refused outright, and a
+   threshold that exists moves in one direction only — down. Writing yourself into a gate's
+   exception list to get a change through is the same failure seen from the other side. When a
+   check refuses the work, the answers are to fix the work, or to remove the check and say why it
+   was wrong; widening it for this one case is neither. Deletion is the preferred repair: a rule,
+   a script or a promise nobody keeps leaves the tree rather than gaining machinery that explains
+   its absence.
 
 ## Work that belongs elsewhere
 

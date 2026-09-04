@@ -243,8 +243,8 @@ Every design-review finding carries a confidence read of one of two values.
 
 - **`confident`** — you would defend the grouping and the divergence on the spec text alone. Write a
   confident finding as a **recommendation**. A same-kind divergence over an undeclared grouping has no
-  stated invariant behind it. So by the prover's own derivation [INV-140] it queues as a queue row for
-  a taste call, and it never blocks.
+  stated invariant behind it. So by the prover's own derivation [INV-140] it is written into the review
+  record and ends there, and it never blocks.
 - **`likely`** — the deciding fact lives only in the human's intent: whether the two are truly one
   kind. Write a likely finding as one **question to the human**. Raise it only when the signal clears
   the strong-signal bar under "The echo channel" below.
@@ -312,8 +312,8 @@ the elements the declaration re-partitions, together with any new element a prov
 prover re-read followed by one design-review re-read is a round. A round that produces a new class
 sentence or a new decided sentence is a **progressing round**.
 
-A round's other outputs stay where they are. A confident finding queues as a recommendation for a
-taste call. A likely finding rides as a question the human may answer later. Neither re-reads the spec
+A round's other outputs stay where they are. A confident finding is written into the review record as a recommendation and ends
+there. A likely finding rides as a question the human may answer later. Neither re-reads the spec
 on its own, so neither advances the loop.
 
 When a round produces no new declaration, the loop rests in one of three ways. Each rest is named on
@@ -321,7 +321,7 @@ the record.
 
 - It **converges** when the design review ran and left no open question. It also needs no new grouping
   the human must still rule on. Every grouping it proposes is already declared, already decided, or
-  already standing as a queued recommendation from an earlier round. A standing recommendation is a
+  already standing as a recommendation written into the record from an earlier round. A standing recommendation is a
   settled output and does not bar convergence.
 - It **waits** when the round's findings include a question the human has not yet answered. The held
   question resumes the loop when the human later answers it [INV-59].
@@ -382,7 +382,7 @@ The record opens by naming the design-reviewer skill version that ran the pass. 
 
 | Value | Meaning |
 |---|---|
-| `recommended` | a confident finding queued for a taste call |
+| `recommended` | a confident finding written into the review record |
 | `asked` | a likely finding put to the human |
 | `answered(alike)` | an ask the human resolved as one kind |
 | `answered(different-by-intent)` | an ask the human resolved as a deliberate difference |

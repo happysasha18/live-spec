@@ -1,9 +1,9 @@
 {
   "scenario": "close-on-a-plain-read-with-no-command",
-  "label": "VM",
+  "label": "ZT",
   "closes": true,
   "reason_kind": "ordinary delivered result",
-  "reasoning": "The paragraph is a buildable result confirmed by a plain read: the Director read it back against the files it describes and every fact checks out. Under 'A shown result closes the work,' this is exactly what closes immediately once verified -- the human's own eye is never the gate on an ordinary delivery. None of the reserved cases apply: no taste is being judged (the wording itself isn't in question, and 'nobody has raised a question about the wording' forecloses that), no trade-off is left for an artifact to settle, no definition of correct changed, and adding a documentation paragraph is trivially reversible in git, so rule 12's irreversible-action carve-out doesn't trigger either. Since none of the three reserved cases (or the irreversible-action case) hold, the row cannot be held open by naming 'his own eye' as the gate -- the checkpoint closes now.",
-  "skill_sha256": "55806109032985f9b7bb00a94242e7c6c112c67039fcfa7f58e6f9c2aee2d684",
-  "recorded": "2026-09-03"
+  "reasoning": "This is accepted instruction work that has reached the closing rule: the paragraph's claims were checked directly against the files it describes — the plain-read equivalent of a command-checked result. Nothing here matches the three reserved exceptions: it is not a taste call (the wording itself is not being judged), not a trade-off no artifact settles, and not a change to the definition of correct (it states a fact about what now exists). So this is an ordinary buildable result a plain read already confirms was delivered, and the Director shows the result and closes the checkpoint in the same step.",
+  "skill_sha256": "b9e49a8a92cfc7352dd82617ed414b93fbfbb7a07f8a11fc8966690b26ee6a72",
+  "recorded": "2026-09-04"
 }

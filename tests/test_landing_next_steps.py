@@ -567,8 +567,9 @@ def _load_gate_module():
 def test_a_done_mark_carrying_a_variation_selector_is_still_a_done_mark():
     """`✅` and `✅️` are one mark on the board and two strings to a comparison. Reading the mark as
     typed let a heading marked done with the selector count as some other mark entirely: the row
-    read done to the eye, and the commit that set it was asked for no resume refresh. PLAN.md
-    already writes `👁️` with a selector, so this is the plan's own spelling, not an exotic one."""
+    read done to the eye, and the commit that set it was asked for no resume refresh. A keyboard
+    can type either spelling of any mark, so this is a real spelling of the plan's own vocabulary,
+    not an exotic one."""
     gate = _load_gate_module()
     plain = gate.parse_plan_heading("### ✅ A task — id: q-1")
     selected = gate.parse_plan_heading("### ✅️ A task — id: q-1")
@@ -589,6 +590,8 @@ def test_the_boards_own_parser_agrees_with_the_gate_on_that_mark():
     spec.loader.exec_module(plan_checks)
     assert plan_checks.normalize_mark("✅️") == "✅"
     assert plan_checks.normalize_mark("✅") == "✅"
-    # The eye keeps its selector, since without one it renders as a monochrome glyph.
-    assert plan_checks.normalize_mark("\U0001f441") == "\U0001f441️"
-    assert plan_checks.normalize_mark("\U0001f441️") == "\U0001f441️"
+    # 👁️ retired 2026-09-04 (his standing word: needing a person's word is a question asked in
+    # the reply, never a task state) — a row still wearing it, selector or not, reads as ⬜ queued
+    # rather than falling through as a spelling no reader recognizes.
+    assert plan_checks.normalize_mark("\U0001f441") == "⬜"
+    assert plan_checks.normalize_mark("\U0001f441️") == "⬜"

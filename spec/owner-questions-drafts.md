@@ -153,15 +153,15 @@
 
 ## Requirement 69: Every design review finding carries a confidence read, and a strong likely one becomes one question
 
-**Context:** Each design review finding carries a confidence read of confident or likely. A confident finding is written as a recommendation that queues and never blocks; a likely finding is written as one question to the human with both objects in hand, raised only when the signal is strong. At most three such questions ride per pass, strongest first, and an unanswered question is held quietly for the person.
+**Context:** Each design review finding carries a confidence read of confident or likely. A confident finding is written as a recommendation that is recorded and never blocks; a likely finding is written as one question to the human with both objects in hand, raised only when the signal is strong. At most three such questions ride per pass, strongest first, and an unanswered question is held quietly for the person.
 
-**User Story:** As a person the design review would ask, I want a confident finding queued and a strong likely one raised as one batched question, so that the strongest genuine questions reach me without the lane ever waiting on them.
+**User Story:** As a person the design review would ask, I want a confident finding recorded and a strong likely one raised as one batched question, so that the strongest genuine questions reach me without the lane ever waiting on them.
 
 ### Acceptance Criteria
 
-**Case: confident queues, likely asks**
+**Case: confident is recorded, likely asks**
 
-1. The system *shall* write a confident finding as a recommendation that queues and never blocks, a finding being confident *when* the reviewer would defend the grouping and the divergence on the spec text alone. [INV-142, INV-140]
+1. The system *shall* write a confident finding as a recommendation that is recorded and never blocks, a finding being confident *when* the reviewer would defend the grouping and the divergence on the spec text alone. [INV-142, INV-140]
 2. The system *shall* write a likely finding as one question to the human with both objects and each object's spec sentence, raised only *when* the shared role fits one plain sentence, the difference is a whole behaviour one member lacks, and no spec sentence already decides it. [INV-142, INV-141]
 
 **Case: the batched channel and the held question**

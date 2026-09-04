@@ -63,7 +63,7 @@ _PROBE_LINE_RE = re.compile(
     # stopped calling such a row verified; reading only the first two dropped every one of those
     # lines from the count, and the accounting below then reported tasks lost that were sitting
     # on the screen.
-    r"^(\S+)\s+(✅|🔄|🔁|⛔|⬜|👁️)\s+.+?\s+(?:verified|declared|marked done)"
+    r"^(\S+)\s+(✅|🔄|🔁|⛔|⬜)\s+.+?\s+(?:verified|declared|marked done)"
     r"(?:\s+—\s+.+?)?(?:\s*<-- NEXT)?\s*$"
 )
 # state-probe.sh's summary line: "  … N open · M more below · full list in PLAN.md / board.html"

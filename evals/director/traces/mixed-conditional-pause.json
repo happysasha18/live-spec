@@ -2,8 +2,7 @@
   "id": "mixed-conditional-pause",
   "acts": [
     "question",
-    "halt",
-    "observation"
+    "halt"
   ],
   "creates_work": false,
   "shelves_idea": false,
@@ -11,7 +10,7 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "Reading the whole turn per 'One turn, several acts': first there is a Question/musing ('ну как там? долго еще?') asking for status, which per the table gets an answer, not a roadmap row. Second, 'может на паузу поставим... через пару часов' is a Halt: 'A halt is about state, not about words' -- pausing running work is literally 'be parked' from the Halt row, and the polite 'может' phrasing does not make it an idea, since the real constraint given ('надо этот комп отключить ненадолго') shows a genuine ask, not idle musing (the skill: do not decide by wording, e.g. 'maybe we should'). The trailing 'но если там еще минут 10 то могу подождать' is the same conditional's other branch under 'A conditional request states both branches, and both are real' -- here both branches (pause-and-rerun-later vs. let-it-finish) are about the fate of the same running job, not a distinct instruction/idea split, so it stays part of the one Halt act rather than spawning a new act. The stated need to shut down the computer is grounds restating the halt's own goal ('Grounds stated with an act carry their own act only when they say something new'), so it is not counted separately. A Halt 'must not create anything' and, per the task definitions, 'a correction/halt that only changes work already running still produces 0 new items' -- so creates_work is false and work_items is 0, while attaches_to_existing_work is true because the halt changes the state of the job already in flight. Nothing here is 'an idea for later' being shelved. Per Execution, 'a question, an idea, an observation or a halt gets no sheet,' so no dimensions or specialists apply.",
+  "reasoning": "'ну как там? долго еще?' is a genuine status/ETA Question, answered directly, no sheet. The rest is a halt on the running job, worded as a conditional: pause and resume in a couple hours if long, or wait ~10 minutes if short. This matches the Halt row — 'на паузу поставим' is 'be parked' — and per 'A conditional request states both branches, and both are real', the person has already said what to do in each case; the Director resolves which branch applies once it knows the ETA. 'надо этот комп отключить ненадолго' is the halt's own grounds, not a second act. Because the two acts present are Question and Halt, no decision sheet is written: creates_work is false, no new work_items, dimensions and specialists stay empty, and the halt only changes the state of the work already running.",
   "scenario": "mixed-conditional-pause",
   "skill_version": "6.1.0"
 }

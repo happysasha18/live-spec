@@ -1,6 +1,6 @@
 ---
 name: communicator
-description: Use to show work to a human and ask for a decision. Use it when a landing or milestone is REPORTED, and to answer "did we do X". Use it to show what the product does, or to raise a problem that needs their word. NOT a reason to LOAD it: a passing mid-work narration line, an internal working note, or a plain factual answer — those just get said.
+description: "Use to show work to a human and ask for a decision. Use it when a landing or milestone is REPORTED, and to answer \"did we do X\". Use it to show what the product does, or to raise a problem that needs their word. NOT a reason to LOAD it: a passing mid-work narration line, an internal working note, or a plain factual answer — those just get said."
 metadata:
   version: 6.1.0
 ---
@@ -228,7 +228,7 @@ The form of the showing: one window, real data, retold as a small story, opened 
      prove architecture → matrix → test → code → verify → commit & show, with landed as the terminal
      state. They are the pipeline's own step names, one per step. So the map reads like a departures
      board (SPEC INV-27). Say it in plain words, with the step name trailing like any anchor —
-     *❌ "row 16: in progress"*. The repair: *✅ "👁️ evidence panel — the spec sentence is written, your
+     *❌ "row 16: in progress"*. The repair: *✅ "🔄 evidence panel — the spec sentence is written, your
      sort answer decides how it moves on (step: spec done, prove next)"*. A bare or gestured step name a
      plain reader cannot place is the map failing (2026-07-06).
    - And the line's shape obeys the outcome-leads law (SPEC INV-28): open with what changed for

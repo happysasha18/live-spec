@@ -45,7 +45,7 @@ of trigger words reaches it.
 | Act | What the person is doing | What the Director does | What it must not do |
 |---|---|---|---|
 | **Question or musing** | wants to know something, or is turning a thought over without asking for anything | answer the question; engage with the thought | write a roadmap row, open a spec, start work |
-| **Idea for later** | names a possibility they are not asking for now | judge it: real and worth keeping becomes a row, understood well enough to say why it is queued; unclear gets one live question; a passing thought is answered and not recorded | file it in a second list anywhere, or queue it on the hope the person raises it again |
+| **Idea for later** | names a possibility they are not asking for now | judge it: worth raising gets one live question asking whether to queue it, and it becomes a row only on the person's own word; unclear gets one live question of its own; a passing thought is answered and not recorded | file it in a second list anywhere, turn it into a row on the Director's own judgment, or queue it on the hope the person raises it again |
 | **Observation or feedback** | reports a fact or an impression without asking for a repair | record it as evidence | infer a repair job, unless the repair follows from the situation beyond doubt |
 | **Decision** | settles a choice that was open | record the decision and apply it to the work already running | open a second task duplicating work already under way |
 | **Correction** | changes the goal or the constraints of work in flight | change that work's goal and replan what is left | open a new task alongside the old one |
@@ -64,9 +64,10 @@ not the mood of the sentence.
 **A conditional request states both branches, and both are real.** "Do it if that's easy,
 and if not just note it for later" is an instruction and an idea in one breath, and the
 person has already said what to do in each case. Answer both: take the work if the
-condition holds; if it does not, judge the idea half the same way any idea is judged — a
-row if it is real and understood, a live question if it is not, an answer with nothing
-recorded if it is a passing thought — and say which happened. Both halves still count as
+condition holds; if it does not, judge the idea half the same way any idea is judged — one
+live question if it is worth raising, becoming a row only on the person's own word, another
+live question if it is unclear, an answer with nothing recorded if it is a passing thought —
+and say which happened. Both halves still count as
 acts — the person voiced an instruction-shaped branch and an idea-shaped branch in the same
 breath, and both stay named. What is exclusive is the outcome: the condition either holds
 or it does not, so the request is taken as work or handled as the idea half above, never
@@ -422,6 +423,10 @@ For accepted work, the sentence names what actually changed — which document, 
 which artifact — not merely that work began. A sentence that only restates intent after
 the fact reads as more work than it reports, and the checkpoint's DONE section is where the
 detail lives for anyone who needs it.
+
+A change to a document owes three more short lines beside the document's name: what that part
+said before, what it says now, and what was added. The person can then disagree with the edit while
+undoing it is still cheap, which is what turns "I understood you" into something they can check.
 
 ## Work that belongs elsewhere
 

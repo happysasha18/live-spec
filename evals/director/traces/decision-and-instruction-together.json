@@ -1,8 +1,8 @@
 {
   "id": "decision-and-instruction-together",
   "acts": [
-    "instruction",
-    "decision"
+    "decision",
+    "instruction"
   ],
   "creates_work": true,
   "shelves_idea": false,
@@ -12,9 +12,10 @@
     "release, observation, feedback"
   ],
   "specialists": [
-    "Publisher, communicator"
+    "Publisher",
+    "communicator"
   ],
-  "reasoning": "This message is close to the skill's own worked example under 'No act absorbs another': 'always deploy without asking, and deploy this one' grants authority going forward and asks for today's deploy in the same breath. The Russian message does the same -- 'деплой блин!!' demands the withheld build ship now (an instruction), and 'запиши себе всегда деплой без моего подтверждения' settles a standing rule beyond this message, matching 'A decision is a standing rule, not only a single choice' ('note this for yourself... always' settles force beyond the message that carried it). Per that section, the decision 'travels with the request and gets recorded separately, so the rule survives after that work item closes' -- it is not itself a second piece of engineering work, so it doesn't add a work item. Because the fixture states the withholding was 'a standing policy, not a tracked task' rather than tracked work, there is no existing checkpoint for either the instruction or the decision to attach to or correct, so attaches_to_existing_work is false and the instruction opens fresh work per Execution's 'New work opens a checkpoint before the first specialist is called.' Dimensions touch only release ('release, observation, feedback' from the dimensions list), since shipping the already-ready build is what changes. Specialists: the Publisher/communicator row applies directly -- 'the result ships and has to be explained.'",
+  "reasoning": "This is the skill's own worked case under 'No act absorbs another': 'always deploy without asking, and deploy this one' grants authority going forward and asks for today's deploy in the same breath. 'запиши себе всегда деплой без моего подтверждения' is a standing rule, recorded separately from the work. 'деплой блин!!' is the instruction half: the build is ready and this is a demand to ship it now. Since shipping this build was never checkpointed as its own work, the instruction opens fresh work rather than attaching to something in flight. The decision is recorded as a standing rule, not as its own work item, so work_items is 1. Dimensions: shipping an already-ready build touches only 'release, observation, feedback'. Specialists: 'Publisher, communicator | the result ships and has to be explained' matches exactly; no developer, spec author, architect, or test author is needed since nothing is being built.",
   "scenario": "decision-and-instruction-together",
   "skill_version": "6.1.0"
 }

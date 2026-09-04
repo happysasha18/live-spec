@@ -333,7 +333,7 @@
 
 ## Requirement 184: A restructure or migration merge gate judges the delta
 
-**Context:** When a restructure or a migration is gated for merging back into main, the gate judges the delta rather than re-proving the untouched whole. It has three parts and routes pre-existing findings to the queue instead of blocking on them.
+**Context:** When a restructure or a migration is gated for merging back into main, the gate judges the delta rather than re-proving the untouched whole. It has three parts and states pre-existing findings in the review record instead of blocking on them.
 
 **User Story:** As a person merging a restructure or migration, I want the gate to judge only the delta, so that a large reorganization is verified without re-proving what it did not touch. [INV-114]
 
@@ -343,7 +343,7 @@
 
 1. *when* a restructure or migration is gated for merge, the system *shall* judge the delta in three parts: load-bearing token identity old-versus-new except the per-chunk named deltas plus the punctuation-multiset check; the full suite green on the merged tree; and a prover pass on both sides whose blocking set is scoped to the delta. [INV-114, INV-111, INV-39]
 2. The system *shall* block on an unmatched token, a red suite, a new-side finding absent on the old side, or an unnamed meaning change. [INV-114]
-3. *when* a finding is present and equal on both sides, the system *shall* route it to a queue row in the same delivery and *shall* not block on it. [INV-114]
+3. *when* a finding is present and equal on both sides, the system *shall* state it in the review record of the same delivery and *shall* not block on it. [INV-114]
 
 **Case: a deliberate redesign**
 

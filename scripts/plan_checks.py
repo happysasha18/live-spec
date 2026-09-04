@@ -5,8 +5,11 @@ therefore holds only prose, and the commands that decide whether a task is reall
 here, keyed by the task's stable id (`plan-N` for a step carried over from the plan's own
 numbered steps, `q-NNN` for a row folded in from the former ROADMAP.md queue) — stable across
 title edits, unlike the title text. A task with no entry here falls back to the mark a person
-typed in the plan (✅ · 🔄 · ⬜ · ⛔ · 👁️). A task with no check is reported DECLARED, not
-invented — that is existing, correct behaviour, not a gap to fill.
+typed in the plan (✅ · 🔄 · 🔁 · ⬜ · ⛔ — five marks since 2026-09-04, his word: 👁️
+"needs his eyes" retired, needing a person's word is a question asked in the reply, not a task
+state; ⛔ "blocked" stays, narrowed to a real outside cause — an expired key, a dead credential, a
+service that is down — never merely waiting on someone). A task with no check is reported
+DECLARED, not invented — that is existing, correct behaviour, not a gap to fill.
 
 **Every command below names this project's own files, and belongs to this project alone.** How a
 plan is PARSED, how a mark is spelled, and how a row's state is computed from its command are a
@@ -16,10 +19,10 @@ board (`adopt/install-status-view.sh`) and write its own commands in its own cop
 instead of inheriting the table below.
 
 The readers of the plan import this module rather than the core: `scripts/state-probe.sh` (the
-Canon a session prints at its start), `scripts/render-board.sh` (the same Canon as a page) and
-`scripts/check-eyes-marker.py`. They get `parse_tasks` with this project's own commands already
-attached, so no reader has to know the check map exists — one home means two callers cannot
-disagree about what a task's mark, group, priority or source is.
+Canon a session prints at its start) and `scripts/render-board.sh` (the same Canon as a page).
+They get `parse_tasks` with this project's own commands already attached, so no reader has to know
+the check map exists — one home means two callers cannot disagree about what a task's mark, group,
+priority or source is.
 """
 
 from plan_checks_core import (  # noqa: F401  (re-exported for this module's own callers)
@@ -94,12 +97,13 @@ sys.exit(1 if undrawn or unmarked else 0)
     # does — so each one stays cheap. No test suite here: the guard for the line below is
     # tests/test_plan_is_not_executable.py, and the suite's home is the push gate and CI.
     "plan-6": "! grep -q '^<!-- check:' PLAN.md && ! grep -q '<!-- check:' scripts/state-probe.sh scripts/render-board.sh && test -f tests/test_plan_is_not_executable.py && python3 scripts/director-wire-report.py >/dev/null 2>&1",
+    # q-821: the joining installer writes the style block under a letter nothing else spends, in
+    # the chain's own shape, and sweeps an old block instead of doubling it.
+    "q-821": "grep -q 'live-spec:gate-v' adopt/install-style-gates.sh && grep -q 'gate v: style gate' adopt/install-style-gates.sh && python3 -m pytest -q tests/test_style_gate_kit.py >/dev/null 2>&1",
     "plan-8": """test "$(cat VERSION)" != 5.0.0 && grep -q 'skills/director' MIGRATION.md""",
-    # plan-9: the host carries the director skill AND its recorded version equals this pack's own.
-    # Corrected 2026-08-28: the old arm was `test -f` on the host's VERSION, which a one-byte file
-    # satisfies, so it could read green over a host still on an old release. plan-15 already asked
-    # its host for the number; this now asks the same, matching the row's own acceptance.
-    "plan-9": """ls ~/tlvphotos/.claude/skills 2>/dev/null | grep -q director && test "$(cat ~/tlvphotos/.live-spec/VERSION 2>/dev/null)" = "$(cat VERSION)" """,
+    # plan-9's key left with its row on 2026-09-04. The row tracked another project's catch-up, so
+    # its command read that project's tree and failed here every session while the row read as done;
+    # the work belongs to that project's own window, and this file cannot prove work it cannot do.
     # --- written 2026-08-28 by plan-10 --------------------------------------------------------
     # Thirteen rows, out of thirty-seven. A key is worth its weight only where the row's subject is an
     # artifact that can drift back: a file, a script, a setting. The rows left without one are the

@@ -299,15 +299,21 @@ class TestStyleGatesMissingDoc(unittest.TestCase):
             self.assertTrue(os.path.isfile(os.path.join(tmp, "scripts", "spec-style-lint.py")))
 
 
-class TestGateRWiring(unittest.TestCase):
+class TestGateStyleWiring(unittest.TestCase):
     """Defect 1 (2026-07-16 track-coach report,
     inbox/2026-07-16-from-track-coach-install-ratchet-appends-past-exit.md): the installer's wiring
-    step must not blind-append the gate-r block past a host pre-push's terminating exit — that
+    step must not blind-append the gate-v block past a host pre-push's terminating exit — that
     lands the block as dead code while the installer still reports "wired". The insertion ladder:
     before a trailing fail-check if one is found; else above a trailing bare exit; else append (the
     plain-EOF case); manual recipe when no safe anchor is found. Idempotency keys off a stable
-    marker, repairing a marker (or drifted label) caught in a dead position — and, since 2026-09-02,
-    repairing a live block that still calls the retired lock test.
+    marker, repairing a marker (or drifted label) caught in a dead position — since 2026-09-02,
+    repairing a live block that still calls the retired lock test — and, since 2026-09-04
+    (q-821, inbox/2026-09-04-from-tlvphotos-style-gate-letter.md), repairing a live block still
+    carrying the old letter r, which collided with the pack's own authority-anchor gate, or the old
+    dash shape the chain's meta-gates could not read. The gate now writes under v, the alphabet's
+    first letter free of every gate this pack currently runs (checked against guardrails/pre-push
+    directly: a-t, x, y, z are spent; u and w were spent too, by two chain-reading meta-gates, until
+    both were retired 2026-08-21 as machinery with no subject but another check — commit e61b29b7).
     """
 
     def _init_host(self, tmp):
@@ -343,13 +349,13 @@ class TestGateRWiring(unittest.TestCase):
             path = self._write_pre_push(tmp, "#!/bin/sh\necho hello\nexit 0\n")
             result = self._install(tmp)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-            self.assertIn("wired: guardrails/pre-push gate r", result.stdout)
+            self.assertIn("wired: guardrails/pre-push gate v", result.stdout)
             self.assertEqual(run(["bash", "-n", path], cwd=ROOT).returncode, 0, "must stay valid bash")
             lines = self._lines(path)
-            marker_i = self._index(lines, "live-spec:gate-r")
+            marker_i = self._index(lines, "live-spec:gate-v")
             exit_i = self._index(lines, "exit 0")
             self.assertGreaterEqual(marker_i, 0)
-            self.assertLess(marker_i, exit_i, "gate r must land BEFORE the trailing exit, not after")
+            self.assertLess(marker_i, exit_i, "gate v must land BEFORE the trailing exit, not after")
 
     def test_b_trailing_fail_check_inserts_before_it_not_just_before_the_final_exit(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -367,14 +373,14 @@ class TestGateRWiring(unittest.TestCase):
             path = self._write_pre_push(tmp, body)
             result = self._install(tmp)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-            self.assertIn("wired: guardrails/pre-push gate r", result.stdout)
+            self.assertIn("wired: guardrails/pre-push gate v", result.stdout)
             self.assertEqual(run(["bash", "-n", path], cwd=ROOT).returncode, 0, "must stay valid bash")
             lines = self._lines(path)
-            marker_i = self._index(lines, "live-spec:gate-r")
+            marker_i = self._index(lines, "live-spec:gate-v")
             fail_check_i = self._index(lines, 'if [ "$fail" -ne 0 ]; then')
             self.assertGreaterEqual(marker_i, 0)
             self.assertLess(marker_i, fail_check_i,
-                             "gate r must land before the fail-check, not merely before the final exit")
+                             "gate v must land before the fail-check, not merely before the final exit")
 
     def test_c_no_exit_at_all_appends_as_before(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -383,10 +389,10 @@ class TestGateRWiring(unittest.TestCase):
             path = self._write_pre_push(tmp, body)
             result = self._install(tmp)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-            self.assertIn("wired: guardrails/pre-push gate r", result.stdout)
+            self.assertIn("wired: guardrails/pre-push gate v", result.stdout)
             self.assertEqual(run(["bash", "-n", path], cwd=ROOT).returncode, 0, "must stay valid bash")
             lines = self._lines(path)
-            marker_i = self._index(lines, "live-spec:gate-r")
+            marker_i = self._index(lines, "live-spec:gate-v")
             echo_i = self._index(lines, "echo no exit statement here")
             self.assertGreater(marker_i, echo_i)
 
@@ -411,13 +417,16 @@ class TestGateRWiring(unittest.TestCase):
             path = self._write_pre_push(tmp, body)
             result = self._install(tmp)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-            self.assertIn("repaired: guardrails/pre-push gate r", result.stdout)
+            self.assertIn("repaired: guardrails/pre-push gate v", result.stdout)
             self.assertEqual(run(["bash", "-n", path], cwd=ROOT).returncode, 0, "must stay valid bash")
             lines = self._lines(path)
             self.assertEqual(
-                sum(1 for line in lines if "live-spec:gate-r" in line), 1,
+                sum(1 for line in lines if "live-spec:gate-v" in line), 1,
                 "repair must not leave a duplicate block")
-            marker_i = self._index(lines, "live-spec:gate-r")
+            self.assertEqual(
+                sum(1 for line in lines if "live-spec:gate-r" in line), 0,
+                "the old r-lettered marker must be gone, swept up with the block it named")
+            marker_i = self._index(lines, "live-spec:gate-v")
             fail_check_i = self._index(lines, 'if [ "$fail" -ne 0 ]; then')
             self.assertLess(marker_i, fail_check_i, "repair must move the block to the safe anchor")
 
@@ -445,7 +454,7 @@ class TestGateRWiring(unittest.TestCase):
             self.assertEqual(run(["bash", "-n", path], cwd=ROOT).returncode, 0, "must stay valid bash")
             lines = self._lines(path)
             self.assertEqual(
-                sum(1 for line in lines if "live-spec:gate-r" in line), 1,
+                sum(1 for line in lines if "live-spec:gate-v" in line), 1,
                 "repair of a drifted label must not leave a duplicate block")
             self.assertEqual(
                 sum(1 for line in lines if "ratchet caps" in line), 0,
@@ -458,9 +467,9 @@ class TestGateRWiring(unittest.TestCase):
                 "#!/bin/sh\n"
                 "fail=0\n"
                 "\n"
-                "# live-spec:gate-r\n"
+                "# live-spec:gate-v\n"
                 'echo ""\n'
-                'echo "-- gate r — style gate --"\n'
+                'echo "-- gate v: style gate --"\n'
                 "for doc in DOC.md; do\n"
                 '  if ! python3 scripts/spec-style-lint.py --tier universal "$doc"; then\n'
                 "    fail=1\n"
@@ -476,7 +485,7 @@ class TestGateRWiring(unittest.TestCase):
             before = open(path, encoding="utf-8").read()
             result = self._install(tmp)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-            self.assertIn("already wired: guardrails/pre-push gate r", result.stdout)
+            self.assertIn("already wired: guardrails/pre-push gate v", result.stdout)
             after = open(path, encoding="utf-8").read()
             self.assertEqual(before, after, "an already-live wiring must not be touched")
 
@@ -506,13 +515,72 @@ class TestGateRWiring(unittest.TestCase):
             path = self._write_pre_push(tmp, body)
             result = self._install(tmp)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-            self.assertIn("repaired: guardrails/pre-push gate r", result.stdout)
+            self.assertIn("repaired: guardrails/pre-push gate v", result.stdout)
             self.assertEqual(run(["bash", "-n", path], cwd=ROOT).returncode, 0, "must stay valid bash")
             text = open(path, encoding="utf-8").read()
             self.assertNotIn("test_ratchet_lock", text,
                              "the retired lock test must no longer be called")
             self.assertIn("spec-style-lint.py", text)
-            self.assertEqual(text.count("live-spec:gate-r"), 1)
+            self.assertEqual(text.count("live-spec:gate-v"), 1)
+            self.assertEqual(text.count("live-spec:gate-r"), 0)
+
+    def test_e3_a_host_carrying_the_old_r_lettered_dash_block_is_replaced_by_v_colon_on_reinstall(self):
+        """The bug q-821 named (inbox/2026-09-04-from-tlvphotos-style-gate-letter.md): the installer
+        used to wire its own style check under letter r, which the pack's own guardrails/pre-push
+        already spends on the authority-anchor gate (SPEC INV-207), and wrote it with an em dash
+        where the chain's own gates read a colon. This is not the older ratchet-kit block (test_e2)
+        — it is this installer's OWN prior output, the exact shape it wrote before this fix. Written
+        by hand here because that is the shape a host adopted before this fix actually carries; a
+        re-run must sweep it into the new letter and shape rather than call it already wired.
+
+        Run twice, scratch host tree, per q-821's own proof requirement: the first run replaces the
+        old block, the second finds nothing left to do. Either run, the file ends up carrying
+        EXACTLY ONE style block, under v — the letter free in the pack's own chain, verified against
+        guardrails/pre-push directly (u and w, once spent by the two now-retired chain-reading
+        checks, are free too, but v is the one this installer writes) — in the colon shape gate u
+        and gate w used to read before their own retirement.
+
+        Before this fix, the installer's own idempotency check matched this exact block on its old
+        marker and label and reported it already wired, leaving it forever under the colliding
+        letter and the shape the chain's checks could not see: this test reds against that installer,
+        and the assertions below are what it caught."""
+        with tempfile.TemporaryDirectory() as tmp:
+            self._init_host(tmp)
+            old_block = (
+                "#!/bin/sh\n"
+                "fail=0\n"
+                "\n"
+                "# live-spec:gate-r\n"
+                'echo ""\n'
+                'echo "-- gate r — style gate --"\n'
+                "for doc in DOC.md; do\n"
+                '  if ! python3 scripts/spec-style-lint.py --tier universal "$doc"; then\n'
+                "    fail=1\n"
+                "  fi\n"
+                "done\n"
+                "\n"
+                'if [ "$fail" -ne 0 ]; then\n'
+                "  exit 1\n"
+                "fi\n"
+                "exit 0\n"
+            )
+            path = self._write_pre_push(tmp, old_block)
+
+            first = self._install(tmp)
+            self.assertEqual(first.returncode, 0, first.stdout + first.stderr)
+            self.assertIn("repaired: guardrails/pre-push gate v", first.stdout)
+
+            second = self._install(tmp)
+            self.assertEqual(second.returncode, 0, second.stdout + second.stderr)
+            self.assertIn("already wired: guardrails/pre-push gate v", second.stdout)
+
+            self.assertEqual(run(["bash", "-n", path], cwd=ROOT).returncode, 0, "must stay valid bash")
+            text = open(path, encoding="utf-8").read()
+            self.assertEqual(text.count("-- gate v: style gate --"), 1,
+                             "exactly one style block, under v, in the colon shape")
+            self.assertEqual(text.count("live-spec:gate-v"), 1)
+            self.assertNotIn("gate r", text, "the colliding letter must be gone entirely")
+            self.assertNotIn("— style gate —", text, "the em-dash shape must be gone entirely")
 
     def test_f_ambiguous_tail_prints_manual_recipe_and_does_not_touch_the_file(self):
         with tempfile.TemporaryDirectory() as tmp:

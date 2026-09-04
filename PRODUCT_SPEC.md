@@ -196,7 +196,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 - **ratchet manifest** — the host record that pins the pack version each vendored gate script came from.
 - **reach** — what a gate read to reach its verdict: the files it opened and the rows it matched of the rows it scanned.
 - **real-device walk row** — a matrix row for a behaviour living past a desktop headless browser, one the suite can never turn green, owed to the human's own hands before ship.
-- **recommendation** — a prover finding where nothing stated is broken and nothing required is missing; it queues for a taste call and does not block.
+- **recommendation** — a prover finding where nothing stated is broken and nothing required is missing; it is written into the review record, does not block, and becomes work only when the human writes it onto the plan.
 - **recorded count** — the number a growth or defect ratchet is held at, written into the gate's config or record on the day it was measured; a delivery may lower it, and no delivery raises it on its own.
 - **referral** — the answer that a question belongs to another agent's zone, returned to whoever asked it.
 - **register judge** — the model call that reads a stretch of outgoing text against the plain-language register law and returns the sentences that carry no information or leak register.

@@ -9,14 +9,13 @@
   "work_items": 1,
   "dimensions": [
     "product value and behaviour",
-    "quality, safety, regressions",
-    "release, observation, feedback"
+    "quality, safety, regressions"
   ],
   "specialists": [
     "Developer",
     "Test author"
   ],
-  "reasoning": "Per 'A message with no words', a pasted stack trace with nothing said is still an act, usually an observation, and here what's wanted is clear from what the person was doing a minute earlier (watching a deploy) -- so no clarifying question is needed. Per 'Some observations carry their repair with them', this reads like the given example 'Production is returning 500s': a crash in checkEntitlement (billing.js:142) appearing the moment a deploy lands is a defect whose repair follows beyond doubt, not a preference a colleague would need to ask about -- so it is accepted work (creates_work=true), one item, not attached to any already-open checkpoint since none is established as in flight. It touches product behaviour (entitlement checking is broken), quality/regressions (a production crash needs a fix and a regression test), and release/observation/feedback (the report is tied directly to the just-watched deploy). Following the skill's own worked sheet for a comparably sized bug, it calls a developer to fix it and a test author for the regression test -- no spec author, since nothing suggests the spec's stated behaviour is wrong, only the code.",
+  "reasoning": "'A message with no words — a pasted stack trace, a screenshot, a dropped file — is still an act, and usually an observation. What the person wants done with it is often clear from what they were doing a minute earlier.' Here the person was watching a deploy and, moments later, pastes a crash trace with no other words — that timing settles it, so no question is needed. This matches 'Some observations carry their repair with them' — the same shape as 'Production is returning 500s.' A TypeError thrown inside checkEntitlement right after a deploy is a broken entitlement check, not a preference. It is not a correction, since no work of the Director's own is described as still in flight — this is a fresh defect report, opening new work. Dimensions: product value and behaviour, quality/safety/regressions. Specialists: Developer to fix the null-property access, Test author for the regression test.",
   "scenario": "not-an-act-a-bare-trace",
   "skill_version": "6.1.0"
 }
