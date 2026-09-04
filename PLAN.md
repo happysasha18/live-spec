@@ -553,6 +553,37 @@ something the next reply says, with its reason.
 **Links:** `scripts/state-probe.sh` (the ranking block), `spec/live-status-reporting.md`,
 `skills/live-spec-base/SKILL.md`.
 
+### ⬜ A feature's success measure is bound to a number a machine reads for it — id: q-824
+**Group:** Feedback & measurement · **Priority:** normal
+**Source:** the prover's re-check of 2026-09-04,
+`docs/prover/2026-09-04-repairs-recheck.md`, finding R8. It caught this session dropping a promise
+nobody had decided to drop.
+
+**What it is.** Every feature's spec delta closes with a success-measure sentence, always written
+and today read by eye. The pack undertakes, at `spec/design-spec-review.md` Requirement 102 clause
+5, to keep the machinery that reads it. What shipped on 2026-09-04 under q-48 is a feed contract: a
+file a project's own tooling writes, a checker that reds a skipped or empty fetch, and a renderer
+that prints what the checker confirms beside the rows. That is real and it is a different thing.
+Nothing binds a metric in that feed to the success-measure sentence of the feature it is supposed to
+be measuring, so the eye-check is still the only reading this pack has.
+
+**Why the row exists rather than the tag simply coming off.** Closing q-48 dropped the `[target]`
+tag on that clause, on the reasoning that the machinery had shipped. Half of that reasoning holds:
+the fetch, which fills a feed from a real analytics account, is each host's own job by a decided
+scope split, and the pack will never build it. The other half does not: the binding was decided away
+by nobody. So the tag stands and this row owns it.
+
+**Done when:** a feature's success-measure sentence names the metric that reads it, in a form some
+machine can follow from the one to the other; a delta that writes a success measure and binds it to
+nothing reds; and the status view, where a feed carries that metric, prints the number under the
+feature it measures rather than as a loose figure. Requirement 102 clause 3's own words — "a written
+promise the human checks by eye until the reading machinery ships" — come off in the same landing,
+because they stop being true then.
+
+**Links:** `spec/design-spec-review.md` (Requirement 102, clauses 3 and 5),
+`spec/success-measure-feed.md` (Requirement 318), `scripts/check-success-measure-feed.py`,
+`docs/prover/2026-09-04-repairs-recheck.md`.
+
 ### ⬜ A session starts light — id: q-822
 **Group:** Pack quality · **Priority:** normal
 **Source:** owner 2026-09-04 14:30, in his own words: he would like nothing over about 20 kilobytes
