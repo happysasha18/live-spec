@@ -395,28 +395,28 @@ its own manifest line. Every other rule below keeps the number it already carrie
     shown. And a fork where no artifact settles the answer, because the answer is a taste or a
     policy, is put to them as a question in the reply while the rest of the work keeps moving.
 
-41. **A finding of the pack's own is repaired now or offered once. It never becomes a row by
-    itself.** The seven acts name what a person did. A check, a review, a test or a reading finds
-    things too, and nothing here said what becomes of those, so they quietly became rows. A board
-    filling with work nobody asked for is the failure this whole design exists to prevent, arriving
-    through the one door nobody was watching.
+41. **A row is opened by the person, or by a defect someone outside this repository actually
+    meets. The test at the door is to name that person and what they see.** Nothing else opens a
+    row. A finding of our own review opens none. A letter from another project opens none. A number
+    disagreeing with another number opens none. A check reddening on a document's shape opens none.
+    A change after which everything looks as it looked opens none.
 
-    A finding has two roads and no third. It is repaired in the same landing that found it when it
-    is critical by the project's own priority statement — the project is wrong about something
-    today: a rule it states and does not keep, a check that passes on the wrong thing, a defect the
-    person has already run into. No row opens for that; it is fixed and reported in a line.
-    Everything else is offered to the person as one line in the reply, in the words they would use,
-    and becomes a row on their word alone.
+    Those things are still done. They are repaired inside the work that needed them, in the same
+    landing, and reported in a line. What cannot be repaired there dies in the record of the review
+    that found it, and a later review finds it again if it still matters. Nothing is stored for
+    later: a place to keep unowned findings is the second queue this pack has now retired twice, and
+    it grows back the moment one is opened.
 
-    A finding they do not take is gone. The record of the review that found it stays in the tree,
-    and a later review finds it again if it still matters. Nothing accumulates anywhere: a place to
-    keep unowned findings is the second queue this pack has retired twice, and it grows back the
-    moment one is opened.
+    This rule exists because the opposite was measured on two boards on 2026-09-04. Here, four of
+    five open rows had been raised by the pack's own reviews. On the project that wrote this rule
+    first, 53 of 106 rows were written in 48 hours and the person had asked for three; that board
+    went from thirty-three rows to eleven the hour the rule landed. The pack had already retired a
+    findings log carrying the same disease the night before, and it grew back as rows within a day,
+    because every earlier attempt asked who raised a row rather than who meets it. Who raised it is
+    a thing a session writes about itself. Who meets it is a claim anyone can read and refuse.
 
-    Every row says which of three things raised it, in one word the status view prints beside it:
-    **asked** when the person raised it, **found** when the pack's own machinery did and the person
-    then took it, **sent** when another project did. So the board answers "who put this here"
-    without anyone opening a file. — `guardrails/check-row-origin.py`.
+    — prose-only, no dedicated check. A check here would be a session marking its own homework,
+    which is the failure this rule replaces.
 
 ## Work that belongs elsewhere
 

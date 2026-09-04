@@ -1483,16 +1483,12 @@ class TestTargetOwnership(unittest.TestCase):
         # so nothing here builds the design-sync machine. The promise stays written in
         # spec/doc-order-generated.md Requirement 318's own words; E-18 has no entry in this map
         # and no own-line marker for it to own.
-        # Dropped with q-48 on 2026-09-04 and put back the same day, on the prover's re-check.
-        # The drop reasoned that the reading machinery had shipped: a feed contract, a checker that
-        # reds a skipped or empty fetch, and a renderer that prints what the checker confirms. That
-        # is true and it is not this promise. What clause 5 undertakes is that a feature's own
-        # success-measure sentence — the one clause 1 makes every spec-delta write — is bound to a
-        # number some machine reads for it, and no clause anywhere binds a feed's metric to a
-        # feature's sentence. The fetch half was decided away on purpose (Requirement 318 clauses 9
-        # and 10, a host's own job); the binding half was decided away by nobody. So the tag stands,
-        # owned by the row that carries the binding.
-        "INV-21": "q-824", # the binding from a feature's success measure to a number read for it
+        # INV-21's tag and this entry drop together on 2026-09-04, and the reason is the rule that
+        # landed the same hour. A `[target]` tag with a map entry is a promise parked in the spec
+        # that a row must be opened to hold — the pump that puts the pack's own unkept undertakings
+        # on the owner's board without him asking. The binding this clause wants is real and it is
+        # written where a finding belongs: docs/prover/2026-09-04-repairs-recheck.md. If it still
+        # matters, a later review finds it again; if he wants it, he says so and it becomes a row.
         # Re-pointed 2026-09-01: q-385 was folded into q-398 on 2026-08-28 and never worked — q-398
         # landed 2026-09-01 doing only its own stated acceptance (the routing-preamble hook, INV-190)
         # and never touched this row's promise. q-385 is back on the board as its own open row and

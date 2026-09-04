@@ -249,12 +249,6 @@ if ! python3 "$GUARDRAILS/check-status-view-drift.py"; then
 fi
 
 echo ""
-echo "-- gate ah: row origin (every open board row says what raised it, SPEC INV-327) --"
-if ! python3 "$GUARDRAILS/check-row-origin.py"; then
-  fail=1
-fi
-
-echo ""
 echo "-- gate k: compaction freeze (guarded docs' anchor map / markers / numbers unchanged, 2.0) --"
 if ! "$GUARDRAILS/check-freeze.sh"; then
   fail=1

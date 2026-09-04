@@ -553,69 +553,8 @@ something the next reply says, with its reason.
 **Links:** `scripts/state-probe.sh` (the ranking block), `spec/live-status-reporting.md`,
 `skills/live-spec-base/SKILL.md`.
 
-### ✅ The board says who put each row on it, and a finding never becomes a row by itself — id: q-825
-**Group:** Board & visibility · **Priority:** critical · **Raised:** asked
-**Source:** owner 2026-09-04 16:05, about two of his projects at once: every row's title reads
-plainly and he still cannot tell where it came from, who opened it or why — "я просто тупо вижу
-какую то работу, которая производит новую работу и не понимаю как этот процесс контролировать".
-
-**What it was.** The seven acts a message is read by name what a person did. A check, a review, a
-test or a reading finds things too, and nothing said what became of those, so they quietly became
-rows. On this project's own board that day, four of five open rows had been raised by the pack's own
-reviews rather than by him, and the board he reads said nothing about it. The pack had met the same
-disease the night before — a findings log where 47 of 59 entries came from its own reviews, retired
-then — and it grew straight back in the rows, through the one door nobody was watching.
-
-**Done 2026-09-04.** Rule 41 gives a finding two roads and no third. Critical by this project's own
-priority statement — the project is wrong about something today — and it is repaired in the same
-landing that found it, with no row opened. Anything else is offered as one line in the reply and
-becomes a row on his word alone. A finding he does not take is gone; the review record that found it
-stays in the tree and a later review finds it again if it still matters. Nothing accumulates, because
-a place to keep unowned findings is the second queue this pack has now retired twice.
-
-Every open row carries one word saying what raised it — `asked`, `found` or `sent` — on the line it
-already had, and the status view prints that word beside the row. So the board answers "who put this
-here" without anyone opening a file. `guardrails/check-row-origin.py` (gate ah) reds at the push on
-an open row carrying none or carrying a fourth word; the parser reads a row without it, so a plan
-mid-edit still prints and only the push refuses it. Seven cases prove it, the reds shown first.
-Requirement 321 states it.
-
-**Links:** `skills/live-spec-base/SKILL.md` (rule 41), `guardrails/check-row-origin.py`,
-`scripts/plan_checks_core.py`, `spec/live-status-reporting.md` (Requirement 321).
-
-### ⬜ A feature's success measure is bound to a number a machine reads for it — id: q-824
-**Group:** Feedback & measurement · **Priority:** normal · **Raised:** found
-**Source:** the prover's re-check of 2026-09-04,
-`docs/prover/2026-09-04-repairs-recheck.md`, finding R8. It caught this session dropping a promise
-nobody had decided to drop.
-
-**What it is.** Every feature's spec delta closes with a success-measure sentence, always written
-and today read by eye. The pack undertakes, at `spec/design-spec-review.md` Requirement 102 clause
-5, to keep the machinery that reads it. What shipped on 2026-09-04 under q-48 is a feed contract: a
-file a project's own tooling writes, a checker that reds a skipped or empty fetch, and a renderer
-that prints what the checker confirms beside the rows. That is real and it is a different thing.
-Nothing binds a metric in that feed to the success-measure sentence of the feature it is supposed to
-be measuring, so the eye-check is still the only reading this pack has.
-
-**Why the row exists rather than the tag simply coming off.** Closing q-48 dropped the `[target]`
-tag on that clause, on the reasoning that the machinery had shipped. Half of that reasoning holds:
-the fetch, which fills a feed from a real analytics account, is each host's own job by a decided
-scope split, and the pack will never build it. The other half does not: the binding was decided away
-by nobody. So the tag stands and this row owns it.
-
-**Done when:** a feature's success-measure sentence names the metric that reads it, in a form some
-machine can follow from the one to the other; a delta that writes a success measure and binds it to
-nothing reds; and the status view, where a feed carries that metric, prints the number under the
-feature it measures rather than as a loose figure. Requirement 102 clause 3's own words — "a written
-promise the human checks by eye until the reading machinery ships" — come off in the same landing,
-because they stop being true then.
-
-**Links:** `spec/design-spec-review.md` (Requirement 102, clauses 3 and 5),
-`spec/success-measure-feed.md` (Requirement 318), `scripts/check-success-measure-feed.py`,
-`docs/prover/2026-09-04-repairs-recheck.md`.
-
 ### ⬜ A session starts light — id: q-822
-**Group:** Pack quality · **Priority:** normal · **Raised:** asked
+**Group:** Pack quality · **Priority:** normal
 **Source:** owner 2026-09-04 14:30, in his own words: he would like nothing over about 20 kilobytes
 to load unless it is needed, and the rest to come on request. Asked the same hour to treat that
 number as a direction rather than a bound — whether it lands at 18 or 25 is worth discussing, and it
@@ -846,7 +785,7 @@ Closed. Full record: `docs/queue-archive/2026-09-04-closed-rows.md`.
 Closed. Full record: `docs/queue-archive/2026-09-04-closed-rows.md`.
 
 ### ⬜ A broken promise between two projects is caught automatically — id: q-385
-**Group:** Cross-project · **Priority:** normal · **Raised:** asked
+**Group:** Cross-project · **Priority:** normal
 **Source:** split 2026-07-17.
 **Deferred:** the first host declaring a contract in its card, the revisit trigger carried from the
 original row. No host has declared one yet, so this stays queued rather than in hand.
@@ -881,7 +820,7 @@ Closed. Full record: `docs/queue-archive/2026-09-04-closed-rows.md`.
 Closed. Full record: `docs/queue-archive/2026-09-04-closed-rows.md`.
 
 ### ⬜ The work board — worker lanes, timing, who's on what — builds once package 2 gives it a real trigger — id: q-816
-**Group:** Board & visibility · **Priority:** normal · **Raised:** asked
+**Group:** Board & visibility · **Priority:** normal
 **Source:** restored 2026-09-03, correcting q-813 — `spec/work-board.md` Requirement 309 was
 retired that same evening past what the owner had already settled the morning before:
 `.live-spec/turnkey-contract-composed.md:305` records his 2026-09-02 12:46 word keeping

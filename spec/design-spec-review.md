@@ -499,7 +499,6 @@
 **Case: the reading machinery is promised**
 
 5. The system *shall* keep the success-measure reading machinery promised under its own queue row, and *shall* count that promise kept only when a feature's own success-measure sentence is bound to a number some machine reads for it. [INV-21]
-   [target]
 
 ---
 
