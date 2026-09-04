@@ -22,6 +22,14 @@ and "Writing Style", applied by hand against `skills/test-author/`.
 
 Verdict: holds up — no findings that call for a fix.
 
+## The tool's own verdict
+
+```
+$ python3 ~/.claude/skills/skill-creator/scripts/quick_validate.py skills/test-author
+Skill is valid!
+(exit 0)
+```
+
 ## Size
 
 `skills/test-author/SKILL.md`: 18,827 bytes (228 lines).

@@ -23,6 +23,14 @@ applied by hand against `skills/architect/`.
 
 Verdict: holds up — no findings that call for a fix.
 
+## The tool's own verdict
+
+```
+$ python3 ~/.claude/skills/skill-creator/scripts/quick_validate.py skills/architect
+Skill is valid!
+(exit 0)
+```
+
 ## Size
 
 `skills/architect/SKILL.md`: 14,675 bytes (201 lines).

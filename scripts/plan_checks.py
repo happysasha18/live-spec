@@ -164,6 +164,10 @@ sys.exit(1 if undrawn or unmarked else 0)
     # are executed rather than grepped for (0.5s); the two real splits they sit beside read 800 KB
     # out of git history and stay in the suite.
     "q-531": "test -f scripts/nothing-lost.py && python3 tests/test_nothing_lost.py TestALegitimateSplitPrintsNothing TestADroppedThingReds > /dev/null 2>&1",
+    # q-817: every skill under skills/ carries a record quoting the validator's own output, and
+    # the gate itself now demands that quote. The coverage script reads the records rather than a
+    # claim about them, and costs a fraction of a second.
+    "q-817": "grep -q 'but it quotes no' guardrails/check-skill-review.sh && test -x guardrails/skill_review_verdict.py && python3 scripts/check-skill-review-coverage.py >/dev/null",
     # q-48, the pack side: the shared renderer prints a project's live numbers through the pack's
     # one checker, and the checker takes the refresh cadence from the feed rather than from a
     # number this tree chose. The host leg — writing the fetch tooling — is another window's job.

@@ -23,6 +23,14 @@ and "Writing Style", applied by hand against `skills/design-reviewer/`.
 Verdict: holds up on description accuracy and writing style; one real structural finding, not folded
 — this record holds no edit authority over `skills/design-reviewer/SKILL.md`.
 
+## The tool's own verdict
+
+```
+$ python3 ~/.claude/skills/skill-creator/scripts/quick_validate.py skills/design-reviewer
+Skill is valid!
+(exit 0)
+```
+
 ## Size
 
 `skills/design-reviewer/SKILL.md`: 28,164 bytes (431 lines) — the largest `SKILL.md` of the four

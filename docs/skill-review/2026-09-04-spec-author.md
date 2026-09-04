@@ -22,6 +22,14 @@ accuracy, and "Writing Style", applied by hand against `skills/spec-author/`.
 
 Verdict: holds up structurally — one low-priority cross-file consistency finding, not folded.
 
+## The tool's own verdict
+
+```
+$ python3 ~/.claude/skills/skill-creator/scripts/quick_validate.py skills/spec-author
+Skill is valid!
+(exit 0)
+```
+
 ## Size
 
 `skills/spec-author/SKILL.md`: 20,324 bytes (274 lines).

@@ -553,7 +553,41 @@ something the next reply says, with its reason.
 **Links:** `scripts/state-probe.sh` (the ranking block), `spec/live-status-reporting.md`,
 `skills/live-spec-base/SKILL.md`.
 
-### ⬜ Every skill in the pack is measured by Anthropic's own skill tool, and the bloated ones come back down — id: q-817
+### ⬜ The rulebook stops using words it never explains — id: q-821
+**Group:** Pack quality · **Priority:** normal
+**Source:** the readability pass run over `skills/live-spec-base/SKILL.md` on 2026-09-04 under q-817.
+Four fresh readers, two rounds of two, each holding only the document.
+
+**What the readers found.** Both readers of each round stopped inside the same eleven rules, and
+every stop is a term the document uses and never explains, or a claim it hedges. The word "row" is
+load-bearing in rules 7, 27 and 38 and is defined nowhere. Rule 24 stacks four terms in one sentence
+with nothing to anchor them to: "entry impact read", "footprint categories", "test ladder",
+"kind-abstract". Rule 25 reuses "anchor" for a different thing than rule 2 already defined it as.
+Rule 29's "the pipeline's closed door set" appears once in the whole file. Rule 27's "the feel of a
+real device in the person's own hands" arrives with no antecedent. Rule 12 hedges on whether its own
+cited check exists: "plausibly `check-broad-kill.sh`, not confirmed". Rule 4's check is written with
+no directory prefix where every sibling carries one. Rule 5 cites a host-specific value in a file
+whose own scope line forbids host-specific values. Rules 36, 38, 39 and 40 end with no check pointer
+where 8, 9 and 37 say "prose-only" outright. The load-list says twelve working skills and the
+closing roster names fifteen. Rule 38's "the status script" is never named; it is
+`scripts/state-probe.sh`.
+
+**Why this is not a rewrite.** The 2026-09-04 pass proved the document is at its information floor
+and that a faithful rewrite of it changes nothing here: it copies every one of these through,
+because the pass's own rule is to change how the text reads and never what it says. Each item above
+is a decision about content — what a word means, whether a hedge stands, which of two numbers is
+right — and a session can settle most of them from the tree. Three places both round-one readers hit
+were repaired this way already and are in this tree.
+
+**Done when:** every item in the list above is settled in the rulebook — the term defined at its
+first use, the hedge resolved or removed, the contradiction fixed — and a fresh reading round of two
+readers, each holding only the file, records no place both of them stop. The full record of the pass
+that found these is at `~/context-slimdown/reports/2026-09-04b-base-verification-record.md`.
+
+**Links:** `skills/live-spec-base/SKILL.md`, `skills/live-spec-base/references/glossary.md`,
+`~/.claude/skills/restore-readability`.
+
+### ✅ Every skill in the pack is measured by Anthropic's own skill tool, and the bloated ones come back down — id: q-817
 **Group:** Pack quality · **Priority:** normal
 **Source:** owner 2026-09-04 01:25 and 01:30 — the pass over every skill was agreed and he does not
 see it happening; he wants it standing, for any skill new or changed, never a one-off.
@@ -575,6 +609,53 @@ gone out. So the rule stands; two things around it do not.
 under `docs/skill-review/` with the tool's own verdict quoted in it; the gate refuses a record that
 carries no such quoted verdict; and the size of the rulebook and of `skills/director` is read with
 `wc -c` before and after, both numbers written into this row.
+
+**Done 2026-09-04.**
+
+**The gate's own defect is closed.** It proved a record existed, named the skill, carried a verdict
+line and was dated after the change, and never proved the tool produced that verdict — a session
+satisfied it by writing the record by hand. Two arms now close it. A covering record must quote the
+exact command run against the skill and everything that command printed. And where Anthropic's
+validator is on the machine, the gate runs it and reds when the record's quoted verdict disagrees
+with what the validator says right now, or when the validator reports the skill invalid whatever
+the record honestly quotes. Absent from the machine, that arm stands down by name and the record's
+other checks still run. Five cases prove it, each shown red before its green. The rule's real home
+turned out to be `spec/guardrails-freshness.md`'s Requirement 242 rather than
+`spec/design-spec-review.md`, and it was extended there.
+
+**Every skill is now on record with the tool's own verdict quoted.** Fourteen skills under
+`skills/`; sixteen records dated today. `product-prover` was the one the earlier pass had never
+reached — its newest record was from 2026-08-13. Four records carried the review and no quoted
+output and were brought up to shape.
+
+**The sizes, read before and after.**
+
+| | at the session's start | at its end |
+|---|---|---|
+| `skills/live-spec-base/SKILL.md` | 30,462 | 31,995 |
+| `skills/live-spec-base/` | 63,273 | 65,903 |
+| `skills/director/SKILL.md` | 30,340 | 33,294 |
+| `skills/director/` | 75,172 | 78,126 |
+
+**Both went up, and this is the row's real finding.** The growth is rules, not prose: rule 40 and
+its background entered the rulebook, and four paragraphs entered the director that the eval proved
+buy the behaviour the owner asked for. Nothing came back down, and the readability pass run over
+the rulebook end to end says why. Its bare claim text, all 330 rules and claims stripped of every
+piece of formatting, is 30,337 characters against a 32,000-byte file. That document is at its
+information floor: it comes down by retiring rules and by nothing else. A faithful rewrite of it
+bought 0 bytes, which is the honest answer to "the bloated ones come back down" — measured, and
+there is no prose bloat to take out.
+
+**What the readability pass did find** is a reading problem rather than a size one, and it is
+written up in full at `~/context-slimdown/reports/2026-09-04b-base-verification-record.md`. Three of
+its four gates passed: structure (headings, codes, paths and numbers all matching), the register
+linter, and sentence length. Preservation passed too — a fresh reader retold the draft as 377 claims
+without seeing the extraction, and a mapper carried 328 of 330 against it with nothing invented, the
+two unplaced being the document's own title and a remark about the document rather than a claim it
+makes. The gate that failed is the one that matters: four fresh readers across two rounds, and both
+readers of each round stopped inside the same eleven rules. Three places both round-one readers hit
+were repaired in the rulebook itself and are in this tree. The rest are terms the document has never
+defined, so a rewrite faithful to it inherits every one of them. That work is its own row, q-821.
 
 **Links:** `guardrails/check-skill-review.sh`, `skills/director/references/landing-law.md` (the rule
 itself), `spec/design-spec-review.md` (INV-208's home), every directory under `skills/`.
