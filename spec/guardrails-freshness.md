@@ -355,7 +355,7 @@
 
 ## Requirement 242: A skill-body change carries the review it owes
 
-**Context:** A skill is instructions a model reads, and a change to those instructions can shift how every session that loads it behaves. So a push that changes a skill's body must carry the skill-creator review that catches a regression before it ships. A pure version stamp is the one carve-out, since it copies the version fact rather than changing instructions.
+**Context:** A skill is instructions a model reads, and a change to those instructions can shift how every session that loads it behaves. So a push that changes a skill's body must carry the skill-creator review that catches a regression before it ships. A pure version stamp is the one carve-out, since it copies the version fact rather than changing instructions. Naming a record and a verdict never proves the skill-creator tool itself produced it, since a session can write both by hand; the record must quote the tool's own printed output, and where the tool is on the machine the system runs it and checks that quote against what the tool says right now.
 
 **User Story:** As a maintainer changing a skill's body, I want the push blocked until it carries a fresh skill-creator review, so that a change to instructions every session reads cannot ship unreviewed while a bare version bump passes quiet.
 
@@ -371,6 +371,12 @@
 3. *if* a skill diff's only changed lines are the machine-stamped version and base-reference lines, *then* the system *shall* pass it quiet as owing no review. [INV-208, INV-178]
 4. *if* a skill diff's only changed lines differ by letter case, whitespace, or both, *then* the system *shall* pass it quiet, owing no review. [INV-208]
 5. *when* a substantive body change carries no fresh review, the system *shall* red, the review's judgment staying the skill-creator's own. [INV-208]
+
+**Case: the record quotes the tool, and the system checks the quote against the tool itself**
+
+6. The system *shall* require a directly-covering record to carry, besides the marker, the skill name, and the verdict, a block quoting the validator's own command and everything it printed, closed by its exit code; a record missing this quote does not cover the change. [INV-208]
+7. *when* the validator (`scripts/quick_validate.py` from the installed skill-creator skill) is present on the machine, the system *shall* run it against the changed skill and *shall* red *if* its real verdict disagrees with what the record quotes, naming both, or *if* the validator itself reports the skill invalid, whatever the record quotes. [INV-208]
+8. *if* the validator is absent from the machine, *then* the system *shall* stand down the check in criterion 7 alone, naming what it looked for and why, while the record's other checks keep running. [INV-208]
 
 ---
 

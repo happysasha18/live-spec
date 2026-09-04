@@ -91,6 +91,20 @@ RECORD = (
     "Reviewer: skill-creator (Anthropic)\n\nVerdict: passes — description and body reviewed.\n"
 )
 
+# RECORD plus the quoted-tool-output block a directly-matched covering record must now carry
+# (q-817): a command line naming quick_validate.py against this skill, its printed stdout, and the
+# "(exit N)" line closing it — the shape docs/skill-review/README.md states and
+# docs/skill-review/2026-09-04-build-pipeline.md already uses.
+RECORD_WITH_QUOTE = RECORD + (
+    "\n## The tool's own verdict\n\n"
+    "```\n$ python3 /opt/skill-creator/scripts/quick_validate.py skills/demo\n"
+    "Skill is valid!\n(exit 0)\n```\n"
+)
+
+# Forces the tool-verification arm to stand down (q-817): a value that names no real file, so the
+# gate never falls back to a machine default and the real ~/.claude is never consulted by a test.
+NO_VALIDATOR_ENV = {"LIVE_SPEC_SKILL_VALIDATOR": "/nonexistent/quick_validate.py"}
+
 
 # --- the gate ships ---
 
@@ -182,16 +196,18 @@ def test_case_change_with_real_edit_still_reds():
 
 
 def test_body_change_with_matching_record_passes():
-    """A substantive skill change WITH a committed, matching review record passes quiet."""
+    """A substantive skill change WITH a committed, matching review record — one that also quotes
+    the tool's own output (q-817) — passes quiet. The validator is forced absent here so the
+    tool-verification arm stands down; that arm gets its own dedicated tests below."""
     with tempfile.TemporaryDirectory() as tmp:
         _init_repo(tmp)
         _write(tmp, "skills/demo/SKILL.md", SKILL_V1)
         _commit_all(tmp, "skill v1")
         base = _head(tmp)
         _write(tmp, "skills/demo/SKILL.md", SKILL_BODY_CHANGED)
-        _write(tmp, "docs/skill-review/2026-07-17-demo.md", RECORD)
+        _write(tmp, "docs/skill-review/2026-07-17-demo.md", RECORD_WITH_QUOTE)
         _commit_all(tmp, "skill body changed + its review, same commit")
-        r = _run([GATE], cwd=tmp, extra_env={"LIVE_SPEC_DIFF_BASE": base})
+        r = _run([GATE], cwd=tmp, extra_env={"LIVE_SPEC_DIFF_BASE": base, **NO_VALIDATOR_ENV})
         assert r.returncode == 0, r.stdout + r.stderr
 
 
@@ -269,9 +285,11 @@ def test_an_earlier_stale_record_does_not_mask_a_later_change_when_a_fresher_one
         _commit_all(tmp, "skill v1 + an early review")
         base = _head(tmp)
         _write(tmp, "skills/demo/SKILL.md", SKILL_BODY_CHANGED)
-        _write(tmp, "docs/skill-review/2026-08-09-demo.md", RECORD)  # sorts later, covers the change
+        # sorts later, covers the change, and carries the quoted-tool block the matched record
+        # now owes (q-817) — the stale 2026-07-17 one above never needs it, since it is never matched.
+        _write(tmp, "docs/skill-review/2026-08-09-demo.md", RECORD_WITH_QUOTE)
         _commit_all(tmp, "skill body changed again, with a fresh review this time")
-        r = _run([GATE], cwd=tmp, extra_env={"LIVE_SPEC_DIFF_BASE": base})
+        r = _run([GATE], cwd=tmp, extra_env={"LIVE_SPEC_DIFF_BASE": base, **NO_VALIDATOR_ENV})
         assert r.returncode == 0, r.stdout + r.stderr
         assert "2026-08-09-demo.md" in r.stdout, r.stdout + r.stderr
 
@@ -339,6 +357,130 @@ def test_record_missing_verdict_reds():
         _commit_all(tmp, "skill body changed + a record with no verdict")
         r = _run([GATE], cwd=tmp, extra_env={"LIVE_SPEC_DIFF_BASE": base})
         assert r.returncode == 1, r.stdout + r.stderr
+
+
+# --- the tool-verification arm (q-817): the gate runs quick_validate.py itself and compares its
+# real verdict against what the covering record quotes, rather than trusting the quote on its own.
+
+def _write_fixture_validator(tmp, stdout_line, exit_code):
+    """A tiny stand-in for Anthropic's quick_validate.py: the gate always calls it as
+    `python3 <path> skills/<name>` — one argument, the skill directory, which this fixture
+    ignores — so the canned line and exit code the test wants are baked into the script's own
+    source rather than read from argv. Lets a test control the 'real' verdict the gate sees
+    without ever touching ~/.claude."""
+    script = (
+        "#!/usr/bin/env python3\n"
+        f"print({stdout_line!r})\n"
+        f"raise SystemExit({exit_code!r})\n"
+    )
+    path = _write(tmp, "fixture/quick_validate.py", script)
+    os.chmod(path, 0o755)
+    return path, stdout_line, exit_code
+
+
+def _run_gate_with_validator(tmp, base, validator_path, extra_argv=()):
+    args = [GATE] + list(extra_argv)
+    return _run(args, cwd=tmp, extra_env={
+        "LIVE_SPEC_DIFF_BASE": base,
+        "LIVE_SPEC_SKILL_VALIDATOR": validator_path,
+    })
+
+
+def _quoted_record(stdout_line, exit_code):
+    return RECORD + (
+        "\n## The tool's own verdict\n\n"
+        "```\n$ python3 /wherever/quick_validate.py skills/demo\n"
+        f"{stdout_line}\n(exit {exit_code})\n```\n"
+    )
+
+
+def test_record_with_no_quoted_tool_output_reds():
+    """A covering record that carries a marker, a Skill: line, and a Verdict:, but no quoted
+    command-and-output block at all, still reds — the shape the record must carry now includes
+    the quote (q-817), whether or not the validator is even on the machine."""
+    with tempfile.TemporaryDirectory() as tmp:
+        _init_repo(tmp)
+        _write(tmp, "skills/demo/SKILL.md", SKILL_V1)
+        _commit_all(tmp, "skill v1")
+        base = _head(tmp)
+        _write(tmp, "skills/demo/SKILL.md", SKILL_BODY_CHANGED)
+        _write(tmp, "docs/skill-review/2026-07-17-demo.md", RECORD)  # no quote at all
+        _commit_all(tmp, "skill body changed + a record with no quoted tool output")
+        r = _run([GATE], cwd=tmp, extra_env={"LIVE_SPEC_DIFF_BASE": base, **NO_VALIDATOR_ENV})
+        assert r.returncode == 1, r.stdout + r.stderr
+        assert "quotes no" in r.stdout, r.stdout + r.stderr
+
+
+def test_quoted_verdict_disagreeing_with_the_validator_reds():
+    """The record quotes a PASS, but the validator, run right now, disagrees — the gate reds and
+    names both verdicts, rather than trusting the quote."""
+    with tempfile.TemporaryDirectory() as tmp:
+        _init_repo(tmp)
+        _write(tmp, "skills/demo/SKILL.md", SKILL_V1)
+        _commit_all(tmp, "skill v1")
+        base = _head(tmp)
+        _write(tmp, "skills/demo/SKILL.md", SKILL_BODY_CHANGED)
+        record = _quoted_record("Skill is valid!", 0)  # quotes a pass
+        _write(tmp, "docs/skill-review/2026-07-17-demo.md", record)
+        _commit_all(tmp, "skill body changed + a record quoting a pass")
+        validator, _, _ = _write_fixture_validator(tmp, "not what was quoted", 0)
+        r = _run_gate_with_validator(tmp, base, validator)
+        assert r.returncode == 1, r.stdout + r.stderr
+        assert "disagrees" in r.stdout, r.stdout + r.stderr
+        assert "Skill is valid!" in r.stdout and "not what was quoted" in r.stdout, r.stdout
+
+
+def test_quoted_verdict_matching_the_validator_passes():
+    """The record quotes exactly what the validator prints right now, at the exit code it
+    returns — the gate runs the tool and passes quiet."""
+    with tempfile.TemporaryDirectory() as tmp:
+        _init_repo(tmp)
+        _write(tmp, "skills/demo/SKILL.md", SKILL_V1)
+        _commit_all(tmp, "skill v1")
+        base = _head(tmp)
+        _write(tmp, "skills/demo/SKILL.md", SKILL_BODY_CHANGED)
+        record = _quoted_record("Skill is valid!", 0)
+        _write(tmp, "docs/skill-review/2026-07-17-demo.md", record)
+        _commit_all(tmp, "skill body changed + a record whose quote matches")
+        validator, _, _ = _write_fixture_validator(tmp, "Skill is valid!", 0)
+        r = _run_gate_with_validator(tmp, base, validator)
+        assert r.returncode == 0, r.stdout + r.stderr
+
+
+def test_validator_itself_failing_reds_even_if_the_record_quotes_it_honestly():
+    """The record honestly quotes the validator's own failing verdict — a currently-invalid skill
+    must never pass just because its record is honest about the failure."""
+    with tempfile.TemporaryDirectory() as tmp:
+        _init_repo(tmp)
+        _write(tmp, "skills/demo/SKILL.md", SKILL_V1)
+        _commit_all(tmp, "skill v1")
+        base = _head(tmp)
+        _write(tmp, "skills/demo/SKILL.md", SKILL_BODY_CHANGED)
+        record = _quoted_record("Skill is invalid: missing frontmatter key", 1)
+        _write(tmp, "docs/skill-review/2026-07-17-demo.md", record)
+        _commit_all(tmp, "skill body changed + a record honestly quoting a fail")
+        validator, _, _ = _write_fixture_validator(tmp, "Skill is invalid: missing frontmatter key", 1)
+        r = _run_gate_with_validator(tmp, base, validator)
+        assert r.returncode == 1, r.stdout + r.stderr
+        assert "fails Anthropic's own quick_validate.py" in r.stdout, r.stdout + r.stderr
+
+
+def test_validator_missing_from_the_machine_stands_down_and_record_checks_still_run():
+    """No validator resolves anywhere (the override names a file that does not exist) — the gate
+    stands down on the tool-verification arm alone, naming what it looked for, and the record's
+    other checks (which a record carrying the quoted block still satisfies) still decide the
+    outcome: green here, since nothing else is wrong with the record."""
+    with tempfile.TemporaryDirectory() as tmp:
+        _init_repo(tmp)
+        _write(tmp, "skills/demo/SKILL.md", SKILL_V1)
+        _commit_all(tmp, "skill v1")
+        base = _head(tmp)
+        _write(tmp, "skills/demo/SKILL.md", SKILL_BODY_CHANGED)
+        _write(tmp, "docs/skill-review/2026-07-17-demo.md", RECORD_WITH_QUOTE)
+        _commit_all(tmp, "skill body changed + a complete record, validator absent")
+        r = _run([GATE], cwd=tmp, extra_env={"LIVE_SPEC_DIFF_BASE": base, **NO_VALIDATOR_ENV})
+        assert r.returncode == 0, r.stdout + r.stderr
+        assert "standing down" in r.stdout, r.stdout + r.stderr
 
 
 # --- wired into the push chain, both nets ---
