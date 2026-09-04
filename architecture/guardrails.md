@@ -79,6 +79,7 @@
 - `DECISIONS.md:1` (the read-back / decision-set record, the decision-readback touchpoint surface, INV-207)
 - `templates/DECISIONS.template.md:1` (the shipped read-back template, INV-207)
 - `guardrails/check-skill-review.sh:1` (the skill-review gate, INV-208)
+- `guardrails/skill_review_verdict.py:1` (the tool-verification arm: runs quick_validate.py and compares its real verdict against what the covering record quotes, INV-208)
 - `docs/skill-review/README.md:1` (the review-record home, INV-208)
 - `templates/skill-review.template.md:1` (the shipped review record template, INV-208)
 - `guardrails/check-doc-rotation.py:1` (the doc-rotation gate, gate t, and the whole of INV-209's machinery: rows move by hand and this is what proves the hand lost nothing, the mechanism that stood beside it having retired to `attic/rotate-doc.py` with the one document shape it could read)

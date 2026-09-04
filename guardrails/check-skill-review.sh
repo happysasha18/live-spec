@@ -52,6 +52,36 @@
 # elsewhere under <review-dir> does not launder a stale match for THIS skill either — each
 # candidate record is checked on its own commit, not the directory's.
 #
+# THE RECORD MUST QUOTE THE TOOL (q-817). A record satisfying the three requirements above must
+# also carry a fenced block quoting the exact command run against this skill and everything that
+# command printed, closed by a line reading "(exit N)" — the shape docs/skill-review/2026-09-04-
+# build-pipeline.md and .../2026-09-04-product-prover-pack.md already use, and the shape
+# docs/skill-review/README.md states for a person writing the next record. Proving a record exists
+# and names the skill never proved Anthropic's skill-creator produced it — a session could always
+# write the marker, the name, and a Verdict line by hand. That is the same defect shape as a check
+# anchored on comment text, closed the same way: read the thing, not the words about the thing.
+#
+# THE GATE RUNS THE TOOL ITSELF. Quoting alone is still a check on words, so for each
+# substantively-changed skill whose covering record is a DIRECT match (not the byte-identical
+# carve-out below, which judges content already covered once, at an earlier commit, on its own
+# terms, and stays exactly as it was), the gate runs Anthropic's own packaging validator,
+# scripts/quick_validate.py from the installed skill-creator skill, against that skill's directory
+# and compares its real verdict against what the record quotes:
+#   - red when the record's quoted verdict disagrees with what the validator says right now,
+#     naming both;
+#   - red when the validator itself reports the skill invalid, whatever the record quotes — a
+#     currently-broken skill never passes on an old, honest quote;
+#   - green, quiet, when the quote matches the validator's real output.
+# The validator is looked for, in order: the path named by $LIVE_SPEC_SKILL_VALIDATOR, if that
+# variable is set at all (even to a path that does not exist — an explicit override is never
+# silently replaced by a machine default, which is what lets a test point this at a fixture, or
+# force the absent case, without ever touching the real ~/.claude); else
+# ~/.claude/skills/skill-creator/scripts/quick_validate.py; else the same file under the installed
+# skill-creator plugin (~/.claude/plugins/marketplaces/claude-plugins-official/plugins/
+# skill-creator/skills/skill-creator/scripts/quick_validate.py). Absent from all three, the gate
+# stands down on this arm alone, naming what it looked for and why — the record's other checks
+# (marker, Skill:, Verdict:, freshness, and the quoted block itself) still run.
+#
 # Exit 0 = every substantively-changed skill carries a fresh review record (or none changed).
 # Exit 1 = at least one substantively-changed skill has no matching record.
 
@@ -164,6 +194,39 @@ find_covering_record() {
   return 1
 }
 
+# --- resolve Anthropic's own quick_validate.py, the tool-verification arm's target (q-817) ---
+resolve_validator() {
+  if [ -n "${LIVE_SPEC_SKILL_VALIDATOR+set}" ]; then
+    # an explicit override is authoritative and never falls back to a machine default — this is
+    # what lets a test point this at a fixture validator, or force the absent case, with the real
+    # ~/.claude never consulted.
+    if [ -n "${LIVE_SPEC_SKILL_VALIDATOR}" ] && [ -f "${LIVE_SPEC_SKILL_VALIDATOR}" ]; then
+      printf '%s' "${LIVE_SPEC_SKILL_VALIDATOR}"
+      return 0
+    fi
+    return 1
+  fi
+  for cand in "$HOME/.claude/skills/skill-creator/scripts/quick_validate.py" \
+      "$HOME/.claude/plugins/marketplaces/claude-plugins-official/plugins/skill-creator/skills/skill-creator/scripts/quick_validate.py"; do
+    if [ -f "$cand" ]; then
+      printf '%s' "$cand"
+      return 0
+    fi
+  done
+  return 1
+}
+
+VALIDATOR_PATH=""
+if VALIDATOR_PATH="$(resolve_validator)"; then
+  :
+else
+  VALIDATOR_PATH=""
+  echo "OK (skill review): Anthropic's quick_validate.py is not on this machine — not at"
+  echo "  \$LIVE_SPEC_SKILL_VALIDATOR, not at ~/.claude/skills/skill-creator/scripts/quick_validate.py,"
+  echo "  and not at the plugin marketplace copy — standing down on the tool-verification arm; the"
+  echo "  record's own checks (marker, Skill:, Verdict:, and the quoted tool block) still run."
+fi
+
 fail=0
 for name in $substantive_skills; do
   skill_commit="$(git log -1 --format=%H -- "skills/$name" 2>/dev/null || true)"
@@ -214,6 +277,29 @@ for name in $substantive_skills; do
     echo "  skill '$name' last changed in ${skill_commit:-unknown}."
     fail=1
     continue
+  fi
+
+  # THE RECORD MUST QUOTE THE TOOL (q-817): a direct match must also carry a fenced block naming
+  # the validator command and everything it printed. The byte-identical carve-out above is
+  # untouched by this — it judges content already covered once, on its own terms, exactly as
+  # before this lane.
+  if ! grep -qE '^\$[[:space:]]+.*quick_validate\.py.*skills/'"$name"'/?[[:space:]]*$' "$matched" || \
+     ! grep -qE '^\(exit [0-9]+\)[[:space:]]*$' "$matched"; then
+    echo "FAIL (skill review): skill '$name' has a covering record ($matched), but it quotes no"
+    echo "  command-and-output from Anthropic's own validator — a record must show the tool's own"
+    echo "  printed verdict, not assert one by hand (SPEC INV-208, q-817)."
+    fail=1
+    continue
+  fi
+
+  # THE GATE RUNS THE TOOL ITSELF, when it is on this machine — see the header for what each exit
+  # status means; skill_review_verdict.py prints its own FAIL line on disagreement.
+  if [ -n "$VALIDATOR_PATH" ]; then
+    if ! cmp_out="$(python3 "$SCRIPT_DIR/skill_review_verdict.py" "$matched" "$name" "$REPO_ROOT" "$VALIDATOR_PATH" 2>&1)"; then
+      echo "$cmp_out"
+      fail=1
+      continue
+    fi
   fi
 
   echo "OK (skill review): skill '$name' carries a fresh review record ($matched)."
