@@ -58,7 +58,7 @@ Each rule's background — citation, history, justification, worked example — 
 [references/rule-origins.md](references/rule-origins.md), opened only to dispute or amend a rule.
 
 Rules 11, 14, 15, 18, 19, 20, 21, 23, 28, 30, 32, 33, 34 and 35 were cut whole from this rulebook; each
-number is retired and stays open. Rule 30 went first, on its own decided cut. The 2026-08-26 cut carried
+number is retired and left as a hole, never given to a new rule. Rule 30 went first, on its own decided cut. The 2026-08-26 cut carried
 the rest of them: each covered by neither an eval fixture nor an executable script — a wish, not a rule,
 per PLAN.md step 7 — and moved out to `attic/live-spec-base-unbacked-rules-2026-08-26.md`, whole, with
 its own manifest line. Every other rule below keeps the number it already carries.
@@ -135,7 +135,8 @@ its own manifest line. Every other rule below keeps the number it already carrie
    The parallel-lanes rules sit underneath the fence.
    - Lanes roll unasked up to the profile cap (`lanes.cap`, default three [E-13]) (SPEC T-18).
      One more opens only on the human's asked word. Every write to a document the lanes share
-     serializes under the single PEN, one lane at a time.
+     serializes under the single pen — the right to write the shared truth, held by one lane at a
+     time (SPEC INV-39).
      That document is a convergence point the pen reconciles at integration, so sharing it never
      makes the lanes wait on each other.
      Co-location alone never pulls two rows into one lane (SPEC INV-49).
@@ -274,8 +275,9 @@ its own manifest line. Every other rule below keeps the number it already carrie
     for an owning agent card, the `.live-spec/agent.md` in that agent's own tree (SPEC E-32,
     INV-184). Each law below routes a thing to the home that governs it (SPEC INV-153).
 
-    - A message names the ground that earned it — the sender's own blocked work, or a fault it
-      lived in that zone carried with its evidence — or is never sent (SPEC INV-189).
+    - A message names the ground that earned it — the sender's own blocked work, or a fault the
+      sender itself ran into in that zone, carried with its evidence — or is never sent
+      (SPEC INV-189).
     - A referral travels back to whoever asked; forwarding to the zone's own owner is the defect
       (SPEC INV-190). A question that pins to no artifact is dropped (SPEC INV-191), and a referral
       to a zone that does not own the question is named as a wrong referral (SPEC INV-225).

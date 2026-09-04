@@ -170,3 +170,19 @@ so a promise with no owner could pass a gate that existed to catch exactly that.
 move as the same failure as inventing a threshold: both add machinery to explain away a fact rather
 than change the fact. Its "downwards only" clause comes from the same source, and from a year of
 thresholds that grew every time work pressed against them.
+
+## Rule 40 — the person is the client, and checking the work is never their job
+
+Entered 2026-09-04, on the owner's own word the same night. It settles a habit rules 12 and 27 had
+left half-settled: work would finish, be shown, and then sit waiting for him to look at it, with a
+row held open on his attention and a running tally of what he had yet to read. He named that tally
+for what it is — a way of asking again — and the pressure it puts on him is what the rule removes.
+
+The rule's first half is a demand on the session rather than a relief for him: taking a piece of
+work means knowing how it will be checked, so a session that cannot say how it would prove its own
+result has not understood the task well enough to have taken it. The client's judgement is whether
+the work was worth doing; whether it works is the pack's own job.
+
+Two things still stop, and the rule names only those two: an act that cannot be undone outside git
+waits for his word before it runs, and a fork whose answer is a taste or a policy is put to him as a
+question while the rest of the work keeps moving.
