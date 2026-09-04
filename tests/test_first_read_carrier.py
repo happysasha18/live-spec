@@ -21,7 +21,11 @@ import unittest
 
 from conftest import ROOT
 
-PROBE = os.path.join(ROOT, "scripts", "state-probe.sh")
+# The director score and its replay marker moved out of the shared renderer on 2026-09-04
+# (PLAN q-818): the renderer is one file every project prints from now, so a fact naming this
+# pack's own eval belongs in this pack's own extras file, which the renderer sources. The arm
+# this test guards travelled with the fact.
+PROBE = os.path.join(ROOT, "scripts", "state-probe-extras.sh")
 SKILL_PATH = "skills/director/SKILL.md"
 TRACES_PATH = "evals/director/traces"
 TRACES = os.path.join("evals", "director", "traces")

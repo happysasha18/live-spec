@@ -553,7 +553,7 @@ something the next reply says, with its reason.
 **Links:** `scripts/state-probe.sh` (the ranking block), `spec/live-status-reporting.md`,
 `skills/live-spec-base/SKILL.md`.
 
-### ⬜ The rulebook stops using words it never explains — id: q-821
+### ⬜ The rulebook stops using words it never explains — id: q-823
 **Group:** Pack quality · **Priority:** normal
 **Source:** the readability pass run over `skills/live-spec-base/SKILL.md` on 2026-09-04 under q-817.
 Four fresh readers, two rounds of two, each holding only the document.
@@ -655,7 +655,7 @@ two unplaced being the document's own title and a remark about the document rath
 makes. The gate that failed is the one that matters: four fresh readers across two rounds, and both
 readers of each round stopped inside the same eleven rules. Three places both round-one readers hit
 were repaired in the rulebook itself and are in this tree. The rest are terms the document has never
-defined, so a rewrite faithful to it inherits every one of them. That work is its own row, q-821.
+defined, so a rewrite faithful to it inherits every one of them. That work is its own row, q-823.
 
 **Links:** `guardrails/check-skill-review.sh`, `skills/director/references/landing-law.md` (the rule
 itself), `spec/design-spec-review.md` (INV-208's home), every directory under `skills/`.

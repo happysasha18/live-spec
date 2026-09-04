@@ -99,7 +99,12 @@ sys.exit(1 if undrawn or unmarked else 0)
     "plan-6": "! grep -q '^<!-- check:' PLAN.md && ! grep -q '<!-- check:' scripts/state-probe.sh scripts/render-board.sh && test -f tests/test_plan_is_not_executable.py && python3 scripts/director-wire-report.py >/dev/null 2>&1",
     # q-821: the joining installer writes the style block under a letter nothing else spends, in
     # the chain's own shape, and sweeps an old block instead of doubling it.
-    "q-821": "grep -q 'live-spec:gate-v' adopt/install-style-gates.sh && grep -q 'gate v: style gate' adopt/install-style-gates.sh && python3 -m pytest -q tests/test_style_gate_kit.py >/dev/null 2>&1",
+    # q-821: the installer writes the style block under its own letter, in the chain's own colon
+    # shape, and the kit's own suite still holds the replace-rather-than-double half. The suite call
+    # this line used to make ran a whole test file at every session start, which the probe's own
+    # cheapness rule forbids (tests/test_plan_is_not_executable.py) — that file still runs in the
+    # push suite, where it belongs, and this line reads the shipped installer instead.
+    "q-821": "grep -q 'live-spec:gate-v' adopt/install-style-gates.sh && grep -q 'gate v: style gate' adopt/install-style-gates.sh && grep -q 'def test_' tests/test_style_gate_kit.py",
     "plan-8": """test "$(cat VERSION)" != 5.0.0 && grep -q 'skills/director' MIGRATION.md""",
     # plan-9's key left with its row on 2026-09-04. The row tracked another project's catch-up, so
     # its command read that project's tree and failed here every session while the row read as done;
@@ -178,7 +183,7 @@ sys.exit(1 if undrawn or unmarked else 0)
     "q-818": "cmp -s scaffold/status-view/state-probe.sh scripts/state-probe.sh && test -x guardrails/check-status-view-drift.py && grep -q 'state-probe-extras.sh' scaffold/status-view/state-probe.sh",
     # q-819: the plan says what a priority means and how its words rank, one reader carries that
     # statement, and the renderer derives the next move from it rather than from a row's position.
-    "q-819": "python3 -c \"import sys; sys.path.insert(0,'scripts'); import plan_checks_core as c; t=open('PLAN.md',encoding='utf-8').read(); o=c.read_priority_order(t); sys.exit(0 if o and o[0]=='critical' else 1)\" && grep -q 'PRIORITY_ORDER = core.read_priority_order' scaffold/status-view/state-probe.sh && grep -q 'next_reason' scaffold/status-view/state-probe.sh",
+    "q-819": "grep -q '^- \\*\\*Priority\\*\\* —' PLAN.md && grep -q '^  1\\. `critical`' PLAN.md && grep -q 'def read_priority_order' scripts/plan_checks_core.py && grep -q 'PRIORITY_ORDER = core.read_priority_order' scaffold/status-view/state-probe.sh && grep -q 'next_reason' scaffold/status-view/state-probe.sh",
     # q-820: the four scenarios where a person corrects work already running pass in the recorded
     # run; the skill says in the numbers a verdict carries that replanning opens no row; and the
     # eval's README states that one run's score is never the result. The grader is deterministic

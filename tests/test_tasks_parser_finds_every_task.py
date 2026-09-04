@@ -343,7 +343,13 @@ class TestTheAcceptanceCommandsStayHonestMachinery(unittest.TestCase):
         #: the inline script only does `json.load(open(...))` and `sys.exit`, no write; the
         #: precheck script (checked directly: no `open(..., "w")`, no `.write()` beyond a usage
         #: line to stderr) only prints candidate pairs, piped into `grep -q`, itself read-only.
-        "q-805": "8836192e163c090fe1ffaea0fb99252de290be066ecc2fa0f1a03aae02753c9d",
+        #: Re-read and re-pinned 2026-09-04: the clause that compared the whole of
+        #: spec/success-measure-feed.md against an old commit read as a freeze on a live spec
+        #: chapter, and went red when q-48 added three real criteria to it. It now greps the two
+        #: restored sentences the row actually promises. The `python3 -c` one-liner and the
+        #: precheck call are unchanged and were read again: still `json.load(open(...))` and
+        #: `sys.exit`, still a print piped into `grep -q`, no write on either road.
+        "q-805": "f18d440939b934df429369e527ac9069fd2c5de118729e62df35e936fc8a7bfb",
     }
 
     def setUp(self):

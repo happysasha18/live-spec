@@ -1483,7 +1483,15 @@ class TestTargetOwnership(unittest.TestCase):
         # so nothing here builds the design-sync machine. The promise stays written in
         # spec/doc-order-generated.md Requirement 318's own words; E-18 has no entry in this map
         # and no own-line marker for it to own.
-        "INV-21": "q-48", # success-measure reading machinery; q-96 folded into q-48 on 2026-08-28
+        # INV-21 and its own-line marker at Requirement 102 clause 5 dropped together on
+        # 2026-09-04 with q-48, per SPEC S-0 (a satisfied promise leaves both the tag and its map
+        # entry). The reading machinery that clause promises now ships on the pack's own pole:
+        # `scripts/check-success-measure-feed.py` reads a feed and reds a skipped, empty, stale or
+        # malformed one, and the pack's shared status renderer prints what it confirms beside a
+        # project's rows. What is left unbuilt — the tooling that fills a feed from a real
+        # analytics account — is a host's own by the decided scope split at Requirement 318
+        # clauses 9 and 10, so keeping the tag would leave the pack's spec promising something it
+        # has decided never to build, which is the promise rule 39 says leaves the tree.
         # Re-pointed 2026-09-01: q-385 was folded into q-398 on 2026-08-28 and never worked — q-398
         # landed 2026-09-01 doing only its own stated acceptance (the routing-preamble hook, INV-190)
         # and never touched this row's promise. q-385 is back on the board as its own open row and
