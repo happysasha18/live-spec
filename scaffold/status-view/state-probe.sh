@@ -55,7 +55,7 @@ fi
 # report carries into chat verbatim, so it prints the top of the list, not all of it: full detail
 # always stays one command away, `bash scripts/render-board.sh`, or PLAN.md itself.
 b "PLAN"
-rm -f /tmp/probe-next.txt
+rm -f /tmp/probe-next.txt /tmp/probe-next-reason.txt
 if [ -f PLAN.md ]; then
   python3 - <<'PYEOF'
 import re, subprocess, sys
@@ -68,6 +68,10 @@ G, Y, R, D, B, X = "\033[0;32m", "\033[1;33m", "\033[0;31m", "\033[2m", "\033[1m
 # Both readers cd to the repository root before this block runs, so "scripts" resolves.
 sys.path.insert(0, "scripts")
 from plan_checks import evaluate, parse_tasks
+# The priority statement a plan writes about itself is read through the same one home
+# (PLAN q-819): what a priority means and how the words rank is the project's own sentence,
+# and this reader takes it rather than deciding for the project.
+import plan_checks_core as core
 
 text = open("PLAN.md", encoding="utf-8").read()
 tasks = parse_tasks(text)
@@ -77,6 +81,15 @@ tasks = parse_tasks(text)
 # with the parser in scripts/plan_checks_core.py and both readers here call it. The two used to
 # carry their own copy of it, which is exactly how they drifted apart before.
 evaluate(tasks)
+
+# A plan this reader can find no rows in gets a sentence saying what shape it needs, rather than an
+# empty PLAN block a person has to guess at. It travelled with the shipped renderer before the two
+# copies were merged and stays here.
+if not tasks:
+    print("  %sPLAN.md holds no rows this reader can see — it needs either a `## Tasks` section of"
+          "\n  `### <mark> <title> — id: <id>` rows, or the `## The body` table the pack's own"
+          "\n  PLAN.template.md lands.%s" % (D, X))
+    sys.exit(0)
 
 ICON_COLOUR = {"✅": G, "🔄": Y, "🔁": Y, "⛔": R, "⬜": D}
 
@@ -151,11 +164,17 @@ TASK_LINE_BUDGET = 9
 CATEGORY_ORDER = ["✅", "🔄", "⛔", "🔁", "⬜"]
 
 buckets = {icon: [t for t in eligible if t["rank_icon"] == icon] for icon in CATEGORY_ORDER}
+# What a priority means, and how one word outranks another, is a project's own statement, written
+# once in its plan (PLAN q-819). This reads that statement rather than deciding for the project:
+# core.read_priority_order returns the words highest-first, and core.priority_rank places a word
+# the statement never names last, so an unnamed priority stays visible. A plan that has written no
+# such list gets no invented order — the words all rank equal, the file's own order decides, and
+# the line below says the list is missing.
+PRIORITY_ORDER = core.read_priority_order(text)
 for icon in CATEGORY_ORDER:
-    # Critical priority first; ties keep the file's own order. PLAN.md's "## Tasks" preamble
-    # already lists critical tasks first, so this is a safety net, not the source of the order
-    # (a stable sort changes nothing when the input is already in that order).
-    buckets[icon].sort(key=lambda t: 0 if (t["priority"] or "").strip().lower() == "critical" else 1)
+    # Inside one category, the plan's own priority order leads; equal priority keeps the file's own
+    # order, which a stable sort preserves.
+    buckets[icon].sort(key=lambda t: core.priority_rank(t["priority"], PRIORITY_ORDER))
 
 shown = []
 idx = {icon: 0 for icon in CATEGORY_ORDER}
@@ -182,8 +201,21 @@ while (budget > 0 or _done_left()) and progressed:
             progressed = True
 
 # NEXT: the first task actually in hand, else the first queued — a blocked task can't be advanced
-# without clearing its outside cause first, so it doesn't win NEXT either.
+# without clearing its outside cause first, so it doesn't win NEXT either. Inside whichever of the
+# two it comes from, the buckets are already sorted by the plan's own priority order above, so the
+# row that wins is the highest-ranking free one rather than the topmost line on the page.
 next_task = buckets["🔄"][0] if buckets["🔄"] else (buckets["⬜"][0] if buckets["⬜"] else None)
+next_reason = ""
+if next_task is not None and PRIORITY_ORDER:
+    word = (next_task["priority"] or "").strip().lower()
+    if word in PRIORITY_ORDER:
+        rank = PRIORITY_ORDER.index(word)
+        if rank == 0:
+            next_reason = f"{word} — the highest the plan names"
+        else:
+            next_reason = f"{word} — nothing of higher priority is free"
+    else:
+        next_reason = "priority the plan does not name, so it ranks last"
 
 # The row's own id leads its printed line, ahead of the mark and the title. Padded to the widest
 # id PLAN.md declares, so the mark that follows still lands in one column down the printed list.
@@ -224,11 +256,29 @@ more_below = sum(1 for t in tasks if t["id"] not in shown_ids and t["icon"] != "
 # last push stand above as their own lines.
 print(f"  {D}… {open_count} open · {more_below} more below · full list in PLAN.md / board.html{X}")
 
+if not PRIORITY_ORDER:
+    print(f"  {D}the plan does not say what a priority means here, so this list keeps the file's own order{X}")
+
 if next_title:
     open("/tmp/probe-next.txt", "w", encoding="utf-8").write(next_title)
+    if next_reason:
+        open("/tmp/probe-next-reason.txt", "w", encoding="utf-8").write(next_reason)
 PYEOF
 else
   bad "PLAN.md is missing"
+fi
+
+# ---------------------------------------------------------------- extras
+# A project's own facts — the pack's own FACTS block among them — print here, under their own
+# heading, from the project's own file. This renderer stays generic so one copy serves every
+# project; a project that wants more than git/PLAN.md/inbox says so in its own extras file rather
+# than in this shared script.
+#
+# The place is fixed, and it is this one: after the plan and before the alarm, where the pack's own
+# FACTS block has always printed. The list a person reads at the top of every reply keeps its shape
+# across projects, and a block that moves under him is the drift this whole row exists to stop.
+if [ -f "$REPO/scripts/state-probe-extras.sh" ]; then
+  . "$REPO/scripts/state-probe-extras.sh"
 fi
 
 # ---------------------------------------------------------------- alarm
@@ -300,21 +350,28 @@ if [ -d inbox ]; then
   [ "$INBOX_N" = "0" ] && ok "nothing unhandled"
 fi
 
-# ---------------------------------------------------------------- extras
-# A project's own facts — the pack's own FACTS block among them — print here, under their own
-# heading, from the project's own file. This renderer stays generic so one copy serves every
-# project; a project that wants more than git/PLAN.md/inbox says so in its own extras file rather
-# than in this shared script.
-if [ -f "$REPO/scripts/state-probe-extras.sh" ]; then
-  # A project's own facts, printed under its own heading by the project's own file. The renderer
-  # itself stays generic so one copy serves every project.
-  . "$REPO/scripts/state-probe-extras.sh"
+# ---------------------------------------------------------------- blockers
+# A host whose plan carries a "## Blockers" section prints it. This pack's own plan has no such
+# section, so the block is silent here; it travelled with the shipped renderer before the two
+# copies were merged, and dropping it would have taken a printed section away from every host
+# that already relies on it. Nothing in row q-818 asked for that.
+if [ -f PLAN.md ] && grep -q '^## Blockers' PLAN.md; then
+  b "BLOCKERS"
+  awk '/^## Blockers/{f=1;next} /^## /{f=0} f && /^- /' PLAN.md | head -20 | sed 's/^/  /'
 fi
 
 # ---------------------------------------------------------------- next move
 # Taken from the same run that printed the list above. It used to be read from the checkbox
 # in PLAN.md, and the two sources disagreed on the same screen.
 NEXT_TITLE=$(cat /tmp/probe-next.txt 2>/dev/null)
-[ -n "$NEXT_TITLE" ] && printf '\n\033[1mNEXT\033[0m\n  %s\n  (details — in PLAN.md)\n' "$NEXT_TITLE"
+# Why this row and no other, in the plan's own priority words (PLAN q-819). The line is derived
+# from the statement the plan writes, so a change in the order shows up here with its reason
+# instead of a row quietly moving.
+NEXT_REASON=$(cat /tmp/probe-next-reason.txt 2>/dev/null)
+if [ -n "$NEXT_TITLE" ]; then
+  printf '\n\033[1mNEXT\033[0m\n  %s\n' "$NEXT_TITLE"
+  [ -n "$NEXT_REASON" ] && printf '  \033[2m%s\033[0m\n' "$NEXT_REASON"
+  printf '  (details — in PLAN.md)\n'
+fi
 
 printf '\n'

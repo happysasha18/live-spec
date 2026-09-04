@@ -164,6 +164,13 @@ sys.exit(1 if undrawn or unmarked else 0)
     # are executed rather than grepped for (0.5s); the two real splits they sit beside read 800 KB
     # out of git history and stay in the suite.
     "q-531": "test -f scripts/nothing-lost.py && python3 tests/test_nothing_lost.py TestALegitimateSplitPrintsNothing TestADroppedThingReds > /dev/null 2>&1",
+    # q-818: one renderer ships from the pack, the pack's own copy is byte-identical to it, and the
+    # drift check reads the two files. cmp costs nothing; the check's own red-proof lives in
+    # tests/test_status_view_drift.py rather than being re-run at every session start.
+    "q-818": "cmp -s scaffold/status-view/state-probe.sh scripts/state-probe.sh && test -x guardrails/check-status-view-drift.py && grep -q 'state-probe-extras.sh' scaffold/status-view/state-probe.sh",
+    # q-819: the plan says what a priority means and how its words rank, one reader carries that
+    # statement, and the renderer derives the next move from it rather than from a row's position.
+    "q-819": "python3 -c \"import sys; sys.path.insert(0,'scripts'); import plan_checks_core as c; t=open('PLAN.md',encoding='utf-8').read(); o=c.read_priority_order(t); sys.exit(0 if o and o[0]=='critical' else 1)\" && grep -q 'PRIORITY_ORDER = core.read_priority_order' scaffold/status-view/state-probe.sh && grep -q 'next_reason' scaffold/status-view/state-probe.sh",
     # q-820: the four scenarios where a person corrects work already running pass in the recorded
     # run; the skill says in the numbers a verdict carries that replanning opens no row; and the
     # eval's README states that one run's score is never the result. The grader is deterministic

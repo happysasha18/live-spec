@@ -301,7 +301,7 @@ The foundational nouns of the method — request, pipeline, spec, architecture, 
 | `spec/work-board.md` | R309 | Work board |
 | `spec/queue-intake-priority.md` | R5–R6, R9–R10, R12–R17, R37–R50, R92–R96, R252–R256 | Queue: intake, classification, and priority |
 | `spec/owner-questions-drafts.md` | R7–R8, R31–R36, R69, R238, R241 | Questions for the owner and draft edits |
-| `spec/live-status-reporting.md` | R18–R30, R129, R236–R237, R239–R240, R257, R293–R294, R310–R311, R319 | Live status, and how the system talks to the customer |
+| `spec/live-status-reporting.md` | R18–R30, R129, R236–R237, R239–R240, R257, R293–R294, R310–R311, R319–R320 | Live status, and how the system talks to the customer |
 | `spec/parallel-lanes.md` | R77–R91 | Parallel work lanes |
 | `spec/design-spec-review.md` | R11, R52–R68, R70–R76, R99–R104, R214–R215, R258–R266 | Design and spec review before the build |
 | `spec/test-honesty.md` | R105–R117 | Test honesty |

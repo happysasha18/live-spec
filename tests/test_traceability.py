@@ -2879,7 +2879,11 @@ class TestProblemLedger(unittest.TestCase):
         for needle in ("Trains, one pen", "SPEC T-18", "isolated tree"):
             self.assertIn(needle, pipe, "director missing: %s" % needle)
         base = re.sub(r"\s+", " ", read(os.path.join("skills", "live-spec-base", "SKILL.md")))
-        for needle in ("SPEC T-18", "PEN",
+        # The pen was spelled "PEN" in this rulebook and nowhere else, capitalised and undefined;
+        # two independent cold readers stopped on it on 2026-09-04 (q-817's readability pass), so
+        # it now reads as the lowercase pen the glossary already carried, defined where rule 7
+        # first uses it. The needle follows the term to its one spelling.
+        for needle in ("SPEC T-18", "under the single pen — the right to write the shared truth",
                        "One more opens only on the human's asked word"):
             self.assertIn(needle, base, "base missing: %s" % needle)
         comm = re.sub(r"\s+", " ", read(os.path.join("skills", "communicator", "SKILL.md")))

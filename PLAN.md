@@ -472,7 +472,7 @@ changes nothing about what to fix.
 `evals/director/closing-scenarios.json`, `skills/director/SKILL.md` (the acts table and the
 correction rule).
 
-### ⬜ The status list a person reads looks the same in every project — id: q-818
+### ✅ The status list a person reads looks the same in every project — id: q-818
 **Group:** Board & visibility · **Priority:** normal
 **Source:** owner 2026-09-04 01:48 — he asked for one unchanging shape for the list and sees a
 slightly different one in each project.
@@ -486,10 +486,35 @@ pieces the pack now ships, and its own plan uses three marks outside the shared 
 check reds when a host's copy differs from the pack's own. The check reads the two files, not a
 record about them. Proven red once against a deliberately drifted copy before it is trusted.
 
+**Done 2026-09-04.** There is one renderer now. The pack's full status view moved into
+`scaffold/status-view/state-probe.sh` and was made project-generic: it prints each project's own
+name in its header and compares against whatever branch the project actually tracks, instead of
+assuming a trunk called main. The pack's own `scripts/state-probe.sh` is a byte-for-byte copy of
+that shipped file, and `cmp` proves it. Everything that named the pack's own machinery — its
+version, its director score, its startup weight, its corpus size — moved out of the shared file
+into `scripts/state-probe-extras.sh`, which the renderer reads at one fixed place: after the list
+of rows and before the alarms, where those facts have always printed. A project with no such file
+prints no such block.
+
+The new check `guardrails/check-status-view-drift.py` opens a host's vendored copy and the pack's
+own file and compares their bytes. It trusts no recorded hash and no record about the files. It
+reds naming the drifted file and the way to re-install, and it stands down with one line when a
+host carries no manifest or the pack is not on that machine. Five cases prove it in
+`tests/test_status_view_drift.py`, the red shown before the green. It runs in this pack's own push
+gate and travels to every host the installer touches, alongside an empty extras file seeded only
+where a host has none. Requirement 319 states the whole of it.
+
+Two things the merge had dropped came back before this closed: a host's own "Blockers" section, and
+the sentence a plan gets when this reader can find no rows in it. Nothing in this row asked for
+either to go.
+
+What this row does NOT do: the photo site's own copy, and its own plan's marks. That copy is that
+project's job, in that project's window, and the check now tells it when it has drifted.
+
 **Links:** `scripts/state-probe.sh`, `scaffold/status-view/`, `adopt/install-*.sh`,
 `spec/live-status-reporting.md`.
 
-### ⬜ Which row runs next is decided by a written rule, and a change of order is told to the person — id: q-819
+### ✅ Which row runs next is decided by a written rule, and a change of order is told to the person — id: q-819
 **Group:** Board & visibility · **Priority:** normal
 **Source:** owner 2026-09-04 01:48 — in the photo site the next row is picked in what looks to him
 like a random order, and nothing says how it should be picked.
@@ -505,6 +530,25 @@ judgement about what matters most.
 matter more than another, that statement lives in one place, and the next-move line is derived from
 it rather than from list position. The reply-side half is already done and stays done: rule 38 makes
 a change in the order something the next reply says, with its reason.
+
+**Done 2026-09-04.** This page now says what a priority means here, in "Words used here": two
+words, `critical` and `normal`, in that order, each with one sentence saying what it covers.
+`critical` is the pack being wrong about something today — a rule it states and does not keep, a
+check that passes on the wrong thing, a defect the owner has already run into. `normal` is real
+work where nothing is wrong today. A word this list does not name ranks last and prints with its
+word, so it stays visible.
+
+`scripts/plan_checks_core.py` reads that statement and nothing else decides a rank. The renderer
+ranks the rows inside a group by it, keeps this page's own order among equals, and derives the next
+move from it: among the rows nobody is working yet, the highest-ranking one goes next. The next-move
+line now prints the word it won on, in this project's own words. A project that has written no such
+list gets no invented order — the printed list says the statement is missing and keeps the file's
+own order.
+
+Ten cases in `tests/test_priority_order.py` prove it, three of them running the real renderer
+against a plan whose page order and priority order disagree. Requirement 320 states it. The
+reply-side half was already done and stays done: the rulebook's rule 38 makes a change in the order
+something the next reply says, with its reason.
 
 **Links:** `scripts/state-probe.sh` (the ranking block), `spec/live-status-reporting.md`,
 `skills/live-spec-base/SKILL.md`.

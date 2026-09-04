@@ -530,7 +530,7 @@ read differently.
 
 **Case: a project's own facts arrive through its own file**
 
-3. The system *shall* have the renderer source a project's own `scripts/state-probe-extras.sh` when it exists, near the renderer's end and before its closing NEXT line, printing that project's own facts under that file's own heading. [INV-325]
+3. The system *shall* have the renderer source a project's own `scripts/state-probe-extras.sh` when it exists, at one fixed place — after the plan block and before the alarm block — printing that project's own facts under that file's own heading. [INV-325]
 4. The system *shall* carry the pack's own facts — its version, its director eval score, its required-context token count, and its spec/architecture corpus size — in the pack's own `scripts/state-probe-extras.sh`, so no fact naming the pack's own files or machinery stands in the shared renderer. [INV-325]
 5. *when* a host carries no extras file, the system *shall* print no extras section rather than fail. [INV-325]
 
@@ -542,4 +542,37 @@ read differently.
 9. *when* a host carries no ratchet manifest, or the pack is not reachable from this machine, the system *shall* stand down with one line naming why, and *shall* exit clean. [INV-325]
 10. The system *shall* run this check in the pack's own push gate, and *shall* vendor it to every host `adopt/install-status-view.sh` installs, alongside an empty `scripts/state-probe-extras.sh` seeded only where the host carries none. [INV-325]
 
+---
 
+## Requirement 320: What a priority means is written in the plan, and the next move is derived from it
+
+**Context:** Every task carries a priority word on its own line, and until now only the literal word
+`critical` changed anything: the renderer hardcoded it, and what a priority meant in a project's own
+terms was written nowhere. A person reading the list could not tell why one row went next rather
+than another, and a project could not say what made one row matter more than the rest. This
+requirement gives that statement a home and makes the printed order read it. The order the marks
+and the groups print in is a separate thing, written once in the pack's own rulebook; this
+requirement governs only the ranking inside one group and the next-move line that follows from it.
+
+**User Story:** As a person who wants to know why a particular row is next, I want my project to say
+in its own words what a priority means and how its words rank, and the next-move line to be derived
+from that statement, so that the order is something I can read and change rather than something the
+renderer decided.
+
+### Acceptance Criteria
+
+**Case: the statement and its one home**
+
+1. The system *shall* have a project state, in one place in its own plan, the priority words it uses, the order those words rank in, and what each word means in that project's own terms. [INV-326]
+2. The system *shall* read that statement through `scripts/plan_checks_core.py`, the same home the plan's parser and its marks already live in, and *shall* have no other reader decide a priority's rank. [INV-326]
+
+**Case: the printed order follows the statement**
+
+3. The system *shall* rank the tasks inside one group by the plan's own stated order, keeping the plan's own order among tasks of equal priority. [INV-326]
+4. *when* a task carries a priority word the statement does not name, the system *shall* rank it last and print its word, so an unnamed priority is visible. [INV-326]
+5. *when* a plan states no such list, the system *shall* invent no order — it *shall* keep the plan's own order and *shall* say in the printed list that the statement is missing. [INV-326]
+
+**Case: the next move says why it is next**
+
+6. The system *shall* derive the next move from the stated order — among the tasks nobody is working yet, the highest-ranking one — rather than from a task's position on the page. [INV-326]
+7. The system *shall* print, beside the next move, the priority word it won on, in that project's own words. [INV-326]
