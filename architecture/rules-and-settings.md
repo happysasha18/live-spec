@@ -18,16 +18,16 @@
 - INV-302 (the two session steps sit beside the checkpoint and resume rules — rule 35's own informal restatement retired to attic, unbacked by an eval fixture or an executable script. Both steps stay a discipline the seat holds; the session extract's machine, `scripts/session-extract.py`, is the guardrails node's.)
 
 **pins** —
-- `skills/live-spec-base/SKILL.md:55` (rules)
-- `skills/live-spec-base/SKILL.md:105` (rule 6 checkpoint incl. INV-107 closing half)
-- `skills/live-spec-base/SKILL.md:130` (rule 7 fence, INV-10/INV-11)
-- `skills/live-spec-base/SKILL.md:206` (rule 16, prototype fence)
-- `skills/live-spec-base/SKILL.md:216` (rule 22, INV-98 — the convergence principle)
+- `skills/live-spec-base/SKILL.md:60` (rules)
+- `skills/live-spec-base/SKILL.md:110` (rule 6 checkpoint incl. INV-107 closing half)
+- `skills/live-spec-base/SKILL.md:135` (rule 7 fence, INV-10/INV-11)
+- `skills/live-spec-base/SKILL.md:212` (rule 16, prototype fence)
+- `skills/live-spec-base/SKILL.md:222` (rule 22, INV-98 — the convergence principle)
 - `skills/live-spec-base/references/settings-ladder.md:1` (ladder — the on-demand module beside the rulebook; `skills/live-spec-base/SKILL.md:318` carries the pointer to it)
 - `skills/live-spec-base/references/settings-ladder.md:43` (defaults incl. `budget.pressure` — the economy ladder's setting; the rungs' one home is the SPEC's economy-ladder section)
 - `skills/live-spec-base/SKILL.md:240` (rule 26, INV-136/INV-139 — a project kind declares design principles the verify pass runs; the per-kind table lives in this doc)
-- `skills/live-spec-base/SKILL.md:252` (rule 27, INV-143 — the seat decides what it can decide, surfaces only what it cannot)
-- `skills/live-spec-base/SKILL.md:262` (rule 31, the earned-message law INV-183/INV-189 the named-reference machinery joins. The pair-travels register [E-35], the living-description heal [INV-240], and the earned auto-deposit [T-24] ride this rule's build, ROADMAP 424 [target]. The prover's station stands as their net until they ship, per [INV-150].)
+- `skills/live-spec-base/SKILL.md:258` (rule 27, INV-143 — the seat decides what it can decide, surfaces only what it cannot)
+- `skills/live-spec-base/SKILL.md:275` (rule 31, the earned-message law INV-183/INV-189 the named-reference machinery joins. The pair-travels register [E-35], the living-description heal [INV-240], and the earned auto-deposit [T-24] ride this rule's build, ROADMAP 424 [target]. The prover's station stands as their net until they ship, per [INV-150].)
 - `skills/live-spec-base/SKILL.md:147` (rule 7's worker-restore sub-rule, INV-298 — the worker holds its own bytes, halts when it holds none, and the orchestrator owns recovery)
 - `attic/live-spec-base-unbacked-rules-2026-08-26.md:1` (rules 11, 14, 15, 18, 19, 20, 21, 23, 28, 32, 33, 34, 35 — cut whole, per PLAN.md step 7: covered by neither an eval fixture nor an executable script. INV-23, INV-65, INV-84, INV-108, INV-145, INV-217, INV-237, INV-247, INV-302 stay owned as formal PRODUCT_SPEC.md requirements; only their informal SKILL.md restatement moved.)
 
