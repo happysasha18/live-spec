@@ -526,6 +526,7 @@ read differently.
 **Case: one renderer, made generic**
 
 1. The system *shall* ship `scaffold/status-view/state-probe.sh` as the pack's own full renderer, printing each project's own basename in its header line and comparing against the branch's own upstream (`@{u}`). [INV-325]
+1a. The system *shall* hold the renderer's own intermediate state — the next-move line passed between its own parts — at a path unique to that run, never a fixed shared path, since one renderer now serves every project on the machine and two runs at once would otherwise cross-write each other's scratch file. [INV-325]
 2. The system *shall* keep `scripts/state-probe.sh`, the pack's own copy, byte-identical to `scaffold/status-view/state-probe.sh`. [INV-325]
 
 **Case: a project's own facts arrive through its own file**
@@ -537,9 +538,11 @@ read differently.
 **Case: the drift check reads each file's own bytes**
 
 6. The system *shall* have `guardrails/check-status-view-drift.py` read a host's `scripts/ratchet-manifest.json`, and for every pinned entry whose source resolves to a real file inside the pack, open both that pack file and the host's own vendored copy and compare their bytes directly. [INV-325, INV-177]
+6a. *when* the repo the check runs against carries its own `VERSION` file — it is the pack itself — the system *shall* compare `scaffold/status-view/state-probe.sh` against `scripts/state-probe.sh` directly, with no manifest needed, so criterion 2's byte-identity is proved at the pack's own push without the pack pinning a manifest against itself. [INV-325]
 7. The system *shall* never trust the manifest's own recorded hash and *shall* never trust a claim about a file it has not itself read. [INV-325]
 8. *when* a host's vendored copy differs from the pack's current copy, the system *shall* red, naming the drifted file and the re-install road. [INV-325]
 9. *when* a host carries no ratchet manifest, or the pack is not reachable from this machine, the system *shall* stand down with one line naming why, and *shall* exit clean. [INV-325]
+9a. The system *shall* have `adopt/install-status-view.sh` record, under its own key in the host's manifest, the pack root it installed from, and *shall* have the check read that key when no `--pack-root` is given, so a host's own push gate needs no flag wired in to find the pack. `--pack-root`, when given, *shall* win over the recorded value. [INV-325]
 10. The system *shall* run this check in the pack's own push gate, and *shall* vendor it to every host `adopt/install-status-view.sh` installs, alongside an empty `scripts/state-probe-extras.sh` seeded only where the host carries none. [INV-325]
 
 ---
@@ -564,6 +567,7 @@ renderer decided.
 **Case: the statement and its one home**
 
 1. The system *shall* have a project state, in one place in its own plan, the priority words it uses, the order those words rank in, and what each word means in that project's own terms. [INV-326]
+1a. The system *shall* state that statement as a bullet beginning `- **Priority**` inside the plan's own "Words used here" section, whose priority words are the backticked names of its indented numbered sub-items, read in the order written. [INV-326]
 2. The system *shall* read that statement through `scripts/plan_checks_core.py`, the same home the plan's parser and its marks already live in, and *shall* have no other reader decide a priority's rank. [INV-326]
 
 **Case: the printed order follows the statement**
@@ -575,4 +579,5 @@ renderer decided.
 **Case: the next move says why it is next**
 
 6. The system *shall* derive the next move from the stated order — among the tasks nobody is working yet, the highest-ranking one — rather than from a task's position on the page. [INV-326]
+6a. A blocked row *shall* never win the next move, whatever its priority word, since clearing its outside cause comes before advancing it. [INV-326]
 7. The system *shall* print, beside the next move, the priority word it won on, in that project's own words. [INV-326]

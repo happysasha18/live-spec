@@ -106,19 +106,25 @@ def check(feed_path, staleness_hours):
     now = datetime.datetime.now(datetime.timezone.utc)
     age_hours = (now - generated_at).total_seconds() / 3600.0
 
+    # A malformed stale_after_hours is a malformed feed whichever caller reads it: validated here,
+    # before either branch below decides staleness, rather than only inside the from-feed arm — a
+    # caller naming its own bound used to skip this field entirely, so the same feed passed clean
+    # for one caller and reddened for the other on the same bytes (F6).
+    stated = feed.get("stale_after_hours")
+    if stated is not None and (not isinstance(stated, (int, float)) or isinstance(stated, bool)
+                                or stated <= 0):
+        return fail("malformed",
+                    "%s's stale_after_hours must be a positive number, got %r"
+                    % (feed_path, stated))
+
     # The bound belongs to whoever owns the fetch. A caller may name it outright, or pass the
     # literal "from-feed" and let the feed state its own: the tooling that writes a feed is the
     # thing that knows how often it refreshes, and no bound the pack chose for it would mean
     # anything. A feed that states no cadence gets no invented one — the staleness arm stands
     # down by name and every other arm still runs (PLAN q-48).
     if staleness_hours is None:
-        stated = feed.get("stale_after_hours")
         if stated is None:
             stale_note = "; the feed states no refresh cadence, so its age is reported and not judged"
-        elif not isinstance(stated, (int, float)) or isinstance(stated, bool) or stated <= 0:
-            return fail("malformed",
-                        "%s's stale_after_hours must be a positive number, got %r"
-                        % (feed_path, stated))
         elif age_hours > stated:
             return fail("stale",
                         "%s was generated %.1fh ago, past the %gh cadence the feed itself states"

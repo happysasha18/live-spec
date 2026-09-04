@@ -37,16 +37,18 @@ class TheRendererPrintsAProjectsLiveNumbers(unittest.TestCase):
 **Source:** the fixture.
 """
 
-    def _host(self, feed_body):
+    def _host(self, feed_body, vendor_checker=True):
         host = tempfile.mkdtemp(prefix="livespec-feed-view-")
         subprocess.run(["git", "init", "-q"], cwd=host, check=True)
         os.makedirs(os.path.join(host, "scripts"), exist_ok=True)
         os.makedirs(os.path.join(host, ".live-spec"), exist_ok=True)
-        for src, dst in (("scaffold/status-view/state-probe.sh", "scripts/state-probe.sh"),
-                         ("scripts/plan_checks_core.py", "scripts/plan_checks_core.py"),
-                         ("scaffold/status-view/plan_checks.py", "scripts/plan_checks.py"),
-                         ("scripts/check-success-measure-feed.py",
-                          "scripts/check-success-measure-feed.py")):
+        files = [("scaffold/status-view/state-probe.sh", "scripts/state-probe.sh"),
+                 ("scripts/plan_checks_core.py", "scripts/plan_checks_core.py"),
+                 ("scaffold/status-view/plan_checks.py", "scripts/plan_checks.py")]
+        if vendor_checker:
+            files.append(("scripts/check-success-measure-feed.py",
+                          "scripts/check-success-measure-feed.py"))
+        for src, dst in files:
             with open(os.path.join(REPO, src), encoding="utf-8") as fh:
                 body = fh.read()
             with open(os.path.join(host, dst), "w", encoding="utf-8") as fh:
@@ -103,6 +105,16 @@ class TheRendererPrintsAProjectsLiveNumbers(unittest.TestCase):
     def test_a_project_with_no_feed_prints_no_such_section(self):
         out = self._host(None)
         self.assertNotIn("SINCE IT SHIPPED", out)
+
+    def test_a_feed_with_no_checker_vendored_says_so_instead_of_printing_nothing(self):
+        # Before F5, an adopting host that never got scripts/check-success-measure-feed.py
+        # vendored saw the whole section print nothing at all — indistinguishable from carrying
+        # no feed (Requirement 318 clause 12's silence, wrongly reused for a different case).
+        out = self._host(self._feed(), vendor_checker=False)
+        self.assertIn("SINCE IT SHIPPED", out)
+        self.assertNotIn("visitors: 21", out)
+        self.assertIn("check-success-measure-feed.py", out)
+        self.assertIn("missing", out)
 
 
 if __name__ == "__main__":  # pragma: no cover

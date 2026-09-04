@@ -27,6 +27,7 @@ VENDORED = {
     "scripts/render-board.sh": "scripts/render-board.sh",
     "scripts/plan-step.sh": "scripts/plan-step.sh",
     "scripts/plan_checks_core.py": "scripts/plan_checks_core.py",
+    "scripts/check-success-measure-feed.py": "scripts/check-success-measure-feed.py",
 }
 
 #: A host's plan, in the headings shape, with ids that share no name with any row of this pack's own
@@ -224,6 +225,9 @@ class TestStatusViewInstall(unittest.TestCase):
             manifest = json.load(open(os.path.join(tmp, "scripts", "ratchet-manifest.json")))
             self.assertEqual(manifest["pack_version"],
                              open(os.path.join(ROOT, "VERSION"), encoding="utf-8").read().strip())
+            # the pack root travels with the install, so a host's own push gate needs no
+            # --pack-root flag to find the pack (SPEC Requirement 319 criterion 9a, F2)
+            self.assertEqual(manifest["pack_root"], ROOT)
             for src_rel in VENDORED:
                 self.assertIn(src_rel, manifest["vendored"])
                 self.assertTrue(os.path.isfile(os.path.join(ROOT, src_rel)),

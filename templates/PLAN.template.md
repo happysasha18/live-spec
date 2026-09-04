@@ -89,6 +89,17 @@ everything else. **quick win** says the work is low effort and immediate value, 
 between landings with the jump named in the row. Ambiguous size or priority is asked at intake,
 never guessed.
 
+## Words used here
+
+- **Priority** — the one word an intake note's `priority:` field carries; a wish with no such
+  field defaults to `normal`. This is the one place this project states what a priority means and
+  how its words rank (SPEC Requirement 320) — edit the list below to match how this project
+  actually uses priority, in the order its words should win the next move. A priority word used in
+  a `priority:` field but not named here still prints and still ranks, last.
+  1. `critical` — the shipped product is broken for its user, and the row lands before everything
+     else.
+  2. `normal` — real work the goal needs, where nothing is wrong today.
+
 ## The class cell
 
 The class cell carries one word of the closed size vocabulary, one vocabulary shared with the spec:

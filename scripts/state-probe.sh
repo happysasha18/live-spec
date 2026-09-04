@@ -55,10 +55,20 @@ fi
 # report carries into chat verbatim, so it prints the top of the list, not all of it: full detail
 # always stays one command away, `bash scripts/render-board.sh`, or PLAN.md itself.
 b "PLAN"
-rm -f /tmp/probe-next.txt /tmp/probe-next-reason.txt
+# The next-move line travels from the python block below to the NEXT block near the end of this
+# same script through a scratch file, since the two run as separate processes. A fixed /tmp name
+# was fine while this file was one project's own script; one shared renderer now serves every
+# project on the machine, and two probes running at once raced on that one shared name — one
+# clearing what the other just wrote, so a person read project A's next move under project B's
+# rows (F10). mktemp gives each run its own path, and the trap clears it whether this script
+# exits normally or not.
+NEXT_FILE=$(mktemp "${TMPDIR:-/tmp}/livespec-probe-next.XXXXXX")
+NEXT_REASON_FILE=$(mktemp "${TMPDIR:-/tmp}/livespec-probe-next-reason.XXXXXX")
+trap 'rm -f "$NEXT_FILE" "$NEXT_REASON_FILE"' EXIT
+export NEXT_FILE NEXT_REASON_FILE
 if [ -f PLAN.md ]; then
   python3 - <<'PYEOF'
-import re, subprocess, sys
+import os, re, subprocess, sys
 
 G, Y, R, D, B, X = "\033[0;32m", "\033[1;33m", "\033[0;31m", "\033[2m", "\033[1m", "\033[0m"
 
@@ -200,11 +210,15 @@ while (budget > 0 or _done_left()) and progressed:
                 budget -= 1
             progressed = True
 
-# NEXT: the first task actually in hand, else the first queued — a blocked task can't be advanced
-# without clearing its outside cause first, so it doesn't win NEXT either. Inside whichever of the
-# two it comes from, the buckets are already sorted by the plan's own priority order above, so the
-# row that wins is the highest-ranking free one rather than the topmost line on the page.
-next_task = buckets["🔄"][0] if buckets["🔄"] else (buckets["⬜"][0] if buckets["⬜"] else None)
+# NEXT: the highest-ranking row nobody is working yet, whatever is in hand (SPEC Requirement 320
+# criterion 6; rule 38: "the next move is the topmost row nobody is working yet"). A row already
+# in the 🔄 bucket is being worked, so it is never a candidate, however high its priority ranks —
+# the row printed before this fix, a row already in hand always pre-empted a higher-ranking free
+# row, which the spec's own words never said. A blocked row can't be advanced without clearing its
+# outside cause first, so it doesn't win either; it never reaches the ⬜ bucket to begin with. The
+# ⬜ bucket is already sorted by the plan's own priority order above, so the row that wins is the
+# highest-ranking free one rather than the topmost line on the page.
+next_task = buckets["⬜"][0] if buckets["⬜"] else None
 next_reason = ""
 if next_task is not None and PRIORITY_ORDER:
     word = (next_task["priority"] or "").strip().lower()
@@ -260,9 +274,9 @@ if not PRIORITY_ORDER:
     print(f"  {D}the plan does not say what a priority means here, so this list keeps the file's own order{X}")
 
 if next_title:
-    open("/tmp/probe-next.txt", "w", encoding="utf-8").write(next_title)
+    open(os.environ["NEXT_FILE"], "w", encoding="utf-8").write(next_title)
     if next_reason:
-        open("/tmp/probe-next-reason.txt", "w", encoding="utf-8").write(next_reason)
+        open(os.environ["NEXT_REASON_FILE"], "w", encoding="utf-8").write(next_reason)
 PYEOF
 else
   bad "PLAN.md is missing"
@@ -292,9 +306,14 @@ fi
 # cadence has its age reported and left unjudged.
 FEED="$REPO/.live-spec/success-measure-feed.json"
 CHECKER="$REPO/scripts/check-success-measure-feed.py"
-if [ -f "$FEED" ] && [ -f "$CHECKER" ]; then
+if [ -f "$FEED" ]; then
   b "SINCE IT SHIPPED"
-  if FEED_OUT=$(python3 "$CHECKER" "$FEED" from-feed 2>&1); then
+  if [ ! -f "$CHECKER" ]; then
+    # A feed with no checker beside it used to print nothing at all here — indistinguishable
+    # from a project carrying no feed. Named instead: re-running the installer is the fix, and a
+    # missing reader is a different fault than an unconfirmed feed (Requirement 318, F5).
+    warn "a feed exists but scripts/check-success-measure-feed.py is missing — re-run adopt/install-status-view.sh to vendor it"
+  elif FEED_OUT=$(python3 "$CHECKER" "$FEED" from-feed 2>&1); then
     python3 - "$FEED" <<'FEEDEOF'
 import json, sys
 feed = json.load(open(sys.argv[1], encoding="utf-8"))
@@ -400,11 +419,11 @@ fi
 # ---------------------------------------------------------------- next move
 # Taken from the same run that printed the list above. It used to be read from the checkbox
 # in PLAN.md, and the two sources disagreed on the same screen.
-NEXT_TITLE=$(cat /tmp/probe-next.txt 2>/dev/null)
+NEXT_TITLE=$(cat "$NEXT_FILE" 2>/dev/null)
 # Why this row and no other, in the plan's own priority words (PLAN q-819). The line is derived
 # from the statement the plan writes, so a change in the order shows up here with its reason
 # instead of a row quietly moving.
-NEXT_REASON=$(cat /tmp/probe-next-reason.txt 2>/dev/null)
+NEXT_REASON=$(cat "$NEXT_REASON_FILE" 2>/dev/null)
 if [ -n "$NEXT_TITLE" ]; then
   printf '\n\033[1mNEXT\033[0m\n  %s\n' "$NEXT_TITLE"
   [ -n "$NEXT_REASON" ] && printf '  \033[2m%s\033[0m\n' "$NEXT_REASON"

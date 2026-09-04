@@ -33,6 +33,7 @@ fixed contract to wire against.
 6. *when* the feed's generation timestamp is older than the staleness bound the caller states, the system *shall* red and name the feed stale. [INV-324]
 6a. *when* the caller passes the word `from-feed` in place of a bound, the system *shall* judge staleness against the feed's own `stale_after_hours`. [INV-324]
 6b. *when* the caller passes `from-feed` and the feed states no cadence, the system *shall* report the feed's age and *shall* judge it against no bound, inventing none. [INV-324]
+6c. *when* the feed carries `stale_after_hours` that is not a positive number, the system *shall* red and name it malformed, whatever bound the caller passed. [INV-324]
 7. *when* an experiment block carries other than exactly two variants, or a variant with an empty metrics list, the system *shall* red and name the malformed block. [INV-324]
 8. The system *shall* pass a feed carrying a valid generation timestamp within its staleness bound, one or more metrics, and, where present, a two-variant experiment whose every variant is non-empty. [INV-324]
 
@@ -41,6 +42,7 @@ fixed contract to wire against.
 9. The system *shall* leave writing the fetch tooling that produces a feed from a real source — a host's own analytics account, a host's own traffic log — to each host, the host pole Requirement 267 draws for host-specific data. [INV-324, INV-163]
 10. The system *shall* have the pack's own shipped status renderer print a checked feed's numbers, its experiment where one is carried, and the fetch's own source, beside a project's rows and without a person going to look. [INV-324, INV-325]
 11. *when* the checker refuses a feed — the fetch skipped, empty, past the cadence the feed itself states, or malformed — the system *shall* print the checker's own line in place of the numbers. [INV-324, INV-21]
+11a. *when* a project carries a feed but no checker reachable to confirm it, the system *shall* print one line naming that, rather than falling into clause 12's silence for a project that carries no feed at all. [INV-324]
 12. *when* a project carries no feed, the system *shall* print no such section. [INV-324]
 
 ---

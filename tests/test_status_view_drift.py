@@ -86,3 +86,91 @@ def test_manifest_entry_missing_from_host_faults(tmp_path):
     result = _gate(str(host_root), str(pack_root))
     assert result.returncode == 1, result.stdout + result.stderr
     assert "is missing" in result.stdout
+
+
+# ---------------------------------------------------------------------------------------------
+# F1 — the pack's own pair, checked directly, no manifest needed: the repo being checked IS the
+# pack (it carries a VERSION file at its root), so criterion 2's byte-identity is proved at every
+# push from this repository even though the pack ships no ratchet-manifest.json of its own.
+
+def _make_pack_shaped_repo(tmp_path, scaffold_contents="#!/bin/bash\necho hi\n",
+                            vendored_contents=None):
+    root = tmp_path / "pack-shaped"
+    (root / "scaffold" / "status-view").mkdir(parents=True)
+    (root / "scripts").mkdir(parents=True)
+    (root / "VERSION").write_text("1.0.0\n", encoding="utf-8")
+    (root / "scaffold" / "status-view" / "state-probe.sh").write_text(
+        scaffold_contents, encoding="utf-8")
+    (root / "scripts" / "state-probe.sh").write_text(
+        vendored_contents if vendored_contents is not None else scaffold_contents,
+        encoding="utf-8")
+    return root
+
+
+def test_the_packs_own_pair_reds_when_the_two_copies_differ(tmp_path):
+    root = _make_pack_shaped_repo(tmp_path, vendored_contents="#!/bin/bash\necho DRIFTED\n")
+    result = _gate(str(root))  # no manifest, no --pack-root — the repo checked IS the pack
+    assert result.returncode == 1, result.stdout + result.stderr
+    assert "scripts/state-probe.sh" in result.stdout
+    assert "differs from the pack's own copy" in result.stdout
+
+
+def test_the_packs_own_pair_passes_when_byte_identical(tmp_path):
+    root = _make_pack_shaped_repo(tmp_path)
+    result = _gate(str(root))
+    assert result.returncode == 0, result.stdout + result.stderr
+    assert "no drift" in result.stdout
+
+
+# ---------------------------------------------------------------------------------------------
+# F2 — a host reaches the pack through its own manifest's recorded pack root, with no --pack-root
+# needed at its push gate.
+
+def _make_host_with_recorded_pack_root(tmp_path, pack_root, contents="#!/bin/bash\necho hi\n"):
+    host_root = tmp_path / "host-with-recorded-pack-root"
+    (host_root / "scripts").mkdir(parents=True)
+    (host_root / "scripts" / "state-probe.sh").write_text(contents, encoding="utf-8")
+    manifest = {
+        "pack_version": "1.0.0",
+        "pack_root": str(pack_root),
+        "vendored": {"scaffold/status-view/state-probe.sh": "deadbeef" * 8},
+    }
+    (host_root / "scripts" / "ratchet-manifest.json").write_text(
+        json.dumps(manifest), encoding="utf-8")
+    return host_root
+
+
+def test_a_hosts_recorded_pack_root_is_found_with_no_flag_and_reds_on_drift(tmp_path):
+    pack_root = _make_pack(tmp_path)
+    host_root = _make_host_with_recorded_pack_root(tmp_path, pack_root,
+                                                    contents="#!/bin/bash\necho HACKED\n")
+    result = _gate(str(host_root))  # no --pack-root — read from the manifest instead
+    assert result.returncode == 1, result.stdout + result.stderr
+    assert "differs from the pack's own copy" in result.stdout
+
+
+def test_a_hosts_recorded_pack_root_passes_when_byte_identical(tmp_path):
+    pack_root = _make_pack(tmp_path)
+    host_root = _make_host_with_recorded_pack_root(tmp_path, pack_root)
+    result = _gate(str(host_root))
+    assert result.returncode == 0, result.stdout + result.stderr
+    assert "no drift" in result.stdout
+
+
+def test_explicit_pack_root_still_wins_over_the_recorded_one(tmp_path):
+    recorded_pack = _make_pack(tmp_path, contents="#!/bin/bash\necho RECORDED\n")
+    real_pack = tmp_path / "real-pack"
+    (real_pack / "scaffold" / "status-view").mkdir(parents=True)
+    (real_pack / "VERSION").write_text("1.0.0\n", encoding="utf-8")
+    (real_pack / "scaffold" / "status-view" / "state-probe.sh").write_text(
+        "#!/bin/bash\necho hi\n", encoding="utf-8")
+    host_root = _make_host_with_recorded_pack_root(tmp_path, recorded_pack)
+    result = _gate(str(host_root), pack_root=str(real_pack))
+    assert result.returncode == 0, result.stdout + result.stderr
+
+
+def test_a_recorded_pack_root_not_on_this_machine_stands_down_honestly(tmp_path):
+    host_root = _make_host_with_recorded_pack_root(tmp_path, tmp_path / "nonexistent-pack")
+    result = _gate(str(host_root))  # no --pack-root
+    assert result.returncode == 0, result.stdout + result.stderr
+    assert "nothing to diff against" in result.stdout
