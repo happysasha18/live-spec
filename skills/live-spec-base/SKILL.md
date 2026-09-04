@@ -401,6 +401,12 @@ its own manifest line. Every other rule below keeps the number it already carrie
     disagreeing with another number opens none. A check reddening on a document's shape opens none.
     A change after which everything looks as it looked opens none.
 
+    A defect that opens a row carries the way to see it: do this, and you see that. That sentence
+    is what makes "someone meets it" a fact rather than a phrase, and it is why no permission is
+    needed for a real bug — a review that finds one opens its row without asking anybody, because
+    the row itself carries the proof. A session that cannot write that sentence has not found a
+    defect anyone meets, and there is no row.
+
     Those things are still done. They are repaired inside the work that needed them, in the same
     landing, and reported in a line. What cannot be repaired there dies in the record of the review
     that found it, and a later review finds it again if it still matters. Nothing is stored for
