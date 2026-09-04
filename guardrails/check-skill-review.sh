@@ -181,7 +181,12 @@ find_covering_record() {
     # outgrows the pipe buffer: grep leaves at the first hit and the writer takes SIGPIPE.
     grep -q "SKILL-REVIEW" <<<"$body" || continue
     grep -qiE '^Verdict:' <<<"$body" || continue
-    grep -qw "$name" <<<"$body" || continue
+    # A `Skill: <name>` field on its own line — every record already carries one, by convention
+    # (docs/skill-review/README.md). Matching the field, not the whole body, is what a word like
+    # a skill's own name appearing in another skill's prose (e.g. one record citing a sibling
+    # review by name) used to defeat: the loose whole-body grep let that mention stand in for a
+    # real covering record.
+    grep -qE "^Skill:[[:space:]]+${name}\$" <<<"$body" || continue
 
     rec_commit="$(git log -1 --format=%H -- "$rec" 2>/dev/null || true)"
     if [ -n "$covers_commit" ] && [ -n "$rec_commit" ] && [ "$rec_commit" != "$covers_commit" ] && \

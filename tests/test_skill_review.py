@@ -315,6 +315,35 @@ def test_an_unrelated_fresher_record_does_not_launder_a_stale_match():
         assert "FAIL (skill review)" in r.stdout
 
 
+def test_a_sibling_records_prose_naming_this_skill_is_not_its_covering_record():
+    """A record for one skill sometimes names ANOTHER skill in its own prose — citing a sibling
+    review, comparing findings, and so on (docs/skill-review/2026-09-04-architect.md names
+    "director" this way in this repo's real history, and the real gate matched it as director's
+    own covering record). Matching the whole body for the changed skill's name, rather than its
+    `Skill:` field, lets that prose mention stand in for a real review. The gate must still red
+    on the changed skill with no record of its own, not silently accept the other skill's."""
+    with tempfile.TemporaryDirectory() as tmp:
+        _init_repo(tmp)
+        _write(tmp, "skills/demo/SKILL.md", SKILL_V1)
+        _write(tmp, "skills/other-skill/SKILL.md", SKILL_V1.replace("demo", "other-skill"))
+        _commit_all(tmp, "both skills at v1")
+        base = _head(tmp)
+        _write(tmp, "skills/demo/SKILL.md", SKILL_BODY_CHANGED)
+        _commit_all(tmp, "demo's body changed, no record of its own")
+        # other-skill's own record lands AFTER demo's change (so it is fresh enough to pass the
+        # gate's freshness check too) and, in its own prose, names demo in passing.
+        _write(tmp, "docs/skill-review/2026-09-04-other-skill.md",
+               RECORD.replace("Skill: demo", "Skill: other-skill")
+               + "\nThe same disproportion the demo skill's own review already found.\n")
+        _commit_all(tmp, "other-skill reviewed, its record mentions demo in passing")
+        r = _run([GATE], cwd=tmp, extra_env={"LIVE_SPEC_DIFF_BASE": base})
+        assert r.returncode == 1, r.stdout + r.stderr
+        # The honest "nobody has reviewed it" message, not "has a covering record (...)" — the
+        # latter would mean other-skill's record wrongly stood in for demo's own.
+        assert "nobody has" in r.stdout, r.stdout + r.stderr
+        assert "has a covering record" not in r.stdout, r.stdout + r.stderr
+
+
 def test_record_must_be_committed_not_untracked():
     """A review record sitting untracked in the working tree does not count — it must be
     committed, mirroring the prover-record gate's tracked-file rule."""
