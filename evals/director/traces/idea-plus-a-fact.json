@@ -1,5 +1,5 @@
 {
-  "id": "idea-plus-a-fact",
+  "id": "RG",
   "acts": [
     "idea",
     "observation"
@@ -10,7 +10,10 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "Two acts in one turn, per 'One turn, several acts'. The reference-files remark, explicitly framed by the speaker as backlog-only ('дальний бэклог', 'просто как идеи'), is 'Idea for later' by the table's own definition; per the current idea rule it must be judged, not built: it becomes a row only on the person's own word, and the Director's move is at most a live question about queuing it — hence creates_work=false, shelves_idea=true, work_items=0. The second clause, that one agent is still running, is an 'Observation or feedback' — a status remark reporting no ask, matching the scenario's own framing (glancing at the screen while thinking about something else). Neither act is an instruction, correction, or decision, so no dimensions or specialists apply and no checkpoint work is opened.",
+  "reasoning": "Two acts, and no act absorbs the other. The first is an idea: 'maybe it makes sense to show the reference files' is question-shaped in wording, but the person names its meaning in the next breath - far backlog, just an idea for some moment - so they are not asking for it now. It gets judged as an idea: worth raising means one live question about whether to queue it, and it becomes a row only on their own word; nothing is filed in a second list, and it is not turned into a row on the Director's own judgment. The second is an observation: 'I see one agent is still running' reports a fact about work already in flight with no repair asked for, and a competent colleague would not need to ask what was wanted - an agent still running is the expected state, not a defect - so it is answered and recorded as evidence, not read as an instruction to stop or fix anything. It is not a halt: nothing was asked to stop. It is not a correction: the goal and constraints of the running work are untouched, so nothing gets replanned. No work was accepted, so there is no decision sheet, no dimension is named, and no specialist is called; the count of new pieces of work is zero. What the person hears back is one sentence: the idea was raised as a question about whether to queue it, and the running agent is confirmed as still running.",
   "scenario": "idea-plus-a-fact",
+  "label": "RG",
+  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
+  "recorded": "2026-09-04",
   "skill_version": "6.1.0"
 }

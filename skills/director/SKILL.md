@@ -71,8 +71,8 @@ and say which happened. Both halves still count as
 acts — the person voiced an instruction-shaped branch and an idea-shaped branch in the same
 breath, and both stay named. What is exclusive is the outcome: the condition either holds
 or it does not, so the request is taken as work or handled as the idea half above, never
-both — a verdict marking both `creates_work` and `shelves_idea` true has answered the
-condition twice. Picking one branch and dropping the other silently discards an instruction
+both — a verdict saying the work was taken on and that the idea half was handled as an
+idea has answered the condition twice. Picking one branch and dropping the other silently discards an instruction
 the person gave — even though the branch you kept was one of the two they named.
 
 **A decision is a standing rule, not only a single choice.** "From this point on", "always",
@@ -87,7 +87,27 @@ instruction.
 
 **A correction attaches to work, not to a queue.** When a message changes something
 already in flight, find that work and change it. What was already done stays done. Never
-answer a correction by creating a second row that contradicts the first. When no work is
+answer a correction by creating a second row that contradicts the first.
+
+Say that in the numbers a verdict carries, because this is where it goes wrong in practice.
+Replanning is what a correction asks for, and replanning takes on nothing that did not
+already exist: the board gains no row, and the count of new pieces of work the turn
+produces is zero. The one piece already in flight stays the one piece in flight, with a new
+goal written into the sheet it already had. Rewriting a sheet costs a session real thought,
+and the effort is no evidence that anything new was created — counting the replanned work
+as one more piece is exactly how a correction ends up beside the row it was meant to
+change. The same holds for a decision applied to running work and for a halt: both change a
+piece of work that already existed, and both produce zero new ones.
+
+Two clauses that ride inside a correction belong to it. The first is the repair stated
+aloud — do it this way instead, sweep it as a class, take that part out. That clause names
+what the replan will contain, so it is the correction's own goal in other words; naming it
+as an instruction of its own re-opens as fresh work the very thing the correction just
+changed, which is the second row this rule exists to prevent, arriving by the back door.
+The second is the part of the goal being withdrawn. Narrowing what work must cover is a
+correction to its goal, however much of the work stops as a result: a goal that came back
+smaller is still a goal being pursued, and the work goes on toward it. A halt is for the
+work itself stopping — nothing left to pursue, the whole thing parked or dropped. When no work is
 in flight yet, the same message is an idea or an instruction — decide which by whether
 they are asking for it now. A correction is not a decision: a decision settles an open
 choice within work that keeps going as planned; a correction changes that work's goal or
@@ -149,6 +169,14 @@ doubles as the reason for the neighbouring act: it is worth keeping after the ac
 which is exactly what the earlier paragraph means by the judgments that get lost first.
 Read the two paragraphs together: a clause you cannot place goes to its own act; a clause
 that is plainly redundant with a neighbour's goal does not.
+
+**Which act a standing clause is depends on which half of it is new.** A clause saying what is
+true about the product — this is broken, this measurement is false, this was invented — is an
+observation, and it stays worth knowing long after the work it arrived with. A clause saying what
+the project will do from here on — the rule, the grant of authority, the division of
+responsibility — is a decision. A clause carrying both, said in one breath, goes to whichever half
+the person is telling you for the first time; the half already on record is that clause's grounds
+and earns no act of its own.
 
 Taking acts apart is not the same as splitting a goal. One instruction stays one piece of
 work even when it will touch six files. Separate work appears only for a result someone
@@ -215,6 +243,12 @@ implementation and one target test. A cross-cutting feature touches most of the 
 Naming a dimension claims something in it must change; if nothing in it changes, do not
 name it.
 
+A turn that accepted no work names no dimension and calls no specialist. This holds for the
+standing rule that will shape everything built afterwards, and for the judgment that will be acted
+on next month: the areas they will touch belong to the work that eventually gets accepted, and
+naming them here routes a piece of work nobody has taken on. The one exception is a correction,
+which changes work already running: saying what that work now touches is the whole point of it.
+
 **Work that states a rule names the rule's one home before writing a word of it.** A rule enters
 the one house whose declared sentence it extends, and a rule pinning to no house, or to two, is
 itself the finding rather than a thing to file somewhere plausible. The five houses and their
@@ -275,7 +309,10 @@ For a question, an idea, an observation or a halt there is no sheet. There is a 
 This version acts. A question, an idea, an observation or a halt gets no sheet, per above —
 and nothing below applies to it. What follows runs only for work that just earned a
 decision sheet: an instruction, a correction, a decision, or the settled half of a
-conditional.
+conditional. Earning a sheet and creating work are two different things: an instruction and
+a settled conditional can name a goal nothing already covers, so they create work; a
+correction and a decision write their sheet onto work that was already running, and create
+none.
 
 **Before that sheet turns into a checkpoint, the Director says so if it disagrees with the
 work itself.** Writing the sheet is not only deciding how to build the thing asked for; it is

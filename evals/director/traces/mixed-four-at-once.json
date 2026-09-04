@@ -1,5 +1,5 @@
 {
-  "id": "mixed-four-at-once",
+  "id": "EH",
   "acts": [
     "question",
     "decision",
@@ -9,12 +9,15 @@
   "creates_work": true,
   "shelves_idea": false,
   "attaches_to_existing_work": false,
-  "work_items": 2,
+  "work_items": 1,
   "dimensions": [
     "documentation and communication"
   ],
   "specialists": [],
-  "reasoning": "Six clauses, read to the end per 'One turn, several acts'. (1) 'где был образец ридми плиз?' is a Question. (2) 'всегда давай ссылку если I забыл' carries 'всегда', a Decision — a standing rule, recorded not built. (3) 'сейчас тебе [проект-Б] даст идею, подхвати а пока работай' is imperative, directing action on an idea about to arrive — an Instruction scoped to this occurrence, not a standing rule; its dimensions/specialists are Unknown pending that fact, so none are named for it specifically. (4) 'ты работаешь?' is a second, distinct Question. (5) 'давай план, замеры по времени, все пиши' is a second Instruction — per 'Work that belongs elsewhere,' asking for a plan/status is work like any other, touching documentation and communication. (6) 'через час выходим... но час у тебя точно есть' matches the skill's own pacing example almost verbatim — an Observation, not a correction. Two results a person could want independently (the plan document; the project-B idea taken up) make work_items = 2. Neither attaches to work already described as running, so both open fresh.",
+  "reasoning": "Read to the end, the turn carries several acts and no act absorbs another. 'Where was the readme sample?' is a question: answer it with the link, create nothing. 'Always give the link if I forget' settles a standing rule with force beyond this message, so it is a decision recorded separately from any work item. 'Wait, project-B will give you an idea, pick it up, but meanwhile keep working' plus 'are you working?' is a status question and an instruction to continue what is already running; the project-B idea has not arrived, so there is no goal to state and no row is opened on the hope of one. 'Give a plan, time measurements, write everything' is the one instruction that names a result nothing already covers: a plan asked for is something to be made, work like any other, so it earns a decision sheet and one new piece of work. 'We leave the cafe in an hour but you definitely have an hour, then I will relaunch from home' names that a limit is close and says how the work resumes; that is an observation the work should be paced by, not a correction, since it drops no requirement and adds no step. Nothing running is stopped, so there is no halt, and no in-flight goal changes, so nothing attaches to existing work. The only dimension that genuinely changes is documentation and communication: the plan and its time estimates get written down. No specialist is needed; routing a plain request for a plan to the communicator instead of doing it is how the request disappears.",
   "scenario": "mixed-four-at-once",
+  "label": "EH",
+  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
+  "recorded": "2026-09-04",
   "skill_version": "6.1.0"
 }

@@ -1,15 +1,22 @@
 {
-  "id": "idea-for-another-project",
+  "id": "DQ",
   "acts": [
-    "idea"
+    "idea",
+    "instruction",
+    "observation"
   ],
-  "creates_work": false,
+  "creates_work": true,
   "shelves_idea": true,
   "attaches_to_existing_work": false,
-  "work_items": 0,
-  "dimensions": [],
+  "work_items": 1,
+  "dimensions": [
+    "documentation and communication"
+  ],
   "specialists": [],
-  "reasoning": "The message is hedged throughout and explicitly frames itself as something to hand off rather than do now: 'кинь лайвспеку идею' — throw livespec the idea. Per 'Idea for later': 'names a possibility they are not asking for now.' Nothing related is currently being built, so it is a genuine idea, not a correction. Per the idea row's current handling rule, 'worth raising gets one live question asking whether to queue it, and it becomes a row only on the person's own word' — the reasoning given (scope distinction between spec text and cold-reader text) shows this is a considered idea, not a passing thought, so it is judged worth raising and held pending one live question rather than silently filed or built. Since it 'becomes a row only on the person's own word,' creates_work is false, work_items is 0, and no dimensions or specialists apply.",
+  "reasoning": "Three acts, read to the end of the turn. The idea: enriching the audit skill so it serves cold readers is named as a possibility, not asked for now. The instruction: 'кинь лайвспеку идею' is a direct ask for something to be done now, and its goal is small and exact — the idea reaches live-spec as a note, nothing more. The observation is its own act and not absorbed as the instruction's preamble: it is a judgment about the product — a spec does not want this, plain texts and messages sometimes do — and it stays worth knowing after the note is delivered, which is exactly the kind of judgment this design says gets lost first. One new piece of work, because only the delivery was asked for; the enrichment itself is not taken on here, it travels as the note's content and the decision about building it belongs to whoever reads it. Nothing is in flight for this, so nothing attaches. The only dimension the delivery genuinely touches is documentation and communication — a note gets written and sent; naming product behaviour or quality would route work nobody has taken on. No specialist: writing and dropping one note is the Director's own hand, and the communicator covers wording of a result, not doing the thing asked.",
   "scenario": "idea-for-another-project",
+  "label": "DQ",
+  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
+  "recorded": "2026-09-04",
   "skill_version": "6.1.0"
 }

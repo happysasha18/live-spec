@@ -1,5 +1,5 @@
 {
-  "id": "instruction-a-procedure",
+  "id": "HI",
   "acts": [
     "instruction"
   ],
@@ -10,8 +10,13 @@
   "dimensions": [
     "architecture, data, integrations, operations"
   ],
-  "specialists": [],
-  "reasoning": "The opening clause matches the skill's own halt example almost verbatim: 'stop the server said in the middle of a procedure names a step of that procedure — it is an instruction, part of the work, not a halt.' The stop, restart command, verification step, and IP report are all aimed at one observable outcome: the server correctly bound and confirmed. Per 'Taking acts apart is not the same as splitting a goal', this is one instruction. Nothing in the scenario indicates a checkpoint already in flight, so it is new work. It touches only architecture, data, integrations, operations (local server/process configuration and network binding). The task is a direct operational sequence rather than something requiring a named specialist, so specialists is empty.",
+  "specialists": [
+    "developer"
+  ],
+  "reasoning": "One instruction, carried in four clauses that are steps toward a single result: a perf server on 8790 serving the right tree and reachable from another device on the Wi-Fi. 'Stop the server' is explicitly not a halt — the skill says a halt is about the session's own work in progress, and stopping some other system mid-procedure names a step of that procedure, so it is part of the instruction. Restarting from ~/[project-A], confirming the bind is 0.0.0.0:8790 rather than 127.0.0.1, and reading off the actual Wi-Fi IP are likewise steps, not separate results: none of them could ship or be cancelled on its own without cancelling the rest, so the turn produces exactly one new piece of work. The demand for the factual IP rather than an assumed one is a constraint on how the step is done, not a question act of its own. Nothing was in flight, so nothing attaches; no idea was voiced, so nothing was shelved. The only dimension that changes is operations — a locally served process and its binding; product behaviour, design, docs and release change nothing, and the bind check is the evidence for the goal, not a separate quality change. The developer (the agent itself) is the only specialist needed: the observable outcome is confirmed by a plain command, so no independent verifier and no spec, test or architecture work is warranted.",
   "scenario": "instruction-a-procedure",
+  "label": "HI",
+  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
+  "recorded": "2026-09-04",
   "skill_version": "6.1.0"
 }

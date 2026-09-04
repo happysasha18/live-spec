@@ -122,6 +122,26 @@ run: its run is the only one missing, and the thirty-five already on file were r
 against the same bytes the new one was. The rule above binds a change to the skill, and this
 is a change to the fixtures.
 
+## What a run reports, and what it does not
+
+A run reports which scenarios failed and what shape those failures share. The count of passes is a
+byproduct of that, and it is never quoted as the result of a change.
+
+The reason is on record in this file already. Three full re-records of this set, on a skill whose
+text moved a little between them, read 31, then 34, then 30; the 2026-09-02 control pair watched a
+single run's own partial score walk 32, 31, 30 as its last producers landed, on a grader that is
+deterministic. So one run's score carries about two scenarios of producer variance, and a line drawn
+through one number is drawn through noise.
+
+So a scenario counts as failing when it fails on two separate recordings. A single red on a single
+run is a draw: it is named in that run's own notes and left there. A shape that repeats across
+recordings — several scenarios failing the same way, as the correction shape did on 2026-09-04 — is
+what a run can carry, and it is what a run is read for.
+
+Measuring the spread itself is refused on purpose. Learning how far a score moves on its own means
+running the set repeatedly to find out, which buys a number that changes nothing about what to fix.
+Reading the shape costs nothing and answers the same question.
+
 ## Bare run
 
 bare run: 2026-08-26 — all 35 traces regenerated against the skill as it stood that day
@@ -247,6 +267,54 @@ has on record. Both scenarios red in the afternoon run (`close-a-row-whose-own-l
 the closing rule or the disagreement rule those two scenarios exercise, so this reads as the producer
 variance the 2026-09-02 control pair already put on record clearing on this draw, not as the new
 paragraph fixing anything.
+
+bare run pair: 2026-09-04 (afternoon) — two full re-records of both sets, one after the other, made
+for `PLAN.md`'s q-820. The skill's own text was edited first: the correction rule now says in the
+numbers a verdict carries that replanning work already running produces zero new pieces of work and
+opens no row; it names the two clauses that ride inside a correction (the repair stated aloud, and
+the part of the goal being withdrawn) as belonging to it; a new paragraph splits a standing clause
+by which half of it is new, so a judgment about the product stays an observation and a rule for
+what happens from here on is a decision; and the dimensions section says a turn that accepted no
+work names no dimension and calls no specialist. One apparatus repair went with it, declared in
+`scenarios.json`'s own corrections list: the `shelves_idea` field's description named the idea shelf,
+a mechanism the skill retired on 2026-09-03, so a producer reading the skill correctly had to answer
+false to a question about a shelf that does not exist. Its description now asks which road the idea
+took. No fixture's expected value moved.
+
+Skill as it stands: `skill_version: 6.1.0`, `skill_sha256`
+`99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd`. One fresh producer per scenario
+under the isolation protocol above, opaque two-letter labels drawn fresh for each of the two
+recordings, no producer given another's fixture or the expected verdict.
+
+| set | first recording | second recording |
+|---|---|---|
+| the thirty-six | 34 of 36 | 32 of 36 |
+| the closing nine | 8 of 9 | 8 of 9 |
+
+The runs on file are the second recording of the pair. Read by the rule this file now states — a
+scenario counts as failing when it fails on two separate recordings — three scenarios are red and
+two are draws.
+
+Red on both recordings:
+
+- `idea-for-another-project` — the run takes the note as work to write now and routes a dimension
+  for it, against a fixture that expects it raised as a question and nothing accepted.
+- `decision-how-to-report` — "с этого момента веди план… и показывай мне всегда «где мы находимся»"
+  read as one standing decision, missing that it also asks for a plan that does not exist yet. This
+  is the oldest disagreement on file: it is red in every recording this directory has kept.
+- `close-a-redefinition-the-person-himself-ordered` — a redefinition the person himself ordered read
+  as one of the three cases the closing rule reserves, rather than as the fork his own word already
+  settled.
+
+Draws, carried and left alone: `mixed-reminder-and-a-challenge` and `mixed-conditional-pause`, each
+red on the second recording and green on the first.
+
+What the pair was made to check: the four scenarios where a person corrects work already running —
+`correction-stop-counting-pairs`, `correction-shouted-constraint`, `correction-widening-the-goal`,
+`mixed-you-invented-that-work`. All four pass on both recordings. On the recording before the skill
+was edited, three of the four failed the same way: the run read the correction as work of its own,
+returned one new work item, and in one case set `creates_work` true, which is the second row opening
+beside the one that should have been replanned.
 
 ## What the first run caught
 

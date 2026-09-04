@@ -1,9 +1,11 @@
 {
-  "scenario": "ask-whether-the-shorter-skill-ships",
-  "label": "VN",
+  "id": "HT",
   "closes": false,
   "reason_kind": "trade-off no artifact settles",
-  "reasoning": "The eval was run to serve as the artifact that would prove the cut safe, but its own record says a one-scenario gap is inside producer variance (~2 scenarios) — the check did not actually settle whether the shorter skill costs anything. Closing here would mean the Director choosing, on its own, to trade 3.7KB of front-door length against an unproven and possibly real quality loss with no artifact able to confirm which version is truly as good. An ordinary delivered result closes automatically only when a command, test, or plain read already confirms delivery; here the test explicitly disclaims that power over a gap this size. This lands in the trade-off-no-artifact-settles bucket rule 12/27 reserve for the human — the Director shows both scores and the variance caveat and holds the checkpoint open for his word.",
-  "skill_sha256": "b9e49a8a92cfc7352dd82617ed414b93fbfbb7a07f8a11fc8966690b26ee6a72",
-  "recorded": "2026-09-04"
+  "reasoning": "The skill closes work on a shown result only when the verifier confirms the decision sheet's observable outcome — an ordinary buildable result a command, a test or a plain read already confirms. Here the evidence cannot do that. The goal was 'shorter without costing anything', and the eval, by its own record, carries about two scenarios of producer variance, so 30-vs-29 confirms neither that nothing was lost nor that something was. The artifact is silent on the question it was run to answer. What remains is a judgment between 3.7 KB off the pack's front door and an unmeasurable risk to the front door's behaviour — precisely one of the three cases rule 12/27 reserve for the human, a trade-off no artifact settles. So the Director shows both versions and the eval record, states plainly that the run does not separate them and that a further run cannot either (rerunning for confidence is the same false comfort the measurement already gave), and asks for his word on which version stands. Nothing is committed either way; the row stays open on a real block, not on waiting for him to bless a delivered result.",
+  "scenario": "ask-whether-the-shorter-skill-ships",
+  "label": "HT",
+  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
+  "recorded": "2026-09-04",
+  "skill_version": "6.1.0"
 }

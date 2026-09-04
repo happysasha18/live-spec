@@ -1,5 +1,5 @@
 {
-  "id": "not-an-act-answering-the-director",
+  "id": "LB",
   "acts": [
     "instruction"
   ],
@@ -8,8 +8,13 @@
   "attaches_to_existing_work": false,
   "work_items": 1,
   "dimensions": [],
-  "specialists": [],
-  "reasoning": "The Director had asked 'build it now or park it?', so an idea was already pending on exactly that fork. Per 'An answer to the Director's own question is not a new act': 'the act already in play was completed. The idea just became the instruction it was waiting to become, and a fresh row opens for it. Treat the exchange as one act, not two.' So this reply is the completion of the pending idea into an instruction, read as one act. Because 'a fresh row opens for it,' this is new work, not a correction to work in flight, so attaches_to_existing_work is false and work_items is 1. shelves_idea is false because the idea was taken, not shelved. Dimensions and specialists are left empty since the scenario gives no content about what 'it' actually is.",
+  "specialists": [
+    "developer"
+  ],
+  "reasoning": "An answer to the Director's own open question is not a new act. The Director had asked 'build it now, or park it?', so 'yeah go ahead' completes the act already in play rather than adding one: the idea becomes the instruction it was waiting to become, and a fresh row opens for it. The exchange counts as one act, not two, so this is scored as a single instruction producing exactly one new piece of work with its own goal and decision sheet. Nothing was shelved — the person chose the build branch, so the idea was not handled as an idea. Nothing was in flight for it to attach to; the question was still open and the conversation had not moved on, so the reply is read as completing it rather than as a fresh message. The dimensions the work touches cannot be named from this turn alone: the prompt does not say what the queued idea was, and naming a dimension claims something in it must change. The Director's own question says the thing is to be built, so a developer is the one specialist the turn supports naming; the rest await the goal being stated in the sheet.",
   "scenario": "not-an-act-answering-the-director",
+  "label": "LB",
+  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
+  "recorded": "2026-09-04",
   "skill_version": "6.1.0"
 }

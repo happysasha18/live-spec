@@ -392,7 +392,7 @@ was run against the installer as it stood and the old block survived untouched.
 (the letters in use), `tests/test_style_gate_kit.py`,
 `inbox/handled/2026-09-04-from-tlvphotos-style-gate-letter.md`.
 
-### ⬜ A correction never opens a second row, and the check that would prove it can tell a real change from noise — id: q-820
+### ✅ A correction never opens a second row, and the check that would prove it can tell a real change from noise — id: q-820
 **Group:** Pack quality · **Priority:** critical
 **Source:** the 2026-09-04 re-recording of the director's own scenarios, after the skill changed that
 night, and the owner's own worry the same night that nothing validates the director.
@@ -414,6 +414,43 @@ the number is not reported as a result at all.
 **Done when:** the four correction scenarios pass on two separate fresh recordings, and the eval's
 own README says a score is not a result — a scenario is red when it reds twice. Measured by
 `python3 evals/director/check.py --all` and `python3 -m pytest -q tests/test_director_scenarios.py`.
+
+**Done 2026-09-04.** The skill was the thing at fault, and its own words are where it was fixed.
+The correction rule now states, in the numbers a verdict carries, that replanning work already
+running produces zero new pieces of work and puts no row on the board, and that rewriting a sheet
+is what replanning costs rather than evidence that something new was made. It names the two clauses
+that ride inside a correction and belong to it: the repair stated aloud (do it this way, sweep it
+as a class, take that part out), and the part of the goal being withdrawn — narrowing what work
+must cover corrects its goal, however much of the work stops as a result. The Execution section now
+separates earning a decision sheet from creating work. Two neighbouring sharpenings came out of the
+same runs: a standing clause goes to whichever half of it is new, so a judgment about the product
+stays an observation and a rule for what happens from here on is a decision; and a turn that
+accepted no work names no dimension and calls no specialist.
+
+One apparatus repair went with it, declared in `scenarios.json`'s own corrections list. The
+`shelves_idea` field's description named the idea shelf, which the skill retired on 2026-09-03, so
+a producer reading the skill correctly had to answer false to a question about a shelf that does
+not exist, and three fixtures expecting true were grading the retired rule. The description now
+asks which road the idea took. No fixture's expected value moved.
+
+**The two recordings.** Both sets were recorded twice against the fixed text, one recording after
+the other, one fresh producer per scenario under the isolation protocol, opaque labels drawn fresh
+each time: 34 of 36 then 32 of 36 on the main set, 8 of 9 both times on the closing set. All four
+correction scenarios pass on both. On the recording made before the fix, three of the four failed
+the same way — the correction read as work of its own, one new work item returned, and in one case
+`creates_work` true.
+
+Read by this row's own rule, three scenarios are red on both recordings and stay open as findings
+rather than as new rows: `idea-for-another-project` (a note for another project taken as work to
+write now), `decision-how-to-report` (a standing rule about reporting read without the plan it also
+asks for, red in every recording this directory has kept), and
+`close-a-redefinition-the-person-himself-ordered` (a redefinition the person ordered read as still
+one of the three reserved cases). Two more are draws, carried and left alone:
+`mixed-reminder-and-a-challenge` and `mixed-conditional-pause`.
+
+The README now states what a run reports and what it does not, and why measuring the spread is
+refused: learning how far a score moves means running the set repeatedly, which buys a number that
+changes nothing about what to fix.
 
 **Links:** `evals/director/README.md`, `evals/director/scenarios.json`,
 `evals/director/closing-scenarios.json`, `skills/director/SKILL.md` (the acts table and the

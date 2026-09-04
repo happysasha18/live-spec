@@ -1,24 +1,26 @@
 {
-  "id": "correction-stop-counting-pairs",
+  "id": "SQ",
   "acts": [
     "correction",
     "observation"
   ],
-  "creates_work": true,
+  "creates_work": false,
   "shelves_idea": false,
   "attaches_to_existing_work": true,
-  "work_items": 1,
+  "work_items": 0,
   "dimensions": [
     "product value and behaviour",
     "architecture, data, integrations, operations",
     "quality, safety, regressions"
   ],
   "specialists": [
-    "Architect",
-    "Developer",
-    "Test author"
+    "developer",
+    "test author"
   ],
-  "reasoning": "The situation states work is already in flight. The message changes that work's goal/constraints — stop counting a fixed set of pairs, any pair must be buildable on demand — which is 'A correction attaches to work, not to a queue.' So this attaches to the existing checkpoint rather than opening new work, and per Execution it still earns a decision sheet and replanning, hence creates_work=true. The clause 'в 1000000 раз говорю' tells something the correction's own goal does not already carry — that this has been raised before — matching 'A complaint attached to a correction is still its own act,' so it is recorded as its own observation. The corrected goal touches product behaviour, architecture/data/integrations (on-demand construction replaces a counted set), and quality/regressions (dropping the counting logic). Architect, Developer and Test author are the specialists named.",
+  "reasoning": "Work is in flight that counts the image pairs the package ships, and this message changes that work's goal and constraints: the counting comes out and the engine must build a transition for any pair of pictures at all. That is a correction, so it attaches to the checkpoint the running work already has and is replanned there — no new row, no second piece of work, work_items zero. The imperative 'убери этот дебилизм' is the repair stated aloud, which belongs to the correction and is not an instruction of its own; naming it separately would re-open as fresh work the very thing the correction just changed. 'Ты должен любую пару картинок в мире уметь построить' is not a new standing decision either — he says himself he has stated it many times, so the half already on record is the correction's grounds and earns no act. What does say something new is the judgment riding with it: the pair counting is invented machinery and it has come back after being ruled out repeatedly. That is a product judgment worth keeping after this work closes, so it is recorded as an observation. Dimensions are named because a correction's whole point is saying what the changed work now touches: product behaviour (any pair must yield a transition), architecture (the counting machinery is removed from the implementation), and quality (a regression guard, since this class has recurred). Developer to take the counting out and build the general path, test author to choose the evidence that an arbitrary pair produces a transition. Before the specialists run, the sweep applies: name the class of this mistake and hunt its siblings in the same change, because a point fix that leaves relatives standing is why this keeps coming back.",
   "scenario": "correction-stop-counting-pairs",
+  "label": "SQ",
+  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
+  "recorded": "2026-09-04",
   "skill_version": "6.1.0"
 }

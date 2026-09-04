@@ -1,5 +1,5 @@
 {
-  "id": "halt-plain",
+  "id": "HQ",
   "acts": [
     "halt"
   ],
@@ -9,7 +9,10 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "The situation states the agent has started acting on the previous message, and the message asks that running work stop. Per the Acts table, Halt is 'wants something that is running to stop, be parked or be abandoned', and the Director's job is only to 'change the state of that work,' with 'must not... create anything.' 'A halt is about state, not about words' confirms this reading applies regardless of phrasing. The clause naming the reason (forgot to clear context) is the grounds for the halt, not a second act, per 'Grounds stated with an act carry their own act only when they say something new.' Because a halt gets no decision sheet, there are no dimensions or specialists to name and no new work item is created.",
+  "reasoning": "Work was already in flight and the person wants it to stop running — that is a halt, decided by state rather than by the word 'stop' itself. The clause 'забыл обнулить контекст' is the grounds given with the halt: it only restates why the halt wants what it wants, carries no judgment about the product worth keeping after the act closes, so it earns no act of its own. A halt changes the state of a piece of work that already existed: nothing is created, no sheet is written, no dimension is named and no specialist is called, so the count of new work is zero. The Director stops the running work and says in one sentence that it stopped, then waits.",
   "scenario": "halt-plain",
+  "label": "HQ",
+  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
+  "recorded": "2026-09-04",
   "skill_version": "6.1.0"
 }

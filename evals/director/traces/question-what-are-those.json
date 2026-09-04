@@ -1,5 +1,5 @@
 {
-  "id": "question-what-are-those",
+  "id": "GN",
   "acts": [
     "question"
   ],
@@ -9,7 +9,10 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "The scenario states plainly the person is curious, and every clause is a request to know something about what is currently visible on screen, not a request for anything to be done. Per 'Question or musing — wants to know something, or is turning a thought over without asking for anything', the Director's job is to 'answer the question; engage with the thought' and must not 'write a roadmap row, open a spec, start work'. Nothing here names a possibility for later, reports a fact needing repair, settles an open choice, changes work in flight, asks for something to be built, or asks running work to stop. The Director answers directly and records nothing.",
+  "reasoning": "Every clause of the turn is the same act: the person sees shell commands running and wants to know what they are. 'что тут за шеллы бегут', 'это просто программы', 'ты все продумал, они просто уже код гоняют', 'какой' are four phrasings of one question, not four acts - none of them says anything the neighbouring one's goal does not already carry, so under the grounds rule they stay one act. Nothing is asked for, nothing is reported that was not already visible on screen, and no work is in flight whose goal is being changed. A question creates nothing and changes no document: the Director may read, or send a reader, to answer accurately - what runs, why it was started, what it is doing - but must not turn the question into a task because answering it took effort. So no decision sheet, no checkpoint, no dimension named, no specialist called. The reply is one thing: answered.",
   "scenario": "question-what-are-those",
+  "label": "GN",
+  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
+  "recorded": "2026-09-04",
   "skill_version": "6.1.0"
 }

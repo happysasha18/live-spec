@@ -1,5 +1,5 @@
 {
-  "id": "mixed-you-invented-that-work",
+  "id": "JY",
   "acts": [
     "correction",
     "observation"
@@ -7,17 +7,17 @@
   "creates_work": false,
   "shelves_idea": false,
   "attaches_to_existing_work": true,
-  "work_items": 1,
+  "work_items": 0,
   "dimensions": [
-    "product value and behaviour",
-    "quality, safety, regressions"
+    "analytics, unknowns, hypotheses, experiments"
   ],
   "specialists": [
-    "Developer",
-    "Product prover",
-    "Test author"
+    "developer"
   ],
-  "reasoning": "The core act is a correction: work already in flight (the unrequested measuring) has its goal narrowed to keep only the one piece the person actually proposed. Per 'A correction attaches to work, not to a queue': this attaches_to_existing_work=true, creates_work=false, work_items=1 (the same in-flight work, replanned to its confirmed scope). 'Это тоже баг' and the diagnosis that this was an 'autozayavka on any garbage instead of thinking' are judgments about the product/process that say something new even though they double as the correction's reason, so they are recorded as an observation. Because the correction is a confirmed bug (an agent-side pattern of inventing unrequested work), it owes a class-hunt sweep, pulling in Product prover alongside Developer and Test author. Dimensions: product behaviour and quality/regressions.",
+  "reasoning": "Measuring was already in flight, so the message changes work that exists rather than starting any: the broad measurement goal is withdrawn and comes back smaller — a quick measure on the platform, taken before deciding how complex the transitions should be. A goal that came back smaller is still a goal being pursued, so this is a correction to that work's goal, not a halt, and the 'это да' clause is the repair stated aloud, which belongs to the correction rather than opening as a fresh instruction or as an idea to shelve. Replanning takes on nothing that did not already exist: the one piece in flight stays one piece, with a revised decision sheet written onto its existing checkpoint via 'checkpoint.py update' — no new row, zero new work items. The second act is the judgment that the auto-ticket reflex is itself a bug: a claim about what is broken says something new even though it doubles as the reason for the correction, and it stays worth knowing after this work closes, so it is recorded as evidence and not dissolved into the correction's grounds. Because a correction is the one case where naming the areas is the point, the replanned work is named against measurement and hypotheses; the developer runs the narrowed measure, and no spec, architect or test author is called since nothing in their documents becomes wrong.",
   "scenario": "mixed-you-invented-that-work",
+  "label": "JY",
+  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
+  "recorded": "2026-09-04",
   "skill_version": "6.1.0"
 }

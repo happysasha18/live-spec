@@ -1,7 +1,8 @@
 {
-  "id": "halt-without-the-word",
+  "id": "QP",
   "acts": [
     "halt",
+    "observation",
     "question"
   ],
   "creates_work": false,
@@ -10,7 +11,10 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "The Halt row is 'wants something that is running to stop, be parked or be abandoned,' and 'Do not decide by wording... no list of trigger words reaches it' and 'A halt is about state, not about words.' 'тормозни плиз' asks the session's own running work to stop being run right now — exactly a halt, even though no literal 'stop' token appears. The mechanism/reason clauses are grounds, not new acts. 'работу возобновим с этого же места уже в кафешке' specifies which branch of the halt row this is — parked, to resume from the same point later. The trailing 'норм?' is a check for agreement; per 'No act absorbs another,' an invitation to confirm/disagree is its own act (question) even when it closes out a neighbouring act. Per Execution, no checkpoint, no specialists, no dimensions; the halt targets work already in flight, yielding zero new work items.",
+  "reasoning": "Three acts in one turn. The halt is the head of it: work is running and he wants it stopped now — and he names which kind of stop, parked rather than abandoned, since the work resumes from this same place at the cafe. That is the halt's own goal in other words, not a second act, and a halt changes the state of work that already exists, so it creates nothing: zero new work items, no decision sheet, and therefore no dimensions and no specialists (only a correction is exempt from that rule, and this is not one — nothing about the work's goal changed, only whether it keeps running). 'I have to leave in 15 minutes' is the halt's grounds and earns no act. But 'I will cut your internet and close you' says something the halt's goal does not carry: the machine and the network go away, so whatever must survive has to be in files, not in this conversation. That is a reported fact, an observation, and the borderline rule sends an unplaceable clause to its own act rather than dissolving it. 'Norm?' is an invitation to confirm or disagree riding on the halt, and the skill counts such an invitation as its own act — answering only the halt would leave it unanswered. No idea was voiced, so nothing was shelved. What he hears back is one sentence: the running work is being stopped and left where it stands so it picks up from here, and yes, that is fine.",
   "scenario": "halt-without-the-word",
+  "label": "QP",
+  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
+  "recorded": "2026-09-04",
   "skill_version": "6.1.0"
 }

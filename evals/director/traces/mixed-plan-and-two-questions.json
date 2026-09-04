@@ -1,5 +1,5 @@
 {
-  "id": "mixed-plan-and-two-questions",
+  "id": "WM",
   "acts": [
     "instruction",
     "question",
@@ -13,7 +13,10 @@
     "documentation and communication"
   ],
   "specialists": [],
-  "reasoning": "Four clauses, read in order. (1) The request for a short session plan/status in this window has no question mark and specifies an output to produce now — 'Instruction.' It reads scoped ('на эту сессию'), per 'A request scoped to this one time... names no standing rule at all... and stays an instruction.' Per 'Work that belongs elsewhere': asking for a plan or status is work like any other. This is accepted work, one item, touching only documentation and communication, needing no specialist since the Director compiles it itself. (2) 'мне надо понять что делает воркер на текущем запросе... он весь этот твой план делает или сейчас только часть?' is a genuine Question seeking a specific fact — answered, not filed as work. (3) 'я ему все скопировал и запустил' reports what he already did with no request attached — an Observation, recorded as evidence, no repair inferred. (4) 'мне надо понять что получим на выходе' is folded with (2) as the same question act about the worker's run rather than a wholly separate topic. None of the non-instruction acts creates work; only the instruction is accepted work, hence work_items=1.",
+  "reasoning": "Three acts in one turn, read to the end before acting on any of them. (1) Instruction: he asks for the session plan as plain text in this window, 5-10 lines with status icons. Asking for a plan, a status or a report is asking for something to be made, so it is work like any other and gets its own small sheet - the Director writes it rather than routing it to the communicator, which covers wording only. It is scoped to this session, so it states no standing rule and stays an instruction, not a decision. (2) Question: what is the worker doing on the current request, is it running the whole plan or only part, and what comes out at the end. A question creates nothing; it is answered, and reading files or sending a reader to find out is reading, not work - the effort of answering never converts it into a task. (3) Observation: he reports that he copied everything across and launched it. It is the grounds for the question, but it states a fact of its own that the question's goal does not carry, and an unplaceable clause goes to its own act. No repair follows from it beyond doubt, so it is recorded as evidence, not turned into a job. Nothing here changes the goal or constraints of the running worker, so there is no correction and nothing attaches to work in flight - one new piece of work, the plan text. Its only dimension is documentation and communication: a written status for him, no behaviour, architecture or test changes. No specialist is needed; the Director holds the plan states and writes the lines itself, and it answers the worker questions in the same reply.",
   "scenario": "mixed-plan-and-two-questions",
+  "label": "WM",
+  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
+  "recorded": "2026-09-04",
   "skill_version": "6.1.0"
 }

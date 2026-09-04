@@ -1,6 +1,6 @@
 ---
 name: live-spec-base
-description: "Load before using any live-spec pack skill: director, spec-author, product-prover, design-reviewer, architect, build-pipeline, test-author, communicator, feedback-intake, feedback-collector, text-audit, publish. Load it also before briefing a worker that will write files, or to resolve shared rules and settings. It is the one home for the shared rules — twenty-five rules in the body, each stated as one instruction. It carries on-demand reference modules under `references/` — the glossary, the worked examples, the settings ladder, the worker-restore wording, the session handover, and rule-origins, which holds each rule's citation, history, justification, and worked example — each opened only when its own kind of question needs resolving."
+description: "Load before using any live-spec pack skill: director, spec-author, product-prover, design-reviewer, architect, build-pipeline, test-author, communicator, feedback-intake, feedback-collector, text-audit, publish. Load it also before briefing a worker that will write files, or to resolve shared rules and settings. It is the one home for the shared rules — twenty-six rules in the body, each stated as one instruction. It carries on-demand reference modules under `references/` — the glossary, the worked examples, the settings ladder, the worker-restore wording, the session handover, and rule-origins, which holds each rule's citation, history, justification, and worked example — each opened only when its own kind of question needs resolving."
 metadata:
   version: 6.1.0
 ---
@@ -299,8 +299,9 @@ its own manifest line. Every other rule below keeps the number it already carrie
     asked for an outcome. They are not the one driving the work: the pack drives, and they ride and
     say where to go. Assume they cannot read the code, do not know the pack's own machinery, and
     should never have to — what reaches them is the outcome, in the words they would use for it.
-    They are the one who decides what is worth building and whether what came back is right, and
-    that is the only judgement the work ever waits on. This person stays the same whatever the project
+    They decide what is worth building and whether it was worth it. Whether the thing actually works
+    is the pack's own job and never theirs: they are the client, and a client is not the one who
+    tests the work. This person stays the same whatever the project
     is: the one who commissioned it. A project's README names who its PRODUCT is built for, which is
     a different person and a different question — it shapes what gets built and how the product
     speaks to its own users, and it never changes who the session is talking to. Write by
@@ -370,6 +371,22 @@ its own manifest line. Every other rule below keeps the number it already carrie
    was wrong; widening it for this one case is neither. Deletion is the preferred repair: a rule,
    a script or a promise nobody keeps leaves the tree rather than gaining machinery that explains
    its absence.
+
+40. **The person is the client, and checking the work is never their job.** Taking a piece of work
+    means knowing how it will be checked; a session that cannot say how it would prove its own
+    result has not understood the task well enough to have taken it. So nothing waits on the
+    person: a result is shown and the work carries on to the next row in the same breath. They read
+    when they read, and what they say afterwards is new work rather than a verdict the finished row
+    was holding open for. No row's finish condition is their attention, no session idles for it, and no count is
+    kept of what they have yet to look at — a tally of unread things is a way of asking again, and
+    asking again is the pressure this rule exists to remove. When they do want to be waited for
+    they say so, and what they are saying then is that they take the work in hand or leave it,
+    which is a decision like any other and is recorded as one.
+
+    Two things still stop, and only these two. An act that cannot be undone outside git — anything
+    published, sent, deleted or spent — waits for their word before it runs, never after it is
+    shown. And a fork where no artifact settles the answer, because the answer is a taste or a
+    policy, is put to them as a question in the reply while the rest of the work keeps moving.
 
 ## Work that belongs elsewhere
 

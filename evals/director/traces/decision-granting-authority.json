@@ -1,15 +1,18 @@
 {
-  "id": "decision-granting-authority",
+  "id": "LN",
   "acts": [
     "decision"
   ],
   "creates_work": false,
   "shelves_idea": false,
-  "attaches_to_existing_work": false,
+  "attaches_to_existing_work": true,
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "This is the skill's own example of the standing-rule kind of decision: a grant of authority removing the stop-and-ask-before-each-push behavior going forward, not a request to do one specific push right now. Unlike the skill's own contrast case ('always deploy without asking, and deploy this one'), this message names only the standing rule, with no accompanying same-turn request. It is recorded as a decision with no work item: no checkpoint opens, no specialist is called, and since the scenario names a recurring gate behavior rather than one paused push, nothing is left for it to attach to as a correction either.",
+  "reasoning": "One act: a decision. The person settles an open choice with force beyond this message - a grant of authority covering all pushes, commands and the like from here on, which is exactly the standing-rule shape the skill names ('from this point on', a grant of authority). It is not an instruction: nothing was asked to be built, and no goal is named that something must now achieve. It is not a correction either - the work in flight keeps the same goal and constraints; only the standing permission around it changes, so nothing has to be replanned. Being a decision, it is recorded as a rule that survives the current work item and is applied immediately to the work already running: the agent stops asking before each push and just pushes. It therefore produces no new piece of work and no new row - a decision applied to running work changes a piece of work that already existed. A turn that accepted no new work names no dimension and calls no specialist; the correction exception does not apply here.",
   "scenario": "decision-granting-authority",
+  "label": "LN",
+  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
+  "recorded": "2026-09-04",
   "skill_version": "6.1.0"
 }

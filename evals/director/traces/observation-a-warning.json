@@ -1,5 +1,5 @@
 {
-  "id": "observation-a-warning",
+  "id": "GW",
   "acts": [
     "observation"
   ],
@@ -9,7 +9,10 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "The message reports a fact about the session's own state (98% of the session limit used) plus a caution to go carefully, while a long job is under way. The skill is explicit that a caution is not a correction: 'A correction is not a caution either: naming that a limit is close, or asking to go carefully, describes the work's state without changing what it must do — no new constraint, no new step, no dropped requirement. That is an observation the work should be paced by, not a correction that reopens its plan.' No sheet is written, no work is created or attached, and the existing long job continues, now paced by this observation rather than replanned.",
+  "reasoning": "The person reports a fact about the session's state — the limit is nearly reached — and asks for care. The skill names this case directly: a correction is not a caution, and naming that a limit is close, or asking to go carefully, describes the work's state without changing what it must do — no new constraint, no new step, no dropped requirement. That is an observation the work should be paced by, not a correction that reopens its plan. The 'аккуратно' clause is not a second act: it says nothing the caution's own goal does not already carry, so it is that observation in other words rather than an instruction. The repair does not follow beyond doubt either — a competent colleague would not know whether to wrap up, checkpoint, or simply proceed with smaller steps — so nothing is inferred as a repair job. No work was accepted, so there is no decision sheet, no dimension, no specialist: the observation is recorded as evidence and the long job in flight keeps its existing goal and plan, paced accordingly. The reply is one sentence saying it was heard.",
   "scenario": "observation-a-warning",
+  "label": "GW",
+  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
+  "recorded": "2026-09-04",
   "skill_version": "6.1.0"
 }

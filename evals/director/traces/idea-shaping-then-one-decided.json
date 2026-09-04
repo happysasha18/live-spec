@@ -1,5 +1,5 @@
 {
-  "id": "idea-shaping-then-one-decided",
+  "id": "CT",
   "acts": [
     "idea",
     "instruction"
@@ -9,12 +9,16 @@
   "attaches_to_existing_work": false,
   "work_items": 1,
   "dimensions": [
+    "product value and behaviour",
     "architecture, data, integrations, operations"
   ],
   "specialists": [
-    "Developer"
+    "developer"
   ],
-  "reasoning": "The turn opens with an explicit invitation to brainstorm ('давай накидывать идеи') and lists four possibilities. Per 'One turn, several acts', each named possibility is its own act, but the closing sentence resolves them: 'из этого делаем сейчас только автооткрытие борды после пуша, остальное просто держим в голове' names the thing being asked for now — matching 'An idea is not an instruction... The difference is whether the person is asking for the thing now' — so the board item converts to an instruction in the same breath ('The idea just became the instruction it was waiting to become'). Since nothing is in flight, this is new work, not an attachment. The other three possibilities stay ideas: the person's own word explicitly declines to queue them ('держим в голове'), pre-emptively giving the answer the Director's own live question would otherwise seek — that word is no, landing them in the 'passing thought is answered and not recorded' outcome even though the idea rule nominally requires a live question first; here the person has already answered it unprompted. The accepted work — opening the board automatically after a push — is small tooling integrated into the push flow, touching 'architecture, data, integrations, operations' and needing only a Developer.",
+  "reasoning": "The turn opens as thinking aloud and names four possibilities — board opens itself after a push, a morning Telegram bot for the Kanon, a dark theme, dropping HTML for terminal output. None of those is asked for at the moment it is said, and nothing related is being built, so each is an idea. The closing clause settles them: one is asked for now — auto-open the board after a push — which makes that one an instruction with its own goal, and the person's own word disposes of the other three as not-now. That is the idea half handled as an idea: answered and let go, with no second list to file them in, since the skill keeps none and the person has already given the word the Director would otherwise have asked for with one live question. No work was in flight, so nothing is corrected and nothing attaches; the single accepted instruction is one result someone could want on its own, hence exactly one new piece of work with one decision sheet. It touches product behaviour (the push flow gains a step the person sees) and operations (the push script or hook is where it lands). No spec author: this is tooling behaviour, not a product-spec sentence changing. No dimension and no specialist is named for the three ideas, because a turn names dimensions only for work actually accepted.",
   "scenario": "idea-shaping-then-one-decided",
+  "label": "CT",
+  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
+  "recorded": "2026-09-04",
   "skill_version": "6.1.0"
 }

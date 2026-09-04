@@ -1,5 +1,5 @@
 {
-  "id": "halt-until-tomorrow",
+  "id": "GJ",
   "acts": [
     "halt"
   ],
@@ -9,7 +9,10 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "'A halt is about state, not about words... What makes it a halt is that something running should stop running.' This says work in progress should stop now. The clause naming the weekly limit is the grounds for the halt and only justifies why work stops today, so it is not a separate observation. 'работа завтра' states the halt's own boundary — when the stopped work resumes — not a fresh instruction for new work; nothing is being asked for now. So this is a single halt act: creates_work is false and there is no decision sheet, dimensions, or specialists. The halt necessarily attaches to work already running.",
+  "reasoning": "Something running should stop running: the person calls off today's work and says it resumes tomorrow. That is a halt by state, not by the word 'стоп' — parking rather than abandoning is still a halt, and 'работа завтра' is the halt's own goal in other words (parked, not dropped), not a second act. The reason given — the weekly session limit is running out — is the halt's grounds; it only restates why the halt wants what it wants and adds nothing the situation did not already carry, so it earns no act of its own. A halt gets a sentence, not a decision sheet: it changes the state of work that already existed, so no new piece of work is produced, no dimension is named and no specialist is called. The Director's reply says plainly that the running work is parked until tomorrow.",
   "scenario": "halt-until-tomorrow",
+  "label": "GJ",
+  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
+  "recorded": "2026-09-04",
   "skill_version": "6.1.0"
 }

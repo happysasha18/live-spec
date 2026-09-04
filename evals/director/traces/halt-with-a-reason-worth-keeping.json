@@ -1,5 +1,5 @@
 {
-  "id": "halt-with-a-reason-worth-keeping",
+  "id": "QB",
   "acts": [
     "halt",
     "observation"
@@ -10,7 +10,10 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "The scenario states the agent is maintaining a parameter the person considers invented — work is already running. The message's core act is a halt: what matters is that 'something running should stop running,' and here the demand targets exactly that in-flight maintenance, so it changes the state of that work rather than creating anything. But the reason riding with it is not absorbed into the halt: per 'A judgment about the product — that something is broken, wasteful or invented — says something new even when it doubles as the reason for the neighbouring act: it is worth keeping after the act closes.' Calling the parameter unnecessary machinery of an invented parameter is precisely that kind of judgment, so it is its own act, an observation. No new work is created, so no dimensions or specialists apply, and no idea is being shelved.",
+  "reasoning": "Two acts. The first is a halt: something is running — the agent is maintaining that parameter — and the person wants it to stop running. A halt is about state, not words; 'Нет стоп' plus 'ты жжешь токены' names the work in flight and ends it. The second is an observation, and it is its own act rather than the halt's grounds: a judgment about the product — that the parameter is invented and the machinery around it is unneeded — says something new that the halt's own goal does not carry, and it stays worth knowing long after this work stops. That is exactly the kind of judgment the skill says gets dissolved into 'justification' and costs the most to lose. No sheet is owed: a halt gets a sentence, not a decision sheet. It changes the state of a piece of work that already existed, so it produces zero new work items, names no dimension and calls no specialist — the correction exception to that rule does not apply, because nothing is left to pursue here; the work itself stops rather than acquiring a narrower goal. No idea half is present, so nothing was raised as a live question or let go.",
   "scenario": "halt-with-a-reason-worth-keeping",
+  "label": "QB",
+  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
+  "recorded": "2026-09-04",
   "skill_version": "6.1.0"
 }

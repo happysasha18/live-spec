@@ -1,22 +1,28 @@
 {
-  "id": "mixed-check-now-improve-later",
+  "id": "VT",
   "acts": [
+    "correction",
+    "observation",
     "instruction",
-    "idea"
+    "question"
   ],
   "creates_work": true,
-  "shelves_idea": true,
-  "attaches_to_existing_work": false,
+  "shelves_idea": false,
+  "attaches_to_existing_work": true,
   "work_items": 1,
   "dimensions": [
-    "architecture, data, integrations, operations",
-    "quality, safety, regressions"
+    "quality, safety, regressions",
+    "architecture, data, integrations, operations"
   ],
   "specialists": [
     "Product prover",
-    "Independent verifier"
+    "Independent verifier",
+    "Test author"
   ],
-  "reasoning": "The core of the message is an Instruction: check the modification doesn't bloat the bundle and that nothing breaks for users. These are steps toward one result, not separate work, so work_items=1. Nothing shows this attaches to work already in flight — the modification is already made — so it opens new work. The clause 'и это прувер тоже должен был бы поймать!' is a judgment about the product that says something new (a gap in the prover's coverage) and reads as 'names a possibility they are not asking for now' — an Idea for later, since 'кстати проверь' asks only to check/confirm the claim now, not to fix the prover. Per the current idea rule this is worth raising and gets a live question rather than being built or filed on the Director's own word, hence shelves_idea=true. The check itself matches the Product prover's call condition (class-based defect hunt with no governing document) and the Independent verifier's condition (checking a result someone else produced). Dimensions: architecture/operations (bundle size, dynamic loading) and quality/safety/regressions.",
+  "reasoning": "Four acts in one turn, read to the end before acting on any of them. (1) Correction: the modification is in flight and unclosed, and the message raises its acceptance bar - it must now be shown not to swell the shipped bundle (or to load the extra weight per platform) and not to break anything a user sees. That is a constraint added to work already running, so it is replanned in place on its own checkpoint and adds no row; the acceptable alternative he names, dynamic loading by platform type, is part of that same constraint, not a separate idea, so nothing is shelved. (2) Observation: 'the prover should have caught this too' is a judgment about the product - a stated gap in what the prover checks - and it stays worth knowing long after this modification lands, so it does not dissolve into the neighbouring clause as mere grounds. (3) Instruction: 'by the way check' asks now for that gap to be investigated. It is a result someone could want on its own - the prover's coverage could ship or be cancelled without touching this modification - so it is the one new piece of work this turn produces, with its own goal and sheet. (4) Question: 'I don't know if that's real or not' asks whether a prover can catch bundle growth at all; it is answered in words, not converted into a second row. Dimensions are named only where something must change: quality and regressions (the check that would have caught the growth does not exist), and architecture/operations (bundle weight and the platform-conditional loading he offers as the remedy). Product prover for the class-based hunt over its own coverage, test author for the check that fails on growth and passes without it, independent verifier because the size and no-breakage claim cannot rest on the self-report of whoever made the modification. Architect joins only if the answer turns out to be splitting the load by platform. The feasibility doubt gets a straight answer in the same reply: a byte budget on the built artifact is measurable and cheap, so that half is real; 'nothing breaks for the user' is only as real as the regressions already covered, and that limit is stated rather than promised away.",
   "scenario": "mixed-check-now-improve-later",
+  "label": "VT",
+  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
+  "recorded": "2026-09-04",
   "skill_version": "6.1.0"
 }

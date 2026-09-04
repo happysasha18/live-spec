@@ -1,5 +1,5 @@
 {
-  "id": "idea-add-a-date",
+  "id": "HX",
   "acts": [
     "idea"
   ],
@@ -9,7 +9,10 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "The scenario states nothing related is being built, so this cannot be read as a correction to work in flight, and it names a possibility rather than asking for it now, matching the 'Idea for later' row. It is not a passing thought: the person gives a reason (the same channels will get many posts over time), so per the current idea rule this is 'worth raising' and 'gets one live question asking whether to queue it,' and 'it becomes a row only on the person's own word' — not recorded or turned into work on the Director's own judgment. Since the person's word hasn't been given in this message, creates_work is false, work_items is 0, and there is no accepted work to name dimensions or specialists for.",
+  "reasoning": "«думаю еще можно сделать дату» names a possibility the person is not asking for now: a feature has just shipped and nothing related is being built, so this is an idea, not an instruction. The trailing «потому что в те же каналы будет много раз по времени» is the idea's own grounds — it restates why the idea wants what it wants and carries no separate judgment worth keeping after the idea closes — so it is not a second act. The idea is worth raising but still amorphous (what a date is attached to, and what it would change, is unstated), so it gets one live question in the person's own terms — build it now or park it, and what exactly the date should do — and becomes a row only on his own word. Nothing is filed in a second list. A turn that accepted no work names no dimension and calls no specialist, and produces no new piece of work.",
   "scenario": "idea-add-a-date",
+  "label": "HX",
+  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
+  "recorded": "2026-09-04",
   "skill_version": "6.1.0"
 }

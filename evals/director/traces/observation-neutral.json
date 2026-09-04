@@ -1,5 +1,5 @@
 {
-  "id": "observation-neutral",
+  "id": "FU",
   "acts": [
     "observation"
   ],
@@ -9,7 +9,10 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "Per the acts table, this is 'Observation or feedback': the person 'reports a fact or an impression without asking for a repair.' Nothing is broken or wrong, so it does not meet the 'Some observations carry their repair with them' test — a balance refilling is neutral state information nobody would need to ask what to do about. The Director's job for an observation is only to 'record it as evidence,' never to infer a repair job. It is not conversation (it does add new information), but it is also not a question, idea, decision, correction, instruction, or halt. Since no work is accepted, there is no decision sheet, no dimensions, no specialists, and no checkpoint.",
+  "reasoning": "The person reports a fact about the session's state — the allowance refilled — and asks for nothing. It is not conversation, because it carries something that was not already known, so it is an observation. It is not an observation that carries its repair with it: a competent colleague hearing it would still have to ask what is wanted, since it names no defect and no goal. Creating work to be safe is the expensive direction this design exists to prevent, so nothing is opened: no checkpoint, no decision sheet, no dimension named, no specialist called. The Director records the fact as evidence and keeps talking — saying plainly where the open work stands and which piece would run next, so the person can say the word if they mean resume. Nothing was in flight for this message to correct or halt, and there is no idea half to raise or let go.",
   "scenario": "observation-neutral",
+  "label": "FU",
+  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
+  "recorded": "2026-09-04",
   "skill_version": "6.1.0"
 }

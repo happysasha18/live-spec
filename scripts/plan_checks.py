@@ -164,6 +164,11 @@ sys.exit(1 if undrawn or unmarked else 0)
     # are executed rather than grepped for (0.5s); the two real splits they sit beside read 800 KB
     # out of git history and stay in the suite.
     "q-531": "test -f scripts/nothing-lost.py && python3 tests/test_nothing_lost.py TestALegitimateSplitPrintsNothing TestADroppedThingReds > /dev/null 2>&1",
+    # q-820: the four scenarios where a person corrects work already running pass in the recorded
+    # run; the skill says in the numbers a verdict carries that replanning opens no row; and the
+    # eval's README states that one run's score is never the result. The grader is deterministic
+    # over a fixed trace set, so this costs a fraction of a second and reads the real verdicts.
+    "q-820": "! python3 evals/director/check.py --all 2>/dev/null | grep -qE '^FAIL  (correction-|mixed-you-invented)' && grep -q 'the count of new pieces of work the turn' skills/director/SKILL.md && grep -q 'a scenario counts as failing when it fails on two separate recordings' evals/director/README.md",
     # q-537: both halves. The installed-vs-working comparison runs clean, the hook installer refuses
     # a registration already present, and the test that proves it is still there.
     "q-537": "bash guardrails/check-config-health.sh >/dev/null 2>&1 && grep -q 'already wired' scripts/install-session-hooks.sh && grep -q 'test_a_meter_wrapped_existing_entry_is_recognized_not_duplicated' tests/test_install_session_hooks.py",

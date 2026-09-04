@@ -1,5 +1,5 @@
 {
-  "id": "mixed-conditional-pause",
+  "id": "RA",
   "acts": [
     "question",
     "halt"
@@ -10,7 +10,10 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "'ну как там? долго еще?' is a genuine status/ETA Question, answered directly, no sheet. The rest is a halt on the running job, worded as a conditional: pause and resume in a couple hours if long, or wait ~10 minutes if short. This matches the Halt row — 'на паузу поставим' is 'be parked' — and per 'A conditional request states both branches, and both are real', the person has already said what to do in each case; the Director resolves which branch applies once it knows the ETA. 'надо этот комп отключить ненадолго' is the halt's own grounds, not a second act. Because the two acts present are Question and Halt, no decision sheet is written: creates_work is false, no new work_items, dimensions and specialists stay empty, and the halt only changes the state of the work already running.",
+  "reasoning": "Two acts in one turn. First a question: how is the job going and how much longer — answering it needs a look at the running job, and reading to answer is not work. Second a conditional halt: pause the job now and start it over in a couple of hours if the wait is long, wait it out if only about ten minutes remain. Both branches are real and both stay named, but the outcome is exclusive — the remaining time either fits inside his window or it does not, so the job is either paused or left running, never both. The line about needing to switch the computer off for a while is the halt's grounds, not a third act: it only restates why the neighbouring act wants what it wants, and the halt's own goal (pause, resume in a couple of hours) already carries it. A halt is about state, so it changes the piece of work already in flight and creates none of its own; with no work accepted there is no decision sheet, no dimension to name and no specialist to call. What he hears back is the actual remaining time and which branch that puts us on.",
   "scenario": "mixed-conditional-pause",
+  "label": "RA",
+  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
+  "recorded": "2026-09-04",
   "skill_version": "6.1.0"
 }

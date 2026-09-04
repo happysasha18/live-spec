@@ -1,5 +1,5 @@
 {
-  "id": "correction-shouted-constraint",
+  "id": "EF",
   "acts": [
     "correction"
   ],
@@ -8,14 +8,19 @@
   "attaches_to_existing_work": true,
   "work_items": 0,
   "dimensions": [
-    "product value and behaviour",
-    "the user's path and the design"
+    "product value and behaviour — the transition engine may no longer produce a static transition; what it outputs changes",
+    "architecture, data, integrations, operations — the engine's remaining implementation has to be replanned around the constraint, and anything static already built comes out",
+    "quality, safety, regressions — the constraint needs a check that fails if a static transition reappears"
   ],
   "specialists": [
-    "Developer",
-    "Design reviewer"
+    "Developer — replan and rebuild the remainder of the engine under the constraint, and sweep out static transitions already written",
+    "Test author — the evidence that no static transition survives, and the regression that keeps it out",
+    "Independent verifier — check the observable outcome against the artifacts, not against the executor's report"
   ],
-  "reasoning": "The situation (mid-implementation of the transition engine) plus the message (a constraint about how transitions must behave) match the Correction row: 'changes the goal or the constraints of work in flight.' Per 'A correction attaches to work, not to a queue', this finds the transition-engine work already in flight and changes its constraint, so it attaches to that existing checkpoint. Tone/shouting does not change the act — what makes this a correction is that it changes an in-flight goal's constraint, not that it was shouted; it is not a halt, since the work keeps running toward the same goal, only a constraint on its output changes. Because it changes what the transition engine must produce, it touches product value and behaviour and the user's path and design, calling for the Developer to replan and continue, and the Design reviewer since the correction is about the coherence of the experience.",
+  "reasoning": "The transition engine is being implemented right now, and this message changes what that work must produce: static transitions are ruled out, so the remainder has to be replanned and whatever static path is already in the code comes out. That is a correction — it changes the constraints of work in flight, so it attaches to the checkpoint that work already has and is written in with an update to its decision sheet, never a second row beside it and never a fresh new. It is not a halt: nothing stops, the work keeps running toward the same goal with a narrower constraint. It is not a decision either: a decision settles an open choice inside work that goes on as planned, while this forces the plan for what is left to be rewritten. Being a correction, replanning takes on nothing that did not already exist — the board gains no row and the turn produces zero new pieces of work, however much thought rewriting the sheet costs. The single clause is the correction's own goal in other words, so it carries no second act; naming the repair separately would reopen as fresh work the very thing the correction just changed. Dimensions are named here only because a correction is the stated exception: saying what the running work now touches is the whole point of it. If the boundary of 'static' is not already settled in this project's own vocabulary, that gets one short question in his terms before the replan, rather than a guess.",
   "scenario": "correction-shouted-constraint",
+  "label": "EF",
+  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
+  "recorded": "2026-09-04",
   "skill_version": "6.1.0"
 }

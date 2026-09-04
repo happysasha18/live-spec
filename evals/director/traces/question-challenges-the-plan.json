@@ -1,5 +1,5 @@
 {
-  "id": "question-challenges-the-plan",
+  "id": "SN",
   "acts": [
     "question"
   ],
@@ -9,7 +9,10 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "Nothing is in flight yet — the agent only 'proposed' a new checking step, it was never accepted into work, so there is no checkpoint to correct and no work to attach to. The message itself just 'wants to know something' — whether the proposed step duplicates what the prover already does, or whether the real cases are more complex — the 'Question or musing' row. Per 'A question creates nothing and changes no document,' this gets a sentence, not a decision sheet. It is not a correction, since 'A correction attaches to work, not to a queue' and 'When no work is in flight yet, the same message is an idea or an instruction — decide which by whether they are asking for it now'; here they are asking neither.",
+  "reasoning": "The person is asking, not instructing: 'wait, isn't this what the prover already does? or are our real cases just harder?' offers two candidate answers and waits for one. Both clauses are the same act of asking — a question with its own alternative, not a question plus a separate observation. Nothing was in flight to correct or halt: the Director had only proposed a step, and a proposal met with a question is a proposal still being discussed. A question creates nothing and changes no document, so there is no decision sheet, no dimension named and no specialist called; the Director may read (including what the prover already covers) to answer, but reading to answer is not work. The right reply says whether the proposed check overlaps the prover's existing coverage and where the real cases exceed it — and if the answer turns out to be that the prover already covers it, that kills the proposal rather than filing it anywhere.",
   "scenario": "question-challenges-the-plan",
+  "label": "SN",
+  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
+  "recorded": "2026-09-04",
   "skill_version": "6.1.0"
 }

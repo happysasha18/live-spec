@@ -1,22 +1,29 @@
 {
-  "id": "correction-widening-the-goal",
+  "id": "WZ",
   "acts": [
-    "observation",
-    "correction"
+    "correction",
+    "observation"
   ],
   "creates_work": false,
   "shelves_idea": false,
   "attaches_to_existing_work": true,
-  "work_items": 1,
+  "work_items": 0,
   "dimensions": [
-    "analytics, unknowns, hypotheses, experiments",
-    "quality, safety, regressions"
+    "product value and behaviour",
+    "architecture, data, integrations, operations",
+    "quality, safety, regressions",
+    "documentation and communication"
   ],
   "specialists": [
     "Developer",
-    "Product prover"
+    "Product prover",
+    "Test author",
+    "Independent verifier"
   ],
-  "reasoning": "The situation names work already in flight — measuring the current corpus to size its task. The message does two things: 'Любая статистика по текущему корпуса ложная' is a judgment about the product worth keeping as its own observation, its repair following beyond doubt. 'Убери любое ненужное измерение... лечи спрочно проблему как класс' changes the goal and method of the corpus-measurement work already running — a correction under 'A correction attaches to work, not to a queue.' So attaches_to_existing_work is true and no new checkpoint opens (work_items = 1, the corpus-measurement work itself, replanned). 'Мы делаем генерный движок' is grounds redundant with the observation's own point, not a separate act. The instruction to fix the problem as a class invokes the skill's own sweep obligation, pulling in Product prover alongside Developer. Dimensions touched are the measurement/hypothesis work itself and the defect-class sweep.",
+  "reasoning": "Work was already in flight — the agent was measuring the current corpus to size its work — and this message changes that work's goal rather than opening anything beside it: stop measuring, take the measurement out, and cure the problem as a class. That is a correction, so the board gains no row and the count of new pieces of work is zero; the one piece already running keeps its checkpoint and gets a revised decision sheet. The clauses 'убери любое воспоминание об этом измерении' and 'лечи проблему как класс' are the repair stated aloud — the correction's own goal in other words — so they earn no act of their own; naming them as fresh instructions would re-open as new work the very thing the correction just changed. 'Любая статистика по текущему корпусу ложная' is a judgment about the product — that a measurement is false and invented — which says something new and stays worth knowing after this work closes, so it is its own act, an observation, even though it doubles as the correction's grounds. 'Мы делаем генерный движок' restates what is already on record and is that observation's grounds, not a separate decision. This is not a halt: something is left to pursue — the removal and the class sweep — so the work goes on toward a goal that came back changed. Because a correction is the one case where naming what the work now touches is the whole point, the dimensions are named: the engine must stay generic (product behaviour), the measuring code and its data paths come out (architecture and data), the fix is a class hunt for siblings with a guard so it cannot return (quality), and every recorded memory of the measurement is struck (documentation). The developer removes it, the product prover runs the class-based defect hunt over shipped code with no document to check it against, the test author fixes the evidence that no corpus-derived statistic remains, and a checker who did not do the work confirms the sweep against the observable outcome.",
   "scenario": "correction-widening-the-goal",
+  "label": "WZ",
+  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
+  "recorded": "2026-09-04",
   "skill_version": "6.1.0"
 }

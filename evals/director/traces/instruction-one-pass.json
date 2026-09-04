@@ -1,5 +1,5 @@
 {
-  "id": "instruction-one-pass",
+  "id": "JJ",
   "acts": [
     "instruction"
   ],
@@ -10,8 +10,14 @@
   "dimensions": [
     "documentation and communication"
   ],
-  "specialists": [],
-  "reasoning": "The message asks for something to be done now, with the person actively scoping the work ('only'), matching the Instruction row. Nothing references work already running to correct or decide on, so this is read as a fresh instruction. It is one instruction, hence one work item. The goal is to review/pass over a skill's text, which is a document, so the dimension touched is documentation and communication; per 'Naming a dimension claims something in it must change,' no other dimension is named. No specialist in the table maps cleanly onto 'pass over a skill's own text' (skill review is the Director's own execution-law concern, not a delegable specialist), so specialists is empty.",
+  "specialists": [
+    "developer",
+    "independent verifier"
+  ],
+  "reasoning": "One act. The person is asking for something to be done now — a pass over the prover skill — so it is an instruction, not a musing or an idea for later. The word 'only' looks like a narrowing, but nothing is in flight: the situation is choosing what the session will cover, so there is no work whose goal could be narrowed and no checkpoint to update. The skill is explicit that when no work is in flight yet, the same message is an idea or an instruction, decided by whether they are asking for it now — they are. That makes it new work with its own goal and decision sheet, one piece, opening a fresh checkpoint rather than attaching to an existing one. The scope limit is part of that one goal, not a second act and not a halt on anything. The work touches documentation and communication: the prover skill's own text is what changes. No product behaviour, user path, architecture or release surface changes, so those dimensions are not named. Developer to make the pass, and an independent verifier because the check must be run by someone who did not produce the result.",
   "scenario": "instruction-one-pass",
+  "label": "JJ",
+  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
+  "recorded": "2026-09-04",
   "skill_version": "6.1.0"
 }

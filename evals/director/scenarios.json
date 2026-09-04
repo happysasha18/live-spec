@@ -3,7 +3,7 @@
   "verdict_shape": {
     "acts": "zero or more of: question, idea, observation, decision, correction, instruction, halt",
     "creates_work": "would the Director take on a piece of work with its own goal and decision sheet",
-    "shelves_idea": "would an entry go on the idea shelf",
+    "shelves_idea": "was the idea half handled as an idea rather than taken on as work — raised as one live question about whether to queue it, or answered and let go. The skill keeps no second list to file it in, so this field says which road the idea took, never that anything was stored.",
     "attaches_to_existing_work": "does this change work already in flight rather than start any",
     "work_items": "how many NEW separate pieces of work this turn produces. A correction or a halt that changes work already running produces none: it changes a piece of work that already existed.",
     "dimensions": "the areas the accepted work touches",
@@ -715,6 +715,21 @@
         "situation": "... repairing it was taken on as work with a checkpoint of its own, still open: the fix was pushed minutes before this message and a new CI run is in progress awaiting a verdict."
       },
       "why": "The fixture argued against its own expectation. The skill models work in flight by its checkpoint — 'New work opens a checkpoint before the first specialist is called; work already in flight updates the one it already has' — so a situation saying nothing had been checkpointed says there is no work in flight to attach to, while the expectation asked for attaches_to_existing_work:true. A reader following the skill correctly produced the opposite verdict, and the fixture graded them wrong for it. Of the two repairs available, the situation is the half fixed and the expectation is kept: attaching an observation to an open repair is a branch no other fixture covers, whereas flipping the expectation to creates_work:true would duplicate observation-a-verdict-on-delivered-work, which already tests a defect report against work already closed. The traced facts stay as they were — the two prior red runs, the diagnosed cause, the pushed fix, the run in progress — and the clause about the checkpoint is the only part rewritten, which is the same repair decision-and-instruction-together and observation-a-verdict-on-delivered-work each took in the other direction."
+    },
+    {
+      "scenario": "idea-add-a-date",
+      "changed_after": "the 2026-09-04 pair of re-records for PLAN.md's q-820, where producers on three separate idea scenarios all answered shelves_idea:false and all quoted the same sentence back — the skill forbids filing an idea in a second list",
+      "was": {
+        "verdict_shape": {
+          "shelves_idea": "would an entry go on the idea shelf"
+        }
+      },
+      "now": {
+        "verdict_shape": {
+          "shelves_idea": "was the idea half handled as an idea rather than taken on as work"
+        }
+      },
+      "why": "No expectation moved. The field's own description named a mechanism the skill retired on 2026-09-03 when the idea shelf came out of it, so a producer reading the skill correctly had to answer false to a question about a shelf that does not exist, and three fixtures expecting true were grading the retired rule. The three scenarios this touches are idea-add-a-date, idea-plus-a-fact and idea-for-another-project; the description is what changed, in the skill's own current words, and every fixture's expected value stands exactly where it stood. Recorded here rather than quietly edited, the same way every other correction in this list is."
     }
   ]
 }

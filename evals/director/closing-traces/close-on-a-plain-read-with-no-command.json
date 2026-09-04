@@ -1,9 +1,11 @@
 {
-  "scenario": "close-on-a-plain-read-with-no-command",
-  "label": "ZT",
+  "id": "AQ",
   "closes": true,
   "reason_kind": "ordinary delivered result",
-  "reasoning": "This is accepted instruction work that has reached the closing rule: the paragraph's claims were checked directly against the files it describes — the plain-read equivalent of a command-checked result. Nothing here matches the three reserved exceptions: it is not a taste call (the wording itself is not being judged), not a trade-off no artifact settles, and not a change to the definition of correct (it states a fact about what now exists). So this is an ordinary buildable result a plain read already confirms was delivered, and the Director shows the result and closes the checkpoint in the same step.",
-  "skill_sha256": "b9e49a8a92cfc7352dd82617ed414b93fbfbb7a07f8a11fc8966690b26ee6a72",
-  "recorded": "2026-09-04"
+  "reasoning": "The decision sheet's observable outcome — the eval README states that a second, smaller eval exists and which layer it covers — is true on disk, and the Director confirmed it by a plain read of the paragraph against the files it describes. The skill's rule is that a shown result closes the work and the human's own eye is never the gate on an ordinary delivery: the absence of a command that can judge a paragraph does not promote it into one of the three cases reserved for him. It is not a taste call (nobody has raised a question about the wording, and the README's own voice was left as it was), not a trade-off no artifact settles (the facts are checkable against the files), not a change to the definition of correct, and not irreversible outside git. So the Director shows the changed paragraph, clears IN PROGRESS and NEXT, and runs checkpoint.py close on this work's own checkpoint in the same step — never leaving the row open to wait for a blessing on something already shown. If he disagrees with the wording afterward, that is a new fact carrying his correction into its own task, and this closed row stays closed.",
+  "scenario": "close-on-a-plain-read-with-no-command",
+  "label": "AQ",
+  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
+  "recorded": "2026-09-04",
+  "skill_version": "6.1.0"
 }

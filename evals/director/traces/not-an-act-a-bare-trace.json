@@ -1,5 +1,5 @@
 {
-  "id": "not-an-act-a-bare-trace",
+  "id": "UQ",
   "acts": [
     "observation"
   ],
@@ -12,10 +12,14 @@
     "quality, safety, regressions"
   ],
   "specialists": [
-    "Developer",
-    "Test author"
+    "developer",
+    "test author",
+    "independent verifier"
   ],
-  "reasoning": "'A message with no words — a pasted stack trace, a screenshot, a dropped file — is still an act, and usually an observation. What the person wants done with it is often clear from what they were doing a minute earlier.' Here the person was watching a deploy and, moments later, pastes a crash trace with no other words — that timing settles it, so no question is needed. This matches 'Some observations carry their repair with them' — the same shape as 'Production is returning 500s.' A TypeError thrown inside checkEntitlement right after a deploy is a broken entitlement check, not a preference. It is not a correction, since no work of the Director's own is described as still in flight — this is a fresh defect report, opening new work. Dimensions: product value and behaviour, quality/safety/regressions. Specialists: Developer to fix the null-property access, Test author for the regression test.",
+  "reasoning": "A message with no words - a pasted stack trace - is still an act, and usually an observation. Nothing here asks a question, settles a rule, or changes work in flight, so it is one act, not several. It is an observation whose repair follows beyond doubt: a TypeError thrown from the entitlement check moments after a deploy the person was watching is a defect, and a competent colleague would not need to ask what was wanted, so the Director acts rather than asking. That makes it one new piece of work with its own goal and decision sheet - the entitlement check stops throwing on the deployed path - and one checkpoint opened before the first specialist is called. Dimensions: product behaviour, because the entitlement check is not honouring what it should; and quality, because it shipped without a check that would have caught the undefined read. Specialists: developer to find and fix the cause, test author for the regression that fails on today's code and passes after, and an independent verifier who did not produce the work to check the outcome against the artifacts. No spec author - nothing suggests the specified behaviour changed - and the confirmed bug still owes a class sweep for siblings of the same undefined-read mistake in the same change before it counts as finished.",
   "scenario": "not-an-act-a-bare-trace",
+  "label": "UQ",
+  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
+  "recorded": "2026-09-04",
   "skill_version": "6.1.0"
 }

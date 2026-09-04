@@ -1,20 +1,20 @@
 {
-  "id": "mixed-reminder-and-a-challenge",
+  "id": "QL",
   "acts": [
     "decision",
-    "instruction",
+    "idea",
     "question"
   ],
-  "creates_work": true,
-  "shelves_idea": false,
+  "creates_work": false,
+  "shelves_idea": true,
   "attaches_to_existing_work": false,
-  "work_items": 1,
-  "dimensions": [
-    "documentation and communication",
-    "release, observation, feedback"
-  ],
+  "work_items": 0,
+  "dimensions": [],
   "specialists": [],
-  "reasoning": "Three things are said. (1) Reminding that goals already sit in the plan — per 'Reminding that a goal already in the plan still stands is the same kind of act — a decision reaffirmed, not a new idea' — is a decision, recorded and applied to work already running, not a fresh row on its own. (2) 'эти параметры необходимо мониторить в статусе в файле плана' is a distinct ask stated now: add ongoing status-monitoring of these two goal-parameters to PLAN.md's status — an Instruction, and new work since nothing shows an existing checkpoint already tracking this. (3) 'согласен или поспорь со мной' is the case the skill names directly: an invitation to disagree is its own act (question), requiring the Director to actually agree or argue. No idea is being floated or shelved. The one accepted work item is a document-only change touching documentation/communication and release/observation/feedback, needing no specialist.",
+  "reasoning": "Three acts in one turn. (1) Decision: reminding that the plan's standing goals - make everything more compact, optimize various things - still stand is a decision reaffirmed, not a new idea; and 'these parameters must be monitored in the status in the plan file' settles a standing rule with force beyond this message about how every future status is reported, so it is recorded as a rule rather than executed as a one-off. (2) Idea: 'maybe look at it in the next session' names a possibility he is explicitly not asking for now; it gets one live question about whether to queue it and becomes a row only on his own word - it is not filed in any second list. (3) Question: 'agree or argue with me' is an invitation to disagree riding alongside the decision, and it is its own act; answering only the rule would leave it unanswered. No act absorbs another here. No work was accepted this turn - a decision applied going forward, plus an idea he himself deferred, produce zero new pieces of work, so no checkpoint is opened, no dimension is named and no specialist is called. The honest answer to his invitation is partial disagreement stated plainly: 'compact' and 'optimized' are not yet parameters, so before anything appears in the status line the concrete measurable quantities have to be named; monitoring numbers nobody has defined would put invented figures on the plan.",
   "scenario": "mixed-reminder-and-a-challenge",
+  "label": "QL",
+  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
+  "recorded": "2026-09-04",
   "skill_version": "6.1.0"
 }

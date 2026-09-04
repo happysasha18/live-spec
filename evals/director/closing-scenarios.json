@@ -22,15 +22,14 @@
   "recorded_run": {
     "date": "2026-09-04",
     "skill_version": "6.1.0",
-    "skill_sha256": "b9e49a8a92cfc7352dd82617ed414b93fbfbb7a07f8a11fc8966690b26ee6a72",
+    "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
     "why_a_hash_and_not_the_version": "The Director's text changed three times on 2026-09-02 — the closing rule, its provenance line stripped, the disagreement rule added — and the declared version read 6.1.0 through all three. A version pin would have gone on reading fresh across the very edits it exists to catch, so the runs pin the file's content. Editing the Director reds this suite until the nine runs are recorded again, which is what this directory's own rule already asks for. The first recording of the eight closing runs, made against the text as it stood an hour earlier, was thrown out for exactly this reason rather than carried forward.",
-    "producers": "one fresh agent per scenario, each holding a copy of skills/director/SKILL.md and one scenario and nothing else — no repository, no other skill, no sight of the expected verdict. Scenarios were handed over under opaque two-letter labels, because this eval's older sibling learned that a descriptive id tells the producer what to answer.",
-    "score": "7 of 9",
+    "producers": "one fresh agent per scenario, each holding a copy of skills/director/SKILL.md and one scenario and nothing else — no repository, no other skill, no sight of the expected verdict. Scenarios were handed over under opaque two-letter labels, because this eval's older sibling learned that a descriptive id tells the producer what to answer. Two full recordings were made against this same text; the runs on file are the second of the two.",
+    "score": "8 of 9",
     "red": [
-      "close-a-row-whose-own-line-names-his-eye: closes=False, expected True",
       "close-a-redefinition-the-person-himself-ordered: closes=False, expected True"
     ],
-    "judgment_read": "Re-recorded 2026-09-04 against the skill as it stands after that night's edits — the acknowledgement paragraph and the rewritten idea-for-later row, which makes an idea a row only on the person's own word. Two runs came back red, and both are the pair that has flipped on this same boundary across three recordings now: close-a-row-whose-own-line-names-his-eye read the row's stale 'his own eye is the check' line as still binding, and close-a-redefinition-the-person-himself-ordered read an already-ordered redefinition as still open. The set has read 9 of 9 and 7 of 9 on texts that differ by a paragraph, so the pair is the signal and the score is not; PLAN.md row q-820 carries both the correction-shaped failures the main set found and the spread this eval cannot yet state about itself.",
+    "judgment_read": "Two full recordings against this text, made one after the other by separate producers. The first read 8 of 9 and the second 8 of 9, and one scenario is red on both: close-a-redefinition-the-person-himself-ordered, which reads a redefinition the person himself ordered as still one of the three reserved cases rather than a fork the person already settled. That is the one this set can report, because a scenario counts as failing only when it fails on two separate recordings — the rule the sibling eval's README now states in full. close-a-row-whose-own-line-names-his-eye, red on the 2026-09-04 morning recording, came back green on both of these, so it is carried as a draw rather than as a finding.",
     "recorded": "2026-09-04"
   },
   "scenarios": [

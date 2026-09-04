@@ -1,9 +1,11 @@
 {
-  "scenario": "ask-when-the-change-reaches-past-what-was-ordered",
-  "label": "TF",
+  "id": "MX",
   "closes": false,
   "reason_kind": "change to the definition of correct",
-  "reasoning": "The narrow instruction — fail a run that names an act where none was expected — is delivered and its own unit test passes, which on its own would be an ordinary buildable result. But the same branch also governs a second, separate lenient case that the eval's own written cost model deliberately treats as a note rather than a failure — an artifact that already settled that case's correctness. The delivered code silently overturns that settled definition for four runs nobody asked to touch. This is not the ordinary case: the delivered change reaches past the accepted goal and redefines what the grader counts as pass/fail for a case an artifact had already decided. That is a change to the definition of correct, so the Director holds and speaks to the person before closing rather than closing on the passing unit test alone.",
-  "skill_sha256": "b9e49a8a92cfc7352dd82617ed414b93fbfbb7a07f8a11fc8966690b26ee6a72",
-  "recorded": "2026-09-04"
+  "reasoning": "The narrow instruction's observable outcome is met, and on its own that would be an ordinary delivered result the Director shows and closes in the same step, without waiting for his eye. But the delivered code did not stop at that outcome: the same branch also governs the wider case nobody asked about, and it now fails what the eval's own written cost model deliberately prints as a note. Four of the 35 recorded runs go red on that alone, every other field right. That is not the goal being reached, it is the grader's rule for what counts as a failure being rewritten, and rewriting what the eval counts as correct is exactly the case rule 12/27 reserve for him, not a buildable result a command or a test can settle. The skill also says the Director states a disagreement it can see before the sheet turns into a checkpoint rather than executing silently, so the move now is to say plainly that the narrow fix landed with a wider effect nobody asked for, that splitting the two cases apart is possible, and to ask which behaviour the wider case should have, in his terms and not by naming acts. Until that word arrives the work stays open on its existing checkpoint, with NEXT carrying the open wider case; closing it would bless a changed definition of correct on the Director's own judgment, and a checkpoint that will not close over open content is telling the truth about work that is not finished. Deciding the wider case is a correction to this same piece of work when his answer comes, not a second row.",
+  "scenario": "ask-when-the-change-reaches-past-what-was-ordered",
+  "label": "MX",
+  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
+  "recorded": "2026-09-04",
+  "skill_version": "6.1.0"
 }

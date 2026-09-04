@@ -1,5 +1,5 @@
 {
-  "id": "instruction-one-goal-two-steps",
+  "id": "OX",
   "acts": [
     "instruction"
   ],
@@ -11,7 +11,10 @@
     "documentation and communication"
   ],
   "specialists": [],
-  "reasoning": "The message asks for something to be done — write the report to a file, hand back the path — the Instruction row. The clause explaining why (to pass it on for re-check) restates the instruction's own goal rather than adding a second act. Saving the report to a file and reporting its path are not two separate results — per 'Taking acts apart is not the same as splitting a goal', the path is simply the observable outcome of the single result: one work item, two steps. The report was already produced and nothing is described as still in flight, so this is a fresh instruction. The work only touches producing/handing off a document, so dimensions = documentation and communication; writing already-finished text to a file needs no named specialist.",
+  "reasoning": "One act: an instruction. He asks for something to be done now — put the report just produced into a file and hand back its path. The clause about passing it on for someone to re-check is the instruction's grounds, not a second act: it only says why he wants the file and carries no judgment about the product that would outlive the request, so under the grounds rule it is the same act's goal in other words. 'Дай путь к файлу' is part of the same single result, not separate work: a path with no file, or a file with no path, is not what he asked for. So one new piece of work with a small sheet — goal: the report exists as a file he can forward; observable outcome: the file is on disk with the report's full text and its absolute path is stated back. It touches only documentation and communication — the report is the artifact and handing it over is the point; no behaviour, architecture, test or release changes, so no other dimension is named. No specialist: writing already-produced text to a file is the Director's own doing, and routing a plain request to the communicator is how a plain request disappears. Nothing is in flight that this changes, and there is no idea half to judge.",
   "scenario": "instruction-one-goal-two-steps",
+  "label": "OX",
+  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
+  "recorded": "2026-09-04",
   "skill_version": "6.1.0"
 }

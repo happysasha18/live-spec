@@ -1,5 +1,5 @@
 {
-  "id": "idea-with-a-cheap-branch",
+  "id": "OF",
   "acts": [
     "instruction",
     "idea"
@@ -9,13 +9,15 @@
   "attaches_to_existing_work": false,
   "work_items": 1,
   "dimensions": [
-    "product value and behaviour",
     "the user's path and the design"
   ],
   "specialists": [
-    "Developer"
+    "developer"
   ],
-  "reasoning": "This is 'A conditional request states both branches, and both are real': the instruction-shaped branch (do it if it's possible) and the idea-shaped branch (if not now, note it for later), said in the same breath. Per the skill, 'take the work if the condition holds; if it does not, judge the idea half' and 'the condition either holds or it does not... never both.' The scenario states the condition is trivially satisfied: the worker display 'is already built and live in another window of this same tool. Showing it here too would reuse that same display, not build a new one' — so the feasibility branch holds and this is cheap. That makes it accepted work now, not a shelved idea, while both acts still 'stay named.' It is new work, not a correction, so attaches_to_existing_work=false and work_items=1. The work touches the user's path and design and product value/behaviour, but since it explicitly reuses an already-built display rather than designing a new one, only a Developer is needed to wire it in.",
+  "reasoning": "A conditional request stating both branches: 'if that's possible too then let's do it' is the instruction branch, 'if not now, write it down, we'll do it later' is the idea branch. Both are real acts and both stay named. The outcome is exclusive: the condition holds — the display is already built and live in another window, so showing it here reuses it rather than building anything new — so the work is taken and the idea half is not shelved; saying both would answer the condition twice. 'так прикольнее смотреть динамику' is grounds, not a further act: it only restates why the request wants what it wants, and carries nothing that survives the work. The opening clause naming where the workers are visible identifies the thing being asked for, so it is the request's own goal in other words, not a separate observation. One result someone could want on its own, so one new piece of work, with its own checkpoint and sheet; nothing was in flight for it to attach to. It touches what the person sees in this window — the display surface — and needs only the developer, since the display exists and is being wired in, not specified or redesigned.",
   "scenario": "idea-with-a-cheap-branch",
+  "label": "OF",
+  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
+  "recorded": "2026-09-04",
   "skill_version": "6.1.0"
 }

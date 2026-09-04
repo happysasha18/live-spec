@@ -1,5 +1,5 @@
 {
-  "id": "decision-a-boundary",
+  "id": "WL",
   "acts": [
     "decision"
   ],
@@ -9,7 +9,10 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "The message settles who owns what going forward — the moratorium is on the person, the rest is on the agent. The skill's rule 'A decision is a standing rule, not only a single choice' names exactly this shape: a division of responsibility, recorded separately. It is not an instruction because 'the rest' names no concrete goal or observable outcome — per 'Do not create work to be safe.' The scenario states nothing is currently running, so there is no work in flight for this to attach to or correct — it is a standing allocation of scope for whatever work arises later. No dimensions or specialists apply because no accepted work exists yet.",
+  "reasoning": "One act: a decision. The skill names a division of responsibility explicitly as a decision — a standing rule with force beyond the message that carried it. Both halves of the sentence are the two sides of that one division: 'the moratorium is mine' and 'the rest is yours' state the same allocation from either end, so the second half is not a separate act, it is the first half's other side. Neither half names a concrete goal to pursue now, so there is no instruction hiding inside 'the rest is on you' — no result is asked for, only who owns which territory from here on. Nothing is in flight for the rule to change, so it attaches to no running work and replans nothing; it is recorded so it survives past whatever work comes next. A turn that accepted no work names no dimension and calls no specialist, so both lists are empty and no decision sheet is written — the reply is one sentence saying the split is noted and that the agent will not touch the moratorium negotiation.",
   "scenario": "decision-a-boundary",
+  "label": "WL",
+  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
+  "recorded": "2026-09-04",
   "skill_version": "6.1.0"
 }

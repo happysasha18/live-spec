@@ -1,10 +1,12 @@
 {
-  "scenario": "say-so-when-the-request-contradicts-a-recorded-decision",
-  "label": "RJ",
+  "id": "NJ",
   "voices_a_disagreement": true,
-  "flaw": "Adding a done counter to the printed account of open work conflicts with the standing decision recorded three weeks ago that it carries no running total of finished rows, because a count that only grows answers nothing without a window nobody agreed on.",
-  "what_you_do_next": "State the conflict plainly, in the same reply that would otherwise just begin the work, then proceed on the person's word either way -- build the counter if they confirm they still want it despite the recorded decision, or drop it and leave the standing decision as is if they don't -- without writing the decision sheet or touching the script until they answer.",
-  "reasoning": "The instruction's goal (a done counter at the top) is a goal that conflicts with a standing decision already on record, which the skill names as one of the flaws that must be stated plainly before the sheet turns into a checkpoint: 'Before that sheet turns into a checkpoint, the Director says so if it disagrees with the work itself... A flaw the Director can see -- a wrong assumption, a step that undoes an earlier one, a goal that conflicts with a standing decision already on record -- gets stated plainly, with the reason, in the same reply that would otherwise just begin the work.' The skill is explicit this is not a stall: 'the Director still proceeds once heard out, on the human's word either way; what it never does is execute a request it believes is wrong without having said so first. Silent agreement is its own kind of failure.' The three-weeks-old record also fits 'A decision is a standing rule, not only a single choice' -- it settled something with force beyond the message that carried it.",
-  "skill_sha256": "b9e49a8a92cfc7352dd82617ed414b93fbfbb7a07f8a11fc8966690b26ee6a72",
-  "recorded": "2026-09-04"
+  "flaw": "The counter contradicts a decision already on record — three weeks ago it was settled that the printed account carries no running total of finished rows, because a number that only grows says nothing without a window nobody has agreed on, and this asks for exactly that number back.",
+  "what_you_do_next": "Say it plainly in the same reply that would otherwise have begun the work, with the reason and the date the decision was recorded, and ask which he wants — the plain counter as asked, or a count over a window he names. Then proceed on his word either way: if he confirms, open the checkpoint with the decision sheet, make the three-line change in scripts/state-probe.sh, verify the printed output, close the checkpoint in the same step and show him the before/after line; if he reconsiders, nothing is built and the standing decision stands. The disagreement is stated, not used to stall.",
+  "reasoning": "Writing the sheet is the one moment to weigh whether the thing asked for is right, and the skill names a goal that conflicts with a standing decision already on record as exactly the flaw to state before the sheet turns into a checkpoint. Silent agreement here is its own failure — it looks like competence and skips the only check the Director, holding what is already built and decided, can run. Size does not excuse it: three reversible lines and a minute of work do not make the conflict smaller, and the request being cheap is why it would otherwise slip through unchallenged. The Director is not throwing the question back to avoid the work; it still proceeds once heard out, and it never executes a request it believes is wrong without having said so first.",
+  "scenario": "say-so-when-the-request-contradicts-a-recorded-decision",
+  "label": "NJ",
+  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
+  "recorded": "2026-09-04",
+  "skill_version": "6.1.0"
 }

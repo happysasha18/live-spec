@@ -1,8 +1,8 @@
 {
-  "id": "decision-and-instruction-together",
+  "id": "GT",
   "acts": [
-    "decision",
-    "instruction"
+    "instruction",
+    "decision"
   ],
   "creates_work": true,
   "shelves_idea": false,
@@ -12,10 +12,12 @@
     "release, observation, feedback"
   ],
   "specialists": [
-    "Publisher",
-    "communicator"
+    "publisher"
   ],
-  "reasoning": "This is the skill's own worked case under 'No act absorbs another': 'always deploy without asking, and deploy this one' grants authority going forward and asks for today's deploy in the same breath. 'запиши себе всегда деплой без моего подтверждения' is a standing rule, recorded separately from the work. 'деплой блин!!' is the instruction half: the build is ready and this is a demand to ship it now. Since shipping this build was never checkpointed as its own work, the instruction opens fresh work rather than attaching to something in flight. The decision is recorded as a standing rule, not as its own work item, so work_items is 1. Dimensions: shipping an already-ready build touches only 'release, observation, feedback'. Specialists: 'Publisher, communicator | the result ships and has to be explained' matches exactly; no developer, spec author, architect, or test author is needed since nothing is being built.",
+  "reasoning": "Two acts in one breath, and no act absorbs another. 'деплой блин!!' asks for this deploy now — an instruction. 'запиши себе всегда деплой без моего подтверждения' settles a standing rule with force beyond this message: a grant of authority for every future deploy — a decision, recorded separately so it survives after this work closes. This is the skill's own example: recording only the standing rule would lose the thing they actually wanted done today. The annoyance is tone, not a third act; it reports nothing new. Nothing related is in flight — the withholding is a standing policy, not a tracked task — so this attaches to no existing work and the instruction opens one fresh checkpoint: one new piece of work. The decision creates none. The work touches release and the observation that follows it; the publisher ships it and explains the result. Rule 12's ground still holds only for actions genuinely irreversible outside git; the grant covers the confirmation, not that carve-out.",
   "scenario": "decision-and-instruction-together",
+  "label": "GT",
+  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
+  "recorded": "2026-09-04",
   "skill_version": "6.1.0"
 }

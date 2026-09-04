@@ -1,5 +1,5 @@
 {
-  "id": "question-what-is-it",
+  "id": "YB",
   "acts": [
     "question"
   ],
@@ -9,7 +9,10 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "The message asks to know something mid-conversation about a term the agent has been describing — this is the 'Question or musing' act: 'wants to know something... What the Director does: answer the question... What it must not do: write a roadmap row, open a spec, start work.' Both clauses are the same act (asking what a term means and why it exists), not two separate acts. Per 'A question creates nothing and changes no document... The Director may read... in order to answer. What it may not do is turn the question into a task because answering it took effort.' No decision sheet applies, so no dimensions or specialists are named, and no checkpoint or execution machinery applies.",
+  "reasoning": "The person asks what a printable block is and why it is needed. Both clauses are the same act: one question about a term the agent has just been using, the second half asking for the reason behind the first. Nothing is requested to be built, changed or stopped, so this is a question and nothing else. A question creates nothing and changes no document: there is no decision sheet, only a sentence of answer. Answering may require reading — the Director may read, or send a reader — but effort spent answering never converts the question into a task. Because no work was accepted, the turn names no dimension and calls no specialist. His question about a term is also a signal that the term was used ungrounded; the answer grounds it in place, it does not open a row.",
   "scenario": "question-what-is-it",
+  "label": "YB",
+  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
+  "recorded": "2026-09-04",
   "skill_version": "6.1.0"
 }

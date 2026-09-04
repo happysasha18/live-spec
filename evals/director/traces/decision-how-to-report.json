@@ -1,5 +1,5 @@
 {
-  "id": "decision-how-to-report",
+  "id": "NX",
   "acts": [
     "decision"
   ],
@@ -9,7 +9,10 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "The message opens with 'с этого момента' paired force, which the skill names verbatim as a marker of the decision act. The content — keep a plan, keep it brief and jargon-free, always show 'where we are' — is a standing rule about how the Director reports, not a request for product work. Per the standing-rule paragraph, it is 'recorded separately' so it 'survives after that work item closes' — it is not itself a build task. The scenario states this is 'Early in a session, setting terms of work,' so there is no work already in flight for the decision to attach to or modify, and nothing here names a goal for a specialist to build. Per 'Naming a dimension claims something in it must change; if nothing in it changes, do not name it,' no dimension is named, and no specialist is called.",
+  "reasoning": "\"С этого момента\" and \"всегда\" settle a standing rule about how the project is run from here on: keep a short plan in plain words, and open every reply with where we are. That is a decision, not an instruction — nothing is being asked for as a one-off deliverable, and no clause is scoped to just this once. Both verbs (\"веди план\", \"показывай\") sit under the same standing scope, so they are one rule, not a rule plus a demand for today; there is no \"and do this one now\" half to lose. The session is early and nothing is in flight, so the decision is recorded and applied to whatever work is accepted next rather than attached to a running checkpoint; it opens no row of its own, and the count of new pieces of work is zero. A turn that accepted no work names no dimension and calls no specialist, so both lists stay empty — the areas the rule will shape belong to the work that eventually gets taken on. What the person hears back is one sentence: the rule is recorded and every reply from here starts with the short plan and where we stand.",
   "scenario": "decision-how-to-report",
+  "label": "NX",
+  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
+  "recorded": "2026-09-04",
   "skill_version": "6.1.0"
 }
