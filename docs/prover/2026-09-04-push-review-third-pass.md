@@ -5,7 +5,9 @@ PUSH-REVIEW
 Prover skill version: product-prover (installed under `skills/product-prover/`), read beside
 `skills/product-prover-pack/SKILL.md` v6.1.0 (pack bindings) and `skills/live-spec-base/SKILL.md`.
 
-Range: 0a90c786..37a68368
+Range: 0a90c786..69d5770c
+- 69d5770c checkpoint: refresh suite-green fingerprint cache
+- 4b20035e The push-review record extended over its own tail: gate s's bug, found live and fixed
 - 37a68368 Gate s matched a skill's own name in prose, not its Skill: field; live-spec-base's rule 41 reviewed
 - 0696bc11 The push-review record's Blocking field, fixed to the gate's literal shape
 - 8a2d04fa Third prover pass before push: the liveness fixture's own defect, found and folded
@@ -46,11 +48,14 @@ Coverage note: the earlier part of this range, up through 12f084c9, was already 
 adversarially by two records committed inside it —
 `docs/prover/2026-09-04-status-renderer-priority-and-feed-delta.md` and
 `docs/prover/2026-09-04-repairs-recheck.md`. This pass reads that part for continuity and gives
-its own fresh, adversarial read to everything after it: d71e2384 through 37a68368 — rule 41's
+its own fresh, adversarial read to everything after it: d71e2384 through 69d5770c — rule 41's
 rise and fall of PLAN q-825, the four repairs the recheck record demanded (R1, R5, R6, R9, R12,
 folded with R2/R3), this session's own housekeeping (two stale architecture pins, the resume-file
-refresh, the checkpoint cache), and — surfaced by this record's own three commits at its tail — a
-real bug in gate s itself, met and closed while getting this very push through it.
+refresh, the checkpoint cache), a real bug in gate s itself met and closed while getting this very
+push through it, and this record's own two trailing extensions to stay fresh against that work —
+the last of the three, 69d5770c, is the suite's own checkpoint-cache write with no other content
+(the full suite ran clean at 2,849 passed, 4 skipped beforehand; this commit is that run's only
+tracked side effect).
 
 Files read: PRODUCT_SPEC.md (spec/live-status-reporting.md), ARCHITECTURE.md
 (architecture/guardrails.md, architecture/rules-and-settings.md, architecture/pipeline-and-lanes.md),
@@ -63,9 +68,9 @@ readability pass's line shift), guardrails/check-skill-review.sh, tests/test_ski
 docs/skill-review/2026-09-04-architect.md, docs/skill-review/2026-09-04-director-correction-
 counting.md, docs/skill-review/2026-09-04-live-spec-base-rule-41.md.
 
-Checks run: `python3 -m pytest -q` — 2,847 passed, 5 skipped; pin-drift, style-lint and the
+Checks run: `python3 -m pytest -q` — 2,849 passed, 4 skipped; pin-drift, style-lint and the
 row-origin-orphan grep below, each read by hand.
-- `python3 -m pytest -q` — 2,847 passed, 5 skipped (full range on this commit; the one prior red,
+- `python3 -m pytest -q` — 2,849 passed, 4 skipped (full range on this commit; the one prior red,
   the prover-record gate itself, is answered by this record; the one prior teardown error is the
   suite's own checkpoint-cache write, a known, accepted self-write this record's own commit closes).
 - `bash guardrails/check-pin-drift.sh ARCHITECTURE.md` — 190 pins checked, none drifted.
