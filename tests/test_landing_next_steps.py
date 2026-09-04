@@ -584,6 +584,13 @@ def test_the_boards_own_parser_agrees_with_the_gate_on_that_mark():
     """The plan has two readers and one vocabulary. A mark normalized in one home and read as typed
     in the other puts the board and the gate back into disagreement about the same row."""
     import importlib.util
+    import sys
+    # scripts/plan_checks.py imports plan_checks_core by bare name, so the directory has to be on
+    # the path before it loads. Without this line the test passed only when some earlier test in
+    # the run happened to insert it, and failed whenever this file ran on its own — a test that
+    # depends on its neighbours is a test that proves nothing about the run it is in.
+    if os.path.join(ROOT, "scripts") not in sys.path:
+        sys.path.insert(0, os.path.join(ROOT, "scripts"))
     spec = importlib.util.spec_from_file_location(
         "plan_checks_for_marks", os.path.join(ROOT, "scripts", "plan_checks.py"))
     plan_checks = importlib.util.module_from_spec(spec)
