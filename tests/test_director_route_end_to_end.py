@@ -375,17 +375,17 @@ class TestTheRecordedStateNamesOneNextAction(RouteHost):
         self.assertEqual(pick(first), pick(second))
 
     def test_the_next_answer_follows_the_recorded_state_rather_than_standing_still(self):
-        """route-1 is already in hand, so rule 38 never lets it win NEXT — route-2, the only free
-        row, is the answer both before and after route-1 closes. What this proves the tag reads
-        rather than fixes is that closing route-1 must not knock route-2 off, or leave NEXT
-        naming nothing."""
+        """Red-then-green on the answer itself, not on a value a frozen read could also print:
+        route-2 is the only free row, so it wins NEXT first. Once route-2 closes too, route-1
+        (still 🔄, never a candidate) is all that is left, so NEXT has nobody left to name — a
+        stale or memoized reading would keep printing route-2 regardless."""
         self.assertIn("route-2", next(l for l in self.probe().splitlines() if "<-- NEXT" in l))
 
-        self.set_checks(route_1="true")
-        self.set_plan(self.plan().replace("### 🔄 Open the board", "### ✅ Open the board"))
+        self.set_plan(self.plan().replace("### ⬜ Rename the export button", "### ✅ Rename the export button"))
         moved = self.probe()
-        self.assertEqual(moved.count("<-- NEXT"), 1)
-        self.assertIn("route-2", next(l for l in moved.splitlines() if "<-- NEXT" in l))
+        self.assertEqual(moved.count("<-- NEXT"), 0, "route-2 is done; nothing should still carry the tag")
+        next_block = moved.split("NEXT\x1b[0m\n", 1)[1]
+        self.assertIn("every open row is in hand", next_block)
 
 
 if __name__ == "__main__":
