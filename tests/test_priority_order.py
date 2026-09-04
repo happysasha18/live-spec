@@ -126,6 +126,50 @@ class TheRendererFollowsThePlansOwnStatement(unittest.TestCase):
   2. `later` — real work, nothing wrong today.
 """, "- **Gates** — the checks that run before a push.\n")
 
+    #: A row already in hand outranks nothing: SPEC Requirement 320 criterion 6 says the next move
+    #: is the highest-ranking row nobody is working yet — the shipped renderer used to prefer
+    #: whatever sat in the 🔄 bucket over a higher-ranking free row (F3).
+    PLAN_INHAND_OUTRANKED_BY_FREE = """# demo — Plan
+
+## Words used here
+
+- **Priority** — the one word on a task's own line.
+  1. `urgent` — the thing is wrong today.
+  2. `later` — real work, nothing wrong today.
+
+## Tasks
+
+### 🔄 Already in hand, and ranks highest — id: demo-1
+**Group:** One · **Priority:** urgent
+**Source:** the fixture.
+
+### ⬜ Free, and ranks lower — id: demo-2
+**Group:** Two · **Priority:** later
+**Source:** the fixture.
+"""
+
+    #: A blocked row never wins the next move: clearing its outside cause comes first, whatever its
+    #: priority word (F3).
+    PLAN_BLOCKED_OUTRANKED_BY_FREE = """# demo — Plan
+
+## Words used here
+
+- **Priority** — the one word on a task's own line.
+  1. `urgent` — the thing is wrong today.
+  2. `later` — real work, nothing wrong today.
+
+## Tasks
+
+### ⛔ Blocked, and ranks highest — id: demo-1
+**Group:** One · **Priority:** urgent
+**Source:** the fixture.
+**Blocked by:** a dead credential.
+
+### ⬜ Free, and ranks lower — id: demo-2
+**Group:** Two · **Priority:** later
+**Source:** the fixture.
+"""
+
     def _run(self, plan_text):
         host = tempfile.mkdtemp(prefix="livespec-priority-")
         subprocess.run(["git", "init", "-q"], cwd=host, check=True)
@@ -165,6 +209,18 @@ class TheRendererFollowsThePlansOwnStatement(unittest.TestCase):
         self.assertIn("the plan does not say what a priority means here", out)
         next_block = out.rsplit("NEXT", 1)[-1]
         self.assertIn("Sits first on the page and ranks second", next_block)
+
+    def test_a_row_in_hand_never_wins_next_over_a_higher_ranking_free_row(self):
+        out = self._run(self.PLAN_INHAND_OUTRANKED_BY_FREE)
+        next_block = out.rsplit("NEXT", 1)[-1]
+        self.assertIn("Free, and ranks lower", next_block)
+        self.assertNotIn("Already in hand, and ranks highest", next_block)
+
+    def test_a_blocked_row_never_wins_next(self):
+        out = self._run(self.PLAN_BLOCKED_OUTRANKED_BY_FREE)
+        next_block = out.rsplit("NEXT", 1)[-1]
+        self.assertIn("Free, and ranks lower", next_block)
+        self.assertNotIn("Blocked, and ranks highest", next_block)
 
 
 if __name__ == "__main__":  # pragma: no cover

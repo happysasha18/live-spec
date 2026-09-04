@@ -206,3 +206,13 @@ class TheFeedStatesItsOwnRefreshCadence(unittest.TestCase):
         r = self._run(self._feed(2), "whenever")
         self.assertEqual(r.returncode, 2, r.stdout)
         self.assertIn("from-feed", r.stdout)
+
+    def test_a_malformed_cadence_reds_under_a_caller_named_bound_too(self):
+        # One feed, two callers: a caller naming its own bound used to skip stale_after_hours
+        # entirely, so the same malformed field passed here and reddened only through
+        # `from-feed` (F6). Both callers must read the same feed the same way.
+        for bad in ("soon", 0, -3, True):
+            r = self._run(self._feed(2, bad), "24")
+            self.assertEqual(r.returncode, 1,
+                             "%r should red under a caller-named bound: %s" % (bad, r.stdout))
+            self.assertIn("must be a positive number", r.stdout)

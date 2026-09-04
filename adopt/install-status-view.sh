@@ -13,9 +13,12 @@
 # it. It does NOT get one command of this pack's own: those name this pack's files and belong to it
 # alone. The host's `scripts/plan_checks.py` arrives with an empty map and is the host's to fill, row
 # by row, exactly the way the pack filled its own. It also gets `guardrails/check-status-view-drift.py`,
-# the gate that reds when a vendored copy drifts from this pack, and an empty `scripts/state-probe-
-# extras.sh` where it carries none — the hook `state-probe.sh` sources for this project's own facts,
-# printed under their own heading, so the shared renderer never has to name this project by name.
+# the gate that reds when a vendored copy drifts from this pack; `scripts/check-success-measure-feed.py`,
+# the reader `state-probe.sh` calls to print a checked success-measure feed's numbers (SPEC
+# Requirement 318 clause 10) — without it vendored, a host with a real feed saw the section print
+# nothing at all; and an empty `scripts/state-probe-extras.sh` where it carries none — the hook
+# `state-probe.sh` sources for this project's own facts, printed under their own heading, so the
+# shared renderer never has to name this project by name.
 #
 # The manifest keys are the pack-relative source paths, so the update watcher resolves each key against
 # the pack checkout to read the current source and diff its hash. The host's own `plan_checks.py` is
@@ -48,6 +51,7 @@ VENDOR=(
   "scripts/plan-step.sh|scripts/plan-step.sh"
   "scripts/plan_checks_core.py|scripts/plan_checks_core.py"
   "guardrails/check-status-view-drift.py|guardrails/check-status-view-drift.py"
+  "scripts/check-success-measure-feed.py|scripts/check-success-measure-feed.py"
 )
 
 for pair in "${VENDOR[@]}"; do
@@ -119,6 +123,10 @@ if os.path.isfile(manifest_path):
     except (OSError, ValueError):
         manifest = {"pack_version": pack_version, "vendored": {}}
 manifest["pack_version"] = pack_version
+# The pack root this host installed from, its own key — read by
+# guardrails/check-status-view-drift.py so a host's own push gate can find the pack with no
+# --pack-root flag wired in anywhere (SPEC Requirement 319 criterion 9a, F2).
+manifest["pack_root"] = pack_root
 vendored = manifest.setdefault("vendored", {})
 
 for src_rel, host_rel in pairs:
