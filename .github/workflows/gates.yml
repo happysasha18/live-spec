@@ -139,6 +139,9 @@ jobs:
           else
             echo "no inbox in this checkout — the gate stands down by name"
           fi
+      - name: "gate ag — status-view drift (a host's vendored pack files match the pack, SPEC INV-325)"
+        if: ${{ !cancelled() }}
+        run: python3 guardrails/check-status-view-drift.py
       # The named-reference presence nets (SPEC INV-239) take NO push-gate letter: they RIDE THE SUITE
       # (the pytest step, gate b), the same placement the far-tier report-shape check takes, so they
       # need no separate CI step here.

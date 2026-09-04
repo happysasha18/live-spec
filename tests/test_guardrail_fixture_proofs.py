@@ -109,6 +109,50 @@ def worktree_line_passes_the_fix():
         return result.returncode == 0 and "worktree-line: OK" in result.stdout
 
 
+def _write_status_view_fixture(tmp, host_contents, pack_contents="#!/bin/bash\necho hi\n"):
+    """A pack root plus a host root, wired so the host's `scripts/ratchet-manifest.json` pins
+    the pack's `scaffold/status-view/state-probe.sh` against the host's own `scripts/state-
+    probe.sh` (SPEC INV-325, PLAN q-818). Returns (host_dir, pack_dir)."""
+    import json
+    pack = os.path.join(tmp, "pack")
+    host = os.path.join(tmp, "host")
+    os.makedirs(os.path.join(pack, "scaffold", "status-view"))
+    os.makedirs(os.path.join(host, "scripts"))
+    _write(pack, "VERSION", "1.0.0\n")
+    _write(pack, os.path.join("scaffold", "status-view", "state-probe.sh"), pack_contents)
+    _write(host, os.path.join("scripts", "state-probe.sh"), host_contents)
+    manifest = {"pack_version": "1.0.0",
+                "vendored": {"scaffold/status-view/state-probe.sh": "deadbeef" * 8}}
+    _write(host, os.path.join("scripts", "ratchet-manifest.json"), json.dumps(manifest))
+    return host, pack
+
+
+def _run_status_view_drift(host, pack):
+    return subprocess.run(
+        [os.path.join(GUARDRAILS, "check-status-view-drift.py"), host, "--pack-root", pack],
+        cwd=ROOT, capture_output=True, text=True,
+    )
+
+
+def status_view_drift_reds_the_bug():
+    """The bug: a host's vendored `scripts/state-probe.sh` has a local edit the pack's own
+    `scaffold/status-view/state-probe.sh` does not carry (SPEC INV-325, PLAN q-818). Returns True
+    when the gate reds it."""
+    with tempfile.TemporaryDirectory() as tmp:
+        host, pack = _write_status_view_fixture(tmp, "#!/bin/bash\necho HACKED\n")
+        result = _run_status_view_drift(host, pack)
+        return result.returncode != 0 and "differs from the pack's own copy" in result.stdout
+
+
+def status_view_drift_passes_the_fix():
+    """The same fixture, fixed: the host's vendored copy is byte-identical to the pack's own.
+    Returns True when the gate passes it."""
+    with tempfile.TemporaryDirectory() as tmp:
+        host, pack = _write_status_view_fixture(tmp, "#!/bin/bash\necho hi\n")
+        result = _run_status_view_drift(host, pack)
+        return result.returncode == 0 and "no drift" in result.stdout
+
+
 def _git_two_worktree_scratch(tmp):
     """A primary tree plus one lane worktree, both committed once — the shape the merge-base
     check reads (SPEC INV-199, PLAN q-804). Returns (primary_dir, lane_dir)."""
@@ -167,6 +211,7 @@ PROVEN = {
     "check-prototype-fence.sh": (prototype_fence_reds_the_bug, prototype_fence_passes_the_fix),
     "check-merge-base.sh": (merge_base_reds_the_bug, merge_base_passes_the_fix),
     "check-worktree-line.sh": (worktree_line_reds_the_bug, worktree_line_passes_the_fix),
+    "check-status-view-drift.py": (status_view_drift_reds_the_bug, status_view_drift_passes_the_fix),
 }
 
 #: Every other check-*.py / check-*.sh shipping in guardrails/ on 2026-08-31, when this row's
@@ -278,6 +323,20 @@ class TestOneCheckCompletesTheWalk(unittest.TestCase):
         self.assertTrue(
             worktree_line_passes_the_fix(),
             "check-worktree-line.sh must pass the same host once the line is vendored in",
+        )
+
+    def test_status_view_drift_reds_without_its_fix(self):
+        self.assertTrue(
+            status_view_drift_reds_the_bug(),
+            "check-status-view-drift.py must red a host whose vendored state-probe.sh diverged "
+            "from the pack's own copy",
+        )
+
+    def test_status_view_drift_passes_with_its_fix(self):
+        self.assertTrue(
+            status_view_drift_passes_the_fix(),
+            "check-status-view-drift.py must pass the same host once its vendored copy is "
+            "byte-identical to the pack's own",
         )
 
 
