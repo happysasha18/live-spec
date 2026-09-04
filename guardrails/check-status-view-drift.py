@@ -189,11 +189,24 @@ def main(argv):
         print("%s: %s is unreadable (%s) — standing down" % (CHECK, manifest_path, exc))
         return 0
 
-    pack_root = os.path.abspath(
-        args.pack_root or manifest.get("pack_root")
-        or os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    # A recorded pack_root may be relative to the host root (adopt/install-status-view.sh writes
+    # one there, R12, when the two trees resolve under a shared parent) — resolve it against the
+    # host, never against this process's own cwd. An absolute record, or the --pack-root flag
+    # (which is the invoker's own cwd-relative path, same as always), is used as it stands.
+    recorded = manifest.get("pack_root")
+    if args.pack_root:
+        pack_root = os.path.abspath(args.pack_root)
+    elif recorded:
+        pack_root = recorded if os.path.isabs(recorded) \
+            else os.path.abspath(os.path.join(host_root, recorded))
+    else:
+        pack_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-    if not os.path.isfile(os.path.join(pack_root, "VERSION")):
+    # The resolved root IS the pack only when it carries the shipped source itself (R1's own
+    # discriminator, reused rather than a `VERSION` file — an ordinary host project, or another
+    # host of this same pack, carries one of those too, and a recorded root pointing at one of
+    # those must never pass as the pack it is not).
+    if not _is_pack_root(pack_root):
         print("%s: no live-spec pack checkout found at %s — nothing to diff against, standing "
               "down (pass --pack-root to point at one)" % (CHECK, pack_root))
         return 0

@@ -353,10 +353,14 @@ class TestTheRecordedStateNamesOneNextAction(RouteHost):
         out = self.probe()
         self.assertEqual(out.count("<-- NEXT"), 1, "the state named more than one next action")
         line = next(l for l in out.splitlines() if "<-- NEXT" in l)
-        self.assertIn("route-1", line)
-        self.assertNotIn("route-2", line)
+        # route-1 is already in hand (🔄); rule 38 says the next move is the topmost row nobody
+        # is working yet, so a row already in hand never wins it — route-2, the only free row,
+        # is what NEXT names here.
+        self.assertIn("route-2", line)
+        self.assertNotIn("route-1", line)
 
-        # The one open checkpoint on the host is that same work's, and it says what to do next.
+        # The one open checkpoint on the host is route-1's — the row actually in hand — and it
+        # says what to do next on that row, independently of which row NEXT points to.
         opened = [f for f in self.checkpoint_files()
                   if "Status: open" in read(os.path.join(self.checkpoints_dir, f))]
         self.assertEqual(opened, ["route-1.md"])
@@ -371,9 +375,11 @@ class TestTheRecordedStateNamesOneNextAction(RouteHost):
         self.assertEqual(pick(first), pick(second))
 
     def test_the_next_answer_follows_the_recorded_state_rather_than_standing_still(self):
-        """Red-then-green on the answer itself: close the row the state names, and the next
-        answer moves to the row underneath it — which is what says the tag is read and not fixed."""
-        self.assertIn("route-1", next(l for l in self.probe().splitlines() if "<-- NEXT" in l))
+        """route-1 is already in hand, so rule 38 never lets it win NEXT — route-2, the only free
+        row, is the answer both before and after route-1 closes. What this proves the tag reads
+        rather than fixes is that closing route-1 must not knock route-2 off, or leave NEXT
+        naming nothing."""
+        self.assertIn("route-2", next(l for l in self.probe().splitlines() if "<-- NEXT" in l))
 
         self.set_checks(route_1="true")
         self.set_plan(self.plan().replace("### 🔄 Open the board", "### ✅ Open the board"))

@@ -169,6 +169,43 @@ def test_explicit_pack_root_still_wins_over_the_recorded_one(tmp_path):
     assert result.returncode == 0, result.stdout + result.stderr
 
 
+def _make_host_with_relative_pack_root(tmp_path, pack_root, contents="#!/bin/bash\necho hi\n"):
+    """R12: the manifest carries pack_root relative to the host root — the form
+    adopt/install-status-view.sh writes for the ordinary sibling layout."""
+    host_root = tmp_path / "host-with-relative-pack-root"
+    (host_root / "scripts").mkdir(parents=True)
+    (host_root / "scripts" / "state-probe.sh").write_text(contents, encoding="utf-8")
+    manifest = {
+        "pack_version": "1.0.0",
+        "pack_root": os.path.relpath(str(pack_root), str(host_root)),
+        "vendored": {"scaffold/status-view/state-probe.sh": "deadbeef" * 8},
+    }
+    (host_root / "scripts" / "ratchet-manifest.json").write_text(
+        json.dumps(manifest), encoding="utf-8")
+    return host_root
+
+
+def test_a_relative_recorded_pack_root_resolves_against_the_host_and_finds_drift(tmp_path):
+    """R12: a relative pack_root is resolved against the host root, not this process's own cwd —
+    the gate is invoked from ROOT (via subprocess's default cwd), a directory that shares no
+    relative path with either tmp tree, so a cwd-relative resolution would miss the pack
+    entirely."""
+    pack_root = _make_pack(tmp_path)
+    host_root = _make_host_with_relative_pack_root(
+        tmp_path, pack_root, contents="#!/bin/bash\necho HACKED\n")
+    result = _gate(str(host_root))  # no --pack-root — read the relative recorded one
+    assert result.returncode == 1, result.stdout + result.stderr
+    assert "differs from the pack's own copy" in result.stdout
+
+
+def test_a_relative_recorded_pack_root_passes_when_byte_identical(tmp_path):
+    pack_root = _make_pack(tmp_path)
+    host_root = _make_host_with_relative_pack_root(tmp_path, pack_root)
+    result = _gate(str(host_root))
+    assert result.returncode == 0, result.stdout + result.stderr
+    assert "no drift" in result.stdout
+
+
 def test_a_recorded_pack_root_not_on_this_machine_stands_down_honestly(tmp_path):
     host_root = _make_host_with_recorded_pack_root(tmp_path, tmp_path / "nonexistent-pack")
     result = _gate(str(host_root))  # no --pack-root
@@ -191,6 +228,39 @@ def test_a_host_carrying_a_version_file_still_reds_on_a_genuinely_drifted_copy(t
     assert result.returncode == 1, result.stdout + result.stderr
     assert "scripts/state-probe.sh" in result.stdout
     assert "differs from the pack's own copy" in result.stdout
+
+
+def test_a_resolved_root_that_is_not_the_pack_stands_down_rather_than_comparing(tmp_path):
+    """R1's own leftover: the resolved pack_root was still validated by asking whether it carries
+    a `VERSION` file, the exact question R1 threw out for the other pole. Here the recorded root
+    is another HOST of the pack — it carries a VERSION file and its own vendored
+    scripts/render-board.sh, coincidentally byte-identical to this host's own copy — but it is not
+    the pack itself: it has no scaffold/status-view/ kit of its own. A VERSION-only check would
+    treat it as the pack, compare the one entry that happens to resolve, and print a false clean
+    pass; the check must stand down honestly instead of comparing against this unintended
+    checkout."""
+    not_the_pack = tmp_path / "another-host"
+    (not_the_pack / "scripts").mkdir(parents=True)
+    (not_the_pack / "VERSION").write_text("1.0.0\n", encoding="utf-8")
+    (not_the_pack / "scripts" / "render-board.sh").write_text("#!/bin/bash\necho same\n",
+                                                               encoding="utf-8")
+
+    host_root = tmp_path / "host-with-wrong-recorded-root"
+    (host_root / "scripts").mkdir(parents=True)
+    (host_root / "scripts" / "render-board.sh").write_text("#!/bin/bash\necho same\n",
+                                                             encoding="utf-8")
+    manifest = {
+        "pack_version": "1.0.0",
+        "pack_root": str(not_the_pack),
+        "vendored": {"scripts/render-board.sh": "deadbeef" * 8},
+    }
+    (host_root / "scripts" / "ratchet-manifest.json").write_text(
+        json.dumps(manifest), encoding="utf-8")
+
+    result = _gate(str(host_root))  # no --pack-root — read the recorded, wrong root
+    assert result.returncode == 0, result.stdout + result.stderr
+    assert "nothing to diff against" in result.stdout
+    assert "no drift" not in result.stdout
 
 
 def test_a_host_pole_that_resolves_nothing_never_prints_a_clean_pass(tmp_path):

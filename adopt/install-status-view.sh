@@ -90,6 +90,23 @@ else
   echo "seeded: scripts/state-probe-extras.sh (empty — add this project's own facts under their own heading)"
 fi
 
+# A project's priority vocabulary is its own (SPEC Requirement 320 criterion 1a), so this installer
+# never writes one into a host's PLAN.md. A host with none has nothing shipped naming the
+# statement's form unless told here — its "seeds nothing" case still gets a line (R6).
+if [ -f "$HOST_ROOT/PLAN.md" ]; then
+  python3 - "$HOST_ROOT" << 'PYEOF'
+import sys
+host_root = sys.argv[1]
+sys.path.insert(0, host_root + "/scripts")
+import plan_checks_core as core
+with open(host_root + "/PLAN.md", encoding="utf-8") as fh:
+    text = fh.read()
+if not core.read_priority_order(text):
+    print("seeded nothing for priority: PLAN.md carries no \"Words used here\" priority "
+          "statement — see templates/PLAN.template.md for its form (- **Priority** bullet)")
+PYEOF
+fi
+
 # --- step c: write or MERGE the one manifest, pinning the vendored readers against the pack --------
 python3 - "$HOST_ROOT" "$PACK_ROOT" "${VENDOR[@]}" << 'PYEOF'
 import hashlib
@@ -125,8 +142,15 @@ if os.path.isfile(manifest_path):
 manifest["pack_version"] = pack_version
 # The pack root this host installed from, its own key — read by
 # guardrails/check-status-view-drift.py so a host's own push gate can find the pack with no
-# --pack-root flag wired in anywhere (SPEC Requirement 319 criterion 9a, F2).
-manifest["pack_root"] = pack_root
+# --pack-root flag wired in anywhere (SPEC Requirement 319 criterion 9a, F2). The manifest is a
+# file the host commits, so an absolute path is machine-local: recorded relative to the host root
+# when the two trees resolve under one shared parent (the ordinary ~/live-spec beside
+# ~/my-project layout) so a second clone or CI reads its own pack instead of this machine's path,
+# and absolute only where that does not resolve (R12).
+try:
+    manifest["pack_root"] = os.path.relpath(pack_root, host_root)
+except ValueError:
+    manifest["pack_root"] = pack_root
 vendored = manifest.setdefault("vendored", {})
 
 for src_rel, host_rel in pairs:

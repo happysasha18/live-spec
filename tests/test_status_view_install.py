@@ -109,6 +109,33 @@ def _write(path, text):
         fh.write(text)
 
 
+#: The pack files adopt/install-status-view.sh itself reaches for — real content copied from this
+#: checkout, so a fake pack directory runs the real installer script exactly as this repo does.
+_PACK_FILES = [
+    "VERSION",
+    "scaffold/status-view/state-probe.sh",
+    "scaffold/status-view/plan_checks.py",
+    "scripts/render-board.sh",
+    "scripts/plan-step.sh",
+    "scripts/plan_checks_core.py",
+    "guardrails/check-status-view-drift.py",
+    "scripts/check-success-measure-feed.py",
+    "adopt/install-status-view.sh",
+]
+
+
+def _make_fake_pack(parent):
+    """A pack-shaped directory under `parent`, so a host also placed under `parent` sits beside it
+    the way `~/live-spec` sits beside `~/my-project` (R12's sibling layout)."""
+    pack_root = os.path.join(parent, "pack")
+    for rel in _PACK_FILES:
+        dest = os.path.join(pack_root, rel)
+        os.makedirs(os.path.dirname(dest), exist_ok=True)
+        with open(os.path.join(ROOT, rel), encoding="utf-8") as fh:
+            _write(dest, fh.read())
+    return pack_root
+
+
 class TestTheInstalledViewIsTheHostsOwn(unittest.TestCase):
     """The genericity proof: a host's probe and board read the host's plan and the host's commands."""
 
@@ -226,14 +253,45 @@ class TestStatusViewInstall(unittest.TestCase):
             self.assertEqual(manifest["pack_version"],
                              open(os.path.join(ROOT, "VERSION"), encoding="utf-8").read().strip())
             # the pack root travels with the install, so a host's own push gate needs no
-            # --pack-root flag to find the pack (SPEC Requirement 319 criterion 9a, F2)
-            self.assertEqual(manifest["pack_root"], ROOT)
+            # --pack-root flag to find the pack (SPEC Requirement 319 criterion 9a, F2). It is
+            # recorded relative to the host root (R12) — resolved back against the host, it names
+            # the pack checkout the install actually ran from.
+            self.assertFalse(os.path.isabs(manifest["pack_root"]))
+            self.assertEqual(os.path.normpath(os.path.join(tmp, manifest["pack_root"])), ROOT)
             for src_rel in VENDORED:
                 self.assertIn(src_rel, manifest["vendored"])
                 self.assertTrue(os.path.isfile(os.path.join(ROOT, src_rel)),
                                 "a pinned key must resolve against the pack: %s" % src_rel)
             # the host's own commands are the host's content from minute one, so nothing pins them
             self.assertNotIn("scripts/plan_checks.py", manifest["vendored"])
+
+    def test_a_sibling_hosts_recorded_pack_root_is_relative(self):
+        """R12: PLAN.md's parent and my-project's parent are the same directory in the ordinary
+        layout, so the recorded pack_root must be a short relative path a second clone or CI can
+        resolve against its own checkout, not this machine's absolute one."""
+        with tempfile.TemporaryDirectory() as parent:
+            pack_root = _make_fake_pack(parent)
+            host_root = os.path.join(parent, "my-project")
+            os.makedirs(host_root)
+            _init_host(host_root)
+            r = run(["bash", os.path.join(pack_root, "adopt", "install-status-view.sh")],
+                    cwd=host_root)
+            self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+            manifest = json.load(open(os.path.join(host_root, "scripts", "ratchet-manifest.json")))
+            self.assertFalse(os.path.isabs(manifest["pack_root"]), manifest["pack_root"])
+            self.assertEqual(
+                os.path.normpath(os.path.join(host_root, manifest["pack_root"])), pack_root)
+
+    def test_a_host_with_no_priority_statement_is_told_where_its_form_lives(self):
+        """R6: the installer never touches a host's PLAN.md and never copies the template, so a
+        host with no "Words used here" priority bullet (HOST_PLAN carries none) has nothing
+        shipped naming the statement's form unless the installer says so itself."""
+        with tempfile.TemporaryDirectory() as tmp:
+            _init_host(tmp)
+            r = run(["bash", INSTALL], cwd=tmp)
+            self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+            self.assertIn("templates/PLAN.template.md", r.stdout)
+            self.assertIn("priority", r.stdout.lower())
 
     def test_never_clobbers_the_hosts_own_commands(self):
         with tempfile.TemporaryDirectory() as tmp:

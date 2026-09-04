@@ -129,7 +129,9 @@ _BLOCKED_BY_RE = re.compile(r"^\*\*Blocked by:\*\*\s*(.+)$")
 # empty list, and a caller that ranks by it says the list is missing and falls back to the plan's
 # own order rather than deciding for the project.
 _PRIORITY_BULLET_RE = re.compile(r"^- \*\*Priority\*\*")
-_PRIORITY_WORD_RE = re.compile(r"^\s+\d+\.\s+`([a-z][a-z0-9-]*)`")
+# Requirement 320 criterion 1a puts no single-token limit on a priority word, so a backticked
+# name of several words (`quick win`) must parse the same as a one-word name (R5).
+_PRIORITY_WORD_RE = re.compile(r"^\s+\d+\.\s+`([a-z][a-z0-9-]*(?: [a-z][a-z0-9-]*)*)`")
 
 
 def read_priority_order(plan_text):

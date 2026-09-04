@@ -209,6 +209,29 @@ class TheRendererFollowsThePlansOwnStatement(unittest.TestCase):
 **Source:** the fixture.
 """
 
+    #: A backticked priority name can be more than one word (R5): the statement's own list names
+    #: `quick win` and a row carrying that word must rank by it rather than falling to the bottom,
+    #: the way an unparsed word does.
+    PLAN_WITH_A_TWO_WORD_WORD = """# demo — Plan
+
+## Words used here
+
+- **Priority** — the one word on a task's own line.
+  1. `urgent` — the thing is wrong today.
+  2. `quick win` — low effort, free to bubble up.
+  3. `later` — real work, nothing wrong today.
+
+## Tasks
+
+### ⬜ Carries the two-word priority word — id: demo-1
+**Group:** One · **Priority:** quick win
+**Source:** the fixture.
+
+### ⬜ Carries the lowest-ranking word — id: demo-2
+**Group:** Two · **Priority:** later
+**Source:** the fixture.
+"""
+
     #: With no candidate row at all, the block must still print one line saying why, rather than
     #: vanish (R3). Its only open row is in hand; nothing free, nothing reopened, nothing blocked.
     PLAN_NOTHING_QUALIFIES_ONLY_IN_HAND = """# demo — Plan
@@ -302,6 +325,12 @@ class TheRendererFollowsThePlansOwnStatement(unittest.TestCase):
         self.assertIn("Reopened, and ranks highest", next_block)
         self.assertNotIn("Queued, and ranks lower", next_block)
         self.assertNotIn("nothing of higher priority is free", out)
+
+    def test_a_two_word_priority_name_ranks_by_its_own_word_rather_than_last(self):
+        out = self._run(self.PLAN_WITH_A_TWO_WORD_WORD)
+        next_block = out.rsplit("NEXT", 1)[-1]
+        self.assertIn("Carries the two-word priority word", next_block)
+        self.assertNotIn("Carries the lowest-ranking word", next_block)
 
     def test_no_candidate_row_prints_one_line_naming_in_hand_rather_than_vanishing(self):
         out = self._run(self.PLAN_NOTHING_QUALIFIES_ONLY_IN_HAND)
