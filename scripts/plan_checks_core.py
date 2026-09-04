@@ -118,6 +118,49 @@ _COVERED_BY_RE = re.compile(r"^\*\*Covered by:\*\*\s*(.+)$")
 _DEFERRED_RE = re.compile(r"^\*\*Deferred:\*\*\s*(.+)$")
 _BLOCKED_BY_RE = re.compile(r"^\*\*Blocked by:\*\*\s*(.+)$")
 
+# ---------------------------------------------------------------- what a priority means here
+# A project says in its own plan what its priority words mean and how they rank, under the
+# "Words used here" bullet that begins "- **Priority**". The words are the backticked names of
+# that bullet's own numbered sub-items, read in the order they are written. This is the one home
+# for that order (PLAN q-819): the reader below is its one machine reading, and nothing else may
+# hardcode a priority word.
+#
+# A plan that has not written the bullet gets no invented order. read_priority_order returns an
+# empty list, and a caller that ranks by it says the list is missing and falls back to the plan's
+# own order rather than deciding for the project.
+_PRIORITY_BULLET_RE = re.compile(r"^- \*\*Priority\*\*")
+_PRIORITY_WORD_RE = re.compile(r"^\s+\d+\.\s+`([a-z][a-z0-9-]*)`")
+
+
+def read_priority_order(plan_text):
+    """Return the plan's own priority words, highest-ranking first; [] when it names none."""
+    words, inside = [], False
+    for line in plan_text.splitlines():
+        if _PRIORITY_BULLET_RE.match(line):
+            inside = True
+            continue
+        if inside:
+            m = _PRIORITY_WORD_RE.match(line)
+            if m:
+                words.append(m.group(1))
+                continue
+            # The bullet ends at the next top-level bullet or heading; a blank line and the
+            # bullet's own continuation prose sit inside it and are skipped.
+            if line.startswith("- ") or line.startswith("#"):
+                break
+    return words
+
+
+def priority_rank(priority, order):
+    """Where one task's priority word sits in the plan's own order. An unnamed word ranks last,
+    so it stays visible rather than reading as the middle of the list."""
+    word = (priority or "").strip().lower()
+    try:
+        return order.index(word)
+    except ValueError:
+        return len(order)
+
+
 # ---------------------------------------------------------------- the table shape
 # The status vocabulary templates/PLAN.template.md defines for a row, and the mark each word
 # draws as. The four terminal words are read too: the live-body law moves a row out of the body

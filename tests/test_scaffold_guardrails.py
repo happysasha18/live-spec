@@ -221,6 +221,27 @@ class TestConflictsDefects(HostCase):
         r, payload = self.assert_red("conflicts", "conflicts.invariant-without-row")
         self.assertIn("INV-3", payload["message"])
 
+    def test_a_suffixed_invariant_without_a_row_is_seen(self):
+        """A spec grows a case under an invariant it already has by suffixing its id. The
+        pattern read digits only until 2026-09-04, so a suffixed id never entered the index
+        at all and this sub-check never asked for its matrix row — the check reported success
+        over what it could not parse. Reported from the tlvphotos zone, where three such
+        invariants stood with no matrix row for as long as they existed, under a green check."""
+        self.write("PRODUCT_SPEC.md", self.read("PRODUCT_SPEC.md")
+                   + "| INV-3a | a suffixed invariant no matrix row cites |\n")
+        r, payload = self.assert_red("conflicts", "conflicts.invariant-without-row")
+        self.assertIn("INV-3a", payload["message"])
+
+    def test_a_suffixed_anchor_indexed_twice_is_counted(self):
+        """The same blindness sat in sub-check (a): a duplicate whose number carried a letter
+        was not counted as a duplicate either."""
+        row = "| INV-3a | a suffixed anchor |\n"
+        self.write("PRODUCT_SPEC.md", self.read("PRODUCT_SPEC.md") + row + row)
+        self.write("TEST_MATRIX.md", self.read("TEST_MATRIX.md")
+                   + "| M-99 | covers INV-3a | done |\n")
+        r, payload = self.assert_red("conflicts", "conflicts.duplicate-anchor")
+        self.assertIn("INV-3a", payload["message"])
+
     def test_resolved_but_live(self):
         marker = "⟨DECIDE⟩"  # built, not literal, so repo-wide greps stay quiet
         self.write("PRODUCT_SPEC.md", self.read("PRODUCT_SPEC.md")

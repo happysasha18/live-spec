@@ -20,7 +20,14 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import gate_lib  # noqa: E402
 
 CHECK = "conflicts"
-INDEX_ROW = re.compile(r"^\|\s*([A-Za-z]+-\d+)\s*\|")
+# A spec grows a case under an invariant it already has by suffixing that id — INV-32a beside
+# INV-32 — rather than spending a fresh number, so an id's number can carry a trailing letter.
+# The pattern read digits only until 2026-09-04, which meant a suffixed id never entered
+# index_ids at all: sub-check (b) never asked for its matrix row and sub-check (a) never counted
+# it as a duplicate. The check reported success over what it could not parse. Reported from the
+# tlvphotos zone, where three suffixed invariants had stood in the spec with no matrix row
+# naming them for as long as they had existed, under a green check.
+INDEX_ROW = re.compile(r"^\|\s*([A-Za-z]+-\d+[a-z]*)\s*\|")
 
 
 def main():

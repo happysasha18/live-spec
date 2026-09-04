@@ -76,6 +76,22 @@ writes one half is stopped there. Settled 31.08; the retired findings log carrie
   command the same moment it marks the task done; a close with no command is a claim, and this list
   has already had to go back and re-check thirty-seven of them. A task whose result is prose, a
   measurement or a decision writes no command and says in one line who read it and where.
+- **Priority** — the one word on a task's own `**Group:** … · **Priority:** …` line. It says what
+  makes one task matter more than another in this project, and this list is the only place that is
+  written. Two words are in use, and the order below is the order they rank in.
+  1. `critical` — the pack is wrong about something today: a rule it states and does not keep, a
+     check that passes on the wrong thing, or a defect the owner has already run into in his own
+     work. One left standing is inherited by every session after this one, so it outranks work that
+     is merely wanted.
+  2. `normal` — real work the goal needs, where nothing is wrong today.
+
+  The next move is derived from this list rather than from a task's position on the page: among the
+  tasks nobody is working yet, the one whose priority ranks highest goes next, and inside one
+  priority the file's own order decides. A task carrying a word this list does not name is ranked
+  last and printed with its word, so an unnamed priority is visible instead of quietly reading as
+  normal. A project that has not written this list gets no invented order — the probe says the list
+  is missing and falls back to the file's own order.
+
 - **Gates** — the checks that run before `git push`. Fail one, and the push is cancelled.
 - **The prover** — the external skill that hunts for defects in a spec. It stays, and gets more
   work.
