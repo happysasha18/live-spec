@@ -106,5 +106,7 @@ tests this range added (`tests/test_status_view_drift.py`, `tests/test_status_vi
 before/after pair, each being a single red-then-green assertion, so the class is confined to the
 two director-route fixtures R2/R3 already touched, both now proven.
 
-Blocking: none. F1 is closed in this same landing, per rule 41 and this pass's own no-park
-convention (INV-140).
+Blocking: none
+
+F1 was the pass's only defect, and it is closed in this same landing (commit a4c90991), per rule
+41 and this pass's own no-park convention (INV-140) — so nothing stands open against the push.
