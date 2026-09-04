@@ -401,6 +401,14 @@ its own manifest line. Every other rule below keeps the number it already carrie
     disagreeing with another number opens none. A check reddening on a document's shape opens none.
     A change after which everything looks as it looked opens none.
 
+    A defect is a gap between what was promised and what happens, and a promise comes from one of
+    two places: a definition of done already written, or what a person meets when they use the
+    thing. Both sit outside the session. There is no third source. What a reviewer holds to be good
+    practice is a promise living inside the machine, and comparing the work against it is what
+    produced fifty rows in two days on one board and four of five on another. A row whose ground is
+    neither of the two is an opinion: it goes into the record of the review that had it, and
+    nowhere else.
+
     A defect that opens a row carries the way to see it: do this, and you see that. That sentence
     is what makes "someone meets it" a fact rather than a phrase, and it is why no permission is
     needed for a real bug — a review that finds one opens its row without asking anybody, because
