@@ -215,21 +215,37 @@ while (budget > 0 or _done_left()) and progressed:
 # in the 🔄 bucket is being worked, so it is never a candidate, however high its priority ranks —
 # the row printed before this fix, a row already in hand always pre-empted a higher-ranking free
 # row, which the spec's own words never said. A blocked row can't be advanced without clearing its
-# outside cause first, so it doesn't win either; it never reaches the ⬜ bucket to begin with. The
-# ⬜ bucket is already sorted by the plan's own priority order above, so the row that wins is the
-# highest-ranking free one rather than the topmost line on the page.
-next_task = buckets["⬜"][0] if buckets["⬜"] else None
+# outside cause first, so it doesn't win either; it never reaches the ⬜ bucket to begin with. A
+# reopened row (🔁) was done and is done no longer — nobody is working it, so it is a candidate too,
+# and rule 38's own group order puts it ahead of the queue: the candidate set is the reopened rows
+# first, then the queued ones. Each bucket is already sorted by the plan's own priority order
+# above, so the row that wins is the highest-ranking free one in the leading non-empty bucket,
+# rather than the topmost line on the page.
+candidates = buckets["🔁"] + buckets["⬜"]
+next_task = candidates[0] if candidates else None
 next_reason = ""
-if next_task is not None and PRIORITY_ORDER:
-    word = (next_task["priority"] or "").strip().lower()
-    if word in PRIORITY_ORDER:
-        rank = PRIORITY_ORDER.index(word)
-        if rank == 0:
-            next_reason = f"{word} — the highest the plan names"
+if next_task is not None:
+    if PRIORITY_ORDER:
+        word = (next_task["priority"] or "").strip().lower()
+        if word in PRIORITY_ORDER:
+            rank = PRIORITY_ORDER.index(word)
+            if rank == 0:
+                next_reason = f"{word} — the highest the plan names"
+            else:
+                next_reason = f"{word} — nothing of higher priority is free"
         else:
-            next_reason = f"{word} — nothing of higher priority is free"
-    else:
-        next_reason = "priority the plan does not name, so it ranks last"
+            next_reason = "priority the plan does not name, so it ranks last"
+else:
+    # No row qualifies: say why in one line rather than letting the whole NEXT block vanish,
+    # which used to leave no way to tell "there is nothing free" from "the block failed to
+    # render". Names whichever of the two remaining states actually holds; when neither does,
+    # every open row has been carried since the last push and nothing is left open.
+    bits = []
+    if buckets["🔄"]:
+        bits.append("in hand")
+    if buckets["⛔"]:
+        bits.append("blocked")
+    next_reason = ("every open row is " + " or ".join(bits)) if bits else "every row is finished"
 
 # The row's own id leads its printed line, ahead of the mark and the title. Padded to the widest
 # id PLAN.md declares, so the mark that follows still lands in one column down the printed list.
@@ -277,6 +293,10 @@ if next_title:
     open(os.environ["NEXT_FILE"], "w", encoding="utf-8").write(next_title)
     if next_reason:
         open(os.environ["NEXT_REASON_FILE"], "w", encoding="utf-8").write(next_reason)
+elif next_reason:
+    # No candidate row at all — the reason line alone carries why (R3), so the block below still
+    # prints instead of vanishing.
+    open(os.environ["NEXT_REASON_FILE"], "w", encoding="utf-8").write(next_reason)
 PYEOF
 else
   bad "PLAN.md is missing"
@@ -428,6 +448,9 @@ if [ -n "$NEXT_TITLE" ]; then
   printf '\n\033[1mNEXT\033[0m\n  %s\n' "$NEXT_TITLE"
   [ -n "$NEXT_REASON" ] && printf '  \033[2m%s\033[0m\n' "$NEXT_REASON"
   printf '  (details — in PLAN.md)\n'
+elif [ -n "$NEXT_REASON" ]; then
+  # No row qualified as the next move — say why rather than letting the block vanish (R3).
+  printf '\n\033[1mNEXT\033[0m\n  \033[2m%s\033[0m\n' "$NEXT_REASON"
 fi
 
 printf '\n'

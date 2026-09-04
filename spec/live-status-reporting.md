@@ -578,7 +578,7 @@ renderer decided.
 
 **Case: the next move says why it is next**
 
-6. The system *shall* derive the next move from the stated order — among the tasks nobody is working yet, the highest-ranking one — rather than from a task's position on the page. [INV-326]
+6. The system *shall* derive the next move from the stated order — among the tasks nobody is working yet, the highest-ranking one — rather than from a task's position on the page. The candidate set is the reopened rows first, then the queued ones: a row nobody is working covers both, and a reopened row was done and is done no longer, which outranks a row never started. [INV-326]
 6a. A blocked row *shall* never win the next move, whatever its priority word, since clearing its outside cause comes before advancing it. [INV-326]
 7. The system *shall* print, beside the next move, the priority word it won on, in that project's own words. [INV-326]
-
+7a. *when* no row qualifies as the next move, the system *shall* print the block with one line naming why — every open row is in hand, blocked, or finished, whichever holds — rather than omitting the block. [INV-326]

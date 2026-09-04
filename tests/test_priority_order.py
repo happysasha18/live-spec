@@ -65,6 +65,22 @@ def test_this_project_states_its_own_order():
     assert order[0] == "critical", "the plan's highest-ranking priority word moved"
 
 
+def test_the_templates_seeded_statement_parses_and_names_every_word_its_own_examples_use():
+    """R5: the template's intake-notes prose names `critical` and `quick win`; its seeded
+    "Words used here" list must name the same words its own worked wish row and prose use, or a
+    host that follows the template's own instruction gets the word it used ranked last."""
+    with open(os.path.join(REPO, "templates", "PLAN.template.md"), encoding="utf-8") as fh:
+        tmpl = fh.read()
+    order = core.read_priority_order(tmpl)
+    assert order, "templates/PLAN.template.md's seeded priority statement failed to parse"
+    used_by_the_templates_own_examples = {"critical", "quick win", "normal"}
+    missing = used_by_the_templates_own_examples - set(order)
+    assert not missing, (
+        "the template's own prose and worked wish row use these priority words, and its seeded "
+        f"list never names them, so priority_rank ranks them last: {missing}"
+    )
+
+
 def test_every_task_carries_a_word_the_plan_names():
     """A word the list does not name still ranks and still prints, so this is a readability
     check on the plan rather than a gate on the reader. It reds when an open task starts using
@@ -170,7 +186,51 @@ class TheRendererFollowsThePlansOwnStatement(unittest.TestCase):
 **Source:** the fixture.
 """
 
-    def _run(self, plan_text):
+    #: A reopened row (🔁) is nobody's work in progress, so it is a candidate for the next move
+    #: ahead of the queue — rule 38's own group order and criterion 6's words both say so (R2).
+    #: demo-1 is marked done; its own acceptance command is wired (below) to keep failing, which
+    #: is the only way evaluate() ever draws a row 🔁.
+    PLAN_REOPENED_OUTRANKS_QUEUED = """# demo — Plan
+
+## Words used here
+
+- **Priority** — the one word on a task's own line.
+  1. `urgent` — the thing is wrong today.
+  2. `later` — real work, nothing wrong today.
+
+## Tasks
+
+### ✅ Reopened, and ranks highest — id: demo-1
+**Group:** One · **Priority:** urgent
+**Source:** the fixture.
+
+### ⬜ Queued, and ranks lower — id: demo-2
+**Group:** Two · **Priority:** later
+**Source:** the fixture.
+"""
+
+    #: With no candidate row at all, the block must still print one line saying why, rather than
+    #: vanish (R3). Its only open row is in hand; nothing free, nothing reopened, nothing blocked.
+    PLAN_NOTHING_QUALIFIES_ONLY_IN_HAND = """# demo — Plan
+
+## Tasks
+
+### 🔄 In hand, the only open row — id: demo-1
+**Group:** One · **Priority:** urgent
+**Source:** the fixture.
+"""
+
+    #: Nothing open at all — every row is finished (R3's other named state).
+    PLAN_NOTHING_QUALIFIES_ALL_FINISHED = """# demo — Plan
+
+## Tasks
+
+### ✅ Finished, the only row — id: demo-1
+**Group:** One · **Priority:** urgent
+**Source:** the fixture.
+"""
+
+    def _run(self, plan_text, checks=None):
         host = tempfile.mkdtemp(prefix="livespec-priority-")
         subprocess.run(["git", "init", "-q"], cwd=host, check=True)
         os.makedirs(os.path.join(host, "scripts"), exist_ok=True)
@@ -181,8 +241,22 @@ class TheRendererFollowsThePlansOwnStatement(unittest.TestCase):
                 body = fh.read()
             with open(os.path.join(host, "scripts", name), "w", encoding="utf-8") as fh:
                 fh.write(body)
-        with open(os.path.join(REPO, "scaffold", "status-view", "plan_checks.py"), encoding="utf-8") as fh:
-            seed = fh.read()
+        if checks:
+            # A row's mark reopens (🔁) only through evaluate() finding its own acceptance
+            # command failing (plan_checks_core.py never lets 🔁 be typed) — so a reopened-row
+            # fixture needs a command wired for its id, not the seed's empty CHECKS.
+            seed = (
+                "from plan_checks_core import evaluate, key_failure_note, normalize_mark, "
+                "reads_outside_the_tree\n"
+                "from plan_checks_core import parse_tasks as _parse_tasks\n"
+                "CHECKS = %r\n\n"
+                "def parse_tasks(text):\n"
+                "    return _parse_tasks(text, CHECKS)\n" % checks
+            )
+        else:
+            with open(os.path.join(REPO, "scaffold", "status-view", "plan_checks.py"),
+                      encoding="utf-8") as fh:
+                seed = fh.read()
         with open(os.path.join(host, "scripts", "plan_checks.py"), "w", encoding="utf-8") as fh:
             fh.write(seed)
         with open(os.path.join(host, "PLAN.md"), "w", encoding="utf-8") as fh:
@@ -221,6 +295,25 @@ class TheRendererFollowsThePlansOwnStatement(unittest.TestCase):
         next_block = out.rsplit("NEXT", 1)[-1]
         self.assertIn("Free, and ranks lower", next_block)
         self.assertNotIn("Blocked, and ranks highest", next_block)
+
+    def test_a_reopened_row_wins_next_over_a_queued_row_and_the_reason_names_it(self):
+        out = self._run(self.PLAN_REOPENED_OUTRANKS_QUEUED, checks={"demo-1": "false"})
+        next_block = out.rsplit("NEXT", 1)[-1]
+        self.assertIn("Reopened, and ranks highest", next_block)
+        self.assertNotIn("Queued, and ranks lower", next_block)
+        self.assertNotIn("nothing of higher priority is free", out)
+
+    def test_no_candidate_row_prints_one_line_naming_in_hand_rather_than_vanishing(self):
+        out = self._run(self.PLAN_NOTHING_QUALIFIES_ONLY_IN_HAND)
+        self.assertIn("NEXT", out)
+        next_block = out.rsplit("NEXT", 1)[-1]
+        self.assertIn("in hand", next_block)
+
+    def test_no_candidate_row_and_no_open_row_prints_finished(self):
+        out = self._run(self.PLAN_NOTHING_QUALIFIES_ALL_FINISHED)
+        self.assertIn("NEXT", out)
+        next_block = out.rsplit("NEXT", 1)[-1]
+        self.assertIn("finished", next_block)
 
 
 if __name__ == "__main__":  # pragma: no cover

@@ -18,10 +18,12 @@ pack uses, or at a fixed destination under one of two `scaffold/` kits
 per adopt/install-status-view.sh and adopt/install-scaffold.sh); this check applies that same,
 already-shipped mapping rather than inventing a new one.
 
-Two poles, one check. When the repo being checked itself carries a VERSION file, it IS the pack:
-the one pair Requirement 319 criteria 1 and 2 actually claim byte-identity for —
-`scaffold/status-view/state-probe.sh` against `scripts/state-probe.sh` — is compared directly, and
-no manifest is needed (the pack is not a host of itself). Not the whole of either scaffold kit:
+Two poles, one check. A `VERSION` file is not this pack's own property — an ordinary host project
+carries one too — so it is the wrong question and is not asked. When the repo being checked itself
+carries the shipped source, `scaffold/status-view/state-probe.sh`, it IS the pack: the one pair
+Requirement 319 criteria 1 and 2 actually claim byte-identity for is compared directly, and no
+manifest is needed (the pack is not a host of itself). A host carries the vendored copy and no
+`scaffold/` kit of its own, so this test never fires for one. Not the whole of either scaffold kit:
 `scaffold/status-view/plan_checks.py` is a seed a host fills with its own commands and is never
 pinned against the pack's own `scripts/plan_checks.py`, and `scaffold/guardrails/` is
 install-scaffold.sh's own kit for a host's `guardrails/`, under INV-177 — the pack carries no
@@ -37,10 +39,12 @@ Usage:
   check-status-view-drift.py [HOST_ROOT] [--pack-root PACK_ROOT]
     HOST_ROOT     the repo to check (default: the current repo root, via `git rev-parse
                   --show-toplevel`, else the current directory). The pack's own pair is checked
-                  when HOST_ROOT itself carries VERSION; otherwise HOST_ROOT is read as a host.
+                  when HOST_ROOT itself carries the shipped source; otherwise HOST_ROOT is read as
+                  a host.
 Exit 0 when the pack is not on this machine, a host carries no manifest, or every resolvable
-vendored copy matches its pack source byte-for-byte; exit 1 naming each file that differs. Stdlib
-only.
+vendored copy matches its pack source byte-for-byte; exit 1 naming each file that differs. A
+comparison that resolves zero pairs never exits 0 with the ordinary pass line — it names the zero
+count instead. Stdlib only.
 """
 import argparse
 import hashlib
@@ -93,14 +97,38 @@ def _sha256(path):
 _PACK_SELF_PAIR = ("scaffold/status-view/state-probe.sh", "scripts/state-probe.sh")
 
 
+def _is_pack_root(root):
+    """`root` IS the pack when it carries the shipped source itself — the thing a VERSION file
+    does not name, since an ordinary host project carries one too (R1)."""
+    src_rel, _ = _PACK_SELF_PAIR
+    return os.path.isfile(os.path.join(root, src_rel))
+
+
 def _shipped_pairs(root):
     """The pack's own self-pair, when its source half exists under `root` — used only when
-    `root` IS the pack (it carries VERSION), so the pair is compared directly with no manifest
-    needed to say what should match."""
+    `root` IS the pack, so the pair is compared directly with no manifest needed to say what
+    should match."""
     src_rel, dst_rel = _PACK_SELF_PAIR
     if os.path.isfile(os.path.join(root, src_rel)):
         return [(src_rel, dst_rel)]
     return []
+
+
+def _finish(checked, faults, target):
+    """A comparison that opened zero pairs must never read as a clean pass (R1's general form —
+    it matters more than the discriminator above). Print a distinct stand-down naming that instead
+    of the ordinary pass line."""
+    if faults:
+        print("%s: %d vendored file(s) drifted from the pack:" % (CHECK, len(faults)))
+        for line in faults:
+            print("  %s" % line)
+        return 1
+    if checked == 0:
+        print("%s: compared 0 vendored file(s) against %s — nothing resolved to check, standing "
+              "down" % (CHECK, target))
+        return 0
+    print("%s: %d vendored file(s) checked against %s — no drift" % (CHECK, checked, target))
+    return 0
 
 
 def _compare(pairs, root):
@@ -134,20 +162,15 @@ def main(argv):
 
     host_root = os.path.abspath(args.host_root or _default_host_root())
 
-    # Pole 1: the repo being checked IS the pack (it carries its own VERSION file). No manifest
+    # Pole 1: the repo being checked IS the pack — it carries the shipped source itself, not
+    # merely a VERSION file (R1: an ordinary host project carries one of those too). No manifest
     # is needed — a manifest is a HOST's bookkeeping, and the pack is not a host of itself —
     # Requirement 319 criterion 2's byte-identity is proved directly against the shipped vendor
     # map, pair by pair (F1: before this, the pack carried no ratchet-manifest.json, so this
     # check compared zero files on every push from this repository).
-    if os.path.isfile(os.path.join(host_root, "VERSION")):
+    if _is_pack_root(host_root):
         checked, faults = _compare(_shipped_pairs(host_root), host_root)
-        if faults:
-            print("%s: %d vendored file(s) drifted from the pack:" % (CHECK, len(faults)))
-            for line in faults:
-                print("  %s" % line)
-            return 1
-        print("%s: %d vendored file(s) checked against %s — no drift" % (CHECK, checked, host_root))
-        return 0
+        return _finish(checked, faults, host_root)
 
     # Pole 2: a host. Locate the pack: --pack-root wins when given; else the pack root
     # adopt/install-status-view.sh recorded in this host's own manifest at install time (F2);
@@ -194,14 +217,7 @@ def main(argv):
                            "adopt/install-status-view.sh --force, or move the change into the pack"
                            % host_rel)
 
-    if faults:
-        print("%s: %d vendored file(s) drifted from the pack:" % (CHECK, len(faults)))
-        for line in faults:
-            print("  %s" % line)
-        return 1
-
-    print("%s: %d vendored file(s) checked against %s — no drift" % (CHECK, checked, pack_root))
-    return 0
+    return _finish(checked, faults, pack_root)
 
 
 if __name__ == "__main__":

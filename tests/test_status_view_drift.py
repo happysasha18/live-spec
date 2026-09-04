@@ -174,3 +174,36 @@ def test_a_recorded_pack_root_not_on_this_machine_stands_down_honestly(tmp_path)
     result = _gate(str(host_root))  # no --pack-root
     assert result.returncode == 0, result.stdout + result.stderr
     assert "nothing to diff against" in result.stdout
+
+
+# ---------------------------------------------------------------------------------------------
+# R1 — a `VERSION` file is an ordinary thing for a host project to carry too; it is not a
+# property of this pack, and the pack pole must not fire for a host that happens to have one. The
+# repo is the pack only when it carries the shipped source itself. A comparison that resolves
+# nothing must never print as a clean pass either.
+
+def test_a_host_carrying_a_version_file_still_reds_on_a_genuinely_drifted_copy(tmp_path):
+    pack_root = _make_pack(tmp_path)
+    host_root = _make_host_with_recorded_pack_root(
+        tmp_path, pack_root, contents="#!/bin/bash\necho HACKED\n")
+    (host_root / "VERSION").write_text("2.0.0\n", encoding="utf-8")  # the host versions itself too
+    result = _gate(str(host_root))  # no --pack-root — read the recorded one
+    assert result.returncode == 1, result.stdout + result.stderr
+    assert "scripts/state-probe.sh" in result.stdout
+    assert "differs from the pack's own copy" in result.stdout
+
+
+def test_a_host_pole_that_resolves_nothing_never_prints_a_clean_pass(tmp_path):
+    pack_root = _make_pack(tmp_path)
+    host_root = tmp_path / "host-nothing-resolves"
+    (host_root / "scripts").mkdir(parents=True)
+    manifest = {
+        "pack_version": "1.0.0",
+        "vendored": {"scaffold/status-view/does-not-exist.sh": "deadbeef" * 8},
+    }
+    (host_root / "scripts" / "ratchet-manifest.json").write_text(
+        json.dumps(manifest), encoding="utf-8")
+    result = _gate(str(host_root), str(pack_root))
+    assert result.returncode == 0, result.stdout + result.stderr
+    assert "no drift" not in result.stdout
+    assert "0 vendored file(s) checked" not in result.stdout

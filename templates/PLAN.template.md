@@ -98,7 +98,9 @@ never guessed.
   a `priority:` field but not named here still prints and still ranks, last.
   1. `critical` — the shipped product is broken for its user, and the row lands before everything
      else.
-  2. `normal` — real work the goal needs, where nothing is wrong today.
+  2. `quick win` — low effort, immediate value, free to bubble up between landings with the jump
+     named in the row.
+  3. `normal` — real work the goal needs, where nothing is wrong today.
 
 ## The class cell
 
