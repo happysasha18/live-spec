@@ -5,7 +5,10 @@ seat that authored none of the changes below.
 
 PUSH-REVIEW
 
-Range: d8d5305..2848a1a, plus the uncommitted working tree read with it
+Range: d8d5305..1d4a6b6, 12 commits
+- 1d4a6b6 The second queue is gone, and the rules a person reads live where every project inherits them
+  (the commit that landed the working tree this review read; its nine defects were folded before it
+  was written, and the fold is inside it — F1 through F9 all verified against the tree as committed)
 - 2848a1a NEXT_STEPS: session close -- board scope corrected, tangent unpushed pending his review
 - d185a26 Fix the six findings from tonight's rule-adoption-batch review
 - 5c0b96c Prover record: the rule-adoption batch (d8d5305..fb836474) reviewed
