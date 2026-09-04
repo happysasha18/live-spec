@@ -581,3 +581,35 @@ renderer decided.
 6. The system *shall* derive the next move from the stated order — among the tasks nobody is working yet, the highest-ranking one — rather than from a task's position on the page. [INV-326]
 6a. A blocked row *shall* never win the next move, whatever its priority word, since clearing its outside cause comes before advancing it. [INV-326]
 7. The system *shall* print, beside the next move, the priority word it won on, in that project's own words. [INV-326]
+
+---
+
+## Requirement 321: A finding is repaired or offered, and every row on the board says what raised it
+
+**Context:** The seven acts a request is read by name what a person did. A check, a review, a test
+or a reading finds things too, and nothing said what became of those, so they quietly became rows.
+The owner named the result on 2026-09-04, about two of his projects at once: the titles read plainly
+and he still cannot tell where any row came from, so he sees work producing work and cannot control
+it. On this project's own board that day, four of five open rows had been raised by its own reviews.
+The pack had met the same disease the night before, in a findings log where 47 of 59 entries came
+from its own reviews, and retired it there; it grew back in the rows. This requirement gives a
+finding its two roads and gives the board the one word that answers who put a row on it.
+
+**User Story:** As a person reading a board of work, I want a finding to be either fixed now or
+offered to me once, and every row to say what raised it, so that work never accumulates that I did
+not agree to and I can see at a glance how much of the board is mine.
+
+### Acceptance Criteria
+
+**Case: a finding has two roads and no third**
+
+1. *when* a finding is critical by the project's own priority statement, the system *shall* repair it in the same landing that found it and *shall* open no row for it. [INV-327]
+2. *when* a finding is not critical, the system *shall* offer it to the person as one line in the reply and *shall* make it a row only on the person's own word. [INV-327]
+3. The system *shall* keep no store of findings the person has not taken, and *shall* let an untaken finding be found again by a later review rather than held anywhere. [INV-327]
+
+**Case: the board says what raised each row**
+
+4. The system *shall* have every open row carry, on its own group-and-priority line, one word naming what raised it: `asked` for the person, `found` for the project's own machinery with the person's word behind it, `sent` for another project. [INV-327]
+5. The system *shall* print that word beside the row in the status view, so the board answers who put a row on it without anyone opening a file. [INV-327]
+6. *when* an open row carries no such word, or carries one outside those three, the system *shall* red at the push and name the row. [INV-327]
+7. The system *shall* read a row that carries no such word rather than failing on it, leaving the refusal to the push check alone, so a plan mid-edit still prints. [INV-327]

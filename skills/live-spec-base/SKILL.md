@@ -1,6 +1,6 @@
 ---
 name: live-spec-base
-description: "Load before using any live-spec pack skill: director, spec-author, product-prover, design-reviewer, architect, build-pipeline, test-author, communicator, feedback-intake, feedback-collector, text-audit, publish. Load it also before briefing a worker that will write files, or to resolve shared rules and settings. It is the one home for the shared rules — twenty-six rules in the body, each stated as one instruction. It carries on-demand reference modules under `references/` — the glossary, the worked examples, the settings ladder, the worker-restore wording, the session handover, and rule-origins, which holds each rule's citation, history, justification, and worked example — each opened only when its own kind of question needs resolving."
+description: "Load before using any live-spec pack skill: director, spec-author, product-prover, design-reviewer, architect, build-pipeline, test-author, communicator, feedback-intake, feedback-collector, text-audit, publish. Load it also before briefing a worker that will write files, or to resolve shared rules and settings. It is the one home for the shared rules — twenty-seven rules in the body, each stated as one instruction. It carries on-demand reference modules under `references/` — the glossary, the worked examples, the settings ladder, the worker-restore wording, the session handover, and rule-origins, which holds each rule's citation, history, justification, and worked example — each opened only when its own kind of question needs resolving."
 metadata:
   version: 6.1.0
 ---
@@ -42,7 +42,12 @@ class, state the rule for it, and find the other live instances. The instance th
 then repaired as a free consequence. A change that repairs only the instance has answered nothing,
 because the next instance is already on its way. The rule holds at every channel an item arrives
 through. There are three such channels: a person's feedback, a finding the agent makes itself, and a
-message from another agent. The three are one filter.
+message from another agent. The three are one filter for HOW an item is answered — every one of them
+is read for its class. They are three different things for WHETHER work is taken on. A person's word
+opens work. A finding the agent makes itself, and a message from another agent, are repaired at once
+or offered once, and neither puts a row on a board by itself; rule 41 is where that lives. Reading
+this paragraph as licence to mint work from any of the three is how one project's board grew by
+fifty rows in two days, of which the person had asked for three.
 
 This is a rule of thinking, and it governs every rule below it. The class-shaped answer was first
 noticed inside a code change, in the bug-to-sibling-sweep discipline the director's own class-hunt
@@ -389,6 +394,29 @@ its own manifest line. Every other rule below keeps the number it already carrie
     published, sent, deleted or spent — waits for their word before it runs, never after it is
     shown. And a fork where no artifact settles the answer, because the answer is a taste or a
     policy, is put to them as a question in the reply while the rest of the work keeps moving.
+
+41. **A finding of the pack's own is repaired now or offered once. It never becomes a row by
+    itself.** The seven acts name what a person did. A check, a review, a test or a reading finds
+    things too, and nothing here said what becomes of those, so they quietly became rows. A board
+    filling with work nobody asked for is the failure this whole design exists to prevent, arriving
+    through the one door nobody was watching.
+
+    A finding has two roads and no third. It is repaired in the same landing that found it when it
+    is critical by the project's own priority statement — the project is wrong about something
+    today: a rule it states and does not keep, a check that passes on the wrong thing, a defect the
+    person has already run into. No row opens for that; it is fixed and reported in a line.
+    Everything else is offered to the person as one line in the reply, in the words they would use,
+    and becomes a row on their word alone.
+
+    A finding they do not take is gone. The record of the review that found it stays in the tree,
+    and a later review finds it again if it still matters. Nothing accumulates anywhere: a place to
+    keep unowned findings is the second queue this pack has retired twice, and it grows back the
+    moment one is opened.
+
+    Every row says which of three things raised it, in one word the status view prints beside it:
+    **asked** when the person raised it, **found** when the pack's own machinery did and the person
+    then took it, **sent** when another project did. So the board answers "who put this here"
+    without anyone opening a file. — `guardrails/check-row-origin.py`.
 
 ## Work that belongs elsewhere
 

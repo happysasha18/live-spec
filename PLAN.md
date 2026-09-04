@@ -553,8 +553,38 @@ something the next reply says, with its reason.
 **Links:** `scripts/state-probe.sh` (the ranking block), `spec/live-status-reporting.md`,
 `skills/live-spec-base/SKILL.md`.
 
+### ✅ The board says who put each row on it, and a finding never becomes a row by itself — id: q-825
+**Group:** Board & visibility · **Priority:** critical · **Raised:** asked
+**Source:** owner 2026-09-04 16:05, about two of his projects at once: every row's title reads
+plainly and he still cannot tell where it came from, who opened it or why — "я просто тупо вижу
+какую то работу, которая производит новую работу и не понимаю как этот процесс контролировать".
+
+**What it was.** The seven acts a message is read by name what a person did. A check, a review, a
+test or a reading finds things too, and nothing said what became of those, so they quietly became
+rows. On this project's own board that day, four of five open rows had been raised by the pack's own
+reviews rather than by him, and the board he reads said nothing about it. The pack had met the same
+disease the night before — a findings log where 47 of 59 entries came from its own reviews, retired
+then — and it grew straight back in the rows, through the one door nobody was watching.
+
+**Done 2026-09-04.** Rule 41 gives a finding two roads and no third. Critical by this project's own
+priority statement — the project is wrong about something today — and it is repaired in the same
+landing that found it, with no row opened. Anything else is offered as one line in the reply and
+becomes a row on his word alone. A finding he does not take is gone; the review record that found it
+stays in the tree and a later review finds it again if it still matters. Nothing accumulates, because
+a place to keep unowned findings is the second queue this pack has now retired twice.
+
+Every open row carries one word saying what raised it — `asked`, `found` or `sent` — on the line it
+already had, and the status view prints that word beside the row. So the board answers "who put this
+here" without anyone opening a file. `guardrails/check-row-origin.py` (gate ah) reds at the push on
+an open row carrying none or carrying a fourth word; the parser reads a row without it, so a plan
+mid-edit still prints and only the push refuses it. Seven cases prove it, the reds shown first.
+Requirement 321 states it.
+
+**Links:** `skills/live-spec-base/SKILL.md` (rule 41), `guardrails/check-row-origin.py`,
+`scripts/plan_checks_core.py`, `spec/live-status-reporting.md` (Requirement 321).
+
 ### ⬜ A feature's success measure is bound to a number a machine reads for it — id: q-824
-**Group:** Feedback & measurement · **Priority:** normal
+**Group:** Feedback & measurement · **Priority:** normal · **Raised:** found
 **Source:** the prover's re-check of 2026-09-04,
 `docs/prover/2026-09-04-repairs-recheck.md`, finding R8. It caught this session dropping a promise
 nobody had decided to drop.
@@ -585,7 +615,7 @@ because they stop being true then.
 `docs/prover/2026-09-04-repairs-recheck.md`.
 
 ### ⬜ A session starts light — id: q-822
-**Group:** Pack quality · **Priority:** normal
+**Group:** Pack quality · **Priority:** normal · **Raised:** asked
 **Source:** owner 2026-09-04 14:30, in his own words: he would like nothing over about 20 kilobytes
 to load unless it is needed, and the rest to come on request. Asked the same hour to treat that
 number as a direction rather than a bound — whether it lands at 18 or 25 is worth discussing, and it
@@ -618,40 +648,6 @@ figure a session reads at its start is the reading that decides this, and it is 
 
 **Links:** `skills/live-spec-base/SKILL.md`, `skills/director/SKILL.md`,
 `~/.claude/live-spec/profile.md`, `~/.claude/CLAUDE.md`, `evals/director/README.md`.
-
-### ⬜ The rulebook stops using words it never explains — id: q-823
-**Group:** Pack quality · **Priority:** normal
-**Source:** the readability pass run over `skills/live-spec-base/SKILL.md` on 2026-09-04 under q-817.
-Four fresh readers, two rounds of two, each holding only the document.
-
-**What the readers found.** Both readers of each round stopped inside the same eleven rules, and
-every stop is a term the document uses and never explains, or a claim it hedges. The word "row" is
-load-bearing in rules 7, 27 and 38 and is defined nowhere. Rule 24 stacks four terms in one sentence
-with nothing to anchor them to: "entry impact read", "footprint categories", "test ladder",
-"kind-abstract". Rule 25 reuses "anchor" for a different thing than rule 2 already defined it as.
-Rule 29's "the pipeline's closed door set" appears once in the whole file. Rule 27's "the feel of a
-real device in the person's own hands" arrives with no antecedent. Rule 12 hedges on whether its own
-cited check exists: "plausibly `check-broad-kill.sh`, not confirmed". Rule 4's check is written with
-no directory prefix where every sibling carries one. Rule 5 cites a host-specific value in a file
-whose own scope line forbids host-specific values. Rules 36, 38, 39 and 40 end with no check pointer
-where 8, 9 and 37 say "prose-only" outright. The load-list says twelve working skills and the
-closing roster names fifteen. Rule 38's "the status script" is never named; it is
-`scripts/state-probe.sh`.
-
-**Why this is not a rewrite.** The 2026-09-04 pass proved the document is at its information floor
-and that a faithful rewrite of it changes nothing here: it copies every one of these through,
-because the pass's own rule is to change how the text reads and never what it says. Each item above
-is a decision about content — what a word means, whether a hedge stands, which of two numbers is
-right — and a session can settle most of them from the tree. Three places both round-one readers hit
-were repaired this way already and are in this tree.
-
-**Done when:** every item in the list above is settled in the rulebook — the term defined at its
-first use, the hedge resolved or removed, the contradiction fixed — and a fresh reading round of two
-readers, each holding only the file, records no place both of them stop. The full record of the pass
-that found these is at `~/context-slimdown/reports/2026-09-04b-base-verification-record.md`.
-
-**Links:** `skills/live-spec-base/SKILL.md`, `skills/live-spec-base/references/glossary.md`,
-`~/.claude/skills/restore-readability`.
 
 ### ✅ Every skill in the pack is measured by Anthropic's own skill tool, and the bloated ones come back down — id: q-817
 **Group:** Pack quality · **Priority:** normal
@@ -721,7 +717,7 @@ two unplaced being the document's own title and a remark about the document rath
 makes. The gate that failed is the one that matters: four fresh readers across two rounds, and both
 readers of each round stopped inside the same eleven rules. Three places both round-one readers hit
 were repaired in the rulebook itself and are in this tree. The rest are terms the document has never
-defined, so a rewrite faithful to it inherits every one of them. That work is its own row, q-823.
+defined, so a rewrite faithful to it inherits every one of them. That work is a finding rather than a row: it stays in the record above and becomes a row only on the owner's own word, by rule 41.
 
 **Links:** `guardrails/check-skill-review.sh`, `skills/director/references/landing-law.md` (the rule
 itself), `spec/design-spec-review.md` (INV-208's home), every directory under `skills/`.
@@ -850,7 +846,7 @@ Closed. Full record: `docs/queue-archive/2026-09-04-closed-rows.md`.
 Closed. Full record: `docs/queue-archive/2026-09-04-closed-rows.md`.
 
 ### ⬜ A broken promise between two projects is caught automatically — id: q-385
-**Group:** Cross-project · **Priority:** normal
+**Group:** Cross-project · **Priority:** normal · **Raised:** asked
 **Source:** split 2026-07-17.
 **Deferred:** the first host declaring a contract in its card, the revisit trigger carried from the
 original row. No host has declared one yet, so this stays queued rather than in hand.
@@ -885,7 +881,7 @@ Closed. Full record: `docs/queue-archive/2026-09-04-closed-rows.md`.
 Closed. Full record: `docs/queue-archive/2026-09-04-closed-rows.md`.
 
 ### ⬜ The work board — worker lanes, timing, who's on what — builds once package 2 gives it a real trigger — id: q-816
-**Group:** Board & visibility · **Priority:** normal
+**Group:** Board & visibility · **Priority:** normal · **Raised:** asked
 **Source:** restored 2026-09-03, correcting q-813 — `spec/work-board.md` Requirement 309 was
 retired that same evening past what the owner had already settled the morning before:
 `.live-spec/turnkey-contract-composed.md:305` records his 2026-09-02 12:46 word keeping

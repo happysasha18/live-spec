@@ -52,6 +52,7 @@ VENDOR=(
   "scripts/plan_checks_core.py|scripts/plan_checks_core.py"
   "guardrails/check-status-view-drift.py|guardrails/check-status-view-drift.py"
   "scripts/check-success-measure-feed.py|scripts/check-success-measure-feed.py"
+  "guardrails/check-row-origin.py|guardrails/check-row-origin.py"
 )
 
 for pair in "${VENDOR[@]}"; do

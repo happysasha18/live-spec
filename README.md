@@ -66,7 +66,7 @@ a test matrix derives from the proven spec, then the code gets written until the
 Four scripted checks sit on the pre-push hook and turn it red: a change with no test behind it, a
 piece of content the spec promises that came out missing or blank, a behaviour with no spec
 sentence backing it, and two different things sharing one name. The rules behind every step of
-this pipeline — twenty-six shared rules across the skill set — are stated once, in
+this pipeline — twenty-seven shared rules across the skill set — are stated once, in
 [`live-spec-base`](skills/live-spec-base/SKILL.md). You do not read them yourself; the agent loads
 them and follows them on every turn, automatically.
 

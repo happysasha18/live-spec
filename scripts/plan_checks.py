@@ -177,6 +177,10 @@ sys.exit(1 if undrawn or unmarked else 0)
     # one checker, and the checker takes the refresh cadence from the feed rather than from a
     # number this tree chose. The host leg — writing the fetch tooling — is another window's job.
     "q-48": "grep -q 'SINCE IT SHIPPED' scaffold/status-view/state-probe.sh && grep -q 'from-feed' scripts/check-success-measure-feed.py && test -f tests/test_success_measure_view.py",
+    # q-825: the rule is written, every open row names what raised it, the board prints the word,
+    # and the gate refuses a row that carries none. The guard reads the live plan, so this is the
+    # row's own acceptance run directly.
+    "q-825": "grep -q 'A finding of the pack.s own is repaired now or offered once' skills/live-spec-base/SKILL.md && python3 guardrails/check-row-origin.py >/dev/null && grep -q \"t\\[.raised.\\]\" scaffold/status-view/state-probe.sh",
     # q-818: one renderer ships from the pack, the pack's own copy is byte-identical to it, and the
     # drift check reads the two files. cmp costs nothing; the check's own red-proof lives in
     # tests/test_status_view_drift.py rather than being re-run at every session start.

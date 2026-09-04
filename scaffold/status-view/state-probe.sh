@@ -247,6 +247,11 @@ for t in shown:
         verified = f"{D}marked done{X}"
     else:
         verified = f"{D}verified{X}" if t["verified"] else f"{D}declared{X}"
+    # What raised this row, printed where a person reads it (PLAN q-825, rule 41). The board used
+    # to answer "what is this" and never "who put it here", so work the pack's own reviews raised
+    # for themselves was indistinguishable from work the person asked for.
+    if t["raised"]:
+        verified = f"{D}{t['raised']} · {X}" + verified
     colour = ICON_COLOUR.get(t["icon"], D)
     reason = ""
     if t["failing_key"] and t["blocked_by"]:

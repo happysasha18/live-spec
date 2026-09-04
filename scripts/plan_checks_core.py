@@ -112,7 +112,13 @@ def key_failure_note(command, result):
 # around the mark, an em dash before "id:". The title is matched non-greedy so a title that
 # itself contains an em dash still stops at the literal " — id: " that ends the heading.
 _HEADER_RE = re.compile(r"^### (\S+) (.+?) — id: (\S+)$")
-_GROUP_RE = re.compile(r"^\*\*Group:\*\*\s*(.+?)\s*·\s*\*\*Priority:\*\*\s*(.+)$")
+# The group and priority line, and the word on it saying what raised the row. `Raised:` is
+# optional in the pattern so a plan mid-edit still parses; `guardrails/check-row-origin.py` is
+# what refuses an open row that carries none (rule 41).
+_GROUP_RE = re.compile(r"^\*\*Group:\*\*\s*(.+?)\s*·\s*\*\*Priority:\*\*\s*([^·]+?)(?:\s*·\s*\*\*Raised:\*\*\s*(\S+))?\s*$")
+#: The three things that can raise a row (rule 41). `asked` — the person raised it. `found` —
+#: the pack's own machinery did, and the person then took it. `sent` — another project did.
+RAISED_WORDS = ("asked", "found", "sent")
 _SOURCE_RE = re.compile(r"^\*\*Source:\*\*\s*(.+)$")
 _COVERED_BY_RE = re.compile(r"^\*\*Covered by:\*\*\s*(.+)$")
 _DEFERRED_RE = re.compile(r"^\*\*Deferred:\*\*\s*(.+)$")
@@ -202,6 +208,7 @@ def _new_task(mark, title, task_id):
         "id": task_id,
         "group": None,
         "priority": None,
+        "raised": None,
         "source": None,
         "covered_by": None,
         "deferred": None,
@@ -240,7 +247,8 @@ def _parse_headings(lines):
         stripped = line.strip()
         gm = _GROUP_RE.match(stripped)
         if gm and cur["group"] is None:
-            cur["group"], cur["priority"] = gm.group(1), gm.group(2)
+            cur["group"], cur["priority"] = gm.group(1), gm.group(2).strip()
+            cur["raised"] = (gm.group(3) or "").strip().lower() or None
             continue
         sm = _SOURCE_RE.match(stripped)
         if sm and cur["source"] is None:
