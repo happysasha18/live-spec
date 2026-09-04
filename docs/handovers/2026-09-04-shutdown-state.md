@@ -68,3 +68,38 @@ The rulebook cannot be made smaller by rewriting it. That was measured today end
 claim text is 30,337 characters against a 32,000-byte file. Row q-822 carries the shape of the work
 that can make a session lighter, and the stop sign is the director's own scenarios rather than a
 byte count.
+
+---
+
+## Added at 16:30, after the owner named the real problem
+
+He stopped the day on the thing under all of it: sessions were producing work instead of results,
+and his board was filling with the pack's own machinery. Four of five open rows here had been raised
+by this pack's own reviews. On the photo site, 53 of 106 rows were written in 48 hours and he had
+asked for three.
+
+**What was deleted.** A filter this session had built an hour earlier — a field on every row naming
+what raised it, a gate refusing a row without it, its requirement, its architecture and matrix
+entries, its test, its vendoring to hosts. He refused it in one line and was right: the word is
+written by the session about itself, so it proves nothing a session cannot fake. Also deleted:
+INV-21's `[target]` tag and its map entry, because a parked promise that a row must be opened to
+hold is the pump that puts this pack's own unkept undertakings on his board.
+
+**What replaced it: rule 41**, written first by the photo site, where it took that board from
+thirty-three rows to eleven in an hour. A row is opened by the person, or by a defect someone
+outside this repository actually meets; the test at the door is to name that person and what they
+see. A defect is a gap between what was promised and what happens, and the promise comes from a
+written definition of done or from what a person meets — never from what a reviewer holds to be good
+practice, which is the pump. A defect row carries the way to see it, which is why a real bug needs
+nobody's permission.
+
+**The board here went from five rows to three, and all three are his.**
+
+**What stays honestly unsolved.** Rule 41 holds because he can read a row's first line and strike
+it. Without him it does not hold, and no mechanism in this tree holds without him. A session
+proposed taking the write permission away — only his typed message opens a row — and he refused it
+himself, correctly: a hostile review that finds a real bug must be able to open a row without
+putting a technical decision on him. That refusal is why the rule reads as it does.
+
+**Also open, unchanged:** the three blocking defects above (R1, R2, R5) and the two director-route
+fixtures. Those are ordinary work and they still stand between here and a push.
