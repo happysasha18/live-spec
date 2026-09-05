@@ -37,6 +37,7 @@ SKILL_REL = os.path.join("skills", "live-spec-base", "SKILL.md")
 GLOSSARY_REL = os.path.join("skills", "live-spec-base", "references", "glossary.md")
 EXAMPLES_REL = os.path.join("skills", "live-spec-base", "references", "worked-examples.md")
 SETTINGS_LADDER_REL = os.path.join("skills", "live-spec-base", "references", "settings-ladder.md")
+RULE_ORIGINS_REL = os.path.join("skills", "live-spec-base", "references", "rule-origins.md")
 
 # The 21 rule numbers this rulebook carries today. Rule 30 was cut whole (his D2 word
 # 2026-08-11); rules 11, 14, 15, 18, 19, 20, 21, 23, 28, 32, 33, 34, 35 were cut 2026-08-26
@@ -93,12 +94,13 @@ class TestLiveSpecBaseBodyThinned(unittest.TestCase):
             "rule(s) %r are retired and should carry no heading of their own" % sorted(reappeared),
         )
 
-    def test_three_reference_modules_exist_and_body_points_at_each(self):
+    def test_reference_modules_exist_and_body_points_at_each(self):
         flat = read_flat(SKILL_REL)
         for rel, name in (
             (GLOSSARY_REL, "glossary"),
             (EXAMPLES_REL, "worked-examples"),
             (SETTINGS_LADDER_REL, "settings-ladder"),
+            (RULE_ORIGINS_REL, "rule-origins"),
         ):
             self.assertTrue(
                 os.path.exists(os.path.join(ROOT, rel)),
@@ -130,6 +132,33 @@ class TestLiveSpecBaseBodyThinned(unittest.TestCase):
             "The 2.0.0 release is the boundary case",                                        # rule 32
         ):
             self.assertIn(needle, ex, "worked-examples.md missing a relocated example: %s" % needle)
+
+    def test_rule_41s_relocated_history_lives_in_rule_origins(self):
+        """2026-09-05: rule 41's own dated history (the two boards' measured numbers, the
+        retired raised-field attempt) moved out of the body into references/rule-origins.md's
+        new "## Rule 41" section, replaced by a one-line pointer — the same shape rule 40's own
+        entry already used. Every operative sentence of the rule stayed in the body; only this
+        test guards the moved half against silently emptying."""
+        body = read_flat(SKILL_REL)
+        self.assertIn(
+            "references/rule-origins.md", body,
+            "rule 41 dropped its pointer to references/rule-origins.md",
+        )
+        origins = read_flat(RULE_ORIGINS_REL)
+        self.assertIn(
+            "## Rule 41 — a row is opened by the person, or by a defect someone outside "
+            "this repository meets",
+            origins, "rule-origins.md lost rule 41's own section heading",
+        )
+        for needle in (
+            "53 of 106",
+            "thirty-three rows to eleven",
+            "a `raised` field on every row, was refused for exactly that reason",
+        ):
+            self.assertIn(
+                needle, origins,
+                "rule-origins.md's Rule 41 section is missing relocated text: %s" % needle,
+            )
 
     # base rule 23 (the live-channel law this sentence closed) was cut 2026-08-26 (PLAN.md
     # step 7, commit 0ae778bc, moved to attic/live-spec-base-unbacked-rules-2026-08-26.md):
