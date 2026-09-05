@@ -560,14 +560,13 @@ to load unless it is needed, and the rest to come on request. Asked the same hou
 number as a direction rather than a bound — whether it lands at 18 or 25 is worth discussing, and it
 is not written into any rule.
 
-**What it is, measured today.** Every session opens by loading 81,534 bytes: the boot file 5,386,
-the person's own profile 10,859, the shared rulebook 31,995, the director 33,294. The probe prints
+**What it is, measured today.** Every session opens by loading 83,596 bytes: the boot file 5,386,
+the person's own profile 10,859, the shared rulebook 34,057, the director 33,294. The probe prints
 the same figure at every start.
 
 **The shape of the work, and why it is believed to fit.** A skill's body carries the instruction and
 a pointer; the explanation behind each rule moves into a module opened when a hard case arrives.
-The rulebook's 26 rules take 25,631 bytes and their instruction lines alone take 1,748, so the
-compression is real and large. The same shape applies to the director.
+The same shape applies to the director.
 
 **What stops a cut, and it is not a byte count.** This pack has already measured what compression
 costs. On 2026-09-02 the director was cut from 25,613 to 21,900 bytes and re-recorded by the same
@@ -575,9 +574,25 @@ producers in the same hour: 29 of 35 against 30, with twice as many runs naming 
 for. The cut was withdrawn. On 2026-09-04 the reverse — four paragraphs added — turned three failing
 correction scenarios green. So the scenarios are the stop sign and the number is the direction.
 
-**The gap this row has to close first.** The director has its own scenario set to check a cut
-against. The rulebook has none, so cutting it today would be cutting against nothing. Either the
-rulebook earns a measurement of its own, or it is cut last, after the skills that have one.
+**One cut tried and held, 2026-09-05.** Rule 41 carried a full paragraph of dated history (the two
+boards' numbers, the retired `raised`-field attempt) inside the rule itself — the one rule in the
+book with that shape, freshly written the day before. The history moved to
+`references/rule-origins.md`, a one-line pointer replaced it, and the rule's own instruction,
+door test, and every operative sentence stayed. Checked against four scenario pairs (a self-found
+dead function, a self-found crash, a teammate's number mismatch, a person's direct request) run
+through eight fresh agents, full rule text against trimmed: all eight decisions matched across
+their pair. 1,219 bytes came off (35,276 → 34,057). This is a lighter check than the director's own
+36-scenario suite, not a substitute for it — it covers this one rule's behaviour, not the book's.
+
+**The gap this row still has to close.** Rule 41 was the one rule shaped for this cut — a long,
+freshly-written history paragraph attached to a short instruction. Read against it: rules 7, 38, 31
+and 36, the next heaviest at 3,355 / 2,921 / 2,178 / 2,016 bytes, carry no such paragraph — each is
+already a dense list of distinct, SPEC-cited operative sentences with nothing but a stray dated
+citation to spare. Cutting further into them means cutting behaviour, not history, and that is
+exactly what the director's own 2026-09-02 withdrawal warns against doing on no measurement. The
+director has its own scenario set to check a cut against. The rulebook still has none built for
+that scale — the ad hoc four pairs above proved the *method*, not a standing suite. Either that
+suite gets built, or the rulebook is cut no further than what a rule's own shape allows for free.
 
 **Done when:** the required-context figure the probe prints has come down toward the owner's
 direction, and every cut that got it there was re-recorded against the director's scenarios with the

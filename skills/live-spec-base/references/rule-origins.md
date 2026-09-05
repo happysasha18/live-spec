@@ -186,3 +186,28 @@ the work was worth doing; whether it works is the pack's own job.
 Two things still stop, and the rule names only those two: an act that cannot be undone outside git
 waits for his word before it runs, and a fork whose answer is a taste or a policy is put to him as a
 question while the rest of the work keeps moving.
+
+## Rule 41 — a row is opened by the person, or by a defect someone outside this repository meets
+
+Entered 2026-09-04, the same day two boards measured the opposite. Here, four of five open rows
+had been raised by the pack's own reviews. On the project that wrote this rule first, 53 of 106
+rows were written in 48 hours and the person had asked for three; that board went from
+thirty-three rows to eleven the hour the rule landed, and this one from five to three. The pack had
+already retired a findings log carrying the same disease the night before, and it grew back as rows
+within a day, because every earlier attempt asked who raised a row rather than who meets it.
+
+That distinction is the rule's whole mechanism, and it is why the rule survived where the earlier
+attempts did not: who raised a row is a thing a session writes about itself, so a session tagging
+its own finding "raised by: review" proves nothing a session could not fake — the first attempt this
+same day, a `raised` field on every row, was refused for exactly that reason within the hour it
+shipped. Who meets a row is a claim anyone can read and refuse, because the rule also demands the
+row carry the way to see it: do this, and you see that. A defect with no such sentence has not been
+met by anyone, and has no row.
+
+What a reviewer holds to be good practice is a promise living inside the machine rather than one of
+the rule's two named sources (a written definition of done, or what a person meets), and holding
+work to that inside promise is what produced fifty rows in two days on one board and four of five
+on another — the measurement that opened this entry.
+
+— prose-only, no dedicated check: a check here would be a session marking its own homework, which
+is the failure this rule replaces.

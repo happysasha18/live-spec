@@ -403,34 +403,21 @@ its own manifest line. Every other rule below keeps the number it already carrie
 
     A defect is a gap between what was promised and what happens, and a promise comes from one of
     two places: a definition of done already written, or what a person meets when they use the
-    thing. Both sit outside the session. There is no third source. What a reviewer holds to be good
-    practice is a promise living inside the machine, and comparing the work against it is what
-    produced fifty rows in two days on one board and four of five on another. A row whose ground is
-    neither of the two is an opinion: it goes into the record of the review that had it, and
-    nowhere else.
+    thing. There is no third source. A row whose ground is neither is an opinion: it goes into the
+    record of the review that had it, and nowhere else.
 
-    A defect that opens a row carries the way to see it: do this, and you see that. That sentence
-    is what makes "someone meets it" a fact rather than a phrase, and it is why no permission is
-    needed for a real bug — a review that finds one opens its row without asking anybody, because
-    the row itself carries the proof. A session that cannot write that sentence has not found a
-    defect anyone meets, and there is no row.
+    A defect that opens a row carries the way to see it: do this, and you see that. A review that
+    finds a real bug opens its row without asking anybody, because the row itself carries the proof.
+    A session that cannot write that sentence has not found a defect anyone meets, and there is no
+    row.
 
     Those things are still done. They are repaired inside the work that needed them, in the same
     landing, and reported in a line. What cannot be repaired there dies in the record of the review
     that found it, and a later review finds it again if it still matters. Nothing is stored for
-    later: a place to keep unowned findings is the second queue this pack has now retired twice, and
-    it grows back the moment one is opened.
+    later.
 
-    This rule exists because the opposite was measured on two boards on 2026-09-04. Here, four of
-    five open rows had been raised by the pack's own reviews. On the project that wrote this rule
-    first, 53 of 106 rows were written in 48 hours and the person had asked for three; that board
-    went from thirty-three rows to eleven the hour the rule landed. The pack had already retired a
-    findings log carrying the same disease the night before, and it grew back as rows within a day,
-    because every earlier attempt asked who raised a row rather than who meets it. Who raised it is
-    a thing a session writes about itself. Who meets it is a claim anyone can read and refuse.
-
-    — prose-only, no dedicated check. A check here would be a session marking its own homework,
-    which is the failure this rule replaces.
+    — prose-only, no dedicated check; the history and the measured numbers behind it are in
+    `references/rule-origins.md`.
 
 ## Work that belongs elsewhere
 
