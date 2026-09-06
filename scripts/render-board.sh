@@ -1303,7 +1303,7 @@ not reload itself: draw it again when something changes.
              "started by another render, so each row is shown as the plan records it and no "
              "acceptance command runs here" if NESTED else
              "each row shown as the plan records it; the acceptance commands are re-run "
-             "on the machine that holds the work, not here"),
+             "on the machine that holds the work, not here; Published from: GitHub Actions"),
 )
 
 with open(out_path, "w", encoding="utf-8") as f:
