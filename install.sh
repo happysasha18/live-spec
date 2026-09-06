@@ -28,15 +28,17 @@ for skill_dir in "$SKILLS_SRC"/*/; do
   # the comment beneath it ("the backup above is taken before the removal") false.
   # A backup only where the installed copy holds bytes the source does not: everything else is
   # already in git, and a copy of it is a second home for the same thing (2026-09-06 finding —
-  # see JOURNAL.md).
-  if { [ -e "$dest" ] || [ -L "$dest" ]; } && ! diff -rq "$skill_dir" "$dest" >/dev/null 2>&1; then
+  # see JOURNAL.md). A symlink is exempt from that comparison and is always backed up: `diff -rq`
+  # follows it and reads the TARGET's bytes, while the removal below takes the LINK, and no
+  # repository holds the link. A matching target therefore proves nothing about what is lost.
+  if [ -L "$dest" ] || { [ -e "$dest" ] && ! diff -rq "$skill_dir" "$dest" >/dev/null 2>&1; }; then
     backup_home="$SKILLS_DEST-attic"
     mkdir -p "$backup_home"
     backup="$backup_home/$skill_name.bak_$TIMESTAMP"
-    echo "  $skill_name — installed copy differs from the source; backing up to $backup"
+    echo "  $skill_name — backing up the installed copy to $backup"
     cp -a "$dest" "$backup"   # -a, not -r: a symlink is backed up as itself
 
-  elif [ -e "$dest" ] || [ -L "$dest" ]; then
+  elif [ -e "$dest" ]; then
     echo "  $skill_name — installed copy already matches the source; no backup taken"
 
   else

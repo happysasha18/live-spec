@@ -623,6 +623,40 @@ class TestBothInstallRoutesReachTheTree(unittest.TestCase):
                 self.assertEqual(fh.read(), "a hand-placed file where a skill folder belongs\n")
             self.assertTrue(os.path.isdir(victim), "the skill did not install over the file")
 
+    def test_a_symlink_at_the_destination_is_backed_up_even_where_its_target_matches_the_source(self):
+        """The byte-identity skip added 2026-09-06 rests on the installed copy already being in
+        git. A symlink is not: `diff -rq` follows it and compares the target's contents, so a link
+        pointing at matching bytes reads as identical, takes no backup, and the removal below takes
+        the link itself — the arrangement, which no repository holds, is gone with no copy. Red
+        against the skip as first written: the attic came back empty."""
+        with tempfile.TemporaryDirectory() as tmp:
+            home = os.path.join(tmp, "home")
+            skills = os.path.join(home, ".claude", "skills")
+            os.makedirs(skills)
+            target = os.path.join(tmp, "elsewhere", "director")
+            shutil.copytree(os.path.join(ROOT, "skills", "director"), target)
+            link = os.path.join(skills, "director")
+            os.symlink(target, link)
+
+            r = subprocess.run(["bash", os.path.join(ROOT, "install.sh")],
+                               capture_output=True, text=True,
+                               env={**os.environ, "HOME": home})
+            self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+
+            attic = skills + "-attic"
+            kept = [n for n in os.listdir(attic)] if os.path.isdir(attic) else []
+            names = [n for n in kept if n.startswith("director.bak_")]
+            self.assertTrue(names,
+                            "the symlink at the destination was removed with no backup: %r" % kept)
+            backup = os.path.join(attic, names[0])
+            self.assertTrue(os.path.islink(backup),
+                            "the backup is not the link itself, so the arrangement was not kept")
+            self.assertEqual(os.readlink(backup), target)
+            self.assertTrue(os.path.isdir(link) and not os.path.islink(link),
+                            "the skill did not install over the symlink")
+            self.assertTrue(os.path.isdir(target),
+                            "the removal reached through the link and took its target")
+
     def test_a_version_disagreement_is_said_aloud(self):
         """Criterion 18 [M-7]."""
         body = flat(read(CARD))
