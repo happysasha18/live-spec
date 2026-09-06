@@ -6,7 +6,7 @@ Prover skill version: product-prover (installed under `skills/product-prover/`),
 `skills/product-prover-pack/SKILL.md` (pack bindings). This pass was run from a seat that authored
 none of the work below, briefed to find reasons to refuse it.
 
-Range: 5928738..\<pending\>
+Range: 5928738a..43038fb0
 - 5928738 The review record names its landing commit — the base this range is measured from
 - 86e9cb5 The installer backs up an installed skill only where its bytes are not in git
 - c51a279 The Cyrillic quote behind the backup rule moves to JOURNAL.md
