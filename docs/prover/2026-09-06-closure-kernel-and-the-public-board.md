@@ -7,7 +7,11 @@ Prover skill version: product-prover (installed under `skills/product-prover/`),
 This pass was run from a seat that authored none of the two commits below, briefed to find reasons
 to refuse them.
 
-Range: aa361dea..6a7acac5
+Range: de542335..e0a0f8f6
+- e0a0f8f6 The published board tells the truth on a fresh clone, and the stable link's targets retire —
+  records-only render reads git stamps, judges no lane, names its zone; criterion 8 and Requirement 309
+  lose their target markers now that the link answers; the architecture pins the workflow instead of
+  the gitignored page; the session guard reads the suite's own meta checkpoint as its record
 - 6a7acac5 The spec states the forward-map duty without its date; the date moves to the journal (INV-253) —
   the one sentence this record's own landing wrote into Requirement 257 with a date, which INV-253
   sends to JOURNAL.md; the fact stays, the date moved, nothing else in that commit
