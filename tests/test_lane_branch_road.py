@@ -295,11 +295,11 @@ class TestLaneBranchLaw(unittest.TestCase):
     def test_spec_grants_a_worker_lane_its_worktree_with_no_gate(self):
         # Re-pinned at row-445 pass 2 (one-home literal): the spec states the law behaviourally
         # ("the Agent tool's worktree isolation option with no permission gate"); the literal
-        # parameter snippet's one home is lanes-and-pen.md's Trains section, moved to
-        # skills/director/references/ in the build-pipeline cutover.
+        # parameter snippet's one home is lanes-and-pen.md's Trains section, which sits in
+        # skills/build-pipeline/references/ after the q-822 classifier/pipeline split.
         spec = read_flat("PRODUCT_SPEC.md")
         self.assertIn("the Agent tool's worktree isolation option with no permission gate", spec)
-        bp = read_all_flat("skills/director/SKILL.md")
+        bp = read_all_flat("skills/build-pipeline/SKILL.md")
         self.assertIn('`isolation: "worktree"`', bp)
         self.assertIn("it carries no gate, usable today", bp)
 
@@ -529,13 +529,14 @@ class TestTheLaneOpenActLaw(unittest.TestCase):
         self.assertIn("The lane-open act", base)
         self.assertIn("`lanes.cap`", base)   # the cap row in the package defaults
         self.assertIn("scripts/open-lane.sh", base)
-        # lanes-and-pen.md moved to skills/director/references/ in the build-pipeline cutover.
+        # lanes-and-pen.md sits in skills/build-pipeline/references/ after the q-822
+        # classifier/pipeline split: opening a lane is execution, not classification.
         # Re-pinned 2026-08-31 (plan-16, one home per rule): the act's own steps were written out
-        # twice, in the base rule and again in the director's reference. The base is the act's one
-        # home and now carries the whole assertion above. What the director owes is the judgment
-        # rule 7 hands it — perform the act rather than fall back to single-file — and that is what
-        # the needle below reads.
-        pipe = read_all_flat("skills/director/SKILL.md")
+        # twice, in the base rule and again in the reference. The base is the act's one home and
+        # now carries the whole assertion above. What the pipeline owes is the judgment rule 7
+        # hands it — perform the act rather than fall back to single-file — and that is what the
+        # needle below reads.
+        pipe = read_all_flat("skills/build-pipeline/SKILL.md")
         self.assertIn("do not fall back to single-file while independent lanes stand free", pipe)
 
     def test_architecture_owns_inv214(self):

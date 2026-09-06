@@ -1,7 +1,10 @@
 {
-  "id": "YB",
+  "id": "GH",
   "acts": [
     "question"
+  ],
+  "operation": [
+    "none"
   ],
   "creates_work": false,
   "shelves_idea": false,
@@ -9,10 +12,11 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "The person asks what a printable block is and why it is needed. Both clauses are the same act: one question about a term the agent has just been using, the second half asking for the reason behind the first. Nothing is requested to be built, changed or stopped, so this is a question and nothing else. A question creates nothing and changes no document: there is no decision sheet, only a sentence of answer. Answering may require reading — the Director may read, or send a reader — but effort spent answering never converts the question into a task. Because no work was accepted, the turn names no dimension and calls no specialist. His question about a term is also a signal that the term was used ungrounded; the answer grounds it in place, it does not open a row.",
+  "reasoning": "Two sentences, one act: the person asks what a printable block is and why it is needed. Both clauses ask for the same understanding of a term the agent has just been using, so the second is not a separate act but the same question continued. Nothing is requested to be built, changed, stopped or decided, and nothing new about the product is reported. Per the skill, a question is answered without loading a pipeline: it creates nothing, changes no document, and names no dimension or specialist. Answering it may take reading, but reading to answer is not work. Since no ticket state changes, the operation is none.",
   "scenario": "question-what-is-it",
-  "label": "YB",
-  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
-  "recorded": "2026-09-04",
-  "skill_version": "6.1.0"
+  "label": "GH",
+  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
 }

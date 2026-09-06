@@ -1,0 +1,12 @@
+{
+  "id": "NR",
+  "closes": true,
+  "reason_kind": "ordinary delivered result",
+  "reasoning": "The documents' close rule is explicit: a shown result closes the work, and the human's own eye is never the gate on an ordinary delivery. The definition of done here was decidable without making the person the checker — the reference allows an artifact read as a legitimate check, and the seat read the paragraph back against the files it describes and confirmed every fact true of what is on disk. That is the pipeline's own re-check against the decision sheet's observable outcome, which the verifier detail permits where no fresh checker is required; no command judges prose, and the absence of one does not convert the check into his eye. The work is a plain instruction he accepted, carried out as asked, so it is none of the three cases rule 12/27 reserve for him: it is not a taste call (nobody has raised a question about the wording, and the README's own voice was untouched), not a trade-off no artifact settles (the files on disk settle every fact), and not a change to the definition of correct still standing as an open fork (he ordered the paragraph himself; executing his decision is not making one). Nor is it irreversible outside git — a paragraph in a README is undone cheaply. So the verifier is satisfied, the checkpoint's IN PROGRESS and NEXT clear, `checkpoint.py close` runs in the same step, and the report names the document with the three short lines: what that part said before, what it says now, what was added. If he later disagrees with the wording, that disagreement is a new fact carrying his correction into its own task, not a reason to hold this row open now.",
+  "scenario": "close-on-a-plain-read-with-no-command",
+  "skill_sha256": "8655c0d1378c4706324d5472cf90b8d40991253eb38424e6c34d26dca3f271fa",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus",
+  "label": "NR"
+}

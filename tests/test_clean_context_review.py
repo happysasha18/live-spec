@@ -70,7 +70,7 @@ class TestCleanContextReview(unittest.TestCase):
         )
 
     def test_build_pipeline_wires_verify_station(self):
-        law = flat("skills/director/references/landing-law.md")
+        law = flat("skills/build-pipeline/references/landing-law.md")
         self.assertIn("The authoring seat never certifies its own work adversarially (SPEC INV-237)", law)
         self.assertIn("authored by a fresh seat, never the seat that authored the change", law)
 

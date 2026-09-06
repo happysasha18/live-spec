@@ -23,6 +23,13 @@ if [ -f evals/director/check.py ]; then
   esac
 fi
 
+if grep -q '"status": "stale after' evals/build-pipeline/closing-scenarios.json 2>/dev/null; then
+  warn "Pipeline closing eval: STALE after the Director split — fresh producer runs are owed"
+elif [ -f evals/build-pipeline/closing-scenarios.json ]; then
+  CLOSING=$(python3 -c "import json;r=json.load(open('evals/build-pipeline/closing-scenarios.json'))['recorded_run'];print(r['score'], 'recorded', r['recorded'])" 2>/dev/null)
+  [ -n "$CLOSING" ] && echo "  Pipeline closing by scenario: $CLOSING"
+fi
+
 # required context: what actually loads before a session takes its first step —
 # the boot file and profile every session reads, plus base + director (plan-17,
 # q-570/q-584/q-205: the old number counted only the last two and missed the rest).

@@ -66,8 +66,13 @@ _PROBE_LINE_RE = re.compile(
     r"(?:\s+—\s+.+?)?(?:\s*<-- NEXT)?\s*$"
 )
 
-# render-board.sh's card markup: `<div class="handle">Title <span class="chip">...`
-_BOARD_HANDLE_RE = re.compile(r'<div class="handle">(.*?)\s*<span class="chip">')
+# render-board.sh's card faces, both of them (the work board, q-816): an open row reads
+#   `<div class="handle">Title <span class="mk">…`
+# and a closed row is one line by Requirement 309 criterion 69:
+#   `<div class="doneline">✅ <b>Title</b> …`
+_BOARD_HANDLE_RE = re.compile(
+    r'<div class="handle">(.*?)\s*<span class="mk">'
+    r'|<div class="doneline">\S+ <b>(.*?)</b>')
 
 
 def _make_repo_copy(tmp):
@@ -109,7 +114,7 @@ def _board_titles(tmp):
         # The board HTML-escapes titles for display (an em dash or an apostrophe survives
         # unescaped, but "&", "<", ">" would come back as entities) — unescape here so the
         # comparison is against the underlying text, not the markup.
-        titles.append(html.unescape(m.group(1)))
+        titles.append(html.unescape(m.group(1) if m.group(1) is not None else m.group(2)))
     return titles
 
 

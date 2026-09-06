@@ -13,7 +13,7 @@ from conftest import open_spec, read_flat
 
 
 class TestDocsLayoutVehicle(unittest.TestCase):
-    HOMES = ("PRODUCT_SPEC.md", "skills/director/references/landing-law.md")
+    HOMES = ("PRODUCT_SPEC.md", "skills/build-pipeline/references/landing-law.md")
 
     def test_vehicle_in_both_homes(self):
         self.assertIn(

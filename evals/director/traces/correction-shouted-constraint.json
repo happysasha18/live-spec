@@ -1,26 +1,28 @@
 {
-  "id": "EF",
+  "id": "UH",
   "acts": [
     "correction"
+  ],
+  "operation": [
+    "T3"
   ],
   "creates_work": false,
   "shelves_idea": false,
   "attaches_to_existing_work": true,
   "work_items": 0,
   "dimensions": [
-    "product value and behaviour — the transition engine may no longer produce a static transition; what it outputs changes",
-    "architecture, data, integrations, operations — the engine's remaining implementation has to be replanned around the constraint, and anything static already built comes out",
-    "quality, safety, regressions — the constraint needs a check that fails if a static transition reappears"
+    "product value and behaviour",
+    "the user's path and the design"
   ],
   "specialists": [
-    "Developer — replan and rebuild the remainder of the engine under the constraint, and sweep out static transitions already written",
-    "Test author — the evidence that no static transition survives, and the regression that keeps it out",
-    "Independent verifier — check the observable outcome against the artifacts, not against the executor's report"
+    "Developer",
+    "Spec author"
   ],
-  "reasoning": "The transition engine is being implemented right now, and this message changes what that work must produce: static transitions are ruled out, so the remainder has to be replanned and whatever static path is already in the code comes out. That is a correction — it changes the constraints of work in flight, so it attaches to the checkpoint that work already has and is written in with an update to its decision sheet, never a second row beside it and never a fresh new. It is not a halt: nothing stops, the work keeps running toward the same goal with a narrower constraint. It is not a decision either: a decision settles an open choice inside work that goes on as planned, while this forces the plan for what is left to be rewritten. Being a correction, replanning takes on nothing that did not already exist — the board gains no row and the turn produces zero new pieces of work, however much thought rewriting the sheet costs. The single clause is the correction's own goal in other words, so it carries no second act; naming the repair separately would reopen as fresh work the very thing the correction just changed. Dimensions are named here only because a correction is the stated exception: saying what the running work now touches is the whole point of it. If the boundary of 'static' is not already settled in this project's own vocabulary, that gets one short question in his terms before the replan, rather than a guess.",
+  "reasoning": "The transition engine is being built right now, and this message rules out a whole class of result that work was heading toward: static transitions. That changes the constraint on work already in flight, which the skill calls a correction, not an idea and not an instruction — the same words with nothing being built would have been an idea, but the situation decides. A correction attaches to the work already running and its goal is replanned in the sheet that work already has; the board gains no row and the count of new pieces of work is zero, however much rewriting the remaining plan costs. The shout carries no second act: 'no static transitions' is the repair stated aloud, which the skill says is the correction's own goal in other words, and naming it separately would re-open as fresh work the very thing the correction just changed. Nothing here states a standing rule for after this work closes, so it is not a decision either. The dimensions named are the ones the corrected work now touches — what the engine produces and how the motion reads — and the specialists are the ones that corrected work may need: someone to build it and someone to bring the spec in line, since the behaviour the spec described has changed.",
   "scenario": "correction-shouted-constraint",
-  "label": "EF",
-  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
-  "recorded": "2026-09-04",
-  "skill_version": "6.1.0"
+  "label": "UH",
+  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
 }

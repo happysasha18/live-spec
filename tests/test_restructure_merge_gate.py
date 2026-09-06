@@ -40,7 +40,7 @@ class TestRestructureMergeGateLaw(unittest.TestCase):
 
     TRACKED_HOMES = (
         "PRODUCT_SPEC.md",
-        "skills/director/references/landing-law.md",
+        "skills/build-pipeline/references/landing-law.md",
     )
     EXTERNAL_HOME = "skills/product-prover/SKILL.md"
 
@@ -146,7 +146,7 @@ class TestRestructureMergeGateLaw(unittest.TestCase):
             set(self.TRACKED_HOMES) | {self.EXTERNAL_HOME},
             {
                 "PRODUCT_SPEC.md",
-                "skills/director/references/landing-law.md",
+                "skills/build-pipeline/references/landing-law.md",
                 "skills/product-prover/SKILL.md",
             },
         )

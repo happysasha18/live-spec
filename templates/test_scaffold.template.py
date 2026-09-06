@@ -60,9 +60,12 @@ class TestBootstrapComplete(unittest.TestCase):
         body = read("PLAN.md")
         self.assertIn("| # |", body, "PLAN lost its table header")
 
-    def test_next_steps_single_live_state(self):
-        blocks = re.findall(r"(?im)^#+ .*live state", read("NEXT_STEPS.md"))
-        self.assertLessEqual(len(blocks), 1, "LIVE STATE blocks must be replaced, never stacked")
+    def test_next_steps_single_transient_state(self):
+        body = read("NEXT_STEPS.md")
+        blocks = re.findall(r"(?im)^#+ .*transient execution state", body)
+        self.assertLessEqual(len(blocks), 1,
+                             "transient execution state blocks must be replaced, never stacked")
+        self.assertNotRegex(body, r"(?m)^## (?:Tasks|Forward queue)\b")
 
 
 if __name__ == "__main__":

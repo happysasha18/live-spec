@@ -1,7 +1,11 @@
 {
-  "id": "OX",
+  "id": "KH",
   "acts": [
     "instruction"
+  ],
+  "operation": [
+    "T1",
+    "T2"
   ],
   "creates_work": true,
   "shelves_idea": false,
@@ -11,10 +15,11 @@
     "documentation and communication"
   ],
   "specialists": [],
-  "reasoning": "One act: an instruction. He asks for something to be done now — put the report just produced into a file and hand back its path. The clause about passing it on for someone to re-check is the instruction's grounds, not a second act: it only says why he wants the file and carries no judgment about the product that would outlive the request, so under the grounds rule it is the same act's goal in other words. 'Дай путь к файлу' is part of the same single result, not separate work: a path with no file, or a file with no path, is not what he asked for. So one new piece of work with a small sheet — goal: the report exists as a file he can forward; observable outcome: the file is on disk with the report's full text and its absolute path is stated back. It touches only documentation and communication — the report is the artifact and handing it over is the point; no behaviour, architecture, test or release changes, so no other dimension is named. No specialist: writing already-produced text to a file is the Director's own doing, and routing a plain request to the communicator is how a plain request disappears. Nothing is in flight that this changes, and there is no idea half to judge.",
+  "reasoning": "The person asks for the report to be put in a file and for its path — something must be made that does not exist yet, so this is an instruction and the work is accepted now. The skill says plainly that when someone asks for a plan, a status, a summary or a report, they have asked for something to be made, and it is work like any other. The clause about passing it on to someone for re-checking states what the person will do afterwards; it adds no goal of its own and is the instruction's background, not a second act. 'дай путь к файлу' is a step toward the same single result, not separate work — one result someone could want on its own, so work_items is one. Since a piece of work is accepted now, admission and taking it in hand happen in one call, hence T1 and T2. The only area that genuinely changes is documentation and communication: a document is produced. No specialist is needed — the report already exists in the conversation, and routing the wording to the communicator instead of doing the thing asked is exactly how a plain request disappears.",
   "scenario": "instruction-one-goal-two-steps",
-  "label": "OX",
-  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
-  "recorded": "2026-09-04",
-  "skill_version": "6.1.0"
+  "label": "KH",
+  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
 }

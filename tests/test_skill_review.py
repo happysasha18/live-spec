@@ -560,7 +560,7 @@ def test_build_pipeline_names_the_skill_review_step():
     cutover this fact's home is director's landing-law reference, pointed to from SKILL.md's
     Execution section, so a reader following director's own walk still meets the gate named
     beside its INV-208 anchor."""
-    landing_law = read("skills/director/references/landing-law.md")
+    landing_law = read("skills/build-pipeline/references/landing-law.md")
     assert "check-skill-review.sh" in landing_law
     assert "SPEC INV-208" in landing_law
 

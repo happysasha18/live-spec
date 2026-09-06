@@ -48,10 +48,11 @@ _ANSI_RE = re.compile(r"\x1b\[[0-9;]*m")
 _DECLARED_HEADER_RE = re.compile(r"^### \S+ .+? — id: (\S+)$")
 
 # render-board.sh's card carries its id in the meta line:
-#   <div class="meta">Group · priority priority · id</div>
-# "priority" can itself be two words ("quick win"), so the id is whatever sits between the
-# LAST " · " and the closing tag — the lazy .*? backtracks to find that split correctly.
-_BOARD_META_ID_RE = re.compile(r'<div class="meta">.*? · (\S+)</div>')
+#   <div class="card" id="card-<id>">   /   <div class="card closed" id="card-<id>">
+# The id is read off the card's own anchor, which BOTH card faces carry — the open card and the
+# closed row's one line (the work board, q-816). It used to be read off the meta line, which only
+# an open card has, so every closed row went missing from this comparison.
+_BOARD_META_ID_RE = re.compile(r'<div class="card[^"]*" id="card-([^"]+)">')
 
 # state-probe.sh's PLAN line: "  <id> <icon> <title>  <verified-or-declared>[ — <reason>][  <-- NEXT]"
 # The id leads the line, padded to the widest id PLAN.md declares, ahead of its state mark and
@@ -350,6 +351,30 @@ class TestTheAcceptanceCommandsStayHonestMachinery(unittest.TestCase):
         #: precheck call are unchanged and were read again: still `json.load(open(...))` and
         #: `sys.exit`, still a print piped into `grep -q`, no write on either road.
         "q-805": "f18d440939b934df429369e527ac9069fd2c5de118729e62df35e936fc8a7bfb",
+        #: Four keys added on 2026-09-05 carry a `python3 -c` payload this reader stops at, and
+        #: each was read by hand on 2026-09-06 before its pin was written here. All four import a
+        #: test module and call test functions in it; none opens a file for writing, and none
+        #: touches the tree. q-501 reads README.md through a regex search and asserts. q-810 opens
+        #: the closing-scenarios JSON read-only and runs three grader assertions over it. q-814 and
+        #: q-815 each build their whole world inside `tempfile.TemporaryDirectory()` — a scratch
+        #: git repo, the gate run against it, the directory cleaned up — which is the same shape
+        #: the q-805 exception above already covers.
+        "q-501": "9a8891b3cb90443d30a9ac2591902e4d0fdc8e528c65bb358758a69cc0bd9825",
+        "q-810": "70423253bc66246ae50213508e8e24920b9a9e54e312aff1c76dc19a805904ee",
+        "q-814": "d92da19d7fdd5d793b3e26fc44aefa468356fd3f8a5556952862b38a280bcd72",
+        "q-815": "444bb8f51398dcb536e80c3ea5e8a89eb20bfc6ae68c7cecfcec06606da0f03f",
+        #: Two more on 2026-09-06, when the board's own two keys stopped greping the gitignored
+        #: `board.html` — unconditional template text, red on a fresh clone and green on a page
+        #: that had dropped every row into one column — and started calling the matrix's own
+        #: tests instead. Read by hand before these pins were written: both import
+        #: `tests/test_work_board.py`, build their whole world inside a
+        #: `tempfile.TemporaryDirectory()` (its own plan, its own checkpoints, its own scratch git
+        #: repo and worktree, its own empty check map), render into that directory, run the named
+        #: test functions over the page that comes out, and clean the directory up. Neither opens
+        #: a file for writing outside it; what they read of this tree — `scripts/render-board.sh`,
+        #: `SURFACES.md`, the `scripts/` listing — they only read.
+        "q-166": "317060f6aa782410460f38d4234ecfc8d196075e44454d06a0878c3330fe805e",
+        "q-816": "7f56b9fb76125932f5696224eabf5cbcc337d359fc67e965a9128ba1d0619665",
     }
 
     def setUp(self):

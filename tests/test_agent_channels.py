@@ -16,8 +16,10 @@ ways, and `test_pack_card_exists_and_names_its_five_fields` reads this pack's ow
 
 The contract's mechanical arms (a producer's permission gate, a consumer's freshness check, a
 compatibility test) are NOT asserted here: this pack contains no data producer, so there is nothing
-to exercise, and they ship when a host declares its first contract (ROADMAP row 385, [target]). The
-rows for E-33, INV-185, INV-186 and INV-187 assert that those laws stand in the documents today.
+to exercise. Nobody promises them either — the criterion and the `[target]` marker that did retired
+on 2026-09-06 with the row that held them (q-385), because every adopted project's card still reads
+"None today" and the trigger it waited on never fired. The rows for E-33, INV-185, INV-186 and
+INV-187 assert that those laws stand in the documents today.
 """
 
 import os

@@ -15,3 +15,4 @@ rejected output against an unchanged source is the five-round trap, banned.
 clauses carry a `norm: <path>` pointer, OPEN the artifact before building. The frozen prototype is
 the norm for look and feel, and the clause text only its laws. Record a one-line plan-vs-prototype
 diff in the landing's accounting. A missing diff line is a defect at review.
+

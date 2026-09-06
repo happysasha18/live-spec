@@ -1,19 +1,24 @@
 {
-  "id": "RA",
+  "id": "GK",
   "acts": [
     "question",
+    "observation",
     "halt"
+  ],
+  "operation": [
+    "none"
   ],
   "creates_work": false,
   "shelves_idea": false,
-  "attaches_to_existing_work": true,
+  "attaches_to_existing_work": false,
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "Two acts in one turn. First a question: how is the job going and how much longer — answering it needs a look at the running job, and reading to answer is not work. Second a conditional halt: pause the job now and start it over in a couple of hours if the wait is long, wait it out if only about ten minutes remain. Both branches are real and both stay named, but the outcome is exclusive — the remaining time either fits inside his window or it does not, so the job is either paused or left running, never both. The line about needing to switch the computer off for a while is the halt's grounds, not a third act: it only restates why the neighbouring act wants what it wants, and the halt's own goal (pause, resume in a couple of hours) already carries it. A halt is about state, so it changes the piece of work already in flight and creates none of its own; with no work accepted there is no decision sheet, no dimension to name and no specialist to call. What he hears back is the actual remaining time and which branch that puts us on.",
+  "reasoning": "Read to the end, the turn carries three acts. First a question: how is it going, how much longer — that is answered, and answering it costs reading, not work. Second an observation: the computer has to be switched off for a while. That is a fact about the situation the halt's own goal does not already carry — the machine going down is new information, and where a clause cannot be plainly folded into a neighbour it is its own act. Third a halt-shaped branch: pause it and start fresh in a couple of hours, which is about the session's own running job stopping. But it is stated as a conditional and the person has already said what to do in each case — pause if there is a long way left, wait if it is about ten minutes. Both branches are real and both stay named, yet the outcome is exclusive and the condition is not resolved in this turn: the remaining time is exactly what the question asks for. So nothing on the plan changes yet — the operation is none, the pause fires only once the answer comes back long. No new result is being asked for, so no work is created, no task is replanned, and a turn that accepted no work names no dimension and calls no specialist.",
   "scenario": "mixed-conditional-pause",
-  "label": "RA",
-  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
-  "recorded": "2026-09-04",
-  "skill_version": "6.1.0"
+  "label": "GK",
+  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
 }

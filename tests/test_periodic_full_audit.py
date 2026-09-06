@@ -68,6 +68,6 @@ def test_audit_is_defined_adversarial_by_nature_once():
     (moved there from build-pipeline in the build-pipeline cutover)."""
     spec = _read("PRODUCT_SPEC.md")
     assert "carries an audit — a whole-read that sets out to break the work" in spec
-    detail = read_all("skills/director/references/verify-step-detail.md")
+    detail = read_all("skills/build-pipeline/references/verify-step-detail.md")
     assert "adversarial audit" not in detail
     assert "An audit is adversarial by nature" in detail

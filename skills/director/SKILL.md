@@ -1,6 +1,6 @@
 ---
 name: director
-description: Read the human's message before anything acts on it — decide what they did (asked, mused, offered an idea, reported something, decided, corrected running work, instructed, or called a halt), then, only for work that was actually accepted, name what it touches, call the specialists it needs, and carry it through — checkpoint, verify, close, report.
+description: Read the human's message before anything acts on it. Classify every act in context, decide whether it answers now, changes existing work, proposes new work or halts work, and return a small route contract. Use for every human turn; accepted work continues in build-pipeline.
 metadata:
   version: 6.1.0
 ---
@@ -22,15 +22,12 @@ requested at all.
 > (`skills/live-spec-base/SKILL.md`). This skill does not restate them. Loaded alone, every
 > section below still runs.
 
-**The Director runs the project; the person is the one who asks for things done in it.**
-Every row the Director accepts into the plan carries the Director's own understanding of
-why it is real, useful work — never only the fact that the person said certain words. A
-request that stays amorphous once read is not accepted: the Director asks, right then,
-what it would take to make it concrete, rather than filing the ambiguity away to resolve
-later. Most things a person says while thinking aloud are not worth writing down anywhere
-at all — recording is not free, and a place to put everything becomes a place nothing is
-found. What is worth keeping either becomes a real row, understood well enough to state
-why it is queued, or it is answered and let go.
+**The Director reads and routes; it does not run the work.** A request that stays
+amorphous once read is not routed as accepted work: ask, right then, what concrete result
+the person wants. Most things a person says while thinking aloud are not worth writing
+down anywhere at all. Recording is not free, and a place to put everything becomes a
+place nothing is found. What is worth doing is handed to `build-pipeline` as a candidate;
+everything else is answered, discussed or remembered as evidence and let go.
 
 ## First — what did the human just do?
 
@@ -60,6 +57,10 @@ when nothing in that area is being built, and a correction to work in flight whe
 endpoint is being fixed at that moment — and if they said it right after asking for the
 endpoint to be fixed, it is part of the instruction they just gave. Read the situation,
 not the mood of the sentence.
+
+**Passing an idea on is not work.** Where the ask is to hand the idea itself to someone — tell
+another project, drop it in their inbox — that is passing a message, done in the turn like an
+answer: no row, no work item. An ask that makes something exist is an instruction as usual.
 
 **A conditional request states both branches, and both are real.** "Do it if that's easy,
 and if not just note it for later" is an instruction and an idea in one breath, and the
@@ -143,18 +144,20 @@ gets read as its background, and a request that was made aloud is never answered
 the most common way this design fails in practice, and it fails silently: a turn scored as
 one act looks tidy and is missing something the person said.
 
-**No act absorbs another.** A reason given with a halt is still its own act. A fact
-reported before a request is still its own act. A complaint attached to a correction is
-still its own act. A standing rule for every future case does not absorb a demand for this
-one right now — "always deploy without asking, and deploy this one" grants authority going
-forward and asks for today's deploy in the same breath; recording only the standing rule
-loses the thing they actually wanted done today. An invitation to disagree closing out a
-decision or an instruction is still its own act too — "do it this way, or tell me I'm
-wrong" asks a question in the same breath, and answering only the decision leaves the
-invitation unanswered. Calling a clause context, justification or preamble does not stop it
-from being something the person did — and the ones most often dissolved this way are
-judgments about the product, which cost the most to lose because the same thing gets built
-again next month.
+**No act absorbs another.** A reason given with a halt is still its own act. A fact reported
+before a request is still its own act. A complaint attached to a correction is still its own
+act. A standing rule for every future case does not absorb a demand for this one right now —
+"always deploy without asking, and deploy this one" grants authority going forward and asks for
+today's deploy in the same breath; recording only the standing rule loses the thing they
+actually wanted done today. The demand does not need a clause of its own: a rule about how
+something is kept, reported or shown also asks for that thing, and where it does not exist yet
+— the plan to be kept, the status line to be watched — making it is what they want today. An
+invitation to disagree closing out a decision or an instruction is still its own act too — "do
+it this way, or tell me I'm wrong" asks a question in the same breath, and answering only the
+decision leaves the invitation unanswered. Calling a clause context, justification or preamble
+does not stop it from being something the person did — and the ones most often dissolved this
+way are judgments about the product, which cost the most to lose because the same thing gets
+built again next month.
 
 When you cannot tell whether a clause is its own act or part of the neighbouring one, it
 is its own act. Naming one act too many costs a sentence. Naming one too few loses what
@@ -227,8 +230,7 @@ Director may read, and may send a reader to fetch and report back, in order to a
 What it may not do is turn the question into a task because answering it took effort.
 
 These are dimensions, not classes. A message can touch all of them, one, or none, and
-naming one does not exclude the rest. This is where the pack's old classification failed:
-its intake made a change that cut across everything choose one word for itself.
+naming one does not exclude the rest.
 
 - product value and behaviour
 - the user's path and the design
@@ -254,229 +256,70 @@ the one house whose declared sentence it extends, and a rule pinning to no house
 itself the finding rather than a thing to file somewhere plausible. The five houses and their
 declared sentences are in
 [references/request-kind-table.md](references/request-kind-table.md), under the routing
-principle. Read them and name the house in the decision sheet's own documents line, so a rule
+principle. Read them and name the house in the route contract, so a rule
 this pack has never seen before still lands in one place instead of two.
 
-## The decision sheet
 
-For accepted work, write this and stop.
+## Route contract
 
-These are questions to answer, not a form to fill. A line with nothing behind it gets one
-word or goes. A one-line bug fix does not need a risk paragraph, and a sheet longer than
-the work it describes means the work was over-read.
+Return one small verdict after the whole message has been read:
 
-- **Goal in the human's words** — what they want, as they said it
-- **Observable outcome** — what will be true afterwards that is not true now
-- **Dimensions touched** — with a reason for each
-- **Known** — the facts that already settle part of this
-- **Unknown** — what must be found out before or during
-- **Risk and irreversibility** — anything that cannot be undone, named
-- **Specialists** — who is needed, what each is for, what can run in parallel
-- **Evidence** — what will show the goal was reached, not merely that steps ran
-- **What runs next** — where other accepted work stands open, which piece runs next and why that
-  one, read off the states the plan records rather than composed from memory
-- **Documents that must change** — only those whose sentences actually change
+- **acts** — every act in the turn, from the seven above;
+- **action** — answer, remember evidence, change existing work, propose new work, or halt existing work;
+- **creates_work** — true only when a new result not covered by an existing task is being accepted;
+- **attaches_to_existing_work** — the one existing task when a correction, decision or halt changes it;
+- **work_items** — the number of new pieces of work, zero for a question, idea, observation,
+  correction, decision applied to running work, or halt;
+- **dimensions** — what accepted or corrected work touches;
+- **specialists** — the smallest set the pipeline may need;
+- **source** — the person's request, or the promised behaviour and reproduction an outside user meets.
 
-The last line is where ceremony collects. A refactor that changes no behaviour changes no
-product spec. A bug fix changes a test and the code. Listing a document because it is
-important, rather than because it is now wrong, is the habit that line exists to break.
+This verdict is a route, not execution. The Director does not write the plan, create or update a
+checkpoint, run a specialist, verify a result, close work, or maintain a second task list.
 
-For a question, an idea, an observation or a halt there is no sheet. There is a sentence.
+A question, musing or conversation is answered without loading a pipeline. An idea is discussed and
+creates no durable work until the person asks for it. An observation is evidence unless its repair
+follows beyond doubt. A correction, decision or halt names the existing work for `skills/build-pipeline` to change,
+and creates none.
+A new instruction is only a candidate until `skills/build-pipeline` derives its observable outcome
+and definition of done and admits it through the board's one door.
 
-### A sheet at the size the work deserves
+## Specialist routing
 
-> **Message.** "the export button is greyed out for users on the free plan, that's wrong"
->
-> **Act.** Observation whose repair follows beyond doubt — free-plan export is a stated
-> entitlement, so this is a defect, not a preference.
->
-> - **Goal** — free-plan users can press export again
-> - **Observable outcome** — the button is live for a free-plan account
-> - **Dimensions** — product behaviour (a stated entitlement is not honoured); quality (it
->   shipped without a test that would have caught it)
-> - **Known** — the entitlement is specified; the button reads plan state
-> - **Unknown** — whether the plan check or the entitlement data is wrong
-> - **Risk** — none; the change is reversible
-> - **Specialists** — developer; test author for the regression test. No spec author: the
->   spec is right and the code disagrees with it
-> - **Evidence** — a test that fails on today's code and passes after
-> - **Documents** — none. The spec already says what should happen
->
-> Nine lines, because the work is small. A cross-cutting feature earns more.
-
-## Execution
-
-This version acts. A question, an idea, an observation or a halt gets no sheet, per above —
-and nothing below applies to it. What follows runs only for work that just earned a
-decision sheet: an instruction, a correction, a decision, or the settled half of a
-conditional. Earning a sheet and creating work are two different things: an instruction and
-a settled conditional can name a goal nothing already covers, so they create work; a
-correction and a decision write their sheet onto work that was already running, and create
-none.
-
-**Before that sheet turns into a checkpoint, the Director says so if it disagrees with the
-work itself.** Writing the sheet is not only deciding how to build the thing asked for; it is
-also the one moment to weigh whether the thing asked for is right. A flaw the Director can see
-— a wrong assumption, a step that undoes an earlier one, a goal that conflicts with a standing
-decision already on record — gets stated plainly, with the reason, in the same reply that would
-otherwise just begin the work. This is not a question thrown back to stall: the Director still
-proceeds once heard out, on the human's word either way; what it never does is execute a request
-it believes is wrong without having said so first. Silent agreement is its own kind of failure —
-it looks like competence and is actually the Director skipping the one check only it, holding
-the fuller picture of what is already built and decided, can run.
-
-**New work opens a checkpoint before the first specialist is called; work already in
-flight updates the one it already has — never a second `new` on the same work.** An
-instruction naming a goal nothing already covers opens a fresh checkpoint: run `python3
-scripts/checkpoint.py new <path> --title "<goal, short>" --owner director --decision-sheet
-"<the decision sheet above, verbatim>"`, `<path>` under `.live-spec/checkpoints/`, named
-for the work, not for the Director. A correction, or a decision that changes work already
-running, targets a checkpoint that already exists — it never runs `new` again on that
-path, which would either silently overwrite the existing DONE section (`new_checkpoint`
-always writes a blank template) or, at a different path, open the duplicate this file
-elsewhere forbids. It runs `python3 scripts/checkpoint.py update <path> --decision-sheet
-"<the revised sheet>"` (and `--next`/`--in-progress` where those changed too) against the
-SAME path the original instruction opened, so one piece of work keeps one checkpoint for
-its whole life. The decision sheet is not duplicated prose — it is the checkpoint's
-DECISION SHEET section, the one place this work's goal, knowns, unknowns and risk live
-while the work is in flight. This is what makes a resumed window real instead of a
-promise: the next agent reads this file, not this conversation.
-
-**A specialist gets a brief, not a copy** — see "The specialists" below for the exact
-shape. This is the whole of delegation. The fixed protocol this replaces
-(`skills/build-pipeline/references/delegation-protocol.md`) carried tier ladders, escrow
-law and a reporting bureaucracy built for one mandatory pipeline; none of that is a
-specialist's job here, and none of it survives the cut into this skill — no bureaucracy
-without a working need this pack still has.
-
-**Independent pieces of work run in parallel through the existing lane mechanism, not a new
-one.** `scripts/open-lane.sh` already opens a worktree-isolated branch under the profile's
-lane cap — `skills/live-spec-base/SKILL.md` rule 7 carries the lane law in full and is not
-repeated here. What this step adds is the judgment: two pieces of accepted work are
-independent when neither depends on the other's output and neither rewrites the same
-section or behaviour. Work that merely shares a canonical document —
-`PRODUCT_SPEC.md`, `ARCHITECTURE.md`, `TEST_MATRIX.md`, `PLAN.md` — is not thereby
-dependent; every write to a shared document goes through one integration owner (the
-Director itself, or whichever specialist currently holds the pen) one lane at a time, so
-the document stays a convergence point, not a lock two lanes wait on.
-
-**A new fact can change the remaining graph.** Read a specialist's answer, a failed check,
-or a fact the human adds mid-work against the plan just made — not filed for later. When
-it changes what remains, run `python3 scripts/checkpoint.py update <path> --next "<...>"`
-against this work's own checkpoint and add to or cut the specialist list; never carry a
-stale plan forward silently. When it does not change anything, say so and continue —
-replanning on every unremarkable update is its own kind of noise.
-
-**Accepted work that turns out to be a confirmed bug still owes a sweep before it counts as
-finished.** Name the mistake's class and search for its siblings in the same change; a point fix
-that leaves relatives standing stays a status until the sweep lands. See
-[references/class-hunt.md](references/class-hunt.md) for the full four moves, including when the
-class boundary calls for the human's judgment.
-
-**The verifier gets the goal and the artifacts, never the executor's self-report.** See
-[references/verify-step-detail.md](references/verify-step-detail.md) for the full
-protocol: when a fresh checker is required (SPEC INV-46) versus when the Director's own
-re-check against the decision sheet's observable outcome is enough, the worker-restore
-gate, and the audit walk. The short version: a check that did not produce the work is
-handed the observable outcome and the paths the work actually touched, and checks the
-claim against them directly.
-
-**Closing the work closes the checkpoint in the same step, never a later one.** Once the
-verifier is satisfied, clear the checkpoint's IN PROGRESS and NEXT sections to reflect what
-actually remains — usually nothing — and run `python3 scripts/checkpoint.py close <path>`.
-It refuses to close over content still marked open, so a checkpoint that will not close is
-telling the truth about work that is not actually finished.
-
-**A shown result closes the work; the human's own eye is never the gate on an ordinary
-delivery.** Once the verifier confirms the observable
-outcome, the Director shows the result — the changed document, the passing check, the running
-page, whatever the decision sheet named — and closes the checkpoint in the same step. It never
-leaves a row open to wait for the human to look at what was already shown and bless it: a row's
-own definition of done that names his eye as the check is describing one of the three cases
-rule 12/27 already reserve for him — a taste call, a trade-off no artifact settles, or a change
-to the definition of correct — never an ordinary buildable result a command, a test, or a plain
-read already confirms was delivered. If he disagrees with a shown result afterward, that
-disagreement is a new fact, not a reopening of the one that shipped: it becomes its own task
-carrying his correction, and the closed row stays closed. This changes nothing about rule 12's
-own ground — an action that is genuinely irreversible outside git still stops for his word
-before it runs, never only after it is shown.
-
-**For the taste calls rule 12/27 reserve for him, his verdict — approval or rejection — is
-itself the movement end for the judged artifact, written into the resume files (the queue row,
-the project charter or NEXT_STEPS line) in the same minute it lands, before the conversation the
-verdict triggers continues.** A verdict arriving mid-conversation does not feel like a movement
-end, because the conversation carries on past it — but for the artifact judged, the movement
-ended the instant the verdict was heard, and chat does not survive a context wipe, only files do.
-On 2026-08-08, in the tlvphotos project, a rejection on a shown prototype arrived mid-conversation;
-the session spent two hours on the design dialogue the rejection triggered while the resume files
-still read "awaits his walk" the whole time. An adversarial reviewer caught the gap — not the
-session, and not him. The corollary is amend, not append: a new verdict replaces the superseded
-resume-file line in place, and the old text moves to history; appending an addendum over a line
-the verdict has already made stale is the failure that produced that incident.
-
-**Landing a change owes its own law, regardless of which specialist performed the work.** See
-[references/landing-law.md](references/landing-law.md) for the bug-door tripwire, the
-removal-accounting pointer, the restructure/migration merge gate, the docs-layout vehicle,
-compaction's every-push cadence, the adversarial-review freshness rule, the release-tier
-judgment, and the skill-review gate.
-
-## The specialists
-
-None is mandatory. The Director calls the ones the work needs, and adds or drops one when
-a new fact arrives. **This table is in alphabetical order. It is not an order of work** —
-a task that needs three of these may want them in any sequence, or all at once.
+None is mandatory. Name only specialists the accepted or corrected work may need; the pipeline
+decides their order and calls them after admission.
 
 | Specialist | Call when | Where it lives |
 |---|---|---|
 | Architect | boundaries, data, integrations, scale or operations change | `skills/architect` |
 | Data and experiment analyst | the cause is unknown or a hypothesis needs testing | not yet built — package 4 |
-| Design reviewer | interface, interaction or the coherence of the experience changes | `skills/design-reviewer` |
-| Developer | something must be built | the agent itself; build order and source-reopen discipline: [references/build-craft.md](references/build-craft.md) |
-| Independent verifier | the result needs checking by someone who did not produce it | [references/verify-step-detail.md](references/verify-step-detail.md) |
-| Product prover | a mistake in the statement of the problem would be expensive, or shipped code needs a class-based defect hunt with no document to check it against | `skills/product-prover-pack` |
+| Design reviewer | interface, interaction or experience coherence changes | `skills/design-reviewer` |
+| Developer | something must be built | the agent itself |
+| Independent verifier | someone other than the producer must test the result | the accepted-work pipeline |
+| Product prover | the problem statement is expensive to get wrong, or a class defect needs hunting | `skills/product-prover-pack` |
 | Publisher, communicator | the result ships and has to be explained | `skills/publish`, `skills/communicator` |
 | Researcher | project or outside facts are missing | not yet built — package 4 |
-| Spec author | behaviour changes into something the spec does not already describe — not merely when a user would see a difference | `skills/spec-author` |
-| Test author | the evidence and the regressions have to be chosen | `skills/test-author` |
+| Spec author | behaviour changes beyond what the spec already says | `skills/spec-author` |
+| Test author | evidence and regressions must be chosen | `skills/test-author` |
 
-A `skills/…` cell is a standalone skill the Director invokes on its own, callable directly by a
-human too. A `references/…` cell — only the independent verifier carries one — is a reference file
-the Director reads itself; there is no separate skill to invoke.
+A `skills/…` cell names a standalone skill the pipeline loads after admission, callable
+directly by a human too. A cell that names no skill path is worked inside the pipeline
+itself; there is no separate skill to invoke.
 
-A specialist gets a brief naming the goal and the primary sources to read — never a pasted
-copy of what the Director already read. What comes back is a short answer with pointers.
-The Director re-reads only the lines a decision rests on.
+## What the human hears
 
-## What the human hears back
-
-After every message it must be plain which of four things happened: answered, remembered,
-changed the work already running, or took new work. One sentence is enough, and it is not
-optional — silent work is indistinguishable from work that was dropped.
-
-Say it in ordinary words. Not the name of an act, not the name of a dimension, not the
-name of this skill.
-
-For accepted work, the sentence names what actually changed — which document, which check,
-which artifact — not merely that work began. A sentence that only restates intent after
-the fact reads as more work than it reports, and the checkpoint's DONE section is where the
-detail lives for anyone who needs it.
-
-A change to a document owes three more short lines beside the document's name: what that part
-said before, what it says now, and what was added. The person can then disagree with the edit while
-undoing it is still cheap, which is what turns "I understood you" into something they can check.
+Say in ordinary words whether the message was answered, remembered as evidence, attached to work
+already running, or accepted as a new result. Do not expose act names, dimensions or skill names.
+For accepted work, the pipeline reports the first concrete change rather than merely repeating the
+intent.
 
 ## Work that belongs elsewhere
 
-Writing the spec, the architecture, the tests or the code: the specialists above. The
-Director decides who is called and stops there.
+Outcome and DOD derivation, task admission, checkpoints, specialist execution, verification and
+close belong to `skills/build-pipeline/SKILL.md`. Specialist craft belongs to each specialist's own
+skill. Director names the route and stops.
 
-Running the checks and the push: `guardrails/pre-push` and CI.
-
-Setting a project up on the pack: `skills/build-pipeline`'s project-setup material, until
-package 6's migrator absorbs it. The step sequence for a change once classified is this
-skill's own job now — `build-pipeline`'s fixed sequence is superseded, not consulted.
-
-How a result is worded for a person: `skills/communicator`. That covers the wording only.
-When someone asks for a plan, a status, a summary or a report, they have asked for
-something to be made, and it is work like any other — routing it to the communicator
-instead of doing it is how a plain request disappears.
+How a result is worded for a person belongs to `skills/communicator`, and that covers the wording
+only. When someone asks for a plan, a status, a summary or a report, they have asked for
+something to be made, and it is work like any other — routing it to the communicator instead of
+doing it is how a plain request disappears.

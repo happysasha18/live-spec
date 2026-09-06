@@ -13,3 +13,4 @@ owning node) — so the draft catches these suite-enforced cross-references itse
 red-first STOP the drafter's own read could have closed. The landing order stays declared and the numbers follow it. This form ran live 2026-07-12, the
 night the law batch serialized on the spec/matrix/version chain and still moved at two rows an hour
 [T-18, INV-39, INV-49].
+

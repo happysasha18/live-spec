@@ -1,22 +1,24 @@
 {
-  "id": "DQ",
+  "id": "IV",
   "acts": [
     "idea",
     "instruction",
     "observation"
   ],
-  "creates_work": true,
+  "operation": [
+    "none"
+  ],
+  "creates_work": false,
   "shelves_idea": true,
   "attaches_to_existing_work": false,
-  "work_items": 1,
-  "dimensions": [
-    "documentation and communication"
-  ],
+  "work_items": 0,
+  "dimensions": [],
   "specialists": [],
-  "reasoning": "Three acts, read to the end of the turn. The idea: enriching the audit skill so it serves cold readers is named as a possibility, not asked for now. The instruction: 'кинь лайвспеку идею' is a direct ask for something to be done now, and its goal is small and exact — the idea reaches live-spec as a note, nothing more. The observation is its own act and not absorbed as the instruction's preamble: it is a judgment about the product — a spec does not want this, plain texts and messages sometimes do — and it stays worth knowing after the note is delivered, which is exactly the kind of judgment this design says gets lost first. One new piece of work, because only the delivery was asked for; the enrichment itself is not taken on here, it travels as the note's content and the decision about building it belongs to whoever reads it. Nothing is in flight for this, so nothing attaches. The only dimension the delivery genuinely touches is documentation and communication — a note gets written and sent; naming product behaviour or quality would route work nobody has taken on. No specialist: writing and dropping one note is the Director's own hand, and the communicator covers wording of a result, not doing the thing asked.",
+  "reasoning": "Three things happen in one turn. First, an idea: enriching the audit skill so it serves cold readers of non-spec text is a possibility named, not a result asked for now, so it is judged as an idea and never becomes a row on the Director's own word. Second, an ask to hand that idea to live-spec — the skill says passing an idea on is not work: telling another project or dropping it in their inbox is a message delivered in the turn like an answer, with no row and no work item, because nothing is being made to exist here. Third, a judgment about the product — that this kind of check is unwanted inside a spec but sometimes wanted for texts and messages — which says something new beyond the idea's own goal and is worth keeping after the idea closes, so it is recorded as evidence rather than dissolved into the idea's grounds. Nothing was accepted as work and nothing already in flight was changed, so the turn produces zero new pieces of work and names no dimension and no specialist; the plan's tickets are untouched.",
   "scenario": "idea-for-another-project",
-  "label": "DQ",
-  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
-  "recorded": "2026-09-04",
-  "skill_version": "6.1.0"
+  "label": "IV",
+  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
 }

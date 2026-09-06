@@ -6,7 +6,7 @@ overlap, brief-time disjointness, one row per landing commit, the prior-context 
 session identity that breaks a pen tie. None of that is restated here. ("Trains" is the spec's own
 word for lanes at SPEC T-18; the two name one thing.)
 
-This file carries the half rule 7 leaves to the seat's judgment, which is the Director's own: how the
+This file carries the half rule 7 leaves to the seat's judgment, which is the pipeline's own: how the
 graph picks the lane set, what happens to the lanes around a landing, and the two forms a colliding
 pair takes (SPEC INV-39, INV-49, INV-129, INV-131, INV-214, INV-276).
 

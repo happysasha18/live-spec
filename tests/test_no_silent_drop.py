@@ -36,7 +36,7 @@ class TestNoSilentDropLaw(unittest.TestCase):
         # build-pipeline's own pointer moved to director's landing-law reference (R6
         # compaction cutover); that page now carries the INV-109 anchor and the pointer
         # at communicator rule 6, the removal-accounting step's one home.
-        law = read_flat("skills/director/references/landing-law.md")
+        law = read_flat("skills/build-pipeline/references/landing-law.md")
         self.assertIn("(SPEC INV-109)", law, "landing-law lost the INV-109 anchor")
         self.assertIn("communicator rule 6", law,
                       "landing-law no longer points at the removal-accounting's one home")

@@ -1,0 +1,12 @@
+{
+  "id": "MQ",
+  "closes": true,
+  "reason_kind": "ordinary delivered result",
+  "reasoning": "The execution reference is explicit: a shown result closes the work, and the human's own eye is never the gate on an ordinary delivery. A row whose definition of done names his eye is only legitimate when it is describing one of the three cases rule 12/27 reserve for him — a taste call, a trade-off no artifact settles, or a change to the definition of correct still standing as an open fork. This is none of them: the situation states plainly that no part of the result is a matter of preference, the page shows what the plan holds and nothing else, so there is no trade-off left for a person to arbitrate and no open fork about what correct means. The observable outcome — the standing board page shows the whole queue live — is confirmed without the producer's self-report by a check that did not produce the work: `tests/test_board_matches_the_canon.py` passes against the generated page, every declared row appears under its own state, and a plain read of the opened page agrees. That is exactly the command, a test, or a plain read the reference names as sufficient for an ordinary buildable result, so the acceptance line written weeks ago is simply a stale ordinary delivery dressed as his check, not one of the reserved cases. The pipeline therefore shows the result and closes the checkpoint and row in the same step, clearing IN PROGRESS and NEXT and running `checkpoint.py close`, rather than leaving the row open waiting for him to bless what was already shown. Nothing here is irreversible outside git, so rule 12's separate ground — an irreversible action stopping for his word before it runs — is not engaged. If he later disagrees with the page, that disagreement is a new fact carrying his correction into its own task; the closed row stays closed.",
+  "scenario": "close-a-row-whose-own-line-names-his-eye",
+  "skill_sha256": "8655c0d1378c4706324d5472cf90b8d40991253eb38424e6c34d26dca3f271fa",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus",
+  "label": "MQ"
+}

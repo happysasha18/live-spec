@@ -1,6 +1,6 @@
 ## Requirement 194: A published contract is read on the reader's own clock
 
-**Context:** A consumer agent arrives here from the scan holding a producer's card and the path its artifact lives at. A published contract is a surface in the producer's own spec, paired with a machine-readable artifact carrying its own version and generation stamp. The consumer reads it read-only on its own clock, and data past its staleness bound stops the analysis.
+**Context:** A consumer agent arrives here from the scan holding a producer's card and the path its artifact lives at. A published contract is a surface in the producer's own spec, paired with a machine-readable artifact carrying its own version and generation stamp. The consumer reads it read-only on its own clock, and data past its staleness bound stops the analysis. No agent publishes a contract today — every adopted project's card reads "None today" — so the producer-side gate, the consumer-side freshness check and the compatibility test are built by nobody and promised by nothing here; the criterion that once promised the first of them is retired, at `attic/spec-public-contract-R194-C15.md`. When a host first publishes a real contract, that work is admitted then, through `python3 scripts/task-admission.py`, with its definition of done written against that real producer and that real consumer.
 
 **User Story:** As a consumer agent needing another agent's numbers, I want to read its published contract on my own clock rather than ask it, so that I depend on a stated, versioned interface instead of an unstamped snapshot.
 
@@ -37,11 +37,6 @@
 
 13. a consumer wanting a producer's data *shall* read the contract rather than send a message asking for it. [INV-188]
 14. *when* a consumer wants a field the contract lacks, the system *shall* treat it as a request about the contract's shape, which the earned message governs. [INV-188, INV-189]
-
-**Case: the default-deny gate is promised**
-
-15. the gate that reds a default-deny violation on the producer's suite *shall* stay promised until a host's first real contract. [INV-185]
-    [target]
 
 ---
 

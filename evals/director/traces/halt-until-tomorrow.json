@@ -1,7 +1,11 @@
 {
-  "id": "GJ",
+  "id": "MH",
   "acts": [
-    "halt"
+    "halt",
+    "observation"
+  ],
+  "operation": [
+    "T6"
   ],
   "creates_work": false,
   "shelves_idea": false,
@@ -9,10 +13,11 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "Something running should stop running: the person calls off today's work and says it resumes tomorrow. That is a halt by state, not by the word 'стоп' — parking rather than abandoning is still a halt, and 'работа завтра' is the halt's own goal in other words (parked, not dropped), not a second act. The reason given — the weekly session limit is running out — is the halt's grounds; it only restates why the halt wants what it wants and adds nothing the situation did not already carry, so it earns no act of its own. A halt gets a sentence, not a decision sheet: it changes the state of work that already existed, so no new piece of work is produced, no dimension is named and no specialist is called. The Director's reply says plainly that the running work is parked until tomorrow.",
+  "reasoning": "The turn stops what is running: work is not to continue today, and it resumes tomorrow. That is a halt by state, not by wording — something running should stop running, and the person names when it picks back up, so the work is parked rather than dropped, which clears the holder and leaves it to resume. The clause about the weekly session limit running out is its own act: it reports a fact about the situation that the halt's own goal does not carry, and it stays worth knowing after this stop ends, so it is recorded as evidence rather than dissolved into the halt as mere justification. A halt changes a piece of work that already existed, so nothing new is taken on: creates_work is false, work_items is zero, and the turn names no dimension and calls no specialist, since a turn that accepted no work routes nothing. No idea was voiced, so no idea half was shelved or discussed.",
   "scenario": "halt-until-tomorrow",
-  "label": "GJ",
-  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
-  "recorded": "2026-09-04",
-  "skill_version": "6.1.0"
+  "label": "MH",
+  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
 }

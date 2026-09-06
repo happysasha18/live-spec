@@ -29,7 +29,7 @@
 - INV-239 (the description-field gate named in the pins below, dormant until the back-describe migration)
 - INV-241 (the net for the orchestration laws that had none)
 - INV-246 (off by default and opt-in. `judge-hooks.json` classifies it as a library entry [INV-211], and the pack's default `settings.json` leaves it unwired. It sits at the orchestration-law family's boundary [INV-241].)
-- INV-242 (`guardrails/check-landing-next-steps.py`)
+- INV-242 (`guardrails/check-next-steps-boundary.py`)
 - INV-243
 - INV-250..INV-263 (the requirements-format laws and their format-gate family, armed at the row-445 conversion delivery. The range once ran two codes further, to a since-retired size ratchet that closed the family; the two numbers stay empty, in `EXPECTED_GAPS`, rather than renumbering the laws after them — the retirement itself is `JOURNAL.md`'s own record)
 - INV-269 (`gatelib`-shaped reach lines asserted in each gate's own tests)
@@ -100,7 +100,7 @@
 - `guardrails/reap_owned_group.py:1` (the worker-teardown reap + idle-output detection, process-space habit not a push gate, INV-230)
 - `guardrails/attic/check-listener-tripwire.py:1` (the listener tripwire, a deferred-row mechanical revisit trigger, rides the suite not the push chain, INV-231)
 - `guardrails/route_agent_transport.py:1` (the traffic-kind transport router, rides the suite not the push chain, INV-236)
-- `guardrails/check-landing-next-steps.py:1` (the landing-refreshed-map gate, reds a `landed`-flipping commit whose diff omits NEXT_STEPS.md, rides the suite not the push chain, INV-242)
+- `guardrails/check-next-steps-boundary.py:1` (the resume boundary, reds task-board shapes in NEXT_STEPS.md or its template, rides the suite, INV-242)
 - `guardrails/check-deposit-description.py:1` (the agent-channel deposit-time description lint, homed beside check-earned-message.py, INV-239) [target]
 - `hooks/register_judge_core.py:1` (the register judge mechanism, INV-203)
 - `hooks/turn_reader.py:1` (the shared full-turn reader five checks read through, none of them wired by default. Each reads every assistant message shown since the last human turn. The five are the contrast-frame scan, the hedge scan, the register judge, the code-anchor scan, and the empty-validation scan, INV-281.)
@@ -146,7 +146,7 @@
 - `docs/prover/README.md:1` (the record home and the shape a record carries, INV-304)
 - `guardrails/check-worker-restore.py:1` (the worker-restore gate, blocking, run at the pipeline's verify step and once more in the suite against this machine's own transcript root, INV-299)
 - `tests/test_worker_restore.py:1` (its red proof, and the one-wording check. That check reads the rulebook, the pipeline skill, the delegation protocol, the agent-card template and the lane-opening script, INV-299.)
-- `skills/director/references/delegation-protocol.md:49` (the clause in the delegation protocol, INV-299)
+- `skills/build-pipeline/references/delegation-protocol.md:49` (the clause in the delegation protocol, INV-299)
 - `scripts/session-extract.py:1` (the session extract's machine, INV-302)
 - `templates/agent.template.md:38` (the clause in the agent card a brief is written from, INV-299)
 - `scripts/open-lane.sh:106` (the clause in the printed brief stub, INV-299)

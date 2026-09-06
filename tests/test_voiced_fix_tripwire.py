@@ -14,7 +14,7 @@ from conftest import open_spec, read_flat
 
 
 class TestVoicedFixTripwire(unittest.TestCase):
-    HOMES = ("PRODUCT_SPEC.md", "skills/director/references/landing-law.md")
+    HOMES = ("PRODUCT_SPEC.md", "skills/build-pipeline/references/landing-law.md")
 
     def test_tripwire_in_both_homes(self):
         for home in self.HOMES:
@@ -31,9 +31,9 @@ class TestVoicedFixTripwire(unittest.TestCase):
             "land the documentation update and the red-first test in the same session",
             spec, "PRODUCT_SPEC.md",
         )
-        skill = read_flat("skills/director/references/landing-law.md")
+        skill = read_flat("skills/build-pipeline/references/landing-law.md")
         self.assertIn("the docs and the test land in the same session", skill,
-                      "skills/director/references/landing-law.md")
+                      "skills/build-pipeline/references/landing-law.md")
 
     def test_reads_content_not_diff_size(self):
         for home in self.HOMES:

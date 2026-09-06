@@ -1,8 +1,11 @@
 {
-  "id": "SQ",
+  "id": "VA",
   "acts": [
     "correction",
-    "observation"
+    "decision"
+  ],
+  "operation": [
+    "T3"
   ],
   "creates_work": false,
   "shelves_idea": false,
@@ -14,13 +17,15 @@
     "quality, safety, regressions"
   ],
   "specialists": [
-    "developer",
-    "test author"
+    "Developer",
+    "Spec author",
+    "Test author"
   ],
-  "reasoning": "Work is in flight that counts the image pairs the package ships, and this message changes that work's goal and constraints: the counting comes out and the engine must build a transition for any pair of pictures at all. That is a correction, so it attaches to the checkpoint the running work already has and is replanned there — no new row, no second piece of work, work_items zero. The imperative 'убери этот дебилизм' is the repair stated aloud, which belongs to the correction and is not an instruction of its own; naming it separately would re-open as fresh work the very thing the correction just changed. 'Ты должен любую пару картинок в мире уметь построить' is not a new standing decision either — he says himself he has stated it many times, so the half already on record is the correction's grounds and earns no act. What does say something new is the judgment riding with it: the pair counting is invented machinery and it has come back after being ruled out repeatedly. That is a product judgment worth keeping after this work closes, so it is recorded as an observation. Dimensions are named because a correction's whole point is saying what the changed work now touches: product behaviour (any pair must yield a transition), architecture (the counting machinery is removed from the implementation), and quality (a regression guard, since this class has recurred). Developer to take the counting out and build the general path, test author to choose the evidence that an arbitrary pair produces a transition. Before the specialists run, the sweep applies: name the class of this mistake and hunt its siblings in the same change, because a point fix that leaves relatives standing is why this keeps coming back.",
+  "reasoning": "Work is in flight that counts the pairs shipped in the package, and this message changes what that work must do: stop counting them. That is a correction — find the work already running and replan what is left, never open a second row beside it. 'Убери этот дебилизм' is the repair stated aloud, which the skill names as the correction's own goal in other words, not an instruction of its own; the 'в 1000000 раз говорю' complaint only restates why the correction wants what it wants and is redundant with it. The closing clause says what the project must do from here on — build a transition for any pair of pictures in the world — a standing rule reaffirmed rather than a new idea, so it is a decision, and it applies to the work already running. A correction and a decision applied to running work both change a piece of work that already existed: nothing is admitted to the board, so creates_work is false and work_items is zero, and the ticket operation is the replan of the one piece in hand. Naming dimensions is right here because a correction is the stated exception: the replanned work changes what the package does with any pair (behaviour), removes the counting path and whatever it fed (architecture and data), and has to keep the regression evidence honest once the count is gone. Smallest specialist set: the developer takes the count out, the spec author records that any pair in the world gets a transition since that goes beyond what the spec says, and the test author picks the evidence that the universal case holds without the old counting checks.",
   "scenario": "correction-stop-counting-pairs",
-  "label": "SQ",
-  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
-  "recorded": "2026-09-04",
-  "skill_version": "6.1.0"
+  "label": "VA",
+  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
 }

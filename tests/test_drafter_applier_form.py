@@ -9,7 +9,9 @@ import os
 import unittest
 
 from conftest import ROOT, read_flat, read_all, read_all_flat
-HOME = "skills/director/SKILL.md"  # drafter-applier-example.md moved to director/ in the build-pipeline cutover
+# drafter-applier-example.md sits in skills/build-pipeline/references/: the drafter/applier form is
+# an execution shape, which the q-822 classifier/pipeline split moved out of Director.
+HOME = "skills/build-pipeline/SKILL.md"
 
 
 class TestDrafterApplierForm(unittest.TestCase):

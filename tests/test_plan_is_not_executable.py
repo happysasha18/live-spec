@@ -225,12 +225,12 @@ class TestADoneMarkCannotOutliveItsKey(unittest.TestCase):
     def test_the_board_does_not_draw_a_failing_done_mark_as_done(self):
         tmp, r = self._run("scripts/render-board.sh")
         page = (tmp / "board.html").read_text(encoding="utf-8")
-        self.assertNotIn('<span class="chip">✅</span>', page,
+        self.assertNotIn('<span class="mk">✅</span>', page,
                          "a ✅ whose command fails still wears the done chip:\n%s" % r.stdout)
-        self.assertIn('<span class="chip">🔁</span>', page)
-        self.assertNotIn('<span class="chip">⛔</span>', page,
+        self.assertIn('<span class="mk">🔁</span>', page)
+        self.assertNotIn('<span class="mk">⛔</span>', page,
                          "a row that is merely unfinished is drawn as blocked")
-        self.assertNotIn('<span class="chip">⬜</span>', page,
+        self.assertNotIn('<span class="mk">⬜</span>', page,
                          "a reopened row is drawn as queued, which reserves that mark for work "
                          "that never started")
         self.assertIn("marked done in the plan, but its acceptance command fails", page)

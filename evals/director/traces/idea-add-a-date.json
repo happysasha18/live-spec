@@ -1,7 +1,10 @@
 {
-  "id": "HX",
+  "id": "VX",
   "acts": [
     "idea"
+  ],
+  "operation": [
+    "none"
   ],
   "creates_work": false,
   "shelves_idea": true,
@@ -9,10 +12,11 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "«думаю еще можно сделать дату» names a possibility the person is not asking for now: a feature has just shipped and nothing related is being built, so this is an idea, not an instruction. The trailing «потому что в те же каналы будет много раз по времени» is the idea's own grounds — it restates why the idea wants what it wants and carries no separate judgment worth keeping after the idea closes — so it is not a second act. The idea is worth raising but still amorphous (what a date is attached to, and what it would change, is unstated), so it gets one live question in the person's own terms — build it now or park it, and what exactly the date should do — and becomes a row only on his own word. Nothing is filed in a second list. A turn that accepted no work names no dimension and calls no specialist, and produces no new piece of work.",
+  "reasoning": "The person is thinking aloud about a possibility - adding a date - and is not asking for it now: the feature has just shipped and nothing related is being built, which is exactly the situation the skill uses to separate an idea from a correction or an instruction. The clause after 'потому что' is the reason the idea wants what it wants - the same channels will receive many posts over time, so entries need a date to be told apart - and grounds that only restate the neighbouring act's own goal earn no act of their own; it names no defect and no standing rule. So this is one act, not two. It is worth raising, so it gets one live question asking whether to queue it, and it becomes a row only on the person's own word; nothing is filed anywhere in the meantime. No work is accepted, so the turn names no dimension and calls no specialist, produces no new work item, and changes no ticket state.",
   "scenario": "idea-add-a-date",
-  "label": "HX",
-  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
-  "recorded": "2026-09-04",
-  "skill_version": "6.1.0"
+  "label": "VX",
+  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
 }

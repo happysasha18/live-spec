@@ -1,8 +1,11 @@
 {
-  "id": "WZ",
+  "id": "AV",
   "acts": [
     "correction",
     "observation"
+  ],
+  "operation": [
+    "T3"
   ],
   "creates_work": false,
   "shelves_idea": false,
@@ -12,18 +15,18 @@
     "product value and behaviour",
     "architecture, data, integrations, operations",
     "quality, safety, regressions",
-    "documentation and communication"
+    "analytics, unknowns, hypotheses, experiments"
   ],
   "specialists": [
     "Developer",
     "Product prover",
-    "Test author",
-    "Independent verifier"
+    "Test author"
   ],
-  "reasoning": "Work was already in flight — the agent was measuring the current corpus to size its work — and this message changes that work's goal rather than opening anything beside it: stop measuring, take the measurement out, and cure the problem as a class. That is a correction, so the board gains no row and the count of new pieces of work is zero; the one piece already running keeps its checkpoint and gets a revised decision sheet. The clauses 'убери любое воспоминание об этом измерении' and 'лечи проблему как класс' are the repair stated aloud — the correction's own goal in other words — so they earn no act of their own; naming them as fresh instructions would re-open as new work the very thing the correction just changed. 'Любая статистика по текущему корпусу ложная' is a judgment about the product — that a measurement is false and invented — which says something new and stays worth knowing after this work closes, so it is its own act, an observation, even though it doubles as the correction's grounds. 'Мы делаем генерный движок' restates what is already on record and is that observation's grounds, not a separate decision. This is not a halt: something is left to pursue — the removal and the class sweep — so the work goes on toward a goal that came back changed. Because a correction is the one case where naming what the work now touches is the whole point, the dimensions are named: the engine must stay generic (product behaviour), the measuring code and its data paths come out (architecture and data), the fix is a class hunt for siblings with a guard so it cannot return (quality), and every recorded memory of the measurement is struck (documentation). The developer removes it, the product prover runs the class-based defect hunt over shipped code with no document to check it against, the test author fixes the evidence that no corpus-derived statistic remains, and a checker who did not do the work confirms the sweep against the observable outcome.",
+  "reasoning": "Measuring the current corpus is the work already in flight, and this message changes its goal and constraints: drop the unnecessary measurement, strip every trace of it, and treat the defect as a class. That is a correction, so it attaches to the running work and is replanned in place; the board gains no row and the turn produces zero new pieces of work. The clause that states the repair aloud - remove every memory of the measurement, cure it as a class - is the correction's own goal in other words, not a separate instruction, and naming it separately would reopen as fresh work exactly what the correction just changed. The claim that we are building a generic engine and that any statistic over the current corpus is false is a judgment about the product: it says something new, stays worth knowing after this work closes, and is recorded as evidence rather than dissolved into the correction's grounds. Because a correction is the one case where naming what the corrected work touches is the point, the dimensions cover the engine's behaviour, the code and data carrying the measurement, the regressions that must keep it from returning, and the withdrawn measurement itself; the specialists are the ones the replanned work may need to remove it, hunt the class, and choose the evidence.",
   "scenario": "correction-widening-the-goal",
-  "label": "WZ",
-  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
-  "recorded": "2026-09-04",
-  "skill_version": "6.1.0"
+  "label": "AV",
+  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
 }

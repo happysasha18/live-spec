@@ -1,8 +1,12 @@
 {
-  "id": "OF",
+  "id": "DN",
   "acts": [
     "instruction",
     "idea"
+  ],
+  "operation": [
+    "T1",
+    "T2"
   ],
   "creates_work": true,
   "shelves_idea": false,
@@ -12,12 +16,13 @@
     "the user's path and the design"
   ],
   "specialists": [
-    "developer"
+    "Developer"
   ],
-  "reasoning": "A conditional request stating both branches: 'if that's possible too then let's do it' is the instruction branch, 'if not now, write it down, we'll do it later' is the idea branch. Both are real acts and both stay named. The outcome is exclusive: the condition holds — the display is already built and live in another window, so showing it here reuses it rather than building anything new — so the work is taken and the idea half is not shelved; saying both would answer the condition twice. 'так прикольнее смотреть динамику' is grounds, not a further act: it only restates why the request wants what it wants, and carries nothing that survives the work. The opening clause naming where the workers are visible identifies the thing being asked for, so it is the request's own goal in other words, not a separate observation. One result someone could want on its own, so one new piece of work, with its own checkpoint and sheet; nothing was in flight for it to attach to. It touches what the person sees in this window — the display surface — and needs only the developer, since the display exists and is being wired in, not specified or redesigned.",
+  "reasoning": "This is a conditional request that states both branches aloud: do it now if it can be done, otherwise keep it for later. The skill says both halves are real acts and both stay named, so the turn carries an instruction-shaped branch and an idea-shaped branch. The outcome, though, is exclusive: the condition either holds or it does not. Here it holds, because the display already exists and is live in another window of the same tool, so showing it here reuses it rather than building anything new. The work is therefore taken on and the idea half does not fire, which is why shelves_idea is false: answering the condition twice would be the error the skill names. The opening clause about workers being visible in the other window is not a separate observation; it is the request's own goal in other words, and 'more fun to watch the dynamics' only restates why he wants it, so neither earns an act. One new result is accepted, so the ticket is admitted and taken in hand in the same call. It changes what he sees in this window, and nothing about boundaries, data or operations moves, so only the design dimension is named and only a developer is needed.",
   "scenario": "idea-with-a-cheap-branch",
-  "label": "OF",
-  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
-  "recorded": "2026-09-04",
-  "skill_version": "6.1.0"
+  "label": "DN",
+  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
 }

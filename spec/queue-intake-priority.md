@@ -143,10 +143,9 @@
 1. *where* a row carries more than one leg, the system *shall* enumerate per-leg acceptance in its Done-when and *shall* not close the row with an unmet leg. [INV-26]
 2. The system *shall* read half-done as a status and never as a landing. [INV-26]
 
-**Case: compaction preserves an open leg**
+**Case: compaction preserves an open leg in its one home**
 
-3. The system *shall* keep the resume file's live-state supersession from compressing an unfinished leg out of existence, restating in full a leg still open at announced self-compaction. [INV-26, M-2]
-   - live-state supersession is the newest live-state block replacing the older one whole.
+3. The system *shall* keep an unfinished leg on its task's board row and working checkpoint at announced self-compaction, and *shall* never copy that leg into the resume file as a second task statement. [INV-26, INV-48, M-2]
 
 ---
 
@@ -756,4 +755,3 @@
 7. *when* a push's diff is exactly one new inbox file, the system *shall* have it owe the fence and no re-check record, more riding the full gate. [INV-11, INV-112]
 
 ---
-

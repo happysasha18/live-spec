@@ -1,28 +1,33 @@
 {
-  "id": "VT",
+  "id": "HU",
   "acts": [
     "correction",
     "observation",
     "instruction",
     "question"
   ],
+  "operation": [
+    "T1",
+    "T2"
+  ],
   "creates_work": true,
   "shelves_idea": false,
   "attaches_to_existing_work": true,
   "work_items": 1,
   "dimensions": [
-    "quality, safety, regressions",
-    "architecture, data, integrations, operations"
+    "architecture, data, integrations, operations",
+    "quality, safety, regressions"
   ],
   "specialists": [
+    "Architect",
     "Product prover",
-    "Independent verifier",
     "Test author"
   ],
-  "reasoning": "Four acts in one turn, read to the end before acting on any of them. (1) Correction: the modification is in flight and unclosed, and the message raises its acceptance bar - it must now be shown not to swell the shipped bundle (or to load the extra weight per platform) and not to break anything a user sees. That is a constraint added to work already running, so it is replanned in place on its own checkpoint and adds no row; the acceptable alternative he names, dynamic loading by platform type, is part of that same constraint, not a separate idea, so nothing is shelved. (2) Observation: 'the prover should have caught this too' is a judgment about the product - a stated gap in what the prover checks - and it stays worth knowing long after this modification lands, so it does not dissolve into the neighbouring clause as mere grounds. (3) Instruction: 'by the way check' asks now for that gap to be investigated. It is a result someone could want on its own - the prover's coverage could ship or be cancelled without touching this modification - so it is the one new piece of work this turn produces, with its own goal and sheet. (4) Question: 'I don't know if that's real or not' asks whether a prover can catch bundle growth at all; it is answered in words, not converted into a second row. Dimensions are named only where something must change: quality and regressions (the check that would have caught the growth does not exist), and architecture/operations (bundle weight and the platform-conditional loading he offers as the remedy). Product prover for the class-based hunt over its own coverage, test author for the check that fails on growth and passes without it, independent verifier because the size and no-breakage claim cannot rest on the self-report of whoever made the modification. Architect joins only if the answer turns out to be splitting the load by platform. The feasibility doubt gets a straight answer in the same reply: a byte budget on the built artifact is measurable and cheap, so that half is real; 'nothing breaks for the user' is only as real as the regressions already covered, and that limit is stated rather than promised away.",
+  "reasoning": "Four acts. The modification is in flight, and demanding that the code not bloat significantly (or be loaded dynamically per platform) and that nothing break for the user adds real constraints to that work's goal, so it is a correction: the existing piece is replanned, the board gains no row and the count of new work stays zero for it. Saying the prover should have caught this is a judgment about the product being broken, which stays worth knowing after this work closes, so it is its own observation rather than the correction's grounds. The explicit ask that follows it, check whether the prover catches this class, is an instruction aimed at a different result: the prover's own coverage could be checked, shipped or cancelled independently of this modification, so it is one new piece of work. Closing with uncertainty about whether that is even feasible asks for a judgment back and is answered in the turn, not recorded. Dimensions cover only what actually changes: packaging and platform-conditional loading, and the regression and safety evidence; user-facing behaviour is required to stay as it is, so it is not named. Specialists are the smallest set the corrected and accepted work may need.",
   "scenario": "mixed-check-now-improve-later",
-  "label": "VT",
-  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
-  "recorded": "2026-09-04",
-  "skill_version": "6.1.0"
+  "label": "HU",
+  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
 }

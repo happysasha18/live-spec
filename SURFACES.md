@@ -12,3 +12,4 @@ this registry must keep up.
 | readme-pipeline | coded until green, and committed with its documents in one change | INV-44 |
 | readme-known-issues | Known issues | INV-44 |
 | overview-map | the ideas in five minutes | INV-48 |
+| work-board | what is in hand, who runs it, and what it took | INV-308, INV-309, INV-310, INV-311, INV-312, INV-313, INV-71, INV-67 |

@@ -1,9 +1,12 @@
 {
-  "id": "QP",
+  "id": "RO",
   "acts": [
     "halt",
     "observation",
     "question"
+  ],
+  "operation": [
+    "T6"
   ],
   "creates_work": false,
   "shelves_idea": false,
@@ -11,10 +14,11 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "Three acts in one turn. The halt is the head of it: work is running and he wants it stopped now — and he names which kind of stop, parked rather than abandoned, since the work resumes from this same place at the cafe. That is the halt's own goal in other words, not a second act, and a halt changes the state of work that already exists, so it creates nothing: zero new work items, no decision sheet, and therefore no dimensions and no specialists (only a correction is exempt from that rule, and this is not one — nothing about the work's goal changed, only whether it keeps running). 'I have to leave in 15 minutes' is the halt's grounds and earns no act. But 'I will cut your internet and close you' says something the halt's goal does not carry: the machine and the network go away, so whatever must survive has to be in files, not in this conversation. That is a reported fact, an observation, and the borderline rule sends an unplaceable clause to its own act rather than dissolving it. 'Norm?' is an invitation to confirm or disagree riding on the halt, and the skill counts such an invitation as its own act — answering only the halt would leave it unanswered. No idea was voiced, so nothing was shelved. What he hears back is one sentence: the running work is being stopped and left where it stands so it picks up from here, and yes, that is fine.",
+  "reasoning": "The leading clause asks the running work to stop, and the closing clause says it will be picked up from this same point later, so this is a halt that parks rather than abandons: the state of work already in flight changes, nothing is created, and the ticket is released to be resumed (T6). The announcement that the machine will lose its connection and be closed says something the halt's own goal does not carry, so by the rule that a clause you cannot fold into a neighbour keeps its own act, it stands as an observation. The closing check asks for agreement and is its own act too, the way an invitation to disagree beside a decision stays unanswered if only the decision is read. The reason for leaving in fifteen minutes only restates why the halt wants what it wants, so it earns no act. No work was accepted, so no dimension is named and no specialist is called.",
   "scenario": "halt-without-the-word",
-  "label": "QP",
-  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
-  "recorded": "2026-09-04",
-  "skill_version": "6.1.0"
+  "label": "RO",
+  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
 }

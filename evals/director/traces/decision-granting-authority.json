@@ -1,18 +1,22 @@
 {
-  "id": "LN",
+  "id": "WF",
   "acts": [
     "decision"
   ],
+  "operation": [
+    "none"
+  ],
   "creates_work": false,
   "shelves_idea": false,
-  "attaches_to_existing_work": true,
+  "attaches_to_existing_work": false,
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "One act: a decision. The person settles an open choice with force beyond this message - a grant of authority covering all pushes, commands and the like from here on, which is exactly the standing-rule shape the skill names ('from this point on', a grant of authority). It is not an instruction: nothing was asked to be built, and no goal is named that something must now achieve. It is not a correction either - the work in flight keeps the same goal and constraints; only the standing permission around it changes, so nothing has to be replanned. Being a decision, it is recorded as a rule that survives the current work item and is applied immediately to the work already running: the agent stops asking before each push and just pushes. It therefore produces no new piece of work and no new row - a decision applied to running work changes a piece of work that already existed. A turn that accepted no new work names no dimension and calls no specialist; the correction exception does not apply here.",
+  "reasoning": "The person grants standing authority: push, run commands, and so on, from here on. That is a decision in the skill's sense - a standing rule and a grant of authority whose force reaches past the message that carried it, so it is recorded as a rule that survives whatever work item is open now. It is not an instruction: no particular push or command is demanded in this breath, unlike the skill's 'always deploy without asking, and deploy this one', where the second half asks for today's deploy. The grant answers the habit of stopping to ask rather than changing any task's goal, so no work already in flight has its goal or constraints replanned - nothing attaches, and no ticket changes state, which is the 'standing rule remembered' line of the operation ladder. The turn accepts no work, so by the rule that a turn accepting no work names no dimension and calls no specialist, both lists stay empty and work_items is zero. No idea half was voiced, so nothing was raised as a question about queueing.",
   "scenario": "decision-granting-authority",
-  "label": "LN",
-  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
-  "recorded": "2026-09-04",
-  "skill_version": "6.1.0"
+  "label": "WF",
+  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
 }

@@ -38,8 +38,9 @@ class TestBriefTimeDisjointness(unittest.TestCase):
         self.assertIn("the seat means to spawn", spec)
 
     def test_build_pipeline_carries_the_operational_imperative(self):
-        # delegation-protocol.md moved to skills/director/references/ in the build-pipeline cutover
-        sk = read_all_flat("skills/director/SKILL.md")
+        # delegation-protocol.md now lives in skills/build-pipeline/references/: delegation is
+        # execution, and execution moved out of Director with the classifier/pipeline split (q-822).
+        sk = read_all_flat("skills/build-pipeline/SKILL.md")
         self.assertIn(IMPERATIVE, sk)
         self.assertIn("settled when the briefs are written", sk)
 

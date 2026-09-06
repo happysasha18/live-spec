@@ -59,7 +59,7 @@ def test_architecture_owns_the_invariant():
 def test_build_pipeline_release_step_points_to_the_rule():
     # the commit & show step's release-tier pointer moved to director's landing-law
     # reference, alongside the other facts build-pipeline's fixed steps used to carry.
-    law = read("skills/director/references/landing-law.md")
+    law = read("skills/build-pipeline/references/landing-law.md")
     assert "INV-217" in law
 
 

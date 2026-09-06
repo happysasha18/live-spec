@@ -9,3 +9,4 @@ body.
   its queue row ("entry: mockup-first"); a later general "go build" moves priority, never the
   condition — only by the human naming it does the condition fall. A condition living only in chat
   memory is the defect this line prevents (the tlvphoto door was built past its voiced mockup-first word).
+

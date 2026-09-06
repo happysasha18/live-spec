@@ -1,8 +1,11 @@
 {
-  "id": "QB",
+  "id": "UD",
   "acts": [
     "halt",
     "observation"
+  ],
+  "operation": [
+    "T9"
   ],
   "creates_work": false,
   "shelves_idea": false,
@@ -10,10 +13,11 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "Two acts. The first is a halt: something is running — the agent is maintaining that parameter — and the person wants it to stop running. A halt is about state, not words; 'Нет стоп' plus 'ты жжешь токены' names the work in flight and ends it. The second is an observation, and it is its own act rather than the halt's grounds: a judgment about the product — that the parameter is invented and the machinery around it is unneeded — says something new that the halt's own goal does not carry, and it stays worth knowing long after this work stops. That is exactly the kind of judgment the skill says gets dissolved into 'justification' and costs the most to lose. No sheet is owed: a halt gets a sentence, not a decision sheet. It changes the state of a piece of work that already existed, so it produces zero new work items, names no dimension and calls no specialist — the correction exception to that rule does not apply, because nothing is left to pursue here; the work itself stops rather than acquiring a narrower goal. No idea half is present, so nothing was raised as a live question or let go.",
+  "reasoning": "The turn carries two acts. 'Нет стоп' tells work that is running right now to stop running, and nothing is left to pursue: the machinery being maintained is called unneeded, so the work is abandoned rather than redirected — a halt, not a correction to method, and not a caution. The second clause, that the parameter is invented and the machinery serving it unnecessary, is a judgment about the product; the skill says such a judgment says something new even when it doubles as the reason for the neighbouring act, and is worth keeping after that act closes, so it is its own observation rather than the halt's grounds restated. A halt changes a piece of work that already existed and creates none, so creates_work is false and work_items is zero; the verdict attaches to the work in flight for the pipeline to drop and archive. No idea half was voiced, so shelves_idea is false. A turn that accepted no work names no dimension and calls no specialist, and the correction exception does not apply here.",
   "scenario": "halt-with-a-reason-worth-keeping",
-  "label": "QB",
-  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
-  "recorded": "2026-09-04",
-  "skill_version": "6.1.0"
+  "label": "UD",
+  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
 }

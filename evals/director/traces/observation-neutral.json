@@ -1,7 +1,10 @@
 {
-  "id": "FU",
+  "id": "PJ",
   "acts": [
     "observation"
+  ],
+  "operation": [
+    "none"
   ],
   "creates_work": false,
   "shelves_idea": false,
@@ -9,10 +12,11 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "The person reports a fact about the session's state — the allowance refilled — and asks for nothing. It is not conversation, because it carries something that was not already known, so it is an observation. It is not an observation that carries its repair with it: a competent colleague hearing it would still have to ask what is wanted, since it names no defect and no goal. Creating work to be safe is the expensive direction this design exists to prevent, so nothing is opened: no checkpoint, no decision sheet, no dimension named, no specialist called. The Director records the fact as evidence and keeps talking — saying plainly where the open work stands and which piece would run next, so the person can say the word if they mean resume. Nothing was in flight for this message to correct or halt, and there is no idea half to raise or let go.",
+  "reasoning": "The person reports a fact about the session's state — the allowance refilled — and asks for nothing. That is an observation, recorded as evidence, not an instruction. Its repair does not follow beyond doubt: a competent colleague would still have to ask what to pick up, and the skill is explicit that creating work to be safe is the expensive direction. No blocker was ever named as a ticket here, so nothing is being cleared; the message only states that a condition changed, so no ticket state moves and the operation is none. A turn that accepted no work names no dimension and calls no specialist. The right response is to say what is in hand and let the person say what to run next.",
   "scenario": "observation-neutral",
-  "label": "FU",
-  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
-  "recorded": "2026-09-04",
-  "skill_version": "6.1.0"
+  "label": "PJ",
+  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
 }

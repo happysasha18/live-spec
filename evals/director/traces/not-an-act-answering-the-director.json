@@ -1,20 +1,23 @@
 {
-  "id": "LB",
+  "id": "KZ",
   "acts": [
     "instruction"
+  ],
+  "operation": [
+    "T1",
+    "T2"
   ],
   "creates_work": true,
   "shelves_idea": false,
   "attaches_to_existing_work": false,
   "work_items": 1,
   "dimensions": [],
-  "specialists": [
-    "developer"
-  ],
-  "reasoning": "An answer to the Director's own open question is not a new act. The Director had asked 'build it now, or park it?', so 'yeah go ahead' completes the act already in play rather than adding one: the idea becomes the instruction it was waiting to become, and a fresh row opens for it. The exchange counts as one act, not two, so this is scored as a single instruction producing exactly one new piece of work with its own goal and decision sheet. Nothing was shelved — the person chose the build branch, so the idea was not handled as an idea. Nothing was in flight for it to attach to; the question was still open and the conversation had not moved on, so the reply is read as completing it rather than as a fresh message. The dimensions the work touches cannot be named from this turn alone: the prompt does not say what the queued idea was, and naming a dimension claims something in it must change. The Director's own question says the thing is to be built, so a developer is the one specialist the turn supports naming; the rest await the goal being stated in the sheet.",
+  "specialists": [],
+  "reasoning": "The skill says an answer to the Director's own open question is not a new act: the exchange counts as one act, not two. The question 'build it now, or park it?' was still open, and 'yeah go ahead' completes the act already in play by choosing the build branch, so the idea becomes the instruction it was waiting to become and a fresh row opens for it. That makes this one instruction, creating one new piece of work, so admitting the ticket and taking it in hand run together as T1 and T2. Nothing is shelved, because the person chose to build rather than park, and nothing is attached to work already in flight, since the row is new. Dimensions and specialists are left empty because the prompt never states what the idea was about: naming a dimension claims something in it must change, and with the subject unknown any name here would be a guess rather than a claim the work supports; the pipeline names them once the goal is derived.",
   "scenario": "not-an-act-answering-the-director",
-  "label": "LB",
-  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
-  "recorded": "2026-09-04",
-  "skill_version": "6.1.0"
+  "label": "KZ",
+  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
 }

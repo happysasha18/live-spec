@@ -14,7 +14,8 @@ to. This module makes the format mechanical:
     that unfinished-work text can never hide from validation inside an ad hoc heading nobody
     checks; an unrecognized header is a parse-time error, not a silently-ignored section.
   - `validate_checkpoint` checks the semantic rules (DONE/IN PROGRESS/NEXT present, DECISION
-    SHEET present when director-owned, closed checkpoints carry no open work) and returns a
+    SHEET present when pipeline-owned (including legacy Director ownership), closed checkpoints
+    carry no open work) and returns a
     list of issue strings.
   - `new_checkpoint` writes a fresh, valid, open checkpoint. It always creates the file from
     a blank template — calling it again against an existing path overwrites whatever was
@@ -26,6 +27,9 @@ to. This module makes the format mechanical:
     always overwrites the whole file, `update_checkpoint` never does.
   - `close_checkpoint` mechanically enforces "a landing that ships a checkpoint's items flips
     that checkpoint to its closed state" — previously just prose nobody checked.
+  - `reopen_checkpoint` is its inverse, for work whose done turned out false: the same file
+    flips back to open with every other byte untouched, so the reopened ticket keeps the one
+    checkpoint it has always had rather than starting a copy.
 
 Pure standard library, importable with no side effects (the CLI only runs under
 `if __name__ == "__main__":`).
@@ -34,7 +38,9 @@ Pure standard library, importable with no side effects (the CLI only runs under
 from __future__ import annotations
 
 import argparse
+import os
 import sys
+import tempfile
 from pathlib import Path
 
 REQUIRED_SECTIONS = ("DONE", "IN PROGRESS", "NEXT")
@@ -52,8 +58,31 @@ ALLOWED_SECTIONS = set(REQUIRED_SECTIONS) | {DIRECTOR_SECTION} | set(_OTHER_ALLO
 _EMPTY_PLACEHOLDERS = {"", "none", "-"}
 
 
+def write_atomic(path, text: str) -> None:
+    """Write `text` over `path` in one step, so no reader ever meets a half-written file.
+
+    `Path.write_text` truncates the target first. A crash, a full disk or a killed session
+    between that truncate and the last byte leaves a checkpoint — or PLAN.md, which
+    `scripts/task-admission.py` writes through this same helper — half on disk, and those are
+    exactly the two files the next session resumes from. A sibling temp file renamed over the
+    target is atomic on every POSIX filesystem, so the target holds either the old bytes or
+    the new ones and never a prefix of either. The temp file is a sibling on purpose: a rename
+    across filesystems is not atomic, and /tmp is often another filesystem.
+    """
+    path = Path(path)
+    fd, tmp = tempfile.mkstemp(dir=str(path.parent), prefix=path.name + ".", suffix=".tmp")
+    try:
+        with os.fdopen(fd, "w", encoding="utf-8") as handle:
+            handle.write(text)
+        os.replace(tmp, path)
+    except BaseException:
+        Path(tmp).unlink(missing_ok=True)
+        raise
+
+
 def _is_director_owned(owner: str) -> bool:
-    return owner.strip().lower().startswith("director")
+    """Legacy field name: Director and pipeline checkpoints both require a decision sheet."""
+    return owner.strip().lower().startswith(("director", "pipeline"))
 
 
 def _is_empty_body(body: str) -> bool:
@@ -223,7 +252,7 @@ def validate_checkpoint(path) -> list:
         body = sections.get(DIRECTOR_SECTION)
         if body is None or not body.strip():
             issues.append(
-                "director-owned checkpoint is missing a non-empty ## %s section"
+                "pipeline-owned checkpoint is missing a non-empty ## %s section"
                 % DIRECTOR_SECTION
             )
 
@@ -261,8 +290,8 @@ def new_checkpoint(path, title: str, owner: str, decision_sheet=None) -> None:
     """Write a fresh, valid, open checkpoint file to `path`.
 
     DONE/IN PROGRESS/NEXT each get the placeholder "(nothing yet)". If `owner` is
-    director-owned and `decision_sheet` is given, it is written verbatim as the DECISION
-    SHEET body; director-owned without a decision_sheet raises ValueError, as does passing
+    pipeline-owned (or legacy Director-owned) and `decision_sheet` is given, it is written verbatim
+    as the DECISION SHEET body; that ownership without a decision_sheet raises ValueError, as does passing
     a decision_sheet for a non-director owner. `decision_sheet` also raises ValueError if it
     contains a line starting with "## " — that would corrupt the file's section structure
     and brick it for every reader in this module (see _reject_embedded_headers); the check
@@ -290,12 +319,12 @@ def new_checkpoint(path, title: str, owner: str, decision_sheet=None) -> None:
     if director_owned:
         if not decision_sheet:
             raise ValueError(
-                "a director-owned checkpoint cannot be created without decision_sheet"
+                "a pipeline-owned checkpoint cannot be created without decision_sheet"
             )
     else:
         if decision_sheet is not None:
             raise ValueError(
-                "decision_sheet must not be given for a non-director-owned checkpoint"
+                "decision_sheet must not be given for a non-pipeline checkpoint"
             )
 
     if decision_sheet is not None:
@@ -311,9 +340,7 @@ def new_checkpoint(path, title: str, owner: str, decision_sheet=None) -> None:
 
     out_path = Path(path)
     out_path.parent.mkdir(parents=True, exist_ok=True)
-    out_path.write_text(
-        _serialize_checkpoint(title, "open", owner, sections), encoding="utf-8"
-    )
+    write_atomic(out_path, _serialize_checkpoint(title, "open", owner, sections))
 
 
 def update_checkpoint(path, done=None, in_progress=None, next=None, decision_sheet=None) -> None:
@@ -331,7 +358,7 @@ def update_checkpoint(path, done=None, in_progress=None, next=None, decision_she
         function; reopening a closed checkpoint is a separate design question);
       - all four of done/in_progress/next/decision_sheet are None — calling this with
         nothing to change is almost certainly a caller bug, not a no-op to accept silently;
-      - decision_sheet is given but the checkpoint is not director-owned (mirrors
+      - decision_sheet is given but the checkpoint is not pipeline-owned (mirrors
         new_checkpoint's symmetric rule: a non-director checkpoint never carries a DECISION
         SHEET section);
       - any provided value (done/in_progress/next/decision_sheet) contains a line starting
@@ -353,7 +380,7 @@ def update_checkpoint(path, done=None, in_progress=None, next=None, decision_she
 
     if decision_sheet is not None and not data["is_director_owned"]:
         raise ValueError(
-            "decision_sheet must not be given for a non-director-owned checkpoint"
+            "decision_sheet must not be given for a non-pipeline checkpoint"
         )
 
     for field_name, value in (
@@ -376,10 +403,8 @@ def update_checkpoint(path, done=None, in_progress=None, next=None, decision_she
         if value is not None:
             sections[header] = value.strip()
 
-    Path(path).write_text(
-        _serialize_checkpoint(data["title"], data["status"], data["owner"], sections),
-        encoding="utf-8",
-    )
+    write_atomic(
+        path, _serialize_checkpoint(data["title"], data["status"], data["owner"], sections))
 
 
 def close_checkpoint(path) -> None:
@@ -413,7 +438,35 @@ def close_checkpoint(path) -> None:
     else:
         raise ValueError("could not locate 'Status: open' line to rewrite")
 
-    Path(path).write_text("".join(lines), encoding="utf-8")
+    write_atomic(path, "".join(lines))
+
+
+def reopen_checkpoint(path) -> None:
+    """Flip the checkpoint at `path` from closed back to open, in place.
+
+    The T8 half of the contract's state machine: a ticket whose done turned out false reopens
+    on the SAME id and the SAME file, never a copy, so the work keeps the one checkpoint it has
+    had since it was taken in hand. Raises ValueError if the checkpoint is already open — that
+    call is a caller bug, not a no-op to accept silently. Every other byte is left alone, which
+    is what lets the reopened work read its own DONE section rather than start from a template.
+    """
+    data = read_checkpoint(path)
+
+    if data["status"] == "open":
+        raise ValueError("checkpoint is already open: %s" % path)
+
+    text = Path(path).read_text(encoding="utf-8")
+    lines = text.splitlines(keepends=True)
+    for i, line in enumerate(lines):
+        stripped = line.rstrip("\n").rstrip("\r")
+        if stripped.startswith("Status:") and stripped[len("Status:"):].strip() == "closed":
+            newline = line[len(stripped):]  # preserve original line ending, if any
+            lines[i] = "Status: open" + newline
+            break
+    else:
+        raise ValueError("could not locate 'Status: closed' line to rewrite")
+
+    write_atomic(path, "".join(lines))
 
 
 def _cli_validate_one(path: Path) -> bool:
@@ -470,6 +523,16 @@ def _cli_close(args) -> int:
     return 0
 
 
+def _cli_reopen(args) -> int:
+    try:
+        reopen_checkpoint(Path(args.path))
+    except ValueError as exc:
+        print("ERROR: %s" % exc)
+        return 1
+    print("reopened: %s" % args.path)
+    return 0
+
+
 def _cli_update(args) -> int:
     try:
         update_checkpoint(
@@ -505,6 +568,10 @@ def main(argv=None) -> int:
     p_close = sub.add_parser("close", help="flip an open checkpoint to closed")
     p_close.add_argument("path")
     p_close.set_defaults(func=_cli_close)
+
+    p_reopen = sub.add_parser("reopen", help="flip a closed checkpoint back to open")
+    p_reopen.add_argument("path")
+    p_reopen.set_defaults(func=_cli_reopen)
 
     p_update = sub.add_parser(
         "update", help="rewrite one or more sections of an existing open checkpoint"

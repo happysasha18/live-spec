@@ -52,6 +52,14 @@ turn a pass into a fail on its own. Everything else still does: a missing act, a
 boolean, a wrong work_items, a missing or forbidden dimension or specialist, an act named on
 a turn the scenario expects to carry none, and a name that is not a speech act at all.
 
+WHEN `operation` IS REQUIRED. Section 7A of the turnkey contract requires every verdict to
+carry the state operation beside its acts, so any run recorded on or after OPERATION_REQUIRED_FROM
+must carry the field: a scenario that names an `operation` against such a run that has none
+fails, the same as a missing act. Recordings made before that date are graded on their other
+fields and skipped on this one, because the field did not exist when the producer answered
+and no re-reading of an old trace can invent it. That skip is a fact about those recordings,
+not an allowance for new ones.
+
 USAGE
   check.py --scenario ONE.json --actual RUN.json
   check.py --all       grade every scenario in scenarios.json that has a run in traces/
@@ -64,6 +72,9 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ACTS = {"question", "idea", "observation", "decision", "correction", "instruction", "halt"}
+OPERATIONS = {"none", "T1", "T2", "T3", "T4", "T5", "T6", "T7", "T8", "T9"}
+# Runs recorded on or after this date must carry `operation`; see the header.
+OPERATION_REQUIRED_FROM = "2026-09-06"
 EXACT_BOOLS = ("creates_work", "shelves_idea", "attaches_to_existing_work")
 
 
@@ -117,6 +128,26 @@ def grade(scenario, actual):
             fails.append(
                 f"acts: named {act!r} on a turn the scenario expects to carry no act at all"
             )
+
+    # See the header, "WHEN `operation` IS REQUIRED": a run recorded on or after
+    # OPERATION_REQUIRED_FROM must carry the field, and fails the scenario without it.
+    # Older recordings are skipped on this field alone.
+    if "operation" in want and "operation" not in actual:
+        if str(actual.get("recorded") or "") >= OPERATION_REQUIRED_FROM:
+            checks += 1
+            fails.append(
+                "operation: missing on a run recorded "
+                f"{actual.get('recorded')!r}, on or after {OPERATION_REQUIRED_FROM}"
+            )
+    elif "operation" in want and "operation" in actual:
+        checks += 1
+        want_ops = set(want["operation"])
+        got_ops = set(actual["operation"] or [])
+        unknown_ops = got_ops - OPERATIONS
+        if unknown_ops:
+            fails.append(f"operation: not in the closed vocabulary: {sorted(unknown_ops)}")
+        if got_ops != want_ops:
+            fails.append(f"operation: wanted {sorted(want_ops)}, got {sorted(got_ops)}")
 
     for field in EXACT_BOOLS:
         if field not in want:
@@ -211,10 +242,15 @@ def main():
 
     passed = 0
     noted = 0
+    op_only = 0
     for sc, actual in pairs:
         fails, notes, checks = grade(sc, actual)
         if report(sc.get("id", "scenario"), fails, notes, checks):
             passed += 1
+        elif all(f.startswith("operation:") for f in fails):
+            # Red on the operation field and nothing else. Counted apart so a reader can
+            # see that field's own share of the score rather than inferring it.
+            op_only += 1
         if notes:
             noted += 1
 
@@ -228,7 +264,8 @@ def main():
         line += f"; {len(missing)} scenarios have no run"
     if noted:
         line += f"; {noted} named an act the scenario did not ask for"
-    print(f"\n{line}")
+    print(f"\noperation-only reds: {op_only}")
+    print(line)
     return 0 if passed == len(pairs) and not (a.all and missing) else 1
 
 

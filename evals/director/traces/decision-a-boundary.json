@@ -1,7 +1,10 @@
 {
-  "id": "WL",
+  "id": "VN",
   "acts": [
     "decision"
+  ],
+  "operation": [
+    "none"
   ],
   "creates_work": false,
   "shelves_idea": false,
@@ -9,10 +12,11 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "One act: a decision. The skill names a division of responsibility explicitly as a decision — a standing rule with force beyond the message that carried it. Both halves of the sentence are the two sides of that one division: 'the moratorium is mine' and 'the rest is yours' state the same allocation from either end, so the second half is not a separate act, it is the first half's other side. Neither half names a concrete goal to pursue now, so there is no instruction hiding inside 'the rest is on you' — no result is asked for, only who owns which territory from here on. Nothing is in flight for the rule to change, so it attaches to no running work and replans nothing; it is recorded so it survives past whatever work comes next. A turn that accepted no work names no dimension and calls no specialist, so both lists are empty and no decision sheet is written — the reply is one sentence saying the split is noted and that the agent will not touch the moratorium negotiation.",
+  "reasoning": "Both halves of the sentence say the same one thing: who owns what from here on. The skill names a division of responsibility as a decision — a standing rule with force beyond the message that carried it — so the two clauses are one act, not two; the second half is the other side of the same split, not a separate demand. It is not an instruction: no concrete result is named that someone could want on its own, and an amorphous request is not routed as accepted work. It is not a correction or a halt either, since the situation says nothing is running that either sentence stops, so there is no work in flight to attach to or to stop. That leaves a standing rule to be recorded and applied to whatever gets accepted later, which changes no ticket state: operation none, no new work, and no dimensions or specialists — the skill is explicit that a turn accepting no work names no dimension and calls no specialist, including for a standing rule that will shape everything built afterwards.",
   "scenario": "decision-a-boundary",
-  "label": "WL",
-  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
-  "recorded": "2026-09-04",
-  "skill_version": "6.1.0"
+  "label": "VN",
+  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
 }

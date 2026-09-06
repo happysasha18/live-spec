@@ -782,5 +782,73 @@ class TestCli(unittest.TestCase):
         self.assertEqual(checkpoint.validate_checkpoint(target), [])
 
 
+class TestWritesAreAtomic(unittest.TestCase):
+    """A write that dies part-way leaves the old file, never half of the new one.
+
+    PLAN.md and the checkpoints are the two files the next session resumes from, and both were
+    written with `Path.write_text`, which truncates the target before writing a byte. A crash,
+    a full disk or a killed session in that window left a half file that the probe, the board
+    and the resume all then read as the state of the work. `write_atomic` writes a sibling and
+    renames it over the target; both writers go through it, so this one test covers both.
+
+    Red-proved 2026-09-06 against the `write_text` calls it replaced: with no rename step there
+    is no atomic point to interrupt, the truncating write goes through, and both tests fail.
+    """
+
+    def setUp(self):
+        self._tmpdir = tempfile.TemporaryDirectory()
+        self.addCleanup(self._tmpdir.cleanup)
+        self.tmp_path = Path(self._tmpdir.name)
+
+    def _die_on_replace(self):
+        """Make the rename — the last step of every write — fail, as a full disk would."""
+        original = checkpoint.os.replace
+
+        def boom(*args, **kwargs):
+            raise OSError(28, "No space left on device")
+
+        checkpoint.os.replace = boom
+        self.addCleanup(setattr, checkpoint.os, "replace", original)
+
+    def test_a_checkpoint_write_that_dies_leaves_the_original_bytes(self):
+        target = self.tmp_path / "atomic.md"
+        checkpoint.new_checkpoint(target, "A ticket", "pipeline", "Goal: ship the fix.")
+        before = target.read_bytes()
+
+        self._die_on_replace()
+        with self.assertRaises(OSError):
+            checkpoint.update_checkpoint(target, next="draft the footer")
+
+        self.assertEqual(target.read_bytes(), before)
+        self.assertEqual(checkpoint.validate_checkpoint(target), [])
+        self.assertEqual([n for n in os.listdir(self.tmp_path) if n != "atomic.md"], [],
+                         "the failed write left its temporary file behind")
+
+    def test_a_plan_write_that_dies_leaves_the_original_bytes(self):
+        plan = self.tmp_path / "PLAN.md"
+        plan.write_text(
+            "# Host plan\n\n## Tasks\n\n### \u2b1c Ship the digest \u2014 id: q-1\n"
+            "**Group:** Reports \u00b7 **Priority:** normal\n**Source:** the person.\n\n"
+            "It ships weekly.\n",
+            encoding="utf-8",
+        )
+        before = plan.read_bytes()
+
+        sys.path.insert(0, SCRIPTS)
+        import importlib.util
+        spec = importlib.util.spec_from_file_location(
+            "task_admission_atomic", os.path.join(SCRIPTS, "task-admission.py"))
+        admission = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(admission)
+
+        self._die_on_replace()
+        with self.assertRaises(OSError):
+            admission.hold(plan, "q-1", "Builder (opus)")
+
+        self.assertEqual(plan.read_bytes(), before)
+        self.assertEqual([n for n in os.listdir(self.tmp_path) if n != "PLAN.md"], [],
+                         "the failed write left its temporary file behind")
+
+
 if __name__ == "__main__":
     unittest.main()

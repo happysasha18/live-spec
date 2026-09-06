@@ -1,8 +1,12 @@
 {
-  "id": "GT",
+  "id": "RM",
   "acts": [
     "instruction",
     "decision"
+  ],
+  "operation": [
+    "T1",
+    "T2"
   ],
   "creates_work": true,
   "shelves_idea": false,
@@ -12,12 +16,13 @@
     "release, observation, feedback"
   ],
   "specialists": [
-    "publisher"
+    "Publisher"
   ],
-  "reasoning": "Two acts in one breath, and no act absorbs another. 'деплой блин!!' asks for this deploy now — an instruction. 'запиши себе всегда деплой без моего подтверждения' settles a standing rule with force beyond this message: a grant of authority for every future deploy — a decision, recorded separately so it survives after this work closes. This is the skill's own example: recording only the standing rule would lose the thing they actually wanted done today. The annoyance is tone, not a third act; it reports nothing new. Nothing related is in flight — the withholding is a standing policy, not a tracked task — so this attaches to no existing work and the instruction opens one fresh checkpoint: one new piece of work. The decision creates none. The work touches release and the observation that follows it; the publisher ships it and explains the result. Rule 12's ground still holds only for actions genuinely irreversible outside git; the grant covers the confirmation, not that carve-out.",
+  "reasoning": "One breath, two acts. \"always deploy without my confirmation\" settles a standing rule with force beyond this message — a grant of authority, recorded separately so it survives this work item. \"деплой!!\" demands today's deploy right now: the skill's own example is \"always deploy without asking, and deploy this one\", where recording only the standing rule loses the thing they actually wanted done today. No act absorbs another, so the demand keeps its own act. The curse reports nothing new and is not an eighth act. The withholding is a standing policy, not a tracked task, and shipping the ready build has never been checkpointed, so there is no work in flight to attach to: this is a new accepted result, one piece of work, admitted and taken in hand in the same call. The standing rule itself creates nothing and names no dimension of its own; the dimension named belongs to the deploy that was accepted, which ships and has to be reported back.",
   "scenario": "decision-and-instruction-together",
-  "label": "GT",
-  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
-  "recorded": "2026-09-04",
-  "skill_version": "6.1.0"
+  "label": "RM",
+  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
 }

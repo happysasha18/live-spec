@@ -1,7 +1,11 @@
 {
-  "id": "MM",
+  "id": "TK",
   "acts": [
     "observation"
+  ],
+  "operation": [
+    "T1",
+    "T2"
   ],
   "creates_work": true,
   "shelves_idea": false,
@@ -10,17 +14,18 @@
   "dimensions": [
     "product value and behaviour",
     "the user's path and the design",
-    "documentation and communication"
+    "quality, safety, regressions"
   ],
   "specialists": [
-    "spec author",
-    "developer",
-    "design reviewer"
+    "Developer",
+    "Design reviewer",
+    "Product prover"
   ],
-  "reasoning": "Two clauses, both observations: continuity is missing from the delivered build, and it is missing after it had been settled at length in conversation. Neither asks for anything in words, but the first is an observation whose repair follows beyond doubt — continuity was a stated requirement, so its absence is a defect, not a preference, and no competent colleague would need to ask what is wanted. The second clause is a judgment about the work rather than a separate kind of act; it is still worth keeping, because it says the agreed requirement never survived into what was built. Nothing is in flight — the build was delivered and accepted — so this cannot be a correction: a disagreement with a shown result is a new fact and becomes its own task, while the closed row stays closed. That gives exactly one new piece of work with its own goal and decision sheet: continuity holds between shots. It touches product behaviour (a requirement that was agreed is not honoured), the user's path and the design (continuity between shots is the coherence of the experience), and documentation (the requirement was discussed but evidently never written where the build reads it, which is why it was lost). Spec author to state continuity as a requirement the build can be checked against, developer to build it, design reviewer for the coherence between shots.",
+  "reasoning": "Every clause here reports how the delivered build lands: the effects please, continuity is absent, and it is strange to see this level of understanding after continuity had been discussed at length. That is feedback, not an order, and no work is in flight, so it cannot be a correction — a correction attaches to work already running, and this build is delivered and accepted. It is an observation whose repair follows from the situation beyond doubt: continuity between shots was an agreed requirement, the shipped build does not have it, and a competent colleague would not need to ask what is wanted. So the observation is acted on rather than merely filed, and a new piece of work is proposed — one result, continuity between shots in the build, however many places it touches. The remark about the level of understanding is the same kind of act, a judgment about the product and the reason the observation is being made, not a separate instruction or decision; it is worth keeping because it names the requirement as one that keeps failing to land. Since a new result is accepted, the ticket is admitted and taken in hand in the same call.",
   "scenario": "observation-a-verdict-on-delivered-work",
-  "label": "MM",
-  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
-  "recorded": "2026-09-04",
-  "skill_version": "6.1.0"
+  "label": "TK",
+  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
 }

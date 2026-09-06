@@ -53,8 +53,13 @@ class TestDirectorPointsAtTheRealSkill(unittest.TestCase):
         self.assertNotIn("pending this package's own architect-step decision", flat)
 
     def test_states_the_skills_vs_references_cell_convention(self):
+        # The table stays Director's (it is part of the route contract's `specialists` field), but
+        # the q-822 split moved invocation to the pipeline, so the convention names the loader it
+        # actually has today. What is pinned is unchanged: a cell that names a skill path says a
+        # standalone skill exists, so a `skills/…`-pending placeholder cannot creep back in.
         flat = read_flat(DIRECTOR_SKILL)
-        self.assertIn("standalone skill the Director invokes on its own", flat)
+        self.assertIn("standalone skill the pipeline loads after admission", flat)
+        self.assertIn("there is no separate skill to invoke", flat)
 
 
 class TestRostersNameArchitect(unittest.TestCase):

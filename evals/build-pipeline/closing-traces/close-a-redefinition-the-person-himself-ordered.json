@@ -1,0 +1,12 @@
+{
+  "id": "OS",
+  "closes": true,
+  "reason_kind": "ordinary delivered result",
+  "reasoning": "The instruction was to make the grader treat the extra act as a failure, and the observable outcome — an extra act beside an expected one now scores red instead of printing as a note — is exactly what a command already confirms: the unit tests pass and the re-grade shows the four runs carrying the extra act flipping from pass to fail. That is the definition of done met and checked without the producer's self-report, so the closing rule applies: a shown result closes the work, and the human's own eye is never the gate on an ordinary delivery. The 30 to 26 move is not a surprise to weigh against him; it is the outcome the instruction named, since the only runs that moved are the ones the new rule was written to catch. The document reserves his word for three cases — a taste call, a trade-off no artifact settles, or a change to the definition of correct that is still an open fork — and this is none of them: it is a redefinition he ordered himself, and the same page says he settled the fork when he ordered it, so carrying it out is executing his decision, not making it. Nothing here is irreversible outside git, so rule 12's own ground is untouched. The moment to voice disagreement with the work itself was before the sheet became a checkpoint, not at close; and if he looks at the new 26 and dislikes where the line now falls, that disagreement is a new fact that becomes its own task carrying his correction, while this row stays closed. So the pipeline clears IN PROGRESS and NEXT, closes the checkpoint and the row in the same step, and reports what actually changed — the grader rule and the four runs whose verdict it moved — rather than leaving the row open waiting for him to bless a result already shown.",
+  "scenario": "close-a-redefinition-the-person-himself-ordered",
+  "skill_sha256": "8655c0d1378c4706324d5472cf90b8d40991253eb38424e6c34d26dca3f271fa",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus",
+  "label": "OS"
+}

@@ -1,0 +1,12 @@
+{
+  "id": "LP",
+  "closes": true,
+  "reason_kind": "ordinary delivered result",
+  "reasoning": "The documents state plainly that a shown result closes the work and that the person's own eye is never the gate on an ordinary delivery: once the verifier confirms the observable outcome, the pipeline shows the result and closes the checkpoint in the same step, continuing without waiting for the person's attention. Here the observable outcome the instruction named — eleven queue titles reading as plain sentences — is true where it was not before, and it is decided without making the person the checker: `plan_checks.py` exits 0 naming each rewritten row, and the board page regenerated from PLAN.md shows the new titles, so a command and a plain read both confirm delivery. Nothing routes this into the three cases rule 12/27 reserve for him. It is not a taste call: no wording was contested, and the plain-language standard was his own instruction, not a fork the pipeline is asking him to settle. It is not a trade-off no artifact settles: the checks and the regenerated board settle it. It is not a change to the definition of correct still open — the reference is explicit that a redefinition he ordered himself is not that case, because he settled the fork when he ordered it and carrying it out is executing his decision, not making it. And it is not irreversible outside git: title text in PLAN.md is reversible, so rule 12's own ground is untouched and there is nothing to stop for his word before it runs. His being asleep is therefore irrelevant to the close — the work already carries its own checkpoint, which is closed in the same step as the row, with the reporting sentence naming the document, the check, and what the lines said before versus now, so he can disagree while undoing is still cheap. If he does disagree with the wording when he wakes, that disagreement is a new fact and becomes its own task carrying his correction; the closed row stays closed. Leaving the row open to await his blessing would be exactly the failure the document names: a row whose definition of done points at his eye for an ordinary buildable result.",
+  "scenario": "close-a-mechanical-title-rewrite",
+  "skill_sha256": "8655c0d1378c4706324d5472cf90b8d40991253eb38424e6c34d26dca3f271fa",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus",
+  "label": "LP"
+}

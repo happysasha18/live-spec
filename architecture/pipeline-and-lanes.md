@@ -1,15 +1,13 @@
 ### [node: director]
 
-**responsibility** — the first reader of a person's message. It decides which of the seven acts the message carries before anything answers it or changes a file, opens work only behind an act that asked for work, writes the decision sheet into that work's own checkpoint, and names which accepted work runs next. It stands in front of the walk below rather than inside it: the pipeline's stations begin once this node has said the message was an instruction.
+**responsibility** — the first reader of a person's message. It decides which of the seven acts the message carries before anything answers it or changes a file, returns whether the turn proposes new work or changes existing work, names the route and possible specialists, and stops. It never writes the plan or a checkpoint and never executes the route.
 
 **owns** —
 - E-36 · INV-316 · INV-317 (the first read, the acceptance door, and what holds them)
-- INV-318 · INV-319 (the decision sheet in its one checkpoint, and the order accepted work runs in)
 
 **pins** —
 - `skills/director/SKILL.md:45` (the seven acts and the table that decides between them — the first read's one home)
-- `skills/director/SKILL.md:225` (the decision sheet's fields, in the order the sheet writes them)
-- `scripts/checkpoint.py:55` (the one place the checkpoint machinery couples to this node: an owner reading `director` is what makes a decision sheet required at creation and at validation)
+- `skills/director/SKILL.md` (the route contract where the first reader stops)
 - `evals/director/check.py:1` (the grader that judges a recorded run against its written scenario. It is deterministic and it calls no model; the run it grades is produced elsewhere and stored, so the score speaks about the recorded runs rather than about today's session)
 - `evals/director/scenarios.json:1` (the written scenarios and their expected verdicts — the goal this node's reading is measured against)
 - `scripts/state-probe-extras.sh:18` (the probe's own arm: it prints the score at a session's start and says plainly when the traces are older than the skill, so a replay of old runs is read as saying nothing about the skill as it stands — the pack's own facts, moved here by row q-818 so the shared renderer stays generic, INV-325)
@@ -19,10 +17,11 @@
 
 ### [node: build-pipeline]
 
-**responsibility** — the wish lifecycle, walked station by station. The walk runs intake → classify → spec → prove → architecture → prove architecture. It then runs matrix → test → code → verify → commit & show → landed.
+**responsibility** — accepted work from admission to close. It derives the observable outcome and definition of done, admits one new row or updates existing work in place, writes the decision sheet into the work's checkpoint, calls the smallest specialist graph, verifies, closes and reports. Setup and the MINOR-bump gate remain here until their own packages take them.
 
 **owns** —
 - E-2 · T-1..T-6 · T-8 · T-9 · T-11 · T-12 · T-15 · T-16 · T-17 · INV-1 · INV-3 · INV-4 · INV-12 · INV-16 · INV-22 · INV-26 · INV-30 · INV-31 · INV-33 · INV-37 · INV-41 · INV-43 · INV-46 · INV-53 · INV-54 · INV-55 · INV-62 · INV-63 · INV-69 · INV-70 · INV-74 · INV-75 · INV-82 · INV-99 · INV-103 · INV-137 · INV-104 · INV-106 · INV-113 · E-14 · E-15 · INV-15 · M-1 · INV-115 · INV-116 · INV-121 · INV-122 · INV-123 · INV-124 · INV-128 · INV-129 · INV-133 · INV-134 · INV-144 · INV-151 · INV-153 · INV-159 · INV-164 · INV-166
+- INV-318 · INV-319 (the decision sheet in its one checkpoint, and the order accepted work runs in)
 - INV-247 (the resume-side twin of the primary-source rule and the architecture step's pin-from-a-command)
 - INV-221 (the pack owes the general law the profile holds as a personal value)
 - INV-222 (the queue's far tier — the report-shape home is communicator, carried there as wiring)
@@ -35,13 +34,15 @@
 - the mid-work re-door is this node's step, and the independence re-check it fires is the lanes node's law
 
 **pins** —
-- `skills/director/references/work-kind-table.md:4` (the door + work-kind relationship — the door picks which steps run, this table picks the form each running step takes)
-- `skills/build-pipeline/SKILL.md:21` (the craft ladder — step→craft one home, Requirement 51 backs it at the SPEC level)
-- `skills/director/references/work-kind-table.md:1` (the work-kind table — per-kind meanings' one home)
-- `skills/director/SKILL.md:272` (steps — the dynamic Execution graph that replaces the old fixed nine-step sequence)
+- `skills/build-pipeline/references/work-kind-table.md:4` (the door + work-kind relationship — the door picks which steps run, this table picks the form each running step takes)
+- `skills/build-pipeline/SKILL.md:62` (the craft ladder — step→craft one home, Requirement 51 backs it at the SPEC level)
+- `skills/build-pipeline/references/work-kind-table.md:1` (the work-kind table — per-kind meanings' one home)
+- `skills/build-pipeline/SKILL.md` and `skills/build-pipeline/references/accepted-work-execution.md` (admission and the dynamic execution graph)
+- `scripts/task-admission.py:1` (the mechanical new-work door: source, outcome, definition of done and verification become one PLAN.md row and its checkpoint; quiet and existing-work routes write nothing)
+- `scripts/checkpoint.py:47` (the decision-sheet checkpoint mechanism)
 - `skills/build-pipeline/SKILL.md:45` (gates — the MINOR-bump gate, this node's own remaining "Gates worth remembering" section)
 - `skills/architect/SKILL.md:141` (re-carve paragraph — INV-113 redesign-owes-rework)
-- `skills/director/references/delegation-protocol.md:71` (the worker-brief register-laws clause — no-scissors + no-dramatization, INV-221)
+- `skills/build-pipeline/references/delegation-protocol.md:71` (the worker-brief register-laws clause — no-scissors + no-dramatization, INV-221)
 - `guardrails/check-tier-refusal.py:1` (the tier-refusal gate. It reads the record's shape and a pattern's evidence. Its `--brief` step turns a matching task away before any model call. It rides the suite, taking no gate letter, INV-300)
 - `guardrails/tier-refusal.json:1` (the instruction, the tier ladder, the promotion threshold and the promoted phrases as data, INV-300)
 - `docs/measure/tier-refusals.md:1` (the refusal record the patterns grow from, INV-300)
@@ -65,9 +66,9 @@
 **owns** — T-18, INV-2, INV-39, INV-49, INV-131, E-34, T-23, INV-198, INV-199, INV-200, INV-201, INV-214
 
 **pins** —
-- `skills/director/references/lanes-and-pen.md:32` (the penless overlap set, the pen-stages, and the re-fence after a landing)
-- `skills/director/references/lanes-and-pen.md:13` (the graph picks the lane set at queue-take)
-- `skills/director/references/lanes-and-pen.md:59` (a mid-work re-door re-runs the independence edges against every rolling lane)
+- `skills/build-pipeline/references/lanes-and-pen.md:32` (the penless overlap set, the pen-stages, and the re-fence after a landing)
+- `skills/build-pipeline/references/lanes-and-pen.md:13` (the graph picks the lane set at queue-take)
+- `skills/build-pipeline/references/lanes-and-pen.md:59` (a mid-work re-door re-runs the independence edges against every rolling lane)
 - `skills/live-spec-base/SKILL.md:135` (rule 7's lanes sub-rules — three lanes under one pen; the cap and the lane-open act have their one home here, and the director's reference points at it rather than restating it)
 - `skills/live-spec-base/SKILL.md:167` (one row per landing commit)
 - `scripts/open-lane.sh:1` (the lane-open act's performable form. It carries the row→in-work claim commit on main, the cap refusal, and the lane branch cut into its own worktree, INV-214.)

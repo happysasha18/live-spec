@@ -353,28 +353,23 @@
 
 ---
 
-## Requirement 257: A delivery that closes a roadmap row refreshes the forward map
+## Requirement 257: The resume file never becomes a second board
 
-**Context:** The movement-end report law asks the seat to refresh the forward map and report after every big movement without being asked; left as once-read prose it fired only on a reminder. Its checkable face is a commit: a delivery is a commit that moves a roadmap row from the queue's body to the archive with its status naming *landed* and its date, and such a commit that does not also touch the forward map reds. A commit that closes no row is not a delivery and owes nothing.
+**Context:** Requiring every landing to refresh `NEXT_STEPS.md` turned the resume file into a duplicate queue. The board is the durable source for tasks, their state, priority and order. The resume file exists only for execution state that cannot be reconstructed from the board, checkpoint and repository.
 
-**User Story:** As a person relying on an up-to-date forward map, I want a delivery commit made to refresh the forward map in the same breath, so that a movement that ends never leaves the map stale.
+**User Story:** As a person returning after interruption, I want one task board and a small transient resume note, so that two files never disagree about what work exists or runs next.
 
 ### Acceptance Criteria
 
-**Case: a delivery commit refreshes the map**
+**Case: task-shaped content is rejected**
 
-1. *when* a commit's diff moves a roadmap row from the body to the archive with its status naming *landed*, the system *shall* require the same commit to touch `NEXT_STEPS.md`. [INV-242, INV-276]
-   - the commit range is read through the same base ladder the other range checks use: the declared base, then `origin/main`, then the previous commit.
-2. *if* such a delivery commit does not touch the forward map, *then* the system *shall* red and name the one fix. [INV-242]
+1. `NEXT_STEPS.md` and its template *shall* carry no task section, task id, board row, task status, priority or queue order. [INV-242]
+2. *when* either file carries a task-shaped structure, the system *shall* red with the file, line and offending shape. [INV-242]
 
-**Case: what is not a delivery owes nothing**
+**Case: transient state remains available**
 
-3. The system *shall* leave a commit that closes no row, and a row closed to *declined*, *deferred*, or *superseded*, owing no refresh. [INV-242]
-4. *when* the push-gate letters are exhausted, the system *shall* ride this check on the suite, so a red here reds the suite gate and blocks the push. [INV-242, INV-222]
-
-**Case: a missed landing heals forward**
-
-5. *when* a landing commit misses the refresh, the system *shall* let a later commit in the same range heal it. The healer *shall* touch `NEXT_STEPS.md` and name the missed landing by its commit id. A heal predating its landing heals nothing, and the system *shall* warn rather than red once healed, keeping the miss on record. [INV-242]
+3. The resume file *may* name an unfinished write-set, a live worker, or the exact failing command and current hypothesis. It *shall* otherwise say no transient state and point to `PLAN.md`. [INV-242, INV-48]
+4. Closing or reprioritising work *shall* update the board and checkpoint without requiring a `NEXT_STEPS.md` edit. [INV-242, INV-319]
 
 ## Requirement 293: A naked internal code in live prose reds
 

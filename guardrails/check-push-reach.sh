@@ -142,6 +142,7 @@ ALWAYS_SCOPED=(
   "tests/test_traceability.py"      # integrity rider — rides every scoped run for suite integrity
   "tests/test_setup_entry.py"       # enumerating-infra test — globs skills/*/SKILL.md, invisible to by-name discovery
   "tests/test_guardrails_unit.py"   # the guardrail unit half: fast, sandbox-free, rides every scoped run
+  "tests/test_work_board.py"        # enumerating-infra test — walks scripts/ to prove the craft set has one home
 )
 # SCOPED_EXCLUDED — test files the by-name discovery must NOT pull into a scoped run. One member:
 # the guardrail integration half, whose classes copy the repository, build git sandboxes and run

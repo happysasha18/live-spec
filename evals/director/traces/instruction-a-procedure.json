@@ -1,7 +1,12 @@
 {
-  "id": "HI",
+  "id": "MG",
   "acts": [
-    "instruction"
+    "instruction",
+    "question"
+  ],
+  "operation": [
+    "T1",
+    "T2"
   ],
   "creates_work": true,
   "shelves_idea": false,
@@ -11,12 +16,13 @@
     "architecture, data, integrations, operations"
   ],
   "specialists": [
-    "developer"
+    "Developer"
   ],
-  "reasoning": "One instruction, carried in four clauses that are steps toward a single result: a perf server on 8790 serving the right tree and reachable from another device on the Wi-Fi. 'Stop the server' is explicitly not a halt — the skill says a halt is about the session's own work in progress, and stopping some other system mid-procedure names a step of that procedure, so it is part of the instruction. Restarting from ~/[project-A], confirming the bind is 0.0.0.0:8790 rather than 127.0.0.1, and reading off the actual Wi-Fi IP are likewise steps, not separate results: none of them could ship or be cancelled on its own without cancelling the rest, so the turn produces exactly one new piece of work. The demand for the factual IP rather than an assumed one is a constraint on how the step is done, not a question act of its own. Nothing was in flight, so nothing attaches; no idea was voiced, so nothing was shelved. The only dimension that changes is operations — a locally served process and its binding; product behaviour, design, docs and release change nothing, and the bind check is the evidence for the goal, not a separate quality change. The developer (the agent itself) is the only specialist needed: the observable outcome is confirmed by a plain command, so no independent verifier and no spec, test or architecture work is warranted.",
+  "reasoning": "\"Stop the server on 8790\" is not a halt: the skill says a halt is about the session's own work in progress, and \"stop the server\" said in the middle of a procedure names a step of that procedure — it is an instruction, part of the work. Stopping, relaunching from the named directory with the given command, and checking it listens on 0.0.0.0 rather than 127.0.0.1 are steps toward one result someone could want on its own — a server actually reachable on the LAN interface — so they stay one piece of work, however many commands they take. The closing ask, name the Mac's actual Wi-Fi IP rather than the assumed one, is a separate act: the person wants to know something, and no act absorbs another. Answering it needs facts, and fetching facts is reading, not work, so it adds no second piece of work. The turn therefore accepts one new piece of work and answers a question alongside it: admitting the ticket and taking it in hand is T1 then T2. The work touches how the machine runs and what it exposes on the network, and nothing else changes — no behaviour the spec describes, no interface, no test choice — so operations is the only dimension named and the developer the only specialist; the verification is the person's own instruction inside the work, not an independent verifier standing outside it.",
   "scenario": "instruction-a-procedure",
-  "label": "HI",
-  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
-  "recorded": "2026-09-04",
-  "skill_version": "6.1.0"
+  "label": "MG",
+  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
 }

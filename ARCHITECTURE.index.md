@@ -370,8 +370,8 @@
 | INV-315 | guardrails |
 | INV-316 | director |
 | INV-317 | director |
-| INV-318 | director |
-| INV-319 | director |
+| INV-318 | build-pipeline |
+| INV-319 | build-pipeline |
 | INV-321 | spec-author |
 | INV-322 | guardrails |
 | INV-323 | guardrails |

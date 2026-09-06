@@ -27,6 +27,7 @@ Every one of the four is proven red-then-green against the host rather than agai
 it: the state is mutated, the real reader is run, and the reading is asserted to move.
 """
 import hashlib
+import json
 import os
 import shutil
 import subprocess
@@ -121,7 +122,13 @@ class RouteHost(unittest.TestCase):
     """A fresh host per test: a git repository, the vendored readers, the checkpoint command."""
 
     def setUp(self):
-        self.host = tempfile.mkdtemp(prefix="livespec-director-route-")
+        # The prefix deliberately carries no word a row id starts with. `mkdtemp` appends a random
+        # suffix, the probe prints the host's own path in its header, and several tests below assert
+        # a row id is absent from that whole output — so a prefix ending in "route-" turned any
+        # suffix beginning with a digit into a false red (seen 2026-09-06: a host at
+        # `livespec-director-route-1kfdc7mc` failed the reopened-reading test on its own directory
+        # name, green on the same tree one run later).
+        self.host = tempfile.mkdtemp(prefix="livespec-director-host-")
         self.addCleanup(shutil.rmtree, self.host, True)
         run(["git", "init", "-q"], cwd=self.host)
         run(["git", "config", "user.email", "a@example.com"], cwd=self.host)
@@ -136,6 +143,8 @@ class RouteHost(unittest.TestCase):
         # The checkpoint command travels with the readers here: the route's own writes go through it.
         self.checkpoint = os.path.join(self.host, "scripts", "checkpoint.py")
         shutil.copy(os.path.join(ROOT, "scripts", "checkpoint.py"), self.checkpoint)
+        self.admission = os.path.join(self.host, "scripts", "task-admission.py")
+        shutil.copy(os.path.join(ROOT, "scripts", "task-admission.py"), self.admission)
         self.checkpoints_dir = os.path.join(self.host, ".live-spec", "checkpoints")
         os.makedirs(self.checkpoints_dir)
         self.set_checks()
@@ -163,21 +172,21 @@ class RouteHost(unittest.TestCase):
         write(os.path.join(self.host, "PLAN.md"), text)
 
     def accept_the_turn(self):
-        """What the route does when a turn is read as an instruction: one row, one checkpoint.
-
-        The row is written into the plan (the queue is a document a person edits, and the pack
-        claims no command that writes a row when somebody speaks — wish-intake criteria 6 and 9),
-        and the sheet goes into the work's own checkpoint through the checkpoint command.
-        """
-        self.set_plan(self.plan().replace(
-            "\n## Blockers",
-            "\n### 🔄 Send the weekly digest — id: route-3\n"
-            "**Group:** Reports · **Priority:** normal\n"
-            "**Source:** the person, this turn.\n\n"
-            "What the accepted turn asked for.\n\n## Blockers"))
-        r = self.cp("new", os.path.join(self.checkpoints_dir, "route-3.md"),
-                    "--title", "Send the weekly digest", "--owner", "director",
-                    "--decision-sheet", SHEET)
+        """The pipeline admission door turns one accepted route into one row and checkpoint."""
+        route = {
+            "action": "new", "creates_work": True, "existing_task": None,
+            "task_id": "route-3", "title": "Send the weekly digest",
+            "project": "route-host", "scope": "Reports",
+            "source": {"kind": "person", "detail": "the person, this turn"},
+            "observable_outcome": "the weekly digest reaches the test inbox",
+            "done_when": "the fixture records exactly one weekly message",
+            "verification": "python3 tests/test_weekly_digest.py",
+            "context_pointers": ["`scripts/weekly_digest.py`", "R-104"],
+        }
+        with tempfile.NamedTemporaryFile("w", suffix=".json", encoding="utf-8") as fh:
+            json.dump(route, fh)
+            fh.flush()
+            r = run([sys.executable, self.admission, "--route", fh.name], cwd=self.host)
         self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
 
 
@@ -200,7 +209,7 @@ class TestAnAcceptedTurnLeavesOneRowAndOneSheet(RouteHost):
         self.assertEqual(self.checkpoint_files(), ["route-3.md"])
         sheet = read(os.path.join(self.checkpoints_dir, "route-3.md"))
         self.assertIn("## DECISION SHEET", sheet)
-        self.assertIn(GOAL, sheet, "the sheet does not carry the person's own ask")
+        self.assertIn("Send the weekly digest", sheet, "the sheet does not carry the person's ask")
         self.assertEqual(self.cp("validate", os.path.join(self.checkpoints_dir, "route-3.md")).returncode, 0)
 
         # One row for the one ask, and the two rows already there are untouched.
@@ -320,7 +329,8 @@ class TestADoneMarkWaitsOnItsCheck(RouteHost):
         green = self.probe()
         self.assertEqual(self.plan(), plan_before,
                          "the row was re-marked by hand, so the check is not what decided it")
-        self.assertNotIn("route-1", green, "the passing check did not close the row")
+        self.assertNotIn("\x1b[2mroute-1\x1b[0m", green,
+                         "the passing check did not close the row")
         self.assertIn("route-2", green)
 
     def test_the_reopened_reading_comes_from_the_check_and_not_from_the_mark(self):

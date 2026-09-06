@@ -728,9 +728,11 @@ class TestVersionsAndPins(unittest.TestCase):
 class TestDoors(unittest.TestCase):
     def test_next_steps_live_state(self):
         body = read("NEXT_STEPS.md")
-        blocks = re.findall(r"^## LIVE STATE", body, re.M)
-        self.assertEqual(len(blocks), 1, "LIVE STATE blocks must be replaced, never stacked")
-        self.assertRegex(body, r"## LIVE STATE \(\d{4}-\d{2}-\d{2}", "LIVE STATE carries no date")
+        blocks = re.findall(r"^## TRANSIENT EXECUTION STATE", body, re.M)
+        self.assertEqual(len(blocks), 1, "transient state blocks must be replaced, never stacked")
+        self.assertRegex(body, r"## TRANSIENT EXECUTION STATE \(\d{4}-\d{2}-\d{2}",
+                         "transient state carries no date")
+        self.assertNotRegex(body, r"(?m)^## (?:Tasks|Forward queue)\b")
 
     def test_adopt_phases_cite_spec(self):
         body = read_flat("adopt/ADOPT.md")
@@ -898,8 +900,8 @@ class TestDoorLawAndPrototype(unittest.TestCase):
 
     def test_night_batch_skill_rules(self):
         # rows 79/81/82/87: worker briefs, excuses table, two one-liners, decision-file numbering
-        # (delegation-protocol.md and excuses-table.md moved to director/ in the build-pipeline cutover)
-        bp = re.sub(r"\s+", " ", read_all("skills/director/SKILL.md"))
+        # (delegation-protocol.md and excuses-table.md live in build-pipeline/references/ after q-822)
+        bp = re.sub(r"\s+", " ", read_all("skills/build-pipeline/SKILL.md"))
         self.assertIn("The brief is self-contained", bp, "director lost the worker-brief rule")
         self.assertIn("The excuses table", bp, "director lost the excuses table")
         self.assertIn("Size never picks the door", bp)
@@ -1489,14 +1491,22 @@ class TestTargetOwnership(unittest.TestCase):
         # on the owner's board without him asking. The binding this clause wants is real and it is
         # written where a finding belongs: docs/prover/2026-09-04-repairs-recheck.md. If it still
         # matters, a later review finds it again; if he wants it, he says so and it becomes a row.
-        # Re-pointed 2026-09-01: q-385 was folded into q-398 on 2026-08-28 and never worked — q-398
-        # landed 2026-09-01 doing only its own stated acceptance (the routing-preamble hook, INV-190)
-        # and never touched this row's promise. q-385 is back on the board as its own open row and
-        # owns the anchor again, the same repair shape as q-437's 2026-08-31 re-pointing above.
-        # Still that row's on 2026-09-04: q-385 stands in PLAN.md as a deferred row parked on its
-        # own named revisit trigger (the first host declaring a contract in its card), which is where
-        # spec/queue-intake-priority.md R5 criterion 3 puts a row that is due back.
-        "INV-185": "q-385",  # the contract's three arms, still deferred to a host's first real contract
+        # INV-185's tag and its entry dropped together on 2026-09-06, and so did the row that owned
+        # them. q-385's revisit trigger was the first host declaring a contract in its own card. It
+        # never fired: every adopted project's `.live-spec/agent.md` under the person's home still
+        # reads "None today" under "Contracts this agent publishes" — twenty-six cards, this pack's
+        # own included — so there is no real producer and no real consumer for the row's three arms
+        # to be red-proven against, and its definition of done cannot honestly be met on a fixture.
+        # A deferred row whose trigger nobody can make fire is not a current commitment, so the row
+        # was declined rather than left standing (docs/queue-archive/rotated-PLAN-2026-09-06-q385-
+        # no-producer-declined.md), the criterion that carried the marker retired to
+        # attic/spec-public-contract-R194-C15.md, and the two matrix rows that named the row by
+        # number (M-362, M-364) say so instead. The default-deny LAW is untouched and still proven:
+        # criteria 4, 5 and 6 of the same requirement, M-362 at `string` level, and this file's own
+        # neighbours in tests/test_agent_channels.py. When a host first publishes a real contract,
+        # the gate is admitted then through scripts/task-admission.py against that real pair — the
+        # note sits in Requirement 194's own Context, where whoever writes that first contract
+        # lands.
         # Re-pointed 2026-09-01: these three carried on row 386 from its own first writing (never
         # folded in from elsewhere), and q-386 closed 2026-09-01 on its own four-leg acceptance
         # without touching them — orphaned the same way q-385 was. q-804 is the fresh row that
@@ -1697,8 +1707,8 @@ class TestWorkerContract(unittest.TestCase):
             "carry the clock into the brief",
         ):
             self.assertIn(needle, flat_spec, "SPEC ACT-3 missing: %s" % needle)
-        # delegation-protocol.md moved to director/ in the build-pipeline cutover
-        pipeline = read_all(os.path.join("skills", "director", "SKILL.md"))
+        # delegation-protocol.md lives in build-pipeline/references/ after the q-822 split
+        pipeline = read_all(os.path.join("skills", "build-pipeline", "SKILL.md"))
         flat_pipe = " ".join(pipeline.split())
         for needle in (
             "the worker never hunts context",
@@ -1706,7 +1716,7 @@ class TestWorkerContract(unittest.TestCase):
             "carries the CLOCK",
             "never an invented hour",
         ):
-            self.assertIn(needle, flat_pipe, "director missing: %s" % needle)
+            self.assertIn(needle, flat_pipe, "build-pipeline missing: %s" % needle)
         matrix = read("TEST_MATRIX.md")
         self.assertIn("test_brief_carries_ledger_and_clock", matrix,
                       "M-119 must pin this test (row 123)")
@@ -1720,8 +1730,8 @@ class TestWorkerContract(unittest.TestCase):
                        "escalate one tier with a logged line",
                        "[ACT-3]"):  # "It never retries silently on the same tier, and never skips a rung"
             self.assertIn(phrase, spec, "SPEC ACT-3 lost the worker-contract clause: %s" % phrase)
-        # delegation-protocol.md moved to director/ in the build-pipeline cutover
-        bp = re.sub(r"\s+", " ", read_all("skills/director/SKILL.md"))
+        # delegation-protocol.md lives in build-pipeline/references/ after the q-822 split
+        bp = re.sub(r"\s+", " ", read_all("skills/build-pipeline/SKILL.md"))
         for phrase in ("The worker contract (SPEC ACT-3)",
                        "fence alarms on foreign sessions",
                        "never resolves the settings ladder itself",
@@ -1743,8 +1753,8 @@ class TestWorkerContract(unittest.TestCase):
         # D-2 is decided, no longer open
         self.assertNotIn("tier routing override | Open decisions", spec,
                          "D-2 still reads as an open override choice — row 56 decides it")
-        # delegation-protocol.md moved to director/ in the build-pipeline cutover
-        bp = re.sub(r"\s+", " ", read_all("skills/director/SKILL.md"))
+        # delegation-protocol.md lives in build-pipeline/references/ after the q-822 split
+        bp = re.sub(r"\s+", " ", read_all("skills/build-pipeline/SKILL.md"))
         for phrase in ("The routing rule (SPEC INV-69)",
                        "propose the cheapest tier that can pass the brief",
                        "economy rung moves the threshold",
@@ -2021,8 +2031,8 @@ class TestMinedGapFolds(unittest.TestCase):
             self.assertIn(phrase, pp, "product-prover Phase 4 lost the domain-language lens: %s" % phrase)
 
     def test_gap6_delegation_savings_line(self):
-        # delegation-protocol.md moved to director/ in the build-pipeline cutover
-        bp = re.sub(r"\s+", " ", read_all("skills/director/SKILL.md"))
+        # delegation-protocol.md lives in build-pipeline/references/ after the q-822 split
+        bp = re.sub(r"\s+", " ", read_all("skills/build-pipeline/SKILL.md"))
         for phrase in ("Every delegation reports its saving",
                        "roughly how much senior work it saved",
                        "quietly stopped delegating"):
@@ -2114,16 +2124,11 @@ class TestProblemLedger(unittest.TestCase):
         spec = read_flat("PRODUCT_SPEC.md")
         for needle in ("T-17", "INV-26", "closes only whole"):
             self.assertIn(needle, spec)
-        # T-17 (one wish = one story) and INV-26 (row closes only whole) now live in director's
-        # own vocabulary (acts, checkpoints) — reworded, not the literal SPEC phrase, in the
-        # build-pipeline cutover.
+        # T-17 classification stays at the first read; INV-26 close semantics live in the pipeline.
         director = read_all_flat(os.path.join("skills", "director", "SKILL.md"))
-        for needle in (
-            "Taking acts apart is not the same as splitting a goal",
-            "refuses to close over content still marked open",
-        ):
-            self.assertIn(needle, director, "director missing: %s" % needle)
-        self.assertIn("INV-26", read_flat(os.path.join("templates", "NEXT_STEPS.template.md")))
+        pipeline = read_all_flat(os.path.join("skills", "build-pipeline", "SKILL.md"))
+        self.assertIn("Taking acts apart is not the same as splitting a goal", director)
+        self.assertIn("refuses to close over content still marked open", pipeline)
         self.assertIn("INV-26", read_flat(os.path.join("templates", "PLAN.template.md")))
 
     def test_capture_echo_and_board(self):
@@ -2206,7 +2211,7 @@ class TestProblemLedger(unittest.TestCase):
         spec = read_flat("PRODUCT_SPEC.md")
         for needle in ("INV-30", "visitor walk", "feel pass"):
             self.assertIn(needle, spec, "SPEC missing: %s" % needle)
-        wkt = read_all_flat("skills/director/references/work-kind-table.md")
+        wkt = read_all_flat("skills/build-pipeline/references/work-kind-table.md")
         for needle in ("VISITOR WALK", "FEEL pass"):
             self.assertIn(needle, wkt, "director's work-kind table missing: %s" % needle)
 
@@ -2424,13 +2429,13 @@ class TestProblemLedger(unittest.TestCase):
             self.assertIn(needle, author, "spec-author missing: %s" % needle)
         ta = re.sub(r"\s+", " ", read_all(os.path.join("skills", "test-author", "SKILL.md")))
         self.assertIn("plan-vs-prototype diff", ta, "test-author missing: plan-vs-prototype diff")
-        bc = re.sub(r"\s+", " ", read_all("skills/director/references/build-craft.md"))
+        bc = re.sub(r"\s+", " ", read_all("skills/build-pipeline/references/build-craft.md"))
         self.assertIn("OPEN the artifact before building", bc,
-                      "director/references/build-craft.md missing: OPEN the artifact before building")
-        # mockup-first-entry.md moved to director/ in the build-pipeline cutover
-        director = re.sub(r"\s+", " ", read_all(os.path.join("skills", "director", "SKILL.md")))
+                      "build-pipeline/references/build-craft.md missing: OPEN the artifact before building")
+        # mockup-first-entry.md lives in build-pipeline/references/ after the q-822 split
+        director = re.sub(r"\s+", " ", read_all(os.path.join("skills", "build-pipeline", "SKILL.md")))
         for needle in ("entry: mockup-first", "only by the human naming it"):
-            self.assertIn(needle, director, "director missing: %s" % needle)
+            self.assertIn(needle, director, "build-pipeline missing: %s" % needle)
         prover = re.sub(r"\s+", " ", read(os.path.join("skills", "product-prover-pack", "SKILL.md")))
         for needle in ("`norm: <path>`", "contradicting its own artifact"):
             self.assertIn(needle, prover, "product-prover missing: %s" % needle)
@@ -2469,7 +2474,7 @@ class TestProblemLedger(unittest.TestCase):
                        "The map is conservative: anything it cannot classify falls to the full run",
                        "every check the diff can reach is green at the tree's head"):
             self.assertIn(needle, spec, "SPEC missing: %s" % needle)
-        gc = re.sub(r"\s+", " ", read_all("skills/director/references/guardrails-catalog.md"))
+        gc = re.sub(r"\s+", " ", read_all("skills/build-pipeline/references/guardrails-catalog.md"))
         self.assertIn("every check the diff can reach", gc,
                       "guardrails-catalog missing the reach sentence")
         self.assertTrue(
@@ -2496,14 +2501,14 @@ class TestProblemLedger(unittest.TestCase):
                        "a differently-contexted head is briefed from the primary sources",
                        "One fresh checker *shall* cover every law in a delivery batch"):
             self.assertIn(needle, spec, "SPEC missing: %s" % needle)
-        # verify-step-detail.md moved to director/ in the build-pipeline cutover; two of the four
-        # needles below were reworded there (never the senior's own plan -> never the Director's
+        # verify-step-detail.md lives in build-pipeline/references/ after the q-822 split; two of the four
+        # needles below were reworded there (never the senior's own plan -> never the pipeline's
         # own plan; the REQUIRED clause -> "fires when... high-stakes AND its only review... is
         # the author's own").
-        pipe = read_flat("skills/director/references/verify-step-detail.md")
+        pipe = read_flat("skills/build-pipeline/references/verify-step-detail.md")
         for needle in ("tasks completed, goal missed",
                        "TODO · FIXME · placeholder · lorem · hardcoded sample · empty function body",
-                       "never the worker's summary, never the Director's own plan",
+                       "never the worker's summary, never the pipeline's own plan",
                        "high-stakes AND its only review so far is the author's own"):
             self.assertIn(needle, pipe, "director verify-step-detail missing: %s" % needle)
 
@@ -2523,15 +2528,15 @@ class TestProblemLedger(unittest.TestCase):
                        "the landing order declared at claim time, the later lane re-fencing on the new truth",
                        "convergence point", "never a serializing surface"):
             self.assertIn(needle, spec, "SPEC missing: %s" % needle)
-        # lanes-and-pen.md moved to director/ in the build-pipeline cutover
-        pipe = re.sub(r"\s+", " ", read_all(os.path.join("skills", "director", "SKILL.md")))
+        # lanes-and-pen.md lives in build-pipeline/references/ after the q-822 split
+        pipe = re.sub(r"\s+", " ", read_all(os.path.join("skills", "build-pipeline", "SKILL.md")))
         # Re-pinned 2026-08-31 (plan-16): the heading now reads "The graph picks the lane set,
         # never mood" — same rule, worded to match the reference's own title after the lane law
         # converged to its one home in the base rulebook.
         for needle in ("The graph picks the lane set", "rows ride serial",
                        "DECLARED at claim", "never a serializing surface",
                        "convergence point"):
-            self.assertIn(needle, pipe, "director missing: %s" % needle)
+            self.assertIn(needle, pipe, "build-pipeline missing: %s" % needle)
         # the refuted 'doc region' wording must not survive on M-147, INV-49's own row
         m147 = next((ln for ln in read("TEST_MATRIX.md").splitlines() if ln.startswith("| M-147 |")), "")
         self.assertNotIn("doc region", m147, "M-147 still carries the refuted 'doc region' edge wording")
@@ -2580,11 +2585,11 @@ class TestProblemLedger(unittest.TestCase):
                        "two consecutive unexplained failures",
                        "never inlined file bodies"):
             self.assertIn(needle, spec, "SPEC missing: %s" % needle)
-        # delegation-protocol.md moved to director/ in the build-pipeline cutover
-        pipe = re.sub(r"\s+", " ", read_all(os.path.join("skills", "director", "SKILL.md")))
+        # delegation-protocol.md lives in build-pipeline/references/ after the q-822 split
+        pipe = re.sub(r"\s+", " ", read_all(os.path.join("skills", "build-pipeline", "SKILL.md")))
         for needle in ("READING them in full", "closed HALT list",
                        "~300 lines", "never inlined file bodies"):
-            self.assertIn(needle, pipe, "director missing: %s" % needle)
+            self.assertIn(needle, pipe, "build-pipeline missing: %s" % needle)
 
     def test_limp_never_dams_flow(self):
         """Row 153 (M-155, INV-56): a known owned problem parks; unrelated lanes
@@ -2653,10 +2658,10 @@ class TestProblemLedger(unittest.TestCase):
         for needle in ("INV-62", "INV-63", "cheapest judgeable sample",
                        "the five-round trap"):
             self.assertIn(needle, spec, "SPEC missing: %s" % needle)
-        bc = re.sub(r"\s+", " ", read_all("skills/director/references/build-craft.md"))
+        bc = re.sub(r"\s+", " ", read_all("skills/build-pipeline/references/build-craft.md"))
         for needle in ("build smallest-first", "reopens its SOURCE",
                        "cheapest judgeable sample"):
-            self.assertIn(needle, bc, "director/references/build-craft.md missing: %s" % needle)
+            self.assertIn(needle, bc, "build-pipeline/references/build-craft.md missing: %s" % needle)
 
     def test_review_provenance_commentable(self):
         """Row 161 (M-163, INV-64): review surfaces carry per-claim provenance and
@@ -2736,33 +2741,33 @@ class TestProblemLedger(unittest.TestCase):
         for needle in ("The level ladder", "Red first, proven", "Pin the skip-set",
                        "Normally invoked by director"):
             self.assertIn(needle, skill, "test-author skill missing: %s" % needle)
-        director_skill = re.sub(r"\s+", " ", read("skills/director/SKILL.md"))
-        self.assertIn("Test author", director_skill, "director's specialist table missing Test author")
-        self.assertIn("skills/test-author", director_skill, "director's specialist table missing the test-author path")
+        pipeline_skill = re.sub(r"\s+", " ", read_all_flat("skills/build-pipeline/SKILL.md"))
+        self.assertIn("Test author", pipeline_skill, "pipeline's specialist procedure missing Test author")
+        self.assertIn("skills/test-author", pipeline_skill, "pipeline's specialist procedure missing the test-author path")
         readme = re.sub(r"\s+", " ", read("README.md"))
         self.assertIn("test-author", readme, "README missing the new skill")
 
     def test_director_names_test_author_at_the_derivation_step(self):
         """Row 163 (M-620, E-27): the shipping walk names test-author at the exact
-        step where the evidence and the regressions are chosen — the Director's
-        specialist table — never merely somewhere in the file; and the method
+        step where the evidence and the regressions are chosen — the pipeline's
+        specialist procedure — never merely somewhere in the file; and the method
         itself stays test-author's own, never restated beside the call."""
-        director_skill = read_flat(os.path.join("skills", "director", "SKILL.md"))
+        pipeline_skill = read_all_flat(os.path.join("skills", "build-pipeline", "SKILL.md"))
         # the exact table row pairing the call condition with the skill path — not
         # "Test author" and "skills/test-author" occurring anywhere in the file,
         # which an unrelated mention would also satisfy
         self.assertIn(
-            "| Test author | the evidence and the regressions have to be chosen | `skills/test-author` |",
-            director_skill,
-            "director's specialist table does not pair test-author with the test-derivation "
+            "| Test author | the evidence and the regressions have to be chosen | `skills/test-author/SKILL.md` |",
+            pipeline_skill,
+            "pipeline's specialist procedure does not pair test-author with the test-derivation "
             "call condition and its path in one row (red proven against a mutated copy of "
             "skills/director/SKILL.md with this row deleted; restored after)",
         )
         # the method itself (level ladder, red-first proof, pinned skip-set) lives once,
         # in test-author's own skill, never duplicated into the table that only calls it
         for needle in ("level ladder", "red-first", "skip-set"):
-            self.assertNotIn(needle, director_skill,
-                             "director restates test-author's own method instead of calling it: %s" % needle)
+            self.assertNotIn(needle, read_flat("skills/build-pipeline/SKILL.md"),
+                             "pipeline main page restates test-author's own method instead of calling it: %s" % needle)
         skill = read_flat(os.path.join("skills", "test-author", "SKILL.md"))
         for needle in ("The level ladder", "Red first, proven", "Pin the skip-set"):
             self.assertIn(needle, skill, "test-author skill missing its own stated method: %s" % needle)
@@ -2875,14 +2880,14 @@ class TestProblemLedger(unittest.TestCase):
                        "never cutting a pen-stage mid-edit",
                        "a prover run reading committed law"):
             self.assertIn(needle, spec, "SPEC missing: %s" % needle)
-        # lanes-and-pen.md moved to director/ in the build-pipeline cutover.
+        # lanes-and-pen.md lives in build-pipeline/references/ after the q-822 split.
         # Re-pinned 2026-08-31 (plan-16, one home per rule): the cap sentence was stated in full in
-        # BOTH the base rulebook and the director's reference. The base is its one home, so the
-        # asked-word needle is checked there now; the director's reference keeps only the half
+        # BOTH the base rulebook and the pipeline's reference. The base is its one home, so the
+        # asked-word needle is checked there now; the pipeline's reference keeps only the half
         # rule 7 leaves to the seat — the graph and the isolated tree it opens.
-        pipe = re.sub(r"\s+", " ", read_all(os.path.join("skills", "director", "SKILL.md")))
+        pipe = re.sub(r"\s+", " ", read_all(os.path.join("skills", "build-pipeline", "SKILL.md")))
         for needle in ("Trains, one pen", "SPEC T-18", "isolated tree"):
-            self.assertIn(needle, pipe, "director missing: %s" % needle)
+            self.assertIn(needle, pipe, "build-pipeline missing: %s" % needle)
         base = re.sub(r"\s+", " ", read(os.path.join("skills", "live-spec-base", "SKILL.md")))
         # The pen was spelled "PEN" in this rulebook and nowhere else, capitalised and undefined;
         # two independent cold readers stopped on it on 2026-09-04 (q-817's readability pass), so
@@ -3009,14 +3014,14 @@ class TestProblemLedger(unittest.TestCase):
                        "landed-first winning and the later lanes re-verifying",
                        "half of another train never rides a landing"):
             self.assertIn(needle, spec, "SPEC missing: %s" % needle)
-        # lanes-and-pen.md moved to director/ in the build-pipeline cutover.
+        # lanes-and-pen.md lives in build-pipeline/references/ after the q-822 split.
         # Re-pinned 2026-08-31 (plan-16, one home per rule): INV-39's clause stood in full in the
-        # base rule and again in the director's reference. The base is its one home, so the clause
-        # is read there; the director's reference keeps the landing's lane consequences, which are
+        # base rule and again in the pipeline's reference. The base is its one home, so the clause
+        # is read there; the pipeline's reference keeps the landing's lane consequences, which are
         # its own — the archive move and the re-fence the waiting lanes run afterwards.
         base = re.sub(r"\s+", " ", read(os.path.join("skills", "live-spec-base", "SKILL.md")))
         self.assertIn("exactly one row's delta", base, "base missing INV-39's clause")
-        pipe = re.sub(r"\s+", " ", read_all(os.path.join("skills", "director", "SKILL.md")))
+        pipe = re.sub(r"\s+", " ", read_all(os.path.join("skills", "build-pipeline", "SKILL.md")))
         self.assertIn("waiting lanes re-fence and re-run their gates on the new truth", pipe,
                       "director missing the landing's own lane consequence")
 
@@ -3844,7 +3849,7 @@ class TestGroundingLaw(unittest.TestCase):
             "[INV-314]",
         ):
             self.assertIn(needle, spec, "SPEC missing the grounding law: %s" % needle)
-        director = re.sub(r"\s+", " ", read_all(os.path.join("skills", "director", "SKILL.md")))
+        director = re.sub(r"\s+", " ", read_all(os.path.join("skills", "build-pipeline", "SKILL.md")))
         for needle in (
             "Each work block in the report opens by naming its root.",
             "The root is the person's dated request, a standing instruction, or a stated reason, "
@@ -3867,15 +3872,81 @@ class TestDirectorRedesignGaps(unittest.TestCase):
         )
 
     def test_refactor_is_a_third_high_stakes_trigger(self):
-        detail = read_all_flat("skills/director/references/verify-step-detail.md")
+        detail = read_all_flat("skills/build-pipeline/references/verify-step-detail.md")
         self.assertIn("High-stakes means one of three things", detail,
                       "verify-step-detail lost the third high-stakes condition")
         self.assertIn("behaviour-neutral refactor reshaping many files", detail,
                       "verify-step-detail lost the refactor high-stakes trigger")
 
     def test_docs_only_recheck_has_a_recipe(self):
-        detail = read_all_flat("skills/director/references/verify-step-detail.md")
+        detail = read_all_flat("skills/build-pipeline/references/verify-step-detail.md")
         self.assertIn(
             "re-read the changed section rendered, plus one grep", detail,
             "verify-step-detail lost the documentation-only re-check recipe",
         )
+
+
+class TestStateMachineFactsAreTraced(unittest.TestCase):
+    """The eight facts the turnkey contract's section 7B names, each traced to one built row.
+
+    The contract states the deterministic half of the Director's proof as eight facts, one
+    matrix row apiece. A row can read *built* while the test it names never existed, and a fact
+    can quietly lose its row when the matrix is edited, so the trace is walked here rather than
+    read by eye: the fact is quoted out of the contract itself, the row is looked up by id, its
+    status must read *built*, and the test its Owning-test cell names must actually be defined
+    under tests/ (or be a test FILE that exists there).
+    """
+
+    CONTRACT = os.path.join(ROOT, ".live-spec", "turnkey-contract-composed.md")
+
+    # fact (the contract's own words) -> (row id, one test the row names)
+    FACTS = {
+        "a question changes nothing":
+            ("M-630", "test_question_and_correction_write_nothing"),
+        "an instruction opens exactly one ticket":
+            ("M-630", "test_a_second_ticket_with_the_same_goal_is_refused"),
+        "a correction changes the ticket in hand":
+            ("M-631", "test_two_corrections_land_on_the_one_file_and_lose_nothing"),
+        "a worker gets the exact text":
+            ("M-637", "test_the_worker_brief_is_the_ticket_entry_plus_the_checkpoints_next_verbatim"),
+        "a failed done forbids ✅":
+            ("M-632", "test_a_done_mark_reads_reopened_until_the_check_passes_and_then_reads_done"),
+        "a proven done with delivery gives ✅":
+            ("M-639", "test_closing_closes_the_checkpoint_and_then_writes_the_mark"),
+        "a new session continues the same ticket":
+            ("M-633", "test_one_row_is_named_next_and_the_open_checkpoint_names_the_same_work"),
+        "a real blocker names its cause":
+            ("M-638", "test_a_blocker_names_one_of_the_three_kinds_and_the_concrete_thing"),
+    }
+
+    @classmethod
+    def setUpClass(cls):
+        with open(cls.CONTRACT, encoding="utf-8") as fh:
+            cls.contract = fh.read()
+        cls.rows = {r["id"]: r for block in matrix_blocks().values() for r in block}
+        cls.defined = set()
+        cls.files = set()
+        for name in os.listdir(os.path.join(ROOT, "tests")):
+            if not name.endswith(".py"):
+                continue
+            cls.files.add(name)
+            with open(os.path.join(ROOT, "tests", name), encoding="utf-8") as fh:
+                cls.defined.update(re.findall(r"(?m)^\s*def (test_\w+)", fh.read()))
+
+    def test_every_section_7b_fact_is_still_stated_in_the_contract(self):
+        for fact in self.FACTS:
+            self.assertIn(fact, self.contract,
+                          "the contract no longer states the fact this trace is built on")
+
+    def test_each_fact_traces_to_a_built_row_naming_a_real_test(self):
+        for fact, (row_id, test_name) in self.FACTS.items():
+            row = self.rows.get(row_id)
+            self.assertIsNotNone(row, "%s: no matrix row %s" % (fact, row_id))
+            self.assertEqual(row["status"], "*built*",
+                             "%s: row %s does not read built" % (fact, row_id))
+            self.assertIn(test_name, row["owning"],
+                          "%s: row %s does not name %s" % (fact, row_id, test_name))
+            self.assertTrue(
+                test_name in self.defined or test_name in self.files,
+                "%s: row %s names %s, which no test under tests/ defines"
+                % (fact, row_id, test_name))

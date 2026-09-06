@@ -596,6 +596,33 @@ class TestBothInstallRoutesReachTheTree(unittest.TestCase):
                 self.assertTrue(os.path.isfile(os.path.join(ROOT, match)),
                                 "the card names a file that does not ship: %s" % match)
 
+    def test_a_file_or_symlink_at_the_destination_is_backed_up_before_it_is_removed(self):
+        """install.sh's `rm -rf "$dest"` takes anything at that path; the backup above it only
+        covered a directory, so a skill installed as a file or a symlink — the shape a person
+        who symlinked one skill at the pack has — was deleted with no copy kept. Red-proved
+        2026-09-06 against `[ -d "$dest" ]`: the attic came back empty."""
+        with tempfile.TemporaryDirectory() as tmp:
+            home = os.path.join(tmp, "home")
+            skills = os.path.join(home, ".claude", "skills")
+            os.makedirs(skills)
+            victim = os.path.join(skills, "director")
+            with open(victim, "w", encoding="utf-8") as fh:
+                fh.write("a hand-placed file where a skill folder belongs\n")
+
+            r = subprocess.run(["bash", os.path.join(ROOT, "install.sh")],
+                               capture_output=True, text=True,
+                               env={**os.environ, "HOME": home})
+            self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+
+            attic = skills + "-attic"
+            kept = [n for n in os.listdir(attic)] if os.path.isdir(attic) else []
+            self.assertTrue([n for n in kept if n.startswith("director.bak_")],
+                            "the file at the destination was removed with no backup: %r" % kept)
+            backup = os.path.join(attic, [n for n in kept if n.startswith("director.bak_")][0])
+            with open(backup, encoding="utf-8") as fh:
+                self.assertEqual(fh.read(), "a hand-placed file where a skill folder belongs\n")
+            self.assertTrue(os.path.isdir(victim), "the skill did not install over the file")
+
     def test_a_version_disagreement_is_said_aloud(self):
         """Criterion 18 [M-7]."""
         body = flat(read(CARD))

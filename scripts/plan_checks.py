@@ -142,7 +142,10 @@ sys.exit(1 if undrawn or unmarked else 0)
     "plan-16": ("python3 tests/test_one_home_per_rule.py > /dev/null"
                 " && grep -q 'the one house whose declared sentence it extends'"
                 " skills/director/SKILL.md"),
-    "plan-17": "test -x scripts/plan-step.sh && grep -q 'plan-step.sh' CLAUDE.md",
+    # plan-17: tightened 2026-09-06. `test -x` decided only that the file is executable; the row
+    # promises a session can open ONE row instead of the whole plan, so the script is run and
+    # its output has to be that one row's heading and no other's.
+    "plan-17": "test \"$(bash scripts/plan-step.sh plan-17 | grep -c '^### ')\" = 1 && bash scripts/plan-step.sh plan-17 | grep -q 'id: plan-17$' && grep -q 'plan-step.sh' CLAUDE.md",
     # plan-12: the row's four acceptance legs, one arm each, and a fifth that runs the gate itself
     # rather than reading only the source that carries it. The first read has its requirement and its
     # node. The roster names the first read, and the check that proves roster and coverage table agree
@@ -157,7 +160,10 @@ sys.exit(1 if undrawn or unmarked else 0)
     # INV-322 reader could be emptied to `return []`, leaving the gate blind to a stray part, and
     # this key still exited 0. The proofs run for real now, by direct execution rather than through
     # a suite, the way plan-16's key already does — 0.4s for both files together.
-    "plan-12": "grep -q 'What runs next' skills/director/SKILL.md && grep -q 'which piece runs next where other accepted work stands open' spec/message-first-read.md && grep -q '^## Requirement 313' spec/message-first-read.md && grep -q '^### .node: director.$' architecture/pipeline-and-lanes.md && grep -q '^| F-first-read | director |' architecture/feature-coverage.md && PYTHONPATH=tests python3 -m unittest -q test_traceability.TestFeatureCoverage > /dev/null 2>&1 && python3 tests/test_spec_parts.py TestTheMapNamesEveryPart TestOneNumberNamesOneRequirement > /dev/null 2>&1 && python3 guardrails/check-index-generated.py PRODUCT_SPEC.md PRODUCT_SPEC.index.md >/dev/null",
+    # Re-pointed 2026-09-06: the "What runs next" field moved with the rest of execution out of
+    # director (which now classifies and routes only) into the pipeline's execution reference.
+    # The arm read the old owner and red on a move it should have followed.
+    "plan-12": "grep -q 'What runs next' skills/build-pipeline/references/accepted-work-execution.md && grep -q 'which piece runs next where other accepted work stands open' spec/message-first-read.md && grep -q '^## Requirement 313' spec/message-first-read.md && grep -q '^### .node: director.$' architecture/pipeline-and-lanes.md && grep -q '^| F-first-read | director |' architecture/feature-coverage.md && PYTHONPATH=tests python3 -m unittest -q test_traceability.TestFeatureCoverage > /dev/null 2>&1 && python3 tests/test_spec_parts.py TestTheMapNamesEveryPart TestOneNumberNamesOneRequirement > /dev/null 2>&1 && python3 guardrails/check-index-generated.py PRODUCT_SPEC.md PRODUCT_SPEC.index.md >/dev/null",
     # q-458: corrected 2026-09-01 — the old arm was three bare `test -f`/`test -d` clauses, the
     # exact file-existence proxy plan-10's own text names as a defect. Now reads the substance:
     # the external skill is installed with real content (not an empty directory), the pack's own
@@ -198,7 +204,11 @@ sys.exit(1 if undrawn or unmarked else 0)
     # q-590: the rulebook's own head names the retired numbers, so a host reading it sees the holes.
     "q-590": "grep -q 'Rule 30 went first' skills/live-spec-base/SKILL.md",
     # q-592: the assertion is pinned to the bullet's own sentence, not to the bare invariant code.
-    "q-592": "grep -q 'doc- and code-compaction stations run at every push' tests/test_compaction_discipline.py",
+    # q-592: tightened 2026-09-06. The arm grepped the assertion's own literal out of the test
+    # FILE, which decides only that the line is typed there — the test could red and this key
+    # still exited 0, the exact vacuous-anchor defect this row was opened to remove. It runs
+    # the strengthened test now (0.1s), so the assertion has to pass, not merely exist.
+    "q-592": "PYTHONPATH=tests python3 -m unittest -q test_compaction_discipline.TestCompactionIsContinuous.test_landing_law_carries_compaction_every_pass >/dev/null 2>&1",
     # q-593: the count is derived from the body and asserted against the frontmatter in one home;
     # of the three copies that carried the literal number, one dropped it outright and two became
     # pointers at that home.
@@ -387,6 +397,208 @@ for command in m.ALSO_DISCARDING:
     # exemption (rule-histories.md, the document already built to hold this skill's dated origin
     # notes) still declares its own purpose, so the exemption stays warranted.
     "q-803": "python3 tests/test_no_inline_provenance_citation.py >/dev/null 2>&1",
+    # ------------------------------------------------------------------ 2026-09-06 sweep
+    # Every ✅ row was re-run against its own acceptance this night. The rows below were closed on
+    # a named reading, which this plan's own law allows only where the result is prose, a
+    # measurement or a decision — each of these left behind a file, a script or a test that CAN
+    # drift back, so each now writes the command it owed. The rows left on their reading are the
+    # honest cases: q-205 and q-584 name plan-17 as what covers them (a second key would be two
+    # homes for one fact), q-612's subject is a frozen one-off review record nothing regenerates,
+    # and the rest close on a judgement or a person's read no command can stand in for.
+    #
+    # q-163: the pack-side half of the promise — director still names the derivation specialist,
+    # the matrix still carries its row, and the traceability test that ties the two runs for real.
+    # The field-project half of the row's acceptance names another project's tree and stays out.
+    "q-163": "grep -q 'skills/test-author' skills/director/SKILL.md && grep -q 'M-620' matrix/test-author.md && PYTHONPATH=tests python3 -m unittest -q test_traceability.TestProblemLedger.test_director_names_test_author_at_the_derivation_step >/dev/null 2>&1",
+    # q-611: both halves of the row — the review's public page still names the class duty, and a
+    # record carrying a point finding with no class line is still refused.
+    "q-611": "PYTHONPATH=tests python3 -m unittest -q test_class_hunt.TestClassHunt.test_readme_names_the_class_lens test_class_hunt.TestClassLineFixtures.test_a_point_finding_with_no_class_line_reds >/dev/null 2>&1",
+    # q-608: the row IS the agreement between two texts, so both sides are read — the filename
+    # shape the skill tells a reviewer to write, and the shape the gate actually enforces.
+    # Re-aimed 2026-09-06: the second arm greped `<slug>.md`, which occurs in that gate only
+    # inside its `echo "Fix: ..."` repair lines — deleting the enforcement outright and leaving
+    # the advice behind passed it. The date shape below is the gate's own selector
+    # (guardrails/check-prover-record.sh:156) and occurs once in the file.
+    "q-608": "grep -q 'YYYY-MM-DD-<slug>.md' skills/product-prover-pack/SKILL.md && grep -qF '/[0-9]{4}-[0-9]{2}-[0-9]{2}.*\\.md$' guardrails/check-prover-record.sh",
+    # q-536: the fourteen rulings the row settled live in the histories reference (moved there
+    # 04.09 off SKILL.md). Counted rather than pinned to one wording, so re-phrasing a ruling is
+    # not a red while losing one is.
+    "q-536": "test \"$(grep -c 'q-536 ruling' skills/communicator/references/rule-histories.md)\" -ge 14",
+    # q-815: the row's own definition of done, red-then-green — a discard recorded against the
+    # repository the gate's file lives in no longer blocks a different pushing host, and the same
+    # discard in the host's own history still does. Called directly rather than through pytest
+    # (the house style above), which is what makes it 0.3s and affordable at every session start.
+    "q-815": """PYTHONPATH=tests python3 -c "
+import tempfile, pathlib
+import test_worker_restore as m
+inst = m.TestOwnRepoFollowsThePushingHostNotWhereTheFileLives()
+for name in ('test_a_discard_where_the_scripts_own_file_lives_no_longer_blocks_a_different_pushing_host',
+             'test_the_same_discard_in_the_pushing_hosts_own_history_still_blocks'):
+    d = tempfile.TemporaryDirectory(); getattr(inst, name)(pathlib.Path(d.name)); d.cleanup()
+" >/dev/null 2>&1""",
+    # q-804: the row's own 2026-09-02 correction demanded the REAL caller be proven, after two of
+    # three scripts turned out to be built and never invoked. These three arms are exactly that:
+    # the landing walk calls the merge-base check, config-health reds a stale lane with no row,
+    # and the adoption walk reds a host with no vendored worktree line.
+    "q-804": "PYTHONPATH=tests python3 -m unittest -q test_lane_net_arms.TestTheLandingWalkRunsTheMergeBaseCheck.test_the_walk_reds_a_lane_that_never_rebased_and_leaves_main_where_it_was test_lane_net_arms.TestStaleLaneArm.test_a_lane_branch_with_no_row_at_all_reds test_scaffold_install.TestAdoptionGateWorktreeLine.test_the_adoption_walk_reds_a_host_with_no_worktree_line >/dev/null 2>&1",
+    # q-501: the row's acceptance is a first-time reader's read, which no command replaces. What a
+    # command CAN hold is the two false claims the close names by name (the discovery-pattern
+    # claim, the project count) and the two lints the close ran — so the page cannot silently
+    # regrow what the rewrite removed.
+    "q-501": """PYTHONPATH=tests python3 -m unittest -q test_readme_stance.TestReadmeKnownIssuesNoFalseDiscoveryPatternClaim >/dev/null 2>&1 && PYTHONPATH=tests python3 -c "
+import test_host_count_agrees as m
+m.test_the_front_page_states_no_project_count()
+" >/dev/null 2>&1 && python3 scripts/preshow-register-lint.py README.md >/dev/null 2>&1 && python3 guardrails/check-one-name.py README.md >/dev/null 2>&1""",
+    # q-810: the closing rule is proven where it actually runs — director's own recorded closing
+    # scenarios, rather than by reading the sentence that states it.
+    "q-810": """PYTHONPATH=tests python3 -c "
+import json
+import test_director_scenarios as m
+c = json.load(open(m.CLOSING, encoding='utf-8'))
+m.test_the_closing_suite_tests_both_outcomes(c)
+m.test_every_closing_verdict_matches_its_scenario(c)
+m.test_the_closing_grader_fails_a_wrong_verdict(c)
+" >/dev/null 2>&1""",
+    # q-806: the contract and both independent reviews of it are in the tree, the contract still
+    # carries the two-proof section the row turned on, and the checkpoints are TRACKED — the
+    # .gitignore fault this row's own review caught cannot come back silently.
+    "q-806": "test -f .live-spec/turnkey-contract-composed.md && test -f docs/prover/2026-09-02-turnkey-contract-review.md && test -f docs/prover/2026-09-02-turnkey-contract-review-fable.md && grep -q '^## 7. Two proofs for the Director' .live-spec/turnkey-contract-composed.md && git ls-files .live-spec/checkpoints/ | grep -q .",
+    # q-814: the carve-out red-then-green, both halves — a byte-identical vendor sync asks for no
+    # new record, and a hand edit to never-reviewed content still reds with the carve-out present.
+    "q-814": """PYTHONPATH=tests python3 -c "
+import test_skill_review as m
+m.test_vendor_sync_of_previously_reviewed_content_needs_no_new_record()
+m.test_hand_edit_to_never_reviewed_content_still_reds_with_carveout_present()
+" >/dev/null 2>&1""",
+    # q-570: the measuring line the row left behind is still wired and still measures. The extras
+    # script is READ, not run: running it reaches into the person's home for the real figure, which
+    # would red on a fresh clone for a reason about the machine rather than the project.
+    "q-570": "grep -q 'state-probe-extras.sh' scripts/state-probe.sh && grep -q 'required context (boot + profile + base + director)' scripts/state-probe-extras.sh && grep -q 'CTX_TOK=' scripts/state-probe-extras.sh",
+    # q-576: the two numbers the sweep could not source carry their own admission at the number,
+    # which is what the row landed instead of deleting working defaults, and the sweep's report
+    # stays in the tree.
+    "q-576": "grep -q 'No incident or source behind either figure below; engineering defaults, not policy decisions.' scripts/wind-down.py && grep -q 'No source behind the exact 3 (2026-08-07 census, row 15)' guardrails/check-vocabulary.py && test -f docs/prover/2026-09-01-every-number-in-the-tree.md",
+    # plan-4: the glossary's convergence entry for the name this row settled, both halves — the one
+    # name kept, and the source's other names recorded as its aliases rather than dropped.
+    "plan-4": "grep -q 'The glossary keeps the one name' skills/live-spec-base/references/glossary.md && grep -q \"records the senior and the orchestrator as the source's other names for it\" skills/live-spec-base/references/glossary.md",
+    # plan-5: the pack-side half only. The reviewer body itself is an external canonical clone
+    # (skills/product-prover/ holds its own .git and no file of it is tracked here), so a check
+    # reading it would red on a fresh clone for a reason about the machine. What this tree owns is
+    # the binding: the code request routes to Code mode and points at the prover's code lenses.
+    "plan-5": "grep -q '^## Code mode' skills/product-prover-pack/SKILL.md && grep -q '| `CODE-REVIEW` | Code mode' skills/product-prover-pack/SKILL.md && grep -q 'reference/code-lenses.md' skills/product-prover-pack/SKILL.md",
+    # plan-14: what the row actually left installable — both adoption walks call the status-view
+    # installer, and the probe reads its host roster from a profile line instead of the hard-coded
+    # five-host list the row removed, so no host name can creep back in. The scratch-host suite
+    # (tests/test_status_view_install.py) proves the same thing and costs 8s, too much to run at
+    # every session start for one row; it runs in the suite.
+    "plan-14": "grep -q 'install-status-view.sh' adopt/ADOPT.md && grep -q 'install-status-view.sh' MIGRATION.md && grep -q 'hosts.watch:' scripts/state-probe.sh && ! grep -qE 'tlvphotos|track-coach' scripts/state-probe.sh",
+    # q-166: the board's own columns are still defined and a real render still stands every row
+    # in exactly one of them. The generator is run against a THROWAWAY tree, never this one — it
+    # recomputes every command in this table, so a key that rendered the real board would run the
+    # whole table inside one of its own entries.
+    #
+    # Re-aimed twice. 2026-09-06 (morning): the four-column pseudo-kanban this key was written
+    # against became the work board's own awaiting-validation / ready / in-work / done, and the key
+    # was pinned to the old tuples' literal text. 2026-09-06 (night): the two arms that greped
+    # `board.html` were unconditional template text in a file `.gitignore` keeps out of the tree —
+    # red on a fresh clone for a reason about the machine, and green on a page that had dropped
+    # every row into one column. It calls the real test of that promise now, directly rather than
+    # through pytest (0.5s, the house style above).
+    "q-166": """grep -q '("inwork", "In work"' scripts/render-board.sh && grep -q '("done", "Done"' scripts/render-board.sh && PYTHONPATH=tests python3 -c "
+import json, pathlib, tempfile
+import test_work_board as m
+d = tempfile.TemporaryDirectory()
+tree = m._build_tree(pathlib.Path(d.name))
+assert m._run(tree).returncode == 0
+m.test_m523_every_row_stands_in_exactly_one_column(
+    {'tree': tree, 'page': pathlib.Path(tree, 'board.html').read_text(encoding='utf-8'),
+     'model': json.loads(m._run(tree, '--json').stdout)})
+d.cleanup()
+" >/dev/null 2>&1""",
+    # q-816: Requirement 309's five acceptance criteria — a card per task in columns, the lanes,
+    # the given-vs-actual time, the per-agent craft, and the one registered link. Four of them are
+    # proven by rendering a THROWAWAY tree and calling the matrix's own tests on the page that
+    # comes out; the fifth, the registry row, is read off `SURFACES.md` where it is tracked.
+    #
+    # Re-aimed 2026-09-06 (night). Until then four arms greped `board.html`, which `.gitignore`
+    # keeps out of the tree: on a fresh clone the row read red for a reason about the machine, and
+    # the strings it looked for (`col inwork`, `lanes busy`, `Waiting on you`) are written by the
+    # template on every render, so they stood whether or not a single row had landed in the right
+    # column. The direct calls below fail when the promise fails.
+    #
+    # The last arm is criterion 8, the one stable published link the row's own acceptance names.
+    # It is unbuilt: `spec/work-board.md` still carries its own-line `[target]` marker under
+    # Requirement 309 and under criterion 8, and by this project's own S-0 convention a
+    # landed promise drops its marker in the same commit. So this key reds while the link is
+    # unbuilt, which is what a blocked row's command must do — a passing command on a ⛔ row
+    # draws it back as done (`scripts/plan_checks_core.py`'s `evaluate`).
+    #
+    # NOTHING HERE MAY DEPEND ON q-816's OWN MARK, and nothing here renders THIS tree. The board
+    # runs this key while drawing itself, so a marker that only appears when q-816 is open (an open
+    # card's chip, say) would make the row oscillate: the key passes, the row draws as done, the
+    # marker disappears, the key fails, the row draws as open again. The fixture tree carries its
+    # own plan and its own empty check map, so nothing below reads a real row's state.
+    "q-816": """PYTHONPATH=tests python3 -c "
+import json, pathlib, tempfile
+import test_work_board as m
+d = tempfile.TemporaryDirectory()
+tree = m._build_tree(pathlib.Path(d.name))
+assert m._run(tree).returncode == 0
+b = {'tree': tree, 'page': pathlib.Path(tree, 'board.html').read_text(encoding='utf-8'),
+     'model': json.loads(m._run(tree, '--json').stdout)}
+m.test_m519_one_surface_one_source_file_one_stable_link(b)
+m.test_m525_lanes_match_the_cap_free_lanes_read_free_parked_row_kept(b)
+m.test_m526_card_reads_as_a_task_at_a_glance(b)
+m.test_m530_the_craft_set_has_one_home_and_no_skill_name_reaches_a_card(b)
+m.test_m536_the_row_carries_the_time_it_was_given_beside_the_time_it_took(b)
+d.cleanup()
+" >/dev/null 2>&1 && grep -q 'def time_pair' scripts/render-board.sh && grep -q 'CRAFTS = (' scripts/render-board.sh && grep -q '| work-board |' SURFACES.md && grep 'M-519' matrix/work-board.md | grep -q '[*]built[*]' && test \"$(grep -c '^ *\\[target\\]$' spec/work-board.md)\" -eq 0""",
+    # q-813: all four things the row landed — director's own idea-act outcomes, the restored
+    # Requirement 309, the retired idea-shelf requirement staying retired, and no second list.
+    "q-813": "grep -q 'a passing thought is answered and not recorded' skills/director/SKILL.md && grep -q '^## Requirement 309' spec/work-board.md && test -f attic/spec-message-first-read-R315.md && ! grep -q '^## Requirement 315' spec/message-first-read.md && test ! -f IDEA_SHELF.md",
+    # q-812: the route proven on the mechanism, not the instructions — a done mark reads reopened
+    # until its own check passes. One node of the end-to-end file rather than all eleven: the rest
+    # build disposable hosts and cost 8s, which no session start should pay for one row.
+    "q-812": "PYTHONPATH=tests python3 -m unittest -q test_director_route_end_to_end.TestADoneMarkWaitsOnItsCheck.test_a_done_mark_reads_reopened_until_the_check_passes_and_then_reads_done >/dev/null 2>&1 && grep -q 'M-630' matrix/build-pipeline.md && test -f docs/prover/2026-09-03-q812-director-route-contract.md",
+    # q-822: the row's own Done-when, one clause per arm, all of them cheap enough for the probe
+    # to run at every session start. The full proofs are four suite files this key deliberately
+    # does NOT run — `tests/test_front_door_boundaries.py`, `tests/test_next_steps_boundary.py`,
+    # `tests/test_task_admission.py` and `tests/test_director_scenarios.py`, 31 tests in 1.2s,
+    # which is 1.2s more than a morning command should pay and which the neighbouring test
+    # `test_every_check_is_cheap_enough_for_the_probe` forbids outright. What stays here is the
+    # smallest thing that reds if any arm is undone:
+    #   - the Director holds a route contract and no execution procedure (no `## Execution`
+    #     heading, no mention of the checkpoint script it must never run);
+    #   - a question, musing or conversation loads no pipeline;
+    #   - the pipeline's execution reference is where the checkpoint lives instead;
+    #   - `NEXT_STEPS.md` carries no task id, so it cannot be a second board;
+    #   - the two required-context files this tree owns are lighter than at the row's opening
+    #     (34,057 + 33,294 = 67,351 then; 34,057 + 21,977 now). The boot file and the person's
+    #     profile make up the rest of the figure the probe prints and live outside git, so a key
+    #     reading them would red on a fresh clone for a reason about the machine;
+    #   - the Director's scenarios still score at least the 34 of 36 they were recorded at. A
+    #     floor, not an exact match: a rise passes, a fall reds. It cannot be `check.py --all`
+    #     exit 0, which demands 36 of 36 — a score this set has hit once in eight recordings.
+    "q-822": "grep -q '^## Route contract' skills/director/SKILL.md && ! grep -q 'scripts/checkpoint.py' skills/director/SKILL.md && ! grep -q '^## Execution' skills/director/SKILL.md && grep -q 'answered without loading a pipeline' skills/director/SKILL.md && grep -q 'scripts/checkpoint.py' skills/build-pipeline/references/accepted-work-execution.md && ! grep -qE '(q|plan)-[0-9]+' NEXT_STEPS.md && test \"$(cat skills/live-spec-base/SKILL.md skills/director/SKILL.md | wc -c | tr -d ' ')\" -lt 67351 && python3 evals/director/check.py --all 2>/dev/null | grep 'recorded runs pass' | awk '{exit !($1>=32 && $3==36)}'",
+    # q-823: one instruction travels the whole path. The row's own Verification runs five suite
+    # files in 23s, which no session start may pay and which the probe's own cheapness rule
+    # forbids outright, so this key runs the smallest thing that reds if any arm is undone:
+    #   - the eight section-7B facts still trace, each from a matrix row reading built to a test
+    #     that is really defined under tests/ (one unittest node, 0.2s — the row's heaviest
+    #     clause and the only one a grep cannot decide);
+    #   - the eight transitions past admission are really in the one file that writes ticket
+    #     state, and the checkpoint's reopen half beside them;
+    #   - admission refuses a ticket that carries no context pointers;
+    #   - the Director's scenarios still score at least the 34 of 36 they were recorded at, all
+    #     36 fixtures name an operation, and all 36 recorded traces really carry the field.
+    #     That last arm read the grader's own conditional line until 2026-09-06 — the source
+    #     of the check rather than its result, so a grader that read the field over traces
+    #     that no longer carried it passed. It counts the traces now. The closed vocabulary
+    #     is held by `test_every_scenario_names_its_operation` in the suite: reading it here
+    #     would need an inline program, which the probe's own honesty rule refuses.
+    "q-823": "PYTHONPATH=tests python3 -m unittest -q test_traceability.TestStateMachineFactsAreTraced >/dev/null 2>&1 && test \"$(grep -cE '^def (correct|block|unblock|park|close|reopen|abandon|worker_brief)' scripts/task-admission.py)\" = 8 && grep -q 'def reopen_checkpoint' scripts/checkpoint.py && grep -q 'a ticket carries at least one context pointer' scripts/task-admission.py && python3 evals/director/check.py --all 2>/dev/null | grep -q '^operation-only reds:' && test \"$(grep -c '\"operation\": \\[' evals/director/scenarios.json)\" = 36 && test \"$(grep -l '\"operation\"' evals/director/traces/*.json | wc -l | tr -d ' ')\" -eq 36",
+    # q-609: the rule now names who enforces it, in the spec that carries it.
+    "q-609": "grep -q 'shall\* place its enforcement with the author who writes the law' spec/design-spec-review.md",
 }
 
 

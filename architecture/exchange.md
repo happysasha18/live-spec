@@ -25,15 +25,19 @@
 
 ### [node: work-board] [target]
 
-**responsibility** — the standing page that shows the whole queue as columns of cards, the work in hand among them. It carries four parts. The page itself. The one source file in the host's tree, holding each task's statement, its validation record, and the craft set. The generator that renders that file with the queue into the page. And the statement-validation check a task passes before it enters work (Requirement 309, q-816; the surface is specified and unbuilt, so it carries no feature name yet).
+**responsibility** — the standing page that shows the whole queue as columns of cards, the work in hand among them. It carries four parts. The page itself. The one source file in the host's tree, holding the craft set and — when it is built — each task's statement and its validation record. The generator that renders that file with the queue into the page. And the statement-validation check a task passes before it enters work (Requirement 309, q-816). Three of the four ship: the generator is the one source file and the one home for the craft set, and it draws the page. The validation check is still ahead, so this node stays [target].
 
 **owns** — INV-308, INV-309, INV-310, INV-311, INV-312, INV-313
 
 **pins** —
 - `docs/norms/work-board.html` (the frozen norm the page's form follows)
-- — (the source file, the generator, and the validation check are specified; their code is still ahead)
+- `scripts/render-board.sh:1` (the generator, and the one source file: it holds the craft set and reads every other field from the plan, the checkpoints, git's own lanes, the waiting list, the archive and the registry)
+- `board.html:1` (the drawn page, the one stable link the registry row names)
+- `SURFACES.md:1` (the registry row the board refuses to render without)
+- `tests/test_work_board.py:1` (one test per built fact of `matrix/work-board.md`)
+- — (the statement-validation check is specified; its code is still ahead)
 
 **notes** —
 - the three-question fitness test at this node's birth (SPEC INV-122), answered. **Testable alone:** the generator renders the page from fixture queue rows, fixture archive rows, and fixture lane records. The node is proven with no session and no live repository behind it. **A real second place needs it:** the statement-validation check serves queue-take beside the page. Take-up reads a row's validated statement whether or not anyone opens the board. Two callers stand on this node. **Parallel-safe:** the board's source file is written under the pen like any shared document (INV-11, INV-39). A session writing it and a neighbour's session queue on the pen, never on each other.
-- the source file's name and the generator's path land with the machinery at q-816. Until then this node names the parts and pins none of them, per the [target] rule at the top of this document.
+- the generator and the page are pinned above. What is still ahead is the statement-validation check, and it waits on a datum nothing in the tree records — a statement's own time estimate, carried by no ticket field, no checkpoint line and no delivery report — so the mechanical floor of Requirement 309 criterion 49 has nothing to read. `matrix/work-board.md` rows M-531 to M-535 stay *todo* and their cells say so.
 - the board takes no report duty from communicator. The chat's departures board, the narration, and the live status line keep their scope, and the board adds a view beside them (INV-27, INV-35, INV-71).

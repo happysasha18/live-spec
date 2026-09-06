@@ -3,7 +3,7 @@
 Referenced from `SKILL.md`'s Execution section. Extracted from
 `skills/build-pipeline/references/verify-step-detail.md` and `skills/build-pipeline/SKILL.md`'s own
 verify step (SPEC INV-46/INV-298/INV-299) — the mechanics are unchanged from the pipeline this pack
-replaces; only the caller changed, from a fixed pipeline stage to a step the Director calls by
+replaces; only the caller changed, from a fixed pipeline stage to the accepted-work pipeline
 decision.
 
 ## When a fresh checker is required (SPEC INV-46)
@@ -23,7 +23,7 @@ briefed from the primary sources on the "goal missed" hypothesis, is independent
 in the author's own context never counts as one. Delegation never makes the review independent either
 — the same head that briefed the worker reading the worker's result is still the author's own review.
 
-Below the bar, the Director's own re-check against the decision sheet's observable outcome is enough.
+Below the bar, the pipeline's own re-check against the decision sheet's observable outcome is enough.
 Above it, call a fresh checker. For a documentation-only change, that re-check has a fixed shape:
 re-read the changed section rendered, plus one grep confirming no other surface still makes the claim
 the edit corrected — not a prose read alone.
@@ -49,7 +49,7 @@ An audit is adversarial by nature: a whole-read that sets out to break the work,
 and find its holes. One fresh checker per landing batch covers every claim in the batch — its scope
 grows with the batch, its freshness never shrinks. Brief the checker with the primary sources the
 landing claims to satisfy (spec sentences, requirement codes, the decision sheet's observable
-outcome) and the artifact paths — never the worker's summary, never the Director's own plan. Its
+outcome) and the artifact paths — never the worker's summary, never the pipeline's own plan. Its
 opening hypothesis is "tasks completed, goal missed." It walks each claimed fact up the ladder
 exists → substantive → wired → flows, and greps for stubs: TODO · FIXME · placeholder · lorem ·
 hardcoded sample · empty function body.

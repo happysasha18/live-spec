@@ -4,8 +4,8 @@ Four moves, not one: (1) name the defect abstractly and go FIND the un-seen sibl
 same change; (2) check the architecture for a structural cause; (3) check the spec — a spec silent on the
 broken behaviour is the real defect, fixed first so the prover can flag it; (4) escalate to the human when
 the class boundary needs his read. The product-prover carries the class lens for the same questions. The
-four moves are the bug door's close condition. Homes: the F-bug spec clause, director's own reference
-(moved there from build-pipeline's former bug entry in the build-pipeline cutover), product-prover's
+four moves are the bug door's close condition. Homes: the F-bug spec clause, build-pipeline's reference,
+product-prover's
 class lens, base rule 14. (Born of the exhibition's pinch-zoom bug — one report turned into five live
 siblings, 2026-07-12.)
 """
@@ -22,9 +22,9 @@ class TestClassHunt(unittest.TestCase):
         # commit 0ae778bc, moved to attic/live-spec-base-unbacked-rules-2026-08-26.md): no
         # eval fixture or executable script enforced its exact wording. TEST_MATRIX.md row
         # M-265 still cites this function as part of INV-124's owning-test set, so the
-        # check stays under this name, repointed at director's own class-hunt reference,
+        # check stays under this name, repointed at build-pipeline's class-hunt reference,
         # which carries the same duty (and names the attic move explicitly).
-        hunt = read_flat("skills/director/references/class-hunt.md")
+        hunt = read_flat("skills/build-pipeline/references/class-hunt.md")
         self.assertIn("Name the defect's class, then go looking for its relatives", hunt)
         self.assertIn("turning up the relatives nobody has reported yet", hunt)
         self.assertIn("Bring the human in where the class boundary is a judgment call", hunt)
@@ -55,11 +55,10 @@ class TestClassHunt(unittest.TestCase):
         self.fail("INV-124 index row missing")
 
     def test_build_pipeline_bug_entry_drives_the_hunt(self):
-        # build-pipeline's former fixed bug-entry prose moved to director's own class-hunt
-        # reference (see test_director_has_its_own_home_for_the_hunt above for the four-move
-        # needles); this checks the same reference carries the INV-124 tie and the "still owed
+        # build-pipeline's class-hunt reference carries the four-move close condition;
+        # this checks the same reference carries the INV-124 tie and the "still owed
         # before closed" framing in its real wording, not the old build-pipeline phrasing.
-        hunt = read_flat("skills/director/references/class-hunt.md")
+        hunt = read_flat("skills/build-pipeline/references/class-hunt.md")
         self.assertIn(
             "what a confirmed bug still owes once the first fix lands, before the work can be "
             "called closed (SPEC INV-124)",
@@ -67,14 +66,11 @@ class TestClassHunt(unittest.TestCase):
         )
         self.assertIn("Name the defect's class, then go looking for its relatives.", hunt)
 
-    def test_director_has_its_own_home_for_the_hunt(self):
-        """Director's own top-level text carries no door/work-kind vocabulary, so this fact's
-        Director-side home is a reworded reference, not a lift of build-pipeline's prose — see
-        docs/prover/2026-08-25-class-hunt-director-home.md for why a near-verbatim first and
-        second draft were each rejected on review."""
-        director = read_all_flat("skills/director/SKILL.md")
-        self.assertIn("references/class-hunt.md", director)
-        hunt = read_flat("skills/director/references/class-hunt.md")
+    def test_pipeline_has_its_own_home_for_the_hunt(self):
+        """The class hunt is an execution close condition, so it lives with the pipeline."""
+        pipeline = read_all_flat("skills/build-pipeline/SKILL.md")
+        self.assertIn("references/class-hunt.md", pipeline)
+        hunt = read_flat("skills/build-pipeline/references/class-hunt.md")
         for needle in (
             "Name the defect's class",
             "Read the architecture for a structural cause",

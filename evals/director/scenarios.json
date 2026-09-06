@@ -2,6 +2,7 @@
   "about": "Real messages, anonymised, from this project's own transcripts, plus a few written ones for classes the transcripts held no example of. Each says what was going on when it arrived, because the Director is required to read the situation and not the wording.",
   "verdict_shape": {
     "acts": "zero or more of: question, idea, observation, decision, correction, instruction, halt",
+    "operation": "the state operations this turn runs on the plan's own tickets, as a list. Derive it from the rest of your own verdict, taking the first line below that fits: creates_work true — a piece of work is accepted now — runs [\"T1\",\"T2\"], because admitting the ticket and taking it in hand happen in one call (an idea the person explicitly asks to keep for later is the exception: [\"T1\"] alone, queued with nobody holding it); a correction, or a decision applied to work already running, runs [\"T3\"]; a halt that clears the holder and leaves the work to resume later runs [\"T6\"]; a halt that drops the work for good and archives it runs [\"T9\"]; a report that a named blocker is verifiably gone runs [\"T5\"]; a newly named blocker — a failing command, a missing dependency, an action only the person can take — runs [\"T4\"]; a done that turned out false runs [\"T8\"]; everything else runs [\"none\"] — a question, a thank-you, an idea discussed and let go, an observation kept as evidence, a standing rule remembered, a conditional whose condition has not fired.",
     "creates_work": "would the Director take on a piece of work with its own goal and decision sheet",
     "shelves_idea": "was the idea half handled as an idea rather than taken on as work — raised as one live question about whether to queue it, or answered and let go. The skill keeps no second list to file it in, so this field says which road the idea took, never that anything was stored.",
     "attaches_to_existing_work": "does this change work already in flight rather than start any",
@@ -19,6 +20,9 @@
         "acts": [
           "question"
         ],
+        "operation": [
+          "none"
+        ],
         "creates_work": false,
         "work_items": 0
       },
@@ -32,6 +36,9 @@
       "expect": {
         "acts": [
           "question"
+        ],
+        "operation": [
+          "none"
         ],
         "creates_work": false,
         "work_items": 0
@@ -47,6 +54,9 @@
         "acts": [
           "question"
         ],
+        "operation": [
+          "none"
+        ],
         "creates_work": false,
         "work_items": 0
       },
@@ -61,6 +71,9 @@
         "acts": [
           "question"
         ],
+        "operation": [
+          "none"
+        ],
         "creates_work": false,
         "work_items": 0
       },
@@ -74,6 +87,9 @@
       "expect": {
         "acts": [
           "idea"
+        ],
+        "operation": [
+          "none"
         ],
         "creates_work": false,
         "shelves_idea": true,
@@ -91,6 +107,10 @@
           "idea",
           "instruction"
         ],
+        "operation": [
+          "T1",
+          "T2"
+        ],
         "creates_work": true,
         "shelves_idea": false
       },
@@ -105,6 +125,9 @@
         "acts": [
           "idea",
           "observation"
+        ],
+        "operation": [
+          "none"
         ],
         "creates_work": false,
         "shelves_idea": true,
@@ -121,11 +144,14 @@
         "acts": [
           "idea"
         ],
+        "operation": [
+          "none"
+        ],
         "creates_work": false,
         "shelves_idea": true,
         "work_items": 0
       },
-      "why": "'Кинь идею' asks for the idea to be recorded, which is what shelving is. Recording an idea is not doing it."
+      "why": "'Кинь идею' asks for the idea to be handed on, which is done in the turn; handing on an idea is not doing it."
     },
     {
       "id": "idea-shaping-then-one-decided",
@@ -136,6 +162,10 @@
         "acts": [
           "idea",
           "instruction"
+        ],
+        "operation": [
+          "T1",
+          "T2"
         ],
         "creates_work": true,
         "work_items": 1
@@ -151,6 +181,9 @@
         "acts": [
           "observation"
         ],
+        "operation": [
+          "none"
+        ],
         "creates_work": false,
         "work_items": 0
       },
@@ -164,6 +197,9 @@
       "expect": {
         "acts": [
           "observation"
+        ],
+        "operation": [
+          "none"
         ],
         "creates_work": false,
         "work_items": 0
@@ -179,6 +215,9 @@
         "acts": [
           "observation"
         ],
+        "operation": [
+          "T3"
+        ],
         "creates_work": false,
         "attaches_to_existing_work": true,
         "work_items": 0
@@ -193,6 +232,10 @@
       "expect": {
         "acts": [
           "observation"
+        ],
+        "operation": [
+          "T1",
+          "T2"
         ],
         "creates_work": true,
         "dimensions_required": [
@@ -210,6 +253,10 @@
         "acts": [
           "decision",
           "instruction"
+        ],
+        "operation": [
+          "T1",
+          "T2"
         ],
         "creates_work": true,
         "work_items": 1,
@@ -229,6 +276,10 @@
           "instruction",
           "decision"
         ],
+        "operation": [
+          "T1",
+          "T2"
+        ],
         "creates_work": true
       },
       "why": "Deploy now, and never wait again. One act asks for a thing; the other grants standing authority. Hearing only the anger loses the authority."
@@ -241,6 +292,9 @@
       "expect": {
         "acts": [
           "decision"
+        ],
+        "operation": [
+          "none"
         ],
         "creates_work": false,
         "work_items": 0
@@ -256,6 +310,9 @@
         "acts": [
           "decision"
         ],
+        "operation": [
+          "none"
+        ],
         "creates_work": false,
         "work_items": 0
       },
@@ -269,6 +326,9 @@
       "expect": {
         "acts": [
           "correction"
+        ],
+        "operation": [
+          "T3"
         ],
         "creates_work": false,
         "attaches_to_existing_work": true,
@@ -284,6 +344,9 @@
       "expect": {
         "acts": [
           "correction"
+        ],
+        "operation": [
+          "T3"
         ],
         "creates_work": false,
         "attaches_to_existing_work": true,
@@ -301,6 +364,9 @@
           "correction",
           "observation"
         ],
+        "operation": [
+          "T3"
+        ],
         "creates_work": false,
         "attaches_to_existing_work": true,
         "work_items": 0
@@ -316,6 +382,10 @@
         "acts": [
           "instruction"
         ],
+        "operation": [
+          "T1",
+          "T2"
+        ],
         "creates_work": true,
         "work_items": 1
       },
@@ -329,6 +399,10 @@
       "expect": {
         "acts": [
           "instruction"
+        ],
+        "operation": [
+          "T1",
+          "T2"
         ],
         "creates_work": true,
         "work_items": 1
@@ -344,6 +418,10 @@
         "acts": [
           "instruction"
         ],
+        "operation": [
+          "T1",
+          "T2"
+        ],
         "creates_work": true,
         "work_items": 1
       },
@@ -357,6 +435,9 @@
       "expect": {
         "acts": [
           "halt"
+        ],
+        "operation": [
+          "T6"
         ],
         "creates_work": false,
         "work_items": 0
@@ -373,6 +454,9 @@
           "halt",
           "observation"
         ],
+        "operation": [
+          "T6"
+        ],
         "creates_work": false,
         "attaches_to_existing_work": true,
         "work_items": 0
@@ -388,6 +472,9 @@
         "acts": [
           "halt"
         ],
+        "operation": [
+          "T6"
+        ],
         "creates_work": false,
         "work_items": 0
       },
@@ -402,6 +489,9 @@
         "acts": [
           "halt",
           "question"
+        ],
+        "operation": [
+          "T6"
         ],
         "creates_work": false,
         "work_items": 0
@@ -419,6 +509,10 @@
           "question",
           "observation"
         ],
+        "operation": [
+          "T1",
+          "T2"
+        ],
         "creates_work": true,
         "work_items": 1
       },
@@ -435,6 +529,10 @@
           "instruction",
           "question"
         ],
+        "operation": [
+          "T1",
+          "T2"
+        ],
         "creates_work": true
       },
       "why": "A goal restated as still binding, a thing to start doing, and an explicit invitation to disagree — which must be answered, not silently accepted."
@@ -448,6 +546,10 @@
         "acts": [
           "instruction",
           "observation"
+        ],
+        "operation": [
+          "T1",
+          "T2"
         ],
         "creates_work": true,
         "work_items": 1
@@ -466,6 +568,10 @@
           "instruction",
           "observation"
         ],
+        "operation": [
+          "T1",
+          "T2"
+        ],
         "creates_work": true
       },
       "why": "A question, a standing rule about links, several requests serving one session's work, and a fact about the time available."
@@ -480,6 +586,9 @@
           "question",
           "halt",
           "observation"
+        ],
+        "operation": [
+          "none"
         ],
         "creates_work": false,
         "work_items": 0
@@ -496,6 +605,9 @@
           "correction",
           "observation"
         ],
+        "operation": [
+          "T3"
+        ],
         "creates_work": false,
         "attaches_to_existing_work": true,
         "work_items": 0
@@ -509,6 +621,9 @@
       "message": "Thanks, that's exactly it.",
       "expect": {
         "acts": [],
+        "operation": [
+          "none"
+        ],
         "creates_work": false,
         "work_items": 0
       },
@@ -523,6 +638,10 @@
         "acts": [
           "instruction"
         ],
+        "operation": [
+          "T1",
+          "T2"
+        ],
         "creates_work": true,
         "shelves_idea": false
       },
@@ -536,6 +655,10 @@
       "expect": {
         "acts": [
           "observation"
+        ],
+        "operation": [
+          "T1",
+          "T2"
         ],
         "creates_work": true,
         "dimensions_required": [

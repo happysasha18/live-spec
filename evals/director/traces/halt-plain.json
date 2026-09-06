@@ -1,7 +1,10 @@
 {
-  "id": "HQ",
+  "id": "ZF",
   "acts": [
     "halt"
+  ],
+  "operation": [
+    "T6"
   ],
   "creates_work": false,
   "shelves_idea": false,
@@ -9,10 +12,11 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "Work was already in flight and the person wants it to stop running — that is a halt, decided by state rather than by the word 'stop' itself. The clause 'забыл обнулить контекст' is the grounds given with the halt: it only restates why the halt wants what it wants, carries no judgment about the product worth keeping after the act closes, so it earns no act of its own. A halt changes the state of a piece of work that already existed: nothing is created, no sheet is written, no dimension is named and no specialist is called, so the count of new work is zero. The Director stops the running work and says in one sentence that it stopped, then waits.",
+  "reasoning": "The agent had already started acting on the previous message, and this turn tells that running work to stop. A halt is about state, not words: something running should stop running, and that is all this message does. The clause about forgetting to reset the context is the grounds for the halt, not a second act — it says nothing new beyond why the halt wants what it wants, and it carries no judgment about the product worth keeping after the halt closes. Nothing is dropped for good; the person wants a pause to clear the context, so the work is put down and can be resumed, which clears the holder rather than archiving the ticket. A halt changes a piece of work that already existed, so it creates nothing: no new row, zero new work items, no dimensions and no specialists named, since naming them would route work nobody has taken on.",
   "scenario": "halt-plain",
-  "label": "HQ",
-  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
-  "recorded": "2026-09-04",
-  "skill_version": "6.1.0"
+  "label": "ZF",
+  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
 }

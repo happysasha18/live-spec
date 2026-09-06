@@ -1,7 +1,10 @@
 {
-  "id": "FJ",
+  "id": "AG",
   "acts": [
     "observation"
+  ],
+  "operation": [
+    "T4"
   ],
   "creates_work": false,
   "shelves_idea": false,
@@ -9,10 +12,11 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "One act: he reports a fact he saw ('seems the push already failed, I got a mail') without asking for anything. It is not an instruction, and it is not an observation whose repair follows beyond doubt in the sense of opening work, because the repair is already accepted and in flight: a checkpoint for this CI failure is open and the fix was pushed minutes ago. So this is a new fact arriving mid-work, read against the plan just made rather than filed away. If the run did fail, the diagnosed cause was wrong and the open checkpoint's NEXT and specialist list get updated on its own path with checkpoint.py update; if the mail is about the earlier run or the run is still going, nothing changes and the Director says so and continues. His word 'seems' is hearsay about a run the Director can look at directly, so the first move is to read the actual CI verdict, not to act on the mail. No new row: the piece of work already in flight stays the one piece in flight, so the turn produces zero new work items. A turn that accepts no new work names no dimension and calls no specialist. What he hears back is one sentence saying what the run actually says and whether the repair already running has changed.",
+  "reasoning": "The person reports a fact they just learned from an email: the run that was awaiting a verdict appears to have failed again. Nothing is asked for, so this is an observation, not an instruction. The repair it points at is already in flight with its own open checkpoint, so no new work is accepted and no second row is opened beside the one already being worked; a competent colleague would simply keep going on the repair already taken on, now knowing the latest run went red. The report names a fresh failing run against that open ticket, which is a newly named blocker on work already running, so the turn changes that ticket's state and produces zero new pieces of work. Since no work was accepted and this is not a correction, the turn names no dimension and calls no specialist.",
   "scenario": "observation-carrying-its-repair",
-  "label": "FJ",
-  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
-  "recorded": "2026-09-04",
-  "skill_version": "6.1.0"
+  "label": "AG",
+  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
 }

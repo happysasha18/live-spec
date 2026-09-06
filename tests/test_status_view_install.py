@@ -194,7 +194,7 @@ class TestTheInstalledViewIsTheHostsOwn(unittest.TestCase):
         page = open(os.path.join(tmp, "board.html"), encoding="utf-8").read()
         for row in ("demo-1", "demo-2", "demo-3", "Ship the widget catalogue"):
             self.assertIn(row, page)
-        self.assertIn("<title>%s — board</title>" % os.path.basename(tmp), page)
+        self.assertIn("<title>%s — the work board</title>" % os.path.basename(tmp), page)
         leaked = sorted(i for i in _pack_ids() if i in page)
         self.assertEqual(leaked, [], "this pack's own task ids reached a host's board: %s" % leaked)
 

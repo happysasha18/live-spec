@@ -108,3 +108,4 @@ targeted by a recorded process group or an owned install path (SPEC INV-162, bas
 Each work block in the report opens by naming its root. The root is the person's dated request, a
 standing instruction, or a stated reason, and machinery is never a root. The report accounts each
 block against its announced plan line (SPEC INV-314).
+

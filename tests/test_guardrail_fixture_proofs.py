@@ -238,7 +238,7 @@ GRANDFATHERED = frozenset({
     "check-freeze.sh",
     "check-future-times.sh",
     "check-index-generated.py",
-    "check-landing-next-steps.py",
+    "check-next-steps-boundary.py",
     "check-language-rules.py",
     "check-matrix-reference.py",
     "check-muted-launch.sh",

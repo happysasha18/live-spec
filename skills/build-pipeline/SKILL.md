@@ -1,22 +1,64 @@
 ---
 name: build-pipeline
 description: >-
-  Use to set a project up on live-spec, where it reads the tree, picks the setup walk, and runs it. Spoken: attach live-spec to this project, adopt or install live-spec here, onboard this codebase onto live-spec, found a new project on live-spec, update live-spec here. Not the pipeline's entry point for an accepted change — `director` is — and retained only for the setup walk and the MINOR-bump gate procedure until Packages 5 and 6 give each its own home.
+  Execute work after director has classified the human's message and returned a route contract. Derive the observable outcome and definition of done, admit new work to the one board, update existing work in place, call only needed specialists, verify, close and report. Also use when asked to attach live-spec, adopt live-spec, install live-spec, onboard a codebase with live-spec, set live-spec up, set a project up on live-spec, add live-spec, found or start a new project with live-spec, or update live-spec, and for the MINOR-bump gate.
 metadata:
   version: 6.1.0
 ---
 
-# build-pipeline — setup walk and the MINOR-bump gate
+# build-pipeline — accepted work from admission to close
 
 > Part of the **live-spec pack**. The shared working rules, the settings ladder, and the pack's
 > glossary live in `live-spec-base` (v6.1.0). This skill does not restate them. Loaded alone, every
 > section below still runs.
 
-**This skill is no longer the pipeline's entry point.** `skills/director/SKILL.md` reads what a
-person said, decides what the accepted work touches, and calls the specialists it needs — its
-dynamic graph of acts and dimensions replaces this skill's former fixed nine-step sequence, door
-table, work-kind table, footprint scale, and request-kind table. This page keeps only the two
-pieces of real, still-needed craft that have nowhere else to live yet.
+Director is the only first reader. It classifies every act, says whether the turn proposes new work
+or changes existing work, and returns a route contract. This skill never reclassifies the message.
+It begins only after that contract exists, and owns everything from a candidate's observable
+outcome and definition of done through verification and close.
+
+## Accepted-work pipeline
+
+Read [references/accepted-work-execution.md](references/accepted-work-execution.md) for the full
+execution procedure whenever Director routes new or existing work here.
+
+For a new-work candidate, derive these facts before changing the board:
+
+- the source: the person's request, or a promised behaviour plus the reproduction an outside user
+  meets;
+- one observable outcome the person could want on its own;
+- a definition of done that a command, test, artifact read, or independent verifier can decide
+  without making the person the checker;
+- the project and scope the result belongs to;
+- the existing row that already covers it, or an explicit finding that none does.
+
+Missing any one means no new row. Continue reading the project to derive it; ask the person only
+for a product choice no artifact settles. A review opinion, another project's note, a mismatched
+internal number, or a red check about document shape is not a candidate and returns to the review
+that produced it.
+
+Pass the route through `python3 scripts/task-admission.py --route <route.json>`. This is the one
+write door for a new heading-shaped PLAN: it validates source, outcome, DOD, verification, project,
+scope, context pointers and duplicate title, then writes exactly one row and its pipeline-owned
+checkpoint. A route for a question writes nothing; a correction names existing work and writes
+nothing new.
+
+A correction, decision or halt targets the existing row and checkpoint named by Director and
+creates zero new work. A new candidate that passes admission creates exactly one row. `PLAN.md` and
+its generated board are the only task state; `NEXT_STEPS.md` is never read or written as a queue.
+
+After admission, assemble the smallest graph that reaches the outcome. Load only the specialists
+Director named, add or remove one when a new fact changes the graph, and keep one checkpoint for the
+whole piece of work. The definition of done is the closing contract: meet it, verify it without the
+producer's self-report, close the checkpoint and row, show the result, and continue without waiting
+for the person's attention.
+
+Execution references live here, not in Director: [class hunt](references/class-hunt.md),
+[verification](references/verify-step-detail.md), and [landing law](references/landing-law.md).
+
+| Specialist | Pipeline call condition | Where it lives |
+|---|---|---|
+| Test author | the evidence and the regressions have to be chosen | `skills/test-author/SKILL.md` |
 
 ## The craft ladder — which craft's standards judge each step (SPEC INV-33)
 
@@ -47,21 +89,17 @@ entry stands outside the derivation chain. When the walk finishes, the first wis
 - **Before a MINOR (0.x.0) bump:** see
   [references/minor-bump-gate.md](references/minor-bump-gate.md) for the full gate procedure — the
   3-pass preventive audit, the full design review, the cross-cut counter, code compaction as a
-  station beside doc compaction, and the skill-creator craft review — until Package 5 gives this
-  gate its own permanent home.
+  station beside doc compaction, and the skill-creator craft review.
 
 ## How it relates to the other skills
 
-- `director` (`skills/director/SKILL.md`) — the pipeline's entry point. Reads the human's message,
-  decides what accepted work touches, and calls `spec-author`, `product-prover` (+
-  `design-reviewer`), `architect`, and `test-author` as the work needs them.
+- `director` (`skills/director/SKILL.md`) — reads the human's message and stops at the route
+  contract. It names possible specialists; this pipeline calls them after admission.
 - `live-spec-base` — the shared rulebook, the settings ladder, and the glossary every term on this
   page resolves against.
 
 ## Work that belongs elsewhere
 
-An accepted change of any kind — spec, architecture, matrix, test, code — routes through
-`director`, not here. This skill runs only at two moments: setting a project up on the pack, and
-the MINOR-bump gate procedure. Everything this page once carried beyond those two — the door, the
-work-kind table, the footprint scale, the request-kind table, the fixed nine-step sequence — is
-`director`'s job now.
+Understanding what the human just did belongs to Director. Authoring the spec, architecture,
+matrix, tests, code and release artifacts belongs to the specialists this pipeline calls. This
+skill owns admission, orchestration, evidence and close; it does not absorb their craft.

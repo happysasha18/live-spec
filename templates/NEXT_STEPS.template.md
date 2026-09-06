@@ -1,24 +1,17 @@
-# [Project Name] — Next Steps
+# [Project Name] — Resume state
 
-> Digest law: this whole file holds one live-state block and a digest with no redundancy — nothing
-> removable without losing information (SPEC INV-48) — one terse line per open leg (its name, what
-> stays open, where the detail lives); detail flows to the journal and the queue rows this file
-> points at. Compaction moves prose to its home; it never drops an open leg.
+Tasks, their states, priorities and order live only in `PLAN.md` and its generated board. This file
+never repeats them and never carries a forward queue (SPEC INV-48).
 
-**This is a resume file.** It holds ONLY the current live state + the forward queue. When a new movement lands, REPLACE the live state block. Never stack entries. Dated history and the WHY live in JOURNAL.md.
+**This is an interruption record with no redundancy.** Replace the block below when an interruption leaves transient
+execution state that the board and version control cannot reconstruct. Dated history lives in
+`JOURNAL.md`.
 
 ---
 
-## LIVE STATE (YYYY-MM-DD)
+## TRANSIENT EXECUTION STATE (YYYY-MM-DD HH:MM)
 
-[One paragraph: where the project is right now — what was last shipped, what is green, what is not yet done. Enough for a cold start without reading anything else.]
+None. Read `PLAN.md` for all planned work.
 
-[If any in-work row carries several enumerated legs: name each leg met/open — an open leg is restated here at every update, never compressed away (SPEC INV-26).]
-
-## Forward queue
-
-1. [Next action, specific enough to start immediately]
-2. [Item 2]
-3. [Item 3]
-
-Memory can be wiped after this message — NEXT_STEPS.md + JOURNAL.md have the full resume trail.
+When state exists, replace `None` with only what is needed to resume safely: unfinished write-set,
+live worker identity, or failing command and current hypothesis. Remove it once recovered.

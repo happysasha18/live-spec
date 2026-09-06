@@ -1,18 +1,28 @@
 {
-  "id": "NX",
+  "id": "SW",
   "acts": [
-    "decision"
+    "decision",
+    "instruction"
   ],
-  "creates_work": false,
+  "operation": [
+    "T1",
+    "T2"
+  ],
+  "creates_work": true,
   "shelves_idea": false,
   "attaches_to_existing_work": false,
-  "work_items": 0,
-  "dimensions": [],
-  "specialists": [],
-  "reasoning": "\"С этого момента\" and \"всегда\" settle a standing rule about how the project is run from here on: keep a short plan in plain words, and open every reply with where we are. That is a decision, not an instruction — nothing is being asked for as a one-off deliverable, and no clause is scoped to just this once. Both verbs (\"веди план\", \"показывай\") sit under the same standing scope, so they are one rule, not a rule plus a demand for today; there is no \"and do this one now\" half to lose. The session is early and nothing is in flight, so the decision is recorded and applied to whatever work is accepted next rather than attached to a running checkpoint; it opens no row of its own, and the count of new pieces of work is zero. A turn that accepted no work names no dimension and calls no specialist, so both lists stay empty — the areas the rule will shape belong to the work that eventually gets taken on. What the person hears back is one sentence: the rule is recorded and every reply from here starts with the short plan and where we stand.",
+  "work_items": 1,
+  "dimensions": [
+    "documentation and communication"
+  ],
+  "specialists": [
+    "Developer"
+  ],
+  "reasoning": "The turn carries two acts. \"From this moment on\" settles a standing rule about how work is kept and shown from here forward - a short plan in plain words, and a permanent \"where we are\" line - and that rule is recorded separately so it outlives any one task. But a standing rule does not absorb the demand for the thing itself: the skill says a rule about how something is kept, reported or shown also asks for that thing, and where the plan and the status line do not exist yet, making them is what the person wants today. So the instruction half is real and gets accepted. It is one result, not two - the plan and the line saying where we are ship together and neither could be cancelled without the other - so one new piece of work, admitted and taken in hand in the same call (T1, T2). Nothing was in flight for this to attach to. The only area that genuinely changes is what gets written and shown to the person, so that single dimension is named; a builder is the only role needed, since the wording rule is already given in the message itself.",
   "scenario": "decision-how-to-report",
-  "label": "NX",
-  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
-  "recorded": "2026-09-04",
-  "skill_version": "6.1.0"
+  "label": "SW",
+  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
 }

@@ -95,9 +95,12 @@ RULES = {
     "lane-law": {
         "home": os.path.join("skills", "live-spec-base", "SKILL.md"),
         "home_name": "skills/live-spec-base/SKILL.md, rule 7",
+        # Lanes and the pen are execution, so both pointers moved to build-pipeline with the
+        # q-822 classifier/pipeline split; Director names no lane rule at all any more.
         "pointer_in": (
-            os.path.join("skills", "director", "SKILL.md"),
-            os.path.join("skills", "director", "references", "lanes-and-pen.md"),
+            os.path.join("skills", "build-pipeline", "references",
+                         "accepted-work-execution.md"),
+            os.path.join("skills", "build-pipeline", "references", "lanes-and-pen.md"),
         ),
         "pointer": "rule 7",
         # A probe is a sentence of the rule, never its name: "the lane-open act" is what a

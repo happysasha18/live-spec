@@ -52,8 +52,9 @@ class TestCrossSurfacePolicy(unittest.TestCase):
         self.assertIn("the preventive twin of the class lens", pv)
 
     def test_build_pipeline_completeness_holds_uniformity(self):
-        # guardrails-catalog.md moved to director/ in the build-pipeline cutover
-        bp = read_all_flat("skills/director/SKILL.md")
+        # guardrails-catalog.md now lives in skills/build-pipeline/references/: the completeness
+        # guardrail runs at verification, which belongs to the pipeline after the q-822 split.
+        bp = read_all_flat("skills/build-pipeline/SKILL.md")
         self.assertIn("cross-surface policy uniformity (SPEC INV-125)", bp)
         self.assertIn("EVERY registered sibling root", bp)
 

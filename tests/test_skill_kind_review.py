@@ -13,16 +13,17 @@ from conftest import open_spec, read_all, read_all_flat, read_flat
 
 
 class TestSkillKindReview(unittest.TestCase):
-    HOMES = ("PRODUCT_SPEC.md", "skills/director/SKILL.md")
+    HOMES = ("PRODUCT_SPEC.md", "skills/build-pipeline/SKILL.md")
 
     def test_walk_in_both_homes(self):
-        # director's work-kind-table reference (moved from build-pipeline) still carries the
-        # concrete worked example (format/frontmatter/description-triggering); the spec's
+        # The work-kind table sits in skills/build-pipeline/references/ after the q-822
+        # classifier/pipeline split: the verify step is execution. It still carries the concrete
+        # worked example (format/frontmatter/description-triggering); the spec's
         # requirements-format rewrite generalized its Context to the class statement "its craft
         # and its evals where applicable" and left the concrete example to the table.
         load_needles = {
             "PRODUCT_SPEC.md": "its craft and its evals where applicable",
-            "skills/director/SKILL.md": "does the skill load when it should",
+            "skills/build-pipeline/SKILL.md": "does the skill load when it should",
         }
         for home in self.HOMES:
             body = read_all_flat(home)
@@ -32,7 +33,7 @@ class TestSkillKindReview(unittest.TestCase):
     def test_findings_fold_by_name(self):
         fold_needles = {
             "PRODUCT_SPEC.md": "folding or rejecting each finding by name in the landing record",
-            "skills/director/SKILL.md": "folded or rejected by name in the landing record",
+            "skills/build-pipeline/SKILL.md": "folded or rejected by name in the landing record",
         }
         for home in self.HOMES:
             body = read_all_flat(home)

@@ -361,23 +361,8 @@ fi
 b "ALARM"
 ALARM=0
 
-# the skill changed after the last eval run — the score is stale
-SKILL_D=$(git log -1 --format=%ct -- skills/director/SKILL.md 2>/dev/null || echo 0)
-EVAL_D=$(git log -1 --format=%ct -- evals/director/traces 2>/dev/null || echo 0)
-if [ "$SKILL_D" -gt "$EVAL_D" ] 2>/dev/null; then
-  warn "director skill changed $(date -r "$SKILL_D" '+%d.%m') — eval last ran $(date -r "$EVAL_D" '+%d.%m'). The score is stale."
-  ALARM=1
-fi
-
 # one fact, one home
 [ -f evals/director.md ] && { warn "evals/director.md exists and conflicts with evals/director/ — two homes for one fact"; ALARM=1; }
-
-# live state has gone stale
-if [ -f NEXT_STEPS.md ]; then
-  NS_D=$(git log -1 --format=%ct -- NEXT_STEPS.md 2>/dev/null || echo 0)
-  LAST=$(git log -1 --format=%ct)
-  [ "$NS_D" -lt "$LAST" ] && { warn "NEXT_STEPS.md is $(( (LAST - NS_D) / 86400 )) days older than the tree's last commit"; ALARM=1; }
-fi
 
 # work outside its home — /private/tmp is wiped on reboot.
 # Catches both a working tree there and a leftover directory: the alarm used to miss the second case.

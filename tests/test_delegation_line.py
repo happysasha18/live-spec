@@ -31,8 +31,9 @@ def _queue_lines():
 
 
 class TestDelegationLineLaw(unittest.TestCase):
-    # delegation-protocol.md moved to skills/director/references/ in the build-pipeline cutover
-    HOMES = ("PRODUCT_SPEC.md", "skills/director/SKILL.md")
+    # delegation-protocol.md now lives in skills/build-pipeline/references/: the delivery report
+    # is written at close, which belongs to the pipeline after the q-822 split.
+    HOMES = ("PRODUCT_SPEC.md", "skills/build-pipeline/SKILL.md")
 
     def test_law_in_both_homes(self):
         # PRODUCT_SPEC.md's rewrite renamed "landed" to "delivered" and folded the two
@@ -45,7 +46,7 @@ class TestDelegationLineLaw(unittest.TestCase):
                 "omits the line, reading it from the archive",
                 "bind the duty to the orchestrating seat whatever tier leads it",
             ),
-            "skills/director/SKILL.md": (
+            "skills/build-pipeline/SKILL.md": (
                 "the row's delivery report",
                 "a suite check reads it from the archive",
                 "a delivered row without the line goes red",

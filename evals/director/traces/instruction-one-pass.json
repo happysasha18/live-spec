@@ -1,23 +1,28 @@
 {
-  "id": "JJ",
+  "id": "WP",
   "acts": [
     "instruction"
+  ],
+  "operation": [
+    "T1",
+    "T2"
   ],
   "creates_work": true,
   "shelves_idea": false,
   "attaches_to_existing_work": false,
   "work_items": 1,
   "dimensions": [
-    "documentation and communication"
+    "documentation and communication",
+    "quality, safety, regressions"
   ],
   "specialists": [
-    "developer",
-    "independent verifier"
+    "Developer"
   ],
-  "reasoning": "One act. The person is asking for something to be done now — a pass over the prover skill — so it is an instruction, not a musing or an idea for later. The word 'only' looks like a narrowing, but nothing is in flight: the situation is choosing what the session will cover, so there is no work whose goal could be narrowed and no checkpoint to update. The skill is explicit that when no work is in flight yet, the same message is an idea or an instruction, decided by whether they are asking for it now — they are. That makes it new work with its own goal and decision sheet, one piece, opening a fresh checkpoint rather than attaching to an existing one. The scope limit is part of that one goal, not a second act and not a halt on anything. The work touches documentation and communication: the prover skill's own text is what changes. No product behaviour, user path, architecture or release surface changes, so those dimensions are not named. Developer to make the pass, and an independent verifier because the check must be run by someone who did not produce the result.",
+  "reasoning": "The person is asking for something to be done now: make a pass over the prover skill. That is an instruction, and the situation is choosing what the session will cover, so nothing is in flight for this to correct or halt. The word 'only' scopes the request rather than narrowing a goal already being pursued, so it is part of the same single instruction, not a second act and not a correction. One instruction with one result stays one piece of work even if the pass touches several parts of that skill, so work_items is one and the turn admits the ticket and takes it in hand (T1, T2). No idea half was voiced, so nothing was shelved. The work changes the text of a skill document and the standard it has to meet, so it touches documentation and communication and quality; the pass itself is worked by the developer, and no other specialist is needed until the pipeline finds one.",
   "scenario": "instruction-one-pass",
-  "label": "JJ",
-  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
-  "recorded": "2026-09-04",
-  "skill_version": "6.1.0"
+  "label": "WP",
+  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
 }

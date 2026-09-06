@@ -24,3 +24,4 @@ INSTANTIATES these checks for its own surfaces; the pipeline REQUIRES the check 
   whole suite. The reach map itself is the `reach_classes` block of `guardrails.config.json`, pairing
   each file class with the checks it reaches. The pack's suite runs as `python3 -m pytest -q` from the
   repository root; a host with another runner names its own in its profile.
+

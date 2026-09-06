@@ -70,3 +70,4 @@ s).** A push that meaningfully changes a skill under `skills/` needs a committed
 `docs/skill-review/`. That record names the skill and carries a `SKILL-REVIEW` marker with a
 `Verdict:` line, at least as new as the skill's own last change. `guardrails/check-skill-review.sh`
 reds a push that lacks one.
+

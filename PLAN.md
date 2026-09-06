@@ -27,11 +27,17 @@ The user is a single author of a software product who thinks out loud and drives
 task list anywhere else. A felt need for another plan is a sign that a task belongs here, not that
 a new file should exist.
 
+**`NEXT_STEPS.md` is not an exception.** It holds no tasks, task statuses, priorities, ordering or
+forward queue; every task lives only on this board. A resume file may preserve transient execution
+state needed after an interruption and point back here, but it never restates planned work.
+
 **It doesn't get rewritten.** A task's name and order change only on a new fact **and with
 The owner's explicit consent.** Every edit goes into git with a reason: `git log PLAN.md` shows the
 whole history. A silent rewording of a task is drift, even when the wording is better.
 
-A session edits exactly one thing here: a task's status. Nothing else.
+A session changes existing tasks only in place. New work enters only through the accepted-work
+admission door, with its source, observable outcome, definition of done and verification already
+decided; freehand additions and second lists are not intake.
 
 **A finished task leaves this board by a person's own hand, and by nothing else.** No script rotates
 a done row off it; the one that used to understand only the shape of the retired queue and went to
@@ -469,7 +475,7 @@ refused: learning how far a score moves means running the set repeatedly, which 
 changes nothing about what to fix.
 
 **Links:** `evals/director/README.md`, `evals/director/scenarios.json`,
-`evals/director/closing-scenarios.json`, `skills/director/SKILL.md` (the acts table and the
+`evals/build-pipeline/closing-scenarios.json`, `skills/director/SKILL.md` (the acts table and the
 correction rule).
 
 ### ✅ The status list a person reads looks the same in every project — id: q-818
@@ -553,7 +559,7 @@ something the next reply says, with its reason.
 **Links:** `scripts/state-probe.sh` (the ranking block), `spec/live-status-reporting.md`,
 `skills/live-spec-base/SKILL.md`.
 
-### ⬜ A session starts light — id: q-822
+### ✅ A session starts light — id: q-822
 **Group:** Pack quality · **Priority:** normal
 **Source:** owner 2026-09-04 14:30, in his own words: he would like nothing over about 20 kilobytes
 to load unless it is needed, and the rest to come on request. Asked the same hour to treat that
@@ -567,6 +573,13 @@ the same figure at every start.
 **The shape of the work, and why it is believed to fit.** A skill's body carries the instruction and
 a pointer; the explanation behind each rule moves into a module opened when a hard case arrives.
 The same shape applies to the director.
+
+**The owner chose the structural cut, 2026-09-05.** Director is the classifier and dispatcher; it
+stops after returning the acts, whether work is new or attached to an existing row, and the route.
+The accepted-work pipeline is a separate skill loaded only after that verdict. It owns the decision
+sheet, definition of done, checkpoint, specialist graph, verification and close. `NEXT_STEPS.md`
+ceases to be another task surface in the same change: tasks, their states and their order live only
+on this board.
 
 **What stops a cut, and it is not a byte count.** This pack has already measured what compression
 costs. On 2026-09-02 the director was cut from 25,613 to 21,900 bytes and re-recorded by the same
@@ -584,7 +597,7 @@ through eight fresh agents, full rule text against trimmed: all eight decisions 
 their pair. 1,219 bytes came off (35,276 → 34,057). This is a lighter check than the director's own
 36-scenario suite, not a substitute for it — it covers this one rule's behaviour, not the book's.
 
-**The gap this row still has to close.** Rule 41 was the one rule shaped for this cut — a long,
+**The gap this row had to close, and how it closed.** Rule 41 was the one rule shaped for this cut — a long,
 freshly-written history paragraph attached to a short instruction. Read against it: rules 7, 38, 31
 and 36, the next heaviest at 3,355 / 2,921 / 2,178 / 2,016 bytes, carry no such paragraph — each is
 already a dense list of distinct, SPEC-cited operative sentences with nothing but a stray dated
@@ -594,11 +607,47 @@ director has its own scenario set to check a cut against. The rulebook still has
 that scale — the ad hoc four pairs above proved the *method*, not a standing suite. Either that
 suite gets built, or the rulebook is cut no further than what a rule's own shape allows for free.
 
-**Done when:** the required-context figure the probe prints has come down toward the owner's
-direction, and every cut that got it there was re-recorded against the director's scenarios with the
-result holding; and the rulebook was cut only after a measurement existed to check it against. The
-figure a session reads at its start is the reading that decides this, and it is printed by
-`bash scripts/state-probe.sh`.
+**Done when:** the Director contains the first read and route contract but no execution procedure;
+the separate pipeline owns the decision sheet, definition of done, checkpoint, specialist graph,
+verification and close; a question loads no pipeline and creates no task; a correction updates the
+existing work and creates none; an explicit new request produces one admitted task; a review finding
+produces none unless it names a promised behaviour and a reproduction somebody outside the repository
+meets; `NEXT_STEPS.md` contains no task, task status, priority or ordering; the required-context figure
+the probe prints has come down toward the owner's direction; and the Director's real scenarios hold
+after the cut. The figure a session reads at its start is printed by `bash scripts/state-probe.sh`.
+
+**Closed 2026-09-06 01:52.** Every arm of the Done-when below is proven by a command. Thirty-one
+tests across `tests/test_front_door_boundaries.py`, `tests/test_next_steps_boundary.py`,
+`tests/test_task_admission.py` and `tests/test_director_scenarios.py` carry the full proof and run
+in the suite. This row's own key in `scripts/plan_checks.py` carries the cheap half of it — the
+anchors that red if any arm is undone — because the probe runs every key at every session start
+and `tests/test_plan_is_not_executable.py` forbids a key that runs a suite there.
+
+The structural cut landed: the Director carries the seven-act table and the route contract and
+nothing else — no `## Execution` section and no mention of `scripts/checkpoint.py` — while
+`skills/build-pipeline/references/accepted-work-execution.md` carries the decision sheet, the
+definition of done, the checkpoint, the specialist graph, the verification and the close. A
+question, musing or conversation is answered where it is read and loads no pipeline. Admission
+proves the rest by running: one instruction writes exactly one row and one checkpoint; a question
+and a correction write nothing at all; a review opinion is refused as a source; an external defect
+is refused without its promised behaviour, its reproduction and its outside observer; a definition
+of done naming the person as its checker is refused. `NEXT_STEPS.md` and its template carry no task
+id, no status, no priority and no ordering, and point back here.
+
+The figure came down from 83,596 bytes to 72,377 (16,762 tokens) — the whole 11,219 off the
+Director, 33,294 to 21,977 — and the probe prints it at every start. That is short of the owner's
+~20 KB direction and stays that way tonight, which the paragraph above explains: the rulebook's
+next-heaviest rules carry operative sentences rather than history, and cutting them means cutting
+behaviour on no measurement, which is exactly what the 2026-09-02 withdrawal warns against. The
+gap resolved to the second half of its own either/or — the rulebook is cut no further than a
+rule's own shape allows for free — and no standing scenario suite for the rulebook was built,
+because nobody has asked for one and no incident calls for it. If the direction is to be pursued
+further, that suite is the first thing to build, and it is his word that opens it.
+
+The scenarios held: 34 of 36 recorded runs pass, the same score as before the cut, and 36 of 36 in
+the twin run; the pipeline's own closing set holds 8 of 9, 9 of 9 in the twin. Both sets are
+hash-pinned to the skill files as they stand, so a later edit to either skill turns the score into
+a declared replay rather than a claim.
 
 **Links:** `skills/live-spec-base/SKILL.md`, `skills/director/SKILL.md`,
 `~/.claude/live-spec/profile.md`, `~/.claude/CLAUDE.md`, `evals/director/README.md`.
@@ -673,7 +722,7 @@ readers of each round stopped inside the same eleven rules. Three places both ro
 were repaired in the rulebook itself and are in this tree. The rest are terms the document has never
 defined, so a rewrite faithful to it inherits every one of them. That work is a finding rather than a row: it stays in the record above and becomes a row only on the owner's own word, by rule 41.
 
-**Links:** `guardrails/check-skill-review.sh`, `skills/director/references/landing-law.md` (the rule
+**Links:** `guardrails/check-skill-review.sh`, `skills/build-pipeline/references/landing-law.md` (the rule
 itself), `spec/design-spec-review.md` (INV-208's home), every directory under `skills/`.
 
 ### ✅ The product's performance after launch is tracked automatically — id: q-48
@@ -799,29 +848,6 @@ Closed. Full record: `docs/queue-archive/2026-09-04-closed-rows.md`.
 ### ✅ A request meant for another project reaches it automatically — id: q-398
 Closed. Full record: `docs/queue-archive/2026-09-04-closed-rows.md`.
 
-### ⬜ A broken promise between two projects is caught automatically — id: q-385
-**Group:** Cross-project · **Priority:** normal
-**Source:** split 2026-07-17.
-**Deferred:** the first host declaring a contract in its card, the revisit trigger carried from the
-original row. No host has declared one yet, so this stays queued rather than in hand.
-
-**Reopened 2026-09-01.** Folded into q-398 on 27.08 ("Covered by: q-398 — A request meant for
-another project reaches it automatically") and rotated off this board on 28.08. q-398 landed
-2026-09-01 doing only its own stated acceptance — the routing-preamble hook (INV-190) — and never
-touched this row's own promise, the same shape q-437 was found in on 31.08. The spec still carries
-this as a deferred item in its own words: `spec/public-contract.md`, Requirement 194 criterion 15,
-"the gate that reds a default-deny violation on the producer's suite *shall* stay promised until a
-host's first real contract" [INV-185] [target]. A promise nobody is building stands here as its own
-open row rather than inside a task that closed without it. Original wording, as row 385:
-`docs/queue-archive/rotated-ROADMAP-2026-08-27-merged-into-plan.md`.
-
-**Definition of done:** three arms, red-proven against a real producer and consumer — a
-producer-side gate reading the card's declared contracts and redding a published field with no
-dated permission record [INV-185]; a consumer-side freshness check redding an artifact past the
-consumer's declared staleness bound before any analysis [INV-187]; and a compatibility test redding
-when the pinned version and the artifact's version diverge [INV-187]. The permission record's own
-format lands with them, one home in the producer's tree.
-
 ### ✅ Independent work actually runs in parallel branches, proven live — id: q-386
 Closed. Full record: `docs/queue-archive/2026-09-04-closed-rows.md`.
 
@@ -834,7 +860,7 @@ Closed. Full record: `docs/queue-archive/2026-09-04-closed-rows.md`.
 ### ✅ The front page is rewritten to be fully accurate — id: q-501
 Closed. Full record: `docs/queue-archive/2026-09-04-closed-rows.md`.
 
-### ⬜ The work board — worker lanes, timing, who's on what — builds once package 2 gives it a real trigger — id: q-816
+### ⛔ The work board — worker lanes, timing, who's on what — builds once package 2 gives it a real trigger — id: q-816
 **Group:** Board & visibility · **Priority:** normal
 **Source:** restored 2026-09-03, correcting q-813 — `spec/work-board.md` Requirement 309 was
 retired that same evening past what the owner had already settled the morning before:
@@ -842,11 +868,48 @@ retired that same evening past what the owner had already settled the morning be
 Requirement 309 and the rest of `matrix/work-board.md`, scheduled to build after package 2, never
 retired. q-813's own closing text named the collision and left it open for his word; his word was
 already on record, so no new decision was needed to restore this row.
-**Deferred:** package 2 (the vertical path) closes, per `.live-spec/turnkey-contract-composed.md:305`
-and q-806's own acceptance ("Package 2 ... does not start before this closes"). Until then this
-stays queued rather than in hand — building it now, ahead of the schedule his own word already set,
-is the same "don't serve machinery nobody needs" reasoning the contract itself argues from, just
-pointed the other way: not never, but not yet.
+**What it waited on, and how the waiting ended.** From 2026-09-03 this row stood deferred on the
+vertical path — instruction, ticket, worker, independent acceptance, delivery, done, and a new
+session continuing it. The schedule was the owner's own
+(`.live-spec/turnkey-contract-composed.md:305`, and q-806's acceptance, "Package 2 ... does not
+start before this closes"), and until 2026-09-06 the thing being waited on was a phrase in a
+prompt file rather than a row anyone could open. That day it became `q-823`, with a definition of
+done and a verification command; `q-823` closed the same night and the board was built on top of
+it. The deferral ended there, and nothing on this row waits on another row any more.
+
+**Blocked by:** owner action: the spec names no publish host: spec/work-board.md criterion 8 asks for one stable link and neither it, SURFACES.md, nor docs/prover/2026-08-06-work-board.md F6 says where — F6 folded the any-device leg into a [target] on purpose, for the owner to settle. Three ways stand open: GitHub Pages of this repo, a published artifact page, or the local file path is the link and criterion 8 retires. The pick this row would take is GitHub Pages of this repo, because the board already regenerates into the tree on every landing and Pages serves that same tree from one address with nothing new to run or renew; the owner's word decides
+
+**Holder:** Builder (opus) — board lead
+
+**Where package 2 actually stands, read piece by piece on 2026-09-06.** The read went through the
+contract's own sections 2, 4 and 7 rather than through the phrase "package 2", because the phrase
+is defined nowhere in the live tree — the contract's own scope line says the rollout packages are
+"not covered" by it, and the owner's numbered list at
+`.live-spec/next-phase-prompt-turnkey-productization.md:80` is the one place package 2 is named:
+instruction → ticket → worker → independent acceptance → delivery → done → a new session
+continuing it.
+
+Standing today: the Director's route contract (`skills/director/SKILL.md`, `## Route contract`);
+admission writing one row and one checkpoint (`scripts/task-admission.py`, M-630); a correction
+landing on the running work's own checkpoint (M-631); a done mark waiting on the command that
+proves it (M-632); a fresh session naming the same next action (M-633); and the resume itself,
+proven live on 2026-09-02 by a session given only "continue".
+
+Not standing at that read, and built the same night under `q-823`: six of the contract's nine
+transitions had no code and no test at all — T4 blocked with one of the three named reason kinds,
+T5 clearing it, T6 parking, T8 reopening, T9 abandoning, and T7's second write, the PLAN mark
+itself, which no script set; T3's queued half — a correction to a ticket nobody has taken up — had
+no code either; and a ticket carried no context pointers, admission having no pointer field and
+validating none, though the contract's section 2 makes pointers part of what a ticket holds. Every
+one of those is code now, each with its own refusal case in `tests/test_task_admission.py`:
+`scripts/task-admission.py:305` (`block`), `:342` (`unblock`), `:367` (`park`), `:385` (`close`),
+`:408` (`reopen`), `:431` (`abandon`), `:285` (`correct`), the mark written by `_rewrite_row` at
+`:135`, and the pointer refusal at `:151`. Two of the eight state-machine facts the contract's
+section 7B calls for had neither a TEST_MATRIX row nor a test — a worker gets the exact text, and a
+real blocker names its cause. And section 7A's own additions to the live evals were unlanded: no
+fixture carried the `operation` field beside its acts, and no trace carried the `model` field
+Fable's F12 asked for (`producer_model` a near miss under another name). `q-823` carried all of it
+as one row and closed on it.
 
 **What it is.** `spec/work-board.md` Requirement 309 describes a kanban-style task queue for a
 HOST project's own work — worker lanes, given-vs-actual time per task, per-agent attribution, one
@@ -855,6 +918,30 @@ project's own plan. One piece of it stays retired on the owner's own same-12:46 
 (`.live-spec/turnkey-contract-composed.md:304`): the periodic ~5-second auto-refresh heartbeat
 (former criteria 88, 90, 96, and the matching halves of matrix facts M-540/M-542) — that piece is
 the one the contract calls "the one piece actually cut," and it stays cut here too.
+
+**Built 2026-09-06.** `scripts/render-board.sh` is the board: one rendered surface under one name,
+extended in place rather than replaced, still reading PLAN.md through the one shared parser and
+still running the same acceptance commands `scripts/state-probe.sh` runs. What it grew: the whole
+queue in four columns (awaiting validation, ready, in work, done), the in-work column split into
+one lane per build lane the profile's own `lanes.cap` allows with each lane's branch and worktree
+read from git itself, a card per row whose face reads echo-name then description then chips and
+whose every other detail sits behind a fold, the craft and tier of whoever holds each running step
+read from the row's Holder line and its checkpoint, the time each row took read off its
+checkpoint's own stamps, the waiting region rendering `WAITING.md` and keeping no list of its own,
+the done column reading this month's `docs/queue-archive/` beside the plan's own closed rows, and a
+refusal to render at all until `SURFACES.md` carries the board's registry row. Twenty-one facts of
+`matrix/work-board.md` read *built* against `tests/test_work_board.py`, each red-proved against the
+renderer as it stood this morning.
+
+**What this row did NOT build, and why it is not in its acceptance.** The statement-validation check
+— M-531 to M-535, the mechanical floor plus the clean-context reader that would move a row into
+*ready* — stays unbuilt. It waits on a datum nothing in this tree records: a statement's own time
+estimate. No ticket field carries one (`scripts/task-admission.py`'s required set names none), no
+checkpoint line carries one, and no delivery report carries one, so criterion 49's floor has
+nothing to read and criteria 63 to 65 have no estimate to stand an actual beside. The board says so
+per card in those words rather than printing a number nobody wrote. Requirement 310 criterion 10 is
+met by the board carrying each in-work row's own plan and the stage its record names: the
+announcement home now exists on the board, which is what the criterion asks for.
 
 **Acceptance:** `spec/work-board.md` Requirement 309's own criteria, minus the retired heartbeat
 clauses above — a card per task, one lane per worker, given-vs-actual time, per-agent attribution,
@@ -865,6 +952,35 @@ announcement home moves from the written plan page to the board's own per-task p
 splitting it is fragmentation with no benefit. `docs/prover/2026-09-03-work-board-restoration-review.md`
 finding F2 is closed by this widened wording, not by a second row.
 
+
+### ✅ One instruction travels the whole path — ticket, worker, independent acceptance, delivery, done, and a new session continuing it — id: q-823
+**Group:** Turnkey productization · **Priority:** normal
+**Source:** the owner's own package 2, second in his numbered list at `.live-spec/next-phase-prompt-turnkey-productization.md:80` — one vertical path on live-spec: instruction, ticket, worker, independent acceptance, delivery, done, and a new session continuing it — detailed by the product contract he had proven before any code started, `.live-spec/turnkey-contract-composed.md` sections 2, 4 and 7. Opened 2026-09-06 after a piece-by-piece read of that contract against the tree found the path built in three places and unbuilt in nine; q-816 had been waiting since 2026-09-03 on a package-2 row that did not exist, which is what the read was looking for.
+
+**Holder:** this session (Opus, 2026-09-06)
+
+**Outcome:** an instruction given in one session becomes a ticket, is worked, is accepted by someone other than its producer, delivers, closes, and is picked up by a fresh session with no spoken recap — every state change written by code that refuses the illegal move, rather than by a hand editing two files
+
+**Done when:** the six transitions no code runs today are run by code and refused on bad input: T4 marks blocked only with one of the three named reason kinds and refuses a reason that merely restates difficulty; T5 clears a block only against a named fact and lands in hand or queued by whether a holder is named; T6 parks by clearing the holder and leaving the checkpoint open with NEXT; T7 writes the PLAN.md mark after closing the checkpoint, in that order, and a re-run over an already-closed checkpoint only rewrites the mark; T8 reopens the same id against a named false condition and never a copy; T9 abandons by clearing IN PROGRESS and NEXT with the halt's reason as their last line and closing the checkpoint in the same step. T3's queued half rewrites a queued ticket's goal and done in place, touching no checkpoint. A ticket carries its context pointers and admission refuses one that carries none. A worker's brief equals the ticket entry plus its checkpoint's NEXT with no paraphrase. Every Director verdict fixture carries its operation beside its acts and the grader reads that field. Each of the eight state-machine facts in the contract's section 7B has one TEST_MATRIX row reading built against a real test, including the two that have neither today — a worker gets the exact text, and a real blocker names its cause.
+
+**Verification:** python3 -m pytest -q tests/test_task_admission.py tests/test_checkpoint_mechanism.py tests/test_director_route_end_to_end.py tests/test_director_scenarios.py tests/test_traceability.py, green, with the eight section-7B facts each traced from a TEST_MATRIX row marked built to a test named on that row; plus python3 evals/director/check.py --all reading the operation field on every fixture
+
+**Context pointers.** `.live-spec/turnkey-contract-composed.md` section 2 (ticket, context pointer,
+done), section 4 (the T1–T9 table), section 6 (who writes what), section 7 (the two proof kinds and
+the eight facts); `.live-spec/next-phase-prompt-turnkey-productization.md:80`;
+`scripts/task-admission.py`, `scripts/checkpoint.py`, `scripts/plan_checks_core.py`,
+`scripts/state-probe.sh`; `matrix/build-pipeline.md` rows M-630 to M-633, the four already built;
+`skills/build-pipeline/references/accepted-work-execution.md` and its `delegation-protocol.md` and
+`verify-step-detail.md` neighbours; `evals/director/scenarios.json` and `evals/director/check.py`.
+
+**What is already standing, so it is not rebuilt.** M-630 (admission writes one row and one
+checkpoint), M-631 (a correction lands on the running work's own checkpoint), M-632 (a done mark
+waits on the command that proves it), M-633 (the recorded state names one next action), and the
+resume itself, proven live on 2026-09-02 by a session given only "continue". The row's work is the
+nine pieces the same read found missing; they are listed in q-816's own text, which waits on this
+row.
+
+**Blocks:** `q-816` — the work board, which waits on this row closing.
 
 ## Environment — known traps
 
@@ -909,4 +1025,5 @@ Rotated closed rows (base rule 10 — nothing lost; the archive keeps every move
 - rows 405 → docs/queue-archive/rotated-PLAN-2026-08-28-q405-agent-messaging-stale-premise.md
 - rows 453, 751 → docs/queue-archive/rotated-PLAN-2026-08-31-hostile-review-archive.md
 - rows 811 → docs/queue-archive/rotated-PLAN-2026-09-03-q811-declined.md
+- rows 385 → docs/queue-archive/rotated-PLAN-2026-09-06-q385-no-producer-declined.md
 <!-- /rotated-manifest -->

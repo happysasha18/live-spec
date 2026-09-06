@@ -1,8 +1,11 @@
 {
-  "id": "JY",
+  "id": "AZ",
   "acts": [
     "correction",
     "observation"
+  ],
+  "operation": [
+    "T3"
   ],
   "creates_work": false,
   "shelves_idea": false,
@@ -12,12 +15,13 @@
     "analytics, unknowns, hypotheses, experiments"
   ],
   "specialists": [
-    "developer"
+    "data and experiment analyst"
   ],
-  "reasoning": "Measuring was already in flight, so the message changes work that exists rather than starting any: the broad measurement goal is withdrawn and comes back smaller — a quick measure on the platform, taken before deciding how complex the transitions should be. A goal that came back smaller is still a goal being pursued, so this is a correction to that work's goal, not a halt, and the 'это да' clause is the repair stated aloud, which belongs to the correction rather than opening as a fresh instruction or as an idea to shelve. Replanning takes on nothing that did not already exist: the one piece in flight stays one piece, with a revised decision sheet written onto its existing checkpoint via 'checkpoint.py update' — no new row, zero new work items. The second act is the judgment that the auto-ticket reflex is itself a bug: a claim about what is broken says something new even though it doubles as the reason for the correction, and it stays worth knowing after this work closes, so it is recorded as evidence and not dissolved into the correction's grounds. Because a correction is the one case where naming the areas is the point, the replanned work is named against measurement and hypotheses; the developer runs the narrowed measure, and no spec, architect or test author is called since nothing in their documents becomes wrong.",
+  "reasoning": "Measuring was already in flight, and the person narrows what it must cover: nothing he did not ask for, only the quick measurement on the platform taken before deciding how complex the transitions will be. Narrowing a goal is a correction to work already running, not a halt, because a goal remains to pursue and the work goes on toward it; the clause naming the quick platform measurement is that correction's own goal restated, so it earns no instruction of its own. Replanning takes on nothing new, so no row is added and the count of new pieces of work is zero. Alongside it he states a judgment about the product itself: the unrequested measuring is a bug, and something like an auto-ticket reflex fired in place of thinking. That says something the correction's goal does not carry and stays worth knowing after this work closes, so it is its own act, kept as evidence. Dimensions and the specialist name only what the corrected measuring work now touches.",
   "scenario": "mixed-you-invented-that-work",
-  "label": "JY",
-  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
-  "recorded": "2026-09-04",
-  "skill_version": "6.1.0"
+  "label": "AZ",
+  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
 }

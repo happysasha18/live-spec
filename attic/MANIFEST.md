@@ -117,3 +117,14 @@ fixtures and data beside it, so returning one is a single move. Their lines take
 - `tests/test_eyes_marker_traces_to_owner.py` -> `attic/test_eyes_marker_traces_to_owner.py` * the
   pin for `check-eyes-marker.py`'s logic, retired alongside it for the same reason: the 👁️ mark it
   tested for is gone * 2026-09-04
+- `spec/public-contract.md` Requirement 194 criterion 15 with its own case heading (the criterion
+  alone, excerpted from a part file that keeps its other fourteen) ->
+  `attic/spec-public-contract-R194-C15.md` * the promise of a producer-side default-deny gate,
+  carrying the `[target]` marker that put it on the owner's board. Its revisit trigger was the
+  first host declaring a contract in its card; on 2026-09-06 every adopted project's
+  `.live-spec/agent.md` still read "None today" under "Contracts this agent publishes", so there
+  was no real producer and no real consumer to prove the three arms against and no honest way to
+  finish the row that held it. The default-deny law itself stays live in criteria 4, 5 and 6 of
+  the same requirement, proven by `matrix/spec-author.md` M-362. `INV-185`'s entry left
+  `TARGET_ROW_OWNERS` in the same commit, per SPEC S-0. The row's own text is at
+  `docs/queue-archive/rotated-PLAN-2026-09-06-q385-no-producer-declined.md` * 2026-09-06

@@ -112,14 +112,27 @@ class WindDownFixture(unittest.TestCase):
         return wpath
 
     def spawn_worker_process(self):
-        proc = subprocess.Popen(["sleep", "60"])
+        try:
+            proc = subprocess.Popen(["sleep", "60"])
+        except PermissionError as exc:  # a sandbox that forbids spawning, not a product defect
+            self.skipTest("environment blocks spawning a process (%s); nothing about wind-down "
+                          "was exercised, so this is a skip and not a red" % exc)
         self._procs.append(proc)
         return proc
 
     def run_wind_down(self):
-        return subprocess.run(
+        result = subprocess.run(
             [sys.executable, WIND_DOWN, "--repo", self.repo], capture_output=True, text=True
         )
+        # wind-down reads the process table with `ps` (scripts/wind-down.py's liveness and
+        # self-guard reads). A sandbox that forbids executing `ps` raises PermissionError inside
+        # that subprocess, which says nothing about the product: report it as a skip naming the
+        # blocked command, so an environment limit is never read as a wind-down failure.
+        if "PermissionError" in result.stderr and "'ps'" in result.stderr:
+            self.skipTest("environment blocks `ps`, which wind-down reads to tell a live worker "
+                          "from a stopped one; the product was never reached:\n%s"
+                          % result.stderr.strip().splitlines()[-1])
+        return result
 
 
 class TestGreenPath(WindDownFixture):

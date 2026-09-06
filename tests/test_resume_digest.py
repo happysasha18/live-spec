@@ -1,7 +1,4 @@
-"""Row 115 (M-146, INV-48): the resume file is a digest with no redundancy —
-the whole NEXT_STEPS.md holds one live-state block and nothing removable
-without losing information; detail flows to the journal and queue rows it
-points at; an open leg is never dropped, only stated tersely."""
+"""M-146 / INV-48: the resume file is a taskless transient-state digest."""
 
 import os
 import unittest
@@ -16,3 +13,5 @@ class TestResumeDigestLaw(unittest.TestCase):
             t = f.read()
         self.assertIn("no redundancy", t,
                       "the template must state the digest law (SPEC INV-48)")
+        self.assertIn("PLAN.md", t)
+        self.assertIn("TRANSIENT EXECUTION STATE", t)

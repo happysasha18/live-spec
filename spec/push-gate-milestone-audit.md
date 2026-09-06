@@ -32,19 +32,19 @@
 
 ---
 
-## Requirement 127: The resume file is a digest with no redundancy
+## Requirement 127: The resume file holds interruption state, never planned work
 
-**Context:** The resume file is read in one minute at a cold start, so growth is a design failure. The file's law is qualitative: it carries one live-state block, holding nothing a reader could lose without losing information. A suite check watches for drift, catching a bloated file with a synthetic fixture. An open leg is restated as one terse line, and its detail flows to its home.
+**Context:** The plan and its rendered board are the one home of tasks, their states and their order. A second task digest drifts and sends a cold session back into work the board has already closed. The resume file therefore carries only transient execution state that version control and the board cannot recover after an interruption: an unfinished write-set, a live worker, or a failing command with its current hypothesis.
 
-**User Story:** As a returning session, I want the resume file held to its digest law and each open leg stated in one terse line, so that a cold start reads a short current picture.
+**User Story:** As a returning session, I want planned work read from one board and interruption state kept separately, so that resuming cannot create a second, stale queue.
 
 ### Acceptance Criteria
 
-**Case: the digest law and its check**
+**Case: the resume file is not a task surface**
 
-1. The system *shall* hold the whole resume file to one live-state block and a digest with no redundancy — nothing removable without losing information. A suite check *shall* own that shape, reddening on a bloated file proven with a synthetic one. [INV-48]
-2. The system *shall* restate an open leg as one terse line — its name, what stays open, and where the detail lives — and *shall* move the detail to the journal, the queue row, or the record the line points at. [INV-48, INV-26]
-3. The system *shall* have compaction move prose to its home and *shall* never let it drop an open leg. [INV-48, INV-26]
+1. The system *shall* keep every task, task state, priority and ordering only in the plan and its generated board, and *shall* keep no forward queue or task restatement in the resume file. [INV-48, INV-4]
+2. *when* an interruption leaves state the board and version control cannot reconstruct, the system *shall* replace the resume file's one transient-state block with only the unfinished write-set, live worker identity, or failing command and current hypothesis needed to continue safely. [INV-48, INV-76]
+3. *when* no such transient state exists, the system *shall* say so and point to the plan for all planned work. A suite check *shall* red a resume file or its template that carries a task id, forward queue, task status, priority or ordering. [INV-48]
 
 ---
 
@@ -440,4 +440,3 @@
    - putting that check back into the push chain takes a decision of its own.
 
 ---
-

@@ -1,7 +1,11 @@
 {
-  "id": "UQ",
+  "id": "KQ",
   "acts": [
     "observation"
+  ],
+  "operation": [
+    "T1",
+    "T2"
   ],
   "creates_work": true,
   "shelves_idea": false,
@@ -12,14 +16,14 @@
     "quality, safety, regressions"
   ],
   "specialists": [
-    "developer",
-    "test author",
-    "independent verifier"
+    "Developer",
+    "Test author"
   ],
-  "reasoning": "A message with no words - a pasted stack trace - is still an act, and usually an observation. Nothing here asks a question, settles a rule, or changes work in flight, so it is one act, not several. It is an observation whose repair follows beyond doubt: a TypeError thrown from the entitlement check moments after a deploy the person was watching is a defect, and a competent colleague would not need to ask what was wanted, so the Director acts rather than asking. That makes it one new piece of work with its own goal and decision sheet - the entitlement check stops throwing on the deployed path - and one checkpoint opened before the first specialist is called. Dimensions: product behaviour, because the entitlement check is not honouring what it should; and quality, because it shipped without a check that would have caught the undefined read. Specialists: developer to find and fix the cause, test author for the regression that fails on today's code and passes after, and an independent verifier who did not produce the work to check the outcome against the artifacts. No spec author - nothing suggests the specified behaviour changed - and the confirmed bug still owes a class sweep for siblings of the same undefined-read mistake in the same change before it counts as finished.",
+  "reasoning": "A message with no words is still an act, and a pasted stack trace is usually an observation. This one carries its repair with it: a crash in checkEntitlement thrown moments after a deploy the person was watching is the 'production is returning 500s' case, not the 'copy feels stiff' case. A competent colleague would not need to ask what was wanted, so the Director acts rather than asking. Nothing was in flight that this changes, so it is not a correction and attaches to no existing work: the crash is one result someone could want on its own, so one new piece of work is accepted, admitted and taken in hand. It touches the paid behaviour that broke and the regression evidence that must stop it coming back; the entitlement check is a code fix, not a boundary or integration change, so no architect. The person said nothing beyond the trace, so no idea and no standing rule were voiced.",
   "scenario": "not-an-act-a-bare-trace",
-  "label": "UQ",
-  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
-  "recorded": "2026-09-04",
-  "skill_version": "6.1.0"
+  "label": "KQ",
+  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
 }

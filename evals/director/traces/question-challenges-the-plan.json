@@ -1,7 +1,10 @@
 {
-  "id": "SN",
+  "id": "IO",
   "acts": [
     "question"
+  ],
+  "operation": [
+    "none"
   ],
   "creates_work": false,
   "shelves_idea": false,
@@ -9,10 +12,11 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "The person is asking, not instructing: 'wait, isn't this what the prover already does? or are our real cases just harder?' offers two candidate answers and waits for one. Both clauses are the same act of asking — a question with its own alternative, not a question plus a separate observation. Nothing was in flight to correct or halt: the Director had only proposed a step, and a proposal met with a question is a proposal still being discussed. A question creates nothing and changes no document, so there is no decision sheet, no dimension named and no specialist called; the Director may read (including what the prover already covers) to answer, but reading to answer is not work. The right reply says whether the proposed check overlaps the prover's existing coverage and where the real cases exceed it — and if the answer turns out to be that the prover already covers it, that kills the proposal rather than filing it anywhere.",
+  "reasoning": "The person is answering a proposal the agent made, and what they say is two questions in one breath: does the prover already do this, and if not, is it because our real cases are harder? Neither clause asks for anything to be done, settles an open choice, or changes a goal of work in flight - nothing was accepted yet, only proposed. The doubt about duplicated machinery is voiced interrogatively, as a request to know, not as a report of a fact, so it stays inside the question rather than becoming a separate observation. The Director answers it: explain what the prover covers and where the proposed step would or would not overlap, and let them decide whether the step is wanted. Creating work to be safe here is exactly the expensive direction the skill forbids, so no row opens, no ticket state changes, and a turn that accepted no work names no dimension and calls no specialist.",
   "scenario": "question-challenges-the-plan",
-  "label": "SN",
-  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
-  "recorded": "2026-09-04",
-  "skill_version": "6.1.0"
+  "label": "IO",
+  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
 }

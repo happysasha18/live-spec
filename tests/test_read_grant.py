@@ -2,13 +2,15 @@
 
 The defect (the 2026-07-17 audit's finding 8): INV-187 sends a remote consumer to read the contract
 "over git when remote" and cites [INV-112], whose home defines only a PUSH grant on the deposit path;
-no READ grant is defined anywhere. tlvphotos is a private repo and the promoter↔site pair is the
-expected first real consumer [row 385], so the first contract read across machines has no stated road.
+no READ grant is defined anywhere. tlvphotos is a private repo and the promoter↔site pair was the
+expected first real consumer (row 385, declined 2026-09-06 for want of any real producer —
+`docs/queue-archive/rotated-PLAN-2026-09-06-q385-no-producer-declined.md`), so the first contract
+read across machines had no stated road.
 
 This lands the LAW arm: the remote-seat law grows its read arm — what a consumer needs to read a
 private repo over git, WHERE the grant is recorded (the host profile, beside the push grant [INV-82]),
 and the honest grantless failure that NAMES the grant it lacks [INV-67]. The real cross-machine read is
-field-gated (tied to rows 385/247) and not attempted here.
+field-gated and not attempted here; what stands here is the law, and no gate is promised behind it.
 
 The tests drive fixture grant records — no repo is cloned.
 """

@@ -1,7 +1,10 @@
 {
-  "id": "ML",
+  "id": "JT",
   "acts": [
     "question"
+  ],
+  "operation": [
+    "none"
   ],
   "creates_work": false,
   "shelves_idea": false,
@@ -9,10 +12,11 @@
   "work_items": 0,
   "dimensions": [],
   "specialists": [],
-  "reasoning": "One act: a question. The person wants to know how long the running job will take so they can decide whether to wait — they are asking for information, not for anything to be done. The Director answers it; a question creates nothing, opens no spec, writes no row. Fetching the fact (elapsed time, expected duration) is reading, not work, and the effort of answering never converts the question into a task. Nothing is in flight that this changes: the job keeps running toward the same goal, so this is neither a correction nor a halt — asking about the state of work does not change what that work must do. A turn that accepted no work names no dimension and calls no specialist. What the person hears back is the answer, and that they were answered.",
+  "reasoning": "The person asks how long the running job will take. That is a question: they want to know something so they can decide whether to wait. It changes no goal and no constraint of the work in flight, so it is not a correction, and nothing is being asked to stop, so it is not a halt. Answering it may require reading or checking progress, but the skill is explicit that fetching facts to answer is reading, not work, and a question must not become a task because answering it took effort. A turn that accepted no work names no dimension and calls no specialist, so both lists are empty and no ticket state changes.",
   "scenario": "question-how-long",
-  "label": "ML",
-  "skill_sha256": "99a79b438a2d83f2419f593766135ceea3c6444fbac447c62c1f051acf593bcd",
-  "recorded": "2026-09-04",
-  "skill_version": "6.1.0"
+  "label": "JT",
+  "skill_sha256": "94986245598fc5b3a97b7548e49a2e7cf58c3cd5dfa2f9c24aecac9232a3d79b",
+  "recorded": "2026-09-06",
+  "skill_version": "6.1.0",
+  "producer_model": "opus"
 }
