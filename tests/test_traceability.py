@@ -1224,14 +1224,29 @@ class TestInstallerAndDecisionPage(unittest.TestCase):
                 self.assertTrue(os.path.isfile(os.path.join(dest, s, "SKILL.md")),
                                 "%s gone after re-run — the never-deletes side broke" % s)
             attic = dest + "-attic"
-            self.assertTrue(os.path.isdir(attic),
-                            "second run left no attic dir beside the live skills dest (row 122)")
-            attic_backups = [d for d in os.listdir(attic) if ".bak_" in d]
-            self.assertGreaterEqual(len(attic_backups), len(skills),
-                                    "second run left no timestamped backups in the attic")
+            # A second run over an unchanged install writes nothing already in git a second
+            # time: this is the 2026-09-06 fix (see JOURNAL.md — 436 of 480 backups on the real
+            # machine were byte-identical to a git object). row 122's own text asked only for a
+            # backup "before overwriting", never for one on a byte-identical overwrite.
+            self.assertFalse(os.path.isdir(attic),
+                             "an unchanged second run wrote a backup nothing needed (row 122 "
+                             "asks for a backup before overwriting, not before a no-op)")
             dest_backups = [d for d in os.listdir(dest) if ".bak_" in d]
             self.assertEqual(dest_backups, [],
                              "a backup landed inside the live skills dir — row 122 regression")
+            # Now force real drift on one skill and confirm the backup still happens where the
+            # installed copy is about to be overwritten with something different.
+            one = skills[0]
+            marker = os.path.join(dest, one, "SKILL.md")
+            with open(marker, "a", encoding="utf-8") as f:
+                f.write("\n<!-- drifted for the test -->\n")
+            r3 = subprocess.run(["bash", script], env=env, capture_output=True, text=True)
+            self.assertEqual(r3.returncode, 0, "third (drift) run failed:\n%s" % r3.stderr)
+            self.assertTrue(os.path.isdir(attic),
+                            "a drifted destination was overwritten with no backup taken")
+            attic_backups = [d for d in os.listdir(attic) if d.startswith(one + ".bak_")]
+            self.assertGreaterEqual(len(attic_backups), 1,
+                                    "the drifted skill left no timestamped backup in the attic")
 
     def test_spec_names_installer(self):
         body = re.sub(r"\s+", " ", read("PRODUCT_SPEC.md"))
