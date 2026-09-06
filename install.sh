@@ -26,12 +26,19 @@ for skill_dir in "$SKILLS_SRC"/*/; do
   # -e OR -L, not -d: the removal below takes anything at this path, so a backup that only
   # covered a directory left a file or a dangling symlink deleted with no copy anywhere, and
   # the comment beneath it ("the backup above is taken before the removal") false.
-  if [ -e "$dest" ] || [ -L "$dest" ]; then
+  # A backup only where the installed copy holds bytes the source does not: everything else is
+  # already in git, and a copy of it is a second home for the same thing. Of 480 backups on
+  # 2026-09-06, 436 were byte-identical to a git object and the rest were superseded drafts of
+  # the same day's work (his word: "если скиллы есть в гитхабе то зачем они на диске?").
+  if { [ -e "$dest" ] || [ -L "$dest" ]; } && ! diff -rq "$skill_dir" "$dest" >/dev/null 2>&1; then
     backup_home="$SKILLS_DEST-attic"
     mkdir -p "$backup_home"
     backup="$backup_home/$skill_name.bak_$TIMESTAMP"
-    echo "  $skill_name — backing up existing to $backup"
+    echo "  $skill_name — installed copy differs from the source; backing up to $backup"
     cp -a "$dest" "$backup"   # -a, not -r: a symlink is backed up as itself
+
+  elif [ -e "$dest" ] || [ -L "$dest" ]; then
+    echo "  $skill_name — installed copy already matches the source; no backup taken"
 
   else
     echo "  $skill_name — new install"
