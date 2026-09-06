@@ -6,18 +6,15 @@ Prover skill version: product-prover (installed under `skills/product-prover/`),
 `skills/product-prover-pack/SKILL.md` (pack bindings). This pass was run from a seat that authored
 none of the work below, briefed to find reasons to refuse it.
 
-Range: 5928738a..a60c72dc
+Range: 5928738a..92e37638
 - 92e37638 The installer's own test names the conditional backup, not the old unconditional one — a CI-only red (a fresh, unchanged second run of install.sh, which the local suite does not repeat inside the same test twice the way this one does); fixed and re-proved with a third run that forces real drift
 - 5928738 The review record names its landing commit — the base this range is measured from
 - 86e9cb5 The installer backs up an installed skill only where its bytes are not in git
 - c51a279 The Cyrillic quote behind the backup rule moves to JOURNAL.md
-- \<pending\> the uncommitted change under review — this record, the symlink exemption in
-  `install.sh`, and the red-first test that holds it
+- 43038fb0 A symlinked install destination is backed up even where its target matches — the symlink defect this pass found and fixed, and the record itself
 
-The head sha is written `\<pending\>` on purpose: the commit that lands this record does not exist
-while the record is being written, and it is the coordinator that fills the real hash in at commit
-time. The gate reads the record for every reviewed commit's short sha, so that substitution has to
-happen before the push, not after it.
+This record was committed after 43038fb0 and 92e37638 both landed, so every reviewed commit is
+named by its real short sha above rather than a placeholder.
 
 Files read: `install.sh` (whole — 58 lines as this range left it, 60 after this pass's fix; not the
 changed hunk alone, since the question asked was what the skipped backup could cost a later step),
