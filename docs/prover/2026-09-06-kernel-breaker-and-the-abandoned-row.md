@@ -7,7 +7,8 @@ Prover skill version: product-prover (installed under `skills/product-prover/`),
 This pass was run from a seat that authored none of the work below, briefed to find reasons to
 refuse it.
 
-Range: de542335..b60fca2f
+Range: 9407487d..f330d285
+- f330d285 The published board names its publisher in the stamp, on every render from a runner — the one test the server's gates run reddened on a clone with no row in hand; one sentence in the records-only stamp
 - b60fca2f The closure kernel holds on real rows; the readers cannot re-enter; the board's link is live — this record's own landing; the sentence that stood here before the commit existed said the head was pending
 commits already on the branch and the whole working tree that will land beside them; the
 coordinator fills the head sha in at commit time.
