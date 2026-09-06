@@ -203,6 +203,61 @@ def merge_base_passes_the_fix():
         return result.returncode == 0 and "merge-base: OK" in result.stdout
 
 
+def _close_receipt_tree(tmp, done_mark, receipt_line):
+    """A plan carrying one row and a checkpoint for it, in a git tree the gate can read a base
+    from (SPEC INV-206 territory, the closure kernel). `receipt_line` is the checkpoint's DONE
+    body; `done_mark` is the mark the row wears in the working tree."""
+    _git_scratch_repo(tmp)
+    _write(tmp, "PLAN.md",
+           "# Plan\n\n## Tasks\n\n### \u2b1c Ship the thing \u2014 id: q-1\n"
+           "**Group:** Core \u00b7 **Priority:** normal\n\n"
+           "**Done when:** the deliverable says v2\n\n"
+           "**DOD hash.** deadbeef\n")
+    _write(tmp, ".live-spec/checkpoints/q-1.md",
+           "# Ship the thing\n\nOwner: pipeline\nStatus: closed\n\n"
+           "## DECISION SHEET\n\nGoal: ship it.\n\n"
+           "## DONE\n\n%s\n\n## IN PROGRESS\n\n(nothing)\n\n## NEXT\n\n(nothing)\n"
+           % receipt_line)
+    _commit_all(tmp)
+    # The done mark lands AFTER the base commit, so the gate reads it as a row that became done
+    # in what is about to be published — which is the arm under test.
+    _write(tmp, "PLAN.md",
+           open(os.path.join(tmp, "PLAN.md"), encoding="utf-8").read().replace(
+               "### \u2b1c", "### " + done_mark))
+    return tmp
+
+
+def _run_close_receipt(tmp):
+    return subprocess.run(
+        ["python3", os.path.join(GUARDRAILS, "check-close-receipt.py"),
+         "--plan", os.path.join(tmp, "PLAN.md"),
+         "--checkpoints", os.path.join(tmp, ".live-spec", "checkpoints"),
+         "--base", "HEAD"],
+        cwd=ROOT, capture_output=True, text=True,
+    )
+
+
+def close_receipt_reds_the_bug():
+    """The bug: a done mark typed onto the plan by hand, with no acceptance receipt behind it.
+    Returns True when the gate reds it."""
+    with tempfile.TemporaryDirectory() as tmp:
+        _close_receipt_tree(tmp, "\u2705", "OPENED: 2026-09-06T10:00:00")
+        result = _run_close_receipt(tmp)
+        return result.returncode != 0 and "no acceptance receipt" in result.stdout
+
+
+def close_receipt_passes_the_fix():
+    """The same fixture, fixed: the row closed through the state machine, so its checkpoint
+    carries a passed receipt for the done the row now reads. Returns True when the gate passes."""
+    with tempfile.TemporaryDirectory() as tmp:
+        receipt = ('OPENED: 2026-09-06T10:00:00\nRECEIPT: {"by": "a second pair of eyes", '
+                   '"dod_hash": "deadbeef", "checks": [["the row\'s own check", 0]], '
+                   '"verdict": "passed"}')
+        _close_receipt_tree(tmp, "\u2705", receipt)
+        result = _run_close_receipt(tmp)
+        return result.returncode == 0 and "stands on a passed acceptance receipt" in result.stdout
+
+
 #: Checks that own a live fixture proof, run by this suite — the shape q-489 asks every check to
 #: carry eventually. check-prototype-fence.sh is the one check that completes the walk end to end;
 #: check-merge-base.sh and check-worktree-line.sh (PLAN q-804) are the next two, shipped with the
@@ -212,6 +267,7 @@ PROVEN = {
     "check-merge-base.sh": (merge_base_reds_the_bug, merge_base_passes_the_fix),
     "check-worktree-line.sh": (worktree_line_reds_the_bug, worktree_line_passes_the_fix),
     "check-status-view-drift.py": (status_view_drift_reds_the_bug, status_view_drift_passes_the_fix),
+    "check-close-receipt.py": (close_receipt_reds_the_bug, close_receipt_passes_the_fix),
 }
 
 #: Every other check-*.py / check-*.sh shipping in guardrails/ on 2026-08-31, when this row's

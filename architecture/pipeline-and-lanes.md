@@ -35,7 +35,7 @@
 
 **pins** —
 - `skills/build-pipeline/references/work-kind-table.md:4` (the door + work-kind relationship — the door picks which steps run, this table picks the form each running step takes)
-- `skills/build-pipeline/SKILL.md:88` (the craft ladder — step→craft one home, Requirement 51 backs it at the SPEC level)
+- `skills/build-pipeline/SKILL.md:105` (the craft ladder — step→craft one home, Requirement 51 backs it at the SPEC level)
 - `skills/build-pipeline/references/work-kind-table.md:1` (the work-kind table — per-kind meanings' one home)
 - `skills/build-pipeline/SKILL.md` and `skills/build-pipeline/references/accepted-work-execution.md` (admission and the dynamic execution graph)
 - `scripts/task-admission.py:1` (the mechanical new-work door: source, outcome, definition of done and verification become one PLAN.md row and its checkpoint; quiet and existing-work routes write nothing)

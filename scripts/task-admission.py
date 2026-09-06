@@ -589,8 +589,12 @@ def admit(route: dict, plan_path: Path, checkpoints_dir: Path) -> dict:
         # however long the work ran. Read that way the close settled "actual 0.0 hours" against
         # every estimate (2026-09-06, three rows). One line, written once, beside the trail that
         # reads it.
-        checkpoint.update_checkpoint(staged, done=OPENED + datetime.datetime.now().isoformat(
-            timespec="seconds"))
+        checkpoint.update_checkpoint(staged, done="\n".join((
+            OPENED + datetime.datetime.now().isoformat(timespec="seconds"),
+            # The anchor: the digest of the done this row is admitted with, on the one surface
+            # `close` already refuses to work without. It makes the row's own `**DOD hash.**`
+            # line tamper-evident — see DOD_ANCHOR.
+            DOD_ANCHOR + dod_digest(route["done_when"]))))
         issues = checkpoint.validate_checkpoint(staged)
         if issues:
             raise AdmissionError("invalid staged checkpoint: %s" % "; ".join(issues))
@@ -618,6 +622,13 @@ DOD_HASH = "**DOD hash.**"
 DOD_HISTORY = "**DOD changed.**"
 RECEIPT = "RECEIPT: "
 OPENED = "OPENED: "
+# The digest of the done the row was ADMITTED with, written onto the checkpoint at
+# admission. The row carries the same digest under `**DOD hash.**`; this second copy is
+# not a second home for the done, it is the anchor that makes the row's copy tamper-
+# evident. Deleting the row's hash line used to hand `verify` a row it read as predating
+# the kernel, so it wrote a fresh hash over whatever the done now said and `close` then
+# compared that new contract against itself (the read of 2026-09-06).
+DOD_ANCHOR = "DOD: "
 # The heuristic, said plainly here and in `verify --surface`'s own help: a done written in these
 # words promises something rendered or published, and a fixture passing is not that thing.
 SURFACE_WORDS = re.compile(
@@ -683,6 +694,46 @@ def tree_hash(root, exclude=None):
         return written.stdout.strip(), (head.stdout.strip() if not head.returncode else "none")
 
 
+def read_dod_anchor(cp):
+    """The digest of the done this row was admitted with, off its checkpoint, or None."""
+    if not Path(cp).exists():
+        return None
+    body = checkpoint.read_checkpoint(cp)["sections"].get("DONE", "")
+    for line in reversed(body.splitlines()):
+        if line.startswith(DOD_ANCHOR):
+            return line[len(DOD_ANCHOR):].strip() or None
+    return None
+
+
+def _write_dod_anchor(cp, digest: str) -> None:
+    """Record (or re-record) the admitted done's digest on the checkpoint."""
+    body = checkpoint.read_checkpoint(cp)["sections"].get("DONE", "")
+    kept = [ln for ln in body.splitlines()
+            if not ln.startswith(DOD_ANCHOR) and not checkpoint._is_empty_body(ln)]
+    checkpoint.update_checkpoint(cp, done="\n".join(kept + [DOD_ANCHOR + digest]).strip())
+
+
+def acceptance_key(tree, task_id: str):
+    """The acceptance command this tree recorded for the row, or None.
+
+    One home: `scripts/plan_checks.py` in the tree that holds the plan, the same table the plan
+    readers and the pre-spawn gate read. A verifier runs THAT command; a command handed on the
+    command line is an extra check beside it and can never stand in for it.
+    """
+    keys = Path(tree) / "scripts" / "plan_checks.py"
+    if not keys.exists():
+        return None
+    import importlib.util
+    spec = importlib.util.spec_from_file_location("host_plan_checks", keys)
+    mod = importlib.util.module_from_spec(spec)
+    try:
+        spec.loader.exec_module(mod)
+    except Exception:  # noqa: BLE001 - a table that does not load names no key
+        return None
+    key = getattr(mod, "CHECKS", {}).get(task_id)
+    return key if (key or "").strip() else None
+
+
 def read_receipt(cp):
     """The last acceptance receipt written into the checkpoint's DONE section, or None."""
     body = checkpoint.read_checkpoint(cp)["sections"].get("DONE", "")
@@ -698,10 +749,16 @@ def read_receipt(cp):
 def verify(plan_path: Path, checkpoints_dir: Path, task_id: str, by: str,
            commands=(), surfaces=()) -> dict:
     """Write the acceptance receipt: who accepted, when, the tree, the frozen done, the
-    commands and the exit code each one actually returned.
+    acceptance it ran and the exit code each check actually returned.
 
     Not a transition. It is the evidence `close` reads instead of an agent's claim, and the one
     thing the producer may not write: `--by` naming the row's own holder is refused.
+
+    The receipt is made of the acceptance the TREE recorded for this row, never of whatever the
+    caller handed in. `commands` names extra checks that ride beside it; a row with no recorded
+    acceptance cannot be verified at all. The name in `by` proves nothing by itself — what makes
+    the verdict independent of the producer is that the recorded check ran and its exit code is
+    written down.
     """
     by = str(by).strip()
     if not by:
@@ -726,32 +783,68 @@ def verify(plan_path: Path, checkpoints_dir: Path, task_id: str, by: str,
             "this done names a rendered or published surface, so the receipt names the surface "
             "it was read on: verify --surface <path-or-url>. A fixture passing is not the "
             "surface rendering")
-    commands = [str(c) for c in commands if str(c).strip()]
-    if not commands:
+    # The acceptance is the one the tree RECORDED for this row, run here. A command handed on
+    # the command line rides beside it and never in place of it: `--command true` used to be the
+    # whole receipt, so a verifier who ran nothing at all produced a passed verdict, and the
+    # row's own recorded check — the one that would have failed — was never executed
+    # (the read of 2026-09-06).
+    tree_root = Path(plan_path).resolve().parent
+    key = acceptance_key(tree_root, task_id)
+    if not key:
         raise AdmissionError(
-            "an acceptance receipt records the checks it ran: verify --command \"<cmd>\"")
+            "%s has no recorded acceptance command, so there is nothing for a verifier to run: "
+            "write the row's key into scripts/plan_checks.py, keyed by the row's id, and verify "
+            "again. A command named at the command line is an extra check, never the acceptance"
+            % task_id)
+    extra = [str(c) for c in commands if str(c).strip() and str(c).strip() != key]
+    commands = [key] + extra
 
     cp = _checkpoint_path(checkpoints_dir, task_id)
     if not cp.exists() or checkpoint.read_checkpoint(cp)["status"] != "open":
         raise AdmissionError("%s has no open checkpoint to accept" % task_id)
 
+    # The row's hash against the digest the checkpoint recorded at admission. A row whose hash
+    # line was deleted, and a row whose done and hash were rewritten together, both reach here
+    # looking consistent with themselves; the anchor is the only thing that still remembers what
+    # was admitted.
+    anchor = read_dod_anchor(cp)
+    if anchor and not recorded:
+        raise AdmissionError(
+            "%s no longer carries the hash of its definition of done, and its checkpoint still "
+            "holds the one it was admitted with (%s): removing the hash is not a new contract. "
+            "Put the line back, or change the done through `correct %s --done ... --source ... "
+            "--reason ...`" % (task_id, anchor, task_id))
+    if anchor and recorded and anchor != recorded:
+        raise AdmissionError(
+            "the definition of done differs from the one %s was admitted with (checkpoint holds "
+            "%s, the row now reads %s): change a done through `correct`, which keeps the "
+            "previous text and hash, never by rewriting the row" % (task_id, anchor, recorded))
+
     if not recorded:
-        # A row that predates the kernel has no hash, so the comparison above had nothing to
-        # compare and passed in silence. The first verification writes one — before the tree is
-        # read, so the receipt pins the tree that carries it — and every comparison after this
-        # one is real.
+        # A row that predates the kernel has no hash and no anchor, so the comparisons above had
+        # nothing to compare and passed in silence. The first verification writes one — before
+        # the tree is read, so the receipt pins the tree that carries it — and every comparison
+        # after this one is real. The anchor goes on the checkpoint in the same step, so this
+        # arm can be walked exactly once per row.
         _rewrite_row(plan_path, task_id, edits=[(
             DOD_HASH,
             "%s \u2014 recorded at first verification %s; the row predates the kernel"
             % (dod_digest(dod), datetime.date.today().isoformat()),
             DONE_WHEN if _paragraph(block, DONE_WHEN) else ACCEPTANCE)])
+        _write_dod_anchor(cp, dod_digest(dod))
 
-    checks = [[cmd, plan_checks_core.run_key(cmd, mark=False).returncode] for cmd in commands]
-    tree, head = tree_hash(Path(plan_path).resolve().parent, checkpoints_dir)
+    # In the tree that holds the plan: an acceptance command names the project's own files
+    # relative to its root, and the verifier is handed a path rather than run from beside it.
+    checks = [[cmd, plan_checks_core.run_key(cmd, mark=False, cwd=tree_root).returncode]
+              for cmd in commands]
+    tree, head = tree_hash(tree_root, checkpoints_dir)
     receipt = {
         "by": by,
         "at": datetime.datetime.now().isoformat(timespec="seconds"),
         "tree": tree, "head": head, "dod_hash": dod_digest(dod),
+        # The recorded acceptance this receipt actually ran, so `close` can tell a receipt
+        # written against today's acceptance from one written against a command since rewritten.
+        "acceptance": key,
         "surfaces": [str(s) for s in surfaces], "checks": checks,
         # The presence of a check is not success. One non-zero exit is a failed verdict.
         "verdict": "passed" if all(code == 0 for _, code in checks) else "failed",
@@ -900,6 +993,11 @@ def correct(plan_path: Path, checkpoints_dir: Path, task_id: str,
         edits.append((DONE_WHEN, str(done).strip()))
         edits.append((DOD_HASH, dod_digest(done), DONE_WHEN))
         edits.append((DOD_HISTORY, (prior + " " + entry).strip(), DOD_HASH))
+        # The one door through a fixed done moves the checkpoint's anchor with it. Without this
+        # the anchor would refuse every later verification of a legitimately corrected row.
+        cp = _checkpoint_path(checkpoints_dir, task_id) if checkpoints_dir else None
+        if cp and cp.exists():
+            _write_dod_anchor(cp, dod_digest(done))
     if statement is not None:
         # Criterion 61: a revision before take-up runs statement validation again, so the record
         # of the validation the OLD wording passed goes with the wording it judged.
@@ -1062,6 +1160,12 @@ def close(plan_path: Path, checkpoints_dir: Path, task_id: str) -> None:
         raise AdmissionError(
             "the definition of done changed after it was verified: the evidence is void, "
             "and %s is verified again against the done as it now reads" % task_id)
+    key = acceptance_key(Path(plan_path).resolve().parent, task_id)
+    if receipt.get("acceptance") != key:
+        raise AdmissionError(
+            "the acceptance command changed since the receipt was written (it ran %r, the row "
+            "now records %r): the evidence is about another check, and %s is verified again"
+            % (receipt.get("acceptance"), key, task_id))
     if receipt.get("tree") != tree_hash(Path(plan_path).resolve().parent, checkpoints_dir)[0]:
         raise AdmissionError(
             "the tree changed after it was verified: the evidence is void, and %s is "
@@ -1185,6 +1289,23 @@ def worker_brief(plan_path: Path, checkpoints_dir: Path, task_id: str) -> str:
     that paraphrases either one is a third statement of the work, and the third statement is
     the one that turns out to be wrong.
     """
+    start, end = pre_spawn_check(plan_path, checkpoints_dir, task_id)
+    plan = Path(plan_path).read_text(encoding="utf-8")
+    cp = _checkpoint_path(checkpoints_dir, task_id)
+    nxt = checkpoint.read_checkpoint(cp)["sections"].get("NEXT", "").strip()
+    return plan[start:end].strip() + "\n\n## NEXT\n\n" + nxt + "\n"
+
+
+def pre_spawn_check(plan_path, checkpoints_dir, task_id: str):
+    """The three legs a row must stand on before any worker starts on it, plus its checkpoint.
+
+    Raises AdmissionError naming the missing leg; returns the row's span in the plan.
+
+    This is the whole of the pre-spawn rule, in one place, so the guard that sits on the actual
+    spawn path (`guardrails/worker-admission-guard.py`, a PreToolUse hook on the subagent tool) and
+    the brief a worker is handed cannot judge a row differently. Until 2026-09-06 the rule lived
+    only inside `brief`, which nothing on the spawn path had to call.
+    """
     plan = Path(plan_path).read_text(encoding="utf-8")
     if not (task_id or "").strip():
         raise AdmissionError(PRE_SPAWN)
@@ -1195,15 +1316,14 @@ def worker_brief(plan_path: Path, checkpoints_dir: Path, task_id: str) -> str:
     row = plan[start:end]
     if not read_dod(row)[0].strip():
         raise AdmissionError("%s carries no definition of done: %s" % (task_id, PRE_SPAWN))
-    if not _has_acceptance_key(Path(plan_path).parent, task_id):
+    if not _has_acceptance_key(Path(plan_path).resolve().parent, task_id):
         raise AdmissionError(
             "%s carries no acceptance command — write the row's key into scripts/plan_checks.py, "
             "which is where this gate reads them from: %s" % (task_id, PRE_SPAWN))
     cp = _checkpoint_path(checkpoints_dir, task_id)
     if not cp.exists():
         raise AdmissionError("%s has no checkpoint to brief from" % task_id)
-    nxt = checkpoint.read_checkpoint(cp)["sections"].get("NEXT", "").strip()
-    return plan[start:end].strip() + "\n\n## NEXT\n\n" + nxt + "\n"
+    return start, end
 
 
 PRE_SPAWN = ("no worker or subagent starts before an admitted row on the one board with a "
@@ -1214,20 +1334,11 @@ PRE_SPAWN = ("no worker or subagent starts before an admitted row on the one boa
 def _has_acceptance_key(tree: Path, task_id: str) -> bool:
     """True when the tree's own scripts/plan_checks.py names a key for the row.
 
-    The pre-spawn gate's third leg reads the keys of the tree that holds the plan, so a test
-    host and the real repository are each judged by their own table.
+    The pre-spawn gate's third leg and the verifier read the same table through the same
+    function, so a worker can never be briefed on a row whose acceptance the verifier would
+    then refuse to find.
     """
-    keys = Path(tree) / "scripts" / "plan_checks.py"
-    if not keys.exists():
-        return False
-    import importlib.util
-    spec = importlib.util.spec_from_file_location("host_plan_checks", keys)
-    mod = importlib.util.module_from_spec(spec)
-    try:
-        spec.loader.exec_module(mod)
-    except Exception:  # noqa: BLE001 — a table that does not load names no key
-        return False
-    return bool(getattr(mod, "CHECKS", {}).get(task_id))
+    return bool(acceptance_key(tree, task_id))
 
 
 def main() -> int:
@@ -1268,7 +1379,9 @@ def main() -> int:
                 help="write the acceptance receipt: the frozen done, the exact tree, and the "
                      "exit code each check actually returned")
     accept.add_argument("--command", action="append", default=[], dest="command",
-                        help="a check to run, repeatable; any non-zero exit is a failed verdict")
+                        help="an EXTRA check beside the row's own recorded acceptance "
+                             "(scripts/plan_checks.py, keyed by the row's id), repeatable. It "
+                             "never stands in for that one; any non-zero exit is a failed verdict")
     accept.add_argument("--surface", action="append", default=[], dest="surface",
                         help="a path or URL the acceptance was read on, repeatable. Required "
                              "when the done names a rendered or published surface — the "

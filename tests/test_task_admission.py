@@ -23,6 +23,13 @@ import checkpoint  # noqa: E402 — the checkpoint half of the same state machin
 def host(tmp_path):
     plan = tmp_path / "PLAN.md"
     plan.write_text("# Host plan\n\n## Tasks\n\n## Blockers\n\nNone.\n", encoding="utf-8")
+    # The host's own acceptance table. A verifier runs the command the tree RECORDED for the row,
+    # so a fixture host that names none cannot be verified at all — which is the point of that
+    # refusal and is proven in tests/test_closure_kernel_bypasses.py. Here the recorded check is
+    # a passing one, and each test adds the failing or spawning command it is actually about.
+    (tmp_path / "scripts").mkdir(exist_ok=True)
+    (tmp_path / "scripts" / "plan_checks.py").write_text(
+        "CHECKS = {'q-%d' % n: 'true' for n in range(1, 40)}\n", encoding="utf-8")
     return plan, tmp_path / ".live-spec" / "checkpoints"
 
 
@@ -199,7 +206,18 @@ def test_a_correction_rewrites_a_queued_tickets_goal_and_done_in_place(tmp_path)
     assert "### ⬜ Send the weekly digest to the whole list — id: %s" % task_id in row
     assert "**Done when:** the fixture records one weekly message per subscriber" in row
     assert plan.read_text(encoding="utf-8").count("— id: %s" % task_id) == 1
-    assert cp.read_bytes() == sheet_before, "the queued half touched the checkpoint"
+    # The correction itself stays in the plan: the sheet's decision record and its NEXT are what
+    # a second home for one correction would look like, and neither moves. The one line that does
+    # move is the checkpoint's DOD anchor, the tamper evidence for the row's own hash — it has to
+    # follow the done it anchors, or every later verification of a legitimately corrected row
+    # would be refused as a rewrite.
+    def without_anchor(text):
+        return "\n".join(ln for ln in text.splitlines()
+                         if not ln.startswith(admission.DOD_ANCHOR))
+    assert without_anchor(cp.read_text(encoding="utf-8")) == without_anchor(
+        sheet_before.decode("utf-8")), "the queued half touched the checkpoint beyond its anchor"
+    assert admission.read_dod_anchor(cp) == admission.dod_digest(
+        "the fixture records one weekly message per subscriber")
 
 
 def test_a_second_ticket_with_the_same_goal_is_refused(tmp_path):
@@ -907,6 +925,7 @@ def test_no_brief_for_a_row_the_board_does_not_hold(tmp_path):
 
 def test_no_brief_for_a_row_with_no_acceptance_command(tmp_path):
     plan, checkpoints, task_id, cp = seeded(tmp_path)
+    (tmp_path / "scripts" / "plan_checks.py").write_text("CHECKS = {}\n", encoding="utf-8")
     admission.hold(plan, task_id, "the worker")
     with pytest.raises(admission.AdmissionError, match="carries no acceptance command"):
         admission.worker_brief(plan, checkpoints, task_id)

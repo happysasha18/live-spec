@@ -31,7 +31,12 @@ outbox/
 !docs/norms/*.html
 !docs/decisions/*.html
 !tests/fixtures/**/*.html
-.claude/
+# The session directory is scratch, with one exception: the project's own settings.json
+# wires the pre-spawn guard onto the subagent tool, so it travels with the tree it guards.
+# The pattern is `.claude/*` and not `.claude/`, because git cannot re-include a file whose
+# parent DIRECTORY is excluded.
+.claude/*
+!.claude/settings.json
 
 # spec-freeze working baselines (regenerable from the pre-rewrite commit)
 .spec-freeze/

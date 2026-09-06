@@ -70,12 +70,26 @@ Three commands carry that, and a session holding only this page can run them:
 
 - `python3 scripts/task-admission.py correct <id> --done "<new>" --source "<who asked>" --reason
   "<why>"` — the only door through a done already fixed;
-- `python3 scripts/task-admission.py verify <id> --by <name> --command "<cmd>" [--command ...]
+- `python3 scripts/task-admission.py verify <id> --by <name> [--command "<extra>" ...]
   [--surface <path-or-url>]` — the acceptance receipt, refused when `--by` names the row's own
-  holder;
+  holder. It runs the acceptance the tree RECORDED for the row, in `scripts/plan_checks.py` keyed
+  by the row's id; a `--command` names an extra check beside that one and can never stand in for
+  it. A row with no recorded acceptance cannot be verified at all;
 - `python3 scripts/task-admission.py close <id>` — which reads that receipt.
 
 Every refusal prints one reason, exits 2, and leaves the row's mark where it was.
+
+A row also carries its done's digest twice: on the row under `**DOD hash.**`, and on its
+checkpoint as the `DOD:` anchor written at admission. Deleting the row's line is not a fresh
+contract — the anchor still holds the done the row was admitted on, and the verifier refuses.
+`correct --done` moves both.
+
+No worker starts before all of this exists. `guardrails/worker-admission-guard.py`, wired onto the
+subagent tool in this repository's `.claude/settings.json`, denies a spawn whose prompt names no
+admitted row with a definition of done and a recorded acceptance command. Admission writes the
+row's `**Verification:**` prose and no key, so the key goes into `scripts/plan_checks.py` under the
+row's id by hand, before the first spawn — that is what clears the denial. Then hand the worker
+`python3 scripts/task-admission.py brief <id>` and name that id in the prompt.
 
 The ten clauses this rule stands on — who may change a done and what that keeps, what the verifier
 receives, what voids the evidence, what `blocked` may mean, and why the presence of a test is not a

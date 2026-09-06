@@ -79,7 +79,7 @@ this page is who writes the reader's file and what take-up freezes. That `<file>
 answers of a fresh agent holding no project vocabulary, given only the Statement paragraph and
 three questions — what is to be done, why, and how long — plus the short name it places on the
 work. A failed floor or a failed reader leaves the row out of work until the statement is rewritten
-and validated again. `hold --lanes <n>` then takes the row up: it freezes the wording, and it writes the plan's own
+and validated again. `hold <id> --holder <name> [--lanes <n>]` then takes the row up: it freezes the wording, and it writes the plan's own
 expectation of what runs side by side against the lane decision `<n>` actually makes, naming any
 divergence on the checkpoint's `LANES` line. From that freeze on the task is spoken in those words
 letter for letter — in the chat, in a worker's brief, at the close — and the close carries the
@@ -209,9 +209,15 @@ the verdict has already made stale is the failure that produced that incident.
 pipeline hands it (`brief <id>`), and the brief is refused without an admitted row on the one
 board carrying a definition of done and an acceptance command. A report or a row written after
 the work was done is not admission; the gate refuses without a task id, mechanically (the
-tlvphotos defect, 2026-09-06). The acceptance command it looks for is the row's own key in
-`scripts/plan_checks.py` — admission writes the row's `**Verification:**` text but no key, so the
-key is written before the first worker starts, not after the work comes back.
+tlvphotos defect, 2026-09-06).
+
+The rule sits on the spawn itself, not on the caller's willingness to consult it: the guard the
+body names and the brief run the same three legs through the same function, `pre_spawn_check`, so
+they cannot judge a row differently. Until that guard existed the legs lived only inside `brief`,
+a command an orchestrator was free never to call. What the guard costs, said plainly: every spawn
+from a session opened on this project names a row, read-only errands included. What it cannot
+reach: a spawn from a session that does not load this repository's settings, and a worker that
+names a real row and then does something else — it reads the board, never the worker's conduct.
 
 
 The skill body carries the rule in short. These are the ten clauses it defers here, and the
@@ -233,17 +239,36 @@ commands that run them.
   blocked.
 - close is a controlled state transition, never a textual claim by an agent.
 
+A done mark typed straight onto `PLAN.md` skips every one of those. `guardrails/check-close-receipt.py`
+(push gate u) refuses to let such a row out: a row that became done in what is about to be
+published must carry a checkpoint, and any done row that has a checkpoint must carry a passed
+receipt whose frozen done is the done the row now reads. The published board reads the same
+receipt — `scripts/render-board.sh` draws a done over a FAILED receipt as reopened, which holds on
+the Pages runner, where no acceptance command runs at all and every mark is otherwise taken at its
+word.
+
 `admit` writes the DOD's own sha256 onto the row beside the text it hashes. `correct <id> --done
 "<new>" --source "<who asked>" --reason "<why>"` is the only door through it: it records the
 previous text and the previous hash on the row, and a `--done` without both of those flags is
 refused. The close recomputes the hash from the row and refuses a mismatch, so a done edited by
 hand between admission and closing stops the close rather than passing under it.
 
-`verify <id> --by <name> --command "<cmd>" [--command ...] [--surface <path-or-url>]` writes the
+`verify <id> --by <name> [--command "<extra>" ...] [--surface <path-or-url>]` writes the
 acceptance receipt into the checkpoint's `DONE` section: who accepted, when, the tree hash `git
 write-tree` computes over a temporary index of the working tree, the HEAD commit, the frozen DOD's
-hash, the surfaces given, and every command with the exit code it actually returned. `--by` is
-refused when it names the row's own holder, because the holder is the producer. A receipt carrying
+hash, the acceptance it ran, the surfaces given, and every command with the exit code it actually
+returned.
+
+**The verifier runs the acceptance the row already recorded** — the body carries the mechanic and
+the command shape. Why it is so: until 2026-09-06 the receipt was made of whatever the command
+line handed it, so `verify --by anybody --command true` produced a passed verdict having run
+nothing about the work, and the row's own check — the one that would have failed — never ran. The
+name in `--by` proves nothing on its own; the acceptance running is what the receipt is for. The
+key is run in the tree that holds the plan, because a key names that project's files relative to
+its root. `close` then compares the acceptance the receipt ran against the one the tree records
+now, so rewriting the check after the evidence was written voids it.
+
+`--by` is refused when it names the row's own holder, because the holder is the producer. A receipt carrying
 any non-zero exit code is a failed verdict, which is what "the presence of a test is not success"
 means in code. Where the DOD names a rendered or published surface — the words `page`, `board.html`,
 `link`, `published`, `rendered`, `url` — a receipt with no `--surface` is refused, because a fixture
@@ -259,9 +284,21 @@ receipt to read, and a row closed once re-enters through `reopen` rather than th
 file. Every refusal prints one plain reason, exits 2, and leaves the row's mark exactly
 as it was.
 
+**The done's digest is anchored on the checkpoint at admission, which makes the row's own copy
+tamper-evident** — the body carries where the two copies live. Why it is so: deleting the row's
+hash line used to make the row read as one predating the kernel, so the next `verify` minted a
+fresh hash over whatever the done then said and `close` compared that new contract against itself
+— a contract swap in one deleted line. The verifier now refuses a row whose anchor stands and
+whose hash line is gone, and refuses one whose hash and anchor disagree, which is the shape of a
+done and its hash rewritten together. `correct --done` moves the anchor with the done it anchors;
+nothing else writes it. The anchor is evidence, never a second home for the done: it is a digest,
+and a hand that reaches the checkpoint as well leaves both copies to disagree with the receipt
+`close` reads out of that same file.
+
 A row admitted before this kernel existed carries its frozen scope under `**Acceptance:**` and no
 hash at all. That acceptance IS its done, read as one; its first `verify` records the hash on the
-row, dated and marked as predating the kernel, so every comparison after that is real; and `close`
+row and the anchor on the checkpoint, dated and marked as predating the kernel, so every
+comparison after that is real and that arm is walked once per row; and `close`
 refuses such a row until one is recorded. `reopen` on a row that predates checkpoints opens the
 minimal one it never had, headed with the day it was opened, so the row has a door back into the
 kernel at all.

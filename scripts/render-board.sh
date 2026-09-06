@@ -463,6 +463,32 @@ if not RECHECK:
         t["check"] = None
 evaluate(tasks)
 
+# A done mark whose own acceptance receipt is a FAILED verdict is not published as done. This
+# reads a fact already recorded in the tree — the receipt the close was supposed to stand on —
+# so it holds on the Pages runner, where no acceptance command runs at all and the marks are
+# otherwise taken at their word. A row with no checkpoint, or one whose checkpoint holds no
+# receipt, is left exactly as it was: this arm judges failed evidence, never missing evidence.
+for t in tasks:
+    if t["icon"] != "\u2705":
+        continue
+    cp = CPS.get(t["id"])
+    if not cp:
+        continue
+    receipt = None
+    for line in reversed(section(cp, "DONE").splitlines()):
+        if line.startswith("RECEIPT: "):
+            try:
+                receipt = json.loads(line[len("RECEIPT: "):])
+            except ValueError:
+                receipt = None
+            break
+    if receipt and receipt.get("verdict") != "passed":
+        failed = ", ".join(c for c, code in receipt.get("checks", []) if code != 0)
+        t["icon"] = "\U0001f501"
+        t["failing_key"] = True
+        t["note"] = ("its acceptance receipt is a failed verdict"
+                     + (" \u2014 %s did not pass" % failed if failed else ""))
+
 # ---------------------------------------------------------------- split each row's body
 def split_body(body_lines):
     paragraphs, bullets, accept = [], [], []

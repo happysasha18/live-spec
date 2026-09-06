@@ -72,8 +72,13 @@ def normalize_mark(mark):
     return _CANONICAL_MARKS.get(stripped, mark)
 
 
-def run_key(command, mark=True):
+def run_key(command, mark=True, cwd=None):
     """Run one acceptance key and hand back the completed process.
+
+    `cwd` is the tree the key is judged in. An acceptance command is written against the tree
+    root that holds the plan, so a caller standing somewhere else — the verifier, which is handed
+    the plan's path rather than run from beside it — names that root here. The plan readers pass
+    nothing and keep running in the directory they were started from, as they always did.
 
     `mark` sets LIVE_SPEC_EVALUATING on the child, the re-entry breaker's signal: an acceptance
     key runs inside a reader and may not start another. The verifier's own checks run with
@@ -92,7 +97,8 @@ def run_key(command, mark=True):
     else:
         env.pop("LIVE_SPEC_EVALUATING", None)
     return subprocess.run("set -o pipefail; " + command, shell=True,
-                          executable="/bin/bash", capture_output=True, env=env)
+                          executable="/bin/bash", capture_output=True, env=env,
+                          cwd=str(cwd) if cwd else None)
 
 
 REENTRY = ("an acceptance check tried to run the probe or the renderer inside a check: "

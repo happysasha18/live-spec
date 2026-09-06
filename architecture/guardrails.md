@@ -92,7 +92,7 @@
 - `scaffold/status-view/state-probe.sh:1` (the pack's one status renderer, made project-generic, vendored to every host, INV-325)
 - `scripts/state-probe-extras.sh:1` (the pack's own facts, printed by the renderer's extras hook under this file's own heading, INV-325)
 - `scripts/plan_checks_core.py:180` (`read_priority_order`, the one reader of a plan's own priority statement, INV-326)
-- `scripts/plan_checks_core.py:199` (`priority_rank`, which places a word the statement never names last, INV-326)
+- `scripts/plan_checks_core.py:205` (`priority_rank`, which places a word the statement never names last, INV-326)
 - `guardrails/judge-hooks.json:1` (the wired-hook declaration. Two hooks are wired by default: the clock hook and the chat-law hook. The six background chat checks are opt-in, and a host wires each itself, INV-211, INV-289)
 - `hooks/code-anchor-scan.py:1` (the code-anchor Stop-hook scan, an internal code trails a sentence as a quiet anchor, opt-in/library, INV-283, INV-211)
 - `hooks/affirmation-scan.py:1` (the empty-validation Stop-hook scan, universal tier plus a personal overlay, opt-in/library, INV-284, INV-211)

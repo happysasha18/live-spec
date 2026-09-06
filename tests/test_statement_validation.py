@@ -33,8 +33,12 @@ def host(tmp_path):
     plan = tmp_path / "PLAN.md"
     plan.write_text("# Host plan\n\n## Tasks\n\n## Blockers\n\nNone.\n", encoding="utf-8")
     # A real git tree: an acceptance receipt pins the tree it was written against, and `close`
-    # reads that receipt rather than any agent's claim.
+    # reads that receipt rather than any agent's claim. The host's own acceptance table goes
+    # beside it, because a verifier runs the command the TREE recorded for the row.
     subprocess.run(["git", "init", "-q", str(tmp_path)], check=True, capture_output=True)
+    (tmp_path / "scripts").mkdir(exist_ok=True)
+    (tmp_path / "scripts" / "plan_checks.py").write_text(
+        "CHECKS = {'q-%d' % n: 'true' for n in range(1, 40)}\n", encoding="utf-8")
     return plan, tmp_path / ".live-spec" / "checkpoints"
 
 

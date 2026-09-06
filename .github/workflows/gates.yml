@@ -101,6 +101,16 @@ jobs:
       - name: "gate q — waiting list (the board loses nothing — no over-cap shown set, no demotion into the void, SPEC INV-206)"
         if: ${{ !cancelled() }}
         run: python3 guardrails/check-board.py
+      - name: "gate u — closed rows stand on receipts (a done mark on the board is a close through the state machine, never a hand edit)"
+        if: ${{ !cancelled() }}
+        # The base the local chain reads. On a push it is the sha the remote already held, so
+        # "this row became done in what is being published" means the same thing here as it
+        # does on the pusher's machine; on a pull request it is empty and the script falls
+        # back to origin/main, which the fetch-depth-0 checkout above carries.
+        env:
+          LIVE_SPEC_DIFF_BASE: ${{ github.event.before }}
+        run: python3 guardrails/check-close-receipt.py
+
       - name: "gate r — authority anchor (a decision recorded as the person's names its exchange, SPEC INV-207)"
         if: ${{ !cancelled() }}
         run: python3 guardrails/check-authority-anchor.py
